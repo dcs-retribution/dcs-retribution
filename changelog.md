@@ -11,6 +11,7 @@
 * **[Modding]** Updated support for Su-30 mod to V2.1.12 beta
 * **[Modding]** Updated support for Su-57 mod to build-04
 * **[Modding]** Updated Community A-4E-C mod version support to 2.2.0 release.
+* **[Modding]** Added F/A-18E/F Super Hornet AI Tanker mod support (Chiller Juice Studios SuperBug Tanker AI version 1.2)
 * **[Radios]** Added HF-FM band for AN/ARC-222
 * **[Radios]** Ability to define preset channels for radios on squadron level (for human pilots only)
 * **[Mission Planning]** Avoid helicopters being assigned as escort to planes and vice-versa
