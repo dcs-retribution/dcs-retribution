@@ -37,6 +37,9 @@ variants:
   CF-188 Hornet: {}
   EF-18A+ Hornet: {}
   F/A-18C Hornet (Lot 20): {}
+  F/A-18E Super Hornet: {}
+  F/A-18F Super Hornet: {}
+  F/A-18G Growler: {}
 radios:
   intra_flight: AN/ARC-210
   inter_flight: AN/ARC-210

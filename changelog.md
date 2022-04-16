@@ -138,6 +138,7 @@ Saves from 5.x are not compatible with 6.0.
 * **[UI]** Added options to the loadout editor for setting properties such as HMD choice.
 * **[UI]** Added separate images for the different carrier types.
 * **[UI]** Add Accept/Reset buttons to Air Wing Configurator screen.
+* **[Modding]** Added F/A-18E/F/G Super Hornet mod support (Chiller Juice Studios SuperBug version 1.7)
 
 ## Fixes
 
