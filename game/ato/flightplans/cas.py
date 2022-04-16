@@ -52,9 +52,8 @@ class CasFlightPlan(PatrollingFlightPlan[CasLayout]):
 
     @property
     def engagement_distance(self) -> Distance:
-        from game.missiongenerator.frontlineconflictdescription import FRONTLINE_LENGTH
-
-        return meters(FRONTLINE_LENGTH) / 2
+        max_length = self.flight.coalition.game.settings.max_frontline_length * 1000
+        return meters(max_length) / 2
 
     @property
     def combat_speed_waypoints(self) -> set[FlightWaypoint]:
@@ -79,7 +78,7 @@ class Builder(IBuilder[CasFlightPlan, CasLayout]):
         )
 
         ingress, heading, distance = FrontLineConflictDescription.frontline_vector(
-            location, self.theater
+            location, self.theater, self.coalition.game.settings
         )
         center = ingress.point_from_heading(heading.degrees, distance / 2)
         egress = ingress.point_from_heading(heading.degrees, distance)

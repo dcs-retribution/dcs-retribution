@@ -202,6 +202,7 @@ class MissionGenerator:
                 self.mission.country(self.game.red.country_name),
                 front_line,
                 self.game.theater,
+                self.game.settings,
             )
             # Generate frontline ops
             player_gp = self.game.ground_planners[player_cp.id].units_per_cp[
