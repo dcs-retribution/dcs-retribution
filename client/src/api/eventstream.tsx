@@ -22,6 +22,7 @@ import {
   FrontLine,
   IadsConnection,
   NavMesh,
+  SupplyRoute,
   Tgo,
   ThreatZones,
   UnculledZone,
@@ -32,6 +33,8 @@ import { threatZonesUpdated } from "./threatZonesSlice";
 import { unculledZonesUpdated } from "./unculledZonesSlice";
 import { LatLng } from "leaflet";
 import { updateIadsConnection, removeIadsConnection } from "./iadsNetworkSlice";
+import { IadsConnection } from "./_liberationApi";
+import { supplyRoutesUpdated } from "./supplyRoutesSlice";
 
 interface GameUpdateEvents {
   updated_flight_positions: { [id: string]: LatLng };
@@ -52,6 +55,7 @@ interface GameUpdateEvents {
   updated_control_points: ControlPoint[];
   updated_iads: IadsConnection[];
   deleted_iads: string[];
+  updated_supply_routes: SupplyRoute[];
   reset_on_map_center: LatLng | null;
   game_unloaded: boolean;
   new_turn: boolean;
@@ -133,6 +137,10 @@ export const handleStreamedEvents = (
 
   if (events.updated_iads.length > 0) {
     dispatch(updateIadsConnection(events.updated_iads));
+  }
+
+  if (events.updated_supply_routes.length > 0) {
+    dispatch(supplyRoutesUpdated(events.updated_supply_routes));
   }
 
   if (events.reset_on_map_center != null) {

@@ -38,6 +38,7 @@ class GameUpdateEvents:
     updated_control_points: set[ControlPoint] = field(default_factory=set)
     updated_iads: set[IadsNetworkNode] = field(default_factory=set)
     deleted_iads_connections: set[UUID] = field(default_factory=set)
+    updated_supply_routes: bool = False
     reset_on_map_center: LatLng | None = None
     game_unloaded: bool = False
     new_turn: bool = False
@@ -133,6 +134,10 @@ class GameUpdateEvents:
 
     def delete_iads_connection(self, connection_id: UUID) -> GameUpdateEvents:
         self.deleted_iads_connections.add(connection_id)
+        return self.update_supply_routes()
+
+    def update_supply_routes(self) -> GameUpdateEvents:
+        self.updated_supply_routes = True
         return self
 
     def game_loaded(self, game: Game | None) -> GameUpdateEvents:

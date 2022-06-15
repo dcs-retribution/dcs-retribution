@@ -15,6 +15,7 @@ from game.server.mapzones.models import ThreatZonesJs
 from game.server.navmesh.models import NavMeshJs
 from game.server.tgos.models import TgoJs
 from game.server.mapzones.models import UnculledZoneJs
+from game.server.supplyroutes.models import SupplyRouteJs
 
 if TYPE_CHECKING:
     from game import Game
@@ -40,6 +41,7 @@ class GameUpdateEventsJs(BaseModel):
     updated_control_points: list[ControlPointJs]
     updated_iads: list[IadsConnectionJs]
     deleted_iads: set[UUID]
+    updated_supply_routes: list[SupplyRouteJs]
     reset_on_map_center: LeafletPoint | None
     game_unloaded: bool
     new_turn: bool
@@ -57,6 +59,7 @@ class GameUpdateEventsJs(BaseModel):
         updated_threat_zones = {}
         updated_unculled_zones = []
         updated_iads = []
+        updated_supply_routes = []
         if game is not None:
             new_combats = [
                 FrozenCombatJs.for_combat(c, game.theater) for c in events.new_combats
@@ -76,6 +79,10 @@ class GameUpdateEventsJs(BaseModel):
             updated_unculled_zones = UnculledZoneJs.from_game(game)
             for node in events.updated_iads:
                 updated_iads.extend(IadsConnectionJs.connections_for_node(node))
+            if events.updated_supply_routes:
+                updated_supply_routes = SupplyRouteJs.all_in_game(game)
+            for route in updated_supply_routes:
+                route.points = []
 
         return GameUpdateEventsJs(
             updated_flight_positions={
@@ -108,6 +115,7 @@ class GameUpdateEventsJs(BaseModel):
             ],
             updated_iads=updated_iads,
             deleted_iads=events.deleted_iads_connections,
+            updated_supply_routes=updated_supply_routes,
             reset_on_map_center=events.reset_on_map_center,
             game_unloaded=events.game_unloaded,
             new_turn=events.new_turn,
