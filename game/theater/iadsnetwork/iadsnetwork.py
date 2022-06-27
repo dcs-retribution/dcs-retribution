@@ -192,8 +192,9 @@ class IadsNetwork:
         if node is None:
             # Not participating
             return
-        # TODO Add the connections or calculate them..
         events.update_iads_node(node)
+        if self.advanced_iads and not self.iads_config:
+            self._make_advanced_connections_by_range(node)
 
     def node_for_group(self, group: IadsGroundGroup) -> IadsNetworkNode:
         """Get existing node from the iads network or create a new node"""
@@ -286,33 +287,17 @@ class IadsNetwork:
     def initialize_network_from_range(self) -> None:
         """Initialize the IADS Network by range"""
         for go in self.ground_objects.values():
-            if (
-                isinstance(go, IadsGroundObject)
-                or isinstance(go, NavalGroundObject)
-                or (
-                    isinstance(go, IadsBuildingGroundObject)
-                    and IadsRole.for_category(go.category) == IadsRole.COMMAND_CENTER
-                )
-            ):
+            is_iads_go = isinstance(go, IadsGroundObject)
+            is_iads_sea = isinstance(go, NavalGroundObject)
+            is_iads_cc = isinstance(go, IadsBuildingGroundObject)
+            is_iads_cc &= IadsRole.for_category(go.category) == IadsRole.COMMAND_CENTER
+            if is_iads_go or is_iads_sea or is_iads_cc:
                 # Set as primary node
                 node = self.node_for_tgo(go)
                 if node is None:
                     # TGO does not participate to iads network
                     continue
-                # Find nearby Power or Connection
-                for nearby_go in self.ground_objects.values():
-                    if nearby_go == go:
-                        continue
-                    if (
-                        IadsRole.for_category(go.category)
-                        in [
-                            IadsRole.POWER_SOURCE,
-                            IadsRole.CONNECTION_NODE,
-                        ]
-                        and nearby_go.position.distance_to_point(go.position)
-                        <= node.group.iads_role.connection_range.meters
-                    ):
-                        node.add_connection_for_tgo(nearby_go)
+                self._make_advanced_connections_by_range(node)
 
     def _is_friendly(self, node: IadsNetworkNode, tgo: TheaterGroundObject) -> bool:
         node_friendly = node.group.ground_object.is_friendly(True)
@@ -333,3 +318,15 @@ class IadsNetwork:
             if in_range and self._is_friendly(node, tgo):
                 node.add_connection_for_tgo(tgo)
                 events.update_iads_node(node)
+
+    def _make_advanced_connections_by_range(self, node: IadsNetworkNode) -> None:
+        tgo = node.group.ground_object
+        # Find nearby Power or Connection
+        for nearby_go in self.ground_objects.values():
+            iads_role = IadsRole.for_category(nearby_go.category)
+            if not iads_role.is_comms_or_power or nearby_go == tgo:
+                continue
+            dist = nearby_go.position.distance_to_point(tgo.position)
+            in_range = dist <= iads_role.connection_range.meters
+            if in_range and self._is_friendly(node, nearby_go):
+                node.add_connection_for_tgo(nearby_go)
