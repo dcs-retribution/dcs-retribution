@@ -61,6 +61,7 @@ class ModSettings:
     hercules: bool = False
     uh_60l: bool = False
     jas39_gripen: bool = False
+    su30_flanker_h: bool = False
     su57_felon: bool = False
     frenchpack: bool = False
     high_digit_sams: bool = False

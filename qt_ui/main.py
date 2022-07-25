@@ -301,6 +301,7 @@ def create_game(
             f104_starfighter=False,
             hercules=False,
             jas39_gripen=False,
+            su30_flanker_h=False,
             su57_felon=False,
             frenchpack=False,
             high_digit_sams=False,

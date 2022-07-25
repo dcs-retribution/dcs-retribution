@@ -164,6 +164,7 @@ class NewGameWizard(QtWidgets.QWizard):
             hercules=self.field("hercules"),
             uh_60l=self.field("uh_60l"),
             jas39_gripen=self.field("jas39_gripen"),
+            su30_flanker_h=self.field("su30_flanker_h"),
             su57_felon=self.field("su57_felon"),
             frenchpack=self.field("frenchpack"),
             high_digit_sams=self.field("high_digit_sams"),
@@ -666,6 +667,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("f104_starfighter", f104_starfighter)
         jas39_gripen = QtWidgets.QCheckBox()
         self.registerField("jas39_gripen", jas39_gripen)
+        su30_flanker_h = QtWidgets.QCheckBox()
+        self.registerField("su30_flanker_h", su30_flanker_h)
         su57_felon = QtWidgets.QCheckBox()
         self.registerField("su57_felon", su57_felon)
         frenchpack = QtWidgets.QCheckBox()
@@ -711,6 +714,11 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             QtWidgets.QLabel("JAS 39 Gripen (version v1.8.0-beta)"), modLayout_row, 0
         )
         modLayout.addWidget(jas39_gripen, modLayout_row, 1)
+        modLayout_row += 1
+        modLayout.addWidget(
+            QtWidgets.QLabel("Su-30 Flanker-H (V2.01B)"), modLayout_row, 0
+        )
+        modLayout.addWidget(su30_flanker_h, modLayout_row, 1)
         modLayout_row += 1
         modLayout.addWidget(QtWidgets.QLabel("Su-57 Felon"), modLayout_row, 0)
         modLayout.addWidget(su57_felon, modLayout_row, 1)

@@ -302,6 +302,11 @@ class Faction:
         if not mod_settings.jas39_gripen:
             self.remove_aircraft("JAS39Gripen")
             self.remove_aircraft("JAS39Gripen_AG")
+        if not mod_settings.su30_flanker_h:
+            self.remove_aircraft("Su-30MKA")
+            self.remove_aircraft("Su-30MKI")
+            self.remove_aircraft("Su-30MKM")
+            self.remove_aircraft("Su-30SM")
         if not mod_settings.su57_felon:
             self.remove_aircraft("Su-57")
         # frenchpack

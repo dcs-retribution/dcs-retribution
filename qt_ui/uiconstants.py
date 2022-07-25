@@ -209,12 +209,23 @@ def load_aircraft_banners():
             AIRCRAFT_BANNERS[aircraft[:-7]] = QPixmap(
                 os.path.join("./resources/ui/units/aircrafts/banners/", aircraft)
             )
+    _load_mirage_banners()
+    _load_su30mod_banners()
+
+
+def _load_mirage_banners():
     variants = ["Mirage-F1CT", "Mirage-F1EE", "Mirage-F1M-EE", "Mirage-F1EQ"]
     for f1 in variants:
         AIRCRAFT_BANNERS[f1] = AIRCRAFT_BANNERS["Mirage-F1C-200"]
     variants = ["Mirage-F1CE", "Mirage-F1M-CE"]
     for f1 in variants:
         AIRCRAFT_BANNERS[f1] = AIRCRAFT_BANNERS["Mirage-F1C"]
+
+
+def _load_su30mod_banners():
+    variants = ["Su-30MKA", "Su-30MKI", "Su-30MKM"]
+    for su30 in variants:
+        AIRCRAFT_BANNERS[su30] = AIRCRAFT_BANNERS["Su-30SM"]
 
 
 def load_vehicle_banners():

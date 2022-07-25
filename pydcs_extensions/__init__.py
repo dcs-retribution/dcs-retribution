@@ -5,6 +5,7 @@ from .frenchpack import *
 from .hercules import *
 from .highdigitsams import *
 from .jas39 import *
+from .su30 import *
 from .su57 import *
 from .uh60l import *
 

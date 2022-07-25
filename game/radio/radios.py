@@ -246,6 +246,15 @@ RADIOS: List[Radio] = [
         ),
     ),
     Radio("UHF TRAP 137B", (RadioRange(MHz(225), MHz(400), kHz(25), Modulation.AM),)),
+    # Su-30 (MKA/MKI/MKM/SM)
+    Radio(
+        "R-800",
+        (
+            RadioRange(MHz(30), MHz(88), kHz(25), Modulation.AM),
+            RadioRange(MHz(108), MHz(174), kHz(25), Modulation.AM),
+            RadioRange(MHz(225), MHz(400), kHz(25), Modulation.AM),
+        ),
+    ),
 ]
 
 
