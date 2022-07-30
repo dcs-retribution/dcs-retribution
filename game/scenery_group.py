@@ -1,5 +1,4 @@
 from __future__ import annotations
-
 from typing import Iterable, List
 
 from dcs.triggers import TriggerZoneCircular
