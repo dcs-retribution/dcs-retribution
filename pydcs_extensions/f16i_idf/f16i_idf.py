@@ -163,9 +163,9 @@ class WeaponsF16I:
 
 
 class F16IPylon3:
-    GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb_ = (
+    GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
         3,
-        Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb_,
+        Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
     )
 
 
@@ -188,9 +188,9 @@ class F16IPylon4:
         4,
         WeaponsF16I.IDF_Mods_Project_F_16I_CFT_Fuel_Left_1500lb__370Gal,
     )
-    GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb_ = (
+    GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
         4,
-        Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb_,
+        Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
     )
 
 
@@ -220,16 +220,16 @@ class F16IPylon6:
         6,
         WeaponsF16I.IDF_Mods_Project_F_16I_CFT_Fuel_Right_1500lb__600Gal,
     )
-    GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb_ = (
+    GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
         6,
-        Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb_,
+        Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
     )
 
 
 class F16IPylon7:
-    GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb_ = (
+    GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
         7,
-        Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb_,
+        Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
     )
 
 
@@ -3761,9 +3761,9 @@ class F_16I(PlaneType):
             3,
             Weapons.BRU_57_with_2_x_CBU_103___202_x_CEM__CBU_with_WCMD,
         )
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb_ = (
+        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb_,
+            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         MXU_648_TP = (3, Weapons.MXU_648_TP)
         ALQ_184 = (3, Weapons.ALQ_184)
@@ -3855,9 +3855,9 @@ class F_16I(PlaneType):
             4,
             Weapons.TER_9A_with_3_x_BDU_33___25lb_Practice_Bomb_LD,
         )
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb_ = (
+        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
             4,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb_,
+            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         Fuel_tank_370_gal = (4, Weapons.Fuel_tank_370_gal)
         MXU_648_TP = (4, Weapons.MXU_648_TP)
@@ -3949,9 +3949,9 @@ class F_16I(PlaneType):
             6,
             Weapons.TER_9A_with_3_x_BDU_33___25lb_Practice_Bomb_LD,
         )
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb_ = (
+        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
             6,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb_,
+            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         Fuel_tank_370_gal = (6, Weapons.Fuel_tank_370_gal)
         MXU_648_TP = (6, Weapons.MXU_648_TP)
@@ -4097,9 +4097,9 @@ class F_16I(PlaneType):
             7,
             Weapons.BRU_57_with_2_x_CBU_103___202_x_CEM__CBU_with_WCMD,
         )
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb_ = (
+        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb_,
+            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         MXU_648_TP = (7, Weapons.MXU_648_TP)
         ALQ_184 = (7, Weapons.ALQ_184)
@@ -4785,9 +4785,9 @@ class F_16C_BARAK_2020(PlaneType):
             3,
             Weapons.BRU_57_with_2_x_CBU_103___202_x_CEM__CBU_with_WCMD,
         )
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb_ = (
+        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb_,
+            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         MXU_648_TP = (3, Weapons.MXU_648_TP)
         # ERRR <CLEAN>
@@ -4886,9 +4886,9 @@ class F_16C_BARAK_2020(PlaneType):
         # ERRR <CLEAN>
         Fuel_tank_600_gal = (4, WeaponsF16I.Fuel_tank_600_gal)
         Fuel_tank_600_gal__EMPTY_ = (4, WeaponsF16I.Fuel_tank_600_gal__EMPTY_)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb_ = (
+        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
             4,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb_,
+            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         TER_9A_with_2_x_Mk_82___500lb_GP_Bomb_LD = (
             4,
@@ -4982,9 +4982,9 @@ class F_16C_BARAK_2020(PlaneType):
         # ERRR <CLEAN>
         Fuel_tank_600_gal = (6, WeaponsF16I.Fuel_tank_600_gal)
         Fuel_tank_600_gal__EMPTY_ = (6, WeaponsF16I.Fuel_tank_600_gal__EMPTY_)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb_ = (
+        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
             6,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb_,
+            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         TER_9A_with_2_x_Mk_82___500lb_GP_Bomb_LD_ = (
             6,
@@ -5123,9 +5123,9 @@ class F_16C_BARAK_2020(PlaneType):
             7,
             Weapons.BRU_57_with_2_x_CBU_103___202_x_CEM__CBU_with_WCMD,
         )
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb_ = (
+        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb_,
+            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         MXU_648_TP = (7, Weapons.MXU_648_TP)
         # ERRR <CLEAN>
