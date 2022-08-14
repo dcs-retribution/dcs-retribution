@@ -16,6 +16,8 @@ Saves from 5.x are not compatible with 6.0.
 * **[Flight Planning]** AWACS flightplan changed from orbit to a racetrack to reduce data link disconnects which were caused by blind spots as a result of the bank angle. 
 * **[Flight Planning]**  Added a new helo mission type: AirAssault which can be used to load and transport infantry troops from a pickup zone or a carrier to an enemy CP to capture it.
 * **[Flight Planning]**  Improved the Airlift mission type so that it now can be enforced within the unit transfer dialog and implemented CTLD support. This allows user to spawn sling loadable crates at the pickup location and fly transport flights.
+* **[Modding]** Support for F-15D 'Baz' mod version 1.0
+* **[Modding]** Support for Su-30 mod version 2.01B
 * **[Modding]** Updated UH-60L mod version support to 1.3.1
 * **[Modding]** Updated the High Digit SAMs implementation and added the HQ-2 as well as the upgraded SA-2 and SA-3 Launchers from the mod. Threat range circles will now also be displayed correctly.
 * **[UI]** Added options to the loadout editor for setting properties such as HMD choice.
