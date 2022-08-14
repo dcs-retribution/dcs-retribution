@@ -27,6 +27,7 @@ from PySide2.QtWidgets import (
     QPushButton,
     QGridLayout,
     QToolButton,
+    QMessageBox,
 )
 from game import Game
 from game.ato.flighttype import FlightType
