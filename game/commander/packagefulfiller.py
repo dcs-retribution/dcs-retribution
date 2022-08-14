@@ -157,7 +157,8 @@ class PackageFulfiller:
                 # This air wing can never plan this mission type because they do not
                 # have compatible aircraft or squadrons. Skip fulfillment so that we
                 # don't place the purchase request.
-                continue
+                missing_types.add(proposed_flight.task)
+                break
             if proposed_flight.escort_type is not None:
                 # Escorts are planned after the primary elements of the package.
                 # If the package does not need escorts they may be pruned.
