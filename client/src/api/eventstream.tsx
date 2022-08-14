@@ -33,7 +33,6 @@ import { threatZonesUpdated } from "./threatZonesSlice";
 import { unculledZonesUpdated } from "./unculledZonesSlice";
 import { LatLng } from "leaflet";
 import { updateIadsConnection, removeIadsConnection } from "./iadsNetworkSlice";
-import { IadsConnection } from "./_liberationApi";
 import { supplyRoutesUpdated } from "./supplyRoutesSlice";
 
 interface GameUpdateEvents {
