@@ -64,7 +64,7 @@ class Campaign:
     @classmethod
     def from_file(cls, path: Path) -> Campaign:
         with path.open() as campaign_file:
-            if path.suffix == ".yaml":
+            if path.suffix.lower() == ".yaml":
                 data = yaml.safe_load(campaign_file)
             else:
                 data = json.load(campaign_file)
