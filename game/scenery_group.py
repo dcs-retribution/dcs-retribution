@@ -1,9 +1,25 @@
 from __future__ import annotations
 from typing import Iterable, List
 
-from dcs.triggers import TriggerZoneCircular
+from dcs.triggers import TriggerZone, TriggerZoneCircular, TriggerZoneQuadPoint
 
 from game.theater.theatergroundobject import NAME_BY_CATEGORY
+
+
+def _deduce_radius_from_quad(tz: TriggerZoneQuadPoint) -> float:
+    pos = tz.position
+    radius = 0.0
+    mids = []
+    for i in range(len(tz.verticies)):
+        for j in range(i, len(tz.verticies)):
+            if i is j:
+                continue
+            mids.append(tz.verticies[i].midpoint(tz.verticies[j]))
+    for point in mids:
+        dist = pos.distance_to_point(point)
+        if dist > radius:
+            radius = dist
+    return radius
 
 
 class SceneryGroupError(RuntimeError):
@@ -16,10 +32,7 @@ class SceneryGroup:
     """Store information about a scenery objective."""
 
     def __init__(
-        self,
-        zone_def: TriggerZoneCircular,
-        zones: Iterable[TriggerZoneCircular],
-        category: str,
+        self, zone_def: TriggerZone, zones: Iterable[TriggerZone], category: str
     ) -> None:
 
         self.zone_def = zone_def
@@ -28,9 +41,7 @@ class SceneryGroup:
         self.category = category
 
     @staticmethod
-    def from_trigger_zones(
-        trigger_zones: Iterable[TriggerZoneCircular],
-    ) -> List[SceneryGroup]:
+    def from_trigger_zones(trigger_zones: Iterable[TriggerZone]) -> List[SceneryGroup]:
         """Define scenery objectives based on their encompassing blue/red circle."""
         zone_definitions = []
         white_zones = []
@@ -46,7 +57,13 @@ class SceneryGroup:
 
         # For each objective definition.
         for zone_def in zone_definitions:
-            zone_def_radius = zone_def.radius
+            if isinstance(zone_def, TriggerZoneCircular):
+                zone_def_radius = zone_def.radius
+            elif isinstance(zone_def, TriggerZoneQuadPoint):
+                zone_def_radius = _deduce_radius_from_quad(zone_def)
+            else:
+                raise RuntimeError(f"Invalid trigger-zone: {zone_def}")
+            print(zone_def_radius, zone_def.__dict__)
             zone_def_position = zone_def.position
             zone_def_name = zone_def.name
 
@@ -84,11 +101,11 @@ class SceneryGroup:
         return scenery_groups
 
     @staticmethod
-    def is_blue(zone: TriggerZoneCircular) -> bool:
+    def is_blue(zone: TriggerZone) -> bool:
         # Blue in RGB is [0 Red], [0 Green], [1 Blue]. Ignore the fourth position: Transparency.
         return zone.color[1] == 0 and zone.color[2] == 0 and zone.color[3] == 1
 
     @staticmethod
-    def is_white(zone: TriggerZoneCircular) -> bool:
+    def is_white(zone: TriggerZone) -> bool:
         # White in RGB is [1 Red], [1 Green], [1 Blue]. Ignore the fourth position: Transparency.
         return zone.color[1] == 1 and zone.color[2] == 1 and zone.color[3] == 1
