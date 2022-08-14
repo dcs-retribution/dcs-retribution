@@ -25,7 +25,8 @@ class PlanDead(PackagePlanningTask[IadsGroundObject]):
         state.eliminate_air_defense(self.target)
 
     def propose_flights(self) -> None:
-        self.propose_flight(FlightType.DEAD, 2)
+        tgt_count = self.target.alive_unit_count
+        self.propose_flight(FlightType.DEAD, min(4, (tgt_count // 2) + 1))
 
         # Only include SEAD against SAMs that still have emitters. No need to
         # suppress an EWR, and SEAD isn't useful against a SAM that no longer has a

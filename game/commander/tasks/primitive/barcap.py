@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from random import randint
 
 from game.commander.tasks.packageplanningtask import PackagePlanningTask
 from game.commander.theaterstate import TheaterState
@@ -21,7 +22,7 @@ class PlanBarcap(PackagePlanningTask[ControlPoint]):
         state.barcaps_needed[self.target] -= 1
 
     def propose_flights(self) -> None:
-        self.propose_flight(FlightType.BARCAP, 2)
+        self.propose_flight(FlightType.BARCAP, randint(2, 4))
 
     @property
     def purchase_multiplier(self) -> int:

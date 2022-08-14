@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from random import randint
 
 from game.commander.tasks.packageplanningtask import PackagePlanningTask
 from game.commander.theaterstate import TheaterState
@@ -23,7 +24,7 @@ class PlanOcaStrike(PackagePlanningTask[ControlPoint]):
         state.oca_targets.remove(self.target)
 
     def propose_flights(self) -> None:
-        self.propose_flight(FlightType.OCA_RUNWAY, 2)
+        self.propose_flight(FlightType.OCA_RUNWAY, randint(2, 4))
         if self.aircraft_cold_start:
             self.propose_flight(FlightType.OCA_AIRCRAFT, 2)
         self.propose_common_escorts()

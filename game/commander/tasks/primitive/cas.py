@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from random import randint
 
 from game.commander.tasks.packageplanningtask import PackagePlanningTask
 from game.commander.theaterstate import TheaterState
@@ -29,5 +30,5 @@ class PlanCas(PackagePlanningTask[FrontLine]):
         state.vulnerable_front_lines.remove(self.target)
 
     def propose_flights(self) -> None:
-        self.propose_flight(FlightType.CAS, 2)
+        self.propose_flight(FlightType.CAS, randint(2, 4))
         self.propose_flight(FlightType.TARCAP, 2)

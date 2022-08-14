@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from random import randint
 
 from game.commander.tasks.packageplanningtask import PackagePlanningTask
 from game.commander.theaterstate import TheaterState
@@ -29,6 +30,6 @@ class PlanAirAssault(PackagePlanningTask[ControlPoint]):
         state.air_assault_targets.remove(self.target)
 
     def propose_flights(self) -> None:
-        self.propose_flight(FlightType.AIR_ASSAULT, 2)
+        self.propose_flight(FlightType.AIR_ASSAULT, randint(2, 4))
         # TODO Validate this.. / is Heli escort possible?
         self.propose_flight(FlightType.TARCAP, 2)

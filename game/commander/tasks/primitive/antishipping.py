@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from random import randint
 
 from game.commander.tasks.packageplanningtask import PackagePlanningTask
 from game.commander.theaterstate import TheaterState
@@ -21,5 +22,5 @@ class PlanAntiShipping(PackagePlanningTask[CargoShip]):
         state.enemy_shipping.remove(self.target)
 
     def propose_flights(self) -> None:
-        self.propose_flight(FlightType.ANTISHIP, 2)
+        self.propose_flight(FlightType.ANTISHIP, randint(2, 4))
         self.propose_common_escorts()
