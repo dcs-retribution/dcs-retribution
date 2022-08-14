@@ -46,6 +46,9 @@ class Faction:
     # Country used by this faction
     country: str = field(default="")
 
+    # Country's short name used by this faction
+    country_shortname: str = field(default="")
+
     # Nice name of the faction
     name: str = field(default="")
 
@@ -172,12 +175,21 @@ class Faction:
         faction = Faction(locales=json.get("locales"))
 
         faction.country = json.get("country", "/")
-        if faction.country not in [c.name for c in country_dict.values()]:
+
+        country = None
+        for c in country_dict.values():
+            if c.name == faction.country:
+                country = c
+                break
+
+        if country is None:
             raise AssertionError(
                 'Faction\'s country ("{}") is not a valid DCS country ID'.format(
                     faction.country
                 )
             )
+
+        faction.country_shortname = country.shortname
 
         faction.name = json.get("name", "")
         if not faction.name:

@@ -1,3 +1,4 @@
+import logging
 from typing import Iterable, Optional, Iterator
 
 from PySide2.QtCore import (
@@ -26,7 +27,6 @@ from PySide2.QtWidgets import (
     QPushButton,
     QGridLayout,
     QToolButton,
-    QMessageBox,
 )
 from game import Game
 from game.ato.flighttype import FlightType
@@ -137,6 +137,38 @@ class SquadronBaseSelector(QComboBox):
         self.update()
 
 
+class SquadronLiverySelector(QComboBox):
+    """
+    A combo box for selecting a squadron's livery.
+    The combo box will automatically be populated with all available liveries.
+    """
+
+    def __init__(self, squadron: Squadron) -> None:
+        super().__init__()
+        self.setSizeAdjustPolicy(self.AdjustToContents)
+
+        self.aircraft_type = squadron.aircraft
+        selected_livery = squadron.livery
+
+        liveries = set()
+        cc = squadron.coalition.faction.country_shortname
+        aircraft_liveries = self.aircraft_type.dcs_unit_type.Liveries
+        if len(aircraft_liveries) == 0:
+            logging.info(f"Liveries for {self.aircraft_type} is empty!")
+        for livery in aircraft_liveries:
+            valid_livery = livery.countries is None or cc in livery.countries
+            if valid_livery or cc in ["BLUE", "RED"]:
+                liveries.add(livery)
+        for livery in sorted(liveries):
+            self.addItem(livery.name, userData=livery.id)
+            if selected_livery is not None:
+                if selected_livery == livery.id:
+                    self.setCurrentText(livery.name)
+        if len(liveries) == 0:
+            self.addItem("No available liveries (using DCS default)")
+            self.setEnabled(False)
+
+
 class SquadronConfigurationBox(QGroupBox):
     remove_squadron_signal = Signal(Squadron)
 
@@ -168,6 +200,10 @@ class SquadronConfigurationBox(QGroupBox):
         reroll_nickname_button.setToolTip("Re-roll nickname")
         reroll_nickname_button.clicked.connect(self.reroll_nickname)
         nickname_edit_layout.addWidget(reroll_nickname_button, 1, 1, Qt.AlignTop)
+
+        left_column.addWidget(QLabel("Livery:"))
+        self.livery_selector = SquadronLiverySelector(squadron)
+        left_column.addWidget(self.livery_selector)
 
         left_column.addWidget(QLabel("Base:"))
         self.base_selector = SquadronBaseSelector(
@@ -224,6 +260,7 @@ class SquadronConfigurationBox(QGroupBox):
         if base is None:
             raise RuntimeError("Base cannot be none")
         self.squadron.assign_to_base(base)
+        self.squadron.livery = self.livery_selector.currentData()
 
         player_names = self.player_list.toPlainText().splitlines()
         # Prepend player pilots so they get set active first.
