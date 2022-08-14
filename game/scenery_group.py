@@ -47,7 +47,6 @@ class SceneryGroup:
 
         # For each objective definition.
         for zone_def in zone_definitions:
-
             zone_def_radius = zone_def.radius
             zone_def_position = zone_def.position
             zone_def_name = zone_def.name
