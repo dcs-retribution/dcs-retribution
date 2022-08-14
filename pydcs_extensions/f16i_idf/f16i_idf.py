@@ -6,6 +6,7 @@ from typing import Dict, List, Any
 from PySide2.QtGui import QPixmap
 from dcs import task
 from dcs.planes import F_16C_50, PlaneType
+from dcs.unittype import FlyingType
 from dcs.weapons_data import Weapons
 
 from game.modsupport import planemod
@@ -313,6 +314,9 @@ def inject_F16I() -> None:
     F_16C_50.Pylon16 = Pylon16
 
     inject_mod_payloads(Path(THIS_DIR.parent / "resources/mod_payloads/f16i_idf"))
+    # Force re-scanning of loadouts after the injection above
+    FlyingType._payload_cache = {}
+    FlyingType.scan_payload_dir()
 
 
 @planemod
