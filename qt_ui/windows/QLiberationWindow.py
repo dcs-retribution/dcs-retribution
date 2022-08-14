@@ -21,6 +21,7 @@ from PySide2.QtWidgets import (
 import qt_ui.uiconstants as CONST
 from game import Game, VERSION, persistency
 from game.debriefing import Debriefing
+from game.game import TurnState
 from game.layout import LAYOUTS
 from game.server import EventStream, GameContext
 from game.server.dependencies import QtCallbacks, QtContext
@@ -129,9 +130,10 @@ class QLiberationWindow(QMainWindow):
         hbox.setSizes([1, 10000000])
         vbox.setSizes([600, 100])
 
+        self.top_panel = QTopPanel(self.game_model, self.sim_controller)
         vbox = QVBoxLayout()
         vbox.setMargin(0)
-        vbox.addWidget(QTopPanel(self.game_model, self.sim_controller))
+        vbox.addWidget(self.top_panel)
         vbox.addWidget(hbox)
 
         central_widget = QWidget()
@@ -141,6 +143,7 @@ class QLiberationWindow(QMainWindow):
     def connectSignals(self):
         GameUpdateSignal.get_instance().gameupdated.connect(self.setGame)
         GameUpdateSignal.get_instance().debriefingReceived.connect(self.onDebriefing)
+        GameUpdateSignal.get_instance().game_state_changed.connect(self.onEndGame)
 
     def initActions(self):
         self.newGameAction = QAction("&New Game", self)
@@ -368,6 +371,32 @@ class QLiberationWindow(QMainWindow):
         self.game = game
         GameUpdateSignal.get_instance().game_loaded.emit(self.game)
 
+    def onEndGame(self, state: TurnState):
+        if state == TurnState.CONTINUE:
+            return
+
+        for window in QApplication.topLevelWidgets():
+            if window is not self:
+                window.close()
+
+        GameUpdateSignal.get_instance().updateGame(None)
+
+        self.top_panel.setControls(False)
+
+        title = "Victory!" if TurnState.WIN else "Defeat!"
+        msgvar = "won" if TurnState.WIN else "lost"
+        msg = f"You have {msgvar} the campaign, do you wish to start a new one?"
+        result = QMessageBox.information(
+            QApplication.focusWidget(),
+            title,
+            msg,
+            QMessageBox.Yes,
+            QMessageBox.No,
+        )
+
+        if result is not None and result == QMessageBox.Yes:
+            self.newGame()
+
     def setGame(self, game: Optional[Game]):
         try:
             self.game = game
@@ -522,6 +551,7 @@ class QLiberationWindow(QMainWindow):
             self._save_window_geometry()
             super().closeEvent(event)
             self.dialog = None
+            self.debriefing = None
             for window in QApplication.topLevelWidgets():
                 window.close()
         else:

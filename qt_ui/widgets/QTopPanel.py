@@ -11,6 +11,7 @@ from PySide2.QtWidgets import (
 
 import qt_ui.uiconstants as CONST
 from game import Game, persistency
+from game.game import TurnState
 from game.ato.package import Package
 from game.profiling import logged_duration
 from game.utils import meters
@@ -78,13 +79,23 @@ class QTopPanel(QFrame):
         self.buttonBoxLayout.addWidget(self.transfers)
         self.buttonBox.setLayout(self.buttonBoxLayout)
 
+        self.simSpeedControls = SimSpeedControls(sim_controller)
+
         self.proceedBox = QGroupBox("Proceed")
         self.proceedBoxLayout = QHBoxLayout()
-        self.proceedBoxLayout.addLayout(SimSpeedControls(sim_controller))
+        self.proceedBoxLayout.addLayout(self.simSpeedControls)
         self.proceedBoxLayout.addLayout(MaxPlayerCount(self.game_model.ato_model))
         self.proceedBoxLayout.addWidget(self.passTurnButton)
         self.proceedBoxLayout.addWidget(self.proceedButton)
         self.proceedBox.setLayout(self.proceedBoxLayout)
+
+        self.controls = [
+            self.air_wing,
+            self.transfers,
+            self.simSpeedControls,
+            self.passTurnButton,
+            self.proceedButton,
+        ]
 
         self.layout = QHBoxLayout()
 
@@ -127,15 +138,16 @@ class QTopPanel(QFrame):
         self.budgetBox.setGame(game)
         self.factionsInfos.setGame(game)
 
-        self.passTurnButton.setEnabled(True)
-        if game and game.turn > 0:
-            self.passTurnButton.setText("Pass Turn")
+        self.setControls(True)
 
-        if game and game.turn == 0:
+        if game.turn > 0:
+            self.passTurnButton.setText("Pass Turn")
+        elif game.turn == 0:
             self.passTurnButton.setText("Begin Campaign")
             self.proceedButton.setEnabled(False)
+            self.simSpeedControls.setEnabled(False)
         else:
-            self.proceedButton.setEnabled(True)
+            raise RuntimeError(f"game.turn out of bounds!\n  value = {game.turn}")
 
     def open_air_wing(self):
         self.dialog = AirWingDialog(self.game_model, self.window())
@@ -291,3 +303,7 @@ class QTopPanel(QFrame):
 
     def budget_update(self, game: Game):
         self.budgetBox.setGame(game)
+
+    def setControls(self, enabled: bool):
+        for controller in self.controls:
+            controller.setEnabled(enabled)
