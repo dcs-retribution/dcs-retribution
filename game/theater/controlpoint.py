@@ -976,11 +976,13 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
             self.front_line_capacity_with(ammo_depot_count), self.base.total_armor
         )
 
-    @classmethod
-    def front_line_capacity_with(cls, ammo_depot_count: int) -> int:
-        return (
-            FREE_FRONTLINE_UNIT_SUPPLY
-            + ammo_depot_count * AMMO_DEPOT_FRONTLINE_UNIT_CONTRIBUTION
+    def front_line_capacity_with(self, ammo_depot_count: int) -> int:
+        return min(
+            self.coalition.game.settings.perf_frontline_units_max_supply,
+            (
+                FREE_FRONTLINE_UNIT_SUPPLY
+                + ammo_depot_count * AMMO_DEPOT_FRONTLINE_UNIT_CONTRIBUTION
+            ),
         )
 
     @property
