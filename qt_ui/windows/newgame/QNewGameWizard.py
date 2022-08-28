@@ -158,6 +158,7 @@ class NewGameWizard(QtWidgets.QWizard):
         )
         mod_settings = ModSettings(
             a4_skyhawk=self.field("a4_skyhawk"),
+            f4b_phantom=self.field("f4b_phantom"),
             f22_raptor=self.field("f22_raptor"),
             f104_starfighter=self.field("f104_starfighter"),
             hercules=self.field("hercules"),
@@ -657,6 +658,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("hercules", hercules)
         uh_60l = QtWidgets.QCheckBox()
         self.registerField("uh_60l", uh_60l)
+        f4b_phantom = QtWidgets.QCheckBox()
+        self.registerField("f4b_phantom", f4b_phantom)
         f22_raptor = QtWidgets.QCheckBox()
         self.registerField("f22_raptor", f22_raptor)
         f104_starfighter = QtWidgets.QCheckBox()
@@ -682,6 +685,13 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         )
         modLayout.addWidget(a4_skyhawk, modLayout_row, 1)
         modLayout_row += 1
+        modLayout.addWidget(
+            QtWidgets.QLabel("F-4B Phantom II (v2.7.9.01 EFM + Patch 2022.01.17)"),
+            modLayout_row,
+            0,
+        )
+        modLayout.addWidget(f4b_phantom, modLayout_row, 1)
+        modLayout_row += 1
         modLayout.addWidget(QtWidgets.QLabel("F-22A Raptor"), modLayout_row, 0)
         modLayout.addWidget(f22_raptor, modLayout_row, 1)
         modLayout_row += 1
@@ -693,13 +703,13 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         )
         modLayout.addWidget(hercules, modLayout_row, 1)
         modLayout_row += 1
+        # Section break here for readability
+        modLayout.addWidget(QtWidgets.QWidget(), modLayout_row, 0)
+        modLayout_row += 1
         modLayout.addWidget(
             QtWidgets.QLabel("UH-60L Black Hawk (version 1.3.1)"), modLayout_row, 0
         )
         modLayout.addWidget(uh_60l, modLayout_row, 1)
-        modLayout_row += 1
-        # Section break here for readability
-        modLayout.addWidget(QtWidgets.QWidget(), modLayout_row, 0)
         modLayout_row += 1
         modLayout.addWidget(
             QtWidgets.QLabel("JAS 39 Gripen (version v1.8.0-beta)"), modLayout_row, 0

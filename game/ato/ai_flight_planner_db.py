@@ -123,6 +123,7 @@ from game.dcs.aircrafttype import AircraftType
 from pydcs_extensions.a4ec.a4ec import A_4E_C
 from pydcs_extensions.f104.f104 import VSN_F104G, VSN_F104S, VSN_F104S_AG
 from pydcs_extensions.f22a.f22a import F_22A
+from pydcs_extensions.f4b.f4b import VSN_F4B
 from pydcs_extensions.hercules.hercules import Hercules
 from pydcs_extensions.jas39.jas39 import JAS39Gripen, JAS39Gripen_AG
 from pydcs_extensions.su57.su57 import Su_57
@@ -154,6 +155,7 @@ CAP_CAPABLE = [
     JAS39Gripen,
     F_16A,
     F_4E,
+    VSN_F4B,
     MiG_31,
     MiG_25PD,
     MiG_29G,
@@ -223,6 +225,7 @@ CAS_CAPABLE = [
     Su_17M4,
     Su_33,
     F_4E,
+    VSN_F4B,
     S_3B,
     Su_30,
     MiG_29S,
@@ -366,6 +369,7 @@ STRIKE_CAPABLE = [
     MiG_29G,
     MiG_29A,
     F_4E,
+    VSN_F4B,
     A_10C_2,
     A_10C,
     S_3B,
@@ -467,6 +471,7 @@ RUNWAY_ATTACK_CAPABLE = [
     MiG_29G,
     MiG_29A,
     F_4E,
+    VSN_F4B,
     A_10C_2,
     A_10C,
     S_3B,
