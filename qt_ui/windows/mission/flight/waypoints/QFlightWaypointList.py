@@ -1,5 +1,3 @@
-from datetime import timedelta
-
 from PySide2.QtCore import QItemSelectionModel, QPoint, QModelIndex
 from PySide2.QtGui import QStandardItem, QStandardItemModel
 from PySide2.QtWidgets import (
@@ -120,14 +118,8 @@ class QFlightWaypointList(QTableView):
             time = flight.flight_plan.depart_time_for_waypoint(waypoint)
         if time is None:
             return ""
-        time = timedelta(seconds=int(time.total_seconds()))
-        return f"{prefix}T+{time}"
+        return f"{prefix}{time:%H:%M:%S}"
 
     @staticmethod
     def takeoff_text(flight: Flight) -> str:
-        takeoff_time = flight.flight_plan.takeoff_time()
-        # Handle custom flight plans where we can't estimate the takeoff time.
-        if takeoff_time is None:
-            takeoff_time = timedelta()
-        start_time = timedelta(seconds=int(takeoff_time.total_seconds()))
-        return f"T+{start_time}"
+        return f"{flight.flight_plan.takeoff_time():%H:%M:%S}"

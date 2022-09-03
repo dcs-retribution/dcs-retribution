@@ -97,7 +97,6 @@ class FlightGroupConfigurator:
             self.flight,
             self.group,
             self.mission,
-            self.game.conditions.start_time,
             self.time,
             self.game.settings,
             self.mission_data,

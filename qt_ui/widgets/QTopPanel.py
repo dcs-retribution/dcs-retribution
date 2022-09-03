@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List, Optional
 
 from PySide2.QtWidgets import (
@@ -166,7 +167,7 @@ class QTopPanel(QFrame):
             GameUpdateSignal.get_instance().updateGame(self.game)
             self.proceedButton.setEnabled(True)
 
-    def negative_start_packages(self) -> List[Package]:
+    def negative_start_packages(self, now: datetime) -> List[Package]:
         packages = []
         for package in self.game_model.ato_model.ato.packages:
             if not package.flights:
@@ -174,7 +175,7 @@ class QTopPanel(QFrame):
             for flight in package.flights:
                 if flight.state.is_waiting_for_start:
                     startup = flight.flight_plan.startup_time()
-                    if startup < 0:
+                    if startup < now:
                         packages.append(package)
                         break
         return packages
@@ -290,7 +291,9 @@ class QTopPanel(QFrame):
         if self.check_no_missing_pilots():
             return
 
-        negative_starts = self.negative_start_packages()
+        negative_starts = self.negative_start_packages(
+            self.sim_controller.current_time_in_sim
+        )
         if negative_starts:
             if not self.confirm_negative_start_time(negative_starts):
                 return

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import timedelta
+from datetime import datetime
 from typing import Optional, TYPE_CHECKING
 
 from game.dcs.aircrafttype import AircraftType
@@ -33,8 +33,8 @@ class AwacsInfo(GroupInfo):
     """AWACS information for the kneeboard."""
 
     depature_location: Optional[str]
-    start_time: timedelta
-    end_time: timedelta
+    start_time: datetime | None
+    end_time: datetime | None
 
 
 @dataclass
@@ -43,8 +43,8 @@ class TankerInfo(GroupInfo):
 
     variant: str
     tacan: Optional[TacanChannel]
-    start_time: timedelta
-    end_time: timedelta
+    start_time: datetime | None
+    end_time: datetime | None
 
 
 @dataclass

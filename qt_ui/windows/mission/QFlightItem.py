@@ -19,4 +19,4 @@ class QFlightItem(QStandardItem):
             )
             self.setIcon(icon)
         self.setEditable(False)
-        self.setText(f"{flight} in {flight.flight_plan.startup_time()}")
+        self.setText(f"{flight} at {flight.flight_plan.startup_time()}")

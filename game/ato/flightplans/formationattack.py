@@ -3,8 +3,9 @@ from __future__ import annotations
 from abc import ABC
 from collections.abc import Iterator
 from dataclasses import dataclass
-from datetime import timedelta
-from typing import TYPE_CHECKING, TypeVar, Optional
+from datetime import datetime, timedelta
+from typing import Optional
+from typing import TYPE_CHECKING, TypeVar
 
 from dcs import Point
 
@@ -14,6 +15,7 @@ from game.utils import Speed, meters, nautical_miles, feet
 from .flightplan import FlightPlan
 from .formation import FormationFlightPlan, FormationLayout
 from .ibuilder import IBuilder
+from .planningerror import PlanningError
 from .waypointbuilder import StrikeTarget, WaypointBuilder
 from .. import FlightType
 from ..flightwaypoint import FlightWaypoint
@@ -56,14 +58,37 @@ class FormationAttackFlightPlan(FormationFlightPlan, ABC):
         )
 
     @property
-    def join_time(self) -> timedelta:
+    def travel_time_to_target(self) -> timedelta:
+        """The estimated time between the first waypoint and the target."""
+        destination = self.tot_waypoint
+        total = timedelta()
+        for previous_waypoint, waypoint in self.edges():
+            if waypoint == self.tot_waypoint:
+                # For anything strike-like the TOT waypoint is the *flight's*
+                # mission target, but to synchronize with the rest of the
+                # package we need to use the travel time to the same position as
+                # the others.
+                total += self.travel_time_between_waypoints(
+                    previous_waypoint, self.target_area_waypoint
+                )
+                break
+            total += self.travel_time_between_waypoints(previous_waypoint, waypoint)
+        else:
+            raise PlanningError(
+                f"Did not find destination waypoint {destination} in "
+                f"waypoints for {self.flight}"
+            )
+        return total
+
+    @property
+    def join_time(self) -> datetime:
         travel_time = self.total_time_between_waypoints(
             self.layout.join, self.layout.ingress
         )
         return self.ingress_time - travel_time
 
     @property
-    def split_time(self) -> timedelta:
+    def split_time(self) -> datetime:
         travel_time_ingress = self.total_time_between_waypoints(
             self.layout.ingress, self.target_area_waypoint
         )
@@ -80,7 +105,7 @@ class FormationAttackFlightPlan(FormationFlightPlan, ABC):
         )
 
     @property
-    def ingress_time(self) -> timedelta:
+    def ingress_time(self) -> datetime:
         tot = self.tot
         travel_time = self.total_time_between_waypoints(
             self.layout.ingress, self.target_area_waypoint
@@ -88,14 +113,14 @@ class FormationAttackFlightPlan(FormationFlightPlan, ABC):
         return tot - travel_time
 
     @property
-    def initial_time(self) -> timedelta:
+    def initial_time(self) -> datetime:
         tot = self.tot
         travel_time = self.travel_time_between_waypoints(
             self.layout.initial, self.target_area_waypoint
         )
         return tot - travel_time
 
-    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
+    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         if waypoint == self.layout.ingress:
             return self.ingress_time
         elif waypoint == self.layout.initial:

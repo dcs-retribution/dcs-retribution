@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from datetime import datetime
 from typing import Any, Optional, TYPE_CHECKING
 
 from faker import Faker
@@ -182,10 +183,10 @@ class Coalition:
         with logged_duration("Procurement of airlift assets"):
             self.transfers.order_airlift_assets()
         with logged_duration("Transport planning"):
-            self.transfers.plan_transports()
+            self.transfers.plan_transports(self.game.conditions.start_time)
 
         if not is_turn_0:
-            self.plan_missions()
+            self.plan_missions(self.game.conditions.start_time)
         self.plan_procurement()
 
     def refund_outstanding_orders(self) -> None:
@@ -201,16 +202,16 @@ class Coalition:
         for squadron in self.air_wing.iter_squadrons():
             squadron.refund_orders()
 
-    def plan_missions(self) -> None:
+    def plan_missions(self, now: datetime) -> None:
         color = "Blue" if self.player else "Red"
         with MultiEventTracer() as tracer:
             with tracer.trace(f"{color} mission planning"):
                 with tracer.trace(f"{color} mission identification"):
-                    TheaterCommander(self.game, self.player).plan_missions(tracer)
+                    TheaterCommander(self.game, self.player).plan_missions(now, tracer)
                 with tracer.trace(f"{color} mission scheduling"):
                     MissionScheduler(
                         self, self.game.settings.desired_player_mission_duration
-                    ).schedule_missions()
+                    ).schedule_missions(now)
 
     def plan_procurement(self) -> None:
         # The first turn needs to buy a *lot* of aircraft to fill CAPs, so it gets much

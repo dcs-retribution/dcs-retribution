@@ -102,7 +102,9 @@ class FlightPlanPropertiesGroup(QGroupBox):
             # handler may be called for a flight whose package has been canceled, which
             # is an invalid state for calling anything in TotEstimator.
             return
-        self.departure_time.setText(f"At T+{self.flight.flight_plan.startup_time()}")
+        self.departure_time.setText(
+            f"At {self.flight.flight_plan.startup_time():%H:%M%S}"
+        )
         self.flight_wpt_list.update_list()
 
     def set_divert(self, index: int) -> None:

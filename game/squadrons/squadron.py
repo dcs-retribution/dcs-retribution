@@ -4,7 +4,9 @@ import logging
 import random
 from collections.abc import Iterable
 from dataclasses import dataclass, field
-from typing import Optional, Sequence, TYPE_CHECKING, Any, Union
+from datetime import datetime
+from typing import Any, Union
+from typing import Optional, Sequence, TYPE_CHECKING
 from uuid import uuid4, UUID
 
 from dcs.country import Country
@@ -380,9 +382,8 @@ class Squadron:
     def arrival(self) -> ControlPoint:
         return self.location if self.destination is None else self.destination
 
-    def plan_relocation(self, destination: ControlPoint) -> None:
+    def plan_relocation(self, destination: ControlPoint, now: datetime) -> None:
         from game.theater import ParkingType
-
         if destination == self.location:
             logging.warning(
                 f"Attempted to plan relocation of {self} to current location "
@@ -402,7 +403,7 @@ class Squadron:
         if not destination.can_operate(self.aircraft):
             raise RuntimeError(f"{self} cannot operate at {destination}.")
         self.destination = destination
-        self.replan_ferry_flights()
+        self.replan_ferry_flights(now)
 
     def cancel_relocation(self) -> None:
         from game.theater import ParkingType
@@ -420,9 +421,9 @@ class Squadron:
         self.destination = None
         self.cancel_ferry_flights()
 
-    def replan_ferry_flights(self) -> None:
+    def replan_ferry_flights(self, now: datetime) -> None:
         self.cancel_ferry_flights()
-        self.plan_ferry_flights()
+        self.plan_ferry_flights(now)
 
     def cancel_ferry_flights(self) -> None:
         for package in self.coalition.ato.packages:
@@ -433,7 +434,7 @@ class Squadron:
             if not package.flights:
                 self.coalition.ato.remove_package(package)
 
-    def plan_ferry_flights(self) -> None:
+    def plan_ferry_flights(self, now: datetime) -> None:
         if self.destination is None:
             raise RuntimeError(
                 f"Cannot plan ferry flights for {self} because there is no destination."
@@ -447,7 +448,7 @@ class Squadron:
             size = min(remaining, self.aircraft.max_group_size)
             self.plan_ferry_flight(package, size)
             remaining -= size
-        package.set_tot_asap()
+        package.set_tot_asap(now)
         self.coalition.ato.add_package(package)
 
     def plan_ferry_flight(self, package: Package, size: int) -> None:

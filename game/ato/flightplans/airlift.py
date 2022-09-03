@@ -2,8 +2,9 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 from dataclasses import dataclass
-from datetime import timedelta
-from typing import TYPE_CHECKING, Type, Optional
+from datetime import datetime
+from typing import Optional
+from typing import TYPE_CHECKING, Type
 
 from game.theater.missiontarget import MissionTarget
 from game.utils import feet
@@ -89,16 +90,20 @@ class AirliftFlightPlan(StandardFlightPlan[AirliftLayout]):
         # drop-off waypoint.
         return self.layout.drop_off or self.layout.arrival
 
-    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
+    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         # TOT planning isn't really useful for transports. They're behind the front
         # lines so no need to wait for escorts or for other missions to complete.
         return None
 
-    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
+    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         return None
 
     @property
-    def mission_departure_time(self) -> timedelta:
+    def mission_begin_on_station_time(self) -> datetime | None:
+        return None
+
+    @property
+    def mission_departure_time(self) -> datetime:
         return self.package.time_over_target
 
 
