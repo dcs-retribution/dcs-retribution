@@ -350,7 +350,10 @@ class NavalGroundObject(TheaterGroundObject, ABC):
         from game.ato import FlightType
 
         if not self.is_friendly(for_player):
-            yield FlightType.ANTISHIP
+            yield from [
+                FlightType.ANTISHIP,
+                FlightType.SEAD_ESCORT,
+            ]
         yield from super().mission_types(for_player)
 
     @property

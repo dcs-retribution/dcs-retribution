@@ -1176,7 +1176,10 @@ class NavalControlPoint(ControlPoint, ABC):
                 # TODO: Inter-ship logistics?
             ]
         else:
-            yield FlightType.ANTISHIP
+            yield from [
+                FlightType.ANTISHIP,
+                FlightType.SEAD_ESCORT,
+            ]
         yield from super().mission_types(for_player)
 
     @property
@@ -1424,6 +1427,7 @@ class Fob(ControlPoint):
         if not self.is_friendly(for_player):
             yield FlightType.STRIKE
             yield FlightType.AIR_ASSAULT
+            yield FlightType.OCA_AIRCRAFT
 
         yield from super().mission_types(for_player)
 
