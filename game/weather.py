@@ -15,7 +15,7 @@ from game.utils import Distance, Heading, Pressure, inches_hg, interpolate, mete
 
 if TYPE_CHECKING:
     from game.settings import Settings
-    from game.theater import ConflictTheater, DaytimeMap
+    from game.theater import ConflictTheater
     from game.theater.seasonalconditions import SeasonalConditions
 
 
@@ -323,6 +323,8 @@ class Conditions:
         night_disabled: bool,
     ) -> datetime.datetime:
         if night_disabled:
+            from game.theater import DaytimeMap
+
             logging.info("Skip Night mission due to user settings")
             time_range = DaytimeMap(
                 dawn=(datetime.time(hour=8), datetime.time(hour=9)),
