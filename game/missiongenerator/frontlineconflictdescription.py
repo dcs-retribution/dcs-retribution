@@ -54,7 +54,7 @@ class FrontLineConflictDescription:
     def frontline_position(
         cls, frontline: FrontLine, theater: ConflictTheater, settings: Settings
     ) -> Tuple[Point, Heading]:
-        attack_heading = frontline.attack_heading
+        attack_heading = frontline.blue_forward_heading
         position = cls.find_ground_position(
             frontline.position,
             settings.max_frontline_length * 1000,
