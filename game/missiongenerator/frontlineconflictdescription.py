@@ -4,7 +4,6 @@ import logging
 from dataclasses import dataclass
 from typing import Optional, Tuple
 
-from dcs.country import Country
 from dcs.mapping import Point
 from shapely.geometry import LineString, Point as ShapelyPoint
 
@@ -12,8 +11,6 @@ from game.settings import Settings
 from game.theater.conflicttheater import ConflictTheater, FrontLine
 from game.theater.controlpoint import ControlPoint
 from game.utils import Heading
-
-FRONTLINE_LENGTH = 80000
 
 
 @dataclass(frozen=True)
@@ -28,19 +25,10 @@ class FrontLineConflictDescription:
         self,
         theater: ConflictTheater,
         front_line: FrontLine,
-        attackers_side: str,
-        defenders_side: str,
-        attackers_country: Country,
-        defenders_country: Country,
         position: Point,
         heading: Optional[Heading] = None,
         size: Optional[int] = None,
     ):
-        self.attackers_side = attackers_side
-        self.defenders_side = defenders_side
-        self.attackers_country = attackers_country
-        self.defenders_country = defenders_country
-
         self.front_line = front_line
         self.theater = theater
         self.position = position
@@ -54,10 +42,6 @@ class FrontLineConflictDescription:
     @property
     def red_cp(self) -> ControlPoint:
         return self.front_line.red_cp
-
-    @classmethod
-    def has_frontline_between(cls, from_cp: ControlPoint, to_cp: ControlPoint) -> bool:
-        return from_cp.has_frontline and to_cp.has_frontline
 
     @classmethod
     def frontline_position(
@@ -101,29 +85,17 @@ class FrontLineConflictDescription:
 
     @classmethod
     def frontline_cas_conflict(
-        cls,
-        attacker_name: str,
-        defender_name: str,
-        attacker: Country,
-        defender: Country,
-        front_line: FrontLine,
-        theater: ConflictTheater,
-        settings: Settings,
+        cls, front_line: FrontLine, theater: ConflictTheater, settings: Settings
     ) -> FrontLineConflictDescription:
-        assert cls.has_frontline_between(front_line.blue_cp, front_line.red_cp)
         # TODO: Break apart the front-line and air conflict descriptions.
         # We're wastefully not caching the front-line bounds here because air conflicts
         # can't compute bounds, only a position.
         bounds = cls.frontline_bounds(front_line, theater, settings)
         conflict = cls(
-            position=bounds.left_position,
-            heading=bounds.heading_from_left_to_right,
             theater=theater,
             front_line=front_line,
-            attackers_side=attacker_name,
-            defenders_side=defender_name,
-            attackers_country=attacker,
-            defenders_country=defender,
+            position=bounds.left_position,
+            heading=bounds.heading_from_left_to_right,
             size=bounds.length,
         )
         return conflict
