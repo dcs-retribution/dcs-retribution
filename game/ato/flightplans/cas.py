@@ -81,12 +81,8 @@ class Builder(IBuilder[CasFlightPlan, CasLayout]):
             location, self.theater, self.coalition.game.settings
         )
         ingress = bounds.left_position
-        center = ingress.point_from_heading(
-            bounds.heading_from_left_to_right.degrees, bounds.length / 2
-        )
-        egress = ingress.point_from_heading(
-            bounds.heading_from_left_to_right.degrees, bounds.length
-        )
+        center = bounds.center
+        egress = bounds.right_position
 
         ingress_distance = ingress.distance_to_point(self.flight.departure.position)
         egress_distance = egress.distance_to_point(self.flight.departure.position)
