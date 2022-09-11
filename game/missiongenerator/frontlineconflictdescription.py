@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass
+from functools import cached_property
 from typing import Optional, Tuple
 
 from dcs.mapping import Point
@@ -16,17 +17,20 @@ from game.utils import Heading
 @dataclass(frozen=True)
 class FrontLineBounds:
     left_position: Point
-    heading_from_left_to_right: Heading
-    length: int
+    right_position: Point
 
-    @property
+    @cached_property
+    def length(self) -> int:
+        return int(self.left_position.distance_to_point(self.right_position))
+
+    @cached_property
     def center(self) -> Point:
         return (self.left_position + self.right_position) / 2
 
-    @property
-    def right_position(self) -> Point:
-        return self.left_position.point_from_heading(
-            self.heading_from_left_to_right.degrees, self.length
+    @cached_property
+    def heading_from_left_to_right(self) -> Heading:
+        return Heading(
+            int(self.left_position.heading_between_point(self.right_position))
         )
 
 
@@ -90,8 +94,7 @@ class FrontLineConflictDescription:
             right_heading,
             theater,
         )
-        distance = int(left_position.distance_to_point(right_position))
-        return FrontLineBounds(left_position, right_heading, distance)
+        return FrontLineBounds(left_position, right_position)
 
     @classmethod
     def frontline_cas_conflict(
