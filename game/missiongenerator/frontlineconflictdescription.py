@@ -67,8 +67,6 @@ class FrontLineConflictDescription:
             attack_heading.right,
             theater,
         )
-        if position is None:
-            raise RuntimeError("Could not find front line position")
         return position, attack_heading.opposite
 
     @classmethod
@@ -147,7 +145,7 @@ class FrontLineConflictDescription:
         max_distance: int,
         heading: Heading,
         theater: ConflictTheater,
-    ) -> Optional[Point]:
+    ) -> Point:
         """Finds a valid ground position for the front line center.
 
         Checks for positions along the front line first. If none succeed, the nearest
