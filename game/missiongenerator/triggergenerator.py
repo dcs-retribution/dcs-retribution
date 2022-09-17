@@ -141,7 +141,7 @@ class TriggerGenerator:
         Directly appends to the global `base_capture_events` var declared by `dcs_libaration.lua`
         """
         for cp in self.game.theater.controlpoints:
-            if isinstance(cp, self.capture_zone_types):
+            if isinstance(cp, self.capture_zone_types) and not cp.is_carrier:
                 if cp.captured:
                     attacking_coalition = enemy_coalition
                     attack_coalition_int = 1  # 1 is the Event int for Red
