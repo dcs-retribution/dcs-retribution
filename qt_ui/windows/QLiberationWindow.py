@@ -357,9 +357,9 @@ class QLiberationWindow(QMainWindow):
 
     def updateWindowTitle(self, save_path: Optional[str] = None) -> None:
         """
-        to DCS Liberation - vX.X.X - file_name
+        to DCS Retribution - vX.X.X - file_name
         """
-        window_title = f"DCS Liberation - v{VERSION}"
+        window_title = f"DCS Retribution - v{VERSION}"
         if save_path:  # appending the file name to title as it is updated
             file_name = save_path.split("/")[-1].split(".liberation")[0]
             window_title = f"{window_title} - {file_name}"
