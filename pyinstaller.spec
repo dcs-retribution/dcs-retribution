@@ -32,7 +32,7 @@ exe = EXE(
     [],
     icon="resources/icon.ico",
     exclude_binaries=True,
-    name='liberation_main',
+    name='retribution_main',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -46,5 +46,5 @@ coll = COLLECT(
     analysis.datas,
     strip=False,
     upx=True,
-    name='dcs_liberation',
+    name='dcs-retribution',
 )

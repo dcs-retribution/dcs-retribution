@@ -35,7 +35,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: dcs_liberation
+          name: dcs-retribution
           path: dist/
 
   release:
@@ -44,7 +44,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v2
         with:
-          name: dcs_liberation
+          name: dcs-retribution
 
       - name: "Get Version"
         id: version
@@ -61,7 +61,7 @@ jobs:
           $changelog = Get-Content .\changelog.md
           $last_change = ($changelog | Select-String -Pattern "^#\s" | Select-Object -Skip 1 -First 1).LineNumber - 2
           ($changelog | Select-Object -First $last_change) -join "`n" | Out-File .\releasenotes.md
-          Compress-Archive -Path .\dcs_liberation -DestinationPath "dcs_liberation.$version.zip" -Compression Optimal
+          Compress-Archive -Path .\dcs-retribution -DestinationPath "dcs-retribution.$version.zip" -Compression Optimal
 
       - uses: actions/create-release@v1
         id: create_release
@@ -79,6 +79,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dcs_liberation.${{ steps.version.outputs.number }}.zip
-          asset_name: dcs_liberation.${{ steps.version.outputs.number }}.zip
+          asset_path: ./dcs-retribution.${{ steps.version.outputs.number }}.zip
+          asset_name: dcs-retribution.${{ steps.version.outputs.number }}.zip
           asset_content_type: application/zip

@@ -31,10 +31,10 @@ jobs:
 
       - name: Create archive
         run:
-          Compress-Archive -Path .\dist\dcs_liberation\ -DestinationPath
-          dist\dcs_liberation.zip
+          Compress-Archive -Path .\dist\dcs-retribution\ -DestinationPath
+          dist\dcs-retribution.zip
 
       - uses: actions/upload-artifact@v2
         with:
-          name: dcs_liberation
-          path: dist/dcs_liberation.zip
+          name: dcs-retribution
+          path: dist/dcs-retribution.zip
