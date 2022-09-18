@@ -122,14 +122,16 @@ def run_ui(game: Game | None, dev: bool) -> None:
             message_box.setWindowTitle("No DCS installation directory.")
             message_box.setText(
                 "The DCS Installation directory is not set correctly. "
-                "This will prevent DCS Liberation from working properly, as the MissionScripting "
+                "This will prevent DCS Retribution from working properly, as the MissionScripting "
                 "file will not be modified."
                 "<br/><br/>To solve this problem, you can set the Installation directory "
                 "within the preferences menu. You can also manually edit or replace the "
                 "following file:"
                 "<br/><br/><strong>&lt;dcs_installation_directory&gt;/Scripts/MissionScripting.lua</strong>"
-                "<br/><br/>The easiest way to do it is to replace the original file with the file in dcs-liberation distribution (&lt;dcs_liberation_installation&gt;/resources/scripts/MissionScripting.lua)."
-                "<br/><br/>You can find more information on how to manually change this file in the Liberation Wiki (Page: Dedicated Server Guide) on GitHub.</p>"
+                "<br/><br/>The easiest way to do it is to replace the original file with the file in dcs-retribution "
+                "distribution (&lt;dcs_retribution_installation&gt;/resources/scripts/MissionScripting.lua)."
+                "<br/><br/>You can find more information on how to manually change this file in the Liberation Wiki "
+                "(Page: Dedicated Server Guide) on GitHub.</p>"
             )
             message_box.setDefaultButton(QtWidgets.QMessageBox.StandardButton.Ok)
             message_box.setCheckBox(ignore_checkbox)
@@ -141,7 +143,8 @@ def run_ui(game: Game | None, dev: bool) -> None:
         error_dialog = QtWidgets.QErrorMessage()
         error_dialog.setWindowTitle("Wrong DCS installation directory.")
         error_dialog.showMessage(
-            "Unable to modify Mission Scripting file. Possible issues with rights. Try running as admin, or please perform the modification of the MissionScripting file manually."
+            "Unable to modify Mission Scripting file. Possible issues with rights. "
+            "Try running as admin, or please perform the modification of the MissionScripting file manually."
         )
         error_dialog.exec_()
 
@@ -249,7 +252,7 @@ def create_game(
     first_start = liberation_install.init()
     if first_start:
         sys.exit(
-            "Cannot generate campaign without configuring DCS Liberation. Start the UI "
+            "Cannot generate campaign without configuring DCS Retribution. Start the UI "
             "for the first run configuration."
         )
 
