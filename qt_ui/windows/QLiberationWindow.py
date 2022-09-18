@@ -185,9 +185,7 @@ class QLiberationWindow(QMainWindow):
         self.openGithubAction = QAction("&Github Repo", self)
         self.openGithubAction.setIcon(CONST.ICONS["Github"])
         self.openGithubAction.triggered.connect(
-            lambda: webbrowser.open_new_tab(
-                "https://github.com/dcs-liberation/dcs_liberation"
-            )
+            lambda: webbrowser.open_new_tab(URLS["Repository"])
         )
 
         self.ukraineAction = QAction("&Ukraine", self)
@@ -265,10 +263,7 @@ class QLiberationWindow(QMainWindow):
         help_menu.addAction(self.openGithubAction)
         help_menu.addAction(self.ukraineAction)
         help_menu.addAction(
-            "&Releases",
-            lambda: webbrowser.open_new_tab(
-                "https://github.com/dcs-liberation/dcs_liberation/releases"
-            ),
+            "&Releases", lambda: webbrowser.open_new_tab(URLS["Releases"])
         )
         help_menu.addAction(
             "&Online Manual", lambda: webbrowser.open_new_tab(URLS["Manual"])

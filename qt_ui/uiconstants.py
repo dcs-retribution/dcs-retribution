@@ -6,10 +6,11 @@ from PySide2.QtGui import QPixmap
 from .liberation_theme import get_theme_icons
 
 URLS: Dict[str, str] = {
-    "Manual": "https://github.com/dcs-liberation/dcs_liberation/wiki",
-    "Repository": "https://github.com/dcs-liberation/dcs_liberation",
+    "Manual": "https://github.com/dcs-retribution/dcs-retribution/wiki",
+    "Repository": "https://github.com/dcs-retribution/dcs-retribution",
     "ForumThread": "https://forums.eagle.ru/showthread.php?t=214834",
-    "Issues": "https://github.com/dcs-liberation/dcs_liberation/issues",
+    "Issues": "https://github.com/dcs-retribution/dcs-retribution/issues",
+    "Releases": "https://github.com/dcs-retribution/dcs-retribution/releases",
 }
 
 LABELS_OPTIONS = ["Full", "Abbreviated", "Dot Only", "Neutral Dot", "Off"]
