@@ -13,9 +13,9 @@ global __dcs_installation_directory
 global __last_save_file
 
 
-USER_PATH = Path(os.environ["LOCALAPPDATA"]) / "DCSLiberation"
+USER_PATH = Path(os.environ["LOCALAPPDATA"]) / "DCSRetribution"
 
-PREFERENCES_PATH = USER_PATH / "liberation_preferences.json"
+PREFERENCES_PATH = USER_PATH / "retribution_preferences.json"
 
 
 def init():
@@ -26,7 +26,7 @@ def init():
 
     if PREFERENCES_PATH.exists():
         try:
-            logging.debug("Loading Liberation preferences from %s", PREFERENCES_PATH)
+            logging.debug("Loading Retribution preferences from %s", PREFERENCES_PATH)
             with PREFERENCES_PATH.open() as prefs:
                 pref_data = json.load(prefs)
             __dcs_saved_game_directory = pref_data["saved_game_dir"]
