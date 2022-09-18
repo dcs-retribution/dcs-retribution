@@ -166,7 +166,7 @@ class QLiberationWindow(QMainWindow):
         self.saveAsAction.triggered.connect(self.saveGameAs)
         self.saveAsAction.setShortcut("CTRL+A")
 
-        self.showAboutDialogAction = QAction("&About DCS Liberation", self)
+        self.showAboutDialogAction = QAction("&About DCS Retribution", self)
         self.showAboutDialogAction.setIcon(QIcon.fromTheme("help-about"))
         self.showAboutDialogAction.triggered.connect(self.showAboutDialog)
 
@@ -462,14 +462,18 @@ class QLiberationWindow(QMainWindow):
             "NickJZX",
             "Sith1144",
             "Raffson",
+            "MetalStormGhost",
         ]
         text = (
-            "<h3>DCS Liberation "
-            + VERSION
-            + "</h3>"
-            + "<b>Source code :</b> https://github.com/dcs-liberation/dcs_liberation"
+            "<h3>DCS Retribution " + VERSION + "</h3>" + "<b>Source code : </b>"
+            "<a href='https://github.com/dcs-retribution/dcs-retribution' style='color:white'>"
+            "https://github.com/dcs-retribution/dcs-retribution </a>"
             + "<h4>Authors</h4>"
-            + "<p>DCS Liberation was originally developed by <b>shdwp</b>, DCS Liberation 2.0 is a partial rewrite based on this work by <b>Khopa</b>."
+            + "<p>DCS Retribution is an (independent) fork of DCS Liberation, "
+            "which was originally developed by <b>shdwp</b>. "
+            "DCS Liberation 2.0 is a partial rewrite based on this work by <b>Khopa</b>. "
+            "DCS Retribution was forked during development of "
+            "DCS Liberation v6.0.0 in 2022 by <b>Raffson</> & <b>MetalStormGhost</>."
             "<h4>Contributors</h4>"
             + ", ".join(contributors)
             + "<h4>Special Thanks  :</h4>"
@@ -479,10 +483,12 @@ class QLiberationWindow(QMainWindow):
             "<b>Walder </b> <i>for the Skynet-IADS script</i><br/>"
             "<b>Anubis Yinepu </b> <i>for the Hercules Cargo script</i><br/>"
             + "<h4>Splash Screen  :</h4>"
-            + "Artwork by Andriy Dankovych (CC BY-SA) [https://www.facebook.com/AndriyDankovych]"
+            + "Artwork by Andriy Dankovych (CC BY-SA)"
+            " <a href='https://www.facebook.com/AndriyDankovych' style='color:white'>"
+            "[https://www.facebook.com/AndriyDankovych]</a>"
         )
         about = QMessageBox()
-        about.setWindowTitle("About DCS Liberation")
+        about.setWindowTitle("About DCS Retribution")
         about.setIcon(QMessageBox.Icon.Information)
         about.setText(text)
         logging.info(about.textFormat())
