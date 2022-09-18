@@ -544,7 +544,7 @@ class QLiberationWindow(QMainWindow):
     def closeEvent(self, event: QCloseEvent) -> None:
         result = QMessageBox.question(
             self,
-            "Quit Liberation?",
+            "Quit Retribution?",
             "Are you sure you want to quit? All unsaved progress will be lost.",
             QMessageBox.Yes | QMessageBox.No,
         )
