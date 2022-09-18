@@ -4,7 +4,6 @@ from PySide2.QtWidgets import (
     QVBoxLayout,
     QPushButton,
     QHBoxLayout,
-    QPlainTextEdit,
     QTextEdit,
 )
 
@@ -24,34 +23,34 @@ class QLiberationFirstStartWindow(QDialog):
         self.preferences = QLiberationPreferences()
 
         WARN_TEXT = """
-        <strong>Welcome to DCS Liberation !</strong>
+        <strong>Welcome to DCS Retribution !</strong>
         <br/><br>
         <strong>Please take 30 seconds to read this :</strong>
         
-        <p>DCS Liberation will modify this file in your DCS installation directory :</p>
+        <p>DCS Retribution will modify this file in your DCS installation directory :</p>
         <br/>
         <strong>&lt;dcs_installation_directory&gt;/Scripts/MissionScripting.lua</strong><br/> 
         
         <p>
-        This will disable some security limits of the DCS World Lua scripting environment, in order to allow communication between DCS World and DCS Liberation.
+        This will disable some security limits of the DCS World Lua scripting environment, in order to allow communication between DCS World and DCS Retribution.
         However, the modification of this file could potentially grant access to your filesystem to malicious DCS mission files.
         </p>
         
-        <p>So, you should not join untrusted servers or open untrusted mission files within DCS world while DCS Liberation is running.</p>
+        <p>So, you should not join untrusted servers or open untrusted mission files within DCS world while DCS Retribution is running.</p>
         
         <p>
-        DCS Liberation will restore your original MissionScripting file when it close.        
+        DCS Retribution will restore your original MissionScripting file when it closes.        
         </p>
         
         <p>
-        However, should DCS Liberation encounter an unexpected crash (which should not happen), the MissionScripting file might not be restored.
-        If that occurs, you can use the backup file saved in the DCS Liberation directory there :
+        However, should DCS Retribution encounter an unexpected crash (which should not happen), the MissionScripting file might not be restored.
+        If that occurs, you can use the backup file saved in the DCS Retribution directory there :
         </p>
         
         <br/>
         <strong>./resources/scripts/MissionScripting.original.lua</strong><br/>
         
-        <p>Then copy it in your DCS installation directory to replace this file :</p>
+        <p>Then copy it to your DCS installation directory to replace this file :</p>
         
         <br/>
         <strong>&lt;dcs_installation_directory&gt;/Scripts/MissionScripting.lua</strong><br/>
@@ -59,9 +58,9 @@ class QLiberationFirstStartWindow(QDialog):
         <p>As you click on the button below, the file will be replaced in your DCS installation directory.</p>
         
         <br/>
-        <p>If you leave the DCS Installation Directory empty, DCS Liberation can not automatically replace the MissionScripting.lua and will therefore not work correctly!
-        In this case, you need to edit the file yourself. The easiest way to do it is to replace the original file with the file in dcs-liberation distribution (&lt;dcs_liberation_installation&gt;/resources/scripts/MissionScripting.lua).
-        <br/><br/>You can find more information on how to manually change this file in the Liberation Wiki (Page: Dedicated Server Guide) on GitHub.</p>
+        <p>If you leave the DCS Installation Directory empty, DCS Retribution can not automatically replace the MissionScripting.lua and will therefore not work correctly!
+        In this case, you need to edit the file yourself. The easiest way to do it is to replace the original file with the file in dcs-retribution distribution (&lt;dcs_retribution_installation&gt;/resources/scripts/MissionScripting.lua).
+        <br/><br/>You can find more information on how to manually change this file in the Retribution Wiki (Page: Dedicated Server Guide) on GitHub.</p>
 
         
         <br/><br/>
