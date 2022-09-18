@@ -318,7 +318,7 @@ class QLiberationWindow(QMainWindow):
             self,
             "Select game file to open",
             dir=save_dir,
-            filter="*.liberation",
+            filter="*.retribution;;*.liberation",
         )
         if file is not None and file[0] != "":
             game = persistency.load_game(file[0])
@@ -345,7 +345,7 @@ class QLiberationWindow(QMainWindow):
             self,
             "Save As",
             dir=save_dir,
-            filter="*.liberation",
+            filter="*.retribution;;*.liberation",
         )
         if file is not None:
             self.game.savepath = file[0]
@@ -361,7 +361,7 @@ class QLiberationWindow(QMainWindow):
         """
         window_title = f"DCS Retribution - v{VERSION}"
         if save_path:  # appending the file name to title as it is updated
-            file_name = save_path.split("/")[-1].split(".liberation")[0]
+            file_name = save_path.split("/")[-1].rsplit(".", 1)[0]
             window_title = f"{window_title} - {file_name}"
         self.setWindowTitle(window_title)
 
@@ -410,7 +410,7 @@ class QLiberationWindow(QMainWindow):
                 self,
                 "Could not load save game",
                 "The save game you have loaded is incompatible with this "
-                "version of DCS Liberation.\n"
+                "version of DCS Retribution.\n"
                 "\n"
                 f"{traceback.format_exc()}",
                 QMessageBox.Ok,
