@@ -178,7 +178,7 @@ class QLiberationWindow(QMainWindow):
         self.openDiscordAction.setIcon(CONST.ICONS["Discord"])
         self.openDiscordAction.triggered.connect(
             lambda: webbrowser.open_new_tab(
-                "https://" + "discord.gg" + "/" + "bKrt" + "rkJ"
+                "https://" + "discord.gg" + "/" + "vUVQb" + "33smb"
             )
         )
 
