@@ -25,7 +25,7 @@ body:
       label: Affected versions
       multiple: true
       description: >
-        Select all DCS Liberation versions in which you have observed this bug.
+        Select all DCS Retribution versions in which you have observed this bug.
         You do not need to test all of them, but the information is useful if
         you have it.
 
@@ -36,15 +36,16 @@ body:
         filing.
 
 
-        If the bug was found in a development build, select "Development build"
-        and provide a link to the build in the field below.
+        If the bug was found in a test/development build, select "Test build" or "Development build"
+        and provide a link to the applicable build in the field below.
       options:
-        - 5.2.0
+        - 1.0.0
+        - Test build
         - Development build
   - type: input
     attributes:
-      label: Development build
-      description: A link to the development build, if applicable.
+      label: Test/Development build
+      description: A link to the test/development build, if applicable.
   - type: input
     attributes:
       label: Campaign name
@@ -102,8 +103,8 @@ body:
     attributes:
       label: Log file
       description: >
-        Attach the Liberation log file. The log file is located at
-        `<Liberation install directory>/logs/liberation.log`.
+        Attach the Retribution log file. The log file is located at
+        `<Retribution install directory>/logs/retribution.log`.
 
 
         You can attach files to the bug by dragging and dropping the file
