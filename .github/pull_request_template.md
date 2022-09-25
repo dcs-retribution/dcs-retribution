@@ -1,13 +1,14 @@
-Pull requests should be made against the `develop` branch. Any backports
+Pull requests should be made against the `dev` branch. Any backports
 necessary will be handled by the development team.
 
 Pull requests should be focused on one task. Multiple bug fixes should be
-multiple PRs. We cannot merge half a PR, and combined PRs are much more
-difficult to review. PRs that do not adhere to this will have their review
+multiple PRs, or at the very least split over multiple (isolated) commits.
+We cannot merge half a PR, and combined PRs are more
+difficult to review. PRs that do not adhere to this may have their review
 delayed.
 
 Prefer rebase to merge, and squash commits as needed to preserve a readable
-commit history. This project maintains linear history in the develop branch, so
+commit history. This project maintains linear history in the `dev` branch, so
 we will either rebase or squash your PR when merging. It is much easier for us
 if your branch already has a readable commit history (ensure that your commit
 subject lines are clear enough to identify the patch in the git log). An
