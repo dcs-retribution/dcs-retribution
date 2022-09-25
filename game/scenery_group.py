@@ -1,25 +1,21 @@
 from __future__ import annotations
-from typing import Iterable, List
+from typing import Iterable, List, TYPE_CHECKING
 
+from dcs.mapping import Polygon
 from dcs.triggers import TriggerZone, TriggerZoneCircular, TriggerZoneQuadPoint
 
 from game.theater.theatergroundobject import NAME_BY_CATEGORY
 
+if TYPE_CHECKING:
+    from dcs.mapping import Point
 
-def _deduce_radius_from_quad(tz: TriggerZoneQuadPoint) -> float:
-    pos = tz.position
-    radius = 0.0
-    mids = []
-    for i in range(len(tz.verticies)):
-        for j in range(i, len(tz.verticies)):
-            if i is j:
-                continue
-            mids.append(tz.verticies[i].midpoint(tz.verticies[j]))
-    for point in mids:
-        dist = pos.distance_to_point(point)
-        if dist > radius:
-            radius = dist
-    return radius
+
+def _point_in_zone(zone: TriggerZone, pos: Point) -> bool:
+    if isinstance(zone, TriggerZoneCircular):
+        return zone.position.distance_to_point(pos) < zone.radius
+    elif isinstance(zone, TriggerZoneQuadPoint):
+        return Polygon(pos._terrain, zone.verticies).point_in_poly(pos)
+    raise RuntimeError(f"Invalid trigger-zone: {zone.name}")
 
 
 class SceneryGroupError(RuntimeError):
@@ -57,13 +53,6 @@ class SceneryGroup:
 
         # For each objective definition.
         for zone_def in zone_definitions:
-            if isinstance(zone_def, TriggerZoneCircular):
-                zone_def_radius = zone_def.radius
-            elif isinstance(zone_def, TriggerZoneQuadPoint):
-                zone_def_radius = _deduce_radius_from_quad(zone_def)
-            else:
-                raise RuntimeError(f"Invalid trigger-zone: {zone_def}")
-            print(zone_def_radius, zone_def.__dict__)
             zone_def_position = zone_def.position
             zone_def_name = zone_def.name
 
@@ -78,7 +67,7 @@ class SceneryGroup:
             valid_white_zones = []
 
             for zone in list(white_zones):
-                if zone.position.distance_to_point(zone_def_position) < zone_def_radius:
+                if _point_in_zone(zone_def, zone.position):
                     valid_white_zones.append(zone)
                     white_zones.remove(zone)
 
