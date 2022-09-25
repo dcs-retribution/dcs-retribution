@@ -294,7 +294,7 @@ class QTopPanel(QFrame):
             with logged_duration("Simulating to first contact"):
                 self.sim_controller.run_to_first_contact()
         self.sim_controller.generate_miz(
-            persistency.mission_path_for("liberation_nextturn.miz")
+            persistency.mission_path_for("retribution_nextturn.miz")
         )
 
         waiting = QWaitingForMissionResultWindow(self.game, self.sim_controller, self)
