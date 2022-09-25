@@ -443,14 +443,14 @@ class Settings:
         section=PERFORMANCE_SECTION,
         default=True,
     )
-    # perf_frontline_units_prefer_roads: bool = boolean_option(
-    #     "Front line troops prefer roads",
-    #     page=MISSION_GENERATOR_PAGE,
-    #     section=PERFORMANCE_SECTION,
-    #     default=False,
-    # )
     perf_disable_convoys: bool = boolean_option(
         "Disable convoys",
+        page=MISSION_GENERATOR_PAGE,
+        section=PERFORMANCE_SECTION,
+        default=False,
+    )
+    perf_frontline_units_prefer_roads: bool = boolean_option(
+        "Front line troops prefer roads",
         page=MISSION_GENERATOR_PAGE,
         section=PERFORMANCE_SECTION,
         default=False,

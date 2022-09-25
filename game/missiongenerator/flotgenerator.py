@@ -116,6 +116,12 @@ class FlotGenerator:
                 "conflicts cannot have the heading `None`."
             )
 
+        self.wpt_pointaction = (
+            PointAction.OnRoad
+            if self.game.settings.perf_frontline_units_prefer_roads
+            else PointAction.OffRoad
+        )
+
         # Plan combat actions for groups
         self.plan_action_for_groups(
             self.player_stance,
@@ -313,10 +319,10 @@ class FlotGenerator:
             )
             dcs_group.add_waypoint(
                 dcs_group.position.point_from_heading(forward_heading.degrees, 1),
-                PointAction.OffRoad,
+                self.wpt_pointaction,
             )
             dcs_group.points[2].tasks.append(Hold())
-            dcs_group.add_waypoint(retreat, PointAction.OffRoad)
+            dcs_group.add_waypoint(retreat, self.wpt_pointaction)
 
             artillery_fallback = TriggerOnce(
                 Event.NoEvent, "ArtilleryRetreat #" + str(dcs_group.id)
@@ -386,7 +392,7 @@ class FlotGenerator:
                 attack_point = self.find_offensive_point(
                     dcs_group, offset_heading, AGGRESIVE_MOVE_DISTANCE
                 )
-            dcs_group.add_waypoint(attack_point, PointAction.OffRoad)
+            dcs_group.add_waypoint(attack_point, self.wpt_pointaction)
         elif stance == CombatStance.BREAKTHROUGH:
             # In breakthrough mode, the units will move forward
             # If the enemy base is close enough, the units will attack the base
@@ -404,7 +410,7 @@ class FlotGenerator:
                 attack_point = self.find_offensive_point(
                     dcs_group, offset_heading, BREAKTHROUGH_OFFENSIVE_DISTANCE
                 )
-            dcs_group.add_waypoint(attack_point, PointAction.OffRoad)
+            dcs_group.add_waypoint(attack_point, self.wpt_pointaction)
         elif stance == CombatStance.ELIMINATION:
             # In elimination mode, the units focus on destroying as much enemy groups as possible
             targets = self.find_n_nearest_enemy_groups(dcs_group, enemy_groups, 3)
@@ -416,7 +422,7 @@ class FlotGenerator:
                 target_point = self.conflict.theater.nearest_land_pos(
                     target.points[0].position + rand_offset
                 )
-                dcs_group.add_waypoint(target_point, PointAction.OffRoad)
+                dcs_group.add_waypoint(target_point, self.wpt_pointaction)
                 dcs_group.points[i + 1].tasks.append(AttackGroup(target.id))
             if (
                 to_cp.position.distance_to_point(dcs_group.points[0].position)
@@ -461,7 +467,7 @@ class FlotGenerator:
                 attack_point = self.find_offensive_point(
                     dcs_group, forward_heading, AGGRESIVE_MOVE_DISTANCE
                 )
-            dcs_group.add_waypoint(attack_point, PointAction.OffRoad)
+            dcs_group.add_waypoint(attack_point, self.wpt_pointaction)
 
         if stance != CombatStance.RETREAT:
             self.add_morale_trigger(dcs_group, forward_heading)
@@ -516,8 +522,8 @@ class FlotGenerator:
                 reposition_point = retreat_point.point_from_heading(
                     forward_heading.degrees, 10
                 )  # Another point to make the unit face the enemy
-                dcs_group.add_waypoint(retreat_point, PointAction.OffRoad)
-                dcs_group.add_waypoint(reposition_point, PointAction.OffRoad)
+                dcs_group.add_waypoint(retreat_point, self.wpt_pointaction)
+                dcs_group.add_waypoint(reposition_point, self.wpt_pointaction)
 
     def add_morale_trigger(
         self, dcs_group: VehicleGroup, forward_heading: Heading
@@ -542,7 +548,7 @@ class FlotGenerator:
             self.find_retreat_point(
                 dcs_group, forward_heading, (int)(RETREAT_DISTANCE / 8)
             ),
-            PointAction.OffRoad,
+            self.wpt_pointaction,
         )
 
         # Fallback task
