@@ -28,15 +28,15 @@ def base_path() -> str:
 
 
 def save_dir() -> Path:
-    return Path(base_path()) / "Liberation" / "Saves"
+    return Path(base_path()) / "Retribution" / "Saves"
 
 
 def _temporary_save_file() -> str:
-    return str(save_dir() / "tmpsave.liberation")
+    return str(save_dir() / "tmpsave.retribution")
 
 
 def _autosave_path() -> str:
-    return str(save_dir() / "autosave.liberation")
+    return str(save_dir() / "autosave.retribution")
 
 
 def mission_path_for(name: str) -> Path:
@@ -70,7 +70,7 @@ def autosave(game: Game) -> bool:
     """
     Autosave to the autosave location
     :param game: Game to save
-    :return: True if saved succesfully
+    :return: True if saved successfully
     """
     try:
         with open(_autosave_path(), "wb") as f:
