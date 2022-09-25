@@ -18,9 +18,9 @@ You can then submit new campaigns on the "campaigns" channel on Discord, or by m
 
 ## Develop new features
 
-If you want to develop a new feature, we recommend you first open an issue describing the new feature and discuss it with us on Discord before starting development.
-However, feel free to work on any existing issue.
+We encourage the development and enhancement of new and existing features,
+ideally supplied with arguments as to why this new or enhanced feature is desirable.
 
 ## Pull requests
 
-Please submit your pull requests on the **develop** branch. We expect a description of its content, and when applicable, a reference to the issue(s) it is resolving.
+Please submit your pull requests on the **dev** branch. We expect a description of its content, and when applicable, a reference to the issue(s) it is resolving.
