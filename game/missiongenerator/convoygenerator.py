@@ -27,9 +27,10 @@ class ConvoyGenerator:
 
     def generate(self) -> None:
         # Reset the count to make generation deterministic.
-        for coalition in self.game.coalitions:
-            for convoy in coalition.transfers.convoys:
-                self.generate_convoy(convoy)
+        if not self.game.settings.perf_disable_convoys:
+            for coalition in self.game.coalitions:
+                for convoy in coalition.transfers.convoys:
+                    self.generate_convoy(convoy)
 
     def generate_convoy(self, convoy: Convoy) -> VehicleGroup:
         group = self._create_mixed_unit_group(

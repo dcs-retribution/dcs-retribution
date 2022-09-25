@@ -7,6 +7,7 @@
 * **[Modding]** Support for Su-30 mod version 2.01B
 * **[UI]** Add livery selector to Air Wing Configurator's squadrons.
 * **[Performance]** Added performance option: Maximum front-line unit supply per control point.
+* **[Performance]** Added performance option: Disable convoys.
 
 
 # Liberation:
