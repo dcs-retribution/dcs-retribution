@@ -6,7 +6,7 @@
 
 [![Download](https://img.shields.io/github/downloads/dcs-retribution/dcs-retribution/total?label=Download)](https://github.com/dcs-retribution/dcs-retribution/releases)
 
-[![Discord](https://img.shields.io/discord/1015931619187621999?label=Discord&logo=discord)](https://discord.gg/vUVQb33smb)
+[![Discord](https://img.shields.io/discord/1015931619187621999?label=Discord&logo=discord)](https://discord.gg/b4x34Bg4We)
 
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/dcs-retribution/dcs-retribution)](https://github.com/dcs-retribution/dcs-retribution/pulls)
 [![GitHub issues](https://img.shields.io/github/issues/dcs-retribution/dcs-retribution)](https://github.com/dcs-retribution/dcs-retribution/issues)
