@@ -24,7 +24,7 @@ Saves from 5.x are not compatible with 6.0.
 * **[Campaign]** Allow campaign designers to define default values for the economy settings (starting budget and multiplier).
 * **[Plugins]** Allow full support of the SkynetIADS plugin with all advanced features (connection nodes, power sources, command centers) if campaign supports it.
 * **[Plugins]** Added support for the CTLD script by ciribob with many possible customization options and updated the JTAC Autolase to the CTLD included script.
-* **[Modding]** Add IDF Mod Project F-16I Sufa v1.4.7 mod support
+* **[Modding]** Add IDF Mod Project F-16I Sufa & F-16D v2.2 mod support
 
 ## Fixes
 
