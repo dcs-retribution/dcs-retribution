@@ -38,3 +38,15 @@ jobs:
         with:
           name: dcs-retribution
           path: dist/dcs-retribution.zip
+
+      - name: Send status to Discord
+        uses: stegzilla/discord-notify@v2
+        with:
+          webhook_url: ${{ secrets.discord_webhook_betas }} # required
+          title: "Build #${{ github.run_number }} available!"
+          message: "**Download link:\n** 
+          https://github.com/dcs-retribution/dcs-retribution/actions/runs/${{ github.run_id }}"
+          include_image: true
+          avatar_url: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
+          username: GitHub Build Notifier
+        if: success() # or failure() or success()
