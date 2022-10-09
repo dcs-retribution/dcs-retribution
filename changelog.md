@@ -9,6 +9,7 @@
 * **[Performance]** Added performance option: Maximum front-line unit supply per control point.
 * **[Performance]** Added performance option: Disable convoys.
 * **[Performance]** Added performance option: Front-line troops prefer roads.
+* **[Data]** Added data to support C-47 Skytrain.
 
 
 # Liberation:

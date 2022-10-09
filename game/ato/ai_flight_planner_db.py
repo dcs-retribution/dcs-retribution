@@ -38,6 +38,7 @@ from dcs.planes import (
     C_101CC,
     C_130,
     C_17A,
+    C_47,
     E_2C,
     E_3A,
     FA_18C_hornet,
@@ -536,6 +537,7 @@ TRANSPORT_CAPABLE = [
     C_17A,
     Hercules,
     C_130,
+    C_47,
     IL_76MD,
     An_26B,
     Yak_40,
@@ -562,6 +564,7 @@ AIR_ASSAULT_CAPABLE = [
     Mi_24P,
     Mi_24V,
     Hercules,
+    C_47,
 ]
 
 DRONES = [MQ_9_Reaper, RQ_1A_Predator, WingLoong_I]
