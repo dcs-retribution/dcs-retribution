@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import inspect
+import logging
 from collections.abc import Iterator
 from dataclasses import dataclass
 from typing import Any, Generic, Type, TypeVar
@@ -32,6 +33,11 @@ class UnitProperty(Generic[ValueT]):
 
         for name, attr in inspect.getmembers(props, inspect.isclass):
             if name.startswith("__"):
+                continue
+            attr_values = getattr(attr, "Values", None)
+            if attr_values is None and unit_type.property_defaults[name] is None:
+                msg = f"Skipping property '{name}' for '{unit_type.id}': default value is None."
+                logging.warning(msg)
                 continue
             yield cls.property_from(attr, unit_type.property_defaults[name])
 
