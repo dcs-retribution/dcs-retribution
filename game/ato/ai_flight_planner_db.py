@@ -122,6 +122,7 @@ from dcs.unittype import FlyingType
 from game.dcs.aircrafttype import AircraftType
 from pydcs_extensions.a4ec.a4ec import A_4E_C
 from pydcs_extensions.f104.f104 import VSN_F104G, VSN_F104S, VSN_F104S_AG
+from pydcs_extensions.f105.f105 import VSN_F105D, VSN_F105G
 from pydcs_extensions.f15d.f15d import F_15D
 from pydcs_extensions.f22a.f22a import F_22A
 from pydcs_extensions.hercules.hercules import Hercules
@@ -269,6 +270,8 @@ CAS_CAPABLE = [
     C_101CC,
     L_39ZA,
     UH_1H,
+    VSN_F105G,
+    VSN_F105D,
     VSN_F104S_AG,
     VSN_F104G,
     A_20G,
@@ -315,6 +318,7 @@ SEAD_CAPABLE = [
     Su_30SM,
     MiG_27K,
     Tornado_GR4,
+    VSN_F105G,
 ]
 
 
@@ -331,6 +335,7 @@ DEAD_CAPABLE = SEAD_CAPABLE + [
     H_6J,
     A_20G,
     Ju_88A4,
+    VSN_F105D,
     VSN_F104S_AG,
     VSN_F104G,
     P_47D_40,
@@ -400,6 +405,8 @@ STRIKE_CAPABLE = [
     Mirage_F1M_EE,
     Mirage_F1CT,
     MiG_27K,
+    VSN_F105G,
+    VSN_F105D,
     MiG_21Bis,
     MiG_15bis,
     F_5E_3,
@@ -507,6 +514,8 @@ RUNWAY_ATTACK_CAPABLE = [
     Mirage_F1M_EE,
     Mirage_F1CT,
     MiG_27K,
+    VSN_F105G,
+    VSN_F105D,
     MiG_21Bis,
     MiG_15bis,
     F_5E_3,

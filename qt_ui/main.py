@@ -296,6 +296,7 @@ def create_game(
             a4_skyhawk=False,
             f22_raptor=False,
             f104_starfighter=False,
+            f105_thunderchief=False,
             hercules=False,
             jas39_gripen=False,
             su30_flanker_h=False,

@@ -1,0 +1,15 @@
+description:
+  "The Republic F-105 Thunderchief is a supersonic fighter-bomber that served with \
+  \ the United States Air Force from 1958 to 1984. Capable of Mach 2, it conducted \
+  \ the majority of strike bombing missions during the early years of the Vietnam War.\
+  \ The F-105D variant is the definitive production model, with all-weather capability \
+  \ because of advanced avionics, including AN/APN-131 navigational radar."
+introduced: 1958
+manufacturer: Republic Aviation
+origin: USA
+price: 9
+role: Fighter-Bomber
+max_range: 150
+gunfighter: true
+variants:
+  F-105D Thunderchief: {}
