@@ -5,6 +5,7 @@
 * **[Mission Generation]** Variable flight-size (2/3/4-ship) for BAI/ANTISHIP/DEAD/STRIKE (main) missions
 * **[Modding]** Support for F-15D 'Baz' mod version 1.0
 * **[Modding]** Support for Su-30 mod version 2.01B
+* **[Modding]** Support for F-100 Super Sabre mod versions v2.7.18.01 & 2.7.18.30765 and patches 30.09.22 & 09.10.22
 * **[UI]** Add livery selector to Air Wing Configurator's squadrons.
 * **[Performance]** Added performance option: Maximum front-line unit supply per control point.
 * **[Performance]** Added performance option: Disable convoys.

@@ -1,0 +1,15 @@
+description:
+  "The North American F-100 Super Sabre is an American supersonic jet fighter \
+  \ aircraft that served with the United States Air Force (USAF) from 1954 to 1971 \
+  \ and with the Air National Guard (ANG) until 1979. The first of the Century Series \
+  \ of USAF jet fighters, it was the first USAF fighter capable of supersonic speed \
+  \ in level flight."
+introduced: 1954
+manufacturer: North American Aviation
+origin: USA
+price: 8
+role: Fighter-Bomber
+max_range: 100
+gunfighter: true
+variants:
+  F-100 Super Sabre: {}
