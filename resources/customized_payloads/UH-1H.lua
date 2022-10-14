@@ -137,8 +137,8 @@ local unitPayloads = {
 			},
 		},
 		[6] = {
-			["displayName"] = "Liberation Air Assault",
-			["name"] = "Liberation Air Assault",
+			["displayName"] = "Retribution Air Assault",
+			["name"] = "Retribution Air Assault",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "M60_SIDE_R",

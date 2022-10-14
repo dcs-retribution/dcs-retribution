@@ -59,8 +59,8 @@ local unitPayloads = {
 			},
 		},
 		[2] = {
-			["displayName"] = "Liberation SEAD",
-			["name"] = "Liberation SEAD",
+			["displayName"] = "Retribution SEAD",
+			["name"] = "Retribution SEAD",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{44EE8698-89F9-48EE-AF36-5FD31896A82A}",
@@ -116,7 +116,7 @@ local unitPayloads = {
 			},
 		},
 		[3] = {
-			["name"] = "Liberation CAS",
+			["name"] = "Retribution CAS",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{44EE8698-89F9-48EE-AF36-5FD31896A82A}",
@@ -233,8 +233,8 @@ local unitPayloads = {
 			},
 		},
 		[5] = {
-			["displayName"] = "Liberation Strike",
-			["name"] = "Liberation Strike",
+			["displayName"] = "Retribution Strike",
+			["name"] = "Retribution Strike",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{44EE8698-89F9-48EE-AF36-5FD31896A82A}",
@@ -292,8 +292,8 @@ local unitPayloads = {
 			},
 		},
 		[6] = {
-			["displayName"] = "Liberation OCA/Aircraft",
-			["name"] = "Liberation OCA/Aircraft",
+			["displayName"] = "Retribution OCA/Aircraft",
+			["name"] = "Retribution OCA/Aircraft",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{44EE8698-89F9-48EE-AF36-5FD31896A82A}",
@@ -350,8 +350,8 @@ local unitPayloads = {
 			},
 		},
 		[7] = {
-			["displayName"] = "Liberation BAI",
-			["name"] = "Liberation BAI",
+			["displayName"] = "Retribution BAI",
+			["name"] = "Retribution BAI",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{44EE8698-89F9-48EE-AF36-5FD31896A82A}",
@@ -408,8 +408,8 @@ local unitPayloads = {
 			},
 		},
 		[8] = {
-			["displayName"] = "Liberation OCA/Runway",
-			["name"] = "Liberation OCA/Runway",
+			["displayName"] = "Retribution OCA/Runway",
+			["name"] = "Retribution OCA/Runway",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{44EE8698-89F9-48EE-AF36-5FD31896A82A}",
@@ -465,8 +465,8 @@ local unitPayloads = {
 			},
 		},
 		[9] = {
-			["displayName"] = "Liberation DEAD",
-			["name"] = "Liberation DEAD",
+			["displayName"] = "Retribution DEAD",
+			["name"] = "Retribution DEAD",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{44EE8698-89F9-48EE-AF36-5FD31896A82A}",

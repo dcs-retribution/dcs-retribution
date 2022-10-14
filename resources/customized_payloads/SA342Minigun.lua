@@ -2,7 +2,7 @@ local unitPayloads = {
 	["name"] = "SA342Minigun",
 	["payloads"] = {
 		[1] = {
-			["name"] = "Liberation CAS",
+			["name"] = "Retribution CAS",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{IR_Deflector}",
@@ -14,8 +14,8 @@ local unitPayloads = {
 			},
 		},
 		[2] = {
-			["displayName"] = "Liberation OCA/Aircraft",
-			["name"] = "Liberation OCA/Aircraft",
+			["displayName"] = "Retribution OCA/Aircraft",
+			["name"] = "Retribution OCA/Aircraft",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{IR_Deflector}",

@@ -2,8 +2,8 @@ local unitPayloads = {
 	["name"] = "Mirage-F1EQ",
 	["payloads"] = {
 		[1] = {
-			["displayName"] = "Liberation Strike",
-			["name"] = "Liberation Strike",
+			["displayName"] = "Retribution Strike",
+			["name"] = "Retribution Strike",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{FC23864E-3B80-48E3-9C03-4DA8B1D7497B}",
@@ -39,7 +39,7 @@ local unitPayloads = {
 			},
 		},
 		[2] = {
-			["name"] = "Liberation BAI",
+			["name"] = "Retribution BAI",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{FC23864E-3B80-48E3-9C03-4DA8B1D7497B}",
@@ -75,8 +75,8 @@ local unitPayloads = {
 			},
 		},
 		[3] = {
-			["displayName"] = "Liberation DEAD",
-			["name"] = "Liberation DEAD",
+			["displayName"] = "Retribution DEAD",
+			["name"] = "Retribution DEAD",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{FC23864E-3B80-48E3-9C03-4DA8B1D7497B}",
@@ -112,8 +112,8 @@ local unitPayloads = {
 			},
 		},
 		[4] = {
-			["displayName"] = "Liberation Fighter Sweep",
-			["name"] = "Liberation Fighter Sweep",
+			["displayName"] = "Retribution Fighter Sweep",
+			["name"] = "Retribution Fighter Sweep",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{FC23864E-3B80-48E3-9C03-4DA8B1D7497B}",
@@ -141,8 +141,8 @@ local unitPayloads = {
 			},
 		},
 		[5] = {
-			["displayName"] = "Liberation CAS",
-			["name"] = "Liberation CAS",
+			["displayName"] = "Retribution CAS",
+			["name"] = "Retribution CAS",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{FC23864E-3B80-48E3-9C03-4DA8B1D7497B}",
@@ -178,8 +178,8 @@ local unitPayloads = {
 			},
 		},
 		[6] = {
-			["displayName"] = "Liberation TARCAP",
-			["name"] = "Liberation TARCAP",
+			["displayName"] = "Retribution TARCAP",
+			["name"] = "Retribution TARCAP",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{FC23864E-3B80-48E3-9C03-4DA8B1D7497B}",
@@ -207,8 +207,8 @@ local unitPayloads = {
 			},
 		},
 		[7] = {
-			["displayName"] = "Liberation OCA/Runway",
-			["name"] = "Liberation OCA/Runway",
+			["displayName"] = "Retribution OCA/Runway",
+			["name"] = "Retribution OCA/Runway",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{FC23864E-3B80-48E3-9C03-4DA8B1D7497B}",
@@ -244,8 +244,8 @@ local unitPayloads = {
 			},
 		},
 		[8] = {
-			["displayName"] = "Liberation OCA/Aircraft",
-			["name"] = "Liberation OCA/Aircraft",
+			["displayName"] = "Retribution OCA/Aircraft",
+			["name"] = "Retribution OCA/Aircraft",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{FC23864E-3B80-48E3-9C03-4DA8B1D7497B}",
@@ -281,7 +281,7 @@ local unitPayloads = {
 			},
 		},
 		[9] = {
-			["name"] = "Liberation BARCAP",
+			["name"] = "Retribution BARCAP",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{FC23864E-3B80-48E3-9C03-4DA8B1D7497B}",
@@ -309,8 +309,8 @@ local unitPayloads = {
 			},
 		},
 		[10] = {
-			["displayName"] = "Liberation Escort",
-			["name"] = "Liberation Escort",
+			["displayName"] = "Retribution Escort",
+			["name"] = "Retribution Escort",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{FC23864E-3B80-48E3-9C03-4DA8B1D7497B}",

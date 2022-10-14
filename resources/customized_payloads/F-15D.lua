@@ -2,8 +2,8 @@ local unitPayloads = {
 	["name"] = "F-15D",
 	["payloads"] = {
 		[1] = {
-			["displayName"] = "Liberation BARCAP",
-			["name"] = "Liberation BARCAP",
+			["displayName"] = "Retribution BARCAP",
+			["name"] = "Retribution BARCAP",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{Python 5}",
@@ -54,7 +54,7 @@ local unitPayloads = {
 			},
 		},
 		[2] = {
-			["name"] = "Liberation Strike",
+			["name"] = "Retribution Strike",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{Python 5}",
@@ -107,8 +107,8 @@ local unitPayloads = {
 			},
 		},
 		[3] = {
-			["displayName"] = "Liberation CAS",
-			["name"] = "Liberation CAS",
+			["displayName"] = "Retribution CAS",
+			["name"] = "Retribution CAS",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{Python 5}",
@@ -161,8 +161,8 @@ local unitPayloads = {
 			},
 		},
 		[4] = {
-			["displayName"] = "Liberation TARCAP",
-			["name"] = "Liberation TARCAP",
+			["displayName"] = "Retribution TARCAP",
+			["name"] = "Retribution TARCAP",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{Python 5}",
@@ -213,8 +213,8 @@ local unitPayloads = {
 			},
 		},
 		[5] = {
-			["displayName"] = "Liberation Escort",
-			["name"] = "Liberation Escort",
+			["displayName"] = "Retribution Escort",
+			["name"] = "Retribution Escort",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{Python 5}",
@@ -265,8 +265,8 @@ local unitPayloads = {
 			},
 		},
 		[6] = {
-			["displayName"] = "Liberation Fighter Sweep",
-			["name"] = "Liberation Fighter Sweep",
+			["displayName"] = "Retribution Fighter Sweep",
+			["name"] = "Retribution Fighter Sweep",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{Python 5}",
@@ -317,8 +317,8 @@ local unitPayloads = {
 			},
 		},
 		[7] = {
-			["displayName"] = "Liberation Intercept",
-			["name"] = "Liberation Intercept",
+			["displayName"] = "Retribution Intercept",
+			["name"] = "Retribution Intercept",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{Python 5}",
@@ -369,8 +369,8 @@ local unitPayloads = {
 			},
 		},
 		[8] = {
-			["displayName"] = "Liberation BAI",
-			["name"] = "Liberation BAI",
+			["displayName"] = "Retribution BAI",
+			["name"] = "Retribution BAI",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{Python 5}",

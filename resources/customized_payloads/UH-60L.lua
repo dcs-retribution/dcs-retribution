@@ -5,7 +5,7 @@ local unitPayloads =
 	{
 		[1] =
 		{
-			["name"] = "Liberation Ferry",
+			["name"] = "Retribution Ferry",
 			["pylons"] =
 			{
 				[1] = {

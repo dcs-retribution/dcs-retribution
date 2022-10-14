@@ -2,8 +2,8 @@ local unitPayloads = {
 	["name"] = "Tornado GR4",
 	["payloads"] = {
 		[1] = {
-			["displayName"] = "Liberation CAS",
-			["name"] = "Liberation CAS",
+			["displayName"] = "Retribution CAS",
+			["name"] = "Retribution CAS",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{8C3F26A1-FA0F-11d5-9190-00A0249B6F00}",
@@ -51,8 +51,8 @@ local unitPayloads = {
 			},
 		},
 		[2] = {
-			["displayName"] = "Liberation Strike",
-			["name"] = "Liberation Strike",
+			["displayName"] = "Retribution Strike",
+			["name"] = "Retribution Strike",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{8C3F26A1-FA0F-11d5-9190-00A0249B6F00}",
@@ -100,8 +100,8 @@ local unitPayloads = {
 			},
 		},
 		[3] = {
-			["displayName"] = "Liberation Anti-ship",
-			["name"] = "Liberation Anti-ship",
+			["displayName"] = "Retribution Anti-ship",
+			["name"] = "Retribution Anti-ship",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{8C3F26A1-FA0F-11d5-9190-00A0249B6F00}",
@@ -141,8 +141,8 @@ local unitPayloads = {
 			},
 		},
 		[4] = {
-			["displayName"] = "Liberation SEAD",
-			["name"] = "Liberation SEAD",
+			["displayName"] = "Retribution SEAD",
+			["name"] = "Retribution SEAD",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{8C3F26A1-FA0F-11d5-9190-00A0249B6F00}",
@@ -182,8 +182,8 @@ local unitPayloads = {
 			},
 		},
 		[5] = {
-			["displayName"] = "Liberation DEAD",
-			["name"] = "Liberation DEAD",
+			["displayName"] = "Retribution DEAD",
+			["name"] = "Retribution DEAD",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{8C3F26A1-FA0F-11d5-9190-00A0249B6F00}",
@@ -231,8 +231,8 @@ local unitPayloads = {
 			},
 		},
 		[6] = {
-			["displayName"] = "Liberation BAI",
-			["name"] = "Liberation BAI",
+			["displayName"] = "Retribution BAI",
+			["name"] = "Retribution BAI",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{8C3F26A1-FA0F-11d5-9190-00A0249B6F00}",
@@ -280,8 +280,8 @@ local unitPayloads = {
 			},
 		},
 		[7] = {
-			["displayName"] = "Liberation OCA/Aircraft",
-			["name"] = "Liberation OCA/Aircraft",
+			["displayName"] = "Retribution OCA/Aircraft",
+			["name"] = "Retribution OCA/Aircraft",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{8C3F26A1-FA0F-11d5-9190-00A0249B6F00}",
@@ -329,8 +329,8 @@ local unitPayloads = {
 			},
 		},
 		[8] = {
-			["displayName"] = "Liberation SEAD Escort",
-			["name"] = "Liberation SEAD Escort",
+			["displayName"] = "Retribution SEAD Escort",
+			["name"] = "Retribution SEAD Escort",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{8C3F26A1-FA0F-11d5-9190-00A0249B6F00}",

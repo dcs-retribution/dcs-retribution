@@ -2,8 +2,8 @@ local unitPayloads = {
 	["name"] = "F-15E",
 	["payloads"] = {
 		[1] = {
-			["displayName"] = "Liberation CAS",
-			["name"] = "Liberation CAS",
+			["displayName"] = "Retribution CAS",
+			["name"] = "Retribution CAS",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{444BA8AE-82A7-4345-842E-76154EFCCA46}",
@@ -295,7 +295,7 @@ local unitPayloads = {
 			},
 		},
 		[6] = {
-			["name"] = "Liberation OCA/Runway",
+			["name"] = "Retribution OCA/Runway",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
