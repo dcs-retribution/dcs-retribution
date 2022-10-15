@@ -188,7 +188,7 @@ class VSN_F4B(PlaneType):
             3,
             Weapons.LAU_105_with_2_x_AIM_9P_Sidewinder_IR_AAM,
         )
-        LAU_105_2_AIM_9P5 = (3, WeaponsF4B.LAU_105_2_AIM_9P5)
+        LAU_105_2_AIM_9P5 = (3, Weapons.LAU_105_2_AIM_9P5)
         LAU_7_with_2_x_AIM_9B_Sidewinder_IR_AAM = (
             3,
             Weapons.LAU_7_with_2_x_AIM_9B_Sidewinder_IR_AAM,
@@ -318,7 +318,7 @@ class VSN_F4B(PlaneType):
             9,
             Weapons.LAU_105_with_2_x_AIM_9P_Sidewinder_IR_AAM,
         )
-        LAU_105_2_AIM_9P5 = (9, WeaponsF4B.LAU_105_2_AIM_9P5)
+        LAU_105_2_AIM_9P5 = (9, Weapons.LAU_105_2_AIM_9P5)
         LAU_7_with_2_x_AIM_9B_Sidewinder_IR_AAM = (
             9,
             Weapons.LAU_7_with_2_x_AIM_9B_Sidewinder_IR_AAM,
