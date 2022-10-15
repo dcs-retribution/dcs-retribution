@@ -5,6 +5,7 @@
 * **[Mission Generation]** Variable flight-size (2/3/4-ship) for BAI/ANTISHIP/DEAD/STRIKE (main) missions
 * **[Modding]** Support for F-15D 'Baz' mod version 1.0
 * **[Modding]** Support for Su-30 mod version 2.01B
+* **[Modding]** Support for F-4B Phantom II mod version v2.7.10.02, patch 2022.10.02
 * **[Modding]** Support for F-100 Super Sabre mod versions v2.7.18.01 & 2.7.18.30765 and patches 30.09.22 & 09.10.22
 * **[Modding]** Support for F-105 mod version 2.7.12.23x
 * **[UI]** Add livery selector to Air Wing Configurator's squadrons.
@@ -36,6 +37,7 @@ Saves from 5.x are not compatible with 6.0.
 * **[Modding]** Updated UH-60L mod version support to 1.3.1
 * **[Modding]** Updated the High Digit SAMs implementation and added the HQ-2 as well as the upgraded SA-2 and SA-3 Launchers from the mod. Threat range circles will now also be displayed correctly.
 * **[Modding]** Theater information such as climate properties is now moddable.
+* **[Modding]** Add F-4B Phantom II mod support
 * **[UI]** Added options to the loadout editor for setting properties such as HMD choice.
 * **[UI]** Added separate images for the different carrier types.
 * **[UI]** Add Accept/Reset buttons to Air Wing Configurator screen.
