@@ -126,6 +126,7 @@ from pydcs_extensions.f104.f104 import VSN_F104G, VSN_F104S, VSN_F104S_AG
 from pydcs_extensions.f105.f105 import VSN_F105D, VSN_F105G
 from pydcs_extensions.f15d.f15d import F_15D
 from pydcs_extensions.f22a.f22a import F_22A
+from pydcs_extensions.f4b.f4b import VSN_F4B
 from pydcs_extensions.hercules.hercules import Hercules
 from pydcs_extensions.jas39.jas39 import JAS39Gripen, JAS39Gripen_AG
 from pydcs_extensions.su30.su30 import Su_30MKA, Su_30MKI, Su_30MKM, Su_30SM
@@ -162,6 +163,7 @@ CAP_CAPABLE = [
     JAS39Gripen,
     F_16A,
     F_4E,
+    VSN_F4B,
     MiG_31,
     MiG_25PD,
     MiG_29G,
@@ -233,6 +235,7 @@ CAS_CAPABLE = [
     Su_17M4,
     Su_33,
     F_4E,
+    VSN_F4B,
     S_3B,
     Su_30,
     Su_30MKA,
@@ -395,6 +398,7 @@ STRIKE_CAPABLE = [
     MiG_29G,
     MiG_29A,
     F_4E,
+    VSN_F4B,
     A_10C_2,
     A_10C,
     S_3B,
@@ -505,6 +509,7 @@ RUNWAY_ATTACK_CAPABLE = [
     MiG_29G,
     MiG_29A,
     F_4E,
+    VSN_F4B,
     A_10C_2,
     A_10C,
     S_3B,
