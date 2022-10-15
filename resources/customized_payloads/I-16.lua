@@ -2,7 +2,7 @@ local unitPayloads = {
 	["name"] = "I-16",
 	["payloads"] = {
 		[1] = {
-			["name"] = "Liberation TARCAP",
+			["name"] = "Retribution TARCAP",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "I16_DROP_FUEL_TANK",
@@ -18,8 +18,8 @@ local unitPayloads = {
 			},
 		},
 		[2] = {
-			["displayName"] = "Liberation BARCAP",
-			["name"] = "Liberation BARCAP",
+			["displayName"] = "Retribution BARCAP",
+			["name"] = "Retribution BARCAP",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "I16_DROP_FUEL_TANK",
@@ -35,8 +35,8 @@ local unitPayloads = {
 			},
 		},
 		[3] = {
-			["displayName"] = "Liberation Escort",
-			["name"] = "Liberation Escort",
+			["displayName"] = "Retribution Escort",
+			["name"] = "Retribution Escort",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "I16_DROP_FUEL_TANK",
@@ -52,8 +52,8 @@ local unitPayloads = {
 			},
 		},
 		[4] = {
-			["displayName"] = "Liberation Fighter Sweep",
-			["name"] = "Liberation Fighter Sweep",
+			["displayName"] = "Retribution Fighter Sweep",
+			["name"] = "Retribution Fighter Sweep",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "I16_DROP_FUEL_TANK",
@@ -69,7 +69,7 @@ local unitPayloads = {
 			},
 		},
 		[5] = {
-			["name"] = "Liberation CAS",
+			["name"] = "Retribution CAS",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "I16_RS_82",
@@ -109,8 +109,8 @@ local unitPayloads = {
 			},
 		},
 		[6] = {
-			["displayName"] = "Liberation BAI",
-			["name"] = "Liberation BAI",
+			["displayName"] = "Retribution BAI",
+			["name"] = "Retribution BAI",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "I16_RS_82",
@@ -150,8 +150,8 @@ local unitPayloads = {
 			},
 		},
 		[7] = {
-			["displayName"] = "Liberation OCA/Aircraft",
-			["name"] = "Liberation OCA/Aircraft",
+			["displayName"] = "Retribution OCA/Aircraft",
+			["name"] = "Retribution OCA/Aircraft",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "I16_RS_82",

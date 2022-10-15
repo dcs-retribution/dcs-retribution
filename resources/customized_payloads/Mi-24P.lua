@@ -2,8 +2,8 @@ local unitPayloads = {
 	["name"] = "Mi-24P",
 	["payloads"] = {
 		[1] = {
-			["displayName"] = "Liberation CAS",
-			["name"] = "Liberation CAS",
+			["displayName"] = "Retribution CAS",
+			["name"] = "Retribution CAS",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{B919B0F4-7C25-455E-9A02-CEA51DB895E3}",
@@ -37,8 +37,8 @@ local unitPayloads = {
 			},
 		},
 		[2] = {
-			["displayName"] = "Liberation BAI",
-			["name"] = "Liberation BAI",
+			["displayName"] = "Retribution BAI",
+			["name"] = "Retribution BAI",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{B919B0F4-7C25-455E-9A02-CEA51DB895E3}",
@@ -72,8 +72,8 @@ local unitPayloads = {
 			},
 		},
 		[3] = {
-			["displayName"] = "Liberation Strike",
-			["name"] = "Liberation Strike",
+			["displayName"] = "Retribution Strike",
+			["name"] = "Retribution Strike",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{6A4B9E69-64FE-439a-9163-3A87FB6A4D81}",
@@ -105,8 +105,8 @@ local unitPayloads = {
 			},
 		},
 		[4] = {
-			["displayName"] = "Liberation Antiship",
-			["name"] = "Liberation Antiship",
+			["displayName"] = "Retribution Antiship",
+			["name"] = "Retribution Antiship",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{B919B0F4-7C25-455E-9A02-CEA51DB895E3}",
@@ -140,8 +140,8 @@ local unitPayloads = {
 			},
 		},
 		[5] = {
-			["displayName"] = "Liberation SEAD",
-			["name"] = "Liberation SEAD",
+			["displayName"] = "Retribution SEAD",
+			["name"] = "Retribution SEAD",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{B919B0F4-7C25-455E-9A02-CEA51DB895E3}",
@@ -175,8 +175,8 @@ local unitPayloads = {
 			},
 		},
 		[6] = {
-			["displayName"] = "Liberation DEAD",
-			["name"] = "Liberation DEAD",
+			["displayName"] = "Retribution DEAD",
+			["name"] = "Retribution DEAD",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{B919B0F4-7C25-455E-9A02-CEA51DB895E3}",

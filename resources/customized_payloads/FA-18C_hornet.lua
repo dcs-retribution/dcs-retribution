@@ -2,7 +2,7 @@ local unitPayloads = {
 	["name"] = "FA-18C_hornet",
 	["payloads"] = {
 		[1] = {
-			["name"] = "Liberation BARCAP",
+			["name"] = "Retribution BARCAP",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{5CE2FF2A-645A-4197-B48D-8720AC69394F}",
@@ -42,7 +42,7 @@ local unitPayloads = {
 			},
 		},
 		[2] = {
-			["name"] = "Liberation CAS",
+			["name"] = "Retribution CAS",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{5CE2FF2A-645A-4197-B48D-8720AC69394F}",
@@ -166,8 +166,8 @@ local unitPayloads = {
 			},
 		},
 		[5] = {
-			["displayName"] = "Liberation SEAD",
-			["name"] = "Liberation SEAD",
+			["displayName"] = "Retribution SEAD",
+			["name"] = "Retribution SEAD",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{5CE2FF2A-645A-4197-B48D-8720AC69394F}",
@@ -251,7 +251,7 @@ local unitPayloads = {
 			},
 		},
 		[7] = {
-			["name"] = "Liberation DEAD",
+			["name"] = "Retribution DEAD",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{5CE2FF2A-645A-4197-B48D-8720AC69394F}",

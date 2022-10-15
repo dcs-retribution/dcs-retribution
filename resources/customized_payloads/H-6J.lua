@@ -2,7 +2,7 @@ local unitPayloads = {
 	["name"] = "H-6J",
 	["payloads"] = {
 		[1] = {
-			["name"] = "Liberation BAI",
+			["name"] = "Retribution BAI",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "DIS_AKG_DLPOD",
@@ -38,8 +38,8 @@ local unitPayloads = {
 			},
 		},
 		[2] = {
-			["displayName"] = "Liberation CAS",
-			["name"] = "Liberation CAS",
+			["displayName"] = "Retribution CAS",
+			["name"] = "Retribution CAS",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "DIS_H6_250_2_N24",
@@ -79,7 +79,7 @@ local unitPayloads = {
 			},
 		},
 		[3] = {
-			["name"] = "Liberation Strike",
+			["name"] = "Retribution Strike",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "DIS_AKG_DLPOD",
@@ -115,8 +115,8 @@ local unitPayloads = {
 			},
 		},
 		[4] = {
-			["displayName"] = "Liberation Anti-ship",
-			["name"] = "Liberation Anti-ship",
+			["displayName"] = "Retribution Anti-ship",
+			["name"] = "Retribution Anti-ship",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "DIS_AKG_DLPOD",
@@ -152,8 +152,8 @@ local unitPayloads = {
 			},
 		},
 		[5] = {
-			["displayName"] = "Liberation OCA/Runway",
-			["name"] = "Liberation OCA/Runway",
+			["displayName"] = "Retribution OCA/Runway",
+			["name"] = "Retribution OCA/Runway",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "DIS_H6_250_2_N24",
@@ -193,8 +193,8 @@ local unitPayloads = {
 			},
 		},
 		[6] = {
-			["displayName"] = "Liberation DEAD",
-			["name"] = "Liberation DEAD",
+			["displayName"] = "Retribution DEAD",
+			["name"] = "Retribution DEAD",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "DIS_AKG_DLPOD",
@@ -230,8 +230,8 @@ local unitPayloads = {
 			},
 		},
 		[7] = {
-			["displayName"] = "Liberation OCA/Aircraft",
-			["name"] = "Liberation OCA/Aircraft",
+			["displayName"] = "Retribution OCA/Aircraft",
+			["name"] = "Retribution OCA/Aircraft",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "DIS_H6_250_2_N24",

@@ -206,7 +206,7 @@ local unitPayloads = {
 			},
 		},
 		[5] = {
-			["name"] = "Liberation DEAD",
+			["name"] = "Retribution DEAD",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{LAU-138 wtip - AIM-9M}",
@@ -254,8 +254,8 @@ local unitPayloads = {
 			},
 		},
 		[6] = {
-			["displayName"] = "Liberation SEAD",
-			["name"] = "Liberation SEAD",
+			["displayName"] = "Retribution SEAD",
+			["name"] = "Retribution SEAD",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{LAU-138 wtip - AIM-9M}",

@@ -30,8 +30,8 @@ local unitPayloads = {
 			},
 		},
 		[2] = {
-			["displayName"] = "Liberation Escort",
-			["name"] = "Liberation Escort",
+			["displayName"] = "Retribution Escort",
+			["name"] = "Retribution Escort",
 			["pylons"] = {
 			},
 			["tasks"] = {
@@ -39,8 +39,8 @@ local unitPayloads = {
 			},
 		},
 		[3] = {
-			["displayName"] = "Liberation TARCAP",
-			["name"] = "Liberation TARCAP",
+			["displayName"] = "Retribution TARCAP",
+			["name"] = "Retribution TARCAP",
 			["pylons"] = {
 			},
 			["tasks"] = {
@@ -48,8 +48,8 @@ local unitPayloads = {
 			},
 		},
 		[4] = {
-			["displayName"] = "Liberation OCA/Aircraft",
-			["name"] = "Liberation OCA/Aircraft",
+			["displayName"] = "Retribution OCA/Aircraft",
+			["name"] = "Retribution OCA/Aircraft",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "",
@@ -81,8 +81,8 @@ local unitPayloads = {
 			},
 		},
 		[5] = {
-			["displayName"] = "Liberation Anti-ship",
-			["name"] = "Liberation Anti-ship",
+			["displayName"] = "Retribution Anti-ship",
+			["name"] = "Retribution Anti-ship",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "",
@@ -114,8 +114,8 @@ local unitPayloads = {
 			},
 		},
 		[6] = {
-			["displayName"] = "Liberation Fighter Sweep",
-			["name"] = "Liberation Fighter Sweep",
+			["displayName"] = "Retribution Fighter Sweep",
+			["name"] = "Retribution Fighter Sweep",
 			["pylons"] = {
 			},
 			["tasks"] = {
@@ -123,8 +123,8 @@ local unitPayloads = {
 			},
 		},
 		[7] = {
-			["displayName"] = "Liberation CAS",
-			["name"] = "Liberation CAS",
+			["displayName"] = "Retribution CAS",
+			["name"] = "Retribution CAS",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "",
@@ -156,7 +156,7 @@ local unitPayloads = {
 			},
 		},
 		[8] = {
-			["name"] = "Liberation Strike",
+			["name"] = "Retribution Strike",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{British_MC_500LB_Bomb_Mk1_Short}",
@@ -180,8 +180,8 @@ local unitPayloads = {
 			},
 		},
 		[9] = {
-			["displayName"] = "Liberation BAI",
-			["name"] = "Liberation BAI",
+			["displayName"] = "Retribution BAI",
+			["name"] = "Retribution BAI",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "",
@@ -213,8 +213,8 @@ local unitPayloads = {
 			},
 		},
 		[10] = {
-			["displayName"] = "Liberation DEAD",
-			["name"] = "Liberation DEAD",
+			["displayName"] = "Retribution DEAD",
+			["name"] = "Retribution DEAD",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "",
@@ -246,8 +246,8 @@ local unitPayloads = {
 			},
 		},
 		[11] = {
-			["displayName"] = "Liberation OCA/Runway",
-			["name"] = "Liberation OCA/Runway",
+			["displayName"] = "Retribution OCA/Runway",
+			["name"] = "Retribution OCA/Runway",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{British_SAP_500LB_Bomb_Mk5}",
@@ -271,7 +271,7 @@ local unitPayloads = {
 			},
 		},
 		[12] = {
-			["name"] = "Liberation BARCAP",
+			["name"] = "Retribution BARCAP",
 			["pylons"] = {
 			},
 			["tasks"] = {
