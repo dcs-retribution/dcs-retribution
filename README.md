@@ -34,6 +34,7 @@ Currently, Retribution supports the following new features:
  * Variation in flight-size for BAI/ANTISHIP/DEAD/STRIKE main flight (randomize 2/3/4-ships)
  * More performance options
  * Various bug-fixes (including a fix for the zombie carrier)
+ * And more... (See [changelog](https://github.com/dcs-retribution/dcs-retribution/blob/main/changelog.md))
 
 ## Downloads
 
