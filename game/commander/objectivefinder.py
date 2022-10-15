@@ -178,6 +178,8 @@ class ObjectiveFinder:
         return self._targets_by_range(airfields)
 
     def convoys(self) -> Iterator[Convoy]:
+        if self.game.settings.perf_disable_convoys:
+            return
         for front_line in self.front_lines():
             yield from self.game.coalition_for(
                 self.is_player
