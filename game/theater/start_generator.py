@@ -56,6 +56,7 @@ class ModSettings:
     f22_raptor: bool = False
     f100_supersabre: bool = False
     f104_starfighter: bool = False
+    f105_thunderchief: bool = False
     hercules: bool = False
     uh_60l: bool = False
     jas39_gripen: bool = False
