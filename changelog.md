@@ -14,6 +14,9 @@
 * **[Performance]** Added performance option: Front-line troops prefer roads.
 * **[Data]** Added data to support C-47 Skytrain.
 
+## Fixes
+
+* **[Mission Generation]** Fixed issue where aircraft carriers would return after being killed.
 
 # Liberation:
 # 6.0.0
