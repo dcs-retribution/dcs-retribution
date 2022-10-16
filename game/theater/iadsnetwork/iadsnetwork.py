@@ -179,7 +179,7 @@ class IadsNetwork:
 
     def update_tgo(self, tgo: TheaterGroundObject, events: GameUpdateEvents) -> None:
         """Update the IADS Network for the given TGO"""
-        if IadsRole.for_category(tgo.category).is_comms_or_power:
+        if self.advanced_iads and IadsRole.for_category(tgo.category).is_comms_or_power:
             return self._update_iads_comms_and_power(tgo, events)
         # Remove existing nodes for the given tgo
         for cn in self.nodes:
