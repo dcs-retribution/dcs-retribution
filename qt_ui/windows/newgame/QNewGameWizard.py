@@ -705,11 +705,12 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         )
         modLayout.addWidget(f100_supersabre, modLayout_row, 1)
         modLayout_row += 1
-        modLayout.addWidget(QtWidgets.QLabel("F-104 Starfighter"), modLayout_row, 0)
+        modLayout.addWidget(
+            QtWidgets.QLabel("F-104 Starfighter (version 2.7.11.222.01)"),
+            modLayout_row,
+            0,
+        )
         modLayout.addWidget(f104_starfighter, modLayout_row, 1)
-        modLayout_row += 1
-        # Section break here for readability
-        modLayout.addWidget(QtWidgets.QWidget(), modLayout_row, 0)
         modLayout_row += 1
         modLayout.addWidget(
             QtWidgets.QLabel("F-105 Thunderchief (version 2.7.12.23x)"),
