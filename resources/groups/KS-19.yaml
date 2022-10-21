@@ -1,8 +1,8 @@
-name: KS-19
+name: KS-19/SON-9
 tasks:
   - AAA
 units:
-  - AAA SON-9 Fire Can
-  - AAA 100mm KS-19
+  - AAA Fire Can SON-9
+  - AAA KS-19 100mm
 layouts:
   - AAA Site
