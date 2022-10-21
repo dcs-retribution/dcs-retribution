@@ -38,9 +38,10 @@
     "Infantry RPG"
   ],
   "missiles": [],
-  "air_defense_units": [],
+  "air_defense_units": [
+    "AAA KS-19 100mm"
+  ],
   "preset_groups": [
-    "KS-19",
     "Cold-War-Flak"
   ],
   "naval_units": [],

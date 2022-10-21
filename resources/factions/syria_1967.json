@@ -40,7 +40,8 @@
   "missiles": [],
   "preset_groups": [
     "SA-2/S-75",
-    "SA-3/S-125"
+    "SA-3/S-125",
+    "KS-19/SON-9"
   ],
   "naval_units": [
     "Corvette 1124.4 Grish"

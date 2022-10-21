@@ -42,7 +42,8 @@
   "preset_groups": [
     "SA-2/S-75",
     "SA-3/S-125",
-    "Cold-War-Flak"
+    "Cold-War-Flak",
+    "KS-19"
   ],
   "naval_units": [
     "Corvette 1124.4 Grish"
