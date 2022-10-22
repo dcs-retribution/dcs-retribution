@@ -14,6 +14,7 @@ from PySide2.QtWidgets import (
     QLabel,
     QListView,
     QPushButton,
+    QScrollArea,
     QSpinBox,
     QStackedLayout,
     QVBoxLayout,
@@ -219,9 +220,11 @@ class AutoSettingsPageLayout(QVBoxLayout):
         self.setAlignment(Qt.AlignTop)
 
         for section in Settings.sections(page):
-            self.addWidget(
-                AutoSettingsGroup(page, section, settings, write_full_settings)
-            )
+            gbox = AutoSettingsGroup(page, section, settings, write_full_settings)
+            scroll = QScrollArea()
+            scroll.setWidget(gbox)
+            scroll.setWidgetResizable(True)
+            self.addWidget(scroll)
 
 
 class AutoSettingsPage(QWidget):
