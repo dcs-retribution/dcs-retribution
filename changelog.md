@@ -14,6 +14,7 @@
 * **[Performance]** Added performance option: Disable convoys.
 * **[Performance]** Added performance option: Front-line troops prefer roads.
 * **[Data]** Added data to support C-47 Skytrain.
+* **[Data]** Added data to support KS-19 & SON-9, including support for "AAA Site" layout.
 
 ## Fixes
 
