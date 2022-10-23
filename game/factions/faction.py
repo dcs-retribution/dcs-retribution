@@ -309,6 +309,8 @@ class Faction:
             self.remove_aircraft("F-15D")
         if not mod_settings.f22_raptor:
             self.remove_aircraft("F-22A")
+        if not mod_settings.f84g_thunderjet:
+            self.remove_aircraft("VSN_F84G")
         if not mod_settings.f100_supersabre:
             self.remove_aircraft("VSN_F100")
         if not mod_settings.f104_starfighter:
