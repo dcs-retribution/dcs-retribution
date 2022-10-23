@@ -1,5 +1,5 @@
 description:
-  "The F-16C is a single seat, single engine multirole fighter that was
+  "The F-16D is a two seat, single engine multirole fighter that was
   developed in the 1970s. More than 4,500 units were manufactured and are operated
   today by 26 countries where the aircraft performs numerous missions that include
   air superiority, close air support, precision bombing, air defense suppression,
@@ -9,7 +9,7 @@ description:
 
   Nicknamed the Viper by its pilots, the F-16 was designed with a reclined seating
   position for high G tolerance and a single-piece bubble canopy for exceptional visibility
-  and comfort. Its lightweight and powerful F-110-GE-129 engines provide a greater
+  and comfort. Its lightweight and powerful F110-GE-129 engines provide a greater
   than 1:1 thrust ratio.
 
 
@@ -39,9 +39,7 @@ fuel:
   combat_ppm: 26
   min_safe: 1000
 variants:
-  F-16CM Fighting Falcon (Block 50): {}
-  F-16I Sufa: {}
-  F-2A: {}
+  F-16D Fighting Falcon (Block 50+): {}
 radios:
   intra_flight: AN/ARC-222
   inter_flight: AN/ARC-164
