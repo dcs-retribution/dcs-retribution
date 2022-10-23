@@ -2,7 +2,8 @@
 
 ## Features/Improvements
 * **[Mission Generation]** Add option to configure the maximum front-line length in settings
-* **[Mission Generation]** Variable flight-size (2/3/4-ship) for BAI/ANTISHIP/DEAD/STRIKE (main) missions
+* **[Mission Generation]** Variable flight-size (2/3/4-ship) for 
+BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 * **[Modding]** Support for F-15D 'Baz' mod version 1.0
 * **[Modding]** Support for Su-30 mod version 2.01B
 * **[Modding]** Support for F-4B Phantom II mod version v2.7.10.02, patch 2022.10.02
