@@ -1,0 +1,240 @@
+---
+name: Caucasus - Up The Coast 
+theater: Caucasus
+authors: HolyOrangeJuice
+recommended_player_faction: WRL - Task Force Blue
+recommended_enemy_faction: WRL - Task Force Red
+description:   <p>This mission was designed for the We Run Liberation group [WRL]. werunliberation.com</p>
+  <p>The goal of this mission is to strike at the enemy economy, cripple their finances,
+  and take all of the enemy air bases.</p>
+  <p>All strike targets (objective buildings) are used to generate income for blufor or redfor. Once destroyed,
+  these buildings can not be repaired, even after you capture them. In normal DCS liberation missions,
+  destroying these buildings means ruining your future economy.</p><p>In Up The Coast, careful consideration
+  has been made for the starting economy of Blufor. You do not need to rely on future captured buildings for income.
+  As long as you do not take heavy losses, your starting economy, plus income, should sustain you for the mission.
+  Anything captured is a bonus.</p>
+  <p>In this mission, it is just as important to kill the economy generating buildings, as it is to kill the enemy
+  ground units. The enemy will be able to spend a lot of money replacing units if you do not target the buildings.</p>
+  <p>Factory targets are used to produce ground units. Ammo targets are used to dictate how many frontline units can
+  be deployed at once. Each airbase has one or more factories. Each airbase has only three ammo targets. Do not
+  destroy these if you wish to use them after you capture them</p>
+miz: WRL_up_the_coast.miz
+performance: 1
+version: "10.2"
+recommended_start_date: 2005-12-12
+recommended_player_money: 2000
+recommended_enemy_money: 2000
+recommended_player_income_multiplier: 1.0
+recommended_enemy_income_multiplier: 1.0
+squadrons:
+  Blue CV-1:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - VF-142
+        #F14B
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - F-14A Tomcat (Block 135-GR Late)
+    - primary: SEAD
+      secondary: any
+      aircraft:
+        - VFA-192
+        #Hornet Navy
+    - primary: AEW&C
+      aircraft:
+        - VAW-125
+        #E2C
+    - primary: Refueling
+      aircraft:
+        - S-3B Tanker
+  Blue LHA:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - VMA-223
+        #AV8B
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - AH-64D Apache Longbow
+#FARPs
+  ZUGDIDI:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - AH-64D Apache Longbow
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Mi-24P Hind-F
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Ka-50 Hokum
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Mi-8MTV2 Hip
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - UH-1H Iroquois
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - SA 342L Gazelle
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - SA 342M Gazelle
+#Sukhumi-Babushara
+  20:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - MiG-21bis Fishbed-N
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Mi-24V Hind-E
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Mi-24P Hind-F
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Ka-50 Hokum
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Mi-28N Havoc
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - Su-25 Frogfoot
+# Gudauta
+  21:
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - Su-17M4 Fitter-K
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - Su-24M Fencer-D
+#Anapa-Vityazevo
+  12:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - MiG-29A Fulcrum-A
+    - primary: AEW&C
+      aircraft:
+        - A-50
+# Senaki-Kholki
+  23:
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - 58th FS
+        #F15c
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - VF-143
+        #F14B
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - F-14A Tomcat (Block 135-GR Late)
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - F-5E Tiger II
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - Mirage 2000C
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - JF-17 Thunder
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - 23rd FS
+        #Viper USAF
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - VMA-214
+        #AV8B
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - AJS-37 Viggen
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - 335th FS
+        #F15e
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - VMFA-251
+        #Hornet - Marines   
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - 74th TFS
+        #A10c s3
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - A-10C Thunderbolt II (Suite 7)
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - A-10A Thunderbolt II
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - B-52H Stratofortress
+    - primary: AEW&C
+      aircraft:
+        - E-3A
+    - primary: Refueling
+      aircraft:
+        - KC-135 Stratotanker MPRS
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - Su-25T Frogfoot 
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Su-25 Frogfoot
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - MiG-21bis Fishbed-N
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - MiG-29S Fulcrum-C
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - MiG-29A Fulcrum-A
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - Su-33 Flanker-D
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - Su-27 Flanker-B    
+        
