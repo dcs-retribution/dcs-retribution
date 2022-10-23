@@ -162,6 +162,7 @@ class NewGameWizard(QtWidgets.QWizard):
             f4b_phantom=self.field("f4b_phantom"),
             f15d_baz=self.field("f15d_baz"),
             f22_raptor=self.field("f22_raptor"),
+            f84g_thunderjet=self.field("f84g_thunderjet"),
             f100_supersabre=self.field("f100_supersabre"),
             f104_starfighter=self.field("f104_starfighter"),
             f105_thunderchief=self.field("f105_thunderchief"),
@@ -666,6 +667,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("f15d_baz", f15d_baz)
         f22_raptor = QtWidgets.QCheckBox()
         self.registerField("f22_raptor", f22_raptor)
+        f84g_thunderjet = QtWidgets.QCheckBox()
+        self.registerField("f84g_thunderjet", f84g_thunderjet)
         f100_supersabre = QtWidgets.QCheckBox()
         self.registerField("f100_supersabre", f100_supersabre)
         f104_starfighter = QtWidgets.QCheckBox()
@@ -709,14 +712,21 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         modLayout.addWidget(f22_raptor, modLayout_row, 1)
         modLayout_row += 1
         modLayout.addWidget(
+            QtWidgets.QLabel("F-84G Thunderjet (version 2.5.7.01)"),
+            modLayout_row,
+            0,
+        )
+        modLayout.addWidget(f84g_thunderjet, modLayout_row, 1)
+        modLayout_row += 1
+        # Section break here for readability
+        modLayout.addWidget(QtWidgets.QWidget(), modLayout_row, 0)
+        modLayout_row += 1
+        modLayout.addWidget(
             QtWidgets.QLabel("F-100 Super Sabre (version 2.7.18.30765 patch 09.10.22)"),
             modLayout_row,
             0,
         )
         modLayout.addWidget(f100_supersabre, modLayout_row, 1)
-        modLayout_row += 1
-        # Section break here for readability
-        modLayout.addWidget(QtWidgets.QWidget(), modLayout_row, 0)
         modLayout_row += 1
         modLayout.addWidget(
             QtWidgets.QLabel("F-104 Starfighter (version 2.7.11.222.01)"),
@@ -742,13 +752,13 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         )
         modLayout.addWidget(uh_60l, modLayout_row, 1)
         modLayout_row += 1
+        # Section break here for readability
+        modLayout.addWidget(QtWidgets.QWidget(), modLayout_row, 0)
+        modLayout_row += 1
         modLayout.addWidget(
             QtWidgets.QLabel("JAS 39 Gripen (version v1.8.0-beta)"), modLayout_row, 0
         )
         modLayout.addWidget(jas39_gripen, modLayout_row, 1)
-        modLayout_row += 1
-        # Section break here for readability
-        modLayout.addWidget(QtWidgets.QWidget(), modLayout_row, 0)
         modLayout_row += 1
         modLayout.addWidget(
             QtWidgets.QLabel("Su-30 Flanker-H (V2.01B)"), modLayout_row, 0

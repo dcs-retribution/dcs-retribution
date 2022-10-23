@@ -55,6 +55,7 @@ class ModSettings:
     f4b_phantom: bool = False
     f15d_baz: bool = False
     f22_raptor: bool = False
+    f84g_thunderjet: bool = False
     f100_supersabre: bool = False
     f104_starfighter: bool = False
     f105_thunderchief: bool = False

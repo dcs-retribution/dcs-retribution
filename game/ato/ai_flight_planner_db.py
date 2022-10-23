@@ -127,6 +127,7 @@ from pydcs_extensions.f105.f105 import VSN_F105D, VSN_F105G
 from pydcs_extensions.f15d.f15d import F_15D
 from pydcs_extensions.f22a.f22a import F_22A
 from pydcs_extensions.f4b.f4b import VSN_F4B
+from pydcs_extensions.f84g.f84g import VSN_F84G
 from pydcs_extensions.hercules.hercules import Hercules
 from pydcs_extensions.jas39.jas39 import JAS39Gripen, JAS39Gripen_AG
 from pydcs_extensions.su30.su30 import Su_30MKA, Su_30MKI, Su_30MKM, Su_30SM
@@ -193,6 +194,7 @@ CAP_CAPABLE = [
     MiG_15bis,
     C_101CC,
     L_39ZA,
+    VSN_F84G,
     P_51D_30_NA,
     P_51D,
     SpitfireLFMkIXCW,
@@ -284,6 +286,7 @@ CAS_CAPABLE = [
     VSN_F100,
     A_20G,
     Ju_88A4,
+    VSN_F84G,
     P_47D_40,
     P_47D_30bl1,
     P_47D_30,
@@ -348,6 +351,7 @@ DEAD_CAPABLE = SEAD_CAPABLE + [
     VSN_F104G,
     VSN_F104C,
     VSN_F100,
+    VSN_F84G,
     P_47D_40,
     P_47D_30bl1,
     P_47D_30,
@@ -431,6 +435,7 @@ STRIKE_CAPABLE = [
     VSN_F104G,
     VSN_F104C,
     VSN_F100,
+    VSN_F84G,
     P_47D_40,
     P_47D_30bl1,
     P_47D_30,

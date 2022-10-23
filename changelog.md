@@ -9,6 +9,7 @@ BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 * **[Modding]** Support for F-4B Phantom II mod version v2.7.10.02, patch 2022.10.02
 * **[Modding]** Support for F-100 Super Sabre mod versions v2.7.18.01 & 2.7.18.30765 and patches 30.09.22 & 09.10.22
 * **[Modding]** Support for F-105 mod version 2.7.12.23x
+* **[Modding]** Support for F-84G mod version 2.5.7.01
 * **[Modding]** Updated F-104 mod version support to 2.7.11.222.01
 * **[UI]** Add livery selector to Air Wing Configurator's squadrons.
 * **[Performance]** Added performance option: Maximum front-line unit supply per control point.

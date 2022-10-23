@@ -1,0 +1,15 @@
+description:
+  "The Republic F-84 Thunderjet is an American turbojet fighter-bomber aircraft. \
+  \ The Thunderjet became the USAF's primary strike aircraft during the Korean War, \
+  \ flying 86,408 sorties and destroying 60% of all ground targets in the war as \
+  \ well as eight Soviet-built MiG fighters. The F-84G is the definitive variant, \
+  \ introduced in 1951."
+introduced: 1951
+manufacturer: Republic Aviation
+origin: USA
+price: 6
+role: Fighter-Bomber
+max_range: 100
+gunfighter: true
+variants:
+  F-84G Thunderjet: {}
