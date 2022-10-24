@@ -11,6 +11,7 @@ from dcs.countries import country_dict
 from dcs.unittype import ShipType, StaticType
 from dcs.unittype import UnitType as DcsUnitType
 
+from game.armedforces.forcegroup import ForceGroup
 from game.data.building_data import (
     WW2_ALLIES_BUILDINGS,
     DEFAULT_AVAILABLE_BUILDINGS,
@@ -25,12 +26,11 @@ from game.data.doctrine import (
     COLDWAR_DOCTRINE,
     WWII_DOCTRINE,
 )
-from game.data.units import UnitClass
 from game.data.groups import GroupRole
+from game.data.units import UnitClass
 from game.dcs.aircrafttype import AircraftType
 from game.dcs.groundunittype import GroundUnitType
 from game.dcs.shipunittype import ShipUnitType
-from game.armedforces.forcegroup import ForceGroup
 from game.dcs.unittype import UnitType
 
 if TYPE_CHECKING:

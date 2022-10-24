@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-import uuid
 from typing import Any, TYPE_CHECKING
-from uuid import UUID
 
 from dcs import Point
 from pydantic import BaseModel

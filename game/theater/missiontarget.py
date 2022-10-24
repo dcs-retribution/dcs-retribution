@@ -1,10 +1,8 @@
 from __future__ import annotations
 
-from collections.abc import Sequence
-from typing import Iterator, TYPE_CHECKING, Union
+from typing import Iterator, TYPE_CHECKING
 
 from dcs.mapping import Point
-from dcs.unit import Unit
 
 if TYPE_CHECKING:
     from game.ato.flighttype import FlightType

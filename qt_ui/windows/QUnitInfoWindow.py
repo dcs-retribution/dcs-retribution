@@ -11,11 +11,11 @@ from PySide2.QtWidgets import (
 )
 
 import game.ato.ai_flight_planner_db
+from game.ato.flighttype import FlightType
 from game.dcs.aircrafttype import AircraftType
 from game.dcs.groundunittype import GroundUnitType
 from game.dcs.unittype import UnitType
 from game.game import Game
-from game.ato.flighttype import FlightType
 from qt_ui.uiconstants import AIRCRAFT_BANNERS, VEHICLE_BANNERS
 
 

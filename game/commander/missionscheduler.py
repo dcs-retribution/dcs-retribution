@@ -6,9 +6,9 @@ from collections import defaultdict
 from datetime import timedelta
 from typing import Iterator, Dict, TYPE_CHECKING
 
-from game.theater import MissionTarget
 from game.ato.flighttype import FlightType
 from game.ato.traveltime import TotEstimator
+from game.theater import MissionTarget
 
 if TYPE_CHECKING:
     from game.coalition import Coalition

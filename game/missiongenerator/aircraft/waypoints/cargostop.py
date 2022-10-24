@@ -1,10 +1,8 @@
 from dcs.point import MovingPoint
+from dcs.point import PointAction
 from dcs.task import Land
 
 from game.utils import feet
-from dcs.point import PointAction
-
-
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 

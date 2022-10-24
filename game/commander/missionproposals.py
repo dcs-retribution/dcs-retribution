@@ -2,8 +2,8 @@ from dataclasses import field, dataclass
 from enum import Enum, auto
 from typing import Optional
 
-from game.theater import MissionTarget
 from game.ato.flighttype import FlightType
+from game.theater import MissionTarget
 
 
 class EscortType(Enum):

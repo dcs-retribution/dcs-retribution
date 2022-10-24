@@ -3,7 +3,7 @@ from __future__ import annotations
 import datetime
 import logging
 from collections.abc import Iterable
-from typing import Iterator, Mapping, Optional, TYPE_CHECKING, Type, Dict, Any
+from typing import Iterator, Mapping, Optional, TYPE_CHECKING, Type, Dict
 
 from dcs.unittype import FlyingType
 

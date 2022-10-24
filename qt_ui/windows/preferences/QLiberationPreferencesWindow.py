@@ -1,4 +1,4 @@
-from PySide2.QtGui import QIcon, Qt
+from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QDialog, QVBoxLayout, QPushButton, QHBoxLayout
 
 from qt_ui.windows.preferences.QLiberationPreferences import QLiberationPreferences

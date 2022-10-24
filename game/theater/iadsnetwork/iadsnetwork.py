@@ -1,13 +1,14 @@
 from __future__ import annotations
-from collections import defaultdict
-from dataclasses import dataclass, field
 
 import logging
+import uuid
+from collections import defaultdict
+from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Iterator, Optional
 from uuid import UUID
-import uuid
-from game.theater.iadsnetwork.iadsrole import IadsRole
+
 from game.dcs.groundunittype import GroundUnitType
+from game.theater.iadsnetwork.iadsrole import IadsRole
 from game.theater.theatergroundobject import (
     IadsBuildingGroundObject,
     IadsGroundObject,

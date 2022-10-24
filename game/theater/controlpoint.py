@@ -63,7 +63,6 @@ from .frontline import FrontLine
 from .missiontarget import MissionTarget
 from .theatergroundobject import (
     GenericCarrierGroundObject,
-    IadsGroundObject,
     TheaterGroundObject,
     VehicleGroupGroundObject,
 )

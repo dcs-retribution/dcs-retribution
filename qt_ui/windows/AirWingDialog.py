@@ -17,9 +17,9 @@ from PySide2.QtWidgets import (
     QHBoxLayout,
 )
 
+from game.ato.flight import Flight
 from game.squadrons import Squadron
 from game.theater import ConflictTheater
-from game.ato.flight import Flight
 from qt_ui.delegates import TwoColumnRowDelegate
 from qt_ui.models import GameModel, AirWingModel, SquadronModel, AtoModel
 from qt_ui.windows.SquadronDialog import SquadronDialog

@@ -1,7 +1,5 @@
 from __future__ import annotations
-from collections import defaultdict
 
-import logging
 import random
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Iterator, Type, Optional
@@ -28,7 +26,6 @@ from game.theater.theatergroundobject import (
     IadsGroundObject,
 )
 from game.theater.theatergroup import TheaterUnit
-from game.utils import Heading
 
 if TYPE_CHECKING:
     from game.factions.faction import Faction

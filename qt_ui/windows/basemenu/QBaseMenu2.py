@@ -9,12 +9,10 @@ from PySide2.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
-from dcs.ships import Stennis, KUZNECOW
 
 from game import Game
 from game.ato.flighttype import FlightType
 from game.config import RUNWAY_REPAIR_COST
-from game.game import TurnState
 from game.server import EventStream
 from game.sim import GameUpdateEvents
 from game.theater import (
