@@ -151,8 +151,8 @@ local unitPayloads = {
 			},
 		},
         [6] = {
-			["displayName"] = "Liberation SEAD Escort",
-			["name"] = "Liberation SEAD Escort",
+			["displayName"] = "Retribution SEAD Escort",
+			["name"] = "Retribution SEAD Escort",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{SB_F105_BRU_41A_M117_6}",
