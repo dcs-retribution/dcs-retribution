@@ -26,7 +26,6 @@ the patreon link will keep pointing to [Khopa's](https://github.com/Khopa) accou
 
 Currently, Retribution supports the following new features:
  * A livery selector in the air wing configuration dialog
- * Fixed mod support (still unfixed in Liberation)
  * Support for campaigns with quad-point triggers
  * Support for the F-15D 'Baz' mod
  * Support for the Su-30 mod
