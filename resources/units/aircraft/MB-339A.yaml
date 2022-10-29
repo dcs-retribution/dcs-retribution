@@ -1,0 +1,19 @@
+description:  # from wiki
+  The MB-339 was developed during the 1970s in response to an Italian Air Force requirement that sought a replacement
+  for the service's existing fleet of Aermacchi MB-326s. Its design was derived from that of the MB-326, rather than
+  a new design, and thus the two aircraft share considerable similarities in terms of their design. Aermacchi had
+  found that the MB-339 was capable of satisfying all of the specified requirements while being the most affordable
+  option available. The maiden flight of the MB-339 took place on 12 August 1976; the first production aircraft were
+  delivered two years later.
+introduced: 1979
+manufacturer: Aermacchi
+origin: Italy
+price: 9
+role: Light Attack
+gunfighter: true
+variants:
+  MB-339A: {}
+kneeboard_units: "metric"
+radios:
+  intra_flight: AN/ARC-150(V)2
+  inter_flight: SRT-651/N

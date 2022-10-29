@@ -256,6 +256,19 @@ RADIOS: List[Radio] = [
             RadioRange(MHz(225), MHz(400), kHz(25), Modulation.AM),
         ),
     ),
+    # MB-339A
+    Radio(
+        "AN/ARC-150(V)2",
+        (RadioRange(MHz(225), MHz(400), kHz(25), Modulation.AM),),
+    ),
+    Radio(
+        "SRT-651/N",
+        (
+            RadioRange(MHz(30), MHz(88), kHz(25), Modulation.AM),
+            RadioRange(MHz(118), MHz(174), kHz(25), Modulation.AM),
+            RadioRange(MHz(225), MHz(400), kHz(25), Modulation.AM),
+        ),
+    ),
 ]
 
 

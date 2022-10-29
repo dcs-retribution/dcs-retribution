@@ -116,6 +116,7 @@ from dcs.planes import (
     Tu_95MS,
     WingLoong_I,
     Yak_40,
+    MB_339A,
 )
 from dcs.unittype import FlyingType
 
@@ -298,6 +299,7 @@ CAS_CAPABLE = [
     F_86F_Sabre,
     C_101CC,
     L_39ZA,
+    MB_339A,
     UH_1H,
     A_20G,
     Ju_88A4,
@@ -462,6 +464,7 @@ STRIKE_CAPABLE = [
     F_86F_Sabre,
     C_101CC,
     L_39ZA,
+    MB_339A,
     B_17G,
     A_20G,
     Ju_88A4,
@@ -583,6 +586,7 @@ RUNWAY_ATTACK_CAPABLE = [
     F_86F_Sabre,
     C_101CC,
     L_39ZA,
+    MB_339A,
     B_17G,
     A_20G,
     Ju_88A4,

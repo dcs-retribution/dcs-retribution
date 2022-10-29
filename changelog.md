@@ -1,6 +1,7 @@
 # Retribution 1.0.0
 
 ## Features/Improvements
+* **[Engine]** Support for DCS v2.8.0.32066.
 * **[Mission Generation]** Add option to configure the maximum front-line length in settings
 * **[Mission Generation]** Variable flight-size (2/3/4-ship) for 
 BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
