@@ -3,9 +3,9 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import timedelta
 from typing import Optional, TYPE_CHECKING
+
 from game.dcs.aircrafttype import AircraftType
 from game.missiongenerator.aircraft.flightdata import FlightData
-
 from game.runways import RunwayData
 
 if TYPE_CHECKING:

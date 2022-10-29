@@ -29,6 +29,7 @@ from PySide2.QtWidgets import (
     QToolButton,
     QMessageBox,
 )
+
 from game import Game
 from game.ato.flighttype import FlightType
 from game.coalition import Coalition

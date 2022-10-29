@@ -8,8 +8,8 @@ from dcs.task import (
     OptECMUsing,
     WeaponType as DcsWeaponType,
 )
-from game.data.weapons import WeaponType
 
+from game.data.weapons import WeaponType
 from game.theater import TheaterGroundObject
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 

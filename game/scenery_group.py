@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from typing import Iterable, List, TYPE_CHECKING
 
 from dcs.mapping import Polygon

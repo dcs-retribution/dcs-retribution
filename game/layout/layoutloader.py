@@ -1,9 +1,9 @@
 from __future__ import annotations
-from collections import defaultdict
 
 import itertools
 import logging
 import pickle
+from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Iterator

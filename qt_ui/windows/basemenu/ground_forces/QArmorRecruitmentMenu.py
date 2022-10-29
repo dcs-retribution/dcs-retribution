@@ -2,10 +2,10 @@ from PySide2.QtCore import Qt
 from PySide2.QtWidgets import QGridLayout, QScrollArea, QVBoxLayout, QWidget
 
 from game.dcs.groundunittype import GroundUnitType
+from game.purchaseadapter import GroundUnitPurchaseAdapter
 from game.theater import ControlPoint
 from qt_ui.models import GameModel
 from qt_ui.windows.basemenu.UnitTransactionFrame import UnitTransactionFrame
-from game.purchaseadapter import GroundUnitPurchaseAdapter
 
 
 class QArmorRecruitmentMenu(UnitTransactionFrame[GroundUnitType]):

@@ -4,10 +4,10 @@ from PySide2.QtCore import QItemSelectionModel, QPoint
 from PySide2.QtGui import QStandardItem, QStandardItemModel
 from PySide2.QtWidgets import QHeaderView, QTableView
 
-from game.ato.package import Package
-from game.ato.flightwaypointtype import FlightWaypointType
-from game.ato.flightwaypoint import FlightWaypoint
 from game.ato.flight import Flight
+from game.ato.flightwaypoint import FlightWaypoint
+from game.ato.flightwaypointtype import FlightWaypointType
+from game.ato.package import Package
 from qt_ui.windows.mission.flight.waypoints.QFlightWaypointItem import QWaypointItem
 
 

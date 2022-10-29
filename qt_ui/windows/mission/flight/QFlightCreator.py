@@ -14,12 +14,12 @@ from PySide2.QtWidgets import (
 from dcs.unittype import FlyingType
 
 from game import Game
+from game.ato.flight import Flight
+from game.ato.flightroster import FlightRoster
+from game.ato.package import Package
 from game.ato.starttype import StartType
 from game.squadrons.squadron import Squadron
 from game.theater import ControlPoint, OffMapSpawn
-from game.ato.package import Package
-from game.ato.flightroster import FlightRoster
-from game.ato.flight import Flight
 from qt_ui.uiconstants import EVENT_ICONS
 from qt_ui.widgets.QFlightSizeSpinner import QFlightSizeSpinner
 from qt_ui.widgets.QLabeledWidget import QLabeledWidget

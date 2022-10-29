@@ -9,15 +9,13 @@ from __future__ import annotations
 
 import logging
 import random
-from collections import defaultdict
 from typing import Any, Dict, Iterator, List, Optional, TYPE_CHECKING, Type
 
 import dcs.vehicles
-from dcs import Mission, Point, unitgroup
+from dcs import Mission, Point
 from dcs.action import DoScript, SceneryDestructionZone
 from dcs.condition import MapObjectIsDead
 from dcs.country import Country
-from dcs.point import StaticPoint
 from dcs.ships import (
     CVN_71,
     CVN_72,
@@ -41,8 +39,8 @@ from dcs.unit import Unit, InvisibleFARP
 from dcs.unitgroup import MovingGroup, ShipGroup, StaticGroup, VehicleGroup
 from dcs.unittype import ShipType, VehicleType
 from dcs.vehicles import vehicle_map
-from game.missiongenerator.missiondata import CarrierInfo, MissionData
 
+from game.missiongenerator.missiondata import CarrierInfo, MissionData
 from game.radio.radios import RadioFrequency, RadioRegistry
 from game.radio.tacan import TacanBand, TacanChannel, TacanRegistry, TacanUsage
 from game.runways import RunwayData
@@ -53,7 +51,7 @@ from game.theater.theatergroundobject import (
     LhaGroundObject,
     MissileSiteGroundObject,
 )
-from game.theater.theatergroup import SceneryUnit, TheaterGroup, IadsGroundGroup
+from game.theater.theatergroup import SceneryUnit, IadsGroundGroup
 from game.unitmap import UnitMap
 from game.utils import Heading, feet, knots, mps
 

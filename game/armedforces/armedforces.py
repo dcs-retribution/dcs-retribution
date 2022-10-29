@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import random
 from typing import TYPE_CHECKING, Iterator, Optional
-from game.data.groups import GroupTask
+
 from game.armedforces.forcegroup import ForceGroup
+from game.data.groups import GroupTask
 from game.layout import LAYOUTS
 from game.profiling import logged_duration
 

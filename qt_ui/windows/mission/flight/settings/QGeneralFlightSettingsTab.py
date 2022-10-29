@@ -7,12 +7,12 @@ from qt_ui.models import PackageModel
 from qt_ui.windows.mission.flight.settings.FlightAirfieldDisplay import (
     FlightAirfieldDisplay,
 )
+from qt_ui.windows.mission.flight.settings.QCustomName import QFlightCustomName
 from qt_ui.windows.mission.flight.settings.QFlightSlotEditor import QFlightSlotEditor
 from qt_ui.windows.mission.flight.settings.QFlightStartType import QFlightStartType
 from qt_ui.windows.mission.flight.settings.QFlightTypeTaskInfo import (
     QFlightTypeTaskInfo,
 )
-from qt_ui.windows.mission.flight.settings.QCustomName import QFlightCustomName
 
 
 class QGeneralFlightSettingsTab(QFrame):

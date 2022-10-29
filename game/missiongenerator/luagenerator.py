@@ -17,7 +17,6 @@ from game.plugins import LuaPluginManager
 from game.theater import TheaterGroundObject
 from game.theater.iadsnetwork.iadsrole import IadsRole
 from game.utils import escape_string_for_lua
-
 from .missiondata import MissionData
 
 if TYPE_CHECKING:

@@ -1,3 +1,5 @@
+from PySide2.QtCore import QTimer
+from PySide2.QtGui import QTextCursor
 from PySide2.QtWidgets import (
     QDialog,
     QPlainTextEdit,
@@ -6,13 +8,9 @@ from PySide2.QtWidgets import (
     QPushButton,
     QLabel,
 )
-from PySide2.QtGui import QTextCursor
-from PySide2.QtCore import QTimer
 
 import qt_ui.uiconstants as CONST
 from game.game import Game
-
-from time import sleep
 
 
 class QNotesWindow(QDialog):

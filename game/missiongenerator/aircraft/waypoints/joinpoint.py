@@ -11,6 +11,7 @@ from dcs.task import (
 )
 
 from game.ato import FlightType
+from game.theater import NavalControlPoint
 from game.utils import nautical_miles
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 
@@ -32,9 +33,18 @@ class JoinPointBuilder(PydcsWaypointBuilder):
                 waypoint.tasks.append(OptFormation.spread_four_open())
 
         elif self.flight.flight_type == FlightType.SEAD_ESCORT:
-            self.configure_escort_tasks(
-                waypoint, [Targets.All.GroundUnits.AirDefence.AAA.SAMRelated]
-            )
+            if isinstance(self.flight.package.target, NavalControlPoint):
+                self.configure_escort_tasks(
+                    waypoint,
+                    [
+                        Targets.All.Naval,
+                        Targets.All.GroundUnits.AirDefence.AAA.SAMRelated,
+                    ],
+                )
+            else:
+                self.configure_escort_tasks(
+                    waypoint, [Targets.All.GroundUnits.AirDefence.AAA.SAMRelated]
+                )
 
             # Let the AI use ECM to preemptively defend themselves.
             ecm_option = OptECMUsing(value=OptECMUsing.Values.UseIfDetectedLockByRadar)

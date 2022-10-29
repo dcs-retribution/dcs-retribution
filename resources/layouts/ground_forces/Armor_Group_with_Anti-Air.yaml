@@ -7,7 +7,7 @@ groups:
   - Armor Group:
     - name: Armor Group with Anti-Air 0
       unit_count:
-        - 2
+        - 4
         - 6
       unit_classes:
         - APC

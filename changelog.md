@@ -2,13 +2,16 @@
 
 ## Features/Improvements
 * **[Mission Generation]** Add option to configure the maximum front-line length in settings
-* **[Mission Generation]** Variable flight-size (2/3/4-ship) for BAI/ANTISHIP/DEAD/STRIKE (main) missions
+* **[Mission Generation]** Variable flight-size (2/3/4-ship) for 
+BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 * **[Modding]** Support for F-15D 'Baz' mod version 1.0
 * **[Modding]** Support for Su-30 mod version 2.01B
+* **[Modding]** Support for A-6A Intruder version 2.7.5.01
 * **[Modding]** Support for F-4B Phantom II mod version v2.7.10.02, patch 2022.10.02
 * **[Modding]** Support for F-100 Super Sabre mod versions v2.7.18.01 & 2.7.18.30765 and patches 30.09.22 & 09.10.22
 * **[Modding]** Support for F-105 mod version 2.7.12.23x
 * **[Modding]** Support IDF Mod Project F-16I Sufa & F-16D v2.2 mod
+* **[Modding]** Support for F-84G mod version 2.5.7.01
 * **[Modding]** Updated F-104 mod version support to 2.7.11.222.01
 * **[UI]** Add livery selector to Air Wing Configurator's squadrons.
 * **[Performance]** Added performance option: Maximum front-line unit supply per control point.
@@ -69,6 +72,7 @@ Saves from 5.x are not compatible with 6.0.
 * **[Squadrons]** Fixed issue in air wing configuration that would allow squadrons to be created with no home base if no base was available.
 * **[UI]** Fixed and issue where the liberation main exe was still running after application close.
 * **[UI]** Disable player slots for non-flyable aircraft.
+* **[UI]** Add vanilla theme weather and time of day icons
 
 
 # 5.2.0

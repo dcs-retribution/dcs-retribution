@@ -5,6 +5,7 @@ import operator
 from collections.abc import Iterable, Iterator
 from typing import TYPE_CHECKING, TypeVar
 
+from game.ato.closestairfields import ClosestAirfields, ObjectiveDistanceCache
 from game.theater import (
     Airfield,
     ControlPoint,
@@ -20,7 +21,6 @@ from game.theater.theatergroundobject import (
     IadsBuildingGroundObject,
 )
 from game.utils import meters, nautical_miles
-from game.ato.closestairfields import ClosestAirfields, ObjectiveDistanceCache
 
 if TYPE_CHECKING:
     from game import Game
