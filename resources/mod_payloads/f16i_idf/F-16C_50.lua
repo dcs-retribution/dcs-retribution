@@ -99,6 +99,11 @@ local unitPayloads = {
 					["CLSID"] = "ALQ_184",
 					["num"] = 12,
 				},
+				[12] = {
+					["CLSID"] = "{IDF Mods Project F-16I CFT}",
+					["num"] = 13,
+				},
+
 			},
 			["tasks"] = {
 			},
@@ -141,6 +146,10 @@ local unitPayloads = {
 				[9] = {
 					["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
 					["num"] = 9,
+				},
+				[10] = {
+					["CLSID"] = "{IDF Mods Project F-16I CFT}",
+					["num"] = 13,
 				},
 			},
 			["tasks"] = {
@@ -291,12 +300,20 @@ local unitPayloads = {
 					["num"] = 11,
 				},
 				[10] = {
-					["CLSID"] = "ALQ_184",
+					["CLSID"] = "{IDF Mods Project 300gal}",
 					["num"] = 5,
 				},
 				[11] = {
 					["CLSID"] = "{AN_ASQ_213}",
 					["num"] = 10,
+				},
+				[12] = {
+					["CLSID"] = "ALQ_184",
+					["num"] = 12,
+				},
+				[13] = {
+					["CLSID"] = "{IDF Mods Project F-16I CFT}",
+					["num"] = 13,
 				},
 			},
 			["tasks"] = {
