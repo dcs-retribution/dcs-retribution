@@ -334,6 +334,8 @@ class Faction:
             self.remove_aircraft("F_16D_52_NS")
         else:
             inject_F16I()
+            # Remove the stock Viper because that DCS ID is now used by the Sufa
+            self.remove_aircraft_by_name("F-16CM Fighting Falcon (Block 50)")
         if not mod_settings.f22_raptor:
             self.remove_aircraft("F-22A")
         if not mod_settings.f84g_thunderjet:
@@ -416,6 +418,11 @@ class Faction:
     def remove_aircraft(self, name: str) -> None:
         for i in self.aircrafts:
             if i.dcs_unit_type.id == name:
+                self.aircrafts.remove(i)
+
+    def remove_aircraft_by_name(self, name: str) -> None:
+        for i in self.aircrafts:
+            if i.name == name:
                 self.aircrafts.remove(i)
 
     def remove_preset(self, name: str) -> None:
