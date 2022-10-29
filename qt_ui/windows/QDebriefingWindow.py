@@ -12,9 +12,7 @@ from PySide2.QtWidgets import (
 )
 
 from game.debriefing import Debriefing
-from game.game import TurnState
 from qt_ui.windows.GameUpdateSignal import GameUpdateSignal
-
 
 T = TypeVar("T")
 

@@ -11,12 +11,12 @@ from PySide2.QtWidgets import (
 )
 
 from game.dcs.aircrafttype import AircraftType
+from game.purchaseadapter import AircraftPurchaseAdapter
 from game.squadrons import Squadron
 from game.theater import ControlPoint
 from qt_ui.models import GameModel
 from qt_ui.uiconstants import ICONS
 from qt_ui.windows.basemenu.UnitTransactionFrame import UnitTransactionFrame
-from game.purchaseadapter import AircraftPurchaseAdapter
 
 
 class QAircraftRecruitmentMenu(UnitTransactionFrame[Squadron]):

@@ -11,7 +11,6 @@ from PySide2.QtWidgets import (
 
 import qt_ui.uiconstants as CONST
 from game import Game, persistency
-from game.game import TurnState
 from game.ato.package import Package
 from game.ato.traveltime import TotEstimator
 from game.profiling import logged_duration

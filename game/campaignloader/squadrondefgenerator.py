@@ -4,12 +4,12 @@ import itertools
 import random
 from typing import Optional, TYPE_CHECKING
 
+from game.ato.ai_flight_planner_db import aircraft_for_task, tasks_for_aircraft
 from game.ato.flighttype import FlightType
 from game.dcs.aircrafttype import AircraftType
 from game.squadrons.operatingbases import OperatingBases
 from game.squadrons.squadrondef import SquadronDef
 from game.theater import ControlPoint
-from game.ato.ai_flight_planner_db import aircraft_for_task, tasks_for_aircraft
 
 if TYPE_CHECKING:
     from game.factions.faction import Faction

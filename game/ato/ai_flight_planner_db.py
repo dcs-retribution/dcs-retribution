@@ -121,6 +121,7 @@ from dcs.unittype import FlyingType
 
 from game.dcs.aircrafttype import AircraftType
 from pydcs_extensions.a4ec.a4ec import A_4E_C
+from pydcs_extensions.a6a.a6a import VSN_A6A
 from pydcs_extensions.f100.f100 import VSN_F100
 from pydcs_extensions.f104.f104 import VSN_F104C, VSN_F104G, VSN_F104S, VSN_F104S_AG
 from pydcs_extensions.f105.f105 import VSN_F105D, VSN_F105G
@@ -135,6 +136,7 @@ from pydcs_extensions.f16i_idf.f16i_idf import (
 )
 from pydcs_extensions.f22a.f22a import F_22A
 from pydcs_extensions.f4b.f4b import VSN_F4B
+from pydcs_extensions.f84g.f84g import VSN_F84G
 from pydcs_extensions.hercules.hercules import Hercules
 from pydcs_extensions.jas39.jas39 import JAS39Gripen, JAS39Gripen_AG
 from pydcs_extensions.su30.su30 import Su_30MKA, Su_30MKI, Su_30MKM, Su_30SM
@@ -207,6 +209,7 @@ CAP_CAPABLE = [
     MiG_15bis,
     C_101CC,
     L_39ZA,
+    VSN_F84G,
     P_51D_30_NA,
     P_51D,
     SpitfireLFMkIXCW,
@@ -233,6 +236,7 @@ CAS_CAPABLE = [
     Su_25,
     F_15D,
     F_15E,
+    F_16A,
     F_16C_50,
     F_16I,
     F_16D_Barak,
@@ -256,7 +260,6 @@ CAS_CAPABLE = [
     Su_17M4,
     Su_33,
     F_4E,
-    VSN_F4B,
     S_3B,
     Su_30,
     Su_30MKA,
@@ -296,12 +299,6 @@ CAS_CAPABLE = [
     C_101CC,
     L_39ZA,
     UH_1H,
-    VSN_F105G,
-    VSN_F105D,
-    VSN_F104S_AG,
-    VSN_F104G,
-    VSN_F104C,
-    VSN_F100,
     A_20G,
     Ju_88A4,
     P_47D_40,
@@ -319,6 +316,15 @@ CAS_CAPABLE = [
     WingLoong_I,
     MQ_9_Reaper,
     RQ_1A_Predator,
+    VSN_A6A,
+    VSN_F100,
+    VSN_F105G,
+    VSN_F105D,
+    VSN_F104S_AG,
+    VSN_F104G,
+    VSN_F104C,
+    VSN_F4B,
+    VSN_F84G,
 ]
 
 
@@ -361,6 +367,7 @@ DEAD_CAPABLE = SEAD_CAPABLE + [
     AJS37,
     F_14B,
     F_14A_135_GR,
+    F_16A,
     JAS39Gripen_AG,
     B_1B,
     B_52H,
@@ -369,11 +376,6 @@ DEAD_CAPABLE = SEAD_CAPABLE + [
     H_6J,
     A_20G,
     Ju_88A4,
-    VSN_F105D,
-    VSN_F104S_AG,
-    VSN_F104G,
-    VSN_F104C,
-    VSN_F100,
     P_47D_40,
     P_47D_30bl1,
     P_47D_30,
@@ -385,6 +387,13 @@ DEAD_CAPABLE = SEAD_CAPABLE + [
     Bf_109K_4,
     FW_190D9,
     FW_190A8,
+    VSN_A6A,
+    VSN_F105D,
+    VSN_F104S_AG,
+    VSN_F104G,
+    VSN_F104C,
+    VSN_F100,
+    VSN_F84G,
 ]
 
 
@@ -433,7 +442,6 @@ STRIKE_CAPABLE = [
     MiG_29G,
     MiG_29A,
     F_4E,
-    VSN_F4B,
     A_10C_2,
     A_10C,
     S_3B,
@@ -448,8 +456,6 @@ STRIKE_CAPABLE = [
     Mirage_F1M_EE,
     Mirage_F1CT,
     MiG_27K,
-    VSN_F105G,
-    VSN_F105D,
     MiG_21Bis,
     MiG_15bis,
     F_5E_3,
@@ -459,10 +465,6 @@ STRIKE_CAPABLE = [
     B_17G,
     A_20G,
     Ju_88A4,
-    VSN_F104S_AG,
-    VSN_F104G,
-    VSN_F104C,
-    VSN_F100,
     P_47D_40,
     P_47D_30bl1,
     P_47D_30,
@@ -474,6 +476,15 @@ STRIKE_CAPABLE = [
     Bf_109K_4,
     FW_190D9,
     FW_190A8,
+    VSN_A6A,
+    VSN_F100,
+    VSN_F104S_AG,
+    VSN_F104G,
+    VSN_F104C,
+    VSN_F105G,
+    VSN_F105D,
+    VSN_F4B,
+    VSN_F84G,
 ]
 
 
@@ -482,6 +493,7 @@ ANTISHIP_CAPABLE = [
     Tu_142,
     Tu_22M3,
     H_6J,
+    F_16A,
     FA_18C_hornet,
     JAS39Gripen_AG,
     Su_24M,
@@ -551,7 +563,6 @@ RUNWAY_ATTACK_CAPABLE = [
     MiG_29G,
     MiG_29A,
     F_4E,
-    VSN_F4B,
     A_10C_2,
     A_10C,
     S_3B,
@@ -566,8 +577,6 @@ RUNWAY_ATTACK_CAPABLE = [
     Mirage_F1M_EE,
     Mirage_F1CT,
     MiG_27K,
-    VSN_F105G,
-    VSN_F105D,
     MiG_21Bis,
     MiG_15bis,
     F_5E_3,
@@ -577,10 +586,6 @@ RUNWAY_ATTACK_CAPABLE = [
     B_17G,
     A_20G,
     Ju_88A4,
-    VSN_F104S_AG,
-    VSN_F104G,
-    VSN_F104C,
-    VSN_F100,
     P_47D_40,
     P_47D_30bl1,
     P_47D_30,
@@ -592,6 +597,14 @@ RUNWAY_ATTACK_CAPABLE = [
     Bf_109K_4,
     FW_190D9,
     FW_190A8,
+    VSN_A6A,
+    VSN_F105G,
+    VSN_F105D,
+    VSN_F104S_AG,
+    VSN_F104G,
+    VSN_F104C,
+    VSN_F100,
+    VSN_F4B,
 ]
 
 # For any aircraft that isn't necessarily directly involved in strike

@@ -1,12 +1,11 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
 
+from game.ato.flighttype import FlightType
 from game.commander.tasks.packageplanningtask import PackagePlanningTask
 from game.commander.theaterstate import TheaterState
 from game.theater.theatergroundobject import TheaterGroundObject
-from game.ato.flighttype import FlightType
 
 
 @dataclass

@@ -9,7 +9,6 @@ from typing import Optional, TYPE_CHECKING
 from dcs.cloud_presets import Clouds as PydcsClouds
 from dcs.weather import CloudPreset, Weather as PydcsWeather, Wind
 
-from game.theater.daytimemap import DaytimeMap
 from game.theater.seasonalconditions import determine_season
 from game.timeofday import TimeOfDay
 from game.utils import Distance, Heading, Pressure, inches_hg, interpolate, meters

@@ -7,12 +7,12 @@ from pydantic import BaseModel
 from game.server.controlpoints.models import ControlPointJs
 from game.server.flights.models import FlightJs
 from game.server.frontlines.models import FrontLineJs
+from game.server.iadsnetwork.models import IadsNetworkJs
 from game.server.leaflet import LeafletPoint
 from game.server.mapzones.models import ThreatZoneContainerJs, UnculledZoneJs
 from game.server.navmesh.models import NavMeshesJs
 from game.server.supplyroutes.models import SupplyRouteJs
 from game.server.tgos.models import TgoJs
-from game.server.iadsnetwork.models import IadsConnectionJs, IadsNetworkJs
 
 if TYPE_CHECKING:
     from game import Game

@@ -6,7 +6,6 @@ from abc import ABC
 from typing import Any, Iterator, List, Optional, TYPE_CHECKING
 
 from dcs.mapping import Point
-
 from shapely.geometry import Point as ShapelyPoint
 
 from game.sidc import (
@@ -351,7 +350,10 @@ class NavalGroundObject(TheaterGroundObject, ABC):
         from game.ato import FlightType
 
         if not self.is_friendly(for_player):
-            yield FlightType.ANTISHIP
+            yield from [
+                FlightType.ANTISHIP,
+                FlightType.SEAD_ESCORT,
+            ]
         yield from super().mission_types(for_player)
 
     @property

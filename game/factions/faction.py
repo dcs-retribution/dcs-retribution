@@ -11,6 +11,7 @@ from dcs.countries import country_dict
 from dcs.unittype import ShipType, StaticType
 from dcs.unittype import UnitType as DcsUnitType
 
+from game.armedforces.forcegroup import ForceGroup
 from game.data.building_data import (
     WW2_ALLIES_BUILDINGS,
     DEFAULT_AVAILABLE_BUILDINGS,
@@ -25,12 +26,11 @@ from game.data.doctrine import (
     COLDWAR_DOCTRINE,
     WWII_DOCTRINE,
 )
-from game.data.units import UnitClass
 from game.data.groups import GroupRole
+from game.data.units import UnitClass
 from game.dcs.aircrafttype import AircraftType
 from game.dcs.groundunittype import GroundUnitType
 from game.dcs.shipunittype import ShipUnitType
-from game.armedforces.forcegroup import ForceGroup
 from game.dcs.unittype import UnitType
 from pydcs_extensions.f16i_idf.f16i_idf import inject_F16I
 
@@ -336,6 +336,8 @@ class Faction:
             inject_F16I()
         if not mod_settings.f22_raptor:
             self.remove_aircraft("F-22A")
+        if not mod_settings.f84g_thunderjet:
+            self.remove_aircraft("VSN_F84G")
         if not mod_settings.f100_supersabre:
             self.remove_aircraft("VSN_F100")
         if not mod_settings.f104_starfighter:
@@ -345,6 +347,8 @@ class Faction:
         if not mod_settings.f105_thunderchief:
             self.remove_aircraft("VSN_F105D")
             self.remove_aircraft("VSN_F105G")
+        if not mod_settings.a6a_intruder:
+            self.remove_aircraft("VSN_A6A")
         if not mod_settings.jas39_gripen:
             self.remove_aircraft("JAS39Gripen")
             self.remove_aircraft("JAS39Gripen_AG")

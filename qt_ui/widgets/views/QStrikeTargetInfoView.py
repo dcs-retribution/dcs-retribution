@@ -1,10 +1,6 @@
-import random
-
 from PySide2.QtGui import QStandardItemModel, QStandardItem
 from PySide2.QtWidgets import (
     QGroupBox,
-    QLabel,
-    QWidget,
     QVBoxLayout,
     QListView,
     QAbstractItemView,

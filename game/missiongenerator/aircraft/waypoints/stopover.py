@@ -1,5 +1,4 @@
 from dcs.point import MovingPoint, PointAction
-from dcs.task import Land
 
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 
