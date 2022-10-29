@@ -39,9 +39,7 @@ fuel:
   combat_ppm: 26
   min_safe: 1000
 variants:
-  F-16CM Fighting Falcon (Block 50): {}
-  F-16I Sufa: {}
-  F-2A: {}
+  F-16C Fighting Falcon (IDF mod): {}
 radios:
   intra_flight: AN/ARC-222
   inter_flight: AN/ARC-164

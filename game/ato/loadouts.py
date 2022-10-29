@@ -151,10 +151,10 @@ class Loadout:
         # names, so those have been included here too. The priority goes from first to
         # last - the first element in the tuple will be tried first, then the second,
         # etc.
-        loadout_names = {t: [f"Liberation {t.value}"] for t in FlightType}
+        loadout_names = {t: [f"Retribution {t.value}"] for t in FlightType}
         legacy_names = {
-            FlightType.TARCAP: ("CAP HEAVY", "CAP", "Liberation BARCAP"),
-            FlightType.BARCAP: ("CAP HEAVY", "CAP", "Liberation TARCAP"),
+            FlightType.TARCAP: ("CAP HEAVY", "CAP", "Retribution BARCAP"),
+            FlightType.BARCAP: ("CAP HEAVY", "CAP", "Retribution TARCAP"),
             FlightType.CAS: ("CAS MAVERICK F", "CAS"),
             FlightType.STRIKE: ("STRIKE",),
             FlightType.ANTISHIP: ("ANTISHIP",),
