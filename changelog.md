@@ -10,6 +10,7 @@ BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 * **[Modding]** Support for F-4B Phantom II mod version v2.7.10.02, patch 2022.10.02
 * **[Modding]** Support for F-100 Super Sabre mod versions v2.7.18.01 & 2.7.18.30765 and patches 30.09.22 & 09.10.22
 * **[Modding]** Support for F-105 mod version 2.7.12.23x
+* **[Modding]** Support IDF Mod Project F-16I Sufa & F-16D v2.2 mod
 * **[Modding]** Support for F-84G mod version 2.5.7.01
 * **[Modding]** Updated F-104 mod version support to 2.7.11.222.01
 * **[UI]** Add livery selector to Air Wing Configurator's squadrons.
@@ -19,6 +20,7 @@ BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 * **[Data]** Added data to support C-47 Skytrain.
 * **[Data]** Added data to support KS-19 & SON-9, including support for "AAA Site" layout.
 * **[Squadrons]** Squadron pilot limits enabled by default.
+* **[Campaign]** Add 3 new campaigns by Oscar Juliet from WRL
 
 ## Fixes
 
@@ -33,7 +35,7 @@ Saves from 5.x are not compatible with 6.0.
 
 * **[Engine]** Support for DCS 2.7.18.30348.
 * **[Mission Generation]** Added an option to fast-forward mission generation until the point of first contact (WIP).
-* **[Mission Generation]** Added performance option to not cull IADS when culling would effect how mission is played at target area.
+* **[Mission Generation]** Added performance option to not cull IADS when culling would affect how mission is played at target area.
 * **[Mission Generation]** Reworked the ground object generation which now uses a new layout system
 * **[Mission Generation]** Added information about the modulation (AM/FM) of the assigned frequencies to the kneeboard and assign AM modulation instead of FM for JTAC.
 * **[Factions]** Updated the Faction file structure. Older custom faction files will not work correctly and have to be updated to the new structure.
