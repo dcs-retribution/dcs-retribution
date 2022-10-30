@@ -205,10 +205,10 @@ class Settings:
     )
     #: Feature flag for squadron limits.
     enable_squadron_pilot_limits: bool = boolean_option(
-        "Enable per-squadron pilot limits (WIP)",
+        "Enable per-squadron pilot limits",
         CAMPAIGN_MANAGEMENT_PAGE,
         PILOTS_AND_SQUADRONS_SECTION,
-        default=False,
+        default=True,
         detail=(
             "If set, squadrons will be limited to a maximum number of pilots and dead "
             "pilots will replenish at a fixed rate, each defined with the settings"
@@ -225,7 +225,7 @@ class Settings:
         CAMPAIGN_MANAGEMENT_PAGE,
         PILOTS_AND_SQUADRONS_SECTION,
         default=12,
-        min=12,
+        min=6,
         max=72,
         detail=(
             "Sets the maximum number of pilots a squadron may have active. "
