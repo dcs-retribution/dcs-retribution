@@ -23,7 +23,7 @@ class HoldPointBuilder(PydcsWaypointBuilder):
             return
         push_time = self.flight.flight_plan.push_time
         self.waypoint.departure_time = push_time
-        elapsed = int((push_time - self.elapsed_mission_time).total_seconds())
+        elapsed = int((push_time - self.elapsed_mission_time).total_seconds()) - 60
         loiter.stop_after_time(elapsed)
         # What follows is some code to cope with the broken 'stop after time' condition
         create_stop_orbit_trigger(loiter, self.package, self.mission, elapsed)
