@@ -74,8 +74,14 @@ class FlightGroupSpawner:
             self.flight.state.is_waiting_for_start
             or self.flight.state.spawn_type is not StartType.IN_FLIGHT
         ):
-            return self.generate_flight_at_departure()
-        return self.generate_mid_mission()
+            grp = self.generate_flight_at_departure()
+            # grp.id = id(self.flight)
+            self.flight.group_id = grp.id
+            return grp
+        grp = self.generate_mid_mission()
+        # grp.id = id(self.flight)
+        self.flight.group_id = grp.id
+        return grp
 
     def create_idle_aircraft(self) -> FlyingGroup[Any]:
         airport = self.flight.squadron.location.dcs_airport

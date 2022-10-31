@@ -63,6 +63,7 @@ class Flight(SidcDescribable):
         self.start_type = start_type
         self.use_custom_loadout = False
         self.custom_name = custom_name
+        self.group_id: int = 0
 
         # Only used by transport missions.
         self.cargo = cargo

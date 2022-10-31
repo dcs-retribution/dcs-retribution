@@ -1,13 +1,15 @@
-from typing import List, Type
+import random
+from typing import List, Type, Optional
 
 from dcs.point import MovingPoint
 from dcs.task import (
     ControlledTask,
     EngageTargets,
+    EscortTaskAction,
     OptECMUsing,
     OptFormation,
     TargetType,
-    Targets,
+    Targets, GoToWaypoint, SwitchWaypoint,
 )
 
 from game.ato import FlightType
@@ -19,42 +21,69 @@ from .pydcswaypointbuilder import PydcsWaypointBuilder
 class JoinPointBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
         if self.flight.flight_type == FlightType.ESCORT:
-            self.configure_escort_tasks(
-                waypoint,
-                [
-                    Targets.All.Air.Planes.Fighters,
-                    Targets.All.Air.Planes.MultiroleFighters,
-                ],
+            # self.configure_escort_tasks(
+            #     waypoint,
+            #     [
+            #         Targets.All.Air.Planes.Fighters,
+            #         Targets.All.Air.Planes.MultiroleFighters,
+            #     ],
+            # )
+
+            waypoint.tasks.append(OptFormation.finger_four_open())
+            waypoint.tasks.append(SwitchWaypoint(3, 7))
+
+            rx = (random.random() + 0.1) * 500 * random.choice([-1, 1])
+            ry = (random.random() + 0.1) * 500 * random.choice([-1, 1])
+            rz = (random.random() + 0.1) * 500 * random.choice([-1, 1])
+            pos = {"x": rx, "y": ry, "z": rz}
+            targets = [
+                Targets.All.Air.Planes.Fighters.id,
+                Targets.All.Air.Planes.MultiroleFighters.id,
+            ]
+            waypoint.tasks.append(
+                EscortTaskAction(
+                    group_id=self.package.primary_flight.group_id,
+                    engagement_max_dist=int(nautical_miles(40).meters),
+                    lastwpt=6,
+                    targets=targets,
+                    position=pos)
             )
-
-            if self.flight.count < 4:
-                waypoint.tasks.append(OptFormation.line_abreast_open())
-            else:
-                waypoint.tasks.append(OptFormation.spread_four_open())
-
         elif self.flight.flight_type == FlightType.SEAD_ESCORT:
-            if isinstance(self.flight.package.target, NavalControlPoint):
-                self.configure_escort_tasks(
-                    waypoint,
-                    [
-                        Targets.All.Naval,
-                        Targets.All.GroundUnits.AirDefence.AAA.SAMRelated,
-                    ],
-                )
-            else:
-                self.configure_escort_tasks(
-                    waypoint, [Targets.All.GroundUnits.AirDefence.AAA.SAMRelated]
-                )
+            # if isinstance(self.flight.package.target, NavalControlPoint):
+            #     self.configure_escort_tasks(
+            #         waypoint,
+            #         [
+            #             Targets.All.Naval,
+            #             Targets.All.GroundUnits.AirDefence.AAA.SAMRelated,
+            #         ],
+            #     )
+            # else:
+            #     self.configure_escort_tasks(
+            #         waypoint, [Targets.All.GroundUnits.AirDefence.AAA.SAMRelated]
+            #     )
 
             # Let the AI use ECM to preemptively defend themselves.
             ecm_option = OptECMUsing(value=OptECMUsing.Values.UseIfDetectedLockByRadar)
             waypoint.tasks.append(ecm_option)
 
-            if self.flight.count < 4:
-                waypoint.tasks.append(OptFormation.line_abreast_open())
-            else:
-                waypoint.tasks.append(OptFormation.spread_four_open())
+            waypoint.tasks.append(OptFormation.finger_four_open())
+            waypoint.tasks.append(SwitchWaypoint(3, 7))
 
+            rx = (random.random() + 0.1) * 500 * random.choice([-1, 1])
+            ry = (random.random() + 0.1) * 500 * random.choice([-1, 1])
+            rz = (random.random() + 0.1) * 500 * random.choice([-1, 1])
+            pos = {"x": rx, "y": ry, "z": rz}
+            targets = [Targets.All.GroundUnits.AirDefence.AAA.SAMRelated.id]
+            if isinstance(self.flight.package.target, NavalControlPoint):
+                targets.append(Targets.All.Naval.id)
+            waypoint.tasks.append(
+                EscortTaskAction(
+                    group_id=self.package.primary_flight.group_id,
+                    engagement_max_dist=int(nautical_miles(40).meters),
+                    lastwpt=6,
+                    targets=targets,
+                    position=pos)
+            )
         elif not self.flight.flight_type.is_air_to_air:
             # Capture any non A/A type to avoid issues with SPJs that use the primary radar such as the F/A-18C.
             # You can bully them with STT to not be able to fire radar guided missiles at you,
@@ -68,7 +97,9 @@ class JoinPointBuilder(PydcsWaypointBuilder):
 
     @staticmethod
     def configure_escort_tasks(
-        waypoint: MovingPoint, target_types: List[Type[TargetType]]
+            waypoint: MovingPoint,
+            target_types: List[Type[TargetType]],
+            max_dist: Optional[float] = 30.0
     ) -> None:
         # Ideally we would use the escort mission type and escort task to have
         # the AI automatically but the AI only escorts AI flights while they are
@@ -100,7 +131,7 @@ class JoinPointBuilder(PydcsWaypointBuilder):
             ControlledTask(
                 EngageTargets(
                     # TODO: From doctrine.
-                    max_distance=int(nautical_miles(30).meters),
+                    max_distance=int(nautical_miles(max_dist).meters),
                     targets=target_types,
                 )
             )
