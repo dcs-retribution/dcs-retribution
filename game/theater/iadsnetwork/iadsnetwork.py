@@ -53,7 +53,7 @@ class SkynetNode:
                 # Statics will be placed as dead unit
                 return group.units[0].unit_name
             # If no alive unit is available and not static raise error
-            raise IadsNetworkException("Group has no skynet usable units")
+            raise IadsNetworkException(f"{group.name} has no skynet usable units")
         else:
             # Use the GroupName for SAMs, SAMAsEWR and PDs
             return group.group_name
@@ -119,6 +119,10 @@ class IadsNetwork:
         for node in self.nodes:
             if game.iads_considerate_culling(node.group.ground_object):
                 # Skip culled ground objects
+                continue
+
+            all_dead = not any([x.alive for x in node.group.units])
+            if all_dead:
                 continue
 
             # SkynetNode.from_group(node.group) may raise an exception
@@ -217,7 +221,7 @@ class IadsNetwork:
         node: Optional[IadsNetworkNode] = None
         for group in tgo.groups:
             # TODO Cleanup
-            if isinstance(group, IadsGroundGroup):
+            if isinstance(group, IadsGroundGroup) and group.alive_units > 0:
                 # The first IadsGroundGroup is always the primary Group
                 if not node and group.iads_role.participate:
                     # Primary Node
