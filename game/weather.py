@@ -160,11 +160,12 @@ class Weather:
 
     @staticmethod
     def random_cloud_base() -> int:
-        return random.randint(2000, 3000)
+        return random.randint(1000, 5000)
 
     @staticmethod
     def random_cloud_thickness() -> int:
-        return random.randint(100, 400)
+        # values lower than 400m can generate clear skies in some cases
+        return random.randint(400, 2000)
 
     @staticmethod
     def random_pressure(average_pressure: float) -> Pressure:
@@ -234,7 +235,7 @@ class Cloudy(Weather):
         return None
 
     def generate_wind(self) -> WindConditions:
-        return self.random_wind(1, 4)
+        return self.random_wind(1, 5)
 
 
 class Raining(Weather):
@@ -275,7 +276,7 @@ class Thunderstorm(Weather):
         )
 
     def generate_wind(self) -> WindConditions:
-        return self.random_wind(1, 8)
+        return self.random_wind(2, 8)
 
 
 @dataclass
