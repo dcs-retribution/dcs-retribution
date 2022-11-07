@@ -173,6 +173,7 @@ class NewGameWizard(QtWidgets.QWizard):
             jas39_gripen=self.field("jas39_gripen"),
             su30_flanker_h=self.field("su30_flanker_h"),
             su57_felon=self.field("su57_felon"),
+            ov10a_bronco=self.field("ov10a_bronco"),
             frenchpack=self.field("frenchpack"),
             high_digit_sams=self.field("high_digit_sams"),
         )
@@ -687,6 +688,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("su30_flanker_h", su30_flanker_h)
         su57_felon = QtWidgets.QCheckBox()
         self.registerField("su57_felon", su57_felon)
+        ov10a_bronco = QtWidgets.QCheckBox()
+        self.registerField("ov10a_bronco", ov10a_bronco)
         frenchpack = QtWidgets.QCheckBox()
         self.registerField("frenchpack", frenchpack)
         high_digit_sams = QtWidgets.QCheckBox()
@@ -715,6 +718,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("Frenchpack", frenchpack),
             ("High Digit SAMs", high_digit_sams),
             ("JAS 39 Gripen (v1.8.0-beta)", jas39_gripen),
+            ("OV-10A Bronco", ov10a_bronco),
             ("Su-30 Flanker-H (V2.01B)", su30_flanker_h),
             ("Su-57 Felon", su57_felon),
             ("UH-60L Black Hawk (v1.3.1)", uh_60l),
