@@ -546,10 +546,13 @@ class QLiberationWindow(QMainWindow):
         result = QMessageBox.question(
             self,
             "Quit Retribution?",
-            "Are you sure you want to quit? All unsaved progress will be lost.",
-            QMessageBox.Yes | QMessageBox.No,
+            "Would you like to save before quitting?",
+            QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel,
+            QMessageBox.Cancel,
         )
-        if result == QMessageBox.Yes:
+        if result in [QMessageBox.Yes, QMessageBox.No]:
+            if result == QMessageBox.Yes:
+                self.saveGame()
             self._save_window_geometry()
             super().closeEvent(event)
             self.dialog = None
