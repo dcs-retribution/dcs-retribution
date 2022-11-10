@@ -58,6 +58,7 @@ class MissionInfoGenerator:
         self.awacs: List[AwacsInfo] = []
         self.comms: List[CommInfo] = []
         self.flights: List[FlightData] = []
+        self.player_flights: List[FlightData] = []
         self.jtacs: List[JtacInfo] = []
         self.tankers: List[TankerInfo] = []
         self.frontlines: List[FrontLineInfo] = []
@@ -87,6 +88,9 @@ class MissionInfoGenerator:
             flight: Flight information.
         """
         self.flights.append(flight)
+        if len(flight.client_units) > 0:
+            self.player_flights.append(flight)
+
 
     def add_jtac(self, jtac: JtacInfo) -> None:
         """Adds a JTAC to the mission.

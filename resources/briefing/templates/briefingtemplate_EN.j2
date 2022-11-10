@@ -1,6 +1,6 @@
+{# TODO: DO NOT REMOVE NEWLINES, THEY ARE PART OF THE FORMATTING! #}
 DCS Retribution Turn {{ game.turn }}
 ====================
-
 Most briefing information, including communications and flight plan information, can be found on your kneeboard.
 
 Current situation:
@@ -62,17 +62,20 @@ On this location, our ground forces have been ordered to hold still, and defend 
 
 {%+ endfor %}{% endif %}
 
+{%- if player_flights|length > 0 %}
 Your flights:
 ====================
-{% for flight in flights if flight.client_units %}
+{% for flight in player_flights %}
 --------------------------------------------------
 {{ flight.flight_type }} {{ flight.units[0].type }} x {{ flight.size }}, departing in {{ flight.departure_delay }}, {{ flight.package.target.name}}
 Freq : {{ flight|intra_flight_channel }}
 {% for waypoint in flight.waypoints %}
 {{ loop.index0 }} {{waypoint|waypoint_timing("Depart ")}}-- {{waypoint.name}} : {{ waypoint.description}}
 {% endfor %}
---------------------------------------------------{% endfor %}
+--------------------------------------------------
+{% endfor %}
 
+{% endif %}
 
 {%- if allied_flights_by_departure|length > 0 %}
 Planned ally flights:
@@ -83,6 +86,7 @@ Planned ally flights:
 {% for flight in allied_flights_by_departure[dep] %}
 {{ flight.flight_type }} {{ flight.units[0].type }} x {{flight.size}}, departing in {{ flight.departure_delay }}, {{ flight.package.target.name}}
 {% endfor %}
+
 {% endfor %}
 {% endif %}
 
@@ -98,6 +102,7 @@ TACAN : {{ runway.tacan }} {{ runway.tacan_callsign }}
 {% endif %}
 
 {% endfor %}
+
 {% endif %}
 {%- if awacs|length > 0 %}
 AWACS:
@@ -120,4 +125,5 @@ JTACS [F-10 Menu] :
 ====================
 {% for jtac in jtacs %}Frontline {{ jtac.region }} -- Code : {{ jtac.code }}, Freq : {{ jtac.freq.mhz }}
 {% endfor %}
+
 {% endif %}
