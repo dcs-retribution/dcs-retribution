@@ -104,6 +104,15 @@ AWACS:
 ====================
 {% for i in awacs %}{{ i.callsign }} -- Freq : {{i.freq.mhz}}
 {% endfor %}
+
+{% endif %}
+
+{%- if tankers|length > 0 %}
+TANKERS:
+====================
+{% for i in tankers %}{{ i.callsign }} -- Freq : {{i.freq.mhz}}, TACAN : {{ i.tacan }}
+{% endfor %}
+
 {% endif %}
 
 {%- if jtacs|length > 0 %}
