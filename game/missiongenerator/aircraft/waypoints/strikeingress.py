@@ -4,6 +4,7 @@ from dcs.planes import B_17G, B_52H, Tu_22M3
 from dcs.point import MovingPoint
 from dcs.task import Bombing, OptFormation, WeaponType, Expend
 
+from game.utils import mach, Distance
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 
@@ -39,6 +40,8 @@ class StrikeIngressBuilder(PydcsWaypointBuilder):
             if len(self.waypoint.targets) == 1:
                 bombing.params["expend"] = Expend.All.value
             waypoint.tasks.append(bombing)
+
+            waypoint.speed = mach(0.85, Distance.from_feet(20000)).meters_per_second
 
             # Register special waypoints
             self.register_special_waypoints(self.waypoint.targets)
