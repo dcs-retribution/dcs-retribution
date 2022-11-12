@@ -1,89 +1,57 @@
 import random
-from typing import List, Type, Optional
+from typing import List, Optional
+
+Optional
 
 from dcs.point import MovingPoint
 from dcs.task import (
-    ControlledTask,
-    EngageTargets,
     EscortTaskAction,
     OptECMUsing,
     OptFormation,
-    TargetType,
-    Targets, GoToWaypoint, SwitchWaypoint,
+    Targets,
 )
 
 from game.ato import FlightType
 from game.theater import NavalControlPoint
-from game.utils import nautical_miles
+from game.utils import nautical_miles, feet
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 
 class JoinPointBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
+        waypoint.tasks.append(OptFormation.finger_four_open())
+
         if self.flight.flight_type == FlightType.ESCORT:
-            # self.configure_escort_tasks(
-            #     waypoint,
-            #     [
-            #         Targets.All.Air.Planes.Fighters,
-            #         Targets.All.Air.Planes.MultiroleFighters,
-            #     ],
-            # )
-
-            waypoint.tasks.append(OptFormation.finger_four_open())
-            waypoint.tasks.append(SwitchWaypoint(3, 7))
-
-            rx = (random.random() + 0.1) * 500 * random.choice([-1, 1])
-            ry = (random.random() + 0.1) * 500 * random.choice([-1, 1])
-            rz = (random.random() + 0.1) * 500 * random.choice([-1, 1])
-            pos = {"x": rx, "y": ry, "z": rz}
-            targets = [
-                Targets.All.Air.Planes.Fighters.id,
-                Targets.All.Air.Planes.MultiroleFighters.id,
-            ]
-            waypoint.tasks.append(
-                EscortTaskAction(
-                    group_id=self.package.primary_flight.group_id,
-                    engagement_max_dist=int(nautical_miles(40).meters),
-                    lastwpt=6,
-                    targets=targets,
-                    position=pos)
+            self.configure_escort_tasks(
+                waypoint,
+                [
+                    Targets.All.Air.Planes.Fighters.id,
+                    Targets.All.Air.Planes.MultiroleFighters.id,
+                ],
             )
         elif self.flight.flight_type == FlightType.SEAD_ESCORT:
-            # if isinstance(self.flight.package.target, NavalControlPoint):
-            #     self.configure_escort_tasks(
-            #         waypoint,
-            #         [
-            #             Targets.All.Naval,
-            #             Targets.All.GroundUnits.AirDefence.AAA.SAMRelated,
-            #         ],
-            #     )
-            # else:
-            #     self.configure_escort_tasks(
-            #         waypoint, [Targets.All.GroundUnits.AirDefence.AAA.SAMRelated]
-            #     )
+            if isinstance(self.flight.package.target, NavalControlPoint):
+                self.configure_escort_tasks(
+                    waypoint,
+                    [
+                        Targets.All.Naval.id,
+                        Targets.All.GroundUnits.AirDefence.AAA.SAMRelated.id,
+                    ],
+                    max_dist=40,
+                    vertical_spacing=1000,
+                )
+            else:
+                self.configure_escort_tasks(
+                    waypoint,
+                    [Targets.All.GroundUnits.AirDefence.AAA.SAMRelated.id],
+                    max_dist=40,
+                    vertical_spacing=1000,
+                )
 
             # Let the AI use ECM to preemptively defend themselves.
             ecm_option = OptECMUsing(value=OptECMUsing.Values.UseIfDetectedLockByRadar)
             waypoint.tasks.append(ecm_option)
 
-            waypoint.tasks.append(OptFormation.finger_four_open())
-            waypoint.tasks.append(SwitchWaypoint(3, 7))
-
-            rx = (random.random() + 0.1) * 500 * random.choice([-1, 1])
-            ry = (random.random() + 0.1) * 500 * random.choice([-1, 1])
-            rz = (random.random() + 0.1) * 500 * random.choice([-1, 1])
-            pos = {"x": rx, "y": ry, "z": rz}
-            targets = [Targets.All.GroundUnits.AirDefence.AAA.SAMRelated.id]
-            if isinstance(self.flight.package.target, NavalControlPoint):
-                targets.append(Targets.All.Naval.id)
-            waypoint.tasks.append(
-                EscortTaskAction(
-                    group_id=self.package.primary_flight.group_id,
-                    engagement_max_dist=int(nautical_miles(40).meters),
-                    lastwpt=6,
-                    targets=targets,
-                    position=pos)
-            )
         elif not self.flight.flight_type.is_air_to_air:
             # Capture any non A/A type to avoid issues with SPJs that use the primary radar such as the F/A-18C.
             # You can bully them with STT to not be able to fire radar guided missiles at you,
@@ -93,50 +61,26 @@ class JoinPointBuilder(PydcsWaypointBuilder):
             ecm_option = OptECMUsing(value=OptECMUsing.Values.UseIfOnlyLockByRadar)
             waypoint.tasks.append(ecm_option)
 
-            waypoint.tasks.append(OptFormation.finger_four_open())
-
-    @staticmethod
     def configure_escort_tasks(
+            self,
             waypoint: MovingPoint,
-            target_types: List[Type[TargetType]],
-            max_dist: Optional[float] = 30.0
+            target_types: List[str],
+            max_dist: Optional[float] = 30.0,
+            vertical_spacing: Optional[float] = 2000,
     ) -> None:
-        # Ideally we would use the escort mission type and escort task to have
-        # the AI automatically but the AI only escorts AI flights while they are
-        # traveling between waypoints. When an AI flight performs an attack
-        # (such as attacking the mission target), AI escorts wander aimlessly
-        # until the escorted group resumes its flight plan.
-        #
-        # As such, we instead use the Search Then Engage task, which is an
-        # enroute task that causes the AI to follow their flight plan and engage
-        # enemies of the set type within a certain distance. The downside to
-        # this approach is that AI escorts are no longer related to the group
-        # they are escorting, aside from the fact that they fly a similar flight
-        # plan at the same time. With Escort, the escorts will follow the
-        # escorted group out of the area. The strike element may or may not fly
-        # directly over the target, and they may or may not require multiple
-        # attack runs. For the escort flight we must just assume a flight plan
-        # for the escort to fly. If the strike flight doesn't need to overfly
-        # the target, the escorts are needlessly going in harms way. If the
-        # strike flight needs multiple passes, the escorts may leave before the
-        # escorted aircraft do.
-        #
-        # Another possible option would be to use Search Then Engage for join ->
-        # ingress and egress -> split, but use a Search Then Engage in Zone task
-        # for the target area that is set to end on a flag flip that occurs when
-        # the strike aircraft finish their attack task.
-        #
-        # https://forums.eagle.ru/topic/251798-options-for-alternate-ai-escort-behavior
-        waypoint.add_task(
-            ControlledTask(
-                EngageTargets(
-                    # TODO: From doctrine.
-                    max_distance=int(nautical_miles(max_dist).meters),
-                    targets=target_types,
-                )
-            )
-        )
 
-        # We could set this task to end at the split point. pydcs doesn't
-        # currently support that task end condition though, and we don't really
-        # need it.
+        rx = (random.random() + 0.1) * 1000
+        ry = feet(vertical_spacing).meters
+        rz = (random.random() + 0.1) * 50 * random.choice([-1, 1])
+        pos = {"x": rx, "y": ry, "z": rz}
+
+        lastwpt = 6 if self.package.primary_task == FlightType.STRIKE else 5
+
+        waypoint.tasks.append(
+            EscortTaskAction(
+                group_id=self.package.primary_flight.group_id,
+                engagement_max_dist=int(nautical_miles(max_dist).meters),
+                lastwpt=lastwpt,
+                targets=target_types,
+                position=pos)
+        )
