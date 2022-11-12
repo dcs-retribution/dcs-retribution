@@ -5,9 +5,12 @@ from datetime import datetime
 from functools import cached_property
 from typing import Any, Dict, List, TYPE_CHECKING
 
+from dcs.action import AITaskPush
+from dcs.condition import FlagIsTrue
 from dcs.country import Country
 from dcs.mission import Mission
 from dcs.terrain.terrain import NoParkingSlotError
+from dcs.triggers import TriggerOnce, Event
 from dcs.unitgroup import FlyingGroup, StaticGroup
 
 from game.ato.airtaaskingorder import AirTaskingOrder
@@ -111,6 +114,13 @@ class AircraftGenerator:
                         flight, country, dynamic_runways
                     )
                     self.unit_map.add_aircraft(group, flight)
+            if package.primary_task == FlightType.STRIKE:
+                splittrigger = TriggerOnce(Event.NoEvent, f"Split-{id(package)}")
+                splittrigger.add_condition(FlagIsTrue(flag=f"split-{id(package)}"))
+                for flight in package.flights:
+                    if flight is not package.primary_flight:
+                        splittrigger.add_action(AITaskPush(flight.group_id, 1))
+                self.mission.triggerrules.triggers.append(splittrigger)
 
     def spawn_unused_aircraft(
         self, player_country: Country, enemy_country: Country

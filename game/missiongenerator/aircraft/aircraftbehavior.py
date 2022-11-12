@@ -19,7 +19,9 @@ from dcs.task import (
     OptRestrictJettison,
     Refueling,
     RunwayAttack,
-    Transport, SEAD,
+    Transport,
+    SEAD,
+    SwitchWaypoint,
 )
 from dcs.unitgroup import FlyingGroup
 
@@ -267,6 +269,8 @@ class AircraftBehavior:
         # Search Then Engage task, which we have to use instead of the Escort
         # task for the reasons explained in JoinPointBuilder.
         group.task = Escort.name
+        if flight.package.primary_task == FlightType.STRIKE:
+            group.add_trigger_action(SwitchWaypoint(None, 5))
         self.configure_behavior(
             flight, group, roe=OptROE.Values.OpenFire, restrict_jettison=True
         )
@@ -276,6 +280,8 @@ class AircraftBehavior:
         # available aircraft, and F-14s are not able to be SEAD despite having TALDs.
         # https://forums.eagle.ru/topic/272112-cannot-assign-f-14-to-sead/
         group.task = SEAD.name
+        if flight.package.primary_task == FlightType.STRIKE:
+            group.add_trigger_action(SwitchWaypoint(None, 5))
         self.configure_behavior(
             flight,
             group,
