@@ -1,6 +1,7 @@
 from dcs.point import MovingPoint
-from dcs.task import OptECMUsing, OptFormation
+from dcs.task import OptECMUsing, OptFormation, RunScript
 
+from game.utils import mach, Distance
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 
@@ -16,4 +17,11 @@ class SplitPointBuilder(PydcsWaypointBuilder):
             ecm_option = OptECMUsing(value=OptECMUsing.Values.UseIfOnlyLockByRadar)
             waypoint.tasks.append(ecm_option)
 
-            waypoint.tasks.append(OptFormation.finger_four_close())
+        waypoint.tasks.append(OptFormation.finger_four_close())
+        waypoint.speed_locked = True
+        waypoint.speed = mach(0.85, Distance.from_feet(20000)).meters_per_second
+        waypoint.ETA_locked = False
+        if self.flight is self.package.primary_flight:
+            script_code = f"trigger.action.setUserFlag(\"split-{id(self.package)}\", true)"
+            script = RunScript(script_code)
+            waypoint.tasks.append(script)
