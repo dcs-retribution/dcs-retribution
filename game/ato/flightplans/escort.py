@@ -8,6 +8,8 @@ from .formationattack import (
     FormationAttackLayout,
 )
 from .waypointbuilder import WaypointBuilder
+from .. import FlightType
+from ...utils import Distance
 
 
 class EscortFlightPlan(FormationAttackFlightPlan):
@@ -24,12 +26,17 @@ class Builder(FormationAttackBuilder[EscortFlightPlan, FormationAttackLayout]):
         ingress, target = builder.escort(
             self.package.waypoints.ingress, self.package.target
         )
+        ingress.only_for_player = True
+        target.only_for_player = True
         hold = builder.hold(self._hold_point())
         join = builder.join(self.package.waypoints.join)
         split = builder.split(self.package.waypoints.split)
         refuel = None
         if self.package.waypoints.refuel is not None:
             refuel = builder.refuel(self.package.waypoints.refuel)
+        initial = None
+        if self.package.primary_task == FlightType.STRIKE:
+            initial = builder.escort_hold(self.package.waypoints.initial, Distance.from_feet(20000))
 
         return FormationAttackLayout(
             departure=builder.takeoff(self.flight.departure),
@@ -39,6 +46,7 @@ class Builder(FormationAttackBuilder[EscortFlightPlan, FormationAttackLayout]):
             ),
             join=join,
             ingress=ingress,
+            initial=initial,
             targets=[target],
             split=split,
             refuel=refuel,

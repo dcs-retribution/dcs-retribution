@@ -416,6 +416,24 @@ class WaypointBuilder:
         )
 
     @staticmethod
+    def escort_hold(start: Point, altitude: Distance) -> FlightWaypoint:
+        """Creates custom waypoint for escort flights that need to hold.
+
+        Args:
+            start: Position of the waypoint.
+            altitude: Altitude of the holding pattern.
+        """
+
+        return FlightWaypoint(
+            "ESCORT HOLD",
+            FlightWaypointType.CUSTOM,
+            start,
+            altitude,
+            description="Anchor and hold at this point",
+            pretty_name="Escort Hold",
+        )
+
+    @staticmethod
     def sweep_start(position: Point, altitude: Distance) -> FlightWaypoint:
         """Creates a sweep start waypoint.
 
