@@ -1,7 +1,5 @@
 import random
-from typing import List, Optional
-
-Optional
+from typing import List
 
 from dcs.point import MovingPoint
 from dcs.task import (
@@ -65,8 +63,8 @@ class JoinPointBuilder(PydcsWaypointBuilder):
             self,
             waypoint: MovingPoint,
             target_types: List[str],
-            max_dist: Optional[float] = 30.0,
-            vertical_spacing: Optional[float] = 2000,
+            max_dist: float = 30.0,
+            vertical_spacing: float = 2000.0,
     ) -> None:
 
         rx = (random.random() + 0.1) * 1000
@@ -76,9 +74,13 @@ class JoinPointBuilder(PydcsWaypointBuilder):
 
         lastwpt = 6 if self.package.primary_task == FlightType.STRIKE else 5
 
+        group_id = None
+        if self.package.primary_flight is not None:
+            group_id = self.package.primary_flight.group_id
+
         waypoint.tasks.append(
             EscortTaskAction(
-                group_id=self.package.primary_flight.group_id,
+                group_id=group_id,
                 engagement_max_dist=int(nautical_miles(max_dist).meters),
                 lastwpt=lastwpt,
                 targets=target_types,
