@@ -22,6 +22,7 @@ class SplitPointBuilder(PydcsWaypointBuilder):
         waypoint.speed = mach(0.85, Distance.from_feet(20000)).meters_per_second
         waypoint.ETA_locked = False
         if self.flight is self.package.primary_flight:
-            script_code = f"trigger.action.setUserFlag(\"split-{id(self.package)}\", true)"
-            script = RunScript(script_code)
+            script = RunScript(
+                f'trigger.action.setUserFlag("split-{id(self.package)}", true)'
+            )
             waypoint.tasks.append(script)

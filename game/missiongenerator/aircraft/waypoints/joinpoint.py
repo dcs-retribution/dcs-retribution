@@ -60,11 +60,11 @@ class JoinPointBuilder(PydcsWaypointBuilder):
             waypoint.tasks.append(ecm_option)
 
     def configure_escort_tasks(
-            self,
-            waypoint: MovingPoint,
-            target_types: List[str],
-            max_dist: float = 30.0,
-            vertical_spacing: float = 2000.0,
+        self,
+        waypoint: MovingPoint,
+        target_types: List[str],
+        max_dist: float = 30.0,
+        vertical_spacing: float = 2000.0,
     ) -> None:
 
         rx = (random.random() + 0.1) * 1000
@@ -84,5 +84,6 @@ class JoinPointBuilder(PydcsWaypointBuilder):
                 engagement_max_dist=int(nautical_miles(max_dist).meters),
                 lastwpt=lastwpt,
                 targets=target_types,
-                position=pos)
+                position=pos,
+            )
         )

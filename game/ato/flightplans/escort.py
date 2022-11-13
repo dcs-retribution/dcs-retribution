@@ -36,7 +36,9 @@ class Builder(FormationAttackBuilder[EscortFlightPlan, FormationAttackLayout]):
             refuel = builder.refuel(self.package.waypoints.refuel)
         initial = None
         if self.package.primary_task == FlightType.STRIKE:
-            initial = builder.escort_hold(self.package.waypoints.initial, Distance.from_feet(20000))
+            initial = builder.escort_hold(
+                self.package.waypoints.initial, Distance.from_feet(20000)
+            )
 
         return FormationAttackLayout(
             departure=builder.takeoff(self.flight.departure),

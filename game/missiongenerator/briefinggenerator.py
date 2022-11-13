@@ -91,7 +91,6 @@ class MissionInfoGenerator:
         if len(flight.client_units) > 0:
             self.player_flights.append(flight)
 
-
     def add_jtac(self, jtac: JtacInfo) -> None:
         """Adds a JTAC to the mission.
 

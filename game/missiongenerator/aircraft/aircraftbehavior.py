@@ -21,7 +21,8 @@ from dcs.task import (
     RunwayAttack,
     Transport,
     SEAD,
-    SwitchWaypoint, OptJettisonEmptyTanks,
+    SwitchWaypoint,
+    OptJettisonEmptyTanks,
 )
 from dcs.unitgroup import FlyingGroup
 
