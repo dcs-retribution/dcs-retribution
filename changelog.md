@@ -2,7 +2,12 @@
 
 ## Features/Improvements
 * **[Engine]** Support for DCS v2.8.0.32066.
+* **[Briefing]** Add tanker info to mission briefing
+* **[Campaign]** Add 3 new campaigns by Oscar Juliet from WRL
+* **[Data]** Added data to support C-47 Skytrain.
+* **[Data]** Added data to support KS-19 & SON-9, including support for "AAA Site" layout.
 * **[Mission Generation]** Add option to configure the maximum front-line length in settings
+* **[Mission Generation]** Use Escort & SEAD tasks for Escort & SEAD Escort flights
 * **[Mission Generation]** Variable flight-size (2/3/4-ship) for 
 BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 * **[Modding]** Support for F-15D 'Baz' mod version 1.0
@@ -14,14 +19,11 @@ BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 * **[Modding]** Support IDF Mod Project F-16I Sufa & F-16D v2.2 mod
 * **[Modding]** Support for F-84G mod version 2.5.7.01
 * **[Modding]** Updated F-104 mod version support to 2.7.11.222.01
-* **[UI]** Add livery selector to Air Wing Configurator's squadrons.
 * **[Performance]** Added performance option: Maximum front-line unit supply per control point.
 * **[Performance]** Added performance option: Disable convoys.
 * **[Performance]** Added performance option: Front-line troops prefer roads.
-* **[Data]** Added data to support C-47 Skytrain.
-* **[Data]** Added data to support KS-19 & SON-9, including support for "AAA Site" layout.
 * **[Squadrons]** Squadron pilot limits enabled by default.
-* **[Campaign]** Add 3 new campaigns by Oscar Juliet from WRL
+* **[UI]** Add livery selector to Air Wing Configurator's squadrons.
 
 ## Fixes
 
