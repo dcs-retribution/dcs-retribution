@@ -152,7 +152,7 @@ from .flighttype import FlightType
 # factions that also have F-4s should not.
 
 # Used for CAP, Escort, and intercept if there is not a specialised aircraft available
-CAP_CAPABLE = [
+ESCORT_CAPABLE = [
     Su_57,
     F_22A,
     F_15C,
@@ -209,7 +209,6 @@ CAP_CAPABLE = [
     F_86F_Sabre,
     MiG_15bis,
     C_101CC,
-    L_39ZA,
     VSN_F84G,
     P_51D_30_NA,
     P_51D,
@@ -223,6 +222,11 @@ CAP_CAPABLE = [
     P_47D_30bl1,
     P_47D_40,
     I_16,
+]
+
+# Types to be skipped for escorts
+CAP_CAPABLE = ESCORT_CAPABLE + [
+    L_39ZA,
 ]
 
 
@@ -331,7 +335,7 @@ CAS_CAPABLE = [
 
 
 # Aircraft used for SEAD and SEAD Escort tasks. Must be capable of the CAS DCS task.
-SEAD_CAPABLE = [
+SEAD_ESCORT_CAPABLE = [
     JF_17,
     F_16C_50,
     F_16I,
@@ -346,8 +350,6 @@ SEAD_CAPABLE = [
     Su_25TM,
     F_4E,
     A_4E_C,
-    F_14B,
-    F_14A_135_GR,
     JAS39Gripen_AG,
     AV8BNA,
     Su_24M,
@@ -360,9 +362,14 @@ SEAD_CAPABLE = [
     Su_30SM,
     MiG_27K,
     Tornado_GR4,
-    VSN_F105G,
 ]
 
+
+SEAD_CAPABLE = SEAD_ESCORT_CAPABLE + [
+    F_14B,
+    F_14A_135_GR,
+    VSN_F105G,
+]
 
 # Aircraft used for DEAD tasks. Must be capable of the CAS DCS task.
 DEAD_CAPABLE = SEAD_CAPABLE + [
@@ -685,7 +692,7 @@ def dcs_types_for_task(task: FlightType) -> Sequence[Type[FlyingType]]:
     elif task == FlightType.SEAD:
         return SEAD_CAPABLE
     elif task == FlightType.SEAD_ESCORT:
-        return SEAD_CAPABLE
+        return SEAD_ESCORT_CAPABLE
     elif task == FlightType.DEAD:
         return DEAD_CAPABLE
     elif task == FlightType.OCA_AIRCRAFT:
@@ -695,7 +702,7 @@ def dcs_types_for_task(task: FlightType) -> Sequence[Type[FlyingType]]:
     elif task == FlightType.STRIKE:
         return STRIKE_CAPABLE
     elif task == FlightType.ESCORT:
-        return CAP_CAPABLE
+        return ESCORT_CAPABLE
     elif task == FlightType.AEWC:
         return AEWC_CAPABLE
     elif task == FlightType.REFUELING:
