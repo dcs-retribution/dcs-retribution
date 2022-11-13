@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from datetime import timedelta
 
 from game.data.units import UnitClass
-from game.utils import Distance, feet, nautical_miles
+from game.utils import Distance, feet, nautical_miles, Speed, knots
 
 
 @dataclass
@@ -77,6 +77,16 @@ class Doctrine:
 
     ground_unit_procurement_ratios: GroundUnitProcurementRatios
 
+    rtb_speed: Speed
+
+    sead_escort_spacing: Distance
+
+    escort_spacing: Distance
+
+    sead_escort_engagement_range: Distance
+
+    escort_engagement_range: Distance
+
 
 MODERN_DOCTRINE = Doctrine(
     cap=True,
@@ -113,6 +123,11 @@ MODERN_DOCTRINE = Doctrine(
             UnitClass.RECON: 1,
         }
     ),
+    rtb_speed=knots(500),
+    sead_escort_spacing=feet(1000),
+    escort_spacing=feet(2000),
+    sead_escort_engagement_range=nautical_miles(40),
+    escort_engagement_range=nautical_miles(30),
 )
 
 COLDWAR_DOCTRINE = Doctrine(
@@ -150,6 +165,11 @@ COLDWAR_DOCTRINE = Doctrine(
             UnitClass.RECON: 1,
         }
     ),
+    rtb_speed=knots(450),
+    sead_escort_spacing=feet(500),
+    escort_spacing=feet(1000),
+    sead_escort_engagement_range=nautical_miles(25),
+    escort_engagement_range=nautical_miles(20),
 )
 
 WWII_DOCTRINE = Doctrine(
@@ -186,4 +206,9 @@ WWII_DOCTRINE = Doctrine(
             UnitClass.RECON: 1,
         }
     ),
+    rtb_speed=knots(300),
+    sead_escort_spacing=feet(100),
+    escort_spacing=feet(200),
+    sead_escort_engagement_range=nautical_miles(10),
+    escort_engagement_range=nautical_miles(5),
 )

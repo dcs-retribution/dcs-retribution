@@ -19,6 +19,8 @@ class JoinPointBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
         waypoint.tasks.append(OptFormation.finger_four_open())
 
+        doctrine = self.flight.coalition.doctrine
+
         if self.flight.flight_type == FlightType.ESCORT:
             self.configure_escort_tasks(
                 waypoint,
@@ -26,6 +28,8 @@ class JoinPointBuilder(PydcsWaypointBuilder):
                     Targets.All.Air.Planes.Fighters.id,
                     Targets.All.Air.Planes.MultiroleFighters.id,
                 ],
+                max_dist=doctrine.escort_engagement_range.nautical_miles,
+                vertical_spacing=doctrine.escort_spacing.feet,
             )
         elif self.flight.flight_type == FlightType.SEAD_ESCORT:
             if isinstance(self.flight.package.target, NavalControlPoint):
@@ -35,15 +39,15 @@ class JoinPointBuilder(PydcsWaypointBuilder):
                         Targets.All.Naval.id,
                         Targets.All.GroundUnits.AirDefence.AAA.SAMRelated.id,
                     ],
-                    max_dist=40,
-                    vertical_spacing=1000,
+                    max_dist=doctrine.sead_escort_engagement_range.nautical_miles,
+                    vertical_spacing=doctrine.sead_escort_spacing.feet,
                 )
             else:
                 self.configure_escort_tasks(
                     waypoint,
                     [Targets.All.GroundUnits.AirDefence.AAA.SAMRelated.id],
-                    max_dist=40,
-                    vertical_spacing=1000,
+                    max_dist=doctrine.sead_escort_engagement_range.nautical_miles,
+                    vertical_spacing=doctrine.sead_escort_spacing.feet,
                 )
 
             # Let the AI use ECM to preemptively defend themselves.

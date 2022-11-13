@@ -19,7 +19,7 @@ class SplitPointBuilder(PydcsWaypointBuilder):
 
         waypoint.tasks.append(OptFormation.finger_four_close())
         waypoint.speed_locked = True
-        waypoint.speed = mach(0.85, Distance.from_feet(20000)).meters_per_second
+        waypoint.speed = self.flight.coalition.doctrine.rtb_speed.meters_per_second
         waypoint.ETA_locked = False
         if self.flight is self.package.primary_flight:
             script = RunScript(

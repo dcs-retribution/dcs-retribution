@@ -194,7 +194,7 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
         initial = None
         if self.package.primary_task == FlightType.STRIKE:
             ingress = builder.nav(
-                self.package.waypoints.ingress, Distance.from_feet(20000)
+                self.package.waypoints.ingress, self.doctrine.ingress_altitude
             )
             initial = builder.ingress(
                 ingress_type, self.package.waypoints.initial, self.package.target

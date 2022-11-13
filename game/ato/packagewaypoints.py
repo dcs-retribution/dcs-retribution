@@ -36,6 +36,7 @@ class PackageWaypoints:
         ).find_best_ip()
 
         hdg = package.target.position.heading_between_point(ingress_point)
+        # Generate a waypoint randomly between 7 & 9 NM
         dist = nautical_miles(random.random() * 2 + 7).meters
         initial_point = package.target.position.point_from_heading(hdg, dist)
 

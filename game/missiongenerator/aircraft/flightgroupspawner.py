@@ -75,11 +75,9 @@ class FlightGroupSpawner:
             or self.flight.state.spawn_type is not StartType.IN_FLIGHT
         ):
             grp = self.generate_flight_at_departure()
-            # grp.id = id(self.flight)
             self.flight.group_id = grp.id
             return grp
         grp = self.generate_mid_mission()
-        # grp.id = id(self.flight)
         self.flight.group_id = grp.id
         return grp
 
