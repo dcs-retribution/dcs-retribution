@@ -19,7 +19,7 @@ from PySide2.QtWidgets import (
 )
 
 import qt_ui.uiconstants as CONST
-from game import Game, VERSION, persistency
+from game import Game, VERSION, persistency, Migrator
 from game.debriefing import Debriefing
 from game.game import TurnState
 from game.layout import LAYOUTS
@@ -108,6 +108,7 @@ class QLiberationWindow(QMainWindow):
                 try:
                     logging.info("Loading last saved game : " + str(last_save_file))
                     game = persistency.load_game(last_save_file)
+                    Migrator(game)
                     self.onGameGenerated(game)
                     self.updateWindowTitle(last_save_file if game else None)
                 except:
@@ -317,6 +318,7 @@ class QLiberationWindow(QMainWindow):
         )
         if file is not None and file[0] != "":
             game = persistency.load_game(file[0])
+            Migrator(game)
             GameUpdateSignal.get_instance().game_loaded.emit(game)
 
             self.updateWindowTitle(file[0])
