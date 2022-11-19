@@ -46,7 +46,7 @@ class LogisticsGenerator:
             target_zone = f"{self.group.name}TARGET_ZONE"
             self.mission.triggers.add_triggerzone(
                 self.flight.flight_plan.layout.target.position,
-                self.flight.flight_plan.engagement_distance.meters,
+                self.flight.flight_plan.ctld_target_zone_radius.meters,
                 False,
                 target_zone,
             )
