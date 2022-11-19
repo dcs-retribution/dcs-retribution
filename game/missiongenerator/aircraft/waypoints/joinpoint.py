@@ -3,6 +3,7 @@ from typing import List
 
 from dcs.point import MovingPoint
 from dcs.task import (
+    ControlledTask,
     EscortTaskAction,
     OptECMUsing,
     OptFormation,
@@ -76,18 +77,19 @@ class JoinPointBuilder(PydcsWaypointBuilder):
         rz = (random.random() + 0.1) * 50 * random.choice([-1, 1])
         pos = {"x": rx, "y": ry, "z": rz}
 
-        lastwpt = 6 if self.package.primary_task == FlightType.STRIKE else 5
-
         group_id = None
         if self.package.primary_flight is not None:
             group_id = self.package.primary_flight.group_id
 
-        waypoint.tasks.append(
+        escort = ControlledTask(
             EscortTaskAction(
                 group_id=group_id,
                 engagement_max_dist=int(nautical_miles(max_dist).meters),
-                lastwpt=lastwpt,
                 targets=target_types,
                 position=pos,
             )
         )
+
+        escort.stop_if_user_flag(f"split-{id(self.package)}", True)
+
+        waypoint.tasks.append(escort)
