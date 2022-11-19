@@ -184,9 +184,7 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
         hold = builder.hold(self._hold_point())
         join = builder.join(self.package.waypoints.join)
         split = builder.split(self.package.waypoints.split)
-        refuel = None
-        if self.package.waypoints.refuel is not None:
-            refuel = builder.refuel(self.package.waypoints.refuel)
+        refuel = builder.refuel(self.package.waypoints.refuel)
 
         ingress = builder.ingress(
             ingress_type, self.package.waypoints.ingress, self.package.target
@@ -213,7 +211,7 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
             split=split,
             refuel=refuel,
             nav_from=builder.nav_path(
-                split.position,
+                refuel.position,
                 self.flight.arrival.position,
                 self.doctrine.ingress_altitude,
             ),
