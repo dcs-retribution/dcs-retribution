@@ -198,8 +198,11 @@ class IadsNetwork:
             # Not participating
             return
         events.update_iads_node(node)
-        if self.advanced_iads and not self.iads_config:
-            self._make_advanced_connections_by_range(node)
+        if self.advanced_iads:
+            if self.iads_config:
+                self._add_connections_from_config(node)
+            else:
+                self._make_advanced_connections_by_range(node)
 
     def node_for_group(self, group: IadsGroundGroup) -> IadsNetworkNode:
         """Get existing node from the iads network or create a new node"""
@@ -259,17 +262,17 @@ class IadsNetwork:
 
     def initialize_network_from_config(self) -> None:
         """Initialize the IADS Network from a configuration"""
-        for element_name, connections in self.iads_config.items():
+        for primary_node in self.iads_config.keys():
             warning_msg = (
-                f"IADS: No ground object found for {element_name}."
+                f"IADS: No ground object found for {primary_node}."
                 f" This can be normal behaviour."
             )
-            if element_name in self.ground_objects:
-                node = self.node_for_tgo(self.ground_objects[element_name])
+            if primary_node in self.ground_objects:
+                node = self.node_for_tgo(self.ground_objects[primary_node])
             else:
                 node = None
                 warning_msg = (
-                    f"IADS: No ground object found for connection {element_name}"
+                    f"IADS: No ground object found for connection {primary_node}"
                 )
 
             if node is None:
@@ -278,16 +281,20 @@ class IadsNetwork:
                 # available. Therefore the TGO will not get populated at all
                 logging.warning(warning_msg)
                 continue
+            self._add_connections_from_config(node)
 
-            # Find all connected ground_objects
-            for node_name in connections:
-                try:
-                    node.add_connection_for_tgo(self.ground_objects[node_name])
-                except KeyError:
-                    logging.error(
-                        f"IADS: No ground object found for connection {node_name}"
-                    )
-                    continue
+    def _add_connections_from_config(self, node: IadsNetworkNode) -> None:
+        """Add all connections for the given primary node based on the iads_config"""
+        primary_node = node.group.ground_object.original_name
+        connections = self.iads_config[primary_node]
+        for secondary_node in connections:
+            try:
+                node.add_connection_for_tgo(self.ground_objects[secondary_node])
+            except KeyError:
+                logging.error(
+                    f"IADS: No ground object found for connection {secondary_node}"
+                )
+                continue
 
     def initialize_network_from_range(self) -> None:
         """Initialize the IADS Network by range"""
