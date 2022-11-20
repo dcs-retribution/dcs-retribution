@@ -30,6 +30,14 @@ BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 * **[Mission Generation]** Fixed issue where aircraft carriers would return after being killed.
 
 # Liberation:
+# 7.0.0
+
+Saves from 6.x are not compatible with 7.0.
+
+## Features/Improvements
+
+## Fixes
+
 # 6.0.0
 
 Saves from 5.x are not compatible with 6.0.
