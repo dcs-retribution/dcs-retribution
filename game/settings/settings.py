@@ -56,19 +56,19 @@ class Settings:
         "Player coalition skill",
         page=DIFFICULTY_PAGE,
         section=AI_DIFFICULTY_SECTION,
-        default="Good",
+        default="High",
     )
     enemy_skill: str = skill_option(
         "Enemy coalition skill",
         page=DIFFICULTY_PAGE,
         section=AI_DIFFICULTY_SECTION,
-        default="Average",
+        default="High",
     )
     enemy_vehicle_skill: str = skill_option(
         "Enemy AA and vehicles skill",
         page=DIFFICULTY_PAGE,
         section=AI_DIFFICULTY_SECTION,
-        default="Average",
+        default="High",
     )
     player_income_multiplier: float = bounded_float_option(
         "Player income multiplier",
