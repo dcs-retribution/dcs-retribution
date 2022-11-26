@@ -376,9 +376,8 @@ SEAD_CAPABLE = SEAD_ESCORT_CAPABLE + [
 # Aircraft used for DEAD tasks. Must be capable of the CAS DCS task.
 DEAD_CAPABLE = SEAD_CAPABLE + [
     AJS37,
-    F_14B,
-    F_14A_135_GR,
     F_16A,
+    F_15E,
     JAS39Gripen_AG,
     B_1B,
     B_52H,
