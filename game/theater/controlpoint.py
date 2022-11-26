@@ -37,6 +37,7 @@ from dcs.ships import (
     LHA_Tarawa,
     Stennis,
     Type_071,
+    Hms_invincible,
 )
 from dcs.terrain.terrain import Airport, ParkingSlot
 from dcs.unitgroup import ShipGroup, StaticGroup
@@ -1203,6 +1204,7 @@ class NavalControlPoint(ControlPoint, ABC):
                     LHA_Tarawa,
                     KUZNECOW,
                     Type_071,
+                    Hms_invincible,
                 ]:
                     return True
         return False
