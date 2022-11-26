@@ -258,15 +258,48 @@ RADIOS: List[Radio] = [
     ),
     # MB-339A
     Radio(
-        "AN/ARC-150(V)2",
-        (RadioRange(MHz(225), MHz(400), kHz(25), Modulation.AM),),
+        "AN/ARC-150(V) 2",
+        (
+            RadioRange(
+                MHz(225),
+                MHz(400),
+                MHz(1),
+                Modulation.AM,
+                frozenset((MHz(243),)),
+            ),
+        ),
     ),
     Radio(
         "SRT-651/N",
         (
-            RadioRange(MHz(30), MHz(88), kHz(25), Modulation.AM),
-            RadioRange(MHz(118), MHz(174), kHz(25), Modulation.AM),
-            RadioRange(MHz(225), MHz(400), kHz(25), Modulation.AM),
+            RadioRange(
+                MHz(30),
+                MHz(88),
+                MHz(1),
+                Modulation.FM,
+                frozenset((MHz(40, 500),)),
+            ),
+            RadioRange(
+                MHz(108),
+                MHz(156),
+                MHz(1),
+                Modulation.AM,
+                frozenset((MHz(121, 500),)),
+            ),
+            RadioRange(
+                MHz(156),
+                MHz(174),
+                MHz(1),
+                Modulation.FM,
+                frozenset((MHz(156, 800),)),
+            ),
+            RadioRange(
+                MHz(225),
+                MHz(400),
+                MHz(1),
+                Modulation.AM,  # Actually AM/FM, but we can't represent that.
+                frozenset((MHz(243),)),
+            ),
         ),
     ),
 ]
