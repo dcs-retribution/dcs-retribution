@@ -72,7 +72,7 @@ class JoinPointBuilder(PydcsWaypointBuilder):
         vertical_spacing: float = 2000.0,
     ) -> None:
 
-        rx = (random.random() + 0.1) * 1000
+        rx = (random.random() + 0.1) * 333
         ry = feet(vertical_spacing).meters
         rz = (random.random() + 0.1) * 50 * random.choice([-1, 1])
         pos = {"x": rx, "y": ry, "z": rz}
