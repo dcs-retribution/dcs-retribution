@@ -142,6 +142,7 @@ class NewGameWizard(QtWidgets.QWizard):
             ),
             automate_aircraft_reinforcements=self.field("automate_aircraft_purchases"),
             supercarrier=self.field("supercarrier"),
+            max_frontline_length=campaign.data.get("max_frontline_length", 80),
         )
         generator_settings = GeneratorSettings(
             start_date=start_date,
