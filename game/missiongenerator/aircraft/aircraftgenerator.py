@@ -6,7 +6,7 @@ from functools import cached_property
 from typing import Any, Dict, List, TYPE_CHECKING
 
 from dcs.action import AITaskPush
-from dcs.condition import FlagIsTrue
+from dcs.condition import FlagIsTrue, GroupDead, Or, FlagIsFalse
 from dcs.country import Country
 from dcs.mission import Mission
 from dcs.terrain.terrain import NoParkingSlotError
@@ -114,9 +114,15 @@ class AircraftGenerator:
                         flight, country, dynamic_runways
                     )
                     self.unit_map.add_aircraft(group, flight)
-            if package.primary_task == FlightType.STRIKE:
+            if (
+                package.primary_task == FlightType.STRIKE
+                and package.primary_flight is not None
+            ):
                 splittrigger = TriggerOnce(Event.NoEvent, f"Split-{id(package)}")
                 splittrigger.add_condition(FlagIsTrue(flag=f"split-{id(package)}"))
+                splittrigger.add_condition(Or())
+                splittrigger.add_condition(FlagIsFalse(flag=f"split-{id(package)}"))
+                splittrigger.add_condition(GroupDead(package.primary_flight.group_id))
                 for flight in package.flights:
                     if flight is not package.primary_flight:
                         splittrigger.add_action(AITaskPush(flight.group_id, 1))

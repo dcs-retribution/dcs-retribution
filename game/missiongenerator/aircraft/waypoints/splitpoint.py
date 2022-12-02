@@ -1,7 +1,6 @@
 from dcs.point import MovingPoint
 from dcs.task import OptECMUsing, OptFormation, RunScript
 
-from game.utils import mach, Distance
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 
