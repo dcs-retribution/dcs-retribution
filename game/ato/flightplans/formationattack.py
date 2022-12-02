@@ -189,14 +189,6 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
         ingress = builder.ingress(
             ingress_type, self.package.waypoints.ingress, self.package.target
         )
-        initial = None
-        if self.package.primary_task == FlightType.STRIKE:
-            ingress = builder.nav(
-                self.package.waypoints.ingress, self.doctrine.ingress_altitude
-            )
-            initial = builder.ingress(
-                ingress_type, self.package.waypoints.initial, self.package.target
-            )
 
         return FormationAttackLayout(
             departure=builder.takeoff(self.flight.departure),
@@ -206,7 +198,6 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
             ),
             join=join,
             ingress=ingress,
-            initial=initial,
             targets=target_waypoints,
             split=split,
             refuel=refuel,
