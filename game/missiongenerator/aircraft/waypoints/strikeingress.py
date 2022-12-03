@@ -1,7 +1,7 @@
 import copy
 
 from dcs import Point
-from dcs.planes import B_17G, B_52H, Tu_22M3
+from dcs.planes import B_17G, B_52H, Tu_22M3, B_1B
 from dcs.point import MovingPoint
 from dcs.task import Bombing, Expend, OptFormation, WeaponType
 
@@ -11,10 +11,12 @@ from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 class StrikeIngressBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
-        bomber = self.group.units[0].unit_type in [B_17G, B_52H, Tu_22M3]
-        if bomber:
-            if self.group.units[0].unit_type == B_52H:
-                self.add_strike_tasks(waypoint, WeaponType.Guided)
+        bomber = self.group.units[0].unit_type in [B_17G, Tu_22M3]
+        bomber_guided = self.group.units[0].unit_type in [B_1B, B_52H]
+        if bomber_guided:
+            self.add_strike_tasks(waypoint, WeaponType.Guided)
+            self.add_bombing_tasks(waypoint)
+        elif bomber:
             self.add_bombing_tasks(waypoint)
         else:
             self.add_strike_tasks(waypoint)
