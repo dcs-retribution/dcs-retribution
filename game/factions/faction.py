@@ -116,6 +116,9 @@ class Faction:
     # List of default livery overrides
     liveries_overrides: Dict[AircraftType, List[str]] = field(default_factory=dict)
 
+    # List of default livery overrides for ground vehicles
+    liveries_overrides_ground_forces: Dict[str, List[str]] = field(default_factory=dict)
+
     #: Set to True if the faction should force the "Unrestricted satnav" option
     #: for the mission. This option enables GPS for capable aircraft regardless
     #: of the time period or operator. For example, the CJTF "countries" don't
@@ -283,6 +286,16 @@ class Faction:
         for name, livery in liveries_overrides.items():
             aircraft = AircraftType.named(name)
             faction.liveries_overrides[aircraft] = [s.lower() for s in livery]
+
+        # Load liveries override for ground forces
+        faction.liveries_overrides_ground_forces = {}
+        liveries_overrides_ground_forces = json.get(
+            "liveries_overrides_ground_forces", {}
+        )
+        for vehicle_type, livery in liveries_overrides_ground_forces.items():
+            faction.liveries_overrides_ground_forces[vehicle_type] = [
+                s.lower() for s in livery
+            ]
 
         faction.unrestricted_satnav = json.get("unrestricted_satnav", False)
 
