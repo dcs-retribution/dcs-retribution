@@ -126,7 +126,7 @@ class GroundObjectGenerator:
         vehicle_group: Optional[VehicleGroup] = None
         for unit in units:
             assert issubclass(unit.type, VehicleType)
-            faction = self.game.coalition_for_country(self.country.name).faction
+            faction = unit.ground_object.control_point.coalition.faction
             if vehicle_group is None:
                 vehicle_group = self.m.vehicle_group(
                     self.country,
@@ -161,7 +161,7 @@ class GroundObjectGenerator:
         ship_group: Optional[ShipGroup] = None
         for unit in units:
             assert issubclass(unit.type, ShipType)
-            faction = self.game.coalition_for_country(self.country.name).faction
+            faction = unit.ground_object.control_point.coalition.faction
             if ship_group is None:
                 ship_group = self.m.ship_group(
                     self.country,
