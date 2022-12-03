@@ -97,6 +97,7 @@ class ConvoyGenerator:
                 v.position.x = position.x
                 v.position.y = next(y)
                 v.heading = 0
+                GroundForcePainter(faction, v).apply_livery()
                 group.add_unit(v)
 
         return group
