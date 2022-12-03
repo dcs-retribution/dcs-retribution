@@ -4,6 +4,7 @@
 * **[Engine]** Support for DCS v2.8.0.32066.
 * **[Briefing]** Add tanker info to mission briefing
 * **[Campaign]** Add 3 new campaigns by Oscar Juliet from WRL
+* **[Campaign]** Add ability to define livery overrides also for ground/naval units
 * **[Data]** Added data to support C-47 Skytrain.
 * **[Data]** Added data to support KS-19 & SON-9, including support for "AAA Site" layout.
 * **[Mission Generation]** Add option to configure the maximum front-line length in settings
