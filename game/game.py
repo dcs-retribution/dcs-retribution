@@ -528,12 +528,20 @@ class Game:
 
         packages = itertools.chain(self.blue.ato.packages, self.red.ato.packages)
         for package in packages:
-            if package.primary_task is FlightType.BARCAP:
+            if package.primary_task in [
+                FlightType.BARCAP,
+                FlightType.TRANSPORT,
+                FlightType.AEWC,
+                FlightType.REFUELING,
+            ]:
                 # BARCAPs will be planned at most locations on smaller theaters,
                 # rendering culling fairly useless. BARCAP packages don't really
                 # need the ground detail since they're defensive. SAMs nearby
                 # are only interesting if there are enemies in the area, and if
                 # there are they won't be culled because of the enemy's mission.
+
+                # Don't create culling exclusion zones around FlightType.TRANSPORT,
+                # FlightType.AEWC & FlightType.REFUELING mission targets.
                 continue
             zones.append(package.target.position)
 
