@@ -1,0 +1,172 @@
+---
+name: Nevada - Battle for Area 51
+theater: Nevada
+authors: HolyOrangeJuice, We Run Liberation
+recommended_player_faction: Blue - Area 51
+recommended_enemy_faction: Red - Area 51
+description: <p>This mission was designed for the We Run Liberation group [WRL]. werunliberation.com</p><p>It is a small scale battle around Creech and Groom Lake.</p><p>The enemy has an Advanced IADs network designed to work with the skynet plugin.</p><p>Look for weakness in enemy SAM defense and go after the command center and power stations.</p>
+miz: battle4area51.miz
+performance: 1
+version: "10.5"
+recommended_player_money: 3000
+recommended_enemy_money: 2000
+recommended_player_income_multiplier: 3.0
+recommended_enemy_income_multiplier: 2.0
+max_frontline_length: 30
+advanced_iads: true # Campaign has connection_nodes / power_sources / command_centers
+iads_config:
+#COMMAND
+  - COMMAND:
+    - CM-C
+    - CM-B2
+    - PW-C
+#WEST IADS
+  - EWR-A:
+    - CM-A
+    - PW-A
+  - SAM-A:
+    - CM-A
+    - PW-A
+#CENTRAL IADS
+  - EWR-B:
+    - CM-A2
+    - PW-B
+  - SAM-A2:
+    - CM-A2
+    - PW-B
+  - SAM-B:
+    - CM-B
+    - PW-B
+#EAST IADS
+  - EWR-C:
+    - CM-C
+    - PW-C
+  - SAM-C1:
+    - CM-B2
+    - PW-C
+  - SAM-C2:
+    - CM-B2
+    - PW-C
+  - SAM-C3:
+    - CM-C
+    - PW-C
+  - NATO SAM-1:
+    - NATO COMMAND
+  - NATO SAM-2:
+    - NATO COMMAND    
+squadrons:
+# Creech
+  1:
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - B-52H Stratofortress
+    - primary: AEW&C
+      aircraft:
+        - E-3A
+    - primary: Refueling
+      aircraft:
+        - KC-135 Stratotanker MPRS 
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - 335th FS
+        #F15e   
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - 58th FS
+        #F15c
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - VMA-214
+        #AV8B 
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - VMFA-251
+        #Hornet - Marines   
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - A-10C Thunderbolt II (Suite 7)
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - 23rd FS
+        #Viper USAF
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - AH-64D Apache Longbow
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Mi-24P Hind-F
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Ka-50 Hokum
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - Mirage 2000C
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - JF-17 Thunder
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - AJS-37 Viggen 
+# Groom Lake
+  2:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - MiG-21bis Fishbed-N
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - Su-17M4 Fitter-K
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - MiG-23MLD Flogger-K
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - Su-24M Fencer-D
+#FARP A-1
+  FARP A1:
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - Mi-24P Hind-F
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - Ka-50 Hokum
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - Mi-8MTV2 Hip 
+#FARP A-1
+  FARP B1:
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - Mi-28N Havoc
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - Mi-24V Hind-E
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - SA 342L Gazelle
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - SA 342M Gazelle 
