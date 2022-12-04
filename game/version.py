@@ -167,4 +167,9 @@ VERSION = _build_version_string()
 #:
 #: Version 10.4
 #: * Support for the Falklands.
-CAMPAIGN_FORMAT_VERSION = (10, 4)
+#:
+#: Version 10.5
+#: * Support for scenery objectives defined by quad zones.
+#: * Campaign designers can now define `max_frontline_length` (in km) setting:
+#:    `max_frontline_length: 25`
+CAMPAIGN_FORMAT_VERSION = (10, 5)
