@@ -6,6 +6,7 @@
 * **[Campaign]** Add 3 new campaigns by Oscar Juliet from WRL
 * **[Campaign]** Add ability to define livery overrides also for ground/naval units
 * **[Data]** Added data to support C-47 Skytrain.
+* **[Data]** Added data to support F-16A MLU.
 * **[Data]** Added data to support KS-19 & SON-9, including support for "AAA Site" layout.
 * **[Mission Generation]** Add option to configure the maximum front-line length in settings
 * **[Mission Generation]** Use Escort & SEAD tasks for Escort & SEAD Escort flights
