@@ -6,7 +6,7 @@ from typing import List
 
 from PySide2 import QtGui, QtWidgets
 from PySide2.QtCore import QDate, QItemSelectionModel, QPoint, Qt, Signal
-from PySide2.QtWidgets import QCheckBox, QLabel, QTextEdit, QVBoxLayout
+from PySide2.QtWidgets import QCheckBox, QLabel, QTextEdit, QVBoxLayout, QTextBrowser
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from game.campaignloader.campaign import Campaign, DEFAULT_BUDGET
@@ -260,11 +260,13 @@ class FactionSelection(QtWidgets.QWizardPage):
         redFaction.setBuddy(self.redFactionSelect)
 
         # Faction description
-        self.blueFactionDescription = QTextEdit("")
+        self.blueFactionDescription = QTextBrowser()
         self.blueFactionDescription.setReadOnly(True)
+        self.blueFactionDescription.setOpenExternalLinks(True)
 
-        self.redFactionDescription = QTextEdit("")
+        self.redFactionDescription = QTextBrowser()
         self.redFactionDescription.setReadOnly(True)
+        self.redFactionDescription.setOpenExternalLinks(True)
 
         # Setup default selected factions
         for i, r in enumerate(FACTIONS):
@@ -386,8 +388,9 @@ class TheaterConfiguration(QtWidgets.QWizardPage):
         self.registerField("selectedCampaign", self.campaignList)
 
         # Faction description
-        self.campaignMapDescription = QTextEdit("")
+        self.campaignMapDescription = QTextBrowser()
         self.campaignMapDescription.setReadOnly(True)
+        self.campaignMapDescription.setOpenExternalLinks(True)
         self.campaignMapDescription.setMaximumHeight(200)
 
         self.performanceText = QTextEdit("")
