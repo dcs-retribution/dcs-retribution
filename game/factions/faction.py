@@ -356,6 +356,7 @@ class Faction:
         if not mod_settings.f100_supersabre:
             self.remove_aircraft("VSN_F100")
         if not mod_settings.f104_starfighter:
+            self.remove_aircraft("VSN_F104C")
             self.remove_aircraft("VSN_F104G")
             self.remove_aircraft("VSN_F104S")
             self.remove_aircraft("VSN_F104S_AG")
