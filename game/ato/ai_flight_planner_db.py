@@ -366,13 +366,14 @@ SEAD_ESCORT_CAPABLE = [
     Su_30SM,
     MiG_27K,
     Tornado_GR4,
+    VSN_F105G,
+    VSN_F100,
 ]
 
 
 SEAD_CAPABLE = SEAD_ESCORT_CAPABLE + [
     F_14B,
     F_14A_135_GR,
-    VSN_F105G,
 ]
 
 # Aircraft used for DEAD tasks. Must be capable of the CAS DCS task.

@@ -297,6 +297,10 @@ class VSN_F100(PlaneType):
             7,
             Weapons.LAU_7_with_AIM_9P_Sidewinder_IR_AAM,
         )
+        LAU_118a_with_AGM_45B_Shrike_ARM__Imp_ = (
+            7,
+            Weapons.LAU_118a_with_AGM_45B_Shrike_ARM__Imp_,
+        )
         Fuel_tank_500_Liter = (7, WeaponsF100.Fuel_tank_500_Liter)
 
     # ERRR <CLEAN>

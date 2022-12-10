@@ -713,7 +713,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("F-16I Sufa & F-16D (v2.2 by IDF Mods Project)", f_16_idf),
             ("F-22A Raptor", f22_raptor),
             ("F-84G Thunderjet (v2.5.7.01)", f84g_thunderjet),
-            ("F-100 Super Sabre (v2.7.18.30765 patch 09.10.22)", f100_supersabre),
+            ("F-100 Super Sabre (v2.7.18.30765 patch 20.10.22)", f100_supersabre),
             ("F-104 Starfighter (v2.7.11.222.01)", f104_starfighter),
             ("F-105 Thunderchief (v2.7.12.23x)", f105_thunderchief),
             ("Frenchpack", frenchpack),
