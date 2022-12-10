@@ -3,8 +3,8 @@ name: Caucasus - Up The Coast
 theater: Caucasus
 authors: HolyOrangeJuice
 recommended_player_faction: WRL - Task Force Blue
-recommended_enemy_faction: WRL - Task Force Red
-description:   <p>This mission was designed for the We Run Liberation group [WRL]. werunliberation.com</p>
+description:   "<p>This mission was designed for the We Run Liberation group [WRL].
+  <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p>
   <p>The goal of this mission is to strike at the enemy economy, cripple their finances,
   and take all of the enemy air bases.</p>
   <p>All strike targets (objective buildings) are used to generate income for blufor or redfor. Once destroyed,
@@ -17,7 +17,8 @@ description:   <p>This mission was designed for the We Run Liberation group [WRL
   ground units. The enemy will be able to spend a lot of money replacing units if you do not target the buildings.</p>
   <p>Factory targets are used to produce ground units. Ammo targets are used to dictate how many frontline units can
   be deployed at once. Each airbase has one or more factories. Each airbase has only three ammo targets. Do not
-  destroy these if you wish to use them after you capture them</p>
+  destroy these if you wish to use them after you capture them</p>"
+recommended_enemy_faction: WRL - Task Force Red
 miz: WRL_up_the_coast.miz
 performance: 1
 version: "10.2"

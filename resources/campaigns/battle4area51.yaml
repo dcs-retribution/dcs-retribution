@@ -4,7 +4,11 @@ theater: Nevada
 authors: HolyOrangeJuice, We Run Liberation
 recommended_player_faction: Blue - Area 51
 recommended_enemy_faction: Red - Area 51
-description: <p>This mission was designed for the We Run Liberation group [WRL]. werunliberation.com</p><p>It is a small scale battle around Creech and Groom Lake.</p><p>The enemy has an Advanced IADs network designed to work with the skynet plugin.</p><p>Look for weakness in enemy SAM defense and go after the command center and power stations.</p>
+description: "<p>This mission was designed for the We Run Liberation group [WRL].
+  <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p>
+  <p>It is a small scale battle around Creech and Groom Lake.</p>
+  <p>The enemy has an Advanced IADs network designed to work with the skynet plugin.</p>
+  <p>Look for weakness in enemy SAM defense and go after the command center and power stations.</p>"
 miz: battle4area51.miz
 performance: 1
 version: "10.5"

@@ -4,13 +4,14 @@ theater: Caucasus
 authors: HolyOrangeJuice
 recommended_player_faction: WRL - Task Force Blue
 recommended_enemy_faction: WRL - Task Force Red
-description: <p>This mission was designed for the We Run Liberation group [WRL]. werunliberation.com</p>
+description: "<p>This mission was designed for the We Run Liberation group [WRL].
+  <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p>
   <p>The invasion of Georgia has begun. Russian forces have pushed all the way up to Zugdidi.
   NATO has decided to help Georgia out and push Russia back towards Sochi. The Abraham Lincoln was dispatched
   by the US to support NATO's efforts to help Georgia, along with the Saipan. Georgia has also allowed NATO
   aircraft to make use of Georgian airfields for its defence. The objective is simple, liberate Georgia
   from its Russian neighbours before it's too late!
-  </p>
+  </p>"
 miz: Battle4Georgia_v8.miz
 performance: 2
 version: "10.2"

@@ -2,7 +2,7 @@
   "country": "Combined Joint Task Forces Blue",
   "name": "Blue - Area 51",
   "authors": "HolyOrangeJuice",
-  "description": "<p>A generic blufor faction which is similar to the Blufor Modern preset. This meets the needs of the We Run Liberation group. werunliberation.com.</p>",
+  "description": "<p>A generic blufor faction which is similar to the Blufor Modern preset. This meets the needs of the We Run Liberation group. <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a>.</p>",
   "aircrafts": [
 	"MiG-21bis Fishbed-N",
     "F-5E Tiger II",

@@ -4,7 +4,8 @@ theater: Syria
 authors: HolyOrangeJuice
 recommended_player_faction: WRL - Task Force Blue
 recommended_enemy_faction: WRL - Task Force Red
-description: <p>Edited by HolyOrangeJuice. Original Golan Heights by Khopa. Modified for We Run Liberation group.</p>
+description: "<p>Edited by HolyOrangeJuice. Original Golan Heights by Khopa. Modified for We Run Liberation group.
+  <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p>"
 miz: AssaultonDamascus.miz
 performance: 1
 version: "10.2"
