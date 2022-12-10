@@ -15,7 +15,7 @@ BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 * **[Modding]** Support for Su-30 mod version 2.01B
 * **[Modding]** Support for A-6A Intruder version 2.7.5.01
 * **[Modding]** Support for F-4B Phantom II mod version v2.7.10.02, patch 2022.10.02
-* **[Modding]** Support for F-100 Super Sabre mod versions v2.7.18.01 & 2.7.18.30765 and patches 30.09.22 & 09.10.22
+* **[Modding]** Support for F-100 Super Sabre mod versions v2.7.18.01 & 2.7.18.30765 and patch 20.10.22
 * **[Modding]** Support for F-105 mod version 2.7.12.23x
 * **[Modding]** Support IDF Mod Project F-16I Sufa & F-16D v2.2 mod
 * **[Modding]** Support for F-84G mod version 2.5.7.01
