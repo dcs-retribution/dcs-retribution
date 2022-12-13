@@ -12,6 +12,7 @@
 * **[Mission Generation]** Use Escort & SEAD tasks for Escort & SEAD Escort flights
 * **[Mission Generation]** Variable flight-size (2/3/4-ship) for 
 BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
+* **[Mission Generation]** Add option to only generate night missions
 * **[Modding]** Support for F-15D 'Baz' mod version 1.0
 * **[Modding]** Support for Su-30 mod version 2.01B
 * **[Modding]** Support for A-6A Intruder version 2.7.5.01
