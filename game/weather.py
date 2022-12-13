@@ -5,6 +5,7 @@ import logging
 import math
 import random
 from dataclasses import dataclass, field
+from enum import Enum
 from typing import Optional, TYPE_CHECKING
 
 from dcs.cloud_presets import Clouds as PydcsClouds
@@ -26,6 +27,12 @@ if TYPE_CHECKING:
     from game.settings import Settings
     from game.theater import ConflictTheater
     from game.theater.seasonalconditions import SeasonalConditions
+
+
+class NightMissions(Enum):
+    DayAndNight = "nightmissions_nightandday"
+    OnlyDay = "nightmissions_onlyday"
+    OnlyNight = "nightmissions_onlynight"
 
 
 @dataclass(frozen=True)
@@ -424,7 +431,7 @@ class Conditions:
             _start_time = datetime.datetime.combine(day, forced_time)
         else:
             _start_time = cls.generate_start_time(
-                theater, day, time_of_day, settings.night_disabled
+                theater, day, time_of_day, settings.night_day_missions
             )
 
         return cls(
@@ -439,17 +446,25 @@ class Conditions:
         theater: ConflictTheater,
         day: datetime.date,
         time_of_day: TimeOfDay,
-        night_disabled: bool,
+        night_day_missions: NightMissions,
     ) -> datetime.datetime:
-        if night_disabled:
-            from game.theater import DaytimeMap
+        from game.theater import DaytimeMap
 
+        if night_day_missions == NightMissions.OnlyDay:
             logging.info("Skip Night mission due to user settings")
             time_range = DaytimeMap(
                 dawn=(datetime.time(hour=8), datetime.time(hour=9)),
                 day=(datetime.time(hour=10), datetime.time(hour=12)),
                 dusk=(datetime.time(hour=12), datetime.time(hour=14)),
                 night=(datetime.time(hour=14), datetime.time(hour=17)),
+            ).range_of(time_of_day)
+        elif night_day_missions == NightMissions.OnlyNight:
+            logging.info("Skip Day mission due to user settings")
+            time_range = DaytimeMap(
+                dawn=(datetime.time(hour=0), datetime.time(hour=3)),
+                day=(datetime.time(hour=3), datetime.time(hour=6)),
+                dusk=(datetime.time(hour=21), datetime.time(hour=22)),
+                night=(datetime.time(hour=22), datetime.time(hour=23)),
             ).range_of(time_of_day)
         else:
             time_range = theater.daytime_map.range_of(time_of_day)
