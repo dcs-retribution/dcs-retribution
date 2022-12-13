@@ -50,6 +50,10 @@ Saves from 6.0.0 are compatible with 6.1.0
 
 ## Features/Improvements
 
+* **[Factions]** Defaulted bluefor modern to use Georgian and Ukrainian liveries for Russian aircraft.
+* **[Factions]** Added Peru.
+* **[Modding]** Added support for the HMS Ariadne, Achilles, and Castle class.
+
 ## Fixes
 
 * **[UI]** Fixed an issue where manual submit of mission results did not end the mission correctly.
