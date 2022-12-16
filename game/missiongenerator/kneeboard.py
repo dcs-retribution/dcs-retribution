@@ -639,6 +639,8 @@ class SeadTaskPage(KneeboardPage):
 class StrikeTaskPage(KneeboardPage):
     """A kneeboard page containing strike target information."""
 
+    WAYPOINT_DESC_MAX_LEN = 35
+
     def __init__(self, flight: FlightData, dark_kneeboard: bool) -> None:
         self.flight = flight
         self.dark_kneeboard = dark_kneeboard
@@ -658,17 +660,21 @@ class StrikeTaskPage(KneeboardPage):
         writer.title(f"{self.flight.callsign} Strike Task Info{custom_name_title}")
 
         writer.table(
-            [self.target_info_row(t) for t in self.targets],
-            headers=["Steerpoint", "Description", "Location"],
+            [self.target_info_row(t, writer) for t in self.targets],
+            headers=["STPT", "Description", "Location"],
         )
 
         writer.write(path)
 
     @staticmethod
-    def target_info_row(target: NumberedWaypoint) -> list[str]:
+    def target_info_row(
+        target: NumberedWaypoint, writer: KneeboardPageWriter
+    ) -> list[str]:
         return [
             str(target.number),
-            target.waypoint.pretty_name,
+            writer.wrap_line(
+                target.waypoint.pretty_name, StrikeTaskPage.WAYPOINT_DESC_MAX_LEN
+            ),
             target.waypoint.position.latlng().format_dms(include_decimal_seconds=True),
         ]
 
