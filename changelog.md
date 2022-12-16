@@ -25,6 +25,7 @@ BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 * **[Performance]** Added performance option: Maximum front-line unit supply per control point.
 * **[Performance]** Added performance option: Disable convoys.
 * **[Performance]** Added performance option: Front-line troops prefer roads.
+* **[Performance]** Added performance option: Disable idle aircraft at airfields.
 * **[Squadrons]** Squadron pilot limits enabled by default.
 * **[UI]** Add livery selector to Air Wing Configurator's squadrons.
 

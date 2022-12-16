@@ -151,6 +151,9 @@ class AircraftGenerator:
     def _spawn_unused_for(
         self, squadron: Squadron, country: Country, faction: Faction
     ) -> None:
+        if self.game.settings.perf_disable_idle_aircraft:
+            return
+
         assert isinstance(squadron.location, Airfield)
         for _ in range(squadron.untasked_aircraft):
             # Creating a flight even those this isn't a fragged mission lets us
