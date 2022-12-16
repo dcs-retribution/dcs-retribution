@@ -1,14 +1,19 @@
 ---
-name: Syria - Assault on Damascus
+name: Syria - WRL - Assault on Damascus (v1)
 theater: Syria
 authors: HolyOrangeJuice
 recommended_player_faction: WRL - Task Force Blue
 recommended_enemy_faction: WRL - Task Force Red
+recommended_start_date: 2022-06-04
 description: "<p>Edited by HolyOrangeJuice. Original Golan Heights by Khopa. Modified for We Run Liberation group.
   <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p>"
 miz: AssaultonDamascus.miz
-performance: 1
-version: "10.2"
+performance: 2
+version: "10.5"
+recommended_player_money: 2000
+recommended_enemy_money: 2000
+recommended_player_income_multiplier: 1.0
+recommended_enemy_income_multiplier: 1.0
 advanced_iads: false
 squadrons:
   CVN-74 John Stennis:
@@ -48,7 +53,13 @@ squadrons:
       aircraft:
         - SH-60B Seahawk
   # AIR SPAWN BLUE
-  BLUEAIR:      
+  BLUEAIR:
+    - primary: AEW&C
+      aircraft:
+        - E-3A
+    - primary: Refueling
+      aircraft:
+        - KC-135 Stratotanker MPRS
     - primary: Strike
       secondary: air-to-ground
       aircraft:
@@ -65,15 +76,11 @@ squadrons:
     - primary: Strike
       secondary: any
       aircraft:
-        - F-117A Nighthawk   
-    - primary: Strike
-      secondary: any
+        - F-117A Nighthawk
+    - primary: BARCAP
+      secondary: air-to-air
       aircraft:
-        - Tornado GR4        
-    - primary: Strike
-      secondary: any
-      aircraft:
-        - Tornado IDS
+        - F-15C Eagle
   # Ramat-David
   30:
     - primary: BARCAP
@@ -112,7 +119,12 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - VMFA-251
-        #Hornet - Marines   
+        #Hornet - Marines
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - 74th TFS
+        #A10c s3
     - primary: CAS
       secondary: air-to-ground
       aircraft:
@@ -121,36 +133,6 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - A-10A Thunderbolt II
-    - primary: AEW&C
-      aircraft:
-        - E-3A
-    - primary: Refueling
-      aircraft:
-        - KC-135 Stratotanker MPRS
-    - primary: SEAD
-      secondary: air-to-ground
-      aircraft:
-        - Su-25T Frogfoot 
-    - primary: CAS
-      secondary: air-to-ground
-      aircraft:
-        - Su-25 Frogfoot
-    - primary: BARCAP
-      secondary: air-to-air
-      aircraft:
-        - MiG-29S Fulcrum-C
-    - primary: BARCAP
-      secondary: air-to-air
-      aircraft:
-        - Su-33 Flanker-D
-    - primary: BARCAP
-      secondary: air-to-air
-      aircraft:
-        - Su-27 Flanker-B
-    - primary: BARCAP
-      secondary: air-to-air
-      aircraft:
-        - J-11A Flanker-L         
   # Golan South
   Golan South:
     - primary: BAI
@@ -183,22 +165,18 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - SA 342M Gazelle
-    - primary: CAS
-      secondary: air-to-ground
-      aircraft:
-        - SA 342M Gazelle Mistral
     - primary: Transport
       secondary: any
       aircraft:
-        - UH-1H Iroquois     
+        - UH-1H Iroquois
     - primary: Transport
       secondary: any
       aircraft:
-        - Mi-8MTV2 Hip 
+        - Mi-8MTV2 Hip
   # Marj Ruhayyil
   23:
     - primary: BARCAP
-      secondary: any
+      secondary: air-to-air
       aircraft:
         - MiG-21bis Fishbed-N
   # Al-Dumayr
@@ -206,22 +184,19 @@ squadrons:
     - primary: BARCAP
       secondary: any
       aircraft:
-        - MiG-29S Fulcrum-C  
+        - Su-27 Flanker-B
   # Khalkhalah
   18:
     - primary: BARCAP
       secondary: any
       aircraft:
-        - MiG-21bis Fishbed-N
+        - MiG-23MLD Flogger-K
   # Damascus
   7:
-    - primary: AEW&C
-      aircraft:
-        - A-50
     - primary: BARCAP
       secondary: any
       aircraft:
-        - Su-30 Flanker-C
+        - MiG-29S Fulcrum-C
     - primary: Strike
       secondary: air-to-ground
       aircraft:
@@ -230,23 +205,3 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - Su-25T Frogfoot
-    - primary: CAS
-      secondary: air-to-ground
-      aircraft:
-        - Su-25 Frogfoot
-    - primary: Strike
-      secondary: air-to-ground
-      aircraft:
-        - Tu-142 Bear-F
-    - primary: Strike
-      secondary: air-to-ground
-      aircraft:
-        - Tu-160 Blackjack
-    - primary: Strike
-      secondary: air-to-ground
-      aircraft:
-        - Tu-22M3 Backfire-C
-    - primary: Strike
-      secondary: air-to-ground
-      aircraft:
-        - Tu-95MS Bear-H

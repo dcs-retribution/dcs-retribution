@@ -1,9 +1,10 @@
 ---
-name: Caucasus - Battle for Georgia (v8)
+name: Caucasus - WRL - Battle for Georgia (v1)
 theater: Caucasus
 authors: HolyOrangeJuice
 recommended_player_faction: WRL - Task Force Blue
 recommended_enemy_faction: WRL - Task Force Red
+recommended_start_date: 2022-06-04
 description: "<p>This mission was designed for the We Run Liberation group [WRL].
   <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p>
   <p>The invasion of Georgia has begun. Russian forces have pushed all the way up to Zugdidi.
@@ -12,13 +13,14 @@ description: "<p>This mission was designed for the We Run Liberation group [WRL]
   aircraft to make use of Georgian airfields for its defence. The objective is simple, liberate Georgia
   from its Russian neighbours before it's too late!
   </p>"
-miz: Battle4Georgia_v8.miz
+miz: Battle4Georgia.miz
 performance: 2
-version: "10.2"
+version: "10.5"
 recommended_player_money: 2000
 recommended_enemy_money: 2000
 recommended_player_income_multiplier: 1.0
 recommended_enemy_income_multiplier: 1.0
+advanced_iads: false
 squadrons:
   Blue CV-1:
     - primary: BARCAP
@@ -26,11 +28,7 @@ squadrons:
       aircraft:
         - VF-142
         #F14B
-    - primary: BARCAP
-      secondary: air-to-air
-      aircraft:
-        - F-14A Tomcat (Block 135-GR Late)
-    - primary: SEAD
+    - primary: Strike
       secondary: any
       aircraft:
         - VFA-192
@@ -42,6 +40,10 @@ squadrons:
     - primary: Refueling
       aircraft:
         - S-3B Tanker
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - S-3B Viking
   Blue LHA:
     - primary: BAI
       secondary: air-to-ground
@@ -52,22 +54,26 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - AH-64D Apache Longbow
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - AH-1W SuperCobra
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - SH-60B Seahawk
 # Senaki-Kholki
   23:
-    - primary: BARCAP
-      secondary: any
-      aircraft:
-        - F-5E Tiger II  
     - primary: Strike
       secondary: any
       aircraft:
         - VMA-214
-        #AV8B 
+        #AV8B
     - primary: SEAD
       secondary: air-to-ground
       aircraft:
         - VMFA-251
-        #Hornet - Marines   
+        #Hornet - Marines
     - primary: CAS
       secondary: air-to-ground
       aircraft:
@@ -108,9 +114,9 @@ squadrons:
     - primary: BAI
       secondary: air-to-ground
       aircraft:
-        - SA 342M Gazelle        
+        - SA 342M Gazelle
  # Kutaisi
-  25:  
+  25:
     - primary: BARCAP
       secondary: air-to-air
       aircraft:
@@ -121,10 +127,6 @@ squadrons:
       aircraft:
         - VF-143
         #F14B
-    - primary: BARCAP
-      secondary: air-to-air
-      aircraft:
-        - F-14A Tomcat (Block 135-GR Late)
     - primary: Strike
       secondary: any
       aircraft:
@@ -134,7 +136,7 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - 335th FS
-        #F15e     
+        #F15e
     - primary: Strike
       secondary: air-to-ground
       aircraft:
@@ -154,10 +156,6 @@ squadrons:
     - primary: BARCAP
       secondary: any
       aircraft:
-        - Mirage-F1CE
-    - primary: BARCAP
-      secondary: any
-      aircraft:
         - JF-17 Thunder
     - primary: Strike
       secondary: any
@@ -166,35 +164,7 @@ squadrons:
     - primary: SEAD
       secondary: air-to-ground
       aircraft:
-        - Su-25T Frogfoot 
-    - primary: CAS
-      secondary: air-to-ground
-      aircraft:
-        - Su-25 Frogfoot
-    - primary: BARCAP
-      secondary: air-to-air
-      aircraft:
-        - MiG-21bis Fishbed-N
-    - primary: BARCAP
-      secondary: air-to-air
-      aircraft:
-        - MiG-29S Fulcrum-C
-    - primary: BARCAP
-      secondary: air-to-air
-      aircraft:
-        - MiG-29A Fulcrum-A
-    - primary: BARCAP
-      secondary: air-to-air
-      aircraft:
-        - Su-33 Flanker-D
-    - primary: BARCAP
-      secondary: air-to-air
-      aircraft:
-        - Su-27 Flanker-B
-    - primary: BARCAP
-      secondary: air-to-air
-      aircraft:
-        - J-11A Flanker-L       
+        - Su-25T Frogfoot
 #Sukhumi-Babushara
   20:
     - primary: BARCAP
@@ -216,7 +186,7 @@ squadrons:
       aircraft:
         - Su-25T Frogfoot
  # Sochi-Adler
-  18:        
+  18:
     - primary: BARCAP
       secondary: any
       aircraft:
@@ -225,9 +195,3 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - Su-24M Fencer-D
-#FARPs
-#  FARP ALPHA:
-# FARP BRAVO:   
-# Batumi
-## 22:        
- 

@@ -1,14 +1,19 @@
 ---
-name: Caucasus - Kutaisi to Vaziani
+name: Caucasus - WRL - Kutaisi to Vaziani (v1)
 theater: Caucasus
 authors: HolyOrangeJuice
 recommended_player_faction: WRL - Task Force Blue
-recommended_enemy_faction: Red - Kutaisi to Vaziani
+recommended_enemy_faction: WRL - Task Force Red
+recommended_start_date: 2021-10-22
 description: "<p>This mission was designed for the We Run Liberation group [WRL].
   <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p>"
-miz: Kutaisi_to_Vaziani.miz
-performance: 1
+miz: Kutaisi2Vaziani.miz
+performance: 2
 version: "10.5"
+recommended_player_money: 2000
+recommended_enemy_money: 2000
+recommended_player_income_multiplier: 3.0
+recommended_enemy_income_multiplier: 1.5
 advanced_iads: true # Campaign has connection_nodes / power_sources / command_centers
 iads_config:
 #REDFOR BASE DEFENSE

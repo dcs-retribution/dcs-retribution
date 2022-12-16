@@ -1,9 +1,10 @@
 ---
-name: Nevada - Battle for Area 51
+name: Nevada - WRL - Battle for Area 51 (v1)
 theater: Nevada
 authors: HolyOrangeJuice, We Run Liberation
-recommended_player_faction: Blue - Area 51
-recommended_enemy_faction: Red - Area 51
+recommended_player_faction: WRL - Task Force Blue
+recommended_enemy_faction: WRL - Task Force Red
+recommended_start_date: 2022-06-04
 description: "<p>This mission was designed for the We Run Liberation group [WRL].
   <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p>
   <p>It is a small scale battle around Creech and Groom Lake.</p>
@@ -12,11 +13,11 @@ description: "<p>This mission was designed for the We Run Liberation group [WRL]
 miz: battle4area51.miz
 performance: 1
 version: "10.5"
-recommended_player_money: 3000
+recommended_player_money: 2000
 recommended_enemy_money: 2000
-recommended_player_income_multiplier: 3.0
-recommended_enemy_income_multiplier: 2.0
-max_frontline_length: 30
+recommended_player_income_multiplier: 1.0
+recommended_enemy_income_multiplier: 1.0
+max_frontline_length: 20
 advanced_iads: true # Campaign has connection_nodes / power_sources / command_centers
 iads_config:
 #COMMAND
@@ -57,10 +58,18 @@ iads_config:
   - NATO SAM-1:
     - NATO COMMAND
   - NATO SAM-2:
-    - NATO COMMAND    
+    - NATO COMMAND
+  - NATO NELLIS 1:
+    - NATO COMMAND
+  - NATO NELLIS 2:
+    - NATO COMMAND
+  - NATO NELLIS 3:
+    - NATO COMMAND
+  - NATO NELLIS 4:
+    - NATO COMMAND
 squadrons:
-# Creech
-  1:
+# Nellis AFB
+  4:
     - primary: Strike
       secondary: air-to-ground
       aircraft:
@@ -70,31 +79,63 @@ squadrons:
         - E-3A
     - primary: Refueling
       aircraft:
-        - KC-135 Stratotanker MPRS 
+        - KC-135 Stratotanker MPRS
     - primary: Strike
       secondary: air-to-ground
       aircraft:
         - 335th FS
-        #F15e   
+        #F15e
     - primary: BARCAP
       secondary: air-to-air
       aircraft:
         - 58th FS
         #F15c
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - VF-142
+        #F14B
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - Mirage 2000C
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - JF-17 Thunder
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - AJS-37 Viggen
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - Su-25T Frogfoot
+# Creech
+  1:
     - primary: Strike
       secondary: any
       aircraft:
         - VMA-214
-        #AV8B 
+        #AV8B
     - primary: SEAD
       secondary: air-to-ground
       aircraft:
         - VMFA-251
-        #Hornet - Marines   
+        #Hornet - Marines
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - 74th TFS
+        #A10c s3
     - primary: CAS
       secondary: air-to-ground
       aircraft:
         - A-10C Thunderbolt II (Suite 7)
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - A-10A Thunderbolt II
     - primary: Strike
       secondary: any
       aircraft:
@@ -112,18 +153,22 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - Ka-50 Hokum
-    - primary: BARCAP
-      secondary: any
+    - primary: BAI
+      secondary: air-to-ground
       aircraft:
-        - Mirage 2000C
-    - primary: BARCAP
-      secondary: any
+        - Mi-8MTV2 Hip
+    - primary: BAI
+      secondary: air-to-ground
       aircraft:
-        - JF-17 Thunder
-    - primary: Strike
-      secondary: any
+        - UH-1H Iroquois
+    - primary: BAI
+      secondary: air-to-ground
       aircraft:
-        - AJS-37 Viggen 
+        - SA 342L Gazelle
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - SA 342M Gazelle
 # Groom Lake
   2:
     - primary: BARCAP
@@ -137,13 +182,25 @@ squadrons:
     - primary: BARCAP
       secondary: any
       aircraft:
-        - MiG-23MLD Flogger-K
+        - F-5E Tiger II
     - primary: Strike
       secondary: air-to-ground
       aircraft:
         - Su-24M Fencer-D
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Su-25T Frogfoot
 #FARP A-1
   FARP A1:
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - Mi-28N Havoc
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - Mi-24V Hind-E
     - primary: CAS
       secondary: any
       aircraft:
@@ -155,8 +212,8 @@ squadrons:
     - primary: CAS
       secondary: any
       aircraft:
-        - Mi-8MTV2 Hip 
-#FARP A-1
+        - Mi-8MTV2 Hip
+#FARP B-1
   FARP B1:
     - primary: CAS
       secondary: any
@@ -169,8 +226,12 @@ squadrons:
     - primary: CAS
       secondary: any
       aircraft:
-        - SA 342L Gazelle
+        - Mi-24P Hind-F
     - primary: CAS
       secondary: any
       aircraft:
-        - SA 342M Gazelle 
+        - Ka-50 Hokum
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - Mi-8MTV2 Hip
