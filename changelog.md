@@ -3,7 +3,7 @@
 ## Features/Improvements
 * **[Engine]** Support for DCS v2.8.0.32066.
 * **[Briefing]** Add tanker info to mission briefing
-* **[Campaign]** Add 3 new campaigns by Oscar Juliet from WRL
+* **[Campaign]** Add 5 new campaigns by Oscar Juliet from WRL
 * **[Campaign]** Add ability to define livery overrides also for ground/naval units
 * **[Data]** Added data to support C-47 Skytrain.
 * **[Data]** Added data to support F-16A MLU.
@@ -32,6 +32,8 @@ BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 ## Fixes
 
 * **[Mission Generation]** Fixed issue where aircraft carriers would return after being killed.
+* **[Mission Generation]** Kneeboard STRIKE coordinates would sometimes get clipped when not fitting.
+* **[UI]** Fix exception when trying to add a waypoints to a flightplan.
 
 # Liberation:
 # 7.0.0
