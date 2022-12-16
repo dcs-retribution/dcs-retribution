@@ -68,7 +68,7 @@ class QPredefinedWaypointSelectionComboBox(QFilteredComboBox):
         if self.include_frontlines:
             for front_line in self.game.theater.conflicts():
                 pos = FrontLineConflictDescription.frontline_position(
-                    front_line, self.game.theater
+                    front_line, self.game.theater, self.game.settings
                 )[0]
                 wptname = f"Frontline {front_line.name} [CAS]"
                 wpt = FlightWaypoint(
