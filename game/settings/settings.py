@@ -476,6 +476,12 @@ class Settings:
         section=PERFORMANCE_SECTION,
         default=True,
     )
+    perf_disable_idle_aircraft: bool = boolean_option(
+        "Disable idle aircraft at airfields",
+        page=MISSION_GENERATOR_PAGE,
+        section=PERFORMANCE_SECTION,
+        default=False,
+    )
     # Performance culling
     perf_culling: bool = boolean_option(
         "Culling of distant units enabled",
