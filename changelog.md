@@ -1,7 +1,7 @@
 # Retribution 1.0.0
 
 ## Features/Improvements
-* **[Engine]** Support for DCS v2.8.0.32066.
+* **[Engine]** Support for DCS v2.8.1.34437.
 * **[Briefing]** Add tanker info to mission briefing
 * **[Campaign]** Add 5 new campaigns by Oscar Juliet from WRL
 * **[Campaign]** Add ability to define livery overrides also for ground/naval units
