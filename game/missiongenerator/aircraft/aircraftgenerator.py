@@ -171,7 +171,7 @@ class AircraftGenerator:
             flight.state = Completed(flight, self.game.settings)
 
             group = FlightGroupSpawner(
-                flight, country, self.mission, self.helipads
+                flight, country, self.mission, self.helipads, self.mission_data
             ).create_idle_aircraft()
             AircraftPainter(flight, group).apply_livery()
             self.unit_map.add_aircraft(group, flight)
@@ -181,7 +181,7 @@ class AircraftGenerator:
     ) -> FlyingGroup[Any]:
         """Creates and configures the flight group in the mission."""
         group = FlightGroupSpawner(
-            flight, country, self.mission, self.helipads
+            flight, country, self.mission, self.helipads, self.mission_data
         ).create_flight_group()
         self.flights.append(
             FlightGroupConfigurator(

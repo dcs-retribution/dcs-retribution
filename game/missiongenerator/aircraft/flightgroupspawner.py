@@ -15,6 +15,7 @@ from game.ato import Flight
 from game.ato.flightstate import InFlight
 from game.ato.starttype import StartType
 from game.ato.traveltime import GroundSpeed
+from game.missiongenerator.missiondata import MissionData
 from game.naming import namegen
 from game.theater import Airfield, ControlPoint, Fob, NavalControlPoint, OffMapSpawn
 from game.utils import feet, meters
@@ -32,6 +33,8 @@ WARM_START_ALTITUDE = meters(3000)
 MINIMUM_MID_MISSION_SPAWN_ALTITUDE_MSL = feet(6000)
 MINIMUM_MID_MISSION_SPAWN_ALTITUDE_AGL = feet(500)
 
+STACK_SEPARATION = feet(200)
+
 RTB_ALTITUDE = meters(800)
 RTB_DISTANCE = 5000
 HELI_ALT = 500
@@ -44,11 +47,13 @@ class FlightGroupSpawner:
         country: Country,
         mission: Mission,
         helipads: dict[ControlPoint, StaticGroup],
+        mission_data: MissionData,
     ) -> None:
         self.flight = flight
         self.country = country
         self.mission = mission
         self.helipads = helipads
+        self.mission_data = mission_data
 
     def create_flight_group(self) -> FlyingGroup[Any]:
         """Creates the group for the flight and adds it to the mission.
@@ -140,6 +145,10 @@ class FlightGroupSpawner:
         pos = self.flight.state.estimate_position()
         pos += Vector2(random.randint(100, 1000), random.randint(100, 1000))
         alt, alt_type = self.flight.state.estimate_altitude()
+        cp = self.flight.squadron.location.id
+
+        if cp not in self.mission_data.cp_stack:
+            self.mission_data.cp_stack[cp] = MINIMUM_MID_MISSION_SPAWN_ALTITUDE_AGL
 
         # We don't know where the ground is, so just make sure that any aircraft
         # spawning at an MSL altitude is spawned at some minimum altitude.
@@ -149,8 +158,9 @@ class FlightGroupSpawner:
 
         # Set a minimum AGL value for 'alt' if needed,
         # otherwise planes might crash in trees and stuff.
-        if alt_type == "RADIO" and alt < MINIMUM_MID_MISSION_SPAWN_ALTITUDE_AGL:
-            alt = MINIMUM_MID_MISSION_SPAWN_ALTITUDE_AGL
+        if alt_type == "RADIO" and alt < self.mission_data.cp_stack[cp]:
+            alt = self.mission_data.cp_stack[cp]
+            self.mission_data.cp_stack[cp] += STACK_SEPARATION
 
         group = self.mission.flight_group(
             country=self.country,
