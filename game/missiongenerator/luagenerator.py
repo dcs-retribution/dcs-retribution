@@ -40,7 +40,7 @@ class LuaGenerator:
         self.inject_plugins()
 
     def generate_plugin_data(self) -> None:
-        lua_data = LuaData("dcsLiberation")
+        lua_data = LuaData("dcsRetribution")
 
         install_path = lua_data.add_item("installPath")
         install_path.set_value(os.path.abspath("."))
@@ -201,7 +201,7 @@ class LuaGenerator:
             for role, connections in node.connections.items():
                 iads_element.add_data_array(role, connections)
 
-        trigger = TriggerStart(comment="Set DCS Liberation data")
+        trigger = TriggerStart(comment="Set DCS Retribution data")
         trigger.add_action(DoScript(String(lua_data.create_operations_lua())))
         self.mission.triggerrules.triggers.append(trigger)
 
@@ -380,7 +380,7 @@ class LuaData(LuaItem):
         """crates the liberation lua script for the dcs mission"""
         lua_prefix = """
 -- setting configuration table
-env.info("DCSLiberation|: setting configuration table")
+env.info("DCSRetribution|: setting configuration table")
 """
 
         return lua_prefix + self.serialize()

@@ -1,7 +1,7 @@
 --[[
 Export script for LotATC drawings
 
-Allows to export certain DCS Liberation objects as predefined drawing in LotATC. 
+Allows to export certain DCS Retribution objects as predefined drawing in LotATC. 
 
 This script runs at mission startup and generates a drawing JSON file to be imported
 in LotATC.
@@ -51,7 +51,7 @@ local function lotatcExport_get_aa_nato_name(unit, isFriend)
         return nil
     end
 
-    -- logger:info(string.format("DCSLiberation|LotATC Export plugin - try get NATO name for unit %s", unit.dcsGroupName))
+    -- logger:info(string.format("DCSRetribution|LotATC Export plugin - try get NATO name for unit %s", unit.dcsGroupName))
 
     local iads = redIADS
     if isFriend then
@@ -60,7 +60,7 @@ local function lotatcExport_get_aa_nato_name(unit, isFriend)
 
     local samSite = iads:getSAMSiteByGroupName(unit.dcsGroupName)
     if samSite and samSite.natoName then
-        -- logger:info(string.format("DCSLiberation|LotATC Export plugin - NATO name is %s", samSite.natoName))
+        -- logger:info(string.format("DCSRetribution|LotATC Export plugin - NATO name is %s", samSite.natoName))
         return samSite.natoName
     else
         return nil
@@ -89,7 +89,7 @@ local function lotatcExport_get_name(unit, isFriend)
 end
 
 local function lotatc_write_json(filename, json)
-    logger:info(string.format("DCSLiberation|LotATC Export plugin - writing %s", filename))
+    logger:info(string.format("DCSRetribution|LotATC Export plugin - writing %s", filename))
 
     local function Write()
         local fp = io.open(filename, 'w')
@@ -109,7 +109,7 @@ local function lotatcExport_threat_circles_for_faction(faction, color, isFriend)
     local drawings = {}
 
     for _,aa in pairs(faction) do
-        logger:info(string.format("DCSLiberation|LotATC Export plugin - exporting threat circle for %s", aa.dcsGroupName))
+        logger:info(string.format("DCSRetribution|LotATC Export plugin - exporting threat circle for %s", aa.dcsGroupName))
 
         local convLat, convLon = coord.LOtoLL({x = aa.positionX, y = 0, z = aa.positionY})
 
@@ -117,7 +117,7 @@ local function lotatcExport_threat_circles_for_faction(faction, color, isFriend)
 
         table.insert(drawings,
         {
-            ["author"] = "DCSLiberation",
+            ["author"] = "DCSRetribution",
             ["brushStyle"] = 1,
             ["color"] = color,
             ["colorBg"] = "#00000000",
@@ -153,7 +153,7 @@ local function lotatcExport_symbols_for_faction(faction, color, isFriend)
     local drawings = {}
 
     for _,aa in pairs(faction) do
-        logger:info(string.format("DCSLiberation|LotATC Export plugin - exporting AA symbol for %s", aa.dcsGroupName))
+        logger:info(string.format("DCSRetribution|LotATC Export plugin - exporting AA symbol for %s", aa.dcsGroupName))
 
         local convLat, convLon = coord.LOtoLL({x = aa.positionX, y = 0, z = aa.positionY})
 
@@ -172,7 +172,7 @@ local function lotatcExport_symbols_for_faction(faction, color, isFriend)
 
         table.insert(drawings,
         {
-            ["author"] = "DCSLiberation",
+            ["author"] = "DCSRetribution",
             ["brushStyle"] = 1,
             ["classification"] = {
                 ["classification"] = classification,
@@ -244,10 +244,10 @@ function LotatcExport()
     -- wants to see the RED AA.
 
     if LotAtcExportConfig.exportRedAA then
-        lotatc_export_faction(dcsLiberation.RedAA, LotAtcExportConfig.redColor, [[blue\]], false)
+        lotatc_export_faction(dcsRetribution.RedAA, LotAtcExportConfig.redColor, [[blue\]], false)
     end
 
     if LotAtcExportConfig.exportBlueAA then
-        lotatc_export_faction(dcsLiberation.BlueAA, LotAtcExportConfig.blueColor, [[red\]], true)
+        lotatc_export_faction(dcsRetribution.BlueAA, LotAtcExportConfig.blueColor, [[red\]], true)
     end
 end

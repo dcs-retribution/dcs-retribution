@@ -162,7 +162,7 @@ class LuaPlugin(PluginSettings):
             for option in self.options:
                 enabled = str(option.enabled).lower()
                 name = option.identifier
-                option_decls.append(f"    dcsLiberation.plugins.{name} = {enabled}")
+                option_decls.append(f"    dcsRetribution.plugins.{name} = {enabled}")
 
             joined_options = "\n".join(option_decls)
 
@@ -170,11 +170,11 @@ class LuaPlugin(PluginSettings):
                 f"""\
                 -- {self.identifier} plugin configuration.
 
-                if dcsLiberation then
-                    if not dcsLiberation.plugins then
-                        dcsLiberation.plugins = {{}}
+                if dcsRetribution then
+                    if not dcsRetribution.plugins then
+                        dcsRetribution.plugins = {{}}
                     end
-                    dcsLiberation.plugins.{self.identifier} = {{}}
+                    dcsRetribution.plugins.{self.identifier} = {{}}
                     {joined_options}
                 end
 

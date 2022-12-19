@@ -13,8 +13,8 @@
             "mnemonic": "json"
         },
         {
-            "file": "dcs_liberation.lua",
-            "mnemonic": "liberation"
+            "file": "dcs_retribution.lua",
+            "mnemonic": "retribution"
         }
     ],
     "configurationWorkOrders": []
