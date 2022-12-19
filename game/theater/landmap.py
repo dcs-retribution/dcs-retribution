@@ -1,9 +1,9 @@
-from dataclasses import dataclass
-import pickle
-from functools import cached_property
-from typing import Optional, Tuple, Union
 import logging
+import pickle
+from dataclasses import dataclass
+from functools import cached_property
 from pathlib import Path
+from typing import Optional, Union
 
 from shapely import geometry
 from shapely.geometry import MultiPolygon, Polygon

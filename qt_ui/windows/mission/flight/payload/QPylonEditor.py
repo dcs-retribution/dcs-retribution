@@ -5,9 +5,9 @@ from typing import Optional
 from PySide2.QtWidgets import QComboBox
 
 from game import Game
-from game.data.weapons import Pylon, Weapon
 from game.ato.flight import Flight
 from game.ato.loadouts import Loadout
+from game.data.weapons import Pylon, Weapon
 
 
 class QPylonEditor(QComboBox):

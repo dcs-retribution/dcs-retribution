@@ -1,12 +1,12 @@
 blank_issues_enabled: false
 contact_links:
   - name: FAQ
-    url: https://discord.gg/PXHA6AXw
+    url: https://discord.gg/b4x34Bg4We
     about: Check to see if your issue is in the FAQ.
   - name: Manual
-    url: https://github.com/dcs-liberation/dcs_liberation/wiki/
+    url: https://github.com/dcs-retribution/dcs-retribution/wiki/
   - name: Feature blocking DCS AI bugs
-    url: https://github.com/dcs-liberation/dcs_liberation#dcs-bugs
+    url: https://github.com/dcs-retribution/dcs-retribution#dcs-bugs
     about: >
       A list of known DCS bugs that prevent us from improving AI behavior. Check
       the list before filing AI bugs here to see if it's something we know about

@@ -4,13 +4,13 @@ from abc import ABC
 from collections.abc import Iterator
 from dataclasses import dataclass
 from datetime import timedelta
-from typing import TYPE_CHECKING, TypeVar
+from typing import TYPE_CHECKING, TypeVar, Optional
 
 from dcs import Point
 
 from game.flightplan import HoldZoneGeometry
 from game.theater import MissionTarget
-from game.utils import Speed, meters
+from game.utils import Speed, meters, Distance
 from .flightplan import FlightPlan
 from .formation import FormationFlightPlan, FormationLayout
 from .ibuilder import IBuilder
@@ -134,6 +134,7 @@ class FormationAttackFlightPlan(FormationFlightPlan, ABC):
 class FormationAttackLayout(FormationLayout):
     ingress: FlightWaypoint
     targets: list[FlightWaypoint]
+    initial: Optional[FlightWaypoint] = None
 
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
         yield self.departure
@@ -141,6 +142,8 @@ class FormationAttackLayout(FormationLayout):
         yield from self.nav_to
         yield self.join
         yield self.ingress
+        if self.initial is not None:
+            yield self.initial
         yield from self.targets
         yield self.split
         if self.refuel is not None:
@@ -181,9 +184,11 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
         hold = builder.hold(self._hold_point())
         join = builder.join(self.package.waypoints.join)
         split = builder.split(self.package.waypoints.split)
-        refuel = None
-        if self.package.waypoints.refuel is not None:
-            refuel = builder.refuel(self.package.waypoints.refuel)
+        refuel = builder.refuel(self.package.waypoints.refuel)
+
+        ingress = builder.ingress(
+            ingress_type, self.package.waypoints.ingress, self.package.target
+        )
 
         return FormationAttackLayout(
             departure=builder.takeoff(self.flight.departure),
@@ -192,14 +197,12 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
                 hold.position, join.position, self.doctrine.ingress_altitude
             ),
             join=join,
-            ingress=builder.ingress(
-                ingress_type, self.package.waypoints.ingress, self.package.target
-            ),
+            ingress=ingress,
             targets=target_waypoints,
             split=split,
             refuel=refuel,
             nav_from=builder.nav_path(
-                split.position,
+                refuel.position,
                 self.flight.arrival.position,
                 self.doctrine.ingress_altitude,
             ),

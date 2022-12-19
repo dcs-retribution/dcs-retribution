@@ -44,7 +44,7 @@ if TYPE_CHECKING:
     from game import Game
 
 
-COMBINED_ARMS_SLOTS = 1
+COMBINED_ARMS_SLOTS = 3
 
 
 def country_id_from_name(name: str) -> int:
@@ -330,6 +330,12 @@ class MissionGenerator:
             gen.generate()
 
     def setup_combined_arms(self) -> None:
+        observers = 3
         self.mission.groundControl.pilot_can_control_vehicles = COMBINED_ARMS_SLOTS > 0
+        self.mission.groundControl.blue_game_masters = 1
         self.mission.groundControl.blue_tactical_commander = COMBINED_ARMS_SLOTS
-        self.mission.groundControl.blue_observer = 1
+        self.mission.groundControl.blue_observer = observers
+        self.mission.groundControl.red_game_masters = 1
+        self.mission.groundControl.red_tactical_commander = COMBINED_ARMS_SLOTS
+        self.mission.groundControl.red_observer = observers
+        self.mission.groundControl.neutrals_observer = observers

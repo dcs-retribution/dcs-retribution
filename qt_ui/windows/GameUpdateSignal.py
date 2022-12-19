@@ -5,8 +5,8 @@ from typing import Optional
 from PySide2.QtCore import QObject, Signal
 
 from game import Game
-from game.game import TurnState
 from game.debriefing import Debriefing
+from game.game import TurnState
 
 
 class GameUpdateSignal(QObject):

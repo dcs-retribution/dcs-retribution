@@ -8,13 +8,13 @@ from PySide2.QtWidgets import (
     QGroupBox,
     QLabel,
     QPushButton,
+    QScrollArea,
     QVBoxLayout,
+    QWidget,
 )
 
 from game.debriefing import Debriefing
-from game.game import TurnState
 from qt_ui.windows.GameUpdateSignal import GameUpdateSignal
-
 
 T = TypeVar("T")
 
@@ -54,6 +54,19 @@ class LossGrid(QGridLayout):
             self.addWidget(QLabel(str(count)), row, 1)
 
 
+class ScrollingCasualtyReportContainer(QGroupBox):
+    def __init__(self, debriefing: Debriefing, player: bool) -> None:
+        country = debriefing.player_country if player else debriefing.enemy_country
+        super().__init__(f"{country}'s lost units:")
+        scroll_content = QWidget()
+        scroll_content.setLayout(LossGrid(debriefing, player))
+        scroll_area = QScrollArea()
+        scroll_area.setWidget(scroll_content)
+        layout = QVBoxLayout()
+        layout.addWidget(scroll_area)
+        self.setLayout(layout)
+
+
 class QDebriefingWindow(QDialog):
     def __init__(self, debriefing: Debriefing):
         super(QDebriefingWindow, self).__init__()
@@ -77,12 +90,10 @@ class QDebriefingWindow(QDialog):
         title = QLabel("<b>Casualty report</b>")
         layout.addWidget(title)
 
-        player_lost_units = QGroupBox(f"{self.debriefing.player_country}'s lost units:")
-        player_lost_units.setLayout(LossGrid(debriefing, player=True))
+        player_lost_units = ScrollingCasualtyReportContainer(debriefing, player=True)
         layout.addWidget(player_lost_units)
 
-        enemy_lost_units = QGroupBox(f"{self.debriefing.enemy_country}'s lost units:")
-        enemy_lost_units.setLayout(LossGrid(debriefing, player=False))
+        enemy_lost_units = ScrollingCasualtyReportContainer(debriefing, player=False)
         layout.addWidget(enemy_lost_units)
 
         okay = QPushButton("Okay")

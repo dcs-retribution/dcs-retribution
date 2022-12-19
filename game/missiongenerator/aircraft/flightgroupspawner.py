@@ -6,7 +6,7 @@ from dcs import Mission
 from dcs.country import Country
 from dcs.mapping import Vector2
 from dcs.mission import StartType as DcsStartType
-from dcs.planes import Su_33
+from dcs.planes import F_14A, Su_33
 from dcs.ships import KUZNECOW
 from dcs.terrain import Airport, NoParkingSlotError
 from dcs.unitgroup import FlyingGroup, ShipGroup, StaticGroup
@@ -15,6 +15,7 @@ from game.ato import Flight
 from game.ato.flightstate import InFlight
 from game.ato.starttype import StartType
 from game.ato.traveltime import GroundSpeed
+from game.missiongenerator.missiondata import MissionData
 from game.naming import namegen
 from game.theater import Airfield, ControlPoint, Fob, NavalControlPoint, OffMapSpawn
 from game.utils import feet, meters
@@ -32,6 +33,8 @@ WARM_START_ALTITUDE = meters(3000)
 MINIMUM_MID_MISSION_SPAWN_ALTITUDE_MSL = feet(6000)
 MINIMUM_MID_MISSION_SPAWN_ALTITUDE_AGL = feet(500)
 
+STACK_SEPARATION = feet(200)
+
 RTB_ALTITUDE = meters(800)
 RTB_DISTANCE = 5000
 HELI_ALT = 500
@@ -44,11 +47,13 @@ class FlightGroupSpawner:
         country: Country,
         mission: Mission,
         helipads: dict[ControlPoint, StaticGroup],
+        mission_data: MissionData,
     ) -> None:
         self.flight = flight
         self.country = country
         self.mission = mission
         self.helipads = helipads
+        self.mission_data = mission_data
 
     def create_flight_group(self) -> FlyingGroup[Any]:
         """Creates the group for the flight and adds it to the mission.
@@ -74,8 +79,12 @@ class FlightGroupSpawner:
             self.flight.state.is_waiting_for_start
             or self.flight.state.spawn_type is not StartType.IN_FLIGHT
         ):
-            return self.generate_flight_at_departure()
-        return self.generate_mid_mission()
+            grp = self.generate_flight_at_departure()
+            self.flight.group_id = grp.id
+            return grp
+        grp = self.generate_mid_mission()
+        self.flight.group_id = grp.id
+        return grp
 
     def create_idle_aircraft(self) -> FlyingGroup[Any]:
         airport = self.flight.squadron.location.dcs_airport
@@ -136,6 +145,10 @@ class FlightGroupSpawner:
         pos = self.flight.state.estimate_position()
         pos += Vector2(random.randint(100, 1000), random.randint(100, 1000))
         alt, alt_type = self.flight.state.estimate_altitude()
+        cp = self.flight.squadron.location.id
+
+        if cp not in self.mission_data.cp_stack:
+            self.mission_data.cp_stack[cp] = MINIMUM_MID_MISSION_SPAWN_ALTITUDE_AGL
 
         # We don't know where the ground is, so just make sure that any aircraft
         # spawning at an MSL altitude is spawned at some minimum altitude.
@@ -145,8 +158,9 @@ class FlightGroupSpawner:
 
         # Set a minimum AGL value for 'alt' if needed,
         # otherwise planes might crash in trees and stuff.
-        if alt_type == "RADIO" and alt < MINIMUM_MID_MISSION_SPAWN_ALTITUDE_AGL:
-            alt = MINIMUM_MID_MISSION_SPAWN_ALTITUDE_AGL
+        if alt_type == "RADIO" and alt < self.mission_data.cp_stack[cp]:
+            alt = self.mission_data.cp_stack[cp]
+            self.mission_data.cp_stack[cp] += STACK_SEPARATION
 
         group = self.mission.flight_group(
             country=self.country,
@@ -259,7 +273,9 @@ class FlightGroupSpawner:
         # Setting Su-33s starting from the non-supercarrier Kuznetsov to take off from
         # runway to work around a DCS AI issue preventing Su-33s from taking off when
         # set to "Takeoff from ramp" (#1352)
-        if (
+        # Also setting the F-14A AI variant to start from cats since they are reported
+        # to have severe pathfinding problems when doing ramp starts (#1927)
+        if self.flight.unit_type.dcs_unit_type == F_14A or (
             self.flight.unit_type.dcs_unit_type == Su_33
             and group_units[0] is not None
             and group_units[0].type == KUZNECOW.id

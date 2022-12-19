@@ -3,14 +3,16 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import timedelta
 from typing import Optional, TYPE_CHECKING
+
 from game.dcs.aircrafttype import AircraftType
 from game.missiongenerator.aircraft.flightdata import FlightData
-
 from game.runways import RunwayData
 
 if TYPE_CHECKING:
     from game.radio.radios import RadioFrequency
     from game.radio.tacan import TacanChannel
+    from game.utils import Distance
+    from uuid import UUID
 
 
 @dataclass
@@ -94,3 +96,4 @@ class MissionData:
     tankers: list[TankerInfo] = field(default_factory=list)
     jtacs: list[JtacInfo] = field(default_factory=list)
     logistics: list[LogisticsInfo] = field(default_factory=list)
+    cp_stack: dict[UUID, Distance] = field(default_factory=dict)

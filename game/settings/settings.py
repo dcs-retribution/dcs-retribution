@@ -14,6 +14,7 @@ from .minutesoption import minutes_option
 from .optiondescription import OptionDescription, SETTING_DESCRIPTION_KEY
 from .skilloption import skill_option
 from ..ato.starttype import StartType
+from ..weather import NightMissions
 
 
 @unique
@@ -56,19 +57,19 @@ class Settings:
         "Player coalition skill",
         page=DIFFICULTY_PAGE,
         section=AI_DIFFICULTY_SECTION,
-        default="Good",
+        default="High",
     )
     enemy_skill: str = skill_option(
         "Enemy coalition skill",
         page=DIFFICULTY_PAGE,
         section=AI_DIFFICULTY_SECTION,
-        default="Average",
+        default="High",
     )
     enemy_vehicle_skill: str = skill_option(
         "Enemy AA and vehicles skill",
         page=DIFFICULTY_PAGE,
         section=AI_DIFFICULTY_SECTION,
-        default="Average",
+        default="High",
     )
     player_income_multiplier: float = bounded_float_option(
         "Player income multiplier",
@@ -105,11 +106,16 @@ class Settings:
         section=MISSION_DIFFICULTY_SECTION,
         default=True,
     )
-    night_disabled: bool = boolean_option(
-        "No night missions",
+    night_day_missions: NightMissions = choices_option(
+        "Night/day mission options",
         page=DIFFICULTY_PAGE,
         section=MISSION_DIFFICULTY_SECTION,
-        default=False,
+        choices={
+            "Generate night and day missions": NightMissions.DayAndNight,
+            "Only generate day missions": NightMissions.OnlyDay,
+            "Only generate night missions": NightMissions.OnlyNight,
+        },
+        default=NightMissions.DayAndNight,
     )
     # Mission Restrictions
     labels: str = choices_option(
@@ -205,10 +211,10 @@ class Settings:
     )
     #: Feature flag for squadron limits.
     enable_squadron_pilot_limits: bool = boolean_option(
-        "Enable per-squadron pilot limits (WIP)",
+        "Enable per-squadron pilot limits",
         CAMPAIGN_MANAGEMENT_PAGE,
         PILOTS_AND_SQUADRONS_SECTION,
-        default=False,
+        default=True,
         detail=(
             "If set, squadrons will be limited to a maximum number of pilots and dead "
             "pilots will replenish at a fixed rate, each defined with the settings"
@@ -225,7 +231,7 @@ class Settings:
         CAMPAIGN_MANAGEMENT_PAGE,
         PILOTS_AND_SQUADRONS_SECTION,
         default=12,
-        min=12,
+        min=6,
         max=72,
         detail=(
             "Sets the maximum number of pilots a squadron may have active. "
@@ -475,6 +481,12 @@ class Settings:
         page=MISSION_GENERATOR_PAGE,
         section=PERFORMANCE_SECTION,
         default=True,
+    )
+    perf_disable_idle_aircraft: bool = boolean_option(
+        "Disable idle aircraft at airfields",
+        page=MISSION_GENERATOR_PAGE,
+        section=PERFORMANCE_SECTION,
+        default=False,
     )
     # Performance culling
     perf_culling: bool = boolean_option(

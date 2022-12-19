@@ -10,6 +10,7 @@ from dcs.helicopters import (
     CH_47D,
     CH_53E,
     Ka_50,
+    Ka_50_3,
     Mi_24P,
     Mi_24V,
     Mi_26,
@@ -45,11 +46,13 @@ from dcs.planes import (
     FW_190A8,
     FW_190D9,
     F_117A,
+    F_14A,
     F_14A_135_GR,
     F_14B,
     F_15C,
     F_15E,
     F_16A,
+    F_16A_MLU,
     F_16C_50,
     F_4E,
     F_5E_3,
@@ -116,21 +119,33 @@ from dcs.planes import (
     Tu_95MS,
     WingLoong_I,
     Yak_40,
+    MB_339A,
 )
 from dcs.unittype import FlyingType
 
 from game.dcs.aircrafttype import AircraftType
 from pydcs_extensions.a4ec.a4ec import A_4E_C
+from pydcs_extensions.a6a.a6a import VSN_A6A
 from pydcs_extensions.f100.f100 import VSN_F100
 from pydcs_extensions.f104.f104 import VSN_F104C, VSN_F104G, VSN_F104S, VSN_F104S_AG
 from pydcs_extensions.f105.f105 import VSN_F105D, VSN_F105G
 from pydcs_extensions.f15d.f15d import F_15D
+from pydcs_extensions.f16i_idf.f16i_idf import (
+    F_16D_50,
+    F_16D_52,
+    F_16D_50_NS,
+    F_16D_52_NS,
+    F_16D_Barak,
+    F_16I,
+)
 from pydcs_extensions.f22a.f22a import F_22A
 from pydcs_extensions.f4b.f4b import VSN_F4B
+from pydcs_extensions.f84g.f84g import VSN_F84G
 from pydcs_extensions.hercules.hercules import Hercules
 from pydcs_extensions.jas39.jas39 import JAS39Gripen, JAS39Gripen_AG
 from pydcs_extensions.su30.su30 import Su_30MKA, Su_30MKI, Su_30MKM, Su_30SM
 from pydcs_extensions.su57.su57 import Su_57
+from pydcs_extensions.ov10a.ov10a import Bronco_OV_10A
 from pydcs_extensions.uh60l.uh60l import KC130J, UH_60L
 from .flighttype import FlightType
 
@@ -141,13 +156,14 @@ from .flighttype import FlightType
 # factions that also have F-4s should not.
 
 # Used for CAP, Escort, and intercept if there is not a specialised aircraft available
-CAP_CAPABLE = [
+ESCORT_CAPABLE = [
     Su_57,
     F_22A,
     F_15C,
     F_15D,
     F_14B,
     F_14A_135_GR,
+    F_14A,
     Su_33,
     J_11A,
     Su_30,
@@ -158,9 +174,16 @@ CAP_CAPABLE = [
     Su_27,
     MiG_29S,
     F_16C_50,
+    F_16I,
+    F_16D_Barak,
+    F_16D_50,
+    F_16D_50_NS,
+    F_16D_52,
+    F_16D_52_NS,
     FA_18C_hornet,
     JF_17,
     JAS39Gripen,
+    F_16A_MLU,
     F_16A,
     F_4E,
     VSN_F4B,
@@ -192,7 +215,7 @@ CAP_CAPABLE = [
     F_86F_Sabre,
     MiG_15bis,
     C_101CC,
-    L_39ZA,
+    VSN_F84G,
     P_51D_30_NA,
     P_51D,
     SpitfireLFMkIXCW,
@@ -205,6 +228,11 @@ CAP_CAPABLE = [
     P_47D_30bl1,
     P_47D_40,
     I_16,
+]
+
+# Types to be skipped for escorts
+CAP_CAPABLE = ESCORT_CAPABLE + [
+    L_39ZA,
 ]
 
 
@@ -220,6 +248,12 @@ CAS_CAPABLE = [
     F_15D,
     F_15E,
     F_16C_50,
+    F_16I,
+    F_16D_Barak,
+    F_16D_50,
+    F_16D_50_NS,
+    F_16D_52,
+    F_16D_52_NS,
     FA_18C_hornet,
     Tornado_GR4,
     Tornado_IDS,
@@ -227,6 +261,8 @@ CAS_CAPABLE = [
     JF_17,
     AV8BNA,
     A_10A,
+    F_16A_MLU,
+    F_16A,
     B_1B,
     A_4E_C,
     F_14B,
@@ -236,7 +272,6 @@ CAS_CAPABLE = [
     Su_17M4,
     Su_33,
     F_4E,
-    VSN_F4B,
     S_3B,
     Su_30,
     Su_30MKA,
@@ -255,6 +290,7 @@ CAS_CAPABLE = [
     SA342M,
     SA342L,
     Ka_50,
+    Ka_50_3,
     Mi_28N,
     Mi_24P,
     Mi_24V,
@@ -275,13 +311,9 @@ CAS_CAPABLE = [
     F_86F_Sabre,
     C_101CC,
     L_39ZA,
+    MB_339A,
+    Bronco_OV_10A,
     UH_1H,
-    VSN_F105G,
-    VSN_F105D,
-    VSN_F104S_AG,
-    VSN_F104G,
-    VSN_F104C,
-    VSN_F100,
     A_20G,
     Ju_88A4,
     P_47D_40,
@@ -299,21 +331,34 @@ CAS_CAPABLE = [
     WingLoong_I,
     MQ_9_Reaper,
     RQ_1A_Predator,
+    VSN_A6A,
+    VSN_F100,
+    VSN_F105G,
+    VSN_F105D,
+    VSN_F104S_AG,
+    VSN_F104G,
+    VSN_F104C,
+    VSN_F4B,
+    VSN_F84G,
 ]
 
 
 # Aircraft used for SEAD and SEAD Escort tasks. Must be capable of the CAS DCS task.
-SEAD_CAPABLE = [
+SEAD_ESCORT_CAPABLE = [
     JF_17,
     F_16C_50,
+    F_16I,
+    F_16D_Barak,
+    F_16D_50,
+    F_16D_50_NS,
+    F_16D_52,
+    F_16D_52_NS,
     FA_18C_hornet,
     Tornado_IDS,
     Su_25T,
     Su_25TM,
     F_4E,
     A_4E_C,
-    F_14B,
-    F_14A_135_GR,
     JAS39Gripen_AG,
     AV8BNA,
     Su_24M,
@@ -327,14 +372,21 @@ SEAD_CAPABLE = [
     MiG_27K,
     Tornado_GR4,
     VSN_F105G,
+    VSN_F100,
 ]
 
+
+SEAD_CAPABLE = SEAD_ESCORT_CAPABLE + [
+    F_16A_MLU,
+    F_14B,
+    F_14A_135_GR,
+]
 
 # Aircraft used for DEAD tasks. Must be capable of the CAS DCS task.
 DEAD_CAPABLE = SEAD_CAPABLE + [
     AJS37,
-    F_14B,
-    F_14A_135_GR,
+    F_16A,
+    F_15E,
     JAS39Gripen_AG,
     B_1B,
     B_52H,
@@ -343,22 +395,25 @@ DEAD_CAPABLE = SEAD_CAPABLE + [
     H_6J,
     A_20G,
     Ju_88A4,
-    VSN_F105D,
-    VSN_F104S_AG,
-    VSN_F104G,
-    VSN_F104C,
-    VSN_F100,
     P_47D_40,
     P_47D_30bl1,
     P_47D_30,
     P_51D_30_NA,
     P_51D,
+    Bronco_OV_10A,
     SpitfireLFMkIXCW,
     SpitfireLFMkIX,
     MosquitoFBMkVI,
     Bf_109K_4,
     FW_190D9,
     FW_190A8,
+    VSN_A6A,
+    VSN_F105D,
+    VSN_F104S_AG,
+    VSN_F104G,
+    VSN_F104C,
+    VSN_F100,
+    VSN_F84G,
 ]
 
 
@@ -376,9 +431,16 @@ STRIKE_CAPABLE = [
     AJS37,
     Tornado_GR4,
     F_16C_50,
+    F_16I,
+    F_16D_Barak,
+    F_16D_50,
+    F_16D_50_NS,
+    F_16D_52,
+    F_16D_52_NS,
     FA_18C_hornet,
     AV8BNA,
     JF_17,
+    F_16A_MLU,
     F_16A,
     F_14B,
     F_14A_135_GR,
@@ -401,11 +463,11 @@ STRIKE_CAPABLE = [
     MiG_29G,
     MiG_29A,
     F_4E,
-    VSN_F4B,
     A_10C_2,
     A_10C,
     S_3B,
     A_4E_C,
+    Bronco_OV_10A,
     M_2000C,
     Mirage_F1B,
     Mirage_F1BE,
@@ -416,21 +478,16 @@ STRIKE_CAPABLE = [
     Mirage_F1M_EE,
     Mirage_F1CT,
     MiG_27K,
-    VSN_F105G,
-    VSN_F105D,
     MiG_21Bis,
     MiG_15bis,
     F_5E_3,
     F_86F_Sabre,
     C_101CC,
     L_39ZA,
+    MB_339A,
     B_17G,
     A_20G,
     Ju_88A4,
-    VSN_F104S_AG,
-    VSN_F104G,
-    VSN_F104C,
-    VSN_F100,
     P_47D_40,
     P_47D_30bl1,
     P_47D_30,
@@ -442,6 +499,15 @@ STRIKE_CAPABLE = [
     Bf_109K_4,
     FW_190D9,
     FW_190A8,
+    VSN_A6A,
+    VSN_F100,
+    VSN_F104S_AG,
+    VSN_F104G,
+    VSN_F104C,
+    VSN_F105G,
+    VSN_F105D,
+    VSN_F4B,
+    VSN_F84G,
 ]
 
 
@@ -452,6 +518,8 @@ ANTISHIP_CAPABLE = [
     H_6J,
     FA_18C_hornet,
     JAS39Gripen_AG,
+    F_16A_MLU,
+    F_16A,
     Su_24M,
     Su_17M4,
     JF_17,
@@ -480,6 +548,14 @@ RUNWAY_ATTACK_CAPABLE = [
     JF_17,
     Tornado_IDS,
     M_2000C,
+    Mirage_F1B,
+    Mirage_F1BE,
+    Mirage_F1CE,
+    Mirage_F1EE,
+    Mirage_F1EQ,
+    Mirage_F1M_CE,
+    Mirage_F1M_EE,
+    Mirage_F1CT,
     H_6J,
     B_1B,
     B_52H,
@@ -488,9 +564,16 @@ RUNWAY_ATTACK_CAPABLE = [
     F_15E,
     AJS37,
     F_16C_50,
+    F_16I,
+    F_16D_Barak,
+    F_16D_50,
+    F_16D_50_NS,
+    F_16D_52,
+    F_16D_52_NS,
     FA_18C_hornet,
     AV8BNA,
     JF_17,
+    F_16A_MLU,
     F_16A,
     F_14B,
     F_14A_135_GR,
@@ -513,36 +596,23 @@ RUNWAY_ATTACK_CAPABLE = [
     MiG_29G,
     MiG_29A,
     F_4E,
-    VSN_F4B,
     A_10C_2,
     A_10C,
     S_3B,
     A_4E_C,
+    Bronco_OV_10A,
     M_2000C,
-    Mirage_F1B,
-    Mirage_F1BE,
-    Mirage_F1CE,
-    Mirage_F1EE,
-    Mirage_F1EQ,
-    Mirage_F1M_CE,
-    Mirage_F1M_EE,
-    Mirage_F1CT,
     MiG_27K,
-    VSN_F105G,
-    VSN_F105D,
     MiG_21Bis,
     MiG_15bis,
     F_5E_3,
     F_86F_Sabre,
     C_101CC,
     L_39ZA,
+    MB_339A,
     B_17G,
     A_20G,
     Ju_88A4,
-    VSN_F104S_AG,
-    VSN_F104G,
-    VSN_F104C,
-    VSN_F100,
     P_47D_40,
     P_47D_30bl1,
     P_47D_30,
@@ -554,6 +624,14 @@ RUNWAY_ATTACK_CAPABLE = [
     Bf_109K_4,
     FW_190D9,
     FW_190A8,
+    VSN_A6A,
+    VSN_F105G,
+    VSN_F105D,
+    VSN_F104S_AG,
+    VSN_F104G,
+    VSN_F104C,
+    VSN_F100,
+    VSN_F4B,
 ]
 
 # For any aircraft that isn't necessarily directly involved in strike
@@ -630,7 +708,7 @@ def dcs_types_for_task(task: FlightType) -> Sequence[Type[FlyingType]]:
     elif task == FlightType.SEAD:
         return SEAD_CAPABLE
     elif task == FlightType.SEAD_ESCORT:
-        return SEAD_CAPABLE
+        return SEAD_ESCORT_CAPABLE
     elif task == FlightType.DEAD:
         return DEAD_CAPABLE
     elif task == FlightType.OCA_AIRCRAFT:
@@ -640,7 +718,7 @@ def dcs_types_for_task(task: FlightType) -> Sequence[Type[FlyingType]]:
     elif task == FlightType.STRIKE:
         return STRIKE_CAPABLE
     elif task == FlightType.ESCORT:
-        return CAP_CAPABLE
+        return ESCORT_CAPABLE
     elif task == FlightType.AEWC:
         return AEWC_CAPABLE
     elif task == FlightType.REFUELING:

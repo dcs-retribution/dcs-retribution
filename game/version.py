@@ -161,10 +161,15 @@ VERSION = _build_version_string()
 #:
 #: Version 10.3
 #: * Campaign files can optionally include a start time in their recommended_start_date
-#:   field. For example, `recommended_start_data: 2022-08-31 13:30:00` will have the
+#:   field. For example, `recommended_start_date: 2022-08-31 13:30:00` will have the
 #:   first turn start at 13:30. If omitted, or if only a date is given, the mission will
 #:   start at a random hour in the middle of the day as before.
 #:
 #: Version 10.4
 #: * Support for the Falklands.
-CAMPAIGN_FORMAT_VERSION = (10, 4)
+#:
+#: Version 10.5
+#: * Support for scenery objectives defined by quad zones.
+#: * Campaign designers can now define `max_frontline_length` (in km) setting:
+#:    `max_frontline_length: 25`
+CAMPAIGN_FORMAT_VERSION = (10, 5)

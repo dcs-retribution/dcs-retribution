@@ -42,8 +42,7 @@
     "2S1 Gvozdika",
     "2S9 Nona-S",
     "BM-21 Grad",
-    "BM-27 Uragan",
-    "KS-19/SON-9"
+    "BM-27 Uragan"
   ],
   "logistics_units": [
     "LUV UAZ-469 Jeep",
@@ -65,7 +64,8 @@
     "SA-11",
     "SA-10/S-300PS",
     "SA-17",
-    "Cold-War-Flak"
+    "Cold-War-Flak",
+    "KS-19/SON-9"
   ],
   "naval_units": [
     "Corvette 1124.4 Grish",

@@ -19,7 +19,7 @@ from PySide2.QtWidgets import (
 )
 
 import qt_ui.uiconstants as CONST
-from game import Game, VERSION, persistency
+from game import Game, VERSION, persistency, Migrator
 from game.debriefing import Debriefing
 from game.game import TurnState
 from game.layout import LAYOUTS
@@ -31,6 +31,7 @@ from qt_ui.dialogs import Dialog
 from qt_ui.models import GameModel
 from qt_ui.simcontroller import SimController
 from qt_ui.uiconstants import URLS
+from qt_ui.uiflags import UiFlags
 from qt_ui.uncaughtexceptionhandler import UncaughtExceptionHandler
 from qt_ui.widgets.QTopPanel import QTopPanel
 from qt_ui.widgets.ato import QAirTaskingOrderPanel
@@ -55,7 +56,7 @@ class QLiberationWindow(QMainWindow):
     tgo_info_signal = Signal(TheaterGroundObject)
     control_point_info_signal = Signal(ControlPoint)
 
-    def __init__(self, game: Game | None, dev: bool) -> None:
+    def __init__(self, game: Game | None, ui_flags: UiFlags) -> None:
         super().__init__()
 
         self._uncaught_exception_handler = UncaughtExceptionHandler(self)
@@ -80,14 +81,16 @@ class QLiberationWindow(QMainWindow):
         Dialog.set_game(self.game_model)
         self.ato_panel = QAirTaskingOrderPanel(self.game_model)
         self.info_panel = QInfoPanel(self.game)
-        self.liberation_map = QLiberationMap(self.game_model, dev, self)
+        self.liberation_map = QLiberationMap(
+            self.game_model, ui_flags.dev_ui_webserver, self
+        )
 
         self.setGeometry(300, 100, 270, 100)
         self.updateWindowTitle()
         self.setWindowIcon(QIcon("./resources/icon.png"))
         self.statusBar().showMessage("Ready")
 
-        self.initUi()
+        self.initUi(ui_flags)
         self.initActions()
         self.initToolbar()
         self.initMenuBar()
@@ -108,6 +111,7 @@ class QLiberationWindow(QMainWindow):
                 try:
                     logging.info("Loading last saved game : " + str(last_save_file))
                     game = persistency.load_game(last_save_file)
+                    Migrator(game)
                     self.onGameGenerated(game)
                     self.updateWindowTitle(last_save_file if game else None)
                 except:
@@ -117,7 +121,7 @@ class QLiberationWindow(QMainWindow):
         else:
             self.onGameGenerated(self.game)
 
-    def initUi(self):
+    def initUi(self, ui_flags: UiFlags) -> None:
         hbox = QSplitter(Qt.Horizontal)
         vbox = QSplitter(Qt.Vertical)
         hbox.addWidget(self.ato_panel)
@@ -130,7 +134,7 @@ class QLiberationWindow(QMainWindow):
         hbox.setSizes([1, 10000000])
         vbox.setSizes([600, 100])
 
-        self.top_panel = QTopPanel(self.game_model, self.sim_controller)
+        self.top_panel = QTopPanel(self.game_model, self.sim_controller, ui_flags)
         vbox = QVBoxLayout()
         vbox.setMargin(0)
         vbox.addWidget(self.top_panel)
@@ -317,6 +321,7 @@ class QLiberationWindow(QMainWindow):
         )
         if file is not None and file[0] != "":
             game = persistency.load_game(file[0])
+            Migrator(game)
             GameUpdateSignal.get_instance().game_loaded.emit(game)
 
             self.updateWindowTitle(file[0])
@@ -482,6 +487,10 @@ class QLiberationWindow(QMainWindow):
             "<b>Ciribob </b> <i>for the JTACAutoLase.lua script</i><br/>"
             "<b>Walder </b> <i>for the Skynet-IADS script</i><br/>"
             "<b>Anubis Yinepu </b> <i>for the Hercules Cargo script</i><br/>"
+            '<a href="https://www.flaticon.com/free-icons/bug" title="bug icons" style="color: #ffffff">Bug icons created by Freepik - Flaticon</a><br />'
+            'Contains information from <a href="https://osmdata.openstreetmap.de/" style="color: #ffffff">OpenStreetMap © OpenStreetMap contributors</a>, which is made available here under the <a href="https://opendatacommons.org/licenses/odbl/1-0/" style="color: #ffffff">Open Database License (ODbL)</a>.<br />'
+            '<a href="https://download.geofabrik.de/index.html/" style="color: #ffffff">OpenStreetMap Data Extracts from Geofabrik</a><br />'
+            '<a href="https://www.earthdata.nasa.gov/" style="color: #ffffff">NASA EarthData</a><br />'
             + "<h4>Splash Screen  :</h4>"
             + "Artwork by Andriy Dankovych (CC BY-SA)"
             " <a href='https://www.facebook.com/AndriyDankovych' style='color:white'>"
@@ -546,10 +555,13 @@ class QLiberationWindow(QMainWindow):
         result = QMessageBox.question(
             self,
             "Quit Retribution?",
-            "Are you sure you want to quit? All unsaved progress will be lost.",
-            QMessageBox.Yes | QMessageBox.No,
+            "Would you like to save before quitting?",
+            QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel,
+            QMessageBox.Cancel,
         )
-        if result == QMessageBox.Yes:
+        if result in [QMessageBox.Yes, QMessageBox.No]:
+            if result == QMessageBox.Yes:
+                self.saveGame()
             self._save_window_geometry()
             super().closeEvent(event)
             self.dialog = None

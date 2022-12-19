@@ -2,22 +2,37 @@ from __future__ import annotations
 
 import datetime
 import logging
+import math
 import random
 from dataclasses import dataclass, field
+from enum import Enum
 from typing import Optional, TYPE_CHECKING
 
 from dcs.cloud_presets import Clouds as PydcsClouds
 from dcs.weather import CloudPreset, Weather as PydcsWeather, Wind
 
-from game.theater.daytimemap import DaytimeMap
 from game.theater.seasonalconditions import determine_season
 from game.timeofday import TimeOfDay
-from game.utils import Distance, Heading, Pressure, inches_hg, interpolate, meters
+from game.utils import (
+    Distance,
+    Heading,
+    Pressure,
+    inches_hg,
+    interpolate,
+    knots,
+    meters,
+)
 
 if TYPE_CHECKING:
     from game.settings import Settings
     from game.theater import ConflictTheater
     from game.theater.seasonalconditions import SeasonalConditions
+
+
+class NightMissions(Enum):
+    DayAndNight = "nightmissions_nightandday"
+    OnlyDay = "nightmissions_onlyday"
+    OnlyNight = "nightmissions_onlynight"
 
 
 @dataclass(frozen=True)
@@ -27,6 +42,9 @@ class AtmosphericConditions:
 
     #: Temperature at sea level in Celcius.
     temperature_celsius: float
+
+    #: Turbulence per 10 cm.
+    turbulence_per_10cm: float
 
 
 @dataclass(frozen=True)
@@ -100,18 +118,38 @@ class Weather:
             day,
         )
 
+        seasonal_turbulence = self.interpolate_seasonal_turbulence(
+            seasonal_conditions.high_avg_yearly_turbulence_per_10cm,
+            seasonal_conditions.low_avg_yearly_turbulence_per_10cm,
+            day,
+        )
+
+        day_turbulence = seasonal_conditions.solar_noon_turbulence_per_10cm
+        night_turbulence = seasonal_conditions.midnight_turbulence_per_10cm
+        time_of_day_turbulence = self.interpolate_solar_activity(
+            time_of_day, day_turbulence, night_turbulence
+        )
+
+        random_turbulence = random.normalvariate(mu=0, sigma=0.5)
+
+        turbulence = abs(
+            seasonal_turbulence + time_of_day_turbulence + random_turbulence
+        )
+
         if time_of_day == TimeOfDay.Day:
             temperature += seasonal_conditions.temperature_day_night_difference / 2
         if time_of_day == TimeOfDay.Night:
             temperature -= seasonal_conditions.temperature_day_night_difference / 2
         pressure += self.pressure_adjustment
         temperature += self.temperature_adjustment
+        turbulence += self.turbulence_adjustment
         logging.debug(
             "Weather: Before random: temp {} press {}".format(temperature, pressure)
         )
         conditions = AtmosphericConditions(
             qnh=self.random_pressure(pressure),
             temperature_celsius=self.random_temperature(temperature),
+            turbulence_per_10cm=turbulence,
         )
         logging.debug(
             "Weather: After random: temp {} press {}".format(
@@ -126,6 +164,10 @@ class Weather:
 
     @property
     def temperature_adjustment(self) -> float:
+        raise NotImplementedError
+
+    @property
+    def turbulence_adjustment(self) -> float:
         raise NotImplementedError
 
     def generate_clouds(self) -> Optional[Clouds]:
@@ -148,24 +190,62 @@ class Weather:
         wind_direction_2000m = wind_direction + Heading.random(-90, 90)
         wind_direction_8000m = wind_direction + Heading.random(-90, 90)
         at_0m_factor = 1
-        at_2000m_factor = 2
-        at_8000m_factor = 3
+        at_2000m_factor = 3 + random.choice([0, 0, 0, 0, 0, 1, 1])
+
+        high_alt_variation = random.choice(
+            [
+                -3,
+                -3,
+                -2,
+                -2,
+                -2,
+                -2,
+                -2,
+                -2,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                0,
+                0,
+                0,
+                1,
+                1,
+                2,
+                3,
+            ]
+        )
+        at_8000m_factor = at_2000m_factor + 5 + high_alt_variation
+
         base_wind = random.randint(minimum, maximum)
+
+        # DCS is limited to 97 knots wind speed.
+        max_supported_wind_speed = knots(97).meters_per_second
 
         return WindConditions(
             # Always some wind to make the smoke move a bit.
             at_0m=Wind(wind_direction.degrees, max(1, base_wind * at_0m_factor)),
-            at_2000m=Wind(wind_direction_2000m.degrees, base_wind * at_2000m_factor),
-            at_8000m=Wind(wind_direction_8000m.degrees, base_wind * at_8000m_factor),
+            at_2000m=Wind(
+                wind_direction_2000m.degrees,
+                min(max_supported_wind_speed, base_wind * at_2000m_factor),
+            ),
+            at_8000m=Wind(
+                wind_direction_8000m.degrees,
+                min(max_supported_wind_speed, base_wind * at_8000m_factor),
+            ),
         )
 
     @staticmethod
     def random_cloud_base() -> int:
-        return random.randint(2000, 3000)
+        return random.randint(1000, 5000)
 
     @staticmethod
     def random_cloud_thickness() -> int:
-        return random.randint(100, 400)
+        # values lower than 400m can generate clear skies in some cases
+        return random.randint(400, 2000)
 
     @staticmethod
     def random_pressure(average_pressure: float) -> Pressure:
@@ -198,6 +278,42 @@ class Weather:
         winter_factor = distance_from_peak_summer / day_of_year_peak_summer
         return interpolate(summer_value, winter_value, winter_factor, clamp=True)
 
+    @staticmethod
+    def interpolate_seasonal_turbulence(
+        high_value: float, low_value: float, day: datetime.date
+    ) -> float:
+        day_of_year = day.timetuple().tm_yday
+        day_of_year_peak_summer = 183
+        distance_from_peak_summer = -day_of_year_peak_summer + day_of_year
+
+        amplitude = 0.5 * (high_value - low_value)
+        offset = amplitude + low_value
+
+        # A high peak in summer and winter, between high_value and low_value.
+        return (
+            amplitude * math.cos(4 * math.pi * distance_from_peak_summer / 365.25)
+            + offset
+        )
+
+    @staticmethod
+    def interpolate_solar_activity(
+        time_of_day: TimeOfDay, high: float, low: float
+    ) -> float:
+
+        scale: float = 0
+
+        match time_of_day:
+            case TimeOfDay.Dawn:
+                scale = 0.4
+            case TimeOfDay.Day:
+                scale = 1
+            case TimeOfDay.Dusk:
+                scale = 0.6
+            case TimeOfDay.Night:
+                scale = 0
+
+        return interpolate(value1=low, value2=high, factor=scale, clamp=True)
+
 
 class ClearSkies(Weather):
     @property
@@ -207,6 +323,10 @@ class ClearSkies(Weather):
     @property
     def temperature_adjustment(self) -> float:
         return 3.0
+
+    @property
+    def turbulence_adjustment(self) -> float:
+        return 0.0
 
     def generate_clouds(self) -> Optional[Clouds]:
         return None
@@ -227,6 +347,10 @@ class Cloudy(Weather):
     def temperature_adjustment(self) -> float:
         return 0.0
 
+    @property
+    def turbulence_adjustment(self) -> float:
+        return 0.75
+
     def generate_clouds(self) -> Optional[Clouds]:
         return Clouds.random_preset(rain=False)
 
@@ -235,7 +359,7 @@ class Cloudy(Weather):
         return None
 
     def generate_wind(self) -> WindConditions:
-        return self.random_wind(1, 4)
+        return self.random_wind(1, 5)
 
 
 class Raining(Weather):
@@ -247,6 +371,10 @@ class Raining(Weather):
     def temperature_adjustment(self) -> float:
         return -3.0
 
+    @property
+    def turbulence_adjustment(self) -> float:
+        return 1.5
+
     def generate_clouds(self) -> Optional[Clouds]:
         return Clouds.random_preset(rain=True)
 
@@ -255,7 +383,7 @@ class Raining(Weather):
         return None
 
     def generate_wind(self) -> WindConditions:
-        return self.random_wind(1, 6)
+        return self.random_wind(2, 6)
 
 
 class Thunderstorm(Weather):
@@ -267,6 +395,10 @@ class Thunderstorm(Weather):
     def temperature_adjustment(self) -> float:
         return -3.0
 
+    @property
+    def turbulence_adjustment(self) -> float:
+        return 3.0
+
     def generate_clouds(self) -> Optional[Clouds]:
         return Clouds(
             base=self.random_cloud_base(),
@@ -276,7 +408,7 @@ class Thunderstorm(Weather):
         )
 
     def generate_wind(self) -> WindConditions:
-        return self.random_wind(1, 8)
+        return self.random_wind(2, 8)
 
 
 @dataclass
@@ -299,7 +431,7 @@ class Conditions:
             _start_time = datetime.datetime.combine(day, forced_time)
         else:
             _start_time = cls.generate_start_time(
-                theater, day, time_of_day, settings.night_disabled
+                theater, day, time_of_day, settings.night_day_missions
             )
 
         return cls(
@@ -314,17 +446,25 @@ class Conditions:
         theater: ConflictTheater,
         day: datetime.date,
         time_of_day: TimeOfDay,
-        night_disabled: bool,
+        night_day_missions: NightMissions,
     ) -> datetime.datetime:
-        if night_disabled:
-            from game.theater import DaytimeMap
+        from game.theater import DaytimeMap
 
+        if night_day_missions == NightMissions.OnlyDay:
             logging.info("Skip Night mission due to user settings")
             time_range = DaytimeMap(
                 dawn=(datetime.time(hour=8), datetime.time(hour=9)),
                 day=(datetime.time(hour=10), datetime.time(hour=12)),
                 dusk=(datetime.time(hour=12), datetime.time(hour=14)),
                 night=(datetime.time(hour=14), datetime.time(hour=17)),
+            ).range_of(time_of_day)
+        elif night_day_missions == NightMissions.OnlyNight:
+            logging.info("Skip Day mission due to user settings")
+            time_range = DaytimeMap(
+                dawn=(datetime.time(hour=0), datetime.time(hour=3)),
+                day=(datetime.time(hour=3), datetime.time(hour=6)),
+                dusk=(datetime.time(hour=21), datetime.time(hour=22)),
+                night=(datetime.time(hour=22), datetime.time(hour=23)),
             ).range_of(time_of_day)
         else:
             time_range = theater.daytime_map.range_of(time_of_day)

@@ -28,6 +28,7 @@ from qt_ui import (
     liberation_theme,
     uiconstants,
 )
+from qt_ui.uiflags import UiFlags
 from qt_ui.windows.GameUpdateSignal import GameUpdateSignal
 from qt_ui.windows.QLiberationWindow import QLiberationWindow
 from qt_ui.windows.preferences.QLiberationFirstStartWindow import (
@@ -56,12 +57,24 @@ def inject_custom_payloads(user_path: Path) -> None:
     PayloadDirectories.set_preferred(user_path / "MissionEditor" / "UnitPayloads")
 
 
+def inject_mod_payloads(mod_path: Path) -> None:
+    if mod_path.exists():
+        payloads = mod_path
+    else:
+        raise RuntimeError(
+            f"Could not find mod payloads at {mod_path}."
+            f"Aircraft will have no payloads."
+        )
+    # We configure these as preferred so the mod's loadouts override the stock ones.
+    PayloadDirectories.set_preferred(payloads)
+
+
 def on_game_load(game: Game | None) -> None:
     EventStream.drain()
     EventStream.put_nowait(GameUpdateEvents().game_loaded(game))
 
 
-def run_ui(game: Game | None, dev: bool) -> None:
+def run_ui(game: Game | None, ui_flags: UiFlags) -> None:
     os.environ["QT_ENABLE_HIGHDPI_SCALING"] = "1"  # Potential fix for 4K screens
     QApplication.setHighDpiScaleFactorRoundingPolicy(
         Qt.HighDpiScaleFactorRoundingPolicy.PassThrough
@@ -153,7 +166,7 @@ def run_ui(game: Game | None, dev: bool) -> None:
     GameUpdateSignal.get_instance().game_loaded.connect(on_game_load)
 
     # Start window
-    window = QLiberationWindow(game, dev)
+    window = QLiberationWindow(game, ui_flags)
     window.showMaximized()
     splash.finish(window)
     qt_execution_code = app.exec_()
@@ -182,6 +195,19 @@ def parse_args() -> argparse.Namespace:
     )
 
     parser.add_argument("--dev", action="store_true", help="Enable development mode.")
+
+    speed_controls_group = parser.add_argument_group()
+    speed_controls_group.add_argument(
+        "--show-sim-speed-controls",
+        action="store_true",
+        help="Shows the sim speed controls in the top panel.",
+    )
+    speed_controls_group.add_argument(
+        "--no-show-sim-speed-controls",
+        dest="show_sim_speed_controls",
+        action="store_false",
+        help="Hides the sim speed controls in the top panel (default).",
+    )
 
     parser.add_argument("--new-map", help="Deprecated. Does nothing.")
     parser.add_argument("--old-map", help="Deprecated. Does nothing.")
@@ -294,8 +320,10 @@ def create_game(
         ),
         ModSettings(
             a4_skyhawk=False,
+            a6a_intruder=False,
             f4b_phantom=False,
             f22_raptor=False,
+            f84g_thunderjet=False,
             f100_supersabre=False,
             f104_starfighter=False,
             f105_thunderchief=False,
@@ -371,7 +399,7 @@ def main():
         return
 
     with Server().run_in_thread():
-        run_ui(game, args.dev)
+        run_ui(game, UiFlags(args.dev, args.show_sim_speed_controls))
 
 
 if __name__ == "__main__":

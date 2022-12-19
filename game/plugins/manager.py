@@ -4,7 +4,6 @@ from pathlib import Path
 from typing import Dict, List
 
 from game.settings import Settings
-
 from .luaplugin import LuaPlugin
 
 

@@ -304,6 +304,13 @@ class WaypointBuilder:
         return self._target_area(f"ATTACK {target.name}", target, flyover=True)
 
     def assault_area(self, target: MissionTarget) -> FlightWaypoint:
+        """A destination waypoint used by air-assault ground troops.
+
+        This waypoint is an implementation detail for CTLD and should not be followed by
+        aircraft.
+        """
+        # TODO: Add a property that can hide this waypoint from the player's flight
+        # plan.
         return self._target_area(f"ASSAULT {target.name}", target)
 
     @staticmethod
@@ -416,6 +423,24 @@ class WaypointBuilder:
         )
 
     @staticmethod
+    def escort_hold(start: Point, altitude: Distance) -> FlightWaypoint:
+        """Creates custom waypoint for escort flights that need to hold.
+
+        Args:
+            start: Position of the waypoint.
+            altitude: Altitude of the holding pattern.
+        """
+
+        return FlightWaypoint(
+            "ESCORT HOLD",
+            FlightWaypointType.CUSTOM,
+            start,
+            altitude,
+            description="Anchor and hold at this point",
+            pretty_name="Escort Hold",
+        )
+
+    @staticmethod
     def sweep_start(position: Point, altitude: Distance) -> FlightWaypoint:
         """Creates a sweep start waypoint.
 
@@ -494,58 +519,50 @@ class WaypointBuilder:
         )
 
     @staticmethod
-    def stopover(stopover: ControlPoint, name: str = "STOPOVER") -> FlightWaypoint:
-        """Creates a stopover waypoint.
-
-        Args:
-            control_point: Pick up location.
+    def pickup_zone(pick_up: MissionTarget) -> FlightWaypoint:
+        """Creates a pickup landing zone waypoint
+        This waypoint is used to generate the Trigger Zone used for AirAssault and
+        AirLift using the CTLD plugin (see LogisticsGenerator)
         """
         return FlightWaypoint(
-            name,
-            FlightWaypointType.STOPOVER,
-            stopover.position,
-            meters(0),
-            "RADIO",
-            description=f"Stopover at {stopover}",
-            pretty_name="Stopover location",
-            control_point=stopover,
-        )
-
-    @staticmethod
-    def pickup(pick_up: MissionTarget) -> FlightWaypoint:
-        """Creates a cargo pickup waypoint.
-
-        Args:
-            control_point: Pick up location.
-        """
-        control_point = pick_up if isinstance(pick_up, ControlPoint) else None
-        return FlightWaypoint(
-            "PICKUP",
-            FlightWaypointType.PICKUP,
+            "PICKUPZONE",
+            FlightWaypointType.PICKUP_ZONE,
             pick_up.position,
             meters(0),
             "RADIO",
             description=f"Pick up cargo from {pick_up.name}",
-            pretty_name="Pick up location",
-            control_point=control_point,
+            pretty_name="Pick-up zone",
         )
 
     @staticmethod
-    def drop_off(drop_off: MissionTarget) -> FlightWaypoint:
-        """Creates a cargo drop-off waypoint.
-
-        Args:
-            control_point: Drop-off location.
+    def dropoff_zone(drop_off: MissionTarget) -> FlightWaypoint:
+        """Creates a dropoff landing zone waypoint
+        This waypoint is used to generate the Trigger Zone used for AirAssault and
+        AirLift using the CTLD plugin (see LogisticsGenerator)
         """
-        control_point = drop_off if isinstance(drop_off, ControlPoint) else None
         return FlightWaypoint(
-            "DROP OFF",
-            FlightWaypointType.DROP_OFF,
+            "DROPOFFZONE",
+            FlightWaypointType.DROPOFF_ZONE,
             drop_off.position,
             meters(0),
             "RADIO",
             description=f"Drop off cargo at {drop_off.name}",
-            pretty_name="Drop off location",
+            pretty_name="Drop-off zone",
+        )
+
+    @staticmethod
+    def cargo_stop(control_point: ControlPoint) -> FlightWaypoint:
+        """Creates a cargo stop waypoint.
+        This waypoint is used by AirLift as a landing and stopover waypoint
+        """
+        return FlightWaypoint(
+            "CARGOSTOP",
+            FlightWaypointType.CARGO_STOP,
+            control_point.position,
+            meters(0),
+            "RADIO",
+            description=f"Stop for cargo at {control_point.name}",
+            pretty_name="Cargo stop",
             control_point=control_point,
         )
 

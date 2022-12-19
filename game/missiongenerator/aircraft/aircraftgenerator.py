@@ -5,9 +5,12 @@ from datetime import datetime
 from functools import cached_property
 from typing import Any, Dict, List, TYPE_CHECKING
 
+from dcs.action import AITaskPush
+from dcs.condition import FlagIsTrue, GroupDead, Or, FlagIsFalse
 from dcs.country import Country
 from dcs.mission import Mission
 from dcs.terrain.terrain import NoParkingSlotError
+from dcs.triggers import TriggerOnce, Event
 from dcs.unitgroup import FlyingGroup, StaticGroup
 
 from game.ato.airtaaskingorder import AirTaskingOrder
@@ -17,8 +20,8 @@ from game.ato.flighttype import FlightType
 from game.ato.package import Package
 from game.ato.starttype import StartType
 from game.factions.faction import Faction
-from game.missiongenerator.missiondata import MissionData
 from game.missiongenerator.lasercoderegistry import LaserCodeRegistry
+from game.missiongenerator.missiondata import MissionData
 from game.radio.radios import RadioRegistry
 from game.radio.tacan import TacanRegistry
 from game.runways import RunwayData
@@ -111,6 +114,19 @@ class AircraftGenerator:
                         flight, country, dynamic_runways
                     )
                     self.unit_map.add_aircraft(group, flight)
+            if (
+                package.primary_task == FlightType.STRIKE
+                and package.primary_flight is not None
+            ):
+                splittrigger = TriggerOnce(Event.NoEvent, f"Split-{id(package)}")
+                splittrigger.add_condition(FlagIsTrue(flag=f"split-{id(package)}"))
+                splittrigger.add_condition(Or())
+                splittrigger.add_condition(FlagIsFalse(flag=f"split-{id(package)}"))
+                splittrigger.add_condition(GroupDead(package.primary_flight.group_id))
+                for flight in package.flights:
+                    if flight is not package.primary_flight:
+                        splittrigger.add_action(AITaskPush(flight.group_id, 1))
+                self.mission.triggerrules.triggers.append(splittrigger)
 
     def spawn_unused_aircraft(
         self, player_country: Country, enemy_country: Country
@@ -135,6 +151,9 @@ class AircraftGenerator:
     def _spawn_unused_for(
         self, squadron: Squadron, country: Country, faction: Faction
     ) -> None:
+        if self.game.settings.perf_disable_idle_aircraft:
+            return
+
         assert isinstance(squadron.location, Airfield)
         for _ in range(squadron.untasked_aircraft):
             # Creating a flight even those this isn't a fragged mission lets us
@@ -152,7 +171,7 @@ class AircraftGenerator:
             flight.state = Completed(flight, self.game.settings)
 
             group = FlightGroupSpawner(
-                flight, country, self.mission, self.helipads
+                flight, country, self.mission, self.helipads, self.mission_data
             ).create_idle_aircraft()
             AircraftPainter(flight, group).apply_livery()
             self.unit_map.add_aircraft(group, flight)
@@ -162,7 +181,7 @@ class AircraftGenerator:
     ) -> FlyingGroup[Any]:
         """Creates and configures the flight group in the mission."""
         group = FlightGroupSpawner(
-            flight, country, self.mission, self.helipads
+            flight, country, self.mission, self.helipads, self.mission_data
         ).create_flight_group()
         self.flights.append(
             FlightGroupConfigurator(

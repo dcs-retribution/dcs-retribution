@@ -130,6 +130,16 @@ class Package:
             self.waypoints = None
 
     @property
+    def primary_flight(self) -> Optional[Flight]:
+        task = self.primary_task
+        if not task:
+            return None
+        primaries = [x for x in self.flights if x.flight_type == task]
+        if len(primaries) > 0:
+            return primaries[0]
+        return None
+
+    @property
     def primary_task(self) -> Optional[FlightType]:
         if not self.flights:
             return None

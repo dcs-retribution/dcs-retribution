@@ -48,10 +48,14 @@
     "Rapier"
   ],
   "naval_units": [
+    "P265 Dumbarton Castle",
+    "F72 Ariadne",
+    "F57 Andromeda",
+    "F12 Achilles",
     "FFG Oliver Hazard Perry",
     "DDG Arleigh Burke IIa",
     "CG Ticonderoga",
-    "LHA-1 Tarawa",
+    "R05 Invincible",
     "CVN-74 John C. Stennis"
   ],
   "missiles": [],

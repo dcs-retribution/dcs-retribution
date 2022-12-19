@@ -26,7 +26,6 @@ the patreon link will keep pointing to [Khopa's](https://github.com/Khopa) accou
 
 Currently, Retribution supports the following new features:
  * A livery selector in the air wing configuration dialog
- * Fixed mod support (still unfixed in Liberation)
  * Support for campaigns with quad-point triggers
  * Support for the F-15D 'Baz' mod
  * Support for the Su-30 mod
@@ -40,7 +39,7 @@ Currently, Retribution supports the following new features:
 
 Latest release is available here : https://github.com/dcs-retribution/dcs-retribution/releases
 
-To download preview builds of the next version of DCS Retribution, see https://github.com/dcs-retribution/dcs-retribution/wiki/Preview-builds.
+To download preview builds of the next version of DCS Retribution, see https://github.com/dcs-retribution/dcs-retribution/wiki/Betas.
 
 ## DCS bugs
 
@@ -63,7 +62,7 @@ Our plans for future releases can be found on our
 [Projects page](https://github.com/dcs-retribution/dcs-retribution/projects).
 Each planned release has a Project, and the page for that project has columns for to do,
 in progress, and done. Items in the Done column are in the
-[preview build](https://github.com/dcs-retribution/dcs-retribution/wiki/Preview-builds)
+[preview build](https://github.com/dcs-retribution/dcs-retribution/wiki/Betas)
 for that release. Items in the To do column are planned to be added to that release.
 
 ## Resources

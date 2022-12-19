@@ -63,6 +63,7 @@ class Flight(SidcDescribable):
         self.start_type = start_type
         self.use_custom_loadout = False
         self.custom_name = custom_name
+        self.group_id: int = 0
 
         # Only used by transport missions.
         self.cargo = cargo
@@ -89,6 +90,12 @@ class Flight(SidcDescribable):
     @property
     def flight_plan(self) -> FlightPlan[Any]:
         return self._flight_plan_builder.get_or_build()
+
+    def degrade_to_custom_flight_plan(self) -> None:
+        from .flightplans.custom import Builder as CustomBuilder
+
+        self._flight_plan_builder = CustomBuilder(self, self.flight_plan.waypoints[1:])
+        self.recreate_flight_plan()
 
     def __getstate__(self) -> dict[str, Any]:
         state = self.__dict__.copy()

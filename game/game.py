@@ -232,6 +232,10 @@ class Game:
         LuaPluginManager.load_settings(self.settings)
         ObjectiveDistanceCache.set_theater(self.theater)
         self.compute_unculled_zones(GameUpdateEvents())
+        # Apply mod settings again so mod properties get injected again,
+        # in case mods like CJS F/A-18E/F/G or IDF F-16I are selected by the player
+        self.blue.faction.apply_mod_settings()
+        self.red.faction.apply_mod_settings()
         if not game_still_initializing:
             # We don't need to push events that happen during load. The UI will fully
             # reset when we're done.
@@ -524,12 +528,20 @@ class Game:
 
         packages = itertools.chain(self.blue.ato.packages, self.red.ato.packages)
         for package in packages:
-            if package.primary_task is FlightType.BARCAP:
+            if package.primary_task in [
+                FlightType.BARCAP,
+                FlightType.TRANSPORT,
+                FlightType.AEWC,
+                FlightType.REFUELING,
+            ]:
                 # BARCAPs will be planned at most locations on smaller theaters,
                 # rendering culling fairly useless. BARCAP packages don't really
                 # need the ground detail since they're defensive. SAMs nearby
                 # are only interesting if there are enemies in the area, and if
                 # there are they won't be culled because of the enemy's mission.
+
+                # Don't create culling exclusion zones around FlightType.TRANSPORT,
+                # FlightType.AEWC & FlightType.REFUELING mission targets.
                 continue
             zones.append(package.target.position)
 

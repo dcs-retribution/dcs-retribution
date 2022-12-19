@@ -4,8 +4,8 @@ from dataclasses import dataclass
 from game.commander.tasks.compound.attackairinfrastructure import (
     AttackAirInfrastructure,
 )
-from game.commander.tasks.compound.attackbuildings import AttackBuildings
 from game.commander.tasks.compound.attackbattlepositions import AttackBattlePositions
+from game.commander.tasks.compound.attackbuildings import AttackBuildings
 from game.commander.tasks.compound.capturebases import CaptureBases
 from game.commander.tasks.compound.defendbases import DefendBases
 from game.commander.tasks.compound.degradeiads import DegradeIads

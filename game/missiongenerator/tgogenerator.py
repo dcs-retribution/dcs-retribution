@@ -9,15 +9,13 @@ from __future__ import annotations
 
 import logging
 import random
-from collections import defaultdict
 from typing import Any, Dict, Iterator, List, Optional, TYPE_CHECKING, Type
 
 import dcs.vehicles
-from dcs import Mission, Point, unitgroup
+from dcs import Mission, Point
 from dcs.action import DoScript, SceneryDestructionZone
 from dcs.condition import MapObjectIsDead
 from dcs.country import Country
-from dcs.point import StaticPoint
 from dcs.ships import (
     CVN_71,
     CVN_72,
@@ -41,8 +39,12 @@ from dcs.unit import Unit, InvisibleFARP
 from dcs.unitgroup import MovingGroup, ShipGroup, StaticGroup, VehicleGroup
 from dcs.unittype import ShipType, VehicleType
 from dcs.vehicles import vehicle_map
-from game.missiongenerator.missiondata import CarrierInfo, MissionData
 
+from game.missiongenerator.groundforcepainter import (
+    NavalForcePainter,
+    GroundForcePainter,
+)
+from game.missiongenerator.missiondata import CarrierInfo, MissionData
 from game.radio.radios import RadioFrequency, RadioRegistry
 from game.radio.tacan import TacanBand, TacanChannel, TacanRegistry, TacanUsage
 from game.runways import RunwayData
@@ -53,7 +55,7 @@ from game.theater.theatergroundobject import (
     LhaGroundObject,
     MissileSiteGroundObject,
 )
-from game.theater.theatergroup import SceneryUnit, TheaterGroup, IadsGroundGroup
+from game.theater.theatergroup import SceneryUnit, IadsGroundGroup
 from game.unitmap import UnitMap
 from game.utils import Heading, feet, knots, mps
 
@@ -124,6 +126,7 @@ class GroundObjectGenerator:
         vehicle_group: Optional[VehicleGroup] = None
         for unit in units:
             assert issubclass(unit.type, VehicleType)
+            faction = unit.ground_object.control_point.coalition.faction
             if vehicle_group is None:
                 vehicle_group = self.m.vehicle_group(
                     self.country,
@@ -136,11 +139,13 @@ class GroundObjectGenerator:
                 self.enable_eplrs(vehicle_group, unit.type)
                 vehicle_group.units[0].name = unit.unit_name
                 self.set_alarm_state(vehicle_group)
+                GroundForcePainter(faction, vehicle_group.units[0]).apply_livery()
             else:
                 vehicle_unit = self.m.vehicle(unit.unit_name, unit.type)
                 vehicle_unit.player_can_drive = True
                 vehicle_unit.position = unit.position
                 vehicle_unit.heading = unit.position.heading.degrees
+                GroundForcePainter(faction, vehicle_unit).apply_livery()
                 vehicle_group.add_unit(vehicle_unit)
             self._register_theater_unit(unit, vehicle_group.units[-1])
         if vehicle_group is None:
@@ -156,6 +161,7 @@ class GroundObjectGenerator:
         ship_group: Optional[ShipGroup] = None
         for unit in units:
             assert issubclass(unit.type, ShipType)
+            faction = unit.ground_object.control_point.coalition.faction
             if ship_group is None:
                 ship_group = self.m.ship_group(
                     self.country,
@@ -168,12 +174,14 @@ class GroundObjectGenerator:
                     ship_group.set_frequency(frequency.hertz)
                 ship_group.units[0].name = unit.unit_name
                 self.set_alarm_state(ship_group)
+                NavalForcePainter(faction, ship_group.units[0]).apply_livery()
             else:
                 ship_unit = self.m.ship(unit.unit_name, unit.type)
                 if frequency:
                     ship_unit.set_frequency(frequency.hertz)
                 ship_unit.position = unit.position
                 ship_unit.heading = unit.position.heading.degrees
+                NavalForcePainter(faction, ship_unit).apply_livery()
                 ship_group.add_unit(ship_unit)
             self._register_theater_unit(unit, ship_group.units[-1])
         if ship_group is None:

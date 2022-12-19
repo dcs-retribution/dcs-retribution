@@ -166,6 +166,72 @@ local unitPayloads = {
 				[1] = 19,
 			},
 		},
+        [6] = {
+			["displayName"] = "SEAD",
+			["name"] = "SEAD",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{3E6B632D-65EB-44D2-9501-1C2D04515405}",
+					["num"] = 7,
+				},
+				[2] = {
+					["CLSID"] = "{VSN_F1001000_ptb}",
+					["num"] = 8,
+				},
+				[3] = {
+					["CLSID"] = "{GAR-8}",
+					["num"] = 3,
+				},
+				[4] = {
+					["CLSID"] = "{VSN_F1001000_ptb}",
+					["num"] = 4,
+				},
+				[5] = {
+					["CLSID"] = "{GAR-8}",
+					["num"] = 9,
+				},
+				[6] = {
+					["CLSID"] = "{3E6B632D-65EB-44D2-9501-1C2D04515405}",
+					["num"] = 5,
+				},
+			},
+			["tasks"] = {
+				[1] = 19,
+			},
+		},
+        [7] = {
+			["displayName"] = "Retribution SEAD Escort",
+			["name"] = "Retribution SEAD Escort",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{3E6B632D-65EB-44D2-9501-1C2D04515405}",
+					["num"] = 7,
+				},
+				[2] = {
+					["CLSID"] = "{VSN_F1001000_ptb}",
+					["num"] = 8,
+				},
+				[3] = {
+					["CLSID"] = "{BRU33_2*LAU61}",
+					["num"] = 3,
+				},
+				[4] = {
+					["CLSID"] = "{VSN_F1001000_ptb}",
+					["num"] = 4,
+				},
+				[5] = {
+					["CLSID"] = "{BRU33_2*LAU61}",
+					["num"] = 9,
+				},
+				[6] = {
+					["CLSID"] = "{3E6B632D-65EB-44D2-9501-1C2D04515405}",
+					["num"] = 5,
+				},
+			},
+			["tasks"] = {
+				[1] = 19,
+			},
+		},
 	},
 	["tasks"] = {
 	},

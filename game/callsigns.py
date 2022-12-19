@@ -3,8 +3,8 @@ import logging
 import re
 from typing import Any
 
-from dcs.unitgroup import FlyingGroup
 from dcs.flyingunit import FlyingUnit
+from dcs.unitgroup import FlyingGroup
 
 
 def callsign_for_support_unit(group: FlyingGroup[Any]) -> str:
