@@ -11,6 +11,7 @@ from dcs.countries import country_dict
 from dcs.unittype import ShipType, StaticType
 from dcs.unittype import UnitType as DcsUnitType
 
+from game.armedforces.forcegroup import ForceGroup
 from game.data.building_data import (
     WW2_ALLIES_BUILDINGS,
     DEFAULT_AVAILABLE_BUILDINGS,
@@ -25,13 +26,13 @@ from game.data.doctrine import (
     COLDWAR_DOCTRINE,
     WWII_DOCTRINE,
 )
-from game.data.units import UnitClass
 from game.data.groups import GroupRole
+from game.data.units import UnitClass
 from game.dcs.aircrafttype import AircraftType
 from game.dcs.groundunittype import GroundUnitType
 from game.dcs.shipunittype import ShipUnitType
-from game.armedforces.forcegroup import ForceGroup
 from game.dcs.unittype import UnitType
+from pydcs_extensions.f16i_idf.f16i_idf import inject_F16I
 
 if TYPE_CHECKING:
     from game.theater.start_generator import ModSettings
@@ -115,6 +116,9 @@ class Faction:
     # List of default livery overrides
     liveries_overrides: Dict[AircraftType, List[str]] = field(default_factory=dict)
 
+    # List of default livery overrides for ground vehicles
+    liveries_overrides_ground_forces: Dict[str, List[str]] = field(default_factory=dict)
+
     #: Set to True if the faction should force the "Unrestricted satnav" option
     #: for the mission. This option enables GPS for capable aircraft regardless
     #: of the time period or operator. For example, the CJTF "countries" don't
@@ -123,6 +127,10 @@ class Faction:
     #: Note that this option cannot be set per-side. If either faction needs it,
     #: both will use it.
     unrestricted_satnav: bool = False
+
+    # Store mod settings so mod properties can be injected again on game load,
+    # in case mods like CJS F/A-18E/F/G or IDF F-16I are selected by the player
+    mod_settings: Optional[ModSettings] = field(default=None)
 
     def has_access_to_dcs_type(self, unit_type: Type[DcsUnitType]) -> bool:
         # Vehicle and Ship Units
@@ -279,6 +287,16 @@ class Faction:
             aircraft = AircraftType.named(name)
             faction.liveries_overrides[aircraft] = [s.lower() for s in livery]
 
+        # Load liveries override for ground forces
+        faction.liveries_overrides_ground_forces = {}
+        liveries_overrides_ground_forces = json.get(
+            "liveries_overrides_ground_forces", {}
+        )
+        for vehicle_type, livery in liveries_overrides_ground_forces.items():
+            faction.liveries_overrides_ground_forces[vehicle_type] = [
+                s.lower() for s in livery
+            ]
+
         faction.unrestricted_satnav = json.get("unrestricted_satnav", False)
 
         return faction
@@ -294,7 +312,21 @@ class Faction:
             if unit.unit_class is unit_class:
                 yield unit
 
-    def apply_mod_settings(self, mod_settings: ModSettings) -> None:
+    def apply_mod_settings(self, mod_settings: Optional[ModSettings] = None) -> None:
+        if mod_settings is None:
+            if self.mod_settings is None:
+                # No mod settings were provided and none were saved for this faction
+                # so stop here
+                return
+            elif self.mod_settings is not None:
+                # Saved mod settings were found for this faction,
+                # so load them for use
+                mod_settings = self.mod_settings
+        else:
+            # Update the mod settings of this faction
+            # so the settings can be applied again on load, if needed
+            self.mod_settings = mod_settings
+
         # aircraft
         if not mod_settings.a4_skyhawk:
             self.remove_aircraft("A-4E-C")
@@ -307,17 +339,32 @@ class Faction:
             self.remove_aircraft("VSN_F4B")
         if not mod_settings.f15d_baz:
             self.remove_aircraft("F-15D")
+        if not mod_settings.f_16_idf:
+            self.remove_aircraft("F-16I")
+            self.remove_aircraft("F_16D_52")
+            self.remove_aircraft("F_16D_50")
+            self.remove_aircraft("F_16D_50_NS")
+            self.remove_aircraft("F_16D_52_NS")
+        else:
+            inject_F16I()
+            # Remove the stock Viper because that DCS ID is now used by the Sufa
+            self.remove_aircraft_by_name("F-16CM Fighting Falcon (Block 50)")
         if not mod_settings.f22_raptor:
             self.remove_aircraft("F-22A")
+        if not mod_settings.f84g_thunderjet:
+            self.remove_aircraft("VSN_F84G")
         if not mod_settings.f100_supersabre:
             self.remove_aircraft("VSN_F100")
         if not mod_settings.f104_starfighter:
+            self.remove_aircraft("VSN_F104C")
             self.remove_aircraft("VSN_F104G")
             self.remove_aircraft("VSN_F104S")
             self.remove_aircraft("VSN_F104S_AG")
         if not mod_settings.f105_thunderchief:
             self.remove_aircraft("VSN_F105D")
             self.remove_aircraft("VSN_F105G")
+        if not mod_settings.a6a_intruder:
+            self.remove_aircraft("VSN_A6A")
         if not mod_settings.jas39_gripen:
             self.remove_aircraft("JAS39Gripen")
             self.remove_aircraft("JAS39Gripen_AG")
@@ -328,6 +375,8 @@ class Faction:
             self.remove_aircraft("Su-30SM")
         if not mod_settings.su57_felon:
             self.remove_aircraft("Su-57")
+        if not mod_settings.ov10a_bronco:
+            self.remove_aircraft("Bronco-OV-10A")
         # frenchpack
         if not mod_settings.frenchpack:
             self.remove_vehicle("AMX10RCR")
@@ -385,6 +434,11 @@ class Faction:
     def remove_aircraft(self, name: str) -> None:
         for i in self.aircrafts:
             if i.dcs_unit_type.id == name:
+                self.aircrafts.remove(i)
+
+    def remove_aircraft_by_name(self, name: str) -> None:
+        for i in self.aircrafts:
+            if i.name == name:
                 self.aircrafts.remove(i)
 
     def remove_preset(self, name: str) -> None:

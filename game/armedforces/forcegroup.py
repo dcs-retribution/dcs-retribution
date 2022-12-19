@@ -10,19 +10,18 @@ import yaml
 from dcs.unittype import ShipType, StaticType, UnitType as DcsUnitType, VehicleType
 
 from game.data.groups import GroupTask
-from game.data.radar_db import UNITS_WITH_RADAR
 from game.dcs.groundunittype import GroundUnitType
 from game.dcs.helpers import static_type_from_name
 from game.dcs.shipunittype import ShipUnitType
 from game.dcs.unittype import UnitType
+from game.layout import LAYOUTS
+from game.layout.layout import TgoLayout, TgoLayoutUnitGroup
+from game.point_with_heading import PointWithHeading
 from game.theater.theatergroundobject import (
     IadsGroundObject,
     IadsBuildingGroundObject,
     NavalGroundObject,
 )
-from game.layout import LAYOUTS
-from game.layout.layout import TgoLayout, TgoLayoutUnitGroup
-from game.point_with_heading import PointWithHeading
 from game.theater.theatergroup import IadsGroundGroup, IadsRole, TheaterGroup
 from game.utils import escape_string_for_lua
 

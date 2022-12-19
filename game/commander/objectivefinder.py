@@ -5,6 +5,7 @@ import operator
 from collections.abc import Iterable, Iterator
 from typing import TYPE_CHECKING, TypeVar
 
+from game.ato.closestairfields import ClosestAirfields, ObjectiveDistanceCache
 from game.theater import (
     Airfield,
     ControlPoint,
@@ -20,7 +21,6 @@ from game.theater.theatergroundobject import (
     IadsBuildingGroundObject,
 )
 from game.utils import meters, nautical_miles
-from game.ato.closestairfields import ClosestAirfields, ObjectiveDistanceCache
 
 if TYPE_CHECKING:
     from game import Game
@@ -138,14 +138,6 @@ class ObjectiveFinder:
     def front_lines(self) -> Iterator[FrontLine]:
         """Iterates over all active front lines in the theater."""
         yield from self.game.theater.conflicts()
-
-    def air_assault_targets(self) -> Iterator[ControlPoint]:
-        """Iterates over all capturable controlpoints for all active front lines"""
-        if not self.game.settings.plugin_option("ctld"):
-            # Air Assault should only be tasked with CTLD enabled
-            return
-        for front_line in self.front_lines():
-            yield front_line.control_point_hostile_to(self.is_player)
 
     def vulnerable_control_points(self) -> Iterator[ControlPoint]:
         """Iterates over friendly CPs that are vulnerable to enemy CPs.

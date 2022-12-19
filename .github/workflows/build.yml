@@ -45,8 +45,7 @@ jobs:
         with:
           webhook_url: ${{ secrets.discord_webhook_betas }}
           title: "Build #${{ github.run_number }} available!"
-          message: "**Branch:** ${{ github.ref_name }}\n**Download link:\n** 
-          https://github.com/dcs-retribution/dcs-retribution/actions/runs/${{ github.run_id }}"
+          message: "**Branch:** ${{ github.ref_name }}\n**Download link:\n** https://github.com/dcs-retribution/dcs-retribution/actions/runs/${{ github.run_id }}"
           include_image: true
           avatar_url: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
           username: GitHub Build Notifier

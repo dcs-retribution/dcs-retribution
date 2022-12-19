@@ -8,6 +8,7 @@ from dcs.task import (
     CAP,
     CAS,
     EPLRS,
+    Escort,
     FighterSweep,
     GroundAttack,
     Nothing,
@@ -19,6 +20,9 @@ from dcs.task import (
     Refueling,
     RunwayAttack,
     Transport,
+    SEAD,
+    SwitchWaypoint,
+    OptJettisonEmptyTanks,
 )
 from dcs.unitgroup import FlyingGroup
 
@@ -105,6 +109,7 @@ class AircraftBehavior:
                 unit.gun = 0
 
         group.points[0].tasks.append(OptRTBOnBingoFuel(True))
+        group.points[0].tasks.append(OptJettisonEmptyTanks())
         # Do not restrict afterburner.
         # https://forums.eagle.ru/forum/english/digital-combat-simulator/dcs-world-2-5/bugs-and-problems-ai/ai-ad/7121294-ai-stuck-at-high-aoa-after-making-sharp-turn-if-afterburner-is-restricted
 
@@ -265,7 +270,9 @@ class AircraftBehavior:
         # Escort groups are actually given the CAP task so they can perform the
         # Search Then Engage task, which we have to use instead of the Escort
         # task for the reasons explained in JoinPointBuilder.
-        group.task = CAP.name
+        group.task = Escort.name
+        if flight.package.primary_task == FlightType.STRIKE:
+            group.add_trigger_action(SwitchWaypoint(None, 5))
         self.configure_behavior(
             flight, group, roe=OptROE.Values.OpenFire, restrict_jettison=True
         )
@@ -274,7 +281,9 @@ class AircraftBehavior:
         # CAS is able to perform all the same tasks as SEAD using a superset of the
         # available aircraft, and F-14s are not able to be SEAD despite having TALDs.
         # https://forums.eagle.ru/topic/272112-cannot-assign-f-14-to-sead/
-        group.task = CAS.name
+        group.task = SEAD.name
+        if flight.package.primary_task == FlightType.STRIKE:
+            group.add_trigger_action(SwitchWaypoint(None, 5))
         self.configure_behavior(
             flight,
             group,

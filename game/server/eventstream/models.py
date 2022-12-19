@@ -12,10 +12,10 @@ from game.server.frontlines.models import FrontLineJs
 from game.server.iadsnetwork.models import IadsConnectionJs
 from game.server.leaflet import LeafletPoint
 from game.server.mapzones.models import ThreatZonesJs
-from game.server.navmesh.models import NavMeshJs
-from game.server.tgos.models import TgoJs
 from game.server.mapzones.models import UnculledZoneJs
+from game.server.navmesh.models import NavMeshJs
 from game.server.supplyroutes.models import SupplyRouteJs
+from game.server.tgos.models import TgoJs
 
 if TYPE_CHECKING:
     from game import Game

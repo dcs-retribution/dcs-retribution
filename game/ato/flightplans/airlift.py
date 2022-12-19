@@ -19,10 +19,20 @@ if TYPE_CHECKING:
 @dataclass(frozen=True)
 class AirliftLayout(StandardLayout):
     nav_to_pickup: list[FlightWaypoint]
+    # There will not be a pickup waypoint when the pickup airfield is the departure
+    # airfield for cargo planes, as the cargo is pre-loaded. Helicopters will still pick
+    # up the cargo near the airfield.
     pickup: FlightWaypoint | None
+    # pickup_zone will be used for player flights to create the CTLD stuff
+    ctld_pickup_zone: FlightWaypoint | None
     nav_to_drop_off: list[FlightWaypoint]
-    drop_off: FlightWaypoint
-    stopover: FlightWaypoint | None
+    # There will not be a drop-off waypoint when the drop-off airfield and the arrival
+    # airfield is the same for a cargo plane, as planes will land to unload and we don't
+    # want a double landing. Helicopters will still drop their cargo near the airfield
+    # before landing.
+    drop_off: FlightWaypoint | None
+    # drop_off_zone will be used for player flights to create the CTLD stuff
+    ctld_drop_off_zone: FlightWaypoint | None
     nav_to_home: list[FlightWaypoint]
 
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
@@ -30,10 +40,13 @@ class AirliftLayout(StandardLayout):
         yield from self.nav_to_pickup
         if self.pickup is not None:
             yield self.pickup
+        if self.ctld_pickup_zone is not None:
+            yield self.ctld_pickup_zone
         yield from self.nav_to_drop_off
-        yield self.drop_off
-        if self.stopover is not None:
-            yield self.stopover
+        if self.drop_off is not None:
+            yield self.drop_off
+        if self.ctld_drop_off_zone is not None:
+            yield self.ctld_drop_off_zone
         yield from self.nav_to_home
         yield self.arrival
         if self.divert is not None:
@@ -48,7 +61,11 @@ class AirliftFlightPlan(StandardFlightPlan[AirliftLayout]):
 
     @property
     def tot_waypoint(self) -> FlightWaypoint:
-        return self.layout.drop_off
+        # The TOT is the time that the cargo will be dropped off. If the drop-off
+        # location is the arrival airfield and this is not a helicopter flight, there
+        # will not be a separate drop-off waypoint; the arrival landing waypoint is the
+        # drop-off waypoint.
+        return self.layout.drop_off or self.layout.arrival
 
     def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
         # TOT planning isn't really useful for transports. They're behind the front
@@ -77,31 +94,31 @@ class Builder(IBuilder[AirliftFlightPlan, AirliftLayout]):
         builder = WaypointBuilder(self.flight, self.coalition)
 
         pickup = None
-        stopover = None
+        drop_off = None
+        pickup_zone = None
+        drop_off_zone = None
+
+        if cargo.origin != self.flight.departure:
+            pickup = builder.cargo_stop(cargo.origin)
+        if cargo.next_stop != self.flight.arrival:
+            drop_off = builder.cargo_stop(cargo.next_stop)
+
         if self.flight.is_helo:
-            # Create a pickupzone where the cargo will be spawned
-            pickup_zone = MissionTarget(
-                "Pickup Zone", cargo.origin.position.random_point_within(1000, 200)
+            # Create CTLD Zones for Helo flights
+            pickup_zone = builder.pickup_zone(
+                MissionTarget(
+                    "Pickup Zone", cargo.origin.position.random_point_within(1000, 200)
+                )
             )
-            pickup = builder.pickup(pickup_zone)
-            # If The cargo is at the departure controlpoint, the pickup waypoint should
-            # only be created for client flights
-            pickup.only_for_player = cargo.origin == self.flight.departure
-
-            # Create a dropoff zone where the cargo should be dropped
-            drop_off_zone = MissionTarget(
-                "Dropoff zone",
-                cargo.next_stop.position.random_point_within(1000, 200),
+            drop_off_zone = builder.dropoff_zone(
+                MissionTarget(
+                    "Dropoff zone",
+                    cargo.next_stop.position.random_point_within(1000, 200),
+                )
             )
-            drop_off = builder.drop_off(drop_off_zone)
-
-            # Add an additional stopover point so that the flight can refuel
-            stopover = builder.stopover(cargo.next_stop)
-        else:
-            # Fixed Wing will get stopover points for pickup and dropoff
-            if cargo.origin != self.flight.departure:
-                pickup = builder.stopover(cargo.origin, "PICKUP")
-            drop_off = builder.stopover(cargo.next_stop, "DROP OFF")
+            # Show the zone waypoints only to the player
+            pickup_zone.only_for_player = True
+            drop_off_zone.only_for_player = True
 
         nav_to_pickup = builder.nav_path(
             self.flight.departure.position,
@@ -110,20 +127,11 @@ class Builder(IBuilder[AirliftFlightPlan, AirliftLayout]):
             altitude_is_agl,
         )
 
-        if self.flight.client_count > 0:
-            # Normal Landing Waypoint
-            arrival = builder.land(self.flight.arrival)
-        else:
-            # The AI Needs another Stopover point to actually fly back to the original
-            # base. Otherwise the Cargo drop will be the new Landing Waypoint and the
-            # AI will end its mission there instead of flying back.
-            # https://forum.dcs.world/topic/211775-landing-to-refuel-and-rearm-the-landingrefuar-waypoint/
-            arrival = builder.stopover(self.flight.arrival, "LANDING")
-
         return AirliftLayout(
             departure=builder.takeoff(self.flight.departure),
             nav_to_pickup=nav_to_pickup,
             pickup=pickup,
+            ctld_pickup_zone=pickup_zone,
             nav_to_drop_off=builder.nav_path(
                 cargo.origin.position,
                 cargo.next_stop.position,
@@ -131,14 +139,14 @@ class Builder(IBuilder[AirliftFlightPlan, AirliftLayout]):
                 altitude_is_agl,
             ),
             drop_off=drop_off,
-            stopover=stopover,
+            ctld_drop_off_zone=drop_off_zone,
             nav_to_home=builder.nav_path(
                 cargo.origin.position,
                 self.flight.arrival.position,
                 altitude,
                 altitude_is_agl,
             ),
-            arrival=arrival,
+            arrival=builder.land(self.flight.arrival),
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
         )

@@ -1,5 +1,10 @@
 from .a4ec import *
+from .a6a import *
+from .f4b import *
+from .f84g import *
+from .f100 import *
 from .f104 import *
+from .f105 import *
 from .f22a import *
 from .frenchpack import *
 from .hercules import *
@@ -8,6 +13,7 @@ from .jas39 import *
 from .su30 import *
 from .su57 import *
 from .uh60l import *
+from .ov10a import *
 
 
 def load_mods() -> None:

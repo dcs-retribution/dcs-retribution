@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from game.ato.flighttype import FlightType
 from game.commander.missionproposals import EscortType
 from game.commander.tasks.packageplanningtask import PackagePlanningTask
 from game.commander.theaterstate import TheaterState
 from game.theater.theatergroundobject import IadsGroundObject
-from game.ato.flighttype import FlightType
 
 
 @dataclass
@@ -42,6 +42,5 @@ class PlanDead(PackagePlanningTask[IadsGroundObject]):
         # needs a decent refactor to the escort planning to do so.
         if self.target.has_live_radar_sam:
             self.propose_flight(FlightType.SEAD, 2)
-        else:
-            self.propose_flight(FlightType.SEAD_ESCORT, 2, EscortType.Sead)
+        self.propose_flight(FlightType.SEAD_ESCORT, 2, EscortType.Sead)
         self.propose_flight(FlightType.ESCORT, 2, EscortType.AirToAir)

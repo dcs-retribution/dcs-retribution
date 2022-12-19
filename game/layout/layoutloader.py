@@ -1,9 +1,9 @@
 from __future__ import annotations
-from collections import defaultdict
 
 import itertools
 import logging
 import pickle
+from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Iterator
@@ -31,7 +31,7 @@ from game.profiling import logged_duration
 from game.version import VERSION
 
 LAYOUT_DIR = "resources/layouts/"
-LAYOUT_DUMP = "Liberation/layouts.p"
+LAYOUT_DUMP = "Retribution/layouts.p"
 
 LAYOUT_TYPES = {
     GroupRole.AIR_DEFENSE: AntiAirLayout,

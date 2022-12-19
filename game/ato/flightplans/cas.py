@@ -10,6 +10,7 @@ from game.utils import Distance, Speed, kph, meters
 from .ibuilder import IBuilder
 from .invalidobjectivelocation import InvalidObjectiveLocation
 from .patrolling import PatrollingFlightPlan, PatrollingLayout
+from .uizonedisplay import UiZone, UiZoneDisplay
 from .waypointbuilder import WaypointBuilder
 from ..flightwaypointtype import FlightWaypointType
 
@@ -28,13 +29,13 @@ class CasLayout(PatrollingLayout):
         yield self.target
         yield self.patrol_end
         yield from self.nav_from
-        yield self.departure
+        yield self.arrival
         if self.divert is not None:
             yield self.divert
         yield self.bullseye
 
 
-class CasFlightPlan(PatrollingFlightPlan[CasLayout]):
+class CasFlightPlan(PatrollingFlightPlan[CasLayout], UiZoneDisplay):
     @staticmethod
     def builder_type() -> Type[Builder]:
         return Builder
@@ -64,6 +65,12 @@ class CasFlightPlan(PatrollingFlightPlan[CasLayout]):
 
     def dismiss_escort_at(self) -> FlightWaypoint | None:
         return self.layout.patrol_end
+
+    def ui_zone(self) -> UiZone:
+        return UiZone(
+            [self.layout.target.position],
+            self.engagement_distance,
+        )
 
 
 class Builder(IBuilder[CasFlightPlan, CasLayout]):

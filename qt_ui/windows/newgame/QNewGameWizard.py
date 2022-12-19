@@ -6,7 +6,7 @@ from typing import List
 
 from PySide2 import QtGui, QtWidgets
 from PySide2.QtCore import QDate, QItemSelectionModel, QPoint, Qt, Signal
-from PySide2.QtWidgets import QCheckBox, QLabel, QTextEdit, QVBoxLayout
+from PySide2.QtWidgets import QCheckBox, QLabel, QTextEdit, QVBoxLayout, QTextBrowser
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from game.campaignloader.campaign import Campaign, DEFAULT_BUDGET
@@ -142,6 +142,7 @@ class NewGameWizard(QtWidgets.QWizard):
             ),
             automate_aircraft_reinforcements=self.field("automate_aircraft_purchases"),
             supercarrier=self.field("supercarrier"),
+            max_frontline_length=campaign.data.get("max_frontline_length", 80),
         )
         generator_settings = GeneratorSettings(
             start_date=start_date,
@@ -159,9 +160,12 @@ class NewGameWizard(QtWidgets.QWizard):
         )
         mod_settings = ModSettings(
             a4_skyhawk=self.field("a4_skyhawk"),
+            a6a_intruder=self.field("a6a_intruder"),
             f4b_phantom=self.field("f4b_phantom"),
             f15d_baz=self.field("f15d_baz"),
+            f_16_idf=self.field("f_16_idf"),
             f22_raptor=self.field("f22_raptor"),
+            f84g_thunderjet=self.field("f84g_thunderjet"),
             f100_supersabre=self.field("f100_supersabre"),
             f104_starfighter=self.field("f104_starfighter"),
             f105_thunderchief=self.field("f105_thunderchief"),
@@ -170,6 +174,7 @@ class NewGameWizard(QtWidgets.QWizard):
             jas39_gripen=self.field("jas39_gripen"),
             su30_flanker_h=self.field("su30_flanker_h"),
             su57_felon=self.field("su57_felon"),
+            ov10a_bronco=self.field("ov10a_bronco"),
             frenchpack=self.field("frenchpack"),
             high_digit_sams=self.field("high_digit_sams"),
         )
@@ -255,11 +260,13 @@ class FactionSelection(QtWidgets.QWizardPage):
         redFaction.setBuddy(self.redFactionSelect)
 
         # Faction description
-        self.blueFactionDescription = QTextEdit("")
+        self.blueFactionDescription = QTextBrowser()
         self.blueFactionDescription.setReadOnly(True)
+        self.blueFactionDescription.setOpenExternalLinks(True)
 
-        self.redFactionDescription = QTextEdit("")
+        self.redFactionDescription = QTextBrowser()
         self.redFactionDescription.setReadOnly(True)
+        self.redFactionDescription.setOpenExternalLinks(True)
 
         # Setup default selected factions
         for i, r in enumerate(FACTIONS):
@@ -381,8 +388,9 @@ class TheaterConfiguration(QtWidgets.QWizardPage):
         self.registerField("selectedCampaign", self.campaignList)
 
         # Faction description
-        self.campaignMapDescription = QTextEdit("")
+        self.campaignMapDescription = QTextBrowser()
         self.campaignMapDescription.setReadOnly(True)
+        self.campaignMapDescription.setOpenExternalLinks(True)
         self.campaignMapDescription.setMaximumHeight(200)
 
         self.performanceText = QTextEdit("")
@@ -656,6 +664,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         modSettingsGroup = QtWidgets.QGroupBox("Mod Settings")
         a4_skyhawk = QtWidgets.QCheckBox()
         self.registerField("a4_skyhawk", a4_skyhawk)
+        a6a_intruder = QtWidgets.QCheckBox()
+        self.registerField("a6a_intruder", a6a_intruder)
         hercules = QtWidgets.QCheckBox()
         self.registerField("hercules", hercules)
         uh_60l = QtWidgets.QCheckBox()
@@ -664,8 +674,12 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("f4b_phantom", f4b_phantom)
         f15d_baz = QtWidgets.QCheckBox()
         self.registerField("f15d_baz", f15d_baz)
+        f_16_idf = QtWidgets.QCheckBox()
+        self.registerField("f_16_idf", f_16_idf)
         f22_raptor = QtWidgets.QCheckBox()
         self.registerField("f22_raptor", f22_raptor)
+        f84g_thunderjet = QtWidgets.QCheckBox()
+        self.registerField("f84g_thunderjet", f84g_thunderjet)
         f100_supersabre = QtWidgets.QCheckBox()
         self.registerField("f100_supersabre", f100_supersabre)
         f104_starfighter = QtWidgets.QCheckBox()
@@ -678,6 +692,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("su30_flanker_h", su30_flanker_h)
         su57_felon = QtWidgets.QCheckBox()
         self.registerField("su57_felon", su57_felon)
+        ov10a_bronco = QtWidgets.QCheckBox()
+        self.registerField("ov10a_bronco", ov10a_bronco)
         frenchpack = QtWidgets.QCheckBox()
         self.registerField("frenchpack", frenchpack)
         high_digit_sams = QtWidgets.QCheckBox()
@@ -690,79 +706,41 @@ class GeneratorOptions(QtWidgets.QWizardPage):
 
         modLayout = QtWidgets.QGridLayout()
         modLayout_row = 1
-        modLayout.addWidget(
-            QtWidgets.QLabel("A-4E Skyhawk (version 2.0.0)"), modLayout_row, 0
-        )
-        modLayout.addWidget(a4_skyhawk, modLayout_row, 1)
-        modLayout_row += 1
-        modLayout.addWidget(
-            QtWidgets.QLabel("F-4B Phantom II (v2.7.10.02 EFM + Patch 2022.10.02)"),
-            modLayout_row,
-            0,
-        )
-        modLayout.addWidget(f4b_phantom, modLayout_row, 1)
-        modLayout_row += 1
-        modLayout.addWidget(QtWidgets.QLabel("F-15D Baz (v1.0)"), modLayout_row, 0)
-        modLayout.addWidget(f15d_baz, modLayout_row, 1)
-        modLayout_row += 1
-        modLayout.addWidget(QtWidgets.QLabel("F-22A Raptor"), modLayout_row, 0)
-        modLayout.addWidget(f22_raptor, modLayout_row, 1)
-        modLayout_row += 1
-        modLayout.addWidget(
-            QtWidgets.QLabel("F-100 Super Sabre (version 2.7.18.30765 patch 09.10.22)"),
-            modLayout_row,
-            0,
-        )
-        modLayout.addWidget(f100_supersabre, modLayout_row, 1)
-        modLayout_row += 1
-        # Section break here for readability
-        modLayout.addWidget(QtWidgets.QWidget(), modLayout_row, 0)
-        modLayout_row += 1
-        modLayout.addWidget(
-            QtWidgets.QLabel("F-104 Starfighter (version 2.7.11.222.01)"),
-            modLayout_row,
-            0,
-        )
-        modLayout.addWidget(f104_starfighter, modLayout_row, 1)
-        modLayout_row += 1
-        modLayout.addWidget(
-            QtWidgets.QLabel("F-105 Thunderchief (version 2.7.12.23x)"),
-            modLayout_row,
-            0,
-        )
-        modLayout.addWidget(f105_thunderchief, modLayout_row, 1)
-        modLayout_row += 1
-        modLayout.addWidget(
-            QtWidgets.QLabel("C-130J-30 Super Hercules"), modLayout_row, 0
-        )
-        modLayout.addWidget(hercules, modLayout_row, 1)
-        modLayout_row += 1
-        modLayout.addWidget(
-            QtWidgets.QLabel("UH-60L Black Hawk (version 1.3.1)"), modLayout_row, 0
-        )
-        modLayout.addWidget(uh_60l, modLayout_row, 1)
-        modLayout_row += 1
-        modLayout.addWidget(
-            QtWidgets.QLabel("JAS 39 Gripen (version v1.8.0-beta)"), modLayout_row, 0
-        )
-        modLayout.addWidget(jas39_gripen, modLayout_row, 1)
-        modLayout_row += 1
-        # Section break here for readability
-        modLayout.addWidget(QtWidgets.QWidget(), modLayout_row, 0)
-        modLayout_row += 1
-        modLayout.addWidget(
-            QtWidgets.QLabel("Su-30 Flanker-H (V2.01B)"), modLayout_row, 0
-        )
-        modLayout.addWidget(su30_flanker_h, modLayout_row, 1)
-        modLayout_row += 1
-        modLayout.addWidget(QtWidgets.QLabel("Su-57 Felon"), modLayout_row, 0)
-        modLayout.addWidget(su57_felon, modLayout_row, 1)
-        modLayout_row += 1
-        modLayout.addWidget(QtWidgets.QLabel("Frenchpack"), modLayout_row, 0)
-        modLayout.addWidget(frenchpack, modLayout_row, 1)
-        modLayout_row += 1
-        modLayout.addWidget(QtWidgets.QLabel("High Digit SAMs"), modLayout_row, 0)
-        modLayout.addWidget(high_digit_sams, modLayout_row, 1)
+
+        mod_pairs = [
+            ("A-4E Skyhawk (v2.0.0)", a4_skyhawk),
+            ("A-6A Intruder (v2.7.5.01)", a6a_intruder),
+            ("C-130J-30 Super Hercules", hercules),
+            ("F-4B Phantom II (v2.7.10.02 EFM + Patch 2022.10.02)", f4b_phantom),
+            ("F-15D Baz (v1.0)", f15d_baz),
+            ("F-16I Sufa & F-16D (v2.2 by IDF Mods Project)", f_16_idf),
+            ("F-22A Raptor", f22_raptor),
+            ("F-84G Thunderjet (v2.5.7.01)", f84g_thunderjet),
+            ("F-100 Super Sabre (v2.7.18.30765 patch 20.10.22)", f100_supersabre),
+            ("F-104 Starfighter (v2.7.11.222.01)", f104_starfighter),
+            ("F-105 Thunderchief (v2.7.12.23x)", f105_thunderchief),
+            ("Frenchpack", frenchpack),
+            ("High Digit SAMs", high_digit_sams),
+            ("JAS 39 Gripen (v1.8.0-beta)", jas39_gripen),
+            ("OV-10A Bronco", ov10a_bronco),
+            ("Su-30 Flanker-H (V2.01B)", su30_flanker_h),
+            ("Su-57 Felon", su57_felon),
+            ("UH-60L Black Hawk (v1.3.1)", uh_60l),
+        ]
+
+        for i in range(len(mod_pairs)):
+            if i % 15 == 0:
+                modLayout_row = 1
+            col = 2 * (i // 15)
+            if i % 5 == 0:
+                # Section break here for readability
+                modLayout.addWidget(QtWidgets.QWidget(), modLayout_row, col)
+                modLayout_row += 1
+            label, cb = mod_pairs[i]
+            modLayout.addWidget(QLabel(label), modLayout_row, col)
+            modLayout.addWidget(cb, modLayout_row, col + 1)
+            modLayout_row += 1
+
         modSettingsGroup.setLayout(modLayout)
 
         mlayout = QVBoxLayout()

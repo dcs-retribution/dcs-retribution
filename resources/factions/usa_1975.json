@@ -11,6 +11,7 @@
     "C-130",
     "CH-47D",
     "CH-53E",
+    "F-14A Tomcat (AI)",
     "F-14A Tomcat (Block 135-GR Late)",
     "F-4B Phantom II",
     "F-4E Phantom II",
@@ -18,6 +19,7 @@
     "F-100 Super Sabre",
     "F-105G Thunderchief",
     "S-3B Viking",
+	"OV-10A Bronco",
     "UH-1H Iroquois"
   ],
   "awacs": [

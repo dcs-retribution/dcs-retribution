@@ -1,0 +1,216 @@
+---
+name: Caucasus - WRL - Kutaisi to Vaziani (v1)
+theater: Caucasus
+authors: HolyOrangeJuice
+recommended_player_faction: WRL - Task Force Blue
+recommended_enemy_faction: WRL - Task Force Red
+recommended_start_date: 2021-10-22
+description: "<p>This mission was designed for the We Run Liberation group [WRL].
+  <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p>"
+miz: Kutaisi2Vaziani.miz
+performance: 2
+version: "10.5"
+recommended_player_money: 2000
+recommended_enemy_money: 2000
+recommended_player_income_multiplier: 3.0
+recommended_enemy_income_multiplier: 1.5
+advanced_iads: true # Campaign has connection_nodes / power_sources / command_centers
+iads_config:
+#REDFOR BASE DEFENSE
+  - R-COMMAND-A1:
+    - R-POWER-A1
+    - R-TOWER-A1
+    - R-TOWER-S1
+    - R-TOWER-N1
+  - R-EWR-A1:
+    - R-POWER-A1
+    - R-TOWER-A1
+  - R-SAM-A1:
+    - R-POWER-A1
+    - R-TOWER-A1
+  - R-SAM-A2:
+    - R-POWER-A1
+    - R-TOWER-A1
+  - R-SAM-A3:
+    - R-POWER-A1
+    - R-TOWER-A1
+#REDFOR SOUTH DEFENSE
+  - R-EWR-S1:
+    - R-POWER-S1
+    - R-TOWER-S1
+  - R-EWR-S2:
+    - R-POWER-S1
+    - R-TOWER-S1
+  - R-EWR-S3:
+    - R-POWER-S1
+    - R-TOWER-S1
+  - R-SAM-S1:
+    - R-POWER-S1
+    - R-TOWER-S1
+  - R-SAM-S2:
+    - R-POWER-S1
+    - R-TOWER-S1
+#REDFOR NORTH DEFENSE
+  - R-EWR-N1:
+    - R-POWER-N1
+    - R-TOWER-N1
+  - R-EWR-N2:
+    - R-POWER-N1
+    - R-TOWER-N1
+  - R-SAM-N1:
+    - R-POWER-N1
+    - R-TOWER-N1
+  - R-SAM-N2:
+    - R-POWER-N1
+    - R-TOWER-N1
+#NATO
+  - NATO K-1:
+    - NATO CP
+  - NATO K-2:
+    - NATO CP
+  - NATO K-3:
+    - NATO CP
+  - NATO S-1:
+    - NATO CP
+  - NATO S-2:
+    - NATO CP
+  - NATO S-3:
+    - NATO CP
+  - NATO S-4:
+    - NATO CP
+  - NATO S-5:
+    - NATO CP  
+squadrons:
+# Senaki-Kholki
+  23:
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - B-52H Stratofortress
+    - primary: AEW&C
+      aircraft:
+        - E-3A
+    - primary: Refueling
+      aircraft:
+        - KC-135 Stratotanker MPRS 
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - 335th FS
+        #F15e   
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - 58th FS
+        #F15c
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - VF-143
+        #F14B      
+ # Kutaisi
+  25:  
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - VMA-214
+        #AV8B 
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - VMFA-251
+        #Hornet - Marines   
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - 74th TFS
+        #A10c s3
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - A-10C Thunderbolt II (Suite 7)
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - A-10A Thunderbolt II
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - 23rd FS
+        #Viper USAF
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - AH-64D Apache Longbow
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Mi-24P Hind-F
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Ka-50 Hokum
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Mi-8MTV2 Hip
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - UH-1H Iroquois
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - SA 342L Gazelle
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - SA 342M Gazelle  
+ # Kobuleti
+  24:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - Mirage 2000C
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - JF-17 Thunder
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - AJS-37 Viggen 
+ # Vaziani
+  31:     
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - MiG-21bis Fishbed-N
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - Su-17M4 Fitter-K
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - MiG-23MLD Flogger-K
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - Su-24M Fencer-D
+#FARP ALPHA
+  FARP ALPHA:
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - Mi-24P Hind-F
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - Ka-50 Hokum
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - Mi-28N Havoc
+ # Tbilisi-Lochini
+ # 29:     

@@ -14,9 +14,9 @@ from PySide2.QtWidgets import (
 )
 
 from game import Game
-from game.squadrons.pilot import Pilot
-from game.ato.flightroster import FlightRoster
 from game.ato.flight import Flight
+from game.ato.flightroster import FlightRoster
+from game.squadrons.pilot import Pilot
 from qt_ui.models import PackageModel
 
 

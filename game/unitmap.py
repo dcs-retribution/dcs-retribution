@@ -10,10 +10,10 @@ from dcs.triggers import TriggerZone
 from dcs.unit import Unit
 from dcs.unitgroup import FlyingGroup, VehicleGroup, ShipGroup
 
+from game.ato.flight import Flight
 from game.dcs.groundunittype import GroundUnitType
 from game.squadrons import Pilot
 from game.theater import Airfield, ControlPoint, TheaterUnit
-from game.ato.flight import Flight
 from game.theater.theatergroup import SceneryUnit
 
 if TYPE_CHECKING:
