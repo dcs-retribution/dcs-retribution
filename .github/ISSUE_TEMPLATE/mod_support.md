@@ -1,6 +1,6 @@
 ---
 name: Mod support request
-about: Request Liberation support for new mods, or updates to existing mods 
+about: Request Retribution support for new mods, or updates to existing mods 
 title: Add/update <mod name>
 labels: mod support
 assignees: ''

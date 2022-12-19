@@ -1,0 +1,17 @@
+---
+name: Code Architecture
+description: >
+  Suggest a refactor, or other issues related to the codebase.
+labels:  ["refactor", "python"]
+body:
+  - type: markdown
+    attributes:
+      value: >
+        Before filing, please search the issues to see if the problem has already been reported.
+  - type: textarea
+    attributes:
+      label: Describe your proposal.
+      description: >
+        Indicate where the issue lies and briefly explain how you plan to tackle it.
+    validations:
+      required: true
