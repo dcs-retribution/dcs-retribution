@@ -1,6 +1,6 @@
 {
   "country": "Combined Joint Task Forces Red",
-  "name": "WRL - Task Force Red",
+  "name": "WRL - Task Force Insurgent",
   "authors": "HolyOrangeJuice",
   "description": "<p>A generic redfor faction for WRL missions. This meets the needs of the We Run Liberation group. <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a>.</p>",
   "aircrafts": [
@@ -45,23 +45,23 @@
     "IL-78M"
   ],
   "frontline_units": [
+    "SPAAA LC with ZU-23",
+    "Scout LC with DSHK 12.7mm",
+    "Scout LC with KORD 12.7mm",
+    "Scout HL with DSHK 12.7mm",
+    "Scout HL with KORD 12.7mm",
+    "SPAAA HL with ZU-23",
     "BMP-1",
     "BMP-2",
-    "BMP-3",
     "BMD-1",
     "MT-LB",
     "BRDM-2",
     "BTR-80",
-    "BTR-82A",
     "BTR-D",
     "PT-76",
     "T-55A",
     "T-72B3 model 2011",
-    "T-72B with Kontakt-1 ERA",
-    "T-80UD",
-    "T-90A",
-    "ZU-23 on Ural-375",
-    "ZSU-23-4 Shilka"
+    "ZU-23 on Ural-375 Insurgent"
   ],
   "artillery_units": [
     "2S19 Msta-S"
@@ -85,7 +85,6 @@
     "SA-3/S-125",
     "SA-3/S-125 V-601P/5V27",
     "SA-6",
-    "SA-11",
     "SA-10/S-300PS",
     "SA-10B/S-300PS",
     "Silkworm",
@@ -106,11 +105,11 @@
   "air_defense_units": [
     "EWR 1L13",
     "EWR 55G6",
-    "SAM SA-8 Osa \"Gecko\" TEL",
     "SA-9 Strela",
     "SA-13 Gopher (9K35 Strela-10M3)",
-    "SA-15 Tor",
-    "SA-19 Grison (2K22 Tunguska)",
+    "SPAAA LC with ZU-23",
+    "SPAAA HL with ZU-23",
+    "ZU-23 on Ural-375 Insurgent",
     "ZSU-23-4 Shilka"
   ],
   "helicopter_carrier_names": [],
