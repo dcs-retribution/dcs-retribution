@@ -31,7 +31,7 @@ from game.profiling import logged_duration
 from game.version import VERSION
 
 LAYOUT_DIR = "resources/layouts/"
-LAYOUT_DUMP = "Liberation/layouts.p"
+LAYOUT_DUMP = "Retribution/layouts.p"
 
 LAYOUT_TYPES = {
     GroupRole.AIR_DEFENSE: AntiAirLayout,
