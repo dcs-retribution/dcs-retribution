@@ -44,7 +44,28 @@
     "F-117A Nighthawk",
     "AH-1W SuperCobra",		
     "SH-60B Seahawk",
-    "AH-64D Apache Longbow (AI)"
+    "AH-64D Apache Longbow (AI)",
+    "C-130",
+    "C-130J-30 Super Hercules",
+    "F-15D Baz",
+    "F-15E Strike Eagle",
+    "F-16A MLU",
+	"F-16D Fighting Falcon (Block 52+)",
+	"F-16D Fighting Falcon (Block 52)",
+	"F-16D Fighting Falcon (Block 50+)",
+	"F-16D Fighting Falcon (Block 50)",
+    "F-22A Raptor",
+    "Mirage-F1B",
+    "Mirage-F1BE",
+    "Mirage-F1C-200",
+    "Mirage-F1CT",
+    "Mirage-F1EE",
+    "Mirage-F1M-CE",
+    "Mirage-F1M-EE",
+    "Su-30MKA Flanker-H",
+    "Su-30MKI Flanker-H",
+    "Su-30MKM Flanker-H",
+    "Su-30SM Flanker-H"
   ],
   "awacs": [
     "E-2D Advanced Hawkeye",
@@ -71,8 +92,7 @@
     "M6 Linebacker"
   ],
   "artillery_units": [
-    "M109A6 Paladin",
-    "M270 Multiple Launch Rocket System"
+    "M109A6 Paladin"
   ],
   "logistics_units": [
     "Truck M818 6x6"
