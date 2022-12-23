@@ -1,7 +1,7 @@
 -- the state.json file will be updated according to this schedule, and also on each destruction or capture event
 local WRITESTATE_SCHEDULE_IN_SECONDS = 60
 
-logger = mist.Logger:new("DCSLiberation", "info")
+logger = mist.Logger:new("DCSRetribution", "info")
 logger:info("Check that json.lua is loaded : json = "..tostring(json))
 
 killed_aircrafts = {} -- killed aircraft will be added via S_EVENT_CRASH event
@@ -37,7 +37,7 @@ function write_state()
         ["destroyed_objects_positions"] = destroyed_objects_positions,
     }
     if not json then
-        local message = string.format("Unable to save DCS Liberation state to %s, JSON library is not loaded !", _debriefing_file_location)
+        local message = string.format("Unable to save DCS Retribution state to %s, JSON library is not loaded !", _debriefing_file_location)
         logger:error(message)
         messageAll(message)
     end
@@ -76,30 +76,30 @@ end
 
 local function discoverDebriefingFilePath()   
     -- establish a search pattern into the following modes
-    -- 1. Environment variable LIBERATION_EXPORT_DIR, to support dedicated server hosting
-    -- 2. Embedded DCS Liberation dcsLiberation.installPath (set by the app to its install path), to support locally hosted single player
+    -- 1. Environment variable RETRIBUTION_EXPORT_DIR, to support dedicated server hosting
+    -- 2. Embedded DCS Retribution dcsRetribution.installPath (set by the app to its install path), to support locally hosted single player
     -- 3. System temporary folder, as set in the TEMP environment variable
     -- 4. Working directory.
     
     local useCurrentStamping = nil
     if os then  
-        useCurrentStamping = os.getenv("LIBERATION_EXPORT_STAMPED_STATE")
+        useCurrentStamping = os.getenv("RETRIBUTION_EXPORT_STAMPED_STATE")
     end
 
     local installPath = nil
-    if dcsLiberation then 
-        installPath = dcsLiberation.installPath 
+    if dcsRetribution then
+        installPath = dcsRetribution.installPath
     end
     
     if os then
         local result = nil
-        -- try using the LIBERATION_EXPORT_DIR environment variable
-        result = testDebriefingFilePath(os.getenv("LIBERATION_EXPORT_DIR"), "LIBERATION_EXPORT_DIR", useCurrentStamping)
+        -- try using the RETRIBUTION_EXPORT_DIR environment variable
+        result = testDebriefingFilePath(os.getenv("RETRIBUTION_EXPORT_DIR"), "RETRIBUTION_EXPORT_DIR", useCurrentStamping)
         if result then
             return result
         end
         -- no joy ? maybe there is a valid path in the mission ?
-        result = testDebriefingFilePath(installPath, "the DCS Liberation install folder", useCurrentStamping)
+        result = testDebriefingFilePath(installPath, "the DCS Retribution install folder", useCurrentStamping)
         if result then
             return result
         end
@@ -124,15 +124,15 @@ write_state_error_handling = function()
     local _debriefing_file_location = debriefing_file_location
     if not debriefing_file_location then 
         _debriefing_file_location = "[nil]"
-        logger:error("Unable to find where to write DCS Liberation state")
+        logger:error("Unable to find where to write DCS Retribution state")
     end
 
     if pcall(write_state) then
     else
-	    messageAll("Unable to write DCS Liberation state to ".._debriefing_file_location..
-                "\nYou can abort the mission in DCS Liberation.\n"..
-                "\n\nPlease fix your setup in DCS Liberation, make sure you are pointing to the right installation directory from the File/Preferences menu. Then after fixing the path restart DCS Liberation, and then restart DCS."..
-                "\n\nYou can also try to fix the issue manually by replacing the file <dcs_installation_directory>/Scripts/MissionScripting.lua by the one provided there : <dcs_liberation_folder>/resources/scripts/MissionScripting.lua. And then restart DCS. (This will also have to be done again after each DCS update)"..
+	    messageAll("Unable to write DCS Retribution state to ".._debriefing_file_location..
+                "\nYou can abort the mission in DCS Retribution.\n"..
+                "\n\nPlease fix your setup in DCS Retribution, make sure you are pointing to the right installation directory from the File/Preferences menu. Then after fixing the path restart DCS Retribution, and then restart DCS."..
+                "\n\nYou can also try to fix the issue manually by replacing the file <dcs_installation_directory>/Scripts/MissionScripting.lua by the one provided there : <dcs_retribution_folder>/resources/scripts/MissionScripting.lua. And then restart DCS. (This will also have to be done again after each DCS update)"..
                 "\n\nIt's not worth playing, the state of the mission will not be recorded.")
     end
 

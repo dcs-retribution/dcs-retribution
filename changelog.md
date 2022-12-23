@@ -22,6 +22,8 @@ BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 * **[Modding]** Support IDF Mod Project F-16I Sufa & F-16D v2.2 mod
 * **[Modding]** Support for F-84G mod version 2.5.7.01
 * **[Modding]** Updated F-104 mod version support to 2.7.11.222.01
+* **[Modding]** Updated Community A-4E-C mod version support to 2.1.0 release.
+* **[UI]** Add livery selector to Air Wing Configurator's squadrons.
 * **[Performance]** Added performance option: Maximum front-line unit supply per control point.
 * **[Performance]** Added performance option: Disable convoys.
 * **[Performance]** Added performance option: Front-line troops prefer roads.

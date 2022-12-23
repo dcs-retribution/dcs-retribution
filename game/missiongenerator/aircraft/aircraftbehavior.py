@@ -87,6 +87,7 @@ class AircraftBehavior:
         rtb_winchester: Optional[OptRTBOnOutOfAmmo.Values] = None,
         restrict_jettison: Optional[bool] = None,
         mission_uses_gun: bool = True,
+        rtb_on_bingo: bool = True,
     ) -> None:
         group.points[0].tasks.clear()
         group.points[0].tasks.append(OptReactOnThreat(react_on_threat))
@@ -108,7 +109,7 @@ class AircraftBehavior:
             for unit in group.units:
                 unit.gun = 0
 
-        group.points[0].tasks.append(OptRTBOnBingoFuel(True))
+        group.points[0].tasks.append(OptRTBOnBingoFuel(rtb_on_bingo))
         group.points[0].tasks.append(OptJettisonEmptyTanks())
         # Do not restrict afterburner.
         # https://forums.eagle.ru/forum/english/digital-combat-simulator/dcs-world-2-5/bugs-and-problems-ai/ai-ad/7121294-ai-stuck-at-high-aoa-after-making-sharp-turn-if-afterburner-is-restricted
@@ -313,6 +314,7 @@ class AircraftBehavior:
             react_on_threat=OptReactOnThreat.Values.EvadeFire,
             roe=OptROE.Values.WeaponHold,
             restrict_jettison=True,
+            rtb_on_bingo=False,
         )
 
     def configure_unknown_task(self, group: FlyingGroup[Any], flight: Flight) -> None:
