@@ -10,6 +10,7 @@ description: "<p>Edited by HolyOrangeJuice. Original Golan Heights by Khopa. Mod
 miz: AssaultonDamascus.miz
 performance: 2
 version: "10.5"
+max_frontline_length: 30
 recommended_player_money: 2000
 recommended_enemy_money: 2000
 recommended_player_income_multiplier: 1.0
@@ -77,6 +78,10 @@ squadrons:
       secondary: any
       aircraft:
         - F-117A Nighthawk
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - Tornado GR4 
     - primary: BARCAP
       secondary: air-to-air
       aircraft:
@@ -123,11 +128,6 @@ squadrons:
     - primary: CAS
       secondary: air-to-ground
       aircraft:
-        - 74th TFS
-        #A10c s3
-    - primary: CAS
-      secondary: air-to-ground
-      aircraft:
         - A-10C Thunderbolt II (Suite 7)
     - primary: CAS
       secondary: air-to-ground
@@ -148,7 +148,8 @@ squadrons:
     - primary: BAI
       secondary: air-to-ground
       aircraft:
-        - AH-64D Apache Longbow
+        - A Company, 1-211th ARB
+        #AH-64D Apache Longbow
     - primary: CAS
       secondary: air-to-ground
       aircraft:
@@ -156,11 +157,7 @@ squadrons:
     - primary: CAS
       secondary: air-to-ground
       aircraft:
-        - Ka-50 Hokum
-    - primary: CAS
-      secondary: air-to-ground
-      aircraft:
-        - SA 342L Gazelle
+        - Ka-50 Hokum III
     - primary: CAS
       secondary: air-to-ground
       aircraft:
@@ -168,7 +165,8 @@ squadrons:
     - primary: Transport
       secondary: any
       aircraft:
-        - UH-1H Iroquois
+        - HMLA-169 (UH-1H)
+        #UH-1H Iroquois
     - primary: Transport
       secondary: any
       aircraft:

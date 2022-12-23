@@ -11,6 +11,7 @@ description: "<p>This mission was designed for the We Run Liberation group [WRL]
   <p>The enemy has an Advanced IADs network designed to work with the skynet plugin.</p>
   <p>Look for weakness in enemy SAM defense and go after the command center and power stations.</p>"
 miz: battle4area51.miz
+max_frontline_length: 20
 performance: 1
 version: "10.5"
 recommended_player_money: 2000
@@ -126,11 +127,6 @@ squadrons:
     - primary: CAS
       secondary: air-to-ground
       aircraft:
-        - 74th TFS
-        #A10c s3
-    - primary: CAS
-      secondary: air-to-ground
-      aircraft:
         - A-10C Thunderbolt II (Suite 7)
     - primary: CAS
       secondary: air-to-ground
@@ -144,7 +140,8 @@ squadrons:
     - primary: BAI
       secondary: air-to-ground
       aircraft:
-        - AH-64D Apache Longbow
+        - A Company, 1-211th ARB
+        #AH-64D Apache Longbow
     - primary: BAI
       secondary: air-to-ground
       aircraft:
@@ -152,7 +149,7 @@ squadrons:
     - primary: BAI
       secondary: air-to-ground
       aircraft:
-        - Ka-50 Hokum
+        - Ka-50 Hokum III
     - primary: BAI
       secondary: air-to-ground
       aircraft:
@@ -160,11 +157,8 @@ squadrons:
     - primary: BAI
       secondary: air-to-ground
       aircraft:
-        - UH-1H Iroquois
-    - primary: BAI
-      secondary: air-to-ground
-      aircraft:
-        - SA 342L Gazelle
+        - HMLA-169 (UH-1H)
+        #UH-1H Iroquois
     - primary: BAI
       secondary: air-to-ground
       aircraft:
@@ -209,7 +203,7 @@ squadrons:
       secondary: any
       aircraft:
         - Ka-50 Hokum
-    - primary: CAS
+    - primary: Transport
       secondary: any
       aircraft:
         - Mi-8MTV2 Hip
@@ -231,7 +225,7 @@ squadrons:
       secondary: any
       aircraft:
         - Ka-50 Hokum
-    - primary: CAS
+    - primary: Transport
       secondary: any
       aircraft:
         - Mi-8MTV2 Hip
