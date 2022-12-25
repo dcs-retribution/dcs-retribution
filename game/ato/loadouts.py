@@ -3,7 +3,7 @@ from __future__ import annotations
 import datetime
 import logging
 from collections.abc import Iterable
-from typing import Iterator, Mapping, Optional, TYPE_CHECKING, Type, Dict
+from typing import Iterator, Optional, TYPE_CHECKING, Type, Dict
 
 from dcs.unittype import FlyingType
 
@@ -19,14 +19,14 @@ class Loadout:
     def __init__(
         self,
         name: str,
-        pylons: Mapping[int, Optional[Weapon]],
+        pylons: Dict[int, Optional[Weapon]],
         date: Optional[datetime.date],
         is_custom: bool = False,
     ) -> None:
         self.name = name
         # We clear unused pylon entries on initialization, but UI actions can still
         # cause a pylon to be emptied, so make the optional type explicit.
-        self.pylons: Mapping[int, Optional[Weapon]] = {
+        self.pylons: Dict[int, Optional[Weapon]] = {
             k: v for k, v in pylons.items() if v is not None
         }
         self.date = date

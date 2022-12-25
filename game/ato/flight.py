@@ -5,12 +5,12 @@ from datetime import datetime, timedelta
 from typing import Any, List, Optional, TYPE_CHECKING
 
 from dcs import Point
-from dcs.planes import C_101CC, C_101EB, Su_33
+from dcs.planes import C_101CC, C_101EB, Su_33, FA_18C_hornet
 
 from .flightroster import FlightRoster
 from .flightstate import FlightState, Navigating, Uninitialized
 from .flightstate.killed import Killed
-from .loadouts import Loadout
+from .loadouts import Loadout, Weapon
 from ..sidc import (
     Entity,
     SidcDescribable,
@@ -31,6 +31,8 @@ if TYPE_CHECKING:
     from .flightwaypoint import FlightWaypoint
     from .package import Package
     from .starttype import StartType
+
+F18_TGP_PYLON: int = 4
 
 
 class Flight(SidcDescribable):
@@ -86,6 +88,15 @@ class Flight(SidcDescribable):
         from .flightplans.flightplanbuildertypes import FlightPlanBuilderTypes
 
         self._flight_plan_builder = FlightPlanBuilderTypes.for_flight(self)(self)
+
+        is_f18 = self.squadron.aircraft.dcs_unit_type.id == FA_18C_hornet.id
+        on_land = not self.squadron.location.is_fleet
+        if on_land and is_f18 and self.coalition.game.settings.atflir_autoswap:
+            self.loadout.pylons[F18_TGP_PYLON] = Weapon.with_clsid(
+                str(
+                    FA_18C_hornet.Pylon4.AN_AAQ_28_LITENING___Targeting_Pod_[1]["clsid"]
+                )
+            )
 
     @property
     def flight_plan(self) -> FlightPlan[Any]:
