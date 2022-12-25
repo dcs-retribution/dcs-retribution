@@ -1,6 +1,7 @@
 # Retribution 1.1.0
 
 ## Features/Improvements
+* **[Mission Generation]** Given a CAS flight was planned, delay ground force attack until first CAS flight is on station
 
 ## Fixes
 * **[UI]** Removed deprecated options
