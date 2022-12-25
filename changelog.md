@@ -1,3 +1,10 @@
+# Retribution 1.1.0
+
+## Features/Improvements
+
+## Fixes
+* **[UI]** Removed deprecated options
+
 # Retribution 1.0.0
 
 ## Features/Improvements
