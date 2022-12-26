@@ -124,7 +124,10 @@ class SquadronDestinationComboBox(QComboBox):
                 continue
             if not control_point.can_operate(self.squadron.aircraft):
                 continue
-            if control_point.unclaimed_parking() < size:
+            if (
+                self.squadron.destination is not control_point
+                and control_point.unclaimed_parking() < size
+            ):
                 continue
             yield control_point
 
