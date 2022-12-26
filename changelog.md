@@ -7,6 +7,7 @@
 
 ## Fixes
 * **[UI]** Removed deprecated options
+* **[UI]** Add missing icon & banner for C130 Hercules mod
 
 # Retribution 1.0.0
 
