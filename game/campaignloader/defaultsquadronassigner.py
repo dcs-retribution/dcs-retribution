@@ -94,8 +94,9 @@ class DefaultSquadronAssigner:
         if aircraft not in self.coalition.faction.aircrafts:
             return None
 
+        lo = self.coalition.faction.liveries_overrides
         squadron_def = self.find_squadron_for_airframe(aircraft, task, control_point)
-        if squadron_def is not None:
+        if squadron_def is not None and lo.get(aircraft) is None:
             return squadron_def
 
         # No premade squadron available for this aircraft that meets the requirements,
