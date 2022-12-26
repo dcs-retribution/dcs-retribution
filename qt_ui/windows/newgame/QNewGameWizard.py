@@ -10,6 +10,7 @@ from PySide2.QtWidgets import QCheckBox, QLabel, QTextEdit, QVBoxLayout, QTextBr
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from game.campaignloader.campaign import Campaign, DEFAULT_BUDGET
+from game.dcs.aircrafttype import AircraftType
 from game.factions import FACTIONS, Faction
 from game.settings import Settings
 from game.theater.start_generator import GameGenerator, GeneratorSettings, ModSettings
@@ -201,6 +202,11 @@ class NewGameWizard(QtWidgets.QWizard):
         self.generatedGame = generator.generate()
 
         AirWingConfigurationDialog(self.generatedGame, self).exec_()
+
+        g = self.generatedGame
+        herc = AircraftType.named("C-130J-30 Super Hercules")
+        if herc in g.blue.air_wing.squadrons or herc in g.red.air_wing.squadrons:
+            g.settings.set_plugin_option("herculescargo", True)
 
         self.generatedGame.begin_turn_0()
 
