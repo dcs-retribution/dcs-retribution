@@ -304,6 +304,7 @@ def create_game(
             automate_aircraft_reinforcements=auto_procurement,
             enable_frontline_cheats=cheats,
             enable_base_capture_cheat=cheats,
+            enable_transfer_cheat=cheats,
             restrict_weapons_by_date=restrict_weapons_by_date,
         ),
         GeneratorSettings(

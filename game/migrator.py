@@ -4,7 +4,6 @@ from typing import TYPE_CHECKING
 
 from game.ato.packagewaypoints import PackageWaypoints
 from game.data.doctrine import MODERN_DOCTRINE, COLDWAR_DOCTRINE, WWII_DOCTRINE
-from game.utils import knots, feet, nautical_miles
 
 if TYPE_CHECKING:
     from game import Game

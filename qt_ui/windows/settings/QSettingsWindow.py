@@ -60,6 +60,10 @@ class CheatSettingsBox(QGroupBox):
         )
         self.base_capture_cheat_checkbox.toggled.connect(apply_settings)
 
+        self.transfer_cheat_checkbox = QCheckBox()
+        self.transfer_cheat_checkbox.setChecked(game.settings.enable_transfer_cheat)
+        self.transfer_cheat_checkbox.toggled.connect(apply_settings)
+
         self.red_ato = QLabeledWidget("Show Red ATO:", self.red_ato_checkbox)
         self.main_layout.addLayout(self.red_ato)
         self.frontline_cheat = QLabeledWidget(
@@ -70,6 +74,10 @@ class CheatSettingsBox(QGroupBox):
             "Enable Base Capture Cheat:", self.base_capture_cheat_checkbox
         )
         self.main_layout.addLayout(self.base_capture_cheat)
+        self.transfer_cheat = QLabeledWidget(
+            "Enable Instant Squadron Transfer Cheat:", self.transfer_cheat_checkbox
+        )
+        self.main_layout.addLayout(self.transfer_cheat)
 
     @property
     def show_red_ato(self) -> bool:
@@ -82,6 +90,10 @@ class CheatSettingsBox(QGroupBox):
     @property
     def show_base_capture_cheat(self) -> bool:
         return self.base_capture_cheat_checkbox.isChecked()
+
+    @property
+    def show_transfer_cheat(self) -> bool:
+        return self.transfer_cheat_checkbox.isChecked()
 
 
 class AutoSettingsLayout(QGridLayout):
@@ -359,6 +371,9 @@ class QSettingsWindow(QDialog):
         )
         self.game.settings.enable_base_capture_cheat = (
             self.cheat_options.show_base_capture_cheat
+        )
+        self.game.settings.enable_transfer_cheat = (
+            self.cheat_options.show_transfer_cheat
         )
 
         events = GameUpdateEvents()
