@@ -144,6 +144,8 @@ class NewGameWizard(QtWidgets.QWizard):
             automate_aircraft_reinforcements=self.field("automate_aircraft_purchases"),
             supercarrier=self.field("supercarrier"),
             max_frontline_length=campaign.data.get("max_frontline_length", 80),
+            perf_culling=campaign.data.get("culling_exclusion_radius") is not None,
+            perf_culling_distance=campaign.data.get("culling_exclusion_radius", 100),
         )
         generator_settings = GeneratorSettings(
             start_date=start_date,

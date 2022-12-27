@@ -170,6 +170,8 @@ VERSION = _build_version_string()
 #:
 #: Version 10.5
 #: * Support for scenery objectives defined by quad zones.
-#: * Campaign designers can now define `max_frontline_length` (in km) setting:
-#:    `max_frontline_length: 25`
+#: * Campaign designers can now define more settings:
+#:    `max_frontline_length: 25`        (in km)
+#:    `culling_exclusion_radius: 35`    (in km)
+
 CAMPAIGN_FORMAT_VERSION = (10, 5)

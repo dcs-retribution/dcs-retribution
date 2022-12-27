@@ -15,6 +15,7 @@ description: "<p>This mission was designed for the We Run Liberation group [WRL]
   </p>"
 miz: Battle4Georgia.miz
 max_frontline_length: 30
+culling_exclusion_radius: 35
 performance: 2
 version: "10.5"
 recommended_player_money: 2000
