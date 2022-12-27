@@ -20,6 +20,7 @@ from game.missiongenerator.aircraft.waypoints.cargostop import CargoStopBuilder
 from game.missiongenerator.missiondata import MissionData
 from game.settings import Settings
 from game.utils import pairwise
+from .airassaultingress import AirAssaultIngressBuilder
 from .baiingress import BaiIngressBuilder
 from .landingzone import LandingZoneBuilder
 from .casingress import CasIngressBuilder
@@ -136,6 +137,7 @@ class WaypointGenerator:
             FlightWaypointType.DROPOFF_ZONE: LandingZoneBuilder,
             FlightWaypointType.REFUEL: RefuelPointBuilder,
             FlightWaypointType.CARGO_STOP: CargoStopBuilder,
+            FlightWaypointType.INGRESS_AIR_ASSAULT: AirAssaultIngressBuilder,
         }
         builder = builders.get(waypoint.waypoint_type, DefaultWaypointBuilder)
         return builder(

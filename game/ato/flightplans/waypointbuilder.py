@@ -23,7 +23,7 @@ from game.theater import (
     TheaterGroundObject,
     TheaterUnit,
 )
-from game.utils import Distance, meters, nautical_miles
+from game.utils import Distance, meters, nautical_miles, feet
 
 if TYPE_CHECKING:
     from game.coalition import Coalition
@@ -225,15 +225,17 @@ class WaypointBuilder:
         position: Point,
         objective: MissionTarget,
     ) -> FlightWaypoint:
+        alt = self.doctrine.ingress_altitude
         alt_type: AltitudeReference = "BARO"
-        if self.is_helo:
+        if self.is_helo or self.flight.is_hercules:
             alt_type = "RADIO"
+            alt = meters(60) if self.is_helo else feet(1000)
 
         return FlightWaypoint(
             "INGRESS",
             ingress_type,
             position,
-            meters(60) if self.is_helo else self.doctrine.ingress_altitude,
+            alt,
             alt_type,
             description=f"INGRESS on {objective.name}",
             pretty_name=f"INGRESS on {objective.name}",

@@ -25,7 +25,7 @@ class AirAssaultLayout(StandardLayout):
     pickup: FlightWaypoint | None
     nav_to_ingress: list[FlightWaypoint]
     ingress: FlightWaypoint
-    drop_off: FlightWaypoint
+    drop_off: FlightWaypoint | None
     # This is an implementation detail used by CTLD. The aircraft will not go to this
     # waypoint. It is used by CTLD as the destination for unloaded troops.
     target: FlightWaypoint
@@ -37,7 +37,8 @@ class AirAssaultLayout(StandardLayout):
             yield self.pickup
         yield from self.nav_to_ingress
         yield self.ingress
-        yield self.drop_off
+        if self.drop_off is not None:
+            yield self.drop_off
         yield self.target
         yield from self.nav_to_home
         yield self.arrival
@@ -53,7 +54,9 @@ class AirAssaultFlightPlan(StandardFlightPlan[AirAssaultLayout], UiZoneDisplay):
 
     @property
     def tot_waypoint(self) -> FlightWaypoint:
-        return self.layout.drop_off
+        if self.flight.is_helo and self.layout.drop_off is not None:
+            return self.layout.drop_off
+        return self.layout.target
 
     def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
         if waypoint == self.tot_waypoint:
@@ -80,8 +83,10 @@ class AirAssaultFlightPlan(StandardFlightPlan[AirAssaultLayout], UiZoneDisplay):
 
 class Builder(IBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
     def layout(self) -> AirAssaultLayout:
-        if not self.flight.is_helo:
-            raise PlanningError("Air assault is only usable by helicopters")
+        if not self.flight.is_helo and not self.flight.is_hercules:
+            raise PlanningError(
+                "Air assault is only usable by helicopters and Anubis' C-130 mod"
+            )
         assert self.package.waypoints is not None
 
         altitude = feet(1500) if self.flight.is_helo else self.doctrine.ingress_altitude
@@ -89,7 +94,7 @@ class Builder(IBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
 
         builder = WaypointBuilder(self.flight, self.coalition)
 
-        if self.flight.departure.cptype in [
+        if self.flight.is_hercules or self.flight.departure.cptype in [
             ControlPointType.AIRCRAFT_CARRIER_GROUP,
             ControlPointType.LHA_GROUP,
             ControlPointType.OFF_MAP,
@@ -114,12 +119,15 @@ class Builder(IBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
             pickup_position = pickup.position
         assault_area = builder.assault_area(self.package.target)
         heading = self.package.target.position.heading_between_point(pickup_position)
+        if self.flight.is_hercules:
+            assault_area.only_for_player = False
 
         # TODO we can not gurantee a safe LZ for DropOff. See comment above.
         drop_off_zone = MissionTarget(
             "Dropoff zone",
             self.package.target.position.point_from_heading(heading, 1200),
         )
+        dz = builder.dropoff_zone(drop_off_zone) if self.flight.is_helo else None
 
         return AirAssaultLayout(
             departure=builder.takeoff(self.flight.departure),
@@ -135,7 +143,7 @@ class Builder(IBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
                 self.package.waypoints.ingress,
                 self.package.target,
             ),
-            drop_off=builder.dropoff_zone(drop_off_zone),
+            drop_off=dz,
             target=assault_area,
             nav_to_home=builder.nav_path(
                 drop_off_zone.position,

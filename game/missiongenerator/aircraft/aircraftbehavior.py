@@ -29,6 +29,7 @@ from dcs.unitgroup import FlyingGroup
 from game.ato import Flight, FlightType
 from game.ato.flightplans.aewc import AewcFlightPlan
 from game.ato.flightplans.theaterrefueling import TheaterRefuelingFlightPlan
+from game.dcs.aircrafttype import AircraftType
 
 
 class AircraftBehavior:
@@ -298,11 +299,15 @@ class AircraftBehavior:
 
     def configure_transport(self, group: FlyingGroup[Any], flight: Flight) -> None:
         group.task = Transport.name
+        roe = OptROE.Values.WeaponHold
+        if flight.is_hercules:
+            group.task = GroundAttack.name
+            roe = OptROE.Values.OpenFire
         self.configure_behavior(
             flight,
             group,
             react_on_threat=OptReactOnThreat.Values.EvadeFire,
-            roe=OptROE.Values.WeaponHold,
+            roe=roe,
             restrict_jettison=True,
         )
 
