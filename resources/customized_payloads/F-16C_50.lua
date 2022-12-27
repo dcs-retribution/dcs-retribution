@@ -195,8 +195,8 @@ local unitPayloads = {
 			},
 		},
 		[5] = {
-			["displayName"] = "Retribution Antiship",
-			["name"] = "Retribution Antiship",
+			["displayName"] = "Retribution Anti-ship",
+			["name"] = "Retribution Anti-ship",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{69DC8AE7-8F77-427B-B8AA-B19D3F478B66}",
