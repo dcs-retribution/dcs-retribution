@@ -234,6 +234,7 @@ class FlotGenerator:
                         )
                         vehicle = vg.units[0]
                         GroundForcePainter(faction, vehicle).apply_livery()
+                        vg.hidden_on_mfd = True
             return
 
         possible_infantry_units = set(faction.infantry_with_class(UnitClass.INFANTRY))
@@ -261,6 +262,7 @@ class FlotGenerator:
         )
         vehicle = vg.units[0]
         GroundForcePainter(faction, vehicle).apply_livery()
+        vg.hidden_on_mfd = True
 
         for unit in units[1:]:
             position = infantry_position.random_point_within(55, 5)
@@ -275,6 +277,7 @@ class FlotGenerator:
             )
             vehicle = vg.units[0]
             GroundForcePainter(faction, vehicle).apply_livery()
+            vg.hidden_on_mfd = True
 
     def _earliest_tot_on_flot(self, player: bool) -> timedelta:
         tots = [
@@ -645,7 +648,7 @@ class FlotGenerator:
     ) -> List[VehicleGroup]:
         """
         Return the nearest enemy group for the player group
-        @param group Group for which we should find the nearest ennemies
+        @param player_group Group for which we should find the nearest ennemies
         @param enemy_groups Potential enemy groups
         @param n number of nearby groups to take
         """
@@ -670,7 +673,7 @@ class FlotGenerator:
     ) -> Optional[VehicleGroup]:
         """
         Search the enemy groups for a potential target suitable to armored assault
-        @param group Group for which we should find the nearest ennemy
+        @param player_group Group for which we should find the nearest ennemy
         @param enemy_groups Potential enemy groups
         """
         min_distance = math.inf
@@ -813,6 +816,7 @@ class FlotGenerator:
             group_size=count,
             heading=heading.degrees,
         )
+        group.hidden_on_mfd = True
 
         self.unit_map.add_front_line_units(group, cp, unit_type)
 
