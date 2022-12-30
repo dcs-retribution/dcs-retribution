@@ -31,7 +31,7 @@ class FactionLoader:
 
     @classmethod
     def load_factions(cls: Type[FactionLoader]) -> Dict[str, Faction]:
-        user_faction_path = Path(persistency.base_path()) / "Liberation/Factions"
+        user_faction_path = Path(persistency.base_path()) / "Retribution/Factions"
         files = cls.find_faction_files_in(
             FACTION_DIRECTORY
         ) + cls.find_faction_files_in(user_faction_path)
