@@ -60,7 +60,7 @@ class Faction:
     description: str = field(default="")
 
     # Available aircraft
-    aircrafts: List[AircraftType] = field(default_factory=list)
+    aircraft: List[AircraftType] = field(default_factory=list)
 
     # Available awacs aircraft
     awacs: List[AircraftType] = field(default_factory=list)
@@ -178,6 +178,10 @@ class Faction:
         )
         return sorted(air_defenses)
 
+    @cached_property
+    def aircrafts(self) -> list[UnitType[Any]]:
+        return list(self.aircraft + self.awacs + self.tankers)
+
     @classmethod
     def from_json(cls: Type[Faction], json: Dict[str, Any]) -> Faction:
         faction = Faction(locales=json.get("locales"))
@@ -206,13 +210,9 @@ class Faction:
         faction.authors = json.get("authors", "")
         faction.description = json.get("description", "")
 
-        faction.aircrafts = [AircraftType.named(n) for n in json.get("aircrafts", [])]
+        faction.aircraft = [AircraftType.named(n) for n in json.get("aircrafts", [])]
         faction.awacs = [AircraftType.named(n) for n in json.get("awacs", [])]
         faction.tankers = [AircraftType.named(n) for n in json.get("tankers", [])]
-
-        faction.aircrafts = list(
-            set(faction.aircrafts + faction.awacs + faction.tankers)
-        )
 
         faction.frontline_units = [
             GroundUnitType.named(n) for n in json.get("frontline_units", [])
