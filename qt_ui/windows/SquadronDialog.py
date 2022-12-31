@@ -12,6 +12,8 @@ from PySide2.QtWidgets import (
     QListView,
     QPushButton,
     QVBoxLayout,
+    QInputDialog,
+    QLineEdit,
 )
 
 from game.ato.flightplans.custom import CustomFlightPlan
@@ -178,6 +180,11 @@ class SquadronDialog(QDialog):
         button_panel.addStretch()
         layout.addLayout(button_panel)
 
+        self.rename_button = QPushButton("Rename pilot")
+        self.rename_button.setProperty("style", "start-button")
+        self.rename_button.clicked.connect(self.rename_pilot)
+        button_panel.addWidget(self.rename_button, alignment=Qt.AlignRight)
+
         self.toggle_ai_button = QPushButton()
         self.reset_ai_toggle_state(self.pilot_list.currentIndex())
         self.toggle_ai_button.setProperty("style", "start-button")
@@ -230,6 +237,18 @@ class SquadronDialog(QDialog):
             button.setDisabled(True)
             return True
         return False
+
+    def rename_pilot(self) -> None:
+        index = self.pilot_list.currentIndex()
+        if not index.isValid():
+            logging.error("Cannot toggle player/AI: no pilot is selected")
+            return
+        p = self.squadron_model.pilot_at_index(index)
+        text, ok = QInputDialog.getText(
+            self, "Rename pilot", "New name: ", QLineEdit.EchoMode.Normal
+        )
+        if ok:
+            p.name = text
 
     def toggle_ai(self) -> None:
         index = self.pilot_list.currentIndex()

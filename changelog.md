@@ -5,6 +5,7 @@
 * **[Mission Generation]** Add option to switch ATFLIR to LITENING automatically for ground based F-18C flights
 * **[Cheat Menu]** Option to instantly transfer squadrons across bases.
 * **[UI]** Add selectable units in faction overview during campaign generation.
+* **[UI]** Add button to rename pilots in Air Wing's Squadron dialog.
 
 ## Fixes
 * **[UI]** Removed deprecated options
