@@ -92,6 +92,18 @@ class GroundPlanner:
         ground_unit_limit = self.cp.frontline_unit_count_limit
 
         remaining_available_frontline_units = ground_unit_limit
+        # Now applies the ratio between ground unit limit and the total number of ground units to each unit type
+        # when planning the ground war. This will help with monocultures of certain unit types when the control
+        # point has more units than can be spawned in one mission. In short, this will make more unit types to spawn.
+        if self.cp.base.total_armor > 0:
+            ratio_of_frontline_units_to_reserves = min(
+                ground_unit_limit / self.cp.base.total_armor, 1
+            )
+        else:
+            ratio_of_frontline_units_to_reserves = 1
+        print(
+            f"Unit limit is {ground_unit_limit}, CP has {self.cp.base.total_armor} units. Ratio is {ratio_of_frontline_units_to_reserves}."
+        )
 
         # TODO: Fix to handle the per-front stances.
         # https://github.com/dcs-liberation/dcs_liberation/issues/1417
@@ -130,10 +142,19 @@ class GroundPlanner:
                 )
                 continue
 
-            available = self.cp.base.armor[unit_type]
+            available = (
+                self.cp.base.armor[unit_type] * ratio_of_frontline_units_to_reserves
+            )
+            if 0 < available < 1:
+                available = 1
 
+            # Round the number of units to an integer
             if available > remaining_available_frontline_units:
                 available = remaining_available_frontline_units
+            available = round(available)
+            print(
+                f"Unit type: {unit_type}. Available stock: {self.cp.base.armor[unit_type]}, deploying {available} units."
+            )
 
             remaining_available_frontline_units -= available
 
