@@ -104,7 +104,7 @@ class AircraftGenerator:
             ato: The ATO to spawn aircraft for.
             dynamic_runways: Runway data for carriers and FARPs.
         """
-        for package in ato.packages:
+        for package in reversed(sorted(ato.packages, key=lambda x: x.time_over_target)):
             if not package.flights:
                 continue
             for flight in package.flights:
