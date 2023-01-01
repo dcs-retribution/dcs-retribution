@@ -395,6 +395,19 @@ class Settings:
         min=1,
         max=100,
     )
+    opfor_autoplanner_aggressiveness: int = bounded_int_option(
+        "OPFOR autoplanner aggressiveness (%)",
+        page=MISSION_GENERATOR_PAGE,
+        section=GAMEPLAY_SECTION,
+        default=20,
+        min=0,
+        max=100,
+        detail=(
+            "Chance (larger number -> higher chance) that the OPFOR AI "
+            "autoplanner will take risks and plan flights against targets "
+            "within threatened airspace."
+        ),
+    )
 
     # Performance
     perf_smoke_gen: bool = boolean_option(

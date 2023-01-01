@@ -3,6 +3,7 @@
 ## Features/Improvements
 * **[Mission Generation]** Given a CAS flight was planned, delay ground force attack until first CAS flight is on station
 * **[Mission Generation]** Add option to switch ATFLIR to LITENING automatically for ground based F-18C flights
+* **[Mission Generation]** Add option to configure OPFOR autoplanner aggressiveness and have the AI take risks and plan missions against defended targets
 * **[Cheat Menu]** Option to instantly transfer squadrons across bases.
 * **[UI]** Add selectable units in faction overview during campaign generation.
 * **[UI]** Add button to rename pilots in Air Wing's Squadron dialog.

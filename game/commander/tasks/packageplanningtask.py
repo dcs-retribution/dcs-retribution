@@ -5,6 +5,7 @@ import operator
 from abc import abstractmethod
 from dataclasses import dataclass, field
 from enum import IntEnum, auto, unique
+import random
 from typing import Generic, Iterator, Optional, TYPE_CHECKING, TypeVar, Union
 
 from game.ato.flighttype import FlightType
@@ -170,7 +171,15 @@ class PackagePlanningTask(TheaterCommanderTask, Generic[MissionTargetT]):
 
         if not ignore_iads:
             for iads_threat in self.iter_iads_threats(state):
-                threatened = True
+                # Only consider blue faction flights threatened.
+                # Red might still plan missions into hostile territory,
+                # depending on the aggressiveness setting.
+                if (
+                    state.context.coalition.player
+                    or random.randint(1, 100)
+                    > state.context.coalition.game.settings.opfor_autoplanner_aggressiveness
+                ):
+                    threatened = True
                 if iads_threat not in state.threatening_air_defenses:
                     state.threatening_air_defenses.append(iads_threat)
         return not threatened
