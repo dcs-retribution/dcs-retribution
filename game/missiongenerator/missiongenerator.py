@@ -244,10 +244,11 @@ class MissionGenerator:
             self.game.red.ato,
             tgo_generator.runways,
         )
-        aircraft_generator.spawn_unused_aircraft(
-            self.mission.country(self.game.blue.country_name),
-            self.mission.country(self.game.red.country_name),
-        )
+        if not self.game.settings.perf_disable_idle_aircraft:
+            aircraft_generator.spawn_unused_aircraft(
+                self.mission.country(self.game.blue.country_name),
+                self.mission.country(self.game.red.country_name),
+            )
 
         for flight in aircraft_generator.flights:
             if not flight.client_units:
