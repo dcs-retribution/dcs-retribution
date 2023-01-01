@@ -118,7 +118,7 @@ def main() -> None:
     first_start = liberation_install.init()
     if first_start:
         sys.exit(
-            "Cannot view payloads without configuring DCS Liberation. Start the UI for "
+            "Cannot view payloads without configuring DCS Retribution. Start the UI for "
             "the first run configuration."
         )
 

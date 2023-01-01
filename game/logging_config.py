@@ -19,4 +19,4 @@ def init_logging(version: str) -> None:
     with log_config.open() as log_file:
         logging.config.dictConfig(yaml.safe_load(log_file))
 
-    logging.info(f"DCS Liberation {version}")
+    logging.info(f"DCS Retribution {version}")
