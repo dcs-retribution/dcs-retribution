@@ -135,12 +135,12 @@ QPushButton[style="btn-success"] , QPushButton[style="start-button"]{
     background-color:#82A466;
     color: white;
     border-radius:2px;
-    font-weight:bold;
-    text-transform:uppercase;
 }
 
 QPushButton[style="start-button"]{
     padding: 8px 30px;
+    font-weight:bold;
+    text-transform:uppercase;
 }
 
 QPushButton[style="btn-success"]:hover , QPushButton[style="start-button"]:hover{

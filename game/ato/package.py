@@ -214,3 +214,12 @@ class Package:
                 if flight.departure == airfield:
                     return airfield
         raise RuntimeError("Could not find any airfield assigned to this package")
+
+    @staticmethod
+    def clone_package(package: Package) -> Package:
+        clone = Package(package.target, package._db, package.auto_asap)
+        clone.time_over_target = package.time_over_target
+        for f in package.flights:
+            cf = Flight.clone_flight(f)
+            clone.add_flight(cf)
+        return clone

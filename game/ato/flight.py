@@ -276,3 +276,15 @@ class Flight(SidcDescribable):
 
         self._flight_plan_builder.regenerate()
         EventStream.put_nowait(GameUpdateEvents().update_flight(self))
+
+    @staticmethod
+    def clone_flight(flight: Flight) -> Flight:
+        return Flight(
+            flight.package,
+            flight.country,
+            flight.squadron,
+            flight.count,
+            flight.flight_type,
+            flight.start_type,
+            flight.divert,
+        )
