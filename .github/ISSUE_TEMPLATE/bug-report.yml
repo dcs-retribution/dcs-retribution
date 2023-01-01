@@ -3,7 +3,7 @@ name: Bug report
 description: >
   Use for any bug that happens after campaign generation. If the New Game wizard
   failed, use the "New Game wizard failed" template instead.
-labels: bug
+labels: ["Bug", "Priority Medium"]
 body:
   - type: markdown
     attributes:

@@ -2,7 +2,7 @@
 name: Campaign update submission
 about: Submit an update to a campaign you maintain.
 title: 'Update for <campaign name>'
-labels: campaign-update-submission
+labels: Campaign Update Submission
 assignees: ''
 
 ---

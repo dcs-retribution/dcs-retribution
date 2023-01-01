@@ -2,7 +2,7 @@
 name: Feature Request
 description: >
   Suggest an idea for this project.
-labels: enhancement
+labels: ["Enhancement", "Priority Medium"]
 body:
   - type: markdown
     attributes:

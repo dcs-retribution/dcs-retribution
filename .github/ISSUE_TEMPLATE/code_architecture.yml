@@ -2,7 +2,7 @@
 name: Code Architecture
 description: >
   Suggest a refactor, or other issues related to the codebase.
-labels:  ["refactor", "python"]
+labels:  ["Refactor", "Python", "Priority Low"]
 body:
   - type: markdown
     attributes:

@@ -3,7 +3,7 @@ name: New Game wizard failed
 description: >
   Use for bugs that prevent the "New Game" wizard from completing successfully.
   If the wizard completes without issue, use the normal bug report template.
-labels: bug
+labels: ["Bug", "Priority High"]
 body:
   - type: markdown
     attributes:

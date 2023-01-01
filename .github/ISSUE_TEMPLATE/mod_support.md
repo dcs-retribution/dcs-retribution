@@ -2,7 +2,7 @@
 name: Mod support request
 about: Request Retribution support for new mods, or updates to existing mods 
 title: Add/update <mod name>
-labels: mod support
+labels: Mod Request
 assignees: ''
 
 ---
