@@ -1,6 +1,8 @@
+from pathlib import Path
 from dcs.planes import FA_18C_hornet
+from dcs.unittype import FlyingType
 
-from pydcs_extensions.pylon_injector import inject_pylons
+from pydcs_extensions.pylon_injector import inject_pylon
 from pydcs_extensions.weapon_injector import inject_weapons
 from qt_ui.uiconstants import AIRCRAFT_ICONS, AIRCRAFT_BANNERS
 
@@ -77,14 +79,21 @@ inject_weapons(WeaponsFA18EFG)
 
 
 def inject_FA18EFG() -> None:
+    from qt_ui.main import inject_mod_payloads, THIS_DIR
+
     # Injects modified wingspan and custom weapons from the CJS SuperBug mod
     # into pydcs databases via introspection.
     AIRCRAFT_ICONS["FA-18C_hornet"] = AIRCRAFT_ICONS["FA-18EFG"]
     AIRCRAFT_BANNERS["FA-18C_hornet"] = AIRCRAFT_BANNERS["FA-18EFG"]
     setattr(FA_18C_hornet, "width", 13.62456)
-    inject_pylons(FA_18C_hornet.Pylon2, FA18EFGPylon2)
-    inject_pylons(FA_18C_hornet.Pylon3, FA18EFGPylon3)
-    inject_pylons(FA_18C_hornet.Pylon5, FA18EFGPylon5)
-    inject_pylons(FA_18C_hornet.Pylon7, FA18EFGPylon7)
-    inject_pylons(FA_18C_hornet.Pylon8, FA18EFGPylon8)
-    inject_pylons(FA_18C_hornet.Pylon10, FA18EFGPylon10)
+    inject_pylon(FA_18C_hornet.Pylon2, FA18EFGPylon2)
+    inject_pylon(FA_18C_hornet.Pylon3, FA18EFGPylon3)
+    inject_pylon(FA_18C_hornet.Pylon5, FA18EFGPylon5)
+    inject_pylon(FA_18C_hornet.Pylon7, FA18EFGPylon7)
+    inject_pylon(FA_18C_hornet.Pylon8, FA18EFGPylon8)
+    inject_pylon(FA_18C_hornet.Pylon10, FA18EFGPylon10)
+
+    inject_mod_payloads(Path(THIS_DIR.parent / "resources/mod_payloads/fa18efg"))
+    # Force re-scanning of loadouts after the injection above
+    FlyingType._payload_cache = {}
+    FlyingType.scan_payload_dir()
