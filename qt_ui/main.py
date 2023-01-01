@@ -143,13 +143,13 @@ def run_ui(game: Game | None, ui_flags: UiFlags) -> None:
                 "<br/><br/><strong>&lt;dcs_installation_directory&gt;/Scripts/MissionScripting.lua</strong>"
                 "<br/><br/>The easiest way to do it is to replace the original file with the file in dcs-retribution "
                 "distribution (&lt;dcs_retribution_installation&gt;/resources/scripts/MissionScripting.lua)."
-                "<br/><br/>You can find more information on how to manually change this file in the Liberation Wiki "
+                "<br/><br/>You can find more information on how to manually change this file in the Retribution Wiki "
                 "(Page: Dedicated Server Guide) on GitHub.</p>"
             )
             message_box.setDefaultButton(QtWidgets.QMessageBox.StandardButton.Ok)
             message_box.setCheckBox(ignore_checkbox)
             message_box.exec_()
-    # Replace DCS Mission scripting file to allow DCS Liberation to work
+    # Replace DCS Mission scripting file to allow DCS Retribution to work
     try:
         liberation_install.replace_mission_scripting_file()
     except:

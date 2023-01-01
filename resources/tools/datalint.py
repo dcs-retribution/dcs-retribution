@@ -94,10 +94,10 @@ class Linter(LinterBase):
             self.reporter.write(report)
 
     def stream_reports(self) -> ReportStream:
-        yield H1("Liberation data report")
+        yield H1("Retribution data report")
         yield self.describe_version()
         yield Paragraph(
-            "This report documents missing supplemental data in Liberation. This is "
+            "This report documents missing supplemental data in Retribution. This is "
             "only able to report data that is missing as compared to pydcs. If pydcs "
             "is missing DCS data, that cannot be reported."
         )
@@ -115,7 +115,7 @@ class Linter(LinterBase):
             text=True,
         ).stdout.strip()
         return Paragraph(
-            f"This report was generated for DCS Liberation {VERSION} ({sha}) on "
+            f"This report was generated for DCS Retribution {VERSION} ({sha}) on "
             f"{date.today()} with pydcs {self.describe_pydcs()}."
         )
 
