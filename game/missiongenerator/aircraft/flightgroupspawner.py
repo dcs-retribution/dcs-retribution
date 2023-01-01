@@ -135,7 +135,6 @@ class FlightGroupSpawner:
                 "No room on runway or parking slots. Starting from the air."
             )
             group = self._generate_over_departure(name, cp)
-            group.points[0].alt = 1500
             return group
 
     def generate_mid_mission(self) -> FlyingGroup[Any]:
@@ -208,7 +207,11 @@ class FlightGroupSpawner:
         elif self.flight.unit_type.helicopter:
             alt = WARM_START_HELI_ALT
         else:
-            alt = WARM_START_ALTITUDE
+            if origin.id not in self.mission_data.cp_stack:
+                min_alt = MINIMUM_MID_MISSION_SPAWN_ALTITUDE_AGL
+                self.mission_data.cp_stack[origin.id] = min_alt
+            alt = self.mission_data.cp_stack[origin.id]
+            self.mission_data.cp_stack[origin.id] += STACK_SEPARATION
 
         speed = GroundSpeed.for_flight(self.flight, alt)
         pos = at + Vector2(random.randint(100, 1000), random.randint(100, 1000))
