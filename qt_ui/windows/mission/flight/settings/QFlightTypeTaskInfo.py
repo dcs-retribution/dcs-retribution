@@ -11,8 +11,11 @@ class QFlightTypeTaskInfo(QGroupBox):
         layout = QGridLayout()
 
         self.aircraft_icon = QLabel()
-        if self.flight.unit_type.dcs_id in AIRCRAFT_ICONS:
-            self.aircraft_icon.setPixmap(AIRCRAFT_ICONS[self.flight.unit_type.dcs_id])
+        # Replace slashes with underscores because slashes are not allowed in filenames
+        if self.flight.unit_type.dcs_id.replace("/", "_") in AIRCRAFT_ICONS:
+            self.aircraft_icon.setPixmap(
+                AIRCRAFT_ICONS[self.flight.unit_type.dcs_id.replace("/", "_")]
+            )
 
         self.task = QLabel("Task:")
         self.task_type = QLabel(str(flight.flight_type))
