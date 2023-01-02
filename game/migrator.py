@@ -17,6 +17,7 @@ class Migrator:
     def _migrate_game(self) -> None:
         self._update_doctrine()
         self._update_packagewaypoints()
+        self._update_package_attributes()
 
     def _update_doctrine(self) -> None:
         doctrines = [
@@ -41,3 +42,9 @@ class Migrator:
             for p in c.ato.packages:
                 if not hasattr(p.waypoints, "initial"):
                     p.waypoints = PackageWaypoints.create(p, c)
+
+    def _update_package_attributes(self) -> None:
+        for c in self.game.coalitions:
+            for p in c.ato.packages:
+                if not hasattr(p, "custom_name"):
+                    p.custom_name = None

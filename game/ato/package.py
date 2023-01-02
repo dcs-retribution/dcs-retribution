@@ -22,10 +22,15 @@ class Package:
     """A mission package."""
 
     def __init__(
-        self, target: MissionTarget, db: Database[Flight], auto_asap: bool = False
+        self,
+        target: MissionTarget,
+        db: Database[Flight],
+        auto_asap: bool = False,
+        custom_name: str | None = None,
     ) -> None:
         self.target = target
         self._db = db
+        self.custom_name = custom_name
 
         # True if the package ToT should be reset to ASAP whenever the player makes a
         # change. This is really a UI property rather than a game property, but we want

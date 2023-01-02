@@ -277,7 +277,10 @@ class PackageDelegate(TwoColumnRowDelegate):
     def text_for(self, index: QModelIndex, row: int, column: int) -> str:
         package = self.package(index)
         if (row, column) == (0, 0):
-            return f"{package.package_description} {package.target.name}"
+            string = f"{package.package_description} {package.target.name}"
+            if package.custom_name:
+                string = string + f" ({package.custom_name})"
+            return string
         elif (row, column) == (0, 1):
             clients = self.num_clients(index)
             return f"Player Slots: {clients}" if clients else ""

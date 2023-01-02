@@ -13,6 +13,7 @@ from PySide2.QtWidgets import (
     QPushButton,
     QTimeEdit,
     QVBoxLayout,
+    QLineEdit,
 )
 
 from game.ato.flight import Flight
@@ -66,6 +67,17 @@ class QPackageDialog(QDialog):
         )
         self.package_type_column.addWidget(self.package_type_label)
         self.package_type_column.addWidget(self.package_type_text)
+
+        self.summary_row.addStretch(1)
+
+        self.package_name_column = QVBoxLayout()
+        self.summary_row.addLayout(self.package_name_column)
+        self.package_name_label = QLabel("Package Name:")
+        self.package_name_label.setAlignment(Qt.AlignCenter)
+        self.package_name_text = QLineEdit(self.package_model.package.custom_name)
+        self.package_name_text.textChanged.connect(self.on_change_name)
+        self.package_name_column.addWidget(self.package_name_label)
+        self.package_name_column.addWidget(self.package_name_text)
 
         self.summary_row.addStretch(1)
 
@@ -202,6 +214,9 @@ class QPackageDialog(QDialog):
         self.package_model.cancel_or_abort_flight(flight)
         # noinspection PyUnresolvedReferences
         self.package_changed.emit()
+
+    def on_change_name(self) -> None:
+        self.package_model.package.custom_name = self.package_name_text.text()
 
 
 class QNewPackageDialog(QPackageDialog):
