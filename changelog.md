@@ -7,10 +7,15 @@
 * **[Cheat Menu]** Option to instantly transfer squadrons across bases.
 * **[UI]** Add selectable units in faction overview during campaign generation.
 * **[UI]** Add button to rename pilots in Air Wing's Squadron dialog.
+* **[UI]** Add clone buttons for flights & packages.
+* **[UI]** Editing of flight's custom name.
+* **[UI]** Introduce custom names for packages (purely for organizational purposes).
 
 ## Fixes
 * **[UI]** Removed deprecated options
 * **[UI]** Add missing icon & banner for C130 Hercules mod
+* **[Mission Generation]** Avoid aircraft from being assigned to helicopter parking spots, resulting into air starts that usually crash.
+* **[Mission Generation]** Use stacking algorithm to create vertical separation between flights spawning mid-mission over their departure, usually resulting into mid-air collisions.
 
 # Retribution 1.0.0
 
