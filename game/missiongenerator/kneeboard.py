@@ -336,7 +336,7 @@ class BriefingPage(KneeboardPage):
 
     def write(self, path: Path) -> None:
         writer = KneeboardPageWriter(dark_theme=self.dark_kneeboard)
-        if self.flight.custom_name is not None:
+        if self.flight.custom_name:
             custom_name_title = ' ("{}")'.format(self.flight.custom_name)
         else:
             custom_name_title = ""
@@ -500,7 +500,7 @@ class SupportPage(KneeboardPage):
 
     def write(self, path: Path) -> None:
         writer = KneeboardPageWriter(dark_theme=self.dark_kneeboard)
-        if self.flight.custom_name is not None:
+        if self.flight.custom_name:
             custom_name_title = ' ("{}")'.format(self.flight.custom_name)
         else:
             custom_name_title = ""
@@ -611,7 +611,7 @@ class SeadTaskPage(KneeboardPage):
 
     def write(self, path: Path) -> None:
         writer = KneeboardPageWriter(dark_theme=self.dark_kneeboard)
-        if self.flight.custom_name is not None:
+        if self.flight.custom_name:
             custom_name_title = ' ("{}")'.format(self.flight.custom_name)
         else:
             custom_name_title = ""
@@ -653,7 +653,7 @@ class StrikeTaskPage(KneeboardPage):
 
     def write(self, path: Path) -> None:
         writer = KneeboardPageWriter(dark_theme=self.dark_kneeboard)
-        if self.flight.custom_name is not None:
+        if self.flight.custom_name:
             custom_name_title = ' ("{}")'.format(self.flight.custom_name)
         else:
             custom_name_title = ""
