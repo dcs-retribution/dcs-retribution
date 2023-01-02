@@ -207,14 +207,13 @@ class Flight(SidcDescribable):
         return None
 
     def __repr__(self) -> str:
-        if self.custom_name:
-            return f"{self.custom_name} {self.count} x {self.unit_type}"
-        return f"[{self.flight_type}] {self.count} x {self.unit_type}"
+        return self.__str__()
 
     def __str__(self) -> str:
+        string = f"[{self.flight_type}] {self.count} x {self.unit_type}"
         if self.custom_name:
-            return f"{self.custom_name} {self.count} x {self.unit_type}"
-        return f"[{self.flight_type}] {self.count} x {self.unit_type}"
+            return f"{self.custom_name} - {string}"
+        return string
 
     def abort(self) -> None:
         from .flightplans.rtb import RtbFlightPlan
