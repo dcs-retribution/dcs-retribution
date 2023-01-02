@@ -121,6 +121,7 @@ class Builder(IBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
         heading = self.package.target.position.heading_between_point(pickup_position)
         if self.flight.is_hercules:
             assault_area.only_for_player = False
+            assault_area.alt = feet(1000)
 
         # TODO we can not gurantee a safe LZ for DropOff. See comment above.
         drop_off_zone = MissionTarget(
