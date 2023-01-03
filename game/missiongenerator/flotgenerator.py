@@ -284,7 +284,7 @@ class FlotGenerator:
             if x.primary_task == FlightType.CAS
         ]
         return (
-            timedelta()
+            timedelta(seconds=random.randint(300, 1800))
             if len(tots) == 0
             else min(
                 [
