@@ -1,3 +1,6 @@
+# Retribution 1.0.1 (hotfix)
+* **[Mission Generation]** Fix serialization issue when STRIKE flight has no escorts
+
 # Retribution 1.0.0
 
 ## Features/Improvements

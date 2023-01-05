@@ -124,9 +124,13 @@ class AircraftGenerator:
                 splittrigger.add_condition(FlagIsFalse(flag=f"split-{id(package)}"))
                 splittrigger.add_condition(GroupDead(package.primary_flight.group_id))
                 for flight in package.flights:
-                    if flight is not package.primary_flight:
+                    if flight.flight_type in [
+                        FlightType.ESCORT,
+                        FlightType.SEAD_ESCORT,
+                    ]:
                         splittrigger.add_action(AITaskPush(flight.group_id, 1))
-                self.mission.triggerrules.triggers.append(splittrigger)
+                if len(splittrigger.actions) > 0:
+                    self.mission.triggerrules.triggers.append(splittrigger)
 
     def spawn_unused_aircraft(
         self, player_country: Country, enemy_country: Country
