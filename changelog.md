@@ -17,6 +17,9 @@
 * **[Mission Generation]** Avoid aircraft from being assigned to helicopter parking spots, resulting into air starts that usually crash.
 * **[Mission Generation]** Use stacking algorithm to create vertical separation between flights spawning mid-mission over their departure, usually resulting into mid-air collisions.
 
+# Retribution 1.0.1 (hotfix)
+* **[Mission Generation]** Fix serialization issue when STRIKE flight has no escorts
+
 # Retribution 1.0.0
 
 ## Features/Improvements
