@@ -17,7 +17,7 @@ class TheaterRefuelingFlightPlan(RefuelingFlightPlan):
 
     @property
     def patrol_duration(self) -> timedelta:
-        return timedelta(hours=1)
+        return self.flight.coalition.game.settings.desired_tanker_on_station_time
 
 
 class Builder(IBuilder[TheaterRefuelingFlightPlan, PatrollingLayout]):
