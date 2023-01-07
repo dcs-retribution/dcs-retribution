@@ -26,12 +26,13 @@ from .theaterrefueling import TheaterRefuelingFlightPlan
 
 if TYPE_CHECKING:
     from game.ato import Flight
-    from game.theater import FrontLine
 
 
 class FlightPlanBuilderTypes:
     @staticmethod
     def for_flight(flight: Flight) -> Type[IBuilder[Any, Any]]:
+        from game.theater import FrontLine
+
         if flight.flight_type is FlightType.REFUELING:
             if flight.package.target.is_friendly(flight.squadron.player) or isinstance(
                 flight.package.target, FrontLine
