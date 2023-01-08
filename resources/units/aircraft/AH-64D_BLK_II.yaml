@@ -26,10 +26,10 @@ radios:
   # The radio frequencies set in the mission editor are in the current state of Early
   # access not used for radio presets. Only the flight frequency is used. Any other
   # frequency has to be entered manually atm.
-  intra_flight: AN/ARC-164
+  intra_flight: AN/ARC-186(V) AM
   inter_flight: AN/ARC-164
   channels:
     type: common
     namer: apache
-    intra_flight_radio_index: 2
+    intra_flight_radio_index: 1
     inter_flight_radio_index: 2
