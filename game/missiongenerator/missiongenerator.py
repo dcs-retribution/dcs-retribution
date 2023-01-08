@@ -250,12 +250,12 @@ class MissionGenerator:
                 self.mission.country(self.game.red.country_name),
             )
 
+        self.mission_data.flights = aircraft_generator.flights
+
         for flight in aircraft_generator.flights:
             if not flight.client_units:
                 continue
             flight.aircraft_type.assign_channels_for_flight(flight, self.mission_data)
-
-        self.mission_data.flights = aircraft_generator.flights
 
     def generate_destroyed_units(self) -> None:
         """Add destroyed units to the Mission"""

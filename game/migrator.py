@@ -48,3 +48,5 @@ class Migrator:
             for p in c.ato.packages:
                 if not hasattr(p, "custom_name"):
                     p.custom_name = None
+                if not hasattr(p, "frequency"):
+                    p.frequency = None

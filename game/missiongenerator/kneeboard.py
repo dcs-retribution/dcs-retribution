@@ -27,6 +27,7 @@ import math
 import textwrap
 from collections import defaultdict
 from dataclasses import dataclass
+from itertools import groupby
 from pathlib import Path
 from typing import Dict, Iterator, List, Optional, TYPE_CHECKING, Tuple
 
@@ -482,6 +483,7 @@ class SupportPage(KneeboardPage):
     def __init__(
         self,
         flight: FlightData,
+        package_flights: List[FlightData],
         comms: List[CommInfo],
         awacs: List[AwacsInfo],
         tankers: List[TankerInfo],
@@ -490,6 +492,7 @@ class SupportPage(KneeboardPage):
         dark_kneeboard: bool,
     ) -> None:
         self.flight = flight
+        self.package_flights = package_flights
         self.comms = list(comms)
         self.awacs = awacs
         self.tankers = tankers
@@ -505,6 +508,36 @@ class SupportPage(KneeboardPage):
         else:
             custom_name_title = ""
         writer.title(f"{self.flight.callsign} Support Info{custom_name_title}")
+
+        # Package Section
+        package = self.flight.package
+        custom = f' "{package.custom_name}"' if package.custom_name else ""
+        writer.heading(f"{package.package_description} Package{custom}")
+        freq = self.format_frequency(package.frequency).replace("\n", " - ")
+        writer.text(f"  FREQ: {freq}", font=writer.table_font)
+        comm_ladder = []
+        for comm in self.comms:
+            comm_ladder.append(
+                [
+                    comm.name,
+                    "",
+                    "",
+                    str(len(self.flight.units)),
+                    self.format_frequency(comm.freq),
+                ]
+            )
+        for f in self.package_flights:
+            comm_ladder.append(
+                [
+                    f.callsign,
+                    str(f.flight_type),
+                    str(f.aircraft_type),
+                    str(len(f.units)),
+                    self.format_frequency(f.intra_flight_channel),
+                ]
+            )
+
+        writer.table(comm_ladder, headers=["Callsign", "Task", "Type", "#A/C", "FREQ"])
 
         # AEW&C
         writer.heading("AEW&C")
@@ -534,14 +567,8 @@ class SupportPage(KneeboardPage):
             headers=["Callsign", "FREQ", "Depature", "ETD", "ETA"],
         )
 
-        # Package Section
-        writer.heading("Comm ladder")
         comm_ladder = []
-        for comm in self.comms:
-            comm_ladder.append(
-                [comm.name, "", "", "", self.format_frequency(comm.freq)]
-            )
-
+        writer.heading("Tankers:")
         for tanker in self.tankers:
             comm_ladder.append(
                 [
@@ -573,7 +600,9 @@ class SupportPage(KneeboardPage):
 
         writer.write(path)
 
-    def format_frequency(self, frequency: RadioFrequency) -> str:
+    def format_frequency(self, frequency: Optional[RadioFrequency]) -> str:
+        if frequency is None:
+            return ""
         channel = self.flight.channel_for(frequency)
         if channel is None:
             return str(frequency)
@@ -733,8 +762,13 @@ class KneeboardGenerator(MissionInfoGenerator):
         for flight in self.flights:
             if not flight.client_units:
                 continue
+            package_flights = [
+                f
+                for f in self.flights
+                if f.package is flight.package and f is not flight
+            ]
             all_flights[flight.aircraft_type].extend(
-                self.generate_flight_kneeboard(flight)
+                self.generate_flight_kneeboard(flight, package_flights)
             )
         return all_flights
 
@@ -745,7 +779,9 @@ class KneeboardGenerator(MissionInfoGenerator):
             return StrikeTaskPage(flight, self.dark_kneeboard)
         return None
 
-    def generate_flight_kneeboard(self, flight: FlightData) -> List[KneeboardPage]:
+    def generate_flight_kneeboard(
+        self, flight: FlightData, package_flights: List[FlightData]
+    ) -> List[KneeboardPage]:
         """Returns a list of kneeboard pages for the given flight."""
 
         if flight.aircraft_type.utc_kneeboard:
@@ -765,6 +801,7 @@ class KneeboardGenerator(MissionInfoGenerator):
             ),
             SupportPage(
                 flight,
+                package_flights,
                 self.comms,
                 self.awacs,
                 self.tankers,

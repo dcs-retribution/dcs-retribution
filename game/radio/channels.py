@@ -76,6 +76,9 @@ class CommonRadioChannelAllocator(RadioChannelAllocator):
         for jtac in mission_data.jtacs:
             flight.assign_channel(radio_id, next(channel_alloc), jtac.freq)
 
+        if (freq := flight.package.frequency) is not None:
+            flight.assign_channel(radio_id, next(channel_alloc), freq)
+
         if flight.arrival != flight.departure and flight.arrival.atc is not None:
             flight.assign_channel(radio_id, next(channel_alloc), flight.arrival.atc)
 

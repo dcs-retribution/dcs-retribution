@@ -13,6 +13,7 @@ from .flightplans.formation import FormationFlightPlan
 from .flighttype import FlightType
 from .packagewaypoints import PackageWaypoints
 from .traveltime import TotEstimator
+from ..radio.radios import RadioFrequency
 
 if TYPE_CHECKING:
     from game.theater import ControlPoint, MissionTarget
@@ -27,9 +28,11 @@ class Package:
         db: Database[Flight],
         auto_asap: bool = False,
         custom_name: str | None = None,
+        frequency: RadioFrequency | None = None,
     ) -> None:
         self.target = target
         self._db = db
+        self.frequency = frequency
         self.custom_name = custom_name
 
         # True if the package ToT should be reset to ASAP whenever the player makes a

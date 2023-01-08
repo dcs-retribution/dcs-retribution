@@ -137,7 +137,11 @@ class FlightGroupConfigurator:
             channel = self.radio_registry.alloc_uhf()
             self.register_air_support(channel)
         else:
-            channel = self.flight.unit_type.alloc_flight_radio(self.radio_registry)
+            if (channel := self.flight.package.frequency) is None:
+                channel = self.radio_registry.alloc_uhf()
+                self.flight.package.frequency = channel
+            if self.flight.client_count:
+                channel = self.flight.unit_type.alloc_flight_radio(self.radio_registry)
 
         self.group.set_frequency(channel.mhz)
         return channel
