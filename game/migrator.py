@@ -40,7 +40,7 @@ class Migrator:
     def _update_packagewaypoints(self) -> None:
         for c in self.game.coalitions:
             for p in c.ato.packages:
-                if not hasattr(p.waypoints, "initial"):
+                if p.flights and not hasattr(p.waypoints, "initial"):
                     p.waypoints = PackageWaypoints.create(p, c)
 
     def _update_package_attributes(self) -> None:
