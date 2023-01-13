@@ -17,7 +17,7 @@ from game.missiongenerator.aircraft.aircraftgenerator import (
     AircraftGenerator,
 )
 from game.naming import namegen
-from game.radio.radios import RadioFrequency, RadioRegistry
+from game.radio.radios import RadioFrequency, RadioRegistry, MHz
 from game.radio.tacan import TacanRegistry
 from game.theater import Airfield
 from game.theater.bullseye import Bullseye
@@ -157,6 +157,7 @@ class MissionGenerator:
         unique_map_frequencies: set[RadioFrequency] = set()
         self.initialize_tacan_registry(unique_map_frequencies)
         self.initialize_radio_registry(unique_map_frequencies)
+        self.radio_registry.reserve(MHz(243))  # Allocate Guard Freq first!
         for frequency in unique_map_frequencies:
             self.radio_registry.reserve(frequency)
 
