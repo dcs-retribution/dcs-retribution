@@ -119,8 +119,13 @@ class PilotControls(QHBoxLayout):
         pilot = self.selector.itemData(index)
         self.player_checkbox.blockSignals(True)
         try:
-            self.player_checkbox.setChecked(pilot is not None and pilot.player)
+            if self.roster and self.roster.squadron.aircraft.flyable:
+                self.player_checkbox.setChecked(pilot is not None and pilot.player)
+            else:
+                self.player_checkbox.setChecked(False)
         finally:
+            if self.roster is not None:
+                self.player_checkbox.setEnabled(self.roster.squadron.aircraft.flyable)
             self.player_checkbox.blockSignals(False)
 
     def update_available_pilots(self) -> None:
