@@ -270,11 +270,7 @@ class Flight(SidcDescribable):
                 results.kill_pilot(self, pilot)
 
     def recreate_flight_plan(self) -> None:
-        from game.sim.gameupdateevents import GameUpdateEvents
-        from game.server import EventStream
-
         self._flight_plan_builder.regenerate()
-        EventStream.put_nowait(GameUpdateEvents().update_flight(self))
 
     @staticmethod
     def clone_flight(flight: Flight) -> Flight:

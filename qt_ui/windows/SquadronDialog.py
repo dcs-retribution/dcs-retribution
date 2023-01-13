@@ -19,6 +19,8 @@ from PySide2.QtWidgets import (
 from game.ato.flightplans.custom import CustomFlightPlan
 from game.ato.flighttype import FlightType
 from game.ato.flightwaypointtype import FlightWaypointType
+from game.server import EventStream
+from game.sim import GameUpdateEvents
 from game.squadrons import Pilot, Squadron
 from game.theater import ConflictTheater, ControlPoint
 from qt_ui.delegates import TwoColumnRowDelegate
@@ -212,6 +214,7 @@ class SquadronDialog(QDialog):
                             wpt.position = wpt.control_point.position
                             break
                 f.recreate_flight_plan()
+                EventStream.put_nowait(GameUpdateEvents().update_flight(f))
 
     def on_destination_changed(self, index: int) -> None:
         with report_errors("Could not change squadron destination", self):
