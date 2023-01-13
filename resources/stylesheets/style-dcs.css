@@ -479,7 +479,7 @@ QComboBox QAbstractItemView {
 
 
 /*QSpinBox number input with up down arrows*/
-QSpinBox{
+QSpinBox, QDoubleSpinBox{
     border:1px solid #3B4656;
     color: #fff;
     padding: 4px 10px;
@@ -487,19 +487,19 @@ QSpinBox{
     min-width:40px;
 }
 
-QSpinBox:hover{
+QSpinBox:hover, QDoubleSpinBox:hover{
      border-color: #3592C4;
 }
 
-QSpinBox::up-button , QSpinBox::down-button{
+QSpinBox::up-button , QSpinBox::down-button, QDoubleSpinBox::up-button, QDoubleSpinBox::down-button{
     border:none;
 }
 
-QSpinBox::up-button{
+QSpinBox::up-button, QDoubleSpinBox::up-button{
     image: url(resources/stylesheets/chevron-up.png);
 }
 
-QSpinBox::down-button{
+QSpinBox::down-button, QDoubleSpinBox::down-button{
     image: url(resources/stylesheets/chevron-down.png);
 }
 

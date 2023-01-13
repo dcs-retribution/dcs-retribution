@@ -133,18 +133,19 @@ class FlightGroupConfigurator:
             laser_codes.append(None)
 
     def setup_radios(self) -> RadioFrequency:
-        if self.flight.flight_type in {FlightType.AEWC, FlightType.REFUELING}:
-            channel = self.radio_registry.alloc_uhf()
-            self.register_air_support(channel)
-        else:
-            if (channel := self.flight.package.frequency) is None:
-                channel = self.radio_registry.alloc_uhf()
-                self.flight.package.frequency = channel
-            if self.flight.client_count:
-                channel = self.flight.unit_type.alloc_flight_radio(self.radio_registry)
+        if (freq := self.flight.package.frequency) is None:
+            freq = self.radio_registry.alloc_uhf()
+            self.flight.package.frequency = freq
+        elif freq not in self.radio_registry.allocated_channels:
+            self.radio_registry.reserve(freq)
 
-        self.group.set_frequency(channel.mhz)
-        return channel
+        if self.flight.flight_type in {FlightType.AEWC, FlightType.REFUELING}:
+            self.register_air_support(freq)
+        elif self.flight.client_count:
+            freq = self.flight.unit_type.alloc_flight_radio(self.radio_registry)
+
+        self.group.set_frequency(freq.mhz)
+        return freq
 
     def register_air_support(self, channel: RadioFrequency) -> None:
         callsign = callsign_for_support_unit(self.group)

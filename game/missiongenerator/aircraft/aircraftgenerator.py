@@ -105,6 +105,12 @@ class AircraftGenerator:
             dynamic_runways: Runway data for carriers and FARPs.
         """
         for package in reversed(sorted(ato.packages, key=lambda x: x.time_over_target)):
+            if package.frequency is None:
+                continue
+            if package.frequency not in self.radio_registry.allocated_channels:
+                self.radio_registry.reserve(package.frequency)
+
+        for package in reversed(sorted(ato.packages, key=lambda x: x.time_over_target)):
             if not package.flights:
                 continue
             for flight in package.flights:
