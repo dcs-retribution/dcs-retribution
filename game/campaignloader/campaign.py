@@ -32,7 +32,7 @@ DEFAULT_BUDGET = 2000
 class Campaign:
     name: str
     menu_thumbnail_dcs_relative_path: Path
-    fallback_icon_path: str
+    fallback_icon_path: Path
     authors: str
     description: str
 
