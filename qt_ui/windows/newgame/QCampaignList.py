@@ -15,8 +15,17 @@ class QCampaignItem(QStandardItem):
     def __init__(self, campaign: Campaign) -> None:
         super(QCampaignItem, self).__init__()
         self.setData(campaign, QCampaignList.CampaignRole)
+
+        # Define terrain icon path from the DCS installation directory by default
         dcs_path = get_dcs_install_directory()
         icon_path = dcs_path / campaign.menu_thumbnail_dcs_relative_path
+
+        # If the path does not exist (user does not have the terrain installed),
+        # use the old icons as fallback to avoid an ugly campaign list with missing icons
+        if not icon_path.exists():
+            print(f"Icon path: {campaign.fallback_icon_path}")
+            icon_path = campaign.fallback_icon_path
+
         self.setIcon(QtGui.QIcon(QPixmap(str(icon_path))))
         self.setEditable(False)
         if campaign.is_compatible:
