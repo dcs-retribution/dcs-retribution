@@ -32,6 +32,7 @@ DEFAULT_BUDGET = 2000
 class Campaign:
     name: str
     menu_thumbnail_dcs_relative_path: Path
+    fallback_icon_path: Path
     authors: str
     description: str
 
@@ -90,6 +91,7 @@ class Campaign:
         return cls(
             data["name"],
             TheaterLoader(data["theater"].lower()).menu_thumbnail_dcs_relative_path,
+            TheaterLoader(data["theater"].lower()).icon_path,
             data.get("authors", "???"),
             data.get("description", ""),
             (version.major, version.minor),

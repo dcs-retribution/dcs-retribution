@@ -91,6 +91,10 @@ class TheaterLoader:
         return self.descriptor_path.with_name("landmap.p")
 
     @property
+    def icon_path(self) -> Path:
+        return self.descriptor_path.with_name("icon.gif")
+
+    @property
     def menu_thumbnail_dcs_relative_path(self) -> Path:
         with self.descriptor_path.open() as descriptor_file:
             data = yaml.safe_load(descriptor_file)
