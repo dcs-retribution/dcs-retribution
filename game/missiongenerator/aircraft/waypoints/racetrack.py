@@ -71,11 +71,14 @@ class RaceTrackBuilder(PydcsWaypointBuilder):
         if self.flight.unit_type.dcs_unit_type.tacan:
             tanker_info = self.mission_data.tankers[-1]
             tacan = tanker_info.tacan
-            tacan_callsign = {
-                "Texaco": "TEX",
-                "Arco": "ARC",
-                "Shell": "SHL",
-            }.get(tanker_info.callsign)
+            if self.flight.tcn_name is None:
+                tacan_callsign = {
+                    "Texaco": "TEX",
+                    "Arco": "ARC",
+                    "Shell": "SHL",
+                }.get(tanker_info.callsign)
+            else:
+                tacan_callsign = self.flight.tcn_name
 
             waypoint.add_task(
                 ActivateBeaconCommand(

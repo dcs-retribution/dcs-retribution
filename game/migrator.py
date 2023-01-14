@@ -1,12 +1,17 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from game.ato.packagewaypoints import PackageWaypoints
 from game.data.doctrine import MODERN_DOCTRINE, COLDWAR_DOCTRINE, WWII_DOCTRINE
 
 if TYPE_CHECKING:
     from game import Game
+
+
+def try_set_attr(obj: Any, attr_name: str, val: Any = None) -> None:
+    if not hasattr(obj, attr_name):
+        setattr(obj, attr_name, val)
 
 
 class Migrator:
@@ -18,6 +23,8 @@ class Migrator:
         self._update_doctrine()
         self._update_packagewaypoints()
         self._update_package_attributes()
+        self._update_control_points()
+        self._update_flights()
 
     def _update_doctrine(self) -> None:
         doctrines = [
@@ -40,13 +47,32 @@ class Migrator:
     def _update_packagewaypoints(self) -> None:
         for c in self.game.coalitions:
             for p in c.ato.packages:
-                if p.flights and not hasattr(p.waypoints, "initial"):
-                    p.waypoints = PackageWaypoints.create(p, c)
+                if p.flights:
+                    try_set_attr(p.waypoints, "initial", PackageWaypoints.create(p, c))
 
     def _update_package_attributes(self) -> None:
         for c in self.game.coalitions:
             for p in c.ato.packages:
-                if not hasattr(p, "custom_name"):
-                    p.custom_name = None
-                if not hasattr(p, "frequency"):
-                    p.frequency = None
+                try_set_attr(p, "custom_name")
+                try_set_attr(p, "frequency")
+
+    def _update_control_points(self) -> None:
+        for cp in self.game.theater.controlpoints:
+            is_carrier = cp.is_carrier
+            is_lha = cp.is_lha
+            is_fob = cp.category == "fob"
+            radio_configurable = is_carrier or is_lha or is_fob
+            if radio_configurable:
+                try_set_attr(cp, "frequency")
+            if is_carrier or is_lha:
+                try_set_attr(cp, "tacan")
+                try_set_attr(cp, "tcn_name")
+                try_set_attr(cp, "icls_channel")
+                try_set_attr(cp, "icls_name")
+                try_set_attr(cp, "link4")
+
+    def _update_flights(self) -> None:
+        for f in self.game.db.flights.objects.values():
+            try_set_attr(f, "frequency")
+            try_set_attr(f, "tacan")
+            try_set_attr(f, "tcn_name")

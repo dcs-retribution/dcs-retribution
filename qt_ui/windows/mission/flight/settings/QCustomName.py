@@ -1,6 +1,6 @@
 from typing import Optional
 
-from PySide2.QtWidgets import QGroupBox, QVBoxLayout, QLineEdit, QLabel, QMessageBox
+from PySide2.QtWidgets import QGroupBox, QHBoxLayout, QLineEdit, QLabel, QMessageBox
 from game.ato.flight import Flight
 
 
@@ -10,7 +10,7 @@ class QFlightCustomName(QGroupBox):
 
         self.flight = flight
 
-        self.layout = QVBoxLayout()
+        self.layout = QHBoxLayout()
         self.custom_name_label = QLabel(f"Custom Name:")
         self.custom_name_input = QLineEdit(flight.custom_name)
         self.custom_name_input.textChanged.connect(self.on_change)

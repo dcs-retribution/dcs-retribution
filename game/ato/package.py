@@ -13,13 +13,14 @@ from .flightplans.formation import FormationFlightPlan
 from .flighttype import FlightType
 from .packagewaypoints import PackageWaypoints
 from .traveltime import TotEstimator
+from ..radio.RadioFrequencyContainer import RadioFrequencyContainer
 from ..radio.radios import RadioFrequency
 
 if TYPE_CHECKING:
     from game.theater import ControlPoint, MissionTarget
 
 
-class Package:
+class Package(RadioFrequencyContainer):
     """A mission package."""
 
     def __init__(

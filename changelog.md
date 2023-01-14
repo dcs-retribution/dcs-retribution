@@ -5,12 +5,20 @@
 * **[Mission Generation]** Add option to switch ATFLIR to LITENING automatically for ground based F-18C flights
 * **[Mission Generation]** Add option to configure OPFOR autoplanner aggressiveness and have the AI take risks and plan missions against defended targets
 * **[Mission Generation]** Add option to configure the desired tanker on-station time in settings
+* **[Mission Generation]** Reserve GUARD frequency on VHF/UHF
+* **[Mission Generation]** Randomization in radio frequency allocation
 * **[Cheat Menu]** Option to instantly transfer squadrons across bases.
 * **[UI]** Add selectable units in faction overview during campaign generation.
 * **[UI]** Add button to rename pilots in Air Wing's Squadron dialog.
 * **[UI]** Add clone buttons for flights & packages.
 * **[UI]** Editing of flight's custom name.
 * **[UI]** Introduce custom names for packages (purely for organizational purposes).
+* **[UI]** Configurable UHF frequency (225-400MHz) for Packages, Carriers, LHAs, FOBs & FARPs.
+* **[UI]** Configurable Intra-Flight frequency for Flights.
+* **[UI]** Configurable TACAN for Carriers, LHAs & Tankers.
+* **[UI]** Configurable ICLS for capable Carriers & LHAs.
+* **[UI]** Configurable LINK4 for Carriers.
+* **[Kneeboard]** Show package information in Support page
 
 ## Fixes
 * **[UI]** Removed deprecated options

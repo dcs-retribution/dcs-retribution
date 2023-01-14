@@ -32,7 +32,7 @@ class QEditFlightDialog(QDialog):
 
         layout = QVBoxLayout()
 
-        self.flight_planner = QFlightPlanner(package_model, flight, game_model.game)
+        self.flight_planner = QFlightPlanner(package_model, flight, game_model)
         layout.addWidget(self.flight_planner)
 
         self.setLayout(layout)

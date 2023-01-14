@@ -4,6 +4,8 @@ from PySide2.QtWidgets import (
     QFrame,
     QLabel,
     QVBoxLayout,
+    QScrollArea,
+    QWidget,
 )
 
 from game import Game
@@ -42,7 +44,12 @@ class QFlightPayloadTab(QFrame):
         docsText.setAlignment(Qt.AlignCenter)
         docsText.setOpenExternalLinks(True)
 
-        layout.addLayout(PropertyEditor(self.flight))
+        self.scroll_area = QScrollArea()
+        self.property_editor = QWidget()
+        self.property_editor.setLayout(PropertyEditor(self.flight))
+        self.scroll_area.setWidget(self.property_editor)
+
+        layout.addWidget(self.scroll_area)
         self.loadout_selector = DcsLoadoutSelector(flight)
         self.loadout_selector.currentIndexChanged.connect(self.on_new_loadout)
         layout.addWidget(self.loadout_selector)

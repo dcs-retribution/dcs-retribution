@@ -30,7 +30,6 @@ class QLoadoutEditor(QGroupBox):
             layout.addWidget(QPylonEditor(game, flight, pylon), i, 1)
 
         vbox.addLayout(layout)
-        vbox.addStretch()
         self.setLayout(vbox)
 
         for i in self.findChildren(QPylonEditor):

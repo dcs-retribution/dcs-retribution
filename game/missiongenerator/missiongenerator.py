@@ -37,6 +37,7 @@ from .missiondata import MissionData
 from .tgogenerator import TgoGenerator
 from .triggergenerator import TriggerGenerator
 from .visualsgenerator import VisualsGenerator
+from ..radio.TacanContainer import TacanContainer
 
 if TYPE_CHECKING:
     from game import Game
@@ -177,6 +178,9 @@ class MissionGenerator:
                     logging.warning(f"TACAN beacon has no channel: {beacon.callsign}")
                 else:
                     self.tacan_registry.mark_unavailable(beacon.tacan_channel)
+        for cp in self.game.theater.controlpoints:
+            if isinstance(cp, TacanContainer) and cp.tacan is not None:
+                self.tacan_registry.mark_unavailable(cp.tacan)
 
     def initialize_radio_registry(
         self, unique_map_frequencies: set[RadioFrequency]

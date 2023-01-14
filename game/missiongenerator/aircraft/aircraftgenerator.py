@@ -104,11 +104,7 @@ class AircraftGenerator:
             ato: The ATO to spawn aircraft for.
             dynamic_runways: Runway data for carriers and FARPs.
         """
-        for package in reversed(sorted(ato.packages, key=lambda x: x.time_over_target)):
-            if package.frequency is None:
-                continue
-            if package.frequency not in self.radio_registry.allocated_channels:
-                self.radio_registry.reserve(package.frequency)
+        self._reserve_frequencies_and_tacan(ato)
 
         for package in reversed(sorted(ato.packages, key=lambda x: x.time_over_target)):
             if not package.flights:
@@ -206,3 +202,18 @@ class AircraftGenerator:
             ).configure()
         )
         return group
+
+    def _reserve_frequencies_and_tacan(self, ato: AirTaskingOrder) -> None:
+        for package in ato.packages:
+            if package.frequency is None:
+                continue
+            if package.frequency not in self.radio_registry.allocated_channels:
+                self.radio_registry.reserve(package.frequency)
+            for f in package.flights:
+                if (
+                    f.frequency
+                    and f.frequency not in self.radio_registry.allocated_channels
+                ):
+                    self.radio_registry.reserve(f.frequency)
+                if f.tacan and f.tacan not in self.tacan_registy.allocated_channels:
+                    self.tacan_registy.mark_unavailable(f.tacan)

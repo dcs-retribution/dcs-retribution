@@ -8,11 +8,15 @@ from PySide2.QtWidgets import (
     QPushButton,
     QVBoxLayout,
     QWidget,
+    QGridLayout,
 )
 
 from game import Game
 from game.ato.flighttype import FlightType
 from game.config import RUNWAY_REPAIR_COST
+from game.radio.ICLSContainer import ICLSContainer
+from game.radio.RadioFrequencyContainer import RadioFrequencyContainer
+from game.radio.TacanContainer import TacanContainer
 from game.server import EventStream
 from game.sim import GameUpdateEvents
 from game.theater import (
@@ -20,10 +24,15 @@ from game.theater import (
     ControlPoint,
     ControlPointType,
     FREE_FRONTLINE_UNIT_SUPPLY,
+    NavalControlPoint,
 )
 from qt_ui.dialogs import Dialog
 from qt_ui.models import GameModel
 from qt_ui.uiconstants import EVENT_ICONS
+from qt_ui.widgets.QFrequencyWidget import QFrequencyWidget
+from qt_ui.widgets.QICLSWidget import QICLSWidget
+from qt_ui.widgets.QLink4Widget import QLink4Widget
+from qt_ui.widgets.QTacanWidget import QTacanWidget
 from qt_ui.windows.GameUpdateSignal import GameUpdateSignal
 from qt_ui.windows.basemenu.NewUnitTransferDialog import NewUnitTransferDialog
 from qt_ui.windows.basemenu.QBaseMenuTabs import QBaseMenuTabs
@@ -60,13 +69,49 @@ class QBaseMenu2(QDialog):
         pixmap = QPixmap(self.get_base_image())
         header.setPixmap(pixmap)
 
+        cp_settings = QGridLayout()
+        top_layout.addLayout(cp_settings)
+
         title = QLabel("<b>" + self.cp.name + "</b>")
         title.setAlignment(Qt.AlignLeft | Qt.AlignTop)
         title.setProperty("style", "base-title")
+        cp_settings.addWidget(title, 0, 0, 1, 2)
+        cp_settings.setHorizontalSpacing(20)
+
+        counter = 2
+
+        self.freq_widget = None
+        self.link4_widget = None
+
+        is_friendly = cp.is_friendly(True)
+        if is_friendly and isinstance(cp, RadioFrequencyContainer):
+            self.freq_widget = QFrequencyWidget(cp, self.game_model)
+            cp_settings.addWidget(self.freq_widget, counter // 2, counter % 2)
+            counter += 1
+
+        if is_friendly and isinstance(cp, TacanContainer):
+            self.tacan_widget = QTacanWidget(cp, self.game_model)
+            cp_settings.addWidget(self.tacan_widget, counter // 2, counter % 2)
+            counter += 1
+
+        if is_friendly and isinstance(cp, ICLSContainer):
+            self.icls_widget = QICLSWidget(cp, self.game_model)
+            cp_settings.addWidget(self.icls_widget, counter // 2, counter % 2)
+            counter += 1
+
+        if is_friendly and isinstance(cp, NavalControlPoint):
+            self.link4_widget = QLink4Widget(cp, self.game_model)
+            cp_settings.addWidget(self.link4_widget, counter // 2, counter % 2)
+            counter += 1
+
+        if self.freq_widget and self.link4_widget:
+            # link them so on change they check freq
+            self.freq_widget.freq_changed.connect(self.link4_widget.check_freq)
+            self.link4_widget.freq_changed.connect(self.freq_widget.check_freq)
+
         self.intel_summary = QLabel()
         self.intel_summary.setToolTip(self.generate_intel_tooltip())
         self.update_intel_summary()
-        top_layout.addWidget(title)
         top_layout.addWidget(self.intel_summary)
         top_layout.setAlignment(Qt.AlignTop)
 
@@ -127,6 +172,7 @@ class QBaseMenu2(QDialog):
         GameUpdateSignal.get_instance().updateGame(self.game_model.game)
         state = self.game_model.game.check_win_loss()
         GameUpdateSignal.get_instance().gameStateChanged(state)
+        self.close()
 
     @property
     def has_transfer_destinations(self) -> bool:

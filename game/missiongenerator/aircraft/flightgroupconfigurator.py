@@ -133,15 +133,16 @@ class FlightGroupConfigurator:
             laser_codes.append(None)
 
     def setup_radios(self) -> RadioFrequency:
-        if (freq := self.flight.package.frequency) is None:
+        freq = self.flight.frequency
+        if freq is None and (freq := self.flight.package.frequency) is None:
             freq = self.radio_registry.alloc_uhf()
             self.flight.package.frequency = freq
-        elif freq not in self.radio_registry.allocated_channels:
+        if freq not in self.radio_registry.allocated_channels:
             self.radio_registry.reserve(freq)
 
         if self.flight.flight_type in {FlightType.AEWC, FlightType.REFUELING}:
             self.register_air_support(freq)
-        elif self.flight.client_count:
+        elif self.flight.frequency is None and self.flight.client_count:
             freq = self.flight.unit_type.alloc_flight_radio(self.radio_registry)
 
         self.group.set_frequency(freq.mhz)
@@ -162,7 +163,12 @@ class FlightGroupConfigurator:
                 )
             )
         elif isinstance(self.flight.flight_plan, TheaterRefuelingFlightPlan):
-            tacan = self.tacan_registry.alloc_for_band(TacanBand.Y, TacanUsage.AirToAir)
+            if self.flight.tacan is None:
+                tacan = self.tacan_registry.alloc_for_band(
+                    TacanBand.Y, TacanUsage.AirToAir
+                )
+            else:
+                tacan = self.flight.tacan
             self.mission_data.tankers.append(
                 TankerInfo(
                     group_name=str(self.group.name),

@@ -22,6 +22,7 @@ from typing import (
     TYPE_CHECKING,
     Tuple,
     Type,
+    Union,
 )
 from uuid import UUID
 
@@ -73,6 +74,10 @@ from ..data.units import UnitClass
 from ..db import Database
 from ..dcs.aircrafttype import AircraftType
 from ..dcs.groundunittype import GroundUnitType
+from ..radio.ICLSContainer import ICLSContainer
+from ..radio.Link4Container import Link4Container
+from ..radio.RadioFrequencyContainer import RadioFrequencyContainer
+from ..radio.TacanContainer import TacanContainer
 from ..utils import nautical_miles
 from ..weather import Conditions
 
@@ -305,7 +310,7 @@ class ControlPointStatus(IntEnum):
     Destroyed = auto()
 
 
-StartingPosition = ShipGroup | StaticGroup | Airport | Point
+StartingPosition = Union[ShipGroup, StaticGroup, Airport, Point]
 
 
 class ControlPoint(MissionTarget, SidcDescribable, ABC):
@@ -1161,7 +1166,9 @@ class Airfield(ControlPoint):
         return ControlPointStatus.Functional
 
 
-class NavalControlPoint(ControlPoint, ABC):
+class NavalControlPoint(
+    ControlPoint, ABC, Link4Container, TacanContainer, ICLSContainer
+):
     @property
     def is_fleet(self) -> bool:
         return True
@@ -1392,7 +1399,7 @@ class OffMapSpawn(ControlPoint):
         return ControlPointStatus.Functional
 
 
-class Fob(ControlPoint):
+class Fob(ControlPoint, RadioFrequencyContainer):
     def __init__(
         self, name: str, at: Point, theater: ConflictTheater, starts_blue: bool
     ):

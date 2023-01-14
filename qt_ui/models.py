@@ -17,9 +17,13 @@ from game.ato.flight import Flight
 from game.ato.flighttype import FlightType
 from game.ato.package import Package
 from game.game import Game
+from game.radio.RadioFrequencyContainer import RadioFrequencyContainer
+from game.radio.radios import RadioFrequency
+from game.radio.tacan import TacanChannel
 from game.server import EventStream
 from game.sim.gameupdateevents import GameUpdateEvents
 from game.squadrons.squadron import Pilot, Squadron
+from game.theater import NavalControlPoint
 from game.theater.missiontarget import MissionTarget
 from game.transfers import PendingTransfers, TransferOrder
 from qt_ui.simcontroller import SimController
@@ -179,6 +183,8 @@ class PackageModel(QAbstractListModel):
         self.package.remove_flight(flight)
         self.endRemoveRows()
         self.update_tot()
+        self.game_model.release_freq(flight.frequency)
+        self.game_model.release_tacan(flight.tacan)
 
     def flight_at_index(self, index: QModelIndex) -> Flight:
         """Returns the flight located at the given index."""
@@ -294,6 +300,7 @@ class AtoModel(QAbstractListModel):
         # noinspection PyUnresolvedReferences
         self.client_slots_changed.emit()
         self.on_packages_changed()
+        self.release_comms_for_package(package)
 
     def on_packages_changed(self) -> None:
         if self.game is not None:
@@ -341,6 +348,12 @@ class AtoModel(QAbstractListModel):
 
     def on_sim_update(self, _events: GameUpdateEvents) -> None:
         self.dataChanged.emit(self.index(0), self.index(self.rowCount()))
+
+    def release_comms_for_package(self, package: Package):
+        self.game_model.release_freq(package.frequency)
+        for f in package.flights:
+            self.game_model.release_freq(f.frequency)
+            self.game_model.release_tacan(f.tacan)
 
 
 class TransferModel(QAbstractListModel):
@@ -532,6 +545,12 @@ class GameModel:
             self.ato_model = AtoModel(self, self.game.blue.ato)
             self.red_ato_model = AtoModel(self, self.game.red.ato)
 
+        # For UI purposes
+        self.allocated_freqs: list[RadioFrequency] = list()
+        self.allocated_tacan: list[TacanChannel] = list()
+        self.allocated_icls: list[int] = list()
+        self.init_comms_registry()
+
     def ato_model_for(self, player: bool) -> AtoModel:
         if player:
             return self.ato_model
@@ -553,3 +572,43 @@ class GameModel:
         if self.game is None:
             raise RuntimeError("GameModel has no Game set")
         return self.game
+
+    def init_comms_registry(self) -> None:
+        if self.game is None:
+            return
+        allocated_freqs = {None}
+        allocated_tacan = {None}
+        allocated_icls = {None}
+        for p in self.ato_model.ato.packages:
+            allocated_freqs.add(p.frequency)
+            for f in p.flights:
+                allocated_freqs.add(f.frequency)
+                allocated_tacan.add(f.tacan)
+        for cp in self.game.theater.control_points_for(True):
+            if isinstance(cp, NavalControlPoint):
+                allocated_freqs.add(cp.frequency)
+                allocated_freqs.add(cp.link4)
+                allocated_tacan.add(cp.tacan)
+                allocated_icls.add(cp.icls_channel)
+            elif isinstance(cp, RadioFrequencyContainer):
+                allocated_freqs.add(cp.frequency)
+        allocated_freqs.remove(None)
+        allocated_tacan.remove(None)
+        allocated_icls.remove(None)
+        self.allocated_freqs = list(allocated_freqs)
+        self.allocated_tacan = list(allocated_tacan)
+        self.allocated_icls = list(allocated_icls)
+
+    def release_freq(self, freq: RadioFrequency):
+        if freq:
+            try:
+                self.allocated_freqs.remove(freq)
+            except ValueError:
+                pass
+
+    def release_tacan(self, tacan: TacanChannel):
+        if tacan:
+            try:
+                self.allocated_tacan.remove(tacan)
+            except ValueError:
+                pass

@@ -54,8 +54,8 @@ class TacanChannel:
         if match is None:
             raise ValueError(f"Could not parse TACAN from {text}")
         number = int(match.group(1))
-        if not number:
-            raise ValueError("TACAN channel cannot be 0")
+        if not (0 < number <= 126):
+            raise ValueError("TACAN channel cannot be 0 or larger than 126")
         return TacanChannel(number, TacanBand(match.group(2)))
 
 

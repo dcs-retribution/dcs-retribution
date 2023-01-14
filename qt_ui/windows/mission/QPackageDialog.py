@@ -26,9 +26,10 @@ from game.sim import GameUpdateEvents
 from game.theater.missiontarget import MissionTarget
 from qt_ui.models import AtoModel, GameModel, PackageModel
 from qt_ui.uiconstants import EVENT_ICONS
+from qt_ui.widgets.QFrequencyWidget import QFrequencyWidget
 from qt_ui.widgets.ato import QFlightList
+from qt_ui.windows.QRadioFrequencyDialog import QRadioFrequencyDialog
 from qt_ui.windows.mission.flight.QFlightCreator import QFlightCreator
-from qt_ui.windows.mission.package.QPackageFrequency import QPackageFrequency
 
 
 class QPackageDialog(QDialog):
@@ -70,22 +71,9 @@ class QPackageDialog(QDialog):
         package_type_row.addWidget(self.package_type_text)
         self.package_type_column.addLayout(package_type_row)
 
-        # TODO: make freq red if used by another package
-        package_freq_row = QHBoxLayout()
-        self.package_freq_label = QLabel("Package FREQ:")
-        freq = (
-            self.package_model.package.frequency.mhz
-            if self.package_model.package.frequency is not None
-            else ""
-        )
-        self.package_freq_text = QLabel(f"{freq}")
-        package_freq_row.addWidget(self.package_freq_label)
-        package_freq_row.addWidget(self.package_freq_text)
-        self.package_type_column.addLayout(package_freq_row)
-
         self.summary_row.addStretch(1)
 
-        self.package_name_column = QVBoxLayout()
+        self.package_name_column = QHBoxLayout()
         self.summary_row.addLayout(self.package_name_column)
         self.package_name_label = QLabel("Package Name:")
         self.package_name_label.setAlignment(Qt.AlignCenter)
@@ -145,15 +133,16 @@ class QPackageDialog(QDialog):
         self.delete_flight_button.setEnabled(model.rowCount() > 0)
         self.button_layout.addWidget(self.delete_flight_button)
 
-        self.open_radio_button = QPushButton("Set Package FREQ")
-        self.open_radio_button.clicked.connect(self.on_open_radio)
-        self.button_layout.addWidget(self.open_radio_button)
+        self.button_layout.addStretch()
 
-        self.package_model.tot_changed.connect(self.update_tot)
+        self.freq_widget = QFrequencyWidget(self.package_model.package, game_model)
+        self.button_layout.addWidget(self.freq_widget)
 
         self.button_layout.addStretch()
 
         self.setLayout(self.layout)
+
+        self.package_model.tot_changed.connect(self.update_tot)
 
         self.accepted.connect(self.on_save)
         self.finished.connect(self.on_close)
@@ -238,8 +227,8 @@ class QPackageDialog(QDialog):
         self.package_model.package.custom_name = self.package_name_text.text()
 
     def on_open_radio(self) -> None:
-        self.package_frequency_dialog = QPackageFrequency(
-            self.game, self.package_model.package, parent=self.window()
+        self.package_frequency_dialog = QRadioFrequencyDialog(
+            parent=self.window(), container=self.package_model.package
         )
         self.package_frequency_dialog.accepted.connect(self.assign_frequency)
         self.package_frequency_dialog.show()
@@ -251,8 +240,11 @@ class QPackageDialog(QDialog):
 
     def on_package_changed(self):
         self.package_type_text.setText(self.package_model.description)
-        if (freq := self.package_model.package.frequency) is not None:
-            self.package_freq_text.setText(f"{freq.mhz} MHz")
+        self.freq_widget.check_freq()
+
+    def on_reset_radio(self):
+        self.package_model.package.frequency = None
+        self.package_freq_text.setText("AUTO")
 
 
 class QNewPackageDialog(QPackageDialog):

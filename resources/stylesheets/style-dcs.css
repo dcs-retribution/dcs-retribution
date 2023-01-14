@@ -208,7 +208,6 @@ QPushButton[style="btn-danger"]:hover{
     background-color:#D84545;
 }
 
-
 QPushButton[style="btn-accept"] {
     background-color:#82A466;
     color: white;
@@ -510,7 +509,11 @@ QLineEdit{
     border:1px solid #3B4656;
     background: #465C74;
     color: #fff;
-    margin-bottom:10px;
+}
+
+.tacan-edit {
+    background: #1D2731;
+    text-transform: uppercase;
 }
 
 
@@ -642,4 +645,22 @@ QCalendarWidget QTableView{
     border-width: 2px;
     background-color:lightgrey;
     border: 1px solid black;
+}
+
+/* Plain old classes */
+
+.btn-danger {
+    background-color:#9E3232;
+    color: white;
+    padding: 6px;
+    border-radius:2px;
+    border: 1px solid #9E3232;
+}
+
+.btn-danger:hover {
+    background-color:#D84545;
+}
+
+.comms {
+    padding: 2px;
 }
