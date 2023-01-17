@@ -2,7 +2,7 @@
 
 ## Features/Improvements
 * **[Mission Generation]** Given a CAS flight was planned, delay ground force attack until first CAS flight is on station
-* **[Mission Generation]** Add option to switch ATFLIR to LITENING automatically for ground based F-18C flights
+* **[Mission Generation]** Add option to switch ATFLIR to LITENING automatically for ground based F/A-18C flights
 * **[Mission Generation]** Add option to configure OPFOR autoplanner aggressiveness and have the AI take risks and plan missions against defended targets
 * **[Mission Generation]** Add option to configure the desired tanker on-station time in settings
 * **[Mission Generation]** Reserve GUARD frequency on VHF/UHF
@@ -11,6 +11,7 @@
 * **[Mission Generation]** Enable spectating & F11 free camera when the "Allow external views" option is selected
 * **[Cheat Menu]** Option to instantly transfer squadrons across bases.
 * **[Modding]** Support for IDF Mod Project F-16I Sufa & F-16D v3.2 mod
+* **[Modding]** Support for F/A-18E/F/G mod version 2.0
 * **[UI]** Add selectable units in faction overview during campaign generation.
 * **[UI]** Add button to rename pilots in Air Wing's Squadron dialog.
 * **[UI]** Add clone buttons for flights & packages.
@@ -138,7 +139,6 @@ Saves from 5.x are not compatible with 6.0.
 * **[UI]** Added options to the loadout editor for setting properties such as HMD choice.
 * **[UI]** Added separate images for the different carrier types.
 * **[UI]** Add Accept/Reset buttons to Air Wing Configurator screen.
-* **[Modding]** Added F/A-18E/F/G Super Hornet mod support (Chiller Juice Studios SuperBug version 1.7)
 
 ## Fixes
 
