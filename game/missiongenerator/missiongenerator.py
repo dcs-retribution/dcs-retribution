@@ -159,8 +159,8 @@ class MissionGenerator:
         self.initialize_tacan_registry(unique_map_frequencies)
         self.initialize_radio_registry(unique_map_frequencies)
         # Allocate UHF/VHF Guard Freq first!
-        self.radio_registry.reserve(MHz(243))
-        self.radio_registry.reserve(MHz(121, 500))
+        unique_map_frequencies.add(MHz(243))
+        unique_map_frequencies.add(MHz(121, 500))
         for frequency in unique_map_frequencies:
             self.radio_registry.reserve(frequency)
 
