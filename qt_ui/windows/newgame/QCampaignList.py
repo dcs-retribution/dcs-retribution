@@ -23,7 +23,6 @@ class QCampaignItem(QStandardItem):
         # If the path does not exist (user does not have the terrain installed),
         # use the old icons as fallback to avoid an ugly campaign list with missing icons
         if not icon_path.exists():
-            print(f"Icon path: {campaign.fallback_icon_path}")
             icon_path = campaign.fallback_icon_path
 
         self.setIcon(QtGui.QIcon(QPixmap(str(icon_path))))
