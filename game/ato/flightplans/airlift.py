@@ -5,15 +5,18 @@ from dataclasses import dataclass
 from datetime import timedelta
 from typing import TYPE_CHECKING, Type
 
+from ._common_ctld import generate_random_ctld_point
 from game.theater.missiontarget import MissionTarget
 from game.utils import feet
 from .ibuilder import IBuilder
 from .planningerror import PlanningError
 from .standard import StandardFlightPlan, StandardLayout
 from .waypointbuilder import WaypointBuilder
+from ...theater.interfaces.CTLD import CTLD
 
 if TYPE_CHECKING:
     from ..flightwaypoint import FlightWaypoint
+    from dcs import Point
 
 
 @dataclass(frozen=True)
@@ -106,15 +109,10 @@ class Builder(IBuilder[AirliftFlightPlan, AirliftLayout]):
         if self.flight.is_helo:
             # Create CTLD Zones for Helo flights
             pickup_zone = builder.pickup_zone(
-                MissionTarget(
-                    "Pickup Zone", cargo.origin.position.random_point_within(1000, 200)
-                )
+                MissionTarget("Pickup Zone", self._generate_ctld_pickup())
             )
             drop_off_zone = builder.dropoff_zone(
-                MissionTarget(
-                    "Dropoff zone",
-                    cargo.next_stop.position.random_point_within(1000, 200),
-                )
+                MissionTarget("Dropoff zone", self._generate_ctld_dropoff())
             )
             # Show the zone waypoints only to the player
             pickup_zone.only_for_player = True
@@ -153,3 +151,15 @@ class Builder(IBuilder[AirliftFlightPlan, AirliftLayout]):
 
     def build(self) -> AirliftFlightPlan:
         return AirliftFlightPlan(self.flight, self.layout())
+
+    def _generate_ctld_pickup(self) -> Point:
+        cargo = self.flight.cargo
+        if cargo and cargo.origin and isinstance(cargo.origin, CTLD):
+            return generate_random_ctld_point(cargo.origin)
+        raise RuntimeError("Could not generate CTLD pickup")
+
+    def _generate_ctld_dropoff(self) -> Point:
+        cargo = self.flight.cargo
+        if cargo and cargo.transport and isinstance(cargo.transport.destination, CTLD):
+            return generate_random_ctld_point(cargo.transport.destination)
+        raise RuntimeError("Could not generate CTLD dropoff")

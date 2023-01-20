@@ -32,6 +32,7 @@ from game.utils import Distance, meters
 
 if TYPE_CHECKING:
     from game.theater.conflicttheater import ConflictTheater
+    from dcs import Point
 
 
 class MizCampaignLoader:
@@ -107,8 +108,12 @@ class MizCampaignLoader:
         if self.mission.country(self.RED_COUNTRY.name) is None:
             self.mission.coalition["red"].add_country(self.RED_COUNTRY)
 
-    def control_point_from_airport(self, airport: Airport) -> ControlPoint:
-        cp = Airfield(airport, self.theater, starts_blue=airport.is_blue())
+    def control_point_from_airport(
+        self, airport: Airport, ctld_zones: List[Tuple[Point, float]]
+    ) -> ControlPoint:
+        cp = Airfield(
+            airport, self.theater, starts_blue=airport.is_blue(), ctld_zones=ctld_zones
+        )
 
         # Use the unlimited aircraft option to determine if an airfield should
         # be owned by the player when the campaign is "inverted".
@@ -245,7 +250,8 @@ class MizCampaignLoader:
         control_points = {}
         for airport in self.mission.terrain.airport_list():
             if airport.is_blue() or airport.is_red():
-                control_point = self.control_point_from_airport(airport)
+                ctld_zones = self.get_ctld_zones(airport.name)
+                control_point = self.control_point_from_airport(airport, ctld_zones)
                 control_points[control_point.id] = control_point
 
         for blue in (False, True):
@@ -268,8 +274,13 @@ class MizCampaignLoader:
                 control_point.captured_invert = ship.late_activation
                 control_points[control_point.id] = control_point
             for fob in self.fobs(blue):
+                ctld_zones = self.get_ctld_zones(fob.name)
                 control_point = Fob(
-                    str(fob.name), fob.position, self.theater, starts_blue=blue
+                    str(fob.name),
+                    fob.position,
+                    self.theater,
+                    starts_blue=blue,
+                    ctld_zones=ctld_zones,
                 )
                 control_point.captured_invert = fob.late_activation
                 control_points[control_point.id] = control_point
@@ -460,3 +471,9 @@ class MizCampaignLoader:
         self.add_preset_locations()
         self.add_supply_routes()
         self.add_shipping_lanes()
+
+    def get_ctld_zones(self, prefix: str) -> List[Tuple[Point, float]]:
+        zones = [t for t in self.mission.triggers.zones() if prefix + " CTLD" in t.name]
+        for z in zones:
+            self.mission.triggers.zones().remove(z)
+        return [(z.position, z.radius) for z in zones]

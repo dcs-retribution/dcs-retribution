@@ -19,6 +19,7 @@
 * **[UI]** Configurable ICLS for capable Carriers & LHAs.
 * **[UI]** Configurable LINK4 for Carriers.
 * **[Kneeboard]** Show package information in Support page
+* **[Campaign Design]** Ability to define designated CTLD zones for Control Points (Airbases & FOBs/FARPs)
 
 ## Fixes
 * **[UI]** Removed deprecated options

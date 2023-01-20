@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from datetime import timedelta
 from typing import Iterator, TYPE_CHECKING, Type
 
+from ._common_ctld import generate_random_ctld_point
 from game.ato.flightplans.standard import StandardFlightPlan, StandardLayout
 from game.theater.controlpoint import ControlPointType
 from game.theater.missiontarget import MissionTarget
@@ -13,8 +14,10 @@ from .planningerror import PlanningError
 from .uizonedisplay import UiZone, UiZoneDisplay
 from .waypointbuilder import WaypointBuilder
 from ..flightwaypoint import FlightWaypointType
+from ...theater.interfaces.CTLD import CTLD
 
 if TYPE_CHECKING:
+    from dcs import Point
     from ..flightwaypoint import FlightWaypoint
 
 
@@ -104,16 +107,10 @@ class Builder(IBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
             pickup = None
             pickup_position = self.flight.departure.position
         else:
-            # TODO The calculation of the Pickup LZ is currently randomized. This
-            # leads to the problem that we can not gurantee that the LZ is clear of
-            # obstacles. This has to be improved in the future so that the Mission can
-            # be autoplanned. In the current state the User has to check the created
-            # Waypoints for the Pickup and Dropoff LZs are free of obstacles.
-            # Create a special pickup zone for Helos from Airbase / FOB
             pickup = builder.pickup_zone(
                 MissionTarget(
                     "Pickup Zone",
-                    self.flight.departure.position.random_point_within(1200, 600),
+                    self._generate_ctld_pickup(),
                 )
             )
             pickup_position = pickup.position
@@ -123,7 +120,7 @@ class Builder(IBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
             assault_area.only_for_player = False
             assault_area.alt = feet(1000)
 
-        # TODO we can not gurantee a safe LZ for DropOff. See comment above.
+        # TODO: define CTLD dropoff zones in campaign miz?
         drop_off_zone = MissionTarget(
             "Dropoff zone",
             self.package.target.position.point_from_heading(heading, 1200),
@@ -159,3 +156,7 @@ class Builder(IBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
 
     def build(self) -> AirAssaultFlightPlan:
         return AirAssaultFlightPlan(self.flight, self.layout())
+
+    def _generate_ctld_pickup(self) -> Point:
+        assert isinstance(self.flight.departure, CTLD)
+        return generate_random_ctld_point(self.flight.departure)

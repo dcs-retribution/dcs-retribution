@@ -173,5 +173,8 @@ VERSION = _build_version_string()
 #: * Campaign designers can now define more settings:
 #:    `max_frontline_length: 25`        (in km)
 #:    `culling_exclusion_radius: 35`    (in km)
+#:
+#: Version 10.6
+#: * Designated CTLD zones for ControlPoints (Airbases & FOBs/FARPs)
 
-CAMPAIGN_FORMAT_VERSION = (10, 5)
+CAMPAIGN_FORMAT_VERSION = (10, 6)

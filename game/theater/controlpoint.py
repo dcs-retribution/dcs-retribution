@@ -41,6 +41,7 @@ from dcs.ships import (
     Hms_invincible,
 )
 from dcs.terrain.terrain import Airport, ParkingSlot
+from dcs.triggers import TriggerZone
 from dcs.unitgroup import ShipGroup, StaticGroup
 from dcs.unittype import ShipType
 
@@ -62,6 +63,7 @@ from game.theater.presetlocation import PresetLocation
 from game.utils import Distance, Heading, meters
 from .base import Base
 from .frontline import FrontLine
+from .interfaces.CTLD import CTLD
 from .missiontarget import MissionTarget
 from .theatergroundobject import (
     GenericCarrierGroundObject,
@@ -1047,9 +1049,13 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         ...
 
 
-class Airfield(ControlPoint):
+class Airfield(ControlPoint, CTLD):
     def __init__(
-        self, airport: Airport, theater: ConflictTheater, starts_blue: bool
+        self,
+        airport: Airport,
+        theater: ConflictTheater,
+        starts_blue: bool,
+        ctld_zones: Optional[List[Tuple[Point, float]]] = None,
     ) -> None:
         super().__init__(
             airport.name,
@@ -1061,6 +1067,7 @@ class Airfield(ControlPoint):
         )
         self.airport = airport
         self._runway_status = RunwayStatus()
+        self.ctld_zones = ctld_zones
 
     @property
     def dcs_airport(self) -> Airport:
@@ -1399,14 +1406,20 @@ class OffMapSpawn(ControlPoint):
         return ControlPointStatus.Functional
 
 
-class Fob(ControlPoint, RadioFrequencyContainer):
+class Fob(ControlPoint, RadioFrequencyContainer, CTLD):
     def __init__(
-        self, name: str, at: Point, theater: ConflictTheater, starts_blue: bool
-    ):
+        self,
+        name: str,
+        at: Point,
+        theater: ConflictTheater,
+        starts_blue: bool,
+        ctld_zones: Optional[List[Tuple[Point, float]]] = None,
+    ) -> None:
         super().__init__(
             name, at, at, theater, starts_blue, cptype=ControlPointType.FOB
         )
         self.name = name
+        self.ctld_zones = ctld_zones
 
     @property
     def symbol_set_and_entity(self) -> tuple[SymbolSet, Entity]:
