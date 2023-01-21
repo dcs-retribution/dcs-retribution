@@ -1,0 +1,23 @@
+---
+name: VFA-211 (F/A-18F)
+nickname: Fighting Checkmates
+female_pilot_percentage: 12
+country: USA
+role: Strike Fighter
+aircraft: F/A-18F Super Hornet
+livery: VFA-211 AB202 (2017)
+mission_types:
+  - Anti-ship
+  - BAI
+  - BARCAP
+  - CAS
+  - DEAD
+  - Escort
+  - Intercept
+  - OCA/Aircraft
+  - OCA/Runway
+  - SEAD
+  - SEAD Escort
+  - Strike
+  - Fighter sweep
+  - TARCAP

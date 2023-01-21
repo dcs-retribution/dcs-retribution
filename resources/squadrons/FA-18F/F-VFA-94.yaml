@@ -1,0 +1,23 @@
+---
+name: VFA-94 (F/A-18F)
+nickname: Mighty Shrikes
+female_pilot_percentage: 12
+country: USA
+role: Strike Fighter
+aircraft: F/A-18F Super Hornet
+livery: VFA-94 NA204 (2020)
+mission_types:
+  - Anti-ship
+  - BAI
+  - BARCAP
+  - CAS
+  - DEAD
+  - Escort
+  - Intercept
+  - OCA/Aircraft
+  - OCA/Runway
+  - SEAD
+  - SEAD Escort
+  - Strike
+  - Fighter sweep
+  - TARCAP

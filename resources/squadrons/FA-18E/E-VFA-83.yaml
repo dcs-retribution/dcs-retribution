@@ -1,0 +1,23 @@
+---
+name: VFA-83 (F/A-18E)
+nickname: Rampagers
+female_pilot_percentage: 12
+country: USA
+role: Strike Fighter
+aircraft: F/A-18E Super Hornet
+livery: "*VFA-83 AC203 (2022)"
+mission_types:
+  - Anti-ship
+  - BAI
+  - BARCAP
+  - CAS
+  - DEAD
+  - Escort
+  - Intercept
+  - OCA/Aircraft
+  - OCA/Runway
+  - SEAD
+  - SEAD Escort
+  - Strike
+  - Fighter sweep
+  - TARCAP

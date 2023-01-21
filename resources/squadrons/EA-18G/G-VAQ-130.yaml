@@ -1,0 +1,11 @@
+---
+name: VAQ-130 (E/A-18G)
+nickname: Zappers
+female_pilot_percentage: 12
+country: USA
+role: Strike Fighter
+aircraft: EA-18G Growler
+livery: "*VFA-31 NH206"
+mission_types:
+  - SEAD
+  - SEAD Escort
