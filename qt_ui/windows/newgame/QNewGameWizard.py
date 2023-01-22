@@ -849,7 +849,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("C-130J-30 Super Hercules", hercules),
             ("F-4B Phantom II (v2.7.10.02 EFM + Patch 2022.10.02)", f4b_phantom),
             ("F-15D Baz (v1.0)", f15d_baz),
-            ("F-16I Sufa & F-16D (v2.2 by IDF Mods Project)", f_16_idf),
+            ("F-16I Sufa & F-16D (v3.2 by IDF Mods Project)", f_16_idf),
             ("F-22A Raptor", f22_raptor),
             ("F-84G Thunderjet (v2.5.7.01)", f84g_thunderjet),
             ("F-100 Super Sabre (v2.7.18.30765 patch 20.10.22)", f100_supersabre),
