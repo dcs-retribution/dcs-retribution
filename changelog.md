@@ -8,6 +8,7 @@
 * **[Mission Generation]** Reserve GUARD frequency on VHF/UHF
 * **[Mission Generation]** Randomization in radio frequency allocation
 * **[Cheat Menu]** Option to instantly transfer squadrons across bases.
+* **[Modding]** Support for IDF Mod Project F-16I Sufa & F-16D v3.2 mod
 * **[UI]** Add selectable units in faction overview during campaign generation.
 * **[UI]** Add button to rename pilots in Air Wing's Squadron dialog.
 * **[UI]** Add clone buttons for flights & packages.
