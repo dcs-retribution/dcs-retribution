@@ -1,19 +1,8 @@
 carrier_capable: true
 description:
-  'The F/A-18E Super Hornet is a single-seat, twin engine, carrier-capable, multirole
-  fighter aircraft. The Super Hornets are larger and more advanced derivatives of the
-  McDonnell Douglas F/A-18C and D Hornets, also known as legacy Hornets.
-
-
-  The Super Hornet is equipped with a large suite of sensors that includes a radar, targeting
-  pod, and a helmet mounted sight. In addition to its internal 20mm cannon, the Super Hornet
-  can be armed with a large assortment of unguided bombs and rockets, laser and GPS-guided
-  bombs, air-to-surface missiles of all sorts, and both radar and infrared-guided
-  air-to-air missiles.
-
-
-  The Super Hornet is also known for its extreme, slow-speed maneuverability in a dogfight.
-  Although incredibly deadly, the Super Hornet is also a very easy aircraft to fly.'
+  'The Boeing EA-18G Growler is an American carrier-based electronic warfare aircraft,
+  a specialized version of the two-seat F/A-18F Super Hornet. The EA-18G replaced the
+  Northrop Grumman EA-6B Prowlers in service with the United States Navy.'
 introduced: 1999
 manufacturer: McDonnell Douglas
 origin: USA
