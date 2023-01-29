@@ -15,7 +15,7 @@ def callsign_for_support_unit(group: FlyingGroup[Any]) -> str:
     try:
         return f"Flight {int(raw_callsign)}"
     except ValueError:
-        return raw_callsign.rstrip("1234567890")
+        return f"{raw_callsign[:-2]} {raw_callsign[-2]}"
 
 
 def create_group_callsign_from_unit(lead: FlyingUnit) -> str:
