@@ -93,6 +93,6 @@ class RaceTrackBuilder(PydcsWaypointBuilder):
                     tacan_callsign,
                     bearing=True,
                     unit_id=self.group.units[0].id,
-                    aa=True,
+                    aa=False,
                 )
             )
