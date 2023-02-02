@@ -4,11 +4,10 @@ import random
 from typing import Union, TYPE_CHECKING, Tuple
 
 from game.theater.interfaces.CTLD import CTLD
+from game.theater import ControlPoint
 
 if TYPE_CHECKING:
     from dcs import Point
-
-    from game.theater import ControlPoint
 
 
 def generate_random_ctld_point(cp: Union[ControlPoint, CTLD]) -> Point:
