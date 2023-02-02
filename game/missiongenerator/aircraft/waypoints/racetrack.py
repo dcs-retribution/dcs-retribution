@@ -73,7 +73,7 @@ class RaceTrackBuilder(PydcsWaypointBuilder):
             tacan = tanker_info.tacan
             if self.flight.tcn_name is None:
                 cs = tanker_info.callsign[:-2]
-                csn = tanker_info.callsign[-2]
+                csn = tanker_info.callsign[-1]
                 tacan_callsign = {
                     "Texaco": "TX",
                     "Arco": "AC",
@@ -93,6 +93,7 @@ class RaceTrackBuilder(PydcsWaypointBuilder):
                     tacan_callsign,
                     bearing=True,
                     unit_id=self.group.units[0].id,
-                    aa=False,
+                    aa=True,
+                    tanker=True,
                 )
             )
