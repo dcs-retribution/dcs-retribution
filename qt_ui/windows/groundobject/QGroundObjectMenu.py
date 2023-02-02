@@ -57,7 +57,6 @@ class QGroundObjectMenu(QDialog):
         self.init_ui()
 
     def init_ui(self):
-
         self.mainLayout = QVBoxLayout()
         self.budget = QBudgetBox(self.game)
         self.budget.setGame(self.game)
@@ -92,7 +91,6 @@ class QGroundObjectMenu(QDialog):
         self.setLayout(self.mainLayout)
 
     def doLayout(self):
-
         self.update_total_value()
         self.intelBox = QGroupBox("Units :")
         self.intelLayout = QGridLayout()

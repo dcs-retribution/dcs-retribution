@@ -14,7 +14,6 @@ from qt_ui.windows.QRadioFrequencyDialog import QRadioFrequencyDialog
 
 
 class QFrequencyWidget(QWidget):
-
     freq_changed = Signal(QWidget)
 
     def __init__(

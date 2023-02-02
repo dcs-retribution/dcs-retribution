@@ -442,7 +442,6 @@ class FactionSelection(QtWidgets.QWizardPage):
         self.updateUnitRecap()
 
     def updateUnitRecap(self):
-
         red_faction = FACTIONS[self.redFactionSelect.currentText()]
         blue_faction = FACTIONS[self.blueFactionSelect.currentText()]
 

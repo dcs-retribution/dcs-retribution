@@ -24,7 +24,6 @@ ICONS: Dict[str, QPixmap] = {}
 
 
 def load_icons():
-
     ICONS["New"] = QPixmap("./resources/ui/misc/" + get_theme_icons() + "/new.png")
     ICONS["Open"] = QPixmap("./resources/ui/misc/" + get_theme_icons() + "/open.png")
     ICONS["Save"] = QPixmap("./resources/ui/misc/" + get_theme_icons() + "/save.png")

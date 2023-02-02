@@ -31,7 +31,6 @@ class SceneryGroup:
     def __init__(
         self, zone_def: TriggerZone, zones: Iterable[TriggerZone], category: str
     ) -> None:
-
         self.zone_def = zone_def
         self.zones = zones
         self.position = zone_def.position

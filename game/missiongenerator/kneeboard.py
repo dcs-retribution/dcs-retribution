@@ -192,7 +192,6 @@ class NumberedWaypoint:
 
 
 class FlightPlanBuilder:
-
     WAYPOINT_DESC_MAX_LEN = 25
 
     def __init__(self, start_time: datetime.datetime, units: UnitSystem) -> None:
@@ -544,7 +543,6 @@ class SupportPage(KneeboardPage):
         aewc_ladder = []
 
         for single_aewc in self.awacs:
-
             if single_aewc.depature_location is None:
                 dep = "-"
                 arr = "-"

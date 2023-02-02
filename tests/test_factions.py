@@ -106,7 +106,6 @@ class TestFactionLoader(unittest.TestCase):
 
     @pytest.mark.skip(reason="Faction unit names in the json files are outdated")
     def test_load_valid_faction_with_invalid_country(self) -> None:
-
         with (RESOURCES_DIR / "invalid_faction_country.json").open("r") as data:
             try:
                 Faction.from_json(json.load(data))

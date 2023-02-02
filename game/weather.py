@@ -299,7 +299,6 @@ class Weather:
     def interpolate_solar_activity(
         time_of_day: TimeOfDay, high: float, low: float
     ) -> float:
-
         scale: float = 0
 
         match time_of_day:

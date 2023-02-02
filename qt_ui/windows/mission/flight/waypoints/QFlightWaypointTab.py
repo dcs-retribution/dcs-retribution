@@ -60,7 +60,6 @@ class QFlightWaypointTab(QFrame):
 
         self.recreate_buttons.clear()
         for task in self.package.target.mission_types(for_player=True):
-
             if task == FlightType.AIR_ASSAULT and not self.game.settings.plugin_option(
                 "ctld"
             ):

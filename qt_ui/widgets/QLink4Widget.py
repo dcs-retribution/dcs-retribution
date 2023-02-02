@@ -13,7 +13,6 @@ from qt_ui.windows.QRadioFrequencyDialog import QRadioFrequencyDialog
 
 
 class QLink4Widget(QWidget):
-
     freq_changed = Signal(QWidget)
 
     def __init__(self, cp: NavalControlPoint, game_model: GameModel) -> None:
