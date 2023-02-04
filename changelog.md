@@ -7,6 +7,8 @@
 * **[Mission Generation]** Add option to configure the desired tanker on-station time in settings
 * **[Mission Generation]** Reserve GUARD frequency on VHF/UHF
 * **[Mission Generation]** Randomization in radio frequency allocation
+* **[Mission Generation]** Configurable number of Combined Arms slots
+* **[Mission Generation]** Enable spectating & F11 free camera when the "Allow external views" option is selected
 * **[Cheat Menu]** Option to instantly transfer squadrons across bases.
 * **[Modding]** Support for IDF Mod Project F-16I Sufa & F-16D v3.2 mod
 * **[UI]** Add selectable units in faction overview during campaign generation.
