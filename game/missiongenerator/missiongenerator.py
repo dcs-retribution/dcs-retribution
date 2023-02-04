@@ -69,7 +69,11 @@ class MissionGenerator:
         self.generation_started = False
 
         with open("resources/default_options.lua", "r", encoding="utf-8") as f:
-            self.mission.options.load_from_dict(dcs.lua.loads(f.read())["options"])
+            options = dcs.lua.loads(f.read())["options"]
+            ext_view = game.settings.external_views_allowed
+            options["miscellaneous"]["f11_free_camera"] = ext_view
+            options["difficulty"]["spectatorExternalViews"] = ext_view
+            self.mission.options.load_from_dict(options)
 
     def generate_miz(self, output: Path) -> UnitMap:
         if self.generation_started:
