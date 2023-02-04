@@ -343,7 +343,7 @@ class Settings:
         "Player flights ignore TOT and spawn immediately",
         MISSION_GENERATOR_PAGE,
         GAMEPLAY_SECTION,
-        default=False,
+        default=True,
         detail=(
             "Does not adjust package waypoint times. Should not be used if players "
             "have runway or in-air starts."
