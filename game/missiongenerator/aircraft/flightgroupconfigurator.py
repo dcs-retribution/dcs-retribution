@@ -157,8 +157,8 @@ class FlightGroupConfigurator:
                     callsign=callsign,
                     freq=channel,
                     depature_location=self.flight.departure.name,
-                    end_time=self.flight.flight_plan.mission_departure_time,
-                    start_time=self.flight.flight_plan.takeoff_time(),
+                    start_time=self.flight.flight_plan.patrol_start_time,
+                    end_time=self.flight.flight_plan.patrol_end_time,
                     blue=self.flight.departure.captured,
                 )
             )

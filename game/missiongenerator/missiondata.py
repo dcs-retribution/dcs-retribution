@@ -33,8 +33,8 @@ class AwacsInfo(GroupInfo):
     """AWACS information for the kneeboard."""
 
     depature_location: Optional[str]
-    start_time: Optional[timedelta]
-    end_time: Optional[timedelta]
+    start_time: timedelta
+    end_time: timedelta
 
 
 @dataclass
@@ -43,8 +43,8 @@ class TankerInfo(GroupInfo):
 
     variant: str
     tacan: TacanChannel
-    start_time: Optional[timedelta]
-    end_time: Optional[timedelta]
+    start_time: timedelta
+    end_time: timedelta
 
 
 @dataclass
