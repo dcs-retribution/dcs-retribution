@@ -1,4 +1,4 @@
-In this folder are icons for the different units in DCS / DCS Liberation. 
+In this folder are icons for the different units in DCS / DCS Retribution. 
 
 # How were these retrieved :
 - I took screenshoot of the units from the encyclopedia in DCS. If you want to add more pictures, please do the same, so that the units have the same background.

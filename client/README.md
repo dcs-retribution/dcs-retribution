@@ -1,6 +1,6 @@
-# DCS Liberation Client
+# DCS Retribution Client
 
-This is a React app for the front-end of DCS Liberation. It is a work in
+This is a React app for the front-end of DCS Retribution. It is a work in
 progress that just barely implements the map. This is not useful for players
 yet.
 

@@ -541,7 +541,7 @@ class QLiberationWindow(QMainWindow):
         self._cp_dialog.show()
 
     def _qsettings(self) -> QSettings:
-        return QSettings("DCS Liberation", "Qt UI")
+        return QSettings("DCS Retribution", "Qt UI")
 
     def _restore_window_geometry(self) -> None:
         settings = self._qsettings()
