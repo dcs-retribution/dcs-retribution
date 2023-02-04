@@ -530,7 +530,7 @@ class SupportPage(KneeboardPage):
                 [
                     f.callsign,
                     str(f.flight_type),
-                    str(f.aircraft_type),
+                    KneeboardPageWriter.wrap_line(str(f.aircraft_type), 23),
                     str(len(f.units)),
                     self.format_frequency(f.intra_flight_channel),
                 ]
