@@ -416,6 +416,54 @@ class Settings:
             "within threatened airspace."
         ),
     )
+    game_masters_count: int = bounded_int_option(
+        "Number of game masters",
+        page=MISSION_GENERATOR_PAGE,
+        section=GAMEPLAY_SECTION,
+        default=1,
+        min=0,
+        max=10,
+        detail=(
+            "The number of game master slots to generate for each side. "
+            "Game masters can see, control & direct all units in the mission."
+        ),
+    )
+    tactical_commander_count: int = bounded_int_option(
+        "Number of tactical commands",
+        page=MISSION_GENERATOR_PAGE,
+        section=GAMEPLAY_SECTION,
+        default=3,
+        min=0,
+        max=10,
+        detail=(
+            "The number of tactical commander slots to generate for each side. "
+            "Tactical commanders can control & direct friendly units."
+        ),
+    )
+    jtac_count: int = bounded_int_option(
+        "Number of JTAC controllers",
+        page=MISSION_GENERATOR_PAGE,
+        section=GAMEPLAY_SECTION,
+        default=3,
+        min=0,
+        max=10,
+        detail=(
+            "The number of JTAC controller slots to generate for each side. "
+            "JTAC operators can only control friendly units."
+        ),
+    )
+    observer_count: int = bounded_int_option(
+        "Number of observers",
+        page=MISSION_GENERATOR_PAGE,
+        section=GAMEPLAY_SECTION,
+        default=0,
+        min=0,
+        max=10,
+        detail=(
+            "The number of observers slots to generate for each side. "
+            'Use this to allow spectators when disabling "Allow external views".'
+        ),
+    )
 
     # Performance
     perf_smoke_gen: bool = boolean_option(
