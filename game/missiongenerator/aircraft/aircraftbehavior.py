@@ -29,7 +29,6 @@ from dcs.unitgroup import FlyingGroup
 from game.ato import Flight, FlightType
 from game.ato.flightplans.aewc import AewcFlightPlan
 from game.ato.flightplans.theaterrefueling import TheaterRefuelingFlightPlan
-from game.dcs.aircrafttype import AircraftType
 
 
 class AircraftBehavior:

@@ -247,16 +247,18 @@ class FlightGroupSpawner:
     def _generate_at_cp_helipad(self, name: str, cp: ControlPoint) -> FlyingGroup[Any]:
         try:
             helipad = self.helipads[cp]
-        except IndexError as ex:
+        except IndexError:
             raise NoParkingSlotError()
 
         group = self._generate_at_group(name, helipad)
 
-        if self.start_type is not StartType.COLD:
+        if self.start_type is StartType.WARM:
             group.points[0].type = "TakeOffParkingHot"
+        hpad = helipad.units[0]
         for i in range(self.flight.count):
-            group.units[i].position = helipad.units[i].position
-            group.units[i].heading = helipad.units[i].heading
+            group.units[i].position = hpad.position
+            group.units[i].heading = hpad.heading
+            group.units[i].parking_id = str(i + 1)
         return group
 
     def dcs_start_type(self) -> DcsStartType:
