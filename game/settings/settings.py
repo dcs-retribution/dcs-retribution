@@ -273,6 +273,19 @@ class Settings:
         HQ_AUTOMATION_SECTION,
         default=True,
     )
+    auto_procurement_balance: int = bounded_int_option(
+        "AI ground unit procurement budget ratio (%)",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        HQ_AUTOMATION_SECTION,
+        min=0,
+        max=100,
+        default=50,
+        detail=(
+            "Ratio (larger number -> more budget for ground units) "
+            "that indicates how the AI procurement planner should "
+            "spend its budget."
+        ),
+    )
     reserves_procurement_target: int = 10
 
     # Mission Generator

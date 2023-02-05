@@ -73,13 +73,15 @@ class ProcurementAi:
             cp_aircraft = cp.allocated_aircraft()
             aircraft_investment += cp_aircraft.total_value
 
-        total_investment = aircraft_investment + armor_investment
-        if total_investment == 0:
+        air = self.game.settings.auto_procurement_balance / 100.0
+        ground = 1 - air
+        weighted_investment = aircraft_investment * air + armor_investment * ground
+        if weighted_investment == 0:
             # Turn 0 or all units were destroyed. Either way, split 30/70.
-            return 0.3
+            return min(0.3, ground)
 
         # the more planes we have, the more ground units we want and vice versa
-        ground_unit_share = aircraft_investment / total_investment
+        ground_unit_share = aircraft_investment * air / weighted_investment
         if ground_unit_share > 1.0:
             raise ValueError
 
