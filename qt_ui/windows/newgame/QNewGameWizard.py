@@ -176,7 +176,7 @@ class NewGameWizard(QtWidgets.QWizard):
         mod_settings = ModSettings(
             a4_skyhawk=self.field("a4_skyhawk"),
             a6a_intruder=self.field("a6a_intruder"),
-            f4b_phantom=self.field("f4b_phantom"),
+            f4bc_phantom=self.field("f4bc_phantom"),
             f15d_baz=self.field("f15d_baz"),
             f_16_idf=self.field("f_16_idf"),
             f22_raptor=self.field("f22_raptor"),
@@ -805,8 +805,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("hercules", hercules)
         uh_60l = QtWidgets.QCheckBox()
         self.registerField("uh_60l", uh_60l)
-        f4b_phantom = QtWidgets.QCheckBox()
-        self.registerField("f4b_phantom", f4b_phantom)
+        f4bc_phantom = QtWidgets.QCheckBox()
+        self.registerField("f4bc_phantom", f4bc_phantom)
         f15d_baz = QtWidgets.QCheckBox()
         self.registerField("f15d_baz", f15d_baz)
         f_16_idf = QtWidgets.QCheckBox()
@@ -846,7 +846,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("A-4E Skyhawk (v2.1.0)", a4_skyhawk),
             ("A-6A Intruder (v2.7.5.01)", a6a_intruder),
             ("C-130J-30 Super Hercules", hercules),
-            ("F-4B Phantom II (v2.7.10.02 EFM + Patch 2022.10.02)", f4b_phantom),
+            ("F-4B/C Phantom II (v2.8.1.01 Standalone + 29Jan23 Patch)", f4bc_phantom),
             ("F-15D Baz (v1.0)", f15d_baz),
             ("F-16I Sufa & F-16D (v3.2 by IDF Mods Project)", f_16_idf),
             ("F-22A Raptor", f22_raptor),

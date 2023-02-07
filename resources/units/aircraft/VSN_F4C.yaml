@@ -7,15 +7,15 @@ description:
   its position as an iconic combat aircraft of the Cold War. The F-4 was used extensively
   during the Vietnam War. It served as the principal air superiority fighter for the
   U.S. Air Force, Navy, and Marine Corps and became important in the ground-attack
-  and aerial reconnaissance roles late in the war. The F-4B is a carrier capable
-  Navy and Marine Corps variant.
-introduced: 1961
+  and aerial reconnaissance roles late in the war. The F-4C is a land based
+  all-weather tactical fighter, ground-attack version for the United States Air Force.
+introduced: 1963
 manufacturer: McDonnell Douglas
 origin: USA
 price: 10
 role: Fighter-Bomber
 max_range: 370
-carrier_capable: true
+carrier_capable: false
 variants:
-  F-4B Phantom II: {}
+  F-4C Phantom II: {}
 

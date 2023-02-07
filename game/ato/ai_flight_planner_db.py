@@ -140,7 +140,7 @@ from pydcs_extensions.f16i_idf.f16i_idf import (
     F_16I,
 )
 from pydcs_extensions.f22a.f22a import F_22A
-from pydcs_extensions.f4b.f4b import VSN_F4B
+from pydcs_extensions.f4b.f4b import VSN_F4B, VSN_F4C
 from pydcs_extensions.f84g.f84g import VSN_F84G
 from pydcs_extensions.hercules.hercules import Hercules
 from pydcs_extensions.jas39.jas39 import JAS39Gripen, JAS39Gripen_AG
@@ -188,6 +188,7 @@ ESCORT_CAPABLE = [
     F_16A_MLU,
     F_16A,
     F_4E,
+    VSN_F4C,
     VSN_F4B,
     MiG_31,
     MiG_25PD,
@@ -335,13 +336,14 @@ CAS_CAPABLE = [
     MQ_9_Reaper,
     RQ_1A_Predator,
     VSN_A6A,
+    VSN_F4C,
+    VSN_F4B,
     VSN_F100,
     VSN_F105G,
     VSN_F105D,
     VSN_F104S_AG,
     VSN_F104G,
     VSN_F104C,
-    VSN_F4B,
     VSN_F84G,
 ]
 
@@ -470,6 +472,8 @@ STRIKE_CAPABLE = [
     F_4E,
     A_10C_2,
     A_10C,
+    VSN_F4C,
+    VSN_F4B,
     S_3B,
     A_4E_C,
     Bronco_OV_10A,
@@ -511,7 +515,6 @@ STRIKE_CAPABLE = [
     VSN_F104C,
     VSN_F105G,
     VSN_F105D,
-    VSN_F4B,
     VSN_F84G,
 ]
 
@@ -604,6 +607,8 @@ RUNWAY_ATTACK_CAPABLE = [
     F_4E,
     A_10C_2,
     A_10C,
+    VSN_F4C,
+    VSN_F4B,
     S_3B,
     A_4E_C,
     Bronco_OV_10A,
@@ -637,7 +642,6 @@ RUNWAY_ATTACK_CAPABLE = [
     VSN_F104G,
     VSN_F104C,
     VSN_F100,
-    VSN_F4B,
 ]
 
 # For any aircraft that isn't necessarily directly involved in strike
