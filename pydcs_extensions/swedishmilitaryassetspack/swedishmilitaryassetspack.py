@@ -2,7 +2,7 @@
 # https://forum.dcs.world/topic/295202-swedish-military-assets-for-dcs-by-currenthill/
 #
 
-from typing import Any, Dict, Set
+from typing import Set
 
 from dcs import unittype, task
 from dcs.helicopters import HelicopterType
