@@ -1,0 +1,6 @@
+class: Infantry
+price: 0
+spawn_weight: 1
+variants:
+  Ag 90 Sniper team: null
+  M82A1 Barrett Light 50 Sniper team: null
