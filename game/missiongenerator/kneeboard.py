@@ -576,7 +576,7 @@ class SupportPage(KneeboardPage):
                 [
                     tanker.callsign,
                     "Tanker",
-                    tanker.variant,
+                    KneeboardPageWriter.wrap_line(tanker.variant, 21),
                     str(tanker.tacan),
                     self.format_frequency(tanker.freq),
                     "TOT: " + tot + "\n" + "TOS: " + tos,
