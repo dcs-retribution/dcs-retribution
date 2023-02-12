@@ -1,0 +1,10 @@
+name: RBS-70
+tasks:
+  - SHORAD
+units:
+  - RBS 70 EldE 70 Stationary SAM LN
+  - BV 410 RBS 70
+  - SAM UndE 23 (RBS 70/90/98) STR
+layouts:
+  - 6 Launcher Site (Semicircle)
+  - 6 Launcher Site (Circle)
