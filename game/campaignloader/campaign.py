@@ -19,6 +19,7 @@ from game.theater.iadsnetwork.iadsnetwork import IadsNetwork
 from game.theater.theaterloader import TheaterLoader
 from game.version import CAMPAIGN_FORMAT_VERSION
 from .campaignairwingconfig import CampaignAirWingConfig
+from .campaigngroundconfig import TgoConfig
 from .mizcampaignloader import MizCampaignLoader
 
 PERF_FRIENDLY = 0
@@ -137,6 +138,13 @@ class Campaign:
             return CampaignAirWingConfig({})
         return CampaignAirWingConfig.from_campaign_data(squadron_data, theater)
 
+    def load_ground_forces_config(self) -> TgoConfig:
+        ground_forces = self.data.get("ground_forces", {})
+        if not ground_forces:
+            logging.warning(f"Campaign {self.name} does not define any squadrons")
+            return TgoConfig({})
+        return TgoConfig.from_campaign_data(ground_forces)
+
     @property
     def is_out_of_date(self) -> bool:
         """Returns True if this campaign is not up to date with the latest format.
@@ -173,7 +181,7 @@ class Campaign:
     @classmethod
     def iter_campaign_defs(cls) -> Iterator[Path]:
         yield from cls.iter_campaigns_in_dir(
-            Path(persistency.base_path()) / "Liberation/Campaigns"
+            Path(persistency.base_path()) / "Retribution/Campaigns"
         )
         yield from cls.iter_campaigns_in_dir(Path("resources/campaigns"))
 

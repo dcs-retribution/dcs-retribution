@@ -43,7 +43,11 @@ class QRadioFrequencyDialog(QDialog):
         self.frequency_input.setSingleStep(range.step.mhz)
         self.frequency_input.setDecimals(3)
         self.frequency_input.setLocale(QLocale(QLocale.Language.English))
-        self.frequency_input.setValue(225.0)
+        if range.minimum.mhz <= 225.0 < range.maximum.mhz:
+            self.frequency_input.setValue(225.0)
+        else:
+            mid = range.minimum.mhz + (range.maximum.mhz - range.minimum.mhz) / 2
+            self.frequency_input.setValue(mid)
         layout.addWidget(self.frequency_label)
         layout.addWidget(self.frequency_input)
 
