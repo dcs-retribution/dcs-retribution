@@ -1,4 +1,5 @@
 class: Manpad
+spawn_weight: 1
 description: Man-portable air defense system used for very short distances.
   Primarily used against slow and low flying attack aircraft or helicopters.
   
