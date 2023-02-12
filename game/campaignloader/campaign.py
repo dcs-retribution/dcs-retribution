@@ -19,6 +19,7 @@ from game.theater.iadsnetwork.iadsnetwork import IadsNetwork
 from game.theater.theaterloader import TheaterLoader
 from game.version import CAMPAIGN_FORMAT_VERSION
 from .campaignairwingconfig import CampaignAirWingConfig
+from .campaigngroundconfig import TgoConfig
 from .mizcampaignloader import MizCampaignLoader
 
 PERF_FRIENDLY = 0
@@ -136,6 +137,13 @@ class Campaign:
             logging.warning(f"Campaign {self.name} does not define any squadrons")
             return CampaignAirWingConfig({})
         return CampaignAirWingConfig.from_campaign_data(squadron_data, theater)
+
+    def load_ground_forces_config(self) -> TgoConfig:
+        ground_forces = self.data.get("ground_forces", {})
+        if not ground_forces:
+            logging.warning(f"Campaign {self.name} does not define any squadrons")
+            return TgoConfig({})
+        return TgoConfig.from_campaign_data(ground_forces)
 
     @property
     def is_out_of_date(self) -> bool:

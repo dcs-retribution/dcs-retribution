@@ -4,7 +4,7 @@ import logging
 import random
 from dataclasses import dataclass
 from datetime import datetime, time
-from typing import List
+from typing import List, Optional
 
 import dcs.statics
 
@@ -30,6 +30,7 @@ from .theatergroup import IadsGroundGroup, IadsRole, SceneryUnit, TheaterGroup
 from ..armedforces.armedforces import ArmedForces
 from ..armedforces.forcegroup import ForceGroup
 from ..campaignloader.campaignairwingconfig import CampaignAirWingConfig
+from ..campaignloader.campaigngroundconfig import TgoConfig
 from ..data.groups import GroupTask
 from ..profiling import logged_duration
 from ..settings import Settings
@@ -47,6 +48,7 @@ class GeneratorSettings:
     no_lha: bool
     no_player_navy: bool
     no_enemy_navy: bool
+    tgo_config: TgoConfig
 
 
 @dataclass
@@ -295,9 +297,31 @@ class AirbaseGroundObjectGenerator(ControlPointGroundObjectGenerator):
         self.generate_missile_sites()
         self.generate_coastal_sites()
 
+    def get_unit_group_for_task(
+        self, position: PresetLocation, task: GroupTask
+    ) -> Optional[ForceGroup]:
+        tgo_config = self.generator_settings.tgo_config
+        fg = tgo_config[position.original_name]
+        valid_fg = (
+            fg
+            and task in fg.tasks
+            and all([u in self.faction.accessible_units for u in fg.units])
+        )
+        if valid_fg:
+            unit_group = fg
+            assert fg
+            self.armed_forces.add_or_update_force_group(fg)
+        else:
+            if fg and not valid_fg:
+                logging.warning(
+                    f"Override in ground_forces failed for {fg} at {position.original_name}"
+                )
+            unit_group = self.armed_forces.random_group_for_task(task)
+        return unit_group
+
     def generate_armor_groups(self) -> None:
         for position in self.control_point.preset_locations.armor_groups:
-            unit_group = self.armed_forces.random_group_for_task(GroupTask.BASE_DEFENSE)
+            unit_group = self.get_unit_group_for_task(position, GroupTask.BASE_DEFENSE)
             if not unit_group:
                 logging.error(f"{self.faction_name} has no ForceGroup for Armor")
                 return
@@ -351,7 +375,7 @@ class AirbaseGroundObjectGenerator(ControlPointGroundObjectGenerator):
 
     def generate_aa_at(self, location: PresetLocation, tasks: list[GroupTask]) -> None:
         for task in tasks:
-            unit_group = self.armed_forces.random_group_for_task(task)
+            unit_group = self.get_unit_group_for_task(location, task)
             if unit_group:
                 # Only take next (smaller) aa_range when no template available for the
                 # most requested range. Otherwise break the loop and continue
