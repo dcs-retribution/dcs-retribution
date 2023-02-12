@@ -62,5 +62,3 @@ class QRadioFrequencyDialog(QDialog):
                 self.frequency_input.setValue(container.link4.mhz)
         elif container.frequency:
             self.frequency_input.setValue(container.frequency.mhz)
-
-        print(self.container.frequency)
