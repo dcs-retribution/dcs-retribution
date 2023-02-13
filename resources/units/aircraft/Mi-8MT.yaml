@@ -14,3 +14,12 @@ role: Transport/Light Attack
 variants:
   Mi-8MTV2 Hip: {}
 kneeboard_units: "metric"
+radios:
+  # Ideally this would use the R-828 for intra-flight to be used for flight comms,
+  # but DCS won't allow it as the group's frequency (100-400MHz AM only).
+  intra_flight: R-863
+  inter_flight: R-863
+  channels:
+    type: common
+    intra_flight_radio_index: 1
+    inter_flight_radio_index: 1

@@ -23,6 +23,7 @@
 * **[UI]** Configurable LINK4 for Carriers.
 * **[Kneeboard]** Show package information in Support page
 * **[Campaign Design]** Ability to define designated CTLD zones for Control Points (Airbases & FOBs/FARPs)
+* **[Campaign Design]** Ability to define preset groups for specific TGOs, given the preset group is accessible for the faction and the task matches.
 
 ## Fixes
 * **[UI]** Removed deprecated options

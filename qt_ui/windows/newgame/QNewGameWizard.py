@@ -172,6 +172,7 @@ class NewGameWizard(QtWidgets.QWizard):
             no_lha=self.field("no_lha"),
             no_player_navy=self.field("no_player_navy"),
             no_enemy_navy=self.field("no_enemy_navy"),
+            tgo_config=campaign.load_ground_forces_config(),
         )
         mod_settings = ModSettings(
             a4_skyhawk=self.field("a4_skyhawk"),

@@ -1291,6 +1291,8 @@ class Carrier(NavalControlPoint):
         return SymbolSet.SEA_SURFACE, SeaSurfaceEntity.CARRIER
 
     def mission_types(self, for_player: bool) -> Iterator[FlightType]:
+        from game.ato.flighttype import FlightType
+
         yield from super().mission_types(for_player)
         if self.is_friendly(for_player):
             yield from [
