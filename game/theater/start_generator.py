@@ -55,7 +55,7 @@ class GeneratorSettings:
 class ModSettings:
     a4_skyhawk: bool = False
     a6a_intruder: bool = False
-    f4b_phantom: bool = False
+    f4bc_phantom: bool = False
     f15d_baz: bool = False
     f_16_idf: bool = False
     f22_raptor: bool = False
