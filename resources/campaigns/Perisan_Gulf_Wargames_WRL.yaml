@@ -1,0 +1,225 @@
+---
+name: Persian Gulf - WRL - Wargames (v1)
+theater: Persian Gulf
+authors: HolyOrangeJuice
+recommended_player_faction: WRL - Task Force Blue
+recommended_enemy_faction: WRL - Task Force Red 
+recommended_start_date: 2022-03-22
+description: <p>Original by Colonel Panic, modified by HolyOrangeJuice for the WRL group events. Not true to life or any historical events.</p>
+miz: Persian_Gulf_Wargames_WRL.miz
+performance: 2
+version: "10.6"
+recommended_player_money: 2000
+recommended_enemy_money: 2000
+recommended_player_income_multiplier: 1.5
+recommended_enemy_income_multiplier: 1.5
+max_frontline_length: 30
+squadrons:
+  # Blue CPs:
+  # The default faction is Iran, but the F-14B is given higher precedence so
+  # that it is used if the faction is something US. The F-14A will be used if
+  # the player picks some Iran faction that for some reason has carriers.
+
+  # Bandar Abbas:
+  # This is the main transit hub for blue, so it contains all the logistics-type
+  # squadrons: airlift, refueling, and AEW&C. It also contains an air-to-air
+  # squadron for self defense, a bomber squadron, and some air-to-ground
+  # squadrons.
+  #
+  # Due to its location, this will be the primary airbase for the initial phase
+  # of the campaign.
+  2:
+    - primary: AEW&C
+      aircraft:
+        - E-3A
+    - primary: Refueling
+      aircraft:
+        - KC-135 Stratotanker MPRS
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - 58th FS
+        #F15c
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - F-16CM Fighting Falcon (Block 50) 
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - Su-25T Frogfoot         
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - A-10C Thunderbolt II (Suite 7)
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - C-130       
+  # Kish:
+  # This airbase has better access to the theater as the front-line moves south
+  # west. It contains combat squadrons only.
+  24:
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - 23rd FS
+        #Viper USAF
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - VMA-214
+        #AV8B
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - VMFA-251
+        #Hornet - Marines 
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - Mirage 2000C
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - JF-17 Thunder
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - AJS-37 Viggen
+  Blue CV:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - VF-142
+        #F14B
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - VFA-192
+        #Hornet Navy
+    - primary: AEW&C
+      aircraft:
+        - VAW-125
+        #E2C
+    - primary: Refueling
+      aircraft:
+        - S-3B Tanker
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - S-3B Viking
+  Blue LHA:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - VMA-223
+        #AV8B
+#BLUEFOR FOBs
+  FOB Ras Al Khaimah:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - AH-64D Apache Longbow
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Mi-24P Hind-F
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Ka-50 Hokum III
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Mi-8MTV2 Hip
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - UH-1H Iroquois
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - SA 342M Gazelle 
+  # Red CPs:
+  # Squadrons are designed to work with either UAE 2015 (the default) or a
+  # typical Russian-sourced aircraft faction.
+
+  # Al Dhafra AFB:
+  # This CP has factories attached and is the largest red base, so is the main
+  # logistics hub, with an airlift, AEW&C, and refueling squadron.
+  #
+  # For combat this base operates two pure air-to-air squadrons, two pure air-
+  # to-ground, and four multi-role. Al Minhad is closest to the front so CAS
+  # squadrons are placed there, but will retreat here after capture.
+  4:
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - MiG-29S Fulcrum-C  
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - Mirage 2000C
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - JF-17 Thunder
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - Su-34 Fullback        
+    - primary: AEW&C
+      aircraft:
+        - A-50       
+    - primary: Refueling
+      aircraft:
+        - IL-78M
+    - primary: Transport
+      aircraft:
+        - IL-78MD
+  # Al Minhad AFB:
+  # The initial front line base. Contains CAS aircraft, as well as an air-to-air
+  # squadron and an air-to-ground squadron.
+  12:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Mi-24P Hind-F
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Mi-28N Havoc
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - MiG-21bis Fishbed-N   
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Su-24M Fencer-D
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - F-4E Phantom II
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - Su-25T Frogfoot
+  # Liwa AFB:
+  # The last-stand base. Contains some factories as well. Begins with only an
+  # air-to-air squadron. Other squadrons can retreat here as the front-line
+  # moves.
+  29:
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - F-16CM Fighting Falcon (Block 50)
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - F-15C Eagle
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Su-30 Flanker-C
