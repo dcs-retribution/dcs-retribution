@@ -19,6 +19,18 @@ PydcsWeapon = Any
 PydcsWeaponAssignment = tuple[int, PydcsWeapon]
 
 
+def weapons_migrator(name: str) -> str:
+    migration_map = {
+        "AGM-88C HARM - High Speed Anti-Radiation Missile": "AGM-88C HARM",
+        "Kh-25MPU (Updated AS-12 Kegler) - 320kg, ARM, IN & Pas Rdr": "Kh-25MPU",
+        "Kh-31P (AS-17 Krypton) - 600kg, ARM, IN & Pas Rdr": "Kh-31P",
+        "Kh-58U (AS-11 Kilter) - 640kg, ARM, IN & Pas Rdr": "Kh-58U",
+    }
+    while name in migration_map:
+        name = migration_map[name]
+    return name
+
+
 @dataclass(frozen=True)
 class Weapon:
     """Wrapper for DCS weapons."""
@@ -139,7 +151,7 @@ class WeaponGroup:
 
     def __setstate__(self, state: dict[str, Any]) -> None:
         # Update any existing models with new data on load.
-        updated = WeaponGroup.named(state["name"])
+        updated = WeaponGroup.named(weapons_migrator(state["name"]))
         state.update(updated.__dict__)
         self.__dict__.update(state)
 
