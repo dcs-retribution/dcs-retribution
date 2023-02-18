@@ -1,4 +1,5 @@
 name: 2xMk 82
+year: 1955
 fallback: Mk 82
 clsids:
   - "{M2KC_RAFAUT_MK82}"
