@@ -43,7 +43,7 @@ from game.radio.radios import RadioFrequency
 from game.runways import RunwayData
 from game.theater import TheaterGroundObject, TheaterUnit
 from game.theater.bullseye import Bullseye
-from game.utils import Distance, UnitSystem, meters, mps, pounds
+from game.utils import Distance, UnitSystem, meters, mps, pounds, knots, feet
 from game.weather import Weather
 from .aircraft.flightdata import FlightData
 from .missiondata import AwacsInfo, TankerInfo
@@ -401,6 +401,19 @@ class BriefingPage(KneeboardPage):
         writer.text(f"QNH: {qnh_in_hg} inHg / {qnh_mm_hg} mmHg / {qnh_hpa} hPa")
         writer.text(
             f"Turbulence: {round(self.weather.atmospheric.turbulence_per_10cm)} per 10cm at ground level."
+        )
+        writer.text(
+            f"Wind: {self.weather.wind.at_0m.direction}°"
+            f" / {round(mps(self.weather.wind.at_0m.speed).knots)}kts (0ft)"
+            f" ; {self.weather.wind.at_2000m.direction}°"
+            f" / {round(mps(self.weather.wind.at_2000m.speed).knots)}kts (~6500ft)"
+            f" ; {self.weather.wind.at_8000m.direction}°"
+            f" / {round(mps(self.weather.wind.at_8000m.speed).knots)}kts (~26000ft)"
+        )
+        c = self.weather.clouds
+        writer.text(
+            f'Cloud base: {f"{int(round(meters(c.base).feet, -2))}ft" if c else "CAVOK"}'
+            f'{f", {c.preset.ui_name[:-2]}" if c and c.preset else ""}'
         )
 
         fl = self.flight
