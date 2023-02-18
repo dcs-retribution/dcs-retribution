@@ -220,9 +220,6 @@ class QWaitingForMissionResultWindow(QDialog):
             GameUpdateSignal.get_instance().updateGame(self.game)
         self.close()
 
-    def debriefing_directory_location(self) -> str:
-        return os.path.join(base_path(), "liberation_debriefings")
-
     def closeEvent(self, evt):
         super(QWaitingForMissionResultWindow, self).closeEvent(evt)
         if self.wait_thread is not None:
