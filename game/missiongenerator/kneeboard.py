@@ -468,7 +468,7 @@ class BriefingPage(KneeboardPage):
             ils = ""
         return [
             row_title,
-            "\n".join(textwrap.wrap(runway.airfield_name, width=24)),
+            "\n".join(textwrap.wrap(runway.airfield_name, width=17)),
             atc,
             tacan,
             ils,
