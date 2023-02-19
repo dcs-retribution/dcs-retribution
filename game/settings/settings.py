@@ -286,7 +286,29 @@ class Settings:
             "spend its budget."
         ),
     )
-    reserves_procurement_target: int = 10
+    frontline_reserves_factor: int = bounded_int_option(
+        "AI ground unit front-line reserves factor (%)",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        HQ_AUTOMATION_SECTION,
+        min=0,
+        max=1000,
+        default=130,
+        detail=(
+            "Factor to be multiplied with the control point's unit count limit "
+            "to calculate the procurement target for reserve troops at front-lines."
+        ),
+    )
+    reserves_procurement_target: int = bounded_int_option(
+        "AI ground unit reserves procurement target",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        HQ_AUTOMATION_SECTION,
+        min=0,
+        max=1000,
+        default=10,
+        detail=(
+            "The number of units that will be bought as reserves for applicable control points"
+        ),
+    )
 
     # Mission Generator
     # Gameplay

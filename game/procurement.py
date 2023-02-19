@@ -16,8 +16,6 @@ if TYPE_CHECKING:
     from game.factions.faction import Faction
     from game.squadrons import Squadron
 
-FRONTLINE_RESERVES_FACTOR = 1.3
-
 
 @dataclass(frozen=True)
 class AircraftProcurementRequest:
@@ -258,7 +256,8 @@ class ProcurementAi:
                 # No source of ground units, so can't buy anything.
                 continue
 
-            purchase_target = cp.frontline_unit_count_limit * FRONTLINE_RESERVES_FACTOR
+            fr_factor = self.game.settings.frontline_reserves_factor / 100.0
+            purchase_target = cp.frontline_unit_count_limit * fr_factor
             allocated = cp.allocated_ground_units(
                 self.game.coalition_for(self.is_player).transfers
             )
