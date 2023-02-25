@@ -173,22 +173,38 @@ class WeaponGroup:
 
     @classmethod
     def _each_weapon_group(cls) -> Iterator[WeaponGroup]:
+        names = []
+        links = []
         for group_file_path in Path("resources/weapons").glob("**/*.yaml"):
             with group_file_path.open(encoding="utf8") as group_file:
                 data = yaml.safe_load(group_file)
             name = data["name"]
+            names.append(name)
             try:
                 weapon_type = WeaponType(data["type"])
             except KeyError:
                 weapon_type = WeaponType.UNKNOWN
             year = data.get("year")
             fallback_name = data.get("fallback")
+            if fallback_name:
+                links.append((name, fallback_name))
             group = WeaponGroup(name, weapon_type, year, fallback_name)
             for clsid in data["clsids"]:
                 weapon = Weapon(clsid, group)
                 Weapon.register(weapon)
                 group.weapons.append(weapon)
             yield group
+
+        for name, fb in links:
+            if fb not in names:
+                sn = "Unknown"
+                for n in names:
+                    if fb in n:
+                        sn = n
+                        break
+                logging.error(
+                    f"Weapon '{name}' has invalid fallback '{fb}': suggested = {sn}"
+                )
 
     @classmethod
     def register_clean_pylon(cls) -> None:
