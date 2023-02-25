@@ -112,7 +112,7 @@ class QWaitingForMissionResultWindow(QDialog):
         self.manually_submit.clicked.connect(self.submit_manually)
         self.actions_layout.addWidget(self.manually_submit)
         self.cancel = QPushButton("Abort mission")
-        self.cancel.clicked.connect(self.close)
+        self.cancel.clicked.connect(self.reset_game_state)
         self.actions_layout.addWidget(self.cancel)
         self.gridLayout.addWidget(self.actions, 2, 0)
 
@@ -123,7 +123,7 @@ class QWaitingForMissionResultWindow(QDialog):
         self.manually_submit2.clicked.connect(self.submit_manually)
         self.actions2_layout.addWidget(self.manually_submit2)
         self.cancel2 = QPushButton("Abort mission")
-        self.cancel2.clicked.connect(self.close)
+        self.cancel2.clicked.connect(self.reset_game_state)
         self.actions2_layout.addWidget(self.cancel2)
         self.proceed = QPushButton("Accept results")
         self.proceed.setProperty("style", "btn-success")
@@ -236,3 +236,8 @@ class QWaitingForMissionResultWindow(QDialog):
             self.on_debriefing_update(
                 self.sim_controller.debrief_current_state(Path(file[0]), force_end=True)
             )
+
+    def reset_game_state(self):
+        self.sim_controller.set_game(self.game)
+        GameUpdateSignal.get_instance().updateGame(self.game)
+        self.close()
