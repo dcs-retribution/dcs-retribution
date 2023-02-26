@@ -59,6 +59,7 @@ from game.utils import meters, nautical_miles
 if TYPE_CHECKING:
     from game import Game
     from game.squadrons import Squadron
+    from game.theater import Coalition
 
 
 class Transport:
@@ -431,6 +432,10 @@ class MultiGroupTransport(MissionTarget, Transport):
 
     def description(self) -> str:
         raise NotImplementedError
+
+    @property
+    def coalition(self) -> Coalition:
+        return self.origin.coalition
 
 
 class Convoy(MultiGroupTransport):

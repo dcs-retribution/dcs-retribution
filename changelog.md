@@ -27,6 +27,7 @@
 * **[Campaign Design]** Ability to define designated CTLD zones for Control Points (Airbases & FOBs/FARPs)
 * **[Campaign Design]** Ability to define preset groups for specific TGOs, given the preset group is accessible for the faction and the task matches.
 * **[Campaign Management]** Additional options for automated budget management.
+* **[Campaign Management]** New options to allow more control of randomized flight sizes (applicable for BARCAP/CAS/OCA/ANTI-SHIP).
 
 ## Fixes
 * **[UI]** Removed deprecated options

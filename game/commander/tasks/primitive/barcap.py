@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import random
 from dataclasses import dataclass
 from random import randint
 
@@ -22,7 +23,8 @@ class PlanBarcap(PackagePlanningTask[ControlPoint]):
         state.barcaps_needed[self.target] -= 1
 
     def propose_flights(self) -> None:
-        self.propose_flight(FlightType.BARCAP, randint(2, 4))
+        size = self.get_flight_size()
+        self.propose_flight(FlightType.BARCAP, size)
 
     @property
     def purchase_multiplier(self) -> int:

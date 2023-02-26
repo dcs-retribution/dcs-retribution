@@ -36,6 +36,7 @@ CAMPAIGN_MANAGEMENT_PAGE = "Campaign Management"
 GENERAL_SECTION = "General"
 PILOTS_AND_SQUADRONS_SECTION = "Pilots and Squadrons"
 HQ_AUTOMATION_SECTION = "HQ Automation"
+FLIGHT_PLANNER_AUTOMATION = "Flight Planner Automation"
 
 MISSION_GENERATOR_PAGE = "Mission Generator"
 
@@ -308,6 +309,41 @@ class Settings:
         detail=(
             "The number of units that will be bought as reserves for applicable control points"
         ),
+    )
+
+    # Flight Planner Automation
+    #: The weight used for 2-ships.
+    fpa_2ship_weight: int = bounded_int_option(
+        "2-ship weight factor (WF2)",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        FLIGHT_PLANNER_AUTOMATION,
+        default=50,
+        min=0,
+        max=100,
+        detail=(
+            "Used as a distribution to randomize 2/3/4-ships for BARCAP, CAS, OCA & ANTI-SHIP flights. "
+            "The weight W_i is calculated according to the following formula: &#10;&#13;"
+            "W_i = WF_i / (WF2 + WF3 + WF4)"
+        ),
+    )
+    #: The weight used for 3-ships.
+    fpa_3ship_weight: int = bounded_int_option(
+        "3-ship weight factor (WF3)",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        FLIGHT_PLANNER_AUTOMATION,
+        default=35,
+        min=0,
+        max=100,
+        detail="See 2-ship weight factor (WF2)",
+    )
+    fpa_4ship_weight: int = bounded_int_option(
+        "4-ship weight factor (WF4)",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        FLIGHT_PLANNER_AUTOMATION,
+        default=15,
+        min=0,
+        max=100,
+        detail="See 2-ship weight factor (WF2)",
     )
 
     # Mission Generator
