@@ -28,6 +28,7 @@
 * **[Campaign Design]** Ability to define preset groups for specific TGOs, given the preset group is accessible for the faction and the task matches.
 * **[Campaign Management]** Additional options for automated budget management.
 * **[Campaign Management]** New options to allow more control of randomized flight sizes (applicable for BARCAP/CAS/OCA/ANTI-SHIP).
+* **[Plugins]** Updated Splash Damage script to v2.0 by RotorOps.
 
 ## Fixes
 * **[UI]** Removed deprecated options

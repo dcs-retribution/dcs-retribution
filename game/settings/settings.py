@@ -660,17 +660,17 @@ class Settings:
     def plugin_settings_key(identifier: str) -> str:
         return f"plugins.{identifier}"
 
-    def initialize_plugin_option(self, identifier: str, default_value: bool) -> None:
+    def initialize_plugin_option(self, identifier: str, default_value: Any) -> None:
         try:
             self.plugin_option(identifier)
         except KeyError:
             self.set_plugin_option(identifier, default_value)
 
-    def plugin_option(self, identifier: str) -> bool:
+    def plugin_option(self, identifier: str) -> Any:
         return self.plugins[self.plugin_settings_key(identifier)]
 
-    def set_plugin_option(self, identifier: str, enabled: bool) -> None:
-        self.plugins[self.plugin_settings_key(identifier)] = enabled
+    def set_plugin_option(self, identifier: str, value: Any) -> None:
+        self.plugins[self.plugin_settings_key(identifier)] = value
 
     def __setstate__(self, state: dict[str, Any]) -> None:
         # __setstate__ is called with the dict of the object being unpickled. We
