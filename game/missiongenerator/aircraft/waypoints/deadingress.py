@@ -1,7 +1,7 @@
 import logging
 
 from dcs.point import MovingPoint
-from dcs.task import AttackGroup, OptECMUsing, WeaponType
+from dcs.task import AttackGroup, OptECMUsing, WeaponType, Expend
 
 from game.theater import TheaterGroundObject
 from .pydcswaypointbuilder import PydcsWaypointBuilder
@@ -27,8 +27,13 @@ class DeadIngressBuilder(PydcsWaypointBuilder):
                 )
                 continue
 
+            task = AttackGroup(miz_group.id, weapon_type=WeaponType.Guided)
+            waypoint.tasks.append(task)
+
             task = AttackGroup(
-                miz_group.id, weapon_type=WeaponType.Auto, group_attack=True
+                miz_group.id,
+                weapon_type=WeaponType.Unguided,
+                expend=Expend.All,
             )
             waypoint.tasks.append(task)
 
