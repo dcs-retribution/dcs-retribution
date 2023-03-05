@@ -58,7 +58,7 @@ class PluginSettings:
 
 class LuaPluginOption(PluginSettings):
     def __init__(
-            self, identifier: str, name: str, min: Any, max: Any, value: Any
+        self, identifier: str, name: str, min: Any, max: Any, value: Any
     ) -> None:
         super().__init__(identifier, value)
         self.name = name

@@ -18,7 +18,8 @@ from PySide2.QtWidgets import (
     QSpinBox,
     QStackedLayout,
     QVBoxLayout,
-    QWidget, QSizePolicy,
+    QWidget,
+    QSizePolicy,
 )
 
 import qt_ui.uiconstants as CONST
