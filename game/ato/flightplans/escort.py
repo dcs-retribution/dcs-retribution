@@ -8,8 +8,6 @@ from .formationattack import (
     FormationAttackLayout,
 )
 from .waypointbuilder import WaypointBuilder
-from .. import FlightType
-from ...utils import Distance
 
 
 class EscortFlightPlan(FormationAttackFlightPlan):
@@ -32,11 +30,9 @@ class Builder(FormationAttackBuilder[EscortFlightPlan, FormationAttackLayout]):
         join = builder.join(self.package.waypoints.join)
         split = builder.split(self.package.waypoints.split)
         refuel = builder.refuel(self.package.waypoints.refuel)
-        initial = None
-        if self.package.primary_task == FlightType.STRIKE:
-            initial = builder.escort_hold(
-                self.package.waypoints.initial, Distance.from_feet(20000)
-            )
+        initial = builder.escort_hold(
+            self.package.waypoints.initial, self.doctrine.ingress_altitude
+        )
 
         return FormationAttackLayout(
             departure=builder.takeoff(self.flight.departure),
