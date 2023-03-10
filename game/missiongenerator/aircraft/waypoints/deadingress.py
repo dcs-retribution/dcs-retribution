@@ -1,4 +1,5 @@
 import logging
+import math
 
 from dcs.point import MovingPoint
 from dcs.task import AttackGroup, OptECMUsing, WeaponType, Expend
@@ -30,10 +31,13 @@ class DeadIngressBuilder(PydcsWaypointBuilder):
             task = AttackGroup(miz_group.id, weapon_type=WeaponType.Guided)
             waypoint.tasks.append(task)
 
+            dir = target.position.heading_between_point(waypoint.position)
+
             task = AttackGroup(
                 miz_group.id,
                 weapon_type=WeaponType.Unguided,
                 expend=Expend.All,
+                direction=math.radians(dir),
             )
             waypoint.tasks.append(task)
 
