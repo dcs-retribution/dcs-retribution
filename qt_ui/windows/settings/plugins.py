@@ -55,7 +55,7 @@ class PluginOptionsBox(QGroupBox):
         for row, option in enumerate(plugin.options):
             layout.addWidget(QLabel(option.name), row, 0)
 
-            val = option.value
+            val = option.get_value
             if type(val) == bool:
                 checkbox = QCheckBox()
                 checkbox.setChecked(val)
