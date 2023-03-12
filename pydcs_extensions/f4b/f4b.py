@@ -176,7 +176,10 @@ class VSN_F4B(PlaneType):
         LAU_105_2_AIM_9J = (3, WeaponsF4BC.LAU_105_2_AIM_9J)
         LAU_105_2_AIM_9JULI = (3, WeaponsF4BC.LAU_105_2_AIM_9JULI)
         AIM_7F_Sparrow_Semi_Active_Radar = (3, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
-        AIM_7E_Sparrow_Semi_Active_Radar = (3, Weapons.AIM_7E_Sparrow_Semi_Active_Radar)
+        AIM_7E_2_Sparrow_Semi_Active_Radar = (
+            3,
+            Weapons.AIM_7E_2_Sparrow_Semi_Active_Radar,
+        )
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             3,
             Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
@@ -194,11 +197,17 @@ class VSN_F4B(PlaneType):
 
     class Pylon4:
         AIM_7F_Sparrow_Semi_Active_Radar = (4, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
-        AIM_7E_Sparrow_Semi_Active_Radar = (4, Weapons.AIM_7E_Sparrow_Semi_Active_Radar)
+        AIM_7E_2_Sparrow_Semi_Active_Radar = (
+            4,
+            Weapons.AIM_7E_2_Sparrow_Semi_Active_Radar,
+        )
 
     class Pylon5:
         AIM_7F_Sparrow_Semi_Active_Radar = (5, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
-        AIM_7E_Sparrow_Semi_Active_Radar = (5, Weapons.AIM_7E_Sparrow_Semi_Active_Radar)
+        AIM_7E_2_Sparrow_Semi_Active_Radar = (
+            5,
+            Weapons.AIM_7E_2_Sparrow_Semi_Active_Radar,
+        )
 
     class Pylon6:
         Smokewinder___red = (6, Weapons.Smokewinder___red)
@@ -225,11 +234,17 @@ class VSN_F4B(PlaneType):
 
     class Pylon7:
         AIM_7F_Sparrow_Semi_Active_Radar = (7, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
-        AIM_7E_Sparrow_Semi_Active_Radar = (7, Weapons.AIM_7E_Sparrow_Semi_Active_Radar)
+        AIM_7E_2_Sparrow_Semi_Active_Radar = (
+            7,
+            Weapons.AIM_7E_2_Sparrow_Semi_Active_Radar,
+        )
 
     class Pylon8:
         AIM_7F_Sparrow_Semi_Active_Radar = (8, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
-        AIM_7E_Sparrow_Semi_Active_Radar = (8, Weapons.AIM_7E_Sparrow_Semi_Active_Radar)
+        AIM_7E_2_Sparrow_Semi_Active_Radar = (
+            8,
+            Weapons.AIM_7E_2_Sparrow_Semi_Active_Radar,
+        )
 
     class Pylon9:
         GBU_10___2000lb_Laser_Guided_Bomb = (
@@ -275,7 +290,10 @@ class VSN_F4B(PlaneType):
         LAU_105_2_AIM_9J = (9, WeaponsF4BC.LAU_105_2_AIM_9J)
         LAU_105_2_AIM_9JULI = (9, WeaponsF4BC.LAU_105_2_AIM_9JULI)
         AIM_7F_Sparrow_Semi_Active_Radar = (9, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
-        AIM_7E_Sparrow_Semi_Active_Radar = (9, Weapons.AIM_7E_Sparrow_Semi_Active_Radar)
+        AIM_7E_2_Sparrow_Semi_Active_Radar = (
+            9,
+            Weapons.AIM_7E_2_Sparrow_Semi_Active_Radar,
+        )
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             9,
             Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
@@ -484,7 +502,10 @@ class VSN_F4C(PlaneType):
         LAU_105_2_AIM_9J = (3, WeaponsF4BC.LAU_105_2_AIM_9J)
         LAU_105_2_AIM_9JULI = (3, WeaponsF4BC.LAU_105_2_AIM_9JULI)
         AIM_7F_Sparrow_Semi_Active_Radar = (3, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
-        AIM_7E_Sparrow_Semi_Active_Radar = (3, Weapons.AIM_7E_Sparrow_Semi_Active_Radar)
+        AIM_7E_2_Sparrow_Semi_Active_Radar = (
+            3,
+            Weapons.AIM_7E_2_Sparrow_Semi_Active_Radar,
+        )
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             3,
             Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
@@ -502,11 +523,17 @@ class VSN_F4C(PlaneType):
 
     class Pylon4:
         AIM_7F_Sparrow_Semi_Active_Radar = (4, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
-        AIM_7E_Sparrow_Semi_Active_Radar = (4, Weapons.AIM_7E_Sparrow_Semi_Active_Radar)
+        AIM_7E_2_Sparrow_Semi_Active_Radar = (
+            4,
+            Weapons.AIM_7E_2_Sparrow_Semi_Active_Radar,
+        )
 
     class Pylon5:
         AIM_7F_Sparrow_Semi_Active_Radar = (5, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
-        AIM_7E_Sparrow_Semi_Active_Radar = (5, Weapons.AIM_7E_Sparrow_Semi_Active_Radar)
+        AIM_7E_2_Sparrow_Semi_Active_Radar = (
+            5,
+            Weapons.AIM_7E_2_Sparrow_Semi_Active_Radar,
+        )
 
     class Pylon6:
         Smokewinder___red = (6, Weapons.Smokewinder___red)
@@ -533,11 +560,17 @@ class VSN_F4C(PlaneType):
 
     class Pylon7:
         AIM_7F_Sparrow_Semi_Active_Radar = (7, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
-        AIM_7E_Sparrow_Semi_Active_Radar = (7, Weapons.AIM_7E_Sparrow_Semi_Active_Radar)
+        AIM_7E_2_Sparrow_Semi_Active_Radar = (
+            7,
+            Weapons.AIM_7E_2_Sparrow_Semi_Active_Radar,
+        )
 
     class Pylon8:
         AIM_7F_Sparrow_Semi_Active_Radar = (8, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
-        AIM_7E_Sparrow_Semi_Active_Radar = (8, Weapons.AIM_7E_Sparrow_Semi_Active_Radar)
+        AIM_7E_2_Sparrow_Semi_Active_Radar = (
+            8,
+            Weapons.AIM_7E_2_Sparrow_Semi_Active_Radar,
+        )
 
     class Pylon9:
         GBU_10___2000lb_Laser_Guided_Bomb = (
@@ -583,7 +616,10 @@ class VSN_F4C(PlaneType):
         LAU_105_2_AIM_9J = (9, WeaponsF4BC.LAU_105_2_AIM_9J)
         LAU_105_2_AIM_9JULI = (9, WeaponsF4BC.LAU_105_2_AIM_9JULI)
         AIM_7F_Sparrow_Semi_Active_Radar = (9, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
-        AIM_7E_Sparrow_Semi_Active_Radar = (9, Weapons.AIM_7E_Sparrow_Semi_Active_Radar)
+        AIM_7E_2_Sparrow_Semi_Active_Radar = (
+            9,
+            Weapons.AIM_7E_2_Sparrow_Semi_Active_Radar,
+        )
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             9,
             Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,

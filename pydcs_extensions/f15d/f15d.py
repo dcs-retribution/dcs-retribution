@@ -106,7 +106,10 @@ class F_15D(PlaneType):
             4,
             Weapons.AIM_7MH_Sparrow_Semi_Active_Radar,
         )
-        AIM_7E_Sparrow_Semi_Active_Radar = (4, Weapons.AIM_7E_Sparrow_Semi_Active_Radar)
+        AIM_7E_2_Sparrow_Semi_Active_Radar = (
+            4,
+            Weapons.AIM_7E_2_Sparrow_Semi_Active_Radar,
+        )
         I_Derby_ER = (4, WeaponsF15D.I_Derby_ER)
 
     class Pylon5:
@@ -121,7 +124,10 @@ class F_15D(PlaneType):
             5,
             Weapons.AIM_7MH_Sparrow_Semi_Active_Radar,
         )
-        AIM_7E_Sparrow_Semi_Active_Radar = (5, Weapons.AIM_7E_Sparrow_Semi_Active_Radar)
+        AIM_7E_2_Sparrow_Semi_Active_Radar = (
+            5,
+            Weapons.AIM_7E_2_Sparrow_Semi_Active_Radar,
+        )
         I_Derby_ER = (5, WeaponsF15D.I_Derby_ER)
         ELL___8222SB = (5, WeaponsF15D.ELL___8222SB)
 
@@ -141,7 +147,10 @@ class F_15D(PlaneType):
             7,
             Weapons.AIM_7MH_Sparrow_Semi_Active_Radar,
         )
-        AIM_7E_Sparrow_Semi_Active_Radar = (7, Weapons.AIM_7E_Sparrow_Semi_Active_Radar)
+        AIM_7E_2_Sparrow_Semi_Active_Radar = (
+            7,
+            Weapons.AIM_7E_2_Sparrow_Semi_Active_Radar,
+        )
         I_Derby_ER = (7, WeaponsF15D.I_Derby_ER)
 
     class Pylon8:
@@ -156,7 +165,10 @@ class F_15D(PlaneType):
             8,
             Weapons.AIM_7MH_Sparrow_Semi_Active_Radar,
         )
-        AIM_7E_Sparrow_Semi_Active_Radar = (8, Weapons.AIM_7E_Sparrow_Semi_Active_Radar)
+        AIM_7E_2_Sparrow_Semi_Active_Radar = (
+            8,
+            Weapons.AIM_7E_2_Sparrow_Semi_Active_Radar,
+        )
         I_Derby_ER = (8, WeaponsF15D.I_Derby_ER)
 
     class Pylon9:
