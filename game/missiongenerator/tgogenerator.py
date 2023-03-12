@@ -529,7 +529,7 @@ class GenericCarrierGenerator(GroundObjectGenerator):
         # they aren't exposed as such to the game. Should
         # clean this up so that's possible. We can't use the
         # unit name since it's an arbitrary ID.
-        self.runways[self.control_point.name] = RunwayData(
+        self.runways[self.control_point.full_name] = RunwayData(
             self.control_point.name,
             brc,
             f"{brc.degrees:03}",
