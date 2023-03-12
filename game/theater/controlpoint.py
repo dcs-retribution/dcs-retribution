@@ -1246,7 +1246,7 @@ class NavalControlPoint(
         fallback = RunwayData(
             self.full_name, runway_heading=Heading.from_degrees(0), runway_name=""
         )
-        return dynamic_runways.get(self.name, fallback)
+        return dynamic_runways.get(self.full_name, fallback)
 
     @property
     def runway_status(self) -> RunwayStatus:

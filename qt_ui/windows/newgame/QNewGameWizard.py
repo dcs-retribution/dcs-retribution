@@ -106,6 +106,7 @@ class NewGameWizard(QtWidgets.QWizard):
         self.addPage(self.faction_selection_page)
         self.addPage(GeneratorOptions())
         self.difficulty_page = DifficultyAndAutomationOptions()
+        self.difficulty_page.set_campaign_values(self.campaigns[0])
 
         # Update difficulty page on campaign select
         self.theater_page.campaign_selected.connect(
@@ -172,11 +173,12 @@ class NewGameWizard(QtWidgets.QWizard):
             no_lha=self.field("no_lha"),
             no_player_navy=self.field("no_player_navy"),
             no_enemy_navy=self.field("no_enemy_navy"),
+            tgo_config=campaign.load_ground_forces_config(),
         )
         mod_settings = ModSettings(
             a4_skyhawk=self.field("a4_skyhawk"),
             a6a_intruder=self.field("a6a_intruder"),
-            f4b_phantom=self.field("f4b_phantom"),
+            f4bc_phantom=self.field("f4bc_phantom"),
             f15d_baz=self.field("f15d_baz"),
             f_16_idf=self.field("f_16_idf"),
             fa_18efg=self.field("fa_18efg"),
@@ -193,6 +195,7 @@ class NewGameWizard(QtWidgets.QWizard):
             ov10a_bronco=self.field("ov10a_bronco"),
             frenchpack=self.field("frenchpack"),
             high_digit_sams=self.field("high_digit_sams"),
+            swedishmilitaryassetspack=self.field("swedishmilitaryassetspack"),
         )
 
         blue_faction = self.faction_selection_page.selected_blue_faction
@@ -806,8 +809,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("hercules", hercules)
         uh_60l = QtWidgets.QCheckBox()
         self.registerField("uh_60l", uh_60l)
-        f4b_phantom = QtWidgets.QCheckBox()
-        self.registerField("f4b_phantom", f4b_phantom)
+        f4bc_phantom = QtWidgets.QCheckBox()
+        self.registerField("f4bc_phantom", f4bc_phantom)
         f15d_baz = QtWidgets.QCheckBox()
         self.registerField("f15d_baz", f15d_baz)
         f_16_idf = QtWidgets.QCheckBox()
@@ -836,6 +839,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("frenchpack", frenchpack)
         high_digit_sams = QtWidgets.QCheckBox()
         self.registerField("high_digit_sams", high_digit_sams)
+        swedishmilitaryassetspack = QtWidgets.QCheckBox()
+        self.registerField("swedishmilitaryassetspack", swedishmilitaryassetspack)
 
         modHelpText = QtWidgets.QLabel(
             "<p>Select the mods you have installed. If your chosen factions support them, you'll be able to use these mods in your campaign.</p>"
@@ -849,7 +854,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("A-4E Skyhawk (v2.1.0)", a4_skyhawk),
             ("A-6A Intruder (v2.7.5.01)", a6a_intruder),
             ("C-130J-30 Super Hercules", hercules),
-            ("F-4B Phantom II (v2.7.10.02 EFM + Patch 2022.10.02)", f4b_phantom),
+            ("F-4B/C Phantom II (v2.8.1.01 Standalone + 29Jan23 Patch)", f4bc_phantom),
             ("F-15D Baz (v1.0)", f15d_baz),
             ("F-16I Sufa & F-16D (v3.2 by IDF Mods Project)", f_16_idf),
             ("F/A-18E/F/G Super Hornet (version 2.1)", fa_18efg),
@@ -860,6 +865,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("F-105 Thunderchief (v2.7.12.23x)", f105_thunderchief),
             ("Frenchpack", frenchpack),
             ("High Digit SAMs", high_digit_sams),
+            ("Swedish Military Assets pack (1.10)", swedishmilitaryassetspack),
             ("JAS 39 Gripen (v1.8.0-beta)", jas39_gripen),
             ("OV-10A Bronco", ov10a_bronco),
             ("Su-30 Flanker-H (V2.01B)", su30_flanker_h),

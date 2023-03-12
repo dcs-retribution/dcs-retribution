@@ -1,0 +1,8 @@
+name: SA-15 SHORAD
+tasks:
+  - SHORAD
+units:
+  - SA-15 Tor
+  - Truck Ural-375
+layouts:
+  - Short Range Anti Air Group

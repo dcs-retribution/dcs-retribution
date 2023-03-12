@@ -29,6 +29,7 @@ from dcs.unitgroup import FlyingGroup
 from game.ato import Flight, FlightType
 from game.ato.flightplans.aewc import AewcFlightPlan
 from game.ato.flightplans.theaterrefueling import TheaterRefuelingFlightPlan
+from game.ato.flightwaypointtype import FlightWaypointType
 
 
 class AircraftBehavior:
@@ -178,9 +179,9 @@ class AircraftBehavior:
             group,
             react_on_threat=OptReactOnThreat.Values.EvadeFire,
             roe=OptROE.Values.OpenFire,
-            # ASM includes ARMs and TALDs (among other things, but those are the useful
+            # Guided includes ARMs and TALDs (among other things, but those are the useful
             # weapons for SEAD).
-            rtb_winchester=OptRTBOnOutOfAmmo.Values.ASM,
+            rtb_winchester=OptRTBOnOutOfAmmo.Values.Guided,
             restrict_jettison=True,
             mission_uses_gun=False,
         )
@@ -272,8 +273,14 @@ class AircraftBehavior:
         # Search Then Engage task, which we have to use instead of the Escort
         # task for the reasons explained in JoinPointBuilder.
         group.task = Escort.name
-        if flight.package.primary_task == FlightType.STRIKE:
-            group.add_trigger_action(SwitchWaypoint(None, 5))
+        if flight.flight_plan.is_formation(flight.flight_plan):
+            index = flight.flight_plan.get_index_of_wpt_by_type(
+                FlightWaypointType.SPLIT
+            )
+            if index > 0:
+                group.add_trigger_action(SwitchWaypoint(None, index))
+            else:
+                logging.warning(f"Couldn't determine SPLIT for {group.name}")
         self.configure_behavior(
             flight, group, roe=OptROE.Values.OpenFire, restrict_jettison=True
         )
@@ -283,15 +290,18 @@ class AircraftBehavior:
         # available aircraft, and F-14s are not able to be SEAD despite having TALDs.
         # https://forums.eagle.ru/topic/272112-cannot-assign-f-14-to-sead/
         group.task = SEAD.name
-        if flight.package.primary_task == FlightType.STRIKE:
-            group.add_trigger_action(SwitchWaypoint(None, 5))
+        index = flight.flight_plan.get_index_of_wpt_by_type(FlightWaypointType.SPLIT)
+        if index > 0 and flight.flight_plan.is_formation(flight.flight_plan):
+            group.add_trigger_action(SwitchWaypoint(None, index))
+        if index < 1:
+            logging.warning(f"Couldn't determine SPLIT for {group.name}")
         self.configure_behavior(
             flight,
             group,
             roe=OptROE.Values.OpenFire,
-            # ASM includes ARMs and TALDs (among other things, but those are the useful
+            # Guided includes ARMs and TALDs (among other things, but those are the useful
             # weapons for SEAD).
-            rtb_winchester=OptRTBOnOutOfAmmo.Values.ASM,
+            rtb_winchester=OptRTBOnOutOfAmmo.Values.Guided,
             restrict_jettison=True,
             mission_uses_gun=False,
         )

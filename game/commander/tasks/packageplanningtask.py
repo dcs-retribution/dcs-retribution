@@ -183,3 +183,12 @@ class PackagePlanningTask(TheaterCommanderTask, Generic[MissionTargetT]):
                 if iads_threat not in state.threatening_air_defenses:
                     state.threatening_air_defenses.append(iads_threat)
         return not threatened
+
+    def get_flight_size(self) -> int:
+        settings = self.target.coalition.game.settings
+        weights = [
+            settings.fpa_2ship_weight,
+            settings.fpa_3ship_weight,
+            settings.fpa_4ship_weight,
+        ]
+        return random.choices([2, 3, 4], weights, k=1)[0]

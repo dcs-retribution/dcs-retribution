@@ -12,6 +12,7 @@
 * **[Cheat Menu]** Option to instantly transfer squadrons across bases.
 * **[Modding]** Support for IDF Mod Project F-16I Sufa & F-16D v3.2 mod
 * **[Modding]** Support for F/A-18E/F/G mod version 2.1
+* **[Modding]** Support for Swedish Military Assets for DCS by Currenthill Version 1.10
 * **[UI]** Add selectable units in faction overview during campaign generation.
 * **[UI]** Add button to rename pilots in Air Wing's Squadron dialog.
 * **[UI]** Add clone buttons for flights & packages.
@@ -23,7 +24,13 @@
 * **[UI]** Configurable ICLS for capable Carriers & LHAs.
 * **[UI]** Configurable LINK4 for Carriers.
 * **[Kneeboard]** Show package information in Support page
+* **[Kneeboard]** Show extra weather information on 'Mission info' page
+* **[Kneeboard]** Show BRC in 'RWY' column for aircraft carriers on 'Mission info' page
 * **[Campaign Design]** Ability to define designated CTLD zones for Control Points (Airbases & FOBs/FARPs)
+* **[Campaign Design]** Ability to define preset groups for specific TGOs, given the preset group is accessible for the faction and the task matches.
+* **[Campaign Management]** Additional options for automated budget management.
+* **[Campaign Management]** New options to allow more control of randomized flight sizes (applicable for BARCAP/CAS/OCA/ANTI-SHIP).
+* **[Plugins]** Updated Splash Damage script to v2.0 by RotorOps.
 
 ## Fixes
 * **[UI]** Removed deprecated options
@@ -32,6 +39,7 @@
 * **[Mission Generation]** Use stacking algorithm to create vertical separation between flights spawning mid-mission over their departure, usually resulting into mid-air collisions.
 * **[Mission Generation]** Fixed all callsigns being "Enfield 1-1" on dedicated servers.
 * **[Mission Generation]** Fixed AI ferry flights for helicopters when transferring to a FOB/FARP.
+* **[Mission Generation]** Fixed 'Uninitialized flight' exception when adding flights after aborted take-off.
 
 # Retribution 1.0.1 (hotfix)
 * **[Mission Generation]** Fix serialization issue when STRIKE flight has no escorts
@@ -81,6 +89,15 @@ BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 Saves from 6.x are not compatible with 7.0.
 
 ## Features/Improvements
+
+* **[Engine]** Support for DCS 2.8.3.37556.
+* **[Engine]** Saved games are now a zip file of save assets for easier bug reporting. The new extension is .liberation.zip. Drag and drop that file into bug reports.
+* **[Flight Planning]** Package TOT and composition can be modified after advancing time in Liberation.
+* **[Mission Generation]** Units on the front line are now hidden on MFDs.
+* **[Mission Generation]** Preset radio channels will now be configured for both A-10C modules.
+* **[Mission Generation]** Both A-10C modules now use separate radios for inter- and intra-flight comms (similar to other modern aircraft).
+* **[Modding]** Updated Community A-4E-C mod version support to 2.1.0 release.
+* **[Modding]** Add support for VSN F-4B and F-4C mod.
 
 ## Fixes
 

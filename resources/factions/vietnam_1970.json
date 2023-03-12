@@ -1,0 +1,92 @@
+{
+  "country": "Vietnam",
+  "name": "Vietnam 1970",
+  "authors": "Ton 'Mad Max' Carcer",
+  "description": "<p>North Vietnamese armed forces as of 1970.</p>",
+  "aircrafts": [
+    "MiG-15bis Fagot",
+    "MiG-19P Farmer-B",
+    "MiG-21bis Fishbed-N",
+    "Mi-8MTV2 Hip"
+  ],
+  "awacs": [
+  ],
+  "tankers": [
+  ],
+  "frontline_units": [
+    "BRDM-2",
+    "PT-76",
+    "T-55A",
+    "ZU-23 on Ural-375",
+    "ZSU-57-2 'Sparka'",
+    "S-60 57mm",
+    "BTR-80"
+  ],
+  "artillery_units": [
+    "BM-21 Grad",
+	"MO 120 RT",
+	"Mortar 2B11 120mm"
+  ],
+  "logistics_units": [
+    "Truck Ural-375",
+	"Truck GAZ-66",
+    "LUV UAZ-469 Jeep",
+	"Truck Bedford",
+	"Truck Opel Blitz"
+  ],
+  "infantry_units": [
+    "Infantry AK-74 Rus",
+    "Infantry RPG"
+  ],
+  "preset_groups": [
+    "SA-2/S-75",
+    "HQ-2",
+	"Cold-War-Flak"
+  ],
+  "air_defense_units": [
+    "AAA KS-19 100mm",
+    "AAA 100mm KS-19",
+	"8.8 cm Flak 18",
+	"S-60 57mm",
+	"AAA ZU-23 Closed Emplacement",
+	"AAA ZU-23 Emplacement",
+	"ZSU-23-4 Shilka",
+	"ZSU-57-2 'Sparka'",
+	"ZU-23 on Ural-375"
+  ],
+  "naval_units": [
+    "P258 Leeds Castle",
+    "LST Mk.II"
+  ],
+  "doctrine": "coldwar",
+  "liveries_overrides": {
+	"MiG-15bis Fagot": [
+		"VPAF MiG-17 Shiny",
+		"VPAF MiG-17 Red Tips",
+		"VPAF MiG-17 Red Tail"
+		],
+    "MiG-19P Farmer-B": [
+		"VPAF Green",
+		"VPAF CC_NV925th",
+		"VPAF J6 14.FAD"
+	],
+    "MiG-21bis Fishbed-N": [
+		"VPAF - 921st Sao Do - 5040",
+		"VPAF - 925th Hanoi Noi Bai",
+		"VPAF - 927th Fighter Regiment Metal",
+		"VPAF - 927th Lam Son - 6122",
+		"VPAF - 929th Da Nang Int"
+	],
+    "Mi-8MTV2 Hip": [
+		"North Vietnam"
+	]
+  },
+  "liveries_overrides_ground_forces":{
+		"BTR-80": ["autumn"],
+		"Infantry AK": [
+          "VIETNAM",
+          "CHINA",
+          "CHINAWOOD"
+        ]
+	}
+}

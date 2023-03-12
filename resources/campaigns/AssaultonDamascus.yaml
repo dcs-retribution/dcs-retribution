@@ -203,3 +203,7 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - Su-25T Frogfoot
+ground_forces:
+  Golan North-29: SA-15 SHORAD  # OK
+  Golan North-92: SA-15 SHORAD  # fails because this is a MERAD site      -> warning in retribution.log
+  Golan North-10: SA-15 SHORAD  # fails because this is an Armoured Group -> warning in retribution.log

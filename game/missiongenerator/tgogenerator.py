@@ -522,7 +522,6 @@ class GenericCarrierGenerator(GroundObjectGenerator):
         callsign: str,
         icls: Optional[int],
     ) -> None:
-        # TODO: Make unit name usable.
         # This relies on one control point mapping exactly
         # to one LHA, carrier, or other usable "runway".
         # This isn't wholly true, since the DD escorts of
@@ -530,10 +529,10 @@ class GenericCarrierGenerator(GroundObjectGenerator):
         # they aren't exposed as such to the game. Should
         # clean this up so that's possible. We can't use the
         # unit name since it's an arbitrary ID.
-        self.runways[self.control_point.name] = RunwayData(
+        self.runways[self.control_point.full_name] = RunwayData(
             self.control_point.name,
             brc,
-            "N/A",
+            f"{brc.degrees:03}",
             atc=atc,
             tacan=tacan,
             tacan_callsign=callsign,

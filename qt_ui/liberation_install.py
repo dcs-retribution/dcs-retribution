@@ -36,7 +36,7 @@ def init():
                 "ignore_empty_install_directory", False
             )
             is_first_start = False
-        except KeyError:
+        except (KeyError, json.JSONDecodeError):
             __dcs_saved_game_directory = ""
             __dcs_installation_directory = ""
             __last_save_file = ""

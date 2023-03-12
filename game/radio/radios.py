@@ -237,6 +237,16 @@ RADIOS: List[Radio] = [
     # Note: Also capable of 100MHz-150MHz, but we can't model gaps.
     Radio("R-800L1", (RadioRange(MHz(220), MHz(400), kHz(25), Modulation.AM),)),
     Radio("R-828", (RadioRange(MHz(20), MHz(60), kHz(25), Modulation.FM),)),
+    # Mi-8 / Mi-24P
+    Radio(
+        "R-863",
+        (
+            RadioRange(MHz(100), MHz(150), kHz(25), Modulation.AM),
+            RadioRange(MHz(220), MHz(400), kHz(25), Modulation.AM),
+            RadioRange(MHz(100), MHz(150), kHz(25), Modulation.FM),
+            RadioRange(MHz(220), MHz(400), kHz(25), Modulation.FM),
+        ),
+    ),
     # UH-1H
     Radio("AN/ARC-51BX", (RadioRange(MHz(225), MHz(400), kHz(50), Modulation.AM),)),
     Radio("AN/ARC-131", (RadioRange(MHz(30), MHz(76), kHz(50), Modulation.FM),)),

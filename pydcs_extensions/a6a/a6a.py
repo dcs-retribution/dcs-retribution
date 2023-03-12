@@ -12,7 +12,6 @@ from game.modsupport import planemod
 class VSN_A6A(PlaneType):
     id = "VSN_A6A"
     flyable = True
-    group_size_max = 1
     height = 4.57
     width = 10.15
     length = 17.98

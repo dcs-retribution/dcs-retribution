@@ -12,7 +12,7 @@ from ..utils import Heading, pairwise
 
 if TYPE_CHECKING:
     from game.ato import FlightType
-    from .controlpoint import ControlPoint
+    from .controlpoint import ControlPoint, Coalition
 
 
 FRONTLINE_MIN_CP_DISTANCE = 5000
@@ -120,6 +120,10 @@ class FrontLine(MissionTarget):
     def control_points(self) -> Tuple[ControlPoint, ControlPoint]:
         """Returns a tuple of the two control points."""
         return self.blue_cp, self.red_cp
+
+    @property
+    def coalition(self) -> Coalition:
+        return self.blue_cp.coalition
 
     @property
     def route_length(self) -> float:

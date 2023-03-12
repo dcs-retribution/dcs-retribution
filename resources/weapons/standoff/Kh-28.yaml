@@ -1,0 +1,5 @@
+name: Kh-28
+year: 1973
+fallback: Kh-29L
+clsids:
+  - "{Kh-28}"

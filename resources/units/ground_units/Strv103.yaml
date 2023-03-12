@@ -1,0 +1,16 @@
+class: Tank
+description: The Stridsvagn 103 (Strv 103), also known as the S-tank, is a Swedish
+  post-World War II main battle tank, designed and manufactured in Sweden. Developed
+  in the 1950s, it was the first main battle tank to use a gas turbine engine and
+  the only mass-produced tank since World War II to dispense with a turret besides
+  the German Kanonenjagdpanzer. It has an unconventional design with a unique gun
+  laying process. It is turretless with a fixed gun traversed by engaging the tracks
+  and elevated by adjusting the hull suspension. The result was a very low-profile
+  design with an emphasis on survivability and heightened crew protection level.
+introduced: 1967
+manufacturer: Bofors
+origin: Sweden
+price: 18
+role: Main Battle Tank
+variants:
+  Strv 103 MBT: {}

@@ -1,0 +1,11 @@
+class: Launcher
+description: Medium range air defense launcher.
+  
+  Contains 16 x RB 103B hit-to-kill missiles
+  with its own seeker.
+  
+  It works together with PM 103 STR,
+  StriE 103 ECS and Elverk 103 EPP.
+price: 8
+variants:
+  SAM LvS-103 Lavett 103 Rb103B Mobile LN: null

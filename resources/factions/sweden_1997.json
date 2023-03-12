@@ -1,0 +1,71 @@
+{
+  "country": "Sweden",
+  "name": "Sweden 1997 Swedish Military Assets",
+  "authors": "Khopa, bgreman & Ghosti",
+  "description": "<p>Sweden in 1997, when both the Strv 103 and Strv 122 were in service. Requires the Swedish Military Assets for DCS by Currenthill. JAS39 Gripen Mod is highly recommended.</p>",
+  "locales": [
+    "sv_SE"
+  ],
+  "aircrafts": [
+    "AJS-37 Viggen",
+    "JAS 39 Gripen",
+    "JAS 39 Gripen A/G",
+    "UH-1H Iroquois"
+  ],
+  "awacs": [
+    "E-3A"
+  ],
+  "tankers": [
+    "KC-130",
+    "KC-130J"
+  ],
+  "frontline_units": [
+    "Strf 9040 IFV",
+    "Lvkv 9040 SPAAG",
+    "Strv 103 MBT",
+    "Strv 2000 T140/40 MBT",
+    "Leopard 2A4",
+    "Leopard 2A5",
+    "BV 410",
+    "BV 410 RBS 90",
+    "Volvo 740 with KSP 58 7.62mm"
+  ],
+  "artillery_units": [
+    "Grkpbv 90 SPM",
+    "Haubits 77 AD SPG"
+  ],
+  "air_defense_units": [
+    "SAM Hawk SR (AN/MPQ-50)",
+    "SAM UndE 23 (RBS 70/90/98) STR"
+  ],
+  "logistics_units": [
+    "Truck M818 6x6"
+  ],
+  "infantry_units": [
+    "Soldier Ak 4",
+    "Soldier Ak 5",
+    "Soldier Ak 5 Granattillsats",
+    "Soldier Ksp 58",
+    "Soldier Ksp 90",
+    "Ag 90 Sniper team",
+    "Soldier Pskott 86",
+    "RBS 90 EldE 90 Stationary SAM LN"
+  ],
+  "preset_groups": [
+    "RBS-15",
+    "RBS-70",
+    "RBS-90",
+    "Hawk"
+  ],
+  "naval_units": [
+    "HSwMS Visby Corvette",
+    "Strb 90 FAC"
+  ],
+  "missiles": [],
+  "requirements": {
+    "JAS39 Gripen Mod by Community": "https://github.com/whisky-actual/Community-JAS-39-C",
+    "Swedish Military Assets for DCS by Currenthill": "https://forum.dcs.world/topic/295202-swedish-military-assets-for-dcs-by-currenthill/"
+  },
+  "has_jtac": true,
+  "jtac_unit": "MQ-9 Reaper"
+}

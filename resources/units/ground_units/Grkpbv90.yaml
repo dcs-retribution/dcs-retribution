@@ -1,0 +1,13 @@
+class: Artillery
+description: The Combat Vehicle 90 (CV90), Swedish Stridsfordon 90 (Strf 90),
+  is a family of Swedish tracked armored combat vehicles. The
+  Granatkastarpansarbandvagn (Grkpbv) 90 or Tracked Armoured Mortar Vehicle
+  model is designed to increase the indirect fire capability of mechanized
+  battalions and is equipped with twin 120 mm mortars.
+introduced: 2019
+manufacturer: Försvarets Materielverk, Hägglunds and Bofors
+origin: Sweden
+price: 15
+role: Self-Propelled Gun
+variants:
+  Grkpbv 90 SPM: {}
