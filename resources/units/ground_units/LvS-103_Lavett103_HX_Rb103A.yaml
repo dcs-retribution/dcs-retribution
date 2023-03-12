@@ -1,0 +1,10 @@
+class: Launcher
+description: Long range air defense launcher.
+  
+  Contains 4 x RB 103A TVM guided missiles.
+  
+  It works together with PM 103 STR,
+  StriE 103 ECS and Elverk 103 EPP.
+price: 15
+variants:
+  SAM LvS-103 Lavett 103 Rb103A Mobile LN: null

@@ -1,0 +1,9 @@
+class: APC
+description: BV 410, a tracked all-terrain armoured vehicle.
+introduced: 2013
+manufacturer: Bofors Defence / BAE Systems Hägglunds
+origin: Sweden
+price: 6
+role: Armoured Personnel Carrier
+variants:
+  BV 410: {}

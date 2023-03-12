@@ -1,0 +1,15 @@
+class: SHORAD
+description: Man-portable air defense system used for very short distances.
+  Primarily used against slow and low flying attack aircraft or helicopters.
+  
+  Transported by BV 410, a tracked all-terrain armoured vehicle.
+  
+  Works together with the UndE 23 search and track radar,
+  but will function standalone.
+introduced: 2013
+manufacturer: Bofors / BAE Systems Hägglunds
+origin: Sweden
+price: 18
+role: Self-Propelled Surface-to-Air Missile Launcher
+variants:
+  BV 410 RBS 90: {}

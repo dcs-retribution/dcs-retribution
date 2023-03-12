@@ -11,6 +11,7 @@
 * **[Mission Generation]** Enable spectating & F11 free camera when the "Allow external views" option is selected
 * **[Cheat Menu]** Option to instantly transfer squadrons across bases.
 * **[Modding]** Support for IDF Mod Project F-16I Sufa & F-16D v3.2 mod
+* **[Modding]** Support for Swedish Military Assets for DCS by Currenthill Version 1.10
 * **[UI]** Add selectable units in faction overview during campaign generation.
 * **[UI]** Add button to rename pilots in Air Wing's Squadron dialog.
 * **[UI]** Add clone buttons for flights & packages.

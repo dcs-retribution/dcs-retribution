@@ -1,0 +1,6 @@
+class: Infantry
+price: 0
+spawn_weight: 1
+variants:
+  Soldier Ak 4: null
+  Soldier HK G3: null
