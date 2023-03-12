@@ -348,9 +348,11 @@ class AircraftType(UnitType[Type[FlyingType]]):
 
     @classmethod
     def _each_variant_of(cls, aircraft: Type[FlyingType]) -> Iterator[AircraftType]:
-        data_path = Path("resources/units/aircraft") / f"{aircraft.id}.yaml"
+        # Replace slashes with underscores because slashes are not allowed in filenames
+        aircraft_id = aircraft.id.replace("/", "_")
+        data_path = Path("resources/units/aircraft") / f"{aircraft_id}.yaml"
         if not data_path.exists():
-            logging.warning(f"No data for {aircraft.id}; it will not be available")
+            logging.warning(f"No data for {aircraft_id}; it will not be available")
             return
 
         with data_path.open(encoding="utf-8") as data_file:
@@ -371,7 +373,7 @@ class AircraftType(UnitType[Type[FlyingType]]):
                 nautical_miles(50) if aircraft.helicopter else nautical_miles(150)
             )
             logging.warning(
-                f"{aircraft.id} does not specify a max_range. Defaulting to "
+                f"{aircraft_id} does not specify a max_range. Defaulting to "
                 f"{mission_range.nautical_miles}NM"
             )
 

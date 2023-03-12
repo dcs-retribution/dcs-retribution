@@ -1,0 +1,11 @@
+---
+name: VAQ-139 (E/A-18G)
+nickname: Cougars
+female_pilot_percentage: 12
+country: USA
+role: Strike Fighter
+aircraft: EA-18G Growler
+livery: "*VAQ-139 NA501"
+mission_types:
+  - SEAD
+  - SEAD Escort

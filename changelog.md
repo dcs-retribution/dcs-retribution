@@ -2,7 +2,7 @@
 
 ## Features/Improvements
 * **[Mission Generation]** Given a CAS flight was planned, delay ground force attack until first CAS flight is on station
-* **[Mission Generation]** Add option to switch ATFLIR to LITENING automatically for ground based F-18C flights
+* **[Mission Generation]** Add option to switch ATFLIR to LITENING automatically for ground based F/A-18C flights
 * **[Mission Generation]** Add option to configure OPFOR autoplanner aggressiveness and have the AI take risks and plan missions against defended targets
 * **[Mission Generation]** Add option to configure the desired tanker on-station time in settings
 * **[Mission Generation]** Reserve GUARD frequency on VHF/UHF
@@ -11,6 +11,7 @@
 * **[Mission Generation]** Enable spectating & F11 free camera when the "Allow external views" option is selected
 * **[Cheat Menu]** Option to instantly transfer squadrons across bases.
 * **[Modding]** Support for IDF Mod Project F-16I Sufa & F-16D v3.2 mod
+* **[Modding]** Support for F/A-18E/F/G mod version 2.1
 * **[Modding]** Support for Swedish Military Assets for DCS by Currenthill Version 1.10
 * **[UI]** Add selectable units in faction overview during campaign generation.
 * **[UI]** Add button to rename pilots in Air Wing's Squadron dialog.

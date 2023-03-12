@@ -151,7 +151,8 @@ class PackageModel(QAbstractListModel):
     @staticmethod
     def icon_for_flight(flight: Flight) -> Optional[QIcon]:
         """Returns the icon that should be displayed for the flight."""
-        name = flight.unit_type.dcs_id
+        """Replace slashes with underscores because slashes are not allowed in filenames"""
+        name = flight.unit_type.dcs_id.replace("/", "_")
         if name in AIRCRAFT_ICONS:
             return QIcon(AIRCRAFT_ICONS[name])
         return None
@@ -451,7 +452,8 @@ class AirWingModel(QAbstractListModel):
     @staticmethod
     def icon_for_squadron(squadron: Squadron) -> Optional[QIcon]:
         """Returns the icon that should be displayed for the squadron."""
-        name = squadron.aircraft.dcs_id
+        """Replace slashes with underscores because slashes are not allowed in filenames"""
+        name = squadron.aircraft.dcs_id.replace("/", "_")
         if name in AIRCRAFT_ICONS:
             return QIcon(AIRCRAFT_ICONS[name])
         return None

@@ -142,6 +142,7 @@ from pydcs_extensions.f16i_idf.f16i_idf import (
 from pydcs_extensions.f22a.f22a import F_22A
 from pydcs_extensions.f4b.f4b import VSN_F4B, VSN_F4C
 from pydcs_extensions.f84g.f84g import VSN_F84G
+from pydcs_extensions.fa18efg.fa18efg import FA_18E, FA_18F, EA_18G
 from pydcs_extensions.hercules.hercules import Hercules
 from pydcs_extensions.jas39.jas39 import JAS39Gripen, JAS39Gripen_AG
 from pydcs_extensions.su30.su30 import Su_30MKA, Su_30MKI, Su_30MKM, Su_30SM
@@ -182,6 +183,8 @@ ESCORT_CAPABLE = [
     F_16D_50_NS,
     F_16D_52,
     F_16D_52_NS,
+    FA_18E,
+    FA_18F,
     FA_18C_hornet,
     JF_17,
     JAS39Gripen,
@@ -258,6 +261,8 @@ CAS_CAPABLE = [
     F_16D_50_NS,
     F_16D_52,
     F_16D_52_NS,
+    FA_18E,
+    FA_18F,
     FA_18C_hornet,
     Tornado_GR4,
     Tornado_IDS,
@@ -359,6 +364,9 @@ SEAD_ESCORT_CAPABLE = [
     F_16D_50_NS,
     F_16D_52,
     F_16D_52_NS,
+    EA_18G,
+    FA_18E,
+    FA_18F,
     FA_18C_hornet,
     Tornado_IDS,
     Su_25T,
@@ -444,6 +452,8 @@ STRIKE_CAPABLE = [
     F_16D_50_NS,
     F_16D_52,
     F_16D_52_NS,
+    FA_18E,
+    FA_18F,
     FA_18C_hornet,
     AV8BNA,
     JF_17,
@@ -524,6 +534,8 @@ ANTISHIP_CAPABLE = [
     Tu_142,
     Tu_22M3,
     H_6J,
+    FA_18E,
+    FA_18F,
     FA_18C_hornet,
     JAS39Gripen_AG,
     F_16A_MLU,
@@ -579,6 +591,8 @@ RUNWAY_ATTACK_CAPABLE = [
     F_16D_50_NS,
     F_16D_52,
     F_16D_52_NS,
+    FA_18E,
+    FA_18F,
     FA_18C_hornet,
     AV8BNA,
     JF_17,

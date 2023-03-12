@@ -431,6 +431,10 @@ class Faction:
             self.remove_vehicle("SAM SA-14 Strela-3 manpad")
             self.remove_vehicle("SAM SA-24 Igla-S manpad")
             self.remove_vehicle("Polyana-D4M1 C2 node")
+        if not mod_settings.fa_18efg:
+            self.remove_aircraft("FA-18E")
+            self.remove_aircraft("FA-18F")
+            self.remove_aircraft("EA-18G")
         # swedish military assets pack
         if not mod_settings.swedishmilitaryassetspack:
             self.remove_vehicle("BV410_RBS70")
