@@ -1,0 +1,345 @@
+---
+name: 1968 Yankee Station
+theater: Caucasus
+authors: Ton "Mad Max" Carcer
+description: <p>1968 fictional recreation of the Vietnam war. US Navy carriers are on station on the gulf in denominated "Yankee Station" area and will support ground troops progressing towards Saigon. Supported from Laos and Cambodia through the famous "Ho Chi Minh Trail" B-52s from Tahiland and Guam will help with saturation bombardments if available. Co-In missios can be flown with Broncos in the forest canyons and - of course - full action from the carriers will be done by Phantoms, Intruders and Skyhawks. Pump up the volume of your copy of "Fortunate Son" and enjoy</p>
+recommended_player_faction: USA 1970 Vietnam War
+recommended_enemy_faction: Vietnam 1970
+recommended_start_date: 1968-06-13
+recommended_player_money: 1200
+recommended_enemy_money: 1000
+recommended_player_income_multiplier: 1.2
+recommended_enemy_income_multiplier: 0.7
+miz: 1968_Yankee_Station.miz
+performance: 2
+version: "10.4"
+advanced_iads: false
+
+#        
+squadrons:
+    #US NAVY
+    #CV-59 Forrestal
+    Naval-1:
+        - primary: AEW&C
+          aircraft: 
+            - VAW-122 #Steeljaws - E-2 Hawkeye
+
+        - primary: Refueling
+          aircraft: 
+            - VS-28 (Tanker) #Gamblers - S-3B Viking
+        
+        - primary: BARCAP
+          secondary: air-to-air
+          aircraft: 
+            - VMFA-531 #Grey Ghosts - F-4B Phantom II
+            
+        - primary: BARCAP
+          secondary: air-to-air
+          aircraft: 
+            - VF-151 #Vigilantes - F-4B Phantom II
+            
+        - primary: Strike
+          secondary: air-to-ground
+          aircraft: 
+            - VF-14 #Tophatters - F-4B Phantom II
+        
+        - primary: Strike
+          secondary: air-to-ground
+          aircraft:
+            - A-6A Intruder
+            
+        - primary: SEAD
+          secondary: air-to-ground
+          aircraft:
+            - VMA-46 #Clansmen - A-4E
+        
+        - primary: Air Assault
+          secondary: any
+          aircraft:
+            - CH-53E
+     
+    #CV-61 Ranger
+    Naval-2:
+        - primary: AEW&C
+          aircraft: 
+            - VAW-123 #Screwtops - E-2 Hawkeye
+
+        - primary: Refueling
+          aircraft: 
+            - VS-24 (Tanker) #Scouts - S-3B Viking
+        
+        - primary: BARCAP
+          secondary: air-to-air
+          aircraft: 
+            - VF-84 #Jolly Rogers - F-4B Phantom II
+            
+        - primary: BARCAP
+          secondary: air-to-air
+          aircraft: 
+            - VF-111 #Sundowners - F-4B Phantom II
+            
+        - primary: Strike
+          secondary: air-to-ground
+          aircraft: 
+            - VF-41 #Black Aces - F-4B Phantom II
+        
+        - primary: Strike
+          secondary: air-to-ground
+          aircraft:
+            - A-6A Intruder
+                  
+        - primary: SEAD
+          secondary: air-to-ground
+          aircraft:
+            - VMA-144 #Roadruners - A-4E
+        
+        - primary: Transport
+          secondary: any
+          aircraft:
+            - CH-53E
+
+    #USAF
+    #Guam (Andersen AFB)
+    Guam:
+       - primary: Strike
+         aircraft:
+           - B-52H Stratofortress
+        
+       - primary: Refueling
+         aircraft: 
+           - KC-135 Stratotanker        
+            
+       - primary: Escort
+         secondary: air-to-air
+         aircraft: 
+           - F-4E Phantom II
+       
+       - primary: Escort
+         secondary: air-to-air
+         aircraft: 
+           - F-104G Starfighter 
+
+    #Da Nang 
+    21: #Gudauta
+       - primary: CAS
+         secondary: air-to-ground
+         aircraft:
+           - VAL 4 Black Ponies
+           
+       - primary: CAS
+         secondary: air-to-ground
+         aircraft:
+           - AH-1W SuperCobra
+           
+       - primary: CAS
+         secondary: air-to-ground
+         aircraft:
+           - 20th TASS FAC
+        
+       - primary: Air Assault
+         secondary: any
+         aircraft:
+           - CH-53E        
+            
+       - primary: Air Assault
+         secondary: any
+         aircraft:
+           - CH-47D
+       
+       - primary: Air Assault
+         secondary: any
+         aircraft:
+           - UH-1H Iroquois
+       
+       - primary: Transport
+         secondary: any
+         aircraft:
+           - UH-1H Iroquois
+           
+    #FOB Keh-Sahn
+    FOB Keh-Sahn:
+                 
+       - primary: CAS
+         secondary: air-to-ground
+         aircraft:
+           - AH-1W SuperCobra
+              
+       - primary: Air Assault
+         secondary: any
+         aircraft:
+           - UH-1H Iroquois
+       
+       - primary: Transport
+         secondary: any
+         aircraft:
+           - UH-1H Iroquois 
+
+ 
+    #Nah Trang 
+    18: #Sochi-Adler
+       - primary: CAS
+         secondary: air-to-ground
+         aircraft:
+           - F-5E Tiger II
+        
+       - primary: Strike
+         secondary: air-to-ground
+         aircraft:
+           - F-100 Super Sabre        
+            
+       - primary: Transport
+         secondary: any
+         aircraft:
+           - C-130
+           
+       - primary: Transport
+         secondary: any
+         aircraft:
+           - CH-47D
+    
+    #Ubon (Tahiland)
+    16: #Maykop-Khanskaya
+       - primary: Refueling
+         aircraft:
+            - KC-130
+       
+       - primary: Transport
+         secondary: any
+         aircraft:
+           - C-130
+       
+       - primary: Transport
+         secondary: any
+         aircraft:
+           - CH-47D
+       
+       - primary: BARCAP
+         secondary: air-to-air
+         aircraft:
+           - F-104C Starfighter
+        
+       - primary: Strike
+         secondary: air-to-ground
+         aircraft:
+           - F-4C Phantom II
+    
+    #Saigon
+    15: #Krymsk
+      - primary: Refueling
+        aircraft:
+           - KC-135 Stratotanker
+            
+      - primary: Transport
+        secondary: any
+        aircraft:
+          - C-130
+
+      - primary: BARCAP
+        secondary: air-to-air
+        aircraft:
+          - F-4C Phantom II
+      
+      - primary: SEAD
+        secondary: air-to-ground
+        aircraft:
+          - F-105G Thunderchief
+        
+      - primary: Strike
+        secondary: air-to-ground
+        aircraft:
+          - F-105D Thunderchief        
+            
+      - primary: Transport
+        secondary: any
+        aircraft:
+          - CH-47D
+           
+    #Vietnam 
+    
+    #Batumi
+    22:
+      - primary: CAS
+        secondary: air-to-ground
+        aircraft:
+          - Mi-8MTV2 Hip
+          
+      - primary: BAI
+        secondary: air-to-ground
+        aircraft:
+          - MiG-15bis Fagot
+          
+      - primary: BARCAP
+        secondary: air-to-air
+        aircraft:
+          - MiG-19P Farmer-B
+        
+    #Senaki-Kholki
+    23:
+      - primary: CAS
+        secondary: air-to-ground
+        aircraft:
+          - Mi-8MTV2 Hip
+          
+      - primary: BAI
+        secondary: air-to-ground
+        aircraft:
+          - MiG-15bis Fagot
+          
+      - primary: Transport
+        aircraft:
+          - Mi-8MTV2 Hip
+          
+    #Kobuleti
+    24:
+      - primary: CAS
+        secondary: air-to-ground
+        aircraft:
+          - MiG-15bis Fagot
+          
+      - primary: BAI
+        secondary: air-to-ground
+        aircraft:
+          - MiG-19P Farmer-B
+          
+      - primary: BARCAP
+        secondary: air-to-air
+        aircraft:
+          - MiG-19P Farmer-B
+        
+    # Kutaisi
+    25:
+      - primary: BARCAP
+        aircraft:
+          - MiG-15bis Fagot
+          
+    # Tbilisi-Lochini 
+    29:
+      - primary: BARCAP
+        aircraft:
+          - VPAF - 921st Sao Do - 5040
+      - primary: Transport
+        aircraft:
+          - An-30M
+          - An-26B    #Sukhumi-Babushara
+    20: 
+      - primary: BARCAP
+        aircraft:
+          - VPAF - 927th Fighter Regiment
+      
+      - primary: BARCAP
+        aircraft:
+          - VPAF - 927th Lam Son - 6122
+    
+    # Beslan
+    32:
+      - primary: Transport
+        aircraft:
+          - An-26B
+          - An-30M
+    
+    # Soganlug
+    30:
+      - primary: Transport
+        aircraft:
+          - An-30M
+          - An-26B
