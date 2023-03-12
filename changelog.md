@@ -31,6 +31,7 @@
 * **[Campaign Management]** Additional options for automated budget management.
 * **[Campaign Management]** New options to allow more control of randomized flight sizes (applicable for BARCAP/CAS/OCA/ANTI-SHIP).
 * **[Plugins]** Updated Splash Damage script to v2.0 by RotorOps.
+* **[Mission Generation]** Improvements to DEAD & STRIKE flights, allowing AI to handle a larger variety of weapons.
 
 ## Fixes
 * **[UI]** Removed deprecated options
@@ -40,6 +41,10 @@
 * **[Mission Generation]** Fixed all callsigns being "Enfield 1-1" on dedicated servers.
 * **[Mission Generation]** Fixed AI ferry flights for helicopters when transferring to a FOB/FARP.
 * **[Mission Generation]** Fixed 'Uninitialized flight' exception when adding flights after aborted take-off.
+* **[Modding]** Fixed conflicts caused by HDS units
+* **[UX]** Gracefully handle corrupted preferences file.
+* **[Mission Generation]** Aircraft not using decoys during SEAD.
+* **[Campaign]** New campaign (1968 Yankee Station) by Adecarcer
 
 # Retribution 1.0.1 (hotfix)
 * **[Mission Generation]** Fix serialization issue when STRIKE flight has no escorts
