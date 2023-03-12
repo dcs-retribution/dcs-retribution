@@ -129,10 +129,9 @@ class WaypointBuilder:
         position = divert.position
         altitude_type: AltitudeReference
         if isinstance(divert, OffMapSpawn):
-            if self.is_helo:
-                altitude = meters(500)
-            else:
-                altitude = self.doctrine.rendezvous_altitude
+            altitude = (
+                meters(500) if self.is_helo else self.doctrine.rendezvous_altitude
+            )
             altitude_type = "BARO"
         else:
             altitude = meters(0)
