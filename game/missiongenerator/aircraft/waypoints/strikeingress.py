@@ -38,6 +38,7 @@ class StrikeIngressBuilder(PydcsWaypointBuilder):
             weapon_type=WeaponType.Bombs,
             expend=Expend.All,
             carpet_length=avg_spacing,
+            altitude=round(self.flight.coalition.doctrine.ingress_altitude.meters),
         )
         waypoint.tasks.append(bombing)
 
