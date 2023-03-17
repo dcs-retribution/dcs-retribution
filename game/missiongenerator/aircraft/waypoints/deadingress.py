@@ -28,7 +28,11 @@ class DeadIngressBuilder(PydcsWaypointBuilder):
                 )
                 continue
 
-            task = AttackGroup(miz_group.id, weapon_type=WeaponType.Guided)
+            task = AttackGroup(
+                miz_group.id,
+                weapon_type=WeaponType.Guided,
+                altitude=round(self.flight.coalition.doctrine.ingress_altitude.meters),
+            )
             waypoint.tasks.append(task)
 
             dir = target.position.heading_between_point(waypoint.position)
@@ -38,6 +42,7 @@ class DeadIngressBuilder(PydcsWaypointBuilder):
                 weapon_type=WeaponType.Unguided,
                 expend=Expend.All,
                 direction=math.radians(dir),
+                altitude=round(self.flight.coalition.doctrine.ingress_altitude.meters),
             )
             waypoint.tasks.append(task)
 
