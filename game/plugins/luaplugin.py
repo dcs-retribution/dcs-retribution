@@ -131,7 +131,6 @@ class LuaPlugin(PluginSettings):
     def __init__(self, definition: LuaPluginDefinition) -> None:
         self.definition = definition
         super().__init__(self.definition.identifier, self.definition.enabled_by_default)
-        self.enabled = self.definition.enabled_by_default
 
     @property
     def name(self) -> str:
@@ -145,6 +144,10 @@ class LuaPlugin(PluginSettings):
     def options(self) -> List[LuaPluginOption]:
         return self.definition.options
 
+    @property
+    def enabled(self) -> bool:
+        return type(self.value) == bool and self.value
+
     @classmethod
     def from_json(cls, name: str, path: Path) -> Optional[LuaPlugin]:
         try:
@@ -154,10 +157,6 @@ class LuaPlugin(PluginSettings):
             return None
 
         return cls(definition)
-
-    def set_enabled(self, enabled: bool) -> None:
-        self.set_value(enabled)
-        self.enabled = enabled
 
     def set_settings(self, settings: Settings) -> None:
         super().set_settings(settings)
