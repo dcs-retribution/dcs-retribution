@@ -44,6 +44,7 @@ class DeadIngressBuilder(PydcsWaypointBuilder):
                 direction=math.radians(dir),
                 altitude=round(self.flight.coalition.doctrine.ingress_altitude.meters),
             )
+            task.params["altitudeEnabled"] = False
             waypoint.tasks.append(task)
 
         # Preemptively use ECM to better avoid getting swatted.
