@@ -1,7 +1,6 @@
 from __future__ import unicode_literals
 
 import logging
-import math
 from datetime import datetime, timedelta
 from typing import List
 
@@ -16,13 +15,11 @@ from PySide2.QtWidgets import (
     QWidget,
     QGridLayout,
     QScrollArea,
-    QSizePolicy,
 )
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from game.campaignloader.campaign import Campaign, DEFAULT_BUDGET
 from game.dcs.aircrafttype import AircraftType
-from game.dcs.unittype import UnitType
 from game.factions import FACTIONS, Faction
 from game.settings import Settings
 from game.theater.start_generator import GameGenerator, GeneratorSettings, ModSettings

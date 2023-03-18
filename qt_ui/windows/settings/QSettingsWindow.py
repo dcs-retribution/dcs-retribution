@@ -19,7 +19,6 @@ from PySide2.QtWidgets import (
     QStackedLayout,
     QVBoxLayout,
     QWidget,
-    QSizePolicy,
 )
 
 import qt_ui.uiconstants as CONST
