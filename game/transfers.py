@@ -630,6 +630,8 @@ class PendingTransfers:
                 continue
             size -= take
             transfer.units[unit_type] -= take
+            if not transfer.units[unit_type]:
+                to_delete.append(unit_type)
             units[unit_type] = take
         for td in to_delete:
             del transfer.units[td]
