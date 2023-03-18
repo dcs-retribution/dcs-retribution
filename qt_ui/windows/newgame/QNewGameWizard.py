@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 import logging
+from copy import deepcopy
 from datetime import datetime, timedelta
 from typing import List
 
@@ -463,18 +464,19 @@ class FactionSelection(QtWidgets.QWizardPage):
 
     @staticmethod
     def _filter_selected_units(qfu: QFactionUnits) -> Faction:
-        qfu.updateFactionUnits(qfu.faction.aircrafts)
-        qfu.updateFactionUnits(qfu.faction.awacs)
-        qfu.updateFactionUnits(qfu.faction.tankers)
-        qfu.updateFactionUnits(qfu.faction.frontline_units)
-        qfu.updateFactionUnits(qfu.faction.artillery_units)
-        qfu.updateFactionUnits(qfu.faction.logistics_units)
-        qfu.updateFactionUnits(qfu.faction.infantry_units)
-        qfu.updateFactionUnits(qfu.faction.preset_groups)
-        qfu.updateFactionUnits(qfu.faction.air_defense_units)
-        qfu.updateFactionUnits(qfu.faction.naval_units)
-        qfu.updateFactionUnits(qfu.faction.missiles)
-        return qfu.faction
+        fac = deepcopy(qfu.faction)
+        qfu.updateFactionUnits(fac.aircrafts)
+        qfu.updateFactionUnits(fac.awacs)
+        qfu.updateFactionUnits(fac.tankers)
+        qfu.updateFactionUnits(fac.frontline_units)
+        qfu.updateFactionUnits(fac.artillery_units)
+        qfu.updateFactionUnits(fac.logistics_units)
+        qfu.updateFactionUnits(fac.infantry_units)
+        qfu.updateFactionUnits(fac.preset_groups)
+        qfu.updateFactionUnits(fac.air_defense_units)
+        qfu.updateFactionUnits(fac.naval_units)
+        qfu.updateFactionUnits(fac.missiles)
+        return fac
 
     @property
     def selected_blue_faction(self) -> Faction:
