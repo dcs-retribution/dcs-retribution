@@ -1,4 +1,4 @@
-from PySide2.QtCore import Qt
+from PySide2.QtCore import Qt, QLocale
 from PySide2.QtWidgets import (
     QCheckBox,
     QGridLayout,
@@ -6,6 +6,8 @@ from PySide2.QtWidgets import (
     QLabel,
     QVBoxLayout,
     QWidget,
+    QDoubleSpinBox,
+    QSpinBox,
 )
 
 from game.plugins import LuaPlugin, LuaPluginManager
@@ -53,10 +55,24 @@ class PluginOptionsBox(QGroupBox):
         for row, option in enumerate(plugin.options):
             layout.addWidget(QLabel(option.name), row, 0)
 
-            checkbox = QCheckBox()
-            checkbox.setChecked(option.enabled)
-            checkbox.toggled.connect(option.set_enabled)
-            layout.addWidget(checkbox, row, 1)
+            val = option.value
+            if type(val) == bool:
+                checkbox = QCheckBox()
+                checkbox.setChecked(val)
+                checkbox.toggled.connect(option.set_value)
+                layout.addWidget(checkbox, row, 1)
+            elif type(val) == float or type(val) == int:
+                if type(val) == float:
+                    spinbox = QDoubleSpinBox()
+                    spinbox.setSingleStep(0.01)
+                    spinbox.setLocale(QLocale.English)
+                else:
+                    spinbox = QSpinBox()
+                spinbox.setMinimum(option.min)
+                spinbox.setMaximum(option.max)
+                spinbox.setValue(val)
+                spinbox.valueChanged.connect(option.set_value)
+                layout.addWidget(spinbox, row, 1)
 
 
 class PluginOptionsPage(QWidget):

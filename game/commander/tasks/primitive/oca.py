@@ -24,7 +24,8 @@ class PlanOcaStrike(PackagePlanningTask[ControlPoint]):
         state.oca_targets.remove(self.target)
 
     def propose_flights(self) -> None:
-        self.propose_flight(FlightType.OCA_RUNWAY, randint(2, 4))
+        size = self.get_flight_size()
+        self.propose_flight(FlightType.OCA_RUNWAY, size)
         if self.aircraft_cold_start:
             self.propose_flight(FlightType.OCA_AIRCRAFT, 2)
         self.propose_common_escorts()

@@ -118,8 +118,10 @@ class AircraftGenerator:
                     )
                     self.unit_map.add_aircraft(group, flight)
             if (
-                package.primary_task == FlightType.STRIKE
-                and package.primary_flight is not None
+                package.primary_flight is not None
+                and package.primary_flight.flight_plan.is_formation(
+                    package.primary_flight.flight_plan
+                )
             ):
                 splittrigger = TriggerOnce(Event.NoEvent, f"Split-{id(package)}")
                 splittrigger.add_condition(FlagIsTrue(flag=f"split-{id(package)}"))

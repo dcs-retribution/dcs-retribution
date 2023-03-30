@@ -6,7 +6,7 @@ from dcs.mapping import Point
 
 if TYPE_CHECKING:
     from game.ato.flighttype import FlightType
-    from game.theater import TheaterUnit
+    from game.theater import TheaterUnit, Coalition
 
 
 class MissionTarget:
@@ -47,3 +47,7 @@ class MissionTarget:
     @property
     def strike_targets(self) -> list[TheaterUnit]:
         return []
+
+    @property
+    def coalition(self) -> Coalition:
+        raise NotImplementedError

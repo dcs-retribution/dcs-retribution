@@ -36,6 +36,7 @@ CAMPAIGN_MANAGEMENT_PAGE = "Campaign Management"
 GENERAL_SECTION = "General"
 PILOTS_AND_SQUADRONS_SECTION = "Pilots and Squadrons"
 HQ_AUTOMATION_SECTION = "HQ Automation"
+FLIGHT_PLANNER_AUTOMATION = "Flight Planner Automation"
 
 MISSION_GENERATOR_PAGE = "Mission Generator"
 
@@ -286,7 +287,64 @@ class Settings:
             "spend its budget."
         ),
     )
-    reserves_procurement_target: int = 10
+    frontline_reserves_factor: int = bounded_int_option(
+        "AI ground unit front-line reserves factor (%)",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        HQ_AUTOMATION_SECTION,
+        min=0,
+        max=1000,
+        default=130,
+        detail=(
+            "Factor to be multiplied with the control point's unit count limit "
+            "to calculate the procurement target for reserve troops at front-lines."
+        ),
+    )
+    reserves_procurement_target: int = bounded_int_option(
+        "AI ground unit reserves procurement target",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        HQ_AUTOMATION_SECTION,
+        min=0,
+        max=1000,
+        default=10,
+        detail=(
+            "The number of units that will be bought as reserves for applicable control points"
+        ),
+    )
+
+    # Flight Planner Automation
+    #: The weight used for 2-ships.
+    fpa_2ship_weight: int = bounded_int_option(
+        "2-ship weight factor (WF2)",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        FLIGHT_PLANNER_AUTOMATION,
+        default=50,
+        min=0,
+        max=100,
+        detail=(
+            "Used as a distribution to randomize 2/3/4-ships for BARCAP, CAS, OCA & ANTI-SHIP flights. "
+            "The weight W_i is calculated according to the following formula: &#10;&#13;"
+            "W_i = WF_i / (WF2 + WF3 + WF4)"
+        ),
+    )
+    #: The weight used for 3-ships.
+    fpa_3ship_weight: int = bounded_int_option(
+        "3-ship weight factor (WF3)",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        FLIGHT_PLANNER_AUTOMATION,
+        default=35,
+        min=0,
+        max=100,
+        detail="See 2-ship weight factor (WF2)",
+    )
+    fpa_4ship_weight: int = bounded_int_option(
+        "4-ship weight factor (WF4)",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        FLIGHT_PLANNER_AUTOMATION,
+        default=15,
+        min=0,
+        max=100,
+        detail="See 2-ship weight factor (WF2)",
+    )
 
     # Mission Generator
     # Gameplay
@@ -602,17 +660,17 @@ class Settings:
     def plugin_settings_key(identifier: str) -> str:
         return f"plugins.{identifier}"
 
-    def initialize_plugin_option(self, identifier: str, default_value: bool) -> None:
+    def initialize_plugin_option(self, identifier: str, default_value: Any) -> None:
         try:
             self.plugin_option(identifier)
         except KeyError:
             self.set_plugin_option(identifier, default_value)
 
-    def plugin_option(self, identifier: str) -> bool:
+    def plugin_option(self, identifier: str) -> Any:
         return self.plugins[self.plugin_settings_key(identifier)]
 
-    def set_plugin_option(self, identifier: str, enabled: bool) -> None:
-        self.plugins[self.plugin_settings_key(identifier)] = enabled
+    def set_plugin_option(self, identifier: str, value: Any) -> None:
+        self.plugins[self.plugin_settings_key(identifier)] = value
 
     def __setstate__(self, state: dict[str, Any]) -> None:
         # __setstate__ is called with the dict of the object being unpickled. We

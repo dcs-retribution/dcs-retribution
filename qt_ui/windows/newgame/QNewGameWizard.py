@@ -106,6 +106,7 @@ class NewGameWizard(QtWidgets.QWizard):
         self.addPage(self.faction_selection_page)
         self.addPage(GeneratorOptions())
         self.difficulty_page = DifficultyAndAutomationOptions()
+        self.difficulty_page.set_campaign_values(self.campaigns[0])
 
         # Update difficulty page on campaign select
         self.theater_page.campaign_selected.connect(

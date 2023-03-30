@@ -22,8 +22,13 @@
 * **[UI]** Configurable ICLS for capable Carriers & LHAs.
 * **[UI]** Configurable LINK4 for Carriers.
 * **[Kneeboard]** Show package information in Support page
+* **[Kneeboard]** Show extra weather information on 'Mission info' page
+* **[Kneeboard]** Show BRC in 'RWY' column for aircraft carriers on 'Mission info' page
 * **[Campaign Design]** Ability to define designated CTLD zones for Control Points (Airbases & FOBs/FARPs)
 * **[Campaign Design]** Ability to define preset groups for specific TGOs, given the preset group is accessible for the faction and the task matches.
+* **[Campaign Management]** Additional options for automated budget management.
+* **[Campaign Management]** New options to allow more control of randomized flight sizes (applicable for BARCAP/CAS/OCA/ANTI-SHIP).
+* **[Plugins]** Updated Splash Damage script to v2.0 by RotorOps.
 
 ## Fixes
 * **[UI]** Removed deprecated options
@@ -32,6 +37,7 @@
 * **[Mission Generation]** Use stacking algorithm to create vertical separation between flights spawning mid-mission over their departure, usually resulting into mid-air collisions.
 * **[Mission Generation]** Fixed all callsigns being "Enfield 1-1" on dedicated servers.
 * **[Mission Generation]** Fixed AI ferry flights for helicopters when transferring to a FOB/FARP.
+* **[Mission Generation]** Fixed 'Uninitialized flight' exception when adding flights after aborted take-off.
 
 # Retribution 1.0.1 (hotfix)
 * **[Mission Generation]** Fix serialization issue when STRIKE flight has no escorts

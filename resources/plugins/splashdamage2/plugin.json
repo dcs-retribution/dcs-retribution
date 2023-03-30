@@ -1,0 +1,54 @@
+{
+    "nameInUI": "Splash Damage 2.0 by RotorOps",
+    "defaultValue": false,
+    "specificOptions": [
+        {
+            "nameInUI": "Enable wave explosions",
+            "mnemonic": "wave_explosions",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "Enable damage model",
+            "mnemonic": "damage_model",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "Enable debug messages",
+            "mnemonic": "debug",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "Overall damage multiplier",
+            "mnemonic": "explTable_multiplier",
+            "minimumValue": 0.1,
+            "maximumValue": 2.5,
+            "defaultValue": 1.0
+        },
+        {
+            "nameInUI": "Static damage boost for wave explosions",
+            "mnemonic": "static_damage_boost",
+            "minimumValue": 500,
+            "maximumValue": 5000,
+            "defaultValue": 1000
+        },
+        {
+            "nameInUI": "Maximum blast radius",
+            "mnemonic": "blast_search_radius",
+            "minimumValue": 10,
+            "maximumValue": 1000,
+            "defaultValue": 100
+        }
+    ],
+    "scriptsWorkOrders": [
+        {
+            "file": "Splash_Damage_2_0.lua",
+            "mnemonic": "Splash Damage 2"
+        }
+    ],
+    "configurationWorkOrders": [
+        {
+            "file": "sd2-config.lua",
+            "mnemonic": "sd2-config"
+        }
+    ]
+}

@@ -2,7 +2,7 @@ local unitPayloads = {
 	["name"] = "F-14A",
 	["payloads"] = {
 		[1] = {
-			["name"] = "CAP",
+			["name"] = "Retribution DEAD",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{LAU-138 wtip - AIM-9M}",
@@ -29,24 +29,24 @@ local unitPayloads = {
 					["num"] = 3,
 				},
 				[7] = {
-					["CLSID"] = "{AIM_54C_Mk47}",
+					["CLSID"] = "{MAK79_MK20 2R}",
 					["num"] = 7,
 				},
 				[8] = {
-					["CLSID"] = "{AIM_54C_Mk47}",
-					["num"] = 4,
-				},
-				[9] = {
-					["CLSID"] = "{AIM_54C_Mk47}",
+					["CLSID"] = "{BRU-32 MK-20}",
 					["num"] = 6,
 				},
-				[10] = {
-					["CLSID"] = "{AIM_54C_Mk47}",
+				[9] = {
+					["CLSID"] = "{BRU-32 MK-20}",
 					["num"] = 5,
+				},
+				[10] = {
+					["CLSID"] = "{MAK79_MK20 2L}",
+					["num"] = 4,
 				},
 			},
 			["tasks"] = {
-				[1] = 10,
+				[1] = 31,
 			},
 		},
 		[2] = {
@@ -146,6 +146,54 @@ local unitPayloads = {
 			},
 		},
 		[4] = {
+			["name"] = "CAP",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{LAU-138 wtip - AIM-9M}",
+					["num"] = 10,
+				},
+				[2] = {
+					["CLSID"] = "{LAU-138 wtip - AIM-9M}",
+					["num"] = 1,
+				},
+				[3] = {
+					["CLSID"] = "{SHOULDER AIM_54C_Mk47 L}",
+					["num"] = 2,
+				},
+				[4] = {
+					["CLSID"] = "{SHOULDER AIM_54C_Mk47 R}",
+					["num"] = 9,
+				},
+				[5] = {
+					["CLSID"] = "{F14-300gal}",
+					["num"] = 8,
+				},
+				[6] = {
+					["CLSID"] = "{F14-300gal}",
+					["num"] = 3,
+				},
+				[7] = {
+					["CLSID"] = "{AIM_54C_Mk47}",
+					["num"] = 7,
+				},
+				[8] = {
+					["CLSID"] = "{AIM_54C_Mk47}",
+					["num"] = 4,
+				},
+				[9] = {
+					["CLSID"] = "{AIM_54C_Mk47}",
+					["num"] = 6,
+				},
+				[10] = {
+					["CLSID"] = "{AIM_54C_Mk47}",
+					["num"] = 5,
+				},
+			},
+			["tasks"] = {
+				[1] = 10,
+			},
+		},
+		[5] = {
 			["name"] = "BAI",
 			["pylons"] = {
 				[1] = {
@@ -193,7 +241,7 @@ local unitPayloads = {
 				[1] = 10,
 			},
 		},
-		[5] = {
+		[6] = {
 			["name"] = "ANTISHIP",
 			["pylons"] = {
 				[1] = {
@@ -239,54 +287,6 @@ local unitPayloads = {
 			},
 			["tasks"] = {
 				[1] = 10,
-			},
-		},
-		[6] = {
-			["name"] = "Retribution DEAD",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{LAU-138 wtip - AIM-9M}",
-					["num"] = 10,
-				},
-				[2] = {
-					["CLSID"] = "{LAU-138 wtip - AIM-9M}",
-					["num"] = 1,
-				},
-				[3] = {
-					["CLSID"] = "{SHOULDER AIM_54C_Mk47 L}",
-					["num"] = 2,
-				},
-				[4] = {
-					["CLSID"] = "{SHOULDER AIM_54C_Mk47 R}",
-					["num"] = 9,
-				},
-				[5] = {
-					["CLSID"] = "{F14-300gal}",
-					["num"] = 8,
-				},
-				[6] = {
-					["CLSID"] = "{F14-300gal}",
-					["num"] = 3,
-				},
-				[7] = {
-					["CLSID"] = "{MAK79_MK82 4}",
-					["num"] = 7,
-				},
-				[8] = {
-					["CLSID"] = "{MAK79_MK82 3R}",
-					["num"] = 6,
-				},
-				[9] = {
-					["CLSID"] = "{MAK79_MK82 3L}",
-					["num"] = 5,
-				},
-				[10] = {
-					["CLSID"] = "{MAK79_MK82 4}",
-					["num"] = 4,
-				},
-			},
-			["tasks"] = {
-				[1] = 31,
 			},
 		},
 		[7] = {

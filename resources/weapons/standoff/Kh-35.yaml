@@ -1,0 +1,6 @@
+name: Kh-35
+year: 2003
+fallback: Kh-31A
+clsids:
+  - "{2234F529-1D57-4496-8BB0-0150F9BDBBD2}"
+  - "{2234F529-1D57-4496-8BB0-0150F9BDBBD3}"

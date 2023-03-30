@@ -424,7 +424,7 @@ class Faction:
             self.remove_preset("SA-20B/S-300PMU-2")
             self.remove_preset("SA-23/S-300VM")
             self.remove_preset("SA-17")
-            self.remove_preset("KS-19")
+            self.remove_preset("KS-19_HDS")
             self.remove_preset("HQ-2")
             self.remove_preset("SA-2/S-75 V-759/5V23")
             self.remove_preset("SA-3/S-125 V-601P/5V27")

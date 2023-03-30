@@ -27,7 +27,7 @@ if TYPE_CHECKING:
     from game.ato.flighttype import FlightType
     from game.threatzones import ThreatPoly
     from .theatergroup import TheaterUnit, TheaterGroup
-    from .controlpoint import ControlPoint
+    from .controlpoint import ControlPoint, Coalition
 
 
 NAME_BY_CATEGORY = {
@@ -274,6 +274,10 @@ class TheaterGroundObject(MissionTarget, SidcDescribable, ABC):
     @property
     def is_iads(self) -> bool:
         return False
+
+    @property
+    def coalition(self) -> Coalition:
+        return self.control_point.coalition
 
 
 class BuildingGroundObject(TheaterGroundObject):

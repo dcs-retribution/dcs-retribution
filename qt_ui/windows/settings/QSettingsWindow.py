@@ -19,6 +19,7 @@ from PySide2.QtWidgets import (
     QStackedLayout,
     QVBoxLayout,
     QWidget,
+    QSizePolicy,
 )
 
 import qt_ui.uiconstants as CONST
@@ -232,11 +233,9 @@ class AutoSettingsPageLayout(QVBoxLayout):
         self.setAlignment(Qt.AlignTop)
 
         for section in Settings.sections(page):
-            gbox = AutoSettingsGroup(page, section, settings, write_full_settings)
-            scroll = QScrollArea()
-            scroll.setWidget(gbox)
-            scroll.setWidgetResizable(True)
-            self.addWidget(scroll)
+            self.addWidget(
+                AutoSettingsGroup(page, section, settings, write_full_settings)
+            )
 
 
 class AutoSettingsPage(QWidget):
@@ -265,7 +264,7 @@ class QSettingsWindow(QDialog):
         self.setModal(True)
         self.setWindowTitle("Settings")
         self.setWindowIcon(CONST.ICONS["Settings"])
-        self.setMinimumSize(600, 250)
+        self.setMinimumSize(840, 480)
 
         self.initUi()
 
@@ -290,7 +289,10 @@ class QSettingsWindow(QDialog):
             page_item.setEditable(False)
             page_item.setSelectable(True)
             self.categoryModel.appendRow(page_item)
-            self.right_layout.addWidget(page)
+            scroll = QScrollArea()
+            scroll.setWidget(page)
+            scroll.setWidgetResizable(True)
+            self.right_layout.addWidget(scroll)
 
         self.initCheatLayout()
         cheat = QStandardItem("Cheat Menu")
@@ -314,7 +316,10 @@ class QSettingsWindow(QDialog):
         pluginsOptions.setEditable(False)
         pluginsOptions.setSelectable(True)
         self.categoryModel.appendRow(pluginsOptions)
-        self.right_layout.addWidget(self.pluginsOptionsPage)
+        scroll = QScrollArea()
+        scroll.setWidget(self.pluginsOptionsPage)
+        scroll.setWidgetResizable(True)
+        self.right_layout.addWidget(scroll)
 
         self.categoryList.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.categoryList.setModel(self.categoryModel)
