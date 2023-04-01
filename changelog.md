@@ -1,3 +1,12 @@
+# Retribution 1.1.1  (hotfix)
+
+## Features/Improvements
+* **[Modding]** Support for IDF Mod Project F-16I Sufa & F-16D v3.6 mod
+
+## Fixes
+* **[Plugins]** Fix bug where changes to plugin options doesn't do anything.
+* **[Campaign Management]** Fix bug in procurement when no squadrons are present.
+
 # Retribution 1.1.0
 
 ## Features/Improvements
