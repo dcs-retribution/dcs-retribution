@@ -1,4 +1,11 @@
-# Retribution 1.1.1  (hotfix)
+# Retribution v1.2.0
+
+## Features/Improvements
+
+## Fixes
+
+
+# Retribution v1.1.1  (hotfix)
 
 ## Features/Improvements
 * **[Modding]** Support for IDF Mod Project F-16I Sufa & F-16D v3.6 mod
@@ -7,7 +14,7 @@
 * **[Plugins]** Fix bug where changes to plugin options doesn't do anything.
 * **[Campaign Management]** Fix bug in procurement when no squadrons are present.
 
-# Retribution 1.1.0
+# Retribution v1.1.0
 
 ## Features/Improvements
 * **[Mission Generation]** Given a CAS flight was planned, delay ground force attack until first CAS flight is on station
@@ -55,10 +62,10 @@
 * **[Mission Generation]** Aircraft not using decoys during SEAD.
 * **[Campaign]** New campaign (1968 Yankee Station) by Adecarcer
 
-# Retribution 1.0.1 (hotfix)
+# Retribution v1.0.1 (hotfix)
 * **[Mission Generation]** Fix serialization issue when STRIKE flight has no escorts
 
-# Retribution 1.0.0
+# Retribution v1.0.0
 
 ## Features/Improvements
 * **[Engine]** Support for DCS v2.8.1.34437.
