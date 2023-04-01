@@ -146,7 +146,7 @@ class LuaPlugin(PluginSettings):
 
     @property
     def enabled(self) -> bool:
-        return type(self.value) == bool and self.value
+        return type(self.get_value) == bool and self.get_value
 
     @classmethod
     def from_json(cls, name: str, path: Path) -> Optional[LuaPlugin]:
@@ -172,7 +172,7 @@ class LuaPlugin(PluginSettings):
         if self.options:
             option_decls = []
             for option in self.options:
-                value = str(option.value).lower()
+                value = str(option.get_value).lower()
                 name = option.identifier
                 option_decls.append(f"    dcsRetribution.plugins.{name} = {value}")
 
