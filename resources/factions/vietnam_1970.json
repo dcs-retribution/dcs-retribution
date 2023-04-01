@@ -40,6 +40,7 @@
   ],
   "preset_groups": [
     "SA-2/S-75",
+    "SA-2/S-75 with AAA",
     "HQ-2",
 	"Cold-War-Flak"
   ],
