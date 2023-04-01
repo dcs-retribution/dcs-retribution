@@ -2,6 +2,7 @@
 
 ## Features/Improvements
 * **[Modding]** Support for IDF Mod Project F-16I Sufa & F-16D v3.6 mod
+* **[Modding]** Support for JAS-39 Gripen v1.8.5-beta mod
 
 ## Fixes
 * **[Plugins]** Fix bug where changes to plugin options doesn't do anything.

@@ -144,7 +144,7 @@ from pydcs_extensions.f4b.f4b import VSN_F4B, VSN_F4C
 from pydcs_extensions.f84g.f84g import VSN_F84G
 from pydcs_extensions.fa18efg.fa18efg import FA_18E, FA_18F, EA_18G
 from pydcs_extensions.hercules.hercules import Hercules
-from pydcs_extensions.jas39.jas39 import JAS39Gripen, JAS39Gripen_AG
+from pydcs_extensions.jas39.jas39 import JAS39Gripen, JAS39Gripen_BVR, JAS39Gripen_AG
 from pydcs_extensions.su30.su30 import Su_30MKA, Su_30MKI, Su_30MKM, Su_30SM
 from pydcs_extensions.su57.su57 import Su_57
 from pydcs_extensions.ov10a.ov10a import Bronco_OV_10A
@@ -187,6 +187,7 @@ ESCORT_CAPABLE = [
     FA_18F,
     FA_18C_hornet,
     JF_17,
+    JAS39Gripen_BVR,
     JAS39Gripen,
     F_16A_MLU,
     F_16A,

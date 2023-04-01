@@ -865,7 +865,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("Frenchpack", frenchpack),
             ("High Digit SAMs", high_digit_sams),
             ("Swedish Military Assets pack (1.10)", swedishmilitaryassetspack),
-            ("JAS 39 Gripen (v1.8.0-beta)", jas39_gripen),
+            ("JAS 39 Gripen (v1.8.5-beta)", jas39_gripen),
             ("OV-10A Bronco", ov10a_bronco),
             ("Su-30 Flanker-H (V2.01B)", su30_flanker_h),
             ("Su-57 Felon", su57_felon),
