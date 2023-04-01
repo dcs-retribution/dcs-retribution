@@ -1,18 +1,13 @@
-import os
-from pathlib import Path
 from typing import Dict, List, Set, Any
 
-from PySide2.QtGui import QPixmap
 from dcs import task
 from dcs.liveries_scanner import Liveries
 from dcs.planes import F_16C_50, PlaneType
-from dcs.unittype import FlyingType
 from dcs.weapons_data import Weapons
 
 from game.modsupport import planemod
 from pydcs_extensions.pylon_injector import inject_pylon
 from pydcs_extensions.weapon_injector import inject_weapons
-from qt_ui.uiconstants import AIRCRAFT_ICONS, AIRCRAFT_BANNERS
 
 
 class WeaponsF16I:
@@ -196,6 +191,111 @@ class WeaponsF16I:
         "name": "Python-5 Training",
         "weight": 105,
     }
+    Pylon_3_4_GBU_10___2000lb_Laser_Guided_Bomb = {
+        "clsid": "{BRUL657_2*GBU-10}",
+        "name": "Pylon 3,4 GBU-10 - 2000lb Laser Guided Bomb",
+        "weight": 1868,
+    }
+    Pylon_3_4_GBU_12___500lb_Laser_Guided_Bomb = {
+        "clsid": "{BRUL657_2*GBU-12}",
+        "name": "Pylon 3,4 GBU-12 - 500lb Laser Guided Bomb",
+        "weight": 554,
+    }
+    Pylon_3_4_GBU_31 = {
+        "clsid": "{BRUL657_2*GBU-31}",
+        "name": "Pylon 3,4 GBU-31",
+        "weight": 1868,
+    }
+    Pylon_3_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = {
+        "clsid": "{BRUL657_2*GBU-31V}",
+        "name": "Pylon 3,4 GBU-31(V)3/B - JDAM, 2000lb GPS Guided Bomb",
+        "weight": 1962,
+    }
+    Pylon_3_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb = {
+        "clsid": "{BRUL557_2*GBU-38}",
+        "name": "Pylon 3,4 GBU-38 - JDAM, 500lb GPS Guided Bomb",
+        "weight": 482,
+    }
+    Pylon_3_4_Mk_82___500lb_GP_Bomb_LD = {
+        "clsid": "{BRUL657_2*MK-82}",
+        "name": "Pylon 3,4 Mk-82 - 500lb GP Bomb LD",
+        "weight": 456,
+    }
+    Pylon_3_4_Mk_84___2000lb_GP_Bomb_LD = {
+        "clsid": "{BRUL657_2*MK-84}",
+        "name": "Pylon 3,4 Mk-84 - 2000lb GP Bomb LD",
+        "weight": 1962,
+    }
+    Pylon_4_GBU_31 = {
+        "clsid": "{BRUL657_1*GBU-31}",
+        "name": "Pylon 4 GBU-31",
+        "weight": 934,
+    }
+    Pylon_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = {
+        "clsid": "{BRUL657_1*GBU-31V}",
+        "name": "Pylon 4 GBU-31(V)3/B - JDAM, 2000lb GPS Guided Bomb",
+        "weight": 981,
+    }
+    Pylon_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb = {
+        "clsid": "{BRUL657_1*GBU-38}",
+        "name": "Pylon 4 GBU-38 - JDAM, 500lb GPS Guided Bomb",
+        "weight": 241,
+    }
+    Pylon_6_7_GBU_10___2000lb_Laser_Guided_Bomb = {
+        "clsid": "{BRUR657_2*GBU-10}",
+        "name": "Pylon 6,7 GBU-10 - 2000lb Laser Guided Bomb",
+        "weight": 1868,
+    }
+    Pylon_6_7_GBU_12___500lb_Laser_Guided_Bomb = {
+        "clsid": "{BRUR657_2*GBU-12}",
+        "name": "Pylon 6,7 GBU-12 - 500lb Laser Guided Bomb",
+        "weight": 554,
+    }
+    Pylon_6_7_GBU_31 = {
+        "clsid": "{BRUR657_2*GBU-31}",
+        "name": "Pylon 6,7 GBU-31",
+        "weight": 1868,
+    }
+    Pylon_6_7_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = {
+        "clsid": "{BRUR657_2*GBU-31V}",
+        "name": "Pylon 6,7 GBU-31(V)3/B - JDAM, 2000lb GPS Guided Bomb",
+        "weight": 1962,
+    }
+    Pylon_6_7_GBU_38___JDAM__500lb_GPS_Guided_Bomb = {
+        "clsid": "{BRUR557_2*GBU-38}",
+        "name": "Pylon 6,7 GBU-38 - JDAM, 500lb GPS Guided Bomb",
+        "weight": 482,
+    }
+    Pylon_6_7_Mk_82___500lb_GP_Bomb_LD = {
+        "clsid": "{BRUR657_2*MK-82}",
+        "name": "Pylon 6,7 Mk-82 - 500lb GP Bomb LD",
+        "weight": 456,
+    }
+    Pylon_6_7_Mk_84___2000lb_GP_Bomb_LD = {
+        "clsid": "{BRUR657_2*MK-84}",
+        "name": "Pylon 6,7 Mk-84 - 2000lb GP Bomb LD",
+        "weight": 1962,
+    }
+    Pylon_6_GBU_31 = {
+        "clsid": "{BRUR657_1*GBU-31}",
+        "name": "Pylon 6 GBU-31",
+        "weight": 934,
+    }
+    Pylon_6_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = {
+        "clsid": "{BRUR657_1*GBU-31V}",
+        "name": "Pylon 6 GBU-31(V)3/B - JDAM, 2000lb GPS Guided Bomb",
+        "weight": 981,
+    }
+    Pylon_6_GBU_38___JDAM__500lb_GPS_Guided_Bomb = {
+        "clsid": "{BRUR657_1*GBU-38}",
+        "name": "Pylon 6 GBU-38 - JDAM, 500lb GPS Guided Bomb",
+        "weight": 241,
+    }
+    Fuel_tank_300_gal_Empty = {
+        "clsid": "{IDF Mods Project 300gal Empty}",
+        "name": "Fuel tank 300 gal Empty",
+        "weight": 226,
+    }
 
 
 class F16IDFPylon4:
@@ -278,8 +378,6 @@ inject_weapons(WeaponsF16I)
 
 
 def inject_F16I() -> None:
-    from qt_ui.main import inject_mod_payloads, THIS_DIR
-
     F_16C_50.pylons = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17}
 
     # Injects modified weapons from the IDF Mods Project F-16I Sufa
@@ -570,10 +668,6 @@ class F_16D_52(PlaneType):
             Weapons.BRU_57_with_2_x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         AGM_154A___JSOW_CEB__CBU_type_ = (3, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
-        BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
-            3,
-            Weapons.BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
-        )
         MXU_648_TP = (3, Weapons.MXU_648_TP)
         ALQ_184 = (3, Weapons.ALQ_184)
         ALQ_184_Long = (3, Weapons.ALQ_184_Long)
@@ -608,6 +702,40 @@ class F_16D_52(PlaneType):
             Weapons.LAU_88_with_2_x_AGM_65D___Maverick_D__IIR_ASM_,
         )
         LAU_88_AGM_65H_2_L = (3, Weapons.LAU_88_AGM_65H_2_L)
+        Pylon_3_4_Mk_82___500lb_GP_Bomb_LD = (
+            3,
+            WeaponsF16I.Pylon_3_4_Mk_82___500lb_GP_Bomb_LD,
+        )
+        Pylon_3_4_Mk_84___2000lb_GP_Bomb_LD = (
+            3,
+            WeaponsF16I.Pylon_3_4_Mk_84___2000lb_GP_Bomb_LD,
+        )
+        Pylon_3_4_GBU_31 = (3, WeaponsF16I.Pylon_3_4_GBU_31)
+        Pylon_3_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
+        Pylon_3_4_GBU_12___500lb_Laser_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_12___500lb_Laser_Guided_Bomb,
+        )
+        Pylon_3_4_GBU_10___2000lb_Laser_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_10___2000lb_Laser_Guided_Bomb,
+        )
+        Pylon_3_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_4_GBU_31 = (3, WeaponsF16I.Pylon_4_GBU_31)
+        Pylon_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
 
     class Pylon4:
         LAU3_WP156 = (4, Weapons.LAU3_WP156)
@@ -724,7 +852,8 @@ class F_16D_52(PlaneType):
         )
 
     class Pylon5:
-        Fuel_tank_300_gal__ = (5, WeaponsF16I.Fuel_tank_300_gal__)
+        Fuel_tank_300_gal = (5, Weapons.Fuel_tank_300_gal)
+        Fuel_tank_300_gal_Empty = (5, WeaponsF16I.Fuel_tank_300_gal_Empty)
         MXU_648_TP = (5, Weapons.MXU_648_TP)
         ALQ_184 = (5, Weapons.ALQ_184)
         ALQ_184_Long = (5, Weapons.ALQ_184_Long)
@@ -970,10 +1099,6 @@ class F_16D_52(PlaneType):
             Weapons.BRU_57_with_2_x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         AGM_154A___JSOW_CEB__CBU_type_ = (7, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
-        BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
-            7,
-            Weapons.BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
-        )
         MXU_648_TP = (7, Weapons.MXU_648_TP)
         ALQ_184 = (7, Weapons.ALQ_184)
         ALQ_184_Long = (7, Weapons.ALQ_184_Long)
@@ -1008,6 +1133,40 @@ class F_16D_52(PlaneType):
             Weapons.LAU_88_with_2_x_AGM_65D___Maverick_D__IIR_ASM__,
         )
         LAU_88_AGM_65H_2_R = (7, Weapons.LAU_88_AGM_65H_2_R)
+        Pylon_6_7_Mk_82___500lb_GP_Bomb_LD = (
+            7,
+            WeaponsF16I.Pylon_6_7_Mk_82___500lb_GP_Bomb_LD,
+        )
+        Pylon_6_7_Mk_84___2000lb_GP_Bomb_LD = (
+            7,
+            WeaponsF16I.Pylon_6_7_Mk_84___2000lb_GP_Bomb_LD,
+        )
+        Pylon_6_7_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
+        Pylon_6_7_GBU_31 = (7, WeaponsF16I.Pylon_6_7_GBU_31)
+        Pylon_6_7_GBU_12___500lb_Laser_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_12___500lb_Laser_Guided_Bomb,
+        )
+        Pylon_6_7_GBU_10___2000lb_Laser_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_10___2000lb_Laser_Guided_Bomb,
+        )
+        Pylon_6_7_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_6_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_6_GBU_31 = (7, WeaponsF16I.Pylon_6_GBU_31)
+        Pylon_6_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
 
     class Pylon8:
         AIM_9M_Sidewinder_IR_AAM = (8, Weapons.AIM_9M_Sidewinder_IR_AAM)
@@ -1379,10 +1538,6 @@ class F_16D_50(PlaneType):
             Weapons.BRU_57_with_2_x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         AGM_154A___JSOW_CEB__CBU_type_ = (3, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
-        BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
-            3,
-            Weapons.BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
-        )
         MXU_648_TP = (3, Weapons.MXU_648_TP)
         ALQ_184 = (3, Weapons.ALQ_184)
         ALQ_184_Long = (3, Weapons.ALQ_184_Long)
@@ -1417,6 +1572,40 @@ class F_16D_50(PlaneType):
             Weapons.LAU_88_with_2_x_AGM_65D___Maverick_D__IIR_ASM_,
         )
         LAU_88_AGM_65H_2_L = (3, Weapons.LAU_88_AGM_65H_2_L)
+        Pylon_3_4_Mk_82___500lb_GP_Bomb_LD = (
+            3,
+            WeaponsF16I.Pylon_3_4_Mk_82___500lb_GP_Bomb_LD,
+        )
+        Pylon_3_4_Mk_84___2000lb_GP_Bomb_LD = (
+            3,
+            WeaponsF16I.Pylon_3_4_Mk_84___2000lb_GP_Bomb_LD,
+        )
+        Pylon_3_4_GBU_31 = (3, WeaponsF16I.Pylon_3_4_GBU_31)
+        Pylon_3_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
+        Pylon_3_4_GBU_12___500lb_Laser_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_12___500lb_Laser_Guided_Bomb,
+        )
+        Pylon_3_4_GBU_10___2000lb_Laser_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_10___2000lb_Laser_Guided_Bomb,
+        )
+        Pylon_3_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_4_GBU_31 = (3, WeaponsF16I.Pylon_4_GBU_31)
+        Pylon_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
 
     class Pylon4:
         LAU3_WP156 = (4, Weapons.LAU3_WP156)
@@ -1533,7 +1722,8 @@ class F_16D_50(PlaneType):
         )
 
     class Pylon5:
-        Fuel_tank_300_gal__ = (5, WeaponsF16I.Fuel_tank_300_gal__)
+        Fuel_tank_300_gal = (5, Weapons.Fuel_tank_300_gal)
+        Fuel_tank_300_gal_Empty = (5, WeaponsF16I.Fuel_tank_300_gal_Empty)
         MXU_648_TP = (5, Weapons.MXU_648_TP)
         ALQ_184 = (5, Weapons.ALQ_184)
         ALQ_184_Long = (5, Weapons.ALQ_184_Long)
@@ -1779,10 +1969,6 @@ class F_16D_50(PlaneType):
             Weapons.BRU_57_with_2_x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         AGM_154A___JSOW_CEB__CBU_type_ = (7, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
-        BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
-            7,
-            Weapons.BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
-        )
         MXU_648_TP = (7, Weapons.MXU_648_TP)
         ALQ_184 = (7, Weapons.ALQ_184)
         ALQ_184_Long = (7, Weapons.ALQ_184_Long)
@@ -1817,6 +2003,40 @@ class F_16D_50(PlaneType):
             Weapons.LAU_88_with_2_x_AGM_65D___Maverick_D__IIR_ASM__,
         )
         LAU_88_AGM_65H_2_R = (7, Weapons.LAU_88_AGM_65H_2_R)
+        Pylon_6_7_Mk_82___500lb_GP_Bomb_LD = (
+            7,
+            WeaponsF16I.Pylon_6_7_Mk_82___500lb_GP_Bomb_LD,
+        )
+        Pylon_6_7_Mk_84___2000lb_GP_Bomb_LD = (
+            7,
+            WeaponsF16I.Pylon_6_7_Mk_84___2000lb_GP_Bomb_LD,
+        )
+        Pylon_6_7_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
+        Pylon_6_7_GBU_31 = (7, WeaponsF16I.Pylon_6_7_GBU_31)
+        Pylon_6_7_GBU_12___500lb_Laser_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_12___500lb_Laser_Guided_Bomb,
+        )
+        Pylon_6_7_GBU_10___2000lb_Laser_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_10___2000lb_Laser_Guided_Bomb,
+        )
+        Pylon_6_7_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_6_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_6_GBU_31 = (7, WeaponsF16I.Pylon_6_GBU_31)
+        Pylon_6_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
 
     class Pylon8:
         AIM_9M_Sidewinder_IR_AAM = (8, Weapons.AIM_9M_Sidewinder_IR_AAM)
@@ -2188,10 +2408,6 @@ class F_16D_52_NS(PlaneType):
             Weapons.BRU_57_with_2_x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         AGM_154A___JSOW_CEB__CBU_type_ = (3, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
-        BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
-            3,
-            Weapons.BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
-        )
         MXU_648_TP = (3, Weapons.MXU_648_TP)
         ALQ_184 = (3, Weapons.ALQ_184)
         ALQ_184_Long = (3, Weapons.ALQ_184_Long)
@@ -2226,6 +2442,40 @@ class F_16D_52_NS(PlaneType):
             Weapons.LAU_88_with_2_x_AGM_65D___Maverick_D__IIR_ASM_,
         )
         LAU_88_AGM_65H_2_L = (3, Weapons.LAU_88_AGM_65H_2_L)
+        Pylon_3_4_Mk_82___500lb_GP_Bomb_LD = (
+            3,
+            WeaponsF16I.Pylon_3_4_Mk_82___500lb_GP_Bomb_LD,
+        )
+        Pylon_3_4_Mk_84___2000lb_GP_Bomb_LD = (
+            3,
+            WeaponsF16I.Pylon_3_4_Mk_84___2000lb_GP_Bomb_LD,
+        )
+        Pylon_3_4_GBU_31 = (3, WeaponsF16I.Pylon_3_4_GBU_31)
+        Pylon_3_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
+        Pylon_3_4_GBU_12___500lb_Laser_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_12___500lb_Laser_Guided_Bomb,
+        )
+        Pylon_3_4_GBU_10___2000lb_Laser_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_10___2000lb_Laser_Guided_Bomb,
+        )
+        Pylon_3_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_4_GBU_31 = (3, WeaponsF16I.Pylon_4_GBU_31)
+        Pylon_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
 
     class Pylon4:
         LAU3_WP156 = (4, Weapons.LAU3_WP156)
@@ -2342,7 +2592,8 @@ class F_16D_52_NS(PlaneType):
         )
 
     class Pylon5:
-        Fuel_tank_300_gal__ = (5, WeaponsF16I.Fuel_tank_300_gal__)
+        Fuel_tank_300_gal = (5, Weapons.Fuel_tank_300_gal)
+        Fuel_tank_300_gal_Empty = (5, WeaponsF16I.Fuel_tank_300_gal_Empty)
         MXU_648_TP = (5, Weapons.MXU_648_TP)
         ALQ_184 = (5, Weapons.ALQ_184)
         ALQ_184_Long = (5, Weapons.ALQ_184_Long)
@@ -2588,10 +2839,6 @@ class F_16D_52_NS(PlaneType):
             Weapons.BRU_57_with_2_x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         AGM_154A___JSOW_CEB__CBU_type_ = (7, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
-        BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
-            7,
-            Weapons.BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
-        )
         MXU_648_TP = (7, Weapons.MXU_648_TP)
         ALQ_184 = (7, Weapons.ALQ_184)
         ALQ_184_Long = (7, Weapons.ALQ_184_Long)
@@ -2626,6 +2873,40 @@ class F_16D_52_NS(PlaneType):
             Weapons.LAU_88_with_2_x_AGM_65D___Maverick_D__IIR_ASM__,
         )
         LAU_88_AGM_65H_2_R = (7, Weapons.LAU_88_AGM_65H_2_R)
+        Pylon_6_7_Mk_82___500lb_GP_Bomb_LD = (
+            7,
+            WeaponsF16I.Pylon_6_7_Mk_82___500lb_GP_Bomb_LD,
+        )
+        Pylon_6_7_Mk_84___2000lb_GP_Bomb_LD = (
+            7,
+            WeaponsF16I.Pylon_6_7_Mk_84___2000lb_GP_Bomb_LD,
+        )
+        Pylon_6_7_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
+        Pylon_6_7_GBU_31 = (7, WeaponsF16I.Pylon_6_7_GBU_31)
+        Pylon_6_7_GBU_12___500lb_Laser_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_12___500lb_Laser_Guided_Bomb,
+        )
+        Pylon_6_7_GBU_10___2000lb_Laser_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_10___2000lb_Laser_Guided_Bomb,
+        )
+        Pylon_6_7_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_6_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_6_GBU_31 = (7, WeaponsF16I.Pylon_6_GBU_31)
+        Pylon_6_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
 
     class Pylon8:
         AIM_9M_Sidewinder_IR_AAM = (8, Weapons.AIM_9M_Sidewinder_IR_AAM)
@@ -2678,7 +2959,7 @@ class F_16D_52_NS(PlaneType):
         Smoke_Generator___orange_ = (12, Weapons.Smoke_Generator___orange_)
 
     class Pylon13:
-        ALQ_184_Long = (13, Weapons.ALQ_184_Long)
+        ALQ_184 = (13, Weapons.ALQ_184)
 
     class Pylon14:
         Crew_Ladder_No_CFT = (14, WeaponsF16I.Crew_Ladder_No_CFT)
@@ -2698,7 +2979,10 @@ class F_16D_52_NS(PlaneType):
             WeaponsF16I.Remove_Before_Flight_without_TGP_And_Lantirn,
         )
 
-    pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}
+    class Pylon16:
+        IDF_Mods_Project_F_16I_CFT = (16, WeaponsF16I.IDF_Mods_Project_F_16I_CFT)
+
+    pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}
 
     tasks = [
         task.CAP,
@@ -2993,10 +3277,6 @@ class F_16D_50_NS(PlaneType):
             Weapons.BRU_57_with_2_x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         AGM_154A___JSOW_CEB__CBU_type_ = (3, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
-        BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
-            3,
-            Weapons.BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
-        )
         MXU_648_TP = (3, Weapons.MXU_648_TP)
         ALQ_184 = (3, Weapons.ALQ_184)
         ALQ_184_Long = (3, Weapons.ALQ_184_Long)
@@ -3031,6 +3311,40 @@ class F_16D_50_NS(PlaneType):
             Weapons.LAU_88_with_2_x_AGM_65D___Maverick_D__IIR_ASM_,
         )
         LAU_88_AGM_65H_2_L = (3, Weapons.LAU_88_AGM_65H_2_L)
+        Pylon_3_4_Mk_82___500lb_GP_Bomb_LD = (
+            3,
+            WeaponsF16I.Pylon_3_4_Mk_82___500lb_GP_Bomb_LD,
+        )
+        Pylon_3_4_Mk_84___2000lb_GP_Bomb_LD = (
+            3,
+            WeaponsF16I.Pylon_3_4_Mk_84___2000lb_GP_Bomb_LD,
+        )
+        Pylon_3_4_GBU_31 = (3, WeaponsF16I.Pylon_3_4_GBU_31)
+        Pylon_3_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
+        Pylon_3_4_GBU_12___500lb_Laser_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_12___500lb_Laser_Guided_Bomb,
+        )
+        Pylon_3_4_GBU_10___2000lb_Laser_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_10___2000lb_Laser_Guided_Bomb,
+        )
+        Pylon_3_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_4_GBU_31 = (3, WeaponsF16I.Pylon_4_GBU_31)
+        Pylon_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
 
     class Pylon4:
         LAU3_WP156 = (4, Weapons.LAU3_WP156)
@@ -3147,7 +3461,8 @@ class F_16D_50_NS(PlaneType):
         )
 
     class Pylon5:
-        Fuel_tank_300_gal__ = (5, WeaponsF16I.Fuel_tank_300_gal__)
+        Fuel_tank_300_gal = (5, Weapons.Fuel_tank_300_gal)
+        Fuel_tank_300_gal_Empty = (5, WeaponsF16I.Fuel_tank_300_gal_Empty)
         MXU_648_TP = (5, Weapons.MXU_648_TP)
         ALQ_184 = (5, Weapons.ALQ_184)
         ALQ_184_Long = (5, Weapons.ALQ_184_Long)
@@ -3393,10 +3708,6 @@ class F_16D_50_NS(PlaneType):
             Weapons.BRU_57_with_2_x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         AGM_154A___JSOW_CEB__CBU_type_ = (7, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
-        BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
-            7,
-            Weapons.BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
-        )
         MXU_648_TP = (7, Weapons.MXU_648_TP)
         ALQ_184 = (7, Weapons.ALQ_184)
         ALQ_184_Long = (7, Weapons.ALQ_184_Long)
@@ -3431,6 +3742,40 @@ class F_16D_50_NS(PlaneType):
             Weapons.LAU_88_with_2_x_AGM_65D___Maverick_D__IIR_ASM__,
         )
         LAU_88_AGM_65H_2_R = (7, Weapons.LAU_88_AGM_65H_2_R)
+        Pylon_6_7_Mk_82___500lb_GP_Bomb_LD = (
+            7,
+            WeaponsF16I.Pylon_6_7_Mk_82___500lb_GP_Bomb_LD,
+        )
+        Pylon_6_7_Mk_84___2000lb_GP_Bomb_LD = (
+            7,
+            WeaponsF16I.Pylon_6_7_Mk_84___2000lb_GP_Bomb_LD,
+        )
+        Pylon_6_7_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
+        Pylon_6_7_GBU_31 = (7, WeaponsF16I.Pylon_6_7_GBU_31)
+        Pylon_6_7_GBU_12___500lb_Laser_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_12___500lb_Laser_Guided_Bomb,
+        )
+        Pylon_6_7_GBU_10___2000lb_Laser_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_10___2000lb_Laser_Guided_Bomb,
+        )
+        Pylon_6_7_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_6_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_6_GBU_31 = (7, WeaponsF16I.Pylon_6_GBU_31)
+        Pylon_6_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
 
     class Pylon8:
         AIM_9M_Sidewinder_IR_AAM = (8, Weapons.AIM_9M_Sidewinder_IR_AAM)
@@ -3483,7 +3828,7 @@ class F_16D_50_NS(PlaneType):
         Smoke_Generator___orange_ = (12, Weapons.Smoke_Generator___orange_)
 
     class Pylon13:
-        ALQ_184_Long = (13, Weapons.ALQ_184_Long)
+        ALQ_184 = (13, Weapons.ALQ_184)
 
     class Pylon14:
         Crew_Ladder_No_CFT = (14, WeaponsF16I.Crew_Ladder_No_CFT)
@@ -3503,7 +3848,10 @@ class F_16D_50_NS(PlaneType):
             WeaponsF16I.Remove_Before_Flight_without_TGP_And_Lantirn,
         )
 
-    pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}
+    class Pylon16:
+        IDF_Mods_Project_F_16I_CFT = (16, WeaponsF16I.IDF_Mods_Project_F_16I_CFT)
+
+    pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}
 
     tasks = [
         task.CAP,
@@ -3799,10 +4147,6 @@ class F_16D_Barak_40(PlaneType):
             Weapons.BRU_57_with_2_x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         AGM_154A___JSOW_CEB__CBU_type_ = (3, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
-        BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
-            3,
-            Weapons.BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
-        )
         MXU_648_TP = (3, Weapons.MXU_648_TP)
         ALQ_184 = (3, Weapons.ALQ_184)
         ALQ_184_Long = (3, Weapons.ALQ_184_Long)
@@ -3837,6 +4181,40 @@ class F_16D_Barak_40(PlaneType):
             Weapons.LAU_88_with_2_x_AGM_65D___Maverick_D__IIR_ASM_,
         )
         LAU_88_AGM_65H_2_L = (3, Weapons.LAU_88_AGM_65H_2_L)
+        Pylon_3_4_Mk_82___500lb_GP_Bomb_LD = (
+            3,
+            WeaponsF16I.Pylon_3_4_Mk_82___500lb_GP_Bomb_LD,
+        )
+        Pylon_3_4_Mk_84___2000lb_GP_Bomb_LD = (
+            3,
+            WeaponsF16I.Pylon_3_4_Mk_84___2000lb_GP_Bomb_LD,
+        )
+        Pylon_3_4_GBU_31 = (3, WeaponsF16I.Pylon_3_4_GBU_31)
+        Pylon_3_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
+        Pylon_3_4_GBU_12___500lb_Laser_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_12___500lb_Laser_Guided_Bomb,
+        )
+        Pylon_3_4_GBU_10___2000lb_Laser_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_10___2000lb_Laser_Guided_Bomb,
+        )
+        Pylon_3_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_4_GBU_31 = (3, WeaponsF16I.Pylon_4_GBU_31)
+        Pylon_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
 
     class Pylon4:
         LAU3_WP156 = (4, Weapons.LAU3_WP156)
@@ -3939,21 +4317,10 @@ class F_16D_Barak_40(PlaneType):
             4,
             Weapons.TER_9A_with_2_x_CBU_97___10_x_SFW_Cluster_Bomb,
         )
-        IDF_Mods_Project_F_16I_CFT_Fuel_Left_1500lb = (
-            4,
-            WeaponsF16I.IDF_Mods_Project_F_16I_CFT_Fuel_Left_1500lb,
-        )
-        IDF_Mods_Project_F_16I_CFT_Fuel_Left_1500lb__600Gal = (
-            4,
-            WeaponsF16I.IDF_Mods_Project_F_16I_CFT_Fuel_Left_1500lb__600Gal,
-        )
-        IDF_Mods_Project_F_16I_CFT_Fuel_Left_1500lb__370Gal = (
-            4,
-            WeaponsF16I.IDF_Mods_Project_F_16I_CFT_Fuel_Left_1500lb__370Gal,
-        )
 
     class Pylon5:
-        Fuel_tank_300_gal__ = (5, WeaponsF16I.Fuel_tank_300_gal__)
+        Fuel_tank_300_gal = (5, Weapons.Fuel_tank_300_gal)
+        Fuel_tank_300_gal_Empty = (5, WeaponsF16I.Fuel_tank_300_gal_Empty)
         MXU_648_TP = (5, Weapons.MXU_648_TP)
         ALQ_184 = (5, Weapons.ALQ_184)
         ALQ_184_Long = (5, Weapons.ALQ_184_Long)
@@ -4062,18 +4429,6 @@ class F_16D_Barak_40(PlaneType):
             6,
             Weapons.TER_9A_with_2_x_CBU_97___10_x_SFW_Cluster_Bomb_,
         )
-        IDF_Mods_Project_F_16I_CFT_Fuel_Right_1500lb = (
-            6,
-            WeaponsF16I.IDF_Mods_Project_F_16I_CFT_Fuel_Right_1500lb,
-        )
-        IDF_Mods_Project_F_16I_CFT_Fuel_Right_1500lb__370Gal = (
-            6,
-            WeaponsF16I.IDF_Mods_Project_F_16I_CFT_Fuel_Right_1500lb__370Gal,
-        )
-        IDF_Mods_Project_F_16I_CFT_Fuel_Right_1500lb__600Gal = (
-            6,
-            WeaponsF16I.IDF_Mods_Project_F_16I_CFT_Fuel_Right_1500lb__600Gal,
-        )
 
     class Pylon7:
         AIM_9M_Sidewinder_IR_AAM = (7, Weapons.AIM_9M_Sidewinder_IR_AAM)
@@ -4086,7 +4441,7 @@ class F_16D_Barak_40(PlaneType):
         )
         CATM_9M = (7, Weapons.CATM_9M)
         AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (7, Weapons.AN_ASQ_T50_TCTS_Pod___ACMI_Pod)
-        Python_5_Training = (1, WeaponsF16I.Python_5_Training)
+        # ERRR {Python-5 Training}
         LAU3_WP156 = (7, Weapons.LAU3_WP156)
         LAU3_WP1B = (7, Weapons.LAU3_WP1B)
         LAU3_WP61 = (7, Weapons.LAU3_WP61)
@@ -4200,10 +4555,6 @@ class F_16D_Barak_40(PlaneType):
             Weapons.BRU_57_with_2_x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         AGM_154A___JSOW_CEB__CBU_type_ = (7, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
-        BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
-            7,
-            Weapons.BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
-        )
         MXU_648_TP = (7, Weapons.MXU_648_TP)
         ALQ_184 = (7, Weapons.ALQ_184)
         ALQ_184_Long = (7, Weapons.ALQ_184_Long)
@@ -4238,6 +4589,40 @@ class F_16D_Barak_40(PlaneType):
             Weapons.LAU_88_with_2_x_AGM_65D___Maverick_D__IIR_ASM__,
         )
         LAU_88_AGM_65H_2_R = (7, Weapons.LAU_88_AGM_65H_2_R)
+        Pylon_6_7_Mk_82___500lb_GP_Bomb_LD = (
+            7,
+            WeaponsF16I.Pylon_6_7_Mk_82___500lb_GP_Bomb_LD,
+        )
+        Pylon_6_7_Mk_84___2000lb_GP_Bomb_LD = (
+            7,
+            WeaponsF16I.Pylon_6_7_Mk_84___2000lb_GP_Bomb_LD,
+        )
+        Pylon_6_7_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
+        Pylon_6_7_GBU_31 = (7, WeaponsF16I.Pylon_6_7_GBU_31)
+        Pylon_6_7_GBU_12___500lb_Laser_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_12___500lb_Laser_Guided_Bomb,
+        )
+        Pylon_6_7_GBU_10___2000lb_Laser_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_10___2000lb_Laser_Guided_Bomb,
+        )
+        Pylon_6_7_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_6_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_6_GBU_31 = (7, WeaponsF16I.Pylon_6_GBU_31)
+        Pylon_6_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
 
     class Pylon8:
         AIM_9M_Sidewinder_IR_AAM = (8, Weapons.AIM_9M_Sidewinder_IR_AAM)
@@ -4606,10 +4991,6 @@ class F_16D_Barak_30(PlaneType):
             Weapons.BRU_57_with_2_x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         AGM_154A___JSOW_CEB__CBU_type_ = (3, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
-        BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
-            3,
-            Weapons.BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
-        )
         MXU_648_TP = (3, Weapons.MXU_648_TP)
         ALQ_184 = (3, Weapons.ALQ_184)
         ALQ_184_Long = (3, Weapons.ALQ_184_Long)
@@ -4644,6 +5025,40 @@ class F_16D_Barak_30(PlaneType):
             Weapons.LAU_88_with_2_x_AGM_65D___Maverick_D__IIR_ASM_,
         )
         LAU_88_AGM_65H_2_L = (3, Weapons.LAU_88_AGM_65H_2_L)
+        Pylon_3_4_Mk_82___500lb_GP_Bomb_LD = (
+            3,
+            WeaponsF16I.Pylon_3_4_Mk_82___500lb_GP_Bomb_LD,
+        )
+        Pylon_3_4_Mk_84___2000lb_GP_Bomb_LD = (
+            3,
+            WeaponsF16I.Pylon_3_4_Mk_84___2000lb_GP_Bomb_LD,
+        )
+        Pylon_3_4_GBU_31 = (3, WeaponsF16I.Pylon_3_4_GBU_31)
+        Pylon_3_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
+        Pylon_3_4_GBU_12___500lb_Laser_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_12___500lb_Laser_Guided_Bomb,
+        )
+        Pylon_3_4_GBU_10___2000lb_Laser_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_10___2000lb_Laser_Guided_Bomb,
+        )
+        Pylon_3_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_4_GBU_31 = (3, WeaponsF16I.Pylon_4_GBU_31)
+        Pylon_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
 
     class Pylon4:
         LAU3_WP156 = (4, Weapons.LAU3_WP156)
@@ -4746,21 +5161,10 @@ class F_16D_Barak_30(PlaneType):
             4,
             Weapons.TER_9A_with_2_x_CBU_97___10_x_SFW_Cluster_Bomb,
         )
-        IDF_Mods_Project_F_16I_CFT_Fuel_Left_1500lb = (
-            4,
-            WeaponsF16I.IDF_Mods_Project_F_16I_CFT_Fuel_Left_1500lb,
-        )
-        IDF_Mods_Project_F_16I_CFT_Fuel_Left_1500lb__600Gal = (
-            4,
-            WeaponsF16I.IDF_Mods_Project_F_16I_CFT_Fuel_Left_1500lb__600Gal,
-        )
-        IDF_Mods_Project_F_16I_CFT_Fuel_Left_1500lb__370Gal = (
-            4,
-            WeaponsF16I.IDF_Mods_Project_F_16I_CFT_Fuel_Left_1500lb__370Gal,
-        )
 
     class Pylon5:
-        Fuel_tank_300_gal__ = (5, WeaponsF16I.Fuel_tank_300_gal__)
+        Fuel_tank_300_gal = (5, Weapons.Fuel_tank_300_gal)
+        Fuel_tank_300_gal_Empty = (5, WeaponsF16I.Fuel_tank_300_gal_Empty)
         MXU_648_TP = (5, Weapons.MXU_648_TP)
         ALQ_184 = (5, Weapons.ALQ_184)
         ALQ_184_Long = (5, Weapons.ALQ_184_Long)
@@ -4868,18 +5272,6 @@ class F_16D_Barak_30(PlaneType):
         TER_9A_with_2_x_CBU_97___10_x_SFW_Cluster_Bomb_ = (
             6,
             Weapons.TER_9A_with_2_x_CBU_97___10_x_SFW_Cluster_Bomb_,
-        )
-        IDF_Mods_Project_F_16I_CFT_Fuel_Right_1500lb = (
-            6,
-            WeaponsF16I.IDF_Mods_Project_F_16I_CFT_Fuel_Right_1500lb,
-        )
-        IDF_Mods_Project_F_16I_CFT_Fuel_Right_1500lb__370Gal = (
-            6,
-            WeaponsF16I.IDF_Mods_Project_F_16I_CFT_Fuel_Right_1500lb__370Gal,
-        )
-        IDF_Mods_Project_F_16I_CFT_Fuel_Right_1500lb__600Gal = (
-            6,
-            WeaponsF16I.IDF_Mods_Project_F_16I_CFT_Fuel_Right_1500lb__600Gal,
         )
 
     class Pylon7:
@@ -5007,10 +5399,6 @@ class F_16D_Barak_30(PlaneType):
             Weapons.BRU_57_with_2_x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         AGM_154A___JSOW_CEB__CBU_type_ = (7, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
-        BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
-            7,
-            Weapons.BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
-        )
         MXU_648_TP = (7, Weapons.MXU_648_TP)
         ALQ_184 = (7, Weapons.ALQ_184)
         ALQ_184_Long = (7, Weapons.ALQ_184_Long)
@@ -5045,6 +5433,40 @@ class F_16D_Barak_30(PlaneType):
             Weapons.LAU_88_with_2_x_AGM_65D___Maverick_D__IIR_ASM__,
         )
         LAU_88_AGM_65H_2_R = (7, Weapons.LAU_88_AGM_65H_2_R)
+        Pylon_6_7_Mk_82___500lb_GP_Bomb_LD = (
+            7,
+            WeaponsF16I.Pylon_6_7_Mk_82___500lb_GP_Bomb_LD,
+        )
+        Pylon_6_7_Mk_84___2000lb_GP_Bomb_LD = (
+            7,
+            WeaponsF16I.Pylon_6_7_Mk_84___2000lb_GP_Bomb_LD,
+        )
+        Pylon_6_7_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
+        Pylon_6_7_GBU_31 = (7, WeaponsF16I.Pylon_6_7_GBU_31)
+        Pylon_6_7_GBU_12___500lb_Laser_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_12___500lb_Laser_Guided_Bomb,
+        )
+        Pylon_6_7_GBU_10___2000lb_Laser_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_10___2000lb_Laser_Guided_Bomb,
+        )
+        Pylon_6_7_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_6_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_6_GBU_31 = (7, WeaponsF16I.Pylon_6_GBU_31)
+        Pylon_6_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
 
     class Pylon8:
         AIM_9M_Sidewinder_IR_AAM = (8, Weapons.AIM_9M_Sidewinder_IR_AAM)
@@ -5412,10 +5834,6 @@ class F_16I(PlaneType):
             Weapons.BRU_57_with_2_x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         AGM_154A___JSOW_CEB__CBU_type_ = (3, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
-        BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
-            3,
-            Weapons.BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
-        )
         MXU_648_TP = (3, Weapons.MXU_648_TP)
         ALQ_184 = (3, Weapons.ALQ_184)
         ALQ_184_Long = (3, Weapons.ALQ_184_Long)
@@ -5448,6 +5866,40 @@ class F_16I(PlaneType):
         LAU_88_with_2_x_AGM_65D___Maverick_D__IIR_ASM_ = (
             3,
             Weapons.LAU_88_with_2_x_AGM_65D___Maverick_D__IIR_ASM_,
+        )
+        Pylon_3_4_Mk_82___500lb_GP_Bomb_LD = (
+            3,
+            WeaponsF16I.Pylon_3_4_Mk_82___500lb_GP_Bomb_LD,
+        )
+        Pylon_3_4_Mk_84___2000lb_GP_Bomb_LD = (
+            3,
+            WeaponsF16I.Pylon_3_4_Mk_84___2000lb_GP_Bomb_LD,
+        )
+        Pylon_3_4_GBU_31 = (3, WeaponsF16I.Pylon_3_4_GBU_31)
+        Pylon_3_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
+        Pylon_3_4_GBU_12___500lb_Laser_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_12___500lb_Laser_Guided_Bomb,
+        )
+        Pylon_3_4_GBU_10___2000lb_Laser_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_10___2000lb_Laser_Guided_Bomb,
+        )
+        Pylon_3_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_3_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_4_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_4_GBU_31 = (3, WeaponsF16I.Pylon_4_GBU_31)
+        Pylon_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            3,
+            WeaponsF16I.Pylon_4_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         LAU_88_AGM_65H_2_L = (3, Weapons.LAU_88_AGM_65H_2_L)
 
@@ -5566,7 +6018,8 @@ class F_16I(PlaneType):
         )
 
     class Pylon5:
-        Fuel_tank_300_gal__ = (5, WeaponsF16I.Fuel_tank_300_gal__)
+        Fuel_tank_300_gal = (5, Weapons.Fuel_tank_300_gal)
+        Fuel_tank_300_gal_Empty = (5, WeaponsF16I.Fuel_tank_300_gal_Empty)
         MXU_648_TP = (5, Weapons.MXU_648_TP)
         ALQ_184 = (5, Weapons.ALQ_184)
         ALQ_184_Long = (5, Weapons.ALQ_184_Long)
@@ -5812,10 +6265,6 @@ class F_16I(PlaneType):
             Weapons.BRU_57_with_2_x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         AGM_154A___JSOW_CEB__CBU_type_ = (7, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
-        BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
-            7,
-            Weapons.BRU_57_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
-        )
         MXU_648_TP = (7, Weapons.MXU_648_TP)
         ALQ_184 = (7, Weapons.ALQ_184)
         ALQ_184_Long = (7, Weapons.ALQ_184_Long)
@@ -5848,6 +6297,40 @@ class F_16I(PlaneType):
         LAU_88_with_2_x_AGM_65D___Maverick_D__IIR_ASM__ = (
             7,
             Weapons.LAU_88_with_2_x_AGM_65D___Maverick_D__IIR_ASM__,
+        )
+        Pylon_6_7_Mk_82___500lb_GP_Bomb_LD = (
+            7,
+            WeaponsF16I.Pylon_6_7_Mk_82___500lb_GP_Bomb_LD,
+        )
+        Pylon_6_7_Mk_84___2000lb_GP_Bomb_LD = (
+            7,
+            WeaponsF16I.Pylon_6_7_Mk_84___2000lb_GP_Bomb_LD,
+        )
+        Pylon_6_7_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+        )
+        Pylon_6_7_GBU_31 = (7, WeaponsF16I.Pylon_6_7_GBU_31)
+        Pylon_6_7_GBU_12___500lb_Laser_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_12___500lb_Laser_Guided_Bomb,
+        )
+        Pylon_6_7_GBU_10___2000lb_Laser_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_10___2000lb_Laser_Guided_Bomb,
+        )
+        Pylon_6_7_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_7_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_6_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+        )
+        Pylon_6_GBU_31 = (7, WeaponsF16I.Pylon_6_GBU_31)
+        Pylon_6_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+            7,
+            WeaponsF16I.Pylon_6_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         LAU_88_AGM_65H_2_R = (7, Weapons.LAU_88_AGM_65H_2_R)
 
