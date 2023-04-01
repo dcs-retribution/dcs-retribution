@@ -13,6 +13,7 @@
 ## Fixes
 * **[Plugins]** Fix bug where changes to plugin options doesn't do anything.
 * **[Campaign Management]** Fix bug in procurement when no squadrons are present.
+* **[Layouts]** Fix edge-case bug layout's group size.
 
 # Retribution v1.1.0
 
