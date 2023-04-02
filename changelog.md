@@ -1,6 +1,7 @@
 # Retribution v1.2.0
 
 ## Features/Improvements
+* **[Preset Groups]** Add SA-2 with ZSU-23/57
 
 ## Fixes
 
