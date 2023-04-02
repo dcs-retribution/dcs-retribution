@@ -310,6 +310,13 @@ class AirbaseGroundObjectGenerator(ControlPointGroundObjectGenerator):
             and all([u in self.faction.accessible_units for u in fg.units])
         )
         if valid_fg:
+            for layout in fg.layouts:
+                for lg in layout.groups:
+                    for ug in lg.unit_groups:
+                        if not fg.has_unit_for_layout_group(ug) and ug.fill:
+                            for g in self.faction.ground_units:
+                                if g.unit_class in ug.unit_classes:
+                                    fg.units.append(g)
             unit_group = fg
             assert fg
             self.armed_forces.add_or_update_force_group(fg)
