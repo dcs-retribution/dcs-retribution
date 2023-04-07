@@ -112,7 +112,6 @@
     "SA-20/S-300PMU-1",
     "SA-20B/S-300PMU-2",
     "SA-23/S-300VM",
-    "Cold-War-Flak",
     "KS-19/SON-9",
     "Russian Navy"
   ],
@@ -129,6 +128,9 @@
     "SA-13 Gopher (9K35 Strela-10M3)",
     "SA-15 Tor",
     "SA-19 Grison (2K22 Tunguska)",
+    "ZSU-57-2 'Sparka'",
+    "AAA KS-19 100mm",
+    "ZU-23 on Ural-375",
     "ZSU-23-4 Shilka"
   ],
   "helicopter_carrier_names": [],
