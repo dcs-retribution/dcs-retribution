@@ -658,7 +658,7 @@ class Settings:
 
     @staticmethod
     def plugin_settings_key(identifier: str) -> str:
-        return f"plugins.{identifier}"
+        return f"{identifier}"
 
     def initialize_plugin_option(self, identifier: str, default_value: Any) -> None:
         try:

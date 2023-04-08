@@ -170,9 +170,10 @@ VERSION = _build_version_string()
 #:
 #: Version 10.5
 #: * Support for scenery objectives defined by quad zones.
-#: * Campaign designers can now define more settings:
-#:    `max_frontline_length: 25`        (in km)
-#:    `culling_exclusion_radius: 35`    (in km)
+#: * Campaign designers can now define almost all settings:
+#:    `settings:`
+#:    `  max_frontline_length: 25`        (in km)
+#:    `  perf_culling_distance: 35`    (in km)
 #:
 #: Version 10.6
 #: * Designated CTLD zones for ControlPoints (Airbases & FOBs/FARPs)

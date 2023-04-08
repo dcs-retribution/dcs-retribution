@@ -8,13 +8,14 @@ recommended_start_date: 2021-10-22
 description: "<p>This mission was designed for the We Run Liberation group [WRL].
   <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p>"
 miz: Kutaisi2Vaziani.miz
-max_frontline_length: 30
 performance: 2
 version: "10.5"
 recommended_player_money: 2000
 recommended_enemy_money: 2000
 recommended_player_income_multiplier: 3.0
 recommended_enemy_income_multiplier: 1.5
+settings:
+  max_frontline_length: 30
 advanced_iads: true # Campaign has connection_nodes / power_sources / command_centers
 iads_config:
 #REDFOR BASE DEFENSE

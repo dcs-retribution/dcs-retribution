@@ -2,8 +2,10 @@
 
 ## Features/Improvements
 * **[Preset Groups]** Add SA-2 with ZSU-23/57
+* **[Campaign Design]** Ability to define almost all possible settings in the campaign's yaml file.
 
 ## Fixes
+* **[New Game Wizard]** Settings would not persist when going back to a previous page.
 
 
 # Retribution v1.1.1  (hotfix)

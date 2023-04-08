@@ -88,30 +88,38 @@ TIME_PERIODS = {
     "Arab-Israeli War [1948]": datetime(1948, 5, 15),
 }
 
+# fmt: off
+RUNWAY_REPAIR = f"{Settings.automate_runway_repair=}".split("=")[0].split(".")[1]
+FRONTLINE = f"{Settings.automate_front_line_reinforcements=}".split("=")[0].split(".")[1]
+AIRCRAFT = f"{Settings.automate_aircraft_reinforcements=}".split("=")[0].split(".")[1]
+MISSION_LENGTH = f"{Settings.desired_player_mission_duration=}".split("=")[0].split(".")[1]
+SUPER_CARRIER = f"{Settings.supercarrier=}".split("=")[0].split(".")[1]
+# fmt: on
+
 
 class NewGameWizard(QtWidgets.QWizard):
     def __init__(self, parent=None):
         super(NewGameWizard, self).__init__(parent)
+        self.setOption(QtWidgets.QWizard.IndependentPages)
 
         self.campaigns = list(sorted(Campaign.load_each(), key=lambda x: x.name))
 
-        self.faction_selection_page = FactionSelection()
-        self.addPage(IntroPage())
+        self.faction_selection_page = FactionSelection(self)
+        self.addPage(IntroPage(self))
         self.theater_page = TheaterConfiguration(
-            self.campaigns, self.faction_selection_page
+            self.campaigns, self.faction_selection_page, self
         )
         self.addPage(self.theater_page)
         self.addPage(self.faction_selection_page)
-        self.addPage(GeneratorOptions())
-        self.difficulty_page = DifficultyAndAutomationOptions()
+        self.go_page = GeneratorOptions(self.campaigns[0], self)
+        self.addPage(self.go_page)
+        self.difficulty_page = DifficultyAndAutomationOptions(self)
         self.difficulty_page.set_campaign_values(self.campaigns[0])
 
         # Update difficulty page on campaign select
-        self.theater_page.campaign_selected.connect(
-            lambda c: self.difficulty_page.set_campaign_values(c)
-        )
+        self.theater_page.campaign_selected.connect(lambda c: self.update_settings(c))
         self.addPage(self.difficulty_page)
-        self.addPage(ConclusionPage())
+        self.addPage(ConclusionPage(self))
 
         self.setPixmap(
             QtWidgets.QWizard.WatermarkPixmap,
@@ -142,22 +150,21 @@ class NewGameWizard(QtWidgets.QWizard):
             start_date = self.theater_page.calendar.selectedDate().toPython()
 
         logging.info("New campaign start date: %s", start_date.strftime("%m/%d/%Y"))
-        settings = Settings(
-            player_income_multiplier=self.field("player_income_multiplier") / 10,
-            enemy_income_multiplier=self.field("enemy_income_multiplier") / 10,
-            automate_runway_repair=self.field("automate_runway_repairs"),
-            automate_front_line_reinforcements=self.field(
-                "automate_front_line_purchases"
-            ),
-            desired_player_mission_duration=timedelta(
-                minutes=self.field("desired_player_mission_duration")
-            ),
-            automate_aircraft_reinforcements=self.field("automate_aircraft_purchases"),
-            supercarrier=self.field("supercarrier"),
-            max_frontline_length=campaign.data.get("max_frontline_length", 80),
-            perf_culling=campaign.data.get("culling_exclusion_radius") is not None,
-            perf_culling_distance=campaign.data.get("culling_exclusion_radius", 100),
+        settings = Settings()
+        settings.__setstate__(campaign.settings)
+        settings.player_income_multiplier = self.field("player_income_multiplier") / 10
+        settings.enemy_income_multiplier = self.field("enemy_income_multiplier") / 10
+        settings.automate_runway_repair = self.field(RUNWAY_REPAIR)
+        settings.automate_front_line_reinforcements = self.field(FRONTLINE)
+        settings.desired_player_mission_duration = timedelta(
+            minutes=self.field(MISSION_LENGTH)
         )
+        settings.automate_aircraft_reinforcements = self.field(AIRCRAFT)
+        settings.supercarrier = self.field(SUPER_CARRIER)
+        settings.perf_culling = (
+            campaign.settings.get("perf_culling_distance") is not None
+        )
+
         generator_settings = GeneratorSettings(
             start_date=start_date,
             start_time=campaign.recommended_start_time,
@@ -227,6 +234,10 @@ class NewGameWizard(QtWidgets.QWizard):
         self.generatedGame.begin_turn_0()
 
         super(NewGameWizard, self).accept()
+
+    def update_settings(self, campaign: Campaign) -> None:
+        self.difficulty_page.set_campaign_values(campaign)
+        self.go_page.update_settings(campaign)
 
 
 class IntroPage(QtWidgets.QWizardPage):
@@ -728,19 +739,19 @@ class DifficultyAndAutomationOptions(QtWidgets.QWizardPage):
         assist_group.setLayout(assist_layout)
 
         assist_layout.addWidget(QtWidgets.QLabel("Automate runway repairs"), 0, 0)
-        runway_repairs = QtWidgets.QCheckBox()
-        self.registerField("automate_runway_repairs", runway_repairs)
-        assist_layout.addWidget(runway_repairs, 0, 1, Qt.AlignRight)
+        self.runway_repairs = QtWidgets.QCheckBox()
+        self.registerField(RUNWAY_REPAIR, self.runway_repairs)
+        assist_layout.addWidget(self.runway_repairs, 0, 1, Qt.AlignRight)
 
         assist_layout.addWidget(QtWidgets.QLabel("Automate front-line purchases"), 1, 0)
-        front_line = QtWidgets.QCheckBox()
-        self.registerField("automate_front_line_purchases", front_line)
-        assist_layout.addWidget(front_line, 1, 1, Qt.AlignRight)
+        self.front_line = QtWidgets.QCheckBox()
+        self.registerField(FRONTLINE, self.front_line)
+        assist_layout.addWidget(self.front_line, 1, 1, Qt.AlignRight)
 
         assist_layout.addWidget(QtWidgets.QLabel("Automate aircraft purchases"), 2, 0)
-        aircraft = QtWidgets.QCheckBox()
-        self.registerField("automate_aircraft_purchases", aircraft)
-        assist_layout.addWidget(aircraft, 2, 1, Qt.AlignRight)
+        self.aircraft = QtWidgets.QCheckBox()
+        self.registerField(AIRCRAFT, self.aircraft)
+        assist_layout.addWidget(self.aircraft, 2, 1, Qt.AlignRight)
 
         self.setLayout(layout)
 
@@ -753,11 +764,16 @@ class DifficultyAndAutomationOptions(QtWidgets.QWizardPage):
         self.enemy_income.spinner.setValue(
             int(campaign.recommended_enemy_income_multiplier * 10)
         )
+        s = campaign.settings
+        self.runway_repairs.setChecked(s.get(RUNWAY_REPAIR, False))
+        self.front_line.setChecked(s.get(FRONTLINE, False))
+        self.aircraft.setChecked(s.get(AIRCRAFT, False))
 
 
 class GeneratorOptions(QtWidgets.QWizardPage):
-    def __init__(self, parent=None):
+    def __init__(self, campaign: Campaign, parent=None):
         super().__init__(parent)
+
         self.setTitle("Generator settings")
         self.setSubTitle("\nOptions affecting the generation of the game.")
         self.setPixmap(
@@ -767,79 +783,77 @@ class GeneratorOptions(QtWidgets.QWizardPage):
 
         # Campaign settings
         generatorSettingsGroup = QtWidgets.QGroupBox("Generator Settings")
-        no_carrier = QtWidgets.QCheckBox()
-        self.registerField("no_carrier", no_carrier)
-        no_lha = QtWidgets.QCheckBox()
-        self.registerField("no_lha", no_lha)
-        supercarrier = QtWidgets.QCheckBox()
-        self.registerField("supercarrier", supercarrier)
-        no_player_navy = QtWidgets.QCheckBox()
-        self.registerField("no_player_navy", no_player_navy)
-        no_enemy_navy = QtWidgets.QCheckBox()
-        self.registerField("no_enemy_navy", no_enemy_navy)
-        desired_player_mission_duration = TimeInputs(
+        self.no_carrier = QtWidgets.QCheckBox()
+        self.registerField("no_carrier", self.no_carrier)
+        self.no_lha = QtWidgets.QCheckBox()
+        self.registerField("no_lha", self.no_lha)
+        self.supercarrier = QtWidgets.QCheckBox()
+        self.registerField(SUPER_CARRIER, self.supercarrier)
+        self.no_player_navy = QtWidgets.QCheckBox()
+        self.registerField("no_player_navy", self.no_player_navy)
+        self.no_enemy_navy = QtWidgets.QCheckBox()
+        self.registerField("no_enemy_navy", self.no_enemy_navy)
+        self.desired_player_mission_duration = TimeInputs(
             DEFAULT_MISSION_LENGTH, minimum=30, maximum=150
         )
-        self.registerField(
-            "desired_player_mission_duration", desired_player_mission_duration.spinner
-        )
+        self.registerField(MISSION_LENGTH, self.desired_player_mission_duration.spinner)
 
         generatorLayout = QtWidgets.QGridLayout()
         generatorLayout.addWidget(QtWidgets.QLabel("No Aircraft Carriers"), 1, 0)
-        generatorLayout.addWidget(no_carrier, 1, 1)
+        generatorLayout.addWidget(self.no_carrier, 1, 1)
         generatorLayout.addWidget(QtWidgets.QLabel("No LHA"), 2, 0)
-        generatorLayout.addWidget(no_lha, 2, 1)
+        generatorLayout.addWidget(self.no_lha, 2, 1)
         generatorLayout.addWidget(QtWidgets.QLabel("Use Supercarrier module"), 3, 0)
-        generatorLayout.addWidget(supercarrier, 3, 1)
+        generatorLayout.addWidget(self.supercarrier, 3, 1)
         generatorLayout.addWidget(QtWidgets.QLabel("No Player Navy"), 4, 0)
-        generatorLayout.addWidget(no_player_navy, 4, 1)
+        generatorLayout.addWidget(self.no_player_navy, 4, 1)
         generatorLayout.addWidget(QtWidgets.QLabel("No Enemy Navy"), 5, 0)
-        generatorLayout.addWidget(no_enemy_navy, 5, 1)
+        generatorLayout.addWidget(self.no_enemy_navy, 5, 1)
         generatorLayout.addWidget(QtWidgets.QLabel("Desired mission duration"), 6, 0)
-        generatorLayout.addLayout(desired_player_mission_duration, 7, 0)
+        generatorLayout.addLayout(self.desired_player_mission_duration, 7, 0)
         generatorSettingsGroup.setLayout(generatorLayout)
 
         modSettingsGroup = QtWidgets.QGroupBox("Mod Settings")
-        a4_skyhawk = QtWidgets.QCheckBox()
-        self.registerField("a4_skyhawk", a4_skyhawk)
-        a6a_intruder = QtWidgets.QCheckBox()
-        self.registerField("a6a_intruder", a6a_intruder)
-        hercules = QtWidgets.QCheckBox()
-        self.registerField("hercules", hercules)
-        uh_60l = QtWidgets.QCheckBox()
-        self.registerField("uh_60l", uh_60l)
-        f4bc_phantom = QtWidgets.QCheckBox()
-        self.registerField("f4bc_phantom", f4bc_phantom)
-        f15d_baz = QtWidgets.QCheckBox()
-        self.registerField("f15d_baz", f15d_baz)
-        f_16_idf = QtWidgets.QCheckBox()
-        self.registerField("f_16_idf", f_16_idf)
-        fa_18efg = QtWidgets.QCheckBox()
-        self.registerField("fa_18efg", fa_18efg)
-        f22_raptor = QtWidgets.QCheckBox()
-        self.registerField("f22_raptor", f22_raptor)
-        f84g_thunderjet = QtWidgets.QCheckBox()
-        self.registerField("f84g_thunderjet", f84g_thunderjet)
-        f100_supersabre = QtWidgets.QCheckBox()
-        self.registerField("f100_supersabre", f100_supersabre)
-        f104_starfighter = QtWidgets.QCheckBox()
-        self.registerField("f104_starfighter", f104_starfighter)
-        f105_thunderchief = QtWidgets.QCheckBox()
-        self.registerField("f105_thunderchief", f105_thunderchief)
-        jas39_gripen = QtWidgets.QCheckBox()
-        self.registerField("jas39_gripen", jas39_gripen)
-        su30_flanker_h = QtWidgets.QCheckBox()
-        self.registerField("su30_flanker_h", su30_flanker_h)
-        su57_felon = QtWidgets.QCheckBox()
-        self.registerField("su57_felon", su57_felon)
-        ov10a_bronco = QtWidgets.QCheckBox()
-        self.registerField("ov10a_bronco", ov10a_bronco)
-        frenchpack = QtWidgets.QCheckBox()
-        self.registerField("frenchpack", frenchpack)
-        high_digit_sams = QtWidgets.QCheckBox()
-        self.registerField("high_digit_sams", high_digit_sams)
-        swedishmilitaryassetspack = QtWidgets.QCheckBox()
-        self.registerField("swedishmilitaryassetspack", swedishmilitaryassetspack)
+        self.a4_skyhawk = QtWidgets.QCheckBox()
+        self.registerField("a4_skyhawk", self.a4_skyhawk)
+        self.a6a_intruder = QtWidgets.QCheckBox()
+        self.registerField("a6a_intruder", self.a6a_intruder)
+        self.hercules = QtWidgets.QCheckBox()
+        self.registerField("hercules", self.hercules)
+        self.uh_60l = QtWidgets.QCheckBox()
+        self.registerField("uh_60l", self.uh_60l)
+        self.f4bc_phantom = QtWidgets.QCheckBox()
+        self.registerField("f4bc_phantom", self.f4bc_phantom)
+        self.f15d_baz = QtWidgets.QCheckBox()
+        self.registerField("f15d_baz", self.f15d_baz)
+        self.f_16_idf = QtWidgets.QCheckBox()
+        self.registerField("f_16_idf", self.f_16_idf)
+        self.fa_18efg = QtWidgets.QCheckBox()
+        self.registerField("fa_18efg", self.fa_18efg)
+        self.f22_raptor = QtWidgets.QCheckBox()
+        self.registerField("f22_raptor", self.f22_raptor)
+        self.f84g_thunderjet = QtWidgets.QCheckBox()
+        self.registerField("f84g_thunderjet", self.f84g_thunderjet)
+        self.f100_supersabre = QtWidgets.QCheckBox()
+        self.registerField("f100_supersabre", self.f100_supersabre)
+        self.f104_starfighter = QtWidgets.QCheckBox()
+        self.registerField("f104_starfighter", self.f104_starfighter)
+        self.f105_thunderchief = QtWidgets.QCheckBox()
+        self.registerField("f105_thunderchief", self.f105_thunderchief)
+        self.jas39_gripen = QtWidgets.QCheckBox()
+        self.registerField("jas39_gripen", self.jas39_gripen)
+        self.su30_flanker_h = QtWidgets.QCheckBox()
+        self.registerField("su30_flanker_h", self.su30_flanker_h)
+        self.su57_felon = QtWidgets.QCheckBox()
+        self.registerField("su57_felon", self.su57_felon)
+        self.ov10a_bronco = QtWidgets.QCheckBox()
+        self.registerField("ov10a_bronco", self.ov10a_bronco)
+        self.frenchpack = QtWidgets.QCheckBox()
+        self.registerField("frenchpack", self.frenchpack)
+        self.high_digit_sams = QtWidgets.QCheckBox()
+        self.registerField("high_digit_sams", self.high_digit_sams)
+        self.swedishmilitaryassetspack = QtWidgets.QCheckBox()
+        self.registerField("swedishmilitaryassetspack", self.swedishmilitaryassetspack)
 
         modHelpText = QtWidgets.QLabel(
             "<p>Select the mods you have installed. If your chosen factions support them, you'll be able to use these mods in your campaign.</p>"
@@ -850,26 +864,29 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         modLayout_row = 1
 
         mod_pairs = [
-            ("A-4E Skyhawk (v2.1.0)", a4_skyhawk),
-            ("A-6A Intruder (v2.7.5.01)", a6a_intruder),
-            ("C-130J-30 Super Hercules", hercules),
-            ("F-4B/C Phantom II (v2.8.1.01 Standalone + 29Jan23 Patch)", f4bc_phantom),
-            ("F-15D Baz (v1.0)", f15d_baz),
-            ("F-16I Sufa & F-16D (v3.6 by IDF Mods Project)", f_16_idf),
-            ("F/A-18E/F/G Super Hornet (version 2.1)", fa_18efg),
-            ("F-22A Raptor", f22_raptor),
-            ("F-84G Thunderjet (v2.5.7.01)", f84g_thunderjet),
-            ("F-100 Super Sabre (v2.7.18.30765 patch 20.10.22)", f100_supersabre),
-            ("F-104 Starfighter (v2.7.11.222.01)", f104_starfighter),
-            ("F-105 Thunderchief (v2.7.12.23x)", f105_thunderchief),
-            ("Frenchpack", frenchpack),
-            ("High Digit SAMs", high_digit_sams),
-            ("Swedish Military Assets pack (1.10)", swedishmilitaryassetspack),
-            ("JAS 39 Gripen (v1.8.5-beta)", jas39_gripen),
-            ("OV-10A Bronco", ov10a_bronco),
-            ("Su-30 Flanker-H (V2.01B)", su30_flanker_h),
-            ("Su-57 Felon", su57_felon),
-            ("UH-60L Black Hawk (v1.3.1)", uh_60l),
+            ("A-4E Skyhawk (v2.1.0)", self.a4_skyhawk),
+            ("A-6A Intruder (v2.7.5.01)", self.a6a_intruder),
+            ("C-130J-30 Super Hercules", self.hercules),
+            (
+                "F-4B/C Phantom II (v2.8.1.01 Standalone + 29Jan23 Patch)",
+                self.f4bc_phantom,
+            ),
+            ("F-15D Baz (v1.0)", self.f15d_baz),
+            ("F-16I Sufa & F-16D (v3.6 by IDF Mods Project)", self.f_16_idf),
+            ("F/A-18E/F/G Super Hornet (version 2.1)", self.fa_18efg),
+            ("F-22A Raptor", self.f22_raptor),
+            ("F-84G Thunderjet (v2.5.7.01)", self.f84g_thunderjet),
+            ("F-100 Super Sabre (v2.7.18.30765 patch 20.10.22)", self.f100_supersabre),
+            ("F-104 Starfighter (v2.7.11.222.01)", self.f104_starfighter),
+            ("F-105 Thunderchief (v2.7.12.23x)", self.f105_thunderchief),
+            ("Frenchpack", self.frenchpack),
+            ("High Digit SAMs", self.high_digit_sams),
+            ("Swedish Military Assets pack (1.10)", self.swedishmilitaryassetspack),
+            ("JAS 39 Gripen (v1.8.5-beta)", self.jas39_gripen),
+            ("OV-10A Bronco", self.ov10a_bronco),
+            ("Su-30 Flanker-H (V2.01B)", self.su30_flanker_h),
+            ("Su-57 Felon", self.su57_felon),
+            ("UH-60L Black Hawk (v1.3.1)", self.uh_60l),
         ]
 
         for i in range(len(mod_pairs)):
@@ -892,6 +909,40 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         mlayout.addWidget(modSettingsGroup)
         mlayout.addWidget(modHelpText)
         self.setLayout(mlayout)
+        self.update_settings(campaign)
+
+    def update_settings(self, campaign: Campaign) -> None:
+        s = campaign.settings
+
+        self.no_carrier.setChecked(s.get("no_carrier", False))
+        self.no_lha.setChecked(s.get("no_lha", False))
+        self.supercarrier.setChecked(s.get(SUPER_CARRIER, False))
+        self.no_player_navy.setChecked(s.get("no_player_navy", False))
+        self.no_enemy_navy.setChecked(s.get("no_enemy_navy", False))
+        self.desired_player_mission_duration.spinner.setValue(s.get(MISSION_LENGTH, 60))
+
+        self.a4_skyhawk.setChecked(s.get("a4_skyhawk", False))
+        self.a6a_intruder.setChecked(s.get("a6a_intruder", False))
+        self.hercules.setChecked(s.get("hercules", False))
+        self.uh_60l.setChecked(s.get("uh_60l", False))
+        self.f4bc_phantom.setChecked(s.get("f4bc_phantom", False))
+        self.f15d_baz.setChecked(s.get("f15d_baz", False))
+        self.f_16_idf.setChecked(s.get("f_16_idf", False))
+        self.fa_18efg.setChecked(s.get("fa_18efg", False))
+        self.f22_raptor.setChecked(s.get("f22_raptor", False))
+        self.f84g_thunderjet.setChecked(s.get("f84g_thunderjet", False))
+        self.f100_supersabre.setChecked(s.get("f100_supersabre", False))
+        self.f104_starfighter.setChecked(s.get("f104_starfighter", False))
+        self.f105_thunderchief.setChecked(s.get("f105_thunderchief", False))
+        self.jas39_gripen.setChecked(s.get("jas39_gripen", False))
+        self.su30_flanker_h.setChecked(s.get("su30_flanker_h", False))
+        self.su57_felon.setChecked(s.get("su57_felon", False))
+        self.ov10a_bronco.setChecked(s.get("ov10a_bronco", False))
+        self.frenchpack.setChecked(s.get("frenchpack", False))
+        self.high_digit_sams.setChecked(s.get("high_digit_sams", False))
+        self.swedishmilitaryassetspack.setChecked(
+            s.get("swedishmilitaryassetspack", False)
+        )
 
 
 class ConclusionPage(QtWidgets.QWizardPage):

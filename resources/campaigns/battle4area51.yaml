@@ -11,14 +11,14 @@ description: "<p>This mission was designed for the We Run Liberation group [WRL]
   <p>The enemy has an Advanced IADs network designed to work with the skynet plugin.</p>
   <p>Look for weakness in enemy SAM defense and go after the command center and power stations.</p>"
 miz: battle4area51.miz
-max_frontline_length: 20
 performance: 1
 version: "10.5"
 recommended_player_money: 2000
 recommended_enemy_money: 2000
 recommended_player_income_multiplier: 1.0
 recommended_enemy_income_multiplier: 1.0
-max_frontline_length: 20
+settings:
+  max_frontline_length: 20
 advanced_iads: true # Campaign has connection_nodes / power_sources / command_centers
 iads_config:
 #COMMAND

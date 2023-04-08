@@ -13,7 +13,8 @@ recommended_player_money: 2000
 recommended_enemy_money: 2000
 recommended_player_income_multiplier: 1.5
 recommended_enemy_income_multiplier: 1.5
-max_frontline_length: 30
+settings:
+  max_frontline_length: 30
 squadrons:
   2:
     - primary: AEW&C

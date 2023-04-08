@@ -14,8 +14,6 @@ description: "<p>This mission was designed for the We Run Liberation group [WRL]
   from its Russian neighbours before it's too late!
   </p>"
 miz: Battle4Georgia.miz
-max_frontline_length: 30
-culling_exclusion_radius: 35
 performance: 2
 version: "10.5"
 recommended_player_money: 2000
@@ -23,6 +21,9 @@ recommended_enemy_money: 2000
 recommended_player_income_multiplier: 1.0
 recommended_enemy_income_multiplier: 1.0
 advanced_iads: false
+settings:
+  max_frontline_length: 30
+  perf_culling_distance: 35
 squadrons:
   Blue CV-1:
     - primary: BARCAP
