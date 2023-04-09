@@ -1,6 +1,8 @@
+import json
 import logging
 import textwrap
 from typing import Callable
+import zipfile
 
 from PySide2.QtCore import QItemSelectionModel, QPoint, QSize, Qt
 from PySide2.QtGui import QStandardItem, QStandardItemModel
@@ -19,10 +21,12 @@ from PySide2.QtWidgets import (
     QStackedLayout,
     QVBoxLayout,
     QWidget,
+    QFileDialog,
 )
 
 import qt_ui.uiconstants as CONST
 from game.game import Game
+from game.persistency import settings_dir
 from game.server import EventStream
 from game.settings import (
     BooleanOption,
@@ -332,6 +336,13 @@ class QSettingsWindow(QDialog):
         self.layout.addWidget(self.categoryList, 0, 0, 1, 1)
         self.layout.addLayout(self.right_layout, 0, 1, 5, 1)
 
+        load = QPushButton("Load Settings")
+        load.clicked.connect(self.load_settings)
+        self.layout.addWidget(load, 1, 0, 1, 1)
+        save = QPushButton("Save Settings")
+        save.clicked.connect(self.save_settings)
+        self.layout.addWidget(save, 2, 0, 1, 1)
+
         self.setLayout(self.layout)
 
     def initCheatLayout(self):
@@ -387,3 +398,41 @@ class QSettingsWindow(QDialog):
     def onSelectionChanged(self):
         index = self.categoryList.selectionModel().currentIndex().row()
         self.right_layout.setCurrentIndex(index)
+
+    def load_settings(self):
+        sd = settings_dir()
+        if not sd.exists():
+            sd.mkdir()
+        fd = QFileDialog(caption="Load Settings", directory=str(sd), filter="*.zip")
+        if fd.exec_():
+            zipfilename = fd.selectedFiles()[0]
+            with zipfile.ZipFile(zipfilename, "r") as zf:
+                filename = zipfilename.split("/")[-1].replace(".zip", ".json")
+                settings = json.loads(
+                    zf.read(filename).decode("utf-8"),
+                    object_hook=self.game.settings.obj_hook,
+                )
+                self.game.settings.__setstate__(settings)
+                self.close()
+                new = QSettingsWindow(self.game)
+                new.exec_()
+
+    def save_settings(self):
+        sd = settings_dir()
+        if not sd.exists():
+            sd.mkdir()
+        fd = QFileDialog(caption="Save Settings", directory=str(sd), filter="*.zip")
+        fd.setAcceptMode(QFileDialog.AcceptSave)
+        if fd.exec_():
+            zipfilename = fd.selectedFiles()[0]
+            with zipfile.ZipFile(zipfilename, "w", zipfile.ZIP_DEFLATED) as zf:
+                filename = zipfilename.split("/")[-1].replace(".zip", ".json")
+                zf.writestr(
+                    filename,
+                    json.dumps(
+                        self.game.settings.__dict__,
+                        indent=2,
+                        default=self.game.settings.default_json,
+                    ),
+                    zipfile.ZIP_DEFLATED,
+                )

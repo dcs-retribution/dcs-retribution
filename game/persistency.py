@@ -27,6 +27,10 @@ def base_path() -> str:
     return _dcs_saved_game_folder
 
 
+def settings_dir() -> Path:
+    return Path(base_path()) / "Retribution" / "Settings"
+
+
 def save_dir() -> Path:
     return Path(base_path()) / "Retribution" / "Saves"
 
