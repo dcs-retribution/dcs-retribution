@@ -76,3 +76,4 @@ class Migrator:
             try_set_attr(f, "frequency")
             try_set_attr(f, "tacan")
             try_set_attr(f, "tcn_name")
+            try_set_attr(f, "fuel", f.unit_type.max_fuel)

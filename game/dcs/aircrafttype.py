@@ -200,6 +200,10 @@ class AircraftType(UnitType[Type[FlyingType]]):
     def helicopter(self) -> bool:
         return self.dcs_unit_type.helicopter
 
+    @property
+    def max_fuel(self) -> float:
+        return self.dcs_unit_type.fuel_max
+
     @cached_property
     def max_speed(self) -> Speed:
         return kph(self.dcs_unit_type.max_speed)
