@@ -34,6 +34,16 @@ class SeadIngressBuilder(PydcsWaypointBuilder):
                 )
                 continue
 
+            # Use decoys first
+            attack_task = AttackGroup(
+                miz_group.id,
+                weapon_type=DcsWeaponType.Decoy,
+                group_attack=True,
+                expend=Expend.All,
+                altitude=waypoint.alt,
+            )
+            waypoint.tasks.append(attack_task)
+
             if self.flight.loadout.has_weapon_of_type(WeaponType.ARM):
                 # Special handling for ARM Weapon types:
                 # The SEAD flight will Search for the targeted group and then engage it
@@ -45,16 +55,6 @@ class SeadIngressBuilder(PydcsWaypointBuilder):
                 engage_task.params["groupAttack"] = True
                 engage_task.params["expend"] = Expend.All.value
                 waypoint.tasks.append(engage_task)
-            else:
-                # All non ARM types like Decoys will use the normal AttackGroup Task
-                attack_task = AttackGroup(
-                    miz_group.id,
-                    weapon_type=DcsWeaponType.Decoy,
-                    group_attack=True,
-                    expend=Expend.All,
-                    altitude=waypoint.alt,
-                )
-                waypoint.tasks.append(attack_task)
 
         # Preemptively use ECM to better avoid getting swatted.
         ecm_option = OptECMUsing(value=OptECMUsing.Values.UseIfDetectedLockByRadar)
