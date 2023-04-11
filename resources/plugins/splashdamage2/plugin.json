@@ -13,6 +13,11 @@
             "defaultValue": false
         },
         {
+            "nameInUI": "Enable game messages",
+            "mnemonic": "game_messages",
+            "defaultValue": false
+        },
+        {
             "nameInUI": "Enable debug messages",
             "mnemonic": "debug",
             "defaultValue": false

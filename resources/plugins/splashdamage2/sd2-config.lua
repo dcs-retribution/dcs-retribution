@@ -15,6 +15,7 @@ if dcsRetribution then
 
             splash_damage_options.wave_explosions = dcsRetribution.plugins.splashdamage2.wave_explosions
             splash_damage_options.damage_model = dcsRetribution.plugins.splashdamage2.damage_model
+            splash_damage_options.game_messages = dcsRetribution.plugins.splashdamage2.game_messages
             splash_damage_options.debug = dcsRetribution.plugins.splashdamage2.debug
             splash_damage_options.explTable_multiplier = dcsRetribution.plugins.splashdamage2.explTable_multiplier
             splash_damage_options.static_damage_boost = dcsRetribution.plugins.splashdamage2.static_damage_boost
