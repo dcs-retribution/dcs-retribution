@@ -31,7 +31,7 @@ class DeadIngressBuilder(PydcsWaypointBuilder):
             task = AttackGroup(
                 miz_group.id,
                 weapon_type=WeaponType.Guided,
-                altitude=round(self.flight.coalition.doctrine.ingress_altitude.meters),
+                altitude=waypoint.alt,
             )
             waypoint.tasks.append(task)
 
@@ -42,7 +42,7 @@ class DeadIngressBuilder(PydcsWaypointBuilder):
                 weapon_type=WeaponType.Unguided,
                 expend=Expend.All,
                 direction=math.radians(dir),
-                altitude=round(self.flight.coalition.doctrine.ingress_altitude.meters),
+                altitude=waypoint.alt,
             )
             task.params["altitudeEnabled"] = False
             waypoint.tasks.append(task)
