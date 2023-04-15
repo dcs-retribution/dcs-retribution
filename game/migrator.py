@@ -47,8 +47,8 @@ class Migrator:
     def _update_packagewaypoints(self) -> None:
         for c in self.game.coalitions:
             for p in c.ato.packages:
-                if p.flights:
-                    try_set_attr(p.waypoints, "initial", PackageWaypoints.create(p, c))
+                if p.waypoints:
+                    try_set_attr(p.waypoints, "initial", None)
 
     def _update_package_attributes(self) -> None:
         for c in self.game.coalitions:
