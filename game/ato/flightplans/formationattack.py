@@ -190,6 +190,10 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
             ingress_type, self.package.waypoints.ingress, self.package.target
         )
 
+        initial = None
+        if ingress_type == FlightWaypointType.INGRESS_SEAD:
+            initial = builder.sead_search(self.package.target)
+
         return FormationAttackLayout(
             departure=builder.takeoff(self.flight.departure),
             hold=hold,
@@ -198,6 +202,7 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
             ),
             join=join,
             ingress=ingress,
+            initial=initial,
             targets=target_waypoints,
             split=split,
             refuel=refuel,
