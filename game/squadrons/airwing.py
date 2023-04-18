@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import itertools
 from collections import defaultdict
-from typing import Sequence, Iterator, TYPE_CHECKING, Optional
+from typing import Iterator, Optional, Sequence, TYPE_CHECKING
 
 from game.ato.closestairfields import ObjectiveDistanceCache
 from game.dcs.aircrafttype import AircraftType

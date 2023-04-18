@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-import logging
-from collections.abc import Iterable
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional, TYPE_CHECKING
 
@@ -38,7 +36,6 @@ class SquadronDef:
 
     def capable_of(self, task: FlightType) -> bool:
         """Returns True if the squadron is capable of performing the given task.
-
         A squadron may be capable of performing a task even if it will not be
         automatically assigned to it.
         """

@@ -136,6 +136,8 @@ Saves from 6.x are not compatible with 7.0.
 * **[Modding]** Updated Community A-4E-C mod version support to 2.1.0 release.
 * **[Modding]** Add support for VSN F-4B and F-4C mod.
 * **[Modding]** Aircraft task capabilities and preferred aircraft for each task are now moddable in the aircraft unit yaml files. Each aircraft has a weight per task. Higher weights are given higher preference.
+* **[Modding]** The `mission_types` field in squadron files has been removed. Squadron task capability is now determined by airframe, and the auto-assignable list has always been overridden by the campaign settings.
+* **[Squadrons]** Squadron-specific mission capability lists no longer restrict players from assigning missions outside the squadron's preferences.
 
 ## Fixes
 
