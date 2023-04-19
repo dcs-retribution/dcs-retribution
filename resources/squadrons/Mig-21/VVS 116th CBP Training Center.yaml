@@ -1,16 +1,16 @@
 ---
-name: VPAF - 927th Fighter Regiment Strike
-nickname: 927th Strike
+name: 116th CBP
+nickname: 116th
 female_pilot_percentage: 0
-country: Vietnam
+country: Russia
 role: Air Superiority Fighter
 aircraft: MiG-21bis Fishbed-N
-livery: "VPAF - 927th Lam Son - 6122"
+livery: "VVS - 116 CBP"
 mission_types:
   - BARCAP
   - TARCAP
   - CAS
-  - Strike
+  - Strike  
   - Escort
   - Intercept
   - Fighter sweep

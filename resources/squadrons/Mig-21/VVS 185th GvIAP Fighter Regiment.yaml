@@ -1,16 +1,16 @@
 ---
-name: VPAF - 927th Fighter Regiment Strike
-nickname: 927th Strike
+name: 185th GvIAP Fighter Regiment
+nickname: 185th GvIAP
 female_pilot_percentage: 0
-country: Vietnam
+country: Russia
 role: Air Superiority Fighter
 aircraft: MiG-21bis Fishbed-N
-livery: "VPAF - 927th Lam Son - 6122"
+livery: "VVS - 185th GvIAP"
 mission_types:
   - BARCAP
   - TARCAP
   - CAS
-  - Strike
+  - Strike  
   - Escort
   - Intercept
   - Fighter sweep

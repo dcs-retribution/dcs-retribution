@@ -1,16 +1,16 @@
 ---
-name: VPAF - 927th Fighter Regiment Strike
-nickname: 927th Strike
+name: 921st Fighter Regiment
+nickname: 921st
 female_pilot_percentage: 0
 country: Vietnam
 role: Air Superiority Fighter
 aircraft: MiG-21bis Fishbed-N
-livery: "VPAF - 927th Lam Son - 6122"
+livery: "VPAF - 921st Sao Do - 5040"
 mission_types:
   - BARCAP
   - TARCAP
   - CAS
-  - Strike
+  - Strike  
   - Escort
   - Intercept
   - Fighter sweep
