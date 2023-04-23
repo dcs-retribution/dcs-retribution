@@ -1,0 +1,11 @@
+---
+name: VPAF Helo 120th Squadron
+nickname: 120th
+country: Vietnam
+role: Transport Helicopter
+aircraft: Mi-8MTV2 Hip
+livery: "North Vietnam"
+mission_types:
+  - Transport
+  - CAS
+  - BAI

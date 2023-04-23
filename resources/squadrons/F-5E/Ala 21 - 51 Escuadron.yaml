@@ -1,0 +1,23 @@
+---
+name: Ala 23 - 232 Escuadron
+nickname: Patas Negras
+country: Spain
+role: Strike Fighter
+aircraft: F-5E Tiger II
+livery: Spain - Ala 23 -01 23-23
+mission_types:
+  - Anti-ship
+  - BAI
+  - BARCAP
+  - CAS
+  - DEAD
+  - Escort
+  - Intercept
+  - OCA/Aircraft
+  - OCA/Runway
+  - SEAD
+  - SEAD Escort
+  - Strike
+  - Fighter sweep
+  - TARCAP
+  

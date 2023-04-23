@@ -1,0 +1,9 @@
+---
+name: VS-24 (Tanker)
+nickname: Scouts
+country: USA
+role: Tanker
+aircraft: S-3B Tanker
+livery: USN - VS-24 - CAG
+mission_types:
+  - Refueling

@@ -1,0 +1,22 @@
+---
+name: USAF 338 TFW 
+nickname: Abusers
+country: USA
+role: Fighter Bomber
+aircraft: F-4E Phantom II
+livery: USAF JH 68-804 (SEA)
+mission_types:
+  - Anti-ship
+  - BAI
+  - BARCAP
+  - CAS
+  - DEAD
+  - Escort
+  - Intercept
+  - OCA/Aircraft
+  - OCA/Runway
+  - SEAD
+  - SEAD Escort
+  - Strike
+  - Fighter sweep
+  - TARCAP

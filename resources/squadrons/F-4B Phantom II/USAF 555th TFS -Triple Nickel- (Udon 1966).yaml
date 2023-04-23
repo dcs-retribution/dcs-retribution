@@ -1,0 +1,22 @@
+---
+name: USAF 555th TFS
+nickname: Triple Nickel
+country: USA
+role: Fighter Bomber
+aircraft: F-4B Phantom II
+livery: USAF 555 TFS - 463 (SEA)
+mission_types:
+  - Anti-ship
+  - BAI
+  - BARCAP
+  - CAS
+  - DEAD
+  - Escort
+  - Intercept
+  - OCA/Aircraft
+  - OCA/Runway
+  - SEAD
+  - SEAD Escort
+  - Strike
+  - Fighter sweep
+  - TARCAP

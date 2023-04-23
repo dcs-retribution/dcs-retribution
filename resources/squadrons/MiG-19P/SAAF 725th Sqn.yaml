@@ -1,0 +1,14 @@
+---
+name: 725th Squadron
+nickname: 725th
+country: Syria
+role: Air Superiority Fighter
+aircraft: MiG-19P Farmer-B
+livery: "Syria - Silver"
+mission_types:
+  - BARCAP
+  - TARCAP
+  - Escort
+  - Intercept
+  - Fighter sweep
+  - TARCAP

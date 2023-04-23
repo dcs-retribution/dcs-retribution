@@ -1,0 +1,22 @@
+---
+name: USAF 469th TFS A
+nickname: Wild Weasels
+country: USA
+role: Fighter Bomber
+aircraft: F-4E Phantom II
+livery: USAF JV 69-123 (SEA)
+mission_types:
+  - Anti-ship
+  - BAI
+  - BARCAP
+  - CAS
+  - DEAD
+  - Escort
+  - Intercept
+  - OCA/Aircraft
+  - OCA/Runway
+  - SEAD
+  - SEAD Escort
+  - Strike
+  - Fighter sweep
+  - TARCAP

@@ -1,0 +1,25 @@
+---
+name: VA-212
+nickname: Rampant Riders
+country: USA
+role: Carrier-based Attack/Light Fighter
+aircraft: A-4E Skyhawk
+bases:
+  carrier: true
+  shore: true
+livery: USN VA-212 Rampant Raiders
+mission_types:
+  - BAI
+  - BARCAP
+  - CAS
+  - DEAD
+  - Escort
+  - OCA/Aircraft
+  - OCA/Runway
+  - SEAD
+  - SEAD Escort
+  - Strike
+  - Fighter sweep
+  - TARCAP
+players:
+  - BlueCat

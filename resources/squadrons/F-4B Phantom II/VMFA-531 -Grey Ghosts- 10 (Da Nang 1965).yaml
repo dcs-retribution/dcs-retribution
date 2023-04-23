@@ -1,0 +1,22 @@
+---
+name: VMFA-531
+nickname: Grey Ghosts
+country: USA
+role: Fighter Bomber
+aircraft: F-4B Phantom II
+livery: VMFA-531_10
+mission_types:
+  - Anti-ship
+  - BAI
+  - BARCAP
+  - CAS
+  - DEAD
+  - Escort
+  - Intercept
+  - OCA/Aircraft
+  - OCA/Runway
+  - SEAD
+  - SEAD Escort
+  - Strike
+  - Fighter sweep
+  - TARCAP

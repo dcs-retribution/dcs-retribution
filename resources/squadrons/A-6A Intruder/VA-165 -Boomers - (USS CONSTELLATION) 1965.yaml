@@ -1,0 +1,20 @@
+---
+name: VA-165 Boomers
+nickname: Boomers
+country: USA
+role: Carrier-based Attack
+aircraft: A-6A Intruder
+livery: VA-165 Boomers - HD 521 - HiVis
+mission_types:
+  - BAI
+  - BARCAP
+  - CAS
+  - DEAD
+  - Escort
+  - OCA/Aircraft
+  - OCA/Runway
+  - SEAD
+  - SEAD Escort
+  - Strike
+  - Fighter sweep
+  - TARCAP

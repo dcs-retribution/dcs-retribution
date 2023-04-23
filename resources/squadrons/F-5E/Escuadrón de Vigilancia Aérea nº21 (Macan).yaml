@@ -1,0 +1,25 @@
+---
+name: Escuadrón de Vigilancia Aérea nº21 (Macan)
+nickname: Siroco
+country: Spain
+role: Strike Fighter
+aircraft: F-5E Tiger II
+livery: SP Spanish Air Force 21-51
+mission_types:
+  - Anti-ship
+  - BAI
+  - BARCAP
+  - CAS
+  - DEAD
+  - Escort
+  - Intercept
+  - OCA/Aircraft
+  - OCA/Runway
+  - SEAD
+  - SEAD Escort
+  - Strike
+  - Fighter sweep
+  - TARCAP
+players:
+  - Mad Max
+  - Aranako

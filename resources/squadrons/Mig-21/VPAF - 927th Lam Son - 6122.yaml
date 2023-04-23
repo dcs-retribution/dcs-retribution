@@ -1,0 +1,14 @@
+---
+name: VVPAF - 927th Lam Son - 6122
+nickname: 927-6122th
+country: Vietnam
+role: Air Superiority Fighter
+aircraft: MiG-21bis Fishbed-N
+livery: "VPAF - 927th Lam Son - 6122"
+mission_types:
+  - BARCAP
+  - TARCAP
+  - Escort
+  - Intercept
+  - Fighter sweep
+  - TARCAP

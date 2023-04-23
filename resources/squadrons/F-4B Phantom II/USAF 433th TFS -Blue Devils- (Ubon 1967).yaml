@@ -1,0 +1,22 @@
+---
+name: USAF 433th TFS
+nickname: Blue Devils
+country: USA
+role: Fighter Bomber
+aircraft: F-4B Phantom II
+livery: USAF 433 TFS 63-7680 (SEA)
+mission_types:
+  - Anti-ship
+  - BAI
+  - BARCAP
+  - CAS
+  - DEAD
+  - Escort
+  - Intercept
+  - OCA/Aircraft
+  - OCA/Runway
+  - SEAD
+  - SEAD Escort
+  - Strike
+  - Fighter sweep
+  - TARCAP

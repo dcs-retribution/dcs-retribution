@@ -1,0 +1,20 @@
+---
+name: VA-304 Firebirds
+nickname: Firebirds
+country: USA
+role: Carrier-based Attack
+aircraft: A-6A Intruder
+livery: VA-304 Firebirds AA - HD 422 - HiVis
+mission_types:
+  - BAI
+  - BARCAP
+  - CAS
+  - DEAD
+  - Escort
+  - OCA/Aircraft
+  - OCA/Runway
+  - SEAD
+  - SEAD Escort
+  - Strike
+  - Fighter sweep
+  - TARCAP

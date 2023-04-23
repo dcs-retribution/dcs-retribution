@@ -1,0 +1,14 @@
+---
+name: VPAF - 480th AWP
+nickname: 480th
+country: Vietnam
+role: Air Superiority Fighter
+aircraft: MiG-15bis Fagot
+livery:
+mission_types:
+  - BARCAP
+  - TARCAP
+  - Escort
+  - Intercept
+  - Fighter sweep
+  - TARCAP

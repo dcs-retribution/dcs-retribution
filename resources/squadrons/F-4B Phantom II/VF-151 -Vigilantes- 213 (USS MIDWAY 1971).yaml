@@ -1,0 +1,22 @@
+---
+name: VF-151
+nickname: Vigilantes
+country: USA
+role: Fighter Bomber
+aircraft: F-4B Phantom II
+livery: VF-151 213 USS MIDWAY
+mission_types:
+  - Anti-ship
+  - BAI
+  - BARCAP
+  - CAS
+  - DEAD
+  - Escort
+  - Intercept
+  - OCA/Aircraft
+  - OCA/Runway
+  - SEAD
+  - SEAD Escort
+  - Strike
+  - Fighter sweep
+  - TARCAP
