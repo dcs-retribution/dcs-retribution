@@ -1,0 +1,20 @@
+---
+name: VA-34 Blue Blasters
+nickname: Blue Blasters
+country: USA
+role: Carrier-based Attack
+aircraft: A-6A Intruder
+livery: VA-34 Blue Blasters AB - HD 514
+mission_types:
+  - BAI
+  - BARCAP
+  - CAS
+  - DEAD
+  - Escort
+  - OCA/Aircraft
+  - OCA/Runway
+  - SEAD
+  - SEAD Escort
+  - Strike
+  - Fighter sweep
+  - TARCAP

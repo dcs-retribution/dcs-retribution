@@ -1,0 +1,23 @@
+---
+name: 522nd Figher Sqn
+nickname: Black Widows
+country: USA
+role: Strike Fighter
+aircraft: F-5E Tiger II
+livery: South Vietnam 522nd Figher Sqn 10525
+mission_types:
+  - Anti-ship
+  - BAI
+  - BARCAP
+  - CAS
+  - DEAD
+  - Escort
+  - Intercept
+  - OCA/Aircraft
+  - OCA/Runway
+  - SEAD
+  - SEAD Escort
+  - Strike
+  - Fighter sweep
+  - TARCAP
+  

@@ -1,0 +1,22 @@
+---
+name: VF-14
+nickname: Tophatters
+country: USA
+role: Fighter Bomber
+aircraft: F-4B Phantom II
+livery: VF-14 101
+mission_types:
+  - Anti-ship
+  - BAI
+  - BARCAP
+  - CAS
+  - DEAD
+  - Escort
+  - Intercept
+  - OCA/Aircraft
+  - OCA/Runway
+  - SEAD
+  - SEAD Escort
+  - Strike
+  - Fighter sweep
+  - TARCAP

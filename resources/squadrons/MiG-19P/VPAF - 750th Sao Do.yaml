@@ -1,0 +1,14 @@
+---
+name: VVPAF - 750th Sao Do
+nickname: 750th
+country: Vietnam
+role: Air Superiority Fighter
+aircraft: MiG-19P Farmer-B
+livery: "VPAF Green"
+mission_types:
+  - BARCAP
+  - TARCAP
+  - Escort
+  - Intercept
+  - Fighter sweep
+  - TARCAP

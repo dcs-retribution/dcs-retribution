@@ -1,0 +1,9 @@
+---
+name: VS-28 (Tanker)
+nickname: Gamblers
+country: USA
+role: Tanker
+aircraft: S-3B Tanker
+livery: USAF - VS-28 - CAG
+mission_types:
+  - Refueling

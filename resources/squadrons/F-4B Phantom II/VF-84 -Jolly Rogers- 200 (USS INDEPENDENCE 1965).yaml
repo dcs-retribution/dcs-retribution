@@ -1,0 +1,22 @@
+---
+name: VF-84
+nickname: Jolly Rogers
+country: USA
+role: Fighter Bomber
+aircraft: F-4B Phantom II
+livery: VF-84 Jolly Rogers 200 15-5868
+mission_types:
+  - Anti-ship
+  - BAI
+  - BARCAP
+  - CAS
+  - DEAD
+  - Escort
+  - Intercept
+  - OCA/Aircraft
+  - OCA/Runway
+  - SEAD
+  - SEAD Escort
+  - Strike
+  - Fighter sweep
+  - TARCAP

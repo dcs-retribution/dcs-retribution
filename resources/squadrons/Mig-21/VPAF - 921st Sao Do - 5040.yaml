@@ -1,0 +1,14 @@
+---
+name: VPAF - 921st Sao Do - 5040
+nickname: 921st
+country: Vietnam
+role: Air Superiority Fighter
+aircraft: MiG-21bis Fishbed-N
+livery: "VPAF - 921st Sao Do - 5040"
+mission_types:
+  - BARCAP
+  - TARCAP
+  - Escort
+  - Intercept
+  - Fighter sweep
+  - TARCAP

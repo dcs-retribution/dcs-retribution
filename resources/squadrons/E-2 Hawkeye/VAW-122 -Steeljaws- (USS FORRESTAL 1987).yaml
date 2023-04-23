@@ -1,0 +1,9 @@
+---
+name: VAW-122
+nickname: Steeljaws
+country: USA
+role: AEW&C
+aircraft: E-2C Hawkeye
+livery: US Navy - 90s - VAW-122 AE 600
+mission_types:
+  - AEW&C

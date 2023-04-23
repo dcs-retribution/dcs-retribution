@@ -1,0 +1,14 @@
+---
+name: VPAF - VA-216
+nickname: Mortal Vipers
+country: Vietnam
+role: Air Superiority Fighter
+aircraft: MiG-15bis Fagot
+livery:
+mission_types:
+  - BARCAP
+  - TARCAP
+  - Escort
+  - Intercept
+  - Fighter sweep
+  - TARCAP

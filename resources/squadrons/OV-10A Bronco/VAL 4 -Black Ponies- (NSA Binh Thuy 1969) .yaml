@@ -1,0 +1,16 @@
+---
+name: VAL 4 Black Ponies
+nickname: Black Ponies
+country: USA
+role: Close Air Support
+aircraft: OV-10A Bronco
+livery: VAL-4 104
+mission_types:
+  - BAI
+  - CAS
+  - DEAD
+  - OCA/Aircraft
+  - OCA/Runway
+  - Strike
+players:
+  - BlueCat

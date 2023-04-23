@@ -1,0 +1,22 @@
+---
+name: USMC VMFA 235 
+nickname: Death Angels
+country: USA
+role: Fighter Bomber
+aircraft: F-4E Phantom II
+livery: USMC VMFA 235
+mission_types:
+  - Anti-ship
+  - BAI
+  - BARCAP
+  - CAS
+  - DEAD
+  - Escort
+  - Intercept
+  - OCA/Aircraft
+  - OCA/Runway
+  - SEAD
+  - SEAD Escort
+  - Strike
+  - Fighter sweep
+  - TARCAP
