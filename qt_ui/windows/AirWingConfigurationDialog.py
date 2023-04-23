@@ -453,7 +453,8 @@ class AircraftTypeList(QListView):
 
     @staticmethod
     def icon_for(aircraft: AircraftType) -> Optional[QIcon]:
-        name = aircraft.dcs_id
+        # Replace slashes with underscores because slashes are not allowed in filenames
+        name = aircraft.dcs_id.replace("/", "_")
         if name in AIRCRAFT_ICONS:
             return QIcon(AIRCRAFT_ICONS[name])
         return None

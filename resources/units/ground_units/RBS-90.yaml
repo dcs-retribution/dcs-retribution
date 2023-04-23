@@ -1,0 +1,14 @@
+class: Manpad
+spawn_weight: 1
+description: Man-portable air defense system used for very short distances.
+  Primarily used against slow and low flying attack aircraft or helicopters.
+  
+  Works together with the UndE 23 search and track radar,
+  but will function standalone.
+introduced: 1993
+manufacturer: Bofors
+origin: Sweden
+price: 17
+role: Surface-to-Air Missile Launcher
+variants:
+  RBS 90 EldE 90 Stationary SAM LN: {}

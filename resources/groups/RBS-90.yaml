@@ -1,0 +1,9 @@
+name: RBS-90
+tasks:
+  - SHORAD
+units:
+  - RBS 90 EldE 90 Stationary SAM LN
+  - BV 410 RBS 90
+  - SAM UndE 23 (RBS 70/90/98) STR
+layouts:
+  - 2 Launcher Site

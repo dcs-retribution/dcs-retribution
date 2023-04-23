@@ -31,7 +31,7 @@ body:
         If the bug was found in a test/development build, select "Test build" or "Development build"
         and provide a link to the applicable build in the field below.
       options:
-        - 1.0.0
+        - v1.1
         - Test build
         - Development build
   - type: input

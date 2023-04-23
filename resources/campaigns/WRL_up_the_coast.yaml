@@ -21,13 +21,14 @@ description:   "<p>This mission was designed for the We Run Liberation group [WR
   be deployed at once. Each airbase has one or more factories. Each airbase has only three ammo targets. Do not
   destroy these if you wish to use them after you capture them</p>"
 miz: WRL_up_the_coast.miz
-max_frontline_length: 30
 performance: 2
 version: "10.5"
 recommended_player_money: 2000
 recommended_enemy_money: 2000
 recommended_player_income_multiplier: 1.0
 recommended_enemy_income_multiplier: 1.0
+settings:
+  max_frontline_length: 30
 advanced_iads: false
 squadrons:
   Blue CV-1:

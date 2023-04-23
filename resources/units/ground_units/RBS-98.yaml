@@ -1,0 +1,13 @@
+class: Launcher
+description: Short range air defense launcher mounted on the all-terrain
+  vehicle BV 410 for good mobility and quick deployment.
+  
+  The launcher is equipped with 4 IRIS-T SLS short range missiles and
+  works together with the UndE 23 search and track radar.
+introduced: 2020
+manufacturer: Diehl BGT Defence / BAE Systems Hägglunds
+origin: Sweden
+price: 20
+role: Self-Propelled Surface-to-Air Missile Launcher
+variants:
+  RBS 98 EldE 98 Mobile SAM LN: {}

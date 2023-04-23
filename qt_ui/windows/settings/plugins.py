@@ -28,8 +28,8 @@ class PluginsBox(QGroupBox):
             layout.addWidget(QLabel(plugin.name), row, 0)
 
             checkbox = QCheckBox()
-            checkbox.setChecked(plugin.enabled)
-            checkbox.toggled.connect(plugin.set_enabled)
+            checkbox.setChecked(plugin.get_value)
+            checkbox.toggled.connect(plugin.set_value)
             layout.addWidget(checkbox, row, 1)
 
 

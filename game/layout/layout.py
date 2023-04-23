@@ -137,11 +137,14 @@ class TgoLayoutUnitGroup:
 
     @property
     def group_size(self) -> int:
-        """The amount of units to be generated. If unit_count is defined in the layout this will be randomized accordingly. Otherwise this will be the maximum size."""
+        """
+        The amount of units to be generated. If unit_count is defined in the layout this will be
+        randomized accordingly. Otherwise this will be the maximum size.
+        """
         if self.unit_count:
             if len(self.unit_count) == 1:
                 return self.unit_count[0]
-            return random.choice(range(min(self.unit_count), max(self.unit_count)))
+            return random.choice(range(min(self.unit_count), max(self.unit_count) + 1))
         return self.max_size
 
     @property

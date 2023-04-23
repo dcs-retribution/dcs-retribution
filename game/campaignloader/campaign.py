@@ -56,6 +56,7 @@ class Campaign:
     data: Dict[str, Any]
     path: Path
     advanced_iads: bool
+    settings: Dict[str, Any]
 
     @classmethod
     def from_file(cls, path: Path) -> Campaign:
@@ -108,6 +109,7 @@ class Campaign:
             data,
             path,
             data.get("advanced_iads", False),
+            data.get("settings", {}),
         )
 
     def load_theater(self, advanced_iads: bool) -> ConflictTheater:
@@ -141,7 +143,7 @@ class Campaign:
     def load_ground_forces_config(self) -> TgoConfig:
         ground_forces = self.data.get("ground_forces", {})
         if not ground_forces:
-            logging.warning(f"Campaign {self.name} does not define any squadrons")
+            logging.warning(f"Campaign {self.name} does not define any ground_forces")
             return TgoConfig({})
         return TgoConfig.from_campaign_data(ground_forces)
 

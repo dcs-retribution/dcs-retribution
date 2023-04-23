@@ -12,8 +12,11 @@ recommended_player_income_multiplier: 1.2
 recommended_enemy_income_multiplier: 0.7
 miz: 1968_Yankee_Station.miz
 performance: 2
-version: "10.4"
+version: "10.6"
 advanced_iads: false
+
+ground_forces:
+  Ho Chi Min Trail 2-3: SA-2/S-75 with ZSU-23/57
 
 #        
 squadrons:

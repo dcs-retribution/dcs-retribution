@@ -290,12 +290,9 @@ class WaypointBuilder:
         return self._target_area(f"STRIKE {target.name}", target)
 
     def sead_area(self, target: MissionTarget) -> FlightWaypoint:
-        # Set flyover with ingress altitude to allow the flight to search and engage
-        # the target group at the ingress alt without suicide dive
         return self._target_area(
             f"SEAD on {target.name}",
             target,
-            flyover=True,
             altitude=self.doctrine.ingress_altitude,
             alt_type="BARO",
         )
@@ -316,8 +313,8 @@ class WaypointBuilder:
         # plan.
         return self._target_area(f"ASSAULT {target.name}", target)
 
-    @staticmethod
     def _target_area(
+        self,
         name: str,
         location: MissionTarget,
         flyover: bool = False,
@@ -423,6 +420,29 @@ class WaypointBuilder:
             altitude,
             description="Anchor and hold at this point",
             pretty_name="Orbit",
+        )
+
+    def sead_search(self, target: MissionTarget) -> FlightWaypoint:
+        """Creates custom waypoint for AI SEAD flights
+            to avoid having them fly all the way to the SAM site.
+        Args:
+            target: Target information.
+        """
+        # Use the threat range as offset distance to avoid flying all the way to the SAM site
+        assert self.flight.package.waypoints
+        ingress = self.flight.package.waypoints.ingress
+        threat_range = 1.1 * max([x.threat_range for x in target.strike_targets]).meters
+        hdg = target.position.heading_between_point(ingress)
+        hold = target.position.point_from_heading(hdg, threat_range)
+
+        return FlightWaypoint(
+            "SEAD Search",
+            FlightWaypointType.CUSTOM,
+            hold,
+            self.doctrine.ingress_altitude,
+            alt_type="BARO",
+            description="Anchor and search from this point",
+            pretty_name="SEAD Search",
         )
 
     @staticmethod

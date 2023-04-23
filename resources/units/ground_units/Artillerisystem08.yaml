@@ -1,0 +1,14 @@
+class: Artillery
+description: The Archer Artillery System or Artillerisystem 08 is a
+  self-propelled gun system of Sweden. The main piece of the system is
+  a fully automated 155 mm/L52 gun howitzer and a M151 Protector remote
+  controlled weapon station mounted on a modified 6x6 chassis of the
+  Volvo A30D all-terrain articulated hauler.
+introduced: 2016
+manufacturer: Bofors
+origin: Sweden
+price: 25
+role: Self-Propelled Gun
+variants:
+  Artillerisystem 08 SPG: {}
+  Haubits 77 AD SPG: {}

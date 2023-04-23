@@ -47,8 +47,8 @@ class Migrator:
     def _update_packagewaypoints(self) -> None:
         for c in self.game.coalitions:
             for p in c.ato.packages:
-                if p.flights:
-                    try_set_attr(p.waypoints, "initial", PackageWaypoints.create(p, c))
+                if p.waypoints:
+                    try_set_attr(p.waypoints, "initial", None)
 
     def _update_package_attributes(self) -> None:
         for c in self.game.coalitions:
@@ -76,3 +76,4 @@ class Migrator:
             try_set_attr(f, "frequency")
             try_set_attr(f, "tacan")
             try_set_attr(f, "tcn_name")
+            try_set_attr(f, "fuel", f.unit_type.max_fuel)

@@ -1,0 +1,12 @@
+class: AAA
+description: The Luftvärnskanonvagn (lvkv) 9040 is a self-propelled anti-aircraft gun
+  vehicle, fitted with PS-95 radar from Thomson CSF Harfang (now Thales Group) and a
+  high elevation 40 mm autocannon capable of using programmable ammunition. It is
+  connected to the national air defence net LuLIS.
+introduced: 1993
+manufacturer: Försvarets Materielverk, Hägglunds and Bofors
+origin: Sweden
+price: 24
+role: Self-Propelled Anti-Aircraft Gun
+variants:
+  Lvkv 9040 SPAAG: {}

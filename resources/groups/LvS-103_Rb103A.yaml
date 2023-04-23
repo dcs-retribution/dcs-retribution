@@ -1,0 +1,11 @@
+name: LvS-103 Rb103A
+tasks:
+  - LORAD
+units:
+  - SAM LvS-103 PM 103 Stationary STR
+  - SAM LvS-103 StriE 103 Mobile ECS
+  - SAM LvS-103 Elverk 103 Mobile EPP
+  - SAM LvS-103 Lavett 103 Rb103A Stationary LN
+  - SAM LvS-103 Lavett 103 Rb103B Stationary LN
+layouts:
+  - LvS-103A Battery

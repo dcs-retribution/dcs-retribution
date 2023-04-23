@@ -1,0 +1,53 @@
+name: LvS-103B Battery
+tasks:
+  - MERAD
+groups:
+  - Patriot:
+    - name: Patriot Battery 0
+      unit_count:
+        - 2
+      unit_types:
+        - LvS-103_PM103
+    - name: Patriot Battery 1
+      unit_count:
+        - 1
+      unit_classes:
+        - SHORAD
+    - name: Patriot Battery 2
+      unit_count:
+        - 1
+      unit_types:
+        - LvS-103_StriE103
+    - name: Patriot Battery 3
+      unit_count:
+        - 1
+      unit_classes:
+        - SHORAD
+    - name: Patriot Battery 4
+      unit_count:
+        - 1
+      unit_types:
+        - LvS-103_Elverk103
+    - name: Patriot Battery 5
+      unit_count:
+        - 8
+      unit_types:
+        - LvS-103_Lavett103_Rb103B
+  - PD:
+    - name: Patriot Battery 7
+      optional: true
+      sub_task: PointDefense
+      unit_count:
+        - 1
+        - 2
+      unit_classes:
+        - SHORAD
+    - name: Patriot Battery 6
+      sub_task: AAA
+      optional: true
+      unit_count:
+        - 1
+        - 2
+      unit_classes:
+        - AAA
+layout_file: resources/layouts/anti_air/Patriot_Battery.miz

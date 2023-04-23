@@ -142,8 +142,9 @@ from pydcs_extensions.f16i_idf.f16i_idf import (
 from pydcs_extensions.f22a.f22a import F_22A
 from pydcs_extensions.f4b.f4b import VSN_F4B, VSN_F4C
 from pydcs_extensions.f84g.f84g import VSN_F84G
+from pydcs_extensions.fa18efg.fa18efg import FA_18E, FA_18F, EA_18G
 from pydcs_extensions.hercules.hercules import Hercules
-from pydcs_extensions.jas39.jas39 import JAS39Gripen, JAS39Gripen_AG
+from pydcs_extensions.jas39.jas39 import JAS39Gripen, JAS39Gripen_BVR, JAS39Gripen_AG
 from pydcs_extensions.su30.su30 import Su_30MKA, Su_30MKI, Su_30MKM, Su_30SM
 from pydcs_extensions.su57.su57 import Su_57
 from pydcs_extensions.ov10a.ov10a import Bronco_OV_10A
@@ -182,8 +183,11 @@ ESCORT_CAPABLE = [
     F_16D_50_NS,
     F_16D_52,
     F_16D_52_NS,
+    FA_18E,
+    FA_18F,
     FA_18C_hornet,
     JF_17,
+    JAS39Gripen_BVR,
     JAS39Gripen,
     F_16A_MLU,
     F_16A,
@@ -258,6 +262,8 @@ CAS_CAPABLE = [
     F_16D_50_NS,
     F_16D_52,
     F_16D_52_NS,
+    FA_18E,
+    FA_18F,
     FA_18C_hornet,
     Tornado_GR4,
     Tornado_IDS,
@@ -359,6 +365,9 @@ SEAD_ESCORT_CAPABLE = [
     F_16D_50_NS,
     F_16D_52,
     F_16D_52_NS,
+    EA_18G,
+    FA_18E,
+    FA_18F,
     FA_18C_hornet,
     Tornado_IDS,
     Su_25T,
@@ -383,7 +392,6 @@ SEAD_ESCORT_CAPABLE = [
 
 
 SEAD_CAPABLE = SEAD_ESCORT_CAPABLE + [
-    F_16A_MLU,
     F_14B,
     F_14A_135_GR,
 ]
@@ -391,6 +399,7 @@ SEAD_CAPABLE = SEAD_ESCORT_CAPABLE + [
 # Aircraft used for DEAD tasks. Must be capable of the CAS DCS task.
 DEAD_CAPABLE = SEAD_CAPABLE + [
     AJS37,
+    F_16A_MLU,
     F_16A,
     F_15E,
     JAS39Gripen_AG,
@@ -444,6 +453,8 @@ STRIKE_CAPABLE = [
     F_16D_50_NS,
     F_16D_52,
     F_16D_52_NS,
+    FA_18E,
+    FA_18F,
     FA_18C_hornet,
     AV8BNA,
     JF_17,
@@ -524,6 +535,8 @@ ANTISHIP_CAPABLE = [
     Tu_142,
     Tu_22M3,
     H_6J,
+    FA_18E,
+    FA_18F,
     FA_18C_hornet,
     JAS39Gripen_AG,
     F_16A_MLU,
@@ -579,6 +592,8 @@ RUNWAY_ATTACK_CAPABLE = [
     F_16D_50_NS,
     F_16D_52,
     F_16D_52_NS,
+    FA_18E,
+    FA_18F,
     FA_18C_hornet,
     AV8BNA,
     JF_17,

@@ -249,12 +249,4 @@ class FlightGroupConfigurator:
             )
             fuel = 100
         for unit, pilot in zip(self.group.units, self.flight.roster.pilots):
-            if pilot is not None and pilot.player:
-                unit.fuel = fuel
-            elif (max_takeoff_fuel := self.flight.max_takeoff_fuel()) is not None:
-                unit.fuel = max_takeoff_fuel
-            else:
-                # pydcs arbitrarily reduces the fuel of in-flight spawns by 10%. We do
-                # our own tracking, so undo that.
-                # https://github.com/pydcs/dcs/commit/303a81a8e0c778599fe136dd22cb2ae8123639a6
-                unit.fuel = self.flight.unit_type.dcs_unit_type.fuel_max
+            unit.fuel = fuel

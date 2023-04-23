@@ -4,7 +4,7 @@ from datetime import timedelta
 from typing import Any, Iterable, Union
 
 from dcs import Mission
-from dcs.planes import AJS37, F_14B, JF_17
+from dcs.planes import AJS37, F_14A_135_GR, F_14B, JF_17
 from dcs.point import MovingPoint, PointAction
 from dcs.unitgroup import FlyingGroup
 
@@ -91,5 +91,5 @@ class PydcsWaypointBuilder:
         for i, t in enumerate(targets):
             if self.group.units[0].unit_type == JF_17 and i < 4:
                 self.group.add_nav_target_point(t.position, "PP" + str(i + 1))
-            if self.group.units[0].unit_type == F_14B and i == 0:
+            if self.group.units[0].unit_type in [F_14B, F_14A_135_GR] and i == 0:
                 self.group.add_nav_target_point(t.position, "ST")

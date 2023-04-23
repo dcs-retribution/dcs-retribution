@@ -7,6 +7,7 @@ from dcs.task import (
     Expend,
     OptECMUsing,
     WeaponType as DcsWeaponType,
+    OptRestrictAfterburner,
 )
 
 from game.data.weapons import WeaponType
@@ -26,6 +27,14 @@ class SeadIngressBuilder(PydcsWaypointBuilder):
             )
             return
 
+        # Preemptively use ECM to better avoid getting swatted.
+        ecm_option = OptECMUsing(value=OptECMUsing.Values.UseIfDetectedLockByRadar)
+        waypoint.tasks.append(ecm_option)
+
+        # Avoid having AI burn all of its fuel while loitering until next weapon release
+        burn_restrict = OptRestrictAfterburner(True)
+        waypoint.tasks.append(burn_restrict)
+
         for group in target.groups:
             miz_group = self.mission.find_group(group.group_name)
             if miz_group is None:
@@ -34,6 +43,16 @@ class SeadIngressBuilder(PydcsWaypointBuilder):
                 )
                 continue
 
+            # Use decoys first
+            attack_task = AttackGroup(
+                miz_group.id,
+                weapon_type=DcsWeaponType.Decoy,
+                group_attack=True,
+                expend=Expend.All,
+                altitude=round(waypoint.alt * 1.5),  # 50% increase to force a climb
+            )
+            waypoint.tasks.append(attack_task)
+
             if self.flight.loadout.has_weapon_of_type(WeaponType.ARM):
                 # Special handling for ARM Weapon types:
                 # The SEAD flight will Search for the targeted group and then engage it
@@ -41,21 +60,16 @@ class SeadIngressBuilder(PydcsWaypointBuilder):
                 # when skynet is enabled and the Radar is not emitting. They dive
                 # into the SAM instead of waiting for it to come alive
                 engage_task = EngageGroup(miz_group.id)
-                engage_task.params["weaponType"] = DcsWeaponType.Guided.value
-                engage_task.params["groupAttack"] = True
-                engage_task.params["expend"] = Expend.All.value
+                engage_task.params["weaponType"] = DcsWeaponType.ARM.value
                 waypoint.tasks.append(engage_task)
-            else:
-                # All non ARM types like Decoys will use the normal AttackGroup Task
-                attack_task = AttackGroup(
-                    miz_group.id,
-                    weapon_type=DcsWeaponType.Decoy,
-                    group_attack=True,
-                    expend=Expend.All,
-                    altitude=waypoint.alt,
-                )
-                waypoint.tasks.append(attack_task)
 
-        # Preemptively use ECM to better avoid getting swatted.
-        ecm_option = OptECMUsing(value=OptECMUsing.Values.UseIfDetectedLockByRadar)
-        waypoint.tasks.append(ecm_option)
+            # Use other Air-to-Surface Missiles at last
+            attack_task = AttackGroup(
+                miz_group.id,
+                weapon_type=DcsWeaponType.ASM,
+                altitude=waypoint.alt,  # flight loses alt with AB restriction
+            )
+            waypoint.tasks.append(attack_task)
+
+        burn_free = OptRestrictAfterburner(False)
+        waypoint.tasks.append(burn_free)

@@ -1,0 +1,8 @@
+name: RBS-15
+tasks:
+  - Coastal
+units:
+  - AShM RBS 15KA
+  - SAM UndE 23 (RBS 70/90/98) STR
+layouts:
+  - Silkworm

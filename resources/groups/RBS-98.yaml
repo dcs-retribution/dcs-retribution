@@ -1,0 +1,9 @@
+name: RBS-98
+tasks:
+  - SHORAD
+units:
+  - RBS 98 EldE 98 Mobile SAM LN
+  - SAM UndE 23 (RBS 70/90/98) STR
+layouts:
+  - 6 Launcher Site (Semicircle)
+  - 6 Launcher Site (Circle)

@@ -1,8 +1,34 @@
-# Retribution 1.1.0
+# Retribution v1.2.0
+
+## Features/Improvements
+* **[Preset Groups]** Add SA-2 with ZSU-23/57
+* **[Campaign Design]** Ability to define almost all possible settings in the campaign's yaml file.
+* **[Options]** Ability to load & save your settings.
+* **[UI]** Added fuel selector in flight's edit window.
+* **[Plugins]** Expose Splash Damage's "game_messages" option and set its default to false.
+* **[Mission Generation]** Improved AI SEAD capabilities, allowing for mixed loadouts using Decoys, ARMs & ASMs.
+
+## Fixes
+* **[New Game Wizard]** Settings would not persist when going back to a previous page.
+
+
+# Retribution v1.1.1  (hotfix)
+
+## Features/Improvements
+* **[Modding]** Support for IDF Mod Project F-16I Sufa & F-16D v3.6 mod
+* **[Modding]** Support for JAS-39 Gripen v1.8.5-beta mod
+
+## Fixes
+* **[Plugins]** Fix bug where changes to plugin options doesn't do anything.
+* **[Campaign Management]** Fix bug in procurement when no squadrons are present.
+* **[Layouts]** Fix edge-case bug layout's group size.
+* **[Campaign Design]** Preset groups assigned to specific TGOs not working as intended.
+
+# Retribution v1.1.0
 
 ## Features/Improvements
 * **[Mission Generation]** Given a CAS flight was planned, delay ground force attack until first CAS flight is on station
-* **[Mission Generation]** Add option to switch ATFLIR to LITENING automatically for ground based F-18C flights
+* **[Mission Generation]** Add option to switch ATFLIR to LITENING automatically for ground based F/A-18C flights
 * **[Mission Generation]** Add option to configure OPFOR autoplanner aggressiveness and have the AI take risks and plan missions against defended targets
 * **[Mission Generation]** Add option to configure the desired tanker on-station time in settings
 * **[Mission Generation]** Reserve GUARD frequency on VHF/UHF
@@ -11,6 +37,8 @@
 * **[Mission Generation]** Enable spectating & F11 free camera when the "Allow external views" option is selected
 * **[Cheat Menu]** Option to instantly transfer squadrons across bases.
 * **[Modding]** Support for IDF Mod Project F-16I Sufa & F-16D v3.2 mod
+* **[Modding]** Support for F/A-18E/F/G mod version 2.1
+* **[Modding]** Support for Swedish Military Assets for DCS by Currenthill Version 1.10
 * **[UI]** Add selectable units in faction overview during campaign generation.
 * **[UI]** Add button to rename pilots in Air Wing's Squadron dialog.
 * **[UI]** Add clone buttons for flights & packages.
@@ -29,6 +57,7 @@
 * **[Campaign Management]** Additional options for automated budget management.
 * **[Campaign Management]** New options to allow more control of randomized flight sizes (applicable for BARCAP/CAS/OCA/ANTI-SHIP).
 * **[Plugins]** Updated Splash Damage script to v2.0 by RotorOps.
+* **[Mission Generation]** Improvements to DEAD & STRIKE flights, allowing AI to handle a larger variety of weapons.
 
 ## Fixes
 * **[UI]** Removed deprecated options
@@ -38,11 +67,15 @@
 * **[Mission Generation]** Fixed all callsigns being "Enfield 1-1" on dedicated servers.
 * **[Mission Generation]** Fixed AI ferry flights for helicopters when transferring to a FOB/FARP.
 * **[Mission Generation]** Fixed 'Uninitialized flight' exception when adding flights after aborted take-off.
+* **[Modding]** Fixed conflicts caused by HDS units
+* **[UX]** Gracefully handle corrupted preferences file.
+* **[Mission Generation]** Aircraft not using decoys during SEAD.
+* **[Campaign]** New campaign (1968 Yankee Station) by Adecarcer
 
-# Retribution 1.0.1 (hotfix)
+# Retribution v1.0.1 (hotfix)
 * **[Mission Generation]** Fix serialization issue when STRIKE flight has no escorts
 
-# Retribution 1.0.0
+# Retribution v1.0.0
 
 ## Features/Improvements
 * **[Engine]** Support for DCS v2.8.1.34437.

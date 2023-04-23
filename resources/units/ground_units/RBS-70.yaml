@@ -1,0 +1,12 @@
+class: Launcher
+description: Man-portable air defense system used for very short distances.
+  Primarily used against slow and low flying attack aircraft or helicopters.
+  
+  Works together with the UndE 23 search and track radar.
+introduced: 1977
+manufacturer: Bofors
+origin: Sweden
+price: 15
+role: Surface-to-Air Missile Launcher
+variants:
+  RBS 70 EldE 70 Stationary SAM LN: {}

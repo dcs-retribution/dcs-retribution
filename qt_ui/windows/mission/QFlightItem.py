@@ -13,7 +13,10 @@ class QFlightItem(QStandardItem):
         self.flight = flight
 
         if self.flight.unit_type.dcs_id in AIRCRAFT_ICONS:
-            icon = QIcon((AIRCRAFT_ICONS[self.flight.unit_type.dcs_id]))
+            # Replace slashes with underscores because slashes are not allowed in filenames
+            icon = QIcon(
+                (AIRCRAFT_ICONS[self.flight.unit_type.dcs_id.replace("/", "_")])
+            )
             self.setIcon(icon)
         self.setEditable(False)
         self.setText(f"{flight} in {flight.flight_plan.startup_time()}")

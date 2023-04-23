@@ -16,6 +16,8 @@ from .skilloption import skill_option
 from ..ato.starttype import StartType
 from ..weather import NightMissions
 
+Views = ForcedOptions.Views
+
 
 @unique
 class AutoAtoBehavior(Enum):
@@ -126,18 +128,18 @@ class Settings:
         choices=["Full", "Abbreviated", "Dot Only", "Neutral Dot", "Off"],
         default="Full",
     )
-    map_coalition_visibility: ForcedOptions.Views = choices_option(
+    map_coalition_visibility: Views = choices_option(
         "Map visibility options",
         page=DIFFICULTY_PAGE,
         section=MISSION_RESTRICTIONS_SECTION,
         choices={
-            "All": ForcedOptions.Views.All,
-            "Fog of war": ForcedOptions.Views.Allies,
-            "Allies only": ForcedOptions.Views.OnlyAllies,
-            "Own aircraft only": ForcedOptions.Views.MyAircraft,
-            "Map only": ForcedOptions.Views.OnlyMap,
+            "All": Views.All,
+            "Fog of war": Views.Allies,
+            "Allies only": Views.OnlyAllies,
+            "Own aircraft only": Views.MyAircraft,
+            "Map only": Views.OnlyMap,
         },
-        default=ForcedOptions.Views.All,
+        default=Views.All,
     )
     external_views_allowed: bool = boolean_option(
         "Allow external views",
@@ -658,7 +660,7 @@ class Settings:
 
     @staticmethod
     def plugin_settings_key(identifier: str) -> str:
-        return f"plugins.{identifier}"
+        return f"{identifier}"
 
     def initialize_plugin_option(self, identifier: str, default_value: Any) -> None:
         try:
@@ -673,6 +675,15 @@ class Settings:
         self.plugins[self.plugin_settings_key(identifier)] = value
 
     def __setstate__(self, state: dict[str, Any]) -> None:
+        # restore Enum & timedelta types
+        for key, value in state.items():
+            if isinstance(self.__dict__.get(key), timedelta) and isinstance(value, int):
+                state[key] = timedelta(minutes=value)
+            elif isinstance(self.__dict__.get(key), Enum) and isinstance(value, str):
+                state[key] = eval(value)
+            elif isinstance(value, dict):
+                state[key] = self.obj_hook(value)
+
         # __setstate__ is called with the dict of the object being unpickled. We
         # can provide save compatibility for new settings options (which
         # normally would not be present in the unpickled object) by creating a
@@ -716,3 +727,22 @@ class Settings:
         for settings_field in fields(cls):
             if SETTING_DESCRIPTION_KEY in settings_field.metadata:
                 yield settings_field
+
+    @staticmethod
+    def default_json(obj: Any) -> Any:
+        # Known types that don't like being serialized,
+        # so we introduce our own implementation...
+        if isinstance(obj, Enum):
+            return {"Enum": str(obj)}
+        elif isinstance(obj, timedelta):
+            return {"timedelta": round(obj.seconds / 60)}
+        return obj
+
+    @staticmethod
+    def obj_hook(obj: Any) -> Any:
+        if (value := obj.get("Enum")) is not None:
+            return eval(value)
+        elif (value := obj.get("timedelta")) is not None:
+            return timedelta(minutes=value)
+        else:
+            return obj

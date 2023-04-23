@@ -1,0 +1,23 @@
+---
+name: VFA-87 (F/A-18E)
+nickname: Golden Warriors
+female_pilot_percentage: 12
+country: USA
+role: Strike Fighter
+aircraft: F/A-18E Super Hornet
+livery: "*VFA-87 NH404"
+mission_types:
+  - Anti-ship
+  - BAI
+  - BARCAP
+  - CAS
+  - DEAD
+  - Escort
+  - Intercept
+  - OCA/Aircraft
+  - OCA/Runway
+  - SEAD
+  - SEAD Escort
+  - Strike
+  - Fighter sweep
+  - TARCAP

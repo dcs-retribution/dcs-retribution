@@ -368,6 +368,7 @@ class Faction:
             self.remove_aircraft("VSN_A6A")
         if not mod_settings.jas39_gripen:
             self.remove_aircraft("JAS39Gripen")
+            self.remove_aircraft("JAS39Gripen_BVR")
             self.remove_aircraft("JAS39Gripen_AG")
         if not mod_settings.su30_flanker_h:
             self.remove_aircraft("Su-30MKA")
@@ -431,6 +432,49 @@ class Faction:
             self.remove_vehicle("SAM SA-14 Strela-3 manpad")
             self.remove_vehicle("SAM SA-24 Igla-S manpad")
             self.remove_vehicle("Polyana-D4M1 C2 node")
+        if not mod_settings.fa_18efg:
+            self.remove_aircraft("FA-18E")
+            self.remove_aircraft("FA-18F")
+            self.remove_aircraft("EA-18G")
+        # swedish military assets pack
+        if not mod_settings.swedishmilitaryassetspack:
+            self.remove_vehicle("BV410_RBS70")
+            self.remove_vehicle("BV410_RBS90")
+            self.remove_vehicle("LvS_103_Lavett103_Rb103A")
+            self.remove_vehicle("LvS_103_Lavett103_Rb103B")
+            self.remove_vehicle("LvS_103_Lavett103_HX_Rb103A")
+            self.remove_vehicle("LvS_103_Lavett103_HX_Rb103B")
+            self.remove_vehicle("LvS_103_StriE103")
+            self.remove_vehicle("LvS_103_PM103")
+            self.remove_vehicle("LvS_103_PM103_HX")
+            self.remove_vehicle("LvS_103_Elverk103")
+            self.remove_vehicle("LvKv9040")
+            self.remove_vehicle("RBS_70")
+            self.remove_vehicle("RBS_90")
+            self.remove_vehicle("RBS_98")
+            self.remove_vehicle("UndE23")
+            self.remove_vehicle("BV410")
+            self.remove_vehicle("CV9040")
+            self.remove_vehicle("Strv103")
+            self.remove_vehicle("Strv121")
+            self.remove_vehicle("Strv122")
+            self.remove_vehicle("Strv2000")
+            self.remove_vehicle("Volvo740")
+            self.remove_vehicle("RBS_15KA")
+            self.remove_vehicle("AG_90")
+            self.remove_vehicle("SwedishinfantryAK4")
+            self.remove_vehicle("SwedishinfantryAK5")
+            self.remove_vehicle("SwedishinfantryAK5GT")
+            self.remove_vehicle("SwedishinfantryKSP90")
+            self.remove_vehicle("SwedishinfantryKSP58")
+            self.remove_vehicle("SwedishinfantryPskott86")
+            self.remove_vehicle("RBS_57")
+            self.remove_vehicle("RBS_58")
+            self.remove_vehicle("Artillerisystem08")
+            self.remove_vehicle("Grkpbv90")
+            self.remove_ship("HSwMS_Visby")
+            self.remove_ship("Strb90")
+            self.remove_aircraft("HKP15B")
 
     def remove_aircraft(self, name: str) -> None:
         for i in self.aircrafts:
@@ -451,6 +495,11 @@ class Faction:
         for i in self.frontline_units:
             if i.dcs_unit_type.id == name:
                 self.frontline_units.remove(i)
+
+    def remove_ship(self, name: str) -> None:
+        for i in self.naval_units:
+            if i.dcs_unit_type.id == name:
+                self.naval_units.remove(i)
 
 
 def load_ship(name: str) -> Optional[Type[ShipType]]:

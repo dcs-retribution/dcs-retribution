@@ -1,0 +1,6 @@
+class: Infantry
+price: 0
+spawn_weight: 1
+variants:
+  Soldier Pskott 86: null
+  Soldier AT-4: null

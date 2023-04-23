@@ -415,7 +415,8 @@ class MultiGroupTransport(MissionTarget, Transport):
         units: dict[GroundUnitType, int] = defaultdict(int)
         for transfer in self.transfers:
             for unit_type, count in transfer.units.items():
-                units[unit_type] += count
+                if count > 0:
+                    units[unit_type] += count
         return units
 
     def iter_units(self) -> Iterator[GroundUnitType]:
@@ -620,13 +621,20 @@ class PendingTransfers:
             raise ValueError
 
         units = {}
+        to_delete = []
         for unit_type, remaining in transfer.units.items():
             take = min(remaining, size)
+            if not take:
+                if not remaining:
+                    to_delete.append(unit_type)
+                continue
             size -= take
             transfer.units[unit_type] -= take
+            if not transfer.units[unit_type]:
+                to_delete.append(unit_type)
             units[unit_type] = take
-            if not size:
-                break
+        for td in to_delete:
+            del transfer.units[td]
         new_transfer = TransferOrder(transfer.origin, transfer.destination, units)
         self.pending_transfers.append(new_transfer)
         return new_transfer

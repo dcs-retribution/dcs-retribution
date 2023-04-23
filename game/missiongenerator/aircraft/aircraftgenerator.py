@@ -108,10 +108,17 @@ class AircraftGenerator:
         self._reserve_frequencies_and_tacan(ato)
 
         for package in reversed(sorted(ato.packages, key=lambda x: x.time_over_target)):
+            logging.info(f"Generating package for target: {package.target.name}")
             if not package.flights:
                 continue
             for flight in package.flights:
                 if flight.alive:
+                    if not flight.squadron.location.runway_is_operational():
+                        logging.warning(
+                            f"Runway not operational, skipping flight: {flight.flight_type}"
+                        )
+                        flight.return_pilots_and_aircraft()
+                        continue
                     logging.info(f"Generating flight: {flight.unit_type}")
                     group = self.create_and_configure_flight(
                         flight, country, dynamic_runways
