@@ -1,0 +1,16 @@
+carrier_capable: true
+description:
+  The LTV A-7 Corsair II is an American carrier-capable subsonic light attack aircraft designed and manufactured by Ling-Temco-Vought (LTV).
+  The A-7 was developed during the early 1960s as replacement for the Douglas A-4 Skyhawk. 
+  Its design was derived from the Vought F-8 Crusader; in comparison with the F-8, the A-7 is both smaller and restricted to subsonic speeds, its airframe being simpler and cheaper to produce.
+  Initially adopted by USN, the A-7 proved attractive to other services, soon being adopted by the United States Air Force (USAF) and the Air National Guard (ANG)
+  Improved models of the A-7 would be developed, typically adopting more powerful engines and increasingly capable avionics.
+  American A-7s would be used in various major conflicts, including the Invasion of Grenada, Operation El Dorado Canyon, and the Gulf War.
+introduced: 1967
+manufacturer: Vought
+origin: USA
+price: 10
+role: Carrier-based Attack
+gunfighter: true
+variants:
+  A-7E Corsair II: {}

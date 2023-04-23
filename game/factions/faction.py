@@ -379,6 +379,8 @@ class Faction:
             self.remove_aircraft("Su-57")
         if not mod_settings.ov10a_bronco:
             self.remove_aircraft("Bronco-OV-10A")
+        if not mod_settings.a7e_corsair2:
+            self.remove_aircraft("A-7E")
         # frenchpack
         if not mod_settings.frenchpack:
             self.remove_vehicle("AMX10RCR")

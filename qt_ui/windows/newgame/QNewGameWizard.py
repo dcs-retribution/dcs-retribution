@@ -183,6 +183,7 @@ class NewGameWizard(QtWidgets.QWizard):
         mod_settings = ModSettings(
             a4_skyhawk=self.field("a4_skyhawk"),
             a6a_intruder=self.field("a6a_intruder"),
+            a7e_corsair2=self.field("a7e_corsair2"),
             f4bc_phantom=self.field("f4bc_phantom"),
             f15d_baz=self.field("f15d_baz"),
             f_16_idf=self.field("f_16_idf"),
@@ -818,6 +819,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("a4_skyhawk", self.a4_skyhawk)
         self.a6a_intruder = QtWidgets.QCheckBox()
         self.registerField("a6a_intruder", self.a6a_intruder)
+        self.a7e_corsair2 = QtWidgets.QCheckBox()
+        self.registerField("a7e_corsair2", self.a6a_intruder)
         self.hercules = QtWidgets.QCheckBox()
         self.registerField("hercules", self.hercules)
         self.uh_60l = QtWidgets.QCheckBox()
@@ -866,6 +869,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         mod_pairs = [
             ("A-4E Skyhawk (v2.1.0)", self.a4_skyhawk),
             ("A-6A Intruder (v2.7.5.01)", self.a6a_intruder),
+            ("A-7E Corsair II", self.a7e_corsair2),
             ("C-130J-30 Super Hercules", self.hercules),
             (
                 "F-4B/C Phantom II (v2.8.1.01 Standalone + 29Jan23 Patch)",
