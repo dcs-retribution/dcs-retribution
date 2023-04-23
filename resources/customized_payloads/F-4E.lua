@@ -45,8 +45,8 @@ local unitPayloads = {
 			},
 		},
 		[2] = {
-			["displayName"] = "Retrjbution Fighter sweep",
-			["name"] = "Retrjbution Fighter sweep",
+			["displayName"] = "Retribution Fighter sweep",
+			["name"] = "Retribution Fighter sweep",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{7B4B122D-C12C-4DB4-834E-4D8BB4D863A8}",
@@ -215,6 +215,7 @@ local unitPayloads = {
 			},
 		},
 		[6] = {
+			["displayName"] = "Retribution DEAD",
 			["name"] = "Retribution DEAD",
 			["pylons"] = {
 				[1] = {
@@ -255,6 +256,7 @@ local unitPayloads = {
 			},
 		},
 		[7] = {
+			["displayName"] = "Retribution SEAD",
 			["name"] = "Retribution SEAD",
 			["pylons"] = {
 				[1] = {
