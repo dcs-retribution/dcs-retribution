@@ -25,15 +25,11 @@ class SquadronDef:
     role: str
     aircraft: AircraftType
     livery: Optional[str]
-    mission_types: tuple[FlightType, ...]
+    auto_assignable_mission_types: set[FlightType]
     operating_bases: OperatingBases
     female_pilot_percentage: int
     pilot_pool: list[Pilot]
     claimed: bool = False
-
-    auto_assignable_mission_types: set[FlightType] = field(
-        init=False, hash=False, compare=False
-    )
 
     def __post_init__(self) -> None:
         self.auto_assignable_mission_types = set(self.mission_types)
@@ -48,7 +44,11 @@ class SquadronDef:
         self.auto_assignable_mission_types.intersection_update(self.mission_types)
 
     def can_auto_assign(self, task: FlightType) -> bool:
-        return task in self.auto_assignable_mission_types
+        """
+        A squadron may be capable of performing a task even if it will not be
+        automatically assigned to it.
+        """
+        return self.aircraft.capable_of(task)
 
     def operates_from(self, control_point: ControlPoint) -> bool:
         if not control_point.can_operate(self.aircraft):
@@ -95,7 +95,7 @@ class SquadronDef:
             role=data["role"],
             aircraft=unit_type,
             livery=data.get("livery"),
-            mission_types=tuple(mission_types),
+            auto_assignable_mission_types=set(unit_type.iter_task_capabilities()),
             operating_bases=OperatingBases.from_yaml(unit_type, data.get("bases", {})),
             female_pilot_percentage=female_pilot_percentage,
             pilot_pool=pilots,

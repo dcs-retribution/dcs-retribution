@@ -256,6 +256,14 @@ class Squadron:
     def has_unfilled_pilot_slots(self) -> bool:
         return not self.pilot_limits_enabled or self._number_of_unfilled_pilot_slots > 0
 
+    def capable_of(self, task: FlightType) -> bool:
+        """Returns True if the squadron is capable of performing the given task.
+
+        A squadron may be capable of performing a task even if it will not be
+        automatically assigned to it.
+        """
+        return self.aircraft.capable_of(task)
+
     def can_auto_assign(self, task: FlightType) -> bool:
         return task in self.auto_assignable_mission_types
 

@@ -135,6 +135,7 @@ Saves from 6.x are not compatible with 7.0.
 * **[Mission Generation]** Both A-10C modules now use separate radios for inter- and intra-flight comms (similar to other modern aircraft).
 * **[Modding]** Updated Community A-4E-C mod version support to 2.1.0 release.
 * **[Modding]** Add support for VSN F-4B and F-4C mod.
+* **[Modding]** Aircraft task capabilities and preferred aircraft for each task are now moddable in the aircraft unit yaml files. Each aircraft has a weight per task. Higher weights are given higher preference.
 
 ## Fixes
 
