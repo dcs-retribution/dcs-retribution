@@ -21,18 +21,18 @@ def setup(user_folder: str) -> None:
         save_dir().mkdir(parents=True)
 
 
-def base_path() -> str:
+def base_path() -> Path:
     global _dcs_saved_game_folder
     assert _dcs_saved_game_folder
-    return _dcs_saved_game_folder
+    return Path(_dcs_saved_game_folder)
 
 
 def settings_dir() -> Path:
-    return Path(base_path()) / "Retribution" / "Settings"
+    return base_path() / "Retribution" / "Settings"
 
 
 def save_dir() -> Path:
-    return Path(base_path()) / "Retribution" / "Saves"
+    return base_path() / "Retribution" / "Saves"
 
 
 def _temporary_save_file() -> str:
@@ -44,7 +44,7 @@ def _autosave_path() -> str:
 
 
 def mission_path_for(name: str) -> Path:
-    return Path(base_path()) / "Missions" / name
+    return base_path() / "Missions" / name
 
 
 def load_game(path: str) -> Optional[Game]:

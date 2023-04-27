@@ -1,11 +1,13 @@
 import argparse
 import logging
+import ntpath
 import os
 import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
+import yaml
 from PySide2 import QtWidgets
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QPixmap
@@ -13,10 +15,12 @@ from PySide2.QtWidgets import QApplication, QCheckBox, QSplashScreen
 from dcs.payloads import PayloadDirectories
 
 from game import Game, VERSION, logging_config, persistency
+from game.ato import FlightType
 from game.campaignloader.campaign import Campaign, DEFAULT_BUDGET
 from game.data.weapons import Pylon, Weapon, WeaponGroup
 from game.dcs.aircrafttype import AircraftType
 from game.factions import FACTIONS
+from game.persistency import base_path
 from game.profiling import logged_duration
 from game.server import EventStream, Server
 from game.settings import Settings
@@ -69,12 +73,12 @@ def inject_mod_payloads(mod_path: Path) -> None:
     PayloadDirectories.set_preferred(payloads)
 
 
-def on_game_load(game: Game | None) -> None:
+def on_game_load(game: Optional[Game]) -> None:
     EventStream.drain()
     EventStream.put_nowait(GameUpdateEvents().game_loaded(game))
 
 
-def run_ui(game: Game | None, ui_flags: UiFlags) -> None:
+def run_ui(game: Optional[Game], ui_flags: UiFlags) -> None:
     os.environ["QT_ENABLE_HIGHDPI_SCALING"] = "1"  # Potential fix for 4K screens
     QApplication.setHighDpiScaleFactorRoundingPolicy(
         Qt.HighDpiScaleFactorRoundingPolicy.PassThrough
@@ -107,7 +111,7 @@ def run_ui(game: Game | None, ui_flags: UiFlags) -> None:
         )
     )
 
-    inject_custom_payloads(Path(persistency.base_path()))
+    inject_custom_payloads(persistency.base_path())
 
     # Splash screen setup
     pixmap = QPixmap("./resources/ui/splash_screen.png")
@@ -260,6 +264,8 @@ def parse_args() -> argparse.Namespace:
     lint_weapons = subparsers.add_parser("lint-weapons")
     lint_weapons.add_argument("aircraft", help="Name of the aircraft variant to lint.")
 
+    subparsers.add_parser("dump-task-priorities")
+
     return parser.parse_args()
 
 
@@ -289,7 +295,7 @@ def create_game(
     # Without this, it is not possible to use next turn (or anything that needs to check
     # for loadouts) without saving the generated campaign and reloading it the normal
     # way.
-    inject_custom_payloads(Path(persistency.base_path()))
+    inject_custom_payloads(persistency.base_path())
     campaign = Campaign.from_file(campaign_path)
     theater = campaign.load_theater(advanced_iads)
     generator = GameGenerator(
@@ -364,6 +370,41 @@ def lint_weapon_data_for_aircraft(aircraft: AircraftType) -> None:
             logging.warning(f'{weapon.clsid} "{weapon.name}" has no weapon data')
 
 
+def fix_pycharm_debugger_if_needed() -> None:
+    """Applies workaround for a pycharm debugger bug.
+
+    https://youtrack.jetbrains.com/issue/PY-53232/Debugger-doesnt-work-when-pyproj-is-imported
+    """
+    # sys.gettrace() will return something whenever *some* debugger is being used. The
+    # pdb module will be loaded if that debugger is the built-in python debugger.
+    if sys.gettrace() is not None and "pdb" not in sys.modules:
+        logging.debug(
+            "Applying workaround for https://youtrack.jetbrains.com/issue/PY-53232/Debugger-doesnt-work-when-pyproj-is-imported"
+        )
+        ntpath.sep = "\\"
+
+
+def dump_task_priorities() -> None:
+    first_start = liberation_install.init()
+    if first_start:
+        sys.exit(
+            "Cannot dump task priorities without configuring DCS Liberation. Start the"
+            "UI for the first run configuration."
+        )
+
+    data: dict[str, dict[str, int]] = {}
+    for task in FlightType:
+        data[task.value] = {
+            a.name: a.task_priority(task)
+            for a in AircraftType.priority_list_for_task(task)
+        }
+
+    debug_path = base_path() / "Debug" / "priorities.yaml"
+    debug_path.parent.mkdir(parents=True, exist_ok=True)
+    with debug_path.open("w", encoding="utf-8") as output:
+        yaml.dump(data, output, sort_keys=False, allow_unicode=True)
+
+
 def main():
     logging_config.init_logging(VERSION)
 
@@ -400,6 +441,9 @@ def main():
             )
     if args.subcommand == "lint-weapons":
         lint_weapon_data_for_aircraft(AircraftType.named(args.aircraft))
+        return
+    if args.subcommand == "dump-task-priorities":
+        dump_task_priorities()
         return
 
     with Server().run_in_thread():

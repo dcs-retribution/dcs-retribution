@@ -63,7 +63,7 @@ class LayoutLoader:
         """This will load all pre-loaded layouts from a pickle file.
         If pickle can not be loaded it will import and dump the layouts"""
         # We use a pickle for performance reasons. Importing takes many seconds
-        file = Path(persistency.base_path()) / LAYOUT_DUMP
+        file = persistency.base_path() / LAYOUT_DUMP
         if file.is_file():
             # Load from pickle if existing
             with file.open("rb") as f:
@@ -106,7 +106,7 @@ class LayoutLoader:
         self._dump_templates()
 
     def _dump_templates(self) -> None:
-        file = Path(persistency.base_path()) / LAYOUT_DUMP
+        file = persistency.base_path() / LAYOUT_DUMP
         dump = (VERSION, self._layouts)
         with file.open("wb") as fdata:
             pickle.dump(dump, fdata)
