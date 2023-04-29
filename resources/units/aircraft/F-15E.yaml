@@ -10,3 +10,4 @@ role: Multirole Strike Fighter
 max_range: 300
 variants:
   F-15E Strike Eagle: {}
+has_built_in_target_pod: true

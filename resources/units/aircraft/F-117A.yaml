@@ -17,3 +17,4 @@ price: 35
 role: Stealth Attack
 variants:
   F-117A Nighthawk: {}
+has_built_in_target_pod: true

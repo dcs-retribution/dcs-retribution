@@ -192,6 +192,11 @@ class AircraftType(UnitType[Type[FlyingType]]):
     # will be set to true for helos by default
     can_carry_crates: bool
 
+    # Set to True when aircraft mounts a targeting pod by default i.e. the pod does
+    # not take up a weapons station. If True, do not replace LGBs with dumb bombs
+    # when no TGP is mounted on any station.
+    has_built_in_target_pod: bool
+
     @property
     def flyable(self) -> bool:
         return self.dcs_unit_type.flyable
@@ -441,4 +446,5 @@ class AircraftType(UnitType[Type[FlyingType]]):
                 unit_class=unit_class,
                 cabin_size=data.get("cabin_size", 10 if aircraft.helicopter else 0),
                 can_carry_crates=data.get("can_carry_crates", aircraft.helicopter),
+                has_built_in_target_pod=data.get("has_built_in_target_pod", False),
             )
