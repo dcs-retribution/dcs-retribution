@@ -65,7 +65,7 @@ class KneeboardPageWriter:
         else:
             self.foreground_fill = (15, 15, 15)
             self.background_fill = (255, 252, 252)
-        self.image_size = (768, 1024)
+        self.image_size = (960, 1080)
         self.image = Image.new("RGB", self.image_size, self.background_fill)
         # These font sizes create a relatively full page for current sorties. If
         # we start generating more complicated flight plans, or start including
@@ -533,8 +533,8 @@ class SupportPage(KneeboardPage):
             comm_ladder.append(
                 [
                     comm.name,
-                    "",
-                    "",
+                    str(self.flight.flight_type),
+                    KneeboardPageWriter.wrap_line(str(self.flight.aircraft_type), 23),
                     str(len(self.flight.units)),
                     self.format_frequency(comm.freq),
                 ]
@@ -581,7 +581,7 @@ class SupportPage(KneeboardPage):
         )
 
         comm_ladder = []
-        writer.heading("Tankers:")
+        writer.heading("Tankers")
         for tanker in self.tankers:
             tot = self._format_time(tanker.start_time)
             tos = self._format_duration(tanker.end_time - tanker.start_time)
