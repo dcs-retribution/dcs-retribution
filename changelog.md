@@ -13,6 +13,7 @@
 
 ## Fixes
 * **[New Game Wizard]** Settings would not persist when going back to a previous page.
+* **[Mission Generation]** Unused aircraft are no longer claimed, fixing a bug where these aircraft would no longer be available after aborting the mission.
 
 
 # Retribution v1.1.1  (hotfix)
