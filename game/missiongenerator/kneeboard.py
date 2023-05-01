@@ -89,6 +89,7 @@ class KneeboardPageWriter:
         self.x = page_margin
         self.y = page_margin
         self.line_spacing = line_spacing
+        self.text_buffer: List[str] = []
 
     @property
     def position(self) -> Tuple[int, int]:
@@ -117,6 +118,13 @@ class KneeboardPageWriter:
         self.draw.text(self.position, text, font=font, fill=fill)
         width, height = self.draw.textsize(text, font=font)
         self.y += height + self.line_spacing
+        self.text_buffer.append(text)
+
+    def flush_text_buffer(self) -> None:
+        self.text_buffer = []
+
+    def get_text_string(self) -> str:
+        return "\n".join(x for x in self.text_buffer)
 
     def title(self, title: str) -> None:
         self.text(title, font=self.title_font, fill=self.foreground_fill)
@@ -139,6 +147,8 @@ class KneeboardPageWriter:
 
     def write(self, path: Path) -> None:
         self.image.save(path)
+        print(path.with_suffix(".txt"))
+        path.with_suffix(".txt").write_text(self.get_text_string())
 
     @staticmethod
     def wrap_line(inputstr: str, max_length: int) -> str:
