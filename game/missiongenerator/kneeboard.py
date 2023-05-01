@@ -73,16 +73,16 @@ class KneeboardPageWriter:
         # probably do), we'll need to split some of this information off into a
         # second page.
         self.title_font = ImageFont.truetype(
-            "arial.ttf", 32, layout_engine=ImageFont.LAYOUT_BASIC
+            "courbd.ttf", 32, layout_engine=ImageFont.LAYOUT_BASIC
         )
         self.heading_font = ImageFont.truetype(
-            "arial.ttf", 24, layout_engine=ImageFont.LAYOUT_BASIC
+            "courbd.ttf", 24, layout_engine=ImageFont.LAYOUT_BASIC
         )
         self.content_font = ImageFont.truetype(
-            "arial.ttf", 16, layout_engine=ImageFont.LAYOUT_BASIC
+            "cour.ttf", 16, layout_engine=ImageFont.LAYOUT_BASIC
         )
         self.table_font = ImageFont.truetype(
-            "resources/fonts/Inconsolata.otf", 20, layout_engine=ImageFont.LAYOUT_BASIC
+            "cour.ttf", 20, layout_engine=ImageFont.LAYOUT_BASIC
         )
         self.draw = ImageDraw.Draw(self.image)
         self.page_margin = page_margin
@@ -338,7 +338,7 @@ class BriefingPage(KneeboardPage):
         self.start_time = start_time
         self.dark_kneeboard = dark_kneeboard
         self.flight_plan_font = ImageFont.truetype(
-            "resources/fonts/Inconsolata.otf",
+            "cour.ttf",
             16,
             layout_engine=ImageFont.LAYOUT_BASIC,
         )
