@@ -74,7 +74,7 @@ class ModSettings:
     high_digit_sams: bool = False
     ov10a_bronco: bool = False
     swedishmilitaryassetspack: bool = False
-
+    SWPack: bool = False
 
 class GameGenerator:
     def __init__(

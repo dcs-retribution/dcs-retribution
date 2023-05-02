@@ -1,0 +1,11 @@
+description:
+  Fr the Emperor
+introduced: 1978
+manufacturer: McDonnell Douglas
+origin: USA
+price: 80
+role: Multirole Fighter
+max_range: 4000
+variants:
+  CORVETTE: {}
+

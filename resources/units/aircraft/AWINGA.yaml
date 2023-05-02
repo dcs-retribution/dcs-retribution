@@ -1,0 +1,11 @@
+description:
+  For the Dawn of light
+introduced: 1978
+manufacturer: McDonnell Douglas
+origin: USA
+price: 42
+role: Multirole Fighter
+max_range: 2000
+variants:
+
+  AWINGA: {}

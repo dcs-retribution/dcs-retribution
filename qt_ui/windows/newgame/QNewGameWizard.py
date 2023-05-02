@@ -202,6 +202,7 @@ class NewGameWizard(QtWidgets.QWizard):
             frenchpack=self.field("frenchpack"),
             high_digit_sams=self.field("high_digit_sams"),
             swedishmilitaryassetspack=self.field("swedishmilitaryassetspack"),
+            SWPACK=self.field("SWPack")
         )
 
         blue_faction = self.faction_selection_page.selected_blue_faction
@@ -857,6 +858,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("high_digit_sams", self.high_digit_sams)
         self.swedishmilitaryassetspack = QtWidgets.QCheckBox()
         self.registerField("swedishmilitaryassetspack", self.swedishmilitaryassetspack)
+        self.SWPack = QtWidgets.QCheckBox()
+        self.registerField("SWPack", self.swedishmilitaryassetspack)
 
         modHelpText = QtWidgets.QLabel(
             "<p>Select the mods you have installed. If your chosen factions support them, you'll be able to use these mods in your campaign.</p>"
@@ -891,6 +894,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("Su-30 Flanker-H (V2.01B)", self.su30_flanker_h),
             ("Su-57 Felon", self.su57_felon),
             ("UH-60L Black Hawk (v1.3.1)", self.uh_60l),
+            ("Star Wars Modpack 2.54+", self.SWPack),
         ]
 
         for i in range(len(mod_pairs)):

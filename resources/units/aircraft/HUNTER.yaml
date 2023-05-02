@@ -1,0 +1,11 @@
+description:
+  Fr the Emperor
+introduced: 1978
+manufacturer: McDonnell Douglas
+origin: USA
+price: 35
+role: Multirole Fighter
+max_range: 2000
+variants:
+  HUNTER: {}
+
