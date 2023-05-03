@@ -76,6 +76,7 @@ class ModSettings:
     swedishmilitaryassetspack: bool = False
     SWPack: bool = False
 
+
 class GameGenerator:
     def __init__(
         self,
