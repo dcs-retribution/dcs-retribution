@@ -4,8 +4,7 @@ from dcs import task
 from dcs.liveries_scanner import Liveries
 from dcs.planes import PlaneType
 from dcs.weapons_data import Weapons
-from dcs.unittype import VehicleType
-from dcs.unittype import ShipType
+from dcs import unittype
 
 from game.modsupport import vehiclemod
 from game.modsupport import planemod
@@ -1192,7 +1191,7 @@ class TIE_BA(PlaneType):
 
 
 @vehiclemod
-class MBT9_EMPIRE(VehicleType):
+class MBT9_EMPIRE(unittype.VehicleType):
     id = "MBT9_EMPIRE"
     name = "SW - MBT-9 IMPERIAL"
     detection_range = 0
@@ -1201,7 +1200,7 @@ class MBT9_EMPIRE(VehicleType):
 
 
 @vehiclemod
-class MBT9_REBEL(VehicleType):
+class MBT9_REBEL(unittype.VehicleType):
     id = "MBT9_REBEL"
     name = "SW - MBT-9 REBEL"
     detection_range = 0
@@ -1210,7 +1209,7 @@ class MBT9_REBEL(VehicleType):
 
 
 @vehiclemod
-class MBT9_AAA_EMPIRE(VehicleType):
+class MBT9_AAA_EMPIRE(unittype.VehicleType):
     id = "MBT9_AAA EMPIRE"
     name = "SW - MBT-9AV IMPERIAL"
     detection_range = 0
@@ -1219,7 +1218,7 @@ class MBT9_AAA_EMPIRE(VehicleType):
 
 
 @vehiclemod
-class MBT9_AAA_REBEL(VehicleType):
+class MBT9_AAA_REBEL(unittype.VehicleType):
     id = "MBT9_AAA REBEL"
     name = "SW - MBT-9AV REBEL"
     detection_range = 0
@@ -1228,7 +1227,7 @@ class MBT9_AAA_REBEL(VehicleType):
 
 
 @vehiclemod
-class Jugger(VehicleType):
+class Jugger(unittype.VehicleType):
     id = "Jugger"
     name = "SW - Juggernaut"
     detection_range = 25000
@@ -1238,7 +1237,7 @@ class Jugger(VehicleType):
 
 
 @vehiclemod
-class TB_TT(VehicleType):
+class TB_TT(unittype.VehicleType):
     id = "TB_TT"
     name = "SW - AT-AT"
     detection_range = 5000
@@ -1247,7 +1246,7 @@ class TB_TT(VehicleType):
 
 
 @vehiclemod
-class SW___TR_TT(VehicleType):
+class SW___TR_TT(unittype.VehicleType):
     id = "SW - TR_TT"
     name = "SW - AT-ST"
     detection_range = 5000
@@ -1256,7 +1255,7 @@ class SW___TR_TT(VehicleType):
 
 
 @vehiclemod
-class Gozanti(VehicleType):
+class Gozanti(unittype.VehicleType):
     id = "Gozanti"
     name = "SW - Gozanti"
     detection_range = 0
@@ -1266,7 +1265,7 @@ class Gozanti(VehicleType):
 
 
 @vehiclemod
-class Destroyer_carrier(ShipType):
+class Destroyer_carrier(unittype.ShipType):
     id = "Destroyer_carrier"
     name = "SW - ISD carrier"
     plane_num = 72
