@@ -96,7 +96,7 @@ class XWING(PlaneType):
     charge_total = 10000
     chaff_charge_size = 1
     flare_charge_size = 1
-    category = "Interceptor"  #{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
+    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 127.5
 
     livery_name = "XWING"  # from type
@@ -149,7 +149,7 @@ class XWINGAI(PlaneType):
     charge_total = 10000
     chaff_charge_size = 1
     flare_charge_size = 1
-    category = "Interceptor"  #{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
+    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 127.5
 
     livery_name = "XWINGAI"  # from type
@@ -203,7 +203,7 @@ class YWINGA(PlaneType):
     charge_total = 10000
     chaff_charge_size = 1
     flare_charge_size = 1
-    category = "Interceptor"  #{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
+    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 127.5
 
     livery_name = "YWINGA"  # from type
@@ -276,7 +276,7 @@ class YWING(PlaneType):
     charge_total = 10000
     chaff_charge_size = 1
     flare_charge_size = 1
-    category = "Interceptor"  #{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
+    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 127.5
 
     livery_name = "YWING"  # from type
@@ -332,7 +332,7 @@ class AWING(PlaneType):
     charge_total = 10000
     chaff_charge_size = 1
     flare_charge_size = 1
-    category = "Interceptor"  #{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
+    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 127.5
 
     livery_name = "AWING"  # from type
@@ -375,7 +375,7 @@ class AWINGA(PlaneType):
     charge_total = 10000
     chaff_charge_size = 1
     flare_charge_size = 1
-    category = "Interceptor"  #{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
+    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 127.5
 
     livery_name = "AWINGA"  # from type
@@ -419,7 +419,7 @@ class CORVETTE(PlaneType):
     charge_total = 10000
     chaff_charge_size = 1
     flare_charge_size = 1
-    category = "Interceptor"  #{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
+    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 127.5
 
     livery_name = "CORVETTE"  # from type
@@ -468,7 +468,7 @@ class CORVETTEA(PlaneType):
     charge_total = 10000
     chaff_charge_size = 1
     flare_charge_size = 1
-    category = "Interceptor"  #{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
+    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 127.5
 
     livery_name = "CORVETTEA"  # from type
@@ -518,7 +518,7 @@ class FAUCON(PlaneType):
     charge_total = 10000
     chaff_charge_size = 1
     flare_charge_size = 1
-    category = "Interceptor"  #{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
+    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 127.5
 
     livery_name = "FAUCON"  # from type
@@ -552,7 +552,7 @@ class FAUCON_AI(PlaneType):
     charge_total = 10000
     chaff_charge_size = 1
     flare_charge_size = 1
-    category = "Interceptor"  #{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
+    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 127.5
 
     livery_name = "FAUCON_AI"  # from type
@@ -587,7 +587,7 @@ class TIE(PlaneType):
     charge_total = 10000
     chaff_charge_size = 1
     flare_charge_size = 1
-    category = "Interceptor"  #{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
+    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 127.5
 
     livery_name = "TIE"  # from type
@@ -624,7 +624,7 @@ class TIE_AI(PlaneType):
     charge_total = 10000
     chaff_charge_size = 1
     flare_charge_size = 1
-    category = "Interceptor"  #{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
+    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 127.5
 
     livery_name = "TIE_AI"  # from type
@@ -662,7 +662,7 @@ class HUNTER(PlaneType):
     charge_total = 10000
     chaff_charge_size = 1
     flare_charge_size = 1
-    category = "Interceptor"  #{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
+    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 127.5
 
     livery_name = "HUNTER"  # from type
@@ -705,7 +705,7 @@ class HUNTERA(PlaneType):
     charge_total = 10000
     chaff_charge_size = 1
     flare_charge_size = 1
-    category = "Interceptor"  #{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
+    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 127.5
 
     livery_name = "HUNTERA"  # from type
@@ -749,7 +749,7 @@ class TIE_INTER(PlaneType):
     charge_total = 10000
     chaff_charge_size = 1
     flare_charge_size = 1
-    category = "Interceptor"  #{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
+    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 127.5
 
     livery_name = "TIE_INTER"  # from type
@@ -832,7 +832,7 @@ class naboo_starfighter(PlaneType):
     charge_total = 500
     chaff_charge_size = 1
     flare_charge_size = 1
-    category = "Interceptor"  #{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
+    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 127.5
 
     livery_name = "NABOO_STARFIGHTER"  # from type
@@ -887,7 +887,7 @@ class naboo_starfighter_AI(PlaneType):
     charge_total = 500
     chaff_charge_size = 1
     flare_charge_size = 1
-    category = "Interceptor"  #{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
+    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 127.5
 
     livery_name = "NABOO_STARFIGHTER_AI"  # from type
@@ -943,7 +943,7 @@ class tie_bomber_2(PlaneType):
     charge_total = 10000
     chaff_charge_size = 1
     flare_charge_size = 1
-    category = "Interceptor"  #{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
+    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 127.5
 
     livery_name = "TIE_BOMBER_2"  # from type
@@ -1019,7 +1019,7 @@ class TIE_BA(PlaneType):
     charge_total = 10000
     chaff_charge_size = 1
     flare_charge_size = 1
-    category = "Interceptor"  #{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
+    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 127.5
 
     livery_name = "TIE_BA"  # from type
