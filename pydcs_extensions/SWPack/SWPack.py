@@ -30,18 +30,6 @@ class SWWeapons:
 inject_weapons(SWWeapons)
 
 
-weapon_ids = {
-    "{PROTONB}": Weapons.PROTONB,
-    "{PROTONBGG}": Weapons.PROTONBGG,
-    "{PROTONF}": Weapons.PROTONF,
-    "{PROTONM}": Weapons.PROTONM,
-    "{PROTONM1}": Weapons.PROTONM1,
-    "{PROTONM2}": Weapons.PROTONM2,
-    "{PROTONM3}": Weapons.PROTONM3,
-    "{PROTONMissile}": Weapons.PROTONMissile,
-}
-
-
 @planemod
 class XWING(PlaneType):
     id = "XWING"
