@@ -10,6 +10,7 @@ from dcs.weapons_data import Weapons
 from game.modsupport import planemod, vehiclemod
 from pydcs_extensions.weapon_injector import inject_weapons
 
+
 class SWWeapons:
     PROTONB = {"clsid": "{PROTONB}", "name": "PROTONB", "weight": 50}
     PROTONBGG = {"clsid": "{PROTONBGG}", "name": "PROTONBGG", "weight": 1000}
@@ -94,6 +95,7 @@ class XWING(PlaneType):
     ]
     task_default = task.CAP
 
+
 @planemod
 class XWINGAI(PlaneType):
     id = "XWINGAI"
@@ -146,6 +148,7 @@ class XWINGAI(PlaneType):
         task.Reconnaissance
     ]
     task_default = task.CAP
+
 
 @planemod
 class YWINGA(PlaneType):
@@ -218,6 +221,7 @@ class YWINGA(PlaneType):
     ]
     task_default = task.CAS
 
+
 @planemod
 class YWING(PlaneType):
     id = "YWING"
@@ -272,7 +276,8 @@ class YWING(PlaneType):
         task.Reconnaissance
     ]
     task_default = task.CAS
-	
+
+
 @planemod
 class AWING(PlaneType):
     id = "AWING"
@@ -316,6 +321,7 @@ class AWING(PlaneType):
     ]
     task_default = task.CAP
 
+
 @planemod
 class AWINGA(PlaneType):
     id = "AWINGA"
@@ -357,6 +363,7 @@ class AWINGA(PlaneType):
         task.Reconnaissance
     ]
     task_default = task.CAP
+
 
 @planemod
 class CORVETTE(PlaneType):
@@ -407,6 +414,7 @@ class CORVETTE(PlaneType):
     ]
     task_default = task.CAP
 
+
 @planemod
 class CORVETTEA(PlaneType):
     id = "CORVETTEA"
@@ -455,6 +463,7 @@ class CORVETTEA(PlaneType):
     ]
     task_default = task.CAP
 
+
 @planemod
 class FAUCON(PlaneType):
     id = "FAUCON"
@@ -489,6 +498,7 @@ class FAUCON(PlaneType):
     ]
     task_default = task.FighterSweep
 
+
 @planemod
 class FAUCON_AI(PlaneType):
     id = "FAUCON_AI"
@@ -521,6 +531,7 @@ class FAUCON_AI(PlaneType):
         task.Reconnaissance
     ]
     task_default = task.FighterSweep
+
 
 @planemod
 class TIE(PlaneType):
@@ -559,6 +570,7 @@ class TIE(PlaneType):
     ]
     task_default = task.FighterSweep
 
+
 @planemod
 class TIE_AI(PlaneType):
     id = "TIE_AI"
@@ -594,6 +606,7 @@ class TIE_AI(PlaneType):
         task.Reconnaissance
     ]
     task_default = task.FighterSweep
+
 
 @planemod
 class HUNTER(PlaneType):
@@ -638,6 +651,7 @@ class HUNTER(PlaneType):
     ]
     task_default = task.CAP
 
+
 @planemod
 class HUNTERA(PlaneType):
     id = "HUNTERA"
@@ -680,6 +694,7 @@ class HUNTERA(PlaneType):
     ]
     task_default = task.CAP
 
+
 @planemod
 class TIE_INTER(PlaneType):
     id = "TIE_INTER"
@@ -716,6 +731,7 @@ class TIE_INTER(PlaneType):
 
     tasks = [task.CAP, task.Escort, task.FighterSweep, task.Intercept, task.Reconnaissance]
     task_default = task.CAP
+
 
 @planemod
 class TIE_INTERA(PlaneType):
@@ -801,6 +817,7 @@ class naboo_starfighter(PlaneType):
     tasks = [task.CAP, task.Escort, task.FighterSweep, task.Intercept, task.Reconnaissance, task.GroundAttack, task.CAS, task.AFAC, task.RunwayAttack]
     task_default = task.FighterSweep
 
+
 @planemod
 class naboo_starfighter_AI(PlaneType):
     id = "naboo_starfighter_AI"
@@ -846,6 +863,8 @@ class naboo_starfighter_AI(PlaneType):
 
     tasks = [task.CAP, task.Escort, task.FighterSweep, task.Intercept, task.Reconnaissance, task.GroundAttack, task.CAS, task.AFAC, task.RunwayAttack]
     task_default = task.FighterSweep
+
+
 @planemod
 class tie_bomber_2(PlaneType):
     id = "tie_bomber_2"
@@ -914,6 +933,7 @@ class tie_bomber_2(PlaneType):
 
     tasks = [task.CAP, task.Escort, task.FighterSweep, task.Intercept, task.Reconnaissance, task.GroundAttack, task.CAS, task.RunwayAttack]
     task_default = task.GroundAttack
+
 
 @planemod
 class TIE_BA(PlaneType):
@@ -993,6 +1013,7 @@ class TIE_BA(PlaneType):
     tasks = [task.CAP, task.Escort, task.FighterSweep, task.Intercept, task.Reconnaissance, task.GroundAttack, task.CAS, task.RunwayAttack]
     task_default = task.CAS
 
+
 @vehiclemod
 class MBT9_EMPIRE(VehicleType):
     id = "MBT9_EMPIRE"
@@ -1000,6 +1021,8 @@ class MBT9_EMPIRE(VehicleType):
     detection_range = 0
     threat_range = 5000
     air_weapon_dist = 5000
+
+
 @vehiclemod
 class MBT9_REBEL(VehicleType):
     id = "MBT9_REBEL"
@@ -1008,6 +1031,7 @@ class MBT9_REBEL(VehicleType):
     threat_range = 5000
     air_weapon_dist = 5000
 
+
 @vehiclemod
 class MBT9_AAA_EMPIRE(VehicleType):
     id = "MBT9_AAA EMPIRE"
@@ -1015,6 +1039,7 @@ class MBT9_AAA_EMPIRE(VehicleType):
     detection_range = 0
     threat_range = 12000
     air_weapon_dist = 12000
+
 
 @vehiclemod
 class MBT9_AAA_REBEL(VehicleType):
@@ -1042,6 +1067,7 @@ class TB_TT(VehicleType):
     detection_range = 5000
     threat_range = 20000
     air_weapon_dist = 20000
+
 
 @vehiclemod
 class SW___TR_TT(VehicleType):
