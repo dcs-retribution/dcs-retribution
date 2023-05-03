@@ -793,7 +793,7 @@ class TIE_INTERA(PlaneType):
     charge_total = 10000
     chaff_charge_size = 1
     flare_charge_size = 1
-    category = "Interceptor"  #{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
+    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 127.5
 
     livery_name = "TIE_INTERA"  # from type
@@ -1189,4 +1189,3 @@ class Destroyer_carrier(ShipType):
     detection_range = 25000
     threat_range = 0
     air_weapon_dist = 15000
-
