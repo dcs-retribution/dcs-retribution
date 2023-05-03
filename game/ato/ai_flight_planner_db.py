@@ -127,7 +127,16 @@ from game.dcs.aircrafttype import AircraftType
 from pydcs_extensions.a4ec.a4ec import A_4E_C
 from pydcs_extensions.a6a.a6a import VSN_A6A
 from pydcs_extensions.a7e.a7e import A_7E
-from pydcs_extensions.SWPack.SWPack import TIE_AI, HUNTERA, TIE_INTERA, AWINGA, XWINGAI, YWINGA, CORVETTEA, FAUCON_AI
+from pydcs_extensions.SWPack.SWPack import (
+    TIE_AI,
+    HUNTERA,
+    TIE_INTERA,
+    AWINGA,
+    XWINGAI,
+    YWINGA,
+    CORVETTEA,
+    FAUCON_AI,
+)
 from pydcs_extensions.SWPack.SWPack import TIE_BA
 from pydcs_extensions.SWPack.SWPack import naboo_starfighter_AI
 from pydcs_extensions.f100.f100 import VSN_F100
