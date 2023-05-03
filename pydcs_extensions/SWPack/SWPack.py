@@ -729,7 +729,11 @@ class TIE_INTER(PlaneType):
 
     pylons: Set[int] = {1, 2, 3, 10}
 
-    tasks = [task.CAP, task.Escort, task.FighterSweep, task.Intercept, task.Reconnaissance]
+    tasks = [task.CAP,
+             task.Escort,
+             task.FighterSweep,
+             task.Intercept,
+             task.Reconnaissance]
     task_default = task.CAP
 
 
@@ -766,7 +770,11 @@ class TIE_INTERA(PlaneType):
 
     pylons: Set[int] = {1, 2, 3, 10}
 
-    tasks = [task.CAP, task.Escort, task.FighterSweep, task.Intercept, task.Reconnaissance]
+    tasks = [task.CAP,
+             task.Escort,
+             task.FighterSweep,
+             task.Intercept,
+             task.Reconnaissance]
     task_default = task.CAP
 
 
@@ -814,7 +822,15 @@ class naboo_starfighter(PlaneType):
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 10}
 
-    tasks = [task.CAP, task.Escort, task.FighterSweep, task.Intercept, task.Reconnaissance, task.GroundAttack, task.CAS, task.AFAC, task.RunwayAttack]
+    tasks = [task.CAP,
+             task.Escort,
+             task.FighterSweep,
+             task.Intercept,
+             task.Reconnaissance,
+             task.GroundAttack,
+             task.CAS,
+             task.AFAC,
+             task.RunwayAttack]
     task_default = task.FighterSweep
 
 
@@ -861,7 +877,15 @@ class naboo_starfighter_AI(PlaneType):
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 10}
 
-    tasks = [task.CAP, task.Escort, task.FighterSweep, task.Intercept, task.Reconnaissance, task.GroundAttack, task.CAS, task.AFAC, task.RunwayAttack]
+    tasks = [task.CAP,
+             task.Escort,
+             task.FighterSweep,
+             task.Intercept,
+             task.Reconnaissance,
+             task.GroundAttack,
+             task.CAS,
+             task.AFAC,
+             task.RunwayAttack]
     task_default = task.FighterSweep
 
 
@@ -931,7 +955,14 @@ class tie_bomber_2(PlaneType):
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 
-    tasks = [task.CAP, task.Escort, task.FighterSweep, task.Intercept, task.Reconnaissance, task.GroundAttack, task.CAS, task.RunwayAttack]
+    tasks = [task.CAP,
+             task.Escort,
+             task.FighterSweep,
+             task.Intercept,
+             task.Reconnaissance,
+             task.GroundAttack,
+             task.CAS,
+             task.RunwayAttack]
     task_default = task.GroundAttack
 
 
@@ -1010,7 +1041,14 @@ class TIE_BA(PlaneType):
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 
-    tasks = [task.CAP, task.Escort, task.FighterSweep, task.Intercept, task.Reconnaissance, task.GroundAttack, task.CAS, task.RunwayAttack]
+    tasks = [task.CAP,
+             task.Escort,
+             task.FighterSweep,
+             task.Intercept,
+             task.Reconnaissance,
+             task.GroundAttack,
+             task.CAS,
+             task.RunwayAttack]
     task_default = task.CAS
 
 
