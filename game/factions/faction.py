@@ -477,7 +477,7 @@ class Faction:
             self.remove_ship("HSwMS_Visby")
             self.remove_ship("Strb90")
             self.remove_aircraft("HKP15B")
-        #SWPACK
+        # SWPack
         if not mod_settings.SWPACK:
             self.remove_aircraft("AWINGA")
             self.remove_aircraft("AWING")
