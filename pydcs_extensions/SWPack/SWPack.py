@@ -16,67 +16,67 @@ class SWWeapons:
     PROTONB = {
         "clsid": "{PROTONB}",
         "name": "PROTONB",
-        "weight": 50
+        "weight": 50,
     }
     PROTONBGG = {
         "clsid": "{PROTONBGG}",
         "name": "PROTONBGG",
-        "weight": 1000
+        "weight": 1000,
     }
     PROTONF = {
         "clsid": "{PROTONF}",
         "name": "PROTONF",
-        "weight": 50
+        "weight": 50,
     }
     PROTONM = {
         "clsid": "{PROTONM}",
         "name": "PROTONM",
-        "weight": 50
+        "weight": 50,
     }
     PROTONM1 = {
         "clsid": "{PROTONM1}",
         "name": "PROTONM1",
-        "weight": 50
+        "weight": 50,
     }
     PROTONM2 = {
         "clsid": "{PROTONM2}",
         "name": "PROTONM2",
-        "weight": 50
+        "weight": 50,
     }
     PROTONM3 = {
         "clsid": "{PROTONM3}",
         "name": "PROTONM3",
-        "weight": 0.1
+        "weight": 0.1,
     }
     PROTONMissile = {
         "clsid": "{PROTONMissile}",
         "name": "PROTONMissile",
-        "weight": 50
+        "weight": 50,
     }
     ENERGY_CELL = {
         "clsid": "{AFUEL}",
         "name": "ENERGY CELL",
-        "weight": 1005
+        "weight": 1005,
     }
     ENERGY_CELL_ = {
         "clsid": "{TIEFUEL}",
         "name": "ENERGY CELL",
-        "weight": 1005
+        "weight": 1005,
     }
     ENERGY_CELL__ = {
         "clsid": "{HUNTFUEL}",
         "name": "ENERGY CELL",
-        "weight": 1005
+        "weight": 1005,
     }
     ENERGY_CELL___ = {
         "clsid": "{TIRFUEL}",
         "name": "ENERGY CELL",
-        "weight": 1005
+        "weight": 1005,
     }
     ENERGY_CELL____ = {
         "clsid": "{XFUELTANK}",
         "name": "ENERGY CELL",
-        "weight": 2005
+        "weight": 2005,
     }
 
 
