@@ -1,4 +1,4 @@
-from typing import Any, Dict, Set
+from typing import Set
 
 from dcs import task
 from dcs.liveries_scanner import Liveries
@@ -311,7 +311,7 @@ class YWING(PlaneType):
         task.Escort,
         task.FighterSweep,
         task.Intercept,
-        task.Reconnaissance
+        task.Reconnaissance,
     ]
     task_default = task.CAS
 
@@ -355,7 +355,7 @@ class AWING(PlaneType):
         task.Escort,
         task.FighterSweep,
         task.Intercept,
-        task.Reconnaissance
+        task.Reconnaissance,
     ]
     task_default = task.CAP
 
@@ -398,7 +398,7 @@ class AWINGA(PlaneType):
         task.Escort,
         task.FighterSweep,
         task.Intercept,
-        task.Reconnaissance
+        task.Reconnaissance,
     ]
     task_default = task.CAP
 
@@ -448,7 +448,7 @@ class CORVETTE(PlaneType):
         task.Escort,
         task.FighterSweep,
         task.Intercept,
-        task.Reconnaissance
+        task.Reconnaissance,
     ]
     task_default = task.CAP
 
@@ -497,7 +497,7 @@ class CORVETTEA(PlaneType):
         task.Escort,
         task.FighterSweep,
         task.Intercept,
-        task.Reconnaissance
+        task.Reconnaissance,
     ]
     task_default = task.CAP
 
@@ -532,7 +532,7 @@ class FAUCON(PlaneType):
         task.Escort,
         task.FighterSweep,
         task.Intercept,
-        task.Reconnaissance
+        task.Reconnaissance,
     ]
     task_default = task.FighterSweep
 
@@ -566,7 +566,7 @@ class FAUCON_AI(PlaneType):
         task.Escort,
         task.FighterSweep,
         task.Intercept,
-        task.Reconnaissance
+        task.Reconnaissance,
     ]
     task_default = task.FighterSweep
 
@@ -604,7 +604,7 @@ class TIE(PlaneType):
         task.Escort,
         task.FighterSweep,
         task.Intercept,
-        task.Reconnaissance
+        task.Reconnaissance,
     ]
     task_default = task.FighterSweep
 
@@ -641,7 +641,7 @@ class TIE_AI(PlaneType):
         task.Escort,
         task.FighterSweep,
         task.Intercept,
-        task.Reconnaissance
+        task.Reconnaissance,
     ]
     task_default = task.FighterSweep
 
@@ -685,7 +685,7 @@ class HUNTER(PlaneType):
         task.Escort,
         task.FighterSweep,
         task.Intercept,
-        task.Reconnaissance
+        task.Reconnaissance,
     ]
     task_default = task.CAP
 
@@ -728,7 +728,7 @@ class HUNTERA(PlaneType):
         task.Escort,
         task.FighterSweep,
         task.Intercept,
-        task.Reconnaissance
+        task.Reconnaissance,
     ]
     task_default = task.CAP
 
@@ -767,11 +767,13 @@ class TIE_INTER(PlaneType):
 
     pylons: Set[int] = {1, 2, 3, 10}
 
-    tasks = [task.CAP,
-             task.Escort,
-             task.FighterSweep,
-             task.Intercept,
-             task.Reconnaissance]
+    tasks = [
+        task.CAP,
+        task.Escort,
+        task.FighterSweep,
+        task.Intercept,
+        task.Reconnaissance,
+    ]
     task_default = task.CAP
 
 
@@ -808,11 +810,13 @@ class TIE_INTERA(PlaneType):
 
     pylons: Set[int] = {1, 2, 3, 10}
 
-    tasks = [task.CAP,
-             task.Escort,
-             task.FighterSweep,
-             task.Intercept,
-             task.Reconnaissance]
+    tasks = [
+        task.CAP,
+        task.Escort,
+        task.FighterSweep,
+        task.Intercept,
+        task.Reconnaissance,
+    ]
     task_default = task.CAP
 
 
@@ -860,15 +864,17 @@ class naboo_starfighter(PlaneType):
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 10}
 
-    tasks = [task.CAP,
-             task.Escort,
-             task.FighterSweep,
-             task.Intercept,
-             task.Reconnaissance,
-             task.GroundAttack,
-             task.CAS,
-             task.AFAC,
-             task.RunwayAttack]
+    tasks = [
+        task.CAP,
+        task.Escort,
+        task.FighterSweep,
+        task.Intercept,
+        task.Reconnaissance,
+        task.GroundAttack,
+        task.CAS,
+        task.AFAC,
+        task.RunwayAttack,
+    ]
     task_default = task.FighterSweep
 
 
@@ -915,15 +921,17 @@ class naboo_starfighter_AI(PlaneType):
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 10}
 
-    tasks = [task.CAP,
-             task.Escort,
-             task.FighterSweep,
-             task.Intercept,
-             task.Reconnaissance,
-             task.GroundAttack,
-             task.CAS,
-             task.AFAC,
-             task.RunwayAttack]
+    tasks = [
+        task.CAP,
+        task.Escort,
+        task.FighterSweep,
+        task.Intercept,
+        task.Reconnaissance,
+        task.GroundAttack,
+        task.CAS,
+        task.AFAC,
+        task.RunwayAttack,
+    ]
     task_default = task.FighterSweep
 
 
@@ -993,14 +1001,16 @@ class tie_bomber_2(PlaneType):
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 
-    tasks = [task.CAP,
-             task.Escort,
-             task.FighterSweep,
-             task.Intercept,
-             task.Reconnaissance,
-             task.GroundAttack,
-             task.CAS,
-             task.RunwayAttack]
+    tasks = [
+        task.CAP,
+        task.Escort,
+        task.FighterSweep,
+        task.Intercept,
+        task.Reconnaissance,
+        task.GroundAttack,
+        task.CAS,
+        task.RunwayAttack,
+    ]
     task_default = task.GroundAttack
 
 
@@ -1079,14 +1089,16 @@ class TIE_BA(PlaneType):
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 
-    tasks = [task.CAP,
-             task.Escort,
-             task.FighterSweep,
-             task.Intercept,
-             task.Reconnaissance,
-             task.GroundAttack,
-             task.CAS,
-             task.RunwayAttack]
+    tasks = [
+        task.CAP,
+        task.Escort,
+        task.FighterSweep,
+        task.Intercept,
+        task.Reconnaissance,
+        task.GroundAttack,
+        task.CAS,
+        task.RunwayAttack,
+    ]
     task_default = task.CAS
 
 
