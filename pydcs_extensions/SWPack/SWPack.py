@@ -211,39 +211,104 @@ class YWINGA(PlaneType):
     Liveries = Liveries()[livery_name]
 
     class Pylon1:
-        LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (1, Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_)
-        PROTONMissile = (1, Weapons.PROTONMissile)
-        Mk_84___2000lb_GP_Bomb_LD = (1, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (1, Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile)
+        LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (
+            1,
+            Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_,
+        )
+        PROTONMissile = (
+            1, Weapons.PROTONMissile,
+        )
+        Mk_84___2000lb_GP_Bomb_LD = (
+            1,
+            Weapons.Mk_84___2000lb_GP_Bomb_LD,
+        )
+        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
+            1,
+            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+        )
 
     class Pylon2:
-        LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (2, Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_)
-        PROTONMissile = (2, Weapons.PROTONMissile)
-        Mk_84___2000lb_GP_Bomb_LD = (2, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (2, Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile)
+        LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (
+            2,
+            Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_,
+        )
+        PROTONMissile = (
+            2,
+            Weapons.PROTONMissile,
+        )
+        Mk_84___2000lb_GP_Bomb_LD = (
+            2,
+            Weapons.Mk_84___2000lb_GP_Bomb_LD,
+        )
+        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
+            2,
+            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+        )
 
     class Pylon3:
-        PROTONBGG = (3, Weapons.PROTONBGG)
-        Mk_84___2000lb_GP_Bomb_LD = (3, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (3, Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile)
+        PROTONBGG = (
+            3,
+            Weapons.PROTONBGG,
+        )
+        Mk_84___2000lb_GP_Bomb_LD = (
+            3,
+            Weapons.Mk_84___2000lb_GP_Bomb_LD,
+        )
+        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
+            3,
+            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+        )
 
     class Pylon4:
-        LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (4, Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_)
-        PROTONMissile = (4, Weapons.PROTONMissile)
-        Mk_84___2000lb_GP_Bomb_LD = (4, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (4, Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile)
+        LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (
+            4,
+            Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_,
+        )
+        PROTONMissile = (
+            4,
+            Weapons.PROTONMissile,
+        )
+        Mk_84___2000lb_GP_Bomb_LD = (
+            4,
+            Weapons.Mk_84___2000lb_GP_Bomb_LD,
+        )
+        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
+            4,
+            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+        )
 
     class Pylon5:
-        LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (5, Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_)
-        PROTONMissile = (5, Weapons.PROTONMissile)
-        Mk_84___2000lb_GP_Bomb_LD = (5, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (5, Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile)
+        LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (
+            5,
+            Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_,
+        )
+        PROTONMissile = (
+            5,
+            Weapons.PROTONMissile,
+        )
+        Mk_84___2000lb_GP_Bomb_LD = (
+            5,
+            Weapons.Mk_84___2000lb_GP_Bomb_LD,
+        )
+        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
+            5,
+            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+        )
 
     class Pylon6:
         PROTONMissile = (6, Weapons.PROTONMissile)
-        LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (6, Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_)
-        Mk_84___2000lb_GP_Bomb_LD = (6, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (6, Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile)
+        LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (
+            6,
+            Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_,
+        )
+        Mk_84___2000lb_GP_Bomb_LD = (
+            6,
+            Weapons.Mk_84___2000lb_GP_Bomb_LD,
+        )
+        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
+            6,
+            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+        )
 
     class Pylon7:
         ENERGY_CELL___ = (7, Weapons.ENERGY_CELL___)
@@ -1040,7 +1105,10 @@ class TIE_BA(PlaneType):
         PROTONM1 = (1, Weapons.PROTONM1)
         LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (1, Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_)
         Mk_84___2000lb_GP_Bomb_LD = (1, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (1, Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile)
+        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
+            1,
+            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+        )
 
     class Pylon2:
         ENERGY_CELL___ = (2, Weapons.ENERGY_CELL___)
@@ -1050,39 +1118,57 @@ class TIE_BA(PlaneType):
         LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (3, Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_)
         TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (3, Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD)
         Mk_84___2000lb_GP_Bomb_LD = (3, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (3, Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile)
+        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
+            3,
+            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+        )
 
     class Pylon4:
         LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (4, Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_)
         TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (4, Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD)
         PROTONM2 = (4, Weapons.PROTONM2)
         Mk_84___2000lb_GP_Bomb_LD = (4, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (4, Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile)
+        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
+            4,
+            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+        )
 
     class Pylon5:
         LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (5, Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_)
         TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (5, Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD)
         PROTONM2 = (5, Weapons.PROTONM2)
         Mk_84___2000lb_GP_Bomb_LD = (5, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (5, Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile)
+        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
+            5,
+            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+        )
 
     class Pylon6:
         LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (6, Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_)
         TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (6, Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD)
         PROTONM2 = (6, Weapons.PROTONM2)
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (6, Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile)
+        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
+            6,
+            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+        )
         Mk_84___2000lb_GP_Bomb_LD = (6, Weapons.Mk_84___2000lb_GP_Bomb_LD)
 
     class Pylon7:
         LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (7, Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_)
         TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (7, Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD)
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (7, Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile)
+        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
+            7,
+            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+        )
         Mk_84___2000lb_GP_Bomb_LD = (7, Weapons.Mk_84___2000lb_GP_Bomb_LD)
 
     class Pylon8:
         TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (8, Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD)
         PROTONM2 = (8, Weapons.PROTONM2)
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (8, Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile)
+        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
+            8,
+            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+        )
 
     class Pylon9:
         TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (9, Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD)
