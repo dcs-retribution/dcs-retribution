@@ -202,7 +202,7 @@ class NewGameWizard(QtWidgets.QWizard):
             frenchpack=self.field("frenchpack"),
             high_digit_sams=self.field("high_digit_sams"),
             swedishmilitaryassetspack=self.field("swedishmilitaryassetspack"),
-            SWPACK=self.field("SWPack")
+            SWPack=self.field("SWPack")
         )
 
         blue_faction = self.faction_selection_page.selected_blue_faction
