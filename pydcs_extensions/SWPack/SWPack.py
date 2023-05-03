@@ -3,11 +3,9 @@ from typing import Any, Dict, Set
 from dcs import task
 from dcs.liveries_scanner import Liveries
 from dcs.planes import PlaneType
-from dcs.unittype import VehicleType
-from dcs.unittype import ShipType
 from dcs.weapons_data import Weapons
 
-from game.modsupport import planemod, vehiclemod
+from game.modsupport import planemod
 from pydcs_extensions.weapon_injector import inject_weapons
 
 
