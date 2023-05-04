@@ -1,0 +1,15 @@
+always_keeps_gun: true
+description:
+  "The TIE/sa bomber, formally known as the TIE Surface Assault Bomber and also known as the TIE/sa tactical bomber
+  or simply the TIE bomber, was a bombing variant of the TIE line used by the Galactic Empire. An evolution of the 
+  TIE/gt, the TIE bomber was their main source of anti-emplacement air-support. They were nicknamed dupes by the 
+  New Republic pilot Wyl Lark."
+introduced: 1990
+manufacturer: Sienar Fleet Systems
+origin: USSR/Russia
+price: 35
+role: Close Air Support/Attack
+max_range: 200
+variants:
+  TIE_BA: {}
+kneeboard_units: "metric"

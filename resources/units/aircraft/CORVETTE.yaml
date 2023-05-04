@@ -1,0 +1,15 @@
+description:
+  "The Raider-class corvette was a sleek and roomy vessel at 150 meters for a sizeable crew and featured 3 engines and a
+    hyperdrive. The dark grey protrusions on the craft were actually solar collectors, nearly identical to those found on
+    the starfighters of the TIE-series. These ships could be operated with a pilot and a co-pilot and were armed with
+    ion cannons, dual heavy laser cannons, concussion missiles, and turbolasers.[5] The ships also had a small hangar 
+    on the starboard side, that could hold at least 2 TIE fighters"
+introduced: 1978
+manufacturer: Kuat Drive Yards
+origin: USA
+price: 150
+role: Multirole Fighter
+max_range: 4000
+variants:
+  CORVETTE: {}
+

@@ -1,0 +1,14 @@
+description:
+  "The A-wing starfighter, also referred to as A-wing, was a type of starfighter. During the Early rebellion against the
+  Galactic Empire and the Galactic Civil War, the Alliance to Restore the Republic and the New Republic used the RZ-1
+  A-wing interceptor.  Approximately thirty years later, the type's successor, the RZ-2 A-wing interceptor,
+  was used by the Resistance during the First Order-Resistance War."
+introduced: 1978
+manufacturer: Kuat Systems Engineering
+origin: USA
+price: 42
+role: Multirole Fighter
+max_range: 2000
+variants:
+  AWING: {}
+

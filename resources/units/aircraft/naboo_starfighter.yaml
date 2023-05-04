@@ -1,0 +1,15 @@
+always_keeps_gun: true
+description:
+  "The N-1 starfighter, also referred to as the Royal Naboo N-1 starfighter, Naboo N-1 starfighter, Naboo starfighter,
+  N-1 fighter, or more simply, the N-1, was a twin-seater patrol craft developed by the Theed Palace Space Vessel
+  Engineering Corps and used by the Royal Naboo Security Forces for duties such as defense, patrol,
+  and escorting."
+introduced: 1990
+manufacturer: Theed Palace Space Vessel Engineering Corps
+origin: USSR/Russia
+price: 35
+role: Close Air Support/Attack
+max_range: 200
+variants:
+  naboo_starfighter: {}
+kneeboard_units: "metric"

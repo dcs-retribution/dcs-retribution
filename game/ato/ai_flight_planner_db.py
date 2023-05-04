@@ -127,6 +127,18 @@ from game.dcs.aircrafttype import AircraftType
 from pydcs_extensions.a4ec.a4ec import A_4E_C
 from pydcs_extensions.a6a.a6a import VSN_A6A
 from pydcs_extensions.a7e.a7e import A_7E
+from pydcs_extensions.SWPack.SWPack import (
+    TIE_AI,
+    HUNTERA,
+    TIE_INTERA,
+    AWINGA,
+    XWINGAI,
+    YWINGA,
+    CORVETTEA,
+    FAUCON_AI,
+)
+from pydcs_extensions.SWPack.SWPack import TIE_BA
+from pydcs_extensions.SWPack.SWPack import naboo_starfighter_AI
 from pydcs_extensions.f100.f100 import VSN_F100
 from pydcs_extensions.f104.f104 import VSN_F104C, VSN_F104G, VSN_F104S, VSN_F104S_AG
 from pydcs_extensions.f105.f105 import VSN_F105D, VSN_F105G
@@ -160,6 +172,14 @@ from .flighttype import FlightType
 
 # Used for CAP, Escort, and intercept if there is not a specialised aircraft available
 ESCORT_CAPABLE = [
+    TIE_AI,
+    HUNTERA,
+    XWINGAI,
+    AWINGA,
+    CORVETTEA,
+    FAUCON_AI,
+    TIE_INTERA,
+    naboo_starfighter_AI,
     Su_57,
     F_22A,
     F_15C,
@@ -246,6 +266,8 @@ CAP_CAPABLE = ESCORT_CAPABLE + [
 
 # Used for CAS (Close air support) and BAI (Battlefield Interdiction)
 CAS_CAPABLE = [
+    TIE_BA,
+    YWINGA,
     A_10C_2,
     A_10C,
     Hercules,
@@ -401,6 +423,8 @@ SEAD_CAPABLE = SEAD_ESCORT_CAPABLE + [
 
 # Aircraft used for DEAD tasks. Must be capable of the CAS DCS task.
 DEAD_CAPABLE = SEAD_CAPABLE + [
+    YWINGA,
+    TIE_BA,
     AJS37,
     F_16A_MLU,
     F_16A,
@@ -437,6 +461,8 @@ DEAD_CAPABLE = SEAD_CAPABLE + [
 
 # Aircraft used for Strike mission
 STRIKE_CAPABLE = [
+    YWINGA,
+    TIE_BA,
     F_117A,
     B_1B,
     B_52H,

@@ -1,0 +1,14 @@
+description:
+  "The Millennium Falcon, originally designated YT 492727ZED and formerly known as the Stellar Envoy, was a Corellian
+   YT-1300 light freighter built around 60 BBY.   Earning a legendary status under their ownership,
+    the ship was most famously used by the smugglers Han Solo and Chewbacca before, during, and following 
+    the Galactic Civil War. "
+introduced: 1978
+manufacturer: Corellian Engineering Corporation
+origin: USA
+price: 42
+role: Multirole Fighter
+max_range: 2000
+variants:
+
+  FAUCON_AI: {}

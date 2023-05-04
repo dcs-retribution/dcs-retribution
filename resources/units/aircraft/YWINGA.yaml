@@ -1,0 +1,18 @@
+always_keeps_gun: true
+description:
+  "The BTL Y-wing starfighter, also known to as the Y-wing starfighter/bomber or more simply as the BTL-series,
+  Y-wing fighter, or Y-wing and nicknamed the wallowing pigs, was a series of multi-role starfighter-bombers 
+  manufactured by Koensayr Manufacturing.  
+  The Koensayr BTL Y-wing assault starfighter/bomber are a series of fictional spacecraft from the Star Wars franchise.
+  They are depicted as the star fighters of the Galactic Republic, Rebel Alliance, New Republic, and the Resistance;
+  being ideally suited for anti-shipping, close air support, air interdiction, force protection and ground   attack
+  missions."
+introduced: 1990
+manufacturer: Koensayr
+origin: USSR/Russia
+price: 35
+role: Close Air Support/Attack
+max_range: 200
+variants:
+  YWINGA: {}
+kneeboard_units: "metric"
