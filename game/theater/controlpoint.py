@@ -1458,7 +1458,8 @@ class Fob(ControlPoint, RadioFrequencyContainer, CTLD):
         if not self.is_friendly(for_player):
             yield FlightType.STRIKE
             yield FlightType.AIR_ASSAULT
-            yield FlightType.OCA_AIRCRAFT
+        else:
+            yield FlightType.AEWC
 
         yield from super().mission_types(for_player)
 
