@@ -31,6 +31,7 @@ class Squadron:
     role: str
     aircraft: AircraftType
     livery: Optional[str]
+    primary_task: FlightType
     auto_assignable_mission_types: set[FlightType]
     operating_bases: OperatingBases
     female_pilot_percentage: int
@@ -416,6 +417,7 @@ class Squadron:
     def create_from(
         cls,
         squadron_def: SquadronDef,
+        primary_task: FlightType,
         base: ControlPoint,
         coalition: Coalition,
         game: Game,
@@ -428,6 +430,7 @@ class Squadron:
             squadron_def.role,
             squadron_def.aircraft,
             squadron_def.livery,
+            primary_task,
             squadron_def.auto_assignable_mission_types,
             squadron_def.operating_bases,
             squadron_def.female_pilot_percentage,

@@ -38,6 +38,7 @@ from game.squadrons import AirWing, Pilot, Squadron
 from game.squadrons.squadrondef import SquadronDef
 from game.theater import ControlPoint
 from qt_ui.uiconstants import AIRCRAFT_ICONS, ICONS
+from qt_ui.widgets.combos.primarytaskselector import PrimaryTaskSelector
 
 
 class QMissionType(QCheckBox):
@@ -210,6 +211,10 @@ class SquadronConfigurationBox(QGroupBox):
         self.livery_selector = SquadronLiverySelector(squadron)
         left_column.addWidget(self.livery_selector)
 
+        left_column.addWidget(QLabel("Primary task:"))
+        self.primary_task_selector = PrimaryTaskSelector.for_squadron(self.squadron)
+        left_column.addWidget(self.primary_task_selector)
+
         left_column.addWidget(QLabel("Base:"))
         self.base_selector = SquadronBaseSelector(
             game.theater.control_points_for(squadron.player),
@@ -262,6 +267,7 @@ class SquadronConfigurationBox(QGroupBox):
         try:
             self.name_edit.setText(self.squadron.name)
             self.nickname_edit.setText(self.squadron.nickname)
+            self.primary_task_selector.setCurrentText(self.squadron.primary_task.value)
             self.base_selector.setCurrentText(self.squadron.location.name)
             self.player_list.setText(
                 "<br />".join(p.name for p in self.claim_players_from_squadron())
@@ -285,6 +291,7 @@ class SquadronConfigurationBox(QGroupBox):
         self.squadron.coalition.air_wing.unclaim_squadron_def(self.squadron)
         squadron = Squadron.create_from(
             selected_def,
+            self.squadron.primary_task,
             self.squadron.location,
             self.coalition,
             self.game,
@@ -331,6 +338,10 @@ class SquadronConfigurationBox(QGroupBox):
     def apply(self) -> Squadron:
         self.squadron.name = self.name_edit.text()
         self.squadron.nickname = self.nickname_edit.text()
+        if (primary_task := self.primary_task_selector.selected_task) is not None:
+            self.squadron.primary_task = primary_task
+        else:
+            raise RuntimeError("Primary task cannot be none")
         base = self.base_selector.currentData()
         if base is None:
             raise RuntimeError("Base cannot be none")
@@ -583,6 +594,7 @@ class AirWingConfigurationTab(QWidget):
 
         selected_type = popup.aircraft_type_selector.currentData()
         selected_base = popup.squadron_base_selector.currentData()
+        selected_task = popup.primary_task_selector.selected_task
         selected_def = popup.squadron_def_selector.currentData()
 
         # Let user choose the preset or generate one
@@ -594,7 +606,7 @@ class AirWingConfigurationTab(QWidget):
         )
 
         squadron = Squadron.create_from(
-            squadron_def, selected_base, self.coalition, self.game
+            squadron_def, selected_task, selected_base, self.coalition, self.game
         )
 
         # Add Squadron
@@ -744,6 +756,12 @@ class SquadronConfigPopup(QDialog):
         )
         self.column.addWidget(self.aircraft_type_selector)
 
+        self.column.addWidget(QLabel("Primary task:"))
+        self.primary_task_selector = PrimaryTaskSelector(
+            self.aircraft_type_selector.currentData()
+        )
+        self.column.addWidget(self.primary_task_selector)
+
         self.column.addWidget(QLabel("Base:"))
         self.squadron_base_selector = SquadronBaseSelector(
             bases, None, self.aircraft_type_selector.currentData()
@@ -774,6 +792,7 @@ class SquadronConfigPopup(QDialog):
         enabled = (
             self.aircraft_type_selector.currentData() is not None
             and self.squadron_base_selector.currentData() is not None
+            and self.primary_task_selector.selected_task is not None
         )
         self.accept_button.setEnabled(enabled)
 
@@ -782,6 +801,9 @@ class SquadronConfigPopup(QDialog):
             self.aircraft_type_selector.currentData()
         )
         self.squadron_def_selector.set_aircraft_type(
+            self.aircraft_type_selector.currentData()
+        )
+        self.primary_task_selector.set_aircraft(
             self.aircraft_type_selector.currentData()
         )
         self.update_accept_button()
