@@ -137,7 +137,7 @@ from pydcs_extensions.SWPack.SWPack import (
     CORVETTEA,
     FAUCON_AI,
     TIE_BA,
-    naboo_starfighter_AI
+    naboo_starfighter_AI,
 )
 from pydcs_extensions.f100.f100 import VSN_F100
 from pydcs_extensions.f104.f104 import VSN_F104C, VSN_F104G, VSN_F104S, VSN_F104S_AG
