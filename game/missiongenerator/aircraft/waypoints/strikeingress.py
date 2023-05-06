@@ -13,12 +13,13 @@ class StrikeIngressBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
         bomber = self.group.units[0].unit_type in [B_17G, Tu_22M3]
         bomber_guided = self.group.units[0].unit_type in [B_1B, B_52H]
-        waypoint.tasks.append(OptFormation.trail_open())
+        waypoint.tasks.append(OptFormation.finger_four_open())
         if bomber_guided or not bomber:
             self.add_strike_tasks(waypoint, WeaponType.Guided)
 
         waypoint.tasks.append(OptFormation.ww2_bomber_element_close())
         self.add_bombing_tasks(waypoint)
+        waypoint.tasks.append(OptFormation.finger_four_open())
 
     def add_bombing_tasks(self, waypoint: MovingPoint) -> None:
         targets = self.waypoint.targets

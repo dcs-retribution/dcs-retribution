@@ -180,6 +180,7 @@ class AircraftGenerator:
                 FlightType.BARCAP,
                 StartType.COLD,
                 divert=None,
+                claim_inv=False,
             )
             flight.state = Completed(flight, self.game.settings)
 

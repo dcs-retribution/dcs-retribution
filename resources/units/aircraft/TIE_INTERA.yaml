@@ -1,0 +1,14 @@
+description:
+  "The TIE/IN interceptor[15] or TIE/in[16] was a far deadlier opponent than the standard TIE/ln space superiority
+  starfighter and featured four very recognizable pointed solar panels.[6] These panels, based on the bent-wing
+  configuration used on the prototype TIE Advanced flown by Darth Vader, were given a dagger like design, which gave 
+  a TIE fighter pilot a wider field of vision"
+introduced: 1978
+manufacturer: Sienar Fleet Systems
+origin: USA
+price: 40
+role: Multirole Fighter
+max_range: 2000
+variants:
+
+  TIE_INTERA: {}

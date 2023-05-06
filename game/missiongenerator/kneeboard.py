@@ -65,7 +65,7 @@ class KneeboardPageWriter:
         else:
             self.foreground_fill = (15, 15, 15)
             self.background_fill = (255, 252, 252)
-        self.image_size = (768, 1024)
+        self.image_size = (960, 1080)
         self.image = Image.new("RGB", self.image_size, self.background_fill)
         # These font sizes create a relatively full page for current sorties. If
         # we start generating more complicated flight plans, or start including
@@ -73,22 +73,23 @@ class KneeboardPageWriter:
         # probably do), we'll need to split some of this information off into a
         # second page.
         self.title_font = ImageFont.truetype(
-            "arial.ttf", 32, layout_engine=ImageFont.LAYOUT_BASIC
+            "courbd.ttf", 32, layout_engine=ImageFont.LAYOUT_BASIC
         )
         self.heading_font = ImageFont.truetype(
-            "arial.ttf", 24, layout_engine=ImageFont.LAYOUT_BASIC
+            "courbd.ttf", 24, layout_engine=ImageFont.LAYOUT_BASIC
         )
         self.content_font = ImageFont.truetype(
-            "arial.ttf", 16, layout_engine=ImageFont.LAYOUT_BASIC
+            "cour.ttf", 16, layout_engine=ImageFont.LAYOUT_BASIC
         )
         self.table_font = ImageFont.truetype(
-            "resources/fonts/Inconsolata.otf", 20, layout_engine=ImageFont.LAYOUT_BASIC
+            "cour.ttf", 20, layout_engine=ImageFont.LAYOUT_BASIC
         )
         self.draw = ImageDraw.Draw(self.image)
         self.page_margin = page_margin
         self.x = page_margin
         self.y = page_margin
         self.line_spacing = line_spacing
+        self.text_buffer: List[str] = []
 
     @property
     def position(self) -> Tuple[int, int]:
@@ -117,6 +118,13 @@ class KneeboardPageWriter:
         self.draw.text(self.position, text, font=font, fill=fill)
         width, height = self.draw.textsize(text, font=font)
         self.y += height + self.line_spacing
+        self.text_buffer.append(text)
+
+    def flush_text_buffer(self) -> None:
+        self.text_buffer = []
+
+    def get_text_string(self) -> str:
+        return "\n".join(x for x in self.text_buffer)
 
     def title(self, title: str) -> None:
         self.text(title, font=self.title_font, fill=self.foreground_fill)
@@ -139,6 +147,8 @@ class KneeboardPageWriter:
 
     def write(self, path: Path) -> None:
         self.image.save(path)
+        print(path.with_suffix(".txt"))
+        path.with_suffix(".txt").write_text(self.get_text_string())
 
     @staticmethod
     def wrap_line(inputstr: str, max_length: int) -> str:
@@ -328,7 +338,7 @@ class BriefingPage(KneeboardPage):
         self.start_time = start_time
         self.dark_kneeboard = dark_kneeboard
         self.flight_plan_font = ImageFont.truetype(
-            "resources/fonts/Inconsolata.otf",
+            "cour.ttf",
             16,
             layout_engine=ImageFont.LAYOUT_BASIC,
         )
@@ -533,8 +543,8 @@ class SupportPage(KneeboardPage):
             comm_ladder.append(
                 [
                     comm.name,
-                    "",
-                    "",
+                    str(self.flight.flight_type),
+                    KneeboardPageWriter.wrap_line(str(self.flight.aircraft_type), 23),
                     str(len(self.flight.units)),
                     self.format_frequency(comm.freq),
                 ]
@@ -581,7 +591,7 @@ class SupportPage(KneeboardPage):
         )
 
         comm_ladder = []
-        writer.heading("Tankers:")
+        writer.heading("Tankers")
         for tanker in self.tankers:
             tot = self._format_time(tanker.start_time)
             tos = self._format_duration(tanker.end_time - tanker.start_time)

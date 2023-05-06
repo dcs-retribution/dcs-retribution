@@ -10,9 +10,12 @@
 * **[Modding]** Support for A-7E Corsair II (presumed latest available version)
 * **[Squadrons]** Added many new squadron's by Adecarcer
 * **[Plugins]** Updated 'expl_table' in Splash Damage script.
+* **[Mission Generation]** Also save kneeboards in txt-format, found under "kneeboards" within Retribution's installation folder after pressing take-off.
+* **[Modding]** Support for SW mod v2.55
 
 ## Fixes
 * **[New Game Wizard]** Settings would not persist when going back to a previous page.
+* **[Mission Generation]** Unused aircraft are no longer claimed, fixing a bug where these aircraft would no longer be available after aborting the mission.
 
 
 # Retribution v1.1.1  (hotfix)

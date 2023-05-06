@@ -56,13 +56,15 @@ class Flight(SidcDescribable, RadioFrequencyContainer, TacanContainer):
         frequency: Optional[RadioFrequency] = None,
         channel: Optional[TacanChannel] = None,
         callsign: Optional[str] = None,
+        claim_inv: bool = True,
     ) -> None:
         self.id = uuid.uuid4()
         self.package = package
         self.country = country
         self.coalition = squadron.coalition
         self.squadron = squadron
-        self.squadron.claim_inventory(count)
+        if claim_inv:
+            self.squadron.claim_inventory(count)
         if roster is None:
             self.roster = FlightRoster(self.squadron, initial_size=count)
         else:

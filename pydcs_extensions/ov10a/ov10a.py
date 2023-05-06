@@ -1,4 +1,4 @@
-from typing import Any, Dict, Set
+from typing import Set
 
 from dcs import task
 from dcs.liveries_scanner import Liveries
@@ -95,7 +95,7 @@ class Bronco_OV_10A(PlaneType):
         )
 
     class Pylon4:
-        Fuel_Tank_150_gallons_ = (4, Weapons.Fuel_Tank_150_gallons_)
+        Fuel_Tank_150_gallons_ = (4, WeaponsOV10A.Fuel_Tank_150_gallons_)
         # ERRR {MK-81}
         Mk_82___500lb_GP_Bomb_LD = (4, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_82_Snakeye___500lb_GP_Bomb_HD = (4, Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD)
@@ -153,10 +153,10 @@ class Bronco_OV_10A(PlaneType):
         )
 
     class Pylon8:
-        ParaTrooper = (8, Weapons.ParaTrooper)
+        ParaTrooper = (8, WeaponsOV10A.ParaTrooper)
 
     class Pylon9:
-        OV10_SMOKE = (9, Weapons.OV10_SMOKE)
+        OV10_SMOKE = (9, WeaponsOV10A.OV10_SMOKE)
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9}
 

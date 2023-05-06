@@ -1,0 +1,11 @@
+class: Tank
+description: 'The MBT Series and MAVr Models are Medium Repulser Tanks manufactured by Kuat Subsidiaries. 
+The MAVr’s are considered quick and nimble for an armored fighting vehicle and are able to enter a fight quickly,
+ give significant damage, and escape relatively unharmed. '
+introduced: 1943
+manufacturer: Kuat
+origin: Germany
+price: 25
+role: Medium Tank
+variants:
+  MBT9_EMPIRE: { }
