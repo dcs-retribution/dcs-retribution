@@ -6,8 +6,7 @@ from dcs.planes import PlaneType
 from dcs.weapons_data import Weapons
 from dcs import unittype
 
-from game.modsupport import vehiclemod
-from game.modsupport import planemod
+from game.modsupport import vehiclemod, shipmod, planemod
 from pydcs_extensions.weapon_injector import inject_weapons
 
 
@@ -103,26 +102,26 @@ class XWING(PlaneType):
     Liveries = Liveries()[livery_name]
 
     class Pylon1:
-        PROTONM = (1, Weapons.PROTONM)
+        PROTONM = (1, SWWeapons.PROTONM)
 
     class Pylon2:
-        PROTONM = (2, Weapons.PROTONM)
-        ENERGY_CELL____ = (2, Weapons.ENERGY_CELL____)
+        PROTONM = (2, SWWeapons.PROTONM)
+        ENERGY_CELL____ = (2, SWWeapons.ENERGY_CELL____)
 
     class Pylon3:
-        PROTONM = (3, Weapons.PROTONM)
+        PROTONM = (3, SWWeapons.PROTONM)
 
     class Pylon4:
-        PROTONM = (4, Weapons.PROTONM)
+        PROTONM = (4, SWWeapons.PROTONM)
 
     class Pylon5:
-        PROTONM = (5, Weapons.PROTONM)
+        PROTONM = (5, SWWeapons.PROTONM)
 
     class Pylon6:
-        PROTONM = (6, Weapons.PROTONM)
+        PROTONM = (6, SWWeapons.PROTONM)
 
     class Pylon10:
-        ENERGY_CELL____ = (10, Weapons.ENERGY_CELL____)
+        ENERGY_CELL____ = (10, SWWeapons.ENERGY_CELL____)
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 10}
 
@@ -156,27 +155,27 @@ class XWINGAI(PlaneType):
     Liveries = Liveries()[livery_name]
 
     class Pylon1:
-        PROTONM = (1, Weapons.PROTONM)
+        PROTONM = (1, SWWeapons.PROTONM)
 
     class Pylon2:
-        PROTONM = (2, Weapons.PROTONM)
+        PROTONM = (2, SWWeapons.PROTONM)
 
-    ENERGY_CELL____ = (2, Weapons.ENERGY_CELL____)
+    ENERGY_CELL____ = (2, SWWeapons.ENERGY_CELL____)
 
     class Pylon3:
-        PROTONM = (3, Weapons.PROTONM)
+        PROTONM = (3, SWWeapons.PROTONM)
 
     class Pylon4:
-        PROTONM = (4, Weapons.PROTONM)
+        PROTONM = (4, SWWeapons.PROTONM)
 
     class Pylon5:
-        PROTONM = (5, Weapons.PROTONM)
+        PROTONM = (5, SWWeapons.PROTONM)
 
     class Pylon6:
-        PROTONM = (6, Weapons.PROTONM)
+        PROTONM = (6, SWWeapons.PROTONM)
 
     class Pylon10:
-        ENERGY_CELL____ = (10, Weapons.ENERGY_CELL____)
+        ENERGY_CELL____ = (10, SWWeapons.ENERGY_CELL____)
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 10}
 
@@ -216,7 +215,7 @@ class YWINGA(PlaneType):
         )
         PROTONMissile = (
             1,
-            Weapons.PROTONMissile,
+            SWWeapons.PROTONMissile,
         )
         Mk_84___2000lb_GP_Bomb_LD = (
             1,
@@ -234,7 +233,7 @@ class YWINGA(PlaneType):
         )
         PROTONMissile = (
             2,
-            Weapons.PROTONMissile,
+            SWWeapons.PROTONMissile,
         )
         Mk_84___2000lb_GP_Bomb_LD = (
             2,
@@ -248,7 +247,7 @@ class YWINGA(PlaneType):
     class Pylon3:
         PROTONBGG = (
             3,
-            Weapons.PROTONBGG,
+            SWWeapons.PROTONBGG,
         )
         Mk_84___2000lb_GP_Bomb_LD = (
             3,
@@ -266,7 +265,7 @@ class YWINGA(PlaneType):
         )
         PROTONMissile = (
             4,
-            Weapons.PROTONMissile,
+            SWWeapons.PROTONMissile,
         )
         Mk_84___2000lb_GP_Bomb_LD = (
             4,
@@ -284,7 +283,7 @@ class YWINGA(PlaneType):
         )
         PROTONMissile = (
             5,
-            Weapons.PROTONMissile,
+            SWWeapons.PROTONMissile,
         )
         Mk_84___2000lb_GP_Bomb_LD = (
             5,
@@ -296,7 +295,7 @@ class YWINGA(PlaneType):
         )
 
     class Pylon6:
-        PROTONMissile = (6, Weapons.PROTONMissile)
+        PROTONMissile = (6, SWWeapons.PROTONMissile)
         LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (
             6,
             Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_,
@@ -311,10 +310,10 @@ class YWINGA(PlaneType):
         )
 
     class Pylon7:
-        ENERGY_CELL___ = (7, Weapons.ENERGY_CELL___)
+        ENERGY_CELL___ = (7, SWWeapons.ENERGY_CELL___)
 
     class Pylon8:
-        ENERGY_CELL___ = (8, Weapons.ENERGY_CELL___)
+        ENERGY_CELL___ = (8, SWWeapons.ENERGY_CELL___)
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8}
 
@@ -349,28 +348,28 @@ class YWING(PlaneType):
     Liveries = Liveries()[livery_name]
 
     class Pylon1:
-        PROTONB = (1, Weapons.PROTONB)
+        PROTONB = (1, SWWeapons.PROTONB)
 
     class Pylon2:
-        PROTONB = (2, Weapons.PROTONB)
+        PROTONB = (2, SWWeapons.PROTONB)
 
     class Pylon3:
-        PROTONB = (3, Weapons.PROTONB)
+        PROTONB = (3, SWWeapons.PROTONB)
 
     class Pylon4:
-        PROTONB = (4, Weapons.PROTONB)
+        PROTONB = (4, SWWeapons.PROTONB)
 
     class Pylon5:
-        PROTONB = (5, Weapons.PROTONB)
+        PROTONB = (5, SWWeapons.PROTONB)
 
     class Pylon6:
-        PROTONB = (6, Weapons.PROTONB)
+        PROTONB = (6, SWWeapons.PROTONB)
 
     class Pylon7:
-        ENERGY_CELL___ = (7, Weapons.ENERGY_CELL___)
+        ENERGY_CELL___ = (7, SWWeapons.ENERGY_CELL___)
 
     class Pylon8:
-        ENERGY_CELL___ = (8, Weapons.ENERGY_CELL___)
+        ENERGY_CELL___ = (8, SWWeapons.ENERGY_CELL___)
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8}
 
@@ -405,16 +404,16 @@ class AWING(PlaneType):
     Liveries = Liveries()[livery_name]
 
     class Pylon1:
-        PROTONM1 = (1, Weapons.PROTONM1)
+        PROTONM1 = (1, SWWeapons.PROTONM1)
 
     class Pylon2:
-        ENERGY_CELL = (2, Weapons.ENERGY_CELL)
+        ENERGY_CELL = (2, SWWeapons.ENERGY_CELL)
 
     class Pylon3:
-        PROTONM1 = (3, Weapons.PROTONM1)
+        PROTONM1 = (3, SWWeapons.PROTONM1)
 
     class Pylon10:
-        ENERGY_CELL = (10, Weapons.ENERGY_CELL)
+        ENERGY_CELL = (10, SWWeapons.ENERGY_CELL)
 
     pylons: Set[int] = {1, 2, 3, 10}
 
@@ -448,16 +447,16 @@ class AWINGA(PlaneType):
     Liveries = Liveries()[livery_name]
 
     class Pylon1:
-        PROTONM1 = (1, Weapons.PROTONM1)
+        PROTONM1 = (1, SWWeapons.PROTONM1)
 
     class Pylon2:
-        ENERGY_CELL = (2, Weapons.ENERGY_CELL)
+        ENERGY_CELL = (2, SWWeapons.ENERGY_CELL)
 
     class Pylon3:
-        PROTONM1 = (3, Weapons.PROTONM1)
+        PROTONM1 = (3, SWWeapons.PROTONM1)
 
     class Pylon10:
-        ENERGY_CELL = (10, Weapons.ENERGY_CELL)
+        ENERGY_CELL = (10, SWWeapons.ENERGY_CELL)
 
     pylons: Set[int] = {1, 2, 3, 10}
 
@@ -492,22 +491,22 @@ class CORVETTE(PlaneType):
     Liveries = Liveries()[livery_name]
 
     class Pylon3:
-        PROTONM3 = (3, Weapons.PROTONM3)
+        PROTONM3 = (3, SWWeapons.PROTONM3)
 
     class Pylon4:
-        PROTONM3 = (4, Weapons.PROTONM3)
+        PROTONM3 = (4, SWWeapons.PROTONM3)
 
     class Pylon5:
-        PROTONM3 = (5, Weapons.PROTONM3)
+        PROTONM3 = (5, SWWeapons.PROTONM3)
 
     class Pylon7:
-        PROTONM3 = (7, Weapons.PROTONM3)
+        PROTONM3 = (7, SWWeapons.PROTONM3)
 
     class Pylon8:
-        PROTONM3 = (8, Weapons.PROTONM3)
+        PROTONM3 = (8, SWWeapons.PROTONM3)
 
     class Pylon9:
-        PROTONM3 = (9, Weapons.PROTONM3)
+        PROTONM3 = (9, SWWeapons.PROTONM3)
 
     pylons: Set[int] = {3, 4, 5, 7, 8, 9}
 
@@ -541,22 +540,22 @@ class CORVETTEA(PlaneType):
     Liveries = Liveries()[livery_name]
 
     class Pylon3:
-        PROTONM3 = (3, Weapons.PROTONM3)
+        PROTONM3 = (3, SWWeapons.PROTONM3)
 
     class Pylon4:
-        PROTONM3 = (4, Weapons.PROTONM3)
+        PROTONM3 = (4, SWWeapons.PROTONM3)
 
     class Pylon5:
-        PROTONM3 = (5, Weapons.PROTONM3)
+        PROTONM3 = (5, SWWeapons.PROTONM3)
 
     class Pylon7:
-        PROTONM3 = (7, Weapons.PROTONM3)
+        PROTONM3 = (7, SWWeapons.PROTONM3)
 
     class Pylon8:
-        PROTONM3 = (8, Weapons.PROTONM3)
+        PROTONM3 = (8, SWWeapons.PROTONM3)
 
     class Pylon9:
-        PROTONM3 = (9, Weapons.PROTONM3)
+        PROTONM3 = (9, SWWeapons.PROTONM3)
 
     pylons: Set[int] = {3, 4, 5, 7, 8, 9}
 
@@ -591,7 +590,7 @@ class FAUCON(PlaneType):
     Liveries = Liveries()[livery_name]
 
     class Pylon1:
-        PROTONF = (1, Weapons.PROTONF)
+        PROTONF = (1, SWWeapons.PROTONF)
 
     pylons: Set[int] = {1}
 
@@ -625,7 +624,7 @@ class FAUCON_AI(PlaneType):
     Liveries = Liveries()[livery_name]
 
     class Pylon1:
-        PROTONF = (1, Weapons.PROTONF)
+        PROTONF = (1, SWWeapons.PROTONF)
 
     pylons: Set[int] = {1}
 
@@ -660,10 +659,10 @@ class TIE(PlaneType):
     Liveries = Liveries()[livery_name]
 
     class Pylon2:
-        ENERGY_CELL_ = (2, Weapons.ENERGY_CELL_)
+        ENERGY_CELL_ = (2, SWWeapons.ENERGY_CELL_)
 
     class Pylon10:
-        ENERGY_CELL_ = (10, Weapons.ENERGY_CELL_)
+        ENERGY_CELL_ = (10, SWWeapons.ENERGY_CELL_)
 
     pylons: Set[int] = {2, 10}
 
@@ -697,10 +696,10 @@ class TIE_AI(PlaneType):
     Liveries = Liveries()[livery_name]
 
     class Pylon2:
-        ENERGY_CELL_ = (2, Weapons.ENERGY_CELL_)
+        ENERGY_CELL_ = (2, SWWeapons.ENERGY_CELL_)
 
     class Pylon10:
-        ENERGY_CELL_ = (10, Weapons.ENERGY_CELL_)
+        ENERGY_CELL_ = (10, SWWeapons.ENERGY_CELL_)
 
     pylons: Set[int] = {2, 10}
 
@@ -735,16 +734,16 @@ class HUNTER(PlaneType):
     Liveries = Liveries()[livery_name]
 
     class Pylon1:
-        PROTONM2 = (1, Weapons.PROTONM2)
+        PROTONM2 = (1, SWWeapons.PROTONM2)
 
     class Pylon2:
-        ENERGY_CELL__ = (2, Weapons.ENERGY_CELL__)
+        ENERGY_CELL__ = (2, SWWeapons.ENERGY_CELL__)
 
     class Pylon3:
-        PROTONM2 = (3, Weapons.PROTONM2)
+        PROTONM2 = (3, SWWeapons.PROTONM2)
 
     class Pylon10:
-        ENERGY_CELL__ = (10, Weapons.ENERGY_CELL__)
+        ENERGY_CELL__ = (10, SWWeapons.ENERGY_CELL__)
 
     pylons: Set[int] = {1, 2, 3, 10}
 
@@ -778,16 +777,16 @@ class HUNTERA(PlaneType):
     Liveries = Liveries()[livery_name]
 
     class Pylon1:
-        PROTONM2 = (1, Weapons.PROTONM2)
+        PROTONM2 = (1, SWWeapons.PROTONM2)
 
     class Pylon2:
-        ENERGY_CELL__ = (2, Weapons.ENERGY_CELL__)
+        ENERGY_CELL__ = (2, SWWeapons.ENERGY_CELL__)
 
     class Pylon3:
-        PROTONM2 = (3, Weapons.PROTONM2)
+        PROTONM2 = (3, SWWeapons.PROTONM2)
 
     class Pylon10:
-        ENERGY_CELL__ = (10, Weapons.ENERGY_CELL__)
+        ENERGY_CELL__ = (10, SWWeapons.ENERGY_CELL__)
 
     pylons: Set[int] = {1, 2, 3, 10}
 
@@ -822,16 +821,16 @@ class TIE_INTER(PlaneType):
     Liveries = Liveries()[livery_name]
 
     class Pylon1:
-        PROTONM1 = (1, Weapons.PROTONM1)
+        PROTONM1 = (1, SWWeapons.PROTONM1)
 
     class Pylon2:
-        ENERGY_CELL___ = (2, Weapons.ENERGY_CELL___)
+        ENERGY_CELL___ = (2, SWWeapons.ENERGY_CELL___)
 
     class Pylon3:
-        PROTONM1 = (3, Weapons.PROTONM1)
+        PROTONM1 = (3, SWWeapons.PROTONM1)
 
     class Pylon10:
-        ENERGY_CELL___ = (10, Weapons.ENERGY_CELL___)
+        ENERGY_CELL___ = (10, SWWeapons.ENERGY_CELL___)
 
     pylons: Set[int] = {1, 2, 3, 10}
 
@@ -865,16 +864,16 @@ class TIE_INTERA(PlaneType):
     Liveries = Liveries()[livery_name]
 
     class Pylon1:
-        PROTONM1 = (1, Weapons.PROTONM1)
+        PROTONM1 = (1, SWWeapons.PROTONM1)
 
     class Pylon2:
-        ENERGY_CELL___ = (2, Weapons.ENERGY_CELL___)
+        ENERGY_CELL___ = (2, SWWeapons.ENERGY_CELL___)
 
     class Pylon3:
-        PROTONM1 = (3, Weapons.PROTONM1)
+        PROTONM1 = (3, SWWeapons.PROTONM1)
 
     class Pylon10:
-        ENERGY_CELL___ = (10, Weapons.ENERGY_CELL___)
+        ENERGY_CELL___ = (10, SWWeapons.ENERGY_CELL___)
 
     pylons: Set[int] = {1, 2, 3, 10}
 
@@ -909,26 +908,26 @@ class naboo_starfighter(PlaneType):
     Liveries = Liveries()[livery_name]
 
     class Pylon1:
-        PROTONM = (1, Weapons.PROTONM)
+        PROTONM = (1, SWWeapons.PROTONM)
 
     class Pylon2:
-        PROTONM = (2, Weapons.PROTONM)
-        ENERGY_CELL____ = (2, Weapons.ENERGY_CELL____)
+        PROTONM = (2, SWWeapons.PROTONM)
+        ENERGY_CELL____ = (2, SWWeapons.ENERGY_CELL____)
 
     class Pylon3:
-        PROTONM = (3, Weapons.PROTONM)
+        PROTONM = (3, SWWeapons.PROTONM)
 
     class Pylon4:
-        PROTONM = (4, Weapons.PROTONM)
+        PROTONM = (4, SWWeapons.PROTONM)
 
     class Pylon5:
-        PROTONM = (5, Weapons.PROTONM)
+        PROTONM = (5, SWWeapons.PROTONM)
 
     class Pylon6:
-        PROTONM = (6, Weapons.PROTONM)
+        PROTONM = (6, SWWeapons.PROTONM)
 
     class Pylon10:
-        ENERGY_CELL____ = (10, Weapons.ENERGY_CELL____)
+        ENERGY_CELL____ = (10, SWWeapons.ENERGY_CELL____)
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 10}
 
@@ -966,26 +965,26 @@ class naboo_starfighter_AI(PlaneType):
     Liveries = Liveries()[livery_name]
 
     class Pylon1:
-        PROTONM = (1, Weapons.PROTONM)
+        PROTONM = (1, SWWeapons.PROTONM)
 
     class Pylon2:
-        PROTONM = (2, Weapons.PROTONM)
-        ENERGY_CELL____ = (2, Weapons.ENERGY_CELL____)
+        PROTONM = (2, SWWeapons.PROTONM)
+        ENERGY_CELL____ = (2, SWWeapons.ENERGY_CELL____)
 
     class Pylon3:
-        PROTONM = (3, Weapons.PROTONM)
+        PROTONM = (3, SWWeapons.PROTONM)
 
     class Pylon4:
-        PROTONM = (4, Weapons.PROTONM)
+        PROTONM = (4, SWWeapons.PROTONM)
 
     class Pylon5:
-        PROTONM = (5, Weapons.PROTONM)
+        PROTONM = (5, SWWeapons.PROTONM)
 
     class Pylon6:
-        PROTONM = (6, Weapons.PROTONM)
+        PROTONM = (6, SWWeapons.PROTONM)
 
     class Pylon10:
-        ENERGY_CELL____ = (10, Weapons.ENERGY_CELL____)
+        ENERGY_CELL____ = (10, SWWeapons.ENERGY_CELL____)
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 10}
 
@@ -1024,7 +1023,7 @@ class tie_bomber_2(PlaneType):
     Liveries = Liveries()[livery_name]
 
     class Pylon1:
-        PROTONM1 = (1, Weapons.PROTONM1)
+        PROTONM1 = (1, SWWeapons.PROTONM1)
         TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
             1,
             Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
@@ -1032,10 +1031,10 @@ class tie_bomber_2(PlaneType):
         Mk_84___2000lb_GP_Bomb_LD = (1, Weapons.Mk_84___2000lb_GP_Bomb_LD)
 
     class Pylon2:
-        ENERGY_CELL___ = (2, Weapons.ENERGY_CELL___)
+        ENERGY_CELL___ = (2, SWWeapons.ENERGY_CELL___)
 
     class Pylon3:
-        PROTONM1 = (3, Weapons.PROTONM1)
+        PROTONM1 = (3, SWWeapons.PROTONM1)
         Mk_84___2000lb_GP_Bomb_LD = (3, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
             3,
@@ -1047,7 +1046,7 @@ class tie_bomber_2(PlaneType):
             4,
             Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
         )
-        PROTONM2 = (4, Weapons.PROTONM2)
+        PROTONM2 = (4, SWWeapons.PROTONM2)
         Mk_84___2000lb_GP_Bomb_LD = (4, Weapons.Mk_84___2000lb_GP_Bomb_LD)
 
     class Pylon5:
@@ -1055,7 +1054,7 @@ class tie_bomber_2(PlaneType):
             5,
             Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
         )
-        PROTONM2 = (5, Weapons.PROTONM2)
+        PROTONM2 = (5, SWWeapons.PROTONM2)
         Mk_84___2000lb_GP_Bomb_LD = (5, Weapons.Mk_84___2000lb_GP_Bomb_LD)
 
     class Pylon6:
@@ -1063,7 +1062,7 @@ class tie_bomber_2(PlaneType):
             6,
             Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
         )
-        PROTONM2 = (6, Weapons.PROTONM2)
+        PROTONM2 = (6, SWWeapons.PROTONM2)
         Mk_84___2000lb_GP_Bomb_LD = (6, Weapons.Mk_84___2000lb_GP_Bomb_LD)
 
     class Pylon7:
@@ -1078,7 +1077,7 @@ class tie_bomber_2(PlaneType):
             8,
             Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
         )
-        PROTONM2 = (8, Weapons.PROTONM2)
+        PROTONM2 = (8, SWWeapons.PROTONM2)
         Mk_84___2000lb_GP_Bomb_LD = (8, Weapons.Mk_84___2000lb_GP_Bomb_LD)
 
     class Pylon9:
@@ -1089,7 +1088,7 @@ class tie_bomber_2(PlaneType):
         Mk_84___2000lb_GP_Bomb_LD = (9, Weapons.Mk_84___2000lb_GP_Bomb_LD)
 
     class Pylon10:
-        ENERGY_CELL___ = (10, Weapons.ENERGY_CELL___)
+        ENERGY_CELL___ = (10, SWWeapons.ENERGY_CELL___)
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 
@@ -1126,7 +1125,7 @@ class TIE_BA(PlaneType):
     Liveries = Liveries()[livery_name]
 
     class Pylon1:
-        PROTONM1 = (1, Weapons.PROTONM1)
+        PROTONM1 = (1, SWWeapons.PROTONM1)
         LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (
             1,
             Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_,
@@ -1138,10 +1137,10 @@ class TIE_BA(PlaneType):
         )
 
     class Pylon2:
-        ENERGY_CELL___ = (2, Weapons.ENERGY_CELL___)
+        ENERGY_CELL___ = (2, SWWeapons.ENERGY_CELL___)
 
     class Pylon3:
-        PROTONM1 = (3, Weapons.PROTONM1)
+        PROTONM1 = (3, SWWeapons.PROTONM1)
         LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (
             3,
             Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_,
@@ -1165,7 +1164,7 @@ class TIE_BA(PlaneType):
             4,
             Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
         )
-        PROTONM2 = (4, Weapons.PROTONM2)
+        PROTONM2 = (4, SWWeapons.PROTONM2)
         Mk_84___2000lb_GP_Bomb_LD = (4, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             4,
@@ -1181,7 +1180,7 @@ class TIE_BA(PlaneType):
             5,
             Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
         )
-        PROTONM2 = (5, Weapons.PROTONM2)
+        PROTONM2 = (5, SWWeapons.PROTONM2)
         Mk_84___2000lb_GP_Bomb_LD = (5, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             5,
@@ -1197,7 +1196,7 @@ class TIE_BA(PlaneType):
             6,
             Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
         )
-        PROTONM2 = (6, Weapons.PROTONM2)
+        PROTONM2 = (6, SWWeapons.PROTONM2)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             6,
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
@@ -1224,7 +1223,7 @@ class TIE_BA(PlaneType):
             8,
             Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
         )
-        PROTONM2 = (8, Weapons.PROTONM2)
+        PROTONM2 = (8, SWWeapons.PROTONM2)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             8,
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
@@ -1237,7 +1236,7 @@ class TIE_BA(PlaneType):
         )
 
     class Pylon10:
-        ENERGY_CELL___ = (10, Weapons.ENERGY_CELL___)
+        ENERGY_CELL___ = (10, SWWeapons.ENERGY_CELL___)
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 
@@ -1328,7 +1327,7 @@ class Gozanti(unittype.VehicleType):
     eplrs = True
 
 
-@vehiclemod
+@shipmod
 class Destroyer_carrier(unittype.ShipType):
     id = "Destroyer_carrier"
     name = "SW - ISD carrier"
