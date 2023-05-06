@@ -94,6 +94,7 @@ FRONTLINE = f"{Settings.automate_front_line_reinforcements=}".split("=")[0].spli
 AIRCRAFT = f"{Settings.automate_aircraft_reinforcements=}".split("=")[0].split(".")[1]
 MISSION_LENGTH = f"{Settings.desired_player_mission_duration=}".split("=")[0].split(".")[1]
 SUPER_CARRIER = f"{Settings.supercarrier=}".split("=")[0].split(".")[1]
+SQN_AC_LIMITS = f"{Settings.enable_squadron_aircraft_limits=}".split("=")[0].split(".")[1]
 # fmt: on
 
 
@@ -159,6 +160,7 @@ class NewGameWizard(QtWidgets.QWizard):
         settings.desired_player_mission_duration = timedelta(
             minutes=self.field(MISSION_LENGTH)
         )
+        settings.enable_squadron_aircraft_limits = self.field("use_new_squadron_rules")
         settings.automate_aircraft_reinforcements = self.field(AIRCRAFT)
         settings.supercarrier = self.field(SUPER_CARRIER)
         settings.perf_culling = (
@@ -233,7 +235,9 @@ class NewGameWizard(QtWidgets.QWizard):
         if herc in g.blue.air_wing.squadrons or herc in g.red.air_wing.squadrons:
             g.settings.set_plugin_option("herculescargo", True)
 
-        self.generatedGame.begin_turn_0()
+        self.generatedGame.begin_turn_0(
+            squadrons_start_full=settings.enable_squadron_aircraft_limits
+        )
 
         super(NewGameWizard, self).accept()
 
@@ -734,6 +738,16 @@ class DifficultyAndAutomationOptions(QtWidgets.QWizardPage):
         self.enemy_budget = BudgetInputs("Enemy starting budget", DEFAULT_BUDGET)
         self.registerField("enemy_starting_money", self.enemy_budget.starting_money)
         economy_layout.addLayout(self.enemy_budget)
+
+        new_squadron_rules = QtWidgets.QCheckBox("Enable new squadron rules")
+        self.registerField("use_new_squadron_rules", new_squadron_rules)
+        economy_layout.addWidget(new_squadron_rules)
+        economy_layout.addWidget(
+            QLabel(
+                "With new squadron rules enabled, squadrons will not be able to exceed a maximum number of aircraft "
+                "(configurable), and the campaign will begin with all squadrons at full strength."
+            )
+        )
 
         assist_group = QtWidgets.QGroupBox("Player assists")
         layout.addWidget(assist_group)
