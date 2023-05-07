@@ -2,7 +2,7 @@ local unitPayloads = {
 	["name"] = "AV8BNA",
 	["payloads"] = {
 		[1] = {
-			["name"] = "INTERCEPT",
+			["name"] = "CAP",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
@@ -33,19 +33,19 @@ local unitPayloads = {
 			["name"] = "SEAD",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{AGM_122_SIDEARM}",
+					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
 					["num"] = 8,
 				},
 				[2] = {
-					["CLSID"] = "{AGM_122_SIDEARM}",
+					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
 					["num"] = 1,
 				},
 				[3] = {
-					["CLSID"] = "LAU_117_AGM_65F",
+					["CLSID"] = "{LAU_7_AGM_122_SIDEARM}",
 					["num"] = 2,
 				},
 				[4] = {
-					["CLSID"] = "LAU_117_AGM_65F",
+					["CLSID"] = "{LAU_7_AGM_122_SIDEARM}",
 					["num"] = 7,
 				},
 				[5] = {
@@ -106,6 +106,34 @@ local unitPayloads = {
 			},
 		},
 		[4] = {
+			["name"] = "INTERCEPT",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+					["num"] = 8,
+				},
+				[2] = {
+					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+					["num"] = 1,
+				},
+				[3] = {
+					["CLSID"] = "{AIM-9M-ON-ADAPTER}",
+					["num"] = 2,
+				},
+				[4] = {
+					["CLSID"] = "{AIM-9M-ON-ADAPTER}",
+					["num"] = 7,
+				},
+				[5] = {
+					["CLSID"] = "{GAU_12_Equalizer}",
+					["num"] = 4,
+				},
+			},
+			["tasks"] = {
+				[1] = 31,
+			},
+		},
+		[5] = {
 			["name"] = "ANTISHIP",
 			["pylons"] = {
 				[1] = {
@@ -141,48 +169,36 @@ local unitPayloads = {
 				[1] = 31,
 			},
 		},
-		[5] = {
+		[6] = {
 			["name"] = "STRIKE",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{BRU-42_2*GBU-38_LEFT}",
-					["num"] = 2,
-				},
-				[2] = {
-					["CLSID"] = "{BRU-42_2*GBU-38_RIGHT}",
-					["num"] = 7,
-				},
-				[3] = {
 					["CLSID"] = "{A111396E-D3E8-4b9c-8AC9-2432489304D5}",
 					["num"] = 5,
 				},
-			},
-			["tasks"] = {
-				[1] = 31,
-			},
-		},
-		[6] = {
-			["name"] = "CAP",
-			["pylons"] = {
-				[1] = {
+				[2] = {
 					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
 					["num"] = 8,
 				},
-				[2] = {
+				[3] = {
 					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
 					["num"] = 1,
 				},
-				[3] = {
-					["CLSID"] = "{AIM-9M-ON-ADAPTER}",
-					["num"] = 2,
-				},
 				[4] = {
-					["CLSID"] = "{AIM-9M-ON-ADAPTER}",
+					["CLSID"] = "{GBU_32_V_2B}",
 					["num"] = 7,
 				},
 				[5] = {
-					["CLSID"] = "{GAU_12_Equalizer}",
-					["num"] = 4,
+					["CLSID"] = "{GBU_32_V_2B}",
+					["num"] = 6,
+				},
+				[6] = {
+					["CLSID"] = "{GBU_32_V_2B}",
+					["num"] = 3,
+				},
+				[7] = {
+					["CLSID"] = "{GBU_32_V_2B}",
+					["num"] = 2,
 				},
 			},
 			["tasks"] = {

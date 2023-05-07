@@ -2,39 +2,39 @@ local unitPayloads = {
 	["name"] = "FA-18C",
 	["payloads"] = {
 		[1] = {
-			["displayName"] = "Liberation SEAD",
-			["name"] = "Liberation SEAD",
+			["displayName"] = "Liberation OCA/Runway",
+			["name"] = "Liberation OCA/Runway",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
 					["num"] = 1,
 				},
 				[2] = {
-					["CLSID"] = "{B06DD79A-F21E-4EB9-BD9D-AB3844618C93}",
+					["CLSID"] = "{GBU-31}",
 					["num"] = 2,
 				},
 				[3] = {
-					["CLSID"] = "{B06DD79A-F21E-4EB9-BD9D-AB3844618C93}",
+					["CLSID"] = "{GBU-31}",
 					["num"] = 3,
 				},
 				[4] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
 					["num"] = 4,
 				},
 				[5] = {
-					["CLSID"] = "{EFEC8200-B922-11d7-9897-000476191836}",
+					["CLSID"] = "{EFEC8201-B922-11d7-9897-000476191836}",
 					["num"] = 5,
 				},
 				[6] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
 					["num"] = 6,
 				},
 				[7] = {
-					["CLSID"] = "{B06DD79A-F21E-4EB9-BD9D-AB3844618C93}",
+					["CLSID"] = "{GBU-31}",
 					["num"] = 7,
 				},
 				[8] = {
-					["CLSID"] = "{B06DD79A-F21E-4EB9-BD9D-AB3844618C93}",
+					["CLSID"] = "{GBU-31}",
 					["num"] = 8,
 				},
 				[9] = {
@@ -43,7 +43,7 @@ local unitPayloads = {
 				},
 			},
 			["tasks"] = {
-				[1] = 29,
+				[1] = 31,
 			},
 		},
 		[2] = {
@@ -51,19 +51,19 @@ local unitPayloads = {
 			["name"] = "Liberation BARCAP",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
+					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
 					["num"] = 1,
 				},
 				[2] = {
-					["CLSID"] = "LAU-115_2*LAU-127_AIM-9M",
+					["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
 					["num"] = 2,
 				},
 				[3] = {
-					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
+					["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
 					["num"] = 3,
 				},
 				[4] = {
-					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
+					["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
 					["num"] = 4,
 				},
 				[5] = {
@@ -71,7 +71,7 @@ local unitPayloads = {
 					["num"] = 5,
 				},
 				[6] = {
-					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
+					["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
 					["num"] = 6,
 				},
 				[7] = {
@@ -79,11 +79,11 @@ local unitPayloads = {
 					["num"] = 7,
 				},
 				[8] = {
-					["CLSID"] = "LAU-115_2*LAU-127_AIM-9M",
+					["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
 					["num"] = 8,
 				},
 				[9] = {
-					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
+					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
 					["num"] = 9,
 				},
 			},
@@ -94,6 +94,50 @@ local unitPayloads = {
 			},
 		},
 		[3] = {
+			["displayName"] = "Liberation DEAD",
+			["name"] = "Liberation DEAD",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+					["num"] = 1,
+				},
+				[2] = {
+					["CLSID"] = "{9BCC2A2B-5708-4860-B1F1-053A18442067}",
+					["num"] = 2,
+				},
+				[3] = {
+					["CLSID"] = "{AF42E6DF-9A60-46D8-A9A0-1708B241AADB}",
+					["num"] = 3,
+				},
+				[4] = {
+					["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+					["num"] = 4,
+				},
+				[5] = {
+					["CLSID"] = "{EFEC8201-B922-11d7-9897-000476191836}",
+					["num"] = 5,
+				},
+				[6] = {
+					["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+					["num"] = 6,
+				},
+				[7] = {
+					["CLSID"] = "{AF42E6DF-9A60-46D8-A9A0-1708B241AADB}",
+					["num"] = 7,
+				},
+				[8] = {
+					["CLSID"] = "{9BCC2A2B-5708-4860-B1F1-053A18442067}",
+					["num"] = 8,
+				},
+				[9] = {
+					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+					["num"] = 9,
+				},
+			},
+			["tasks"] = {
+			},
+		},
+		[4] = {
 			["displayName"] = "Liberation Anti-ship",
 			["name"] = "Liberation Anti-ship",
 			["pylons"] = {
@@ -110,7 +154,7 @@ local unitPayloads = {
 					["num"] = 3,
 				},
 				[4] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
 					["num"] = 4,
 				},
 				[5] = {
@@ -118,7 +162,7 @@ local unitPayloads = {
 					["num"] = 5,
 				},
 				[6] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
 					["num"] = 6,
 				},
 				[7] = {
@@ -138,61 +182,16 @@ local unitPayloads = {
 				[1] = 30,
 			},
 		},
-		[4] = {
-			["displayName"] = "Liberation Strike",
-			["name"] = "Liberation Strike",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
-					["num"] = 1,
-				},
-				[2] = {
-					["CLSID"] = "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}",
-					["num"] = 2,
-				},
-				[3] = {
-					["CLSID"] = "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}",
-					["num"] = 3,
-				},
-				[4] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
-					["num"] = 4,
-				},
-				[5] = {
-					["CLSID"] = "{EFEC8201-B922-11d7-9897-000476191836}",
-					["num"] = 5,
-				},
-				[6] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
-					["num"] = 6,
-				},
-				[7] = {
-					["CLSID"] = "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}",
-					["num"] = 7,
-				},
-				[8] = {
-					["CLSID"] = "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}",
-					["num"] = 8,
-				},
-				[9] = {
-					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
-					["num"] = 9,
-				},
-			},
-			["tasks"] = {
-				[1] = 31,
-			},
-		},
 		[5] = {
-			["displayName"] = "Liberation SEAD Escort",
-			["name"] = "Liberation SEAD Escort",
+			["displayName"] = "Liberation SEAD",
+			["name"] = "Liberation SEAD",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
 					["num"] = 1,
 				},
 				[2] = {
-					["CLSID"] = "{F16A4DE0-116C-4A71-97F0-2CF85B0313EC}",
+					["CLSID"] = "{B06DD79A-F21E-4EB9-BD9D-AB3844618C93}",
 					["num"] = 2,
 				},
 				[3] = {
@@ -200,7 +199,7 @@ local unitPayloads = {
 					["num"] = 3,
 				},
 				[4] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
 					["num"] = 4,
 				},
 				[5] = {
@@ -208,7 +207,7 @@ local unitPayloads = {
 					["num"] = 5,
 				},
 				[6] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
 					["num"] = 6,
 				},
 				[7] = {
@@ -216,7 +215,7 @@ local unitPayloads = {
 					["num"] = 7,
 				},
 				[8] = {
-					["CLSID"] = "{F16A4DE0-116C-4A71-97F0-2CF85B0313EC}",
+					["CLSID"] = "{B06DD79A-F21E-4EB9-BD9D-AB3844618C93}",
 					["num"] = 8,
 				},
 				[9] = {
@@ -229,42 +228,38 @@ local unitPayloads = {
 			},
 		},
 		[6] = {
-			["displayName"] = "Liberation OCA/Runway",
-			["name"] = "Liberation OCA/Runway",
+			["displayName"] = "Liberation Strike",
+			["name"] = "Liberation Strike",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
 					["num"] = 1,
 				},
 				[2] = {
-					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
+					["CLSID"] = "{GBU-31}",
 					["num"] = 2,
 				},
 				[3] = {
-					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
+					["CLSID"] = "{EFEC8201-B922-11d7-9897-000476191836}",
 					["num"] = 3,
 				},
 				[4] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
 					["num"] = 4,
 				},
 				[5] = {
-					["CLSID"] = "{EFEC8201-B922-11d7-9897-000476191836}",
-					["num"] = 5,
-				},
-				[6] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
 					["num"] = 6,
 				},
-				[7] = {
-					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
+				[6] = {
+					["CLSID"] = "{EFEC8201-B922-11d7-9897-000476191836}",
 					["num"] = 7,
 				},
-				[8] = {
-					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
+				[7] = {
+					["CLSID"] = "{GBU-31}",
 					["num"] = 8,
 				},
-				[9] = {
+				[8] = {
 					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
 					["num"] = 9,
 				},
@@ -274,39 +269,39 @@ local unitPayloads = {
 			},
 		},
 		[7] = {
-			["displayName"] = "Liberation CAS",
-			["name"] = "Liberation CAS",
+			["displayName"] = "Liberation SEAD Escort",
+			["name"] = "Liberation SEAD Escort",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
 					["num"] = 1,
 				},
 				[2] = {
-					["CLSID"] = "{F16A4DE0-116C-4A71-97F0-2CF85B0313EC}",
+					["CLSID"] = "{B06DD79A-F21E-4EB9-BD9D-AB3844618C93}",
 					["num"] = 2,
 				},
 				[3] = {
-					["CLSID"] = "{AF42E6DF-9A60-46D8-A9A0-1708B241AADB}",
+					["CLSID"] = "{B06DD79A-F21E-4EB9-BD9D-AB3844618C93}",
 					["num"] = 3,
 				},
 				[4] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
 					["num"] = 4,
 				},
 				[5] = {
-					["CLSID"] = "{EFEC8201-B922-11d7-9897-000476191836}",
+					["CLSID"] = "{EFEC8200-B922-11d7-9897-000476191836}",
 					["num"] = 5,
 				},
 				[6] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
 					["num"] = 6,
 				},
 				[7] = {
-					["CLSID"] = "{AF42E6DF-9A60-46D8-A9A0-1708B241AADB}",
+					["CLSID"] = "{B06DD79A-F21E-4EB9-BD9D-AB3844618C93}",
 					["num"] = 7,
 				},
 				[8] = {
-					["CLSID"] = "{F16A4DE0-116C-4A71-97F0-2CF85B0313EC}",
+					["CLSID"] = "{B06DD79A-F21E-4EB9-BD9D-AB3844618C93}",
 					["num"] = 8,
 				},
 				[9] = {
@@ -315,18 +310,19 @@ local unitPayloads = {
 				},
 			},
 			["tasks"] = {
+				[1] = 29,
 			},
 		},
 		[8] = {
-			["displayName"] = "Liberation DEAD",
-			["name"] = "Liberation DEAD",
+			["displayName"] = "Liberation CAS",
+			["name"] = "Liberation CAS",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
 					["num"] = 1,
 				},
 				[2] = {
-					["CLSID"] = "{9BCC2A2B-5708-4860-B1F1-053A18442067}",
+					["CLSID"] = "LAU_117_AGM_65G",
 					["num"] = 2,
 				},
 				[3] = {
@@ -334,7 +330,7 @@ local unitPayloads = {
 					["num"] = 3,
 				},
 				[4] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
 					["num"] = 4,
 				},
 				[5] = {
@@ -342,7 +338,7 @@ local unitPayloads = {
 					["num"] = 5,
 				},
 				[6] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
 					["num"] = 6,
 				},
 				[7] = {
@@ -350,7 +346,7 @@ local unitPayloads = {
 					["num"] = 7,
 				},
 				[8] = {
-					["CLSID"] = "{9BCC2A2B-5708-4860-B1F1-053A18442067}",
+					["CLSID"] = "LAU_117_AGM_65G",
 					["num"] = 8,
 				},
 				[9] = {

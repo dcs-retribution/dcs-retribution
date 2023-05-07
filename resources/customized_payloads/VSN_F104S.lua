@@ -6,7 +6,7 @@ local unitPayloads = {
 			["name"] = "CAP",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{LAU-138 wtip - AIM-9L}",
+					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
 					["num"] = 2,
 				},
 				[2] = {
@@ -34,7 +34,7 @@ local unitPayloads = {
 					["num"] = 9,
 				},
 				[8] = {
-					["CLSID"] = "{LAU-138 wtip - AIM-9L}",
+					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
 					["num"] = 10,
 				},
 			},

@@ -2,26 +2,6 @@ local unitPayloads = {
 	["name"] = "A-4E-C",
 	["payloads"] = {
 		[1] = {
-			["name"] = "CAP",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{GAR-8}",
-					["num"] = 4,
-				},
-				[2] = {
-					["CLSID"] = "{GAR-8}",
-					["num"] = 2,
-				},
-				[3] = {
-					["CLSID"] = "{DFT-150gal}",
-					["num"] = 3,
-				},
-			},
-			["tasks"] = {
-				[1] = 31,
-			},
-		},
-		[2] = {
 			["name"] = "CAS",
 			["pylons"] = {
 				[1] = {
@@ -39,6 +19,49 @@ local unitPayloads = {
 				[4] = {
 					["CLSID"] = "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}",
 					["num"] = 4,
+					["settings"] = {
+						["GUI_fuze_type"] = 1,
+						["arm_delay_ctrl_FMU139CB_LD"] = 1,
+						["function_delay_ctrl_FMU139CB_LD"] = 0,
+					},
+				},
+				[5] = {
+					["CLSID"] = "{DFT-150gal}",
+					["num"] = 3,
+				},
+			},
+			["tasks"] = {
+				[1] = 31,
+			},
+		},
+		[2] = {
+			["name"] = "STRIKE",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "<CLEAN>",
+					["num"] = 5,
+				},
+				[2] = {
+					["CLSID"] = "<CLEAN>",
+					["num"] = 1,
+				},
+				[3] = {
+					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
+					["num"] = 2,
+					["settings"] = {
+						["GUI_fuze_type"] = 1,
+						["arm_delay_ctrl_FMU139CB_LD"] = 1,
+						["function_delay_ctrl_FMU139CB_LD"] = 0,
+					},
+				},
+				[4] = {
+					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
+					["num"] = 4,
+					["settings"] = {
+						["GUI_fuze_type"] = 1,
+						["arm_delay_ctrl_FMU139CB_LD"] = 1,
+						["function_delay_ctrl_FMU139CB_LD"] = 0,
+					},
 				},
 				[5] = {
 					["CLSID"] = "{DFT-150gal}",
@@ -50,27 +73,27 @@ local unitPayloads = {
 			},
 		},
 		[3] = {
-			["name"] = "STRIKE",
+			["name"] = "CAP",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}",
-					["num"] = 5,
-				},
-				[2] = {
-					["CLSID"] = "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}",
-					["num"] = 1,
-				},
-				[3] = {
-					["CLSID"] = "{7A44FF09-527C-4B7E-B42B-3F111CFE50FB}",
-					["num"] = 2,
-				},
-				[4] = {
-					["CLSID"] = "{7A44FF09-527C-4B7E-B42B-3F111CFE50FB}",
+					["CLSID"] = "{CBU-1/A}",
 					["num"] = 4,
 				},
-				[5] = {
-					["CLSID"] = "{7A44FF09-527C-4B7E-B42B-3F111CFE50FB}",
+				[2] = {
+					["CLSID"] = "{AIM-9P5-ON-ADAPTER}",
+					["num"] = 2,
+				},
+				[3] = {
+					["CLSID"] = "{DFT-150gal}",
 					["num"] = 3,
+				},
+				[4] = {
+					["CLSID"] = "{AIM-9P5-ON-ADAPTER}",
+					["num"] = 1,
+				},
+				[5] = {
+					["CLSID"] = "{AIM-9P5-ON-ADAPTER}",
+					["num"] = 5,
 				},
 			},
 			["tasks"] = {

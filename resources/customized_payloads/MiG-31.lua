@@ -2,10 +2,10 @@ local unitPayloads = {
 	["name"] = "MiG-31",
 	["payloads"] = {
 		[1] = {
-			["name"] = "CAS",
+			["name"] = "CAP",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{4EDBA993-2E34-444C-95FB-549300BF7CAF}",
+					["CLSID"] = "{5F26DBC2-FB43-4153-92DE-6BBCE26CB0FF}",
 					["num"] = 1,
 				},
 				[2] = {
@@ -25,7 +25,7 @@ local unitPayloads = {
 					["num"] = 5,
 				},
 				[6] = {
-					["CLSID"] = "{4EDBA993-2E34-444C-95FB-549300BF7CAF}",
+					["CLSID"] = "{5F26DBC2-FB43-4153-92DE-6BBCE26CB0FF}",
 					["num"] = 6,
 				},
 			},
@@ -37,7 +37,7 @@ local unitPayloads = {
 			},
 		},
 		[2] = {
-			["name"] = "CAP",
+			["name"] = "SEAD",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{4EDBA993-2E34-444C-95FB-549300BF7CAF}",
@@ -72,7 +72,7 @@ local unitPayloads = {
 			},
 		},
 		[3] = {
-			["name"] = "SEAD",
+			["name"] = "CAS",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{4EDBA993-2E34-444C-95FB-549300BF7CAF}",

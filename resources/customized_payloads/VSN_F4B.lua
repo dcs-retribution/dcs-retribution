@@ -13,11 +13,11 @@ local unitPayloads = {
 					["num"] = 3,
 				},
 				[3] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 4,
 				},
 				[4] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 5,
 				},
 				[5] = {
@@ -25,11 +25,11 @@ local unitPayloads = {
 					["num"] = 6,
 				},
 				[6] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 7,
 				},
 				[7] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 8,
 				},
 				[8] = {
@@ -57,11 +57,11 @@ local unitPayloads = {
 					["num"] = 3,
 				},
 				[3] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 4,
 				},
 				[4] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 5,
 				},
 				[5] = {
@@ -69,11 +69,11 @@ local unitPayloads = {
 					["num"] = 6,
 				},
 				[6] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 7,
 				},
 				[7] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 8,
 				},
 				[8] = {
@@ -90,51 +90,6 @@ local unitPayloads = {
 			},
 		},
 		[3] = {
-			["displayName"] = "Retribution OCA/Runway",
-			["name"] = "Retribution OCA/Runway",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
-					["num"] = 2,
-				},
-				[2] = {
-					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
-					["num"] = 3,
-				},
-				[3] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
-					["num"] = 4,
-				},
-				[4] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
-					["num"] = 5,
-				},
-				[5] = {
-					["CLSID"] = "VSN_F4EC_PTB",
-					["num"] = 6,
-				},
-				[6] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
-					["num"] = 7,
-				},
-				[7] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
-					["num"] = 8,
-				},
-				[8] = {
-					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
-					["num"] = 9,
-				},
-				[9] = {
-					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
-					["num"] = 10,
-				},
-			},
-			["tasks"] = {
-				[1] = 32,
-			},
-		},
-		[4] = {
 			["name"] = "CAS",
 			["pylons"] = {
 				[1] = {
@@ -146,11 +101,11 @@ local unitPayloads = {
 					["num"] = 3,
 				},
 				[3] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 4,
 				},
 				[4] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 5,
 				},
 				[5] = {
@@ -158,11 +113,11 @@ local unitPayloads = {
 					["num"] = 6,
 				},
 				[6] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 7,
 				},
 				[7] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 8,
 				},
 				[8] = {
@@ -176,6 +131,51 @@ local unitPayloads = {
 			},
 			["tasks"] = {
 				[1] = 31,
+			},
+		},
+		[4] = {
+			["displayName"] = "Retribution OCA/Runway",
+			["name"] = "Retribution OCA/Runway",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
+					["num"] = 2,
+				},
+				[2] = {
+					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
+					["num"] = 3,
+				},
+				[3] = {
+					["CLSID"] = "{AIM-7F}",
+					["num"] = 4,
+				},
+				[4] = {
+					["CLSID"] = "{AIM-7F}",
+					["num"] = 5,
+				},
+				[5] = {
+					["CLSID"] = "VSN_F4EC_PTB",
+					["num"] = 6,
+				},
+				[6] = {
+					["CLSID"] = "{AIM-7F}",
+					["num"] = 7,
+				},
+				[7] = {
+					["CLSID"] = "{AIM-7F}",
+					["num"] = 8,
+				},
+				[8] = {
+					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
+					["num"] = 9,
+				},
+				[9] = {
+					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
+					["num"] = 10,
+				},
+			},
+			["tasks"] = {
+				[1] = 32,
 			},
 		},
 	},

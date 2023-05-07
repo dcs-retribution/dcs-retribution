@@ -2,42 +2,6 @@ local unitPayloads = {
 	["name"] = "MiG-29S",
 	["payloads"] = {
 		[1] = {
-			["name"] = "CAS",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
-					["num"] = 1,
-				},
-				[2] = {
-					["CLSID"] = "{3858707D-F5D5-4bbb-BDD8-ABB0530EBC7C}",
-					["num"] = 2,
-				},
-				[3] = {
-					["CLSID"] = "{3858707D-F5D5-4bbb-BDD8-ABB0530EBC7C}",
-					["num"] = 3,
-				},
-				[4] = {
-					["CLSID"] = "{2BEC576B-CDF5-4B7F-961F-B0FA4312B841}",
-					["num"] = 4,
-				},
-				[5] = {
-					["CLSID"] = "{3858707D-F5D5-4bbb-BDD8-ABB0530EBC7C}",
-					["num"] = 5,
-				},
-				[6] = {
-					["CLSID"] = "{3858707D-F5D5-4bbb-BDD8-ABB0530EBC7C}",
-					["num"] = 6,
-				},
-				[7] = {
-					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
-					["num"] = 7,
-				},
-			},
-			["tasks"] = {
-				[1] = 32,
-			},
-		},
-		[2] = {
 			["name"] = "CAP",
 			["pylons"] = {
 				[1] = {
@@ -73,7 +37,7 @@ local unitPayloads = {
 				[1] = 10,
 			},
 		},
-		[3] = {
+		[2] = {
 			["name"] = "STRIKE",
 			["pylons"] = {
 				[1] = {
@@ -102,6 +66,42 @@ local unitPayloads = {
 				},
 				[7] = {
 					["CLSID"] = "{B4C01D60-A8A3-4237-BD72-CA7655BC0FE9}",
+					["num"] = 7,
+				},
+			},
+			["tasks"] = {
+				[1] = 32,
+			},
+		},
+		[3] = {
+			["name"] = "CAS",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+					["num"] = 1,
+				},
+				[2] = {
+					["CLSID"] = "B-8M1 - 20 S-8OFP2",
+					["num"] = 2,
+				},
+				[3] = {
+					["CLSID"] = "B-8M1 - 20 S-8OFP2",
+					["num"] = 3,
+				},
+				[4] = {
+					["CLSID"] = "{2BEC576B-CDF5-4B7F-961F-B0FA4312B841}",
+					["num"] = 4,
+				},
+				[5] = {
+					["CLSID"] = "B-8M1 - 20 S-8OFP2",
+					["num"] = 5,
+				},
+				[6] = {
+					["CLSID"] = "B-8M1 - 20 S-8OFP2",
+					["num"] = 6,
+				},
+				[7] = {
+					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
 					["num"] = 7,
 				},
 			},

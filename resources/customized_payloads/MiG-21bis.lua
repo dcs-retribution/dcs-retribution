@@ -2,38 +2,6 @@ local unitPayloads = {
 	["name"] = "MiG-21Bis",
 	["payloads"] = {
 		[1] = {
-			["name"] = "CAP",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{PTB_490C_MIG21}",
-					["num"] = 3,
-				},
-				[2] = {
-					["CLSID"] = "{R-3R}",
-					["num"] = 2,
-				},
-				[3] = {
-					["CLSID"] = "{R-3R}",
-					["num"] = 4,
-				},
-				[4] = {
-					["CLSID"] = "{R-60 2L}",
-					["num"] = 1,
-				},
-				[5] = {
-					["CLSID"] = "{R-60 2R}",
-					["num"] = 5,
-				},
-				[6] = {
-					["CLSID"] = "{ASO-2}",
-					["num"] = 6,
-				},
-			},
-			["tasks"] = {
-				[1] = 11,
-			},
-		},
-		[2] = {
 			["name"] = "CAS",
 			["pylons"] = {
 				[1] = {
@@ -65,7 +33,7 @@ local unitPayloads = {
 				[1] = 11,
 			},
 		},
-		[3] = {
+		[2] = {
 			["name"] = "ANTISHIP",
 			["pylons"] = {
 				[1] = {
@@ -91,6 +59,38 @@ local unitPayloads = {
 				[6] = {
 					["CLSID"] = "{PTB_490C_MIG21}",
 					["num"] = 3,
+				},
+			},
+			["tasks"] = {
+				[1] = 11,
+			},
+		},
+		[3] = {
+			["name"] = "CAP",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{PTB_490C_MIG21}",
+					["num"] = 3,
+				},
+				[2] = {
+					["CLSID"] = "{R-3R}",
+					["num"] = 2,
+				},
+				[3] = {
+					["CLSID"] = "{R-3R}",
+					["num"] = 4,
+				},
+				[4] = {
+					["CLSID"] = "{R-60M 2L}",
+					["num"] = 1,
+				},
+				[5] = {
+					["CLSID"] = "{R-60M 2R}",
+					["num"] = 5,
+				},
+				[6] = {
+					["CLSID"] = "{ASO-2}",
+					["num"] = 6,
 				},
 			},
 			["tasks"] = {
@@ -149,16 +149,49 @@ local unitPayloads = {
 					["num"] = 6,
 				},
 				[5] = {
-					["CLSID"] = "{FB3CE165-BF07-4979-887C-92B87F13276B}",
-					["num"] = 1,
+					["CLSID"] = "{R-3S}",
+					["num"] = 5,
 				},
 				[6] = {
-					["CLSID"] = "{FB3CE165-BF07-4979-887C-92B87F13276B}",
-					["num"] = 5,
+					["CLSID"] = "{R-3S}",
+					["num"] = 1,
 				},
 			},
 			["tasks"] = {
 				[1] = 32,
+			},
+		},
+		[6] = {
+			["displayName"] = "DEAD",
+			["name"] = "DEAD",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{ASO-2}",
+					["num"] = 6,
+				},
+				[2] = {
+					["CLSID"] = "{UB-16_S5M}",
+					["num"] = 5,
+				},
+				[3] = {
+					["CLSID"] = "{UB-16_S5M}",
+					["num"] = 4,
+				},
+				[4] = {
+					["CLSID"] = "{UB-16_S5M}",
+					["num"] = 2,
+				},
+				[5] = {
+					["CLSID"] = "{UB-16_S5M}",
+					["num"] = 1,
+				},
+				[6] = {
+					["CLSID"] = "{PTB_490C_MIG21}",
+					["num"] = 3,
+				},
+			},
+			["tasks"] = {
+				[1] = 11,
 			},
 		},
 	},
