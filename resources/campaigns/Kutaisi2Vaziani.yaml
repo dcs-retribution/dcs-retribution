@@ -1,10 +1,10 @@
 ---
-name: Caucasus - WRL - Kutaisi to Vaziani (v1)
+name: Caucasus - WRL - Kutaisi to Vaziani (v2)
 theater: Caucasus
 authors: HolyOrangeJuice
 recommended_player_faction: WRL - Task Force Blue
 recommended_enemy_faction: WRL - Task Force Red
-recommended_start_date: 2021-10-22
+recommended_start_date: 2019-12-25
 description: "<p>This mission was designed for the We Run Liberation group [WRL].
   <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p>"
 miz: Kutaisi2Vaziani.miz
@@ -126,10 +126,6 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - A-10C Thunderbolt II (Suite 7)
-    - primary: CAS
-      secondary: air-to-ground
-      aircraft:
-        - A-10A Thunderbolt II
     - primary: Strike
       secondary: any
       aircraft:
@@ -175,41 +171,40 @@ squadrons:
       secondary: any
       aircraft:
         - AJS-37 Viggen 
-    - primary: Strike
-      secondary: any
-      aircraft:
-        - Tornado GR4 
- # Vaziani
+ # Vaziani - Note: Large aircraft get stuck on Taxi. No AWACs/refuelers
   31:     
     - primary: BARCAP
       secondary: any
       aircraft:
-        - MiG-21bis Fishbed-N
-    - primary: Strike
-      secondary: air-to-ground
+        - MiG-29S Fulcrum-C
+    - primary: BARCAP
+      secondary: air-to-air
       aircraft:
-        - Su-17M4 Fitter-K
+        - Su-27 Flanker-B
+ # Tbilisi-Lochini - Note: Large aircraft get stuck on Taxi. No AWACs/refuelers
+  29:
     - primary: BARCAP
       secondary: any
       aircraft:
-        - MiG-23MLD Flogger-K
+        - MiG-31 Foxhound
     - primary: Strike
       secondary: air-to-ground
       aircraft:
         - Su-24M Fencer-D
-#FARP ALPHA
-  FARP ALPHA:
-    - primary: CAS
-      secondary: any
+    - primary: Strike
+      secondary: air-to-ground
       aircraft:
-        - Mi-24P Hind-F
-    - primary: CAS
-      secondary: any
+        - Su-34 Fullback
+    - primary: BAI
+      secondary: air-to-ground
       aircraft:
-        - Ka-50 Hokum
-    - primary: CAS
-      secondary: any
-      aircraft:
-        - Mi-28N Havoc
- # Tbilisi-Lochini
- # 29:     
+        - Su-30 Flanker-C  
+  # Retribution SAM site override:
+ground_forces:
+  R-SAM-A1: SA-10/S-300PS
+  R-SAM-A2: SA-11
+  R-SAM-A3: SA-2/S-75
+  R-SAM-N1: SA-2/S-75
+  R-SAM-N2: SA-11  
+  R-SAM-S1: SA-11
+  R-SAM-S2: SA-2/S-75  
