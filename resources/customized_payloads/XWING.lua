@@ -10,8 +10,8 @@ local unitPayloads = {
 					["num"] = 1,
 				},
 				[2] = {
-					["CLSID"] = "{XFUELTANK}",
-					["num"] = 2,
+					["CLSID"] = "{PROTONM}",
+					["num"] = 6,
 				},
 				[3] = {
 					["CLSID"] = "{PROTONM}",
@@ -24,14 +24,6 @@ local unitPayloads = {
 				[5] = {
 					["CLSID"] = "{PROTONM}",
 					["num"] = 5,
-				},
-				[6] = {
-					["CLSID"] = "{XFUELTANK}",
-					["num"] = 10,
-				},
-				[7] = {
-					["CLSID"] = "{PROTONM}",
-					["num"] = 6,
 				},
 			},
 			["tasks"] = {
@@ -51,8 +43,8 @@ local unitPayloads = {
 					["num"] = 1,
 				},
 				[2] = {
-					["CLSID"] = "{XFUELTANK}",
-					["num"] = 2,
+					["CLSID"] = "{PROTONM}",
+					["num"] = 6,
 				},
 				[3] = {
 					["CLSID"] = "{PROTONM}",
@@ -66,14 +58,6 @@ local unitPayloads = {
 					["CLSID"] = "{PROTONM}",
 					["num"] = 5,
 				},
-				[6] = {
-					["CLSID"] = "{XFUELTANK}",
-					["num"] = 10,
-				},
-				[7] = {
-					["CLSID"] = "{PROTONM}",
-					["num"] = 6,
-				},
 			},
 			["tasks"] = {
 				[1] = 11,
@@ -81,6 +65,34 @@ local unitPayloads = {
 				[3] = 19,
 				[4] = 10,
 				[5] = 17,
+			},
+		},
+		[1] = {
+			["name"] = "Liberation CAS",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{X-29T}",
+					["num"] = 2,
+				},
+				[2] = {
+					["CLSID"] = "{X-29T}",
+					["num"] = 1,
+				},
+				[3] = {
+					["CLSID"] = "{X-29T}",
+					["num"] = 3,
+				},
+				[4] = {
+					["CLSID"] = "{X-29T}",
+					["num"] = 4,
+				},
+				[5] = {
+					["CLSID"] = "{X-29T}",
+					["num"] = 5,
+				},
+			},
+			["tasks"] = {
+				[1] = 31,
 			},
 		},
 	},

@@ -1,6 +1,6 @@
 {
   "country": "Combined Joint Task Forces Blue",
-  "name": "Rebel Alliance_AI",
+  "name": "Rebel Alliance_PLAYER",
   "authors": "Fuzzle",
   "description": "<p>A more modern NATO mixed faction reflecting the units involved in Operation Iraqi Freedom.</p>",
   "aircrafts": [
@@ -30,11 +30,11 @@
     "UH-1H Iroquois",
     "UH-60A",
     "UH-60L",
-    "XWINGAI",
-    "AWINGA",
-    "YWINGA",
-    "FAUCON_AI",
-    "naboo_starfighter_AI"
+    "XWING",
+    "YWING",
+    "FAUCON",
+    "AWING",
+    "naboo_starfighter"
   ],
   "awacs": [
     "E-2C Hawkeye",

@@ -1,6 +1,6 @@
 {
   "country": "Russia",
-  "name": "russia Galactic Empire AI",
+  "name": "russia Galactic Empire Player",
   "authors": "Pan_de",
   "description": "<p>Empire strikes back</p>",
   "locales": [
@@ -23,16 +23,16 @@
     "Su-25T Frogfoot",
     "Su-33 Flanker-D",
     "Su-34 Fullback",
-    "Su-57 Felon",
     "Tu-142 Bear-F",
     "Tu-160 Blackjack",
     "Tu-22M3 Backfire-C",
     "Tu-95MS Bear-H",
-    "TIE_AI",
-    "HUNTERA",
-    "TIE_INTERA",
-    "CORVETTEA",
-    "TIE_BA"
+    "Su-57 Felon",
+    "TIE",
+    "HUNTER",
+    "TIE_INTER",
+    "CORVETTE",
+    "tie_bomber_2"
   ],
   "awacs": [
     "A-50"
@@ -42,7 +42,6 @@
   ],
   "frontline_units": [
     "SA-19 Grison (2K22 Tunguska)",
-    "T-72B with Kontakt-1 ERA",
     "SW - TR_TT",
     "MBT9_EMPIRE",
     "MBT9_AAA EMPIRE",
@@ -57,7 +56,6 @@
     "LUV UAZ-469 Jeep",
     "Truck Ural-375",
     "Gozanti"
-
   ],
   "infantry_units": [
     "Infantry AK-74 Rus",
