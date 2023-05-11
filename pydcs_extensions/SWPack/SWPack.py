@@ -347,8 +347,8 @@ class FAUCON(PlaneType):
     height = 5.63
     width = 10
     length = 19.43
-    fuel_max = 10000
-    max_speed = 2649.996
+    fuel_max = 15000
+    max_speed = 2304.396
     chaff = 5000
     flare = 5000
     charge_total = 10000
@@ -361,9 +361,12 @@ class FAUCON(PlaneType):
     Liveries = Liveries()[livery_name]
 
     class Pylon1:
-        PROTONF = (1, SWWeapons.PROTONF)
+        PROTONF = (1, Weapons.PROTONF)
 
-    pylons: Set[int] = {1}
+    class Pylon2:
+        Lite_Jump_Core_Battery = (2, Weapons.Lite_Jump_Core_Battery)
+
+    pylons: Set[int] = {1, 2}
 
     tasks = [
         task.CAP,
