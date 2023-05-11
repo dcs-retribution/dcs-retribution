@@ -135,7 +135,7 @@ from pydcs_extensions.SWPack.SWPack import (
     XWING,
     YWING,
     CORVETTE,
-    TIEB,
+    tie_bomber_2,
     naboo_starfighter,
 )
 from pydcs_extensions.f100.f100 import VSN_F100
@@ -264,7 +264,7 @@ CAP_CAPABLE = ESCORT_CAPABLE + [
 
 # Used for CAS (Close air support) and BAI (Battlefield Interdiction)
 CAS_CAPABLE = [
-    TIE,
+    tie_bomber_2,
     YWING,
     A_10C_2,
     A_10C,
@@ -422,7 +422,7 @@ SEAD_CAPABLE = SEAD_ESCORT_CAPABLE + [
 # Aircraft used for DEAD tasks. Must be capable of the CAS DCS task.
 DEAD_CAPABLE = SEAD_CAPABLE + [
     YWING,
-    TIE_B,
+    tie_bomber_2,
     AJS37,
     F_16A_MLU,
     F_16A,
@@ -460,7 +460,7 @@ DEAD_CAPABLE = SEAD_CAPABLE + [
 # Aircraft used for Strike mission
 STRIKE_CAPABLE = [
     YWING,
-    TIE_B,
+    tie_bomber_2,
     F_117A,
     B_1B,
     B_52H,
