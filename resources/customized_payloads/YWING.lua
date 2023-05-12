@@ -50,7 +50,7 @@ local unitPayloads = {
 			["name"] = "SEAD",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{B5CA9846-776E-4230-B4FD-8BCC9BFB1676}",
+					["CLSID"] = "{0519A264-0AB6-11d6-9193-00A0249B6F00}",
 					["num"] = 6,
 				},
 				[2] = {
@@ -72,10 +72,6 @@ local unitPayloads = {
 				[6] = {
 					["CLSID"] = "{B5CA9846-776E-4230-B4FD-8BCC9BFB1676}",
 					["num"] = 1,
-				},
-				[7] = {
-					["CLSID"] = "{0519A264-0AB6-11d6-9193-00A0249B6F00}",
-					["num"] = 7,
 				},
 			},
 			["tasks"] = {
