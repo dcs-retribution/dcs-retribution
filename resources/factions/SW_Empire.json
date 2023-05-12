@@ -1,16 +1,20 @@
 {
   "country": "Russia",
-  "name": "russia Galactic Empire Player",
-  "authors": "Pan_de",
-  "description": "<p>Empire strikes back</p>",
+  "name": "SW Empire",
+  "authors": "Pande",
+  "description": "<p>Galactic Empire.</p>",
   "locales": [
     "ru_RU"
   ],
-
   "aircrafts": [
+    "TIE",
+    "HUNTER",
+    "TIE_INTER",
+    "CORVETTE",
+    "tie_bomber_2",
     "IL-76MD",
     "Ka-50 Hokum",
-    "Ka-50 Hokum (Blackshark 3)",
+    "Ka-50 Hokum III",
     "L-39ZA Albatros",
     "Mi-24V Hind-E",
     "Mi-24P Hind-F",
@@ -21,18 +25,14 @@
     "Su-24M Fencer-D",
     "Su-25 Frogfoot",
     "Su-25T Frogfoot",
+    "Su-27 Flanker-B",
+    "Su-30 Flanker-C",
     "Su-33 Flanker-D",
     "Su-34 Fullback",
     "Tu-142 Bear-F",
     "Tu-160 Blackjack",
     "Tu-22M3 Backfire-C",
-    "Tu-95MS Bear-H",
-    "Su-57 Felon",
-    "TIE",
-    "HUNTER",
-    "TIE_INTER",
-    "CORVETTE",
-    "tie_bomber_2"
+    "Tu-95MS Bear-H"
   ],
   "awacs": [
     "A-50"
@@ -41,12 +41,20 @@
     "IL-78M"
   ],
   "frontline_units": [
-    "SA-19 Grison (2K22 Tunguska)",
     "SW - TR_TT",
     "MBT9_EMPIRE",
     "MBT9_AAA EMPIRE",
     "TB_TT",
-    "Jugger"
+    "Jugger",
+    "BMP-1",
+    "BMP-2",
+    "BMP-3",
+    "BTR-80",
+    "BTR-82A",
+    "SA-19 Grison (2K22 Tunguska)",
+    "T-72B3 model 2011",
+    "T-80UD",
+    "T-90A"
   ],
   "artillery_units": [
     "2S19 Msta-S",
@@ -54,12 +62,12 @@
   ],
   "logistics_units": [
     "LUV UAZ-469 Jeep",
-    "Truck Ural-375",
-    "Gozanti"
+    "Truck Ural-375"
   ],
   "infantry_units": [
     "Infantry AK-74 Rus",
-    "MANPADS SA-18 Igla-S \"Grouse\"",
+    "MANPADS SA-18 Igla \"Grouse\"",
+    "Mortar 2B11 120mm",
     "Paratrooper AKS",
     "Paratrooper RPG-16"
   ],
@@ -76,11 +84,12 @@
     "Russian Navy"
   ],
   "naval_units": [
-    "Destroyer_carrier",
+    "Frigate 1135M Rezky",
     "Corvette 1241.1 Molniya",
     "CV 1143.5 Admiral Kuznetsov"
   ],
   "air_defense_units": [
+    "MBT9_AAA EMPIRE",
     "EWR 1L13",
     "EWR 55G6",
     "SAM SA-8 Osa \"Gecko\" TEL",
@@ -88,14 +97,12 @@
     "SA-13 Gopher (9K35 Strela-10M3)",
     "SA-15 Tor",
     "SA-19 Grison (2K22 Tunguska)",
+    "AAA ZU-23 Closed Emplacement",
     "ZU-23 on Ural-375",
-    "ZSU-23-4 Shilka",
-    "MBT9_AAA EMPIRE"
+    "ZSU-23-4 Shilka"
   ],
   "helicopter_carrier_names": [],
-  "requirements": {
-    "SU-57 Felon By CubanAce Simulations": "https://www.digitalcombatsimulator.com/fr/files/2539621/"
-  },
+  "requirements": {},
   "carrier_names": [
     "Admiral Kuznetsov"
   ],

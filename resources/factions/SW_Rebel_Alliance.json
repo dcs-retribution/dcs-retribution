@@ -1,8 +1,8 @@
 {
   "country": "Combined Joint Task Forces Blue",
-  "name": "Rebel Alliance_PLAYER",
-  "authors": "Fuzzle",
-  "description": "<p>A more modern NATO mixed faction reflecting the units involved in Operation Iraqi Freedom.</p>",
+  "name": "SW Rebel Alliance",
+  "authors": "Pan_de",
+  "description": "<p>Rebel Alliance and EDF.</p>",
   "aircrafts": [
     "A-10C Thunderbolt II (Suite 3)",
     "AH-64D Apache Longbow",
