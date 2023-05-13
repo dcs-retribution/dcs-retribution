@@ -7,9 +7,8 @@ from functools import cached_property
 from typing import Optional, Dict, Type, List, Any, Iterator, TYPE_CHECKING
 
 import dcs
-from dcs.countries import country_dict
-from dcs.unittype import ShipType, StaticType
-from dcs.unittype import UnitType as DcsUnitType
+from dcs.country import Country
+from dcs.unittype import ShipType, StaticType, UnitType as DcsUnitType
 
 from game.armedforces.forcegroup import ForceGroup
 from game.data.building_data import (
@@ -29,6 +28,7 @@ from game.data.doctrine import (
 from game.data.groups import GroupRole
 from game.data.units import UnitClass
 from game.dcs.aircrafttype import AircraftType
+from game.dcs.countries import country_with_name
 from game.dcs.groundunittype import GroundUnitType
 from game.dcs.shipunittype import ShipUnitType
 from game.dcs.unittype import UnitType
@@ -45,7 +45,7 @@ class Faction:
     locales: Optional[List[str]]
 
     # Country used by this faction
-    country: str = field(default="")
+    country: Country
 
     # Country's short name used by this faction
     country_shortname: str = field(default="")
@@ -183,23 +183,16 @@ class Faction:
         return list(self.aircraft + self.awacs + self.tankers)
 
     @classmethod
-    def from_json(cls: Type[Faction], json: Dict[str, Any]) -> Faction:
-        faction = Faction(locales=json.get("locales"))
+    def from_dict(cls: Type[Faction], json: Dict[str, Any]) -> Faction:
+        try:
+            country = country_with_name(json["country"])
+        except KeyError as ex:
+            raise KeyError(
+                f'Faction\'s country ("{json.get("country")}") is not a valid DCS '
+                "country ID"
+            ) from ex
 
-        faction.country = json.get("country", "/")
-
-        country = None
-        for c in country_dict.values():
-            if c.name == faction.country:
-                country = c
-                break
-
-        if country is None:
-            raise AssertionError(
-                'Faction\'s country ("{}") is not a valid DCS country ID'.format(
-                    faction.country
-                )
-            )
+        faction = Faction(locales=json.get("locales"), country=country)
 
         faction.country_shortname = country.shortname
 

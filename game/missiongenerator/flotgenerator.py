@@ -160,7 +160,7 @@ class FlotGenerator:
                 utype = AircraftType.named("MQ-9 Reaper")
 
             jtac = self.mission.flight_group(
-                country=self.mission.country(self.game.blue.country_name),
+                country=self.game.blue.faction.country,
                 name=namegen.next_jtac_name(),
                 aircraft_type=utype.dcs_unit_type,
                 position=position[0],
@@ -752,7 +752,7 @@ class FlotGenerator:
         spawn_heading = (
             self.conflict.heading.left if is_player else self.conflict.heading.right
         )
-        country = self.game.coalition_for(is_player).country_name
+        country = self.game.coalition_for(is_player).faction.country
         for group in groups:
             if group.role == CombatGroupRole.ARTILLERY:
                 distance_from_frontline = (
@@ -770,7 +770,7 @@ class FlotGenerator:
 
             g = self._generate_group(
                 is_player,
-                self.mission.country(country),
+                country,
                 group.unit_type,
                 group.size,
                 final_position,
@@ -786,7 +786,7 @@ class FlotGenerator:
                 self.gen_infantry_group_for_group(
                     g,
                     is_player,
-                    self.mission.country(country),
+                    country,
                     spawn_heading.opposite,
                 )
 

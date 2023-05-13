@@ -174,7 +174,6 @@ class AircraftGenerator:
             # TODO: Special flight type?
             flight = Flight(
                 Package(squadron.location, self.game.db.flights),
-                faction.country,
                 squadron,
                 1,
                 FlightType.BARCAP,
