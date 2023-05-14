@@ -62,9 +62,6 @@ class SquadronDef:
 
     @classmethod
     def from_yaml(cls, path: Path) -> SquadronDef:
-        from game.ato.ai_flight_planner_db import tasks_for_aircraft
-        from game.ato import FlightType
-
         with path.open(encoding="utf8") as squadron_file:
             data = yaml.safe_load(squadron_file)
 
@@ -77,16 +74,6 @@ class SquadronDef:
         pilots = [Pilot(n, player=False) for n in data.get("pilots", [])]
         pilots.extend([Pilot(n, player=True) for n in data.get("players", [])])
         female_pilot_percentage = data.get("female_pilot_percentage", 6)
-
-        mission_types = [FlightType.from_name(n) for n in data["mission_types"]]
-        tasks = tasks_for_aircraft(unit_type)
-        for mission_type in list(mission_types):
-            if mission_type not in tasks:
-                logging.error(
-                    f"Squadron has mission type {mission_type} but {unit_type} is not "
-                    f"capable of that task: {path}"
-                )
-                mission_types.remove(mission_type)
 
         return SquadronDef(
             name=data["name"],
