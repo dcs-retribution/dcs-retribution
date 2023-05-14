@@ -821,7 +821,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.a6a_intruder = QtWidgets.QCheckBox()
         self.registerField("a6a_intruder", self.a6a_intruder)
         self.a7e_corsair2 = QtWidgets.QCheckBox()
-        self.registerField("a7e_corsair2", self.a6a_intruder)
+        self.registerField("a7e_corsair2", self.a7e_corsair2)
         self.hercules = QtWidgets.QCheckBox()
         self.registerField("hercules", self.hercules)
         self.uh_60l = QtWidgets.QCheckBox()
