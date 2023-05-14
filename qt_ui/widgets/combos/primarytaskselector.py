@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from PySide6.QtWidgets import QComboBox
+from PySide2.QtWidgets import QComboBox
 
 from game.ato import FlightType
 from game.dcs.aircrafttype import AircraftType

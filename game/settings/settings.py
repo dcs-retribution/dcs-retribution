@@ -251,7 +251,6 @@ class Settings:
         CAMPAIGN_MANAGEMENT_PAGE,
         PILOTS_AND_SQUADRONS_SECTION,
         default=False,
-        remember_player_choice=True,
         detail="If set, squadrons will be limited to a maximum number of aircraft.",
     )
 

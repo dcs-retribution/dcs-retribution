@@ -2,7 +2,6 @@ import pytest
 from typing import Any
 
 from dcs.mapping import Point
-from dcs.terrain import Terrain
 from game.ato.flighttype import FlightType
 from game.theater.presetlocation import PresetLocation
 from game.theater.theatergroundobject import (
@@ -21,6 +20,7 @@ from game.theater.controlpoint import OffMapSpawn
 from game.utils import Heading
 
 
+@pytest.fixture
 def test_mission_types_friendly(mocker: Any) -> None:
     """
     Test the mission types that can be planned against friendly Theater Ground Objects
@@ -68,6 +68,7 @@ def test_mission_types_friendly(mocker: Any) -> None:
         assert mission_types == [FlightType.BARCAP]
 
 
+@pytest.fixture
 def test_mission_types_enemy(mocker: Any) -> None:
     """
     Test the mission types that can be planned against enemy Theater Ground Objects

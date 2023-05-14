@@ -169,6 +169,7 @@ class SquadronLiverySelector(QComboBox):
             self.addItem("No available liveries (using DCS default)")
             self.setEnabled(False)
 
+
 class SquadronSizeSpinner(QSpinBox):
     def __init__(self, starting_size: int, parent: QWidget | None) -> None:
         super().__init__(parent)

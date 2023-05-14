@@ -299,7 +299,6 @@ class Flight(SidcDescribable, RadioFrequencyContainer, TacanContainer):
     def clone_flight(flight: Flight) -> Flight:
         return Flight(
             flight.package,
-            flight.country,
             flight.squadron,
             flight.count,
             flight.flight_type,

@@ -180,3 +180,5 @@ VERSION = _build_version_string()
 #: * Support for defining squadron sizes.
 #: * 'ground_forces' in yaml file to specify preset groups for TGOs,
 #:      given the group is available for the faction and the task matches
+
+CAMPAIGN_FORMAT_VERSION = (10, 6)

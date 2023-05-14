@@ -41,7 +41,7 @@ class FactionLoader:
             try:
                 with f.open("r", encoding="utf-8") as fdata:
                     data = json.load(fdata)
-                    factions[data["name"]] = Faction.from_json(data)
+                    factions[data["name"]] = Faction.from_dict(data)
                     logging.info("Loaded faction : " + str(f))
             except Exception:
                 logging.exception(f"Unable to load faction : {f}")
