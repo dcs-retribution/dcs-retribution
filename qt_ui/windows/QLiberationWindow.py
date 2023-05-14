@@ -108,14 +108,11 @@ class QLiberationWindow(QMainWindow):
         if self.game is None:
             last_save_file = liberation_install.get_last_save_file()
             if last_save_file:
-                try:
-                    logging.info("Loading last saved game : " + str(last_save_file))
-                    game = persistency.load_game(last_save_file)
-                    Migrator(game)
-                    self.onGameGenerated(game)
-                    self.updateWindowTitle(last_save_file if game else None)
-                except:
-                    logging.info("Error loading latest save game")
+                logging.info("Loading last saved game : " + str(last_save_file))
+                game = persistency.load_game(last_save_file)
+                Migrator(game)
+                self.onGameGenerated(game)
+                self.updateWindowTitle(last_save_file if game else None)
             else:
                 logging.info("No existing save game")
         else:

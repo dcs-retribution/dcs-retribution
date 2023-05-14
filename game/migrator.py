@@ -2,7 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-from game.ato.packagewaypoints import PackageWaypoints
+from dcs.countries import countries_by_name
+
 from game.data.doctrine import MODERN_DOCTRINE, COLDWAR_DOCTRINE, WWII_DOCTRINE
 
 if TYPE_CHECKING:
@@ -24,7 +25,9 @@ class Migrator:
         self._update_packagewaypoints()
         self._update_package_attributes()
         self._update_control_points()
+        self._update_factions()
         self._update_flights()
+        self._update_squadrons()
         self._release_untasked_flights()
 
     def _update_doctrine(self) -> None:
@@ -88,3 +91,17 @@ class Migrator:
                     if f.squadron == s:
                         count += f.count
                 s.claim_inventory(count - claimed)
+
+    def _update_squadrons(self) -> None:
+        for cp in self.game.theater.controlpoints:
+            for s in cp.squadrons:
+                preferred_task = max(
+                    s.aircraft.task_priorities, key=lambda x: s.aircraft.task_priorities[x]
+                )
+                try_set_attr(s, "primary_task", preferred_task)
+                try_set_attr(s, "max_size", 12)
+
+    def _update_factions(self) -> None:
+        for c in self.game.coalitions:
+            if isinstance(c.faction.country, str):
+                c.faction.country = countries_by_name[c.faction.country]()
