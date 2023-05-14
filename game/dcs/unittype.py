@@ -3,7 +3,8 @@ from __future__ import annotations
 from abc import ABC
 from dataclasses import dataclass
 from functools import cached_property
-from typing import ClassVar, Generic, Iterator, Self, Type, TypeVar
+from typing import ClassVar, Generic, Iterator, Type, TypeVar
+from typing_extensions import Self
 
 from dcs.unittype import UnitType as DcsUnitType
 
