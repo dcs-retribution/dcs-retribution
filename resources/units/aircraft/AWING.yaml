@@ -11,4 +11,9 @@ role: Multirole Fighter
 max_range: 2000
 variants:
   AWING: {}
-
+tasks:
+  BARCAP: 540
+  Escort: 540
+  Fighter sweep: 540
+  Intercept: 540
+  TARCAP: 540

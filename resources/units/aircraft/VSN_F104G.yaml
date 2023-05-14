@@ -17,14 +17,15 @@ gunfighter: true
 variants:
   F-104G Starfighter: {}
 tasks:
-  BAI: 190
-  BARCAP: 180
-  CAS: 190
-  DEAD: 120
-  Escort: 180
-  Fighter sweep: 180
-  Intercept: 180
-  OCA/Aircraft: 190
-  OCA/Runway: 110
-  Strike: 110
-  TARCAP: 180
+  Anti-ship: 150
+  BAI: 140
+  BARCAP: 250
+  CAS: 140
+  DEAD: 140
+  Escort: 150
+  Fighter sweep: 200
+  Intercept: 300
+  OCA/Aircraft: 140
+  OCA/Runway: 200
+  Strike: 50
+  TARCAP: 250
