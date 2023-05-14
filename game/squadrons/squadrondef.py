@@ -31,17 +31,18 @@ class SquadronDef:
     pilot_pool: list[Pilot]
     claimed: bool = False
 
-    def __post_init__(self) -> None:
-        self.auto_assignable_mission_types = set(self.mission_types)
-
     def __str__(self) -> str:
         if self.nickname is None:
             return self.name
         return f'{self.name} "{self.nickname}"'
 
-    def set_allowed_mission_types(self, mission_types: Iterable[FlightType]) -> None:
-        self.mission_types = tuple(mission_types)
-        self.auto_assignable_mission_types.intersection_update(self.mission_types)
+    def capable_of(self, task: FlightType) -> bool:
+        """Returns True if the squadron is capable of performing the given task.
+
+        A squadron may be capable of performing a task even if it will not be
+        automatically assigned to it.
+        """
+        return self.aircraft.capable_of(task)
 
     def can_auto_assign(self, task: FlightType) -> bool:
         """

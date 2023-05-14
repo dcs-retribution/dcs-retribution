@@ -31,7 +31,7 @@ class Squadron:
     role: str
     aircraft: AircraftType
     livery: Optional[str]
-    mission_types: tuple[FlightType, ...]
+    auto_assignable_mission_types: set[FlightType]
     operating_bases: OperatingBases
     female_pilot_percentage: int
 
@@ -43,10 +43,6 @@ class Squadron:
     current_roster: list[Pilot] = field(default_factory=list, init=False, hash=False)
     available_pilots: list[Pilot] = field(
         default_factory=list, init=False, hash=False, compare=False
-    )
-
-    auto_assignable_mission_types: set[FlightType] = field(
-        init=False, hash=False, compare=False
     )
 
     coalition: Coalition = field(hash=False, compare=False)
@@ -61,9 +57,6 @@ class Squadron:
     owned_aircraft: int = field(init=False, hash=False, compare=False, default=0)
     untasked_aircraft: int = field(init=False, hash=False, compare=False, default=0)
     pending_deliveries: int = field(init=False, hash=False, compare=False, default=0)
-
-    def __post_init__(self) -> None:
-        self.auto_assignable_mission_types = set(self.mission_types)
 
     def __str__(self) -> str:
         if self.nickname is None:
@@ -93,16 +86,12 @@ class Squadron:
     def pilot_limits_enabled(self) -> bool:
         return self.settings.enable_squadron_pilot_limits
 
-    def set_allowed_mission_types(self, mission_types: Iterable[FlightType]) -> None:
-        self.mission_types = tuple(mission_types)
-        self.auto_assignable_mission_types.intersection_update(self.mission_types)
-
     def set_auto_assignable_mission_types(
         self, mission_types: Iterable[FlightType]
     ) -> None:
-        self.auto_assignable_mission_types = set(self.mission_types).intersection(
-            mission_types
-        )
+        self.auto_assignable_mission_types = {
+            t for t in mission_types if self.capable_of(t)
+        }
 
     def claim_new_pilot_if_allowed(self) -> Optional[Pilot]:
         if self.pilot_limits_enabled:
@@ -439,7 +428,7 @@ class Squadron:
             squadron_def.role,
             squadron_def.aircraft,
             squadron_def.livery,
-            squadron_def.mission_types,
+            squadron_def.auto_assignable_mission_types,
             squadron_def.operating_bases,
             squadron_def.female_pilot_percentage,
             squadron_def.pilot_pool,

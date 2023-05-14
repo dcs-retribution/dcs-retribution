@@ -81,7 +81,7 @@ class AirWing:
         best_aircraft_for_task = AircraftType.priority_list_for_task(task)
         for aircraft, squadrons in self.squadrons.items():
             for squadron in squadrons:
-                if squadron.untasked_aircraft and task in squadron.mission_types:
+                if squadron.untasked_aircraft and squadron.capable_of(task):
                     aircrafts.append(aircraft)
                     if aircraft not in best_aircraft_for_task:
                         best_aircraft_for_task.append(aircraft)
