@@ -79,10 +79,10 @@ class KneeboardPageWriter:
             "courbd.ttf", 24, layout_engine=ImageFont.LAYOUT_BASIC
         )
         self.content_font = ImageFont.truetype(
-            "cour.ttf", 16, layout_engine=ImageFont.LAYOUT_BASIC
+            "courbd.ttf", 16, layout_engine=ImageFont.LAYOUT_BASIC
         )
         self.table_font = ImageFont.truetype(
-            "cour.ttf", 20, layout_engine=ImageFont.LAYOUT_BASIC
+            "courbd.ttf", 20, layout_engine=ImageFont.LAYOUT_BASIC
         )
         self.draw = ImageDraw.Draw(self.image)
         self.page_margin = page_margin
