@@ -140,6 +140,11 @@ Saves from 6.x are not compatible with 7.0.
 * **[Modding]** Add support for VSN F-4B and F-4C mod.
 * **[Modding]** Aircraft task capabilities and preferred aircraft for each task are now moddable in the aircraft unit yaml files. Each aircraft has a weight per task. Higher weights are given higher preference.
 * **[Modding]** The `mission_types` field in squadron files has been removed. Squadron task capability is now determined by airframe, and the auto-assignable list has always been overridden by the campaign settings.
+* **[Modding]** Wind speed generation inputs are now moddable. See https://dcs-liberation.rtfd.io/en/latest/modding/weather.html.
+* **[New Game Wizard]** Choices for some options will be remembered for the next new game. Not all settings will be preserved, as many are campaign dependent.
+* **[New Game Wizard]** Lua plugins can now be set while creating a new game.
+* **[New Game Wizard]** Squadrons can be directly replaced with a preset during air wing configuration rather than needing to remove and create a new squadron.
+* **[New Game Wizard]** Squadron liveries can now be selected during air wing configuration.
 * **[Squadrons]** Squadron-specific mission capability lists no longer restrict players from assigning missions outside the squadron's preferences.
 * **[New Game Wizard]** Squadrons can be directly replaced with a preset during air wing configuration rather than needing to remove and create a new squadron.
 * **[UI]** The orientation of objects like SAMs, EWRs, garrisons, and ships can now be manually adjusted.
