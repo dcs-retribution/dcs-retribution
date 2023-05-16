@@ -145,7 +145,7 @@ class SquadronLiverySelector(QComboBox):
 
         liveries = set()
         cc = squadron.coalition.faction.country_shortname
-        aircraft_liveries = self.aircraft_type.dcs_unit_type.Liveries
+        aircraft_liveries = set(self.aircraft_type.dcs_unit_type.iter_liveries())
         if len(aircraft_liveries) == 0:
             logging.info(f"Liveries for {self.aircraft_type} is empty!")
         for livery in aircraft_liveries:

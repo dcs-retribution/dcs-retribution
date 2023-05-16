@@ -96,7 +96,8 @@ class Migrator:
         for cp in self.game.theater.controlpoints:
             for s in cp.squadrons:
                 preferred_task = max(
-                    s.aircraft.task_priorities, key=lambda x: s.aircraft.task_priorities[x]
+                    s.aircraft.task_priorities,
+                    key=lambda x: s.aircraft.task_priorities[x],
                 )
                 try_set_attr(s, "primary_task", preferred_task)
                 try_set_attr(s, "max_size", 12)

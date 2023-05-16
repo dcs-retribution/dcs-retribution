@@ -1,7 +1,6 @@
 from typing import Set
 
 from dcs import task
-from dcs.liveries_scanner import Liveries
 from dcs.planes import PlaneType
 from dcs.weapons_data import Weapons
 from dcs import unittype
@@ -104,7 +103,6 @@ class XWING(PlaneType):
     radio_frequency = 127.5
 
     livery_name = "XWING"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         PROTONM = (1, SWWeapons.PROTONM)
@@ -158,7 +156,6 @@ class YWING(PlaneType):
     radio_frequency = 127.5
 
     livery_name = "YWING"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         PROTONB = (1, SWWeapons.PROTONB)
@@ -264,7 +261,6 @@ class CORVETTE(PlaneType):
     radio_frequency = 127.5
 
     livery_name = "CORVETTE"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon3:
         PROTONM3 = (3, SWWeapons.PROTONM3)
@@ -314,7 +310,6 @@ class AWING(PlaneType):
     radio_frequency = 127.5
 
     livery_name = "AWING"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         PROTONM1 = (1, SWWeapons.PROTONM1)
@@ -358,7 +353,6 @@ class FAUCON(PlaneType):
     radio_frequency = 127.5
 
     livery_name = "FAUCON"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         PROTONF = (1, SWWeapons.PROTONF)
@@ -396,7 +390,6 @@ class TIE(PlaneType):
     radio_frequency = 127.5
 
     livery_name = "TIE"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon2:
         ENERGY_CELL_ = (2, SWWeapons.ENERGY_CELL_)
@@ -434,7 +427,6 @@ class HUNTER(PlaneType):
     radio_frequency = 127.5
 
     livery_name = "HUNTER"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         PROTONM2 = (1, SWWeapons.PROTONM2)
@@ -478,7 +470,6 @@ class TIE_INTER(PlaneType):
     radio_frequency = 127.5
 
     livery_name = "TIE_INTER"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         PROTONM1 = (1, SWWeapons.PROTONM1)
@@ -522,7 +513,6 @@ class naboo_starfighter(PlaneType):
     radio_frequency = 127.5
 
     livery_name = "NABOO_STARFIGHTER"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         PROTONM = (1, SWWeapons.PROTONM)
@@ -580,7 +570,6 @@ class tie_bomber_2(PlaneType):
     radio_frequency = 127.5
 
     livery_name = "TIE_BOMBER_2"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         PROTONM1 = (1, SWWeapons.PROTONM1)

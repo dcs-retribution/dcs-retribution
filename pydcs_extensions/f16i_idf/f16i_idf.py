@@ -1,7 +1,6 @@
 from typing import Dict, List, Set, Any
 
 from dcs import task
-from dcs.liveries_scanner import Liveries
 from dcs.planes import F_16C_50, PlaneType
 from dcs.weapons_data import Weapons
 
@@ -512,7 +511,6 @@ class F_16D_52(PlaneType):
                 NVG = 2
 
     livery_name = "F-16D_52"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         AIM_9M_Sidewinder_IR_AAM = (1, Weapons.AIM_9M_Sidewinder_IR_AAM)
@@ -1382,7 +1380,6 @@ class F_16D_50(PlaneType):
                 NVG = 2
 
     livery_name = "F-16D_50"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         AIM_9M_Sidewinder_IR_AAM = (1, Weapons.AIM_9M_Sidewinder_IR_AAM)
@@ -2252,7 +2249,6 @@ class F_16D_52_NS(PlaneType):
                 NVG = 2
 
     livery_name = "F-16D_52_NS"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         AIM_9M_Sidewinder_IR_AAM = (1, Weapons.AIM_9M_Sidewinder_IR_AAM)
@@ -3121,7 +3117,6 @@ class F_16D_50_NS(PlaneType):
                 NVG = 2
 
     livery_name = "F-16D_50_NS"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         AIM_9M_Sidewinder_IR_AAM = (1, Weapons.AIM_9M_Sidewinder_IR_AAM)
@@ -3990,7 +3985,6 @@ class F_16D_Barak_40(PlaneType):
                 NVG = 2
 
     livery_name = "F-16D_BARAK_40"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         AIM_9M_Sidewinder_IR_AAM = (1, Weapons.AIM_9M_Sidewinder_IR_AAM)
@@ -4834,7 +4828,6 @@ class F_16D_Barak_30(PlaneType):
                 NVG = 2
 
     livery_name = "F-16D_BARAK_30"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         AIM_9M_Sidewinder_IR_AAM = (1, Weapons.AIM_9M_Sidewinder_IR_AAM)
@@ -5678,7 +5671,6 @@ class F_16I(PlaneType):
                 NVG = 2
 
     livery_name = "F-16I"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         AIM_9M_Sidewinder_IR_AAM = (1, Weapons.AIM_9M_Sidewinder_IR_AAM)

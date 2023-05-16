@@ -1,7 +1,6 @@
 from typing import Dict, Any, Set
 
 from dcs import task
-from dcs.liveries_scanner import Liveries
 from dcs.planes import PlaneType
 from dcs.weapons_data import Weapons
 
@@ -208,7 +207,6 @@ class Su_30MKI(PlaneType):
             id = "MOUNTSURA"
 
     livery_name = "SU-30MKI"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         R_73__AA_11_Archer____Infra_Red = (1, Weapons.R_73__AA_11_Archer____Infra_Red)
@@ -860,7 +858,6 @@ class Su_30MKA(PlaneType):
             id = "MOUNTSURA"
 
     livery_name = "SU-30MKA"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         R_73__AA_11_Archer____Infra_Red = (1, Weapons.R_73__AA_11_Archer____Infra_Red)
@@ -1462,7 +1459,6 @@ class Su_30MKM(PlaneType):
                 Equally_Responsible = -2
 
     livery_name = "SU-30MKM"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         R_73__AA_11_Archer____Infra_Red = (1, Weapons.R_73__AA_11_Archer____Infra_Red)
@@ -2069,7 +2065,6 @@ class Su_30SM(PlaneType):
             id = "MOUNTSURA"
 
     livery_name = "SU-30SM"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         R_73__AA_11_Archer____Infra_Red = (1, Weapons.R_73__AA_11_Archer____Infra_Red)

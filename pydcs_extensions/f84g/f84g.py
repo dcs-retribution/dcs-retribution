@@ -1,7 +1,6 @@
 from typing import Set
 
 from dcs import task
-from dcs.liveries_scanner import Liveries
 from dcs.planes import PlaneType
 from dcs.weapons_data import Weapons
 
@@ -29,7 +28,6 @@ class VSN_F84G(PlaneType):
     radio_frequency = 127.5
 
     livery_name = "VSN_F84G"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon2:
         Tank = (2, WeaponsF84G.Tank)
