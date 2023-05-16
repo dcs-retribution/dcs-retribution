@@ -43,8 +43,8 @@ from game.radio.radios import RadioFrequency
 from game.runways import RunwayData
 from game.theater import TheaterGroundObject, TheaterUnit
 from game.theater.bullseye import Bullseye
-from game.utils import Distance, UnitSystem, meters, mps, pounds, knots, feet
-from game.weather import Weather
+from game.utils import Distance, UnitSystem, meters, mps, pounds
+from game.weather.weather import Weather
 from .aircraft.flightdata import FlightData
 from .missiondata import AwacsInfo, TankerInfo
 from .briefinggenerator import CommInfo, JtacInfo, MissionInfoGenerator

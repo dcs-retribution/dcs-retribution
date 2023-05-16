@@ -81,7 +81,7 @@ from ..radio.Link4Container import Link4Container
 from ..radio.RadioFrequencyContainer import RadioFrequencyContainer
 from ..radio.TacanContainer import TacanContainer
 from ..utils import nautical_miles
-from ..weather import Conditions
+from ..weather.conditions import Conditions
 
 if TYPE_CHECKING:
     from game import Game
