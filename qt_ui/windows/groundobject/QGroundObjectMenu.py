@@ -161,8 +161,8 @@ class QGroundObjectMenu(QDialog):
         self.orientationBox = QGroupBox("Orientation :")
         self.orientationBoxLayout = QHBoxLayout()
 
-        heading_image = HeadingIndicator(self.ground_object.heading, self)
-        self.orientationBoxLayout.addWidget(heading_image)
+        self.heading_image = HeadingIndicator(self.ground_object.heading, self)
+        self.orientationBoxLayout.addWidget(self.heading_image)
         self.headingLabel = QLabel("Heading:")
         self.orientationBoxLayout.addWidget(self.headingLabel)
         self.headingSelector = QSpinBox()
@@ -172,7 +172,7 @@ class QGroundObjectMenu(QDialog):
         self.headingSelector.setSingleStep(5)
         self.headingSelector.setValue(self.ground_object.heading.degrees)
         self.headingSelector.valueChanged.connect(
-            lambda degrees: heading_image.set_heading(Heading(degrees))
+            lambda degrees: self.rotate_tgo(Heading(degrees))
         )
         self.orientationBoxLayout.addWidget(self.headingSelector)
         if self.cp.captured:
@@ -182,7 +182,7 @@ class QGroundObjectMenu(QDialog):
                 or self.ground_object.heading
             )
             self.head_to_conflict_button.clicked.connect(
-                lambda: self.rotate_tgo(heading)
+                lambda: self.headingSelector.setValue(heading.degrees)
             )
             self.orientationBoxLayout.addWidget(self.head_to_conflict_button)
         else:
@@ -248,7 +248,7 @@ class QGroundObjectMenu(QDialog):
 
     def rotate_tgo(self, heading: Heading) -> None:
         self.ground_object.rotate(heading)
-        self.do_refresh_layout()
+        self.heading_image.set_heading(heading)
 
     def sell_all(self):
         self.update_total_value()
