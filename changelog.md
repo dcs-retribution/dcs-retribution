@@ -159,6 +159,10 @@ Saves from 6.x are not compatible with 7.0.
 * **[Flight Planning]** BAI is no longer plannable against buildings.
 * **[Modding]** Fixed an issue where Falklands campaigns created or edited with new versions of DCS could not be loaded.
 * **[Modding]** Fixed decoding of campaign yaml files to use UTF-8 rather than the system locale's default. It's now possible to use "Bf 109 K-4 Kurfürst" as a preferred aircraft type.
+* **[Mission Generation]** Planes will no longer spawn in helipads that are not also designated for fixed wing parking.
+* **[Mission Generation]** Potentially an issue where ground war planning game state could become corrupted, preventing mission generation.
+* **[Mission Generation]** Refueling tasks will now only be created for flights that have a tanker in their package.
+* **[UI]** Fixed error when resetting air wing configuration during game setup.
 
 
 # 6.1.1
