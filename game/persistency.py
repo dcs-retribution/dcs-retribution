@@ -19,21 +19,37 @@ class MigrationUnpickler(pickle.Unpickler):
     """Custom unpickler to migrate campaign save-files for when components have been moved"""
     def find_class(self, module: Any, name: str) -> Any:
         if name == "NightMissions":
-            from game.weather.conditions import NightMissions
+            from game.settings import NightMissions
             return NightMissions
         if name == "Conditions":
             from game.weather.conditions import Conditions
             return Conditions
-        if name == "ClearSkies":
-            from game.weather.conditions import ClearSkies
-            return ClearSkies
         if name == "AtmosphericConditions":
             from game.weather.atmosphericconditions import AtmosphericConditions
             return AtmosphericConditions
         if name == "WindConditions":
             from game.weather.wind import WindConditions
             return WindConditions
-        return super().find_class(module, name)
+        if name == "Clouds":
+            from game.weather.clouds import Clouds
+            return Clouds
+        if name == "ClearSkies":
+            from game.weather.weather import ClearSkies
+            return ClearSkies
+        if name == "Cloudy":
+            from game.weather.weather import Cloudy
+            return Cloudy
+        if name == "Raining":
+            from game.weather.weather import Raining
+            return Raining
+        if name == "Thunderstorm":
+            from game.weather.weather import Thunderstorm
+            return Thunderstorm
+        try:
+            return super().find_class(module, name)
+        except AttributeError:
+            print(module, name)
+            return None
 # fmt: on
 
 

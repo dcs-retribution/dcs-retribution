@@ -2,4 +2,5 @@ price: 15
 max_range: 200
 variants:
   Su-24MR: null
-tasks: {}
+tasks:
+  BARCAP: 0
