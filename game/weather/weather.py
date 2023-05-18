@@ -4,7 +4,6 @@ import datetime
 import logging
 import math
 import random
-from enum import Enum
 from abc import ABC, abstractmethod
 from typing import Optional, TYPE_CHECKING
 
@@ -25,12 +24,6 @@ from game.weather.wind import WindConditions
 
 if TYPE_CHECKING:
     from game.theater.seasonalconditions import SeasonalConditions
-
-
-class NightMissions(Enum):
-    DayAndNight = "nightmissions_nightandday"
-    OnlyDay = "nightmissions_onlyday"
-    OnlyNight = "nightmissions_onlynight"
 
 
 class Weather(ABC):

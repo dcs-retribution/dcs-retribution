@@ -14,7 +14,7 @@ from .minutesoption import minutes_option
 from .optiondescription import OptionDescription, SETTING_DESCRIPTION_KEY
 from .skilloption import skill_option
 from ..ato.starttype import StartType
-from ..weather import NightMissions
+from ..weather.conditions import NightMissions
 
 Views = ForcedOptions.Views
 
