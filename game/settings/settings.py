@@ -14,7 +14,6 @@ from .minutesoption import minutes_option
 from .optiondescription import OptionDescription, SETTING_DESCRIPTION_KEY
 from .skilloption import skill_option
 from ..ato.starttype import StartType
-from ..weather.conditions import NightMissions
 
 Views = ForcedOptions.Views
 
@@ -25,6 +24,13 @@ class AutoAtoBehavior(Enum):
     Never = "Never assign player pilots"
     Default = "No preference"
     Prefer = "Prefer player pilots"
+
+
+@unique
+class NightMissions(Enum):
+    DayAndNight = "nightmissions_nightandday"
+    OnlyDay = "nightmissions_onlyday"
+    OnlyNight = "nightmissions_onlynight"
 
 
 DIFFICULTY_PAGE = "Difficulty"

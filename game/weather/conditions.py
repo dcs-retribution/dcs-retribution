@@ -4,19 +4,12 @@ import datetime
 import logging
 import random
 from dataclasses import dataclass
-from enum import Enum
 
-from game.settings import Settings
-from game.theater import ConflictTheater, DaytimeMap, SeasonalConditions
+from game.settings import Settings, NightMissions
+from game.theater import ConflictTheater, SeasonalConditions
 from game.theater.seasonalconditions import determine_season
 from game.timeofday import TimeOfDay
 from game.weather.weather import Weather, Thunderstorm, Raining, Cloudy, ClearSkies
-
-
-class NightMissions(Enum):
-    DayAndNight = "nightmissions_nightandday"
-    OnlyDay = "nightmissions_onlyday"
-    OnlyNight = "nightmissions_onlynight"
 
 
 @dataclass

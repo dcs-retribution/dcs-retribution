@@ -6,6 +6,7 @@ from game.ato.flighttype import FlightType
 from game.theater.controlpoint import Airfield, Carrier, Lha, OffMapSpawn, Fob
 
 
+@pytest.fixture
 def test_mission_types_friendly(mocker: Any) -> None:
     """
     Test the mission types that can be planned against friendly control points
@@ -54,6 +55,7 @@ def test_mission_types_friendly(mocker: Any) -> None:
     assert len(mission_types) == 0
 
 
+@pytest.fixture
 def test_mission_types_enemy(mocker: Any) -> None:
     """
     Test the mission types that can be planned against enemy control points
