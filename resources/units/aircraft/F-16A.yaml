@@ -5,6 +5,7 @@ variants:
   F-16A: null
 tasks:
   BARCAP: 420
+  CAS: 340
   Escort: 420
   Fighter sweep: 420
   Intercept: 420

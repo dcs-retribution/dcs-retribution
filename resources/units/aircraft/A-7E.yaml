@@ -14,3 +14,12 @@ role: Carrier-based Attack
 gunfighter: true
 variants:
   A-7E Corsair II: {}
+tasks:
+  BAI: 660
+  CAS: 660
+  DEAD: 390
+  OCA/Aircraft: 660
+  OCA/Runway: 360
+  SEAD: 110
+  SEAD Escort: 110
+  Strike: 360

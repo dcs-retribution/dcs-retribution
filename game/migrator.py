@@ -95,6 +95,7 @@ class Migrator:
     def _update_squadrons(self) -> None:
         for cp in self.game.theater.controlpoints:
             for s in cp.squadrons:
+                print(s.aircraft, s.aircraft.task_priorities)
                 preferred_task = max(
                     s.aircraft.task_priorities,
                     key=lambda x: s.aircraft.task_priorities[x],
