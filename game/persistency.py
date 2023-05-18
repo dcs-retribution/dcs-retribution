@@ -45,11 +45,7 @@ class MigrationUnpickler(pickle.Unpickler):
         if name == "Thunderstorm":
             from game.weather.weather import Thunderstorm
             return Thunderstorm
-        try:
-            return super().find_class(module, name)
-        except AttributeError:
-            print(module, name)
-            return None
+        return super().find_class(module, name)
 # fmt: on
 
 
