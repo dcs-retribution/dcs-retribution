@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import logging
 import math
 import random
 from datetime import timedelta
@@ -159,8 +158,9 @@ class FlotGenerator:
             if utype is None:
                 utype = AircraftType.named("MQ-9 Reaper")
 
+            country = self.mission.country(self.game.blue.faction.country.name)
             jtac = self.mission.flight_group(
-                country=self.game.blue.faction.country,
+                country=country,
                 name=namegen.next_jtac_name(),
                 aircraft_type=utype.dcs_unit_type,
                 position=position[0],
@@ -753,6 +753,7 @@ class FlotGenerator:
             self.conflict.heading.left if is_player else self.conflict.heading.right
         )
         country = self.game.coalition_for(is_player).faction.country
+        country = self.mission.country(country.name)
         for group in groups:
             if group.role == CombatGroupRole.ARTILLERY:
                 distance_from_frontline = (

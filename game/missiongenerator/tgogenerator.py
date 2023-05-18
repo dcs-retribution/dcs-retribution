@@ -687,7 +687,7 @@ class TgoGenerator:
 
     def generate(self) -> None:
         for cp in self.game.theater.controlpoints:
-            country = self.game.coalition_for(cp.captured).faction.country
+            country = self.m.country(cp.coalition.faction.country.name)
 
             # Generate helipads
             helipad_gen = HelipadGenerator(

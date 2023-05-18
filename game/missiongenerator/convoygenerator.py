@@ -76,9 +76,10 @@ class ConvoyGenerator:
         main_unit_type, main_unit_count = unit_types[0]
 
         faction = self.game.coalition_for(for_player).faction
+        country = self.mission.country(faction.country.name)
 
         group = self.mission.vehicle_group(
-            faction.country,
+            country,
             name,
             main_unit_type.dcs_unit_type,
             position=position,
