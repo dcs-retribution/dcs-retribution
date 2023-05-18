@@ -96,9 +96,9 @@ class Su_57(PlaneType):
             2,
             Weapons.MBD3_U6_68_with_6_x_FAB_100___100kg_GP_Bombs_LD,
         )
-        B_8M1_pod___20_x_S_8KOM__80mm_UnGd_Rkts__HEAT_AP = (
+        B_8M1___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag = (
             2,
-            Weapons.B_8M1_pod___20_x_S_8KOM__80mm_UnGd_Rkts__HEAT_AP,
+            Weapons.B_8M1___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
         )
         B_13L_pod___5_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag = (
             2,
@@ -217,9 +217,9 @@ class Su_57(PlaneType):
             4,
             Weapons.MBD3_U6_68_with_6_x_FAB_100___100kg_GP_Bombs_LD,
         )
-        B_8M1_pod___20_x_S_8KOM__80mm_UnGd_Rkts__HEAT_AP = (
+        B_8M1___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag = (
             4,
-            Weapons.B_8M1_pod___20_x_S_8KOM__80mm_UnGd_Rkts__HEAT_AP,
+            Weapons.B_8M1___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
         )
         B_13L_pod___5_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag = (
             4,
@@ -346,9 +346,9 @@ class Su_57(PlaneType):
             9,
             Weapons.MBD3_U6_68_with_6_x_FAB_100___100kg_GP_Bombs_LD,
         )
-        B_8M1_pod___20_x_S_8KOM__80mm_UnGd_Rkts__HEAT_AP = (
+        B_8M1___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag = (
             9,
-            Weapons.B_8M1_pod___20_x_S_8KOM__80mm_UnGd_Rkts__HEAT_AP,
+            Weapons.B_8M1___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
         )
         B_13L_pod___5_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag = (
             9,
@@ -460,9 +460,9 @@ class Su_57(PlaneType):
             11,
             Weapons.MBD3_U6_68_with_6_x_FAB_100___100kg_GP_Bombs_LD,
         )
-        B_8M1_pod___20_x_S_8KOM__80mm_UnGd_Rkts__HEAT_AP = (
+        B_8M1___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag = (
             11,
-            Weapons.B_8M1_pod___20_x_S_8KOM__80mm_UnGd_Rkts__HEAT_AP,
+            Weapons.B_8M1___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
         )
         B_13L_pod___5_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag = (
             11,
