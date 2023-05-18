@@ -135,7 +135,8 @@ class MissionGenerator:
         belligerents = {self.p_country.id, self.e_country.id}
         for country_id in country_dict.keys():
             if country_id not in belligerents:
-                self.mission.coalition["neutrals"].add_country(country_dict[country_id]())
+                c = country_dict[country_id]()
+                self.mission.coalition["neutrals"].add_country(c)
 
     def add_airfields_to_unit_map(self) -> None:
         for control_point in self.game.theater.controlpoints:

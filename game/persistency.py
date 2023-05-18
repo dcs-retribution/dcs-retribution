@@ -4,7 +4,7 @@ import logging
 import pickle
 import shutil
 from pathlib import Path
-from typing import Optional, TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING, Any
 
 from game.profiling import logged_duration
 
@@ -17,7 +17,7 @@ _dcs_saved_game_folder: Optional[str] = None
 # fmt: off
 class MigrationUnpickler(pickle.Unpickler):
     """Custom unpickler to migrate campaign save-files for when components have been moved"""
-    def find_class(self, module, name):
+    def find_class(self, module: Any, name: str) -> Any:
         if name == "NightMissions":
             from game.weather.conditions import NightMissions
             return NightMissions
