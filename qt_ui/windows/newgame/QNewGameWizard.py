@@ -945,6 +945,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
 
         self.a4_skyhawk.setChecked(s.get("a4_skyhawk", False))
         self.a6a_intruder.setChecked(s.get("a6a_intruder", False))
+        self.a7e_corsair2.setChecked(s.get("a7e_corsair2", False))
         self.hercules.setChecked(s.get("hercules", False))
         self.uh_60l.setChecked(s.get("uh_60l", False))
         self.f4bc_phantom.setChecked(s.get("f4bc_phantom", False))
