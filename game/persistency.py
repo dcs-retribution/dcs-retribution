@@ -14,6 +14,29 @@ if TYPE_CHECKING:
 _dcs_saved_game_folder: Optional[str] = None
 
 
+# fmt: off
+class MigrationUnpickler(pickle.Unpickler):
+    """Custom unpickler to migrate campaign save-files for when components have been moved"""
+    def find_class(self, module, name):
+        if name == "NightMissions":
+            from game.weather.conditions import NightMissions
+            return NightMissions
+        if name == "Conditions":
+            from game.weather.conditions import Conditions
+            return Conditions
+        if name == "ClearSkies":
+            from game.weather.conditions import ClearSkies
+            return ClearSkies
+        if name == "AtmosphericConditions":
+            from game.weather.atmosphericconditions import AtmosphericConditions
+            return AtmosphericConditions
+        if name == "WindConditions":
+            from game.weather.wind import WindConditions
+            return WindConditions
+        return super().find_class(module, name)
+# fmt: on
+
+
 def setup(user_folder: str) -> None:
     global _dcs_saved_game_folder
     _dcs_saved_game_folder = user_folder
@@ -50,7 +73,7 @@ def mission_path_for(name: str) -> Path:
 def load_game(path: str) -> Optional[Game]:
     with open(path, "rb") as f:
         try:
-            save = pickle.load(f)
+            save = MigrationUnpickler(f).load()
             save.savepath = path
             return save
         except Exception:
