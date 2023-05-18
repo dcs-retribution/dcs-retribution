@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Any
 
 from dcs.countries import countries_by_name
 
+from game.ato.packagewaypoints import PackageWaypoints
 from game.data.doctrine import MODERN_DOCTRINE, COLDWAR_DOCTRINE, WWII_DOCTRINE
 
 if TYPE_CHECKING:
@@ -51,8 +52,8 @@ class Migrator:
     def _update_packagewaypoints(self) -> None:
         for c in self.game.coalitions:
             for p in c.ato.packages:
-                if p.waypoints:
-                    try_set_attr(p.waypoints, "initial", None)
+                if p.waypoints and not hasattr(p.waypoints, "initial"):
+                    p.waypoints = PackageWaypoints.create(p, c)
 
     def _update_package_attributes(self) -> None:
         for c in self.game.coalitions:
