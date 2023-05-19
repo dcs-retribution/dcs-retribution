@@ -33,6 +33,9 @@ class MigrationUnpickler(pickle.Unpickler):
         if name == "Clouds":
             from game.weather.clouds import Clouds
             return Clouds
+        if name == "Fog":
+            from game.weather.fog import Fog
+            return Fog
         if name == "ClearSkies":
             from game.weather.weather import ClearSkies
             return ClearSkies
