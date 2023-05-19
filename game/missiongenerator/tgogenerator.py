@@ -604,7 +604,7 @@ class HelipadGenerator:
             return
         # Note: Helipad are generated as neutral object in order not to interfer with
         # capture triggers
-        country = self.game.coalition_for(self.cp.captured).faction.country
+        country = self.m.country(self.cp.coalition.faction.country.name)
 
         for i, helipad in enumerate(self.cp.helipads):
             heading = helipad.heading.degrees
