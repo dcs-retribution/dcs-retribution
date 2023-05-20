@@ -12,28 +12,29 @@
 [![GitHub issues](https://img.shields.io/github/issues/dcs-retribution/dcs-retribution)](https://github.com/dcs-retribution/dcs-retribution/issues)
 ![GitHub stars](https://img.shields.io/github/stars/dcs-retribution/dcs-retribution?style=social)
 
-## About DCS Retribution
+## About DCS Retribution 
+(Last update: 2023-05-20)
+
 DCS Retribution was forked from [DCS Liberation](https://github.com/dcs-retribution/dcs-retribution),
 which is a [DCS World](https://www.digitalcombatsimulator.com/en/products/world/) turn based single-player or co-op dynamic campaign. 
 It is an external program that generates full and complex DCS missions and manage a persistent combat environment.
 
 ![Screenshot](https://user-images.githubusercontent.com/315852/120939254-0b4a9f80-c6cc-11eb-82f5-ce3f8d714bfe.png)
 
-DCS Retribution will rely heavily on Liberation in the near future,
-and possibly in a more distant future as well since Retribution will attempt
-to stay backwards compatible for as long as possible. Therefore,
+DCS Retribution is still relying on Liberation for certain updates,
+and will possibly stay that way in a more distant future. Therefore,
 the patreon link will keep pointing to [Khopa's](https://github.com/Khopa) account until further notice.
+However, we are no longer backwards compatible with Liberation, and will no longer attempt to do so.
 
-Currently, Retribution supports the following new features:
- * A livery selector in the air wing configuration dialog
- * Support for campaigns with quad-point triggers
- * Support for the F-15D 'Baz' mod
- * Support for the Su-30 mod
- * Elementary end-game mechanics
- * Variation in flight-size for BAI/ANTISHIP/DEAD/STRIKE main flight (randomize 2/3/4-ships)
- * More performance options
- * Various bug-fixes (including a fix for the zombie carrier)
- * And more... (See [changelog](https://github.com/dcs-retribution/dcs-retribution/blob/main/changelog.md))
+Instead, we are focussing on keeping our campaigns forward compatible so that you as a user
+can continue on whatever campaign you had going on.
+Please keep in mind that once you save a campaign that was started
+in a previous (save-compatibility breaking) build, your save file
+will have been migrated and thus no longer compatible with the previous build.
+Therefore, we recommend backing up your saves and perhaps organizing them by version/build number.
+
+For a more complete overview of our features, check the
+[changelog](https://github.com/dcs-retribution/dcs-retribution/blob/main/changelog.md).
 
 ## Downloads
 
@@ -43,11 +44,16 @@ To download preview builds of the next version of DCS Retribution, see https://g
 
 ## DCS bugs
 
-These DCS bugs prevent us from improving AI behavior. Please upvote them! (But please
-_don't_ spam them with comments):
+~~These DCS bugs prevent us from improving AI behavior. Please upvote them! (But please
+_don't_ spam them with comments):~~
 
-* [A2A and SEAD escorts don't escort](https://forums.eagle.ru/topic/251798-options-for-alternate-ai-escort-behavior/?tab=comments#comment-4668033)
-* [DEAD can't use mixed loadouts effectively](https://forums.eagle.ru/topic/271941-ai-rtbs-after-firing-decoys-despite-full-load-of-bombs/)
+* ~~[A2A and SEAD escorts don't escort](https://forums.eagle.ru/topic/251798-options-for-alternate-ai-escort-behavior/?tab=comments#comment-4668033)~~
+* ~~[DEAD can't use mixed loadouts effectively](https://forums.eagle.ru/topic/271941-ai-rtbs-after-firing-decoys-despite-full-load-of-bombs/)~~
+
+While DCS bugs are still a thing, we don't quite agree with the ones stated above.
+We believe to have addressed these, although some quirks still exist.
+For example, SEAD Escorts tend to be a little picky with what they engage,
+especially with older SAM systems.
 
 ## Bugs and feature requests
 
