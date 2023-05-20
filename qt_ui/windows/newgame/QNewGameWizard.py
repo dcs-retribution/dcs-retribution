@@ -196,6 +196,7 @@ class NewGameWizard(QtWidgets.QWizard):
             f104_starfighter=self.field("f104_starfighter"),
             f105_thunderchief=self.field("f105_thunderchief"),
             hercules=self.field("hercules"),
+            irondome=self.field("irondome"),
             uh_60l=self.field("uh_60l"),
             jas39_gripen=self.field("jas39_gripen"),
             su30_flanker_h=self.field("su30_flanker_h"),
@@ -877,6 +878,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("SWPack", self.SWPack)
         self.spanishnavypack = QtWidgets.QCheckBox()
         self.registerField("spanishnavypack", self.spanishnavypack)
+        self.irondome = QtWidgets.QCheckBox()
+        self.registerField("irondome", self.irondome)
 
         modHelpText = QtWidgets.QLabel(
             "<p>Select the mods you have installed. If your chosen factions support them, you'll be able to use these mods in your campaign.</p>"
@@ -913,6 +916,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("UH-60L Black Hawk (v1.3.1)", self.uh_60l),
             ("Star Wars Modpack 2.54+", self.SWPack),
             ("Spanish Naval Assets pack (desdemicabina 3.2.0)", self.spanishnavypack),
+            ("Iron Dome (v1.2 by IDF Mods Project)", self.irondome),
         ]
 
         for i in range(len(mod_pairs)):
@@ -968,6 +972,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.frenchpack.setChecked(s.get("frenchpack", False))
         self.high_digit_sams.setChecked(s.get("high_digit_sams", False))
         self.spanishnavypack.setChecked(s.get("spanishnavypack", False))
+        self.irondome.setChecked(s.get("irondome", False))
         self.swedishmilitaryassetspack.setChecked(
             s.get("swedishmilitaryassetspack", False)
         )

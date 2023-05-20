@@ -13,6 +13,7 @@
 * **[Mission Generation]** Also save kneeboards in txt-format, found under "kneeboards" within Retribution's installation folder after pressing take-off.
 * **[Modding]** Support for SW mod v2.55
 * **[Modding]** Support for Spanish & Australian Naval Assets v3.2.0 by desdemicabina
+* **[Modding]** Support for Iron Dome v1.2 by IDF Mods Project
 
 ## Fixes
 * **[New Game Wizard]** Settings would not persist when going back to a previous page.

@@ -66,6 +66,7 @@ class ModSettings:
     f104_starfighter: bool = False
     f105_thunderchief: bool = False
     hercules: bool = False
+    irondome: bool = False
     uh_60l: bool = False
     jas39_gripen: bool = False
     su30_flanker_h: bool = False

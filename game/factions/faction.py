@@ -439,6 +439,13 @@ class Faction:
             self.remove_ship("L52")
             self.remove_ship("L02")
             self.remove_ship("DDG39")
+        if not mod_settings.irondome:
+            self.remove_vehicle("I9K51_GRAD")
+            self.remove_vehicle("I9K57_URAGAN")
+            self.remove_vehicle("I9K58_SMERCH")
+            self.remove_vehicle("IRON_DOME_CP")
+            self.remove_vehicle("IRON_DOME_LN")
+            self.remove_vehicle("ELM2048_MMR")
         # swedish military assets pack
         if not mod_settings.swedishmilitaryassetspack:
             self.remove_vehicle("BV410_RBS70")

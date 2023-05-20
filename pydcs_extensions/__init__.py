@@ -14,6 +14,7 @@ from .fa18efg import *
 from .frenchpack import *
 from .hercules import *
 from .highdigitsams import *
+from .irondome import *
 from .jas39 import *
 from .ov10a import *
 from .spanishnavypack import *
