@@ -41,7 +41,6 @@ from dcs.ships import (
     Hms_invincible,
 )
 from dcs.terrain.terrain import Airport, ParkingSlot
-from dcs.triggers import TriggerZone
 from dcs.unitgroup import ShipGroup, StaticGroup
 from dcs.unittype import ShipType
 
@@ -61,6 +60,7 @@ from game.sidc import (
 )
 from game.theater.presetlocation import PresetLocation
 from game.utils import Distance, Heading, meters
+from pydcs_extensions import L02, L52, L61
 from .base import Base
 from .frontline import FrontLine
 from .interfaces.CTLD import CTLD
@@ -1232,6 +1232,9 @@ class NavalControlPoint(
                     KUZNECOW,
                     Type_071,
                     Hms_invincible,
+                    L02,
+                    L52,
+                    L61,
                 ]:
                     return True
         return False

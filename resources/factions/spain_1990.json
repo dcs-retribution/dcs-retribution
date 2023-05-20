@@ -10,7 +10,6 @@
     "AV-8B Harrier II Night Attack",
     "C-130",
     "C-101CC Aviojet",
-    "EF-18A+ Hornet",
     "F-5E Tiger II",
     "Mirage-F1BE",
     "Mirage-F1CE",
@@ -27,7 +26,7 @@
     "KC-135 Stratotanker"
   ],
   "frontline_units": [
-    "Leopard 2A4",
+    "AMX.30B2",
     "M1097 Heavy HMMWV Avenger",
     "M113",
     "M60A3 \"Patton\""
@@ -47,9 +46,7 @@
   ],
   "naval_units": [
     "FFG Oliver Hazard Perry",
-    "CG Ticonderoga",
-    "LHA-1 Tarawa",
-    "CVN-74 John C. Stennis"
+    "CG Ticonderoga"
   ],
   "missiles": [],
   "air_defense_units": [
@@ -64,22 +61,5 @@
     "Juan Carlos I"
   ],
   "has_jtac": true,
-  "jtac_unit": "MQ-9 Reaper",
-  "liveries_overrides": {
-    "EF-18A+ Hornet": [
-      "Spain 111th Escuadron C.15-73",
-      "Spain 111th Escuadron C.15-88",
-      "Spain 121th Escuadron C.15-45",
-      "Spain 121th Escuadron C.15-50",
-      "Spain 121th Escuadron C.15-60",
-      "Spain 151th Escuadron C.15-14",
-      "Spain 151th Escuadron C.15-18",
-      "Spain 151th Escuadron C.15-23",
-      "Spain 151th Escuadron C.15-24",
-      "Spain 211th Escuadron C.15-76",
-      "Spain 211th Escuadron C.15-77",
-      "Spain 462th Escuadron C.15-79",
-      "Spain 462th Escuadron C.15-90"
-    ]
-  }
+  "jtac_unit": "MQ-9 Reaper"
 }

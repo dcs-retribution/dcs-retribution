@@ -431,6 +431,14 @@ class Faction:
             self.remove_aircraft("FA-18E")
             self.remove_aircraft("FA-18F")
             self.remove_aircraft("EA-18G")
+        # spanish naval assets pack
+        if not mod_settings.spanishnavypack:
+            self.remove_ship("L61")
+            self.remove_ship("F100")
+            self.remove_ship("F105")
+            self.remove_ship("L52")
+            self.remove_ship("L02")
+            self.remove_ship("DDG39")
         # swedish military assets pack
         if not mod_settings.swedishmilitaryassetspack:
             self.remove_vehicle("BV410_RBS70")

@@ -73,6 +73,7 @@ class ModSettings:
     frenchpack: bool = False
     high_digit_sams: bool = False
     ov10a_bronco: bool = False
+    spanishnavypack: bool = False
     swedishmilitaryassetspack: bool = False
     SWPack: bool = False
 

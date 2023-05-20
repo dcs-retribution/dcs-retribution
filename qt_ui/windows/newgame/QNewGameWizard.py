@@ -203,6 +203,7 @@ class NewGameWizard(QtWidgets.QWizard):
             ov10a_bronco=self.field("ov10a_bronco"),
             frenchpack=self.field("frenchpack"),
             high_digit_sams=self.field("high_digit_sams"),
+            spanishnavypack=self.field("spanishnavypack"),
             swedishmilitaryassetspack=self.field("swedishmilitaryassetspack"),
             SWPack=self.field("SWPack"),
         )
@@ -874,6 +875,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("swedishmilitaryassetspack", self.swedishmilitaryassetspack)
         self.SWPack = QtWidgets.QCheckBox()
         self.registerField("SWPack", self.SWPack)
+        self.spanishnavypack = QtWidgets.QCheckBox()
+        self.registerField("spanishnavypack", self.spanishnavypack)
 
         modHelpText = QtWidgets.QLabel(
             "<p>Select the mods you have installed. If your chosen factions support them, you'll be able to use these mods in your campaign.</p>"
@@ -909,6 +912,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("Su-57 Felon", self.su57_felon),
             ("UH-60L Black Hawk (v1.3.1)", self.uh_60l),
             ("Star Wars Modpack 2.54+", self.SWPack),
+            ("Spanish Naval Assets pack (desdemicabina 3.2.0)", self.spanishnavypack),
         ]
 
         for i in range(len(mod_pairs)):
@@ -963,6 +967,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.ov10a_bronco.setChecked(s.get("ov10a_bronco", False))
         self.frenchpack.setChecked(s.get("frenchpack", False))
         self.high_digit_sams.setChecked(s.get("high_digit_sams", False))
+        self.spanishnavypack.setChecked(s.get("spanishnavypack", False))
         self.swedishmilitaryassetspack.setChecked(
             s.get("swedishmilitaryassetspack", False)
         )
