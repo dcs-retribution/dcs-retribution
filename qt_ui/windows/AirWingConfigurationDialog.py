@@ -163,7 +163,7 @@ class SquadronLiverySelector(QComboBox):
         for livery in sorted(liveries):
             self.addItem(livery.name, userData=livery.id)
             if selected_livery is not None:
-                if selected_livery == livery.id:
+                if selected_livery.lower() == livery.id:
                     self.setCurrentText(livery.name)
         if len(liveries) == 0:
             self.addItem("No available liveries (using DCS default)")
