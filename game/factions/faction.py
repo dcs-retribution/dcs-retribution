@@ -47,9 +47,6 @@ class Faction:
     # Country used by this faction
     country: Country
 
-    # Country's short name used by this faction
-    country_shortname: str = field(default="")
-
     # Nice name of the faction
     name: str = field(default="")
 
@@ -193,8 +190,6 @@ class Faction:
             ) from ex
 
         faction = Faction(locales=json.get("locales"), country=country)
-
-        faction.country_shortname = country.shortname
 
         faction.name = json.get("name", "")
         if not faction.name:
