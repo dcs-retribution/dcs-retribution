@@ -131,6 +131,15 @@ BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 * **[Mission Generation]** Kneeboard STRIKE coordinates would sometimes get clipped when not fitting.
 * **[UI]** Fix exception when trying to add a waypoints to a flightplan.
 
+
+# 7.1.0
+
+## Features/Improvements
+
+* **[Mission Planning]** Per-flight TOT offsets can now be set in the flight details UI. This allows individual flights to be scheduled ahead of or behind the rest of the package.
+
+## Fixes
+
 # Liberation:
 # 7.0.0
 

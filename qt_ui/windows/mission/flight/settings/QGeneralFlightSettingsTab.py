@@ -1,11 +1,10 @@
 from PySide2.QtCore import Signal
 from PySide2.QtWidgets import QFrame, QGridLayout, QVBoxLayout
 
-from game import Game
 from game.ato.flight import Flight
 from qt_ui.models import PackageModel, GameModel
-from qt_ui.windows.mission.flight.settings.FlightAirfieldDisplay import (
-    FlightAirfieldDisplay,
+from qt_ui.windows.mission.flight.settings.FlightPlanPropertiesGroup import (
+    FlightPlanPropertiesGroup,
 )
 from qt_ui.windows.mission.flight.settings.QCommsEditor import QCommsEditor
 from qt_ui.windows.mission.flight.settings.QCustomName import QFlightCustomName
@@ -25,7 +24,7 @@ class QGeneralFlightSettingsTab(QFrame):
         widgets = [
             QFlightTypeTaskInfo(flight),
             QCommsEditor(flight, game),
-            FlightAirfieldDisplay(game.game, package_model, flight),
+            FlightPlanPropertiesGroup(game.game, package_model, flight),
             QFlightSlotEditor(package_model, flight, game.game),
             QFlightStartType(package_model, flight),
             QFlightCustomName(flight),
