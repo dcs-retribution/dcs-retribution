@@ -257,7 +257,10 @@ class Settings:
         CAMPAIGN_MANAGEMENT_PAGE,
         PILOTS_AND_SQUADRONS_SECTION,
         default=False,
-        detail="If set, squadrons will be limited to a maximum number of aircraft.",
+        detail=(
+            "If set, squadrons will not be able to exceed a maximum number of aircraft "
+            "(configurable), and the campaign will begin with all squadrons at full strength."
+        ),
     )
 
     # HQ Automation
@@ -718,6 +721,9 @@ class Settings:
         new_state = Settings().__dict__
         new_state.update(state)
         self.__dict__.update(new_state)
+        from game.plugins import LuaPluginManager
+
+        LuaPluginManager().load_settings(self)
 
     @classmethod
     def _field_description(cls, settings_field: Field[Any]) -> OptionDescription:

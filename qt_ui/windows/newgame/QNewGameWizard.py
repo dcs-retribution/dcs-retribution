@@ -1,20 +1,20 @@
 from __future__ import unicode_literals
 
 import logging
-from datetime import timedelta
 
 from PySide2 import QtGui, QtWidgets
 
 from game.campaignloader.campaign import Campaign
 from game.dcs.aircrafttype import AircraftType
-from game.settings import Settings
 from game.theater.start_generator import GameGenerator, GeneratorSettings, ModSettings
 from qt_ui.windows.AirWingConfigurationDialog import AirWingConfigurationDialog
-from qt_ui.windows.newgame.SettingNames import RUNWAY_REPAIR, FRONTLINE, AIRCRAFT, MISSION_LENGTH, SUPER_CARRIER
 from qt_ui.windows.newgame.WizardPages.QFactionSelection import FactionSelection
 from qt_ui.windows.newgame.WizardPages.QGeneratorSettings import GeneratorOptions
 from qt_ui.windows.newgame.WizardPages.QNewGameSettings import NewGameSettings
-from qt_ui.windows.newgame.WizardPages.QTheaterConfiguration import TheaterConfiguration, TIME_PERIODS
+from qt_ui.windows.newgame.WizardPages.QTheaterConfiguration import (
+    TheaterConfiguration,
+    TIME_PERIODS,
+)
 
 
 class NewGameWizard(QtWidgets.QWizard):
@@ -33,8 +33,7 @@ class NewGameWizard(QtWidgets.QWizard):
         self.addPage(self.faction_selection_page)
         self.go_page = GeneratorOptions(self.campaigns[0], self)
         self.addPage(self.go_page)
-        self.settings_page = NewGameSettings(self)
-        self.settings_page.set_campaign_values(self.campaigns[0])
+        self.settings_page = NewGameSettings(self.campaigns[0], self)
 
         # Update difficulty page on campaign select
         self.theater_page.campaign_selected.connect(lambda c: self.update_settings(c))
@@ -70,21 +69,6 @@ class NewGameWizard(QtWidgets.QWizard):
             start_date = self.theater_page.calendar.selectedDate().toPython()
 
         logging.info("New campaign start date: %s", start_date.strftime("%m/%d/%Y"))
-        settings = Settings()
-        settings.__setstate__(campaign.settings)
-        settings.player_income_multiplier = self.field("player_income_multiplier") / 10
-        settings.enemy_income_multiplier = self.field("enemy_income_multiplier") / 10
-        settings.automate_runway_repair = self.field(RUNWAY_REPAIR)
-        settings.automate_front_line_reinforcements = self.field(FRONTLINE)
-        settings.desired_player_mission_duration = timedelta(
-            minutes=self.field(MISSION_LENGTH)
-        )
-        settings.enable_squadron_aircraft_limits = self.field("use_new_squadron_rules")
-        settings.automate_aircraft_reinforcements = self.field(AIRCRAFT)
-        settings.supercarrier = self.field(SUPER_CARRIER)
-        settings.perf_culling = (
-            campaign.settings.get("perf_culling_distance") is not None
-        )
 
         generator_settings = GeneratorSettings(
             start_date=start_date,
@@ -137,6 +121,8 @@ class NewGameWizard(QtWidgets.QWizard):
         theater = campaign.load_theater(generator_settings.advanced_iads)
 
         logging.info("New campaign theater: %s", theater.terrain.name)
+
+        settings = self.settings_page.settings_widget.settings
 
         generator = GameGenerator(
             blue_faction,

@@ -4,7 +4,14 @@ from copy import deepcopy
 
 from PySide2 import QtWidgets, QtGui
 from PySide2.QtCore import Qt
-from PySide2.QtWidgets import QScrollArea, QWidget, QGridLayout, QCheckBox, QLabel, QTextBrowser
+from PySide2.QtWidgets import (
+    QScrollArea,
+    QWidget,
+    QGridLayout,
+    QCheckBox,
+    QLabel,
+    QTextBrowser,
+)
 
 from game.campaignloader import Campaign
 from game.factions import Faction, FACTIONS

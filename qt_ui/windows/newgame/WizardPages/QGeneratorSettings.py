@@ -8,8 +8,7 @@ from PySide2.QtWidgets import QLabel, QVBoxLayout
 
 from game.campaignloader import Campaign
 from game.campaignloader.campaign import DEFAULT_BUDGET
-from qt_ui.widgets.spinsliders import CurrencySpinner, TimeInputs
-from qt_ui.windows.newgame.SettingNames import MISSION_LENGTH, SUPER_CARRIER
+from qt_ui.widgets.spinsliders import CurrencySpinner
 
 DEFAULT_MISSION_LENGTH: timedelta = timedelta(minutes=60)
 
@@ -51,38 +50,28 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("no_carrier", self.no_carrier)
         self.no_lha = QtWidgets.QCheckBox()
         self.registerField("no_lha", self.no_lha)
-        self.supercarrier = QtWidgets.QCheckBox()
-        self.registerField(SUPER_CARRIER, self.supercarrier)
         self.no_player_navy = QtWidgets.QCheckBox()
         self.registerField("no_player_navy", self.no_player_navy)
         self.no_enemy_navy = QtWidgets.QCheckBox()
         self.registerField("no_enemy_navy", self.no_enemy_navy)
-        self.desired_player_mission_duration = TimeInputs(
-            DEFAULT_MISSION_LENGTH, minimum=30, maximum=150
-        )
-        self.registerField(MISSION_LENGTH, self.desired_player_mission_duration.spinner)
 
         generatorLayout = QtWidgets.QGridLayout()
         generatorLayout.addWidget(QtWidgets.QLabel("No Aircraft Carriers"), 1, 0)
         generatorLayout.addWidget(self.no_carrier, 1, 1)
         generatorLayout.addWidget(QtWidgets.QLabel("No LHA"), 2, 0)
         generatorLayout.addWidget(self.no_lha, 2, 1)
-        generatorLayout.addWidget(QtWidgets.QLabel("Use Supercarrier module"), 3, 0)
-        generatorLayout.addWidget(self.supercarrier, 3, 1)
-        generatorLayout.addWidget(QtWidgets.QLabel("No Player Navy"), 4, 0)
-        generatorLayout.addWidget(self.no_player_navy, 4, 1)
-        generatorLayout.addWidget(QtWidgets.QLabel("No Enemy Navy"), 5, 0)
-        generatorLayout.addWidget(self.no_enemy_navy, 5, 1)
-        # generatorLayout.addWidget(QtWidgets.QLabel("Desired mission duration"), 6, 0)
-        # generatorLayout.addLayout(self.desired_player_mission_duration, 7, 0)
+        generatorLayout.addWidget(QtWidgets.QLabel("No Player Navy"), 3, 0)
+        generatorLayout.addWidget(self.no_player_navy, 3, 1)
+        generatorLayout.addWidget(QtWidgets.QLabel("No Enemy Navy"), 4, 0)
+        generatorLayout.addWidget(self.no_enemy_navy, 4, 1)
 
         self.player_budget = BudgetInputs("Player starting budget", DEFAULT_BUDGET)
         self.registerField("starting_money", self.player_budget.starting_money)
-        generatorLayout.addLayout(self.player_budget, 8, 0)
+        generatorLayout.addLayout(self.player_budget, 5, 0)
 
         self.enemy_budget = BudgetInputs("Enemy starting budget", DEFAULT_BUDGET)
         self.registerField("enemy_starting_money", self.enemy_budget.starting_money)
-        generatorLayout.addLayout(self.enemy_budget, 9, 0)
+        generatorLayout.addLayout(self.enemy_budget, 6, 0)
 
         generatorSettingsGroup.setLayout(generatorLayout)
 
@@ -204,10 +193,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
 
         self.no_carrier.setChecked(s.get("no_carrier", False))
         self.no_lha.setChecked(s.get("no_lha", False))
-        self.supercarrier.setChecked(s.get(SUPER_CARRIER, False))
         self.no_player_navy.setChecked(s.get("no_player_navy", False))
         self.no_enemy_navy.setChecked(s.get("no_enemy_navy", False))
-        # self.desired_player_mission_duration.spinner.setValue(s.get(MISSION_LENGTH, 60))
 
         self.a4_skyhawk.setChecked(s.get("a4_skyhawk", False))
         self.a6a_intruder.setChecked(s.get("a6a_intruder", False))

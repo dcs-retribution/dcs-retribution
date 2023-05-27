@@ -6,7 +6,14 @@ from typing import List, Optional
 from PySide2 import QtWidgets, QtGui
 from PySide2.QtCore import Signal, QDate, QPoint, QItemSelectionModel, Qt, QModelIndex
 from PySide2.QtGui import QStandardItem, QPixmap, QStandardItemModel
-from PySide2.QtWidgets import QCheckBox, QTextBrowser, QTextEdit, QLabel, QListView, QAbstractItemView
+from PySide2.QtWidgets import (
+    QCheckBox,
+    QTextBrowser,
+    QTextEdit,
+    QLabel,
+    QListView,
+    QAbstractItemView,
+)
 
 from game.campaignloader import Campaign
 from qt_ui.liberation_install import get_dcs_install_directory

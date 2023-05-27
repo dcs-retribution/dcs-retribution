@@ -14,6 +14,7 @@
 * **[Modding]** Support for SW mod v2.55
 * **[Modding]** Support for Spanish & Australian Naval Assets v3.2.0 by desdemicabina
 * **[Modding]** Support for Iron Dome v1.2 by IDF Mods Project
+* **[NewGameWizard]** Re-organized generator options & show the regular settings menu instead of the limited "Difficulty & Automation" page.
 
 ## Fixes
 * **[New Game Wizard]** Settings would not persist when going back to a previous page.
