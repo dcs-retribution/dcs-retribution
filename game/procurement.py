@@ -76,7 +76,7 @@ class ProcurementAi:
         weighted_investment = aircraft_investment * air + armor_investment * ground
         if weighted_investment == 0:
             # Turn 0 or all units were destroyed. Either way, split 30/70.
-            return min(0.3, ground)
+            return ground
 
         # the more planes we have, the more ground units we want and vice versa
         ground_unit_share = aircraft_investment * air / weighted_investment
