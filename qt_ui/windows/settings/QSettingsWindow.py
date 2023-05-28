@@ -2,6 +2,7 @@ import json
 import logging
 import textwrap
 import zipfile
+from enum import Enum
 from typing import Callable, Optional, Dict
 
 from PySide2 import QtWidgets
@@ -237,7 +238,14 @@ class AutoSettingsLayout(QGridLayout):
             if isinstance(widget, QCheckBox):
                 widget.setChecked(value)
             elif isinstance(widget, QComboBox):
-                widget.setCurrentText(description.text_for_value(value))
+                if isinstance(value, Enum):
+                    widget.setCurrentText(value.value)
+                elif isinstance(value, str):
+                    widget.setCurrentText(value)
+                else:
+                    logging.error(
+                        f"Incompatible type '{type(value)}' for ComboBox option {name}"
+                    )
             elif isinstance(widget, FloatSpinSlider):
                 widget.spinner.setValue(int(value * widget.spinner.divisor))
             elif isinstance(widget, QSpinBox):
