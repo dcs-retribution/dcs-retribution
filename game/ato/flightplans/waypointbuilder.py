@@ -437,7 +437,7 @@ class WaypointBuilder:
 
         return FlightWaypoint(
             "SEAD Search",
-            FlightWaypointType.CUSTOM,
+            FlightWaypointType.INGRESS_SEAD,
             hold,
             self.doctrine.ingress_altitude,
             alt_type="BARO",

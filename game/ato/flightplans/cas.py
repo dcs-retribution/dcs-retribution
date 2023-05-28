@@ -18,7 +18,7 @@ if TYPE_CHECKING:
     from ..flightwaypoint import FlightWaypoint
 
 
-@dataclass(frozen=True)
+@dataclass
 class CasLayout(PatrollingLayout):
     target: FlightWaypoint
 

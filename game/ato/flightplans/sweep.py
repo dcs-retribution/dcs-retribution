@@ -17,7 +17,7 @@ if TYPE_CHECKING:
     from ..flightwaypoint import FlightWaypoint
 
 
-@dataclass(frozen=True)
+@dataclass
 class SweepLayout(LoiterLayout):
     nav_to: list[FlightWaypoint]
     sweep_start: FlightWaypoint

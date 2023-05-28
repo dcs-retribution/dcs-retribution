@@ -15,7 +15,7 @@ if TYPE_CHECKING:
     from ..flightwaypoint import FlightWaypoint
 
 
-@dataclass(frozen=True)
+@dataclass
 class TarCapLayout(PatrollingLayout):
     refuel: FlightWaypoint | None
 

@@ -10,7 +10,7 @@ from dcs import Point
 
 from game.flightplan import HoldZoneGeometry
 from game.theater import MissionTarget
-from game.utils import Speed, meters, Distance
+from game.utils import Speed, meters
 from .flightplan import FlightPlan
 from .formation import FormationFlightPlan, FormationLayout
 from .ibuilder import IBuilder
@@ -130,7 +130,7 @@ class FormationAttackFlightPlan(FormationFlightPlan, ABC):
         return super().tot_for_waypoint(waypoint)
 
 
-@dataclass(frozen=True)
+@dataclass
 class FormationAttackLayout(FormationLayout):
     ingress: FlightWaypoint
     targets: list[FlightWaypoint]
