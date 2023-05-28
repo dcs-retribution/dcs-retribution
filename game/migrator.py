@@ -107,6 +107,12 @@ class Migrator:
                     c = country_dict.get(s.country, s.country)
                     s.country = countries_by_name[c]()
 
+                # code below is used to fix corruptions wrt overpopulation
+                if s.owned_aircraft < 0 or s.location.unclaimed_parking() < 0:
+                    s.owned_aircraft = max(
+                        0, s.location.unclaimed_parking() + s.owned_aircraft
+                    )
+
     def _update_factions(self) -> None:
         for c in self.game.coalitions:
             if isinstance(c.faction.country, str):
