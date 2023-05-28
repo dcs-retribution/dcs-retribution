@@ -264,6 +264,14 @@ class Squadron:
     def can_auto_assign_mission(
         self, location: MissionTarget, task: FlightType, size: int, this_turn: bool
     ) -> bool:
+        if (
+            self.location.cptype.name in ["FOB", "FARP"]
+            and not self.aircraft.helicopter
+        ):
+            # AI harriers can't handle FOBs/FARPs
+            # AI has a hard time taking off and will not land back at FOB/FARP
+            # thus, disable auto-planning
+            return False
         if not self.can_auto_assign(task):
             return False
         if this_turn and not self.can_fulfill_flight(size):

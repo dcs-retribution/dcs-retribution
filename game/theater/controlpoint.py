@@ -103,7 +103,7 @@ class ControlPointType(Enum):
     AIRCRAFT_CARRIER_GROUP = 1
     #: A group with a Tarawa carrier (Helicopters & Harrier).
     LHA_GROUP = 2
-    #: A FARP, with slots for helicopters
+    #: A FARP, with slots for helicopters & harrier
     FARP = 4
     #: A FOB (ground units only)
     FOB = 5
@@ -1474,7 +1474,9 @@ class Fob(ControlPoint, RadioFrequencyContainer, CTLD):
         # FOBs and FARPs are the same class, distinguished only by non-FARP FOBs having
         # zero parking.
         # https://github.com/dcs-liberation/dcs_liberation/issues/2378
-        return aircraft.helicopter and self.total_aircraft_parking > 0
+        return (
+            aircraft.helicopter or aircraft.lha_capable
+        ) and self.total_aircraft_parking > 0
 
     @property
     def heading(self) -> Heading:

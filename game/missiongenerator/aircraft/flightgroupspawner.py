@@ -7,6 +7,7 @@ from dcs.country import Country
 from dcs.mapping import Vector2
 from dcs.mission import StartType as DcsStartType
 from dcs.planes import F_14A, Su_33
+from dcs.point import PointAction
 from dcs.ships import KUZNECOW
 from dcs.terrain import Airport, NoParkingSlotError
 from dcs.unitgroup import FlyingGroup, ShipGroup, StaticGroup
@@ -118,9 +119,16 @@ class FlightGroupSpawner:
                     )
                 return self._generate_at_group(name, carrier_group)
             elif isinstance(cp, Fob):
-                if not self.flight.unit_type.helicopter:
+                is_heli = self.flight.squadron.aircraft.helicopter
+                is_vtol = not is_heli and self.flight.squadron.aircraft.lha_capable
+                if not is_heli and not is_vtol:
                     raise RuntimeError(
-                        f"Cannot spawn fixed-wing aircraft at {cp} because it is a FOB"
+                        f"Cannot spawn non-VTOL aircraft at {cp} because it is a FOB"
+                    )
+                pilot_count = len(self.flight.roster.pilots)
+                if is_vtol and self.flight.roster.player_count != pilot_count:
+                    raise RuntimeError(
+                        f"VTOL aircraft at {cp} must be piloted by humans exclusively."
                     )
                 return self._generate_at_cp_helipad(name, cp)
             elif isinstance(cp, Airfield):
@@ -252,13 +260,18 @@ class FlightGroupSpawner:
 
         group = self._generate_at_group(name, helipad)
 
+        group.points[0].type = "TakeOffGround"
+        group.points[0].action = PointAction.FromGroundArea
+
         if self.start_type is StartType.WARM:
-            group.points[0].type = "TakeOffParkingHot"
+            group.points[0].type = "TakeOffGroundHot"
+            group.points[0].action = PointAction.FromGroundAreaHot
         hpad = helipad.units[0]
         for i in range(self.flight.count):
-            group.units[i].position = hpad.position
+            pos = cp.helipads.pop(0)
+            group.units[i].position = pos
             group.units[i].heading = hpad.heading
-            group.units[i].parking_id = str(i + 1)
+            cp.helipads.append(pos)
         return group
 
     def dcs_start_type(self) -> DcsStartType:

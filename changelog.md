@@ -14,11 +14,13 @@
 * **[Modding]** Support for SW mod v2.55
 * **[Modding]** Support for Spanish & Australian Naval Assets v3.2.0 by desdemicabina
 * **[Modding]** Support for Iron Dome v1.2 by IDF Mods Project
-* **[NewGameWizard]** Re-organized generator options & show the regular settings menu instead of the limited "Difficulty & Automation" page.
+* **[New Game Wizard]** Re-organized generator options & show the regular settings menu instead of the limited "Difficulty & Automation" page.
+* **[Campaign Management]** Ability to operate harriers from FOBs/FARPs for <ins>__human pilots only__</ins>. Please note that the autoplanner won't generate flights for harriers at FOBs/FARPs, which means you need to plan your missions manually.
 
 ## Fixes
-* **[New Game Wizard]** Settings would not persist when going back to a previous page.
+* **[New Game Wizard]** Settings would not persist when going back to a previous page (obsolete due to overhaul).
 * **[Mission Generation]** Unused aircraft are no longer claimed, fixing a bug where these aircraft would no longer be available after aborting the mission.
+* **[Mission Generation]** Fixed (potential) bug in helipad assignments at FOBs/FARPs.
 
 
 # Retribution v1.1.1  (hotfix)
