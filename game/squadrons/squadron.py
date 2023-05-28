@@ -167,7 +167,7 @@ class Squadron:
             raise ValueError("Squadrons can only be created with active pilots.")
         self._recruit_pilots(self.settings.squadron_pilot_limit)
         if squadrons_start_full:
-            self.owned_aircraft = self.max_size
+            self.owned_aircraft = min(self.max_size, self.location.unclaimed_parking())
 
     def end_turn(self) -> None:
         if self.destination is not None:

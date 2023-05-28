@@ -259,7 +259,8 @@ class Settings:
         default=False,
         detail=(
             "If set, squadrons will not be able to exceed a maximum number of aircraft "
-            "(configurable), and the campaign will begin with all squadrons at full strength."
+            "(configurable), and the campaign will begin with all squadrons at full strength "
+            "given enough room at the base."
         ),
     )
 
