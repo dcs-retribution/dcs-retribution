@@ -30,8 +30,8 @@ class NewGameSettings(QtWidgets.QWizardPage):
 
     def set_campaign_values(self, c: Campaign):
         sw = self.settings_widget
+        sw.settings.__setstate__(c.settings)
         sw.settings.player_income_multiplier = c.recommended_player_income_multiplier
         sw.settings.enemy_income_multiplier = c.recommended_enemy_income_multiplier
         sw.settings.__dict__.update(c.settings)
-        print(sw.settings.__dict__)
         sw.update_from_settings()
