@@ -158,7 +158,6 @@ Saves from 6.x are not compatible with 7.0.
 * **[Squadrons]** Squadron-specific mission capability lists no longer restrict players from assigning missions outside the squadron's preferences.
 * **[New Game Wizard]** Squadrons can be directly replaced with a preset during air wing configuration rather than needing to remove and create a new squadron.
 * **[UI]** The orientation of objects like SAMs, EWRs, garrisons, and ships can now be manually adjusted.
-* **[Mission Generation]** Units on the front line are now hidden on MFDs.
 
 ## Fixes
 
