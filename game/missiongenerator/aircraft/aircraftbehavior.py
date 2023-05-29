@@ -1,6 +1,7 @@
 import logging
 from typing import Any, Optional
 
+from dcs.planes import Tornado_GR4, Tornado_IDS
 from dcs.task import (
     AWACS,
     AWACSTaskAction,
@@ -158,7 +159,16 @@ class AircraftBehavior:
         #
         # Note that the only effect that the DCS task type has is in determining which
         # waypoint actions the group may perform.
-        group.task = CAS.name
+
+        # The stock Tornado is capable of the SEAD task in DCS, but not the CAS task,
+        # so use SEAD for Tornadoes when flying SEAD or DEAD missions.
+        if flight.unit_type.dcs_unit_type in [
+            Tornado_GR4,
+            Tornado_IDS,
+        ]:
+            group.task = SEAD.name
+        else:
+            group.task = CAS.name
         self.configure_behavior(
             flight,
             group,
@@ -173,7 +183,19 @@ class AircraftBehavior:
         # CAS is able to perform all the same tasks as SEAD using a superset of the
         # available aircraft, and F-14s are not able to be SEAD despite having TALDs.
         # https://forums.eagle.ru/topic/272112-cannot-assign-f-14-to-sead/
-        group.task = CAS.name
+
+        # An exception to the above is the stock Tornado, which is capable of the
+        # SEAD task in DCS, but not the CAS task, so use SEAD for Tornadoes.
+        # Also, feel free to add to the list if other airframes should use SEAD
+        # as well for cosmetic reasons (would show SEAD task in the mission
+        # editor and F10 map in-game).
+        if flight.unit_type.dcs_unit_type in [
+            Tornado_GR4,
+            Tornado_IDS,
+        ]:
+            group.task = SEAD.name
+        else:
+            group.task = CAS.name
         self.configure_behavior(
             flight,
             group,
