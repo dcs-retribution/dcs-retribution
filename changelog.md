@@ -7,6 +7,7 @@
 * **[UI]** Added fuel selector in flight's edit window.
 * **[Plugins]** Expose Splash Damage's "game_messages" option and set its default to false.
 * **[Mission Generation]** Improved AI SEAD capabilities, allowing for mixed loadouts using Decoys, ARMs & ASMs.
+* **[Mission Generation]** Tornadoes now use SEAD tasking for SEAD/DEAD missions.
 * **[Modding]** Support for A-7E Corsair II (presumed latest available version)
 * **[Squadrons]** Added many new squadron's by Adecarcer
 * **[Plugins]** Updated 'expl_table' in Splash Damage script.
