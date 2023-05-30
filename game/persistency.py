@@ -6,6 +6,8 @@ import shutil
 from pathlib import Path
 from typing import Optional, TYPE_CHECKING, Any
 
+import dcs.terrain.falklands.airports
+
 from game.profiling import logged_duration
 
 if TYPE_CHECKING:
@@ -48,6 +50,8 @@ class MigrationUnpickler(pickle.Unpickler):
         if name == "Thunderstorm":
             from game.weather.weather import Thunderstorm
             return Thunderstorm
+        if name == "Hipico":
+            return dcs.terrain.falklands.airports.Hipico_Flying_Club
         return super().find_class(module, name)
 # fmt: on
 
