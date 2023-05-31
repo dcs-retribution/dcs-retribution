@@ -4,7 +4,8 @@ import logging
 import random
 from collections.abc import Iterable
 from dataclasses import dataclass, field
-from typing import Optional, Sequence, TYPE_CHECKING
+from typing import Optional, Sequence, TYPE_CHECKING, Any
+from uuid import uuid4, UUID
 
 from dcs.country import Country
 from faker import Faker
@@ -26,6 +27,8 @@ if TYPE_CHECKING:
 
 @dataclass
 class Squadron:
+    id: UUID = field(init=False, default_factory=uuid4)
+
     name: str
     nickname: Optional[str]
     country: Country
@@ -61,21 +64,23 @@ class Squadron:
     untasked_aircraft: int = field(init=False, hash=False, compare=False, default=0)
     pending_deliveries: int = field(init=False, hash=False, compare=False, default=0)
 
+    def __setstate__(self, state: dict[str, Any]) -> None:
+        if "id" not in state:
+            state["id"] = uuid4()
+        self.__dict__.update(state)
+
     def __str__(self) -> str:
         if self.nickname is None:
             return self.name
         return f'{self.name} "{self.nickname}"'
 
     def __hash__(self) -> int:
-        return hash(
-            (
-                self.name,
-                self.nickname,
-                self.country.id,
-                self.role,
-                self.aircraft,
-            )
-        )
+        return hash(self.id)
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Squadron):
+            return False
+        return self.id == other.id
 
     @property
     def player(self) -> bool:
