@@ -141,6 +141,7 @@ BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 
 ## Fixes
 
+* **[Mission Planning]** BAI is once again plannable against missile sites and coastal defense batteries.
 * **[UI]** Fixed formatting of departure time in flight details dialog.
 
 # 7.0.0
