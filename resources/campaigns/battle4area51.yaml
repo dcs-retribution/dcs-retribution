@@ -1,5 +1,5 @@
 ---
-name: Nevada - WRL - Battle for Area 51 (v1)
+name: Nevada - WRL - Battle for Area 51 (v2)
 theater: Nevada
 authors: HolyOrangeJuice, We Run Liberation
 recommended_player_faction: WRL - Task Force Blue
@@ -80,7 +80,10 @@ squadrons:
         - E-3A
     - primary: Refueling
       aircraft:
-        - KC-135 Stratotanker MPRS
+        - KC-135 Stratotanker
+    - primary: Refueling
+      aircraft:
+        - KC-130
     - primary: Strike
       secondary: air-to-ground
       aircraft:
@@ -190,19 +193,7 @@ squadrons:
     - primary: CAS
       secondary: any
       aircraft:
-        - Mi-28N Havoc
-    - primary: CAS
-      secondary: any
-      aircraft:
-        - Mi-24V Hind-E
-    - primary: CAS
-      secondary: any
-      aircraft:
         - Mi-24P Hind-F
-    - primary: CAS
-      secondary: any
-      aircraft:
-        - Ka-50 Hokum
     - primary: Transport
       secondary: any
       aircraft:
@@ -212,19 +203,7 @@ squadrons:
     - primary: CAS
       secondary: any
       aircraft:
-        - Mi-28N Havoc
-    - primary: CAS
-      secondary: any
-      aircraft:
-        - Mi-24V Hind-E
-    - primary: CAS
-      secondary: any
-      aircraft:
         - Mi-24P Hind-F
-    - primary: CAS
-      secondary: any
-      aircraft:
-        - Ka-50 Hokum
     - primary: Transport
       secondary: any
       aircraft:

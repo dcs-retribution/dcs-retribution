@@ -22,7 +22,10 @@ squadrons:
         - E-3A
     - primary: Refueling
       aircraft:
-        - KC-135 Stratotanker MPRS
+        - KC-135 Stratotanker
+    - primary: Refueling
+      aircraft:
+        - KC-130
     - primary: BARCAP
       secondary: air-to-air
       aircraft:
@@ -39,11 +42,7 @@ squadrons:
     - primary: CAS
       secondary: air-to-ground
       aircraft:
-        - A-10C Thunderbolt II (Suite 7)
-    - primary: Transport
-      secondary: any
-      aircraft:
-        - C-130       
+        - A-10C Thunderbolt II (Suite 7)   
   # Kish:
   # This airbase has better access to the theater as the front-line moves south
   # west. It contains combat squadrons only.
