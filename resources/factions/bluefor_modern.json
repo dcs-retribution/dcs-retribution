@@ -101,11 +101,17 @@
     "DDG Arleigh Burke IIa",
     "CG Ticonderoga",
     "LHA-1 Tarawa",
-    "CVN-74 John C. Stennis"
+    "CVN-74 John C. Stennis",
+    "L02 Canberra",
+    "HMAS HOBART DDG39",
+    "L52 Castilla",
+    "L61 Juan Carlos I",
+    "F100 Álvaro de Bazán",
+    "F105 Cristobal Colon"
   ],
   "missiles": [],
   "air_defense_units": [
-    "SAM Patriot STR",
+    "EWR AN/FPS-117 Radar",
     "M1097 Heavy HMMWV Avenger"
   ],
   "requirements": {},
@@ -113,7 +119,8 @@
     "CVN-71 Theodore Roosevelt",
     "CVN-72 Abraham Lincoln",
     "CVN-73 George Washington",
-    "CVN-74 John C. Stennis"
+    "CVN-74 John C. Stennis",
+    "CVN-75 Harry S. Truman"
   ],
   "helicopter_carrier_names": [
     "LHA-1 Tarawa",

@@ -4,7 +4,9 @@ import logging
 import pickle
 import shutil
 from pathlib import Path
-from typing import Optional, TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING, Any
+
+import dcs.terrain.falklands.airports
 
 from game.profiling import logged_duration
 
@@ -14,6 +16,46 @@ if TYPE_CHECKING:
 _dcs_saved_game_folder: Optional[str] = None
 
 
+# fmt: off
+class MigrationUnpickler(pickle.Unpickler):
+    """Custom unpickler to migrate campaign save-files for when components have been moved"""
+    def find_class(self, module: Any, name: str) -> Any:
+        if name == "NightMissions":
+            from game.settings import NightMissions
+            return NightMissions
+        if name == "Conditions":
+            from game.weather.conditions import Conditions
+            return Conditions
+        if name == "AtmosphericConditions":
+            from game.weather.atmosphericconditions import AtmosphericConditions
+            return AtmosphericConditions
+        if name == "WindConditions":
+            from game.weather.wind import WindConditions
+            return WindConditions
+        if name == "Clouds":
+            from game.weather.clouds import Clouds
+            return Clouds
+        if name == "Fog":
+            from game.weather.fog import Fog
+            return Fog
+        if name == "ClearSkies":
+            from game.weather.weather import ClearSkies
+            return ClearSkies
+        if name == "Cloudy":
+            from game.weather.weather import Cloudy
+            return Cloudy
+        if name == "Raining":
+            from game.weather.weather import Raining
+            return Raining
+        if name == "Thunderstorm":
+            from game.weather.weather import Thunderstorm
+            return Thunderstorm
+        if name == "Hipico":
+            return dcs.terrain.falklands.airports.Hipico_Flying_Club
+        return super().find_class(module, name)
+# fmt: on
+
+
 def setup(user_folder: str) -> None:
     global _dcs_saved_game_folder
     _dcs_saved_game_folder = user_folder
@@ -21,18 +63,18 @@ def setup(user_folder: str) -> None:
         save_dir().mkdir(parents=True)
 
 
-def base_path() -> str:
+def base_path() -> Path:
     global _dcs_saved_game_folder
     assert _dcs_saved_game_folder
-    return _dcs_saved_game_folder
+    return Path(_dcs_saved_game_folder)
 
 
 def settings_dir() -> Path:
-    return Path(base_path()) / "Retribution" / "Settings"
+    return base_path() / "Retribution" / "Settings"
 
 
 def save_dir() -> Path:
-    return Path(base_path()) / "Retribution" / "Saves"
+    return base_path() / "Retribution" / "Saves"
 
 
 def _temporary_save_file() -> str:
@@ -44,13 +86,13 @@ def _autosave_path() -> str:
 
 
 def mission_path_for(name: str) -> Path:
-    return Path(base_path()) / "Missions" / name
+    return base_path() / "Missions" / name
 
 
 def load_game(path: str) -> Optional[Game]:
     with open(path, "rb") as f:
         try:
-            save = pickle.load(f)
+            save = MigrationUnpickler(f).load()
             save.savepath = path
             return save
         except Exception:

@@ -1,10 +1,11 @@
 from __future__ import annotations
 
 import logging
+from collections import defaultdict
 from dataclasses import dataclass
-from functools import cached_property
+from functools import cache, cached_property
 from pathlib import Path
-from typing import Any, Dict, Iterator, Optional, TYPE_CHECKING, Type
+from typing import Any, ClassVar, Dict, Iterator, Optional, TYPE_CHECKING, Type
 
 import yaml
 from dcs.helicopters import helicopter_map
@@ -47,6 +48,7 @@ from game.utils import (
 )
 
 if TYPE_CHECKING:
+    from game.ato import FlightType
     from game.missiongenerator.aircraft.flightdata import FlightData
     from game.missiongenerator.missiondata import MissionData
     from game.radio.radios import Radio, RadioFrequency, RadioRegistry
@@ -197,6 +199,18 @@ class AircraftType(UnitType[Type[FlyingType]]):
     # when no TGP is mounted on any station.
     has_built_in_target_pod: bool
 
+    task_priorities: dict[FlightType, int]
+
+    _by_name: ClassVar[dict[str, AircraftType]] = {}
+    _by_unit_type: ClassVar[dict[type[FlyingType], list[AircraftType]]] = defaultdict(
+        list
+    )
+
+    @classmethod
+    def register(cls, unit_type: AircraftType) -> None:
+        cls._by_name[unit_type.name] = unit_type
+        cls._by_unit_type[unit_type.dcs_unit_type].append(unit_type)
+
     @property
     def flyable(self) -> bool:
         return self.dcs_unit_type.flyable
@@ -311,6 +325,12 @@ class AircraftType(UnitType[Type[FlyingType]]):
     def iter_props(self) -> Iterator[UnitProperty[Any]]:
         return UnitProperty.for_aircraft(self.dcs_unit_type)
 
+    def capable_of(self, task: FlightType) -> bool:
+        return task in self.task_priorities
+
+    def task_priority(self, task: FlightType) -> int:
+        return self.task_priorities[task]
+
     def __setstate__(self, state: dict[str, Any]) -> None:
         # Update any existing models with new data on load.
         updated = AircraftType.named(state["name"])
@@ -321,17 +341,31 @@ class AircraftType(UnitType[Type[FlyingType]]):
     def named(cls, name: str) -> AircraftType:
         if not cls._loaded:
             cls._load_all()
-        unit = cls._by_name[name]
-        assert isinstance(unit, AircraftType)
-        return unit
+        return cls._by_name[name]
 
     @classmethod
     def for_dcs_type(cls, dcs_unit_type: Type[FlyingType]) -> Iterator[AircraftType]:
         if not cls._loaded:
             cls._load_all()
-        for unit in cls._by_unit_type[dcs_unit_type]:
-            assert isinstance(unit, AircraftType)
-            yield unit
+        yield from cls._by_unit_type[dcs_unit_type]
+
+    @classmethod
+    def iter_all(cls) -> Iterator[AircraftType]:
+        if not cls._loaded:
+            cls._load_all()
+        yield from cls._by_name.values()
+
+    @classmethod
+    @cache
+    def priority_list_for_task(cls, task: FlightType) -> list[AircraftType]:
+        capable = []
+        for aircraft in cls.iter_all():
+            if aircraft.capable_of(task):
+                capable.append(aircraft)
+        return list(reversed(sorted(capable, key=lambda a: a.task_priority(task))))
+
+    def iter_task_capabilities(self) -> Iterator[FlightType]:
+        yield from self.task_priorities
 
     @staticmethod
     def each_dcs_type() -> Iterator[Type[FlyingType]]:
@@ -415,6 +449,12 @@ class AircraftType(UnitType[Type[FlyingType]]):
         if prop_overrides is not None:
             cls._set_props_overrides(prop_overrides, aircraft, data_path)
 
+        from game.ato.flighttype import FlightType
+
+        task_priorities: dict[FlightType, int] = {}
+        for task_name, priority in data.get("tasks", {}).items():
+            task_priorities[FlightType(task_name)] = priority
+
         for variant in data.get("variants", [aircraft.id]):
             yield AircraftType(
                 dcs_unit_type=aircraft,
@@ -447,4 +487,8 @@ class AircraftType(UnitType[Type[FlyingType]]):
                 cabin_size=data.get("cabin_size", 10 if aircraft.helicopter else 0),
                 can_carry_crates=data.get("can_carry_crates", aircraft.helicopter),
                 has_built_in_target_pod=data.get("has_built_in_target_pod", False),
+                task_priorities=task_priorities,
             )
+
+    def __hash__(self) -> int:
+        return hash(self.name)

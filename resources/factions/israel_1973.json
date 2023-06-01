@@ -25,7 +25,9 @@
     "M4A2(75) Sherman",
     "M60A3 \"Patton\""
   ],
-  "artillery_units": [],
+  "artillery_units": [
+    "(IDF Mods Project) BM-21 Grad 122mm"
+  ],
   "logistics_units": [
     "Truck M818 6x6"
   ],

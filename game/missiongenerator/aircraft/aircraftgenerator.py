@@ -19,7 +19,6 @@ from game.ato.flightstate import Completed
 from game.ato.flighttype import FlightType
 from game.ato.package import Package
 from game.ato.starttype import StartType
-from game.factions.faction import Faction
 from game.missiongenerator.lasercoderegistry import LaserCodeRegistry
 from game.missiongenerator.missiondata import MissionData
 from game.radio.radios import RadioRegistry
@@ -159,14 +158,12 @@ class AircraftGenerator:
 
             for squadron in control_point.squadrons:
                 try:
-                    self._spawn_unused_for(squadron, country, faction)
+                    self._spawn_unused_for(squadron, country)
                 except NoParkingSlotError:
                     # If we run out of parking, stop spawning aircraft at this base.
                     break
 
-    def _spawn_unused_for(
-        self, squadron: Squadron, country: Country, faction: Faction
-    ) -> None:
+    def _spawn_unused_for(self, squadron: Squadron, country: Country) -> None:
         assert isinstance(squadron.location, Airfield)
         for _ in range(squadron.untasked_aircraft):
             # Creating a flight even those this isn't a fragged mission lets us
@@ -174,7 +171,6 @@ class AircraftGenerator:
             # TODO: Special flight type?
             flight = Flight(
                 Package(squadron.location, self.game.db.flights),
-                faction.country,
                 squadron,
                 1,
                 FlightType.BARCAP,

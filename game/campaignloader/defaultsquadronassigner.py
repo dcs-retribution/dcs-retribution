@@ -42,7 +42,12 @@ class DefaultSquadronAssigner:
                     continue
 
                 squadron = Squadron.create_from(
-                    squadron_def, control_point, self.coalition, self.game
+                    squadron_def,
+                    squadron_config.primary,
+                    squadron_config.max_size,
+                    control_point,
+                    self.coalition,
+                    self.game,
                 )
                 squadron.set_auto_assignable_mission_types(
                     squadron_config.auto_assignable
@@ -114,7 +119,7 @@ class DefaultSquadronAssigner:
     ) -> bool:
         if ignore_base_preference:
             return control_point.can_operate(squadron.aircraft)
-        return squadron.operates_from(control_point) and task in squadron.mission_types
+        return squadron.operates_from(control_point) and squadron.capable_of(task)
 
     def find_squadron_for_airframe(
         self, aircraft: AircraftType, task: FlightType, control_point: ControlPoint

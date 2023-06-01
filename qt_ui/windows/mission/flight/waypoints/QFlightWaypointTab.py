@@ -109,13 +109,28 @@ class QFlightWaypointTab(QFrame):
         # Need to degrade to a custom flight plan and remove the waypoint.
         # If the waypoint is a target waypoint and is not the last target
         # waypoint, we don't need to degrade.
-        if isinstance(self.flight.flight_plan, FormationAttackFlightPlan):
-            is_target = waypoint in self.flight.flight_plan.target_area_waypoint.targets
-            count = len(self.flight.flight_plan.target_area_waypoint.targets)
+        fp = self.flight.flight_plan
+        if isinstance(fp, FormationAttackFlightPlan):
+            is_target = waypoint in fp.target_area_waypoint.targets
+            count = len(fp.target_area_waypoint.targets)
             if is_target and count > 1:
-                self.flight.flight_plan.target_area_waypoint.targets.remove(waypoint)
+                fp.target_area_waypoint.targets.remove(waypoint)
                 return
 
+        if fp.layout.delete_waypoint(waypoint):
+            return
+
+        result = QMessageBox.warning(
+            self,
+            "Degrade flight-plan?",
+            "Deleting the selected waypoint(s) will require degradation to a custom flight-plan. "
+            "A custom flight-plan will no longer respect the TOTs of the package.<br><br>"
+            "<b>Are you sure you wish to continue?</b>",
+            QMessageBox.Yes,
+            QMessageBox.No,
+        )
+        if result == QMessageBox.No:
+            return
         self.degrade_to_custom_flight_plan()
         assert isinstance(self.flight.flight_plan, CustomFlightPlan)
         self.flight.flight_plan.layout.custom_waypoints.remove(waypoint)

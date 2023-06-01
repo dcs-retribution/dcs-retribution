@@ -73,6 +73,7 @@ class VisualsGenerator:
         self.game = game
 
     def _generate_frontline_smokes(self) -> None:
+        country = self.mission.country(self.game.red.faction.country.name)
         for front_line in self.game.theater.conflicts():
             from_cp = front_line.blue_cp
             to_cp = front_line.red_cp
@@ -99,7 +100,7 @@ class VisualsGenerator:
                             break
 
                         self.mission.static_group(
-                            self.mission.country(self.game.red.country_name),
+                            country,
                             "",
                             _type=v,
                             position=pos,

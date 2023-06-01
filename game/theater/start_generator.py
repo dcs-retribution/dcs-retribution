@@ -66,6 +66,7 @@ class ModSettings:
     f104_starfighter: bool = False
     f105_thunderchief: bool = False
     hercules: bool = False
+    irondome: bool = False
     uh_60l: bool = False
     jas39_gripen: bool = False
     su30_flanker_h: bool = False
@@ -73,6 +74,7 @@ class ModSettings:
     frenchpack: bool = False
     high_digit_sams: bool = False
     ov10a_bronco: bool = False
+    spanishnavypack: bool = False
     swedishmilitaryassetspack: bool = False
     SWPack: bool = False
 

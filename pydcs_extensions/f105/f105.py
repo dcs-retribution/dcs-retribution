@@ -1,7 +1,6 @@
 from typing import Set
 
 from dcs import task
-from dcs.liveries_scanner import Liveries
 from dcs.planes import PlaneType
 from dcs.weapons_data import Weapons
 
@@ -64,7 +63,6 @@ class VSN_F105G(PlaneType):
     category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
 
     livery_name = "VSN_F105G"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon3:
         Smoke_Generator___red_ = (3, Weapons.Smoke_Generator___red_)
@@ -239,7 +237,6 @@ class VSN_F105D(PlaneType):
     category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
 
     livery_name = "VSN_F105D"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon3:
         Smoke_Generator___red_ = (3, Weapons.Smoke_Generator___red_)

@@ -7,9 +7,8 @@ from functools import cached_property
 from typing import Optional, Dict, Type, List, Any, Iterator, TYPE_CHECKING
 
 import dcs
-from dcs.countries import country_dict
-from dcs.unittype import ShipType, StaticType
-from dcs.unittype import UnitType as DcsUnitType
+from dcs.country import Country
+from dcs.unittype import ShipType, StaticType, UnitType as DcsUnitType
 
 from game.armedforces.forcegroup import ForceGroup
 from game.data.building_data import (
@@ -29,6 +28,7 @@ from game.data.doctrine import (
 from game.data.groups import GroupRole
 from game.data.units import UnitClass
 from game.dcs.aircrafttype import AircraftType
+from game.dcs.countries import country_with_name
 from game.dcs.groundunittype import GroundUnitType
 from game.dcs.shipunittype import ShipUnitType
 from game.dcs.unittype import UnitType
@@ -45,10 +45,7 @@ class Faction:
     locales: Optional[List[str]]
 
     # Country used by this faction
-    country: str = field(default="")
-
-    # Country's short name used by this faction
-    country_shortname: str = field(default="")
+    country: Country
 
     # Nice name of the faction
     name: str = field(default="")
@@ -183,25 +180,16 @@ class Faction:
         return list(self.aircraft + self.awacs + self.tankers)
 
     @classmethod
-    def from_json(cls: Type[Faction], json: Dict[str, Any]) -> Faction:
-        faction = Faction(locales=json.get("locales"))
+    def from_dict(cls: Type[Faction], json: Dict[str, Any]) -> Faction:
+        try:
+            country = country_with_name(json["country"])
+        except KeyError as ex:
+            raise KeyError(
+                f'Faction\'s country ("{json.get("country")}") is not a valid DCS '
+                "country ID"
+            ) from ex
 
-        faction.country = json.get("country", "/")
-
-        country = None
-        for c in country_dict.values():
-            if c.name == faction.country:
-                country = c
-                break
-
-        if country is None:
-            raise AssertionError(
-                'Faction\'s country ("{}") is not a valid DCS country ID'.format(
-                    faction.country
-                )
-            )
-
-        faction.country_shortname = country.shortname
+        faction = Faction(locales=json.get("locales"), country=country)
 
         faction.name = json.get("name", "")
         if not faction.name:
@@ -438,6 +426,21 @@ class Faction:
             self.remove_aircraft("FA-18E")
             self.remove_aircraft("FA-18F")
             self.remove_aircraft("EA-18G")
+        # spanish naval assets pack
+        if not mod_settings.spanishnavypack:
+            self.remove_ship("L61")
+            self.remove_ship("F100")
+            self.remove_ship("F105")
+            self.remove_ship("L52")
+            self.remove_ship("L02")
+            self.remove_ship("DDG39")
+        if not mod_settings.irondome:
+            self.remove_vehicle("I9K51_GRAD")
+            self.remove_vehicle("I9K57_URAGAN")
+            self.remove_vehicle("I9K58_SMERCH")
+            self.remove_vehicle("IRON_DOME_CP")
+            self.remove_vehicle("IRON_DOME_LN")
+            self.remove_vehicle("ELM2048_MMR")
         # swedish military assets pack
         if not mod_settings.swedishmilitaryassetspack:
             self.remove_vehicle("BV410_RBS70")

@@ -7,6 +7,7 @@ from typing import Any, List, Optional, TYPE_CHECKING
 from dcs import Point
 from dcs.planes import C_101CC, C_101EB, Su_33, FA_18C_hornet
 
+from game.dcs.aircrafttype import AircraftType
 from pydcs_extensions.hercules.hercules import Hercules
 from .flightroster import FlightRoster
 from .flightstate import FlightState, Navigating, Uninitialized
@@ -23,7 +24,6 @@ from ..sidc import (
     Status,
     SymbolSet,
 )
-from game.dcs.aircrafttype import AircraftType
 
 if TYPE_CHECKING:
     from game.sim.gameupdateevents import GameUpdateEvents
@@ -44,7 +44,6 @@ class Flight(SidcDescribable, RadioFrequencyContainer, TacanContainer):
     def __init__(
         self,
         package: Package,
-        country: str,
         squadron: Squadron,
         count: int,
         flight_type: FlightType,
@@ -60,7 +59,6 @@ class Flight(SidcDescribable, RadioFrequencyContainer, TacanContainer):
     ) -> None:
         self.id = uuid.uuid4()
         self.package = package
-        self.country = country
         self.coalition = squadron.coalition
         self.squadron = squadron
         if claim_inv:
@@ -230,6 +228,8 @@ class Flight(SidcDescribable, RadioFrequencyContainer, TacanContainer):
             self.fuel = unit_type.fuel_max * 0.5
         elif unit_type == Hercules:
             self.fuel = unit_type.fuel_max * 0.75
+        elif self.departure.cptype.name in ["FARP", "FOB"] and not self.is_helo:
+            self.fuel = unit_type.fuel_max * 0.75
 
     def __repr__(self) -> str:
         return self.__str__()
@@ -301,7 +301,6 @@ class Flight(SidcDescribable, RadioFrequencyContainer, TacanContainer):
     def clone_flight(flight: Flight) -> Flight:
         return Flight(
             flight.package,
-            flight.country,
             flight.squadron,
             flight.count,
             flight.flight_type,

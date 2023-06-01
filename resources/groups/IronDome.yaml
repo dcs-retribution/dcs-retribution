@@ -1,0 +1,9 @@
+name: Iron Dome
+tasks:
+  - MERAD
+units:
+  - Iron Dome ELM-2048 MMR
+  - Iron Dome CP
+  - Iron Dome LN
+layouts:
+  - 4 Launcher Site (Circle)

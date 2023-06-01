@@ -27,7 +27,10 @@
     "M163 Vulcan Air Defense System",
     "M60A3 \"Patton\""
   ],
-  "artillery_units": [],
+  "artillery_units": [
+    "(IDF Mods Project) BM-21 Grad 122mm",
+    "(IDF Mods Project) Urgan BM-27 220mm"
+  ],
   "logistics_units": [
     "Truck M818 6x6"
   ],

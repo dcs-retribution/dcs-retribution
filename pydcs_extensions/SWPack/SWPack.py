@@ -1,7 +1,6 @@
 from typing import Set
 
 from dcs import task
-from dcs.liveries_scanner import Liveries
 from dcs.planes import PlaneType
 from dcs.weapons_data import Weapons
 from dcs import unittype
@@ -76,6 +75,11 @@ class SWWeapons:
         "name": "ENERGY CELL",
         "weight": 2005,
     }
+    Lite_Jump_Core_Battery = {
+        "clsid": "{FHYPERCORE}",
+        "name": "Lite Jump Core Battery",
+        "weight": 50000,
+    }
 
 
 inject_weapons(SWWeapons)
@@ -99,7 +103,6 @@ class XWING(PlaneType):
     radio_frequency = 127.5
 
     livery_name = "XWING"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         PROTONM = (1, SWWeapons.PROTONM)
@@ -136,205 +139,13 @@ class XWING(PlaneType):
 
 
 @planemod
-class XWINGAI(PlaneType):
-    id = "XWINGAI"
-    height = 5.63
-    width = 6
-    length = 19.43
-    fuel_max = 10000
-    max_speed = 1152.396
-    chaff = 5000
-    flare = 5000
-    charge_total = 10000
-    chaff_charge_size = 1
-    flare_charge_size = 1
-    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
-    radio_frequency = 127.5
-
-    livery_name = "XWINGAI"  # from type
-    Liveries = Liveries()[livery_name]
-
-    class Pylon1:
-        PROTONM = (1, SWWeapons.PROTONM)
-
-    class Pylon2:
-        PROTONM = (2, SWWeapons.PROTONM)
-
-    ENERGY_CELL____ = (2, SWWeapons.ENERGY_CELL____)
-
-    class Pylon3:
-        PROTONM = (3, SWWeapons.PROTONM)
-
-    class Pylon4:
-        PROTONM = (4, SWWeapons.PROTONM)
-
-    class Pylon5:
-        PROTONM = (5, SWWeapons.PROTONM)
-
-    class Pylon6:
-        PROTONM = (6, SWWeapons.PROTONM)
-
-    class Pylon10:
-        ENERGY_CELL____ = (10, SWWeapons.ENERGY_CELL____)
-
-    pylons: Set[int] = {1, 2, 3, 4, 5, 6, 10}
-
-    tasks = [
-        task.CAP,
-        task.Escort,
-        task.FighterSweep,
-        task.Intercept,
-        task.Reconnaissance,
-    ]
-    task_default = task.CAP
-
-
-@planemod
-class YWINGA(PlaneType):
-    id = "YWINGA"
-    height = 5.63
-    width = 20
-    length = 19.43
-    fuel_max = 10000
-    max_speed = 1260.396
-    chaff = 5000
-    flare = 5000
-    charge_total = 10000
-    chaff_charge_size = 1
-    flare_charge_size = 1
-    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
-    radio_frequency = 127.5
-
-    livery_name = "YWINGA"  # from type
-    Liveries = Liveries()[livery_name]
-
-    class Pylon1:
-        LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (
-            1,
-            Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_,
-        )
-        PROTONMissile = (
-            1,
-            SWWeapons.PROTONMissile,
-        )
-        Mk_84___2000lb_GP_Bomb_LD = (
-            1,
-            Weapons.Mk_84___2000lb_GP_Bomb_LD,
-        )
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
-            1,
-            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
-        )
-
-    class Pylon2:
-        LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (
-            2,
-            Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_,
-        )
-        PROTONMissile = (
-            2,
-            SWWeapons.PROTONMissile,
-        )
-        Mk_84___2000lb_GP_Bomb_LD = (
-            2,
-            Weapons.Mk_84___2000lb_GP_Bomb_LD,
-        )
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
-            2,
-            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
-        )
-
-    class Pylon3:
-        PROTONBGG = (
-            3,
-            SWWeapons.PROTONBGG,
-        )
-        Mk_84___2000lb_GP_Bomb_LD = (
-            3,
-            Weapons.Mk_84___2000lb_GP_Bomb_LD,
-        )
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
-            3,
-            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
-        )
-
-    class Pylon4:
-        LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (
-            4,
-            Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_,
-        )
-        PROTONMissile = (
-            4,
-            SWWeapons.PROTONMissile,
-        )
-        Mk_84___2000lb_GP_Bomb_LD = (
-            4,
-            Weapons.Mk_84___2000lb_GP_Bomb_LD,
-        )
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
-            4,
-            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
-        )
-
-    class Pylon5:
-        LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (
-            5,
-            Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_,
-        )
-        PROTONMissile = (
-            5,
-            SWWeapons.PROTONMissile,
-        )
-        Mk_84___2000lb_GP_Bomb_LD = (
-            5,
-            Weapons.Mk_84___2000lb_GP_Bomb_LD,
-        )
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
-            5,
-            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
-        )
-
-    class Pylon6:
-        PROTONMissile = (6, SWWeapons.PROTONMissile)
-        LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (
-            6,
-            Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_,
-        )
-        Mk_84___2000lb_GP_Bomb_LD = (
-            6,
-            Weapons.Mk_84___2000lb_GP_Bomb_LD,
-        )
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
-            6,
-            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
-        )
-
-    class Pylon7:
-        ENERGY_CELL___ = (7, SWWeapons.ENERGY_CELL___)
-
-    class Pylon8:
-        ENERGY_CELL___ = (8, SWWeapons.ENERGY_CELL___)
-
-    pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8}
-
-    tasks = [
-        task.CAS,
-        task.Escort,
-        task.FighterSweep,
-        task.Intercept,
-        task.Reconnaissance,
-    ]
-    task_default = task.CAS
-
-
-@planemod
 class YWING(PlaneType):
     id = "YWING"
     flyable = True
     height = 5.63
     width = 10
     length = 19.43
-    fuel_max = 10000
+    fuel_max = 7000
     max_speed = 2649.996
     chaff = 5000
     flare = 5000
@@ -345,25 +156,69 @@ class YWING(PlaneType):
     radio_frequency = 127.5
 
     livery_name = "YWING"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         PROTONB = (1, SWWeapons.PROTONB)
+        Mk_84___2000lb_GP_Bomb_LD = (1, Weapons.Mk_84___2000lb_GP_Bomb_LD)
+        Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__ = (
+            1,
+            Weapons.Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__,
+        )
+        Kh_58U__AS_11_Kilter____640kg__ARM__IN__Pas_Rdr = (
+            1,
+            Weapons.Kh_58U__AS_11_Kilter____640kg__ARM__IN__Pas_Rdr,
+        )
 
     class Pylon2:
         PROTONB = (2, SWWeapons.PROTONB)
+        Mk_84___2000lb_GP_Bomb_LD = (2, Weapons.Mk_84___2000lb_GP_Bomb_LD)
+        Kh_58U__AS_11_Kilter____640kg__ARM__IN__Pas_Rdr = (
+            2,
+            Weapons.Kh_58U__AS_11_Kilter____640kg__ARM__IN__Pas_Rdr,
+        )
+        Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__ = (
+            2,
+            Weapons.Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__,
+        )
 
     class Pylon3:
         PROTONB = (3, SWWeapons.PROTONB)
+        Kh_58U__AS_11_Kilter____640kg__ARM__IN__Pas_Rdr = (
+            3,
+            Weapons.Kh_58U__AS_11_Kilter____640kg__ARM__IN__Pas_Rdr,
+        )
+        Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__ = (
+            3,
+            Weapons.Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__,
+        )
+        Mk_84___2000lb_GP_Bomb_LD = (3, Weapons.Mk_84___2000lb_GP_Bomb_LD)
 
     class Pylon4:
         PROTONB = (4, SWWeapons.PROTONB)
+        Kh_58U__AS_11_Kilter____640kg__ARM__IN__Pas_Rdr = (
+            4,
+            Weapons.Kh_58U__AS_11_Kilter____640kg__ARM__IN__Pas_Rdr,
+        )
+        Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__ = (
+            4,
+            Weapons.Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__,
+        )
+        Mk_84___2000lb_GP_Bomb_LD = (4, Weapons.Mk_84___2000lb_GP_Bomb_LD)
 
     class Pylon5:
-        PROTONB = (5, SWWeapons.PROTONB)
+        Kh_58U__AS_11_Kilter____640kg__ARM__IN__Pas_Rdr = (
+            5,
+            Weapons.Kh_58U__AS_11_Kilter____640kg__ARM__IN__Pas_Rdr,
+        )
+        Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__ = (
+            5,
+            Weapons.Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__,
+        )
+        Mk_84___2000lb_GP_Bomb_LD = (5, Weapons.Mk_84___2000lb_GP_Bomb_LD)
 
     class Pylon6:
-        PROTONB = (6, SWWeapons.PROTONB)
+        Mk_84___2000lb_GP_Bomb_LD = (6, Weapons.Mk_84___2000lb_GP_Bomb_LD)
+        L_081_Fantasmagoria_ELINT_pod = (6, Weapons.L_081_Fantasmagoria_ELINT_pod)
 
     class Pylon7:
         ENERGY_CELL___ = (7, SWWeapons.ENERGY_CELL___)
@@ -374,13 +229,67 @@ class YWING(PlaneType):
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8}
 
     tasks = [
+        task.CAP,
+        task.Escort,
+        task.FighterSweep,
+        task.Intercept,
+        task.Reconnaissance,
+        task.GroundAttack,
         task.CAS,
+        task.AFAC,
+        task.RunwayAttack,
+        task.AntishipStrike,
+    ]
+    task_default = task.CAS
+
+
+@planemod
+class CORVETTE(PlaneType):
+    id = "CORVETTE"
+    flyable = True
+    height = 20.63
+    width = 30
+    length = 30.43
+    fuel_max = 11000
+    max_speed = 792.396
+    chaff = 5000
+    flare = 5000
+    charge_total = 10000
+    chaff_charge_size = 1
+    flare_charge_size = 1
+    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
+    radio_frequency = 127.5
+
+    livery_name = "CORVETTE"  # from type
+
+    class Pylon3:
+        PROTONM3 = (3, SWWeapons.PROTONM3)
+
+    class Pylon4:
+        PROTONM3 = (4, SWWeapons.PROTONM3)
+
+    class Pylon5:
+        PROTONM3 = (5, SWWeapons.PROTONM3)
+
+    class Pylon7:
+        PROTONM3 = (7, SWWeapons.PROTONM3)
+
+    class Pylon8:
+        PROTONM3 = (8, SWWeapons.PROTONM3)
+
+    class Pylon9:
+        PROTONM3 = (9, SWWeapons.PROTONM3)
+
+    pylons: Set[int] = {3, 4, 5, 7, 8, 9}
+
+    tasks = [
+        task.CAP,
         task.Escort,
         task.FighterSweep,
         task.Intercept,
         task.Reconnaissance,
     ]
-    task_default = task.CAS
+    task_default = task.FighterSweep
 
 
 @planemod
@@ -401,7 +310,6 @@ class AWING(PlaneType):
     radio_frequency = 127.5
 
     livery_name = "AWING"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         PROTONM1 = (1, SWWeapons.PROTONM1)
@@ -416,148 +324,6 @@ class AWING(PlaneType):
         ENERGY_CELL = (10, SWWeapons.ENERGY_CELL)
 
     pylons: Set[int] = {1, 2, 3, 10}
-
-    tasks = [
-        task.CAP,
-        task.Escort,
-        task.FighterSweep,
-        task.Intercept,
-        task.Reconnaissance,
-    ]
-    task_default = task.CAP
-
-
-@planemod
-class AWINGA(PlaneType):
-    id = "AWINGA"
-    height = 5.63
-    width = 10
-    length = 19.43
-    fuel_max = 10000
-    max_speed = 1440.396
-    chaff = 5000
-    flare = 5000
-    charge_total = 10000
-    chaff_charge_size = 1
-    flare_charge_size = 1
-    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
-    radio_frequency = 127.5
-
-    livery_name = "AWINGA"  # from type
-    Liveries = Liveries()[livery_name]
-
-    class Pylon1:
-        PROTONM1 = (1, SWWeapons.PROTONM1)
-
-    class Pylon2:
-        ENERGY_CELL = (2, SWWeapons.ENERGY_CELL)
-
-    class Pylon3:
-        PROTONM1 = (3, SWWeapons.PROTONM1)
-
-    class Pylon10:
-        ENERGY_CELL = (10, SWWeapons.ENERGY_CELL)
-
-    pylons: Set[int] = {1, 2, 3, 10}
-
-    tasks = [
-        task.CAP,
-        task.Escort,
-        task.FighterSweep,
-        task.Intercept,
-        task.Reconnaissance,
-    ]
-    task_default = task.CAP
-
-
-@planemod
-class CORVETTE(PlaneType):
-    id = "CORVETTE"
-    flyable = True
-    height = 5.63
-    width = 30
-    length = 19.43
-    fuel_max = 11000
-    max_speed = 792.396
-    chaff = 5000
-    flare = 5000
-    charge_total = 10000
-    chaff_charge_size = 1
-    flare_charge_size = 1
-    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
-    radio_frequency = 127.5
-
-    livery_name = "CORVETTE"  # from type
-    Liveries = Liveries()[livery_name]
-
-    class Pylon3:
-        PROTONM3 = (3, SWWeapons.PROTONM3)
-
-    class Pylon4:
-        PROTONM3 = (4, SWWeapons.PROTONM3)
-
-    class Pylon5:
-        PROTONM3 = (5, SWWeapons.PROTONM3)
-
-    class Pylon7:
-        PROTONM3 = (7, SWWeapons.PROTONM3)
-
-    class Pylon8:
-        PROTONM3 = (8, SWWeapons.PROTONM3)
-
-    class Pylon9:
-        PROTONM3 = (9, SWWeapons.PROTONM3)
-
-    pylons: Set[int] = {3, 4, 5, 7, 8, 9}
-
-    tasks = [
-        task.CAP,
-        task.Escort,
-        task.FighterSweep,
-        task.Intercept,
-        task.Reconnaissance,
-    ]
-    task_default = task.CAP
-
-
-@planemod
-class CORVETTEA(PlaneType):
-    id = "CORVETTEA"
-    height = 5.63
-    width = 30
-    length = 19.43
-    fuel_max = 11000
-    max_speed = 648.396
-    chaff = 5000
-    flare = 5000
-    charge_total = 10000
-    chaff_charge_size = 1
-    flare_charge_size = 1
-    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
-    radio_frequency = 127.5
-
-    livery_name = "CORVETTEA"  # from type
-    Liveries = Liveries()[livery_name]
-
-    class Pylon3:
-        PROTONM3 = (3, SWWeapons.PROTONM3)
-
-    class Pylon4:
-        PROTONM3 = (4, SWWeapons.PROTONM3)
-
-    class Pylon5:
-        PROTONM3 = (5, SWWeapons.PROTONM3)
-
-    class Pylon7:
-        PROTONM3 = (7, SWWeapons.PROTONM3)
-
-    class Pylon8:
-        PROTONM3 = (8, SWWeapons.PROTONM3)
-
-    class Pylon9:
-        PROTONM3 = (9, SWWeapons.PROTONM3)
-
-    pylons: Set[int] = {3, 4, 5, 7, 8, 9}
 
     tasks = [
         task.CAP,
@@ -576,8 +342,8 @@ class FAUCON(PlaneType):
     height = 5.63
     width = 10
     length = 19.43
-    fuel_max = 10000
-    max_speed = 2649.996
+    fuel_max = 15000
+    max_speed = 2304.396
     chaff = 5000
     flare = 5000
     charge_total = 10000
@@ -587,46 +353,14 @@ class FAUCON(PlaneType):
     radio_frequency = 127.5
 
     livery_name = "FAUCON"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         PROTONF = (1, SWWeapons.PROTONF)
 
-    pylons: Set[int] = {1}
+    class Pylon2:
+        Lite_Jump_Core_Battery = (2, SWWeapons.Lite_Jump_Core_Battery)
 
-    tasks = [
-        task.CAP,
-        task.Escort,
-        task.FighterSweep,
-        task.Intercept,
-        task.Reconnaissance,
-    ]
-    task_default = task.FighterSweep
-
-
-@planemod
-class FAUCON_AI(PlaneType):
-    id = "FAUCON_AI"
-    height = 5.63
-    width = 20
-    length = 19.43
-    fuel_max = 10000
-    max_speed = 2649.996
-    chaff = 5000
-    flare = 5000
-    charge_total = 10000
-    chaff_charge_size = 1
-    flare_charge_size = 1
-    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
-    radio_frequency = 127.5
-
-    livery_name = "FAUCON_AI"  # from type
-    Liveries = Liveries()[livery_name]
-
-    class Pylon1:
-        PROTONF = (1, SWWeapons.PROTONF)
-
-    pylons: Set[int] = {1}
+    pylons: Set[int] = {1, 2}
 
     tasks = [
         task.CAP,
@@ -656,44 +390,6 @@ class TIE(PlaneType):
     radio_frequency = 127.5
 
     livery_name = "TIE"  # from type
-    Liveries = Liveries()[livery_name]
-
-    class Pylon2:
-        ENERGY_CELL_ = (2, SWWeapons.ENERGY_CELL_)
-
-    class Pylon10:
-        ENERGY_CELL_ = (10, SWWeapons.ENERGY_CELL_)
-
-    pylons: Set[int] = {2, 10}
-
-    tasks = [
-        task.CAP,
-        task.Escort,
-        task.FighterSweep,
-        task.Intercept,
-        task.Reconnaissance,
-    ]
-    task_default = task.FighterSweep
-
-
-@planemod
-class TIE_AI(PlaneType):
-    id = "TIE_AI"
-    height = 5.63
-    width = 5
-    length = 19.43
-    fuel_max = 8000
-    max_speed = 1440
-    chaff = 5000
-    flare = 5000
-    charge_total = 10000
-    chaff_charge_size = 1
-    flare_charge_size = 1
-    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
-    radio_frequency = 127.5
-
-    livery_name = "TIE_AI"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon2:
         ENERGY_CELL_ = (2, SWWeapons.ENERGY_CELL_)
@@ -731,50 +427,6 @@ class HUNTER(PlaneType):
     radio_frequency = 127.5
 
     livery_name = "HUNTER"  # from type
-    Liveries = Liveries()[livery_name]
-
-    class Pylon1:
-        PROTONM2 = (1, SWWeapons.PROTONM2)
-
-    class Pylon2:
-        ENERGY_CELL__ = (2, SWWeapons.ENERGY_CELL__)
-
-    class Pylon3:
-        PROTONM2 = (3, SWWeapons.PROTONM2)
-
-    class Pylon10:
-        ENERGY_CELL__ = (10, SWWeapons.ENERGY_CELL__)
-
-    pylons: Set[int] = {1, 2, 3, 10}
-
-    tasks = [
-        task.CAP,
-        task.Escort,
-        task.FighterSweep,
-        task.Intercept,
-        task.Reconnaissance,
-    ]
-    task_default = task.CAP
-
-
-@planemod
-class HUNTERA(PlaneType):
-    id = "HUNTERA"
-    height = 5.63
-    width = 5
-    length = 19.43
-    fuel_max = 10000
-    max_speed = 1512.396
-    chaff = 5000
-    flare = 5000
-    charge_total = 10000
-    chaff_charge_size = 1
-    flare_charge_size = 1
-    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
-    radio_frequency = 127.5
-
-    livery_name = "HUNTERA"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         PROTONM2 = (1, SWWeapons.PROTONM2)
@@ -818,50 +470,6 @@ class TIE_INTER(PlaneType):
     radio_frequency = 127.5
 
     livery_name = "TIE_INTER"  # from type
-    Liveries = Liveries()[livery_name]
-
-    class Pylon1:
-        PROTONM1 = (1, SWWeapons.PROTONM1)
-
-    class Pylon2:
-        ENERGY_CELL___ = (2, SWWeapons.ENERGY_CELL___)
-
-    class Pylon3:
-        PROTONM1 = (3, SWWeapons.PROTONM1)
-
-    class Pylon10:
-        ENERGY_CELL___ = (10, SWWeapons.ENERGY_CELL___)
-
-    pylons: Set[int] = {1, 2, 3, 10}
-
-    tasks = [
-        task.CAP,
-        task.Escort,
-        task.FighterSweep,
-        task.Intercept,
-        task.Reconnaissance,
-    ]
-    task_default = task.CAP
-
-
-@planemod
-class TIE_INTERA(PlaneType):
-    id = "TIE_INTERA"
-    height = 5.63
-    width = 10
-    length = 19.43
-    fuel_max = 5000
-    max_speed = 1548.396
-    chaff = 5000
-    flare = 5000
-    charge_total = 10000
-    chaff_charge_size = 1
-    flare_charge_size = 1
-    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
-    radio_frequency = 127.5
-
-    livery_name = "TIE_INTERA"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         PROTONM1 = (1, SWWeapons.PROTONM1)
@@ -905,64 +513,6 @@ class naboo_starfighter(PlaneType):
     radio_frequency = 127.5
 
     livery_name = "NABOO_STARFIGHTER"  # from type
-    Liveries = Liveries()[livery_name]
-
-    class Pylon1:
-        PROTONM = (1, SWWeapons.PROTONM)
-
-    class Pylon2:
-        PROTONM = (2, SWWeapons.PROTONM)
-        ENERGY_CELL____ = (2, SWWeapons.ENERGY_CELL____)
-
-    class Pylon3:
-        PROTONM = (3, SWWeapons.PROTONM)
-
-    class Pylon4:
-        PROTONM = (4, SWWeapons.PROTONM)
-
-    class Pylon5:
-        PROTONM = (5, SWWeapons.PROTONM)
-
-    class Pylon6:
-        PROTONM = (6, SWWeapons.PROTONM)
-
-    class Pylon10:
-        ENERGY_CELL____ = (10, SWWeapons.ENERGY_CELL____)
-
-    pylons: Set[int] = {1, 2, 3, 4, 5, 6, 10}
-
-    tasks = [
-        task.CAP,
-        task.Escort,
-        task.FighterSweep,
-        task.Intercept,
-        task.Reconnaissance,
-        task.GroundAttack,
-        task.CAS,
-        task.AFAC,
-        task.RunwayAttack,
-    ]
-    task_default = task.FighterSweep
-
-
-@planemod
-class naboo_starfighter_AI(PlaneType):
-    id = "naboo_starfighter_AI"
-    height = 5.63
-    width = 6
-    length = 19.43
-    fuel_max = 10000
-    max_speed = 1152.396
-    chaff = 0
-    flare = 500
-    charge_total = 500
-    chaff_charge_size = 1
-    flare_charge_size = 1
-    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
-    radio_frequency = 127.5
-
-    livery_name = "NABOO_STARFIGHTER_AI"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         PROTONM = (1, SWWeapons.PROTONM)
@@ -1009,7 +559,7 @@ class tie_bomber_2(PlaneType):
     height = 5.63
     width = 10
     length = 19.43
-    fuel_max = 10000
+    fuel_max = 6000
     max_speed = 2649.996
     chaff = 5000
     flare = 5000
@@ -1020,7 +570,6 @@ class tie_bomber_2(PlaneType):
     radio_frequency = 127.5
 
     livery_name = "TIE_BOMBER_2"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         PROTONM1 = (1, SWWeapons.PROTONM1)
@@ -1029,6 +578,14 @@ class tie_bomber_2(PlaneType):
             Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
         )
         Mk_84___2000lb_GP_Bomb_LD = (1, Weapons.Mk_84___2000lb_GP_Bomb_LD)
+        Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__ = (
+            1,
+            Weapons.Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__,
+        )
+        Kh_58U__AS_11_Kilter____640kg__ARM__IN__Pas_Rdr = (
+            1,
+            Weapons.Kh_58U__AS_11_Kilter____640kg__ARM__IN__Pas_Rdr,
+        )
 
     class Pylon2:
         ENERGY_CELL___ = (2, SWWeapons.ENERGY_CELL___)
@@ -1040,6 +597,14 @@ class tie_bomber_2(PlaneType):
             3,
             Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
         )
+        Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__ = (
+            3,
+            Weapons.Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__,
+        )
+        Kh_58U__AS_11_Kilter____640kg__ARM__IN__Pas_Rdr = (
+            3,
+            Weapons.Kh_58U__AS_11_Kilter____640kg__ARM__IN__Pas_Rdr,
+        )
 
     class Pylon4:
         TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
@@ -1048,6 +613,14 @@ class tie_bomber_2(PlaneType):
         )
         PROTONM2 = (4, SWWeapons.PROTONM2)
         Mk_84___2000lb_GP_Bomb_LD = (4, Weapons.Mk_84___2000lb_GP_Bomb_LD)
+        Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__ = (
+            4,
+            Weapons.Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__,
+        )
+        Kh_58U__AS_11_Kilter____640kg__ARM__IN__Pas_Rdr = (
+            4,
+            Weapons.Kh_58U__AS_11_Kilter____640kg__ARM__IN__Pas_Rdr,
+        )
 
     class Pylon5:
         TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
@@ -1056,14 +629,17 @@ class tie_bomber_2(PlaneType):
         )
         PROTONM2 = (5, SWWeapons.PROTONM2)
         Mk_84___2000lb_GP_Bomb_LD = (5, Weapons.Mk_84___2000lb_GP_Bomb_LD)
+        Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__ = (
+            5,
+            Weapons.Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__,
+        )
+        Kh_58U__AS_11_Kilter____640kg__ARM__IN__Pas_Rdr = (
+            5,
+            Weapons.Kh_58U__AS_11_Kilter____640kg__ARM__IN__Pas_Rdr,
+        )
 
     class Pylon6:
-        TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
-            6,
-            Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
-        )
-        PROTONM2 = (6, SWWeapons.PROTONM2)
-        Mk_84___2000lb_GP_Bomb_LD = (6, Weapons.Mk_84___2000lb_GP_Bomb_LD)
+        L_081_Fantasmagoria_ELINT_pod = (6, Weapons.L_081_Fantasmagoria_ELINT_pod)
 
     class Pylon7:
         TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
@@ -1071,6 +647,14 @@ class tie_bomber_2(PlaneType):
             Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
         )
         Mk_84___2000lb_GP_Bomb_LD = (7, Weapons.Mk_84___2000lb_GP_Bomb_LD)
+        Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__ = (
+            7,
+            Weapons.Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__,
+        )
+        Kh_58U__AS_11_Kilter____640kg__ARM__IN__Pas_Rdr = (
+            7,
+            Weapons.Kh_58U__AS_11_Kilter____640kg__ARM__IN__Pas_Rdr,
+        )
 
     class Pylon8:
         TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
@@ -1079,6 +663,14 @@ class tie_bomber_2(PlaneType):
         )
         PROTONM2 = (8, SWWeapons.PROTONM2)
         Mk_84___2000lb_GP_Bomb_LD = (8, Weapons.Mk_84___2000lb_GP_Bomb_LD)
+        Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__ = (
+            8,
+            Weapons.Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__,
+        )
+        Kh_58U__AS_11_Kilter____640kg__ARM__IN__Pas_Rdr = (
+            8,
+            Weapons.Kh_58U__AS_11_Kilter____640kg__ARM__IN__Pas_Rdr,
+        )
 
     class Pylon9:
         TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
@@ -1086,6 +678,14 @@ class tie_bomber_2(PlaneType):
             Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
         )
         Mk_84___2000lb_GP_Bomb_LD = (9, Weapons.Mk_84___2000lb_GP_Bomb_LD)
+        Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__ = (
+            9,
+            Weapons.Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__,
+        )
+        Kh_58U__AS_11_Kilter____640kg__ARM__IN__Pas_Rdr = (
+            9,
+            Weapons.Kh_58U__AS_11_Kilter____640kg__ARM__IN__Pas_Rdr,
+        )
 
     class Pylon10:
         ENERGY_CELL___ = (10, SWWeapons.ENERGY_CELL___)
@@ -1103,154 +703,6 @@ class tie_bomber_2(PlaneType):
         task.RunwayAttack,
     ]
     task_default = task.GroundAttack
-
-
-@planemod
-class TIE_BA(PlaneType):
-    id = "TIE_BA"
-    height = 5.63
-    width = 10
-    length = 19.43
-    fuel_max = 5000
-    max_speed = 1548.396
-    chaff = 5000
-    flare = 5000
-    charge_total = 10000
-    chaff_charge_size = 1
-    flare_charge_size = 1
-    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
-    radio_frequency = 127.5
-
-    livery_name = "TIE_BA"  # from type
-    Liveries = Liveries()[livery_name]
-
-    class Pylon1:
-        PROTONM1 = (1, SWWeapons.PROTONM1)
-        LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (
-            1,
-            Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_,
-        )
-        Mk_84___2000lb_GP_Bomb_LD = (1, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
-            1,
-            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
-        )
-
-    class Pylon2:
-        ENERGY_CELL___ = (2, SWWeapons.ENERGY_CELL___)
-
-    class Pylon3:
-        PROTONM1 = (3, SWWeapons.PROTONM1)
-        LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (
-            3,
-            Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_,
-        )
-        TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
-            3,
-            Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
-        )
-        Mk_84___2000lb_GP_Bomb_LD = (3, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
-            3,
-            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
-        )
-
-    class Pylon4:
-        LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (
-            4,
-            Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_,
-        )
-        TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
-            4,
-            Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
-        )
-        PROTONM2 = (4, SWWeapons.PROTONM2)
-        Mk_84___2000lb_GP_Bomb_LD = (4, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
-            4,
-            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
-        )
-
-    class Pylon5:
-        LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (
-            5,
-            Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_,
-        )
-        TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
-            5,
-            Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
-        )
-        PROTONM2 = (5, SWWeapons.PROTONM2)
-        Mk_84___2000lb_GP_Bomb_LD = (5, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
-            5,
-            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
-        )
-
-    class Pylon6:
-        LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (
-            6,
-            Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_,
-        )
-        TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
-            6,
-            Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
-        )
-        PROTONM2 = (6, SWWeapons.PROTONM2)
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
-            6,
-            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
-        )
-        Mk_84___2000lb_GP_Bomb_LD = (6, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-
-    class Pylon7:
-        LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_ = (
-            7,
-            Weapons.LAU_88_with_3_x_AGM_65D___Maverick_D__IIR_ASM_,
-        )
-        TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
-            7,
-            Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
-        )
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
-            7,
-            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
-        )
-        Mk_84___2000lb_GP_Bomb_LD = (7, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-
-    class Pylon8:
-        TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
-            8,
-            Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
-        )
-        PROTONM2 = (8, SWWeapons.PROTONM2)
-        AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
-            8,
-            Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
-        )
-
-    class Pylon9:
-        TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
-            9,
-            Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
-        )
-
-    class Pylon10:
-        ENERGY_CELL___ = (10, SWWeapons.ENERGY_CELL___)
-
-    pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
-
-    tasks = [
-        task.CAP,
-        task.Escort,
-        task.FighterSweep,
-        task.Intercept,
-        task.Reconnaissance,
-        task.GroundAttack,
-        task.CAS,
-        task.RunwayAttack,
-    ]
-    task_default = task.CAS
 
 
 @vehiclemod

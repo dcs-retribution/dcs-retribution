@@ -24,3 +24,9 @@ radios:
     type: common
     intra_flight_radio_index: 1
     inter_flight_radio_index: 1
+tasks:
+  Air Assault: 40
+  BAI: 390
+  CAS: 390
+  OCA/Aircraft: 390
+  Transport: 10

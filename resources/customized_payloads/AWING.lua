@@ -6,22 +6,14 @@ local unitPayloads = {
 			["name"] = "Liberation BARCAP",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{AFUEL}",
-					["num"] = 10,
-				},
-				[2] = {
 					["CLSID"] = "{PROTONM1}",
 					["num"] = 1,
 				},
-				[3] = {
-					["CLSID"] = "{AFUEL}",
-					["num"] = 2,
-				},
-				[4] = {
+				[2] = {
 					["CLSID"] = "{PROTONM1}",
 					["num"] = 3,
 				},
-			},
+		    },
 			["tasks"] = {
 				[1] = 11,
 			},
@@ -31,18 +23,10 @@ local unitPayloads = {
 			["name"] = "Liberation TARCAP",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{AFUEL}",
-					["num"] = 10,
-				},
-				[2] = {
-					["CLSID"] = "{PROTONM1}",
+					"CLSID"] = "{PROTONM1}",
 					["num"] = 1,
 				},
-				[3] = {
-					["CLSID"] = "{AFUEL}",
-					["num"] = 2,
-				},
-				[4] = {
+				[2] = {
 					["CLSID"] = "{PROTONM1}",
 					["num"] = 3,
 				},

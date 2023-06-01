@@ -179,5 +179,8 @@ VERSION = _build_version_string()
 #: * Designated CTLD zones for ControlPoints (Airbases & FOBs/FARPs)
 #: * 'ground_forces' in yaml file to specify preset groups for TGOs,
 #:      given the group is available for the faction and the task matches
+#:
+#: Version 10.7
+#: * Support for defining squadron sizes.
 
-CAMPAIGN_FORMAT_VERSION = (10, 6)
+CAMPAIGN_FORMAT_VERSION = (10, 7)

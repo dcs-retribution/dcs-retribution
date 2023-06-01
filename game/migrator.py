@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
+from dcs.countries import countries_by_name
+
 from game.ato.packagewaypoints import PackageWaypoints
 from game.data.doctrine import MODERN_DOCTRINE, COLDWAR_DOCTRINE, WWII_DOCTRINE
 
@@ -24,7 +26,9 @@ class Migrator:
         self._update_packagewaypoints()
         self._update_package_attributes()
         self._update_control_points()
+        self._update_factions()
         self._update_flights()
+        self._update_squadrons()
         self._release_untasked_flights()
 
     def _update_doctrine(self) -> None:
@@ -48,8 +52,8 @@ class Migrator:
     def _update_packagewaypoints(self) -> None:
         for c in self.game.coalitions:
             for p in c.ato.packages:
-                if p.waypoints:
-                    try_set_attr(p.waypoints, "initial", None)
+                if p.waypoints and not hasattr(p.waypoints, "initial"):
+                    p.waypoints = PackageWaypoints.create(p, c)
 
     def _update_package_attributes(self) -> None:
         for c in self.game.coalitions:
@@ -88,3 +92,28 @@ class Migrator:
                     if f.squadron == s:
                         count += f.count
                 s.claim_inventory(count - claimed)
+
+    def _update_squadrons(self) -> None:
+        country_dict = {"Netherlands": "The Netherlands"}
+        for cp in self.game.theater.controlpoints:
+            for s in cp.squadrons:
+                preferred_task = max(
+                    s.aircraft.task_priorities,
+                    key=lambda x: s.aircraft.task_priorities[x],
+                )
+                try_set_attr(s, "primary_task", preferred_task)
+                try_set_attr(s, "max_size", 12)
+                if isinstance(s.country, str):
+                    c = country_dict.get(s.country, s.country)
+                    s.country = countries_by_name[c]()
+
+                # code below is used to fix corruptions wrt overpopulation
+                if s.owned_aircraft < 0 or s.location.unclaimed_parking() < 0:
+                    s.owned_aircraft = max(
+                        0, s.location.unclaimed_parking() + s.owned_aircraft
+                    )
+
+    def _update_factions(self) -> None:
+        for c in self.game.coalitions:
+            if isinstance(c.faction.country, str):
+                c.faction.country = countries_by_name[c.faction.country]()

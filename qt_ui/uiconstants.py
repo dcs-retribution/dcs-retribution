@@ -219,6 +219,7 @@ def load_vehicle_icons():
             VEHICLES_ICONS[vehicle[:-7]] = QPixmap(
                 os.path.join("./resources/ui/units/vehicles/icons/", vehicle)
             )
+    VEHICLES_ICONS["(IDF Mods Project) BM-21 Grad 122mm"] = VEHICLES_ICONS["Grad-URAL"]
 
 
 def load_aircraft_banners():
@@ -252,3 +253,12 @@ def load_vehicle_banners():
             VEHICLE_BANNERS[aircraft[:-7]] = QPixmap(
                 os.path.join("./resources/ui/units/vehicles/banners/", aircraft)
             )
+    VEHICLE_BANNERS["(IDF Mods Project) BM-21 Grad 122mm"] = VEHICLE_BANNERS[
+        "Grad-URAL"
+    ]
+    VEHICLE_BANNERS["(IDF Mods Project) Urgan BM-27 220mm"] = VEHICLE_BANNERS[
+        "Uragan_BM-27"
+    ]
+    VEHICLE_BANNERS["(IDF Mods Project) 9A52 Smerch CM 300mm"] = VEHICLE_BANNERS[
+        "Smerch_HE"
+    ]

@@ -7,15 +7,23 @@
 * **[UI]** Added fuel selector in flight's edit window.
 * **[Plugins]** Expose Splash Damage's "game_messages" option and set its default to false.
 * **[Mission Generation]** Improved AI SEAD capabilities, allowing for mixed loadouts using Decoys, ARMs & ASMs.
+* **[Mission Generation]** Tornadoes now use SEAD tasking for SEAD/DEAD missions.
+* **[Mission Generation]** Convoys now try to get moving immediately (with cone formation) to avoid taking a long time to form up to move on road. Credit to Farrago for this approach.
 * **[Modding]** Support for A-7E Corsair II (presumed latest available version)
 * **[Squadrons]** Added many new squadron's by Adecarcer
 * **[Plugins]** Updated 'expl_table' in Splash Damage script.
 * **[Mission Generation]** Also save kneeboards in txt-format, found under "kneeboards" within Retribution's installation folder after pressing take-off.
 * **[Modding]** Support for SW mod v2.55
+* **[Modding]** Support for Spanish & Australian Naval Assets v3.2.0 by desdemicabina
+* **[Modding]** Support for Iron Dome v1.2 by IDF Mods Project
+* **[New Game Wizard]** Re-organized generator options & show the regular settings menu instead of the limited "Difficulty & Automation" page.
+* **[Campaign Management]** Ability to operate harriers from FOBs/FARPs for <ins>__human pilots only__</ins>. Please note that the autoplanner won't generate flights for harriers at FOBs/FARPs, which means you need to plan your missions manually.
+* **[Mission Planning]** Allow NAV/REFUEL/DIVERT waypoints to be deleted without degrading to a custom flight-plan, also warning the user before actually degrading the flight-plan.
 
 ## Fixes
-* **[New Game Wizard]** Settings would not persist when going back to a previous page.
+* **[New Game Wizard]** Settings would not persist when going back to a previous page (obsolete due to overhaul).
 * **[Mission Generation]** Unused aircraft are no longer claimed, fixing a bug where these aircraft would no longer be available after aborting the mission.
+* **[Mission Generation]** Fixed (potential) bug in helipad assignments at FOBs/FARPs.
 
 
 # Retribution v1.1.1  (hotfix)
@@ -129,18 +137,45 @@ Saves from 6.x are not compatible with 7.0.
 
 * **[Engine]** Support for DCS 2.8.3.37556.
 * **[Engine]** Saved games are now a zip file of save assets for easier bug reporting. The new extension is .liberation.zip. Drag and drop that file into bug reports.
+* **[Campaign]** Added options to limit squadron sizes and to begin all squadrons at maximum strength. Maximum squadron size is defined during air wing configuration with default values provided by the campaign.
+* **[Campaign]** Added handling for more DCS death events. This probably does not catch any deaths that weren't previously tracked, but it should record them sooner, which will improve results for game crashes or other early exits.
+* **[Campaign AI]** The campaign AI now prefers fulfilling missions with squadrons which have a matching primary task. Previously distance from target held a stronger influence than task preference. Primary tasks for squadrons are set by campaign designers but are user-configurable.
 * **[Flight Planning]** Package TOT and composition can be modified after advancing time in Liberation.
 * **[Mission Generation]** Units on the front line are now hidden on MFDs.
 * **[Mission Generation]** Preset radio channels will now be configured for both A-10C modules.
-* **[Mission Generation]** Both A-10C modules now use separate radios for inter- and intra-flight comms (similar to other modern aircraft).
+* **[Mission Generation]** The A-10C II now uses separate radios for inter- and intra-flight comms (similar to other modern aircraft).
+* **[Mission Generation]** Wind speeds no longer follow a uniform distribution. Median wind speeds are now much lower and the standard deviation has been reduced considerably at altitude but increased somewhat at MSL.
+* **[Mission Generation]** Improved task generation for SEAD flights carrying TALDs.
+* **[Mission Generation]** Added task timeout for SEAD flights with TALDs to prevent AI from overflying the target.
 * **[Modding]** Updated Community A-4E-C mod version support to 2.1.0 release.
 * **[Modding]** Add support for VSN F-4B and F-4C mod.
+* **[Modding]** Aircraft task capabilities and preferred aircraft for each task are now moddable in the aircraft unit yaml files. Each aircraft has a weight per task. Higher weights are given higher preference.
+* **[Modding]** The `mission_types` field in squadron files has been removed. Squadron task capability is now determined by airframe, and the auto-assignable list has always been overridden by the campaign settings.
+* **[Modding]** Wind speed generation inputs are now moddable. See https://dcs-liberation.rtfd.io/en/latest/modding/weather.html.
+* **[New Game Wizard]** Choices for some options will be remembered for the next new game. Not all settings will be preserved, as many are campaign dependent.
+* **[New Game Wizard]** Lua plugins can now be set while creating a new game.
+* **[New Game Wizard]** Squadrons can be directly replaced with a preset during air wing configuration rather than needing to remove and create a new squadron.
+* **[New Game Wizard]** Squadron liveries can now be selected during air wing configuration.
+* **[Squadrons]** Squadron-specific mission capability lists no longer restrict players from assigning missions outside the squadron's preferences.
+* **[New Game Wizard]** Squadrons can be directly replaced with a preset during air wing configuration rather than needing to remove and create a new squadron.
+* **[UI]** The orientation of objects like SAMs, EWRs, garrisons, and ships can now be manually adjusted.
 
 ## Fixes
 
 * **[Campaign]** Fixed a longstanding bug where oversized airlifts could corrupt a save with empty convoys.
+* **[Campaign]** Aircraft with built-in TGPs but without an external pod will no longer degrade automatic loadouts to iron bombs.
+* **[Engine]** Fixed crash in startup caused by a corrupted Liberation preferences file.
+* **[Flight Planning]** AEW&C missions are now plannable over FOBs and LHAs.
+* **[Flight Planning]** BAI is no longer plannable against buildings.
 * **[Modding]** Fixed an issue where Falklands campaigns created or edited with new versions of DCS could not be loaded.
 * **[Modding]** Fixed decoding of campaign yaml files to use UTF-8 rather than the system locale's default. It's now possible to use "Bf 109 K-4 Kurfürst" as a preferred aircraft type.
+* **[Mission Generation]** Planes will no longer spawn in helipads that are not also designated for fixed wing parking.
+* **[Mission Generation]** Potentially an issue where ground war planning game state could become corrupted, preventing mission generation.
+* **[Mission Generation]** Refueling tasks will now only be created for flights that have a tanker in their package.
+* **[Mission Generation]** Fixed missing Tanker task on recovery tanker missions.
+* **[UI]** Fixed error when resetting air wing configuration during game setup.
+* **[UI]** Fixed flight plan recreation when changing mission type with "Recreate as" flight options.
+* **[UI]** Fixed failure to launch UI when Liberation persistent preferences file was corrupt.
 
 
 # 6.1.1

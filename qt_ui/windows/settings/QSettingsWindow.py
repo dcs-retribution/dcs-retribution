@@ -1,9 +1,11 @@
 import json
 import logging
 import textwrap
-from typing import Callable
 import zipfile
+from enum import Enum
+from typing import Callable, Optional, Dict
 
+from PySide2 import QtWidgets
 from PySide2.QtCore import QItemSelectionModel, QPoint, QSize, Qt
 from PySide2.QtGui import QStandardItem, QStandardItemModel
 from PySide2.QtWidgets import (
@@ -37,6 +39,7 @@ from game.settings import (
     OptionDescription,
     Settings,
 )
+from game.settings.ISettingsContainer import SettingsContainer
 from game.sim import GameUpdateEvents
 from qt_ui.widgets.QLabeledWidget import QLabeledWidget
 from qt_ui.widgets.spinsliders import FloatSpinSlider, TimeInputs
@@ -45,27 +48,29 @@ from qt_ui.windows.settings.plugins import PluginOptionsPage, PluginsPage
 
 
 class CheatSettingsBox(QGroupBox):
-    def __init__(self, game: Game, apply_settings: Callable[[], None]) -> None:
+    def __init__(
+        self, sc: SettingsContainer, apply_settings: Callable[[], None]
+    ) -> None:
         super().__init__("Cheat Settings")
         self.main_layout = QVBoxLayout()
         self.setLayout(self.main_layout)
 
         self.red_ato_checkbox = QCheckBox()
-        self.red_ato_checkbox.setChecked(game.settings.show_red_ato)
+        self.red_ato_checkbox.setChecked(sc.settings.show_red_ato)
         self.red_ato_checkbox.toggled.connect(apply_settings)
 
         self.frontline_cheat_checkbox = QCheckBox()
-        self.frontline_cheat_checkbox.setChecked(game.settings.enable_frontline_cheats)
+        self.frontline_cheat_checkbox.setChecked(sc.settings.enable_frontline_cheats)
         self.frontline_cheat_checkbox.toggled.connect(apply_settings)
 
         self.base_capture_cheat_checkbox = QCheckBox()
         self.base_capture_cheat_checkbox.setChecked(
-            game.settings.enable_base_capture_cheat
+            sc.settings.enable_base_capture_cheat
         )
         self.base_capture_cheat_checkbox.toggled.connect(apply_settings)
 
         self.transfer_cheat_checkbox = QCheckBox()
-        self.transfer_cheat_checkbox.setChecked(game.settings.enable_transfer_cheat)
+        self.transfer_cheat_checkbox.setChecked(sc.settings.enable_transfer_cheat)
         self.transfer_cheat_checkbox.toggled.connect(apply_settings)
 
         self.red_ato = QLabeledWidget("Show Red ATO:", self.red_ato_checkbox)
@@ -105,14 +110,22 @@ class AutoSettingsLayout(QGridLayout):
         self,
         page: str,
         section: str,
-        settings: Settings,
+        sc: SettingsContainer,
         write_full_settings: Callable[[], None],
     ) -> None:
         super().__init__()
-        self.settings = settings
+        self.page = page
+        self.section = section
+        self.sc = sc
         self.write_full_settings = write_full_settings
+        self.settings_map: Dict[str, QWidget] = {}
 
-        for row, (name, description) in enumerate(Settings.fields(page, section)):
+        self.init_ui()
+
+    def init_ui(self):
+        for row, (name, description) in enumerate(
+            Settings.fields(self.page, self.section)
+        ):
             self.add_label(row, description)
             if isinstance(description, BooleanOption):
                 self.add_checkbox_for(row, name, description)
@@ -128,7 +141,8 @@ class AutoSettingsLayout(QGridLayout):
                 raise TypeError(f"Unhandled option type: {description}")
 
     def add_label(self, row: int, description: OptionDescription) -> None:
-        text = f"<strong>{description.text}</strong>"
+        wrapped_title = "<br />".join(textwrap.wrap(description.text, width=55))
+        text = f"<strong>{wrapped_title}</strong>"
         if description.detail is not None:
             wrapped = "<br />".join(textwrap.wrap(description.detail, width=55))
             text += f"<br />{wrapped}"
@@ -141,31 +155,33 @@ class AutoSettingsLayout(QGridLayout):
         def on_toggle(value: bool) -> None:
             if description.invert:
                 value = not value
-            self.settings.__dict__[name] = value
+            self.sc.settings.__dict__[name] = value
             if description.causes_expensive_game_update:
                 self.write_full_settings()
 
         checkbox = QCheckBox()
-        value = self.settings.__dict__[name]
+        value = self.sc.settings.__dict__[name]
         if description.invert:
             value = not value
         checkbox.setChecked(value)
         checkbox.toggled.connect(on_toggle)
         self.addWidget(checkbox, row, 1, Qt.AlignRight)
+        self.settings_map[name] = checkbox
 
     def add_combobox_for(self, row: int, name: str, description: ChoicesOption) -> None:
         combobox = QComboBox()
 
         def on_changed(index: int) -> None:
-            self.settings.__dict__[name] = combobox.itemData(index)
+            self.sc.settings.__dict__[name] = combobox.itemData(index)
 
         for text, value in description.choices.items():
             combobox.addItem(text, value)
         combobox.setCurrentText(
-            description.text_for_value(self.settings.__dict__[name])
+            description.text_for_value(self.sc.settings.__dict__[name])
         )
         combobox.currentIndexChanged.connect(on_changed)
         self.addWidget(combobox, row, 1, Qt.AlignRight)
+        self.settings_map[name] = combobox
 
     def add_float_spin_slider_for(
         self, row: int, name: str, description: BoundedFloatOption
@@ -173,44 +189,69 @@ class AutoSettingsLayout(QGridLayout):
         spinner = FloatSpinSlider(
             description.min,
             description.max,
-            self.settings.__dict__[name],
+            self.sc.settings.__dict__[name],
             divisor=description.divisor,
         )
 
         def on_changed() -> None:
-            self.settings.__dict__[name] = spinner.value
+            self.sc.settings.__dict__[name] = spinner.value
 
         spinner.spinner.valueChanged.connect(on_changed)
         self.addLayout(spinner, row, 1, Qt.AlignRight)
+        self.settings_map[name] = spinner
 
     def add_spinner_for(
         self, row: int, name: str, description: BoundedIntOption
     ) -> None:
         def on_changed(value: int) -> None:
-            self.settings.__dict__[name] = value
+            self.sc.settings.__dict__[name] = value
             if description.causes_expensive_game_update:
                 self.write_full_settings()
 
         spinner = QSpinBox()
         spinner.setMinimum(description.min)
         spinner.setMaximum(description.max)
-        spinner.setValue(self.settings.__dict__[name])
+        spinner.setValue(self.sc.settings.__dict__[name])
 
         spinner.valueChanged.connect(on_changed)
         self.addWidget(spinner, row, 1, Qt.AlignRight)
+        self.settings_map[name] = spinner
 
     def add_duration_controls_for(
         self, row: int, name: str, description: MinutesOption
     ) -> None:
         inputs = TimeInputs(
-            self.settings.__dict__[name], description.min, description.max
+            self.sc.settings.__dict__[name], description.min, description.max
         )
 
         def on_changed() -> None:
-            self.settings.__dict__[name] = inputs.value
+            self.sc.settings.__dict__[name] = inputs.value
 
         inputs.spinner.valueChanged.connect(on_changed)
         self.addLayout(inputs, row, 1, Qt.AlignRight)
+        self.settings_map[name] = inputs
+
+    def update_from_settings(self) -> None:
+        for name, description in Settings.fields(self.page, self.section):
+            widget = self.settings_map[name]
+            value = self.sc.settings.__dict__[name]
+            if isinstance(widget, QCheckBox):
+                widget.setChecked(value)
+            elif isinstance(widget, QComboBox):
+                if isinstance(value, Enum):
+                    widget.setCurrentText(value.value)
+                elif isinstance(value, str):
+                    widget.setCurrentText(value)
+                else:
+                    logging.error(
+                        f"Incompatible type '{type(value)}' for ComboBox option {name}"
+                    )
+            elif isinstance(widget, FloatSpinSlider):
+                widget.spinner.setValue(int(value * widget.spinner.divisor))
+            elif isinstance(widget, QSpinBox):
+                widget.setValue(value)
+            elif isinstance(widget, TimeInputs):
+                widget.spinner.setValue(value.seconds // 60)
 
 
 class AutoSettingsGroup(QGroupBox):
@@ -218,56 +259,79 @@ class AutoSettingsGroup(QGroupBox):
         self,
         page: str,
         section: str,
-        settings: Settings,
+        sc: SettingsContainer,
         write_full_settings: Callable[[], None],
     ) -> None:
         super().__init__(section)
-        self.setLayout(AutoSettingsLayout(page, section, settings, write_full_settings))
+        self.layout = AutoSettingsLayout(page, section, sc, write_full_settings)
+        self.setLayout(self.layout)
+
+    def update_from_settings(self) -> None:
+        self.layout.update_from_settings()
 
 
 class AutoSettingsPageLayout(QVBoxLayout):
     def __init__(
         self,
         page: str,
-        settings: Settings,
+        sc: SettingsContainer,
         write_full_settings: Callable[[], None],
     ) -> None:
         super().__init__()
         self.setAlignment(Qt.AlignTop)
 
+        self.widgets = []
         for section in Settings.sections(page):
-            self.addWidget(
-                AutoSettingsGroup(page, section, settings, write_full_settings)
+            self.widgets.append(
+                AutoSettingsGroup(page, section, sc, write_full_settings)
             )
+            self.addWidget(self.widgets[-1])
+
+    def update_from_settings(self) -> None:
+        for w in self.widgets:
+            w.update_from_settings()
 
 
 class AutoSettingsPage(QWidget):
     def __init__(
         self,
         page: str,
-        settings: Settings,
+        sc: SettingsContainer,
         write_full_settings: Callable[[], None],
     ) -> None:
         super().__init__()
-        self.setLayout(AutoSettingsPageLayout(page, settings, write_full_settings))
+        self.layout = AutoSettingsPageLayout(page, sc, write_full_settings)
+        self.setLayout(self.layout)
+
+    def update_from_settings(self) -> None:
+        self.layout.update_from_settings()
 
 
 class QSettingsWindow(QDialog):
     def __init__(self, game: Game):
         super().__init__()
-
         self.game = game
-        self.pluginsPage = None
-        self.pluginsOptionsPage = None
-
-        self.pages: dict[str, AutoSettingsPage] = {}
-        for page in Settings.pages():
-            self.pages[page] = AutoSettingsPage(page, game.settings, self.applySettings)
+        self.setLayout(QSettingsWidget(game.settings, game).layout)
 
         self.setModal(True)
         self.setWindowTitle("Settings")
         self.setWindowIcon(CONST.ICONS["Settings"])
         self.setMinimumSize(840, 480)
+
+
+class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
+    def __init__(self, settings: Settings, game: Optional[Game] = None):
+        super().__init__()
+
+        self.settings = game.settings if game else settings
+        self.game = game
+
+        self.pages: dict[str, AutoSettingsPage] = {}
+        for page in Settings.pages():
+            self.pages[page] = AutoSettingsPage(page, self, self.applySettings)
+
+        self.pluginsPage = PluginsPage(self)
+        self.pluginsOptionsPage = PluginOptionsPage(self)
 
         self.initUi()
 
@@ -305,7 +369,6 @@ class QSettingsWindow(QDialog):
         self.categoryModel.appendRow(cheat)
         self.right_layout.addWidget(self.cheatPage)
 
-        self.pluginsPage = PluginsPage()
         plugins = QStandardItem("LUA Plugins")
         plugins.setIcon(CONST.ICONS["Plugins"])
         plugins.setEditable(False)
@@ -313,7 +376,6 @@ class QSettingsWindow(QDialog):
         self.categoryModel.appendRow(plugins)
         self.right_layout.addWidget(self.pluginsPage)
 
-        self.pluginsOptionsPage = PluginOptionsPage()
         pluginsOptions = QStandardItem("LUA Plugins Options")
         pluginsOptions.setIcon(CONST.ICONS["PluginsOptions"])
         pluginsOptions.setEditable(False)
@@ -350,10 +412,11 @@ class QSettingsWindow(QDialog):
         self.cheatLayout = QVBoxLayout()
         self.cheatPage.setLayout(self.cheatLayout)
 
-        self.cheat_options = CheatSettingsBox(self.game, self.applySettings)
+        self.cheat_options = CheatSettingsBox(self, self.applySettings)
         self.cheatLayout.addWidget(self.cheat_options)
 
         self.moneyCheatBox = QGroupBox("Money Cheat")
+        self.moneyCheatBox.setDisabled(self.game is None)
         self.moneyCheatBox.setAlignment(Qt.AlignTop)
         self.moneyCheatBoxLayout = QGridLayout()
         self.moneyCheatBox.setLayout(self.moneyCheatBoxLayout)
@@ -379,25 +442,40 @@ class QSettingsWindow(QDialog):
         GameUpdateSignal.get_instance().updateGame(self.game)
 
     def applySettings(self):
-        self.game.settings.show_red_ato = self.cheat_options.show_red_ato
-        self.game.settings.enable_frontline_cheats = (
-            self.cheat_options.show_frontline_cheat
-        )
-        self.game.settings.enable_base_capture_cheat = (
+        self.settings.show_red_ato = self.cheat_options.show_red_ato
+        self.settings.enable_frontline_cheats = self.cheat_options.show_frontline_cheat
+        self.settings.enable_base_capture_cheat = (
             self.cheat_options.show_base_capture_cheat
         )
-        self.game.settings.enable_transfer_cheat = (
-            self.cheat_options.show_transfer_cheat
-        )
+        self.settings.enable_transfer_cheat = self.cheat_options.show_transfer_cheat
 
-        events = GameUpdateEvents()
-        self.game.compute_unculled_zones(events)
-        EventStream.put_nowait(events)
-        GameUpdateSignal.get_instance().updateGame(self.game)
+        if self.game:
+            events = GameUpdateEvents()
+            self.game.compute_unculled_zones(events)
+            EventStream.put_nowait(events)
+            GameUpdateSignal.get_instance().updateGame(self.game)
 
-    def onSelectionChanged(self):
+    def onSelectionChanged(self) -> None:
         index = self.categoryList.selectionModel().currentIndex().row()
         self.right_layout.setCurrentIndex(index)
+
+    def update_from_settings(self) -> None:
+        for p in self.pages.values():
+            p.update_from_settings()
+
+        self.cheat_options.red_ato_checkbox.setChecked(self.settings.show_red_ato)
+        self.cheat_options.base_capture_cheat_checkbox.setChecked(
+            self.settings.enable_base_capture_cheat
+        )
+        self.cheat_options.frontline_cheat_checkbox.setChecked(
+            self.settings.enable_frontline_cheats
+        )
+        self.cheat_options.transfer_cheat_checkbox.setChecked(
+            self.settings.enable_transfer_cheat
+        )
+
+        self.pluginsPage.update_from_settings()
+        self.pluginsOptionsPage.update_from_settings()
 
     def load_settings(self):
         sd = settings_dir()
@@ -410,12 +488,10 @@ class QSettingsWindow(QDialog):
                 filename = zipfilename.split("/")[-1].replace(".zip", ".json")
                 settings = json.loads(
                     zf.read(filename).decode("utf-8"),
-                    object_hook=self.game.settings.obj_hook,
+                    object_hook=self.settings.obj_hook,
                 )
-                self.game.settings.__setstate__(settings)
-                self.close()
-                new = QSettingsWindow(self.game)
-                new.exec_()
+                self.settings.__setstate__(settings)
+                self.update_from_settings()
 
     def save_settings(self):
         sd = settings_dir()
@@ -430,9 +506,9 @@ class QSettingsWindow(QDialog):
                 zf.writestr(
                     filename,
                     json.dumps(
-                        self.game.settings.__dict__,
+                        self.settings.__dict__,
                         indent=2,
-                        default=self.game.settings.default_json,
+                        default=self.settings.default_json,
                     ),
                     zipfile.ZIP_DEFLATED,
                 )

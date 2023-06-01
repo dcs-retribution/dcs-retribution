@@ -15,7 +15,7 @@ if TYPE_CHECKING:
     from ..flightwaypoint import FlightWaypoint
 
 
-@dataclass(frozen=True)
+@dataclass
 class CustomLayout(Layout):
     custom_waypoints: list[FlightWaypoint]
 

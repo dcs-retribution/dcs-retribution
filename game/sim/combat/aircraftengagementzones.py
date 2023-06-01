@@ -36,7 +36,7 @@ class AircraftEngagementZones:
         self.threat_zones = self._make_combined_zone()
 
     def _make_combined_zone(self) -> ThreatPoly:
-        return unary_union(self.individual_zones.values())
+        return unary_union(list(self.individual_zones.values()))
 
     def covers(self, position: Point) -> bool:
         return self.threat_zones.intersects(dcs_to_shapely_point(position))

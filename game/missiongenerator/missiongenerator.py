@@ -43,13 +43,6 @@ if TYPE_CHECKING:
     from game import Game
 
 
-def country_id_from_name(name: str) -> int:
-    for k, v in country_dict.items():
-        if v.name == name:
-            return k
-    return -1
-
-
 class MissionGenerator:
     def __init__(self, game: Game, time: datetime) -> None:
         self.game = game
@@ -64,6 +57,9 @@ class MissionGenerator:
         self.tacan_registry = TacanRegistry()
 
         self.generation_started = False
+
+        self.p_country = country_dict[self.game.blue.faction.country.id]()
+        self.e_country = country_dict[self.game.red.faction.country.id]()
 
         with open("resources/default_options.lua", "r", encoding="utf-8") as f:
             options = dcs.lua.loads(f.read())["options"]
@@ -133,22 +129,14 @@ class MissionGenerator:
             "neutrals", bullseye=Bullseye(Point(0, 0, self.mission.terrain)).to_pydcs()
         )
 
-        p_country = self.game.blue.country_name
-        e_country = self.game.red.country_name
-        self.mission.coalition["blue"].add_country(
-            country_dict[country_id_from_name(p_country)]()
-        )
-        self.mission.coalition["red"].add_country(
-            country_dict[country_id_from_name(e_country)]()
-        )
+        self.mission.coalition["blue"].add_country(self.p_country)
+        self.mission.coalition["red"].add_country(self.e_country)
 
-        belligerents = [
-            country_id_from_name(p_country),
-            country_id_from_name(e_country),
-        ]
-        for country in country_dict.keys():
-            if country not in belligerents:
-                self.mission.coalition["neutrals"].add_country(country_dict[country]())
+        belligerents = {self.p_country.id, self.e_country.id}
+        for country_id in country_dict.keys():
+            if country_id not in belligerents:
+                c = country_dict[country_id]()
+                self.mission.coalition["neutrals"].add_country(c)
 
     def add_airfields_to_unit_map(self) -> None:
         for control_point in self.game.theater.controlpoints:
@@ -243,19 +231,19 @@ class MissionGenerator:
         aircraft_generator.clear_parking_slots()
 
         aircraft_generator.generate_flights(
-            self.mission.country(self.game.blue.country_name),
+            self.p_country,
             self.game.blue.ato,
             tgo_generator.runways,
         )
         aircraft_generator.generate_flights(
-            self.mission.country(self.game.red.country_name),
+            self.e_country,
             self.game.red.ato,
             tgo_generator.runways,
         )
         if not self.game.settings.perf_disable_idle_aircraft:
             aircraft_generator.spawn_unused_aircraft(
-                self.mission.country(self.game.blue.country_name),
-                self.mission.country(self.game.red.country_name),
+                self.p_country,
+                self.e_country,
             )
 
         self.mission_data.flights = aircraft_generator.flights
@@ -285,7 +273,7 @@ class MissionGenerator:
             pos = Point(cast(float, d["x"]), cast(float, d["z"]), self.mission.terrain)
             if utype is not None and not self.game.position_culled(pos):
                 self.mission.static_group(
-                    country=self.mission.country(self.game.blue.country_name),
+                    country=self.p_country,
                     name="",
                     _type=utype,
                     hidden=True,

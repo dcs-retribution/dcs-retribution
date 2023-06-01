@@ -41,7 +41,6 @@ from dcs.ships import (
     Hms_invincible,
 )
 from dcs.terrain.terrain import Airport, ParkingSlot
-from dcs.triggers import TriggerZone
 from dcs.unitgroup import ShipGroup, StaticGroup
 from dcs.unittype import ShipType
 
@@ -61,6 +60,7 @@ from game.sidc import (
 )
 from game.theater.presetlocation import PresetLocation
 from game.utils import Distance, Heading, meters
+from pydcs_extensions import L02, L52, L61
 from .base import Base
 from .frontline import FrontLine
 from .interfaces.CTLD import CTLD
@@ -81,7 +81,7 @@ from ..radio.Link4Container import Link4Container
 from ..radio.RadioFrequencyContainer import RadioFrequencyContainer
 from ..radio.TacanContainer import TacanContainer
 from ..utils import nautical_miles
-from ..weather import Conditions
+from ..weather.conditions import Conditions
 
 if TYPE_CHECKING:
     from game import Game
@@ -103,7 +103,7 @@ class ControlPointType(Enum):
     AIRCRAFT_CARRIER_GROUP = 1
     #: A group with a Tarawa carrier (Helicopters & Harrier).
     LHA_GROUP = 2
-    #: A FARP, with slots for helicopters
+    #: A FARP, with slots for helicopters & harrier
     FARP = 4
     #: A FOB (ground units only)
     FOB = 5
@@ -1232,6 +1232,9 @@ class NavalControlPoint(
                     KUZNECOW,
                     Type_071,
                     Hms_invincible,
+                    L02,
+                    L52,
+                    L61,
                 ]:
                     return True
         return False
@@ -1458,7 +1461,8 @@ class Fob(ControlPoint, RadioFrequencyContainer, CTLD):
         if not self.is_friendly(for_player):
             yield FlightType.STRIKE
             yield FlightType.AIR_ASSAULT
-            yield FlightType.OCA_AIRCRAFT
+        else:
+            yield FlightType.AEWC
 
         yield from super().mission_types(for_player)
 
@@ -1470,7 +1474,9 @@ class Fob(ControlPoint, RadioFrequencyContainer, CTLD):
         # FOBs and FARPs are the same class, distinguished only by non-FARP FOBs having
         # zero parking.
         # https://github.com/dcs-liberation/dcs_liberation/issues/2378
-        return aircraft.helicopter and self.total_aircraft_parking > 0
+        return (
+            aircraft.helicopter or aircraft.lha_capable
+        ) and self.total_aircraft_parking > 0
 
     @property
     def heading(self) -> Heading:

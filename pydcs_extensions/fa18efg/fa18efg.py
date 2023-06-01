@@ -3,7 +3,6 @@ from typing import Dict, List, Set, Any
 from dcs import task
 from dcs.planes import PlaneType
 from dcs.weapons_data import Weapons
-from dcs.liveries_scanner import Liveries
 
 from game.modsupport import planemod
 from pydcs_extensions.weapon_injector import inject_weapons
@@ -147,7 +146,6 @@ class FA_18E(PlaneType):
                 NVG = 2
 
     livery_name = "FA-18E"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         AIM_9M_Sidewinder_IR_AAM = (1, Weapons.AIM_9M_Sidewinder_IR_AAM)
@@ -1134,7 +1132,6 @@ class FA_18F(PlaneType):
                 NVG = 2
 
     livery_name = "FA-18F"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         AIM_9M_Sidewinder_IR_AAM = (1, Weapons.AIM_9M_Sidewinder_IR_AAM)
@@ -2121,7 +2118,6 @@ class EA_18G(PlaneType):
                 NVG = 2
 
     livery_name = "EA-18G"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         FPU_12_Fuel_Tank_480_gallons = (1, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)

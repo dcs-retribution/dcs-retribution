@@ -76,7 +76,7 @@ class ProcurementAi:
         weighted_investment = aircraft_investment * air + armor_investment * ground
         if weighted_investment == 0:
             # Turn 0 or all units were destroyed. Either way, split 30/70.
-            return min(0.3, ground)
+            return ground
 
         # the more planes we have, the more ground units we want and vice versa
         ground_unit_share = aircraft_investment * air / weighted_investment
@@ -233,6 +233,8 @@ class ProcurementAi:
             request.near, request.task_capability, request.number, this_turn=False
         ):
             if not squadron.can_provide_pilots(request.number):
+                continue
+            if not squadron.has_aircraft_capacity_for(request.number):
                 continue
             if squadron.location.unclaimed_parking() < request.number:
                 continue

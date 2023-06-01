@@ -4,11 +4,11 @@ from dataclasses import dataclass
 from datetime import timedelta
 from typing import Iterator, TYPE_CHECKING, Type
 
-from ._common_ctld import generate_random_ctld_point
 from game.ato.flightplans.standard import StandardFlightPlan, StandardLayout
 from game.theater.controlpoint import ControlPointType
 from game.theater.missiontarget import MissionTarget
 from game.utils import Distance, feet, meters
+from ._common_ctld import generate_random_ctld_point
 from .ibuilder import IBuilder
 from .planningerror import PlanningError
 from .uizonedisplay import UiZone, UiZoneDisplay
@@ -21,7 +21,7 @@ if TYPE_CHECKING:
     from ..flightwaypoint import FlightWaypoint
 
 
-@dataclass(frozen=True)
+@dataclass
 class AirAssaultLayout(StandardLayout):
     # The pickup point is optional because we don't always need to load the cargo. When
     # departing from a carrier, LHA, or off-map spawn, the cargo is pre-loaded.

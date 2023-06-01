@@ -41,7 +41,7 @@ INGRESS_TYPES = {
 }
 
 
-@dataclass(frozen=True)
+@dataclass
 class Layout(ABC):
     departure: FlightWaypoint
 
@@ -49,6 +49,9 @@ class Layout(ABC):
     def waypoints(self) -> list[FlightWaypoint]:
         """A list of all waypoints in the flight plan, in order."""
         return list(self.iter_waypoints())
+
+    def delete_waypoint(self, waypoint: FlightWaypoint) -> bool:
+        return False
 
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
         """Iterates over all waypoints in the flight plan, in order."""

@@ -6,7 +6,6 @@ from typing import Set
 
 from dcs import unittype, task
 from dcs.helicopters import HelicopterType
-from dcs.liveries_scanner import Liveries
 
 from game.modsupport import vehiclemod, shipmod, helicoptermod
 
@@ -410,7 +409,6 @@ class HKP15B(HelicopterType):
     }
 
     livery_name = "HKP15B"  # from type
-    Liveries = Liveries()[livery_name]
 
     pylons: Set[int] = set()
 
