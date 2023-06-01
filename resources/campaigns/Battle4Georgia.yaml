@@ -1,5 +1,5 @@
 ---
-name: Caucasus - WRL - Battle for Georgia (v1)
+name: Caucasus - WRL - Battle for Georgia (v2)
 theater: Caucasus
 authors: HolyOrangeJuice
 recommended_player_faction: WRL - Task Force Blue
@@ -53,14 +53,6 @@ squadrons:
       aircraft:
         - VMA-223
         #AV8B
-    - primary: BAI
-      secondary: air-to-ground
-      aircraft:
-        - AH-64D Apache Longbow
-    - primary: BAI
-      secondary: air-to-ground
-      aircraft:
-        - AH-1W SuperCobra
     - primary: Strike
       secondary: air-to-ground
       aircraft:
@@ -142,7 +134,10 @@ squadrons:
         - E-3A
     - primary: Refueling
       aircraft:
-        - KC-135 Stratotanker MPRS
+        - KC-135 Stratotanker
+    - primary: Refueling
+      aircraft:
+        - KC-130
  # Kobuleti
   24:
     - primary: BARCAP

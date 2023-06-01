@@ -1,5 +1,5 @@
 ---
-name: Syria - WRL - Assault on Damascus (v1)
+name: Syria - WRL - Assault on Damascus (v2)
 theater: Syria
 authors: HolyOrangeJuice
 recommended_player_faction: WRL - Task Force Blue
@@ -47,14 +47,6 @@ squadrons:
       aircraft:
         - VMA-223
         #AV8B
-    - primary: BAI
-      secondary: air-to-ground
-      aircraft:
-        - AH-1W SuperCobra
-    - primary: Strike
-      secondary: air-to-ground
-      aircraft:
-        - SH-60B Seahawk
   # AIR SPAWN BLUE
   BLUEAIR:
     - primary: AEW&C
@@ -62,7 +54,10 @@ squadrons:
         - E-3A
     - primary: Refueling
       aircraft:
-        - KC-135 Stratotanker MPRS
+        - KC-135 Stratotanker
+    - primary: Refueling
+      aircraft:
+        - KC-130
     - primary: Strike
       secondary: air-to-ground
       aircraft:
@@ -206,6 +201,11 @@ squadrons:
       aircraft:
         - Su-25T Frogfoot
 ground_forces:
-  Golan North-29: SA-15 SHORAD  # OK
-  Golan North-92: SA-15 SHORAD  # fails because this is a MERAD site      -> warning in retribution.log
-  Golan North-10: SA-15 SHORAD  # fails because this is an Armoured Group -> warning in retribution.log
+  Khalkhalah SAM A: SA-11
+  Khalkhalah SAM B: SA-2/S-75 
+  Damascus SAM A: SA-11
+  Dumayr SAM A: SA-10/S-300PS 
+  Dumayr SAM B: SA-2/S-75 
+  Dumayr SAM C: SA-2/S-75 
+  GolanS SAM A: SA-11
+  Ramat SAM A: SA-11

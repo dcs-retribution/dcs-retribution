@@ -6,7 +6,7 @@ recommended_player_faction: WRL - Task Force Blue
 recommended_enemy_faction: WRL - Task Force Red
 recommended_start_date: 2019-12-25
 description: "<p>This mission was designed for the We Run Liberation group [WRL].
-  <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p>"
+  <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p><p>Your goal is to cripple the enemy SAM network by targeting the enemy IADs network. You can destroy power stations, communications towers, and command modules.</p>"
 miz: Kutaisi2Vaziani.miz
 performance: 2
 version: "10.5"
@@ -94,7 +94,10 @@ squadrons:
         - E-3A
     - primary: Refueling
       aircraft:
-        - KC-135 Stratotanker MPRS 
+        - KC-135 Stratotanker
+    - primary: Refueling
+      aircraft:
+        - KC-130
     - primary: Strike
       secondary: air-to-ground
       aircraft:
