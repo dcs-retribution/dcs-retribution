@@ -258,9 +258,7 @@ class Settings:
         PILOTS_AND_SQUADRONS_SECTION,
         default=False,
         detail=(
-            "If set, squadrons will not be able to exceed a maximum number of aircraft "
-            "(configurable), and the campaign will begin with all squadrons at full strength "
-            "given enough room at the base."
+            "If set, squadrons will not be able to buy more aircraft than the configured maximum."
         ),
     )
 

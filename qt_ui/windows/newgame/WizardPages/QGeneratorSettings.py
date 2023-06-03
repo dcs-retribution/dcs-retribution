@@ -54,6 +54,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("no_player_navy", self.no_player_navy)
         self.no_enemy_navy = QtWidgets.QCheckBox()
         self.registerField("no_enemy_navy", self.no_enemy_navy)
+        self.squadrons_start_full = QtWidgets.QCheckBox()
+        self.registerField("squadrons_start_full", self.squadrons_start_full)
 
         generatorLayout = QtWidgets.QGridLayout()
         generatorLayout.addWidget(QtWidgets.QLabel("No Aircraft Carriers"), 1, 0)
@@ -65,13 +67,23 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         generatorLayout.addWidget(QtWidgets.QLabel("No Enemy Navy"), 4, 0)
         generatorLayout.addWidget(self.no_enemy_navy, 4, 1)
 
+        label = QtWidgets.QLabel("Squadrons start at full capacity")
+        label.setToolTip(
+            "Campaign will start with all squadrons at full strength "
+            "given enough room at the airfield in question.\n"
+            "Each squadron's capacity can be defined during Air Wing Configuration."
+        )
+        generatorLayout.addWidget(label, 5, 0)
+        generatorLayout.addWidget(self.squadrons_start_full, 5, 1)
+        generatorLayout.addWidget(QtWidgets.QWidget(), 6, 0)
+
         self.player_budget = BudgetInputs("Player starting budget", DEFAULT_BUDGET)
         self.registerField("starting_money", self.player_budget.starting_money)
-        generatorLayout.addLayout(self.player_budget, 5, 0)
+        generatorLayout.addLayout(self.player_budget, 7, 0)
 
         self.enemy_budget = BudgetInputs("Enemy starting budget", DEFAULT_BUDGET)
         self.registerField("enemy_starting_money", self.enemy_budget.starting_money)
-        generatorLayout.addLayout(self.enemy_budget, 6, 0)
+        generatorLayout.addLayout(self.enemy_budget, 8, 0)
 
         generatorSettingsGroup.setLayout(generatorLayout)
 
@@ -195,6 +207,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.no_lha.setChecked(s.get("no_lha", False))
         self.no_player_navy.setChecked(s.get("no_player_navy", False))
         self.no_enemy_navy.setChecked(s.get("no_enemy_navy", False))
+        self.squadrons_start_full.setChecked(s.get("squadron_start_full", False))
 
         self.a4_skyhawk.setChecked(s.get("a4_skyhawk", False))
         self.a6a_intruder.setChecked(s.get("a6a_intruder", False))
