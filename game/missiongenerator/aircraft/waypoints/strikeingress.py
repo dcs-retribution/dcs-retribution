@@ -34,13 +34,21 @@ class StrikeIngressBuilder(PydcsWaypointBuilder):
         for t in targets:
             avg_spacing += center.distance_to_point(t.position)
         avg_spacing /= len(targets)
-        bombing = CarpetBombing(
-            center,
-            weapon_type=WeaponType.Bombs,
-            expend=Expend.All,
-            carpet_length=avg_spacing,
-            altitude=waypoint.alt,
-        )
+        if self.group.task == "Ground Attack":
+            bombing = CarpetBombing(
+                center,
+                weapon_type=WeaponType.Bombs,
+                expend=Expend.All,
+                carpet_length=avg_spacing,
+                altitude=waypoint.alt,
+            )
+        else:
+            bombing = Bombing(
+                center,
+                weapon_type=WeaponType.Bombs,
+                expend=Expend.All,
+                altitude=waypoint.alt,
+            )
         waypoint.tasks.append(bombing)
 
     def add_strike_tasks(
