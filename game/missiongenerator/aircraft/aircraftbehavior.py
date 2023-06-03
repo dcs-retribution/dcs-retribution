@@ -22,7 +22,9 @@ from dcs.task import (
     Transport,
     SEAD,
     SwitchWaypoint,
-    OptJettisonEmptyTanks, MainTask, PinpointStrike,
+    OptJettisonEmptyTanks,
+    MainTask,
+    PinpointStrike,
 )
 from dcs.unitgroup import FlyingGroup
 
@@ -344,10 +346,10 @@ class AircraftBehavior:
 
     @staticmethod
     def configure_task(
-            flight: Flight,
-            group: FlyingGroup[Any],
-            preferred_task: Type[MainTask],
-            fallback_task: Optional[Type[MainTask]] = None
+        flight: Flight,
+        group: FlyingGroup[Any],
+        preferred_task: Type[MainTask],
+        fallback_task: Optional[Type[MainTask]] = None,
     ) -> None:
         # Not all aircraft are always compatible with the preferred task,
         # so a common fallback is to use CAS instead.

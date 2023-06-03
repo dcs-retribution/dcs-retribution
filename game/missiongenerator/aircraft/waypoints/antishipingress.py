@@ -27,7 +27,9 @@ class AntiShipIngressBuilder(PydcsWaypointBuilder):
         for group_name in group_names:
             miz_group = self.mission.find_group(group_name)
             if miz_group is None:
-                logging.error("Could not find group for Anti-Ship mission %s", group_name)
+                logging.error(
+                    "Could not find group for Anti-Ship mission %s", group_name
+                )
                 continue
 
             task = AttackGroup(miz_group.id, weapon_type=WeaponType.Auto)
