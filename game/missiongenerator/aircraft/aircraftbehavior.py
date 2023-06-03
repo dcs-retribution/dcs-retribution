@@ -1,7 +1,6 @@
 import logging
-from typing import Any, Optional
+from typing import Any, Optional, Type
 
-from dcs.planes import Tornado_GR4, Tornado_IDS
 from dcs.task import (
     AWACS,
     AWACSTaskAction,
@@ -23,7 +22,7 @@ from dcs.task import (
     Transport,
     SEAD,
     SwitchWaypoint,
-    OptJettisonEmptyTanks,
+    OptJettisonEmptyTanks, MainTask, PinpointStrike,
 )
 from dcs.unitgroup import FlyingGroup
 
@@ -122,8 +121,7 @@ class AircraftBehavior:
             group.points[0].tasks.append(EPLRS(group.id))
 
     def configure_cap(self, group: FlyingGroup[Any], flight: Flight) -> None:
-        group.task = CAP.name
-
+        self.configure_task(flight, group, CAP)
         if not flight.unit_type.gunfighter:
             ammo_type = OptRTBOnOutOfAmmo.Values.AAM
         else:
@@ -132,8 +130,7 @@ class AircraftBehavior:
         self.configure_behavior(flight, group, rtb_winchester=ammo_type)
 
     def configure_sweep(self, group: FlyingGroup[Any], flight: Flight) -> None:
-        group.task = FighterSweep.name
-
+        self.configure_task(flight, group, FighterSweep)
         if not flight.unit_type.gunfighter:
             ammo_type = OptRTBOnOutOfAmmo.Values.AAM
         else:
@@ -142,7 +139,7 @@ class AircraftBehavior:
         self.configure_behavior(flight, group, rtb_winchester=ammo_type)
 
     def configure_cas(self, group: FlyingGroup[Any], flight: Flight) -> None:
-        group.task = CAS.name
+        self.configure_task(flight, group, CAS)
         self.configure_behavior(
             flight,
             group,
@@ -160,15 +157,7 @@ class AircraftBehavior:
         # Note that the only effect that the DCS task type has is in determining which
         # waypoint actions the group may perform.
 
-        # The stock Tornado is capable of the SEAD task in DCS, but not the CAS task,
-        # so use SEAD for Tornadoes when flying SEAD or DEAD missions.
-        if flight.unit_type.dcs_unit_type in [
-            Tornado_GR4,
-            Tornado_IDS,
-        ]:
-            group.task = SEAD.name
-        else:
-            group.task = CAS.name
+        self.configure_task(flight, group, SEAD, CAS)
         self.configure_behavior(
             flight,
             group,
@@ -184,18 +173,7 @@ class AircraftBehavior:
         # available aircraft, and F-14s are not able to be SEAD despite having TALDs.
         # https://forums.eagle.ru/topic/272112-cannot-assign-f-14-to-sead/
 
-        # An exception to the above is the stock Tornado, which is capable of the
-        # SEAD task in DCS, but not the CAS task, so use SEAD for Tornadoes.
-        # Also, feel free to add to the list if other airframes should use SEAD
-        # as well for cosmetic reasons (would show SEAD task in the mission
-        # editor and F10 map in-game).
-        if flight.unit_type.dcs_unit_type in [
-            Tornado_GR4,
-            Tornado_IDS,
-        ]:
-            group.task = SEAD.name
-        else:
-            group.task = CAS.name
+        self.configure_task(flight, group, SEAD, CAS)
         self.configure_behavior(
             flight,
             group,
@@ -209,7 +187,7 @@ class AircraftBehavior:
         )
 
     def configure_strike(self, group: FlyingGroup[Any], flight: Flight) -> None:
-        group.task = GroundAttack.name
+        self.configure_task(flight, group, GroundAttack, PinpointStrike)
         self.configure_behavior(
             flight,
             group,
@@ -220,7 +198,7 @@ class AircraftBehavior:
         )
 
     def configure_anti_ship(self, group: FlyingGroup[Any], flight: Flight) -> None:
-        group.task = AntishipStrike.name
+        self.configure_task(flight, group, AntishipStrike, CAS)
         self.configure_behavior(
             flight,
             group,
@@ -231,7 +209,7 @@ class AircraftBehavior:
         )
 
     def configure_runway_attack(self, group: FlyingGroup[Any], flight: Flight) -> None:
-        group.task = RunwayAttack.name
+        self.configure_task(flight, group, RunwayAttack)
         self.configure_behavior(
             flight,
             group,
@@ -242,7 +220,7 @@ class AircraftBehavior:
         )
 
     def configure_oca_strike(self, group: FlyingGroup[Any], flight: Flight) -> None:
-        group.task = CAS.name
+        self.configure_task(flight, group, CAS)
         self.configure_behavior(
             flight,
             group,
@@ -252,8 +230,7 @@ class AircraftBehavior:
         )
 
     def configure_awacs(self, group: FlyingGroup[Any], flight: Flight) -> None:
-        group.task = AWACS.name
-
+        self.configure_task(flight, group, AWACS)
         if not isinstance(flight.flight_plan, AewcFlightPlan):
             logging.error(
                 f"Cannot configure AEW&C tasks for {flight} because it does not have "
@@ -273,8 +250,7 @@ class AircraftBehavior:
         group.points[0].tasks.append(AWACSTaskAction())
 
     def configure_refueling(self, group: FlyingGroup[Any], flight: Flight) -> None:
-        group.task = Refueling.name
-
+        self.configure_task(flight, group, Refueling)
         if not isinstance(flight.flight_plan, TheaterRefuelingFlightPlan):
             logging.error(
                 f"Cannot configure racetrack refueling tasks for {flight} because it "
@@ -294,7 +270,7 @@ class AircraftBehavior:
         # Escort groups are actually given the CAP task so they can perform the
         # Search Then Engage task, which we have to use instead of the Escort
         # task for the reasons explained in JoinPointBuilder.
-        group.task = Escort.name
+        self.configure_task(flight, group, Escort)
         if flight.flight_plan.is_formation(flight.flight_plan):
             index = flight.flight_plan.get_index_of_wpt_by_type(
                 FlightWaypointType.SPLIT
@@ -311,7 +287,7 @@ class AircraftBehavior:
         # CAS is able to perform all the same tasks as SEAD using a superset of the
         # available aircraft, and F-14s are not able to be SEAD despite having TALDs.
         # https://forums.eagle.ru/topic/272112-cannot-assign-f-14-to-sead/
-        group.task = SEAD.name
+        self.configure_task(flight, group, SEAD)
         index = flight.flight_plan.get_index_of_wpt_by_type(FlightWaypointType.SPLIT)
         if index > 0 and flight.flight_plan.is_formation(flight.flight_plan):
             group.add_trigger_action(SwitchWaypoint(None, index))
@@ -329,7 +305,7 @@ class AircraftBehavior:
         )
 
     def configure_transport(self, group: FlyingGroup[Any], flight: Flight) -> None:
-        group.task = Transport.name
+        self.configure_task(flight, group, Transport)
         roe = OptROE.Values.WeaponHold
         if flight.is_hercules:
             group.task = GroundAttack.name
@@ -343,7 +319,7 @@ class AircraftBehavior:
         )
 
     def configure_ferry(self, group: FlyingGroup[Any], flight: Flight) -> None:
-        group.task = Nothing.name
+        self.configure_task(flight, group, Nothing)
         self.configure_behavior(
             flight,
             group,
@@ -365,3 +341,29 @@ class AircraftBehavior:
             return True
 
         return flight.unit_type.always_keeps_gun
+
+    @staticmethod
+    def configure_task(
+            flight: Flight,
+            group: FlyingGroup[Any],
+            preferred_task: Type[MainTask],
+            fallback_task: Optional[Type[MainTask]] = None
+    ) -> None:
+        # Not all aircraft are always compatible with the preferred task,
+        # so a common fallback is to use CAS instead.
+        # Sometimes it's also the other way around,
+        # i.e. the preferred task is available while CAS isn't
+        # This method should allow for dynamic choice between tasks,
+        # obviously depending on what's preferred and compatible...
+
+        if preferred_task in flight.unit_type.dcs_unit_type.tasks:
+            group.task = preferred_task.name
+        elif fallback_task and fallback_task in flight.unit_type.dcs_unit_type.tasks:
+            group.task = fallback_task.name
+        else:
+            ac_type = flight.unit_type.dcs_unit_type.id
+            fallback_part = f" nor {fallback_task.name}" if fallback_task else ""
+            raise RuntimeError(
+                f"{ac_type} is neither capable of {preferred_task.name}"
+                f"{fallback_part}. Can't generate {flight.flight_type} flight."
+            )
