@@ -7,7 +7,6 @@
 * **[UI]** Added fuel selector in flight's edit window.
 * **[Plugins]** Expose Splash Damage's "game_messages" option and set its default to false.
 * **[Mission Generation]** Improved AI SEAD capabilities, allowing for mixed loadouts using Decoys, ARMs & ASMs.
-* **[Mission Generation]** Tornadoes now use SEAD tasking for SEAD/DEAD missions.
 * **[Mission Generation]** Convoys now try to get moving immediately (with cone formation) to avoid taking a long time to form up to move on road. Credit to Farrago for this approach.
 * **[Modding]** Support for A-7E Corsair II (presumed latest available version)
 * **[Squadrons]** Added many new squadron's by Adecarcer
@@ -19,6 +18,10 @@
 * **[New Game Wizard]** Re-organized generator options & show the regular settings menu instead of the limited "Difficulty & Automation" page.
 * **[Campaign Management]** Ability to operate harriers from FOBs/FARPs for <ins>__human pilots only__</ins>. Please note that the autoplanner won't generate flights for harriers at FOBs/FARPs, which means you need to plan your missions manually.
 * **[Mission Planning]** Allow NAV/REFUEL/DIVERT waypoints to be deleted without degrading to a custom flight-plan, also warning the user before actually degrading the flight-plan.
+* **[Campaign Generation]** Split "full-strength start" from "squadron aircraft limits" option.
+* **[Mission Generation]** General improvement w.r.t. DCS tasking, including a check for incompatible tasking.
+* **[Mission Generation]** OCA-Runway flights will remain at altitude when using guided bombs.
+* **[UX]** Added error message to indicate save-compatibility issues + fix to avoid total crash upon loading of last save.
 
 ## Fixes
 * **[New Game Wizard]** Settings would not persist when going back to a previous page (obsolete due to overhaul).
