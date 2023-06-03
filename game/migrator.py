@@ -6,6 +6,7 @@ from dcs.countries import countries_by_name
 
 from game.ato.packagewaypoints import PackageWaypoints
 from game.data.doctrine import MODERN_DOCTRINE, COLDWAR_DOCTRINE, WWII_DOCTRINE
+from game.theater import ParkingType
 
 if TYPE_CHECKING:
     from game import Game
@@ -108,9 +109,13 @@ class Migrator:
                     s.country = countries_by_name[c]()
 
                 # code below is used to fix corruptions wrt overpopulation
-                if s.owned_aircraft < 0 or s.location.unclaimed_parking() < 0:
+                parking_type = ParkingType().from_squadron(s)
+                if (
+                    s.owned_aircraft < 0
+                    or s.location.unclaimed_parking(parking_type) < 0
+                ):
                     s.owned_aircraft = max(
-                        0, s.location.unclaimed_parking() + s.owned_aircraft
+                        0, s.location.unclaimed_parking(parking_type) + s.owned_aircraft
                     )
 
     def _update_factions(self) -> None:

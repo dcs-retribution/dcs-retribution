@@ -1,14 +1,26 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+import logging
+from typing import TYPE_CHECKING, List
 
-from dcs.action import ClearFlag, DoScript, MarkToAll, SetFlag
+from dcs import Point
+from dcs.action import (
+    ClearFlag,
+    DoScript,
+    MarkToAll,
+    SetFlag,
+    RemoveSceneObjects,
+    RemoveSceneObjectsMask,
+    SceneryDestructionZone,
+    Smoke,
+)
 from dcs.condition import (
     AllOfCoalitionOutsideZone,
     FlagIsFalse,
     FlagIsTrue,
     PartOfCoalitionInZone,
     TimeAfter,
+    TimeSinceFlag,
 )
 from dcs.mission import Mission
 from dcs.task import Option
@@ -17,7 +29,7 @@ from dcs.triggers import Event, TriggerCondition, TriggerOnce
 from dcs.unit import Skill
 
 from game.theater import Airfield
-from game.theater.controlpoint import Fob
+from game.theater.controlpoint import Fob, TRIGGER_RADIUS_CAPTURE
 
 if TYPE_CHECKING:
     from game.game import Game
@@ -37,6 +49,7 @@ TRIGGER_RADIUS_SMALL = 50000
 TRIGGER_RADIUS_MEDIUM = 100000
 TRIGGER_RADIUS_LARGE = 150000
 TRIGGER_RADIUS_ALL_MAP = 3000000
+TRIGGER_RADIUS_CLEAR_SCENERY = 1000
 
 
 class Silence(Option):
@@ -133,6 +146,37 @@ class TriggerGenerator:
                         v += 1
             self.mission.triggerrules.triggers.append(mark_trigger)
 
+    def _generate_clear_statics_trigger(self, scenery_clear_zones: List[Point]) -> None:
+        for zone_center in scenery_clear_zones:
+            trigger_zone = self.mission.triggers.add_triggerzone(
+                zone_center,
+                radius=TRIGGER_RADIUS_CLEAR_SCENERY,
+                hidden=False,
+                name="CLEAR",
+            )
+            clear_trigger = TriggerCondition(Event.NoEvent, "Clear Trigger")
+            clear_flag = self.get_capture_zone_flag()
+            clear_trigger.add_condition(TimeSinceFlag(clear_flag, 30))
+            clear_trigger.add_action(ClearFlag(clear_flag))
+            clear_trigger.add_action(SetFlag(clear_flag))
+            clear_trigger.add_action(
+                RemoveSceneObjects(
+                    objects_mask=RemoveSceneObjectsMask.OBJECTS_ONLY,
+                    zone=trigger_zone.id,
+                )
+            )
+            clear_trigger.add_action(
+                SceneryDestructionZone(destruction_level=100, zone=trigger_zone.id)
+            )
+            self.mission.triggerrules.triggers.append(clear_trigger)
+
+            enable_clear_trigger = TriggerOnce(Event.NoEvent, "Enable Clear Trigger")
+            enable_clear_trigger.add_condition(TimeAfter(30))
+            enable_clear_trigger.add_action(ClearFlag(clear_flag))
+            enable_clear_trigger.add_action(SetFlag(clear_flag))
+            # clear_trigger.add_action(MessageToAll(text=String("Enable clear trigger"),))
+            self.mission.triggerrules.triggers.append(enable_clear_trigger)
+
     def _generate_capture_triggers(
         self, player_coalition: str, enemy_coalition: str
     ) -> None:
@@ -154,7 +198,10 @@ class TriggerGenerator:
                     defend_coalition_int = 1
 
                 trigger_zone = self.mission.triggers.add_triggerzone(
-                    cp.position, radius=3000, hidden=False, name="CAPTURE"
+                    cp.position,
+                    radius=TRIGGER_RADIUS_CAPTURE,
+                    hidden=False,
+                    name="CAPTURE",
                 )
                 flag = self.get_capture_zone_flag()
                 capture_trigger = TriggerCondition(Event.NoEvent, "Capture Trigger")
@@ -203,6 +250,11 @@ class TriggerGenerator:
         self._set_allegiances(player_coalition, enemy_coalition)
         self._gen_markers()
         self._generate_capture_triggers(player_coalition, enemy_coalition)
+        try:
+            self._generate_clear_statics_trigger(self.game.scenery_clear_zones)
+            self.game.scenery_clear_zones.clear()
+        except AttributeError:
+            logging.info(f"Unable to create Clear Statics triggers")
 
     @classmethod
     def get_capture_zone_flag(cls) -> int:

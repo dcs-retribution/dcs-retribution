@@ -3,6 +3,7 @@
 ## Features/Improvements
 * **[Preset Groups]** Add SA-2 with ZSU-23/57
 * **[Campaign Design]** Ability to define almost all possible settings in the campaign's yaml file.
+* **[Campaign Design]** Ability to add roadbases and/or ground spawns to campaigns.
 * **[Options]** Ability to load & save your settings.
 * **[UI]** Added fuel selector in flight's edit window.
 * **[Plugins]** Expose Splash Damage's "game_messages" option and set its default to false.

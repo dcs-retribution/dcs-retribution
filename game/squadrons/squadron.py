@@ -20,7 +20,7 @@ if TYPE_CHECKING:
     from game import Game
     from game.coalition import Coalition
     from game.dcs.aircrafttype import AircraftType
-    from game.theater import ControlPoint, MissionTarget
+    from game.theater import ControlPoint, MissionTarget, ParkingType
     from .operatingbases import OperatingBases
     from .squadrondef import SquadronDef
 
@@ -172,7 +172,10 @@ class Squadron:
             raise ValueError("Squadrons can only be created with active pilots.")
         self._recruit_pilots(self.settings.squadron_pilot_limit)
         if squadrons_start_full:
-            self.owned_aircraft = min(self.max_size, self.location.unclaimed_parking())
+            parking_type = ParkingType().from_squadron(self)
+            self.owned_aircraft = min(
+                self.max_size, self.location.unclaimed_parking(parking_type)
+            )
 
     def end_turn(self) -> None:
         if self.destination is not None:
@@ -326,9 +329,14 @@ class Squadron:
             self.destination = None
 
     def cancel_overflow_orders(self) -> None:
+        from game.theater import ParkingType
+
         if self.pending_deliveries <= 0:
             return
-        overflow = -self.location.unclaimed_parking()
+        parking_type = ParkingType().from_aircraft(
+            self.aircraft, self.coalition.game.settings.ground_start_ai_planes
+        )
+        overflow = -self.location.unclaimed_parking(parking_type)
         if overflow > 0:
             sell_count = min(overflow, self.pending_deliveries)
             logging.debug(
@@ -356,6 +364,8 @@ class Squadron:
         return self.location if self.destination is None else self.destination
 
     def plan_relocation(self, destination: ControlPoint) -> None:
+        from game.theater import ParkingType
+
         if destination == self.location:
             logging.warning(
                 f"Attempted to plan relocation of {self} to current location "
@@ -369,7 +379,8 @@ class Squadron:
             )
             return
 
-        if self.expected_size_next_turn > destination.unclaimed_parking():
+        parking_type = ParkingType().from_squadron(self)
+        if self.expected_size_next_turn > destination.unclaimed_parking(parking_type):
             raise RuntimeError(f"Not enough parking for {self} at {destination}.")
         if not destination.can_operate(self.aircraft):
             raise RuntimeError(f"{self} cannot operate at {destination}.")
@@ -377,6 +388,8 @@ class Squadron:
         self.replan_ferry_flights()
 
     def cancel_relocation(self) -> None:
+        from game.theater import ParkingType
+
         if self.destination is None:
             logging.warning(
                 f"Attempted to cancel relocation of squadron with no transfer order. "
@@ -384,7 +397,10 @@ class Squadron:
             )
             return
 
-        if self.expected_size_next_turn >= self.location.unclaimed_parking():
+        parking_type = ParkingType().from_squadron(self)
+        if self.expected_size_next_turn >= self.location.unclaimed_parking(
+            parking_type
+        ):
             raise RuntimeError(f"Not enough parking for {self} at {self.location}.")
         self.destination = None
         self.cancel_ferry_flights()
@@ -399,6 +415,7 @@ class Squadron:
             for flight in list(package.flights):
                 if flight.squadron == self and flight.flight_type is FlightType.FERRY:
                     package.remove_flight(flight)
+                    flight.return_pilots_and_aircraft()
             if not package.flights:
                 self.coalition.ato.remove_package(package)
 

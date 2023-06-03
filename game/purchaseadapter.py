@@ -7,7 +7,7 @@ from game.dcs.aircrafttype import AircraftType
 from game.dcs.groundunittype import GroundUnitType
 from game.dcs.unittype import UnitType
 from game.squadrons import Squadron
-from game.theater import ControlPoint
+from game.theater import ControlPoint, ParkingType
 
 ItemType = TypeVar("ItemType")
 
@@ -109,9 +109,11 @@ class AircraftPurchaseAdapter(PurchaseAdapter[Squadron]):
         return item.owned_aircraft
 
     def can_buy(self, item: Squadron) -> bool:
+        parking_type = ParkingType().from_squadron(item)
+        unclaimed_parking = self.control_point.unclaimed_parking(parking_type)
         return (
             super().can_buy(item)
-            and self.control_point.unclaimed_parking() > 0
+            and unclaimed_parking > 0
             and item.has_aircraft_capacity_for(1)
         )
 

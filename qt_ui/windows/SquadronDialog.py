@@ -25,7 +25,7 @@ from game.ato.flightwaypointtype import FlightWaypointType
 from game.server import EventStream
 from game.sim import GameUpdateEvents
 from game.squadrons import Pilot, Squadron
-from game.theater import ConflictTheater, ControlPoint
+from game.theater import ConflictTheater, ControlPoint, ParkingType
 from qt_ui.delegates import TwoColumnRowDelegate
 from qt_ui.errorreporter import report_errors
 from qt_ui.models import AtoModel, SquadronModel
@@ -105,7 +105,8 @@ class SquadronDestinationComboBox(QComboBox):
         self.squadron = squadron
         self.theater = theater
 
-        room = squadron.location.unclaimed_parking()
+        parking_type = ParkingType().from_squadron(squadron)
+        room = squadron.location.unclaimed_parking(parking_type)
         self.addItem(
             f"Remain at {squadron.location} (room for {room} more aircraft)",
             squadron.location,
@@ -114,6 +115,7 @@ class SquadronDestinationComboBox(QComboBox):
         for idx, destination in enumerate(sorted(self.iter_destinations(), key=str), 1):
             if destination == squadron.destination:
                 selected_index = idx
+            room = destination.unclaimed_parking(parking_type)
             room = self.calculate_parking_slots(
                 destination, squadron.aircraft.dcs_unit_type
             )
@@ -130,6 +132,7 @@ class SquadronDestinationComboBox(QComboBox):
 
     def iter_destinations(self) -> Iterator[ControlPoint]:
         size = self.squadron.expected_size_next_turn
+        parking_type = ParkingType().from_squadron(self.squadron)
         for control_point in self.theater.control_points_for(self.squadron.player):
             if control_point == self.squadron.location:
                 continue
@@ -138,6 +141,7 @@ class SquadronDestinationComboBox(QComboBox):
             ac_type = self.squadron.aircraft.dcs_unit_type
             if (
                 self.squadron.destination is not control_point
+                and control_point.unclaimed_parking(parking_type) < size
                 and self.calculate_parking_slots(control_point, ac_type) < size
             ):
                 continue

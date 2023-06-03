@@ -11,7 +11,7 @@ from PySide2.QtWidgets import (
     QWidget,
 )
 
-from game.theater import ControlPoint
+from game.theater import ControlPoint, ParkingType
 
 
 class QIntelInfo(QFrame):
@@ -24,7 +24,13 @@ class QIntelInfo(QFrame):
         intel_layout = QVBoxLayout()
 
         units_by_task: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
-        for unit_type, count in self.cp.allocated_aircraft().present.items():
+        parking_type = ParkingType()
+        parking_type.include_rotary_wing = True
+        parking_type.include_fixed_wing = True
+        parking_type.include_fixed_wing_stol = True
+        for unit_type, count in self.cp.allocated_aircraft(
+            parking_type
+        ).present.items():
             if count:
                 task_type = unit_type.dcs_unit_type.task_default.name
                 units_by_task[task_type][unit_type.name] += count

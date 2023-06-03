@@ -48,7 +48,7 @@ from game.dcs.aircrafttype import AircraftType
 from game.dcs.groundunittype import GroundUnitType
 from game.naming import namegen
 from game.procurement import AircraftProcurementRequest
-from game.theater import ControlPoint, MissionTarget
+from game.theater import ControlPoint, MissionTarget, ParkingType, Carrier, Airfield
 from game.theater.transitnetwork import (
     TransitConnection,
     TransitNetwork,
@@ -728,8 +728,17 @@ class PendingTransfers:
                 self.order_airlift_assets_at(control_point)
 
     def desired_airlift_capacity(self, control_point: ControlPoint) -> int:
+        parking_type = ParkingType()
+        parking_type.include_rotary_wing = True
+        if isinstance(control_point, Airfield) or isinstance(control_point, Carrier):
+            parking_type.include_fixed_wing = True
+            parking_type.include_fixed_wing_stol = True
+        else:
+            parking_type.include_fixed_wing = False
+            parking_type.include_fixed_wing_stol = False
+
         if control_point.has_factory:
-            is_major_hub = control_point.total_aircraft_parking > 0
+            is_major_hub = control_point.total_aircraft_parking(parking_type) > 0
             # Check if there is a CP which is only reachable via Airlift
             transit_network = self.network_for(control_point)
             for cp in self.game.theater.control_points_for(self.player):
@@ -750,7 +759,8 @@ class PendingTransfers:
                 if (
                     is_major_hub
                     and cp.has_factory
-                    and cp.total_aircraft_parking > control_point.total_aircraft_parking
+                    and cp.total_aircraft_parking(parking_type)
+                    > control_point.total_aircraft_parking(parking_type)
                 ):
                     is_major_hub = False
 
@@ -769,7 +779,16 @@ class PendingTransfers:
         )
 
     def order_airlift_assets_at(self, control_point: ControlPoint) -> None:
-        unclaimed_parking = control_point.unclaimed_parking()
+        parking_type = ParkingType()
+        parking_type.include_rotary_wing = True
+        if isinstance(control_point, Airfield) or isinstance(control_point, Carrier):
+            parking_type.include_fixed_wing = True
+            parking_type.include_fixed_wing_stol = True
+        else:
+            parking_type.include_fixed_wing = False
+            parking_type.include_fixed_wing_stol = False
+
+        unclaimed_parking = control_point.unclaimed_parking(parking_type)
         # Buy a maximum of unclaimed_parking only to prevent that aircraft procurement
         # take place at another base
         gap = min(

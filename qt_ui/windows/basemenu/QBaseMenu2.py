@@ -25,6 +25,7 @@ from game.theater import (
     ControlPointType,
     FREE_FRONTLINE_UNIT_SUPPLY,
     NavalControlPoint,
+    ParkingType,
 )
 from qt_ui.dialogs import Dialog
 from qt_ui.models import GameModel
@@ -237,8 +238,33 @@ class QBaseMenu2(QDialog):
         self.repair_button.setDisabled(True)
 
     def update_intel_summary(self) -> None:
-        aircraft = self.cp.allocated_aircraft().total_present
-        parking = self.cp.total_aircraft_parking
+        parking_type_fixed_wing = ParkingType()
+        parking_type_fixed_wing.include_rotary_wing = False
+        parking_type_fixed_wing.include_fixed_wing = True
+        parking_type_fixed_wing.include_fixed_wing_stol = False
+
+        parking_type_stol = ParkingType()
+        parking_type_stol.include_rotary_wing = False
+        parking_type_stol.include_fixed_wing = True
+        parking_type_stol.include_fixed_wing_stol = True
+
+        parking_type_rotary_wing = ParkingType()
+        parking_type_rotary_wing.include_rotary_wing = True
+        parking_type_rotary_wing.include_fixed_wing = True
+        parking_type_rotary_wing.include_fixed_wing_stol = True
+
+        fixed_wing_aircraft = self.cp.allocated_aircraft(
+            parking_type_fixed_wing
+        ).total_present
+        ground_spawn_aircraft = self.cp.allocated_aircraft(
+            parking_type_stol
+        ).total_present
+        rotary_wing_aircraft = self.cp.allocated_aircraft(
+            parking_type_rotary_wing
+        ).total_present
+        fixed_wing_parking = self.cp.total_aircraft_parking(parking_type_fixed_wing)
+        ground_spawn_parking = self.cp.total_aircraft_parking(parking_type_stol)
+        rotary_wing_parking = self.cp.total_aircraft_parking(parking_type_rotary_wing)
         ground_unit_limit = self.cp.frontline_unit_count_limit
         deployable_unit_info = ""
 
@@ -256,7 +282,9 @@ class QBaseMenu2(QDialog):
         self.intel_summary.setText(
             "\n".join(
                 [
-                    f"{aircraft}/{parking} aircraft",
+                    f"{fixed_wing_aircraft}/{fixed_wing_parking} fixed wing aircraft",
+                    f"{ground_spawn_aircraft}/{ground_spawn_parking} fixed wing ground spawn aircraft",
+                    f"{rotary_wing_aircraft}/{rotary_wing_parking} rotary wing aircraft",
                     f"{self.cp.base.total_armor} ground units" + deployable_unit_info,
                     f"{allocated.total_transferring} more ground units en route, {allocated.total_ordered} ordered",
                     str(self.cp.runway_status),

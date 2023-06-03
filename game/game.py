@@ -90,6 +90,8 @@ class TurnState(Enum):
 
 
 class Game:
+    scenery_clear_zones: List[Point]
+
     def __init__(
         self,
         player_faction: Faction,

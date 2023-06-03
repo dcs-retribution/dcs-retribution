@@ -25,6 +25,8 @@ from .flightdata import FlightData
 from .waypoints import WaypointGenerator
 from ...ato.flightplans.aewc import AewcFlightPlan
 from ...ato.flightplans.theaterrefueling import TheaterRefuelingFlightPlan
+from ...ato.flightwaypointtype import FlightWaypointType
+from ...theater import Fob
 
 if TYPE_CHECKING:
     from game import Game
@@ -98,6 +100,19 @@ class FlightGroupConfigurator:
             self.game.settings,
             self.mission_data,
         ).create_waypoints()
+
+        # Special handling for landing waypoints when:
+        # 1. It's an AI-only flight
+        # 2. Aircraft are not helicopters/VTOL
+        # 3. Landing waypoint does not point to an airfield
+        if (
+            self.flight.client_count < 1
+            and not self.flight.unit_type.helicopter
+            and not self.flight.unit_type.lha_capable
+            and isinstance(self.flight.squadron.location, Fob)
+        ):
+            # Need to set uncontrolled to false, otherwise the AI will skip the mission and just land
+            self.group.uncontrolled = False
 
         return FlightData(
             package=self.flight.package,
