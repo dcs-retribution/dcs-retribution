@@ -66,14 +66,14 @@ class SweepFlightPlan(LoiterFlightPlan):
 
     def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
         if waypoint == self.layout.sweep_start:
-            return self.sweep_start_time
+            return self.sweep_start_time + self.tot_offset
         if waypoint == self.layout.sweep_end:
-            return self.sweep_end_time
+            return self.sweep_end_time + self.tot_offset
         return None
 
     def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
         if waypoint == self.layout.hold:
-            return self.push_time
+            return self.push_time + self.tot_offset
         return None
 
     @property

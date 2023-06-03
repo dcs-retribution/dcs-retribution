@@ -21,7 +21,6 @@ from .planningerror import PlanningError
 from ..flightwaypointtype import FlightWaypointType
 from ..starttype import StartType
 from ..traveltime import GroundSpeed, TravelTime
-from ...savecompat import has_save_compat_for
 
 if TYPE_CHECKING:
     from game.dcs.aircrafttype import FuelConsumption
@@ -68,7 +67,6 @@ class FlightPlan(ABC, Generic[LayoutT]):
         self.layout = layout
         self.tot_offset = self.default_tot_offset()
 
-    @has_save_compat_for(7)
     def __setstate__(self, state: dict[str, Any]) -> None:
         if "tot_offset" not in state:
             state["tot_offset"] = self.default_tot_offset()

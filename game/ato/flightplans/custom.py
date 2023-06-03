@@ -44,7 +44,7 @@ class CustomFlightPlan(FlightPlan[CustomLayout]):
 
     def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
         if waypoint == self.tot_waypoint:
-            return self.package.time_over_target
+            return self.package.time_over_target + self.tot_offset
         return None
 
     def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:

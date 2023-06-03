@@ -18,14 +18,24 @@ from game.ato.flightplans.planningerror import PlanningError
 from qt_ui.models import PackageModel
 from qt_ui.widgets.QLabeledWidget import QLabeledWidget
 from qt_ui.widgets.combos.QArrivalAirfieldSelector import QArrivalAirfieldSelector
+from qt_ui.windows.mission.flight.waypoints.QFlightWaypointList import (
+    QFlightWaypointList,
+)
 
 
 class FlightPlanPropertiesGroup(QGroupBox):
-    def __init__(self, game: Game, package_model: PackageModel, flight: Flight) -> None:
+    def __init__(
+        self,
+        game: Game,
+        package_model: PackageModel,
+        flight: Flight,
+        flight_wpt_list: QFlightWaypointList,
+    ) -> None:
         super().__init__("Flight plan properties")
         self.game = game
         self.package_model = package_model
         self.flight = flight
+        self.flight_wpt_list = flight_wpt_list
 
         layout = QVBoxLayout()
 
@@ -51,10 +61,10 @@ class FlightPlanPropertiesGroup(QGroupBox):
 
         tot_offset_layout.addWidget(QLabel("TOT Offset (minutes:seconds)"))
         tot_offset_layout.addStretch()
-        negative_offset_checkbox = QCheckBox("Ahead of package")
-        negative_offset_checkbox.setChecked(negative)
-        negative_offset_checkbox.toggled.connect(self.toggle_negative_offset)
-        tot_offset_layout.addWidget(negative_offset_checkbox)
+        self.negative_offset_checkbox = QCheckBox("Ahead of package")
+        self.negative_offset_checkbox.setChecked(negative)
+        self.negative_offset_checkbox.toggled.connect(self.toggle_negative_offset)
+        tot_offset_layout.addWidget(self.negative_offset_checkbox)
 
         self.tot_offset_spinner = QTimeEdit(QTime(hours, minutes, seconds))
         self.tot_offset_spinner.setMaximumTime(QTime(59, 0))
@@ -93,6 +103,7 @@ class FlightPlanPropertiesGroup(QGroupBox):
             # is an invalid state for calling anything in TotEstimator.
             return
         self.departure_time.setText(f"At T+{self.flight.flight_plan.startup_time()}")
+        self.flight_wpt_list.update_list()
 
     def set_divert(self, index: int) -> None:
         old_divert = self.flight.divert
@@ -114,6 +125,8 @@ class FlightPlanPropertiesGroup(QGroupBox):
         self.flight.flight_plan.tot_offset = timedelta(
             hours=offset.hour(), minutes=offset.minute(), seconds=offset.second()
         )
+        if self.negative_offset_checkbox.isChecked():
+            return self.toggle_negative_offset()
         self.update_departure_time()
 
     def toggle_negative_offset(self) -> None:
