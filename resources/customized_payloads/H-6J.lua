@@ -2,7 +2,8 @@ local unitPayloads = {
 	["name"] = "H-6J",
 	["payloads"] = {
 		[1] = {
-			["name"] = "Retribution BAI",
+			["displayName"] = "Retribution DEAD",
+			["name"] = "Retribution DEAD",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "DIS_AKG_DLPOD",
@@ -115,6 +116,42 @@ local unitPayloads = {
 			},
 		},
 		[4] = {
+			["name"] = "Retribution BAI",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "DIS_AKG_DLPOD",
+					["num"] = 7,
+				},
+				[2] = {
+					["CLSID"] = "DIS_DF4A_KD20",
+					["num"] = 6,
+				},
+				[3] = {
+					["CLSID"] = "DIS_DF4A_KD20",
+					["num"] = 5,
+				},
+				[4] = {
+					["CLSID"] = "DIS_DF4A_KD20",
+					["num"] = 4,
+				},
+				[5] = {
+					["CLSID"] = "DIS_DF4A_KD20",
+					["num"] = 3,
+				},
+				[6] = {
+					["CLSID"] = "DIS_DF4A_KD20",
+					["num"] = 2,
+				},
+				[7] = {
+					["CLSID"] = "DIS_DF4A_KD20",
+					["num"] = 1,
+				},
+			},
+			["tasks"] = {
+				[1] = 30,
+			},
+		},
+		[5] = {
 			["displayName"] = "Retribution Anti-ship",
 			["name"] = "Retribution Anti-ship",
 			["pylons"] = {
@@ -151,7 +188,7 @@ local unitPayloads = {
 				[1] = 30,
 			},
 		},
-		[5] = {
+		[6] = {
 			["displayName"] = "Retribution OCA/Runway",
 			["name"] = "Retribution OCA/Runway",
 			["pylons"] = {
@@ -190,43 +227,7 @@ local unitPayloads = {
 			},
 			["tasks"] = {
 				[1] = 30,
-			},
-		},
-		[6] = {
-			["displayName"] = "Retribution DEAD",
-			["name"] = "Retribution DEAD",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "DIS_AKG_DLPOD",
-					["num"] = 7,
-				},
-				[2] = {
-					["CLSID"] = "DIS_DF4A_KD20",
-					["num"] = 6,
-				},
-				[3] = {
-					["CLSID"] = "DIS_DF4A_KD20",
-					["num"] = 5,
-				},
-				[4] = {
-					["CLSID"] = "DIS_DF4A_KD20",
-					["num"] = 4,
-				},
-				[5] = {
-					["CLSID"] = "DIS_DF4A_KD20",
-					["num"] = 3,
-				},
-				[6] = {
-					["CLSID"] = "DIS_DF4A_KD20",
-					["num"] = 2,
-				},
-				[7] = {
-					["CLSID"] = "DIS_DF4A_KD20",
-					["num"] = 1,
-				},
-			},
-			["tasks"] = {
-				[1] = 30,
+				[2] = 34,
 			},
 		},
 		[7] = {

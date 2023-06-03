@@ -2,62 +2,6 @@ local unitPayloads = {
 	["name"] = "Su-57",
 	["payloads"] = {
 		[1] = {
-			["name"] = "SEAD",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
-					["num"] = 12,
-				},
-				[2] = {
-					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
-					["num"] = 1,
-				},
-				[3] = {
-					["CLSID"] = "{D8F2C90B-887B-4B9E-9FE2-996BC9E9AF03}",
-					["num"] = 2,
-				},
-				[4] = {
-					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
-					["num"] = 3,
-				},
-				[5] = {
-					["CLSID"] = "{D8F2C90B-887B-4B9E-9FE2-996BC9E9AF03}",
-					["num"] = 11,
-				},
-				[6] = {
-					["CLSID"] = "{KH_59MK2}",
-					["num"] = 9,
-				},
-				[7] = {
-					["CLSID"] = "{KH_59MK2}",
-					["num"] = 4,
-				},
-				[8] = {
-					["CLSID"] = "{RVV-AE}",
-					["num"] = 8,
-				},
-				[9] = {
-					["CLSID"] = "{RVV-AE}",
-					["num"] = 5,
-				},
-				[10] = {
-					["CLSID"] = "{RVV-AE}",
-					["num"] = 6,
-				},
-				[11] = {
-					["CLSID"] = "{RVV-AE}",
-					["num"] = 7,
-				},
-				[12] = {
-					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
-					["num"] = 10,
-				},
-			},
-			["tasks"] = {
-				[1] = 11,
-			},
-		},
-		[2] = {
 			["name"] = "ANTISHIP",
 			["pylons"] = {
 				[1] = {
@@ -113,7 +57,7 @@ local unitPayloads = {
 				[1] = 11,
 			},
 		},
-		[3] = {
+		[2] = {
 			["name"] = "CAP",
 			["pylons"] = {
 				[1] = {
@@ -159,6 +103,62 @@ local unitPayloads = {
 				[11] = {
 					["CLSID"] = "{RVV-AE}",
 					["num"] = 9,
+				},
+				[12] = {
+					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+					["num"] = 10,
+				},
+			},
+			["tasks"] = {
+				[1] = 11,
+			},
+		},
+		[3] = {
+			["name"] = "SEAD",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+					["num"] = 12,
+				},
+				[2] = {
+					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+					["num"] = 1,
+				},
+				[3] = {
+					["CLSID"] = "{D8F2C90B-887B-4B9E-9FE2-996BC9E9AF03}",
+					["num"] = 2,
+				},
+				[4] = {
+					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+					["num"] = 3,
+				},
+				[5] = {
+					["CLSID"] = "{D8F2C90B-887B-4B9E-9FE2-996BC9E9AF03}",
+					["num"] = 11,
+				},
+				[6] = {
+					["CLSID"] = "{KH_59MK2}",
+					["num"] = 9,
+				},
+				[7] = {
+					["CLSID"] = "{KH_59MK2}",
+					["num"] = 4,
+				},
+				[8] = {
+					["CLSID"] = "{RVV-AE}",
+					["num"] = 8,
+				},
+				[9] = {
+					["CLSID"] = "{RVV-AE}",
+					["num"] = 5,
+				},
+				[10] = {
+					["CLSID"] = "{RVV-AE}",
+					["num"] = 6,
+				},
+				[11] = {
+					["CLSID"] = "{RVV-AE}",
+					["num"] = 7,
 				},
 				[12] = {
 					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
@@ -271,6 +271,64 @@ local unitPayloads = {
 			},
 			["tasks"] = {
 				[1] = 11,
+			},
+		},
+		[6] = {
+			["displayName"] = "Retribution OCA/Runway",
+			["name"] = "Retribution OCA/Runway",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+					["num"] = 12,
+				},
+				[2] = {
+					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+					["num"] = 1,
+				},
+				[3] = {
+					["CLSID"] = "{35B698AC-9FEF-4EC4-AD29-484A0085F62B}",
+					["num"] = 2,
+				},
+				[4] = {
+					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+					["num"] = 3,
+				},
+				[5] = {
+					["CLSID"] = "{35B698AC-9FEF-4EC4-AD29-484A0085F62B}",
+					["num"] = 11,
+				},
+				[6] = {
+					["CLSID"] = "{RVV-AE}",
+					["num"] = 8,
+				},
+				[7] = {
+					["CLSID"] = "{RVV-AE}",
+					["num"] = 5,
+				},
+				[8] = {
+					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+					["num"] = 10,
+				},
+				[9] = {
+					["CLSID"] = "{RVV-AE}",
+					["num"] = 7,
+				},
+				[10] = {
+					["CLSID"] = "{RVV-AE}",
+					["num"] = 6,
+				},
+				[11] = {
+					["CLSID"] = "{35B698AC-9FEF-4EC4-AD29-484A0085F62B}",
+					["num"] = 9,
+				},
+				[12] = {
+					["CLSID"] = "{35B698AC-9FEF-4EC4-AD29-484A0085F62B}",
+					["num"] = 4,
+				},
+			},
+			["tasks"] = {
+				[1] = 11,
+				[2] = 34,
 			},
 		},
 	},

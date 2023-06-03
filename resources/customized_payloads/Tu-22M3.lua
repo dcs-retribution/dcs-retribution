@@ -2,26 +2,6 @@ local unitPayloads = {
 	["name"] = "Tu-22M3",
 	["payloads"] = {
 		[1] = {
-			["name"] = "CAP",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{12429ECF-03F0-4DF6-BCBD-5D38B6343DE1}",
-					["num"] = 5,
-				},
-				[2] = {
-					["CLSID"] = "{12429ECF-03F0-4DF6-BCBD-5D38B6343DE1}",
-					["num"] = 3,
-				},
-				[3] = {
-					["CLSID"] = "{12429ECF-03F0-4DF6-BCBD-5D38B6343DE1}",
-					["num"] = 1,
-				},
-			},
-			["tasks"] = {
-				[1] = 30,
-			},
-		},
-		[2] = {
 			["name"] = "STRIKE",
 			["pylons"] = {
 				[1] = {
@@ -49,12 +29,32 @@ local unitPayloads = {
 				[1] = 30,
 			},
 		},
-		[3] = {
+		[2] = {
 			["name"] = "CAS",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{AD5E5863-08FC-4283-B92C-162E2B2BD3FF}",
 					["num"] = 3,
+				},
+			},
+			["tasks"] = {
+				[1] = 30,
+			},
+		},
+		[3] = {
+			["name"] = "CAP",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{12429ECF-03F0-4DF6-BCBD-5D38B6343DE1}",
+					["num"] = 5,
+				},
+				[2] = {
+					["CLSID"] = "{12429ECF-03F0-4DF6-BCBD-5D38B6343DE1}",
+					["num"] = 3,
+				},
+				[3] = {
+					["CLSID"] = "{12429ECF-03F0-4DF6-BCBD-5D38B6343DE1}",
+					["num"] = 1,
 				},
 			},
 			["tasks"] = {
@@ -99,6 +99,20 @@ local unitPayloads = {
 			},
 			["tasks"] = {
 				[1] = 30,
+			},
+		},
+		[6] = {
+			["displayName"] = "Retribution OCA/Runway",
+			["name"] = "Retribution OCA/Runway",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{AD5E5863-08FC-4283-B92C-162E2B2BD3FF}",
+					["num"] = 3,
+				},
+			},
+			["tasks"] = {
+				[1] = 32,
+				[2] = 34,
 			},
 		},
 	},

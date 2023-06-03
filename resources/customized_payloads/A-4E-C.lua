@@ -2,39 +2,6 @@ local unitPayloads = {
 	["name"] = "A-4E-C",
 	["payloads"] = {
 		[1] = {
-			["name"] = "CAS",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{F3EFE0AB-E91A-42D8-9CA2-B63C91ED570A}",
-					["num"] = 5,
-				},
-				[2] = {
-					["CLSID"] = "{F3EFE0AB-E91A-42D8-9CA2-B63C91ED570A}",
-					["num"] = 1,
-				},
-				[3] = {
-					["CLSID"] = "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}",
-					["num"] = 2,
-				},
-				[4] = {
-					["CLSID"] = "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}",
-					["num"] = 4,
-					["settings"] = {
-						["GUI_fuze_type"] = 1,
-						["arm_delay_ctrl_FMU139CB_LD"] = 1,
-						["function_delay_ctrl_FMU139CB_LD"] = 0,
-					},
-				},
-				[5] = {
-					["CLSID"] = "{DFT-150gal}",
-					["num"] = 3,
-				},
-			},
-			["tasks"] = {
-				[1] = 31,
-			},
-		},
-		[2] = {
 			["name"] = "STRIKE",
 			["pylons"] = {
 				[1] = {
@@ -72,7 +39,7 @@ local unitPayloads = {
 				[1] = 31,
 			},
 		},
-		[3] = {
+		[2] = {
 			["name"] = "CAP",
 			["pylons"] = {
 				[1] = {
@@ -94,6 +61,39 @@ local unitPayloads = {
 				[5] = {
 					["CLSID"] = "{AIM-9P5-ON-ADAPTER}",
 					["num"] = 5,
+				},
+			},
+			["tasks"] = {
+				[1] = 31,
+			},
+		},
+		[3] = {
+			["name"] = "CAS",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{F3EFE0AB-E91A-42D8-9CA2-B63C91ED570A}",
+					["num"] = 5,
+				},
+				[2] = {
+					["CLSID"] = "{F3EFE0AB-E91A-42D8-9CA2-B63C91ED570A}",
+					["num"] = 1,
+				},
+				[3] = {
+					["CLSID"] = "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}",
+					["num"] = 2,
+				},
+				[4] = {
+					["CLSID"] = "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}",
+					["num"] = 4,
+					["settings"] = {
+						["GUI_fuze_type"] = 1,
+						["arm_delay_ctrl_FMU139CB_LD"] = 1,
+						["function_delay_ctrl_FMU139CB_LD"] = 0,
+					},
+				},
+				[5] = {
+					["CLSID"] = "{DFT-150gal}",
+					["num"] = 3,
 				},
 			},
 			["tasks"] = {
@@ -146,6 +146,45 @@ local unitPayloads = {
 				[4] = {
 					["CLSID"] = "{AGM_45A}",
 					["num"] = 1,
+				},
+				[5] = {
+					["CLSID"] = "{DFT-150gal}",
+					["num"] = 3,
+				},
+			},
+			["tasks"] = {
+				[1] = 31,
+			},
+		},
+		[6] = {
+			["displayName"] = "Retribution OCA/Runway",
+			["name"] = "Retribution OCA/Runway",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "<CLEAN>",
+					["num"] = 5,
+				},
+				[2] = {
+					["CLSID"] = "<CLEAN>",
+					["num"] = 1,
+				},
+				[3] = {
+					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
+					["num"] = 2,
+					["settings"] = {
+						["GUI_fuze_type"] = 1,
+						["arm_delay_ctrl_FMU139CB_LD"] = 1,
+						["function_delay_ctrl_FMU139CB_LD"] = 0,
+					},
+				},
+				[4] = {
+					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
+					["num"] = 4,
+					["settings"] = {
+						["GUI_fuze_type"] = 1,
+						["arm_delay_ctrl_FMU139CB_LD"] = 1,
+						["function_delay_ctrl_FMU139CB_LD"] = 0,
+					},
 				},
 				[5] = {
 					["CLSID"] = "{DFT-150gal}",
