@@ -136,7 +136,9 @@ class NewGameWizard(QtWidgets.QWizard):
         )
         self.generatedGame = generator.generate()
 
-        AirWingConfigurationDialog(self.generatedGame, self).exec_()
+        AirWingConfigurationDialog(
+            self.generatedGame, generator.generator_settings, self
+        ).exec_()
 
         g = self.generatedGame
         herc = AircraftType.named("C-130J-30 Super Hercules")
