@@ -31,7 +31,8 @@
     "QF 3.7-inch AA Gun"
   ],
   "artillery_units": [
-    "M12 Gun Motor Carriage"
+    "M12 Gun Motor Carriage",
+    "FH M2A1 105mm"
   ],
   "logistics_units": [
     "Truck Bedford",
