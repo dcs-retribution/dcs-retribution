@@ -87,5 +87,8 @@
     "SSM SS-1C Scud-B"
   ],
   "has_jtac": true,
-  "jtac_unit": "MQ-9 Reaper"
+  "jtac_unit": "MQ-9 Reaper",
+  "liveries_overrides": {
+    "F-14A Tomcat (Block 135-GR Late)": ["Rogue Nation(Top Gun - Maverick)"]
+  }
 }
