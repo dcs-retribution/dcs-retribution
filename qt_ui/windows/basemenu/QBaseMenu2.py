@@ -238,6 +238,14 @@ class QBaseMenu2(QDialog):
         self.repair_button.setDisabled(True)
 
     def update_intel_summary(self) -> None:
+        parking_type_all = ParkingType()
+        parking_type_all.include_rotary_wing = True
+        parking_type_all.include_fixed_wing = True
+        parking_type_all.include_fixed_wing_stol = True
+
+        aircraft = self.cp.allocated_aircraft(parking_type_all).total_present
+        parking = self.cp.total_aircraft_parking(parking_type_all)
+
         parking_type_fixed_wing = ParkingType()
         parking_type_fixed_wing.include_rotary_wing = False
         parking_type_fixed_wing.include_fixed_wing = True
@@ -245,23 +253,14 @@ class QBaseMenu2(QDialog):
 
         parking_type_stol = ParkingType()
         parking_type_stol.include_rotary_wing = False
-        parking_type_stol.include_fixed_wing = True
+        parking_type_stol.include_fixed_wing = False
         parking_type_stol.include_fixed_wing_stol = True
 
         parking_type_rotary_wing = ParkingType()
         parking_type_rotary_wing.include_rotary_wing = True
-        parking_type_rotary_wing.include_fixed_wing = True
-        parking_type_rotary_wing.include_fixed_wing_stol = True
+        parking_type_rotary_wing.include_fixed_wing = False
+        parking_type_rotary_wing.include_fixed_wing_stol = False
 
-        fixed_wing_aircraft = self.cp.allocated_aircraft(
-            parking_type_fixed_wing
-        ).total_present
-        ground_spawn_aircraft = self.cp.allocated_aircraft(
-            parking_type_stol
-        ).total_present
-        rotary_wing_aircraft = self.cp.allocated_aircraft(
-            parking_type_rotary_wing
-        ).total_present
         fixed_wing_parking = self.cp.total_aircraft_parking(parking_type_fixed_wing)
         ground_spawn_parking = self.cp.total_aircraft_parking(parking_type_stol)
         rotary_wing_parking = self.cp.total_aircraft_parking(parking_type_rotary_wing)
@@ -282,9 +281,10 @@ class QBaseMenu2(QDialog):
         self.intel_summary.setText(
             "\n".join(
                 [
-                    f"{fixed_wing_aircraft}/{fixed_wing_parking} fixed wing aircraft",
-                    f"{ground_spawn_aircraft}/{ground_spawn_parking} fixed wing ground spawn aircraft",
-                    f"{rotary_wing_aircraft}/{rotary_wing_parking} rotary wing aircraft",
+                    f"{aircraft}/{parking} aircraft",
+                    f"{fixed_wing_parking} fixed wing parking",
+                    f"{ground_spawn_parking} ground spawns",
+                    f"{rotary_wing_parking} rotary wing parking",
                     f"{self.cp.base.total_armor} ground units" + deployable_unit_info,
                     f"{allocated.total_transferring} more ground units en route, {allocated.total_ordered} ordered",
                     str(self.cp.runway_status),
