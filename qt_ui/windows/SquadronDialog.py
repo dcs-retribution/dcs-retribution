@@ -22,6 +22,7 @@ from dcs.unittype import FlyingType
 from game.ato.flightplans.custom import CustomFlightPlan
 from game.ato.flighttype import FlightType
 from game.ato.flightwaypointtype import FlightWaypointType
+from game.dcs.aircrafttype import AircraftType
 from game.server import EventStream
 from game.sim import GameUpdateEvents
 from game.squadrons import Pilot, Squadron
@@ -115,7 +116,6 @@ class SquadronDestinationComboBox(QComboBox):
         for idx, destination in enumerate(sorted(self.iter_destinations(), key=str), 1):
             if destination == squadron.destination:
                 selected_index = idx
-            room = destination.unclaimed_parking(parking_type)
             room = self.calculate_parking_slots(
                 destination, squadron.aircraft.dcs_unit_type
             )
@@ -154,14 +154,40 @@ class SquadronDestinationComboBox(QComboBox):
         if cp.dcs_airport:
             ap = deepcopy(cp.dcs_airport)
             overflow = []
+
+            parking_type = ParkingType()
+            parking_type.include_rotary_wing = True
+            parking_type.include_fixed_wing = False
+            parking_type.include_fixed_wing_stol = False
+            free_helicopter_slots = cp.total_aircraft_parking(parking_type)
+
+            parking_type.include_rotary_wing = False
+            parking_type.include_fixed_wing = False
+            parking_type.include_fixed_wing_stol = True
+            free_ground_spawns = cp.total_aircraft_parking(parking_type)
+
             for s in cp.squadrons:
                 for count in range(s.owned_aircraft):
-                    slot = ap.free_parking_slot(s.aircraft.dcs_unit_type)
-                    if slot:
-                        slot.unit_id = id(s) + count
+                    is_heli = s.aircraft.helicopter
+                    is_vtol = not is_heli and s.aircraft.lha_capable
+                    count_ground_spawns = (
+                        s.aircraft.flyable
+                        or cp.coalition.game.settings.ground_start_ai_planes
+                    )
+
+                    if free_helicopter_slots > 0 and (is_heli or is_vtol):
+                        free_helicopter_slots = -1
+                    elif free_ground_spawns > 0 and (
+                        is_heli or is_vtol or count_ground_spawns
+                    ):
+                        free_ground_spawns = -1
                     else:
-                        overflow.append(s)
-                        break
+                        slot = ap.free_parking_slot(s.aircraft.dcs_unit_type)
+                        if slot:
+                            slot.unit_id = id(s) + count
+                        else:
+                            overflow.append(s)
+                            break
             if overflow:
                 overflow_msg = ""
                 for s in overflow:
@@ -176,7 +202,11 @@ class SquadronDestinationComboBox(QComboBox):
                 )
             return len(ap.free_parking_slots(dcs_unit_type))
         else:
-            return cp.unclaimed_parking()
+            parking_type = ParkingType().from_aircraft(
+                next(AircraftType.for_dcs_type(dcs_unit_type)),
+                cp.coalition.game.settings.ground_start_ai_planes,
+            )
+            return cp.unclaimed_parking(parking_type)
 
 
 class SquadronDialog(QDialog):
