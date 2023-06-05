@@ -351,7 +351,7 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         self.base: Base = Base()
         self.cptype = cptype
         # TODO: Should be Airbase specific.
-        self.stances: dict[UUID, CombatStance] = {}
+        self.stances: dict[UUID, CombatStance] = {}  # Connected-CP -> CombatStance
         from ..groundunitorders import GroundUnitOrders
 
         self.ground_unit_orders = GroundUnitOrders(self)
