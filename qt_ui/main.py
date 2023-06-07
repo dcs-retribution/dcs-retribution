@@ -123,8 +123,6 @@ def run_ui(game: Optional[Game], ui_flags: UiFlags) -> None:
     uiconstants.load_event_icons()
     uiconstants.load_aircraft_icons()
     uiconstants.load_vehicle_icons()
-    uiconstants.load_aircraft_banners()
-    uiconstants.load_vehicle_banners()
 
     # Show warning if no DCS Installation directory was set
     if liberation_install.get_dcs_install_directory() == "":
