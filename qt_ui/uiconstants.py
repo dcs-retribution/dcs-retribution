@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from typing import Dict
 
 from PySide2.QtGui import QPixmap
@@ -223,11 +224,8 @@ def load_vehicle_icons():
 
 
 def load_aircraft_banners():
-    for aircraft in os.listdir("./resources/ui/units/aircrafts/banners/"):
-        if aircraft.endswith(".jpg"):
-            AIRCRAFT_BANNERS[aircraft[:-7]] = QPixmap(
-                os.path.join("./resources/ui/units/aircrafts/banners/", aircraft)
-            )
+    for path in Path().glob("resources/ui/units/aircrafts/banners/*.jpg"):
+        AIRCRAFT_BANNERS[path.stem] = QPixmap(path)
     _load_mirage_banners()
     _load_su30mod_banners()
 
@@ -248,11 +246,8 @@ def _load_su30mod_banners():
 
 
 def load_vehicle_banners():
-    for aircraft in os.listdir("./resources/ui/units/vehicles/banners/"):
-        if aircraft.endswith(".jpg"):
-            VEHICLE_BANNERS[aircraft[:-7]] = QPixmap(
-                os.path.join("./resources/ui/units/vehicles/banners/", aircraft)
-            )
+    for path in Path().glob("resources/ui/units/vehicles/banners/*.jpg"):
+        VEHICLE_BANNERS[path.stem] = QPixmap(path)
     VEHICLE_BANNERS["(IDF Mods Project) BM-21 Grad 122mm"] = VEHICLE_BANNERS[
         "Grad-URAL"
     ]
