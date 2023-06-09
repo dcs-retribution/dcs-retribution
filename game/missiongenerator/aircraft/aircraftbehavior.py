@@ -351,6 +351,8 @@ class AircraftBehavior:
         preferred_task: Type[MainTask],
         fallback_task: Optional[Type[MainTask]] = None,
     ) -> None:
+        ac_type = flight.unit_type.dcs_unit_type.id
+
         # Not all aircraft are always compatible with the preferred task,
         # so a common fallback is to use CAS instead.
         # Sometimes it's also the other way around,
@@ -362,8 +364,12 @@ class AircraftBehavior:
             group.task = preferred_task.name
         elif fallback_task and fallback_task in flight.unit_type.dcs_unit_type.tasks:
             group.task = fallback_task.name
+        elif flight.unit_type.dcs_unit_type.task_default and preferred_task == Nothing:
+            group.task = flight.unit_type.dcs_unit_type.task_default.name
+            logging.warning(
+                f"{ac_type} is not capable of 'Nothing', using default task '{group.task}'"
+            )
         else:
-            ac_type = flight.unit_type.dcs_unit_type.id
             fallback_part = f" nor {fallback_task.name}" if fallback_task else ""
             raise RuntimeError(
                 f"{ac_type} is neither capable of {preferred_task.name}"

@@ -151,7 +151,12 @@ class GroundPlanner:
             while available > 0:
                 if len(self.connected_enemy_cp) > 0:
                     enemy_cp: ControlPoint = random.choice(self.connected_enemy_cp)
-                    frontline_stance = self.cp.stances[enemy_cp.id]
+                    frontline_stance = self.cp.stances.get(enemy_cp.id)
+                    if not frontline_stance:
+                        logging.warning(
+                            f"{self.cp.name} lost its frontline stance for {enemy_cp.name}"
+                        )
+                        frontline_stance = CombatStance.DEFENSIVE
                     group_size_choice = GROUP_SIZES_BY_COMBAT_STANCE[frontline_stance]
                     if role == CombatGroupRole.SHORAD:
                         count = 1
