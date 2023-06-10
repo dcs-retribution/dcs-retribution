@@ -1,0 +1,132 @@
+---
+name: Syria - WRL - Aleppo Insurgency (v1)
+theater: Syria
+authors: HolyOrangeJuice
+recommended_player_faction: WRL - Task Force Blue
+recommended_enemy_faction: WRL - Task Force Insurgent
+recommended_start_date: 2022-09-07
+description: "<p>This mission was designed as a training sortie for the We Run Liberation group [WRL].
+  <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p><p>This campaign does not have a frontline or enemy air assets. This is primarily a helicopter campaign. Fixed wing support the rotary with precision strikes.</p><p>Use air assault and CTLD to capture areas</p>"
+miz: AleppoInsurgency.miz
+performance: 1
+version: "10.5"
+recommended_player_money: 3000
+recommended_enemy_money: 2000
+recommended_player_income_multiplier: 1.0
+recommended_enemy_income_multiplier: 1.0
+advanced_iads: false
+squadrons:
+  CVN-74 John Stennis:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - VF-142
+        #F14B
+    - primary: DEAD
+      secondary: any
+      aircraft:
+        - VFA-192
+        #Hornet Navy
+    - primary: AEW&C
+      aircraft:
+        - VAW-125
+        #E2C
+    - primary: Refueling
+      aircraft:
+        - S-3B Tanker
+  # Taft
+  38:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - A Company, 1-211th ARB
+        #AH-64D Apache Longbow
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Mi-24P Hind-F
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Ka-50 Hokum III
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - SA 342M Gazelle
+    - primary: Transport
+      secondary: air-to-ground
+      aircraft:
+        - HMLA-169 (UH-1H)
+        #UH-1H Iroquois   
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - Mi-8MTV2 Hip 
+  # incirlik
+  16:
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - B-52H Stratofortress
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - B-1B Lancer
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - 335th FS
+        #F15e   
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - 58th FS
+        #F15c
+    - primary: DEAD
+      secondary: air-to-ground
+      aircraft:
+        - VMFA-251
+        #Hornet - Marines   
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - 23rd FS
+        #Viper USAF
+  # Hatay
+  15:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - A-10C Thunderbolt II (Suite 7)
+  # Abu al-Duhur
+  1:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - AV-8B Harrier II Night Attack
+  # Bassel Al-Assad
+  21:
+    - primary: AEW&C
+      aircraft:
+        - E-3A
+    - primary: Refueling
+      aircraft:
+        - KC-135 Stratotanker
+    - primary: Refueling
+      aircraft:
+        - KC-130
+  # Aleppo
+  #27:
+  # Kuweires
+  #31:
+  # Gaziantep
+  #11:
+  # Jireh
+  #17:
+ground_forces:
+  Kuweires: SA-3/S-125
+  Jirah: SA-2/S-75
+  Jirah2: SA-3/S-125
+  Jirah3: SA-6
+  Aleppo: SA-3/S-125
+ 
