@@ -549,8 +549,8 @@ class tie_bomber_2(PlaneType):
     id = "tie_bomber_2"
     flyable = True
     height = 5.63
-    width = 8
-    length = 12.43
+    width = 10
+    length = 19.43
     fuel_max = 6000
     max_speed = 2649.996
     chaff = 5000
@@ -684,13 +684,8 @@ class tie_bomber_2(PlaneType):
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 
-    tasks = [
-        task.SEAD,
-        task.GroundAttack,
-        task.CAS,
-        task.RunwayAttack,
-    ]
-    task_default = task.GroundAttack
+    tasks = [task.SEAD, task.GroundAttack, task.CAS, task.RunwayAttack, task.BAI]
+    task_default = task.CAS
 
 
 @vehiclemod
