@@ -10,7 +10,7 @@ description: "<p>This mission was designed for the We Run Liberation group [WRL]
   <p>It is a small scale battle around Creech and Groom Lake.</p>
   <p>The enemy has an Advanced IADs network designed to work with the skynet plugin.</p>
   <p>Look for weakness in enemy SAM defense and go after the command center and power stations.</p>"
-miz: battle4area51.miz
+miz: WRL_Battle4area51.miz
 performance: 1
 version: "10.5"
 recommended_player_money: 2000
