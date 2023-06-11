@@ -1,18 +1,17 @@
 ---
-name: Syria - WRL - Aleppo Insurgency (v1)
+name: Syria - WRL - Aleppo Insurgency (v1.0)
 theater: Syria
 authors: HolyOrangeJuice
 recommended_player_faction: WRL - Task Force Blue
 recommended_enemy_faction: WRL - Task Force Insurgent
 recommended_start_date: 2022-09-07
-description: "<p>This mission was designed as a training sortie for the We Run Liberation group [WRL].
-  <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p><p>This campaign does not have a frontline or enemy air assets. This is primarily a helicopter campaign. Fixed wing support the rotary with precision strikes.</p><p>Use air assault and CTLD to capture areas</p>"
+description: "<p>This mission was created by HolyOrangeJuice [OscarJuliet] for the WRL Group. Join us for weekly PVE events. <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p><p>This campaign does not represent any historical time period or events. It was designed as an exciting helicopter campaign. The enemy has no air support or frontline. Fixed wing can assist with precision strikes</p><p>Use the Air Assault task with CTLD to land troops for capturing points.</p><p>All WRL Campaigns use high budget and high income to focus on the PVE goals to eliminate the enemy. Use lower starting money and income for increased difficulty.</p>"
 miz: WRL_AleppoInsurgency.miz
 performance: 1
-version: "10.5"
-recommended_player_money: 3000
+version: "10.7" #CTLD Zones Added
+recommended_player_money: 5000
 recommended_enemy_money: 2000
-recommended_player_income_multiplier: 1.0
+recommended_player_income_multiplier: 5.0
 recommended_enemy_income_multiplier: 1.0
 advanced_iads: false
 squadrons:
@@ -20,101 +19,138 @@ squadrons:
     - primary: BARCAP
       secondary: any
       aircraft:
-        - VF-142
-        #F14B
-    - primary: DEAD
+        - VF-142 #F14B
+      size: 16
+    - primary: Strike
       secondary: any
       aircraft:
-        - VFA-192
-        #Hornet Navy
+        - VFA-192 #Hornet Navy
+      size: 16
     - primary: AEW&C
       aircraft:
-        - VAW-125
-        #E2C
+        - VAW-125 #E2C
+      size: 2
     - primary: Refueling
       aircraft:
         - S-3B Tanker
+      size: 2
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - S-3B Viking
+      size: 4
   # Taft
   38:
     - primary: BAI
       secondary: air-to-ground
       aircraft:
-        - A Company, 1-211th ARB
-        #AH-64D Apache Longbow
+        - A Company, 1-211th ARB #AH-64D Apache Longbow
+      size: 10       
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - Mi-24P Hind-F
+      size: 10
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - Ka-50 Hokum III
+      size: 10
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - SA 342M Gazelle
-    - primary: Transport
-      secondary: air-to-ground
-      aircraft:
-        - HMLA-169 (UH-1H)
-        #UH-1H Iroquois   
+      size: 4
     - primary: Transport
       secondary: any
       aircraft:
-        - Mi-8MTV2 Hip 
+        - HMLA-169 (UH-1H) #UH-1H Iroquois
+      size: 4
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - Mi-8MTV2 Hip
+      size: 4
   # incirlik
   16:
     - primary: Strike
       secondary: air-to-ground
       aircraft:
         - B-52H Stratofortress
+      size: 2
     - primary: Strike
-      secondary: air-to-ground
+      secondary: any
       aircraft:
         - B-1B Lancer
-    - primary: BAI
-      secondary: air-to-ground
-      aircraft:
-        - 335th FS
-        #F15e   
-    - primary: BARCAP
-      secondary: air-to-air
-      aircraft:
-        - 58th FS
-        #F15c
-    - primary: DEAD
-      secondary: air-to-ground
-      aircraft:
-        - VMFA-251
-        #Hornet - Marines   
+      size: 2
     - primary: BAI
       secondary: any
       aircraft:
-        - 23rd FS
-        #Viper USAF
+        - F-117A Nighthawk
+      size: 5
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - 335th FS #F15e
+      size: 8        
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - AJS-37 Viggen
+      size: 8  
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - JF-17 Thunder
+      size: 8
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - Mirage 2000C
+      size: 8
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - VMFA-251 #Hornet - Marines
+      size: 8
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - 23rd FS #Viper USAF
+      size: 8
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - 58th FS #F15c
+      size: 8
   # Hatay
   15:
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - A-10C Thunderbolt II (Suite 7)
+      size: 8
   # Abu al-Duhur
   1:
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - AV-8B Harrier II Night Attack
+      size: 8
   # Bassel Al-Assad
   21:
     - primary: AEW&C
       aircraft:
         - E-3A
+      size: 2
     - primary: Refueling
       aircraft:
         - KC-135 Stratotanker
+      size: 2
     - primary: Refueling
       aircraft:
         - KC-130
+      size: 2
   # Aleppo
   #27:
   # Kuweires

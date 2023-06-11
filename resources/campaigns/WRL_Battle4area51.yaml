@@ -1,21 +1,17 @@
 ---
-name: Nevada - WRL - Battle for Area 51 (v2)
+name: Nevada - WRL - Battle for Area 51 (v1.0)
 theater: Nevada
 authors: HolyOrangeJuice, We Run Liberation
 recommended_player_faction: WRL - Task Force Blue
 recommended_enemy_faction: WRL - Task Force Red
 recommended_start_date: 2022-06-04
-description: "<p>This mission was designed for the We Run Liberation group [WRL].
-  <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p>
-  <p>It is a small scale battle around Creech and Groom Lake.</p>
-  <p>The enemy has an Advanced IADs network designed to work with the skynet plugin.</p>
-  <p>Look for weakness in enemy SAM defense and go after the command center and power stations.</p>"
+description: "<p>This mission was created by HolyOrangeJuice [OscarJuliet] for the WRL Group. Join us for weekly PVE events. <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p><p>This campaign does not represent any historical time period or events. The battle takes place around Creech and Groom Lake.</p><p>Your goal is to cripple the enemy SAM network by targeting the enemy IADs network. You can destroy power stations, communications towers, and command modules.</p><p>All WRL Campaigns use high budget and high income to focus on the PVE goals to eliminate the enemy. Use lower starting money and income for increased difficulty</p>"
 miz: WRL_Battle4area51.miz
 performance: 1
-version: "10.5"
-recommended_player_money: 2000
+version: "10.7" #CTLD Zones Added
+recommended_player_money: 5000
 recommended_enemy_money: 2000
-recommended_player_income_multiplier: 1.0
+recommended_player_income_multiplier: 5.0
 recommended_enemy_income_multiplier: 1.0
 settings:
   max_frontline_length: 20
@@ -71,140 +67,163 @@ iads_config:
 squadrons:
 # Nellis AFB
   4:
+    - primary: AEW&C
+      aircraft:
+        - E-3A
+      size: 2
+    - primary: Refueling
+      aircraft:
+        - KC-135 Stratotanker
+      size: 2
+    - primary: Refueling
+      aircraft:
+        - KC-130
+      size: 2  
     - primary: Strike
       secondary: air-to-ground
       aircraft:
         - B-52H Stratofortress
-    - primary: AEW&C
-      aircraft:
-        - E-3A
-    - primary: Refueling
-      aircraft:
-        - KC-135 Stratotanker
-    - primary: Refueling
-      aircraft:
-        - KC-130
+      size: 2
     - primary: Strike
+      secondary: any
+      aircraft:
+        - B-1B Lancer
+      size: 2
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - F-117A Nighthawk
+      size: 5
+    - primary: BAI
       secondary: air-to-ground
       aircraft:
-        - 335th FS
-        #F15e
+        - 335th FS #F15e
+      size: 8            
     - primary: BARCAP
       secondary: air-to-air
       aircraft:
-        - 58th FS
-        #F15c
-    - primary: BARCAP
+        - F-15C Eagle
+      size: 16
+# Creech
+  1:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - AJS-37 Viggen
+      size: 8  
+    - primary: BAI
       secondary: any
       aircraft:
-        - VF-142
-        #F14B
+        - JF-17 Thunder
+      size: 8
     - primary: BARCAP
       secondary: any
       aircraft:
         - Mirage 2000C
+      size: 8
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - VMFA-251 #Hornet - Marines
+      size: 16
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - 23rd FS #Viper USAF
+      size: 16
     - primary: BARCAP
-      secondary: any
+      secondary: air-to-air
       aircraft:
-        - JF-17 Thunder
-    - primary: Strike
-      secondary: any
-      aircraft:
-        - AJS-37 Viggen
-    - primary: SEAD
-      secondary: air-to-ground
-      aircraft:
-        - Su-25T Frogfoot
-# Creech
-  1:
-    - primary: Strike
-      secondary: any
-      aircraft:
-        - VMA-214
-        #AV8B
-    - primary: SEAD
-      secondary: air-to-ground
-      aircraft:
-        - VMFA-251
-        #Hornet - Marines
-    - primary: CAS
-      secondary: air-to-ground
-      aircraft:
-        - A-10C Thunderbolt II (Suite 7)
-    - primary: CAS
-      secondary: air-to-ground
-      aircraft:
-        - A-10A Thunderbolt II
-    - primary: Strike
-      secondary: any
-      aircraft:
-        - 23rd FS
-        #Viper USAF
+        - 58th FS #F15c
+      size: 16
     - primary: BAI
       secondary: air-to-ground
       aircraft:
-        - A Company, 1-211th ARB
-        #AH-64D Apache Longbow
+        - A-10C Thunderbolt II (Suite 7)
+      size: 16
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - AV-8B Harrier II Night Attack
+      size: 16
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - A Company, 1-211th ARB #AH-64D Apache Longbow
+      size: 10       
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - Mi-24P Hind-F
+      size: 10
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - Ka-50 Hokum III
-    - primary: BAI
-      secondary: air-to-ground
-      aircraft:
-        - Mi-8MTV2 Hip
-    - primary: BAI
-      secondary: air-to-ground
-      aircraft:
-        - HMLA-169 (UH-1H)
-        #UH-1H Iroquois
+      size: 10
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - SA 342M Gazelle
+      size: 4
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - HMLA-169 (UH-1H) #UH-1H Iroquois
+      size: 4
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - Mi-8MTV2 Hip
+      size: 4
 # Groom Lake
   2:
     - primary: BARCAP
       secondary: any
       aircraft:
         - MiG-21bis Fishbed-N
+      size: 16
     - primary: Strike
       secondary: air-to-ground
       aircraft:
         - Su-17M4 Fitter-K
+      size: 16
     - primary: BARCAP
       secondary: any
       aircraft:
         - F-5E Tiger II
+      size: 16
     - primary: Strike
       secondary: air-to-ground
       aircraft:
         - Su-24M Fencer-D
+      size: 16
     - primary: CAS
       secondary: air-to-ground
       aircraft:
         - Su-25T Frogfoot
+      size: 16
 #FARP A-1
   FARP A1:
     - primary: CAS
       secondary: any
       aircraft:
         - Mi-24P Hind-F
+      size: 4
     - primary: Transport
       secondary: any
       aircraft:
         - Mi-8MTV2 Hip
+      size: 4
 #FARP B-1
   FARP B1:
     - primary: CAS
       secondary: any
       aircraft:
         - Mi-24P Hind-F
+      size: 4
     - primary: Transport
       secondary: any
       aircraft:
         - Mi-8MTV2 Hip
+      size: 4

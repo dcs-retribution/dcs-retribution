@@ -1,192 +1,198 @@
 ---
-name: Caucasus - WRL - Battle for Georgia (v2)
+name: Caucasus - WRL - Battle for Georgia (v1.0)
 theater: Caucasus
 authors: HolyOrangeJuice
 recommended_player_faction: WRL - Task Force Blue
 recommended_enemy_faction: WRL - Task Force Red
 recommended_start_date: 2022-06-04
-description: "<p>This mission was designed for the We Run Liberation group [WRL].
-  <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p>
-  <p>The invasion of Georgia has begun. Russian forces have pushed all the way up to Zugdidi.
-  NATO has decided to help Georgia out and push Russia back towards Sochi. The Abraham Lincoln was dispatched
-  by the US to support NATO's efforts to help Georgia, along with the Saipan. Georgia has also allowed NATO
-  aircraft to make use of Georgian airfields for its defence. The objective is simple, liberate Georgia
-  from its Russian neighbours before it's too late!
-  </p>"
+description: "<p>This mission was created by HolyOrangeJuice [OscarJuliet] for the WRL Group. Join us for weekly PVE events. <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p><p>This campaign does not represent any historical time period or events. The battle takes place on the coast of Georgia. Fight your way through the enemy.</p><p>All WRL Campaigns use high budget and high income to focus on the PVE goals to eliminate the enemy. Use lower starting money and income for increased difficulty</p>"
 miz: WRL_Battle4Georgia.miz
 performance: 2
-version: "10.5"
-recommended_player_money: 2000
+version: "10.7" #CTLD Zones Added
+recommended_player_money: 5000
 recommended_enemy_money: 2000
-recommended_player_income_multiplier: 1.0
+recommended_player_income_multiplier: 5.0
 recommended_enemy_income_multiplier: 1.0
 advanced_iads: false
 settings:
   max_frontline_length: 30
-  perf_culling_distance: 35
 squadrons:
   Blue CV-1:
     - primary: BARCAP
       secondary: any
       aircraft:
-        - VF-142
-        #F14B
+        - VF-142 #F14B
+      size: 16
     - primary: Strike
       secondary: any
       aircraft:
-        - VFA-192
-        #Hornet Navy
+        - VFA-192 #Hornet Navy
+      size: 16
     - primary: AEW&C
       aircraft:
-        - VAW-125
-        #E2C
+        - VAW-125 #E2C
+      size: 2
     - primary: Refueling
       aircraft:
         - S-3B Tanker
+      size: 2
     - primary: Strike
       secondary: any
       aircraft:
         - S-3B Viking
+      size: 4
   Blue LHA:
     - primary: BAI
       secondary: air-to-ground
       aircraft:
-        - VMA-223
-        #AV8B
+        - VMA-223 #AV8B
+      size: 12
     - primary: Strike
       secondary: air-to-ground
       aircraft:
         - SH-60B Seahawk
+      size: 4
 # Senaki-Kholki
-  23:
-    - primary: Strike
-      secondary: any
-      aircraft:
-        - VMA-214
-        #AV8B
-    - primary: SEAD
-      secondary: air-to-ground
-      aircraft:
-        - VMFA-251
-        #Hornet - Marines
+  23:   
     - primary: CAS
       secondary: air-to-ground
       aircraft:
         - A-10C Thunderbolt II (Suite 7)
-    - primary: CAS
-      secondary: air-to-ground
-      aircraft:
-        - A-10A Thunderbolt II
+      size: 8
     - primary: BAI
       secondary: air-to-ground
       aircraft:
-        - A Company, 1-211th ARB
-        #AH-64D Apache Longbow
+        - AV-8B Harrier II Night Attack
+      size: 8
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - VMFA-251 #Hornet - Marines
+      size: 16
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - 23rd FS #Viper USAF
+      size: 16
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - 58th FS #F15c
+      size: 16
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - A Company, 1-211th ARB #AH-64D Apache Longbow
+      size: 8       
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - Mi-24P Hind-F
+      size: 8
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - Ka-50 Hokum III
-    - primary: BAI
-      secondary: air-to-ground
-      aircraft:
-        - Mi-8MTV2 Hip
-    - primary: BAI
-      secondary: air-to-ground
-      aircraft:
-        - HMLA-169 (UH-1H)
-        #UH-1H Iroquois
+      size: 8
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - SA 342M Gazelle
- # Kutaisi
-  25:
-    - primary: BARCAP
-      secondary: air-to-air
-      aircraft:
-        - 58th FS
-        #F15c
-    - primary: BARCAP
-      secondary: air-to-air
-      aircraft:
-        - VF-143
-        #F14B
-    - primary: Strike
+      size: 4
+    - primary: Transport
       secondary: any
       aircraft:
-        - 23rd FS
-        #Viper USAF
-    - primary: Strike
-      secondary: air-to-ground
+        - HMLA-169 (UH-1H) #UH-1H Iroquois
+      size: 4
+    - primary: Transport
+      secondary: any
       aircraft:
-        - 335th FS
-        #F15e
+        - Mi-8MTV2 Hip
+      size: 4
+ # Kutaisi
+  25:
+    - primary: AEW&C
+      aircraft:
+        - E-3A
+      size: 2
+    - primary: Refueling
+      aircraft:
+        - KC-135 Stratotanker
+      size: 2
+    - primary: Refueling
+      aircraft:
+        - KC-130
+      size: 2
     - primary: Strike
       secondary: air-to-ground
       aircraft:
         - B-52H Stratofortress
-    - primary: AEW&C
+      size: 2
+    - primary: Strike
+      secondary: any
       aircraft:
-        - E-3A
-    - primary: Refueling
+        - B-1B Lancer
+      size: 2
+    - primary: BAI
+      secondary: any
       aircraft:
-        - KC-135 Stratotanker
-    - primary: Refueling
+        - F-117A Nighthawk
+      size: 5
+    - primary: BAI
+      secondary: air-to-ground
       aircraft:
-        - KC-130
+        - 335th FS #F15e
+      size: 8  
  # Kobuleti
   24:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - AJS-37 Viggen
+      size: 8  
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - JF-17 Thunder
+      size: 8
     - primary: BARCAP
       secondary: any
       aircraft:
         - Mirage 2000C
-    - primary: BARCAP
-      secondary: any
-      aircraft:
-        - JF-17 Thunder
-    - primary: Strike
-      secondary: any
-      aircraft:
-        - AJS-37 Viggen
-    - primary: SEAD
-      secondary: air-to-ground
-      aircraft:
-        - Su-25T Frogfoot
-    - primary: Strike
-      secondary: any
-      aircraft:
-        - Tornado GR4 
+      size: 8
 #Sukhumi-Babushara
   20:
     - primary: BARCAP
       secondary: any
       aircraft:
         - MiG-21bis Fishbed-N
+      size: 16
     - primary: Strike
       secondary: air-to-ground
       aircraft:
         - Su-17M4 Fitter-K
+      size: 16
 # Gudauta
   21:
     - primary: BARCAP
       secondary: any
       aircraft:
         - MiG-23MLD Flogger-K
+      size: 16
     - primary: SEAD
       secondary: air-to-ground
       aircraft:
         - Su-25T Frogfoot
+      size: 16
  # Sochi-Adler
   18:
     - primary: BARCAP
       secondary: any
       aircraft:
         - MiG-29S Fulcrum-C
+      size: 16
     - primary: Strike
       secondary: air-to-ground
       aircraft:
         - Su-24M Fencer-D
+      size: 16
