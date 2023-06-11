@@ -11,28 +11,7 @@
     "HUNTER",
     "TIE_INTER",
     "CORVETTE",
-    "tie_bomber_2",
-    "IL-76MD",
-    "Ka-50 Hokum",
-    "Ka-50 Hokum III",
-    "L-39ZA Albatros",
-    "Mi-24V Hind-E",
-    "Mi-24P Hind-F",
-    "Mi-28N Havoc",
-    "Mi-8MTV2 Hip",
-    "MiG-29S Fulcrum-C",
-    "MiG-31 Foxhound",
-    "Su-24M Fencer-D",
-    "Su-25 Frogfoot",
-    "Su-25T Frogfoot",
-    "Su-27 Flanker-B",
-    "Su-30 Flanker-C",
-    "Su-33 Flanker-D",
-    "Su-34 Fullback",
-    "Tu-142 Bear-F",
-    "Tu-160 Blackjack",
-    "Tu-22M3 Backfire-C",
-    "Tu-95MS Bear-H"
+    "tie_bomber_2"
   ],
   "awacs": [
     "A-50"
@@ -45,16 +24,7 @@
     "MBT9_EMPIRE",
     "MBT9_AAA EMPIRE",
     "TB_TT",
-    "Jugger",
-    "BMP-1",
-    "BMP-2",
-    "BMP-3",
-    "BTR-80",
-    "BTR-82A",
-    "SA-19 Grison (2K22 Tunguska)",
-    "T-72B3 model 2011",
-    "T-80UD",
-    "T-90A"
+    "Jugger"
   ],
   "artillery_units": [
     "2S19 Msta-S",
