@@ -684,7 +684,12 @@ class tie_bomber_2(PlaneType):
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 
-    tasks = [task.SEAD, task.GroundAttack, task.CAS, task.RunwayAttack, task.BAI]
+    tasks = [
+        task.SEAD,
+        task.GroundAttack,
+        task.CAS,
+        task.RunwayAttack,
+    ]
     task_default = task.CAS
 
 
