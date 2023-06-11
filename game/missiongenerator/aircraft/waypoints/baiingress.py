@@ -3,13 +3,14 @@ import logging
 from dcs.point import MovingPoint
 from dcs.task import AttackGroup, OptFormation, WeaponType
 
-from game.theater import NavalControlPoint, TheaterGroundObject
+from game.theater import TheaterGroundObject
 from game.transfers import MultiGroupTransport
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 
 class BaiIngressBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
+        waypoint.tasks.append(OptFormation.trail_open())
         # TODO: Add common "UnitGroupTarget" base type.
         group_names = []
         target = self.package.target
@@ -18,10 +19,6 @@ class BaiIngressBuilder(PydcsWaypointBuilder):
                 group_names.append(group.group_name)
         elif isinstance(target, MultiGroupTransport):
             group_names.append(target.name)
-        elif isinstance(target, NavalControlPoint):
-            carrier_name = target.get_carrier_group_name()
-            if carrier_name:
-                group_names.append(carrier_name)
         else:
             logging.error(
                 "Unexpected target type for BAI mission: %s",
@@ -37,5 +34,3 @@ class BaiIngressBuilder(PydcsWaypointBuilder):
 
             task = AttackGroup(miz_group.id, weapon_type=WeaponType.Auto)
             waypoint.tasks.append(task)
-
-        waypoint.tasks.append(OptFormation.trail_open())

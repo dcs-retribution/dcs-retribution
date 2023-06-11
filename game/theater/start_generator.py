@@ -49,6 +49,7 @@ class GeneratorSettings:
     no_player_navy: bool
     no_enemy_navy: bool
     tgo_config: TgoConfig
+    squadrons_start_full: bool
 
 
 @dataclass

@@ -2,6 +2,62 @@ local unitPayloads = {
 	["name"] = "MiG-27K",
 	["payloads"] = {
 		[1] = {
+			["name"] = "SEAD",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{752AF1D2-EBCC-4bd7-A1E7-2357F5601C70}",
+					["num"] = 2,
+				},
+				[2] = {
+					["CLSID"] = "{682A481F-0CB5-4693-A382-D00DD4A156D7}",
+					["num"] = 3,
+				},
+				[3] = {
+					["CLSID"] = "{A5BAEAB7-6FAF-4236-AF72-0FD900F493F9}",
+					["num"] = 5,
+				},
+				[4] = {
+					["CLSID"] = "{682A481F-0CB5-4693-A382-D00DD4A156D7}",
+					["num"] = 7,
+				},
+				[5] = {
+					["CLSID"] = "{752AF1D2-EBCC-4bd7-A1E7-2357F5601C70}",
+					["num"] = 8,
+				},
+			},
+			["tasks"] = {
+				[1] = 29,
+			},
+		},
+		[2] = {
+			["name"] = "STRIKE",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{E2C426E3-8B10-4E09-B733-9CDC26520F48}",
+					["num"] = 2,
+				},
+				[2] = {
+					["CLSID"] = "{682A481F-0CB5-4693-A382-D00DD4A156D7}",
+					["num"] = 3,
+				},
+				[3] = {
+					["CLSID"] = "{A5BAEAB7-6FAF-4236-AF72-0FD900F493F9}",
+					["num"] = 5,
+				},
+				[4] = {
+					["CLSID"] = "{682A481F-0CB5-4693-A382-D00DD4A156D7}",
+					["num"] = 7,
+				},
+				[5] = {
+					["CLSID"] = "{E2C426E3-8B10-4E09-B733-9CDC26520F48}",
+					["num"] = 8,
+				},
+			},
+			["tasks"] = {
+				[1] = 33,
+			},
+		},
+		[3] = {
 			["name"] = "CAS",
 			["pylons"] = {
 				[1] = {
@@ -35,62 +91,6 @@ local unitPayloads = {
 			},
 			["tasks"] = {
 				[1] = 32,
-			},
-		},
-		[2] = {
-			["name"] = "SEAD",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{752AF1D2-EBCC-4bd7-A1E7-2357F5601C70}",
-					["num"] = 2,
-				},
-				[2] = {
-					["CLSID"] = "{682A481F-0CB5-4693-A382-D00DD4A156D7}",
-					["num"] = 3,
-				},
-				[3] = {
-					["CLSID"] = "{A5BAEAB7-6FAF-4236-AF72-0FD900F493F9}",
-					["num"] = 5,
-				},
-				[4] = {
-					["CLSID"] = "{682A481F-0CB5-4693-A382-D00DD4A156D7}",
-					["num"] = 7,
-				},
-				[5] = {
-					["CLSID"] = "{752AF1D2-EBCC-4bd7-A1E7-2357F5601C70}",
-					["num"] = 8,
-				},
-			},
-			["tasks"] = {
-				[1] = 29,
-			},
-		},
-		[3] = {
-			["name"] = "STRIKE",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{E2C426E3-8B10-4E09-B733-9CDC26520F48}",
-					["num"] = 2,
-				},
-				[2] = {
-					["CLSID"] = "{682A481F-0CB5-4693-A382-D00DD4A156D7}",
-					["num"] = 3,
-				},
-				[3] = {
-					["CLSID"] = "{A5BAEAB7-6FAF-4236-AF72-0FD900F493F9}",
-					["num"] = 5,
-				},
-				[4] = {
-					["CLSID"] = "{682A481F-0CB5-4693-A382-D00DD4A156D7}",
-					["num"] = 7,
-				},
-				[5] = {
-					["CLSID"] = "{E2C426E3-8B10-4E09-B733-9CDC26520F48}",
-					["num"] = 8,
-				},
-			},
-			["tasks"] = {
-				[1] = 33,
 			},
 		},
 		[4] = {
@@ -142,6 +142,31 @@ local unitPayloads = {
 				},
 			},
 			["tasks"] = {
+			},
+		},
+		[6] = {
+			["displayName"] = "Retribution OCA/Runway",
+			["name"] = "Retribution OCA/Runway",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{BD289E34-DF84-4C5E-9220-4B14C346E79D}",
+					["num"] = 8,
+				},
+				[2] = {
+					["CLSID"] = "{APU-60-1_R_60M}",
+					["num"] = 3,
+				},
+				[3] = {
+					["CLSID"] = "{APU-60-1_R_60M}",
+					["num"] = 7,
+				},
+				[4] = {
+					["CLSID"] = "{BD289E34-DF84-4C5E-9220-4B14C346E79D}",
+					["num"] = 2,
+				},
+			},
+			["tasks"] = {
+				[1] = 34,
 			},
 		},
 	},

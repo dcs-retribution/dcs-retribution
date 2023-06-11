@@ -84,6 +84,7 @@ class NewGameWizard(QtWidgets.QWizard):
             no_player_navy=self.field("no_player_navy"),
             no_enemy_navy=self.field("no_enemy_navy"),
             tgo_config=campaign.load_ground_forces_config(),
+            squadrons_start_full=self.field("squadrons_start_full"),
         )
         mod_settings = ModSettings(
             a4_skyhawk=self.field("a4_skyhawk"),
@@ -135,7 +136,9 @@ class NewGameWizard(QtWidgets.QWizard):
         )
         self.generatedGame = generator.generate()
 
-        AirWingConfigurationDialog(self.generatedGame, self).exec_()
+        AirWingConfigurationDialog(
+            self.generatedGame, generator.generator_settings, self
+        ).exec_()
 
         g = self.generatedGame
         herc = AircraftType.named("C-130J-30 Super Hercules")
@@ -143,7 +146,7 @@ class NewGameWizard(QtWidgets.QWizard):
             g.settings.set_plugin_option("herculescargo", True)
 
         self.generatedGame.begin_turn_0(
-            squadrons_start_full=settings.enable_squadron_aircraft_limits
+            squadrons_start_full=generator_settings.squadrons_start_full
         )
 
         super(NewGameWizard, self).accept()

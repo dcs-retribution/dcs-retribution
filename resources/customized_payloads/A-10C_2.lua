@@ -49,6 +49,34 @@ local unitPayloads = {
 			},
 		},
 		[2] = {
+			["name"] = "STRIKE",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{DB434044-F5D0-4F1F-9BA9-B73027E18DD3}",
+					["num"] = 11,
+				},
+				[2] = {
+					["CLSID"] = "ALQ_184",
+					["num"] = 1,
+				},
+				[3] = {
+					["CLSID"] = "{A111396E-D3E8-4b9c-8AC9-2432489304D5}",
+					["num"] = 10,
+				},
+				[4] = {
+					["CLSID"] = "{GBU-31}",
+					["num"] = 8,
+				},
+				[5] = {
+					["CLSID"] = "{GBU-31}",
+					["num"] = 4,
+				},
+			},
+			["tasks"] = {
+				[1] = 31,
+			},
+		},
+		[3] = {
 			["name"] = "SEAD",
 			["pylons"] = {
 				[1] = {
@@ -88,7 +116,7 @@ local unitPayloads = {
 				[1] = 31,
 			},
 		},
-		[3] = {
+		[4] = {
 			["name"] = "CAP",
 			["pylons"] = {
 				[1] = {
@@ -104,7 +132,7 @@ local unitPayloads = {
 				[1] = 31,
 			},
 		},
-		[4] = {
+		[5] = {
 			["name"] = "CAS",
 			["pylons"] = {
 				[1] = {
@@ -152,7 +180,7 @@ local unitPayloads = {
 				[1] = 31,
 			},
 		},
-		[5] = {
+		[6] = {
 			["name"] = "New Payload",
 			["pylons"] = {
 				[1] = {
@@ -178,34 +206,6 @@ local unitPayloads = {
 				[6] = {
 					["CLSID"] = "{LAU-131 - 7 AGR-20A}",
 					["num"] = 10,
-				},
-			},
-			["tasks"] = {
-				[1] = 31,
-			},
-		},
-		[6] = {
-			["name"] = "STRIKE",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{DB434044-F5D0-4F1F-9BA9-B73027E18DD3}",
-					["num"] = 11,
-				},
-				[2] = {
-					["CLSID"] = "ALQ_184",
-					["num"] = 1,
-				},
-				[3] = {
-					["CLSID"] = "{A111396E-D3E8-4b9c-8AC9-2432489304D5}",
-					["num"] = 10,
-				},
-				[4] = {
-					["CLSID"] = "{GBU-31}",
-					["num"] = 8,
-				},
-				[5] = {
-					["CLSID"] = "{GBU-31}",
-					["num"] = 4,
 				},
 			},
 			["tasks"] = {
@@ -242,6 +242,35 @@ local unitPayloads = {
 				[7] = {
 					["CLSID"] = "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}",
 					["num"] = 8,
+				},
+			},
+			["tasks"] = {
+				[1] = 31,
+			},
+		},
+		[8] = {
+			["displayName"] = "Retribution OCA/Runway",
+			["name"] = "Retribution OCA/Runway",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{DB434044-F5D0-4F1F-9BA9-B73027E18DD3}",
+					["num"] = 11,
+				},
+				[2] = {
+					["CLSID"] = "ALQ_184",
+					["num"] = 1,
+				},
+				[3] = {
+					["CLSID"] = "{A111396E-D3E8-4b9c-8AC9-2432489304D5}",
+					["num"] = 10,
+				},
+				[4] = {
+					["CLSID"] = "{GBU-31V3B}",
+					["num"] = 8,
+				},
+				[5] = {
+					["CLSID"] = "{GBU-31V3B}",
+					["num"] = 4,
 				},
 			},
 			["tasks"] = {

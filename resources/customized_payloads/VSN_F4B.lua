@@ -90,6 +90,51 @@ local unitPayloads = {
 			},
 		},
 		[3] = {
+			["displayName"] = "Retribution OCA/Runway",
+			["name"] = "Retribution OCA/Runway",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{BRU41_6X_MK-82}",
+					["num"] = 2,
+				},
+				[2] = {
+					["CLSID"] = "{60CC734F-0AFA-4E2E-82B8-93B941AB11CF}",
+					["num"] = 3,
+				},
+				[3] = {
+					["CLSID"] = "{AIM-7F}",
+					["num"] = 4,
+				},
+				[4] = {
+					["CLSID"] = "{AIM-7F}",
+					["num"] = 5,
+				},
+				[5] = {
+					["CLSID"] = "VSN_F4EC_PTB",
+					["num"] = 6,
+				},
+				[6] = {
+					["CLSID"] = "{AIM-7F}",
+					["num"] = 7,
+				},
+				[7] = {
+					["CLSID"] = "{AIM-7F}",
+					["num"] = 8,
+				},
+				[8] = {
+					["CLSID"] = "{60CC734F-0AFA-4E2E-82B8-93B941AB11CF}",
+					["num"] = 9,
+				},
+				[9] = {
+					["CLSID"] = "{BRU41_6X_MK-82}",
+					["num"] = 10,
+				},
+			},
+			["tasks"] = {
+				[1] = 32,
+			},
+		},
+		[4] = {
 			["name"] = "CAS",
 			["pylons"] = {
 				[1] = {
@@ -131,51 +176,6 @@ local unitPayloads = {
 			},
 			["tasks"] = {
 				[1] = 31,
-			},
-		},
-		[4] = {
-			["displayName"] = "Retribution OCA/Runway",
-			["name"] = "Retribution OCA/Runway",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
-					["num"] = 2,
-				},
-				[2] = {
-					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
-					["num"] = 3,
-				},
-				[3] = {
-					["CLSID"] = "{AIM-7F}",
-					["num"] = 4,
-				},
-				[4] = {
-					["CLSID"] = "{AIM-7F}",
-					["num"] = 5,
-				},
-				[5] = {
-					["CLSID"] = "VSN_F4EC_PTB",
-					["num"] = 6,
-				},
-				[6] = {
-					["CLSID"] = "{AIM-7F}",
-					["num"] = 7,
-				},
-				[7] = {
-					["CLSID"] = "{AIM-7F}",
-					["num"] = 8,
-				},
-				[8] = {
-					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
-					["num"] = 9,
-				},
-				[9] = {
-					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
-					["num"] = 10,
-				},
-			},
-			["tasks"] = {
-				[1] = 32,
 			},
 		},
 	},

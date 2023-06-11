@@ -258,9 +258,7 @@ class Settings:
         PILOTS_AND_SQUADRONS_SECTION,
         default=False,
         detail=(
-            "If set, squadrons will not be able to exceed a maximum number of aircraft "
-            "(configurable), and the campaign will begin with all squadrons at full strength "
-            "given enough room at the base."
+            "If set, squadrons will not be able to buy more aircraft than the configured maximum."
         ),
     )
 
@@ -593,6 +591,16 @@ class Settings:
         "Artillery strikes",
         page=MISSION_GENERATOR_PAGE,
         section=PERFORMANCE_SECTION,
+        default=True,
+    )
+    generate_fire_tasks_for_missile_sites: bool = boolean_option(
+        "Generate fire tasks for missile sites",
+        page=MISSION_GENERATOR_PAGE,
+        section=PERFORMANCE_SECTION,
+        detail=(
+            "If enabled, missile sites like V2s and Scuds will fire on random targets "
+            "at the start of the mission."
+        ),
         default=True,
     )
     perf_moving_units: bool = boolean_option(

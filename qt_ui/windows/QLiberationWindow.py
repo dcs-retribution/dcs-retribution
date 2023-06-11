@@ -1,6 +1,7 @@
 import logging
 import traceback
 import webbrowser
+from pathlib import Path
 from typing import Optional
 
 from PySide2.QtCore import QSettings, Qt, Signal
@@ -110,7 +111,7 @@ class QLiberationWindow(QMainWindow):
             if last_save_file:
                 logging.info("Loading last saved game : " + str(last_save_file))
                 game = persistency.load_game(last_save_file)
-                Migrator(game)
+                self.migrate_game(game, last_save_file)
                 self.onGameGenerated(game)
                 self.updateWindowTitle(last_save_file if game else None)
             else:
@@ -318,10 +319,22 @@ class QLiberationWindow(QMainWindow):
         )
         if file is not None and file[0] != "":
             game = persistency.load_game(file[0])
-            Migrator(game)
+            self.migrate_game(game, file[0])
             GameUpdateSignal.get_instance().game_loaded.emit(game)
 
             self.updateWindowTitle(file[0])
+
+    def migrate_game(self, game, path):
+        if game:
+            Migrator(game)
+        else:
+            relative_path = Path(path)
+            QMessageBox.critical(
+                self,
+                "Incompatible save",
+                "Incompatible save file detected, please report the issue on GitHub or Discord.\n"
+                f"Make sure to include the campaign that fails to load, i.e.:\n\n{relative_path}",
+            )
 
     def saveGame(self):
         logging.info("Saving game")

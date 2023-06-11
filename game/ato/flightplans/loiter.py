@@ -30,7 +30,7 @@ class LoiterFlightPlan(StandardFlightPlan[Any], ABC):
 
     def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
         if waypoint == self.layout.hold:
-            return self.push_time
+            return self.push_time + self.tot_offset
         return None
 
     def travel_time_between_waypoints(

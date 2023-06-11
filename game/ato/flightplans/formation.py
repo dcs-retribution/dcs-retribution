@@ -97,9 +97,9 @@ class FormationFlightPlan(LoiterFlightPlan, ABC):
 
     def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
         if waypoint == self.layout.join:
-            return self.join_time
+            return self.join_time + self.tot_offset
         elif waypoint == self.layout.split:
-            return self.split_time
+            return self.split_time + self.tot_offset
         return None
 
     @property

@@ -7,8 +7,6 @@
 * **[UI]** Added fuel selector in flight's edit window.
 * **[Plugins]** Expose Splash Damage's "game_messages" option and set its default to false.
 * **[Mission Generation]** Improved AI SEAD capabilities, allowing for mixed loadouts using Decoys, ARMs & ASMs.
-* **[Mission Generation]** Tornadoes now use SEAD tasking for SEAD/DEAD missions.
-* **[Mission Generation]** Convoys now try to get moving immediately (with cone formation) to avoid taking a long time to form up to move on road. Credit to Farrago for this approach.
 * **[Modding]** Support for A-7E Corsair II (presumed latest available version)
 * **[Squadrons]** Added many new squadron's by Adecarcer
 * **[Plugins]** Updated 'expl_table' in Splash Damage script.
@@ -19,6 +17,13 @@
 * **[New Game Wizard]** Re-organized generator options & show the regular settings menu instead of the limited "Difficulty & Automation" page.
 * **[Campaign Management]** Ability to operate harriers from FOBs/FARPs for <ins>__human pilots only__</ins>. Please note that the autoplanner won't generate flights for harriers at FOBs/FARPs, which means you need to plan your missions manually.
 * **[Mission Planning]** Allow NAV/REFUEL/DIVERT waypoints to be deleted without degrading to a custom flight-plan, also warning the user before actually degrading the flight-plan.
+* **[Campaign Generation]** Split "full-strength start" from "squadron aircraft limits" option.
+* **[Mission Generation]** General improvement w.r.t. DCS tasking, including a check for incompatible tasking.
+* **[Mission Generation]** OCA-Runway flights will remain at altitude when using guided bombs.
+* **[UX]** Added error message to indicate save-compatibility issues + fix to avoid total crash upon loading of last save.
+* **[UI]** Improved parking space information in air wing configuration dialog.
+* **[Squadrons]** Warning messages when opening up a squadron through the air wing dialog, indicating squadrons that potentially won't fit w.r.t. parking space.
+* **[Squadrons Transfers]** Determine number of available parking slots more accurately w.r.t. squadron transfers, taking aircraft dimensions into account which should prevent forced air-starts.
 
 ## Fixes
 * **[New Game Wizard]** Settings would not persist when going back to a previous page (obsolete due to overhaul).
@@ -128,7 +133,25 @@ BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 * **[Mission Generation]** Kneeboard STRIKE coordinates would sometimes get clipped when not fitting.
 * **[UI]** Fix exception when trying to add a waypoints to a flightplan.
 
+
 # Liberation:
+
+# 7.1.0
+
+Saves from 7.0.0 are compatible with 7.1.0
+
+## Features/Improvements
+
+* **[Factions]** Replaced Patriot STRs "EWRs" with AN/FPS-117 for blue factions 1980 or newer.
+* **[Mission Generation]** Added option to prevent scud and V2 sites from firing at the start of the mission.
+* **[Mission Planning]** Per-flight TOT offsets can now be set in the flight details UI. This allows individual flights to be scheduled ahead of or behind the rest of the package.
+* **[UI]** Parking capacity of each squadron's base is now shown during air wing configuration to avoid overcrowding bases when beginning the game with full squadrons.
+
+## Fixes
+
+* **[Mission Planning]** BAI is once again plannable against missile sites and coastal defense batteries.
+* **[UI]** Fixed formatting of departure time in flight details dialog.
+
 # 7.0.0
 
 Saves from 6.x are not compatible with 7.0.

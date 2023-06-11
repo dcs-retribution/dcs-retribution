@@ -1,5 +1,5 @@
 ---
-name: Caucasus - WRL - Up The Coast (v1)
+name: Caucasus - WRL - Up The Coast (v2)
 theater: Caucasus
 authors: HolyOrangeJuice
 recommended_player_faction: WRL - Task Force Blue
@@ -10,7 +10,7 @@ description:   "<p>This mission was designed for the We Run Liberation group [WR
   <p>The goal of this mission is to strike at the enemy economy, cripple their finances,
   and take all of the enemy air bases.</p>
   <p>All strike targets (objective buildings) are used to generate income for blufor or redfor. Once destroyed,
-  these buildings can not be repaired, even after you capture them. In normal DCS liberation missions,
+  these buildings can not be repaired, even after you capture them. In normal DCS retribution missions,
   destroying these buildings means ruining your future economy.</p><p>In Up The Coast, careful consideration
   has been made for the starting economy of Blufor. You do not need to rely on future captured buildings for income.
   As long as you do not take heavy losses, your starting economy, plus income, should sustain you for the mission.
@@ -19,7 +19,7 @@ description:   "<p>This mission was designed for the We Run Liberation group [WR
   ground units. The enemy will be able to spend a lot of money replacing units if you do not target the buildings.</p>
   <p>Factory targets are used to produce ground units. Ammo targets are used to dictate how many frontline units can
   be deployed at once. Each airbase has one or more factories. Each airbase has only three ammo targets. Do not
-  destroy these if you wish to use them after you capture them</p>"
+  destroy these if you wish to use them after you capture them</p><p>Due to issues with DCS recording kills, you may find that buildings you destroyed in mission were not reported to DCS Retribution.</p>"
 miz: WRL_up_the_coast.miz
 performance: 2
 version: "10.5"
@@ -59,18 +59,6 @@ squadrons:
       aircraft:
         - VMA-223
         #AV8B
-    - primary: BAI
-      secondary: air-to-ground
-      aircraft:
-        - AH-64D Apache Longbow
-    - primary: BAI
-      secondary: air-to-ground
-      aircraft:
-        - AH-1W SuperCobra
-    - primary: Strike
-      secondary: air-to-ground
-      aircraft:
-        - SH-60B Seahawk
 #FARPs
   ZUGDIDI:
     - primary: BAI
@@ -89,16 +77,16 @@ squadrons:
     - primary: BAI
       secondary: air-to-ground
       aircraft:
-        - Mi-8MTV2 Hip
-    - primary: BAI
+        - SA 342M Gazelle
+    - primary: Transport
       secondary: air-to-ground
       aircraft:
         - HMLA-169 (UH-1H)
-        #UH-1H Iroquois
-    - primary: BAI
-      secondary: air-to-ground
+        #UH-1H Iroquois   
+    - primary: Transport
+      secondary: any
       aircraft:
-        - SA 342M Gazelle
+        - Mi-8MTV2 Hip 
 #Sukhumi-Babushara
   20:
     - primary: BARCAP
@@ -108,19 +96,7 @@ squadrons:
     - primary: CAS
       secondary: air-to-ground
       aircraft:
-        - Mi-24V Hind-E
-    - primary: CAS
-      secondary: air-to-ground
-      aircraft:
         - Mi-24P Hind-F
-    - primary: CAS
-      secondary: air-to-ground
-      aircraft:
-        - Ka-50 Hokum
-    - primary: CAS
-      secondary: air-to-ground
-      aircraft:
-        - Mi-28N Havoc
     - primary: Strike
       secondary: air-to-ground
       aircraft:
@@ -151,11 +127,6 @@ squadrons:
       aircraft:
         - 58th FS
         #F15c
-    - primary: BARCAP
-      secondary: air-to-air
-      aircraft:
-        - VF-143
-        #F14B
     - primary: Strike
       secondary: any
       aircraft:
@@ -175,7 +146,10 @@ squadrons:
         - E-3A
     - primary: Refueling
       aircraft:
-        - KC-135 Stratotanker MPRS
+        - KC-135 Stratotanker
+    - primary: Refueling
+      aircraft:
+        - KC-130
     - primary: BARCAP
       secondary: any
       aircraft:
@@ -192,11 +166,6 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - Su-25T Frogfoot
-    - primary: Strike
-      secondary: any
-      aircraft:
-        - VMA-214
-        #AV8B
     - primary: SEAD
       secondary: air-to-ground
       aircraft:

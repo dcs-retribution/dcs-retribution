@@ -1,6 +1,16 @@
 import logging
+from datetime import timedelta
 
-from PySide2.QtWidgets import QGroupBox, QLabel, QMessageBox, QVBoxLayout
+from PySide2.QtCore import QTime
+from PySide2.QtWidgets import (
+    QGroupBox,
+    QLabel,
+    QMessageBox,
+    QVBoxLayout,
+    QTimeEdit,
+    QHBoxLayout,
+    QCheckBox,
+)
 
 from game import Game
 from game.ato.flight import Flight
@@ -8,14 +18,24 @@ from game.ato.flightplans.planningerror import PlanningError
 from qt_ui.models import PackageModel
 from qt_ui.widgets.QLabeledWidget import QLabeledWidget
 from qt_ui.widgets.combos.QArrivalAirfieldSelector import QArrivalAirfieldSelector
+from qt_ui.windows.mission.flight.waypoints.QFlightWaypointList import (
+    QFlightWaypointList,
+)
 
 
-class FlightAirfieldDisplay(QGroupBox):
-    def __init__(self, game: Game, package_model: PackageModel, flight: Flight) -> None:
-        super().__init__("Departure/Arrival")
+class FlightPlanPropertiesGroup(QGroupBox):
+    def __init__(
+        self,
+        game: Game,
+        package_model: PackageModel,
+        flight: Flight,
+        flight_wpt_list: QFlightWaypointList,
+    ) -> None:
+        super().__init__("Flight plan properties")
         self.game = game
         self.package_model = package_model
         self.flight = flight
+        self.flight_wpt_list = flight_wpt_list
 
         layout = QVBoxLayout()
 
@@ -27,6 +47,31 @@ class FlightAirfieldDisplay(QGroupBox):
         )
         self.package_model.tot_changed.connect(self.update_departure_time)
         self.update_departure_time()
+
+        tot_offset_layout = QHBoxLayout()
+        layout.addLayout(tot_offset_layout)
+
+        delay = int(self.flight.flight_plan.tot_offset.total_seconds())
+        negative = delay < 0
+        if negative:
+            delay = -delay
+        hours = delay // 3600
+        minutes = delay // 60 % 60
+        seconds = delay % 60
+
+        tot_offset_layout.addWidget(QLabel("TOT Offset (minutes:seconds)"))
+        tot_offset_layout.addStretch()
+        self.negative_offset_checkbox = QCheckBox("Ahead of package")
+        self.negative_offset_checkbox.setChecked(negative)
+        self.negative_offset_checkbox.toggled.connect(self.toggle_negative_offset)
+        tot_offset_layout.addWidget(self.negative_offset_checkbox)
+
+        self.tot_offset_spinner = QTimeEdit(QTime(hours, minutes, seconds))
+        self.tot_offset_spinner.setMaximumTime(QTime(59, 0))
+        self.tot_offset_spinner.setDisplayFormat("mm:ss")
+        self.tot_offset_spinner.timeChanged.connect(self.set_tot_offset)
+        self.tot_offset_spinner.setToolTip("Flight TOT offset from package TOT")
+        tot_offset_layout.addWidget(self.tot_offset_spinner)
 
         layout.addWidget(
             QLabel(
@@ -58,6 +103,7 @@ class FlightAirfieldDisplay(QGroupBox):
             # is an invalid state for calling anything in TotEstimator.
             return
         self.departure_time.setText(f"At T+{self.flight.flight_plan.startup_time()}")
+        self.flight_wpt_list.update_list()
 
     def set_divert(self, index: int) -> None:
         old_divert = self.flight.divert
@@ -74,3 +120,15 @@ class FlightAirfieldDisplay(QGroupBox):
             QMessageBox.critical(
                 self, "Could not update flight plan", str(ex), QMessageBox.Ok
             )
+
+    def set_tot_offset(self, offset: QTime) -> None:
+        self.flight.flight_plan.tot_offset = timedelta(
+            hours=offset.hour(), minutes=offset.minute(), seconds=offset.second()
+        )
+        if self.negative_offset_checkbox.isChecked():
+            return self.toggle_negative_offset()
+        self.update_departure_time()
+
+    def toggle_negative_offset(self) -> None:
+        self.flight.flight_plan.tot_offset = -self.flight.flight_plan.tot_offset
+        self.update_departure_time()

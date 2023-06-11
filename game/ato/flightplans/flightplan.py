@@ -65,6 +65,12 @@ class FlightPlan(ABC, Generic[LayoutT]):
     def __init__(self, flight: Flight, layout: LayoutT) -> None:
         self.flight = flight
         self.layout = layout
+        self.tot_offset = self.default_tot_offset()
+
+    def __setstate__(self, state: dict[str, Any]) -> None:
+        if "tot_offset" not in state:
+            state["tot_offset"] = self.default_tot_offset()
+        self.__dict__.update(state)
 
     @property
     def package(self) -> Package:
@@ -207,8 +213,7 @@ class FlightPlan(ABC, Generic[LayoutT]):
             [meters(cp.position.distance_to_point(w.position)) for w in self.waypoints]
         )
 
-    @property
-    def tot_offset(self) -> timedelta:
+    def default_tot_offset(self) -> timedelta:
         """This flight's offset from the package's TOT.
 
         Positive values represent later TOTs. An offset of -2 minutes is used

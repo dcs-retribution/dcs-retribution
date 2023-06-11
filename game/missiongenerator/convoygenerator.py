@@ -11,7 +11,6 @@ from dcs.unitgroup import VehicleGroup
 
 from game.dcs.groundunittype import GroundUnitType
 from game.missiongenerator.groundforcepainter import GroundForcePainter
-from game.theater import FrontLine
 from game.transfers import Convoy
 from game.unitmap import UnitMap
 from game.utils import kph
@@ -43,22 +42,6 @@ class ConvoyGenerator:
         )
 
         if self.game.settings.convoys_travel_full_distance:
-            frontline = FrontLine(convoy.origin, convoy.destination)
-            # Add one waypoint with PointAction.Cone and then order the convoy on road.
-            # This is done to make the convoy start to move immediately, instead of
-            # waiting a long time for them to form up and actually start moving.
-            # Credit to Farrago for suggesting this.
-            group.add_waypoint(
-                frontline.segments[0].point_a,
-                speed=kph(40).kph,
-                move_formation=PointAction.Cone,
-            )
-            if len(frontline.segments) > 1:
-                group.add_waypoint(
-                    frontline.segments[1].point_a,
-                    speed=kph(40).kph,
-                    move_formation=PointAction.OnRoad,
-                )
             end_point = convoy.route_end
         else:
             # convoys_travel_full_distance is disabled, so have the convoy only move the

@@ -1,5 +1,6 @@
 import logging
-from typing import Callable, Iterator, Optional
+from copy import deepcopy
+from typing import Callable, Iterator, Optional, Type
 
 from PySide2.QtCore import QItemSelection, QItemSelectionModel, QModelIndex, Qt
 from PySide2.QtWidgets import (
@@ -14,7 +15,9 @@ from PySide2.QtWidgets import (
     QVBoxLayout,
     QInputDialog,
     QLineEdit,
+    QMessageBox,
 )
+from dcs.unittype import FlyingType
 
 from game.ato.flightplans.custom import CustomFlightPlan
 from game.ato.flighttype import FlightType
@@ -111,7 +114,9 @@ class SquadronDestinationComboBox(QComboBox):
         for idx, destination in enumerate(sorted(self.iter_destinations(), key=str), 1):
             if destination == squadron.destination:
                 selected_index = idx
-            room = destination.unclaimed_parking()
+            room = self.calculate_parking_slots(
+                destination, squadron.aircraft.dcs_unit_type
+            )
             self.addItem(
                 f"Transfer to {destination} (room for {room} more aircraft)",
                 destination,
@@ -130,12 +135,44 @@ class SquadronDestinationComboBox(QComboBox):
                 continue
             if not control_point.can_operate(self.squadron.aircraft):
                 continue
+            ac_type = self.squadron.aircraft.dcs_unit_type
             if (
                 self.squadron.destination is not control_point
-                and control_point.unclaimed_parking() < size
+                and self.calculate_parking_slots(control_point, ac_type) < size
             ):
                 continue
             yield control_point
+
+    @staticmethod
+    def calculate_parking_slots(
+        cp: ControlPoint, dcs_unit_type: Type[FlyingType]
+    ) -> int:
+        if cp.dcs_airport:
+            ap = deepcopy(cp.dcs_airport)
+            overflow = []
+            for s in cp.squadrons:
+                for count in range(s.owned_aircraft):
+                    slot = ap.free_parking_slot(s.aircraft.dcs_unit_type)
+                    if slot:
+                        slot.unit_id = id(s) + count
+                    else:
+                        overflow.append(s)
+                        break
+            if overflow:
+                overflow_msg = ""
+                for s in overflow:
+                    overflow_msg += f"{s.name} - {s.aircraft.name}<br/>"
+                QMessageBox.warning(
+                    None,
+                    "Insufficient parking space detected!",
+                    f"Insufficient parking space was detected at {cp.name}:<br/><br/>"
+                    f"{overflow_msg}<br/>"
+                    f"Consider moving these squadrons to different airfield "
+                    "to avoid possible air-starts.",
+                )
+            return len(ap.free_parking_slots(dcs_unit_type))
+        else:
+            return cp.unclaimed_parking()
 
 
 class SquadronDialog(QDialog):
