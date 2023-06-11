@@ -121,6 +121,14 @@ class SquadronDestinationComboBox(QComboBox):
                 f"Transfer to {destination} (room for {room} more aircraft)",
                 destination,
             )
+            if room < squadron.owned_aircraft:
+                diff = squadron.owned_aircraft - room
+                self.setItemText(
+                    idx,
+                    f"Transfer to {destination} not possible "
+                    f"({diff} additional slots required)",
+                )
+                self.model().item(idx).setEnabled(False)
 
         if squadron.destination is None:
             selected_index = 0
@@ -129,17 +137,10 @@ class SquadronDestinationComboBox(QComboBox):
             self.setCurrentIndex(selected_index)
 
     def iter_destinations(self) -> Iterator[ControlPoint]:
-        size = self.squadron.expected_size_next_turn
         for control_point in self.theater.control_points_for(self.squadron.player):
             if control_point == self.squadron.location:
                 continue
             if not control_point.can_operate(self.squadron.aircraft):
-                continue
-            ac_type = self.squadron.aircraft.dcs_unit_type
-            if (
-                self.squadron.destination is not control_point
-                and self.calculate_parking_slots(control_point, ac_type) < size
-            ):
                 continue
             yield control_point
 
