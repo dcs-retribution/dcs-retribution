@@ -235,7 +235,6 @@ class YWING(PlaneType):
         task.RunwayAttack,
         task.AntishipStrike,
         task.SEAD,
-        task.DEAD,
     ]
     task_default = task.CAS
 
@@ -687,7 +686,6 @@ class tie_bomber_2(PlaneType):
 
     tasks = [
         task.SEAD,
-        task.DEAD,
         task.GroundAttack,
         task.CAS,
         task.RunwayAttack,
