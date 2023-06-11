@@ -7,7 +7,7 @@ recommended_enemy_faction: WRL - Task Force Insurgent
 recommended_start_date: 2022-09-07
 description: "<p>This mission was designed as a training sortie for the We Run Liberation group [WRL].
   <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p><p>This campaign does not have a frontline or enemy air assets. This is primarily a helicopter campaign. Fixed wing support the rotary with precision strikes.</p><p>Use air assault and CTLD to capture areas</p>"
-miz: AleppoInsurgency.miz
+miz: WRL_AleppoInsurgency.miz
 performance: 1
 version: "10.5"
 recommended_player_money: 3000

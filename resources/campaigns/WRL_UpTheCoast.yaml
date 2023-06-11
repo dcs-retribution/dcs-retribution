@@ -20,7 +20,7 @@ description:   "<p>This mission was designed for the We Run Liberation group [WR
   <p>Factory targets are used to produce ground units. Ammo targets are used to dictate how many frontline units can
   be deployed at once. Each airbase has one or more factories. Each airbase has only three ammo targets. Do not
   destroy these if you wish to use them after you capture them</p><p>Due to issues with DCS recording kills, you may find that buildings you destroyed in mission were not reported to DCS Retribution.</p>"
-miz: WRL_up_the_coast.miz
+miz: WRL_UpTheCoast.miz
 performance: 2
 version: "10.5"
 recommended_player_money: 2000

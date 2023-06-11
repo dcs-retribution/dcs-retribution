@@ -13,7 +13,7 @@ description: "<p>This mission was designed for the We Run Liberation group [WRL]
   aircraft to make use of Georgian airfields for its defence. The objective is simple, liberate Georgia
   from its Russian neighbours before it's too late!
   </p>"
-miz: Battle4Georgia.miz
+miz: WRL_Battle4Georgia.miz
 performance: 2
 version: "10.5"
 recommended_player_money: 2000
