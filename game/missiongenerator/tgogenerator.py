@@ -142,6 +142,7 @@ from game.missiongenerator.groundforcepainter import (
 )
 from game.missiongenerator.missiondata import CarrierInfo, MissionData
 from game.point_with_heading import PointWithHeading
+from game.radio.RadioFrequencyContainer import RadioFrequencyContainer
 from game.radio.radios import RadioFrequency, RadioRegistry
 from game.radio.tacan import TacanBand, TacanChannel, TacanRegistry, TacanUsage
 from game.runways import RunwayData
@@ -880,6 +881,12 @@ class HelipadGenerator:
             number_of_pads = 1
         pad.position = Point(helipad.x, helipad.y, terrain=terrain)
         pad.heading = helipad.heading.degrees
+
+        # Set FREQ
+        if isinstance(self.cp, RadioFrequencyContainer) and self.cp.frequency:
+            if isinstance(pad, BaseFARP):
+                pad.heliport_frequency = self.cp.frequency.mhz
+
         sg = unitgroup.StaticGroup(self.m.next_group_id(), name)
         sg.add_unit(pad)
         sp = StaticPoint(pad.position)
