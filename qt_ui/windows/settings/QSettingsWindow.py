@@ -2,7 +2,6 @@ import json
 import logging
 import textwrap
 import zipfile
-from enum import Enum
 from typing import Callable, Optional, Dict
 
 from PySide2 import QtWidgets
@@ -238,10 +237,10 @@ class AutoSettingsLayout(QGridLayout):
             if isinstance(widget, QCheckBox):
                 widget.setChecked(value)
             elif isinstance(widget, QComboBox):
-                if isinstance(value, Enum):
-                    widget.setCurrentText(value.value)
-                elif isinstance(value, str):
-                    widget.setCurrentText(value)
+                if (index := widget.findData(value)) > -1:
+                    widget.setCurrentIndex(index)
+                elif (index := widget.findText(value)) > -1:
+                    widget.setCurrentIndex(index)
                 else:
                     logging.error(
                         f"Incompatible type '{type(value)}' for ComboBox option {name}"
@@ -332,6 +331,8 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
 
         self.pluginsPage = PluginsPage(self)
         self.pluginsOptionsPage = PluginOptionsPage(self)
+
+        self.updating_ui = False
 
         self.initUi()
 
@@ -442,6 +443,8 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
         GameUpdateSignal.get_instance().updateGame(self.game)
 
     def applySettings(self):
+        if self.updating_ui:
+            return
         self.settings.show_red_ato = self.cheat_options.show_red_ato
         self.settings.enable_frontline_cheats = self.cheat_options.show_frontline_cheat
         self.settings.enable_base_capture_cheat = (
@@ -460,6 +463,7 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
         self.right_layout.setCurrentIndex(index)
 
     def update_from_settings(self) -> None:
+        self.updating_ui = True
         for p in self.pages.values():
             p.update_from_settings()
 
@@ -476,6 +480,8 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
 
         self.pluginsPage.update_from_settings()
         self.pluginsOptionsPage.update_from_settings()
+
+        self.updating_ui = False
 
     def load_settings(self):
         sd = settings_dir()

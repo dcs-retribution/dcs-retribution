@@ -17,13 +17,11 @@ variants:
 kneeboard_units: "metric"
 tasks:
   BAI: 750
-  BARCAP: 460
   CAS: 750
+  SEAD: 750
   DEAD: 450
-  Escort: 460
-  Fighter sweep: 460
-  Intercept: 460
   OCA/Aircraft: 750
   OCA/Runway: 610
   Strike: 610
-  TARCAP: 460
+  SEAD Escort: 600
+
