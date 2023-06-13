@@ -121,13 +121,18 @@ class SquadronDestinationComboBox(QComboBox):
                 f"Transfer to {destination} (room for {room} more aircraft)",
                 destination,
             )
-            if room < squadron.owned_aircraft:
+            if room < squadron.owned_aircraft or room == 0:
                 diff = squadron.owned_aircraft - room
-                self.setItemText(
-                    idx,
+                text = (
                     f"Transfer to {destination} not possible "
-                    f"({diff} additional slots required)",
+                    f"({diff} additional slots required)"
                 )
+                if squadron.owned_aircraft == 0 and room == 0:
+                    text = (
+                        f"Transfer to {destination} not possible "
+                        f"(no fitting slots found)"
+                    )
+                self.setItemText(idx, text)
                 self.model().item(idx).setEnabled(False)
 
         if squadron.destination is None:
