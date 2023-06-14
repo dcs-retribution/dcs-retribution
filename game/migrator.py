@@ -75,6 +75,7 @@ class Migrator:
                 try_set_attr(cp, "icls_channel")
                 try_set_attr(cp, "icls_name")
                 try_set_attr(cp, "link4")
+            try_set_attr(cp, "convoy_spawns", {})
 
     def _update_flights(self) -> None:
         for f in self.game.db.flights.objects.values():
