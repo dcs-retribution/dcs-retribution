@@ -24,6 +24,7 @@
 * **[UI]** Improved parking space information in air wing configuration dialog.
 * **[Squadrons]** Warning messages when opening up a squadron through the air wing dialog, indicating squadrons that potentially won't fit w.r.t. parking space.
 * **[Squadrons Transfers]** Determine number of available parking slots more accurately w.r.t. squadron transfers, taking aircraft dimensions into account which should prevent forced air-starts.
+* **[UX]** Allow usage of CTRL/SHIFT modifiers in ground unit transfer window.
 
 ## Fixes
 * **[New Game Wizard]** Settings would not persist when going back to a previous page (obsolete due to overhaul).
