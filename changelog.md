@@ -26,6 +26,7 @@
 * **[Squadrons Transfers]** Determine number of available parking slots more accurately w.r.t. squadron transfers, taking aircraft dimensions into account which should prevent forced air-starts.
 * **[UX]** Allow usage of CTRL/SHIFT modifiers in ground unit transfer window.
 * **[Campaign Design]** Ability to define "spawn-routes" for convoys, allowing them to start from the road without having to edit the mission
+* **[Plugins]** Added "DCS Dismount" plugin.
 
 ## Fixes
 * **[New Game Wizard]** Settings would not persist when going back to a previous page (obsolete due to overhaul).
