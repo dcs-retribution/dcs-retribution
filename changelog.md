@@ -27,6 +27,7 @@
 * **[UX]** Allow usage of CTRL/SHIFT modifiers in ground unit transfer window.
 * **[Campaign Design]** Ability to define "spawn-routes" for convoys, allowing them to start from the road without having to edit the mission
 * **[Plugins]** Added "DCS Dismount" plugin.
+* **[Plugins]** Added "EWR Jammer" plugin (only for humans, may change in the future).
 
 ## Fixes
 * **[New Game Wizard]** Settings would not persist when going back to a previous page (obsolete due to overhaul).

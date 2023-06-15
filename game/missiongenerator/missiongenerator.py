@@ -9,6 +9,7 @@ import dcs.lua
 from dcs import Mission, Point
 from dcs.coalition import Coalition
 from dcs.countries import country_dict
+from dcs.task import OptReactOnThreat
 
 from game.atcdata import AtcData
 from game.dcs.beacons import Beacons
@@ -80,6 +81,7 @@ class MissionGenerator:
         self.add_airfields_to_unit_map()
         self.initialize_registries()
 
+        LuaGenerator(self.game, self.mission, self.mission_data).generate()
         EnvironmentGenerator(self.mission, self.game.conditions, self.time).generate()
 
         tgo_generator = TgoGenerator(
@@ -105,7 +107,6 @@ class MissionGenerator:
         TriggerGenerator(self.mission, self.game).generate()
         ForcedOptionsGenerator(self.mission, self.game).generate()
         VisualsGenerator(self.mission, self.game).generate()
-        LuaGenerator(self.game, self.mission, self.mission_data).generate()
         DrawingsGenerator(self.mission, self.game).generate()
 
         self.setup_combined_arms()
@@ -117,6 +118,22 @@ class MissionGenerator:
         self.mission.save(output)
 
         return self.unit_map
+
+    @staticmethod
+    def _configure_ewrj(gen: AircraftGenerator) -> None:
+        for groups in gen.ewrj_package_dict.values():
+            optrot = groups[0].points[0].tasks[0]
+            assert isinstance(optrot, OptReactOnThreat)
+            if (
+                len(groups) == 1
+                and optrot.value != OptReactOnThreat.Values.PassiveDefense
+            ):
+                # primary flight with no EWR-Jamming capability
+                continue
+            for group in groups:
+                group.points[0].tasks[0] = OptReactOnThreat(
+                    OptReactOnThreat.Values.PassiveDefense
+                )
 
     def setup_mission_coalitions(self) -> None:
         self.mission.coalition["blue"] = Coalition(
@@ -252,6 +269,9 @@ class MissionGenerator:
             if not flight.client_units:
                 continue
             flight.aircraft_type.assign_channels_for_flight(flight, self.mission_data)
+
+        if self.game.settings.plugins.get("ewrj"):
+            self._configure_ewrj(aircraft_generator)
 
     def generate_destroyed_units(self) -> None:
         """Add destroyed units to the Mission"""
