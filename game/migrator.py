@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 from dcs.countries import countries_by_name
-
 from game.ato.packagewaypoints import PackageWaypoints
 from game.data.doctrine import MODERN_DOCTRINE, COLDWAR_DOCTRINE, WWII_DOCTRINE
 from game.theater import SeasonalConditions
@@ -121,7 +120,7 @@ class Migrator:
             if isinstance(c.faction.country, str):
                 c.faction.country = countries_by_name[c.faction.country]()
 
-    def _update_weather(self):
+    def _update_weather(self) -> None:
         a = self.game.conditions.weather.atmospheric
         try_set_attr(a, "turbulence_per_10cm", 0.1)
         sc = self.game.theater.seasonal_conditions
