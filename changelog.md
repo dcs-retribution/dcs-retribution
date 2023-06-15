@@ -31,6 +31,7 @@
 * **[New Game Wizard]** Settings would not persist when going back to a previous page (obsolete due to overhaul).
 * **[Mission Generation]** Unused aircraft are no longer claimed, fixing a bug where these aircraft would no longer be available after aborting the mission.
 * **[Mission Generation]** Fixed (potential) bug in helipad assignments at FOBs/FARPs.
+* **[Mission Generation]** Fix AI immediately returning to base when forced to air-start due to insufficient parking space.
 
 
 # Retribution v1.1.1  (hotfix)
