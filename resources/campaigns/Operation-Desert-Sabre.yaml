@@ -36,39 +36,6 @@ squadrons:
     - primary: Refueling
       aircraft:
         - S-3B Tanker
-  
-  # AIR SPAWN BLUE
-  BLUEAIR:
-    - primary: AEW&C
-      aircraft:
-        - E-3A
-    - primary: Refueling
-      aircraft:
-        - KC-135 Stratotanker
-    - primary: Refueling
-      aircraft:
-        - KC-130
-    - primary: Strike
-      secondary: air-to-ground
-      aircraft:
-        - 335th FS
-        #F15e
-    - primary: Strike
-      secondary: any
-      aircraft:
-        - B-1B Lancer
-    - primary: Strike
-      secondary: any
-      aircraft:
-        - F-117A Nighthawk
-    - primary: Strike
-      secondary: any
-      aircraft:
-        - Tornado GR4 
-    - primary: BARCAP
-      secondary: air-to-air
-      aircraft:
-        - F-15C Eagle
   # Ben-Gurion
   24:
     - primary: BARCAP
