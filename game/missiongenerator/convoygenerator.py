@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import itertools
-from typing import TYPE_CHECKING
+import logging
+from typing import TYPE_CHECKING, List
 
 from dcs import Mission
 from dcs.mapping import Point
@@ -40,26 +41,49 @@ class ConvoyGenerator:
             convoy.units,
             convoy.player_owned,
         )
+        group.manualHeading = True
 
+        spawns_tuple = convoy.origin.convoy_spawns.get(convoy.destination)
+
+        if spawns_tuple:
+            spawns = list(spawns_tuple)
+            last_unit = group.units[0]
+            spawns.pop(0)
+            for u in group.units[1:]:
+                if spawns:
+                    u.position = spawns.pop(0)
+                    u.heading = u.position.heading_between_point(last_unit.position)
+                    if last_unit.heading == 0:
+                        last_unit.heading = u.heading
+                    last_unit = u
+                else:
+                    logging.warning(
+                        f"Insufficient convoy spawns at {convoy.origin.name} "
+                        f"with destination {convoy.destination.name}, "
+                        "convoy may experience issues at mission start"
+                    )
+                    break
+
+        wpts: List[Point] = []
+        route = convoy.origin.convoy_route_to(convoy.destination)
         if self.game.settings.convoys_travel_full_distance:
-            end_point = convoy.route_end
+            wpts.extend(route)
         else:
             # convoys_travel_full_distance is disabled, so have the convoy only move the
             # first segment on the route. This option aims to remove long routes for
             # ground vehicles between control points, since the CPU load for pathfinding
             # long routes on DCS can be pretty heavy.
-            route = convoy.origin.convoy_route_to(convoy.destination)
-
             # Select the first route segment from the origin towards the destination so
             # the convoy spawns at the origin CP. This allows the convoy to be targeted
             # by BAI flights and starts it within the protection umbrella of the CP.
-            end_point = route[1]
+            wpts.append(route[1])
 
-        group.add_waypoint(
-            end_point,
-            speed=kph(40).kph,
-            move_formation=PointAction.OnRoad,
-        )
+        for wpt in wpts:
+            group.add_waypoint(
+                wpt,
+                speed=kph(40).kph,
+                move_formation=PointAction.OnRoad,
+            )
 
         self.make_drivable(group)
         self.unit_map.add_convoy_units(group, convoy)

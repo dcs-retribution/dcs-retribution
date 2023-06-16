@@ -1,5 +1,6 @@
 name: AGM-45A Shrike ARM
 year: 1965
 type: ARM
+year: 1965
 clsids:
   - "{AGM_45A}"

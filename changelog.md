@@ -25,11 +25,14 @@
 * **[UI]** Improved parking space information in air wing configuration dialog.
 * **[Squadrons]** Warning messages when opening up a squadron through the air wing dialog, indicating squadrons that potentially won't fit w.r.t. parking space.
 * **[Squadrons Transfers]** Determine number of available parking slots more accurately w.r.t. squadron transfers, taking aircraft dimensions into account which should prevent forced air-starts.
+* **[UX]** Allow usage of CTRL/SHIFT modifiers in ground unit transfer window.
+* **[Campaign Design]** Ability to define "spawn-routes" for convoys, allowing them to start from the road without having to edit the mission
 
 ## Fixes
 * **[New Game Wizard]** Settings would not persist when going back to a previous page (obsolete due to overhaul).
 * **[Mission Generation]** Unused aircraft are no longer claimed, fixing a bug where these aircraft would no longer be available after aborting the mission.
 * **[Mission Generation]** Fixed (potential) bug in helipad assignments at FOBs/FARPs.
+* **[Mission Generation]** Fix AI immediately returning to base when forced to air-start due to insufficient parking space.
 
 
 # Retribution v1.1.1  (hotfix)

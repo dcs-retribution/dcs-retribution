@@ -355,7 +355,7 @@ class NavalGroundObject(TheaterGroundObject, ABC):
         if not self.is_friendly(for_player):
             yield from [
                 FlightType.ANTISHIP,
-                FlightType.SEAD_ESCORT,
+                FlightType.SEAD,
             ]
         yield from super().mission_types(for_player)
 
