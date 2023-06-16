@@ -1,0 +1,5 @@
+name: BARAX - ECM Pod
+type: JAMMER
+year: 1977
+clsids:
+  - "BARAX_ECM"

@@ -1,4 +1,5 @@
 name: AN/ALQ-131 ECM
+type: JAMMER
 # Hard to find information on initial iteration - 74 military budget mentions development, FAS.org suggests late 70s, and DCS usage is allowed on or after 1973
 year: 1977
 fallback: 2xAIM-120C

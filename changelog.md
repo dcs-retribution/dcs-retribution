@@ -27,6 +27,8 @@
 * **[Squadrons Transfers]** Determine number of available parking slots more accurately w.r.t. squadron transfers, taking aircraft dimensions into account which should prevent forced air-starts.
 * **[UX]** Allow usage of CTRL/SHIFT modifiers in ground unit transfer window.
 * **[Campaign Design]** Ability to define "spawn-routes" for convoys, allowing them to start from the road without having to edit the mission
+* **[Plugins]** Added "DCS Dismount" plugin.
+* **[Plugins]** Added "EWR Jammer" plugin (only for humans, may change in the future).
 
 ## Fixes
 * **[New Game Wizard]** Settings would not persist when going back to a previous page (obsolete due to overhaul).
@@ -149,6 +151,7 @@ Saves from 7.0.0 are compatible with 7.1.0
 * **[Factions]** Replaced Patriot STRs "EWRs" with AN/FPS-117 for blue factions 1980 or newer.
 * **[Mission Generation]** Added option to prevent scud and V2 sites from firing at the start of the mission.
 * **[Mission Planning]** Per-flight TOT offsets can now be set in the flight details UI. This allows individual flights to be scheduled ahead of or behind the rest of the package.
+* **[UI]** Waypoint altitudes can be edited in Waypoints tab of Edit Flight window.
 * **[UI]** Parking capacity of each squadron's base is now shown during air wing configuration to avoid overcrowding bases when beginning the game with full squadrons.
 
 ## Fixes

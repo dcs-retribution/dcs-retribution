@@ -36,6 +36,7 @@ from .aircraftpainter import AircraftPainter
 from .flightdata import FlightData
 from .flightgroupconfigurator import FlightGroupConfigurator
 from .flightgroupspawner import FlightGroupSpawner
+from ...data.weapons import WeaponType
 
 if TYPE_CHECKING:
     from game import Game
@@ -71,6 +72,10 @@ class AircraftGenerator:
         self.helipads = helipads
         self.ground_spawns_roadbase = ground_spawns_roadbase
         self.ground_spawns = ground_spawns
+
+        self.ewrj_package_dict: Dict[int, List[FlyingGroup[Any]]] = {}
+        self.ewrj = settings.plugins.get("ewrj")
+        self.need_ecm = settings.plugin_option("ewrj.ecm_required")
 
     @cached_property
     def use_client(self) -> bool:
@@ -226,7 +231,31 @@ class AircraftGenerator:
             ).configure()
         )
 
+        wpt = group.waypoint("LANDING")
+        if flight.is_helo and isinstance(flight.arrival, Fob) and wpt:
+            hpad = self.helipads[flight.arrival].units.pop(0)
+            wpt.helipad_id = hpad.id
+            wpt.link_unit = hpad.id
+            self.helipads[flight.arrival].units.append(hpad)
+
+        if self.ewrj:
+            self._track_ewrj_flight(flight, group)
+
         return group
+
+    def _track_ewrj_flight(self, flight: Flight, group: FlyingGroup[Any]) -> None:
+        if not self.ewrj_package_dict.get(id(flight.package)):
+            self.ewrj_package_dict[id(flight.package)] = []
+        if (
+            flight.package.primary_flight
+            and flight is flight.package.primary_flight
+            or flight.client_count
+            and (
+                not self.need_ecm
+                or flight.loadout.has_weapon_of_type(WeaponType.JAMMER)
+            )
+        ):
+            self.ewrj_package_dict[id(flight.package)].append(group)
 
     def _reserve_frequencies_and_tacan(self, ato: AirTaskingOrder) -> None:
         for package in ato.packages:

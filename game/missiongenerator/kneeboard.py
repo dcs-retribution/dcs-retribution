@@ -46,8 +46,8 @@ from game.theater.bullseye import Bullseye
 from game.utils import Distance, UnitSystem, meters, mps, pounds
 from game.weather.weather import Weather
 from .aircraft.flightdata import FlightData
-from .missiondata import AwacsInfo, TankerInfo
 from .briefinggenerator import CommInfo, JtacInfo, MissionInfoGenerator
+from .missiondata import AwacsInfo, TankerInfo
 
 if TYPE_CHECKING:
     from game import Game
@@ -147,7 +147,6 @@ class KneeboardPageWriter:
 
     def write(self, path: Path) -> None:
         self.image.save(path)
-        print(path.with_suffix(".txt"))
         path.with_suffix(".txt").write_text(self.get_text_string())
 
     @staticmethod
