@@ -25,6 +25,7 @@ from dcs.task import (
     OptJettisonEmptyTanks,
     MainTask,
     PinpointStrike,
+    AFAC,
 )
 from dcs.unitgroup import FlyingGroup
 
@@ -141,7 +142,7 @@ class AircraftBehavior:
         self.configure_behavior(flight, group, rtb_winchester=ammo_type)
 
     def configure_cas(self, group: FlyingGroup[Any], flight: Flight) -> None:
-        self.configure_task(flight, group, CAS)
+        self.configure_task(flight, group, CAS, AFAC)
         self.configure_behavior(
             flight,
             group,

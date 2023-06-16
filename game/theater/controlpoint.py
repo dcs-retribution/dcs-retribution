@@ -347,6 +347,7 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         # TODO: Should be Airbase specific.
         self.connected_points: List[ControlPoint] = []
         self.convoy_routes: Dict[ControlPoint, Tuple[Point, ...]] = {}
+        self.convoy_spawns: Dict[ControlPoint, Tuple[Point, ...]] = {}
         self.shipping_lanes: Dict[ControlPoint, Tuple[Point, ...]] = {}
         self.base: Base = Base()
         self.cptype = cptype
@@ -604,10 +605,13 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
     def convoy_route_to(self, destination: ControlPoint) -> Sequence[Point]:
         return self.convoy_routes[destination]
 
-    def create_convoy_route(self, to: ControlPoint, waypoints: Iterable[Point]) -> None:
+    def create_convoy_route(
+        self, to: ControlPoint, waypoints: Iterable[Point], spawns: Iterable[Point]
+    ) -> None:
         self.connected_points.append(to)
         self.stances[to.id] = CombatStance.DEFENSIVE
         self.convoy_routes[to] = tuple(waypoints)
+        self.convoy_spawns[to] = tuple(spawns)
 
     def create_shipping_lane(
         self, to: ControlPoint, waypoints: Iterable[Point]

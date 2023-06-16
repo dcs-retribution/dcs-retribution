@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from game.utils import Pressure
 
 
-@dataclass(frozen=True)
+@dataclass
 class AtmosphericConditions:
     #: Pressure at sea level.
     qnh: Pressure

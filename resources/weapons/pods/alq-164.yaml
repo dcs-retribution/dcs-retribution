@@ -1,0 +1,5 @@
+name: AN/ALQ-164 DECM Pod
+type: JAMMER
+year: 1998
+clsids:
+  - "{ALQ_164_RF_Jammer}"

@@ -111,6 +111,7 @@ class WeaponType(Enum):
     LGB = "LGB"
     TGP = "TGP"
     DECOY = "DECOY"
+    JAMMER = "JAMMER"
     UNKNOWN = "unknown"
 
 

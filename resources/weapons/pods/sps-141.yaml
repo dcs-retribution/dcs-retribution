@@ -1,0 +1,5 @@
+name: SPS-141 - ECM Jamming Pod
+type: JAMMER
+year: 1980  # rough guess, couldn't find anything tangible
+clsids:
+  - "F75187EF-1D9E-4DA9-84B4-1A1A14A3973A"

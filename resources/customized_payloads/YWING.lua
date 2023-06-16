@@ -78,6 +78,94 @@ local unitPayloads = {
 				[1] = 31,
 			},
 		},
+		[4] = {
+			["displayName"] = "Retribution BAI",
+			["name"] = "Retribution BAI",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{X-29T}",
+					["num"] = 2,
+				},
+				[2] = {
+					["CLSID"] = "{X-29T}",
+					["num"] = 1,
+				},
+				[3] = {
+					["CLSID"] = "{X-29T}",
+					["num"] = 3,
+				},
+				[4] = {
+					["CLSID"] = "{X-29T}",
+					["num"] = 4,
+				},
+				[5] = {
+					["CLSID"] = "{X-29T}",
+					["num"] = 5,
+				},
+			},
+			["tasks"] = {
+				[1] = 31,
+			},
+		},
+		[5] = {
+			["displayName"] = "Retribution Strike",
+			["name"] = "Retribution Strike",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{X-29T}",
+					["num"] = 2,
+				},
+				[2] = {
+					["CLSID"] = "{X-29T}",
+					["num"] = 1,
+				},
+				[3] = {
+					["CLSID"] = "{X-29T}",
+					["num"] = 3,
+				},
+				[4] = {
+					["CLSID"] = "{X-29T}",
+					["num"] = 4,
+				},
+				[5] = {
+					["CLSID"] = "{X-29T}",
+					["num"] = 5,
+				},
+			},
+			["tasks"] = {
+				[1] = 33,
+				[2] = 32,
+			},
+		},
+		[6] = {
+			["displayName"] = "Retribution DEAD",
+			["name"] = "Retribution DEAD",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{X-29T}",
+					["num"] = 2,
+				},
+				[2] = {
+					["CLSID"] = "{X-29T}",
+					["num"] = 1,
+				},
+				[3] = {
+					["CLSID"] = "{X-29T}",
+					["num"] = 3,
+				},
+				[4] = {
+					["CLSID"] = "{X-29T}",
+					["num"] = 4,
+				},
+				[5] = {
+					["CLSID"] = "{X-29T}",
+					["num"] = 5,
+				},
+			},
+			["tasks"] = {
+				[1] = 31,
+			},
+		},
 	},
 	["tasks"] = {
 	},

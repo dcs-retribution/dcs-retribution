@@ -3,9 +3,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 from dcs.countries import countries_by_name
-
 from game.ato.packagewaypoints import PackageWaypoints
 from game.data.doctrine import MODERN_DOCTRINE, COLDWAR_DOCTRINE, WWII_DOCTRINE
+from game.theater import SeasonalConditions
 
 if TYPE_CHECKING:
     from game import Game
@@ -30,6 +30,7 @@ class Migrator:
         self._update_flights()
         self._update_squadrons()
         self._release_untasked_flights()
+        self._update_weather()
 
     def _update_doctrine(self) -> None:
         doctrines = [
@@ -75,6 +76,7 @@ class Migrator:
                 try_set_attr(cp, "icls_channel")
                 try_set_attr(cp, "icls_name")
                 try_set_attr(cp, "link4")
+            try_set_attr(cp, "convoy_spawns", {})
 
     def _update_flights(self) -> None:
         for f in self.game.db.flights.objects.values():
@@ -117,3 +119,20 @@ class Migrator:
         for c in self.game.coalitions:
             if isinstance(c.faction.country, str):
                 c.faction.country = countries_by_name[c.faction.country]()
+
+    def _update_weather(self) -> None:
+        a = self.game.conditions.weather.atmospheric
+        try_set_attr(a, "turbulence_per_10cm", 0.1)
+        sc = self.game.theater.seasonal_conditions
+        self.game.theater.seasonal_conditions = SeasonalConditions(
+            summer_avg_pressure=sc.summer_avg_pressure,
+            winter_avg_pressure=sc.winter_avg_pressure,
+            summer_avg_temperature=sc.summer_avg_temperature,
+            winter_avg_temperature=sc.winter_avg_temperature,
+            temperature_day_night_difference=sc.temperature_day_night_difference,
+            high_avg_yearly_turbulence_per_10cm=1.2,
+            low_avg_yearly_turbulence_per_10cm=0.1,
+            solar_noon_turbulence_per_10cm=0.8,
+            midnight_turbulence_per_10cm=0.4,
+            weather_type_chances=sc.weather_type_chances,
+        )

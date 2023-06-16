@@ -142,6 +142,7 @@ class FlightGroupSpawner:
             logging.warning(
                 "No room on runway or parking slots. Starting from the air."
             )
+            self.flight.start_type = StartType.IN_FLIGHT
             group = self._generate_over_departure(name, cp)
             return group
 

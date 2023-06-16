@@ -1,185 +1,229 @@
 ---
-name: Persian Gulf - WRL - Wargames (v2)
+name: Persian Gulf - WRL - Wargames (v1.0)
 theater: Persian Gulf
 authors: HolyOrangeJuice
 recommended_player_faction: WRL - Task Force Blue
 recommended_enemy_faction: WRL - Task Force Red 
 recommended_start_date: 2022-05-15
-description: <p>Original by Colonel Panic, modified by HolyOrangeJuice for the WRL group events. Not true to life or any historical events. This scenario was designed to be a fictional challenge with a unique enemy force.</p>
+description: "<p>This mission was modified by HolyOrangeJuice [OscarJuliet] for the WRL Group. Join us for weekly PVE events. <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p><p>Original mission by Colonel Panic.</p><p>This modification of the mission is not meant to represent historical accuracy. A simulated wargame with all types of modern units. Expect the operations are to be confusing and exciting.</p><p>All WRL Campaigns use high budget and high income to focus on the PVE goals to eliminate the enemy. Use lower starting money and income for increased difficulty</p>"
 miz: WRL_PG_Wargames.miz
-performance: 2
-version: "10.6"
-recommended_player_money: 2000
+performance: 1
+version: "10.7" #CTLD Zones Added
+recommended_player_money: 5000
 recommended_enemy_money: 2000
-recommended_player_income_multiplier: 1.5
-recommended_enemy_income_multiplier: 1.5
+recommended_player_income_multiplier: 5.0
+recommended_enemy_income_multiplier: 1.0
+advanced_iads: false
 settings:
   max_frontline_length: 30
 squadrons:
+#Bandar Abbas Intl
   2:
     - primary: AEW&C
       aircraft:
         - E-3A
+      size: 2
     - primary: Refueling
       aircraft:
         - KC-135 Stratotanker
+      size: 2
     - primary: Refueling
       aircraft:
         - KC-130
+      size: 2  
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - B-52H Stratofortress
+      size: 2
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - B-1B Lancer
+      size: 2
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - F-117A Nighthawk
+      size: 5
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - 335th FS #F15e
+      size: 8            
     - primary: BARCAP
       secondary: air-to-air
       aircraft:
-        - 58th FS
-        #F15c
-    - primary: Strike
-      secondary: any
-      aircraft:
-        - F-16CM Fighting Falcon (Block 50) 
-    - primary: SEAD
-      secondary: air-to-ground
-      aircraft:
-        - Su-25T Frogfoot         
-    - primary: CAS
-      secondary: air-to-ground
-      aircraft:
-        - A-10C Thunderbolt II (Suite 7)   
+        - F-15C Eagle
+      size: 16
   # Kish:
-  # This airbase has better access to the theater as the front-line moves south
-  # west. It contains combat squadrons only.
   24:
-    - primary: Strike
-      secondary: any
-      aircraft:
-        - 23rd FS
-        #Viper USAF
-    - primary: Strike
-      secondary: any
-      aircraft:
-        - VMA-214
-        #AV8B
-    - primary: SEAD
+    - primary: BAI
       secondary: air-to-ground
       aircraft:
-        - VMFA-251
-        #Hornet - Marines 
+        - AJS-37 Viggen
+      size: 8  
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - JF-17 Thunder
+      size: 8
     - primary: BARCAP
       secondary: any
       aircraft:
         - Mirage 2000C
+      size: 8
     - primary: SEAD
       secondary: air-to-ground
       aircraft:
-        - JF-17 Thunder
+        - VMFA-251 #Hornet - Marines
+      size: 16
     - primary: Strike
+      secondary: any
+      aircraft:
+        - 23rd FS #Viper USAF
+      size: 16
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - 58th FS #F15c
+      size: 16
+    - primary: BAI
       secondary: air-to-ground
       aircraft:
-        - AJS-37 Viggen
+        - A-10C Thunderbolt II (Suite 7)
+      size: 16
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - AV-8B Harrier II Night Attack
+      size: 16
   Blue CV:
     - primary: BARCAP
       secondary: any
       aircraft:
-        - VF-142
-        #F14B
+        - VF-142 #F14B
+      size: 16
     - primary: Strike
       secondary: any
       aircraft:
-        - VFA-192
-        #Hornet Navy
+        - VFA-192 #Hornet Navy
+      size: 16
     - primary: AEW&C
       aircraft:
-        - VAW-125
-        #E2C
+        - VAW-125 #E2C
+      size: 2
     - primary: Refueling
       aircraft:
         - S-3B Tanker
+      size: 2
     - primary: Strike
       secondary: any
       aircraft:
         - S-3B Viking
+      size: 4
   Blue LHA:
     - primary: BAI
       secondary: air-to-ground
       aircraft:
-        - VMA-223
-        #AV8B
+        - AV-8B Harrier II Night Attack
+      size: 12
 #BLUEFOR FOBs
   FOB Ras Al Khaimah:
     - primary: BAI
       secondary: air-to-ground
       aircraft:
-        - AH-64D Apache Longbow
+        - A Company, 1-211th ARB #AH-64D Apache Longbow
+      size: 10       
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - Mi-24P Hind-F
+      size: 10
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - Ka-50 Hokum III
+      size: 10
     - primary: BAI
       secondary: air-to-ground
+      aircraft:
+        - SA 342M Gazelle
+      size: 4
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - HMLA-169 (UH-1H) #UH-1H Iroquois
+      size: 4
+    - primary: Transport
+      secondary: any
       aircraft:
         - Mi-8MTV2 Hip
-    - primary: BAI
-      secondary: air-to-ground
-      aircraft:
-        - UH-1H Iroquois
-    - primary: BAI
-      secondary: air-to-ground
-      aircraft:
-        - SA 342M Gazelle 
+      size: 4
   # Al Dhafra AFB:
   4:
     - primary: BARCAP
       secondary: air-to-air
       aircraft:
         - MiG-29S Fulcrum-C  
+      size: 16
     - primary: BARCAP
       secondary: air-to-air
       aircraft:
         - Mirage 2000C
+      size: 16
     - primary: Strike
       secondary: air-to-ground
       aircraft:
         - JF-17 Thunder
+      size: 16
     - primary: Strike
       secondary: air-to-ground
       aircraft:
-        - Su-34 Fullback        
+        - Su-34 Fullback 
+      size: 16        
     - primary: AEW&C
       aircraft:
-        - A-50       
+        - A-50   
+      size: 2        
     - primary: Refueling
       aircraft:
         - IL-78M
+      size: 2
   # Al Minhad AFB:
   12:
     - primary: BAI
       secondary: air-to-ground
       aircraft:
-        - F-16CM Fighting Falcon (Block 50)        
+        - F-16CM Fighting Falcon (Block 50)  
+      size: 16        
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - Su-24M Fencer-D
+      size: 16
     - primary: SEAD
       secondary: air-to-ground
       aircraft:
         - Su-25T Frogfoot
+      size: 16
   # Liwa AFB:
   29:
     - primary: BARCAP
       secondary: air-to-air
       aircraft:
         - Su-27 Flanker-B
+      size: 16
     - primary: BARCAP
       secondary: air-to-air
       aircraft:
         - F-15C Eagle
+      size: 16
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - Su-30 Flanker-C
+      size: 16
   # Retribution SAM site override:
 ground_forces:
   MINHAD1: SA-2/S-75 

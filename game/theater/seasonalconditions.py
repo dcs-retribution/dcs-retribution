@@ -36,7 +36,7 @@ class WeatherTypeChances:
     clear_skies: float
 
 
-@dataclass(frozen=True)
+@dataclass
 class SeasonalConditions:
     # Units are inHg and degrees Celsius
     summer_avg_pressure: float

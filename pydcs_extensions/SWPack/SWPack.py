@@ -229,16 +229,12 @@ class YWING(PlaneType):
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8}
 
     tasks = [
-        task.CAP,
-        task.Escort,
-        task.FighterSweep,
-        task.Intercept,
-        task.Reconnaissance,
         task.GroundAttack,
         task.CAS,
         task.AFAC,
         task.RunwayAttack,
         task.AntishipStrike,
+        task.SEAD,
     ]
     task_default = task.CAS
 
@@ -544,10 +540,6 @@ class naboo_starfighter(PlaneType):
         task.FighterSweep,
         task.Intercept,
         task.Reconnaissance,
-        task.GroundAttack,
-        task.CAS,
-        task.AFAC,
-        task.RunwayAttack,
     ]
     task_default = task.FighterSweep
 
@@ -693,16 +685,12 @@ class tie_bomber_2(PlaneType):
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 
     tasks = [
-        task.CAP,
-        task.Escort,
-        task.FighterSweep,
-        task.Intercept,
-        task.Reconnaissance,
+        task.SEAD,
         task.GroundAttack,
         task.CAS,
         task.RunwayAttack,
     ]
-    task_default = task.GroundAttack
+    task_default = task.CAS
 
 
 @vehiclemod

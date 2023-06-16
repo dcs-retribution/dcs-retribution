@@ -1,0 +1,18 @@
+{
+    "nameInUI": "EWR Jammer (for player only)",
+    "defaultValue": false,
+    "specificOptions": [
+        {
+            "nameInUI": "Require ECM pod",
+            "mnemonic": "ecm_required",
+            "defaultValue": true
+        }
+    ],
+    "scriptsWorkOrders": [
+        {
+            "file": "EW script 2.00.lua",
+            "mnemonic": "ewrj"
+        }
+    ],
+    "configurationWorkOrders": []
+}
