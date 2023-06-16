@@ -302,7 +302,7 @@ squadrons:
       aircraft:
         - F-16CM Fighting Falcon (Block 50)
     #Bilbeis Air Base
-    16:
+  16:
     - primary: BARCAP
       secondary: any
       aircraft:
@@ -348,7 +348,7 @@ squadrons:
       aircraft:
         - F-16CM Fighting Falcon (Block 50)
     #Inshas Airbase
-    19:
+  19:
     - primary: BARCAP
       secondary: any
       aircraft:
@@ -394,7 +394,7 @@ squadrons:
       aircraft:
         - F-16CM Fighting Falcon (Block 50)
     #Cairo
-    17:
+  17:
     - primary: BARCAP
       secondary: any
       aircraft:
