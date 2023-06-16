@@ -268,9 +268,7 @@ class GroundObjectGenerator:
         # map objects and add them to the state.json with a DoScript
         t = TriggerOnce(Event.NoEvent, f"MapObjectIsDead Trigger {trigger_zone.id}")
         t.add_condition(MapObjectIsDead(trigger_zone.id))
-        script_string = String(
-            f'killed_ground_units[#killed_ground_units + 1] = "{trigger_zone.name}"'
-        )
+        script_string = String(f'dead_events[#dead_events + 1] = "{trigger_zone.name}"')
         t.actions.append(DoScript(script_string))
         self.m.triggerrules.triggers.append(t)
 
