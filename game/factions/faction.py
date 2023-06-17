@@ -441,6 +441,7 @@ class Faction:
             self.remove_vehicle("IRON_DOME_CP")
             self.remove_vehicle("IRON_DOME_LN")
             self.remove_vehicle("ELM2048_MMR")
+            self.remove_preset("Iron Dome")
         # swedish military assets pack
         if not mod_settings.swedishmilitaryassetspack:
             self.remove_vehicle("BV410_RBS70")
@@ -528,9 +529,16 @@ class Faction:
                 self.preset_groups.remove(pg)
 
     def remove_vehicle(self, name: str) -> None:
-        for i in self.frontline_units:
-            if i.dcs_unit_type.id == name:
-                self.frontline_units.remove(i)
+        for sequence in [
+            self.frontline_units,
+            self.infantry_units,
+            self.air_defense_units,
+            self.artillery_units,
+            self.logistics_units,
+        ]:
+            for i in sequence:
+                if i.dcs_unit_type.id == name:
+                    sequence.remove(i)
 
     def remove_ship(self, name: str) -> None:
         for i in self.naval_units:
