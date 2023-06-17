@@ -114,7 +114,9 @@ class NewGameWizard(QtWidgets.QWizard):
         )
 
         blue_faction = self.faction_selection_page.selected_blue_faction
+        blue_faction.apply_mod_settings(mod_settings)
         red_faction = self.faction_selection_page.selected_red_faction
+        red_faction.apply_mod_settings(mod_settings)
 
         logging.info("New campaign blue faction: %s", blue_faction.name)
         logging.info("New campaign red faction: %s", red_faction.name)
