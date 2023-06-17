@@ -28,6 +28,7 @@
 * **[Campaign Design]** Ability to define "spawn-routes" for convoys, allowing them to start from the road without having to edit the mission
 * **[Plugins]** Added "DCS Dismount" plugin.
 * **[Plugins]** Added "EWR Jammer" plugin (only for humans, may change in the future).
+* **[Campaign]** New campaign (Operation Desert Sabre) by Chimiste
 
 ## Fixes
 * **[New Game Wizard]** Settings would not persist when going back to a previous page (obsolete due to overhaul).
@@ -82,6 +83,7 @@
 * **[Campaign Management]** New options to allow more control of randomized flight sizes (applicable for BARCAP/CAS/OCA/ANTI-SHIP).
 * **[Plugins]** Updated Splash Damage script to v2.0 by RotorOps.
 * **[Mission Generation]** Improvements to DEAD & STRIKE flights, allowing AI to handle a larger variety of weapons.
+* **[Campaign]** New campaign (1968 Yankee Station) by Adecarcer
 
 ## Fixes
 * **[UI]** Removed deprecated options
@@ -94,7 +96,6 @@
 * **[Modding]** Fixed conflicts caused by HDS units
 * **[UX]** Gracefully handle corrupted preferences file.
 * **[Mission Generation]** Aircraft not using decoys during SEAD.
-* **[Campaign]** New campaign (1968 Yankee Station) by Adecarcer
 
 # Retribution v1.0.1 (hotfix)
 * **[Mission Generation]** Fix serialization issue when STRIKE flight has no escorts
