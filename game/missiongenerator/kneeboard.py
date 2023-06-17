@@ -337,7 +337,7 @@ class BriefingPage(KneeboardPage):
         self.start_time = start_time
         self.dark_kneeboard = dark_kneeboard
         self.flight_plan_font = ImageFont.truetype(
-            "cour.ttf",
+            "courbd.ttf",
             16,
             layout_engine=ImageFont.LAYOUT_BASIC,
         )
