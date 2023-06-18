@@ -29,6 +29,7 @@ from game.settings import Settings
 from game.theater.controlpoint import (
     Airfield,
     ControlPoint,
+    Fob,
 )
 from game.unitmap import UnitMap
 from .aircraftpainter import AircraftPainter
@@ -229,6 +230,13 @@ class AircraftGenerator:
                 self.use_client,
             ).configure()
         )
+
+        wpt = group.waypoint("LANDING")
+        if flight.is_helo and isinstance(flight.arrival, Fob) and wpt:
+            hpad = self.helipads[flight.arrival].pop(0)
+            wpt.helipad_id = hpad.units[0].id
+            wpt.link_unit = hpad.units[0].id
+            self.helipads[flight.arrival].append(hpad)
 
         if self.ewrj:
             self._track_ewrj_flight(flight, group)
