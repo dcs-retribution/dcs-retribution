@@ -201,3 +201,20 @@ def test_parking_type_from_squadron(mocker: Any) -> None:
     assert parking_type.include_rotary_wing == False
     assert parking_type.include_fixed_wing == True
     assert parking_type.include_fixed_wing_stol == True
+
+
+@pytest.fixture
+def test_parking_type_from_aircraft(mocker: Any) -> None:
+    """
+    Test correct ParkingType object returned for Viggen aircraft type
+    """
+    mocker.patch(
+        "game.theater.controlpoint.parking_type.include_fixed_wing_stol",
+        return_value=True,
+    )
+    aircraft = next(AircraftType.for_dcs_type(AJS37))
+    parking_type = ParkingType().from_aircraft(aircraft, False)
+
+    assert parking_type.include_rotary_wing == False
+    assert parking_type.include_fixed_wing == True
+    assert parking_type.include_fixed_wing_stol == True
