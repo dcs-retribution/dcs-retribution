@@ -5,8 +5,11 @@ from dcs import Point
 from dcs.planes import AJS37
 from dcs.terrain.terrain import Airport
 from game.ato.flighttype import FlightType
+from game.dcs.aircrafttype import AircraftType
+from game.dcs.countries import country_with_name
 from game.point_with_heading import PointWithHeading
 from game.squadrons import Squadron
+from game.squadrons.operatingbases import OperatingBases
 from game.theater.controlpoint import (
     Airfield,
     Carrier,
@@ -179,17 +182,18 @@ def test_parking_type_from_squadron(mocker: Any) -> None:
         "game.theater.controlpoint.parking_type.include_fixed_wing_stol",
         return_value=True,
     )
+    aircraft = AircraftType.for_dcs_type(AJS37)
     squadron = Squadron(
         name="test",
         nickname=None,
-        country=None,
+        country=country_with_name("Sweden"),
         role="test",
-        aircraft=AJS37,
+        aircraft=aircraft,
         max_size=16,
         livery=None,
-        primary_task=None,
-        auto_assignable_mission_types=None,
-        operating_bases=None,
+        primary_task=FlightType.STRIKE,
+        auto_assignable_mission_types=set(aircraft.iter_task_capabilities()),
+        operating_bases=OperatingBases.default_for_aircraft(aircraft),
         female_pilot_percentage=0,
     )  # type: ignore
     parking_type = ParkingType().from_squadron(squadron)
