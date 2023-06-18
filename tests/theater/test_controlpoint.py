@@ -2,9 +2,11 @@ import pytest
 from typing import Any
 
 from dcs import Point
+from dcs.planes import AJS37
 from dcs.terrain.terrain import Airport
 from game.ato.flighttype import FlightType
 from game.point_with_heading import PointWithHeading
+from game.squadrons import Squadron
 from game.theater.controlpoint import (
     Airfield,
     Carrier,
@@ -166,3 +168,32 @@ def test_control_point_parking(mocker: Any) -> None:
 
     assert control_point.unclaimed_parking(parking_type_ground_start) == 10
     assert control_point.unclaimed_parking(parking_type_rotary) == 20
+
+
+@pytest.fixture
+def test_parking_type_from_squadron(mocker: Any) -> None:
+    """
+    Test correct ParkingType object returned for a squadron of Viggens
+    """
+    mocker.patch(
+        "game.theater.controlpoint.parking_type.include_fixed_wing_stol",
+        return_value=True,
+    )
+    squadron = Squadron(
+        name="test",
+        nickname=None,
+        country=None,
+        role="test",
+        aircraft=AJS37,
+        max_size=16,
+        livery=None,
+        primary_task=None,
+        auto_assignable_mission_types=None,
+        operating_bases=None,
+        female_pilot_percentage=0,
+    )  # type: ignore
+    parking_type = ParkingType().from_squadron(squadron)
+
+    assert parking_type.include_rotary_wing == False
+    assert parking_type.include_fixed_wing == True
+    assert parking_type.include_fixed_wing_stol == True
