@@ -533,11 +533,11 @@ class MizCampaignLoader:
 
         for plane_group in self.ground_spawns_roadbase:
             closest, distance = self.objective_info(plane_group)
-            self._add_ground_spawn(closest.ground_spawns_roadbase)
+            self._add_ground_spawn(closest.ground_spawns_roadbase, plane_group)
 
         for plane_group in self.ground_spawns:
             closest, distance = self.objective_info(plane_group)
-            self._add_ground_spawn(closest.ground_spawns)
+            self._add_ground_spawn(closest.ground_spawns, plane_group)
 
         for static in self.factories:
             closest, distance = self.objective_info(static)
