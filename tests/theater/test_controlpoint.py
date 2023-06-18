@@ -182,7 +182,7 @@ def test_parking_type_from_squadron(mocker: Any) -> None:
         "game.theater.controlpoint.parking_type.include_fixed_wing_stol",
         return_value=True,
     )
-    aircraft = AircraftType.for_dcs_type(AJS37)
+    aircraft = next(AircraftType.for_dcs_type(AJS37))
     squadron = Squadron(
         name="test",
         nickname=None,
