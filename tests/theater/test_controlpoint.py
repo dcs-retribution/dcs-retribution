@@ -12,9 +12,7 @@ from game.theater.controlpoint import (
     OffMapSpawn,
     Fob,
     ParkingType,
-    ControlPoint,
 )
-from game.theater.theaterloader import TheaterLoader
 from game.utils import Heading
 
 
@@ -140,15 +138,8 @@ def test_control_point_parking(mocker: Any) -> None:
     mocker.patch("game.theater.controlpoint.unclaimed_parking", return_value=10)
     airport = Airport(None, None)  # type: ignore
     airport.name = "test"  # required for Airfield.__init__
-    conflicttheater = TheaterLoader("caucasus").load()
-    point = Point(0, 0, conflicttheater.terrain)
-    control_point = ControlPoint(
-        name="test",
-        position=point,
-        at=airport,
-        theater=conflicttheater,
-        starts_blue=True,
-    )
+    point = Point(0, 0, None)  # type: ignore
+    control_point = Airfield(airport, theater=None, starts_blue=True)  # type: ignore
     parking_type_ground_start = ParkingType(
         fixed_wing=False, fixed_wing_stol=True, rotary_wing=False
     )
