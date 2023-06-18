@@ -112,6 +112,8 @@
   "missiles": [],
   "air_defense_units": [
     "EWR AN/FPS-117 Radar",
+    "Flakpanzer Gepard",
+    "M163 Vulcan Air Defense System",
     "M1097 Heavy HMMWV Avenger"
   ],
   "requirements": {},
