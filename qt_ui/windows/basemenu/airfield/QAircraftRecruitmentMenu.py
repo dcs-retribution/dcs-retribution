@@ -91,10 +91,9 @@ class QHangarStatus(QHBoxLayout):
         self.setAlignment(Qt.AlignLeft)
 
     def update_label(self) -> None:
-        parking_type = ParkingType()
-        parking_type.include_rotary_wing = True
-        parking_type.include_fixed_wing = True
-        parking_type.include_fixed_wing_stol = True
+        parking_type = ParkingType(
+            fixed_wing=True, fixed_wing_stol=True, rotary_wing=True
+        )
 
         next_turn = self.control_point.allocated_aircraft(parking_type)
         max_amount = self.control_point.total_aircraft_parking(parking_type)

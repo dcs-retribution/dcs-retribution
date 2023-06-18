@@ -78,10 +78,9 @@ class AircraftIntelLayout(IntelTableLayout):
 
         total = 0
         for control_point in game.theater.control_points_for(player):
-            parking_type = ParkingType()
-            parking_type.include_rotary_wing = True
-            parking_type.include_fixed_wing = True
-            parking_type.include_fixed_wing_stol = True
+            parking_type = ParkingType(
+                fixed_wing=True, fixed_wing_stol=True, rotary_wing=True
+            )
             allocation = control_point.allocated_aircraft(parking_type)
             base_total = allocation.total_present
             total += base_total

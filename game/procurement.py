@@ -63,10 +63,9 @@ class ProcurementAi:
         if len(self.faction.aircrafts) == 0 or len(self.air_wing.squadrons) == 0:
             return 1
 
-        parking_type = ParkingType()
-        parking_type.include_rotary_wing = True
-        parking_type.include_fixed_wing = True
-        parking_type.include_fixed_wing_stol = True
+        parking_type = ParkingType(
+            fixed_wing=True, fixed_wing_stol=True, rotary_wing=True
+        )
 
         for cp in self.owned_points:
             cp_ground_units = cp.allocated_ground_units(

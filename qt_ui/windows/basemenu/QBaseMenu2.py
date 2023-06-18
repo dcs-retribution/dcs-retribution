@@ -238,28 +238,22 @@ class QBaseMenu2(QDialog):
         self.repair_button.setDisabled(True)
 
     def update_intel_summary(self) -> None:
-        parking_type_all = ParkingType()
-        parking_type_all.include_rotary_wing = True
-        parking_type_all.include_fixed_wing = True
-        parking_type_all.include_fixed_wing_stol = True
+        parking_type_all = ParkingType(
+            fixed_wing=True, fixed_wing_stol=True, rotary_wing=True
+        )
 
         aircraft = self.cp.allocated_aircraft(parking_type_all).total_present
         parking = self.cp.total_aircraft_parking(parking_type_all)
 
-        parking_type_fixed_wing = ParkingType()
-        parking_type_fixed_wing.include_rotary_wing = False
-        parking_type_fixed_wing.include_fixed_wing = True
-        parking_type_fixed_wing.include_fixed_wing_stol = False
-
-        parking_type_stol = ParkingType()
-        parking_type_stol.include_rotary_wing = False
-        parking_type_stol.include_fixed_wing = False
-        parking_type_stol.include_fixed_wing_stol = True
-
-        parking_type_rotary_wing = ParkingType()
-        parking_type_rotary_wing.include_rotary_wing = True
-        parking_type_rotary_wing.include_fixed_wing = False
-        parking_type_rotary_wing.include_fixed_wing_stol = False
+        parking_type_fixed_wing = ParkingType(
+            fixed_wing=True, fixed_wing_stol=False, rotary_wing=False
+        )
+        parking_type_stol = ParkingType(
+            fixed_wing=False, fixed_wing_stol=True, rotary_wing=False
+        )
+        parking_type_rotary_wing = ParkingType(
+            fixed_wing=False, fixed_wing_stol=False, rotary_wing=True
+        )
 
         fixed_wing_parking = self.cp.total_aircraft_parking(parking_type_fixed_wing)
         ground_spawn_parking = self.cp.total_aircraft_parking(parking_type_stol)

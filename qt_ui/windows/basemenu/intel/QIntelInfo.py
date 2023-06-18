@@ -24,10 +24,9 @@ class QIntelInfo(QFrame):
         intel_layout = QVBoxLayout()
 
         units_by_task: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
-        parking_type = ParkingType()
-        parking_type.include_rotary_wing = True
-        parking_type.include_fixed_wing = True
-        parking_type.include_fixed_wing_stol = True
+        parking_type = ParkingType(
+            fixed_wing=True, fixed_wing_stol=True, rotary_wing=True
+        )
         for unit_type, count in self.cp.allocated_aircraft(
             parking_type
         ).present.items():

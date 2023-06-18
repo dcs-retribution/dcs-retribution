@@ -380,6 +380,37 @@ class MizCampaignLoader:
                 closest = spawn
         return closest
 
+    @staticmethod
+    def _add_helipad(helipads: list[PointWithHeading], static: StaticGroup) -> None:
+        helipads.append(
+            PointWithHeading.from_point(
+                static.position, Heading.from_degrees(static.units[0].heading)
+            )
+        )
+
+    def _add_ground_spawn(
+        self,
+        ground_spawns: list[tuple[PointWithHeading, Point]],
+        plane_group: PlaneGroup,
+    ) -> None:
+        if len(plane_group.points) >= 2:
+            first_waypoint = plane_group.points[1].position
+        else:
+            first_waypoint = plane_group.position.point_from_heading(
+                plane_group.units[0].heading,
+                self.GROUND_SPAWN_WAYPOINT_DISTANCE,
+            )
+
+        ground_spawns.append(
+            (
+                PointWithHeading.from_point(
+                    plane_group.position,
+                    Heading.from_degrees(plane_group.units[0].heading),
+                ),
+                first_waypoint,
+            )
+        )
+
     def add_supply_routes(self) -> None:
         for group in self.front_line_path_groups:
             # The unit will have its first waypoint at the source CP and the final
@@ -494,65 +525,19 @@ class MizCampaignLoader:
         for static in self.helipads:
             closest, distance = self.objective_info(static)
             if static.units[0].type == "SINGLE_HELIPAD":
-                closest.helipads.append(
-                    PointWithHeading.from_point(
-                        static.position, Heading.from_degrees(static.units[0].heading)
-                    )
-                )
+                self._add_helipad(closest.helipads, static)
             elif static.units[0].type == "FARP":
-                closest.helipads_quad.append(
-                    PointWithHeading.from_point(
-                        static.position, Heading.from_degrees(static.units[0].heading)
-                    )
-                )
+                self._add_helipad(closest.helipads_quad, static)
             else:
-                closest.helipads_invisible.append(
-                    PointWithHeading.from_point(
-                        static.position, Heading.from_degrees(static.units[0].heading)
-                    )
-                )
+                self._add_helipad(closest.helipads_invisible, static)
 
         for plane_group in self.ground_spawns_roadbase:
             closest, distance = self.objective_info(plane_group)
-
-            if len(plane_group.points) >= 2:
-                first_waypoint = plane_group.points[1].position
-            else:
-                first_waypoint = plane_group.position.point_from_heading(
-                    plane_group.units[0].heading,
-                    self.GROUND_SPAWN_WAYPOINT_DISTANCE,
-                )
-
-            closest.ground_spawns_roadbase.append(
-                (
-                    PointWithHeading.from_point(
-                        plane_group.position,
-                        Heading.from_degrees(plane_group.units[0].heading),
-                    ),
-                    first_waypoint,
-                )
-            )
+            self._add_ground_spawn(closest.ground_spawns_roadbase)
 
         for plane_group in self.ground_spawns:
             closest, distance = self.objective_info(plane_group)
-
-            if len(group.points) >= 2:
-                first_waypoint = plane_group.points[1].position
-            else:
-                first_waypoint = plane_group.position.point_from_heading(
-                    plane_group.units[0].heading,
-                    self.GROUND_SPAWN_WAYPOINT_DISTANCE,
-                )
-
-            closest.ground_spawns.append(
-                (
-                    PointWithHeading.from_point(
-                        plane_group.position,
-                        Heading.from_degrees(plane_group.units[0].heading),
-                    ),
-                    first_waypoint,
-                )
-            )
+            self._add_ground_spawn(closest.ground_spawns)
 
         for static in self.factories:
             closest, distance = self.objective_info(static)

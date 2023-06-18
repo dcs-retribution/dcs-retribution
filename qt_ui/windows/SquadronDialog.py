@@ -168,15 +168,14 @@ class SquadronDestinationComboBox(QComboBox):
             ap = deepcopy(cp.dcs_airport)
             overflow = []
 
-            parking_type = ParkingType()
-            parking_type.include_rotary_wing = True
-            parking_type.include_fixed_wing = False
-            parking_type.include_fixed_wing_stol = False
+            parking_type = ParkingType(
+                fixed_wing=False, fixed_wing_stol=False, rotary_wing=True
+            )
             free_helicopter_slots = cp.total_aircraft_parking(parking_type)
 
-            parking_type.include_rotary_wing = False
-            parking_type.include_fixed_wing = False
-            parking_type.include_fixed_wing_stol = True
+            parking_type = ParkingType(
+                fixed_wing=False, fixed_wing_stol=True, rotary_wing=False
+            )
             free_ground_spawns = cp.total_aircraft_parking(parking_type)
 
             for s in cp.squadrons:
