@@ -1,9 +1,21 @@
 import pytest
 from typing import Any
 
+from dcs import Point
 from dcs.terrain.terrain import Airport
 from game.ato.flighttype import FlightType
-from game.theater.controlpoint import Airfield, Carrier, Lha, OffMapSpawn, Fob
+from game.point_with_heading import PointWithHeading
+from game.theater.controlpoint import (
+    Airfield,
+    Carrier,
+    Lha,
+    OffMapSpawn,
+    Fob,
+    ParkingType,
+    ControlPoint,
+)
+from game.theater.theaterloader import TheaterLoader
+from game.utils import Heading
 
 
 @pytest.fixture
@@ -117,3 +129,49 @@ def test_mission_types_enemy(mocker: Any) -> None:
     off_map_spawn = OffMapSpawn(name="test", position=None, theater=None, starts_blue=True)  # type: ignore
     mission_types = list(off_map_spawn.mission_types(for_player=True))
     assert len(mission_types) == 0
+
+
+@pytest.fixture
+def test_control_point_parking(mocker: Any) -> None:
+    """
+    Test correct number of parking slots are returned for control point
+    """
+    # Airfield
+    mocker.patch("game.theater.controlpoint.unclaimed_parking", return_value=10)
+    airport = Airport(None, None)  # type: ignore
+    airport.name = "test"  # required for Airfield.__init__
+    conflicttheater = TheaterLoader("caucasus").load()
+    point = Point(0, 0, conflicttheater.terrain)
+    control_point = ControlPoint(
+        name="test",
+        position=point,
+        at=airport,
+        theater=conflicttheater,
+        starts_blue=True,
+    )
+    parking_type_ground_start = ParkingType(
+        fixed_wing=False, fixed_wing_stol=True, rotary_wing=False
+    )
+    parking_type_rotary = ParkingType(
+        fixed_wing=False, fixed_wing_stol=False, rotary_wing=True
+    )
+    for x in range(10):
+        control_point.ground_spawns.append(
+            (
+                PointWithHeading.from_point(
+                    point,
+                    Heading.from_degrees(0),
+                ),
+                point,
+            )
+        )
+    for x in range(20):
+        control_point.helipads.append(
+            PointWithHeading.from_point(
+                point,
+                Heading.from_degrees(0),
+            )
+        )
+
+    assert control_point.unclaimed_parking(parking_type_ground_start) == 10
+    assert control_point.unclaimed_parking(parking_type_rotary) == 20
