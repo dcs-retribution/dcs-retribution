@@ -243,6 +243,8 @@ class MissionGenerator:
             self.unit_map,
             mission_data=self.mission_data,
             helipads=tgo_generator.helipads,
+            ground_spawns_roadbase=tgo_generator.ground_spawns_roadbase,
+            ground_spawns=tgo_generator.ground_spawns,
         )
 
         aircraft_generator.clear_parking_slots()

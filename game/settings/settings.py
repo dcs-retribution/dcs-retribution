@@ -565,6 +565,30 @@ class Settings:
             'Use this to allow spectators when disabling "Allow external views".'
         ),
     )
+    ground_start_ai_planes: bool = boolean_option(
+        "AI fixed-wing aircraft can use roadbases / bases with only ground spawns",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=False,
+        detail=(
+            "If enabled, AI can use roadbases or airbases which only have ground spawns."
+            "AI will always air-start from these bases (due to DCS limitation)."
+        ),
+    )
+    ground_start_trucks: bool = boolean_option(
+        "Spawn trucks at ground spawns in airbases instead of FARP statics",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=False,
+        detail=("Might have a negative performance impact."),
+    )
+    ground_start_trucks_roadbase: bool = boolean_option(
+        "Spawn trucks at ground spawns in roadbases instead of FARP statics",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=False,
+        detail=("Might have a negative performance impact."),
+    )
 
     # Performance
     perf_smoke_gen: bool = boolean_option(

@@ -1,10 +1,10 @@
 import logging
 import random
-from typing import Any, Union
+from typing import Any, Union, Tuple, Optional
 
 from dcs import Mission
 from dcs.country import Country
-from dcs.mapping import Vector2
+from dcs.mapping import Vector2, Point
 from dcs.mission import StartType as DcsStartType
 from dcs.planes import F_14A, Su_33
 from dcs.point import PointAction
@@ -47,13 +47,17 @@ class FlightGroupSpawner:
         flight: Flight,
         country: Country,
         mission: Mission,
-        helipads: dict[ControlPoint, StaticGroup],
+        helipads: dict[ControlPoint, list[StaticGroup]],
+        ground_spawns_roadbase: dict[ControlPoint, list[Tuple[StaticGroup, Point]]],
+        ground_spawns: dict[ControlPoint, list[Tuple[StaticGroup, Point]]],
         mission_data: MissionData,
     ) -> None:
         self.flight = flight
         self.country = country
         self.mission = mission
         self.helipads = helipads
+        self.ground_spawns_roadbase = ground_spawns_roadbase
+        self.ground_spawns = ground_spawns
         self.mission_data = mission_data
 
     def create_flight_group(self) -> FlyingGroup[Any]:
@@ -88,11 +92,11 @@ class FlightGroupSpawner:
         return grp
 
     def create_idle_aircraft(self) -> FlyingGroup[Any]:
-        airport = self.flight.squadron.location.dcs_airport
-        assert airport is not None
-        group = self._generate_at_airport(
+        assert isinstance(self.flight.squadron.location, Airfield)
+        airfield = self.flight.squadron.location
+        group = self._generate_at_airfield(
             name=namegen.next_aircraft_name(self.country, self.flight),
-            airport=airport,
+            airfield=airfield,
         )
 
         group.uncontrolled = True
@@ -121,18 +125,47 @@ class FlightGroupSpawner:
             elif isinstance(cp, Fob):
                 is_heli = self.flight.squadron.aircraft.helicopter
                 is_vtol = not is_heli and self.flight.squadron.aircraft.lha_capable
-                if not is_heli and not is_vtol:
+                if not is_heli and not is_vtol and not cp.has_ground_spawns:
                     raise RuntimeError(
-                        f"Cannot spawn non-VTOL aircraft at {cp} because it is a FOB"
+                        f"Cannot spawn fixed-wing aircraft at {cp} because of insufficient ground spawn slots."
                     )
                 pilot_count = len(self.flight.roster.pilots)
-                if is_vtol and self.flight.roster.player_count != pilot_count:
+                if (
+                    not is_heli
+                    and self.flight.roster.player_count != pilot_count
+                    and not self.flight.coalition.game.settings.ground_start_ai_planes
+                ):
                     raise RuntimeError(
-                        f"VTOL aircraft at {cp} must be piloted by humans exclusively."
+                        f"Fixed-wing aircraft at {cp} must be piloted by humans exclusively because"
+                        f' the "AI fixed-wing aircraft can use roadbases / bases with only ground'
+                        f' spawns" setting is currently disabled.'
                     )
-                return self._generate_at_cp_helipad(name, cp)
+                if cp.has_helipads and (is_heli or is_vtol):
+                    pad_group = self._generate_at_cp_helipad(name, cp)
+                    if pad_group is not None:
+                        return pad_group
+                if cp.has_ground_spawns and (self.flight.client_count > 0 or is_heli):
+                    pad_group = self._generate_at_cp_ground_spawn(name, cp)
+                    if pad_group is not None:
+                        return pad_group
+                return self._generate_over_departure(name, cp)
             elif isinstance(cp, Airfield):
-                return self._generate_at_airport(name, cp.airport)
+                is_heli = self.flight.squadron.aircraft.helicopter
+                if cp.has_helipads and is_heli:
+                    pad_group = self._generate_at_cp_helipad(name, cp)
+                    if pad_group is not None:
+                        return pad_group
+                if (
+                    cp.has_ground_spawns
+                    and len(self.ground_spawns[cp])
+                    + len(self.ground_spawns_roadbase[cp])
+                    >= self.flight.count
+                    and (self.flight.client_count > 0 or is_heli)
+                ):
+                    pad_group = self._generate_at_cp_ground_spawn(name, cp)
+                    if pad_group is not None:
+                        return pad_group
+                return self._generate_at_airfield(name, cp)
             else:
                 raise NotImplementedError(
                     f"Aircraft spawn behavior not implemented for {cp} ({cp.__class__})"
@@ -185,7 +218,7 @@ class FlightGroupSpawner:
         group.points[0].alt_type = alt_type
         return group
 
-    def _generate_at_airport(self, name: str, airport: Airport) -> FlyingGroup[Any]:
+    def _generate_at_airfield(self, name: str, airfield: Airfield) -> FlyingGroup[Any]:
         # TODO: Delayed runway starts should be converted to air starts for multiplayer.
         # Runway starts do not work with late activated aircraft in multiplayer. Instead
         # of spawning on the runway the aircraft will spawn on the taxiway, potentially
@@ -193,13 +226,14 @@ class FlightGroupSpawner:
         # starts or (less likely) downgrade to warm starts to avoid the issue when the
         # player is generating the mission for multiplayer (which would need a new
         # option).
+        self.flight.unit_type.dcs_unit_type.load_payloads()
         return self.mission.flight_group_from_airport(
             country=self.country,
             name=name,
             aircraft_type=self.flight.unit_type.dcs_unit_type,
-            airport=airport,
+            airport=airfield.airport,
             maintask=None,
-            start_type=self.dcs_start_type(),
+            start_type=self._start_type_at_airfield(airfield),
             group_size=self.flight.count,
             parking_slots=None,
         )
@@ -253,26 +287,84 @@ class FlightGroupSpawner:
             group_size=self.flight.count,
         )
 
-    def _generate_at_cp_helipad(self, name: str, cp: ControlPoint) -> FlyingGroup[Any]:
+    def _generate_at_cp_helipad(
+        self, name: str, cp: ControlPoint
+    ) -> Optional[FlyingGroup[Any]]:
         try:
-            helipad = self.helipads[cp]
-        except IndexError:
-            raise NoParkingSlotError()
+            helipad = self.helipads[cp].pop()
+        except IndexError as ex:
+            logging.warning("Not enough helipads available at " + str(ex))
+            if isinstance(cp, Airfield):
+                return self._generate_at_airfield(name, cp)
+            else:
+                return None
+            # raise RuntimeError(f"Not enough helipads available at {cp}") from ex
 
         group = self._generate_at_group(name, helipad)
 
-        group.points[0].type = "TakeOffGround"
+        # Note : A bit dirty, need better support in pydcs
         group.points[0].action = PointAction.FromGroundArea
-
-        if self.start_type is StartType.WARM:
-            group.points[0].type = "TakeOffGroundHot"
+        group.points[0].type = "TakeOffGround"
+        group.units[0].heading = helipad.units[0].heading
+        if self.start_type is not StartType.COLD:
             group.points[0].action = PointAction.FromGroundAreaHot
-        hpad = helipad.units[0]
-        for i in range(self.flight.count):
-            pos = cp.helipads.pop(0)
-            group.units[i].position = pos
-            group.units[i].heading = hpad.heading
-            cp.helipads.append(pos)
+            group.points[0].type = "TakeOffGroundHot"
+
+        for i in range(self.flight.count - 1):
+            try:
+                helipad = self.helipads[cp].pop()
+                terrain = cp.coalition.game.theater.terrain
+                group.units[1 + i].position = Point(
+                    helipad.x, helipad.y, terrain=terrain
+                )
+                group.units[1 + i].heading = helipad.units[0].heading
+            except IndexError as ex:
+                logging.warning("Not enough helipads available at " + str(ex))
+                if isinstance(cp, Airfield):
+                    return self._generate_at_airfield(name, cp)
+                else:
+                    return None
+        return group
+
+    def _generate_at_cp_ground_spawn(
+        self, name: str, cp: ControlPoint
+    ) -> Optional[FlyingGroup[Any]]:
+        try:
+            if len(self.ground_spawns_roadbase[cp]) > 0:
+                ground_spawn = self.ground_spawns_roadbase[cp].pop()
+            else:
+                ground_spawn = self.ground_spawns[cp].pop()
+        except IndexError as ex:
+            logging.warning("Not enough STOL slots available at " + str(ex))
+            return None
+            # raise RuntimeError(f"Not enough STOL slots available at {cp}") from ex
+
+        group = self._generate_at_group(name, ground_spawn[0])
+
+        # Note : A bit dirty, need better support in pydcs
+        group.points[0].action = PointAction.FromGroundArea
+        group.points[0].type = "TakeOffGround"
+        group.units[0].heading = ground_spawn[0].units[0].heading
+
+        try:
+            cp.coalition.game.scenery_clear_zones
+        except AttributeError:
+            cp.coalition.game.scenery_clear_zones = []
+        cp.coalition.game.scenery_clear_zones.append(ground_spawn[1])
+
+        for i in range(self.flight.count - 1):
+            try:
+                terrain = cp.coalition.game.theater.terrain
+                if len(self.ground_spawns_roadbase[cp]) > 0:
+                    ground_spawn = self.ground_spawns_roadbase[cp].pop()
+                else:
+                    ground_spawn = self.ground_spawns[cp].pop()
+                group.units[1 + i].position = Point(
+                    ground_spawn[0].x, ground_spawn[0].y, terrain=terrain
+                )
+                group.units[1 + i].heading = ground_spawn[0].units[0].heading
+            except IndexError as ex:
+                raise RuntimeError(f"Not enough STOL slots available at {cp}") from ex
         return group
 
     def dcs_start_type(self) -> DcsStartType:
@@ -283,6 +375,12 @@ class FlightGroupSpawner:
         elif self.start_type is StartType.WARM:
             return DcsStartType.Warm
         raise ValueError(f"There is no pydcs StartType matching {self.start_type}")
+
+    def _start_type_at_airfield(
+        self,
+        airfield: Airfield,
+    ) -> DcsStartType:
+        return self.dcs_start_type()
 
     def _start_type_at_group(
         self,

@@ -3,8 +3,9 @@ from __future__ import annotations
 import logging
 from datetime import datetime
 from functools import cached_property
-from typing import Any, Dict, List, TYPE_CHECKING
+from typing import Any, Dict, List, TYPE_CHECKING, Tuple
 
+from dcs import Point
 from dcs.action import AITaskPush
 from dcs.condition import FlagIsTrue, GroupDead, Or, FlagIsFalse
 from dcs.country import Country
@@ -54,7 +55,9 @@ class AircraftGenerator:
         laser_code_registry: LaserCodeRegistry,
         unit_map: UnitMap,
         mission_data: MissionData,
-        helipads: dict[ControlPoint, StaticGroup],
+        helipads: dict[ControlPoint, list[StaticGroup]],
+        ground_spawns_roadbase: dict[ControlPoint, list[Tuple[StaticGroup, Point]]],
+        ground_spawns: dict[ControlPoint, list[Tuple[StaticGroup, Point]]],
     ) -> None:
         self.mission = mission
         self.settings = settings
@@ -67,6 +70,8 @@ class AircraftGenerator:
         self.flights: List[FlightData] = []
         self.mission_data = mission_data
         self.helipads = helipads
+        self.ground_spawns_roadbase = ground_spawns_roadbase
+        self.ground_spawns = ground_spawns
 
         self.ewrj_package_dict: Dict[int, List[FlyingGroup[Any]]] = {}
         self.ewrj = settings.plugins.get("ewrj")
@@ -186,7 +191,13 @@ class AircraftGenerator:
             flight.state = Completed(flight, self.game.settings)
 
             group = FlightGroupSpawner(
-                flight, country, self.mission, self.helipads, self.mission_data
+                flight,
+                country,
+                self.mission,
+                self.helipads,
+                self.ground_spawns_roadbase,
+                self.ground_spawns,
+                self.mission_data,
             ).create_idle_aircraft()
             AircraftPainter(flight, group).apply_livery()
             self.unit_map.add_aircraft(group, flight)
@@ -196,7 +207,13 @@ class AircraftGenerator:
     ) -> FlyingGroup[Any]:
         """Creates and configures the flight group in the mission."""
         group = FlightGroupSpawner(
-            flight, country, self.mission, self.helipads, self.mission_data
+            flight,
+            country,
+            self.mission,
+            self.helipads,
+            self.ground_spawns_roadbase,
+            self.ground_spawns,
+            self.mission_data,
         ).create_flight_group()
         self.flights.append(
             FlightGroupConfigurator(
@@ -216,10 +233,10 @@ class AircraftGenerator:
 
         wpt = group.waypoint("LANDING")
         if flight.is_helo and isinstance(flight.arrival, Fob) and wpt:
-            hpad = self.helipads[flight.arrival].units.pop(0)
-            wpt.helipad_id = hpad.id
-            wpt.link_unit = hpad.id
-            self.helipads[flight.arrival].units.append(hpad)
+            hpad = self.helipads[flight.arrival].pop(0)
+            wpt.helipad_id = hpad.units[0].id
+            wpt.link_unit = hpad.units[0].id
+            self.helipads[flight.arrival].append(hpad)
 
         if self.ewrj:
             self._track_ewrj_flight(flight, group)

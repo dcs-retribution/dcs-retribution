@@ -94,6 +94,7 @@ if TYPE_CHECKING:
 
 FREE_FRONTLINE_UNIT_SUPPLY: int = 15
 AMMO_DEPOT_FRONTLINE_UNIT_CONTRIBUTION: int = 12
+TRIGGER_RADIUS_CAPTURE = 3000
 
 
 class ControlPointType(Enum):
@@ -315,6 +316,47 @@ class ControlPointStatus(IntEnum):
 StartingPosition = Union[ShipGroup, StaticGroup, Airport, Point]
 
 
+class ParkingType:
+    def __init__(
+        self,
+        fixed_wing: bool = False,
+        fixed_wing_stol: bool = False,
+        rotary_wing: bool = False,
+    ) -> None:
+        self.include_fixed_wing = fixed_wing
+        self.include_fixed_wing_stol = fixed_wing_stol
+        self.include_rotary_wing = rotary_wing
+
+    def from_squadron(self, squadron: Squadron) -> ParkingType:
+        return self.from_aircraft(
+            squadron.aircraft, squadron.coalition.game.settings.ground_start_ai_planes
+        )
+
+    def from_aircraft(
+        self, aircraft: AircraftType, ground_start_ai_planes: bool
+    ) -> ParkingType:
+        if aircraft.helicopter or aircraft.lha_capable:
+            self.include_rotary_wing = True
+            self.include_fixed_wing = True
+            self.include_fixed_wing_stol = True
+        elif aircraft.flyable or ground_start_ai_planes:
+            self.include_rotary_wing = False
+            self.include_fixed_wing = True
+            self.include_fixed_wing_stol = True
+        else:
+            self.include_rotary_wing = False
+            self.include_fixed_wing = True
+            self.include_fixed_wing_stol = False
+        return self
+
+    #: Fixed wing aircraft with no STOL or VTOL capability
+    include_fixed_wing: bool
+    #: Fixed wing aircraft with STOL capability
+    include_fixed_wing_stol: bool
+    #: Helicopters and VTOL aircraft
+    include_rotary_wing: bool
+
+
 class ControlPoint(MissionTarget, SidcDescribable, ABC):
     # Not sure what distance DCS uses, but assuming it's about 2NM since that's roughly
     # the distance of the circle on the map.
@@ -340,6 +382,10 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         self.connected_objectives: List[TheaterGroundObject] = []
         self.preset_locations = PresetLocations()
         self.helipads: List[PointWithHeading] = []
+        self.helipads_quad: List[PointWithHeading] = []
+        self.helipads_invisible: List[PointWithHeading] = []
+        self.ground_spawns_roadbase: List[Tuple[PointWithHeading, Point]] = []
+        self.ground_spawns: List[Tuple[PointWithHeading, Point]] = []
 
         self._coalition: Optional[Coalition] = None
         self.captured_invert = False
@@ -525,7 +571,17 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         """
         Returns true if cp has helipads
         """
-        return len(self.helipads) > 0
+        return (
+            len(self.helipads) + len(self.helipads_quad) + len(self.helipads_invisible)
+            > 0
+        )
+
+    @property
+    def has_ground_spawns(self) -> bool:
+        """
+        Returns true if cp can operate STOL aircraft
+        """
+        return len(self.ground_spawns_roadbase) + len(self.ground_spawns) > 0
 
     def can_recruit_ground_units(self, game: Game) -> bool:
         """Returns True if this control point is capable of recruiting ground units."""
@@ -590,9 +646,8 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
     def can_deploy_ground_units(self) -> bool:
         ...
 
-    @property
     @abstractmethod
-    def total_aircraft_parking(self) -> int:
+    def total_aircraft_parking(self, parking_type: ParkingType) -> int:
         """
         :return: The maximum number of aircraft that can be stored in this
                  control point
@@ -761,17 +816,22 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         self, squadron: Squadron
     ) -> Optional[ControlPoint]:
         closest = ObjectiveDistanceCache.get_closest_airfields(self)
-        max_retreat_distance = squadron.aircraft.max_mission_range
+        # Multiply the max mission range by two when evaluating retreats,
+        # since you only need to fly one way in that case
+        max_retreat_distance = squadron.aircraft.max_mission_range * 2
         # Skip the first airbase because that's the airbase we're retreating
         # from.
         airfields = list(closest.operational_airfields_within(max_retreat_distance))[1:]
         not_preferred: Optional[ControlPoint] = None
         overfull: list[ControlPoint] = []
+
+        parking_type = ParkingType().from_squadron(squadron)
+
         for airbase in airfields:
             if airbase.captured != self.captured:
                 continue
 
-            if airbase.unclaimed_parking() < squadron.owned_aircraft:
+            if airbase.unclaimed_parking(parking_type) < squadron.owned_aircraft:
                 if airbase.can_operate(squadron.aircraft):
                     overfull.append(airbase)
                 continue
@@ -798,7 +858,7 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         loss_count = math.inf
         for airbase in overfull:
             overflow = -(
-                airbase.unclaimed_parking()
+                airbase.unclaimed_parking(parking_type)
                 - squadron.owned_aircraft
                 - squadron.pending_deliveries
             )
@@ -813,10 +873,13 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
             squadron.refund_orders()
             self.capture_aircraft(game, squadron.aircraft, squadron.owned_aircraft)
             return
+
+        parking_type = ParkingType().from_squadron(squadron)
+
         logging.debug(f"{squadron} retreating to {destination} from {self}")
         squadron.relocate_to(destination)
         squadron.cancel_overflow_orders()
-        overflow = -destination.unclaimed_parking()
+        overflow = -destination.unclaimed_parking(parking_type)
         if overflow > 0:
             logging.debug(
                 f"Not enough room for {squadron} at {destination}. Capturing "
@@ -869,8 +932,11 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
     def can_operate(self, aircraft: AircraftType) -> bool:
         ...
 
-    def unclaimed_parking(self) -> int:
-        return self.total_aircraft_parking - self.allocated_aircraft().total
+    def unclaimed_parking(self, parking_type: ParkingType) -> int:
+        return (
+            self.total_aircraft_parking(parking_type)
+            - self.allocated_aircraft(parking_type).total
+        )
 
     @abstractmethod
     def active_runway(
@@ -932,17 +998,33 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
                             u.position.x = u.position.x + delta.x
                             u.position.y = u.position.y + delta.y
 
-    def allocated_aircraft(self) -> AircraftAllocations:
+    def allocated_aircraft(self, parking_type: ParkingType) -> AircraftAllocations:
         present: dict[AircraftType, int] = defaultdict(int)
         on_order: dict[AircraftType, int] = defaultdict(int)
         transferring: dict[AircraftType, int] = defaultdict(int)
         for squadron in self.squadrons:
+            if not parking_type.include_rotary_wing and (
+                squadron.aircraft.helicopter or squadron.aircraft.lha_capable
+            ):
+                continue
+            elif not parking_type.include_fixed_wing and (
+                not squadron.aircraft.helicopter or squadron.aircraft.lha_capable
+            ):
+                continue
             present[squadron.aircraft] += squadron.owned_aircraft
             if squadron.destination is None:
                 on_order[squadron.aircraft] += squadron.pending_deliveries
             else:
                 transferring[squadron.aircraft] -= squadron.owned_aircraft
         for squadron in self.coalition.air_wing.iter_squadrons():
+            if not parking_type.include_rotary_wing and (
+                squadron.aircraft.helicopter or squadron.aircraft.lha_capable
+            ):
+                continue
+            elif not parking_type.include_fixed_wing and (
+                not squadron.aircraft.helicopter or squadron.aircraft.lha_capable
+            ):
+                continue
             if squadron.destination == self:
                 on_order[squadron.aircraft] += squadron.pending_deliveries
                 transferring[squadron.aircraft] += squadron.owned_aircraft
@@ -1093,11 +1175,14 @@ class Airfield(ControlPoint, CTLD):
         # Needs ground spawns just like helos do, but also need to be able to
         # limit takeoff weight to ~20500 lbs or it won't be able to take off.
 
-        # return false if aircraft is fixed wing and airport has no runways
-        if not aircraft.helicopter and not self.airport.runways:
-            return False
-        else:
-            return self.runway_is_operational()
+        parking_type = ParkingType().from_aircraft(
+            aircraft, self.coalition.game.settings.ground_start_ai_planes
+        )
+        if parking_type.include_rotary_wing and self.has_helipads:
+            return True
+        if parking_type.include_fixed_wing_stol and self.has_ground_spawns:
+            return True
+        return self.runway_is_operational()
 
     def mission_types(self, for_player: bool) -> Iterator[FlightType]:
         from game.ato import FlightType
@@ -1120,14 +1205,25 @@ class Airfield(ControlPoint, CTLD):
 
         yield FlightType.REFUELING
 
-    @property
-    def total_aircraft_parking(self) -> int:
+    def total_aircraft_parking(self, parking_type: ParkingType) -> int:
         """
         Return total aircraft parking slots available
         Note : additional helipads shouldn't contribute to this score as it could allow airfield
         to buy more planes than what they are able to host
         """
-        return len(self.airport.parking_slots)
+        parking_slots = 0
+        if parking_type.include_rotary_wing:
+            parking_slots += (
+                len(self.helipads)
+                + 4 * len(self.helipads_quad)
+                + len(self.helipads_invisible)
+            )
+        if parking_type.include_fixed_wing_stol:
+            parking_slots += len(self.ground_spawns)
+            parking_slots += len(self.ground_spawns_roadbase)
+        if parking_type.include_fixed_wing:
+            parking_slots += len(self.airport.parking_slots)
+        return parking_slots
 
     @property
     def heading(self) -> Heading:
@@ -1317,8 +1413,7 @@ class Carrier(NavalControlPoint):
     def can_operate(self, aircraft: AircraftType) -> bool:
         return aircraft.carrier_capable
 
-    @property
-    def total_aircraft_parking(self) -> int:
+    def total_aircraft_parking(self, parking_type: ParkingType) -> int:
         return 90
 
     @property
@@ -1348,8 +1443,7 @@ class Lha(NavalControlPoint):
     def can_operate(self, aircraft: AircraftType) -> bool:
         return aircraft.lha_capable
 
-    @property
-    def total_aircraft_parking(self) -> int:
+    def total_aircraft_parking(self, parking_type: ParkingType) -> int:
         return 20
 
     @property
@@ -1383,8 +1477,7 @@ class OffMapSpawn(ControlPoint):
     def mission_types(self, for_player: bool) -> Iterator[FlightType]:
         yield from []
 
-    @property
-    def total_aircraft_parking(self) -> int:
+    def total_aircraft_parking(self, parking_type: ParkingType) -> int:
         return 1000
 
     def can_operate(self, aircraft: AircraftType) -> bool:
@@ -1444,7 +1537,7 @@ class Fob(ControlPoint, RadioFrequencyContainer, CTLD):
         return SymbolSet.LAND_INSTALLATIONS, LandInstallationEntity.MILITARY_BASE
 
     def runway_is_operational(self) -> bool:
-        return self.has_helipads
+        return self.has_helipads or self.has_ground_spawns
 
     def active_runway(
         self,
@@ -1470,17 +1563,33 @@ class Fob(ControlPoint, RadioFrequencyContainer, CTLD):
 
         yield from super().mission_types(for_player)
 
-    @property
-    def total_aircraft_parking(self) -> int:
-        return len(self.helipads)
+    def total_aircraft_parking(self, parking_type: ParkingType) -> int:
+        parking_slots = 0
+        if parking_type.include_rotary_wing:
+            parking_slots += (
+                len(self.helipads)
+                + 4 * len(self.helipads_quad)
+                + len(self.helipads_invisible)
+            )
+
+        try:
+            if parking_type.include_fixed_wing_stol:
+                parking_slots += len(self.ground_spawns)
+                parking_slots += len(self.ground_spawns_roadbase)
+        except AttributeError:
+            self.ground_spawns_roadbase = []
+            self.ground_spawns = []
+        return parking_slots
 
     def can_operate(self, aircraft: AircraftType) -> bool:
-        # FOBs and FARPs are the same class, distinguished only by non-FARP FOBs having
-        # zero parking.
-        # https://github.com/dcs-liberation/dcs_liberation/issues/2378
-        return (
-            aircraft.helicopter or aircraft.lha_capable
-        ) and self.total_aircraft_parking > 0
+        parking_type = ParkingType().from_aircraft(
+            aircraft, self.coalition.game.settings.ground_start_ai_planes
+        )
+        if parking_type.include_rotary_wing and self.has_helipads:
+            return True
+        if parking_type.include_fixed_wing_stol and self.has_ground_spawns:
+            return True
+        return False
 
     @property
     def heading(self) -> Heading:

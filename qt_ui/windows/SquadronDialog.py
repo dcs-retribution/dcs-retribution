@@ -22,10 +22,11 @@ from dcs.unittype import FlyingType
 from game.ato.flightplans.custom import CustomFlightPlan
 from game.ato.flighttype import FlightType
 from game.ato.flightwaypointtype import FlightWaypointType
+from game.dcs.aircrafttype import AircraftType
 from game.server import EventStream
 from game.sim import GameUpdateEvents
 from game.squadrons import Pilot, Squadron
-from game.theater import ConflictTheater, ControlPoint
+from game.theater import ConflictTheater, ControlPoint, ParkingType
 from qt_ui.delegates import TwoColumnRowDelegate
 from qt_ui.errorreporter import report_errors
 from qt_ui.models import AtoModel, SquadronModel
@@ -105,7 +106,8 @@ class SquadronDestinationComboBox(QComboBox):
         self.squadron = squadron
         self.theater = theater
 
-        room = squadron.location.unclaimed_parking()
+        parking_type = ParkingType().from_squadron(squadron)
+        room = squadron.location.unclaimed_parking(parking_type)
         self.addItem(
             f"Remain at {squadron.location} (room for {room} more aircraft)",
             squadron.location,
@@ -142,10 +144,19 @@ class SquadronDestinationComboBox(QComboBox):
             self.setCurrentIndex(selected_index)
 
     def iter_destinations(self) -> Iterator[ControlPoint]:
+        size = self.squadron.expected_size_next_turn
+        parking_type = ParkingType().from_squadron(self.squadron)
         for control_point in self.theater.control_points_for(self.squadron.player):
             if control_point == self.squadron.location:
                 continue
             if not control_point.can_operate(self.squadron.aircraft):
+                continue
+            ac_type = self.squadron.aircraft.dcs_unit_type
+            if (
+                self.squadron.destination is not control_point
+                and control_point.unclaimed_parking(parking_type) < size
+                and self.calculate_parking_slots(control_point, ac_type) < size
+            ):
                 continue
             yield control_point
 
@@ -156,14 +167,39 @@ class SquadronDestinationComboBox(QComboBox):
         if cp.dcs_airport:
             ap = deepcopy(cp.dcs_airport)
             overflow = []
+
+            parking_type = ParkingType(
+                fixed_wing=False, fixed_wing_stol=False, rotary_wing=True
+            )
+            free_helicopter_slots = cp.total_aircraft_parking(parking_type)
+
+            parking_type = ParkingType(
+                fixed_wing=False, fixed_wing_stol=True, rotary_wing=False
+            )
+            free_ground_spawns = cp.total_aircraft_parking(parking_type)
+
             for s in cp.squadrons:
                 for count in range(s.owned_aircraft):
-                    slot = ap.free_parking_slot(s.aircraft.dcs_unit_type)
-                    if slot:
-                        slot.unit_id = id(s) + count
+                    is_heli = s.aircraft.helicopter
+                    is_vtol = not is_heli and s.aircraft.lha_capable
+                    count_ground_spawns = (
+                        s.aircraft.flyable
+                        or cp.coalition.game.settings.ground_start_ai_planes
+                    )
+
+                    if free_helicopter_slots > 0 and (is_heli or is_vtol):
+                        free_helicopter_slots = -1
+                    elif free_ground_spawns > 0 and (
+                        is_heli or is_vtol or count_ground_spawns
+                    ):
+                        free_ground_spawns = -1
                     else:
-                        overflow.append(s)
-                        break
+                        slot = ap.free_parking_slot(s.aircraft.dcs_unit_type)
+                        if slot:
+                            slot.unit_id = id(s) + count
+                        else:
+                            overflow.append(s)
+                            break
             if overflow:
                 overflow_msg = ""
                 for s in overflow:
@@ -178,7 +214,11 @@ class SquadronDestinationComboBox(QComboBox):
                 )
             return len(ap.free_parking_slots(dcs_unit_type))
         else:
-            return cp.unclaimed_parking()
+            parking_type = ParkingType().from_aircraft(
+                next(AircraftType.for_dcs_type(dcs_unit_type)),
+                cp.coalition.game.settings.ground_start_ai_planes,
+            )
+            return cp.unclaimed_parking(parking_type)
 
 
 class SquadronDialog(QDialog):

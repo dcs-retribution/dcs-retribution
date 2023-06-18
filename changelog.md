@@ -3,6 +3,9 @@
 ## Features/Improvements
 * **[Preset Groups]** Add SA-2 with ZSU-23/57
 * **[Campaign Design]** Ability to define almost all possible settings in the campaign's yaml file.
+* **[Campaign Design]** Ability to add roadbases and/or ground spawns to campaigns.
+* **[Campaign Design]** Ability to define SCENERY REMOVE OBJECTS ZONE triggers with the roadbase objects in campaign miz. This might not work reliably in multiplayer due to DCS issues. FARPs can be used to remove scenery objects in multiplayer.
+* **[Campaign Management]** Improved squadron retreat logic at longer ranges.
 * **[Options]** Ability to load & save your settings.
 * **[UI]** Added fuel selector in flight's edit window.
 * **[Plugins]** Expose Splash Damage's "game_messages" option and set its default to false.

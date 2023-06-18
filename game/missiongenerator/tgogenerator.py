@@ -9,13 +9,16 @@ from __future__ import annotations
 
 import logging
 import random
-from typing import Any, Dict, Iterator, List, Optional, TYPE_CHECKING, Type
+from collections import defaultdict
+from typing import Any, Dict, Iterator, List, Optional, TYPE_CHECKING, Type, Tuple
 
 import dcs.vehicles
-from dcs import Mission, Point
+from dcs import Mission, Point, unitgroup
 from dcs.action import DoScript, SceneryDestructionZone
 from dcs.condition import MapObjectIsDead
+from dcs.countries import *
 from dcs.country import Country
+from dcs.point import StaticPoint, PointAction
 from dcs.ships import (
     CVN_71,
     CVN_72,
@@ -37,16 +40,17 @@ from dcs.task import (
 )
 from dcs.translation import String
 from dcs.triggers import Event, TriggerOnce, TriggerStart, TriggerZone
-from dcs.unit import Unit, InvisibleFARP, BaseFARP
+from dcs.unit import Unit, InvisibleFARP, BaseFARP, SingleHeliPad, FARP
 from dcs.unitgroup import MovingGroup, ShipGroup, StaticGroup, VehicleGroup
 from dcs.unittype import ShipType, VehicleType
-from dcs.vehicles import vehicle_map
+from dcs.vehicles import vehicle_map, Unarmed
 
 from game.missiongenerator.groundforcepainter import (
     NavalForcePainter,
     GroundForcePainter,
 )
 from game.missiongenerator.missiondata import CarrierInfo, MissionData
+from game.point_with_heading import PointWithHeading
 from game.radio.RadioFrequencyContainer import RadioFrequencyContainer
 from game.radio.radios import RadioFrequency, RadioRegistry
 from game.radio.tacan import TacanBand, TacanChannel, TacanRegistry, TacanUsage
@@ -72,6 +76,161 @@ if TYPE_CHECKING:
 
 FARP_FRONTLINE_DISTANCE = 10000
 AA_CP_MIN_DISTANCE = 40000
+
+
+def farp_truck_types_for_country(
+    country_id: int,
+) -> Tuple[Type[VehicleType], Type[VehicleType]]:
+    soviet_tankers: List[Type[VehicleType]] = [
+        Unarmed.ATMZ_5,
+        Unarmed.ATZ_10,
+        Unarmed.ATZ_5,
+        Unarmed.ATZ_60_Maz,
+        Unarmed.TZ_22_KrAZ,
+    ]
+    soviet_trucks: List[Type[VehicleType]] = [
+        Unarmed.S_75_ZIL,
+        Unarmed.GAZ_3308,
+        Unarmed.GAZ_66,
+        Unarmed.KAMAZ_Truck,
+        Unarmed.KrAZ6322,
+        Unarmed.Ural_375,
+        Unarmed.Ural_375_PBU,
+        Unarmed.Ural_4320_31,
+        Unarmed.Ural_4320T,
+        Unarmed.ZIL_135,
+    ]
+
+    axis_trucks: List[Type[VehicleType]] = [Unarmed.Blitz_36_6700A]
+
+    us_tankers: List[Type[VehicleType]] = [Unarmed.M978_HEMTT_Tanker]
+    us_trucks: List[Type[VehicleType]] = [Unarmed.M_818]
+    uk_trucks: List[Type[VehicleType]] = [Unarmed.Bedford_MWD]
+
+    if country_id in [
+        Abkhazia.id,
+        Algeria.id,
+        Bahrain.id,
+        Belarus.id,
+        Belgium.id,
+        Bulgaria.id,
+        China.id,
+        Croatia.id,
+        Cuba.id,
+        Cyprus.id,
+        CzechRepublic.id,
+        Egypt.id,
+        Ethiopia.id,
+        Finland.id,
+        GDR.id,
+        Georgia.id,
+        Ghana.id,
+        Greece.id,
+        Hungary.id,
+        India.id,
+        Insurgents.id,
+        Iraq.id,
+        Jordan.id,
+        Kazakhstan.id,
+        Lebanon.id,
+        Libya.id,
+        Morocco.id,
+        Nigeria.id,
+        NorthKorea.id,
+        Poland.id,
+        Romania.id,
+        Russia.id,
+        Serbia.id,
+        Slovakia.id,
+        Slovenia.id,
+        SouthAfrica.id,
+        SouthOssetia.id,
+        Sudan.id,
+        Syria.id,
+        Tunisia.id,
+        USSR.id,
+        Ukraine.id,
+        Venezuela.id,
+        Vietnam.id,
+        Yemen.id,
+        Yugoslavia.id,
+    ]:
+        tanker_type = random.choice(soviet_tankers)
+        ammo_truck_type = random.choice(soviet_trucks)
+    elif country_id in [ItalianSocialRepublic.id, ThirdReich.id]:
+        tanker_type = random.choice(soviet_tankers)
+        ammo_truck_type = random.choice(axis_trucks)
+    elif country_id in [
+        Argentina.id,
+        Australia.id,
+        Austria.id,
+        Bolivia.id,
+        Brazil.id,
+        Canada.id,
+        Chile.id,
+        Denmark.id,
+        Ecuador.id,
+        France.id,
+        Germany.id,
+        Honduras.id,
+        Indonesia.id,
+        Iran.id,
+        Israel.id,
+        Italy.id,
+        Japan.id,
+        Kuwait.id,
+        Malaysia.id,
+        Mexico.id,
+        Norway.id,
+        Oman.id,
+        Pakistan.id,
+        Peru.id,
+        Philippines.id,
+        Portugal.id,
+        Qatar.id,
+        SaudiArabia.id,
+        SouthKorea.id,
+        Spain.id,
+        Sweden.id,
+        Switzerland.id,
+        Thailand.id,
+        TheNetherlands.id,
+        Turkey.id,
+        USA.id,
+        USAFAggressors.id,
+        UnitedArabEmirates.id,
+    ]:
+        tanker_type = random.choice(us_tankers)
+        ammo_truck_type = random.choice(us_trucks)
+    elif country_id in [UK.id]:
+        tanker_type = random.choice(us_tankers)
+        ammo_truck_type = random.choice(uk_trucks)
+    elif country_id in [CombinedJointTaskForcesBlue.id]:
+        tanker_types = us_tankers
+        truck_types = us_trucks + uk_trucks
+
+        tanker_type = random.choice(tanker_types)
+        ammo_truck_type = random.choice(truck_types)
+    elif country_id in [CombinedJointTaskForcesRed.id]:
+        tanker_types = us_tankers
+        truck_types = us_trucks + uk_trucks
+
+        tanker_type = random.choice(tanker_types)
+        ammo_truck_type = random.choice(truck_types)
+    elif country_id in [UnitedNationsPeacekeepers.id]:
+        tanker_types = soviet_tankers + us_tankers
+        truck_types = soviet_trucks + us_trucks + uk_trucks
+
+        tanker_type = random.choice(tanker_types)
+        ammo_truck_type = random.choice(truck_types)
+    else:
+        tanker_types = soviet_tankers + us_tankers
+        truck_types = soviet_trucks + us_trucks + uk_trucks + axis_trucks
+
+        tanker_type = random.choice(tanker_types)
+        ammo_truck_type = random.choice(truck_types)
+
+    return tanker_type, ammo_truck_type
 
 
 class GroundObjectGenerator:
@@ -598,65 +757,320 @@ class HelipadGenerator:
         self.game = game
         self.radio_registry = radio_registry
         self.tacan_registry = tacan_registry
-        self.helipads: Optional[StaticGroup] = None
+        self.helipads: list[StaticGroup] = []
+
+    def create_helipad(
+        self, i: int, helipad: PointWithHeading, helipad_type: str
+    ) -> None:
+        # Note: Helipad are generated as neutral object in order not to interfere with
+        # capture triggers
+        pad: BaseFARP
+        neutral_country = self.m.country(self.game.neutral_country.name)
+        country = self.m.country(
+            self.game.coalition_for(self.cp.captured).faction.country.name
+        )
+
+        name = f"{self.cp.name} {helipad_type} {i}"
+        logging.info("Generating helipad static : " + name)
+        terrain = self.m.terrain
+        if helipad_type == "SINGLE_HELIPAD":
+            pad = SingleHeliPad(
+                unit_id=self.m.next_unit_id(), name=name, terrain=terrain
+            )
+            number_of_pads = 1
+        elif helipad_type == "FARP":
+            pad = FARP(unit_id=self.m.next_unit_id(), name=name, terrain=terrain)
+            number_of_pads = 4
+        else:
+            pad = InvisibleFARP(
+                unit_id=self.m.next_unit_id(), name=name, terrain=terrain
+            )
+            number_of_pads = 1
+        pad.position = Point(helipad.x, helipad.y, terrain=terrain)
+        pad.heading = helipad.heading.degrees
+
+        # Set FREQ
+        if isinstance(self.cp, RadioFrequencyContainer) and self.cp.frequency:
+            if isinstance(pad, BaseFARP):
+                pad.heliport_frequency = self.cp.frequency.mhz
+
+        sg = unitgroup.StaticGroup(self.m.next_group_id(), name)
+        sg.add_unit(pad)
+        sp = StaticPoint(pad.position)
+        sg.add_point(sp)
+        neutral_country.add_static_group(sg)
+
+        if number_of_pads > 1:
+            self.append_helipad(pad, name, helipad.heading.degrees, 60, 0, 0)
+            self.append_helipad(pad, name, helipad.heading.degrees + 180, 20, 0, 0)
+            self.append_helipad(
+                pad, name, helipad.heading.degrees + 90, 60, helipad.heading.degrees, 20
+            )
+            self.append_helipad(
+                pad,
+                name,
+                helipad.heading.degrees + 90,
+                60,
+                helipad.heading.degrees + 180,
+                60,
+            )
+        else:
+            self.helipads.append(sg)
+
+        # Generate a FARP Ammo and Fuel stack for each pad
+        self.m.static_group(
+            country=country,
+            name=(name + "_fuel"),
+            _type=Fortification.FARP_Fuel_Depot,
+            position=pad.position.point_from_heading(helipad.heading.degrees, 35),
+            heading=pad.heading + 180,
+        )
+        self.m.static_group(
+            country=country,
+            name=(name + "_ammo"),
+            _type=Fortification.FARP_Ammo_Dump_Coating,
+            position=pad.position.point_from_heading(
+                helipad.heading.degrees, 35
+            ).point_from_heading(helipad.heading.degrees + 90, 10),
+            heading=pad.heading + 90,
+        )
+        self.m.static_group(
+            country=country,
+            name=(name + "_ws"),
+            _type=Fortification.Windsock,
+            position=helipad.point_from_heading(helipad.heading.degrees + 45, 35),
+            heading=pad.heading,
+        )
+
+    def append_helipad(
+        self,
+        pad: BaseFARP,
+        name: str,
+        heading_1: int,
+        distance_1: int,
+        heading_2: int,
+        distance_2: int,
+    ) -> None:
+        new_pad = InvisibleFARP(pad._terrain)
+        new_pad.position = pad.position.point_from_heading(heading_1, distance_1)
+        new_pad.position = new_pad.position.point_from_heading(heading_2, distance_2)
+        sg = unitgroup.StaticGroup(self.m.next_group_id(), name)
+        sg.add_unit(new_pad)
+        self.helipads.append(sg)
 
     def generate(self) -> None:
-        # This gets called for every control point, so we don't want to add an empty group (causes DCS mission editor to crash)
-        if len(self.cp.helipads) == 0:
-            return
-        # Note: Helipad are generated as neutral object in order not to interfer with
-        # capture triggers
-        country = self.m.country(self.cp.coalition.faction.country.name)
-
         for i, helipad in enumerate(self.cp.helipads):
-            heading = helipad.heading.degrees
-            name_i = self.cp.name + "_helipad" + "_" + str(i)
-            if self.helipads is None:
-                self.helipads = self.m.farp(
-                    self.m.country(self.game.neutral_country.name),
-                    name_i,
-                    helipad,
-                    farp_type="InvisibleFARP",
-                )
-            else:
-                # Create a new Helipad Unit
-                self.helipads.add_unit(
-                    InvisibleFARP(self.m.terrain, self.m.next_unit_id(), name_i)
-                )
+            self.create_helipad(i, helipad, "SINGLE_HELIPAD")
+        for i, helipad in enumerate(self.cp.helipads_quad):
+            self.create_helipad(i, helipad, "FARP")
+        for i, helipad in enumerate(self.cp.helipads_invisible):
+            self.create_helipad(i, helipad, "Invisible FARP")
 
-            # Set FREQ
-            if isinstance(self.cp, RadioFrequencyContainer) and self.cp.frequency:
-                for hp in self.helipads.units:
-                    if isinstance(hp, BaseFARP):
-                        hp.heliport_frequency = self.cp.frequency.mhz
 
-            pad = self.helipads.units[-1]
-            pad.position = helipad
-            pad.heading = heading
-            # Generate a FARP Ammo and Fuel stack for each pad
-            self.m.static_group(
+class GroundSpawnRoadbaseGenerator:
+    """
+    Generates Highway strip starting positions for given control point
+    """
+
+    def __init__(
+        self,
+        mission: Mission,
+        cp: ControlPoint,
+        game: Game,
+        radio_registry: RadioRegistry,
+        tacan_registry: TacanRegistry,
+    ):
+        self.m = mission
+        self.cp = cp
+        self.game = game
+        self.radio_registry = radio_registry
+        self.tacan_registry = tacan_registry
+        self.ground_spawns_roadbase: list[Tuple[StaticGroup, Point]] = []
+
+    def create_ground_spawn_roadbase(
+        self, i: int, ground_spawn: Tuple[PointWithHeading, Point]
+    ) -> None:
+        # Note: FARPs are generated as neutral object in order not to interfere with
+        # capture triggers
+        neutral_country = self.m.country(self.game.neutral_country.name)
+        country = self.m.country(
+            self.game.coalition_for(self.cp.captured).faction.country.name
+        )
+        terrain = self.cp.coalition.game.theater.terrain
+
+        name = f"{self.cp.name} roadbase spawn {i}"
+        logging.info("Generating Roadbase Spawn static : " + name)
+
+        pad = InvisibleFARP(unit_id=self.m.next_unit_id(), name=name, terrain=terrain)
+
+        pad.position = Point(ground_spawn[0].x, ground_spawn[0].y, terrain=terrain)
+        pad.heading = ground_spawn[0].heading.degrees
+        sg = unitgroup.StaticGroup(self.m.next_group_id(), name)
+        sg.add_unit(pad)
+        sp = StaticPoint(pad.position)
+        sg.add_point(sp)
+        neutral_country.add_static_group(sg)
+
+        self.ground_spawns_roadbase.append((sg, ground_spawn[1]))
+
+        # tanker_type: Type[VehicleType]
+        # ammo_truck_type: Type[VehicleType]
+
+        tanker_type, ammo_truck_type = farp_truck_types_for_country(country.id)
+
+        # Generate ammo truck/farp and fuel truck/stack for each pad
+        if self.game.settings.ground_start_trucks_roadbase:
+            self.m.vehicle_group(
                 country=country,
-                name=(name_i + "_fuel"),
-                _type=Fortification.FARP_Fuel_Depot,
-                position=helipad.point_from_heading(heading, 35),
-                heading=heading,
-            )
-            self.m.static_group(
-                country=country,
-                name=(name_i + "_ammo"),
-                _type=Fortification.FARP_Ammo_Dump_Coating,
-                position=helipad.point_from_heading(heading, 35).point_from_heading(
-                    heading + 90, 10
+                name=(name + "_fuel"),
+                _type=tanker_type,
+                position=pad.position.point_from_heading(
+                    ground_spawn[0].heading.degrees + 90, 35
                 ),
-                heading=heading,
+                group_size=1,
+                heading=pad.heading + 315,
+                move_formation=PointAction.OffRoad,
+            )
+            self.m.vehicle_group(
+                country=country,
+                name=(name + "_ammo"),
+                _type=ammo_truck_type,
+                position=pad.position.point_from_heading(
+                    ground_spawn[0].heading.degrees + 90, 35
+                ).point_from_heading(ground_spawn[0].heading.degrees + 180, 10),
+                group_size=1,
+                heading=pad.heading + 315,
+                move_formation=PointAction.OffRoad,
+            )
+        else:
+            self.m.static_group(
+                country=country,
+                name=(name + "_fuel"),
+                _type=Fortification.FARP_Fuel_Depot,
+                position=pad.position.point_from_heading(
+                    ground_spawn[0].heading.degrees + 90, 35
+                ),
+                heading=pad.heading + 270,
             )
             self.m.static_group(
                 country=country,
-                name=(name_i + "_ws"),
-                _type=Fortification.Windsock,
-                position=helipad.point_from_heading(heading + 45, 35),
-                heading=heading,
+                name=(name + "_ammo"),
+                _type=Fortification.FARP_Ammo_Dump_Coating,
+                position=pad.position.point_from_heading(
+                    ground_spawn[0].heading.degrees + 90, 35
+                ).point_from_heading(ground_spawn[0].heading.degrees + 180, 10),
+                heading=pad.heading + 180,
             )
+
+    def generate(self) -> None:
+        try:
+            for i, ground_spawn in enumerate(self.cp.ground_spawns_roadbase):
+                self.create_ground_spawn_roadbase(i, ground_spawn)
+        except AttributeError:
+            self.ground_spawns_roadbase = []
+
+
+class GroundSpawnGenerator:
+    """
+    Generates STOL aircraft starting positions for given control point
+    """
+
+    def __init__(
+        self,
+        mission: Mission,
+        cp: ControlPoint,
+        game: Game,
+        radio_registry: RadioRegistry,
+        tacan_registry: TacanRegistry,
+    ):
+        self.m = mission
+        self.cp = cp
+        self.game = game
+        self.radio_registry = radio_registry
+        self.tacan_registry = tacan_registry
+        self.ground_spawns: list[Tuple[StaticGroup, Point]] = []
+
+    def create_ground_spawn(
+        self, i: int, vtol_pad: Tuple[PointWithHeading, Point]
+    ) -> None:
+        # Note: FARPs are generated as neutral object in order not to interfere with
+        # capture triggers
+        neutral_country = self.m.country(self.game.neutral_country.name)
+        country = self.m.country(
+            self.game.coalition_for(self.cp.captured).faction.country.name
+        )
+        terrain = self.cp.coalition.game.theater.terrain
+
+        name = f"{self.cp.name} ground spawn {i}"
+        logging.info("Generating Ground Spawn static : " + name)
+
+        pad = InvisibleFARP(unit_id=self.m.next_unit_id(), name=name, terrain=terrain)
+
+        pad.position = Point(vtol_pad[0].x, vtol_pad[0].y, terrain=terrain)
+        pad.heading = vtol_pad[0].heading.degrees
+        sg = unitgroup.StaticGroup(self.m.next_group_id(), name)
+        sg.add_unit(pad)
+        sp = StaticPoint(pad.position)
+        sg.add_point(sp)
+        neutral_country.add_static_group(sg)
+
+        self.ground_spawns.append((sg, vtol_pad[1]))
+
+        # tanker_type: Type[VehicleType]
+        # ammo_truck_type: Type[VehicleType]
+
+        tanker_type, ammo_truck_type = farp_truck_types_for_country(country.id)
+
+        # Generate a FARP Ammo and Fuel stack for each pad
+        if self.game.settings.ground_start_trucks:
+            self.m.vehicle_group(
+                country=country,
+                name=(name + "_fuel"),
+                _type=tanker_type,
+                position=pad.position.point_from_heading(
+                    vtol_pad[0].heading.degrees - 175, 35
+                ),
+                group_size=1,
+                heading=pad.heading + 45,
+                move_formation=PointAction.OffRoad,
+            )
+            self.m.vehicle_group(
+                country=country,
+                name=(name + "_ammo"),
+                _type=ammo_truck_type,
+                position=pad.position.point_from_heading(
+                    vtol_pad[0].heading.degrees - 185, 35
+                ),
+                group_size=1,
+                heading=pad.heading + 45,
+                move_formation=PointAction.OffRoad,
+            )
+        else:
+            self.m.static_group(
+                country=country,
+                name=(name + "_fuel"),
+                _type=Fortification.FARP_Fuel_Depot,
+                position=pad.position.point_from_heading(
+                    vtol_pad[0].heading.degrees - 180, 45
+                ),
+                heading=pad.heading,
+            )
+            self.m.static_group(
+                country=country,
+                name=(name + "_ammo"),
+                _type=Fortification.FARP_Ammo_Dump_Coating,
+                position=pad.position.point_from_heading(
+                    vtol_pad[0].heading.degrees - 180, 35
+                ),
+                heading=pad.heading + 270,
+            )
+
+    def generate(self) -> None:
+        try:
+            for i, vtol_pad in enumerate(self.cp.ground_spawns):
+                self.create_ground_spawn(i, vtol_pad)
+        except AttributeError:
+            self.ground_spawns = []
 
 
 class TgoGenerator:
@@ -684,7 +1098,13 @@ class TgoGenerator:
         self.unit_map = unit_map
         self.icls_alloc = iter(range(1, 21))
         self.runways: Dict[str, RunwayData] = {}
-        self.helipads: dict[ControlPoint, StaticGroup] = {}
+        self.helipads: dict[ControlPoint, list[StaticGroup]] = defaultdict(list)
+        self.ground_spawns_roadbase: dict[
+            ControlPoint, list[Tuple[StaticGroup, Point]]
+        ] = defaultdict(list)
+        self.ground_spawns: dict[
+            ControlPoint, list[Tuple[StaticGroup, Point]]
+        ] = defaultdict(list)
         self.mission_data = mission_data
 
     def generate(self) -> None:
@@ -696,8 +1116,25 @@ class TgoGenerator:
                 self.m, cp, self.game, self.radio_registry, self.tacan_registry
             )
             helipad_gen.generate()
-            if helipad_gen.helipads is not None:
-                self.helipads[cp] = helipad_gen.helipads
+            self.helipads[cp] = helipad_gen.helipads
+
+            # Generate Highway Strip slots
+            ground_spawn_roadbase_gen = GroundSpawnRoadbaseGenerator(
+                self.m, cp, self.game, self.radio_registry, self.tacan_registry
+            )
+            ground_spawn_roadbase_gen.generate()
+            self.ground_spawns_roadbase[
+                cp
+            ] = ground_spawn_roadbase_gen.ground_spawns_roadbase
+            random.shuffle(self.ground_spawns_roadbase[cp])
+
+            # Generate STOL pads
+            ground_spawn_gen = GroundSpawnGenerator(
+                self.m, cp, self.game, self.radio_registry, self.tacan_registry
+            )
+            ground_spawn_gen.generate()
+            self.ground_spawns[cp] = ground_spawn_gen.ground_spawns
+            random.shuffle(self.ground_spawns[cp])
 
             for ground_object in cp.ground_objects:
                 generator: GroundObjectGenerator

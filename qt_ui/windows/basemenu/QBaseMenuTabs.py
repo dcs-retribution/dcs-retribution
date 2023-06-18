@@ -23,7 +23,10 @@ class QBaseMenuTabs(QTabWidget):
         if isinstance(cp, Fob):
             self.ground_forces_hq = QGroundForcesHQ(cp, game_model)
             self.addTab(self.ground_forces_hq, "Ground Forces HQ")
-            if cp.helipads:
+            if cp.has_ground_spawns:
+                self.airfield_command = QAirfieldCommand(cp, game_model)
+                self.addTab(self.airfield_command, "Airfield Command")
+            elif cp.has_helipads:
                 self.airfield_command = QAirfieldCommand(cp, game_model)
                 self.addTab(self.airfield_command, "Heliport")
         else:

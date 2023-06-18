@@ -9,13 +9,14 @@ from uuid import UUID
 from dcs import Mission
 from dcs.countries import CombinedJointTaskForcesBlue, CombinedJointTaskForcesRed
 from dcs.country import Country
-from dcs.planes import F_15C
+from dcs.planes import F_15C, A_10A, AJS37
 from dcs.ships import HandyWind, LHA_Tarawa, Stennis, USS_Arleigh_Burke_IIa
 from dcs.statics import Fortification, Warehouse
 from dcs.terrain import Airport
 from dcs.unitgroup import PlaneGroup, ShipGroup, StaticGroup, VehicleGroup
 from dcs.vehicles import AirDefence, Armor, MissilesSS, Unarmed
 
+from game.point_with_heading import PointWithHeading
 from game.positioned import Positioned
 from game.profiling import logged_duration
 from game.scenery_group import SceneryGroup
@@ -28,6 +29,7 @@ from game.theater.controlpoint import (
     OffMapSpawn,
 )
 from game.theater.presetlocation import PresetLocation
+from game.utils import Distance, meters, feet, Heading
 from game.utils import Distance, meters, feet
 
 if TYPE_CHECKING:
@@ -40,6 +42,8 @@ class MizCampaignLoader:
     RED_COUNTRY = CombinedJointTaskForcesRed()
 
     OFF_MAP_UNIT_TYPE = F_15C.id
+    GROUND_SPAWN_UNIT_TYPE = A_10A.id
+    GROUND_SPAWN_ROADBASE_UNIT_TYPE = AJS37.id
 
     CV_UNIT_TYPE = Stennis.id
     LHA_UNIT_TYPE = LHA_Tarawa.id
@@ -48,7 +52,7 @@ class MizCampaignLoader:
     CP_CONVOY_SPAWN_TYPE = Armor.M1043_HMMWV_Armament.id
 
     FOB_UNIT_TYPE = Unarmed.SKP_11.id
-    FARP_HELIPADS_TYPE = ["Invisible FARP", "SINGLE_HELIPAD"]
+    FARP_HELIPADS_TYPE = ["Invisible FARP", "SINGLE_HELIPAD", "FARP"]
 
     OFFSHORE_STRIKE_TARGET_UNIT_TYPE = Fortification.Oil_platform.id
     SHIP_UNIT_TYPE = USS_Arleigh_Burke_IIa.id
@@ -95,6 +99,8 @@ class MizCampaignLoader:
     AMMUNITION_DEPOT_UNIT_TYPE = Warehouse._Ammunition_depot.id
 
     STRIKE_TARGET_UNIT_TYPE = Fortification.Tech_combine.id
+
+    GROUND_SPAWN_WAYPOINT_DISTANCE = 1000
 
     def __init__(self, miz: Path, theater: ConflictTheater) -> None:
         self.theater = theater
@@ -222,6 +228,18 @@ class MizCampaignLoader:
     def helipads(self) -> Iterator[StaticGroup]:
         for group in itertools.chain(self.blue.static_group, self.red.static_group):
             if group.units[0].type in self.FARP_HELIPADS_TYPE:
+                yield group
+
+    @property
+    def ground_spawns_roadbase(self) -> Iterator[PlaneGroup]:
+        for group in itertools.chain(self.blue.plane_group, self.red.plane_group):
+            if group.units[0].type == self.GROUND_SPAWN_ROADBASE_UNIT_TYPE:
+                yield group
+
+    @property
+    def ground_spawns(self) -> Iterator[PlaneGroup]:
+        for group in itertools.chain(self.blue.plane_group, self.red.plane_group):
+            if group.units[0].type == self.GROUND_SPAWN_UNIT_TYPE:
                 yield group
 
     @property
@@ -362,6 +380,37 @@ class MizCampaignLoader:
                 closest = spawn
         return closest
 
+    @staticmethod
+    def _add_helipad(helipads: list[PointWithHeading], static: StaticGroup) -> None:
+        helipads.append(
+            PointWithHeading.from_point(
+                static.position, Heading.from_degrees(static.units[0].heading)
+            )
+        )
+
+    def _add_ground_spawn(
+        self,
+        ground_spawns: list[tuple[PointWithHeading, Point]],
+        plane_group: PlaneGroup,
+    ) -> None:
+        if len(plane_group.points) >= 2:
+            first_waypoint = plane_group.points[1].position
+        else:
+            first_waypoint = plane_group.position.point_from_heading(
+                plane_group.units[0].heading,
+                self.GROUND_SPAWN_WAYPOINT_DISTANCE,
+            )
+
+        ground_spawns.append(
+            (
+                PointWithHeading.from_point(
+                    plane_group.position,
+                    Heading.from_degrees(plane_group.units[0].heading),
+                ),
+                first_waypoint,
+            )
+        )
+
     def add_supply_routes(self) -> None:
         for group in self.front_line_path_groups:
             # The unit will have its first waypoint at the source CP and the final
@@ -475,7 +524,20 @@ class MizCampaignLoader:
 
         for static in self.helipads:
             closest, distance = self.objective_info(static)
-            closest.helipads.append(PresetLocation.from_group(static))
+            if static.units[0].type == "SINGLE_HELIPAD":
+                self._add_helipad(closest.helipads, static)
+            elif static.units[0].type == "FARP":
+                self._add_helipad(closest.helipads_quad, static)
+            else:
+                self._add_helipad(closest.helipads_invisible, static)
+
+        for plane_group in self.ground_spawns_roadbase:
+            closest, distance = self.objective_info(plane_group)
+            self._add_ground_spawn(closest.ground_spawns_roadbase, plane_group)
+
+        for plane_group in self.ground_spawns:
+            closest, distance = self.objective_info(plane_group)
+            self._add_ground_spawn(closest.ground_spawns, plane_group)
 
         for static in self.factories:
             closest, distance = self.objective_info(static)
