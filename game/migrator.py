@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any
 from dcs.countries import countries_by_name
 from game.ato.packagewaypoints import PackageWaypoints
 from game.data.doctrine import MODERN_DOCTRINE, COLDWAR_DOCTRINE, WWII_DOCTRINE
-from game.theater import ParkingType, SeasonalConditions, Airfield, Fob
+from game.theater import ParkingType, SeasonalConditions
 
 if TYPE_CHECKING:
     from game import Game
@@ -77,11 +77,10 @@ class Migrator:
                 try_set_attr(cp, "icls_name")
                 try_set_attr(cp, "link4")
             try_set_attr(cp, "convoy_spawns", {})
-            if isinstance(cp, Airfield) or isinstance(cp, Fob):
-                try_set_attr(cp, "ground_spawns", [])
-                try_set_attr(cp, "ground_spawns_roadbase", [])
-                try_set_attr(cp, "helipads_quad", [])
-                try_set_attr(cp, "helipads_invisible", [])
+            try_set_attr(cp, "ground_spawns", [])
+            try_set_attr(cp, "ground_spawns_roadbase", [])
+            try_set_attr(cp, "helipads_quad", [])
+            try_set_attr(cp, "helipads_invisible", [])
 
     def _update_flights(self) -> None:
         for f in self.game.db.flights.objects.values():
