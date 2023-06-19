@@ -15,7 +15,7 @@
 ## About DCS Retribution 
 (Last update: 2023-05-20)
 
-DCS Retribution was forked from [DCS Liberation](https://github.com/dcs-retribution/dcs-retribution),
+DCS Retribution was forked from [DCS Liberation](https://github.com/dcs-liberation/dcs_liberation),
 which is a [DCS World](https://www.digitalcombatsimulator.com/en/products/world/) turn based single-player or co-op dynamic campaign. 
 It is an external program that generates full and complex DCS missions and manage a persistent combat environment.
 
@@ -76,7 +76,7 @@ for that release. Items in the To do column are planned to be added to that rele
 Tutorials, contributors and developer's guides are available in the project's
 [Wiki](https://github.com/dcs-retribution/dcs-retribution/wiki/)
 
-(These need to be written again, meanwhile you can refer to
+(Some historical information is also availabe on
 [Liberation's Wiki](https://github.com/dcs-liberation/dcs_liberation/wiki/))
 
 ## Special Thanks

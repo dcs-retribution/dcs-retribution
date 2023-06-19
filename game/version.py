@@ -125,7 +125,7 @@ VERSION = _build_version_string()
 #:
 #: Version 9.0
 #: * Campaign files now define the initial squadron layouts. See
-#:   https://github.com/dcs-liberation/dcs_liberation/wiki/Custom-Campaigns.
+#:   https://github.com/dcs-retribution/dcs-retribution/wiki/Custom-Campaigns.
 #: * CV and LHA control points now get their names from the group name in the campaign
 #:   miz.
 #:
