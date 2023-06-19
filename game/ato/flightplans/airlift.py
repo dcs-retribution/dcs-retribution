@@ -5,9 +5,9 @@ from dataclasses import dataclass
 from datetime import timedelta
 from typing import TYPE_CHECKING, Type
 
-from ._common_ctld import generate_random_ctld_point
 from game.theater.missiontarget import MissionTarget
 from game.utils import feet
+from ._common_ctld import generate_random_ctld_point
 from .ibuilder import IBuilder
 from .planningerror import PlanningError
 from .standard import StandardFlightPlan, StandardLayout
@@ -19,7 +19,7 @@ if TYPE_CHECKING:
     from dcs import Point
 
 
-@dataclass(frozen=True)
+@dataclass
 class AirliftLayout(StandardLayout):
     nav_to_pickup: list[FlightWaypoint]
     # There will not be a pickup waypoint when the pickup airfield is the departure
@@ -37,6 +37,20 @@ class AirliftLayout(StandardLayout):
     # drop_off_zone will be used for player flights to create the CTLD stuff
     ctld_drop_off_zone: FlightWaypoint | None
     nav_to_home: list[FlightWaypoint]
+
+    def delete_waypoint(self, waypoint: FlightWaypoint) -> bool:
+        if super().delete_waypoint(waypoint):
+            return True
+        if waypoint in self.nav_to_pickup:
+            self.nav_to_pickup.remove(waypoint)
+            return True
+        elif waypoint in self.nav_to_drop_off:
+            self.nav_to_drop_off.remove(waypoint)
+            return True
+        elif waypoint in self.nav_to_home:
+            self.nav_to_home.remove(waypoint)
+            return True
+        return False
 
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
         yield self.departure

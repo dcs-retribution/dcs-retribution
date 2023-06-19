@@ -1,4 +1,5 @@
 import copy
+from typing import Union
 
 from dcs import Point
 from dcs.planes import B_17G, B_52H, Tu_22M3, B_1B
@@ -34,13 +35,22 @@ class StrikeIngressBuilder(PydcsWaypointBuilder):
         for t in targets:
             avg_spacing += center.distance_to_point(t.position)
         avg_spacing /= len(targets)
-        bombing = CarpetBombing(
-            center,
-            weapon_type=WeaponType.Bombs,
-            expend=Expend.All,
-            carpet_length=avg_spacing,
-            altitude=waypoint.alt,
-        )
+        bombing: Union[CarpetBombing, Bombing]
+        if self.group.task == "Ground Attack":
+            bombing = CarpetBombing(
+                center,
+                weapon_type=WeaponType.Bombs,
+                expend=Expend.All,
+                carpet_length=avg_spacing,
+                altitude=waypoint.alt,
+            )
+        else:
+            bombing = Bombing(
+                center,
+                weapon_type=WeaponType.Bombs,
+                expend=Expend.All,
+                altitude=waypoint.alt,
+            )
         waypoint.tasks.append(bombing)
 
     def add_strike_tasks(

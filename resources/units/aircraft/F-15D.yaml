@@ -15,3 +15,15 @@ role: Air-Superiority Fighter
 max_range: 450
 variants:
   F-15D Baz: {}
+tasks:
+  BAI: 260
+  BARCAP: 440
+  CAS: 280
+  DEAD: 160
+  Escort: 250
+  Fighter sweep: 270
+  Intercept: 240
+  OCA/Aircraft: 360
+  OCA/Runway: 330
+  Strike: 540
+  TARCAP: 340

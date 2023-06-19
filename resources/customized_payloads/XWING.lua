@@ -10,8 +10,8 @@ local unitPayloads = {
 					["num"] = 1,
 				},
 				[2] = {
-					["CLSID"] = "{XFUELTANK}",
-					["num"] = 2,
+					["CLSID"] = "{PROTONM}",
+					["num"] = 6,
 				},
 				[3] = {
 					["CLSID"] = "{PROTONM}",
@@ -24,14 +24,6 @@ local unitPayloads = {
 				[5] = {
 					["CLSID"] = "{PROTONM}",
 					["num"] = 5,
-				},
-				[6] = {
-					["CLSID"] = "{XFUELTANK}",
-					["num"] = 10,
-				},
-				[7] = {
-					["CLSID"] = "{PROTONM}",
-					["num"] = 6,
 				},
 			},
 			["tasks"] = {
@@ -51,8 +43,8 @@ local unitPayloads = {
 					["num"] = 1,
 				},
 				[2] = {
-					["CLSID"] = "{XFUELTANK}",
-					["num"] = 2,
+					["CLSID"] = "{PROTONM}",
+					["num"] = 6,
 				},
 				[3] = {
 					["CLSID"] = "{PROTONM}",
@@ -65,14 +57,6 @@ local unitPayloads = {
 				[5] = {
 					["CLSID"] = "{PROTONM}",
 					["num"] = 5,
-				},
-				[6] = {
-					["CLSID"] = "{XFUELTANK}",
-					["num"] = 10,
-				},
-				[7] = {
-					["CLSID"] = "{PROTONM}",
-					["num"] = 6,
 				},
 			},
 			["tasks"] = {

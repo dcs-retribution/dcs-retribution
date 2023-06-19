@@ -10,3 +10,14 @@ carrier_capable: true
 gunfighter: false
 variants:
   A-6A Intruder: {}
+tasks:
+  Anti-ship: 150
+  BAI: 350
+  CAS: 450
+  DEAD: 450
+  Escort: 90
+  OCA/Aircraft: 400
+  OCA/Runway: 400
+  SEAD: 450
+  SEAD Escort: 450
+  Strike: 610

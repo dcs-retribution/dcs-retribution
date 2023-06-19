@@ -1,0 +1,38 @@
+{
+    "nameInUI": "DCS Dismounts",
+    "defaultValue": false,
+    "specificOptions": [
+        {
+            "nameInUI": "Use WWII Assets",
+            "mnemonic": "WWIIAssets",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "Use FrenchPack",
+            "mnemonic": "FrenchPack",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "Use Georgian soldiers",
+            "mnemonic": "GorgeousGeorgians",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "Disable manpads",
+            "mnemonic": "NoManpads",
+            "defaultValue": false
+        }
+    ],
+    "scriptsWorkOrders": [
+        {
+            "file": "dcs_dismounts.lua",
+            "mnemonic": "dismounts"
+        }
+    ],
+    "configurationWorkOrders": [
+        {
+            "file": "dismounts-config.lua",
+            "mnemonic": "dismounts-config"
+        }
+    ]
+}

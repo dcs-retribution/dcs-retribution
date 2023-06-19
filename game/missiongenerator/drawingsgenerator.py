@@ -9,11 +9,12 @@ from game.missiongenerator.frontlineconflictdescription import (
 )
 
 # Misc config settings for objects drawn in ME mission file (and F10 map)
+from game.theater import TRIGGER_RADIUS_CAPTURE
+
 FRONTLINE_COLORS = Rgba(255, 0, 0, 255)
 WHITE = Rgba(255, 255, 255, 255)
 CP_RED = Rgba(255, 0, 0, 80)
 CP_BLUE = Rgba(0, 0, 255, 80)
-CP_CIRCLE_RADIUS = 2500
 BLUE_PATH_COLOR = Rgba(0, 0, 255, 100)
 RED_PATH_COLOR = Rgba(255, 0, 0, 100)
 ACTIVE_PATH_COLOR = Rgba(255, 80, 80, 100)
@@ -40,7 +41,7 @@ class DrawingsGenerator:
                 color = CP_RED
             shape = self.player_layer.add_circle(
                 cp.position,
-                CP_CIRCLE_RADIUS,
+                TRIGGER_RADIUS_CAPTURE,
                 line_thickness=2,
                 color=WHITE,
                 fill=color,

@@ -5,3 +5,7 @@ can_carry_crates: false
 variants:
   SA342Minigun: null
 kneeboard_units: "metric"
+tasks:
+  BAI: 230
+  CAS: 230
+  OCA/Aircraft: 230

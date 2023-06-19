@@ -14,7 +14,6 @@ from .minutesoption import minutes_option
 from .optiondescription import OptionDescription, SETTING_DESCRIPTION_KEY
 from .skilloption import skill_option
 from ..ato.starttype import StartType
-from ..weather import NightMissions
 
 Views = ForcedOptions.Views
 
@@ -25,6 +24,13 @@ class AutoAtoBehavior(Enum):
     Never = "Never assign player pilots"
     Default = "No preference"
     Prefer = "Prefer player pilots"
+
+
+@unique
+class NightMissions(Enum):
+    DayAndNight = "nightmissions_nightandday"
+    OnlyDay = "nightmissions_onlyday"
+    OnlyNight = "nightmissions_onlynight"
 
 
 DIFFICULTY_PAGE = "Difficulty"
@@ -176,6 +182,18 @@ class Settings:
             "extremely incomplete so does not affect all weapons."
         ),
     )
+    prefer_squadrons_with_matching_primary_task: bool = boolean_option(
+        "Prefer squadrons with matching primary task when planning missions",
+        page=CAMPAIGN_MANAGEMENT_PAGE,
+        section=GENERAL_SECTION,
+        default=False,
+        detail=(
+            "If checked, squadrons with a primary task matching the mission will be "
+            "preferred even if there is a closer squadron capable of the mission as a"
+            "secondary task. Expect longer flights, but squadrons will be more often "
+            "assigned to their primary task."
+        ),
+    )
     # Pilots and Squadrons
     ai_pilot_levelling: bool = boolean_option(
         "Allow AI pilot leveling",
@@ -231,6 +249,16 @@ class Settings:
             "at the end of each turn. Squadrons will not recruit new pilots beyond the "
             "pilot limit, but each squadron with room for more pilots will recruit "
             "this many pilots each turn up to the limit."
+        ),
+    )
+    # Feature flag for squadron limits.
+    enable_squadron_aircraft_limits: bool = boolean_option(
+        "Enable per-squadron aircraft limits",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        PILOTS_AND_SQUADRONS_SECTION,
+        default=False,
+        detail=(
+            "If set, squadrons will not be able to buy more aircraft than the configured maximum."
         ),
     )
 
@@ -537,6 +565,30 @@ class Settings:
             'Use this to allow spectators when disabling "Allow external views".'
         ),
     )
+    ground_start_ai_planes: bool = boolean_option(
+        "AI fixed-wing aircraft can use roadbases / bases with only ground spawns",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=False,
+        detail=(
+            "If enabled, AI can use roadbases or airbases which only have ground spawns."
+            "AI will always air-start from these bases (due to DCS limitation)."
+        ),
+    )
+    ground_start_trucks: bool = boolean_option(
+        "Spawn trucks at ground spawns in airbases instead of FARP statics",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=False,
+        detail=("Might have a negative performance impact."),
+    )
+    ground_start_trucks_roadbase: bool = boolean_option(
+        "Spawn trucks at ground spawns in roadbases instead of FARP statics",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=False,
+        detail=("Might have a negative performance impact."),
+    )
 
     # Performance
     perf_smoke_gen: bool = boolean_option(
@@ -563,6 +615,16 @@ class Settings:
         "Artillery strikes",
         page=MISSION_GENERATOR_PAGE,
         section=PERFORMANCE_SECTION,
+        default=True,
+    )
+    generate_fire_tasks_for_missile_sites: bool = boolean_option(
+        "Generate fire tasks for missile sites",
+        page=MISSION_GENERATOR_PAGE,
+        section=PERFORMANCE_SECTION,
+        detail=(
+            "If enabled, missile sites like V2s and Scuds will fire on random targets "
+            "at the start of the mission."
+        ),
         default=True,
     )
     perf_moving_units: bool = boolean_option(
@@ -692,6 +754,9 @@ class Settings:
         new_state = Settings().__dict__
         new_state.update(state)
         self.__dict__.update(new_state)
+        from game.plugins import LuaPluginManager
+
+        LuaPluginManager().load_settings(self)
 
     @classmethod
     def _field_description(cls, settings_field: Field[Any]) -> OptionDescription:

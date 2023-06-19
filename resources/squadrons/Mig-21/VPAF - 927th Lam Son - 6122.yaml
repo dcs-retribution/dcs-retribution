@@ -1,6 +1,7 @@
 ---
-name: VVPAF - 927th Lam Son - 6122
-nickname: 927-6122th
+name: VPAF - 927th Fighter Regiment Strike
+nickname: 927th Strike
+female_pilot_percentage: 0
 country: Vietnam
 role: Air Superiority Fighter
 aircraft: MiG-21bis Fishbed-N
@@ -8,7 +9,8 @@ livery: "VPAF - 927th Lam Son - 6122"
 mission_types:
   - BARCAP
   - TARCAP
+  - CAS
+  - Strike
   - Escort
   - Intercept
   - Fighter sweep
-  - TARCAP

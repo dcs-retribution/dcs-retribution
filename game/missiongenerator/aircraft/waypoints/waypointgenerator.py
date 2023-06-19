@@ -21,14 +21,15 @@ from game.missiongenerator.missiondata import MissionData
 from game.settings import Settings
 from game.utils import pairwise
 from .airassaultingress import AirAssaultIngressBuilder
+from .antishipingress import AntiShipIngressBuilder
 from .baiingress import BaiIngressBuilder
-from .landingzone import LandingZoneBuilder
 from .casingress import CasIngressBuilder
 from .deadingress import DeadIngressBuilder
 from .default import DefaultWaypointBuilder
 from .holdpoint import HoldPointBuilder
 from .joinpoint import JoinPointBuilder
 from .landingpoint import LandingPointBuilder
+from .landingzone import LandingZoneBuilder
 from .ocaaircraftingress import OcaAircraftIngressBuilder
 from .ocarunwayingress import OcaRunwayIngressBuilder
 from .pydcswaypointbuilder import PydcsWaypointBuilder, TARGET_WAYPOINTS
@@ -138,6 +139,7 @@ class WaypointGenerator:
             FlightWaypointType.REFUEL: RefuelPointBuilder,
             FlightWaypointType.CARGO_STOP: CargoStopBuilder,
             FlightWaypointType.INGRESS_AIR_ASSAULT: AirAssaultIngressBuilder,
+            FlightWaypointType.INGRESS_ANTI_SHIP: AntiShipIngressBuilder,
         }
         builder = builders.get(waypoint.waypoint_type, DefaultWaypointBuilder)
         return builder(

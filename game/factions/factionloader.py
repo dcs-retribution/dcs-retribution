@@ -31,7 +31,7 @@ class FactionLoader:
 
     @classmethod
     def load_factions(cls: Type[FactionLoader]) -> Dict[str, Faction]:
-        user_faction_path = Path(persistency.base_path()) / "Retribution/Factions"
+        user_faction_path = persistency.base_path() / "Retribution/Factions"
         files = cls.find_faction_files_in(
             FACTION_DIRECTORY
         ) + cls.find_faction_files_in(user_faction_path)
@@ -41,7 +41,7 @@ class FactionLoader:
             try:
                 with f.open("r", encoding="utf-8") as fdata:
                     data = json.load(fdata)
-                    factions[data["name"]] = Faction.from_json(data)
+                    factions[data["name"]] = Faction.from_dict(data)
                     logging.info("Loaded faction : " + str(f))
             except Exception:
                 logging.exception(f"Unable to load faction : {f}")

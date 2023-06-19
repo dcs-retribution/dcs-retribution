@@ -15,7 +15,7 @@ if TYPE_CHECKING:
     from ..flightwaypoint import FlightWaypoint
 
 
-@dataclass(frozen=True)
+@dataclass
 class RtbLayout(StandardLayout):
     abort_location: FlightWaypoint
     nav_to_destination: list[FlightWaypoint]

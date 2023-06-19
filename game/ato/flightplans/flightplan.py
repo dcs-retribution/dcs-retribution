@@ -41,7 +41,7 @@ INGRESS_TYPES = {
 }
 
 
-@dataclass(frozen=True)
+@dataclass
 class Layout(ABC):
     departure: FlightWaypoint
 
@@ -49,6 +49,9 @@ class Layout(ABC):
     def waypoints(self) -> list[FlightWaypoint]:
         """A list of all waypoints in the flight plan, in order."""
         return list(self.iter_waypoints())
+
+    def delete_waypoint(self, waypoint: FlightWaypoint) -> bool:
+        return False
 
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
         """Iterates over all waypoints in the flight plan, in order."""
@@ -62,6 +65,12 @@ class FlightPlan(ABC, Generic[LayoutT]):
     def __init__(self, flight: Flight, layout: LayoutT) -> None:
         self.flight = flight
         self.layout = layout
+        self.tot_offset = self.default_tot_offset()
+
+    def __setstate__(self, state: dict[str, Any]) -> None:
+        if "tot_offset" not in state:
+            state["tot_offset"] = self.default_tot_offset()
+        self.__dict__.update(state)
 
     @property
     def package(self) -> Package:
@@ -204,8 +213,7 @@ class FlightPlan(ABC, Generic[LayoutT]):
             [meters(cp.position.distance_to_point(w.position)) for w in self.waypoints]
         )
 
-    @property
-    def tot_offset(self) -> timedelta:
+    def default_tot_offset(self) -> timedelta:
         """This flight's offset from the package's TOT.
 
         Positive values represent later TOTs. An offset of -2 minutes is used

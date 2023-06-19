@@ -41,6 +41,7 @@ def main() -> None:
         "normandy",
         "gulf",
         "marianaislands",
+        "sinai",
     ]:
         print("Terrain " + terrain)
         m = Mission()

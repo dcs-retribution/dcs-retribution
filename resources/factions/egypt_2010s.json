@@ -1,0 +1,96 @@
+{
+  "country": "Combined Joint Task Forces Red",
+  "name": "Egypt 2010's",
+  "authors": "Chimiste",
+  "description": "<p>Egyptian Army around the early-mid 2010s.</p>",
+  "aircrafts": [
+    "IL-76MD",
+    "Mi-8MTV2 Hip",
+    "Mi-24V Hind-E",
+    "Mi-24P Hind-F",
+    "AH-64D Apache Longbow",
+    "AH-64D Apache Longbow (AI)",
+    "MiG-29S Fulcrum-C",
+    "MiG-23MLD Flogger-K",
+    "Mirage 2000-5",
+    "SA 342M Gazelle",
+    "F-4E Phantom II",
+    "Su-25 Frogfoot",
+    "F-16CM Fighting Falcon (Block 50)"
+  ],
+  "awacs": [
+    "E-2C Hawkeye"
+  ],
+  "tankers": [
+    "IL-78M"
+  ],
+  "frontline_units": [
+    "BMP-1",
+    "BMP-2",
+    "BRDM-2",
+    "M1A2 Abrams",
+    "BTR-80",
+    "MT-LB",
+    "PT-76",
+    "T-72B with Kontakt-1 ERA",
+    "T-90A",
+    "ZSU-57-2 'Sparka'",
+    "M1043 HMMWV (M2 HMG)",
+    "M1045 HMMWV (BGM-71 TOW)"
+  ],
+  "artillery_units": [
+    "2S1 Gvozdika",
+    "M109A6 Paladin",
+    "M270 Multiple Launch Rocket System",
+    "2S9 Nona-S",
+    "BM-21 Grad",
+    "BM-27 Uragan"
+  ],
+  "logistics_units": [
+    "LUV UAZ-469 Jeep",
+    "Truck Ural-375"
+  ],
+  "infantry_units": [
+    "Infantry AK-74 Rus",
+    "Infantry M4",
+    "MANPADS Stinger",
+    "Paratrooper AKS",
+    "Paratrooper RPG-16",
+    "MANPADS SA-18 Igla \"Grouse\" Ins"
+  ],
+  "preset_groups": [
+    "SA-2/S-75",
+    "SA-2/S-75 V-759/5V23",
+    "SA-3/S-125",
+    "SA-3/S-125 V-601P/5V27",
+    "SA-6",
+    "SA-10/S-300PS",
+    "SA-17",
+    "Cold-War-Flak",
+    "KS-19/SON-9",
+    "Hawk",
+    "Patriot",
+    "Silkworm"
+  ],
+  "naval_units": [
+    "FFG Oliver Hazard Perry",
+    "Corvette 1241.1 Molniya"
+  ],
+  "air_defense_units": [
+    "EWR 1L13",
+    "EWR 55G6",
+    "SAM SA-5 S-200 ST-68U \"Tin Shield\" SR",
+    "SAM SA-8 Osa \"Gecko\" TEL",
+    "SA-9 Strela",
+    "SA-13 Gopher (9K35 Strela-10M3)",
+    "AAA ZU-23 Closed Emplacement",
+    "ZU-23 on Ural-375",
+    "ZSU-23-4 Shilka"
+  ],
+  "missiles": [
+    "SSM SS-1C Scud-B"
+  ],
+  "helicopter_carrier_names": [],
+  "requirements": {},
+  "carrier_names": []
+}

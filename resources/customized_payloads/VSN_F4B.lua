@@ -13,11 +13,11 @@ local unitPayloads = {
 					["num"] = 3,
 				},
 				[3] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 4,
 				},
 				[4] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 5,
 				},
 				[5] = {
@@ -25,11 +25,11 @@ local unitPayloads = {
 					["num"] = 6,
 				},
 				[6] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 7,
 				},
 				[7] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 8,
 				},
 				[8] = {
@@ -57,11 +57,11 @@ local unitPayloads = {
 					["num"] = 3,
 				},
 				[3] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 4,
 				},
 				[4] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 5,
 				},
 				[5] = {
@@ -69,11 +69,11 @@ local unitPayloads = {
 					["num"] = 6,
 				},
 				[6] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 7,
 				},
 				[7] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 8,
 				},
 				[8] = {
@@ -94,19 +94,19 @@ local unitPayloads = {
 			["name"] = "Retribution OCA/Runway",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
+					["CLSID"] = "{BRU41_6X_MK-82}",
 					["num"] = 2,
 				},
 				[2] = {
-					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
+					["CLSID"] = "{60CC734F-0AFA-4E2E-82B8-93B941AB11CF}",
 					["num"] = 3,
 				},
 				[3] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 4,
 				},
 				[4] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 5,
 				},
 				[5] = {
@@ -114,19 +114,19 @@ local unitPayloads = {
 					["num"] = 6,
 				},
 				[6] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 7,
 				},
 				[7] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 8,
 				},
 				[8] = {
-					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
+					["CLSID"] = "{60CC734F-0AFA-4E2E-82B8-93B941AB11CF}",
 					["num"] = 9,
 				},
 				[9] = {
-					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
+					["CLSID"] = "{BRU41_6X_MK-82}",
 					["num"] = 10,
 				},
 			},
@@ -146,11 +146,11 @@ local unitPayloads = {
 					["num"] = 3,
 				},
 				[3] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 4,
 				},
 				[4] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 5,
 				},
 				[5] = {
@@ -158,11 +158,11 @@ local unitPayloads = {
 					["num"] = 6,
 				},
 				[6] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 7,
 				},
 				[7] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+					["CLSID"] = "{AIM-7F}",
 					["num"] = 8,
 				},
 				[8] = {

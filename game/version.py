@@ -179,5 +179,10 @@ VERSION = _build_version_string()
 #: * Designated CTLD zones for ControlPoints (Airbases & FOBs/FARPs)
 #: * 'ground_forces' in yaml file to specify preset groups for TGOs,
 #:      given the group is available for the faction and the task matches
+#:
+#: Version 10.7
+#: * Support for defining squadron sizes.
+#: * Definition of "spawn-routes" allowing convoys to spawn on the road
+#:      please note that an insufficiently long route can cause trouble in case of large convoys
 
-CAMPAIGN_FORMAT_VERSION = (10, 6)
+CAMPAIGN_FORMAT_VERSION = (10, 7)

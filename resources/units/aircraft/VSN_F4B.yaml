@@ -18,4 +18,15 @@ max_range: 370
 carrier_capable: true
 variants:
   F-4B Phantom II: {}
-
+tasks:
+  BAI: 180
+  BARCAP: 220
+  CAS: 180
+  DEAD: 150
+  Escort: 220
+  Fighter sweep: 220
+  Intercept: 220
+  OCA/Aircraft: 180
+  OCA/Runway: 350
+  Strike: 350
+  TARCAP: 220

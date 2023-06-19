@@ -57,48 +57,224 @@ local unitPayloads = {
 			["name"] = "Liberation CAS",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{TER_9A_3*MK-82}",
-					["num"] = 10,
-				},
-				[2] = {
-					["CLSID"] = "{TER_9A_3*MK-82}",
+					["CLSID"] = "{X-29T}",
 					["num"] = 9,
 				},
-				[3] = {
-					["CLSID"] = "{TER_9A_3*MK-82}",
+				[2] = {
+					["CLSID"] = "{X-29T}",
 					["num"] = 8,
 				},
-				[4] = {
-					["CLSID"] = "{TER_9A_3*MK-82}",
+				[3] = {
+					["CLSID"] = "{X-29T}",
 					["num"] = 7,
 				},
-				[5] = {
-					["CLSID"] = "{TER_9A_3*MK-82}",
-					["num"] = 6,
-				},
-				[6] = {
-					["CLSID"] = "{TER_9A_3*MK-82}",
+				[4] = {
+					["CLSID"] = "{X-29T}",
 					["num"] = 5,
 				},
-				[7] = {
-					["CLSID"] = "{TER_9A_3*MK-82}",
+				[5] = {
+					["CLSID"] = "{X-29T}",
 					["num"] = 4,
 				},
-				[8] = {
-					["CLSID"] = "{TER_9A_3*MK-82}",
+				[6] = {
+					["CLSID"] = "{X-29T}",
 					["num"] = 3,
 				},
-				[9] = {
-					["CLSID"] = "{TIRFUEL}",
-					["num"] = 2,
-				},
-				[10] = {
-					["CLSID"] = "{TER_9A_3*MK-82}",
+				[7] = {
+					["CLSID"] = "{X-29T}",
 					["num"] = 1,
 				},
 			},
 			["tasks"] = {
 				[1] = 32,
+			},
+		},
+		[3] = {
+			["name"] = "Liberation SEAD",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{0519A264-0AB6-11d6-9193-00A0249B6F00}",
+					["num"] = 6,
+				},
+				[2] = {
+					["CLSID"] = "{FE382A68-8620-4AC0-BDF5-709BFE3977D7}",
+					["num"] = 5,
+				},
+				[3] = {
+					["CLSID"] = "{FE382A68-8620-4AC0-BDF5-709BFE3977D7}",
+					["num"] = 4,
+				},
+				[4] = {
+					["CLSID"] = "{FE382A68-8620-4AC0-BDF5-709BFE3977D7}",
+					["num"] = 3,
+				},
+				[5] = {
+					["CLSID"] = "{FE382A68-8620-4AC0-BDF5-709BFE3977D7}",
+					["num"] = 1,
+				},
+				[6] = {
+					["CLSID"] = "{FE382A68-8620-4AC0-BDF5-709BFE3977D7}",
+					["num"] = 8,
+				},
+				[7] = {
+					["CLSID"] = "{FE382A68-8620-4AC0-BDF5-709BFE3977D7}",
+					["num"] = 9,
+				},
+				[8] = {
+					["CLSID"] = "{FE382A68-8620-4AC0-BDF5-709BFE3977D7}",
+					["num"] = 7,
+				},
+			},
+			["tasks"] = {
+				[1] = 32,
+			},
+		},
+		[4] = {
+			["displayName"] = "Retribution BAI",
+			["name"] = "Retribution BAI",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{TIRFUEL}",
+					["num"] = 2,
+				},
+				[2] = {
+					["CLSID"] = "{TIRFUEL}",
+					["num"] = 10,
+				},
+				[3] = {
+					["CLSID"] = "{PROTONM1}",
+					["num"] = 1,
+				},
+				[4] = {
+					["CLSID"] = "{PROTONM1}",
+					["num"] = 3,
+				},
+				[5] = {
+					["CLSID"] = "{TER_9A_3*MK-82}",
+					["num"] = 5,
+				},
+				[6] = {
+					["CLSID"] = "{TER_9A_3*MK-82}",
+					["num"] = 4,
+				},
+				[7] = {
+					["CLSID"] = "{DAC53A2F-79CA-42FF-A77A-F5649B601308}",
+					["num"] = 6,
+				},
+				[8] = {
+					["CLSID"] = "{DAC53A2F-79CA-42FF-A77A-F5649B601308}",
+					["num"] = 7,
+				},
+				[9] = {
+					["CLSID"] = "{TER_9A_3*MK-82}",
+					["num"] = 8,
+				},
+				[10] = {
+					["CLSID"] = "{TER_9A_3*MK-82}",
+					["num"] = 9,
+				},
+			},
+			["tasks"] = {
+				[1] = 31,
+			},
+		},
+		[4] = {
+			["displayName"] = "Retribution Strike",
+			["name"] = "Retribution Strike",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{TIRFUEL}",
+					["num"] = 2,
+				},
+				[2] = {
+					["CLSID"] = "{TIRFUEL}",
+					["num"] = 10,
+				},
+				[3] = {
+					["CLSID"] = "{PROTONM1}",
+					["num"] = 1,
+				},
+				[4] = {
+					["CLSID"] = "{PROTONM1}",
+					["num"] = 3,
+				},
+				[5] = {
+					["CLSID"] = "{TER_9A_3*MK-82}",
+					["num"] = 5,
+				},
+				[6] = {
+					["CLSID"] = "{TER_9A_3*MK-82}",
+					["num"] = 4,
+				},
+				[7] = {
+					["CLSID"] = "{DAC53A2F-79CA-42FF-A77A-F5649B601308}",
+					["num"] = 6,
+				},
+				[8] = {
+					["CLSID"] = "{DAC53A2F-79CA-42FF-A77A-F5649B601308}",
+					["num"] = 7,
+				},
+				[9] = {
+					["CLSID"] = "{TER_9A_3*MK-82}",
+					["num"] = 8,
+				},
+				[10] = {
+					["CLSID"] = "{TER_9A_3*MK-82}",
+					["num"] = 9,
+				},
+			},
+			["tasks"] = {
+				[1] = 33,
+				[2] = 32,
+			},
+		},
+		[4] = {
+			["displayName"] = "Retribution DEAD",
+			["name"] = "Retribution DEAD",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{TIRFUEL}",
+					["num"] = 2,
+				},
+				[2] = {
+					["CLSID"] = "{TIRFUEL}",
+					["num"] = 10,
+				},
+				[3] = {
+					["CLSID"] = "{PROTONM1}",
+					["num"] = 1,
+				},
+				[4] = {
+					["CLSID"] = "{PROTONM1}",
+					["num"] = 3,
+				},
+				[5] = {
+					["CLSID"] = "{TER_9A_3*MK-82}",
+					["num"] = 5,
+				},
+				[6] = {
+					["CLSID"] = "{TER_9A_3*MK-82}",
+					["num"] = 4,
+				},
+				[7] = {
+					["CLSID"] = "{DAC53A2F-79CA-42FF-A77A-F5649B601308}",
+					["num"] = 6,
+				},
+				[8] = {
+					["CLSID"] = "{DAC53A2F-79CA-42FF-A77A-F5649B601308}",
+					["num"] = 7,
+				},
+				[9] = {
+					["CLSID"] = "{TER_9A_3*MK-82}",
+					["num"] = 8,
+				},
+				[10] = {
+					["CLSID"] = "{TER_9A_3*MK-82}",
+					["num"] = 9,
+				},
+			},
+			["tasks"] = {
+				[1] = 31,
 			},
 		},
 	},

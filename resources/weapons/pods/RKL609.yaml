@@ -1,0 +1,6 @@
+name: RKL609 ECM Pod
+type: JAMMER
+year: 1990
+clsids:
+  - "RKL609_L"
+  - "RKL609_R"

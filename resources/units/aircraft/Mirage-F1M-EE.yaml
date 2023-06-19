@@ -1,8 +1,8 @@
-description:  # From wikipedia
+description: # From wikipedia
   The Dassault Mirage F1 is a French fighter and attack aircraft designed and manufactured
   by Dassault Aviation. It was developed as a successor to the popular Mirage III family.
 
-  The F1M upgrade was applied to 48 Spanish F1CE/EE and four F1EDA trainers. 
+  The F1M upgrade was applied to 48 Spanish F1CE/EE and four F1EDA trainers.
   The prototype F1M flew in April 1998, and CASA delivered the remainder between March 1999 and 15 March 2001.
   The project included a revised cockpit with colour LCDs and a Smart HUD from Sextant Avionique,
   a Sextant inertial navigation system with GPS interface; NATO-compatible Have Quick 2 secure communications;
@@ -16,3 +16,14 @@ role: Multirole Fighter
 max_range: 200
 variants:
   Mirage-F1M-EE: {}
+tasks:
+  BAI: 280
+  BARCAP: 270
+  CAS: 280
+  Escort: 270
+  Fighter sweep: 270
+  Intercept: 270
+  OCA/Aircraft: 280
+  OCA/Runway: 250
+  Strike: 250
+  TARCAP: 270

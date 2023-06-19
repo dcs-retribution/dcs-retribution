@@ -1,0 +1,65 @@
+{
+  "country": "Combined Joint Task Forces Blue",
+  "name": "SW Rebel Alliance",
+  "authors": "Pan_de",
+  "description": "<p>Rebel Alliance and EDF.</p>",
+  "aircrafts": [
+    "XWING",
+    "YWING",
+    "FAUCON",
+    "AWING",
+    "naboo_starfighter"
+  ],
+  "awacs": [
+    "E-2C Hawkeye",
+    "E-3A"
+  ],
+  "tankers": [
+    "KC-135 Stratotanker",
+    "S-3B Tanker"
+  ],
+  "frontline_units": [
+    "MBT9_REBEL",
+    "MBT9_AAA REBEL"
+  ],
+  "artillery_units": [
+    "M270 Multiple Launch Rocket System"
+  ],
+  "logistics_units": [
+    "Truck M818 6x6"
+  ],
+  "infantry_units": [
+    "Infantry M249",
+    "Infantry M4",
+    "MANPADS Stinger"
+  ],
+  "preset_groups": [
+    "Hawk",
+    "Rapier",
+    "Roland",
+    "Patriot"
+  ],
+  "naval_units": [
+    "FFG Oliver Hazard Perry",
+    "DDG Arleigh Burke IIa",
+    "CG Ticonderoga",
+    "LHA-1 Tarawa",
+    "CVN-74 John C. Stennis"
+  ],
+  "missiles": [],
+  "air_defense_units": [
+    "SAM Patriot STR",
+    "MBT9_AAA REBEL"
+  ],
+  "requirements": {},
+  "carrier_names": [
+    "CVN-71 Theodore Roosevelt"
+  ],
+  "helicopter_carrier_names": [
+    "LHA-1 Tarawa",
+    "LHA-4 Nassau"
+  ],
+  "has_jtac": true,
+  "jtac_unit": "MQ-9 Reaper",
+  "unrestricted_satnav": true
+}

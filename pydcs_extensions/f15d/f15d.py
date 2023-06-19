@@ -1,7 +1,6 @@
 from typing import Set
 
 from dcs import task
-from dcs.liveries_scanner import Liveries
 from dcs.planes import PlaneType
 from dcs.weapons_data import Weapons
 
@@ -56,7 +55,6 @@ class F_15D(PlaneType):
     radio_frequency = 127.5
 
     livery_name = "F-15D"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         AIM_120B_AMRAAM___Active_Rdr_AAM = (1, Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM)

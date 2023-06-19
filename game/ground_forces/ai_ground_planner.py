@@ -92,10 +92,15 @@ class GroundPlanner:
         ground_unit_limit = self.cp.frontline_unit_count_limit
 
         remaining_available_frontline_units = ground_unit_limit
-
-        # TODO: Fix to handle the per-front stances.
-        # https://github.com/dcs-liberation/dcs_liberation/issues/1417
-        group_size_choice = GROUP_SIZES_BY_COMBAT_STANCE[CombatStance.DEFENSIVE]
+        # Now applies the ratio between ground unit limit and the total number of ground units to each unit type
+        # when planning the ground war. This will help with monocultures of certain unit types when the control
+        # point has more units than can be spawned in one mission. In short, this will make more unit types to spawn.
+        if self.cp.base.total_armor > 0:
+            ratio_of_frontline_units_to_reserves = min(
+                ground_unit_limit / self.cp.base.total_armor, 1
+            )
+        else:
+            ratio_of_frontline_units_to_reserves = 1
 
         # Create combat groups and assign them randomly to each enemy CP
         for unit_type in self.cp.base.armor:
@@ -130,31 +135,43 @@ class GroundPlanner:
                 )
                 continue
 
-            available = self.cp.base.armor[unit_type]
+            available = (
+                self.cp.base.armor[unit_type] * ratio_of_frontline_units_to_reserves
+            )
+            if 0 < available < 1:
+                available = 1
 
+            # Round the number of units to an integer
             if available > remaining_available_frontline_units:
                 available = remaining_available_frontline_units
+            available = round(available)
 
             remaining_available_frontline_units -= available
 
             while available > 0:
-                if role == CombatGroupRole.SHORAD:
-                    count = 1
-                else:
-                    count = random.choice(group_size_choice)
-                    if count > available:
-                        if available >= 2:
-                            count = 2
-                        else:
-                            count = 1
-                available -= count
-
-                group = CombatGroup(role, unit_type, count)
                 if len(self.connected_enemy_cp) > 0:
-                    enemy_cp = random.choice(self.connected_enemy_cp).id
-                    self.units_per_cp[enemy_cp].append(group)
+                    enemy_cp: ControlPoint = random.choice(self.connected_enemy_cp)
+                    frontline_stance = self.cp.stances.get(enemy_cp.id)
+                    if not frontline_stance:
+                        logging.warning(
+                            f"{self.cp.name} lost its frontline stance for {enemy_cp.name}"
+                        )
+                        frontline_stance = CombatStance.DEFENSIVE
+                    group_size_choice = GROUP_SIZES_BY_COMBAT_STANCE[frontline_stance]
+                    if role == CombatGroupRole.SHORAD:
+                        count = 1
+                    else:
+                        choices = [s for s in group_size_choice if s <= available]
+                        if not choices:
+                            choices.append(1)
+                        count = random.choice(choices)
+
+                    available -= count
+                    group = CombatGroup(role, unit_type, count)
+                    self.units_per_cp[enemy_cp.id].append(group)
                 else:
-                    self.reserve.append(group)
+                    group = CombatGroup(role, unit_type, available)
+                    self.reserve.append(CombatGroup(role, unit_type, available))
                 collection.append(group)
 
             if remaining_available_frontline_units == 0:

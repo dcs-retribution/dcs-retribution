@@ -2,30 +2,6 @@ local unitPayloads = {
 	["name"] = "MiG-19P",
 	["payloads"] = {
 		[1] = {
-			["name"] = "CAP",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{K-13A}",
-					["num"] = 6,
-				},
-				[2] = {
-					["CLSID"] = "{K-13A}",
-					["num"] = 1,
-				},
-				[3] = {
-					["CLSID"] = "PTB760_MIG19",
-					["num"] = 2,
-				},
-				[4] = {
-					["CLSID"] = "PTB760_MIG19",
-					["num"] = 5,
-				},
-			},
-			["tasks"] = {
-				[1] = 11,
-			},
-		},
-		[2] = {
 			["name"] = "CAS",
 			["pylons"] = {
 				[1] = {
@@ -57,7 +33,7 @@ local unitPayloads = {
 				[1] = 11,
 			},
 		},
-		[3] = {
+		[2] = {
 			["name"] = "STRIKE",
 			["pylons"] = {
 				[1] = {
@@ -83,6 +59,30 @@ local unitPayloads = {
 				[6] = {
 					["CLSID"] = "{ORO57K_S5M_HEFRAG}",
 					["num"] = 3,
+				},
+			},
+			["tasks"] = {
+				[1] = 11,
+			},
+		},
+		[3] = {
+			["name"] = "CAP",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{K-13A}",
+					["num"] = 6,
+				},
+				[2] = {
+					["CLSID"] = "{K-13A}",
+					["num"] = 1,
+				},
+				[3] = {
+					["CLSID"] = "PTB760_MIG19",
+					["num"] = 2,
+				},
+				[4] = {
+					["CLSID"] = "PTB760_MIG19",
+					["num"] = 5,
 				},
 			},
 			["tasks"] = {

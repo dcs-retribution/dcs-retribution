@@ -4,15 +4,6 @@ local unitPayloads = {
 		[1] = {
 			["name"] = "CAP",
 			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{TIEFUEL}",
-					["num"] = 2,
-				},
-				[2] = {
-					["CLSID"] = "{TIEFUEL}",
-					["num"] = 10,
-				},
-				
 			},
 			["tasks"] = {				
 				[1] = CAP,

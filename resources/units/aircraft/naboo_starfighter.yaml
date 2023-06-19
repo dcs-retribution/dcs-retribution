@@ -13,3 +13,10 @@ max_range: 200
 variants:
   naboo_starfighter: {}
 kneeboard_units: "metric"
+tasks:
+  BARCAP: 460
+  Escort: 460
+  Fighter sweep: 460
+  Intercept: 460
+  TARCAP: 460
+

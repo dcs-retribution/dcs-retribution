@@ -2,24 +2,23 @@ local unitPayloads = {
 	["name"] = "B-1B",
 	["payloads"] = {
 		[1] = {
-			["name"] = "STRIKE",
+			["name"] = "CAS",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "GBU-31*8",
-					["num"] = 1,
-				},
-				[2] = {
-					["CLSID"] = "GBU-31*8",
+					["CLSID"] = "GBU-38*16",
 					["num"] = 2,
 				},
+				[2] = {
+					["CLSID"] = "CBU87*10",
+					["num"] = 1,
+				},
 				[3] = {
-					["CLSID"] = "GBU-31*8",
+					["CLSID"] = "CBU97*10",
 					["num"] = 3,
 				},
 			},
 			["tasks"] = {
-				[1] = 34,
-				[2] = 32,
+				[1] = 33,
 			},
 		},
 		[2] = {
@@ -63,34 +62,6 @@ local unitPayloads = {
 			},
 		},
 		[4] = {
-			["name"] = "CAP",
-			["pylons"] = {
-			},
-			["tasks"] = {
-				[1] = 33,
-			},
-		},
-		[5] = {
-			["name"] = "CAS",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "CBU97*10",
-					["num"] = 3,
-				},
-				[2] = {
-					["CLSID"] = "CBU97*10",
-					["num"] = 2,
-				},
-				[3] = {
-					["CLSID"] = "CBU97*10",
-					["num"] = 1,
-				},
-			},
-			["tasks"] = {
-				[1] = 33,
-			},
-		},
-		[6] = {
 			["displayName"] = "Retribution DEAD",
 			["name"] = "Retribution DEAD",
 			["pylons"] = {
@@ -109,6 +80,57 @@ local unitPayloads = {
 			},
 			["tasks"] = {
 				[1] = 33,
+			},
+		},
+		[5] = {
+			["name"] = "STRIKE",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "GBU-31*8",
+					["num"] = 1,
+				},
+				[2] = {
+					["CLSID"] = "GBU-31*8",
+					["num"] = 2,
+				},
+				[3] = {
+					["CLSID"] = "GBU-31*8",
+					["num"] = 3,
+				},
+			},
+			["tasks"] = {
+				[1] = 34,
+				[2] = 32,
+			},
+		},
+		[6] = {
+			["name"] = "CAP",
+			["pylons"] = {
+			},
+			["tasks"] = {
+				[1] = 33,
+			},
+		},
+		[7] = {
+			["displayName"] = "Retribution OCA/Runway",
+			["name"] = "Retribution OCA/Runway",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "GBU-31V3B*8",
+					["num"] = 1,
+				},
+				[2] = {
+					["CLSID"] = "GBU-31V3B*8",
+					["num"] = 2,
+				},
+				[3] = {
+					["CLSID"] = "GBU-31V3B*8",
+					["num"] = 3,
+				},
+			},
+			["tasks"] = {
+				[1] = 34,
+				[2] = 32,
 			},
 		},
 	},

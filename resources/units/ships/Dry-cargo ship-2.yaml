@@ -1,0 +1,4 @@
+class: Boat
+price: 0
+variants:
+  Cargo Ivanov: null

@@ -2,37 +2,6 @@ local unitPayloads = {
 	["name"] = "Su-25T",
 	["payloads"] = {
 		[1] = {
-			["name"] = "CAP",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{682A481F-0CB5-4693-A382-D00DD4A156D7}",
-					["num"] = 11,
-				},
-				[2] = {
-					["CLSID"] = "{682A481F-0CB5-4693-A382-D00DD4A156D7}",
-					["num"] = 1,
-				},
-				[3] = {
-					["CLSID"] = "{CBC29BFE-3D24-4C64-B81D-941239D12249}",
-					["num"] = 2,
-				},
-				[4] = {
-					["CLSID"] = "{CBC29BFE-3D24-4C64-B81D-941239D12249}",
-					["num"] = 10,
-				},
-				[5] = {
-					["CLSID"] = "{E8D4652F-FD48-45B7-BA5B-2AE05BB5A9CF}",
-					["num"] = 7,
-				},
-				[6] = {
-					["CLSID"] = "{E8D4652F-FD48-45B7-BA5B-2AE05BB5A9CF}",
-					["num"] = 5,
-				},
-			},
-			["tasks"] = {
-			},
-		},
-		[2] = {
 			["name"] = "CAS",
 			["pylons"] = {
 				[1] = {
@@ -83,7 +52,7 @@ local unitPayloads = {
 			["tasks"] = {
 			},
 		},
-		[3] = {
+		[2] = {
 			["name"] = "STRIKE",
 			["pylons"] = {
 				[1] = {
@@ -129,6 +98,37 @@ local unitPayloads = {
 			},
 			["tasks"] = {
 				[1] = 31,
+			},
+		},
+		[3] = {
+			["name"] = "CAP",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{682A481F-0CB5-4693-A382-D00DD4A156D7}",
+					["num"] = 11,
+				},
+				[2] = {
+					["CLSID"] = "{682A481F-0CB5-4693-A382-D00DD4A156D7}",
+					["num"] = 1,
+				},
+				[3] = {
+					["CLSID"] = "{CBC29BFE-3D24-4C64-B81D-941239D12249}",
+					["num"] = 2,
+				},
+				[4] = {
+					["CLSID"] = "{CBC29BFE-3D24-4C64-B81D-941239D12249}",
+					["num"] = 10,
+				},
+				[5] = {
+					["CLSID"] = "{E8D4652F-FD48-45B7-BA5B-2AE05BB5A9CF}",
+					["num"] = 7,
+				},
+				[6] = {
+					["CLSID"] = "{E8D4652F-FD48-45B7-BA5B-2AE05BB5A9CF}",
+					["num"] = 5,
+				},
+			},
+			["tasks"] = {
 			},
 		},
 		[4] = {
@@ -233,6 +233,55 @@ local unitPayloads = {
 			},
 			["tasks"] = {
 				[1] = 29,
+			},
+		},
+		[6] = {
+			["displayName"] = "Retribution OCA/Runway",
+			["name"] = "Retribution OCA/Runway",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{44EE8698-89F9-48EE-AF36-5FD31896A82D}",
+					["num"] = 1,
+				},
+				[2] = {
+					["CLSID"] = "{CBC29BFE-3D24-4C64-B81D-941239D12249}",
+					["num"] = 2,
+				},
+				[3] = {
+					["CLSID"] = "{BD289E34-DF84-4C5E-9220-4B14C346E79D}",
+					["num"] = 3,
+				},
+				[4] = {
+					["CLSID"] = "{BD289E34-DF84-4C5E-9220-4B14C346E79D}",
+					["num"] = 4,
+				},
+				[5] = {
+					["CLSID"] = "{BD289E34-DF84-4C5E-9220-4B14C346E79D}",
+					["num"] = 5,
+				},
+				[6] = {
+					["CLSID"] = "{BD289E34-DF84-4C5E-9220-4B14C346E79D}",
+					["num"] = 7,
+				},
+				[7] = {
+					["CLSID"] = "{BD289E34-DF84-4C5E-9220-4B14C346E79D}",
+					["num"] = 8,
+				},
+				[8] = {
+					["CLSID"] = "{BD289E34-DF84-4C5E-9220-4B14C346E79D}",
+					["num"] = 9,
+				},
+				[9] = {
+					["CLSID"] = "{CBC29BFE-3D24-4C64-B81D-941239D12249}",
+					["num"] = 10,
+				},
+				[10] = {
+					["CLSID"] = "{44EE8698-89F9-48EE-AF36-5FD31896A82C}",
+					["num"] = 11,
+				},
+			},
+			["tasks"] = {
+				[1] = 34,
 			},
 		},
 	},

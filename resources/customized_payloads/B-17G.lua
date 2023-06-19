@@ -2,18 +2,6 @@ local unitPayloads = {
 	["name"] = "B-17G",
 	["payloads"] = {
 		[1] = {
-			["name"] = "STRIKE",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{12xM64}",
-					["num"] = 1,
-				},
-			},
-			["tasks"] = {
-				[1] = 32,
-			},
-		},
-		[2] = {
 			["name"] = "CAP",
 			["pylons"] = {
 				[1] = {
@@ -25,8 +13,20 @@ local unitPayloads = {
 				[1] = 32,
 			},
 		},
-		[3] = {
+		[2] = {
 			["name"] = "SEAD",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{12xM64}",
+					["num"] = 1,
+				},
+			},
+			["tasks"] = {
+				[1] = 32,
+			},
+		},
+		[3] = {
+			["name"] = "STRIKE",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{12xM64}",
@@ -59,6 +59,18 @@ local unitPayloads = {
 			},
 			["tasks"] = {
 				[1] = 32,
+			},
+		},
+		[6] = {
+			["name"] = "Retribution OCA/Runway",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{12xM64}",
+					["num"] = 1,
+				},
+			},
+			["tasks"] = {
+				[1] = 34,
 			},
 		},
 	},

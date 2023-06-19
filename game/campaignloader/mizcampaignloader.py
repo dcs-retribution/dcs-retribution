@@ -3,19 +3,20 @@ from __future__ import annotations
 import itertools
 from functools import cached_property
 from pathlib import Path
-from typing import Iterator, List, TYPE_CHECKING, Tuple
+from typing import Iterator, List, TYPE_CHECKING, Tuple, Optional
 from uuid import UUID
 
 from dcs import Mission
 from dcs.countries import CombinedJointTaskForcesBlue, CombinedJointTaskForcesRed
 from dcs.country import Country
-from dcs.planes import F_15C
+from dcs.planes import F_15C, A_10A, AJS37
 from dcs.ships import HandyWind, LHA_Tarawa, Stennis, USS_Arleigh_Burke_IIa
 from dcs.statics import Fortification, Warehouse
 from dcs.terrain import Airport
 from dcs.unitgroup import PlaneGroup, ShipGroup, StaticGroup, VehicleGroup
 from dcs.vehicles import AirDefence, Armor, MissilesSS, Unarmed
 
+from game.point_with_heading import PointWithHeading
 from game.positioned import Positioned
 from game.profiling import logged_duration
 from game.scenery_group import SceneryGroup
@@ -28,7 +29,8 @@ from game.theater.controlpoint import (
     OffMapSpawn,
 )
 from game.theater.presetlocation import PresetLocation
-from game.utils import Distance, meters
+from game.utils import Distance, meters, feet, Heading
+from game.utils import Distance, meters, feet
 
 if TYPE_CHECKING:
     from game.theater.conflicttheater import ConflictTheater
@@ -40,14 +42,17 @@ class MizCampaignLoader:
     RED_COUNTRY = CombinedJointTaskForcesRed()
 
     OFF_MAP_UNIT_TYPE = F_15C.id
+    GROUND_SPAWN_UNIT_TYPE = A_10A.id
+    GROUND_SPAWN_ROADBASE_UNIT_TYPE = AJS37.id
 
     CV_UNIT_TYPE = Stennis.id
     LHA_UNIT_TYPE = LHA_Tarawa.id
     FRONT_LINE_UNIT_TYPE = Armor.M_113.id
     SHIPPING_LANE_UNIT_TYPE = HandyWind.id
+    CP_CONVOY_SPAWN_TYPE = Armor.M1043_HMMWV_Armament.id
 
     FOB_UNIT_TYPE = Unarmed.SKP_11.id
-    FARP_HELIPADS_TYPE = ["Invisible FARP", "SINGLE_HELIPAD"]
+    FARP_HELIPADS_TYPE = ["Invisible FARP", "SINGLE_HELIPAD", "FARP"]
 
     OFFSHORE_STRIKE_TARGET_UNIT_TYPE = Fortification.Oil_platform.id
     SHIP_UNIT_TYPE = USS_Arleigh_Burke_IIa.id
@@ -94,6 +99,8 @@ class MizCampaignLoader:
     AMMUNITION_DEPOT_UNIT_TYPE = Warehouse._Ammunition_depot.id
 
     STRIKE_TARGET_UNIT_TYPE = Fortification.Tech_combine.id
+
+    GROUND_SPAWN_WAYPOINT_DISTANCE = 1000
 
     def __init__(self, miz: Path, theater: ConflictTheater) -> None:
         self.theater = theater
@@ -224,6 +231,18 @@ class MizCampaignLoader:
                 yield group
 
     @property
+    def ground_spawns_roadbase(self) -> Iterator[PlaneGroup]:
+        for group in itertools.chain(self.blue.plane_group, self.red.plane_group):
+            if group.units[0].type == self.GROUND_SPAWN_ROADBASE_UNIT_TYPE:
+                yield group
+
+    @property
+    def ground_spawns(self) -> Iterator[PlaneGroup]:
+        for group in itertools.chain(self.blue.plane_group, self.red.plane_group):
+            if group.units[0].type == self.GROUND_SPAWN_UNIT_TYPE:
+                yield group
+
+    @property
     def factories(self) -> Iterator[StaticGroup]:
         for group in self.blue.static_group:
             if group.units[0].type in self.FACTORY_UNIT_TYPE:
@@ -317,6 +336,81 @@ class MizCampaignLoader:
             if group.units[0].type in self.POWER_SOURCE_UNIT_TYPE:
                 yield group
 
+    @property
+    def cp_convoy_spawns(self) -> Iterator[VehicleGroup]:
+        for group in self.country(blue=True).vehicle_group:
+            if group.units[0].type == self.CP_CONVOY_SPAWN_TYPE:
+                yield group
+
+    def _construct_cp_spawnpoints(self, start: Point) -> Tuple[Point, ...]:
+        closest = self._find_closest_cp_spawn(start)
+        if closest:
+            return self._interpolate_points(closest, start)
+        return tuple()
+
+    @staticmethod
+    def _interpolate_points(closest: VehicleGroup, start: Point) -> Tuple[Point, ...]:
+        points = [start]
+        waypoints = points + [wpt.position for wpt in closest.points]
+        last = waypoints[0]
+        meters100ft = feet(100).meters
+        residual = 0.0
+        for wpt in waypoints[1:]:
+            dist = wpt.distance_to_point(last)
+            fraction = meters100ft / dist  # 100ft separation
+            interpol_count = int((dist + residual) / meters100ft - 1)
+            offset = (meters100ft - residual) / dist
+            if offset <= 1:
+                points.append(last.lerp(wpt, offset))
+            if offset + fraction <= 1:
+                for i in range(1, interpol_count + 1):
+                    points.append(last.lerp(wpt, i * fraction + offset))
+            residual = (residual + dist - meters100ft * interpol_count) % meters100ft
+            last = wpt
+        return tuple(points)
+
+    def _find_closest_cp_spawn(self, start: Point) -> Optional[VehicleGroup]:
+        closest: Optional[VehicleGroup] = None
+        for spawn in self.cp_convoy_spawns:
+            if closest is None:
+                closest = spawn
+                continue
+            dist = start.distance_to_point(closest.position)
+            if start.distance_to_point(spawn.position) < dist:
+                closest = spawn
+        return closest
+
+    @staticmethod
+    def _add_helipad(helipads: list[PointWithHeading], static: StaticGroup) -> None:
+        helipads.append(
+            PointWithHeading.from_point(
+                static.position, Heading.from_degrees(static.units[0].heading)
+            )
+        )
+
+    def _add_ground_spawn(
+        self,
+        ground_spawns: list[tuple[PointWithHeading, Point]],
+        plane_group: PlaneGroup,
+    ) -> None:
+        if len(plane_group.points) >= 2:
+            first_waypoint = plane_group.points[1].position
+        else:
+            first_waypoint = plane_group.position.point_from_heading(
+                plane_group.units[0].heading,
+                self.GROUND_SPAWN_WAYPOINT_DISTANCE,
+            )
+
+        ground_spawns.append(
+            (
+                PointWithHeading.from_point(
+                    plane_group.position,
+                    Heading.from_degrees(plane_group.units[0].heading),
+                ),
+                first_waypoint,
+            )
+        )
+
     def add_supply_routes(self) -> None:
         for group in self.front_line_path_groups:
             # The unit will have its first waypoint at the source CP and the final
@@ -334,9 +428,14 @@ class MizCampaignLoader:
                     f"No control point near the final waypoint of {group.name}"
                 )
 
-            self.control_points[origin.id].create_convoy_route(destination, waypoints)
+            o_spawns = self._construct_cp_spawnpoints(waypoints[0])
+            d_spawns = self._construct_cp_spawnpoints(waypoints[-1])
+
+            self.control_points[origin.id].create_convoy_route(
+                destination, waypoints, o_spawns
+            )
             self.control_points[destination.id].create_convoy_route(
-                origin, list(reversed(waypoints))
+                origin, list(reversed(waypoints)), d_spawns
             )
 
     def add_shipping_lanes(self) -> None:
@@ -425,7 +524,20 @@ class MizCampaignLoader:
 
         for static in self.helipads:
             closest, distance = self.objective_info(static)
-            closest.helipads.append(PresetLocation.from_group(static))
+            if static.units[0].type == "SINGLE_HELIPAD":
+                self._add_helipad(closest.helipads, static)
+            elif static.units[0].type == "FARP":
+                self._add_helipad(closest.helipads_quad, static)
+            else:
+                self._add_helipad(closest.helipads_invisible, static)
+
+        for plane_group in self.ground_spawns_roadbase:
+            closest, distance = self.objective_info(plane_group)
+            self._add_ground_spawn(closest.ground_spawns_roadbase, plane_group)
+
+        for plane_group in self.ground_spawns:
+            closest, distance = self.objective_info(plane_group)
+            self._add_ground_spawn(closest.ground_spawns, plane_group)
 
         for static in self.factories:
             closest, distance = self.objective_info(static)

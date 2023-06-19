@@ -122,7 +122,7 @@ def main() -> None:
             "the first run configuration."
         )
 
-    inject_custom_payloads(Path(persistency.base_path()))
+    inject_custom_payloads(persistency.base_path())
 
     if args.aircraft_id is None:
         show_all_aircraft(args.task)

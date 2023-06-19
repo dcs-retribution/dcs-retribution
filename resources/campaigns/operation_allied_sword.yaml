@@ -4,8 +4,15 @@ theater: Syria
 authors: Fuzzle
 recommended_player_faction: Israel-USN 2005 (Allied Sword)
 recommended_enemy_faction: Syria-Lebanon 2005 (Allied Sword)
-description: <p>In this fictional scenario, a US/Israeli coalition must push north from the Israeli border, through Syria and Lebanon to Aleppo.</p><p><strong>Backstory:</strong> A Syrian-Lebanese joint force (with Russian materiel support) has attacked Israel, attmepting to cross the northern border. With the arrival of a US carrier group, Israel prepares its counterattack. The US Navy will handle the Beirut region's coastal arena, while the IAF will push through Damascus and the inland mountain ranges.</p>
-version: "10.1"
+description:
+  <p>In this fictional scenario, a US/Israeli coalition must push north from the
+  Israeli border, through Syria and Lebanon to
+  Aleppo.</p><p><strong>Backstory:</strong> A Syrian-Lebanese joint force (with
+  Russian materiel support) has attacked Israel, attmepting to cross the
+  northern border. With the arrival of a US carrier group, Israel prepares its
+  counterattack. The US Navy will handle the Beirut region's coastal arena,
+  while the IAF will push through Damascus and the inland mountain ranges.</p>
+version: "10.7"
 miz: operation_allied_sword.miz
 performance: 2
 recommended_start_date: 2004-07-17
@@ -27,16 +34,20 @@ squadrons:
     - primary: AEW&C
       aircraft:
         - VAW-125
+      size: 2
     - primary: Refueling
       aircraft:
         - VS-35 (Tanker)
+      size: 4
     - primary: Anti-ship
       secondary: air-to-ground
       aircraft:
         - VS-35
+      size: 8
     - primary: Transport
       aircraft:
         - HSM-40
+      size: 2
   #BLUFOR LHA
   Naval-3:
     - primary: BAI
@@ -47,6 +58,7 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - HMLA-269 (UH-1H)
+      size: 4
     - primary: CAS
       secondary: air-to-ground
       aircraft:
@@ -86,6 +98,7 @@ squadrons:
     - primary: Refueling
       aircraft:
         - VMGR-352
+      size: 2
     - primary: Strike
       secondary: any
       aircraft:
@@ -148,9 +161,6 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - Su-24M Fencer-D
-    - primary: Refueling
-      aircraft:
-        - IL-78M
   # Bassel Al-Assad
   21:
     - primary: TARCAP
@@ -164,12 +174,15 @@ squadrons:
     - primary: Refueling
       aircraft:
         - IL-78M
+      size: 1
     - primary: Transport
       aircraft:
         - IL-76MD
+      size: 1
     - primary: AEW&C
       aircraft:
         - A-50
+      size: 1
     - primary: Strike
       secondary: air-to-ground
       aircraft:
@@ -218,3 +231,4 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - Mi-8MTV2 Hip
+      size: 2

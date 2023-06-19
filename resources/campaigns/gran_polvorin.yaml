@@ -14,7 +14,7 @@ description:
   fighting to the west, a USN battle group is dispatched from the east coast of
   the US to clear the Chinese forces from the continent and crush their carrier
   group.</p>
-version: "10.4"
+version: "10.7"
 recommended_player_faction: US Navy 2005
 recommended_enemy_faction: China 2010
 miz: gran_polvorin.miz
@@ -38,16 +38,20 @@ squadrons:
     - primary: AEW&C
       aircraft:
         - VAW-125
+      size: 2
     - primary: Refueling
       aircraft:
         - VS-35 (Tanker)
+      size: 4
     - primary: Anti-ship
       secondary: air-to-ground
       aircraft:
         - VS-35
+      size: 8
     - primary: Transport
       aircraft:
         - HSM-40
+      size: 2
   # BLUFOR LHA
   Naval-3:
     - primary: BAI
@@ -58,6 +62,7 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - HMLA-169 (UH-1H)
+      size: 4
     - primary: CAS
       secondary: air-to-ground
       aircraft:
@@ -106,9 +111,6 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - H-6J Badger
-    - primary: Refueling
-      aircraft:
-        - IL-78M
   # Rio Gallegos
   7:
     - primary: BARCAP

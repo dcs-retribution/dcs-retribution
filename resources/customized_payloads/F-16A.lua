@@ -2,42 +2,6 @@ local unitPayloads = {
 	["name"] = "F-16A",
 	["payloads"] = {
 		[1] = {
-			["name"] = "CAP",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{6D21ECEA-F85B-4E8D-9D51-31DC9B8AA4EF}",
-					["num"] = 6,
-				},
-				[2] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
-					["num"] = 8,
-				},
-				[3] = {
-					["CLSID"] = "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
-					["num"] = 3,
-				},
-				[4] = {
-					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
-					["num"] = 2,
-				},
-				[5] = {
-					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
-					["num"] = 9,
-				},
-				[6] = {
-					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
-					["num"] = 1,
-				},
-				[7] = {
-					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
-					["num"] = 10,
-				},
-			},
-			["tasks"] = {
-				[1] = 11,
-			},
-		},
-		[2] = {
 			["name"] = "CAS",
 			["pylons"] = {
 				[1] = {
@@ -61,19 +25,19 @@ local unitPayloads = {
 					["num"] = 9,
 				},
 				[6] = {
-					["CLSID"] = "{AIS_ASQ_T50}",
+					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
 					["num"] = 1,
 				},
 				[7] = {
-					["CLSID"] = "{AIS_ASQ_T50}",
+					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
 					["num"] = 10,
 				},
 				[8] = {
-					["CLSID"] = "{444BA8AE-82A7-4345-842E-76154EFCCA46}",
+					["CLSID"] = "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
 					["num"] = 7,
 				},
 				[9] = {
-					["CLSID"] = "{444BA8AE-82A7-4345-842E-76154EFCCA46}",
+					["CLSID"] = "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
 					["num"] = 4,
 				},
 			},
@@ -81,7 +45,7 @@ local unitPayloads = {
 				[1] = 11,
 			},
 		},
-		[3] = {
+		[2] = {
 			["name"] = "STRIKE",
 			["pylons"] = {
 				[1] = {
@@ -89,11 +53,65 @@ local unitPayloads = {
 					["num"] = 6,
 				},
 				[2] = {
-					["CLSID"] = "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}",
+					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
+					["num"] = 3,
+					["settings"] = {
+						["GUI_fuze_type"] = 1,
+						["arm_delay_ctrl_FMU139CB_LD"] = 1,
+						["function_delay_ctrl_FMU139CB_LD"] = 0,
+					},
+				},
+				[3] = {
+					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+					["num"] = 2,
+				},
+				[4] = {
+					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+					["num"] = 9,
+				},
+				[5] = {
+					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
+					["num"] = 1,
+				},
+				[6] = {
+					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
+					["num"] = 10,
+				},
+				[7] = {
+					["CLSID"] = "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+					["num"] = 4,
+				},
+				[8] = {
+					["CLSID"] = "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+					["num"] = 7,
+				},
+				[9] = {
+					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
+					["num"] = 8,
+					["settings"] = {
+						["GUI_fuze_type"] = 1,
+						["arm_delay_ctrl_FMU139CB_LD"] = 1,
+						["function_delay_ctrl_FMU139CB_LD"] = 0,
+					},
+				},
+			},
+			["tasks"] = {
+				[1] = 11,
+			},
+		},
+		[3] = {
+			["name"] = "CAP",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{6D21ECEA-F85B-4E8D-9D51-31DC9B8AA4EF}",
+					["num"] = 6,
+				},
+				[2] = {
+					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
 					["num"] = 8,
 				},
 				[3] = {
-					["CLSID"] = "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}",
+					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
 					["num"] = 3,
 				},
 				[4] = {
@@ -105,20 +123,20 @@ local unitPayloads = {
 					["num"] = 9,
 				},
 				[6] = {
-					["CLSID"] = "{AIS_ASQ_T50}",
+					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
 					["num"] = 1,
 				},
 				[7] = {
-					["CLSID"] = "{AIS_ASQ_T50}",
+					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
 					["num"] = 10,
 				},
 				[8] = {
-					["CLSID"] = "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}",
-					["num"] = 7,
+					["CLSID"] = "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+					["num"] = 4,
 				},
 				[9] = {
-					["CLSID"] = "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}",
-					["num"] = 4,
+					["CLSID"] = "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+					["num"] = 7,
 				},
 			},
 			["tasks"] = {
@@ -149,19 +167,19 @@ local unitPayloads = {
 					["num"] = 9,
 				},
 				[6] = {
-					["CLSID"] = "{AIS_ASQ_T50}",
+					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
 					["num"] = 1,
 				},
 				[7] = {
-					["CLSID"] = "{AIS_ASQ_T50}",
+					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
 					["num"] = 10,
 				},
 				[8] = {
-					["CLSID"] = "{444BA8AE-82A7-4345-842E-76154EFCCA46}",
+					["CLSID"] = "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
 					["num"] = 7,
 				},
 				[9] = {
-					["CLSID"] = "{444BA8AE-82A7-4345-842E-76154EFCCA46}",
+					["CLSID"] = "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
 					["num"] = 4,
 				},
 			},
@@ -181,7 +199,7 @@ local unitPayloads = {
 					["num"] = 8,
 				},
 				[3] = {
-					["CLSID"] = "{444BA8AE-82A7-4345-842E-76154EFCCA46}",
+					["CLSID"] = "{E6A6262A-CA08-4B3D-B030-E1A993B98452}",
 					["num"] = 3,
 				},
 				[4] = {
@@ -193,19 +211,19 @@ local unitPayloads = {
 					["num"] = 9,
 				},
 				[6] = {
-					["CLSID"] = "{AIS_ASQ_T50}",
+					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
 					["num"] = 1,
 				},
 				[7] = {
-					["CLSID"] = "{AIS_ASQ_T50}",
+					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
 					["num"] = 10,
 				},
 				[8] = {
-					["CLSID"] = "{444BA8AE-82A7-4345-842E-76154EFCCA46}",
+					["CLSID"] = "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
 					["num"] = 7,
 				},
 				[9] = {
-					["CLSID"] = "{444BA8AE-82A7-4345-842E-76154EFCCA46}",
+					["CLSID"] = "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
 					["num"] = 4,
 				},
 			},

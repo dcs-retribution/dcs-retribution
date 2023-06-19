@@ -10,11 +10,17 @@ if TYPE_CHECKING:
     from ..flightwaypoint import FlightWaypoint
 
 
-@dataclass(frozen=True)
+@dataclass
 class StandardLayout(Layout, ABC):
     arrival: FlightWaypoint
     divert: FlightWaypoint | None
     bullseye: FlightWaypoint
+
+    def delete_waypoint(self, waypoint: FlightWaypoint) -> bool:
+        if waypoint is self.divert:
+            self.divert = None
+            return True
+        return False
 
 
 LayoutT = TypeVar("LayoutT", bound=StandardLayout)

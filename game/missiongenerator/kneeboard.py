@@ -43,11 +43,11 @@ from game.radio.radios import RadioFrequency
 from game.runways import RunwayData
 from game.theater import TheaterGroundObject, TheaterUnit
 from game.theater.bullseye import Bullseye
-from game.utils import Distance, UnitSystem, meters, mps, pounds, knots, feet
-from game.weather import Weather
+from game.utils import Distance, UnitSystem, meters, mps, pounds
+from game.weather.weather import Weather
 from .aircraft.flightdata import FlightData
-from .missiondata import AwacsInfo, TankerInfo
 from .briefinggenerator import CommInfo, JtacInfo, MissionInfoGenerator
+from .missiondata import AwacsInfo, TankerInfo
 
 if TYPE_CHECKING:
     from game import Game
@@ -79,10 +79,10 @@ class KneeboardPageWriter:
             "courbd.ttf", 24, layout_engine=ImageFont.LAYOUT_BASIC
         )
         self.content_font = ImageFont.truetype(
-            "cour.ttf", 16, layout_engine=ImageFont.LAYOUT_BASIC
+            "courbd.ttf", 16, layout_engine=ImageFont.LAYOUT_BASIC
         )
         self.table_font = ImageFont.truetype(
-            "cour.ttf", 20, layout_engine=ImageFont.LAYOUT_BASIC
+            "courbd.ttf", 20, layout_engine=ImageFont.LAYOUT_BASIC
         )
         self.draw = ImageDraw.Draw(self.image)
         self.page_margin = page_margin
@@ -147,7 +147,6 @@ class KneeboardPageWriter:
 
     def write(self, path: Path) -> None:
         self.image.save(path)
-        print(path.with_suffix(".txt"))
         path.with_suffix(".txt").write_text(self.get_text_string())
 
     @staticmethod
@@ -338,7 +337,7 @@ class BriefingPage(KneeboardPage):
         self.start_time = start_time
         self.dark_kneeboard = dark_kneeboard
         self.flight_plan_font = ImageFont.truetype(
-            "cour.ttf",
+            "courbd.ttf",
             16,
             layout_engine=ImageFont.LAYOUT_BASIC,
         )

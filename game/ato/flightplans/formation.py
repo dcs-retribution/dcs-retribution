@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from datetime import timedelta
 from functools import cached_property
-from typing import Any, TYPE_CHECKING, TypeGuard
+from typing import Any, TYPE_CHECKING, TypeGuard, Optional
 
 from game.typeguard import self_type_guard
 from game.utils import Speed
@@ -16,13 +16,27 @@ if TYPE_CHECKING:
     from ..flightwaypoint import FlightWaypoint
 
 
-@dataclass(frozen=True)
+@dataclass
 class FormationLayout(LoiterLayout, ABC):
     nav_to: list[FlightWaypoint]
     join: FlightWaypoint
     split: FlightWaypoint
-    refuel: FlightWaypoint
+    refuel: Optional[FlightWaypoint]
     nav_from: list[FlightWaypoint]
+
+    def delete_waypoint(self, waypoint: FlightWaypoint) -> bool:
+        if super().delete_waypoint(waypoint):
+            return True
+        if waypoint in self.nav_to:
+            self.nav_to.remove(waypoint)
+            return True
+        elif waypoint in self.nav_from:
+            self.nav_from.remove(waypoint)
+            return True
+        elif waypoint == self.refuel:
+            self.refuel = None
+            return True
+        return False
 
 
 class FormationFlightPlan(LoiterFlightPlan, ABC):
@@ -83,9 +97,9 @@ class FormationFlightPlan(LoiterFlightPlan, ABC):
 
     def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
         if waypoint == self.layout.join:
-            return self.join_time
+            return self.join_time + self.tot_offset
         elif waypoint == self.layout.split:
-            return self.split_time
+            return self.split_time + self.tot_offset
         return None
 
     @property

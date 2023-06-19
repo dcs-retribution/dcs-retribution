@@ -60,7 +60,7 @@ class Campaign:
 
     @classmethod
     def from_file(cls, path: Path) -> Campaign:
-        with path.open() as campaign_file:
+        with path.open(encoding="utf-8") as campaign_file:
             data = yaml.safe_load(campaign_file)
 
         sanitized_theater = data["theater"].replace(" ", "")
@@ -183,7 +183,7 @@ class Campaign:
     @classmethod
     def iter_campaign_defs(cls) -> Iterator[Path]:
         yield from cls.iter_campaigns_in_dir(
-            Path(persistency.base_path()) / "Retribution/Campaigns"
+            persistency.base_path() / "Retribution/Campaigns"
         )
         yield from cls.iter_campaigns_in_dir(Path("resources/campaigns"))
 

@@ -10,7 +10,7 @@ from dcs import Point
 
 from game.flightplan import HoldZoneGeometry
 from game.theater import MissionTarget
-from game.utils import Speed, meters, Distance
+from game.utils import Speed, meters
 from .flightplan import FlightPlan
 from .formation import FormationFlightPlan, FormationLayout
 from .ibuilder import IBuilder
@@ -25,10 +25,6 @@ if TYPE_CHECKING:
 
 
 class FormationAttackFlightPlan(FormationFlightPlan, ABC):
-    @property
-    def lead_time(self) -> timedelta:
-        return timedelta()
-
     @property
     def package_speed_waypoints(self) -> set[FlightWaypoint]:
         return {
@@ -49,13 +45,6 @@ class FormationAttackFlightPlan(FormationFlightPlan, ABC):
     @property
     def tot_waypoint(self) -> FlightWaypoint:
         return self.layout.targets[0]
-
-    @property
-    def tot_offset(self) -> timedelta:
-        try:
-            return -self.lead_time
-        except AttributeError:
-            return timedelta()
 
     @property
     def target_area_waypoint(self) -> FlightWaypoint:
@@ -130,7 +119,7 @@ class FormationAttackFlightPlan(FormationFlightPlan, ABC):
         return super().tot_for_waypoint(waypoint)
 
 
-@dataclass(frozen=True)
+@dataclass
 class FormationAttackLayout(FormationLayout):
     ingress: FlightWaypoint
     targets: list[FlightWaypoint]

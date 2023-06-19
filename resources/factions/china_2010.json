@@ -26,7 +26,7 @@
   "frontline_units": [
     "BMP-1",
     "HQ-7 Launcher",
-    "T-55A",
+    "MT Type 59",
     "Type 04A (ZBD-04A)",
     "Type 96B (ZTZ-96B)"
   ],
@@ -62,6 +62,7 @@
     "Type 052C Destroyer",
     "Type 054A Frigate",
     "CV 1143.5 Admiral Kuznetsov",
+    "Type 093 Attack Submarine",
     "Type 071 Amphibious Transport Dock"
   ],
   "air_defense_units": [

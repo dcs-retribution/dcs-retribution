@@ -1,4 +1,5 @@
-description: "Two seat Jet trainer aircraft L-39C is intended for basic and advanced\
+description:
+  "Two seat Jet trainer aircraft L-39C is intended for basic and advanced\
   \ pilot training in visual and instrument flight rules weather conditions, day and\
   \ night and also for combat use against air and ground targets. Its development\
   \ started in the middle 60s of the last century by the Czech \u201CAero Vodochody\u201D\
@@ -18,3 +19,14 @@ kneeboard_units: "metric"
 #   NS430allow: true
 #   NetCrewControlPriority: 1
 #   SoloFlight: false
+tasks:
+  BAI: 220
+  BARCAP: 120
+  CAS: 220
+  Escort: 120
+  Fighter sweep: 120
+  Intercept: 120
+  OCA/Aircraft: 220
+  OCA/Runway: 160
+  Strike: 160
+  TARCAP: 120

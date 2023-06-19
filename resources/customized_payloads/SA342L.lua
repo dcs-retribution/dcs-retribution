@@ -2,19 +2,23 @@ local unitPayloads = {
 	["name"] = "SA342L",
 	["payloads"] = {
 		[1] = {
-			["name"] = "CAS",
+			["name"] = "CAP",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{LAU_SNEB68G}",
+					["CLSID"] = "{SA342_Mistral_L2}",
 					["num"] = 2,
 				},
 				[2] = {
 					["CLSID"] = "{IR_Deflector}",
-					["num"] = 6,
+					["num"] = 4,
 				},
 				[3] = {
 					["CLSID"] = "{FAS}",
-					["num"] = 5,
+					["num"] = 3,
+				},
+				[4] = {
+					["CLSID"] = "{SA342_Mistral_R2}",
+					["num"] = 1,
 				},
 			},
 			["tasks"] = {
@@ -22,19 +26,23 @@ local unitPayloads = {
 			},
 		},
 		[2] = {
-			["name"] = "CAP",
+			["name"] = "SEAD",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{LAU_SNEB68G}",
+					["CLSID"] = "{HOT3_L2}",
 					["num"] = 2,
 				},
 				[2] = {
 					["CLSID"] = "{IR_Deflector}",
-					["num"] = 6,
+					["num"] = 4,
 				},
 				[3] = {
 					["CLSID"] = "{FAS}",
-					["num"] = 5,
+					["num"] = 3,
+				},
+				[4] = {
+					["CLSID"] = "{HOT3_R2}",
+					["num"] = 1,
 				},
 			},
 			["tasks"] = {
@@ -42,19 +50,23 @@ local unitPayloads = {
 			},
 		},
 		[3] = {
-			["name"] = "SEAD",
+			["name"] = "CAS",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{LAU_SNEB68G}",
+					["CLSID"] = "{TELSON8_SNEBT257}",
 					["num"] = 2,
 				},
 				[2] = {
 					["CLSID"] = "{IR_Deflector}",
-					["num"] = 6,
+					["num"] = 4,
 				},
 				[3] = {
 					["CLSID"] = "{FAS}",
-					["num"] = 5,
+					["num"] = 3,
+				},
+				[4] = {
+					["CLSID"] = "{TELSON8_SNEBT257}",
+					["num"] = 1,
 				},
 			},
 			["tasks"] = {
@@ -85,16 +97,20 @@ local unitPayloads = {
 			["name"] = "STRIKE",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{LAU_SNEB68G}",
+					["CLSID"] = "{TELSON8_SNEBT257}",
 					["num"] = 2,
 				},
 				[2] = {
 					["CLSID"] = "{IR_Deflector}",
-					["num"] = 6,
+					["num"] = 4,
 				},
 				[3] = {
 					["CLSID"] = "{FAS}",
-					["num"] = 5,
+					["num"] = 3,
+				},
+				[4] = {
+					["CLSID"] = "{TELSON8_SNEBT257}",
+					["num"] = 1,
 				},
 			},
 			["tasks"] = {

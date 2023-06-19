@@ -2,6 +2,42 @@ local unitPayloads = {
 	["name"] = "MiG-29A",
 	["payloads"] = {
 		[1] = {
+			["name"] = "CAS",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+					["num"] = 7,
+				},
+				[2] = {
+					["CLSID"] = "B-8M1 - 20 S-8OFP2",
+					["num"] = 5,
+				},
+				[3] = {
+					["CLSID"] = "B-8M1 - 20 S-8OFP2",
+					["num"] = 6,
+				},
+				[4] = {
+					["CLSID"] = "B-8M1 - 20 S-8OFP2",
+					["num"] = 3,
+				},
+				[5] = {
+					["CLSID"] = "B-8M1 - 20 S-8OFP2",
+					["num"] = 2,
+				},
+				[6] = {
+					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+					["num"] = 1,
+				},
+				[7] = {
+					["CLSID"] = "{2BEC576B-CDF5-4B7F-961F-B0FA4312B841}",
+					["num"] = 4,
+				},
+			},
+			["tasks"] = {
+				[1] = 30,
+			},
+		},
+		[2] = {
 			["name"] = "STRIKE",
 			["pylons"] = {
 				[1] = {
@@ -37,7 +73,7 @@ local unitPayloads = {
 				[1] = 32,
 			},
 		},
-		[2] = {
+		[3] = {
 			["name"] = "CAP",
 			["pylons"] = {
 				[1] = {
@@ -64,45 +100,13 @@ local unitPayloads = {
 					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
 					["num"] = 7,
 				},
-			},
-			["tasks"] = {
-				[1] = 10,
-			},
-		},
-		[3] = {
-			["name"] = "CAS",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
-					["num"] = 7,
-				},
-				[2] = {
-					["CLSID"] = "{37DCC01E-9E02-432F-B61D-10C166CA2798}",
-					["num"] = 5,
-				},
-				[3] = {
-					["CLSID"] = "{3858707D-F5D5-4bbb-BDD8-ABB0530EBC7C}",
-					["num"] = 6,
-				},
-				[4] = {
-					["CLSID"] = "{37DCC01E-9E02-432F-B61D-10C166CA2798}",
-					["num"] = 3,
-				},
-				[5] = {
-					["CLSID"] = "{3858707D-F5D5-4bbb-BDD8-ABB0530EBC7C}",
-					["num"] = 2,
-				},
-				[6] = {
-					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
-					["num"] = 1,
-				},
 				[7] = {
 					["CLSID"] = "{2BEC576B-CDF5-4B7F-961F-B0FA4312B841}",
 					["num"] = 4,
 				},
 			},
 			["tasks"] = {
-				[1] = 30,
+				[1] = 10,
 			},
 		},
 		[4] = {
@@ -175,6 +179,43 @@ local unitPayloads = {
 			},
 			["tasks"] = {
 				[1] = 30,
+			},
+		},
+		[6] = {
+			["displayName"] = "Retribution OCA/Runway",
+			["name"] = "Retribution OCA/Runway",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+					["num"] = 1,
+				},
+				[2] = {
+					["CLSID"] = "{BD289E34-DF84-4C5E-9220-4B14C346E79D}",
+					["num"] = 2,
+				},
+				[3] = {
+					["CLSID"] = "{BD289E34-DF84-4C5E-9220-4B14C346E79D}",
+					["num"] = 3,
+				},
+				[4] = {
+					["CLSID"] = "{2BEC576B-CDF5-4B7F-961F-B0FA4312B841}",
+					["num"] = 4,
+				},
+				[5] = {
+					["CLSID"] = "{BD289E34-DF84-4C5E-9220-4B14C346E79D}",
+					["num"] = 5,
+				},
+				[6] = {
+					["CLSID"] = "{BD289E34-DF84-4C5E-9220-4B14C346E79D}",
+					["num"] = 6,
+				},
+				[7] = {
+					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+					["num"] = 7,
+				},
+			},
+			["tasks"] = {
+				[1] = 34,
 			},
 		},
 	},

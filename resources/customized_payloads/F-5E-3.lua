@@ -2,26 +2,6 @@ local unitPayloads = {
 	["name"] = "F-5E-3",
 	["payloads"] = {
 		[1] = {
-			["name"] = "CAP",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{AIM-9P5}",
-					["num"] = 7,
-				},
-				[2] = {
-					["CLSID"] = "{AIM-9P5}",
-					["num"] = 1,
-				},
-				[3] = {
-					["CLSID"] = "{PTB-150GAL}",
-					["num"] = 4,
-				},
-			},
-			["tasks"] = {
-				[1] = 11,
-			},
-		},
-		[2] = {
 			["name"] = "CAS",
 			["pylons"] = {
 				[1] = {
@@ -57,7 +37,7 @@ local unitPayloads = {
 				[1] = 11,
 			},
 		},
-		[3] = {
+		[2] = {
 			["name"] = "SEAD",
 			["pylons"] = {
 				[1] = {
@@ -87,6 +67,31 @@ local unitPayloads = {
 				[7] = {
 					["CLSID"] = "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}",
 					["num"] = 6,
+					["settings"] = {
+						["GUI_fuze_type"] = 1,
+						["arm_delay_ctrl_FMU139CB_LD"] = 1,
+						["function_delay_ctrl_FMU139CB_LD"] = 0,
+					},
+				},
+			},
+			["tasks"] = {
+				[1] = 11,
+			},
+		},
+		[3] = {
+			["name"] = "CAP",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{AIM-9P5}",
+					["num"] = 7,
+				},
+				[2] = {
+					["CLSID"] = "{AIM-9P5}",
+					["num"] = 1,
+				},
+				[3] = {
+					["CLSID"] = "{PTB-150GAL}",
+					["num"] = 4,
 				},
 			},
 			["tasks"] = {

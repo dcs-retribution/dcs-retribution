@@ -1,5 +1,6 @@
 always_keeps_gun: true
-description: 'The British Spitfire is one of the most iconic fighter aircraft of World
+description:
+  'The British Spitfire is one of the most iconic fighter aircraft of World
   War II. Most famous for its role in the Battle of Britain, the Spitfire served as
   Britain''s primary fighter during the entirety of the war. The Spitfire combines
   graceful lines, eye-watering dogfight performance, and heavy firepower in its later
@@ -42,3 +43,15 @@ gunfighter: true
 variants:
   Spitfire LF Mk IX: {}
 kneeboard_units: "imperial"
+tasks:
+  BAI: 80
+  BARCAP: 80
+  CAS: 80
+  DEAD: 40
+  Escort: 80
+  Fighter sweep: 80
+  Intercept: 80
+  OCA/Aircraft: 80
+  OCA/Runway: 40
+  Strike: 40
+  TARCAP: 80

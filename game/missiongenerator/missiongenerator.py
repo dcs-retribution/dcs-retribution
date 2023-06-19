@@ -9,6 +9,7 @@ import dcs.lua
 from dcs import Mission, Point
 from dcs.coalition import Coalition
 from dcs.countries import country_dict
+from dcs.task import OptReactOnThreat
 
 from game.atcdata import AtcData
 from game.dcs.beacons import Beacons
@@ -43,13 +44,6 @@ if TYPE_CHECKING:
     from game import Game
 
 
-def country_id_from_name(name: str) -> int:
-    for k, v in country_dict.items():
-        if v.name == name:
-            return k
-    return -1
-
-
 class MissionGenerator:
     def __init__(self, game: Game, time: datetime) -> None:
         self.game = game
@@ -64,6 +58,9 @@ class MissionGenerator:
         self.tacan_registry = TacanRegistry()
 
         self.generation_started = False
+
+        self.p_country = country_dict[self.game.blue.faction.country.id]()
+        self.e_country = country_dict[self.game.red.faction.country.id]()
 
         with open("resources/default_options.lua", "r", encoding="utf-8") as f:
             options = dcs.lua.loads(f.read())["options"]
@@ -84,6 +81,7 @@ class MissionGenerator:
         self.add_airfields_to_unit_map()
         self.initialize_registries()
 
+        LuaGenerator(self.game, self.mission, self.mission_data).generate()
         EnvironmentGenerator(self.mission, self.game.conditions, self.time).generate()
 
         tgo_generator = TgoGenerator(
@@ -109,7 +107,6 @@ class MissionGenerator:
         TriggerGenerator(self.mission, self.game).generate()
         ForcedOptionsGenerator(self.mission, self.game).generate()
         VisualsGenerator(self.mission, self.game).generate()
-        LuaGenerator(self.game, self.mission, self.mission_data).generate()
         DrawingsGenerator(self.mission, self.game).generate()
 
         self.setup_combined_arms()
@@ -122,6 +119,22 @@ class MissionGenerator:
 
         return self.unit_map
 
+    @staticmethod
+    def _configure_ewrj(gen: AircraftGenerator) -> None:
+        for groups in gen.ewrj_package_dict.values():
+            optrot = groups[0].points[0].tasks[0]
+            assert isinstance(optrot, OptReactOnThreat)
+            if (
+                len(groups) == 1
+                and optrot.value != OptReactOnThreat.Values.PassiveDefense
+            ):
+                # primary flight with no EWR-Jamming capability
+                continue
+            for group in groups:
+                group.points[0].tasks[0] = OptReactOnThreat(
+                    OptReactOnThreat.Values.PassiveDefense
+                )
+
     def setup_mission_coalitions(self) -> None:
         self.mission.coalition["blue"] = Coalition(
             "blue", bullseye=self.game.blue.bullseye.to_pydcs()
@@ -133,22 +146,14 @@ class MissionGenerator:
             "neutrals", bullseye=Bullseye(Point(0, 0, self.mission.terrain)).to_pydcs()
         )
 
-        p_country = self.game.blue.country_name
-        e_country = self.game.red.country_name
-        self.mission.coalition["blue"].add_country(
-            country_dict[country_id_from_name(p_country)]()
-        )
-        self.mission.coalition["red"].add_country(
-            country_dict[country_id_from_name(e_country)]()
-        )
+        self.mission.coalition["blue"].add_country(self.p_country)
+        self.mission.coalition["red"].add_country(self.e_country)
 
-        belligerents = [
-            country_id_from_name(p_country),
-            country_id_from_name(e_country),
-        ]
-        for country in country_dict.keys():
-            if country not in belligerents:
-                self.mission.coalition["neutrals"].add_country(country_dict[country]())
+        belligerents = {self.p_country.id, self.e_country.id}
+        for country_id in country_dict.keys():
+            if country_id not in belligerents:
+                c = country_dict[country_id]()
+                self.mission.coalition["neutrals"].add_country(c)
 
     def add_airfields_to_unit_map(self) -> None:
         for control_point in self.game.theater.controlpoints:
@@ -238,24 +243,26 @@ class MissionGenerator:
             self.unit_map,
             mission_data=self.mission_data,
             helipads=tgo_generator.helipads,
+            ground_spawns_roadbase=tgo_generator.ground_spawns_roadbase,
+            ground_spawns=tgo_generator.ground_spawns,
         )
 
         aircraft_generator.clear_parking_slots()
 
         aircraft_generator.generate_flights(
-            self.mission.country(self.game.blue.country_name),
+            self.p_country,
             self.game.blue.ato,
             tgo_generator.runways,
         )
         aircraft_generator.generate_flights(
-            self.mission.country(self.game.red.country_name),
+            self.e_country,
             self.game.red.ato,
             tgo_generator.runways,
         )
         if not self.game.settings.perf_disable_idle_aircraft:
             aircraft_generator.spawn_unused_aircraft(
-                self.mission.country(self.game.blue.country_name),
-                self.mission.country(self.game.red.country_name),
+                self.p_country,
+                self.e_country,
             )
 
         self.mission_data.flights = aircraft_generator.flights
@@ -264,6 +271,9 @@ class MissionGenerator:
             if not flight.client_units:
                 continue
             flight.aircraft_type.assign_channels_for_flight(flight, self.mission_data)
+
+        if self.game.settings.plugins.get("ewrj"):
+            self._configure_ewrj(aircraft_generator)
 
     def generate_destroyed_units(self) -> None:
         """Add destroyed units to the Mission"""
@@ -285,7 +295,7 @@ class MissionGenerator:
             pos = Point(cast(float, d["x"]), cast(float, d["z"]), self.mission.terrain)
             if utype is not None and not self.game.position_culled(pos):
                 self.mission.static_group(
-                    country=self.mission.country(self.game.blue.country_name),
+                    country=self.p_country,
                     name="",
                     _type=utype,
                     hidden=True,

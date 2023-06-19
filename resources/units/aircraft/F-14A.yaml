@@ -25,3 +25,9 @@ max_range: 350
 default_livery: vf-142 `ghost riders`
 variants:
   F-14A Tomcat (AI): {}
+tasks:
+  BARCAP: 520
+  Escort: 520
+  Fighter sweep: 520
+  Intercept: 520
+  TARCAP: 520

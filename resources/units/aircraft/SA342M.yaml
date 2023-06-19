@@ -1,6 +1,7 @@
 class: Helicopter
 carrier_capable: true
-description: "The SA342 Gazelle is a light scout/attack and transport helicopter.\
+description:
+  "The SA342 Gazelle is a light scout/attack and transport helicopter.\
   \ It was introduced in 1968 as a result of cooperation between A\xE9rospatiale and\
   \ Westland Aircraft. Operated by 23 countries, the Gazelle has served in combat\
   \ operations across the world including the 1991 Gulf War, 1982 Lebanon War, Syria,\
@@ -22,3 +23,7 @@ variants:
     manufacturer: Westland
   SA 342M Gazelle: {}
 kneeboard_units: "metric"
+tasks:
+  BAI: 460
+  CAS: 460
+  OCA/Aircraft: 460

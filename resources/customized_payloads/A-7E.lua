@@ -154,7 +154,7 @@ local unitPayloads = {
 					},
 				},
 				[4] = {
-					["CLSID"] = "{AGM_122_SIDEARM}",
+					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
 					["num"] = 4,
 				},
 				[5] = {

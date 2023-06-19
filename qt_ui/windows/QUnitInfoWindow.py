@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 from PySide2.QtCore import Qt
-from PySide2.QtGui import QIcon
+from PySide2.QtGui import QIcon, QPixmap
 from PySide2.QtWidgets import (
     QDialog,
     QGridLayout,
@@ -10,13 +12,50 @@ from PySide2.QtWidgets import (
     QFrame,
 )
 
-import game.ato.ai_flight_planner_db
-from game.ato.flighttype import FlightType
 from game.dcs.aircrafttype import AircraftType
 from game.dcs.groundunittype import GroundUnitType
 from game.dcs.unittype import UnitType
 from game.game import Game
-from qt_ui.uiconstants import AIRCRAFT_BANNERS, VEHICLE_BANNERS
+
+AIRCRAFT_BANNERS_BASE = Path("resources/ui/units/aircrafts/banners")
+VEHICLE_BANNERS_BASE = Path("resources/ui/units/vehicles/banners")
+MISSING_BANNER_PATH = AIRCRAFT_BANNERS_BASE / "Missing.jpg"
+
+
+def aircraft_banner_for(unit_type: AircraftType) -> Path:
+    if unit_type.dcs_id in {
+        "Mirage-F1CT",
+        "Mirage-F1EE",
+        "Mirage-F1M-EE",
+        "Mirage-F1EQ",
+    }:
+        name = "Mirage-F1C-200"
+    elif unit_type.dcs_id in {"Mirage-F1CE", "Mirage-F1M-CE"}:
+        name = "Mirage-F1C"
+    elif unit_type.dcs_id in {"Su-30MKA", "Su-30MKI", "Su-30MKM"}:
+        name = "Su-30SM"
+    else:
+        name = unit_type.dcs_id
+    return AIRCRAFT_BANNERS_BASE / f"{name}.jpg"
+
+
+def vehicle_banner_for(unit_type: GroundUnitType) -> Path:
+    if unit_type.dcs_id == "(IDF Mods Project) BM-21 Grad 122mm":
+        return VEHICLE_BANNERS_BASE / "Grad-URAL.jpg"
+    elif unit_type.dcs_id == "(IDF Mods Project) Urgan BM-27 220mm":
+        return VEHICLE_BANNERS_BASE / "Uragan_BM-27.jpg"
+    elif unit_type.dcs_id == "(IDF Mods Project) 9A52 Smerch CM 300mm":
+        return VEHICLE_BANNERS_BASE / "Smerch_HE.jpg"
+    else:
+        return VEHICLE_BANNERS_BASE / f"{unit_type.dcs_id}.jpg"
+
+
+def banner_path_for(unit_type: UnitType) -> Path:
+    if isinstance(unit_type, AircraftType):
+        return aircraft_banner_for(unit_type)
+    if isinstance(unit_type, GroundUnitType):
+        return vehicle_banner_for(unit_type)
+    raise NotImplementedError(f"Unhandled UnitType subclass: {unit_type.__class__}")
 
 
 class QUnitInfoWindow(QDialog):
@@ -37,14 +76,10 @@ class QUnitInfoWindow(QDialog):
         header = QLabel(self)
         header.setGeometry(0, 0, 720, 360)
 
-        pixmap = None
-
-        if isinstance(self.unit_type, AircraftType):
-            pixmap = AIRCRAFT_BANNERS.get(self.unit_type.dcs_id)
-        elif isinstance(self.unit_type, GroundUnitType):
-            pixmap = VEHICLE_BANNERS.get(self.unit_type.dcs_id)
-        if pixmap is None:
-            pixmap = AIRCRAFT_BANNERS.get("Missing")
+        banner_path = banner_path_for(unit_type)
+        if not banner_path.exists():
+            banner_path = MISSING_BANNER_PATH
+        pixmap = QPixmap(banner_path.as_posix())
         header.setPixmap(pixmap.scaled(header.width(), header.height()))
         self.layout.addWidget(header, 0, 0)
 
@@ -84,9 +119,8 @@ class QUnitInfoWindow(QDialog):
 
         # If it's an aircraft, include the task list.
         if isinstance(unit_type, AircraftType):
-            self.tasks_box = QLabel(
-                f"<b>In-Game Tasks:</b> {self.generateAircraftTasks()}"
-            )
+            tasks = ", ".join(str(t) for t in unit_type.iter_task_capabilities())
+            self.tasks_box = QLabel(f"<b>In-Game Tasks:</b> {tasks}")
             self.tasks_box.setProperty("style", "info-element")
             self.gridLayout.addWidget(self.tasks_box, 2, 0)
 
@@ -101,30 +135,3 @@ class QUnitInfoWindow(QDialog):
 
         self.layout.addLayout(self.gridLayout, 1, 0)
         self.setLayout(self.layout)
-
-    def generateAircraftTasks(self) -> str:
-        aircraft_tasks = ""
-        unit_type = self.unit_type.dcs_unit_type
-        if unit_type in game.ato.ai_flight_planner_db.CAP_CAPABLE:
-            aircraft_tasks = (
-                aircraft_tasks
-                + f"{FlightType.BARCAP}, {FlightType.ESCORT}, {FlightType.INTERCEPTION}, {FlightType.SWEEP}, {FlightType.TARCAP}, "
-            )
-        if unit_type in game.ato.ai_flight_planner_db.CAS_CAPABLE:
-            aircraft_tasks = (
-                aircraft_tasks
-                + f"{FlightType.CAS}, {FlightType.BAI}, {FlightType.OCA_AIRCRAFT}, "
-            )
-        if unit_type in game.ato.ai_flight_planner_db.SEAD_CAPABLE:
-            aircraft_tasks = aircraft_tasks + f"{FlightType.SEAD}, "
-        if unit_type in game.ato.ai_flight_planner_db.DEAD_CAPABLE:
-            aircraft_tasks = aircraft_tasks + f"{FlightType.DEAD}, "
-        if unit_type in game.ato.ai_flight_planner_db.ANTISHIP_CAPABLE:
-            aircraft_tasks = aircraft_tasks + f"{FlightType.ANTISHIP}, "
-        if unit_type in game.ato.ai_flight_planner_db.RUNWAY_ATTACK_CAPABLE:
-            aircraft_tasks = aircraft_tasks + f"{FlightType.OCA_RUNWAY}, "
-        if unit_type in game.ato.ai_flight_planner_db.STRIKE_CAPABLE:
-            aircraft_tasks = aircraft_tasks + f"{FlightType.STRIKE}, "
-        if unit_type in game.ato.ai_flight_planner_db.REFUELING_CAPABALE:
-            aircraft_tasks = aircraft_tasks + f"{FlightType.REFUELING}, "
-        return aircraft_tasks[:-2]

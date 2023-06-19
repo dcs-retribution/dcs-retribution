@@ -10,6 +10,11 @@ from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 class SweepIngressBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
+        if self.flight.count < 4:
+            waypoint.tasks.append(OptFormation.line_abreast_open())
+        else:
+            waypoint.tasks.append(OptFormation.spread_four_open())
+
         if not isinstance(self.flight.flight_plan, SweepFlightPlan):
             flight_plan_type = self.flight.flight_plan.__class__.__name__
             logging.error(
@@ -27,8 +32,3 @@ class SweepIngressBuilder(PydcsWaypointBuilder):
                 ],
             )
         )
-
-        if self.flight.count < 4:
-            waypoint.tasks.append(OptFormation.line_abreast_open())
-        else:
-            waypoint.tasks.append(OptFormation.spread_four_open())

@@ -5,7 +5,11 @@ from datetime import datetime
 from typing import Any, Optional, TYPE_CHECKING
 
 from dcs import Mission
+from dcs.action import DoScript
 from dcs.flyingunit import FlyingUnit
+from dcs.task import OptReactOnThreat
+from dcs.translation import String
+from dcs.triggers import TriggerStart
 from dcs.unit import Skill
 from dcs.unitgroup import FlyingGroup
 
@@ -25,6 +29,8 @@ from .flightdata import FlightData
 from .waypoints import WaypointGenerator
 from ...ato.flightplans.aewc import AewcFlightPlan
 from ...ato.flightplans.theaterrefueling import TheaterRefuelingFlightPlan
+from ...ato.flightwaypointtype import FlightWaypointType
+from ...theater import Fob
 
 if TYPE_CHECKING:
     from game import Game
@@ -99,6 +105,19 @@ class FlightGroupConfigurator:
             self.mission_data,
         ).create_waypoints()
 
+        # Special handling for landing waypoints when:
+        # 1. It's an AI-only flight
+        # 2. Aircraft are not helicopters/VTOL
+        # 3. Landing waypoint does not point to an airfield
+        if (
+            self.flight.client_count < 1
+            and not self.flight.unit_type.helicopter
+            and not self.flight.unit_type.lha_capable
+            and isinstance(self.flight.squadron.location, Fob)
+        ):
+            # Need to set uncontrolled to false, otherwise the AI will skip the mission and just land
+            self.group.uncontrolled = False
+
         return FlightData(
             package=self.flight.package,
             aircraft_type=self.flight.unit_type,
@@ -131,6 +150,20 @@ class FlightGroupConfigurator:
             laser_codes.append(self.laser_code_registry.get_next_laser_code())
         else:
             laser_codes.append(None)
+        settings = self.flight.coalition.game.settings
+        if not player or not settings.plugins.get("ewrj"):
+            return
+        jammer_required = settings.plugin_option("ewrj.ecm_required")
+        if jammer_required:
+            ecm = WeaponTypeEnum.JAMMER
+            if not self.flight.loadout.has_weapon_of_type(ecm):
+                return
+        ewrj_menu_trigger = TriggerStart(comment=f"EWRJ-{unit.name}")
+        ewrj_menu_trigger.add_action(DoScript(String(f'EWJamming("{unit.name}")')))
+        self.mission.triggerrules.triggers.append(ewrj_menu_trigger)
+        self.group.points[0].tasks[0] = OptReactOnThreat(
+            OptReactOnThreat.Values.PassiveDefense
+        )
 
     def setup_radios(self) -> RadioFrequency:
         freq = self.flight.frequency

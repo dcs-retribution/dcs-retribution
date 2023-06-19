@@ -15,9 +15,17 @@ if TYPE_CHECKING:
     from ..flightwaypoint import FlightWaypoint
 
 
-@dataclass(frozen=True)
+@dataclass
 class FerryLayout(StandardLayout):
     nav_to_destination: list[FlightWaypoint]
+
+    def delete_waypoint(self, waypoint: FlightWaypoint) -> bool:
+        if super().delete_waypoint(waypoint):
+            return True
+        if waypoint in self.nav_to_destination:
+            self.nav_to_destination.remove(waypoint)
+            return True
+        return False
 
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
         yield self.departure

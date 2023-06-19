@@ -13,6 +13,7 @@ from game.theater import (
     FrontLine,
     MissionTarget,
     OffMapSpawn,
+    ParkingType,
 )
 from game.theater.theatergroundobject import (
     BuildingGroundObject,
@@ -161,11 +162,21 @@ class ObjectiveFinder:
                     break
 
     def oca_targets(self, min_aircraft: int) -> Iterator[ControlPoint]:
+        parking_type = ParkingType()
+        parking_type.include_rotary_wing = True
+        parking_type.include_fixed_wing = True
+        parking_type.include_fixed_wing_stol = True
+
         airfields = []
         for control_point in self.enemy_control_points():
-            if not isinstance(control_point, Airfield):
+            if not isinstance(control_point, Airfield) and not isinstance(
+                control_point, Fob
+            ):
                 continue
-            if control_point.allocated_aircraft().total_present >= min_aircraft:
+            if (
+                control_point.allocated_aircraft(parking_type).total_present
+                >= min_aircraft
+            ):
                 airfields.append(control_point)
         return self._targets_by_range(airfields)
 

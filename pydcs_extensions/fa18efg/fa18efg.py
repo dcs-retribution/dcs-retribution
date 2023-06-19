@@ -3,7 +3,6 @@ from typing import Dict, List, Set, Any
 from dcs import task
 from dcs.planes import PlaneType
 from dcs.weapons_data import Weapons
-from dcs.liveries_scanner import Liveries
 
 from game.modsupport import planemod
 from pydcs_extensions.weapon_injector import inject_weapons
@@ -147,7 +146,6 @@ class FA_18E(PlaneType):
                 NVG = 2
 
     livery_name = "FA-18E"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         AIM_9M_Sidewinder_IR_AAM = (1, Weapons.AIM_9M_Sidewinder_IR_AAM)
@@ -219,13 +217,13 @@ class FA_18E(PlaneType):
             2,
             Weapons.GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
-        GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+        GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            Weapons.GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb,
         )
-        GBU_54B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
+        GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
             2,
-            Weapons.GBU_54B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
+            Weapons.GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
         AGM_154A___JSOW_CEB__CBU_type_ = (2, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
         AGM_154C___JSOW_Unitary_BROACH = (2, Weapons.AGM_154C___JSOW_Unitary_BROACH)
@@ -388,9 +386,9 @@ class FA_18E(PlaneType):
             3,
             Weapons.GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
-        GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+        GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb = (
             3,
-            Weapons.GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            Weapons.GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb,
         )
         BRU_55_with_2_x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             3,
@@ -398,9 +396,9 @@ class FA_18E(PlaneType):
         )
         AGM_84D_Harpoon_AShM = (3, Weapons.AGM_84D_Harpoon_AShM)
         AWW_13_DATALINK_POD = (3, Weapons.AWW_13_DATALINK_POD)
-        GBU_54B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
+        GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
             3,
-            Weapons.GBU_54B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
+            Weapons.GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
         BRU_42_with_3_x_ADM_141A_TALD = (3, Weapons.BRU_42_with_3_x_ADM_141A_TALD)
         BRU_42_with_2_x_ADM_141A_TALD = (3, Weapons.BRU_42_with_2_x_ADM_141A_TALD)
@@ -551,9 +549,9 @@ class FA_18E(PlaneType):
             5,
             Weapons.GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
-        GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+        GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb = (
             5,
-            Weapons.GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            Weapons.GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb,
         )
         BRU_55_with_2_x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             5,
@@ -561,9 +559,9 @@ class FA_18E(PlaneType):
         )
         AGM_84D_Harpoon_AShM = (5, Weapons.AGM_84D_Harpoon_AShM)
         AWW_13_DATALINK_POD = (5, Weapons.AWW_13_DATALINK_POD)
-        GBU_54B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
+        GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
             5,
-            Weapons.GBU_54B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
+            Weapons.GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
 
     class Pylon6:
@@ -710,9 +708,9 @@ class FA_18E(PlaneType):
             6,
             Weapons.GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
-        GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+        GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb = (
             6,
-            Weapons.GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            Weapons.GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb,
         )
         BRU_55_with_2_x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             6,
@@ -720,9 +718,9 @@ class FA_18E(PlaneType):
         )
         AGM_84D_Harpoon_AShM = (6, Weapons.AGM_84D_Harpoon_AShM)
         AWW_13_DATALINK_POD = (6, Weapons.AWW_13_DATALINK_POD)
-        GBU_54B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
+        GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
             6,
-            Weapons.GBU_54B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
+            Weapons.GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
 
     class Pylon7:
@@ -881,9 +879,9 @@ class FA_18E(PlaneType):
             7,
             Weapons.GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
-        GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+        GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb = (
             7,
-            Weapons.GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            Weapons.GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb,
         )
         BRU_55_with_2_x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             7,
@@ -891,9 +889,9 @@ class FA_18E(PlaneType):
         )
         AGM_84D_Harpoon_AShM = (7, Weapons.AGM_84D_Harpoon_AShM)
         AWW_13_DATALINK_POD = (7, Weapons.AWW_13_DATALINK_POD)
-        GBU_54B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
+        GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
             7,
-            Weapons.GBU_54B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
+            Weapons.GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
         BRU_42_with_3_x_ADM_141A_TALD = (7, Weapons.BRU_42_with_3_x_ADM_141A_TALD)
         BRU_42_with_2_x_ADM_141A_TALD = (7, Weapons.BRU_42_with_2_x_ADM_141A_TALD)
@@ -961,13 +959,13 @@ class FA_18E(PlaneType):
             8,
             Weapons.GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
-        GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+        GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb = (
             8,
-            Weapons.GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            Weapons.GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb,
         )
-        GBU_54B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
+        GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
             8,
-            Weapons.GBU_54B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
+            Weapons.GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
         AGM_154A___JSOW_CEB__CBU_type_ = (8, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
         AGM_154C___JSOW_Unitary_BROACH = (8, Weapons.AGM_154C___JSOW_Unitary_BROACH)
@@ -1134,7 +1132,6 @@ class FA_18F(PlaneType):
                 NVG = 2
 
     livery_name = "FA-18F"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         AIM_9M_Sidewinder_IR_AAM = (1, Weapons.AIM_9M_Sidewinder_IR_AAM)
@@ -1206,13 +1203,13 @@ class FA_18F(PlaneType):
             2,
             Weapons.GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
-        GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+        GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            Weapons.GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb,
         )
-        GBU_54B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
+        GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
             2,
-            Weapons.GBU_54B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
+            Weapons.GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
         AGM_154A___JSOW_CEB__CBU_type_ = (2, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
         AGM_154C___JSOW_Unitary_BROACH = (2, Weapons.AGM_154C___JSOW_Unitary_BROACH)
@@ -1375,9 +1372,9 @@ class FA_18F(PlaneType):
             3,
             Weapons.GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
-        GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+        GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb = (
             3,
-            Weapons.GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            Weapons.GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb,
         )
         BRU_55_with_2_x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             3,
@@ -1385,9 +1382,9 @@ class FA_18F(PlaneType):
         )
         AGM_84D_Harpoon_AShM = (3, Weapons.AGM_84D_Harpoon_AShM)
         AWW_13_DATALINK_POD = (3, Weapons.AWW_13_DATALINK_POD)
-        GBU_54B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
+        GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
             3,
-            Weapons.GBU_54B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
+            Weapons.GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
         BRU_42_with_3_x_ADM_141A_TALD = (3, Weapons.BRU_42_with_3_x_ADM_141A_TALD)
         BRU_42_with_2_x_ADM_141A_TALD = (3, Weapons.BRU_42_with_2_x_ADM_141A_TALD)
@@ -1538,9 +1535,9 @@ class FA_18F(PlaneType):
             5,
             Weapons.GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
-        GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+        GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb = (
             5,
-            Weapons.GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            Weapons.GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb,
         )
         BRU_55_with_2_x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             5,
@@ -1548,9 +1545,9 @@ class FA_18F(PlaneType):
         )
         AGM_84D_Harpoon_AShM = (5, Weapons.AGM_84D_Harpoon_AShM)
         AWW_13_DATALINK_POD = (5, Weapons.AWW_13_DATALINK_POD)
-        GBU_54B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
+        GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
             5,
-            Weapons.GBU_54B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
+            Weapons.GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
 
     class Pylon6:
@@ -1697,9 +1694,9 @@ class FA_18F(PlaneType):
             6,
             Weapons.GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
-        GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+        GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb = (
             6,
-            Weapons.GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            Weapons.GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb,
         )
         BRU_55_with_2_x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             6,
@@ -1707,9 +1704,9 @@ class FA_18F(PlaneType):
         )
         AGM_84D_Harpoon_AShM = (6, Weapons.AGM_84D_Harpoon_AShM)
         AWW_13_DATALINK_POD = (6, Weapons.AWW_13_DATALINK_POD)
-        GBU_54B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
+        GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
             6,
-            Weapons.GBU_54B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
+            Weapons.GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
 
     class Pylon7:
@@ -1868,9 +1865,9 @@ class FA_18F(PlaneType):
             7,
             Weapons.GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
-        GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+        GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb = (
             7,
-            Weapons.GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            Weapons.GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb,
         )
         BRU_55_with_2_x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             7,
@@ -1878,9 +1875,9 @@ class FA_18F(PlaneType):
         )
         AGM_84D_Harpoon_AShM = (7, Weapons.AGM_84D_Harpoon_AShM)
         AWW_13_DATALINK_POD = (7, Weapons.AWW_13_DATALINK_POD)
-        GBU_54B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
+        GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
             7,
-            Weapons.GBU_54B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
+            Weapons.GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
         BRU_42_with_3_x_ADM_141A_TALD = (7, Weapons.BRU_42_with_3_x_ADM_141A_TALD)
         BRU_42_with_2_x_ADM_141A_TALD = (7, Weapons.BRU_42_with_2_x_ADM_141A_TALD)
@@ -1948,13 +1945,13 @@ class FA_18F(PlaneType):
             8,
             Weapons.GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
-        GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
+        GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb = (
             8,
-            Weapons.GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            Weapons.GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb,
         )
-        GBU_54B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
+        GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
             8,
-            Weapons.GBU_54B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
+            Weapons.GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
         AGM_154A___JSOW_CEB__CBU_type_ = (8, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
         AGM_154C___JSOW_Unitary_BROACH = (8, Weapons.AGM_154C___JSOW_Unitary_BROACH)
@@ -2121,7 +2118,6 @@ class EA_18G(PlaneType):
                 NVG = 2
 
     livery_name = "EA-18G"  # from type
-    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         FPU_12_Fuel_Tank_480_gallons = (1, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)

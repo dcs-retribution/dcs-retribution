@@ -1,5 +1,6 @@
 import logging
-from typing import Callable, Iterator, Optional
+from copy import deepcopy
+from typing import Callable, Iterator, Optional, Type
 
 from PySide2.QtCore import QItemSelection, QItemSelectionModel, QModelIndex, Qt
 from PySide2.QtWidgets import (
@@ -14,18 +15,22 @@ from PySide2.QtWidgets import (
     QVBoxLayout,
     QInputDialog,
     QLineEdit,
+    QMessageBox,
 )
+from dcs.unittype import FlyingType
 
 from game.ato.flightplans.custom import CustomFlightPlan
 from game.ato.flighttype import FlightType
 from game.ato.flightwaypointtype import FlightWaypointType
+from game.dcs.aircrafttype import AircraftType
 from game.server import EventStream
 from game.sim import GameUpdateEvents
 from game.squadrons import Pilot, Squadron
-from game.theater import ConflictTheater, ControlPoint
+from game.theater import ConflictTheater, ControlPoint, ParkingType
 from qt_ui.delegates import TwoColumnRowDelegate
 from qt_ui.errorreporter import report_errors
 from qt_ui.models import AtoModel, SquadronModel
+from qt_ui.widgets.combos.primarytaskselector import PrimaryTaskSelector
 
 
 class PilotDelegate(TwoColumnRowDelegate):
@@ -82,11 +87,12 @@ class AutoAssignedTaskControls(QVBoxLayout):
 
             return callback
 
-        for task in squadron_model.squadron.mission_types:
-            checkbox = QCheckBox(text=task.value)
-            checkbox.setChecked(squadron_model.is_auto_assignable(task))
-            checkbox.toggled.connect(make_callback(task))
-            self.addWidget(checkbox)
+        for task in FlightType:
+            if self.squadron_model.squadron.capable_of(task):
+                checkbox = QCheckBox(text=task.value)
+                checkbox.setChecked(squadron_model.is_auto_assignable(task))
+                checkbox.toggled.connect(make_callback(task))
+                self.addWidget(checkbox)
 
         self.addStretch()
 
@@ -100,7 +106,8 @@ class SquadronDestinationComboBox(QComboBox):
         self.squadron = squadron
         self.theater = theater
 
-        room = squadron.location.unclaimed_parking()
+        parking_type = ParkingType().from_squadron(squadron)
+        room = squadron.location.unclaimed_parking(parking_type)
         self.addItem(
             f"Remain at {squadron.location} (room for {room} more aircraft)",
             squadron.location,
@@ -109,11 +116,26 @@ class SquadronDestinationComboBox(QComboBox):
         for idx, destination in enumerate(sorted(self.iter_destinations(), key=str), 1):
             if destination == squadron.destination:
                 selected_index = idx
-            room = destination.unclaimed_parking()
+            room = self.calculate_parking_slots(
+                destination, squadron.aircraft.dcs_unit_type
+            )
             self.addItem(
                 f"Transfer to {destination} (room for {room} more aircraft)",
                 destination,
             )
+            if room < squadron.owned_aircraft or room == 0:
+                diff = squadron.owned_aircraft - room
+                text = (
+                    f"Transfer to {destination} not possible "
+                    f"({diff} additional slots required)"
+                )
+                if squadron.owned_aircraft == 0 and room == 0:
+                    text = (
+                        f"Transfer to {destination} not possible "
+                        f"(no fitting slots found)"
+                    )
+                self.setItemText(idx, text)
+                self.model().item(idx).setEnabled(False)
 
         if squadron.destination is None:
             selected_index = 0
@@ -123,17 +145,80 @@ class SquadronDestinationComboBox(QComboBox):
 
     def iter_destinations(self) -> Iterator[ControlPoint]:
         size = self.squadron.expected_size_next_turn
+        parking_type = ParkingType().from_squadron(self.squadron)
         for control_point in self.theater.control_points_for(self.squadron.player):
             if control_point == self.squadron.location:
                 continue
             if not control_point.can_operate(self.squadron.aircraft):
                 continue
+            ac_type = self.squadron.aircraft.dcs_unit_type
             if (
                 self.squadron.destination is not control_point
-                and control_point.unclaimed_parking() < size
+                and control_point.unclaimed_parking(parking_type) < size
+                and self.calculate_parking_slots(control_point, ac_type) < size
             ):
                 continue
             yield control_point
+
+    @staticmethod
+    def calculate_parking_slots(
+        cp: ControlPoint, dcs_unit_type: Type[FlyingType]
+    ) -> int:
+        if cp.dcs_airport:
+            ap = deepcopy(cp.dcs_airport)
+            overflow = []
+
+            parking_type = ParkingType(
+                fixed_wing=False, fixed_wing_stol=False, rotary_wing=True
+            )
+            free_helicopter_slots = cp.total_aircraft_parking(parking_type)
+
+            parking_type = ParkingType(
+                fixed_wing=False, fixed_wing_stol=True, rotary_wing=False
+            )
+            free_ground_spawns = cp.total_aircraft_parking(parking_type)
+
+            for s in cp.squadrons:
+                for count in range(s.owned_aircraft):
+                    is_heli = s.aircraft.helicopter
+                    is_vtol = not is_heli and s.aircraft.lha_capable
+                    count_ground_spawns = (
+                        s.aircraft.flyable
+                        or cp.coalition.game.settings.ground_start_ai_planes
+                    )
+
+                    if free_helicopter_slots > 0 and (is_heli or is_vtol):
+                        free_helicopter_slots = -1
+                    elif free_ground_spawns > 0 and (
+                        is_heli or is_vtol or count_ground_spawns
+                    ):
+                        free_ground_spawns = -1
+                    else:
+                        slot = ap.free_parking_slot(s.aircraft.dcs_unit_type)
+                        if slot:
+                            slot.unit_id = id(s) + count
+                        else:
+                            overflow.append(s)
+                            break
+            if overflow:
+                overflow_msg = ""
+                for s in overflow:
+                    overflow_msg += f"{s.name} - {s.aircraft.name}<br/>"
+                QMessageBox.warning(
+                    None,
+                    "Insufficient parking space detected!",
+                    f"Insufficient parking space was detected at {cp.name}:<br/><br/>"
+                    f"{overflow_msg}<br/>"
+                    f"Consider moving these squadrons to different airfield "
+                    "to avoid possible air-starts.",
+                )
+            return len(ap.free_parking_slots(dcs_unit_type))
+        else:
+            parking_type = ParkingType().from_aircraft(
+                next(AircraftType.for_dcs_type(dcs_unit_type)),
+                cp.coalition.game.settings.ground_start_ai_planes,
+            )
+            return cp.unclaimed_parking(parking_type)
 
 
 class SquadronDialog(QDialog):
@@ -160,8 +245,20 @@ class SquadronDialog(QDialog):
         columns = QHBoxLayout()
         layout.addLayout(columns)
 
+        left_column = QVBoxLayout()
+        columns.addLayout(left_column)
+
+        left_column.addWidget(QLabel("Primary task"))
+        self.primary_task_selector = PrimaryTaskSelector.for_squadron(
+            self.squadron_model.squadron
+        )
+        self.primary_task_selector.currentIndexChanged.connect(
+            self.on_task_index_changed
+        )
+        left_column.addWidget(self.primary_task_selector)
+
         auto_assigned_tasks = AutoAssignedTaskControls(squadron_model)
-        columns.addLayout(auto_assigned_tasks)
+        left_column.addLayout(auto_assigned_tasks)
 
         self.pilot_list = PilotList(squadron_model)
         self.pilot_list.selectionModel().selectionChanged.connect(
@@ -297,3 +394,9 @@ class SquadronDialog(QDialog):
         index = selected.indexes()[0]
         self.reset_ai_toggle_state(index)
         self.reset_leave_toggle_state(index)
+
+    def on_task_index_changed(self, index: int) -> None:
+        task = self.primary_task_selector.itemData(index)
+        if task is None:
+            raise RuntimeError("Selected task cannot be None")
+        self.squadron.primary_task = task

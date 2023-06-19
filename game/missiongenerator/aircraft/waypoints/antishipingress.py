@@ -1,0 +1,36 @@
+import logging
+
+from dcs.point import MovingPoint
+from dcs.task import AttackGroup, OptFormation, WeaponType
+
+from game.theater import NavalControlPoint
+from .pydcswaypointbuilder import PydcsWaypointBuilder
+
+
+class AntiShipIngressBuilder(PydcsWaypointBuilder):
+    def add_tasks(self, waypoint: MovingPoint) -> None:
+        group_names = []
+        waypoint.tasks.append(OptFormation.finger_four_open())
+
+        target = self.package.target
+        if isinstance(target, NavalControlPoint):
+            carrier_name = target.get_carrier_group_name()
+            if carrier_name:
+                group_names.append(carrier_name)
+        else:
+            logging.error(
+                "Unexpected target type for Anti-Ship mission: %s",
+                target.__class__.__name__,
+            )
+            return
+
+        for group_name in group_names:
+            miz_group = self.mission.find_group(group_name)
+            if miz_group is None:
+                logging.error(
+                    "Could not find group for Anti-Ship mission %s", group_name
+                )
+                continue
+
+            task = AttackGroup(miz_group.id, weapon_type=WeaponType.Auto)
+            waypoint.tasks.append(task)

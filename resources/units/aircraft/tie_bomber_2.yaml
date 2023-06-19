@@ -13,3 +13,12 @@ max_range: 200
 variants:
   tie_bomber_2: {}
 kneeboard_units: "metric"
+tasks:
+  BAI: 750
+  CAS: 750
+  DEAD: 450
+  SEAD: 750
+  OCA/Aircraft: 750
+  OCA/Runway: 610
+  Strike: 610
+  SEAD Escort: 600

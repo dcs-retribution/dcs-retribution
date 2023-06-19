@@ -39,7 +39,9 @@
   ],
   "naval_units": [
     "DDG Arleigh Burke IIa",
-    "LHA-1 Tarawa"
+    "LHA-1 Tarawa",
+    "L02 Canberra",
+    "HMAS HOBART DDG39"
   ],
   "missiles": [],
   "air_defense_units": [
