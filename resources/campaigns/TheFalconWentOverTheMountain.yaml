@@ -254,7 +254,8 @@ squadrons:
             - F-16CM Fighting Falcon (Block 50)
         - primary: DEAD
           aircraft: 
-            - F-15E Strike Eagle
+            - F-15E Strike Eagle (AI)
+            - F-15E Strike Eagle (Suite 4+)
         - primary: BARCAP
           aircraft:
             - F-16CM Fighting Falcon (Block 50)
