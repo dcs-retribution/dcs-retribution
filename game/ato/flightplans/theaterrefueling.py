@@ -36,7 +36,9 @@ class Builder(IBuilder[TheaterRefuelingFlightPlan, PatrollingLayout]):
         orbit_heading = heading_to_threat_boundary
 
         # Station 70nm outside the threat zone.
-        threat_buffer = nautical_miles(70)
+        threat_buffer = nautical_miles(
+            self.flight.coalition.game.settings.tanker_threat_buffer_min_distance
+        )
         if self.threat_zones.threatened(location.position):
             orbit_distance = distance_to_threat + threat_buffer
         else:

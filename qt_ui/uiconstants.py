@@ -77,6 +77,7 @@ def load_icons():
         "./resources/ui/misc/" + get_theme_icons() + "/money_icon.png"
     )
     ICONS["Campaign Management"] = ICONS["Money"]
+    ICONS["Campaign Doctrine"] = QPixmap("./resources/ui/misc/blue-sam.png")
     ICONS["PassTurn"] = QPixmap(
         "./resources/ui/misc/" + get_theme_icons() + "/hourglass.png"
     )
