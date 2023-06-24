@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 from dcs.countries import countries_by_name
+
 from game.ato.packagewaypoints import PackageWaypoints
 from game.data.doctrine import MODERN_DOCTRINE, COLDWAR_DOCTRINE, WWII_DOCTRINE
 from game.theater import ParkingType, SeasonalConditions
@@ -23,9 +24,9 @@ class Migrator:
 
     def _migrate_game(self) -> None:
         self._update_doctrine()
+        self._update_control_points()
         self._update_packagewaypoints()
         self._update_package_attributes()
-        self._update_control_points()
         self._update_factions()
         self._update_flights()
         self._update_squadrons()
