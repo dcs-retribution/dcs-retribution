@@ -5,6 +5,10 @@ from dcs.planes import PlaneType
 from dcs.weapons_data import Weapons
 
 from game.modsupport import planemod
+from pydcs_extensions import inject_weapons, WeaponsA7E
+
+
+inject_weapons(WeaponsA7E)
 
 
 @planemod
@@ -37,8 +41,6 @@ class VSN_A6A(PlaneType):
     # which will need to be installed if one wants to use those weapons.
 
     class Pylon1:
-        from pydcs_extensions import WeaponsA7E
-
         F_5_275Gal_Fuel_tank = (1, Weapons.F_5_275Gal_Fuel_tank)
         AIM_9M_Sidewinder_IR_AAM = (1, Weapons.AIM_9M_Sidewinder_IR_AAM)
         AIM_9X_Sidewinder_IR_AAM = (1, Weapons.AIM_9X_Sidewinder_IR_AAM)
@@ -190,8 +192,6 @@ class VSN_A6A(PlaneType):
         )
 
     class Pylon2:
-        from pydcs_extensions import WeaponsA7E
-
         F_5_275Gal_Fuel_tank = (2, Weapons.F_5_275Gal_Fuel_tank)
         AIM_9M_Sidewinder_IR_AAM = (2, Weapons.AIM_9M_Sidewinder_IR_AAM)
         AIM_9X_Sidewinder_IR_AAM = (2, Weapons.AIM_9X_Sidewinder_IR_AAM)
@@ -348,8 +348,6 @@ class VSN_A6A(PlaneType):
         )
 
     class Pylon3:
-        from pydcs_extensions import WeaponsA7E
-
         F_5_275Gal_Fuel_tank = (3, Weapons.F_5_275Gal_Fuel_tank)
         L_081_Fantasmagoria_ELINT_pod = (3, Weapons.L_081_Fantasmagoria_ELINT_pod)
         Mercury_LLTV_Pod = (3, Weapons.Mercury_LLTV_Pod)
@@ -404,8 +402,6 @@ class VSN_A6A(PlaneType):
         ADM_141A_TALD = (3, Weapons.ADM_141A_TALD)
 
     class Pylon4:
-        from pydcs_extensions import WeaponsA7E
-
         F_5_275Gal_Fuel_tank = (4, Weapons.F_5_275Gal_Fuel_tank)
         AIM_9M_Sidewinder_IR_AAM = (4, Weapons.AIM_9M_Sidewinder_IR_AAM)
         AIM_9X_Sidewinder_IR_AAM = (4, Weapons.AIM_9X_Sidewinder_IR_AAM)
@@ -562,8 +558,6 @@ class VSN_A6A(PlaneType):
         )
 
     class Pylon5:
-        from pydcs_extensions import WeaponsA7E
-
         F_5_275Gal_Fuel_tank = (5, Weapons.F_5_275Gal_Fuel_tank)
         AIM_9M_Sidewinder_IR_AAM = (5, Weapons.AIM_9M_Sidewinder_IR_AAM)
         AIM_9X_Sidewinder_IR_AAM = (5, Weapons.AIM_9X_Sidewinder_IR_AAM)
