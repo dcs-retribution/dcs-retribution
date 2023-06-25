@@ -32,6 +32,7 @@
 * **[Plugins]** Added "DCS Dismount" plugin.
 * **[Plugins]** Added "EWR Jammer" plugin (only for humans, may change in the future).
 * **[Campaign]** New campaign (Operation Desert Sabre) by Chimiste
+* **[Plugins]** Updated CTLD to latest released version
 
 ## Fixes
 * **[New Game Wizard]** Settings would not persist when going back to a previous page (obsolete due to overhaul).
