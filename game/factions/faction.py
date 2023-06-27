@@ -45,6 +45,9 @@ class Faction:
     #: choose the default locale.
     locales: Optional[List[str]]
 
+    # The unit type to spawn for cargo shipping.
+    cargo_ship: ShipUnitType
+
     # Country used by this faction
     country: Country
 
@@ -194,7 +197,11 @@ class Faction:
                 "country ID"
             ) from ex
 
-        faction = Faction(locales=json.get("locales"), country=country)
+        faction = Faction(
+            locales=json.get("locales"),
+            country=country,
+            cargo_ship=ShipUnitType.named(json.get("cargo_ship", "Handy Wind"))
+        )
 
         faction.name = json.get("name", "")
         if not faction.name:

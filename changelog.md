@@ -211,6 +211,8 @@ BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 * **[Flight Planning]** Improved IP selection for targets that are near the center of a threat zone.
 * **[Modding]** Factions can now specify the ship type to be used for cargo shipping. The Handy Wind will be used by default, but WW2 factions can pick something more appropriate.
 
+* **[Modding]** Factions can now specify the ship type to be used for cargo shipping. The Handy Wind will be used by default, but WW2 factions can pick something more appropriate.
+
 ## Fixes
 
 * **[Data]** Fixed the class of the Samuel Chase so it can't be picked for a AAA or SHORAD site.
