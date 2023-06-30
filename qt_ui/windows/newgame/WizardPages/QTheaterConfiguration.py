@@ -212,9 +212,9 @@ class TheaterConfiguration(QtWidgets.QWizardPage):
 
         docsText = QtWidgets.QLabel(
             "<p>Want more campaigns? You can "
-            '<a href="https://github.com/dcs-liberation/dcs_liberation/wiki/Campaign-maintenance"><span style="color:#FFFFFF;">offer to help</span></a>, '
-            '<a href="https://github.com/dcs-liberation/dcs_liberation/wiki/Community-campaigns"><span style="color:#FFFFFF;">play a community campaign</span></a>, '
-            'or <a href="https://github.com/dcs-liberation/dcs_liberation/wiki/Custom-Campaigns"><span style="color:#FFFFFF;">create your own</span></a>.'
+            '<a href="https://github.com/dcs-retribution/dcs-retribution/wiki/Campaign-maintenance"><span style="color:#FFFFFF;">offer to help</span></a>, '
+            '<a href="https://github.com/dcs-retribution/dcs-retribution/wiki/Community-campaigns"><span style="color:#FFFFFF;">play a community campaign</span></a>, '
+            'or <a href="https://github.com/dcs-retribution/dcs-retribution/wiki/Custom-Campaigns"><span style="color:#FFFFFF;">create your own</span></a>.'
             "</p>"
         )
         docsText.setAlignment(Qt.AlignCenter)

@@ -73,7 +73,7 @@ squadrons:
     - primary: BAI
       secondary: air-to-ground
       aircraft:
-        - F-15E Strike Eagle
+        - F-15E Strike Eagle (AI)
     - primary: DEAD
       secondary: air-to-ground
       aircraft:
@@ -87,7 +87,7 @@ squadrons:
     - primary: BARCAP
       secondary: air-to-air
       aircraft:
-        - F-15C Eagle
+        - F-15E Strike Eagle (Suite 4+)
     - primary: SEAD
       secondary: any
       aircraft:
@@ -100,7 +100,7 @@ squadrons:
   25:
     - primary: BARCAP
       aircraft:
-        - F-15C Eagle
+        - F-15E Strike Eagle (AI)
     - primary: AEW&C
       aircraft:
         - E-3A

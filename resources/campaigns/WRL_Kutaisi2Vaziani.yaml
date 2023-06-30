@@ -1,5 +1,5 @@
 ---
-name: Caucasus - WRL - Kutaisi to Vaziani (v1.0)
+name: Caucasus - WRL - Kutaisi to Vaziani (v1.1) #1.0 - Original Release / #1.1 - Player F15e added
 theater: Caucasus
 authors: HolyOrangeJuice
 recommended_player_faction: WRL - Task Force Blue
@@ -102,8 +102,8 @@ squadrons:
     - primary: BAI
       secondary: air-to-ground
       aircraft:
-        - 335th FS #F15e
-      size: 8     
+        - F-15E Strike Eagle (Suite 4+)
+      size: 16  
     - primary: BARCAP
       secondary: air-to-air
       aircraft:

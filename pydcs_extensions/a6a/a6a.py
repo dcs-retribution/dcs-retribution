@@ -5,6 +5,10 @@ from dcs.planes import PlaneType
 from dcs.weapons_data import Weapons
 
 from game.modsupport import planemod
+from pydcs_extensions import inject_weapons, WeaponsA7E
+
+
+inject_weapons(WeaponsA7E)
 
 
 @planemod
@@ -33,6 +37,8 @@ class VSN_A6A(PlaneType):
     # accurate, this will allow employing the aircraft in a role which is closer to the EA-6B
     # or A-6E, should the user wish to do so. The EA-6B mod is AI-only, so this will grant a
     # player-flyable option. The use of custom loadouts is recommended.
+    # Please note that some of these weapons are part of the A-7E Corsair II mod,
+    # which will need to be installed if one wants to use those weapons.
 
     class Pylon1:
         F_5_275Gal_Fuel_tank = (1, Weapons.F_5_275Gal_Fuel_tank)
@@ -99,13 +105,13 @@ class VSN_A6A(PlaneType):
             1,
             Weapons.Mk_82_AIR_Ballute___500lb_GP_Bomb_HD,
         )
-        # ERRR {BRU41A_6*MK82AIR}
+        BRU_41A___6_x_Mk_82AIR = (1, WeaponsA7E.BRU_41A___6_x_Mk_82AIR)
         Mk_83___1000lb_GP_Bomb_LD = (1, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         MER2_with_2_x_Mk_83___1000lb_GP_Bombs_LD = (
             1,
             Weapons.MER2_with_2_x_Mk_83___1000lb_GP_Bombs_LD,
         )
-        # ERRR {BRU42A_3*MK83}
+        BRU_42A___3_x_Mk_83 = (1, WeaponsA7E.BRU_42A___3_x_Mk_83)
         Mk_84___2000lb_GP_Bomb_LD = (1, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         BRU_42_with_3_x_Mk_82___500lb_GP_Bombs_LD = (
             1,
@@ -147,8 +153,8 @@ class VSN_A6A(PlaneType):
             1,
             Weapons.BRU_33_with_2_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
-        # ERRR {BRU42A_3*MK20_ROCKEYE}
-        # ERRR {BRU41A_6*MK20_ROCKEYE}
+        BRU_42A___3_x_Mk_20_Rockeye = (1, WeaponsA7E.BRU_42A___3_x_Mk_20_Rockeye)
+        BRU_41A___6_x_Mk_20_Rockeye = (1, WeaponsA7E.BRU_41A___6_x_Mk_20_Rockeye)
         GBU_10___2000lb_Laser_Guided_Bomb = (
             1,
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
@@ -246,18 +252,18 @@ class VSN_A6A(PlaneType):
         )
         Mk_82_Snakeye___500lb_GP_Bomb_HD = (2, Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD)
         _3_Mk_82_Snakeye = (2, Weapons._3_Mk_82_Snakeye)
-        # ERRR {BRU41A_6*MK82_SNAKEYE}
+        BRU_41A___6_x_Mk_82_Snakeye = (2, WeaponsA7E.BRU_41A___6_x_Mk_82_Snakeye)
         Mk_82_AIR_Ballute___500lb_GP_Bomb_HD = (
             2,
             Weapons.Mk_82_AIR_Ballute___500lb_GP_Bomb_HD,
         )
-        # ERRR {BRU41A_6*MK82AIR}
+        BRU_41A___6_x_Mk_82AIR = (2, WeaponsA7E.BRU_41A___6_x_Mk_82AIR)
         Mk_83___1000lb_GP_Bomb_LD = (2, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         MER2_with_2_x_Mk_83___1000lb_GP_Bombs_LD = (
             2,
             Weapons.MER2_with_2_x_Mk_83___1000lb_GP_Bombs_LD,
         )
-        # ERRR {BRU42A_3*MK83}
+        BRU_42A___3_x_Mk_83 = (2, WeaponsA7E.BRU_42A___3_x_Mk_83)
         Mk_84___2000lb_GP_Bomb_LD = (2, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         MER6_with_6_x_Mk_82___500lb_GP_Bombs_LD = (
             2,
@@ -303,8 +309,8 @@ class VSN_A6A(PlaneType):
             2,
             Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
-        # ERRR {BRU42A_3*MK20_ROCKEYE}
-        # ERRR {BRU41A_6*MK20_ROCKEYE}
+        BRU_42A___3_x_Mk_20_Rockeye = (2, WeaponsA7E.BRU_42A___3_x_Mk_20_Rockeye)
+        BRU_41A___6_x_Mk_20_Rockeye = (2, WeaponsA7E.BRU_41A___6_x_Mk_20_Rockeye)
         GBU_10___2000lb_Laser_Guided_Bomb = (
             2,
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
@@ -353,12 +359,12 @@ class VSN_A6A(PlaneType):
         )
         Mk_82_Snakeye___500lb_GP_Bomb_HD = (3, Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD)
         _3_Mk_82_Snakeye = (3, Weapons._3_Mk_82_Snakeye)
-        # ERRR {BRU41A_6*MK82_SNAKEYE}
+        BRU_41A___6_x_Mk_82_Snakeye = (3, WeaponsA7E.BRU_41A___6_x_Mk_82_Snakeye)
         Mk_82_AIR_Ballute___500lb_GP_Bomb_HD = (
             3,
             Weapons.Mk_82_AIR_Ballute___500lb_GP_Bomb_HD,
         )
-        # ERRR {BRU41A_6*MK82AIR}
+        BRU_41A___6_x_Mk_82AIR = (3, WeaponsA7E.BRU_41A___6_x_Mk_82AIR)
         Mk_83___1000lb_GP_Bomb_LD = (3, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_84___2000lb_GP_Bomb_LD = (3, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         MER6_with_6_x_Mk_82___500lb_GP_Bombs_LD = (
@@ -381,8 +387,8 @@ class VSN_A6A(PlaneType):
             3,
             Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
-        # ERRR {BRU42A_3*MK20_ROCKEYE}
-        # ERRR {BRU41A_6*MK20_ROCKEYE}
+        BRU_42A___3_x_Mk_20_Rockeye = (3, WeaponsA7E.BRU_42A___3_x_Mk_20_Rockeye)
+        BRU_41A___6_x_Mk_20_Rockeye = (3, WeaponsA7E.BRU_41A___6_x_Mk_20_Rockeye)
         GBU_10___2000lb_Laser_Guided_Bomb = (
             3,
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
@@ -456,18 +462,18 @@ class VSN_A6A(PlaneType):
         )
         Mk_82_Snakeye___500lb_GP_Bomb_HD = (4, Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD)
         _3_Mk_82_Snakeye = (4, Weapons._3_Mk_82_Snakeye)
-        # ERRR {BRU41A_6*MK82_SNAKEYE}
+        BRU_41A___6_x_Mk_82_Snakeye = (4, WeaponsA7E.BRU_41A___6_x_Mk_82_Snakeye)
         Mk_82_AIR_Ballute___500lb_GP_Bomb_HD = (
             4,
             Weapons.Mk_82_AIR_Ballute___500lb_GP_Bomb_HD,
         )
-        # ERRR {BRU41A_6*MK82AIR}
+        BRU_41A___6_x_Mk_82AIR = (4, WeaponsA7E.BRU_41A___6_x_Mk_82AIR)
         Mk_83___1000lb_GP_Bomb_LD = (4, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         MER2_with_2_x_Mk_83___1000lb_GP_Bombs_LD = (
             4,
             Weapons.MER2_with_2_x_Mk_83___1000lb_GP_Bombs_LD,
         )
-        # ERRR {BRU42A_3*MK83}
+        BRU_42A___3_x_Mk_83 = (4, WeaponsA7E.BRU_42A___3_x_Mk_83)
         Mk_84___2000lb_GP_Bomb_LD = (4, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         MER6_with_6_x_Mk_82___500lb_GP_Bombs_LD = (
             4,
@@ -513,8 +519,8 @@ class VSN_A6A(PlaneType):
             4,
             Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
-        # ERRR {BRU42A_3*MK20_ROCKEYE}
-        # ERRR {BRU41A_6*MK20_ROCKEYE}
+        BRU_42A___3_x_Mk_20_Rockeye = (4, WeaponsA7E.BRU_42A___3_x_Mk_20_Rockeye)
+        BRU_41A___6_x_Mk_20_Rockeye = (4, WeaponsA7E.BRU_41A___6_x_Mk_20_Rockeye)
         GBU_10___2000lb_Laser_Guided_Bomb = (
             4,
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
@@ -616,13 +622,13 @@ class VSN_A6A(PlaneType):
             5,
             Weapons.Mk_82_AIR_Ballute___500lb_GP_Bomb_HD,
         )
-        # ERRR {BRU41A_6*MK82AIR}
+        BRU_41A___6_x_Mk_82AIR = (5, WeaponsA7E.BRU_41A___6_x_Mk_82AIR)
         Mk_83___1000lb_GP_Bomb_LD = (5, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         MER2_with_2_x_Mk_83___1000lb_GP_Bombs_LD = (
             5,
             Weapons.MER2_with_2_x_Mk_83___1000lb_GP_Bombs_LD,
         )
-        # ERRR {BRU42A_3*MK83}
+        BRU_42A___3_x_Mk_83 = (5, WeaponsA7E.BRU_42A___3_x_Mk_83)
         Mk_84___2000lb_GP_Bomb_LD = (5, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         BRU_42_with_3_x_Mk_82___500lb_GP_Bombs_LD = (
             5,
@@ -664,8 +670,8 @@ class VSN_A6A(PlaneType):
             5,
             Weapons.BRU_33_with_2_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
-        # ERRR {BRU42A_3*MK20_ROCKEYE}
-        # ERRR {BRU41A_6*MK20_ROCKEYE}
+        BRU_42A___3_x_Mk_20_Rockeye = (5, WeaponsA7E.BRU_42A___3_x_Mk_20_Rockeye)
+        BRU_41A___6_x_Mk_20_Rockeye = (5, WeaponsA7E.BRU_41A___6_x_Mk_20_Rockeye)
         GBU_10___2000lb_Laser_Guided_Bomb = (
             5,
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,

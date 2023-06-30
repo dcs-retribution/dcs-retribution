@@ -30,7 +30,6 @@ from game.theater.controlpoint import (
 )
 from game.theater.presetlocation import PresetLocation
 from game.utils import Distance, meters, feet, Heading
-from game.utils import Distance, meters, feet
 
 if TYPE_CHECKING:
     from game.theater.conflicttheater import ConflictTheater

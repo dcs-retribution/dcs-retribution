@@ -1,5 +1,5 @@
 ---
-name: Persian Gulf - WRL - Wargames (v1.0)
+name: Persian Gulf - WRL - Wargames (v1.1) #1.0 - Original Release / #1.1 - Player F15e added
 theater: Persian Gulf
 authors: HolyOrangeJuice
 recommended_player_faction: WRL - Task Force Blue
@@ -45,12 +45,7 @@ squadrons:
       secondary: any
       aircraft:
         - F-117A Nighthawk
-      size: 5
-    - primary: BAI
-      secondary: air-to-ground
-      aircraft:
-        - 335th FS #F15e
-      size: 8            
+      size: 5         
     - primary: BARCAP
       secondary: air-to-air
       aircraft:
@@ -61,18 +56,8 @@ squadrons:
     - primary: BAI
       secondary: air-to-ground
       aircraft:
-        - AJS-37 Viggen
-      size: 8  
-    - primary: BAI
-      secondary: any
-      aircraft:
-        - JF-17 Thunder
-      size: 8
-    - primary: BARCAP
-      secondary: any
-      aircraft:
-        - Mirage 2000C
-      size: 8
+        - F-15E Strike Eagle (Suite 4+)
+      size: 16
     - primary: SEAD
       secondary: air-to-ground
       aircraft:

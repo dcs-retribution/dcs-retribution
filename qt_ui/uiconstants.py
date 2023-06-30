@@ -209,6 +209,7 @@ def load_aircraft_icons():
     for f1 in f1_refuel:
         AIRCRAFT_ICONS[f1] = AIRCRAFT_ICONS["Mirage-F1C-200"]
     AIRCRAFT_ICONS["Mirage-F1M-CE"] = AIRCRAFT_ICONS["Mirage-F1CE"]
+    AIRCRAFT_ICONS["F-15ESE"] = AIRCRAFT_ICONS["F-15E"]
 
 
 def load_vehicle_icons():

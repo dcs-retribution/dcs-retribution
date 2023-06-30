@@ -39,7 +39,7 @@ from game.coalition import Coalition
 from game.dcs.aircrafttype import AircraftType
 from game.squadrons import AirWing, Pilot, Squadron
 from game.squadrons.squadrondef import SquadronDef
-from game.theater import ControlPoint
+from game.theater import ControlPoint, ParkingType
 from game.theater.start_generator import GeneratorSettings
 from qt_ui.uiconstants import AIRCRAFT_ICONS, ICONS
 from qt_ui.widgets.combos.primarytaskselector import PrimaryTaskSelector
@@ -365,7 +365,11 @@ class SquadronConfigurationBox(QGroupBox):
             if self.gen_settings.squadrons_start_full
             else ""
         )
-        total_slots = self.squadron.location.total_aircraft_parking
+        total_slots = self.squadron.location.total_aircraft_parking(
+            ParkingType().from_aircraft(
+                self.squadron.aircraft, self.game.settings.ground_start_ai_planes
+            )
+        )
         slots = "N/A"
         if ap := self.squadron.location.dcs_airport:
             slots = len(ap.free_parking_slots(self.squadron.aircraft.dcs_unit_type))

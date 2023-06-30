@@ -81,7 +81,6 @@ class MissionGenerator:
         self.add_airfields_to_unit_map()
         self.initialize_registries()
 
-        LuaGenerator(self.game, self.mission, self.mission_data).generate()
         EnvironmentGenerator(self.mission, self.game.conditions, self.time).generate()
 
         tgo_generator = TgoGenerator(
@@ -107,6 +106,7 @@ class MissionGenerator:
         TriggerGenerator(self.mission, self.game).generate()
         ForcedOptionsGenerator(self.mission, self.game).generate()
         VisualsGenerator(self.mission, self.game).generate()
+        LuaGenerator(self.game, self.mission, self.mission_data).generate()
         DrawingsGenerator(self.mission, self.game).generate()
 
         self.setup_combined_arms()

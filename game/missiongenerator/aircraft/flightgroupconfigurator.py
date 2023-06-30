@@ -29,7 +29,6 @@ from .flightdata import FlightData
 from .waypoints import WaypointGenerator
 from ...ato.flightplans.aewc import AewcFlightPlan
 from ...ato.flightplans.theaterrefueling import TheaterRefuelingFlightPlan
-from ...ato.flightwaypointtype import FlightWaypointType
 from ...theater import Fob
 
 if TYPE_CHECKING:
@@ -220,7 +219,7 @@ class FlightGroupConfigurator:
             unit.skill = self.skill_level_for(unit, pilot)
             return
 
-        if self.use_client:
+        if self.use_client or "Pilot #1" not in unit.name:
             unit.set_client()
         else:
             unit.set_player()

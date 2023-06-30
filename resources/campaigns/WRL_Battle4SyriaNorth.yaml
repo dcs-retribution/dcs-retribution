@@ -1,14 +1,18 @@
 ---
-name: Syria - The Falcon went over the mountain
+name: Syria - WRL - Battle For Syria North (1.0) #1.0 Release with Player F15e
 theater: Syria
-authors: Sith1144
-description: <p>Campaign about a task force attacking northern Syria from Incirlik. Culling recommended. Do you love SEAD? Know no greater joy in than showing SAMs who truly rules the skies? this is the campaign for you!</p>
-recommended_player_faction: USA 2005
-recommended_enemy_faction: Syria 2012'ish
-recommended_start_date: 2012-06-01
-miz: TheFalconWentOverTheMountain.miz
+authors: HolyOrangeJuice
+description: "<p>This mission was modified by HolyOrangeJuice [OscarJuliet] for the WRL Group. Original Mission by Sith1144. Join us for weekly PVE events. <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p><p>This modification of the mission is not meant to represent historical accuracy. An exciting battle on the Northern part of the Syria map.</p><p>All WRL Campaigns use high budget and high income to focus on the PVE goals to eliminate the enemy. Use lower starting money and income for increased difficulty</p>"
+recommended_player_faction: WRL - Task Force Blue
+recommended_enemy_faction: WRL - Task Force Red
+recommended_start_date: 2019-06-04
+miz: WRL_Battle4SyriaNorth.miz
 performance: 2
-version: "10.4"
+version: "10.7" #No CTLD zones, campaign is too large for CTLD focus
+recommended_player_money: 5000
+recommended_enemy_money: 2000
+recommended_player_income_multiplier: 5.0
+recommended_enemy_income_multiplier: 1.0
 advanced_iads: true # Campaign has connection_nodes / power_sources / command_centers
 #IADS: EWR and C2 get power generators. batteries have their own generators.
 iads_config:
@@ -71,22 +75,12 @@ iads_config:
 # the defenses around Gaziantep airfield
     - GAZSAMN:
         - GaziantepControl
-    - GAZAAAW:
-        - GaziantepControl
-    - GAZSAME:
-        - GaziantepControl
-    - GAZAAAE:
-        - GaziantepControl
     - GAZSAMW:
-        - GaziantepControl
-    - GaziantepAAA:
         - GaziantepControl
 # the defenses around Minakh airfield
     - MinakhSAM1:
         - MinakhControl
     - MinakhSAM2:
-        - MinakhControl
-    - MinakhAAA:
         - MinakhControl
 #C2 links
     - YellowControlN:
@@ -221,8 +215,6 @@ iads_config:
         - JirahControl
     - JirahSAM-2:
         - JirahControl
-    - JirahAAA:
-        - JirahControl
 # C2 links
     - AleppoCommand:
         - Aleppo Power
@@ -246,92 +238,213 @@ iads_config:
 squadrons:
     #Incirlik
     16:
-        - primary: BARCAP
-          aircraft:
-            - F-15C Eagle
-        - primary: SEAD
-          aircraft:
-            - F-16CM Fighting Falcon (Block 50)
-        - primary: DEAD
-          aircraft: 
-            - F-15E Strike Eagle (AI)
-            - F-15E Strike Eagle (Suite 4+)
-        - primary: BARCAP
-          aircraft:
-            - F-16CM Fighting Falcon (Block 50)
-        - primary: CAS
-          aircraft:
-            - A-10C Thunderbolt II (Suite 3)
-        - primary: CAS
-          aircraft:
-            - A-10C Thunderbolt II (Suite 7)
-        - primary: CAS
-          aircraft:
-            - AH-64D Apache Longbow
-        - primary: Strike
-          aircraft:
-            - F-117A Nighthawk
-        - primary: Strike
-          aircraft:
-            - B-1B Lancer
-        - primary: AEW&C
-        - primary: Refueling
-          aircraft: 
-            - KC-135 Stratotanker MPRS
+    - primary: AEW&C
+      aircraft:
+        - E-3A
+      size: 2
+    - primary: Refueling
+      aircraft:
+        - KC-135 Stratotanker
+      size: 2
+    - primary: Refueling
+      aircraft:
+        - KC-130
+      size: 2
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - B-52H Stratofortress
+      size: 2
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - B-1B Lancer
+      size: 2
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - F-117A Nighthawk
+      size: 5
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - F-15E Strike Eagle (Suite 4+)
+      size: 16      
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - AJS-37 Viggen
+      size: 8  
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - JF-17 Thunder
+      size: 8
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - Mirage 2000C
+      size: 8
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - A-10C Thunderbolt II (Suite 7)
+      size: 8
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - AV-8B Harrier II Night Attack
+      size: 8
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - VMFA-251 #Hornet - Marines
+      size: 16
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - 23rd FS #Viper USAF
+      size: 16
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - 58th FS #F15c
+      size: 16
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - A Company, 1-211th ARB #AH-64D Apache Longbow
+      size: 8       
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Mi-24P Hind-F
+      size: 8
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Ka-50 Hokum III
+      size: 8
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - SA 342M Gazelle
+      size: 4
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - HMLA-169 (UH-1H) #UH-1H Iroquois
+      size: 4
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - Mi-8MTV2 Hip
+      size: 4
     #carrier
     Blue Carrier:
-        - primary: BARCAP
-          aircraft:
-            - F-14B Tomcat
-        - primary: BARCAP
-          aircraft:
-            - F-14B Tomcat
-        - primary: Strike
-          secondary: any
-          aircraft:
-          - F/A-18C Hornet (Lot 20)
-        - primary: Strike
-          secondary: any
-          aircraft:
-          - F/A-18C Hornet (Lot 20)
-        - primary: Refueling
-    #LHA
-    Blue LHA:
-        - primary: CAS
-          aircraft:
-          - AV-8B Harrier II Night Attack
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - VF-142 #F14B
+      size: 16
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - VFA-192 #Hornet Navy
+      size: 16
+    - primary: AEW&C
+      aircraft:
+        - VAW-125 #E2C
+      size: 2
+    - primary: Refueling
+      aircraft:
+        - S-3B Tanker
+      size: 2
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - S-3B Viking
+      size: 4
     #Abu Al-Duhur
-    1:
-        - primary: BARCAP
-          aircraft:
-          - MiG-29S Fulcrum-C
-        - primary: BAI
-          aircraft:
-          - Su-24M Fencer-D
-        - primary: BARCAP
-          aircraft:
-          - Su-30 Flanker-C
+    1:       
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - MiG-29S Fulcrum-C
+      size: 16        
     #Hatay
     15:
-        - primary: BARCAP
-          aircraft: 
-          - MiG-23MLD Flogger-K
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - Su-25T Frogfoot
+      size: 12
+    #Minakh
+    26:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Su-34 Fullback 
+      size: 12
     #Aleppo
     27:
-        - primary: AEW&C
-        - primary: Refueling
-        - primary: CAS
-          aircraft:
-          - Mi-24P Hind-F
-        - primary: Transport
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - MiG-29S Fulcrum-C
+      size: 16
     #Jirah
     17:
-        - primary: SEAD
-          aircraft:
-          - Su-34 Fullback
-        - primary: Strike
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - MiG-31 Foxhound
+      size: 16
     #Gaziantep
     11:
-        - primary: CAS
-          aircraft:
-          - Su-25 Frogfoot
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Su-30 Flanker-C
+      size: 12
+ground_forces:
+  NATO SAM: Hawk
+  NATO SAM-1: Hawk
+  NATO SAM-2: Hawk
+  NATO SAM-3: Hawk
+  NATO SAM-4: Hawk
+  YellowBarrierN: SA-2/S-75 with ZSU-23/57
+  YellowBarrierC1: SA-6
+  YellowBarrierC2: SA-11
+  YellowBarrierS: SA-2/S-75 with ZSU-23/57
+  YellowLongRangeSAM: SA-2/S-75 with ZSU-23/57
+  GAZSAMN: SA-11 
+  GreenBarrierSAM-4: SA-2/S-75 with ZSU-23/57
+  GreenBarrierSAM-3: SA-2/S-75 with ZSU-23/57
+  GreenZoneSAMDefense: SA-11
+  GreenZoneSAM: SA-2/S-75 with ZSU-23/57
+  HataySAM: SA-11
+  HataySAM-1: SA-2/S-75 with ZSU-23/57
+  GreenSAM-2: SA-3/S-125
+  GreenSAM-3: SA-6
+  GreenSAM-1: SA-2/S-75 with ZSU-23/57
+  JirahSAM: SA-10/S-300PS
+  JirahSAM-1: SA-11
+  JirahSAM-2: SA-2/S-75 with ZSU-23/57
+  KuweiresSAM: SA-6
+  Pink SAM: SA-11
+  AlSafiraPD: SA-15 SHORAD
+  AleppoSAM: SA-3/S-125
+  AleppoSAM-1: SA-3/S-125
+  AleppoSAM-2: SA-3/S-125
+  AleppoSAM-3: SA-3/S-125
+  AleppoSAM-4: SA-3/S-125
+  AleppoSAM-5: SA-6
+  AleppoSAM-6: SA-6
+  AleppoSAM-7: SA-11
+  MinakhSAM1: SA-3/S-125
+  MinakhSAM2: SA-3/S-125
+  GAZSAMN: SA-11
+  GAZSAMW: SA-3/S-125
+  AbuSAM: SA-2/S-75 with ZSU-23/57
+  AbuSAM-1: SA-15 SHORAD

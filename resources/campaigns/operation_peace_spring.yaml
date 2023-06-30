@@ -25,7 +25,8 @@ squadrons:
     - primary: Strike
       secondary: air-to-ground
       aircraft:
-        - F-15E Strike Eagle
+        - F-15E Strike Eagle (AI)
+        - F-15E Strike Eagle (Suite 4+)
       size: 12
     - primary: AEW&C
       aircraft:
