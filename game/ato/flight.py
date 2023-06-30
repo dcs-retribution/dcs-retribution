@@ -189,10 +189,6 @@ class Flight(SidcDescribable, RadioFrequencyContainer, TacanContainer):
         return self.unit_type == AircraftType.named("C-130J-30 Super Hercules")
 
     @property
-    def from_cp(self) -> ControlPoint:
-        return self.departure
-
-    @property
     def points(self) -> List[FlightWaypoint]:
         return self.flight_plan.waypoints[1:]
 

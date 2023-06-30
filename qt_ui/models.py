@@ -145,7 +145,7 @@ class PackageModel(QAbstractListModel):
         delay = datetime.timedelta(
             seconds=int(flight.flight_plan.startup_time().total_seconds())
         )
-        origin = flight.from_cp.name
+        origin = flight.departure.name
         return f"{flight} from {origin} in {delay}"
 
     @staticmethod
