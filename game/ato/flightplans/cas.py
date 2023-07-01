@@ -53,7 +53,7 @@ class CasFlightPlan(PatrollingFlightPlan[CasLayout], UiZoneDisplay):
 
     @property
     def engagement_distance(self) -> Distance:
-        max_length = self.flight.coalition.game.settings.max_frontline_length * 1000
+        max_length = self.flight.coalition.game.settings.max_frontline_width * 1000
         return meters(max_length) / 2
 
     @property
