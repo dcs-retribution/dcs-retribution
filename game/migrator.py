@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from datetime import datetime
 from typing import TYPE_CHECKING, Any
 
 from dcs.countries import countries_by_name
@@ -18,8 +19,9 @@ def try_set_attr(obj: Any, attr_name: str, val: Any = None) -> None:
 
 
 class Migrator:
-    def __init__(self, game: Game):
+    def __init__(self, game: Game, is_liberation: bool):
         self.game = game
+        self.is_liberation = is_liberation
         self._migrate_game()
 
     def _migrate_game(self) -> None:
@@ -62,6 +64,10 @@ class Migrator:
             for p in c.ato.packages:
                 try_set_attr(p, "custom_name")
                 try_set_attr(p, "frequency")
+                if self.is_liberation and isinstance(p.time_over_target, datetime):
+                    p.time_over_target = (
+                        p.time_over_target - self.game.conditions.start_time
+                    )
 
     def _update_control_points(self) -> None:
         for cp in self.game.theater.controlpoints:
