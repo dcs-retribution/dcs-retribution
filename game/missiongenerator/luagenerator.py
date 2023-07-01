@@ -36,8 +36,14 @@ class LuaGenerator:
         self.plugin_scripts: list[str] = []
 
     def generate(self) -> None:
+        ewrj_triggers = [
+            x for x in self.mission.triggerrules.triggers if isinstance(x, TriggerStart)
+        ]
         self.generate_plugin_data()
         self.inject_plugins()
+        for t in ewrj_triggers:
+            self.mission.triggerrules.triggers.remove(t)
+            self.mission.triggerrules.triggers.append(t)
 
     def generate_plugin_data(self) -> None:
         lua_data = LuaData("dcsRetribution")
