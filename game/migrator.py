@@ -107,7 +107,10 @@ class Migrator:
                 s.claim_inventory(count - claimed)
 
     def _update_squadrons(self) -> None:
-        country_dict = {"Netherlands": "The Netherlands"}
+        country_dict = {
+            "Netherlands": "The Netherlands",
+            "CHN": "China",
+        }
         for cp in self.game.theater.controlpoints:
             for s in cp.squadrons:
                 preferred_task = max(
