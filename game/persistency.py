@@ -18,7 +18,7 @@ _dcs_saved_game_folder: Optional[str] = None
 
 # fmt: off
 class DummyObject:
-    def __setstate__(self, state):
+    def __setstate__(self, state: dict[str, Any]) -> None:
         self.__dict__.update(state)
 
 

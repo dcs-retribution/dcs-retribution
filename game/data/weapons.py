@@ -35,9 +35,10 @@ def weapons_migrator_lib(name: str) -> str:
     # Splitting this from our own migrations
     if "KH" in name:
         return "Kh" + name[2:]
-    migration_map = {}
-    while name in migration_map:
-        name = migration_map[name]
+    # UNCOMMENT BELOW WHEN IT BECOMES APPLICABLE
+    # migration_map = {}
+    # while name in migration_map:
+    #     name = migration_map[name]
     return name
 
 
