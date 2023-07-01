@@ -1,8 +1,8 @@
 {
-  "country": "Combined Joint Task Forces Blue",
-  "name": "WRL - Task Force Blue",
+  "country": "Combined Joint Task Forces Red",
+  "name": "WRL - Task Force Mixed",
   "authors": "HolyOrangeJuice",
-  "description": "<p>A BLUFOR faction for WRL missions. This meets the needs of the We Run Liberation group. <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a>.</p>",
+  "description": "<p>A REDFOR faction with a mix of NATO air defenses for WRL missions. Primarily used in Wargame Scenarios to mix up the threats encountered. This meets the needs of the We Run Liberation group. <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a>.</p>",
   "aircrafts": [
     "A-4E Skyhawk",
     "A-10A Thunderbolt II",
@@ -82,80 +82,105 @@
     "UH-1H Iroquois"
   ],
   "awacs": [
-    "E-2D Advanced Hawkeye",
-    "E-3A"
+    "A-50"
   ],
   "tankers": [
-    "KC-130",
-    "KC-135 Stratotanker",
-    "KC-135 Stratotanker MPRS",
-    "S-3B Tanker"
+    "IL-78M"
   ],
   "frontline_units": [
-    "LAV-25",
-    "FV4034 Challenger 2",
-    "FV510 Warrior",
+    "BMP-1",
+    "BMP-2",
+    "BMP-3",
+    "BMD-1",
     "M1043 HMMWV (M2 HMG)",
     "M1045 HMMWV (BGM-71 TOW)",
-    "M1097 Heavy HMMWV Avenger",
+    "MT-LB",
+    "BRDM-2",
+    "BTR-80",
+    "BTR-82A",
+    "BTR-D",
+    "PT-76",
+    "T-55A",
+    "T-72B3 model 2011",
+    "T-72B with Kontakt-1 ERA",
+    "T-80UD",
+    "T-90A",
     "M113",
-    "M48 Chaparral",
     "M163 Vulcan Air Defense System",
-    "M1126 Stryker ICV (M2 HMG)",
-    "M1128 Stryker Mobile Gun System",
-    "M1134 Stryker ATGM (BGM-71 TOW)",
-    "M1A2 Abrams",
-    "Leopard 2A4",
-    "Merkava Mk IV",
-    "M2A2 Bradley",
-    "M6 Linebacker"
+    "M60A3 \"Patton\"",
+    "ZSU-57-2 'Sparka'",
+    "ZU-23 on Ural-375",
+    "ZSU-23-4 Shilka"
   ],
   "artillery_units": [
-    "M109A6 Paladin",
-    "M270 Multiple Launch Rocket System"
+    "2S19 Msta-S",
+    "BM-27 Uragan"
   ],
   "logistics_units": [
-    "Truck M818 6x6"
+    "LUV UAZ-469 Jeep",
+    "Truck Ural-375"
   ],
   "infantry_units": [
-    "Infantry M249",
-    "Infantry M4",
-    "MANPADS Stinger"
+    "Infantry AK-74 Rus",
+    "MANPADS SA-18 Igla-S \"Grouse\"",
+    "Paratrooper AKS",
+    "Paratrooper RPG-16"
+  ],
+  "missiles": [
+    "SSM SS-1C Scud-B"
   ],
   "preset_groups": [
+    "SA-2/S-75",
+    "SA-2/S-75 V-759/5V23",
+    "SA-3/S-125",
+    "SA-3/S-125 V-601P/5V27",
+    "SA-6",
+    "SA-11",
+    "SA-10/S-300PS",
+    "SA-10B/S-300PS",
+    "Silkworm",
+    "SA-17",
+    "SA-12/S-300V",
+    "SA-20/S-300PMU-1",
+    "SA-20B/S-300PMU-2",
+    "SA-23/S-300VM",
+    "KS-19/SON-9",
     "Hawk",
+    "Rapier",
+    "Roland",
     "Patriot",
-    "NASAMS AIM-120C"
+    "Russian Navy"
   ],
   "naval_units": [
+    "Frigate 1135M Rezky",
+    "Corvette 1241.1 Molniya",
+    "FFG Oliver Hazard Perry",
     "DDG Arleigh Burke IIa",
-    "CG Ticonderoga",
-    "LHA-1 Tarawa",
-    "CVN-74 John C. Stennis"
+    "CV 1143.5 Admiral Kuznetsov"
   ],
-  "missiles": [],
   "air_defense_units": [
-    "SAM Patriot STR",
-    "M163 Vulcan Air Defense System",
+    "EWR 1L13",
+    "EWR 55G6",
+    "EWR AN/FPS-117 Radar",
+    "Flakpanzer Gepard",
+    "SAM SA-8 Osa \"Gecko\" TEL",
+    "SA-9 Strela",
+    "SA-13 Gopher (9K35 Strela-10M3)",
+    "SA-15 Tor",
+    "SA-19 Grison (2K22 Tunguska)",
     "M1097 Heavy HMMWV Avenger",
-    "M48 Chaparral"
+    "M48 Chaparral",
+    "ZSU-57-2 'Sparka'",
+    "AAA KS-19 100mm",
+    "ZU-23 on Ural-375",
+    "ZSU-23-4 Shilka"
   ],
+  "helicopter_carrier_names": [],
   "requirements": {},
   "carrier_names": [
-    "CVN-71 Theodore Roosevelt",
-    "CVN-72 Abraham Lincoln",
-    "CVN-73 George Washington",
-    "CVN-74 John C. Stennis"
+    "Admiral Kuznetsov",
+    "Admiral Gorshkov"
   ],
-  "helicopter_carrier_names": [
-    "LHA-1 Tarawa",
-    "LHA-2 Saipan",
-    "LHA-3 Belleau Wood",
-    "LHA-4 Nassau",
-    "LHA-5 Peleliu"
-  ],
-  "has_jtac": true,
-  "jtac_unit": "MQ-9 Reaper",
-  "doctrine": "modern",
-  "unrestricted_satnav": true
+  "has_jtac": false,
+  "doctrine": "modern"
 }
