@@ -45,6 +45,8 @@
 * **[Campaign]** New campaign (Operation Desert Sabre) by Chimiste
 * **[Plugins]** Updated CTLD to latest released version
 * **[Options]** Renamed Maximum frontline length -> Maximum frontline width.
+* **[Squadrons]** Add livery selector in Squadron Dialog, allowing you to change the livery during the campaign.
+
 
 ## Fixes
 * **[New Game Wizard]** Settings would not persist when going back to a previous page (obsolete due to overhaul).
