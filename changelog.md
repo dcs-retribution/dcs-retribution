@@ -51,7 +51,7 @@
 * **[Mission Generation]** Unused aircraft are no longer claimed, fixing a bug where these aircraft would no longer be available after aborting the mission.
 * **[Mission Generation]** Fixed (potential) bug in helipad assignments at FOBs/FARPs.
 * **[Mission Generation]** Fix AI immediately returning to base when forced to air-start due to insufficient parking space.
-* **[New Game Wizard]** Fixed a bug where F-16Ds were not correctly removed from the faction when the F-16I/F-16D mod was not selected
+* **[Modding]** Fixed a bug where F-16Ds were not correctly removed from the faction when the F-16I/F-16D mod was not selected
 
 # Retribution v1.1.1  (hotfix)
 
