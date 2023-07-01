@@ -44,3 +44,5 @@ class PlanDead(PackagePlanningTask[IadsGroundObject]):
             self.propose_flight(FlightType.SEAD, 2)
         self.propose_flight(FlightType.SEAD_ESCORT, 2, EscortType.Sead)
         self.propose_flight(FlightType.ESCORT, 2, EscortType.AirToAir)
+        if self.target.control_point.coalition.game.settings.autoplan_tankers_for_dead:
+            self.propose_flight(FlightType.REFUELING, 1)

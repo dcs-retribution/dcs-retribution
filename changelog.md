@@ -7,6 +7,17 @@
 * **[Campaign Design]** Ability to define SCENERY REMOVE OBJECTS ZONE triggers with the roadbase objects in campaign miz. This might not work reliably in multiplayer due to DCS issues. FARPs can be used to remove scenery objects in multiplayer.
 * **[Campaign Management]** Improved squadron retreat logic at longer ranges.
 * **[Options]** Ability to load & save your settings.
+* **[Options]** Added a separate Doctrine page in settings with the following new options:
+  * Minimum number of aircraft for autoplanner to plan OCA packages against 
+  * Airbase threat range (nmi)
+  * TARCAP threat buffer distance (nmi)
+  * AEW&C threat buffer distance (nmi)
+  * Theater tanker threat buffer distance (nmi)
+* **[Options]** Improved the option to configure OPFOR autoplanner aggressiveness. The AI might now take even more risks and plan missions against defended targets.
+* Added three new options in Settings:
+  * Autoplanner plans refueling flights for Strike packages
+  * Autoplanner plans refueling flights for OCA packages
+  * Autoplanner plans refueling flights for DEAD packages
 * **[UI]** Added fuel selector in flight's edit window.
 * **[Plugins]** Expose Splash Damage's "game_messages" option and set its default to false.
 * **[Mission Generation]** Improved AI SEAD capabilities, allowing for mixed loadouts using Decoys, ARMs & ASMs.
@@ -39,7 +50,7 @@
 * **[Mission Generation]** Unused aircraft are no longer claimed, fixing a bug where these aircraft would no longer be available after aborting the mission.
 * **[Mission Generation]** Fixed (potential) bug in helipad assignments at FOBs/FARPs.
 * **[Mission Generation]** Fix AI immediately returning to base when forced to air-start due to insufficient parking space.
-
+* **[New Game Wizard]** Fixed a bug where F-16Ds were not correctly removed from the faction when the F-16I/F-16D mod was not selected
 
 # Retribution v1.1.1  (hotfix)
 

@@ -29,3 +29,5 @@ class PlanOcaStrike(PackagePlanningTask[ControlPoint]):
         if self.aircraft_cold_start:
             self.propose_flight(FlightType.OCA_AIRCRAFT, 2)
         self.propose_common_escorts()
+        if self.target.coalition.game.settings.autoplan_tankers_for_oca:
+            self.propose_flight(FlightType.REFUELING, 1)

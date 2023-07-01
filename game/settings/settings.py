@@ -231,7 +231,7 @@ class Settings:
         ),
     )
     oca_target_autoplanner_min_aircraft_count: int = bounded_int_option(
-        "Minimum number of aircraft for autoplanner to plan OCA packages against",
+        "Minimum number of aircraft (at vulnerable airfields) for autoplanner to plan OCA packages against",
         page=CAMPAIGN_DOCTRINE_PAGE,
         section=GENERAL_SECTION,
         default=20,
@@ -249,14 +249,23 @@ class Settings:
         default=20,
         min=0,
         max=100,
+        detail=(
+            "Chance (larger number -> higher chance) that the OPFOR AI "
+            "autoplanner will take risks and plan flights against targets "
+            "within threatened airspace."
+        ),
     )
     airbase_threat_range: int = bounded_int_option(
         "Airbase threat range (nmi)",
         page=CAMPAIGN_DOCTRINE_PAGE,
         section=DOCTRINE_DISTANCES_SECTION,
-        default=10,
+        default=100,
         min=0,
         max=300,
+        detail=(
+            "Will impact both defensive (BARCAP) and offensive flights. Also has a performance impact,"
+            "lower threat range generally means less BARCAPs are planned."
+        ),
     )
     tarcap_threat_buffer_min_distance: int = bounded_int_option(
         "TARCAP threat buffer distance (nmi)",
@@ -265,7 +274,7 @@ class Settings:
         default=20,
         min=0,
         max=100,
-        detail=("How close to known threats will the TARCAP racetrack " "extend."),
+        detail=("How close to known threats will the TARCAP racetrack extend."),
     )
     aewc_threat_buffer_min_distance: int = bounded_int_option(
         "AEW&C threat buffer distance (nmi)",
@@ -600,19 +609,6 @@ class Settings:
         default=80,
         min=1,
         max=100,
-    )
-    opfor_autoplanner_aggressiveness: int = bounded_int_option(
-        "OPFOR autoplanner aggressiveness (%)",
-        page=MISSION_GENERATOR_PAGE,
-        section=GAMEPLAY_SECTION,
-        default=20,
-        min=0,
-        max=100,
-        detail=(
-            "Chance (larger number -> higher chance) that the OPFOR AI "
-            "autoplanner will take risks and plan flights against targets "
-            "within threatened airspace."
-        ),
     )
     game_masters_count: int = bounded_int_option(
         "Number of game masters",
