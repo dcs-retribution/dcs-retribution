@@ -3,6 +3,7 @@ from __future__ import annotations
 import math
 import operator
 from collections.abc import Iterable, Iterator
+from random import randint
 from typing import TYPE_CHECKING, TypeVar
 
 from game.ato.closestairfields import ClosestAirfields, ObjectiveDistanceCache
@@ -32,10 +33,6 @@ MissionTargetType = TypeVar("MissionTargetType", bound=MissionTarget)
 
 class ObjectiveFinder:
     """Identifies potential objectives for the mission planner."""
-
-    # TODO: Merge into doctrine.
-    AIRFIELD_THREAT_RANGE = nautical_miles(150)
-    SAM_THREAT_RANGE = nautical_miles(100)
 
     def __init__(self, game: Game, is_player: bool) -> None:
         self.game = game
@@ -151,9 +148,18 @@ class ObjectiveFinder:
                 # Off-map spawn locations don't need protection.
                 continue
             airfields_in_proximity = self.closest_airfields_to(cp)
+            airbase_threat_range = self.game.settings.airbase_threat_range
+            if (
+                not self.is_player
+                and randint(1, 100)
+                > self.game.settings.opfor_autoplanner_aggressiveness
+            ):
+                # Chance that the airfield threat range will be evaluated as zero,
+                # causing the OPFOR autoplanner to plan offensively
+                airbase_threat_range = 0
             airfields_in_threat_range = (
                 airfields_in_proximity.operational_airfields_within(
-                    self.AIRFIELD_THREAT_RANGE
+                    nautical_miles(airbase_threat_range)
                 )
             )
             for airfield in airfields_in_threat_range:
