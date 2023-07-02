@@ -133,6 +133,9 @@ class Migrator:
                         0, s.location.unclaimed_parking(parking_type) + s.owned_aircraft
                     )
 
+                if self.is_liberation:
+                    s.set_auto_assignable_mission_types(s.auto_assignable_mission_types)
+
     def _update_factions(self) -> None:
         for c in self.game.coalitions:
             if isinstance(c.faction.country, str):
