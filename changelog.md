@@ -48,7 +48,7 @@
 * **[Squadrons]** Add livery selector in Squadron Dialog, allowing you to change the livery during the campaign.
 * **[New Game Wizard]** Automatically invert factions when 'Invert Map' is selected.
 * **[Flight Plans]** Added "SEAD Sweep" flight plan, which basically reintroduces the legacy "SEAD Escort" flight plan where the flight will engage whatever it can find without actually escorting the primary flight.
-
+* **[Flight Plans]** Added SEAD capability to F-16A MLU and SEAD Escort & SEAD to F-16A. 
 
 ## Fixes
 * **[New Game Wizard]** Settings would not persist when going back to a previous page (obsolete due to overhaul).
@@ -56,6 +56,7 @@
 * **[Mission Generation]** Fixed (potential) bug in helipad assignments at FOBs/FARPs.
 * **[Mission Generation]** Fix AI immediately returning to base when forced to air-start due to insufficient parking space.
 * **[Modding]** Fixed a bug where F-16Ds were not correctly removed from the faction when the F-16I/F-16D mod was not selected
+* **[UI]** Fixed F-16A MLU icon and banner.
 
 # Retribution v1.1.1  (hotfix)
 
