@@ -3,7 +3,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from datetime import timedelta
-from typing import Any, TYPE_CHECKING, TypeGuard
+from typing import Any, TYPE_CHECKING, TypeGuard, Optional
 
 from game.typeguard import self_type_guard
 from .flightplan import FlightPlan
@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class LoiterLayout(StandardLayout, ABC):
-    hold: FlightWaypoint
+    hold: Optional[FlightWaypoint]
 
 
 class LoiterFlightPlan(StandardFlightPlan[Any], ABC):

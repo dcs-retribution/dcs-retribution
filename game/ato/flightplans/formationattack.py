@@ -111,9 +111,19 @@ class FormationAttackFlightPlan(FormationFlightPlan, ABC):
         )
         return tot - travel_time
 
+    @property
+    def initial_time(self) -> timedelta:
+        tot = self.tot
+        travel_time = self.travel_time_between_waypoints(
+            self.layout.initial, self.target_area_waypoint
+        )
+        return tot - travel_time
+
     def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
         if waypoint == self.layout.ingress:
             return self.ingress_time
+        elif waypoint == self.layout.initial:
+            return self.initial_time
         elif waypoint in self.layout.targets:
             return self.tot
         return super().tot_for_waypoint(waypoint)
@@ -127,9 +137,11 @@ class FormationAttackLayout(FormationLayout):
 
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
         yield self.departure
-        yield self.hold
+        if self.hold:
+            yield self.hold
         yield from self.nav_to
-        yield self.join
+        if self.join:
+            yield self.join
         yield self.ingress
         if self.initial is not None:
             yield self.initial
@@ -170,8 +182,17 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
                 )
             )
 
-        hold = builder.hold(self._hold_point())
-        join = builder.join(self.package.waypoints.join)
+        hold = None
+        join = None
+        if (
+            self.flight is self.package.primary_flight
+            or self.package.primary_flight
+            and isinstance(
+                self.package.primary_flight.flight_plan, FormationAttackFlightPlan
+            )
+        ):
+            hold = builder.hold(self._hold_point())
+            join = builder.join(self.package.waypoints.join)
         split = builder.split(self.package.waypoints.split)
         refuel = builder.refuel(self.package.waypoints.refuel)
 
@@ -189,7 +210,9 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
             departure=builder.takeoff(self.flight.departure),
             hold=hold,
             nav_to=builder.nav_path(
-                hold.position, join.position, self.doctrine.ingress_altitude
+                hold.position if hold else self.flight.departure.position,
+                join.position if join else ingress.position,
+                self.doctrine.ingress_altitude,
             ),
             join=join,
             ingress=ingress,

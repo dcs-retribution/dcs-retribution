@@ -176,6 +176,7 @@ class Package(RadioFrequencyContainer):
             FlightType.TRANSPORT,
             FlightType.AIR_ASSAULT,
             FlightType.SEAD,
+            FlightType.SEAD_SWEEP,
             FlightType.TARCAP,
             FlightType.BARCAP,
             FlightType.AEWC,

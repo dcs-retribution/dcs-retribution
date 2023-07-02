@@ -19,7 +19,7 @@ if TYPE_CHECKING:
 @dataclass
 class FormationLayout(LoiterLayout, ABC):
     nav_to: list[FlightWaypoint]
-    join: FlightWaypoint
+    join: Optional[FlightWaypoint]
     split: FlightWaypoint
     refuel: Optional[FlightWaypoint]
     nav_from: list[FlightWaypoint]
@@ -73,10 +73,7 @@ class FormationFlightPlan(LoiterFlightPlan, ABC):
         return min(speeds)
 
     def speed_between_waypoints(self, a: FlightWaypoint, b: FlightWaypoint) -> Speed:
-        if b in self.package_speed_waypoints:
-            # Should be impossible, as any package with at least one
-            # FormationFlightPlan flight needs a formation speed.
-            assert self.package.formation_speed is not None
+        if self.package.formation_speed and b in self.package_speed_waypoints:
             return self.package.formation_speed
         return super().speed_between_waypoints(a, b)
 

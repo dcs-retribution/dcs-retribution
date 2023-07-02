@@ -458,7 +458,11 @@ class WaypointBuilder:
         assert self.flight.package.waypoints
         ingress = self.flight.package.waypoints.ingress
         ingress2tgt_dist = ingress.distance_to_point(target.position)
-        threat_range = 1.1 * max([x.threat_range for x in target.strike_targets]).meters
+        threat_range = nautical_miles(5).meters
+        if target.strike_targets:
+            threat_range = (
+                1.1 * max([x.threat_range for x in target.strike_targets]).meters
+            )
         hdg = target.position.heading_between_point(ingress)
         hold = target.position.point_from_heading(
             hdg, min(threat_range, ingress2tgt_dist * 0.95)
