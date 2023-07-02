@@ -182,6 +182,8 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
         initial = None
         if ingress_type == FlightWaypointType.INGRESS_SEAD:
             initial = builder.sead_search(self.package.target)
+        elif ingress_type == FlightWaypointType.INGRESS_SEAD_SWEEP:
+            initial = builder.sead_sweep(self.package.target)
 
         return FormationAttackLayout(
             departure=builder.takeoff(self.flight.departure),
@@ -213,7 +215,7 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
             return builder.bai_group(target)
         elif flight.flight_type == FlightType.DEAD:
             return builder.dead_point(target)
-        elif flight.flight_type == FlightType.SEAD:
+        elif flight.flight_type in {FlightType.SEAD, FlightType.SEAD_SWEEP}:
             return builder.sead_point(target)
         else:
             return builder.strike_point(target)

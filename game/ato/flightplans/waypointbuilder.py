@@ -423,6 +423,32 @@ class WaypointBuilder:
         )
 
     def sead_search(self, target: MissionTarget) -> FlightWaypoint:
+        hold = self._sead_search_point(target)
+
+        return FlightWaypoint(
+            "SEAD Search",
+            FlightWaypointType.NAV,
+            hold,
+            self.doctrine.ingress_altitude,
+            alt_type="BARO",
+            description="Anchor and search from this point",
+            pretty_name="SEAD Search",
+        )
+
+    def sead_sweep(self, target: MissionTarget) -> FlightWaypoint:
+        hold = self._sead_search_point(target)
+
+        return FlightWaypoint(
+            "SEAD Sweep",
+            FlightWaypointType.NAV,
+            hold,
+            self.doctrine.ingress_altitude,
+            alt_type="BARO",
+            description="Anchor and search from this point",
+            pretty_name="SEAD Sweep",
+        )
+
+    def _sead_search_point(self, target: MissionTarget) -> Point:
         """Creates custom waypoint for AI SEAD flights
             to avoid having them fly all the way to the SAM site.
         Args:
@@ -437,16 +463,7 @@ class WaypointBuilder:
         hold = target.position.point_from_heading(
             hdg, min(threat_range, ingress2tgt_dist * 0.95)
         )
-
-        return FlightWaypoint(
-            "SEAD Search",
-            FlightWaypointType.INGRESS_SEAD,
-            hold,
-            self.doctrine.ingress_altitude,
-            alt_type="BARO",
-            description="Anchor and search from this point",
-            pretty_name="SEAD Search",
-        )
+        return hold
 
     @staticmethod
     def escort_hold(start: Point, altitude: Distance) -> FlightWaypoint:

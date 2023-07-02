@@ -459,6 +459,9 @@ class AircraftType(UnitType[Type[FlyingType]]):
         for task_name, priority in data.get("tasks", {}).items():
             task_priorities[FlightType(task_name)] = priority
 
+        if FlightType.SEAD in task_priorities:
+            task_priorities[FlightType.SEAD_SWEEP] = task_priorities[FlightType.SEAD]
+
         for variant in data.get("variants", [aircraft.id]):
             yield AircraftType(
                 dcs_unit_type=aircraft,

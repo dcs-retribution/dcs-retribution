@@ -47,6 +47,7 @@
 * **[Options]** Renamed Maximum frontline length -> Maximum frontline width.
 * **[Squadrons]** Add livery selector in Squadron Dialog, allowing you to change the livery during the campaign.
 * **[New Game Wizard]** Automatically invert factions when 'Invert Map' is selected.
+* **[Flight Plans]** Added "SEAD Sweep" flight plan, which basically reintroduces the legacy "SEAD Escort" flight plan where the flight will engage whatever it can find without actually escorting the primary flight.
 
 
 ## Fixes

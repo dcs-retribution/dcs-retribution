@@ -57,6 +57,7 @@ class FlightType(Enum):
     REFUELING = "Refueling"
     FERRY = "Ferry"
     AIR_ASSAULT = "Air Assault"
+    SEAD_SWEEP = "SEAD Sweep"  # Reintroduce legacy "engage-whatever-you-can-find" SEAD
 
     def __str__(self) -> str:
         return self.value
@@ -91,6 +92,7 @@ class FlightType(Enum):
             FlightType.OCA_AIRCRAFT,
             FlightType.SEAD_ESCORT,
             FlightType.AIR_ASSAULT,
+            FlightType.SEAD_SWEEP,
         }
 
     @property
@@ -110,6 +112,7 @@ class FlightType(Enum):
             FlightType.REFUELING: AirEntity.TANKER,
             FlightType.SEAD: AirEntity.SUPPRESSION_OF_ENEMY_AIR_DEFENCE,
             FlightType.SEAD_ESCORT: AirEntity.SUPPRESSION_OF_ENEMY_AIR_DEFENCE,
+            FlightType.SEAD_SWEEP: AirEntity.SUPPRESSION_OF_ENEMY_AIR_DEFENCE,
             FlightType.STRIKE: AirEntity.ATTACK_STRIKE,
             FlightType.SWEEP: AirEntity.FIGHTER,
             FlightType.TARCAP: AirEntity.FIGHTER,

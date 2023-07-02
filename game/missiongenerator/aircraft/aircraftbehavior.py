@@ -56,7 +56,7 @@ class AircraftBehavior:
             self.configure_cas(group, flight)
         elif self.task == FlightType.DEAD:
             self.configure_dead(group, flight)
-        elif self.task == FlightType.SEAD:
+        elif self.task in [FlightType.SEAD, FlightType.SEAD_SWEEP]:
             self.configure_sead(group, flight)
         elif self.task == FlightType.SEAD_ESCORT:
             self.configure_sead_escort(group, flight)
