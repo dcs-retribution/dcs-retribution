@@ -46,6 +46,7 @@
 * **[Plugins]** Updated CTLD to latest released version
 * **[Options]** Renamed Maximum frontline length -> Maximum frontline width.
 * **[Squadrons]** Add livery selector in Squadron Dialog, allowing you to change the livery during the campaign.
+* **[New Game Wizard]** Automatically invert factions when 'Invert Map' is selected.
 
 
 ## Fixes
