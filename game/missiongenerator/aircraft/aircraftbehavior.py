@@ -322,7 +322,8 @@ class AircraftBehavior:
         )
 
     def configure_ferry(self, group: FlyingGroup[Any], flight: Flight) -> None:
-        self.configure_task(flight, group, Nothing)
+        # Every aircraft is capable of 'Nothing', but pydcs doesn't always export it
+        group.task = Nothing.name
         self.configure_behavior(
             flight,
             group,
