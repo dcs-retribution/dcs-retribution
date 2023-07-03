@@ -5,6 +5,7 @@
 * **[Campaign Design]** Ability to define almost all possible settings in the campaign's yaml file.
 * **[Campaign Design]** Ability to add roadbases and/or ground spawns to campaigns.
 * **[Campaign Design]** Ability to define SCENERY REMOVE OBJECTS ZONE triggers with the roadbase objects in campaign miz. This might not work reliably in multiplayer due to DCS issues. FARPs can be used to remove scenery objects in multiplayer.
+* **[Options]** Implemented an option in settings to disable the above SCENERY REMOVE OBJECTS ZONE triggers.
 * **[Campaign Management]** Improved squadron retreat logic at longer ranges.
 * **[Options]** Ability to load & save your settings.
 * **[Options]** Added a separate Doctrine page in settings with the following new options:

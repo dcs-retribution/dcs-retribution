@@ -668,6 +668,16 @@ class Settings:
             "AI will always air-start from these bases (due to DCS limitation)."
         ),
     )
+    ground_start_scenery_remove_triggers: bool = boolean_option(
+        "Generate SCENERY REMOVE OBJECTS ZONE triggers at roadbase first waypoints",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=True,
+        detail=(
+            "Can be used to remove lightposts and other obstacles from roadbase runways."
+            "Might not work in DCS multiplayer."
+        ),
+    )
     ground_start_trucks: bool = boolean_option(
         "Spawn trucks at ground spawns in airbases instead of FARP statics",
         MISSION_GENERATOR_PAGE,
