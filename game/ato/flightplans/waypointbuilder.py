@@ -459,7 +459,7 @@ class WaypointBuilder:
         ingress = self.flight.package.waypoints.ingress
         ingress2tgt_dist = ingress.distance_to_point(target.position)
         threat_range = nautical_miles(
-            self.flight.coalition.game.settings.sead_sweep_threat_buffer_min_distance
+            self.flight.coalition.game.settings.sead_threat_buffer_min_distance
         ).meters
         if target.strike_targets:
             threat_range = (

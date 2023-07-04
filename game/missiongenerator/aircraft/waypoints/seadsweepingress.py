@@ -20,7 +20,11 @@ class SeadSweepIngressBuilder(PydcsWaypointBuilder):
             ControlledTask(
                 EngageTargets(
                     # TODO: From doctrine.
-                    max_distance=int(nautical_miles(30).meters),
+                    max_distance=int(
+                        nautical_miles(
+                            self.flight.coalition.game.settings.sead_sweep_engagement_range_distance
+                        ).meters
+                    ),
                     targets=[Targets.All.GroundUnits.AirDefence.AAA.SAMRelated],
                 )
             )

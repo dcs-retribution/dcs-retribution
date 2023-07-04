@@ -11,8 +11,9 @@
 * **[Options]** Added a separate Doctrine page in settings with the following new options:
   * Minimum number of aircraft for autoplanner to plan OCA packages against 
   * Airbase threat range (nmi)
-  * TARCAP threat buffer distance (nmi)
   * SEAD Sweep threat buffer distance (nmi)
+  * SEAD Escort/Sweep threat buffer distance (nmi)
+  * TARCAP threat buffer distance (nmi)
   * AEW&C threat buffer distance (nmi)
   * Theater tanker threat buffer distance (nmi)
 * **[Options]** Improved the option to configure OPFOR autoplanner aggressiveness. The AI might now take even more risks and plan missions against defended targets.
