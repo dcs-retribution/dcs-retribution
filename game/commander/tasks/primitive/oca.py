@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from random import randint
 
 from game.ato.flighttype import FlightType
 from game.commander.tasks.packageplanningtask import PackagePlanningTask
@@ -25,7 +24,8 @@ class PlanOcaStrike(PackagePlanningTask[ControlPoint]):
 
     def propose_flights(self) -> None:
         size = self.get_flight_size()
-        self.propose_flight(FlightType.OCA_RUNWAY, size)
+        if self.target.cptype == self.target.cptype.AIRBASE:
+            self.propose_flight(FlightType.OCA_RUNWAY, size)
         if self.aircraft_cold_start:
             self.propose_flight(FlightType.OCA_AIRCRAFT, 2)
         self.propose_common_escorts()
