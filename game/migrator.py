@@ -99,12 +99,15 @@ class Migrator:
     def _release_untasked_flights(self) -> None:
         for cp in self.game.theater.controlpoints:
             for s in cp.squadrons:
-                claimed = s.owned_aircraft - s.untasked_aircraft
                 count = 0
                 for f in s.flight_db.objects.values():
                     if f.squadron == s:
                         count += f.count
-                s.claim_inventory(count - claimed)
+                s.return_all_pilots_and_aircraft()
+                new_claim = min(count, s.owned_aircraft)
+                s.claim_inventory(new_claim)
+                for i in range(new_claim):
+                    s.claim_available_pilot()
 
     def _update_squadrons(self) -> None:
         country_dict = {
@@ -145,15 +148,18 @@ class Migrator:
         a = self.game.conditions.weather.atmospheric
         try_set_attr(a, "turbulence_per_10cm", 0.1)
         sc = self.game.theater.seasonal_conditions
-        self.game.theater.seasonal_conditions = SeasonalConditions(
-            summer_avg_pressure=sc.summer_avg_pressure,
-            winter_avg_pressure=sc.winter_avg_pressure,
-            summer_avg_temperature=sc.summer_avg_temperature,
-            winter_avg_temperature=sc.winter_avg_temperature,
-            temperature_day_night_difference=sc.temperature_day_night_difference,
-            high_avg_yearly_turbulence_per_10cm=1.2,
-            low_avg_yearly_turbulence_per_10cm=0.1,
-            solar_noon_turbulence_per_10cm=0.8,
-            midnight_turbulence_per_10cm=0.4,
-            weather_type_chances=sc.weather_type_chances,
-        )
+        if not hasattr(
+            self.game.theater.seasonal_conditions, "high_avg_yearly_turbulence_per_10cm"
+        ):
+            self.game.theater.seasonal_conditions = SeasonalConditions(
+                summer_avg_pressure=sc.summer_avg_pressure,
+                winter_avg_pressure=sc.winter_avg_pressure,
+                summer_avg_temperature=sc.summer_avg_temperature,
+                winter_avg_temperature=sc.winter_avg_temperature,
+                temperature_day_night_difference=sc.temperature_day_night_difference,
+                high_avg_yearly_turbulence_per_10cm=1.2,
+                low_avg_yearly_turbulence_per_10cm=0.1,
+                solar_noon_turbulence_per_10cm=0.8,
+                midnight_turbulence_per_10cm=0.4,
+                weather_type_chances=sc.weather_type_chances,
+            )
