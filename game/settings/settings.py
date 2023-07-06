@@ -268,7 +268,7 @@ class Settings:
         ),
     )
     sead_sweep_engagement_range_distance: int = bounded_int_option(
-        "SEAD Sweep threat buffer distance (nmi)",
+        "SEAD Sweep engagement range (nmi)",
         page=CAMPAIGN_DOCTRINE_PAGE,
         section=DOCTRINE_DISTANCES_SECTION,
         default=30,
