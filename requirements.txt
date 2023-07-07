@@ -31,7 +31,7 @@ platformdirs==3.5.3
 pluggy==1.0.0
 pre-commit==3.3.3
 pydantic==1.10.9
--e git+https://github.com/dcs-retribution/pydcs@2697d61d6263064891cc6d763b3000c21962de09#egg=pydcs
+-e git+https://github.com/dcs-retribution/pydcs@b764ed61a800d95bb0db1fdb3687b393be45106d#egg=pydcs
 pyinstaller==5.12.0
 pyinstaller-hooks-contrib==2023.3
 pyparsing==3.0.9
