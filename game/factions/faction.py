@@ -178,6 +178,10 @@ class Faction:
 
     @property
     def aircrafts(self) -> list[UnitType[Any]]:
+        # Migrator can't cope with this, so we need to do it here...
+        self.aircraft = set(self.aircraft)
+        self.awacs = set(self.awacs)
+        self.tankers = set(self.tankers)
         return list(self.aircraft.union(self.awacs.union(self.tankers)))
 
     @classmethod

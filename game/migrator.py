@@ -143,6 +143,34 @@ class Migrator:
         for c in self.game.coalitions:
             if isinstance(c.faction.country, str):
                 c.faction.country = countries_by_name[c.faction.country]()
+            if isinstance(c.faction.aircraft, list):
+                c.faction.aircraft = set(c.faction.aircraft)
+            if isinstance(c.faction.awacs, list):
+                c.faction.awacs = set(c.faction.awacs)
+            if isinstance(c.faction.tankers, list):
+                c.faction.tankers = set(c.faction.tankers)
+            if isinstance(c.faction.frontline_units, list):
+                c.faction.frontline_units = set(c.faction.frontline_units)
+            if isinstance(c.faction.artillery_units, list):
+                c.faction.artillery_units = set(c.faction.artillery_units)
+            if isinstance(c.faction.infantry_units, list):
+                c.faction.infantry_units = set(c.faction.infantry_units)
+            if isinstance(c.faction.logistics_units, list):
+                c.faction.logistics_units = set(c.faction.logistics_units)
+            if isinstance(c.faction.air_defense_units, list):
+                c.faction.air_defense_units = set(c.faction.air_defense_units)
+            if isinstance(c.faction.missiles, list):
+                c.faction.missiles = set(c.faction.missiles)
+            if isinstance(c.faction.carrier_names, list):
+                c.faction.carrier_names = set(c.faction.carrier_names)
+            if isinstance(c.faction.helicopter_carrier_names, list):
+                c.faction.helicopter_carrier_names = set(
+                    c.faction.helicopter_carrier_names
+                )
+            if isinstance(c.faction.naval_units, list):
+                c.faction.naval_units = set(c.faction.naval_units)
+            if isinstance(c.faction.building_set, list):
+                c.faction.building_set = set(c.faction.building_set)
 
     def _update_weather(self) -> None:
         a = self.game.conditions.weather.atmospheric
