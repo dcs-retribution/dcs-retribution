@@ -176,7 +176,7 @@ class Faction:
         )
         return sorted(air_defenses)
 
-    @property
+    @cached_property
     def aircrafts(self) -> list[UnitType[Any]]:
         # Migrator can't cope with this, so we need to do it here...
         self.aircraft = set(self.aircraft)
@@ -528,12 +528,12 @@ class Faction:
             self.remove_ship("Destroyer_carrier")
 
     def remove_aircraft(self, name: str) -> None:
-        for i in self.aircrafts:
+        for i in list(self.aircrafts):
             if i.dcs_unit_type.id == name:
                 self.aircrafts.remove(i)
 
     def remove_aircraft_by_name(self, name: str) -> None:
-        for i in self.aircrafts:
+        for i in list(self.aircrafts):
             if i.name == name:
                 self.aircrafts.remove(i)
 
@@ -550,12 +550,12 @@ class Faction:
             self.artillery_units,
             self.logistics_units,
         ]:
-            for i in sequence:
+            for i in list(sequence):
                 if i.dcs_unit_type.id == name:
                     sequence.remove(i)
 
     def remove_ship(self, name: str) -> None:
-        for i in self.naval_units:
+        for i in list(self.naval_units):
             if i.dcs_unit_type.id == name:
                 self.naval_units.remove(i)
 
