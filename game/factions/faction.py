@@ -4,7 +4,7 @@ import itertools
 import logging
 from dataclasses import dataclass, field
 from functools import cached_property
-from typing import Optional, Dict, Type, List, Any, Iterator, TYPE_CHECKING
+from typing import Optional, Dict, Type, List, Any, Iterator, TYPE_CHECKING, Set
 
 import dcs
 from dcs.country import Country
@@ -57,46 +57,46 @@ class Faction:
     description: str = field(default="")
 
     # Available aircraft
-    aircraft: List[AircraftType] = field(default_factory=list)
+    aircraft: Set[AircraftType] = field(default_factory=set)
 
     # Available awacs aircraft
-    awacs: List[AircraftType] = field(default_factory=list)
+    awacs: Set[AircraftType] = field(default_factory=set)
 
     # Available tanker aircraft
-    tankers: List[AircraftType] = field(default_factory=list)
+    tankers: Set[AircraftType] = field(default_factory=set)
 
     # Available frontline units
-    frontline_units: List[GroundUnitType] = field(default_factory=list)
+    frontline_units: Set[GroundUnitType] = field(default_factory=set)
 
     # Available artillery units
-    artillery_units: List[GroundUnitType] = field(default_factory=list)
+    artillery_units: Set[GroundUnitType] = field(default_factory=set)
 
     # Infantry units used
-    infantry_units: List[GroundUnitType] = field(default_factory=list)
+    infantry_units: Set[GroundUnitType] = field(default_factory=set)
 
     # Logistics units used
-    logistics_units: List[GroundUnitType] = field(default_factory=list)
+    logistics_units: Set[GroundUnitType] = field(default_factory=set)
 
     # Possible Air Defence units, Like EWRs
-    air_defense_units: List[GroundUnitType] = field(default_factory=list)
+    air_defense_units: Set[GroundUnitType] = field(default_factory=set)
 
     # A list of all supported sets of units
     preset_groups: list[ForceGroup] = field(default_factory=list)
 
     # Possible Missile site generators for this faction
-    missiles: List[GroundUnitType] = field(default_factory=list)
+    missiles: Set[GroundUnitType] = field(default_factory=set)
 
     # Required mods or asset packs
     requirements: Dict[str, str] = field(default_factory=dict)
 
     # Possible carrier names
-    carrier_names: List[str] = field(default_factory=list)
+    carrier_names: Set[str] = field(default_factory=set)
 
     # Possible helicopter carrier names
-    helicopter_carrier_names: List[str] = field(default_factory=list)
+    helicopter_carrier_names: Set[str] = field(default_factory=set)
 
     # Available Naval Units
-    naval_units: List[ShipUnitType] = field(default_factory=list)
+    naval_units: Set[ShipUnitType] = field(default_factory=set)
 
     # Whether this faction has JTAC access
     has_jtac: bool = field(default=False)
@@ -108,7 +108,7 @@ class Faction:
     doctrine: Doctrine = field(default=MODERN_DOCTRINE)
 
     # List of available building layouts for this faction
-    building_set: List[str] = field(default_factory=list)
+    building_set: Set[str] = field(default_factory=set)
 
     # List of default livery overrides
     liveries_overrides: Dict[AircraftType, List[str]] = field(default_factory=dict)
@@ -175,9 +175,9 @@ class Faction:
         )
         return sorted(air_defenses)
 
-    @cached_property
+    @property
     def aircrafts(self) -> list[UnitType[Any]]:
-        return list(self.aircraft + self.awacs + self.tankers)
+        return list(self.aircraft.union(self.awacs.union(self.tankers)))
 
     @classmethod
     def from_dict(cls: Type[Faction], json: Dict[str, Any]) -> Faction:
@@ -198,30 +198,30 @@ class Faction:
         faction.authors = json.get("authors", "")
         faction.description = json.get("description", "")
 
-        faction.aircraft = [AircraftType.named(n) for n in json.get("aircrafts", [])]
-        faction.awacs = [AircraftType.named(n) for n in json.get("awacs", [])]
-        faction.tankers = [AircraftType.named(n) for n in json.get("tankers", [])]
+        faction.aircraft = {AircraftType.named(n) for n in json.get("aircrafts", [])}
+        faction.awacs = {AircraftType.named(n) for n in json.get("awacs", [])}
+        faction.tankers = {AircraftType.named(n) for n in json.get("tankers", [])}
 
-        faction.frontline_units = [
+        faction.frontline_units = {
             GroundUnitType.named(n) for n in json.get("frontline_units", [])
-        ]
-        faction.artillery_units = [
+        }
+        faction.artillery_units = {
             GroundUnitType.named(n) for n in json.get("artillery_units", [])
-        ]
-        faction.infantry_units = [
+        }
+        faction.infantry_units = {
             GroundUnitType.named(n) for n in json.get("infantry_units", [])
-        ]
-        faction.logistics_units = [
+        }
+        faction.logistics_units = {
             GroundUnitType.named(n) for n in json.get("logistics_units", [])
-        ]
-        faction.air_defense_units = [
+        }
+        faction.air_defense_units = {
             GroundUnitType.named(n) for n in json.get("air_defense_units", [])
-        ]
-        faction.missiles = [GroundUnitType.named(n) for n in json.get("missiles", [])]
+        }
+        faction.missiles = {GroundUnitType.named(n) for n in json.get("missiles", [])}
 
-        faction.naval_units = [
+        faction.naval_units = {
             ShipUnitType.named(n) for n in json.get("naval_units", [])
-        ]
+        }
 
         faction.preset_groups = [
             ForceGroup.from_preset_group(g) for g in json.get("preset_groups", [])
@@ -251,22 +251,22 @@ class Faction:
             faction.doctrine = MODERN_DOCTRINE
 
         # Load the building set
-        faction.building_set = []
+        faction.building_set = set()
         building_set = json.get("building_set", "default")
         if building_set == "default":
-            faction.building_set.extend(DEFAULT_AVAILABLE_BUILDINGS)
+            faction.building_set.update(DEFAULT_AVAILABLE_BUILDINGS)
         elif building_set == "ww2free":
-            faction.building_set.extend(WW2_FREE)
+            faction.building_set.update(WW2_FREE)
         elif building_set == "ww2ally":
-            faction.building_set.extend(WW2_ALLIES_BUILDINGS)
+            faction.building_set.update(WW2_ALLIES_BUILDINGS)
         elif building_set == "ww2germany":
-            faction.building_set.extend(WW2_GERMANY_BUILDINGS)
+            faction.building_set.update(WW2_GERMANY_BUILDINGS)
         else:
-            faction.building_set.extend(DEFAULT_AVAILABLE_BUILDINGS)
+            faction.building_set.update(DEFAULT_AVAILABLE_BUILDINGS)
 
         # Add required buildings for the game logic (e.g. ammo, factory..)
-        faction.building_set.extend(REQUIRED_BUILDINGS)
-        faction.building_set.extend(IADS_BUILDINGS)
+        faction.building_set.update(REQUIRED_BUILDINGS)
+        faction.building_set.update(IADS_BUILDINGS)
 
         # Load liveries override
         faction.liveries_overrides = {}

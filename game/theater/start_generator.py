@@ -241,7 +241,7 @@ class CarrierGroundObjectGenerator(GenericCarrierGroundObjectGenerator):
                 self.control_point.heading,
             ),
         )
-        self.update_carrier_name(random.choice(carrier_names))
+        self.update_carrier_name(random.choice(list(carrier_names)))
         return True
 
 
@@ -272,7 +272,7 @@ class LhaGroundObjectGenerator(GenericCarrierGroundObjectGenerator):
                 self.control_point.heading,
             ),
         )
-        self.update_carrier_name(random.choice(lha_names))
+        self.update_carrier_name(random.choice(list(lha_names)))
         return True
 
 

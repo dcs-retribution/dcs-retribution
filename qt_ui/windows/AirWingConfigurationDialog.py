@@ -689,12 +689,12 @@ class AirWingConfigurationTab(QWidget):
         bases = list(self.game.theater.control_points_for(self.coalition.player))
 
         # List of all Aircrafts possible to operate with the given bases
-        possible_aircrafts = [
+        possible_aircrafts = {
             aircraft
             for aircraft in self.coalition.faction.aircrafts
             if isinstance(aircraft, AircraftType)
             and any(base.can_operate(aircraft) for base in bases)
-        ]
+        }
 
         popup = SquadronConfigPopup(
             selected_aircraft,
@@ -809,7 +809,7 @@ class AirWingConfigurationDialog(QDialog):
 
 class SquadronAircraftTypeSelector(QComboBox):
     def __init__(
-        self, types: list[AircraftType], selected_aircraft: Optional[str]
+        self, types: set[AircraftType], selected_aircraft: Optional[str]
     ) -> None:
         super().__init__()
         self.setSizeAdjustPolicy(self.AdjustToContents)
@@ -854,7 +854,7 @@ class SquadronConfigPopup(QDialog):
     def __init__(
         self,
         selected_aircraft: Optional[str],
-        types: list[AircraftType],
+        types: set[AircraftType],
         bases: list[ControlPoint],
         squadron_defs: dict[AircraftType, list[SquadronDef]],
     ) -> None:
