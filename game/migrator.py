@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import typing
 from datetime import datetime
 from typing import TYPE_CHECKING, Any
 
@@ -139,6 +140,7 @@ class Migrator:
                 if self.is_liberation:
                     s.set_auto_assignable_mission_types(s.auto_assignable_mission_types)
 
+    @typing.no_type_check
     def _update_factions(self) -> None:
         for c in self.game.coalitions:
             if isinstance(c.faction.country, str):
