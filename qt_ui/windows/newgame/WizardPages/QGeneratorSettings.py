@@ -102,6 +102,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("f4bc_phantom", self.f4bc_phantom)
         self.f15d_baz = QtWidgets.QCheckBox()
         self.registerField("f15d_baz", self.f15d_baz)
+        self.f_15_idf = QtWidgets.QCheckBox()
+        self.registerField("f_15_idf", self.f_15_idf)
         self.f_16_idf = QtWidgets.QCheckBox()
         self.registerField("f_16_idf", self.f_16_idf)
         self.fa_18efg = QtWidgets.QCheckBox()
@@ -155,6 +157,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
                 self.f4bc_phantom,
             ),
             ("F-15D Baz (v1.0)", self.f15d_baz),
+            ("F-15I Ra'am (v1.0 by IDF Mods Project)", self.f_15_idf),
             ("F-16I Sufa & F-16D (v3.6 by IDF Mods Project)", self.f_16_idf),
             ("F/A-18E/F/G Super Hornet (version 2.1)", self.fa_18efg),
             ("F-22A Raptor", self.f22_raptor),
@@ -216,6 +219,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.uh_60l.setChecked(s.get("uh_60l", False))
         self.f4bc_phantom.setChecked(s.get("f4bc_phantom", False))
         self.f15d_baz.setChecked(s.get("f15d_baz", False))
+        self.f_15_idf.setChecked(s.get("f_15_idf", False))
         self.f_16_idf.setChecked(s.get("f_16_idf", False))
         self.fa_18efg.setChecked(s.get("fa_18efg", False))
         self.f22_raptor.setChecked(s.get("f22_raptor", False))

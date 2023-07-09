@@ -11,6 +11,7 @@ role: Multirole Strike Fighter
 max_range: 300
 variants:
   F-15E Strike Eagle (Suite 4+): {}
+  F-15I Ra'am: {}
 radios:
   intra_flight: AN/ARC-210
   inter_flight: AN/ARC-164

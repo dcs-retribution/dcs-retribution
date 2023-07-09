@@ -32,6 +32,7 @@ from game.dcs.countries import country_with_name
 from game.dcs.groundunittype import GroundUnitType
 from game.dcs.shipunittype import ShipUnitType
 from game.dcs.unittype import UnitType
+from pydcs_extensions import inject_F15I, eject_F15I
 from pydcs_extensions.f16i_idf.f16i_idf import inject_F16I, eject_F16I
 
 if TYPE_CHECKING:
@@ -328,6 +329,14 @@ class Faction:
             self.remove_aircraft("VSN_F4C")
         if not mod_settings.f15d_baz:
             self.remove_aircraft("F-15D")
+        if not mod_settings.f_15_idf:
+            eject_F15I()
+            if AircraftType.named("F-15I Ra'am") in self.aircraft:
+                self.aircraft.remove(AircraftType.named("F-15I Ra'am"))
+        else:
+            inject_F15I()
+            if AircraftType.named("F-15E Strike Eagle (Suite 4+)") in self.aircraft:
+                self.aircraft.add(AircraftType.named("F-15I Ra'am"))
         if not mod_settings.f_16_idf:
             self.remove_aircraft("F-16I")
             self.remove_aircraft("F-16D_52")

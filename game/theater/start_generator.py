@@ -59,6 +59,7 @@ class ModSettings:
     a7e_corsair2: bool = False
     f4bc_phantom: bool = False
     f15d_baz: bool = False
+    f_15_idf: bool = False
     f_16_idf: bool = False
     fa_18efg: bool = False
     f22_raptor: bool = False
