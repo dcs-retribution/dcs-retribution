@@ -1,3 +1,9 @@
+# Retribution v1.3.0
+
+## Features/Improvements
+
+## Fixes
+
 # Retribution v1.2.1 (hotfix)
 
 ## Fixes
