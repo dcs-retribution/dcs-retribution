@@ -15,3 +15,19 @@ def inject_pylon(to_pylon: Any, from_pylon: Any) -> None:
             continue
         if isinstance(value, Tuple):
             setattr(to_pylon, key, value)
+
+
+def eject_pylon(to_pylon: Any, from_pylon: Any) -> None:
+    """
+    Eject weapons/ordnance added by mods into the pylons of existing aircraft.
+    This is done to support mods such as the CJS Super Hornet, which modify aircraft
+    that exist in stock DCS. Ornance is ejected pydcs aircraft classes via introspection
+    :param to_pylon: The pydcs pylon class of the target aircraft
+    :param from_pylon: The custom pylon class containing tuples with added weapon info
+    :return: None
+    """
+    for key, value in from_pylon.__dict__.items():
+        if key.startswith("__"):
+            continue
+        if isinstance(value, Tuple) and hasattr(to_pylon, key):
+            delattr(to_pylon, key)
