@@ -173,8 +173,12 @@ class Flight(SidcDescribable, RadioFrequencyContainer, TacanContainer):
         return self.squadron.aircraft
 
     @property
+    def is_lha(self) -> bool:
+        return self.unit_type.lha_capable
+
+    @property
     def is_helo(self) -> bool:
-        return self.unit_type.dcs_unit_type.helicopter
+        return self.unit_type.helicopter
 
     @property
     def is_hercules(self) -> bool:

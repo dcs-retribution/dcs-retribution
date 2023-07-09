@@ -10,7 +10,13 @@ from dcs.planes import F_14A, Su_33
 from dcs.point import PointAction
 from dcs.ships import KUZNECOW
 from dcs.terrain import NoParkingSlotError
-from dcs.unitgroup import FlyingGroup, ShipGroup, StaticGroup
+from dcs.unitgroup import (
+    FlyingGroup,
+    ShipGroup,
+    StaticGroup,
+    HelicopterGroup,
+    PlaneGroup,
+)
 
 from game.ato import Flight
 from game.ato.flightstate import InFlight
@@ -91,15 +97,24 @@ class FlightGroupSpawner:
         self.flight.group_id = grp.id
         return grp
 
-    def create_idle_aircraft(self) -> FlyingGroup[Any]:
-        assert isinstance(self.flight.squadron.location, Airfield)
-        airfield = self.flight.squadron.location
-        group = self._generate_at_airfield(
-            name=namegen.next_aircraft_name(self.country, self.flight),
-            airfield=airfield,
-        )
-
-        group.uncontrolled = True
+    def create_idle_aircraft(self) -> Optional[FlyingGroup[Any]]:
+        group = None
+        if (
+            self.flight.is_helo
+            or self.flight.is_lha
+            and isinstance(self.flight.squadron.location, Fob)
+        ):
+            group = self._generate_at_cp_helipad(
+                name=namegen.next_aircraft_name(self.country, self.flight),
+                cp=self.flight.squadron.location,
+            )
+        elif isinstance(self.flight.squadron.location, Airfield):
+            group = self._generate_at_airfield(
+                name=namegen.next_aircraft_name(self.country, self.flight),
+                airfield=self.flight.squadron.location,
+            )
+        if group:
+            group.uncontrolled = True
         return group
 
     @property
@@ -330,6 +345,10 @@ class FlightGroupSpawner:
                 if isinstance(cp, Airfield):
                     return self._generate_at_airfield(name, cp)
                 else:
+                    if isinstance(group, HelicopterGroup):
+                        self.country.helicopter_group.remove(group)
+                    elif isinstance(group, PlaneGroup):
+                        self.country.plane_group.remove(group)
                     return None
         return group
 

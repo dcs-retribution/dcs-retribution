@@ -52,6 +52,7 @@
 * **[New Game Wizard]** Automatically invert factions when 'Invert Map' is selected.
 * **[Flight Plans]** Added "SEAD Sweep" flight plan, which basically reintroduces the legacy "SEAD Escort" flight plan where the flight will engage whatever it can find without actually escorting the primary flight.
 * **[Flight Plans]** Added SEAD capability to F-16A MLU and SEAD Escort & SEAD to F-16A. 
+* **[Mission Generation]** Spawn unused helicopters or LHA-capable aircraft at helipads at FOBs
 
 ## Fixes
 * **[New Game Wizard]** Settings would not persist when going back to a previous page (obsolete due to overhaul).
