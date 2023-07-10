@@ -392,7 +392,7 @@ def inject_F16I() -> None:
 
 
 def eject_F16I() -> None:
-    F_16C_50.pylons = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17}
+    F_16C_50.pylons = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}
 
     # Injects modified weapons from the IDF Mods Project F-16I Sufa
     # into pydcs databases via introspection.
