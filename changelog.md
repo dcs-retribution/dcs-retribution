@@ -1,3 +1,10 @@
+# Retribution v1.2.1 (hotfix)
+
+## Fixes
+* **[Flight Plans]** SEAD Sweep not being auto-planned
+* **[Modding]** Python-4 no longer overwrites AIM-9X
+* **[Modding]** Restore original amount of pylons to F-16C when "ejecting" sufa mod
+
 # Retribution v1.2.0
 
 ## Features/Improvements
