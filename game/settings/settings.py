@@ -352,7 +352,7 @@ class Settings:
         "Maximum number of pilots per squadron",
         CAMPAIGN_MANAGEMENT_PAGE,
         PILOTS_AND_SQUADRONS_SECTION,
-        default=12,
+        default=16,
         min=6,
         max=72,
         detail=(
