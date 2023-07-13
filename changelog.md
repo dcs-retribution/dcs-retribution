@@ -208,11 +208,28 @@ BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 # Liberation:
 ## Features/Improvements
 
-* **[Engine]** Support for DCS 2.8.6.41363, including F-15E support.
 * **[Flight Planning]** Improved IP selection for targets that are near the center of a threat zone.
 * **[Modding]** Factions can now specify the ship type to be used for cargo shipping. The Handy Wind will be used by default, but WW2 factions can pick something more appropriate.
 
 ## Fixes
+
+* **[Data]** Fixed the class of the Samuel Chase so it can't be picked for a AAA or SHORAD site.
+* **[Mission Generation]** Restored previous AI behavior for anti-ship missions. A DCS update caused only a single aircraft in a flight to attack. The full flight will now attack like they used to.
+* **[Plugins]** Fixed Lua errors in Skynet plugin that would occur whenever one coalition had no IADS nodes.
+
+# 8.1.0
+
+Saves from 8.0.0 are compatible with 8.1.0
+
+## Features/Improvements
+
+* **[Engine]** Support for DCS 2.8.6.41363, including F-15E support.
+* **[UI]** Flight loadout/properties tab is now scrollable.
+
+## Fixes
+
+* **[Campaign]** Fixed liveries for premade squadrons all being off-by-one.
+* **[UI]** Fixed numbering of waypoints in the map and flight dialog (first waypoint is now 0 rather than 1).
 
 # 8.0.0
 
