@@ -415,7 +415,7 @@ class Squadron:
             return
 
         parking_type = ParkingType().from_squadron(self)
-        if self.expected_size_next_turn >= self.location.unclaimed_parking(
+        if self.expected_size_next_turn > self.location.unclaimed_parking(
             parking_type
         ):
             raise RuntimeError(f"Not enough parking for {self} at {self.location}.")
