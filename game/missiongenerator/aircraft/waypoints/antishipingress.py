@@ -35,5 +35,7 @@ class AntiShipIngressBuilder(PydcsWaypointBuilder):
                 )
                 continue
 
-            task = AttackGroup(miz_group.id, group_attack=True, weapon_type=WeaponType.Auto)
+            task = AttackGroup(
+                miz_group.id, group_attack=True, weapon_type=WeaponType.Auto
+            )
             waypoint.tasks.append(task)
