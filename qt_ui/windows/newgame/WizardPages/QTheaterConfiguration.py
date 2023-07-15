@@ -251,6 +251,7 @@ class TheaterConfiguration(QtWidgets.QWizardPage):
         red = self.faction_selection.redFactionSelect.currentIndex()
         self.faction_selection.blueFactionSelect.setCurrentIndex(red)
         self.faction_selection.redFactionSelect.setCurrentIndex(blue)
+        self.faction_selection.updateUnitRecap()
 
 
 class QCampaignItem(QStandardItem):
