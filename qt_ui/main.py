@@ -12,6 +12,7 @@ from PySide2 import QtWidgets
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QPixmap
 from PySide2.QtWidgets import QApplication, QCheckBox, QSplashScreen
+from dcs.liveries.liverycache import LiveryCache
 from dcs.payloads import PayloadDirectories
 
 from game import Game, VERSION, logging_config, persistency
@@ -433,6 +434,8 @@ def main():
         lint_all_weapon_data()
 
     load_mods()
+
+    LiveryCache.cache()
 
     if args.subcommand == "new-game":
         with logged_duration("New game creation"):
