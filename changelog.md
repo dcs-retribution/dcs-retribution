@@ -3,6 +3,8 @@
 ## Features/Improvements
 
 ## Fixes
+* **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task
+* **[New Game Wizard]** Faction selection overview doesn't update when inverting map
 
 # Retribution v1.2.1 (hotfix)
 
