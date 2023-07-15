@@ -10,7 +10,7 @@ from dcs import Point
 
 from game.flightplan import HoldZoneGeometry
 from game.theater import MissionTarget
-from game.utils import Speed, meters
+from game.utils import Speed, meters, nautical_miles
 from .flightplan import FlightPlan
 from .formation import FormationFlightPlan, FormationLayout
 from .ibuilder import IBuilder
@@ -134,6 +134,7 @@ class FormationAttackLayout(FormationLayout):
     ingress: FlightWaypoint
     targets: list[FlightWaypoint]
     initial: Optional[FlightWaypoint] = None
+    lineup: Optional[FlightWaypoint] = None
 
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
         yield self.departure
@@ -142,6 +143,8 @@ class FormationAttackLayout(FormationLayout):
         yield from self.nav_to
         if self.join:
             yield self.join
+        if self.lineup:
+            yield self.lineup
         yield self.ingress
         if self.initial is not None:
             yield self.initial
@@ -206,6 +209,12 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
         elif ingress_type == FlightWaypointType.INGRESS_SEAD_SWEEP:
             initial = builder.sead_sweep(self.package.target)
 
+        lineup = None
+        if self.flight.flight_type == FlightType.STRIKE:
+            hdg = self.package.target.position.heading_between_point(ingress.position)
+            pos = ingress.position.point_from_heading(hdg, nautical_miles(10).meters)
+            lineup = builder.nav(pos, self.flight.coalition.doctrine.ingress_altitude)
+
         return FormationAttackLayout(
             departure=builder.takeoff(self.flight.departure),
             hold=hold,
@@ -215,6 +224,7 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
                 self.doctrine.ingress_altitude,
             ),
             join=join,
+            lineup=lineup,
             ingress=ingress,
             initial=initial,
             targets=target_waypoints,
