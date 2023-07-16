@@ -43,7 +43,7 @@ local unitPayloads = {
 			["name"] = "CAP",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{CBU-1/A}",
+					["CLSID"] = "{AIM-9P5-ON-ADAPTER}",
 					["num"] = 4,
 				},
 				[2] = {
