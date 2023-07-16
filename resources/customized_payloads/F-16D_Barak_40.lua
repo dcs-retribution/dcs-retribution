@@ -434,7 +434,7 @@ local unitPayloads = {
 					["num"] = 8,
 				},
 				[5] = {
-					["CLSID"] = "{AGM-154B}",
+					["CLSID"] = "{AGM-154A}",
 					["num"] = 7,
 				},
 				[6] = {
@@ -442,7 +442,7 @@ local unitPayloads = {
 					["num"] = 6,
 				},
 				[7] = {
-					["CLSID"] = "{AGM-154B}",
+					["CLSID"] = "{AGM-154A}",
 					["num"] = 3,
 				},
 				[8] = {
