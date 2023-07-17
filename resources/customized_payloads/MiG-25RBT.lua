@@ -52,8 +52,8 @@ local unitPayloads = {
 			},
 		},
 		[3] = {
-			["displayName"] = "Retribution STRIKE",
-			["name"] = "Retribution STRIKE",
+			["displayName"] = "Retribution Strike",
+			["name"] = "Retribution Strike",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{37DCC01E-9E02-432F-B61D-10C166CA2798}",
@@ -77,8 +77,8 @@ local unitPayloads = {
 			},
 		},
 		[4] = {
-			["displayName"] = "Retribution CAP",
-			["name"] = "Retribution CAP",
+			["displayName"] = "Retribution BARCAP",
+			["name"] = "Retribution BARCAP",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{APU-60-1_R_60M}",
