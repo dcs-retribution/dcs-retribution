@@ -1,0 +1,6 @@
+name: 2xAIM-9JULI
+year: 1980
+fallback: 2xAIM-9P5
+# Imporved Aim-9J with Aim-9L seeker head and front section. AKA AIM-9 JULIMA
+clsids:
+  - "{VSN_F4B_LAU105_AIM9JULI}"

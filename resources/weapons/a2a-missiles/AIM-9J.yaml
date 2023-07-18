@@ -1,0 +1,7 @@
+name: AIM-9J
+year: 1972
+fallback: AIM-9B
+# Upgraded AIM-9B model, an imporvement over the earlier upgrades of 9D and 9E.
+clsids:
+  - "{AIM-9J-ON-ADAPTER}"
+  - "{AIM-9J}"
