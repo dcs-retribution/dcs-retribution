@@ -219,6 +219,7 @@ BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 * **[Data]** Fixed the class of the Samuel Chase so it can't be picked for a AAA or SHORAD site.
 * **[Data]** Allow CH-47D, CH-53E and UH-60A to operate from carriers and LHAs.
 * **[Mission Generation]** Restored previous AI behavior for anti-ship missions. A DCS update caused only a single aircraft in a flight to attack. The full flight will now attack like they used to.
+* **[Mission Generation]** Fix generation of OCA Runway missions to allow LGBs to be used.
 * **[Plugins]** Fixed Lua errors in Skynet plugin that would occur whenever one coalition had no IADS nodes.
 
 # 8.1.0
