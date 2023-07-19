@@ -1,6 +1,6 @@
 name: AIM-7F
 year: 1976
-fallback: AIM-7E
+fallback: AIM-7E-2
 clsids:
   - "{SHOULDER AIM-7F}"
   - "{BELLY AIM-7F}"
