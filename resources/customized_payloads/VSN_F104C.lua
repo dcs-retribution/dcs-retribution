@@ -2,98 +2,52 @@ local unitPayloads = {
 	["name"] = "VSN_F104C",
 	["payloads"] = {
 		[1] = {
-			["displayName"] = "DEAD",
-			["name"] = "DEAD",
+			["displayName"] = "Retribution BARCAP",
+			["name"] = "Retribution BARCAP",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{VSN_F104_LAU115C_AIM9L}",
-					["num"] = 6,
-				},
-				[2] = {
 					["CLSID"] = "VSN_F104G_L_PTB",
 					["num"] = 2,
 				},
-				[3] = {
-					["CLSID"] = "{FD90A1DC-9147-49FA-BF56-CB83EF0BD32B}",
-					["num"] = 8,
-				},
-				[4] = {
-					["CLSID"] = "VSN_F104G_R_PTB",
-					["num"] = 10,
-				},
-				[5] = {
-					["CLSID"] = "{FD90A1DC-9147-49FA-BF56-CB83EF0BD32B}",
+				[2] = {
+					["CLSID"] = "{AIM-9P5}",
 					["num"] = 4,
 				},
-			},
-			["tasks"] = {
-				[1] = 19,
-			},
-		},
-		[2] = {
-			["displayName"] = "CAS",
-			["name"] = "CAS",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{VSN_F104_LAU115C_AIM9L}",
+				[3] = {
+					["CLSID"] = "LAU-105_2*AIM-9P5",
 					["num"] = 6,
 				},
-				[2] = {
-					["CLSID"] = "VSN_F104G_L_PTB",
-					["num"] = 2,
-				},
-				[3] = {
-					["CLSID"] = "{FD90A1DC-9147-49FA-BF56-CB83EF0BD32B}",
+				[4] = {
+					["CLSID"] = "{AIM-9P5}",
 					["num"] = 8,
 				},
-				[4] = {
+				[5] = {
 					["CLSID"] = "VSN_F104G_R_PTB",
 					["num"] = 10,
-				},
-				[5] = {
-					["CLSID"] = "{FD90A1DC-9147-49FA-BF56-CB83EF0BD32B}",
-					["num"] = 4,
-				},
-			},
-			["tasks"] = {
-				[1] = 19,
-			},
-		},
-		[3] = {
-			["displayName"] = "CAP",
-			["name"] = "CAP",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{VSN_F104_LAU115C_AIM9L}",
-					["num"] = 6,
-				},
-				[2] = {
-					["CLSID"] = "VSN_F104G_L_PTB",
-					["num"] = 2,
-				},
-				[3] = {
-					["CLSID"] = "{AIM-9L}",
-					["num"] = 8,
-				},
-				[4] = {
-					["CLSID"] = "VSN_F104G_R_PTB",
-					["num"] = 10,
-				},
-				[5] = {
-					["CLSID"] = "{AIM-9L}",
-					["num"] = 4,
 				},
 			},
 			["tasks"] = {
 				[1] = 11,
 			},
 		},
-		[4] = {
-			["displayName"] = "STRIKE",
-			["name"] = "STRIKE",
+		[2] = {
+			["displayName"] = "Retribution Strike",
+			["name"] = "Retribution Strike",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{7A44FF09-527C-4B7E-B42B-3F111CFE50FB}",
+					["CLSID"] = "VSN_F104G_L_PTB",
+					["num"] = 2,
+				},
+				[2] = {
+					["CLSID"] = "VSN_F104G_R_PTB",
+					["num"] = 10,
+				},
+				[3] = {
+					["CLSID"] = "{D5D51E24-348C-4702-96AF-97A714E72697}",
+					["num"] = 4,
+				},
+				[4] = {
+					["CLSID"] = "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}",
 					["num"] = 6,
 					["settings"] = {
 						["GUI_fuze_type"] = 1,
@@ -101,59 +55,72 @@ local unitPayloads = {
 						["function_delay_ctrl_FMU139CB_LD"] = 0,
 					},
 				},
-				[2] = {
-					["CLSID"] = "VSN_F104G_L_PTB",
-					["num"] = 2,
-				},
-				[3] = {
-					["CLSID"] = "{7A44FF09-527C-4B7E-B42B-3F111CFE50FB}",
-					["num"] = 8,
-				},
-				[4] = {
-					["CLSID"] = "VSN_F104G_R_PTB",
-					["num"] = 10,
-				},
 				[5] = {
-					["CLSID"] = "{7A44FF09-527C-4B7E-B42B-3F111CFE50FB}",
-					["num"] = 4,
-					["settings"] = {
-						["GUI_fuze_type"] = 1,
-						["arm_delay_ctrl_FMU139CB_LD"] = 1,
-						["function_delay_ctrl_FMU139CB_LD"] = 0,
-					},
+					["CLSID"] = "{D5D51E24-348C-4702-96AF-97A714E72697}",
+					["num"] = 8,
 				},
 			},
 			["tasks"] = {
-				[1] = 19,
+				[1] = 11,
 			},
 		},
-		[5] = {
-			["displayName"] = "OCA",
-			["name"] = "OCA",
+		[3] = {
+			["name"] = "Retribution CAS",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{VSN_F104_LAU115C_AIM9L}",
-					["num"] = 6,
+					["CLSID"] = "VSN_F104G_R_PTB",
+					["num"] = 10,
 				},
 				[2] = {
 					["CLSID"] = "VSN_F104G_L_PTB",
 					["num"] = 2,
 				},
 				[3] = {
-					["CLSID"] = "{7A44FF09-527C-4B7E-B42B-3F111CFE50FB}",
+					["CLSID"] = "{7B34E0BB-E427-4C2A-A61A-8407CE18B54D}",
 					["num"] = 8,
 				},
 				[4] = {
-					["CLSID"] = "VSN_F104G_R_PTB",
-					["num"] = 10,
+					["CLSID"] = "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}",
+					["num"] = 6,
+					["settings"] = {
+						["GUI_fuze_type"] = 1,
+						["arm_delay_ctrl_FMU139CB_LD"] = 1,
+						["function_delay_ctrl_FMU139CB_LD"] = 0,
+					},
 				},
 				[5] = {
-					["CLSID"] = "{7A44FF09-527C-4B7E-B42B-3F111CFE50FB}",
+					["CLSID"] = "{7B34E0BB-E427-4C2A-A61A-8407CE18B54D}",
 					["num"] = 4,
 				},
 			},
 			["tasks"] = {
-				[1] = 19,
+			},
+		},
+		[4] = {
+			["name"] = "Retribution DEAD",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{BRU33_2X_ROCKEYE}",
+					["num"] = 4,
+				},
+				[2] = {
+					["CLSID"] = "{BRU33_2X_ROCKEYE}",
+					["num"] = 8,
+				},
+				[3] = {
+					["CLSID"] = "LAU-105_2*AIM-9P5",
+					["num"] = 6,
+				},
+				[4] = {
+					["CLSID"] = "VSN_F104G_L_PTB",
+					["num"] = 2,
+				},
+				[5] = {
+					["CLSID"] = "VSN_F104G_R_PTB",
+					["num"] = 10,
+				},
+			},
+			["tasks"] = {
 			},
 		},
 	},
