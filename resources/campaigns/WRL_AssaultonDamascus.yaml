@@ -181,11 +181,15 @@ squadrons:
         - Su-25T Frogfoot
       size: 16
 ground_forces:
-  Khalkhalah SAM A: SA-11
-  Khalkhalah SAM B: SA-2/S-75 
-  Damascus SAM A: SA-11
-  Dumayr SAM A: SA-10/S-300PS 
-  Dumayr SAM B: SA-2/S-75 
-  Dumayr SAM C: SA-2/S-75 
-  GolanS SAM A: SA-11
-  Ramat SAM A: SA-11
+  KHALK1: SA-11 
+  KHALK2: SA-2/S-75 
+  DAMASCUS1: SA-11
+  DUMAYR1: SA-2/S-75
+  DUMAYR2: SA-2/S-75 
+  DUMAYR3: SA-10/S-300PS
+  RAMAT1: Patriot
+  RAMAT2: Hawk
+  RAMAT3: Patriot
+  GSOUTH1: NASAMS AIM-120C
+  GSOUTH2: Hawk
+  GNORTH1: NASAMS AIM-120C
