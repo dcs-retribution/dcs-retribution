@@ -2,6 +2,7 @@
 
 ## Features/Improvements
 * **[Package Planning]** Option to "Auto-Create" package
+* **[Modding]** Custom weapons injection system (definition in aircraft's yaml file)
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task
