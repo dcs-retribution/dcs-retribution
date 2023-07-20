@@ -10,7 +10,7 @@ from dcs import Point
 
 from game.flightplan import HoldZoneGeometry
 from game.theater import MissionTarget
-from game.utils import Speed, meters
+from game.utils import Speed, meters, nautical_miles
 from .flightplan import FlightPlan
 from .formation import FormationFlightPlan, FormationLayout
 from .ibuilder import IBuilder
@@ -111,9 +111,19 @@ class FormationAttackFlightPlan(FormationFlightPlan, ABC):
         )
         return tot - travel_time
 
+    @property
+    def initial_time(self) -> timedelta:
+        tot = self.tot
+        travel_time = self.travel_time_between_waypoints(
+            self.layout.initial, self.target_area_waypoint
+        )
+        return tot - travel_time
+
     def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
         if waypoint == self.layout.ingress:
             return self.ingress_time
+        elif waypoint == self.layout.initial:
+            return self.initial_time
         elif waypoint in self.layout.targets:
             return self.tot
         return super().tot_for_waypoint(waypoint)
@@ -124,12 +134,17 @@ class FormationAttackLayout(FormationLayout):
     ingress: FlightWaypoint
     targets: list[FlightWaypoint]
     initial: Optional[FlightWaypoint] = None
+    lineup: Optional[FlightWaypoint] = None
 
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
         yield self.departure
-        yield self.hold
+        if self.hold:
+            yield self.hold
         yield from self.nav_to
-        yield self.join
+        if self.join:
+            yield self.join
+        if self.lineup:
+            yield self.lineup
         yield self.ingress
         if self.initial is not None:
             yield self.initial
@@ -170,8 +185,17 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
                 )
             )
 
-        hold = builder.hold(self._hold_point())
-        join = builder.join(self.package.waypoints.join)
+        hold = None
+        join = None
+        if (
+            self.flight is self.package.primary_flight
+            or self.package.primary_flight
+            and isinstance(
+                self.package.primary_flight.flight_plan, FormationAttackFlightPlan
+            )
+        ):
+            hold = builder.hold(self._hold_point())
+            join = builder.join(self.package.waypoints.join)
         split = builder.split(self.package.waypoints.split)
         refuel = builder.refuel(self.package.waypoints.refuel)
 
@@ -182,14 +206,25 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
         initial = None
         if ingress_type == FlightWaypointType.INGRESS_SEAD:
             initial = builder.sead_search(self.package.target)
+        elif ingress_type == FlightWaypointType.INGRESS_SEAD_SWEEP:
+            initial = builder.sead_sweep(self.package.target)
+
+        lineup = None
+        if self.flight.flight_type == FlightType.STRIKE:
+            hdg = self.package.target.position.heading_between_point(ingress.position)
+            pos = ingress.position.point_from_heading(hdg, nautical_miles(10).meters)
+            lineup = builder.nav(pos, self.flight.coalition.doctrine.ingress_altitude)
 
         return FormationAttackLayout(
             departure=builder.takeoff(self.flight.departure),
             hold=hold,
             nav_to=builder.nav_path(
-                hold.position, join.position, self.doctrine.ingress_altitude
+                hold.position if hold else self.flight.departure.position,
+                join.position if join else ingress.position,
+                self.doctrine.ingress_altitude,
             ),
             join=join,
+            lineup=lineup,
             ingress=ingress,
             initial=initial,
             targets=target_waypoints,
@@ -213,7 +248,7 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
             return builder.bai_group(target)
         elif flight.flight_type == FlightType.DEAD:
             return builder.dead_point(target)
-        elif flight.flight_type == FlightType.SEAD:
+        elif flight.flight_type in {FlightType.SEAD, FlightType.SEAD_SWEEP}:
             return builder.sead_point(target)
         else:
             return builder.strike_point(target)

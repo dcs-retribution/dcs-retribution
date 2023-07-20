@@ -17,5 +17,4 @@ role: Strategic Bomber
 variants:
   Tu-95MS Bear-H: {}
 tasks:
-  DEAD: 190
   Strike: 670

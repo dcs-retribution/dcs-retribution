@@ -326,7 +326,8 @@ class QLiberationWindow(QMainWindow):
 
     def migrate_game(self, game, path):
         if game:
-            Migrator(game)
+            is_liberation = ".liberation" in path
+            Migrator(game, is_liberation)
         else:
             relative_path = Path(path)
             QMessageBox.critical(

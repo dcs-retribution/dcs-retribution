@@ -92,6 +92,7 @@ class NewGameWizard(QtWidgets.QWizard):
             a7e_corsair2=self.field("a7e_corsair2"),
             f4bc_phantom=self.field("f4bc_phantom"),
             f15d_baz=self.field("f15d_baz"),
+            f_15_idf=self.field("f_15_idf"),
             f_16_idf=self.field("f_16_idf"),
             fa_18efg=self.field("fa_18efg"),
             f22_raptor=self.field("f22_raptor"),

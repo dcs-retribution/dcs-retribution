@@ -423,6 +423,32 @@ class WaypointBuilder:
         )
 
     def sead_search(self, target: MissionTarget) -> FlightWaypoint:
+        hold = self._sead_search_point(target)
+
+        return FlightWaypoint(
+            "SEAD Search",
+            FlightWaypointType.NAV,
+            hold,
+            self.doctrine.ingress_altitude,
+            alt_type="BARO",
+            description="Anchor and search from this point",
+            pretty_name="SEAD Search",
+        )
+
+    def sead_sweep(self, target: MissionTarget) -> FlightWaypoint:
+        hold = self._sead_search_point(target)
+
+        return FlightWaypoint(
+            "SEAD Sweep",
+            FlightWaypointType.NAV,
+            hold,
+            self.doctrine.ingress_altitude,
+            alt_type="BARO",
+            description="Anchor and search from this point",
+            pretty_name="SEAD Sweep",
+        )
+
+    def _sead_search_point(self, target: MissionTarget) -> Point:
         """Creates custom waypoint for AI SEAD flights
             to avoid having them fly all the way to the SAM site.
         Args:
@@ -432,21 +458,18 @@ class WaypointBuilder:
         assert self.flight.package.waypoints
         ingress = self.flight.package.waypoints.ingress
         ingress2tgt_dist = ingress.distance_to_point(target.position)
-        threat_range = 1.1 * max([x.threat_range for x in target.strike_targets]).meters
+        threat_range = nautical_miles(
+            self.flight.coalition.game.settings.sead_threat_buffer_min_distance
+        ).meters
+        if target.strike_targets:
+            threat_range = (
+                1.1 * max([x.threat_range for x in target.strike_targets]).meters
+            )
         hdg = target.position.heading_between_point(ingress)
         hold = target.position.point_from_heading(
             hdg, min(threat_range, ingress2tgt_dist * 0.95)
         )
-
-        return FlightWaypoint(
-            "SEAD Search",
-            FlightWaypointType.INGRESS_SEAD,
-            hold,
-            self.doctrine.ingress_altitude,
-            alt_type="BARO",
-            description="Anchor and search from this point",
-            pretty_name="SEAD Search",
-        )
+        return hold
 
     @staticmethod
     def escort_hold(start: Point, altitude: Distance) -> FlightWaypoint:

@@ -118,10 +118,11 @@ class TheaterConfiguration(QtWidgets.QWizardPage):
         # Campaign settings
         mapSettingsGroup = QtWidgets.QGroupBox("Map Settings")
         mapSettingsLayout = QtWidgets.QGridLayout()
-        invertMap = QtWidgets.QCheckBox()
-        self.registerField("invertMap", invertMap)
+        self.invertMap = QtWidgets.QCheckBox()
+        self.invertMap.stateChanged.connect(self.on_invert_map)
+        self.registerField("invertMap", self.invertMap)
         mapSettingsLayout.addWidget(QtWidgets.QLabel("Invert Map"), 0, 0)
-        mapSettingsLayout.addWidget(invertMap, 0, 1)
+        mapSettingsLayout.addWidget(self.invertMap, 0, 1)
         self.advanced_iads = QtWidgets.QCheckBox()
         self.registerField("advanced_iads", self.advanced_iads)
         self.iads_label = QtWidgets.QLabel("Advanced IADS (WIP)")
@@ -178,6 +179,8 @@ class TheaterConfiguration(QtWidgets.QWizardPage):
 
             self.campaignMapDescription.setText(template.render({"campaign": campaign}))
             self.faction_selection.setDefaultFactions(campaign)
+            if self.invertMap.isChecked():
+                self.on_invert_map()
             self.performanceText.setText(
                 template_perf.render({"performance": campaign.performance})
             )
@@ -242,6 +245,13 @@ class TheaterConfiguration(QtWidgets.QWizardPage):
         layout.addWidget(mapSettingsGroup, 2, 1, 1, 1)
         layout.addWidget(timeGroup, 3, 1, 3, 1)
         self.setLayout(layout)
+
+    def on_invert_map(self) -> None:
+        blue = self.faction_selection.blueFactionSelect.currentIndex()
+        red = self.faction_selection.redFactionSelect.currentIndex()
+        self.faction_selection.blueFactionSelect.setCurrentIndex(red)
+        self.faction_selection.redFactionSelect.setCurrentIndex(blue)
+        self.faction_selection.updateUnitRecap()
 
 
 class QCampaignItem(QStandardItem):

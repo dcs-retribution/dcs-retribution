@@ -26,7 +26,8 @@ class SweepLayout(LoiterLayout):
 
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
         yield self.departure
-        yield self.hold
+        if self.hold:
+            yield self.hold
         yield from self.nav_to
         yield self.sweep_start
         yield self.sweep_end

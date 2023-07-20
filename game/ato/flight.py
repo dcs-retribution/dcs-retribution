@@ -70,6 +70,10 @@ class Flight(SidcDescribable, RadioFrequencyContainer, TacanContainer):
         self.divert = divert
         self.flight_type = flight_type
         self.loadout = Loadout.default_for(self)
+        if self.squadron.aircraft.name == "F-15I Ra'am":
+            self.loadout.pylons[16] = Weapon.with_clsid(
+                "{IDF_MODS_PROJECT_F-15I_Raam_Dome}"
+            )
         self.start_type = start_type
         self.use_custom_loadout = False
         self.custom_name = custom_name
@@ -173,8 +177,12 @@ class Flight(SidcDescribable, RadioFrequencyContainer, TacanContainer):
         return self.squadron.aircraft
 
     @property
+    def is_lha(self) -> bool:
+        return self.unit_type.lha_capable
+
+    @property
     def is_helo(self) -> bool:
-        return self.unit_type.dcs_unit_type.helicopter
+        return self.unit_type.helicopter
 
     @property
     def is_hercules(self) -> bool:

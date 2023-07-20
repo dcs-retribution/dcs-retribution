@@ -184,6 +184,9 @@ class Loadout:
         # A SEAD escort typically does not need a different loadout than a regular
         # SEAD flight, so fall back to SEAD if needed.
         loadout_names[FlightType.SEAD_ESCORT].extend(loadout_names[FlightType.SEAD])
+        loadout_names[FlightType.SEAD_SWEEP].extend(
+            loadout_names[FlightType.SEAD_ESCORT]
+        )
         # Sweep and escort can fall back to TARCAP.
         loadout_names[FlightType.ESCORT].extend(loadout_names[FlightType.TARCAP])
         loadout_names[FlightType.SWEEP].extend(loadout_names[FlightType.TARCAP])

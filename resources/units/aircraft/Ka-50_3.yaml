@@ -17,6 +17,7 @@ price: 20
 role: Attack
 variants:
   Ka-50 Hokum III: {}
+  Ka-50 Hokum (Blackshark 3): {}  # for compatibility with Liberation
 radios:
   intra_flight: R-800L1
   inter_flight: R-800L1

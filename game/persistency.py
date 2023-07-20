@@ -17,6 +17,11 @@ _dcs_saved_game_folder: Optional[str] = None
 
 
 # fmt: off
+class DummyObject:
+    def __setstate__(self, state: dict[str, Any]) -> None:
+        self.__dict__.update(state)
+
+
 class MigrationUnpickler(pickle.Unpickler):
     """Custom unpickler to migrate campaign save-files for when components have been moved"""
     def find_class(self, module: Any, name: str) -> Any:
@@ -52,6 +57,8 @@ class MigrationUnpickler(pickle.Unpickler):
             return Thunderstorm
         if name == "Hipico":
             return dcs.terrain.falklands.airports.Hipico_Flying_Club
+        if name in ["SaveManager", "SaveGameBundle"]:
+            return DummyObject
         return super().find_class(module, name)
 # fmt: on
 

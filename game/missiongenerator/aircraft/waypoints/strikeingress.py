@@ -16,7 +16,11 @@ class StrikeIngressBuilder(PydcsWaypointBuilder):
         bomber_guided = self.group.units[0].unit_type in [B_1B, B_52H]
         waypoint.tasks.append(OptFormation.finger_four_open())
         if bomber_guided or not bomber:
-            self.add_strike_tasks(waypoint, WeaponType.Guided)
+            self.add_strike_tasks(waypoint, WeaponType.ASM)
+
+        waypoint.tasks.append(OptFormation.trail_open())
+        if bomber_guided or not bomber:
+            self.add_strike_tasks(waypoint, WeaponType.GuidedBombs)
 
         waypoint.tasks.append(OptFormation.ww2_bomber_element_close())
         self.add_bombing_tasks(waypoint)
@@ -49,6 +53,7 @@ class StrikeIngressBuilder(PydcsWaypointBuilder):
                 center,
                 weapon_type=WeaponType.Bombs,
                 expend=Expend.All,
+                group_attack=True,
                 altitude=waypoint.alt,
             )
         waypoint.tasks.append(bombing)
@@ -56,12 +61,13 @@ class StrikeIngressBuilder(PydcsWaypointBuilder):
     def add_strike_tasks(
         self, waypoint: MovingPoint, weapon_type: WeaponType = WeaponType.Auto
     ) -> None:
-        ga = True if self.flight.count > 1 else False
         for target in self.waypoint.targets:
-            bombing = Bombing(target.position, weapon_type=weapon_type, group_attack=ga)
+            bombing = Bombing(target.position, weapon_type=weapon_type)
             # If there is only one target, drop all ordnance in one pass.
             if len(self.waypoint.targets) == 1:
                 bombing.params["expend"] = Expend.All.value
+            elif target.is_static:
+                bombing.params["expend"] = Expend.Half.value
             waypoint.tasks.append(bombing)
 
             waypoint.speed = mach(0.85, meters(waypoint.alt)).meters_per_second

@@ -73,16 +73,16 @@ class KneeboardPageWriter:
         # probably do), we'll need to split some of this information off into a
         # second page.
         self.title_font = ImageFont.truetype(
-            "courbd.ttf", 32, layout_engine=ImageFont.LAYOUT_BASIC
+            "courbd.ttf", 32, layout_engine=ImageFont.Layout.BASIC
         )
         self.heading_font = ImageFont.truetype(
-            "courbd.ttf", 24, layout_engine=ImageFont.LAYOUT_BASIC
+            "courbd.ttf", 24, layout_engine=ImageFont.Layout.BASIC
         )
         self.content_font = ImageFont.truetype(
-            "courbd.ttf", 16, layout_engine=ImageFont.LAYOUT_BASIC
+            "courbd.ttf", 16, layout_engine=ImageFont.Layout.BASIC
         )
         self.table_font = ImageFont.truetype(
-            "courbd.ttf", 20, layout_engine=ImageFont.LAYOUT_BASIC
+            "courbd.ttf", 20, layout_engine=ImageFont.Layout.BASIC
         )
         self.draw = ImageDraw.Draw(self.image)
         self.page_margin = page_margin
@@ -116,7 +116,7 @@ class KneeboardPageWriter:
             )
 
         self.draw.text(self.position, text, font=font, fill=fill)
-        width, height = self.draw.textsize(text, font=font)
+        width, height = self.draw.textsize(text, font=font)  # type:ignore[attr-defined]
         self.y += height + self.line_spacing
         self.text_buffer.append(text)
 
@@ -170,14 +170,14 @@ class KneeboardPageWriter:
     def wrap_line_with_font(
         inputstr: str, max_width: int, font: ImageFont.FreeTypeFont
     ) -> str:
-        if font.getsize(inputstr)[0] <= max_width:
+        if font.getsize(inputstr)[0] <= max_width:  # type:ignore[attr-defined]
             return inputstr
         tokens = inputstr.split(" ")
         output = ""
         segments = []
         for token in tokens:
             combo = output + " " + token
-            if font.getsize(combo)[0] > max_width:
+            if font.getsize(combo)[0] > max_width:  # type:ignore[attr-defined]
                 segments.append(output + "\n")
                 output = token
             else:
@@ -339,7 +339,7 @@ class BriefingPage(KneeboardPage):
         self.flight_plan_font = ImageFont.truetype(
             "courbd.ttf",
             16,
-            layout_engine=ImageFont.LAYOUT_BASIC,
+            layout_engine=ImageFont.Layout.BASIC,
         )
 
     def write(self, path: Path) -> None:

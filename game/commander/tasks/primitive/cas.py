@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from random import randint
 
 from game.ato.flighttype import FlightType
 from game.commander.tasks.packageplanningtask import PackagePlanningTask
@@ -33,3 +32,4 @@ class PlanCas(PackagePlanningTask[FrontLine]):
         size = self.get_flight_size()
         self.propose_flight(FlightType.CAS, size)
         self.propose_flight(FlightType.TARCAP, 2)
+        self.propose_flight(FlightType.SEAD_SWEEP, 2)

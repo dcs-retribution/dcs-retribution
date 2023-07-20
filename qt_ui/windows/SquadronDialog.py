@@ -30,6 +30,7 @@ from game.theater import ConflictTheater, ControlPoint, ParkingType
 from qt_ui.delegates import TwoColumnRowDelegate
 from qt_ui.errorreporter import report_errors
 from qt_ui.models import AtoModel, SquadronModel
+from qt_ui.widgets.combos.QSquadronLiverySelector import SquadronLiverySelector
 from qt_ui.widgets.combos.primarytaskselector import PrimaryTaskSelector
 
 
@@ -257,6 +258,11 @@ class SquadronDialog(QDialog):
         )
         left_column.addWidget(self.primary_task_selector)
 
+        left_column.addWidget(QLabel("Livery"))
+        self.livery_selector = SquadronLiverySelector(self.squadron_model.squadron)
+        self.livery_selector.currentIndexChanged.connect(self.on_livery_changed)
+        left_column.addWidget(self.livery_selector)
+
         auto_assigned_tasks = AutoAssignedTaskControls(squadron_model)
         left_column.addLayout(auto_assigned_tasks)
 
@@ -400,3 +406,6 @@ class SquadronDialog(QDialog):
         if task is None:
             raise RuntimeError("Selected task cannot be None")
         self.squadron.primary_task = task
+
+    def on_livery_changed(self) -> None:
+        self.squadron.livery = self.livery_selector.currentData()

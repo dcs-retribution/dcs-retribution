@@ -15,7 +15,7 @@ recommended_player_income_multiplier: 5.0
 recommended_enemy_income_multiplier: 1.0
 advanced_iads: false
 settings:
-  max_frontline_length: 30
+  max_frontline_width: 30
 squadrons:
   CVN-74 John Stennis:
     - primary: BARCAP

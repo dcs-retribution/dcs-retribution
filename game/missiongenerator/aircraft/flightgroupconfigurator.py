@@ -28,6 +28,7 @@ from .aircraftpainter import AircraftPainter
 from .flightdata import FlightData
 from .waypoints import WaypointGenerator
 from ...ato.flightplans.aewc import AewcFlightPlan
+from ...ato.flightplans.packagerefueling import PackageRefuelingFlightPlan
 from ...ato.flightplans.theaterrefueling import TheaterRefuelingFlightPlan
 from ...theater import Fob
 
@@ -194,7 +195,9 @@ class FlightGroupConfigurator:
                     blue=self.flight.departure.captured,
                 )
             )
-        elif isinstance(self.flight.flight_plan, TheaterRefuelingFlightPlan):
+        elif isinstance(
+            self.flight.flight_plan, TheaterRefuelingFlightPlan
+        ) or isinstance(self.flight.flight_plan, PackageRefuelingFlightPlan):
             if self.flight.tacan is None:
                 tacan = self.tacan_registry.alloc_for_band(
                     TacanBand.Y, TacanUsage.AirToAir

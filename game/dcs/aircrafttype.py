@@ -21,6 +21,7 @@ from game.radio.channels import (
     CommonRadioChannelAllocator,
     FarmerRadioChannelAllocator,
     HueyChannelNamer,
+    LegacyWarthogChannelNamer,
     MirageChannelNamer,
     MirageF1CEChannelNamer,
     NoOpChannelAllocator,
@@ -32,6 +33,7 @@ from game.radio.channels import (
     ViggenChannelNamer,
     ViggenRadioChannelAllocator,
     ViperChannelNamer,
+    WarthogChannelNamer,
 )
 from game.utils import (
     Distance,
@@ -106,6 +108,8 @@ class RadioConfig:
             "viggen": ViggenChannelNamer,
             "viper": ViperChannelNamer,
             "apache": ApacheChannelNamer,
+            "a10c-legacy": LegacyWarthogChannelNamer,
+            "a10c-ii": WarthogChannelNamer,
         }[config.get("namer", "default")]
 
 
@@ -454,6 +458,9 @@ class AircraftType(UnitType[Type[FlyingType]]):
         task_priorities: dict[FlightType, int] = {}
         for task_name, priority in data.get("tasks", {}).items():
             task_priorities[FlightType(task_name)] = priority
+
+        if FlightType.SEAD in task_priorities:
+            task_priorities[FlightType.SEAD_SWEEP] = task_priorities[FlightType.SEAD]
 
         for variant in data.get("variants", [aircraft.id]):
             yield AircraftType(
