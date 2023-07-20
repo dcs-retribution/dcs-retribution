@@ -20,8 +20,10 @@ variants:
     introduced: 1981
   MiG-23MLD Flogger-K: {}
 tasks:
+  CAS: 120
   BARCAP: 360
   Escort: 360
   Fighter sweep: 360
   Intercept: 360
+  Strike: 130
   TARCAP: 360
