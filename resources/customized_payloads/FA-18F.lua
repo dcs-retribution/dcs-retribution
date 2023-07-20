@@ -329,11 +329,11 @@ local unitPayloads = {
 					["num"] = 9,
 				},
 				[2] = {
-					["CLSID"] = "{AGM-154A}",
+					["CLSID"] = "{AGM-154B}",
 					["num"] = 8,
 				},
 				[3] = {
-					["CLSID"] = "{AGM-154A}",
+					["CLSID"] = "{AGM-154B}",
 					["num"] = 7,
 				},
 				[4] = {
@@ -345,7 +345,7 @@ local unitPayloads = {
 					["num"] = 4,
 				},
 				[6] = {
-					["CLSID"] = "{AGM-154A}",
+					["CLSID"] = "{AGM-154B}",
 					["num"] = 3,
 				},
 				[7] = {
@@ -353,7 +353,7 @@ local unitPayloads = {
 					["num"] = 5,
 				},
 				[8] = {
-					["CLSID"] = "{AGM-154A}",
+					["CLSID"] = "{AGM-154B}",
 					["num"] = 2,
 				},
 				[9] = {

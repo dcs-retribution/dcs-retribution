@@ -62,3 +62,12 @@ tasks:
   SEAD Escort: 430
   Strike: 600
   TARCAP: 450
+weapon_injections:
+  2:
+    - "{AGM-154B}"
+  3:
+    - "{AGM-154B}"
+  7:
+    - "{AGM-154B}"
+  8:
+    - "{AGM-154B}"
