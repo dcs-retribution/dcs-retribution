@@ -13,6 +13,7 @@ from PySide2.QtWidgets import (
     QInputDialog,
 )
 
+from game.persistency import base_path
 from game import Game
 from game.ato.flight import Flight
 from game.data.weapons import Pylon
@@ -78,7 +79,7 @@ class QLoadoutEditor(QGroupBox):
         payload_name = payload_name_input.textValue()
         ac_type = self.flight.unit_type.dcs_unit_type
         ac_id = ac_type.id
-        payload_file = dcs.payloads.PayloadDirectories.user() / f"{ac_id}.lua"
+        payload_file = base_path() / "MissionEditor" / "UnitPayloads" / f"{ac_id}.lua"
         ac_type.payloads[payload_name] = DcsPayload.from_flight(
             self.flight, payload_name
         ).to_dict()
