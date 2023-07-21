@@ -79,17 +79,19 @@ class QLoadoutEditor(QGroupBox):
         ac_type = self.flight.unit_type.dcs_unit_type
         ac_id = ac_type.id
         payload_file = dcs.payloads.PayloadDirectories.user() / f"{ac_id}.lua"
-        ac_type.payloads.update(
-            key=payload_name,
-            value=DcsPayload.from_flight(self.flight, payload_name).to_dict(),
-        )
+        ac_type.payloads[payload_name] = DcsPayload.from_flight(
+            self.flight, payload_name
+        ).to_dict()
         if payload_file.exists():
             self._create_backup_if_needed(ac_id)
             with payload_file.open("r", encoding="utf-8") as f:
                 payloads = dcs.lua.loads(f.read())
             if payloads:
                 pdict = payloads["unitPayloads"]["payloads"]
-                next_key = max(pdict.keys()) + 1
+                next_key = len(pdict) + 1
+                for p in pdict:
+                    if pdict[p]["name"] == payload_name:
+                        next_key = p
                 pdict[next_key] = DcsPayload.from_flight(
                     self.flight, payload_name
                 ).to_dict()
