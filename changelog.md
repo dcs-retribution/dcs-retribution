@@ -3,11 +3,12 @@
 ## Features/Improvements
 * **[Package Planning]** Option to "Auto-Create" package
 * **[Modding]** Custom weapons injection system (definition in aircraft's yaml file)
+* **[Payload Editor]** Ability to save/back-up payloads
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task
 * **[New Game Wizard]** Faction selection overview doesn't update when inverting map
-* **[Payloads]** Added missing payloads for MiG-25RBT
+* **[Payloads]** Added/Updated (missing) payloads
 * **[Aircraft Tasking]** Removed OCA/Runway from F-5E since it's not capable of 'Runway Attack' in DCS
 
 # Retribution v1.2.1 (hotfix)
