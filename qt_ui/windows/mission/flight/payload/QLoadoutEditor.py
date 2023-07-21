@@ -3,6 +3,7 @@ from typing import Dict, Union
 
 import dcs.lua
 import dcs.payloads
+from PySide2.QtCore import Signal
 from PySide2.QtWidgets import (
     QGridLayout,
     QGroupBox,
@@ -13,16 +14,18 @@ from PySide2.QtWidgets import (
     QInputDialog,
 )
 
-from game.persistency import base_path
 from game import Game
 from game.ato.flight import Flight
 from game.data.weapons import Pylon
+from game.persistency import base_path
 from qt_ui.windows.mission.flight.payload.QPylonEditor import QPylonEditor
 
 BACKUP_FOLDER = dcs.payloads.PayloadDirectories.user() / "_retribution_backups"
 
 
 class QLoadoutEditor(QGroupBox):
+    saved = Signal(str)
+
     def __init__(self, flight: Flight, game: Game) -> None:
         super().__init__("Use custom loadout")
         self.flight = flight
@@ -112,6 +115,7 @@ class QLoadoutEditor(QGroupBox):
                 f.write("local unitPayloads = ")
                 f.write(dcs.lua.dumps(payloads, indent=1))
                 f.write("\nreturn unitPayloads")
+        self.saved.emit(payload_name)
 
     def _create_backup_if_needed(self, ac_id):
         backup_file = BACKUP_FOLDER / f"{ac_id}.lua"

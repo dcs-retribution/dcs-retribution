@@ -101,6 +101,7 @@ class QFlightPayloadTab(QFrame):
         self.flight = flight
         self.payload_editor = QLoadoutEditor(flight, game)
         self.payload_editor.toggled.connect(self.on_custom_toggled)
+        self.payload_editor.saved.connect(self.on_saved_payload)
 
         layout = QVBoxLayout()
 
@@ -154,3 +155,8 @@ class QFlightPayloadTab(QFrame):
         else:
             self.flight.loadout = self.current_loadout()
             self.payload_editor.reset_pylons()
+
+    def on_saved_payload(self, payload_name: str) -> None:
+        loadout = self.flight.loadout
+        self.loadout_selector.addItem(payload_name, loadout)
+        self.loadout_selector.setCurrentIndex(self.loadout_selector.count() - 1)
