@@ -19,7 +19,7 @@ from qt_ui.windows.mission.flight.waypoints.QFlightWaypointList import (
 
 
 class QGeneralFlightSettingsTab(QFrame):
-    on_flight_settings_changed = Signal()
+    flight_size_changed = Signal()
 
     def __init__(
         self,
@@ -30,13 +30,16 @@ class QGeneralFlightSettingsTab(QFrame):
     ):
         super().__init__()
 
+        self.flight_slot_editor = QFlightSlotEditor(package_model, flight, game.game)
+        self.flight_slot_editor.flight_resized.connect(self.flight_size_changed)
+
         widgets = [
             QFlightTypeTaskInfo(flight),
             QCommsEditor(flight, game),
             FlightPlanPropertiesGroup(
                 game.game, package_model, flight, flight_wpt_list
             ),
-            QFlightSlotEditor(package_model, flight, game.game),
+            self.flight_slot_editor,
             QFlightStartType(package_model, flight),
             QFlightCustomName(flight),
         ]
@@ -45,6 +48,7 @@ class QGeneralFlightSettingsTab(QFrame):
         for w in widgets:
             layout.addWidget(w, row, 0)
             row += 1
+
         vstretch = QVBoxLayout()
         vstretch.addStretch()
         layout.addLayout(vstretch, row, 0)

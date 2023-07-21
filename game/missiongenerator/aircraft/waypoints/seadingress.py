@@ -53,7 +53,7 @@ class SeadIngressBuilder(PydcsWaypointBuilder):
             )
             waypoint.tasks.append(attack_task)
 
-            if self.flight.loadout.has_weapon_of_type(WeaponType.ARM):
+            if self.flight.any_member_has_weapon_of_type(WeaponType.ARM):
                 # Special handling for ARM Weapon types:
                 # The SEAD flight will Search for the targeted group and then engage it
                 # if it is found only. This will prevent AI from having huge problems

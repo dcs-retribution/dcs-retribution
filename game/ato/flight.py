@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import uuid
+from collections.abc import Iterator
 from datetime import datetime, timedelta
 from typing import Any, List, Optional, TYPE_CHECKING
 
@@ -9,10 +10,11 @@ from dcs.planes import C_101CC, C_101EB, Su_33, FA_18C_hornet
 
 from game.dcs.aircrafttype import AircraftType
 from pydcs_extensions.hercules.hercules import Hercules
+from .flightmembers import FlightMembers
 from .flightroster import FlightRoster
 from .flightstate import FlightState, Navigating, Uninitialized
 from .flightstate.killed import Killed
-from .loadouts import Loadout, Weapon
+from .loadouts import Weapon
 from ..radio.RadioFrequencyContainer import RadioFrequencyContainer
 from ..radio.TacanContainer import TacanContainer
 from ..radio.radios import RadioFrequency
@@ -31,6 +33,8 @@ if TYPE_CHECKING:
     from game.squadrons import Squadron, Pilot
     from game.theater import ControlPoint
     from game.transfers import TransferOrder
+    from game.data.weapons import WeaponType
+    from .flightmember import FlightMember
     from .flightplans.flightplan import FlightPlan
     from .flighttype import FlightType
     from .flightwaypoint import FlightWaypoint
@@ -61,21 +65,16 @@ class Flight(SidcDescribable, RadioFrequencyContainer, TacanContainer):
         self.package = package
         self.coalition = squadron.coalition
         self.squadron = squadron
+        self.flight_type = flight_type
         if claim_inv:
             self.squadron.claim_inventory(count)
         if roster is None:
-            self.roster = FlightRoster(self.squadron, initial_size=count)
+            self.roster = FlightMembers(self, initial_size=count)
         else:
-            self.roster = roster
+            self.roster = FlightMembers.from_roster(self, roster)
         self.divert = divert
-        self.flight_type = flight_type
-        self.loadout = Loadout.default_for(self)
-        if self.squadron.aircraft.name == "F-15I Ra'am":
-            self.loadout.pylons[16] = Weapon.with_clsid(
-                "{IDF_MODS_PROJECT_F-15I_Raam_Dome}"
-            )
+
         self.start_type = start_type
-        self.use_custom_loadout = False
         self.custom_name = custom_name
         self.group_id: int = 0
 
@@ -85,6 +84,7 @@ class Flight(SidcDescribable, RadioFrequencyContainer, TacanContainer):
             self.tcn_name = callsign
 
         self.initialize_fuel()
+        self.use_same_loadout_for_all_members = True
 
         # Only used by transport missions.
         self.cargo = cargo
@@ -138,7 +138,11 @@ class Flight(SidcDescribable, RadioFrequencyContainer, TacanContainer):
 
     def __setstate__(self, state: dict[str, Any]) -> None:
         state["state"] = Uninitialized(self, state["squadron"].settings)
+        if "use_same_loadout_for_all_members" not in state:
+            state["use_same_loadout_for_all_members"] = True
         self.__dict__.update(state)
+        if isinstance(self.roster, FlightRoster):
+            self.roster = FlightMembers.from_roster(self, self.roster)
 
     @property
     def blue(self) -> bool:
@@ -206,6 +210,9 @@ class Flight(SidcDescribable, RadioFrequencyContainer, TacanContainer):
     def missing_pilots(self) -> int:
         return self.roster.missing_pilots
 
+    def iter_members(self) -> Iterator[FlightMember]:
+        yield from self.roster.members
+
     def set_flight_type(self, var: FlightType) -> None:
         self.flight_type = var
 
@@ -234,6 +241,11 @@ class Flight(SidcDescribable, RadioFrequencyContainer, TacanContainer):
             self.fuel = unit_type.fuel_max * 0.75
         elif self.departure.cptype.name in ["FARP", "FOB"] and not self.is_helo:
             self.fuel = unit_type.fuel_max * 0.75
+
+    def any_member_has_weapon_of_type(self, weapon_type: WeaponType) -> bool:
+        return any(
+            m.loadout.has_weapon_of_type(weapon_type) for m in self.iter_members()
+        )
 
     def __repr__(self) -> str:
         return self.__str__()
@@ -294,7 +306,7 @@ class Flight(SidcDescribable, RadioFrequencyContainer, TacanContainer):
             Killed(self.state.estimate_position(), self, self.squadron.settings)
         )
         events.update_flight(self)
-        for pilot in self.roster.pilots:
+        for pilot in self.roster.iter_pilots():
             if pilot is not None:
                 results.kill_pilot(self, pilot)
 

@@ -27,6 +27,7 @@ from .aircraftbehavior import AircraftBehavior
 from .aircraftpainter import AircraftPainter
 from .flightdata import FlightData
 from .waypoints import WaypointGenerator
+from ...ato.flightmember import FlightMember
 from ...ato.flightplans.aewc import AewcFlightPlan
 from ...ato.flightplans.packagerefueling import PackageRefuelingFlightPlan
 from ...ato.flightplans.theaterrefueling import TheaterRefuelingFlightPlan
@@ -67,13 +68,13 @@ class FlightGroupConfigurator:
         AircraftBehavior(self.flight.flight_type).apply_to(self.flight, self.group)
         AircraftPainter(self.flight, self.group).apply_livery()
         self.setup_props()
-        self.setup_payload()
+        self.setup_payloads()
         self.setup_fuel()
         flight_channel = self.setup_radios()
 
         laser_codes: list[Optional[int]] = []
-        for unit, pilot in zip(self.group.units, self.flight.roster.pilots):
-            self.configure_flight_member(unit, pilot, laser_codes)
+        for unit, member in zip(self.group.units, self.flight.iter_members()):
+            self.configure_flight_member(unit, member, laser_codes)
 
         divert = None
         if self.flight.divert is not None:
@@ -143,21 +144,20 @@ class FlightGroupConfigurator:
         )
 
     def configure_flight_member(
-        self, unit: FlyingUnit, pilot: Optional[Pilot], laser_codes: list[Optional[int]]
+        self, unit: FlyingUnit, member: FlightMember, laser_codes: list[Optional[int]]
     ) -> None:
-        player = pilot is not None and pilot.player
-        self.set_skill(unit, pilot)
-        if self.flight.loadout.has_weapon_of_type(WeaponTypeEnum.TGP) and player:
+        self.set_skill(unit, member)
+        if member.loadout.has_weapon_of_type(WeaponTypeEnum.TGP) and member.is_player:
             laser_codes.append(self.laser_code_registry.get_next_laser_code())
         else:
             laser_codes.append(None)
         settings = self.flight.coalition.game.settings
-        if not player or not settings.plugins.get("ewrj"):
+        if not member.is_player or not settings.plugins.get("ewrj"):
             return
         jammer_required = settings.plugin_option("ewrj.ecm_required")
         if jammer_required:
             ecm = WeaponTypeEnum.JAMMER
-            if not self.flight.loadout.has_weapon_of_type(ecm):
+            if not member.loadout.has_weapon_of_type(ecm):
                 return
         ewrj_menu_trigger = TriggerStart(comment=f"EWRJ-{unit.name}")
         ewrj_menu_trigger.add_action(DoScript(String(f'EWJamming("{unit.name}")')))
@@ -221,9 +221,9 @@ class FlightGroupConfigurator:
                 )
             )
 
-    def set_skill(self, unit: FlyingUnit, pilot: Optional[Pilot]) -> None:
-        if pilot is None or not pilot.player:
-            unit.skill = self.skill_level_for(unit, pilot)
+    def set_skill(self, unit: FlyingUnit, member: FlightMember) -> None:
+        if not member.is_player:
+            unit.skill = self.skill_level_for(unit, member.pilot)
             return
 
         if self.use_client or "Pilot #1" not in unit.name:
@@ -260,15 +260,18 @@ class FlightGroupConfigurator:
         return levels[new_level]
 
     def setup_props(self) -> None:
-        for prop_id, value in self.flight.props.items():
-            for unit in self.group.units:
+        for unit, member in zip(self.group.units, self.flight.iter_members()):
+            for prop_id, value in member.properties.items():
                 unit.set_property(prop_id, value)
 
-    def setup_payload(self) -> None:
-        for p in self.group.units:
-            p.pylons.clear()
+    def setup_payloads(self) -> None:
+        for unit, member in zip(self.group.units, self.flight.iter_members()):
+            self.setup_payload(unit, member)
 
-        loadout = self.flight.loadout
+    def setup_payload(self, unit: FlyingUnit, member: FlightMember) -> None:
+        unit.pylons.clear()
+
+        loadout = member.loadout
         if self.game.settings.restrict_weapons_by_date:
             loadout = loadout.degrade_for_date(self.flight.unit_type, self.game.date)
 
@@ -276,7 +279,7 @@ class FlightGroupConfigurator:
             if weapon is None:
                 continue
             pylon = Pylon.for_aircraft(self.flight.unit_type, pylon_number)
-            pylon.equip(self.group, weapon)
+            pylon.equip(unit, weapon)
 
     def setup_fuel(self) -> None:
         fuel = self.flight.state.estimate_fuel()
@@ -287,5 +290,8 @@ class FlightGroupConfigurator:
                 "starting fuel to 100kg."
             )
             fuel = 100
-        for unit, pilot in zip(self.group.units, self.flight.roster.pilots):
-            unit.fuel = fuel
+        for unit, pilot in zip(self.group.units, self.flight.roster.iter_pilots()):
+            if pilot is not None and pilot.player:
+                unit.fuel = fuel
+            else:
+                unit.fuel = self.flight.fuel
