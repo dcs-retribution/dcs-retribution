@@ -62,7 +62,7 @@ tasks:
   SEAD Escort: 430
   Strike: 600
   TARCAP: 450
-weapon_injections:
+weapon_injections:  # AGM-154B only works for AI
   2:
     - "{AGM-154B}"
     - "{BRU57_2*AGM-154B}"
