@@ -1,15 +1,24 @@
+from dataclasses import dataclass
+from typing import Dict, Union
+
+import dcs.lua
+import dcs.payloads
 from PySide2.QtWidgets import (
     QGridLayout,
     QGroupBox,
     QLabel,
     QSizePolicy,
     QVBoxLayout,
+    QPushButton,
+    QInputDialog,
 )
 
 from game import Game
 from game.ato.flight import Flight
 from game.data.weapons import Pylon
 from qt_ui.windows.mission.flight.payload.QPylonEditor import QPylonEditor
+
+BACKUP_FOLDER = dcs.payloads.PayloadDirectories.user() / "_retribution_backups"
 
 
 class QLoadoutEditor(QGroupBox):
@@ -30,13 +39,126 @@ class QLoadoutEditor(QGroupBox):
             layout.addWidget(QPylonEditor(game, flight, pylon), i, 1)
 
         vbox.addLayout(layout)
+
+        layout = QGridLayout(self)
+        save_btn = QPushButton("Save Payload")
+        save_btn.setProperty("style", "btn-danger")
+        save_btn.setMaximumWidth(250)
+        save_btn.clicked.connect(self._save_payload)
+        layout.addWidget(save_btn, 0, 0)
+
+        purge_btn = QPushButton("Create Backup")
+        purge_btn.setProperty("style", "btn-success")
+        purge_btn.setMaximumWidth(250)
+        purge_btn.clicked.connect(self._backup_payloads)
+        layout.addWidget(purge_btn, 0, 1)
+        vbox.addLayout(layout)
+
         self.setLayout(vbox)
 
         for i in self.findChildren(QPylonEditor):
             i.set_from(self.flight.loadout)
+
+    def _backup_payloads(self) -> None:
+        ac_id = self.flight.unit_type.dcs_unit_type.id
+        payload_file = dcs.payloads.PayloadDirectories.user() / f"{ac_id}.lua"
+        if not payload_file.exists():
+            return
+        backup_file = BACKUP_FOLDER / f"{ac_id}.lua"
+        if not BACKUP_FOLDER.exists():
+            BACKUP_FOLDER.mkdir()
+        with backup_file.open("w", encoding="utf-8") as f:
+            with payload_file.open("r", encoding="utf-8") as g:
+                f.write(g.read())
+
+    def _save_payload(self) -> None:
+        payload_name_input = self._create_input_dialog()
+        if not payload_name_input.exec_():
+            return
+        payload_name = payload_name_input.textValue()
+        ac_type = self.flight.unit_type.dcs_unit_type
+        ac_id = ac_type.id
+        payload_file = dcs.payloads.PayloadDirectories.user() / f"{ac_id}.lua"
+        ac_type.payloads.update(
+            key=payload_name,
+            value=DcsPayload.from_flight(self.flight, payload_name).to_dict(),
+        )
+        if payload_file.exists():
+            self._create_backup_if_needed(ac_id)
+            with payload_file.open("r", encoding="utf-8") as f:
+                payloads = dcs.lua.loads(f.read())
+            if payloads:
+                pdict = payloads["unitPayloads"]["payloads"]
+                next_key = max(pdict.keys()) + 1
+                pdict[next_key] = DcsPayload.from_flight(
+                    self.flight, payload_name
+                ).to_dict()
+                with payload_file.open("w", encoding="utf-8") as f:
+                    f.write("local unitPayloads = ")
+                    f.write(dcs.lua.dumps(payloads["unitPayloads"], indent=1))
+                    f.write("\nreturn unitPayloads")
+        else:
+            with payload_file.open("w", encoding="utf-8") as f:
+                payloads = {
+                    "name": f"{self.flight.unit_type.dcs_unit_type.id}",
+                    "payloads": DcsPayload.from_flight(
+                        self.flight, payload_name
+                    ).to_dict(),
+                    "unitType": f"{self.flight.unit_type.dcs_unit_type.id}",
+                }
+                f.write("local unitPayloads = ")
+                f.write(dcs.lua.dumps(payloads, indent=1))
+                f.write("\nreturn unitPayloads")
+
+    def _create_backup_if_needed(self, ac_id):
+        backup_file = BACKUP_FOLDER / f"{ac_id}.lua"
+        if not backup_file.exists():
+            self._backup_payloads()
+
+    def _create_input_dialog(self):
+        payload_name_input = QInputDialog()
+        payload_name_input.setWindowTitle("Save payload")
+        payload_name_input.setLabelText("Enter a name for the payload to be saved:")
+        payload_name_input.setTextValue(f"Custom {self.flight.flight_type.name}")
+        payload_name_input.setFixedWidth(500)
+        return payload_name_input
 
     def reset_pylons(self) -> None:
         self.flight.use_custom_loadout = self.isChecked()
         if not self.isChecked():
             for i in self.findChildren(QPylonEditor):
                 i.set_from(self.flight.loadout)
+
+
+@dataclass
+class DcsPayload:
+    displayName: str
+    name: str
+    pylons: Dict[int, Dict[str, Union[str, int]]]
+    tasks: Dict[int, int]
+
+    @classmethod
+    def from_flight(cls, flight: Flight, payload_name: str):
+        pylons = {}
+        for i, nr in enumerate(flight.loadout.pylons, 1):
+            wpn = flight.loadout.pylons[nr]
+            clsid = wpn.clsid if wpn else "<CLEAN>"
+            pylons[i] = {
+                "CLSID": clsid,
+                "num": nr,
+            }
+
+        return DcsPayload(
+            f"{payload_name}",
+            f"{payload_name}",
+            pylons=pylons,
+            tasks={1: 31},
+        )
+
+    def to_dict(self):
+        return {
+            "displayName": self.displayName,
+            "name": self.name,
+            "pylons": self.pylons,
+            "tasks": self.tasks,
+        }
