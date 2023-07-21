@@ -74,5 +74,7 @@ tasks:
 weapon_injections:
   3:
     - "{AGM-154B}"
+    - "{BRU57_2*AGM-154B}"
   7:
     - "{AGM-154B}"
+    - "{BRU57_2*AGM-154B}"
