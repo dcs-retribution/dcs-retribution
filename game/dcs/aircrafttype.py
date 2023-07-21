@@ -515,7 +515,12 @@ class AircraftType(UnitType[Type[FlyingType]]):
             for pylon_number, weapons in wpn_injection.items():
                 for w in weapons:
                     weapon = weapon_ids[w]
-                    setattr(pylons[pylon_number - 1], w, (pylon_number, weapon))
+                    pylon = [
+                        pylon
+                        for pylon in pylons
+                        if int(pylon.__name__.replace("Pylon", "")) == pylon_number
+                    ][0]
+                    setattr(pylon, w, (pylon_number, weapon))
 
     def __hash__(self) -> int:
         return hash(self.name)
