@@ -2,5 +2,4 @@ name: 2xAGM-154B JSOW
 year: 2030
 fallback: 2xAGM-154A JSOW
 clsids:
-  - "{BRU55_2*AGM-154B}"
   - "{BRU57_2*AGM-154B}"
