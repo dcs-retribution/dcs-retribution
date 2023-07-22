@@ -34,6 +34,15 @@ class DeadIngressBuilder(PydcsWaypointBuilder):
 
             task = AttackGroup(
                 miz_group.id,
+                weapon_type=WeaponType.ARM,
+                expend=Expend.All,
+                altitude=waypoint.alt,
+                group_attack=True,
+            )
+            waypoint.tasks.append(task)
+
+            task = AttackGroup(
+                miz_group.id,
                 weapon_type=WeaponType.Guided,
                 altitude=waypoint.alt,
             )
