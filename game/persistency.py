@@ -87,6 +87,10 @@ def payloads_dir(backup: bool = False) -> Path:
     return payloads
 
 
+def user_custom_weapon_injections_dir() -> Path:
+    return base_path() / "Retribution" / "WeaponInjections"
+
+
 def save_dir() -> Path:
     return base_path() / "Retribution" / "Saves"
 

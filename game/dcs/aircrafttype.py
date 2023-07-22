@@ -17,6 +17,7 @@ from dcs.weapons_data import weapon_ids
 from game.data.units import UnitClass
 from game.dcs.unitproperty import UnitProperty
 from game.dcs.unittype import UnitType
+from game.persistency import user_custom_weapon_injections_dir
 from game.radio.channels import (
     ApacheChannelNamer,
     ChannelNamer,
@@ -465,6 +466,7 @@ class AircraftType(UnitType[Type[FlyingType]]):
             task_priorities[FlightType.SEAD_SWEEP] = task_priorities[FlightType.SEAD]
 
         cls._custom_weapon_injections(aircraft, data)
+        cls._user_weapon_injections(aircraft)
 
         for variant in data.get("variants", [aircraft.id]):
             yield AircraftType(
@@ -521,6 +523,15 @@ class AircraftType(UnitType[Type[FlyingType]]):
                         if int(pylon.__name__.replace("Pylon", "")) == pylon_number
                     ][0]
                     setattr(pylon, w, (pylon_number, weapon))
+
+    @staticmethod
+    def _user_weapon_injections(aircraft):
+        data_path = user_custom_weapon_injections_dir() / f"{aircraft.id}.yaml"
+        if not data_path.exists():
+            return
+        with data_path.open(encoding="utf-8") as data_file:
+            data = yaml.safe_load(data_file)
+        AircraftType._custom_weapon_injections(aircraft, data)
 
     def __hash__(self) -> int:
         return hash(self.name)
