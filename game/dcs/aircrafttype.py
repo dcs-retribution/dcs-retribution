@@ -16,6 +16,7 @@ from dcs.unittype import FlyingType
 from dcs.weapons_data import weapon_ids
 
 from game.data.units import UnitClass
+from game.dcs.lasercodeconfig import LaserCodeConfig
 from game.dcs.unittype import UnitType
 from game.persistency import user_custom_weapon_injections_dir
 from game.radio.channels import (
@@ -207,6 +208,7 @@ class AircraftType(UnitType[Type[FlyingType]]):
     has_built_in_target_pod: bool
 
     task_priorities: dict[FlightType, int]
+    laser_code_configs: list[LaserCodeConfig]
 
     _by_name: ClassVar[dict[str, AircraftType]] = {}
     _by_unit_type: ClassVar[dict[type[FlyingType], list[AircraftType]]] = defaultdict(
@@ -501,6 +503,9 @@ class AircraftType(UnitType[Type[FlyingType]]):
                 can_carry_crates=data.get("can_carry_crates", aircraft.helicopter),
                 has_built_in_target_pod=data.get("has_built_in_target_pod", False),
                 task_priorities=task_priorities,
+                laser_code_configs=[
+                    LaserCodeConfig.from_yaml(d) for d in data.get("laser_codes", [])
+                ],
             )
 
     @staticmethod
