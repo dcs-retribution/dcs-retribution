@@ -525,7 +525,7 @@ class AircraftType(UnitType[Type[FlyingType]]):
                     setattr(pylon, w, (pylon_number, weapon))
 
     @staticmethod
-    def _user_weapon_injections(aircraft):
+    def _user_weapon_injections(aircraft: Type[FlyingType]) -> None:
         data_path = user_custom_weapon_injections_dir() / f"{aircraft.id}.yaml"
         if not data_path.exists():
             return
