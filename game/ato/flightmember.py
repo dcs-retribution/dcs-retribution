@@ -15,11 +15,14 @@ class FlightMember:
         self.loadout = loadout
         self.use_custom_loadout = False
         self.tgp_laser_code: LaserCode | None = None
+        self.weapon_laser_code: LaserCode | None = None
         self.properties: dict[str, bool | float | int] = {}
 
     def __setstate__(self, state: dict[str, Any]) -> None:
         if "tgp_laser_code" not in state:
             state["tgp_laser_code"] = None
+        if "weapon_laser_code" not in state:
+            state["weapon_laser_code"] = None
         self.__dict__.update(state)
 
     def assign_tgp_laser_code(self, code: LaserCode) -> None:
@@ -34,6 +37,8 @@ class FlightMember:
         if self.tgp_laser_code is None:
             raise RuntimeError(f"{self.pilot} has no assigned laser code")
 
+        if self.weapon_laser_code == self.tgp_laser_code:
+            self.weapon_laser_code = None
         self.tgp_laser_code.release()
         self.tgp_laser_code = None
 
