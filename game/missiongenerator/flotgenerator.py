@@ -37,7 +37,6 @@ from game.ground_forces.ai_ground_planner import (
     DISTANCE_FROM_FRONTLINE,
 )
 from game.ground_forces.combat_stance import CombatStance
-from game.lasercodes import LaserCodeRegistry
 from game.naming import namegen
 from game.radio.radios import RadioRegistry
 from game.theater.controlpoint import ControlPoint
@@ -82,7 +81,6 @@ class FlotGenerator:
         unit_map: UnitMap,
         radio_registry: RadioRegistry,
         mission_data: MissionData,
-        laser_code_registry: LaserCodeRegistry,
     ) -> None:
         self.mission = mission
         self.conflict = conflict
@@ -94,7 +92,6 @@ class FlotGenerator:
         self.unit_map = unit_map
         self.radio_registry = radio_registry
         self.mission_data = mission_data
-        self.laser_code_registry = laser_code_registry
 
     def generate(self) -> None:
         position = FrontLineConflictDescription.frontline_position(
@@ -149,9 +146,9 @@ class FlotGenerator:
             # laser codes to 1113 to allow lasing for Su-25 Frogfoots and A-10A Warthogs.
             # Otherwise use 1688 for the first JTAC, 1687 for the second etc.
             if self.game.settings.plugins.get("ctld.fc3LaserCode"):
-                code = self.laser_code_registry.fc3_code
+                code = self.game.laser_code_registry.fc3_code
             else:
-                code = self.laser_code_registry.alloc_laser_code()
+                code = self.conflict.front_line.laser_code
 
             utype = self.game.blue.faction.jtac_unit
             if utype is None:

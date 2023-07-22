@@ -142,6 +142,7 @@ class PackageFulfiller:
             mission.location,
             ObjectiveDistanceCache.get_closest_airfields(mission.location),
             self.air_wing,
+            self.coalition.laser_code_registry,
             self.flight_db,
             self.is_player,
             self.default_start_type,
