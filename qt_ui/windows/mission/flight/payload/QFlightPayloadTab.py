@@ -18,6 +18,7 @@ from game.ato.flightmember import FlightMember
 from game.ato.loadouts import Loadout
 from qt_ui.widgets.QLabeledWidget import QLabeledWidget
 from .QLoadoutEditor import QLoadoutEditor
+from .ownlasercodeinfo import OwnLaserCodeInfo
 from .propertyeditor import PropertyEditor
 
 
@@ -149,6 +150,11 @@ class QFlightPayloadTab(QFrame):
         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         layout.addWidget(scroll, stretch=1)
 
+        self.own_laser_code_info = OwnLaserCodeInfo(
+            game, self.member_selector.selected_member
+        )
+        scrolling_layout.addLayout(self.own_laser_code_info)
+
         self.property_editor = PropertyEditor(
             self.flight, self.member_selector.selected_member
         )
@@ -188,6 +194,7 @@ class QFlightPayloadTab(QFrame):
         self.loadout_selector.setCurrentText(member.loadout.name)
         self.loadout_selector.setDisabled(member.loadout.is_custom)
         self.payload_editor.set_flight_member(member)
+        self.own_laser_code_info.set_flight_member(member)
         if self.member_selector.value() != 0:
             self.loadout_selector.setDisabled(
                 self.flight.use_same_loadout_for_all_members
