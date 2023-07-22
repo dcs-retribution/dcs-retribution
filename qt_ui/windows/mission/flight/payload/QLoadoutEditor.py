@@ -120,9 +120,11 @@ class QLoadoutEditor(QGroupBox):
             with payload_file.open("w", encoding="utf-8") as f:
                 payloads = {
                     "name": f"{self.flight.unit_type.dcs_unit_type.id}",
-                    "payloads": DcsPayload.from_flight(
-                        self.flight, payload_name
-                    ).to_dict(),
+                    "payloads": {
+                        1: DcsPayload.from_flight(
+                            self.flight, payload_name
+                        ).to_dict(),
+                    },
                     "unitType": f"{self.flight.unit_type.dcs_unit_type.id}",
                 }
                 f.write("local unitPayloads = ")
