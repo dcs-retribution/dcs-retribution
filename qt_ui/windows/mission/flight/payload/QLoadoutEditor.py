@@ -121,9 +121,7 @@ class QLoadoutEditor(QGroupBox):
                 payloads = {
                     "name": f"{self.flight.unit_type.dcs_unit_type.id}",
                     "payloads": {
-                        1: DcsPayload.from_flight(
-                            self.flight, payload_name
-                        ).to_dict(),
+                        1: DcsPayload.from_flight(self.flight, payload_name).to_dict(),
                     },
                     "unitType": f"{self.flight.unit_type.dcs_unit_type.id}",
                 }
