@@ -37,6 +37,7 @@ from game.ground_forces.ai_ground_planner import (
     DISTANCE_FROM_FRONTLINE,
 )
 from game.ground_forces.combat_stance import CombatStance
+from game.lasercodes import LaserCodeRegistry
 from game.naming import namegen
 from game.radio.radios import RadioRegistry
 from game.theater.controlpoint import ControlPoint
@@ -44,7 +45,6 @@ from game.unitmap import UnitMap
 from game.utils import Heading
 from .frontlineconflictdescription import FrontLineConflictDescription
 from .groundforcepainter import GroundForcePainter
-from .lasercoderegistry import LaserCodeRegistry
 from .missiondata import JtacInfo, MissionData
 from ..ato import FlightType
 
@@ -152,7 +152,7 @@ class FlotGenerator:
             if self.game.settings.plugins.get("ctld.fc3LaserCode"):
                 code = 1113
             else:
-                code = self.laser_code_registry.get_next_laser_code()
+                code = self.laser_code_registry.alloc_laser_code()
 
             utype = self.game.blue.faction.jtac_unit
             if utype is None:
