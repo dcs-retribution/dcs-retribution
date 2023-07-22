@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from pathlib import Path
 from shutil import copyfile
 from typing import Dict, Union
 
@@ -11,6 +12,8 @@ from PySide2.QtWidgets import (
     QVBoxLayout,
     QPushButton,
     QInputDialog,
+    QMessageBox,
+    QWidget,
 )
 from dcs import lua
 
@@ -20,8 +23,8 @@ from game.data.weapons import Pylon
 from game.persistency import base_path
 from qt_ui.windows.mission.flight.payload.QPylonEditor import QPylonEditor
 
-PAYLOADS_FOLDER = ""
-BACKUP_FOLDER = ""
+PAYLOADS_FOLDER = Path()
+BACKUP_FOLDER = Path()
 
 
 class QLoadoutEditor(QGroupBox):
@@ -78,6 +81,12 @@ class QLoadoutEditor(QGroupBox):
         if not BACKUP_FOLDER.exists():
             BACKUP_FOLDER.mkdir()
         copyfile(payload_file, backup_file)
+        QMessageBox.information(
+            QWidget(),
+            "Backup Payload",
+            f"Payload file for {self.flight.unit_type.dcs_unit_type.id} was backed up successfully.\n"
+            f"Location: {backup_file}",
+        )
 
     def _save_payload(self) -> None:
         payload_name_input = self._create_input_dialog()
@@ -120,6 +129,12 @@ class QLoadoutEditor(QGroupBox):
                 f.write(lua.dumps(payloads, indent=1))
                 f.write("\nreturn unitPayloads")
         self.saved.emit(payload_name)
+        QMessageBox.information(
+            QWidget(),
+            "Payload Saved",
+            f"Payload for {self.flight.unit_type.dcs_unit_type.id} was successfully saved.\n"
+            f"Location: {payload_file}",
+        )
 
     def _create_backup_if_needed(self, ac_id):
         backup_file = BACKUP_FOLDER / f"{ac_id}.lua"
