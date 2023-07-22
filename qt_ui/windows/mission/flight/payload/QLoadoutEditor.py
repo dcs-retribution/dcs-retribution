@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from pathlib import Path
 from shutil import copyfile
 from typing import Dict, Union
 
@@ -20,11 +19,8 @@ from dcs import lua
 from game import Game
 from game.ato.flight import Flight
 from game.data.weapons import Pylon
-from game.persistency import base_path
+from game.persistency import payloads_dir
 from qt_ui.windows.mission.flight.payload.QPylonEditor import QPylonEditor
-
-PAYLOADS_FOLDER = Path()
-BACKUP_FOLDER = Path()
 
 
 class QLoadoutEditor(QGroupBox):
@@ -36,11 +32,6 @@ class QLoadoutEditor(QGroupBox):
         self.game = game
         self.setCheckable(True)
         self.setChecked(flight.loadout.is_custom)
-
-        global PAYLOADS_FOLDER
-        PAYLOADS_FOLDER = base_path() / "MissionEditor" / "UnitPayloads"
-        global BACKUP_FOLDER
-        BACKUP_FOLDER = PAYLOADS_FOLDER / "_retribution_backups"
 
         vbox = QVBoxLayout(self)
         layout = QGridLayout(self)
@@ -74,12 +65,13 @@ class QLoadoutEditor(QGroupBox):
 
     def _backup_payloads(self) -> None:
         ac_id = self.flight.unit_type.dcs_unit_type.id
-        payload_file = PAYLOADS_FOLDER / f"{ac_id}.lua"
+        payload_file = payloads_dir() / f"{ac_id}.lua"
         if not payload_file.exists():
             return
-        backup_file = BACKUP_FOLDER / f"{ac_id}.lua"
-        if not BACKUP_FOLDER.exists():
-            BACKUP_FOLDER.mkdir()
+        backup_folder = payloads_dir(backup=True)
+        backup_file = backup_folder / f"{ac_id}.lua"
+        if not backup_folder.exists():
+            backup_folder.mkdir()
         copyfile(payload_file, backup_file)
         QMessageBox.information(
             QWidget(),
@@ -95,7 +87,7 @@ class QLoadoutEditor(QGroupBox):
         payload_name = payload_name_input.textValue()
         ac_type = self.flight.unit_type.dcs_unit_type
         ac_id = ac_type.id
-        payload_file = base_path() / "MissionEditor" / "UnitPayloads" / f"{ac_id}.lua"
+        payload_file = payloads_dir() / f"{ac_id}.lua"
         ac_type.payloads[payload_name] = DcsPayload.from_flight(
             self.flight, payload_name
         ).to_dict()
@@ -137,7 +129,7 @@ class QLoadoutEditor(QGroupBox):
         )
 
     def _create_backup_if_needed(self, ac_id):
-        backup_file = BACKUP_FOLDER / f"{ac_id}.lua"
+        backup_file = payloads_dir(backup=True) / f"{ac_id}.lua"
         if not backup_file.exists():
             self._backup_payloads()
 
