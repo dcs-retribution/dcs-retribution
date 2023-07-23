@@ -229,6 +229,7 @@ BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 * **[Plugins]** Fixed Lua errors in Skynet plugin that would occur whenever one coalition had no IADS nodes.
 * **[UI]** Fixed deleting waypoints in custom flight plans deleting the wrong waypoint.
 * **[UI]** Fixed flight properties UI to support F-15E S4+ laser codes.
+* **[UI]** Fixed UI bug where altering an "ahead of package" TOT offset would change the offset back to a "behind pacakge" offset.
 
 # 8.1.0
 

@@ -122,11 +122,12 @@ class FlightPlanPropertiesGroup(QGroupBox):
             )
 
     def set_tot_offset(self, offset: QTime) -> None:
-        self.flight.flight_plan.tot_offset = timedelta(
+        offset = timedelta(
             hours=offset.hour(), minutes=offset.minute(), seconds=offset.second()
         )
         if self.negative_offset_checkbox.isChecked():
-            return self.toggle_negative_offset()
+            offset = -offset
+        self.flight.flight_plan.tot_offset = offset
         self.update_departure_time()
 
     def toggle_negative_offset(self) -> None:
