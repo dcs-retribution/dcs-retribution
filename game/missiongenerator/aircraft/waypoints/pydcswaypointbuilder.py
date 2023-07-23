@@ -38,11 +38,14 @@ class PydcsWaypointBuilder:
         self.elapsed_mission_time = elapsed_mission_time
         self.mission_data = mission_data
 
+    def dcs_name_for_waypoint(self) -> str:
+        return self.waypoint.name
+
     def build(self) -> MovingPoint:
         waypoint = self.group.add_waypoint(
             self.waypoint.position,
             self.waypoint.alt.meters,
-            name=self.waypoint.name,
+            name=self.dcs_name_for_waypoint(),
         )
 
         if self.waypoint.flyover:
