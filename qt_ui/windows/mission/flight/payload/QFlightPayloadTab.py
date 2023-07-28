@@ -236,7 +236,10 @@ class QFlightPayloadTab(QFrame):
         return loadout
 
     def on_new_loadout(self, index: int) -> None:
-        self.member_selector.selected_member.loadout = self.loadout_at(index)
+        loadout = self.loadout_at(index)
+        self.member_selector.selected_member.loadout = loadout
+        if self.flight.use_same_loadout_for_all_members:
+            self.flight.roster.use_same_loadout_for_all_members()
         self.payload_editor.reset_pylons()
 
     def on_custom_toggled(self, use_custom: bool) -> None:
@@ -248,9 +251,11 @@ class QFlightPayloadTab(QFrame):
         else:
             member.loadout = self.current_loadout()
             self.payload_editor.reset_pylons()
+        if self.flight.use_same_loadout_for_all_members:
+            self.flight.roster.use_same_loadout_for_all_members()
 
     def on_saved_payload(self, payload_name: str) -> None:
-        loadout = self.flight.loadout
+        loadout = self.member_selector.selected_member.loadout
         self.loadout_selector.addItem(payload_name, loadout)
         self.loadout_selector.setCurrentIndex(self.loadout_selector.count() - 1)
 
@@ -263,3 +268,5 @@ class QFlightPayloadTab(QFrame):
             self.flight.roster.use_same_loadout_for_all_members()
             if self.member_selector.value():
                 self.rebind_to_selected_member()
+        else:
+            self.flight.roster.use_distinct_loadouts_for_each_member()
