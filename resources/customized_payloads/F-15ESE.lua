@@ -407,7 +407,7 @@ local unitPayloads = {
 					["num"] = 3,
 				},
 				[5] = {
-					["CLSID"] = "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}",
+					["CLSID"] = "{CFT_R_BLU107_x_6}",
 					["num"] = 12,
 				},
 				[6] = {
@@ -415,17 +415,17 @@ local unitPayloads = {
 					["num"] = 9,
 				},
 				[7] = {
-					["CLSID"] = "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}",
-					["num"] = 8,
-				},
-				[8] = {
 					["CLSID"] = "{F-15E_AAQ-14_LANTIRN}",
 					["num"] = 7,
 				},
-				[9] = {
-					["CLSID"] = "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}",
-					["num"] = 4,
-				},
+			},
+			[8] = {
+				["CLSID"] = "{F-15E_AAQ-14_LANTIRN}",
+				["num"] = 7,
+			},
+			[9] = {
+				["CLSID"] = "{CFT_L_BLU107_x_6}",
+				["num"] = 4,
 			},
 			["tasks"] = {
 				[1] = 32,
@@ -526,8 +526,6 @@ local unitPayloads = {
 				[1] = 32,
 			},
 		},
-	},
-	["tasks"] = {
 	},
 	["unitType"] = "F-15ESE",
 }
