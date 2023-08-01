@@ -267,6 +267,14 @@ class Settings:
             "lower threat range generally means less BARCAPs are planned."
         ),
     )
+    cas_engagement_range_distance: int = bounded_int_option(
+        "CAS engagement range (nmi)",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=DOCTRINE_DISTANCES_SECTION,
+        default=10,
+        min=0,
+        max=100,
+    )
     sead_sweep_engagement_range_distance: int = bounded_int_option(
         "SEAD Sweep engagement range (nmi)",
         page=CAMPAIGN_DOCTRINE_PAGE,

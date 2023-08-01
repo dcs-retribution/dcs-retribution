@@ -6,7 +6,7 @@ from datetime import timedelta
 from typing import TYPE_CHECKING, Type
 
 from game.theater import FrontLine
-from game.utils import Distance, Speed, kph, meters
+from game.utils import Distance, Speed, kph, meters, nautical_miles
 from .ibuilder import IBuilder
 from .invalidobjectivelocation import InvalidObjectiveLocation
 from .patrolling import PatrollingFlightPlan, PatrollingLayout
@@ -53,8 +53,9 @@ class CasFlightPlan(PatrollingFlightPlan[CasLayout], UiZoneDisplay):
 
     @property
     def engagement_distance(self) -> Distance:
-        max_length = self.flight.coalition.game.settings.max_frontline_width * 1000
-        return meters(max_length) / 2
+        return nautical_miles(
+            self.flight.coalition.game.settings.cas_engagement_range_distance
+        )
 
     @property
     def combat_speed_waypoints(self) -> set[FlightWaypoint]:
