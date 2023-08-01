@@ -1,10 +1,10 @@
 ---
-name: Caucasus - WRL - Battle for Georgia (v1.1) #1.0 - Original Release / #1.1 - Player F15e added
+name: Caucasus - WRL - Battle for Georgia (v1.2) #1.0 - Original Release / #1.1 - Player F15e added / #1.2 - Complete overhaul campaign map and enemy units
 theater: Caucasus
 authors: HolyOrangeJuice
 recommended_player_faction: WRL - Task Force Blue
 recommended_enemy_faction: WRL - Task Force Red
-recommended_start_date: 2022-06-04
+recommended_start_date: 2015-02-02
 description: "<p>This mission was created by HolyOrangeJuice [OscarJuliet] for the WRL Group. Join us for weekly PVE events. <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p><p>This campaign does not represent any historical time period or events. The battle takes place on the coast of Georgia. Fight your way through the enemy.</p><p>All WRL Campaigns use high budget and high income to focus on the PVE goals to eliminate the enemy. Use lower starting money and income for increased difficulty</p>"
 miz: WRL_Battle4Georgia.miz
 performance: 2
@@ -30,49 +30,29 @@ squadrons:
       size: 16
     - primary: AEW&C
       aircraft:
-        - VAW-125 #E2C
+        - E-2D Advanced Hawkeye
       size: 2
     - primary: Refueling
       aircraft:
         - S-3B Tanker
       size: 2
-    - primary: Strike
-      secondary: any
-      aircraft:
-        - S-3B Viking
-      size: 4
   Blue LHA:
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - VMA-223 #AV8B
-      size: 12
-    - primary: Strike
-      secondary: air-to-ground
-      aircraft:
-        - SH-60B Seahawk
-      size: 4
+      size: 16
 # Senaki-Kholki
   23:   
     - primary: CAS
       secondary: air-to-ground
       aircraft:
         - A-10C Thunderbolt II (Suite 7)
-      size: 8
+      size: 16
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - AV-8B Harrier II Night Attack
-      size: 8
-    - primary: SEAD
-      secondary: air-to-ground
-      aircraft:
-        - VMFA-251 #Hornet - Marines
-      size: 16
-    - primary: Strike
-      secondary: any
-      aircraft:
-        - 23rd FS #Viper USAF
       size: 16
     - primary: BARCAP
       secondary: air-to-air
@@ -98,17 +78,17 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - SA 342M Gazelle
-      size: 4
+      size: 8
     - primary: Transport
       secondary: any
       aircraft:
         - HMLA-169 (UH-1H) #UH-1H Iroquois
-      size: 4
+      size: 8
     - primary: Transport
       secondary: any
       aircraft:
         - Mi-8MTV2 Hip
-      size: 4
+      size: 8
  # Kutaisi
   25:
     - primary: AEW&C
@@ -134,65 +114,118 @@ squadrons:
         - B-1B Lancer
       size: 2
     - primary: BAI
-      secondary: any
-      aircraft:
-        - F-117A Nighthawk
-      size: 5
-    - primary: BAI
       secondary: air-to-ground
       aircraft:
         - F-15E Strike Eagle (Suite 4+)
-      size: 16  
+      size: 16
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - VMFA-251 #Hornet - Marines
+      size: 16
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - 23rd FS #Viper USAF
+      size: 16      
  # Kobuleti
   24:
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - AJS-37 Viggen
-      size: 8  
+      size: 12  
     - primary: BAI
       secondary: any
       aircraft:
         - JF-17 Thunder
-      size: 8
+      size: 12
     - primary: BARCAP
       secondary: any
       aircraft:
         - Mirage 2000C
-      size: 8
+      size: 12
 #Sukhumi-Babushara
   20:
     - primary: BARCAP
       secondary: any
       aircraft:
         - MiG-21bis Fishbed-N
-      size: 16
-    - primary: Strike
-      secondary: air-to-ground
-      aircraft:
-        - Su-17M4 Fitter-K
-      size: 16
-# Gudauta
-  21:
-    - primary: BARCAP
-      secondary: any
-      aircraft:
-        - MiG-23MLD Flogger-K
-      size: 16
+      size: 12
     - primary: SEAD
       secondary: air-to-ground
       aircraft:
         - Su-25T Frogfoot
-      size: 16
+      size: 12
+# Gudauta
+  21:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Su-24M Fencer-D
+      size: 12
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - Su-17M4 Fitter-K
+      size: 12
  # Sochi-Adler
   18:
+    - primary: AEW&C
+      aircraft:
+        - A-50
+      size: 2
+    - primary: Refueling
+      aircraft:
+        - IL-78M
+      size: 2
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - Tu-142 Bear-F
+      size: 4
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - Tu-160 Blackjack
+      size: 4
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - Tu-22M3 Backfire-C
+      size: 4
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - Tu-95MS Bear-H
+      size: 4
     - primary: BARCAP
       secondary: any
       aircraft:
         - MiG-29S Fulcrum-C
-      size: 16
-    - primary: Strike
-      secondary: air-to-ground
-      aircraft:
-        - Su-24M Fencer-D
-      size: 16
+      size: 12
+ground_forces:
+  USA1: Hawk
+  USA2: Hawk
+  USA3: Hawk
+  USA4: Hawk
+  USA5: Hawk
+  USA6: Hawk
+  USA7: NASAMS AIM-120C
+  USA8: NASAMS AIM-120C
+  USA9: NASAMS AIM-120C
+  HSAM1: SA-15 SHORAD 
+  HSAM2: SA-15 SHORAD 
+  HSAM3: SA-15 SHORAD 
+  HSAM4: SA-15 SHORAD 
+  FOBA1: SA-3/S-125
+  FOBB1: SA-3/S-125
+  FOBC1: SA-3/S-125
+  Sukhumi1: SA-6
+  Sukhumi2: SA-6
+  Gudauta1: SA-6
+  Gudauta2: SA-6
+  Sochi1: SA-11
+  Sochi2: SA-11
+  Sochi3: SA-11
+  Sochi4: SA-11
