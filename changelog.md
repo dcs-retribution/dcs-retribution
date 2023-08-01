@@ -4,6 +4,7 @@
 * **[Package Planning]** Option to "Auto-Create" package
 * **[Modding]** Custom weapons injection system (definition in aircraft's yaml file)
 * **[Payload Editor]** Ability to save/back-up payloads
+* **[Options]** New option in Settings: CAS engagement range (nmi)
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task
@@ -37,7 +38,7 @@
   * AEW&C threat buffer distance (nmi)
   * Theater tanker threat buffer distance (nmi)
 * **[Options]** Improved the option to configure OPFOR autoplanner aggressiveness. The AI might now take even more risks and plan missions against defended targets.
-* Added three new options in Settings:
+* **[Options]** Added three new options in Settings:
   * Autoplanner plans refueling flights for Strike packages
   * Autoplanner plans refueling flights for OCA packages
   * Autoplanner plans refueling flights for DEAD packages
