@@ -10,6 +10,7 @@
 * **[New Game Wizard]** Faction selection overview doesn't update when inverting map
 * **[Payloads]** Added/Updated (missing) payloads
 * **[Aircraft Tasking]** Revised aircraft tasking, filtering out incompatible tasks for several aircraft
+* **[Data]** Corrected the class of the USS Samuel Chase from Logistics to LandingShip, in order to prevent it being spawned as part of AAA sites.
 
 # Retribution v1.2.1 (hotfix)
 
