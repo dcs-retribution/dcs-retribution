@@ -108,6 +108,11 @@ class FlightGroupSpawner:
                 name=namegen.next_aircraft_name(self.country, self.flight),
                 cp=self.flight.squadron.location,
             )
+        elif isinstance(self.flight.squadron.location, Fob):
+            group = self._generate_at_cp_ground_spawn(
+                name=namegen.next_aircraft_name(self.country, self.flight),
+                cp=self.flight.squadron.location,
+            )
         elif isinstance(self.flight.squadron.location, Airfield):
             group = self._generate_at_airfield(
                 name=namegen.next_aircraft_name(self.country, self.flight),

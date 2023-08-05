@@ -5,6 +5,8 @@
 * **[Modding]** Custom weapons injection system (definition in aircraft's yaml file)
 * **[Payload Editor]** Ability to save/back-up payloads
 * **[Options]** New option in Settings: CAS engagement range (nmi)
+* **[Options]** New option in Settings: Convert untasked OPFOR aircraft into client slots
+* **[Options]** Split the **Disable idle aircraft at airfields** setting into **Disable untasked BLUFOR aircraft at airfields** and **Disable untasked OPFOR aircraft at airfields**.
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task
