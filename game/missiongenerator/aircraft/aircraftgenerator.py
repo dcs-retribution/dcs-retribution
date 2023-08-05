@@ -12,11 +12,12 @@ from dcs.country import Country
 from dcs.mission import Mission
 from dcs.terrain.terrain import NoParkingSlotError
 from dcs.triggers import TriggerOnce, Event
+from dcs.unit import Skill
 from dcs.unitgroup import FlyingGroup, StaticGroup
 
 from game.ato.airtaaskingorder import AirTaskingOrder
 from game.ato.flight import Flight
-from game.ato.flightstate import Completed
+from game.ato.flightstate import Completed, WaitingForStart
 from game.ato.flighttype import FlightType
 from game.ato.package import Package
 from game.ato.starttype import StartType
@@ -178,6 +179,17 @@ class AircraftGenerator:
         assert isinstance(squadron.location, Airfield) or isinstance(
             squadron.location, Fob
         )
+        if (
+            squadron.coalition.player
+            and self.game.settings.perf_disable_untasked_blufor_aircraft
+        ):
+            return
+        elif (
+            not squadron.coalition.player
+            and self.game.settings.perf_disable_untasked_opfor_aircraft
+        ):
+            return
+
         for _ in range(squadron.untasked_aircraft):
             # Creating a flight even those this isn't a fragged mission lets us
             # reuse the existing debriefing code.
@@ -203,6 +215,20 @@ class AircraftGenerator:
                 self.mission_data,
             ).create_idle_aircraft()
             if group:
+                if (
+                    not squadron.coalition.player
+                    and squadron.aircraft.flyable
+                    and (
+                        self.game.settings.enable_squadron_pilot_limits
+                        or squadron.number_of_available_pilots > 0
+                    )
+                    and self.game.settings.untasked_opfor_client_slots
+                ):
+                    flight.state = WaitingForStart(
+                        flight, self.game.settings, self.game.conditions.start_time
+                    )
+                    group.uncontrolled = False
+                    group.units[0].skill = Skill.Client
                 AircraftPainter(flight, group).apply_livery()
                 self.unit_map.add_aircraft(group, flight)
 
