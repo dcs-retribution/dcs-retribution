@@ -313,8 +313,8 @@ class Flight(SidcDescribable, RadioFrequencyContainer, TacanContainer):
             if pilot is not None:
                 results.kill_pilot(self, pilot)
 
-    def recreate_flight_plan(self) -> None:
-        self._flight_plan_builder.regenerate()
+    def recreate_flight_plan(self, dump_debug_info: bool = False) -> None:
+        self._flight_plan_builder.regenerate(dump_debug_info)
 
     @staticmethod
     def clone_flight(flight: Flight) -> Flight:
