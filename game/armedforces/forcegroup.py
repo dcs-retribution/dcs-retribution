@@ -289,7 +289,7 @@ class ForceGroup:
             unit.id = game.next_unit_id()
             # Add unit name escaped so that we do not have scripting issues later
             unit.name = escape_string_for_lua(
-                unit.unit_type.name if unit.unit_type else unit.type.name
+                unit.unit_type.variant_id if unit.unit_type else unit.type.name
             )
             unit.position = PointWithHeading.from_point(
                 ground_object.position + unit.position,

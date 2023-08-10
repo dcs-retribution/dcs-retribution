@@ -39,6 +39,7 @@ from game.radio.channels import (
     ViperChannelNamer,
     WarthogChannelNamer,
 )
+from game.savecompat import has_save_compat_for
 from game.utils import (
     Distance,
     ImperialUnits,
@@ -219,7 +220,7 @@ class AircraftType(UnitType[Type[FlyingType]]):
 
     @classmethod
     def register(cls, unit_type: AircraftType) -> None:
-        cls._by_name[unit_type.name] = unit_type
+        cls._by_name[unit_type.variant_id] = unit_type
         cls._by_unit_type[unit_type.dcs_unit_type].append(unit_type)
 
     @property
@@ -297,7 +298,7 @@ class AircraftType(UnitType[Type[FlyingType]]):
             else:
                 # Slow like warbirds or helicopters
                 # Use whichever is slowest - mach 0.35 or 50% of max speed
-                logging.debug(f"{self.name} max_speed * 0.5 is {max_speed * 0.5}")
+                logging.debug(f"{self.variant_id} max_speed * 0.5 is {max_speed * 0.5}")
                 return min(Speed.from_mach(0.35, altitude), max_speed * 0.5)
 
     def alloc_flight_radio(self, radio_registry: RadioRegistry) -> RadioFrequency:
@@ -352,9 +353,14 @@ class AircraftType(UnitType[Type[FlyingType]]):
     def task_priority(self, task: FlightType) -> int:
         return self.task_priorities[task]
 
+    @has_save_compat_for(9)
     def __setstate__(self, state: dict[str, Any]) -> None:
+        # Save compat: the `name` field has been renamed `variant_id`.
+        if "name" in state:
+            state["variant_id"] = state.pop("name")
+
         # Update any existing models with new data on load.
-        updated = AircraftType.named(state["name"])
+        updated = AircraftType.named(state["variant_id"])
         state.update(updated.__dict__)
         self.__dict__.update(state)
 
@@ -485,7 +491,7 @@ class AircraftType(UnitType[Type[FlyingType]]):
         for variant in data.get("variants", [aircraft.id]):
             yield AircraftType(
                 dcs_unit_type=aircraft,
-                name=variant,
+                variant_id=variant,
                 description=data.get(
                     "description",
                     f"No data. <a href=\"https://google.com/search?q=DCS+{variant.replace(' ', '+')}\"><span style=\"color:#FFFFFF\">Google {variant}</span></a>",
@@ -552,4 +558,4 @@ class AircraftType(UnitType[Type[FlyingType]]):
         AircraftType._custom_weapon_injections(aircraft, data)
 
     def __hash__(self) -> int:
-        return hash(self.name)
+        return hash(self.variant_id)

@@ -32,7 +32,7 @@ class QArmorRecruitmentMenu(UnitTransactionFrame[GroundUnitType]):
         unit_types = list(
             set(self.game_model.game.faction_for(player=True).ground_units)
         )
-        unit_types.sort(key=lambda u: u.name)
+        unit_types.sort(key=lambda u: u.variant_id)
         for row, unit_type in enumerate(unit_types):
             self.add_purchase_row(unit_type, task_box_layout, row)
         stretch = QVBoxLayout()
