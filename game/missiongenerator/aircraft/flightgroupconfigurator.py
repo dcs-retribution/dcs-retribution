@@ -209,7 +209,7 @@ class FlightGroupConfigurator:
                 TankerInfo(
                     group_name=str(self.group.name),
                     callsign=callsign,
-                    variant=self.flight.unit_type.variant_id,
+                    variant=self.flight.unit_type.display_name,
                     freq=channel,
                     tacan=tacan,
                     start_time=self.flight.flight_plan.patrol_start_time,
