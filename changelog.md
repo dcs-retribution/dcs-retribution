@@ -230,6 +230,7 @@ BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 * **[Mission Generation]** Restored previous AI behavior for anti-ship missions. A DCS update caused only a single aircraft in a flight to attack. The full flight will now attack like they used to.
 * **[Mission Generation]** Fix generation of OCA Runway missions to allow LGBs to be used.
 * **[Mission Generation]** Fixed AI flights flying far too slowly toward NAV points.
+* **[Modding]** Unit variants can now actually override base unit type properties.
 * **[Plugins]** Fixed Lua errors in Skynet plugin that would occur whenever one coalition had no IADS nodes.
 * **[UI]** Fixed deleting waypoints in custom flight plans deleting the wrong waypoint.
 * **[UI]** Fixed flight properties UI to support F-15E S4+ laser codes.
