@@ -211,6 +211,7 @@ BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 ## Features/Improvements
 
 * **[Data]** Added support for the ARA Veinticinco de Mayo.
+* **[Data]** Changed display name of the AI-only F-15E Strike Eagle for clarity.
 * **[Flight Planning]** Improved IP selection for targets that are near the center of a threat zone.
 * **[Flight Planning]** Loadouts and aircraft properties can now be set per-flight member. Warning: AI flights should not use mixed loadouts.
 * **[Flight Planning]** Laser codes that are pre-assigned to weapons at mission start can now be chosen from a list in the loadout UI. This does not affect the aircraft's TGP, just the weapons. Currently only implemented for the F-15E S4+ and F-16C.
