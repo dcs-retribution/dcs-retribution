@@ -89,5 +89,5 @@ class Builder(IBuilder[RtbFlightPlan, RtbLayout]):
             nav_from=[],
         )
 
-    def build(self) -> RtbFlightPlan:
+    def build(self, dump_debug_info: bool = False) -> RtbFlightPlan:
         return RtbFlightPlan(self.flight, self.layout())

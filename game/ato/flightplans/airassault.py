@@ -172,7 +172,7 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
             refuel=None,
         )
 
-    def build(self) -> AirAssaultFlightPlan:
+    def build(self, dump_debug_info: bool = False) -> AirAssaultFlightPlan:
         return AirAssaultFlightPlan(self.flight, self.layout())
 
     def _generate_ctld_pickup(self) -> Point:

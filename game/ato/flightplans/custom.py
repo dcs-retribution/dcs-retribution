@@ -72,5 +72,5 @@ class Builder(IBuilder[CustomFlightPlan, CustomLayout]):
         builder = WaypointBuilder(self.flight)
         return CustomLayout(builder.takeoff(self.flight.departure), self.waypoints)
 
-    def build(self) -> CustomFlightPlan:
+    def build(self, dump_debug_info: bool = False) -> CustomFlightPlan:
         return CustomFlightPlan(self.flight, self.layout())
