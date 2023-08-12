@@ -43,26 +43,9 @@ class PackagePlanningTask(TheaterCommanderTask, Generic[MissionTargetT]):
         self.flights = []
 
     def preconditions_met(self, state: TheaterState) -> bool:
-        from game.commander.tasks.primitive.aewc import PlanAewc
-        from game.commander.tasks.primitive.refueling import PlanRefueling
-
         if (
             state.context.coalition.player
-            and isinstance(self, PlanAewc)
-            and not state.context.settings.auto_ato_behavior_awacs
-        ):
-            return False
-        elif (
-            state.context.coalition.player
-            and isinstance(self, PlanRefueling)
-            and not state.context.settings.auto_ato_behavior_tankers
-        ):
-            return False
-        elif (
-            state.context.coalition.player
             and state.context.settings.auto_ato_behavior is AutoAtoBehavior.Disabled
-            and not isinstance(self, PlanAewc)
-            and not isinstance(self, PlanRefueling)
         ):
             return False
         return self.fulfill_mission(state)

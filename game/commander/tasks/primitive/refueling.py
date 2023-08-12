@@ -13,6 +13,11 @@ class PlanRefueling(PackagePlanningTask[MissionTarget]):
     def preconditions_met(self, state: TheaterState) -> bool:
         if not super().preconditions_met(state):
             return False
+        if (
+            state.context.coalition.player
+            and not state.context.settings.auto_ato_behavior_tankers
+        ):
+            return False
         return self.target in state.refueling_targets
 
     def apply_effects(self, state: TheaterState) -> None:
