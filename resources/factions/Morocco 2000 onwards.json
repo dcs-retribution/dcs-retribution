@@ -57,7 +57,7 @@
   "naval_units": [
     "DDG Arleigh Burke IIa",
     "FAC La Combattante IIa"
-    
+
   ],
   "missiles": [],
   "air_defense_units": [
@@ -79,7 +79,7 @@
 	"SA 342M Gazelle": 		["Royal Moroccan Air Force",
 							"Morocco"],
 	"AH-64D Apache Longbow": ["IRIAA"]
-	},
+  },
   "liveries_overrides_ground_forces":{
 	"BMP-1":				["desert"],
 	"BMP-2": 				["desert"],
