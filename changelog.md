@@ -7,6 +7,7 @@
 * **[Options]** New option in Settings: CAS engagement range (nmi)
 * **[Options]** New option in Settings: Convert untasked OPFOR aircraft into client slots
 * **[Options]** Split the **Disable idle aircraft at airfields** setting into **Disable untasked BLUFOR aircraft at airfields** and **Disable untasked OPFOR aircraft at airfields**.
+* **[Modding]** Updated support for Su-30 mod to V2.1.12 beta
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task
