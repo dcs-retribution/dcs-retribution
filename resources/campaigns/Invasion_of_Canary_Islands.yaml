@@ -33,7 +33,7 @@ recommended_player_income_multiplier: 0.75
 recommended_enemy_income_multiplier: 0.5
 miz: Invasion_of_Canary_Islands.miz
 performance: 3
-version: "10.4"
+version: "10.7"
 advanced_iads: true # Campaign has connection_nodes / power_sources / command_centers 
 #IADS: EWR and C2 get power generators. batteries have their own generators.
 
