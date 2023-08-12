@@ -198,40 +198,40 @@ class Settings:
         ),
     )
     autoplan_tankers_for_strike: bool = boolean_option(
-        "Autoplanner plans refueling flights for Strike packages",
+        "Auto-planner plans refueling flights for Strike packages",
         page=CAMPAIGN_DOCTRINE_PAGE,
         section=GENERAL_SECTION,
         default=True,
         invert=False,
         detail=(
-            "If checked, the autoplanner will include tankers in Strike packages, "
+            "If checked, the auto-planner will include tankers in Strike packages, "
             "provided the faction has access to them."
         ),
     )
     autoplan_tankers_for_oca: bool = boolean_option(
-        "Autoplanner plans refueling flights for OCA packages",
+        "Auto-planner plans refueling flights for OCA packages",
         page=CAMPAIGN_DOCTRINE_PAGE,
         section=GENERAL_SECTION,
         default=True,
         invert=False,
         detail=(
-            "If checked, the autoplanner will include tankers in OCA packages, "
+            "If checked, the auto-planner will include tankers in OCA packages, "
             "provided the faction has access to them."
         ),
     )
     autoplan_tankers_for_dead: bool = boolean_option(
-        "Autoplanner plans refueling flights for DEAD packages",
+        "Auto-planner plans refueling flights for DEAD packages",
         page=CAMPAIGN_DOCTRINE_PAGE,
         section=GENERAL_SECTION,
         default=True,
         invert=False,
         detail=(
-            "If checked, the autoplanner will include tankers in DEAD packages, "
+            "If checked, the auto-planner will include tankers in DEAD packages, "
             "provided the faction has access to them."
         ),
     )
     oca_target_autoplanner_min_aircraft_count: int = bounded_int_option(
-        "Minimum number of aircraft (at vulnerable airfields) for autoplanner to plan OCA packages against",
+        "Minimum number of aircraft (at vulnerable airfields) for auto-planner to plan OCA packages against",
         page=CAMPAIGN_DOCTRINE_PAGE,
         section=GENERAL_SECTION,
         default=20,
@@ -239,11 +239,11 @@ class Settings:
         max=100,
         detail=(
             "How many aircraft there has to be at an airfield for "
-            "the autoplanner to plan an OCA strike against it."
+            "the auto-planner to plan an OCA strike against it."
         ),
     )
     opfor_autoplanner_aggressiveness: int = bounded_int_option(
-        "OPFOR autoplanner aggressiveness (%)",
+        "OPFOR auto-planner aggressiveness (%)",
         page=CAMPAIGN_DOCTRINE_PAGE,
         section=GENERAL_SECTION,
         default=20,
@@ -251,7 +251,7 @@ class Settings:
         max=100,
         detail=(
             "Chance (larger number -> higher chance) that the OPFOR AI "
-            "autoplanner will take risks and plan flights against targets "
+            "auto-planner will take risks and plan flights against targets "
             "within threatened airspace."
         ),
     )
@@ -424,6 +424,18 @@ class Settings:
             "Aircraft auto-purchase is directed by the auto-planner, so disabling "
             "auto-planning disables auto-purchase."
         ),
+    )
+    auto_ato_behavior_awacs: bool = boolean_option(
+        "Automatic AWACS package planning",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        HQ_AUTOMATION_SECTION,
+        default=False,
+    )
+    auto_ato_behavior_tankers: bool = boolean_option(
+        "Automatic Theater tanker package planning",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        HQ_AUTOMATION_SECTION,
+        default=False,
     )
     auto_ato_player_missions_asap: bool = boolean_option(
         "Automatically generated packages with players are scheduled ASAP",
