@@ -429,7 +429,7 @@ class Settings:
         "Automatic AWACS package planning",
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
-        default=False,
+        default=True,
     )
     auto_ato_behavior_tankers: bool = boolean_option(
         "Automatic Theater tanker package planning",
