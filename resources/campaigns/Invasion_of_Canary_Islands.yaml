@@ -2,7 +2,28 @@
 name: Syria - Invasion of the Canary Islands
 theater: Syria
 authors: NoGoodNews
-description: <p>Fictional Campaign about Morocco attacking Spain through Ceuta and Melilla and Canary Islands in the late 90s and early 2000s.<p>Using Syria map as the terrain is very close to those of Morocco and south of Spain and also due to the similar distance between Canary Islands (Cyprus) and Morocco Mainland (Syria, Lebanon).<p>Morocco Armed Forces have landed in Tenerife (Akrotiri) and try to expand towards Tenerife Norte (Larnaca), Gando (Paphos) and, eventually to Gran Canaria Norte (FOB).<p>To put more pressure and distress into the Spanish Goverment, they have also started attacks to take over the cities of Ceuta (FOB in Iskenderun) and Melilla (Bassel Al-Assad).<p>You must support ground troops while reinforcements arrive to Canarias, as there are no armament production centers there. Ships will be sent from Rota Naval Base (Mersin) and Moron Naval and Air Base (Gazipasa). Morocco will also try to support their expeditionary forces by sending reinforces by sea.<p>Prioritize naval targets.<p>L-61 "Juan Carlos I" naval assault group has also been sent to the zone to support operations. F-18 Hornets from Torrejon (Incirlik), Albacete and Gando will be your main asset. But you can also use Mirage F-1s, F-5s or Harriers from the "Juan Carlos I".</p>Very complex IADS network on each side.<p>Recommended mods to be used:<p>Spain Naval Assets Pack (it's a must)<p>Frenchpack<p>High Digit SAMs<p>UH-60L Black Hawk<p>Skynet IADS and CTLD are also highly recommended.
+description:
+  <p>Fictional Campaign where Morocco is attacking Spain through Ceuta, Melilla and Canary Islands in the late 90s and early 2000s.</p>
+  <p>Using DCS' Syria map as the terrain, it results in a close representation of the terrain around Morocco and
+  south of Spain, mainly due to the similar distances between Canary Islands (Cyprus) and Morocco Mainland (Syria, Lebanon).</p>
+  <p>Morocco Armed Forces have landed in Tenerife (Akrotiri) and are trying to extend towards Tenerife Norte (Larnaca),
+  Gando (Paphos) and eventually to Gran Canaria Norte (FOB).</p>
+  <p>To put more pressure and distress onto the Spanish Government, they have also started attacks to take over the
+  cities of Ceuta (FOB in Iskenderun) and Melilla (Bassel Al-Assad).</p>
+  <p>You must support ground troops while reinforcements arrive to Canarias, as there are no armament production
+  centers there. Ships will be sent from Rota Naval Base (Mersin) and Moron Naval and Air Base (Gazipasa).
+  Morocco will also try to support their expeditionary forces by sending reinforcements by sea.</p>
+  <p>Prioritize naval targets!</p>
+  <p>L-61 "Juan Carlos I" naval assault group has also been sent to the zone to support operations. F-18 Hornets from 
+  Torrejon (Incirlik), Albacete and Gando will be your main assets. Additionally you can also use Mirage F-1s,
+  F-5s or Harriers from the "Juan Carlos I".</p>
+  <p>Very complex IADS network on each side.</p>
+  <p>Recommended mods/plugins to use:<ul>
+  <li>Spain Naval Assets Pack (it's a must)</li>
+  <li>Frenchpack</li><li>High Digit SAMs</li>
+  <li>UH-60L Black Hawk</li>
+  <li>Skynet IADS and CTLD are also highly recommended.</li>
+  </ul></p>
 recommended_player_faction: Spain 2000 onwards
 recommended_enemy_faction: Morocco 2000 onwards
 recommended_start_date: 2000-06-01
