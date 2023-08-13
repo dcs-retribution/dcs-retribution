@@ -10,6 +10,8 @@
 * **[Options]** Split off the **Automatic AWACS package planning** and **Automatic Theater tanker package planning** settings from **Automatic package planning behavior** so players can choose to have AWACS and theater tankers auto-planned, while managing everything else themselves.
 * **[Modding]** Updated support for Su-30 mod to V2.1.12 beta
 * **[Modding]** Updated support for Su-57 mod to build-04
+* **[Radios]** Added HF-FM band for AN/ARC-222
+* **[Radios]** Ability to define preset channels for radios on squadron level (for human pilots only)
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task
