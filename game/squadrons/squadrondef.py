@@ -9,6 +9,7 @@ from dcs.country import Country
 
 from game.dcs.aircrafttype import AircraftType
 from game.dcs.countries import country_with_name
+from game.radio.radios import RadioFrequency
 from game.squadrons.operatingbases import OperatingBases
 from game.squadrons.pilot import Pilot
 
@@ -26,6 +27,7 @@ class SquadronDef:
     aircraft: AircraftType
     livery: Optional[str]
     auto_assignable_mission_types: set[FlightType]
+    radio_presets: dict[str, list[RadioFrequency]]
     operating_bases: OperatingBases
     female_pilot_percentage: int
     pilot_pool: list[Pilot]
@@ -75,6 +77,20 @@ class SquadronDef:
         pilots.extend([Pilot(n, player=True) for n in data.get("players", [])])
         female_pilot_percentage = data.get("female_pilot_percentage", 6)
 
+        radio_presets = data.get("radio_presets", {})
+        for radio in radio_presets:
+            freq_list: list[RadioFrequency] = []
+            for freq in radio_presets[radio]:
+                # TODO: set up modulation for UI manipulations (issue#89)
+                freq_list.append(RadioFrequency(int(freq * 1000000)))
+            radio_presets[radio] = freq_list
+
+        for radio in radio_presets:
+            print(radio, ":")
+            for freq in radio_presets[radio]:
+                print(freq)
+            print()
+
         return SquadronDef(
             name=data["name"],
             nickname=data.get("nickname"),
@@ -83,6 +99,7 @@ class SquadronDef:
             aircraft=unit_type,
             livery=data.get("livery"),
             auto_assignable_mission_types=set(unit_type.iter_task_capabilities()),
+            radio_presets=radio_presets,
             operating_bases=OperatingBases.from_yaml(unit_type, data.get("bases", {})),
             female_pilot_percentage=female_pilot_percentage,
             pilot_pool=pilots,

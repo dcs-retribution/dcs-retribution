@@ -15,6 +15,7 @@ from game.settings import AutoAtoBehavior, Settings
 from game.theater import ParkingType
 from .pilot import Pilot, PilotStatus
 from ..db.database import Database
+from ..radio.radios import RadioFrequency
 from ..utils import meters
 
 if TYPE_CHECKING:
@@ -39,6 +40,7 @@ class Squadron:
     livery: Optional[str]
     primary_task: FlightType
     auto_assignable_mission_types: set[FlightType]
+    radio_presets: dict[str, list[RadioFrequency]]
     operating_bases: OperatingBases
     female_pilot_percentage: int
 
@@ -473,6 +475,7 @@ class Squadron:
             squadron_def.livery,
             primary_task,
             squadron_def.auto_assignable_mission_types,
+            squadron_def.radio_presets,
             squadron_def.operating_bases,
             squadron_def.female_pilot_percentage,
             squadron_def.pilot_pool,

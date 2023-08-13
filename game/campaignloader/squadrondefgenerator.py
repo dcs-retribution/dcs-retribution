@@ -48,6 +48,7 @@ class SquadronDefGenerator:
             aircraft=aircraft,
             livery=None,
             auto_assignable_mission_types=set(aircraft.iter_task_capabilities()),
+            radio_presets={},
             operating_bases=OperatingBases.default_for_aircraft(aircraft),
             female_pilot_percentage=6,
             pilot_pool=[],

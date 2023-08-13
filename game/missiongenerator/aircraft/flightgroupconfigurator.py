@@ -121,6 +121,7 @@ class FlightGroupConfigurator:
         return FlightData(
             package=self.flight.package,
             aircraft_type=self.flight.unit_type,
+            squadron=self.flight.squadron,
             flight_type=self.flight.flight_type,
             units=self.group.units,
             size=len(self.group.units),

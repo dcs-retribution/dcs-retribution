@@ -7,6 +7,7 @@ from typing import Optional, TYPE_CHECKING
 from dcs.flyingunit import FlyingUnit
 
 from game.callsigns import create_group_callsign_from_unit
+from game.squadrons import Squadron
 
 if TYPE_CHECKING:
     from game.ato import FlightType, FlightWaypoint, Package
@@ -31,6 +32,8 @@ class FlightData:
     flight_type: FlightType
 
     aircraft_type: AircraftType
+
+    squadron: Squadron
 
     #: All units in the flight.
     units: list[FlyingUnit]
