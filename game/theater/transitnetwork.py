@@ -79,13 +79,11 @@ class TransitNetwork:
         yield from self.nodes[control_point]
 
     def cost(self, a: ControlPoint, b: ControlPoint) -> float:
+        distance = a.position.distance_to_point(b.position)
         return {
-            TransitConnection.Road: 1,
-            TransitConnection.Shipping: 3,
-            # Set arbitrarily high so that other methods are preferred, but still scaled
-            # by distance so that when we do need it we still pick the closest airfield.
-            # The units of distance are meters so there's no risk of these
-            TransitConnection.Airlift: a.position.distance_to_point(b.position),
+            TransitConnection.Road: distance,  # convoy drives distance once
+            TransitConnection.Shipping: 2 * distance,  # ship goes back & forth
+            TransitConnection.Airlift: 3 * distance,  # to pickup + back & forth
         }[self.link_type(a, b)]
 
     def has_path_between(
