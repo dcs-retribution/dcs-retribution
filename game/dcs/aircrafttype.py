@@ -292,9 +292,9 @@ class AircraftType(UnitType[Type[FlyingType]]):
                 )
             else:
                 # Slow like warbirds or helicopters
-                # Use whichever is slowest - mach 0.35 or 70% of max speed
-                logging.debug(f"{self.name} max_speed * 0.7 is {max_speed * 0.7}")
-                return min(Speed.from_mach(0.35, altitude), max_speed * 0.7)
+                # Use whichever is slowest - mach 0.35 or 50% of max speed
+                logging.debug(f"{self.name} max_speed * 0.5 is {max_speed * 0.5}")
+                return min(Speed.from_mach(0.35, altitude), max_speed * 0.5)
 
     def alloc_flight_radio(self, radio_registry: RadioRegistry) -> RadioFrequency:
         from game.radio.radios import ChannelInUseError, kHz
