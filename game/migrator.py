@@ -123,6 +123,7 @@ class Migrator:
                 )
                 try_set_attr(s, "primary_task", preferred_task)
                 try_set_attr(s, "max_size", 12)
+                try_set_attr(s, "radio_presets", {})
                 if isinstance(s.country, str):
                     c = country_dict.get(s.country, s.country)
                     s.country = countries_by_name[c]()
