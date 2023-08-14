@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING, Any
 
 from dcs.countries import countries_by_name
 
+from game.ato import FlightType
 from game.ato.packagewaypoints import PackageWaypoints
 from game.data.doctrine import MODERN_DOCTRINE, COLDWAR_DOCTRINE, WWII_DOCTRINE
 from game.theater import ParkingType, SeasonalConditions
@@ -127,6 +128,8 @@ class Migrator:
                 if isinstance(s.country, str):
                     c = country_dict.get(s.country, s.country)
                     s.country = countries_by_name[c]()
+                if FlightType.SEAD in s.auto_assignable_mission_types:
+                    s.auto_assignable_mission_types.add(FlightType.SEAD_SWEEP)
 
                 # code below is used to fix corruptions wrt overpopulation
                 parking_type = ParkingType().from_squadron(s)
