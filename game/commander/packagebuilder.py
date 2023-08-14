@@ -43,8 +43,10 @@ class PackageBuilder:
         caller should return any previously planned flights to the inventory
         using release_planned_aircraft.
         """
+        pf = self.package.primary_flight
+        heli = pf.is_helo if pf else False
         squadron = self.air_wing.best_squadron_for(
-            self.package.target, plan.task, plan.num_aircraft, this_turn=True
+            self.package.target, plan.task, plan.num_aircraft, heli, this_turn=True
         )
         if squadron is None:
             return False

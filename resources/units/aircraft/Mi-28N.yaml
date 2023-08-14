@@ -18,4 +18,5 @@ variants:
 tasks:
   BAI: 420
   CAS: 420
+  Escort: 100
   OCA/Aircraft: 420

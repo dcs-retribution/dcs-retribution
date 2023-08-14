@@ -273,7 +273,12 @@ class Squadron:
         return task in self.auto_assignable_mission_types
 
     def can_auto_assign_mission(
-        self, location: MissionTarget, task: FlightType, size: int, this_turn: bool
+        self,
+        location: MissionTarget,
+        task: FlightType,
+        size: int,
+        heli: bool,
+        this_turn: bool,
     ) -> bool:
         if (
             self.location.cptype.name in ["FOB", "FARP"]
@@ -286,6 +291,15 @@ class Squadron:
         if not self.can_auto_assign(task):
             return False
         if this_turn and not self.can_fulfill_flight(size):
+            return False
+
+        if task in [FlightType.ESCORT, FlightType.SEAD_ESCORT]:
+            if heli and not self.aircraft.helicopter and not self.aircraft.lha_capable:
+                return False
+            if not heli and self.aircraft.helicopter:
+                return False
+
+        if heli and task == FlightType.REFUELING:
             return False
 
         distance_to_target = meters(location.distance_to(self.location))

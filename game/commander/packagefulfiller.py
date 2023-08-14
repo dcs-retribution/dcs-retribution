@@ -82,11 +82,14 @@ class PackageFulfiller:
         purchase_multiplier: int,
     ) -> None:
         if not builder.plan_flight(flight):
+            pf = builder.package.primary_flight
+            heli = pf.is_helo if pf else False
             missing_types.add(flight.task)
             purchase_order = AircraftProcurementRequest(
                 near=mission.location,
                 task_capability=flight.task,
                 number=flight.num_aircraft * purchase_multiplier,
+                heli=heli,
             )
             # Reserves are planned for critical missions, so prioritize those orders
             # over aircraft needed for non-critical missions.

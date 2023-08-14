@@ -12,6 +12,8 @@
 * **[Modding]** Updated support for Su-57 mod to build-04
 * **[Radios]** Added HF-FM band for AN/ARC-222
 * **[Radios]** Ability to define preset channels for radios on squadron level (for human pilots only)
+* **[Mission Planning]** Avoid helicopters being assigned as escort to planes and vice-versa.
+* **[Mission Planning]** Allow attack helicopters to escort other helicopters
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task

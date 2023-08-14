@@ -74,6 +74,31 @@ local unitPayloads = {
 				[1] = 31,
 			},
 		},
+		[4] = {
+			["displayName"] = "Retribution Escort",
+			["name"] = "Retribution Escort",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{M299_4xAGM_114L}",
+					["num"] = 3,
+				},
+				[2] = {
+					["CLSID"] = "{M299_4xAGM_114L}",
+					["num"] = 4,
+				},
+				[3] = {
+					["CLSID"] = "{M299_4xAGM_114L}",
+					["num"] = 2,
+				},
+				[4] = {
+					["CLSID"] = "{M299_4xAGM_114L}",
+					["num"] = 1,
+				},
+			},
+			["tasks"] = {
+				[1] = 31,
+			},
+		},
 	},
 	["unitType"] = "AH-64D_BLK_II",
 }

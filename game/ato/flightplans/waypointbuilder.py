@@ -10,6 +10,7 @@ from typing import (
     TYPE_CHECKING,
     Tuple,
     Union,
+    Literal,
 )
 
 from dcs.mapping import Point, Vector2
@@ -169,7 +170,7 @@ class WaypointBuilder:
             "HOLD",
             FlightWaypointType.LOITER,
             position,
-            meters(500) if self.is_helo else self.doctrine.rendezvous_altitude,
+            feet(1000) if self.is_helo else self.doctrine.rendezvous_altitude,
             alt_type,
             description="Wait until push time",
             pretty_name="Hold",
@@ -471,20 +472,23 @@ class WaypointBuilder:
         )
         return hold
 
-    @staticmethod
-    def escort_hold(start: Point, altitude: Distance) -> FlightWaypoint:
+    def escort_hold(self, start: Point, altitude: Distance) -> FlightWaypoint:
         """Creates custom waypoint for escort flights that need to hold.
 
         Args:
             start: Position of the waypoint.
             altitude: Altitude of the holding pattern.
         """
+        alt_type: Literal["BARO", "RADIO"] = "BARO"
+        if self.is_helo:
+            alt_type = "RADIO"
 
         return FlightWaypoint(
             "ESCORT HOLD",
             FlightWaypointType.CUSTOM,
             start,
             altitude,
+            alt_type=alt_type,
             description="Anchor and hold at this point",
             pretty_name="Escort Hold",
         )

@@ -22,11 +22,12 @@ class AircraftProcurementRequest:
     near: MissionTarget
     task_capability: FlightType
     number: int
+    heli: bool = False
 
     def __str__(self) -> str:
         task = self.task_capability.value
         target = self.near.name
-        return f"{self.number} ship {task} near {target}"
+        return f"{self.number} ship {task} near {target} (heli={self.heli})"
 
 
 class ProcurementAi:
@@ -234,7 +235,11 @@ class ProcurementAi:
     ) -> Iterator[Squadron]:
         threatened = []
         for squadron in self.air_wing.best_squadrons_for(
-            request.near, request.task_capability, request.number, this_turn=False
+            request.near,
+            request.task_capability,
+            request.number,
+            request.heli,
+            this_turn=False,
         ):
             parking_type = ParkingType().from_squadron(squadron)
 

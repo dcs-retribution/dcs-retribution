@@ -142,6 +142,32 @@ local unitPayloads = {
 				[3] = 18,
 			},
 		},
+		[6] = {
+			["name"] = "Retribution Escort",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{B919B0F4-7C25-455E-9A02-CEA51DB895E3}",
+					["num"] = 1,
+				},
+				[2] = {
+					["CLSID"] = "{B919B0F4-7C25-455E-9A02-CEA51DB895E3}",
+					["num"] = 2,
+				},
+				[3] = {
+					["CLSID"] = "{B919B0F4-7C25-455E-9A02-CEA51DB895E3}",
+					["num"] = 5,
+				},
+				[4] = {
+					["CLSID"] = "{B919B0F4-7C25-455E-9A02-CEA51DB895E3}",
+					["num"] = 6,
+				},
+			},
+			["tasks"] = {
+				[1] = 31,
+				[2] = 32,
+				[3] = 18,
+			},
+		},
 	},
 	["unitType"] = "Mi-24V",
 }

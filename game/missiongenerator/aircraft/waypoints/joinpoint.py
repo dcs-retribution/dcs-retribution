@@ -8,6 +8,7 @@ from dcs.task import (
     OptECMUsing,
     OptFormation,
     Targets,
+    OptROE,
 )
 
 from game.ato import FlightType
@@ -18,17 +19,29 @@ from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 class JoinPointBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
-        waypoint.tasks.append(OptFormation.finger_four_open())
+        if self.flight.is_helo:
+            waypoint.tasks.append(OptFormation.rotary_wedge())
+        else:
+            waypoint.tasks.append(OptFormation.finger_four_open())
 
         doctrine = self.flight.coalition.doctrine
 
         if self.flight.flight_type == FlightType.ESCORT:
+            targets = [
+                Targets.All.Air.Planes.Fighters.id,
+                Targets.All.Air.Planes.MultiroleFighters.id,
+            ]
+            if self.flight.is_helo:
+                targets = [
+                    Targets.All.Air.Helicopters.id,
+                    Targets.All.GroundUnits.AirDefence.id,
+                    Targets.All.GroundUnits.GroundVehicles.UnarmedVehicles.id,
+                    Targets.All.GroundUnits.GroundVehicles.ArmoredVehicles.id,
+                    Targets.All.Naval.Ships.ArmedShips.LightArmedShips.id,
+                ]
             self.configure_escort_tasks(
                 waypoint,
-                [
-                    Targets.All.Air.Planes.Fighters.id,
-                    Targets.All.Air.Planes.MultiroleFighters.id,
-                ],
+                targets,
                 max_dist=doctrine.escort_engagement_range.nautical_miles,
                 vertical_spacing=doctrine.escort_spacing.feet,
             )
@@ -71,10 +84,18 @@ class JoinPointBuilder(PydcsWaypointBuilder):
         max_dist: float = 30.0,
         vertical_spacing: float = 2000.0,
     ) -> None:
+        waypoint.tasks.append(OptROE(value=OptROE.Values.OpenFireWeaponFree))
+
         rx = (random.random() + 0.1) * 333
         ry = feet(vertical_spacing).meters
         rz = (random.random() + 0.1) * 166 * random.choice([-1, 1])
         pos = {"x": rx, "y": ry, "z": rz}
+        engage_dist = int(nautical_miles(max_dist).meters)
+
+        if self.flight.is_helo:
+            for key in pos:
+                pos[key] *= 0.25
+            engage_dist = int(engage_dist * 0.25)
 
         group_id = None
         if self.package.primary_flight is not None:
@@ -83,7 +104,7 @@ class JoinPointBuilder(PydcsWaypointBuilder):
         escort = ControlledTask(
             EscortTaskAction(
                 group_id=group_id,
-                engagement_max_dist=int(nautical_miles(max_dist).meters),
+                engagement_max_dist=engage_dist,
                 targets=target_types,
                 position=pos,
             )

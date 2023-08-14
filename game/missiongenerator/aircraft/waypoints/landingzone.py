@@ -1,6 +1,5 @@
 from dcs.point import MovingPoint
-from dcs.task import Land
-
+from dcs.task import Land, RunScript
 
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 
@@ -14,4 +13,9 @@ class LandingZoneBuilder(PydcsWaypointBuilder):
         landing_point = waypoint.position.random_point_within(15, 5)
         # Use Land Task with 30s duration for helos
         waypoint.add_task(Land(landing_point, duration=30))
+        if waypoint.name == "DROPOFFZONE":
+            script = RunScript(
+                f'trigger.action.setUserFlag("split-{id(self.package)}", true)'
+            )
+            waypoint.tasks.append(script)
         return waypoint
