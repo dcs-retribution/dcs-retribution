@@ -250,11 +250,12 @@ class TriggerGenerator:
         self._set_allegiances(player_coalition, enemy_coalition)
         self._gen_markers()
         self._generate_capture_triggers(player_coalition, enemy_coalition)
-        try:
-            self._generate_clear_statics_trigger(self.game.scenery_clear_zones)
-            self.game.scenery_clear_zones.clear()
-        except AttributeError:
-            logging.info(f"Unable to create Clear Statics triggers")
+        if self.game.settings.ground_start_scenery_remove_triggers:
+            try:
+                self._generate_clear_statics_trigger(self.game.scenery_clear_zones)
+                self.game.scenery_clear_zones.clear()
+            except AttributeError:
+                logging.info(f"Unable to create Clear Statics triggers")
 
     @classmethod
     def get_capture_zone_flag(cls) -> int:

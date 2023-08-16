@@ -3,7 +3,7 @@ import logging
 from dcs.point import MovingPoint
 from dcs.task import AttackGroup, OptFormation, WeaponType
 
-from game.theater import NavalControlPoint
+from game.theater import NavalControlPoint, TheaterGroundObject
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 
@@ -17,6 +17,9 @@ class AntiShipIngressBuilder(PydcsWaypointBuilder):
             carrier_name = target.get_carrier_group_name()
             if carrier_name:
                 group_names.append(carrier_name)
+        elif isinstance(target, TheaterGroundObject):
+            for group in target.groups:
+                group_names.append(group.group_name)
         else:
             logging.error(
                 "Unexpected target type for Anti-Ship mission: %s",
@@ -32,5 +35,7 @@ class AntiShipIngressBuilder(PydcsWaypointBuilder):
                 )
                 continue
 
-            task = AttackGroup(miz_group.id, weapon_type=WeaponType.Auto)
+            task = AttackGroup(
+                miz_group.id, group_attack=True, weapon_type=WeaponType.Auto
+            )
             waypoint.tasks.append(task)

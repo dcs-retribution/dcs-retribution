@@ -187,7 +187,13 @@ RADIOS: List[Radio] = [
             RadioRange(MHz(136), MHz(155), kHz(25), Modulation.FM),
         ),
     ),
-    Radio("AN/ARC-222", (RadioRange(MHz(116), MHz(152), kHz(25), Modulation.AM),)),
+    Radio(
+        "AN/ARC-222",
+        (
+            RadioRange(MHz(30), MHz(88), kHz(25), Modulation.FM),
+            RadioRange(MHz(116), MHz(152), kHz(25), Modulation.AM),
+        ),
+    ),
     Radio("SCR-522", (RadioRange(MHz(100), MHz(156), kHz(25), Modulation.AM),)),
     Radio("A.R.I. 1063", (RadioRange(MHz(100), MHz(156), kHz(25), Modulation.AM),)),
     Radio("BC-1206", (RadioRange(kHz(200), kHz(400), kHz(10), Modulation.AM),)),

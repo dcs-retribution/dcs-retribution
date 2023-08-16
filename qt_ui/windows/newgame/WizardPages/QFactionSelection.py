@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from copy import deepcopy
+from typing import Union
 
 from PySide2 import QtWidgets, QtGui
 from PySide2.QtCore import Qt
@@ -28,7 +29,7 @@ class QFactionUnits(QScrollArea):
         self.faction = faction
         self._create_checkboxes()
 
-    def _add_checkboxes(self, units: list, counter: int, grid: QGridLayout) -> int:
+    def _add_checkboxes(self, units: set, counter: int, grid: QGridLayout) -> int:
         counter += 1
         for i, v in enumerate(sorted(units, key=lambda x: x.name), counter):
             cb = QCheckBox(v.name)
@@ -90,7 +91,7 @@ class QFactionUnits(QScrollArea):
         if self.parent:
             self.parent.update()
 
-    def updateFactionUnits(self, units: list):
+    def updateFactionUnits(self, units: Union[set, list]):
         deletes = []
         for a in units:
             if not self.checkboxes[a.name].isChecked():

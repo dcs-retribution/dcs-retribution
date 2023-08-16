@@ -1,8 +1,7 @@
 name: AIM-7E
 year: 1963
 fallback: AIM-9X
+# Do not add the other 7E looking names, they are actually AIM-7E-2 6 years newer
 clsids:
   - "{SHOULDER AIM-7E}"
   - "{BELLY AIM-7E}"
-  - "{AIM-7E}"
-  - "{LAU-115 - AIM-7E}"

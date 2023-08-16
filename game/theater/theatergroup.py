@@ -84,7 +84,7 @@ class TheaterUnit:
 
     @property
     def is_static(self) -> bool:
-        return issubclass(self.type, StaticType)
+        return issubclass(self.type, StaticType) or isinstance(self, SceneryUnit)
 
     @property
     def is_vehicle(self) -> bool:

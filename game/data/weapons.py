@@ -31,6 +31,17 @@ def weapons_migrator(name: str) -> str:
     return name
 
 
+def weapons_migrator_lib(name: str) -> str:
+    # Splitting this from our own migrations
+    if "KH" in name:
+        return "Kh" + name[2:]
+    # UNCOMMENT BELOW WHEN IT BECOMES APPLICABLE
+    # migration_map = {}
+    # while name in migration_map:
+    #     name = migration_map[name]
+    return name
+
+
 @dataclass(frozen=True)
 class Weapon:
     """Wrapper for DCS weapons."""
@@ -153,7 +164,9 @@ class WeaponGroup:
 
     def __setstate__(self, state: dict[str, Any]) -> None:
         # Update any existing models with new data on load.
-        updated = WeaponGroup.named(weapons_migrator(state["name"]))
+        name = weapons_migrator(state["name"])
+        name = weapons_migrator_lib(name)
+        updated = WeaponGroup.named(name)
         state.update(updated.__dict__)
         self.__dict__.update(state)
 

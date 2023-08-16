@@ -29,4 +29,5 @@ max_range: 500
 variants:
   MiG-25RBT Foxbat-B: {}
 tasks:
+  CAS: 70
   Strike: 150

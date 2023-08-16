@@ -1,0 +1,702 @@
+---
+name: Syria - Invasion of the Canary Islands
+theater: Syria
+authors: NoGoodNews
+description:
+  <p>Fictional Campaign where Morocco is attacking Spain through Ceuta, Melilla and Canary Islands in the late 90s and early 2000s.</p>
+  <p>Using DCS' Syria map as the terrain, it results in a close representation of the terrain around Morocco and
+  south of Spain, mainly due to the similar distances between Canary Islands (Cyprus) and Morocco Mainland (Syria, Lebanon).</p>
+  <p>Morocco Armed Forces have landed in Tenerife (Akrotiri) and are trying to extend towards Tenerife Norte (Larnaca),
+  Gando (Paphos) and eventually to Gran Canaria Norte (FOB).</p>
+  <p>To put more pressure and distress onto the Spanish Government, they have also started attacks to take over the
+  cities of Ceuta (FOB in Iskenderun) and Melilla (Bassel Al-Assad).</p>
+  <p>You must support ground troops while reinforcements arrive to Canarias, as there are no armament production
+  centers there. Ships will be sent from Rota Naval Base (Mersin) and Moron Naval and Air Base (Gazipasa).
+  Morocco will also try to support their expeditionary forces by sending reinforcements by sea.</p>
+  <p>Prioritize naval targets!</p>
+  <p>L-61 "Juan Carlos I" naval assault group has also been sent to the zone to support operations. F-18 Hornets from 
+  Torrejon (Incirlik), Albacete and Gando will be your main assets. Additionally you can also use Mirage F-1s,
+  F-5s or Harriers from the "Juan Carlos I".</p>
+  <p>Very complex IADS network on each side.</p>
+  <p>Recommended mods/plugins to use:<ul>
+  <li>Spain Naval Assets Pack (it's a must)</li>
+  <li>Frenchpack</li><li>High Digit SAMs</li>
+  <li>UH-60L Black Hawk</li>
+  <li>Skynet IADS and CTLD are also highly recommended.</li>
+  </ul></p>
+recommended_player_faction: Spain 2000 onwards
+recommended_enemy_faction: Morocco 2000 onwards
+recommended_start_date: 2000-06-01
+recommended_player_money: 1500
+recommended_enemy_money: 1000
+recommended_player_income_multiplier: 0.75
+recommended_enemy_income_multiplier: 0.5
+miz: Invasion_of_Canary_Islands.miz
+performance: 3
+version: "10.7"
+advanced_iads: true # Campaign has connection_nodes / power_sources / command_centers 
+#IADS: EWR and C2 get power generators. batteries have their own generators.
+
+settings:
+  automate_runway_repair: true
+  automate_front_line_reinforcements: true
+  automate_aircraft_reinforcements: false
+  no_enemy_navy: false
+  desired_player_mission_duration: 60
+  external_views_allowed: true
+  max_frontline_length: 30
+ 
+ #Mods to be used
+  a4_skyhawk: false
+  a6a_intruder: false
+  a7e_corsair2: false
+  f4bc_phantom: false
+  f15d_baz: false
+  f_16_idf: false
+  fa_18efg: false
+  f22_raptor: false
+  f84g_thunderjet: false
+  f100_supersabre: false
+  f104_starfighter: false
+  f105_thunderchief: false
+  hercules: false
+  uh_60l: true
+  jas39_gripen: false
+  su30_flanker_h: false
+  su57_felon: false
+  frenchpack: true
+  high_digit_sams: true
+  ov10a_bronco: false
+  swedishmilitaryassetspack: false
+  spanishnavypack: true
+
+# Difficulty settings
+# AI Difficulty
+  player_skill: "Excellent"
+  enemy_skill:  "Average"
+  enemy_vehicle_skill: "Average"
+  invulnerable_player_pilots: true
+  manpads: true
+  night_day_missions: NightMissions.DayAndNight
+        #"Night/day mission options"
+        #choices:   
+            # NightMissions.DayAndNight
+            # NightMissions.OnlyDay
+            # NightMissions.OnlyNight
+        #default=NightMissions.DayAndNight
+
+# Mission Restrictions
+  labels: "Dot Only"
+        #In game labels
+        #choices:
+            # "Full"
+            # "Abbreviated"
+            # "Dot Only"
+            # "Neutral Dot"
+            # "Off"
+        #default="Full"
+
+
+
+iads_config:
+
+# SPAIN IADS
+# EWRs
+    - Spain EWR Torrejon A:
+        - IADS Command Center Spain
+        - Power IADS Spain Peninsula
+    - Spain EWR Torrejon B:
+        - IADS Command Center Spain
+        - Power IADS Spain Peninsula
+    - Spain EWR Moron:
+        - IADS Command Center Spain
+        - Power IADS Spain Peninsula
+    - Spain EWR Tarifa:
+        - IADS Command Center Spain
+        - Power IADS Spain Peninsula
+    - Spain EWR Gando:
+        - IADS Command Center Canarias
+        - Power IADS Spain Canarias
+    - Spain EWR Teide:
+        - IADS Command Center Canarias
+        - Power IADS Spain Canarias
+    - Spain EWR Africa:
+        - IADS Command Center Africa
+        - Power IADS Spain Africa
+    
+# SAMs Long Range
+    - Spain SAM LR_P-1:
+        - IADS Command Center Spain
+    - Spain SAM LR_P-2:
+        - IADS Command Center Spain
+    - Spain SAM LR_A-1:
+        - IADS Command Center Africa
+        - IADS Command Center Spain
+    - Spain SAM LR_C-1:
+        - IADS Command Center Canarias
+    - Spain SAM LR_C-2:
+        - IADS Command Center Canarias
+        - IADS Command Center Spain
+    - Spain SAM LR_C-2:
+        - IADS Command Center Canarias
+        - IADS Command Center Spain
+# SAMs Medium Range Peninsula
+    - Spain SAM MR_P-1:
+        - IADS Command Center Spain
+    - Spain SAM MR_P-2:
+        - IADS Command Center Spain
+    - Spain SAM MR_P-3:
+        - IADS Command Center Spain
+    - Spain SAM MR_P-4:
+        - IADS Command Center Spain
+    - Spain SAM MR_P-5:
+        - IADS Command Center Spain
+    - Spain SAM MR_P-6:
+        - IADS Command Center Spain
+    - Spain SAM MR_P-7:
+        - IADS Command Center Spain
+# SAMs Medium Range Canarias    
+    - Spain SAM MR_C-1:
+        - IADS Command Center Canarias
+    - Spain SAM MR_C-2:
+        - IADS Command Center Canarias
+    - Spain SAM MR_C-3:
+        - IADS Command Center Canarias
+    - Spain SAM MR_C-4:
+        - IADS Command Center Canarias
+    - Spain SAM MR_C-5:
+        - IADS Command Center Canarias
+    - Spain SAM MR_C-6:
+        - IADS Command Center Canarias
+    - Spain SAM MR_C-7:
+        - IADS Command Center Canarias
+    - Spain SAM MR_C-8:
+        - IADS Command Center Canarias
+# SAMs Medium Range Africa
+    - Spain SAM MR_A-1:
+        - IADS Command Center Africa
+    - Spain SAM MR_A-2:
+        - IADS Command Center Africa
+
+
+#Morocco IADS Network South
+# EWR Network
+    - Morocco EWR ReneMouawad: #ReneMouawad
+        - IADS Command Center Damascus-1
+        - Power IADS  Damascus
+        - Power IADS Haifa
+    - Morocco EWR Ramat: #Ramat David
+        - IADS Command Center Damascus-1
+        - Power IADS  Damascus
+        - Power IADS Haifa
+    - Morocco EWR Beyrut: #Beyrut
+        - IADS Command Center Damascus-1
+        - Power IADS  Damascus
+    - Morocco EWR Aleppo: #Aleppo
+        - IADS Command Center Tiyas
+        - Power IADS Tiyas
+        - Power IADS Haifa
+
+# SAMs Damascus
+    - Morocco Damascus SAM LR-1:
+        - IADS Command Center Damascus-1
+        - IADS Command Center Tiyas
+    - Morocco Damascus SAM LR-2:
+        - IADS Command Center Damascus-1
+        - IADS Command Center Tiyas
+
+    - Morocco Damascus SAM MR-1:
+        - IADS Command Center Damascus-1
+    - Morocco Damascus SAM MR-2:
+        - IADS Command Center Damascus-1
+
+    - Morocco Damascus SAM SR-1:
+        - IADS Command Center Damascus-1
+    - Morocco Damascus SAM SR-2:
+        - IADS Command Center Damascus-1
+    - Morocco Damascus SAM SR-3:
+        - IADS Command Center Damascus-1
+    - Morocco Damascus SAM SR-4:
+        - IADS Command Center Damascus-1
+        
+# SAMs Ramat David:
+    - Morocco Ramat SAM LR-1:
+        - IADS Command Center Damascus-1
+    - Morocco Ramat SAM LR-2:
+        - IADS Command Center Damascus-1
+
+    - Morocco Ramat SAM MR-1:
+        - IADS Command Center Damascus-1
+    - Morocco Ramat SAM MR-2:
+        - IADS Command Center Damascus-1
+        
+    - Morocco Ramat SAM SR-1:
+        - IADS Command Center Damascus-1
+    - Morocco Ramat SAM SR-2:
+        - IADS Command Center Damascus-1
+
+# SAMs Haifa:
+    - Morocco Haifa SAM MR-1:
+        - IADS Command Center Damascus-1
+    - Morocco Haifa SAM MR-2:
+        - IADS Command Center Damascus-1
+        
+    - Morocco Haifa SAM SR-1:
+        - IADS Command Center Damascus-1
+    - Morocco Haifa SAM SR-2:
+        - IADS Command Center Damascus-1
+    - Morocco Haifa SAM SR-3:
+        - IADS Command Center Damascus-1
+
+# SAMs Beyrut:
+    - Morocco Beyrut SAM LR-1:
+        - IADS Command Center Damascus-1
+    
+    - Morocco Beyrut SAM MR-1:
+        - IADS Command Center Damascus-1
+    - Morocco Beyrut SAM MR-2:
+        - IADS Command Center Damascus-1
+        
+    - Morocco Beyrut SAM SR-1:
+        - IADS Command Center Damascus-1
+    - Morocco Beyrut SAM SR-2:
+        - IADS Command Center Damascus-1
+    - Morocco Beyrut SAM SR-3:
+        - IADS Command Center Damascus-1
+
+# SAMs Rene Mouawad:
+    - Morocco Rene SAM LR-1:
+        - IADS Command Center Damascus-1
+    - Morocco Rene SAM LR-2:
+        - IADS Command Center Damascus-1
+        
+    - Morocco Rene SAM MR-1:
+        - IADS Command Center Damascus-1
+    - Morocco Rene SAM MR-2:
+        - IADS Command Center Damascus-1
+
+    - Morocco Rene SAM SR-1:
+        - IADS Command Center Damascus-1
+    - Morocco Rene SAM SR-2:
+        - IADS Command Center Damascus-1
+    - Morocco Rene SAM SR-3:
+        - IADS Command Center Damascus-1
+        
+#Morocco Air Defence Network North
+# EWR Network
+    - Morocco EWR Homs: #Homs
+        - IADS Command Center Tiyas
+        - Power IADS Tiyas
+        - Power Palmyra
+        - Power Homs - Mobile
+        - Power IADS Haifa
+    - Morocco EWR Aleppo: #Aleppo
+        - IADS Command Center Tiyas
+        - Power IADS Tiyas
+        - Power IADS Haifa
+    - Morocco EWR Tiyas: #Tiyas
+        - IADS Command Center Tiyas
+        - Power IADS Tiyas
+        - Power Palmyra
+        - Power IADS Haifa
+    - Morocco EWR Palmyra: #Palmyra
+        - IADS Command Center Tiyas
+        - Power IADS Tiyas
+        - Power Palmyra
+        - Power IADS Haifa
+
+#SAMs Homs FOB        
+    - Morocco Homs SAM MR-1:
+        - IADS Command Center Tiyas
+    - Morocco Homs SAM MR-2:
+        - IADS Command Center Tiyas
+        
+    - Morocco Homs SAM SR-1:
+        - IADS Command Center Tiyas
+    - Morocco Homs SAM SR-2:
+        - IADS Command Center Tiyas
+    - Morocco Homs SAM SR-3:
+        - IADS Command Center Tiyas
+        
+# SAMs Tiyas:
+    - Morocco Tiyas SAM MR-1:
+        - IADS Command Center Tiyas
+    - Morocco Tiyas SAM MR-2:
+        - IADS Command Center Tiyas
+        
+    - Morocco Tiyas SAM SR-1:
+        - IADS Command Center Tiyas
+    - Morocco Tiyas SAM SR-2:
+        - IADS Command Center Tiyas
+    - Morocco Tiyas SAM SR-3:
+        - IADS Command Center Tiyas
+
+# SAMs Palmyra:
+    - Morocco Palmyra SAM LR-1:
+        - IADS Command Center Tiyas
+        
+    - Morocco Palmyra SAM MR-1:
+        - IADS Command Center Tiyas
+    - Morocco Palmyra SAM MR-2:
+        - IADS Command Center Tiyas
+    - Morocco Palmyra SAM MR-3:
+    
+        - IADS Command Center Tiyas
+    - Morocco Palmyra SAM SR-1:
+        - IADS Command Center Tiyas
+    - Morocco Palmyra SAM SR-2:
+        - IADS Command Center Tiyas
+
+# SAMs Hama:        
+    - Morocco Hama SAM LR-1:
+        - IADS Command Center Tiyas
+    - Morocco Hama SAM LR-2:
+        - IADS Command Center Tiyas
+    - Morocco Hama SAM LR-3:
+        - IADS Command Center Tiyas
+        
+    - Morocco Hama SAM MR-1:
+        - IADS Command Center Tiyas
+    - Morocco Hama SAM MR-2:
+        - IADS Command Center Tiyas
+    - Morocco Hama SAM MR-3:
+        - IADS Command Center Tiyas
+
+    - Morocco Hama SAM SR-1:
+        - IADS Command Center Tiyas
+    - Morocco Hama SAM SR-2:
+        - IADS Command Center Tiyas
+    - Morocco Hama SAM SR-3:
+        - IADS Command Center Tiyas
+        
+# SAMs Aleppo:
+    - Morocco Aleppo SAM LR-1:
+        - IADS Command Center Tiyas
+    - Morocco Aleppo SAM LR-2:
+        - IADS Command Center Tiyas
+    - Morocco Aleppo SAM LR-3:
+        - IADS Command Center Tiyas
+    
+    - Morocco Aleppo SAM MR-1:
+        - IADS Command Center Tiyas
+    - Morocco Aleppo SAM MR-2:
+        - IADS Command Center Tiyas
+    
+    - Morocco Aleppo SAM SR-1:
+        - IADS Command Center Tiyas
+    - Morocco Aleppo SAM SR-2:
+        - IADS Command Center Tiyas
+    - Morocco Aleppo SAM SR-3:
+        - IADS Command Center Tiyas
+
+
+        
+squadrons:
+    #SPANISH ARMED FORCES
+    #Gazipasa (Morón)
+    41:
+        - primary: BARCAP
+          secondary: air-to-ground
+          aircraft:
+            - ALA 14 - 142 Escuadron - Albacete F1M-EE
+          size: 12
+        - primary: BAI
+          secondary: air-to-ground
+          aircraft:
+            - Ala 23 - 232 Escuadron
+          size: 12
+        - primary: Transport
+          aircraft:
+            - Ala 31 - Grupo 20
+          size: 4
+          
+    #Inclirk (Torrejón)
+    16:
+        - primary: AEW&C
+          size: 2
+        - primary: Refueling
+          aircraft: 
+            - Ala 31 - Grupo 15
+          size: 3
+        - primary: BARCAP
+          secondary: air-to-ground
+          aircraft:
+            - Ala 12 - 121 Escuadron
+          size: 12
+        - primary: BARCAP
+          secondary: air-to-ground
+          aircraft:
+            - Ala 15 - 151 Escuadron
+          size: 12
+        - primary: CAS
+          aircraft:
+            - FAMET 251 Escuadrilla
+          size: 8
+        - primary: Transport
+          aircraft:
+            - BHELTRA-V
+          size: 4
+        - primary: Transport
+          aircraft:
+            - Ala 31 - Grupo 20
+          size: 4
+          
+    #Larnaca (Gran Canarias)
+    47:
+        - primary: BARCAP
+          secondary: air-to-ground
+          aircraft:
+            - 462 Escuadron
+          size: 8
+        - primary: CAS
+          secondary: any
+          aircraft:
+            - ALA 46 - 462 Escuadron - Gando F1M-EE
+          size: 8
+        - primary: Refueling
+          aircraft: 
+            - Ala 31 - Grupo 10
+          size: 3
+        - primary: CAS
+          aircraft:
+            - CEFAMET 216 Escuadirlla
+          size: 8
+        - primary: Transport
+          aircraft:
+            - BHELTRA-V Bosque
+          size: 4
+        - primary: Transport
+          aircraft:
+            - Ala 31 - Grupo 30
+          size: 4
+          
+    #Paphos (Gando)
+    46:
+        - primary: BARCAP
+          secondary: air-to-ground
+          aircraft:
+           - ALA 46 - 462 Escuadron - Gando F1EE
+          size: 10
+        - primary: CAS
+          aircraft:
+            - CEFAMET 214 Escuadrilla
+          size: 8
+        - primary: BAI
+          aircraft:
+           - Ala 21 - 211 Escuadron
+          size: 8
+           
+    #Basel Al-Assad (Melilla)
+    21:
+        - primary: BARCAP
+          secondary: air-to-ground
+          aircraft:
+            - ALA 14 - 141 Escuadron - Albacete F1BE
+          size: 10
+        - primary: BAI
+          aircraft:
+            - Escuadrón de Vigilancia Aérea nº21 (Macan)
+          size: 8
+        - primary: Transport
+          aircraft:
+            - FAMET 257 Escuadrilla
+          size: 8
+        - primary: Transport
+          aircraft:
+            - BHELTRA-V Arido
+          size: 3
+        - primary: Transport
+          aircraft:
+            - Ala 46
+          size: 3
+    
+    #Akrotiri (Tenerife)
+    44:
+        - primary: BAI
+          secondary: any
+          aircraft:
+            - Ala 46 - 462 Escuadron
+          size: 8
+        - primary: Transport
+          aircraft:
+            - CEFAMET 217 Escuadrilla
+          size: 8
+            
+    #L-61 Juan Carlos I
+    Blue LHA:
+        - primary: Strike
+          aircraft:
+            - 9a Escuadrilla Armada Española
+          size: 10
+        - primary: CAS
+          aircraft:
+            - 3a Escuadrilla de Aeronaves
+          size: 8
+        - primary: BAI
+          aircraft:
+            - 7a Escuadrilla de Aeronaves
+          size: 8
+        - primary: Transport
+          aircraft:
+            - 10a Escuadrilla de Aeronaves
+          size: 3
+            
+    #Ceuta
+    Spain FOB Ceuta:
+        - primary: Transport
+          aircraft:
+            - Spain - FAMET SAHARA
+          size: 8
+    
+    #GC Norte
+    Spain FOB GC Norte:
+        - primary: Transport
+          aircraft:
+            - CEFAMET 217 Escuadrilla
+          size: 8
+    
+    #MOROCCO ARMED FORCES
+    #Aleppo
+    27:
+        - primary: BARCAP
+          Secondary: any
+          aircraft:
+            - Mirage-F1CE
+          size: 10
+        - primary: CAS
+          aircraft:
+            - AH-64D Apache Longbow
+          size: 6
+        - primary: Transport
+          aircraft:
+            - UH-1H Iroquois
+          size: 8
+        - primary: Transport
+          aircraft:
+            - CH-47D
+          size: 3
+        
+    #Hama
+    14:
+        - primary: BARCAP
+          Secondary: any
+          aircraft:
+            - F-16CM Fighting Falcon (Block 50)
+          size: 10
+        - primary: CAS
+          aircraft:
+            - SA 342M Gazelle
+          size: 6
+        - primary: Transport
+          aircraft:
+            - UH-1H Iroquois
+          size: 8
+        - primary: Transport
+          aircraft:
+            - CH-47D
+          size: 3
+            
+    #Rene Mouawad
+    33:
+        - primary: BARCAP
+          Secondary: any
+          aircraft:
+            - F-5E Tiger II
+          size: 12
+        - primary: CAS
+          aircraft:
+            - SA 342M Gazelle
+          size: 6
+        - primary: Transport
+          aircraft:
+            - UH-1H Iroquois
+          size: 8
+        - primary: Transport
+          aircraft:
+            - CH-47D
+          size: 3
+    #Tiyas
+    39:
+        - primary: BARCAP
+          Secondary: any
+          aircraft:
+            - F-16CM Fighting Falcon (Block 50)
+          size: 10
+        - primary: BAI
+          Secondary: any
+          aircraft:
+            - Mirage-F1CE
+          size: 10
+            
+    #Palmyra
+    28:
+        - primary: BARCAP
+          Secondary: any
+          aircraft:
+            - Mirage-F1CE
+          size: 8
+        - primary: BARCAP
+          Secondary: any
+          aircraft:
+            - F-5E Tiger II
+          size: 10
+        - primary: Transport
+          aircraft:
+            - C-130
+          size: 3
+   
+   #Beyrut
+    6:
+        - primary: BARCAP
+          Secondary: any
+          aircraft:
+            - F-16CM Fighting Falcon (Block 50)
+          size: 5
+        - primary: BAI
+          Secondary: any
+          aircraft:
+            - Mirage-F1CE
+          size: 5
+    
+    #Ramat David
+    30:
+        - primary: BARCAP
+          Secondary: any
+          aircraft:
+            - F-16CM Fighting Falcon (Block 50)
+          size: 5
+        - primary: BARCAP
+          Secondary: any
+          aircraft:
+            - F-5E Tiger II
+          size: 5
+    #Haifa
+    13:
+        - primary: CAS
+          aircraft:
+            - SA 342M Gazelle
+          size: 6
+        - primary: Transport
+          aircraft:
+            - UH-1H Iroquois
+          size: 8
+        - primary: Transport
+          aircraft:
+            - CH-47D
+          size: 2
+    #Damascus
+    7:
+        - primary: BARCAP
+          Secondary: any
+          aircraft:
+            - Mirage-F1CE
+          size: 6
+        - primary: BARCAP
+          Secondary: any
+          aircraft:
+            - F-5E Tiger II
+          size: 6
+        - primary: Transport
+          aircraft:
+            - C-130
+          size: 3

@@ -102,6 +102,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("f4bc_phantom", self.f4bc_phantom)
         self.f15d_baz = QtWidgets.QCheckBox()
         self.registerField("f15d_baz", self.f15d_baz)
+        self.f_15_idf = QtWidgets.QCheckBox()
+        self.registerField("f_15_idf", self.f_15_idf)
         self.f_16_idf = QtWidgets.QCheckBox()
         self.registerField("f_16_idf", self.f_16_idf)
         self.fa_18efg = QtWidgets.QCheckBox()
@@ -155,6 +157,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
                 self.f4bc_phantom,
             ),
             ("F-15D Baz (v1.0)", self.f15d_baz),
+            ("F-15I Ra'am (v1.0 by IDF Mods Project)", self.f_15_idf),
             ("F-16I Sufa & F-16D (v3.6 by IDF Mods Project)", self.f_16_idf),
             ("F/A-18E/F/G Super Hornet (version 2.1)", self.fa_18efg),
             ("F-22A Raptor", self.f22_raptor),
@@ -167,8 +170,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("Swedish Military Assets pack (1.10)", self.swedishmilitaryassetspack),
             ("JAS 39 Gripen (v1.8.5-beta)", self.jas39_gripen),
             ("OV-10A Bronco", self.ov10a_bronco),
-            ("Su-30 Flanker-H (V2.01B)", self.su30_flanker_h),
-            ("Su-57 Felon", self.su57_felon),
+            ("Su-30 Flanker-H (V2.1.12 beta)", self.su30_flanker_h),
+            ("Su-57 Felon (build-04)", self.su57_felon),
             ("UH-60L Black Hawk (v1.3.1)", self.uh_60l),
             ("Star Wars Modpack 2.54+", self.SWPack),
             ("Spanish Naval Assets pack (desdemicabina 3.2.0)", self.spanishnavypack),
@@ -216,6 +219,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.uh_60l.setChecked(s.get("uh_60l", False))
         self.f4bc_phantom.setChecked(s.get("f4bc_phantom", False))
         self.f15d_baz.setChecked(s.get("f15d_baz", False))
+        self.f_15_idf.setChecked(s.get("f_15_idf", False))
         self.f_16_idf.setChecked(s.get("f_16_idf", False))
         self.fa_18efg.setChecked(s.get("fa_18efg", False))
         self.f22_raptor.setChecked(s.get("f22_raptor", False))

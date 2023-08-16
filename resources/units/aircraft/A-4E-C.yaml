@@ -29,3 +29,12 @@ tasks:
   SEAD Escort: 110
   Strike: 360
   TARCAP: 160
+weapon_injections:
+  1:
+    - "{AIM-9J-ON-ADAPTER}"
+  2:
+    - "{AIM-9J-ON-ADAPTER}"
+  4:
+    - "{AIM-9J-ON-ADAPTER}"
+  5:
+    - "{AIM-9J-ON-ADAPTER}"

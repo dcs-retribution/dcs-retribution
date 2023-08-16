@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Optional, Any, TYPE_CHECKING
+from typing import Any, Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from game.missiongenerator.aircraft.flightdata import FlightData
@@ -46,6 +46,9 @@ class CommonRadioChannelAllocator(RadioChannelAllocator):
     def assign_channels_for_flight(
         self, flight: FlightData, mission_data: MissionData
     ) -> None:
+        if flight.client_units and flight.squadron.radio_presets:
+            return self.assign_from_squadron_presets(flight)
+
         if self.intra_flight_radio_index is not None:
             flight.assign_channel(
                 self.intra_flight_radio_index, 1, flight.intra_flight_channel
@@ -104,6 +107,17 @@ class CommonRadioChannelAllocator(RadioChannelAllocator):
     @classmethod
     def name(cls) -> str:
         return "common"
+
+    def assign_from_squadron_presets(self, flight: FlightData) -> None:
+        presets = flight.squadron.radio_presets
+        for radio in presets:
+            radio_id = 1
+            if self.intra_flight_radio_index and radio == "intra_flight":
+                radio_id = self.intra_flight_radio_index
+            elif self.inter_flight_radio_index and radio == "inter_flight":
+                radio_id = self.inter_flight_radio_index
+            for channel, freq in enumerate(presets[radio], start=1):
+                flight.assign_channel(radio_id, channel, freq)
 
 
 @dataclass(frozen=True)
@@ -358,3 +372,37 @@ class SCR522ChannelNamer(ChannelNamer):
     @classmethod
     def name(cls) -> str:
         return "SCR-522"
+
+
+class LegacyWarthogChannelNamer(ChannelNamer):
+    """Channel namer for the legacy A-10C."""
+
+    @staticmethod
+    def channel_name(radio_id: int, channel_id: int) -> str:
+        radio_name = {
+            1: "VHF AM",
+            2: "UHF",
+            3: "VHF FM",
+        }[radio_id]
+        return f"{radio_name} Ch {channel_id}"
+
+    @classmethod
+    def name(cls) -> str:
+        return "a10c-legacy"
+
+
+class WarthogChannelNamer(ChannelNamer):
+    """Channel namer for the legacy A-10C II"""
+
+    @staticmethod
+    def channel_name(radio_id: int, channel_id: int) -> str:
+        radio_name = {
+            1: "COM 1",
+            2: "UHF",
+            3: "VHF FM",
+        }[radio_id]
+        return f"{radio_name} Ch {channel_id}"
+
+    @classmethod
+    def name(cls) -> str:
+        return "a10c-ii"

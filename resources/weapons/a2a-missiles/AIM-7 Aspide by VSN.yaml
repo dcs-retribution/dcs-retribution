@@ -1,0 +1,6 @@
+name: Aspide
+year: 1973
+fallback: AIM-7E-2
+# Italian semi-active MRAAM for F-104S
+clsids:
+  - "{VSN-Aspide}"

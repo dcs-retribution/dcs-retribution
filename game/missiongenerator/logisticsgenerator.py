@@ -43,9 +43,9 @@ class LogisticsGenerator:
             # Preload fixed wing as they do not have a pickup zone
             logistics_info.preload = logistics_info.preload or not self.flight.is_helo
             # Create the Waypoint Zone used by CTLD
-            target_zone = f"{self.group.name}TARGET_ZONE"
+            target_zone = f"{self.group.name} TARGET_ZONE"
             self.mission.triggers.add_triggerzone(
-                self.flight.flight_plan.layout.target.position,
+                self.flight.flight_plan.layout.targets[0].position,
                 self.flight.flight_plan.ctld_target_zone_radius.meters,
                 False,
                 target_zone,

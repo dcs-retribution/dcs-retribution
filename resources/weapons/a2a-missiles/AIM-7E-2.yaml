@@ -1,0 +1,7 @@
+name: AIM-7E-2
+year: 1969
+fallback: AIM-7E
+#Ignore how the CLSIDs look, these are not normal 7Es they are 7E-2 DOGFIGHT MISSILES
+clsids:
+  - "{LAU-115 - AIM-7E}"
+  - "{AIM-7E}"

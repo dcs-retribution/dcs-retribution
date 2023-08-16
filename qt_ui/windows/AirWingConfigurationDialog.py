@@ -1,4 +1,3 @@
-import logging
 from collections import defaultdict
 from typing import Iterable, Iterator, Optional
 
@@ -42,6 +41,7 @@ from game.squadrons.squadrondef import SquadronDef
 from game.theater import ControlPoint, ParkingType
 from game.theater.start_generator import GeneratorSettings
 from qt_ui.uiconstants import AIRCRAFT_ICONS, ICONS
+from qt_ui.widgets.combos.QSquadronLiverySelector import SquadronLiverySelector
 from qt_ui.widgets.combos.primarytaskselector import PrimaryTaskSelector
 
 
@@ -130,46 +130,6 @@ class SquadronBaseSelector(QComboBox):
             self.addItem("Select aircraft type first", None)
             self.setEnabled(False)
         self.update()
-
-
-class SquadronLiverySelector(QComboBox):
-    """
-    A combo box for selecting a squadron's livery.
-    The combo box will automatically be populated with all available liveries.
-    """
-
-    def __init__(self, squadron: Squadron) -> None:
-        super().__init__()
-        self.setSizeAdjustPolicy(self.AdjustToContents)
-
-        self.aircraft_type = squadron.aircraft
-        selected_livery = squadron.livery
-
-        liveries = set()
-        cc = squadron.coalition.faction.country.shortname
-        aircraft_liveries = set(self.aircraft_type.dcs_unit_type.iter_liveries())
-        if len(aircraft_liveries) == 0:
-            logging.info(f"Liveries for {self.aircraft_type} is empty!")
-        for livery in aircraft_liveries:
-            valid_livery = livery.countries is None or cc in livery.countries
-            if valid_livery or cc in ["BLUE", "RED"]:
-                liveries.add(livery)
-        faction = squadron.coalition.faction
-        overrides = [
-            x
-            for x in faction.liveries_overrides.get(self.aircraft_type, [])
-            if x in [y.id.lower() for y in liveries]
-        ]
-        if len(overrides) > 0:
-            self.addItem("Use livery overrides", userData=None)
-        for livery in sorted(liveries):
-            self.addItem(livery.name, userData=livery.id)
-            if selected_livery is not None:
-                if selected_livery.lower() == livery.id:
-                    self.setCurrentText(livery.name)
-        if len(liveries) == 0:
-            self.addItem("No available liveries (using DCS default)")
-            self.setEnabled(False)
 
 
 class SquadronSizeSpinner(QSpinBox):
@@ -729,12 +689,12 @@ class AirWingConfigurationTab(QWidget):
         bases = list(self.game.theater.control_points_for(self.coalition.player))
 
         # List of all Aircrafts possible to operate with the given bases
-        possible_aircrafts = [
+        possible_aircrafts = {
             aircraft
             for aircraft in self.coalition.faction.aircrafts
             if isinstance(aircraft, AircraftType)
             and any(base.can_operate(aircraft) for base in bases)
-        ]
+        }
 
         popup = SquadronConfigPopup(
             selected_aircraft,
@@ -849,7 +809,7 @@ class AirWingConfigurationDialog(QDialog):
 
 class SquadronAircraftTypeSelector(QComboBox):
     def __init__(
-        self, types: list[AircraftType], selected_aircraft: Optional[str]
+        self, types: set[AircraftType], selected_aircraft: Optional[str]
     ) -> None:
         super().__init__()
         self.setSizeAdjustPolicy(self.AdjustToContents)
@@ -894,7 +854,7 @@ class SquadronConfigPopup(QDialog):
     def __init__(
         self,
         selected_aircraft: Optional[str],
-        types: list[AircraftType],
+        types: set[AircraftType],
         bases: list[ControlPoint],
         squadron_defs: dict[AircraftType, list[SquadronDef]],
     ) -> None:

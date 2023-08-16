@@ -26,7 +26,11 @@ class CasIngressBuilder(PydcsWaypointBuilder):
             logging.error("No CAS waypoint found. Falling back to search and engage")
             waypoint.add_task(
                 EngageTargets(
-                    max_distance=int(nautical_miles(10).meters),
+                    max_distance=int(
+                        nautical_miles(
+                            self.flight.coalition.game.settings.cas_engagement_range_distance
+                        ).meters
+                    ),
                     targets=[
                         Targets.All.GroundUnits.GroundVehicles,
                         Targets.All.GroundUnits.AirDefence.AAA,

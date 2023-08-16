@@ -45,7 +45,12 @@ class AirWing:
             return False
 
     def best_squadrons_for(
-        self, location: MissionTarget, task: FlightType, size: int, this_turn: bool
+        self,
+        location: MissionTarget,
+        task: FlightType,
+        size: int,
+        heli: bool,
+        this_turn: bool,
     ) -> list[Squadron]:
         airfield_cache = ObjectiveDistanceCache.get_closest_airfields(location)
         best_aircraft = AircraftType.priority_list_for_task(task)
@@ -55,7 +60,9 @@ class AirWing:
                 continue
             capable_at_base = []
             for squadron in control_point.squadrons:
-                if squadron.can_auto_assign_mission(location, task, size, this_turn):
+                if squadron.can_auto_assign_mission(
+                    location, task, size, heli, this_turn
+                ):
                     capable_at_base.append(squadron)
                     if squadron.aircraft not in best_aircraft:
                         # If it is not already in the list it should be the last one
@@ -79,9 +86,14 @@ class AirWing:
         )
 
     def best_squadron_for(
-        self, location: MissionTarget, task: FlightType, size: int, this_turn: bool
+        self,
+        location: MissionTarget,
+        task: FlightType,
+        size: int,
+        heli: bool,
+        this_turn: bool,
     ) -> Optional[Squadron]:
-        for squadron in self.best_squadrons_for(location, task, size, this_turn):
+        for squadron in self.best_squadrons_for(location, task, size, heli, this_turn):
             return squadron
         return None
 

@@ -15,6 +15,7 @@ from game.settings import AutoAtoBehavior, Settings
 from game.theater import ParkingType
 from .pilot import Pilot, PilotStatus
 from ..db.database import Database
+from ..radio.radios import RadioFrequency
 from ..utils import meters
 
 if TYPE_CHECKING:
@@ -39,6 +40,7 @@ class Squadron:
     livery: Optional[str]
     primary_task: FlightType
     auto_assignable_mission_types: set[FlightType]
+    radio_presets: dict[str, list[RadioFrequency]]
     operating_bases: OperatingBases
     female_pilot_percentage: int
 
@@ -271,7 +273,12 @@ class Squadron:
         return task in self.auto_assignable_mission_types
 
     def can_auto_assign_mission(
-        self, location: MissionTarget, task: FlightType, size: int, this_turn: bool
+        self,
+        location: MissionTarget,
+        task: FlightType,
+        size: int,
+        heli: bool,
+        this_turn: bool,
     ) -> bool:
         if (
             self.location.cptype.name in ["FOB", "FARP"]
@@ -284,6 +291,15 @@ class Squadron:
         if not self.can_auto_assign(task):
             return False
         if this_turn and not self.can_fulfill_flight(size):
+            return False
+
+        if task in [FlightType.ESCORT, FlightType.SEAD_ESCORT]:
+            if heli and not self.aircraft.helicopter and not self.aircraft.lha_capable:
+                return False
+            if not heli and self.aircraft.helicopter:
+                return False
+
+        if heli and task == FlightType.REFUELING:
             return False
 
         distance_to_target = meters(location.distance_to(self.location))
@@ -416,7 +432,6 @@ class Squadron:
             for flight in list(package.flights):
                 if flight.squadron == self and flight.flight_type is FlightType.FERRY:
                     package.remove_flight(flight)
-                    flight.return_pilots_and_aircraft()
             if not package.flights:
                 self.coalition.ato.remove_package(package)
 
@@ -474,6 +489,7 @@ class Squadron:
             squadron_def.livery,
             primary_task,
             squadron_def.auto_assignable_mission_types,
+            squadron_def.radio_presets,
             squadron_def.operating_bases,
             squadron_def.female_pilot_percentage,
             squadron_def.pilot_pool,

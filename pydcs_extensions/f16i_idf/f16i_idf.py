@@ -5,7 +5,7 @@ from dcs.planes import F_16C_50, PlaneType
 from dcs.weapons_data import Weapons
 
 from game.modsupport import planemod
-from pydcs_extensions.pylon_injector import inject_pylon
+from pydcs_extensions.pylon_injector import inject_pylon, eject_pylon
 from pydcs_extensions.weapon_injector import inject_weapons
 
 
@@ -388,7 +388,20 @@ def inject_F16I() -> None:
     F_16C_50.Pylon14 = Pylon14
     F_16C_50.Pylon15 = Pylon15
     F_16C_50.Pylon16 = Pylon16
-    F_16C_50.Pylon16 = Pylon17
+    F_16C_50.Pylon17 = Pylon17
+
+
+def eject_F16I() -> None:
+    F_16C_50.pylons = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}
+
+    # Injects modified weapons from the IDF Mods Project F-16I Sufa
+    # into pydcs databases via introspection.
+    eject_pylon(F_16C_50.Pylon4, F16IDFPylon4)
+    eject_pylon(F_16C_50.Pylon6, F16IDFPylon6)
+
+    for p in [13, 14, 15, 16, 17]:
+        if hasattr(F_16C_50, f"Pylon{p}"):
+            delattr(F_16C_50, f"Pylon{p}")
 
 
 @planemod

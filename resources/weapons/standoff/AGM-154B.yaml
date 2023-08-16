@@ -1,0 +1,5 @@
+name: AGM-154B JSOW
+year: 2030
+fallback: AGM-154A JSOW
+clsids:
+  - "{AGM-154B}"

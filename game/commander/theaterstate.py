@@ -173,7 +173,11 @@ class TheaterState(WorldState["TheaterState"]):
                 cp: BattlePositions.for_control_point(cp)
                 for cp in ordered_capturable_points
             },
-            oca_targets=list(finder.oca_targets(min_aircraft=20)),
+            oca_targets=list(
+                finder.oca_targets(
+                    min_aircraft=game.settings.oca_target_autoplanner_min_aircraft_count
+                )
+            ),
             strike_targets=list(finder.strike_targets()),
             enemy_barcaps=list(game.theater.control_points_for(not player)),
             threat_zones=game.threat_zone_for(not player),

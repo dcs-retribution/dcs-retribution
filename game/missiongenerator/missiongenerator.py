@@ -259,11 +259,10 @@ class MissionGenerator:
             self.game.red.ato,
             tgo_generator.runways,
         )
-        if not self.game.settings.perf_disable_idle_aircraft:
-            aircraft_generator.spawn_unused_aircraft(
-                self.p_country,
-                self.e_country,
-            )
+        aircraft_generator.spawn_unused_aircraft(
+            self.p_country,
+            self.e_country,
+        )
 
         self.mission_data.flights = aircraft_generator.flights
 

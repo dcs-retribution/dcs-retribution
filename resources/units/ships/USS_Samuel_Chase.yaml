@@ -1,4 +1,4 @@
-class: Logistics
+class: LandingShip
 price: 0
 variants:
   LS Samuel Chase: null

@@ -22,7 +22,7 @@ class SquadronDefLoader:
     def squadron_directories() -> Iterator[Path]:
         from game import persistency
 
-        yield persistency.base_path() / "Retribution/Squadrons"
+        yield persistency.base_path() / "Retribution" / "Squadrons"
         yield Path("resources/squadrons")
 
     def load(self) -> dict[AircraftType, list[SquadronDef]]:

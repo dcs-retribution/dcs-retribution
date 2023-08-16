@@ -23,4 +23,5 @@ variants:
 tasks:
   BAI: 490
   CAS: 490
+  Escort: 80
   OCA/Aircraft: 490

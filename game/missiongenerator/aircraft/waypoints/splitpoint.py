@@ -15,7 +15,10 @@ class SplitPointBuilder(PydcsWaypointBuilder):
             ecm_option = OptECMUsing(value=OptECMUsing.Values.UseIfOnlyLockByRadar)
             waypoint.tasks.append(ecm_option)
 
-        waypoint.tasks.append(OptFormation.finger_four_close())
+        if self.flight.is_helo:
+            waypoint.tasks.append(OptFormation.rotary_wedge())
+        else:
+            waypoint.tasks.append(OptFormation.finger_four_close())
         waypoint.speed_locked = True
         waypoint.speed = self.flight.coalition.doctrine.rtb_speed.meters_per_second
         waypoint.ETA_locked = False

@@ -77,6 +77,7 @@ def load_icons():
         "./resources/ui/misc/" + get_theme_icons() + "/money_icon.png"
     )
     ICONS["Campaign Management"] = ICONS["Money"]
+    ICONS["Campaign Doctrine"] = QPixmap("./resources/ui/misc/blue-sam.png")
     ICONS["PassTurn"] = QPixmap(
         "./resources/ui/misc/" + get_theme_icons() + "/hourglass.png"
     )
@@ -202,7 +203,7 @@ def load_aircraft_icons():
                 os.path.join("./resources/ui/units/aircrafts/icons/", aircraft)
             )
     AIRCRAFT_ICONS["F-16C_50"] = AIRCRAFT_ICONS["F-16C"]
-    AIRCRAFT_ICONS["F-16A_MLU"] = AIRCRAFT_ICONS["F-16A"]
+    AIRCRAFT_ICONS["F-16A MLU"] = AIRCRAFT_ICONS["F-16A"]
     AIRCRAFT_ICONS["FA-18C_hornet"] = AIRCRAFT_ICONS["FA-18C"]
     AIRCRAFT_ICONS["A-10C_2"] = AIRCRAFT_ICONS["A-10C"]
     f1_refuel = ["Mirage-F1CT", "Mirage-F1EE", "Mirage-F1M-EE", "Mirage-F1EQ"]

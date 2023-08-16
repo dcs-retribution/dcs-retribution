@@ -31,6 +31,7 @@ from dcs.unitgroup import FlyingGroup
 
 from game.ato import Flight, FlightType
 from game.ato.flightplans.aewc import AewcFlightPlan
+from game.ato.flightplans.packagerefueling import PackageRefuelingFlightPlan
 from game.ato.flightplans.theaterrefueling import TheaterRefuelingFlightPlan
 from game.ato.flightwaypointtype import FlightWaypointType
 
@@ -56,7 +57,7 @@ class AircraftBehavior:
             self.configure_cas(group, flight)
         elif self.task == FlightType.DEAD:
             self.configure_dead(group, flight)
-        elif self.task == FlightType.SEAD:
+        elif self.task in [FlightType.SEAD, FlightType.SEAD_SWEEP]:
             self.configure_sead(group, flight)
         elif self.task == FlightType.SEAD_ESCORT:
             self.configure_sead_escort(group, flight)
@@ -254,7 +255,10 @@ class AircraftBehavior:
 
     def configure_refueling(self, group: FlyingGroup[Any], flight: Flight) -> None:
         self.configure_task(flight, group, Refueling)
-        if not isinstance(flight.flight_plan, TheaterRefuelingFlightPlan):
+        if not (
+            isinstance(flight.flight_plan, TheaterRefuelingFlightPlan)
+            or isinstance(flight.flight_plan, PackageRefuelingFlightPlan)
+        ):
             logging.error(
                 f"Cannot configure racetrack refueling tasks for {flight} because it "
                 "does not have an racetrack refueling flight plan."
@@ -322,7 +326,8 @@ class AircraftBehavior:
         )
 
     def configure_ferry(self, group: FlyingGroup[Any], flight: Flight) -> None:
-        self.configure_task(flight, group, Nothing)
+        # Every aircraft is capable of 'Nothing', but pydcs doesn't always export it
+        group.task = Nothing.name
         self.configure_behavior(
             flight,
             group,

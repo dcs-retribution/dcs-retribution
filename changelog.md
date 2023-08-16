@@ -1,3 +1,35 @@
+# Retribution v1.3.0
+
+## Features/Improvements
+* **[Package Planning]** Option to "Auto-Create" package
+* **[Modding]** Custom weapons injection system (definition in aircraft's yaml file)
+* **[Payload Editor]** Ability to save/back-up payloads
+* **[Options]** New option in Settings: CAS engagement range (nmi)
+* **[Options]** New option in Settings: Convert untasked OPFOR aircraft into client slots
+* **[Options]** Split the **Disable idle aircraft at airfields** setting into **Disable untasked BLUFOR aircraft at airfields** and **Disable untasked OPFOR aircraft at airfields**.
+* **[Options]** Split off the **Automatic AWACS package planning** and **Automatic Theater tanker package planning** settings from **Automatic package planning behavior** so players can choose to have AWACS and theater tankers auto-planned, while managing everything else themselves.
+* **[Modding]** Updated support for Su-30 mod to V2.1.12 beta
+* **[Modding]** Updated support for Su-57 mod to build-04
+* **[Radios]** Added HF-FM band for AN/ARC-222
+* **[Radios]** Ability to define preset channels for radios on squadron level (for human pilots only)
+* **[Mission Planning]** Avoid helicopters being assigned as escort to planes and vice-versa.
+* **[Mission Planning]** Allow attack helicopters to escort other helicopters
+
+## Fixes
+* **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task
+* **[New Game Wizard]** Faction selection overview doesn't update when inverting map
+* **[Payloads]** Added/Updated (missing) payloads
+* **[Aircraft Tasking]** Revised aircraft tasking, filtering out incompatible tasks for several aircraft
+* **[Data]** Corrected the class of the USS Samuel Chase from Logistics to LandingShip, in order to prevent it being spawned as part of AAA sites.
+* **[Mission Generation]** Helicopters oscillating due to over-speeding
+
+# Retribution v1.2.1 (hotfix)
+
+## Fixes
+* **[Flight Plans]** SEAD Sweep not being auto-planned
+* **[Modding]** Python-4 no longer overwrites AIM-9X
+* **[Modding]** Restore original amount of pylons to F-16C when "ejecting" sufa mod
+
 # Retribution v1.2.0
 
 ## Features/Improvements
@@ -5,8 +37,22 @@
 * **[Campaign Design]** Ability to define almost all possible settings in the campaign's yaml file.
 * **[Campaign Design]** Ability to add roadbases and/or ground spawns to campaigns.
 * **[Campaign Design]** Ability to define SCENERY REMOVE OBJECTS ZONE triggers with the roadbase objects in campaign miz. This might not work reliably in multiplayer due to DCS issues. FARPs can be used to remove scenery objects in multiplayer.
+* **[Options]** Implemented an option in settings to disable the above SCENERY REMOVE OBJECTS ZONE triggers.
 * **[Campaign Management]** Improved squadron retreat logic at longer ranges.
 * **[Options]** Ability to load & save your settings.
+* **[Options]** Added a separate Doctrine page in settings with the following new options:
+  * Minimum number of aircraft for autoplanner to plan OCA packages against 
+  * Airbase threat range (nmi)
+  * SEAD Sweep threat buffer distance (nmi)
+  * SEAD Escort/Sweep threat buffer distance (nmi)
+  * TARCAP threat buffer distance (nmi)
+  * AEW&C threat buffer distance (nmi)
+  * Theater tanker threat buffer distance (nmi)
+* **[Options]** Improved the option to configure OPFOR autoplanner aggressiveness. The AI might now take even more risks and plan missions against defended targets.
+* **[Options]** Added three new options in Settings:
+  * Autoplanner plans refueling flights for Strike packages
+  * Autoplanner plans refueling flights for OCA packages
+  * Autoplanner plans refueling flights for DEAD packages
 * **[UI]** Added fuel selector in flight's edit window.
 * **[Plugins]** Expose Splash Damage's "game_messages" option and set its default to false.
 * **[Mission Generation]** Improved AI SEAD capabilities, allowing for mixed loadouts using Decoys, ARMs & ASMs.
@@ -33,13 +79,21 @@
 * **[Plugins]** Added "EWR Jammer" plugin (only for humans, may change in the future).
 * **[Campaign]** New campaign (Operation Desert Sabre) by Chimiste
 * **[Plugins]** Updated CTLD to latest released version
+* **[Options]** Renamed Maximum frontline length -> Maximum frontline width.
+* **[Squadrons]** Add livery selector in Squadron Dialog, allowing you to change the livery during the campaign.
+* **[New Game Wizard]** Automatically invert factions when 'Invert Map' is selected.
+* **[Flight Plans]** Added "SEAD Sweep" flight plan, which basically reintroduces the legacy "SEAD Escort" flight plan where the flight will engage whatever it can find without actually escorting the primary flight.
+* **[Flight Plans]** Added SEAD capability to F-16A MLU and SEAD Escort & SEAD to F-16A. 
+* **[Mission Generation]** Spawn unused helicopters or LHA-capable aircraft at helipads at FOBs
+* **[Modding]** Support for F-15I Ra'am v1.0 by IDF Mods Project
 
 ## Fixes
 * **[New Game Wizard]** Settings would not persist when going back to a previous page (obsolete due to overhaul).
 * **[Mission Generation]** Unused aircraft are no longer claimed, fixing a bug where these aircraft would no longer be available after aborting the mission.
 * **[Mission Generation]** Fixed (potential) bug in helipad assignments at FOBs/FARPs.
 * **[Mission Generation]** Fix AI immediately returning to base when forced to air-start due to insufficient parking space.
-
+* **[Modding]** Fixed a bug where F-16Ds were not correctly removed from the faction when the F-16I/F-16D mod was not selected
+* **[UI]** Fixed F-16A MLU icon and banner.
 
 # Retribution v1.1.1  (hotfix)
 

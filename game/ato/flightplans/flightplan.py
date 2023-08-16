@@ -308,10 +308,14 @@ class FlightPlan(ABC, Generic[LayoutT]):
     def estimate_ground_ops(self) -> timedelta:
         if self.flight.start_type in {StartType.RUNWAY, StartType.IN_FLIGHT}:
             return timedelta()
-        if self.flight.from_cp.is_fleet:
+        if self.flight.from_cp.is_fleet or self.flight.from_cp.is_fob:
             return timedelta(minutes=2)
         else:
             return timedelta(minutes=8)
+
+    @property
+    def is_airassault(self) -> bool:
+        return False
 
     @property
     def mission_departure_time(self) -> timedelta:

@@ -2,6 +2,50 @@ local unitPayloads = {
 	["name"] = "F-16A",
 	["payloads"] = {
 		[1] = {
+			["name"] = "CAP",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{6D21ECEA-F85B-4E8D-9D51-31DC9B8AA4EF}",
+					["num"] = 6,
+				},
+				[2] = {
+					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
+					["num"] = 8,
+				},
+				[3] = {
+					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
+					["num"] = 3,
+				},
+				[4] = {
+					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+					["num"] = 2,
+				},
+				[5] = {
+					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+					["num"] = 9,
+				},
+				[6] = {
+					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
+					["num"] = 1,
+				},
+				[7] = {
+					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
+					["num"] = 10,
+				},
+				[8] = {
+					["CLSID"] = "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+					["num"] = 7,
+				},
+				[9] = {
+					["CLSID"] = "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+					["num"] = 4,
+				},
+			},
+			["tasks"] = {
+				[1] = 11,
+			},
+		},
+		[2] = {
 			["name"] = "CAS",
 			["pylons"] = {
 				[1] = {
@@ -45,7 +89,7 @@ local unitPayloads = {
 				[1] = 11,
 			},
 		},
-		[2] = {
+		[3] = {
 			["name"] = "STRIKE",
 			["pylons"] = {
 				[1] = {
@@ -54,64 +98,10 @@ local unitPayloads = {
 				},
 				[2] = {
 					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
-					["num"] = 3,
-					["settings"] = {
-						["GUI_fuze_type"] = 1,
-						["arm_delay_ctrl_FMU139CB_LD"] = 1,
-						["function_delay_ctrl_FMU139CB_LD"] = 0,
-					},
+					["num"] = 8,
 				},
 				[3] = {
-					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
-					["num"] = 2,
-				},
-				[4] = {
-					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
-					["num"] = 9,
-				},
-				[5] = {
-					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
-					["num"] = 1,
-				},
-				[6] = {
-					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
-					["num"] = 10,
-				},
-				[7] = {
-					["CLSID"] = "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
-					["num"] = 4,
-				},
-				[8] = {
-					["CLSID"] = "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
-					["num"] = 7,
-				},
-				[9] = {
 					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
-					["num"] = 8,
-					["settings"] = {
-						["GUI_fuze_type"] = 1,
-						["arm_delay_ctrl_FMU139CB_LD"] = 1,
-						["function_delay_ctrl_FMU139CB_LD"] = 0,
-					},
-				},
-			},
-			["tasks"] = {
-				[1] = 11,
-			},
-		},
-		[3] = {
-			["name"] = "CAP",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{6D21ECEA-F85B-4E8D-9D51-31DC9B8AA4EF}",
-					["num"] = 6,
-				},
-				[2] = {
-					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
-					["num"] = 8,
-				},
-				[3] = {
-					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
 					["num"] = 3,
 				},
 				[4] = {
@@ -132,11 +122,11 @@ local unitPayloads = {
 				},
 				[8] = {
 					["CLSID"] = "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
-					["num"] = 4,
+					["num"] = 7,
 				},
 				[9] = {
 					["CLSID"] = "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
-					["num"] = 7,
+					["num"] = 4,
 				},
 			},
 			["tasks"] = {
@@ -195,11 +185,11 @@ local unitPayloads = {
 					["num"] = 6,
 				},
 				[2] = {
-					["CLSID"] = "{E6A6262A-CA08-4B3D-B030-E1A993B98453}",
+					["CLSID"] = "{B06DD79A-F21E-4EB9-BD9D-AB3844618C93}",
 					["num"] = 8,
 				},
 				[3] = {
-					["CLSID"] = "{E6A6262A-CA08-4B3D-B030-E1A993B98452}",
+					["CLSID"] = "{B06DD79A-F21E-4EB9-BD9D-AB3844618C93}",
 					["num"] = 3,
 				},
 				[4] = {
@@ -224,6 +214,50 @@ local unitPayloads = {
 				},
 				[9] = {
 					["CLSID"] = "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+					["num"] = 4,
+				},
+			},
+			["tasks"] = {
+				[1] = 11,
+			},
+		},
+		[6] = {
+			["name"] = "Retribution SEAD Sweep",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{8A0BE8AE-58D4-4572-9263-3144C0D06364}",
+					["num"] = 6,
+				},
+				[2] = {
+					["CLSID"] = "LAU_88_AGM_65H_2_R",
+					["num"] = 8,
+				},
+				[3] = {
+					["CLSID"] = "LAU_88_AGM_65H_2_L",
+					["num"] = 3,
+				},
+				[4] = {
+					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+					["num"] = 2,
+				},
+				[5] = {
+					["CLSID"] = "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+					["num"] = 9,
+				},
+				[6] = {
+					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
+					["num"] = 1,
+				},
+				[7] = {
+					["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
+					["num"] = 10,
+				},
+				[8] = {
+					["CLSID"] = "{B06DD79A-F21E-4EB9-BD9D-AB3844618C93}",
+					["num"] = 7,
+				},
+				[9] = {
+					["CLSID"] = "{B06DD79A-F21E-4EB9-BD9D-AB3844618C93}",
 					["num"] = 4,
 				},
 			},

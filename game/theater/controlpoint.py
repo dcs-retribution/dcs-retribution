@@ -627,6 +627,13 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         return False
 
     @property
+    def is_fob(self) -> bool:
+        """
+        :return: Whether this control point is a FOB
+        """
+        return False
+
+    @property
     def moveable(self) -> bool:
         """
         :return: Whether this control point can be moved around
@@ -1558,6 +1565,8 @@ class Fob(ControlPoint, RadioFrequencyContainer, CTLD):
         if not self.is_friendly(for_player):
             yield FlightType.STRIKE
             yield FlightType.AIR_ASSAULT
+            if self.total_aircraft_parking(ParkingType(True, True, True)):
+                yield FlightType.OCA_AIRCRAFT
         else:
             yield FlightType.AEWC
 
@@ -1602,6 +1611,13 @@ class Fob(ControlPoint, RadioFrequencyContainer, CTLD):
     @property
     def income_per_turn(self) -> int:
         return 10
+
+    @property
+    def is_fob(self) -> bool:
+        """
+        :return: Whether this control point is a FOB
+        """
+        return True
 
     @property
     def category(self) -> str:

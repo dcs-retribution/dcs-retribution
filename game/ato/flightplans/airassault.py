@@ -4,12 +4,15 @@ from dataclasses import dataclass
 from datetime import timedelta
 from typing import Iterator, TYPE_CHECKING, Type
 
-from game.ato.flightplans.standard import StandardFlightPlan, StandardLayout
 from game.theater.controlpoint import ControlPointType
 from game.theater.missiontarget import MissionTarget
 from game.utils import Distance, feet, meters
 from ._common_ctld import generate_random_ctld_point
-from .ibuilder import IBuilder
+from .formationattack import (
+    FormationAttackLayout,
+    FormationAttackBuilder,
+    FormationAttackFlightPlan,
+)
 from .planningerror import PlanningError
 from .uizonedisplay import UiZone, UiZoneDisplay
 from .waypointbuilder import WaypointBuilder
@@ -22,38 +25,38 @@ if TYPE_CHECKING:
 
 
 @dataclass
-class AirAssaultLayout(StandardLayout):
+class AirAssaultLayout(FormationAttackLayout):
     # The pickup point is optional because we don't always need to load the cargo. When
     # departing from a carrier, LHA, or off-map spawn, the cargo is pre-loaded.
-    pickup: FlightWaypoint | None
-    nav_to_ingress: list[FlightWaypoint]
-    ingress: FlightWaypoint
-    drop_off: FlightWaypoint | None
+    pickup: FlightWaypoint | None = None
+    drop_off: FlightWaypoint | None = None
     # This is an implementation detail used by CTLD. The aircraft will not go to this
     # waypoint. It is used by CTLD as the destination for unloaded troops.
-    target: FlightWaypoint
-    nav_to_home: list[FlightWaypoint]
 
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
         yield self.departure
         if self.pickup is not None:
             yield self.pickup
-        yield from self.nav_to_ingress
+        yield from self.nav_to
         yield self.ingress
         if self.drop_off is not None:
             yield self.drop_off
-        yield self.target
-        yield from self.nav_to_home
+        yield self.targets[0]
+        yield from self.nav_from
         yield self.arrival
         if self.divert is not None:
             yield self.divert
         yield self.bullseye
 
 
-class AirAssaultFlightPlan(StandardFlightPlan[AirAssaultLayout], UiZoneDisplay):
+class AirAssaultFlightPlan(FormationAttackFlightPlan, UiZoneDisplay):
     @staticmethod
     def builder_type() -> Type[Builder]:
         return Builder
+
+    @property
+    def is_airassault(self) -> bool:
+        return True
 
     @property
     def tot_waypoint(self) -> FlightWaypoint:
@@ -61,9 +64,19 @@ class AirAssaultFlightPlan(StandardFlightPlan[AirAssaultLayout], UiZoneDisplay):
             return self.layout.drop_off
         return self.layout.target
 
+    @property
+    def ingress_time(self) -> timedelta:
+        tot = self.tot
+        travel_time = self.travel_time_between_waypoints(
+            self.layout.ingress, self.layout.drop_off
+        )
+        return tot - travel_time
+
     def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
-        if waypoint == self.tot_waypoint:
+        if waypoint is self.tot_waypoint:
             return self.tot
+        elif waypoint is self.layout.ingress:
+            return self.ingress_time
         return None
 
     def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
@@ -84,7 +97,7 @@ class AirAssaultFlightPlan(StandardFlightPlan[AirAssaultLayout], UiZoneDisplay):
         )
 
 
-class Builder(IBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
+class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
     def layout(self) -> AirAssaultLayout:
         if not self.flight.is_helo and not self.flight.is_hercules:
             raise PlanningError(
@@ -130,7 +143,7 @@ class Builder(IBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
         return AirAssaultLayout(
             departure=builder.takeoff(self.flight.departure),
             pickup=pickup,
-            nav_to_ingress=builder.nav_path(
+            nav_to=builder.nav_path(
                 pickup_position,
                 self.package.waypoints.ingress,
                 altitude,
@@ -142,8 +155,8 @@ class Builder(IBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
                 self.package.target,
             ),
             drop_off=dz,
-            target=assault_area,
-            nav_to_home=builder.nav_path(
+            targets=[assault_area],
+            nav_from=builder.nav_path(
                 drop_off_zone.position,
                 self.flight.arrival.position,
                 altitude,
@@ -152,6 +165,10 @@ class Builder(IBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
             arrival=builder.land(self.flight.arrival),
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
+            hold=None,
+            join=builder.join(pickup_position),
+            split=builder.split(self.package.waypoints.split),
+            refuel=None,
         )
 
     def build(self) -> AirAssaultFlightPlan:

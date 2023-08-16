@@ -2,7 +2,7 @@ from pathlib import Path
 
 
 MAJOR_VERSION = 1
-MINOR_VERSION = 2
+MINOR_VERSION = 3
 MICRO_VERSION = 0
 
 
@@ -172,7 +172,7 @@ VERSION = _build_version_string()
 #: * Support for scenery objectives defined by quad zones.
 #: * Campaign designers can now define almost all settings:
 #:    `settings:`
-#:    `  max_frontline_length: 25`        (in km)
+#:    `  max_frontline_width: 25`        (in km)
 #:    `  perf_culling_distance: 35`    (in km)
 #:
 #: Version 10.6

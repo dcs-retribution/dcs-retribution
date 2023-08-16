@@ -1,13 +1,15 @@
 {
   "country": "Vietnam",
   "name": "Vietnam 1970",
-  "authors": "Ton 'Mad Max' Carcer",
+  "authors": "NoGoodNews",
   "description": "<p>North Vietnamese armed forces as of 1970.</p>",
   "aircrafts": [
     "MiG-15bis Fagot",
     "MiG-19P Farmer-B",
     "MiG-21bis Fishbed-N",
-    "Mi-8MTV2 Hip"
+    "Mi-8MTV2 Hip",
+	"An-26B",
+	"An-30M"
   ],
   "awacs": [
   ],
@@ -40,13 +42,11 @@
   ],
   "preset_groups": [
     "SA-2/S-75",
-    "SA-2/S-75 with ZSU-23/57",
     "HQ-2",
 	"Cold-War-Flak"
   ],
   "air_defense_units": [
     "AAA KS-19 100mm",
-    "AAA 100mm KS-19",
 	"8.8 cm Flak 18",
 	"S-60 57mm",
 	"AAA ZU-23 Closed Emplacement",
@@ -64,7 +64,8 @@
 	"MiG-15bis Fagot": [
 		"VPAF MiG-17 Shiny",
 		"VPAF MiG-17 Red Tips",
-		"VPAF MiG-17 Red Tail"
+		"VPAF MiG-17 Red Tail",
+		"VPAF Jungle_Camo"
 		],
     "MiG-19P Farmer-B": [
 		"VPAF Green",
@@ -76,18 +77,23 @@
 		"VPAF - 925th Hanoi Noi Bai",
 		"VPAF - 927th Fighter Regiment Metal",
 		"VPAF - 927th Lam Son - 6122",
-		"VPAF - 929th Da Nang Int"
+		"VPAF - 5121 Pham Tuan  921st FR Yen Bai",
+		"VPAF - 5015 Red"
 	],
     "Mi-8MTV2 Hip": [
 		"North Vietnam"
+	],
+	"An-26B": [
+		"CCCP Aeroflot An-26B"
+	],
+	"An-30M": [
+		"China CAAC"
 	]
   },
   "liveries_overrides_ground_forces":{
-		"BTR-80": ["autumn"],
-		"Infantry AK": [
-          "VIETNAM",
-          "CHINA",
-          "CHINAWOOD"
-        ]
+		"BTR-80":				["autumn"],
+		"Infantry AK":			["VIETNAM",
+								"CHINA",
+								"CHINAWOOD"]
 	}
 }

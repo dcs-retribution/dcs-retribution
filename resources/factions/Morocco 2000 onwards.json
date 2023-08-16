@@ -1,0 +1,125 @@
+{
+  "country": "Morocco",
+  "name": "Morocco 2000 onwards",
+  "authors": "NoGoodNews",
+  "description": "<p>Morocco 2000 onwards<p>",
+  "locales": [
+    "ar_JO"
+  ],
+  "aircrafts": [
+    "F-16CM Fighting Falcon (Block 50)",
+	"F-5E Tiger II",
+	"Mirage-F1CE",
+    "Mirage-F1EE",
+	"C-130",
+	"UH-1H Iroquois",
+	"CH-47D",
+	"SA 342M Gazelle",
+	"AH-64D Apache Longbow"
+  ],
+  "awacs": [],
+  "frontline_units": [
+    "M1A2 Abrams",
+	"T-72B with Kontakt-1 ERA",
+	"T-90A",
+	"AMX-13 90mm",
+	"AMX-10 RCR",
+    "M60A3 \"Patton\"",
+	"M113",
+	"BMP-1",
+	"BMP-2",
+	"BMP-3",
+	"VBCI",
+	"M1043 HMMWV (M2 HMG)",
+	"M1045 HMMWV (BGM-71 TOW)"
+  ],
+  "artillery_units": [
+	"M109A6 Paladin",
+	"BM-21 Grad"
+	],
+  "logistics_units": [
+    "Truck GAZ-66",
+	"Truck KAMAZ 43101",
+	"Truck Bedford",
+	"Truck Opel Blitz"
+  ],
+  "infantry_units": [
+    "Insurgent AK-74",
+    "Infantry AK-74 Rus",
+	"Infantry RPG",
+	"MANPADS SA-18 Igla \"Grouse\" Ins"
+  ],
+  "preset_groups": [
+    "Hawk",
+    "Patriot",
+	"SA-10B/S-300PS"
+  ],
+  "naval_units": [
+    "DDG Arleigh Burke IIa",
+    "FAC La Combattante IIa"
+
+  ],
+  "missiles": [],
+  "air_defense_units": [
+    "M163 Vulcan Air Defense System",
+	"AAA ZU-23 Emplacement"
+  ],
+  "requirements": {},
+  "has_jtac": false,
+  "doctrine": "modern",
+  "liveries_overrides": {
+    "C-130": 				["Morocco"],
+	"F-5E Tiger II": 		["MRAF"],
+	"Mirage-F1CE": 			["VI Escadre de chasse Atlas"],
+    "Mirage-F1EE": 			["VI Escadre de chasse Atlas"],
+	"Mirage 2000C": 		["MRAF"],
+	"F-16CM Fighting Falcon (Block 50)": ["RMFA"],
+    "UH-1H Iroquois": 		["Morocco"],
+	"CH-47D": 				["Morocco"],
+	"SA 342M Gazelle": 		["Royal Moroccan Air Force",
+							"Morocco"],
+	"AH-64D Apache Longbow": ["IRIAA"]
+  },
+  "liveries_overrides_ground_forces":{
+	"BMP-1":				["desert"],
+	"BMP-2": 				["desert"],
+	"BMP-3": 				["desert"],
+	"GAZ-66":				["desert"],
+	"Hawk ln": 				["desert"],
+	"Hawk pcp": 			["desert"],
+	"Hawk sr": 				["desert"],
+	"Hawk tr": 				["desert"],
+	"Igla manpad INS": 		["desert"],
+	"Infantry AK": 			["desert"],
+	"Infantry AK Ins": 		["Insurgent 1",
+							"Insurgent 10",
+							"Insurgent 2",
+							"Insurgent 3",
+							"Insurgent 4",
+							"Insurgent 5",
+							"Insurgent 6",
+							"Insurgent 7",
+							"Insurgent 8",
+							"Insurgent 9"],
+	"KAMAZ Truck": 			["desert"],
+	"M-1 Abrams": 			["Morocco"],
+	"M1043 HMMWV Armament": ["desert"],
+	"M1045 HMMWV TOW": 		["desert"],
+	"M-109": 				["desert"],
+	"Grad-URAL":			["desert"],
+	"M-113": 				["desert"],
+	"M-60": 				["desert"],
+	"Patriot AMG": 			["desert"],
+	"Patriot cp": 			["desert"],
+	"Patriot ECS": 			["desert"],
+	"Patriot EPP": 			["desert"],
+	"Patriot ln": 			["desert"],
+	"Patriot str": 			["desert"],
+	"S-300PS 64H6E TRAILER sr": ["desert"],
+	"Soldier RPG": 			["desert"],
+	"T-72B": 				["desert"],
+	"T-90": 				["desert"],
+	"Vulcan": 				["desert"],
+	"ZU-23 Emplacement": 	["desert"]
+  }
+}

@@ -26,4 +26,5 @@ tasks:
   OCA/Runway: 200
   Strike: 50
   TARCAP: 250
-
+  SEAD: 110
+  SEAD Sweep: 110

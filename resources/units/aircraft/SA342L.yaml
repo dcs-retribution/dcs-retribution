@@ -23,4 +23,5 @@ kneeboard_units: "metric"
 tasks:
   BAI: 450
   CAS: 450
+  Escort: 100
   OCA/Aircraft: 450

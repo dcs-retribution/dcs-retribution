@@ -1,348 +1,634 @@
 ---
 name: Caucasus - 1968 Yankee Station
 theater: Caucasus
-authors: Ton "Mad Max" Carcer
-description: <p>1968 fictional recreation of the Vietnam war. US Navy carriers are on station on the gulf in denominated "Yankee Station" area and will support ground troops progressing towards Saigon. Supported from Laos and Cambodia through the famous "Ho Chi Minh Trail" B-52s from Tahiland and Guam will help with saturation bombardments if available. Co-In missios can be flown with Broncos in the forest canyons and - of course - full action from the carriers will be done by Phantoms, Intruders and Skyhawks. Pump up the volume of your copy of "Fortunate Son" and enjoy</p>
+authors: NoGoodNews
+description: 
+    <p>1968 fictional recreation of the Vietnam war.</p><p>US Navy carriers are on station on the gulf in denominated "Yankee Station" 
+    area and will support ground troops defending from Vietcong attacks progressing towards Saigon.</p> 
+    Enemy supplies are sent from FOBs in Laos and Cambodia, through the famous "Ho Chi Minh Trail"</p>
+    <p>B-52s from Tahiland and Guam will help with saturation bombardments if available.<p></p>Co-In missios can be flown with Broncos in the 
+    forest valleys and canyons to attack enemy convoys. And - of course - full action from the carriers will be done by Phantoms, Intruders and 
+    Skyhawks.</p><p><strong>Pump up the volume of your copy of "Fortunate Son" and enjoy</strong></p>
+
 recommended_player_faction: USA 1970 Vietnam War
 recommended_enemy_faction: Vietnam 1970
 recommended_start_date: 1968-06-13
-recommended_player_money: 1200
+recommended_player_money: 3000
 recommended_enemy_money: 1000
-recommended_player_income_multiplier: 1.2
-recommended_enemy_income_multiplier: 0.7
+recommended_player_income_multiplier: 2.0
+recommended_enemy_income_multiplier: 1.0
 miz: 1968_Yankee_Station.miz
 performance: 2
 version: "10.6"
-advanced_iads: false
+advanced_iads: true
 
-ground_forces:
-  Ho Chi Min Trail 2-3: SA-2/S-75 with ZSU-23/57
+settings:
+  automate_runway_repair: true
+  automate_front_line_reinforcements: true
+  automate_aircraft_reinforcements: false
+  no_enemy_navy: false
+  desired_player_mission_duration: 60
+  external_views_allowed: true
+  max_frontline_length: 30
+ 
+ #Mods to be used
+  a4_skyhawk: true
+  a6a_intruder: true
+  a7e_corsair2: true
+  f4bc_phantom: true
+  f15d_baz: false
+  f_16_idf: false
+  fa_18efg: false
+  f22_raptor: false
+  f84g_thunderjet: false
+  f100_supersabre: true
+  f104_starfighter: true
+  f105_thunderchief: true
+  hercules: false
+  uh_60l: false
+  jas39_gripen: false
+  su30_flanker_h: false
+  su57_felon: false
+  frenchpack: false
+  high_digit_sams: false
+  ov10a_bronco: true
+  swedishmilitaryassetspack: false
 
-#        
+# Difficulty settings
+# AI Difficulty
+  player_skill: "Excellent"
+  enemy_skill:  "Average"
+  enemy_vehicle_skill: "Average"
+  invulnerable_player_pilots: true
+  manpads: false
+  night_day_missions: NightMissions.OnlyDay
+        #"Night/day mission options"
+        #choices:   
+            # NightMissions.DayAndNight
+            # NightMissions.OnlyDay
+            # NightMissions.OnlyNight
+        #default=NightMissions.DayAndNight
+
+# Mission Restrictions
+  labels: "Dot Only"
+        #In game labels
+        #choices:
+            # "Full"
+            # "Abbreviated"
+            # "Dot Only"
+            # "Neutral Dot"
+            # "Off"
+        #default="Full"
+
+
+
+#Squadrons and order of battle settings        
 squadrons:
     #US NAVY
-    #CV-59 Forrestal
+    #CV-61 Ranger
     Naval-1:
         - primary: AEW&C
           aircraft: 
             - VAW-122 #Steeljaws - E-2 Hawkeye
+          size: 2
 
         - primary: Refueling
           aircraft: 
             - VS-28 (Tanker) #Gamblers - S-3B Viking
-        
+          size: 2
+          
         - primary: BARCAP
           secondary: air-to-air
           aircraft: 
             - VMFA-531 #Grey Ghosts - F-4B Phantom II
-            
+          size: 12
+          
         - primary: BARCAP
           secondary: air-to-air
           aircraft: 
             - VF-151 #Vigilantes - F-4B Phantom II
-            
+          size: 12
+
         - primary: Strike
           secondary: air-to-ground
           aircraft: 
             - VF-14 #Tophatters - F-4B Phantom II
-        
+          size: 12
+          
         - primary: Strike
           secondary: air-to-ground
           aircraft:
-            - A-6A Intruder
-            
+            - VA-176 Thunderbolts #A-6A Intruder
+          size: 12
+          
+        - primary: Strike
+          secondary: air-to-ground
+          aircraft:
+            - VA-165 Boomers #A-6A Intruder
+          size: 12
+          
+        - primary: Strike
+          secondary: air-to-ground
+          aircraft:
+            - VA-147 #Argonauts - A-7E Corsair II
+          size: 12
+          
+        - primary: Strike
+          secondary: air-to-ground
+          aircraft:
+            - VA-305 #Lobos - A-7E Corsair II
+          size: 12
+          
         - primary: SEAD
           secondary: air-to-ground
           aircraft:
-            - VMA-46 #Clansmen - A-4E
-        
+            - VA-46 Clansmen #Clansmen A-4E
+          size: 12
+          
+        - primary: Strike
+          secondary: air-to-ground
+          aircraft:
+            - VA-55 Warhorses #Warhorses - A-4E
+          size: 12
+          
         - primary: Air Assault
           secondary: any
           aircraft:
             - CH-53E
-     
-    #CV-61 Ranger
+          size: 2
+    #CV-59 Forrestal
     Naval-2:
         - primary: AEW&C
           aircraft: 
             - VAW-123 #Screwtops - E-2 Hawkeye
-
+          size: 2
+          
         - primary: Refueling
           aircraft: 
             - VS-24 (Tanker) #Scouts - S-3B Viking
-        
+          size: 2
+          
         - primary: BARCAP
           secondary: air-to-air
           aircraft: 
             - VF-84 #Jolly Rogers - F-4B Phantom II
-            
+          size: 12
+          
         - primary: BARCAP
           secondary: air-to-air
           aircraft: 
             - VF-111 #Sundowners - F-4B Phantom II
-            
+          size: 12
+          
         - primary: Strike
           secondary: air-to-ground
           aircraft: 
             - VF-41 #Black Aces - F-4B Phantom II
-        
+          size: 12
+          
         - primary: Strike
           secondary: air-to-ground
           aircraft:
-            - A-6A Intruder
-                  
+            - VA-34 Blue Blasters #A-6A Intruder
+          size: 12
+          
+        - primary: Strike
+          secondary: air-to-ground
+          aircraft:
+            - VA-196 Main Battery #A-6A Intruder
+          size: 12
+          
+        - primary: Strike
+          secondary: air-to-ground
+          aircraft:
+            - VA-12 #Flying Ubangis - A-7E Corsair II
+          size: 12
+          
+        - primary: Strike
+          secondary: air-to-ground
+          aircraft:
+            - VA-113 #Stingers - A-7E Corsair II
+          size: 12
+          
         - primary: SEAD
           secondary: air-to-ground
           aircraft:
-            - VMA-144 #Roadruners - A-4E
-        
+            - VMA-144 Roadrunners #Roadruners - A-4E
+          size: 12
+          
+        - primary: Strike
+          secondary: air-to-ground
+          aircraft:
+            - VA-212 #Rampant Riders - A-4E
+          size: 12
+          
         - primary: Transport
           secondary: any
           aircraft:
             - CH-53E
-
+          size: 2
     #USAF
     #Guam (Andersen AFB)
     Guam:
        - primary: Strike
          aircraft:
-           - B-52H Stratofortress
-        
+           - 43d Strategic Wing #B-52H Stratofortress
+         size: 4
+          
+       - primary: Strike
+         aircraft:
+           - 0038 43d Strategic Wing 0038 #B-52H Stratofortress
+         size: 4
+          
        - primary: Refueling
          aircraft: 
            - KC-135 Stratotanker        
-            
+         size: 2
+          
        - primary: Escort
          secondary: air-to-air
          aircraft: 
            - F-4E Phantom II
+         size: 12
        
        - primary: Escort
          secondary: air-to-air
          aircraft: 
            - F-104G Starfighter 
-
+         size: 12
+          
+       - primary: Transport
+         secondary: any
+         aircraft:
+           - C-130
+         size: 4
     #Da Nang 
     21: #Gudauta
        - primary: CAS
          secondary: air-to-ground
          aircraft:
-           - VAL 4 Black Ponies
-           
+           - VMA-311 Tomcats #Tomcats - A-4E
+         size: 12
+       
+       - primary: CAS
+         secondary: air-to-ground
+         aircraft:
+           - VAL 4 Black Ponies #OV-10A Bronco
+         size: 8
+
        - primary: CAS
          secondary: air-to-ground
          aircraft:
            - AH-1W SuperCobra
+         size: 4
            
        - primary: CAS
          secondary: air-to-ground
          aircraft:
-           - 20th TASS FAC
-        
+           - 20th TASS FAC #OV-10A Bronco
+         size: 8
+          
+       - primary: Transport
+         secondary: any
+         aircraft:
+           - C-130
+         size: 4
+         
        - primary: Air Assault
          secondary: any
          aircraft:
            - CH-53E        
-            
+         size: 2
+         
        - primary: Air Assault
          secondary: any
          aircraft:
            - CH-47D
-       
+         size: 2
+         
        - primary: Air Assault
          secondary: any
          aircraft:
            - UH-1H Iroquois
-       
+         size: 4
+         
        - primary: Transport
          secondary: any
          aircraft:
            - UH-1H Iroquois
-           
-    #FOB Keh-Sahn
-    FOB Keh-Sahn:
+         size: 4
+
+    #FOB Khe-Sahn
+    FOB Khe-Sahn:
                  
        - primary: CAS
          secondary: air-to-ground
          aircraft:
            - AH-1W SuperCobra
-              
+         size: 4
+         
        - primary: Air Assault
          secondary: any
          aircraft:
            - UH-1H Iroquois
-       
+         size: 4
+         
        - primary: Transport
          secondary: any
          aircraft:
            - UH-1H Iroquois 
+         size: 4
 
- 
     #Nah Trang 
     18: #Sochi-Adler
        - primary: CAS
          secondary: air-to-ground
          aircraft:
            - F-5E Tiger II
-        
+         size: 8
+         
        - primary: Strike
          secondary: air-to-ground
          aircraft:
            - F-100 Super Sabre        
-            
+         size: 12
+         
        - primary: Transport
          secondary: any
          aircraft:
            - C-130
-           
+         size: 4
+         
        - primary: Transport
          secondary: any
          aircraft:
            - CH-47D
-    
+         size: 2
+         
     #Ubon (Tahiland)
     16: #Maykop-Khanskaya
        - primary: Refueling
          aircraft:
             - KC-130
-       
+         size: 2
+         
        - primary: Transport
          secondary: any
          aircraft:
            - C-130
-       
+         size: 4
+         
        - primary: Transport
          secondary: any
          aircraft:
            - CH-47D
-       
+         size: 2
+         
        - primary: BARCAP
          secondary: air-to-air
          aircraft:
-           - F-104C Starfighter
-        
+           - 435th TFS #Deadly Black Eagles - F-104C Starfighter
+         size: 12
+
+       - primary: BARCAP
+         secondary: air-to-air
+         aircraft:
+           - 479th TFS #Deadly Black Eagles - F-104C Starfighter
+         size: 12
+
        - primary: Strike
          secondary: air-to-ground
          aircraft:
            - F-4C Phantom II
+         size: 12
+
+       - primary: Strike
+         secondary: air-to-ground
+         aircraft:
+           - 307th Strategic Wing #B-52H Stratofortress
+         size: 4
+         
+       - primary: Strike
+         secondary: air-to-ground
+         aircraft:
+           - 0059 307th Strategic Wing #B-52H Stratofortress
+         size: 4
+         
+       - primary: Strike
+         secondary: air-to-ground
+         aircraft:
+           - VA-354 TFW Bulldogs #A-7E Corsair II  
+         size: 12
     
     #Saigon
     15: #Krymsk
       - primary: Refueling
         aircraft:
            - KC-135 Stratotanker
-            
+        size: 2
+         
       - primary: Transport
         secondary: any
         aircraft:
           - C-130
-
+        size: 4
+         
       - primary: BARCAP
         secondary: air-to-air
         aircraft:
           - F-4C Phantom II
-      
+        size: 12
+
       - primary: SEAD
         secondary: air-to-ground
         aircraft:
           - F-105G Thunderchief
-        
+        size: 12
+         
       - primary: Strike
         secondary: air-to-ground
         aircraft:
           - F-105D Thunderchief        
-            
+        size: 12
+        
       - primary: Transport
         secondary: any
         aircraft:
           - CH-47D
-           
+        size: 4
     #Vietnam 
     
-    #Batumi
-    22:
+    #Hai Pong 
+    22: #Batumi
       - primary: CAS
         secondary: air-to-ground
         aircraft:
           - Mi-8MTV2 Hip
-          
+        size: 4
+
       - primary: BAI
         secondary: air-to-ground
         aircraft:
           - MiG-15bis Fagot
-          
+        size: 12
+
       - primary: BARCAP
         secondary: air-to-air
         aircraft:
           - MiG-19P Farmer-B
-        
-    #Senaki-Kholki
-    23:
+        size: 12
+
+    #Vinh
+    23: #Kobuleti
       - primary: CAS
         secondary: air-to-ground
         aircraft:
           - Mi-8MTV2 Hip
-          
+        size: 4
+
       - primary: BAI
         secondary: air-to-ground
         aircraft:
           - MiG-15bis Fagot
-          
+        size: 12
+
       - primary: Transport
         aircraft:
           - Mi-8MTV2 Hip
-          
-    #Kobuleti
-    24:
+        size: 4
+        
+    #Thanh Hoa
+    24: #Senaki
       - primary: CAS
         secondary: air-to-ground
         aircraft:
           - MiG-15bis Fagot
-          
+        size: 12
+
       - primary: BAI
         secondary: air-to-ground
         aircraft:
           - MiG-19P Farmer-B
-          
+        size: 12
+
       - primary: BARCAP
         secondary: air-to-air
         aircraft:
           - MiG-19P Farmer-B
-        
-    # Kutaisi
-    25:
+        size: 12
+
+    # Hanoi
+    25: #Kutaisi
       - primary: BARCAP
         aircraft:
           - MiG-15bis Fagot
-          
-    # Tbilisi-Lochini 
-    29:
+        size: 12
+
       - primary: BARCAP
         aircraft:
-          - VPAF - 921st Sao Do - 5040
-      - primary: Transport
-        aircraft:
-          - An-30M
-          - An-26B    #Sukhumi-Babushara
-    20: 
+          - MiG-21bis Fishbed-N
+        size: 8
+
+    #Don Hoi 
+    20: #Sukhumi
       - primary: BARCAP
         aircraft:
-          - VPAF - 927th Fighter Regiment
-      
+          - MiG-21bis Fishbed-N
+        size: 8
+
       - primary: BARCAP
         aircraft:
-          - VPAF - 927th Lam Son - 6122
-    
-    # Beslan
-    32:
+          - MiG-21bis Fishbed-N
+        size: 8
+
+    # Dien Bien Phu 
+    32: #Beslan
       - primary: Transport
         aircraft:
           - An-26B
           - An-30M
-    
-    # Soganlug
-    30:
+        size: 4
+
+    # Yen Bai  
+    29: #Tbilisi-Lochini
+      - primary: BARCAP
+        aircraft:
+          - MiG-21bis Fishbed-N
+        size: 8
+
       - primary: Transport
         aircraft:
           - An-30M
           - An-26B
+        size: 4
+
+    # Yen Bai 
+    Soganlug: #Songalung
+      - primary: Transport
+        aircraft:
+          - An-30M
+          - An-26B
+        size: 4
+
+    #FOB Cambodia
+    FOB Cambodia:
+                 
+       - primary: CAS
+         secondary: air-to-ground
+         aircraft:
+           - Mi-8MTV2 Hip
+         size: 4
+
+       - primary: Air Assault
+         secondary: any
+         aircraft:
+           - Mi-8MTV2 Hip
+         size: 4
+
+       - primary: Transport
+         secondary: any
+         aircraft:
+           - Mi-8MTV2 Hip 
+         size: 4
+
+    #FOB Thailand
+    FOB Thailand:
+                 
+       - primary: CAS
+         secondary: air-to-ground
+         aircraft:
+           - Mi-8MTV2 Hip
+         size: 4
+
+       - primary: Air Assault
+         secondary: any
+         aircraft:
+           - Mi-8MTV2 Hip
+         size: 4
+
+       - primary: Transport
+         secondary: any
+         aircraft:
+           - Mi-8MTV2 Hip
+         size: 4
+
+    #FOB Laos
+    FOB Laos:
+                 
+       - primary: CAS
+         secondary: air-to-ground
+         aircraft:
+           - Mi-8MTV2 Hip
+         size: 4
+
+       - primary: Air Assault
+         secondary: any
+         aircraft:
+           - Mi-8MTV2 Hip
+         size: 4
+
+       - primary: Transport
+         secondary: any
+         aircraft:
+           - Mi-8MTV2 Hip
+         size: 4

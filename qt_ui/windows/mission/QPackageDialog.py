@@ -29,6 +29,7 @@ from qt_ui.uiconstants import EVENT_ICONS
 from qt_ui.widgets.QFrequencyWidget import QFrequencyWidget
 from qt_ui.widgets.ato import QFlightList
 from qt_ui.windows.QRadioFrequencyDialog import QRadioFrequencyDialog
+from qt_ui.windows.mission.QAutoCreateDialog import QAutoCreateDialog
 from qt_ui.windows.mission.flight.QFlightCreator import QFlightCreator
 
 
@@ -133,6 +134,11 @@ class QPackageDialog(QDialog):
         self.delete_flight_button.setEnabled(model.rowCount() > 0)
         self.button_layout.addWidget(self.delete_flight_button)
 
+        self.auto_create_button = QPushButton("Auto Create")
+        self.auto_create_button.setDisabled(len(list(self.package_model.flights)) > 0)
+        self.auto_create_button.clicked.connect(self.on_auto_create)
+        self.button_layout.addWidget(self.auto_create_button)
+
         self.button_layout.addStretch()
 
         self.freq_widget = QFrequencyWidget(self.package_model.package, game_model)
@@ -210,6 +216,7 @@ class QPackageDialog(QDialog):
             QMessageBox.critical(
                 self, "Could not create flight", str(ex), QMessageBox.Ok
             )
+        self.auto_create_button.setDisabled(True)
         # noinspection PyUnresolvedReferences
         self.package_changed.emit()
 
@@ -220,7 +227,20 @@ class QPackageDialog(QDialog):
             logging.error(f"Cannot delete flight when no flight is selected.")
             return
         self.package_model.cancel_or_abort_flight(flight)
+        if len(list(self.package_model.flights)) == 0:
+            self.auto_create_button.setDisabled(False)
         # noinspection PyUnresolvedReferences
+        self.package_changed.emit()
+
+    def on_auto_create(self) -> None:
+        """Opens the new flight dialog."""
+        auto_create_dialog = QAutoCreateDialog(
+            self.game, self.package_model, parent=self.window()
+        )
+        auto_create_dialog.exec_()
+        for f in self.package_model.package.flights:
+            EventStream.put_nowait(GameUpdateEvents().new_flight(f))
+        self.package_model.update_tot()
         self.package_changed.emit()
 
     def on_change_name(self) -> None:
@@ -294,7 +314,7 @@ class QNewPackageDialog(QPackageDialog):
 
     def on_cancel(self) -> None:
         super().on_cancel()
-        for flight in self.package_model.package.flights:
+        for flight in list(self.package_model.package.flights):
             self.package_model.cancel_or_abort_flight(flight)
 
 
