@@ -302,6 +302,9 @@ class FlightPlanBuilder:
         else:
             return "-"
 
+        if (waypoint.tot - last_time).total_seconds() == 0.0:
+            return "-"
+
         speed = mps(
             self.last_waypoint.position.distance_to_point(waypoint.position)
             / (waypoint.tot - last_time).total_seconds()
