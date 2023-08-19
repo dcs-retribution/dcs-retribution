@@ -37,7 +37,8 @@ class Taxi(AtDeparture):
     def should_halt_sim(self) -> bool:
         if (
             self.flight.client_count > 0
-            and self.settings.player_mission_interrupts_sim_at is StartType.WARM
+            and self.settings.player_mission_interrupts_sim_at
+            in [StartType.COLD, StartType.WARM]
         ):
             logging.info(
                 f"Interrupting simulation because {self.flight} has players and has "

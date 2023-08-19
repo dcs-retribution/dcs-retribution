@@ -45,7 +45,8 @@ class Takeoff(AtDeparture):
     def should_halt_sim(self) -> bool:
         if (
             self.flight.client_count > 0
-            and self.settings.player_mission_interrupts_sim_at is StartType.RUNWAY
+            and self.settings.player_mission_interrupts_sim_at
+            is [StartType.COLD, StartType.WARM, StartType.RUNWAY]
         ):
             logging.info(
                 f"Interrupting simulation because {self.flight} has players and has "

@@ -536,9 +536,8 @@ class Settings:
         "Player missions interrupt fast forward",
         page=MISSION_GENERATOR_PAGE,
         section=GAMEPLAY_SECTION,
-        default=None,
+        default=StartType.COLD,
         choices={
-            "Never": None,
             "At startup time": StartType.COLD,
             "At taxi time": StartType.WARM,
             "At takeoff time": StartType.RUNWAY,
