@@ -45,6 +45,7 @@ class Builder(FormationAttackBuilder[EscortFlightPlan, FormationAttackLayout]):
         )
         ingress.only_for_player = True
         target.only_for_player = True
+        hold = None
         if not self.primary_flight_is_air_assault:
             hold = builder.hold(self._hold_point())
         elif self.package.primary_flight is not None:

@@ -35,7 +35,7 @@ class JoinPointBuilder(PydcsWaypointBuilder):
                 targets = [
                     Targets.All.Air.Helicopters.id,
                     Targets.All.GroundUnits.AirDefence.id,
-                    Targets.All.GroundUnits.GroundVehicles.UnarmedVehicles.id,
+                    Targets.All.GroundUnits.Infantry.id,
                     Targets.All.GroundUnits.GroundVehicles.ArmoredVehicles.id,
                     Targets.All.Naval.Ships.ArmedShips.LightArmedShips.id,
                 ]
@@ -84,7 +84,7 @@ class JoinPointBuilder(PydcsWaypointBuilder):
         max_dist: float = 30.0,
         vertical_spacing: float = 2000.0,
     ) -> None:
-        waypoint.tasks.append(OptROE(value=OptROE.Values.OpenFireWeaponFree))
+        waypoint.tasks.append(OptROE(value=OptROE.Values.OpenFire))
 
         rx = (random.random() + 0.1) * 333
         ry = feet(vertical_spacing).meters

@@ -79,7 +79,8 @@ class PydcsWaypointBuilder:
         if (
             self.flight.client_count > 0
             and self.flight.unit_type.dcs_unit_type == AJS37
-        ) and (self.waypoint.waypoint_type not in TARGET_WAYPOINTS):
+            and self.waypoint.waypoint_type not in TARGET_WAYPOINTS
+        ):
             return True
         else:
             return False

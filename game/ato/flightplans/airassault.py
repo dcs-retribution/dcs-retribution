@@ -92,7 +92,7 @@ class AirAssaultFlightPlan(FormationAttackFlightPlan, UiZoneDisplay):
 
     def ui_zone(self) -> UiZone:
         return UiZone(
-            [self.layout.target.position],
+            [self.layout.targets[0].position],
             self.ctld_target_zone_radius,
         )
 
