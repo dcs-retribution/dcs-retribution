@@ -4,15 +4,7 @@ import math
 from datetime import timedelta
 from typing import TYPE_CHECKING
 
-from dcs.mapping import Point
-
-from game.utils import (
-    Distance,
-    SPEED_OF_SOUND_AT_SEA_LEVEL,
-    Speed,
-    mach,
-    meters,
-)
+from game.utils import Distance, SPEED_OF_SOUND_AT_SEA_LEVEL, Speed, mach, meters
 
 if TYPE_CHECKING:
     from .flight import Flight
@@ -41,14 +33,6 @@ class GroundSpeed:
         # another heuristic if needed.
         cruise_mach = max_speed.mach() * (0.60 if flight.is_helo else 0.85)
         return mach(cruise_mach, altitude if not flight.is_helo else meters(0))
-
-
-class TravelTime:
-    @staticmethod
-    def between_points(a: Point, b: Point, speed: Speed) -> timedelta:
-        error_factor = 1.05
-        distance = meters(a.distance_to_point(b))
-        return timedelta(hours=distance.nautical_miles / speed.knots * error_factor)
 
 
 # TODO: Most if not all of this should move into FlightPlan.

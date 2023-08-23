@@ -12,7 +12,6 @@ from .formationattack import (
 )
 from .waypointbuilder import WaypointBuilder
 from .. import FlightType
-from ..traveltime import TravelTime, GroundSpeed
 from ...utils import feet
 
 
@@ -20,10 +19,9 @@ class EscortFlightPlan(FormationAttackFlightPlan):
     @property
     def push_time(self) -> timedelta:
         hold2join_time = (
-            TravelTime.between_points(
-                self.layout.hold.position,
-                self.layout.join.position,
-                GroundSpeed.for_flight(self.flight, self.layout.hold.alt),
+            self.travel_time_between_waypoints(
+                self.layout.hold,
+                self.layout.join,
             )
             if self.layout.hold is not None
             else timedelta(0)
