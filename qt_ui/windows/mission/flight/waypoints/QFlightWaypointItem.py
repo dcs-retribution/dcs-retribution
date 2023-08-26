@@ -8,4 +8,4 @@ class QWaypointItem(QStandardItem):
         super(QWaypointItem, self).__init__()
         self.number = number
         self.setText("{:<16}".format(point.pretty_name))
-        self.setEditable(False)
+        self.setEditable(True)

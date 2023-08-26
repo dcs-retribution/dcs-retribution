@@ -106,6 +106,8 @@ class QFlightWaypointList(QTableView):
             altitude = self.model.item(i, 1).text()
             altitude_feet = float(altitude)
             self.flight.flight_plan.waypoints[i].alt = Distance.from_feet(altitude_feet)
+            name = self.model.item(i, 0).text()
+            self.flight.flight_plan.waypoints[i].pretty_name = name
 
     def tot_text(self, flight: Flight, waypoint: FlightWaypoint) -> str:
         if waypoint.waypoint_type == FlightWaypointType.TAKEOFF:
