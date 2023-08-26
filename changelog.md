@@ -6,14 +6,15 @@
 * **[Payload Editor]** Ability to save/back-up payloads
 * **[Options]** New option in Settings: CAS engagement range (nmi)
 * **[Options]** New option in Settings: Convert untasked OPFOR aircraft into client slots
-* **[Options]** Split the **Disable idle aircraft at airfields** setting into **Disable untasked BLUFOR aircraft at airfields** and **Disable untasked OPFOR aircraft at airfields**.
-* **[Options]** Split off the **Automatic AWACS package planning** and **Automatic Theater tanker package planning** settings from **Automatic package planning behavior** so players can choose to have AWACS and theater tankers auto-planned, while managing everything else themselves.
+* **[Options]** Split the **Disable idle aircraft at airfields** setting into **Disable untasked BLUFOR aircraft at airfields** and **Disable untasked OPFOR aircraft at airfields**
+* **[Options]** Split off the **Automatic AWACS package planning** and **Automatic Theater tanker package planning** settings from **Automatic package planning behavior** so players can choose to have AWACS and theater tankers auto-planned, while managing everything else themselves
 * **[Modding]** Updated support for Su-30 mod to V2.1.12 beta
 * **[Modding]** Updated support for Su-57 mod to build-04
 * **[Radios]** Added HF-FM band for AN/ARC-222
 * **[Radios]** Ability to define preset channels for radios on squadron level (for human pilots only)
-* **[Mission Planning]** Avoid helicopters being assigned as escort to planes and vice-versa.
+* **[Mission Planning]** Avoid helicopters being assigned as escort to planes and vice-versa
 * **[Mission Planning]** Allow attack helicopters to escort other helicopters
+* **[UI]** Allow changing waypoint names in FlightEdit's waypoints tab
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task
@@ -22,6 +23,7 @@
 * **[Aircraft Tasking]** Revised aircraft tasking, filtering out incompatible tasks for several aircraft
 * **[Data]** Corrected the class of the USS Samuel Chase from Logistics to LandingShip, in order to prevent it being spawned as part of AAA sites.
 * **[Mission Generation]** Helicopters oscillating due to over-speeding
+* **[Mission Generation]** Fix infinite loop when using "Fast-Forward to first contact"
 
 # Retribution v1.2.1 (hotfix)
 
