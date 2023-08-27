@@ -18,12 +18,11 @@ if TYPE_CHECKING:
 @dataclass
 class RtbLayout(StandardLayout):
     abort_location: FlightWaypoint
-    nav_to_destination: list[FlightWaypoint]
 
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
         yield self.departure
         yield self.abort_location
-        yield from self.nav_to_destination
+        yield from self.nav_to
         yield self.arrival
         if self.divert is not None:
             yield self.divert
@@ -78,7 +77,7 @@ class Builder(IBuilder[RtbFlightPlan, RtbLayout]):
         return RtbLayout(
             departure=builder.takeoff(self.flight.departure),
             abort_location=abort_point,
-            nav_to_destination=builder.nav_path(
+            nav_to=builder.nav_path(
                 current_position,
                 self.flight.arrival.position,
                 altitude,
@@ -87,6 +86,7 @@ class Builder(IBuilder[RtbFlightPlan, RtbLayout]):
             arrival=builder.land(self.flight.arrival),
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
+            nav_from=[],
         )
 
     def build(self) -> RtbFlightPlan:

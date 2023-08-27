@@ -18,21 +18,8 @@ if TYPE_CHECKING:
 
 @dataclass
 class PatrollingLayout(StandardLayout):
-    nav_to: list[FlightWaypoint]
     patrol_start: FlightWaypoint
     patrol_end: FlightWaypoint
-    nav_from: list[FlightWaypoint]
-
-    def delete_waypoint(self, waypoint: FlightWaypoint) -> bool:
-        if super().delete_waypoint(waypoint):
-            return True
-        if waypoint in self.nav_to:
-            self.nav_to.remove(waypoint)
-            return True
-        elif waypoint in self.nav_from:
-            self.nav_from.remove(waypoint)
-            return True
-        return False
 
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
         yield self.departure

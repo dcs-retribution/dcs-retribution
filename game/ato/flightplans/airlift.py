@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Iterator
 from dataclasses import dataclass
 from datetime import timedelta
-from typing import TYPE_CHECKING, Type
+from typing import TYPE_CHECKING, Type, Optional
 
 from game.theater.missiontarget import MissionTarget
 from game.utils import feet
@@ -12,6 +12,7 @@ from .ibuilder import IBuilder
 from .planningerror import PlanningError
 from .standard import StandardFlightPlan, StandardLayout
 from .waypointbuilder import WaypointBuilder
+from ..flightwaypointtype import FlightWaypointType
 from ...theater.interfaces.CTLD import CTLD
 
 if TYPE_CHECKING:
@@ -21,7 +22,6 @@ if TYPE_CHECKING:
 
 @dataclass
 class AirliftLayout(StandardLayout):
-    nav_to_pickup: list[FlightWaypoint]
     # There will not be a pickup waypoint when the pickup airfield is the departure
     # airfield for cargo planes, as the cargo is pre-loaded. Helicopters will still pick
     # up the cargo near the airfield.
@@ -36,25 +36,30 @@ class AirliftLayout(StandardLayout):
     drop_off: FlightWaypoint | None
     # drop_off_zone will be used for player flights to create the CTLD stuff
     ctld_drop_off_zone: FlightWaypoint | None
-    nav_to_home: list[FlightWaypoint]
+
+    def add_waypoint(
+        self, wpt: FlightWaypoint, next_wpt: Optional[FlightWaypoint]
+    ) -> bool:
+        new_wpt = self.get_midpoint(wpt, next_wpt)
+        if wpt.waypoint_type in [
+            FlightWaypointType.PICKUP_ZONE,
+            FlightWaypointType.CARGO_STOP,
+        ]:
+            self.nav_to_drop_off.insert(0, new_wpt)
+            return True
+        return super().add_waypoint(wpt, next_wpt)
 
     def delete_waypoint(self, waypoint: FlightWaypoint) -> bool:
-        if super().delete_waypoint(waypoint):
-            return True
-        if waypoint in self.nav_to_pickup:
-            self.nav_to_pickup.remove(waypoint)
-            return True
-        elif waypoint in self.nav_to_drop_off:
+        if waypoint in self.nav_to_drop_off:
             self.nav_to_drop_off.remove(waypoint)
             return True
-        elif waypoint in self.nav_to_home:
-            self.nav_to_home.remove(waypoint)
+        elif super().delete_waypoint(waypoint):
             return True
         return False
 
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
         yield self.departure
-        yield from self.nav_to_pickup
+        yield from self.nav_to
         if self.pickup is not None:
             yield self.pickup
         if self.ctld_pickup_zone is not None:
@@ -64,7 +69,7 @@ class AirliftLayout(StandardLayout):
             yield self.drop_off
         if self.ctld_drop_off_zone is not None:
             yield self.ctld_drop_off_zone
-        yield from self.nav_to_home
+        yield from self.nav_from
         yield self.arrival
         if self.divert is not None:
             yield self.divert
@@ -141,7 +146,7 @@ class Builder(IBuilder[AirliftFlightPlan, AirliftLayout]):
 
         return AirliftLayout(
             departure=builder.takeoff(self.flight.departure),
-            nav_to_pickup=nav_to_pickup,
+            nav_to=nav_to_pickup,
             pickup=pickup,
             ctld_pickup_zone=pickup_zone,
             nav_to_drop_off=builder.nav_path(
@@ -152,7 +157,7 @@ class Builder(IBuilder[AirliftFlightPlan, AirliftLayout]):
             ),
             drop_off=drop_off,
             ctld_drop_off_zone=drop_off_zone,
-            nav_to_home=builder.nav_path(
+            nav_from=builder.nav_path(
                 cargo.origin.position,
                 self.flight.arrival.position,
                 altitude,

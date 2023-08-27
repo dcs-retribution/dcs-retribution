@@ -30,6 +30,10 @@ class CustomFlightPlan(FlightPlan[CustomLayout]):
         return Builder
 
     @property
+    def is_custom(self) -> bool:
+        return True
+
+    @property
     def tot_waypoint(self) -> FlightWaypoint:
         target_types = (
             FlightWaypointType.PATROL_TRACK,

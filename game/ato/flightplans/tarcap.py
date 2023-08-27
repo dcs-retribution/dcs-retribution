@@ -32,6 +32,14 @@ class TarCapLayout(PatrollingLayout):
             yield self.divert
         yield self.bullseye
 
+    def delete_waypoint(self, waypoint: FlightWaypoint) -> bool:
+        if waypoint == self.refuel:
+            self.refuel = None
+            return True
+        elif super().delete_waypoint(waypoint):
+            return True
+        return False
+
 
 class TarCapFlightPlan(PatrollingFlightPlan[TarCapLayout]):
     @property

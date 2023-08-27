@@ -18,23 +18,15 @@ if TYPE_CHECKING:
 
 @dataclass
 class FormationLayout(LoiterLayout, ABC):
-    nav_to: list[FlightWaypoint]
     join: Optional[FlightWaypoint]
     split: FlightWaypoint
     refuel: Optional[FlightWaypoint]
-    nav_from: list[FlightWaypoint]
 
     def delete_waypoint(self, waypoint: FlightWaypoint) -> bool:
-        if super().delete_waypoint(waypoint):
-            return True
-        if waypoint in self.nav_to:
-            self.nav_to.remove(waypoint)
-            return True
-        elif waypoint in self.nav_from:
-            self.nav_from.remove(waypoint)
-            return True
-        elif waypoint == self.refuel:
+        if waypoint == self.refuel:
             self.refuel = None
+            return True
+        elif super().delete_waypoint(waypoint):
             return True
         return False
 

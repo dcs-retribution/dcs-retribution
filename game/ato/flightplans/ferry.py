@@ -17,19 +17,9 @@ if TYPE_CHECKING:
 
 @dataclass
 class FerryLayout(StandardLayout):
-    nav_to_destination: list[FlightWaypoint]
-
-    def delete_waypoint(self, waypoint: FlightWaypoint) -> bool:
-        if super().delete_waypoint(waypoint):
-            return True
-        if waypoint in self.nav_to_destination:
-            self.nav_to_destination.remove(waypoint)
-            return True
-        return False
-
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
         yield self.departure
-        yield from self.nav_to_destination
+        yield from self.nav_to
         yield self.arrival
         if self.divert is not None:
             yield self.divert
@@ -76,7 +66,7 @@ class Builder(IBuilder[FerryFlightPlan, FerryLayout]):
         builder = WaypointBuilder(self.flight, self.coalition)
         return FerryLayout(
             departure=builder.takeoff(self.flight.departure),
-            nav_to_destination=builder.nav_path(
+            nav_to=builder.nav_path(
                 self.flight.departure.position,
                 self.flight.arrival.position,
                 altitude,
@@ -85,6 +75,7 @@ class Builder(IBuilder[FerryFlightPlan, FerryLayout]):
             arrival=builder.land(self.flight.arrival),
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
+            nav_from=[],
         )
 
     def build(self) -> FerryFlightPlan:

@@ -318,6 +318,10 @@ class FlightPlan(ABC, Generic[LayoutT]):
         return False
 
     @property
+    def is_custom(self) -> bool:
+        return False
+
+    @property
     def mission_departure_time(self) -> timedelta:
         """The time that the mission is complete and the flight RTBs."""
         raise NotImplementedError

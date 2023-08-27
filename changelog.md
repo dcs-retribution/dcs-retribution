@@ -15,6 +15,7 @@
 * **[Mission Planning]** Avoid helicopters being assigned as escort to planes and vice-versa
 * **[Mission Planning]** Allow attack helicopters to escort other helicopters
 * **[UI]** Allow changing waypoint names in FlightEdit's waypoints tab
+* **[Waypoints]** Allow user to add navigation waypoints where possible without degrading to a custom flight-plan
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task

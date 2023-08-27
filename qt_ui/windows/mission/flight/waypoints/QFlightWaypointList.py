@@ -78,6 +78,7 @@ class QFlightWaypointList(QTableView):
         finally:
             # stop ignoring signals
             self.model.blockSignals(False)
+            self.update()
 
     def _add_waypoint_row(
         self, row: int, flight: Flight, waypoint: FlightWaypoint
