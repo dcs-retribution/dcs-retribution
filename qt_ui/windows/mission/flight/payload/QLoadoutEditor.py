@@ -87,7 +87,10 @@ class QLoadoutEditor(QGroupBox):
         payload_name = payload_name_input.textValue()
         ac_type = self.flight.unit_type.dcs_unit_type
         ac_id = ac_type.id
-        payload_file = payloads_dir() / f"{ac_id}.lua"
+        payloads_folder = payloads_dir()
+        payload_file = payloads_folder / f"{ac_id}.lua"
+        if not payloads_folder.exists():
+            payloads_folder.mkdir()
         ac_type.payloads[payload_name] = DcsPayload.from_flight(
             self.flight, payload_name
         ).to_dict()
