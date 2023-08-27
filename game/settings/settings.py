@@ -538,6 +538,7 @@ class Settings:
         section=GAMEPLAY_SECTION,
         default=StartType.COLD,
         choices={
+            "Never": None,
             "At startup time": StartType.COLD,
             "At taxi time": StartType.WARM,
             "At takeoff time": StartType.RUNWAY,
