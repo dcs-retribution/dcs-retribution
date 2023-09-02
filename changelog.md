@@ -25,6 +25,7 @@
 * **[Data]** Corrected the class of the USS Samuel Chase from Logistics to LandingShip, in order to prevent it being spawned as part of AAA sites.
 * **[Mission Generation]** Helicopters oscillating due to over-speeding
 * **[Mission Generation]** Fix infinite loop when using "Fast-Forward to first contact"
+* **[Capture Logic]** Release all parking slots when an airbase is captured
 
 # Retribution v1.2.1 (hotfix)
 

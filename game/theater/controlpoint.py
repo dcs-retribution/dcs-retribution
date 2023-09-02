@@ -906,12 +906,16 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
             if not tgo.capturable:
                 tgo.clear()
 
+    def release_parking_slots(self) -> None:
+        pass
+
     # TODO: Should be Airbase specific.
     def capture(self, game: Game, events: GameUpdateEvents, for_player: bool) -> None:
         new_coalition = game.coalition_for(for_player)
         self.ground_unit_orders.refund_all(self.coalition)
         self.retreat_ground_units(game)
         self.retreat_air_units(game)
+        self.release_parking_slots()
         self.depopulate_uncapturable_tgos()
         self._coalition = new_coalition
         self.base.set_strength_to_minimum()
@@ -1231,6 +1235,10 @@ class Airfield(ControlPoint, CTLD):
         if parking_type.include_fixed_wing:
             parking_slots += len(self.airport.parking_slots)
         return parking_slots
+
+    def release_parking_slots(self) -> None:
+        for slot in self.parking_slots:
+            slot.unit_id = None
 
     @property
     def heading(self) -> Heading:
