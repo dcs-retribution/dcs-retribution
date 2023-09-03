@@ -53,6 +53,18 @@ export default function LiberationMap() {
         <LayersControl.Overlay name="Air defenses" checked>
           <TgosLayer categories={["aa"]} />
         </LayersControl.Overlay>
+        <LayersControl.Overlay name="LORAD" >
+          <TgosLayer categories={["aa"]} task={"LORAD"} />
+        </LayersControl.Overlay>
+        <LayersControl.Overlay name="MERAD" >
+          <TgosLayer categories={["aa"]} task={"MERAD"} />
+        </LayersControl.Overlay>
+        <LayersControl.Overlay name="SHORAD" >
+          <TgosLayer categories={["aa"]} task={"SHORAD"} />
+        </LayersControl.Overlay>
+        <LayersControl.Overlay name="AAA" >
+          <TgosLayer categories={["aa"]} task={"AAA"} />
+        </LayersControl.Overlay>
         <LayersControl.Overlay name="Factories" checked>
           <TgosLayer categories={["factory"]} />
         </LayersControl.Overlay>

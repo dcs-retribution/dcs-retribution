@@ -1,10 +1,11 @@
 from __future__ import annotations
 
-from typing import Iterable, List, TYPE_CHECKING
+from typing import Iterable, List, TYPE_CHECKING, Optional
 
 from dcs.mapping import Polygon
 from dcs.triggers import TriggerZone, TriggerZoneCircular, TriggerZoneQuadPoint
 
+from game.data.groups import GroupTask
 from game.theater.theatergroundobject import NAME_BY_CATEGORY
 
 if TYPE_CHECKING:
@@ -87,6 +88,38 @@ class SceneryGroup:
                 )
 
         return scenery_groups
+
+    @staticmethod
+    def group_task_for_scenery_group_category(category: str) -> Optional[GroupTask]:
+        if category == "allycamp":
+            return GroupTask.ALLY_CAMP
+        elif category == "ammo":
+            return GroupTask.AMMO
+        elif category == "commandcenter":
+            return GroupTask.COMMAND_CENTER
+        elif category == "comms":
+            return GroupTask.COMMS
+        elif category == "derrick":
+            return GroupTask.DERRICK
+        elif category == "factory":
+            return GroupTask.FACTORY
+        elif category == "farp":
+            return GroupTask.FARP
+        elif category == "fob":
+            return GroupTask.FOB
+        elif category == "fuel":
+            return GroupTask.FUEL
+        elif category == "oil":
+            return GroupTask.OIL
+        elif category == "power":
+            return GroupTask.POWER
+        elif category == "village":
+            return GroupTask.VILLAGE
+        elif category == "ware":
+            return GroupTask.WARE
+        elif category == "ww2bunker":
+            return GroupTask.WW2_BUNKER
+        return None
 
     @staticmethod
     def is_blue(zone: TriggerZone) -> bool:

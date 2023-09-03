@@ -191,11 +191,12 @@ class ForceGroup:
         location: PresetLocation,
         control_point: ControlPoint,
         game: Game,
+        task: Optional[GroupTask],
     ) -> TheaterGroundObject:
         """Create a random TheaterGroundObject from the available templates"""
         layout = random.choice(self.layouts)
         return self.create_ground_object_for_layout(
-            layout, name, location, control_point, game
+            layout, name, location, control_point, game, task
         )
 
     def create_ground_object_for_layout(
@@ -205,9 +206,10 @@ class ForceGroup:
         location: PresetLocation,
         control_point: ControlPoint,
         game: Game,
+        task: Optional[GroupTask],
     ) -> TheaterGroundObject:
         """Create a TheaterGroundObject for the given template"""
-        go = layout.create_ground_object(name, location, control_point)
+        go = layout.create_ground_object(name, location, control_point, task)
         # Generate all groups using the randomization if it defined
         for tgo_group in layout.groups:
             for unit_group in tgo_group.unit_groups:

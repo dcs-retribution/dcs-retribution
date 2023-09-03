@@ -426,6 +426,7 @@ export type Tgo = {
   detection_ranges: number[];
   dead: boolean;
   sidc: string;
+  task?: string[];
 };
 export type SupplyRoute = {
   id: string;

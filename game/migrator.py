@@ -36,6 +36,7 @@ class Migrator:
         self._update_squadrons()
         self._release_untasked_flights()
         self._update_weather()
+        self._update_tgos()
 
     def _update_doctrine(self) -> None:
         doctrines = [
@@ -197,3 +198,7 @@ class Migrator:
                 midnight_turbulence_per_10cm=0.4,
                 weather_type_chances=sc.weather_type_chances,
             )
+
+    def _update_tgos(self) -> None:
+        for go in self.game.theater.ground_objects:
+            go.task = None  # TODO: attempt to deduce tasking?

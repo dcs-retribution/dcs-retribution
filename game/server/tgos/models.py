@@ -1,10 +1,11 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 from uuid import UUID
 
 from pydantic import BaseModel
 
+from game.data.groups import GroupTask
 from game.server.leaflet import LeafletPoint
 
 if TYPE_CHECKING:
@@ -24,6 +25,7 @@ class TgoJs(BaseModel):
     detection_ranges: list[float]  # TODO: Event stream
     dead: bool  # TODO: Event stream
     sidc: str  # TODO: Event stream
+    task: Optional[GroupTask]
 
     class Config:
         title = "Tgo"
@@ -44,6 +46,7 @@ class TgoJs(BaseModel):
             detection_ranges=detection_ranges,
             dead=tgo.is_dead,
             sidc=str(tgo.sidc()),
+            task=tgo.groups[0].ground_object.task,
         )
 
     @staticmethod

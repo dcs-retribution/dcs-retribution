@@ -1,8 +1,10 @@
-import pytest
 from typing import Any
 
+import pytest
 from dcs.mapping import Point
+
 from game.ato.flighttype import FlightType
+from game.theater.controlpoint import OffMapSpawn
 from game.theater.presetlocation import PresetLocation
 from game.theater.theatergroundobject import (
     BuildingGroundObject,
@@ -16,7 +18,6 @@ from game.theater.theatergroundobject import (
     ShipGroundObject,
     IadsBuildingGroundObject,
 )
-from game.theater.controlpoint import OffMapSpawn
 from game.utils import Heading
 
 
@@ -49,20 +50,22 @@ def test_mission_types_friendly(mocker: Any) -> None:
         EwrGroundObject,
         ShipGroundObject,
     ]:
-        ground_object = ground_object_type(  # type: ignore
+        ground_object = ground_object_type(
             name="test",
             location=dummy_location,
             control_point=dummy_control_point,
+            task=None,
         )
         mission_types = list(ground_object.mission_types(for_player=True))
         assert mission_types == [FlightType.BARCAP]
 
-    for ground_object_type in [BuildingGroundObject, IadsBuildingGroundObject]:  # type: ignore
-        ground_object = ground_object_type(  # type: ignore
+    for ground_object_type in [BuildingGroundObject, IadsBuildingGroundObject]:
+        ground_object = ground_object_type(
             name="test",
             category="ammo",
             location=dummy_location,
             control_point=dummy_control_point,
+            task=None,
         )
         mission_types = list(ground_object.mission_types(for_player=True))
         assert mission_types == [FlightType.BARCAP]
@@ -94,6 +97,7 @@ def test_mission_types_enemy(mocker: Any) -> None:
         category="ammo",
         location=dummy_location,
         control_point=dummy_control_point,
+        task=None,
     )
     mission_types = list(building.mission_types(for_player=False))
     assert len(mission_types) == 6
@@ -109,6 +113,7 @@ def test_mission_types_enemy(mocker: Any) -> None:
         category="ammo",
         location=dummy_location,
         control_point=dummy_control_point,
+        task=None,
     )
     mission_types = list(iads_building.mission_types(for_player=False))
     assert len(mission_types) == 7
@@ -129,6 +134,7 @@ def test_mission_types_enemy(mocker: Any) -> None:
             name="test",
             location=dummy_location,
             control_point=dummy_control_point,
+            task=None,
         )
         mission_types = list(ground_object.mission_types(for_player=False))
         assert len(mission_types) == 7
@@ -144,6 +150,7 @@ def test_mission_types_enemy(mocker: Any) -> None:
         name="test",
         location=dummy_location,
         control_point=dummy_control_point,
+        task=None,
     )
     mission_types = list(sam.mission_types(for_player=False))
     assert len(mission_types) == 8
@@ -194,6 +201,7 @@ def test_mission_types_enemy(mocker: Any) -> None:
         name="test",
         location=dummy_location,
         control_point=dummy_control_point,
+        task=None,
     )
     mission_types = list(vehicles.mission_types(for_player=False))
     assert len(mission_types) == 7
