@@ -85,12 +85,6 @@ class SquadronDef:
                 freq_list.append(RadioFrequency(int(freq * 1000000)))
             radio_presets[radio] = freq_list
 
-        for radio in radio_presets:
-            print(radio, ":")
-            for freq in radio_presets[radio]:
-                print(freq)
-            print()
-
         return SquadronDef(
             name=data["name"],
             nickname=data.get("nickname"),
