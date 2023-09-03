@@ -53,7 +53,6 @@ class SceneryGroup:
 
         # For each objective definition.
         for zone_def in zone_definitions:
-            zone_def_position = zone_def.position
             zone_def_name = zone_def.name
 
             if len(zone_def.properties) == 0:
