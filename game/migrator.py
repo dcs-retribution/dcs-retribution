@@ -13,6 +13,7 @@ from game.theater import ParkingType, SeasonalConditions
 
 if TYPE_CHECKING:
     from game import Game
+    from game.ato import Flight
 
 
 def try_set_attr(obj: Any, attr_name: str, val: Any = None) -> None:
@@ -92,12 +93,18 @@ class Migrator:
             try_set_attr(cp, "helipads_quad", [])
             try_set_attr(cp, "helipads_invisible", [])
 
+    def _update_flight_plan(self, f: Flight) -> None:
+        layout = f.flight_plan.layout
+        try_set_attr(layout, "nav_to", [])
+        try_set_attr(layout, "nav_from", [])
+
     def _update_flights(self) -> None:
         for f in self.game.db.flights.objects.values():
             try_set_attr(f, "frequency")
             try_set_attr(f, "tacan")
             try_set_attr(f, "tcn_name")
             try_set_attr(f, "fuel", f.unit_type.max_fuel)
+            self._update_flight_plan(f)
 
     def _release_untasked_flights(self) -> None:
         for cp in self.game.theater.controlpoints:
