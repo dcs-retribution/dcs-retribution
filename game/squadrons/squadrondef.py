@@ -82,7 +82,10 @@ class SquadronDef:
             freq_list: list[RadioFrequency] = []
             for freq in radio_presets[radio]:
                 # TODO: set up modulation for UI manipulations (issue#89)
-                freq_list.append(RadioFrequency(int(freq * 1000000)))
+                hz = int(freq * 1000000)
+                if hz % 10:  # fix rounding errors
+                    hz = hz + 10 - hz % 10
+                freq_list.append(RadioFrequency(hz))
             radio_presets[radio] = freq_list
 
         return SquadronDef(
