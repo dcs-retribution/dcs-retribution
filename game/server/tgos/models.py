@@ -46,7 +46,7 @@ class TgoJs(BaseModel):
             detection_ranges=detection_ranges,
             dead=tgo.is_dead,
             sidc=str(tgo.sidc()),
-            task=tgo.groups[0].ground_object.task,
+            task=tgo.groups[0].ground_object.task if tgo.groups else None,
         )
 
     @staticmethod
