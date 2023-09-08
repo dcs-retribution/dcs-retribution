@@ -176,6 +176,8 @@ class FlightGroupConfigurator:
 
         if self.flight.flight_type in {FlightType.AEWC, FlightType.REFUELING}:
             self.register_air_support(freq)
+        elif self.flight.client_count and self.flight.squadron.radio_presets:
+            freq = self.flight.squadron.radio_presets["intra_flight"][0]
         elif self.flight.frequency is None and self.flight.client_count:
             freq = self.flight.unit_type.alloc_flight_radio(self.radio_registry)
 
