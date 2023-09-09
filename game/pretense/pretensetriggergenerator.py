@@ -56,7 +56,7 @@ class Silence(Option):
     Key = 7
 
 
-class TriggerGenerator:
+class PretenseTriggerGenerator:
     capture_zone_types = (Fob, Airfield)
     capture_zone_flag = 600
 
@@ -146,38 +146,7 @@ class TriggerGenerator:
                         v += 1
             self.mission.triggerrules.triggers.append(mark_trigger)
 
-    def _generate_clear_statics_trigger(self, scenery_clear_zones: List[Point]) -> None:
-        for zone_center in scenery_clear_zones:
-            trigger_zone = self.mission.triggers.add_triggerzone(
-                zone_center,
-                radius=TRIGGER_RADIUS_CLEAR_SCENERY,
-                hidden=False,
-                name="CLEAR",
-            )
-            clear_trigger = TriggerCondition(Event.NoEvent, "Clear Trigger")
-            clear_flag = self.get_capture_zone_flag()
-            clear_trigger.add_condition(TimeSinceFlag(clear_flag, 30))
-            clear_trigger.add_action(ClearFlag(clear_flag))
-            clear_trigger.add_action(SetFlag(clear_flag))
-            clear_trigger.add_action(
-                RemoveSceneObjects(
-                    objects_mask=RemoveSceneObjectsMask.OBJECTS_ONLY,
-                    zone=trigger_zone.id,
-                )
-            )
-            clear_trigger.add_action(
-                SceneryDestructionZone(destruction_level=100, zone=trigger_zone.id)
-            )
-            self.mission.triggerrules.triggers.append(clear_trigger)
-
-            enable_clear_trigger = TriggerOnce(Event.NoEvent, "Enable Clear Trigger")
-            enable_clear_trigger.add_condition(TimeAfter(30))
-            enable_clear_trigger.add_action(ClearFlag(clear_flag))
-            enable_clear_trigger.add_action(SetFlag(clear_flag))
-            # clear_trigger.add_action(MessageToAll(text=String("Enable clear trigger"),))
-            self.mission.triggerrules.triggers.append(enable_clear_trigger)
-
-    def _generate_capture_triggers(
+    def _generate_pretense_zone_triggers(
         self, player_coalition: str, enemy_coalition: str
     ) -> None:
         """Creates a pair of triggers for each control point of `cls.capture_zone_types`.
@@ -185,62 +154,16 @@ class TriggerGenerator:
         Directly appends to the global `base_capture_events` var declared by `dcs_libaration.lua`
         """
         for cp in self.game.theater.controlpoints:
-            if isinstance(cp, self.capture_zone_types) and not cp.is_carrier:
-                if cp.captured:
-                    attacking_coalition = enemy_coalition
-                    attack_coalition_int = 1  # 1 is the Event int for Red
-                    defending_coalition = player_coalition
-                    defend_coalition_int = 2  # 2 is the Event int for Blue
-                else:
-                    attacking_coalition = player_coalition
-                    attack_coalition_int = 2
-                    defending_coalition = enemy_coalition
-                    defend_coalition_int = 1
+            if isinstance(cp, self.capture_zone_types) and not cp.is_fleet:
 
+                zone_color = {1: 0.0, 2: 0.0, 3: 0.0, 4: 0.149}
                 trigger_zone = self.mission.triggers.add_triggerzone(
                     cp.position,
                     radius=TRIGGER_RADIUS_CAPTURE,
                     hidden=False,
-                    name="CAPTURE",
+                    name=cp.name,
+                    color=zone_color,
                 )
-                flag = self.get_capture_zone_flag()
-                capture_trigger = TriggerCondition(Event.NoEvent, "Capture Trigger")
-                capture_trigger.add_condition(
-                    AllOfCoalitionOutsideZone(
-                        defending_coalition, trigger_zone.id, unit_type="GROUND"
-                    )
-                )
-                capture_trigger.add_condition(
-                    PartOfCoalitionInZone(
-                        attacking_coalition, trigger_zone.id, unit_type="GROUND"
-                    )
-                )
-                capture_trigger.add_condition(FlagIsFalse(flag=flag))
-                script_string = String(
-                    f'base_capture_events[#base_capture_events + 1] = "{cp.id}||{attack_coalition_int}||{cp.full_name}"'
-                )
-                capture_trigger.add_action(DoScript(script_string))
-                capture_trigger.add_action(SetFlag(flag=flag))
-                self.mission.triggerrules.triggers.append(capture_trigger)
-
-                recapture_trigger = TriggerCondition(Event.NoEvent, "Capture Trigger")
-                recapture_trigger.add_condition(
-                    AllOfCoalitionOutsideZone(
-                        attacking_coalition, trigger_zone.id, unit_type="GROUND"
-                    )
-                )
-                recapture_trigger.add_condition(
-                    PartOfCoalitionInZone(
-                        defending_coalition, trigger_zone.id, unit_type="GROUND"
-                    )
-                )
-                recapture_trigger.add_condition(FlagIsTrue(flag=flag))
-                script_string = String(
-                    f'base_capture_events[#base_capture_events + 1] = "{cp.id}||{defend_coalition_int}||{cp.full_name}"'
-                )
-                recapture_trigger.add_action(DoScript(script_string))
-                recapture_trigger.add_action(ClearFlag(flag=flag))
-                self.mission.triggerrules.triggers.append(recapture_trigger)
 
     def generate(self) -> None:
         player_coalition = "blue"
@@ -249,13 +172,7 @@ class TriggerGenerator:
         self._set_skill(player_coalition, enemy_coalition)
         self._set_allegiances(player_coalition, enemy_coalition)
         self._gen_markers()
-        self._generate_capture_triggers(player_coalition, enemy_coalition)
-        if self.game.settings.ground_start_scenery_remove_triggers:
-            try:
-                self._generate_clear_statics_trigger(self.game.scenery_clear_zones)
-                self.game.scenery_clear_zones.clear()
-            except AttributeError:
-                logging.info(f"Unable to create Clear Statics triggers")
+        self._generate_pretense_zone_triggers(player_coalition, enemy_coalition)
 
     @classmethod
     def get_capture_zone_flag(cls) -> int:

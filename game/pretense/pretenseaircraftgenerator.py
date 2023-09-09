@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import random
 from datetime import datetime
 from functools import cached_property
 from typing import Any, Dict, List, TYPE_CHECKING, Tuple
@@ -33,18 +34,17 @@ from game.theater.controlpoint import (
     Fob,
 )
 from game.unitmap import UnitMap
-from .aircraftpainter import AircraftPainter
-from .flightdata import FlightData
-from .flightgroupconfigurator import FlightGroupConfigurator
-from .flightgroupspawner import FlightGroupSpawner
-from ...data.weapons import WeaponType
+from game.missiongenerator.aircraft.aircraftpainter import AircraftPainter
+from game.missiongenerator.aircraft.flightdata import FlightData
+from game.missiongenerator.aircraft.flightgroupspawner import FlightGroupSpawner
+from game.data.weapons import WeaponType
 
 if TYPE_CHECKING:
     from game import Game
     from game.squadrons import Squadron
 
 
-class AircraftGenerator:
+class PretenseAircraftGenerator:
     def __init__(
         self,
         mission: Mission,
@@ -101,6 +101,7 @@ class AircraftGenerator:
     def generate_flights(
         self,
         country: Country,
+        cp: ControlPoint,
         ato: AirTaskingOrder,
         dynamic_runways: Dict[str, RunwayData],
     ) -> None:
@@ -115,6 +116,61 @@ class AircraftGenerator:
             ato: The ATO to spawn aircraft for.
             dynamic_runways: Runway data for carriers and FARPs.
         """
+
+        num_of_sead = 0
+        num_of_cas = 0
+        num_of_strike = 0
+        num_of_cap = 0
+        for squadron in cp.squadrons:
+            squadron.owned_aircraft += 1
+            squadron.untasked_aircraft += 1
+            package = Package(cp, squadron.flight_db, auto_asap=False)
+            mission_types = squadron.auto_assignable_mission_types
+            if (
+                FlightType.TRANSPORT in mission_types
+                or FlightType.AIR_ASSAULT in mission_types
+            ):
+                flight_type = FlightType.TRANSPORT
+            elif (
+                FlightType.SEAD in mission_types
+                or FlightType.SEAD_SWEEP
+                or FlightType.SEAD_ESCORT in mission_types
+            ) and num_of_sead < 2:
+                flight_type = FlightType.SEAD
+                num_of_sead += 1
+            elif FlightType.DEAD in mission_types and num_of_sead < 2:
+                flight_type = FlightType.DEAD
+                num_of_sead += 1
+            elif (
+                FlightType.CAS in mission_types or FlightType.BAI in mission_types
+            ) and num_of_cas < 2:
+                flight_type = FlightType.CAS
+                num_of_cas += 1
+            elif (
+                FlightType.STRIKE in mission_types
+                or FlightType.OCA_RUNWAY in mission_types
+                or FlightType.OCA_AIRCRAFT in mission_types
+            ) and num_of_strike < 2:
+                flight_type = FlightType.STRIKE
+                num_of_strike += 1
+            elif (
+                FlightType.BARCAP in mission_types
+                or FlightType.TARCAP in mission_types
+                or FlightType.ESCORT in mission_types
+            ) and num_of_cap < 2:
+                flight_type = FlightType.BARCAP
+                num_of_cap += 1
+            else:
+                flight_type = random.choice(list(mission_types))
+            flight = Flight(
+                package, squadron, 1, flight_type, StartType.COLD, divert=cp
+            )
+            flight.state = WaitingForStart(
+                flight, self.game.settings, self.game.conditions.start_time
+            )
+            package.add_flight(flight)
+            ato.add_package(package)
+
         self._reserve_frequencies_and_tacan(ato)
 
         for package in reversed(sorted(ato.packages, key=lambda x: x.time_over_target)):
@@ -134,103 +190,6 @@ class AircraftGenerator:
                         flight, country, dynamic_runways
                     )
                     self.unit_map.add_aircraft(group, flight)
-            if (
-                package.primary_flight is not None
-                and package.primary_flight.flight_plan.is_formation(
-                    package.primary_flight.flight_plan
-                )
-            ):
-                splittrigger = TriggerOnce(Event.NoEvent, f"Split-{id(package)}")
-                splittrigger.add_condition(FlagIsTrue(flag=f"split-{id(package)}"))
-                splittrigger.add_condition(Or())
-                splittrigger.add_condition(FlagIsFalse(flag=f"split-{id(package)}"))
-                splittrigger.add_condition(GroupDead(package.primary_flight.group_id))
-                for flight in package.flights:
-                    if flight.flight_type in [
-                        FlightType.ESCORT,
-                        FlightType.SEAD_ESCORT,
-                    ]:
-                        splittrigger.add_action(AITaskPush(flight.group_id, 1))
-                if len(splittrigger.actions) > 0:
-                    self.mission.triggerrules.triggers.append(splittrigger)
-
-    def spawn_unused_aircraft(
-        self, player_country: Country, enemy_country: Country
-    ) -> None:
-        for control_point in self.game.theater.controlpoints:
-            if not (
-                isinstance(control_point, Airfield) or isinstance(control_point, Fob)
-            ):
-                continue
-
-            if control_point.captured:
-                country = player_country
-            else:
-                country = enemy_country
-
-            for squadron in control_point.squadrons:
-                try:
-                    self._spawn_unused_for(squadron, country)
-                except NoParkingSlotError:
-                    # If we run out of parking, stop spawning aircraft at this base.
-                    break
-
-    def _spawn_unused_for(self, squadron: Squadron, country: Country) -> None:
-        assert isinstance(squadron.location, Airfield) or isinstance(
-            squadron.location, Fob
-        )
-        if (
-            squadron.coalition.player
-            and self.game.settings.perf_disable_untasked_blufor_aircraft
-        ):
-            return
-        elif (
-            not squadron.coalition.player
-            and self.game.settings.perf_disable_untasked_opfor_aircraft
-        ):
-            return
-
-        for _ in range(squadron.untasked_aircraft):
-            # Creating a flight even those this isn't a fragged mission lets us
-            # reuse the existing debriefing code.
-            # TODO: Special flight type?
-            flight = Flight(
-                Package(squadron.location, self.game.db.flights),
-                squadron,
-                1,
-                FlightType.BARCAP,
-                StartType.COLD,
-                divert=None,
-                claim_inv=False,
-            )
-            flight.state = Completed(flight, self.game.settings)
-
-            group = FlightGroupSpawner(
-                flight,
-                country,
-                self.mission,
-                self.helipads,
-                self.ground_spawns_roadbase,
-                self.ground_spawns,
-                self.mission_data,
-            ).create_idle_aircraft()
-            if group:
-                if (
-                    not squadron.coalition.player
-                    and squadron.aircraft.flyable
-                    and (
-                        self.game.settings.enable_squadron_pilot_limits
-                        or squadron.number_of_available_pilots > 0
-                    )
-                    and self.game.settings.untasked_opfor_client_slots
-                ):
-                    flight.state = WaitingForStart(
-                        flight, self.game.settings, self.game.conditions.start_time
-                    )
-                    group.uncontrolled = False
-                    group.units[0].skill = Skill.Client
-                AircraftPainter(flight, group).apply_livery()
-                self.unit_map.add_aircraft(group, flight)
 
     def create_and_configure_flight(
         self, flight: Flight, country: Country, dynamic_runways: Dict[str, RunwayData]
@@ -245,21 +204,21 @@ class AircraftGenerator:
             self.ground_spawns,
             self.mission_data,
         ).create_flight_group()
-        self.flights.append(
-            FlightGroupConfigurator(
-                flight,
-                group,
-                self.game,
-                self.mission,
-                self.time,
-                self.radio_registry,
-                self.tacan_registy,
-                self.laser_code_registry,
-                self.mission_data,
-                dynamic_runways,
-                self.use_client,
-            ).configure()
-        )
+        # self.flights.append(
+        #     FlightGroupConfigurator(
+        #         flight,
+        #         group,
+        #         self.game,
+        #         self.mission,
+        #         self.time,
+        #         self.radio_registry,
+        #         self.tacan_registy,
+        #         self.laser_code_registry,
+        #         self.mission_data,
+        #         dynamic_runways,
+        #         self.use_client,
+        #     ).configure()
+        # )
 
         if self.ewrj:
             self._track_ewrj_flight(flight, group)
