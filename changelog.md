@@ -16,6 +16,7 @@
 * **[Mission Planning]** Allow attack helicopters to escort other helicopters
 * **[UI]** Allow changing waypoint names in FlightEdit's waypoints tab
 * **[Waypoints]** Allow user to add navigation waypoints where possible without degrading to a custom flight-plan
+* **[Campaign Management]** Improve squadron retreat logic to account for parking-slot sizes
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task

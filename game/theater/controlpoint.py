@@ -842,6 +842,12 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
                 if airbase.can_operate(squadron.aircraft):
                     overfull.append(airbase)
                 continue
+            elif isinstance(airbase, Airfield):
+                dcs_unit_type = squadron.aircraft.dcs_unit_type
+                free_slots = airbase.airport.free_parking_slots(dcs_unit_type)
+                if len(free_slots) < squadron.owned_aircraft or len(free_slots) == 0:
+                    overfull.append(airbase)
+                    continue
 
             if squadron.operates_from(airbase):
                 # Has room, is a preferred base type for this squadron, and is the
