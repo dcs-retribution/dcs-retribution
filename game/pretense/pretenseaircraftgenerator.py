@@ -36,7 +36,6 @@ from game.theater.controlpoint import (
 from game.unitmap import UnitMap
 from game.missiongenerator.aircraft.aircraftpainter import AircraftPainter
 from game.missiongenerator.aircraft.flightdata import FlightData
-from game.missiongenerator.aircraft.flightgroupspawner import FlightGroupSpawner
 from game.data.weapons import WeaponType
 
 if TYPE_CHECKING:
@@ -194,8 +193,10 @@ class PretenseAircraftGenerator:
     def create_and_configure_flight(
         self, flight: Flight, country: Country, dynamic_runways: Dict[str, RunwayData]
     ) -> FlyingGroup[Any]:
+        from game.pretense.pretenseflightgroupspawner import PretenseFlightGroupSpawner
+
         """Creates and configures the flight group in the mission."""
-        group = FlightGroupSpawner(
+        group = PretenseFlightGroupSpawner(
             flight,
             country,
             self.mission,

@@ -50,6 +50,9 @@ TRIGGER_RADIUS_MEDIUM = 100000
 TRIGGER_RADIUS_LARGE = 150000
 TRIGGER_RADIUS_ALL_MAP = 3000000
 TRIGGER_RADIUS_CLEAR_SCENERY = 1000
+TRIGGER_RADIUS_PRETENSE_TGO = 500
+TRIGGER_RADIUS_PRETENSE_SUPPLY = 500
+TRIGGER_RADIUS_PRETENSE_HELI = 1000
 
 
 class Silence(Option):
@@ -156,7 +159,7 @@ class PretenseTriggerGenerator:
         for cp in self.game.theater.controlpoints:
             if isinstance(cp, self.capture_zone_types) and not cp.is_fleet:
 
-                zone_color = {1: 0.0, 2: 0.0, 3: 0.0, 4: 0.149}
+                zone_color = {1: 0.0, 2: 0.0, 3: 0.0, 4: 0.15}
                 trigger_zone = self.mission.triggers.add_triggerzone(
                     cp.position,
                     radius=TRIGGER_RADIUS_CAPTURE,
@@ -164,6 +167,45 @@ class PretenseTriggerGenerator:
                     name=cp.name,
                     color=zone_color,
                 )
+            cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalnum()])
+            tgo_num = 0
+            for tgo in cp.ground_objects:
+                tgo_num += 1
+                zone_color = {1: 1.0, 2: 1.0, 3: 1.0, 4: 0.15}
+                trigger_zone = self.mission.triggers.add_triggerzone(
+                    tgo.position,
+                    radius=TRIGGER_RADIUS_PRETENSE_TGO,
+                    hidden=False,
+                    name=f"{cp_name_trimmed}-{tgo_num}",
+                    color=zone_color,
+                )
+            for helipad in cp.helipads + cp.helipads_invisible + cp.helipads_quad:
+                zone_color = {1: 1.0, 2: 1.0, 3: 1.0, 4: 0.15}
+                trigger_zone = self.mission.triggers.add_triggerzone(
+                    position=helipad,
+                    radius=TRIGGER_RADIUS_PRETENSE_HELI,
+                    hidden=False,
+                    name=f"{cp_name_trimmed}-hsp",
+                    color=zone_color,
+                )
+                break
+            for supply_route in cp.convoy_routes.values():
+                tgo_num += 1
+                zone_color = {1: 1.0, 2: 1.0, 3: 1.0, 4: 0.15}
+                origin_position = supply_route[0]
+                next_position = supply_route[1]
+                convoy_heading = origin_position.heading_between_point(next_position)
+                supply_position = origin_position.point_from_heading(
+                    convoy_heading, 300
+                )
+                trigger_zone = self.mission.triggers.add_triggerzone(
+                    supply_position,
+                    radius=TRIGGER_RADIUS_PRETENSE_TGO,
+                    hidden=False,
+                    name=f"{cp_name_trimmed}-sp",
+                    color=zone_color,
+                )
+                break
 
     def generate(self) -> None:
         player_coalition = "blue"
