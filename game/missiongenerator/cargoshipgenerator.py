@@ -24,9 +24,10 @@ class CargoShipGenerator:
 
     def generate(self) -> None:
         # Reset the count to make generation deterministic.
-        for coalition in self.game.coalitions:
-            for ship in coalition.transfers.cargo_ships:
-                self.generate_cargo_ship(ship)
+        if not self.game.settings.perf_disable_cargo_ships:
+            for coalition in self.game.coalitions:
+                for ship in coalition.transfers.cargo_ships:
+                    self.generate_cargo_ship(ship)
 
     def generate_cargo_ship(self, ship: CargoShip) -> ShipGroup:
         waypoints = ship.route
