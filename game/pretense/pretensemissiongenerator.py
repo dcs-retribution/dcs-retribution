@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, cast
 
 import dcs.lua
+from dataclasses import field
 from dcs import Mission, Point
 from dcs.coalition import Coalition
 from dcs.countries import country_dict
@@ -13,38 +14,40 @@ from dcs.task import OptReactOnThreat
 
 from game.atcdata import AtcData
 from game.dcs.beacons import Beacons
-from game.dcs.helpers import unit_type_from_name
-from game.missiongenerator.aircraft.aircraftgenerator import (
-    AircraftGenerator,
-)
+
 from game.naming import namegen
 from game.radio.radios import RadioFrequency, RadioRegistry, MHz
 from game.radio.tacan import TacanRegistry
 from game.theater import Airfield
 from game.theater.bullseye import Bullseye
 from game.unitmap import UnitMap
-from .briefinggenerator import BriefingGenerator, MissionInfoGenerator
-from .cargoshipgenerator import CargoShipGenerator
-from .convoygenerator import ConvoyGenerator
-from .drawingsgenerator import DrawingsGenerator
-from .environmentgenerator import EnvironmentGenerator
-from .flotgenerator import FlotGenerator
-from .forcedoptionsgenerator import ForcedOptionsGenerator
-from .frontlineconflictdescription import FrontLineConflictDescription
-from .kneeboard import KneeboardGenerator
-from .lasercoderegistry import LaserCodeRegistry
-from .luagenerator import LuaGenerator
-from .missiondata import MissionData
-from .tgogenerator import TgoGenerator
-from .triggergenerator import TriggerGenerator
-from .visualsgenerator import VisualsGenerator
+from game.pretense.pretenseaircraftgenerator import PretenseAircraftGenerator
+from game.missiongenerator.briefinggenerator import (
+    BriefingGenerator,
+    MissionInfoGenerator,
+)
+from game.missiongenerator.convoygenerator import ConvoyGenerator
+from game.missiongenerator.environmentgenerator import EnvironmentGenerator
+from game.missiongenerator.flotgenerator import FlotGenerator
+from game.missiongenerator.forcedoptionsgenerator import ForcedOptionsGenerator
+from game.missiongenerator.frontlineconflictdescription import (
+    FrontLineConflictDescription,
+)
+from game.missiongenerator.kneeboard import KneeboardGenerator
+from game.missiongenerator.lasercoderegistry import LaserCodeRegistry
+from game.missiongenerator.luagenerator import LuaGenerator
+from game.missiongenerator.missiondata import MissionData
+from game.missiongenerator.tgogenerator import TgoGenerator
+from .pretensetriggergenerator import PretenseTriggerGenerator
+from game.missiongenerator.visualsgenerator import VisualsGenerator
+from ..ato import Flight
 from ..radio.TacanContainer import TacanContainer
 
 if TYPE_CHECKING:
     from game import Game
 
 
-class MissionGenerator:
+class PretenseMissionGenerator:
     def __init__(self, game: Game, time: datetime) -> None:
         self.game = game
         self.time = time
@@ -94,20 +97,16 @@ class MissionGenerator:
         tgo_generator.generate()
 
         ConvoyGenerator(self.mission, self.game, self.unit_map).generate()
-        CargoShipGenerator(self.mission, self.game, self.unit_map).generate()
-
-        self.generate_destroyed_units()
 
         # Generate ground conflicts first so the JTACs get the first laser code (1688)
         # rather than the first player flight with a TGP.
         self.generate_ground_conflicts()
         self.generate_air_units(tgo_generator)
 
-        TriggerGenerator(self.mission, self.game).generate()
+        PretenseTriggerGenerator(self.mission, self.game).generate()
         ForcedOptionsGenerator(self.mission, self.game).generate()
         VisualsGenerator(self.mission, self.game).generate()
         LuaGenerator(self.game, self.mission, self.mission_data).generate()
-        DrawingsGenerator(self.mission, self.game).generate()
 
         self.setup_combined_arms()
 
@@ -118,22 +117,6 @@ class MissionGenerator:
         self.mission.save(output)
 
         return self.unit_map
-
-    @staticmethod
-    def _configure_ewrj(gen: AircraftGenerator) -> None:
-        for groups in gen.ewrj_package_dict.values():
-            optrot = groups[0].points[0].tasks[0]
-            assert isinstance(optrot, OptReactOnThreat)
-            if (
-                len(groups) == 1
-                and optrot.value != OptReactOnThreat.Values.PassiveDefense
-            ):
-                # primary flight with no EWR-Jamming capability
-                continue
-            for group in groups:
-                group.points[0].tasks[0] = OptReactOnThreat(
-                    OptReactOnThreat.Values.PassiveDefense
-                )
 
     def setup_mission_coalitions(self) -> None:
         self.mission.coalition["blue"] = Coalition(
@@ -232,7 +215,7 @@ class MissionGenerator:
         """Generate the air units for the Operation"""
 
         # Generate Aircraft Activity on the map
-        aircraft_generator = AircraftGenerator(
+        aircraft_generator = PretenseAircraftGenerator(
             self.mission,
             self.game.settings,
             self.game,
@@ -247,22 +230,25 @@ class MissionGenerator:
             ground_spawns=tgo_generator.ground_spawns,
         )
 
+        # Clear parking slots and ATOs
         aircraft_generator.clear_parking_slots()
+        self.game.blue.ato.clear()
+        self.game.red.ato.clear()
 
-        aircraft_generator.generate_flights(
-            self.p_country,
-            self.game.blue.ato,
-            tgo_generator.runways,
-        )
-        aircraft_generator.generate_flights(
-            self.e_country,
-            self.game.red.ato,
-            tgo_generator.runways,
-        )
-        aircraft_generator.spawn_unused_aircraft(
-            self.p_country,
-            self.e_country,
-        )
+        for cp in self.game.theater.controlpoints:
+            if cp.captured:
+                ato = self.game.blue.ato
+                cp_country = self.p_country
+            else:
+                ato = self.game.red.ato
+                cp_country = self.e_country
+            print(f"Generating flights for {cp_country.name} at {cp}")
+            aircraft_generator.generate_flights(
+                cp_country,
+                cp,
+                ato,
+                tgo_generator.runways,
+            )
 
         self.mission_data.flights = aircraft_generator.flights
 
@@ -273,35 +259,6 @@ class MissionGenerator:
 
         if self.game.settings.plugins.get("ewrj"):
             self._configure_ewrj(aircraft_generator)
-
-    def generate_destroyed_units(self) -> None:
-        """Add destroyed units to the Mission"""
-        if not self.game.settings.perf_destroyed_units:
-            return
-
-        for d in self.game.get_destroyed_units():
-            try:
-                type_name = d["type"]
-                if not isinstance(type_name, str):
-                    raise TypeError(
-                        "Expected the type of the destroyed static to be a string"
-                    )
-                utype = unit_type_from_name(type_name)
-            except KeyError:
-                logging.warning(f"Destroyed unit has no type: {d}")
-                continue
-
-            pos = Point(cast(float, d["x"]), cast(float, d["z"]), self.mission.terrain)
-            if utype is not None and not self.game.position_culled(pos):
-                self.mission.static_group(
-                    country=self.p_country,
-                    name="",
-                    _type=utype,
-                    hidden=True,
-                    position=pos,
-                    heading=d["orientation"],
-                    dead=True,
-                )
 
     def notify_info_generators(
         self,

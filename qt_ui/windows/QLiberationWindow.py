@@ -21,6 +21,7 @@ from game import Game, VERSION, persistency, Migrator
 from game.debriefing import Debriefing
 from game.game import TurnState
 from game.layout import LAYOUTS
+from game.pretense.pretensemissiongenerator import PretenseMissionGenerator
 from game.server import EventStream, GameContext
 from game.server.dependencies import QtCallbacks, QtContext
 from game.theater import ControlPoint, MissionTarget, TheaterGroundObject
@@ -41,6 +42,7 @@ from qt_ui.windows.groundobject.QGroundObjectMenu import QGroundObjectMenu
 from qt_ui.windows.infos.QInfoPanel import QInfoPanel
 from qt_ui.windows.logs.QLogsWindow import QLogsWindow
 from qt_ui.windows.newgame.QNewGameWizard import NewGameWizard
+from qt_ui.windows.newgame.QNewPretenseWizard import NewPretenseWizard
 from qt_ui.windows.notes.QNotesWindow import QNotesWindow
 from qt_ui.windows.preferences.QLiberationPreferencesWindow import (
     QLiberationPreferencesWindow,
@@ -193,6 +195,10 @@ class QLiberationWindow(QMainWindow):
             lambda: webbrowser.open_new_tab("https://shdwp.github.io/ukraine/")
         )
 
+        self.newPretenseAction = QAction("&New Pretense Campaign", self)
+        self.newPretenseAction.setIcon(QIcon(CONST.ICONS["Pretense"]))
+        self.newPretenseAction.triggered.connect(self.newPretenseCampaign)
+
         self.openLogsAction = QAction("Show &logs", self)
         self.openLogsAction.triggered.connect(self.showLogsDialog)
 
@@ -234,6 +240,7 @@ class QLiberationWindow(QMainWindow):
         self.links_bar.addAction(self.openDiscordAction)
         self.links_bar.addAction(self.openGithubAction)
         self.links_bar.addAction(self.ukraineAction)
+        self.links_bar.addAction(self.newPretenseAction)
 
         self.actions_bar = self.addToolBar("Actions")
         self.actions_bar.addAction(self.openSettingsAction)
@@ -302,6 +309,15 @@ class QLiberationWindow(QMainWindow):
         wizard = NewGameWizard(self)
         wizard.show()
         wizard.accepted.connect(lambda: self.onGameGenerated(wizard.generatedGame))
+
+    def newPretenseCampaign(self):
+        output = persistency.mission_path_for("pretense_campaign.miz")
+        PretenseMissionGenerator(
+            self.game, self.game.conditions.start_time
+        ).generate_miz(output)
+        title = "Pretense campaign generated"
+        msg = f"A Pretense campaign mission has been successfully generated in {output}"
+        QMessageBox.information(QApplication.focusWidget(), title, msg, QMessageBox.Ok)
 
     def openFile(self):
         if self.game is not None and self.game.savepath:
