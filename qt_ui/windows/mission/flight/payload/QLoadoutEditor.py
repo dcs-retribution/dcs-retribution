@@ -123,6 +123,7 @@ class QLoadoutEditor(QGroupBox):
                 f.write("local unitPayloads = ")
                 f.write(lua.dumps(payloads, indent=1))
                 f.write("\nreturn unitPayloads")
+            self.flight.unit_type.dcs_unit_type.add_to_payload_cache(payload_file)
         self.saved.emit(payload_name)
         QMessageBox.information(
             QWidget(),
