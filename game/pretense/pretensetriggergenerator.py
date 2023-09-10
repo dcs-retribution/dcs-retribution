@@ -170,6 +170,8 @@ class PretenseTriggerGenerator:
             cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalnum()])
             tgo_num = 0
             for tgo in cp.ground_objects:
+                if cp.is_fleet or tgo.sea_object:
+                    continue
                 tgo_num += 1
                 zone_color = {1: 1.0, 2: 1.0, 3: 1.0, 4: 0.15}
                 trigger_zone = self.mission.triggers.add_triggerzone(

@@ -38,6 +38,7 @@ from game.missiongenerator.lasercoderegistry import LaserCodeRegistry
 from game.missiongenerator.luagenerator import LuaGenerator
 from game.missiongenerator.missiondata import MissionData
 from game.missiongenerator.tgogenerator import TgoGenerator
+from .pretensetgogenerator import PretenseTgoGenerator
 from .pretensetriggergenerator import PretenseTriggerGenerator
 from game.missiongenerator.visualsgenerator import VisualsGenerator
 from ..ato import Flight
@@ -86,7 +87,7 @@ class PretenseMissionGenerator:
 
         EnvironmentGenerator(self.mission, self.game.conditions, self.time).generate()
 
-        tgo_generator = TgoGenerator(
+        tgo_generator = PretenseTgoGenerator(
             self.mission,
             self.game,
             self.radio_registry,
