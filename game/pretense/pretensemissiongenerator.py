@@ -258,9 +258,6 @@ class PretenseMissionGenerator:
                 continue
             flight.aircraft_type.assign_channels_for_flight(flight, self.mission_data)
 
-        if self.game.settings.plugins.get("ewrj"):
-            self._configure_ewrj(aircraft_generator)
-
     def notify_info_generators(
         self,
     ) -> None:

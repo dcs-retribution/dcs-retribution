@@ -132,7 +132,7 @@ class PretenseAircraftGenerator:
                 flight_type = FlightType.TRANSPORT
             elif (
                 FlightType.SEAD in mission_types
-                or FlightType.SEAD_SWEEP
+                or FlightType.SEAD_SWEEP in mission_types
                 or FlightType.SEAD_ESCORT in mission_types
             ) and num_of_sead < 2:
                 flight_type = FlightType.SEAD
