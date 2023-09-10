@@ -141,7 +141,7 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
         cp_name: str,
         group_role: str,
         max_num: int,
-    ):
+    ) -> None:
         if self.ground_object.coalition.faction.has_access_to_unit_class(unit_class):
             unit_type = self.ground_unit_of_class(unit_class)
             if unit_type is not None and len(vehicle_units) < max_num:
@@ -169,8 +169,8 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
         if self.culled:
             return
         for group in self.ground_object.groups:
-            vehicle_units = []
-            ship_units = []
+            vehicle_units: list[TheaterUnit] = []
+            ship_units: list[TheaterUnit] = []
             # Split the different unit types to be compliant to dcs limitation
             for unit in group.units:
                 cp_name_trimmed = "".join(
