@@ -42,7 +42,6 @@ from qt_ui.windows.groundobject.QGroundObjectMenu import QGroundObjectMenu
 from qt_ui.windows.infos.QInfoPanel import QInfoPanel
 from qt_ui.windows.logs.QLogsWindow import QLogsWindow
 from qt_ui.windows.newgame.QNewGameWizard import NewGameWizard
-from qt_ui.windows.newgame.QNewPretenseWizard import NewPretenseWizard
 from qt_ui.windows.notes.QNotesWindow import QNotesWindow
 from qt_ui.windows.preferences.QLiberationPreferencesWindow import (
     QLiberationPreferencesWindow,
