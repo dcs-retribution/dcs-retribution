@@ -1,3 +1,4 @@
+
 supplyPointRegistry = {
 	blue = {},
 	red = {}

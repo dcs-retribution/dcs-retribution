@@ -1,3 +1,4 @@
+
 ZoneCommand.setNeighbours(cm)
 
 bm = BattlefieldManager:new()
@@ -104,3 +105,4 @@ local offmapZones = {
 --	zones.gudauta,
 --	zones.kobuleti,
 }
+
