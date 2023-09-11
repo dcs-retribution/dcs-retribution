@@ -13,23 +13,30 @@ from dcs.triggers import TriggerStart
 
 from game.ato import FlightType
 from game.dcs.aircrafttype import AircraftType
+from game.missiongenerator.luagenerator import LuaGenerator
 from game.plugins import LuaPluginManager
-from game.theater import TheaterGroundObject
+from game.theater import TheaterGroundObject, Airfield
 from game.theater.iadsnetwork.iadsrole import IadsRole
 from game.utils import escape_string_for_lua
-from .missiondata import MissionData
+from game.missiongenerator.missiondata import MissionData
 
 if TYPE_CHECKING:
     from game import Game
 
 
-class LuaGenerator:
+class PretenseLuaGenerator(LuaGenerator):
     def __init__(
         self,
         game: Game,
         mission: Mission,
         mission_data: MissionData,
     ) -> None:
+        super().__init__(
+            game,
+            mission,
+            mission_data,
+        )
+
         self.game = game
         self.mission = mission
         self.mission_data = mission_data
@@ -207,8 +214,95 @@ class LuaGenerator:
             for role, connections in node.connections.items():
                 iads_element.add_data_array(role, connections)
 
-        trigger = TriggerStart(comment="Set DCS Retribution data")
-        trigger.add_action(DoScript(String(lua_data.create_operations_lua())))
+        trigger = TriggerStart(comment="Pretense init")
+
+        init_header_file = open("./resources/plugins/pretense/init_header.lua", "r")
+        init_header = init_header_file.read()
+
+        lua_string = ""
+        lua_data = LuaData("products")
+
+        for cp in self.game.theater.controlpoints:
+            cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalnum()])
+            cp_side = 2 if cp.captured else 1
+
+            lua_string += f"zones.{cp_name_trimmed} = ZoneCommand:new('{cp.name}')\n"
+            lua_string += (
+                f"zones.{cp_name_trimmed}.initialState = "
+                + "{ side="
+                + str(cp_side)
+                + " }\n"
+            )
+            lua_string += f"zones.{cp_name_trimmed}.keepActive = true\n"
+            if cp.has_helipads:
+                lua_string += f"zones.{cp_name_trimmed}.isHeloSpawn = true\n"
+            if isinstance(cp, Airfield) or cp.has_ground_spawns:
+                lua_string += f"zones.{cp_name_trimmed}.isPlaneSpawn = true\n"
+            lua_string += f"zones.{cp_name_trimmed}.maxResource = 50000\n"
+            lua_string += f"zones.{cp_name_trimmed}:defineUpgrades(" + "{\n"
+            lua_string += "    [1] = { --red side\n"
+            lua_string += "        presets.upgrades.basic.tent:extend({\n"
+            lua_string += f"            name='{cp_name_trimmed}-tent-red',\n"
+            lua_string += "            products = {\n"
+            lua_string += "                presets.special.red.infantry:extend({ name='mike-defense-red'})\n"
+            lua_string += "            }\n"
+            lua_string += "        }),\n"
+            lua_string += "        presets.upgrades.basic.comPost:extend({\n"
+            lua_string += "            name = 'batumi-com-red',\n"
+            lua_string += "            products = {"
+            lua_string += "                presets.special.red.infantry:extend({ name='batumi-defense-red'}),\n"
+            lua_string += "                presets.defenses.red.infantry:extend({ name='batumi-garrison-red' })\n"
+            lua_string += "            }\n"
+            lua_string += "        }),\n"
+            lua_string += "    },\n"
+            lua_string += "    [2] = --blue side\n"
+            lua_string += "    {\n"
+            lua_string += "        presets.upgrades.basic.tent:extend({\n"
+            lua_string += "            name='mike-tent-blue',\n"
+            lua_string += "            products = {\n"
+            lua_string += "                presets.special.blue.infantry:extend({ name='mike-defense-blue'})\n"
+            lua_string += "            }\n"
+            lua_string += "        }),\n"
+            lua_string += "        presets.upgrades.basic.comPost:extend({\n"
+            lua_string += "            name = 'batumi-com-blue',\n"
+            lua_string += "            products = {"
+            lua_string += "                presets.special.blue.infantry:extend({ name='batumi-defense-blue'}),\n"
+            lua_string += "                presets.defenses.blue.infantry:extend({ name='batumi-garrison-blue' })\n"
+            lua_string += "            }\n"
+            lua_string += "        }),\n"
+            lua_string += "        presets.upgrades.supply.fuelTank:extend({\n"
+            lua_string += "            name = 'batumi-fueltank-blue',\n"
+            lua_string += "            products = {\n"
+            lua_string += "                presets.missions.supply.convoy_escorted:extend({ name='batumi-supply-convoy-1'}),\n"
+            lua_string += "                presets.missions.supply.helo:extend({ name='batumi-supply-blue-1' }),\n"
+            lua_string += "                presets.missions.supply.transfer:extend({name='batumi-transfer-blue'})\n"
+            lua_string += "            }\n"
+            lua_string += "        }),\n"
+            lua_string += "        presets.upgrades.airdef.comCenter:extend({\n"
+            lua_string += "            name = 'batumi-mission-command-blue',\n"
+            lua_string += "            products = {\n"
+            lua_string += "                presets.defenses.blue.shorad:extend({ name='batumi-sam-blue' }),\n"
+            lua_string += "                presets.missions.attack.sead:extend({name='batumi-sead-blue-1', altitude=25000, expend=AI.Task.WeaponExpend.ALL}),\n"
+            lua_string += "                presets.missions.attack.cas:extend({name='batumi-cas-blue-1', altitude=15000, expend=AI.Task.WeaponExpend.ONE}),\n"
+            lua_string += "                presets.missions.attack.bai:extend({name='batumi-cas-blue-1', altitude=10000, expend=AI.Task.WeaponExpend.ONE}),\n"
+            lua_string += "                presets.missions.attack.strike:extend({name='batumi-strike-blue-1', altitude=20000, expend=AI.Task.WeaponExpend.ALL}),\n"
+            lua_string += "                presets.missions.patrol.aircraft:extend({name='batumi-patrol-blue-1', altitude=25000, range=25}),\n"
+            lua_string += "                presets.missions.support.awacs:extend({name='batumi-awacs-blue', altitude=30000, freq=257.5}),\n"
+            lua_string += "                presets.missions.support.tanker:extend({name='batumi-tanker-blue', altitude=25000, freq=257, tacan='37', variant=\"Drogue\"})\n"
+            lua_string += "            }\n"
+            lua_string += "        })\n"
+            lua_string += "    }\n"
+            lua_string += "})\n"
+
+        init_body_file = open("./resources/plugins/pretense/init_body.lua", "r")
+        init_body = init_body_file.read()
+
+        init_footer_file = open("./resources/plugins/pretense/init_footer.lua", "r")
+        init_footer = init_footer_file.read()
+
+        lua_string = init_header + lua_string + init_body + init_footer
+
+        trigger.add_action(DoScript(String(lua_string)))
         self.mission.triggerrules.triggers.append(trigger)
 
     def inject_lua_trigger(self, contents: str, comment: str) -> None:

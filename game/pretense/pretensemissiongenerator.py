@@ -35,9 +35,9 @@ from game.missiongenerator.frontlineconflictdescription import (
 )
 from game.missiongenerator.kneeboard import KneeboardGenerator
 from game.missiongenerator.lasercoderegistry import LaserCodeRegistry
-from game.missiongenerator.luagenerator import LuaGenerator
 from game.missiongenerator.missiondata import MissionData
 from game.missiongenerator.tgogenerator import TgoGenerator
+from .pretenseluagenerator import PretenseLuaGenerator
 from .pretensetgogenerator import PretenseTgoGenerator
 from .pretensetriggergenerator import PretenseTriggerGenerator
 from game.missiongenerator.visualsgenerator import VisualsGenerator
@@ -107,7 +107,7 @@ class PretenseMissionGenerator:
         PretenseTriggerGenerator(self.mission, self.game).generate()
         ForcedOptionsGenerator(self.mission, self.game).generate()
         VisualsGenerator(self.mission, self.game).generate()
-        LuaGenerator(self.game, self.mission, self.mission_data).generate()
+        PretenseLuaGenerator(self.game, self.mission, self.mission_data).generate()
 
         self.setup_combined_arms()
 
