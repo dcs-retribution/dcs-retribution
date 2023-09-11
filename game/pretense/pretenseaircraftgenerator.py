@@ -32,6 +32,7 @@ from game.theater.controlpoint import (
     Airfield,
     ControlPoint,
     Fob,
+    OffMapSpawn,
 )
 from game.unitmap import UnitMap
 from game.missiongenerator.aircraft.aircraftpainter import AircraftPainter
@@ -121,6 +122,10 @@ class PretenseAircraftGenerator:
         num_of_strike = 0
         num_of_cap = 0
         for squadron in cp.squadrons:
+            # Intentionally don't spawn anything at OffMapSpawns in Pretense
+            if isinstance(squadron.location, OffMapSpawn):
+                continue
+
             squadron.owned_aircraft += 1
             squadron.untasked_aircraft += 1
             package = Package(cp, squadron.flight_db, auto_asap=False)

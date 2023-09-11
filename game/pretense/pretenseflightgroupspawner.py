@@ -17,7 +17,7 @@ from game.ato.starttype import StartType
 from game.missiongenerator.aircraft.flightgroupspawner import FlightGroupSpawner
 from game.missiongenerator.missiondata import MissionData
 from game.naming import NameGenerator
-from game.theater import Airfield, ControlPoint, Fob, NavalControlPoint
+from game.theater import Airfield, ControlPoint, Fob, NavalControlPoint, OffMapSpawn
 from game.utils import feet, meters
 
 
@@ -67,11 +67,13 @@ class PretenseFlightGroupSpawner(FlightGroupSpawner):
         cp = self.flight.departure
         name = namegen.next_pretense_aircraft_name(cp, self.flight)
 
-        print(name)
         try:
             if self.start_type is StartType.IN_FLIGHT:
                 group = self._generate_over_departure(name, cp)
                 return group
+            elif isinstance(cp, OffMapSpawn):
+                # Intentionally don't spawn anything at OffMapSpawns in Pretense
+                logging.info(f"Skipping flight generation for off-map spawn {cp}.")
             elif isinstance(cp, NavalControlPoint):
                 group_name = cp.get_carrier_group_name()
                 carrier_group = self.mission.find_group(group_name)
