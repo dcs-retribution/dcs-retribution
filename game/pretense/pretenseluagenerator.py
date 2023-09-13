@@ -364,29 +364,45 @@ class PretenseLuaGenerator(LuaGenerator):
                     for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
                         mission_type
                     ]:
+                        tanker_freq = 257
+                        tanker_tacan = 37
+                        for tanker in self.mission_data.tankers:
+                            if tanker.group_name == air_group:
+                                tanker_freq = tanker.freq.hertz / 1000000
+                                tanker_tacan = tanker.tacan.number
+                                if tanker.variant == "KC-135 Stratotanker":
+                                    tanker_variant = "Boom"
+                                else:
+                                    tanker_variant = "Drogue"
                         lua_string += (
                             f"                presets.missions.{mission_name}:extend"
                             + "({name='"
                             + air_group
-                            + "', freq=257, tacan='37', variant=\"Drogue\"}),\n"
+                            + "', freq='"
+                            + str(tanker_freq)
+                            + "', tacan='"
+                            + str(tanker_tacan)
+                            + "', variant='"
+                            + tanker_variant
+                            + "'}),\n"
                         )
-                    for tanker in self.mission_data.tankers:
-                        if tanker.group_name == air_group:
-                            print(tanker)
                 elif mission_type == FlightType.AEWC.name:
                     mission_name = "support.awacs"
                     for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
                         mission_type
                     ]:
+                        awacs_freq = 257.5
+                        for awacs in self.mission_data.awacs:
+                            if awacs.group_name == air_group:
+                                awacs_freq = awacs.freq.hertz / 1000000
                         lua_string += (
                             f"                presets.missions.{mission_name}:extend"
                             + "({name='"
                             + air_group
-                            + "', freq=257.5}),\n"
+                            + "', freq="
+                            + str(awacs_freq)
+                            + "}),\n"
                         )
-                    for awacs in self.mission_data.awacs:
-                        if awacs.group_name == air_group:
-                            print(awacs)
             lua_string += "            }\n"
             lua_string += "        })\n"
             lua_string += "    }\n"
