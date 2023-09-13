@@ -121,6 +121,7 @@ class PretenseAircraftGenerator:
         num_of_cas = 0
         num_of_strike = 0
         num_of_cap = 0
+
         for squadron in cp.squadrons:
             # Intentionally don't spawn anything at OffMapSpawns in Pretense
             if isinstance(squadron.location, OffMapSpawn):
@@ -134,7 +135,7 @@ class PretenseAircraftGenerator:
                 FlightType.TRANSPORT in mission_types
                 or FlightType.AIR_ASSAULT in mission_types
             ):
-                flight_type = FlightType.TRANSPORT
+                flight_type = FlightType.AIR_ASSAULT
             elif (
                 FlightType.SEAD in mission_types
                 or FlightType.SEAD_SWEEP in mission_types
@@ -210,21 +211,25 @@ class PretenseAircraftGenerator:
             self.ground_spawns,
             self.mission_data,
         ).create_flight_group()
-        # self.flights.append(
-        #     FlightGroupConfigurator(
-        #         flight,
-        #         group,
-        #         self.game,
-        #         self.mission,
-        #         self.time,
-        #         self.radio_registry,
-        #         self.tacan_registy,
-        #         self.laser_code_registry,
-        #         self.mission_data,
-        #         dynamic_runways,
-        #         self.use_client,
-        #     ).configure()
-        # )
+        if flight.flight_type in [
+            FlightType.REFUELING,
+            FlightType.AEWC,
+        ]:
+            self.flights.append(
+                FlightGroupConfigurator(
+                    flight,
+                    group,
+                    self.game,
+                    self.mission,
+                    self.time,
+                    self.radio_registry,
+                    self.tacan_registy,
+                    self.laser_code_registry,
+                    self.mission_data,
+                    dynamic_runways,
+                    self.use_client,
+                ).configure()
+            )
 
         if self.ewrj:
             self._track_ewrj_flight(flight, group)

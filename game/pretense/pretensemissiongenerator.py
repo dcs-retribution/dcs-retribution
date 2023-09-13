@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 from datetime import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, cast, List
 
 import dcs.lua
 from dataclasses import field
@@ -80,6 +80,10 @@ class PretenseMissionGenerator:
                 "MissionSimulation."
             )
         self.generation_started = True
+
+        self.game.pretense_ground_supply = {1: {}, 2: {}}
+        self.game.pretense_ground_assault = {1: {}, 2: {}}
+        self.game.pretense_air = {1: {}, 2: {}}
 
         self.setup_mission_coalitions()
         self.add_airfields_to_unit_map()
