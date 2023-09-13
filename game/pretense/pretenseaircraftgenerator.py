@@ -22,6 +22,9 @@ from game.ato.flightstate import Completed, WaitingForStart
 from game.ato.flighttype import FlightType
 from game.ato.package import Package
 from game.ato.starttype import StartType
+from game.missiongenerator.aircraft.flightgroupconfigurator import (
+    FlightGroupConfigurator,
+)
 from game.missiongenerator.lasercoderegistry import LaserCodeRegistry
 from game.missiongenerator.missiondata import MissionData
 from game.radio.radios import RadioRegistry
