@@ -53,6 +53,8 @@ class PretenseLuaGenerator(LuaGenerator):
             self.mission.triggerrules.triggers.append(t)
 
     def generate_plugin_data(self) -> None:
+        self.mission.triggerrules.triggers.clear()
+
         lua_data = LuaData("dcsRetribution")
 
         install_path = lua_data.add_item("installPath")
@@ -391,8 +393,8 @@ class PretenseLuaGenerator(LuaGenerator):
                     for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
                         mission_type
                     ]:
-                        tanker_freq = 257
-                        tanker_tacan = 37
+                        tanker_freq = 257.0
+                        tanker_tacan = 37.0
                         for tanker in self.mission_data.tankers:
                             if tanker.group_name == air_group:
                                 tanker_freq = tanker.freq.hertz / 1000000
