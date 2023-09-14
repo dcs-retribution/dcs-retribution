@@ -1,4 +1,6 @@
 
+end
+
 ZoneCommand.setNeighbours(cm)
 
 bm = BattlefieldManager:new()
