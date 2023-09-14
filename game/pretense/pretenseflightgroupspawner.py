@@ -86,9 +86,6 @@ class PretenseFlightGroupSpawner(FlightGroupSpawner):
                 ].append(name)
                 group = self._generate_over_departure(name, cp)
                 return group
-            elif isinstance(cp, OffMapSpawn):
-                # Intentionally don't spawn anything at OffMapSpawns in Pretense
-                logging.info(f"Skipping flight generation for off-map spawn {cp}.")
             elif isinstance(cp, NavalControlPoint):
                 group_name = cp.get_carrier_group_name()
                 carrier_group = self.mission.find_group(group_name)
