@@ -225,8 +225,9 @@ class PretenseLuaGenerator(LuaGenerator):
         for cp in self.game.theater.controlpoints:
             cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalnum()])
             cp_side = 2 if cp.captured else 1
-            if cp_name_trimmed not in self.game.pretense_air[cp_side]:
-                self.game.pretense_air[cp_side][cp_name_trimmed] = {}
+            for side in range(1, 3):
+                if cp_name_trimmed not in self.game.pretense_air[cp_side]:
+                    self.game.pretense_air[side][cp_name_trimmed] = {}
             # if flight_type not in self.flight.coalition.game.pretense_air[cp_side][cp_name_trimmed]:
             #     self.flight.coalition.game.pretense_air[cp_side][cp_name_trimmed][flight_type] = list()
 
@@ -248,14 +249,26 @@ class PretenseLuaGenerator(LuaGenerator):
             lua_string += "        presets.upgrades.basic.tent:extend({\n"
             lua_string += f"            name='{cp_name_trimmed}-tent-red',\n"
             lua_string += "            products = {\n"
-            lua_string += "                presets.special.red.infantry:extend({ name='mike-defense-red'})\n"
+            lua_string += (
+                "                presets.special.red.infantry:extend({ name='"
+                + cp_name_trimmed
+                + "-defense-red'})\n"
+            )
             lua_string += "            }\n"
             lua_string += "        }),\n"
             lua_string += "        presets.upgrades.basic.comPost:extend({\n"
             lua_string += f"            name = '{cp_name_trimmed}-com-red',\n"
             lua_string += "            products = {"
-            lua_string += "                presets.special.red.infantry:extend({ name='batumi-defense-red'}),\n"
-            lua_string += "                presets.defenses.red.infantry:extend({ name='batumi-garrison-red' })\n"
+            lua_string += (
+                "                presets.special.red.infantry:extend({ name='"
+                + cp_name_trimmed
+                + "-defense-red'}),\n"
+            )
+            lua_string += (
+                "                presets.defenses.red.infantry:extend({ name='"
+                + cp_name_trimmed
+                + "-garrison-red' })\n"
+            )
             lua_string += "            }\n"
             lua_string += "        }),\n"
             lua_string += "    },\n"
@@ -264,18 +277,32 @@ class PretenseLuaGenerator(LuaGenerator):
             lua_string += "        presets.upgrades.basic.tent:extend({\n"
             lua_string += f"            name='{cp_name_trimmed}-tent-blue',\n"
             lua_string += "            products = {\n"
-            lua_string += "                presets.special.blue.infantry:extend({ name='mike-defense-blue'})\n"
+            lua_string += (
+                "                presets.special.blue.infantry:extend({ name='"
+                + cp_name_trimmed
+                + "-defense-blue'})\n"
+            )
             lua_string += "            }\n"
             lua_string += "        }),\n"
             lua_string += "        presets.upgrades.basic.comPost:extend({\n"
             lua_string += f"            name = '{cp_name_trimmed}-com-blue',\n"
-            lua_string += "            products = {"
-            lua_string += "                presets.special.blue.infantry:extend({ name='batumi-defense-blue'}),\n"
-            lua_string += "                presets.defenses.blue.infantry:extend({ name='batumi-garrison-blue' })\n"
+            lua_string += "            products = {\n"
+            lua_string += (
+                "                presets.special.blue.infantry:extend({ name='"
+                + cp_name_trimmed
+                + "-defense-blue'}),\n"
+            )
+            lua_string += (
+                "                presets.defenses.blue.infantry:extend({ name='"
+                + cp_name_trimmed
+                + "-garrison-blue' })\n"
+            )
             lua_string += "            }\n"
             lua_string += "        }),\n"
             lua_string += "        presets.upgrades.supply.fuelTank:extend({\n"
-            lua_string += "            name = 'batumi-fueltank-blue',\n"
+            lua_string += (
+                "            name = '" + cp_name_trimmed + "-fueltank-blue',\n"
+            )
             lua_string += "            products = {\n"
             lua_string += "                presets.missions.supply.convoy_escorted:extend({ name='batumi-supply-convoy-1'}),\n"
             lua_string += "                presets.missions.supply.helo:extend({ name='batumi-supply-blue-1' }),\n"

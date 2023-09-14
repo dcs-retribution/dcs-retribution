@@ -168,37 +168,55 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
     def generate(self) -> None:
         if self.culled:
             return
+        cp_name_trimmed = "".join(
+            [i for i in self.ground_object.control_point.name.lower() if i.isalnum()]
+        )
+        cp_side = 2 if self.ground_object.control_point.captured else 1
+        for side in range(1, 3):
+            if cp_name_trimmed not in self.game.pretense_ground_supply[cp_side]:
+                self.game.pretense_ground_supply[side][cp_name_trimmed] = list()
+            if cp_name_trimmed not in self.game.pretense_ground_assault[cp_side]:
+                self.game.pretense_ground_assault[side][cp_name_trimmed] = list()
+        print(self.game.pretense_ground_supply[cp_side][cp_name_trimmed])
         for group in self.ground_object.groups:
             vehicle_units: list[TheaterUnit] = []
             ship_units: list[TheaterUnit] = []
             # Split the different unit types to be compliant to dcs limitation
             for unit in group.units:
-                cp_name_trimmed = "".join(
-                    [
-                        i
-                        for i in self.ground_object.control_point.name.lower()
-                        if i.isalnum()
-                    ]
-                )
-
                 if unit.is_static:
                     # Add supply convoy
+                    group_id = self.game.next_group_id()
+                    group_role = "supply"
+                    group_name = f"{cp_name_trimmed}-{group_role}-{group_id}"
+                    group.name = group_name
+                    self.game.pretense_ground_supply[cp_side][cp_name_trimmed].append(
+                        group_name
+                    )
+
                     self.generate_ground_unit_of_class(
                         UnitClass.LOGISTICS,
                         group,
                         vehicle_units,
                         cp_name_trimmed,
-                        "supply",
+                        group_role,
                         PRETENSE_GROUND_UNIT_GROUP_SIZE,
                     )
                 elif unit.is_vehicle and unit.alive:
                     # Add armor group
+                    group_id = self.game.next_group_id()
+                    group_role = "assault"
+                    group_name = f"{cp_name_trimmed}-{group_role}-{group_id}"
+                    group.name = group_name
+                    self.game.pretense_ground_supply[cp_side][cp_name_trimmed].append(
+                        group_name
+                    )
+
                     self.generate_ground_unit_of_class(
                         UnitClass.TANK,
                         group,
                         vehicle_units,
                         cp_name_trimmed,
-                        "assault",
+                        group_role,
                         PRETENSE_GROUND_UNIT_GROUP_SIZE - 3,
                     )
                     self.generate_ground_unit_of_class(
@@ -206,7 +224,7 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
                         group,
                         vehicle_units,
                         cp_name_trimmed,
-                        "assault",
+                        group_role,
                         PRETENSE_GROUND_UNIT_GROUP_SIZE - 2,
                     )
                     self.generate_ground_unit_of_class(
@@ -214,7 +232,7 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
                         group,
                         vehicle_units,
                         cp_name_trimmed,
-                        "assault",
+                        group_role,
                         PRETENSE_GROUND_UNIT_GROUP_SIZE - 1,
                     )
                     self.generate_ground_unit_of_class(
@@ -222,7 +240,7 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
                         group,
                         vehicle_units,
                         cp_name_trimmed,
-                        "assault",
+                        group_role,
                         PRETENSE_GROUND_UNIT_GROUP_SIZE,
                     )
                     self.generate_ground_unit_of_class(
@@ -230,7 +248,7 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
                         group,
                         vehicle_units,
                         cp_name_trimmed,
-                        "assault",
+                        group_role,
                         PRETENSE_GROUND_UNIT_GROUP_SIZE,
                     )
                     self.generate_ground_unit_of_class(
@@ -238,7 +256,7 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
                         group,
                         vehicle_units,
                         cp_name_trimmed,
-                        "assault",
+                        group_role,
                         PRETENSE_GROUND_UNIT_GROUP_SIZE,
                     )
                     if random.randrange(0, 100) > 75:
@@ -247,14 +265,13 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
                             group,
                             vehicle_units,
                             cp_name_trimmed,
-                            "assault",
+                            group_role,
                             PRETENSE_GROUND_UNIT_GROUP_SIZE,
                         )
                 elif unit.is_ship and unit.alive:
                     # All alive Ships
                     ship_units.append(unit)
             if vehicle_units:
-                print(f"Generating vehicle group {vehicle_units}")
                 self.create_vehicle_group(group.group_name, vehicle_units)
             if ship_units:
                 self.create_ship_group(group.group_name, ship_units)
