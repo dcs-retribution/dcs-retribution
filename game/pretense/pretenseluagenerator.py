@@ -305,9 +305,6 @@ class PretenseLuaGenerator(LuaGenerator):
             lua_string_zones += "    }\n"
             lua_string_zones += "})\n"
 
-        init_body_file = open("./resources/plugins/pretense/init_body.lua", "r")
-        init_body = init_body_file.read()
-
         lua_string_connman = "	cm = ConnectionManager:new()"
 
         for cp in self.game.theater.controlpoints:
@@ -316,6 +313,19 @@ class PretenseLuaGenerator(LuaGenerator):
                     f"    cm: addConnection('{cp.name}', '{other_cp.name}')"
                 )
 
+        init_body_1_file = open("./resources/plugins/pretense/init_body_1.lua", "r")
+        init_body_1 = init_body_1_file.read()
+
+        lua_string_jtac = ""
+        for jtac in self.mission_data.jtacs:
+            lua_string_jtac = f"Group.getByName('{jtac.group_name}'): destroy()"
+            lua_string_jtac += (
+                "CommandFunctions.jtac = JTAC:new({name = '" + jtac.group_name + "'})"
+            )
+
+        init_body_2_file = open("./resources/plugins/pretense/init_body_2.lua", "r")
+        init_body_2 = init_body_2_file.read()
+
         init_footer_file = open("./resources/plugins/pretense/init_footer.lua", "r")
         init_footer = init_footer_file.read()
 
@@ -323,7 +333,9 @@ class PretenseLuaGenerator(LuaGenerator):
             init_header
             + lua_string_zones
             + lua_string_connman
-            + init_body
+            + init_body_1
+            + lua_string_jtac
+            + init_body_2
             + init_footer
         )
 
