@@ -9,7 +9,11 @@ import dcs.lua
 from dataclasses import field
 from dcs import Mission, Point
 from dcs.coalition import Coalition
-from dcs.countries import country_dict
+from dcs.countries import (
+    country_dict,
+    CombinedJointTaskForcesBlue,
+    CombinedJointTaskForcesRed,
+)
 from dcs.task import OptReactOnThreat
 
 from game.atcdata import AtcData
@@ -142,6 +146,12 @@ class PretenseMissionGenerator(MissionGenerator):
 
         self.mission.coalition["blue"].add_country(self.p_country)
         self.mission.coalition["red"].add_country(self.e_country)
+
+        # Add CJTF factions to the coalitions, if they're not being used in the campaign
+        # if CombinedJointTaskForcesBlue not in {self.p_country, self.e_country}:
+        #     self.mission.coalition["blue"].add_country(CombinedJointTaskForcesBlue())
+        # if CombinedJointTaskForcesRed not in {self.p_country, self.e_country}:
+        #     self.mission.coalition["red"].add_country(CombinedJointTaskForcesRed())
 
         belligerents = {self.p_country.id, self.e_country.id}
         for country_id in country_dict.keys():
