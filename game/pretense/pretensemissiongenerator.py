@@ -42,14 +42,20 @@ from .pretensetgogenerator import PretenseTgoGenerator
 from .pretensetriggergenerator import PretenseTriggerGenerator
 from game.missiongenerator.visualsgenerator import VisualsGenerator
 from ..ato import Flight
+from ..missiongenerator import MissionGenerator
 from ..radio.TacanContainer import TacanContainer
 
 if TYPE_CHECKING:
     from game import Game
 
 
-class PretenseMissionGenerator:
+class PretenseMissionGenerator(MissionGenerator):
     def __init__(self, game: Game, time: datetime) -> None:
+        super().__init__(
+            game,
+            time,
+        )
+
         self.game = game
         self.time = time
         self.mission = Mission(game.theater.terrain)
@@ -143,51 +149,6 @@ class PretenseMissionGenerator:
                 c = country_dict[country_id]()
                 self.mission.coalition["neutrals"].add_country(c)
 
-    def add_airfields_to_unit_map(self) -> None:
-        for control_point in self.game.theater.controlpoints:
-            if isinstance(control_point, Airfield):
-                self.unit_map.add_airfield(control_point)
-
-    def initialize_registries(self) -> None:
-        unique_map_frequencies: set[RadioFrequency] = set()
-        self.initialize_tacan_registry(unique_map_frequencies)
-        self.initialize_radio_registry(unique_map_frequencies)
-        # Allocate UHF/VHF Guard Freq first!
-        unique_map_frequencies.add(MHz(243))
-        unique_map_frequencies.add(MHz(121, 500))
-        for frequency in unique_map_frequencies:
-            self.radio_registry.reserve(frequency)
-
-    def initialize_tacan_registry(
-        self, unique_map_frequencies: set[RadioFrequency]
-    ) -> None:
-        """
-        Dedup beacon/radio frequencies, since some maps have some frequencies
-        used multiple times.
-        """
-        for beacon in Beacons.iter_theater(self.game.theater):
-            unique_map_frequencies.add(beacon.frequency)
-            if beacon.is_tacan:
-                if beacon.channel is None:
-                    logging.warning(f"TACAN beacon has no channel: {beacon.callsign}")
-                else:
-                    self.tacan_registry.mark_unavailable(beacon.tacan_channel)
-        for cp in self.game.theater.controlpoints:
-            if isinstance(cp, TacanContainer) and cp.tacan is not None:
-                self.tacan_registry.mark_unavailable(cp.tacan)
-
-    def initialize_radio_registry(
-        self, unique_map_frequencies: set[RadioFrequency]
-    ) -> None:
-        for airport in self.game.theater.terrain.airport_list():
-            if (atc := AtcData.from_pydcs(airport)) is not None:
-                unique_map_frequencies.add(atc.hf)
-                unique_map_frequencies.add(atc.vhf_fm)
-                unique_map_frequencies.add(atc.vhf_am)
-                unique_map_frequencies.add(atc.uhf)
-                # No need to reserve ILS or TACAN because those are in the
-                # beacon list.
-
     def generate_ground_conflicts(self) -> None:
         """Generate FLOTs and JTACs for each active front line."""
         for front_line in self.game.theater.conflicts():
@@ -247,7 +208,6 @@ class PretenseMissionGenerator:
             else:
                 ato = self.game.red.ato
                 cp_country = self.e_country
-            print(f"Generating flights for {cp_country.name} at {cp}")
             aircraft_generator.generate_flights(
                 cp_country,
                 cp,
