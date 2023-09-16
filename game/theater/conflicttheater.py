@@ -219,14 +219,11 @@ class ConflictTheater:
         for other_cp in control_points:
             if cp == other_cp:
                 continue
-            print(f"{cp}: {other_cp} being evaluated...")
 
             dist = other_cp.position.distance_to_point(cp.position)
-            print(f"  {other_cp} is at {dist} meters")
             distances_to_cp[dist] = other_cp
         for i in sorted(distances_to_cp.keys()):
             other_cp = distances_to_cp[i]
-            print(f"  {other_cp} is at {i} meters")
             if closest_cp is None:
                 closest_cp = other_cp
                 continue

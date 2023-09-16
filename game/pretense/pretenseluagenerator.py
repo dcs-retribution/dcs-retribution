@@ -15,7 +15,7 @@ from game.ato import FlightType
 from game.dcs.aircrafttype import AircraftType
 from game.missiongenerator.luagenerator import LuaGenerator
 from game.plugins import LuaPluginManager
-from game.theater import TheaterGroundObject, Airfield
+from game.theater import TheaterGroundObject, Airfield, OffMapSpawn
 from game.theater.iadsnetwork.iadsrole import IadsRole
 from game.utils import escape_string_for_lua
 from game.missiongenerator.missiondata import MissionData
@@ -68,6 +68,9 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_zones = ""
 
         for cp in self.game.theater.controlpoints:
+            if isinstance(cp, OffMapSpawn):
+                continue
+
             cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalnum()])
             cp_side = 2 if cp.captured else 1
             for side in range(1, 3):
@@ -401,7 +404,7 @@ class PretenseLuaGenerator(LuaGenerator):
 
     def inject_plugins(self) -> None:
         for plugin in LuaPluginManager.plugins():
-            if plugin.enabled:
+            if plugin.enabled and plugin.identifier not in ("base"):
                 plugin.inject_scripts(self)
                 plugin.inject_configuration(self)
 
