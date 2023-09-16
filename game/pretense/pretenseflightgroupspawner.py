@@ -170,8 +170,7 @@ class PretenseFlightGroupSpawner(FlightGroupSpawner):
 
     def generate_mid_mission(self) -> FlyingGroup[Any]:
         assert isinstance(self.flight.state, InFlight)
-        cp = self.flight.departure
-        name = namegen.next_pretense_aircraft_name(cp, self.flight)
+        name = namegen.next_pretense_aircraft_name(self.flight.departure, self.flight)
         speed = self.flight.state.estimate_speed()
         pos = self.flight.state.estimate_position()
         pos += Vector2(random.randint(100, 1000), random.randint(100, 1000))
