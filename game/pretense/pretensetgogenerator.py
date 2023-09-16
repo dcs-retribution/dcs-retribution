@@ -145,8 +145,8 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
         if self.ground_object.coalition.faction.has_access_to_unit_class(unit_class):
             unit_type = self.ground_unit_of_class(unit_class)
             if unit_type is not None and len(vehicle_units) < max_num:
-                group_id = self.game.next_group_id()
-                group_name = f"{cp_name}-{group_role}-{group_id}"
+                unit_id = self.game.next_unit_id()
+                unit_name = f"{cp_name}-{group_role}-{unit_id}"
 
                 spread_out_heading = random.randrange(1, 360)
                 spread_out_position = group.position.point_from_heading(
@@ -157,8 +157,8 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
                 )
 
                 theater_unit = TheaterUnit(
-                    group_id,
-                    group_name,
+                    unit_id,
+                    unit_name,
                     unit_type.dcs_unit_type,
                     ground_unit_pos,
                     group.ground_object,
@@ -177,7 +177,6 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
                 self.game.pretense_ground_supply[side][cp_name_trimmed] = list()
             if cp_name_trimmed not in self.game.pretense_ground_assault[cp_side]:
                 self.game.pretense_ground_assault[side][cp_name_trimmed] = list()
-        print(self.game.pretense_ground_supply[cp_side][cp_name_trimmed])
         for group in self.ground_object.groups:
             vehicle_units: list[TheaterUnit] = []
             ship_units: list[TheaterUnit] = []
@@ -185,13 +184,9 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
             for unit in group.units:
                 if unit.is_static:
                     # Add supply convoy
-                    group_id = self.game.next_group_id()
                     group_role = "supply"
-                    group_name = f"{cp_name_trimmed}-{group_role}-{group_id}"
+                    group_name = f"{cp_name_trimmed}-{group_role}-{group.id}"
                     group.name = group_name
-                    self.game.pretense_ground_supply[cp_side][cp_name_trimmed].append(
-                        group_name
-                    )
 
                     self.generate_ground_unit_of_class(
                         UnitClass.LOGISTICS,
@@ -203,13 +198,9 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
                     )
                 elif unit.is_vehicle and unit.alive:
                     # Add armor group
-                    group_id = self.game.next_group_id()
                     group_role = "assault"
-                    group_name = f"{cp_name_trimmed}-{group_role}-{group_id}"
+                    group_name = f"{cp_name_trimmed}-{group_role}-{group.id}"
                     group.name = group_name
-                    self.game.pretense_ground_supply[cp_side][cp_name_trimmed].append(
-                        group_name
-                    )
 
                     self.generate_ground_unit_of_class(
                         UnitClass.TANK,
@@ -280,6 +271,12 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
         self, group_name: str, units: list[TheaterUnit]
     ) -> VehicleGroup:
         vehicle_group: Optional[VehicleGroup] = None
+
+        cp_name_trimmed = "".join(
+            [i for i in self.ground_object.control_point.name.lower() if i.isalnum()]
+        )
+        cp_side = 2 if self.ground_object.control_point.captured else 1
+
         for unit in units:
             assert issubclass(unit.type, VehicleType)
             faction = unit.ground_object.control_point.coalition.faction
@@ -296,6 +293,10 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
                 vehicle_group.units[0].name = unit.unit_name
                 self.set_alarm_state(vehicle_group)
                 GroundForcePainter(faction, vehicle_group.units[0]).apply_livery()
+
+                self.game.pretense_ground_supply[cp_side][cp_name_trimmed].append(
+                    f"{vehicle_group.name}"
+                )
             else:
                 vehicle_unit = self.m.vehicle(unit.unit_name, unit.type)
                 vehicle_unit.player_can_drive = True
