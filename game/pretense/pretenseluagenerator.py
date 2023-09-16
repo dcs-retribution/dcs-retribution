@@ -23,6 +23,8 @@ from game.missiongenerator.missiondata import MissionData
 if TYPE_CHECKING:
     from game import Game
 
+PRETENSE_NUMBER_OF_ZONES_TO_CONNECT_CARRIERS_TO = 2
+
 
 class PretenseLuaGenerator(LuaGenerator):
     def __init__(
@@ -324,23 +326,28 @@ class PretenseLuaGenerator(LuaGenerator):
             if len(cp.connected_points) == 0 and len(cp.shipping_lanes) == 0:
                 # Also connect carrier and LHA control points to adjacent friendly points
                 if cp.is_fleet:
+                    num_of_carrier_connections = 0
                     for (
                         other_cp
                     ) in self.game.theater.closest_friendly_control_points_to(cp):
+                        num_of_carrier_connections += 1
+                        if (
+                            num_of_carrier_connections
+                            > PRETENSE_NUMBER_OF_ZONES_TO_CONNECT_CARRIERS_TO
+                        ):
+                            break
+
                         lua_string_connman += (
                             f"    cm: addConnection('{cp.name}', '{other_cp.name}')\n"
                         )
             else:
                 # Finally, connect remaining non-connected points
-                (
-                    closest_cp,
-                    second_closest_cp,
-                ) = self.game.theater.closest_friendly_control_points_to(cp)
+                closest_cps = self.game.theater.closest_friendly_control_points_to(cp)
                 lua_string_connman += (
-                    f"    cm: addConnection('{cp.name}', '{closest_cp.name}')\n"
+                    f"    cm: addConnection('{cp.name}', '{closest_cps[0].name}')\n"
                 )
                 lua_string_connman += (
-                    f"    cm: addConnection('{cp.name}', '{second_closest_cp.name}')\n"
+                    f"    cm: addConnection('{cp.name}', '{closest_cps[1].name}')\n"
                 )
 
         init_body_1_file = open("./resources/plugins/pretense/init_body_1.lua", "r")
