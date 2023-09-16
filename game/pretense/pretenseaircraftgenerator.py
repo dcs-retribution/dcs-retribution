@@ -5,20 +5,16 @@ import random
 from datetime import datetime
 from functools import cached_property
 from typing import Any, Dict, List, TYPE_CHECKING, Tuple
+from uuid import UUID
 
 from dcs import Point
-from dcs.action import AITaskPush
-from dcs.condition import FlagIsTrue, GroupDead, Or, FlagIsFalse
 from dcs.country import Country
 from dcs.mission import Mission
-from dcs.terrain.terrain import NoParkingSlotError
-from dcs.triggers import TriggerOnce, Event
-from dcs.unit import Skill
 from dcs.unitgroup import FlyingGroup, StaticGroup
 
 from game.ato.airtaaskingorder import AirTaskingOrder
 from game.ato.flight import Flight
-from game.ato.flightstate import Completed, WaitingForStart
+from game.ato.flightstate import Completed, WaitingForStart, Navigating
 from game.ato.flighttype import FlightType
 from game.ato.package import Package
 from game.ato.starttype import StartType
@@ -32,10 +28,9 @@ from game.radio.tacan import TacanRegistry
 from game.runways import RunwayData
 from game.settings import Settings
 from game.theater.controlpoint import (
-    Airfield,
     ControlPoint,
-    Fob,
     OffMapSpawn,
+    ParkingType,
 )
 from game.unitmap import UnitMap
 from game.missiongenerator.aircraft.aircraftpainter import AircraftPainter
@@ -44,7 +39,9 @@ from game.data.weapons import WeaponType
 
 if TYPE_CHECKING:
     from game import Game
-    from game.squadrons import Squadron
+
+
+PRETENSE_SQUADRON_DEF_RETRIES = 100
 
 
 class PretenseAircraftGenerator:
@@ -108,6 +105,8 @@ class PretenseAircraftGenerator:
         ato: AirTaskingOrder,
         dynamic_runways: Dict[str, RunwayData],
     ) -> None:
+        from game.squadrons import Squadron
+
         """Adds aircraft to the mission for every flight in the ATO.
 
         Aircraft generation is done by walking the ATO and spawning each flight in turn.
@@ -125,6 +124,89 @@ class PretenseAircraftGenerator:
         num_of_strike = 0
         num_of_cap = 0
 
+        # Find locations for off-map transport planes
+        distance_to_flot = 0
+        offmap_transport_cp_id = cp.id
+        parking_type = ParkingType(
+            fixed_wing=True, fixed_wing_stol=True, rotary_wing=False
+        )
+        for front_line_cp in self.game.theater.controlpoints:
+            for front_line in self.game.theater.conflicts():
+                if front_line_cp.captured == cp.captured:
+                    if (
+                        front_line_cp.total_aircraft_parking(parking_type) > 0
+                        and front_line_cp.position.distance_to_point(
+                            front_line.position
+                        )
+                        > distance_to_flot
+                    ):
+                        distance_to_flot = front_line_cp.position.distance_to_point(
+                            front_line.position
+                        )
+                        offmap_transport_cp_id = front_line_cp.id
+        offmap_transport_cp = self.game.theater.find_control_point_by_id(
+            offmap_transport_cp_id
+        )
+
+        # Ensure that the faction has at least one transport helicopter and one cargo plane squadron
+        autogenerate_transport_helicopter_squadron = True
+        autogenerate_cargo_plane_squadron = True
+        for aircraft_type in cp.coalition.air_wing.squadrons:
+            for squadron in cp.coalition.air_wing.squadrons[aircraft_type]:
+                mission_types = squadron.auto_assignable_mission_types
+                if squadron.aircraft.helicopter and (
+                    FlightType.TRANSPORT in mission_types
+                    or FlightType.AIR_ASSAULT in mission_types
+                ):
+                    autogenerate_transport_helicopter_squadron = False
+                elif not squadron.aircraft.helicopter and (
+                    FlightType.TRANSPORT in mission_types
+                    or FlightType.AIR_ASSAULT in mission_types
+                ):
+                    autogenerate_cargo_plane_squadron = False
+
+        if autogenerate_transport_helicopter_squadron:
+            flight_type = FlightType.AIR_ASSAULT
+            squadron_def = (
+                cp.coalition.air_wing.squadron_def_generator.generate_for_task(
+                    flight_type, offmap_transport_cp
+                )
+            )
+            squadron = Squadron.create_from(
+                squadron_def,
+                flight_type,
+                2,
+                offmap_transport_cp,
+                cp.coalition,
+                self.game,
+            )
+            cp.coalition.air_wing.squadrons[squadron.aircraft] = list()
+            cp.coalition.air_wing.add_squadron(squadron)
+        if autogenerate_cargo_plane_squadron:
+            flight_type = FlightType.TRANSPORT
+            squadron_def = (
+                cp.coalition.air_wing.squadron_def_generator.generate_for_task(
+                    flight_type, offmap_transport_cp
+                )
+            )
+            for retries in range(PRETENSE_SQUADRON_DEF_RETRIES):
+                if squadron_def.aircraft.helicopter:
+                    squadron_def = (
+                        cp.coalition.air_wing.squadron_def_generator.generate_for_task(
+                            flight_type, offmap_transport_cp
+                        )
+                    )
+            squadron = Squadron.create_from(
+                squadron_def,
+                flight_type,
+                2,
+                offmap_transport_cp,
+                cp.coalition,
+                self.game,
+            )
+            cp.coalition.air_wing.squadrons[squadron.aircraft] = list()
+            cp.coalition.air_wing.add_squadron(squadron)
+
         for squadron in cp.squadrons:
             # Intentionally don't spawn anything at OffMapSpawns in Pretense
             if isinstance(squadron.location, OffMapSpawn):
@@ -134,11 +216,16 @@ class PretenseAircraftGenerator:
             squadron.untasked_aircraft += 1
             package = Package(cp, squadron.flight_db, auto_asap=False)
             mission_types = squadron.auto_assignable_mission_types
-            if (
+            if squadron.aircraft.helicopter and (
                 FlightType.TRANSPORT in mission_types
                 or FlightType.AIR_ASSAULT in mission_types
             ):
                 flight_type = FlightType.AIR_ASSAULT
+            elif not squadron.aircraft.helicopter and (
+                FlightType.TRANSPORT in mission_types
+                or FlightType.AIR_ASSAULT in mission_types
+            ):
+                flight_type = FlightType.TRANSPORT
             elif (
                 FlightType.SEAD in mission_types
                 or FlightType.SEAD_SWEEP in mission_types
@@ -170,13 +257,27 @@ class PretenseAircraftGenerator:
                 num_of_cap += 1
             else:
                 flight_type = random.choice(list(mission_types))
-            flight = Flight(
-                package, squadron, 1, flight_type, StartType.COLD, divert=cp
-            )
-            flight.state = WaitingForStart(
-                flight, self.game.settings, self.game.conditions.start_time
-            )
-            package.add_flight(flight)
+
+            if flight_type == FlightType.TRANSPORT:
+                flight = Flight(
+                    package,
+                    squadron,
+                    1,
+                    FlightType.PRETENSE_CARGO,
+                    StartType.IN_FLIGHT,
+                    divert=cp,
+                )
+                package.add_flight(flight)
+                flight.state = Navigating(flight, self.game.settings, waypoint_index=1)
+            else:
+                flight = Flight(
+                    package, squadron, 1, flight_type, StartType.COLD, divert=cp
+                )
+                package.add_flight(flight)
+                flight.state = WaitingForStart(
+                    flight, self.game.settings, self.game.conditions.start_time
+                )
+
             ato.add_package(package)
 
         self._reserve_frequencies_and_tacan(ato)
