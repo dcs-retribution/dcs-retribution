@@ -305,7 +305,7 @@ class PretenseLuaGenerator(LuaGenerator):
             lua_string_zones += "    }\n"
             lua_string_zones += "})\n"
 
-        lua_string_connman = "	cm = ConnectionManager:new()"
+        lua_string_connman = "	cm = ConnectionManager:new()\n"
 
         # Generate ConnectionManager connections
         for cp in self.game.theater.controlpoints:
@@ -313,14 +313,32 @@ class PretenseLuaGenerator(LuaGenerator):
                 lua_string_connman += (
                     f"    cm: addConnection('{cp.name}', '{other_cp.name}')\n"
                 )
-            # Also connect carrier and LHA control points to adjacent friendly points
-            if cp.is_fleet and len(cp.connected_points) == 0:
-                for other_cp in self.game.theater.closest_friendly_control_points_to(
-                    cp
-                ):
+            for sea_connection in cp.shipping_lanes:
+                if sea_connection.is_friendly_to(cp):
                     lua_string_connman += (
-                        f"    cm: addConnection('{cp.name}', '{other_cp.name}')\n"
+                        f"    cm: addConnection('{cp.name}', '{sea_connection.name}')\n"
                     )
+            if len(cp.connected_points) == 0 and len(cp.shipping_lanes) == 0:
+                # Also connect carrier and LHA control points to adjacent friendly points
+                if cp.is_fleet:
+                    for (
+                        other_cp
+                    ) in self.game.theater.closest_friendly_control_points_to(cp):
+                        lua_string_connman += (
+                            f"    cm: addConnection('{cp.name}', '{other_cp.name}')\n"
+                        )
+            else:
+                # Finally, connect remaining non-connected points
+                (
+                    closest_cp,
+                    second_closest_cp,
+                ) = self.game.theater.closest_friendly_control_points_to(cp)
+                lua_string_connman += (
+                    f"    cm: addConnection('{cp.name}', '{closest_cp.name}')\n"
+                )
+                lua_string_connman += (
+                    f"    cm: addConnection('{cp.name}', '{second_closest_cp.name}')\n"
+                )
 
         init_body_1_file = open("./resources/plugins/pretense/init_body_1.lua", "r")
         init_body_1 = init_body_1_file.read()
