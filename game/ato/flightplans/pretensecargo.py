@@ -44,7 +44,7 @@ class PretenseCargoFlightPlan(StandardFlightPlan[FerryLayout]):
 class Builder(IBuilder[PretenseCargoFlightPlan, FerryLayout]):
     def layout(self) -> FerryLayout:
         # Find the spawn location for off-map transport planes
-        distance_to_flot = 0
+        distance_to_flot = 0.0
         heading_from_flot = 0.0
         offmap_transport_cp_id = self.flight.departure.id
         for front_line_cp in self.coalition.game.theater.controlpoints:
