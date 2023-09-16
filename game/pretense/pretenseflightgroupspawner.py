@@ -1,4 +1,5 @@
 import logging
+import random
 import re
 from typing import Any, Tuple
 
@@ -13,8 +14,14 @@ from dcs.unitgroup import (
 )
 
 from game.ato import Flight
+from game.ato.flightstate import InFlight
 from game.ato.starttype import StartType
-from game.missiongenerator.aircraft.flightgroupspawner import FlightGroupSpawner
+from game.missiongenerator.aircraft.flightgroupspawner import (
+    FlightGroupSpawner,
+    MINIMUM_MID_MISSION_SPAWN_ALTITUDE_AGL,
+    MINIMUM_MID_MISSION_SPAWN_ALTITUDE_MSL,
+    STACK_SEPARATION,
+)
 from game.missiongenerator.missiondata import MissionData
 from game.naming import NameGenerator
 from game.theater import Airfield, ControlPoint, Fob, NavalControlPoint, OffMapSpawn
@@ -160,3 +167,43 @@ class PretenseFlightGroupSpawner(FlightGroupSpawner):
             self.flight.start_type = StartType.IN_FLIGHT
             group = self._generate_over_departure(name, cp)
             return group
+
+    def generate_mid_mission(self) -> FlyingGroup[Any]:
+        assert isinstance(self.flight.state, InFlight)
+        cp = self.flight.departure
+        name = namegen.next_pretense_aircraft_name(cp, self.flight)
+        speed = self.flight.state.estimate_speed()
+        pos = self.flight.state.estimate_position()
+        pos += Vector2(random.randint(100, 1000), random.randint(100, 1000))
+        alt, alt_type = self.flight.state.estimate_altitude()
+        cp = self.flight.squadron.location.id
+
+        if cp not in self.mission_data.cp_stack:
+            self.mission_data.cp_stack[cp] = MINIMUM_MID_MISSION_SPAWN_ALTITUDE_AGL
+
+        # We don't know where the ground is, so just make sure that any aircraft
+        # spawning at an MSL altitude is spawned at some minimum altitude.
+        # https://github.com/dcs-liberation/dcs_liberation/issues/1941
+        if alt_type == "BARO" and alt < MINIMUM_MID_MISSION_SPAWN_ALTITUDE_MSL:
+            alt = MINIMUM_MID_MISSION_SPAWN_ALTITUDE_MSL
+
+        # Set a minimum AGL value for 'alt' if needed,
+        # otherwise planes might crash in trees and stuff.
+        if alt_type == "RADIO" and alt < self.mission_data.cp_stack[cp]:
+            alt = self.mission_data.cp_stack[cp]
+            self.mission_data.cp_stack[cp] += STACK_SEPARATION
+
+        group = self.mission.flight_group(
+            country=self.country,
+            name=name,
+            aircraft_type=self.flight.unit_type.dcs_unit_type,
+            airport=None,
+            position=pos,
+            altitude=alt.meters,
+            speed=speed.kph,
+            maintask=None,
+            group_size=self.flight.count,
+        )
+
+        group.points[0].alt_type = alt_type
+        return group
