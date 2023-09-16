@@ -195,6 +195,34 @@ class ConflictTheater:
         assert closest_red is not None
         return closest_blue, closest_red
 
+    def closest_friendly_control_points_to(
+        self, cp: ControlPoint
+    ) -> Tuple[ControlPoint, ControlPoint]:
+        """
+        Returns a tuple of the two nearest friendly ControlPoints in theater to ControlPoint cp.
+        (closest_cp, second_closest_cp)
+        """
+        seen = set()
+        min_distance = math.inf
+        closest_cp = None
+        second_closest_cp = None
+        if cp.captured:
+            control_points = self.player_points()
+        else:
+            control_points = self.enemy_points()
+        for other_cp in control_points:
+            if cp == other_cp:
+                continue
+            dist = other_cp.position.distance_to_point(cp.position)
+            if dist < min_distance:
+                second_closest_cp = closest_cp
+                closest_cp = other_cp
+                min_distance = dist
+
+        assert closest_cp is not None
+        assert second_closest_cp is not None
+        return closest_cp, second_closest_cp
+
     def find_control_point_by_id(self, cp_id: UUID) -> ControlPoint:
         for i in self.controlpoints:
             if i.id == cp_id:
