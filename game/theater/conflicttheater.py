@@ -202,10 +202,9 @@ class ConflictTheater:
         Returns a tuple of the two nearest friendly ControlPoints in theater to ControlPoint cp.
         (closest_cp, second_closest_cp)
         """
-        seen = set()
-        min_distance = math.inf
         closest_cp = None
         second_closest_cp = None
+        distances_to_cp = dict()
         if cp.captured:
             control_points = self.player_points()
         else:
@@ -213,11 +212,21 @@ class ConflictTheater:
         for other_cp in control_points:
             if cp == other_cp:
                 continue
+            print(f"{cp}: {other_cp} being evaluated...")
+
             dist = other_cp.position.distance_to_point(cp.position)
-            if dist < min_distance:
-                second_closest_cp = closest_cp
+            print(f"  {other_cp} is at {dist} meters")
+            distances_to_cp[dist] = other_cp
+        for i in sorted(distances_to_cp.keys()):
+            other_cp = distances_to_cp[i]
+            print(f"  {other_cp} is at {i} meters")
+            if closest_cp is None:
                 closest_cp = other_cp
-                min_distance = dist
+                continue
+            elif second_closest_cp is None:
+                second_closest_cp = other_cp
+                break
+            break
 
         assert closest_cp is not None
         assert second_closest_cp is not None
