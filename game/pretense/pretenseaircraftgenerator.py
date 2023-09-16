@@ -98,34 +98,11 @@ class PretenseAircraftGenerator:
             for parking_slot in cp.parking_slots:
                 parking_slot.unit_id = None
 
-    def generate_flights(
-        self,
-        country: Country,
-        cp: ControlPoint,
-        ato: AirTaskingOrder,
-        dynamic_runways: Dict[str, RunwayData],
-    ) -> None:
-        from game.squadrons import Squadron
-
-        """Adds aircraft to the mission for every flight in the ATO.
-
-        Aircraft generation is done by walking the ATO and spawning each flight in turn.
-        After the flight is generated the group is added to the UnitMap so aircraft
-        deaths can be tracked.
-
-        Args:
-            country: The country from the mission to use for this ATO.
-            ato: The ATO to spawn aircraft for.
-            dynamic_runways: Runway data for carriers and FARPs.
+    def find_pretense_cargo_plane_cp(self, cp: ControlPoint) -> ControlPoint:
         """
-
-        num_of_sead = 0
-        num_of_cas = 0
-        num_of_strike = 0
-        num_of_cap = 0
-
-        # Find locations for off-map transport planes
-        distance_to_flot = 0
+        Finds the location (ControlPoint) for Pretense off-map transport planes.
+        """
+        distance_to_flot = 0.0
         offmap_transport_cp_id = cp.id
         parking_type = ParkingType(
             fixed_wing=True, fixed_wing_stol=True, rotary_wing=False
@@ -144,11 +121,19 @@ class PretenseAircraftGenerator:
                             front_line.position
                         )
                         offmap_transport_cp_id = front_line_cp.id
-        offmap_transport_cp = self.game.theater.find_control_point_by_id(
-            offmap_transport_cp_id
-        )
+        return self.game.theater.find_control_point_by_id(offmap_transport_cp_id)
 
-        # Ensure that the faction has at least one transport helicopter and one cargo plane squadron
+    def should_generate_pretense_transports(
+        self, cp: ControlPoint
+    ) -> tuple[bool, bool]:
+        """
+        Returns a tuple of booleans, telling whether transport helicopter and aircraft
+        squadrons should be generated from the faction squadron definitions.
+
+        This helps to ensure that the faction has at least one transport helicopter and one cargo plane squadron.
+
+        (autogenerate_transport_helicopter_squadron, autogenerate_cargo_plane_squadron)
+        """
         autogenerate_transport_helicopter_squadron = True
         autogenerate_cargo_plane_squadron = True
         for aircraft_type in cp.coalition.air_wing.squadrons:
@@ -164,48 +149,80 @@ class PretenseAircraftGenerator:
                     or FlightType.AIR_ASSAULT in mission_types
                 ):
                     autogenerate_cargo_plane_squadron = False
+        return (
+            autogenerate_transport_helicopter_squadron,
+            autogenerate_cargo_plane_squadron,
+        )
 
-        if autogenerate_transport_helicopter_squadron:
-            flight_type = FlightType.AIR_ASSAULT
-            squadron_def = (
-                cp.coalition.air_wing.squadron_def_generator.generate_for_task(
-                    flight_type, offmap_transport_cp
-                )
-            )
-            squadron = Squadron.create_from(
-                squadron_def,
-                flight_type,
-                2,
-                offmap_transport_cp,
-                cp.coalition,
-                self.game,
-            )
-            cp.coalition.air_wing.squadrons[squadron.aircraft] = list()
-            cp.coalition.air_wing.add_squadron(squadron)
-        if autogenerate_cargo_plane_squadron:
-            flight_type = FlightType.TRANSPORT
-            squadron_def = (
-                cp.coalition.air_wing.squadron_def_generator.generate_for_task(
-                    flight_type, offmap_transport_cp
-                )
-            )
-            for retries in range(PRETENSE_SQUADRON_DEF_RETRIES):
-                if squadron_def.aircraft.helicopter:
-                    squadron_def = (
-                        cp.coalition.air_wing.squadron_def_generator.generate_for_task(
-                            flight_type, offmap_transport_cp
-                        )
+    def generate_pretense_transport_squadron(
+        self,
+        cp: ControlPoint,
+        flight_type: FlightType,
+        fixed_wing: bool,
+        num_retries: int,
+    ) -> None:
+        from game.squadrons import Squadron
+
+        """
+        Generates a Pretense transport squadron from the faction squadron definitions. Use FlightType AIR_ASSAULT
+        for Pretense supply helicopters and TRANSPORT for off-map cargo plane squadrons.
+        
+        Retribution does not differentiate between fixed wing and rotary wing transport squadron definitions, which
+        is why there is a retry mechanism in case the wrong type is returned. Use fixed_wing False
+        for Pretense supply helicopters and fixed_wing True for off-map cargo plane squadrons.
+        
+        TODO: Find out if Pretense can handle rotary wing "cargo planes". 
+        """
+
+        squadron_def = cp.coalition.air_wing.squadron_def_generator.generate_for_task(
+            flight_type, cp
+        )
+        print(
+            f"Generating a squadron definition for fixed-wing {fixed_wing} squadron at {cp}"
+        )
+        for retries in range(num_retries):
+            if squadron_def is None or fixed_wing != squadron_def.aircraft.helicopter:
+                squadron_def = (
+                    cp.coalition.air_wing.squadron_def_generator.generate_for_task(
+                        flight_type, cp
                     )
-            squadron = Squadron.create_from(
-                squadron_def,
-                flight_type,
-                2,
-                offmap_transport_cp,
-                cp.coalition,
-                self.game,
-            )
-            cp.coalition.air_wing.squadrons[squadron.aircraft] = list()
-            cp.coalition.air_wing.add_squadron(squadron)
+                )
+
+        # Failed, stop here
+        if squadron_def is None:
+            return
+
+        squadron = Squadron.create_from(
+            squadron_def,
+            flight_type,
+            2,
+            cp,
+            cp.coalition,
+            self.game,
+        )
+        cp.coalition.air_wing.squadrons[squadron.aircraft] = list()
+        cp.coalition.air_wing.add_squadron(squadron)
+        return
+
+    def generate_pretense_aircraft(
+        self, cp: ControlPoint, ato: AirTaskingOrder
+    ) -> None:
+        """
+        Plans and generates AI aircraft groups/packages for Pretense.
+
+        Aircraft generation is done by walking the control points which will be made into
+        Pretense "zones" and spawning flights for different missions.
+        After the flight is generated the package is added to the ATO so the flights
+        can be configured.
+
+        Args:
+            cp: Control point to generate aircraft for.
+            ato: The ATO to generate aircraft for.
+        """
+        num_of_sead = 0
+        num_of_cas = 0
+        num_of_strike = 0
+        num_of_cap = 0
 
         for squadron in cp.squadrons:
             # Intentionally don't spawn anything at OffMapSpawns in Pretense
@@ -279,6 +296,47 @@ class PretenseAircraftGenerator:
                 )
 
             ato.add_package(package)
+            return
+
+    def generate_flights(
+        self,
+        country: Country,
+        cp: ControlPoint,
+        ato: AirTaskingOrder,
+        dynamic_runways: Dict[str, RunwayData],
+    ) -> None:
+        """Adds aircraft to the mission for every flight in the ATO.
+
+        Args:
+            country: The country from the mission to use for this ATO.
+            cp: Control point to generate aircraft for.
+            ato: The ATO to generate aircraft for.
+            dynamic_runways: Runway data for carriers and FARPs.
+        """
+
+        offmap_transport_cp = self.find_pretense_cargo_plane_cp(cp)
+
+        (
+            autogenerate_transport_helicopter_squadron,
+            autogenerate_cargo_plane_squadron,
+        ) = self.should_generate_pretense_transports(cp)
+
+        if autogenerate_transport_helicopter_squadron:
+            self.generate_pretense_transport_squadron(
+                offmap_transport_cp,
+                FlightType.AIR_ASSAULT,
+                False,
+                PRETENSE_SQUADRON_DEF_RETRIES,
+            )
+        if autogenerate_cargo_plane_squadron:
+            self.generate_pretense_transport_squadron(
+                offmap_transport_cp,
+                FlightType.TRANSPORT,
+                True,
+                PRETENSE_SQUADRON_DEF_RETRIES,
+            )
+
+        self.generate_pretense_aircraft(cp, ato)
 
         self._reserve_frequencies_and_tacan(ato)
 
