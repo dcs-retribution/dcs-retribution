@@ -350,6 +350,32 @@ class PretenseLuaGenerator(LuaGenerator):
                     f"    cm: addConnection('{cp.name}', '{closest_cps[1].name}')\n"
                 )
 
+        lua_string_supply = "local redSupply = {\n"
+        # Generate ConnectionManager connections
+        for cp_side in range(1, 3):
+            for cp in self.game.theater.controlpoints:
+                if isinstance(cp, OffMapSpawn):
+                    continue
+                cp_side_captured = cp_side == 2
+                if cp_side_captured != cp.captured:
+                    continue
+                cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalnum()])
+                for mission_type in self.game.pretense_air[cp_side][cp_name_trimmed]:
+                    if mission_type == FlightType.TRANSPORT.name:
+                        for air_group in self.game.pretense_air[cp_side][
+                            cp_name_trimmed
+                        ][mission_type]:
+                            lua_string_supply += f"'{air_group}',"
+            lua_string_supply += "}\n"
+            if cp_side < 2:
+                lua_string_supply += "local blueSupply = {\n"
+        lua_string_supply += "local offmapZones = {\n"
+        for cp in self.game.theater.controlpoints:
+            if isinstance(cp, Airfield):
+                cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalnum()])
+                lua_string_supply += f"   zones.{cp_name_trimmed},\n"
+        lua_string_supply += "}\n"
+
         init_body_1_file = open("./resources/plugins/pretense/init_body_1.lua", "r")
         init_body_1 = init_body_1_file.read()
 
@@ -373,6 +399,7 @@ class PretenseLuaGenerator(LuaGenerator):
             + init_body_1
             + lua_string_jtac
             + init_body_2
+            + lua_string_supply
             + init_footer
         )
 
