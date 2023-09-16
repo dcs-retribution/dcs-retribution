@@ -53,6 +53,7 @@ TRIGGER_RADIUS_CLEAR_SCENERY = 1000
 TRIGGER_RADIUS_PRETENSE_TGO = 500
 TRIGGER_RADIUS_PRETENSE_SUPPLY = 500
 TRIGGER_RADIUS_PRETENSE_HELI = 1000
+TRIGGER_RADIUS_PRETENSE_CARRIER = 50000
 
 
 class Silence(Option):
@@ -157,12 +158,16 @@ class PretenseTriggerGenerator:
         Directly appends to the global `base_capture_events` var declared by `dcs_libaration.lua`
         """
         for cp in self.game.theater.controlpoints:
+            if cp.is_fleet:
+                trigger_radius = TRIGGER_RADIUS_PRETENSE_CARRIER
+            else:
+                trigger_radius = TRIGGER_RADIUS_CAPTURE
             if not isinstance(cp, OffMapSpawn):
 
                 zone_color = {1: 0.0, 2: 0.0, 3: 0.0, 4: 0.15}
                 trigger_zone = self.mission.triggers.add_triggerzone(
                     cp.position,
-                    radius=TRIGGER_RADIUS_CAPTURE,
+                    radius=trigger_radius,
                     hidden=False,
                     name=cp.name,
                     color=zone_color,

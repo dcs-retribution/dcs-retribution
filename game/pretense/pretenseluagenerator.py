@@ -93,9 +93,9 @@ class PretenseLuaGenerator(LuaGenerator):
                 max_resource = 30000
             if isinstance(cp, Airfield) or cp.has_ground_spawns:
                 lua_string_zones += f"zones.{cp_name_trimmed}.isPlaneSpawn = true\n"
-            if cp.has_ground_spawns:
+            if cp.has_ground_spawns or cp.is_lha:
                 max_resource = 40000
-            if isinstance(cp, Airfield):
+            if isinstance(cp, Airfield) or cp.is_carrier:
                 max_resource = 50000
             lua_string_zones += (
                 f"zones.{cp_name_trimmed}.maxResource = {max_resource}\n"
@@ -114,7 +114,7 @@ class PretenseLuaGenerator(LuaGenerator):
             lua_string_zones += "        }),\n"
             lua_string_zones += "        presets.upgrades.basic.comPost:extend({\n"
             lua_string_zones += f"            name = '{cp_name_trimmed}-com-red',\n"
-            lua_string_zones += "            products = {"
+            lua_string_zones += "            products = {\n"
             lua_string_zones += (
                 "                presets.special.red.infantry:extend({ name='"
                 + cp_name_trimmed
@@ -307,11 +307,20 @@ class PretenseLuaGenerator(LuaGenerator):
 
         lua_string_connman = "	cm = ConnectionManager:new()"
 
+        # Generate ConnectionManager connections
         for cp in self.game.theater.controlpoints:
             for other_cp in cp.connected_points:
                 lua_string_connman += (
-                    f"    cm: addConnection('{cp.name}', '{other_cp.name}')"
+                    f"    cm: addConnection('{cp.name}', '{other_cp.name}')\n"
                 )
+            # Also connect carrier and LHA control points to adjacent friendly points
+            if cp.is_fleet and len(cp.connected_points) == 0:
+                for other_cp in self.game.theater.closest_friendly_control_points_to(
+                    cp
+                ):
+                    lua_string_connman += (
+                        f"    cm: addConnection('{cp.name}', '{other_cp.name}')\n"
+                    )
 
         init_body_1_file = open("./resources/plugins/pretense/init_body_1.lua", "r")
         init_body_1 = init_body_1_file.read()
