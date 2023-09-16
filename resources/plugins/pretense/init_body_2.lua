@@ -58,18 +58,5 @@ end, {}, timer.getTime()+30)
 
 
 --supply injection
-local blueSupply = {'offmap-supply-blue-1','offmap-supply-blue-2','offmap-supply-blue-3','offmap-supply-blue-4','offmap-supply-blue-5'}
-local redSupply = {'offmap-supply-red-1','offmap-supply-red-2','offmap-supply-red-3','offmap-supply-red-4','offmap-supply-red-5'}
-local offmapZones = {
-	zones.batumi, 
-	zones.sochi,
-	zones.nalchik, 
-	zones.beslan,
-	zones.mozdok,
-	zones.mineralnye,
---  zones.senaki,
---	zones.sukhumi,
---	zones.gudauta,
---	zones.kobuleti,
-}
+
 
