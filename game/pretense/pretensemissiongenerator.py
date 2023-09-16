@@ -55,11 +55,6 @@ if TYPE_CHECKING:
 
 class PretenseMissionGenerator(MissionGenerator):
     def __init__(self, game: Game, time: datetime) -> None:
-        super().__init__(
-            game,
-            time,
-        )
-
         self.game = game
         self.time = time
         self.mission = Mission(game.theater.terrain)
