@@ -148,10 +148,10 @@ class PretenseMissionGenerator(MissionGenerator):
         self.mission.coalition["red"].add_country(self.e_country)
 
         # Add CJTF factions to the coalitions, if they're not being used in the campaign
-        # if CombinedJointTaskForcesBlue not in {self.p_country, self.e_country}:
-        #     self.mission.coalition["blue"].add_country(CombinedJointTaskForcesBlue())
-        # if CombinedJointTaskForcesRed not in {self.p_country, self.e_country}:
-        #     self.mission.coalition["red"].add_country(CombinedJointTaskForcesRed())
+        if CombinedJointTaskForcesBlue not in {self.p_country, self.e_country}:
+            self.mission.coalition["blue"].add_country(CombinedJointTaskForcesBlue())
+        if CombinedJointTaskForcesRed not in {self.p_country, self.e_country}:
+            self.mission.coalition["red"].add_country(CombinedJointTaskForcesRed())
 
         belligerents = {self.p_country.id, self.e_country.id}
         for country_id in country_dict.keys():
