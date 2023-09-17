@@ -292,15 +292,16 @@ class PretenseAircraftGenerator:
                 num_of_cap += 1
                 aircraft_per_flight = PRETENSE_AI_AIRCRAFT_PER_FLIGHT
             elif FlightType.AEWC in mission_types:
+                flight_type = FlightType.AEWC
                 aircraft_per_flight = PRETENSE_AI_AWACS_PER_FLIGHT
             elif FlightType.REFUELING in mission_types:
+                flight_type = FlightType.REFUELING
                 aircraft_per_flight = PRETENSE_AI_TANKERS_PER_FLIGHT
             else:
+                if len(list(mission_types)) == 0:
+                    continue
                 flight_type = random.choice(list(mission_types))
 
-            print(
-                f"Generating flight of {aircraft_per_flight} for {flight_type}: {squadron.aircraft}"
-            )
             if flight_type == FlightType.TRANSPORT:
                 flight = Flight(
                     package,
