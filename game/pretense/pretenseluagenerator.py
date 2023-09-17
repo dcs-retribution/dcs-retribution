@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import logging
-import os
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import TYPE_CHECKING, Optional
@@ -12,13 +11,11 @@ from dcs.translation import String
 from dcs.triggers import TriggerStart
 
 from game.ato import FlightType
-from game.dcs.aircrafttype import AircraftType
 from game.missiongenerator.luagenerator import LuaGenerator
-from game.plugins import LuaPluginManager
-from game.theater import TheaterGroundObject, Airfield, OffMapSpawn
-from game.theater.iadsnetwork.iadsrole import IadsRole
-from game.utils import escape_string_for_lua
 from game.missiongenerator.missiondata import MissionData
+from game.plugins import LuaPluginManager
+from game.theater import Airfield, OffMapSpawn
+from game.utils import escape_string_for_lua
 
 if TYPE_CHECKING:
     from game import Game
@@ -175,14 +172,13 @@ class PretenseLuaGenerator(LuaGenerator):
                 ]:
                     tanker_freq = 257.0
                     tanker_tacan = 37.0
+                    tanker_variant = "Drogue"
                     for tanker in self.mission_data.tankers:
                         if tanker.group_name == air_group:
                             tanker_freq = tanker.freq.hertz / 1000000
-                            tanker_tacan = tanker.tacan.number
+                            tanker_tacan = tanker.tacan if tanker.tacan else "N/A"
                             if tanker.variant == "KC-135 Stratotanker":
                                 tanker_variant = "Boom"
-                            else:
-                                tanker_variant = "Drogue"
                     lua_string_zones += (
                         f"                presets.missions.{mission_name}:extend"
                         + "({name='"

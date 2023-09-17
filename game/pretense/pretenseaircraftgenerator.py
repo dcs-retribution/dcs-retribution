@@ -577,6 +577,8 @@ class PretenseAircraftGenerator:
         from game.pretense.pretenseflightgroupspawner import PretenseFlightGroupSpawner
 
         """Creates and configures the flight group in the mission."""
+        if not country.unused_onboard_numbers:
+            country.reset_onboard_numbers()
         group = PretenseFlightGroupSpawner(
             flight,
             country,
