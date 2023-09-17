@@ -73,7 +73,13 @@ class PretenseFlightGroupSpawner(FlightGroupSpawner):
     def generate_flight_at_departure(self) -> FlyingGroup[Any]:
         cp = self.flight.departure
         name = namegen.next_pretense_aircraft_name(cp, self.flight)
-        cp_side = 2 if cp.captured else 1
+        is_player = True
+        cp_side = (
+            2
+            if self.flight.coalition
+            == self.flight.coalition.game.coalition_for(is_player)
+            else 1
+        )
         cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalnum()])
 
         try:
@@ -161,7 +167,13 @@ class PretenseFlightGroupSpawner(FlightGroupSpawner):
     def generate_mid_mission(self) -> FlyingGroup[Any]:
         assert isinstance(self.flight.state, InFlight)
         name = namegen.next_pretense_aircraft_name(self.flight.departure, self.flight)
-        cp_side = 2 if self.flight.departure.captured else 1
+        is_player = True
+        cp_side = (
+            2
+            if self.flight.coalition
+            == self.flight.coalition.game.coalition_for(is_player)
+            else 1
+        )
         cp_name_trimmed = "".join(
             [i for i in self.flight.departure.name.lower() if i.isalnum()]
         )

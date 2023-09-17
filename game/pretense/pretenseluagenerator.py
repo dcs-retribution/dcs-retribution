@@ -23,6 +23,8 @@ from game.missiongenerator.missiondata import MissionData
 if TYPE_CHECKING:
     from game import Game
 
+PRETENSE_RED_SIDE = 1
+PRETENSE_BLUE_SIDE = 2
 PRETENSE_NUMBER_OF_ZONES_TO_CONNECT_CARRIERS_TO = 2
 
 
@@ -54,68 +56,18 @@ class PretenseLuaGenerator(LuaGenerator):
             self.mission.triggerrules.triggers.remove(t)
             self.mission.triggerrules.triggers.append(t)
 
-    def generate_pretense_zone_land(self, cp_name: str, cp_side: int) -> str:
+    def generate_pretense_land_upgrade_supply(self, cp_name: str, cp_side: int):
         lua_string_zones = ""
         cp_name_trimmed = "".join([i for i in cp_name.lower() if i.isalnum()])
+        cp_side_str = "blue" if cp_side == PRETENSE_BLUE_SIDE else "red"
 
-        lua_string_zones += f"zones.{cp_name_trimmed}:defineUpgrades(" + "{\n"
-        lua_string_zones += "    [1] = { --red side\n"
-        lua_string_zones += "        presets.upgrades.basic.tent:extend({\n"
-        lua_string_zones += f"            name='{cp_name_trimmed}-tent-red',\n"
-        lua_string_zones += "            products = {\n"
-        lua_string_zones += (
-            "                presets.special.red.infantry:extend({ name='"
-            + cp_name_trimmed
-            + "-defense-red'})\n"
-        )
-        lua_string_zones += "            }\n"
-        lua_string_zones += "        }),\n"
-        lua_string_zones += "        presets.upgrades.basic.comPost:extend({\n"
-        lua_string_zones += f"            name = '{cp_name_trimmed}-com-red',\n"
-        lua_string_zones += "            products = {\n"
-        lua_string_zones += (
-            "                presets.special.red.infantry:extend({ name='"
-            + cp_name_trimmed
-            + "-defense-red'}),\n"
-        )
-        lua_string_zones += (
-            "                presets.defenses.red.infantry:extend({ name='"
-            + cp_name_trimmed
-            + "-garrison-red' })\n"
-        )
-        lua_string_zones += "            }\n"
-        lua_string_zones += "        }),\n"
-        lua_string_zones += "    },\n"
-        lua_string_zones += "    [2] = --blue side\n"
-        lua_string_zones += "    {\n"
-        lua_string_zones += "        presets.upgrades.basic.tent:extend({\n"
-        lua_string_zones += f"            name='{cp_name_trimmed}-tent-blue',\n"
-        lua_string_zones += "            products = {\n"
-        lua_string_zones += (
-            "                presets.special.blue.infantry:extend({ name='"
-            + cp_name_trimmed
-            + "-defense-blue'})\n"
-        )
-        lua_string_zones += "            }\n"
-        lua_string_zones += "        }),\n"
-        lua_string_zones += "        presets.upgrades.basic.comPost:extend({\n"
-        lua_string_zones += f"            name = '{cp_name_trimmed}-com-blue',\n"
-        lua_string_zones += "            products = {\n"
-        lua_string_zones += (
-            "                presets.special.blue.infantry:extend({ name='"
-            + cp_name_trimmed
-            + "-defense-blue'}),\n"
-        )
-        lua_string_zones += (
-            "                presets.defenses.blue.infantry:extend({ name='"
-            + cp_name_trimmed
-            + "-garrison-blue' })\n"
-        )
-        lua_string_zones += "            }\n"
-        lua_string_zones += "        }),\n"
         lua_string_zones += "        presets.upgrades.supply.fuelTank:extend({\n"
         lua_string_zones += (
-            "            name = '" + cp_name_trimmed + "-fueltank-blue',\n"
+            "            name = '"
+            + cp_name_trimmed
+            + "-fueltank-"
+            + cp_side_str
+            + "',\n"
         )
         lua_string_zones += "            products = {\n"
         for ground_group in self.game.pretense_ground_supply[cp_side][cp_name_trimmed]:
@@ -146,13 +98,19 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_zones += "        }),\n"
         lua_string_zones += "        presets.upgrades.airdef.comCenter:extend({\n"
         lua_string_zones += (
-            f"            name = '{cp_name_trimmed}-mission-command-blue',\n"
+            f"            name = '{cp_name_trimmed}-mission-command-"
+            + cp_side_str
+            + "',\n"
         )
         lua_string_zones += "            products = {\n"
         lua_string_zones += (
-            "                presets.defenses.blue.shorad:extend({ name='"
+            "                presets.defenses."
+            + cp_side_str
+            + ".shorad:extend({ name='"
             + cp_name_trimmed
-            + "-sam-blue' }),\n"
+            + "-sam-"
+            + cp_side_str
+            + "' }),\n"
         )
         for mission_type in self.game.pretense_air[cp_side][cp_name_trimmed]:
             if mission_type == FlightType.SEAD.name:
@@ -256,6 +214,78 @@ class PretenseLuaGenerator(LuaGenerator):
                     )
         lua_string_zones += "            }\n"
         lua_string_zones += "        })\n"
+
+        return lua_string_zones
+
+    def generate_pretense_zone_land(self, cp_name: str) -> str:
+        lua_string_zones = ""
+        cp_name_trimmed = "".join([i for i in cp_name.lower() if i.isalnum()])
+
+        lua_string_zones += f"zones.{cp_name_trimmed}:defineUpgrades(" + "{\n"
+        lua_string_zones += "    [1] = { --red side\n"
+        lua_string_zones += "        presets.upgrades.basic.tent:extend({\n"
+        lua_string_zones += f"            name='{cp_name_trimmed}-tent-red',\n"
+        lua_string_zones += "            products = {\n"
+        lua_string_zones += (
+            "                presets.special.red.infantry:extend({ name='"
+            + cp_name_trimmed
+            + "-defense-red'})\n"
+        )
+        lua_string_zones += "            }\n"
+        lua_string_zones += "        }),\n"
+        lua_string_zones += "        presets.upgrades.basic.comPost:extend({\n"
+        lua_string_zones += f"            name = '{cp_name_trimmed}-com-red',\n"
+        lua_string_zones += "            products = {\n"
+        lua_string_zones += (
+            "                presets.special.red.infantry:extend({ name='"
+            + cp_name_trimmed
+            + "-defense-red'}),\n"
+        )
+        lua_string_zones += (
+            "                presets.defenses.red.infantry:extend({ name='"
+            + cp_name_trimmed
+            + "-garrison-red' })\n"
+        )
+        lua_string_zones += "            }\n"
+        lua_string_zones += "        }),\n"
+
+        lua_string_zones += self.generate_pretense_land_upgrade_supply(
+            cp_name, PRETENSE_RED_SIDE
+        )
+
+        lua_string_zones += "    },\n"
+        lua_string_zones += "    [2] = --blue side\n"
+        lua_string_zones += "    {\n"
+        lua_string_zones += "        presets.upgrades.basic.tent:extend({\n"
+        lua_string_zones += f"            name='{cp_name_trimmed}-tent-blue',\n"
+        lua_string_zones += "            products = {\n"
+        lua_string_zones += (
+            "                presets.special.blue.infantry:extend({ name='"
+            + cp_name_trimmed
+            + "-defense-blue'})\n"
+        )
+        lua_string_zones += "            }\n"
+        lua_string_zones += "        }),\n"
+        lua_string_zones += "        presets.upgrades.basic.comPost:extend({\n"
+        lua_string_zones += f"            name = '{cp_name_trimmed}-com-blue',\n"
+        lua_string_zones += "            products = {\n"
+        lua_string_zones += (
+            "                presets.special.blue.infantry:extend({ name='"
+            + cp_name_trimmed
+            + "-defense-blue'}),\n"
+        )
+        lua_string_zones += (
+            "                presets.defenses.blue.infantry:extend({ name='"
+            + cp_name_trimmed
+            + "-garrison-blue' })\n"
+        )
+        lua_string_zones += "            }\n"
+        lua_string_zones += "        }),\n"
+
+        lua_string_zones += self.generate_pretense_land_upgrade_supply(
+            cp_name, PRETENSE_BLUE_SIDE
+        )
+
         lua_string_zones += "    }\n"
         lua_string_zones += "})\n"
 
@@ -522,7 +552,7 @@ class PretenseLuaGenerator(LuaGenerator):
             if cp.is_fleet:
                 lua_string_zones += self.generate_pretense_zone_sea(cp.name, cp_side)
             else:
-                lua_string_zones += self.generate_pretense_zone_land(cp.name, cp_side)
+                lua_string_zones += self.generate_pretense_zone_land(cp.name)
 
         lua_string_connman = "	cm = ConnectionManager:new()\n"
 

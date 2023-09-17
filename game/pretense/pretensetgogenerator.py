@@ -72,12 +72,15 @@ from game.theater import (
     TheaterGroundObject,
     TheaterUnit,
     NavalControlPoint,
+    PresetLocation,
 )
 from game.theater.theatergroundobject import (
     CarrierGroundObject,
     GenericCarrierGroundObject,
     LhaGroundObject,
     MissileSiteGroundObject,
+    BuildingGroundObject,
+    VehicleGroupGroundObject,
 )
 from game.theater.theatergroup import SceneryUnit, IadsGroundGroup, TheaterGroup
 from game.unitmap import UnitMap
@@ -171,12 +174,7 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
         cp_name_trimmed = "".join(
             [i for i in self.ground_object.control_point.name.lower() if i.isalnum()]
         )
-        cp_side = 2 if self.ground_object.control_point.captured else 1
-        for side in range(1, 3):
-            if cp_name_trimmed not in self.game.pretense_ground_supply[cp_side]:
-                self.game.pretense_ground_supply[side][cp_name_trimmed] = list()
-            if cp_name_trimmed not in self.game.pretense_ground_assault[cp_side]:
-                self.game.pretense_ground_assault[side][cp_name_trimmed] = list()
+
         for group in self.ground_object.groups:
             vehicle_units: list[TheaterUnit] = []
             ship_units: list[TheaterUnit] = []
@@ -275,7 +273,12 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
         cp_name_trimmed = "".join(
             [i for i in self.ground_object.control_point.name.lower() if i.isalnum()]
         )
-        cp_side = 2 if self.ground_object.control_point.captured else 1
+        is_player = True
+        side = (
+            2
+            if self.country == self.game.coalition_for(is_player).faction.country
+            else 1
+        )
 
         for unit in units:
             assert issubclass(unit.type, VehicleType)
@@ -296,11 +299,11 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
 
                 group_role = group_name.split("-")[1]
                 if group_role == "supply":
-                    self.game.pretense_ground_supply[cp_side][cp_name_trimmed].append(
+                    self.game.pretense_ground_supply[side][cp_name_trimmed].append(
                         f"{vehicle_group.name}"
                     )
                 elif group_role == "assault":
-                    self.game.pretense_ground_assault[cp_side][cp_name_trimmed].append(
+                    self.game.pretense_ground_assault[side][cp_name_trimmed].append(
                         f"{vehicle_group.name}"
                     )
             else:
@@ -361,6 +364,14 @@ class PretenseTgoGenerator(TgoGenerator):
 
     def generate(self) -> None:
         for cp in self.game.theater.controlpoints:
+            cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalnum()])
+            for side in range(1, 3):
+                if cp_name_trimmed not in self.game.pretense_ground_supply[side]:
+                    self.game.pretense_ground_supply[side][cp_name_trimmed] = list()
+                if cp_name_trimmed not in self.game.pretense_ground_assault[side]:
+                    self.game.pretense_ground_assault[side][cp_name_trimmed] = list()
+
+            # First generate units for the coalition, which initially holds this CP
             country = self.m.country(cp.coalition.faction.country.name)
 
             # Generate helipads
@@ -431,4 +442,49 @@ class PretenseTgoGenerator(TgoGenerator):
                         ground_object, country, self.game, self.m, self.unit_map
                     )
                 generator.generate()
+            # Then generate ground supply and assault groups for the other coalition
+            other_coalition = cp.coalition
+            for coalition in cp.coalition.game.coalitions:
+                if coalition == cp.coalition:
+                    continue
+                else:
+                    other_coalition = coalition
+            country = self.m.country(other_coalition.faction.country.name)
+            for ground_object in cp.ground_objects:
+                generator: GroundObjectGenerator
+                if isinstance(ground_object, BuildingGroundObject):
+                    new_ground_object = BuildingGroundObject(
+                        name=ground_object.name,
+                        category=ground_object.category,
+                        location=PresetLocation(
+                            f"{ground_object.name} {ground_object.id}",
+                            ground_object.position,
+                            ground_object.heading,
+                        ),
+                        control_point=ground_object.control_point,
+                        is_fob_structure=ground_object.is_fob_structure,
+                        task=ground_object.task,
+                    )
+                    generator = PretenseGroundObjectGenerator(
+                        new_ground_object, country, self.game, self.m, self.unit_map
+                    )
+                elif isinstance(ground_object, VehicleGroupGroundObject):
+                    new_ground_object = VehicleGroupGroundObject(
+                        name=ground_object.name,
+                        location=PresetLocation(
+                            f"{ground_object.name} {ground_object.id}",
+                            ground_object.position,
+                            ground_object.heading,
+                        ),
+                        control_point=ground_object.control_point,
+                        task=ground_object.task,
+                    )
+                    generator = PretenseGroundObjectGenerator(
+                        new_ground_object, country, self.game, self.m, self.unit_map
+                    )
+                else:
+                    continue
+
+                generator.generate()
+
         self.mission_data.runways = list(self.runways.values())
