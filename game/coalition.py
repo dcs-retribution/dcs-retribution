@@ -179,7 +179,7 @@ class Coalition:
         with logged_duration("Transport planning"):
             self.transfers.plan_transports()
 
-        if not is_turn_0 or not self.game.settings.enable_squadron_aircraft_limits:
+        if not is_turn_0:
             self.plan_missions()
         self.plan_procurement()
 

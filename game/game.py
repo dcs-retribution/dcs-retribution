@@ -326,7 +326,9 @@ class Game:
         # TODO: Check for overfull bases.
         # We don't need to actually stream events for turn zero because we haven't given
         # *any* state to the UI yet, so it will need to do a full draw once we do.
-        self.initialize_turn(GameUpdateEvents())
+        self.initialize_turn(
+            GameUpdateEvents(), squadrons_start_full=squadrons_start_full
+        )
 
     def pass_turn(self, no_action: bool = False) -> None:
         """Ends the current turn and initializes the new turn.
@@ -372,6 +374,7 @@ class Game:
         events: GameUpdateEvents,
         for_red: bool = True,
         for_blue: bool = True,
+        squadrons_start_full: bool = False,
     ) -> None:
         """Performs turn initialization for the specified players.
 
@@ -406,6 +409,7 @@ class Game:
             events: Game update event container for turn initialization.
             for_red: True if opfor should be re-initialized.
             for_blue: True if the player coalition should be re-initialized.
+            squadrons_start_full: True if generator setting was checked.
         """
         # Check for win or loss condition FIRST!
         turn_state = self.check_win_loss()
@@ -424,9 +428,9 @@ class Game:
 
         # Plan Coalition specific turn
         if for_blue:
-            self.blue.initialize_turn(self.turn == 0)
+            self.blue.initialize_turn(self.turn == 0 and squadrons_start_full)
         if for_red:
-            self.red.initialize_turn(self.turn == 0)
+            self.red.initialize_turn(self.turn == 0 and squadrons_start_full)
 
         # Plan GroundWar
         self.ground_planners = {}
