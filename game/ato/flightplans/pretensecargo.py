@@ -11,6 +11,7 @@ from .ibuilder import IBuilder
 from .planningerror import PlanningError
 from .standard import StandardFlightPlan, StandardLayout
 from .waypointbuilder import WaypointBuilder
+from ...theater import OffMapSpawn
 
 if TYPE_CHECKING:
     from ..flightwaypoint import FlightWaypoint
@@ -48,6 +49,8 @@ class Builder(IBuilder[PretenseCargoFlightPlan, FerryLayout]):
         heading_from_flot = 0.0
         offmap_transport_cp_id = self.flight.departure.id
         for front_line_cp in self.coalition.game.theater.controlpoints:
+            if isinstance(front_line_cp, OffMapSpawn):
+                continue
             for front_line in self.coalition.game.theater.conflicts():
                 if front_line_cp.captured == self.flight.coalition.player:
                     if (

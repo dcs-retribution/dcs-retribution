@@ -27,6 +27,7 @@ from game.radio.radios import RadioRegistry
 from game.radio.tacan import TacanRegistry
 from game.runways import RunwayData
 from game.settings import Settings
+from game.squadrons import AirWing
 from game.theater.controlpoint import (
     ControlPoint,
     OffMapSpawn,
@@ -42,6 +43,13 @@ if TYPE_CHECKING:
 
 
 PRETENSE_SQUADRON_DEF_RETRIES = 100
+PRETENSE_SEAD_FLIGHTS_PER_CP = 1
+PRETENSE_CAS_FLIGHTS_PER_CP = 1
+PRETENSE_STRIKE_FLIGHTS_PER_CP = 1
+PRETENSE_BARCAP_FLIGHTS_PER_CP = 1
+PRETENSE_AI_AIRCRAFT_PER_FLIGHT = 2
+PRETENSE_AI_AWACS_PER_FLIGHT = 1
+PRETENSE_AI_TANKERS_PER_FLIGHT = 1
 
 
 class PretenseAircraftGenerator:
@@ -108,6 +116,8 @@ class PretenseAircraftGenerator:
             fixed_wing=True, fixed_wing_stol=True, rotary_wing=False
         )
         for front_line_cp in self.game.theater.controlpoints:
+            if isinstance(front_line_cp, OffMapSpawn):
+                continue
             for front_line in self.game.theater.conflicts():
                 if front_line_cp.captured == cp.captured:
                     if (
@@ -124,7 +134,7 @@ class PretenseAircraftGenerator:
         return self.game.theater.find_control_point_by_id(offmap_transport_cp_id)
 
     def should_generate_pretense_transports(
-        self, cp: ControlPoint
+        self, air_wing: AirWing
     ) -> tuple[bool, bool]:
         """
         Returns a tuple of booleans, telling whether transport helicopter and aircraft
@@ -136,17 +146,16 @@ class PretenseAircraftGenerator:
         """
         autogenerate_transport_helicopter_squadron = True
         autogenerate_cargo_plane_squadron = True
-        for aircraft_type in cp.coalition.air_wing.squadrons:
-            for squadron in cp.coalition.air_wing.squadrons[aircraft_type]:
-                mission_types = squadron.auto_assignable_mission_types
+        for aircraft_type in air_wing.squadrons:
+            for squadron in air_wing.squadrons[aircraft_type]:
                 if squadron.aircraft.helicopter and (
-                    FlightType.TRANSPORT in mission_types
-                    or FlightType.AIR_ASSAULT in mission_types
+                    squadron.aircraft.capable_of(FlightType.TRANSPORT)
+                    or squadron.aircraft.capable_of(FlightType.AIR_ASSAULT)
                 ):
                     autogenerate_transport_helicopter_squadron = False
                 elif not squadron.aircraft.helicopter and (
-                    FlightType.TRANSPORT in mission_types
-                    or FlightType.AIR_ASSAULT in mission_types
+                    squadron.aircraft.capable_of(FlightType.TRANSPORT)
+                    or squadron.aircraft.capable_of(FlightType.AIR_ASSAULT)
                 ):
                     autogenerate_cargo_plane_squadron = False
         return (
@@ -181,7 +190,7 @@ class PretenseAircraftGenerator:
             f"Generating a squadron definition for fixed-wing {fixed_wing} squadron at {cp}"
         )
         for retries in range(num_retries):
-            if squadron_def is None or fixed_wing != squadron_def.aircraft.helicopter:
+            if squadron_def is None or fixed_wing == squadron_def.aircraft.helicopter:
                 squadron_def = (
                     cp.coalition.air_wing.squadron_def_generator.generate_for_task(
                         flight_type, cp
@@ -200,7 +209,8 @@ class PretenseAircraftGenerator:
             cp.coalition,
             self.game,
         )
-        cp.coalition.air_wing.squadrons[squadron.aircraft] = list()
+        if squadron.aircraft not in cp.coalition.air_wing.squadrons:
+            cp.coalition.air_wing.squadrons[squadron.aircraft] = list()
         cp.coalition.air_wing.add_squadron(squadron)
         return
 
@@ -229,10 +239,11 @@ class PretenseAircraftGenerator:
             if isinstance(squadron.location, OffMapSpawn):
                 continue
 
-            squadron.owned_aircraft += 1
-            squadron.untasked_aircraft += 1
+            squadron.owned_aircraft += PRETENSE_AI_AIRCRAFT_PER_FLIGHT
+            squadron.untasked_aircraft += PRETENSE_AI_AIRCRAFT_PER_FLIGHT
             package = Package(cp, squadron.flight_db, auto_asap=False)
             mission_types = squadron.auto_assignable_mission_types
+            aircraft_per_flight = 1
             if squadron.aircraft.helicopter and (
                 FlightType.TRANSPORT in mission_types
                 or FlightType.AIR_ASSAULT in mission_types
@@ -247,39 +258,54 @@ class PretenseAircraftGenerator:
                 FlightType.SEAD in mission_types
                 or FlightType.SEAD_SWEEP in mission_types
                 or FlightType.SEAD_ESCORT in mission_types
-            ) and num_of_sead < 2:
+            ) and num_of_sead < PRETENSE_SEAD_FLIGHTS_PER_CP:
                 flight_type = FlightType.SEAD
                 num_of_sead += 1
-            elif FlightType.DEAD in mission_types and num_of_sead < 2:
+                aircraft_per_flight = PRETENSE_AI_AIRCRAFT_PER_FLIGHT
+            elif (
+                FlightType.DEAD in mission_types
+                and num_of_sead < PRETENSE_SEAD_FLIGHTS_PER_CP
+            ):
                 flight_type = FlightType.DEAD
                 num_of_sead += 1
+                aircraft_per_flight = PRETENSE_AI_AIRCRAFT_PER_FLIGHT
             elif (
                 FlightType.CAS in mission_types or FlightType.BAI in mission_types
-            ) and num_of_cas < 2:
+            ) and num_of_cas < PRETENSE_CAS_FLIGHTS_PER_CP:
                 flight_type = FlightType.CAS
                 num_of_cas += 1
+                aircraft_per_flight = PRETENSE_AI_AIRCRAFT_PER_FLIGHT
             elif (
                 FlightType.STRIKE in mission_types
                 or FlightType.OCA_RUNWAY in mission_types
                 or FlightType.OCA_AIRCRAFT in mission_types
-            ) and num_of_strike < 2:
+            ) and num_of_strike < PRETENSE_STRIKE_FLIGHTS_PER_CP:
                 flight_type = FlightType.STRIKE
                 num_of_strike += 1
+                aircraft_per_flight = PRETENSE_AI_AIRCRAFT_PER_FLIGHT
             elif (
                 FlightType.BARCAP in mission_types
                 or FlightType.TARCAP in mission_types
                 or FlightType.ESCORT in mission_types
-            ) and num_of_cap < 2:
+            ) and num_of_cap < PRETENSE_BARCAP_FLIGHTS_PER_CP:
                 flight_type = FlightType.BARCAP
                 num_of_cap += 1
+                aircraft_per_flight = PRETENSE_AI_AIRCRAFT_PER_FLIGHT
+            elif FlightType.AEWC in mission_types:
+                aircraft_per_flight = PRETENSE_AI_AWACS_PER_FLIGHT
+            elif FlightType.REFUELING in mission_types:
+                aircraft_per_flight = PRETENSE_AI_TANKERS_PER_FLIGHT
             else:
                 flight_type = random.choice(list(mission_types))
 
+            print(
+                f"Generating flight of {aircraft_per_flight} for {flight_type}: {squadron.aircraft}"
+            )
             if flight_type == FlightType.TRANSPORT:
                 flight = Flight(
                     package,
                     squadron,
-                    1,
+                    aircraft_per_flight,
                     FlightType.PRETENSE_CARGO,
                     StartType.IN_FLIGHT,
                     divert=cp,
@@ -288,7 +314,12 @@ class PretenseAircraftGenerator:
                 flight.state = Navigating(flight, self.game.settings, waypoint_index=1)
             else:
                 flight = Flight(
-                    package, squadron, 1, flight_type, StartType.COLD, divert=cp
+                    package,
+                    squadron,
+                    aircraft_per_flight,
+                    flight_type,
+                    StartType.COLD,
+                    divert=cp,
                 )
                 package.add_flight(flight)
                 flight.state = WaitingForStart(
@@ -296,7 +327,34 @@ class PretenseAircraftGenerator:
                 )
 
             ato.add_package(package)
-            return
+        return
+
+    def initialize_pretense_data_structures(
+        self, cp: ControlPoint, flight: Flight
+    ) -> None:
+        """
+        Ensures that the data structures used to pass flight group information
+        to the Pretense init script lua are initialized for use in
+        PretenseFlightGroupSpawner and PretenseLuaGenerator.
+
+        Args:
+            cp: Control point to generate aircraft for.
+            flight: The current flight being generated.
+        """
+        flight_type = flight.flight_type.name
+        cp_side = 2 if cp.captured else 1
+        cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalnum()])
+
+        if cp_name_trimmed not in flight.coalition.game.pretense_air[cp_side]:
+            flight.coalition.game.pretense_air[cp_side][cp_name_trimmed] = {}
+        if (
+            flight_type
+            not in flight.coalition.game.pretense_air[cp_side][cp_name_trimmed]
+        ):
+            flight.coalition.game.pretense_air[cp_side][cp_name_trimmed][
+                flight_type
+            ] = list()
+        return
 
     def generate_flights(
         self,
@@ -319,7 +377,7 @@ class PretenseAircraftGenerator:
         (
             autogenerate_transport_helicopter_squadron,
             autogenerate_cargo_plane_squadron,
-        ) = self.should_generate_pretense_transports(cp)
+        ) = self.should_generate_pretense_transports(cp.coalition.air_wing)
 
         if autogenerate_transport_helicopter_squadron:
             self.generate_pretense_transport_squadron(
@@ -345,6 +403,8 @@ class PretenseAircraftGenerator:
             if not package.flights:
                 continue
             for flight in package.flights:
+                self.initialize_pretense_data_structures(cp, flight)
+
                 if flight.alive:
                     if not flight.squadron.location.runway_is_operational():
                         logging.warning(
