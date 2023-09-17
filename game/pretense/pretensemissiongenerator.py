@@ -55,6 +55,7 @@ if TYPE_CHECKING:
 
 class PretenseMissionGenerator(MissionGenerator):
     def __init__(self, game: Game, time: datetime) -> None:
+        super().__init__(game, time)
         self.game = game
         self.time = time
         self.mission = Mission(game.theater.terrain)
@@ -218,8 +219,21 @@ class PretenseMissionGenerator(MissionGenerator):
                     country,
                     cp,
                     ato,
-                    tgo_generator.runways,
                 )
+
+        for cp in self.game.theater.controlpoints:
+            if cp.captured:
+                ato = self.game.blue.ato
+                country = self.p_country
+            else:
+                ato = self.game.red.ato
+                country = self.e_country
+
+            aircraft_generator.generate_packages(
+                country,
+                ato,
+                tgo_generator.runways,
+            )
 
         self.mission_data.flights = aircraft_generator.flights
 
@@ -228,41 +242,5 @@ class PretenseMissionGenerator(MissionGenerator):
                 continue
             flight.aircraft_type.assign_channels_for_flight(flight, self.mission_data)
 
-    def notify_info_generators(
-        self,
-    ) -> None:
-        """Generates subscribed MissionInfoGenerator objects."""
-        mission_data = self.mission_data
-        gens: list[MissionInfoGenerator] = [
-            KneeboardGenerator(self.mission, self.game),
-            BriefingGenerator(self.mission, self.game),
-        ]
-        for gen in gens:
-            for dynamic_runway in mission_data.runways:
-                gen.add_dynamic_runway(dynamic_runway)
-
-            for tanker in mission_data.tankers:
-                if tanker.blue:
-                    gen.add_tanker(tanker)
-
-            for aewc in mission_data.awacs:
-                if aewc.blue:
-                    gen.add_awacs(aewc)
-
-            for jtac in mission_data.jtacs:
-                if jtac.blue:
-                    gen.add_jtac(jtac)
-
-            for flight in mission_data.flights:
-                gen.add_flight(flight)
-            gen.generate()
-
-    def setup_combined_arms(self) -> None:
-        settings = self.game.settings
-        commanders = settings.tactical_commander_count
-        self.mission.groundControl.pilot_can_control_vehicles = commanders > 0
-
-        self.mission.groundControl.blue_game_masters = settings.game_masters_count
-        self.mission.groundControl.blue_tactical_commander = commanders
-        self.mission.groundControl.blue_jtac = settings.jtac_count
-        self.mission.groundControl.blue_observer = settings.observer_count
+        if self.game.settings.plugins.get("ewrj"):
+            self._configure_ewrj(aircraft_generator)
