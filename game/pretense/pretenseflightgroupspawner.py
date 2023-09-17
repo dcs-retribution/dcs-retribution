@@ -75,16 +75,6 @@ class PretenseFlightGroupSpawner(FlightGroupSpawner):
         name = namegen.next_pretense_aircraft_name(cp, self.flight)
         cp_side = 2 if cp.captured else 1
         cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalnum()])
-        flight_type = self.flight.flight_type.name
-        if cp_name_trimmed not in self.flight.coalition.game.pretense_air[cp_side]:
-            self.flight.coalition.game.pretense_air[cp_side][cp_name_trimmed] = {}
-        if (
-            flight_type
-            not in self.flight.coalition.game.pretense_air[cp_side][cp_name_trimmed]
-        ):
-            self.flight.coalition.game.pretense_air[cp_side][cp_name_trimmed][
-                flight_type
-            ] = list()
 
         try:
             if self.start_type is StartType.IN_FLIGHT:
@@ -171,6 +161,10 @@ class PretenseFlightGroupSpawner(FlightGroupSpawner):
     def generate_mid_mission(self) -> FlyingGroup[Any]:
         assert isinstance(self.flight.state, InFlight)
         name = namegen.next_pretense_aircraft_name(self.flight.departure, self.flight)
+        cp_side = 2 if self.flight.departure.captured else 1
+        cp_name_trimmed = "".join(
+            [i for i in self.flight.departure.name.lower() if i.isalnum()]
+        )
         speed = self.flight.state.estimate_speed()
         pos = self.flight.state.estimate_position()
         pos += Vector2(random.randint(100, 1000), random.randint(100, 1000))
@@ -192,6 +186,9 @@ class PretenseFlightGroupSpawner(FlightGroupSpawner):
             alt = self.mission_data.cp_stack[cp]
             self.mission_data.cp_stack[cp] += STACK_SEPARATION
 
+        self.flight.coalition.game.pretense_air[cp_side][cp_name_trimmed][
+            self.flight.flight_type.name
+        ].append(name)
         group = self.mission.flight_group(
             country=self.country,
             name=name,

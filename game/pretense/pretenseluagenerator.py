@@ -361,7 +361,7 @@ class PretenseLuaGenerator(LuaGenerator):
                     continue
                 cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalnum()])
                 for mission_type in self.game.pretense_air[cp_side][cp_name_trimmed]:
-                    if mission_type == FlightType.TRANSPORT.name:
+                    if mission_type == FlightType.PRETENSE_CARGO.name:
                         for air_group in self.game.pretense_air[cp_side][
                             cp_name_trimmed
                         ][mission_type]:
