@@ -294,9 +294,15 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
                 self.set_alarm_state(vehicle_group)
                 GroundForcePainter(faction, vehicle_group.units[0]).apply_livery()
 
-                self.game.pretense_ground_supply[cp_side][cp_name_trimmed].append(
-                    f"{vehicle_group.name}"
-                )
+                group_role = group_name.split("-")[1]
+                if group_role == "supply":
+                    self.game.pretense_ground_supply[cp_side][cp_name_trimmed].append(
+                        f"{vehicle_group.name}"
+                    )
+                elif group_role == "assault":
+                    self.game.pretense_ground_assault[cp_side][cp_name_trimmed].append(
+                        f"{vehicle_group.name}"
+                    )
             else:
                 vehicle_unit = self.m.vehicle(unit.unit_name, unit.type)
                 vehicle_unit.player_can_drive = True
