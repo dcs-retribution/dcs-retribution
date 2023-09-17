@@ -301,9 +301,7 @@ class PretenseAircraftGenerator:
                 flight_type = FlightType.REFUELING
                 aircraft_per_flight = PRETENSE_AI_TANKERS_PER_FLIGHT
             else:
-                if len(list(mission_types)) == 0:
-                    continue
-                flight_type = random.choice(list(mission_types))
+                continue
 
             if flight_type == FlightType.TRANSPORT:
                 flight = Flight(
@@ -464,7 +462,27 @@ class PretenseAircraftGenerator:
                 ato.add_package(package)
         return
 
-    def initialize_pretense_data_structures(
+    def initialize_pretense_data_structures(self, cp: ControlPoint) -> None:
+        """
+        Ensures that the data structures used to pass flight group information
+        to the Pretense init script lua are initialized for use in
+        PretenseFlightGroupSpawner and PretenseLuaGenerator.
+
+        Args:
+            cp: Control point to generate aircraft for.
+            flight: The current flight being generated.
+        """
+        cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalnum()])
+
+        for side in range(1, 3):
+            if cp_name_trimmed not in cp.coalition.game.pretense_air[side]:
+                cp.coalition.game.pretense_air[side][cp_name_trimmed] = {}
+                print(
+                    f"Populated flight.coalition.game.pretense_air[{side}][{cp_name_trimmed}]"
+                )
+        return
+
+    def initialize_pretense_data_structures_for_flight(
         self, cp: ControlPoint, flight: Flight
     ) -> None:
         """
@@ -477,25 +495,24 @@ class PretenseAircraftGenerator:
             flight: The current flight being generated.
         """
         flight_type = flight.flight_type.name
-        is_player = True
-        cp_side = 2 if flight.coalition == self.game.coalition_for(is_player) else 1
         cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalnum()])
 
-        if cp_name_trimmed not in flight.coalition.game.pretense_air[cp_side]:
-            flight.coalition.game.pretense_air[cp_side][cp_name_trimmed] = {}
-            print(
-                f"Populated flight.coalition.game.pretense_air[{cp_side}][{cp_name_trimmed}]"
-            )
-        if (
-            flight_type
-            not in flight.coalition.game.pretense_air[cp_side][cp_name_trimmed]
-        ):
-            flight.coalition.game.pretense_air[cp_side][cp_name_trimmed][
+        for side in range(1, 3):
+            if cp_name_trimmed not in flight.coalition.game.pretense_air[side]:
+                flight.coalition.game.pretense_air[side][cp_name_trimmed] = {}
+                print(
+                    f"Populated flight.coalition.game.pretense_air[{side}][{cp_name_trimmed}]"
+                )
+            if (
                 flight_type
-            ] = list()
-            print(
-                f"Populated flight.coalition.game.pretense_air[{cp_side}][{cp_name_trimmed}][{flight_type}]"
-            )
+                not in flight.coalition.game.pretense_air[side][cp_name_trimmed]
+            ):
+                flight.coalition.game.pretense_air[side][cp_name_trimmed][
+                    flight_type
+                ] = list()
+                print(
+                    f"Populated flight.coalition.game.pretense_air[{side}][{cp_name_trimmed}][{flight_type}]"
+                )
         return
 
     def generate_flights(
@@ -503,7 +520,6 @@ class PretenseAircraftGenerator:
         country: Country,
         cp: ControlPoint,
         ato: AirTaskingOrder,
-        dynamic_runways: Dict[str, RunwayData],
     ) -> None:
         """Adds aircraft to the mission for every flight in the ATO.
 
@@ -513,6 +529,7 @@ class PretenseAircraftGenerator:
             ato: The ATO to generate aircraft for.
             dynamic_runways: Runway data for carriers and FARPs.
         """
+        self.initialize_pretense_data_structures(cp)
 
         if country == cp.coalition.faction.country:
             offmap_transport_cp = self.find_pretense_cargo_plane_cp(cp)
@@ -551,12 +568,20 @@ class PretenseAircraftGenerator:
 
         self._reserve_frequencies_and_tacan(ato)
 
+    def generate_packages(
+        self,
+        country: Country,
+        ato: AirTaskingOrder,
+        dynamic_runways: Dict[str, RunwayData],
+    ) -> None:
         for package in reversed(sorted(ato.packages, key=lambda x: x.time_over_target)):
             logging.info(f"Generating package for target: {package.target.name}")
             if not package.flights:
                 continue
             for flight in package.flights:
-                self.initialize_pretense_data_structures(cp, flight)
+                self.initialize_pretense_data_structures_for_flight(
+                    flight.departure, flight
+                )
 
                 if flight.alive:
                     if not flight.squadron.location.runway_is_operational():
