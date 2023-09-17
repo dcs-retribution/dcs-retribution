@@ -5,7 +5,6 @@ import random
 from datetime import datetime
 from functools import cached_property
 from typing import Any, Dict, List, TYPE_CHECKING, Tuple, Optional
-from uuid import UUID
 
 from dcs import Point
 from dcs.country import Country
@@ -14,11 +13,13 @@ from dcs.unitgroup import FlyingGroup, StaticGroup
 
 from game.ato.airtaaskingorder import AirTaskingOrder
 from game.ato.flight import Flight
-from game.ato.flightstate import Completed, WaitingForStart, Navigating
+from game.ato.flightstate import WaitingForStart, Navigating
 from game.ato.flighttype import FlightType
 from game.ato.package import Package
 from game.ato.starttype import StartType
 from game.coalition import Coalition
+from game.data.weapons import WeaponType
+from game.missiongenerator.aircraft.flightdata import FlightData
 from game.missiongenerator.aircraft.flightgroupconfigurator import (
     FlightGroupConfigurator,
 )
@@ -36,9 +37,6 @@ from game.theater.controlpoint import (
     Airfield,
 )
 from game.unitmap import UnitMap
-from game.missiongenerator.aircraft.aircraftpainter import AircraftPainter
-from game.missiongenerator.aircraft.flightdata import FlightData
-from game.data.weapons import WeaponType
 from game.squadrons import Squadron
 
 if TYPE_CHECKING:

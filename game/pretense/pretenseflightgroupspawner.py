@@ -1,6 +1,5 @@
 import logging
 import random
-import re
 from typing import Any, Tuple
 
 from dcs import Mission
@@ -24,8 +23,7 @@ from game.missiongenerator.aircraft.flightgroupspawner import (
 )
 from game.missiongenerator.missiondata import MissionData
 from game.naming import NameGenerator
-from game.theater import Airfield, ControlPoint, Fob, NavalControlPoint, OffMapSpawn
-from game.utils import feet, meters
+from game.theater import Airfield, ControlPoint, Fob, NavalControlPoint
 
 
 class PretenseNameGenerator(NameGenerator):
