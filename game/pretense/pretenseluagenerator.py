@@ -56,7 +56,7 @@ class PretenseLuaGenerator(LuaGenerator):
             self.mission.triggerrules.triggers.remove(t)
             self.mission.triggerrules.triggers.append(t)
 
-    def generate_pretense_land_upgrade_supply(self, cp_name: str, cp_side: int):
+    def generate_pretense_land_upgrade_supply(self, cp_name: str, cp_side: int) -> str:
         lua_string_zones = ""
         cp_name_trimmed = "".join([i for i in cp_name.lower() if i.isalnum()])
         cp_side_str = "blue" if cp_side == PRETENSE_BLUE_SIDE else "red"
