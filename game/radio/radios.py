@@ -323,6 +323,14 @@ RADIOS: List[Radio] = [
             ),
         ),
     ),
+    # UH-60L
+    Radio(
+        "AN/ARC-201",
+        (
+            # The Range from 30-88MHz should be FM but its modeled as AM in dcs
+            RadioRange(MHz(30), MHz(88), kHz(25), Modulation.AM),
+        ),
+    ),
 ]
 
 

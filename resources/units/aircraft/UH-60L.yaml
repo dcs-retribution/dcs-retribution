@@ -14,6 +14,13 @@ price: 4
 role: Transport
 variants:
   UH-60L: {}
+radios:
+  intra_flight: AN/ARC-201
+  inter_flight: AN/ARC-164
+  channels:
+    type: common
+    intra_flight_radio_index: 1
+    inter_flight_radio_index: 2
 tasks:
   Air Assault: 80
   Transport: 60
