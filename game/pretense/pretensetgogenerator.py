@@ -450,8 +450,8 @@ class PretenseTgoGenerator(TgoGenerator):
                 else:
                     other_coalition = coalition
             country = self.m.country(other_coalition.faction.country.name)
+            new_ground_object: TheaterGroundObject
             for ground_object in cp.ground_objects:
-                generator: GroundObjectGenerator
                 if isinstance(ground_object, BuildingGroundObject):
                     new_ground_object = BuildingGroundObject(
                         name=ground_object.name,
