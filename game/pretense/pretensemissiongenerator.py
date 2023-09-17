@@ -207,18 +207,19 @@ class PretenseMissionGenerator(MissionGenerator):
         self.game.red.ato.clear()
 
         for cp in self.game.theater.controlpoints:
-            if cp.captured:
-                ato = self.game.blue.ato
-                cp_country = self.p_country
-            else:
-                ato = self.game.red.ato
-                cp_country = self.e_country
-            aircraft_generator.generate_flights(
-                cp_country,
-                cp,
-                ato,
-                tgo_generator.runways,
-            )
+            for country in (self.p_country, self.e_country):
+
+                if country == self.p_country:
+                    ato = self.game.blue.ato
+                else:
+                    ato = self.game.red.ato
+                print(f"Running generate_flights for {country.name} at {cp.name}")
+                aircraft_generator.generate_flights(
+                    country,
+                    cp,
+                    ato,
+                    tgo_generator.runways,
+                )
 
         self.mission_data.flights = aircraft_generator.flights
 
