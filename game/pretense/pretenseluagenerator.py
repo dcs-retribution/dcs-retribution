@@ -176,7 +176,7 @@ class PretenseLuaGenerator(LuaGenerator):
                     for tanker in self.mission_data.tankers:
                         if tanker.group_name == air_group:
                             tanker_freq = tanker.freq.hertz / 1000000
-                            tanker_tacan = tanker.tacan if tanker.tacan else "N/A"
+                            tanker_tacan = tanker.tacan.number if tanker.tacan else 0.0
                             if tanker.variant == "KC-135 Stratotanker":
                                 tanker_variant = "Boom"
                     lua_string_zones += (
@@ -453,7 +453,7 @@ class PretenseLuaGenerator(LuaGenerator):
                     for tanker in self.mission_data.tankers:
                         if tanker.group_name == air_group:
                             tanker_freq = tanker.freq.hertz / 1000000
-                            tanker_tacan = tanker.tacan.number
+                            tanker_tacan = tanker.tacan.number if tanker.tacan else 0.0
                             if tanker.variant == "KC-135 Stratotanker":
                                 tanker_variant = "Boom"
                             else:
