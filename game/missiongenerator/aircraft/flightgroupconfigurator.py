@@ -201,7 +201,8 @@ class FlightGroupConfigurator:
         elif isinstance(
             self.flight.flight_plan, TheaterRefuelingFlightPlan
         ) or isinstance(self.flight.flight_plan, PackageRefuelingFlightPlan):
-            if self.flight.tacan is None:
+            tacan = self.flight.tacan
+            if tacan is None and self.flight.squadron.aircraft.dcs_unit_type.tacan:
                 tacan = self.tacan_registry.alloc_for_band(
                     TacanBand.Y, TacanUsage.AirToAir
                 )

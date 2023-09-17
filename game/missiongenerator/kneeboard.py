@@ -602,7 +602,7 @@ class SupportPage(KneeboardPage):
                     tanker.callsign,
                     "Tanker",
                     KneeboardPageWriter.wrap_line(tanker.variant, 21),
-                    str(tanker.tacan),
+                    str(tanker.tacan) if tanker.tacan else "N/A",
                     self.format_frequency(tanker.freq),
                     "TOT: " + tot + "\n" + "TOS: " + tos,
                 ]

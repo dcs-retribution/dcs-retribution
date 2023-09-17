@@ -42,7 +42,7 @@ class TankerInfo(GroupInfo):
     """Tanker information for the kneeboard."""
 
     variant: str
-    tacan: TacanChannel
+    tacan: Optional[TacanChannel]
     start_time: timedelta
     end_time: timedelta
 

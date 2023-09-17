@@ -71,9 +71,8 @@ class LuaGenerator:
             tanker_item.add_key_value("callsign", tanker.callsign)
             tanker_item.add_key_value("variant", tanker.variant)
             tanker_item.add_key_value("radio", str(tanker.freq.mhz))
-            tanker_item.add_key_value(
-                "tacan", str(tanker.tacan.number) + tanker.tacan.band.name
-            )
+            if tanker.tacan:
+                tanker_item.add_key_value("tacan", str(tanker.tacan))
 
         awacs_object = lua_data.add_item("AWACs")
         for awacs in self.mission_data.awacs:

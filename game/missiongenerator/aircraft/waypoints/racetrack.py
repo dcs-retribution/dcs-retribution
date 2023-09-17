@@ -68,9 +68,9 @@ class RaceTrackBuilder(PydcsWaypointBuilder):
     def configure_refueling_actions(self, waypoint: MovingPoint) -> None:
         waypoint.add_task(Tanker())
 
-        if self.flight.unit_type.dcs_unit_type.tacan:
-            tanker_info = self.mission_data.tankers[-1]
-            tacan = tanker_info.tacan
+        tanker_info = self.mission_data.tankers[-1]
+        tacan = tanker_info.tacan
+        if self.flight.unit_type.dcs_unit_type.tacan and tacan:
             if self.flight.tcn_name is None:
                 cs = tanker_info.callsign[:-2]
                 csn = tanker_info.callsign[-1]
