@@ -240,6 +240,8 @@ class PretenseAircraftGenerator:
             # Intentionally don't spawn anything at OffMapSpawns in Pretense
             if isinstance(squadron.location, OffMapSpawn):
                 continue
+            if cp.coalition != squadron.coalition:
+                continue
 
             squadron.owned_aircraft += PRETENSE_AI_AIRCRAFT_PER_FLIGHT
             squadron.untasked_aircraft += PRETENSE_AI_AIRCRAFT_PER_FLIGHT
