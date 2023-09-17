@@ -282,10 +282,9 @@ class AircraftGenerator:
 
     def _reserve_frequencies_and_tacan(self, ato: AirTaskingOrder) -> None:
         for package in ato.packages:
-            if package.frequency is None:
-                continue
-            if package.frequency not in self.radio_registry.allocated_channels:
-                self.radio_registry.reserve(package.frequency)
+            pfreq = package.frequency
+            if pfreq and pfreq not in self.radio_registry.allocated_channels:
+                self.radio_registry.reserve(pfreq)
             for f in package.flights:
                 if (
                     f.frequency
