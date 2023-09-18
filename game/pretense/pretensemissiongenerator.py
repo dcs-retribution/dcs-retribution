@@ -221,19 +221,21 @@ class PretenseMissionGenerator(MissionGenerator):
                     ato,
                 )
 
-        for cp in self.game.theater.controlpoints:
-            if cp.captured:
-                ato = self.game.blue.ato
-                country = self.p_country
-            else:
-                ato = self.game.red.ato
-                country = self.e_country
+        ato = self.game.blue.ato
+        country = self.p_country
+        aircraft_generator.generate_packages(
+            country,
+            ato,
+            tgo_generator.runways,
+        )
 
-            aircraft_generator.generate_packages(
-                country,
-                ato,
-                tgo_generator.runways,
-            )
+        ato = self.game.red.ato
+        country = self.e_country
+        aircraft_generator.generate_packages(
+            country,
+            ato,
+            tgo_generator.runways,
+        )
 
         self.mission_data.flights = aircraft_generator.flights
 
