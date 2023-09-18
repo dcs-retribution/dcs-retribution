@@ -82,9 +82,10 @@ class PretenseFlightGroupSpawner(FlightGroupSpawner):
 
         try:
             if self.start_type is StartType.IN_FLIGHT:
-                self.flight.coalition.game.pretense_air[cp_side][cp_name_trimmed][
-                    self.flight.flight_type.name
-                ].append(name)
+                if self.flight.client_count == 0:
+                    self.flight.coalition.game.pretense_air[cp_side][cp_name_trimmed][
+                        self.flight.flight_type.name
+                    ].append(name)
                 group = self._generate_over_departure(name, cp)
                 return group
             elif isinstance(cp, NavalControlPoint):
@@ -95,9 +96,10 @@ class PretenseFlightGroupSpawner(FlightGroupSpawner):
                         f"Carrier group {carrier_group} is a "
                         f"{carrier_group.__class__.__name__}, expected a ShipGroup"
                     )
-                self.flight.coalition.game.pretense_air[cp_side][cp_name_trimmed][
-                    self.flight.flight_type.name
-                ].append(name)
+                if self.flight.client_count == 0:
+                    self.flight.coalition.game.pretense_air[cp_side][cp_name_trimmed][
+                        self.flight.flight_type.name
+                    ].append(name)
                 return self._generate_at_group(name, carrier_group)
             elif isinstance(cp, Fob):
                 is_heli = self.flight.squadron.aircraft.helicopter
@@ -125,9 +127,10 @@ class PretenseFlightGroupSpawner(FlightGroupSpawner):
                     pad_group = self._generate_at_cp_ground_spawn(name, cp)
                     if pad_group is not None:
                         return pad_group
-                self.flight.coalition.game.pretense_air[cp_side][cp_name_trimmed][
-                    self.flight.flight_type.name
-                ].append(name)
+                if self.flight.client_count == 0:
+                    self.flight.coalition.game.pretense_air[cp_side][cp_name_trimmed][
+                        self.flight.flight_type.name
+                    ].append(name)
                 return self._generate_over_departure(name, cp)
             elif isinstance(cp, Airfield):
                 is_heli = self.flight.squadron.aircraft.helicopter
@@ -145,9 +148,10 @@ class PretenseFlightGroupSpawner(FlightGroupSpawner):
                     pad_group = self._generate_at_cp_ground_spawn(name, cp)
                     if pad_group is not None:
                         return pad_group
-                self.flight.coalition.game.pretense_air[cp_side][cp_name_trimmed][
-                    self.flight.flight_type.name
-                ].append(name)
+                if self.flight.client_count == 0:
+                    self.flight.coalition.game.pretense_air[cp_side][cp_name_trimmed][
+                        self.flight.flight_type.name
+                    ].append(name)
                 return self._generate_at_airfield(name, cp)
             else:
                 raise NotImplementedError(
@@ -155,12 +159,19 @@ class PretenseFlightGroupSpawner(FlightGroupSpawner):
                 )
         except NoParkingSlotError:
             # Generated when there is no place on Runway or on Parking Slots
-            logging.warning(
-                "No room on runway or parking slots. Starting from the air."
-            )
-            self.flight.start_type = StartType.IN_FLIGHT
-            group = self._generate_over_departure(name, cp)
-            return group
+            if self.flight.client_count > 0:
+                # Don't generate player airstarts
+                logging.warning(
+                    "No room on runway or parking slots. Not generating a player air-start."
+                )
+                raise NoParkingSlotError
+            else:
+                logging.warning(
+                    "No room on runway or parking slots. Starting from the air."
+                )
+                self.flight.start_type = StartType.IN_FLIGHT
+                group = self._generate_over_departure(name, cp)
+                return group
 
     def generate_mid_mission(self) -> FlyingGroup[Any]:
         assert isinstance(self.flight.state, InFlight)
