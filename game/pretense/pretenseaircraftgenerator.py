@@ -603,7 +603,7 @@ class PretenseAircraftGenerator:
             cp: Control point to generate aircraft for.
             flight: The current flight being generated.
         """
-        flight_type = flight.flight_type.name
+        flight_type = flight.flight_type
         cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalnum()])
 
         for side in range(1, 3):

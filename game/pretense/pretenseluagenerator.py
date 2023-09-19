@@ -80,7 +80,7 @@ class PretenseLuaGenerator(LuaGenerator):
                 + "'}),\n"
             )
         for mission_type in self.game.pretense_air[cp_side][cp_name_trimmed]:
-            if mission_type == FlightType.AIR_ASSAULT.name:
+            if mission_type == FlightType.AIR_ASSAULT:
                 mission_name = "supply.helo"
                 for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
                     mission_type
@@ -110,7 +110,7 @@ class PretenseLuaGenerator(LuaGenerator):
             + "' }),\n"
         )
         for mission_type in self.game.pretense_air[cp_side][cp_name_trimmed]:
-            if mission_type == FlightType.SEAD.name:
+            if mission_type == FlightType.SEAD:
                 mission_name = "attack.sead"
                 for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
                     mission_type
@@ -121,7 +121,7 @@ class PretenseLuaGenerator(LuaGenerator):
                         + air_group
                         + "', altitude=25000, expend=AI.Task.WeaponExpend.ALL}),\n"
                     )
-            elif mission_type == FlightType.CAS.name:
+            elif mission_type == FlightType.CAS:
                 mission_name = "attack.cas"
                 for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
                     mission_type
@@ -132,7 +132,7 @@ class PretenseLuaGenerator(LuaGenerator):
                         + air_group
                         + "', altitude=15000, expend=AI.Task.WeaponExpend.ONE}),\n"
                     )
-            elif mission_type == FlightType.BAI.name:
+            elif mission_type == FlightType.BAI:
                 mission_name = "attack.bai"
                 for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
                     mission_type
@@ -143,7 +143,7 @@ class PretenseLuaGenerator(LuaGenerator):
                         + air_group
                         + "', altitude=10000, expend=AI.Task.WeaponExpend.ONE}),\n"
                     )
-            elif mission_type == FlightType.STRIKE.name:
+            elif mission_type == FlightType.STRIKE:
                 mission_name = "attack.strike"
                 for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
                     mission_type
@@ -154,7 +154,7 @@ class PretenseLuaGenerator(LuaGenerator):
                         + air_group
                         + "', altitude=20000, expend=AI.Task.WeaponExpend.ALL}),\n"
                     )
-            elif mission_type == FlightType.BARCAP.name:
+            elif mission_type == FlightType.BARCAP:
                 mission_name = "patrol.aircraft"
                 for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
                     mission_type
@@ -165,7 +165,7 @@ class PretenseLuaGenerator(LuaGenerator):
                         + air_group
                         + "', altitude=25000, range=25}),\n"
                     )
-            elif mission_type == FlightType.REFUELING.name:
+            elif mission_type == FlightType.REFUELING:
                 mission_name = "support.tanker"
                 for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
                     mission_type
@@ -191,7 +191,7 @@ class PretenseLuaGenerator(LuaGenerator):
                         + tanker_variant
                         + "'}),\n"
                     )
-            elif mission_type == FlightType.AEWC.name:
+            elif mission_type == FlightType.AEWC:
                 mission_name = "support.awacs"
                 for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
                     mission_type
@@ -364,7 +364,7 @@ class PretenseLuaGenerator(LuaGenerator):
                 + "'}),\n"
             )
         for mission_type in self.game.pretense_air[cp_side][cp_name_trimmed]:
-            if mission_type == FlightType.AIR_ASSAULT.name:
+            if mission_type == FlightType.AIR_ASSAULT:
                 mission_name = "supply.helo"
                 for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
                     mission_type
@@ -388,7 +388,7 @@ class PretenseLuaGenerator(LuaGenerator):
             + "-sam-blue' }),\n"
         )
         for mission_type in self.game.pretense_air[cp_side][cp_name_trimmed]:
-            if mission_type == FlightType.SEAD.name:
+            if mission_type == FlightType.SEAD:
                 mission_name = "attack.sead"
                 for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
                     mission_type
@@ -399,7 +399,7 @@ class PretenseLuaGenerator(LuaGenerator):
                         + air_group
                         + "', altitude=25000, expend=AI.Task.WeaponExpend.ALL}),\n"
                     )
-            elif mission_type == FlightType.CAS.name:
+            elif mission_type == FlightType.CAS:
                 mission_name = "attack.cas"
                 for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
                     mission_type
@@ -410,7 +410,7 @@ class PretenseLuaGenerator(LuaGenerator):
                         + air_group
                         + "', altitude=15000, expend=AI.Task.WeaponExpend.ONE}),\n"
                     )
-            elif mission_type == FlightType.BAI.name:
+            elif mission_type == FlightType.BAI:
                 mission_name = "attack.bai"
                 for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
                     mission_type
@@ -421,7 +421,7 @@ class PretenseLuaGenerator(LuaGenerator):
                         + air_group
                         + "', altitude=10000, expend=AI.Task.WeaponExpend.ONE}),\n"
                     )
-            elif mission_type == FlightType.STRIKE.name:
+            elif mission_type == FlightType.STRIKE:
                 mission_name = "attack.strike"
                 for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
                     mission_type
@@ -432,7 +432,7 @@ class PretenseLuaGenerator(LuaGenerator):
                         + air_group
                         + "', altitude=20000, expend=AI.Task.WeaponExpend.ALL}),\n"
                     )
-            elif mission_type == FlightType.BARCAP.name:
+            elif mission_type == FlightType.BARCAP:
                 mission_name = "patrol.aircraft"
                 for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
                     mission_type
@@ -443,7 +443,7 @@ class PretenseLuaGenerator(LuaGenerator):
                         + air_group
                         + "', altitude=25000, range=25}),\n"
                     )
-            elif mission_type == FlightType.REFUELING.name:
+            elif mission_type == FlightType.REFUELING:
                 mission_name = "support.tanker"
                 for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
                     mission_type
@@ -470,7 +470,7 @@ class PretenseLuaGenerator(LuaGenerator):
                         + tanker_variant
                         + "'}),\n"
                     )
-            elif mission_type == FlightType.AEWC.name:
+            elif mission_type == FlightType.AEWC:
                 mission_name = "support.awacs"
                 for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
                     mission_type
@@ -601,7 +601,7 @@ class PretenseLuaGenerator(LuaGenerator):
                     continue
                 cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalnum()])
                 for mission_type in self.game.pretense_air[cp_side][cp_name_trimmed]:
-                    if mission_type == FlightType.PRETENSE_CARGO.name:
+                    if mission_type == FlightType.PRETENSE_CARGO:
                         for air_group in self.game.pretense_air[cp_side][
                             cp_name_trimmed
                         ][mission_type]:

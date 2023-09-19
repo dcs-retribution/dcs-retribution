@@ -151,7 +151,10 @@ class Game:
         # Side, control point, mission type
         self.pretense_ground_supply: dict[int, dict[str, List[str]]] = {1: {}, 2: {}}
         self.pretense_ground_assault: dict[int, dict[str, List[str]]] = {1: {}, 2: {}}
-        self.pretense_air: dict[int, dict[str, dict[str, List[str]]]] = {1: {}, 2: {}}
+        self.pretense_air: dict[int, dict[str, dict[FlightType, List[str]]]] = {
+            1: {},
+            2: {},
+        }
 
         self.on_load(game_still_initializing=True)
 
