@@ -913,10 +913,8 @@ class GroundSpawnRoadbaseGenerator:
 
         self.ground_spawns_roadbase.append((sg, ground_spawn[1]))
 
-        # tanker_type: Type[VehicleType]
-        # ammo_truck_type: Type[VehicleType]
-
         tanker_type, ammo_truck_type = farp_truck_types_for_country(country.id)
+        power_truck_type = Unarmed.Ural_4320_APA_5D
 
         # Generate ammo truck/farp and fuel truck/stack for each pad
         if self.game.settings.ground_start_trucks_roadbase:
@@ -960,6 +958,18 @@ class GroundSpawnRoadbaseGenerator:
                     ground_spawn[0].heading.degrees + 90, 35
                 ).point_from_heading(ground_spawn[0].heading.degrees + 180, 10),
                 heading=pad.heading + 180,
+            )
+        if self.game.settings.ground_start_ground_power_trucks_roadbase:
+            self.m.vehicle_group(
+                country=country,
+                name=(name + "_power"),
+                _type=power_truck_type,
+                position=pad.position.point_from_heading(
+                    ground_spawn[0].heading.degrees + 90, 35
+                ).point_from_heading(ground_spawn[0].heading.degrees + 180, 20),
+                group_size=1,
+                heading=pad.heading + 315,
+                move_formation=PointAction.OffRoad,
             )
 
     def generate(self) -> None:
@@ -1020,6 +1030,7 @@ class GroundSpawnGenerator:
         # ammo_truck_type: Type[VehicleType]
 
         tanker_type, ammo_truck_type = farp_truck_types_for_country(country.id)
+        power_truck_type = Unarmed.Ural_4320_APA_5D
 
         # Generate a FARP Ammo and Fuel stack for each pad
         if self.game.settings.ground_start_trucks:
@@ -1063,6 +1074,18 @@ class GroundSpawnGenerator:
                     vtol_pad[0].heading.degrees - 180, 35
                 ),
                 heading=pad.heading + 270,
+            )
+        if self.game.settings.ground_start_ground_power_trucks:
+            self.m.vehicle_group(
+                country=country,
+                name=(name + "_power"),
+                _type=power_truck_type,
+                position=pad.position.point_from_heading(
+                    vtol_pad[0].heading.degrees - 185, 35
+                ),
+                group_size=1,
+                heading=pad.heading + 45,
+                move_formation=PointAction.OffRoad,
             )
 
     def generate(self) -> None:
