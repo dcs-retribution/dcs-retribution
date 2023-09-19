@@ -556,9 +556,9 @@ class PretenseAircraftGenerator:
                     StartType.COLD,
                     divert=cp,
                 )
-                for pilot in flight.roster.pilots:
-                    if pilot is not None:
-                        pilot.player = True
+                for roster_pilot in flight.roster.pilots:
+                    if roster_pilot is not None:
+                        roster_pilot.player = True
                 print(
                     f"Generated flight for {squadron.primary_task} flying {squadron.aircraft.name} at {squadron.location.name}. Pilot client count: {flight.client_count}"
                 )

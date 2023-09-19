@@ -128,6 +128,10 @@ class PretenseFlightGroupSpawner(FlightGroupSpawner):
                     if pad_group is not None:
                         return pad_group
                 if cp.has_ground_spawns and (self.flight.client_count > 0 or is_heli):
+                    if self.flight.client_count == 0:
+                        self.flight.coalition.game.pretense_air[cp_side][
+                            cp_name_trimmed
+                        ][self.flight.flight_type].append(name)
                     pad_group = self._generate_at_cp_ground_spawn(name, cp)
                     if pad_group is not None:
                         return pad_group
@@ -139,6 +143,10 @@ class PretenseFlightGroupSpawner(FlightGroupSpawner):
             elif isinstance(cp, Airfield):
                 is_heli = self.flight.squadron.aircraft.helicopter
                 if cp.has_helipads and is_heli:
+                    if self.flight.client_count == 0:
+                        self.flight.coalition.game.pretense_air[cp_side][
+                            cp_name_trimmed
+                        ][self.flight.flight_type].append(name)
                     pad_group = self._generate_at_cp_helipad(name, cp)
                     if pad_group is not None:
                         return pad_group
@@ -149,6 +157,10 @@ class PretenseFlightGroupSpawner(FlightGroupSpawner):
                     >= self.flight.count
                     and (self.flight.client_count > 0 or is_heli)
                 ):
+                    if self.flight.client_count == 0:
+                        self.flight.coalition.game.pretense_air[cp_side][
+                            cp_name_trimmed
+                        ][self.flight.flight_type].append(name)
                     pad_group = self._generate_at_cp_ground_spawn(name, cp)
                     if pad_group is not None:
                         return pad_group
