@@ -7527,6 +7527,24 @@ do
     TemplateDB.templates["command-center"] = { type=".Command Center", category="Fortifications", shape="ComCenter", dataCategory=TemplateDB.type.static }
     
     TemplateDB.templates["military-staff"] = { type="Military staff", category="Fortifications", shape="aviashtab", dataCategory=TemplateDB.type.static }
+
+    TemplateDB.templates["ship-tanker-seawisegiant"] = { type="Seawise_Giant", category="Ships", dataCategory=TemplateDB.type.static }
+
+    TemplateDB.templates["ship-supply-tilde"] = { type="Ship_Tilde_Supply", category="Ships", dataCategory=TemplateDB.type.static }
+
+    TemplateDB.templates["ship-landingship-samuelchase"] = { type="USS_Samuel_Chase", category="Ships", dataCategory=TemplateDB.type.static }
+
+    TemplateDB.templates["ship-landingship-ropucha"] = { type="BDK-775", category="Ships", dataCategory=TemplateDB.type.static }
+
+    TemplateDB.templates["ship-tanker-elnya"] = { type="ELNYA", category="Ships", dataCategory=TemplateDB.type.static }
+
+    TemplateDB.templates["ship-landingship-lstmk2"] = { type="LST_Mk2", category="Ships", dataCategory=TemplateDB.type.static }
+
+    TemplateDB.templates["ship-bulker-yakushev"] = { type="Dry-cargo ship-1", category="Ships", dataCategory=TemplateDB.type.static }
+
+    TemplateDB.templates["ship-cargo-ivanov"] = { type="Dry-cargo ship-2", category="Ships", dataCategory=TemplateDB.type.static }
+
+
 end
 
 -----------------[[ END OF TemplateDB.lua ]]-----------------
