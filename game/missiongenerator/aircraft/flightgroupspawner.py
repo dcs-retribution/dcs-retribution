@@ -434,7 +434,9 @@ class FlightGroupSpawner:
                 )
                 group.units[1 + i].heading = ground_spawn[0].units[0].heading
             except IndexError as ex:
-                raise RuntimeError(f"Not enough STOL slots available at {cp}") from ex
+                raise NoParkingSlotError(
+                    f"Not enough STOL slots available at {cp}"
+                ) from ex
         return group
 
     def dcs_start_type(self) -> DcsStartType:
