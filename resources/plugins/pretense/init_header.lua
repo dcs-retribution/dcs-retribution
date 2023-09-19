@@ -295,7 +295,31 @@ presets = {
 				cost = 2000,
 				type = 'upgrade',
 				template = "ammo-depot"
-			})
+			}),
+            shipTankerSeawisegiant = Preset:new({
+                display = 'Tanker Seawise Giant',
+                cost = 1500,
+                type = 'upgrade',
+                template = "ship-tanker-seawisegiant"
+            }),
+            shipLandingShipSamuelChase = Preset:new({
+                display = 'LST USS Samuel Chase',
+                cost = 1500,
+                type = 'upgrade',
+                template = "ship-landingship-samuelchase"
+            }),
+            shipLandingShipRopucha = Preset:new({
+                display = 'LS Ropucha',
+                cost = 1500,
+                type = 'upgrade',
+                template = "ship-landingship-ropucha"
+            }),
+            shipTankerElnya = Preset:new({
+                display = 'Tanker Elnya',
+                cost = 1500,
+                type = 'upgrade',
+                template = "ship-tanker-elnya"
+            })
 		},
 		supply = {
 			fuelCache = Preset:new({
@@ -413,7 +437,31 @@ presets = {
 				type ='upgrade',
 				income = 50,
 				template = "tv-tower"
-			})
+			}),
+            shipSupplyTilde = Preset:new({
+                display = 'Ship_Tilde_Supply',
+                cost = 1500,
+                type = 'upgrade',
+                template = "ship-supply-tilde"
+            }),
+            shipLandingShipLstMk2 = Preset:new({
+                display = 'LST Mk.II',
+                cost = 1500,
+                type = 'upgrade',
+                template = "ship-landingship-lstmk2"
+            }),
+            shipBulkerYakushev = Preset:new({
+                display = 'Bulker Yakushev',
+                cost = 1500,
+                type = 'upgrade',
+                template = "ship-bulker-yakushev"
+            }),
+            shipCargoIvanov = Preset:new({
+                display = 'Cargo Ivanov',
+                cost = 1500,
+                type = 'upgrade',
+                template = "ship-cargo-ivanov"
+            })
 		},
 		airdef = {
 			comCenter = Preset:new({
