@@ -9,7 +9,8 @@ from dcs.flyingunit import FlyingUnit
 from dcs.unit import Skill
 from dcs.unitgroup import FlyingGroup
 
-from game.ato import Flight
+from game.ato import Flight, FlightType
+from game.data.weapons import Pylon
 from game.missiongenerator.aircraft.flightgroupconfigurator import (
     FlightGroupConfigurator,
 )
@@ -100,18 +101,7 @@ class PretenseFlightGroupConfigurator(FlightGroupConfigurator):
             self.mission_data,
         ).create_waypoints()
 
-        # Special handling for landing waypoints when:
-        # 1. It's an AI-only flight
-        # 2. Aircraft are not helicopters/VTOL
-        # 3. Landing waypoint does not point to an airfield
-        if (
-            self.flight.client_count < 1
-            and not self.flight.unit_type.helicopter
-            and not self.flight.unit_type.lha_capable
-            and isinstance(self.flight.squadron.location, Fob)
-        ):
-            # Need to set uncontrolled to false, otherwise the AI will skip the mission and just land
-            self.group.uncontrolled = False
+        self.group.uncontrolled = False
 
         return FlightData(
             package=self.flight.package,
@@ -136,3 +126,21 @@ class PretenseFlightGroupConfigurator(FlightGroupConfigurator):
             custom_name=self.flight.custom_name,
             laser_codes=laser_codes,
         )
+
+    def setup_payload(self) -> None:
+        for p in self.group.units:
+            p.pylons.clear()
+
+        if self.flight.flight_type == FlightType.SEAD:
+            self.flight.loadout = self.flight.loadout.default_for_task_and_aircraft(
+                FlightType.SEAD_SWEEP, self.flight.unit_type.dcs_unit_type
+            )
+        loadout = self.flight.loadout
+        if self.game.settings.restrict_weapons_by_date:
+            loadout = loadout.degrade_for_date(self.flight.unit_type, self.game.date)
+
+        for pylon_number, weapon in loadout.pylons.items():
+            if weapon is None:
+                continue
+            pylon = Pylon.for_aircraft(self.flight.unit_type, pylon_number)
+            pylon.equip(self.group, weapon)
