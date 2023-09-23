@@ -360,7 +360,7 @@ class ParkingType:
 class ControlPoint(MissionTarget, SidcDescribable, ABC):
     # Not sure what distance DCS uses, but assuming it's about 2NM since that's roughly
     # the distance of the circle on the map.
-    CAPTURE_DISTANCE = nautical_miles(2)
+    CAPTURE_DISTANCE = meters(TRIGGER_RADIUS_CAPTURE)
 
     # TODO: Only airbases have IDs.
     # TODO: cptype is obsolete.
