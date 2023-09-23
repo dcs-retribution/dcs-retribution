@@ -7524,6 +7524,8 @@ do
 
     TemplateDB.templates["tv-tower"] = { type="TV tower", category="Fortifications", shape="tele_bash", dataCategory=TemplateDB.type.static }
 
+    TemplateDB.templates["bunker-1"] = { type="Sandbox", category="Fortifications", dataCategory=TemplateDB.type.static }
+
     TemplateDB.templates["command-center"] = { type=".Command Center", category="Fortifications", shape="ComCenter", dataCategory=TemplateDB.type.static }
     
     TemplateDB.templates["military-staff"] = { type="Military staff", category="Fortifications", shape="aviashtab", dataCategory=TemplateDB.type.static }
