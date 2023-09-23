@@ -191,7 +191,7 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
             hold = builder.hold(self._hold_point())
             join = builder.join(self.package.waypoints.join)
         split = builder.split(self.package.waypoints.split)
-        refuel = builder.refuel(self.package.waypoints.refuel)
+        refuel = self._build_refuel(builder)
 
         ingress = builder.ingress(
             ingress_type, self.package.waypoints.ingress, self.package.target
@@ -225,7 +225,7 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
             split=split,
             refuel=refuel,
             nav_from=builder.nav_path(
-                refuel.position,
+                refuel.position if refuel else split.position,
                 self.flight.arrival.position,
                 self.doctrine.ingress_altitude,
             ),
@@ -233,6 +233,13 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
         )
+
+    def _build_refuel(self, builder: WaypointBuilder) -> Optional[FlightWaypoint]:
+        refuel: Optional[FlightWaypoint] = None
+        can_plan = self.flight.coalition.air_wing.can_auto_plan(FlightType.REFUELING)
+        if not self.flight.is_helo and can_plan and self.package.waypoints:
+            refuel = builder.refuel(self.package.waypoints.refuel)
+        return refuel
 
     @property
     def primary_flight_is_air_assault(self) -> bool:

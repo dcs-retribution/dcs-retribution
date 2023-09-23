@@ -86,32 +86,20 @@ class Builder(FormationAttackBuilder[EscortFlightPlan, FormationAttackLayout]):
                     else ingress_alt,
                 )
 
-        refuel = None
-        if not self.flight.is_helo:
-            refuel = builder.refuel(self.package.waypoints.refuel)
+        refuel = self._build_refuel(builder)
 
         departure = builder.takeoff(self.flight.departure)
-        if hold:
-            nav_to = builder.nav_path(
-                hold.position, join.position, self.doctrine.ingress_altitude
-            )
-        else:
-            nav_to = builder.nav_path(
-                departure.position, join.position, self.doctrine.ingress_altitude
-            )
+        nav_to = builder.nav_path(
+            hold.position if hold else departure.position,
+            join.position,
+            self.doctrine.ingress_altitude,
+        )
 
-        if refuel:
-            nav_from = builder.nav_path(
-                refuel.position,
-                self.flight.arrival.position,
-                self.doctrine.ingress_altitude,
-            )
-        else:
-            nav_from = builder.nav_path(
-                split.position,
-                self.flight.arrival.position,
-                self.doctrine.ingress_altitude,
-            )
+        nav_from = builder.nav_path(
+            refuel.position if refuel else split.position,
+            self.flight.arrival.position,
+            self.doctrine.ingress_altitude,
+        )
 
         return FormationAttackLayout(
             departure=departure,
