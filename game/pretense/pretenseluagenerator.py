@@ -109,6 +109,15 @@ class PretenseLuaGenerator(LuaGenerator):
             + cp_side_str
             + "' }),\n"
         )
+        lua_string_zones += "            }\n"
+        lua_string_zones += "        }),\n"
+        lua_string_zones += "        presets.upgrades.supply.hangar:extend({\n"
+        lua_string_zones += (
+            f"            name = '{cp_name_trimmed}-aircraft-command-"
+            + cp_side_str
+            + "',\n"
+        )
+        lua_string_zones += "            products = {\n"
         for mission_type in self.game.pretense_air[cp_side][cp_name_trimmed]:
             if mission_type == FlightType.SEAD:
                 mission_name = "attack.sead"
