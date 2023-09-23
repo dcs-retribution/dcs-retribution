@@ -163,7 +163,6 @@ class PretenseTriggerGenerator:
             else:
                 trigger_radius = TRIGGER_RADIUS_CAPTURE
             if not isinstance(cp, OffMapSpawn):
-
                 zone_color = {1: 0.0, 2: 0.0, 3: 0.0, 4: 0.15}
                 trigger_zone = self.mission.triggers.add_triggerzone(
                     cp.position,

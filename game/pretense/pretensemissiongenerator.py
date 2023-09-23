@@ -209,7 +209,6 @@ class PretenseMissionGenerator(MissionGenerator):
 
         for cp in self.game.theater.controlpoints:
             for country in (self.p_country, self.e_country):
-
                 if country == self.p_country:
                     ato = self.game.blue.ato
                 else:
