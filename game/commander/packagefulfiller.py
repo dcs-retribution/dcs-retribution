@@ -154,17 +154,17 @@ class PackageFulfiller:
         missing_types: Set[FlightType] = set()
         escorts = []
         for proposed_flight in mission.flights:
+            if proposed_flight.escort_type is not None:
+                # Escorts are planned after the primary elements of the package.
+                # If the package does not need escorts they may be pruned.
+                escorts.append(proposed_flight)
+                continue
             if not self.air_wing_can_plan(proposed_flight.task):
                 # This air wing can never plan this mission type because they do not
                 # have compatible aircraft or squadrons. Skip fulfillment so that we
                 # don't place the purchase request.
                 missing_types.add(proposed_flight.task)
                 break
-            if proposed_flight.escort_type is not None:
-                # Escorts are planned after the primary elements of the package.
-                # If the package does not need escorts they may be pruned.
-                escorts.append(proposed_flight)
-                continue
             with tracer.trace("Flight planning"):
                 self.plan_flight(
                     mission,

@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from game.ato.flighttype import FlightType
+from game.commander.missionproposals import EscortType
 from game.commander.tasks.packageplanningtask import PackagePlanningTask
 from game.commander.theaterstate import TheaterState
 from game.theater.theatergroundobject import IadsGroundObject
@@ -39,8 +40,8 @@ class PlanDead(PackagePlanningTask[IadsGroundObject]):
         # also threatened by SAMs. We don't want to include a SEAD escort if the
         # package is *only* threatened by the target though. Could be improved, but
         # needs a decent refactor to the escort planning to do so.
-        if self.target.has_live_radar_sam:
-            self.propose_flight(FlightType.SEAD, 2)
         self.propose_common_escorts()
+        if self.target.has_live_radar_sam:
+            self.propose_flight(FlightType.SEAD, 2, EscortType.Sead)
         if self.target.control_point.coalition.game.settings.autoplan_tankers_for_dead:
-            self.propose_flight(FlightType.REFUELING, 1)
+            self.propose_flight(FlightType.REFUELING, 1, EscortType.Refuel)

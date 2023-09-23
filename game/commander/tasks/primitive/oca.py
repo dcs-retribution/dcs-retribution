@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from game.ato.flighttype import FlightType
+from game.commander.missionproposals import EscortType
 from game.commander.tasks.packageplanningtask import PackagePlanningTask
 from game.commander.theaterstate import TheaterState
 from game.theater import ControlPoint
@@ -30,4 +31,4 @@ class PlanOcaStrike(PackagePlanningTask[ControlPoint]):
             self.propose_flight(FlightType.OCA_AIRCRAFT, 2)
         self.propose_common_escorts()
         if self.target.coalition.game.settings.autoplan_tankers_for_oca:
-            self.propose_flight(FlightType.REFUELING, 1)
+            self.propose_flight(FlightType.REFUELING, 1, EscortType.Refuel)

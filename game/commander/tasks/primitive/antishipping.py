@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from random import randint
 
 from game.ato.flighttype import FlightType
+from game.commander.missionproposals import EscortType
 from game.commander.tasks.packageplanningtask import PackagePlanningTask
 from game.commander.theaterstate import TheaterState
 from game.transfers import CargoShip
@@ -24,4 +24,4 @@ class PlanAntiShipping(PackagePlanningTask[CargoShip]):
     def propose_flights(self) -> None:
         size = self.get_flight_size()
         self.propose_flight(FlightType.ANTISHIP, size)
-        self.propose_common_escorts()
+        self.propose_flight(FlightType.ESCORT, 2, EscortType.AirToAir)
