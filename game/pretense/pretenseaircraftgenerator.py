@@ -37,6 +37,8 @@ from game.theater.controlpoint import (
     OffMapSpawn,
     ParkingType,
     Airfield,
+    Carrier,
+    Lha,
 )
 from game.theater.theatergroundobject import EwrGroundObject, SamGroundObject
 from game.unitmap import UnitMap
@@ -47,13 +49,14 @@ if TYPE_CHECKING:
 
 
 PRETENSE_SQUADRON_DEF_RETRIES = 100
-PRETENSE_SEAD_FLIGHTS_PER_CP = 1
-PRETENSE_CAS_FLIGHTS_PER_CP = 1
-PRETENSE_STRIKE_FLIGHTS_PER_CP = 1
-PRETENSE_BARCAP_FLIGHTS_PER_CP = 1
+PRETENSE_SEAD_FLIGHTS_PER_CP = 2
+PRETENSE_CAS_FLIGHTS_PER_CP = 2
+PRETENSE_STRIKE_FLIGHTS_PER_CP = 2
+PRETENSE_BARCAP_FLIGHTS_PER_CP = 2
 PRETENSE_AI_AIRCRAFT_PER_FLIGHT = 2
 PRETENSE_AI_AWACS_PER_FLIGHT = 1
 PRETENSE_AI_TANKERS_PER_FLIGHT = 1
+PRETENSE_AI_CARGO_PLANES_PER_SIDE = 8
 PRETENSE_PLAYER_AIRCRAFT_PER_FLIGHT = 2
 
 
@@ -138,35 +141,41 @@ class PretenseAircraftGenerator:
                         offmap_transport_cp_id = front_line_cp.id
         return self.game.theater.find_control_point_by_id(offmap_transport_cp_id)
 
-    def should_generate_pretense_transports(
-        self, air_wing: AirWing
-    ) -> tuple[bool, bool]:
+    def should_generate_pretense_transports_at(
+        self, control_point: ControlPoint
+    ) -> bool:
         """
-        Returns a tuple of booleans, telling whether transport helicopter and aircraft
-        squadrons should be generated from the faction squadron definitions.
+        Returns a boolean, telling whether a transport helicopter squadron
+        should be generated at control point from the faction squadron definitions.
 
-        This helps to ensure that the faction has at least one transport helicopter and one cargo plane squadron.
-
-        (autogenerate_transport_helicopter_squadron, autogenerate_cargo_plane_squadron)
+        This helps to ensure that the faction has at least one transport helicopter at each control point.
         """
         autogenerate_transport_helicopter_squadron = True
-        autogenerate_cargo_plane_squadron = True
+        for squadron in control_point.squadrons:
+            if squadron.aircraft.helicopter and (
+                squadron.aircraft.capable_of(FlightType.TRANSPORT)
+                or squadron.aircraft.capable_of(FlightType.AIR_ASSAULT)
+            ):
+                autogenerate_transport_helicopter_squadron = False
+        return autogenerate_transport_helicopter_squadron
+
+    def number_of_pretense_cargo_plane_sq_for(self, air_wing: AirWing) -> int:
+        """
+        Returns how many Pretense cargo plane squadrons a specific coalition has.
+        This is used to define how many such squadrons should be generated from
+        the faction squadron definitions.
+
+        This helps to ensure that the faction has enough cargo plane squadrons.
+        """
+        number_of_pretense_cargo_plane_squadrons = 0
         for aircraft_type in air_wing.squadrons:
             for squadron in air_wing.squadrons[aircraft_type]:
-                if squadron.aircraft.helicopter and (
+                if not squadron.aircraft.helicopter and (
                     squadron.aircraft.capable_of(FlightType.TRANSPORT)
                     or squadron.aircraft.capable_of(FlightType.AIR_ASSAULT)
                 ):
-                    autogenerate_transport_helicopter_squadron = False
-                elif not squadron.aircraft.helicopter and (
-                    squadron.aircraft.capable_of(FlightType.TRANSPORT)
-                    or squadron.aircraft.capable_of(FlightType.AIR_ASSAULT)
-                ):
-                    autogenerate_cargo_plane_squadron = False
-        return (
-            autogenerate_transport_helicopter_squadron,
-            autogenerate_cargo_plane_squadron,
-        )
+                    number_of_pretense_cargo_plane_squadrons += 1
+        return number_of_pretense_cargo_plane_squadrons
 
     def generate_pretense_squadron(
         self,
@@ -375,6 +384,9 @@ class PretenseAircraftGenerator:
                     flight, self.game.settings, self.game.conditions.start_time
                 )
 
+            print(
+                f"Generated flight for {flight_type} flying {squadron.aircraft.name} at {squadron.location.name}"
+            )
             ato.add_package(package)
         return
 
@@ -397,7 +409,7 @@ class PretenseAircraftGenerator:
         """
 
         aircraft_per_flight = 1
-        if cp.has_helipads and not cp.is_fleet:
+        if (cp.has_helipads or isinstance(cp, Airfield)) and not cp.is_fleet:
             flight_type = FlightType.AIR_ASSAULT
             squadron = self.generate_pretense_squadron(
                 cp,
@@ -586,9 +598,6 @@ class PretenseAircraftGenerator:
         for side in range(1, 3):
             if cp_name_trimmed not in cp.coalition.game.pretense_air[side]:
                 cp.coalition.game.pretense_air[side][cp_name_trimmed] = {}
-                print(
-                    f"Populated flight.coalition.game.pretense_air[{side}][{cp_name_trimmed}]"
-                )
         return
 
     def initialize_pretense_data_structures_for_flight(
@@ -609,9 +618,6 @@ class PretenseAircraftGenerator:
         for side in range(1, 3):
             if cp_name_trimmed not in flight.coalition.game.pretense_air[side]:
                 flight.coalition.game.pretense_air[side][cp_name_trimmed] = {}
-                print(
-                    f"Populated flight.coalition.game.pretense_air[{side}][{cp_name_trimmed}]"
-                )
             if (
                 flight_type
                 not in flight.coalition.game.pretense_air[side][cp_name_trimmed]
@@ -619,9 +625,6 @@ class PretenseAircraftGenerator:
                 flight.coalition.game.pretense_air[side][cp_name_trimmed][
                     flight_type
                 ] = list()
-                print(
-                    f"Populated flight.coalition.game.pretense_air[{side}][{cp_name_trimmed}][{flight_type}]"
-                )
         return
 
     def generate_flights(
@@ -644,20 +647,24 @@ class PretenseAircraftGenerator:
         if country == cp.coalition.faction.country:
             offmap_transport_cp = self.find_pretense_cargo_plane_cp(cp)
 
-            (
-                autogenerate_transport_helicopter_squadron,
-                autogenerate_cargo_plane_squadron,
-            ) = self.should_generate_pretense_transports(cp.coalition.air_wing)
-
-            if autogenerate_transport_helicopter_squadron:
+            if (
+                cp.has_helipads
+                or isinstance(cp, Airfield)
+                or isinstance(cp, Carrier)
+                or isinstance(cp, Lha)
+            ) and self.should_generate_pretense_transports_at(cp):
                 self.generate_pretense_squadron(
-                    offmap_transport_cp,
-                    offmap_transport_cp.coalition,
+                    cp,
+                    cp.coalition,
                     FlightType.AIR_ASSAULT,
                     False,
                     PRETENSE_SQUADRON_DEF_RETRIES,
                 )
-            if autogenerate_cargo_plane_squadron:
+            num_of_cargo_sq_to_generate = (
+                PRETENSE_AI_CARGO_PLANES_PER_SIDE
+                - self.number_of_pretense_cargo_plane_sq_for(cp.coalition.air_wing)
+            )
+            for i in range(num_of_cargo_sq_to_generate):
                 self.generate_pretense_squadron(
                     offmap_transport_cp,
                     offmap_transport_cp.coalition,
@@ -688,13 +695,18 @@ class PretenseAircraftGenerator:
         ato: AirTaskingOrder,
         dynamic_runways: Dict[str, RunwayData],
     ) -> None:
-        for package in reversed(sorted(ato.packages, key=lambda x: x.time_over_target)):
-            logging.info(f"Generating package for target: {package.target.name}")
+        for package in ato.packages:
+            logging.info(
+                f"Generating package for target: {package.target.name}, has_players: {package.has_players}"
+            )
             if not package.flights:
                 continue
             for flight in package.flights:
                 self.initialize_pretense_data_structures_for_flight(
                     flight.departure, flight
+                )
+                logging.info(
+                    f"Generating flight in {flight.coalition.faction.name} package {flight.squadron.aircraft} {flight.flight_type} for target: {package.target.name}, departure: {flight.from_cp.name}"
                 )
 
                 if flight.alive:
@@ -712,6 +724,9 @@ class PretenseAircraftGenerator:
                             flight, country, dynamic_runways
                         )
                     except NoParkingSlotError:
+                        logging.warning(
+                            f"No room on runway or parking slots for {flight.squadron.aircraft} {flight.flight_type} for target: {package.target.name}. Not generating flight."
+                        )
                         return
                     self.unit_map.add_aircraft(group, flight)
 
