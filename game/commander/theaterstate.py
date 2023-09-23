@@ -60,6 +60,7 @@ class TheaterState(WorldState["TheaterState"]):
     strike_targets: list[TheaterGroundObject]
     enemy_barcaps: list[ControlPoint]
     threat_zones: ThreatZones
+    vulnerable_control_points: list[ControlPoint]
 
     def _rebuild_threat_zones(self) -> None:
         """Recreates the theater's threat zones based on the current planned state."""
@@ -133,6 +134,7 @@ class TheaterState(WorldState["TheaterState"]):
             # IADS threats so that DegradeIads will consider it a threat later.
             threatening_air_defenses=self.threatening_air_defenses,
             detecting_air_defenses=self.detecting_air_defenses,
+            vulnerable_control_points=self.vulnerable_control_points,
         )
 
     @classmethod
@@ -181,4 +183,5 @@ class TheaterState(WorldState["TheaterState"]):
             strike_targets=list(finder.strike_targets()),
             enemy_barcaps=list(game.theater.control_points_for(not player)),
             threat_zones=game.threat_zone_for(not player),
+            vulnerable_control_points=list(finder.vulnerable_enemy_control_points()),
         )
