@@ -46,6 +46,7 @@ from .pretensetgogenerator import PretenseTgoGenerator
 from .pretensetriggergenerator import PretenseTriggerGenerator
 from game.missiongenerator.visualsgenerator import VisualsGenerator
 from ..ato import Flight
+from ..ato.airtaaskingorder import AirTaskingOrder
 from ..missiongenerator import MissionGenerator
 from ..radio.TacanContainer import TacanContainer
 
@@ -209,32 +210,17 @@ class PretenseMissionGenerator(MissionGenerator):
 
         for cp in self.game.theater.controlpoints:
             for country in (self.p_country, self.e_country):
-                if country == self.p_country:
-                    ato = self.game.blue.ato
-                else:
-                    ato = self.game.red.ato
-                print(f"Running generate_flights for {country.name} at {cp.name}")
+                ato = AirTaskingOrder()
                 aircraft_generator.generate_flights(
                     country,
                     cp,
                     ato,
                 )
-
-        ato = self.game.blue.ato
-        country = self.p_country
-        aircraft_generator.generate_packages(
-            country,
-            ato,
-            tgo_generator.runways,
-        )
-
-        ato = self.game.red.ato
-        country = self.e_country
-        aircraft_generator.generate_packages(
-            country,
-            ato,
-            tgo_generator.runways,
-        )
+                aircraft_generator.generate_packages(
+                    country,
+                    ato,
+                    tgo_generator.runways,
+                )
 
         self.mission_data.flights = aircraft_generator.flights
 

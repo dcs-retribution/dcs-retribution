@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import random
 from collections.abc import Iterator
 from dataclasses import dataclass
 from datetime import timedelta
@@ -17,7 +18,8 @@ if TYPE_CHECKING:
     from ..flightwaypoint import FlightWaypoint
 
 
-PRETENSE_CARGO_FLIGHT_DISTANCE = 50000
+PRETENSE_CARGO_FLIGHT_DISTANCE = 100000
+PRETENSE_CARGO_FLIGHT_HEADING_RANGE = 20
 
 
 class PretenseCargoFlightPlan(StandardFlightPlan[FerryLayout]):
@@ -67,8 +69,12 @@ class Builder(IBuilder[PretenseCargoFlightPlan, FerryLayout]):
         offmap_transport_cp = self.coalition.game.theater.find_control_point_by_id(
             offmap_transport_cp_id
         )
+        offmap_heading = random.randrange(
+            int(heading_from_flot - PRETENSE_CARGO_FLIGHT_HEADING_RANGE),
+            int(heading_from_flot + PRETENSE_CARGO_FLIGHT_HEADING_RANGE),
+        )
         offmap_transport_spawn = offmap_transport_cp.position.point_from_heading(
-            heading_from_flot, PRETENSE_CARGO_FLIGHT_DISTANCE
+            offmap_heading, PRETENSE_CARGO_FLIGHT_DISTANCE
         )
 
         altitude_is_agl = self.flight.unit_type.dcs_unit_type.helicopter
