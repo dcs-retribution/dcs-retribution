@@ -1,48 +1,37 @@
 from __future__ import annotations
 
 import logging
-import random
 from datetime import datetime
 from typing import Any, Optional, TYPE_CHECKING
 
 from dcs import Mission
-from dcs.action import DoScript
 from dcs.flyingunit import FlyingUnit
-from dcs.task import OptReactOnThreat
-from dcs.translation import String
-from dcs.triggers import TriggerStart
 from dcs.unit import Skill
 from dcs.unitgroup import FlyingGroup
 
-from game.ato import Flight, FlightType
-from game.callsigns import callsign_for_support_unit
-from game.data.weapons import Pylon, WeaponType as WeaponTypeEnum
+from game.ato import Flight
+from game.missiongenerator.aircraft.flightgroupconfigurator import (
+    FlightGroupConfigurator,
+)
 from game.missiongenerator.lasercoderegistry import LaserCodeRegistry
-from game.missiongenerator.logisticsgenerator import LogisticsGenerator
-from game.missiongenerator.missiondata import MissionData, AwacsInfo, TankerInfo
-from game.radio.radios import RadioFrequency, RadioRegistry
+from game.missiongenerator.missiondata import MissionData
+from game.radio.radios import RadioRegistry
 from game.radio.tacan import (
-    TacanBand,
     TacanRegistry,
-    TacanUsage,
-    OutOfTacanChannelsError,
 )
 from game.runways import RunwayData
 from game.squadrons import Pilot
-from .aircraftbehavior import AircraftBehavior
-from .aircraftpainter import AircraftPainter
-from .flightdata import FlightData
-from .waypoints import WaypointGenerator
-from ...ato.flightplans.aewc import AewcFlightPlan
-from ...ato.flightplans.packagerefueling import PackageRefuelingFlightPlan
-from ...ato.flightplans.theaterrefueling import TheaterRefuelingFlightPlan
-from ...theater import Fob
+from game.missiongenerator.aircraft.aircraftbehavior import AircraftBehavior
+from game.missiongenerator.aircraft.aircraftpainter import AircraftPainter
+from game.missiongenerator.aircraft.flightdata import FlightData
+from game.missiongenerator.aircraft.waypoints import WaypointGenerator
+from game.theater import Fob
 
 if TYPE_CHECKING:
     from game import Game
 
 
-class FlightGroupConfigurator:
+class PretenseFlightGroupConfigurator(FlightGroupConfigurator):
     def __init__(
         self,
         flight: Flight,
@@ -57,6 +46,20 @@ class FlightGroupConfigurator:
         dynamic_runways: dict[str, RunwayData],
         use_client: bool,
     ) -> None:
+        super().__init__(
+            flight,
+            group,
+            game,
+            mission,
+            time,
+            radio_registry,
+            tacan_registry,
+            laser_code_registry,
+            mission_data,
+            dynamic_runways,
+            use_client,
+        )
+
         self.flight = flight
         self.group = group
         self.game = game
@@ -85,20 +88,6 @@ class FlightGroupConfigurator:
         if self.flight.divert is not None:
             divert = self.flight.divert.active_runway(
                 self.game.theater, self.game.conditions, self.dynamic_runways
-            )
-
-        if self.flight.flight_type in [
-            FlightType.TRANSPORT,
-            FlightType.AIR_ASSAULT,
-        ] and self.game.settings.plugin_option("ctld"):
-            transfer = None
-            if self.flight.flight_type == FlightType.TRANSPORT:
-                coalition = self.game.coalition_for(player=self.flight.blue)
-                transfer = coalition.transfers.transfer_for_flight(self.flight)
-            self.mission_data.logistics.append(
-                LogisticsGenerator(
-                    self.flight, self.group, self.mission, self.game.settings, transfer
-                ).generate_logistics()
             )
 
         mission_start_time, waypoints = WaypointGenerator(
@@ -147,154 +136,3 @@ class FlightGroupConfigurator:
             custom_name=self.flight.custom_name,
             laser_codes=laser_codes,
         )
-
-    def configure_flight_member(
-        self, unit: FlyingUnit, pilot: Optional[Pilot], laser_codes: list[Optional[int]]
-    ) -> None:
-        player = pilot is not None and pilot.player
-        self.set_skill(unit, pilot)
-        if self.flight.loadout.has_weapon_of_type(WeaponTypeEnum.TGP) and player:
-            laser_codes.append(self.laser_code_registry.get_next_laser_code())
-        else:
-            laser_codes.append(None)
-        settings = self.flight.coalition.game.settings
-        if not player or not settings.plugins.get("ewrj"):
-            return
-        jammer_required = settings.plugin_option("ewrj.ecm_required")
-        if jammer_required:
-            ecm = WeaponTypeEnum.JAMMER
-            if not self.flight.loadout.has_weapon_of_type(ecm):
-                return
-        ewrj_menu_trigger = TriggerStart(comment=f"EWRJ-{unit.name}")
-        ewrj_menu_trigger.add_action(DoScript(String(f'EWJamming("{unit.name}")')))
-        self.mission.triggerrules.triggers.append(ewrj_menu_trigger)
-        self.group.points[0].tasks[0] = OptReactOnThreat(
-            OptReactOnThreat.Values.PassiveDefense
-        )
-
-    def setup_radios(self) -> RadioFrequency:
-        freq = self.flight.frequency
-        if freq is None and (freq := self.flight.package.frequency) is None:
-            freq = self.radio_registry.alloc_uhf()
-            self.flight.package.frequency = freq
-        if freq not in self.radio_registry.allocated_channels:
-            self.radio_registry.reserve(freq)
-
-        if self.flight.flight_type in {FlightType.AEWC, FlightType.REFUELING}:
-            self.register_air_support(freq)
-        elif self.flight.client_count and self.flight.squadron.radio_presets:
-            freq = self.flight.squadron.radio_presets["intra_flight"][0]
-        elif self.flight.frequency is None and self.flight.client_count:
-            freq = self.flight.unit_type.alloc_flight_radio(self.radio_registry)
-
-        self.group.set_frequency(freq.mhz)
-        return freq
-
-    def register_air_support(self, channel: RadioFrequency) -> None:
-        callsign = callsign_for_support_unit(self.group)
-        if isinstance(self.flight.flight_plan, AewcFlightPlan):
-            self.mission_data.awacs.append(
-                AwacsInfo(
-                    group_name=str(self.group.name),
-                    callsign=callsign,
-                    freq=channel,
-                    depature_location=self.flight.departure.name,
-                    start_time=self.flight.flight_plan.patrol_start_time,
-                    end_time=self.flight.flight_plan.patrol_end_time,
-                    blue=self.flight.departure.captured,
-                )
-            )
-        elif isinstance(
-            self.flight.flight_plan, TheaterRefuelingFlightPlan
-        ) or isinstance(self.flight.flight_plan, PackageRefuelingFlightPlan):
-            tacan = self.flight.tacan
-            if tacan is None and self.flight.squadron.aircraft.dcs_unit_type.tacan:
-                try:
-                    tacan = self.tacan_registry.alloc_for_band(
-                        TacanBand.Y, TacanUsage.AirToAir
-                    )
-                except OutOfTacanChannelsError:
-                    tacan = random.choice(list(self.tacan_registry.allocated_channels))
-            else:
-                tacan = self.flight.tacan
-            self.mission_data.tankers.append(
-                TankerInfo(
-                    group_name=str(self.group.name),
-                    callsign=callsign,
-                    variant=self.flight.unit_type.name,
-                    freq=channel,
-                    tacan=tacan,
-                    start_time=self.flight.flight_plan.patrol_start_time,
-                    end_time=self.flight.flight_plan.patrol_end_time,
-                    blue=self.flight.departure.captured,
-                )
-            )
-
-    def set_skill(self, unit: FlyingUnit, pilot: Optional[Pilot]) -> None:
-        if pilot is None or not pilot.player:
-            unit.skill = self.skill_level_for(unit, pilot)
-            return
-
-        if self.use_client or "Pilot #1" not in unit.name:
-            unit.set_client()
-        else:
-            unit.set_player()
-
-    def skill_level_for(self, unit: FlyingUnit, pilot: Optional[Pilot]) -> Skill:
-        if self.flight.squadron.player:
-            base_skill = Skill(self.game.settings.player_skill)
-        else:
-            base_skill = Skill(self.game.settings.enemy_skill)
-
-        if pilot is None:
-            logging.error(f"Cannot determine skill level: {unit.name} has not pilot")
-            return base_skill
-
-        levels = [
-            Skill.Average,
-            Skill.Good,
-            Skill.High,
-            Skill.Excellent,
-        ]
-        current_level = levels.index(base_skill)
-        missions_for_skill_increase = 4
-        increase = pilot.record.missions_flown // missions_for_skill_increase
-        capped_increase = min(current_level + increase, len(levels) - 1)
-
-        if self.game.settings.ai_pilot_levelling:
-            new_level = capped_increase
-        else:
-            new_level = current_level
-
-        return levels[new_level]
-
-    def setup_props(self) -> None:
-        for prop_id, value in self.flight.props.items():
-            for unit in self.group.units:
-                unit.set_property(prop_id, value)
-
-    def setup_payload(self) -> None:
-        for p in self.group.units:
-            p.pylons.clear()
-
-        loadout = self.flight.loadout
-        if self.game.settings.restrict_weapons_by_date:
-            loadout = loadout.degrade_for_date(self.flight.unit_type, self.game.date)
-
-        for pylon_number, weapon in loadout.pylons.items():
-            if weapon is None:
-                continue
-            pylon = Pylon.for_aircraft(self.flight.unit_type, pylon_number)
-            pylon.equip(self.group, weapon)
-
-    def setup_fuel(self) -> None:
-        fuel = self.flight.state.estimate_fuel()
-        if fuel < 0:
-            logging.warning(
-                f"Flight {self.flight} is estimated to have no fuel at mission start. "
-                "This estimate does not account for external fuel tanks. Setting "
-                "starting fuel to 100kg."
-            )
-            fuel = 100
-        for unit, pilot in zip(self.group.units, self.flight.roster.pilots):
-            unit.fuel = fuel

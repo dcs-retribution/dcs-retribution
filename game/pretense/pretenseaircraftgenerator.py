@@ -22,11 +22,11 @@ from game.coalition import Coalition
 from game.data.weapons import WeaponType
 from game.dcs.aircrafttype import AircraftType
 from game.missiongenerator.aircraft.flightdata import FlightData
-from game.missiongenerator.aircraft.flightgroupconfigurator import (
-    FlightGroupConfigurator,
-)
 from game.missiongenerator.lasercoderegistry import LaserCodeRegistry
 from game.missiongenerator.missiondata import MissionData
+from game.pretense.pretenseflightgroupconfigurator import (
+    PretenseFlightGroupConfigurator,
+)
 from game.radio.radios import RadioRegistry
 from game.radio.tacan import TacanRegistry
 from game.runways import RunwayData
@@ -51,13 +51,15 @@ if TYPE_CHECKING:
 PRETENSE_SQUADRON_DEF_RETRIES = 100
 PRETENSE_SEAD_FLIGHTS_PER_CP = 2
 PRETENSE_CAS_FLIGHTS_PER_CP = 2
+PRETENSE_BAI_FLIGHTS_PER_CP = 2
 PRETENSE_STRIKE_FLIGHTS_PER_CP = 2
 PRETENSE_BARCAP_FLIGHTS_PER_CP = 2
 PRETENSE_AI_AIRCRAFT_PER_FLIGHT = 2
 PRETENSE_AI_AWACS_PER_FLIGHT = 1
 PRETENSE_AI_TANKERS_PER_FLIGHT = 1
 PRETENSE_AI_CARGO_PLANES_PER_SIDE = 8
-PRETENSE_PLAYER_AIRCRAFT_PER_FLIGHT = 2
+PRETENSE_PLAYER_AIRCRAFT_PER_FLIGHT = 1
+PRETENSE_PLAYER_FLIGHTS_PER_TYPE = 2
 
 
 class PretenseAircraftGenerator:
@@ -287,6 +289,7 @@ class PretenseAircraftGenerator:
         """
         num_of_sead = 0
         num_of_cas = 0
+        num_of_bai = 0
         num_of_strike = 0
         num_of_cap = 0
 
@@ -299,6 +302,7 @@ class PretenseAircraftGenerator:
 
             squadron.owned_aircraft += PRETENSE_AI_AIRCRAFT_PER_FLIGHT
             squadron.untasked_aircraft += PRETENSE_AI_AIRCRAFT_PER_FLIGHT
+            squadron.populate_for_turn_0(False)
             package = Package(cp, squadron.flight_db, auto_asap=False)
             mission_types = squadron.auto_assignable_mission_types
             aircraft_per_flight = 1
@@ -328,10 +332,16 @@ class PretenseAircraftGenerator:
                 num_of_sead += 1
                 aircraft_per_flight = PRETENSE_AI_AIRCRAFT_PER_FLIGHT
             elif (
-                FlightType.CAS in mission_types or FlightType.BAI in mission_types
+                FlightType.CAS in mission_types
             ) and num_of_cas < PRETENSE_CAS_FLIGHTS_PER_CP:
                 flight_type = FlightType.CAS
                 num_of_cas += 1
+                aircraft_per_flight = PRETENSE_AI_AIRCRAFT_PER_FLIGHT
+            elif (
+                FlightType.BAI in mission_types
+            ) and num_of_bai < PRETENSE_BAI_FLIGHTS_PER_CP:
+                flight_type = FlightType.BAI
+                num_of_bai += 1
                 aircraft_per_flight = PRETENSE_AI_AIRCRAFT_PER_FLIGHT
             elif (
                 FlightType.STRIKE in mission_types
@@ -421,6 +431,7 @@ class PretenseAircraftGenerator:
             if squadron is not None:
                 squadron.owned_aircraft += PRETENSE_AI_AIRCRAFT_PER_FLIGHT
                 squadron.untasked_aircraft += PRETENSE_AI_AIRCRAFT_PER_FLIGHT
+                squadron.populate_for_turn_0(False)
                 package = Package(cp, squadron.flight_db, auto_asap=False)
                 flight = Flight(
                     package,
@@ -461,6 +472,7 @@ class PretenseAircraftGenerator:
             if squadron is not None:
                 squadron.owned_aircraft += PRETENSE_AI_AIRCRAFT_PER_FLIGHT
                 squadron.untasked_aircraft += PRETENSE_AI_AIRCRAFT_PER_FLIGHT
+                squadron.populate_for_turn_0(False)
                 package = Package(cp, squadron.flight_db, auto_asap=False)
                 flight = Flight(
                     package,
@@ -501,6 +513,7 @@ class PretenseAircraftGenerator:
             if squadron is not None:
                 squadron.owned_aircraft += PRETENSE_AI_AIRCRAFT_PER_FLIGHT
                 squadron.untasked_aircraft += PRETENSE_AI_AIRCRAFT_PER_FLIGHT
+                squadron.populate_for_turn_0(False)
                 package = Package(cp, squadron.flight_db, auto_asap=False)
                 flight = Flight(
                     package,
@@ -548,38 +561,39 @@ class PretenseAircraftGenerator:
             if not cp.can_operate(aircraft_type):
                 continue
 
-            squadron = self.generate_pretense_squadron_for(
-                aircraft_type,
-                cp,
-                coalition,
-            )
-            if squadron is not None:
-                squadron.owned_aircraft += PRETENSE_PLAYER_AIRCRAFT_PER_FLIGHT
-                squadron.untasked_aircraft += PRETENSE_PLAYER_AIRCRAFT_PER_FLIGHT
-                squadron.populate_for_turn_0(False)
-                for pilot in squadron.pilot_pool:
-                    pilot.player = True
-                package = Package(cp, squadron.flight_db, auto_asap=False)
-                flight = Flight(
-                    package,
-                    squadron,
-                    aircraft_per_flight,
-                    squadron.primary_task,
-                    StartType.COLD,
-                    divert=cp,
+            for i in range(PRETENSE_PLAYER_FLIGHTS_PER_TYPE):
+                squadron = self.generate_pretense_squadron_for(
+                    aircraft_type,
+                    cp,
+                    coalition,
                 )
-                for roster_pilot in flight.roster.pilots:
-                    if roster_pilot is not None:
-                        roster_pilot.player = True
-                print(
-                    f"Generated flight for {squadron.primary_task} flying {squadron.aircraft.name} at {squadron.location.name}. Pilot client count: {flight.client_count}"
-                )
+                if squadron is not None:
+                    squadron.owned_aircraft += PRETENSE_PLAYER_AIRCRAFT_PER_FLIGHT
+                    squadron.untasked_aircraft += PRETENSE_PLAYER_AIRCRAFT_PER_FLIGHT
+                    squadron.populate_for_turn_0(False)
+                    for pilot in squadron.pilot_pool:
+                        pilot.player = True
+                    package = Package(cp, squadron.flight_db, auto_asap=False)
+                    flight = Flight(
+                        package,
+                        squadron,
+                        aircraft_per_flight,
+                        squadron.primary_task,
+                        StartType.COLD,
+                        divert=cp,
+                    )
+                    for roster_pilot in flight.roster.pilots:
+                        if roster_pilot is not None:
+                            roster_pilot.player = True
+                    print(
+                        f"Generated flight for {squadron.primary_task} flying {squadron.aircraft.name} at {squadron.location.name}. Pilot client count: {flight.client_count}"
+                    )
 
-                package.add_flight(flight)
-                flight.state = WaitingForStart(
-                    flight, self.game.settings, self.game.conditions.start_time
-                )
-                ato.add_package(package)
+                    package.add_flight(flight)
+                    flight.state = WaitingForStart(
+                        flight, self.game.settings, self.game.conditions.start_time
+                    )
+                    ato.add_package(package)
 
         return
 
@@ -747,86 +761,62 @@ class PretenseAircraftGenerator:
             self.ground_spawns,
             self.mission_data,
         ).create_flight_group()
-        if flight.flight_type in [
-            FlightType.REFUELING,
-            FlightType.AEWC,
-        ]:
-            self.flights.append(
-                FlightGroupConfigurator(
-                    flight,
-                    group,
-                    self.game,
-                    self.mission,
-                    self.time,
-                    self.radio_registry,
-                    self.tacan_registy,
-                    self.laser_code_registry,
-                    self.mission_data,
-                    dynamic_runways,
-                    self.use_client,
-                ).configure()
-            )
-        else:
-            if flight.client_count > 0:
-                if flight.flight_type == FlightType.CAS:
-                    for conflict in self.game.theater.conflicts():
-                        flight.package.target = conflict
-                        break
-                elif (
-                    flight.flight_type == FlightType.STRIKE
-                    or flight.flight_type == FlightType.BAI
-                ):
-                    for cp in self.game.theater.closest_opposing_control_points():
-                        if cp.coalition == flight.coalition:
-                            continue
-                        for mission_target in cp.ground_objects:
-                            flight.package.target = mission_target
-                elif (
-                    flight.flight_type == FlightType.OCA_RUNWAY
-                    or flight.flight_type == FlightType.OCA_AIRCRAFT
-                ):
-                    for cp in self.game.theater.controlpoints:
-                        if cp.coalition == flight.coalition or not isinstance(
-                            cp, Airfield
-                        ):
-                            continue
-                        flight.package.target = cp
-                elif flight.flight_type == FlightType.DEAD:
-                    for cp in self.game.theater.controlpoints:
-                        if cp.coalition == flight.coalition:
-                            continue
-                        for ground_object in cp.ground_objects:
-                            is_ewr = isinstance(ground_object, EwrGroundObject)
-                            is_sam = isinstance(ground_object, SamGroundObject)
+        if flight.flight_type == FlightType.CAS:
+            for conflict in self.game.theater.conflicts():
+                flight.package.target = conflict
+                break
+        elif (
+            flight.flight_type == FlightType.STRIKE
+            or flight.flight_type == FlightType.BAI
+        ):
+            for cp in self.game.theater.closest_opposing_control_points():
+                if cp.coalition == flight.coalition:
+                    continue
+                for mission_target in cp.ground_objects:
+                    flight.package.target = mission_target
+        elif (
+            flight.flight_type == FlightType.OCA_RUNWAY
+            or flight.flight_type == FlightType.OCA_AIRCRAFT
+        ):
+            for cp in self.game.theater.controlpoints:
+                if cp.coalition == flight.coalition or not isinstance(cp, Airfield):
+                    continue
+                flight.package.target = cp
+        elif flight.flight_type == FlightType.DEAD:
+            for cp in self.game.theater.controlpoints:
+                if cp.coalition == flight.coalition:
+                    continue
+                for ground_object in cp.ground_objects:
+                    is_ewr = isinstance(ground_object, EwrGroundObject)
+                    is_sam = isinstance(ground_object, SamGroundObject)
 
-                            if is_ewr or is_sam:
-                                flight.package.target = ground_object
-                elif flight.flight_type == FlightType.AIR_ASSAULT:
-                    for cp in self.game.theater.closest_opposing_control_points():
-                        if cp.coalition == flight.coalition:
-                            continue
-                        if flight.is_hercules:
-                            if cp.coalition == flight.coalition or not isinstance(
-                                cp, Airfield
-                            ):
-                                continue
-                        flight.package.target = cp
+                    if is_ewr or is_sam:
+                        flight.package.target = ground_object
+        elif flight.flight_type == FlightType.AIR_ASSAULT:
+            for cp in self.game.theater.closest_opposing_control_points():
+                if cp.coalition == flight.coalition:
+                    continue
+                if flight.is_hercules:
+                    if cp.coalition == flight.coalition or not isinstance(cp, Airfield):
+                        continue
+                flight.package.target = cp
 
-                FlightGroupConfigurator(
-                    flight,
-                    group,
-                    self.game,
-                    self.mission,
-                    self.time,
-                    self.radio_registry,
-                    self.tacan_registy,
-                    self.laser_code_registry,
-                    self.mission_data,
-                    dynamic_runways,
-                    self.use_client,
-                ).configure()
-                # for unit in group.units:
-                #     unit.set_client()
+        logging.info(
+            f"Configuring flight {group.name} {flight.squadron.aircraft} {flight.flight_type}, number of players: {flight.client_count}"
+        )
+        PretenseFlightGroupConfigurator(
+            flight,
+            group,
+            self.game,
+            self.mission,
+            self.time,
+            self.radio_registry,
+            self.tacan_registy,
+            self.laser_code_registry,
+            self.mission_data,
+            dynamic_runways,
+            self.use_client,
+        ).configure()
 
         if self.ewrj:
             self._track_ewrj_flight(flight, group)
