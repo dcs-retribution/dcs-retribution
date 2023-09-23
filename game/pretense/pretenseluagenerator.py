@@ -93,7 +93,7 @@ class PretenseLuaGenerator(LuaGenerator):
                     )
         lua_string_zones += "            }\n"
         lua_string_zones += "        }),\n"
-        lua_string_zones += "        presets.upgrades.airdef.comCenter:extend({\n"
+        lua_string_zones += "        presets.upgrades.airdef.bunker:extend({\n"
         lua_string_zones += (
             f"            name = '{cp_name_trimmed}-mission-command-"
             + cp_side_str
