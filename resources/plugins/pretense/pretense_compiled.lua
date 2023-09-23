@@ -1221,7 +1221,7 @@ do
 			if v.type == 'defense' and v.side ~= group:getCoalition() then
 				local gr = Group.getByName(v.name)
 				for _,unit in ipairs(gr:getUnits()) do
-					if unit:hasAttribute('SAM SR') or unit:hasAttribute('SAM TR') then
+					if unit:hasAttribute('SAM SR') or unit:hasAttribute('SAM TR') or unit:hasAttribute('AAA') or unit:hasAttribute('IR Guided SAM') or unit:hasAttribute('SAM LL') then
 						table.insert(viable, unit:getName())
 					end
 				end
@@ -1235,7 +1235,7 @@ do
 					{ 
 						id = 'EngageTargets', 
 						params = {  
-						  targetTypes = {'SAM SR', 'SAM TR'}
+						  targetTypes = {'SAM SR', 'SAM TR', 'AAA', 'IR Guided SAM', 'SAM LL'}
 						} 
 					}
 				}
@@ -4064,6 +4064,8 @@ do
 	end
 
 	function ZoneCommand:fullBuild(useCost)
+		if self.side ~= 1 and self.side ~= 2 then return end
+
 		for i,v in ipairs(self.upgrades[self.side]) do
 			if useCost then
 				local cost = v.cost * useCost
