@@ -99,12 +99,18 @@ class Migrator:
         try_set_attr(layout, "nav_from", [])
 
     def _update_flights(self) -> None:
+        to_remove = []
         for f in self.game.db.flights.objects.values():
             try_set_attr(f, "frequency")
             try_set_attr(f, "tacan")
             try_set_attr(f, "tcn_name")
             try_set_attr(f, "fuel", f.unit_type.max_fuel)
-            self._update_flight_plan(f)
+            if f.package in f.squadron.coalition.ato.packages:
+                self._update_flight_plan(f)
+            else:
+                to_remove.append(f.id)
+        for fid in to_remove:
+            self.game.db.flights.remove(fid)
 
     def _release_untasked_flights(self) -> None:
         for cp in self.game.theater.controlpoints:
