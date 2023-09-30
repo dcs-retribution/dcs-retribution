@@ -1,0 +1,33 @@
+{
+    "nameInUI": "Splash Damage with Clusters and Ship Radar effects",
+    "defaultValue": false,
+    "specificOptions": [
+        {
+            "nameInUI": "BDA messages",
+            "mnemonic": "bdaMessages",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "Cluster munition damage updates",
+            "mnemonic": "clusterEffects",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "Ship radars damaged by anti-radiation missiles",
+            "mnemonic": "shipRadarDamage",
+            "defaultValue": false
+        }
+    ],
+    "scriptsWorkOrders": [
+        {
+            "file": "Weapons_Damage_Updated.lua",
+            "mnemonic": "Splash Damage with Clusters"
+        }
+    ],
+    "configurationWorkOrders": [
+        {
+            "file": "splashdamage-config.lua",
+            "mnemonic": "splashdamage-config"
+        }
+    ]
+}
