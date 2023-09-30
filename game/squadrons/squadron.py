@@ -4,7 +4,7 @@ import logging
 import random
 from collections.abc import Iterable
 from dataclasses import dataclass, field
-from typing import Optional, Sequence, TYPE_CHECKING, Any
+from typing import Optional, Sequence, TYPE_CHECKING, Any, Union
 from uuid import uuid4, UUID
 
 from dcs.country import Country
@@ -40,7 +40,7 @@ class Squadron:
     livery: Optional[str]
     primary_task: FlightType
     auto_assignable_mission_types: set[FlightType]
-    radio_presets: dict[str, list[RadioFrequency]]
+    radio_presets: dict[Union[str, int], list[RadioFrequency]]
     operating_bases: OperatingBases
     female_pilot_percentage: int
 

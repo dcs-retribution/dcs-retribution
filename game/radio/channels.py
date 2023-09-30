@@ -116,6 +116,8 @@ class CommonRadioChannelAllocator(RadioChannelAllocator):
                 radio_id = self.intra_flight_radio_index
             elif self.inter_flight_radio_index and radio == "inter_flight":
                 radio_id = self.inter_flight_radio_index
+            elif type(radio) == int:
+                radio_id = radio
             for channel, freq in enumerate(presets[radio], start=1):
                 flight.assign_channel(radio_id, channel, freq)
 
