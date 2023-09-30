@@ -6,6 +6,7 @@ from typing import Optional, TYPE_CHECKING
 
 import yaml
 from dcs.country import Country
+from dcs.task import Modulation
 
 from game.dcs.aircrafttype import AircraftType
 from game.dcs.countries import country_with_name
@@ -85,7 +86,14 @@ class SquadronDef:
                 hz = int(freq * 1000000)
                 if hz % 10:  # fix rounding errors
                     hz = hz + 10 - hz % 10
-                freq_list.append(RadioFrequency(hz))
+                mod = Modulation.AM
+                ifr = unit_type.intra_flight_radio
+                if radio == "intra_flight" and ifr:
+                    for r in ifr.ranges:
+                        if r.minimum.mhz <= hz / 1000000 < r.maximum.mhz:
+                            mod = r.modulation
+                            break
+                freq_list.append(RadioFrequency(hz, modulation=mod))
             radio_presets[radio] = freq_list
 
         return SquadronDef(

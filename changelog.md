@@ -18,6 +18,7 @@
 * **[Waypoints]** Allow user to add navigation waypoints where possible without degrading to a custom flight-plan
 * **[Campaign Management]** Improve squadron retreat logic to account for parking-slot sizes
 * **[Autoplanner]** Support for auto-planning Air Assaults
+* **[UI]** Improved frequency selector to support all modeled bands for every aircraft's intra-flight radio
 * **[Plugins]** Splash Damage with Clusters and Ship Radar effects plugin.
 
 ## Fixes

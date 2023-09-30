@@ -49,22 +49,18 @@ class QFrequencyWidget(QWidget):
         return f"<b>FREQ: {freq}</b>"
 
     def open_freq_dialog(self) -> None:
-        range = RadioRange(MHz(100), MHz(400), kHz(25))
+        ranges = [RadioRange(MHz(30), MHz(400), kHz(25))]
         if isinstance(self.ct, Flight):
             if self.ct.unit_type.intra_flight_radio is not None:
-                range = self.ct.unit_type.intra_flight_radio.ranges[0]
-        self.frequency_dialog = QRadioFrequencyDialog(self, self.ct, range)
+                ranges = self.ct.unit_type.intra_flight_radio.ranges
+        self.frequency_dialog = QRadioFrequencyDialog(self, self.ct, ranges)
         self.frequency_dialog.accepted.connect(self.assign_frequency)
         self.frequency_dialog.show()
 
     def assign_frequency(self) -> None:
         hz = round(self.frequency_dialog.frequency_input.value() * 10**6)
         self._try_remove()
-        mod = RadioFrequency.modulation
-        if isinstance(self.ct, Flight):
-            if self.ct.unit_type.intra_flight_radio is not None:
-                range = self.ct.unit_type.intra_flight_radio.ranges[0]
-                mod = range.modulation
+        mod = self.frequency_dialog.frequency_modulation.currentData()
         self.ct.frequency = RadioFrequency(hertz=hz, modulation=mod)
         self.gm.allocated_freqs.append(self.ct.frequency)
         self.freq.setText(self._get_label_text())
