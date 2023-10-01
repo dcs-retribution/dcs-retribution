@@ -891,6 +891,7 @@ class Settings:
     enable_frontline_cheats: bool = False
     enable_base_capture_cheat: bool = False
     enable_transfer_cheat: bool = False
+    enable_runway_state_cheat: bool = False
 
     # LUA Plugins system
     plugins: Dict[str, bool] = field(default_factory=dict)

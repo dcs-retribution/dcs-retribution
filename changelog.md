@@ -209,9 +209,38 @@ BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 # Liberation:
 ## Features/Improvements
 
-* **[Engine]** Support for DCS 2.8.6.41363, including F-15E support.
+* **[Flight Planning]** Improved IP selection for targets that are near the center of a threat zone.
+* **[Flight Planning]** Loadouts and aircraft properties can now be set per-flight member. Warning: AI flights should not use mixed loadouts.
+* **[Modding]** Factions can now specify the ship type to be used for cargo shipping. The Handy Wind will be used by default, but WW2 factions can pick something more appropriate.
+* **[UI]** An error will be displayed when invalid fast-forward options are selected rather than beginning a never ending simulation.
+* **[UI]** Added cheats for instantly repairing and destroying runways.
+* **[UI]** Improved usability of the flight properties UI. It now shows human-readable names and uses more appropriate UI elements.
 
 ## Fixes
+
+* **[Campaign]** Fixed error when canceling squadron transfer if the current location would be exactly full.
+* **[Data]** Fixed the class of the Samuel Chase so it can't be picked for a AAA or SHORAD site.
+* **[Data]** Allow CH-47D, CH-53E and UH-60A to operate from carriers and LHAs.
+* **[Data]** Added the F-15E's LANTIRN to the list of known targeting pods. Player F-15E flight with TGPs will now be assigned laser codes.
+* **[Mission Generation]** Restored previous AI behavior for anti-ship missions. A DCS update caused only a single aircraft in a flight to attack. The full flight will now attack like they used to.
+* **[Mission Generation]** Fix generation of OCA Runway missions to allow LGBs to be used.
+* **[Plugins]** Fixed Lua errors in Skynet plugin that would occur whenever one coalition had no IADS nodes.
+* **[UI]** Fixed deleting waypoints in custom flight plans deleting the wrong waypoint.
+* **[UI]** Fixed flight properties UI to support F-15E S4+ laser codes.
+
+# 8.1.0
+
+Saves from 8.0.0 are compatible with 8.1.0
+
+## Features/Improvements
+
+* **[Engine]** Support for DCS 2.8.6.41363, including F-15E support.
+* **[UI]** Flight loadout/properties tab is now scrollable.
+
+## Fixes
+
+* **[Campaign]** Fixed liveries for premade squadrons all being off-by-one.
+* **[UI]** Fixed numbering of waypoints in the map and flight dialog (first waypoint is now 0 rather than 1).
 
 # 8.0.0
 

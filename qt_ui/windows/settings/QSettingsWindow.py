@@ -81,6 +81,18 @@ class CheatSettingsBox(QGroupBox):
         self.base_capture_cheat = QLabeledWidget(
             "Enable Base Capture Cheat:", self.base_capture_cheat_checkbox
         )
+
+        self.base_runway_state_cheat_checkbox = QCheckBox()
+        self.base_runway_state_cheat_checkbox.setChecked(
+            game.settings.enable_runway_state_cheat
+        )
+        self.base_runway_state_cheat_checkbox.toggled.connect(apply_settings)
+        self.main_layout.addLayout(
+            QLabeledWidget(
+                "Enable runway state cheat:", self.base_runway_state_cheat_checkbox
+            )
+        )
+
         self.main_layout.addLayout(self.base_capture_cheat)
         self.transfer_cheat = QLabeledWidget(
             "Enable Instant Squadron Transfer Cheat:", self.transfer_cheat_checkbox
@@ -102,6 +114,9 @@ class CheatSettingsBox(QGroupBox):
     @property
     def show_transfer_cheat(self) -> bool:
         return self.transfer_cheat_checkbox.isChecked()
+
+    def enable_runway_state_cheat(self) -> bool:
+        return self.base_runway_state_cheat_checkbox.isChecked()
 
 
 class AutoSettingsLayout(QGridLayout):
@@ -451,6 +466,9 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
             self.cheat_options.show_base_capture_cheat
         )
         self.settings.enable_transfer_cheat = self.cheat_options.show_transfer_cheat
+        self.game.settings.enable_runway_state_cheat = (
+            self.cheat_options.enable_runway_state_cheat
+        )
 
         if self.game:
             events = GameUpdateEvents()

@@ -149,7 +149,7 @@ class FlightGroupSpawner:
                     raise RuntimeError(
                         f"Cannot spawn fixed-wing aircraft at {cp} because of insufficient ground spawn slots."
                     )
-                pilot_count = len(self.flight.roster.pilots)
+                pilot_count = len(self.flight.roster.members)
                 if (
                     not is_heli
                     and self.flight.roster.player_count != pilot_count

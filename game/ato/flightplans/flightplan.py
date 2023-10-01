@@ -291,7 +291,7 @@ class FlightPlan(ABC, Generic[LayoutT]):
         # This is a workaround to a DCS problem: some AI planes spawn on
         # the 'sixpack' when start_time is zero and cause a deadlock.
         # Workaround: force the start_time to 1 second for these planes.
-        if self.flight.from_cp.is_fleet and start_time.total_seconds() == 0:
+        if self.flight.departure.is_fleet and start_time.total_seconds() == 0:
             start_time = timedelta(seconds=1)
 
         return start_time
@@ -308,7 +308,7 @@ class FlightPlan(ABC, Generic[LayoutT]):
     def estimate_ground_ops(self) -> timedelta:
         if self.flight.start_type in {StartType.RUNWAY, StartType.IN_FLIGHT}:
             return timedelta()
-        if self.flight.from_cp.is_fleet or self.flight.from_cp.is_fob:
+        if self.flight.departure.is_fleet or self.flight.departure.is_fob:
             return timedelta(minutes=2)
         else:
             return timedelta(minutes=8)

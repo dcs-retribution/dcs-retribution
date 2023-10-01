@@ -21,7 +21,7 @@ from game.ato.flightstate import Completed, WaitingForStart
 from game.ato.flighttype import FlightType
 from game.ato.package import Package
 from game.ato.starttype import StartType
-from game.missiongenerator.lasercoderegistry import LaserCodeRegistry
+from game.lasercodes import LaserCodeRegistry
 from game.missiongenerator.missiondata import MissionData
 from game.radio.radios import RadioRegistry
 from game.radio.tacan import TacanRegistry
@@ -275,7 +275,7 @@ class AircraftGenerator:
             or flight.client_count
             and (
                 not self.need_ecm
-                or flight.loadout.has_weapon_of_type(WeaponType.JAMMER)
+                or flight.any_member_has_weapon_of_type(WeaponType.JAMMER)
             )
         ):
             self.ewrj_package_dict[id(flight.package)].append(group)
