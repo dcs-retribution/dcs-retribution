@@ -68,5 +68,6 @@
   "has_jtac": true,
   "doctrine": "ww2",
   "unrestricted_satnav": true,
-  "building_set": "ww2ally"
+  "building_set": "ww2ally",
+  "cargo_ship": "LST Mk.II"
 }
