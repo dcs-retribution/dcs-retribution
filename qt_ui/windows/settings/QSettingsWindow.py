@@ -84,12 +84,12 @@ class CheatSettingsBox(QGroupBox):
 
         self.base_runway_state_cheat_checkbox = QCheckBox()
         self.base_runway_state_cheat_checkbox.setChecked(
-            game.settings.enable_runway_state_cheat
+            sc.settings.enable_runway_state_cheat
         )
         self.base_runway_state_cheat_checkbox.toggled.connect(apply_settings)
         self.main_layout.addLayout(
             QLabeledWidget(
-                "Enable runway state cheat:", self.base_runway_state_cheat_checkbox
+                "Enable Runway State Cheat:", self.base_runway_state_cheat_checkbox
             )
         )
 
