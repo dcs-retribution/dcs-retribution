@@ -214,4 +214,4 @@ class Migrator:
 
     def _update_tgos(self) -> None:
         for go in self.game.theater.ground_objects:
-            go.task = None  # TODO: attempt to deduce tasking?
+            try_set_attr(go, "task", None)
