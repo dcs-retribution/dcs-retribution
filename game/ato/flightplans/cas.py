@@ -6,7 +6,7 @@ from datetime import timedelta
 from typing import TYPE_CHECKING, Type
 
 from game.theater import FrontLine
-from game.utils import Distance, Speed, kph, meters, nautical_miles
+from game.utils import Distance, Speed, kph, feet, nautical_miles
 from .ibuilder import IBuilder
 from .invalidobjectivelocation import InvalidObjectiveLocation
 from .patrolling import PatrollingFlightPlan, PatrollingLayout
@@ -101,7 +101,9 @@ class Builder(IBuilder[CasFlightPlan, CasLayout]):
 
         is_helo = self.flight.unit_type.dcs_unit_type.helicopter
         ingress_egress_altitude = (
-            self.doctrine.ingress_altitude if not is_helo else meters(50)
+            self.doctrine.ingress_altitude
+            if not is_helo
+            else feet(self.coalition.game.settings.helicopter_altitude_agl)
         )
         use_agl_ingress_egress = is_helo
 

@@ -255,6 +255,19 @@ class Settings:
             "within threatened airspace."
         ),
     )
+    helicopter_altitude_agl: int = bounded_int_option(
+        "Helicopter waypoint altitude (feet AGL)",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=200,
+        min=1,
+        max=10000,
+        detail=(
+            "Waypoint altitude for helicopters in feet AGL. In campaigns "
+            "in more mountainous areas, you might want to increase this "
+            "setting to avoid the AI flying into the terrain."
+        ),
+    )
     airbase_threat_range: int = bounded_int_option(
         "Airbase threat range (nmi)",
         page=CAMPAIGN_DOCTRINE_PAGE,

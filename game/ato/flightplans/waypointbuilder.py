@@ -75,7 +75,9 @@ class WaypointBuilder:
                 "NAV",
                 FlightWaypointType.NAV,
                 position,
-                meters(500) if self.is_helo else self.doctrine.rendezvous_altitude,
+                feet(self.flight.coalition.game.settings.helicopter_altitude_agl)
+                if self.is_helo
+                else self.doctrine.rendezvous_altitude,
                 description="Enter theater",
                 pretty_name="Enter theater",
             )
@@ -102,7 +104,9 @@ class WaypointBuilder:
                 "NAV",
                 FlightWaypointType.NAV,
                 position,
-                meters(500) if self.is_helo else self.doctrine.rendezvous_altitude,
+                feet(self.flight.coalition.game.settings.helicopter_altitude_agl)
+                if self.is_helo
+                else self.doctrine.rendezvous_altitude,
                 description="Exit theater",
                 pretty_name="Exit theater",
             )
@@ -131,7 +135,9 @@ class WaypointBuilder:
         altitude_type: AltitudeReference
         if isinstance(divert, OffMapSpawn):
             altitude = (
-                meters(500) if self.is_helo else self.doctrine.rendezvous_altitude
+                feet(self.flight.coalition.game.settings.helicopter_altitude_agl)
+                if self.is_helo
+                else self.doctrine.rendezvous_altitude
             )
             altitude_type = "BARO"
         else:
@@ -185,7 +191,9 @@ class WaypointBuilder:
             "JOIN",
             FlightWaypointType.JOIN,
             position,
-            meters(80) if self.is_helo else self.doctrine.ingress_altitude,
+            feet(self.flight.coalition.game.settings.helicopter_altitude_agl)
+            if self.is_helo
+            else self.doctrine.ingress_altitude,
             alt_type,
             description="Rendezvous with package",
             pretty_name="Join",
@@ -200,7 +208,9 @@ class WaypointBuilder:
             "REFUEL",
             FlightWaypointType.REFUEL,
             position,
-            meters(80) if self.is_helo else self.doctrine.ingress_altitude,
+            feet(self.flight.coalition.game.settings.helicopter_altitude_agl)
+            if self.is_helo
+            else self.doctrine.ingress_altitude,
             alt_type,
             description="Refuel from tanker",
             pretty_name="Refuel",
@@ -215,7 +225,9 @@ class WaypointBuilder:
             "SPLIT",
             FlightWaypointType.SPLIT,
             position,
-            meters(80) if self.is_helo else self.doctrine.ingress_altitude,
+            feet(self.flight.coalition.game.settings.helicopter_altitude_agl)
+            if self.is_helo
+            else self.doctrine.ingress_altitude,
             alt_type,
             description="Depart from package",
             pretty_name="Split",
@@ -231,7 +243,11 @@ class WaypointBuilder:
         alt_type: AltitudeReference = "BARO"
         if self.is_helo or self.flight.is_hercules:
             alt_type = "RADIO"
-            alt = meters(60) if self.is_helo else feet(1000)
+            alt = (
+                feet(self.flight.coalition.game.settings.helicopter_altitude_agl)
+                if self.is_helo
+                else feet(1000)
+            )
 
         return FlightWaypoint(
             "INGRESS",
@@ -253,7 +269,9 @@ class WaypointBuilder:
             "EGRESS",
             FlightWaypointType.EGRESS,
             position,
-            meters(60) if self.is_helo else self.doctrine.ingress_altitude,
+            feet(self.flight.coalition.game.settings.helicopter_altitude_agl)
+            if self.is_helo
+            else self.doctrine.ingress_altitude,
             alt_type,
             description=f"EGRESS from {target.name}",
             pretty_name=f"EGRESS from {target.name}",
@@ -350,7 +368,9 @@ class WaypointBuilder:
             "CAS",
             FlightWaypointType.CAS,
             position,
-            meters(60) if self.is_helo else meters(1000),
+            feet(self.flight.coalition.game.settings.helicopter_altitude_agl)
+            if self.is_helo
+            else meters(1000),
             "RADIO",
             description="Provide CAS",
             pretty_name="CAS",
@@ -565,7 +585,9 @@ class WaypointBuilder:
             "TARGET",
             FlightWaypointType.TARGET_GROUP_LOC,
             target.position,
-            meters(60) if self.is_helo else self.doctrine.ingress_altitude,
+            feet(self.flight.coalition.game.settings.helicopter_altitude_agl)
+            if self.is_helo
+            else self.doctrine.ingress_altitude,
             alt_type,
             description="Escort the package",
             pretty_name="Target area",

@@ -19,6 +19,7 @@
 * **[Campaign Management]** Improve squadron retreat logic to account for parking-slot sizes
 * **[Autoplanner]** Support for auto-planning Air Assaults
 * **[UI]** Improved frequency selector to support all modeled bands for every aircraft's intra-flight radio
+* **[Options]** New option in Settings: Helicopter waypoint altitude (feet AGL)
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task
