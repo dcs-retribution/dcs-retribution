@@ -3,6 +3,7 @@ from PySide2.QtWidgets import QFrame, QGridLayout, QVBoxLayout
 
 from game.ato.flight import Flight
 from qt_ui.models import PackageModel, GameModel
+from qt_ui.windows.mission.flight.payload.QFlightPayloadTab import QFlightPayloadTab
 from qt_ui.windows.mission.flight.settings.FlightPlanPropertiesGroup import (
     FlightPlanPropertiesGroup,
 )
@@ -27,11 +28,16 @@ class QGeneralFlightSettingsTab(QFrame):
         package_model: PackageModel,
         flight: Flight,
         flight_wpt_list: QFlightWaypointList,
+        payload_tab: QFlightPayloadTab,
     ):
         super().__init__()
 
         self.flight_slot_editor = QFlightSlotEditor(package_model, flight, game.game)
         self.flight_slot_editor.flight_resized.connect(self.flight_size_changed)
+        for pc in self.flight_slot_editor.roster_editor.pilot_controls:
+            pc.player_toggled.connect(
+                lambda: payload_tab.property_editor.build_props(flight)
+            )
 
         widgets = [
             QFlightTypeTaskInfo(flight),

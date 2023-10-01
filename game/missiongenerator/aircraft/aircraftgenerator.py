@@ -275,7 +275,7 @@ class AircraftGenerator:
             or flight.client_count
             and (
                 not self.need_ecm
-                or flight.loadout.has_weapon_of_type(WeaponType.JAMMER)
+                or flight.any_member_has_weapon_of_type(WeaponType.JAMMER)
             )
         ):
             self.ewrj_package_dict[id(flight.package)].append(group)

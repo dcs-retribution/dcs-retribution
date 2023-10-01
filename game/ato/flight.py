@@ -111,11 +111,14 @@ class Flight(SidcDescribable, RadioFrequencyContainer, TacanContainer):
         is_f18 = self.squadron.aircraft.dcs_unit_type.id == FA_18C_hornet.id
         on_land = not self.squadron.location.is_fleet
         if on_land and is_f18 and self.coalition.game.settings.atflir_autoswap:
-            self.loadout.pylons[F18_TGP_PYLON] = Weapon.with_clsid(
-                str(
-                    FA_18C_hornet.Pylon4.AN_AAQ_28_LITENING___Targeting_Pod_[1]["clsid"]
+            for fm in self.roster.members:
+                fm.loadout.pylons[F18_TGP_PYLON] = Weapon.with_clsid(
+                    str(
+                        FA_18C_hornet.Pylon4.AN_AAQ_28_LITENING___Targeting_Pod_[1][
+                            "clsid"
+                        ]
+                    )
                 )
-            )
 
     @property
     def flight_plan(self) -> FlightPlan[Any]:

@@ -11,9 +11,13 @@ if TYPE_CHECKING:
 
 class FlightRoster(IFlightRoster):
     def __init__(self, squadron: Squadron, initial_size: int = 0) -> None:
-        self.squadron = squadron
+        self._squadron = squadron
         self.pilots: list[Optional[Pilot]] = []
         self.resize(initial_size)
+
+    @property
+    def squadron(self) -> Squadron:
+        return self._squadron
 
     def iter_pilots(self) -> Iterator[Pilot | None]:
         yield from self.pilots

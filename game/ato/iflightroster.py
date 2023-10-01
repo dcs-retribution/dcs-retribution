@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from typing import Optional, TYPE_CHECKING, Iterator
 
 if TYPE_CHECKING:
-    from game.squadrons import Pilot
+    from game.squadrons import Pilot, Squadron
 
 
 class IFlightRoster(ABC):
@@ -14,6 +14,11 @@ class IFlightRoster(ABC):
 
     @abstractmethod
     def pilot_at(self, idx: int) -> Pilot | None:
+        ...
+
+    @property
+    @abstractmethod
+    def squadron(self) -> Squadron:
         ...
 
     @property

@@ -1,7 +1,8 @@
 import logging
-from typing import Callable
+from typing import Callable, Optional
 
-from PySide2.QtWidgets import QGridLayout, QLabel
+from PySide2.QtCore import QRect
+from PySide2.QtWidgets import QGridLayout, QLabel, QWidget
 from dcs.unitpropertydescription import UnitPropertyDescription
 
 from game.ato import Flight
@@ -23,6 +24,10 @@ class PropertyEditor(QGridLayout):
         self.flight_member = flight_member
         self.flight_member_update_listeners: list[Callable[[FlightMember], None]] = []
 
+        self.build_props(flight)
+
+    def build_props(self, flight):
+        self.setGeometry(QRect())
         for row, prop in enumerate(flight.unit_type.iter_props()):
             if prop.label is None:
                 if prop.control != "label":
@@ -54,7 +59,7 @@ class PropertyEditor(QGridLayout):
             if widget is not None:
                 self.addWidget(widget, row, 1)
 
-    def control_for_property(self, prop: UnitPropertyDescription) -> QWidget | None:
+    def control_for_property(self, prop: UnitPropertyDescription) -> Optional[QWidget]:
         # Valid values are:
         # "checkbox", "comboList", "groupbox", "label", "slider", "spinbox"
         match prop.control:

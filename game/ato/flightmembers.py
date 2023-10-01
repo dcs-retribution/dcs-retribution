@@ -10,7 +10,7 @@ from .loadouts import Loadout
 from ..data.weapons import Weapon
 
 if TYPE_CHECKING:
-    from game.squadrons import Pilot
+    from game.squadrons import Pilot, Squadron
     from .flight import Flight
 
 
@@ -20,14 +20,16 @@ class FlightMembers(IFlightRoster):
         self.members: list[FlightMember] = []
         self.resize(initial_size)
 
+    @property
+    def squadron(self) -> Squadron:
+        return self.flight.squadron
+
     @staticmethod
     def from_roster(flight: Flight, roster: FlightRoster) -> FlightMembers:
         members = FlightMembers(flight)
         loadout = Loadout.default_for(flight)
         if flight.squadron.aircraft.name == "F-15I Ra'am":
-            loadout.pylons[16] = Weapon.with_clsid(
-                "{IDF_MODS_PROJECT_F-15I_Raam_Dome}"
-            )
+            loadout.pylons[16] = Weapon.with_clsid("{IDF_MODS_PROJECT_F-15I_Raam_Dome}")
         members.members = [FlightMember(p, loadout) for p in roster.pilots]
         return members
 
@@ -61,9 +63,7 @@ class FlightMembers(IFlightRoster):
         else:
             loadout = Loadout.default_for(self.flight)
         if self.flight.squadron.aircraft.name == "F-15I Ra'am":
-            loadout.pylons[16] = Weapon.with_clsid(
-                "{IDF_MODS_PROJECT_F-15I_Raam_Dome}"
-            )
+            loadout.pylons[16] = Weapon.with_clsid("{IDF_MODS_PROJECT_F-15I_Raam_Dome}")
         for _ in range(new_size - self.max_size):
             member = FlightMember(self.flight.squadron.claim_available_pilot(), loadout)
             member.use_custom_loadout = loadout.is_custom

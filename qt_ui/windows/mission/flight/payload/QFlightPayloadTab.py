@@ -5,11 +5,11 @@ from PySide2.QtWidgets import (
     QLabel,
     QHBoxLayout,
     QVBoxLayout,
-    QScrollArea,
     QWidget,
     QSpinBox,
     QSlider,
     QCheckBox,
+    QScrollArea,
 )
 
 from game import Game
@@ -147,7 +147,12 @@ class QFlightPayloadTab(QFrame):
         scroll.setWidgetResizable(True)
         scroll.setWidget(scroll_content)
         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        layout.addWidget(scroll)
+        layout.addWidget(scroll, stretch=1)
+
+        self.property_editor = PropertyEditor(
+            self.flight, self.member_selector.selected_member
+        )
+        scrolling_layout.addLayout(self.property_editor)
 
         # Docs Link
         docsText = QLabel(
@@ -156,26 +161,15 @@ class QFlightPayloadTab(QFrame):
         docsText.setAlignment(Qt.AlignCenter)
         docsText.setOpenExternalLinks(True)
 
-        self.scroll_area = QScrollArea()
-        self.property_editor = QWidget()
-        self.property_editor.setLayout(PropertyEditor(self.flight))
-        self.scroll_area.setWidget(self.property_editor)
-        layout.addWidget(self.scroll_area)
-
         self.fuel_selector = DcsFuelSelector(flight)
         layout.addLayout(self.fuel_selector)
 
-        self.loadout_selector = DcsLoadoutSelector(flight)
-        self.property_editor = PropertyEditor(
-            self.flight, self.member_selector.selected_member
-        )
-        scrolling_layout.addLayout(self.property_editor)
         self.loadout_selector = DcsLoadoutSelector(
             flight, self.member_selector.selected_member
         )
         self.loadout_selector.currentIndexChanged.connect(self.on_new_loadout)
         layout.addWidget(self.loadout_selector)
-        layout.addWidget(self.payload_editor, stretch=1)
+        layout.addWidget(self.payload_editor, stretch=3)
         layout.addWidget(docsText)
 
         self.setLayout(layout)
@@ -232,7 +226,7 @@ class QFlightPayloadTab(QFrame):
         loadout = self.flight.loadout
         self.loadout_selector.addItem(payload_name, loadout)
         self.loadout_selector.setCurrentIndex(self.loadout_selector.count() - 1)
-    
+
     def on_same_loadout_toggled(self, checked: bool) -> None:
         self.flight.use_same_loadout_for_all_members = checked
         if self.member_selector.value():
