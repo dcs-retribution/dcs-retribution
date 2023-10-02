@@ -200,7 +200,7 @@ class Faction:
         faction = Faction(
             locales=json.get("locales"),
             country=country,
-            cargo_ship=ShipUnitType.named(json.get("cargo_ship", "Handy Wind")),
+            cargo_ship=ShipUnitType.named(json.get("cargo_ship", "Bulker Handy Wind")),
         )
 
         faction.name = json.get("name", "")
