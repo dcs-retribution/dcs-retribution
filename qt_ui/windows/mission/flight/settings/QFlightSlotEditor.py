@@ -1,5 +1,5 @@
 import logging
-from typing import Optional, Callable, Union
+from typing import Optional, Callable
 
 from PySide2.QtCore import Signal, QModelIndex
 from PySide2.QtWidgets import (
@@ -26,7 +26,7 @@ class PilotSelector(QComboBox):
     available_pilots_changed = Signal()
 
     def __init__(
-        self, squadron: Union[Squadron, None], roster: Optional[IFlightRoster], idx: int
+        self, squadron: Optional[Squadron], roster: Optional[IFlightRoster], idx: int
     ) -> None:
         super().__init__()
         self.squadron = squadron
@@ -84,7 +84,7 @@ class PilotSelector(QComboBox):
         self.roster.set_pilot(self.pilot_index, pilot)
         self.available_pilots_changed.emit()
 
-    def replace(self, squadron: Squadron, new_roster: Optional[FlightRoster]) -> None:
+    def replace(self, squadron: Optional[Squadron], new_roster: Optional[FlightRoster]) -> None:
         self.squadron = squadron
         self.roster = new_roster
         self.rebuild()
@@ -159,7 +159,7 @@ class PilotControls(QHBoxLayout):
         finally:
             self.player_checkbox.blockSignals(False)
 
-    def replace(self, squadron: Squadron, new_roster: Optional[FlightRoster]) -> None:
+    def replace(self, squadron: Optional[Squadron], new_roster: Optional[FlightRoster]) -> None:
         self.roster = new_roster
         if self.roster is None or self.pilot_index >= self.roster.max_size:
             self.disable_and_clear()
@@ -209,7 +209,9 @@ class FlightRosterEditor(QVBoxLayout):
         for controls in self.pilot_controls[new_size:]:
             controls.disable_and_clear()
 
-    def replace(self, squadron: Squadron, new_roster: Optional[FlightRoster]) -> None:
+    def replace(
+        self, squadron: Optional[Squadron], new_roster: Optional[FlightRoster]
+    ) -> None:
         if self.roster is not None:
             self.roster.clear()
         self.roster = new_roster
