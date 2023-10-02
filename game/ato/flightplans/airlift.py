@@ -110,10 +110,11 @@ class Builder(IBuilder[AirliftFlightPlan, AirliftLayout]):
                 "Cannot plan transport mission for flight with no cargo."
             )
 
-        altitude = feet(1500)
-        altitude_is_agl = True
+        heli_alt = feet(self.coalition.game.settings.heli_cruise_alt_agl)
+        altitude = heli_alt if self.flight.is_helo else self.doctrine.ingress_altitude
+        altitude_is_agl = self.flight.is_helo
 
-        builder = WaypointBuilder(self.flight, self.coalition)
+        builder = WaypointBuilder(self.flight)
 
         pickup = None
         drop_off = None

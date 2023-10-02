@@ -97,13 +97,13 @@ class Builder(IBuilder[CasFlightPlan, CasLayout]):
         if egress_distance < ingress_distance:
             ingress, egress = egress, ingress
 
-        builder = WaypointBuilder(self.flight, self.coalition)
+        builder = WaypointBuilder(self.flight)
 
         is_helo = self.flight.unit_type.dcs_unit_type.helicopter
         ingress_egress_altitude = (
             self.doctrine.ingress_altitude
             if not is_helo
-            else feet(self.coalition.game.settings.helicopter_altitude_agl)
+            else feet(self.coalition.game.settings.heli_combat_alt_agl)
         )
         use_agl_ingress_egress = is_helo
 

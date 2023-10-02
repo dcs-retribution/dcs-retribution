@@ -105,10 +105,11 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
             )
         assert self.package.waypoints is not None
 
-        altitude = feet(1500) if self.flight.is_helo else self.doctrine.ingress_altitude
+        heli_alt = feet(self.coalition.game.settings.heli_cruise_alt_agl)
+        altitude = heli_alt if self.flight.is_helo else self.doctrine.ingress_altitude
         altitude_is_agl = self.flight.is_helo
 
-        builder = WaypointBuilder(self.flight, self.coalition)
+        builder = WaypointBuilder(self.flight)
 
         if self.flight.is_hercules or self.flight.departure.cptype in [
             ControlPointType.AIRCRAFT_CARRIER_GROUP,

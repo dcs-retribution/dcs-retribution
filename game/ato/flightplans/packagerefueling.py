@@ -96,7 +96,7 @@ class Builder(IBuilder[PackageRefuelingFlightPlan, PatrollingLayout]):
             home_heading.degrees, racetrack_half_distance
         )
 
-        builder = WaypointBuilder(self.flight, self.coalition)
+        builder = WaypointBuilder(self.flight)
 
         tanker_type = self.flight.unit_type
         if tanker_type.patrol_altitude is not None:

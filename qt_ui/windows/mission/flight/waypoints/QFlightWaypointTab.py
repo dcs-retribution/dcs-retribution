@@ -194,7 +194,7 @@ class QFlightWaypointTab(QFrame):
         self.on_change()
 
     def on_rtb_waypoint(self):
-        rtb = WaypointBuilder(self.flight, self.coalition).land(self.flight.arrival)
+        rtb = WaypointBuilder(self.flight).land(self.flight.arrival)
         self.degrade_to_custom_flight_plan()
         assert isinstance(self.flight.flight_plan, CustomFlightPlan)
         self.flight.flight_plan.layout.custom_waypoints.append(rtb)

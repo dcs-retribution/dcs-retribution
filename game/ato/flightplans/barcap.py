@@ -48,7 +48,7 @@ class Builder(CapBuilder[BarCapFlightPlan, PatrollingLayout]):
             min(self.doctrine.max_patrol_altitude, randomized_alt),
         )
 
-        builder = WaypointBuilder(self.flight, self.coalition)
+        builder = WaypointBuilder(self.flight)
         start, end = builder.race_track(start_pos, end_pos, patrol_alt)
 
         return PatrollingLayout(

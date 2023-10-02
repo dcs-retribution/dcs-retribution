@@ -69,7 +69,7 @@ class Builder(IBuilder[CustomFlightPlan, CustomLayout]):
         self.waypoints = waypoints
 
     def layout(self) -> CustomLayout:
-        builder = WaypointBuilder(self.flight, self.coalition)
+        builder = WaypointBuilder(self.flight)
         return CustomLayout(builder.takeoff(self.flight.departure), self.waypoints)
 
     def build(self) -> CustomFlightPlan:
