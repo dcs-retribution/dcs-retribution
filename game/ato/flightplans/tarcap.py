@@ -102,7 +102,7 @@ class Builder(CapBuilder[TarCapFlightPlan, TarCapLayout]):
             min(self.doctrine.max_patrol_altitude, randomized_alt),
         )
 
-        builder = WaypointBuilder(self.flight, self.coalition)
+        builder = WaypointBuilder(self.flight)
         orbit0p, orbit1p = self.cap_racetrack_for_objective(location, barcap=False)
 
         start, end = builder.race_track(orbit0p, orbit1p, patrol_alt)

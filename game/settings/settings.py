@@ -255,6 +255,33 @@ class Settings:
             "within threatened airspace."
         ),
     )
+    heli_combat_alt_agl: int = bounded_int_option(
+        "Helicopter combat altitude (feet AGL)",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=200,
+        min=1,
+        max=10000,
+        detail=(
+            "Altitude for helicopters in feet AGL while flying between combat waypoints."
+            " Combat waypoints are considered INGRESS, CAS, TGT, EGRESS & SPLIT."
+            " In campaigns in more mountainous areas, you might want to increase this "
+            "setting to avoid the AI flying into the terrain."
+        ),
+    )
+    heli_cruise_alt_agl: int = bounded_int_option(
+        "Helicopter cruise altitude (feet AGL)",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=500,
+        min=1,
+        max=10000,
+        detail=(
+            "Altitude for helicopters in feet AGL while flying between non-combat waypoints."
+            " In campaigns in more mountainous areas, you might want to increase this "
+            "setting to avoid the AI flying into the terrain."
+        ),
+    )
     airbase_threat_range: int = bounded_int_option(
         "Airbase threat range (nmi)",
         page=CAMPAIGN_DOCTRINE_PAGE,

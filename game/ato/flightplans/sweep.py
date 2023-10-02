@@ -101,7 +101,7 @@ class Builder(IBuilder[SweepFlightPlan, SweepLayout]):
             heading.degrees, -self.doctrine.sweep_distance.meters
         )
 
-        builder = WaypointBuilder(self.flight, self.coalition)
+        builder = WaypointBuilder(self.flight)
         start, end = builder.sweep(start_pos, target, self.doctrine.ingress_altitude)
 
         hold = builder.hold(self._hold_point())

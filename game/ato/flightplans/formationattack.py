@@ -10,7 +10,7 @@ from dcs import Point
 
 from game.flightplan import HoldZoneGeometry
 from game.theater import MissionTarget
-from game.utils import Speed, meters, nautical_miles
+from game.utils import Speed, meters, nautical_miles, feet
 from .flightplan import FlightPlan
 from .formation import FormationFlightPlan, FormationLayout
 from .ibuilder import IBuilder
@@ -170,7 +170,7 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
         targets: list[StrikeTarget] | None = None,
     ) -> FormationAttackLayout:
         assert self.package.waypoints is not None
-        builder = WaypointBuilder(self.flight, self.coalition, targets)
+        builder = WaypointBuilder(self.flight, targets)
 
         target_waypoints: list[FlightWaypoint] = []
         if targets is not None:
@@ -209,13 +209,22 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
             pos = ingress.position.point_from_heading(hdg, nautical_miles(10).meters)
             lineup = builder.nav(pos, self.flight.coalition.doctrine.ingress_altitude)
 
+        is_helo = self.flight.is_helo
+        ingress_egress_altitude = (
+            self.doctrine.ingress_altitude
+            if not is_helo
+            else feet(self.coalition.game.settings.heli_combat_alt_agl)
+        )
+        use_agl_ingress_egress = is_helo
+
         return FormationAttackLayout(
             departure=builder.takeoff(self.flight.departure),
             hold=hold,
             nav_to=builder.nav_path(
                 hold.position if hold else self.flight.departure.position,
                 join.position if join else ingress.position,
-                self.doctrine.ingress_altitude,
+                ingress_egress_altitude,
+                use_agl_ingress_egress,
             ),
             join=join,
             lineup=lineup,
@@ -227,7 +236,8 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
             nav_from=builder.nav_path(
                 refuel.position if refuel else split.position,
                 self.flight.arrival.position,
-                self.doctrine.ingress_altitude,
+                ingress_egress_altitude,
+                use_agl_ingress_egress,
             ),
             arrival=builder.land(self.flight.arrival),
             divert=builder.divert(self.flight.divert),

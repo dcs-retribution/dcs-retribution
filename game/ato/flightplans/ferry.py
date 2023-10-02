@@ -56,14 +56,14 @@ class Builder(IBuilder[FerryFlightPlan, FerryLayout]):
                 f"{self.flight.departure}"
             )
 
-        altitude_is_agl = self.flight.unit_type.dcs_unit_type.helicopter
+        altitude_is_agl = self.flight.is_helo
         altitude = (
-            feet(1500)
+            feet(self.coalition.game.settings.heli_cruise_alt_agl)
             if altitude_is_agl
             else self.flight.unit_type.preferred_patrol_altitude
         )
 
-        builder = WaypointBuilder(self.flight, self.coalition)
+        builder = WaypointBuilder(self.flight)
         return FerryLayout(
             departure=builder.takeoff(self.flight.departure),
             nav_to=builder.nav_path(

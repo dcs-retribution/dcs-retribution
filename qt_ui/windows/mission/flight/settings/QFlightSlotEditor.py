@@ -84,7 +84,9 @@ class PilotSelector(QComboBox):
         self.roster.set_pilot(self.pilot_index, pilot)
         self.available_pilots_changed.emit()
 
-    def replace(self, squadron: Optional[Squadron], new_roster: Optional[FlightRoster]) -> None:
+    def replace(
+        self, squadron: Optional[Squadron], new_roster: Optional[FlightRoster]
+    ) -> None:
         self.squadron = squadron
         self.roster = new_roster
         self.rebuild()
@@ -159,7 +161,9 @@ class PilotControls(QHBoxLayout):
         finally:
             self.player_checkbox.blockSignals(False)
 
-    def replace(self, squadron: Optional[Squadron], new_roster: Optional[FlightRoster]) -> None:
+    def replace(
+        self, squadron: Optional[Squadron], new_roster: Optional[FlightRoster]
+    ) -> None:
         self.roster = new_roster
         if self.roster is None or self.pilot_index >= self.roster.max_size:
             self.disable_and_clear()
