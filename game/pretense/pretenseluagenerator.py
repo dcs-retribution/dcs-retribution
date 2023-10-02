@@ -503,6 +503,34 @@ class PretenseLuaGenerator(LuaGenerator):
 
         return lua_string_zones
 
+    @staticmethod
+    def generate_pretense_zone_connection(
+        lua_string_connman: str,
+        connected_points: dict[str, list[str]],
+        cp_name: str,
+        other_cp_name: str,
+    ) -> str:
+        try:
+            connected_points[cp_name]
+        except KeyError:
+            connected_points[cp_name] = list()
+        try:
+            connected_points[other_cp_name]
+        except KeyError:
+            connected_points[other_cp_name] = list()
+
+        if (
+            other_cp_name not in connected_points[cp_name]
+            and cp_name not in connected_points[other_cp_name]
+        ):
+            lua_string_connman += (
+                f"    cm: addConnection('{cp_name}', '{other_cp_name}')\n"
+            )
+            connected_points[cp_name].append(other_cp_name)
+            connected_points[other_cp_name].append(cp_name)
+
+        return lua_string_connman
+
     def generate_plugin_data(self) -> None:
         self.mission.triggerrules.triggers.clear()
 
@@ -562,15 +590,19 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_connman = "	cm = ConnectionManager:new()\n"
 
         # Generate ConnectionManager connections
+        connected_points: dict[str, list[str]] = {}
         for cp in self.game.theater.controlpoints:
             for other_cp in cp.connected_points:
-                lua_string_connman += (
-                    f"    cm: addConnection('{cp.name}', '{other_cp.name}')\n"
+                self.generate_pretense_zone_connection(
+                    lua_string_connman, connected_points, cp.name, other_cp.name
                 )
             for sea_connection in cp.shipping_lanes:
                 if sea_connection.is_friendly_to(cp):
-                    lua_string_connman += (
-                        f"    cm: addConnection('{cp.name}', '{sea_connection.name}')\n"
+                    self.generate_pretense_zone_connection(
+                        lua_string_connman,
+                        connected_points,
+                        cp.name,
+                        sea_connection.name,
                     )
             if len(cp.connected_points) == 0 and len(cp.shipping_lanes) == 0:
                 # Also connect carrier and LHA control points to adjacent friendly points
@@ -586,21 +618,21 @@ class PretenseLuaGenerator(LuaGenerator):
                         ):
                             break
 
-                        lua_string_connman += (
-                            f"    cm: addConnection('{cp.name}', '{other_cp.name}')\n"
+                        self.generate_pretense_zone_connection(
+                            lua_string_connman, connected_points, cp.name, other_cp.name
                         )
             else:
                 # Finally, connect remaining non-connected points
                 closest_cps = self.game.theater.closest_friendly_control_points_to(cp)
-                lua_string_connman += (
-                    f"    cm: addConnection('{cp.name}', '{closest_cps[0].name}')\n"
+                self.generate_pretense_zone_connection(
+                    lua_string_connman, connected_points, cp.name, closest_cps[0].name
                 )
-                lua_string_connman += (
-                    f"    cm: addConnection('{cp.name}', '{closest_cps[1].name}')\n"
+                self.generate_pretense_zone_connection(
+                    lua_string_connman, connected_points, cp.name, closest_cps[1].name
                 )
 
         lua_string_supply = "local redSupply = {\n"
-        # Generate ConnectionManager connections
+        # Generate supply
         for cp_side in range(1, 3):
             for cp in self.game.theater.controlpoints:
                 if isinstance(cp, OffMapSpawn):
