@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import random
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import TYPE_CHECKING, Optional
@@ -222,6 +223,200 @@ class PretenseLuaGenerator(LuaGenerator):
 
         return lua_string_zones
 
+    def generate_pretense_sea_upgrade_supply(self, cp_name: str, cp_side: int) -> str:
+        lua_string_zones = ""
+        cp_name_trimmed = "".join([i for i in cp_name.lower() if i.isalnum()])
+        cp_side_str = "blue" if cp_side == PRETENSE_BLUE_SIDE else "red"
+
+        if cp_side == PRETENSE_BLUE_SIDE:
+            if random.randint(0, 1):
+                supply_ship = "shipSupplyTilde"
+            else:
+                supply_ship = "shipLandingShipLstMk2"
+            tanker_ship = "shipTankerSeawisegiant"
+            command_ship = "shipLandingShipSamuelChase"
+            ship_group = "blueShipGroup"
+        else:
+            if random.randint(0, 1):
+                supply_ship = "shipBulkerYakushev"
+            else:
+                supply_ship = "shipCargoIvanov"
+            tanker_ship = "shipTankerElnya"
+            command_ship = "shipLandingShipRopucha"
+            ship_group = "redShipGroup"
+
+        lua_string_zones += (
+            "        presets.upgrades.supply." + supply_ship + ":extend({\n"
+        )
+        lua_string_zones += (
+            "            name = '"
+            + cp_name_trimmed
+            + f"-{supply_ship}-"
+            + cp_side_str
+            + "',\n"
+        )
+        lua_string_zones += "            products = {\n"
+        for ground_group in self.game.pretense_ground_supply[cp_side][cp_name_trimmed]:
+            lua_string_zones += (
+                "                presets.missions.supply.convoy:extend({ name='"
+                + ground_group
+                + "'}),\n"
+            )
+        for ground_group in self.game.pretense_ground_assault[cp_side][cp_name_trimmed]:
+            lua_string_zones += (
+                "                presets.missions.attack.surface:extend({ name='"
+                + ground_group
+                + "'}),\n"
+            )
+        for mission_type in self.game.pretense_air[cp_side][cp_name_trimmed]:
+            if mission_type == FlightType.AIR_ASSAULT:
+                mission_name = "supply.helo"
+                for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
+                    mission_type
+                ]:
+                    lua_string_zones += (
+                        f"                presets.missions.{mission_name}:extend"
+                        + "({name='"
+                        + air_group
+                        + "'}),\n"
+                    )
+        lua_string_zones += "            }\n"
+        lua_string_zones += "        }),\n"
+        lua_string_zones += (
+            "        presets.upgrades.attack." + command_ship + ":extend({\n"
+        )
+        lua_string_zones += (
+            f"            name = '{cp_name_trimmed}-mission-command-"
+            + cp_side_str
+            + "',\n"
+        )
+        lua_string_zones += "            products = {\n"
+        lua_string_zones += (
+            "                presets.defenses."
+            + cp_side_str
+            + "."
+            + ship_group
+            + ":extend({ name='"
+            + cp_name_trimmed
+            + "-sam-"
+            + cp_side_str
+            + "' }),\n"
+        )
+        lua_string_zones += "            }\n"
+        lua_string_zones += "        }),\n"
+        lua_string_zones += (
+            "        presets.upgrades.attack." + tanker_ship + ":extend({\n"
+        )
+        lua_string_zones += (
+            f"            name = '{cp_name_trimmed}-aircraft-command-"
+            + cp_side_str
+            + "',\n"
+        )
+        lua_string_zones += "            products = {\n"
+        for mission_type in self.game.pretense_air[cp_side][cp_name_trimmed]:
+            if mission_type == FlightType.SEAD:
+                mission_name = "attack.sead"
+                for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
+                    mission_type
+                ]:
+                    lua_string_zones += (
+                        f"                presets.missions.{mission_name}:extend"
+                        + "({name='"
+                        + air_group
+                        + "', altitude=25000, expend=AI.Task.WeaponExpend.ALL}),\n"
+                    )
+            elif mission_type == FlightType.CAS:
+                mission_name = "attack.cas"
+                for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
+                    mission_type
+                ]:
+                    lua_string_zones += (
+                        f"                presets.missions.{mission_name}:extend"
+                        + "({name='"
+                        + air_group
+                        + "', altitude=15000, expend=AI.Task.WeaponExpend.ONE}),\n"
+                    )
+            elif mission_type == FlightType.BAI:
+                mission_name = "attack.bai"
+                for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
+                    mission_type
+                ]:
+                    lua_string_zones += (
+                        f"                presets.missions.{mission_name}:extend"
+                        + "({name='"
+                        + air_group
+                        + "', altitude=10000, expend=AI.Task.WeaponExpend.ONE}),\n"
+                    )
+            elif mission_type == FlightType.STRIKE:
+                mission_name = "attack.strike"
+                for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
+                    mission_type
+                ]:
+                    lua_string_zones += (
+                        f"                presets.missions.{mission_name}:extend"
+                        + "({name='"
+                        + air_group
+                        + "', altitude=20000, expend=AI.Task.WeaponExpend.ALL}),\n"
+                    )
+            elif mission_type == FlightType.BARCAP:
+                mission_name = "patrol.aircraft"
+                for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
+                    mission_type
+                ]:
+                    lua_string_zones += (
+                        f"                presets.missions.{mission_name}:extend"
+                        + "({name='"
+                        + air_group
+                        + "', altitude=25000, range=25}),\n"
+                    )
+            elif mission_type == FlightType.REFUELING:
+                mission_name = "support.tanker"
+                for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
+                    mission_type
+                ]:
+                    tanker_freq = 257.0
+                    tanker_tacan = 37.0
+                    tanker_variant = "Drogue"
+                    for tanker in self.mission_data.tankers:
+                        if tanker.group_name == air_group:
+                            tanker_freq = tanker.freq.hertz / 1000000
+                            tanker_tacan = tanker.tacan.number if tanker.tacan else 0.0
+                            if tanker.variant == "KC-135 Stratotanker":
+                                tanker_variant = "Boom"
+                    lua_string_zones += (
+                        f"                presets.missions.{mission_name}:extend"
+                        + "({name='"
+                        + air_group
+                        + "', freq='"
+                        + str(tanker_freq)
+                        + "', tacan='"
+                        + str(tanker_tacan)
+                        + "', variant='"
+                        + tanker_variant
+                        + "'}),\n"
+                    )
+            elif mission_type == FlightType.AEWC:
+                mission_name = "support.awacs"
+                for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
+                    mission_type
+                ]:
+                    awacs_freq = 257.5
+                    for awacs in self.mission_data.awacs:
+                        if awacs.group_name == air_group:
+                            awacs_freq = awacs.freq.hertz / 1000000
+                    lua_string_zones += (
+                        f"                presets.missions.{mission_name}:extend"
+                        + "({name='"
+                        + air_group
+                        + "', freq="
+                        + str(awacs_freq)
+                        + "}),\n"
+                    )
+        lua_string_zones += "            }\n"
+        lua_string_zones += "        })\n"
+
+        return lua_string_zones
+
     def generate_pretense_zone_land(self, cp_name: str) -> str:
         lua_string_zones = ""
         cp_name_trimmed = "".join([i for i in cp_name.lower() if i.isalnum()])
@@ -296,208 +491,25 @@ class PretenseLuaGenerator(LuaGenerator):
 
         return lua_string_zones
 
-    def generate_pretense_zone_sea(self, cp_name: str, cp_side: int) -> str:
+    def generate_pretense_zone_sea(self, cp_name: str) -> str:
         lua_string_zones = ""
         cp_name_trimmed = "".join([i for i in cp_name.lower() if i.isalnum()])
 
         lua_string_zones += f"zones.{cp_name_trimmed}:defineUpgrades(" + "{\n"
         lua_string_zones += "    [1] = { --red side\n"
-        lua_string_zones += "        presets.upgrades.basic.tent:extend({\n"
-        lua_string_zones += f"            name='{cp_name_trimmed}-tent-red',\n"
-        lua_string_zones += "            products = {\n"
-        lua_string_zones += (
-            "                presets.special.red.infantry:extend({ name='"
-            + cp_name_trimmed
-            + "-defense-red'})\n"
+
+        lua_string_zones += self.generate_pretense_sea_upgrade_supply(
+            cp_name, PRETENSE_RED_SIDE
         )
-        lua_string_zones += "            }\n"
-        lua_string_zones += "        }),\n"
-        lua_string_zones += "        presets.upgrades.basic.comPost:extend({\n"
-        lua_string_zones += f"            name = '{cp_name_trimmed}-com-red',\n"
-        lua_string_zones += "            products = {\n"
-        lua_string_zones += (
-            "                presets.special.red.infantry:extend({ name='"
-            + cp_name_trimmed
-            + "-defense-red'}),\n"
-        )
-        lua_string_zones += (
-            "                presets.defenses.red.infantry:extend({ name='"
-            + cp_name_trimmed
-            + "-garrison-red' })\n"
-        )
-        lua_string_zones += "            }\n"
-        lua_string_zones += "        }),\n"
+
         lua_string_zones += "    },\n"
         lua_string_zones += "    [2] = --blue side\n"
         lua_string_zones += "    {\n"
-        lua_string_zones += "        presets.upgrades.basic.tent:extend({\n"
-        lua_string_zones += f"            name='{cp_name_trimmed}-tent-blue',\n"
-        lua_string_zones += "            products = {\n"
-        lua_string_zones += (
-            "                presets.special.blue.infantry:extend({ name='"
-            + cp_name_trimmed
-            + "-defense-blue'})\n"
+
+        lua_string_zones += self.generate_pretense_sea_upgrade_supply(
+            cp_name, PRETENSE_BLUE_SIDE
         )
-        lua_string_zones += "            }\n"
-        lua_string_zones += "        }),\n"
-        lua_string_zones += "        presets.upgrades.basic.comPost:extend({\n"
-        lua_string_zones += f"            name = '{cp_name_trimmed}-com-blue',\n"
-        lua_string_zones += "            products = {\n"
-        lua_string_zones += (
-            "                presets.special.blue.infantry:extend({ name='"
-            + cp_name_trimmed
-            + "-defense-blue'}),\n"
-        )
-        lua_string_zones += (
-            "                presets.defenses.blue.infantry:extend({ name='"
-            + cp_name_trimmed
-            + "-garrison-blue' })\n"
-        )
-        lua_string_zones += "            }\n"
-        lua_string_zones += "        }),\n"
-        lua_string_zones += "        presets.upgrades.supply.fuelTank:extend({\n"
-        lua_string_zones += (
-            "            name = '" + cp_name_trimmed + "-fueltank-blue',\n"
-        )
-        lua_string_zones += "            products = {\n"
-        for ground_group in self.game.pretense_ground_supply[cp_side][cp_name_trimmed]:
-            lua_string_zones += (
-                "                presets.missions.supply.convoy:extend({ name='"
-                + ground_group
-                + "'}),\n"
-            )
-        for ground_group in self.game.pretense_ground_assault[cp_side][cp_name_trimmed]:
-            lua_string_zones += (
-                "                presets.missions.attack.surface:extend({ name='"
-                + ground_group
-                + "'}),\n"
-            )
-        for mission_type in self.game.pretense_air[cp_side][cp_name_trimmed]:
-            if mission_type == FlightType.AIR_ASSAULT:
-                mission_name = "supply.helo"
-                for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
-                    mission_type
-                ]:
-                    lua_string_zones += (
-                        f"                presets.missions.{mission_name}:extend"
-                        + "({name='"
-                        + air_group
-                        + "'}),\n"
-                    )
-        lua_string_zones += "            }\n"
-        lua_string_zones += "        }),\n"
-        lua_string_zones += "        presets.upgrades.airdef.comCenter:extend({\n"
-        lua_string_zones += (
-            f"            name = '{cp_name_trimmed}-mission-command-blue',\n"
-        )
-        lua_string_zones += "            products = {\n"
-        lua_string_zones += (
-            "                presets.defenses.blue.shorad:extend({ name='"
-            + cp_name_trimmed
-            + "-sam-blue' }),\n"
-        )
-        for mission_type in self.game.pretense_air[cp_side][cp_name_trimmed]:
-            if mission_type == FlightType.SEAD:
-                mission_name = "attack.sead"
-                for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
-                    mission_type
-                ]:
-                    lua_string_zones += (
-                        f"                presets.missions.{mission_name}:extend"
-                        + "({name='"
-                        + air_group
-                        + "', altitude=25000, expend=AI.Task.WeaponExpend.ALL}),\n"
-                    )
-            elif mission_type == FlightType.CAS:
-                mission_name = "attack.cas"
-                for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
-                    mission_type
-                ]:
-                    lua_string_zones += (
-                        f"                presets.missions.{mission_name}:extend"
-                        + "({name='"
-                        + air_group
-                        + "', altitude=15000, expend=AI.Task.WeaponExpend.ONE}),\n"
-                    )
-            elif mission_type == FlightType.BAI:
-                mission_name = "attack.bai"
-                for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
-                    mission_type
-                ]:
-                    lua_string_zones += (
-                        f"                presets.missions.{mission_name}:extend"
-                        + "({name='"
-                        + air_group
-                        + "', altitude=10000, expend=AI.Task.WeaponExpend.ONE}),\n"
-                    )
-            elif mission_type == FlightType.STRIKE:
-                mission_name = "attack.strike"
-                for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
-                    mission_type
-                ]:
-                    lua_string_zones += (
-                        f"                presets.missions.{mission_name}:extend"
-                        + "({name='"
-                        + air_group
-                        + "', altitude=20000, expend=AI.Task.WeaponExpend.ALL}),\n"
-                    )
-            elif mission_type == FlightType.BARCAP:
-                mission_name = "patrol.aircraft"
-                for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
-                    mission_type
-                ]:
-                    lua_string_zones += (
-                        f"                presets.missions.{mission_name}:extend"
-                        + "({name='"
-                        + air_group
-                        + "', altitude=25000, range=25}),\n"
-                    )
-            elif mission_type == FlightType.REFUELING:
-                mission_name = "support.tanker"
-                for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
-                    mission_type
-                ]:
-                    tanker_freq = 257.0
-                    tanker_tacan = 37.0
-                    for tanker in self.mission_data.tankers:
-                        if tanker.group_name == air_group:
-                            tanker_freq = tanker.freq.hertz / 1000000
-                            tanker_tacan = tanker.tacan.number if tanker.tacan else 0.0
-                            if tanker.variant == "KC-135 Stratotanker":
-                                tanker_variant = "Boom"
-                            else:
-                                tanker_variant = "Drogue"
-                    lua_string_zones += (
-                        f"                presets.missions.{mission_name}:extend"
-                        + "({name='"
-                        + air_group
-                        + "', freq='"
-                        + str(tanker_freq)
-                        + "', tacan='"
-                        + str(tanker_tacan)
-                        + "', variant='"
-                        + tanker_variant
-                        + "'}),\n"
-                    )
-            elif mission_type == FlightType.AEWC:
-                mission_name = "support.awacs"
-                for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
-                    mission_type
-                ]:
-                    awacs_freq = 257.5
-                    for awacs in self.mission_data.awacs:
-                        if awacs.group_name == air_group:
-                            awacs_freq = awacs.freq.hertz / 1000000
-                    lua_string_zones += (
-                        f"                presets.missions.{mission_name}:extend"
-                        + "({name='"
-                        + air_group
-                        + "', freq="
-                        + str(awacs_freq)
-                        + "}),\n"
-                    )
-        lua_string_zones += "            }\n"
-        lua_string_zones += "        })\n"
+
         lua_string_zones += "    }\n"
         lua_string_zones += "})\n"
 
@@ -570,20 +582,33 @@ class PretenseLuaGenerator(LuaGenerator):
             )
             lua_string_zones += f"zones.{cp_name_trimmed}.keepActive = true\n"
             max_resource = 20000
+            is_helo_spawn = "false"
+            is_plane_spawn = "false"
             if cp.has_helipads:
-                lua_string_zones += f"zones.{cp_name_trimmed}.isHeloSpawn = true\n"
+                is_helo_spawn = "true"
                 max_resource = 30000
             if isinstance(cp, Airfield) or cp.has_ground_spawns:
-                lua_string_zones += f"zones.{cp_name_trimmed}.isPlaneSpawn = true\n"
+                is_helo_spawn = "true"
+                is_plane_spawn = "true"
             if cp.has_ground_spawns or cp.is_lha:
+                is_helo_spawn = "true"
+                is_plane_spawn = "true"
                 max_resource = 40000
             if isinstance(cp, Airfield) or cp.is_carrier:
+                is_helo_spawn = "true"
+                is_plane_spawn = "true"
                 max_resource = 50000
             lua_string_zones += (
                 f"zones.{cp_name_trimmed}.maxResource = {max_resource}\n"
             )
+            lua_string_zones += (
+                f"zones.{cp_name_trimmed}.isHeloSpawn = " + is_helo_spawn + "\n"
+            )
+            lua_string_zones += (
+                f"zones.{cp_name_trimmed}.isPlaneSpawn = " + is_plane_spawn + "\n"
+            )
             if cp.is_fleet:
-                lua_string_zones += self.generate_pretense_zone_sea(cp.name, cp_side)
+                lua_string_zones += self.generate_pretense_zone_sea(cp.name)
             else:
                 lua_string_zones += self.generate_pretense_zone_land(cp.name)
 
@@ -686,6 +711,10 @@ class PretenseLuaGenerator(LuaGenerator):
 
         trigger.add_action(DoScript(String(lua_string)))
         self.mission.triggerrules.triggers.append(trigger)
+
+        file1 = open(Path("./resources/plugins/pretense", "pretense_output.lua"), "w")
+        file1.write(lua_string)
+        file1.close()
 
     def inject_lua_trigger(self, contents: str, comment: str) -> None:
         trigger = TriggerStart(comment=comment)

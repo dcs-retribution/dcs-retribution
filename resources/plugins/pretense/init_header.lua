@@ -259,6 +259,28 @@ do
 		skill = "Excellent",
 		dataCategory= TemplateDB.type.group
 	}
+
+	TemplateDB.templates["blueShipGroup"] = {
+		units = {
+			"PERRY",
+			"USS_Arleigh_Burke_IIa",
+			"PERRY"
+		},
+		maxDist = 300,
+		skill = "Excellent",
+		dataCategory= TemplateDB.type.group
+	}
+
+	TemplateDB.templates["redShipGroup"] = {
+		units = {
+			"ALBATROS",
+			"NEUSTRASH",
+			"ALBATROS"
+		},
+		maxDist = 300,
+		skill = "Excellent",
+		dataCategory= TemplateDB.type.group
+	}
 end
 
 presets = {
@@ -523,10 +545,16 @@ presets = {
 				template='sa6',
 			}),
 			sa11 = Preset:new({
+				display = 'SAM',
+				cost=3000,
+				type='defense',
+				template='sa11',
+			}),
+			redShipGroup = Preset:new({
 				display = 'SAM', 
 				cost=3000, 
 				type='defense', 
-				template='sa11',
+				template='redShipGroup',
 			})
 		},
 		blue = {
@@ -559,6 +587,12 @@ presets = {
 				cost=3000, 
 				type='defense', 
 				template='nasams',
+			}),
+			blueShipGroup = Preset:new({
+				display = 'SAM',
+				cost=3000,
+				type='defense',
+				template='blueShipGroup',
 			})
 		}
 	},
