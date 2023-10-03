@@ -74,9 +74,7 @@ class PretenseLuaGenerator(LuaGenerator):
         preset: str, cp_side_str: str, cp_name_trimmed: str
     ) -> str:
         lua_string_zones = (
-            "                presets.defenses."
-            + cp_side_str
-            + "."
+            "                presets.defenses.sam."
             + preset
             + ":extend({ name='"
             + cp_name_trimmed
@@ -150,8 +148,14 @@ class PretenseLuaGenerator(LuaGenerator):
             + "',\n"
         )
         lua_string_zones += "            products = {\n"
-        lua_string_zones += self.generate_sam_from_preset(
-            "shorad", cp_side_str, cp_name_trimmed
+        lua_string_zones += (
+            "                presets.defenses."
+            + cp_side_str
+            + ".shorad:extend({ name='"
+            + cp_name_trimmed
+            + "-shorad-"
+            + cp_side_str
+            + "' }),\n"
         )
         lua_string_zones += "            }\n"
         lua_string_zones += "        }),\n"
