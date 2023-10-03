@@ -3,6 +3,7 @@ from __future__ import annotations
 import logging
 import random
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
 from pathlib import Path
 from typing import TYPE_CHECKING, Optional
 
@@ -10,6 +11,7 @@ from dcs import Mission
 from dcs.action import DoScript, DoScriptFile
 from dcs.translation import String
 from dcs.triggers import TriggerStart
+from dcs.vehicles import AirDefence
 
 from game.ato import FlightType
 from game.missiongenerator.luagenerator import LuaGenerator
@@ -24,6 +26,19 @@ if TYPE_CHECKING:
 PRETENSE_RED_SIDE = 1
 PRETENSE_BLUE_SIDE = 2
 PRETENSE_NUMBER_OF_ZONES_TO_CONNECT_CARRIERS_TO = 2
+
+
+@dataclass
+class PretenseSam:
+    name: str
+    enabled: bool
+
+    def __init__(
+        self,
+        name: str,
+    ) -> None:
+        self.name = name
+        self.enabled = False
 
 
 class PretenseLuaGenerator(LuaGenerator):
@@ -54,10 +69,44 @@ class PretenseLuaGenerator(LuaGenerator):
             self.mission.triggerrules.triggers.remove(t)
             self.mission.triggerrules.triggers.append(t)
 
+    @staticmethod
+    def generate_sam_from_preset(
+        preset: str, cp_side_str: str, cp_name_trimmed: str
+    ) -> str:
+        lua_string_zones = (
+            "                presets.defenses."
+            + cp_side_str
+            + "."
+            + preset
+            + ":extend({ name='"
+            + cp_name_trimmed
+            + f"-{preset}-"
+            + cp_side_str
+            + "' }),\n"
+        )
+        return lua_string_zones
+
     def generate_pretense_land_upgrade_supply(self, cp_name: str, cp_side: int) -> str:
         lua_string_zones = ""
         cp_name_trimmed = "".join([i for i in cp_name.lower() if i.isalnum()])
         cp_side_str = "blue" if cp_side == PRETENSE_BLUE_SIDE else "red"
+        cp = self.game.theater.controlpoints[0]
+        for loop_cp in self.game.theater.controlpoints:
+            if loop_cp.name == cp_name:
+                cp = loop_cp
+        sam_presets: dict[str, PretenseSam] = {}
+        for sam_name in [
+            "sa2",
+            "sa3",
+            "sa5",
+            "sa6",
+            "sa10",
+            "sa11",
+            "hawk",
+            "patriot",
+            "nasams",
+        ]:
+            sam_presets[sam_name] = PretenseSam(sam_name)
 
         lua_string_zones += "        presets.upgrades.supply.fuelTank:extend({\n"
         lua_string_zones += (
@@ -96,22 +145,74 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_zones += "        }),\n"
         lua_string_zones += "        presets.upgrades.airdef.bunker:extend({\n"
         lua_string_zones += (
-            f"            name = '{cp_name_trimmed}-mission-command-"
+            f"            name = '{cp_name_trimmed}-shorad-command-"
             + cp_side_str
             + "',\n"
         )
         lua_string_zones += "            products = {\n"
-        lua_string_zones += (
-            "                presets.defenses."
-            + cp_side_str
-            + ".shorad:extend({ name='"
-            + cp_name_trimmed
-            + "-sam-"
-            + cp_side_str
-            + "' }),\n"
+        lua_string_zones += self.generate_sam_from_preset(
+            "shorad", cp_side_str, cp_name_trimmed
         )
         lua_string_zones += "            }\n"
         lua_string_zones += "        }),\n"
+
+        for ground_object in cp.ground_objects:
+            for ground_unit in ground_object.units:
+                if ground_unit.unit_type is not None:
+                    if ground_unit.unit_type.dcs_unit_type == AirDefence.S_75M_Volhov:
+                        sam_presets["sa2"].enabled = True
+                    if (
+                        ground_unit.unit_type.dcs_unit_type
+                        == AirDefence.X_5p73_s_125_ln
+                    ):
+                        sam_presets["sa3"].enabled = True
+                    if ground_unit.unit_type.dcs_unit_type == AirDefence.S_200_Launcher:
+                        sam_presets["sa5"].enabled = True
+                    if ground_unit.unit_type.dcs_unit_type == AirDefence.Kub_2P25_ln:
+                        sam_presets["sa6"].enabled = True
+                    if (
+                        ground_unit.unit_type.dcs_unit_type
+                        == AirDefence.S_300PS_5P85C_ln
+                        or ground_unit.unit_type.dcs_unit_type
+                        == AirDefence.S_300PS_5P85D_ln
+                    ):
+                        sam_presets["sa10"].enabled = True
+                    if (
+                        ground_unit.unit_type.dcs_unit_type
+                        == AirDefence.SA_11_Buk_LN_9A310M1
+                    ):
+                        sam_presets["sa11"].enabled = True
+                    if ground_unit.unit_type.dcs_unit_type == AirDefence.Hawk_ln:
+                        sam_presets["hawk"].enabled = True
+                    if ground_unit.unit_type.dcs_unit_type == AirDefence.Patriot_ln:
+                        sam_presets["patriot"].enabled = True
+                    if (
+                        ground_unit.unit_type.dcs_unit_type == AirDefence.NASAMS_LN_B
+                        or ground_unit.unit_type.dcs_unit_type == AirDefence.NASAMS_LN_C
+                    ):
+                        sam_presets["nasams"].enabled = True
+
+        cp_has_sams = False
+        for sam_name in sam_presets:
+            if sam_presets[sam_name].enabled:
+                cp_has_sams = True
+                break
+        if cp_has_sams:
+            lua_string_zones += "        presets.upgrades.airdef.comCenter:extend({\n"
+            lua_string_zones += (
+                f"            name = '{cp_name_trimmed}-sam-command-"
+                + cp_side_str
+                + "',\n"
+            )
+            lua_string_zones += "            products = {\n"
+            for sam_name in sam_presets:
+                if sam_presets[sam_name].enabled:
+                    lua_string_zones += self.generate_sam_from_preset(
+                        sam_name, cp_side_str, cp_name_trimmed
+                    )
+            lua_string_zones += "            }\n"
+            lua_string_zones += "        }),\n"
+
         lua_string_zones += "        presets.upgrades.supply.hangar:extend({\n"
         lua_string_zones += (
             f"            name = '{cp_name_trimmed}-aircraft-command-"
