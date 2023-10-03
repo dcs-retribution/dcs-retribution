@@ -90,7 +90,7 @@ do
 		dataCategory= TemplateDB.type.group
 	}
 
-	TemplateDB.templates["sam-red"] = {
+	TemplateDB.templates["sa2"] = {
 		units = {
 			"p-19 s-125 sr",
 			"Ural-4320T",
@@ -108,7 +108,7 @@ do
 		dataCategory= TemplateDB.type.group
 	}
 
-	TemplateDB.templates["sam-blue"] = {
+	TemplateDB.templates["hawk"] = {
 		units = {
 			"Hawk pcp",
 			"Hawk cwar",
