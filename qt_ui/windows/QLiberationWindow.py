@@ -194,8 +194,18 @@ class QLiberationWindow(QMainWindow):
             lambda: webbrowser.open_new_tab("https://shdwp.github.io/ukraine/")
         )
 
-        self.newPretenseAction = QAction("&New Pretense Campaign", self)
-        self.newPretenseAction.setIcon(QIcon(CONST.ICONS["Pretense"]))
+        self.pretenseLinkAction = QAction("&DCS: Pretense", self)
+        self.pretenseLinkAction.setIcon(QIcon(CONST.ICONS["Pretense"]))
+        self.pretenseLinkAction.triggered.connect(
+            lambda: webbrowser.open_new_tab(
+                "https://" + "discord.gg" + "/" + "PtPsb9Mpk6"
+            )
+        )
+
+        self.newPretenseAction = QAction(
+            "&Generate a Pretense Campaign from the running campaign", self
+        )
+        self.newPretenseAction.setIcon(QIcon(CONST.ICONS["Pretense_generate"]))
         self.newPretenseAction.triggered.connect(self.newPretenseCampaign)
 
         self.openLogsAction = QAction("Show &logs", self)
@@ -239,6 +249,7 @@ class QLiberationWindow(QMainWindow):
         self.links_bar.addAction(self.openDiscordAction)
         self.links_bar.addAction(self.openGithubAction)
         self.links_bar.addAction(self.ukraineAction)
+        self.links_bar.addAction(self.pretenseLinkAction)
         self.links_bar.addAction(self.newPretenseAction)
 
         self.actions_bar = self.addToolBar("Actions")
