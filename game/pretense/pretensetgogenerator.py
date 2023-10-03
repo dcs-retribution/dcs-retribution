@@ -91,7 +91,11 @@ if TYPE_CHECKING:
 
 FARP_FRONTLINE_DISTANCE = 10000
 AA_CP_MIN_DISTANCE = 40000
-PRETENSE_GROUND_UNIT_GROUP_SIZE = 4
+PRETENSE_GROUND_UNIT_GROUP_SIZE = 5
+PRETENSE_GROUND_UNITS_TO_REMOVE_FROM_ASSAULT = [
+    vehicles.Armor.Stug_III,
+    vehicles.Artillery.Grad_URAL,
+]
 
 
 class PretenseGroundObjectGenerator(GroundObjectGenerator):
@@ -130,6 +134,12 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
             | set(self.ground_object.coalition.faction.logistics_units)
         )
         of_class = list({u for u in faction_units if u.unit_class is unit_class})
+
+        # Remove units from list with known pathfinding issues in Pretense missions
+        for unit_to_remove in PRETENSE_GROUND_UNITS_TO_REMOVE_FROM_ASSAULT:
+            for groundunittype_to_remove in GroundUnitType.for_dcs_type(unit_to_remove):
+                if groundunittype_to_remove in of_class:
+                    of_class.remove(groundunittype_to_remove)
 
         if len(of_class) > 0:
             return random.choice(of_class)
@@ -206,6 +216,14 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
                         vehicle_units,
                         cp_name_trimmed,
                         group_role,
+                        PRETENSE_GROUND_UNIT_GROUP_SIZE - 4,
+                    )
+                    self.generate_ground_unit_of_class(
+                        UnitClass.TANK,
+                        group,
+                        vehicle_units,
+                        cp_name_trimmed,
+                        group_role,
                         PRETENSE_GROUND_UNIT_GROUP_SIZE - 3,
                     )
                     self.generate_ground_unit_of_class(
@@ -226,14 +244,6 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
                     )
                     self.generate_ground_unit_of_class(
                         UnitClass.IFV,
-                        group,
-                        vehicle_units,
-                        cp_name_trimmed,
-                        group_role,
-                        PRETENSE_GROUND_UNIT_GROUP_SIZE,
-                    )
-                    self.generate_ground_unit_of_class(
-                        UnitClass.ARTILLERY,
                         group,
                         vehicle_units,
                         cp_name_trimmed,
