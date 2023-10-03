@@ -32,7 +32,8 @@ def load_icons():
         "./resources/ui/misc/" + get_theme_icons() + "/github.png"
     )
     ICONS["Ukraine"] = QPixmap("./resources/ui/misc/ukraine.png")
-    ICONS["Pretense"] = QPixmap("./resources/ui/misc/pretense.png")
+    ICONS["Pretense"] = QPixmap("./resources/ui/misc/pretense_discord.png")
+    ICONS["Pretense_generate"] = QPixmap("./resources/ui/misc/pretense_generate.png")
 
     ICONS["Control Points"] = QPixmap(
         "./resources/ui/misc/" + get_theme_icons() + "/circle.png"
