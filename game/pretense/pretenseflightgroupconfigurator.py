@@ -1,32 +1,27 @@
 from __future__ import annotations
 
-import logging
 from datetime import datetime
 from typing import Any, Optional, TYPE_CHECKING
 
 from dcs import Mission
-from dcs.flyingunit import FlyingUnit
-from dcs.unit import Skill
 from dcs.unitgroup import FlyingGroup
 
 from game.ato import Flight, FlightType
 from game.data.weapons import Pylon
+from game.lasercodes.lasercoderegistry import LaserCodeRegistry
+from game.missiongenerator.aircraft.aircraftbehavior import AircraftBehavior
+from game.missiongenerator.aircraft.aircraftpainter import AircraftPainter
+from game.missiongenerator.aircraft.flightdata import FlightData
 from game.missiongenerator.aircraft.flightgroupconfigurator import (
     FlightGroupConfigurator,
 )
-from game.missiongenerator.lasercoderegistry import LaserCodeRegistry
+from game.missiongenerator.aircraft.waypoints import WaypointGenerator
 from game.missiongenerator.missiondata import MissionData
 from game.radio.radios import RadioRegistry
 from game.radio.tacan import (
     TacanRegistry,
 )
 from game.runways import RunwayData
-from game.squadrons import Pilot
-from game.missiongenerator.aircraft.aircraftbehavior import AircraftBehavior
-from game.missiongenerator.aircraft.aircraftpainter import AircraftPainter
-from game.missiongenerator.aircraft.flightdata import FlightData
-from game.missiongenerator.aircraft.waypoints import WaypointGenerator
-from game.theater import Fob
 
 if TYPE_CHECKING:
     from game import Game

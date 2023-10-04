@@ -1,12 +1,10 @@
 from __future__ import annotations
 
-import logging
 from datetime import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING, cast, List
+from typing import TYPE_CHECKING
 
 import dcs.lua
-from dataclasses import field
 from dcs import Mission, Point
 from dcs.coalition import Coalition
 from dcs.countries import (
@@ -14,22 +12,8 @@ from dcs.countries import (
     CombinedJointTaskForcesBlue,
     CombinedJointTaskForcesRed,
 )
-from dcs.task import OptReactOnThreat
 
-from game.atcdata import AtcData
-from game.dcs.beacons import Beacons
-
-from game.naming import namegen
-from game.radio.radios import RadioFrequency, RadioRegistry, MHz
-from game.radio.tacan import TacanRegistry
-from game.theater import Airfield
-from game.theater.bullseye import Bullseye
-from game.unitmap import UnitMap
-from game.pretense.pretenseaircraftgenerator import PretenseAircraftGenerator
-from game.missiongenerator.briefinggenerator import (
-    BriefingGenerator,
-    MissionInfoGenerator,
-)
+from game.lasercodes.lasercoderegistry import LaserCodeRegistry
 from game.missiongenerator.convoygenerator import ConvoyGenerator
 from game.missiongenerator.environmentgenerator import EnvironmentGenerator
 from game.missiongenerator.flotgenerator import FlotGenerator
@@ -37,18 +21,20 @@ from game.missiongenerator.forcedoptionsgenerator import ForcedOptionsGenerator
 from game.missiongenerator.frontlineconflictdescription import (
     FrontLineConflictDescription,
 )
-from game.missiongenerator.kneeboard import KneeboardGenerator
-from game.missiongenerator.lasercoderegistry import LaserCodeRegistry
 from game.missiongenerator.missiondata import MissionData
 from game.missiongenerator.tgogenerator import TgoGenerator
+from game.missiongenerator.visualsgenerator import VisualsGenerator
+from game.naming import namegen
+from game.pretense.pretenseaircraftgenerator import PretenseAircraftGenerator
+from game.radio.radios import RadioRegistry
+from game.radio.tacan import TacanRegistry
+from game.theater.bullseye import Bullseye
+from game.unitmap import UnitMap
 from .pretenseluagenerator import PretenseLuaGenerator
 from .pretensetgogenerator import PretenseTgoGenerator
 from .pretensetriggergenerator import PretenseTriggerGenerator
-from game.missiongenerator.visualsgenerator import VisualsGenerator
-from ..ato import Flight
 from ..ato.airtaaskingorder import AirTaskingOrder
 from ..missiongenerator import MissionGenerator
-from ..radio.TacanContainer import TacanContainer
 
 if TYPE_CHECKING:
     from game import Game
