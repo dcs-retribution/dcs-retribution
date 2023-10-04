@@ -7,51 +7,22 @@ create the pydcs groups and statics for those areas and add them to the mission.
 """
 from __future__ import annotations
 
-import logging
 import random
 from collections import defaultdict
-from typing import Any, Dict, Iterator, List, Optional, TYPE_CHECKING, Type, Tuple
+from typing import Dict, Optional, TYPE_CHECKING, Tuple, Type
 
-import dcs.vehicles
-from dcs import Mission, Point, unitgroup
-from dcs.action import DoScript, SceneryDestructionZone
-from dcs.condition import MapObjectIsDead
+from dcs import Mission, Point
 from dcs.countries import *
 from dcs.country import Country
-from dcs.point import StaticPoint, PointAction
-from dcs.ships import (
-    CVN_71,
-    CVN_72,
-    CVN_73,
-    CVN_75,
-    Stennis,
-    Forrestal,
-    LHA_Tarawa,
-)
-from dcs.statics import Fortification
-from dcs.task import (
-    ActivateBeaconCommand,
-    ActivateICLSCommand,
-    ActivateLink4Command,
-    ActivateACLSCommand,
-    EPLRS,
-    FireAtPoint,
-    OptAlarmState,
-)
-from dcs.translation import String
-from dcs.triggers import Event, TriggerOnce, TriggerStart, TriggerZone
-from dcs.unit import Unit, InvisibleFARP, BaseFARP, SingleHeliPad, FARP
-from dcs.unitgroup import MovingGroup, ShipGroup, StaticGroup, VehicleGroup
-from dcs.unittype import ShipType, VehicleType
-from dcs.vehicles import vehicle_map, Unarmed
+from dcs.unitgroup import StaticGroup, VehicleGroup
+from dcs.unittype import VehicleType
 
 from game.data.units import UnitClass
 from game.dcs.groundunittype import GroundUnitType
 from game.missiongenerator.groundforcepainter import (
-    NavalForcePainter,
     GroundForcePainter,
 )
-from game.missiongenerator.missiondata import CarrierInfo, MissionData
+from game.missiongenerator.missiondata import MissionData
 from game.missiongenerator.tgogenerator import (
     TgoGenerator,
     HelipadGenerator,
@@ -63,9 +34,8 @@ from game.missiongenerator.tgogenerator import (
     MissileSiteGenerator,
 )
 from game.point_with_heading import PointWithHeading
-from game.radio.RadioFrequencyContainer import RadioFrequencyContainer
-from game.radio.radios import RadioFrequency, RadioRegistry
-from game.radio.tacan import TacanBand, TacanChannel, TacanRegistry, TacanUsage
+from game.radio.radios import RadioRegistry
+from game.radio.tacan import TacanRegistry
 from game.runways import RunwayData
 from game.theater import (
     ControlPoint,
@@ -76,15 +46,21 @@ from game.theater import (
 )
 from game.theater.theatergroundobject import (
     CarrierGroundObject,
-    GenericCarrierGroundObject,
     LhaGroundObject,
     MissileSiteGroundObject,
     BuildingGroundObject,
     VehicleGroupGroundObject,
 )
-from game.theater.theatergroup import SceneryUnit, IadsGroundGroup, TheaterGroup
+from game.theater.theatergroup import TheaterGroup
 from game.unitmap import UnitMap
-from game.utils import Heading, feet, knots, mps
+from pydcs_extensions import (
+    Char_M551_Sheridan,
+    BV410_RBS70,
+    BV410_RBS90,
+    BV410,
+    VAB__50,
+    VAB_T20_13,
+)
 
 if TYPE_CHECKING:
     from game import Game
@@ -95,6 +71,30 @@ PRETENSE_GROUND_UNIT_GROUP_SIZE = 5
 PRETENSE_GROUND_UNITS_TO_REMOVE_FROM_ASSAULT = [
     vehicles.Armor.Stug_III,
     vehicles.Artillery.Grad_URAL,
+]
+PRETENSE_AMPHIBIOUS_UNITS = [
+    vehicles.Unarmed.LARC_V,
+    vehicles.Armor.AAV7,
+    vehicles.Armor.LAV_25,
+    vehicles.Armor.TPZ,
+    vehicles.Armor.PT_76,
+    vehicles.Armor.BMD_1,
+    vehicles.Armor.BMP_1,
+    vehicles.Armor.BMP_2,
+    vehicles.Armor.BMP_3,
+    vehicles.Armor.BTR_80,
+    vehicles.Armor.BTR_82A,
+    vehicles.Armor.BRDM_2,
+    vehicles.Armor.BTR_D,
+    vehicles.Armor.MTLB,
+    vehicles.Armor.ZBD04A,
+    vehicles.Armor.VAB_Mephisto,
+    VAB__50,
+    VAB_T20_13,
+    Char_M551_Sheridan,
+    BV410_RBS70,
+    BV410_RBS90,
+    BV410,
 ]
 
 
@@ -128,6 +128,16 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
         return self.game.iads_considerate_culling(self.ground_object)
 
     def ground_unit_of_class(self, unit_class: UnitClass) -> Optional[GroundUnitType]:
+        """
+        Returns a GroundUnitType of the specified class that belongs to the
+        TheaterGroundObject faction.
+
+        Units, which are known to have pathfinding issues in Pretense missions
+        are removed based on a pre-defined list.
+
+        Args:
+            unit_class: Class of unit to return.
+        """
         faction_units = (
             set(self.ground_object.coalition.faction.frontline_units)
             | set(self.ground_object.coalition.faction.artillery_units)
@@ -155,6 +165,25 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
         group_role: str,
         max_num: int,
     ) -> None:
+        """
+        Generates a single land based TheaterUnit for a Pretense unit group
+        for a specific TheaterGroup, provided that the group still has room
+        (defined by the max_num argument). Land based groups don't have
+        restrictions on the unit types, other than that they must be
+        accessible by the faction and must be of the specified class.
+
+        Generated units are placed 30 meters from the TheaterGroup
+        position in a random direction.
+
+        Args:
+            unit_class: Class of unit to generate.
+            group: The TheaterGroup to generate the unit/group for.
+            vehicle_units: List of TheaterUnits. The new unit will be appended to this list.
+            cp_name: Name of the Control Point.
+            group_role: Pretense group role, "support" or "assault".
+            max_num: Maximum number of units to generate per group.
+        """
+
         if self.ground_object.coalition.faction.has_access_to_unit_class(unit_class):
             unit_type = self.ground_unit_of_class(unit_class)
             if unit_type is not None and len(vehicle_units) < max_num:
@@ -178,6 +207,140 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
                 )
                 vehicle_units.append(theater_unit)
 
+    def generate_amphibious_unit_of_class(
+        self,
+        unit_class: UnitClass,
+        group: TheaterGroup,
+        vehicle_units: list[TheaterUnit],
+        cp_name: str,
+        group_role: str,
+        max_num: int,
+    ) -> None:
+        """
+        Generates a single amphibious TheaterUnit for a Pretense unit group
+        for a specific TheaterGroup, provided that the group still has room
+        (defined by the max_num argument). Amphibious units are selected
+        out of a pre-defined list. Units which the faction has access to
+        are preferred, but certain default unit types are selected as
+        a fall-back to ensure that all the generated units can swim.
+
+        Generated units are placed 30 meters from the TheaterGroup
+        position in a random direction.
+
+        Args:
+            unit_class: Class of unit to generate.
+            group: The TheaterGroup to generate the unit/group for.
+            vehicle_units: List of TheaterUnits. The new unit will be appended to this list.
+            cp_name: Name of the Control Point.
+            group_role: Pretense group role, "support" or "assault".
+            max_num: Maximum number of units to generate per group.
+        """
+        unit_type = None
+        faction = self.ground_object.coalition.faction
+        is_player = True
+        side = (
+            2
+            if self.country == self.game.coalition_for(is_player).faction.country
+            else 1
+        )
+        default_amphibious_unit = unit_type
+        default_logistics_unit = unit_type
+        default_tank_unit_blue = unit_type
+        default_apc_unit_blue = unit_type
+        default_ifv_unit_blue = unit_type
+        default_recon_unit_blue = unit_type
+        default_atgm_unit_blue = unit_type
+        default_tank_unit_red = unit_type
+        default_apc_unit_red = unit_type
+        default_ifv_unit_red = unit_type
+        default_recon_unit_red = unit_type
+        default_atgm_unit_red = unit_type
+        default_ifv_unit_chinese = unit_type
+        pretense_amphibious_units = PRETENSE_AMPHIBIOUS_UNITS
+        random.shuffle(pretense_amphibious_units)
+        for unit in pretense_amphibious_units:
+            for groundunittype in GroundUnitType.for_dcs_type(unit):
+                if unit == vehicles.Unarmed.LARC_V:
+                    default_logistics_unit = groundunittype
+                elif unit == Char_M551_Sheridan:
+                    default_tank_unit_blue = groundunittype
+                elif unit == vehicles.Armor.AAV7:
+                    default_apc_unit_blue = groundunittype
+                elif unit == vehicles.Armor.LAV_25:
+                    default_ifv_unit_blue = groundunittype
+                elif unit == vehicles.Armor.TPZ:
+                    default_recon_unit_blue = groundunittype
+                elif unit == vehicles.Armor.VAB_Mephisto:
+                    default_atgm_unit_blue = groundunittype
+                elif unit == vehicles.Armor.PT_76:
+                    default_tank_unit_red = groundunittype
+                elif unit == vehicles.Armor.BTR_80:
+                    default_apc_unit_red = groundunittype
+                elif unit == vehicles.Armor.BMD_1:
+                    default_ifv_unit_red = groundunittype
+                elif unit == vehicles.Armor.BRDM_2:
+                    default_recon_unit_red = groundunittype
+                elif unit == vehicles.Armor.BTR_D:
+                    default_atgm_unit_red = groundunittype
+                elif unit == vehicles.Armor.ZBD04A:
+                    default_ifv_unit_chinese = groundunittype
+                elif unit == vehicles.Armor.MTLB:
+                    default_amphibious_unit = groundunittype
+                if self.ground_object.coalition.faction.has_access_to_dcs_type(unit):
+                    if groundunittype.unit_class == unit_class:
+                        unit_type = groundunittype
+                        break
+        if unit_type is None:
+            if unit_class == UnitClass.LOGISTICS:
+                unit_type = default_logistics_unit
+            elif faction.country.id == China.id:
+                unit_type = default_ifv_unit_chinese
+            elif side == 2 and unit_class == UnitClass.TANK:
+                if faction.mod_settings is not None and faction.mod_settings.frenchpack:
+                    unit_type = default_tank_unit_blue
+                else:
+                    unit_type = default_apc_unit_blue
+            elif side == 2 and unit_class == UnitClass.IFV:
+                unit_type = default_ifv_unit_blue
+            elif side == 2 and unit_class == UnitClass.APC:
+                unit_type = default_apc_unit_blue
+            elif side == 2 and unit_class == UnitClass.ATGM:
+                unit_type = default_atgm_unit_blue
+            elif side == 2 and unit_class == UnitClass.RECON:
+                unit_type = default_recon_unit_blue
+            elif side == 1 and unit_class == UnitClass.TANK:
+                unit_type = default_tank_unit_red
+            elif side == 1 and unit_class == UnitClass.IFV:
+                unit_type = default_ifv_unit_red
+            elif side == 1 and unit_class == UnitClass.APC:
+                unit_type = default_apc_unit_red
+            elif side == 1 and unit_class == UnitClass.ATGM:
+                unit_type = default_atgm_unit_red
+            elif side == 1 and unit_class == UnitClass.RECON:
+                unit_type = default_recon_unit_red
+            else:
+                unit_type = default_amphibious_unit
+        if unit_type is not None and len(vehicle_units) < max_num:
+            unit_id = self.game.next_unit_id()
+            unit_name = f"{cp_name}-{group_role}-{unit_id}"
+
+            spread_out_heading = random.randrange(1, 360)
+            spread_out_position = group.position.point_from_heading(
+                spread_out_heading, 30
+            )
+            ground_unit_pos = PointWithHeading.from_point(
+                spread_out_position, group.position.heading
+            )
+
+            theater_unit = TheaterUnit(
+                unit_id,
+                unit_name,
+                unit_type.dcs_unit_type,
+                ground_unit_pos,
+                group.ground_object,
+            )
+            vehicle_units.append(theater_unit)
+
     def generate(self) -> None:
         if self.culled:
             return
@@ -187,7 +350,6 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
 
         for group in self.ground_object.groups:
             vehicle_units: list[TheaterUnit] = []
-            ship_units: list[TheaterUnit] = []
             # Split the different unit types to be compliant to dcs limitation
             for unit in group.units:
                 if unit.is_static:
@@ -268,20 +430,129 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
                             PRETENSE_GROUND_UNIT_GROUP_SIZE,
                         )
                 elif unit.is_ship and unit.alive:
-                    # All alive Ships
-                    ship_units.append(unit)
+                    print(f"Generating amphibious group at {unit.unit_name}")
+                    # Attach this group to the closest naval group, if available
+                    control_point = self.ground_object.control_point
+                    for (
+                        other_cp
+                    ) in self.game.theater.closest_friendly_control_points_to(
+                        self.ground_object.control_point
+                    ):
+                        if other_cp.is_fleet:
+                            control_point = other_cp
+                            break
+
+                    cp_name_trimmed = "".join(
+                        [i for i in control_point.name.lower() if i.isalnum()]
+                    )
+                    is_player = True
+                    side = (
+                        2
+                        if self.country
+                        == self.game.coalition_for(is_player).faction.country
+                        else 1
+                    )
+
+                    try:
+                        number_of_supply_groups = len(
+                            self.game.pretense_ground_supply[side][cp_name_trimmed]
+                        )
+                    except KeyError:
+                        number_of_supply_groups = 0
+                        self.game.pretense_ground_supply[side][cp_name_trimmed] = list()
+                        self.game.pretense_ground_assault[side][
+                            cp_name_trimmed
+                        ] = list()
+
+                    if number_of_supply_groups == 0:
+                        # Add supply convoy
+                        group_role = "supply"
+                        group_name = f"{cp_name_trimmed}-{group_role}-{group.id}"
+                        group.name = group_name
+
+                        self.generate_amphibious_unit_of_class(
+                            UnitClass.LOGISTICS,
+                            group,
+                            vehicle_units,
+                            cp_name_trimmed,
+                            group_role,
+                            PRETENSE_GROUND_UNIT_GROUP_SIZE,
+                        )
+                    else:
+                        # Add armor group
+                        group_role = "assault"
+                        group_name = f"{cp_name_trimmed}-{group_role}-{group.id}"
+                        group.name = group_name
+
+                        self.generate_amphibious_unit_of_class(
+                            UnitClass.TANK,
+                            group,
+                            vehicle_units,
+                            cp_name_trimmed,
+                            group_role,
+                            PRETENSE_GROUND_UNIT_GROUP_SIZE - 4,
+                        )
+                        self.generate_amphibious_unit_of_class(
+                            UnitClass.TANK,
+                            group,
+                            vehicle_units,
+                            cp_name_trimmed,
+                            group_role,
+                            PRETENSE_GROUND_UNIT_GROUP_SIZE - 3,
+                        )
+                        self.generate_amphibious_unit_of_class(
+                            UnitClass.ATGM,
+                            group,
+                            vehicle_units,
+                            cp_name_trimmed,
+                            group_role,
+                            PRETENSE_GROUND_UNIT_GROUP_SIZE - 2,
+                        )
+                        self.generate_amphibious_unit_of_class(
+                            UnitClass.APC,
+                            group,
+                            vehicle_units,
+                            cp_name_trimmed,
+                            group_role,
+                            PRETENSE_GROUND_UNIT_GROUP_SIZE - 1,
+                        )
+                        self.generate_amphibious_unit_of_class(
+                            UnitClass.IFV,
+                            group,
+                            vehicle_units,
+                            cp_name_trimmed,
+                            group_role,
+                            PRETENSE_GROUND_UNIT_GROUP_SIZE,
+                        )
+                        self.generate_amphibious_unit_of_class(
+                            UnitClass.RECON,
+                            group,
+                            vehicle_units,
+                            cp_name_trimmed,
+                            group_role,
+                            PRETENSE_GROUND_UNIT_GROUP_SIZE,
+                        )
             if vehicle_units:
                 self.create_vehicle_group(group.group_name, vehicle_units)
-            if ship_units:
-                self.create_ship_group(group.group_name, ship_units)
 
     def create_vehicle_group(
         self, group_name: str, units: list[TheaterUnit]
     ) -> VehicleGroup:
         vehicle_group: Optional[VehicleGroup] = None
 
+        control_point = self.ground_object.control_point
+        for unit in self.ground_object.units:
+            if unit.is_ship:
+                # Unit is naval/amphibious. Attach this group to the closest naval group, if available.
+                for other_cp in self.game.theater.closest_friendly_control_points_to(
+                    self.ground_object.control_point
+                ):
+                    if other_cp.is_fleet:
+                        control_point = other_cp
+                        break
+
         cp_name_trimmed = "".join(
-            [i for i in self.ground_object.control_point.name.lower() if i.isalnum()]
+            [i for i in control_point.name.lower() if i.isalnum()]
         )
         is_player = True
         side = (
