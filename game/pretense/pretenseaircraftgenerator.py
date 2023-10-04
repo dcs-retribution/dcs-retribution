@@ -21,8 +21,8 @@ from game.ato.starttype import StartType
 from game.coalition import Coalition
 from game.data.weapons import WeaponType
 from game.dcs.aircrafttype import AircraftType
+from game.lasercodes.lasercoderegistry import LaserCodeRegistry
 from game.missiongenerator.aircraft.flightdata import FlightData
-from game.missiongenerator.lasercoderegistry import LaserCodeRegistry
 from game.missiongenerator.missiondata import MissionData
 from game.pretense.pretenseflightgroupconfigurator import (
     PretenseFlightGroupConfigurator,
