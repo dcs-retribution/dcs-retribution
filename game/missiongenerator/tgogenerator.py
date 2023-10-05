@@ -80,7 +80,7 @@ AA_CP_MIN_DISTANCE = 40000
 
 def farp_truck_types_for_country(
     country_id: int,
-) -> Tuple[Type[VehicleType], Type[VehicleType]]:
+) -> Tuple[Type[VehicleType], Type[VehicleType], Type[VehicleType]]:
     soviet_tankers: List[Type[VehicleType]] = [
         Unarmed.ATMZ_5,
         Unarmed.ATZ_10,
@@ -106,6 +106,11 @@ def farp_truck_types_for_country(
     us_tankers: List[Type[VehicleType]] = [Unarmed.M978_HEMTT_Tanker]
     us_trucks: List[Type[VehicleType]] = [Unarmed.M_818]
     uk_trucks: List[Type[VehicleType]] = [Unarmed.Bedford_MWD]
+
+    ground_power_trucks: List[Type[VehicleType]] = [
+        Unarmed.Ural_4320_APA_5D,
+        Unarmed.ZiL_131_APA_80,
+    ]
 
     if country_id in [
         Abkhazia.id,
@@ -230,7 +235,9 @@ def farp_truck_types_for_country(
         tanker_type = random.choice(tanker_types)
         ammo_truck_type = random.choice(truck_types)
 
-    return tanker_type, ammo_truck_type
+    power_truck_type = random.choice(ground_power_trucks)
+
+    return tanker_type, ammo_truck_type, power_truck_type
 
 
 class GroundObjectGenerator:
@@ -913,8 +920,9 @@ class GroundSpawnRoadbaseGenerator:
 
         self.ground_spawns_roadbase.append((sg, ground_spawn[1]))
 
-        tanker_type, ammo_truck_type = farp_truck_types_for_country(country.id)
-        power_truck_type = Unarmed.Ural_4320_APA_5D
+        tanker_type, ammo_truck_type, power_truck_type = farp_truck_types_for_country(
+            country.id
+        )
 
         # Generate ammo truck/farp and fuel truck/stack for each pad
         if self.game.settings.ground_start_trucks_roadbase:
@@ -1029,8 +1037,9 @@ class GroundSpawnGenerator:
         # tanker_type: Type[VehicleType]
         # ammo_truck_type: Type[VehicleType]
 
-        tanker_type, ammo_truck_type = farp_truck_types_for_country(country.id)
-        power_truck_type = Unarmed.Ural_4320_APA_5D
+        tanker_type, ammo_truck_type, power_truck_type = farp_truck_types_for_country(
+            country.id
+        )
 
         # Generate a FARP Ammo and Fuel stack for each pad
         if self.game.settings.ground_start_trucks:
