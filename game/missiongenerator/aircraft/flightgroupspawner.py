@@ -6,7 +6,16 @@ from dcs import Mission
 from dcs.country import Country
 from dcs.mapping import Vector2, Point
 from dcs.mission import StartType as DcsStartType
-from dcs.planes import F_14A, Su_33
+from dcs.planes import (
+    F_14A,
+    F_14A_135_GR,
+    F_14B,
+    F_5E_3,
+    F_86F_Sabre,
+    C_101CC,
+    Su_33,
+    MiG_15bis,
+)
 from dcs.point import PointAction
 from dcs.ships import KUZNECOW
 from dcs.terrain import NoParkingSlotError
@@ -26,6 +35,7 @@ from game.missiongenerator.missiondata import MissionData
 from game.naming import namegen
 from game.theater import Airfield, ControlPoint, Fob, NavalControlPoint, OffMapSpawn
 from game.utils import feet, meters
+from pydcs_extensions import A_4E_C
 
 WARM_START_HELI_ALT = meters(500)
 WARM_START_ALTITUDE = meters(3000)
@@ -360,11 +370,16 @@ class FlightGroupSpawner:
     def _generate_at_cp_ground_spawn(
         self, name: str, cp: ControlPoint
     ) -> Optional[FlyingGroup[Any]]:
+        is_airbase = False
+        is_roadbase = False
+
         try:
             if len(self.ground_spawns_roadbase[cp]) > 0:
                 ground_spawn = self.ground_spawns_roadbase[cp].pop()
+                is_roadbase = True
             else:
                 ground_spawn = self.ground_spawns[cp].pop()
+                is_airbase = True
         except IndexError as ex:
             logging.warning("Not enough STOL slots available at " + str(ex))
             return None
@@ -376,6 +391,24 @@ class FlightGroupSpawner:
         group.points[0].action = PointAction.FromGroundArea
         group.points[0].type = "TakeOffGround"
         group.units[0].heading = ground_spawn[0].units[0].heading
+
+        # Hot start aircraft which require ground power to start, when ground power
+        # trucks have been disabled for performance reasons
+        ground_power_available = (
+            is_airbase
+            and self.flight.coalition.game.settings.ground_start_ground_power_trucks
+        ) or (
+            is_roadbase
+            and self.flight.coalition.game.settings.ground_start_ground_power_trucks_roadbase
+        )
+
+        if self.start_type is not StartType.COLD or (
+            not ground_power_available
+            and self.flight.unit_type.dcs_unit_type
+            in [A_4E_C, F_5E_3, F_86F_Sabre, MiG_15bis, F_14A_135_GR, F_14B, C_101CC]
+        ):
+            group.points[0].action = PointAction.FromGroundAreaHot
+            group.points[0].type = "TakeOffGroundHot"
 
         try:
             cp.coalition.game.scenery_clear_zones

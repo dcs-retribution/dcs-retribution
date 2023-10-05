@@ -20,6 +20,7 @@
 * **[Autoplanner]** Support for auto-planning Air Assaults
 * **[UI]** Improved frequency selector to support all modeled bands for every aircraft's intra-flight radio
 * **[Options]** New options in Settings: Helicopter waypoint altitude (feet AGL) for combat & cruise waypoints
+* **[Options]** New options in Settings: Spawn ground power trucks at ground starts in airbases/roadbases
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task
