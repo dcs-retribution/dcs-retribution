@@ -477,7 +477,7 @@ class Settings:
         default=True,
     )
     auto_procurement_balance: int = bounded_int_option(
-        "AI ground unit procurement budget ratio (%)",
+        "AI ground unit procurement budget ratio (%) for BLUE",
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         min=0,
@@ -490,7 +490,7 @@ class Settings:
         ),
     )
     frontline_reserves_factor: int = bounded_int_option(
-        "AI ground unit front-line reserves factor (%)",
+        "AI ground unit front-line reserves factor (%) for BLUE",
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         min=0,
@@ -502,7 +502,43 @@ class Settings:
         ),
     )
     reserves_procurement_target: int = bounded_int_option(
-        "AI ground unit reserves procurement target",
+        "AI ground unit reserves procurement target for BLUE",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        HQ_AUTOMATION_SECTION,
+        min=0,
+        max=1000,
+        default=10,
+        detail=(
+            "The number of units that will be bought as reserves for applicable control points"
+        ),
+    )
+    auto_procurement_balance_red: int = bounded_int_option(
+        "AI ground unit procurement budget ratio (%) for RED",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        HQ_AUTOMATION_SECTION,
+        min=0,
+        max=100,
+        default=50,
+        detail=(
+            "Ratio (larger number -> more budget for ground units) "
+            "that indicates how the AI procurement planner should "
+            "spend its budget."
+        ),
+    )
+    frontline_reserves_factor_red: int = bounded_int_option(
+        "AI ground unit front-line reserves factor (%) for RED",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        HQ_AUTOMATION_SECTION,
+        min=0,
+        max=1000,
+        default=130,
+        detail=(
+            "Factor to be multiplied with the control point's unit count limit "
+            "to calculate the procurement target for reserve troops at front-lines."
+        ),
+    )
+    reserves_procurement_target_red: int = bounded_int_option(
+        "AI ground unit reserves procurement target for RED",
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         min=0,
