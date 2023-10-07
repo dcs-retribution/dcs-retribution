@@ -80,6 +80,10 @@ def debug_dir() -> Path:
     return base_path() / "Retribution" / "Debug"
 
 
+def waypoint_debug_directory() -> Path:
+    return debug_dir() / "Waypoints"
+
+
 def settings_dir() -> Path:
     return base_path() / "Retribution" / "Settings"
 

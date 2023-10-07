@@ -97,6 +97,8 @@ class Migrator:
         layout = f.flight_plan.layout
         try_set_attr(layout, "nav_to", [])
         try_set_attr(layout, "nav_from", [])
+        if f.flight_type == FlightType.CAS:
+            try_set_attr(layout, "ingress", None)
 
     def _update_flights(self) -> None:
         to_remove = []

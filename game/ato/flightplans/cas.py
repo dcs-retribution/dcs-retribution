@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Iterator
 from dataclasses import dataclass
 from datetime import timedelta
-from typing import TYPE_CHECKING, Type
+from typing import TYPE_CHECKING, Type, Optional
 
 from game.theater import FrontLine
 from game.utils import Distance, Speed, kph, dcs_to_shapely_point
@@ -15,7 +15,7 @@ from .uizonedisplay import UiZone, UiZoneDisplay
 from .waypointbuilder import WaypointBuilder
 from ..flightwaypointtype import FlightWaypointType
 from ...flightplan.ipsolver import IpSolver
-from ...persistence.paths import waypoint_debug_directory
+from ...persistency import waypoint_debug_directory
 
 if TYPE_CHECKING:
     from ..flightwaypoint import FlightWaypoint
@@ -23,12 +23,13 @@ if TYPE_CHECKING:
 
 @dataclass
 class CasLayout(PatrollingLayout):
-    ingress: FlightWaypoint
+    ingress: Optional[FlightWaypoint]
 
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
         yield self.departure
         yield from self.nav_to
-        yield self.ingress
+        if self.ingress:
+            yield self.ingress
         yield self.patrol_start
         yield self.patrol_end
         yield from self.nav_from
@@ -154,13 +155,13 @@ class Builder(IBuilder[CasFlightPlan, CasLayout]):
             nav_to=builder.nav_path(
                 self.flight.departure.position,
                 ingress_point,
-                patrol_altitude,
+                ingress_egress_altitude,
                 use_agl_patrol_altitude,
             ),
             nav_from=builder.nav_path(
-                patrol_end,
+                egress,
                 self.flight.arrival.position,
-                patrol_altitude,
+                ingress_egress_altitude,
                 use_agl_patrol_altitude,
             ),
             ingress=ingress,
