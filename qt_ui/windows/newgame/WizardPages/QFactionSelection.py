@@ -94,7 +94,7 @@ class QFactionUnits(QScrollArea):
     def updateFactionUnits(self, units: Union[set, list]):
         deletes = []
         for a in units:
-            if not self.checkboxes[a.name].isChecked():
+            if not self.checkboxes[str(a)].isChecked():
                 deletes.append(a)
         for d in deletes:
             units.remove(d)

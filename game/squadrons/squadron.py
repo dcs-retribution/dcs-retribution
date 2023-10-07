@@ -384,6 +384,7 @@ class Squadron:
 
     def plan_relocation(self, destination: ControlPoint, now: datetime) -> None:
         from game.theater import ParkingType
+
         if destination == self.location:
             logging.warning(
                 f"Attempted to plan relocation of {self} to current location "

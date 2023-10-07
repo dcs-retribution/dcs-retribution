@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import timedelta
+from datetime import timedelta, datetime
 from typing import Type
 
 from .airassault import AirAssaultLayout
@@ -17,7 +17,7 @@ from ...utils import feet
 
 class EscortFlightPlan(FormationAttackFlightPlan):
     @property
-    def push_time(self) -> timedelta:
+    def push_time(self) -> datetime:
         hold2join_time = (
             self.travel_time_between_waypoints(
                 self.layout.hold,

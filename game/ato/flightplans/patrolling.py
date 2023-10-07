@@ -88,7 +88,7 @@ class PatrollingFlightPlan(StandardFlightPlan[LayoutT], UiZoneDisplay, ABC):
         return self.layout.patrol_start
 
     @property
-    def mission_begin_on_station_time(self) -> datetime:
+    def mission_begin_on_station_time(self) -> datetime | None:
         return self.patrol_start_time
 
     @property

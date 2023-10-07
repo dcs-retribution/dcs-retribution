@@ -287,27 +287,6 @@ class FlightPlan(ABC, Generic[LayoutT]):
             + self.estimate_ground_ops()
         )
 
-        # In case FP math has given us some barely below zero time, round to
-        # zero.
-        if math.isclose(start_time.total_seconds(), 0):
-            start_time = timedelta()
-
-        # Trim microseconds. DCS doesn't handle sub-second resolution for tasks,
-        # and they're not interesting from a mission planning perspective so we
-        # don't want them in the UI.
-        #
-        # Round down so *barely* above zero start times are just zero.
-        start_time = timedelta(seconds=math.floor(start_time.total_seconds()))
-
-        # Feature request #1309: Carrier planes should start at +1s
-        # This is a workaround to a DCS problem: some AI planes spawn on
-        # the 'sixpack' when start_time is zero and cause a deadlock.
-        # Workaround: force the start_time to 1 second for these planes.
-        if self.flight.departure.is_fleet and start_time.total_seconds() == 0:
-            start_time = timedelta(seconds=1)
-
-        return start_time
-
     def startup_time(self) -> datetime:
         return (
             self.takeoff_time() - self.estimate_startup() - self.estimate_ground_ops()
@@ -334,9 +313,11 @@ class FlightPlan(ABC, Generic[LayoutT]):
     def is_airassault(self) -> bool:
         return False
 
+    @property
     @abstractmethod
     def mission_begin_on_station_time(self) -> datetime | None:
         """The time that the mission is first on-station."""
+        ...
 
     @property
     def is_custom(self) -> bool:

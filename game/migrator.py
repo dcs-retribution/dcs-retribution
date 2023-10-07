@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import typing
-from datetime import datetime
+from datetime import timedelta
 from typing import TYPE_CHECKING, Any
 
 from dcs.countries import countries_by_name
@@ -68,9 +68,9 @@ class Migrator:
             for p in c.ato.packages:
                 try_set_attr(p, "custom_name")
                 try_set_attr(p, "frequency")
-                if self.is_liberation and isinstance(p.time_over_target, datetime):  # type: ignore
+                if isinstance(p.time_over_target, timedelta):  # type: ignore
                     p.time_over_target = (  # type: ignore
-                        p.time_over_target - self.game.conditions.start_time
+                        p.time_over_target + self.game.conditions.start_time
                     )
 
     def _update_control_points(self) -> None:

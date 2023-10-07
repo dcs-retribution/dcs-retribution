@@ -286,7 +286,7 @@ class FlotGenerator:
             if len(tots) == 0
             else min(
                 [
-                    x.time_over_target
+                    x.time_over_target - self.mission.start_time
                     for x in self.game.ato_for(player).packages
                     if x.primary_task == FlightType.CAS
                 ]

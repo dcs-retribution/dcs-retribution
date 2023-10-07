@@ -93,8 +93,8 @@ class FormationFlightPlan(LoiterFlightPlan, ABC):
     @property
     def push_time(self) -> datetime:
         return self.join_time - self.travel_time_between_waypoints(
-            self.layout.hold.position,
-            self.layout.join.position,
+            self.layout.hold,
+            self.layout.join,
         )
 
     @property

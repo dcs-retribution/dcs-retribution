@@ -79,14 +79,15 @@ class SweepFlightPlan(LoiterFlightPlan):
     @property
     def push_time(self) -> datetime:
         return self.sweep_end_time - self.travel_time_between_waypoints(
-            self.layout.hold.position,
-            self.layout.sweep_end.position,
+            self.layout.hold,
+            self.layout.sweep_end,
         )
 
     @property
     def mission_begin_on_station_time(self) -> datetime | None:
         return None
 
+    @property
     def mission_departure_time(self) -> datetime:
         return self.sweep_end_time
 
