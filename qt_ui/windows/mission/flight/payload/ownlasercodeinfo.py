@@ -1,5 +1,7 @@
-from PySide6.QtCore import Signal
-from PySide6.QtWidgets import QWidget, QHBoxLayout, QLabel, QPushButton
+from typing import Optional
+
+from PySide2.QtCore import Signal
+from PySide2.QtWidgets import QWidget, QHBoxLayout, QLabel, QPushButton
 
 from game import Game
 from game.ato.flightmember import FlightMember
@@ -9,7 +11,7 @@ class OwnLaserCodeInfo(QHBoxLayout):
     assigned_laser_code_changed = Signal()
 
     def __init__(
-        self, game: Game, flight_member: FlightMember, parent: QWidget | None = None
+        self, game: Game, flight_member: FlightMember, parent: Optional[QWidget] = None
     ) -> None:
         super().__init__(parent)
         self.game = game

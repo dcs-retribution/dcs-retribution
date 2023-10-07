@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QComboBox, QWidget
+from PySide2.QtWidgets import QComboBox, QWidget
 
 from game import Game
 from game.ato.flightmember import FlightMember

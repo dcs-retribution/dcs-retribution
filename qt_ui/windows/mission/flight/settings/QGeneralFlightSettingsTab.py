@@ -31,13 +31,13 @@ class QGeneralFlightSettingsTab(QFrame):
         payload_tab: QFlightPayloadTab,
     ):
         super().__init__()
+        self.flight = flight
+        self.payload_tab = payload_tab
 
         self.flight_slot_editor = QFlightSlotEditor(package_model, flight, game.game)
         self.flight_slot_editor.flight_resized.connect(self.flight_size_changed)
         for pc in self.flight_slot_editor.roster_editor.pilot_controls:
-            pc.player_toggled.connect(
-                lambda: payload_tab.property_editor.build_props(flight)
-            )
+            pc.player_toggled.connect(self.on_player_toggle)
 
         widgets = [
             QFlightTypeTaskInfo(flight),
@@ -59,3 +59,7 @@ class QGeneralFlightSettingsTab(QFrame):
         vstretch.addStretch()
         layout.addLayout(vstretch, row, 0)
         self.setLayout(layout)
+
+    def on_player_toggle(self) -> None:
+        self.payload_tab.property_editor.build_props(self.flight)
+        self.payload_tab.own_laser_code_info.bind_to_selected_member()
