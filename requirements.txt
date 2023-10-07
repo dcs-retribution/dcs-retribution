@@ -26,7 +26,7 @@ nodeenv==1.8.0
 packaging==23.1
 pathspec==0.11.1
 pefile==2023.2.7
-Pillow==9.5.0
+Pillow==10.0.1
 platformdirs==3.9.0
 pluggy==1.2.0
 pre-commit==3.3.3
