@@ -84,7 +84,7 @@ Planned ally flights:
 {{ dep }}
 ---------------------------------------------------
 {% for flight in allied_flights_by_departure[dep] %}
-{{ flight.flight_type }} {{ flight.units[0].type }} x {{flight.size}}, departing in {{ flight.departure_delay }}, {{ flight.package.target.name}}, TOT: {{ (mission.start_time + flight.package.time_over_target).time() }}
+{{ flight.flight_type }} {{ flight.units[0].type }} x {{flight.size}}, departing in {{ flight.departure_delay }}, {{ flight.package.target.name}}, TOT: {{ flight.package.time_over_target }}
 {% endfor %}
 
 {% endfor %}

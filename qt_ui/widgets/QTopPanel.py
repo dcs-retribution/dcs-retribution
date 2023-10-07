@@ -12,6 +12,7 @@ from PySide2.QtWidgets import (
 
 import qt_ui.uiconstants as CONST
 from game import Game, persistency
+from game.ato.flightstate import Uninitialized
 from game.ato.package import Package
 from game.ato.traveltime import TotEstimator
 from game.profiling import logged_duration
@@ -173,6 +174,9 @@ class QTopPanel(QFrame):
             if not package.flights:
                 continue
             for flight in package.flights:
+                if isinstance(flight.state, Uninitialized):
+                    flight.state.reinitialize(now)
+                flight.state.reinitialize(now)
                 if flight.state.is_waiting_for_start:
                     startup = flight.flight_plan.startup_time()
                     if startup < now:
