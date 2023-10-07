@@ -31,10 +31,10 @@ class QFactionUnits(QScrollArea):
 
     def _add_checkboxes(self, units: set, counter: int, grid: QGridLayout) -> int:
         counter += 1
-        for i, v in enumerate(sorted(units, key=lambda x: x.name), counter):
-            cb = QCheckBox(v.name)
+        for i, v in enumerate(sorted(units, key=lambda x: str(x)), counter):
+            cb = QCheckBox(str(v))
             cb.setCheckState(Qt.CheckState.Checked)
-            self.checkboxes[v.name] = cb
+            self.checkboxes[str(v)] = cb
             grid.addWidget(cb, i, 1)
             counter += 1
         counter += 1

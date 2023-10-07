@@ -297,7 +297,9 @@ class AircraftType(UnitType[Type[FlyingType]]):
             else:
                 # Slow like warbirds or helicopters
                 # Use whichever is slowest - mach 0.35 or 50% of max speed
-                logging.debug(f"{self.display_name} max_speed * 0.5 is {max_speed * 0.5}")
+                logging.debug(
+                    f"{self.display_name} max_speed * 0.5 is {max_speed * 0.5}"
+                )
                 return min(Speed.from_mach(0.35, altitude), max_speed * 0.5)
 
     def alloc_flight_radio(self, radio_registry: RadioRegistry) -> RadioFrequency:
@@ -362,11 +364,17 @@ class AircraftType(UnitType[Type[FlyingType]]):
         state.update(updated.__dict__)
         self.__dict__.update(state)
 
+    @staticmethod
+    def _migrator() -> Dict[str, str]:
+        return {
+            "F-15E Strike Eagle (AI)": "F-15E Strike Eagle"
+        }
+
     @classmethod
     def named(cls, name: str) -> AircraftType:
         if not cls._loaded:
             cls._load_all()
-        return cls._by_name[name]
+        return cls._by_name[cls._migrator().get(name, name)]
 
     @classmethod
     def for_dcs_type(cls, dcs_unit_type: Type[FlyingType]) -> Iterator[AircraftType]:
@@ -422,7 +430,6 @@ class AircraftType(UnitType[Type[FlyingType]]):
     def _variant_from_dict(
         cls, aircraft: Type[FlyingType], variant_id: str, data: dict[str, Any]
     ) -> AircraftType:
-
         try:
             price = data["price"]
         except KeyError as ex:

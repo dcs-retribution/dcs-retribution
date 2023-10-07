@@ -61,7 +61,7 @@ class Migrator:
         for c in self.game.coalitions:
             for p in c.ato.packages:
                 if p.waypoints and not hasattr(p.waypoints, "initial"):
-                    p.waypoints = PackageWaypoints.create(p, c)
+                    p.waypoints = PackageWaypoints.create(p, c, False)
 
     def _update_package_attributes(self) -> None:
         for c in self.game.coalitions:

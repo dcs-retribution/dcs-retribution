@@ -541,7 +541,7 @@ class Faction:
 
     def remove_aircraft_by_name(self, name: str) -> None:
         for i in list(self.aircrafts):
-            if i.name == name:
+            if i.display_name == name:
                 self.aircrafts.remove(i)
 
     def remove_preset(self, name: str) -> None:
