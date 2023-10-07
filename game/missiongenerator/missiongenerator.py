@@ -204,7 +204,7 @@ class MissionGenerator:
             player_cp = front_line.blue_cp
             enemy_cp = front_line.red_cp
             conflict = FrontLineConflictDescription.frontline_cas_conflict(
-                front_line, self.game.theater, self.game.settings
+                front_line, self.game.theater
             )
             # Generate frontline ops
             player_gp = self.game.ground_planners[player_cp.id].units_per_cp[

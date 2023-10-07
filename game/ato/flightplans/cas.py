@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Iterator
 from dataclasses import dataclass
 from datetime import timedelta
-from typing import TYPE_CHECKING, Type, Optional
+from typing import TYPE_CHECKING, Type
 
 from game.theater import FrontLine
 from game.utils import Distance, Speed, kph, dcs_to_shapely_point
@@ -23,7 +23,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class CasLayout(PatrollingLayout):
-    ingress: Optional[FlightWaypoint]
+    ingress: FlightWaypoint
 
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
         yield self.departure
@@ -92,17 +92,14 @@ class Builder(IBuilder[CasFlightPlan, CasLayout]):
             FrontLineConflictDescription,
         )
 
-        bounds = FrontLineConflictDescription.frontline_bounds(
-            location, self.theater, self.coalition.game.settings
-        )
-        ingress = bounds.left_position
-        center = bounds.center
-        egress = bounds.right_position
+        bounds = FrontLineConflictDescription.frontline_bounds(location, self.theater)
+        patrol_start = bounds.left_position
+        patrol_end = bounds.right_position
 
-        start_distance = ingress.distance_to_point(self.flight.departure.position)
-        end_distance = egress.distance_to_point(self.flight.departure.position)
+        start_distance = patrol_start.distance_to_point(self.flight.departure.position)
+        end_distance = patrol_end.distance_to_point(self.flight.departure.position)
         if end_distance < start_distance:
-            patrol_start, patrol_end = ingress, egress
+            patrol_start, patrol_end = patrol_end, patrol_start
 
         builder = WaypointBuilder(self.flight)
 
@@ -116,7 +113,7 @@ class Builder(IBuilder[CasFlightPlan, CasLayout]):
 
         ip_solver = IpSolver(
             dcs_to_shapely_point(self.flight.departure.position),
-            dcs_to_shapely_point(ingress),
+            dcs_to_shapely_point(patrol_start),
             self.doctrine,
             self.threat_zones.all,
         )
@@ -127,19 +124,19 @@ class Builder(IBuilder[CasFlightPlan, CasLayout]):
         if dump_debug_info:
             ip_solver.dump_debug_info()
 
-        ingress_point = ingress.new_in_same_map(
+        ingress_point = patrol_start.new_in_same_map(
             ingress_point_shapely.x, ingress_point_shapely.y
         )
 
         patrol_start_waypoint = builder.nav(
-            ingress, ingress_egress_altitude, use_agl_patrol_altitude
+            patrol_start, ingress_egress_altitude, use_agl_patrol_altitude
         )
         patrol_start_waypoint.name = "FLOT START"
         patrol_start_waypoint.pretty_name = "FLOT start"
         patrol_start_waypoint.description = "FLOT boundary"
 
         patrol_end_waypoint = builder.nav(
-            egress, ingress_egress_altitude, use_agl_patrol_altitude
+            patrol_end, ingress_egress_altitude, use_agl_patrol_altitude
         )
         patrol_end_waypoint.name = "FLOT END"
         patrol_end_waypoint.pretty_name = "FLOT end"
@@ -159,7 +156,7 @@ class Builder(IBuilder[CasFlightPlan, CasLayout]):
                 use_agl_patrol_altitude,
             ),
             nav_from=builder.nav_path(
-                egress,
+                patrol_end,
                 self.flight.arrival.position,
                 ingress_egress_altitude,
                 use_agl_patrol_altitude,
