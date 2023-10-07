@@ -10,7 +10,7 @@ from game.ato.flightplans.waypointbuilder import WaypointBuilder
 from game.flightplan import JoinZoneGeometry
 from game.flightplan.ipsolver import IpSolver
 from game.flightplan.refuelzonegeometry import RefuelZoneGeometry
-from game.persistence.paths import liberation_user_dir
+from game.persistency import debug_dir
 from game.utils import dcs_to_shapely_point
 from game.utils import nautical_miles
 
@@ -33,7 +33,7 @@ class PackageWaypoints:
     ) -> PackageWaypoints:
         origin = package.departure_closest_to_target()
 
-        waypoint_debug_directory = liberation_user_dir() / "Debug/Waypoints"
+        waypoint_debug_directory = debug_dir() / "Waypoints"
 
         # Start by picking the best IP for the attack.
         ip_solver = IpSolver(

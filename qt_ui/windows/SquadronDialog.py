@@ -204,7 +204,7 @@ class SquadronDestinationComboBox(QComboBox):
             if overflow:
                 overflow_msg = ""
                 for s in overflow:
-                    overflow_msg += f"{s.name} - {s.aircraft.name}<br/>"
+                    overflow_msg += f"{s.name} - {s.aircraft.variant_id}<br/>"
                 QMessageBox.warning(
                     None,
                     "Insufficient parking space detected!",

@@ -12,7 +12,6 @@ from dcs.vehicles import vehicle_map
 
 from game.data.units import UnitClass
 from game.dcs.unittype import UnitType
-from game.savecompat import has_save_compat_for
 
 
 @dataclass
@@ -66,7 +65,6 @@ class GroundUnitType(UnitType[Type[VehicleType]]):
         dict[type[VehicleType], list[GroundUnitType]]
     ] = defaultdict(list)
 
-    @has_save_compat_for(9)
     def __setstate__(self, state: dict[str, Any]) -> None:
         # Save compat: the `name` field has been renamed `variant_id`.
         if "name" in state:
