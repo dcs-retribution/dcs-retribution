@@ -115,6 +115,7 @@ class CheatSettingsBox(QGroupBox):
     def show_transfer_cheat(self) -> bool:
         return self.transfer_cheat_checkbox.isChecked()
 
+    @property
     def enable_runway_state_cheat(self) -> bool:
         return self.base_runway_state_cheat_checkbox.isChecked()
 

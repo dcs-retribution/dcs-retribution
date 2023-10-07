@@ -9,7 +9,8 @@ from PySide6.QtCore import (
     Qt,
 )
 from PySide6.QtGui import (
-    QContextMenuEvent, QAction,
+    QContextMenuEvent,
+    QAction,
 )
 from PySide6.QtWidgets import (
     QAbstractItemView,
