@@ -30,7 +30,6 @@ from .dcs.countries import country_with_name
 from .infos.information import Information
 from .lasercodes.lasercoderegistry import LaserCodeRegistry
 from .profiling import logged_duration
-from .savecompat import has_save_compat_for
 from .settings import Settings
 from .theater import ConflictTheater
 from .theater.bullseye import Bullseye
@@ -151,7 +150,6 @@ class Game:
 
         self.on_load(game_still_initializing=True)
 
-    @has_save_compat_for(9)
     def __setstate__(self, state: dict[str, Any]) -> None:
         self.__dict__.update(state)
         if not hasattr(self, "laser_code_registry"):

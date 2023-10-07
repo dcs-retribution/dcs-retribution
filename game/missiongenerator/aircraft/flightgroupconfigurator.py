@@ -15,7 +15,7 @@ from dcs.unitgroup import FlyingGroup
 
 from game.ato import Flight, FlightType
 from game.callsigns import callsign_for_support_unit
-from game.data.weapons import Pylon
+from game.data.weapons import Pylon, WeaponType
 from game.missiongenerator.logisticsgenerator import LogisticsGenerator
 from game.missiongenerator.missiondata import MissionData, AwacsInfo, TankerInfo
 from game.radio.radios import RadioFrequency, RadioRegistry
@@ -153,7 +153,7 @@ class FlightGroupConfigurator:
             return
         jammer_required = settings.plugin_option("ewrj.ecm_required")
         if jammer_required:
-            ecm = WeaponTypeEnum.JAMMER
+            ecm = WeaponType.JAMMER
             if not member.loadout.has_weapon_of_type(ecm):
                 return
         ewrj_menu_trigger = TriggerStart(comment=f"EWRJ-{unit.name}")
