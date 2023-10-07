@@ -1,7 +1,7 @@
 from typing import Optional
 
-from PySide2.QtCore import Signal
-from PySide2.QtWidgets import QWidget, QHBoxLayout, QLabel, QPushButton
+from PySide6.QtCore import Signal
+from PySide6.QtWidgets import QWidget, QHBoxLayout, QLabel, QPushButton
 
 from game import Game
 from game.ato.flightmember import FlightMember

@@ -4,13 +4,10 @@ import webbrowser
 from pathlib import Path
 from typing import Optional
 
-from PySide2.QtCore import QSettings, Qt, Signal
-from PySide2.QtGui import QCloseEvent, QIcon
-from PySide2.QtWidgets import (
-    QAction,
-    QActionGroup,
+from PySide6.QtCore import QSettings, Qt, Signal
+from PySide6.QtGui import QCloseEvent, QIcon, QAction, QGuiApplication, QActionGroup
+from PySide6.QtWidgets import (
     QApplication,
-    QDesktopWidget,
     QFileDialog,
     QMainWindow,
     QMessageBox,
@@ -99,7 +96,7 @@ class QLiberationWindow(QMainWindow):
 
         # Default to maximized on the main display if we don't have any persistent
         # configuration.
-        screen = QDesktopWidget().screenGeometry()
+        screen = QGuiApplication.primaryScreen().availableSize()
         self.setGeometry(0, 0, screen.width(), screen.height())
         self.setWindowState(Qt.WindowMaximized)
 
@@ -134,7 +131,7 @@ class QLiberationWindow(QMainWindow):
 
         self.top_panel = QTopPanel(self.game_model, self.sim_controller, ui_flags)
         vbox = QVBoxLayout()
-        vbox.setMargin(0)
+        vbox.setContentsMargins(0, 0, 0, 0)
         vbox.addWidget(self.top_panel)
         vbox.addWidget(hbox)
 

@@ -1,8 +1,8 @@
 import logging
 from typing import Iterable, List, Optional
 
-from PySide2.QtCore import Signal, Qt, QModelIndex
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Signal, Qt, QModelIndex
+from PySide6.QtWidgets import (
     QFrame,
     QGridLayout,
     QLabel,

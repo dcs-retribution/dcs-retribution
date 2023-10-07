@@ -2,9 +2,9 @@ from __future__ import unicode_literals
 
 from datetime import timedelta
 
-from PySide2 import QtWidgets, QtGui
-from PySide2.QtCore import Qt
-from PySide2.QtWidgets import QLabel, QVBoxLayout
+from PySide6 import QtWidgets, QtGui
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QLabel, QVBoxLayout
 
 from game.campaignloader import Campaign
 from game.campaignloader.campaign import DEFAULT_BUDGET

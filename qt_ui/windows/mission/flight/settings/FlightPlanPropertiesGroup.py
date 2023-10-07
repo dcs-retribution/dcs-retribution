@@ -1,8 +1,8 @@
 import logging
 from datetime import timedelta
 
-from PySide2.QtCore import QTime
-from PySide2.QtWidgets import (
+from PySide6.QtCore import QTime
+from PySide6.QtWidgets import (
     QGroupBox,
     QLabel,
     QMessageBox,

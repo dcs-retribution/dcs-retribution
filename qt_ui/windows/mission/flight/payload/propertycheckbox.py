@@ -1,4 +1,4 @@
-from PySide2.QtWidgets import QCheckBox
+from PySide6.QtWidgets import QCheckBox
 from dcs.unitpropertydescription import UnitPropertyDescription
 
 from game.ato.flightmember import FlightMember

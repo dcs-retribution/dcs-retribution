@@ -1,6 +1,6 @@
-from PySide2.QtCore import QItemSelectionModel, QPoint, QModelIndex
-from PySide2.QtGui import QStandardItem, QStandardItemModel
-from PySide2.QtWidgets import (
+from PySide6.QtCore import QItemSelectionModel, QPoint, QModelIndex
+from PySide6.QtGui import QStandardItem, QStandardItemModel
+from PySide6.QtWidgets import (
     QHeaderView,
     QTableView,
     QStyledItemDelegate,
@@ -76,7 +76,7 @@ class QFlightWaypointList(QTableView):
         finally:
             # stop ignoring signals
             self.model.blockSignals(False)
-            self.update()
+            self.update(self.currentIndex())
 
     def _add_waypoint_row(
         self, row: int, flight: Flight, waypoint: FlightWaypoint

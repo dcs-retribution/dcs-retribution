@@ -1,7 +1,7 @@
 from typing import Dict, List
 
-from PySide2.QtCore import Qt, QLocale
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Qt, QLocale
+from PySide6.QtWidgets import (
     QCheckBox,
     QGridLayout,
     QGroupBox,

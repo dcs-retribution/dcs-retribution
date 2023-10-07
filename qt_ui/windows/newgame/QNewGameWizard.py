@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 import logging
 
-from PySide2 import QtGui, QtWidgets
+from PySide6 import QtGui, QtWidgets
 
 from game.campaignloader.campaign import Campaign
 from game.dcs.aircrafttype import AircraftType

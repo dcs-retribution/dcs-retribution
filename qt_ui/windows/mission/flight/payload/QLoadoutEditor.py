@@ -3,8 +3,8 @@ from dataclasses import dataclass
 from shutil import copyfile
 from typing import Dict, Union
 
-from PySide2.QtCore import Signal
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Signal
+from PySide6.QtWidgets import (
     QGridLayout,
     QGroupBox,
     QLabel,

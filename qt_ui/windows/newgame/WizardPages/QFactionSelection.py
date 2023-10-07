@@ -3,9 +3,9 @@ from __future__ import unicode_literals
 from copy import deepcopy
 from typing import Union
 
-from PySide2 import QtWidgets, QtGui
-from PySide2.QtCore import Qt
-from PySide2.QtWidgets import (
+from PySide6 import QtWidgets, QtGui
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (
     QScrollArea,
     QWidget,
     QGridLayout,

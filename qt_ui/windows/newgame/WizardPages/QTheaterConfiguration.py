@@ -3,10 +3,10 @@ from __future__ import unicode_literals, annotations
 from datetime import datetime
 from typing import List, Optional
 
-from PySide2 import QtWidgets, QtGui
-from PySide2.QtCore import Signal, QDate, QPoint, QItemSelectionModel, Qt, QModelIndex
-from PySide2.QtGui import QStandardItem, QPixmap, QStandardItemModel
-from PySide2.QtWidgets import (
+from PySide6 import QtWidgets, QtGui
+from PySide6.QtCore import Signal, QDate, QPoint, QItemSelectionModel, Qt, QModelIndex
+from PySide6.QtGui import QStandardItem, QPixmap, QStandardItemModel
+from PySide6.QtWidgets import (
     QCheckBox,
     QTextBrowser,
     QTextEdit,

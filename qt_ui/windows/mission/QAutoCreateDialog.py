@@ -1,6 +1,6 @@
 from typing import List
 
-from PySide2.QtWidgets import (
+from PySide6.QtWidgets import (
     QDialog,
     QVBoxLayout,
     QComboBox,

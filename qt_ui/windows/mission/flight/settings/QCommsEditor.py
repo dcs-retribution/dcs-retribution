@@ -1,4 +1,4 @@
-from PySide2.QtWidgets import QGroupBox, QVBoxLayout
+from PySide6.QtWidgets import QGroupBox, QVBoxLayout
 
 from game.ato import Flight, FlightType
 from qt_ui.models import GameModel

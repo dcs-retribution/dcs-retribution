@@ -2,8 +2,8 @@ import itertools
 import logging
 from typing import Callable, Optional
 
-from PySide2.QtCore import QRect
-from PySide2.QtWidgets import QGridLayout, QLabel, QWidget
+from PySide6.QtCore import QRect
+from PySide6.QtWidgets import QGridLayout, QLabel, QWidget
 from dcs.unitpropertydescription import UnitPropertyDescription
 
 from game.ato import Flight

@@ -2,8 +2,8 @@
 import logging
 from typing import Optional
 
-from PySide2.QtCore import QItemSelection, QTime, Qt, Signal
-from PySide2.QtWidgets import (
+from PySide6.QtCore import QItemSelection, QTime, Qt, Signal
+from PySide6.QtWidgets import (
     QCheckBox,
     QDialog,
     QHBoxLayout,
