@@ -116,7 +116,8 @@ class KneeboardPageWriter:
             )
 
         self.draw.text(self.position, text, font=font, fill=fill)
-        width, height = self.draw.textsize(text, font=font)  # type:ignore[attr-defined]
+        box = self.draw.textbbox(self.position, text, font=font)
+        height = abs(box[1] - box[3])  # abs(top - bottom) => offset
         self.y += height + self.line_spacing
         self.text_buffer.append(text)
 
