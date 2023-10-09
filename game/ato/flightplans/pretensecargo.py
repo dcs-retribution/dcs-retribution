@@ -3,7 +3,7 @@ from __future__ import annotations
 import random
 from collections.abc import Iterator
 from dataclasses import dataclass
-from datetime import timedelta
+from datetime import datetime
 from typing import TYPE_CHECKING, Type
 
 from game.utils import feet
@@ -31,16 +31,20 @@ class PretenseCargoFlightPlan(StandardFlightPlan[FerryLayout]):
     def tot_waypoint(self) -> FlightWaypoint:
         return self.layout.arrival
 
-    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
+    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         # TOT planning isn't really useful for ferries. They're behind the front
         # lines so no need to wait for escorts or for other missions to complete.
         return None
 
-    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
+    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         return None
 
     @property
-    def mission_departure_time(self) -> timedelta:
+    def mission_begin_on_station_time(self) -> datetime | None:
+        return None
+
+    @property
+    def mission_departure_time(self) -> datetime:
         return self.package.time_over_target
 
 
@@ -77,14 +81,14 @@ class Builder(IBuilder[PretenseCargoFlightPlan, FerryLayout]):
             offmap_heading, PRETENSE_CARGO_FLIGHT_DISTANCE
         )
 
-        altitude_is_agl = self.flight.unit_type.dcs_unit_type.helicopter
+        altitude_is_agl = self.flight.is_helo
         altitude = (
-            feet(1500)
+            feet(self.coalition.game.settings.heli_cruise_alt_agl)
             if altitude_is_agl
             else self.flight.unit_type.preferred_patrol_altitude
         )
 
-        builder = WaypointBuilder(self.flight, self.coalition)
+        builder = WaypointBuilder(self.flight)
         ferry_layout = FerryLayout(
             departure=builder.join(offmap_transport_spawn),
             nav_to=builder.nav_path(
@@ -101,8 +105,7 @@ class Builder(IBuilder[PretenseCargoFlightPlan, FerryLayout]):
         ferry_layout.departure = builder.join(offmap_transport_spawn)
         ferry_layout.nav_to.append(builder.join(offmap_transport_spawn))
         ferry_layout.nav_from.append(builder.join(offmap_transport_spawn))
-        print(ferry_layout)
         return ferry_layout
 
-    def build(self) -> PretenseCargoFlightPlan:
+    def build(self, dump_debug_info: bool = False) -> PretenseCargoFlightPlan:
         return PretenseCargoFlightPlan(self.flight, self.layout())
