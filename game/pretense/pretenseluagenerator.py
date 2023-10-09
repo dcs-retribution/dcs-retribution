@@ -74,7 +74,9 @@ class PretenseLuaGenerator(LuaGenerator):
         preset: str, cp_side_str: str, cp_name_trimmed: str
     ) -> str:
         lua_string_zones = (
-            "                presets.defenses.sam."
+            "                presets.defenses."
+            + cp_side_str
+            + "."
             + preset
             + ":extend({ name='"
             + cp_name_trimmed
