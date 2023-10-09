@@ -405,15 +405,19 @@ class RadioRegistry:
                 already allocated.
         """
         try:
+            while_count = 0
             while (channel := random_frequency(radio)) in self.allocated_channels:
+                while_count += 1
+                if while_count > 1000:
+                    raise StopIteration
                 pass
             self.reserve(channel)
             return channel
         except StopIteration:
             # In the event of too many channel users, fail gracefully by reusing
-            # the last channel.
+            # a channel.
             # https://github.com/dcs-liberation/dcs_liberation/issues/598
-            channel = radio.last_channel
+            channel = random_frequency(radio)
             logging.warning(
                 f"No more free channels for {radio.name}. Reusing {channel}."
             )
