@@ -3,14 +3,17 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any, Optional, TYPE_CHECKING
 
-from dcs import Mission
+from dcs import Mission, Point
+from dcs.flyingunit import FlyingUnit
 from dcs.unitgroup import FlyingGroup
 
 from game.ato import Flight, FlightType
+from game.ato.flightmember import FlightMember
 from game.data.weapons import Pylon
 from game.lasercodes.lasercoderegistry import LaserCodeRegistry
 from game.missiongenerator.aircraft.aircraftbehavior import AircraftBehavior
 from game.missiongenerator.aircraft.aircraftpainter import AircraftPainter
+from game.missiongenerator.aircraft.bingoestimator import BingoEstimator
 from game.missiongenerator.aircraft.flightdata import FlightData
 from game.missiongenerator.aircraft.flightgroupconfigurator import (
     FlightGroupConfigurator,
@@ -37,7 +40,6 @@ class PretenseFlightGroupConfigurator(FlightGroupConfigurator):
         time: datetime,
         radio_registry: RadioRegistry,
         tacan_registry: TacanRegistry,
-        laser_code_registry: LaserCodeRegistry,
         mission_data: MissionData,
         dynamic_runways: dict[str, RunwayData],
         use_client: bool,
@@ -50,7 +52,6 @@ class PretenseFlightGroupConfigurator(FlightGroupConfigurator):
             time,
             radio_registry,
             tacan_registry,
-            laser_code_registry,
             mission_data,
             dynamic_runways,
             use_client,
@@ -63,7 +64,6 @@ class PretenseFlightGroupConfigurator(FlightGroupConfigurator):
         self.time = time
         self.radio_registry = radio_registry
         self.tacan_registry = tacan_registry
-        self.laser_code_registry = laser_code_registry
         self.mission_data = mission_data
         self.dynamic_runways = dynamic_runways
         self.use_client = use_client
@@ -72,12 +72,12 @@ class PretenseFlightGroupConfigurator(FlightGroupConfigurator):
         AircraftBehavior(self.flight.flight_type).apply_to(self.flight, self.group)
         AircraftPainter(self.flight, self.group).apply_livery()
         self.setup_props()
-        self.setup_payload()
+        self.setup_payloads()
         self.setup_fuel()
         flight_channel = self.setup_radios()
 
         laser_codes: list[Optional[int]] = []
-        for unit, pilot in zip(self.group.units, self.flight.roster.pilots):
+        for unit, pilot in zip(self.group.units, self.flight.roster.members):
             self.configure_flight_member(unit, pilot, laser_codes)
 
         divert = None
@@ -90,11 +90,20 @@ class PretenseFlightGroupConfigurator(FlightGroupConfigurator):
             self.flight,
             self.group,
             self.mission,
-            self.game.conditions.start_time,
             self.time,
             self.game.settings,
             self.mission_data,
         ).create_waypoints()
+
+        divert_position: Point | None = None
+        if self.flight.divert is not None:
+            divert_position = self.flight.divert.position
+        bingo_estimator = BingoEstimator(
+            self.flight.unit_type.fuel_consumption,
+            self.flight.arrival.position,
+            divert_position,
+            self.flight.flight_plan.waypoints,
+        )
 
         self.group.uncontrolled = False
 
@@ -105,7 +114,7 @@ class PretenseFlightGroupConfigurator(FlightGroupConfigurator):
             flight_type=self.flight.flight_type,
             units=self.group.units,
             size=len(self.group.units),
-            friendly=self.flight.from_cp.captured,
+            friendly=self.flight.departure.captured,
             departure_delay=mission_start_time,
             departure=self.flight.departure.active_runway(
                 self.game.theater, self.game.conditions, self.dynamic_runways
@@ -116,21 +125,26 @@ class PretenseFlightGroupConfigurator(FlightGroupConfigurator):
             divert=divert,
             waypoints=waypoints,
             intra_flight_channel=flight_channel,
-            bingo_fuel=self.flight.flight_plan.bingo_fuel,
-            joker_fuel=self.flight.flight_plan.joker_fuel,
+            bingo_fuel=bingo_estimator.estimate_bingo(),
+            joker_fuel=bingo_estimator.estimate_joker(),
             custom_name=self.flight.custom_name,
             laser_codes=laser_codes,
         )
 
-    def setup_payload(self) -> None:
-        for p in self.group.units:
-            p.pylons.clear()
+    def setup_payloads(self) -> None:
+        for unit, member in zip(self.group.units, self.flight.iter_members()):
+            self.setup_payload(unit, member)
+
+    def setup_payload(self, unit: FlyingUnit, member: FlightMember) -> None:
+        unit.pylons.clear()
+
+        loadout = member.loadout
 
         if self.flight.flight_type == FlightType.SEAD:
-            self.flight.loadout = self.flight.loadout.default_for_task_and_aircraft(
+            loadout = member.loadout.default_for_task_and_aircraft(
                 FlightType.SEAD_SWEEP, self.flight.unit_type.dcs_unit_type
             )
-        loadout = self.flight.loadout
+
         if self.game.settings.restrict_weapons_by_date:
             loadout = loadout.degrade_for_date(self.flight.unit_type, self.game.date)
 
@@ -138,4 +152,4 @@ class PretenseFlightGroupConfigurator(FlightGroupConfigurator):
             if weapon is None:
                 continue
             pylon = Pylon.for_aircraft(self.flight.unit_type, pylon_number)
-            pylon.equip(self.group, weapon)
+            pylon.equip(unit, weapon)

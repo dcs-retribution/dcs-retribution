@@ -395,7 +395,7 @@ class PretenseAircraftGenerator:
                 )
 
             print(
-                f"Generated flight for {flight_type} flying {squadron.aircraft.name} at {squadron.location.name}"
+                f"Generated flight for {flight_type} flying {squadron.aircraft.display_name} at {squadron.location.name}"
             )
             ato.add_package(package)
         return
@@ -442,7 +442,7 @@ class PretenseAircraftGenerator:
                     divert=cp,
                 )
                 print(
-                    f"Generated flight for {flight_type} flying {squadron.aircraft.name} at {squadron.location.name}"
+                    f"Generated flight for {flight_type} flying {squadron.aircraft.display_name} at {squadron.location.name}"
                 )
 
                 package.add_flight(flight)
@@ -483,7 +483,7 @@ class PretenseAircraftGenerator:
                     divert=cp,
                 )
                 print(
-                    f"Generated flight for {flight_type} flying {squadron.aircraft.name} at {squadron.location.name}"
+                    f"Generated flight for {flight_type} flying {squadron.aircraft.display_name} at {squadron.location.name}"
                 )
 
                 package.add_flight(flight)
@@ -524,7 +524,7 @@ class PretenseAircraftGenerator:
                     divert=cp,
                 )
                 print(
-                    f"Generated flight for {flight_type} flying {squadron.aircraft.name} at {squadron.location.name}"
+                    f"Generated flight for {flight_type} flying {squadron.aircraft.display_name} at {squadron.location.name}"
                 )
 
                 package.add_flight(flight)
@@ -582,11 +582,11 @@ class PretenseAircraftGenerator:
                         StartType.COLD,
                         divert=cp,
                     )
-                    for roster_pilot in flight.roster.pilots:
-                        if roster_pilot is not None:
-                            roster_pilot.player = True
+                    for roster_pilot in flight.roster.members:
+                        if roster_pilot.pilot is not None:
+                            roster_pilot.pilot.player = True
                     print(
-                        f"Generated flight for {squadron.primary_task} flying {squadron.aircraft.name} at {squadron.location.name}. Pilot client count: {flight.client_count}"
+                        f"Generated flight for {squadron.primary_task} flying {squadron.aircraft.display_name} at {squadron.location.name}. Pilot client count: {flight.client_count}"
                     )
 
                     package.add_flight(flight)
@@ -720,7 +720,9 @@ class PretenseAircraftGenerator:
                     flight.departure, flight
                 )
                 logging.info(
-                    f"Generating flight in {flight.coalition.faction.name} package {flight.squadron.aircraft} {flight.flight_type} for target: {package.target.name}, departure: {flight.from_cp.name}"
+                    f"Generating flight in {flight.coalition.faction.name} package"
+                    f" {flight.squadron.aircraft} {flight.flight_type} for target: {package.target.name},"
+                    f" departure: {flight.departure.name}"
                 )
 
                 if flight.alive:
@@ -761,45 +763,81 @@ class PretenseAircraftGenerator:
             self.ground_spawns,
             self.mission_data,
         ).create_flight_group()
-        if flight.flight_type == FlightType.CAS:
+
+        control_points_to_scan = (
+            list(self.game.theater.closest_opposing_control_points())
+            + self.game.theater.controlpoints
+        )
+
+        if (
+            flight.flight_type == FlightType.CAS
+            or flight.flight_type == FlightType.TARCAP
+        ):
             for conflict in self.game.theater.conflicts():
                 flight.package.target = conflict
                 break
+        elif flight.flight_type == FlightType.BARCAP:
+            for cp in control_points_to_scan:
+                if cp.coalition != flight.coalition or cp == flight.departure:
+                    continue
+                if flight.package.target != flight.departure:
+                    break
+                for mission_target in cp.ground_objects:
+                    flight.package.target = mission_target
+                    break
         elif (
             flight.flight_type == FlightType.STRIKE
             or flight.flight_type == FlightType.BAI
         ):
-            for cp in self.game.theater.closest_opposing_control_points():
-                if cp.coalition == flight.coalition:
+            for cp in control_points_to_scan:
+                if cp.coalition == flight.coalition or cp == flight.departure:
                     continue
+                if flight.package.target != flight.departure:
+                    break
                 for mission_target in cp.ground_objects:
                     flight.package.target = mission_target
+                    break
         elif (
             flight.flight_type == FlightType.OCA_RUNWAY
             or flight.flight_type == FlightType.OCA_AIRCRAFT
         ):
-            for cp in self.game.theater.controlpoints:
-                if cp.coalition == flight.coalition or not isinstance(cp, Airfield):
+            for cp in control_points_to_scan:
+                if (
+                    cp.coalition == flight.coalition
+                    or not isinstance(cp, Airfield)
+                    or cp == flight.departure
+                ):
                     continue
                 flight.package.target = cp
-        elif flight.flight_type == FlightType.DEAD:
-            for cp in self.game.theater.controlpoints:
-                if cp.coalition == flight.coalition:
+                break
+        elif (
+            flight.flight_type == FlightType.DEAD
+            or flight.flight_type == FlightType.SEAD
+        ):
+            for cp in control_points_to_scan:
+                if cp.coalition == flight.coalition or cp == flight.departure:
                     continue
+                if flight.package.target != flight.departure:
+                    break
                 for ground_object in cp.ground_objects:
                     is_ewr = isinstance(ground_object, EwrGroundObject)
                     is_sam = isinstance(ground_object, SamGroundObject)
 
                     if is_ewr or is_sam:
                         flight.package.target = ground_object
+                        break
         elif flight.flight_type == FlightType.AIR_ASSAULT:
-            for cp in self.game.theater.closest_opposing_control_points():
-                if cp.coalition == flight.coalition:
+            for cp in control_points_to_scan:
+                if cp.coalition == flight.coalition or cp == flight.departure:
                     continue
                 if flight.is_hercules:
                     if cp.coalition == flight.coalition or not isinstance(cp, Airfield):
                         continue
                 flight.package.target = cp
+                break
+
+        now = self.game.conditions.start_time
+        flight.package.set_tot_asap(now)
 
         logging.info(
             f"Configuring flight {group.name} {flight.squadron.aircraft} {flight.flight_type}, number of players: {flight.client_count}"
@@ -812,7 +850,6 @@ class PretenseAircraftGenerator:
             self.time,
             self.radio_registry,
             self.tacan_registy,
-            self.laser_code_registry,
             self.mission_data,
             dynamic_runways,
             self.use_client,
@@ -832,7 +869,7 @@ class PretenseAircraftGenerator:
             or flight.client_count
             and (
                 not self.need_ecm
-                or flight.loadout.has_weapon_of_type(WeaponType.JAMMER)
+                or flight.any_member_has_weapon_of_type(WeaponType.JAMMER)
             )
         ):
             self.ewrj_package_dict[id(flight.package)].append(group)
