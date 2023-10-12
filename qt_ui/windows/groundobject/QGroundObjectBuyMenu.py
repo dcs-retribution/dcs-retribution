@@ -3,9 +3,9 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Type
 
-from PySide2.QtCore import Signal
-from PySide2.QtGui import Qt
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Signal
+from PySide6.QtGui import Qt
+from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
     QDialog,
@@ -76,7 +76,7 @@ class QTgoLayoutGroupRow(QWidget):
         # Add all possible units with the price
         for unit_type in force_group.unit_types_for_group(group):
             self.unit_selector.addItem(
-                f"{unit_type.name} [${unit_type.price}M]",
+                f"{unit_type.display_name} [${unit_type.price}M]",
                 userData=(unit_type.dcs_unit_type, unit_type.price),
             )
         # Add all possible statics with price = 0

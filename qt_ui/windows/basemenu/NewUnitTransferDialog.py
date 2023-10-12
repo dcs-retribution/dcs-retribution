@@ -4,8 +4,8 @@ import logging
 from collections import defaultdict
 from typing import Callable, Dict, Type
 
-from PySide2.QtCore import Qt, Signal
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Qt, Signal
+from PySide6.QtWidgets import (
     QComboBox,
     QDialog,
     QFrame,
@@ -64,7 +64,7 @@ class UnitTransferList(QFrame):
         task_box_layout = QGridLayout()
         scroll_content.setLayout(task_box_layout)
 
-        units_column = sorted(cp.base.armor, key=lambda u: u.name)
+        units_column = sorted(cp.base.armor, key=lambda u: u.display_name)
 
         count = 0
         for count, unit_type in enumerate(units_column):
@@ -173,7 +173,7 @@ class ScrollingUnitTransferGrid(QFrame):
         unit_types = set(self.game_model.game.faction_for(player=True).ground_units)
         sorted_units = sorted(
             {u for u in unit_types if self.cp.base.total_units_of_type(u)},
-            key=lambda u: u.name,
+            key=lambda u: u.display_name,
         )
         for row, unit_type in enumerate(sorted_units):
             self.add_unit_row(unit_type, task_box_layout, row)
@@ -205,7 +205,7 @@ class ScrollingUnitTransferGrid(QFrame):
 
         origin_inventory = self.cp.base.total_units_of_type(unit_type)
 
-        unit_name = QLabel(f"<b>{unit_type.name}</b>")
+        unit_name = QLabel(f"<b>{unit_type.display_name}</b>")
         unit_name.setSizePolicy(
             QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         )
@@ -320,7 +320,9 @@ class NewUnitTransferDialog(QDialog):
             units=transfers,
             request_airflift=self.dest_panel.request_airlift,
         )
-        self.game_model.transfer_model.new_transfer(transfer)
+        self.game_model.transfer_model.new_transfer(
+            transfer, self.game_model.sim_controller.current_time_in_sim
+        )
         self.close()
 
     def on_transfer_quantity_changed(self) -> None:

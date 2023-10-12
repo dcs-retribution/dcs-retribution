@@ -1,8 +1,8 @@
 import logging
 from datetime import timedelta
 
-from PySide2.QtCore import QTime
-from PySide2.QtWidgets import (
+from PySide6.QtCore import QTime
+from PySide6.QtWidgets import (
     QGroupBox,
     QLabel,
     QMessageBox,
@@ -42,7 +42,7 @@ class FlightPlanPropertiesGroup(QGroupBox):
         self.departure_time = QLabel()
         layout.addLayout(
             QLabeledWidget(
-                f"Departing from <b>{flight.from_cp.name}</b>", self.departure_time
+                f"Departing from <b>{flight.departure.name}</b>", self.departure_time
             )
         )
         self.package_model.tot_changed.connect(self.update_departure_time)
@@ -102,7 +102,9 @@ class FlightPlanPropertiesGroup(QGroupBox):
             # handler may be called for a flight whose package has been canceled, which
             # is an invalid state for calling anything in TotEstimator.
             return
-        self.departure_time.setText(f"At T+{self.flight.flight_plan.startup_time()}")
+        self.departure_time.setText(
+            f"At {self.flight.flight_plan.startup_time():%H:%M%S}"
+        )
         self.flight_wpt_list.update_list()
 
     def set_divert(self, index: int) -> None:
@@ -122,13 +124,16 @@ class FlightPlanPropertiesGroup(QGroupBox):
             )
 
     def set_tot_offset(self, offset: QTime) -> None:
-        self.flight.flight_plan.tot_offset = timedelta(
+        offset = timedelta(
             hours=offset.hour(), minutes=offset.minute(), seconds=offset.second()
         )
         if self.negative_offset_checkbox.isChecked():
-            return self.toggle_negative_offset()
+            offset = -offset
+        self.flight.flight_plan.tot_offset = offset
+        self.package_model.update_tot()
         self.update_departure_time()
 
     def toggle_negative_offset(self) -> None:
         self.flight.flight_plan.tot_offset = -self.flight.flight_plan.tot_offset
+        self.package_model.update_tot()
         self.update_departure_time()

@@ -1,4 +1,4 @@
-from PySide2.QtWidgets import QHBoxLayout, QGroupBox, QPushButton
+from PySide6.QtWidgets import QHBoxLayout, QGroupBox, QPushButton
 
 import qt_ui.uiconstants as CONST
 from game import Game

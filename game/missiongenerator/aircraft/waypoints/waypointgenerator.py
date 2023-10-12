@@ -41,6 +41,7 @@ from .seadsweepingress import SeadSweepIngressBuilder
 from .splitpoint import SplitPointBuilder
 from .strikeingress import StrikeIngressBuilder
 from .sweepingress import SweepIngressBuilder
+from .target import TargetBuilder
 
 
 class WaypointGenerator:
@@ -49,7 +50,6 @@ class WaypointGenerator:
         flight: Flight,
         group: FlyingGroup[Any],
         mission: Mission,
-        turn_start_time: datetime,
         time: datetime,
         settings: Settings,
         mission_data: MissionData,
@@ -57,7 +57,6 @@ class WaypointGenerator:
         self.flight = flight
         self.group = group
         self.mission = mission
-        self.elapsed_mission_time = time - turn_start_time
         self.time = time
         self.settings = settings
         self.mission_data = mission_data
@@ -121,6 +120,10 @@ class WaypointGenerator:
 
     def builder_for_waypoint(self, waypoint: FlightWaypoint) -> PydcsWaypointBuilder:
         builders = {
+            FlightWaypointType.CARGO_STOP: CargoStopBuilder,
+            FlightWaypointType.DROPOFF_ZONE: LandingZoneBuilder,
+            FlightWaypointType.INGRESS_AIR_ASSAULT: AirAssaultIngressBuilder,
+            FlightWaypointType.INGRESS_ANTI_SHIP: AntiShipIngressBuilder,
             FlightWaypointType.INGRESS_BAI: BaiIngressBuilder,
             FlightWaypointType.INGRESS_CAS: CasIngressBuilder,
             FlightWaypointType.INGRESS_DEAD: DeadIngressBuilder,
@@ -131,17 +134,15 @@ class WaypointGenerator:
             FlightWaypointType.INGRESS_STRIKE: StrikeIngressBuilder,
             FlightWaypointType.INGRESS_SWEEP: SweepIngressBuilder,
             FlightWaypointType.JOIN: JoinPointBuilder,
-            FlightWaypointType.SPLIT: SplitPointBuilder,
             FlightWaypointType.LANDING_POINT: LandingPointBuilder,
             FlightWaypointType.LOITER: HoldPointBuilder,
             FlightWaypointType.PATROL: RaceTrackEndBuilder,
             FlightWaypointType.PATROL_TRACK: RaceTrackBuilder,
             FlightWaypointType.PICKUP_ZONE: LandingZoneBuilder,
-            FlightWaypointType.DROPOFF_ZONE: LandingZoneBuilder,
             FlightWaypointType.REFUEL: RefuelPointBuilder,
-            FlightWaypointType.CARGO_STOP: CargoStopBuilder,
-            FlightWaypointType.INGRESS_AIR_ASSAULT: AirAssaultIngressBuilder,
-            FlightWaypointType.INGRESS_ANTI_SHIP: AntiShipIngressBuilder,
+            FlightWaypointType.SPLIT: SplitPointBuilder,
+            FlightWaypointType.TARGET_GROUP_LOC: TargetBuilder,
+            FlightWaypointType.TARGET_POINT: TargetBuilder,
         }
         builder = builders.get(waypoint.waypoint_type, DefaultWaypointBuilder)
         return builder(
@@ -149,7 +150,7 @@ class WaypointGenerator:
             self.group,
             self.flight,
             self.mission,
-            self.elapsed_mission_time,
+            self.time,
             self.mission_data,
         )
 
@@ -180,12 +181,29 @@ class WaypointGenerator:
             a.min_fuel = min_fuel
 
     def set_takeoff_time(self, waypoint: FlightWaypoint) -> timedelta:
+        force_delay = False
         if isinstance(self.flight.state, WaitingForStart):
             delay = self.flight.state.time_remaining(self.time)
+        elif (
+            # The first two clauses capture the flight states that we want to adjust. We
+            # don't want to delay any flights that are already in flight or on the
+            # runway.
+            not self.flight.state.in_flight
+            and self.flight.state.spawn_type is not StartType.RUNWAY
+            and self.flight.departure.is_fleet
+            and not self.flight.client_count
+        ):
+            # https://github.com/dcs-liberation/dcs_liberation/issues/1309
+            # Without a delay, AI aircraft will be spawned on the sixpack, which other
+            # AI planes of course want to taxi through, deadlocking the carrier deck.
+            # Delaying AI carrier deck spawns by one second for some reason causes DCS
+            # to spawn those aircraft elsewhere, avoiding the traffic jam.
+            delay = timedelta(seconds=1)
+            force_delay = True
         else:
             delay = timedelta()
 
-        if self.should_delay_flight():
+        if force_delay or self.should_delay_flight():
             if self.should_activate_late():
                 # Late activation causes the aircraft to not be spawned
                 # until triggered.
@@ -263,7 +281,7 @@ class WaypointGenerator:
             # hot aircraft hours before their takeoff time.
             return True
 
-        if self.flight.from_cp.is_fleet:
+        if self.flight.departure.is_fleet:
             # Carrier spawns will crowd the carrier deck, especially without
             # super carrier.
             # TODO: Is there enough parking on the supercarrier?

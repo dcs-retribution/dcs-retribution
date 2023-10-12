@@ -1,27 +1,28 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Optional, Iterator
+from typing import Iterator, Optional
 
-from PySide2.QtCore import QItemSelectionModel, QModelIndex, QSize
-from PySide2.QtWidgets import (
+from PySide6.QtCore import QItemSelectionModel, QModelIndex, QSize
+from PySide6.QtWidgets import (
     QAbstractItemView,
     QCheckBox,
     QDialog,
+    QHBoxLayout,
     QListView,
-    QVBoxLayout,
     QTabWidget,
     QTableWidget,
     QTableWidgetItem,
+    QVBoxLayout,
     QWidget,
-    QHBoxLayout,
 )
 
 from game.ato.flight import Flight
 from game.squadrons import Squadron
 from game.theater import ConflictTheater
 from qt_ui.delegates import TwoColumnRowDelegate
-from qt_ui.models import GameModel, AirWingModel, SquadronModel, AtoModel
+from qt_ui.models import AirWingModel, AtoModel, GameModel, SquadronModel
+from qt_ui.simcontroller import SimController
 from qt_ui.windows.SquadronDialog import SquadronDialog
 
 
@@ -43,7 +44,7 @@ class SquadronDelegate(TwoColumnRowDelegate):
                 nickname = ""
             return f"{squadron.name}{nickname}"
         elif (row, column) == (0, 1):
-            return squadron.aircraft.name
+            return squadron.aircraft.display_name
         elif (row, column) == (1, 0):
             return squadron.location.name
         elif (row, column) == (1, 1):
@@ -63,11 +64,13 @@ class SquadronList(QListView):
         ato_model: AtoModel,
         air_wing_model: AirWingModel,
         theater: ConflictTheater,
+        sim_controller: SimController,
     ) -> None:
         super().__init__()
         self.ato_model = ato_model
         self.air_wing_model = air_wing_model
         self.theater = theater
+        self.sim_controller = sim_controller
         self.dialog: Optional[SquadronDialog] = None
 
         self.setIconSize(QSize(91, 24))
@@ -88,6 +91,7 @@ class SquadronList(QListView):
             self.ato_model,
             SquadronModel(self.air_wing_model.squadron_at_index(index)),
             self.theater,
+            self.sim_controller,
             self,
         )
         self.dialog.show()
@@ -121,7 +125,7 @@ class AircraftInventoryData:
         flight_type = flight.flight_type.value
         target = flight.package.target.name
         for idx in range(0, num_units):
-            pilot = flight.roster.pilots[idx]
+            pilot = flight.roster.pilot_at(idx)
             if pilot is None:
                 pilot_name = "Unassigned"
                 player = ""
@@ -130,7 +134,7 @@ class AircraftInventoryData:
                 player = "Player" if pilot.player else "AI"
             yield AircraftInventoryData(
                 flight.departure.name,
-                flight.unit_type.name,
+                flight.unit_type.display_name,
                 flight_type,
                 target,
                 pilot_name,
@@ -143,7 +147,12 @@ class AircraftInventoryData:
     ) -> Iterator[AircraftInventoryData]:
         for _ in range(0, squadron.untasked_aircraft):
             yield AircraftInventoryData(
-                squadron.name, squadron.aircraft.name, "Idle", "N/A", "N/A", "N/A"
+                squadron.name,
+                squadron.aircraft.display_name,
+                "Idle",
+                "N/A",
+                "N/A",
+                "N/A",
             )
 
 
@@ -229,6 +238,7 @@ class AirWingTabs(QTabWidget):
                 game_model.ato_model,
                 game_model.blue_air_wing_model,
                 game_model.game.theater,
+                game_model.sim_controller,
             ),
             "Squadrons",
         )

@@ -37,7 +37,7 @@ class Builder(IBuilder[TheaterRefuelingFlightPlan, PatrollingLayout]):
 
         # Station 70nm outside the threat zone.
         threat_buffer = nautical_miles(
-            self.flight.coalition.game.settings.tanker_threat_buffer_min_distance
+            self.coalition.game.settings.tanker_threat_buffer_min_distance
         )
         if self.threat_zones.threatened(location.position):
             orbit_distance = distance_to_threat + threat_buffer
@@ -56,7 +56,7 @@ class Builder(IBuilder[TheaterRefuelingFlightPlan, PatrollingLayout]):
             orbit_heading.left.degrees, racetrack_half_distance
         )
 
-        builder = WaypointBuilder(self.flight, self.coalition)
+        builder = WaypointBuilder(self.flight)
 
         tanker_type = self.flight.unit_type
         if tanker_type.patrol_altitude is not None:
@@ -81,5 +81,5 @@ class Builder(IBuilder[TheaterRefuelingFlightPlan, PatrollingLayout]):
             bullseye=builder.bullseye(),
         )
 
-    def build(self) -> TheaterRefuelingFlightPlan:
+    def build(self, dump_debug_info: bool = False) -> TheaterRefuelingFlightPlan:
         return TheaterRefuelingFlightPlan(self.flight, self.layout())

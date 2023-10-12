@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import timedelta
+from datetime import timedelta, datetime
 from typing import Type
 
 from .airassault import AirAssaultLayout
@@ -12,18 +12,16 @@ from .formationattack import (
 )
 from .waypointbuilder import WaypointBuilder
 from .. import FlightType
-from ..traveltime import TravelTime, GroundSpeed
 from ...utils import feet
 
 
 class EscortFlightPlan(FormationAttackFlightPlan):
     @property
-    def push_time(self) -> timedelta:
+    def push_time(self) -> datetime:
         hold2join_time = (
-            TravelTime.between_points(
-                self.layout.hold.position,
-                self.layout.join.position,
-                GroundSpeed.for_flight(self.flight, self.layout.hold.alt),
+            self.travel_time_between_waypoints(
+                self.layout.hold,
+                self.layout.join,
             )
             if self.layout.hold is not None
             else timedelta(0)
@@ -39,7 +37,7 @@ class Builder(FormationAttackBuilder[EscortFlightPlan, FormationAttackLayout]):
     def layout(self) -> FormationAttackLayout:
         assert self.package.waypoints is not None
 
-        builder = WaypointBuilder(self.flight, self.coalition)
+        builder = WaypointBuilder(self.flight)
         ingress, target = builder.escort(
             self.package.waypoints.ingress, self.package.target
         )
@@ -58,11 +56,11 @@ class Builder(FormationAttackBuilder[EscortFlightPlan, FormationAttackLayout]):
         split = builder.split(self.package.waypoints.split)
 
         ingress_alt = self.doctrine.ingress_altitude
+        is_helo = builder.flight.is_helo
+        heli_alt = feet(self.coalition.game.settings.heli_combat_alt_agl)
         initial = builder.escort_hold(
-            target.position
-            if builder.flight.is_helo
-            else self.package.waypoints.initial,
-            min(feet(500), ingress_alt) if builder.flight.is_helo else ingress_alt,
+            target.position if is_helo else self.package.waypoints.initial,
+            min(heli_alt, ingress_alt) if is_helo else ingress_alt,
         )
 
         pf = self.package.primary_flight
@@ -117,5 +115,5 @@ class Builder(FormationAttackBuilder[EscortFlightPlan, FormationAttackLayout]):
             bullseye=builder.bullseye(),
         )
 
-    def build(self) -> EscortFlightPlan:
+    def build(self, dump_debug_info: bool = False) -> EscortFlightPlan:
         return EscortFlightPlan(self.flight, self.layout())

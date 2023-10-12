@@ -3,9 +3,9 @@ from __future__ import unicode_literals
 from copy import deepcopy
 from typing import Union
 
-from PySide2 import QtWidgets, QtGui
-from PySide2.QtCore import Qt
-from PySide2.QtWidgets import (
+from PySide6 import QtWidgets, QtGui
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (
     QScrollArea,
     QWidget,
     QGridLayout,
@@ -31,10 +31,10 @@ class QFactionUnits(QScrollArea):
 
     def _add_checkboxes(self, units: set, counter: int, grid: QGridLayout) -> int:
         counter += 1
-        for i, v in enumerate(sorted(units, key=lambda x: x.name), counter):
-            cb = QCheckBox(v.name)
+        for i, v in enumerate(sorted(units, key=lambda x: str(x)), counter):
+            cb = QCheckBox(str(v))
             cb.setCheckState(Qt.CheckState.Checked)
-            self.checkboxes[v.name] = cb
+            self.checkboxes[str(v)] = cb
             grid.addWidget(cb, i, 1)
             counter += 1
         counter += 1
@@ -94,7 +94,7 @@ class QFactionUnits(QScrollArea):
     def updateFactionUnits(self, units: Union[set, list]):
         deletes = []
         for a in units:
-            if not self.checkboxes[a.name].isChecked():
+            if not self.checkboxes[str(a)].isChecked():
                 deletes.append(a)
         for d in deletes:
             units.remove(d)

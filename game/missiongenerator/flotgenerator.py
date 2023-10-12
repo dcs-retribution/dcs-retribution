@@ -44,7 +44,6 @@ from game.unitmap import UnitMap
 from game.utils import Heading
 from .frontlineconflictdescription import FrontLineConflictDescription
 from .groundforcepainter import GroundForcePainter
-from .lasercoderegistry import LaserCodeRegistry
 from .missiondata import JtacInfo, MissionData
 from ..ato import FlightType
 
@@ -82,7 +81,6 @@ class FlotGenerator:
         unit_map: UnitMap,
         radio_registry: RadioRegistry,
         mission_data: MissionData,
-        laser_code_registry: LaserCodeRegistry,
     ) -> None:
         self.mission = mission
         self.conflict = conflict
@@ -94,7 +92,6 @@ class FlotGenerator:
         self.unit_map = unit_map
         self.radio_registry = radio_registry
         self.mission_data = mission_data
-        self.laser_code_registry = laser_code_registry
 
     def generate(self) -> None:
         position = FrontLineConflictDescription.frontline_position(
@@ -144,15 +141,14 @@ class FlotGenerator:
 
         # Add JTAC
         if self.game.blue.faction.has_jtac:
-            code: int
             freq = self.radio_registry.alloc_uhf()
             # If the option fc3LaserCode is enabled, force all JTAC
             # laser codes to 1113 to allow lasing for Su-25 Frogfoots and A-10A Warthogs.
             # Otherwise use 1688 for the first JTAC, 1687 for the second etc.
             if self.game.settings.plugins.get("ctld.fc3LaserCode"):
-                code = 1113
+                code = self.game.laser_code_registry.fc3_code
             else:
-                code = self.laser_code_registry.get_next_laser_code()
+                code = self.conflict.front_line.laser_code
 
             utype = self.game.blue.faction.jtac_unit
             if utype is None:
@@ -290,7 +286,7 @@ class FlotGenerator:
             if len(tots) == 0
             else min(
                 [
-                    x.time_over_target
+                    x.time_over_target - self.mission.start_time
                     for x in self.game.ato_for(player).packages
                     if x.primary_task == FlightType.CAS
                 ]

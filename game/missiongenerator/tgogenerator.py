@@ -80,7 +80,7 @@ AA_CP_MIN_DISTANCE = 40000
 
 def farp_truck_types_for_country(
     country_id: int,
-) -> Tuple[Type[VehicleType], Type[VehicleType]]:
+) -> Tuple[Type[VehicleType], Type[VehicleType], Type[VehicleType]]:
     soviet_tankers: List[Type[VehicleType]] = [
         Unarmed.ATMZ_5,
         Unarmed.ATZ_10,
@@ -106,6 +106,11 @@ def farp_truck_types_for_country(
     us_tankers: List[Type[VehicleType]] = [Unarmed.M978_HEMTT_Tanker]
     us_trucks: List[Type[VehicleType]] = [Unarmed.M_818]
     uk_trucks: List[Type[VehicleType]] = [Unarmed.Bedford_MWD]
+
+    ground_power_trucks: List[Type[VehicleType]] = [
+        Unarmed.Ural_4320_APA_5D,
+        Unarmed.ZiL_131_APA_80,
+    ]
 
     if country_id in [
         Abkhazia.id,
@@ -230,7 +235,9 @@ def farp_truck_types_for_country(
         tanker_type = random.choice(tanker_types)
         ammo_truck_type = random.choice(truck_types)
 
-    return tanker_type, ammo_truck_type
+    power_truck_type = random.choice(ground_power_trucks)
+
+    return tanker_type, ammo_truck_type, power_truck_type
 
 
 class GroundObjectGenerator:
@@ -913,10 +920,9 @@ class GroundSpawnRoadbaseGenerator:
 
         self.ground_spawns_roadbase.append((sg, ground_spawn[1]))
 
-        # tanker_type: Type[VehicleType]
-        # ammo_truck_type: Type[VehicleType]
-
-        tanker_type, ammo_truck_type = farp_truck_types_for_country(country.id)
+        tanker_type, ammo_truck_type, power_truck_type = farp_truck_types_for_country(
+            country.id
+        )
 
         # Generate ammo truck/farp and fuel truck/stack for each pad
         if self.game.settings.ground_start_trucks_roadbase:
@@ -960,6 +966,18 @@ class GroundSpawnRoadbaseGenerator:
                     ground_spawn[0].heading.degrees + 90, 35
                 ).point_from_heading(ground_spawn[0].heading.degrees + 180, 10),
                 heading=pad.heading + 180,
+            )
+        if self.game.settings.ground_start_ground_power_trucks_roadbase:
+            self.m.vehicle_group(
+                country=country,
+                name=(name + "_power"),
+                _type=power_truck_type,
+                position=pad.position.point_from_heading(
+                    ground_spawn[0].heading.degrees + 90, 35
+                ).point_from_heading(ground_spawn[0].heading.degrees + 180, 20),
+                group_size=1,
+                heading=pad.heading + 315,
+                move_formation=PointAction.OffRoad,
             )
 
     def generate(self) -> None:
@@ -1019,7 +1037,9 @@ class GroundSpawnGenerator:
         # tanker_type: Type[VehicleType]
         # ammo_truck_type: Type[VehicleType]
 
-        tanker_type, ammo_truck_type = farp_truck_types_for_country(country.id)
+        tanker_type, ammo_truck_type, power_truck_type = farp_truck_types_for_country(
+            country.id
+        )
 
         # Generate a FARP Ammo and Fuel stack for each pad
         if self.game.settings.ground_start_trucks:
@@ -1063,6 +1083,18 @@ class GroundSpawnGenerator:
                     vtol_pad[0].heading.degrees - 180, 35
                 ),
                 heading=pad.heading + 270,
+            )
+        if self.game.settings.ground_start_ground_power_trucks:
+            self.m.vehicle_group(
+                country=country,
+                name=(name + "_power"),
+                _type=power_truck_type,
+                position=pad.position.point_from_heading(
+                    vtol_pad[0].heading.degrees - 185, 35
+                ),
+                group_size=1,
+                heading=pad.heading + 45,
+                move_formation=PointAction.OffRoad,
             )
 
     def generate(self) -> None:

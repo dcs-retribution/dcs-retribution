@@ -3,10 +3,9 @@ from __future__ import annotations
 import logging
 from pathlib import Path
 
-from PySide2.QtCore import QUrl
-from PySide2.QtWebEngineWidgets import (
-    QWebEnginePage,
-    QWebEngineSettings,
+from PySide6.QtCore import QUrl
+from PySide6.QtWebEngineCore import QWebEnginePage, QWebEngineSettings
+from PySide6.QtWebEngineWidgets import (
     QWebEngineView,
 )
 

@@ -1,7 +1,7 @@
 from typing import Set
 
-from PySide2.QtCore import Qt
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (
     QGridLayout,
     QHBoxLayout,
     QLabel,
@@ -44,7 +44,9 @@ class QAircraftRecruitmentMenu(UnitTransactionFrame[Squadron]):
         for squadron in cp.squadrons:
             unit_types.add(squadron.aircraft)
 
-        sorted_squadrons = sorted(cp.squadrons, key=lambda s: (s.aircraft.name, s.name))
+        sorted_squadrons = sorted(
+            cp.squadrons, key=lambda s: (s.aircraft.display_name, s.name)
+        )
         for row, squadron in enumerate(sorted_squadrons):
             self.add_purchase_row(squadron, task_box_layout, row)
 

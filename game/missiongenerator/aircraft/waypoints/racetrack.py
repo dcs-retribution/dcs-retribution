@@ -57,7 +57,7 @@ class RaceTrackBuilder(PydcsWaypointBuilder):
 
         racetrack = ControlledTask(orbit)
         self.set_waypoint_tot(waypoint, flight_plan.patrol_start_time)
-        loiter_duration = flight_plan.patrol_end_time - self.elapsed_mission_time
+        loiter_duration = flight_plan.patrol_end_time - self.now
         elapsed = int(loiter_duration.total_seconds())
         racetrack.stop_after_time(elapsed)
         # What follows is some code to cope with the broken 'stop after time' condition

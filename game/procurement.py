@@ -76,7 +76,12 @@ class ProcurementAi:
             cp_aircraft = cp.allocated_aircraft(parking_type)
             aircraft_investment += cp_aircraft.total_value
 
-        air = self.game.settings.auto_procurement_balance / 100.0
+        balance = (
+            self.game.settings.auto_procurement_balance
+            if self.is_player
+            else self.game.settings.auto_procurement_balance_red
+        )
+        air = balance / 100.0
         ground = 1 - air
         weighted_investment = aircraft_investment * air + armor_investment * ground
         if weighted_investment == 0:
@@ -269,7 +274,12 @@ class ProcurementAi:
                 # No source of ground units, so can't buy anything.
                 continue
 
-            fr_factor = self.game.settings.frontline_reserves_factor / 100.0
+            reserves_factor = (
+                self.game.settings.frontline_reserves_factor
+                if self.is_player
+                else self.game.settings.frontline_reserves_factor_red
+            )
+            fr_factor = reserves_factor / 100.0
             purchase_target = cp.frontline_unit_count_limit * fr_factor
             allocated = cp.allocated_ground_units(
                 self.game.coalition_for(self.is_player).transfers
@@ -303,7 +313,12 @@ class ProcurementAi:
             allocated = cp.allocated_ground_units(
                 self.game.coalition_for(self.is_player).transfers
             )
-            if allocated.total >= self.game.settings.reserves_procurement_target:
+            target = (
+                self.game.settings.reserves_procurement_target
+                if self.is_player
+                else self.game.settings.reserves_procurement_target_red
+            )
+            if allocated.total >= target:
                 continue
 
             if allocated.total < worst_supply:

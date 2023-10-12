@@ -24,5 +24,5 @@ class Builder(FormationAttackBuilder[SeadSweepFlightPlan, FormationAttackLayout]
     def layout(self) -> FormationAttackLayout:
         return self._build(FlightWaypointType.INGRESS_SEAD_SWEEP)
 
-    def build(self) -> SeadSweepFlightPlan:
+    def build(self, dump_debug_info: bool = False) -> SeadSweepFlightPlan:
         return SeadSweepFlightPlan(self.flight, self.layout())

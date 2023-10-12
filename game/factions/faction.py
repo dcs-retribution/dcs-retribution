@@ -45,6 +45,9 @@ class Faction:
     #: choose the default locale.
     locales: Optional[List[str]]
 
+    # The unit type to spawn for cargo shipping.
+    cargo_ship: ShipUnitType
+
     # Country used by this faction
     country: Country
 
@@ -166,7 +169,7 @@ class Faction:
     def air_defenses(self) -> list[str]:
         """Returns the Air Defense types"""
         # This is used for the faction overview in NewGameWizard
-        air_defenses = [a.name for a in self.air_defense_units]
+        air_defenses = [a.variant_id for a in self.air_defense_units]
         air_defenses.extend(
             [
                 pg.name
@@ -194,7 +197,11 @@ class Faction:
                 "country ID"
             ) from ex
 
-        faction = Faction(locales=json.get("locales"), country=country)
+        faction = Faction(
+            locales=json.get("locales"),
+            country=country,
+            cargo_ship=ShipUnitType.named(json.get("cargo_ship", "Bulker Handy Wind")),
+        )
 
         faction.name = json.get("name", "")
         if not faction.name:
@@ -534,7 +541,7 @@ class Faction:
 
     def remove_aircraft_by_name(self, name: str) -> None:
         for i in list(self.aircrafts):
-            if i.name == name:
+            if i.display_name == name:
                 self.aircrafts.remove(i)
 
     def remove_preset(self, name: str) -> None:

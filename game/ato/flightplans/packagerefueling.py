@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import timedelta
+from datetime import datetime, timedelta
 from typing import Type
 
 from dcs import Point
@@ -39,7 +39,7 @@ class PackageRefuelingFlightPlan(RefuelingFlightPlan):
         )
 
     @property
-    def patrol_start_time(self) -> timedelta:
+    def patrol_start_time(self) -> datetime:
         altitude = self.flight.unit_type.patrol_altitude
 
         if altitude is None:
@@ -59,10 +59,10 @@ class PackageRefuelingFlightPlan(RefuelingFlightPlan):
             "REFUEL", FlightWaypointType.REFUEL, refuel, altitude
         )
 
-        delay_target_to_split: timedelta = self.travel_time_between_waypoints(
+        delay_target_to_split: timedelta = self.total_time_between_waypoints(
             self.target_area_waypoint(), split_waypoint
         )
-        delay_split_to_refuel: timedelta = self.travel_time_between_waypoints(
+        delay_split_to_refuel: timedelta = self.total_time_between_waypoints(
             split_waypoint, refuel_waypoint
         )
 
@@ -96,7 +96,7 @@ class Builder(IBuilder[PackageRefuelingFlightPlan, PatrollingLayout]):
             home_heading.degrees, racetrack_half_distance
         )
 
-        builder = WaypointBuilder(self.flight, self.coalition)
+        builder = WaypointBuilder(self.flight)
 
         tanker_type = self.flight.unit_type
         if tanker_type.patrol_altitude is not None:
@@ -121,5 +121,5 @@ class Builder(IBuilder[PackageRefuelingFlightPlan, PatrollingLayout]):
             bullseye=builder.bullseye(),
         )
 
-    def build(self) -> PackageRefuelingFlightPlan:
+    def build(self, dump_debug_info: bool = False) -> PackageRefuelingFlightPlan:
         return PackageRefuelingFlightPlan(self.flight, self.layout())

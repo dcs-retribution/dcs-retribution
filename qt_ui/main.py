@@ -8,10 +8,10 @@ from pathlib import Path
 from typing import Optional
 
 import yaml
-from PySide2 import QtWidgets
-from PySide2.QtCore import Qt
-from PySide2.QtGui import QPixmap
-from PySide2.QtWidgets import QApplication, QCheckBox, QSplashScreen
+from PySide6 import QtWidgets
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QPixmap
+from PySide6.QtWidgets import QApplication, QCheckBox, QSplashScreen
 from dcs.liveries.liverycache import LiveryCache
 from dcs.payloads import PayloadDirectories
 
@@ -87,10 +87,6 @@ def run_ui(game: Optional[Game], ui_flags: UiFlags) -> None:
 
     app = QApplication(sys.argv)
 
-    app.setAttribute(Qt.AA_DisableWindowContextHelpButton)
-    app.setAttribute(Qt.AA_EnableHighDpiScaling, True)  # enable highdpi scaling
-    app.setAttribute(Qt.AA_UseHighDpiPixmaps, True)  # use highdpi icons
-
     # init the theme and load the stylesheet based on the theme index
     liberation_theme.init()
     with open(
@@ -162,7 +158,7 @@ def run_ui(game: Optional[Game], ui_flags: UiFlags) -> None:
             "Unable to modify Mission Scripting file. Possible issues with rights. "
             "Try running as admin, or please perform the modification of the MissionScripting file manually."
         )
-        error_dialog.exec_()
+        error_dialog.exec()
 
     # Apply CSS (need works)
     GameUpdateSignal()
@@ -172,7 +168,7 @@ def run_ui(game: Optional[Game], ui_flags: UiFlags) -> None:
     window = QLiberationWindow(game, ui_flags)
     window.showMaximized()
     splash.finish(window)
-    qt_execution_code = app.exec_()
+    qt_execution_code = app.exec()
 
     # Restore Mission Scripting file
     logging.info("QT App terminated with status code : " + str(qt_execution_code))

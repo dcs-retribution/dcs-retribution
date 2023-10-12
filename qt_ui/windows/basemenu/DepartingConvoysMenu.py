@@ -1,5 +1,5 @@
-from PySide2.QtCore import Qt
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (
     QFrame,
     QGridLayout,
     QGroupBox,
@@ -33,11 +33,11 @@ class DepartingConvoyInfo(QGroupBox):
             if unit_type.dcs_id in VEHICLES_ICONS.keys():
                 icon.setPixmap(VEHICLES_ICONS[unit_type.dcs_id])
             else:
-                icon.setText("<b>" + unit_type.name + "</b>")
+                icon.setText("<b>" + unit_type.display_name + "</b>")
             icon.setProperty("style", "icon-armor")
             unit_layout.addWidget(icon, idx, 0)
             unit_layout.addWidget(
-                QLabel(f"{count} x <strong>{unit_type.name}</strong>"),
+                QLabel(f"{count} x <strong>{unit_type.display_name}</strong>"),
                 idx,
                 1,
             )

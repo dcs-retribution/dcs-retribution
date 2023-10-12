@@ -116,7 +116,8 @@ class KneeboardPageWriter:
             )
 
         self.draw.text(self.position, text, font=font, fill=fill)
-        width, height = self.draw.textsize(text, font=font)  # type:ignore[attr-defined]
+        box = self.draw.textbbox(self.position, text, font=font)
+        height = abs(box[1] - box[3])  # abs(top - bottom) => offset
         self.y += height + self.line_spacing
         self.text_buffer.append(text)
 
@@ -262,11 +263,11 @@ class FlightPlanBuilder:
             ]
         )
 
-    def _format_time(self, time: Optional[datetime.timedelta]) -> str:
+    @staticmethod
+    def _format_time(time: datetime.datetime | None) -> str:
         if time is None:
             return ""
-        local_time = self.start_time + time
-        return f"{local_time.strftime('%H:%M:%S')}{'Z' if local_time.tzinfo is not None else ''}"
+        return f"{time.strftime('%H:%M:%S')}{'Z' if time.tzinfo is not None else ''}"
 
     def _format_alt(self, alt: Distance) -> str:
         return f"{self.units.distance_short(alt):.0f}"
@@ -643,11 +644,11 @@ class SupportPage(KneeboardPage):
         )
         return f"{channel_name}\n{frequency}"
 
-    def _format_time(self, time: Optional[datetime.timedelta]) -> str:
+    @staticmethod
+    def _format_time(time: datetime.datetime | None) -> str:
         if time is None:
             return ""
-        local_time = self.start_time + time
-        return f"{local_time.strftime('%H:%M:%S')}{'Z' if local_time.tzinfo is not None else ''}"
+        return f"{time.strftime('%H:%M:%S')}{'Z' if time.tzinfo is not None else ''}"
 
     @staticmethod
     def _format_duration(time: Optional[datetime.timedelta]) -> str:

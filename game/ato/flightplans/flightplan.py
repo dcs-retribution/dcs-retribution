@@ -8,11 +8,10 @@ generating the waypoints for the mission.
 from __future__ import annotations
 
 import math
-from abc import ABC
+from abc import ABC, abstractmethod
 from collections.abc import Iterator
 from dataclasses import dataclass
-from datetime import timedelta
-from functools import cached_property
+from datetime import datetime, timedelta
 from typing import Any, Generic, TYPE_CHECKING, TypeGuard, TypeVar
 
 from game.typeguard import self_type_guard
@@ -20,10 +19,9 @@ from game.utils import Distance, Speed, meters
 from .planningerror import PlanningError
 from ..flightwaypointtype import FlightWaypointType
 from ..starttype import StartType
-from ..traveltime import GroundSpeed, TravelTime
+from ..traveltime import GroundSpeed
 
 if TYPE_CHECKING:
-    from game.dcs.aircrafttype import FuelConsumption
     from game.theater import ControlPoint
     from ..flight import Flight
     from ..flightwaypoint import FlightWaypoint
@@ -31,14 +29,6 @@ if TYPE_CHECKING:
     from .formation import FormationFlightPlan
     from .loiter import LoiterFlightPlan
     from .patrolling import PatrollingFlightPlan
-
-INGRESS_TYPES = {
-    FlightWaypointType.INGRESS_CAS,
-    FlightWaypointType.INGRESS_ESCORT,
-    FlightWaypointType.INGRESS_SEAD,
-    FlightWaypointType.INGRESS_STRIKE,
-    FlightWaypointType.INGRESS_DEAD,
-}
 
 
 @dataclass
@@ -167,41 +157,8 @@ class FlightPlan(ABC, Generic[LayoutT]):
         raise NotImplementedError
 
     @property
-    def tot(self) -> timedelta:
+    def tot(self) -> datetime:
         return self.package.time_over_target + self.tot_offset
-
-    @cached_property
-    def bingo_fuel(self) -> int:
-        """Bingo fuel value for the FlightPlan"""
-        if (fuel := self.flight.unit_type.fuel_consumption) is not None:
-            return self._bingo_estimate(fuel)
-        return self._legacy_bingo_estimate()
-
-    def _bingo_estimate(self, fuel: FuelConsumption) -> int:
-        distance_to_arrival = self.max_distance_from(self.flight.arrival)
-        fuel_consumed = fuel.cruise * distance_to_arrival.nautical_miles
-        bingo = fuel_consumed + fuel.min_safe
-        return math.ceil(bingo / 100) * 100
-
-    def _legacy_bingo_estimate(self) -> int:
-        distance_to_arrival = self.max_distance_from(self.flight.arrival)
-
-        bingo = 1000.0  # Minimum Emergency Fuel
-        bingo += 500  # Visual Traffic
-        bingo += 15 * distance_to_arrival.nautical_miles
-
-        # TODO: Per aircraft tweaks.
-
-        if self.flight.divert is not None:
-            max_divert_distance = self.max_distance_from(self.flight.divert)
-            bingo += 10 * max_divert_distance.nautical_miles
-
-        return round(bingo / 100) * 100
-
-    @cached_property
-    def joker_fuel(self) -> int:
-        """Joker fuel value for the FlightPlan"""
-        return self.bingo_fuel + 1000
 
     def max_distance_from(self, cp: ControlPoint) -> Distance:
         """Returns the farthest waypoint of the flight plan from a ControlPoint.
@@ -231,20 +188,38 @@ class FlightPlan(ABC, Generic[LayoutT]):
             )
 
         for previous_waypoint, waypoint in self.edges(until=destination):
+            total += self.total_time_between_waypoints(previous_waypoint, waypoint)
             total += self.travel_time_between_waypoints(previous_waypoint, waypoint)
-        return total
+
+        # Trim microseconds. Our simulation tick rate is 1 second, so anything that
+        # takes 100.1 or 100.9 seconds will take 100 seconds. DCS doesn't handle
+        # sub-second resolution for tasks anyway, nor are they interesting from a
+        # mission planning perspective, so there's little value to keeping them in the
+        # model.
+        return timedelta(seconds=math.floor(total.total_seconds()))
+
+    def total_time_between_waypoints(
+        self, a: FlightWaypoint, b: FlightWaypoint
+    ) -> timedelta:
+        """Returns the total time spent between a and b.
+
+        The total time between waypoints differs from the travel time in that it may
+        include additional time for actions such as loitering.
+        """
+        return self.travel_time_between_waypoints(a, b)
 
     def travel_time_between_waypoints(
         self, a: FlightWaypoint, b: FlightWaypoint
     ) -> timedelta:
-        return TravelTime.between_points(
-            a.position, b.position, self.speed_between_waypoints(a, b)
-        )
+        error_factor = 1.05
+        speed = self.speed_between_waypoints(a, b)
+        distance = meters(a.position.distance_to_point(b.position))
+        return timedelta(hours=distance.nautical_miles / speed.knots * error_factor)
 
-    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
+    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         raise NotImplementedError
 
-    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
+    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         raise NotImplementedError
 
     def request_escort_at(self) -> FlightWaypoint | None:
@@ -267,34 +242,20 @@ class FlightPlan(ABC, Generic[LayoutT]):
             if waypoint == end:
                 return
 
-    def takeoff_time(self) -> timedelta:
+    def takeoff_time(self) -> datetime:
         return self.tot - self._travel_time_to_waypoint(self.tot_waypoint)
 
-    def startup_time(self) -> timedelta:
-        start_time = (
-            self.takeoff_time() - self.estimate_startup() - self.estimate_ground_ops()
+    def minimum_duration_from_start_to_tot(self) -> timedelta:
+        return (
+            self._travel_time_to_waypoint(self.tot_waypoint)
+            + self.estimate_startup()
+            + self.estimate_ground_ops()
         )
 
-        # In case FP math has given us some barely below zero time, round to
-        # zero.
-        if math.isclose(start_time.total_seconds(), 0):
-            start_time = timedelta()
-
-        # Trim microseconds. DCS doesn't handle sub-second resolution for tasks,
-        # and they're not interesting from a mission planning perspective so we
-        # don't want them in the UI.
-        #
-        # Round down so *barely* above zero start times are just zero.
-        start_time = timedelta(seconds=math.floor(start_time.total_seconds()))
-
-        # Feature request #1309: Carrier planes should start at +1s
-        # This is a workaround to a DCS problem: some AI planes spawn on
-        # the 'sixpack' when start_time is zero and cause a deadlock.
-        # Workaround: force the start_time to 1 second for these planes.
-        if self.flight.from_cp.is_fleet and start_time.total_seconds() == 0:
-            start_time = timedelta(seconds=1)
-
-        return start_time
+    def startup_time(self) -> datetime:
+        return (
+            self.takeoff_time() - self.estimate_startup() - self.estimate_ground_ops()
+        )
 
     def estimate_startup(self) -> timedelta:
         if self.flight.start_type is StartType.COLD:
@@ -308,7 +269,7 @@ class FlightPlan(ABC, Generic[LayoutT]):
     def estimate_ground_ops(self) -> timedelta:
         if self.flight.start_type in {StartType.RUNWAY, StartType.IN_FLIGHT}:
             return timedelta()
-        if self.flight.from_cp.is_fleet or self.flight.from_cp.is_fob:
+        if self.flight.departure.is_fleet or self.flight.departure.is_fob:
             return timedelta(minutes=2)
         else:
             return timedelta(minutes=8)
@@ -318,11 +279,17 @@ class FlightPlan(ABC, Generic[LayoutT]):
         return False
 
     @property
+    @abstractmethod
+    def mission_begin_on_station_time(self) -> datetime | None:
+        """The time that the mission is first on-station."""
+        ...
+
+    @property
     def is_custom(self) -> bool:
         return False
 
     @property
-    def mission_departure_time(self) -> timedelta:
+    def mission_departure_time(self) -> datetime:
         """The time that the mission is complete and the flight RTBs."""
         raise NotImplementedError
 

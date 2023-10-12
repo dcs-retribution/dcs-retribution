@@ -2,8 +2,8 @@ import logging
 from copy import deepcopy
 from typing import Callable, Iterator, Optional, Type
 
-from PySide2.QtCore import QItemSelection, QItemSelectionModel, QModelIndex, Qt
-from PySide2.QtWidgets import (
+from PySide6.QtCore import QItemSelection, QItemSelectionModel, QModelIndex, Qt
+from PySide6.QtWidgets import (
     QAbstractItemView,
     QCheckBox,
     QComboBox,
@@ -30,6 +30,7 @@ from game.theater import ConflictTheater, ControlPoint, ParkingType
 from qt_ui.delegates import TwoColumnRowDelegate
 from qt_ui.errorreporter import report_errors
 from qt_ui.models import AtoModel, SquadronModel
+from qt_ui.simcontroller import SimController
 from qt_ui.widgets.combos.QSquadronLiverySelector import SquadronLiverySelector
 from qt_ui.widgets.combos.primarytaskselector import PrimaryTaskSelector
 
@@ -204,7 +205,7 @@ class SquadronDestinationComboBox(QComboBox):
             if overflow:
                 overflow_msg = ""
                 for s in overflow:
-                    overflow_msg += f"{s.name} - {s.aircraft.name}<br/>"
+                    overflow_msg += f"{s.name} - {s.aircraft.variant_id}<br/>"
                 QMessageBox.warning(
                     None,
                     "Insufficient parking space detected!",
@@ -230,11 +231,13 @@ class SquadronDialog(QDialog):
         ato_model: AtoModel,
         squadron_model: SquadronModel,
         theater: ConflictTheater,
+        sim_controller: SimController,
         parent,
     ) -> None:
         super().__init__(parent)
         self.ato_model = ato_model
         self.squadron_model = squadron_model
+        self.sim_controller = sim_controller
 
         self.setMinimumSize(1000, 440)
         self.setWindowTitle(str(squadron_model.squadron))
@@ -327,7 +330,9 @@ class SquadronDialog(QDialog):
             elif self.ato_model.game.settings.enable_transfer_cheat:
                 self._instant_relocate(destination)
             else:
-                self.squadron.plan_relocation(destination)
+                self.squadron.plan_relocation(
+                    destination, self.sim_controller.current_time_in_sim
+                )
             self.ato_model.replace_from_game(player=True)
 
     def check_disabled_button_states(

@@ -1,8 +1,14 @@
 import logging
 
 from dcs.point import MovingPoint
-from dcs.task import BombingRunway, OptFormation, WeaponType
+from dcs.task import (
+    Bombing,
+    BombingRunway,
+    OptFormation,
+    WeaponType as DcsWeaponType,
+)
 
+from game.data.weapons import WeaponType
 from game.theater import Airfield
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 
@@ -18,10 +24,25 @@ class OcaRunwayIngressBuilder(PydcsWaypointBuilder):
             )
             return
 
+        # The BombingRunway task in DCS does not use LGBs, which necessitates special handling
+        # by using the Bombing task instead. See https://github.com/dcs-liberation/dcs_liberation/issues/894
+        # for more details.
+        # The LGB work around assumes the Airfield position in DCS is on a runway, which seems
+        # to be the case for most if not all airfields.
+        if self.flight.any_member_has_weapon_of_type(WeaponType.LGB):
+            waypoint.tasks.append(
+                Bombing(
+                    position=target.position,
+                    group_attack=True,
+                    weapon_type=DcsWeaponType.Guided,
+                    altitude=waypoint.alt,
+                )
+            )
+
         waypoint.tasks.append(
             BombingRunway(
                 airport_id=target.airport.id,
-                weapon_type=WeaponType.Guided,
+                weapon_type=DcsWeaponType.Guided,
                 altitude=waypoint.alt,
                 group_attack=True,
             )
@@ -29,7 +50,7 @@ class OcaRunwayIngressBuilder(PydcsWaypointBuilder):
         waypoint.tasks.append(
             BombingRunway(
                 airport_id=target.airport.id,
-                weapon_type=WeaponType.Bombs,
+                weapon_type=DcsWeaponType.Bombs,
                 group_attack=True,
             )
         )

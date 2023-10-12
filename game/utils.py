@@ -201,6 +201,9 @@ class Distance:
     def inf(cls) -> Distance:
         return cls.from_meters(math.inf)
 
+    def __str__(self) -> str:
+        return f"{self.distance_in_meters} meters"
+
     def __add__(self, other: Distance) -> Distance:
         return meters(self.meters + other.meters)
 
@@ -396,6 +399,9 @@ class Heading:
 
     def __sub__(self, other: Heading) -> Heading:
         return Heading.from_degrees(self.degrees - other.degrees)
+
+    def __str__(self) -> str:
+        return f"{self.heading_in_degrees}°"
 
 
 @dataclass(frozen=True, order=True)

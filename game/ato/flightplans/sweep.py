@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import timedelta
+from datetime import datetime, timedelta
 from typing import Iterator, TYPE_CHECKING, Type
 
 from dcs import Point
@@ -10,7 +10,6 @@ from game.utils import Heading
 from .ibuilder import IBuilder
 from .loiter import LoiterFlightPlan, LoiterLayout
 from .waypointbuilder import WaypointBuilder
-from ..traveltime import GroundSpeed, TravelTime
 from ...flightplan import HoldZoneGeometry
 
 if TYPE_CHECKING:
@@ -55,38 +54,41 @@ class SweepFlightPlan(LoiterFlightPlan):
         return -timedelta(minutes=5)
 
     @property
-    def sweep_start_time(self) -> timedelta:
-        travel_time = self.travel_time_between_waypoints(
+    def sweep_start_time(self) -> datetime:
+        travel_time = self.total_time_between_waypoints(
             self.layout.sweep_start, self.layout.sweep_end
         )
         return self.sweep_end_time - travel_time
 
     @property
-    def sweep_end_time(self) -> timedelta:
+    def sweep_end_time(self) -> datetime:
         return self.tot
 
-    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
+    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         if waypoint == self.layout.sweep_start:
             return self.sweep_start_time + self.tot_offset
         if waypoint == self.layout.sweep_end:
             return self.sweep_end_time + self.tot_offset
         return None
 
-    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
+    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         if waypoint == self.layout.hold:
             return self.push_time + self.tot_offset
         return None
 
     @property
-    def push_time(self) -> timedelta:
-        return self.sweep_end_time - TravelTime.between_points(
-            self.layout.hold.position,
-            self.layout.sweep_end.position,
-            GroundSpeed.for_flight(self.flight, self.layout.hold.alt),
+    def push_time(self) -> datetime:
+        return self.sweep_end_time - self.travel_time_between_waypoints(
+            self.layout.hold,
+            self.layout.sweep_end,
         )
 
     @property
-    def mission_departure_time(self) -> timedelta:
+    def mission_begin_on_station_time(self) -> datetime | None:
+        return None
+
+    @property
+    def mission_departure_time(self) -> datetime:
         return self.sweep_end_time
 
 
@@ -101,7 +103,7 @@ class Builder(IBuilder[SweepFlightPlan, SweepLayout]):
             heading.degrees, -self.doctrine.sweep_distance.meters
         )
 
-        builder = WaypointBuilder(self.flight, self.coalition)
+        builder = WaypointBuilder(self.flight)
         start, end = builder.sweep(start_pos, target, self.doctrine.ingress_altitude)
 
         hold = builder.hold(self._hold_point())
@@ -134,5 +136,5 @@ class Builder(IBuilder[SweepFlightPlan, SweepLayout]):
             target, origin, ip, join, self.coalition, self.theater
         ).find_best_hold_point()
 
-    def build(self) -> SweepFlightPlan:
+    def build(self, dump_debug_info: bool = False) -> SweepFlightPlan:
         return SweepFlightPlan(self.flight, self.layout())

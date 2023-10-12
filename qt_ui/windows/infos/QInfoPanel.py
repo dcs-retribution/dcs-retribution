@@ -1,4 +1,4 @@
-from PySide2.QtWidgets import QVBoxLayout, QGroupBox
+from PySide6.QtWidgets import QVBoxLayout, QGroupBox
 
 from game import Game
 from qt_ui.windows.infos.QInfoList import QInfoList

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import timedelta
+from datetime import datetime
 from typing import Any, Iterable, Union
 
 from dcs import Mission
@@ -10,6 +10,7 @@ from dcs.unitgroup import FlyingGroup
 
 from game.ato import Flight, FlightWaypoint
 from game.ato.flightwaypointtype import FlightWaypointType
+from game.ato.traveltime import GroundSpeed
 from game.missiongenerator.missiondata import MissionData
 from game.theater import MissionTarget, TheaterUnit
 
@@ -27,7 +28,7 @@ class PydcsWaypointBuilder:
         group: FlyingGroup[Any],
         flight: Flight,
         mission: Mission,
-        elapsed_mission_time: timedelta,
+        now: datetime,
         mission_data: MissionData,
     ) -> None:
         self.waypoint = waypoint
@@ -35,14 +36,31 @@ class PydcsWaypointBuilder:
         self.package = flight.package
         self.flight = flight
         self.mission = mission
-        self.elapsed_mission_time = elapsed_mission_time
+        self.now = now
         self.mission_data = mission_data
+
+    def dcs_name_for_waypoint(self) -> str:
+        return self.waypoint.name
 
     def build(self) -> MovingPoint:
         waypoint = self.group.add_waypoint(
             self.waypoint.position,
             self.waypoint.alt.meters,
-            name=self.waypoint.name,
+            # The speed we pass will be overridden for most waypoints because we'll set
+            # a TOT and leave the speed up to the AI, but for the few types of waypoints
+            # that don't have TOTs (e.g. nav points), we set a reasonable cruise speed
+            # to pydcs doesn't assign the default of 600kph ground speed (which is very
+            # slow at most altitudes).
+            #
+            # Calling GroundSpeed.for_flight isn't really a correct fix here. We ought
+            # to be using FlightPlan.speed_between_waypoints, but the way the waypoint
+            # builder is called makes it difficult to track the previous waypoint. This
+            # is probably good enough for a stop gap, and most of the flight planning
+            # code is hopefully being rewritten soon anyway.
+            #
+            # https://github.com/dcs-liberation/dcs_liberation/issues/3113
+            speed=GroundSpeed.for_flight(self.flight, self.waypoint.alt).kph,
+            name=self.dcs_name_for_waypoint(),
         )
 
         if self.waypoint.flyover:
@@ -65,10 +83,10 @@ class PydcsWaypointBuilder:
     def add_tasks(self, waypoint: MovingPoint) -> None:
         pass
 
-    def set_waypoint_tot(self, waypoint: MovingPoint, tot: timedelta) -> None:
+    def set_waypoint_tot(self, waypoint: MovingPoint, tot: datetime) -> None:
         self.waypoint.tot = tot
         if not self._viggen_client_tot():
-            waypoint.ETA = int((tot - self.elapsed_mission_time).total_seconds())
+            waypoint.ETA = int((tot - self.now).total_seconds())
             waypoint.ETA_locked = True
             waypoint.speed_locked = False
 

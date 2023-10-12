@@ -1,7 +1,7 @@
 from typing import Optional, Type
 
-from PySide2.QtCore import Qt, Signal
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Qt, Signal
+from PySide6.QtWidgets import (
     QComboBox,
     QDialog,
     QLabel,
@@ -89,9 +89,10 @@ class QFlightCreator(QDialog):
             roster = None
         else:
             roster = FlightRoster(
-                squadron, initial_size=self.flight_size_spinner.value()
+                squadron,
+                initial_size=self.flight_size_spinner.value(),
             )
-        self.roster_editor = FlightRosterEditor(roster)
+        self.roster_editor = FlightRosterEditor(squadron, roster)
         self.flight_size_spinner.valueChanged.connect(self.roster_editor.resize)
         self.squadron_selector.currentIndexChanged.connect(self.on_squadron_changed)
         roster_layout = QHBoxLayout()
@@ -142,7 +143,7 @@ class QFlightCreator(QDialog):
     def reject(self) -> None:
         super().reject()
         # Clear the roster to return pilots to the pool.
-        self.roster_editor.replace(None)
+        self.roster_editor.replace(None, None)
 
     def set_custom_name_text(self, text: str):
         self.custom_name_text = text
@@ -193,6 +194,12 @@ class QFlightCreator(QDialog):
             roster=roster,
         )
 
+        for member in flight.iter_members():
+            if member.is_player:
+                member.assign_tgp_laser_code(
+                    self.game.laser_code_registry.alloc_laser_code()
+                )
+
         # noinspection PyUnresolvedReferences
         self.created.emit(flight)
         self.accept()
@@ -229,10 +236,10 @@ class QFlightCreator(QDialog):
         self.update_max_size(self.squadron_selector.aircraft_available)
         # Clear the roster first so we return the pilots to the pool. This way if we end
         # up repopulating from the same squadron we'll get the same pilots back.
-        self.roster_editor.replace(None)
+        self.roster_editor.replace(None, None)
         if squadron is not None:
             self.roster_editor.replace(
-                FlightRoster(squadron, self.flight_size_spinner.value())
+                squadron, FlightRoster(squadron, self.flight_size_spinner.value())
             )
             self.on_departure_changed(squadron.location)
 

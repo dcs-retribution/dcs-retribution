@@ -142,7 +142,7 @@ class AircraftPurchaseAdapter(PurchaseAdapter[Squadron]):
             separator = "<br />"
         else:
             separator = " "
-        return separator.join([item.aircraft.name, str(item)])
+        return separator.join([item.aircraft.display_name, str(item)])
 
     def unit_type_of(self, item: Squadron) -> AircraftType:
         return item.aircraft

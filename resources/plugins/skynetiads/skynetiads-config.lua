@@ -18,6 +18,10 @@ if dcsRetribution and SkynetIADS then
     local includeBlueInRadio = false
     local debugRED = false
     local debugBLUE = false
+    local actMobile = false
+    local actMobileMaxEmissionTime = 120
+    local actMobileMinimumScootDistance = 500
+    local actMobileMaximumScootDistance = 3000
 
     -- retrieve specific options values
     if dcsRetribution.plugins then
@@ -28,6 +32,10 @@ if dcsRetribution and SkynetIADS then
             includeBlueInRadio = dcsRetribution.plugins.skynetiads.includeBlueInRadio
             debugRED = dcsRetribution.plugins.skynetiads.debugRED
             debugBLUE = dcsRetribution.plugins.skynetiads.debugBLUE
+            actMobile = dcsRetribution.plugins.skynetiads.actMobile
+            actMobileMaxEmissionTime = dcsRetribution.plugins.skynetiads.actMobileMaxEmissionTime
+            actMobileMinimumScootDistance = dcsRetribution.plugins.skynetiads.actMobileMinimumScootDistance
+            actMobileMaximumScootDistance = dcsRetribution.plugins.skynetiads.actMobileMaximumScootDistance
         end
     end
 
@@ -186,6 +194,14 @@ if dcsRetribution and SkynetIADS then
         iads:activate()
     end
 
+    local function initializeMobileSams(iads)
+        local sams = {"SA-6", "SA-8", "SA-9", "SA-11", "SA-13", "SA-15", "SA-17", "SA-19"}
+        for _, sam in ipairs(sams) do
+            iads:getSAMSitesByNatoName(sam):setActMobile(true,actMobileMaxEmissionTime,actMobileMinimumScootDistance,actMobileMaximumScootDistance,nil)    --ActMobile
+        end
+    end
+
+
     ------------------------------------------------------------------------------------------------------------------------------------------------------------
     -- create the IADS networks
     -------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -193,12 +209,18 @@ if dcsRetribution and SkynetIADS then
         env.info("DCSRetribution|Skynet-IADS plugin - creating red IADS")
         local redIADS = SkynetIADS:create("IADS")
         initializeIADS(redIADS, 1, includeRedInRadio, debugRED) -- RED
+        if actMobile then
+            initializeMobileSams(redIADS)
+        end
     end
 
     if createBlueIADS then
         env.info("DCSRetribution|Skynet-IADS plugin - creating blue IADS")
         local blueIADS = SkynetIADS:create("IADS")
         initializeIADS(blueIADS, 2, includeBlueInRadio, debugBLUE) -- BLUE
+        if actMobile then
+            initializeMobileSams(blueIADS)
+        end
     end
 
 end

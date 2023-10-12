@@ -1,4 +1,4 @@
-from PySide2.QtGui import QIcon, QStandardItem
+from PySide6.QtGui import QIcon, QStandardItem
 
 from game.ato.flight import Flight
 from game.ato.package import Package
@@ -19,4 +19,4 @@ class QFlightItem(QStandardItem):
             )
             self.setIcon(icon)
         self.setEditable(False)
-        self.setText(f"{flight} in {flight.flight_plan.startup_time()}")
+        self.setText(f"{flight} at {flight.flight_plan.startup_time()}")

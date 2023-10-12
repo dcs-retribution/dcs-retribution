@@ -28,6 +28,7 @@ from .coalition import Coalition
 from .db.gamedb import GameDb
 from .dcs.countries import country_with_name
 from .infos.information import Information
+from .lasercodes.lasercoderegistry import LaserCodeRegistry
 from .profiling import logged_duration
 from .settings import Settings
 from .theater import ConflictTheater
@@ -121,6 +122,7 @@ class Game:
         self.current_unit_id = 0
         self.current_group_id = 0
         self.name_generator = naming.namegen
+        self.laser_code_registry = LaserCodeRegistry()
 
         self.db = GameDb()
 
@@ -150,6 +152,10 @@ class Game:
 
     def __setstate__(self, state: dict[str, Any]) -> None:
         self.__dict__.update(state)
+        if not hasattr(self, "laser_code_registry"):
+            self.laser_code_registry = LaserCodeRegistry()
+            for front_line in self.theater.conflicts():
+                front_line.laser_code = self.laser_code_registry.alloc_laser_code()
         # Regenerate any state that was not persisted.
         self.on_load()
 
@@ -305,7 +311,7 @@ class Game:
             self.theater.iads_network.initialize_network(self.theater.ground_objects)
 
         for control_point in self.theater.controlpoints:
-            control_point.initialize_turn_0()
+            control_point.initialize_turn_0(self.laser_code_registry)
             for tgo in control_point.connected_objectives:
                 self.db.tgos.add(tgo.id, tgo)
 

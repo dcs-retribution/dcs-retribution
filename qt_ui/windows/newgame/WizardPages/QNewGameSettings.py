@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 
-from PySide2 import QtWidgets, QtGui
+from PySide6 import QtWidgets, QtGui
 
 from game.campaignloader import Campaign
 from game.settings import Settings

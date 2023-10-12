@@ -1,8 +1,8 @@
-from datetime import timedelta
+from datetime import datetime
 
-from PySide2.QtCore import QItemSelectionModel, QSize
-from PySide2.QtGui import QStandardItemModel
-from PySide2.QtWidgets import QAbstractItemView, QListView
+from PySide6.QtCore import QItemSelectionModel, QSize
+from PySide6.QtGui import QStandardItemModel
+from PySide6.QtWidgets import QAbstractItemView, QListView
 
 from game.theater.controlpoint import ControlPoint
 from qt_ui.models import GameModel
@@ -25,7 +25,7 @@ class QPlannedFlightsView(QListView):
         self.flight_items = []
         for package in self.game_model.ato_model.packages:
             for flight in package.flights:
-                if flight.from_cp == self.cp:
+                if flight.departure == self.cp:
                     item = QFlightItem(package.package, flight)
                     self.flight_items.append(item)
 
@@ -50,5 +50,5 @@ class QPlannedFlightsView(QListView):
         self.setup_content()
 
     @staticmethod
-    def mission_start_for_flight(flight_item: QFlightItem) -> timedelta:
+    def mission_start_for_flight(flight_item: QFlightItem) -> datetime:
         return flight_item.flight.flight_plan.startup_time()

@@ -32,7 +32,6 @@ from .flotgenerator import FlotGenerator
 from .forcedoptionsgenerator import ForcedOptionsGenerator
 from .frontlineconflictdescription import FrontLineConflictDescription
 from .kneeboard import KneeboardGenerator
-from .lasercoderegistry import LaserCodeRegistry
 from .luagenerator import LuaGenerator
 from .missiondata import MissionData
 from .tgogenerator import TgoGenerator
@@ -53,7 +52,6 @@ class MissionGenerator:
 
         self.mission_data = MissionData()
 
-        self.laser_code_registry = LaserCodeRegistry()
         self.radio_registry = RadioRegistry()
         self.tacan_registry = TacanRegistry()
 
@@ -206,7 +204,7 @@ class MissionGenerator:
             player_cp = front_line.blue_cp
             enemy_cp = front_line.red_cp
             conflict = FrontLineConflictDescription.frontline_cas_conflict(
-                front_line, self.game.theater, self.game.settings
+                front_line, self.game.theater
             )
             # Generate frontline ops
             player_gp = self.game.ground_planners[player_cp.id].units_per_cp[
@@ -224,7 +222,6 @@ class MissionGenerator:
                 self.unit_map,
                 self.radio_registry,
                 self.mission_data,
-                self.laser_code_registry,
             )
             ground_conflict_gen.generate()
 
@@ -239,7 +236,6 @@ class MissionGenerator:
             self.time,
             self.radio_registry,
             self.tacan_registry,
-            self.laser_code_registry,
             self.unit_map,
             mission_data=self.mission_data,
             helipads=tgo_generator.helipads,
