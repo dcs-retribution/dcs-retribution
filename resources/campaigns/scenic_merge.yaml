@@ -8,7 +8,7 @@ advanced_iads: true
 recommended_player_faction: USA 2005
 recommended_enemy_faction: Iran 2015
 miz: scenic_merge.miz
-performance: 2
+performance: 3
 recommended_start_date: 2005-06-29
 recommended_player_money: 2000
 recommended_enemy_money: 1000
