@@ -486,6 +486,8 @@ class QLiberationWindow(QMainWindow):
             "kivipe",
             "Turbolious",
             "ingax01",
+            "M-Chimiste",
+            "tmz42",
         ]
         text = (
             "<h3>DCS Retribution " + VERSION + "</h3>" + "<b>Source code : </b>"
