@@ -49,20 +49,28 @@ class QLiberationPreferences(QFrame):
             QLabel("<strong>DCS saved game directory:</strong>"),
             0,
             0,
-            alignment=Qt.AlignLeft,
+            alignment=Qt.AlignmentFlag.AlignLeft,
         )
-        layout.addWidget(self.edit_saved_game_dir, 1, 0, alignment=Qt.AlignRight)
-        layout.addWidget(self.browse_saved_game, 1, 1, alignment=Qt.AlignRight)
+        layout.addWidget(
+            self.edit_saved_game_dir, 1, 0, alignment=Qt.AlignmentFlag.AlignRight
+        )
+        layout.addWidget(
+            self.browse_saved_game, 1, 1, alignment=Qt.AlignmentFlag.AlignRight
+        )
         layout.addWidget(
             QLabel("<strong>DCS installation directory:</strong>"),
             2,
             0,
-            alignment=Qt.AlignLeft,
+            alignment=Qt.AlignmentFlag.AlignLeft,
         )
-        layout.addWidget(self.edit_dcs_install_dir, 3, 0, alignment=Qt.AlignRight)
-        layout.addWidget(self.browse_install_dir, 3, 1, alignment=Qt.AlignRight)
+        layout.addWidget(
+            self.edit_dcs_install_dir, 3, 0, alignment=Qt.AlignmentFlag.AlignRight
+        )
+        layout.addWidget(
+            self.browse_install_dir, 3, 1, alignment=Qt.AlignmentFlag.AlignRight
+        )
         layout.addWidget(QLabel("<strong>Theme (Requires Restart)</strong>"), 4, 0)
-        layout.addWidget(self.themeSelect, 4, 1, alignment=Qt.AlignRight)
+        layout.addWidget(self.themeSelect, 4, 1, alignment=Qt.AlignmentFlag.AlignRight)
         self.themeSelect.setCurrentIndex(get_theme_index())
 
         main_layout.addLayout(layout)
@@ -115,7 +123,7 @@ class QLiberationPreferences(QFrame):
                 QMessageBox.StandardButton.Yes,
                 QMessageBox.StandardButton.No,
             )
-            if warning_dialog == QMessageBox.No:
+            if warning_dialog == QMessageBox.StandardButton.No:
                 return False
         elif not os.path.isdir(self.dcs_install_dir):
             error_dialog = QMessageBox.critical(
@@ -130,7 +138,7 @@ class QLiberationPreferences(QFrame):
                 QMessageBox.StandardButton.Ignore,
                 QMessageBox.StandardButton.Ok,
             )
-            if error_dialog == QMessageBox.Ignore:
+            if error_dialog == QMessageBox.StandardButton.Ignore:
                 self.install_dir_ignore_warning = True
             return False
         elif not os.path.isdir(

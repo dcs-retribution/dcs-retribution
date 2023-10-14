@@ -14,7 +14,7 @@ class FloatSpinSlider(QHBoxLayout):
     ) -> None:
         super().__init__()
 
-        slider = QSlider(Qt.Horizontal)
+        slider = QSlider(Qt.Orientation.Horizontal)
         slider.setMinimum(int(minimum * divisor))
         slider.setMaximum(int(maximum * divisor))
         slider.setValue(int(initial * divisor))
@@ -36,7 +36,7 @@ class TimeInputs(QtWidgets.QHBoxLayout):
 
         initial_minutes = int(initial.total_seconds() / 60)
 
-        slider = QtWidgets.QSlider(Qt.Horizontal)
+        slider = QtWidgets.QSlider(Qt.Orientation.Horizontal)
         slider.setMinimum(minimum)
         slider.setMaximum(maximum)
         slider.setValue(initial_minutes)

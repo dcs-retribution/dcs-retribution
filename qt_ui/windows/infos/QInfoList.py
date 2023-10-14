@@ -15,7 +15,7 @@ class QInfoList(QListView):
         self.update_list()
 
         self.selectionModel().setCurrentIndex(
-            self.indexAt(QPoint(1, 1)), QItemSelectionModel.Select
+            self.indexAt(QPoint(1, 1)), QItemSelectionModel.SelectionFlag.Select
         )
         self.selectionModel().selectionChanged.connect(self.on_selected_info_changed)
 
@@ -28,7 +28,7 @@ class QInfoList(QListView):
             for i, info in enumerate(reversed(self.game.informations)):
                 self.model.appendRow(QInfoItem(info))
             self.selectionModel().setCurrentIndex(
-                self.indexAt(QPoint(1, 1)), QItemSelectionModel.Select
+                self.indexAt(QPoint(1, 1)), QItemSelectionModel.SelectionFlag.Select
             )
 
     def setGame(self, game):

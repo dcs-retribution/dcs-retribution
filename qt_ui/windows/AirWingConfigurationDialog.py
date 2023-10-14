@@ -223,12 +223,16 @@ class SquadronConfigurationBox(QGroupBox):
 
         nickname_edit_layout.addWidget(QLabel("Nickname:"), 0, 0, 1, 2)
         self.nickname_edit = QLineEdit(squadron.nickname)
-        nickname_edit_layout.addWidget(self.nickname_edit, 1, 0, Qt.AlignTop)
+        nickname_edit_layout.addWidget(
+            self.nickname_edit, 1, 0, Qt.AlignmentFlag.AlignTop
+        )
         reroll_nickname_button = QToolButton()
         reroll_nickname_button.setIcon(QIcon(ICONS["Reload"]))
         reroll_nickname_button.setToolTip("Re-roll nickname")
         reroll_nickname_button.clicked.connect(self.reroll_nickname)
-        nickname_edit_layout.addWidget(reroll_nickname_button, 1, 1, Qt.AlignTop)
+        nickname_edit_layout.addWidget(
+            reroll_nickname_button, 1, 1, Qt.AlignmentFlag.AlignTop
+        )
 
         left_column.addWidget(QLabel("Livery:"))
         self.livery_selector = SquadronLiverySelector(squadron)
@@ -357,7 +361,7 @@ class SquadronConfigurationBox(QGroupBox):
             self.squadron.aircraft,
             self.coalition.air_wing.squadron_defs,
         )
-        if popup.exec_() != QDialog.Accepted:
+        if popup.exec_() != QDialog.DialogCode.Accepted:
             return None
 
         selected_def = popup.squadron_def_selector.currentData()
@@ -504,8 +508,10 @@ class AircraftSquadronsPage(QWidget):
         scrolling_widget.setLayout(self.squadrons_config)
 
         scrolling_area = QScrollArea()
-        scrolling_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        scrolling_area.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        scrolling_area.setHorizontalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+        )
+        scrolling_area.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
         scrolling_area.setWidgetResizable(True)
         scrolling_area.setWidget(scrolling_widget)
 
@@ -604,7 +610,7 @@ class AircraftTypeList(QListView):
         self.setModel(self.item_model)
 
         self.selectionModel().setCurrentIndex(
-            self.item_model.index(0, 0), QItemSelectionModel.Select
+            self.item_model.index(0, 0), QItemSelectionModel.SelectionFlag.Select
         )
         self.selectionModel().selectionChanged.connect(self.on_selection_changed)
         for aircraft in air_wing.squadrons:
@@ -702,7 +708,7 @@ class AirWingConfigurationTab(QWidget):
             bases,
             self.coalition.air_wing.squadron_defs,
         )
-        if popup.exec_() != QDialog.Accepted:
+        if popup.exec_() != QDialog.DialogCode.Accepted:
             return
 
         selected_type = popup.aircraft_type_selector.currentData()
@@ -799,10 +805,10 @@ class AirWingConfigurationDialog(QDialog):
             None,
             "Discard changes?",
             "Are you sure you want to discard your changes and start the campaign?",
-            QMessageBox.Yes,
-            QMessageBox.No,
+            QMessageBox.StandardButton.Yes,
+            QMessageBox.StandardButton.No,
         )
-        if result == QMessageBox.No:
+        if result == QMessageBox.StandardButton.No:
             return
         super().reject()
 

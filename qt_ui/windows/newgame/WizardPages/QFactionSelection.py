@@ -109,7 +109,7 @@ class FactionSelection(QtWidgets.QWizardPage):
             "\nChoose the two opposing factions and select the player side."
         )
         self.setPixmap(
-            QtWidgets.QWizard.LogoPixmap,
+            QtWidgets.QWizard.WizardPixmap.LogoPixmap,
             QtGui.QPixmap("./resources/ui/misc/generator.png"),
         )
 
@@ -133,13 +133,17 @@ class FactionSelection(QtWidgets.QWizardPage):
         self.blueFactionDescription = QTextBrowser()
         self.blueFactionDescription.setReadOnly(True)
         self.blueFactionDescription.setOpenExternalLinks(True)
-        self.blueFactionDescription.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.blueFactionDescription.setVerticalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOn
+        )
         self.blueFactionDescription.setMaximumHeight(120)
 
         self.redFactionDescription = QTextBrowser()
         self.redFactionDescription.setReadOnly(True)
         self.redFactionDescription.setOpenExternalLinks(True)
-        self.redFactionDescription.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.redFactionDescription.setVerticalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOn
+        )
         self.redFactionDescription.setMaximumHeight(120)
 
         # Setup default selected factions
@@ -177,7 +181,7 @@ class FactionSelection(QtWidgets.QWizardPage):
         docsText = QtWidgets.QLabel(
             '<a href="https://github.com/dcs-retribution/dcs-retribution/wiki/Custom-Factions"><span style="color:#FFFFFF;">How to create your own faction</span></a>'
         )
-        docsText.setAlignment(Qt.AlignCenter)
+        docsText.setAlignment(Qt.AlignmentFlag.AlignCenter)
         docsText.setOpenExternalLinks(True)
 
         # Link form fields

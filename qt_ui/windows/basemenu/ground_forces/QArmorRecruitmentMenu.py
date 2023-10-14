@@ -41,8 +41,8 @@ class QArmorRecruitmentMenu(UnitTransactionFrame[GroundUnitType]):
 
         scroll_content.setLayout(task_box_layout)
         scroll = QScrollArea()
-        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
         scroll.setWidgetResizable(True)
         scroll.setWidget(scroll_content)
         main_layout.addWidget(scroll)

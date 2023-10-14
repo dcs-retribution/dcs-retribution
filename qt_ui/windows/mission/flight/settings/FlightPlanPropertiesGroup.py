@@ -120,7 +120,10 @@ class FlightPlanPropertiesGroup(QGroupBox):
             self.flight.divert = old_divert
             logging.exception("Could not change divert airfield")
             QMessageBox.critical(
-                self, "Could not update flight plan", str(ex), QMessageBox.Ok
+                self,
+                "Could not update flight plan",
+                str(ex),
+                QMessageBox.StandardButton.Ok,
             )
 
     def set_tot_offset(self, offset: QTime) -> None:

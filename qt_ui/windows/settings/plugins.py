@@ -22,7 +22,7 @@ class PluginsBox(QGroupBox):
         super().__init__("Plugins")
 
         layout = QGridLayout()
-        layout.setAlignment(Qt.AlignTop)
+        layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.setLayout(layout)
 
         self.plugin_map: Dict[str, QCheckBox] = {}
@@ -52,7 +52,7 @@ class PluginsPage(QWidget):
         self.sc = sc
 
         layout = QVBoxLayout()
-        layout.setAlignment(Qt.AlignTop)
+        layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.setLayout(layout)
 
         self.plugins_box = PluginsBox()
@@ -67,7 +67,7 @@ class PluginOptionsBox(QGroupBox):
         super().__init__(plugin.name)
 
         layout = QGridLayout()
-        layout.setAlignment(Qt.AlignTop)
+        layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.setLayout(layout)
 
         self.widgets: Dict[str, QWidget] = {}
@@ -86,7 +86,7 @@ class PluginOptionsBox(QGroupBox):
                 if type(val) == float:
                     spinbox = QDoubleSpinBox()
                     spinbox.setSingleStep(0.01)
-                    spinbox.setLocale(QLocale.English)
+                    spinbox.setLocale(QLocale.Language.English)
                 else:
                     spinbox = QSpinBox()
                 spinbox.setMinimum(option.min)
@@ -113,7 +113,7 @@ class PluginOptionsPage(QWidget):
         self.sc = sc
 
         layout = QVBoxLayout()
-        layout.setAlignment(Qt.AlignTop)
+        layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.setLayout(layout)
 
         self.pobs: List[PluginOptionsBox] = []

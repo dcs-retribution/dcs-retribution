@@ -98,7 +98,7 @@ class QLiberationWindow(QMainWindow):
         # configuration.
         screen = QGuiApplication.primaryScreen().availableSize()
         self.setGeometry(0, 0, screen.width(), screen.height())
-        self.setWindowState(Qt.WindowMaximized)
+        self.setWindowState(Qt.WindowState.WindowMaximized)
 
         # But override it with the saved configuration if it exists.
         self._restore_window_geometry()
@@ -117,8 +117,8 @@ class QLiberationWindow(QMainWindow):
             self.onGameGenerated(self.game)
 
     def initUi(self, ui_flags: UiFlags) -> None:
-        hbox = QSplitter(Qt.Horizontal)
-        vbox = QSplitter(Qt.Vertical)
+        hbox = QSplitter(Qt.Orientation.Horizontal)
+        vbox = QSplitter(Qt.Orientation.Vertical)
         hbox.addWidget(self.ato_panel)
         hbox.addWidget(vbox)
         vbox.addWidget(self.liberation_map)
@@ -398,11 +398,11 @@ class QLiberationWindow(QMainWindow):
             QApplication.focusWidget(),
             title,
             msg,
-            QMessageBox.Yes,
-            QMessageBox.No,
+            QMessageBox.StandardButton.Yes,
+            QMessageBox.StandardButton.No,
         )
 
-        if result is not None and result == QMessageBox.Yes:
+        if result is not None and result == QMessageBox.StandardButton.Yes:
             self.newGame()
 
     def setGame(self, game: Optional[Game]):
@@ -422,7 +422,7 @@ class QLiberationWindow(QMainWindow):
                 "version of DCS Retribution.\n"
                 "\n"
                 f"{traceback.format_exc()}",
-                QMessageBox.Ok,
+                QMessageBox.StandardButton.Ok,
             )
             GameUpdateSignal.get_instance().updateGame(None)
         finally:
@@ -577,11 +577,13 @@ class QLiberationWindow(QMainWindow):
             self,
             "Quit Retribution?",
             "Would you like to save before quitting?",
-            QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel,
-            QMessageBox.Cancel,
+            QMessageBox.StandardButton.Yes
+            | QMessageBox.StandardButton.No
+            | QMessageBox.StandardButton.Cancel,
+            QMessageBox.StandardButton.Cancel,
         )
-        if result in [QMessageBox.Yes, QMessageBox.No]:
-            if result == QMessageBox.Yes:
+        if result in [QMessageBox.StandardButton.Yes, QMessageBox.StandardButton.No]:
+            if result == QMessageBox.StandardButton.Yes:
                 self.saveGame()
             self._save_window_geometry()
             super().closeEvent(event)

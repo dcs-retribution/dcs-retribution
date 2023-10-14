@@ -58,7 +58,7 @@ class QLogsWindow(QDialog):
                 break
         if self._logging_handler is not None:
             self.textbox.setPlainText(self._logging_handler.log)
-            self.textbox.moveCursor(QTextCursor.End)
+            self.textbox.moveCursor(QTextCursor.MoveOperation.End)
             # The Handler might be called from a different thread,
             # so use signal/slot to properly handle the event in the main thread.
             # https://github.com/dcs-liberation/dcs_liberation/issues/1493
@@ -73,4 +73,4 @@ class QLogsWindow(QDialog):
 
     def appendLog(self, msg: str):
         self.textbox.appendPlainText(msg)
-        self.textbox.moveCursor(QTextCursor.End)
+        self.textbox.moveCursor(QTextCursor.MoveOperation.End)

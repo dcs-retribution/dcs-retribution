@@ -215,17 +215,17 @@ class QTopPanel(QFrame):
                 "<br />Click 'Yes' to continue with an AI only mission"
                 "<br />Click 'No' if you'd like to make more changes."
             ),
-            QMessageBox.No,
-            QMessageBox.Yes,
+            QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.Yes,
         )
-        return result == QMessageBox.Yes
+        return result == QMessageBox.StandardButton.Yes
 
     def confirm_negative_start_time(self, negative_starts: List[Package]) -> bool:
         formatted = "<br />".join(
             [f"{p.primary_task} {p.target.name}" for p in negative_starts]
         )
         mbox = QMessageBox(
-            QMessageBox.Question,
+            QMessageBox.Icon.Question,
             "Continue with past start times?",
             (
                 "Some flights in the following packages have start times set "
@@ -244,9 +244,13 @@ class QTopPanel(QFrame):
             ),
             parent=self,
         )
-        auto = mbox.addButton("Fix TOTs automatically", QMessageBox.ActionRole)
-        ignore = mbox.addButton("Continue without fixing", QMessageBox.DestructiveRole)
-        cancel = mbox.addButton(QMessageBox.Cancel)
+        auto = mbox.addButton(
+            "Fix TOTs automatically", QMessageBox.ButtonRole.ActionRole
+        )
+        ignore = mbox.addButton(
+            "Continue without fixing", QMessageBox.ButtonRole.DestructiveRole
+        )
+        cancel = mbox.addButton(QMessageBox.StandardButton.Cancel)
         mbox.setEscapeButton(cancel)
         mbox.exec_()
         clicked = mbox.clickedButton()
@@ -271,7 +275,7 @@ class QTopPanel(QFrame):
             [f"{p.primary_task} {p.target}: {f}" for p, f in missing_pilots]
         )
         mbox = QMessageBox(
-            QMessageBox.Critical,
+            QMessageBox.Icon.Critical,
             "Flights are missing pilots",
             (
                 "The following flights are missing one or more pilots:<br />"
@@ -283,7 +287,7 @@ class QTopPanel(QFrame):
             ),
             parent=self,
         )
-        mbox.setEscapeButton(mbox.addButton(QMessageBox.Close))
+        mbox.setEscapeButton(mbox.addButton(QMessageBox.StandardButton.Close))
         mbox.exec_()
         return True
 

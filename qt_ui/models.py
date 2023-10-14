@@ -104,14 +104,14 @@ class NullListModel(QAbstractListModel):
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
         return 0
 
-    def data(self, index: QModelIndex, role: int = Qt.DisplayRole) -> Any:
+    def data(self, index: QModelIndex, role: int = Qt.ItemDataRole.DisplayRole) -> Any:
         return None
 
 
 class PackageModel(QAbstractListModel):
     """The model for an ATO package."""
 
-    FlightRole = Qt.UserRole
+    FlightRole = Qt.ItemDataRole.UserRole
 
     #: Emitted when this package is being deleted from the ATO.
     deleted = Signal()
@@ -127,13 +127,13 @@ class PackageModel(QAbstractListModel):
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
         return len(self.package.flights)
 
-    def data(self, index: QModelIndex, role: int = Qt.DisplayRole) -> Any:
+    def data(self, index: QModelIndex, role: int = Qt.ItemDataRole.DisplayRole) -> Any:
         if not index.isValid():
             return None
         flight = self.flight_at_index(index)
-        if role == Qt.DisplayRole:
+        if role == Qt.ItemDataRole.DisplayRole:
             return self.text_for_flight(flight)
-        if role == Qt.DecorationRole:
+        if role == Qt.ItemDataRole.DecorationRole:
             return self.icon_for_flight(flight)
         elif role == PackageModel.FlightRole:
             return flight
@@ -231,7 +231,7 @@ class PackageModel(QAbstractListModel):
 class AtoModel(QAbstractListModel):
     """The model for an AirTaskingOrder."""
 
-    PackageRole = Qt.UserRole
+    PackageRole = Qt.ItemDataRole.UserRole
 
     client_slots_changed = Signal()
     packages_changed = Signal()
@@ -250,11 +250,11 @@ class AtoModel(QAbstractListModel):
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
         return len(self.ato.packages)
 
-    def data(self, index: QModelIndex, role: int = Qt.DisplayRole) -> Any:
+    def data(self, index: QModelIndex, role: int = Qt.ItemDataRole.DisplayRole) -> Any:
         if not index.isValid():
             return None
         package = self.ato.packages[index.row()]
-        if role == Qt.DisplayRole:
+        if role == Qt.ItemDataRole.DisplayRole:
             return f"{package.package_description} {package.target.name}"
         elif role == AtoModel.PackageRole:
             return package
@@ -360,7 +360,7 @@ class AtoModel(QAbstractListModel):
 class TransferModel(QAbstractListModel):
     """The model for a ground unit transfer."""
 
-    TransferRole = Qt.UserRole
+    TransferRole = Qt.ItemDataRole.UserRole
 
     def __init__(self, game_model: GameModel) -> None:
         super().__init__()
@@ -373,13 +373,13 @@ class TransferModel(QAbstractListModel):
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
         return self.transfers.pending_transfer_count
 
-    def data(self, index: QModelIndex, role: int = Qt.DisplayRole) -> Any:
+    def data(self, index: QModelIndex, role: int = Qt.ItemDataRole.DisplayRole) -> Any:
         if not index.isValid():
             return None
         transfer = self.transfer_at_index(index)
-        if role == Qt.DisplayRole:
+        if role == Qt.ItemDataRole.DisplayRole:
             return self.text_for_transfer(transfer)
-        if role == Qt.DecorationRole:
+        if role == Qt.ItemDataRole.DecorationRole:
             return self.icon_for_transfer(transfer)
         elif role == TransferModel.TransferRole:
             return transfer
@@ -422,7 +422,7 @@ class TransferModel(QAbstractListModel):
 class AirWingModel(QAbstractListModel):
     """The model for an air wing."""
 
-    SquadronRole = Qt.UserRole
+    SquadronRole = Qt.ItemDataRole.UserRole
 
     def __init__(self, game_model: GameModel, player: bool) -> None:
         super().__init__()
@@ -432,13 +432,13 @@ class AirWingModel(QAbstractListModel):
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
         return self.game_model.game.air_wing_for(self.player).size
 
-    def data(self, index: QModelIndex, role: int = Qt.DisplayRole) -> Any:
+    def data(self, index: QModelIndex, role: int = Qt.ItemDataRole.DisplayRole) -> Any:
         if not index.isValid():
             return None
         squadron = self.squadron_at_index(index)
-        if role == Qt.DisplayRole:
+        if role == Qt.ItemDataRole.DisplayRole:
             return self.text_for_squadron(squadron)
-        if role == Qt.DecorationRole:
+        if role == Qt.ItemDataRole.DecorationRole:
             return self.icon_for_squadron(squadron)
         elif role == AirWingModel.SquadronRole:
             return squadron
@@ -468,7 +468,7 @@ class AirWingModel(QAbstractListModel):
 class SquadronModel(QAbstractListModel):
     """The model for a squadron."""
 
-    PilotRole = Qt.UserRole
+    PilotRole = Qt.ItemDataRole.UserRole
 
     def __init__(self, squadron: Squadron) -> None:
         super().__init__()
@@ -477,13 +477,13 @@ class SquadronModel(QAbstractListModel):
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
         return self.squadron.number_of_pilots_including_inactive
 
-    def data(self, index: QModelIndex, role: int = Qt.DisplayRole) -> Any:
+    def data(self, index: QModelIndex, role: int = Qt.ItemDataRole.DisplayRole) -> Any:
         if not index.isValid():
             return None
         pilot = self.pilot_at_index(index)
-        if role == Qt.DisplayRole:
+        if role == Qt.ItemDataRole.DisplayRole:
             return self.text_for_pilot(pilot)
-        if role == Qt.DecorationRole:
+        if role == Qt.ItemDataRole.DecorationRole:
             return self.icon_for_pilot(pilot)
         elif role == SquadronModel.PilotRole:
             return pilot

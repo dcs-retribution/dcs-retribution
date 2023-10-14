@@ -76,7 +76,7 @@ class QPackageDialog(QDialog):
         self.package_name_column = QHBoxLayout()
         self.summary_row.addLayout(self.package_name_column)
         self.package_name_label = QLabel("Package Name:")
-        self.package_name_label.setAlignment(Qt.AlignCenter)
+        self.package_name_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.package_name_text = QLineEdit(self.package_model.package.custom_name)
         self.package_name_text.textChanged.connect(self.on_change_name)
         self.package_name_column.addWidget(self.package_name_label)
@@ -110,7 +110,7 @@ class QPackageDialog(QDialog):
         self.tot_help_label = QLabel(
             '<a href="https://github.com/dcs-retribution/dcs-retribution/wiki/Mission-planning"><span style="color:#FFFFFF;">Help</span></a>'
         )
-        self.tot_help_label.setAlignment(Qt.AlignCenter)
+        self.tot_help_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.tot_help_label.setOpenExternalLinks(True)
         self.tot_column.addWidget(self.tot_help_label)
 
@@ -214,7 +214,7 @@ class QPackageDialog(QDialog):
             self.package_model.delete_flight(flight)
             logging.exception("Could not create flight")
             QMessageBox.critical(
-                self, "Could not create flight", str(ex), QMessageBox.Ok
+                self, "Could not create flight", str(ex), QMessageBox.StandardButton.Ok
             )
         self.auto_create_button.setDisabled(True)
         # noinspection PyUnresolvedReferences

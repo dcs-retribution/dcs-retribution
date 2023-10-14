@@ -19,7 +19,7 @@ class QLabeledWidget(QHBoxLayout):
         label = QLabel(text)
         self.addWidget(label)
         self.addStretch()
-        self.addWidget(widget, alignment=Qt.AlignRight)
+        self.addWidget(widget, alignment=Qt.AlignmentFlag.AlignRight)
         if tooltip is not None:
             label.setToolTip(tooltip)
             widget.setToolTip(tooltip)

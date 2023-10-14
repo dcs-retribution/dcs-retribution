@@ -18,7 +18,7 @@ class QPlannedFlightsView(QListView):
         self.setModel(self.model)
         self.flight_items = []
         self.setIconSize(QSize(91, 24))
-        self.setSelectionBehavior(QAbstractItemView.SelectItems)
+        self.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectItems)
         self.set_flight_planner()
 
     def setup_content(self):
@@ -39,7 +39,9 @@ class QPlannedFlightsView(QListView):
         index = self.model.index(row, 0)
         if not index.isValid():
             index = self.model.index(0, 0)
-        self.selectionModel().setCurrentIndex(index, QItemSelectionModel.Select)
+        self.selectionModel().setCurrentIndex(
+            index, QItemSelectionModel.SelectionFlag.Select
+        )
         self.repaint()
 
     def clear_layout(self):

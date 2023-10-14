@@ -14,4 +14,4 @@ def report_errors(
         yield
     except error_type as ex:
         logging.exception(title)
-        QMessageBox().critical(parent, title, str(ex), QMessageBox.Ok)
+        QMessageBox().critical(parent, title, str(ex), QMessageBox.StandardButton.Ok)

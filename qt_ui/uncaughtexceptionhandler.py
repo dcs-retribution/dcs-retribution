@@ -36,7 +36,7 @@ class UncaughtExceptionHandler(QObject):
                 QApplication.focusWidget(),
                 "An unexpected error occurred",
                 "\n".join([message, "", exception]),
-                QMessageBox.Ok,
+                QMessageBox.StandardButton.Ok,
             )
         else:
             logging.critical("No QApplication instance available.")

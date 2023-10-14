@@ -77,11 +77,12 @@ class SquadronList(QListView):
         self.setItemDelegate(SquadronDelegate(self.air_wing_model))
         self.setModel(self.air_wing_model)
         self.selectionModel().setCurrentIndex(
-            self.air_wing_model.index(0, 0, QModelIndex()), QItemSelectionModel.Select
+            self.air_wing_model.index(0, 0, QModelIndex()),
+            QItemSelectionModel.SelectionFlag.Select,
         )
 
         # self.setIconSize(QSize(91, 24))
-        self.setSelectionBehavior(QAbstractItemView.SelectItems)
+        self.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectItems)
         self.doubleClicked.connect(self.on_double_click)
 
     def on_double_click(self, index: QModelIndex) -> None:
@@ -183,7 +184,7 @@ class AirInventoryView(QWidget):
         self.table = QTableWidget()
         layout.addWidget(self.table)
 
-        self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.table.verticalHeader().setVisible(False)
         self.set_only_unallocated(False)
 

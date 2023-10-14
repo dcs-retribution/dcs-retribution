@@ -136,7 +136,7 @@ class QFlightCreator(QDialog):
 
         self.create_button = QPushButton("Create")
         self.create_button.clicked.connect(self.create_flight)
-        layout.addWidget(self.create_button, alignment=Qt.AlignRight)
+        layout.addWidget(self.create_button, alignment=Qt.AlignmentFlag.AlignRight)
 
         self.setLayout(layout)
 
@@ -173,7 +173,9 @@ class QFlightCreator(QDialog):
     def create_flight(self) -> None:
         error = self.verify_form()
         if error is not None:
-            QMessageBox.critical(self, "Could not create flight", error, QMessageBox.Ok)
+            QMessageBox.critical(
+                self, "Could not create flight", error, QMessageBox.StandardButton.Ok
+            )
             return
 
         task = self.task_selector.currentData()

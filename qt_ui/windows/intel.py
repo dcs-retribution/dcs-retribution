@@ -60,7 +60,9 @@ class IntelTableLayout(QGridLayout):
 
     def add_spacer(self) -> None:
         self.addItem(
-            QSpacerItem(0, 0, QSizePolicy.Preferred, QSizePolicy.Expanding),
+            QSpacerItem(
+                0, 0, QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Expanding
+            ),
             next(self.row),
             0,
         )

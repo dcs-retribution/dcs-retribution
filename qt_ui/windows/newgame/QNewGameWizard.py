@@ -20,7 +20,7 @@ from qt_ui.windows.newgame.WizardPages.QTheaterConfiguration import (
 class NewGameWizard(QtWidgets.QWizard):
     def __init__(self, parent=None):
         super(NewGameWizard, self).__init__(parent)
-        self.setOption(QtWidgets.QWizard.IndependentPages)
+        self.setOption(QtWidgets.QWizard.WizardOption.IndependentPages)
 
         self.campaigns = list(sorted(Campaign.load_each(), key=lambda x: x.name))
 
@@ -41,10 +41,10 @@ class NewGameWizard(QtWidgets.QWizard):
         self.addPage(ConclusionPage(self))
 
         self.setPixmap(
-            QtWidgets.QWizard.WatermarkPixmap,
+            QtWidgets.QWizard.WizardPixmap.WatermarkPixmap,
             QtGui.QPixmap("./resources/ui/wizard/watermark1.png"),
         )
-        self.setWizardStyle(QtWidgets.QWizard.ModernStyle)
+        self.setWizardStyle(QtWidgets.QWizard.WizardStyle.ModernStyle)
 
         self.setWindowTitle("New Game")
         self.generatedGame = None
@@ -163,7 +163,7 @@ class IntroPage(QtWidgets.QWizardPage):
 
         self.setTitle("Introduction")
         self.setPixmap(
-            QtWidgets.QWizard.WatermarkPixmap,
+            QtWidgets.QWizard.WizardPixmap.WatermarkPixmap,
             QtGui.QPixmap("./resources/ui/wizard/watermark1.png"),
         )
 
@@ -185,7 +185,7 @@ class ConclusionPage(QtWidgets.QWizardPage):
         self.setTitle("Conclusion")
         self.setSubTitle("\n\n")
         self.setPixmap(
-            QtWidgets.QWizard.WatermarkPixmap,
+            QtWidgets.QWizard.WizardPixmap.WatermarkPixmap,
             QtGui.QPixmap("./resources/ui/wizard/watermark2.png"),
         )
 

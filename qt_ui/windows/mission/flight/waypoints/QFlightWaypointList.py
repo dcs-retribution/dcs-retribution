@@ -41,11 +41,11 @@ class QFlightWaypointList(QTableView):
         self.model.setHorizontalHeaderLabels(HEADER_LABELS)
 
         header = self.horizontalHeader()
-        header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)
         self.update_list()
 
         self.selectionModel().setCurrentIndex(
-            self.indexAt(QPoint(1, 1)), QItemSelectionModel.Select
+            self.indexAt(QPoint(1, 1)), QItemSelectionModel.SelectionFlag.Select
         )
 
         self.altitude_editor_delegate = AltitudeEditorDelegate(self)
@@ -66,7 +66,8 @@ class QFlightWaypointList(QTableView):
             for row, waypoint in enumerate(waypoints):
                 self._add_waypoint_row(row, self.flight, waypoint)
             self.selectionModel().setCurrentIndex(
-                self.model.index(current_index, 0), QItemSelectionModel.Select
+                self.model.index(current_index, 0),
+                QItemSelectionModel.SelectionFlag.Select,
             )
             self.resizeColumnsToContents()
             total_column_width = self.verticalHeader().width() + self.lineWidth()

@@ -49,13 +49,13 @@ class TwoColumnRowDelegate(QStyledItemDelegate):
         with painter_context(painter):
             painter.setFont(self.get_font(option))
 
-            icon: Optional[QIcon] = index.data(Qt.DecorationRole)
+            icon: Optional[QIcon] = index.data(Qt.ItemDataRole.DecorationRole)
 
             if icon is not None:
                 icon.paint(
                     painter,
                     rect,
-                    Qt.AlignLeft | Qt.AlignVCenter,
+                    Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter,
                     self.icon_mode(option),
                     self.icon_state(option),
                 )
@@ -65,25 +65,33 @@ class TwoColumnRowDelegate(QStyledItemDelegate):
             for row in range(self.rows):
                 y = row_height * row
                 location = rect.adjusted(0, y, 0, y)
-                painter.drawText(location, Qt.AlignLeft, self.text_for(index, row, 0))
+                painter.drawText(
+                    location, Qt.AlignmentFlag.AlignLeft, self.text_for(index, row, 0)
+                )
                 if self.columns == 2:
                     painter.drawText(
-                        location, Qt.AlignRight, self.text_for(index, row, 1)
+                        location,
+                        Qt.AlignmentFlag.AlignRight,
+                        self.text_for(index, row, 1),
                     )
 
     @staticmethod
     def icon_mode(option: QStyleOptionViewItem) -> QIcon.Mode:
-        if not (option.state & QStyle.State_Enabled):
-            return QIcon.Disabled
-        elif option.state & QStyle.State_Selected:
-            return QIcon.Selected
-        elif option.state & QStyle.State_Active:
-            return QIcon.Active
-        return QIcon.Normal
+        if not (option.state & QStyle.StateFlag.State_Enabled):
+            return QIcon.Mode.Disabled
+        elif option.state & QStyle.StateFlag.State_Selected:
+            return QIcon.Mode.Selected
+        elif option.state & QStyle.StateFlag.State_Active:
+            return QIcon.Mode.Active
+        return QIcon.Mode.Normal
 
     @staticmethod
     def icon_state(option: QStyleOptionViewItem) -> QIcon.State:
-        return QIcon.On if option.state & QStyle.State_Open else QIcon.Off
+        return (
+            QIcon.State.On
+            if option.state & QStyle.StateFlag.State_Open
+            else QIcon.State.Off
+        )
 
     @staticmethod
     def icon_size(option: QStyleOptionViewItem) -> QSize:
@@ -110,7 +118,7 @@ class TwoColumnRowDelegate(QStyledItemDelegate):
             width = 0
             height = 0
             for column in range(self.columns):
-                size = metrics.size(0, self.text_for(index, row, column))
+                size = metrics.size(0, self.text_for(index, row, column), 0)
                 width += size.width()
                 height = max(height, size.height())
             widths.append(width)

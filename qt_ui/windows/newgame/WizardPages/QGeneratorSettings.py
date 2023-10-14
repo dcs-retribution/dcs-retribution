@@ -21,7 +21,7 @@ class BudgetInputs(QtWidgets.QGridLayout):
         minimum = 0
         maximum = 5000
 
-        slider = QtWidgets.QSlider(Qt.Horizontal)
+        slider = QtWidgets.QSlider(Qt.Orientation.Horizontal)
         slider.setMinimum(minimum)
         slider.setMaximum(maximum)
         slider.setValue(value)
@@ -40,7 +40,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.setTitle("Generator settings")
         self.setSubTitle("\nOptions affecting the generation of the game.")
         self.setPixmap(
-            QtWidgets.QWizard.LogoPixmap,
+            QtWidgets.QWizard.WizardPixmap.LogoPixmap,
             QtGui.QPixmap("./resources/ui/wizard/logo1.png"),
         )
 
@@ -142,7 +142,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         modHelpText = QtWidgets.QLabel(
             "<p>Select the mods you have installed. If your chosen factions support them, you'll be able to use these mods in your campaign.</p>"
         )
-        modHelpText.setAlignment(Qt.AlignCenter)
+        modHelpText.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         modLayout = QtWidgets.QGridLayout()
         modLayout_row = 1

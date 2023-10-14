@@ -39,7 +39,10 @@ class QLiberationMap(QWebEngineView):
         # Required to allow "cross-origin" access from file:// scoped canvas.html to the
         # localhost HTTP backend.
         self.page.settings().setAttribute(
-            QWebEngineSettings.LocalContentCanAccessRemoteUrls, True
+            QWebEngineSettings.WebAttribute.LocalContentCanAccessRemoteUrls, True
+        )
+        self.page.settings().setAttribute(
+            QWebEngineSettings.WebAttribute.WebGLEnabled, True
         )
 
         if dev:

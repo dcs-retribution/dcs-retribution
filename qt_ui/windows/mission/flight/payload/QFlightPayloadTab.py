@@ -60,7 +60,7 @@ class DcsFuelSelector(QHBoxLayout):
         self.addWidget(self.label)
 
         self.max_fuel = int(flight.unit_type.dcs_unit_type.fuel_max)
-        self.fuel = QSlider(Qt.Horizontal)
+        self.fuel = QSlider(Qt.Orientation.Horizontal)
         self.fuel.setRange(0, self.max_fuel)
         self.fuel.setValue(min(round(self.flight.fuel), self.max_fuel))
         self.fuel.valueChanged.connect(self.on_fuel_change)
@@ -148,7 +148,7 @@ class QFlightPayloadTab(QFrame):
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
         scroll.setWidget(scroll_content)
-        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         layout.addWidget(scroll, stretch=1)
 
         self.own_laser_code_info = OwnLaserCodeInfo(
@@ -183,7 +183,7 @@ class QFlightPayloadTab(QFrame):
         docsText = QLabel(
             '<a href="https://github.com/dcs-retribution/dcs-retribution/wiki/Custom-Loadouts"><span style="color:#FFFFFF;">How to create your own default loadout</span></a>'
         )
-        docsText.setAlignment(Qt.AlignCenter)
+        docsText.setAlignment(Qt.AlignmentFlag.AlignCenter)
         docsText.setOpenExternalLinks(True)
 
         self.fuel_selector = DcsFuelSelector(flight)

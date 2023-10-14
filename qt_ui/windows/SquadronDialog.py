@@ -47,7 +47,7 @@ class PilotDelegate(TwoColumnRowDelegate):
     def text_for(self, index: QModelIndex, row: int, column: int) -> str:
         pilot = self.pilot(index)
         if (row, column) == (0, 0):
-            return self.squadron_model.data(index, Qt.DisplayRole)
+            return self.squadron_model.data(index, Qt.ItemDataRole.DisplayRole)
         elif (row, column) == (0, 1):
             flown = pilot.record.missions_flown
             missions = "missions" if flown != 1 else "mission"
@@ -69,11 +69,12 @@ class PilotList(QListView):
         self.setItemDelegate(PilotDelegate(self.squadron_model))
         self.setModel(self.squadron_model)
         self.selectionModel().setCurrentIndex(
-            self.squadron_model.index(0, 0, QModelIndex()), QItemSelectionModel.Select
+            self.squadron_model.index(0, 0, QModelIndex()),
+            QItemSelectionModel.SelectionFlag.Select,
         )
 
         # self.setIconSize(QSize(91, 24))
-        self.setSelectionBehavior(QAbstractItemView.SelectItems)
+        self.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectItems)
 
 
 class AutoAssignedTaskControls(QVBoxLayout):
@@ -291,19 +292,25 @@ class SquadronDialog(QDialog):
         self.rename_button = QPushButton("Rename pilot")
         self.rename_button.setProperty("style", "start-button")
         self.rename_button.clicked.connect(self.rename_pilot)
-        button_panel.addWidget(self.rename_button, alignment=Qt.AlignRight)
+        button_panel.addWidget(
+            self.rename_button, alignment=Qt.AlignmentFlag.AlignRight
+        )
 
         self.toggle_ai_button = QPushButton()
         self.reset_ai_toggle_state(self.pilot_list.currentIndex())
         self.toggle_ai_button.setProperty("style", "start-button")
         self.toggle_ai_button.clicked.connect(self.toggle_ai)
-        button_panel.addWidget(self.toggle_ai_button, alignment=Qt.AlignRight)
+        button_panel.addWidget(
+            self.toggle_ai_button, alignment=Qt.AlignmentFlag.AlignRight
+        )
 
         self.toggle_leave_button = QPushButton()
         self.reset_leave_toggle_state(self.pilot_list.currentIndex())
         self.toggle_leave_button.setProperty("style", "start-button")
         self.toggle_leave_button.clicked.connect(self.toggle_leave)
-        button_panel.addWidget(self.toggle_leave_button, alignment=Qt.AlignRight)
+        button_panel.addWidget(
+            self.toggle_leave_button, alignment=Qt.AlignmentFlag.AlignRight
+        )
 
     @property
     def squadron(self) -> Squadron:

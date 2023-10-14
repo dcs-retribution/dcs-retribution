@@ -71,7 +71,7 @@ class QUnitInfoWindow(QDialog):
         self.setWindowIcon(QIcon("./resources/icon.png"))
         self.setMinimumHeight(570)
         self.setMaximumWidth(640)
-        self.setWindowFlags(Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint)
 
         self.layout = QGridLayout()
 

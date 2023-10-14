@@ -14,7 +14,7 @@ class NewGameSettings(QtWidgets.QWizardPage):
         self.setTitle("Campaign options")
         self.setSubTitle("\nAll other options unrelated to campaign generation.")
         self.setPixmap(
-            QtWidgets.QWizard.LogoPixmap,
+            QtWidgets.QWizard.WizardPixmap.LogoPixmap,
             QtGui.QPixmap("./resources/ui/wizard/logo1.png"),
         )
 

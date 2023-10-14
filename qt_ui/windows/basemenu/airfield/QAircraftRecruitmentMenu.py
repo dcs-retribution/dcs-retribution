@@ -87,10 +87,10 @@ class QHangarStatus(QHBoxLayout):
         self.text = QLabel("")
 
         self.update_label()
-        self.addWidget(self.icon, Qt.AlignLeft)
-        self.addWidget(self.text, Qt.AlignLeft)
+        self.addWidget(self.icon, Qt.AlignmentFlag.AlignLeft)
+        self.addWidget(self.text, Qt.AlignmentFlag.AlignLeft)
         self.addStretch(50)
-        self.setAlignment(Qt.AlignLeft)
+        self.setAlignment(Qt.AlignmentFlag.AlignLeft)
 
     def update_label(self) -> None:
         parking_type = ParkingType(

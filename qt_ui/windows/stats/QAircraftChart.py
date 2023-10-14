@@ -31,7 +31,7 @@ class QAircraftChart(QFrame):
             self.alliedAircraftSerie.append(QPoint(a, i))
 
         self.enemyAircraftSerie = QtCharts.QLineSeries()
-        self.enemyAircraftSerie.setColor(Qt.red)
+        self.enemyAircraftSerie.setColor(Qt.GlobalColor.red)
         self.enemyAircraftSerie.setName("Enemy aircraft count")
         for a, i in enumerate(self.enemyAircraft):
             self.enemyAircraftSerie.append(QPoint(a, i))
@@ -54,6 +54,6 @@ class QAircraftChart(QFrame):
         self.chart.axisY().applyNiceNumbers()
 
         self.chartView = QtCharts.QChartView(self.chart)
-        self.chartView.setRenderHint(QPainter.Antialiasing)
+        self.chartView.setRenderHint(QPainter.RenderHint.Antialiasing)
 
         self.layout.addWidget(self.chartView, 0, 0)

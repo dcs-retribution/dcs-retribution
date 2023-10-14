@@ -31,7 +31,7 @@ class QArmorChart(QFrame):
             self.alliedArmorSerie.append(QPoint(a, i))
 
         self.enemyArmorSerie = QtCharts.QLineSeries()
-        self.enemyArmorSerie.setColor(Qt.red)
+        self.enemyArmorSerie.setColor(Qt.GlobalColor.red)
         self.enemyArmorSerie.setName("Enemy vehicle count")
         for a, i in enumerate(self.enemyArmor):
             self.enemyArmorSerie.append(QPoint(a, i))
@@ -54,6 +54,6 @@ class QArmorChart(QFrame):
         self.chart.axisY().applyNiceNumbers()
 
         self.chartView = QtCharts.QChartView(self.chart)
-        self.chartView.setRenderHint(QPainter.Antialiasing)
+        self.chartView.setRenderHint(QPainter.RenderHint.Antialiasing)
 
         self.layout.addWidget(self.chartView, 0, 0)

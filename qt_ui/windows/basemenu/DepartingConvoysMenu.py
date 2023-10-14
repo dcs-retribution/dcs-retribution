@@ -49,7 +49,7 @@ class DepartingConvoyInfo(QGroupBox):
         attack_button.setProperty("style", "btn-danger")
         attack_button.setMaximumWidth(180)
         attack_button.clicked.connect(self.on_attack)
-        main_layout.addWidget(attack_button, 0, Qt.AlignLeft)
+        main_layout.addWidget(attack_button, 0, Qt.AlignmentFlag.AlignLeft)
 
     def on_attack(self):
         # TODO: Maintain Convoy list in Game.
@@ -87,8 +87,8 @@ class DepartingConvoysList(QFrame):
 
         scroll_content.setLayout(task_box_layout)
         scroll = QScrollArea()
-        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
         scroll.setWidgetResizable(True)
         scroll.setWidget(scroll_content)
         layout.addWidget(scroll)

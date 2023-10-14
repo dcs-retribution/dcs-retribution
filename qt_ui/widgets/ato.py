@@ -79,7 +79,7 @@ class QFlightList(QListView):
         if package_model is not None:
             self.setItemDelegate(FlightDelegate(package_model.package))
         self.setIconSize(QSize(91, 24))
-        self.setSelectionBehavior(QAbstractItemView.SelectItems)
+        self.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectItems)
         self.doubleClicked.connect(self.on_double_click)
 
     def set_package(self, model: Optional[PackageModel]) -> None:
@@ -93,7 +93,8 @@ class QFlightList(QListView):
             # noinspection PyUnresolvedReferences
             model.deleted.connect(self.disconnect_model)
             self.selectionModel().setCurrentIndex(
-                model.index(0, 0, QModelIndex()), QItemSelectionModel.Select
+                model.index(0, 0, QModelIndex()),
+                QItemSelectionModel.SelectionFlag.Select,
             )
 
     def disconnect_model(self) -> None:
@@ -308,7 +309,7 @@ class QPackageList(QListView):
         self.setModel(model)
         self.setItemDelegate(PackageDelegate(game_model))
         self.setIconSize(QSize(0, 0))
-        self.setSelectionBehavior(QAbstractItemView.SelectItems)
+        self.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectItems)
         self.model().rowsInserted.connect(self.on_new_packages)
         self.doubleClicked.connect(self.on_double_click)
 
@@ -346,7 +347,7 @@ class QPackageList(QListView):
         # the player saving a new package, so selecting it helps them view/edit
         # it faster.
         self.selectionModel().setCurrentIndex(
-            self.model().index(first, 0), QItemSelectionModel.Select
+            self.model().index(first, 0), QItemSelectionModel.SelectionFlag.Select
         )
 
     def on_double_click(self, index: QModelIndex) -> None:
@@ -477,7 +478,7 @@ class QAirTaskingOrderPanel(QSplitter):
     """
 
     def __init__(self, game_model: GameModel) -> None:
-        super().__init__(Qt.Vertical)
+        super().__init__(Qt.Orientation.Vertical)
         self.ato_model = game_model.ato_model
 
         self.package_panel = QPackagePanel(game_model, self.ato_model)

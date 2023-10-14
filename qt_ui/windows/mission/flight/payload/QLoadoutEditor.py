@@ -42,7 +42,9 @@ class QLoadoutEditor(QGroupBox):
 
         for i, pylon in enumerate(Pylon.iter_pylons(self.flight.unit_type)):
             label = QLabel(f"<b>{pylon.number}</b>")
-            label.setSizePolicy(QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed))
+            label.setSizePolicy(
+                QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+            )
             layout.addWidget(label, i, 0)
             layout.addWidget(QPylonEditor(game, flight, flight_member, pylon), i, 1)
 
@@ -130,7 +132,9 @@ class QLoadoutEditor(QGroupBox):
                 payloads = {
                     "name": f"{self.flight.unit_type.dcs_unit_type.id}",
                     "payloads": {
-                        1: DcsPayload.from_flight_member(self.flight_member, payload_name).to_dict(),
+                        1: DcsPayload.from_flight_member(
+                            self.flight_member, payload_name
+                        ).to_dict(),
                     },
                     "unitType": f"{self.flight.unit_type.dcs_unit_type.id}",
                 }

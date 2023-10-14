@@ -15,7 +15,7 @@ class QFilteredComboBox(QComboBox):
     ):
         super(QFilteredComboBox, self).__init__(parent)
 
-        self.setFocusPolicy(Qt.StrongFocus)
+        self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self.setEditable(True)
         self.completer = QCompleter(self)
 
@@ -27,9 +27,11 @@ class QFilteredComboBox(QComboBox):
         self.include_friendly = include_friendly
 
         # always show all completions
-        self.completer.setCompletionMode(QCompleter.UnfilteredPopupCompletion)
+        self.completer.setCompletionMode(
+            QCompleter.CompletionMode.UnfilteredPopupCompletion
+        )
         self.pFilterModel = QSortFilterProxyModel(self)
-        self.pFilterModel.setFilterCaseSensitivity(Qt.CaseInsensitive)
+        self.pFilterModel.setFilterCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
 
         self.completer.setPopup(self.view())
 

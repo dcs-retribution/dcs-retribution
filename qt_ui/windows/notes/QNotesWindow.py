@@ -33,7 +33,7 @@ class QNotesWindow(QDialog):
         self.textbox = QPlainTextEdit(self)
         try:
             self.textbox.setPlainText(self.game.notes)
-            self.textbox.moveCursor(QTextCursor.End)
+            self.textbox.moveCursor(QTextCursor.MoveOperation.End)
         except AttributeError:  # old save may not have game.notes
             pass
         self.textbox.move(10, 10)

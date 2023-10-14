@@ -47,7 +47,7 @@ class QTacanDialog(QDialog):
 
         self.create_button = QPushButton("Save")
         self.create_button.clicked.connect(self.accept)
-        layout.addWidget(self.create_button, alignment=Qt.AlignRight)
+        layout.addWidget(self.create_button, alignment=Qt.AlignmentFlag.AlignRight)
 
         self.setLayout(layout)
 

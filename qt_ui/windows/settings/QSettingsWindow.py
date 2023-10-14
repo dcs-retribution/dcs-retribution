@@ -180,7 +180,7 @@ class AutoSettingsLayout(QGridLayout):
             value = not value
         checkbox.setChecked(value)
         checkbox.toggled.connect(on_toggle)
-        self.addWidget(checkbox, row, 1, Qt.AlignRight)
+        self.addWidget(checkbox, row, 1, Qt.AlignmentFlag.AlignRight)
         self.settings_map[name] = checkbox
 
     def add_combobox_for(self, row: int, name: str, description: ChoicesOption) -> None:
@@ -195,7 +195,7 @@ class AutoSettingsLayout(QGridLayout):
             description.text_for_value(self.sc.settings.__dict__[name])
         )
         combobox.currentIndexChanged.connect(on_changed)
-        self.addWidget(combobox, row, 1, Qt.AlignRight)
+        self.addWidget(combobox, row, 1, Qt.AlignmentFlag.AlignRight)
         self.settings_map[name] = combobox
 
     def add_float_spin_slider_for(
@@ -212,7 +212,7 @@ class AutoSettingsLayout(QGridLayout):
             self.sc.settings.__dict__[name] = spinner.value
 
         spinner.spinner.valueChanged.connect(on_changed)
-        self.addLayout(spinner, row, 1, Qt.AlignRight)
+        self.addLayout(spinner, row, 1, Qt.AlignmentFlag.AlignRight)
         self.settings_map[name] = spinner
 
     def add_spinner_for(
@@ -229,7 +229,7 @@ class AutoSettingsLayout(QGridLayout):
         spinner.setValue(self.sc.settings.__dict__[name])
 
         spinner.valueChanged.connect(on_changed)
-        self.addWidget(spinner, row, 1, Qt.AlignRight)
+        self.addWidget(spinner, row, 1, Qt.AlignmentFlag.AlignRight)
         self.settings_map[name] = spinner
 
     def add_duration_controls_for(
@@ -243,7 +243,7 @@ class AutoSettingsLayout(QGridLayout):
             self.sc.settings.__dict__[name] = inputs.value
 
         inputs.spinner.valueChanged.connect(on_changed)
-        self.addLayout(inputs, row, 1, Qt.AlignRight)
+        self.addLayout(inputs, row, 1, Qt.AlignmentFlag.AlignRight)
         self.settings_map[name] = inputs
 
     def update_from_settings(self) -> None:
@@ -293,7 +293,7 @@ class AutoSettingsPageLayout(QVBoxLayout):
         write_full_settings: Callable[[], None],
     ) -> None:
         super().__init__()
-        self.setAlignment(Qt.AlignTop)
+        self.setAlignment(Qt.AlignmentFlag.AlignTop)
 
         self.widgets = []
         for section in Settings.sections(page):
@@ -403,10 +403,13 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
         scroll.setWidgetResizable(True)
         self.right_layout.addWidget(scroll)
 
-        self.categoryList.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.categoryList.setSelectionBehavior(
+            QAbstractItemView.SelectionBehavior.SelectRows
+        )
         self.categoryList.setModel(self.categoryModel)
         self.categoryList.selectionModel().setCurrentIndex(
-            self.categoryList.indexAt(QPoint(1, 1)), QItemSelectionModel.Select
+            self.categoryList.indexAt(QPoint(1, 1)),
+            QItemSelectionModel.SelectionFlag.Select,
         )
         self.categoryList.selectionModel().selectionChanged.connect(
             self.onSelectionChanged
@@ -434,7 +437,7 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
 
         self.moneyCheatBox = QGroupBox("Money Cheat")
         self.moneyCheatBox.setDisabled(self.game is None)
-        self.moneyCheatBox.setAlignment(Qt.AlignTop)
+        self.moneyCheatBox.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.moneyCheatBoxLayout = QGridLayout()
         self.moneyCheatBox.setLayout(self.moneyCheatBoxLayout)
 
@@ -523,7 +526,7 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
         if not sd.exists():
             sd.mkdir()
         fd = QFileDialog(caption="Save Settings", directory=str(sd), filter="*.zip")
-        fd.setAcceptMode(QFileDialog.AcceptSave)
+        fd.setAcceptMode(QFileDialog.AcceptMode.AcceptSave)
         if fd.exec_():
             zipfilename = fd.selectedFiles()[0]
             with zipfile.ZipFile(zipfilename, "w", zipfile.ZIP_DEFLATED) as zf:
