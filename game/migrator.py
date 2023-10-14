@@ -74,6 +74,7 @@ class Migrator:
                     )
 
     def _update_control_points(self) -> None:
+        is_sinai = self.game.theater.terrain.name == "SinaiMap"
         for cp in self.game.theater.controlpoints:
             is_carrier = cp.is_carrier
             is_lha = cp.is_lha
@@ -92,6 +93,13 @@ class Migrator:
             try_set_attr(cp, "ground_spawns_roadbase", [])
             try_set_attr(cp, "helipads_quad", [])
             try_set_attr(cp, "helipads_invisible", [])
+            if (
+                cp.dcs_airport and is_sinai and cp.dcs_airport.id == 20
+            ):  # fix for Hatzor
+                beacons = cp.dcs_airport.beacons
+                faulty_beacon = [x for x in beacons if x.id == "airfield20_0"]
+                if faulty_beacon:
+                    beacons.remove([x for x in beacons if x.id == "airfield20_0"][0])
 
     def _update_flight_plan(self, f: Flight) -> None:
         layout = f.flight_plan.layout
