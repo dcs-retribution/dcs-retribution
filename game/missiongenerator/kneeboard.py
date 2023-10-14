@@ -171,14 +171,14 @@ class KneeboardPageWriter:
     def wrap_line_with_font(
         inputstr: str, max_width: int, font: ImageFont.FreeTypeFont
     ) -> str:
-        if font.getsize(inputstr)[0] <= max_width:  # type:ignore[attr-defined]
+        if font.getlength(inputstr) <= max_width:
             return inputstr
         tokens = inputstr.split(" ")
         output = ""
         segments = []
         for token in tokens:
             combo = output + " " + token
-            if font.getsize(combo)[0] > max_width:  # type:ignore[attr-defined]
+            if font.getlength(combo) > max_width:
                 segments.append(output + "\n")
                 output = token
             else:
