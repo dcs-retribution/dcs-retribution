@@ -64,6 +64,7 @@ class MissionGenerator:
             options = dcs.lua.loads(f.read())["options"]
             ext_view = game.settings.external_views_allowed
             options["miscellaneous"]["f11_free_camera"] = ext_view
+            options["miscellaneous"]["f5_nearest_ac"] = ext_view
             options["difficulty"]["spectatorExternalViews"] = ext_view
             self.mission.options.load_from_dict(options)
 

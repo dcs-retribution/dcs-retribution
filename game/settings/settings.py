@@ -156,7 +156,6 @@ class Settings:
         MISSION_RESTRICTIONS_SECTION,
         default=True,
     )
-
     easy_communication: Optional[bool] = choices_option(
         "Easy Communication",
         page=DIFFICULTY_PAGE,
