@@ -105,8 +105,8 @@ class QLoadoutEditor(QGroupBox):
         payload_file = payloads_folder / f"{ac_id}.lua"
         if not payloads_folder.exists():
             payloads_folder.mkdir()
-        ac_type.payloads[payload_name] = DcsPayload.from_flight(
-            self.flight, payload_name
+        ac_type.payloads[payload_name] = DcsPayload.from_flight_member(
+            self.flight_member, payload_name
         ).to_dict()
         if payload_file.exists():
             self._create_backup_if_needed(ac_id)
@@ -118,8 +118,8 @@ class QLoadoutEditor(QGroupBox):
                 for p in pdict:
                     if pdict[p]["name"] == payload_name:
                         next_key = p
-                pdict[next_key] = DcsPayload.from_flight(
-                    self.flight, payload_name
+                pdict[next_key] = DcsPayload.from_flight_member(
+                    self.flight_member, payload_name
                 ).to_dict()
                 with payload_file.open("w", encoding="utf-8") as f:
                     f.write("local unitPayloads = ")
@@ -130,7 +130,7 @@ class QLoadoutEditor(QGroupBox):
                 payloads = {
                     "name": f"{self.flight.unit_type.dcs_unit_type.id}",
                     "payloads": {
-                        1: DcsPayload.from_flight(self.flight, payload_name).to_dict(),
+                        1: DcsPayload.from_flight_member(self.flight_member, payload_name).to_dict(),
                     },
                     "unitType": f"{self.flight.unit_type.dcs_unit_type.id}",
                 }
@@ -174,10 +174,10 @@ class DcsPayload:
     tasks: Dict[int, int]
 
     @classmethod
-    def from_flight(cls, flight: Flight, payload_name: str):
+    def from_flight_member(cls, member: FlightMember, payload_name: str):
         pylons = {}
-        for i, nr in enumerate(flight.loadout.pylons, 1):
-            wpn = flight.loadout.pylons[nr]
+        for i, nr in enumerate(member.loadout.pylons, 1):
+            wpn = member.loadout.pylons[nr]
             clsid = wpn.clsid if wpn else "<CLEAN>"
             pylons[i] = {
                 "CLSID": clsid,
