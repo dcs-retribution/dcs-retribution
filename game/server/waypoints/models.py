@@ -9,7 +9,7 @@ from game.server.leaflet import LeafletPoint
 
 def timing_info(flight: Flight, waypoint_idx: int) -> str:
     if waypoint_idx == 0:
-        return f"Depart T+{flight.flight_plan.takeoff_time()}"
+        return f"Depart T+{flight.flight_plan.takeoff_time():%H:%M:%S}"
 
     waypoint = flight.flight_plan.waypoints[waypoint_idx - 1]
     prefix = "TOT"
@@ -19,7 +19,7 @@ def timing_info(flight: Flight, waypoint_idx: int) -> str:
         time = flight.flight_plan.depart_time_for_waypoint(waypoint)
     if time is None:
         return ""
-    return f"{prefix} {time}"
+    return f"{prefix} {time:%H:%M:%S}"
 
 
 class FlightWaypointJs(BaseModel):
