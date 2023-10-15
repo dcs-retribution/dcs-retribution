@@ -103,7 +103,7 @@ class FlightPlanPropertiesGroup(QGroupBox):
             # is an invalid state for calling anything in TotEstimator.
             return
         self.departure_time.setText(
-            f"At {self.flight.flight_plan.startup_time():%H:%M%S}"
+            f"At {self.flight.flight_plan.startup_time():%H:%M:%S}"
         )
         self.flight_wpt_list.update_list()
 
