@@ -5,9 +5,7 @@ from pathlib import Path
 
 from PySide6.QtCore import QUrl
 from PySide6.QtWebEngineCore import QWebEnginePage, QWebEngineSettings
-from PySide6.QtWebEngineWidgets import (
-    QWebEngineView,
-)
+from PySide6.QtWebEngineWidgets import QWebEngineView
 
 from game.server.settings import ServerSettings
 from qt_ui.models import GameModel
@@ -40,9 +38,6 @@ class QLiberationMap(QWebEngineView):
         # localhost HTTP backend.
         self.page.settings().setAttribute(
             QWebEngineSettings.WebAttribute.LocalContentCanAccessRemoteUrls, True
-        )
-        self.page.settings().setAttribute(
-            QWebEngineSettings.WebAttribute.WebGLEnabled, True
         )
 
         if dev:
