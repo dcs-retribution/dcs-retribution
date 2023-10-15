@@ -188,7 +188,7 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
 
         hold = None
         join = None
-        if self.primary_flight_is_air_assault:
+        if not self.primary_flight_is_air_assault:
             hold = builder.hold(self._hold_point())
             join = builder.join(self.package.waypoints.join)
         split = builder.split(self.package.waypoints.split)
@@ -255,13 +255,11 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
     @property
     def primary_flight_is_air_assault(self) -> bool:
         if self.flight is self.package.primary_flight:
-            return True
+            return self.flight.flight_type == FlightType.AIR_ASSAULT
         else:
             assert self.package.primary_flight is not None
             fp = self.package.primary_flight.flight_plan
-            if fp.is_airassault:
-                return True
-        return False
+            return fp.is_airassault
 
     @staticmethod
     def target_waypoint(

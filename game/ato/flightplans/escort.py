@@ -49,8 +49,8 @@ class Builder(FormationAttackBuilder[EscortFlightPlan, FormationAttackLayout]):
         elif self.package.primary_flight is not None:
             fp = self.package.primary_flight.flight_plan
             assert isinstance(fp.layout, AirAssaultLayout)
-            assert fp.layout.pickup is not None
-            hold = builder.hold(fp.layout.pickup.position)
+            if fp.layout.pickup:
+                hold = builder.hold(fp.layout.pickup.position)
 
         join = builder.join(self.package.waypoints.join)
         split = builder.split(self.package.waypoints.split)
