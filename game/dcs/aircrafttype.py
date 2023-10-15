@@ -15,6 +15,7 @@ from dcs.unitpropertydescription import UnitPropertyDescription
 from dcs.unittype import FlyingType
 from dcs.weapons_data import weapon_ids
 
+from game.ato import FlightType
 from game.data.units import UnitClass
 from game.dcs.lasercodeconfig import LaserCodeConfig
 from game.dcs.unittype import UnitType
@@ -54,7 +55,6 @@ from game.utils import (
 )
 
 if TYPE_CHECKING:
-    from game.ato import FlightType
     from game.missiongenerator.aircraft.flightdata import FlightData
     from game.missiongenerator.missiondata import MissionData
     from game.radio.radios import Radio, RadioFrequency, RadioRegistry
@@ -216,6 +216,13 @@ class AircraftType(UnitType[Type[FlyingType]]):
     _by_unit_type: ClassVar[dict[type[FlyingType], list[AircraftType]]] = defaultdict(
         list
     )
+
+    def __post_init__(self) -> None:
+        enrich = {}
+        for t in self.task_priorities:
+            if t == FlightType.SEAD:
+                enrich[FlightType.SEAD_SWEEP] = self.task_priorities[t]
+        self.task_priorities.update(enrich)
 
     @classmethod
     def register(cls, unit_type: AircraftType) -> None:

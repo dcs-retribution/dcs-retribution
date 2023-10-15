@@ -152,8 +152,6 @@ class Migrator:
                 if isinstance(s.country, str):
                     c = country_dict.get(s.country, s.country)
                     s.country = countries_by_name[c]()
-                if FlightType.SEAD in s.auto_assignable_mission_types:
-                    s.auto_assignable_mission_types.add(FlightType.SEAD_SWEEP)
 
                 # code below is used to fix corruptions wrt overpopulation
                 parking_type = ParkingType().from_squadron(s)
