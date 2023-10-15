@@ -189,7 +189,6 @@ class FlightPlan(ABC, Generic[LayoutT]):
 
         for previous_waypoint, waypoint in self.edges(until=destination):
             total += self.total_time_between_waypoints(previous_waypoint, waypoint)
-            total += self.travel_time_between_waypoints(previous_waypoint, waypoint)
 
         # Trim microseconds. Our simulation tick rate is 1 second, so anything that
         # takes 100.1 or 100.9 seconds will take 100 seconds. DCS doesn't handle

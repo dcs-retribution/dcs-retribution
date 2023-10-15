@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import TYPE_CHECKING
 
 from game.utils import Distance, SPEED_OF_SOUND_AT_SEA_LEVEL, Speed, mach, meters
@@ -59,4 +59,6 @@ class TotEstimator:
         Returns:
             The earliest possible TOT for the given flight.
         """
-        return now + flight.flight_plan.minimum_duration_from_start_to_tot()
+        flight_time = flight.flight_plan.minimum_duration_from_start_to_tot()
+        offset = flight.flight_plan.tot_offset
+        return now + flight_time - offset
