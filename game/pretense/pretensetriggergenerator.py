@@ -54,6 +54,8 @@ TRIGGER_RADIUS_PRETENSE_TGO = 500
 TRIGGER_RADIUS_PRETENSE_SUPPLY = 500
 TRIGGER_RADIUS_PRETENSE_HELI = 1000
 TRIGGER_RADIUS_PRETENSE_CARRIER = 50000
+TRIGGER_RUNWAY_LENGTH_PRETENSE = 2500
+TRIGGER_RUNWAY_WIDTH_PRETENSE = 400
 
 
 class Silence(Option):
@@ -209,6 +211,48 @@ class PretenseTriggerGenerator:
                     radius=TRIGGER_RADIUS_PRETENSE_TGO,
                     hidden=False,
                     name=f"{cp_name_trimmed}-sp",
+                    color=zone_color,
+                )
+                break
+        airfields = [
+            cp for cp in self.game.theater.controlpoints if isinstance(cp, Airfield)
+        ]
+        for airfield in airfields:
+            cp_airport = self.mission.terrain.airport_by_id(airfield.airport.id)
+            cp_name_trimmed = "".join(
+                [i for i in cp_airport.name.lower() if i.isalnum()]
+            )
+            zone_color = {1: 0.0, 2: 1.0, 3: 0.5, 4: 0.15}
+            if cp_airport is None:
+                raise RuntimeError(
+                    f"Could not find {airfield.airport.name} in the mission"
+                )
+            for runway in cp_airport.runways:
+                runway_end_1 = cp_airport.position.point_from_heading(
+                    runway.heading, TRIGGER_RUNWAY_LENGTH_PRETENSE / 2
+                )
+                runway_end_2 = cp_airport.position.point_from_heading(
+                    runway.heading + 180, TRIGGER_RUNWAY_LENGTH_PRETENSE / 2
+                )
+                runway_verticies = [
+                    runway_end_1.point_from_heading(
+                        runway.heading - 90, TRIGGER_RUNWAY_WIDTH_PRETENSE / 2
+                    ),
+                    runway_end_1.point_from_heading(
+                        runway.heading + 90, TRIGGER_RUNWAY_WIDTH_PRETENSE / 2
+                    ),
+                    runway_end_2.point_from_heading(
+                        runway.heading + 90, TRIGGER_RUNWAY_WIDTH_PRETENSE / 2
+                    ),
+                    runway_end_2.point_from_heading(
+                        runway.heading - 90, TRIGGER_RUNWAY_WIDTH_PRETENSE / 2
+                    ),
+                ]
+                trigger_zone = self.mission.triggers.add_triggerzone_quad(
+                    cp_airport.position,
+                    runway_verticies,
+                    hidden=False,
+                    name=f"{cp_name_trimmed}-runway-{runway.id}",
                     color=zone_color,
                 )
                 break
