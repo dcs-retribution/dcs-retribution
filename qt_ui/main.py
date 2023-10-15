@@ -1,7 +1,6 @@
 import argparse
 import logging
 import ntpath
-import os
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -80,7 +79,6 @@ def on_game_load(game: Optional[Game]) -> None:
 
 
 def run_ui(game: Optional[Game], ui_flags: UiFlags) -> None:
-    os.environ["QT_ENABLE_HIGHDPI_SCALING"] = "1"  # Potential fix for 4K screens
     QApplication.setHighDpiScaleFactorRoundingPolicy(
         Qt.HighDpiScaleFactorRoundingPolicy.PassThrough
     )
