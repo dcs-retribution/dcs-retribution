@@ -114,7 +114,7 @@ class Flight(SidcDescribable, RadioFrequencyContainer, TacanContainer):
             for fm in self.roster.members:
                 fm.loadout.pylons[F18_TGP_PYLON] = Weapon.with_clsid(
                     str(
-                        FA_18C_hornet.Pylon4.AN_AAQ_28_LITENING___Targeting_Pod_[1][
+                        FA_18C_hornet.Pylon4.AN_AAQ_28_LITENING___Targeting_Pod[1][
                             "clsid"
                         ]
                     )

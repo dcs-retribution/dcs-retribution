@@ -58,6 +58,7 @@
   "air_defense_units": [
     "SAM Hawk SR (AN/MPQ-50)",
     "M163 Vulcan Air Defense System",
+    "HEMTT C-RAM Phalanx",
     "M48 Chaparral"
   ],
   "requirements": {},
