@@ -86,9 +86,9 @@ class PydcsWaypointBuilder:
     def set_waypoint_tot(self, waypoint: MovingPoint, tot: datetime) -> None:
         self.waypoint.tot = tot
         if not self._viggen_client_tot():
-            waypoint.ETA = int((tot - self.now).total_seconds())
+            waypoint.ETA = max(0, int((tot - self.now).total_seconds()))
             waypoint.ETA_locked = True
-            waypoint.speed_locked = False
+            waypoint.speed_locked = waypoint.ETA == 0
 
     def _viggen_client_tot(self) -> bool:
         """Viggen player aircraft consider any waypoint with a TOT set to be a target ("M") waypoint.
