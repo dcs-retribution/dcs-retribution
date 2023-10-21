@@ -11,6 +11,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QSpinBox,
     QWidget,
+    QCheckBox,
 )
 from dcs import Point
 
@@ -41,6 +42,13 @@ class HeadingIndicator(QLabel):
         self.setPixmap(
             ICONS["heading"].transformed(QTransform().rotate(heading.degrees))
         )
+
+
+class SamIndicator(QLabel):
+    def __init__(self, parent: QWidget) -> None:
+        super().__init__(parent)
+        self.setFixedSize(32, 32)
+        self.setPixmap(ICONS["blue-sam"])
 
 
 class QGroundObjectMenu(QDialog):
@@ -83,6 +91,8 @@ class QGroundObjectMenu(QDialog):
         else:
             self.mainLayout.addWidget(self.intelBox)
             self.mainLayout.addWidget(self.orientationBox)
+            if self.ground_object.is_iads and self.cp.is_friendly(to_player=False):
+                self.mainLayout.addWidget(self.hiddenBox)
 
         self.actionLayout = QHBoxLayout()
 
@@ -188,11 +198,25 @@ class QGroundObjectMenu(QDialog):
         else:
             self.headingSelector.setEnabled(False)
 
+        # Hidden Box
+        self.hiddenBox = QGroupBox()
+        self.hiddenBoxLayout = QHBoxLayout()
+        self.hiddenBoxLayout.addWidget(SamIndicator(self))
+        self.hiddenBoxLayout.addWidget(QLabel("Hidden on MFD:"))
+        self.hiddenCheckBox = QCheckBox()
+        self.hiddenCheckBox.setChecked(self.ground_object.hide_on_mfd)
+        self.hiddenCheckBox.stateChanged.connect(self.update_hidden_on_mfd)
+        self.hiddenBoxLayout.addWidget(self.hiddenCheckBox)
+
         # Set the layouts
         self.financesBox.setLayout(self.financesBoxLayout)
         self.buildingBox.setLayout(self.buildingsLayout)
         self.intelBox.setLayout(self.intelLayout)
         self.orientationBox.setLayout(self.orientationBoxLayout)
+        self.hiddenBox.setLayout(self.hiddenBoxLayout)
+
+    def update_hidden_on_mfd(self, state: bool) -> None:
+        self.ground_object.hide_on_mfd = bool(state)
 
     def do_refresh_layout(self):
         try:

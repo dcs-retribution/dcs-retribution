@@ -290,9 +290,11 @@ class GroundObjectGenerator:
                     # All alive Ships
                     ship_units.append(unit)
             if vehicle_units:
-                self.create_vehicle_group(group.group_name, vehicle_units)
+                vg = self.create_vehicle_group(group.group_name, vehicle_units)
+                vg.hidden_on_mfd = self.ground_object.hide_on_mfd
             if ship_units:
-                self.create_ship_group(group.group_name, ship_units)
+                sg = self.create_ship_group(group.group_name, ship_units)
+                sg.hidden_on_mfd = self.ground_object.hide_on_mfd
 
     def create_vehicle_group(
         self, group_name: str, units: list[TheaterUnit]

@@ -64,6 +64,7 @@ class TheaterGroundObject(MissionTarget, SidcDescribable, ABC):
         control_point: ControlPoint,
         sea_object: bool,
         task: Optional[GroupTask],
+        hide_on_mfd: bool = False,
     ) -> None:
         super().__init__(name, location)
         self.id = uuid.uuid4()
@@ -75,6 +76,7 @@ class TheaterGroundObject(MissionTarget, SidcDescribable, ABC):
         self.original_name = location.original_name
         self._threat_poly: ThreatPoly | None = None
         self.task = task
+        self.hide_on_mfd = hide_on_mfd
 
     def __getstate__(self) -> dict[str, Any]:
         state = self.__dict__.copy()

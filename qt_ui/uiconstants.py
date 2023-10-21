@@ -183,6 +183,7 @@ def load_icons():
     )
 
     ICONS["heading"] = QPixmap("./resources/ui/misc/heading.png")
+    ICONS["blue-sam"] = QPixmap("./resources/ui/misc/blue-sam.png")
 
 
 EVENT_ICONS: Dict[str, QPixmap] = {}

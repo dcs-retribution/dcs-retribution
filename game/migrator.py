@@ -223,3 +223,4 @@ class Migrator:
     def _update_tgos(self) -> None:
         for go in self.game.theater.ground_objects:
             try_set_attr(go, "task", None)
+            try_set_attr(go, "hide_on_mfd", False)
