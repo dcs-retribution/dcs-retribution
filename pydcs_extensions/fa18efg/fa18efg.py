@@ -157,10 +157,13 @@ class FA_18E(PlaneType):
 
     class Pylon2:
         TLAU_127 = (2, WeaponsFA18EFG.TLAU_127)
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (2, Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM)
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
+        )
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
+            2,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         # ERRR {CATM-120C}
         LAU_115C_with_AIM_7M_Sparrow_Semi_Active_Radar = (
@@ -260,10 +263,13 @@ class FA_18E(PlaneType):
             3,
             WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (3, Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM)
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             3,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
+        )
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
+            3,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         LAU_115_2_LAU_127_AIM_120B = (3, Weapons.LAU_115_2_LAU_127_AIM_120B)
         LAU_115_2_LAU_127_AIM_120C = (3, Weapons.LAU_115_2_LAU_127_AIM_120C)
@@ -405,10 +411,13 @@ class FA_18E(PlaneType):
         BRU_42_with_ADM_141A_TALD = (3, Weapons.BRU_42_with_ADM_141A_TALD)
 
     class Pylon4:
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (4, Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM)
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             4,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
+        )
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
+            4,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         AN_ASQ_228_ATFLIR___Targeting_Pod = (
             4,
@@ -753,10 +762,13 @@ class FA_18E(PlaneType):
             7,
             WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (7, Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM)
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
+        )
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
+            7,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         LAU_115_2_LAU_127_AIM_120B = (7, Weapons.LAU_115_2_LAU_127_AIM_120B)
         LAU_115_2_LAU_127_AIM_120C = (7, Weapons.LAU_115_2_LAU_127_AIM_120C)
@@ -899,10 +911,13 @@ class FA_18E(PlaneType):
 
     class Pylon8:
         TLAU_127 = (8, WeaponsFA18EFG.TLAU_127)
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (8, Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM)
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
+        )
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
+            8,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         # ERRR {CATM-120C}
         LAU_115C_with_AIM_7M_Sparrow_Semi_Active_Radar = (
@@ -1143,10 +1158,13 @@ class FA_18F(PlaneType):
 
     class Pylon2:
         TLAU_127 = (2, WeaponsFA18EFG.TLAU_127)
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (2, Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM)
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
+        )
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
+            2,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         # ERRR {CATM-120C}
         LAU_115C_with_AIM_7M_Sparrow_Semi_Active_Radar = (
@@ -1246,10 +1264,13 @@ class FA_18F(PlaneType):
             3,
             WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (3, Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM)
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             3,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
+        )
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
+            3,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         LAU_115_2_LAU_127_AIM_120B = (3, Weapons.LAU_115_2_LAU_127_AIM_120B)
         LAU_115_2_LAU_127_AIM_120C = (3, Weapons.LAU_115_2_LAU_127_AIM_120C)
@@ -1391,10 +1412,13 @@ class FA_18F(PlaneType):
         BRU_42_with_ADM_141A_TALD = (3, Weapons.BRU_42_with_ADM_141A_TALD)
 
     class Pylon4:
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (4, Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM)
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             4,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
+        )
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
+            4,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         AN_ASQ_228_ATFLIR___Targeting_Pod = (
             4,
@@ -1739,10 +1763,13 @@ class FA_18F(PlaneType):
             7,
             WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (7, Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM)
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
+        )
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
+            7,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         LAU_115_2_LAU_127_AIM_120B = (7, Weapons.LAU_115_2_LAU_127_AIM_120B)
         LAU_115_2_LAU_127_AIM_120C = (7, Weapons.LAU_115_2_LAU_127_AIM_120C)
@@ -1885,10 +1912,13 @@ class FA_18F(PlaneType):
 
     class Pylon8:
         TLAU_127 = (8, WeaponsFA18EFG.TLAU_127)
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (8, Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM)
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
+        )
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
+            8,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         # ERRR {CATM-120C}
         LAU_115C_with_AIM_7M_Sparrow_Semi_Active_Radar = (
@@ -2153,10 +2183,13 @@ class EA_18G(PlaneType):
         TLAU_127 = (3, WeaponsFA18EFG.TLAU_127)
 
     class Pylon4:
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (4, Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM)
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             4,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
+        )
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
+            4,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
 
     class Pylon5:
@@ -2170,10 +2203,13 @@ class EA_18G(PlaneType):
     # ERRR <CLEAN>
 
     class Pylon6:
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (6, Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM)
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             6,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
+        )
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
+            6,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
 
     class Pylon7:
