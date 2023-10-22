@@ -195,7 +195,7 @@ class QLiberationWindow(QMainWindow):
         )
 
         self.pretenseLinkAction = QAction("&DCS: Pretense", self)
-        self.pretenseLinkAction.setIcon(QIcon(CONST.ICONS["Pretense"]))
+        self.pretenseLinkAction.setIcon(QIcon(CONST.ICONS["Pretense_discord"]))
         self.pretenseLinkAction.triggered.connect(
             lambda: webbrowser.open_new_tab(
                 "https://" + "discord.gg" + "/" + "PtPsb9Mpk6"
