@@ -32,6 +32,8 @@ Config.buildSpeed = Config.buildSpeed or 10 -- structure and defense build speed
 Config.supplyBuildSpeed = Config.supplyBuildSpeed or 85 -- supply helicopters and convoys build speed
 Config.missionBuildSpeedReduction = Config.missionBuildSpeedReduction or 0.12 -- reduction of build speed in case of ai missions
 Config.maxDistFromFront = Config.maxDistFromFront or 129640 -- max distance in meters from front after which zone is forced into low activity state (export mode)
+Config.closeOverride = Config.closeOverride or 27780 -- close override distance in meters from front within which zone is never forced into low activity state
+Config.disablePlayerSead = Config.disablePlayerSead or false
 
 Config.missions = Config.missions or {}
 
@@ -503,6 +505,8 @@ end
 GroupMonitor = {}
 do
 	GroupMonitor.blockedDespawnTime = 10*60 --used to despawn aircraft that are stuck taxiing for some reason
+	GroupMonitor.blockedDespawnTimeGround = 30*60 --used to despawn ground units that are stuck en route for some reason
+	GroupMonitor.blockedDespawnTimeGroundAssault = 90*60 --used to despawn assault units that are stuck en route for some reason
 	GroupMonitor.landedDespawnTime = 10
 	GroupMonitor.atDestinationDespawnTime = 2*60
 	GroupMonitor.recoveryReduction = 0.8 -- reduce recovered resource from landed missions by this amount to account for maintenance
@@ -638,7 +642,13 @@ do
 					group.state = 'enroute'
 					group.lastStateTime = timer.getAbsTime()
 					MissionTargetRegistry.addBaiTarget(group)
-				elseif timer.getAbsTime() - group.lastStateTime > GroupMonitor.blockedDespawnTime then
+				elseif group.product.missionType == 'assault' and timer.getAbsTime() - group.lastStateTime > GroupMonitor.blockedDespawnTimeGroundAssault then
+					env.info('GroupMonitor: processSurface ['..group.name..'] despawned due to blockage')
+					gr:destroy()
+					local todeliver = math.floor(group.product.cost)
+					z:addResource(todeliver)
+					return true
+				elseif timer.getAbsTime() - group.lastStateTime > GroupMonitor.blockedDespawnTimeGround then
 					env.info('GroupMonitor: processSurface ['..group.name..'] despawned due to blockage')
 					gr:destroy()
 					local todeliver = math.floor(group.product.cost)
@@ -734,7 +744,7 @@ do
 									y = group.target.zone.point.z
 								}
 
-								TaskExtensions.moveOnRoadToPointAndAssault(gr, tp, group.target.built)
+								TaskExtensions.moveOffRoadToPointAndAssault(gr, tp, group.target.built)
 								group.isstopped = false
 							end
 						end
@@ -2135,7 +2145,68 @@ do
 		}
 		group:getController():setTask(mis)
 	end
-	
+
+	function TaskExtensions.moveOffRoadToPointAndAssault(group, point, targets)
+		if not group or not point then return end
+		if not group:isExist() or group:getSize()==0 then return end
+		local startPos = group:getUnit(1):getPoint()
+
+		local srx, sry = land.getClosestPointOnRoads('roads', startPos.x, startPos.z)
+		local erx, ery = land.getClosestPointOnRoads('roads', point.x, point.y)
+
+		local mis = {
+			id='Mission',
+			params = {
+				route = {
+					points = {
+						[1] = {
+							type= AI.Task.WaypointType.TURNING_POINT,
+							x = srx,
+							y = sry,
+							speed = 1000,
+							action = AI.Task.VehicleFormation.DIAMOND
+						},
+						[2] = {
+							type= AI.Task.WaypointType.TURNING_POINT,
+							x = erx,
+							y = ery,
+							speed = 1000,
+							action = AI.Task.VehicleFormation.DIAMOND
+						},
+						[3] = {
+							type= AI.Task.WaypointType.TURNING_POINT,
+							x = point.x,
+							y = point.y,
+							speed = 1000,
+							action = AI.Task.VehicleFormation.DIAMOND
+						}
+					}
+				}
+			}
+		}
+
+		for i,v in pairs(targets) do
+			if v.type == 'defense' then
+				local group = Group.getByName(v.name)
+				if group then
+					for i,v in ipairs(group:getUnits()) do
+						local unpos = v:getPoint()
+						local pnt = {x=unpos.x, y = unpos.z}
+
+						table.insert(mis.params.route.points, {
+							type= AI.Task.WaypointType.TURNING_POINT,
+							x = pnt.x,
+							y = pnt.y,
+							speed = 10,
+							action = AI.Task.VehicleFormation.DIAMOND
+						})
+					end
+				end
+			end
+		end
+		group:getController():setTask(mis)
+	end
+
 	function TaskExtensions.landAtPointFromAir(group, point, alt)
 		if not group or not point then return end
 		if not group:isExist() or group:getSize()==0 then return end
@@ -2542,7 +2613,7 @@ do
 									unit = event.initiator
 								})
 								
-								env.info('PlayerLogistics - Hercules - '..unitName..'deployed crate with '..amount..' supplies')
+								env.info('PlayerLogistics - Hercules - '..unitName..' deployed crate with '..amount..' supplies')
 								self.context:processHercCargos(unitName)
 								self.context.hercPreparedDrops[groupId] = nil
 								trigger.action.outTextForUnit(event.initiator:getID(), 'Crate with '..amount..' supplies deployed', 10)
@@ -2577,7 +2648,7 @@ do
 									unit = event.initiator
 								})
 								
-								env.info('PlayerLogistics - Hercules - '..unitName..'deployed crate with '..toDrop.type)
+								env.info('PlayerLogistics - Hercules - '..unitName..' deployed crate with '..toDrop.type)
 								self.context:processHercCargos(unitName)
 								self.context.hercPreparedDrops[groupId] = nil
 								
@@ -2607,6 +2678,7 @@ do
 				local reschedule = params.context:checkHercCargo(params.unitName, time)
 				if not reschedule then
 					params.context.hercTracker.cargoCheckFunctions[params.unitName] = nil
+					env.info('PlayerLogistics - Hercules - stopped tracking cargos of '..unitName)
 				end
 				
 				return reschedule
@@ -2627,9 +2699,14 @@ do
 						table.insert(remaining, cargo)
 					end
 				else
-					env.info('PlayerLogistics - Hercules - cargo crashed')
+					env.info('PlayerLogistics - Hercules - cargo crashed '..tostring(cargo.supply)..' '..tostring(cargo.squad))
+					if cargo.squad then 
+						env.info('PlayerLogistics - Hercules - squad crashed '..tostring(cargo.squad.type))
+					end
+
 					if cargo.unit and cargo.unit:isExist() then
-						trigger.action.outTextForUnit(cargo.unit:getID(), 'Cargo drop of '..cargo.unit:getPlayerName()..' crashed', 10)
+						local squadName = PlayerLogistics.getInfantryName(cargo.squad.type)
+						trigger.action.outTextForUnit(cargo.unit:getID(), 'Cargo drop of '..cargo.unit:getPlayerName()..' with '..squadName..' crashed', 10)
 					end
 				end
 			end
@@ -2647,13 +2724,14 @@ do
 				local zone = ZoneCommand.getZoneOfWeapon(cargo.object)
 				if zone then
 					zone:addResource(cargo.supply)
-					cargo.object:destroy()
 					env.info('PlayerLogistics - Hercules - '..cargo.supply..' delivered to '..zone.name)
 
 					self:awardSupplyXP(cargo.lastLoaded, zone, cargo.unit, cargo.supply)
 				end
 			elseif cargo.squad then
 				local pos = Utils.getPointOnSurface(cargo.object:getPoint())
+				pos.y = pos.z
+				pos.z = nil
 				local surface = land.getSurfaceType(pos)
 				if surface == land.SurfaceType.LAND or surface == land.SurfaceType.ROAD or surface == land.SurfaceType.RUNWAY then
 					local zn = ZoneCommand.getZoneOfPoint(pos)
@@ -2672,13 +2750,12 @@ do
 					else
 						local error = self.squadTracker:spawnInfantry(self.registeredSquadGroups[cargo.squad.type], pos)
 						if not error then
-							cargo.object:destroy()
 							env.info('PlayerLogistics - Hercules - '..cargo.squad.type..' deployed')
 							
 							local squadName = PlayerLogistics.getInfantryName(cargo.squad.type)
-							trigger.action.outTextForUnit(cargo.unit:getID(), squadName..' deployed', 10)
 							
 							if cargo.unit and cargo.unit:isExist() and cargo.unit.getPlayerName then
+								trigger.action.outTextForUnit(cargo.unit:getID(), squadName..' deployed', 10)
 								local player = cargo.unit:getPlayerName()
 								local xp = RewardDefinitions.actions.squadDeploy
 								
@@ -2693,8 +2770,17 @@ do
 							end
 						end
 					end
+				else
+					env.info('PlayerLogistics - Hercules - '..cargo.squad.type..' dropped on invalid surface '..tostring(surface))
+					local cpos = cargo.object:getPoint()
+					env.info('PlayerLogistics - Hercules - cargo spot X:'..cpos.x..' Y:'..cpos.y..' Z:'..cpos.z)
+					env.info('PlayerLogistics - Hercules - surface spot X:'..pos.x..' Y:'..pos.y..' Z:'..pos.z)
+					local squadName = PlayerLogistics.getInfantryName(cargo.squad.type)
+					trigger.action.outTextForUnit(cargo.unit:getID(), 'Cargo drop of '..cargo.unit:getPlayerName()..' with '..squadName..' crashed', 10)
 				end
 			end
+
+			cargo.object:destroy()
 		end
 	end
 
@@ -3989,6 +4075,22 @@ do
 		end
 
 		self:refreshText()
+
+		if self.airbaseName then
+			local ab = Airbase.getByName(self.airbaseName)
+			if ab then
+				if ab:autoCaptureIsOn() then ab:autoCapture(false) end
+				ab:setCoalition(self.side)
+			else
+				for i=1,10,1 do
+					local ab = Airbase.getByName(self.airbaseName..'-'..i)
+					if ab then
+						if ab:autoCaptureIsOn() then ab:autoCapture(false) end
+						ab:setCoalition(self.side)
+					end
+				end
+			end
+		end
 	end
 	
 	function ZoneCommand:addResource(amount)
@@ -4780,7 +4882,7 @@ do
 				product.lastMission = {zoneName = zone.name}
 				timer.scheduleFunction(function(param)
 					local gr = Group.getByName(param.name)
-					TaskExtensions.moveOnRoadToPointAndAssault(gr, param.point, param.targets)
+					TaskExtensions.moveOffRoadToPointAndAssault(gr, param.point, param.targets)
 				end, {name=product.name, point={ x=tgtPoint.point.x, y = tgtPoint.point.z}, targets=zone.built}, timer.getTime()+1)
 			end
 		end
@@ -5311,7 +5413,7 @@ do
 					product.lastMission = {zoneName = v.name}
 					timer.scheduleFunction(function(param)
 						local gr = Group.getByName(param.name)
-						TaskExtensions.moveOnRoadToPointAndAssault(gr, param.point, param.targets)
+						TaskExtensions.moveOffRoadToPointAndAssault(gr, param.point, param.targets)
 					end, {name=product.name, point={ x=tgtPoint.point.x, y = tgtPoint.point.z}, targets=v.built}, timer.getTime()+1)
 
 					env.info("ZoneCommand - "..product.name.." targeting "..v.name)
@@ -5873,7 +5975,7 @@ end
 
 BattlefieldManager = {}
 do
-	BattlefieldManager.closeOverride = 27780 -- 15nm
+	BattlefieldManager.closeOverride = Config.closeOverride -- default 15nm
 	BattlefieldManager.farOverride = Config.maxDistFromFront -- default 100nm
 	BattlefieldManager.boostScale = {[0] = 1.0, [1]=1.0, [2]=1.0}
 	BattlefieldManager.noRedZones = false
@@ -10452,6 +10554,7 @@ do
                 end
             end
         end
+        return false
     end
 
     function SEAD:getMissionName()
@@ -12105,7 +12208,7 @@ do
             if toGen > 0 then
                 local validMissions = {}
                 for _,v in pairs(Mission.types) do
-                    if self:canCreateMission(v) then
+                    if timer.getAbsTime() - timer.getTime0() > 120 and self:canCreateMission(v) then
                         table.insert(validMissions,v)
                     end
                 end
@@ -12565,7 +12668,7 @@ do
             return CAS_Easy.canCreate()
         elseif misType == Mission.types.cas_medium then
             return CAS_Medium.canCreate()
-        elseif misType == Mission.types.sead then
+        elseif Config.disablePlayerSead == false and misType == Mission.types.sead then
             return SEAD.canCreate()
         elseif misType == Mission.types.dead then
             return DEAD.canCreate()
@@ -12659,7 +12762,7 @@ do
 
     function SquadTracker:restoreInfantry(save)
 
-        Spawner.createObject(save.name, save.data.name, save.position, 2, 10, 20,{
+        Spawner.createObject(save.name, save.data.name, save.position, 2, 20, 30,{
             [land.SurfaceType.LAND] = true, 
             [land.SurfaceType.ROAD] = true,
             [land.SurfaceType.RUNWAY] = true,
@@ -12683,7 +12786,7 @@ do
     function SquadTracker:spawnInfantry(infantryData, position)
         local callsign = self:generateCallsign()
         if callsign then
-            Spawner.createObject(callsign, infantryData.name, position, 2, 10, 20,{
+            Spawner.createObject(callsign, infantryData.name, position, 2, 20, 30,{
                 [land.SurfaceType.LAND] = true, 
                 [land.SurfaceType.ROAD] = true,
                 [land.SurfaceType.RUNWAY] = true,
@@ -12851,7 +12954,7 @@ do
                     local p = Utils.getPointOnSurface(unPos)
                     p.x = p.x + math.random(-5,5)
                     p.z = p.z + math.random(-5,5)
-		            trigger.action.smoke(p, trigger.smokeColor.Green)
+		            trigger.action.smoke(p, trigger.smokeColor.Blue)
                     squad.lastMarkerDeployedTime = timer.getAbsTime()
                 end
             end
