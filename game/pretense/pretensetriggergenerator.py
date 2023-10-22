@@ -152,9 +152,72 @@ class PretenseTriggerGenerator:
                         v += 1
             self.mission.triggerrules.triggers.append(mark_trigger)
 
-    def _generate_pretense_zone_triggers(
+    def _generate_capture_triggers(
         self, player_coalition: str, enemy_coalition: str
     ) -> None:
+        """Creates a pair of triggers for each control point of `cls.capture_zone_types`.
+        One for the initial capture of a control point, and one if it is recaptured.
+        Directly appends to the global `base_capture_events` var declared by `dcs_libaration.lua`
+        """
+        for cp in self.game.theater.controlpoints:
+            if isinstance(cp, self.capture_zone_types) and not cp.is_carrier:
+                if cp.captured:
+                    attacking_coalition = enemy_coalition
+                    attack_coalition_int = 1  # 1 is the Event int for Red
+                    defending_coalition = player_coalition
+                    defend_coalition_int = 2  # 2 is the Event int for Blue
+                else:
+                    attacking_coalition = player_coalition
+                    attack_coalition_int = 2
+                    defending_coalition = enemy_coalition
+                    defend_coalition_int = 1
+
+                trigger_zone = self.mission.triggers.add_triggerzone(
+                    cp.position,
+                    radius=TRIGGER_RADIUS_CAPTURE,
+                    hidden=False,
+                    name="CAPTURE",
+                )
+                flag = self.get_capture_zone_flag()
+                capture_trigger = TriggerCondition(Event.NoEvent, "Capture Trigger")
+                capture_trigger.add_condition(
+                    AllOfCoalitionOutsideZone(
+                        defending_coalition, trigger_zone.id, unit_type="GROUND"
+                    )
+                )
+                capture_trigger.add_condition(
+                    PartOfCoalitionInZone(
+                        attacking_coalition, trigger_zone.id, unit_type="GROUND"
+                    )
+                )
+                capture_trigger.add_condition(FlagIsFalse(flag=flag))
+                script_string = String(
+                    f'base_capture_events[#base_capture_events + 1] = "{cp.id}||{attack_coalition_int}||{cp.full_name}"'
+                )
+                capture_trigger.add_action(DoScript(script_string))
+                capture_trigger.add_action(SetFlag(flag=flag))
+                self.mission.triggerrules.triggers.append(capture_trigger)
+
+                recapture_trigger = TriggerCondition(Event.NoEvent, "Capture Trigger")
+                recapture_trigger.add_condition(
+                    AllOfCoalitionOutsideZone(
+                        attacking_coalition, trigger_zone.id, unit_type="GROUND"
+                    )
+                )
+                recapture_trigger.add_condition(
+                    PartOfCoalitionInZone(
+                        defending_coalition, trigger_zone.id, unit_type="GROUND"
+                    )
+                )
+                recapture_trigger.add_condition(FlagIsTrue(flag=flag))
+                script_string = String(
+                    f'base_capture_events[#base_capture_events + 1] = "{cp.id}||{defend_coalition_int}||{cp.full_name}"'
+                )
+                recapture_trigger.add_action(DoScript(script_string))
+                recapture_trigger.add_action(ClearFlag(flag=flag))
+                self.mission.triggerrules.triggers.append(recapture_trigger)
+
+    def _generate_pretense_zone_triggers(self) -> None:
         """Creates a pair of triggers for each control point of `cls.capture_zone_types`.
         One for the initial capture of a control point, and one if it is recaptured.
         Directly appends to the global `base_capture_events` var declared by `dcs_libaration.lua`
@@ -166,7 +229,7 @@ class PretenseTriggerGenerator:
                 trigger_radius = TRIGGER_RADIUS_CAPTURE
             if not isinstance(cp, OffMapSpawn):
                 zone_color = {1: 0.0, 2: 0.0, 3: 0.0, 4: 0.15}
-                trigger_zone = self.mission.triggers.add_triggerzone(
+                self.mission.triggers.add_triggerzone(
                     cp.position,
                     radius=trigger_radius,
                     hidden=False,
@@ -180,7 +243,7 @@ class PretenseTriggerGenerator:
                     continue
                 tgo_num += 1
                 zone_color = {1: 1.0, 2: 1.0, 3: 1.0, 4: 0.15}
-                trigger_zone = self.mission.triggers.add_triggerzone(
+                self.mission.triggers.add_triggerzone(
                     tgo.position,
                     radius=TRIGGER_RADIUS_PRETENSE_TGO,
                     hidden=False,
@@ -189,7 +252,7 @@ class PretenseTriggerGenerator:
                 )
             for helipad in cp.helipads + cp.helipads_invisible + cp.helipads_quad:
                 zone_color = {1: 1.0, 2: 1.0, 3: 1.0, 4: 0.15}
-                trigger_zone = self.mission.triggers.add_triggerzone(
+                self.mission.triggers.add_triggerzone(
                     position=helipad,
                     radius=TRIGGER_RADIUS_PRETENSE_HELI,
                     hidden=False,
@@ -206,7 +269,7 @@ class PretenseTriggerGenerator:
                 supply_position = origin_position.point_from_heading(
                     convoy_heading, 300
                 )
-                trigger_zone = self.mission.triggers.add_triggerzone(
+                self.mission.triggers.add_triggerzone(
                     supply_position,
                     radius=TRIGGER_RADIUS_PRETENSE_TGO,
                     hidden=False,
@@ -219,6 +282,8 @@ class PretenseTriggerGenerator:
         ]
         for airfield in airfields:
             cp_airport = self.mission.terrain.airport_by_id(airfield.airport.id)
+            if cp_airport is None:
+                continue
             cp_name_trimmed = "".join(
                 [i for i in cp_airport.name.lower() if i.isalnum()]
             )
@@ -263,7 +328,8 @@ class PretenseTriggerGenerator:
 
         self._set_skill(player_coalition, enemy_coalition)
         self._set_allegiances(player_coalition, enemy_coalition)
-        self._generate_pretense_zone_triggers(player_coalition, enemy_coalition)
+        self._generate_pretense_zone_triggers()
+        self._generate_capture_triggers(player_coalition, enemy_coalition)
 
     @classmethod
     def get_capture_zone_flag(cls) -> int:

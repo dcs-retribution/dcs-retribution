@@ -101,6 +101,7 @@ class PretenseMissionGenerator(MissionGenerator):
         self.generate_ground_conflicts()
         self.generate_air_units(tgo_generator)
 
+        self.mission.triggerrules.triggers.clear()
         PretenseTriggerGenerator(self.mission, self.game).generate()
         ForcedOptionsGenerator(self.mission, self.game).generate()
         VisualsGenerator(self.mission, self.game).generate()
