@@ -88,7 +88,7 @@ squadrons:
     - primary: CAS
       secondary: air-to-ground
       aircraft:
-        - AH-64D Apache
+        - AH-64D Apache Longbow
   #Ramat David
   30:
     - primary: BARCAP
