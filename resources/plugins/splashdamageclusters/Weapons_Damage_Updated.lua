@@ -23,11 +23,16 @@ spencershepard (GRIMM):
  -added options table to allow easy adjustments before release
  -general refactoring and restructure
 
+29 May 2022
+Ghosti (MetalStormGhost):
+- Implemented generating extra explosions near BLU-97/B hits to simulate the missing submunitions which are omitted by ED
+  due to performance reasons. This is an attempt at making the A-model JSOW more useful against groups of soft targets.
+
 3 August 2022
 Ghosti (MetalStormGhost):
  SPLASH DAMAGE WITH CLUSTERS AND SHIP RADAR EFFECTS:
  -damage boost for parked aircraft since they are hard to kill (DCS: Retribution OCA/Aircraft mission improvement)
- -cluster weapons support
+ -additional cluster weapons support
  -helicopter gunship autocannon fragmentation effect support
  -napalm will now spawn fire on impact
  -ship radars might turn off when hit with anti-radiation missiles
