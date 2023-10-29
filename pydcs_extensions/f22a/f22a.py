@@ -52,23 +52,23 @@ class F_22A(PlaneType):
         Fuel_tank_610_gal = (2, Weapons.Fuel_tank_610_gal)
 
     class Pylon3:
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
             3,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         AIM_120D = (3, F22AWeapons.AIM_120D)
 
     class Pylon4:
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
             4,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         AIM_120D = (4, F22AWeapons.AIM_120D)
 
     class Pylon5:
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
             5,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         AIM_120D = (5, F22AWeapons.AIM_120D)
 
@@ -80,23 +80,23 @@ class F_22A(PlaneType):
         Smokewinder___yellow = (6, Weapons.Smokewinder___yellow)
 
     class Pylon7:
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         AIM_120D = (7, F22AWeapons.AIM_120D)
 
     class Pylon8:
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         AIM_120D = (8, F22AWeapons.AIM_120D)
 
     class Pylon9:
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
             9,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         AIM_120D = (9, F22AWeapons.AIM_120D)
 

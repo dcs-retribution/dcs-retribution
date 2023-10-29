@@ -1,7 +1,7 @@
-from PySide2.QtCharts import QtCharts
-from PySide2.QtCore import QPoint, Qt
-from PySide2.QtGui import QPainter
-from PySide2.QtWidgets import QFrame, QGridLayout
+from PySide6 import QtCharts
+from PySide6.QtCore import QPoint, Qt
+from PySide6.QtGui import QPainter
+from PySide6.QtWidgets import QFrame, QGridLayout
 
 from game import Game
 
@@ -31,7 +31,7 @@ class QArmorChart(QFrame):
             self.alliedArmorSerie.append(QPoint(a, i))
 
         self.enemyArmorSerie = QtCharts.QLineSeries()
-        self.enemyArmorSerie.setColor(Qt.red)
+        self.enemyArmorSerie.setColor(Qt.GlobalColor.red)
         self.enemyArmorSerie.setName("Enemy vehicle count")
         for a, i in enumerate(self.enemyArmor):
             self.enemyArmorSerie.append(QPoint(a, i))
@@ -54,6 +54,6 @@ class QArmorChart(QFrame):
         self.chart.axisY().applyNiceNumbers()
 
         self.chartView = QtCharts.QChartView(self.chart)
-        self.chartView.setRenderHint(QPainter.Antialiasing)
+        self.chartView.setRenderHint(QPainter.RenderHint.Antialiasing)
 
         self.layout.addWidget(self.chartView, 0, 0)

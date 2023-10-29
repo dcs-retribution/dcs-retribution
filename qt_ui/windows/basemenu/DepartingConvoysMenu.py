@@ -1,5 +1,5 @@
-from PySide2.QtCore import Qt
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (
     QFrame,
     QGridLayout,
     QGroupBox,
@@ -33,11 +33,11 @@ class DepartingConvoyInfo(QGroupBox):
             if unit_type.dcs_id in VEHICLES_ICONS.keys():
                 icon.setPixmap(VEHICLES_ICONS[unit_type.dcs_id])
             else:
-                icon.setText("<b>" + unit_type.name + "</b>")
+                icon.setText("<b>" + unit_type.display_name + "</b>")
             icon.setProperty("style", "icon-armor")
             unit_layout.addWidget(icon, idx, 0)
             unit_layout.addWidget(
-                QLabel(f"{count} x <strong>{unit_type.name}</strong>"),
+                QLabel(f"{count} x <strong>{unit_type.display_name}</strong>"),
                 idx,
                 1,
             )
@@ -49,7 +49,7 @@ class DepartingConvoyInfo(QGroupBox):
         attack_button.setProperty("style", "btn-danger")
         attack_button.setMaximumWidth(180)
         attack_button.clicked.connect(self.on_attack)
-        main_layout.addWidget(attack_button, 0, Qt.AlignLeft)
+        main_layout.addWidget(attack_button, 0, Qt.AlignmentFlag.AlignLeft)
 
     def on_attack(self):
         # TODO: Maintain Convoy list in Game.
@@ -87,8 +87,8 @@ class DepartingConvoysList(QFrame):
 
         scroll_content.setLayout(task_box_layout)
         scroll = QScrollArea()
-        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
         scroll.setWidgetResizable(True)
         scroll.setWidget(scroll_content)
         layout.addWidget(scroll)

@@ -156,7 +156,6 @@ class Settings:
         MISSION_RESTRICTIONS_SECTION,
         default=True,
     )
-
     easy_communication: Optional[bool] = choices_option(
         "Easy Communication",
         page=DIFFICULTY_PAGE,
@@ -253,6 +252,33 @@ class Settings:
             "Chance (larger number -> higher chance) that the OPFOR AI "
             "auto-planner will take risks and plan flights against targets "
             "within threatened airspace."
+        ),
+    )
+    heli_combat_alt_agl: int = bounded_int_option(
+        "Helicopter combat altitude (feet AGL)",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=200,
+        min=1,
+        max=10000,
+        detail=(
+            "Altitude for helicopters in feet AGL while flying between combat waypoints."
+            " Combat waypoints are considered INGRESS, CAS, TGT, EGRESS & SPLIT."
+            " In campaigns in more mountainous areas, you might want to increase this "
+            "setting to avoid the AI flying into the terrain."
+        ),
+    )
+    heli_cruise_alt_agl: int = bounded_int_option(
+        "Helicopter cruise altitude (feet AGL)",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=500,
+        min=1,
+        max=10000,
+        detail=(
+            "Altitude for helicopters in feet AGL while flying between non-combat waypoints."
+            " In campaigns in more mountainous areas, you might want to increase this "
+            "setting to avoid the AI flying into the terrain."
         ),
     )
     airbase_threat_range: int = bounded_int_option(
@@ -450,7 +476,7 @@ class Settings:
         default=True,
     )
     auto_procurement_balance: int = bounded_int_option(
-        "AI ground unit procurement budget ratio (%)",
+        "AI ground unit procurement budget ratio (%) for BLUE",
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         min=0,
@@ -463,7 +489,7 @@ class Settings:
         ),
     )
     frontline_reserves_factor: int = bounded_int_option(
-        "AI ground unit front-line reserves factor (%)",
+        "AI ground unit front-line reserves factor (%) for BLUE",
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         min=0,
@@ -475,7 +501,43 @@ class Settings:
         ),
     )
     reserves_procurement_target: int = bounded_int_option(
-        "AI ground unit reserves procurement target",
+        "AI ground unit reserves procurement target for BLUE",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        HQ_AUTOMATION_SECTION,
+        min=0,
+        max=1000,
+        default=10,
+        detail=(
+            "The number of units that will be bought as reserves for applicable control points"
+        ),
+    )
+    auto_procurement_balance_red: int = bounded_int_option(
+        "AI ground unit procurement budget ratio (%) for RED",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        HQ_AUTOMATION_SECTION,
+        min=0,
+        max=100,
+        default=50,
+        detail=(
+            "Ratio (larger number -> more budget for ground units) "
+            "that indicates how the AI procurement planner should "
+            "spend its budget."
+        ),
+    )
+    frontline_reserves_factor_red: int = bounded_int_option(
+        "AI ground unit front-line reserves factor (%) for RED",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        HQ_AUTOMATION_SECTION,
+        min=0,
+        max=1000,
+        default=130,
+        detail=(
+            "Factor to be multiplied with the control point's unit count limit "
+            "to calculate the procurement target for reserve troops at front-lines."
+        ),
+    )
+    reserves_procurement_target_red: int = bounded_int_option(
+        "AI ground unit reserves procurement target for RED",
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         min=0,
@@ -741,6 +803,24 @@ class Settings:
         default=False,
         detail=("Might have a negative performance impact."),
     )
+    ground_start_ground_power_trucks: bool = boolean_option(
+        "Spawn ground power trucks at ground starts in airbases",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=True,
+        detail=(
+            "Needed to cold-start some aircraft types. Might have a performance impact."
+        ),
+    )
+    ground_start_ground_power_trucks_roadbase: bool = boolean_option(
+        "Spawn ground power trucks at ground starts in roadbases",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=True,
+        detail=(
+            "Needed to cold-start some aircraft types. Might have a performance impact."
+        ),
+    )
 
     # Performance
     perf_smoke_gen: bool = boolean_option(
@@ -878,6 +958,7 @@ class Settings:
     enable_frontline_cheats: bool = False
     enable_base_capture_cheat: bool = False
     enable_transfer_cheat: bool = False
+    enable_runway_state_cheat: bool = False
 
     # LUA Plugins system
     plugins: Dict[str, bool] = field(default_factory=dict)

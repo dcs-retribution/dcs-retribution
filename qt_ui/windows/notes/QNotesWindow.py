@@ -1,6 +1,6 @@
-from PySide2.QtCore import QTimer
-from PySide2.QtGui import QTextCursor
-from PySide2.QtWidgets import (
+from PySide6.QtCore import QTimer
+from PySide6.QtGui import QTextCursor
+from PySide6.QtWidgets import (
     QDialog,
     QPlainTextEdit,
     QVBoxLayout,
@@ -33,7 +33,7 @@ class QNotesWindow(QDialog):
         self.textbox = QPlainTextEdit(self)
         try:
             self.textbox.setPlainText(self.game.notes)
-            self.textbox.moveCursor(QTextCursor.End)
+            self.textbox.moveCursor(QTextCursor.MoveOperation.End)
         except AttributeError:  # old save may not have game.notes
             pass
         self.textbox.move(10, 10)

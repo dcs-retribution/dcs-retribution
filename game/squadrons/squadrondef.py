@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional, TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING, Union
 
 import yaml
 from dcs.country import Country
@@ -28,7 +28,7 @@ class SquadronDef:
     aircraft: AircraftType
     livery: Optional[str]
     auto_assignable_mission_types: set[FlightType]
-    radio_presets: dict[str, list[RadioFrequency]]
+    radio_presets: dict[Union[str, int], list[RadioFrequency]]
     operating_bases: OperatingBases
     female_pilot_percentage: int
     pilot_pool: list[Pilot]

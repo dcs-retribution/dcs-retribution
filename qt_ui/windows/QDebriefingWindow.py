@@ -1,8 +1,8 @@
 import logging
 from typing import Callable, Dict, TypeVar
 
-from PySide2.QtGui import QIcon, QPixmap, QCloseEvent
-from PySide2.QtWidgets import (
+from PySide6.QtGui import QIcon, QPixmap, QCloseEvent
+from PySide6.QtWidgets import (
     QDialog,
     QGridLayout,
     QGroupBox,
@@ -23,7 +23,9 @@ class LossGrid(QGridLayout):
     def __init__(self, debriefing: Debriefing, player: bool) -> None:
         super().__init__()
 
-        self.add_loss_rows(debriefing.air_losses.by_type(player), lambda u: u.name)
+        self.add_loss_rows(
+            debriefing.air_losses.by_type(player), lambda u: u.display_name
+        )
         self.add_loss_rows(
             debriefing.front_line_losses_by_type(player), lambda u: str(u)
         )

@@ -1,20 +1,19 @@
 """Widgets for displaying air tasking orders."""
 import logging
-from datetime import timedelta
 from typing import Optional
 
-from PySide2.QtCore import (
+from PySide6.QtCore import (
     QItemSelectionModel,
     QModelIndex,
     QSize,
     Qt,
 )
-from PySide2.QtGui import (
+from PySide6.QtGui import (
     QContextMenuEvent,
-)
-from PySide2.QtWidgets import (
-    QAbstractItemView,
     QAction,
+)
+from PySide6.QtWidgets import (
+    QAbstractItemView,
     QGroupBox,
     QHBoxLayout,
     QLabel,
@@ -51,7 +50,7 @@ class FlightDelegate(TwoColumnRowDelegate):
             clients = self.num_clients(index)
             return f"Player Slots: {clients}" if clients else ""
         elif (row, column) == (1, 0):
-            origin = flight.from_cp.name
+            origin = flight.departure.name
             if flight.arrival != flight.departure:
                 return f"From {origin} to {flight.arrival.name}"
             return f"From {origin}"
@@ -80,7 +79,7 @@ class QFlightList(QListView):
         if package_model is not None:
             self.setItemDelegate(FlightDelegate(package_model.package))
         self.setIconSize(QSize(91, 24))
-        self.setSelectionBehavior(QAbstractItemView.SelectItems)
+        self.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectItems)
         self.doubleClicked.connect(self.on_double_click)
 
     def set_package(self, model: Optional[PackageModel]) -> None:
@@ -94,7 +93,8 @@ class QFlightList(QListView):
             # noinspection PyUnresolvedReferences
             model.deleted.connect(self.disconnect_model)
             self.selectionModel().setCurrentIndex(
-                model.index(0, 0, QModelIndex()), QItemSelectionModel.Select
+                model.index(0, 0, QModelIndex()),
+                QItemSelectionModel.SelectionFlag.Select,
             )
 
     def disconnect_model(self) -> None:
@@ -285,16 +285,7 @@ class PackageDelegate(TwoColumnRowDelegate):
             clients = self.num_clients(index)
             return f"Player Slots: {clients}" if clients else ""
         elif (row, column) == (1, 0):
-            tot_delay = (
-                package.time_over_target - self.game_model.sim_controller.elapsed_time
-            )
-            if tot_delay >= timedelta():
-                return f"TOT in {tot_delay}"
-            game = self.game_model.game
-            if game is None:
-                raise RuntimeError("Package TOT has elapsed but no game is loaded")
-            tot_time = game.conditions.start_time + package.time_over_target
-            return f"TOT passed at {tot_time:%H:%M:%S}"
+            return f"TOT at {package.time_over_target:%H:%M:%S}"
         elif (row, column) == (1, 1):
             unassigned_pilots = self.missing_pilots(index)
             return f"Missing pilots: {unassigned_pilots}" if unassigned_pilots else ""
@@ -318,7 +309,7 @@ class QPackageList(QListView):
         self.setModel(model)
         self.setItemDelegate(PackageDelegate(game_model))
         self.setIconSize(QSize(0, 0))
-        self.setSelectionBehavior(QAbstractItemView.SelectItems)
+        self.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectItems)
         self.model().rowsInserted.connect(self.on_new_packages)
         self.doubleClicked.connect(self.on_double_click)
 
@@ -356,7 +347,7 @@ class QPackageList(QListView):
         # the player saving a new package, so selecting it helps them view/edit
         # it faster.
         self.selectionModel().setCurrentIndex(
-            self.model().index(first, 0), QItemSelectionModel.Select
+            self.model().index(first, 0), QItemSelectionModel.SelectionFlag.Select
         )
 
     def on_double_click(self, index: QModelIndex) -> None:
@@ -487,7 +478,7 @@ class QAirTaskingOrderPanel(QSplitter):
     """
 
     def __init__(self, game_model: GameModel) -> None:
-        super().__init__(Qt.Vertical)
+        super().__init__(Qt.Orientation.Vertical)
         self.ato_model = game_model.ato_model
 
         self.package_panel = QPackagePanel(game_model, self.ato_model)

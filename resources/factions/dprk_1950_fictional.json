@@ -44,5 +44,6 @@
   },
   "carrier_names": [],
   "has_jtac": false,
-  "doctrine": "ww2"
+  "doctrine": "ww2",
+  "cargo_ship": "LST Mk.II"
 }

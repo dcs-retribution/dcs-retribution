@@ -3,9 +3,9 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Type
 
-from PySide2.QtCore import Signal
-from PySide2.QtGui import Qt
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Signal
+from PySide6.QtGui import Qt
+from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
     QDialog,
@@ -76,7 +76,7 @@ class QTgoLayoutGroupRow(QWidget):
         # Add all possible units with the price
         for unit_type in force_group.unit_types_for_group(group):
             self.unit_selector.addItem(
-                f"{unit_type.name} [${unit_type.price}M]",
+                f"{unit_type.display_name} [${unit_type.price}M]",
                 userData=(unit_type.dcs_unit_type, unit_type.price),
             )
         # Add all possible statics with price = 0
@@ -90,8 +90,12 @@ class QTgoLayoutGroupRow(QWidget):
 
         self.unit_selector.adjustSize()
         self.unit_selector.setEnabled(self.unit_selector.count() > 1)
-        self.grid_layout.addWidget(self.unit_selector, 0, 0, alignment=Qt.AlignRight)
-        self.grid_layout.addWidget(self.amount_selector, 0, 1, alignment=Qt.AlignRight)
+        self.grid_layout.addWidget(
+            self.unit_selector, 0, 0, alignment=Qt.AlignmentFlag.AlignRight
+        )
+        self.grid_layout.addWidget(
+            self.amount_selector, 0, 1, alignment=Qt.AlignmentFlag.AlignRight
+        )
 
         dcs_unit_type, price = self.unit_selector.itemData(
             self.unit_selector.currentIndex()
@@ -109,7 +113,9 @@ class QTgoLayoutGroupRow(QWidget):
         self.amount_selector.setValue(self.group_layout.amount)
         self.amount_selector.setEnabled(self.group_layout.layout.max_size > 1)
 
-        self.grid_layout.addWidget(self.group_selector, 0, 2, alignment=Qt.AlignRight)
+        self.grid_layout.addWidget(
+            self.group_selector, 0, 2, alignment=Qt.AlignmentFlag.AlignRight
+        )
 
         self.amount_selector.valueChanged.connect(self.on_group_changed)
         self.unit_selector.currentIndexChanged.connect(self.on_group_changed)
@@ -299,14 +305,16 @@ class QGroundObjectBuyMenu(QDialog):
 
         template_selector_layout = QGridLayout()
         template_selector_layout.addWidget(
-            QLabel("Armed Forces Group:"), 0, 0, Qt.AlignLeft
+            QLabel("Armed Forces Group:"), 0, 0, Qt.AlignmentFlag.AlignLeft
         )
         template_selector_layout.addWidget(
-            self.force_group_selector, 0, 1, alignment=Qt.AlignRight
+            self.force_group_selector, 0, 1, alignment=Qt.AlignmentFlag.AlignRight
         )
-        template_selector_layout.addWidget(QLabel("Layout:"), 1, 0, Qt.AlignLeft)
         template_selector_layout.addWidget(
-            self.layout_selector, 1, 1, alignment=Qt.AlignRight
+            QLabel("Layout:"), 1, 0, Qt.AlignmentFlag.AlignLeft
+        )
+        template_selector_layout.addWidget(
+            self.layout_selector, 1, 1, alignment=Qt.AlignmentFlag.AlignRight
         )
         self.mainLayout.addLayout(template_selector_layout, 0, 0)
 

@@ -1,9 +1,10 @@
+from collections.abc import Iterator
 from dataclasses import dataclass
 from shutil import copyfile
 from typing import Dict, Union
 
-from PySide2.QtCore import Signal
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Signal
+from PySide6.QtWidgets import (
     QGridLayout,
     QGroupBox,
     QLabel,
@@ -18,29 +19,34 @@ from dcs import lua
 
 from game import Game
 from game.ato.flight import Flight
+from game.ato.flightmember import FlightMember
 from game.data.weapons import Pylon
 from game.persistency import payloads_dir
+from qt_ui.blocksignals import block_signals
 from qt_ui.windows.mission.flight.payload.QPylonEditor import QPylonEditor
 
 
 class QLoadoutEditor(QGroupBox):
     saved = Signal(str)
 
-    def __init__(self, flight: Flight, game: Game) -> None:
+    def __init__(self, flight: Flight, flight_member: FlightMember, game: Game) -> None:
         super().__init__("Use custom loadout")
         self.flight = flight
+        self.flight_member = flight_member
         self.game = game
         self.setCheckable(True)
-        self.setChecked(flight.loadout.is_custom)
+        self.setChecked(flight_member.loadout.is_custom)
 
         vbox = QVBoxLayout(self)
         layout = QGridLayout(self)
 
         for i, pylon in enumerate(Pylon.iter_pylons(self.flight.unit_type)):
             label = QLabel(f"<b>{pylon.number}</b>")
-            label.setSizePolicy(QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed))
+            label.setSizePolicy(
+                QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+            )
             layout.addWidget(label, i, 0)
-            layout.addWidget(QPylonEditor(game, flight, pylon), i, 1)
+            layout.addWidget(QPylonEditor(game, flight, flight_member, pylon), i, 1)
 
         vbox.addLayout(layout)
 
@@ -60,8 +66,18 @@ class QLoadoutEditor(QGroupBox):
 
         self.setLayout(vbox)
 
-        for i in self.findChildren(QPylonEditor):
-            i.set_from(self.flight.loadout)
+        for pylon_editor in self.iter_pylon_editors():
+            pylon_editor.set_from(self.flight_member.loadout)
+
+    def iter_pylon_editors(self) -> Iterator[QPylonEditor]:
+        yield from self.findChildren(QPylonEditor)
+
+    def set_flight_member(self, flight_member: FlightMember) -> None:
+        self.flight_member = flight_member
+        with block_signals(self):
+            self.setChecked(self.flight_member.use_custom_loadout)
+        for pylon_editor in self.iter_pylon_editors():
+            pylon_editor.set_flight_member(flight_member)
 
     def _backup_payloads(self) -> None:
         ac_id = self.flight.unit_type.dcs_unit_type.id
@@ -91,8 +107,8 @@ class QLoadoutEditor(QGroupBox):
         payload_file = payloads_folder / f"{ac_id}.lua"
         if not payloads_folder.exists():
             payloads_folder.mkdir()
-        ac_type.payloads[payload_name] = DcsPayload.from_flight(
-            self.flight, payload_name
+        ac_type.payloads[payload_name] = DcsPayload.from_flight_member(
+            self.flight_member, payload_name
         ).to_dict()
         if payload_file.exists():
             self._create_backup_if_needed(ac_id)
@@ -104,8 +120,8 @@ class QLoadoutEditor(QGroupBox):
                 for p in pdict:
                     if pdict[p]["name"] == payload_name:
                         next_key = p
-                pdict[next_key] = DcsPayload.from_flight(
-                    self.flight, payload_name
+                pdict[next_key] = DcsPayload.from_flight_member(
+                    self.flight_member, payload_name
                 ).to_dict()
                 with payload_file.open("w", encoding="utf-8") as f:
                     f.write("local unitPayloads = ")
@@ -116,7 +132,9 @@ class QLoadoutEditor(QGroupBox):
                 payloads = {
                     "name": f"{self.flight.unit_type.dcs_unit_type.id}",
                     "payloads": {
-                        1: DcsPayload.from_flight(self.flight, payload_name).to_dict(),
+                        1: DcsPayload.from_flight_member(
+                            self.flight_member, payload_name
+                        ).to_dict(),
                     },
                     "unitType": f"{self.flight.unit_type.dcs_unit_type.id}",
                 }
@@ -146,10 +164,10 @@ class QLoadoutEditor(QGroupBox):
         return payload_name_input
 
     def reset_pylons(self) -> None:
-        self.flight.use_custom_loadout = self.isChecked()
+        self.flight_member.use_custom_loadout = self.isChecked()
         if not self.isChecked():
-            for i in self.findChildren(QPylonEditor):
-                i.set_from(self.flight.loadout)
+            for pylon_editor in self.iter_pylon_editors():
+                pylon_editor.set_from(self.flight_member.loadout)
 
 
 @dataclass
@@ -160,10 +178,10 @@ class DcsPayload:
     tasks: Dict[int, int]
 
     @classmethod
-    def from_flight(cls, flight: Flight, payload_name: str):
+    def from_flight_member(cls, member: FlightMember, payload_name: str):
         pylons = {}
-        for i, nr in enumerate(flight.loadout.pylons, 1):
-            wpn = flight.loadout.pylons[nr]
+        for i, nr in enumerate(member.loadout.pylons, 1):
+            wpn = member.loadout.pylons[nr]
             clsid = wpn.clsid if wpn else "<CLEAN>"
             pylons[i] = {
                 "CLSID": clsid,

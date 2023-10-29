@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from PySide2.QtCore import Qt
-from PySide2.QtGui import QIcon, QPixmap
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QIcon, QPixmap
+from PySide6.QtWidgets import (
     QDialog,
     QGridLayout,
     QLabel,
@@ -66,12 +66,12 @@ class QUnitInfoWindow(QDialog):
         self.setModal(True)
         self.game = game
         self.unit_type = unit_type
-        self.name = unit_type.name
+        self.name = unit_type.display_name
         self.setWindowTitle(f"Unit Info: {self.name}")
         self.setWindowIcon(QIcon("./resources/icon.png"))
         self.setMinimumHeight(570)
         self.setMaximumWidth(640)
-        self.setWindowFlags(Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint)
 
         self.layout = QGridLayout()
 
@@ -90,10 +90,10 @@ class QUnitInfoWindow(QDialog):
         # Build the topmost details grid.
         self.details_grid = QFrame()
         self.details_grid_layout = QGridLayout()
-        self.details_grid_layout.setMargin(0)
+        self.details_grid_layout.setContentsMargins(0, 0, 0, 0)
 
         self.name_box = QLabel(
-            f"<b>Name:</b> {unit_type.manufacturer} {unit_type.name}"
+            f"<b>Name:</b> {unit_type.manufacturer} {unit_type.display_name}"
         )
         self.name_box.setProperty("style", "info-element")
 

@@ -2,8 +2,9 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 from dataclasses import dataclass
-from datetime import timedelta
-from typing import TYPE_CHECKING, Type, Optional
+from datetime import datetime
+from typing import Optional
+from typing import TYPE_CHECKING, Type
 
 from game.theater.missiontarget import MissionTarget
 from game.utils import feet
@@ -89,16 +90,20 @@ class AirliftFlightPlan(StandardFlightPlan[AirliftLayout]):
         # drop-off waypoint.
         return self.layout.drop_off or self.layout.arrival
 
-    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
+    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         # TOT planning isn't really useful for transports. They're behind the front
         # lines so no need to wait for escorts or for other missions to complete.
         return None
 
-    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
+    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         return None
 
     @property
-    def mission_departure_time(self) -> timedelta:
+    def mission_begin_on_station_time(self) -> datetime | None:
+        return None
+
+    @property
+    def mission_departure_time(self) -> datetime:
         return self.package.time_over_target
 
 
@@ -110,10 +115,11 @@ class Builder(IBuilder[AirliftFlightPlan, AirliftLayout]):
                 "Cannot plan transport mission for flight with no cargo."
             )
 
-        altitude = feet(1500)
-        altitude_is_agl = True
+        heli_alt = feet(self.coalition.game.settings.heli_cruise_alt_agl)
+        altitude = heli_alt if self.flight.is_helo else self.doctrine.ingress_altitude
+        altitude_is_agl = self.flight.is_helo
 
-        builder = WaypointBuilder(self.flight, self.coalition)
+        builder = WaypointBuilder(self.flight)
 
         pickup = None
         drop_off = None
@@ -168,7 +174,7 @@ class Builder(IBuilder[AirliftFlightPlan, AirliftLayout]):
             bullseye=builder.bullseye(),
         )
 
-    def build(self) -> AirliftFlightPlan:
+    def build(self, dump_debug_info: bool = False) -> AirliftFlightPlan:
         return AirliftFlightPlan(self.flight, self.layout())
 
     def _generate_ctld_pickup(self) -> Point:

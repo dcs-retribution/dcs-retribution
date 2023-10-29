@@ -4,8 +4,8 @@ import logging
 from enum import Enum
 from typing import Generic, TypeVar
 
-from PySide2.QtCore import Qt
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (
     QApplication,
     QFrame,
     QGridLayout,
@@ -55,7 +55,7 @@ class PurchaseGroup(QGroupBox, Generic[TransactionItemType]):
         self.sell_button.setMinimumSize(16, 16)
         self.sell_button.setMaximumSize(16, 16)
         self.sell_button.setSizePolicy(
-            QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+            QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         )
 
         self.sell_button.clicked.connect(
@@ -64,7 +64,7 @@ class PurchaseGroup(QGroupBox, Generic[TransactionItemType]):
 
         self.amount_bought = QLabel()
         self.amount_bought.setSizePolicy(
-            QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+            QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         )
 
         self.buy_button = QPushButton("+")
@@ -76,7 +76,9 @@ class PurchaseGroup(QGroupBox, Generic[TransactionItemType]):
         self.buy_button.clicked.connect(
             lambda: self.recruiter.recruit_handler(RecruitType.BUY, self.item)
         )
-        self.buy_button.setSizePolicy(QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed))
+        self.buy_button.setSizePolicy(
+            QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        )
 
         layout.addWidget(self.sell_button)
         layout.addWidget(self.amount_bought)
@@ -153,23 +155,27 @@ class UnitTransactionFrame(QFrame, Generic[TransactionItemType]):
         exist.setMaximumHeight(72)
         exist.setMinimumHeight(36)
         existLayout = QHBoxLayout()
-        existLayout.setSizeConstraint(QLayout.SetMinimumSize)
+        existLayout.setSizeConstraint(QLayout.SizeConstraint.SetMinimumSize)
         exist.setLayout(existLayout)
 
         existing_units = self.current_quantity_of(item)
 
         unitName = QLabel(f"<b>{self.display_name_of(item, multiline=True)}</b>")
         unitName.setSizePolicy(
-            QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+            QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         )
 
         existing_units = QLabel(str(existing_units))
-        existing_units.setSizePolicy(QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed))
+        existing_units.setSizePolicy(
+            QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        )
 
         self.existing_units_labels[item] = existing_units
 
         price = QLabel(f"<b>$ {self.price_of(item)}</b> M")
-        price.setSizePolicy(QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed))
+        price.setSizePolicy(
+            QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        )
 
         purchase_group = PurchaseGroup(item, self)
         self.purchase_groups[item] = purchase_group
@@ -186,15 +192,17 @@ class UnitTransactionFrame(QFrame, Generic[TransactionItemType]):
         unitInfo.setMinimumSize(16, 16)
         unitInfo.setMaximumSize(16, 16)
         unitInfo.clicked.connect(lambda: self.info(item))
-        unitInfo.setSizePolicy(QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed))
+        unitInfo.setSizePolicy(
+            QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        )
 
         existLayout.addWidget(unitName)
         existLayout.addItem(
-            QSpacerItem(20, 0, QSizePolicy.Minimum, QSizePolicy.Minimum)
+            QSpacerItem(20, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
         )
         existLayout.addWidget(existing_units)
         existLayout.addItem(
-            QSpacerItem(20, 0, QSizePolicy.Minimum, QSizePolicy.Minimum)
+            QSpacerItem(20, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
         )
         existLayout.addWidget(price)
 
@@ -214,9 +222,9 @@ class UnitTransactionFrame(QFrame, Generic[TransactionItemType]):
         # Shift = 10 times
         # CTRL = 5 Times
         modifiers = QApplication.keyboardModifiers()
-        if modifiers == Qt.ShiftModifier:
+        if modifiers == Qt.Modifier.SHIFT:
             amount = 10
-        elif modifiers == Qt.ControlModifier:
+        elif modifiers == Qt.Modifier.CTRL:
             amount = 5
         else:
             amount = 1
@@ -235,7 +243,9 @@ class UnitTransactionFrame(QFrame, Generic[TransactionItemType]):
             self.purchase_adapter.buy(item, quantity)
         except TransactionError as ex:
             logging.exception(f"Purchase of {self.display_name_of(item)} failed")
-            QMessageBox.warning(self, "Purchase failed", str(ex), QMessageBox.Ok)
+            QMessageBox.warning(
+                self, "Purchase failed", str(ex), QMessageBox.StandardButton.Ok
+            )
         finally:
             self.post_transaction_update()
 
@@ -244,7 +254,9 @@ class UnitTransactionFrame(QFrame, Generic[TransactionItemType]):
             self.purchase_adapter.sell(item, quantity)
         except TransactionError as ex:
             logging.exception(f"Sale of {self.display_name_of(item)} failed")
-            QMessageBox.warning(self, "Sale failed", str(ex), QMessageBox.Ok)
+            QMessageBox.warning(
+                self, "Sale failed", str(ex), QMessageBox.StandardButton.Ok
+            )
         finally:
             self.post_transaction_update()
 

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import timedelta
+from datetime import datetime
 from typing import Iterator, TYPE_CHECKING, Type
 
 from game.theater.controlpoint import ControlPointType
@@ -62,24 +62,24 @@ class AirAssaultFlightPlan(FormationAttackFlightPlan, UiZoneDisplay):
     def tot_waypoint(self) -> FlightWaypoint:
         if self.flight.is_helo and self.layout.drop_off is not None:
             return self.layout.drop_off
-        return self.layout.target
+        return self.layout.targets[0]
 
     @property
-    def ingress_time(self) -> timedelta:
+    def ingress_time(self) -> datetime:
         tot = self.tot
         travel_time = self.travel_time_between_waypoints(
-            self.layout.ingress, self.layout.drop_off
+            self.layout.ingress, self.tot_waypoint
         )
         return tot - travel_time
 
-    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
+    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         if waypoint is self.tot_waypoint:
             return self.tot
         elif waypoint is self.layout.ingress:
             return self.ingress_time
         return None
 
-    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
+    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         return None
 
     @property
@@ -87,7 +87,11 @@ class AirAssaultFlightPlan(FormationAttackFlightPlan, UiZoneDisplay):
         return meters(2500)
 
     @property
-    def mission_departure_time(self) -> timedelta:
+    def mission_begin_on_station_time(self) -> datetime | None:
+        return None
+
+    @property
+    def mission_departure_time(self) -> datetime:
         return self.package.time_over_target
 
     def ui_zone(self) -> UiZone:
@@ -105,10 +109,11 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
             )
         assert self.package.waypoints is not None
 
-        altitude = feet(1500) if self.flight.is_helo else self.doctrine.ingress_altitude
+        heli_alt = feet(self.coalition.game.settings.heli_cruise_alt_agl)
+        altitude = heli_alt if self.flight.is_helo else self.doctrine.ingress_altitude
         altitude_is_agl = self.flight.is_helo
 
-        builder = WaypointBuilder(self.flight, self.coalition)
+        builder = WaypointBuilder(self.flight)
 
         if self.flight.is_hercules or self.flight.departure.cptype in [
             ControlPointType.AIRCRAFT_CARRIER_GROUP,
@@ -171,7 +176,7 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
             refuel=None,
         )
 
-    def build(self) -> AirAssaultFlightPlan:
+    def build(self, dump_debug_info: bool = False) -> AirAssaultFlightPlan:
         return AirAssaultFlightPlan(self.flight, self.layout())
 
     def _generate_ctld_pickup(self) -> Point:

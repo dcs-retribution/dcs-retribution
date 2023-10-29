@@ -1,8 +1,6 @@
-from datetime import timedelta
-
-from PySide2.QtCore import QItemSelectionModel, QPoint, QModelIndex
-from PySide2.QtGui import QStandardItem, QStandardItemModel
-from PySide2.QtWidgets import (
+from PySide6.QtCore import QItemSelectionModel, QPoint, QModelIndex
+from PySide6.QtGui import QStandardItem, QStandardItemModel
+from PySide6.QtWidgets import (
     QHeaderView,
     QTableView,
     QStyledItemDelegate,
@@ -43,11 +41,11 @@ class QFlightWaypointList(QTableView):
         self.model.setHorizontalHeaderLabels(HEADER_LABELS)
 
         header = self.horizontalHeader()
-        header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)
         self.update_list()
 
         self.selectionModel().setCurrentIndex(
-            self.indexAt(QPoint(1, 1)), QItemSelectionModel.Select
+            self.indexAt(QPoint(1, 1)), QItemSelectionModel.SelectionFlag.Select
         )
 
         self.altitude_editor_delegate = AltitudeEditorDelegate(self)
@@ -68,7 +66,8 @@ class QFlightWaypointList(QTableView):
             for row, waypoint in enumerate(waypoints):
                 self._add_waypoint_row(row, self.flight, waypoint)
             self.selectionModel().setCurrentIndex(
-                self.model.index(current_index, 0), QItemSelectionModel.Select
+                self.model.index(current_index, 0),
+                QItemSelectionModel.SelectionFlag.Select,
             )
             self.resizeColumnsToContents()
             total_column_width = self.verticalHeader().width() + self.lineWidth()
@@ -78,7 +77,7 @@ class QFlightWaypointList(QTableView):
         finally:
             # stop ignoring signals
             self.model.blockSignals(False)
-            self.update()
+            self.update(self.currentIndex())
 
     def _add_waypoint_row(
         self, row: int, flight: Flight, waypoint: FlightWaypoint
@@ -120,14 +119,8 @@ class QFlightWaypointList(QTableView):
             time = flight.flight_plan.depart_time_for_waypoint(waypoint)
         if time is None:
             return ""
-        time = timedelta(seconds=int(time.total_seconds()))
-        return f"{prefix}T+{time}"
+        return f"{prefix}{time:%H:%M:%S}"
 
     @staticmethod
     def takeoff_text(flight: Flight) -> str:
-        takeoff_time = flight.flight_plan.takeoff_time()
-        # Handle custom flight plans where we can't estimate the takeoff time.
-        if takeoff_time is None:
-            takeoff_time = timedelta()
-        start_time = timedelta(seconds=int(takeoff_time.total_seconds()))
-        return f"T+{start_time}"
+        return f"{flight.flight_plan.takeoff_time():%H:%M:%S}"

@@ -1,6 +1,6 @@
 import logging
 
-from PySide2.QtWidgets import QComboBox
+from PySide6.QtWidgets import QComboBox
 
 from game.squadrons import Squadron
 
@@ -13,7 +13,7 @@ class SquadronLiverySelector(QComboBox):
 
     def __init__(self, squadron: Squadron) -> None:
         super().__init__()
-        self.setSizeAdjustPolicy(self.AdjustToContents)
+        self.setSizeAdjustPolicy(QComboBox.SizeAdjustPolicy.AdjustToContents)
 
         self.aircraft_type = squadron.aircraft
         selected_livery = squadron.livery

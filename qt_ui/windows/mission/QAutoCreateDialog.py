@@ -1,6 +1,6 @@
 from typing import List
 
-from PySide2.QtWidgets import (
+from PySide6.QtWidgets import (
     QDialog,
     QVBoxLayout,
     QComboBox,
@@ -165,9 +165,10 @@ class QAutoCreateDialog(QDialog):
                     self.game.db.flights,
                     self.game.settings,
                 )
-                package = pff.plan_mission(pm, 1, tracer)
+                now = self.package_model.game_model.sim_controller.current_time_in_sim
+                package = pff.plan_mission(pm, 1, now, tracer)
                 if package:
-                    package.set_tot_asap()
+                    package.set_tot_asap(now)
                     self.package = package
                     self.package_model.package = package
                 else:

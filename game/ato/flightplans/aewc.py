@@ -49,7 +49,7 @@ class Builder(IBuilder[AewcFlightPlan, PatrollingLayout]):
 
         # Station 80nm outside the threat zone.
         threat_buffer = nautical_miles(
-            self.flight.coalition.game.settings.aewc_threat_buffer_min_distance
+            self.coalition.game.settings.aewc_threat_buffer_min_distance
         )
         if self.threat_zones.threatened(location.position):
             orbit_distance = distance_to_threat + threat_buffer
@@ -68,7 +68,7 @@ class Builder(IBuilder[AewcFlightPlan, PatrollingLayout]):
             orbit_heading.left.degrees, racetrack_half_distance
         )
 
-        builder = WaypointBuilder(self.flight, self.coalition)
+        builder = WaypointBuilder(self.flight)
 
         if self.flight.unit_type.patrol_altitude is not None:
             altitude = self.flight.unit_type.patrol_altitude
@@ -92,5 +92,5 @@ class Builder(IBuilder[AewcFlightPlan, PatrollingLayout]):
             bullseye=builder.bullseye(),
         )
 
-    def build(self) -> AewcFlightPlan:
+    def build(self, dump_debug_info: bool = False) -> AewcFlightPlan:
         return AewcFlightPlan(self.flight, self.layout())

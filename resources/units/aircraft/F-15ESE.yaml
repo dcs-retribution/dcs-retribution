@@ -9,6 +9,7 @@ origin: USA
 price: 24
 role: Multirole Strike Fighter
 max_range: 300
+use_f15e_waypoint_names: true
 variants:
   F-15E Strike Eagle (Suite 4+): {}
   F-15I Ra'am: {}
@@ -35,3 +36,19 @@ tasks:
   OCA/Runway: 630
   Strike: 640
   TARCAP: 240
+laser_codes:
+  - property:
+      id: Sta2LaserCode
+      digits: 3
+  - property:
+      id: LCFTLaserCode
+      digits: 3
+  - property:
+      id: Sta5LaserCode
+      digits: 3
+  - property:
+      id: RCFTLaserCode
+      digits: 3
+  - property:
+      id: Sta8LaserCode
+      digits: 3

@@ -28,6 +28,7 @@ from uuid import UUID
 
 from dcs.mapping import Point
 from dcs.ships import (
+    Ara_vdm,
     CVN_71,
     CVN_72,
     CVN_73,
@@ -87,6 +88,7 @@ if TYPE_CHECKING:
     from game import Game
     from game.ato.flighttype import FlightType
     from game.coalition import Coalition
+    from game.lasercodes.lasercoderegistry import LaserCodeRegistry
     from game.sim import GameUpdateEvents
     from game.squadrons.squadron import Squadron
     from game.transfers import PendingTransfers
@@ -256,6 +258,10 @@ class RunwayStatus:
         # is reset.
         self.repair_turns_remaining = None
 
+    def repair(self) -> None:
+        self.repair_turns_remaining = None
+        self.damaged = False
+
     def begin_repair(self) -> None:
         if self.repair_turns_remaining is not None:
             logging.error("Runway already under repair. Restarting.")
@@ -264,8 +270,7 @@ class RunwayStatus:
     def process_turn(self) -> None:
         if self.repair_turns_remaining is not None:
             if self.repair_turns_remaining == 1:
-                self.repair_turns_remaining = None
-                self.damaged = False
+                self.repair()
             else:
                 self.repair_turns_remaining -= 1
 
@@ -427,42 +432,50 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         assert self._front_line_db is None
         self._front_line_db = game.db.front_lines
 
-    def initialize_turn_0(self) -> None:
+    def initialize_turn_0(self, laser_code_registry: LaserCodeRegistry) -> None:
         # We don't need to send events for turn 0. The UI isn't up yet, and it'll fetch
         # the entire game state when it comes up.
         from game.sim import GameUpdateEvents
 
-        self._create_missing_front_lines(GameUpdateEvents())
+        self._create_missing_front_lines(laser_code_registry, GameUpdateEvents())
 
     @property
     def front_line_db(self) -> Database[FrontLine]:
         assert self._front_line_db is not None
         return self._front_line_db
 
-    def _create_missing_front_lines(self, events: GameUpdateEvents) -> None:
+    def _create_missing_front_lines(
+        self, laser_code_registry: LaserCodeRegistry, events: GameUpdateEvents
+    ) -> None:
         for connection in self.convoy_routes.keys():
             if not connection.front_line_active_with(
                 self
             ) and not connection.is_friendly_to(self):
-                self._create_front_line_with(connection, events)
+                self._create_front_line_with(laser_code_registry, connection, events)
 
     def _create_front_line_with(
-        self, connection: ControlPoint, events: GameUpdateEvents
+        self,
+        laser_code_registry: LaserCodeRegistry,
+        connection: ControlPoint,
+        events: GameUpdateEvents,
     ) -> None:
         blue, red = FrontLine.sort_control_points(self, connection)
-        front = FrontLine(blue, red)
+        front = FrontLine(blue, red, laser_code_registry.alloc_laser_code())
         self.front_lines[connection] = front
         connection.front_lines[self] = front
         self.front_line_db.add(front.id, front)
         events.update_front_line(front)
 
     def _remove_front_line_with(
-        self, connection: ControlPoint, events: GameUpdateEvents
+        self,
+        connection: ControlPoint,
+        events: GameUpdateEvents,
     ) -> None:
         front = self.front_lines[connection]
         del self.front_lines[connection]
         del connection.front_lines[self]
         self.front_line_db.remove(front.id)
+        front.laser_code.release()
         events.delete_front_line(front)
 
     def _clear_front_lines(self, events: GameUpdateEvents) -> None:
@@ -926,7 +939,7 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         self._coalition = new_coalition
         self.base.set_strength_to_minimum()
         self._clear_front_lines(events)
-        self._create_missing_front_lines(events)
+        self._create_missing_front_lines(game.laser_code_registry, events)
         events.update_control_point(self)
 
         # All the attached TGOs have either been depopulated or captured. Tell the UI to
@@ -979,6 +992,11 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
 
     @property
     @abstractmethod
+    def runway_is_destroyable(self) -> bool:
+        ...
+
+    @property
+    @abstractmethod
     def runway_status(self) -> RunwayStatus:
         ...
 
@@ -993,7 +1011,11 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         self.runway_status.begin_repair()
 
     def process_turn(self, game: Game) -> None:
-        self.ground_unit_orders.process(game)
+        # We're running at the end of the turn, so the time right now is irrelevant, and
+        # we don't know what time the next turn will start yet. It doesn't actually
+        # matter though, because the first thing the start of turn action will do is
+        # clear the ATO and replan the airlifts with the correct time.
+        self.ground_unit_orders.process(game, game.conditions.start_time)
 
         runway_status = self.runway_status
         if runway_status is not None:
@@ -1250,6 +1272,10 @@ class Airfield(ControlPoint, CTLD):
     def heading(self) -> Heading:
         return Heading.from_degrees(self.airport.runways[0].heading)
 
+    @property
+    def runway_is_destroyable(self) -> bool:
+        return True
+
     def runway_is_operational(self) -> bool:
         return not self.runway_status.damaged
 
@@ -1341,12 +1367,17 @@ class NavalControlPoint(
                 return g
         raise RuntimeError(f"Found no carrier/LHA group for {self.name}")
 
+    @property
+    def runway_is_destroyable(self) -> bool:
+        return False
+
     def runway_is_operational(self) -> bool:
         # Necessary because it's possible for the carrier itself to have sunk
         # while its escorts are still alive.
         for group in self.find_main_tgo().groups:
             for u in group.units:
                 if u.alive and u.type in [
+                    Ara_vdm,
                     Forrestal,
                     Stennis,
                     LHA_Tarawa,
@@ -1522,6 +1553,10 @@ class OffMapSpawn(ControlPoint):
         return self.stub_runway_data()
 
     @property
+    def runway_is_destroyable(self) -> bool:
+        return False
+
+    @property
     def runway_status(self) -> RunwayStatus:
         return RunwayStatus()
 
@@ -1556,6 +1591,10 @@ class Fob(ControlPoint, RadioFrequencyContainer, CTLD):
     @property
     def symbol_set_and_entity(self) -> tuple[SymbolSet, Entity]:
         return SymbolSet.LAND_INSTALLATIONS, LandInstallationEntity.MILITARY_BASE
+
+    @property
+    def runway_is_destroyable(self) -> bool:
+        return False
 
     def runway_is_operational(self) -> bool:
         return self.has_helipads or self.has_ground_spawns

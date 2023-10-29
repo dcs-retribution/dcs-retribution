@@ -1,7 +1,7 @@
 import os
 from typing import Dict
 
-from PySide2.QtGui import QPixmap
+from PySide6.QtGui import QPixmap
 
 from .liberation_theme import get_theme_icons
 
@@ -183,6 +183,7 @@ def load_icons():
     )
 
     ICONS["heading"] = QPixmap("./resources/ui/misc/heading.png")
+    ICONS["blue-sam"] = QPixmap("./resources/ui/misc/blue-sam.png")
 
 
 EVENT_ICONS: Dict[str, QPixmap] = {}

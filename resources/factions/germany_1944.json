@@ -56,5 +56,6 @@
   ],
   "has_jtac": false,
   "doctrine": "ww2",
-  "building_set": "ww2germany"
+  "building_set": "ww2germany",
+  "cargo_ship": "LST Mk.II"
 }

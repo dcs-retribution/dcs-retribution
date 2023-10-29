@@ -4,10 +4,10 @@ import logging
 from pathlib import Path
 from typing import Optional
 
-from PySide2 import QtCore
-from PySide2.QtCore import QObject, Signal
-from PySide2.QtGui import QIcon, QMovie, QPixmap
-from PySide2.QtWidgets import (
+from PySide6 import QtCore
+from PySide6.QtCore import QObject, Signal
+from PySide6.QtGui import QIcon, QMovie, QPixmap
+from PySide6.QtWidgets import (
     QDialog,
     QFileDialog,
     QGridLayout,
@@ -54,7 +54,7 @@ class QWaitingForMissionResultWindow(QDialog):
         parent: Optional[QWidget] = None,
     ) -> None:
         super(QWaitingForMissionResultWindow, self).__init__(parent=parent)
-        self.setWindowModality(QtCore.Qt.WindowModal)
+        self.setWindowModality(QtCore.Qt.WindowModality.WindowModal)
         self.game = game
         self.sim_controller = sim_controller
         self.setWindowTitle("Waiting for mission completion.")
@@ -98,7 +98,7 @@ class QWaitingForMissionResultWindow(QDialog):
         self.gridLayout.addWidget(self.instructions_text, 1, 0)
 
         progress = QLabel("")
-        progress.setAlignment(QtCore.Qt.AlignCenter)
+        progress.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         progress_bar = QMovie("./resources/ui/loader.gif")
         progress.setMovie(progress_bar)
 

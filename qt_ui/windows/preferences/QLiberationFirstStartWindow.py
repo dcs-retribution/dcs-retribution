@@ -1,5 +1,5 @@
-from PySide2.QtGui import QIcon, Qt
-from PySide2.QtWidgets import (
+from PySide6.QtGui import QIcon, Qt
+from PySide6.QtWidgets import (
     QDialog,
     QVBoxLayout,
     QPushButton,
@@ -18,8 +18,12 @@ class QLiberationFirstStartWindow(QDialog):
         self.setWindowTitle("First start configuration")
         self.setMinimumSize(500, 200)
         self.setWindowIcon(QIcon("./resources/icon.png"))
-        self.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.Dialog | Qt.WindowTitleHint)
-        self.setWindowModality(Qt.WindowModal)
+        self.setWindowFlags(
+            Qt.WindowType.WindowStaysOnTopHint
+            | Qt.WindowType.Dialog
+            | Qt.WindowType.WindowTitleHint
+        )
+        self.setWindowModality(Qt.WindowModality.WindowModal)
         self.preferences = QLiberationPreferences()
 
         WARN_TEXT = """

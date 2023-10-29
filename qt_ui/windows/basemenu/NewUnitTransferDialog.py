@@ -4,8 +4,8 @@ import logging
 from collections import defaultdict
 from typing import Callable, Dict, Type
 
-from PySide2.QtCore import Qt, Signal
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Qt, Signal
+from PySide6.QtWidgets import (
     QComboBox,
     QDialog,
     QFrame,
@@ -64,7 +64,7 @@ class UnitTransferList(QFrame):
         task_box_layout = QGridLayout()
         scroll_content.setLayout(task_box_layout)
 
-        units_column = sorted(cp.base.armor, key=lambda u: u.name)
+        units_column = sorted(cp.base.armor, key=lambda u: u.display_name)
 
         count = 0
         for count, unit_type in enumerate(units_column):
@@ -75,8 +75,8 @@ class UnitTransferList(QFrame):
 
         scroll_content.setLayout(task_box_layout)
         scroll = QScrollArea()
-        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
         scroll.setWidgetResizable(True)
         scroll.setWidget(scroll_content)
         main_layout.addWidget(scroll)
@@ -131,13 +131,15 @@ class TransferControls(QGroupBox):
         decrease.setDisabled(disabled)
         decrease.setMinimumSize(16, 16)
         decrease.setMaximumSize(16, 16)
-        decrease.setSizePolicy(QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed))
+        decrease.setSizePolicy(
+            QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        )
         decrease.clicked.connect(lambda: on_decrease(self))
         layout.addWidget(decrease)
 
         self.count_label = QLabel()
         self.count_label.setSizePolicy(
-            QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+            QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         )
         self.set_quantity(initial_amount)
         layout.addWidget(self.count_label)
@@ -148,7 +150,9 @@ class TransferControls(QGroupBox):
         increase.setMinimumSize(16, 16)
         increase.setMaximumSize(16, 16)
         increase.clicked.connect(lambda: on_increase(self))
-        increase.setSizePolicy(QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed))
+        increase.setSizePolicy(
+            QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        )
         layout.addWidget(increase)
 
     def set_quantity(self, quantity: int) -> None:
@@ -173,7 +177,7 @@ class ScrollingUnitTransferGrid(QFrame):
         unit_types = set(self.game_model.game.faction_for(player=True).ground_units)
         sorted_units = sorted(
             {u for u in unit_types if self.cp.base.total_units_of_type(u)},
-            key=lambda u: u.name,
+            key=lambda u: u.display_name,
         )
         for row, unit_type in enumerate(sorted_units):
             self.add_unit_row(unit_type, task_box_layout, row)
@@ -183,8 +187,8 @@ class ScrollingUnitTransferGrid(QFrame):
 
         scroll_content.setLayout(task_box_layout)
         scroll = QScrollArea()
-        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
         scroll.setWidgetResizable(True)
         scroll.setWidget(scroll_content)
         main_layout.addWidget(scroll)
@@ -205,14 +209,14 @@ class ScrollingUnitTransferGrid(QFrame):
 
         origin_inventory = self.cp.base.total_units_of_type(unit_type)
 
-        unit_name = QLabel(f"<b>{unit_type.name}</b>")
+        unit_name = QLabel(f"<b>{unit_type.display_name}</b>")
         unit_name.setSizePolicy(
-            QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+            QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         )
 
         origin_inventory_label = QLabel(str(origin_inventory))
         origin_inventory_label.setSizePolicy(
-            QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+            QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         )
 
         def increase(controls: TransferControls):
@@ -222,9 +226,9 @@ class ScrollingUnitTransferGrid(QFrame):
                 return
 
             modifiers = QApplication.keyboardModifiers()
-            if modifiers == Qt.ShiftModifier:
+            if modifiers == Qt.Modifier.SHIFT:
                 amount = 10
-            elif modifiers == Qt.ControlModifier:
+            elif modifiers == Qt.Modifier.CTRL:
                 amount = 5
             else:
                 amount = 1
@@ -242,9 +246,9 @@ class ScrollingUnitTransferGrid(QFrame):
                 return
 
             modifiers = QApplication.keyboardModifiers()
-            if modifiers == Qt.ShiftModifier:
+            if modifiers == Qt.Modifier.SHIFT:
                 amount = 10
-            elif modifiers == Qt.ControlModifier:
+            elif modifiers == Qt.Modifier.CTRL:
                 amount = 5
             else:
                 amount = 1
@@ -259,11 +263,11 @@ class ScrollingUnitTransferGrid(QFrame):
 
         origin_inventory_layout.addWidget(unit_name)
         origin_inventory_layout.addItem(
-            QSpacerItem(20, 0, QSizePolicy.Minimum, QSizePolicy.Minimum)
+            QSpacerItem(20, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
         )
         origin_inventory_layout.addWidget(origin_inventory_label)
         origin_inventory_layout.addItem(
-            QSpacerItem(20, 0, QSizePolicy.Minimum, QSizePolicy.Minimum)
+            QSpacerItem(20, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
         )
 
         layout.addWidget(exist, row, 1)
@@ -320,7 +324,9 @@ class NewUnitTransferDialog(QDialog):
             units=transfers,
             request_airflift=self.dest_panel.request_airlift,
         )
-        self.game_model.transfer_model.new_transfer(transfer)
+        self.game_model.transfer_model.new_transfer(
+            transfer, self.game_model.sim_controller.current_time_in_sim
+        )
         self.close()
 
     def on_transfer_quantity_changed(self) -> None:

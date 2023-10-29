@@ -1,8 +1,8 @@
 from typing import Optional, Iterable
 
-from PySide2.QtCore import Qt, QLocale
-from PySide2.QtGui import QIcon
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Qt, QLocale
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import (
     QDialog,
     QPushButton,
     QLabel,
@@ -121,7 +121,7 @@ class QRadioFrequencyDialog(QDialog):
 
         self.create_button = QPushButton("Save")
         self.create_button.clicked.connect(self.accept)
-        layout.addWidget(self.create_button, alignment=Qt.AlignRight)
+        layout.addWidget(self.create_button, alignment=Qt.AlignmentFlag.AlignRight)
 
         self.setLayout(layout)
 

@@ -1,7 +1,7 @@
 import itertools
 from typing import Optional
 
-from PySide2.QtWidgets import (
+from PySide6.QtWidgets import (
     QDialog,
     QFrame,
     QGridLayout,
@@ -20,9 +20,9 @@ class QHorizontalSeparationLine(QFrame):
         super().__init__()
         self.setMinimumWidth(1)
         self.setFixedHeight(20)
-        self.setFrameShape(QFrame.HLine)
-        self.setFrameShadow(QFrame.Sunken)
-        self.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
+        self.setFrameShape(QFrame.Shape.HLine)
+        self.setFrameShadow(QFrame.Shadow.Sunken)
+        self.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
 
 
 class FinancesLayout(QGridLayout):

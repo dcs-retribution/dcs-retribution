@@ -1,6 +1,7 @@
+from datetime import datetime
 from typing import List, Optional
 
-from PySide2.QtWidgets import (
+from PySide6.QtWidgets import (
     QDialog,
     QFrame,
     QGroupBox,
@@ -11,6 +12,7 @@ from PySide2.QtWidgets import (
 
 import qt_ui.uiconstants as CONST
 from game import Game, persistency
+from game.ato.flightstate import Uninitialized
 from game.ato.package import Package
 from game.ato.traveltime import TotEstimator
 from game.profiling import logged_duration
@@ -166,15 +168,20 @@ class QTopPanel(QFrame):
             GameUpdateSignal.get_instance().updateGame(self.game)
             self.proceedButton.setEnabled(True)
 
-    def negative_start_packages(self) -> List[Package]:
+    def negative_start_packages(self, now: datetime) -> List[Package]:
         packages = []
         for package in self.game_model.ato_model.ato.packages:
             if not package.flights:
                 continue
             for flight in package.flights:
-                if flight.flight_plan.startup_time().total_seconds() < 0:
-                    packages.append(package)
-                    break
+                if isinstance(flight.state, Uninitialized):
+                    flight.state.reinitialize(now)
+                flight.state.reinitialize(now)
+                if flight.state.is_waiting_for_start:
+                    startup = flight.flight_plan.startup_time()
+                    if startup < now:
+                        packages.append(package)
+                        break
         return packages
 
     @staticmethod
@@ -208,17 +215,17 @@ class QTopPanel(QFrame):
                 "<br />Click 'Yes' to continue with an AI only mission"
                 "<br />Click 'No' if you'd like to make more changes."
             ),
-            QMessageBox.No,
-            QMessageBox.Yes,
+            QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.Yes,
         )
-        return result == QMessageBox.Yes
+        return result == QMessageBox.StandardButton.Yes
 
     def confirm_negative_start_time(self, negative_starts: List[Package]) -> bool:
         formatted = "<br />".join(
             [f"{p.primary_task} {p.target.name}" for p in negative_starts]
         )
         mbox = QMessageBox(
-            QMessageBox.Question,
+            QMessageBox.Icon.Question,
             "Continue with past start times?",
             (
                 "Some flights in the following packages have start times set "
@@ -237,9 +244,13 @@ class QTopPanel(QFrame):
             ),
             parent=self,
         )
-        auto = mbox.addButton("Fix TOTs automatically", QMessageBox.ActionRole)
-        ignore = mbox.addButton("Continue without fixing", QMessageBox.DestructiveRole)
-        cancel = mbox.addButton(QMessageBox.Cancel)
+        auto = mbox.addButton(
+            "Fix TOTs automatically", QMessageBox.ButtonRole.ActionRole
+        )
+        ignore = mbox.addButton(
+            "Continue without fixing", QMessageBox.ButtonRole.DestructiveRole
+        )
+        cancel = mbox.addButton(QMessageBox.StandardButton.Cancel)
         mbox.setEscapeButton(cancel)
         mbox.exec_()
         clicked = mbox.clickedButton()
@@ -264,7 +275,7 @@ class QTopPanel(QFrame):
             [f"{p.primary_task} {p.target}: {f}" for p, f in missing_pilots]
         )
         mbox = QMessageBox(
-            QMessageBox.Critical,
+            QMessageBox.Icon.Critical,
             "Flights are missing pilots",
             (
                 "The following flights are missing one or more pilots:<br />"
@@ -276,7 +287,7 @@ class QTopPanel(QFrame):
             ),
             parent=self,
         )
-        mbox.setEscapeButton(mbox.addButton(QMessageBox.Close))
+        mbox.setEscapeButton(mbox.addButton(QMessageBox.StandardButton.Close))
         mbox.exec_()
         return True
 
@@ -288,7 +299,9 @@ class QTopPanel(QFrame):
         if self.check_no_missing_pilots():
             return
 
-        negative_starts = self.negative_start_packages()
+        negative_starts = self.negative_start_packages(
+            self.sim_controller.current_time_in_sim
+        )
         if negative_starts:
             if not self.confirm_negative_start_time(negative_starts):
                 return

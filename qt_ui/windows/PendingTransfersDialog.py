@@ -1,13 +1,12 @@
-from PySide2.QtCore import (
+from PySide6.QtCore import (
     QItemSelection,
     QItemSelectionModel,
     QModelIndex,
     Qt,
 )
-from PySide2.QtGui import QContextMenuEvent
-from PySide2.QtWidgets import (
+from PySide6.QtGui import QContextMenuEvent, QAction
+from PySide6.QtWidgets import (
     QAbstractItemView,
-    QAction,
     QDialog,
     QHBoxLayout,
     QListView,
@@ -32,7 +31,7 @@ class TransferDelegate(TwoColumnRowDelegate):
 
     def text_for(self, index: QModelIndex, row: int, column: int) -> str:
         if row == 0:
-            return self.transfer_model.data(index, Qt.DisplayRole)
+            return self.transfer_model.data(index, Qt.ItemDataRole.DisplayRole)
         elif row == 1:
             return self.transfer(index).description
         return ""
@@ -48,11 +47,12 @@ class PendingTransfersList(QListView):
         self.setItemDelegate(TransferDelegate(self.transfer_model))
         self.setModel(self.transfer_model)
         self.selectionModel().setCurrentIndex(
-            self.transfer_model.index(0, 0, QModelIndex()), QItemSelectionModel.Select
+            self.transfer_model.index(0, 0, QModelIndex()),
+            QItemSelectionModel.SelectionFlag.Select,
         )
 
         # self.setIconSize(QSize(91, 24))
-        self.setSelectionBehavior(QAbstractItemView.SelectItems)
+        self.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectItems)
 
     def contextMenuEvent(self, event: QContextMenuEvent) -> None:
         index = self.indexAt(event.pos())

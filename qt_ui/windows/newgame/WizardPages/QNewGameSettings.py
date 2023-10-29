@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 
-from PySide2 import QtWidgets, QtGui
+from PySide6 import QtWidgets, QtGui
 
 from game.campaignloader import Campaign
 from game.settings import Settings
@@ -14,7 +14,7 @@ class NewGameSettings(QtWidgets.QWizardPage):
         self.setTitle("Campaign options")
         self.setSubTitle("\nAll other options unrelated to campaign generation.")
         self.setPixmap(
-            QtWidgets.QWizard.LogoPixmap,
+            QtWidgets.QWizard.WizardPixmap.LogoPixmap,
             QtGui.QPixmap("./resources/ui/wizard/logo1.png"),
         )
 

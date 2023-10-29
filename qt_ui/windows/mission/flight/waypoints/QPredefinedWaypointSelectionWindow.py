@@ -1,5 +1,5 @@
-from PySide2.QtCore import Qt, Signal
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Qt, Signal
+from PySide6.QtWidgets import (
     QCheckBox,
     QDialog,
     QHBoxLayout,
@@ -34,7 +34,7 @@ class QPredefinedWaypointSelectionWindow(QDialog):
         super(QPredefinedWaypointSelectionWindow, self).__init__()
         self.game = game
         self.flight = flight
-        self.setWindowFlags(Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint)
         self.setMinimumSize(400, 250)
         self.setModal(True)
         self.setWindowTitle("Add Predefined Waypoint")

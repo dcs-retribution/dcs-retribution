@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import typing
-from datetime import datetime
+from datetime import timedelta
 from typing import TYPE_CHECKING, Any
 
 from dcs.countries import countries_by_name
@@ -61,19 +61,20 @@ class Migrator:
         for c in self.game.coalitions:
             for p in c.ato.packages:
                 if p.waypoints and not hasattr(p.waypoints, "initial"):
-                    p.waypoints = PackageWaypoints.create(p, c)
+                    p.waypoints = PackageWaypoints.create(p, c, False)
 
     def _update_package_attributes(self) -> None:
         for c in self.game.coalitions:
             for p in c.ato.packages:
                 try_set_attr(p, "custom_name")
                 try_set_attr(p, "frequency")
-                if self.is_liberation and isinstance(p.time_over_target, datetime):  # type: ignore
+                if isinstance(p.time_over_target, timedelta):  # type: ignore
                     p.time_over_target = (  # type: ignore
-                        p.time_over_target - self.game.conditions.start_time
+                        p.time_over_target + self.game.conditions.start_time
                     )
 
     def _update_control_points(self) -> None:
+        is_sinai = self.game.theater.terrain.name == "SinaiMap"
         for cp in self.game.theater.controlpoints:
             is_carrier = cp.is_carrier
             is_lha = cp.is_lha
@@ -92,11 +93,20 @@ class Migrator:
             try_set_attr(cp, "ground_spawns_roadbase", [])
             try_set_attr(cp, "helipads_quad", [])
             try_set_attr(cp, "helipads_invisible", [])
+            if (
+                cp.dcs_airport and is_sinai and cp.dcs_airport.id == 20
+            ):  # fix for Hatzor
+                beacons = cp.dcs_airport.beacons
+                faulty_beacon = [x for x in beacons if x.id == "airfield20_0"]
+                if faulty_beacon:
+                    beacons.remove([x for x in beacons if x.id == "airfield20_0"][0])
 
     def _update_flight_plan(self, f: Flight) -> None:
         layout = f.flight_plan.layout
         try_set_attr(layout, "nav_to", [])
         try_set_attr(layout, "nav_from", [])
+        if f.flight_type == FlightType.CAS:
+            try_set_attr(layout, "ingress", None)
 
     def _update_flights(self) -> None:
         to_remove = []
@@ -142,8 +152,6 @@ class Migrator:
                 if isinstance(s.country, str):
                     c = country_dict.get(s.country, s.country)
                     s.country = countries_by_name[c]()
-                if FlightType.SEAD in s.auto_assignable_mission_types:
-                    s.auto_assignable_mission_types.add(FlightType.SEAD_SWEEP)
 
                 # code below is used to fix corruptions wrt overpopulation
                 parking_type = ParkingType().from_squadron(s)
@@ -214,4 +222,5 @@ class Migrator:
 
     def _update_tgos(self) -> None:
         for go in self.game.theater.ground_objects:
-            go.task = None  # TODO: attempt to deduce tasking?
+            try_set_attr(go, "task", None)
+            try_set_attr(go, "hide_on_mfd", False)

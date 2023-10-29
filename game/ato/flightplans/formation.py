@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from datetime import timedelta
+from datetime import datetime, timedelta
 from functools import cached_property
 from typing import Any, TYPE_CHECKING, TypeGuard, Optional
 
@@ -10,7 +10,6 @@ from game.typeguard import self_type_guard
 from game.utils import Speed
 from .flightplan import FlightPlan
 from .loiter import LoiterFlightPlan, LoiterLayout
-from ..traveltime import GroundSpeed, TravelTime
 
 if TYPE_CHECKING:
     from ..flightwaypoint import FlightWaypoint
@@ -76,15 +75,15 @@ class FormationFlightPlan(LoiterFlightPlan, ABC):
 
     @property
     @abstractmethod
-    def join_time(self) -> timedelta:
+    def join_time(self) -> datetime:
         ...
 
     @property
     @abstractmethod
-    def split_time(self) -> timedelta:
+    def split_time(self) -> datetime:
         ...
 
-    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
+    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         if waypoint == self.layout.join:
             return self.join_time + self.tot_offset
         elif waypoint == self.layout.split:
@@ -92,15 +91,18 @@ class FormationFlightPlan(LoiterFlightPlan, ABC):
         return None
 
     @property
-    def push_time(self) -> timedelta:
-        return self.join_time - TravelTime.between_points(
-            self.layout.hold.position,
-            self.layout.join.position,
-            GroundSpeed.for_flight(self.flight, self.layout.hold.alt),
+    def push_time(self) -> datetime:
+        return self.join_time - self.travel_time_between_waypoints(
+            self.layout.hold,
+            self.layout.join,
         )
 
     @property
-    def mission_departure_time(self) -> timedelta:
+    def mission_begin_on_station_time(self) -> datetime | None:
+        return None
+
+    @property
+    def mission_departure_time(self) -> datetime:
         return self.split_time
 
     @self_type_guard

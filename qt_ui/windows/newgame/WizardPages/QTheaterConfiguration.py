@@ -3,10 +3,10 @@ from __future__ import unicode_literals, annotations
 from datetime import datetime
 from typing import List, Optional
 
-from PySide2 import QtWidgets, QtGui
-from PySide2.QtCore import Signal, QDate, QPoint, QItemSelectionModel, Qt, QModelIndex
-from PySide2.QtGui import QStandardItem, QPixmap, QStandardItemModel
-from PySide2.QtWidgets import (
+from PySide6 import QtWidgets, QtGui
+from PySide6.QtCore import Signal, QDate, QPoint, QItemSelectionModel, Qt, QModelIndex
+from PySide6.QtGui import QStandardItem, QPixmap, QStandardItemModel
+from PySide6.QtWidgets import (
     QCheckBox,
     QTextBrowser,
     QTextEdit,
@@ -83,12 +83,12 @@ class TheaterConfiguration(QtWidgets.QWizardPage):
         self.setTitle("Theater configuration")
         self.setSubTitle("\nChoose a terrain and time period for this game.")
         self.setPixmap(
-            QtWidgets.QWizard.LogoPixmap,
+            QtWidgets.QWizard.WizardPixmap.LogoPixmap,
             QtGui.QPixmap("./resources/ui/wizard/logo1.png"),
         )
 
         self.setPixmap(
-            QtWidgets.QWizard.WatermarkPixmap,
+            QtWidgets.QWizard.WizardPixmap.WatermarkPixmap,
             QtGui.QPixmap("./resources/ui/wizard/watermark3.png"),
         )
 
@@ -205,7 +205,8 @@ class TheaterConfiguration(QtWidgets.QWizardPage):
             self.campaign_selected.emit(campaign)
 
         self.campaignList.selectionModel().setCurrentIndex(
-            self.campaignList.indexAt(QPoint(1, 1)), QItemSelectionModel.Rows
+            self.campaignList.indexAt(QPoint(1, 1)),
+            QItemSelectionModel.SelectionFlag.Rows,
         )
 
         self.campaignList.selectionModel().selectionChanged.connect(
@@ -220,7 +221,7 @@ class TheaterConfiguration(QtWidgets.QWizardPage):
             'or <a href="https://github.com/dcs-retribution/dcs-retribution/wiki/Custom-Campaigns"><span style="color:#FFFFFF;">create your own</span></a>.'
             "</p>"
         )
-        docsText.setAlignment(Qt.AlignCenter)
+        docsText.setAlignment(Qt.AlignmentFlag.AlignCenter)
         docsText.setOpenExternalLinks(True)
 
         # Register fields
@@ -278,7 +279,7 @@ class QCampaignItem(QStandardItem):
 
 
 class QCampaignList(QListView):
-    CampaignRole = Qt.UserRole
+    CampaignRole = Qt.ItemDataRole.UserRole
 
     def __init__(self, campaigns: list[Campaign], show_incompatible: bool) -> None:
         super(QCampaignList, self).__init__()
@@ -287,7 +288,7 @@ class QCampaignList(QListView):
         self.setMinimumWidth(250)
         self.setMinimumHeight(350)
         self.campaigns = campaigns
-        self.setSelectionBehavior(QAbstractItemView.SelectItems)
+        self.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectItems)
         self.setup_content(show_incompatible)
 
     @property
@@ -306,5 +307,6 @@ class QCampaignList(QListView):
             self.selectionModel().blockSignals(False)
 
         self.selectionModel().setCurrentIndex(
-            self.campaign_model.index(0, 0, QModelIndex()), QItemSelectionModel.Select
+            self.campaign_model.index(0, 0, QModelIndex()),
+            QItemSelectionModel.SelectionFlag.Select,
         )

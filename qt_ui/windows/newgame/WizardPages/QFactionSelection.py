@@ -3,9 +3,9 @@ from __future__ import unicode_literals
 from copy import deepcopy
 from typing import Union
 
-from PySide2 import QtWidgets, QtGui
-from PySide2.QtCore import Qt
-from PySide2.QtWidgets import (
+from PySide6 import QtWidgets, QtGui
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (
     QScrollArea,
     QWidget,
     QGridLayout,
@@ -31,10 +31,10 @@ class QFactionUnits(QScrollArea):
 
     def _add_checkboxes(self, units: set, counter: int, grid: QGridLayout) -> int:
         counter += 1
-        for i, v in enumerate(sorted(units, key=lambda x: x.name), counter):
-            cb = QCheckBox(v.name)
+        for i, v in enumerate(sorted(units, key=lambda x: str(x)), counter):
+            cb = QCheckBox(str(v))
             cb.setCheckState(Qt.CheckState.Checked)
-            self.checkboxes[v.name] = cb
+            self.checkboxes[str(v)] = cb
             grid.addWidget(cb, i, 1)
             counter += 1
         counter += 1
@@ -94,7 +94,7 @@ class QFactionUnits(QScrollArea):
     def updateFactionUnits(self, units: Union[set, list]):
         deletes = []
         for a in units:
-            if not self.checkboxes[a.name].isChecked():
+            if not self.checkboxes[str(a)].isChecked():
                 deletes.append(a)
         for d in deletes:
             units.remove(d)
@@ -109,7 +109,7 @@ class FactionSelection(QtWidgets.QWizardPage):
             "\nChoose the two opposing factions and select the player side."
         )
         self.setPixmap(
-            QtWidgets.QWizard.LogoPixmap,
+            QtWidgets.QWizard.WizardPixmap.LogoPixmap,
             QtGui.QPixmap("./resources/ui/misc/generator.png"),
         )
 
@@ -133,13 +133,17 @@ class FactionSelection(QtWidgets.QWizardPage):
         self.blueFactionDescription = QTextBrowser()
         self.blueFactionDescription.setReadOnly(True)
         self.blueFactionDescription.setOpenExternalLinks(True)
-        self.blueFactionDescription.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.blueFactionDescription.setVerticalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOn
+        )
         self.blueFactionDescription.setMaximumHeight(120)
 
         self.redFactionDescription = QTextBrowser()
         self.redFactionDescription.setReadOnly(True)
         self.redFactionDescription.setOpenExternalLinks(True)
-        self.redFactionDescription.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.redFactionDescription.setVerticalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOn
+        )
         self.redFactionDescription.setMaximumHeight(120)
 
         # Setup default selected factions
@@ -177,7 +181,7 @@ class FactionSelection(QtWidgets.QWizardPage):
         docsText = QtWidgets.QLabel(
             '<a href="https://github.com/dcs-retribution/dcs-retribution/wiki/Custom-Factions"><span style="color:#FFFFFF;">How to create your own faction</span></a>'
         )
-        docsText.setAlignment(Qt.AlignCenter)
+        docsText.setAlignment(Qt.AlignmentFlag.AlignCenter)
         docsText.setOpenExternalLinks(True)
 
         # Link form fields
