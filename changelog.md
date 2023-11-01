@@ -22,7 +22,7 @@
 * **[Options]** New options in Settings: Helicopter waypoint altitude (feet AGL) for combat & cruise waypoints
 * **[Options]** New options in Settings: Spawn ground power trucks at ground starts in airbases/roadbases
 * **[Options]** Option for hiding TGOs (with IADS roles) on MFD
-* **[Plugins]** Splash Damage with Clusters and Ship Radar effects plugin.
+* **[Plugins]** Splash Damage 2.1 with Clusters and Ship Radar effects.
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task
