@@ -148,7 +148,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         modLayout_row = 1
 
         mod_pairs = [
-            ("A-4E Skyhawk (v2.1.0)", self.a4_skyhawk),
+            ("A-4E Skyhawk (v2.2.0)", self.a4_skyhawk),
             ("A-6A Intruder (v2.7.5.01)", self.a6a_intruder),
             ("A-7E Corsair II", self.a7e_corsair2),
             ("C-130J-30 Super Hercules", self.hercules),
