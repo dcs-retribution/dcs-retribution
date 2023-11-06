@@ -152,10 +152,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("A-6A Intruder (v2.7.5.01)", self.a6a_intruder),
             ("A-7E Corsair II", self.a7e_corsair2),
             ("C-130J-30 Super Hercules", self.hercules),
-            (
-                "F-4B/C Phantom II (v2.8.1.01 Standalone + 29Jan23 Patch)",
-                self.f4bc_phantom,
-            ),
+            ("F-4B/C Phantom II (2.8.7.201)", self.f4bc_phantom),
             ("F-15D Baz (v1.0)", self.f15d_baz),
             ("F-15I Ra'am (v1.0 by IDF Mods Project)", self.f_15_idf),
             ("F-16I Sufa & F-16D (v3.6 by IDF Mods Project)", self.f_16_idf),
