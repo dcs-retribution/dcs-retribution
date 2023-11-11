@@ -12,11 +12,6 @@ version: "10.7"
 squadrons:
 # Off-map spawn
   From US:
-    - primary: Strike
-      secondary: air-to-ground
-      aircraft:
-        - B-1B Lancer
-      size: 4
     - primary: Refueling
       aircraft:
         - KC-135 Stratotanker
