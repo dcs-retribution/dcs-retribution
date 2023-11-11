@@ -59,8 +59,8 @@ squadrons:
       aircraft:
         - HMLA-169 (AH-1W)
       size: 6
-  # Off-theatre forces
-  From Turkey:
+  # Incirlik
+  16:
     - primary: Strike
       secondary: air-to-ground
       aircraft:
@@ -70,6 +70,17 @@ squadrons:
         - 960th AAC Squadron
         #USAF E-3A
       size: 2
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - F-15E Strike Eagle (Suite 4+)
+      size: 12
+    - primary: SEAD
+      secondary: any
+      aircraft:
+        - 77th FS
+        #USAF F-16C
+      size: 12
   # King Hussein Air College, BLUFOR start
   19:
     - primary: BARCAP
