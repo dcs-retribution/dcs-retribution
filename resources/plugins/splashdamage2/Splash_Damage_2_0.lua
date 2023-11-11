@@ -474,12 +474,12 @@ function track_wpns()
       end
 
       local explosive = getWeaponExplosive(wpnData.name)
-      local weapon = wpnData.ordnance
+      local weapon = wpnData.wpn
       local player = wpnData.player
 
       if wpnData.cat == Weapon.Category.ROCKET then
         explosive = explosive * splash_damage_options.rocket_multiplier / 100
-      elseif clusterWeaps[weapon] then
+      elseif clusterWeaps[wpnData.name] then
         explosive = getClusterExplosive(weapon)
       end
 
@@ -557,7 +557,7 @@ function onWpnEvent(event)
         end
       end
 
-      local player = event.initiator:getPlayerName()
+      local player = event.initiator
       targetName = event.target:getTypeName()
       local impactPoint = event.target:getPosition().p
       env.info(weapon.." hit "..targetName)
@@ -565,12 +565,12 @@ function onWpnEvent(event)
       --env.info('Impact point was at: X: ' .. impactPoint.x .. ' Y: ' .. impactPoint.y .. ' Z: ' .. impactPoint.z)
       if clusterWeaps[weapon] then
         local ordnance = event.weapon
-        tracked_weapons[event.weapon.id_] = { wpn = ordnance, init = event.initiator:getName(), pos = ordnance:getPoint(), dir = ordnance:getPosition().x, name = ordnance:getTypeName(), speed = ordnance:getVelocity(), cat = ordnance:getCategory(), player=event.initiator:getPlayerName() }
+        tracked_weapons[event.weapon.id_] = { wpn = ordnance, init = event.initiator:getName(), pos = ordnance:getPoint(), dir = ordnance:getPosition().x, name = ordnance:getTypeName(), speed = ordnance:getVelocity(), cat = ordnance:getCategory(), player=event.initiator }
       else
-        blastWave(impactPoint, splash_damage_options.blast_search_radius, weapon, getWeaponExplosive(weapon), player)
+        blastWave(impactPoint, splash_damage_options.blast_search_radius, event.weapon, getWeaponExplosive(weapon), player)
       end
     end
-  elseif event.id == world.event.S_EVENT_KILL and event.initiator:getPlayerName() ~= nil then
+  elseif event.id == world.event.S_EVENT_KILL and event.initiator ~= nil then
     destroyedBda(event.target)
   end
 end
@@ -734,7 +734,7 @@ function blastWave(_point, _radius, weapon, power, player)
             end
             -- According to toutenglisse on DCS World forums (2022-06-11), ships do not have sensors attributes and therefore obj:hasSensors(Unit.SensorType.RADAR) cannot be used
             -- "I don't know why, but no Ship in DCS has ["sensors"] in its attributes (while obviously they have and can use them in game...). No way to use Ship with getDetectedTargets function (except for visual detection)."
-            if splash_damage_options.shipRadarDamageEnable and obj:getDesc().category == Unit.Category.SHIP and antiRadiationMissile[weapon] ~= nil then
+            if splash_damage_options.shipRadarDamageEnable and obj:getDesc().category == Unit.Category.SHIP and antiRadiationMissile[weapon:getTypeName()] ~= nil then
               obj:enableEmission(false)
               env.info("BDA: "..event.target:getTypeName().." radar destroyed")
               if player ~= nil then
