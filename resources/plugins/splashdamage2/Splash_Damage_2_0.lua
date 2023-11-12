@@ -49,6 +49,11 @@ spencershepard (GRIMM):
  -napalm will now spawn fire on impact
  -ship radars might turn off when hit with anti-radiation missiles
  -BDA messages for splash damage
+
+ 12 November 2023
+ Raffson:
+ - integrate Ghosti's implementation into original script
+
 --]]
 
 ----[[ ##### SCRIPT CONFIGURATION ##### ]]----
