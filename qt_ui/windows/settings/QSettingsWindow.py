@@ -164,6 +164,7 @@ class AutoSettingsLayout(QGridLayout):
         label = QLabel(text)
         if description.tooltip is not None:
             label.setToolTip(description.tooltip)
+        label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
         self.addWidget(label, row, 0)
 
     def add_checkbox_for(self, row: int, name: str, description: BooleanOption) -> None:
