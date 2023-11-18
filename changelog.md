@@ -24,6 +24,8 @@
 * **[Options]** New options in Settings: Spawn ground power trucks at ground starts in airbases/roadbases
 * **[Options]** Option for hiding TGOs (with IADS roles) on MFD
 * **[Plugins]** Splash Damage 2.1 with Clusters and Ship Radar effects.
+* **[COMMs]** Aircraft-specific callsigns will now also be used.
+* **[COMMs]** Ability to set a specific callsign to a flight.
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task
