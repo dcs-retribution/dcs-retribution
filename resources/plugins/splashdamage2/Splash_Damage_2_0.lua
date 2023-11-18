@@ -683,7 +683,7 @@ end
 function destroyedBda(unit)
   if unit == nil then
     gameMsg("BDA: target destroyed")
-  elseif unit:getName() == nil then
+  elseif unit:getTypeName() == nil then
     gameMsg("BDA: target destroyed")
   else
     gameMsg("BDA: "..unit:getTypeName().." critically damaged")
