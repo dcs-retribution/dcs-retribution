@@ -164,9 +164,11 @@ class FlotGenerator:
                 altitude=5000,
                 maintask=AFAC,
             )
+            cs = jtac.units[0].callsign_dict
             jtac.points[0].tasks.append(
                 FAC(
-                    callsign=len(self.mission_data.jtacs) + 1,
+                    callsign=cs[1],
+                    number=cs[2],
                     frequency=int(freq.mhz),
                     modulation=freq.modulation,
                 )
