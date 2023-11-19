@@ -165,6 +165,8 @@ class FlotGenerator:
                 maintask=AFAC,
             )
             cs = jtac.units[0].callsign_dict
+            assert type(cs[1]) == int
+            assert type(cs[2]) == int
             jtac.points[0].tasks.append(
                 FAC(
                     callsign=cs[1],
