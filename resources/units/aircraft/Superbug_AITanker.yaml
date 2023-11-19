@@ -17,3 +17,5 @@ patrol:
 variants:
   F/A-18E Tanker: {}
   F/A-18F Tanker: {}
+tasks:
+  Refueling: 0

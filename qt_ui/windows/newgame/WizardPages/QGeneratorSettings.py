@@ -108,6 +108,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("f_16_idf", self.f_16_idf)
         self.fa_18efg = QtWidgets.QCheckBox()
         self.registerField("fa_18efg", self.fa_18efg)
+        self.fa18ef_tanker = QtWidgets.QCheckBox()
+        self.registerField("fa18ef_tanker", self.fa18ef_tanker)
         self.f22_raptor = QtWidgets.QCheckBox()
         self.registerField("f22_raptor", self.f22_raptor)
         self.f84g_thunderjet = QtWidgets.QCheckBox()
@@ -160,6 +162,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("F-15I Ra'am (v1.0 by IDF Mods Project)", self.f_15_idf),
             ("F-16I Sufa & F-16D (v3.6 by IDF Mods Project)", self.f_16_idf),
             ("F/A-18E/F/G Super Hornet (version 2.1)", self.fa_18efg),
+            ("F/A-18E/F Super Hornet AI Tanker (version 1.2)", self.fa18ef_tanker),
             ("F-22A Raptor", self.f22_raptor),
             ("F-84G Thunderjet (v2.5.7.01)", self.f84g_thunderjet),
             ("F-100 Super Sabre (v2.7.18.30765 patch 20.10.22)", self.f100_supersabre),
