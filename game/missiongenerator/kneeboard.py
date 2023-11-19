@@ -32,7 +32,7 @@ from typing import Dict, Iterator, List, Optional, TYPE_CHECKING, Tuple
 
 from PIL import Image, ImageDraw, ImageFont
 from dcs.mission import Mission
-from suntime import Sun
+from suntime import Sun  # type: ignore
 from tabulate import tabulate
 
 from game.ato.flighttype import FlightType
