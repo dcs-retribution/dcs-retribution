@@ -2706,7 +2706,7 @@ function SkynetIADSAbstractRadarElement:goDark()
 		end
 		self.aiState = false
 		self:stopScanningForHARMs()
-		if self.iads:getDebugSettings().radarWentDark then
+		if self.iads:getDebugSettings().samWentDark then
 			self.iads:printOutputToLog("GOING DARK: "..self:getDescription())
 		end
 	end
