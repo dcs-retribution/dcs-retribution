@@ -1,0 +1,182 @@
+---
+name: Falklands - Retake the Falklands
+theater: Falklands
+authors: tmz42, original campaign by Fuzzle
+recommended_player_faction: UK/US Falklands Task Force
+recommended_enemy_faction: China/Argentina Falklands Occupation Force
+description: <p>Argentina and China have taken the Falklands by surprise. Currently on the East Coast of the United States for training, an Invicible-class carrier is steaming down to the South Atlantic to retake the islands, with the help of the United States Carrier Group. A beachhead has been established on the small air base of San Julian where the USAF has parked a small number of F-15Es and F-16 to assist. <p>Retake the Falklands, and proceed inland to neutralize the enemy.</p></p><p><b>Author's notes</b><br/>For this campaign, you can use UK Harrier and Apache skins, and Argentine JF-17 and Mirage Skins. Original campaign Gran Polvorin by Fuzzle.</p>
+miz: RetakeTheFalklands.miz
+performance: 2
+recommended_start_date: 2005-06-15
+version: "10.7"
+squadrons:
+# Off-map spawn
+  From US:
+    - primary: Refueling
+      aircraft:
+        - KC-135 Stratotanker
+        #USAF KC-135
+      size: 2
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - F-15E Strike Eagle (Suite 4+)
+      size: 12
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - Tornado GR4
+      size: 12
+#BLUFOR CVN
+  # Pukin' Dogs Tomcat
+  Naval-1:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - VF-143
+      size: 14
+    # Golden Dragons F/A-18
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - VFA-192
+      size: 12
+    # Thunderbolts F/A-18
+    - primary: DEAD
+      secondary: air-to-ground
+      aircraft:
+        - VMFA-251
+      size: 12
+    # E-2
+    - primary: AEW&C
+      aircraft:
+        - VAW-125
+      size: 2
+    # S-3 Tanker
+    - primary: Refueling
+      aircraft:
+        - VS-35 (Tanker)
+      size: 4
+    # S-3 
+    - primary: Anti-ship
+      secondary: air-to-ground
+      aircraft:
+        - VS-35
+      size: 8
+  # BLUFOR LHA
+  Naval-2:
+    # Harrier FAA
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - AV-8B Harrier II Night Attack
+      size: 10
+    - primary: Transport
+      secondary: air-to-ground
+      aircraft:
+        - HMLA-169 (UH-1H)
+      size: 4
+    - primary: CAS
+      secondary: air-to-ground
+      size: 6
+      aircraft:
+        - AH-64D Apache Longbow
+  # REDFOR CV
+  Naval-3:
+    - primary: BARCAP
+      secondary: any
+      size: 12
+      aircraft:
+        - J-15 Flanker X-2
+ # Blue - San Julian
+  11:
+     # Gamblers
+    - primary: DEAD
+      secondary: any
+      aircraft:
+        - 77th FS
+      size: 9
+ # RED - Punta Arenas
+  9:
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - JF-17 Thunder
+      size: 12
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - Mirage 2000C
+      size: 8
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - J-11A Flanker-L
+      size: 12
+    - primary: Anti-ship
+      secondary: air-to-ground
+      aircraft:
+        - H-6J Badger
+      size: 5
+  # RED - Rio Gallegos
+  5:
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - JF-17 Thunder
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - Mirage 2000C
+  # RED - Mount Pleasant 
+  2:
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - J-11A Flanker-L
+      size: 12 
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - JF-17 Thunder
+    - primary: Anti-ship
+      secondary: air-to-ground
+      aircraft:
+        - H-6J Badger
+      size: 4 
+    - primary: AEW&C
+      aircraft:
+        - VAW-125
+      size: 2
+  # RED - Port Stanley
+  1:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - JF-17 Thunder
+  # Ushuaia
+  7:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - JF-17 Thunder
+      size: 4
+    - primary: Anti-ship
+      secondary: air-to-ground
+      aircraft:
+        - H-6J Badger
+      size: 2
+  # OPFOR Second FOB
+  FOB Vista:
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Mi-24P Hind-F
+      size: 4 
+  # OPFOR Third FOB
+  FOB Galy:
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Mi-24P Hind-F
+      size: 4

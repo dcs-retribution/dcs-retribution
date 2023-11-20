@@ -266,6 +266,8 @@ class FlightGroupSpawner:
             start_type=self._start_type_at_airfield(airfield),
             group_size=self.flight.count,
             parking_slots=None,
+            callsign_name=self.flight.callsign.name if self.flight.callsign else None,
+            callsign_nr=self.flight.callsign.nr if self.flight.callsign else None,
         )
 
     def _generate_over_departure(
@@ -299,6 +301,8 @@ class FlightGroupSpawner:
             speed=speed.kph,
             maintask=None,
             group_size=self.flight.count,
+            callsign_name=self.flight.callsign.name if self.flight.callsign else None,
+            callsign_nr=self.flight.callsign.nr if self.flight.callsign else None,
         )
 
         group.points[0].alt_type = alt_type
@@ -315,6 +319,8 @@ class FlightGroupSpawner:
             maintask=None,
             start_type=self._start_type_at_group(at),
             group_size=self.flight.count,
+            callsign_name=self.flight.callsign.name if self.flight.callsign else None,
+            callsign_nr=self.flight.callsign.nr if self.flight.callsign else None,
         )
 
     def _generate_at_cp_helipad(

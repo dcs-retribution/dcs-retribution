@@ -1,0 +1,88 @@
+{
+  "country": "Combined Joint Task Forces Blue",
+  "name": "UK/US Falklands Task Force",
+  "authors": "tmz42",
+  "description": "<p>United Kingdom/US Navy Task Force for Retake the Falklands.</p>",
+  "locales": [
+    "en_UK"
+  ],
+  "aircrafts": [
+    "AH-64D Apache Longbow",
+    "AV-8B Harrier II Night Attack",
+    "C-130",
+    "C-130J-30 Super Hercules",
+    "SA 342L Gazelle",
+    "SA 342M Gazelle",
+    "Gazelle AH.1",
+    "Phantom F.3",
+    "Tornado GR4",
+    "F-15E Strike Eagle (Suite 4+)",
+    "F-16CM Fighting Falcon (Block 50)",
+    "S-3B Viking",
+    "F/A-18C Hornet (Lot 20)",
+    "F-14B Tomcat",
+    "UH-1H Iroquois",
+    "B-1B Lancer"
+  
+  ],
+  "awacs": [
+    "E-2D Advanced Hawkeye"
+  ],
+  "tankers": [
+    "KC-135 Stratotanker",
+    "S-3B Tanker"
+  ],
+  "frontline_units": [
+    "Chieftain Mk.3",
+    "FV4034 Challenger 2",
+    "FV510 Warrior",
+    "M1043 HMMWV (M2 HMG)",
+    "M1045 HMMWV (BGM-71 TOW)",
+    "M1097 Heavy HMMWV Avenger"
+  ],
+  "artillery_units": [
+    "M109A6 Paladin",
+    "M270 Multiple Launch Rocket System"
+  ],
+  "logistics_units": [
+    "Truck M818 6x6"
+  ],
+  "infantry_units": [
+    "Infantry M249",
+    "Infantry M4",
+    "MANPADS Stinger",
+    "Mortar 2B11 120mm"
+  ],
+  "preset_groups": [
+    "Hawk",
+    "Rapier"
+  ],
+  "naval_units": [
+    "FFG Oliver Hazard Perry",
+    "DDG Arleigh Burke IIa",
+    "CG Ticonderoga",
+    "R05 Invincible",
+    "CVN-74 John C. Stennis"
+  ],
+  "missiles": [],
+  "air_defense_units": [
+    "SAM Hawk SR (AN/MPQ-50)",
+    "M1097 Heavy HMMWV Avenger"
+  ],
+  "requirements": {},
+  "carrier_names": [
+    "CVN-71 Theodore Roosevelt",
+    "CVN-72 Abraham Lincoln",
+    "CVN-73 George Washington",
+    "CVN-74 John C. Stennis",
+    "CVN-75 Harry S. Truman"
+  ],
+  "helicopter_carrier_names": [
+    "HMS Invincible",
+    "HMS Illustrious",
+    "HMS Ark Royal"
+  ],
+  "has_jtac": true,
+  "jtac_unit": "MQ-9 Reaper",
+  "unrestricted_satnav": true
+}

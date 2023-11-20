@@ -32,6 +32,7 @@ from typing import Dict, Iterator, List, Optional, TYPE_CHECKING, Tuple
 
 from PIL import Image, ImageDraw, ImageFont
 from dcs.mission import Mission
+from suntime import Sun  # type: ignore
 from tabulate import tabulate
 
 from game.ato.flighttype import FlightType
@@ -430,6 +431,23 @@ class BriefingPage(KneeboardPage):
         )
 
         fl = self.flight
+
+        start_pos = fl.waypoints[0].position.latlng()
+        sun = Sun(start_pos.lat, start_pos.lng)
+
+        date = fl.squadron.coalition.game.date
+        tz = fl.squadron.coalition.game.theater.timezone
+
+        # Get today's sunrise and sunset in UTC
+        sr_utc = sun.get_sunrise_time(date)
+        ss_utc = sun.get_sunset_time(date)
+        sr = sr_utc + tz.utcoffset(sun.get_sunrise_time(date))
+        ss = ss_utc + tz.utcoffset(sun.get_sunset_time(date))
+
+        writer.text(
+            f"Sunrise - Sunset: {sr.strftime('%H:%M')} - {ss.strftime('%H:%M')}"
+            f" ({sr_utc.strftime('%H:%M')} - {ss_utc.strftime('%H:%M')} UTC)"
+        )
 
         if fl.bingo_fuel and fl.joker_fuel:
             writer.table(

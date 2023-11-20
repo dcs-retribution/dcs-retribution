@@ -16,10 +16,19 @@ if dcsRetribution then
             splash_damage_options.wave_explosions = dcsRetribution.plugins.splashdamage2.wave_explosions
             splash_damage_options.damage_model = dcsRetribution.plugins.splashdamage2.damage_model
             splash_damage_options.game_messages = dcsRetribution.plugins.splashdamage2.game_messages
+            splash_damage_options.message_time = dcsRetribution.plugins.splashdamage2.message_time
             splash_damage_options.debug = dcsRetribution.plugins.splashdamage2.debug
             splash_damage_options.explTable_multiplier = dcsRetribution.plugins.splashdamage2.explTable_multiplier
+            splash_damage_options.rocket_multiplier = dcsRetribution.plugins.splashdamage2.rocket_multiplier
+            splash_damage_options.cluster_multiplier = dcsRetribution.plugins.splashdamage2.cluster_multiplier
+            splash_damage_options.oca_aircraft_damage_boost = dcsRetribution.plugins.splashdamage2.oca_aircraft_damage_boost
             splash_damage_options.static_damage_boost = dcsRetribution.plugins.splashdamage2.static_damage_boost
             splash_damage_options.blast_search_radius = dcsRetribution.plugins.splashdamage2.blast_search_radius
+            splash_damage_options.firebomb_splash_factor = dcsRetribution.plugins.splashdamage2.firebomb_splash_factor
+            splash_damage_options.cluster_munition_distribution_radius = dcsRetribution.plugins.splashdamage2.cluster_munition_distribution_radius
+
+            splash_damage_options.clusterEffectsEnable = dcsRetribution.plugins.splashdamage2.clusterEffectsEnable
+            splash_damage_options.shipRadarDamageEnable = dcsRetribution.plugins.splashdamage2.shipRadarDamage
         end
     end
 end

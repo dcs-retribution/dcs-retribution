@@ -1,5 +1,5 @@
 {
-    "nameInUI": "Splash Damage 2.0 by RotorOps",
+    "nameInUI": "Splash Damage 2.1",
     "defaultValue": false,
     "specificOptions": [
         {
@@ -23,25 +23,77 @@
             "defaultValue": false
         },
         {
-            "nameInUI": "Overall damage multiplier",
+            "nameInUI": "Number of seconds to show messages",
+            "mnemonic": "message_time",
+            "minimumValue": 5,
+            "maximumValue": 60,
+            "defaultValue": 10
+        },
+        {
+            "nameInUI": "Enable cluster munition effects",
+            "mnemonic": "clusterEffectsEnable",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "Ship radars damaged by anti-radiation missiles",
+            "mnemonic": "shipRadarDamage",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "Overall damage multiplier (%)",
             "mnemonic": "explTable_multiplier",
-            "minimumValue": 0.1,
-            "maximumValue": 2.5,
-            "defaultValue": 1.0
+            "minimumValue": 10,
+            "maximumValue": 500,
+            "defaultValue": 100
+        },
+        {
+            "nameInUI": "Rockets damage multiplier (%)",
+            "mnemonic": "rocket_multiplier",
+            "minimumValue": 10,
+            "maximumValue": 500,
+            "defaultValue": 130
+        },
+        {
+            "nameInUI": "Cluster munitions damage multiplier (%)",
+            "mnemonic": "cluster_multiplier",
+            "minimumValue": 10,
+            "maximumValue": 500,
+            "defaultValue": 100
+        },
+        {
+            "nameInUI": "OCA aircraft damage boost for wave explosions",
+            "mnemonic": "oca_aircraft_damage_boost",
+            "minimumValue": 0,
+            "maximumValue": 5000,
+            "defaultValue": 3000
         },
         {
             "nameInUI": "Static damage boost for wave explosions",
             "mnemonic": "static_damage_boost",
-            "minimumValue": 500,
+            "minimumValue": 0,
             "maximumValue": 5000,
             "defaultValue": 1000
         },
         {
-            "nameInUI": "Maximum blast radius",
+            "nameInUI": "Maximum blast radius (meters)",
             "mnemonic": "blast_search_radius",
-            "minimumValue": 10,
+            "minimumValue": 0,
             "maximumValue": 1000,
             "defaultValue": 100
+        },
+        {
+            "nameInUI": "Multiplier to thermobaric and napalm bombs (%)",
+            "mnemonic": "firebomb_splash_factor",
+            "minimumValue": 0,
+            "maximumValue": 4000,
+            "defaultValue": 800
+        },
+        {
+            "nameInUI": "Distribution radius of submunition explosions (meters)",
+            "mnemonic": "cluster_munition_distribution_radius",
+            "minimumValue": 50.0,
+            "maximumValue": 250.0,
+            "defaultValue": 75
         }
     ],
     "scriptsWorkOrders": [

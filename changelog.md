@@ -11,6 +11,7 @@
 * **[Modding]** Updated support for Su-30 mod to V2.1.12 beta
 * **[Modding]** Updated support for Su-57 mod to build-04
 * **[Modding]** Updated support for F-4B/C Phantom mod to 2.8.7.201
+* **[Modding]** Updated Community A-4E-C mod version support to 2.2.0 release.
 * **[Radios]** Added HF-FM band for AN/ARC-222
 * **[Radios]** Ability to define preset channels for radios on squadron level (for human pilots only)
 * **[Mission Planning]** Avoid helicopters being assigned as escort to planes and vice-versa
@@ -23,6 +24,9 @@
 * **[Options]** New options in Settings: Helicopter waypoint altitude (feet AGL) for combat & cruise waypoints
 * **[Options]** New options in Settings: Spawn ground power trucks at ground starts in airbases/roadbases
 * **[Options]** Option for hiding TGOs (with IADS roles) on MFD
+* **[Plugins]** Splash Damage 2.1 with Clusters and Ship Radar effects.
+* **[COMMs]** Aircraft-specific callsigns will now also be used.
+* **[COMMs]** Ability to set a specific callsign to a flight.
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task
