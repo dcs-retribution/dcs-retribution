@@ -23,18 +23,7 @@ class Superbug_AITanker(PlaneType):
     tacan = True
     radio_frequency = 305
 
-    class Liveries:
-        class Combined_Joint_Task_Forces_Blue(Enum):
-            Stock_Tanker_E = "Stock Tanker E"
-            Stock_Tanker_F = "Stock Tanker F"
-
-        class Combined_Joint_Task_Forces_Red(Enum):
-            Stock_Tanker_E = "Stock Tanker E"
-            Stock_Tanker_F = "Stock Tanker F"
-
-        class USA(Enum):
-            Stock_Tanker_E = "Stock Tanker E"
-            Stock_Tanker_F = "Stock Tanker F"
+    livery_name = "SUPERBUG_AITANKER"  # from type
 
     pylons = set()
 
