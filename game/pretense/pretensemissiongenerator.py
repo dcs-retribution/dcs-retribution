@@ -12,6 +12,7 @@ from dcs.countries import (
     CombinedJointTaskForcesBlue,
     CombinedJointTaskForcesRed,
 )
+from dcs.task import AFAC, FAC, SetInvisibleCommand, SetImmortalCommand, OrbitAction
 
 from game.lasercodes.lasercoderegistry import LaserCodeRegistry
 from game.missiongenerator.convoygenerator import ConvoyGenerator
@@ -21,7 +22,7 @@ from game.missiongenerator.forcedoptionsgenerator import ForcedOptionsGenerator
 from game.missiongenerator.frontlineconflictdescription import (
     FrontLineConflictDescription,
 )
-from game.missiongenerator.missiondata import MissionData
+from game.missiongenerator.missiondata import MissionData, JtacInfo
 from game.missiongenerator.tgogenerator import TgoGenerator
 from game.missiongenerator.visualsgenerator import VisualsGenerator
 from game.naming import namegen
@@ -34,6 +35,8 @@ from .pretenseluagenerator import PretenseLuaGenerator
 from .pretensetgogenerator import PretenseTgoGenerator
 from .pretensetriggergenerator import PretenseTriggerGenerator
 from ..ato.airtaaskingorder import AirTaskingOrder
+from ..callsigns import callsign_for_support_unit
+from ..dcs.aircrafttype import AircraftType
 from ..missiongenerator import MissionGenerator
 
 if TYPE_CHECKING:
@@ -148,27 +151,61 @@ class PretenseMissionGenerator(MissionGenerator):
         for front_line in self.game.theater.conflicts():
             player_cp = front_line.blue_cp
             enemy_cp = front_line.red_cp
-            conflict = FrontLineConflictDescription.frontline_cas_conflict(
-                front_line, self.game.theater
-            )
-            # Generate frontline ops
-            player_gp = self.game.ground_planners[player_cp.id].units_per_cp[
-                enemy_cp.id
-            ]
-            enemy_gp = self.game.ground_planners[enemy_cp.id].units_per_cp[player_cp.id]
-            ground_conflict_gen = FlotGenerator(
-                self.mission,
-                conflict,
-                self.game,
-                player_gp,
-                enemy_gp,
-                player_cp.stances[enemy_cp.id],
-                enemy_cp.stances[player_cp.id],
-                self.unit_map,
-                self.radio_registry,
-                self.mission_data,
-            )
-            ground_conflict_gen.generate()
+
+            # Add JTAC
+            if self.game.blue.faction.has_jtac:
+                freq = self.radio_registry.alloc_uhf()
+                # If the option fc3LaserCode is enabled, force all JTAC
+                # laser codes to 1113 to allow lasing for Su-25 Frogfoots and A-10A Warthogs.
+                # Otherwise use 1688 for the first JTAC, 1687 for the second etc.
+                if self.game.settings.plugins.get("ctld.fc3LaserCode"):
+                    code = self.game.laser_code_registry.fc3_code
+                else:
+                    code = front_line.laser_code
+
+                utype = self.game.blue.faction.jtac_unit
+                if utype is None:
+                    utype = AircraftType.named("MQ-9 Reaper")
+
+                country = self.mission.country(self.game.blue.faction.country.name)
+                position = FrontLineConflictDescription.frontline_position(
+                    front_line, self.game.theater, self.game.settings
+                )
+                jtac = self.mission.flight_group(
+                    country=country,
+                    name=namegen.next_jtac_name(),
+                    aircraft_type=utype.dcs_unit_type,
+                    position=position[0],
+                    airport=None,
+                    altitude=5000,
+                    maintask=AFAC,
+                )
+                jtac.points[0].tasks.append(
+                    FAC(
+                        callsign=len(self.mission_data.jtacs) + 1,
+                        frequency=int(freq.mhz),
+                        modulation=freq.modulation,
+                    )
+                )
+                jtac.points[0].tasks.append(SetInvisibleCommand(True))
+                jtac.points[0].tasks.append(SetImmortalCommand(True))
+                jtac.points[0].tasks.append(
+                    OrbitAction(5000, 300, OrbitAction.OrbitPattern.Circle)
+                )
+                frontline = f"Frontline {player_cp.name}/{enemy_cp.name}"
+                # Note: Will need to change if we ever add ground based JTAC.
+                callsign = callsign_for_support_unit(jtac)
+                self.mission_data.jtacs.append(
+                    JtacInfo(
+                        group_name=jtac.name,
+                        unit_name=jtac.units[0].name,
+                        callsign=callsign,
+                        region=frontline,
+                        code=str(code),
+                        blue=True,
+                        freq=freq,
+                    )
+                )
 
     def generate_air_units(self, tgo_generator: TgoGenerator) -> None:
         """Generate the air units for the Operation"""

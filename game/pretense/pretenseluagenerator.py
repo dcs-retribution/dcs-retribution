@@ -259,7 +259,7 @@ class PretenseLuaGenerator(LuaGenerator):
 
     def generate_pretense_land_upgrade_supply(self, cp_name: str, cp_side: int) -> str:
         lua_string_zones = ""
-        cp_name_trimmed = "".join([i for i in cp_name.lower() if i.isalnum()])
+        cp_name_trimmed = "".join([i for i in cp_name.lower() if i.isalpha()])
         cp_side_str = "blue" if cp_side == PRETENSE_BLUE_SIDE else "red"
         cp = self.game.theater.controlpoints[0]
         for loop_cp in self.game.theater.controlpoints:
@@ -398,7 +398,7 @@ class PretenseLuaGenerator(LuaGenerator):
         )
         lua_string_zones += "            products = {\n"
         for mission_type in self.game.pretense_air[cp_side][cp_name_trimmed]:
-            if mission_type == FlightType.SEAD:
+            if mission_type in (FlightType.SEAD, FlightType.DEAD):
                 mission_name = "attack.sead"
                 for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
                     mission_type
@@ -414,6 +414,9 @@ class PretenseLuaGenerator(LuaGenerator):
                 for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
                     mission_type
                 ]:
+                    flight = self.game.pretense_air_groups[air_group]
+                    if flight.is_helo:
+                        mission_name = "attack.helo"
                     lua_string_zones += (
                         f"                presets.missions.{mission_name}:extend"
                         + "({name='"
@@ -503,7 +506,7 @@ class PretenseLuaGenerator(LuaGenerator):
 
     def generate_pretense_sea_upgrade_supply(self, cp_name: str, cp_side: int) -> str:
         lua_string_zones = ""
-        cp_name_trimmed = "".join([i for i in cp_name.lower() if i.isalnum()])
+        cp_name_trimmed = "".join([i for i in cp_name.lower() if i.isalpha()])
         cp_side_str = "blue" if cp_side == PRETENSE_BLUE_SIDE else "red"
 
         if cp_side == PRETENSE_BLUE_SIDE:
@@ -608,6 +611,9 @@ class PretenseLuaGenerator(LuaGenerator):
                 for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
                     mission_type
                 ]:
+                    flight = self.game.pretense_air_groups[air_group]
+                    if flight.is_helo:
+                        mission_name = "attack.helo"
                     lua_string_zones += (
                         f"                presets.missions.{mission_name}:extend"
                         + "({name='"
@@ -697,7 +703,7 @@ class PretenseLuaGenerator(LuaGenerator):
 
     def generate_pretense_zone_land(self, cp_name: str) -> str:
         lua_string_zones = ""
-        cp_name_trimmed = "".join([i for i in cp_name.lower() if i.isalnum()])
+        cp_name_trimmed = "".join([i for i in cp_name.lower() if i.isalpha()])
 
         lua_string_zones += f"zones.{cp_name_trimmed}:defineUpgrades(" + "{\n"
         lua_string_zones += "    [1] = { --red side\n"
@@ -771,7 +777,7 @@ class PretenseLuaGenerator(LuaGenerator):
 
     def generate_pretense_zone_sea(self, cp_name: str) -> str:
         lua_string_zones = ""
-        cp_name_trimmed = "".join([i for i in cp_name.lower() if i.isalnum()])
+        cp_name_trimmed = "".join([i for i in cp_name.lower() if i.isalpha()])
 
         lua_string_zones += f"zones.{cp_name_trimmed}:defineUpgrades(" + "{\n"
         lua_string_zones += "    [1] = { --red side\n"
@@ -823,28 +829,28 @@ class PretenseLuaGenerator(LuaGenerator):
 
     def generate_pretense_plugin_data(self) -> None:
         self.inject_plugin_script("base", "mist_4_5_107.lua", "mist_4_5_107")
-        self.inject_plugin_script(
-            "pretense", "pretense_compiled.lua", "pretense_compiled"
-        )
 
-        trigger = TriggerStart(comment="Pretense init")
-
-        lua_string_config = ""
+        lua_string_config = "Config = Config or {}\n"
 
         lua_string_config += (
             f"Config.maxDistFromFront = "
             + str(self.game.settings.pretense_maxdistfromfront_distance * 1000)
             + "\n"
         )
-        lua_string_config += (
-            f"Config.closeOverride = "
-            + str(self.game.settings.pretense_closeoverride_distance * 1000)
-            + "\n"
-        )
         if self.game.settings.pretense_do_not_generate_sead_missions:
             lua_string_config += "Config.disablePlayerSead = true\n"
         else:
             lua_string_config += "Config.disablePlayerSead = false\n"
+
+        trigger = TriggerStart(comment="Pretense config")
+        trigger.add_action(DoScript(String(lua_string_config)))
+        self.mission.triggerrules.triggers.append(trigger)
+
+        self.inject_plugin_script(
+            "pretense", "pretense_compiled.lua", "pretense_compiled"
+        )
+
+        trigger = TriggerStart(comment="Pretense init")
 
         init_header_file = open("./resources/plugins/pretense/init_header.lua", "r")
         init_header = init_header_file.read()
@@ -855,7 +861,7 @@ class PretenseLuaGenerator(LuaGenerator):
             if isinstance(cp, OffMapSpawn):
                 continue
 
-            cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalnum()])
+            cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalpha()])
             cp_side = 2 if cp.captured else 1
             for side in range(1, 3):
                 if cp_name_trimmed not in self.game.pretense_air[cp_side]:
@@ -947,12 +953,17 @@ class PretenseLuaGenerator(LuaGenerator):
             else:
                 # Finally, connect remaining non-connected points
                 closest_cps = self.game.theater.closest_friendly_control_points_to(cp)
-                lua_string_connman += self.generate_pretense_zone_connection(
-                    connected_points, cp.name, closest_cps[0].name
-                )
-                lua_string_connman += self.generate_pretense_zone_connection(
-                    connected_points, cp.name, closest_cps[1].name
-                )
+                for extra_connection in range(
+                    self.game.settings.pretense_extra_zone_connections
+                ):
+                    if len(closest_cps) > extra_connection:
+                        lua_string_connman += self.generate_pretense_zone_connection(
+                            connected_points,
+                            cp.name,
+                            closest_cps[extra_connection].name,
+                        )
+                    else:
+                        break
 
         lua_string_supply = "local redSupply = {\n"
         # Generate supply
@@ -963,7 +974,7 @@ class PretenseLuaGenerator(LuaGenerator):
                 cp_side_captured = cp_side == 2
                 if cp_side_captured != cp.captured:
                     continue
-                cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalnum()])
+                cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalpha()])
                 for mission_type in self.game.pretense_air[cp_side][cp_name_trimmed]:
                     if mission_type == FlightType.PRETENSE_CARGO:
                         for air_group in self.game.pretense_air[cp_side][
@@ -976,7 +987,7 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_supply += "local offmapZones = {\n"
         for cp in self.game.theater.controlpoints:
             if isinstance(cp, Airfield):
-                cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalnum()])
+                cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalpha()])
                 lua_string_supply += f"   zones.{cp_name_trimmed},\n"
         lua_string_supply += "}\n"
 
@@ -997,8 +1008,7 @@ class PretenseLuaGenerator(LuaGenerator):
         init_footer = init_footer_file.read()
 
         lua_string = (
-            lua_string_config
-            + init_header
+            init_header
             + lua_string_zones
             + lua_string_connman
             + init_body_1
