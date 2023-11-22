@@ -22,6 +22,7 @@ from game.models.game_stats import GameStats
 from game.plugins import LuaPluginManager
 from game.utils import Distance
 from . import naming, persistency
+from .ato import Flight
 from .ato.flighttype import FlightType
 from .campaignloader import CampaignAirWingConfig
 from .coalition import Coalition
@@ -155,6 +156,7 @@ class Game:
             1: {},
             2: {},
         }
+        self.pretense_air_groups: dict[str, Flight] = {}
 
         self.on_load(game_still_initializing=True)
 

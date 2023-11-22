@@ -32,7 +32,6 @@ Config.buildSpeed = Config.buildSpeed or 10 -- structure and defense build speed
 Config.supplyBuildSpeed = Config.supplyBuildSpeed or 85 -- supply helicopters and convoys build speed
 Config.missionBuildSpeedReduction = Config.missionBuildSpeedReduction or 0.12 -- reduction of build speed in case of ai missions
 Config.maxDistFromFront = Config.maxDistFromFront or 129640 -- max distance in meters from front after which zone is forced into low activity state (export mode)
-Config.closeOverride = Config.closeOverride or 27780 -- close override distance in meters from front within which zone is never forced into low activity state
 Config.disablePlayerSead = Config.disablePlayerSead or false
 
 Config.missions = Config.missions or {}
@@ -505,8 +504,6 @@ end
 GroupMonitor = {}
 do
 	GroupMonitor.blockedDespawnTime = 10*60 --used to despawn aircraft that are stuck taxiing for some reason
-	GroupMonitor.blockedDespawnTimeGround = 30*60 --used to despawn ground units that are stuck en route for some reason
-	GroupMonitor.blockedDespawnTimeGroundAssault = 90*60 --used to despawn assault units that are stuck en route for some reason
 	GroupMonitor.landedDespawnTime = 10
 	GroupMonitor.atDestinationDespawnTime = 2*60
 	GroupMonitor.recoveryReduction = 0.8 -- reduce recovered resource from landed missions by this amount to account for maintenance
@@ -642,13 +639,7 @@ do
 					group.state = 'enroute'
 					group.lastStateTime = timer.getAbsTime()
 					MissionTargetRegistry.addBaiTarget(group)
-				elseif group.product.missionType == 'assault' and timer.getAbsTime() - group.lastStateTime > GroupMonitor.blockedDespawnTimeGroundAssault then
-					env.info('GroupMonitor: processSurface ['..group.name..'] despawned due to blockage')
-					gr:destroy()
-					local todeliver = math.floor(group.product.cost)
-					z:addResource(todeliver)
-					return true
-				elseif timer.getAbsTime() - group.lastStateTime > GroupMonitor.blockedDespawnTimeGround then
+				elseif timer.getAbsTime() - group.lastStateTime > GroupMonitor.blockedDespawnTime then
 					env.info('GroupMonitor: processSurface ['..group.name..'] despawned due to blockage')
 					gr:destroy()
 					local todeliver = math.floor(group.product.cost)
@@ -744,7 +735,7 @@ do
 									y = group.target.zone.point.z
 								}
 
-								TaskExtensions.moveOffRoadToPointAndAssault(gr, tp, group.target.built)
+								TaskExtensions.moveOnRoadToPointAndAssault(gr, tp, group.target.built)
 								group.isstopped = false
 							end
 						end
@@ -1231,7 +1222,7 @@ do
 			if v.type == 'defense' and v.side ~= group:getCoalition() then
 				local gr = Group.getByName(v.name)
 				for _,unit in ipairs(gr:getUnits()) do
-					if unit:hasAttribute('SAM SR') or unit:hasAttribute('SAM TR') or unit:hasAttribute('AAA') or unit:hasAttribute('IR Guided SAM') or unit:hasAttribute('SAM LL') then
+					if unit:hasAttribute('SAM SR') or unit:hasAttribute('SAM TR') then
 						table.insert(viable, unit:getName())
 					end
 				end
@@ -1245,7 +1236,7 @@ do
 					{ 
 						id = 'EngageTargets', 
 						params = {  
-						  targetTypes = {'SAM SR', 'SAM TR', 'AAA', 'IR Guided SAM', 'SAM LL'}
+						  targetTypes = {'SAM SR', 'SAM TR'}
 						} 
 					}
 				}
@@ -2145,68 +2136,7 @@ do
 		}
 		group:getController():setTask(mis)
 	end
-
-	function TaskExtensions.moveOffRoadToPointAndAssault(group, point, targets)
-		if not group or not point then return end
-		if not group:isExist() or group:getSize()==0 then return end
-		local startPos = group:getUnit(1):getPoint()
-
-		local srx, sry = land.getClosestPointOnRoads('roads', startPos.x, startPos.z)
-		local erx, ery = land.getClosestPointOnRoads('roads', point.x, point.y)
-
-		local mis = {
-			id='Mission',
-			params = {
-				route = {
-					points = {
-						[1] = {
-							type= AI.Task.WaypointType.TURNING_POINT,
-							x = srx,
-							y = sry,
-							speed = 1000,
-							action = AI.Task.VehicleFormation.DIAMOND
-						},
-						[2] = {
-							type= AI.Task.WaypointType.TURNING_POINT,
-							x = erx,
-							y = ery,
-							speed = 1000,
-							action = AI.Task.VehicleFormation.DIAMOND
-						},
-						[3] = {
-							type= AI.Task.WaypointType.TURNING_POINT,
-							x = point.x,
-							y = point.y,
-							speed = 1000,
-							action = AI.Task.VehicleFormation.DIAMOND
-						}
-					}
-				}
-			}
-		}
-
-		for i,v in pairs(targets) do
-			if v.type == 'defense' then
-				local group = Group.getByName(v.name)
-				if group then
-					for i,v in ipairs(group:getUnits()) do
-						local unpos = v:getPoint()
-						local pnt = {x=unpos.x, y = unpos.z}
-
-						table.insert(mis.params.route.points, {
-							type= AI.Task.WaypointType.TURNING_POINT,
-							x = pnt.x,
-							y = pnt.y,
-							speed = 10,
-							action = AI.Task.VehicleFormation.DIAMOND
-						})
-					end
-				end
-			end
-		end
-		group:getController():setTask(mis)
-	end
-
+	
 	function TaskExtensions.landAtPointFromAir(group, point, alt)
 		if not group or not point then return end
 		if not group:isExist() or group:getSize()==0 then return end
@@ -4882,7 +4812,7 @@ do
 				product.lastMission = {zoneName = zone.name}
 				timer.scheduleFunction(function(param)
 					local gr = Group.getByName(param.name)
-					TaskExtensions.moveOffRoadToPointAndAssault(gr, param.point, param.targets)
+					TaskExtensions.moveOnRoadToPointAndAssault(gr, param.point, param.targets)
 				end, {name=product.name, point={ x=tgtPoint.point.x, y = tgtPoint.point.z}, targets=zone.built}, timer.getTime()+1)
 			end
 		end
@@ -5413,7 +5343,7 @@ do
 					product.lastMission = {zoneName = v.name}
 					timer.scheduleFunction(function(param)
 						local gr = Group.getByName(param.name)
-						TaskExtensions.moveOffRoadToPointAndAssault(gr, param.point, param.targets)
+						TaskExtensions.moveOnRoadToPointAndAssault(gr, param.point, param.targets)
 					end, {name=product.name, point={ x=tgtPoint.point.x, y = tgtPoint.point.z}, targets=v.built}, timer.getTime()+1)
 
 					env.info("ZoneCommand - "..product.name.." targeting "..v.name)
@@ -5975,7 +5905,7 @@ end
 
 BattlefieldManager = {}
 do
-	BattlefieldManager.closeOverride = Config.closeOverride -- default 15nm
+	BattlefieldManager.closeOverride = 27780 -- 15nm
 	BattlefieldManager.farOverride = Config.maxDistFromFront -- default 100nm
 	BattlefieldManager.boostScale = {[0] = 1.0, [1]=1.0, [2]=1.0}
 	BattlefieldManager.noRedZones = false
@@ -10554,7 +10484,6 @@ do
                 end
             end
         end
-        return false
     end
 
     function SEAD:getMissionName()
@@ -12208,7 +12137,7 @@ do
             if toGen > 0 then
                 local validMissions = {}
                 for _,v in pairs(Mission.types) do
-                    if timer.getAbsTime() - timer.getTime0() > 120 and self:canCreateMission(v) then
+                    if self:canCreateMission(v) then
                         table.insert(validMissions,v)
                     end
                 end

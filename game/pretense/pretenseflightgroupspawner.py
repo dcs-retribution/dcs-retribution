@@ -30,7 +30,7 @@ class PretenseNameGenerator(NameGenerator):
     @classmethod
     def next_pretense_aircraft_name(cls, cp: ControlPoint, flight: Flight) -> str:
         cls.aircraft_number += 1
-        cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalnum()])
+        cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalpha()])
         return "{}-{}-{}".format(
             cp_name_trimmed, str(flight.flight_type).lower(), cls.aircraft_number
         )
@@ -77,12 +77,17 @@ class PretenseFlightGroupSpawner(FlightGroupSpawner):
             == self.flight.coalition.game.coalition_for(is_player)
             else 1
         )
-        cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalnum()])
+        cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalpha()])
 
         if self.flight.client_count == 0:
             self.flight.coalition.game.pretense_air[cp_side][cp_name_trimmed][
                 self.flight.flight_type
             ].append(name)
+            try:
+                self.flight.coalition.game.pretense_air_groups[name] = self.flight
+            except AttributeError:
+                self.flight.coalition.game.pretense_air_groups = {}
+                self.flight.coalition.game.pretense_air_groups[name] = self.flight
 
     def generate_flight_at_departure(self) -> FlyingGroup[Any]:
         cp = self.flight.departure
@@ -94,7 +99,7 @@ class PretenseFlightGroupSpawner(FlightGroupSpawner):
             == self.flight.coalition.game.coalition_for(is_player)
             else 1
         )
-        cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalnum()])
+        cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalpha()])
 
         try:
             if self.start_type is StartType.IN_FLIGHT:
@@ -139,8 +144,7 @@ class PretenseFlightGroupSpawner(FlightGroupSpawner):
                     pad_group = self._generate_at_cp_ground_spawn(name, cp)
                     if pad_group is not None:
                         return pad_group
-                self.insert_into_pretense(name)
-                return self._generate_over_departure(name, cp)
+                raise NoParkingSlotError
             elif isinstance(cp, Airfield):
                 is_heli = self.flight.squadron.aircraft.helicopter
                 if cp.has_helipads and is_heli:
