@@ -27,6 +27,7 @@
 * **[Plugins]** Splash Damage 2.1 with Clusters and Ship Radar effects.
 * **[COMMs]** Aircraft-specific callsigns will now also be used.
 * **[COMMs]** Ability to set a specific callsign to a flight.
+* **[Mission Generator]** Channel terrain fix on exclusion zones, sea zones and inclusion zones
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task
