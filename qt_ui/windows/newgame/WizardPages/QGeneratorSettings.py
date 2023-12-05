@@ -178,7 +178,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("UH-60L Black Hawk (v1.3.1)", self.uh_60l),
             ("Star Wars Modpack 2.54+", self.SWPack),
             ("Spanish Naval Assets pack (desdemicabina 3.2.0)", self.spanishnavypack),
-            ("Iron Dome (v1.2 by IDF Mods Project)", self.irondome),
+            ("IDF Assets Pack (v1.1 by IDF Mods Project)", self.irondome),
         ]
 
         for i in range(len(mod_pairs)):

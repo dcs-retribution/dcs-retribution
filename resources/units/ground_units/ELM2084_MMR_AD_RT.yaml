@@ -1,7 +1,7 @@
 class: SearchRadar
 price: 25
 variants:
-  Iron Dome ELM-2048 MMR: null
+  ELM-2084MMR AD Rotating Mode: null
 skynet_properties: # Override skynet default properties
   can_engage_harm: true
   # can_engage_air_weapon: true # https://github.com/walder/Skynet-IADS/tree/develop#engage-air-weapons
