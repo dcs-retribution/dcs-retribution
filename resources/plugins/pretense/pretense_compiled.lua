@@ -709,8 +709,8 @@ do
 							if #targets > 0 then
 								for _,tgt in ipairs(targets) do
 									if tgt.visible and tgt.object then
-										if tgt.object.getCoalition and tgt.object:getCoalition()~=frUnit:getCoalition() and 
-											tgt.object.getCategory and tgt.object:getCategory() == 1 then
+										if tgt.object.isExist and tgt.object:isExist() and tgt.object.getCoalition and tgt.object:getCoalition()~=frUnit:getCoalition() and 
+											Object.getCategory(tgt.object) == 1 then
 											local dist = mist.utils.get3DDist(frUnit:getPoint(), tgt.object:getPoint())
 											if dist < 1000 then
 												if not group.isstopped then
@@ -886,9 +886,9 @@ do
 						if #targets > 0 then
 							for _,tgt in ipairs(targets) do
 								if tgt.visible and tgt.object and tgt.object.isExist and tgt.object:isExist() then
-									if tgt.object.getCategory and tgt.object:getCategory() == Object.Category.UNIT and 
+									if Object.getCategory(tgt.object) == Object.Category.UNIT and 
 										tgt.object.getCoalition and tgt.object:getCoalition()~=frUnit:getCoalition() and 
-										tgt.object:getDesc().category == Unit.Category.GROUND_UNIT then
+										Unit.getCategory(tgt.object) == Unit.Category.GROUND_UNIT then
 
 										local dist = mist.utils.get3DDist(frUnit:getPoint(), tgt.object:getPoint())
 										if dist < 2000 then
@@ -6274,8 +6274,8 @@ do
             if not player then return end
             
             if event.id==world.event.S_EVENT_PLAYER_ENTER_UNIT then
-                if event.initiator and event.initiator:getCategory() == Object.Category.UNIT and 
-                    (event.initiator:getDesc().category == Unit.Category.AIRPLANE or event.initiator:getDesc().category == Unit.Category.HELICOPTER)  then
+                if event.initiator and Object.getCategory(event.initiator) == Object.Category.UNIT and 
+                    (Unit.getCategory(event.initiator) == Unit.Category.AIRPLANE or Unit.getCategory(event.initiator) == Unit.Category.HELICOPTER)  then
                     
                         local pname = event.initiator:getPlayerName()
                         if pname then
@@ -7558,29 +7558,9 @@ do
 
     TemplateDB.templates["tv-tower"] = { type="TV tower", category="Fortifications", shape="tele_bash", dataCategory=TemplateDB.type.static }
 
-    TemplateDB.templates["bunker-1"] = { type="Sandbox", category="Fortifications", dataCategory=TemplateDB.type.static }
-
     TemplateDB.templates["command-center"] = { type=".Command Center", category="Fortifications", shape="ComCenter", dataCategory=TemplateDB.type.static }
     
     TemplateDB.templates["military-staff"] = { type="Military staff", category="Fortifications", shape="aviashtab", dataCategory=TemplateDB.type.static }
-
-    TemplateDB.templates["ship-tanker-seawisegiant"] = { type="Seawise_Giant", category="Ships", dataCategory=TemplateDB.type.static }
-
-    TemplateDB.templates["ship-supply-tilde"] = { type="Ship_Tilde_Supply", category="Ships", dataCategory=TemplateDB.type.static }
-
-    TemplateDB.templates["ship-landingship-samuelchase"] = { type="USS_Samuel_Chase", category="Ships", dataCategory=TemplateDB.type.static }
-
-    TemplateDB.templates["ship-landingship-ropucha"] = { type="BDK-775", category="Ships", dataCategory=TemplateDB.type.static }
-
-    TemplateDB.templates["ship-tanker-elnya"] = { type="ELNYA", category="Ships", dataCategory=TemplateDB.type.static }
-
-    TemplateDB.templates["ship-landingship-lstmk2"] = { type="LST_Mk2", category="Ships", dataCategory=TemplateDB.type.static }
-
-    TemplateDB.templates["ship-bulker-yakushev"] = { type="Dry-cargo ship-1", category="Ships", dataCategory=TemplateDB.type.static }
-
-    TemplateDB.templates["ship-cargo-ivanov"] = { type="Dry-cargo ship-2", category="Ships", dataCategory=TemplateDB.type.static }
-
-
 end
 
 -----------------[[ END OF TemplateDB.lua ]]-----------------
@@ -12357,7 +12337,7 @@ do
         for _,m in pairs(self.activeMissions) do
             if m.players[player] then
                 if m.state == Mission.states.active then
-                    if weapon:getDesc().category == Weapon.Category.BOMB then
+                    if Weapon.getCategory(weapon) == Weapon.Category.BOMB then
                         timer.scheduleFunction(function (params, time)
                             if not params.weapon:isExist() then
                                 return nil -- weapon despawned
@@ -13209,7 +13189,7 @@ do
                         local detected = u:getController():getDetectedTargets(Controller.Detection.RADAR)
                         for _,d in ipairs(detected) do
                             if d and d.object and d.object.isExist and d.object:isExist() and 
-                                d.object:getCategory() == Object.Category.UNIT and
+                                Object.getCategory(d.object) == Object.Category.UNIT and
                                 d.object.getCoalition and
                                 d.object:getCoalition() == self.tgtSide then
                                     
