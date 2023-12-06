@@ -828,7 +828,7 @@ class PretenseLuaGenerator(LuaGenerator):
         return lua_string_connman
 
     def generate_pretense_plugin_data(self) -> None:
-        self.inject_plugin_script("base", "mist_4_5_107.lua", "mist_4_5_107")
+        self.inject_plugin_script("base", "mist_4_5_122.lua", "mist_4_5_122")
 
         lua_string_config = "Config = Config or {}\n"
 
@@ -912,10 +912,7 @@ class PretenseLuaGenerator(LuaGenerator):
             lua_string_zones += (
                 f"zones.{cp_name_trimmed}.keepActive = " + is_keep_active + "\n"
             )
-            if cp.is_fleet:
-                lua_string_zones += self.generate_pretense_zone_sea(cp.name)
-            else:
-                lua_string_zones += self.generate_pretense_zone_land(cp.name)
+            lua_string_zones += self.generate_pretense_zone_land(cp.name)
 
         lua_string_connman = "	cm = ConnectionManager:new()\n"
 
