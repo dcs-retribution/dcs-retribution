@@ -998,12 +998,6 @@ class Settings:
             "which don't have an existing supply route defined in the campaign."
         ),
     )
-    pretense_do_not_generate_sead_missions: bool = boolean_option(
-        "Do not generate player SEAD missions",
-        page=PRETENSE_PAGE,
-        section=GENERAL_SECTION,
-        default=False,
-    )
     pretense_num_of_cargo_planes: int = bounded_int_option(
         "Number of cargo planes per side",
         page=PRETENSE_PAGE,

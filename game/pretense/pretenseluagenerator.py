@@ -837,10 +837,6 @@ class PretenseLuaGenerator(LuaGenerator):
             + str(self.game.settings.pretense_maxdistfromfront_distance * 1000)
             + "\n"
         )
-        if self.game.settings.pretense_do_not_generate_sead_missions:
-            lua_string_config += "Config.disablePlayerSead = true\n"
-        else:
-            lua_string_config += "Config.disablePlayerSead = false\n"
 
         trigger = TriggerStart(comment="Pretense config")
         trigger.add_action(DoScript(String(lua_string_config)))
