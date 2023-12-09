@@ -1,7 +1,6 @@
 
 
-local savefile = 'pretense_1.1.json'
-if lfs then 
+if lfs then
 	local dir = lfs.writedir()..'Missions/Saves/'
 	lfs.mkdir(dir)
 	savefile = dir..savefile
