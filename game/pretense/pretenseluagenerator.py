@@ -5,6 +5,7 @@ import os
 import random
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import TYPE_CHECKING, Optional
 
@@ -848,6 +849,12 @@ class PretenseLuaGenerator(LuaGenerator):
 
         trigger = TriggerStart(comment="Pretense init")
 
+        now = datetime.now()
+        date_time = now.strftime("%Y-%d-%mT%H_%M_%S")
+        lua_string_savefile = (
+            f"local savefile = 'pretense_retribution_{date_time}.json'"
+        )
+
         init_header_file = open("./resources/plugins/pretense/init_header.lua", "r")
         init_header = init_header_file.read()
 
@@ -1001,7 +1008,8 @@ class PretenseLuaGenerator(LuaGenerator):
         init_footer = init_footer_file.read()
 
         lua_string = (
-            init_header
+            lua_string_savefile
+            + init_header
             + lua_string_zones
             + lua_string_connman
             + init_body_1
