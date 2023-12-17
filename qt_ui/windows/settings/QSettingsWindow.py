@@ -471,7 +471,7 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
             self.cheat_options.show_base_capture_cheat
         )
         self.settings.enable_transfer_cheat = self.cheat_options.show_transfer_cheat
-        self.game.settings.enable_runway_state_cheat = (
+        self.settings.enable_runway_state_cheat = (
             self.cheat_options.enable_runway_state_cheat
         )
 
