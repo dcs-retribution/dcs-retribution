@@ -271,6 +271,7 @@ BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 * **[UI]** Fixed flight properties UI to support F-15E S4+ laser codes.
 * **[UI]** Fixed UI bug where altering an "ahead of package" TOT offset would change the offset back to a "behind pacakge" offset.
 * **[UI]** Fixed bug where changing TOT offsets could result in flight startup times that are in the past.
+* **[UI]** Flight plan paths are now drawn behind all other map elements, fixing rare cases where they could prevent other UI elements from being clickable.
 
 # 8.1.0
 
