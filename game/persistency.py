@@ -8,6 +8,7 @@ from typing import Optional, TYPE_CHECKING, Any
 
 import dcs.terrain.falklands.airports
 
+import pydcs_extensions
 from game.profiling import logged_duration
 
 if TYPE_CHECKING:
@@ -59,6 +60,8 @@ class MigrationUnpickler(pickle.Unpickler):
             return dcs.terrain.falklands.airports.Hipico_Flying_Club
         if name in ["SaveManager", "SaveGameBundle"]:
             return DummyObject
+        if module == "pydcs_extensions.f4b.f4b":
+            return pydcs_extensions.f4
         return super().find_class(module, name)
 # fmt: on
 
