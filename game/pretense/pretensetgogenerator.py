@@ -17,6 +17,7 @@ from dcs.country import Country
 from dcs.unitgroup import StaticGroup, VehicleGroup
 from dcs.unittype import VehicleType
 
+from game.coalition import Coalition
 from game.data.units import UnitClass
 from game.dcs.groundunittype import GroundUnitType
 from game.missiongenerator.groundforcepainter import (
@@ -128,7 +129,10 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
     def culled(self) -> bool:
         return self.game.iads_considerate_culling(self.ground_object)
 
-    def ground_unit_of_class(self, unit_class: UnitClass) -> Optional[GroundUnitType]:
+    @staticmethod
+    def ground_unit_of_class(
+        coalition: Coalition, unit_class: UnitClass
+    ) -> Optional[GroundUnitType]:
         """
         Returns a GroundUnitType of the specified class that belongs to the
         TheaterGroundObject faction.
@@ -137,12 +141,13 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
         are removed based on a pre-defined list.
 
         Args:
+            coalition: Coalition to return the unit for.
             unit_class: Class of unit to return.
         """
         faction_units = (
-            set(self.coalition.faction.frontline_units)
-            | set(self.coalition.faction.artillery_units)
-            | set(self.coalition.faction.logistics_units)
+            set(coalition.faction.frontline_units)
+            | set(coalition.faction.artillery_units)
+            | set(coalition.faction.logistics_units)
         )
         of_class = list({u for u in faction_units if u.unit_class is unit_class})
 
@@ -186,7 +191,7 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
         """
 
         if self.coalition.faction.has_access_to_unit_class(unit_class):
-            unit_type = self.ground_unit_of_class(unit_class)
+            unit_type = self.ground_unit_of_class(self.coalition, unit_class)
             if unit_type is not None and len(vehicle_units) < max_num:
                 unit_id = self.game.next_unit_id()
                 unit_name = f"{cp_name}-{group_role}-{unit_id}"
