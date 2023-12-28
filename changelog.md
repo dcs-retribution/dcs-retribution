@@ -29,6 +29,7 @@
 * **[COMMs]** Aircraft-specific callsigns will now also be used.
 * **[COMMs]** Ability to set a specific callsign to a flight.
 * **[Mission Generator]** Channel terrain fix on exclusion zones, sea zones and inclusion zones
+* **[Options]** Cheat-option for accessing Air Wing Config Dialog after campaign start
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task
