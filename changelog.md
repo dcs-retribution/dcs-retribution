@@ -13,6 +13,7 @@
 * **[Modding]** Updated support for F-4B/C Phantom mod to 2.8.7.204
 * **[Modding]** Updated Community A-4E-C mod version support to 2.2.0 release.
 * **[Modding]** Added F/A-18E/F Super Hornet AI Tanker mod support (Chiller Juice Studios SuperBug Tanker AI version 1.4)
+* **[Modding]** Added F9F Panther mod support (version v2.8.7.101)
 * **[Radios]** Added HF-FM band for AN/ARC-222
 * **[Radios]** Ability to define preset channels for radios on squadron level (for human pilots only)
 * **[Mission Planning]** Avoid helicopters being assigned as escort to planes and vice-versa

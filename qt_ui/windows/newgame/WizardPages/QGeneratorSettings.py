@@ -100,6 +100,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("uh_60l", self.uh_60l)
         self.f4bc_phantom = QtWidgets.QCheckBox()
         self.registerField("f4bc_phantom", self.f4bc_phantom)
+        self.f9f_panther = QtWidgets.QCheckBox()
+        self.registerField("f9f_panther", self.f9f_panther)
         self.f15d_baz = QtWidgets.QCheckBox()
         self.registerField("f15d_baz", self.f15d_baz)
         self.f_15_idf = QtWidgets.QCheckBox()
@@ -150,6 +152,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         modLayout_row = 1
 
         mod_pairs = [
+            ("F9F Panther (v2.8.7.101)", self.f9f_panther),
             ("A-4E Skyhawk (v2.2.0)", self.a4_skyhawk),
             ("A-6A Intruder (v2.7.5.01)", self.a6a_intruder),
             ("A-7E Corsair II", self.a7e_corsair2),

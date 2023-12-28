@@ -340,6 +340,8 @@ class Faction:
         if not mod_settings.f4bc_phantom:
             self.remove_aircraft("VSN_F4B")
             self.remove_aircraft("VSN_F4C")
+        if not mod_settings.f9f_panther:
+            self.remove_aircraft("VSN_F9F")
         if not mod_settings.f15d_baz:
             self.remove_aircraft("F-15D")
         if not mod_settings.f_15_idf:
