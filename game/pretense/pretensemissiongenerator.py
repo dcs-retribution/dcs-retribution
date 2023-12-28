@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import copy
+import logging
+import pickle
 from datetime import datetime
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -71,6 +74,21 @@ class PretenseMissionGenerator(MissionGenerator):
             self.mission.options.load_from_dict(options)
 
     def generate_miz(self, output: Path) -> UnitMap:
+        now = datetime.now()
+        date_time = now.strftime("%Y-%d-%mT%H_%M_%S")
+        game_backup_pickle = pickle.dumps(self.game)
+        blue_coalition_backup = copy.deepcopy(self.game.blue)
+        red_coalition_backup = copy.deepcopy(self.game.red)
+        try:
+            with open(
+                self.game.savepath + ".pre-pretense-backup." + date_time, "wb"
+            ) as f:
+                pickle.dump(self.game, f)
+        except:
+            logging.error(
+                f"Unable to save Pretense pre-generation backup to {self.game.savepath}.pre-pretense-backup.{date_time}"
+            )
+
         if self.generation_started:
             raise RuntimeError(
                 "Mission has already begun generating. To reset, create a new "
@@ -138,6 +156,17 @@ class PretenseMissionGenerator(MissionGenerator):
         # TODO: Shouldn't this be first?
         namegen.reset_numbers()
         self.mission.save(output)
+
+        print(
+            f"Loading pre-pretense save, number of BLUFOR squadrons: {len(self.game.blue.air_wing.squadrons)}"
+        )
+        self.game = pickle.loads(game_backup_pickle)
+        self.game.blue = copy.deepcopy(blue_coalition_backup)
+        self.game.red = copy.deepcopy(red_coalition_backup)
+        print(
+            f"Loaded pre-pretense save, number of BLUFOR squadrons: {len(self.game.blue.air_wing.squadrons)}"
+        )
+        self.game.on_load()
 
         return self.unit_map
 
