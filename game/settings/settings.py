@@ -822,6 +822,17 @@ class Settings:
         ),
     )
 
+    ai_unlimited_fuel: bool = boolean_option(
+        "AI flights have unlimited fuel",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=True,
+        detail=(
+            "AI flights have unlimited fuel applied at join, and removed at split for applicable flights. "
+            "For player flights, unlimited fuel is applied from start to finish."
+        ),
+    )
+
     # Performance
     perf_smoke_gen: bool = boolean_option(
         "Smoke visual effect on the front line",

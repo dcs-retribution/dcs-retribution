@@ -9,16 +9,25 @@ from dcs.task import (
     OptFormation,
     Targets,
     OptROE,
+    SetUnlimitedFuelCommand,
 )
 
 from game.ato import FlightType
 from game.theater import NavalControlPoint
 from game.utils import nautical_miles, feet
+from game.settings import Settings
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 
 class JoinPointBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
+        # Unlimited fuel option : enable on non-player flights. Must be first option to work.
+        if (
+            self.flight.squadron.coalition.game.settings.ai_unlimited_fuel
+            and not self.flight.client_count
+        ):
+            waypoint.tasks.append(SetUnlimitedFuelCommand(True))
+
         if self.flight.is_helo:
             waypoint.tasks.append(OptFormation.rotary_wedge())
         else:
