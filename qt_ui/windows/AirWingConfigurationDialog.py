@@ -802,6 +802,8 @@ class AirWingConfigurationDialog(QDialog):
     def accept(self) -> None:
         for tab in self.tabs:
             tab.apply()
+            if tab.coalition.game.turn != 0:
+                tab.coalition.initialize_turn(False)
         super().accept()
 
     def reject(self) -> None:
