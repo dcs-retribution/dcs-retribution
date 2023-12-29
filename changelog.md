@@ -8,7 +8,7 @@
 * **[Options]** New option in Settings: Convert untasked OPFOR aircraft into client slots
 * **[Options]** Split the **Disable idle aircraft at airfields** setting into **Disable untasked BLUFOR aircraft at airfields** and **Disable untasked OPFOR aircraft at airfields**
 * **[Options]** Split off the **Automatic AWACS package planning** and **Automatic Theater tanker package planning** settings from **Automatic package planning behavior** so players can choose to have AWACS and theater tankers auto-planned, while managing everything else themselves
-* **[Modding]** Updated support for Su-30 mod to V2.1.12 beta
+* **[Modding]** Updated support for Su-30 mod to V2.7.3 Beta
 * **[Modding]** Updated support for Su-57 mod to build-04
 * **[Modding]** Updated Community A-4E-C mod version support to 2.2.0 release.
 * **[Modding]** Added F/A-18E/F Super Hornet AI Tanker mod support (Chiller Juice Studios SuperBug Tanker AI version 1.4)
