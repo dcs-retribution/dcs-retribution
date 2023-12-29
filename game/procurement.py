@@ -61,7 +61,7 @@ class ProcurementAi:
             return 0
 
         # faction has no planes or no squadrons
-        if len(self.faction.aircrafts) == 0 or len(self.air_wing.squadrons) == 0:
+        if len(self.faction.all_aircrafts) == 0 or len(self.air_wing.squadrons) == 0:
             return 1
 
         parking_type = ParkingType(
