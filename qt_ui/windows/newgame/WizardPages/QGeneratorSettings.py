@@ -170,7 +170,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("Swedish Military Assets pack (1.10)", self.swedishmilitaryassetspack),
             ("JAS 39 Gripen (v1.8.5-beta)", self.jas39_gripen),
             ("OV-10A Bronco", self.ov10a_bronco),
-            ("Su-30 Flanker-H (V2.1.12 beta)", self.su30_flanker_h),
+            ("Su-30 Flanker-H (V2.7.3  beta)", self.su30_flanker_h),
             ("Su-57 Felon (build-04)", self.su57_felon),
             ("UH-60L Black Hawk (v1.3.1)", self.uh_60l),
             ("Star Wars Modpack 2.54+", self.SWPack),
