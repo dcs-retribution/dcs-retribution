@@ -655,7 +655,6 @@ class AircraftTypeList(QListView):
         self.item_model.clear()
         for aircraft in self.air_wing.squadrons:
             self.add_aircraft_type(aircraft)
-        self.update()
 
 
 class AirWingConfigurationTab(QWidget):
