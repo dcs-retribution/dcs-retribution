@@ -91,6 +91,10 @@ def settings_dir() -> Path:
     return base_path() / "Retribution" / "Settings"
 
 
+def airwing_dir() -> Path:
+    return base_path() / "Retribution" / "AirWing"
+
+
 def payloads_dir(backup: bool = False) -> Path:
     payloads = base_path() / "MissionEditor" / "UnitPayloads"
     if backup:
