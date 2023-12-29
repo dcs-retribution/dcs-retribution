@@ -33,7 +33,7 @@ pre-commit==3.4.0
 pydantic==2.4.2
 pydantic-settings==2.0.3
 -e git+https://github.com/dcs-retribution/pydcs@47a7397ceae1893099ffaa3fd2f3f9e430ca9b1c#egg=pydcs
-pyinstaller==5.13.0
+pyinstaller==5.13.1
 pyinstaller-hooks-contrib==2023.5
 pyparsing==3.1.1
 pyproj==3.6.1
