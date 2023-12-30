@@ -34,6 +34,7 @@
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task
 * **[New Game Wizard]** Faction selection overview doesn't update when inverting map
+* **[New Game Wizard]** Aircraft mods are now handled better when they are disabled
 * **[Payloads]** Added/Updated (missing) payloads
 * **[Aircraft Tasking]** Revised aircraft tasking, filtering out incompatible tasks for several aircraft
 * **[Data]** Corrected the class of the USS Samuel Chase from Logistics to LandingShip, in order to prevent it being spawned as part of AAA sites.

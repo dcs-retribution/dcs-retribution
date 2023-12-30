@@ -541,14 +541,16 @@ class Faction:
             self.remove_ship("Destroyer_carrier")
 
     def remove_aircraft(self, name: str) -> None:
-        for i in list(self.all_aircrafts):
-            if i.dcs_unit_type.id == name:
-                self.all_aircrafts.remove(i)
+        for aircraft_set in [self.aircraft, self.awacs, self.tankers]:
+            for i in list(aircraft_set):
+                if i.dcs_unit_type.id == name:
+                    aircraft_set.remove(i)
 
     def remove_aircraft_by_name(self, name: str) -> None:
-        for i in list(self.all_aircrafts):
-            if i.display_name == name:
-                self.all_aircrafts.remove(i)
+        for aircraft_set in [self.aircraft, self.awacs, self.tankers]:
+            for i in list(aircraft_set):
+                if i.display_name == name:
+                    aircraft_set.remove(i)
 
     def remove_preset(self, name: str) -> None:
         for pg in self.preset_groups:
