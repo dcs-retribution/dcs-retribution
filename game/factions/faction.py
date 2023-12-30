@@ -458,13 +458,16 @@ class Faction:
             self.remove_ship("L02")
             self.remove_ship("DDG39")
         if not mod_settings.irondome:
-            self.remove_vehicle("I9K51_GRAD")
-            self.remove_vehicle("I9K57_URAGAN")
-            self.remove_vehicle("I9K58_SMERCH")
-            self.remove_vehicle("IRON_DOME_CP")
+            self.remove_vehicle("Iron_Dome_David_Sling_CP")
             self.remove_vehicle("IRON_DOME_LN")
-            self.remove_vehicle("ELM2048_MMR")
+            self.remove_vehicle("DAVID_SLING_LN")
+            self.remove_vehicle("ELM2084_MMR_AD_RT")
+            self.remove_vehicle("ELM2084_MMR_AD_SC")
+            self.remove_vehicle("ELM2084_MMR_WLR")
             self.remove_preset("Iron Dome")
+            self.remove_preset("Iron Dome (Semicircle)")
+            self.remove_preset("David's Sling")
+            self.remove_preset("David's Sling (Semicircle)")
         # swedish military assets pack
         if not mod_settings.swedishmilitaryassetspack:
             self.remove_vehicle("BV410_RBS70")
