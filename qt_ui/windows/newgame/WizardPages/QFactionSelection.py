@@ -238,7 +238,7 @@ class FactionSelection(QtWidgets.QWizardPage):
     @staticmethod
     def _filter_selected_units(qfu: QFactionUnits) -> Faction:
         fac = deepcopy(qfu.faction)
-        qfu.updateFactionUnits(fac.aircrafts)
+        qfu.updateFactionUnits(fac.aircraft)
         qfu.updateFactionUnits(fac.awacs)
         qfu.updateFactionUnits(fac.tankers)
         qfu.updateFactionUnits(fac.frontline_units)

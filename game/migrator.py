@@ -140,6 +140,7 @@ class Migrator:
             "Netherlands": "The Netherlands",
             "CHN": "China",
         }
+        # Squadrons
         for cp in self.game.theater.controlpoints:
             for s in cp.squadrons:
                 preferred_task = max(
@@ -165,6 +166,11 @@ class Migrator:
 
                 if self.is_liberation:
                     s.set_auto_assignable_mission_types(s.auto_assignable_mission_types)
+        # SquadronDefs
+        for coa in self.game.coalitions:
+            for ac, sdefs in coa.air_wing.squadron_defs.items():
+                for sdef in sdefs:
+                    try_set_attr(sdef, "radio_presets", {})
 
     @typing.no_type_check
     def _update_factions(self) -> None:
