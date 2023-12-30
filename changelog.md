@@ -40,6 +40,7 @@
 * **[Mission Generation]** Helicopters oscillating due to over-speeding
 * **[Mission Generation]** Fix infinite loop when using "Fast-Forward to first contact"
 * **[Capture Logic]** Release all parking slots when an airbase is captured
+* **[Modding]** Swedish Military Assets Pack air defence presets are now correctly removed from the faction when the mod is disabled.
 
 # Retribution v1.2.1 (hotfix)
 
