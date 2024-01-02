@@ -26,6 +26,7 @@ from dcs.task import (
     MainTask,
     PinpointStrike,
     AFAC,
+    SetUnlimitedFuelCommand,
 )
 from dcs.unitgroup import FlyingGroup
 
@@ -93,6 +94,7 @@ class AircraftBehavior:
         restrict_jettison: Optional[bool] = None,
         mission_uses_gun: bool = True,
         rtb_on_bingo: bool = True,
+        ai_unlimited_fuel: bool = True,
     ) -> None:
         group.points[0].tasks.clear()
         group.points[0].tasks.append(OptReactOnThreat(react_on_threat))
@@ -118,6 +120,15 @@ class AircraftBehavior:
         group.points[0].tasks.append(OptJettisonEmptyTanks())
         # Do not restrict afterburner.
         # https://forums.eagle.ru/forum/english/digital-combat-simulator/dcs-world-2-5/bugs-and-problems-ai/ai-ad/7121294-ai-stuck-at-high-aoa-after-making-sharp-turn-if-afterburner-is-restricted
+
+        # Activate AI unlimited fuel, based either on the argument or the setting
+        if ai_unlimited_fuel:
+            # Force AI unlimited fuel for the flight
+            group.points[0].tasks.insert(0, SetUnlimitedFuelCommand(True))
+        elif flight.squadron.coalition.game.settings.ai_unlimited_fuel:
+            # If this is a user flight and the setting is checked : add task at first waypoint.
+            if flight.client_count:
+                group.points[0].tasks.insert(0, SetUnlimitedFuelCommand(True))
 
     @staticmethod
     def configure_eplrs(group: FlyingGroup[Any], flight: Flight) -> None:

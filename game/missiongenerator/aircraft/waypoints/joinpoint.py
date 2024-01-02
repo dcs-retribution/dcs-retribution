@@ -26,7 +26,7 @@ class JoinPointBuilder(PydcsWaypointBuilder):
             self.flight.squadron.coalition.game.settings.ai_unlimited_fuel
             and not self.flight.client_count
         ):
-            waypoint.tasks.append(SetUnlimitedFuelCommand(True))
+            waypoint.tasks.insert(0, SetUnlimitedFuelCommand(True))
 
         if self.flight.is_helo:
             waypoint.tasks.append(OptFormation.rotary_wedge())

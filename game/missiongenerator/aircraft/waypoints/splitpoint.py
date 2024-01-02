@@ -13,7 +13,7 @@ class SplitPointBuilder(PydcsWaypointBuilder):
             self.flight.squadron.coalition.game.settings.ai_unlimited_fuel
             and not self.flight.client_count
         ):
-            waypoint.tasks.append(SetUnlimitedFuelCommand(False))
+            waypoint.tasks.insert(0, SetUnlimitedFuelCommand(False))
 
         if not self.flight.flight_type.is_air_to_air:
             # Capture any non A/A type to avoid issues with SPJs that use the primary radar such as the F/A-18C.

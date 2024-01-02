@@ -7,7 +7,7 @@ from typing import Any, Optional, TYPE_CHECKING
 from dcs import Mission, Point
 from dcs.action import DoScript
 from dcs.flyingunit import FlyingUnit
-from dcs.task import OptReactOnThreat, SetUnlimitedFuelCommand
+from dcs.task import OptReactOnThreat
 from dcs.translation import String
 from dcs.triggers import TriggerStart
 from dcs.unit import Skill
@@ -125,13 +125,6 @@ class FlightGroupConfigurator:
             divert_position,
             self.flight.flight_plan.waypoints,
         )
-
-        # Unlimited fuel option : enable on player flights. Must be first option to work.
-        if (
-            self.flight.squadron.coalition.game.settings.ai_unlimited_fuel
-            and self.flight.client_count
-        ):
-            self.group.points[0].tasks.insert(0, SetUnlimitedFuelCommand(True))
 
         return FlightData(
             package=self.flight.package,
