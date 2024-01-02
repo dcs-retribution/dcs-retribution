@@ -94,7 +94,7 @@ class AircraftBehavior:
         restrict_jettison: Optional[bool] = None,
         mission_uses_gun: bool = True,
         rtb_on_bingo: bool = True,
-        ai_unlimited_fuel: bool = True,
+        ai_unlimited_fuel: bool = False,
     ) -> None:
         group.points[0].tasks.clear()
         group.points[0].tasks.append(OptReactOnThreat(react_on_threat))
@@ -123,7 +123,7 @@ class AircraftBehavior:
 
         # Activate AI unlimited fuel, based either on the argument or the setting
         if ai_unlimited_fuel:
-            # Force AI unlimited fuel for the flight
+            # If the ai_unlimited_fuel argument is passed : force AI unlimited fuel for the flight, no matter
             group.points[0].tasks.insert(0, SetUnlimitedFuelCommand(True))
         elif flight.squadron.coalition.game.settings.ai_unlimited_fuel:
             # If this is a user flight and the setting is checked : add task at first waypoint.
