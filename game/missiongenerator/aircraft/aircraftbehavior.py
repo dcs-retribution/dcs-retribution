@@ -105,6 +105,8 @@ class AircraftBehavior:
         if rtb_winchester is not None:
             group.points[0].tasks.append(OptRTBOnOutOfAmmo(rtb_winchester))
 
+        ai_unlimited_fuel = flight.squadron.coalition.game.settings.ai_unlimited_fuel
+
         # Confiscate the bullets of AI missions that do not rely on the gun. There is no
         # "all but gun" RTB winchester option, so air to ground missions with mixed
         # weapon types will insist on using all of their bullets after running out of
@@ -121,14 +123,9 @@ class AircraftBehavior:
         # Do not restrict afterburner.
         # https://forums.eagle.ru/forum/english/digital-combat-simulator/dcs-world-2-5/bugs-and-problems-ai/ai-ad/7121294-ai-stuck-at-high-aoa-after-making-sharp-turn-if-afterburner-is-restricted
 
-        # Activate AI unlimited fuel, based either on the argument or the setting
-        if ai_unlimited_fuel:
-            # If the ai_unlimited_fuel argument is passed : force AI unlimited fuel for the flight, no matter
+        # Activate AI unlimited fuel for player flights at startup
+        if ai_unlimited_fuel and flight.client_count:
             group.points[0].tasks.insert(0, SetUnlimitedFuelCommand(True))
-        elif flight.squadron.coalition.game.settings.ai_unlimited_fuel:
-            # If this is a user flight and the setting is checked : add task at first waypoint.
-            if flight.client_count:
-                group.points[0].tasks.insert(0, SetUnlimitedFuelCommand(True))
 
     @staticmethod
     def configure_eplrs(group: FlyingGroup[Any], flight: Flight) -> None:
