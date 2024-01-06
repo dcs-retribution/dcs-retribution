@@ -94,7 +94,7 @@ class AircraftBehavior:
         restrict_jettison: Optional[bool] = None,
         mission_uses_gun: bool = True,
         rtb_on_bingo: bool = True,
-        ai_unlimited_fuel: bool = None,
+        ai_unlimited_fuel: Optional[bool] = None,
     ) -> None:
         group.points[0].tasks.clear()
         if ai_unlimited_fuel is None:
