@@ -828,8 +828,7 @@ class Settings:
         GAMEPLAY_SECTION,
         default=True,
         detail=(
-            "AI flights have unlimited fuel applied at join, and removed at split for applicable flights. "
-            "For player flights, unlimited fuel is applied from start to finish."
+            "AI aircraft have unlimited fuel applied at start, removed at join/racetrack start, and reapplied at split/racetrack end for applicable flights. "
         ),
     )
 

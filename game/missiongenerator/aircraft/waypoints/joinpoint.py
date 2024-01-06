@@ -21,12 +21,9 @@ from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 class JoinPointBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
-        # Unlimited fuel option : enable on non-player flights. Must be first option to work.
-        if (
-            self.flight.squadron.coalition.game.settings.ai_unlimited_fuel
-            and not self.flight.client_count
-        ):
-            waypoint.tasks.insert(0, SetUnlimitedFuelCommand(True))
+        # Unlimited fuel option : disable at join. Must be first option to work.
+        if self.flight.squadron.coalition.game.settings.ai_unlimited_fuel:
+            waypoint.tasks.insert(0, SetUnlimitedFuelCommand(False))
 
         if self.flight.is_helo:
             waypoint.tasks.append(OptFormation.rotary_wedge())

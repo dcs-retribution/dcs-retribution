@@ -8,12 +8,9 @@ from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 class SplitPointBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
-        # Unlimited fuel option : disable on non-player flights. Must be first option to work.
-        if (
-            self.flight.squadron.coalition.game.settings.ai_unlimited_fuel
-            and not self.flight.client_count
-        ):
-            waypoint.tasks.insert(0, SetUnlimitedFuelCommand(False))
+        # Unlimited fuel option : enable at split. Must be first option to work.
+        if self.flight.squadron.coalition.game.settings.ai_unlimited_fuel:
+            waypoint.tasks.insert(0, SetUnlimitedFuelCommand(True))
 
         if not self.flight.flight_type.is_air_to_air:
             # Capture any non A/A type to avoid issues with SPJs that use the primary radar such as the F/A-18C.
