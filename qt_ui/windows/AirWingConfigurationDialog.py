@@ -319,6 +319,8 @@ class SquadronConfigurationBox(QGroupBox):
             self.name_edit.setText(self.squadron.name)
             self.nickname_edit.setText(self.squadron.nickname)
             self.primary_task_selector.setCurrentText(self.squadron.primary_task.value)
+            index = self.livery_selector.findText(self.squadron.livery)
+            self.livery_selector.setCurrentIndex(index)
             self.max_size_selector.setValue(self.squadron.max_size)
             self.base_selector.setCurrentText(self.squadron.location.name)
             self.player_list.setText(
@@ -408,7 +410,9 @@ class SquadronConfigurationBox(QGroupBox):
             # The user canceled the dialog.
             return
         self.return_players_to_squadron()
+        self.parking_tracker.remove_squadron(self.squadron)
         self.squadron = new_squadron
+        self.parking_tracker.add_squadron(self.squadron)
         self.bind_data()
         self.mission_types.replace_squadron(self.squadron)
         self.parking_tracker.signal_change()
