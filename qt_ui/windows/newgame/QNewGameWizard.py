@@ -139,7 +139,7 @@ class NewGameWizard(QtWidgets.QWizard):
         self.generatedGame = generator.generate()
 
         AirWingConfigurationDialog(
-            self.generatedGame, generator.generator_settings, self
+            self.generatedGame, generator.generator_settings.squadrons_start_full, self
         ).exec_()
 
         g = self.generatedGame

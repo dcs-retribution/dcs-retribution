@@ -1,11 +1,17 @@
 from dcs.point import MovingPoint
-from dcs.task import OptECMUsing, OptFormation, RunScript
+from dcs.task import OptECMUsing, OptFormation, RunScript, SetUnlimitedFuelCommand
+
+from game.settings import Settings
 
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 
 class SplitPointBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
+        # Unlimited fuel option : enable at split. Must be first option to work.
+        if self.flight.squadron.coalition.game.settings.ai_unlimited_fuel:
+            waypoint.tasks.insert(0, SetUnlimitedFuelCommand(True))
+
         if not self.flight.flight_type.is_air_to_air:
             # Capture any non A/A type to avoid issues with SPJs that use the primary radar such as the F/A-18C.
             # You can bully them with STT to not be able to fire radar guided missiles at you,

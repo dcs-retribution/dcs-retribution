@@ -54,34 +54,34 @@ class CheatSettingsBox(QGroupBox):
         self.main_layout = QVBoxLayout()
         self.setLayout(self.main_layout)
 
+        # ATO
         self.red_ato_checkbox = QCheckBox()
         self.red_ato_checkbox.setChecked(sc.settings.show_red_ato)
         self.red_ato_checkbox.toggled.connect(apply_settings)
+        self.red_ato = QLabeledWidget("Show Red ATO:", self.red_ato_checkbox)
+        self.main_layout.addLayout(self.red_ato)
 
+        # Frontline
         self.frontline_cheat_checkbox = QCheckBox()
         self.frontline_cheat_checkbox.setChecked(sc.settings.enable_frontline_cheats)
         self.frontline_cheat_checkbox.toggled.connect(apply_settings)
+        self.frontline_cheat = QLabeledWidget(
+            "Enable Frontline Cheats:", self.frontline_cheat_checkbox
+        )
+        self.main_layout.addLayout(self.frontline_cheat)
 
+        # Base capture
         self.base_capture_cheat_checkbox = QCheckBox()
         self.base_capture_cheat_checkbox.setChecked(
             sc.settings.enable_base_capture_cheat
         )
         self.base_capture_cheat_checkbox.toggled.connect(apply_settings)
-
-        self.transfer_cheat_checkbox = QCheckBox()
-        self.transfer_cheat_checkbox.setChecked(sc.settings.enable_transfer_cheat)
-        self.transfer_cheat_checkbox.toggled.connect(apply_settings)
-
-        self.red_ato = QLabeledWidget("Show Red ATO:", self.red_ato_checkbox)
-        self.main_layout.addLayout(self.red_ato)
-        self.frontline_cheat = QLabeledWidget(
-            "Enable Frontline Cheats:", self.frontline_cheat_checkbox
-        )
-        self.main_layout.addLayout(self.frontline_cheat)
         self.base_capture_cheat = QLabeledWidget(
             "Enable Base Capture Cheat:", self.base_capture_cheat_checkbox
         )
+        self.main_layout.addLayout(self.base_capture_cheat)
 
+        # Runway state
         self.base_runway_state_cheat_checkbox = QCheckBox()
         self.base_runway_state_cheat_checkbox.setChecked(
             sc.settings.enable_runway_state_cheat
@@ -93,11 +93,25 @@ class CheatSettingsBox(QGroupBox):
             )
         )
 
-        self.main_layout.addLayout(self.base_capture_cheat)
+        # Instant transfer
+        self.transfer_cheat_checkbox = QCheckBox()
+        self.transfer_cheat_checkbox.setChecked(sc.settings.enable_transfer_cheat)
+        self.transfer_cheat_checkbox.toggled.connect(apply_settings)
         self.transfer_cheat = QLabeledWidget(
             "Enable Instant Squadron Transfer Cheat:", self.transfer_cheat_checkbox
         )
         self.main_layout.addLayout(self.transfer_cheat)
+
+        # Air wing adjustments
+        self.air_wing_adjustments_checkbox = QCheckBox()
+        self.air_wing_adjustments_checkbox.setChecked(
+            sc.settings.enable_air_wing_adjustments
+        )
+        self.air_wing_adjustments_checkbox.toggled.connect(apply_settings)
+        self.air_wing_cheat = QLabeledWidget(
+            "Enable Air Wing adjustments:", self.air_wing_adjustments_checkbox
+        )
+        self.main_layout.addLayout(self.air_wing_cheat)
 
     @property
     def show_red_ato(self) -> bool:
@@ -118,6 +132,10 @@ class CheatSettingsBox(QGroupBox):
     @property
     def enable_runway_state_cheat(self) -> bool:
         return self.base_runway_state_cheat_checkbox.isChecked()
+
+    @property
+    def enable_air_wing_cheats(self) -> bool:
+        return self.air_wing_adjustments_checkbox.isChecked()
 
 
 class AutoSettingsLayout(QGridLayout):
@@ -473,6 +491,9 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
         self.settings.enable_transfer_cheat = self.cheat_options.show_transfer_cheat
         self.settings.enable_runway_state_cheat = (
             self.cheat_options.enable_runway_state_cheat
+        )
+        self.settings.enable_air_wing_adjustments = (
+            self.cheat_options.enable_air_wing_cheats
         )
 
         if self.game:
