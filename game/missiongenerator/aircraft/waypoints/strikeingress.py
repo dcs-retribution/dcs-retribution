@@ -72,5 +72,5 @@ class StrikeIngressBuilder(PydcsWaypointBuilder):
 
             waypoint.speed = mach(0.85, meters(waypoint.alt)).meters_per_second
 
-            # Register special waypoints
-            self.register_special_waypoints(self.waypoint.targets)
+        # Register special waypoints
+        self.register_special_waypoints(self.waypoint.targets)
