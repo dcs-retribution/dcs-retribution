@@ -28,6 +28,7 @@
 * **[COMMs]** Aircraft-specific callsigns will now also be used.
 * **[COMMs]** Ability to set a specific callsign to a flight.
 * **[Mission Generator]** Channel terrain fix on exclusion zones, sea zones and inclusion zones
+* **[Mission Generator]** F-15E Strike targets are automatically added as Mission Set 1 
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task
