@@ -1,4 +1,5 @@
 import copy
+import logging
 from typing import Union
 
 from dcs import Point
@@ -15,7 +16,7 @@ class StrikeIngressBuilder(PydcsWaypointBuilder):
         bomber = self.group.units[0].unit_type in [B_17G, Tu_22M3]
         bomber_guided = self.group.units[0].unit_type in [B_1B, B_52H]
         waypoint.tasks.append(OptFormation.finger_four_open())
-        if bomber_guided or not bomber:
+        if (bomber_guided or not bomber) and not self.group.units[0].is_human:
             self.add_strike_tasks(waypoint, WeaponType.ASM)
 
         waypoint.tasks.append(OptFormation.trail_open())
