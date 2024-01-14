@@ -750,8 +750,11 @@ class StrikeTaskPage(KneeboardPage):
         if self.flight.units[0].unit_type == F_15ESE:
             i: int = 0
             for target in self.targets:
-                i = i + 1
-                target.waypoint.pretty_name = f"M1.{i} - {target.waypoint.pretty_name}"
+                if not target.waypoint.pretty_name.__contains__("DTC"):
+                    target.waypoint.pretty_name = (
+                        f"{target.waypoint.pretty_name} (DTC M{(i//8)+1}.{i%9+1})"
+                    )
+                    i = i + 1
 
         writer.table(
             [self.target_info_row(t, writer) for t in self.targets],

@@ -115,5 +115,5 @@ class PydcsWaypointBuilder:
             # Add F-15E mission target points as mission 1 (for JDAM for instance)
             if self.group.units[0].unit_type == F_15ESE:
                 self.group.add_nav_target_point(
-                    t.position, f"M1.{i+1}" f"\nH-1" f"\nA0" f"\nV0"
+                    t.position, f"M{(i//8)+1}.{i%8+1}" f"\nH-1" f"\nA0" f"\nV0"
                 )
