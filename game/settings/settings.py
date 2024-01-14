@@ -821,14 +821,14 @@ class Settings:
             "Needed to cold-start some aircraft types. Might have a performance impact."
         ),
     )
-
     ai_unlimited_fuel: bool = boolean_option(
         "AI flights have unlimited fuel",
         MISSION_GENERATOR_PAGE,
         GAMEPLAY_SECTION,
         default=True,
         detail=(
-            "AI aircraft have unlimited fuel applied at start, removed at join/racetrack start, and reapplied at split/racetrack end for applicable flights. "
+            "AI aircraft have unlimited fuel applied at start, removed at join/racetrack start,"
+            " and reapplied at split/racetrack end for applicable flights. "
         ),
     )
 
