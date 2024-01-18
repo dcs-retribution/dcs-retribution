@@ -103,10 +103,10 @@ class PydcsWaypointBuilder:
         else:
             return False
 
-    def register_special_waypoints(
+    def register_special_strike_points(
         self, targets: Iterable[Union[MissionTarget, TheaterUnit]]
     ) -> None:
-        """Create special target waypoints for various aircraft"""
+        """Create special strike  waypoints for various aircraft"""
         for i, t in enumerate(targets):
             if self.group.units[0].unit_type == JF_17 and i < 4:
                 self.group.add_nav_target_point(t.position, "PP" + str(i + 1))
@@ -117,3 +117,10 @@ class PydcsWaypointBuilder:
                 self.group.add_nav_target_point(
                     t.position, f"M{(i//8)+1}.{i%8+1}" f"\nH-1" f"\nA0" f"\nV0"
                 )
+
+    def register_special_ingress_points(self) -> None:
+        # Register Tomcat Initial Point
+        if self.flight.client_count and (
+            self.group.units[0].unit_type in (F_14A_135_GR, F_14B)
+        ):
+            self.group.add_nav_target_point(self.waypoint.position, "IP")

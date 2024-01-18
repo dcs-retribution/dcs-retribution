@@ -10,6 +10,7 @@ from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 class SweepIngressBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
+        self.register_special_ingress_points()
         if self.flight.count < 4:
             waypoint.tasks.append(OptFormation.line_abreast_open())
         else:

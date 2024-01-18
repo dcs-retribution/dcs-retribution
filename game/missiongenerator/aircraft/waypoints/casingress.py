@@ -10,6 +10,7 @@ from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 class CasIngressBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
+        self.register_special_ingress_points()
         if isinstance(self.flight.flight_plan, CasFlightPlan):
             patrol_center = (
                 self.flight.flight_plan.layout.patrol_start.position

@@ -3,7 +3,7 @@ import logging
 from typing import Union
 
 from dcs import Point
-from dcs.planes import B_17G, B_52H, Tu_22M3, B_1B
+from dcs.planes import B_17G, B_52H, Tu_22M3, B_1B, F_14A_135_GR, F_14B
 from dcs.point import MovingPoint
 from dcs.task import Bombing, Expend, OptFormation, WeaponType, CarpetBombing
 
@@ -26,6 +26,7 @@ class StrikeIngressBuilder(PydcsWaypointBuilder):
         waypoint.tasks.append(OptFormation.ww2_bomber_element_close())
         self.add_bombing_tasks(waypoint)
         waypoint.tasks.append(OptFormation.finger_four_open())
+        self.register_special_ingress_points()
 
     def add_bombing_tasks(self, waypoint: MovingPoint) -> None:
         targets = self.waypoint.targets
@@ -74,4 +75,4 @@ class StrikeIngressBuilder(PydcsWaypointBuilder):
             waypoint.speed = mach(0.85, meters(waypoint.alt)).meters_per_second
 
         # Register special waypoints
-        self.register_special_waypoints(self.waypoint.targets)
+        self.register_special_strike_points(self.waypoint.targets)

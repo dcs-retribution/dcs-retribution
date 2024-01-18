@@ -17,6 +17,7 @@ class OcaRunwayIngressBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
         target = self.package.target
         waypoint.tasks.append(OptFormation.trail_open())
+        self.register_special_ingress_points()
         if not isinstance(target, Airfield):
             logging.error(
                 "Unexpected target type for runway bombing mission: %s",
