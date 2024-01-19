@@ -6,13 +6,14 @@ from typing import Any, Iterable, Union
 from dcs import Mission
 from dcs.planes import AJS37, F_14A_135_GR, F_14B, JF_17, F_15ESE
 from dcs.point import MovingPoint, PointAction
+from dcs.task import RunScript
 from dcs.unitgroup import FlyingGroup
 
 from game.ato import Flight, FlightWaypoint
 from game.ato.flightwaypointtype import FlightWaypointType
 from game.ato.traveltime import GroundSpeed
 from game.missiongenerator.missiondata import MissionData
-from game.theater import MissionTarget, TheaterUnit
+from game.theater import MissionTarget, TheaterUnit, OffMapSpawn
 
 TARGET_WAYPOINTS = (
     FlightWaypointType.TARGET_GROUP_LOC,
@@ -81,7 +82,17 @@ class PydcsWaypointBuilder:
         return waypoint
 
     def add_tasks(self, waypoint: MovingPoint) -> None:
-        pass
+        arrival = self.flight.arrival
+        divert = self.flight.divert
+        offmap = isinstance(arrival, OffMapSpawn) or isinstance(divert, OffMapSpawn)
+        pos = waypoint.position
+        if offmap and (arrival.position == pos or divert and divert.position == pos):
+            waypoint.tasks.append(
+                RunScript(
+                    f"local g = Group.getByName('{self.group.name}')\n"
+                    f"Group.destroy(g)"
+                )
+            )
 
     def set_waypoint_tot(self, waypoint: MovingPoint, tot: datetime) -> None:
         self.waypoint.tot = tot
