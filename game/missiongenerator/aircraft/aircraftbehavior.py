@@ -103,7 +103,7 @@ class AircraftBehavior:
             )
 
         # Activate AI unlimited fuel for all flights at startup
-        if ai_unlimited_fuel:
+        if ai_unlimited_fuel and not (flight.state.is_at_ip or flight.state.in_combat):
             group.points[0].tasks.append(SetUnlimitedFuelCommand(True))
 
         group.points[0].tasks.append(OptReactOnThreat(react_on_threat))

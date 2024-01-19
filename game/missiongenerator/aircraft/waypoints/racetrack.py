@@ -23,7 +23,12 @@ class RaceTrackBuilder(PydcsWaypointBuilder):
 
         # Unlimited fuel option : disable at racetrack start. Must be first option to work.
         if self.flight.squadron.coalition.game.settings.ai_unlimited_fuel:
-            waypoint.tasks.insert(0, SetUnlimitedFuelCommand(False))
+            if waypoint.tasks and isinstance(
+                waypoint.tasks[0], SetUnlimitedFuelCommand
+            ):
+                waypoint.tasks[0] = SetUnlimitedFuelCommand(False)
+            else:
+                waypoint.tasks.insert(0, SetUnlimitedFuelCommand(False))
 
         if not isinstance(flight_plan, PatrollingFlightPlan):
             flight_plan_type = flight_plan.__class__.__name__
