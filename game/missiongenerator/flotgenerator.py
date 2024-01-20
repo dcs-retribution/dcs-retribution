@@ -286,7 +286,7 @@ class FlotGenerator:
             if x.primary_task == FlightType.CAS
         ]
         return (
-            timedelta(seconds=random.randint(300, 1800))
+            timedelta(seconds=random.randint(150, 900))
             if len(tots) == 0
             else min(
                 [
@@ -397,7 +397,7 @@ class FlotGenerator:
         Returns True if tasking was added, returns False if the stance was not a combat stance.
         """
         duration = timedelta()
-        if stance != CombatStance.RETREAT:
+        if stance in [CombatStance.DEFENSIVE, CombatStance.AGGRESSIVE]:
             duration = self._earliest_tot_on_flot(not to_cp.coalition.player)
         self._set_reform_waypoint(dcs_group, forward_heading, duration)
         if stance == CombatStance.AGGRESSIVE:
@@ -487,7 +487,7 @@ class FlotGenerator:
         Returns True if tasking was added, returns False if the stance was not a combat stance.
         """
         duration = timedelta()
-        if stance != CombatStance.RETREAT:
+        if stance in [CombatStance.DEFENSIVE, CombatStance.AGGRESSIVE]:
             duration = self._earliest_tot_on_flot(not to_cp.coalition.player)
         self._set_reform_waypoint(dcs_group, forward_heading, duration)
         if stance in [
