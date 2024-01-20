@@ -822,6 +822,16 @@ class Settings:
         ),
     )
 
+    ai_unlimited_fuel: bool = boolean_option(
+        "AI flights have unlimited fuel",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=True,
+        detail=(
+            "AI aircraft have unlimited fuel applied at start, removed at join/racetrack start, and reapplied at split/racetrack end for applicable flights. "
+        ),
+    )
+
     # Performance
     perf_smoke_gen: bool = boolean_option(
         "Smoke visual effect on the front line",
@@ -959,6 +969,7 @@ class Settings:
     enable_base_capture_cheat: bool = False
     enable_transfer_cheat: bool = False
     enable_runway_state_cheat: bool = False
+    enable_air_wing_adjustments: bool = False
 
     # LUA Plugins system
     plugins: Dict[str, bool] = field(default_factory=dict)

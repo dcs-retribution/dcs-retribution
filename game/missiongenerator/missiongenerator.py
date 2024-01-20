@@ -121,7 +121,11 @@ class MissionGenerator:
     @staticmethod
     def _configure_ewrj(gen: AircraftGenerator) -> None:
         for groups in gen.ewrj_package_dict.values():
-            optrot = groups[0].points[0].tasks[0]
+            optrot = [
+                task
+                for task in groups[0].points[0].tasks
+                if isinstance(task, OptReactOnThreat)
+            ][0]
             assert isinstance(optrot, OptReactOnThreat)
             if (
                 len(groups) == 1
@@ -130,9 +134,13 @@ class MissionGenerator:
                 # primary flight with no EWR-Jamming capability
                 continue
             for group in groups:
-                group.points[0].tasks[0] = OptReactOnThreat(
-                    OptReactOnThreat.Values.PassiveDefense
-                )
+                tasks = group.points[0].tasks
+                for i in range(len(tasks)):
+                    if isinstance(tasks[i], OptReactOnThreat):
+                        tasks[i] = OptReactOnThreat(
+                            OptReactOnThreat.Values.PassiveDefense
+                        )
+                        break
 
     def setup_mission_coalitions(self) -> None:
         self.mission.coalition["blue"] = Coalition(

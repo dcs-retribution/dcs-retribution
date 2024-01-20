@@ -1,8 +1,8 @@
 import json
-from pathlib import Path
 import unittest
-import pytest
+from pathlib import Path
 
+import pytest
 from dcs.helicopters import UH_1H, AH_64A
 from dcs.planes import (
     F_15C,
@@ -26,14 +26,10 @@ from dcs.planes import (
 from dcs.ships import (
     Stennis,
     LHA_Tarawa,
-    PERRY,
-    USS_Arleigh_Burke_IIa,
-    TICONDEROG,
 )
 from dcs.vehicles import Armor, Unarmed, Infantry, Artillery
 
 from game.factions.faction import Faction
-
 
 THIS_DIR = Path(__file__).parent
 RESOURCES_DIR = THIS_DIR / "resources"
@@ -53,20 +49,20 @@ class TestFactionLoader(unittest.TestCase):
             self.assertEqual(faction.authors, "Khopa")
             self.assertEqual(faction.description, "This is a test description")
 
-            self.assertIn(F_15C, faction.aircrafts)
-            self.assertIn(F_15E, faction.aircrafts)
-            self.assertIn(F_14B, faction.aircrafts)
-            self.assertIn(FA_18C_hornet, faction.aircrafts)
-            self.assertIn(F_16C_50, faction.aircrafts)
-            self.assertIn(A_10A, faction.aircrafts)
-            self.assertIn(AV8BNA, faction.aircrafts)
-            self.assertIn(UH_1H, faction.aircrafts)
-            self.assertIn(AH_64A, faction.aircrafts)
-            self.assertIn(B_52H, faction.aircrafts)
-            self.assertIn(B_1B, faction.aircrafts)
-            self.assertIn(F_117A, faction.aircrafts)
-            self.assertIn(A_10C, faction.aircrafts)
-            self.assertIn(A_10C_2, faction.aircrafts)
+            self.assertIn(F_15C, faction.all_aircrafts)
+            self.assertIn(F_15E, faction.all_aircrafts)
+            self.assertIn(F_14B, faction.all_aircrafts)
+            self.assertIn(FA_18C_hornet, faction.all_aircrafts)
+            self.assertIn(F_16C_50, faction.all_aircrafts)
+            self.assertIn(A_10A, faction.all_aircrafts)
+            self.assertIn(AV8BNA, faction.all_aircrafts)
+            self.assertIn(UH_1H, faction.all_aircrafts)
+            self.assertIn(AH_64A, faction.all_aircrafts)
+            self.assertIn(B_52H, faction.all_aircrafts)
+            self.assertIn(B_1B, faction.all_aircrafts)
+            self.assertIn(F_117A, faction.all_aircrafts)
+            self.assertIn(A_10C, faction.all_aircrafts)
+            self.assertIn(A_10C_2, faction.all_aircrafts)
 
             self.assertEqual(len(faction.awacs), 1)
             self.assertIn(E_3A, faction.awacs)

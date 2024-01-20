@@ -26,6 +26,7 @@ from dcs.task import (
     MainTask,
     PinpointStrike,
     AFAC,
+    SetUnlimitedFuelCommand,
 )
 from dcs.unitgroup import FlyingGroup
 
@@ -93,8 +94,18 @@ class AircraftBehavior:
         restrict_jettison: Optional[bool] = None,
         mission_uses_gun: bool = True,
         rtb_on_bingo: bool = True,
+        ai_unlimited_fuel: Optional[bool] = None,
     ) -> None:
         group.points[0].tasks.clear()
+        if ai_unlimited_fuel is None:
+            ai_unlimited_fuel = (
+                flight.squadron.coalition.game.settings.ai_unlimited_fuel
+            )
+
+        # Activate AI unlimited fuel for all flights at startup
+        if ai_unlimited_fuel:
+            group.points[0].tasks.append(SetUnlimitedFuelCommand(True))
+
         group.points[0].tasks.append(OptReactOnThreat(react_on_threat))
         if roe is not None:
             group.points[0].tasks.append(OptROE(roe))

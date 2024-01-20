@@ -8,8 +8,9 @@
 * **[Options]** New option in Settings: Convert untasked OPFOR aircraft into client slots
 * **[Options]** Split the **Disable idle aircraft at airfields** setting into **Disable untasked BLUFOR aircraft at airfields** and **Disable untasked OPFOR aircraft at airfields**
 * **[Options]** Split off the **Automatic AWACS package planning** and **Automatic Theater tanker package planning** settings from **Automatic package planning behavior** so players can choose to have AWACS and theater tankers auto-planned, while managing everything else themselves
-* **[Modding]** Updated support for Su-30 mod to V2.1.12 beta
+* **[Modding]** Updated support for Su-30 mod to V2.7.3 Beta
 * **[Modding]** Updated support for Su-57 mod to build-04
+* **[Modding]** Updated support for F-4B/C Phantom mod to 2.8.7.204
 * **[Modding]** Updated Community A-4E-C mod version support to 2.2.0 release.
 * **[Modding]** Added F/A-18E/F Super Hornet AI Tanker mod support (Chiller Juice Studios SuperBug Tanker AI version 1.4)
 * **[Radios]** Added HF-FM band for AN/ARC-222
@@ -28,18 +29,22 @@
 * **[COMMs]** Aircraft-specific callsigns will now also be used.
 * **[COMMs]** Ability to set a specific callsign to a flight.
 * **[Mission Generator]** Channel terrain fix on exclusion zones, sea zones and inclusion zones
+* **[Options]** Cheat-option for accessing Air Wing Config Dialog after campaign start
+* **[Options]** Option to enable unlimited fuel for AI (player and non-player flights)
 * **[Mission Generator]** F-15E Strike targets are automatically added as Mission Set 1 
 * **[Mission Generator]** Set F-14's IP waypoint according to the flight-plan's ingress point
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task
 * **[New Game Wizard]** Faction selection overview doesn't update when inverting map
+* **[New Game Wizard]** Aircraft mods are now handled better when they are disabled
 * **[Payloads]** Added/Updated (missing) payloads
 * **[Aircraft Tasking]** Revised aircraft tasking, filtering out incompatible tasks for several aircraft
 * **[Data]** Corrected the class of the USS Samuel Chase from Logistics to LandingShip, in order to prevent it being spawned as part of AAA sites.
 * **[Mission Generation]** Helicopters oscillating due to over-speeding
 * **[Mission Generation]** Fix infinite loop when using "Fast-Forward to first contact"
 * **[Capture Logic]** Release all parking slots when an airbase is captured
+* **[Modding]** Swedish Military Assets Pack air defence presets are now correctly removed from the faction when the mod is disabled.
 
 # Retribution v1.2.1 (hotfix)
 

@@ -25,7 +25,7 @@ class SquadronDefGenerator:
     ) -> Optional[SquadronDef]:
         aircraft_choice: Optional[AircraftType] = None
         for aircraft in AircraftType.priority_list_for_task(task):
-            if aircraft not in self.faction.aircrafts:
+            if aircraft not in self.faction.all_aircrafts:
                 continue
             if not control_point.can_operate(aircraft):
                 continue
