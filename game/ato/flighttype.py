@@ -96,6 +96,13 @@ class FlightType(Enum):
         }
 
     @property
+    def is_escort_type(self) -> bool:
+        return self in {
+            FlightType.ESCORT,
+            FlightType.SEAD_ESCORT
+        }
+
+    @property
     def entity_type(self) -> AirEntity:
         return {
             FlightType.AEWC: AirEntity.AIRBORNE_EARLY_WARNING,

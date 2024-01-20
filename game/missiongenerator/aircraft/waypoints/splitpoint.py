@@ -1,7 +1,5 @@
 from dcs.point import MovingPoint
-from dcs.task import OptECMUsing, OptFormation, RunScript, SetUnlimitedFuelCommand
-
-from game.settings import Settings
+from dcs.task import OptECMUsing, OptFormation, RunScript, SetUnlimitedFuelCommand, SwitchWaypoint
 
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 
@@ -34,3 +32,6 @@ class SplitPointBuilder(PydcsWaypointBuilder):
                 f'trigger.action.setUserFlag("split-{id(self.package)}", true)'
             )
             waypoint.tasks.append(script)
+        elif self.flight.flight_type.is_escort_type:
+            index = len(self.group.points)
+            self.group.add_trigger_action(SwitchWaypoint(None, index))

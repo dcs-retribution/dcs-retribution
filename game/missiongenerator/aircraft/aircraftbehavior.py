@@ -21,7 +21,6 @@ from dcs.task import (
     RunwayAttack,
     Transport,
     SEAD,
-    SwitchWaypoint,
     OptJettisonEmptyTanks,
     MainTask,
     PinpointStrike,
@@ -34,7 +33,6 @@ from game.ato import Flight, FlightType
 from game.ato.flightplans.aewc import AewcFlightPlan
 from game.ato.flightplans.packagerefueling import PackageRefuelingFlightPlan
 from game.ato.flightplans.theaterrefueling import TheaterRefuelingFlightPlan
-from game.ato.flightwaypointtype import FlightWaypointType
 
 
 class AircraftBehavior:
@@ -285,32 +283,13 @@ class AircraftBehavior:
         )
 
     def configure_escort(self, group: FlyingGroup[Any], flight: Flight) -> None:
-        # Escort groups are actually given the CAP task so they can perform the
-        # Search Then Engage task, which we have to use instead of the Escort
-        # task for the reasons explained in JoinPointBuilder.
         self.configure_task(flight, group, Escort)
-        if flight.flight_plan.is_formation(flight.flight_plan):
-            index = flight.flight_plan.get_index_of_wpt_by_type(
-                FlightWaypointType.SPLIT
-            )
-            if index > 0:
-                group.add_trigger_action(SwitchWaypoint(None, index))
-            else:
-                logging.warning(f"Couldn't determine SPLIT for {group.name}")
         self.configure_behavior(
             flight, group, roe=OptROE.Values.OpenFire, restrict_jettison=True
         )
 
     def configure_sead_escort(self, group: FlyingGroup[Any], flight: Flight) -> None:
-        # CAS is able to perform all the same tasks as SEAD using a superset of the
-        # available aircraft, and F-14s are not able to be SEAD despite having TALDs.
-        # https://forums.eagle.ru/topic/272112-cannot-assign-f-14-to-sead/
         self.configure_task(flight, group, SEAD)
-        index = flight.flight_plan.get_index_of_wpt_by_type(FlightWaypointType.SPLIT)
-        if index > 0 and flight.flight_plan.is_formation(flight.flight_plan):
-            group.add_trigger_action(SwitchWaypoint(None, index))
-        if index < 1:
-            logging.warning(f"Couldn't determine SPLIT for {group.name}")
         self.configure_behavior(
             flight,
             group,
