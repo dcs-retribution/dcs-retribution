@@ -1,5 +1,11 @@
 from dcs.point import MovingPoint
-from dcs.task import OptECMUsing, OptFormation, RunScript, SetUnlimitedFuelCommand, SwitchWaypoint
+from dcs.task import (
+    OptECMUsing,
+    OptFormation,
+    RunScript,
+    SetUnlimitedFuelCommand,
+    SwitchWaypoint,
+)
 
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 

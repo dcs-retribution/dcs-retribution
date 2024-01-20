@@ -97,10 +97,7 @@ class FlightType(Enum):
 
     @property
     def is_escort_type(self) -> bool:
-        return self in {
-            FlightType.ESCORT,
-            FlightType.SEAD_ESCORT
-        }
+        return self in {FlightType.ESCORT, FlightType.SEAD_ESCORT}
 
     @property
     def entity_type(self) -> AirEntity:
