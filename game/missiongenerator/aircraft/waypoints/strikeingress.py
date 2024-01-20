@@ -1,9 +1,8 @@
 import copy
-import logging
 from typing import Union
 
 from dcs import Point
-from dcs.planes import B_17G, B_52H, Tu_22M3, B_1B, F_14A_135_GR, F_14B
+from dcs.planes import B_17G, B_52H, Tu_22M3, B_1B
 from dcs.point import MovingPoint
 from dcs.task import Bombing, Expend, OptFormation, WeaponType, CarpetBombing
 
@@ -12,11 +11,13 @@ from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 
 class StrikeIngressBuilder(PydcsWaypointBuilder):
+    _special_wpts_injected: bool = False
+
     def add_tasks(self, waypoint: MovingPoint) -> None:
         bomber = self.group.units[0].unit_type in [B_17G, Tu_22M3]
         bomber_guided = self.group.units[0].unit_type in [B_1B, B_52H]
         waypoint.tasks.append(OptFormation.finger_four_open())
-        if (bomber_guided or not bomber) and not self.group.units[0].is_human:
+        if bomber_guided or not bomber:
             self.add_strike_tasks(waypoint, WeaponType.ASM)
 
         waypoint.tasks.append(OptFormation.trail_open())
@@ -75,4 +76,6 @@ class StrikeIngressBuilder(PydcsWaypointBuilder):
             waypoint.speed = mach(0.85, meters(waypoint.alt)).meters_per_second
 
         # Register special waypoints
-        self.register_special_strike_points(self.waypoint.targets)
+        if not self._special_wpts_injected:
+            self.register_special_strike_points(self.waypoint.targets)
+            self._special_wpts_injected = True
