@@ -31,6 +31,8 @@
 * **[Mission Generator]** Channel terrain fix on exclusion zones, sea zones and inclusion zones
 * **[Options]** Cheat-option for accessing Air Wing Config Dialog after campaign start
 * **[Options]** Option to enable unlimited fuel for AI (player and non-player flights)
+* **[Mission Generator]** F-15E Strike targets are automatically added as Mission Set 1 
+* **[Mission Generator]** Set F-14's IP waypoint according to the flight-plan's ingress point
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task

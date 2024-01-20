@@ -35,6 +35,8 @@ from dcs.mission import Mission
 from suntime import Sun  # type: ignore
 from tabulate import tabulate
 
+from dcs.planes import F_15ESE
+
 from game.ato.flighttype import FlightType
 from game.ato.flightwaypoint import FlightWaypoint
 from game.ato.flightwaypointtype import FlightWaypointType
@@ -744,6 +746,15 @@ class StrikeTaskPage(KneeboardPage):
         else:
             custom_name_title = ""
         writer.title(f"{self.flight.callsign} Strike Task Info{custom_name_title}")
+
+        if self.flight.units[0].unit_type == F_15ESE:
+            i: int = 0
+            for target in self.targets:
+                if not target.waypoint.pretty_name.__contains__("DTC"):
+                    target.waypoint.pretty_name = (
+                        f"{target.waypoint.pretty_name} (DTC M{(i//8)+1}.{i%9+1})"
+                    )
+                    i = i + 1
 
         writer.table(
             [self.target_info_row(t, writer) for t in self.targets],

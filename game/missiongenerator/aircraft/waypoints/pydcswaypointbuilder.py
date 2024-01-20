@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import Any, Iterable, Union
 
 from dcs import Mission
-from dcs.planes import AJS37, F_14A_135_GR, F_14B, JF_17
+from dcs.planes import AJS37, F_14A_135_GR, F_14B, JF_17, F_15ESE
 from dcs.point import MovingPoint, PointAction
 from dcs.unitgroup import FlyingGroup
 
@@ -103,12 +103,24 @@ class PydcsWaypointBuilder:
         else:
             return False
 
-    def register_special_waypoints(
+    def register_special_strike_points(
         self, targets: Iterable[Union[MissionTarget, TheaterUnit]]
     ) -> None:
-        """Create special target waypoints for various aircraft"""
+        """Create special strike  waypoints for various aircraft"""
         for i, t in enumerate(targets):
             if self.group.units[0].unit_type == JF_17 and i < 4:
                 self.group.add_nav_target_point(t.position, "PP" + str(i + 1))
             if self.group.units[0].unit_type in [F_14B, F_14A_135_GR] and i == 0:
                 self.group.add_nav_target_point(t.position, "ST")
+            # Add F-15E mission target points as mission 1 (for JDAM for instance)
+            if self.group.units[0].unit_type == F_15ESE:
+                self.group.add_nav_target_point(
+                    t.position, f"M{(i//8)+1}.{i%8+1}" f"\nH-1" f"\nA0" f"\nV0"
+                )
+
+    def register_special_ingress_points(self) -> None:
+        # Register Tomcat Initial Point
+        if self.flight.client_count and (
+            self.group.units[0].unit_type in (F_14A_135_GR, F_14B)
+        ):
+            self.group.add_nav_target_point(self.waypoint.position, "IP")
