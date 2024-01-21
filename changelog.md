@@ -46,6 +46,7 @@
 * **[Mission Generation]** Fix infinite loop when using "Fast-Forward to first contact"
 * **[Capture Logic]** Release all parking slots when an airbase is captured
 * **[Modding]** Swedish Military Assets Pack air defence presets are now correctly removed from the faction when the mod is disabled.
+* **[Mission Generation]** Naval aircraft not always returning to carrier
 
 # Retribution v1.2.1 (hotfix)
 

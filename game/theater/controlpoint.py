@@ -1336,6 +1336,8 @@ class Airfield(ControlPoint, CTLD):
 class NavalControlPoint(
     ControlPoint, ABC, Link4Container, TacanContainer, ICLSContainer
 ):
+    carrier_id: Optional[int] = None
+
     @property
     def is_fleet(self) -> bool:
         return True
@@ -1426,6 +1428,10 @@ class NavalControlPoint(
         if self.find_main_tgo().dead_units:
             return ControlPointStatus.Damaged
         return ControlPointStatus.Functional
+
+    @property
+    def airdrome_id_for_landing(self) -> Optional[int]:
+        return self.carrier_id
 
 
 class Carrier(NavalControlPoint):
