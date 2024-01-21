@@ -32,10 +32,9 @@ from typing import Dict, Iterator, List, Optional, TYPE_CHECKING, Tuple
 
 from PIL import Image, ImageDraw, ImageFont
 from dcs.mission import Mission
+from dcs.planes import F_15ESE
 from suntime import Sun  # type: ignore
 from tabulate import tabulate
-
-from dcs.planes import F_15ESE
 
 from game.ato.flighttype import FlightType
 from game.ato.flightwaypoint import FlightWaypoint
@@ -368,7 +367,10 @@ class BriefingPage(KneeboardPage):
             headers=["", "Airbase", "ATC", "TCN", "I(C)LS", "RWY"],
         )
 
-        writer.heading("Flight Plan")
+        writer.heading(
+            f"Flight Plan ({self.flight.squadron.aircraft.variant_id} - "
+            f"{self.flight.flight_type.value})"
+        )
 
         units = self.flight.aircraft_type.kneeboard_units
 
@@ -543,7 +545,8 @@ class SupportPage(KneeboardPage):
         self.jtacs = jtacs
         self.start_time = start_time
         self.dark_kneeboard = dark_kneeboard
-        self.comms.append(CommInfo("Flight", self.flight.intra_flight_channel))
+        flight_name = self.flight.custom_name if self.flight.custom_name else "Flight"
+        self.comms.append(CommInfo(flight_name, self.flight.intra_flight_channel))
 
     def write(self, path: Path) -> None:
         writer = KneeboardPageWriter(dark_theme=self.dark_kneeboard)
@@ -573,9 +576,12 @@ class SupportPage(KneeboardPage):
                 ]
             )
         for f in self.package_flights:
+            callsign = f.callsign
+            if f.custom_name:
+                callsign = f"{callsign}\n({f.custom_name})"
             comm_ladder.append(
                 [
-                    f.callsign,
+                    callsign,
                     str(f.flight_type),
                     KneeboardPageWriter.wrap_line(str(f.aircraft_type), 23),
                     str(len(f.units)),
