@@ -11,6 +11,7 @@ from dcs.unitgroup import FlyingGroup
 
 from game.ato import Flight, FlightWaypoint
 from game.ato.flightwaypointtype import FlightWaypointType
+from game.ato.starttype import StartType
 from game.ato.traveltime import GroundSpeed
 from game.missiongenerator.missiondata import MissionData
 from game.theater import MissionTarget, TheaterUnit, OffMapSpawn
@@ -81,12 +82,20 @@ class PydcsWaypointBuilder:
         self.add_tasks(waypoint)
         return waypoint
 
-    def add_tasks(self, waypoint: MovingPoint) -> None:
+    def ai_despawn(
+        self, waypoint: MovingPoint, ignore_landing_wpt: bool = False
+    ) -> bool:
+        if self.flight.roster.members[0].is_player:
+            return False
         arrival = self.flight.arrival
-        divert = self.flight.divert
-        offmap = isinstance(arrival, OffMapSpawn) or isinstance(divert, OffMapSpawn)
-        pos = waypoint.position
-        if offmap and (arrival.position == pos or divert and divert.position == pos):
+        offmap = isinstance(arrival, OffMapSpawn)
+        ai_despawn = self.flight.coalition.game.settings.perf_ai_despawn_airstarted
+        ai_despawn &= self.flight.start_type == StartType.IN_FLIGHT
+        is_landing_wpt = arrival.position == waypoint.position
+        return (offmap or ai_despawn) and (is_landing_wpt or ignore_landing_wpt)
+
+    def add_tasks(self, waypoint: MovingPoint) -> None:
+        if self.ai_despawn(waypoint):
             waypoint.tasks.append(
                 RunScript(
                     f"local g = Group.getByName('{self.group.name}')\n"

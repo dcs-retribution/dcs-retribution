@@ -961,6 +961,16 @@ class Settings:
         default=True,
         causes_expensive_game_update=True,
     )
+    perf_ai_despawn_airstarted: bool = boolean_option(
+        "De-spawn AI in the air upon RTB",
+        page=MISSION_GENERATOR_PAGE,
+        section=PERFORMANCE_SECTION,
+        default=False,
+        detail=(
+            "If enabled, AI flights will de-spawn over their base "
+            "if the start-up type was manually changed to 'In-Flight'."
+        ),
+    )
 
     # Cheating. Not using auto settings because the same page also has buttons which do
     # not alter settings.
