@@ -24,6 +24,8 @@ from dcs.condition import (
 )
 from dcs.mission import Mission
 from dcs.task import Option
+from dcs.terrain.caucasus.airports import Krasnodar_Pashkovsky
+from dcs.terrain.syria.airports import Damascus, Khalkhalah
 from dcs.translation import String
 from dcs.triggers import Event, TriggerCondition, TriggerOnce
 from dcs.unit import Skill
@@ -53,6 +55,7 @@ TRIGGER_RADIUS_CLEAR_SCENERY = 1000
 TRIGGER_RADIUS_PRETENSE_TGO = 500
 TRIGGER_RADIUS_PRETENSE_SUPPLY = 500
 TRIGGER_RADIUS_PRETENSE_HELI = 1000
+TRIGGER_RADIUS_PRETENSE_HELI_BUFFER = 500
 TRIGGER_RADIUS_PRETENSE_CARRIER = 50000
 TRIGGER_RUNWAY_LENGTH_PRETENSE = 2500
 TRIGGER_RUNWAY_WIDTH_PRETENSE = 400
@@ -224,19 +227,42 @@ class PretenseTriggerGenerator:
         """
         for cp in self.game.theater.controlpoints:
             if cp.is_fleet:
-                trigger_radius = TRIGGER_RADIUS_PRETENSE_CARRIER
+                trigger_radius = float(TRIGGER_RADIUS_PRETENSE_CARRIER)
+            elif isinstance(cp, Fob) and cp.has_helipads:
+                trigger_radius = TRIGGER_RADIUS_PRETENSE_HELI
+                for helipad in list(
+                    cp.helipads + cp.helipads_quad + cp.helipads_invisible
+                ):
+                    if cp.position.distance_to_point(helipad) > trigger_radius:
+                        trigger_radius = cp.position.distance_to_point(helipad)
+                for ground_spawn, ground_spawn_wp in list(
+                    cp.ground_spawns + cp.ground_spawns_roadbase
+                ):
+                    if cp.position.distance_to_point(ground_spawn) > trigger_radius:
+                        trigger_radius = cp.position.distance_to_point(ground_spawn)
+                trigger_radius += TRIGGER_RADIUS_PRETENSE_HELI_BUFFER
             else:
-                trigger_radius = TRIGGER_RADIUS_CAPTURE
+                if cp.dcs_airport is not None and (
+                    isinstance(cp.dcs_airport, Damascus)
+                    or isinstance(cp.dcs_airport, Khalkhalah)
+                    or isinstance(cp.dcs_airport, Krasnodar_Pashkovsky)
+                ):
+                    trigger_radius = int(TRIGGER_RADIUS_CAPTURE * 1.8)
+                else:
+                    trigger_radius = TRIGGER_RADIUS_CAPTURE
+            cp_name = "".join(
+                [i for i in cp.name if i.isalnum() or i.isspace() or i == "-"]
+            )
             if not isinstance(cp, OffMapSpawn):
                 zone_color = {1: 0.0, 2: 0.0, 3: 0.0, 4: 0.15}
                 self.mission.triggers.add_triggerzone(
                     cp.position,
                     radius=trigger_radius,
                     hidden=False,
-                    name=cp.name,
+                    name=cp_name,
                     color=zone_color,
                 )
-            cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalnum()])
+            cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalpha()])
             tgo_num = 0
             for tgo in cp.ground_objects:
                 if cp.is_fleet or tgo.sea_object:
@@ -285,7 +311,7 @@ class PretenseTriggerGenerator:
             if cp_airport is None:
                 continue
             cp_name_trimmed = "".join(
-                [i for i in cp_airport.name.lower() if i.isalnum()]
+                [i for i in cp_airport.name.lower() if i.isalpha()]
             )
             zone_color = {1: 0.0, 2: 1.0, 3: 0.5, 4: 0.15}
             if cp_airport is None:
