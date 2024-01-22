@@ -193,9 +193,6 @@ class PretenseAircraftGenerator:
         squadron_def = coalition.air_wing.squadron_def_generator.generate_for_task(
             flight_type, cp
         )
-        print(
-            f"Generating a squadron definition for fixed-wing {fixed_wing} squadron at {cp}"
-        )
         for retries in range(num_retries):
             if squadron_def is None or fixed_wing == squadron_def.aircraft.helicopter:
                 squadron_def = (
@@ -328,8 +325,10 @@ class PretenseAircraftGenerator:
                 num_of_sead += 1
                 aircraft_per_flight = self.game.settings.pretense_ai_aircraft_per_flight
             elif (
-                FlightType.CAS in mission_types
-            ) and num_of_cas < self.game.settings.pretense_cas_flights_per_cp:
+                (squadron.aircraft.helicopter and (FlightType.ESCORT in mission_types))
+                or (FlightType.CAS in mission_types)
+                and num_of_cas < self.game.settings.pretense_cas_flights_per_cp
+            ):
                 flight_type = FlightType.CAS
                 num_of_cas += 1
                 aircraft_per_flight = self.game.settings.pretense_ai_aircraft_per_flight
