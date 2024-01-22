@@ -282,7 +282,9 @@ class PretenseAircraftGenerator:
         num_of_strike = 0
         num_of_cap = 0
 
-        for squadron in cp.squadrons:
+        random_squadron_list = list(cp.squadrons)
+        random.shuffle(random_squadron_list)
+        for squadron in random_squadron_list:
             # Intentionally don't spawn anything at OffMapSpawns in Pretense
             if isinstance(squadron.location, OffMapSpawn):
                 continue
