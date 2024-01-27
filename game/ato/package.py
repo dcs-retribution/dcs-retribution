@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 from collections import defaultdict
+from copy import deepcopy
 from datetime import datetime
 from typing import Dict, Optional, TYPE_CHECKING
 
@@ -231,8 +232,9 @@ class Package(RadioFrequencyContainer):
     @staticmethod
     def clone_package(package: Package) -> Package:
         clone = Package(package.target, package._db, package.auto_asap)
-        clone.time_over_target = package.time_over_target
+        clone.time_over_target = deepcopy(package.time_over_target)
         for f in package.flights:
             cf = Flight.clone_flight(f)
+            cf.package = clone
             clone.add_flight(cf)
         return clone
