@@ -9,6 +9,7 @@ from typing import Optional, TYPE_CHECKING, Any
 import dcs.terrain.falklands.airports
 
 from game.profiling import logged_duration
+from pydcs_extensions import ELM2084_MMR_AD_RT, Iron_Dome_David_Sling_CP
 
 if TYPE_CHECKING:
     from game import Game
@@ -59,6 +60,13 @@ class MigrationUnpickler(pickle.Unpickler):
             return dcs.terrain.falklands.airports.Hipico_Flying_Club
         if name in ["SaveManager", "SaveGameBundle"]:
             return DummyObject
+        if module == "pydcs_extensions.irondome.irondome":
+            if name in ["I9K57_URAGAN", "I9K51_GRAD", "I9K58_SMERCH"]:
+                return None
+            elif name == "ELM2048_MMR":
+                return ELM2084_MMR_AD_RT
+            elif name == "IRON_DOME_CP":
+                return Iron_Dome_David_Sling_CP
         return super().find_class(module, name)
 # fmt: on
 
