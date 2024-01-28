@@ -1007,6 +1007,123 @@ class GroundSpawnRoadbaseGenerator:
             self.ground_spawns_roadbase = []
 
 
+class GroundSpawnLargeGenerator:
+    """
+    Generates STOL aircraft starting positions for given control point
+    """
+
+    def __init__(
+        self,
+        mission: Mission,
+        cp: ControlPoint,
+        game: Game,
+        radio_registry: RadioRegistry,
+        tacan_registry: TacanRegistry,
+    ):
+        self.m = mission
+        self.cp = cp
+        self.game = game
+        self.radio_registry = radio_registry
+        self.tacan_registry = tacan_registry
+        self.ground_spawns_large: list[Tuple[StaticGroup, Point]] = []
+
+    def create_ground_spawn_large(
+        self, i: int, vtol_pad: Tuple[PointWithHeading, Point]
+    ) -> None:
+        # Note: FARPs are generated as neutral object in order not to interfere with
+        # capture triggers
+        neutral_country = self.m.country(self.game.neutral_country.name)
+        country = self.m.country(
+            self.game.coalition_for(self.cp.captured).faction.country.name
+        )
+        terrain = self.cp.coalition.game.theater.terrain
+
+        name = f"{self.cp.name} large ground spawn {i}"
+        logging.info("Generating Large Ground Spawn static : " + name)
+
+        pad = InvisibleFARP(unit_id=self.m.next_unit_id(), name=name, terrain=terrain)
+
+        pad.position = Point(vtol_pad[0].x, vtol_pad[0].y, terrain=terrain)
+        pad.heading = vtol_pad[0].heading.degrees
+        sg = unitgroup.StaticGroup(self.m.next_group_id(), name)
+        sg.add_unit(pad)
+        sp = StaticPoint(pad.position)
+        sg.add_point(sp)
+        neutral_country.add_static_group(sg)
+
+        self.ground_spawns_large.append((sg, vtol_pad[1]))
+
+        # tanker_type: Type[VehicleType]
+        # ammo_truck_type: Type[VehicleType]
+
+        tanker_type, ammo_truck_type, power_truck_type = farp_truck_types_for_country(
+            country.id
+        )
+
+        # Generate a FARP Ammo and Fuel stack for each pad
+        if self.game.settings.ground_start_trucks:
+            self.m.vehicle_group(
+                country=country,
+                name=(name + "_fuel"),
+                _type=tanker_type,
+                position=pad.position.point_from_heading(
+                    vtol_pad[0].heading.degrees - 175, 45
+                ),
+                group_size=1,
+                heading=pad.heading + 45,
+                move_formation=PointAction.OffRoad,
+            )
+            self.m.vehicle_group(
+                country=country,
+                name=(name + "_ammo"),
+                _type=ammo_truck_type,
+                position=pad.position.point_from_heading(
+                    vtol_pad[0].heading.degrees - 185, 45
+                ),
+                group_size=1,
+                heading=pad.heading + 45,
+                move_formation=PointAction.OffRoad,
+            )
+        else:
+            self.m.static_group(
+                country=country,
+                name=(name + "_fuel"),
+                _type=Fortification.FARP_Fuel_Depot,
+                position=pad.position.point_from_heading(
+                    vtol_pad[0].heading.degrees - 180, 55
+                ),
+                heading=pad.heading,
+            )
+            self.m.static_group(
+                country=country,
+                name=(name + "_ammo"),
+                _type=Fortification.FARP_Ammo_Dump_Coating,
+                position=pad.position.point_from_heading(
+                    vtol_pad[0].heading.degrees - 180, 45
+                ),
+                heading=pad.heading + 270,
+            )
+        if self.game.settings.ground_start_ground_power_trucks:
+            self.m.vehicle_group(
+                country=country,
+                name=(name + "_power"),
+                _type=power_truck_type,
+                position=pad.position.point_from_heading(
+                    vtol_pad[0].heading.degrees - 185, 45
+                ),
+                group_size=1,
+                heading=pad.heading + 45,
+                move_formation=PointAction.OffRoad,
+            )
+
+    def generate(self) -> None:
+        try:
+            for i, vtol_pad in enumerate(self.cp.ground_spawns_large):
+                self.create_ground_spawn_large(i, vtol_pad)
+        except AttributeError:
+            self.ground_spawns_large = []
+
+
 class GroundSpawnGenerator:
     """
     Generates STOL aircraft starting positions for given control point
@@ -1153,6 +1270,9 @@ class TgoGenerator:
         self.ground_spawns_roadbase: dict[
             ControlPoint, list[Tuple[StaticGroup, Point]]
         ] = defaultdict(list)
+        self.ground_spawns_large: dict[
+            ControlPoint, list[Tuple[StaticGroup, Point]]
+        ] = defaultdict(list)
         self.ground_spawns: dict[
             ControlPoint, list[Tuple[StaticGroup, Point]]
         ] = defaultdict(list)
@@ -1179,7 +1299,15 @@ class TgoGenerator:
             ] = ground_spawn_roadbase_gen.ground_spawns_roadbase
             random.shuffle(self.ground_spawns_roadbase[cp])
 
-            # Generate STOL pads
+            # Generate Large Ground Spawn slots
+            ground_large_spawn_gen = GroundSpawnLargeGenerator(
+                self.m, cp, self.game, self.radio_registry, self.tacan_registry
+            )
+            ground_large_spawn_gen.generate()
+            self.ground_spawns_large[cp] = ground_large_spawn_gen.ground_spawns_large
+            random.shuffle(self.ground_spawns_large[cp])
+
+            # Generate Ground Spawn slots
             ground_spawn_gen = GroundSpawnGenerator(
                 self.m, cp, self.game, self.radio_registry, self.tacan_registry
             )

@@ -56,6 +56,7 @@ class AircraftGenerator:
         mission_data: MissionData,
         helipads: dict[ControlPoint, list[StaticGroup]],
         ground_spawns_roadbase: dict[ControlPoint, list[Tuple[StaticGroup, Point]]],
+        ground_spawns_large: dict[ControlPoint, list[Tuple[StaticGroup, Point]]],
         ground_spawns: dict[ControlPoint, list[Tuple[StaticGroup, Point]]],
     ) -> None:
         self.mission = mission
@@ -69,6 +70,7 @@ class AircraftGenerator:
         self.mission_data = mission_data
         self.helipads = helipads
         self.ground_spawns_roadbase = ground_spawns_roadbase
+        self.ground_spawns_large = ground_spawns_large
         self.ground_spawns = ground_spawns
 
         self.ewrj_package_dict: Dict[int, List[FlyingGroup[Any]]] = {}
@@ -208,6 +210,7 @@ class AircraftGenerator:
                 self.mission,
                 self.helipads,
                 self.ground_spawns_roadbase,
+                self.ground_spawns_large,
                 self.ground_spawns,
                 self.mission_data,
             ).create_idle_aircraft()
@@ -239,6 +242,7 @@ class AircraftGenerator:
             self.mission,
             self.helipads,
             self.ground_spawns_roadbase,
+            self.ground_spawns_large,
             self.ground_spawns,
             self.mission_data,
         ).create_flight_group()
