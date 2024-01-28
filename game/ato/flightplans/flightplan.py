@@ -277,8 +277,9 @@ class FlightPlan(ABC, Generic[LayoutT]):
         else:
             return timedelta(minutes=8)
 
-    @staticmethod
-    def estimate_takeoff_time() -> timedelta:
+    def estimate_takeoff_time(self) -> timedelta:
+        if self.flight.departure.is_offmap:
+            return timedelta()
         return timedelta(seconds=30)
 
     @property

@@ -647,6 +647,10 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         return False
 
     @property
+    def is_offmap(self) -> bool:
+        return False
+
+    @property
     def moveable(self) -> bool:
         """
         :return: Whether this control point can be moved around
@@ -1577,6 +1581,10 @@ class OffMapSpawn(ControlPoint):
     @property
     def status(self) -> ControlPointStatus:
         return ControlPointStatus.Functional
+
+    @property
+    def is_offmap(self) -> bool:
+        return True
 
 
 class Fob(ControlPoint, RadioFrequencyContainer, CTLD):
