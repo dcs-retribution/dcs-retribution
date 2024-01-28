@@ -217,8 +217,9 @@ class TheaterGroup:
             else:
                 max_non_radar = max(max_non_radar, unit.threat_range)
         for launcher, threat_range in launchers.items():
-            if LAUNCHER_TRACKER_PAIRS[launcher] in live_trs:
-                max_tel_range = max(max_tel_range, threat_range)
+            for tr in LAUNCHER_TRACKER_PAIRS[launcher]:
+                if tr in live_trs:
+                    max_tel_range = max(max_tel_range, threat_range)
         if radar_only:
             return max(max_tel_range, max_telar_range)
         return max(max_tel_range, max_telar_range, max_non_radar)

@@ -590,6 +590,7 @@ class GenericCarrierGenerator(GroundObjectGenerator):
                         f"Error generating carrier group for {self.control_point.name}"
                     )
                 ship_group.units[0].type = carrier_type.id
+                self.control_point.carrier_id = ship_group.units[0].id
                 if self.control_point.tacan is None:
                     tacan = self.tacan_registry.alloc_for_band(
                         TacanBand.X, TacanUsage.TransmitReceive

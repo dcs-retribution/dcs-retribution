@@ -821,6 +821,16 @@ class Settings:
             "Needed to cold-start some aircraft types. Might have a performance impact."
         ),
     )
+    ai_unlimited_fuel: bool = boolean_option(
+        "AI flights have unlimited fuel",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=True,
+        detail=(
+            "AI aircraft have unlimited fuel applied at start, removed at join/racetrack start,"
+            " and reapplied at split/racetrack end for applicable flights. "
+        ),
+    )
 
     # Performance
     perf_smoke_gen: bool = boolean_option(
@@ -951,6 +961,16 @@ class Settings:
         default=True,
         causes_expensive_game_update=True,
     )
+    perf_ai_despawn_airstarted: bool = boolean_option(
+        "De-spawn AI in the air upon RTB",
+        page=MISSION_GENERATOR_PAGE,
+        section=PERFORMANCE_SECTION,
+        default=False,
+        detail=(
+            "If enabled, AI flights will de-spawn over their base "
+            "if the start-up type was manually changed to 'In-Flight'."
+        ),
+    )
 
     # Cheating. Not using auto settings because the same page also has buttons which do
     # not alter settings.
@@ -959,6 +979,7 @@ class Settings:
     enable_base_capture_cheat: bool = False
     enable_transfer_cheat: bool = False
     enable_runway_state_cheat: bool = False
+    enable_air_wing_adjustments: bool = False
 
     # LUA Plugins system
     plugins: Dict[str, bool] = field(default_factory=dict)

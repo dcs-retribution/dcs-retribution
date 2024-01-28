@@ -249,11 +249,15 @@ class FlightPlan(ABC, Generic[LayoutT]):
             self._travel_time_to_waypoint(self.tot_waypoint)
             + self.estimate_startup()
             + self.estimate_ground_ops()
+            + self.estimate_takeoff_time()
         )
 
     def startup_time(self) -> datetime:
         return (
-            self.takeoff_time() - self.estimate_startup() - self.estimate_ground_ops()
+            self.takeoff_time()
+            - self.estimate_startup()
+            - self.estimate_ground_ops()
+            - self.estimate_takeoff_time()
         )
 
     def estimate_startup(self) -> timedelta:
@@ -272,6 +276,10 @@ class FlightPlan(ABC, Generic[LayoutT]):
             return timedelta(minutes=2)
         else:
             return timedelta(minutes=8)
+
+    @staticmethod
+    def estimate_takeoff_time() -> timedelta:
+        return timedelta(seconds=30)
 
     @property
     def is_airassault(self) -> bool:

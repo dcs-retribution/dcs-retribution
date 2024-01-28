@@ -9,6 +9,7 @@ from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 class AntiShipIngressBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
+        self.register_special_ingress_points()
         group_names = []
         waypoint.tasks.append(OptFormation.finger_four_open())
 

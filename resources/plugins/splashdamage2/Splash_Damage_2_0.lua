@@ -285,7 +285,7 @@ clusterDamage = {
   ["BLU-97B"] = 0.287,                           -- CBU-87/103 - 202 x CEM, CBU with WCMD
   ["BLU-97/B"]  = 0.287,                         -- AGM-154A - JSOW CEB (CBU-type) - 145 BLU-97/B Combined Effects Bomb (CEB) submunitions
   --["AGM_154A"]  = 0.287,                         -- AGM-154A - JSOW CEB (CBU-type) - 145 BLU-97/B Combined Effects Bomb (CEB) submunitions
-  ["BLU-108"] = 30,
+  ["BLU-108"] = 10,
   ["PTAB-2.5KO"]= 10,                            -- BKF - 12 x PTAB-2.5KO
   ["AO-2.5RT"]= 10,                              -- BKF - 12 x AO-2.5RT
   ["AO-1SCh"] = 1.67,                            -- RBK-250-275 - 150 x AO-1SCh, 250kg CBU HE/Frag
@@ -311,16 +311,17 @@ clusterWeaps = {
   ["BLU-97B"] = 202,                             -- CBU-87/103 - 202 x CEM, CBU with WCMD
   ["BLU-97/B"]  = 145,                           -- AGM-154A - JSOW CEB (CBU-type) - 145 BLU-97/B Combined Effects Bomb (CEB) submunitions
   --["AGM_154A"]  = 145,                           -- AGM-154A - JSOW CEB (CBU-type) - 145 BLU-97/B Combined Effects Bomb (CEB) submunitions
-  ["BKF_PTAB2_5KO"]= 12,                         -- BKF - 12 x PTAB-2.5KO
-  ["BKF_AO2_5RT"]= 12,                           -- BKF - 12 x AO-2.5RT
-  ["RBK_250_275_AO_1SCH"] = 150,                 -- RBK-250-275 - 150 x AO-1SCh, 250kg CBU HE/Frag
-  ["RBK_250"] = 42,                              -- RBK-250 - 42 x PTAB-2.5M, 250kg CBU Medium HEAT/AP
-  ["RBK_500AO"] = 30,                            -- RBK-500-255 - 30 x PTAB-10-5 CBU Heavy HEAT/AP
-  ["RBK_500U"] = 268,                            -- RBK-500U - 268 x PTAB-1M CBU Light HEAT/AP
-  ["RBK_500U_OAB_2_5RT"] = 126,                  -- RBK-500U - 126 x OAB-2.5RT, 500kg CBU HE/Frag
-  ["AB_250_2_SD_2"] = 144,                       --("AB 250-2 - 144 x SD-2, 250kg CBU with HE submunitions")
-  ["AB_250_2_SD_10A"] = 17,                      --("AB 250-2 - 17 x SD-10A, 250kg CBU with 10kg Frag/HE submunitions")
-  ["AB_500_1_SD_10A"] = 34,                      --("AB 500-1 - 34 x SD-10A, 500kg CBU with 10kg Frag/HE submunitions")
+  ["BLU-108"] = 30,
+  ["PTAB-2.5KO"] = 12,                           -- BKF - 12 x PTAB-2.5KO
+  ["AO-2.5RT"] = 12,                             -- BKF - 12 x AO-2.5RT
+  ["AO-1SCh"] = 150,                             -- RBK-250-275 - 150 x AO-1SCh, 250kg CBU HE/Frag
+  ["PTAB-2-5"] = 42,                             -- RBK-250 - 42 x PTAB-2.5M, 250kg CBU Medium HEAT/AP
+  ["PTAB-10-5"] = 30,                            -- RBK-500-255 - 30 x PTAB-10-5 CBU Heavy HEAT/AP
+  ["PTAB-1M"] = 268,                             -- RBK-500U - 268 x PTAB-1M CBU Light HEAT/AP
+  ["OAB_2_5RT"] = 126,                           -- RBK-500U - 126 x OAB-2.5RT, 500kg CBU HE/Frag
+  ["SD-2"] = 144,                                --("AB 250-2 - 144 x SD-2, 250kg CBU with HE submunitions")
+  ["SD-10A"] = 17,                               --("AB 250-2/1 - 17/34 x SD-10A, 250/500kg CBU with 10kg Frag/HE submunitions")
+  -- can't really model AB 250-1 since it uses exactly the same submunitions as AB 250-2
 }
 
 antiRadiationMissile = {

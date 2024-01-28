@@ -98,7 +98,7 @@ class DefaultSquadronAssigner:
             )
             return None
 
-        if aircraft not in self.coalition.faction.aircrafts:
+        if aircraft not in self.coalition.faction.all_aircrafts:
             return None
 
         lo = self.coalition.faction.liveries_overrides

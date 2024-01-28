@@ -32,6 +32,7 @@ from typing import Dict, Iterator, List, Optional, TYPE_CHECKING, Tuple
 
 from PIL import Image, ImageDraw, ImageFont
 from dcs.mission import Mission
+from dcs.planes import F_15ESE
 from suntime import Sun  # type: ignore
 from tabulate import tabulate
 
@@ -366,7 +367,10 @@ class BriefingPage(KneeboardPage):
             headers=["", "Airbase", "ATC", "TCN", "I(C)LS", "RWY"],
         )
 
-        writer.heading("Flight Plan")
+        writer.heading(
+            f"Flight Plan ({self.flight.squadron.aircraft.variant_id} - "
+            f"{self.flight.flight_type.value})"
+        )
 
         units = self.flight.aircraft_type.kneeboard_units
 
@@ -541,7 +545,8 @@ class SupportPage(KneeboardPage):
         self.jtacs = jtacs
         self.start_time = start_time
         self.dark_kneeboard = dark_kneeboard
-        self.comms.append(CommInfo("Flight", self.flight.intra_flight_channel))
+        flight_name = self.flight.custom_name if self.flight.custom_name else "Flight"
+        self.comms.append(CommInfo(flight_name, self.flight.intra_flight_channel))
 
     def write(self, path: Path) -> None:
         writer = KneeboardPageWriter(dark_theme=self.dark_kneeboard)
@@ -571,9 +576,12 @@ class SupportPage(KneeboardPage):
                 ]
             )
         for f in self.package_flights:
+            callsign = f.callsign
+            if f.custom_name:
+                callsign = f"{callsign}\n({f.custom_name})"
             comm_ladder.append(
                 [
-                    f.callsign,
+                    callsign,
                     str(f.flight_type),
                     KneeboardPageWriter.wrap_line(str(f.aircraft_type), 23),
                     str(len(f.units)),
@@ -744,6 +752,15 @@ class StrikeTaskPage(KneeboardPage):
         else:
             custom_name_title = ""
         writer.title(f"{self.flight.callsign} Strike Task Info{custom_name_title}")
+
+        if self.flight.units[0].unit_type == F_15ESE:
+            i: int = 0
+            for target in self.targets:
+                if not target.waypoint.pretty_name.__contains__("DTC"):
+                    target.waypoint.pretty_name = (
+                        f"{target.waypoint.pretty_name} (DTC M{(i//8)+1}.{i%9+1})"
+                    )
+                    i = i + 1
 
         writer.table(
             [self.target_info_row(t, writer) for t in self.targets],

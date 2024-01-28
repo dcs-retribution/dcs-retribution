@@ -4,15 +4,17 @@ from datetime import datetime
 from typing import Any, Iterable, Union
 
 from dcs import Mission
-from dcs.planes import AJS37, F_14A_135_GR, F_14B, JF_17
+from dcs.planes import AJS37, F_14A_135_GR, F_14B, JF_17, F_15ESE
 from dcs.point import MovingPoint, PointAction
+from dcs.task import RunScript
 from dcs.unitgroup import FlyingGroup
 
 from game.ato import Flight, FlightWaypoint
 from game.ato.flightwaypointtype import FlightWaypointType
+from game.ato.starttype import StartType
 from game.ato.traveltime import GroundSpeed
 from game.missiongenerator.missiondata import MissionData
-from game.theater import MissionTarget, TheaterUnit
+from game.theater import MissionTarget, TheaterUnit, OffMapSpawn
 
 TARGET_WAYPOINTS = (
     FlightWaypointType.TARGET_GROUP_LOC,
@@ -80,8 +82,26 @@ class PydcsWaypointBuilder:
         self.add_tasks(waypoint)
         return waypoint
 
+    def ai_despawn(
+        self, waypoint: MovingPoint, ignore_landing_wpt: bool = False
+    ) -> bool:
+        if self.flight.roster.members[0].is_player:
+            return False
+        arrival = self.flight.arrival
+        offmap = isinstance(arrival, OffMapSpawn)
+        ai_despawn = self.flight.coalition.game.settings.perf_ai_despawn_airstarted
+        ai_despawn &= self.flight.start_type == StartType.IN_FLIGHT
+        is_landing_wpt = arrival.position == waypoint.position
+        return (offmap or ai_despawn) and (is_landing_wpt or ignore_landing_wpt)
+
     def add_tasks(self, waypoint: MovingPoint) -> None:
-        pass
+        if self.ai_despawn(waypoint):
+            waypoint.tasks.append(
+                RunScript(
+                    f"local g = Group.getByName('{self.group.name}')\n"
+                    f"Group.destroy(g)"
+                )
+            )
 
     def set_waypoint_tot(self, waypoint: MovingPoint, tot: datetime) -> None:
         self.waypoint.tot = tot
@@ -103,12 +123,24 @@ class PydcsWaypointBuilder:
         else:
             return False
 
-    def register_special_waypoints(
+    def register_special_strike_points(
         self, targets: Iterable[Union[MissionTarget, TheaterUnit]]
     ) -> None:
-        """Create special target waypoints for various aircraft"""
+        """Create special strike  waypoints for various aircraft"""
         for i, t in enumerate(targets):
             if self.group.units[0].unit_type == JF_17 and i < 4:
                 self.group.add_nav_target_point(t.position, "PP" + str(i + 1))
             if self.group.units[0].unit_type in [F_14B, F_14A_135_GR] and i == 0:
                 self.group.add_nav_target_point(t.position, "ST")
+            # Add F-15E mission target points as mission 1 (for JDAM for instance)
+            if self.group.units[0].unit_type == F_15ESE:
+                self.group.add_nav_target_point(
+                    t.position, f"M{(i//8)+1}.{i%8+1}" f"\nH-1" f"\nA0" f"\nV0"
+                )
+
+    def register_special_ingress_points(self) -> None:
+        # Register Tomcat Initial Point
+        if self.flight.client_count and (
+            self.group.units[0].unit_type in (F_14A_135_GR, F_14B)
+        ):
+            self.group.add_nav_target_point(self.waypoint.position, "IP")

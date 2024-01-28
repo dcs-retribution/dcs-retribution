@@ -47,9 +47,16 @@ samTypesDB = {
 					['NATO'] = 'Big Bird',
 				},
 			},
+			['S-300PS 40B6MD sr_19J6'] = {
+				['name'] = {
+					['NATO'] = 'Tin Shield',
+				},
+			},
 		},
 		['trackingRadar'] = {
 			['S-300PS 40B6M tr'] = {
+			},
+			['S-300PS 5H63C 30H6_tr'] = {
 			},
 		},
 		['launchers'] = {
@@ -396,6 +403,22 @@ samTypesDB = {
 			['NATO'] = 'CSA-4',
 		},
 		['harm_detection_chance'] = 30
+	},
+	['HEMTT_C-RAM_Phalanx'] = {
+		['type'] = 'single',
+		['searchRadar'] = {
+			['HEMTT_C-RAM_Phalanx'] = {
+			},
+		},
+		['launchers'] = {
+			['HEMTT_C-RAM_Phalanx'] = {
+			},
+		},
+		['name'] = {
+			['NATO'] = 'CIWS',
+		},
+		['harm_detection_chance'] = 70,
+		['can_engage_harm'] = true
 	},
 --- Start of EW radars:
 	['1L13 EWR'] = {
@@ -2683,7 +2706,7 @@ function SkynetIADSAbstractRadarElement:goDark()
 		end
 		self.aiState = false
 		self:stopScanningForHARMs()
-		if self.iads:getDebugSettings().radarWentDark then
+		if self.iads:getDebugSettings().samWentDark then
 			self.iads:printOutputToLog("GOING DARK: "..self:getDescription())
 		end
 	end

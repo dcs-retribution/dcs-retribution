@@ -9,6 +9,7 @@ from dcs.task import (
     OptFormation,
     Targets,
     OptROE,
+    SetUnlimitedFuelCommand,
 )
 
 from game.ato import FlightType
@@ -19,6 +20,15 @@ from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 class JoinPointBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
+        # Unlimited fuel option : disable at racetrack start. Must be first option to work.
+        if self.flight.squadron.coalition.game.settings.ai_unlimited_fuel:
+            if waypoint.tasks and isinstance(
+                waypoint.tasks[0], SetUnlimitedFuelCommand
+            ):
+                waypoint.tasks[0] = SetUnlimitedFuelCommand(False)
+            else:
+                waypoint.tasks.insert(0, SetUnlimitedFuelCommand(False))
+
         if self.flight.is_helo:
             waypoint.tasks.append(OptFormation.rotary_wedge())
         else:

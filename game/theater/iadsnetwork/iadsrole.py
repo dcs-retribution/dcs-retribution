@@ -43,11 +43,14 @@ class IadsRole(Enum):
             return cls.SAM_AS_EWR
         elif task == GroupTask.MERAD:
             return cls.SAM
+        elif task == GroupTask.SHORAD:
+            return cls.SAM
         elif task in [
             GroupTask.EARLY_WARNING_RADAR,
             GroupTask.NAVY,
             GroupTask.AIRCRAFT_CARRIER,
             GroupTask.HELICOPTER_CARRIER,
+            GroupTask.AAA,
         ]:
             return cls.EWR
         return cls.NO_BEHAVIOR

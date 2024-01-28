@@ -11,20 +11,21 @@ from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 
 class StrikeIngressBuilder(PydcsWaypointBuilder):
+    _special_wpts_injected: bool = False
+
     def add_tasks(self, waypoint: MovingPoint) -> None:
         bomber = self.group.units[0].unit_type in [B_17G, Tu_22M3]
         bomber_guided = self.group.units[0].unit_type in [B_1B, B_52H]
-        waypoint.tasks.append(OptFormation.finger_four_open())
         if bomber_guided or not bomber:
+            waypoint.tasks.append(OptFormation.finger_four_open())
             self.add_strike_tasks(waypoint, WeaponType.ASM)
-
-        waypoint.tasks.append(OptFormation.trail_open())
-        if bomber_guided or not bomber:
+            waypoint.tasks.append(OptFormation.trail_open())
             self.add_strike_tasks(waypoint, WeaponType.GuidedBombs)
 
         waypoint.tasks.append(OptFormation.ww2_bomber_element_close())
         self.add_bombing_tasks(waypoint)
         waypoint.tasks.append(OptFormation.finger_four_open())
+        self.register_special_ingress_points()
 
     def add_bombing_tasks(self, waypoint: MovingPoint) -> None:
         targets = self.waypoint.targets
@@ -72,5 +73,7 @@ class StrikeIngressBuilder(PydcsWaypointBuilder):
 
             waypoint.speed = mach(0.85, meters(waypoint.alt)).meters_per_second
 
-            # Register special waypoints
-            self.register_special_waypoints(self.waypoint.targets)
+        # Register special waypoints
+        if not self._special_wpts_injected:
+            self.register_special_strike_points(self.waypoint.targets)
+            self._special_wpts_injected = True

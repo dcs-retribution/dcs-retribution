@@ -237,5 +237,7 @@ class QWaitingForMissionResultWindow(QDialog):
 
     def reset_game_state(self):
         self.sim_controller.set_game(self.game)
+        for _, f in self.game.db.flights.objects.items():
+            f.state.reinitialize(self.game.conditions.start_time)
         GameUpdateSignal.get_instance().updateGame(self.game)
         self.close()

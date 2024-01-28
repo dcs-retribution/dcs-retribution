@@ -8,6 +8,7 @@ from typing import Optional, TYPE_CHECKING, Any
 
 import dcs.terrain.falklands.airports
 
+import pydcs_extensions
 from game.profiling import logged_duration
 from pydcs_extensions import ELM2084_MMR_AD_RT, Iron_Dome_David_Sling_CP
 
@@ -60,6 +61,8 @@ class MigrationUnpickler(pickle.Unpickler):
             return dcs.terrain.falklands.airports.Hipico_Flying_Club
         if name in ["SaveManager", "SaveGameBundle"]:
             return DummyObject
+        if module == "pydcs_extensions.f4b.f4b":
+            return pydcs_extensions.f4
         if module == "pydcs_extensions.irondome.irondome":
             if name in ["I9K57_URAGAN", "I9K51_GRAD", "I9K58_SMERCH"]:
                 return None
@@ -94,6 +97,10 @@ def waypoint_debug_directory() -> Path:
 
 def settings_dir() -> Path:
     return base_path() / "Retribution" / "Settings"
+
+
+def airwing_dir() -> Path:
+    return base_path() / "Retribution" / "AirWing"
 
 
 def payloads_dir(backup: bool = False) -> Path:
