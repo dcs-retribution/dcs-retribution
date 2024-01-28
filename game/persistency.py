@@ -10,6 +10,7 @@ import dcs.terrain.falklands.airports
 
 import pydcs_extensions
 from game.profiling import logged_duration
+from pydcs_extensions import ELM2084_MMR_AD_RT, Iron_Dome_David_Sling_CP
 
 if TYPE_CHECKING:
     from game import Game
@@ -62,6 +63,13 @@ class MigrationUnpickler(pickle.Unpickler):
             return DummyObject
         if module == "pydcs_extensions.f4b.f4b":
             return pydcs_extensions.f4
+        if module == "pydcs_extensions.irondome.irondome":
+            if name in ["I9K57_URAGAN", "I9K51_GRAD", "I9K58_SMERCH"]:
+                return None
+            elif name == "ELM2048_MMR":
+                return ELM2084_MMR_AD_RT
+            elif name == "IRON_DOME_CP":
+                return Iron_Dome_David_Sling_CP
         return super().find_class(module, name)
 # fmt: on
 

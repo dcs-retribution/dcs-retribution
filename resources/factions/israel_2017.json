@@ -1,13 +1,12 @@
 {
   "country": "Israel",
-  "name": "Israel 2012'ish",
-  "authors": "Headiii",
-  "description": "<p>A more modern Israeli faction with fictional Imports.</p>",
+  "name": "Israel 2017",
+  "authors": "Ghosti",
+  "description": "<p>Israel Defence Forces after the introduction of the David's Sling.</p>",
   "locales": [
     "he_IL"
   ],
   "aircrafts": [
-    "A-10C Thunderbolt II (Suite 3)",
     "AH-64D Apache Longbow",
     "AH-64D Apache Longbow (AI)",
     "C-130",
@@ -20,8 +19,6 @@
     "F-16D Barak (Block 30)",
     "F-16D Barak (Block 40)",
     "F-16I Sufa",
-    "F/A-18C Hornet (Lot 20)",
-    "Mirage 2000C",
     "UH-1H Iroquois",
     "UH-60L"
   ],
@@ -54,6 +51,9 @@
   "preset_groups": [
     "Hawk",
     "Iron Dome",
+    "Iron Dome (Semicircle)",
+    "David's Sling",
+    "David's Sling (Semicircle)",
     "Patriot"
   ],
   "naval_units": [
@@ -61,6 +61,7 @@
   ],
   "missiles": [],
   "air_defense_units": [
+    "ELM-2084MMR AD Rotating Mode",
     "SAM Hawk SR (AN/MPQ-50)",
     "M163 Vulcan Air Defense System",
     "HEMTT C-RAM Phalanx",
@@ -72,9 +73,6 @@
   "has_jtac": true,
   "jtac_unit": "MQ-9 Reaper",
   "liveries_overrides": {
-    "A-10C Thunderbolt II (Suite 3)": [
-      "Fictional Israel 115 Sqn Flying Dragon"
-    ],
     "F-15C Eagle": [
       "390th Fighter SQN"
     ],
@@ -92,9 +90,6 @@
     ],
     "AH-64D Apache Longbow": [
       "ah-64_d_isr"
-    ],
-    "F/A-18C Hornet (Lot 20)": [
-      "Fictional Israel Air Force"
     ],
     "Mirage 2000C": [
       "UAE Air Force"

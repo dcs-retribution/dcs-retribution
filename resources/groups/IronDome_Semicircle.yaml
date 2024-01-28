@@ -1,4 +1,4 @@
-name: Iron Dome
+name: Iron Dome (Semicircle)
 tasks:
   - MERAD
 units:
@@ -7,4 +7,4 @@ units:
   - Iron Dome CP
   - Iron Dome LN
 layouts:
-  - 4 Launcher Site (Circle)
+  - 4 Launcher Site (Semicircle)

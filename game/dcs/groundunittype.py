@@ -69,6 +69,16 @@ class GroundUnitType(UnitType[Type[VehicleType]]):
         if "name" in state:
             state["variant_id"] = state.pop("name")
 
+        # iron-dome migration to IDF assets
+        if state["variant_id"] in [
+            "(IDF Mods Project) BM-21 Grad 122mm",
+            "(IDF Mods Project) Urgan BM-27 220mm",
+            "(IDF Mods Project) 9A52 Smerch CM 300mm",
+        ]:
+            state["variant_id"] = "M109A6 Paladin"
+        elif state["variant_id"] == "Iron Dome ELM-2048 MMR":
+            state["variant_id"] = "ELM-2084MMR AD Rotating Mode"
+
         # Update any existing models with new data on load.
         updated = GroundUnitType.named(state["variant_id"])
         state.update(updated.__dict__)
