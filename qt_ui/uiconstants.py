@@ -220,4 +220,3 @@ def load_vehicle_icons():
             VEHICLES_ICONS[vehicle[:-7]] = QPixmap(
                 os.path.join("./resources/ui/units/vehicles/icons/", vehicle)
             )
-    VEHICLES_ICONS["(IDF Mods Project) BM-21 Grad 122mm"] = VEHICLES_ICONS["Grad-URAL"]
