@@ -222,9 +222,9 @@ class UnitTransactionFrame(QFrame, Generic[TransactionItemType]):
         # Shift = 10 times
         # CTRL = 5 Times
         modifiers = QApplication.keyboardModifiers()
-        if modifiers == Qt.Modifier.SHIFT:
+        if modifiers == Qt.KeyboardModifier.ShiftModifier:
             amount = 10
-        elif modifiers == Qt.Modifier.CTRL:
+        elif modifiers == Qt.KeyboardModifier.ControlModifier:
             amount = 5
         else:
             amount = 1
