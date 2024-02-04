@@ -96,7 +96,7 @@ squadrons:
     - primary: BAI
       secondary: air-to-ground
       aircraft:
-        - 81st FS
+        - A-10C Thunderbolt II (Suite 7)
         #USAF A-10CII
     - primary: Transport
       secondary: air-to-ground

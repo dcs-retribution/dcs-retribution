@@ -109,7 +109,7 @@ squadrons:
     - primary: BAI
       secondary: air-to-ground
       aircraft:
-      - A-10C II
+      - A-10C Thunderbolt II (Suite 7)
       #USAF A-10CI
     - primary: Transport
       aircraft:
