@@ -36,6 +36,7 @@
 * **[Mission Generator]** Set F-14's IP waypoint according to the flight-plan's ingress point
 * **[Mission Generator]** Automatically de-spawn aircraft when arrival/divert is an off-map spawn
 * **[Options]** Option to de-spawn AI flights in the air if their start-type was manually set to In-Flight
+* **[Campaign Design]** Ability to add separate ground spawns for C-130 and other large aircraft to campaigns.
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task
