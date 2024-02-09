@@ -11,6 +11,7 @@ from dcs.unittype import FlyingType
 from game.data.weapons import Pylon, Weapon, WeaponType
 from game.dcs.aircrafttype import AircraftType
 from .flighttype import FlightType
+from ..persistency import prefer_liberation_payloads
 
 if TYPE_CHECKING:
     from .flight import Flight
@@ -161,7 +162,10 @@ class Loadout:
         # last - the first element in the tuple will be tried first, then the second,
         # etc.
         loadout_names = {
-            t: [f"Retribution {t.value}", f"Liberation {t.value}"] for t in FlightType
+            t: [f"Liberation {t.value}", f"Retribution {t.value}"]
+            if prefer_liberation_payloads()
+            else [f"Retribution {t.value}", f"Liberation {t.value}"]
+            for t in FlightType
         }
         legacy_names = {
             FlightType.TARCAP: (
