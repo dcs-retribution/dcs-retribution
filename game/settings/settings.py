@@ -571,7 +571,7 @@ class Settings:
         default=35,
         min=0,
         max=100,
-        detail="See 2-ship weight factor (WF2)",
+        detail="See 2-ship weight factor (WF3)",
     )
     fpa_4ship_weight: int = bounded_int_option(
         "4-ship weight factor (WF4)",
@@ -580,7 +580,7 @@ class Settings:
         default=15,
         min=0,
         max=100,
-        detail="See 2-ship weight factor (WF2)",
+        detail="See 2-ship weight factor (WF4)",
     )
 
     # Mission Generator
