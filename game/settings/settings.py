@@ -191,7 +191,7 @@ class Settings:
         default=False,
         detail=(
             "If checked, squadrons with a primary task matching the mission will be "
-            "preferred even if there is a closer squadron capable of the mission as a"
+            "preferred even if there is a closer squadron capable of the mission as a "
             "secondary task. Expect longer flights, but squadrons will be more often "
             "assigned to their primary task."
         ),
@@ -289,7 +289,7 @@ class Settings:
         min=0,
         max=300,
         detail=(
-            "Will impact both defensive (BARCAP) and offensive flights. Also has a performance impact,"
+            "Will impact both defensive (BARCAP) and offensive flights. Also has a performance impact, "
             "lower threat range generally means less BARCAPs are planned."
         ),
     )
@@ -337,7 +337,7 @@ class Settings:
         min=0,
         max=300,
         detail=(
-            "How far, at minimum, will AEW&C racetracks be planned"
+            "How far, at minimum, will AEW&C racetracks be planned "
             "to known threat zones."
         ),
     )
@@ -373,7 +373,7 @@ class Settings:
         default=True,
         detail=(
             "If set, squadrons will be limited to a maximum number of pilots and dead "
-            "pilots will replenish at a fixed rate, each defined with the settings"
+            "pilots will replenish at a fixed rate, each defined with the settings "
             "below. Auto-purchase may buy aircraft for which there are no pilots"
             "available, so this feature is still a work-in-progress."
         ),
@@ -775,7 +775,7 @@ class Settings:
         GAMEPLAY_SECTION,
         default=False,
         detail=(
-            "If enabled, AI can use roadbases or airbases which only have ground spawns."
+            "If enabled, AI can use roadbases or airbases which only have ground spawns. "
             "AI will always air-start from these bases (due to DCS limitation)."
         ),
     )
@@ -785,7 +785,7 @@ class Settings:
         GAMEPLAY_SECTION,
         default=True,
         detail=(
-            "Can be used to remove lightposts and other obstacles from roadbase runways."
+            "Can be used to remove lightposts and other obstacles from roadbase runways. "
             "Might not work in DCS multiplayer."
         ),
     )
