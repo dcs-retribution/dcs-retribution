@@ -17,6 +17,7 @@ if TYPE_CHECKING:
 
 _dcs_saved_game_folder: Optional[str] = None
 _prefer_liberation_payloads: bool = False
+_server_port: int = 16880
 
 
 # fmt: off
@@ -75,11 +76,13 @@ class MigrationUnpickler(pickle.Unpickler):
 # fmt: on
 
 
-def setup(user_folder: str, prefer_liberation_payloads: bool) -> None:
+def setup(user_folder: str, prefer_liberation_payloads: bool, port: int) -> None:
     global _dcs_saved_game_folder
-    _dcs_saved_game_folder = user_folder
     global _prefer_liberation_payloads
+    global _server_port
+    _dcs_saved_game_folder = user_folder
     _prefer_liberation_payloads = prefer_liberation_payloads
+    _server_port = port
     if not save_dir().exists():
         save_dir().mkdir(parents=True)
 
@@ -124,6 +127,11 @@ def user_custom_weapon_injections_dir() -> Path:
 
 def save_dir() -> Path:
     return base_path() / "Retribution" / "Saves"
+
+
+def server_port() -> int:
+    global _server_port
+    return _server_port
 
 
 def _temporary_save_file() -> str:

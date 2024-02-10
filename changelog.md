@@ -36,6 +36,7 @@
 * **[Mission Generator]** Set F-14's IP waypoint according to the flight-plan's ingress point
 * **[Mission Generator]** Automatically de-spawn aircraft when arrival/divert is an off-map spawn
 * **[Options]** Option to de-spawn AI flights in the air if their start-type was manually set to In-Flight
+* **[Config]** Preference setting to configure the server-port on which Retribution's back-end will run
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task

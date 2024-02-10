@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from functools import lru_cache
+from typing import Optional
 
 from pydantic_settings import BaseSettings
 
@@ -30,5 +31,5 @@ class ServerSettings(BaseSettings):
 
     @classmethod
     @lru_cache
-    def get(cls) -> ServerSettings:
-        return cls()
+    def get(cls, port: Optional[int] = server_port) -> ServerSettings:
+        return cls(server_port=port)

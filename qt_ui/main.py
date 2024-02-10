@@ -442,7 +442,8 @@ def main():
         dump_task_priorities()
         return
 
-    with Server().run_in_thread():
+    liberation_install.init()
+    with Server(liberation_install.server_port()).run_in_thread():
         run_ui(game, UiFlags(args.dev, args.show_sim_speed_controls))
 
 

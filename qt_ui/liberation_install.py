@@ -12,6 +12,7 @@ global __dcs_saved_game_directory
 global __dcs_installation_directory
 global __last_save_file
 global __prefer_liberation_payloads
+global __server_port
 
 
 USER_PATH = Path(os.environ["LOCALAPPDATA"]) / "DCSRetribution"
@@ -25,6 +26,7 @@ def init():
     global __last_save_file
     global __ignore_empty_install_directory
     global __prefer_liberation_payloads
+    global __server_port
 
     if PREFERENCES_PATH.exists():
         try:
@@ -40,6 +42,7 @@ def init():
             __prefer_liberation_payloads = pref_data.get(
                 "prefer_liberation_payloads", False
             )
+            __server_port = pref_data.get("server_port", 16880)
             is_first_start = False
         except (KeyError, json.JSONDecodeError):
             __dcs_saved_game_directory = ""
@@ -47,11 +50,13 @@ def init():
             __last_save_file = ""
             __ignore_empty_install_directory = False
             __prefer_liberation_payloads = False
+            __server_port = 16880
             is_first_start = True
     else:
         __last_save_file = ""
         __ignore_empty_install_directory = False
         __prefer_liberation_payloads = False
+        __server_port = 16880
         try:
             __dcs_saved_game_directory = (
                 dcs.installation.get_dcs_saved_games_directory()
@@ -68,18 +73,22 @@ def init():
             __dcs_installation_directory = ""
 
         is_first_start = True
-    persistency.setup(__dcs_saved_game_directory, __prefer_liberation_payloads)
+    persistency.setup(
+        __dcs_saved_game_directory, __prefer_liberation_payloads, __server_port
+    )
     return is_first_start
 
 
-def setup(saved_game_dir, install_dir, prefer_liberation_payloads):
+def setup(saved_game_dir, install_dir, prefer_liberation_payloads, port):
     global __dcs_saved_game_directory
     global __dcs_installation_directory
     global __prefer_liberation_payloads
+    global __server_port
     __dcs_saved_game_directory = saved_game_dir
     __dcs_installation_directory = install_dir
     __prefer_liberation_payloads = prefer_liberation_payloads
-    persistency.setup(__dcs_saved_game_directory, __prefer_liberation_payloads)
+    __server_port = port
+    persistency.setup(saved_game_dir, prefer_liberation_payloads, port)
 
 
 def setup_last_save_file(last_save_file):
@@ -92,12 +101,14 @@ def save_config():
     global __dcs_installation_directory
     global __last_save_file
     global __ignore_empty_install_directory
+    global __server_port
     pref_data = {
         "saved_game_dir": __dcs_saved_game_directory,
         "dcs_install_dir": __dcs_installation_directory,
         "last_save_file": __last_save_file,
         "ignore_empty_install_directory": __ignore_empty_install_directory,
         "prefer_liberation_payloads": __prefer_liberation_payloads,
+        "server_port": __server_port,
     }
     PREFERENCES_PATH.parent.mkdir(exist_ok=True, parents=True)
     with PREFERENCES_PATH.open("w") as prefs:
@@ -117,6 +128,11 @@ def get_saved_game_dir():
 def prefer_liberation_payloads():
     global __prefer_liberation_payloads
     return __prefer_liberation_payloads
+
+
+def server_port():
+    global __server_port
+    return __server_port
 
 
 def ignore_empty_install_directory():
