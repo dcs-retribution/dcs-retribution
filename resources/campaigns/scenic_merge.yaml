@@ -14,6 +14,8 @@ recommended_player_money: 2000
 recommended_enemy_money: 1000
 recommended_player_income_multiplier: 1.5
 recommended_enemy_income_multiplier: 0.7
+settings:
+  airbase_threat_range: 300
 squadrons:
   #BLUFOR CVN
   Naval-3:
