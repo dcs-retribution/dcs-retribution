@@ -5,7 +5,7 @@ local unitPayloads = {
 			["name"] = "Retribution OCA/Runway",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{696CFFC4-0BDE-42A8-BE4B-0BE3D9DD723C}",
+					["CLSID"] = "{585D626E-7F42-4073-AB70-41E728C333E2}",
 					["num"] = 3,
 				},
 				[2] = {
@@ -13,7 +13,7 @@ local unitPayloads = {
 					["num"] = 2,
 				},
 				[3] = {
-					["CLSID"] = "{696CFFC4-0BDE-42A8-BE4B-0BE3D9DD723C}",
+					["CLSID"] = "{585D626E-7F42-4073-AB70-41E728C333E2}",
 					["num"] = 1,
 				},
 			},
