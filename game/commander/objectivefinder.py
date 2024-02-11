@@ -140,7 +140,7 @@ class ObjectiveFinder:
     def vulnerable_control_points(self) -> Iterator[ControlPoint]:
         """Iterates over friendly CPs that are vulnerable to enemy CPs.
 
-        Vulnerability is defined as any enemy CP within threat range of of the
+        Vulnerability is defined as any enemy CP within threat range of the
         CP.
         """
         for cp in self.friendly_control_points():
