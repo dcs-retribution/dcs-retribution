@@ -134,32 +134,15 @@ local unitPayloads = {
 			},
 		},
 		[6] = {
-			["displayName"] = "Retribution OCA/Runway",
-			["name"] = "Retribution OCA/Runway",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
-					["num"] = 6,
-				},
-				[2] = {
-					["CLSID"] = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
-					["num"] = 1,
-				},
-			},
-			["tasks"] = {
-				[1] = 30,
-			},
-		},
-		[7] = {
 			["displayName"] = "Retribution Strike",
 			["name"] = "Retribution Strike",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}",
+					["CLSID"] = "{60CC734F-0AFA-4E2E-82B8-93B941AB11CF}",
 					["num"] = 6,
 				},
 				[2] = {
-					["CLSID"] = "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}",
+					["CLSID"] = "{60CC734F-0AFA-4E2E-82B8-93B941AB11CF}",
 					["num"] = 1,
 				},
 				[3] = {
