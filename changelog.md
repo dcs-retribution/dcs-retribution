@@ -30,7 +30,7 @@
 * **[COMMs]** Aircraft-specific callsigns will now also be used.
 * **[COMMs]** Ability to set a specific callsign to a flight.
 * **[Mission Generator]** Channel terrain fix on exclusion zones, sea zones and inclusion zones
-* **[Options]** Cheat-option for accessing Air Wing Config Dialog after campaign start
+* **[Options]** Cheat-option for accessing Air Wing Config Dialog after campaign start (re-initializes turn if applied, thus plan your mission ___after___ making changes)
 * **[Options]** Option to enable unlimited fuel for AI (player and non-player flights)
 * **[Mission Generator]** F-15E Strike targets are automatically added as Mission Set 1 
 * **[Mission Generator]** Set F-14's IP waypoint according to the flight-plan's ingress point
