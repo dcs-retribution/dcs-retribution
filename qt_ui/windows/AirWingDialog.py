@@ -19,6 +19,8 @@ from PySide6.QtWidgets import (
 )
 
 from game.ato.flight import Flight
+from game.server import EventStream
+from game.sim import GameUpdateEvents
 from game.squadrons import Squadron
 from game.theater import ConflictTheater
 from qt_ui.delegates import TwoColumnRowDelegate
@@ -258,6 +260,9 @@ class AirWingTabs(QTabWidget):
 
     def open_awcd(self, gm: GameModel):
         AirWingConfigurationDialog(gm.game, True, self).exec_()
+        events = GameUpdateEvents().begin_new_turn()
+        EventStream.put_nowait(events)
+        gm.ato_model.on_sim_update(events)
 
 
 class AirWingDialog(QDialog):
