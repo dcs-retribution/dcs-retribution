@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import random
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Iterator, TYPE_CHECKING, Type
@@ -132,17 +133,34 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
                 )
             )
             pickup_position = pickup.position
+
+        ingress = builder.ingress(
+            FlightWaypointType.INGRESS_AIR_ASSAULT,
+            self.package.waypoints.ingress,
+            self.package.target,
+        )
+
         assault_area = builder.assault_area(self.package.target)
-        heading = self.package.target.position.heading_between_point(pickup_position)
         if self.flight.is_hercules:
             assault_area.only_for_player = False
             assault_area.alt = feet(1000)
 
-        # TODO: define CTLD dropoff zones in campaign miz?
-        drop_off_zone = MissionTarget(
-            "Dropoff zone",
-            self.package.target.position.point_from_heading(heading, 1200),
-        )
+        assault_area = builder.assault_area(self.package.target)
+        if self.flight.is_hercules:
+            assault_area.only_for_player = False
+            assault_area.alt = feet(1000)
+
+        tgt = self.package.target
+        if isinstance(tgt, CTLD) and tgt.ctld_zones:
+            top3 = sorted(
+                tgt.ctld_zones, key=lambda x: ingress.position.distance_to_point(x[0])
+            )[:3]
+            closest = random.choice(top3)
+            drop_pos = closest[0].random_point_within(closest[1])
+        else:
+            heading = tgt.position.heading_between_point(ingress.position)
+            drop_pos = tgt.position.point_from_heading(heading, 1200)
+        drop_off_zone = MissionTarget("Dropoff zone", drop_pos)
         dz = builder.dropoff_zone(drop_off_zone) if self.flight.is_helo else None
 
         return AirAssaultLayout(
@@ -154,11 +172,7 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
                 altitude,
                 altitude_is_agl,
             ),
-            ingress=builder.ingress(
-                FlightWaypointType.INGRESS_AIR_ASSAULT,
-                self.package.waypoints.ingress,
-                self.package.target,
-            ),
+            ingress=ingress,
             drop_off=dz,
             targets=[assault_area],
             nav_from=builder.nav_path(
