@@ -132,6 +132,7 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
                     self._generate_ctld_pickup(),
                 )
             )
+            pickup.alt = heli_alt
             pickup_position = pickup.position
 
         ingress = builder.ingress(
@@ -162,6 +163,8 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
             drop_pos = tgt.position.point_from_heading(heading, 1200)
         drop_off_zone = MissionTarget("Dropoff zone", drop_pos)
         dz = builder.dropoff_zone(drop_off_zone) if self.flight.is_helo else None
+        if dz:
+            dz.alt = heli_alt
 
         return AirAssaultLayout(
             departure=builder.takeoff(self.flight.departure),
