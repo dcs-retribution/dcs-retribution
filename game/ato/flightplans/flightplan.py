@@ -71,15 +71,6 @@ class FlightPlan(ABC, Generic[LayoutT]):
         """A list of all waypoints in the flight plan, in order."""
         return list(self.iter_waypoints())
 
-    def get_index_of_wpt_by_type(self, wpt_type: FlightWaypointType) -> int:
-        index = 0
-        for wpt in self.waypoints:
-            if wpt and not wpt.only_for_player:
-                index += 1
-                if wpt.waypoint_type == wpt_type:
-                    return index
-        return -1
-
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
         """Iterates over all waypoints in the flight plan, in order."""
         yield from self.layout.iter_waypoints()
