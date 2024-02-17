@@ -146,11 +146,6 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
             assault_area.only_for_player = False
             assault_area.alt = feet(1000)
 
-        assault_area = builder.assault_area(self.package.target)
-        if self.flight.is_hercules:
-            assault_area.only_for_player = False
-            assault_area.alt = feet(1000)
-
         tgt = self.package.target
         if isinstance(tgt, CTLD) and tgt.ctld_zones:
             top3 = sorted(
