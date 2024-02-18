@@ -255,6 +255,9 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
     @property
     def primary_flight_is_air_assault(self) -> bool:
         if self.flight is self.package.primary_flight:
+            # Can't call self.package.primary_flight.flight_plan here
+            # because the flight-plan wasn't created yet.
+            # Calling the fligh_plan property would result in infinite recursion
             return self.flight.flight_type == FlightType.AIR_ASSAULT
         else:
             assert self.package.primary_flight is not None
