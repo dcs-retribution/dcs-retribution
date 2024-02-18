@@ -7,12 +7,12 @@ recommended_enemy_faction: Russia 2010
 description:
   <p>An Argentinean extremist group has contracted the Sons of Warvan (SoW), an
   unusually well-equipped PMC with close ties to the Russian government, to
-  construct a beryllium bomb at the secret Omega 13 production facility in Ushaia
-  for use in its ongoing conflict with Chile. United States military forces have
-  established a foothold at San Julian. While the SoW are distracted up north, it
-  is up to the Marines to launch an assault upon Ushaia from an LHA in order to
-  disable the bomb production facility. Fortunately, Ushaia is lightly defended as
-  the SoW are trying to avoid unwanted attention.</p>
+  construct a beryllium bomb at the secret Omega 13 production facility in
+  Ushaia for use in its ongoing conflict with Chile. United States military
+  forces have established a foothold at San Julian. While the SoW are distracted
+  up north, it is up to the Marines to launch an assault upon Ushaia from an LHA
+  in order to disable the bomb production facility. Fortunately, Ushaia is
+  lightly defended as the SoW are trying to avoid unwanted attention.</p>
 miz: grabthars_hammer.miz
 performance: 2
 recommended_start_date: 1999-12-25
@@ -24,34 +24,28 @@ squadrons:
       secondary: any
       aircraft:
         - F-16CM Fighting Falcon (Block 50)
-      size: 16
+      size: 8
     - primary: CAS
       secondary: air-to-ground
       aircraft:
         - A-10C Thunderbolt II (Suite 7)
       size: 8
-    - primary: Strike
-      secondary: air-to-ground
+    - primary: Escort
+      secondary: any
       aircraft:
-        - B-1B Lancer
-      size: 12
+        - F-15C Eagle
+      size: 8
     - primary: Refueling
       aircraft:
         - KC-135 Stratotanker
-      size: 1
+      size: 2
   #San Julian
   11:
     - primary: BAI
-      secondary: air-to-ground
-      aircraft:
-        - F-15E Strike Eagle (AI)
-        - F-15E Strike Eagle (Suite 4+)
-      size: 8
-    - primary: Air Assault
       secondary: any
       aircraft:
-        - UH-1H Iroquois
-      size: 1
+        - F-15E Strike Eagle (Suite 4+)
+      size: 8
   #Blue CV
   Blue-CV:
     - primary: BARCAP
@@ -63,25 +57,26 @@ squadrons:
       secondary: any
       aircraft:
         - F/A-18C Hornet (Lot 20)
-      size: 32
-    - primary: Escort
-      secondary: any
+      size: 20
+    - primary: DEAD
+      secondary: air-to-ground
       aircraft:
-        - F/A-18C Hornet (Lot 20)
-      size: 32
+        - S-3B Viking
+      size: 20
     - primary: AEW&C
       aircraft:
         - E-2C Hawkeye
-      size: 1
+      size: 2
     - primary: Refueling
       aircraft:
         - S-3B Tanker
-      size: 3
+      size: 4
     - primary: Air Assault
       secondary: any
       aircraft:
-        - SH-60B Seahawk
-      size: 2
+        - UH-60L
+        - UH-60A
+      size: 4
   # Blue LHA
   Blue-LHA:
     - primary: DEAD
@@ -90,10 +85,21 @@ squadrons:
         - AV-8B Harrier II Night Attack
       size: 18
     - primary: Air Assault
-      secondary: air-to-ground
+      secondary: any
       aircraft:
         - UH-1H Iroquois
       size: 2
+  Bombers from Edwards AFB:
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - B-52H Stratofortress
+      size: 12
+    - primary: OCA/Runway
+      secondary: air-to-ground
+      aircraft:
+        - B-1B Lancer
+      size: 12
   #El Calafate
   14:
     - primary: Transport
@@ -102,7 +108,7 @@ squadrons:
       size: 10
   #Rio Gallegros
   5:
-    - primary: BARCAP
+    - primary: Escort
       secondary: air-to-air
       aircraft:
         - Su-27 Flanker-B
