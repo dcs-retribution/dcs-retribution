@@ -52,6 +52,7 @@
 * **[Modding]** Swedish Military Assets Pack air defence presets are now correctly removed from the faction when the mod is disabled.
 * **[Mission Generation]** Naval aircraft not always returning to carrier
 * **[Mission Generation]** AI AirLift aircraft crashing into terrain due to insufficient waypoints
+* **[Mission Generation]** Fix friendly AI shooting at fires on the front-line
 
 # Retribution v1.2.1 (hotfix)
 
