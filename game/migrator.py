@@ -7,6 +7,8 @@ from typing import TYPE_CHECKING, Any
 from dcs.countries import countries_by_name
 
 from game.ato import FlightType
+from game.ato.flightplans.formation import FormationLayout
+from game.ato.flightplans.waypointbuilder import WaypointBuilder
 from game.ato.packagewaypoints import PackageWaypoints
 from game.data.doctrine import MODERN_DOCTRINE, COLDWAR_DOCTRINE, WWII_DOCTRINE
 from game.theater import ParkingType, SeasonalConditions
@@ -107,6 +109,10 @@ class Migrator:
         try_set_attr(layout, "nav_from", [])
         if f.flight_type == FlightType.CAS:
             try_set_attr(layout, "ingress", None)
+        if isinstance(layout, FormationLayout):
+            if not layout.join and f.package.waypoints:
+                builder = WaypointBuilder(f, [])
+                layout.join = builder.join(f.package.waypoints.join)
 
     def _update_flights(self) -> None:
         to_remove = []
