@@ -3,6 +3,9 @@
   "name": "D-Day Allied Forces 1944 and 1990",
   "authors": "Starfire",
   "description": "<p>Faction for Final Countdown II</p>",
+  "locales": [
+    "en_US"
+  ],
   "aircrafts": [
     "Boston Mk.III",
     "Fortress Mk.III",
@@ -12,7 +15,9 @@
     "MosquitoFBMkVI",
     "F-14B Tomcat",
     "F/A-18C Hornet (Lot 20)",
-    "SH-60B Seahawk"
+    "S-3B Viking",
+    "UH-60L",
+    "UH-60A"
   ],
   "awacs": [
     "E-2C Hawkeye"
@@ -39,24 +44,19 @@
     "Truck GMC \"Jimmy\" 6x6 Truck"
   ],
   "infantry_units": [
-    "Infantry M1 Garand",
-    "Infantry SMLE No.4 Mk-1"
+    "Infantry M1 Garand"
+  ],
+  "naval_units": [
+    "DDG Arleigh Burke IIa",
+    "CG Ticonderoga",
+    "CVN-74 John C. Stennis"
   ],
   "missiles": [],
   "air_defense_units": [
     "Bofors 40 mm Gun"
   ],
   "preset_groups": [
-    "Ally Flak",
-    "WW2LST"
-  ],
-  "locales": [
-    "en_US"
-  ],
-  "naval_units": [
-    "DDG Arleigh Burke IIa",
-    "CG Ticonderoga",
-    "CVN-74 John C. Stennis"
+    "Ally Flak"
   ],
   "requirements": {
     "WW2 Asset Pack": "https://www.digitalcombatsimulator.com/en/products/other/wwii_assets_pack/"
@@ -64,10 +64,10 @@
   "carrier_names": [
     "CVN-71 Theodore Roosevelt"
   ],
-  "helicopter_carrier_names": [],
   "has_jtac": true,
-  "doctrine": "ww2",
+  "jtac_unit": "MQ-9 Reaper",
   "unrestricted_satnav": true,
+  "doctrine": "ww2",
   "building_set": "ww2ally",
   "cargo_ship": "LST Mk.II"
 }
