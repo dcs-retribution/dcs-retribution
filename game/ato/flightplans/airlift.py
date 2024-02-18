@@ -42,8 +42,8 @@ class AirliftLayout(StandardLayout):
     drop_off: FlightWaypoint | None
     # drop_off_zone will be used for player flights to create the CTLD stuff
     ctld_drop_off_zone: FlightWaypoint | None
-    return_ascent: FlightWaypoint | None
-    return_descent: FlightWaypoint | None
+    return_ascent: FlightWaypoint
+    return_descent: FlightWaypoint
 
     def add_waypoint(
         self, wpt: FlightWaypoint, next_wpt: Optional[FlightWaypoint]
@@ -83,13 +83,11 @@ class AirliftLayout(StandardLayout):
             yield self.drop_off_descent
         if self.drop_off is not None:
             yield self.drop_off
-        if self.return_ascent is not None:
-            yield self.return_ascent
+        yield self.return_ascent
         if self.ctld_drop_off_zone is not None:
             yield self.ctld_drop_off_zone
         yield from self.nav_from
-        if self.return_descent is not None:
-            yield self.return_descent
+        yield self.return_descent
         yield self.arrival
         if self.divert is not None:
             yield self.divert

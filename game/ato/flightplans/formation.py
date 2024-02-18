@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class FormationLayout(LoiterLayout, ABC):
-    join: Optional[FlightWaypoint]
+    join: FlightWaypoint
     split: FlightWaypoint
     refuel: Optional[FlightWaypoint]
 

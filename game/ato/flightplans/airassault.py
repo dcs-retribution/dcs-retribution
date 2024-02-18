@@ -39,6 +39,7 @@ class AirAssaultLayout(FormationAttackLayout):
         if self.pickup is not None:
             yield self.pickup
         yield from self.nav_to
+        yield self.join
         yield self.ingress
         if self.drop_off is not None:
             yield self.drop_off
@@ -151,8 +152,8 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
             top3 = sorted(
                 tgt.ctld_zones, key=lambda x: ingress.position.distance_to_point(x[0])
             )[:3]
-            closest = random.choice(top3)
-            drop_pos = closest[0].random_point_within(closest[1])
+            pos, dist = random.choice(top3)
+            drop_pos = pos.random_point_within(dist)
         else:
             heading = tgt.position.heading_between_point(ingress.position)
             drop_pos = tgt.position.point_from_heading(heading, 1200)
@@ -183,8 +184,8 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
             hold=None,
-            join=builder.join(pickup_position),
-            split=builder.split(self.package.waypoints.split),
+            join=builder.join(ingress.position),
+            split=builder.split(self.flight.arrival.position),
             refuel=None,
         )
 

@@ -44,16 +44,17 @@ class Builder(FormationAttackBuilder[EscortFlightPlan, FormationAttackLayout]):
         ingress.only_for_player = True
         target.only_for_player = True
         hold = None
-        if not self.primary_flight_is_air_assault:
+        if not self.flight.is_helo:
             hold = builder.hold(self._hold_point())
-        elif self.package.primary_flight is not None:
-            fp = self.package.primary_flight.flight_plan
-            assert isinstance(fp.layout, AirAssaultLayout)
-            if fp.layout.pickup:
-                hold = builder.hold(fp.layout.pickup.position)
 
-        join = builder.join(self.package.waypoints.join)
-        split = builder.split(self.package.waypoints.split)
+        join_pos = (
+            self.package.waypoints.ingress
+            if self.flight.is_helo
+            else self.package.waypoints.join
+        )
+        join = builder.join(join_pos)
+
+        split = builder.split(self._get_split())
 
         ingress_alt = self.doctrine.ingress_altitude
         is_helo = builder.flight.is_helo
@@ -70,11 +71,13 @@ class Builder(FormationAttackBuilder[EscortFlightPlan, FormationAttackLayout]):
                 layout, AirliftLayout
             )
             if isinstance(layout, AirliftLayout):
-                join = builder.join(layout.departure.position)
+                ascent = layout.pickup_ascent or layout.drop_off_ascent
+                assert ascent is not None
+                join = builder.join(ascent.position)
             else:
                 join = builder.join(layout.ingress.position)
-            if layout.pickup:
-                join = builder.join(layout.pickup.position)
+            if layout.pickup and layout.drop_off_ascent:
+                join = builder.join(layout.drop_off_ascent.position)
             split = builder.split(layout.arrival.position)
             if layout.drop_off:
                 initial = builder.escort_hold(
