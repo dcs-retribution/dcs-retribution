@@ -248,10 +248,14 @@ class WaypointBuilder:
                 else feet(1000)
             )
 
+        heading = objective.position.heading_between_point(position)
+
         return FlightWaypoint(
             "INGRESS",
             ingress_type,
-            position,
+            objective.position.point_from_heading(heading, nautical_miles(5).meters)
+            if self.is_helo
+            else position,
             alt,
             alt_type,
             description=f"INGRESS on {objective.name}",

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from datetime import timedelta, datetime
 from typing import Type
 
 from .airassault import AirAssaultLayout
@@ -16,18 +15,6 @@ from ...utils import feet
 
 
 class EscortFlightPlan(FormationAttackFlightPlan):
-    @property
-    def push_time(self) -> datetime:
-        hold2join_time = (
-            self.travel_time_between_waypoints(
-                self.layout.hold,
-                self.layout.join,
-            )
-            if self.layout.hold is not None
-            else timedelta(0)
-        )
-        return self.join_time - hold2join_time
-
     @staticmethod
     def builder_type() -> Type[Builder]:
         return Builder
@@ -74,10 +61,10 @@ class Builder(FormationAttackBuilder[EscortFlightPlan, FormationAttackLayout]):
                 ascent = layout.pickup_ascent or layout.drop_off_ascent
                 assert ascent is not None
                 join = builder.join(ascent.position)
-            else:
-                join = builder.join(layout.ingress.position)
-            if layout.pickup and layout.drop_off_ascent:
-                join = builder.join(layout.drop_off_ascent.position)
+                if layout.pickup and layout.drop_off_ascent:
+                    join = builder.join(layout.drop_off_ascent.position)
+            elif layout.pickup:
+                join = builder.join(layout.pickup.position)
             split = builder.split(layout.arrival.position)
             if layout.drop_off:
                 initial = builder.escort_hold(

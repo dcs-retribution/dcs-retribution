@@ -94,7 +94,11 @@ class JoinPointBuilder(PydcsWaypointBuilder):
         max_dist: float = 30.0,
         vertical_spacing: float = 2000.0,
     ) -> None:
-        waypoint.tasks.append(OptROE(value=OptROE.Values.OpenFire))
+        if self.flight.is_helo:
+            # Make helicopters a bit more aggressive
+            waypoint.tasks.append(OptROE(value=OptROE.Values.OpenFireWeaponFree))
+        else:
+            waypoint.tasks.append(OptROE(value=OptROE.Values.OpenFire))
 
         rx = (random.random() + 0.1) * 333
         ry = feet(vertical_spacing).meters

@@ -92,10 +92,15 @@ class FormationFlightPlan(LoiterFlightPlan, ABC):
 
     @property
     def push_time(self) -> datetime:
-        return self.join_time - self.travel_time_between_waypoints(
-            self.layout.hold,
-            self.layout.join,
+        hold2join_time = (
+            self.travel_time_between_waypoints(
+                self.layout.hold,
+                self.layout.join,
+            )
+            if self.layout.hold
+            else timedelta(0)
         )
+        return self.join_time - hold2join_time
 
     @property
     def mission_begin_on_station_time(self) -> datetime | None:
