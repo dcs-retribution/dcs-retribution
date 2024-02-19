@@ -1,7 +1,7 @@
 import logging
 
 from dcs.point import MovingPoint
-from dcs.task import EngageTargets, OptFormation, Targets
+from dcs.task import EngageTargets, OptFormation, Targets, OptROE
 
 from game.ato.flightplans.sweep import SweepFlightPlan
 from game.utils import nautical_miles
@@ -15,6 +15,8 @@ class SweepIngressBuilder(PydcsWaypointBuilder):
             waypoint.tasks.append(OptFormation.line_abreast_open())
         else:
             waypoint.tasks.append(OptFormation.spread_four_open())
+
+        waypoint.tasks.append(OptROE(value=OptROE.Values.OpenFireWeaponFree))
 
         if not isinstance(self.flight.flight_plan, SweepFlightPlan):
             flight_plan_type = self.flight.flight_plan.__class__.__name__
