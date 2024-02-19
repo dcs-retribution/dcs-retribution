@@ -8,8 +8,9 @@
   ],
   "aircrafts": [
     "MiG-29S Fulcrum-C",
-    "J-7B",
+    "MiG-21bis Fishbed-N",
     "Mirage 2000C",
+    "F-4E Phantom II",
     "F-16CM Fighting Falcon (Block 50)",
     "IL-76MD",
     "C-130",
@@ -64,9 +65,15 @@
     "SA-2/S-75",
     "SA-6",
     "SA-17",
+    "SA-10/S-300PS",
     "SA-23/S-300VM",
     "Patriot",
     "Hawk"
+  ],
+  "naval_units": [
+    "FFG Oliver Hazard Perry",
+    "Corvette 1241.1 Molniya",
+    "FAC La Combattante IIa"
   ],
   "missiles": [
     "SSM SS-1C Scud-B"
