@@ -1,28 +1,25 @@
 ---
-name: Syria - WRL - Battle For Syria North (1.0) #1.0 Release with Player F15e
+name: Syria - WRL - Battle For Syria North (v1.2) #1.2 Complete Mission Overhaul - Frontlines Removed - CTLD or C130s are expected for base capture / Consider victory by destroying all airbases.
 theater: Syria
 authors: HolyOrangeJuice
-description: "<p>This mission was modified by HolyOrangeJuice [OscarJuliet] for the WRL Group. Original Mission by Sith1144. Join us for weekly PVE events. <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p><p>This modification of the mission is not meant to represent historical accuracy. An exciting battle on the Northern part of the Syria map.</p><p>All WRL Campaigns use high budget and high income to focus on the PVE goals to eliminate the enemy. Use lower starting money and income for increased difficulty</p>"
+description: "<p>This mission was heavily modified by HolyOrangeJuice [OscarJuliet] for the WRL Group. Original Mission by Sith1144. Join us for weekly PVE events. <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p><p>This modification of the mission is not meant to represent historical accuracy. An exciting battle on the Northern part of the Syria map.</p><p>All WRL Campaigns use high budget and high income to focus on the PVE goals to eliminate the enemy. Use lower starting money and income for increased difficulty</p>"
 recommended_player_faction: WRL - Task Force Blue
 recommended_enemy_faction: WRL - Task Force Red
 recommended_start_date: 2019-06-04
 miz: WRL_Battle4SyriaNorth.miz
 performance: 2
-version: "10.7" #No CTLD zones, campaign is too large for CTLD focus
+version: "10.7" #CTLD ZONES ADDED
 recommended_player_money: 5000
 recommended_enemy_money: 2000
 recommended_player_income_multiplier: 5.0
 recommended_enemy_income_multiplier: 1.0
-advanced_iads: true # Campaign has connection_nodes / power_sources / command_centers
-#IADS: EWR and C2 get power generators. batteries have their own generators.
+advanced_iads: true 
 iads_config:
 # NATO IADS
-#EWRs
     - NATO EWR-1:
         - NATO IADS Command
     - NATO EWR:
         - NATO IADS Command
-# SAMs
     - NATO SAM:
         - NATO IADS Command
     - NATO SAM-1:
@@ -39,202 +36,129 @@ iads_config:
         - NATO IADS Command
     - NATO SAM-7:
         - NATO IADS Command
-# Yellow defense zone (Gaziantep-Minakh)
-#EWRs
-    - YellowEWRN: #mountainrange (north)
-        - YellowPPW
-        - YellowControlN
-    - YellowEWRS: #mountainrange (center)
-        - YellowPPW
-        - YellowControlW
-    - YellowEWRC: # internal
-        - HamidiyeControl
-        - GaziantepControl
-        - GaziantepPP
-    - GaziantepAirControl:
-        - GaziantepControl
-        - GaziantepPP
-# The air defense barrier behind the mountains
-    - YellowBarrierN:
-        - YellowControlN
-    - YellowBarrierC1:
-        - YellowControlW
-    - YellowBarrierC2:
-        - YellowControlW
-    - YellowBarrierS:
-        - YellowControlW
-    - YellowBarrierAAA:
-        - YellowControlW
-# the central long range SAM and its point defenses
-    - YellowLongRangeSAMPointDefense:
-        - HamidiyeControl
-    - YellowLongRangeSAM:
-        - HamidiyeControl
-    - YellowLongRangeSAMAAA:
-        - HamidiyeControl
-# the defenses around Gaziantep airfield
-    - GAZSAMN:
-        - GaziantepControl
-    - GAZSAMW:
-        - GaziantepControl
-# the defenses around Minakh airfield
-    - MinakhSAM1:
-        - MinakhControl
-    - MinakhSAM2:
-        - MinakhControl
-#C2 links
-    - YellowControlN:
-        - HamidiyeControl
-    - YellowControlW:
-        - HamidiyeControl
-        - YellowControlN
-    - YellowZoneCommand:
-        - GaziantepControl
-        - MinakhControl
-        - HamidiyeControl
-        - GaziantepPP
-        - GaziantepAirControl
-# Green Defense Zone (HATAY)
-# EWRs
-    - CoastalEWRN:
-        - HatayControl
-        - AntakyaPower
-    - CoastalEWRS:
-        - SamandagControl
-        - AntakyaPower
-# The air defense barrier behind the mountains
-    - GreenBarrierSAM:
-        - SamandagControl
-    - GreenBarrierSAM-1:
-        - SamandagControl
-    - GreenBarrierSAM-2:
-        - HatayControl
-    - GreenBarrierSAM-3:
-        - HatayControl
-    - GreenBarrierSAM-4:
-        - HatayControl
-# Coastal Defenses
-    - GreenSAM-2:
-        - SamandagControl
-    - GreenSAM-3:
-        - SamandagControl
-    - GreenSAM-4:
-        - SamandagControl
-# Hatay Airfield
-    - HataySAM:
-        - HatayControl
-    - HataySAM-1:
-        - HatayControl
-    - HatayAAA:
-        - HatayControl
-# Industrial/Command zone
-    - GreenSAM:
-        - IdlibControl
-        - GreenZoneCommand
-    - GreenSAM-2:
-        - IdlibControl
-        - GreenZoneCommand
-# long range battery and defenses
-    - GreenZoneSAM:
-        - ReyhanliControl
-    - GreenZoneSAMDefense:
-        - ReyhanliControl
-# C2 links
-    - GreenZoneCommand:
-        - IdlibControl
-        - IdlibPower
-        - SamandagControl
-    - HatayControl:
-        - ReyhanliControl
-        - SamandagControl
-        - AntakyaPower
-    - SamandagControl:
-        - AntakyaPower
-    - IdlibControl:
-        - ReyhanliControl
-        - SamandagControl
-        - IdlibPower
-    - ReyhanliControl:
-        - IdlibPower
-# Pink zone (Aleppo)
-# EWR
-    - Abu al-Duhur Air Control:
-        - Al Safira Power
-    - Aleppo Air Control:
-        - Aleppo Power
-    - Kuweires Air Control:
-        - Al Safira Power
-        - Aleppo Power
-    - Jirah Air Control:
-        - Al Safira Power
-# Aleppo city defenses
-    - AleppoSAM:
-        - AleppoCommand
-        - Aleppo Control
-    - AleppoSAM-1:
-        - AleppoCommand
-        - Aleppo Control
-    - AleppoSAM-2:
-        - AleppoCommand
-        - Aleppo Control
-    - AleppoSAM-3:
-        - AleppoCommand
-        - Aleppo Control
-    - AleppoSAM-4:
-        - AleppoCommand
-        - Aleppo Control
-    - AleppoSAM-5:
-        - AleppoCommand
-        - Aleppo Control
-    - AleppoSAM-6:
-        - AleppoCommand
-        - Aleppo Control
-    - AleppoSAM-7:
-        - AleppoCommand
-        - Aleppo Control
-# Long Range SAM
-    - Pink SAM:
-        - Al Safira Power
-        - Aleppo Control
-        - AlSafiraCommand
-    - AlSafiraPD:
-        - Aleppo Control
-        - AlSafiraCommand
-# Abu al-Duhur
-    - AbuSAM:
-        - Abu al-Duhur control
-    - AbuSAM-1:
-        - Abu al-Duhur control
-# Kuweires
-    - KuweiresSAM:
-        - KuweiresControl
-# Jirah
-    - JirahSAM:
-        - JirahControl
-    - JirahSAM-1:
-        - JirahControl
-    - JirahSAM-2:
-        - JirahControl
-# C2 links
-    - AleppoCommand:
-        - Aleppo Power
-        - Al Safira Power
-        - Aleppo Control
-    - AlSafiraCommand:
-        - Al Safira Power
-        - Aleppo Power
-        - Aleppo Control
-    - KuweiresControl:
-        - Al Safira Power
-        - Aleppo Control
-    - JirahControl:
-        - Al Safira Power
-        - KuweiresControl
-    - Abu al-Duhur control:
-        - Aleppo Power
-        - Aleppo Control
-    - Aleppo Control:
-        - Aleppo Power
+#BLUE DEFENSE AREA - HINT: Go after the power stations
+    - B-COMMAND-1:
+        - B-POWER-1
+        - B-TOWER-1
+        - B-POWER-2
+        - B-TOWER-2
+    - B-SAM-1:
+        - B-POWER-1
+        - B-TOWER-1
+    - B-SAM-2:
+        - B-POWER-1
+        - B-TOWER-1
+    - B-SAM-3:
+        - B-POWER-1
+        - B-TOWER-1  
+    - B-SAM-4: 
+        - B-POWER-2
+        - B-TOWER-2
+    - B-SAM-5: #SA10
+        - B-POWER-2
+        - B-TOWER-2      
+    - B-EWR-1:
+        - B-POWER-1
+        - B-TOWER-1     
+    - B-EWR-2:
+        - B-POWER-1
+        - B-TOWER-1    
+#RED DEFENSE AREA - HINT: Go after the power stations
+    - R-COMMAND-1:
+        - R-POWER-1
+        - R-TOWER-1
+        - R-POWER-2
+        - R-TOWER-2
+    - R-SAM-1:
+        - R-POWER-1
+        - R-TOWER-1
+    - R-SAM-2:
+        - R-POWER-1
+        - R-TOWER-1
+    - R-SAM-3:
+        - R-POWER-1
+        - R-TOWER-1  
+    - R-SAM-4: 
+        - R-POWER-1
+        - R-TOWER-1
+    - R-SAM-5: 
+        - R-POWER-1
+        - R-TOWER-1     
+    - R-SAM-6:
+        - R-POWER-1
+        - R-TOWER-1     
+    - R-SAM-7:
+        - R-POWER-1
+        - R-TOWER-1    
+    - R-SAM-8:
+        - R-POWER-2
+        - R-TOWER-2
+    - R-SAM-9: #SA-10
+        - R-POWER-2
+        - R-TOWER-2    
+#YELLOW DEFNESE AREA - HINT: Go after the command bunkers
+    - Y-COMMAND-1:
+        - Y-POWER-1
+        - Y-TOWER-1
+        - Y-POWER-2
+        - Y-TOWER-2
+        - Y-TOWER-3
+    - Y-COMMAND-2:
+        - Y-POWER-1
+        - Y-TOWER-1
+        - Y-POWER-2
+        - Y-TOWER-2
+        - Y-TOWER-3
+    - Y-SAM-1:
+        - Y-POWER-1
+        - Y-TOWER-1
+        - Y-POWER-2
+        - Y-TOWER-2
+    - Y-SAM-2:
+        - Y-POWER-1
+        - Y-TOWER-1
+        - Y-POWER-2
+        - Y-TOWER-2
+    - Y-SAM-3:
+        - Y-POWER-1
+        - Y-TOWER-1
+        - Y-POWER-2
+        - Y-TOWER-2
+    - Y-SAM-4: 
+        - Y-POWER-1
+        - Y-TOWER-1
+        - Y-POWER-2
+        - Y-TOWER-2
+    - Y-SAM-5: 
+        - Y-POWER-1
+        - Y-TOWER-1
+        - Y-POWER-2
+        - Y-TOWER-2    
+    - Y-SAM-6:
+        - Y-POWER-1
+        - Y-TOWER-1
+        - Y-POWER-2
+        - Y-TOWER-2    
+    - Y-SAM-7:
+        - Y-POWER-2
+        - Y-TOWER-2
+        - Y-TOWER-3       
+    - Y-SAM-8:
+        - Y-POWER-2
+        - Y-TOWER-2
+        - Y-TOWER-3
+    - Y-SAM-9:
+        - Y-POWER-2
+        - Y-TOWER-2
+        - Y-TOWER-3  
+    - Y-SAM-10:
+        - Y-POWER-2
+        - Y-TOWER-2
+        - Y-TOWER-3  
+    - Y-SAM-11: #SA-5
+        - Y-POWER-2
+        - Y-TOWER-2
+        - Y-TOWER-3         
 squadrons:
     #Incirlik
     16:
@@ -340,8 +264,8 @@ squadrons:
       aircraft:
         - Mi-8MTV2 Hip
       size: 4
-    #carrier
-    Blue Carrier:
+#NATO CARRIERS
+    NATO CVN:
     - primary: BARCAP
       secondary: any
       aircraft:
@@ -365,86 +289,88 @@ squadrons:
       aircraft:
         - S-3B Viking
       size: 4
-    #Abu Al-Duhur
-    1:       
-    - primary: BARCAP
-      secondary: any
-      aircraft:
-        - MiG-29S Fulcrum-C
-      size: 16        
-    #Hatay
-    15:
-    - primary: SEAD
+    NATO LHA:
+    - primary: BAI
       secondary: air-to-ground
       aircraft:
-        - Su-25T Frogfoot
-      size: 12
-    #Minakh
-    26:
+        - AV-8B Harrier II Night Attack
+    #Abu Al-Duhur
+    1:       
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - Su-34 Fullback 
+      size: 12     
+    #Hatay
+    15:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Su-24M Fencer-D 
+      size: 12
+    #Minakh
+    26:
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - MiG-21bis Fishbed-N
       size: 12
     #Aleppo
     27:
     - primary: BARCAP
       secondary: air-to-air
       aircraft:
-        - MiG-29S Fulcrum-C
-      size: 16
+        - MiG-23MLD Flogger-K
+      size: 12
     #Jirah
     17:
     - primary: BARCAP
       secondary: air-to-air
       aircraft:
-        - MiG-31 Foxhound
-      size: 16
+        - MiG-23MLD Flogger-K
+      size: 12
     #Gaziantep
     11:
-    - primary: BAI
-      secondary: air-to-ground
+    - primary: BARCAP
+      secondary: air-to-air
       aircraft:
-        - Su-30 Flanker-C
+        - MiG-21bis Fishbed-N
       size: 12
+    #Kuweires
+    31:      
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - MiG-29S Fulcrum-C
+      size: 12  
 ground_forces:
   NATO SAM: Hawk
   NATO SAM-1: Hawk
   NATO SAM-2: Hawk
   NATO SAM-3: Hawk
   NATO SAM-4: Hawk
-  YellowBarrierN: SA-2/S-75 with ZSU-23/57
-  YellowBarrierC1: SA-6
-  YellowBarrierC2: SA-11
-  YellowBarrierS: SA-2/S-75 with ZSU-23/57
-  YellowLongRangeSAM: SA-2/S-75 with ZSU-23/57
-  GAZSAMN: SA-11 
-  GreenBarrierSAM-4: SA-2/S-75 with ZSU-23/57
-  GreenBarrierSAM-3: SA-2/S-75 with ZSU-23/57
-  GreenZoneSAMDefense: SA-11
-  GreenZoneSAM: SA-2/S-75 with ZSU-23/57
-  HataySAM: SA-11
-  HataySAM-1: SA-2/S-75 with ZSU-23/57
-  GreenSAM-2: SA-3/S-125
-  GreenSAM-3: SA-6
-  GreenSAM-1: SA-2/S-75 with ZSU-23/57
-  JirahSAM: SA-10/S-300PS
-  JirahSAM-1: SA-11
-  JirahSAM-2: SA-2/S-75 with ZSU-23/57
-  KuweiresSAM: SA-6
-  Pink SAM: SA-11
-  AlSafiraPD: SA-15 SHORAD
-  AleppoSAM: SA-3/S-125
-  AleppoSAM-1: SA-3/S-125
-  AleppoSAM-2: SA-3/S-125
-  AleppoSAM-3: SA-3/S-125
-  AleppoSAM-4: SA-3/S-125
-  AleppoSAM-5: SA-6
-  AleppoSAM-6: SA-6
-  AleppoSAM-7: SA-11
-  MinakhSAM1: SA-3/S-125
-  MinakhSAM2: SA-3/S-125
-  GAZSAMN: SA-11
-  GAZSAMW: SA-3/S-125
-  AbuSAM: SA-2/S-75 with ZSU-23/57
-  AbuSAM-1: SA-15 SHORAD
+  B-SAM-1: SA-2/S-75
+  B-SAM-2: SA-11
+  B-SAM-3: SA-2/S-75
+  B-SAM-4: SA-2/S-75
+  B-SAM-5: SA-10/S-300PS
+  R-SAM-1: SA-2/S-75
+  R-SAM-2: SA-2/S-75
+  R-SAM-3: SA-11
+  R-SAM-4: SA-11
+  R-SAM-5: SA-6
+  R-SAM-6: SA-3/S-125
+  R-SAM-7: SA-6
+  R-SAM-8: SA-11
+  R-SAM-9: SA-10/S-300PS
+  Y-SAM-1: SA-6
+  Y-SAM-2: SA-3/S-125
+  Y-SAM-3: SA-6
+  Y-SAM-4: SA-3/S-125
+  Y-SAM-5: SA-6
+  Y-SAM-6: SA-3/S-125
+  Y-SAM-7: SA-11
+  Y-SAM-8: SA-2/S-75
+  Y-SAM-9: SA-2/S-75
+  Y-SAM-10: SA-2/S-75
+  Y-SAM-11: SA-10/S-300PS 
