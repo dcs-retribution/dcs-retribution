@@ -360,9 +360,9 @@ class AircraftBehavior:
             group.task = preferred_task.name
         elif fallback_tasks:
             for task in fallback_tasks:
-                if fallback_tasks in flight.unit_type.dcs_unit_type.tasks:
+                if task in flight.unit_type.dcs_unit_type.tasks:
                     group.task = task.name
-                    break
+                    return
         elif flight.unit_type.dcs_unit_type.task_default and preferred_task == Nothing:
             group.task = flight.unit_type.dcs_unit_type.task_default.name
             logging.warning(
