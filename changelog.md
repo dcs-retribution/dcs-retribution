@@ -1,6 +1,7 @@
 # Retribution v1.3.0
 
 ## Features/Improvements
+* **[Engine]** Support for DCS v2.9.3.51704
 * **[Package Planning]** Option to "Auto-Create" package
 * **[Modding]** Custom weapons injection system (definition in aircraft's yaml file)
 * **[Payload Editor]** Ability to save/back-up payloads
