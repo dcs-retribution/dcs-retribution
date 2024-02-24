@@ -574,10 +574,12 @@ function onWpnEvent(event)
       end
 
       local player = event.initiator
-      targetName = event.target:getTypeName()
+      local targetName = event.target:getTypeName()
       local impactPoint = event.target:getPosition().p
-      env.info(weapon.." hit "..targetName)
-      debugMsg(weapon.." hit "..targetName)
+      if weapon and targetName then
+        env.info(weapon.." hit "..targetName)
+        debugMsg(weapon.." hit "..targetName)
+      end
       --env.info('Impact point was at: X: ' .. impactPoint.x .. ' Y: ' .. impactPoint.y .. ' Z: ' .. impactPoint.z)
       if clusterWeaps[weapon] then
         local ordnance = event.weapon
