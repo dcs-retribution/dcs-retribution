@@ -124,7 +124,8 @@ class AircraftBehavior:
                 unit.gun = 0
 
         group.points[0].tasks.append(OptRTBOnBingoFuel(rtb_on_bingo))
-        group.points[0].tasks.append(OptJettisonEmptyTanks())
+        if flight.coalition.game.settings.ai_jettison_empty_tanks:
+            group.points[0].tasks.append(OptJettisonEmptyTanks())
         # Do not restrict afterburner.
         # https://forums.eagle.ru/forum/english/digital-combat-simulator/dcs-world-2-5/bugs-and-problems-ai/ai-ad/7121294-ai-stuck-at-high-aoa-after-making-sharp-turn-if-afterburner-is-restricted
 

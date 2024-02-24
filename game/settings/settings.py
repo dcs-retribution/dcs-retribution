@@ -683,6 +683,15 @@ class Settings:
             "without having to change the payload. <u>Takes effect after current turn!</u>"
         ),
     )
+    ai_jettison_empty_tanks: bool = boolean_option(
+        "Enable AI empty fuel tank jettison",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=False,
+        detail=(
+            "AI will jettison their fuel tanks as soon as they're empty."
+        ),
+    )
     default_start_type: StartType = choices_option(
         "Default start type for AI aircraft",
         page=MISSION_GENERATOR_PAGE,

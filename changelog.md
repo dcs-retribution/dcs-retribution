@@ -40,6 +40,7 @@
 * **[Options]** Option to de-spawn AI flights in the air if their start-type was manually set to In-Flight
 * **[Config]** Preference setting to use custom Liberation payloads instead of prioritizing Retribution's default
 * **[Config]** Preference setting to configure the server-port on which Retribution's back-end will run
+* **[Options]** Made AI jettisoning empty fuel tanks optional (disabled by default)
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task
