@@ -1,4 +1,5 @@
 # Retribution v1.3.0
+#### Note: Re-save your missions in DCS' Mission Editor to avoid possible crashes due to datalink (usually the case when F-16C blk50s are used) when hosting missions on a dedicated server.
 
 ## Features/Improvements
 * **[Engine]** Support for DCS v2.9.3.51704
