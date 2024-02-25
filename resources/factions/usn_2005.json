@@ -46,14 +46,14 @@
   ],
   "preset_groups": [
     "Hawk",
-    "Patriot"
+    "Patriot",
+    "Carrier Strike Group 8"
   ],
   "naval_units": [
     "FFG Oliver Hazard Perry",
     "DDG Arleigh Burke IIa",
     "CG Ticonderoga",
-    "LHA-1 Tarawa",
-    "CVN-74 John C. Stennis"
+    "LHA-1 Tarawa"
   ],
   "missiles": [],
   "air_defense_units": [

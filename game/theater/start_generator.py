@@ -12,7 +12,7 @@ from game import Game
 from game.factions.faction import Faction
 from game.naming import namegen
 from game.scenery_group import SceneryGroup
-from game.theater import PointWithHeading, PresetLocation
+from game.theater import PointWithHeading, PresetLocation, NavalControlPoint
 from game.theater.theatergroundobject import (
     BuildingGroundObject,
     IadsBuildingGroundObject,
@@ -30,8 +30,10 @@ from .theatergroup import IadsGroundGroup, IadsRole, SceneryUnit, TheaterGroup
 from ..armedforces.armedforces import ArmedForces
 from ..armedforces.forcegroup import ForceGroup
 from ..campaignloader.campaignairwingconfig import CampaignAirWingConfig
+from ..campaignloader.campaigncarrierconfig import CampaignCarrierConfig
 from ..campaignloader.campaigngroundconfig import TgoConfig
 from ..data.groups import GroupTask
+from ..dcs.shipunittype import ShipUnitType
 from ..profiling import logged_duration
 from ..settings import Settings
 
@@ -49,6 +51,7 @@ class GeneratorSettings:
     no_player_navy: bool
     no_enemy_navy: bool
     tgo_config: TgoConfig
+    carrier_config: CampaignCarrierConfig
     squadrons_start_full: bool
 
 
@@ -125,7 +128,7 @@ class GameGenerator:
 
     def should_remove_carrier(self, player: bool) -> bool:
         faction = self.player if player else self.enemy
-        return self.generator_settings.no_carrier or not faction.carrier_names
+        return self.generator_settings.no_carrier or not faction.carriers
 
     def should_remove_lha(self, player: bool) -> bool:
         faction = self.player if player else self.enemy
@@ -221,14 +224,49 @@ class GenericCarrierGroundObjectGenerator(ControlPointGroundObjectGenerator):
         carrier = next(self.control_point.ground_objects[-1].units)
         carrier.name = carrier_name
 
+    def apply_carrier_config(self) -> None:
+        assert isinstance(self.control_point, NavalControlPoint)
+        # If the campaign designer has specified a preferred name, use that
+        # Note that the preferred name needs to exist in the faction, so we
+        # don't end up with Kuznetsov carriers called CV-59 Forrestal
+        preferred_name = None
+        preferred_type = None
+        carrier_map = self.generator_settings.carrier_config.by_original_name
+        if ccfg := carrier_map.get(self.control_point.name):
+            preferred_name = ccfg.preferred_name
+            preferred_type = ccfg.preferred_type
+        carrier_unit = self.control_point.ground_objects[0].groups[0].units[0]
+        carrier_type = preferred_type if preferred_type else carrier_unit.unit_type
+        assert isinstance(carrier_type, ShipUnitType)
+        if preferred_type and self.faction.has_access_to_dcs_type(preferred_type.dcs_unit_type):
+            carrier_unit.type = carrier_type.dcs_unit_type
+        if (
+            preferred_name
+        ):
+            self.control_point.name = preferred_name
+        else:
+            # Otherwise pick randomly from the names specified for that particular carrier type
+            carrier_names = self.faction.carriers.get(carrier_type)
+            if carrier_names:
+                self.control_point.name = random.choice(list(carrier_names))
+            else:
+                self.control_point.name = carrier_type.display_name
+        # Prevents duplicate carrier or LHA names in campaigns with more that one of either.
+        for carrier_type_key in self.faction.carriers:
+            for carrier_name in self.faction.carriers[carrier_type_key]:
+                if carrier_name == self.control_point.name:
+                    self.faction.carriers[carrier_type_key].remove(
+                        self.control_point.name
+                    )
+
 
 class CarrierGroundObjectGenerator(GenericCarrierGroundObjectGenerator):
     def generate(self) -> bool:
         if not super().generate():
             return False
 
-        carrier_names = self.faction.carrier_names
-        if not carrier_names:
+        carriers = self.faction.carriers
+        if not carriers:
             logging.info(
                 f"Skipping generation of {self.control_point.name} because "
                 f"{self.faction_name} has no carriers"
@@ -239,6 +277,7 @@ class CarrierGroundObjectGenerator(GenericCarrierGroundObjectGenerator):
         if not unit_group:
             logging.error(f"{self.faction_name} has no access to AircraftCarrier")
             return False
+
         self.generate_ground_object_from_group(
             unit_group,
             PresetLocation(
@@ -248,7 +287,7 @@ class CarrierGroundObjectGenerator(GenericCarrierGroundObjectGenerator):
             ),
             GroupTask.AIRCRAFT_CARRIER,
         )
-        self.update_carrier_name(random.choice(list(carrier_names)))
+        self.apply_carrier_config()
         return True
 
 
@@ -280,7 +319,7 @@ class LhaGroundObjectGenerator(GenericCarrierGroundObjectGenerator):
             ),
             GroupTask.HELICOPTER_CARRIER,
         )
-        self.update_carrier_name(random.choice(list(lha_names)))
+        self.apply_carrier_config()
         return True
 
 

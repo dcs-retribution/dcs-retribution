@@ -84,6 +84,7 @@ class NewGameWizard(QtWidgets.QWizard):
             no_player_navy=self.field("no_player_navy"),
             no_enemy_navy=self.field("no_enemy_navy"),
             tgo_config=campaign.load_ground_forces_config(),
+            carrier_config=campaign.load_carrier_config(),
             squadrons_start_full=self.field("squadrons_start_full"),
         )
         mod_settings = ModSettings(

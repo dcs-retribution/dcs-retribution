@@ -81,6 +81,14 @@ settings:
         #default="Full"
 
 
+carriers:
+  Naval-1:
+    preferred_name: CVN-74
+    preferred_type: CVN-74 John C. Stennis
+  Naval-2:
+    preferred_name: The Harry
+    preferred_type: CVN-75 Harry S. Truman
+
 
 #Squadrons and order of battle settings        
 squadrons:
@@ -156,7 +164,7 @@ squadrons:
           aircraft:
             - CH-53E
           size: 2
-    #CV-59 Forrestal
+  #CV-59 Forrestal
     Naval-2:
         - primary: AEW&C
           aircraft: 
