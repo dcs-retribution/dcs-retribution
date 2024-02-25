@@ -196,6 +196,7 @@ class Settings:
             "assigned to their primary task."
         ),
     )
+    # CAMPAIGN DOCTRINE
     autoplan_tankers_for_strike: bool = boolean_option(
         "Auto-planner plans refueling flights for Strike packages",
         page=CAMPAIGN_DOCTRINE_PAGE,
@@ -279,6 +280,25 @@ class Settings:
             "Altitude for helicopters in feet AGL while flying between non-combat waypoints."
             " In campaigns in more mountainous areas, you might want to increase this "
             "setting to avoid the AI flying into the terrain."
+        ),
+    )
+    atflir_autoswap: bool = boolean_option(
+        "Auto-swap ATFLIR to LITENING",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=True,
+        detail=(
+            "Automatically swaps ATFLIR to LITENING pod for newly generated land-based F-18 flights "
+            "without having to change the payload. <u>Takes effect after current turn!</u>"
+        ),
+    )
+    ai_jettison_empty_tanks: bool = boolean_option(
+        "Enable AI empty fuel tank jettison",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=False,
+        detail=(
+            "AI will jettison their fuel tanks as soon as they're empty."
         ),
     )
     airbase_threat_range: int = bounded_int_option(
@@ -671,25 +691,6 @@ class Settings:
         detail=(
             "Warning: Enabling this will significantly reduce the number of "
             "targets available for OCA/Aircraft missions."
-        ),
-    )
-    atflir_autoswap: bool = boolean_option(
-        "Auto-swap ATFLIR to LITENING",
-        MISSION_GENERATOR_PAGE,
-        GAMEPLAY_SECTION,
-        default=True,
-        detail=(
-            "Automatically swaps ATFLIR to LITENING pod for newly generated land-based F-18 flights "
-            "without having to change the payload. <u>Takes effect after current turn!</u>"
-        ),
-    )
-    ai_jettison_empty_tanks: bool = boolean_option(
-        "Enable AI empty fuel tank jettison",
-        MISSION_GENERATOR_PAGE,
-        GAMEPLAY_SECTION,
-        default=False,
-        detail=(
-            "AI will jettison their fuel tanks as soon as they're empty."
         ),
     )
     default_start_type: StartType = choices_option(
