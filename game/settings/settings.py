@@ -703,6 +703,16 @@ class Settings:
             "will not be included in automatically planned OCA packages."
         ),
     )
+    nevatim_parking_fix: bool = boolean_option(
+        "Force air-starts for all aircraft at Nevatim",
+        page=MISSION_GENERATOR_PAGE,
+        section=GAMEPLAY_SECTION,
+        default=True,  # TODO: set to False or remove this when DCS is fixed
+        detail=(
+            "Air-starts forced for all aircraft at Nevatim except parking slots "
+            "55 till 65, since those are the only ones that work."
+        ),
+    )
     # Mission specific
     desired_player_mission_duration: timedelta = minutes_option(
         "Desired mission duration",

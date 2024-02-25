@@ -41,6 +41,7 @@
 * **[Config]** Preference setting to use custom Liberation payloads instead of prioritizing Retribution's default
 * **[Config]** Preference setting to configure the server-port on which Retribution's back-end will run
 * **[Options]** Made AI jettisoning empty fuel tanks optional (disabled by default)
+* **[Options]** Add option (so it can be disabled when fixed in DCS) to force air-starts (except for the slots that work) at Nevatim due to https://forum.dcs.world/topic/335545-29-nevatim-ramp-starts-still-bugged/.
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task

@@ -1,6 +1,6 @@
 import logging
 import random
-from typing import Any, Union, Tuple, Optional
+from typing import Any, Union, Tuple, Optional, List
 
 from dcs import Mission
 from dcs.country import Country
@@ -18,7 +18,8 @@ from dcs.planes import (
 )
 from dcs.point import PointAction
 from dcs.ships import KUZNECOW
-from dcs.terrain import NoParkingSlotError
+from dcs.terrain import NoParkingSlotError, Sinai, ParkingSlot
+from dcs.terrain.sinai.airports import Nevatim
 from dcs.unitgroup import (
     FlyingGroup,
     ShipGroup,
@@ -109,24 +110,31 @@ class FlightGroupSpawner:
 
     def create_idle_aircraft(self) -> Optional[FlyingGroup[Any]]:
         group = None
-        if (
-            self.flight.is_helo
-            or self.flight.is_lha
-            and isinstance(self.flight.squadron.location, Fob)
-        ):
+        cp = self.flight.squadron.location
+        if self.flight.is_helo or self.flight.is_lha and isinstance(cp, Fob):
             group = self._generate_at_cp_helipad(
                 name=namegen.next_aircraft_name(self.country, self.flight),
                 cp=self.flight.squadron.location,
             )
-        elif isinstance(self.flight.squadron.location, Fob):
+        elif isinstance(cp, Fob):
             group = self._generate_at_cp_ground_spawn(
                 name=namegen.next_aircraft_name(self.country, self.flight),
                 cp=self.flight.squadron.location,
             )
-        elif isinstance(self.flight.squadron.location, Airfield):
+        elif isinstance(cp, Airfield):
+            # TODO: remove hack when fixed in DCS
+            slots = None
+            if self._check_nevatim_hack(cp):
+                ac_type = self.flight.unit_type.dcs_unit_type
+                slots = [
+                    slot
+                    for slot in cp.dcs_airport.free_parking_slots(ac_type)
+                    if slot.slot_name in [str(n) for n in range(55, 66)]
+                ]
             group = self._generate_at_airfield(
                 name=namegen.next_aircraft_name(self.country, self.flight),
-                airfield=self.flight.squadron.location,
+                airfield=cp,
+                parking_slots=slots,
             )
         if group:
             group.uncontrolled = True
@@ -195,7 +203,19 @@ class FlightGroupSpawner:
                     pad_group = self._generate_at_cp_ground_spawn(name, cp)
                     if pad_group is not None:
                         return pad_group
-                return self._generate_at_airfield(name, cp)
+
+                # TODO: get rid of the nevatim hack once fixed in DCS...
+                if self._check_nevatim_hack(cp):
+                    slots = [
+                        slot
+                        for slot in cp.dcs_airport.free_parking_slots(
+                            self.flight.squadron.aircraft.dcs_unit_type
+                        )
+                        if slot.slot_name in [str(n) for n in range(55, 66)]
+                    ]
+                    return self._generate_at_airfield(name, cp, slots)
+                else:
+                    return self._generate_at_airfield(name, cp)
             else:
                 raise NotImplementedError(
                     f"Aircraft spawn behavior not implemented for {cp} ({cp.__class__})"
@@ -208,6 +228,13 @@ class FlightGroupSpawner:
             self.flight.start_type = StartType.IN_FLIGHT
             group = self._generate_over_departure(name, cp)
             return group
+
+    def _check_nevatim_hack(self, cp: ControlPoint) -> bool:
+        # TODO: get rid of the nevatim hack once fixed in DCS...
+        nevatim_hack = self.flight.coalition.game.settings.nevatim_parking_fix
+        nevatim_hack &= isinstance(self.mission.terrain, Sinai)
+        nevatim_hack &= isinstance(cp.dcs_airport, Nevatim)
+        return nevatim_hack
 
     def generate_mid_mission(self) -> FlyingGroup[Any]:
         assert isinstance(self.flight.state, InFlight)
@@ -250,7 +277,12 @@ class FlightGroupSpawner:
         group.points[0].alt_type = alt_type
         return group
 
-    def _generate_at_airfield(self, name: str, airfield: Airfield) -> FlyingGroup[Any]:
+    def _generate_at_airfield(
+        self,
+        name: str,
+        airfield: Airfield,
+        parking_slots: Optional[List[ParkingSlot]] = None,
+    ) -> FlyingGroup[Any]:
         # TODO: Delayed runway starts should be converted to air starts for multiplayer.
         # Runway starts do not work with late activated aircraft in multiplayer. Instead
         # of spawning on the runway the aircraft will spawn on the taxiway, potentially
@@ -267,7 +299,7 @@ class FlightGroupSpawner:
             maintask=None,
             start_type=self._start_type_at_airfield(airfield),
             group_size=self.flight.count,
-            parking_slots=None,
+            parking_slots=parking_slots,
             callsign_name=self.flight.callsign.name if self.flight.callsign else None,
             callsign_nr=self.flight.callsign.nr if self.flight.callsign else None,
         )
