@@ -16,6 +16,7 @@
     "B-52H Stratofortress",
     "C-130",
     "C-130J-30 Super Hercules",
+	"CH-47D",
     "F-14B Tomcat",
     "F-15C Eagle",
     "F-15D Baz",
@@ -56,7 +57,9 @@
     "Su-30MKI Flanker-H",
     "Su-30MKM Flanker-H",
     "Su-30SM Flanker-H",
-    "UH-1H Iroquois"
+    "UH-1H Iroquois",
+    "UH-60A",
+    "UH-60L"
   ],
   "awacs": [
     "E-2D Advanced Hawkeye",
