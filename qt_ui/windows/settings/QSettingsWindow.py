@@ -113,6 +113,15 @@ class CheatSettingsBox(QGroupBox):
         )
         self.main_layout.addLayout(self.air_wing_cheat)
 
+        # Buy/Sell actions for REDFOR
+        self.redfor_buysell_checkbox = QCheckBox()
+        self.redfor_buysell_checkbox.setChecked(sc.settings.enable_enemy_buy_sell)
+        self.redfor_buysell_checkbox.toggled.connect(apply_settings)
+        self.redfor_buysell_cheat = QLabeledWidget(
+            "Enable REDFOR Buy/Sell actions Cheat:", self.redfor_buysell_checkbox
+        )
+        self.main_layout.addLayout(self.redfor_buysell_cheat)
+
     @property
     def show_red_ato(self) -> bool:
         return self.red_ato_checkbox.isChecked()
@@ -136,6 +145,10 @@ class CheatSettingsBox(QGroupBox):
     @property
     def enable_air_wing_cheats(self) -> bool:
         return self.air_wing_adjustments_checkbox.isChecked()
+
+    @property
+    def enable_redfor_buysell(self) -> bool:
+        return self.redfor_buysell_checkbox.isChecked()
 
 
 class AutoSettingsLayout(QGridLayout):
@@ -495,6 +508,7 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
         self.settings.enable_air_wing_adjustments = (
             self.cheat_options.enable_air_wing_cheats
         )
+        self.settings.enable_enemy_buy_sell = self.cheat_options.enable_redfor_buysell
 
         if self.game:
             events = GameUpdateEvents()

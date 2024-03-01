@@ -109,9 +109,15 @@ class QGroundObjectMenu(QDialog):
                 self.actionLayout.addWidget(self.sell_all_button)
             self.actionLayout.addWidget(self.buy_replace)
 
-        if self.cp.captured and self.ground_object.purchasable:
+        if self.show_buy_sell_actions and self.ground_object.purchasable:
             self.mainLayout.addLayout(self.actionLayout)
         self.setLayout(self.mainLayout)
+
+    @property
+    def show_buy_sell_actions(self) -> bool:
+        buysell_allowed = self.game.settings.enable_enemy_buy_sell
+        buysell_allowed |= self.cp.captured
+        return buysell_allowed
 
     def doLayout(self):
         self.update_total_value()
@@ -240,7 +246,7 @@ class QGroundObjectMenu(QDialog):
                 self.actionLayout.addWidget(self.sell_all_button)
             self.actionLayout.addWidget(self.buy_replace)
 
-            if self.cp.captured and self.ground_object.purchasable:
+            if self.show_buy_sell_actions and self.ground_object.purchasable:
                 self.mainLayout.addLayout(self.actionLayout)
         except Exception as e:
             logging.exception(e)
@@ -276,7 +282,8 @@ class QGroundObjectMenu(QDialog):
 
     def sell_all(self):
         self.update_total_value()
-        self.game.blue.budget += self.total_value
+        coalition = self.ground_object.coalition
+        coalition.budget += self.total_value
         self.ground_object.groups = []
         self.update_game()
 
@@ -296,7 +303,10 @@ class QGroundObjectMenu(QDialog):
             for package in self.game.ato_for(player=False).packages
         ):
             # Replan if the tgo was a target of the redfor
-            self.game.initialize_turn(events, for_red=True, for_blue=False)
+            coalition = self.ground_object.coalition
+            self.game.initialize_turn(
+                events, for_red=coalition.player, for_blue=not coalition.player
+            )
         EventStream.put_nowait(events)
         GameUpdateSignal.get_instance().updateGame(self.game)
         # Refresh the dialog
