@@ -40,4 +40,4 @@ class HoldPointBuilder(PydcsWaypointBuilder):
         if self.flight.is_helo:
             waypoint.add_task(OptFormation.rotary_column())
         else:
-            waypoint.add_task(OptFormation.finger_four_close())
+            waypoint.add_task(OptFormation.finger_four_open())

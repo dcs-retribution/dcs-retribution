@@ -29,7 +29,7 @@ class SplitPointBuilder(PydcsWaypointBuilder):
         if self.flight.is_helo:
             waypoint.tasks.append(OptFormation.rotary_wedge())
         else:
-            waypoint.tasks.append(OptFormation.finger_four_close())
+            waypoint.tasks.append(OptFormation.finger_four_open())
         waypoint.speed_locked = True
         waypoint.ETA_locked = False
         if self.flight.is_helo:
