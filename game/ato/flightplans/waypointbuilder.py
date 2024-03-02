@@ -491,7 +491,7 @@ class WaypointBuilder:
         ).meters
         if target.strike_targets:
             threat_range = (
-                1.1 * max([x.threat_range for x in target.strike_targets]).meters
+                0.8 * max([x.threat_range for x in target.strike_targets]).meters
             )
         hdg = target.position.heading_between_point(ingress)
         hold = target.position.point_from_heading(
