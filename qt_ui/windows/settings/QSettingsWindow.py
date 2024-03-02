@@ -113,12 +113,12 @@ class CheatSettingsBox(QGroupBox):
         )
         self.main_layout.addLayout(self.air_wing_cheat)
 
-        # Buy/Sell actions for REDFOR
-        self.redfor_buysell_checkbox = QCheckBox()
-        self.redfor_buysell_checkbox.setChecked(sc.settings.enable_enemy_buy_sell)
-        self.redfor_buysell_checkbox.toggled.connect(apply_settings)
+        # Buy/Sell actions for OPFOR
+        self.opfor_buysell_checkbox = QCheckBox()
+        self.opfor_buysell_checkbox.setChecked(sc.settings.enable_enemy_buy_sell)
+        self.opfor_buysell_checkbox.toggled.connect(apply_settings)
         self.redfor_buysell_cheat = QLabeledWidget(
-            "Enable REDFOR Buy/Sell actions Cheat:", self.redfor_buysell_checkbox
+            "Enable OPFOR Buy/Sell actions Cheat:", self.opfor_buysell_checkbox
         )
         self.main_layout.addLayout(self.redfor_buysell_cheat)
 
@@ -148,7 +148,7 @@ class CheatSettingsBox(QGroupBox):
 
     @property
     def enable_redfor_buysell(self) -> bool:
-        return self.redfor_buysell_checkbox.isChecked()
+        return self.opfor_buysell_checkbox.isChecked()
 
 
 class AutoSettingsLayout(QGridLayout):
@@ -534,6 +534,15 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
         )
         self.cheat_options.transfer_cheat_checkbox.setChecked(
             self.settings.enable_transfer_cheat
+        )
+        self.cheat_options.base_runway_state_cheat_checkbox.setChecked(
+            self.settings.enable_runway_state_cheat
+        )
+        self.cheat_options.air_wing_adjustments_checkbox.setChecked(
+            self.settings.enable_air_wing_adjustments
+        )
+        self.cheat_options.opfor_buysell_checkbox.setChecked(
+            self.settings.enable_enemy_buy_sell
         )
 
         self.pluginsPage.update_from_settings()
