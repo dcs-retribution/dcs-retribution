@@ -1021,6 +1021,9 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         # clear the ATO and replan the airlifts with the correct time.
         self.ground_unit_orders.process(game, game.conditions.start_time)
 
+        for parking_slot in self.parking_slots:
+            parking_slot.unit_id = None
+
         runway_status = self.runway_status
         if runway_status is not None:
             runway_status.process_turn()
