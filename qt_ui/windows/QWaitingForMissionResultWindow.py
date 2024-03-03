@@ -239,5 +239,7 @@ class QWaitingForMissionResultWindow(QDialog):
         self.sim_controller.set_game(self.game)
         for _, f in self.game.db.flights.objects.items():
             f.state.reinitialize(self.game.conditions.start_time)
+        for cp in self.game.theater.controlpoints:
+            cp.release_parking_slots()
         GameUpdateSignal.get_instance().updateGame(self.game)
         self.close()

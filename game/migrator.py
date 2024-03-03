@@ -78,8 +78,7 @@ class Migrator:
     def _update_control_points(self) -> None:
         is_sinai = self.game.theater.terrain.name == "SinaiMap"
         for cp in self.game.theater.controlpoints:
-            for parking_slot in cp.parking_slots:
-                parking_slot.unit_id = None
+            cp.release_parking_slots()
             is_carrier = cp.is_carrier
             is_lha = cp.is_lha
             is_fob = cp.category == "fob"
