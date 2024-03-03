@@ -25,6 +25,7 @@ class IBuilder(ABC, Generic[FlightPlanT, LayoutT]):
     def __init__(self, flight: Flight) -> None:
         self.flight = flight
         self._flight_plan: FlightPlanT | None = None
+        self.settings = self.flight.coalition.game.settings
 
     def get_or_build(self) -> FlightPlanT:
         if self._flight_plan is None:

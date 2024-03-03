@@ -5,7 +5,7 @@ from typing import Type
 
 from dcs import Point
 
-from game.utils import Distance, Heading, feet, meters
+from game.utils import Distance, Heading, meters
 from .ibuilder import IBuilder
 from .patrolling import PatrollingLayout
 from .refuelingflightplan import RefuelingFlightPlan
@@ -98,11 +98,7 @@ class Builder(IBuilder[PackageRefuelingFlightPlan, PatrollingLayout]):
 
         builder = WaypointBuilder(self.flight)
 
-        tanker_type = self.flight.unit_type
-        if tanker_type.patrol_altitude is not None:
-            altitude = tanker_type.patrol_altitude
-        else:
-            altitude = feet(21000)
+        altitude = builder.get_patrol_altitude
 
         racetrack = builder.race_track(racetrack_start, racetrack_end, altitude)
 

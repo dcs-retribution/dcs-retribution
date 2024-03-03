@@ -11,7 +11,7 @@ from dcs import Point
 
 from game.flightplan import HoldZoneGeometry
 from game.theater import MissionTarget
-from game.utils import Speed, meters, nautical_miles, feet
+from game.utils import Speed, meters, nautical_miles
 from .flightplan import FlightPlan
 from .formation import FormationFlightPlan, FormationLayout
 from .ibuilder import IBuilder
@@ -210,14 +210,10 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
         if self.flight.flight_type == FlightType.STRIKE:
             hdg = self.package.target.position.heading_between_point(ingress.position)
             pos = ingress.position.point_from_heading(hdg, nautical_miles(10).meters)
-            lineup = builder.nav(pos, self.flight.coalition.doctrine.ingress_altitude)
+            lineup = builder.nav(pos, builder.get_combat_altitude)
 
         is_helo = self.flight.is_helo
-        ingress_egress_altitude = (
-            self.doctrine.ingress_altitude
-            if not is_helo
-            else feet(self.coalition.game.settings.heli_combat_alt_agl)
-        )
+        ingress_egress_altitude = builder.get_combat_altitude
         use_agl_ingress_egress = is_helo
 
         return FormationAttackLayout(

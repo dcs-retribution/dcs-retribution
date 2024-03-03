@@ -297,8 +297,18 @@ class Settings:
         page=CAMPAIGN_DOCTRINE_PAGE,
         section=GENERAL_SECTION,
         default=False,
-        detail=("AI will jettison their fuel tanks as soon as they're empty."),
+        detail="AI will jettison their fuel tanks as soon as they're empty.",
     )
+    max_plane_altitude_offset: int = bounded_int_option(
+        "Maximum randomized altitude offset (x1000 ft) for airplanes.",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        min=0,
+        max=5,
+        default=2,
+        detail="Creates a randomized altitude offset for airplanes.",
+    )
+    # Doctrine Distances Section
     airbase_threat_range: int = bounded_int_option(
         "Airbase threat range (nmi)",
         page=CAMPAIGN_DOCTRINE_PAGE,

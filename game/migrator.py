@@ -52,7 +52,7 @@ class Migrator:
                 continue
             found = False
             for d in doctrines:
-                if c.faction.doctrine.rendezvous_altitude == d.rendezvous_altitude:
+                if c.faction.doctrine.max_patrol_altitude == d.max_patrol_altitude:
                     c.faction.doctrine = d
                     found = True
                     break

@@ -8,9 +8,7 @@ class LandingPointBuilder(PydcsWaypointBuilder):
     def build(self) -> MovingPoint:
         waypoint = super().build()
         if self.ai_despawn(waypoint):
-            waypoint.alt = round(
-                self.flight.coalition.doctrine.max_patrol_altitude.meters
-            )
+            waypoint.alt = round(self.flight.unit_type.preferred_patrol_altitude.meters)
             waypoint.alt_type = "BARO"
         else:
             waypoint.type = "Land"

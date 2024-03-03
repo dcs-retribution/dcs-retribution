@@ -44,6 +44,8 @@
 * **[Options]** Add option (so it can be disabled when fixed in DCS) to force air-starts (except for the slots that work) at Nevatim due to https://forum.dcs.world/topic/335545-29-nevatim-ramp-starts-still-bugged/
 * **[Cheat]** Add cheat option to manually manage REDFOR's TGOs
 * **[UX]** Buy/Replace TGOs for free before the campaign has started
+* **[Data]** Ability to define "cruise" & "combat" altitudes for airplanes
+* **[Options]** Option to randomize altitudes for flights with airplanes
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task

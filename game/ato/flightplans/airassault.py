@@ -112,11 +112,10 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
             )
         assert self.package.waypoints is not None
 
-        heli_alt = feet(self.coalition.game.settings.heli_cruise_alt_agl)
-        altitude = heli_alt if self.flight.is_helo else self.doctrine.ingress_altitude
-        altitude_is_agl = self.flight.is_helo
-
         builder = WaypointBuilder(self.flight)
+
+        altitude = builder.get_cruise_altitude
+        altitude_is_agl = self.flight.is_helo
 
         if self.flight.is_hercules or self.flight.departure.cptype in [
             ControlPointType.AIRCRAFT_CARRIER_GROUP,
@@ -134,7 +133,7 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
                     self._generate_ctld_pickup(),
                 )
             )
-            pickup.alt = heli_alt
+            pickup.alt = altitude
             pickup_position = pickup.position
 
         ingress = builder.ingress(
@@ -160,8 +159,6 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
             drop_pos = tgt.position.point_from_heading(heading, 1200)
         drop_off_zone = MissionTarget("Dropoff zone", drop_pos)
         dz = builder.dropoff_zone(drop_off_zone) if self.flight.is_helo else None
-        if dz:
-            dz.alt = heli_alt
 
         return AirAssaultLayout(
             departure=builder.takeoff(self.flight.departure),
