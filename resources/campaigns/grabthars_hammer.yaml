@@ -35,6 +35,11 @@ squadrons:
       aircraft:
         - F-15C Eagle
       size: 8
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - AH-64D Apache Longbow
+      size: 8
     - primary: Refueling
       aircraft:
         - KC-135 Stratotanker
@@ -144,7 +149,7 @@ squadrons:
     - primary: CAS
       secondary: air-to-ground
       aircraft:
-        - Ka-50 Hokum (Blackshark 3)
+        - Ka-50 Hokum III
       size: 8
   #Ushuaia Helo Port
   8:
