@@ -49,6 +49,7 @@ class AirAssaultLayout(FormationAttackLayout):
         if self.divert is not None:
             yield self.divert
         yield self.bullseye
+        yield from self.custom_waypoints
 
 
 class AirAssaultFlightPlan(FormationAttackFlightPlan, UiZoneDisplay):
@@ -187,6 +188,7 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
             join=builder.join(ingress.position),
             split=builder.split(self.flight.arrival.position),
             refuel=None,
+            custom_waypoints=list(),
         )
 
     def build(self, dump_debug_info: bool = False) -> AirAssaultFlightPlan:

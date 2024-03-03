@@ -27,6 +27,7 @@ class RtbLayout(StandardLayout):
         if self.divert is not None:
             yield self.divert
         yield self.bullseye
+        yield from self.custom_waypoints
 
 
 class RtbFlightPlan(StandardFlightPlan[RtbLayout]):
@@ -91,6 +92,7 @@ class Builder(IBuilder[RtbFlightPlan, RtbLayout]):
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
             nav_from=[],
+            custom_waypoints=list(),
         )
 
     def build(self, dump_debug_info: bool = False) -> RtbFlightPlan:

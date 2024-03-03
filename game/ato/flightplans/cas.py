@@ -37,6 +37,7 @@ class CasLayout(PatrollingLayout):
         if self.divert is not None:
             yield self.divert
         yield self.bullseye
+        yield from self.custom_waypoints
 
 
 class CasFlightPlan(PatrollingFlightPlan[CasLayout], UiZoneDisplay):
@@ -167,6 +168,7 @@ class Builder(IBuilder[CasFlightPlan, CasLayout]):
             arrival=builder.land(self.flight.arrival),
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
+            custom_waypoints=list(),
         )
 
     def build(self, dump_debug_info: bool = False) -> CasFlightPlan:

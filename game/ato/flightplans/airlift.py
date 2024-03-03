@@ -92,6 +92,7 @@ class AirliftLayout(StandardLayout):
         if self.divert is not None:
             yield self.divert
         yield self.bullseye
+        yield from self.custom_waypoints
 
 
 class AirliftFlightPlan(StandardFlightPlan[AirliftLayout]):
@@ -246,6 +247,7 @@ class Builder(IBuilder[AirliftFlightPlan, AirliftLayout]):
             arrival=builder.land(self.flight.arrival),
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
+            custom_waypoints=list(),
         )
 
     def build(self, dump_debug_info: bool = False) -> AirliftFlightPlan:

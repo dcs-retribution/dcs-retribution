@@ -108,6 +108,7 @@ class Migrator:
         layout = f.flight_plan.layout
         try_set_attr(layout, "nav_to", [])
         try_set_attr(layout, "nav_from", [])
+        try_set_attr(layout, "custom_waypoints", [])
         if f.flight_type == FlightType.CAS:
             try_set_attr(layout, "ingress", None)
         if isinstance(layout, FormationLayout):

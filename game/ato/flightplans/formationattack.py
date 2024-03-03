@@ -157,6 +157,7 @@ class FormationAttackLayout(FormationLayout):
         if self.divert is not None:
             yield self.divert
         yield self.bullseye
+        yield from self.custom_waypoints
 
 
 FlightPlanT = TypeVar("FlightPlanT", bound=FlightPlan[FormationAttackLayout])
@@ -244,6 +245,7 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
             arrival=builder.land(self.flight.arrival),
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
+            custom_waypoints=list(),
         )
 
     def _build_refuel(self, builder: WaypointBuilder) -> Optional[FlightWaypoint]:

@@ -70,6 +70,9 @@ class StandardLayout(Layout, ABC):
         elif waypoint in self.nav_from:
             self.nav_from.remove(waypoint)
             return True
+        elif waypoint in self.custom_waypoints:
+            self.custom_waypoints.remove(waypoint)
+            return True
         return False
 
 

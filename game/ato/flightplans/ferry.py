@@ -24,6 +24,7 @@ class FerryLayout(StandardLayout):
         if self.divert is not None:
             yield self.divert
         yield self.bullseye
+        yield from self.custom_waypoints
 
 
 class FerryFlightPlan(StandardFlightPlan[FerryLayout]):
@@ -80,6 +81,7 @@ class Builder(IBuilder[FerryFlightPlan, FerryLayout]):
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
             nav_from=[],
+            custom_waypoints=list(),
         )
 
     def build(self, dump_debug_info: bool = False) -> FerryFlightPlan:

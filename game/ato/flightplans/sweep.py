@@ -35,6 +35,7 @@ class SweepLayout(LoiterLayout):
         if self.divert is not None:
             yield self.divert
         yield self.bullseye
+        yield from self.custom_waypoints
 
 
 class SweepFlightPlan(LoiterFlightPlan):
@@ -124,6 +125,7 @@ class Builder(IBuilder[SweepFlightPlan, SweepLayout]):
             arrival=builder.land(self.flight.arrival),
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
+            custom_waypoints=list(),
         )
 
     def _hold_point(self) -> Point:

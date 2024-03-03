@@ -31,6 +31,7 @@ class TarCapLayout(PatrollingLayout):
         if self.divert is not None:
             yield self.divert
         yield self.bullseye
+        yield from self.custom_waypoints
 
     def delete_waypoint(self, waypoint: FlightWaypoint) -> bool:
         if waypoint == self.refuel:
@@ -128,6 +129,7 @@ class Builder(CapBuilder[TarCapFlightPlan, TarCapLayout]):
             arrival=builder.land(self.flight.arrival),
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
+            custom_waypoints=list(),
         )
 
     def build(self, dump_debug_info: bool = False) -> TarCapFlightPlan:

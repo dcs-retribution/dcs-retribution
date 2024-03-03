@@ -90,6 +90,7 @@ class Builder(IBuilder[AewcFlightPlan, PatrollingLayout]):
             arrival=builder.land(self.flight.arrival),
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
+            custom_waypoints=list(),
         )
 
     def build(self, dump_debug_info: bool = False) -> AewcFlightPlan:
