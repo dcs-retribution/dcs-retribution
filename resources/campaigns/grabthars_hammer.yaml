@@ -35,6 +35,11 @@ squadrons:
       aircraft:
         - F-15C Eagle
       size: 8
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - AH-64D Apache Longbow
+      size: 8
     - primary: Refueling
       aircraft:
         - KC-135 Stratotanker
