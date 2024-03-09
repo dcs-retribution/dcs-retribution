@@ -38,12 +38,12 @@ squadrons:
   #Port Stanley
   1:
     - primary: DEAD
-      secondary: air-to-ground
+      secondary: any
       aircraft:
         - AH-64D Apache Longbow
       size: 6
     - primary: BAI
-      secondary: air-to-ground
+      secondary: any
       aircraft:
         - AH-64D Apache Longbow
       size: 6
@@ -56,14 +56,15 @@ squadrons:
   #San Carlos FOB
   3:
     - primary: BAI
-      secondary: air-to-ground
+      secondary: any
       aircraft:
         - Mi-24P Hind-F
       size: 6
   #Goose Green
   24:
     - primary: DEAD
-      secondary: air-to-ground
+      secondary: any
       aircraft:
+        - Ka-50 Hokum III
         - Ka-50 Hokum (Blackshark 3)
       size: 6
