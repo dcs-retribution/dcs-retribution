@@ -95,6 +95,11 @@ squadrons:
       aircraft:
         - CH-47D
       size: 20
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - AH-64D Apache Longbow
+      size: 8
     - primary: Air Assault
       secondary: any
       aircraft:
@@ -115,8 +120,9 @@ squadrons:
   # Melez (30)
   5:
     - primary: CAS
-      secondary: air-to-ground
+      secondary: any
       aircraft:
+        - Ka-50 Hokum III
         - Ka-50 Hokum (Blackshark 3)
       size: 4
     - primary: BAI

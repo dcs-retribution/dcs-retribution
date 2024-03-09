@@ -36,7 +36,7 @@ squadrons:
         - F-15C Eagle
       size: 8
     - primary: CAS
-      secondary: air-to-ground
+      secondary: any
       aircraft:
         - AH-64D Apache Longbow
       size: 8
@@ -147,14 +147,15 @@ squadrons:
   #Ushuaia
   7:
     - primary: CAS
-      secondary: air-to-ground
+      secondary: any
       aircraft:
         - Ka-50 Hokum III
+        - Ka-50 Hokum (Blackshark 3)
       size: 8
   #Ushuaia Helo Port
   8:
     - primary: Air Assault
-      secondary: air-to-ground
+      secondary: any
       aircraft:
         - Mi-24P Hind-F
       size: 8
