@@ -52,6 +52,7 @@ class AirWing:
         heli: bool,
         this_turn: bool,
         preferred_type: Optional[AircraftType] = None,
+        ignore_range: bool = False,
     ) -> list[Squadron]:
         airfield_cache = ObjectiveDistanceCache.get_closest_airfields(location)
         best_aircraft = AircraftType.priority_list_for_task(task)
@@ -68,7 +69,7 @@ class AirWing:
             ]
             for squadron in squadrons:
                 if squadron.can_auto_assign_mission(
-                    location, task, size, heli, this_turn
+                    location, task, size, heli, this_turn, ignore_range
                 ):
                     capable_at_base.append(squadron)
                     if squadron.aircraft not in best_aircraft:
@@ -100,9 +101,10 @@ class AirWing:
         heli: bool,
         this_turn: bool,
         preferred_type: Optional[AircraftType] = None,
+        ignore_range: bool = False,
     ) -> Optional[Squadron]:
         for squadron in self.best_squadrons_for(
-            location, task, size, heli, this_turn, preferred_type
+            location, task, size, heli, this_turn, preferred_type, ignore_range
         ):
             return squadron
         return None

@@ -281,6 +281,7 @@ class Squadron:
         size: int,
         heli: bool,
         this_turn: bool,
+        ignore_range: bool = False,
     ) -> bool:
         if (
             self.location.cptype.name in ["FOB", "FARP"]
@@ -304,6 +305,9 @@ class Squadron:
         if heli and task == FlightType.REFUELING:
             return False
 
+        if ignore_range:
+            return True
+        
         distance_to_target = meters(location.distance_to(self.location))
         return distance_to_target <= self.aircraft.max_mission_range
 

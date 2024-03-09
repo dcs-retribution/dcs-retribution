@@ -223,7 +223,7 @@ class QAutoCreateDialog(QDialog):
                     self.game.settings,
                 )
                 now = self.package_model.game_model.sim_controller.current_time_in_sim
-                package = pff.plan_mission(pm, 1, now, tracer)
+                package = pff.plan_mission(pm, 1, now, tracer, ignore_range=True)
                 if package:
                     package.set_tot_asap(now)
                     self.package = package

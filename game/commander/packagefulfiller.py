@@ -81,8 +81,9 @@ class PackageFulfiller:
         builder: PackageBuilder,
         missing_types: Set[FlightType],
         purchase_multiplier: int,
+        ignore_range: bool = False,
     ) -> None:
-        if not builder.plan_flight(flight):
+        if not builder.plan_flight(flight, ignore_range):
             pf = builder.package.primary_flight
             heli = pf.is_helo if pf else False
             missing_types.add(flight.task)
@@ -138,6 +139,7 @@ class PackageFulfiller:
         purchase_multiplier: int,
         now: datetime,
         tracer: MultiEventTracer,
+        ignore_range: bool = False,
     ) -> Optional[Package]:
         """Allocates aircraft for a proposed mission and adds it to the ATO."""
         builder = PackageBuilder(
@@ -175,6 +177,7 @@ class PackageFulfiller:
                     builder,
                     missing_types,
                     purchase_multiplier,
+                    ignore_range,
                 )
 
         if missing_types:
