@@ -124,7 +124,8 @@ class PydcsWaypointBuilder:
             return False
 
     def register_special_strike_points(
-        self, targets: Iterable[Union[MissionTarget, TheaterUnit]]
+        self, targets: Iterable[Union[MissionTarget, TheaterUnit]],
+        start: int = 1,
     ) -> None:
         """Create special strike  waypoints for various aircraft"""
         for i, t in enumerate(targets):
@@ -135,7 +136,7 @@ class PydcsWaypointBuilder:
             # Add F-15E mission target points as mission 1 (for JDAM for instance)
             if self.group.units[0].unit_type == F_15ESE:
                 self.group.add_nav_target_point(
-                    t.position, f"M{(i//8)+1}.{i%8+1}" f"\nH-1" f"\nA0" f"\nV0"
+                    t.position, f"M{(i//8)+start}.{i%8+1}\nH-1\nA0\nV0"
                 )
 
     def register_special_ingress_points(self) -> None:

@@ -10,6 +10,7 @@ from dcs import Point
 from dcs.planes import C_101CC, C_101EB, Su_33, FA_18C_hornet
 
 from game.dcs.aircrafttype import AircraftType
+from game.theater import ControlPoint, MissionTarget
 from pydcs_extensions.hercules.hercules import Hercules
 from .flightmembers import FlightMembers
 from .flightroster import FlightRoster
@@ -34,7 +35,6 @@ if TYPE_CHECKING:
     from game.sim.gameupdateevents import GameUpdateEvents
     from game.sim.simulationresults import SimulationResults
     from game.squadrons import Squadron, Pilot
-    from game.theater import ControlPoint
     from game.transfers import TransferOrder
     from game.data.weapons import WeaponType
     from .flightmember import FlightMember
@@ -223,6 +223,13 @@ class Flight(
     @property
     def points(self) -> List[FlightWaypoint]:
         return self.flight_plan.waypoints[1:]
+
+    @property
+    def custom_targets(self) -> List[MissionTarget]:
+        return [
+            MissionTarget(wpt.name, wpt.position)
+            for wpt in self.flight_plan.layout.custom_waypoints
+        ]
 
     def position(self) -> Point:
         return self.state.estimate_position()

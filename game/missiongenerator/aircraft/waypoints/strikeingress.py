@@ -2,7 +2,7 @@ import copy
 from typing import Union
 
 from dcs import Point
-from dcs.planes import B_17G, B_52H, Tu_22M3, B_1B
+from dcs.planes import B_17G, B_52H, Tu_22M3, B_1B, F_15ESE
 from dcs.point import MovingPoint
 from dcs.task import Bombing, Expend, OptFormation, WeaponType, CarpetBombing
 
@@ -76,4 +76,6 @@ class StrikeIngressBuilder(PydcsWaypointBuilder):
         # Register special waypoints
         if not self._special_wpts_injected:
             self.register_special_strike_points(self.waypoint.targets)
+            if self.flight.unit_type.dcs_unit_type == F_15ESE:
+                self.register_special_strike_points(self.flight.custom_targets, 2)
             self._special_wpts_injected = True
