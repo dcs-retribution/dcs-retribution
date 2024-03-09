@@ -46,7 +46,12 @@ function FlightPlanPath(props: FlightPlanProps) {
   // behind everything than was added before them. Anything added after always
   // goes on top.
   useEffect(() => {
-    polylineRef.current?.bringToBack();
+    if (props.selected) {
+        polylineRef.current?.bringToFront();
+    }
+    else {
+        polylineRef.current?.bringToBack();
+    }
   });
 
   if (waypoints == null) {
