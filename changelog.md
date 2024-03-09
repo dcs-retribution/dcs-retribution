@@ -46,6 +46,7 @@
 * **[UX]** Buy/Replace TGOs for free before the campaign has started
 * **[Data]** Ability to define "cruise" & "combat" altitudes for airplanes
 * **[Options]** Option to randomize altitudes for flights with airplanes
+* **[Options]** Options to configure/override maximum mission distance for airplanes & helicopters 
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task

@@ -381,6 +381,32 @@ class Settings:
             "planned to known threat zones."
         ),
     )
+    max_mission_range_planes: int = bounded_int_option(
+        "Auto-planner maximum mission range for airplanes (NM)",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=DOCTRINE_DISTANCES_SECTION,
+        default=150,
+        min=150,
+        max=1000,
+        detail=(
+            "The maximum mission distance that's used by the auto-planner for airplanes. "
+            "This setting won't take effect when a larger "
+            "range is defined in the airplane's yaml specification."
+        ),
+    )
+    max_mission_range_helicopters: int = bounded_int_option(
+        "Auto-planner maximum mission range for helicopters (NM)",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=DOCTRINE_DISTANCES_SECTION,
+        default=100,
+        min=50,
+        max=1000,
+        detail=(
+            "The maximum mission distance that's used by the auto-planner for helicopters. "
+            "This setting won't take effect when a larger "
+            "range is defined in the helicopter's yaml specification."
+        ),
+    )
     # Pilots and Squadrons
     ai_pilot_levelling: bool = boolean_option(
         "Allow AI pilot leveling",
