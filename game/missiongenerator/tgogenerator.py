@@ -39,7 +39,7 @@ from dcs.task import (
     OptAlarmState,
 )
 from dcs.translation import String
-from dcs.triggers import Event, TriggerOnce, TriggerStart, TriggerZone
+from dcs.triggers import Event, TriggerOnce, TriggerStart, TriggerZone, TriggerZoneQuadPoint
 from dcs.unit import Unit, InvisibleFARP, BaseFARP, SingleHeliPad, FARP
 from dcs.unitgroup import MovingGroup, ShipGroup, StaticGroup, VehicleGroup
 from dcs.unittype import ShipType, VehicleType
@@ -405,14 +405,24 @@ class GroundObjectGenerator:
         # is minimized. As long as the triggerzone is over the scenery object, we're ok.
         smallest_valid_radius = feet(16).meters
 
-        trigger_zone = self.m.triggers.add_triggerzone(
-            scenery.zone.position,
-            smallest_valid_radius,
-            scenery.zone.hidden,
-            scenery.zone.name,
-            color,
-            scenery.zone.properties,
-        )
+        if isinstance(scenery.zone, TriggerZoneQuadPoint):
+            trigger_zone = self.m.triggers.add_triggerzone_quad(
+                scenery.zone.position,
+                scenery.zone.verticies,
+                scenery.zone.hidden,
+                scenery.zone.name,
+                color,
+                scenery.zone.properties,
+            )
+        else:
+            trigger_zone = self.m.triggers.add_triggerzone(
+                scenery.zone.position,
+                smallest_valid_radius,
+                scenery.zone.hidden,
+                scenery.zone.name,
+                color,
+                scenery.zone.properties,
+            )
         # DCS only visually shows a scenery object is dead when
         # this trigger rule is applied.  Otherwise you can kill a
         # structure twice.
