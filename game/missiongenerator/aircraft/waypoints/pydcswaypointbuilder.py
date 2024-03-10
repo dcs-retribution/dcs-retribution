@@ -124,7 +124,8 @@ class PydcsWaypointBuilder:
             return False
 
     def register_special_strike_points(
-        self, targets: Iterable[Union[MissionTarget, TheaterUnit]],
+        self,
+        targets: Iterable[Union[MissionTarget, TheaterUnit]],
         start: int = 1,
     ) -> None:
         """Create special strike  waypoints for various aircraft"""
