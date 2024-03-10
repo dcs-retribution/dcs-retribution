@@ -406,7 +406,7 @@ class GroundObjectGenerator:
         smallest_valid_radius = feet(16).meters
 
         if isinstance(scenery.zone, TriggerZoneQuadPoint):
-            trigger_zone = self.m.triggers.add_triggerzone_quad(
+            trigger_zone: TriggerZone = self.m.triggers.add_triggerzone_quad(
                 scenery.zone.position,
                 scenery.zone.verticies,
                 scenery.zone.hidden,
