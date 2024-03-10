@@ -647,6 +647,10 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         return False
 
     @property
+    def is_offmap(self) -> bool:
+        return False
+
+    @property
     def moveable(self) -> bool:
         """
         :return: Whether this control point can be moved around
@@ -1017,6 +1021,8 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         # clear the ATO and replan the airlifts with the correct time.
         self.ground_unit_orders.process(game, game.conditions.start_time)
 
+        self.release_parking_slots()
+
         runway_status = self.runway_status
         if runway_status is not None:
             runway_status.process_turn()
@@ -1336,6 +1342,8 @@ class Airfield(ControlPoint, CTLD):
 class NavalControlPoint(
     ControlPoint, ABC, Link4Container, TacanContainer, ICLSContainer
 ):
+    carrier_id: Optional[int] = None
+
     @property
     def is_fleet(self) -> bool:
         return True
@@ -1426,6 +1434,10 @@ class NavalControlPoint(
         if self.find_main_tgo().dead_units:
             return ControlPointStatus.Damaged
         return ControlPointStatus.Functional
+
+    @property
+    def airdrome_id_for_landing(self) -> Optional[int]:
+        return self.carrier_id
 
 
 class Carrier(NavalControlPoint):
@@ -1571,6 +1583,10 @@ class OffMapSpawn(ControlPoint):
     @property
     def status(self) -> ControlPointStatus:
         return ControlPointStatus.Functional
+
+    @property
+    def is_offmap(self) -> bool:
+        return True
 
 
 class Fob(ControlPoint, RadioFrequencyContainer, CTLD):

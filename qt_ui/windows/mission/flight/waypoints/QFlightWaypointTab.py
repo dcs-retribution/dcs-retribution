@@ -162,9 +162,9 @@ class QFlightWaypointTab(QFrame):
         assert isinstance(self.flight.flight_plan, CustomFlightPlan)
         self.flight.flight_plan.layout.custom_waypoints.remove(waypoint)
 
-    def confirm_degrade(self) -> bool:
+    def confirm_degrade(self, parent: Optional[QWidget] = None) -> bool:
         result = QMessageBox.warning(
-            self,
+            parent if parent else self,
             "Degrade flight-plan?",
             "Deleting the selected waypoint(s) will require degradation to a custom flight-plan. "
             "A custom flight-plan will no longer respect the TOTs of the package.<br><br>"
@@ -184,12 +184,6 @@ class QFlightWaypointTab(QFrame):
     def on_waypoints_added(self, waypoints: Iterable[FlightWaypoint]) -> None:
         if not waypoints:
             return
-        if not self.flight.flight_plan.is_custom:
-            confirmed = self.confirm_degrade()
-            if not confirmed:
-                return
-        self.degrade_to_custom_flight_plan()
-        assert isinstance(self.flight.flight_plan, CustomFlightPlan)
         self.flight.flight_plan.layout.custom_waypoints.extend(waypoints)
         self.add_rows(len(list(waypoints)))
 

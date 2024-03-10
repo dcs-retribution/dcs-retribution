@@ -10,11 +10,14 @@ import dcs.terrain.falklands.airports
 
 import pydcs_extensions
 from game.profiling import logged_duration
+from pydcs_extensions import ELM2084_MMR_AD_RT, Iron_Dome_David_Sling_CP
 
 if TYPE_CHECKING:
     from game import Game
 
 _dcs_saved_game_folder: Optional[str] = None
+_prefer_liberation_payloads: bool = False
+_server_port: int = 16880
 
 
 # fmt: off
@@ -60,15 +63,28 @@ class MigrationUnpickler(pickle.Unpickler):
             return dcs.terrain.falklands.airports.Hipico_Flying_Club
         if name in ["SaveManager", "SaveGameBundle"]:
             return DummyObject
+        if name == "CaletaTortel":
+            return dcs.terrain.falklands.airports.Caleta_Tortel_Airport
         if module == "pydcs_extensions.f4b.f4b":
             return pydcs_extensions.f4
+        if module == "pydcs_extensions.irondome.irondome":
+            if name in ["I9K57_URAGAN", "I9K51_GRAD", "I9K58_SMERCH"]:
+                return None
+            elif name == "ELM2048_MMR":
+                return ELM2084_MMR_AD_RT
+            elif name == "IRON_DOME_CP":
+                return Iron_Dome_David_Sling_CP
         return super().find_class(module, name)
 # fmt: on
 
 
-def setup(user_folder: str) -> None:
+def setup(user_folder: str, prefer_liberation_payloads: bool, port: int) -> None:
     global _dcs_saved_game_folder
+    global _prefer_liberation_payloads
+    global _server_port
     _dcs_saved_game_folder = user_folder
+    _prefer_liberation_payloads = prefer_liberation_payloads
+    _server_port = port
     if not save_dir().exists():
         save_dir().mkdir(parents=True)
 
@@ -91,11 +107,20 @@ def settings_dir() -> Path:
     return base_path() / "Retribution" / "Settings"
 
 
+def airwing_dir() -> Path:
+    return base_path() / "Retribution" / "AirWing"
+
+
 def payloads_dir(backup: bool = False) -> Path:
     payloads = base_path() / "MissionEditor" / "UnitPayloads"
     if backup:
         return payloads / "_retribution_backups"
     return payloads
+
+
+def prefer_liberation_payloads() -> bool:
+    global _prefer_liberation_payloads
+    return _prefer_liberation_payloads
 
 
 def user_custom_weapon_injections_dir() -> Path:
@@ -104,6 +129,11 @@ def user_custom_weapon_injections_dir() -> Path:
 
 def save_dir() -> Path:
     return base_path() / "Retribution" / "Saves"
+
+
+def server_port() -> int:
+    global _server_port
+    return _server_port
 
 
 def _temporary_save_file() -> str:

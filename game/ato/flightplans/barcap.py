@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-import random
 from datetime import timedelta
 from typing import Type
 
 from game.theater import FrontLine
-from game.utils import Distance, Speed, feet
+from game.utils import Distance, Speed
 from .capbuilder import CapBuilder
 from .invalidobjectivelocation import InvalidObjectiveLocation
 from .patrolling import PatrollingFlightPlan, PatrollingLayout
@@ -41,14 +40,9 @@ class Builder(CapBuilder[BarCapFlightPlan, PatrollingLayout]):
 
         start_pos, end_pos = self.cap_racetrack_for_objective(location, barcap=True)
 
-        preferred_alt = self.flight.unit_type.preferred_patrol_altitude
-        randomized_alt = preferred_alt + feet(random.randint(-2, 1) * 1000)
-        patrol_alt = max(
-            self.doctrine.min_patrol_altitude,
-            min(self.doctrine.max_patrol_altitude, randomized_alt),
-        )
-
         builder = WaypointBuilder(self.flight)
+        patrol_alt = builder.get_patrol_altitude
+
         start, end = builder.race_track(start_pos, end_pos, patrol_alt)
 
         return PatrollingLayout(
@@ -64,6 +58,7 @@ class Builder(CapBuilder[BarCapFlightPlan, PatrollingLayout]):
             arrival=builder.land(self.flight.arrival),
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
+            custom_waypoints=list(),
         )
 
     def build(self, dump_debug_info: bool = False) -> BarCapFlightPlan:

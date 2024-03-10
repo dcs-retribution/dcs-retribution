@@ -7,6 +7,8 @@ from typing import TYPE_CHECKING, Any
 from dcs.countries import countries_by_name
 
 from game.ato import FlightType
+from game.ato.flightplans.formation import FormationLayout
+from game.ato.flightplans.waypointbuilder import WaypointBuilder
 from game.ato.packagewaypoints import PackageWaypoints
 from game.data.doctrine import MODERN_DOCTRINE, COLDWAR_DOCTRINE, WWII_DOCTRINE
 from game.theater import ParkingType, SeasonalConditions
@@ -50,7 +52,7 @@ class Migrator:
                 continue
             found = False
             for d in doctrines:
-                if c.faction.doctrine.rendezvous_altitude == d.rendezvous_altitude:
+                if c.faction.doctrine.max_patrol_altitude == d.max_patrol_altitude:
                     c.faction.doctrine = d
                     found = True
                     break
@@ -76,6 +78,7 @@ class Migrator:
     def _update_control_points(self) -> None:
         is_sinai = self.game.theater.terrain.name == "SinaiMap"
         for cp in self.game.theater.controlpoints:
+            cp.release_parking_slots()
             is_carrier = cp.is_carrier
             is_lha = cp.is_lha
             is_fob = cp.category == "fob"
@@ -105,8 +108,13 @@ class Migrator:
         layout = f.flight_plan.layout
         try_set_attr(layout, "nav_to", [])
         try_set_attr(layout, "nav_from", [])
+        try_set_attr(layout, "custom_waypoints", [])
         if f.flight_type == FlightType.CAS:
             try_set_attr(layout, "ingress", None)
+        if isinstance(layout, FormationLayout):
+            if not layout.join and f.package.waypoints:
+                builder = WaypointBuilder(f, [])
+                layout.join = builder.join(f.package.waypoints.join)
 
     def _update_flights(self) -> None:
         to_remove = []
@@ -140,6 +148,7 @@ class Migrator:
             "Netherlands": "The Netherlands",
             "CHN": "China",
         }
+        # Squadrons
         for cp in self.game.theater.controlpoints:
             for s in cp.squadrons:
                 preferred_task = max(
@@ -165,6 +174,11 @@ class Migrator:
 
                 if self.is_liberation:
                     s.set_auto_assignable_mission_types(s.auto_assignable_mission_types)
+        # SquadronDefs
+        for coa in self.game.coalitions:
+            for ac, sdefs in coa.air_wing.squadron_defs.items():
+                for sdef in sdefs:
+                    try_set_attr(sdef, "radio_presets", {})
 
     @typing.no_type_check
     def _update_factions(self) -> None:

@@ -2,7 +2,8 @@ name: Iron Dome
 tasks:
   - MERAD
 units:
-  - Iron Dome ELM-2048 MMR
+  - ELM-2084MMR AD Rotating Mode
+  - ELM-2084MMR AD Sector Mode
   - Iron Dome CP
   - Iron Dome LN
 layouts:

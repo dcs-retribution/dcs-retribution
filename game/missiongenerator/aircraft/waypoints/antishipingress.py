@@ -9,14 +9,15 @@ from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 class AntiShipIngressBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
+        self.register_special_ingress_points()
         group_names = []
         waypoint.tasks.append(OptFormation.finger_four_open())
 
         target = self.package.target
         if isinstance(target, NavalControlPoint):
-            carrier_name = target.get_carrier_group_name()
-            if carrier_name:
-                group_names.append(carrier_name)
+            carrier_tgo = target.ground_objects[0]
+            for g in carrier_tgo.groups:
+                group_names.append(g.group_name)
         elif isinstance(target, TheaterGroundObject):
             for group in target.groups:
                 group_names.append(group.group_name)

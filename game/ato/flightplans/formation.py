@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class FormationLayout(LoiterLayout, ABC):
-    join: Optional[FlightWaypoint]
+    join: FlightWaypoint
     split: FlightWaypoint
     refuel: Optional[FlightWaypoint]
 
@@ -85,17 +85,22 @@ class FormationFlightPlan(LoiterFlightPlan, ABC):
 
     def tot_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         if waypoint == self.layout.join:
-            return self.join_time + self.tot_offset
+            return self.join_time
         elif waypoint == self.layout.split:
-            return self.split_time + self.tot_offset
+            return self.split_time
         return None
 
     @property
     def push_time(self) -> datetime:
-        return self.join_time - self.travel_time_between_waypoints(
-            self.layout.hold,
-            self.layout.join,
+        hold2join_time = (
+            self.travel_time_between_waypoints(
+                self.layout.hold,
+                self.layout.join,
+            )
+            if self.layout.hold
+            else timedelta(0)
         )
+        return self.join_time - hold2join_time
 
     @property
     def mission_begin_on_station_time(self) -> datetime | None:

@@ -2,6 +2,7 @@ import time
 from collections.abc import Iterator
 from contextlib import contextmanager
 from threading import Thread
+from typing import Optional
 
 import uvicorn
 from uvicorn import Config
@@ -13,12 +14,13 @@ from game.sim import GameUpdateEvents
 
 
 class Server(uvicorn.Server):
-    def __init__(self) -> None:
+    def __init__(self, port: Optional[int]) -> None:
+        settings = ServerSettings.get(port)
         super().__init__(
             Config(
                 app=app,
-                host=ServerSettings.get().server_bind_address,
-                port=ServerSettings.get().server_port,
+                host=settings.server_bind_address,
+                port=settings.server_port,
                 # Configured explicitly with default_logging.yaml or logging.yaml.
                 log_config=None,
             )

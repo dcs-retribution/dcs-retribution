@@ -1,11 +1,11 @@
 ---
-name: Syria - WRL - Assault on Damascus (v1.1) #1.0 - Original Release / #1.1 - Player F15e added
+name: Syria - WRL - Assault on Damascus (v1.2) #1.0 - Original Release / #1.1 - Player F15e added / #1.2 - IADS ADDED & Massive Overhaul, Added C130 spawn support at main airbase
 theater: Syria
 authors: HolyOrangeJuice
 recommended_player_faction: WRL - Task Force Blue
 recommended_enemy_faction: WRL - Task Force Red
 recommended_start_date: 2022-06-04
-description: "<p>This mission was modified by HolyOrangeJuice [OscarJuliet] for the WRL Group. Join us for weekly PVE events. <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p><p>Original Battle for Golan Heights by Khopa.</p><p>This modified campaign does not represent any historical time period or events. Attack from Ramat-David and eliminate the enemy around Damascus.</p><p>All WRL Campaigns use high budget and high income to focus on the PVE goals to eliminate the enemy. Use lower starting money and income for increased difficulty.</p>"
+description: "<p>This campaign is the gold standard of WRL campaigns. This campaign will always have the latest retribution additions. Consider this a feature complete campaign as it progresses through updates. Play Battle 4 Gerogia as a beginner mission. Play this one for an advanced experience</p><p>This mission was heavily modified by HolyOrangeJuice [OscarJuliet] for the WRL Group. Join us for weekly PVE events. <a style=\"color: white\" href=\"https://werunliberation.com\">werunliberation.com</a></p><p>Original Battle for Golan Heights by Khopa.</p><p>This modified campaign does not represent any historical time period or events. Attack from Ramat-David and eliminate the enemy around Damascus.</p><p>All WRL Campaigns use high budget and high income to focus on the PVE goals to eliminate the enemy. Use lower starting money and income for increased difficulty.</p>"
 miz: WRL_AssaultonDamascus.miz
 performance: 2
 version: "10.7" #CTLD Zones Added
@@ -13,9 +13,102 @@ recommended_player_money: 5000
 recommended_enemy_money: 2000
 recommended_player_income_multiplier: 5.0
 recommended_enemy_income_multiplier: 1.0
-advanced_iads: false
 settings:
   max_frontline_width: 30
+advanced_iads: true # Campaign has connection_nodes / power_sources / command_centers
+iads_config:
+#REDFOR DEFENSE MARJ AIRBASE AREA
+  - M-COMMAND-1:
+    - M-POWER-1
+    - M-POWER-2
+    - M-TOWER-1
+    - M-TOWER-2 
+  - M-EWR-1:
+    - M-POWER-1
+    - M-TOWER-1
+  - M-EWR-2:
+    - M-POWER-1
+    - M-TOWER-1
+  - M-EWR-3:
+    - M-POWER-2
+    - M-TOWER-2
+  - M-SAM-1:
+    - M-POWER-1
+    - M-TOWER-1
+  - M-SAM-2:
+    - M-POWER-1
+    - M-TOWER-1
+  - M-SAM-3:
+    - M-POWER-2
+    - M-TOWER-2
+  - M-SAM-4:
+    - M-POWER-2
+    - M-TOWER-2
+  - M-SAM-5:
+    - M-POWER-2
+    - M-TOWER-2
+  - M-SAM-6:
+    - M-POWER-2
+    - M-TOWER-2
+ #REDFOR DEFENSE DAMASCUS AIRBASE AREA
+  - D-COMMAND-1:
+    - D-POWER-1
+    - D-POWER-2
+    - D-TOWER-1
+    - D-TOWER-2 
+  - D-EWR-1:
+    - D-POWER-1
+    - D-TOWER-1
+  - D-EWR-2:
+    - D-POWER-2
+    - D-TOWER-2
+  - D-EWR-3:
+    - D-POWER-2
+    - D-TOWER-2      
+  - D-SAM-1:
+    - D-POWER-1
+    - D-TOWER-1
+  - D-SAM-2:
+    - D-POWER-2
+    - D-TOWER-2
+  - D-SAM-3:
+    - D-POWER-1
+    - D-TOWER-1  
+  - D-SAM-4:
+    - D-POWER-2
+    - D-TOWER-2  
+ #REDFOR DEFENSE AL-DUMAYR AIRBASE AREA
+  - A-COMMAND-1:
+    - A-POWER-1
+    - A-TOWER-1
+  - A-EWR-1:
+    - A-POWER-1
+    - A-TOWER-1
+  - A-EWR-2:
+    - A-POWER-1
+    - A-TOWER-1
+  - A-SAM-1:
+    - A-POWER-1
+    - A-TOWER-1
+  - A-SAM-2:
+    - A-POWER-1
+    - A-TOWER-1
+ #BLUEFOR RAMAT DEFENSE
+  - R-COMMAND-1:
+    - R-POWER-1
+    - R-TOWER-1
+  - RAMAT1:
+    - R-POWER-1
+    - R-TOWER-1
+  - RAMAT2:
+    - R-POWER-1
+    - R-TOWER-1
+  - RAMAT3:
+    - R-POWER-1
+    - R-TOWER-1
+  - RAMAT4:
+    - R-POWER-1
+    - R-TOWER-1
 squadrons:
   CVN-74 John Stennis:
     - primary: BARCAP
@@ -75,7 +168,12 @@ squadrons:
       secondary: any
       aircraft:
         - F-117A Nighthawk
-      size: 5          
+      size: 8   
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - F-15C Eagle
+      size: 16      
   # Ramat-David
   30:
     - primary: BAI
@@ -108,88 +206,103 @@ squadrons:
       aircraft:
         - AV-8B Harrier II Night Attack
       size: 16
-  # Golan South
-#  Golan South:
-  # Golan North
   Golan North:
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - A Company, 1-211th ARB #AH-64D Apache Longbow
-      size: 10       
+      size: 8       
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - Mi-24P Hind-F
-      size: 10
+      size: 8
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - Ka-50 Hokum III
-      size: 10
+      size: 8
+    - primary: Transport
+      secondary: air-to-ground
+      aircraft:
+        - HMLA-169 (UH-1H) #UH-1H Iroquois
+      size: 8
+  # Golan South
+  Golan South: 
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - AH-1W SuperCobra
+      size: 4
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - SA 342M Gazelle
-      size: 4
+      size: 8
     - primary: Transport
-      secondary: any
-      aircraft:
-        - HMLA-169 (UH-1H) #UH-1H Iroquois
-      size: 4
-    - primary: Transport
-      secondary: any
+      secondary: air-to-ground
       aircraft:
         - Mi-8MTV2 Hip
-      size: 4
-  # Marj Ruhayyil
-  23:
-    - primary: BARCAP
-      secondary: air-to-air
-      aircraft:
-        - MiG-21bis Fishbed-N
-      size: 16
-  # Al-Dumayr
-  9:
-    - primary: BARCAP
-      secondary: any
-      aircraft:
-        - Su-27 Flanker-B
-      size: 16
-  # Khalkhalah
-  18:
-    - primary: BARCAP
-      secondary: any
-      aircraft:
-        - MiG-23MLD Flogger-K
-      size: 16
+      size: 8
   # Damascus
   7:
     - primary: BARCAP
-      secondary: any
+      secondary: air-to-air
       aircraft:
         - MiG-29S Fulcrum-C
-      size: 16
+      size: 12
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - Su-34 Fullback
+      size: 12
     - primary: Strike
       secondary: air-to-ground
       aircraft:
         - Su-24M Fencer-D
-      size: 16
-    - primary: SEAD
-      secondary: air-to-ground
-      aircraft:
-        - Su-25T Frogfoot
-      size: 16
+      size: 12
+  # Marj Ruhayyil
+#  23:
+  # Al-Dumayr
+#  9:
+  # Khalkhalah
+#  18:
+  # MEZZEH
+#  25:
+  # FOB ALPHA
+#  FOB ALPHA:
+  # FOB BRAVO
+#  FOB BRAVO:
+  # MARJ AS SULTAN SOUTH
+#  8:    
+  # MARJ AS SULTAN NORTH
+#  22:
+  # QABR AS SITT
+#  29:
 ground_forces:
-  KHALK1: SA-11 
-  KHALK2: SA-2/S-75 
-  DAMASCUS1: SA-11
-  DUMAYR1: SA-2/S-75
-  DUMAYR2: SA-2/S-75 
-  DUMAYR3: SA-10/S-300PS
+  M-SAM-1: SA-11
+  M-SAM-2: SA-11
+  M-SAM-3: SA-2/S-75
+  M-SAM-4: SA-3/S-125
+  M-SAM-5: SA-3/S-125
+  M-SAM-6: SA-3/S-125
+  M-SHORAD-1: SA-15 SHORAD
+#  M-AAA-1: 
+  D-SAM-1: SA-2/S-75
+  D-SAM-2: SA-2/S-75
+  D-SAM-3: SA-6
+  D-SAM-4: SA-3/S-125
+  D-SHORAD-1: SA-15 SHORAD
+#  D-AAA-1: 
+  K-SHORAD-1: SA-15 SHORAD
+#  K-AAA-1:
+  FOB-SHORAD-1: SA-15 SHORAD
+#  FOB-AAA-1: 
+  A-SHORAD-1: SA-15 SHORAD
   RAMAT1: Patriot
-  RAMAT2: Hawk
-  RAMAT3: Patriot
+  RAMAT2: Patriot
+  RAMAT3: NASAMS AIM-120C
+  RAMAT4: NASAMS AIM-120C
   GSOUTH1: NASAMS AIM-120C
-  GSOUTH2: Hawk
+  GSOUTH2: NASAMS AIM-120C
   GNORTH1: NASAMS AIM-120C

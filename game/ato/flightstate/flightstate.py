@@ -26,7 +26,7 @@ class FlightState(ABC):
 
         start_time = self.flight.flight_plan.startup_time()
         if start_time <= now:
-            self._set_active_flight_state(now)
+            self._set_active_flight_state(start_time)
         else:
             self.flight.set_state(
                 WaitingForStart(self.flight, self.settings, start_time)

@@ -19,14 +19,19 @@ class Takeoff(AtDeparture):
     def __init__(self, flight: Flight, settings: Settings, now: datetime) -> None:
         super().__init__(flight, settings)
         # TODO: Not accounted for in FlightPlan, can cause discrepancy without loiter.
-        self.completion_time = now + timedelta(seconds=30)
+        self.completion_time = now + flight.flight_plan.estimate_takeoff_time()
 
     def on_game_tick(
         self, events: GameUpdateEvents, time: datetime, duration: timedelta
     ) -> None:
         if time < self.completion_time:
             return
-        self.flight.set_state(Navigating(self.flight, self.settings, waypoint_index=0))
+        rollover = time - self.completion_time
+        self.flight.set_state(
+            Navigating(
+                self.flight, self.settings, waypoint_index=0, elapsed_time=rollover
+            )
+        )
 
     @property
     def is_waiting_for_start(self) -> bool:

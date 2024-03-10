@@ -180,7 +180,7 @@ class Faction:
         return sorted(air_defenses)
 
     @cached_property
-    def aircrafts(self) -> list[UnitType[Any]]:
+    def all_aircrafts(self) -> list[UnitType[Any]]:
         # Migrator can't cope with this, so we need to do it here...
         self.aircraft = set(self.aircraft)
         self.awacs = set(self.awacs)
@@ -460,13 +460,16 @@ class Faction:
             self.remove_ship("L02")
             self.remove_ship("DDG39")
         if not mod_settings.irondome:
-            self.remove_vehicle("I9K51_GRAD")
-            self.remove_vehicle("I9K57_URAGAN")
-            self.remove_vehicle("I9K58_SMERCH")
-            self.remove_vehicle("IRON_DOME_CP")
+            self.remove_vehicle("Iron_Dome_David_Sling_CP")
             self.remove_vehicle("IRON_DOME_LN")
-            self.remove_vehicle("ELM2048_MMR")
+            self.remove_vehicle("DAVID_SLING_LN")
+            self.remove_vehicle("ELM2084_MMR_AD_RT")
+            self.remove_vehicle("ELM2084_MMR_AD_SC")
+            self.remove_vehicle("ELM2084_MMR_WLR")
             self.remove_preset("Iron Dome")
+            self.remove_preset("Iron Dome (Semicircle)")
+            self.remove_preset("David's Sling")
+            self.remove_preset("David's Sling (Semicircle)")
         # swedish military assets pack
         if not mod_settings.swedishmilitaryassetspack:
             self.remove_vehicle("BV410_RBS70")
@@ -506,6 +509,10 @@ class Faction:
             self.remove_ship("HSwMS_Visby")
             self.remove_ship("Strb90")
             self.remove_aircraft("HKP15B")
+            self.remove_preset("LvS-103 Rb103A")
+            self.remove_preset("LvS-103 Rb103A Mobile")
+            self.remove_preset("LvS-103 Rb103B")
+            self.remove_preset("LvS-103 Rb103B Mobile")
         # SWPack
         if not mod_settings.SWPack:
             self.remove_aircraft("AWINGA")
@@ -539,14 +546,16 @@ class Faction:
             self.remove_ship("Destroyer_carrier")
 
     def remove_aircraft(self, name: str) -> None:
-        for i in list(self.aircrafts):
-            if i.dcs_unit_type.id == name:
-                self.aircrafts.remove(i)
+        for aircraft_set in [self.aircraft, self.awacs, self.tankers]:
+            for i in list(aircraft_set):
+                if i.dcs_unit_type.id == name:
+                    aircraft_set.remove(i)
 
     def remove_aircraft_by_name(self, name: str) -> None:
-        for i in list(self.aircrafts):
-            if i.display_name == name:
-                self.aircrafts.remove(i)
+        for aircraft_set in [self.aircraft, self.awacs, self.tankers]:
+            for i in list(aircraft_set):
+                if i.display_name == name:
+                    aircraft_set.remove(i)
 
     def remove_preset(self, name: str) -> None:
         for pg in self.preset_groups:

@@ -35,6 +35,7 @@ class SweepLayout(LoiterLayout):
         if self.divert is not None:
             yield self.divert
         yield self.bullseye
+        yield from self.custom_waypoints
 
 
 class SweepFlightPlan(LoiterFlightPlan):
@@ -66,14 +67,14 @@ class SweepFlightPlan(LoiterFlightPlan):
 
     def tot_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         if waypoint == self.layout.sweep_start:
-            return self.sweep_start_time + self.tot_offset
+            return self.sweep_start_time
         if waypoint == self.layout.sweep_end:
-            return self.sweep_end_time + self.tot_offset
+            return self.sweep_end_time
         return None
 
     def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         if waypoint == self.layout.hold:
-            return self.push_time + self.tot_offset
+            return self.push_time
         return None
 
     @property
@@ -104,26 +105,27 @@ class Builder(IBuilder[SweepFlightPlan, SweepLayout]):
         )
 
         builder = WaypointBuilder(self.flight)
-        start, end = builder.sweep(start_pos, target, self.doctrine.ingress_altitude)
+        altitude = builder.get_patrol_altitude
+
+        start, end = builder.sweep(start_pos, target, altitude)
 
         hold = builder.hold(self._hold_point())
 
         return SweepLayout(
             departure=builder.takeoff(self.flight.departure),
             hold=hold,
-            nav_to=builder.nav_path(
-                hold.position, start.position, self.doctrine.ingress_altitude
-            ),
+            nav_to=builder.nav_path(hold.position, start.position, altitude),
             nav_from=builder.nav_path(
                 end.position,
                 self.flight.arrival.position,
-                self.doctrine.ingress_altitude,
+                altitude,
             ),
             sweep_start=start,
             sweep_end=end,
             arrival=builder.land(self.flight.arrival),
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
+            custom_waypoints=list(),
         )
 
     def _hold_point(self) -> Point:

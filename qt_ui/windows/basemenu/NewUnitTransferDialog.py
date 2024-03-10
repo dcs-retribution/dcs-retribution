@@ -226,9 +226,9 @@ class ScrollingUnitTransferGrid(QFrame):
                 return
 
             modifiers = QApplication.keyboardModifiers()
-            if modifiers == Qt.Modifier.SHIFT:
+            if modifiers == Qt.KeyboardModifier.ShiftModifier:
                 amount = 10
-            elif modifiers == Qt.Modifier.CTRL:
+            elif modifiers == Qt.KeyboardModifier.ControlModifier:
                 amount = 5
             else:
                 amount = 1
@@ -246,15 +246,15 @@ class ScrollingUnitTransferGrid(QFrame):
                 return
 
             modifiers = QApplication.keyboardModifiers()
-            if modifiers == Qt.Modifier.SHIFT:
+            if modifiers == Qt.KeyboardModifier.ShiftModifier:
                 amount = 10
-            elif modifiers == Qt.Modifier.CTRL:
+            elif modifiers == Qt.KeyboardModifier.ControlModifier:
                 amount = 5
             else:
                 amount = 1
 
-            self.transfers[unit_type] -= min(self.transfers[unit_type], amount)
             origin_inventory += min(self.transfers[unit_type], amount)
+            self.transfers[unit_type] -= min(self.transfers[unit_type], amount)
             controls.set_quantity(self.transfers[unit_type])
             origin_inventory_label.setText(str(origin_inventory))
             self.transfer_quantity_changed.emit()

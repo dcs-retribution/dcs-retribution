@@ -24,6 +24,7 @@ class FerryLayout(StandardLayout):
         if self.divert is not None:
             yield self.divert
         yield self.bullseye
+        yield from self.custom_waypoints
 
 
 class FerryFlightPlan(StandardFlightPlan[FerryLayout]):
@@ -60,14 +61,14 @@ class Builder(IBuilder[FerryFlightPlan, FerryLayout]):
                 f"{self.flight.departure}"
             )
 
+        builder = WaypointBuilder(self.flight)
         altitude_is_agl = self.flight.is_helo
         altitude = (
             feet(self.coalition.game.settings.heli_cruise_alt_agl)
             if altitude_is_agl
-            else self.flight.unit_type.preferred_patrol_altitude
+            else builder.get_patrol_altitude
         )
 
-        builder = WaypointBuilder(self.flight)
         return FerryLayout(
             departure=builder.takeoff(self.flight.departure),
             nav_to=builder.nav_path(
@@ -80,6 +81,7 @@ class Builder(IBuilder[FerryFlightPlan, FerryLayout]):
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
             nav_from=[],
+            custom_waypoints=list(),
         )
 
     def build(self, dump_debug_info: bool = False) -> FerryFlightPlan:

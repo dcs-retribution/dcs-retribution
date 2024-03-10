@@ -9,6 +9,7 @@ from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 class AirAssaultIngressBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
+        self.register_special_ingress_points()
         air_drop = self.group.units[0].unit_type in [Hercules]
         if air_drop:
             waypoint.speed = knots(230).meters_per_second

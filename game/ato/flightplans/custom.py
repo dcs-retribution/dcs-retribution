@@ -17,8 +17,6 @@ if TYPE_CHECKING:
 
 @dataclass
 class CustomLayout(Layout):
-    custom_waypoints: list[FlightWaypoint]
-
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
         yield self.departure
         yield from self.custom_waypoints
@@ -48,7 +46,7 @@ class CustomFlightPlan(FlightPlan[CustomLayout]):
 
     def tot_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         if waypoint == self.tot_waypoint:
-            return self.package.time_over_target + self.tot_offset
+            return self.tot
         return None
 
     def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:

@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Type
 
 from game.theater import FrontLine
 from game.utils import Distance, Speed, kph, dcs_to_shapely_point
-from game.utils import feet, nautical_miles
+from game.utils import nautical_miles
 from .ibuilder import IBuilder
 from .invalidobjectivelocation import InvalidObjectiveLocation
 from .patrolling import PatrollingFlightPlan, PatrollingLayout
@@ -37,6 +37,7 @@ class CasLayout(PatrollingLayout):
         if self.divert is not None:
             yield self.divert
         yield self.bullseye
+        yield from self.custom_waypoints
 
 
 class CasFlightPlan(PatrollingFlightPlan[CasLayout], UiZoneDisplay):
@@ -104,11 +105,7 @@ class Builder(IBuilder[CasFlightPlan, CasLayout]):
         builder = WaypointBuilder(self.flight)
 
         is_helo = self.flight.unit_type.dcs_unit_type.helicopter
-        ingress_egress_altitude = (
-            self.doctrine.ingress_altitude
-            if not is_helo
-            else feet(self.coalition.game.settings.heli_combat_alt_agl)
-        )
+        ingress_egress_altitude = builder.get_combat_altitude
         use_agl_patrol_altitude = is_helo
 
         ip_solver = IpSolver(
@@ -167,6 +164,7 @@ class Builder(IBuilder[CasFlightPlan, CasLayout]):
             arrival=builder.land(self.flight.arrival),
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
+            custom_waypoints=list(),
         )
 
     def build(self, dump_debug_info: bool = False) -> CasFlightPlan:

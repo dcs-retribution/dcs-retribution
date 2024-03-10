@@ -61,7 +61,7 @@ class ProcurementAi:
             return 0
 
         # faction has no planes or no squadrons
-        if len(self.faction.aircrafts) == 0 or len(self.air_wing.squadrons) == 0:
+        if len(self.faction.all_aircrafts) == 0 or len(self.air_wing.squadrons) == 0:
             return 1
 
         parking_type = ParkingType(
@@ -219,13 +219,6 @@ class ProcurementAi:
             budget, fulfilled = self.fulfill_aircraft_request(
                 squadrons, request.number, budget
             )
-            if not fulfilled:
-                # The request was not fulfilled because we could not afford any suitable
-                # aircraft. Rather than continuing, which could proceed to buy tons of
-                # cheap escorts that will never allow us to plan a strike package, stop
-                # buying so we can save the budget until a turn where we *can* afford to
-                # fill the package.
-                break
         return budget
 
     @property

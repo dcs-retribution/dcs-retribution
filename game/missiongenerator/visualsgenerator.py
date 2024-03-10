@@ -73,7 +73,7 @@ class VisualsGenerator:
         self.game = game
 
     def _generate_frontline_smokes(self) -> None:
-        country = self.mission.country(self.game.red.faction.country.name)
+        country = list(self.mission.coalition["neutrals"].countries.values())[0]
         for front_line in self.game.theater.conflicts():
             from_cp = front_line.blue_cp
             to_cp = front_line.red_cp

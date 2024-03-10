@@ -5,7 +5,18 @@ authors: Starfire
 recommended_player_faction: D-Day Allied Forces 1944 and 1990
 recommended_enemy_faction: Germany 1944
 description:
-  <p>While enroute to the Persian Gulf for Operation Desert Shield, the USS Theodore Roosevelt and its carrier strike group are engufled by an electrical vortex and transported through time and space to the English channel on the morning of the Normandy Landings - June 6th 1944. Seeking to reduce the cost in lives to the Allied Forces about to storm the beaches, the captain of the Roosevelt has elected to provide air support for the landings.</p><p><strong>Note:</strong> This campaign has a custom faction that combines modern US naval forces with WW2 Allied forces. To play it as intended, you should carefully ration your use of modern aircraft and not replenish them if shot down (as you cannot get new Tomcats and Hornets in 1944). You can also choose to play it as a purely WW2 campaign by switching to one of the WW2 Ally factions.</p>
+  <p>While enroute to the Persian Gulf for Operation Desert Shield, the USS
+  Theodore Roosevelt and its carrier strike group are engufled by an electrical
+  vortex and transported through time and space to the English channel on the
+  morning of the Normandy Landings - June 6th 1944. Seeking to reduce the cost
+  in lives to the Allied Forces about to storm the beaches, the captain of the
+  Roosevelt has elected to provide air support for the
+  landings.</p><p><strong>Note:</strong> This campaign has a custom faction that
+  combines modern US naval forces with WW2 Allied forces. To play it as
+  intended, you should carefully ration your use of modern aircraft and not
+  replenish them if shot down (as you cannot get new Tomcats and Hornets in
+  1944). You can also choose to play it as a purely WW2 campaign by switching to
+  one of the WW2 Ally factions.</p>
 miz: final_countdown_2.miz
 performance: 2
 recommended_start_date: 1944-06-06
@@ -23,6 +34,11 @@ squadrons:
       aircraft:
         - F/A-18C Hornet (Lot 20)
       size: 24
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - S-3B Viking
+      size: 12
     - primary: AEW&C
       aircraft:
         - E-2C Hawkeye
@@ -34,8 +50,9 @@ squadrons:
     - primary: Air Assault
       secondary: any
       aircraft:
-        - SH-60B Seahawk
-      size: 4
+        - UH-60L
+        - UH-60A
+      size: 6
   #Stoney Cross (39)
   58:
     - primary: OCA/Runway
@@ -57,7 +74,7 @@ squadrons:
         - MosquitoFBMkVI
       size: 20
   #RAF Grafton Underwood (1000)
-  From RAF Grafton Underwood:
+  Bombers from RAF Grafton Underwood:
     - primary: Strike
       secondary: air-to-ground
       aircraft:
@@ -92,11 +109,11 @@ squadrons:
         - Ju 88 A-4
       size: 8
   #Broglie (32)
-  68: 
+  68:
     - primary: Escort
       secondary: any
       aircraft:
-      - Bf 109 K-4 Kurfürst
+        - Bf 109 K-4 Kurfürst
       size: 24
   #Saint-Andre-de-lEure (30)
   70:
@@ -111,9 +128,9 @@ squadrons:
         - Ju 88 A-4
       size: 12
   #Vilacoublay (76)
-  42: 
+  42:
     - primary: BARCAP
       secondary: any
       aircraft:
-      - Fw 190 A-8 Anton
+        - Fw 190 A-8 Anton
       size: 20

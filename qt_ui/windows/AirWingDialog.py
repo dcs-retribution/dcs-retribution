@@ -15,14 +15,18 @@ from PySide6.QtWidgets import (
     QTableWidgetItem,
     QVBoxLayout,
     QWidget,
+    QPushButton,
 )
 
 from game.ato.flight import Flight
+from game.server import EventStream
+from game.sim import GameUpdateEvents
 from game.squadrons import Squadron
 from game.theater import ConflictTheater
 from qt_ui.delegates import TwoColumnRowDelegate
 from qt_ui.models import AirWingModel, AtoModel, GameModel, SquadronModel
 from qt_ui.simcontroller import SimController
+from qt_ui.windows.AirWingConfigurationDialog import AirWingConfigurationDialog
 from qt_ui.windows.SquadronDialog import SquadronDialog
 
 
@@ -244,6 +248,21 @@ class AirWingTabs(QTabWidget):
             "Squadrons",
         )
         self.addTab(AirInventoryView(game_model), "Inventory")
+
+        if game_model.game.settings.enable_air_wing_adjustments:
+            pb = QPushButton("Open Air Wing Config Dialog")
+            pb.clicked.connect(lambda _: self.open_awcd(game_model))
+            pb.setMaximumWidth(300)
+            layout = QHBoxLayout()
+            layout.addWidget(pb)
+            w = QWidget(layout=layout)
+            self.addTab(w, "Cheats")
+
+    def open_awcd(self, gm: GameModel):
+        AirWingConfigurationDialog(gm.game, True, self).exec_()
+        events = GameUpdateEvents().begin_new_turn()
+        EventStream.put_nowait(events)
+        gm.ato_model.on_sim_update(events)
 
 
 class AirWingDialog(QDialog):

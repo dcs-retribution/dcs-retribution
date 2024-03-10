@@ -41,10 +41,7 @@
   ],
   "artillery_units": [
     "M109A6 Paladin",
-    "M270 Multiple Launch Rocket System",
-    "(IDF Mods Project) BM-21 Grad 122mm",
-    "(IDF Mods Project) Urgan BM-27 220mm",
-    "(IDF Mods Project) 9A52 Smerch CM 300mm"
+    "M270 Multiple Launch Rocket System"
   ],
   "logistics_units": [
     "Truck M818 6x6"

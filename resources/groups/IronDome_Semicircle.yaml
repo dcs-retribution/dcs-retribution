@@ -1,0 +1,10 @@
+name: Iron Dome (Semicircle)
+tasks:
+  - MERAD
+units:
+  - ELM-2084MMR AD Rotating Mode
+  - ELM-2084MMR AD Sector Mode
+  - Iron Dome CP
+  - Iron Dome LN
+layouts:
+  - 4 Launcher Site (Semicircle)

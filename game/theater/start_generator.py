@@ -333,9 +333,8 @@ class AirbaseGroundObjectGenerator(ControlPointGroundObjectGenerator):
                                 if g.unit_class in ug.unit_classes:
                                     fg.units.append(g)
             unit_group: Optional[ForceGroup] = fg
-            self.armed_forces.add_or_update_force_group(fg)
         else:
-            if fg and not valid_fg:
+            if fg:
                 logging.warning(
                     f"Override in ground_forces failed for {fg} at {position.original_name}"
                 )

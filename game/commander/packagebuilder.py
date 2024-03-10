@@ -38,7 +38,7 @@ class PackageBuilder:
         self.laser_code_registry = laser_code_registry
         self.start_type = start_type
 
-    def plan_flight(self, plan: ProposedFlight) -> bool:
+    def plan_flight(self, plan: ProposedFlight, ignore_range: bool) -> bool:
         """Allocates aircraft for the given flight and adds them to the package.
 
         If no suitable aircraft are available, False is returned. If the failed
@@ -49,7 +49,13 @@ class PackageBuilder:
         pf = self.package.primary_flight
         heli = pf.is_helo if pf else False
         squadron = self.air_wing.best_squadron_for(
-            self.package.target, plan.task, plan.num_aircraft, heli, this_turn=True
+            self.package.target,
+            plan.task,
+            plan.num_aircraft,
+            heli,
+            this_turn=True,
+            preferred_type=plan.preferred_type,
+            ignore_range=ignore_range,
         )
         if squadron is None:
             return False

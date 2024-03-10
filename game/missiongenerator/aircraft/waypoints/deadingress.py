@@ -10,7 +10,8 @@ from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 class DeadIngressBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
-        self.register_special_waypoints(self.waypoint.targets)
+        self.register_special_strike_points(self.waypoint.targets)
+        self.register_special_ingress_points()
 
         target = self.package.target
         if not isinstance(target, TheaterGroundObject):
@@ -43,7 +44,16 @@ class DeadIngressBuilder(PydcsWaypointBuilder):
 
             task = AttackGroup(
                 miz_group.id,
-                weapon_type=WeaponType.Guided,
+                weapon_type=WeaponType.ASM,
+                expend=Expend.All,
+                altitude=waypoint.alt,
+                group_attack=True,
+            )
+            waypoint.tasks.append(task)
+
+            task = AttackGroup(
+                miz_group.id,
+                weapon_type=WeaponType.GuidedBombs,
                 altitude=waypoint.alt,
             )
             waypoint.tasks.append(task)

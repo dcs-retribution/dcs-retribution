@@ -24,7 +24,7 @@ class Taxi(AtDeparture):
     ) -> None:
         if time < self.completion_time:
             return
-        self.flight.set_state(Takeoff(self.flight, self.settings, time))
+        self.flight.set_state(Takeoff(self.flight, self.settings, self.completion_time))
 
     @property
     def is_waiting_for_start(self) -> bool:
