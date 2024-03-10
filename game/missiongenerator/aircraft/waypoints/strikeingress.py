@@ -67,8 +67,6 @@ class StrikeIngressBuilder(PydcsWaypointBuilder):
             # If there is only one target, drop all ordnance in one pass.
             if len(self.waypoint.targets) == 1:
                 bombing.params["expend"] = Expend.All.value
-            elif target.is_static:
-                bombing.params["expend"] = Expend.Half.value
             waypoint.tasks.append(bombing)
 
             waypoint.speed = mach(0.85, meters(waypoint.alt)).meters_per_second
