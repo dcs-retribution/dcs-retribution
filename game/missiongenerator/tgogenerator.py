@@ -39,7 +39,13 @@ from dcs.task import (
     OptAlarmState,
 )
 from dcs.translation import String
-from dcs.triggers import Event, TriggerOnce, TriggerStart, TriggerZone, TriggerZoneQuadPoint
+from dcs.triggers import (
+    Event,
+    TriggerOnce,
+    TriggerStart,
+    TriggerZone,
+    TriggerZoneQuadPoint,
+)
 from dcs.unit import Unit, InvisibleFARP, BaseFARP, SingleHeliPad, FARP
 from dcs.unitgroup import MovingGroup, ShipGroup, StaticGroup, VehicleGroup
 from dcs.unittype import ShipType, VehicleType
