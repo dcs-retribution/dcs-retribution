@@ -87,6 +87,7 @@ class NewGameWizard(QtWidgets.QWizard):
             squadrons_start_full=self.field("squadrons_start_full"),
         )
         mod_settings = ModSettings(
+            f9f_panther=self.field("f9f_panther"),
             a4_skyhawk=self.field("a4_skyhawk"),
             a6a_intruder=self.field("a6a_intruder"),
             a7e_corsair2=self.field("a7e_corsair2"),
