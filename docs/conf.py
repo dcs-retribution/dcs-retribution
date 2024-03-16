@@ -6,10 +6,10 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "DCS Liberation"
-copyright = "2023, DCS Liberation Team"
-author = "DCS Liberation Team"
-release = "7.0.0"
+project = "DCS Retribution"
+copyright = "2023, DCS Retribution Team"
+author = "DCS Retribution Team"
+release = "1.3.1"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
