@@ -123,6 +123,7 @@ class Migrator:
             try_set_attr(f, "tacan")
             try_set_attr(f, "tcn_name")
             try_set_attr(f, "fuel", f.unit_type.max_fuel)
+            try_set_attr(f, "plane_altitude_offset", 0)
             if f.package in f.squadron.coalition.ato.packages:
                 self._update_flight_plan(f)
             else:
