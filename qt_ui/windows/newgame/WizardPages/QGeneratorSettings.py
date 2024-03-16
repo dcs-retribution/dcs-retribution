@@ -124,6 +124,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("f105_thunderchief", self.f105_thunderchief)
         self.jas39_gripen = QtWidgets.QCheckBox()
         self.registerField("jas39_gripen", self.jas39_gripen)
+        self.super_etendard = QtWidgets.QCheckBox()
+        self.registerField("super_etendard", self.super_etendard)
         self.su30_flanker_h = QtWidgets.QCheckBox()
         self.registerField("su30_flanker_h", self.su30_flanker_h)
         self.su57_felon = QtWidgets.QCheckBox()
@@ -173,6 +175,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("Swedish Military Assets pack (1.10)", self.swedishmilitaryassetspack),
             ("JAS 39 Gripen (v1.8.5-beta)", self.jas39_gripen),
             ("OV-10A Bronco", self.ov10a_bronco),
+            ("Super Étendard (v2.5.5)", self.super_etendard),
             ("Su-30 Flanker-H (V2.7.3  beta)", self.su30_flanker_h),
             ("Su-57 Felon (build-04)", self.su57_felon),
             ("UH-60L Black Hawk (v1.3.1)", self.uh_60l),
@@ -232,6 +235,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.f104_starfighter.setChecked(s.get("f104_starfighter", False))
         self.f105_thunderchief.setChecked(s.get("f105_thunderchief", False))
         self.jas39_gripen.setChecked(s.get("jas39_gripen", False))
+        self.super_etendard.setChecked(s.get("super_etendard", False))
         self.su30_flanker_h.setChecked(s.get("su30_flanker_h", False))
         self.su57_felon.setChecked(s.get("su57_felon", False))
         self.ov10a_bronco.setChecked(s.get("ov10a_bronco", False))
