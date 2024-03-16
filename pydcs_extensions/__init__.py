@@ -2,6 +2,7 @@ from .SWPack import *
 from .a4ec import *
 from .a7e import *
 from .a6a import *
+from .f9f import *
 from .f100 import *
 from .f104 import *
 from .f105 import *
