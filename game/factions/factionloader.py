@@ -5,6 +5,8 @@ import logging
 from pathlib import Path
 from typing import Dict, Iterator, List, Optional, Type
 
+import yaml
+
 from game import persistency
 from game.factions.faction import Faction
 
@@ -27,7 +29,11 @@ class FactionLoader:
 
     @staticmethod
     def find_faction_files_in(path: Path) -> List[Path]:
-        return [f for f in path.glob("*.json") if f.is_file()]
+        return (
+            [f for f in path.glob("*.json") if f.is_file()]
+            + [f for f in path.glob("*.yaml") if f.is_file()]
+            + [f for f in path.glob("*.yml") if f.is_file()]
+        )
 
     @classmethod
     def load_factions(cls: Type[FactionLoader]) -> Dict[str, Faction]:
@@ -40,7 +46,10 @@ class FactionLoader:
         for f in files:
             try:
                 with f.open("r", encoding="utf-8") as fdata:
-                    data = json.load(fdata)
+                    if "yml" in f.name or "yaml" in f.name:
+                        data = yaml.safe_load(fdata)
+                    else:
+                        data = json.load(fdata)
                     factions[data["name"]] = Faction.from_dict(data)
                     logging.info("Loaded faction : " + str(f))
             except Exception:
