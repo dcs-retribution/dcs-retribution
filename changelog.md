@@ -4,6 +4,7 @@
 ## Features/Improvements
 * **[Payload Editor]** Ability to configure liveries on flight/flight-member level
 * **[Factions]** Support for definitions in yml/yaml format
+* **[Campaigns/Factions]** Support for inline recommended faction in campaign's yaml file
 
 ## Fixes
 * **[UI/UX]** A-10A flights can be edited again.

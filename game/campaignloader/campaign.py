@@ -5,7 +5,7 @@ import logging
 from collections.abc import Iterator
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, Tuple
+from typing import Any, Dict, Tuple, Optional
 
 import yaml
 from packaging.version import Version
@@ -21,6 +21,7 @@ from game.version import CAMPAIGN_FORMAT_VERSION
 from .campaignairwingconfig import CampaignAirWingConfig
 from .campaigngroundconfig import TgoConfig
 from .mizcampaignloader import MizCampaignLoader
+from ..factions import FACTIONS, Faction
 
 PERF_FRIENDLY = 0
 PERF_MEDIUM = 1
@@ -90,6 +91,16 @@ class Campaign:
                 f"Invalid value for recommended_start_date in {path}: {start_date_raw}"
             )
 
+        player_faction = data.get("recommended_player_faction", "USA 2005")
+        if isinstance(player_faction, dict):
+            faction_name = cls.register_faction(campaign_file.name, player_faction)
+            player_faction = faction_name if faction_name else "USA 2005"
+
+        enemy_faction = data.get("recommended_enemy_faction", "Russia 1990")
+        if isinstance(enemy_faction, dict):
+            faction_name = cls.register_faction(campaign_file.name, enemy_faction)
+            enemy_faction = faction_name if faction_name else "Russia 1990"
+
         return cls(
             data["name"],
             TheaterLoader(data["theater"].lower()).menu_thumbnail_dcs_relative_path,
@@ -97,8 +108,8 @@ class Campaign:
             data.get("authors", "???"),
             data.get("description", ""),
             (version.major, version.minor),
-            data.get("recommended_player_faction", "USA 2005"),
-            data.get("recommended_enemy_faction", "Russia 1990"),
+            player_faction,
+            enemy_faction,
             start_date,
             start_time,
             data.get("recommended_player_money", DEFAULT_BUDGET),
@@ -111,6 +122,19 @@ class Campaign:
             data.get("advanced_iads", False),
             data.get("settings", {}),
         )
+
+    @classmethod
+    def register_faction(
+        cls, filename: str, player_faction: dict[str, Any]
+    ) -> Optional[str]:
+        try:
+            f = Faction.from_dict(player_faction)
+            FACTIONS.factions[f.name] = f
+            logging.info(f"Loaded faction from campaign: {filename}")
+            return f.name
+        except Exception:
+            logging.exception(f"Unable to load faction from campaign: {filename}")
+        return None
 
     def load_theater(self, advanced_iads: bool) -> ConflictTheater:
         t = TheaterLoader(self.data["theater"].lower()).load()
