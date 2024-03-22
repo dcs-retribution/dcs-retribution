@@ -86,6 +86,7 @@ class ModSettings:
     irondome: bool = False
     uh_60l: bool = False
     jas39_gripen: bool = False
+    mirage_3: bool = False
     super_etendard: bool = False
     su30_flanker_h: bool = False
     su57_felon: bool = False

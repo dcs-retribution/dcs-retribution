@@ -408,6 +408,10 @@ class Faction:
             self.remove_aircraft("JAS39Gripen")
             self.remove_aircraft("JAS39Gripen_BVR")
             self.remove_aircraft("JAS39Gripen_AG")
+        if not mod_settings.mirage_3:
+            self.remove_aircraft("VSN_MirageIIIC")
+            self.remove_aircraft("VSN_MirageIIIC_AG")
+            self.remove_aircraft("VSN_MirageIIIS")
         if not mod_settings.super_etendard:
             self.remove_aircraft("VSN_SEM")
         if not mod_settings.su30_flanker_h:

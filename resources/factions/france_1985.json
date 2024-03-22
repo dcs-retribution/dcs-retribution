@@ -9,11 +9,13 @@
   "doctrine": "coldwar",
   "aircrafts": [
     "C-130",
+    "Mirage IIIB/C",
+    "Mirage IIIB/C A/G",
     "Mirage 2000C",
     "Mirage-F1B",
     "Mirage-F1CE",
     "Mirage-F1C-200",
-	"Super Étendard",
+    "Super Étendard",
     "SA 342L Gazelle",
     "SA 342M Gazelle",
     "SA 342M Gazelle Mistral"
