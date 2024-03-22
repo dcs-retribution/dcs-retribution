@@ -124,10 +124,13 @@ class Migrator:
             try_set_attr(f, "tcn_name")
             try_set_attr(f, "fuel", f.unit_type.max_fuel)
             try_set_attr(f, "plane_altitude_offset", 0)
+            try_set_attr(f, "use_same_livery_for_all_members", True)
             if f.package in f.squadron.coalition.ato.packages:
                 self._update_flight_plan(f)
             else:
                 to_remove.append(f.id)
+            for m in f.roster.members:
+                try_set_attr(m, "livery", None)
         for fid in to_remove:
             self.game.db.flights.remove(fid)
 

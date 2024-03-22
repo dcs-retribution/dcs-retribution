@@ -89,6 +89,7 @@ class Flight(
 
         self.initialize_fuel()
         self.use_same_loadout_for_all_members = True
+        self.use_same_livery_for_all_members = True
 
         # Only used by transport missions.
         self.cargo = cargo

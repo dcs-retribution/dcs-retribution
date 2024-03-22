@@ -38,7 +38,7 @@ class AircraftPainter:
 
     def apply_livery(self) -> None:
         livery = self.determine_livery()
-        if livery is None:
-            return
-        for unit in self.group.units:
-            unit.livery_id = livery
+        for unit, member in zip(self.group.units, self.flight.iter_members()):
+            if not (livery or member.livery):
+                continue
+            unit.livery_id = member.livery if member.livery else livery

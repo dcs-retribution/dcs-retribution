@@ -95,6 +95,13 @@ class FlightMembers(IFlightRoster):
             # across all flight members.
             member.loadout = loadout
 
+    def use_same_livery_for_all_members(self) -> None:
+        if not self.members:
+            return
+        livery = self.members[0].livery
+        for member in self.members[1:]:
+            member.livery = livery
+
     def use_distinct_loadouts_for_each_member(self) -> None:
         for member in self.members:
             member.loadout = member.loadout.clone()
