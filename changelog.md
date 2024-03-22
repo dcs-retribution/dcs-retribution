@@ -4,6 +4,7 @@
 ## Features/Improvements
 
 ## Fixes
+* **[UI/UX]** A-10A flights can be edited again.
 
 
 # Retribution v1.3.1
