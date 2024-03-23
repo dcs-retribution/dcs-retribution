@@ -29,11 +29,8 @@ class Navigating(InFlight):
             events.update_flight_position(self.flight, self.estimate_position())
 
     def progress(self) -> float:
-        # if next waypoint is very close, assume we reach it immediately to avoid divide
-        # by zero error
-        if self.total_time_to_next_waypoint.total_seconds() < 1:
-            return 1.0
-
+        if self.total_time_to_next_waypoint.total_seconds() == 0.0:
+            return 99.9
         return (
             self.elapsed_time.total_seconds()
             / self.total_time_to_next_waypoint.total_seconds()

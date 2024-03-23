@@ -58,6 +58,9 @@ class FlightType(Enum):
     FERRY = "Ferry"
     AIR_ASSAULT = "Air Assault"
     SEAD_SWEEP = "SEAD Sweep"  # Reintroduce legacy "engage-whatever-you-can-find" SEAD
+    PRETENSE_CARGO = (
+        "Cargo Transport"  # Flight type for Pretense campaign AI cargo planes
+    )
 
     def __str__(self) -> str:
         return self.value
@@ -121,5 +124,6 @@ class FlightType(Enum):
             FlightType.SWEEP: AirEntity.FIGHTER,
             FlightType.TARCAP: AirEntity.FIGHTER,
             FlightType.TRANSPORT: AirEntity.UTILITY,
+            FlightType.PRETENSE_CARGO: AirEntity.UTILITY,
             FlightType.AIR_ASSAULT: AirEntity.ROTARY_WING,
         }.get(self, AirEntity.UNSPECIFIED)

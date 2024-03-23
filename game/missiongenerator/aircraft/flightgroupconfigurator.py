@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import random
 from datetime import datetime
 from typing import Any, Optional, TYPE_CHECKING
 
@@ -19,7 +20,12 @@ from game.data.weapons import Pylon, WeaponType
 from game.missiongenerator.logisticsgenerator import LogisticsGenerator
 from game.missiongenerator.missiondata import MissionData, AwacsInfo, TankerInfo
 from game.radio.radios import RadioFrequency, RadioRegistry
-from game.radio.tacan import TacanBand, TacanRegistry, TacanUsage
+from game.radio.tacan import (
+    TacanBand,
+    TacanRegistry,
+    TacanUsage,
+    OutOfTacanChannelsError,
+)
 from game.runways import RunwayData
 from game.squadrons import Pilot
 from .aircraftbehavior import AircraftBehavior
@@ -210,9 +216,12 @@ class FlightGroupConfigurator:
         ) or isinstance(self.flight.flight_plan, PackageRefuelingFlightPlan):
             tacan = self.flight.tacan
             if tacan is None and self.flight.squadron.aircraft.dcs_unit_type.tacan:
-                tacan = self.tacan_registry.alloc_for_band(
-                    TacanBand.Y, TacanUsage.AirToAir
-                )
+                try:
+                    tacan = self.tacan_registry.alloc_for_band(
+                        TacanBand.Y, TacanUsage.AirToAir
+                    )
+                except OutOfTacanChannelsError:
+                    tacan = random.choice(list(self.tacan_registry.allocated_channels))
             else:
                 tacan = self.flight.tacan
             self.mission_data.tankers.append(
