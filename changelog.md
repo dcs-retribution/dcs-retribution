@@ -5,6 +5,7 @@
 * **[Payload Editor]** Ability to configure liveries on flight/flight-member level
 * **[Factions]** Support for definitions in yml/yaml format
 * **[Campaigns/Factions]** Support for inline recommended faction in campaign's yaml file
+* **[Squadrons]** Ability to define a livery-set for each squadron from which Retribution will randomly choose during mission generation
 
 ## Fixes
 * **[UI/UX]** A-10A flights can be edited again.

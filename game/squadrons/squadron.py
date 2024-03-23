@@ -40,6 +40,7 @@ class Squadron:
     aircraft: AircraftType
     max_size: int
     livery: Optional[str]
+    livery_set: list[str]  # will override livery if not empty
     primary_task: FlightType
     auto_assignable_mission_types: set[FlightType]
     radio_presets: dict[Union[str, int], list[RadioFrequency]]
@@ -503,6 +504,7 @@ class Squadron:
             squadron_def.aircraft,
             max_size,
             squadron_def.livery,
+            squadron_def.livery_set,
             primary_task,
             squadron_def.auto_assignable_mission_types,
             squadron_def.radio_presets,

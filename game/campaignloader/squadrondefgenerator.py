@@ -47,6 +47,7 @@ class SquadronDefGenerator:
             role="Flying Squadron",
             aircraft=aircraft,
             livery=None,
+            livery_set=[],
             auto_assignable_mission_types=set(aircraft.iter_task_capabilities()),
             radio_presets={},
             operating_bases=OperatingBases.default_for_aircraft(aircraft),

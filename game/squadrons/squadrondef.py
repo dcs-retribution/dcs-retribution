@@ -27,6 +27,7 @@ class SquadronDef:
     role: str
     aircraft: AircraftType
     livery: Optional[str]
+    livery_set: list[str]
     auto_assignable_mission_types: set[FlightType]
     radio_presets: dict[Union[str, int], list[RadioFrequency]]
     operating_bases: OperatingBases
@@ -103,6 +104,7 @@ class SquadronDef:
             role=data["role"],
             aircraft=unit_type,
             livery=data.get("livery"),
+            livery_set=data.get("livery_set", []),
             auto_assignable_mission_types=set(unit_type.iter_task_capabilities()),
             radio_presets=radio_presets,
             operating_bases=OperatingBases.from_yaml(unit_type, data.get("bases", {})),
