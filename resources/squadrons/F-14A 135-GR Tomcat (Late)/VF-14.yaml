@@ -1,15 +1,15 @@
 ---
-name: VF-41
-nickname: Black Aces
+name: VF-14
+nickname: Tophatters
 female_pilot_percentage: 0
 country: USA
 role: Strike Fighter
 aircraft: F-14A Tomcat (Block 135-GR Late)
 livery_set:
-  - VF-41 Black Aces AJ100 (1999 Allied Force)
-  - VF-41 Black Aces AJ101 (1999 Allied Force)
-  - VF-41 Black Aces AJ102 (1999 Allied Force)
-  - VF-41 Black Aces AJ104 (1999 Allied Force)
+  - VF-14 Tophatters AJ200 (1999) 80th Aniversary
+  - VF-14 Tophatters AJ201 (1999 Allied Force)
+  - VF-14 Tophatters AJ202 (1999 Allied Force)
+  - VF-14 Tophatters AJ206 (1999 Allied Force)
 mission_types:
   - BAI
   - BARCAP
