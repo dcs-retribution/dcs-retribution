@@ -60,13 +60,6 @@ squadrons:
       aircraft:
         - HMLA-169 (AH-1W)
       size: 6
-  # OPFOR Start FOB
-  FOB Bandar-e-Jask:
-    - primary: CAS
-      secondary: air-to-ground
-      aircraft:
-        - Mi-24V Hind-F
-      size: 6
   # OPFOR CVN
   Naval-3:
     - primary: BARCAP
