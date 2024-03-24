@@ -5,7 +5,11 @@ female_pilot_percentage: 7
 country: USA
 role: Strike Fighter
 aircraft: F-14B Tomcat
-livery: VF-32 Fighting Swordsmen 101
+livery_set: 
+  - VF-32 Fighting Swordsmen 101
+  - VF-32 Fighting Swordsmen 100 (2000)
+  - VF-32 Fighting Swordsmen 102
+  - VF-32 Fighting Swordsmen 103
 mission_types:
   - BAI
   - BARCAP
