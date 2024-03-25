@@ -3,6 +3,8 @@ from typing import Dict, List, Set, Any
 from dcs import task
 from dcs.planes import PlaneType
 from dcs.weapons_data import Weapons
+from dcs.unitpropertydescription import UnitPropertyDescription
+
 
 from game.modsupport import planemod
 from pydcs_extensions.weapon_injector import inject_weapons
@@ -25,6 +27,26 @@ class WeaponsFA18EFG:
     }
     TLAU_127 = {"clsid": "{TLAU_127}", "name": "TLAU_127", "weight": 0}
     USAFlag = {"clsid": "{USAFlag}", "name": "USAFlag", "weight": 0}
+    AIM_120D_AMRAAM___Active_Rdr_AAM = {
+        "clsid": "{C8E06185-7CD6-4C90-959F-044679E90751}",
+        "name": "AIM-120D AMRAAM - Active Rdr AAM",
+        "weight": 162.4,
+    }
+    LAU_115_2_LAU_127_AIM_120B = {
+        "clsid": "LAU-115_2*LAU-127_AIM-120B",
+        "name": "LAU-115 with 2 x LAU-127 AIM-120D AMRAAM - Active Rdr AAM",
+        "weight": 469.8,
+    }
+    LAU_115_with_1_x_LAU_127_AIM_120D_AMRAAM___Active_Rdr_AAM = {
+        "clsid": "{LAU-115 - AIM-120B}",
+        "name": "LAU-115 with 1 x LAU-127 AIM-120D AMRAAM - Active Rdr AAM",
+        "weight": 307.4,
+    }
+    LAU_115_with_1_x_LAU_127_AIM_120D_AMRAAM___Active_Rdr_AAM_ = {
+        "clsid": "{LAU-115 - AIM-120B_R}",
+        "name": "LAU-115 with 1 x LAU-127 AIM-120D AMRAAM - Active Rdr AAM",
+        "weight": 307.4,
+    }
 
 
 inject_weapons(WeaponsFA18EFG)
@@ -34,11 +56,11 @@ inject_weapons(WeaponsFA18EFG)
 class FA_18E(PlaneType):
     id = "FA-18E"
     flyable = True
-    height = 4.66
-    width = 11.43
-    length = 17.07
+    height = 4.88
+    width = 13.62456
+    length = 18.31
     fuel_max = 4900
-    max_speed = 1950.12
+    max_speed = 2120.04
     chaff = 60
     flare = 60
     charge_total = 120
@@ -120,6 +142,9 @@ class FA_18E(PlaneType):
         "OuterBoard": 0,
         "InnerBoard": 0,
         "HelmetMountedDevice": 1,
+        "VoiceCallsignLabel": None,
+        "VoiceCallsignNumber": None,
+        "STN_L16": None,
     }
 
     class Properties:
@@ -145,6 +170,80 @@ class FA_18E(PlaneType):
                 JHMCS = 1
                 NVG = 2
 
+        class VoiceCallsignLabel:
+            id = "VoiceCallsignLabel"
+
+        class VoiceCallsignNumber:
+            id = "VoiceCallsignNumber"
+
+        class STN_L16:
+            id = "STN_L16"
+
+    properties = {
+        "OuterBoard": UnitPropertyDescription(
+            identifier="OuterBoard",
+            control="comboList",
+            label="Outerboard rockets mode",
+            player_only=True,
+            default=0,
+            w_ctrl=150,
+            values={
+                0: "Single",
+                1: "Ripple",
+            },
+        ),
+        "InnerBoard": UnitPropertyDescription(
+            identifier="InnerBoard",
+            control="comboList",
+            label="Innerboard rockets mode",
+            player_only=True,
+            default=0,
+            w_ctrl=150,
+            values={
+                0: "Single",
+                1: "Ripple",
+            },
+        ),
+        "HelmetMountedDevice": UnitPropertyDescription(
+            identifier="HelmetMountedDevice",
+            control="comboList",
+            label="Helmet Mounted Device",
+            player_only=True,
+            default=1,
+            w_ctrl=150,
+            values={
+                0: "Not installed",
+                1: "JHMCS",
+                2: "NVG",
+            },
+        ),
+        "datalink_Label": UnitPropertyDescription(
+            identifier="datalink_Label",
+            control="label",
+            label="DATALINK",
+            player_only=False,
+            x_lbl=150,
+        ),
+        "VoiceCallsignLabel": UnitPropertyDescription(
+            identifier="VoiceCallsignLabel",
+            control="editbox",
+            label="Voice Callsign Label",
+            player_only=False,
+        ),
+        "VoiceCallsignNumber": UnitPropertyDescription(
+            identifier="VoiceCallsignNumber",
+            control="editbox",
+            label="Voice Callsign Number",
+            player_only=False,
+        ),
+        "STN_L16": UnitPropertyDescription(
+            identifier="STN_L16",
+            control="editbox",
+            label="STN",
+            player_only=False,
+        ),
+    }
+
     livery_name = "FA-18E"  # from type
 
     class Pylon1:
@@ -156,11 +255,8 @@ class FA_18E(PlaneType):
         AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (1, Weapons.AN_ASQ_T50_TCTS_Pod___ACMI_Pod)
 
     class Pylon2:
-        TLAU_127 = (2, WeaponsFA18EFG.TLAU_127)
-        AIM_120B_AMRAAM___Active_Radar_AAM = (
-            2,
-            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
-        )
+        TLAU_127 = (2, Weapons.TLAU_127)
+        AIM_120D_AMRAAM___Active_Rdr_AAM = (2, Weapons.AIM_120D_AMRAAM___Active_Rdr_AAM)
         AIM_120C_AMRAAM___Active_Radar_AAM = (
             2,
             Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
@@ -228,8 +324,6 @@ class FA_18E(PlaneType):
             2,
             Weapons.GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
-        AGM_154A___JSOW_CEB__CBU_type_ = (2, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
-        AGM_154C___JSOW_Unitary_BROACH = (2, Weapons.AGM_154C___JSOW_Unitary_BROACH)
         BRU_42_with_2_x_ADM_141A_TALD = (2, Weapons.BRU_42_with_2_x_ADM_141A_TALD)
         BRU_42_with_ADM_141A_TALD = (2, Weapons.BRU_42_with_ADM_141A_TALD)
 
@@ -258,15 +352,12 @@ class FA_18E(PlaneType):
             3,
             Weapons.LAU_115C_with_AIM_7P_Sparrow_Semi_Active_Radar,
         )
-        FPU_12_Fuel_Tank_480_gallons = (3, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (3, Weapons.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             3,
-            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
-        AIM_120B_AMRAAM___Active_Radar_AAM = (
-            3,
-            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
-        )
+        AIM_120D_AMRAAM___Active_Rdr_AAM = (3, Weapons.AIM_120D_AMRAAM___Active_Rdr_AAM)
         AIM_120C_AMRAAM___Active_Radar_AAM = (
             3,
             Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
@@ -411,10 +502,7 @@ class FA_18E(PlaneType):
         BRU_42_with_ADM_141A_TALD = (3, Weapons.BRU_42_with_ADM_141A_TALD)
 
     class Pylon4:
-        AIM_120B_AMRAAM___Active_Radar_AAM = (
-            4,
-            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
-        )
+        AIM_120D_AMRAAM___Active_Rdr_AAM = (4, Weapons.AIM_120D_AMRAAM___Active_Rdr_AAM)
         AIM_120C_AMRAAM___Active_Radar_AAM = (
             4,
             Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
@@ -437,14 +525,14 @@ class FA_18E(PlaneType):
             5,
             Weapons.LAU_115C_with_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
-        FPU_12_Fuel_Tank_480_gallons = (5, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (5, Weapons.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             5,
-            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
-        LAU_115_with_1_x_LAU_127_AIM_120B_AMRAAM___Active_Radar_AAM = (
+        LAU_115_with_1_x_LAU_127_AIM_120D_AMRAAM___Active_Rdr_AAM = (
             5,
-            Weapons.LAU_115_with_1_x_LAU_127_AIM_120B_AMRAAM___Active_Radar_AAM,
+            Weapons.LAU_115_with_1_x_LAU_127_AIM_120D_AMRAAM___Active_Rdr_AAM,
         )
         LAU_115_with_1_x_LAU_127_AIM_120C_AMRAAM___Active_Radar_AAM = (
             5,
@@ -586,14 +674,14 @@ class FA_18E(PlaneType):
             6,
             Weapons.LAU_115C_with_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
-        FPU_12_Fuel_Tank_480_gallons = (6, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (6, Weapons.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             6,
-            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
-        LAU_115_with_1_x_LAU_127_AIM_120B_AMRAAM___Active_Radar_AAM = (
+        LAU_115_with_1_x_LAU_127_AIM_120D_AMRAAM___Active_Rdr_AAM = (
             6,
-            Weapons.LAU_115_with_1_x_LAU_127_AIM_120B_AMRAAM___Active_Radar_AAM,
+            Weapons.LAU_115_with_1_x_LAU_127_AIM_120D_AMRAAM___Active_Rdr_AAM,
         )
         LAU_115_with_1_x_LAU_127_AIM_120C_AMRAAM___Active_Radar_AAM = (
             6,
@@ -757,15 +845,12 @@ class FA_18E(PlaneType):
             7,
             Weapons.LAU_115C_with_AIM_7P_Sparrow_Semi_Active_Radar,
         )
-        FPU_12_Fuel_Tank_480_gallons = (7, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (7, Weapons.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             7,
-            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
-        AIM_120B_AMRAAM___Active_Radar_AAM = (
-            7,
-            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
-        )
+        AIM_120D_AMRAAM___Active_Rdr_AAM = (7, Weapons.AIM_120D_AMRAAM___Active_Rdr_AAM)
         AIM_120C_AMRAAM___Active_Radar_AAM = (
             7,
             Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
@@ -910,11 +995,8 @@ class FA_18E(PlaneType):
         BRU_42_with_ADM_141A_TALD = (7, Weapons.BRU_42_with_ADM_141A_TALD)
 
     class Pylon8:
-        TLAU_127 = (8, WeaponsFA18EFG.TLAU_127)
-        AIM_120B_AMRAAM___Active_Radar_AAM = (
-            8,
-            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
-        )
+        TLAU_127 = (8, Weapons.TLAU_127)
+        AIM_120D_AMRAAM___Active_Rdr_AAM = (8, Weapons.AIM_120D_AMRAAM___Active_Rdr_AAM)
         AIM_120C_AMRAAM___Active_Radar_AAM = (
             8,
             Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
@@ -982,8 +1064,6 @@ class FA_18E(PlaneType):
             8,
             Weapons.GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
-        AGM_154A___JSOW_CEB__CBU_type_ = (8, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
-        AGM_154C___JSOW_Unitary_BROACH = (8, Weapons.AGM_154C___JSOW_Unitary_BROACH)
         BRU_42_with_2_x_ADM_141A_TALD = (8, Weapons.BRU_42_with_2_x_ADM_141A_TALD)
         BRU_42_with_ADM_141A_TALD = (8, Weapons.BRU_42_with_ADM_141A_TALD)
 
@@ -998,13 +1078,13 @@ class FA_18E(PlaneType):
     # ERRR <CLEAN>
 
     class Pylon10:
-        AA42R_Buddy_Pod = (10, WeaponsFA18EFG.AA42R_Buddy_Pod)
-        FPU_12_Fuel_Tank_480_gallons = (10, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
+        AA42R_Buddy_Pod = (10, Weapons.AA42R_Buddy_Pod)
+        FPU_12_Fuel_Tank_480_gallons = (10, Weapons.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             10,
-            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
-        USAFlag = (10, WeaponsFA18EFG.USAFlag)
+        USAFlag = (10, Weapons.USAFlag)
         Smoke_Generator___red_ = (10, Weapons.Smoke_Generator___red_)
         Smoke_Generator___green_ = (10, Weapons.Smoke_Generator___green_)
         Smoke_Generator___blue_ = (10, Weapons.Smoke_Generator___blue_)
@@ -1031,15 +1111,18 @@ class FA_18E(PlaneType):
     task_default = task.CAP
 
 
+from typing import Dict, List, Any
+
+
 @planemod
 class FA_18F(PlaneType):
     id = "FA-18F"
     flyable = True
-    height = 4.66
-    width = 11.43
-    length = 17.07
+    height = 4.88
+    width = 13.62456
+    length = 18.31
     fuel_max = 4900
-    max_speed = 1950.12
+    max_speed = 2120.04
     chaff = 60
     flare = 60
     charge_total = 120
@@ -1121,6 +1204,9 @@ class FA_18F(PlaneType):
         "OuterBoard": 0,
         "InnerBoard": 0,
         "HelmetMountedDevice": 1,
+        "VoiceCallsignLabel": None,
+        "VoiceCallsignNumber": None,
+        "STN_L16": None,
     }
 
     class Properties:
@@ -1146,6 +1232,80 @@ class FA_18F(PlaneType):
                 JHMCS = 1
                 NVG = 2
 
+        class VoiceCallsignLabel:
+            id = "VoiceCallsignLabel"
+
+        class VoiceCallsignNumber:
+            id = "VoiceCallsignNumber"
+
+        class STN_L16:
+            id = "STN_L16"
+
+    properties = {
+        "OuterBoard": UnitPropertyDescription(
+            identifier="OuterBoard",
+            control="comboList",
+            label="Outerboard rockets mode",
+            player_only=True,
+            default=0,
+            w_ctrl=150,
+            values={
+                0: "Single",
+                1: "Ripple",
+            },
+        ),
+        "InnerBoard": UnitPropertyDescription(
+            identifier="InnerBoard",
+            control="comboList",
+            label="Innerboard rockets mode",
+            player_only=True,
+            default=0,
+            w_ctrl=150,
+            values={
+                0: "Single",
+                1: "Ripple",
+            },
+        ),
+        "HelmetMountedDevice": UnitPropertyDescription(
+            identifier="HelmetMountedDevice",
+            control="comboList",
+            label="Helmet Mounted Device",
+            player_only=True,
+            default=1,
+            w_ctrl=150,
+            values={
+                0: "Not installed",
+                1: "JHMCS",
+                2: "NVG",
+            },
+        ),
+        "datalink_Label": UnitPropertyDescription(
+            identifier="datalink_Label",
+            control="label",
+            label="DATALINK",
+            player_only=False,
+            x_lbl=150,
+        ),
+        "VoiceCallsignLabel": UnitPropertyDescription(
+            identifier="VoiceCallsignLabel",
+            control="editbox",
+            label="Voice Callsign Label",
+            player_only=False,
+        ),
+        "VoiceCallsignNumber": UnitPropertyDescription(
+            identifier="VoiceCallsignNumber",
+            control="editbox",
+            label="Voice Callsign Number",
+            player_only=False,
+        ),
+        "STN_L16": UnitPropertyDescription(
+            identifier="STN_L16",
+            control="editbox",
+            label="STN",
+            player_only=False,
+        ),
+    }
+
     livery_name = "FA-18F"  # from type
 
     class Pylon1:
@@ -1157,11 +1317,8 @@ class FA_18F(PlaneType):
         AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (1, Weapons.AN_ASQ_T50_TCTS_Pod___ACMI_Pod)
 
     class Pylon2:
-        TLAU_127 = (2, WeaponsFA18EFG.TLAU_127)
-        AIM_120B_AMRAAM___Active_Radar_AAM = (
-            2,
-            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
-        )
+        TLAU_127 = (2, Weapons.TLAU_127)
+        AIM_120D_AMRAAM___Active_Rdr_AAM = (2, Weapons.AIM_120D_AMRAAM___Active_Rdr_AAM)
         AIM_120C_AMRAAM___Active_Radar_AAM = (
             2,
             Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
@@ -1229,8 +1386,6 @@ class FA_18F(PlaneType):
             2,
             Weapons.GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
-        AGM_154A___JSOW_CEB__CBU_type_ = (2, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
-        AGM_154C___JSOW_Unitary_BROACH = (2, Weapons.AGM_154C___JSOW_Unitary_BROACH)
         BRU_42_with_2_x_ADM_141A_TALD = (2, Weapons.BRU_42_with_2_x_ADM_141A_TALD)
         BRU_42_with_ADM_141A_TALD = (2, Weapons.BRU_42_with_ADM_141A_TALD)
 
@@ -1259,15 +1414,12 @@ class FA_18F(PlaneType):
             3,
             Weapons.LAU_115C_with_AIM_7P_Sparrow_Semi_Active_Radar,
         )
-        FPU_12_Fuel_Tank_480_gallons = (3, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (3, Weapons.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             3,
-            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
-        AIM_120B_AMRAAM___Active_Radar_AAM = (
-            3,
-            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
-        )
+        AIM_120D_AMRAAM___Active_Rdr_AAM = (3, Weapons.AIM_120D_AMRAAM___Active_Rdr_AAM)
         AIM_120C_AMRAAM___Active_Radar_AAM = (
             3,
             Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
@@ -1412,10 +1564,7 @@ class FA_18F(PlaneType):
         BRU_42_with_ADM_141A_TALD = (3, Weapons.BRU_42_with_ADM_141A_TALD)
 
     class Pylon4:
-        AIM_120B_AMRAAM___Active_Radar_AAM = (
-            4,
-            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
-        )
+        AIM_120D_AMRAAM___Active_Rdr_AAM = (4, Weapons.AIM_120D_AMRAAM___Active_Rdr_AAM)
         AIM_120C_AMRAAM___Active_Radar_AAM = (
             4,
             Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
@@ -1438,14 +1587,14 @@ class FA_18F(PlaneType):
             5,
             Weapons.LAU_115C_with_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
-        FPU_12_Fuel_Tank_480_gallons = (5, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (5, Weapons.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             5,
-            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
-        LAU_115_with_1_x_LAU_127_AIM_120B_AMRAAM___Active_Radar_AAM = (
+        LAU_115_with_1_x_LAU_127_AIM_120D_AMRAAM___Active_Rdr_AAM = (
             5,
-            Weapons.LAU_115_with_1_x_LAU_127_AIM_120B_AMRAAM___Active_Radar_AAM,
+            Weapons.LAU_115_with_1_x_LAU_127_AIM_120D_AMRAAM___Active_Rdr_AAM,
         )
         LAU_115_with_1_x_LAU_127_AIM_120C_AMRAAM___Active_Radar_AAM = (
             5,
@@ -1587,14 +1736,14 @@ class FA_18F(PlaneType):
             6,
             Weapons.LAU_115C_with_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
-        FPU_12_Fuel_Tank_480_gallons = (6, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (6, Weapons.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             6,
-            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
-        LAU_115_with_1_x_LAU_127_AIM_120B_AMRAAM___Active_Radar_AAM = (
+        LAU_115_with_1_x_LAU_127_AIM_120D_AMRAAM___Active_Rdr_AAM = (
             6,
-            Weapons.LAU_115_with_1_x_LAU_127_AIM_120B_AMRAAM___Active_Radar_AAM,
+            Weapons.LAU_115_with_1_x_LAU_127_AIM_120D_AMRAAM___Active_Rdr_AAM,
         )
         LAU_115_with_1_x_LAU_127_AIM_120C_AMRAAM___Active_Radar_AAM = (
             6,
@@ -1758,15 +1907,12 @@ class FA_18F(PlaneType):
             7,
             Weapons.LAU_115C_with_AIM_7P_Sparrow_Semi_Active_Radar,
         )
-        FPU_12_Fuel_Tank_480_gallons = (7, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (7, Weapons.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             7,
-            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
-        AIM_120B_AMRAAM___Active_Radar_AAM = (
-            7,
-            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
-        )
+        AIM_120D_AMRAAM___Active_Rdr_AAM = (7, Weapons.AIM_120D_AMRAAM___Active_Rdr_AAM)
         AIM_120C_AMRAAM___Active_Radar_AAM = (
             7,
             Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
@@ -1911,11 +2057,8 @@ class FA_18F(PlaneType):
         BRU_42_with_ADM_141A_TALD = (7, Weapons.BRU_42_with_ADM_141A_TALD)
 
     class Pylon8:
-        TLAU_127 = (8, WeaponsFA18EFG.TLAU_127)
-        AIM_120B_AMRAAM___Active_Radar_AAM = (
-            8,
-            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
-        )
+        TLAU_127 = (8, Weapons.TLAU_127)
+        AIM_120D_AMRAAM___Active_Rdr_AAM = (8, Weapons.AIM_120D_AMRAAM___Active_Rdr_AAM)
         AIM_120C_AMRAAM___Active_Radar_AAM = (
             8,
             Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
@@ -1983,8 +2126,6 @@ class FA_18F(PlaneType):
             8,
             Weapons.GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
-        AGM_154A___JSOW_CEB__CBU_type_ = (8, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
-        AGM_154C___JSOW_Unitary_BROACH = (8, Weapons.AGM_154C___JSOW_Unitary_BROACH)
         BRU_42_with_2_x_ADM_141A_TALD = (8, Weapons.BRU_42_with_2_x_ADM_141A_TALD)
         BRU_42_with_ADM_141A_TALD = (8, Weapons.BRU_42_with_ADM_141A_TALD)
 
@@ -1999,13 +2140,13 @@ class FA_18F(PlaneType):
     # ERRR <CLEAN>
 
     class Pylon10:
-        AA42R_Buddy_Pod = (10, WeaponsFA18EFG.AA42R_Buddy_Pod)
-        FPU_12_Fuel_Tank_480_gallons = (10, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
+        AA42R_Buddy_Pod = (10, Weapons.AA42R_Buddy_Pod)
+        FPU_12_Fuel_Tank_480_gallons = (10, Weapons.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             10,
-            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
-        USAFlag = (10, WeaponsFA18EFG.USAFlag)
+        USAFlag = (10, Weapons.USAFlag)
         Smoke_Generator___red_ = (10, Weapons.Smoke_Generator___red_)
         Smoke_Generator___green_ = (10, Weapons.Smoke_Generator___green_)
         Smoke_Generator___blue_ = (10, Weapons.Smoke_Generator___blue_)
@@ -2036,11 +2177,11 @@ class FA_18F(PlaneType):
 class EA_18G(PlaneType):
     id = "EA-18G"
     flyable = True
-    height = 4.66
-    width = 11.43
-    length = 17.07
+    height = 4.88
+    width = 13.62456
+    length = 18.31
     fuel_max = 4900
-    max_speed = 1950.12
+    max_speed = 2120.04
     chaff = 60
     flare = 60
     charge_total = 120
@@ -2122,6 +2263,9 @@ class EA_18G(PlaneType):
         "OuterBoard": 0,
         "InnerBoard": 0,
         "HelmetMountedDevice": 1,
+        "VoiceCallsignLabel": None,
+        "VoiceCallsignNumber": None,
+        "STN_L16": None,
     }
 
     class Properties:
@@ -2147,25 +2291,109 @@ class EA_18G(PlaneType):
                 JHMCS = 1
                 NVG = 2
 
+        class VoiceCallsignLabel:
+            id = "VoiceCallsignLabel"
+
+        class VoiceCallsignNumber:
+            id = "VoiceCallsignNumber"
+
+        class STN_L16:
+            id = "STN_L16"
+
+    properties = {
+        "OuterBoard": UnitPropertyDescription(
+            identifier="OuterBoard",
+            control="comboList",
+            label="Outerboard rockets mode",
+            player_only=True,
+            default=0,
+            w_ctrl=150,
+            values={
+                0: "Single",
+                1: "Ripple",
+            },
+        ),
+        "InnerBoard": UnitPropertyDescription(
+            identifier="InnerBoard",
+            control="comboList",
+            label="Innerboard rockets mode",
+            player_only=True,
+            default=0,
+            w_ctrl=150,
+            values={
+                0: "Single",
+                1: "Ripple",
+            },
+        ),
+        "HelmetMountedDevice": UnitPropertyDescription(
+            identifier="HelmetMountedDevice",
+            control="comboList",
+            label="Helmet Mounted Device",
+            player_only=True,
+            default=1,
+            w_ctrl=150,
+            values={
+                0: "Not installed",
+                1: "JHMCS",
+                2: "NVG",
+            },
+        ),
+        "datalink_Label": UnitPropertyDescription(
+            identifier="datalink_Label",
+            control="label",
+            label="DATALINK",
+            player_only=False,
+            x_lbl=150,
+        ),
+        "VoiceCallsignLabel": UnitPropertyDescription(
+            identifier="VoiceCallsignLabel",
+            control="editbox",
+            label="Voice Callsign Label",
+            player_only=False,
+        ),
+        "VoiceCallsignNumber": UnitPropertyDescription(
+            identifier="VoiceCallsignNumber",
+            control="editbox",
+            label="Voice Callsign Number",
+            player_only=False,
+        ),
+        "STN_L16": UnitPropertyDescription(
+            identifier="STN_L16",
+            control="editbox",
+            label="STN",
+            player_only=False,
+        ),
+    }
+
     livery_name = "EA-18G"  # from type
 
     class Pylon1:
-        FPU_12_Fuel_Tank_480_gallons = (1, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (1, Weapons.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             1,
-            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
-        ALQ_99Wing = (1, WeaponsFA18EFG.ALQ_99Wing)
+        ALQ_99Wing = (1, Weapons.ALQ_99Wing)
 
     # ERRR <CLEAN>
 
     class Pylon2:
-        FPU_12_Fuel_Tank_480_gallons = (2, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (2, Weapons.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             2,
-            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
-        ALQ_99Wing = (2, WeaponsFA18EFG.ALQ_99Wing)
+        ALQ_99Wing = (2, Weapons.ALQ_99Wing)
+        AGM_154A___JSOW_CEB__CBU_type_ = (2, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
+        BRU_55_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
+            2,
+            Weapons.BRU_55_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
+        )
+        AGM_154C___JSOW_Unitary_BROACH = (2, Weapons.AGM_154C___JSOW_Unitary_BROACH)
+        BRU_55_with_2_x_AGM_154C___JSOW_Unitary_BROACH = (
+            2,
+            Weapons.BRU_55_with_2_x_AGM_154C___JSOW_Unitary_BROACH,
+        )
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_ = (
             2,
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_,
@@ -2180,33 +2408,27 @@ class EA_18G(PlaneType):
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_,
         )
         # ERRR <CLEAN>
-        TLAU_127 = (3, WeaponsFA18EFG.TLAU_127)
+        TLAU_127 = (3, Weapons.TLAU_127)
 
     class Pylon4:
-        AIM_120B_AMRAAM___Active_Radar_AAM = (
-            4,
-            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
-        )
+        AIM_120D_AMRAAM___Active_Rdr_AAM = (4, Weapons.AIM_120D_AMRAAM___Active_Rdr_AAM)
         AIM_120C_AMRAAM___Active_Radar_AAM = (
             4,
             Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
 
     class Pylon5:
-        FPU_12_Fuel_Tank_480_gallons = (5, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (5, Weapons.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             5,
-            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
-        ALQ_99Center = (5, WeaponsFA18EFG.ALQ_99Center)
+        ALQ_99Center = (5, Weapons.ALQ_99Center)
 
     # ERRR <CLEAN>
 
     class Pylon6:
-        AIM_120B_AMRAAM___Active_Radar_AAM = (
-            6,
-            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
-        )
+        AIM_120D_AMRAAM___Active_Rdr_AAM = (6, Weapons.AIM_120D_AMRAAM___Active_Rdr_AAM)
         AIM_120C_AMRAAM___Active_Radar_AAM = (
             6,
             Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
@@ -2219,15 +2441,25 @@ class EA_18G(PlaneType):
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_,
         )
         # ERRR <CLEAN>
-        TLAU_127 = (7, WeaponsFA18EFG.TLAU_127)
+        TLAU_127 = (7, Weapons.TLAU_127)
 
     class Pylon8:
-        FPU_12_Fuel_Tank_480_gallons = (8, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (8, Weapons.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             8,
-            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
-        ALQ_99Wing = (8, WeaponsFA18EFG.ALQ_99Wing)
+        ALQ_99Wing = (8, Weapons.ALQ_99Wing)
+        AGM_154A___JSOW_CEB__CBU_type_ = (8, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
+        BRU_55_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
+            8,
+            Weapons.BRU_55_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
+        )
+        AGM_154C___JSOW_Unitary_BROACH = (8, Weapons.AGM_154C___JSOW_Unitary_BROACH)
+        BRU_55_with_2_x_AGM_154C___JSOW_Unitary_BROACH = (
+            8,
+            Weapons.BRU_55_with_2_x_AGM_154C___JSOW_Unitary_BROACH,
+        )
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_ = (
             8,
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_,
@@ -2236,17 +2468,17 @@ class EA_18G(PlaneType):
     # ERRR <CLEAN>
 
     class Pylon9:
-        FPU_12_Fuel_Tank_480_gallons = (9, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (9, Weapons.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             9,
-            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
-        ALQ_99Wing = (9, WeaponsFA18EFG.ALQ_99Wing)
+        ALQ_99Wing = (9, Weapons.ALQ_99Wing)
 
     # ERRR <CLEAN>
 
     class Pylon10:
-        USAFlag = (10, WeaponsFA18EFG.USAFlag)
+        USAFlag = (10, Weapons.USAFlag)
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 
