@@ -258,7 +258,7 @@ class FA_18E(PlaneType):
         )
 
     class Pylon2:
-        TLAU_127 = (2, Weapons.TLAU_127)
+        TLAU_127 = (2, WeaponsFA18EFG.TLAU_127)
         AIM_120D_AMRAAM___Active_Rdr_AAM = (
             2,
             WeaponsFA18EFG.AIM_120D_AMRAAM___Active_Rdr_AAM,
@@ -370,10 +370,10 @@ class FA_18E(PlaneType):
             3,
             Weapons.LAU_115C_with_AIM_7P_Sparrow_Semi_Active_Radar,
         )
-        FPU_12_Fuel_Tank_480_gallons = (3, Weapons.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (3, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             3,
-            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
         AIM_120D_AMRAAM___Active_Rdr_AAM = (
             3,
@@ -383,7 +383,7 @@ class FA_18E(PlaneType):
             3,
             Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
-        LAU_115_2_LAU_127_AIM_120B = (3, Weapons.LAU_115_2_LAU_127_AIM_120B)
+        LAU_115_2_LAU_127_AIM_120B = (3, WeaponsFA18EFG.LAU_115_2_LAU_127_AIM_120B)
         LAU_115_2_LAU_127_AIM_120C = (3, Weapons.LAU_115_2_LAU_127_AIM_120C)
         # ERRR LAU-115_2*LAU-127_CATM-120C
         # ERRR LAU_117_TGM_65E
@@ -570,10 +570,10 @@ class FA_18E(PlaneType):
             5,
             Weapons.LAU_115C_with_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
-        FPU_12_Fuel_Tank_480_gallons = (5, Weapons.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (5, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             5,
-            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
         LAU_115_with_1_x_LAU_127_AIM_120D_AMRAAM___Active_Rdr_AAM = (
             5,
@@ -583,7 +583,7 @@ class FA_18E(PlaneType):
             5,
             Weapons.LAU_115_with_1_x_LAU_127_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
-        LAU_115_2_LAU_127_AIM_120B = (5, Weapons.LAU_115_2_LAU_127_AIM_120B)
+        LAU_115_2_LAU_127_AIM_120B = (5, WeaponsFA18EFG.LAU_115_2_LAU_127_AIM_120B)
         LAU_115_2_LAU_127_AIM_120C = (5, Weapons.LAU_115_2_LAU_127_AIM_120C)
         LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             5,
@@ -731,10 +731,10 @@ class FA_18E(PlaneType):
             6,
             Weapons.LAU_115C_with_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
-        FPU_12_Fuel_Tank_480_gallons = (6, Weapons.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (6, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             6,
-            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
         LAU_115_with_1_x_LAU_127_AIM_120D_AMRAAM___Active_Rdr_AAM = (
             6,
@@ -744,7 +744,7 @@ class FA_18E(PlaneType):
             6,
             Weapons.LAU_115_with_1_x_LAU_127_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
-        LAU_115_2_LAU_127_AIM_120B = (6, Weapons.LAU_115_2_LAU_127_AIM_120B)
+        LAU_115_2_LAU_127_AIM_120B = (6, WeaponsFA18EFG.LAU_115_2_LAU_127_AIM_120B)
         LAU_115_2_LAU_127_AIM_120C = (6, Weapons.LAU_115_2_LAU_127_AIM_120C)
         LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             6,
@@ -917,10 +917,10 @@ class FA_18E(PlaneType):
             7,
             Weapons.LAU_115C_with_AIM_7P_Sparrow_Semi_Active_Radar,
         )
-        FPU_12_Fuel_Tank_480_gallons = (7, Weapons.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (7, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             7,
-            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
         AIM_120D_AMRAAM___Active_Rdr_AAM = (
             7,
@@ -930,7 +930,7 @@ class FA_18E(PlaneType):
             7,
             Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
-        LAU_115_2_LAU_127_AIM_120B = (7, Weapons.LAU_115_2_LAU_127_AIM_120B)
+        LAU_115_2_LAU_127_AIM_120B = (7, WeaponsFA18EFG.LAU_115_2_LAU_127_AIM_120B)
         LAU_115_2_LAU_127_AIM_120C = (7, Weapons.LAU_115_2_LAU_127_AIM_120C)
         # ERRR LAU-115_2*LAU-127_CATM-120C
         # ERRR LAU_117_TGM_65E
@@ -1091,7 +1091,7 @@ class FA_18E(PlaneType):
         BRU_42_with_ADM_141A_TALD = (7, Weapons.BRU_42_with_ADM_141A_TALD)
 
     class Pylon8:
-        TLAU_127 = (8, Weapons.TLAU_127)
+        TLAU_127 = (8, WeaponsFA18EFG.TLAU_127)
         AIM_120D_AMRAAM___Active_Rdr_AAM = (
             8,
             WeaponsFA18EFG.AIM_120D_AMRAAM___Active_Rdr_AAM,
@@ -1192,13 +1192,13 @@ class FA_18E(PlaneType):
     # ERRR <CLEAN>
 
     class Pylon10:
-        AA42R_Buddy_Pod = (10, Weapons.AA42R_Buddy_Pod)
-        FPU_12_Fuel_Tank_480_gallons = (10, Weapons.FPU_12_Fuel_Tank_480_gallons)
+        AA42R_Buddy_Pod = (10, WeaponsFA18EFG.AA42R_Buddy_Pod)
+        FPU_12_Fuel_Tank_480_gallons = (10, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             10,
-            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
-        USAFlag = (10, Weapons.USAFlag)
+        USAFlag = (10, WeaponsFA18EFG.USAFlag)
         Smoke_Generator___red_ = (10, Weapons.Smoke_Generator___red_)
         Smoke_Generator___green_ = (10, Weapons.Smoke_Generator___green_)
         Smoke_Generator___blue_ = (10, Weapons.Smoke_Generator___blue_)
@@ -1434,7 +1434,7 @@ class FA_18F(PlaneType):
         )
 
     class Pylon2:
-        TLAU_127 = (2, Weapons.TLAU_127)
+        TLAU_127 = (2, WeaponsFA18EFG.TLAU_127)
         AIM_120D_AMRAAM___Active_Rdr_AAM = (
             2,
             WeaponsFA18EFG.AIM_120D_AMRAAM___Active_Rdr_AAM,
@@ -1546,10 +1546,10 @@ class FA_18F(PlaneType):
             3,
             Weapons.LAU_115C_with_AIM_7P_Sparrow_Semi_Active_Radar,
         )
-        FPU_12_Fuel_Tank_480_gallons = (3, Weapons.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (3, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             3,
-            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
         AIM_120D_AMRAAM___Active_Rdr_AAM = (
             3,
@@ -1559,7 +1559,7 @@ class FA_18F(PlaneType):
             3,
             Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
-        LAU_115_2_LAU_127_AIM_120B = (3, Weapons.LAU_115_2_LAU_127_AIM_120B)
+        LAU_115_2_LAU_127_AIM_120B = (3, WeaponsFA18EFG.LAU_115_2_LAU_127_AIM_120B)
         LAU_115_2_LAU_127_AIM_120C = (3, Weapons.LAU_115_2_LAU_127_AIM_120C)
         # ERRR LAU-115_2*LAU-127_CATM-120C
         # ERRR LAU_117_TGM_65E
@@ -1746,10 +1746,10 @@ class FA_18F(PlaneType):
             5,
             Weapons.LAU_115C_with_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
-        FPU_12_Fuel_Tank_480_gallons = (5, Weapons.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (5, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             5,
-            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
         LAU_115_with_1_x_LAU_127_AIM_120D_AMRAAM___Active_Rdr_AAM = (
             5,
@@ -1759,7 +1759,7 @@ class FA_18F(PlaneType):
             5,
             Weapons.LAU_115_with_1_x_LAU_127_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
-        LAU_115_2_LAU_127_AIM_120B = (5, Weapons.LAU_115_2_LAU_127_AIM_120B)
+        LAU_115_2_LAU_127_AIM_120B = (5, WeaponsFA18EFG.LAU_115_2_LAU_127_AIM_120B)
         LAU_115_2_LAU_127_AIM_120C = (5, Weapons.LAU_115_2_LAU_127_AIM_120C)
         LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             5,
@@ -1907,10 +1907,10 @@ class FA_18F(PlaneType):
             6,
             Weapons.LAU_115C_with_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
-        FPU_12_Fuel_Tank_480_gallons = (6, Weapons.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (6, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             6,
-            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
         LAU_115_with_1_x_LAU_127_AIM_120D_AMRAAM___Active_Rdr_AAM = (
             6,
@@ -1920,7 +1920,7 @@ class FA_18F(PlaneType):
             6,
             Weapons.LAU_115_with_1_x_LAU_127_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
-        LAU_115_2_LAU_127_AIM_120B = (6, Weapons.LAU_115_2_LAU_127_AIM_120B)
+        LAU_115_2_LAU_127_AIM_120B = (6, WeaponsFA18EFG.LAU_115_2_LAU_127_AIM_120B)
         LAU_115_2_LAU_127_AIM_120C = (6, Weapons.LAU_115_2_LAU_127_AIM_120C)
         LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             6,
@@ -2093,10 +2093,10 @@ class FA_18F(PlaneType):
             7,
             Weapons.LAU_115C_with_AIM_7P_Sparrow_Semi_Active_Radar,
         )
-        FPU_12_Fuel_Tank_480_gallons = (7, Weapons.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (7, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             7,
-            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
         AIM_120D_AMRAAM___Active_Rdr_AAM = (
             7,
@@ -2106,7 +2106,7 @@ class FA_18F(PlaneType):
             7,
             Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
-        LAU_115_2_LAU_127_AIM_120B = (7, Weapons.LAU_115_2_LAU_127_AIM_120B)
+        LAU_115_2_LAU_127_AIM_120B = (7, WeaponsFA18EFG.LAU_115_2_LAU_127_AIM_120B)
         LAU_115_2_LAU_127_AIM_120C = (7, Weapons.LAU_115_2_LAU_127_AIM_120C)
         # ERRR LAU-115_2*LAU-127_CATM-120C
         # ERRR LAU_117_TGM_65E
@@ -2267,7 +2267,7 @@ class FA_18F(PlaneType):
         BRU_42_with_ADM_141A_TALD = (7, Weapons.BRU_42_with_ADM_141A_TALD)
 
     class Pylon8:
-        TLAU_127 = (8, Weapons.TLAU_127)
+        TLAU_127 = (8, WeaponsFA18EFG.TLAU_127)
         AIM_120D_AMRAAM___Active_Rdr_AAM = (
             8,
             WeaponsFA18EFG.AIM_120D_AMRAAM___Active_Rdr_AAM,
@@ -2368,13 +2368,13 @@ class FA_18F(PlaneType):
     # ERRR <CLEAN>
 
     class Pylon10:
-        AA42R_Buddy_Pod = (10, Weapons.AA42R_Buddy_Pod)
-        FPU_12_Fuel_Tank_480_gallons = (10, Weapons.FPU_12_Fuel_Tank_480_gallons)
+        AA42R_Buddy_Pod = (10, WeaponsFA18EFG.AA42R_Buddy_Pod)
+        FPU_12_Fuel_Tank_480_gallons = (10, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             10,
-            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
-        USAFlag = (10, Weapons.USAFlag)
+        USAFlag = (10, WeaponsFA18EFG.USAFlag)
         Smoke_Generator___red_ = (10, Weapons.Smoke_Generator___red_)
         Smoke_Generator___green_ = (10, Weapons.Smoke_Generator___green_)
         Smoke_Generator___blue_ = (10, Weapons.Smoke_Generator___blue_)
@@ -2596,20 +2596,20 @@ class EA_18G(PlaneType):
     livery_name = "EA-18G"  # from type
 
     class Pylon1:
-        FPU_12_Fuel_Tank_480_gallons = (1, Weapons.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (1, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             1,
-            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
         ALQ_99Wing = (1, WeaponsFA18EFG.ALQ_99Wing)
 
     # ERRR <CLEAN>
 
     class Pylon2:
-        FPU_12_Fuel_Tank_480_gallons = (2, Weapons.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (2, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             2,
-            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
         ALQ_99Wing = (2, WeaponsFA18EFG.ALQ_99Wing)
         AGM_154A___JSOW_CEB__CBU_type_ = (
@@ -2645,7 +2645,7 @@ class EA_18G(PlaneType):
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_,
         )
         # ERRR <CLEAN>
-        TLAU_127 = (3, Weapons.TLAU_127)
+        TLAU_127 = (3, WeaponsFA18EFG.TLAU_127)
 
     class Pylon4:
         AIM_120D_AMRAAM___Active_Rdr_AAM = (
@@ -2658,10 +2658,10 @@ class EA_18G(PlaneType):
         )
 
     class Pylon5:
-        FPU_12_Fuel_Tank_480_gallons = (5, Weapons.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (5, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             5,
-            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
         ALQ_99Center = (5, WeaponsFA18EFG.ALQ_99Center)
 
@@ -2687,13 +2687,13 @@ class EA_18G(PlaneType):
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_,
         )
         # ERRR <CLEAN>
-        TLAU_127 = (7, Weapons.TLAU_127)
+        TLAU_127 = (7, WeaponsFA18EFG.TLAU_127)
 
     class Pylon8:
-        FPU_12_Fuel_Tank_480_gallons = (8, Weapons.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (8, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             8,
-            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
         ALQ_99Wing = (8, WeaponsFA18EFG.ALQ_99Wing)
         AGM_154A___JSOW_CEB__CBU_type_ = (
@@ -2720,17 +2720,17 @@ class EA_18G(PlaneType):
     # ERRR <CLEAN>
 
     class Pylon9:
-        FPU_12_Fuel_Tank_480_gallons = (9, Weapons.FPU_12_Fuel_Tank_480_gallons)
+        FPU_12_Fuel_Tank_480_gallons = (9, WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons)
         FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             9,
-            Weapons.FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
         ALQ_99Wing = (9, WeaponsFA18EFG.ALQ_99Wing)
 
     # ERRR <CLEAN>
 
     class Pylon10:
-        USAFlag = (10, Weapons.USAFlag)
+        USAFlag = (10, WeaponsFA18EFG.USAFlag)
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 
