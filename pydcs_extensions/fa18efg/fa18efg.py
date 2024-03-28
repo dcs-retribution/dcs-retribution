@@ -2,9 +2,8 @@ from typing import Dict, List, Set, Any
 
 from dcs import task
 from dcs.planes import PlaneType
-from dcs.weapons_data import Weapons
 from dcs.unitpropertydescription import UnitPropertyDescription
-
+from dcs.weapons_data import Weapons
 
 from game.modsupport import planemod
 from pydcs_extensions.weapon_injector import inject_weapons
@@ -27,26 +26,6 @@ class WeaponsFA18EFG:
     }
     TLAU_127 = {"clsid": "{TLAU_127}", "name": "TLAU_127", "weight": 0}
     USAFlag = {"clsid": "{USAFlag}", "name": "USAFlag", "weight": 0}
-    AIM_120D_AMRAAM___Active_Rdr_AAM = {
-        "clsid": "{C8E06185-7CD6-4C90-959F-044679E90751}",
-        "name": "AIM-120D AMRAAM - Active Rdr AAM",
-        "weight": 162.4,
-    }
-    LAU_115_2_LAU_127_AIM_120B = {
-        "clsid": "LAU-115_2*LAU-127_AIM-120B",
-        "name": "LAU-115 with 2 x LAU-127 AIM-120D AMRAAM - Active Rdr AAM",
-        "weight": 469.8,
-    }
-    LAU_115_with_1_x_LAU_127_AIM_120D_AMRAAM___Active_Rdr_AAM = {
-        "clsid": "{LAU-115 - AIM-120B}",
-        "name": "LAU-115 with 1 x LAU-127 AIM-120D AMRAAM - Active Rdr AAM",
-        "weight": 307.4,
-    }
-    LAU_115_with_1_x_LAU_127_AIM_120D_AMRAAM___Active_Rdr_AAM_ = {
-        "clsid": "{LAU-115 - AIM-120B_R}",
-        "name": "LAU-115 with 1 x LAU-127 AIM-120D AMRAAM - Active Rdr AAM",
-        "weight": 307.4,
-    }
 
 
 inject_weapons(WeaponsFA18EFG)
