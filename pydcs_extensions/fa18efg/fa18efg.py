@@ -1188,9 +1188,6 @@ class FA_18E(PlaneType):
     task_default = task.CAP
 
 
-from typing import Dict, List, Any
-
-
 @planemod
 class FA_18F(PlaneType):
     id = "FA-18F"
