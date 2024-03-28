@@ -437,10 +437,6 @@ class FA_18E(PlaneType):
             3,
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
-        BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD = (
-            3,
-            Weapons.BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD,
-        )
         GBU_12___500lb_Laser_Guided_Bomb = (
             3,
             Weapons.GBU_12___500lb_Laser_Guided_Bomb,
@@ -625,10 +621,6 @@ class FA_18E(PlaneType):
             5,
             Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
-        BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD = (
-            5,
-            Weapons.BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD,
-        )
         GBU_12___500lb_Laser_Guided_Bomb = (
             5,
             Weapons.GBU_12___500lb_Laser_Guided_Bomb,
@@ -798,10 +790,6 @@ class FA_18E(PlaneType):
         GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             6,
             Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
-        )
-        BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD = (
-            6,
-            Weapons.BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (
             6,
@@ -983,10 +971,6 @@ class FA_18E(PlaneType):
         GBU_10___2000lb_Laser_Guided_Bomb = (
             7,
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
-        )
-        BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD = (
-            7,
-            Weapons.BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (
             7,
@@ -1613,10 +1597,6 @@ class FA_18F(PlaneType):
             3,
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
-        BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD = (
-            3,
-            Weapons.BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD,
-        )
         GBU_12___500lb_Laser_Guided_Bomb = (
             3,
             Weapons.GBU_12___500lb_Laser_Guided_Bomb,
@@ -1801,10 +1781,6 @@ class FA_18F(PlaneType):
             5,
             Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
-        BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD = (
-            5,
-            Weapons.BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD,
-        )
         GBU_12___500lb_Laser_Guided_Bomb = (
             5,
             Weapons.GBU_12___500lb_Laser_Guided_Bomb,
@@ -1974,10 +1950,6 @@ class FA_18F(PlaneType):
         GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             6,
             Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
-        )
-        BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD = (
-            6,
-            Weapons.BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (
             6,
@@ -2159,10 +2131,6 @@ class FA_18F(PlaneType):
         GBU_10___2000lb_Laser_Guided_Bomb = (
             7,
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
-        )
-        BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD = (
-            7,
-            Weapons.BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (
             7,
