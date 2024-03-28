@@ -6,6 +6,7 @@
 * **[Factions]** Support for definitions in yml/yaml format
 * **[Campaigns/Factions]** Support for inline recommended faction in campaign's yaml file
 * **[Squadrons]** Ability to define a livery-set for each squadron from which Retribution will randomly choose during mission generation
+* **[Modding]** Updated support for F/A-18E/F/G mod version 2.2.5
 
 ## Fixes
 * **[UI/UX]** A-10A flights can be edited again.
