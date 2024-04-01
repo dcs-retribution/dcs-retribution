@@ -7,6 +7,7 @@
 * **[Campaigns/Factions]** Support for inline recommended faction in campaign's yaml file
 * **[Squadrons]** Ability to define a livery-set for each squadron from which Retribution will randomly choose during mission generation
 * **[Modding]** Updated support for F/A-18E/F/G mod version 2.2.5
+* **[Campaign Setup]** Allow adjustments to naval TGOs (except carriers) on turn 0
 
 ## Fixes
 * **[UI/UX]** A-10A flights can be edited again.

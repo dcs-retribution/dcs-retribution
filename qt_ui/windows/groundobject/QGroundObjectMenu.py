@@ -104,12 +104,14 @@ class QGroundObjectMenu(QDialog):
         self.buy_replace.clicked.connect(self.buy_group)
         self.buy_replace.setProperty("style", "btn-success")
 
-        if self.ground_object.purchasable:
+        if self.ground_object.purchasable or self.game.turn == 0:
             if self.total_value > 0:
                 self.actionLayout.addWidget(self.sell_all_button)
             self.actionLayout.addWidget(self.buy_replace)
 
-        if self.show_buy_sell_actions and self.ground_object.purchasable:
+        if self.show_buy_sell_actions and (
+            self.ground_object.purchasable or self.game.turn == 0
+        ):
             self.mainLayout.addLayout(self.actionLayout)
         self.setLayout(self.mainLayout)
 
