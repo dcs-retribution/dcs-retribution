@@ -190,7 +190,7 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
             hold=None,
-            join=builder.join(ingress.position),
+            join=builder.join(self.package.waypoints.ingress),
             split=builder.split(self.flight.arrival.position),
             refuel=None,
             custom_waypoints=list(),
