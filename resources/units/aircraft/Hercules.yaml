@@ -12,6 +12,9 @@ max_range: 1000
 cabin_size: 24 # It should have more but we do not want so much for CTLD to be possible
 variants:
   C-130J-30 Super Hercules: {}
+altitudes:
+  cruise: 10000
+  combat: 1000
 radios:
   intra_flight: AN/ARC-164
   inter_flight: AN/ARC-164
