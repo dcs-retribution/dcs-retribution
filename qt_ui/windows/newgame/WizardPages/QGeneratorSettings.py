@@ -163,7 +163,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("F-15D Baz (v1.0)", self.f15d_baz),
             ("F-15I Ra'am (v1.0 by IDF Mods Project)", self.f_15_idf),
             ("F-16I Sufa & F-16D (v3.6 by IDF Mods Project)", self.f_16_idf),
-            ("F/A-18E/F/G Super Hornet (version 2.1)", self.fa_18efg),
+            ("F/A-18E/F/G Super Hornet (version 2.2.5)", self.fa_18efg),
             ("F/A-18E/F Super Hornet AI Tanker (version 1.4)", self.fa18ef_tanker),
             ("F-22A Raptor", self.f22_raptor),
             ("F-84G Thunderjet (v2.5.7.01)", self.f84g_thunderjet),

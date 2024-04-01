@@ -1,6 +1,6 @@
 {
   "country": "USA",
-  "name": "US Navy 2005",
+  "name": "US Navy 2009",
   "authors": "Fuzzle",
   "description": "<p>A modern representation of the US Navy/Marine Corps.</p>",
   "locales": [
@@ -11,6 +11,7 @@
     "F/A-18C Hornet (Lot 20)",
 	"F/A-18E Super Hornet",
 	"F/A-18F Super Hornet",
+  "EA-18G Growler",
     "AV-8B Harrier II Night Attack",
     "AH-1W SuperCobra",
     "S-3B Viking",
