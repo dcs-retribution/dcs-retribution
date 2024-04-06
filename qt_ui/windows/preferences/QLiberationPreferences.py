@@ -11,6 +11,8 @@ from PySide6.QtWidgets import (
     QMessageBox,
     QPushButton,
     QVBoxLayout,
+    QCheckBox,
+    QSpinBox,
 )
 
 from qt_ui import liberation_install, liberation_theme
@@ -39,6 +41,14 @@ class QLiberationPreferences(QFrame):
         self.browse_install_dir.clicked.connect(self.on_browse_installation_dir)
         self.themeSelect = QComboBox()
         [self.themeSelect.addItem(y["themeName"]) for x, y in THEMES.items()]
+
+        preference = liberation_install.prefer_liberation_payloads()
+        self.prefer_liberation_payloads = preference if preference else False
+        self.payloads_cb = QCheckBox()
+        self.payloads_cb.setChecked(self.prefer_liberation_payloads)
+
+        self.port = liberation_install.server_port()
+        self.port_input = QSpinBox()
 
         self.initUi()
 
@@ -73,6 +83,25 @@ class QLiberationPreferences(QFrame):
         layout.addWidget(self.themeSelect, 4, 1, alignment=Qt.AlignmentFlag.AlignRight)
         self.themeSelect.setCurrentIndex(get_theme_index())
 
+        layout.addWidget(
+            QLabel("<strong>Prefer custom Liberation payloads:</strong>"),
+            5,
+            0,
+            alignment=Qt.AlignmentFlag.AlignLeft,
+        )
+        layout.addWidget(self.payloads_cb, 5, 1, alignment=Qt.AlignmentFlag.AlignRight)
+
+        layout.addWidget(
+            QLabel("<strong>Server port (restart required):</strong>"),
+            6,
+            0,
+            alignment=Qt.AlignmentFlag.AlignLeft,
+        )
+        layout.addWidget(self.port_input, 6, 1, alignment=Qt.AlignmentFlag.AlignRight)
+        self.port_input.setRange(1, 2**16 - 1)
+        self.port_input.setValue(self.port)
+        self.port_input.setStyleSheet("QSpinBox{ width: 50 }")
+
         main_layout.addLayout(layout)
         main_layout.addStretch()
 
@@ -98,6 +127,8 @@ class QLiberationPreferences(QFrame):
         print("Applying changes")
         self.saved_game_dir = self.edit_saved_game_dir.text()
         self.dcs_install_dir = self.edit_dcs_install_dir.text()
+        self.prefer_liberation_payloads = self.payloads_cb.isChecked()
+        self.port = self.port_input.value()
         set_theme_index(self.themeSelect.currentIndex())
 
         if not os.path.isdir(self.saved_game_dir):
@@ -153,7 +184,12 @@ class QLiberationPreferences(QFrame):
             error_dialog.exec_()
             return False
 
-        liberation_install.setup(self.saved_game_dir, self.dcs_install_dir)
+        liberation_install.setup(
+            self.saved_game_dir,
+            self.dcs_install_dir,
+            self.prefer_liberation_payloads,
+            self.port,
+        )
         liberation_install.save_config()
         liberation_theme.save_theme_config()
         return True

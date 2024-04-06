@@ -11,7 +11,8 @@ from .pydcswaypointbuilder import PydcsWaypointBuilder
 class BaiIngressBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
         self.register_special_ingress_points()
-        waypoint.tasks.append(OptFormation.trail_open())
+        if not self.flight.is_helo:
+            waypoint.tasks.append(OptFormation.trail_open())
         # TODO: Add common "UnitGroupTarget" base type.
         group_names = []
         target = self.package.target

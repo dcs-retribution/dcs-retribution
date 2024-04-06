@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from datetime import timedelta, datetime
 from typing import Type
 
 from .airassault import AirAssaultLayout
@@ -16,18 +15,6 @@ from ...utils import feet
 
 
 class EscortFlightPlan(FormationAttackFlightPlan):
-    @property
-    def push_time(self) -> datetime:
-        hold2join_time = (
-            self.travel_time_between_waypoints(
-                self.layout.hold,
-                self.layout.join,
-            )
-            if self.layout.hold is not None
-            else timedelta(0)
-        )
-        return self.join_time - hold2join_time
-
     @staticmethod
     def builder_type() -> Type[Builder]:
         return Builder
@@ -44,16 +31,17 @@ class Builder(FormationAttackBuilder[EscortFlightPlan, FormationAttackLayout]):
         ingress.only_for_player = True
         target.only_for_player = True
         hold = None
-        if not self.primary_flight_is_air_assault:
+        if not self.flight.is_helo:
             hold = builder.hold(self._hold_point())
-        elif self.package.primary_flight is not None:
-            fp = self.package.primary_flight.flight_plan
-            assert isinstance(fp.layout, AirAssaultLayout)
-            if fp.layout.pickup:
-                hold = builder.hold(fp.layout.pickup.position)
 
-        join = builder.join(self.package.waypoints.join)
-        split = builder.split(self.package.waypoints.split)
+        join_pos = (
+            self.package.waypoints.ingress
+            if self.flight.is_helo
+            else self.package.waypoints.join
+        )
+        join = builder.join(join_pos)
+
+        split = builder.split(self._get_split())
 
         ingress_alt = self.doctrine.ingress_altitude
         is_helo = builder.flight.is_helo
@@ -70,10 +58,12 @@ class Builder(FormationAttackBuilder[EscortFlightPlan, FormationAttackLayout]):
                 layout, AirliftLayout
             )
             if isinstance(layout, AirliftLayout):
-                join = builder.join(layout.departure.position)
-            else:
-                join = builder.join(layout.ingress.position)
-            if layout.pickup:
+                ascent = layout.pickup_ascent or layout.drop_off_ascent
+                assert ascent is not None
+                join = builder.join(ascent.position)
+                if layout.pickup and layout.drop_off_ascent:
+                    join = builder.join(layout.drop_off_ascent.position)
+            elif layout.pickup:
                 join = builder.join(layout.pickup.position)
             split = builder.split(layout.arrival.position)
             if layout.drop_off:

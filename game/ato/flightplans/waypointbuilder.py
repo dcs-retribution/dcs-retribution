@@ -15,7 +15,6 @@ from typing import (
 
 from dcs.mapping import Point, Vector2
 
-from game.ato.flightplans._common_ctld import generate_random_ctld_point
 from game.ato.flightwaypoint import AltitudeReference, FlightWaypoint
 from game.ato.flightwaypointtype import FlightWaypointType
 from game.theater import (
@@ -25,7 +24,6 @@ from game.theater import (
     TheaterGroundObject,
     TheaterUnit,
 )
-from game.theater.interfaces.CTLD import CTLD
 from game.utils import Distance, meters, nautical_miles, feet
 
 if TYPE_CHECKING:
@@ -250,10 +248,14 @@ class WaypointBuilder:
                 else feet(1000)
             )
 
+        heading = objective.position.heading_between_point(position)
+
         return FlightWaypoint(
             "INGRESS",
             ingress_type,
-            position,
+            objective.position.point_from_heading(heading, nautical_miles(5).meters)
+            if self.is_helo
+            else position,
             alt,
             alt_type,
             description=f"INGRESS on {objective.name}",
@@ -635,14 +637,10 @@ class WaypointBuilder:
         """Creates a cargo stop waypoint.
         This waypoint is used by AirLift as a landing and stopover waypoint
         """
-        if isinstance(control_point, CTLD) and control_point.ctld_zones:
-            pos = generate_random_ctld_point(control_point)
-        else:
-            pos = control_point.position
         return FlightWaypoint(
             "CARGOSTOP",
             FlightWaypointType.CARGO_STOP,
-            pos,
+            control_point.position,
             meters(0),
             "RADIO",
             description=f"Stop for cargo at {control_point.name}",

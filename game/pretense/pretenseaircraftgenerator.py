@@ -281,9 +281,45 @@ class PretenseAircraftGenerator:
         num_of_bai = 0
         num_of_strike = 0
         num_of_cap = 0
+        sead_tasks = [FlightType.SEAD, FlightType.SEAD_SWEEP, FlightType.SEAD_ESCORT]
+        strike_tasks = [
+            FlightType.STRIKE,
+            FlightType.OCA_RUNWAY,
+            FlightType.OCA_AIRCRAFT,
+        ]
+        patrol_tasks = [
+            FlightType.BARCAP,
+            FlightType.TARCAP,
+            FlightType.ESCORT,
+            FlightType.INTERCEPTION,
+        ]
+        sead_capable_cp = False
+        cas_capable_cp = False
+        bai_capable_cp = False
+        strike_capable_cp = False
+        patrol_capable_cp = False
+
+        # First check what are the capabilities of the squadrons on this CP
+        for squadron in cp.squadrons:
+            for task in sead_tasks:
+                if task in squadron.auto_assignable_mission_types:
+                    sead_capable_cp = True
+            for task in strike_tasks:
+                if task in squadron.auto_assignable_mission_types:
+                    if not squadron.aircraft.helicopter:
+                        strike_capable_cp = True
+            for task in patrol_tasks:
+                if task in squadron.auto_assignable_mission_types:
+                    if not squadron.aircraft.helicopter:
+                        patrol_capable_cp = True
+            if FlightType.CAS in squadron.auto_assignable_mission_types:
+                cas_capable_cp = True
+            if FlightType.BAI in squadron.auto_assignable_mission_types:
+                bai_capable_cp = True
 
         random_squadron_list = list(cp.squadrons)
         random.shuffle(random_squadron_list)
+        # Then plan transports, AEWC and tankers
         for squadron in random_squadron_list:
             # Intentionally don't spawn anything at OffMapSpawns in Pretense
             if isinstance(squadron.location, OffMapSpawn):
@@ -291,14 +327,6 @@ class PretenseAircraftGenerator:
             if cp.coalition != squadron.coalition:
                 continue
 
-            squadron.owned_aircraft += (
-                self.game.settings.pretense_ai_aircraft_per_flight
-            )
-            squadron.untasked_aircraft += (
-                self.game.settings.pretense_ai_aircraft_per_flight
-            )
-            squadron.populate_for_turn_0(False)
-            package = Package(cp, squadron.flight_db, auto_asap=False)
             mission_types = squadron.auto_assignable_mission_types
             aircraft_per_flight = 1
             if squadron.aircraft.helicopter and (
@@ -311,52 +339,6 @@ class PretenseAircraftGenerator:
                 or FlightType.AIR_ASSAULT in mission_types
             ):
                 flight_type = FlightType.TRANSPORT
-            elif (
-                FlightType.SEAD in mission_types
-                or FlightType.SEAD_SWEEP in mission_types
-                or FlightType.SEAD_ESCORT in mission_types
-            ) and num_of_sead < self.game.settings.pretense_sead_flights_per_cp:
-                flight_type = FlightType.SEAD
-                num_of_sead += 1
-                aircraft_per_flight = self.game.settings.pretense_ai_aircraft_per_flight
-            elif (
-                FlightType.DEAD in mission_types
-                and num_of_sead < self.game.settings.pretense_sead_flights_per_cp
-            ):
-                flight_type = FlightType.DEAD
-                num_of_sead += 1
-                aircraft_per_flight = self.game.settings.pretense_ai_aircraft_per_flight
-            elif (
-                (squadron.aircraft.helicopter and (FlightType.ESCORT in mission_types))
-                or (FlightType.CAS in mission_types)
-                and num_of_cas < self.game.settings.pretense_cas_flights_per_cp
-            ):
-                flight_type = FlightType.CAS
-                num_of_cas += 1
-                aircraft_per_flight = self.game.settings.pretense_ai_aircraft_per_flight
-            elif (
-                FlightType.BAI in mission_types
-            ) and num_of_bai < self.game.settings.pretense_bai_flights_per_cp:
-                flight_type = FlightType.BAI
-                num_of_bai += 1
-                aircraft_per_flight = self.game.settings.pretense_ai_aircraft_per_flight
-            elif (
-                FlightType.STRIKE in mission_types
-                or FlightType.OCA_RUNWAY in mission_types
-                or FlightType.OCA_AIRCRAFT in mission_types
-            ) and num_of_strike < self.game.settings.pretense_strike_flights_per_cp:
-                flight_type = FlightType.STRIKE
-                num_of_strike += 1
-                aircraft_per_flight = self.game.settings.pretense_ai_aircraft_per_flight
-            elif (
-                FlightType.BARCAP in mission_types
-                or FlightType.TARCAP in mission_types
-                or FlightType.ESCORT in mission_types
-                or FlightType.INTERCEPTION in mission_types
-            ) and num_of_cap < self.game.settings.pretense_barcap_flights_per_cp:
-                flight_type = FlightType.BARCAP
-                num_of_cap += 1
-                aircraft_per_flight = self.game.settings.pretense_ai_aircraft_per_flight
             elif FlightType.AEWC in mission_types:
                 flight_type = FlightType.AEWC
                 aircraft_per_flight = PRETENSE_AI_AWACS_PER_FLIGHT
@@ -366,36 +348,180 @@ class PretenseAircraftGenerator:
             else:
                 continue
 
-            if flight_type == FlightType.TRANSPORT:
-                flight = Flight(
-                    package,
-                    squadron,
-                    aircraft_per_flight,
-                    FlightType.PRETENSE_CARGO,
-                    StartType.IN_FLIGHT,
-                    divert=cp,
-                )
-                package.add_flight(flight)
-                flight.state = Navigating(flight, self.game.settings, waypoint_index=1)
-            else:
-                flight = Flight(
-                    package,
-                    squadron,
-                    aircraft_per_flight,
-                    flight_type,
-                    StartType.COLD,
-                    divert=cp,
-                )
-                package.add_flight(flight)
-                flight.state = WaitingForStart(
-                    flight, self.game.settings, self.game.conditions.start_time
-                )
-
-            print(
-                f"Generated flight for {flight_type} flying {squadron.aircraft.display_name} at {squadron.location.name}"
+            self.generate_pretense_flight(
+                ato, cp, squadron, aircraft_per_flight, flight_type
             )
-            ato.add_package(package)
+        # Then plan SEAD and DEAD, if capable
+        if sead_capable_cp:
+            while num_of_sead < self.game.settings.pretense_sead_flights_per_cp:
+                for squadron in random_squadron_list:
+                    # Intentionally don't spawn anything at OffMapSpawns in Pretense
+                    if isinstance(squadron.location, OffMapSpawn):
+                        continue
+                    if cp.coalition != squadron.coalition:
+                        continue
+
+                    mission_types = squadron.auto_assignable_mission_types
+                    if (
+                        (
+                            FlightType.SEAD in mission_types
+                            or FlightType.SEAD_SWEEP in mission_types
+                            or FlightType.SEAD_ESCORT in mission_types
+                        )
+                        and num_of_sead
+                        < self.game.settings.pretense_sead_flights_per_cp
+                    ):
+                        flight_type = FlightType.SEAD
+                        num_of_sead += 1
+                        aircraft_per_flight = (
+                            self.game.settings.pretense_ai_aircraft_per_flight
+                        )
+                    elif (
+                        FlightType.DEAD in mission_types
+                        and num_of_sead
+                        < self.game.settings.pretense_sead_flights_per_cp
+                    ):
+                        flight_type = FlightType.DEAD
+                        num_of_sead += 1
+                        aircraft_per_flight = (
+                            self.game.settings.pretense_ai_aircraft_per_flight
+                        )
+                    else:
+                        continue
+                    self.generate_pretense_flight(
+                        ato, cp, squadron, aircraft_per_flight, flight_type
+                    )
+        # Then plan Strike, if capable
+        if strike_capable_cp:
+            while num_of_strike < self.game.settings.pretense_strike_flights_per_cp:
+                for squadron in random_squadron_list:
+                    # Intentionally don't spawn anything at OffMapSpawns in Pretense
+                    if isinstance(squadron.location, OffMapSpawn):
+                        continue
+                    if cp.coalition != squadron.coalition:
+                        continue
+
+                    mission_types = squadron.auto_assignable_mission_types
+                    for task in strike_tasks:
+                        if task in mission_types and not squadron.aircraft.helicopter:
+                            flight_type = FlightType.STRIKE
+                            num_of_strike += 1
+                            aircraft_per_flight = (
+                                self.game.settings.pretense_ai_aircraft_per_flight
+                            )
+                            self.generate_pretense_flight(
+                                ato, cp, squadron, aircraft_per_flight, flight_type
+                            )
+                            break
+        # Then plan air-to-air, if capable
+        if patrol_capable_cp:
+            while num_of_cap < self.game.settings.pretense_barcap_flights_per_cp:
+                for squadron in random_squadron_list:
+                    # Intentionally don't spawn anything at OffMapSpawns in Pretense
+                    if isinstance(squadron.location, OffMapSpawn):
+                        continue
+                    if cp.coalition != squadron.coalition:
+                        continue
+
+                    mission_types = squadron.auto_assignable_mission_types
+                    for task in patrol_tasks:
+                        if task in mission_types and not squadron.aircraft.helicopter:
+                            flight_type = FlightType.BARCAP
+                            num_of_cap += 1
+                            aircraft_per_flight = (
+                                self.game.settings.pretense_ai_aircraft_per_flight
+                            )
+                            self.generate_pretense_flight(
+                                ato, cp, squadron, aircraft_per_flight, flight_type
+                            )
+                            break
+        # Then plan CAS, if capable
+        if cas_capable_cp:
+            while num_of_cas < self.game.settings.pretense_cas_flights_per_cp:
+                for squadron in random_squadron_list:
+                    # Intentionally don't spawn anything at OffMapSpawns in Pretense
+                    if isinstance(squadron.location, OffMapSpawn):
+                        continue
+                    if cp.coalition != squadron.coalition:
+                        continue
+
+                    mission_types = squadron.auto_assignable_mission_types
+                    if (
+                        squadron.aircraft.helicopter
+                        and (FlightType.ESCORT in mission_types)
+                    ) or (FlightType.CAS in mission_types):
+                        flight_type = FlightType.CAS
+                        num_of_cas += 1
+                        aircraft_per_flight = (
+                            self.game.settings.pretense_ai_aircraft_per_flight
+                        )
+                        self.generate_pretense_flight(
+                            ato, cp, squadron, aircraft_per_flight, flight_type
+                        )
+        # And finally, plan BAI, if capable
+        if bai_capable_cp:
+            while num_of_bai < self.game.settings.pretense_bai_flights_per_cp:
+                for squadron in random_squadron_list:
+                    # Intentionally don't spawn anything at OffMapSpawns in Pretense
+                    if isinstance(squadron.location, OffMapSpawn):
+                        continue
+                    if cp.coalition != squadron.coalition:
+                        continue
+
+                    mission_types = squadron.auto_assignable_mission_types
+                    if FlightType.BAI in mission_types:
+                        flight_type = FlightType.BAI
+                        num_of_bai += 1
+                        aircraft_per_flight = (
+                            self.game.settings.pretense_ai_aircraft_per_flight
+                        )
+                        self.generate_pretense_flight(
+                            ato, cp, squadron, aircraft_per_flight, flight_type
+                        )
+
         return
+
+    def generate_pretense_flight(
+        self,
+        ato: AirTaskingOrder,
+        cp: ControlPoint,
+        squadron: Squadron,
+        aircraft_per_flight: int,
+        flight_type: FlightType,
+    ) -> None:
+        squadron.owned_aircraft += self.game.settings.pretense_ai_aircraft_per_flight
+        squadron.untasked_aircraft += self.game.settings.pretense_ai_aircraft_per_flight
+        squadron.populate_for_turn_0(False)
+        package = Package(cp, squadron.flight_db, auto_asap=False)
+        if flight_type == FlightType.TRANSPORT:
+            flight = Flight(
+                package,
+                squadron,
+                aircraft_per_flight,
+                FlightType.PRETENSE_CARGO,
+                StartType.IN_FLIGHT,
+                divert=cp,
+            )
+            package.add_flight(flight)
+            flight.state = Navigating(flight, self.game.settings, waypoint_index=1)
+        else:
+            flight = Flight(
+                package,
+                squadron,
+                aircraft_per_flight,
+                flight_type,
+                StartType.COLD,
+                divert=cp,
+            )
+            package.add_flight(flight)
+            flight.state = WaitingForStart(
+                flight, self.game.settings, self.game.conditions.start_time
+            )
+
+        print(
+            f"Generated flight for {flight_type} flying {squadron.aircraft.display_name} at {squadron.location.name}"
+        )
+        ato.add_package(package)
 
     def generate_pretense_aircraft_for_other_side(
         self, cp: ControlPoint, coalition: Coalition, ato: AirTaskingOrder

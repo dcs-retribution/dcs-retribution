@@ -23,6 +23,21 @@ Makes use of Mission scripting tools (Mist): <https://github.com/mrSkortch/Missi
 
 ]]--
 
+-----------------[[ GroupCorrection.lua ]]-----------------
+
+Group.getByNameBase = Group.getByName
+
+function Group.getByName(name)
+    local g = Group.getByNameBase(name)
+    if not g then return nil end
+    if g:getSize() == 0 then return nil end
+    return g
+end
+
+-----------------[[ END OF GroupCorrection.lua ]]-----------------
+
+
+
 -----------------[[ DependencyManager.lua ]]-----------------
 
 DependencyManager = {}
@@ -169,6 +184,11 @@ do
 		else
 			return (not unit:inAir() and mist.vec.mag(unit:getVelocity())<1)
 		end
+	end
+
+	function Utils.getEnemy(ofside)
+		if ofside == 1 then return 2 end
+		if ofside == 2 then return 1 end
 	end
 	
 	function Utils.isGroupActive(group)
@@ -325,6 +345,22 @@ do
 			end
 		end
 	end
+
+	function Utils.getAmmo(group, type)
+		local count = 0
+		for _, u in ipairs(group:getUnits()) do
+			if u:isExist() then
+				local ammo = u:getAmmo()
+				for i,v in pairs(ammo) do
+					if v.desc.typeName == type then
+						count = count + v.count
+					end
+				end
+			end
+		end
+
+		return count
+	end
 end
 
 
@@ -366,63 +402,7 @@ do
     
     world.addEventHandler(ev)
 
-    function MenuRegistry.showStrikeTargetMenu(groupid, name, action, targetside, data)
-        local executeAction = function(act, params)
-			local err = act(params)
-			if not err then
-				missionCommands.removeItemForGroup(params.groupid, params.menu)
-			end
-		end
-	
-		local menu = missionCommands.addSubMenuForGroup(groupid, name)
-		local sub1 = nil
-		local zones = ZoneCommand.getAllZones()
-
-        local targets = {}
-        for i,v in pairs(MissionTargetRegistry.getAllStrikeTargets(targetside)) do
-            table.insert(targets, v)
-        end
-
-        table.sort(targets, function(a,b) 
-            local aname = a.zone.name..'('..a.data.display..')'
-            local bname = b.zone.name..'('..b.data.display..')'
-            return aname < bname 
-        end)
-
-        if #targets > 0 then
-            local count = 0
-            for i,v in ipairs(targets) do
-                count = count + 1
-                local oname = v.zone.name..'('..v.data.display..')'
-                if count<10 then
-                    missionCommands.addCommandForGroup(groupid, oname, menu, executeAction, action, {target = v, menu=menu, groupid=groupid, data=data})
-                elseif count==10 then
-                    sub1 = missionCommands.addSubMenuForGroup(groupid, "More", menu)
-                    missionCommands.addCommandForGroup(groupid, oname, sub1, executeAction, action, {target = v, menu=menu, groupid=groupid, data=data})
-                elseif count%9==1 then
-                    sub1 = missionCommands.addSubMenuForGroup(groupid, "More", sub1)
-                    missionCommands.addCommandForGroup(groupid, oname, sub1, executeAction, action, {target = v, menu=menu, groupid=groupid, data=data})
-                else
-                    missionCommands.addCommandForGroup(groupid, oname, sub1, executeAction, action, {target = v, menu=menu, groupid=groupid, data=data})
-                end
-            end
-        else
-            return false
-        end
-		
-		return menu
-    end
-
-    function MenuRegistry.showTargetZoneMenu(groupid, name, action, targetside, minDistToFront, data, includeCarriers)
-        local executeAction = function(act, params)
-			local err = act(params)
-			if not err then
-				missionCommands.removeItemForGroup(params.groupid, params.menu)
-			end
-		end
-	
-		local menu = missionCommands.addSubMenuForGroup(groupid, name)
-		local sub1 = nil
+    function MenuRegistry.showTargetZoneMenu(groupid, name, action, targetside, minDistToFront, data, includeCarriers, onlyRevealed)
 		local zones = ZoneCommand.getAllZones()
 
         if targetside and type(targetside) == 'number' then
@@ -433,7 +413,9 @@ do
         for i,v in pairs(zones) do
             if not targetside or Utils.isInArray(v.side,targetside) then 
                 if not minDistToFront or v.distToFront <= minDistToFront then
-                    table.insert(zns, v)
+                    if not onlyRevealed or v.revealTime>0 then
+                        table.insert(zns, v)
+                    end
                 end
             end
         end
@@ -446,7 +428,19 @@ do
             end
         end
 
+        if #zns == 0 then return false end
+
         table.sort(zns, function(a,b) return a.name < b.name end)
+
+        local executeAction = function(act, params)
+			local err = act(params)
+			if not err then
+				missionCommands.removeItemForGroup(params.groupid, params.menu)
+			end
+		end
+
+		local menu = missionCommands.addSubMenuForGroup(groupid, name)
+		local sub1 = nil
 
 		local count = 0
 		for i,v in ipairs(zns) do
@@ -560,7 +554,7 @@ do
 		return spawnZones[choice]
 	end
 	
-	function CustomZone:spawnGroup(product)
+	function CustomZone:spawnGroup(product, acceptedSurface)
 		local spname = self.name
 		local spawnzone = nil
 		
@@ -571,17 +565,23 @@ do
 		if spawnzone then
 			spname = spawnzone
 		end
+
+		if not acceptedSurface then
+			acceptedSurface = {
+				[land.SurfaceType.LAND] = true
+			}
+		end
 		
 		local pnt = mist.getRandomPointInZone(spname)
 		for i=1,500,1 do
-			if land.getSurfaceType(pnt) == land.SurfaceType.LAND then
+			if acceptedSurface[land.getSurfaceType(pnt)] then
 				break
 			end
 
 			pnt = mist.getRandomPointInZone(spname)
 		end
 
-		local newgr = Spawner.createObject(product.name, product.template, pnt, product.side, nil, nil, nil, spname)
+		local newgr = Spawner.createObject(product.name, product.template, pnt, product.side, nil, nil, acceptedSurface, spname)
 
 		return newgr
 	end
@@ -596,6 +596,1353 @@ end
 
 
 
+-----------------[[ PlayerLogistics.lua ]]-----------------
+
+PlayerLogistics = {}
+do
+	PlayerLogistics.allowedTypes = {}
+	PlayerLogistics.allowedTypes['Mi-24P'] = { supplies = true, personCapacity = 8 }
+	PlayerLogistics.allowedTypes['Mi-8MT'] = { supplies = true, personCapacity = 24 }
+	PlayerLogistics.allowedTypes['UH-1H'] = { supplies = true, personCapacity = 12}
+	PlayerLogistics.allowedTypes['Hercules'] = { supplies = true, personCapacity = 92 }
+	PlayerLogistics.allowedTypes['UH-60L'] = { supplies = true, personCapacity = 12 }
+	PlayerLogistics.allowedTypes['Ka-50'] = { supplies = false }
+	PlayerLogistics.allowedTypes['Ka-50_3'] = { supplies = false }
+	PlayerLogistics.allowedTypes['SA342L'] = { supplies = false, personCapacity = 2}
+	PlayerLogistics.allowedTypes['SA342M'] = { supplies = false, personCapacity = 2}
+	PlayerLogistics.allowedTypes['SA342Minigun'] = { supplies = false, personCapacity = 2}
+	PlayerLogistics.allowedTypes['AH-64D_BLK_II'] = { supplies = false }
+
+	PlayerLogistics.infantryTypes = {
+		capture = 'capture',
+		sabotage = 'sabotage',
+		ambush = 'ambush',
+		engineer = 'engineer',
+		manpads = 'manpads',
+		spy = 'spy',
+		rapier = 'rapier',
+		extractable = 'extractable'
+	}
+
+	function PlayerLogistics.getInfantryName(infType)
+		if infType==PlayerLogistics.infantryTypes.capture then
+			return "Capture Squad"
+		elseif infType==PlayerLogistics.infantryTypes.sabotage then
+			return "Sabotage Squad"
+		elseif infType==PlayerLogistics.infantryTypes.ambush then
+			return "Ambush Squad"
+		elseif infType==PlayerLogistics.infantryTypes.engineer then
+			return "Engineer"
+		elseif infType==PlayerLogistics.infantryTypes.manpads then
+			return "MANPADS"
+		elseif infType==PlayerLogistics.infantryTypes.spy then
+			return "Spy"
+		elseif infType==PlayerLogistics.infantryTypes.rapier then
+			return "Rapier SAM"
+		elseif infType==PlayerLogistics.infantryTypes.extractable then
+			return "Extracted infantry"
+		end
+
+		return "INVALID SQUAD"
+	end
+	
+	function PlayerLogistics:new()
+		local obj = {}
+		obj.groupMenus = {} -- groupid = path
+		obj.carriedCargo = {} -- groupid = source
+		obj.carriedInfantry = {} -- groupid = source
+		obj.carriedPilots = {} --groupid = source
+		obj.registeredSquadGroups = {}
+		obj.lastLoaded = {} -- groupid = zonename
+
+		obj.hercTracker = {
+			cargos = {},
+			cargoCheckFunctions = {}
+		}
+
+		obj.hercPreparedDrops = {}
+		
+		setmetatable(obj, self)
+		self.__index = self
+		
+		obj:start()
+		
+		DependencyManager.register("PlayerLogistics", obj)
+		return obj
+	end
+
+	function PlayerLogistics:registerSquadGroup(squadType, groupname, weight, cost, jobtime, extracttime, squadSize, side)
+		self.registeredSquadGroups[squadType] = { name=groupname, type=squadType, weight=weight, cost=cost, jobtime=jobtime, extracttime=extracttime, size = squadSize, side=side}
+	end
+	
+	function PlayerLogistics:start()
+		if not ZoneCommand then return end
+	
+        MenuRegistry:register(3, function(event, context)
+			if event.id == world.event.S_EVENT_BIRTH and event.initiator and event.initiator.getPlayerName then
+				local player = event.initiator:getPlayerName()
+				if player then
+					local unitType = event.initiator:getDesc()['typeName']
+					local groupid = event.initiator:getGroup():getID()
+					local groupname = event.initiator:getGroup():getName()
+					
+					local logistics = context.allowedTypes[unitType]
+					if logistics and (logistics.supplies or logistics.personCapacity)then
+
+						if context.groupMenus[groupid] then
+							missionCommands.removeItemForGroup(groupid, context.groupMenus[groupid])
+							context.groupMenus[groupid] = nil
+						end
+
+						if not context.groupMenus[groupid] then
+							local size = event.initiator:getGroup():getSize()
+							if size > 1 then
+								trigger.action.outText('WARNING: group '..groupname..' has '..size..' units. Logistics will only function for group leader', 10)
+							end
+							
+							local cargomenu = missionCommands.addSubMenuForGroup(groupid, 'Logistics')
+							if logistics.supplies then
+								local supplyMenu = missionCommands.addSubMenuForGroup(groupid, 'Supplies', cargomenu)
+								local loadMenu = missionCommands.addSubMenuForGroup(groupid, 'Load', supplyMenu)
+								missionCommands.addCommandForGroup(groupid, 'Load 100 supplies', loadMenu, Utils.log(context.loadSupplies), context, {group=groupname, amount=100})
+								missionCommands.addCommandForGroup(groupid, 'Load 500 supplies', loadMenu, Utils.log(context.loadSupplies), context, {group=groupname, amount=500})
+								missionCommands.addCommandForGroup(groupid, 'Load 1000 supplies', loadMenu, Utils.log(context.loadSupplies), context, {group=groupname, amount=1000})
+								missionCommands.addCommandForGroup(groupid, 'Load 2000 supplies', loadMenu, Utils.log(context.loadSupplies), context, {group=groupname, amount=2000})
+								missionCommands.addCommandForGroup(groupid, 'Load 5000 supplies', loadMenu, Utils.log(context.loadSupplies), context, {group=groupname, amount=5000})
+
+								local unloadMenu = missionCommands.addSubMenuForGroup(groupid, 'Unload', supplyMenu)
+								missionCommands.addCommandForGroup(groupid, 'Unload 100 supplies', unloadMenu, Utils.log(context.unloadSupplies), context, {group=groupname, amount=100})
+								missionCommands.addCommandForGroup(groupid, 'Unload 500 supplies', unloadMenu, Utils.log(context.unloadSupplies), context, {group=groupname, amount=500})
+								missionCommands.addCommandForGroup(groupid, 'Unload 1000 supplies', unloadMenu, Utils.log(context.unloadSupplies), context, {group=groupname, amount=1000})
+								missionCommands.addCommandForGroup(groupid, 'Unload 2000 supplies', unloadMenu, Utils.log(context.unloadSupplies), context, {group=groupname, amount=2000})
+								missionCommands.addCommandForGroup(groupid, 'Unload 5000 supplies', unloadMenu, Utils.log(context.unloadSupplies), context, {group=groupname, amount=5000})
+								missionCommands.addCommandForGroup(groupid, 'Unload all supplies', unloadMenu, Utils.log(context.unloadSupplies), context, {group=groupname, amount=9999999})
+							end
+
+							local sqs = {}
+							for sqType,_ in pairs(context.registeredSquadGroups) do
+								table.insert(sqs,sqType)
+							end
+							table.sort(sqs)
+
+							if logistics.personCapacity then
+								local infMenu = missionCommands.addSubMenuForGroup(groupid, 'Infantry', cargomenu)
+								
+								local loadInfMenu = missionCommands.addSubMenuForGroup(groupid, 'Load', infMenu)
+								for _,sqType in ipairs(sqs) do
+									local menuName =  'Load '..PlayerLogistics.getInfantryName(sqType)
+									missionCommands.addCommandForGroup(groupid, menuName, loadInfMenu, Utils.log(context.loadInfantry), context, {group=groupname, type=sqType})
+								end
+
+								local unloadInfMenu = missionCommands.addSubMenuForGroup(groupid, 'Unload', infMenu)
+								for _,sqType in ipairs(sqs) do
+									local menuName =  'Unload '..PlayerLogistics.getInfantryName(sqType)
+									missionCommands.addCommandForGroup(groupid, menuName, unloadInfMenu, Utils.log(context.unloadInfantry), context, {group=groupname, type=sqType})
+								end
+								missionCommands.addCommandForGroup(groupid, 'Unload Extracted squad', unloadInfMenu, Utils.log(context.unloadInfantry), context, {group=groupname, type=PlayerLogistics.infantryTypes.extractable})
+
+								missionCommands.addCommandForGroup(groupid, 'Extract squad', infMenu, Utils.log(context.extractSquad), context, groupname)
+								missionCommands.addCommandForGroup(groupid, 'Unload all', infMenu, Utils.log(context.unloadInfantry), context, {group=groupname})
+
+								local csarMenu = missionCommands.addSubMenuForGroup(groupid, 'CSAR', cargomenu)
+								missionCommands.addCommandForGroup(groupid, 'Show info (closest)', csarMenu, Utils.log(context.showPilot), context, groupname)
+								missionCommands.addCommandForGroup(groupid, 'Smoke marker (closest)', csarMenu, Utils.log(context.smokePilot), context, groupname)
+								missionCommands.addCommandForGroup(groupid, 'Flare (closest)', csarMenu, Utils.log(context.flarePilot), context, groupname)
+								missionCommands.addCommandForGroup(groupid, 'Extract pilot', csarMenu, Utils.log(context.extractPilot), context, groupname)
+								missionCommands.addCommandForGroup(groupid, 'Unload pilots', csarMenu, Utils.log(context.unloadPilots), context, groupname)
+							end
+
+							missionCommands.addCommandForGroup(groupid, 'Cargo status', cargomenu, Utils.log(context.cargoStatus), context, groupname)
+							missionCommands.addCommandForGroup(groupid, 'Unload Everything', cargomenu, Utils.log(context.unloadAll), context, groupname)
+							
+							if unitType == 'Hercules' then
+								local loadmasterMenu = missionCommands.addSubMenuForGroup(groupid, 'Loadmaster', cargomenu)
+
+								for _,sqType in ipairs(sqs) do
+									local menuName =  'Prepare '..PlayerLogistics.getInfantryName(sqType)
+									missionCommands.addCommandForGroup(groupid, menuName, loadmasterMenu, Utils.log(context.hercPrepareDrop), context, {group=groupname, type=sqType})
+								end
+
+								missionCommands.addCommandForGroup(groupid, 'Prepare Supplies', loadmasterMenu, Utils.log(context.hercPrepareDrop), context, {group=groupname, type='supplies'})
+							end
+							
+							
+							context.groupMenus[groupid] = cargomenu
+						end
+						
+						if context.carriedCargo[groupid] then
+							context.carriedCargo[groupid] = 0
+						end
+
+						if context.carriedInfantry[groupid] then
+							context.carriedInfantry[groupid] = {}
+						end
+
+						if context.carriedPilots[groupid] then
+							context.carriedPilots[groupid] = {}
+						end
+
+						if context.lastLoaded[groupid] then
+							context.lastLoaded[groupid] = nil
+						end
+
+						if context.hercPreparedDrops[groupid] then
+							context.hercPreparedDrops[groupid] = nil
+						end
+					end
+				end
+			elseif (event.id == world.event.S_EVENT_PLAYER_LEAVE_UNIT or event.id == world.event.S_EVENT_DEAD) and event.initiator and event.initiator.getPlayerName then
+                local player = event.initiator:getPlayerName()
+				if player then
+					local groupid = event.initiator:getGroup():getID()
+					
+					if context.groupMenus[groupid] then
+						missionCommands.removeItemForGroup(groupid, context.groupMenus[groupid])
+						context.groupMenus[groupid] = nil
+					end
+				end
+            end
+		end, self)
+
+		local ev = {}
+		ev.context = self
+		function ev:onEvent(event)
+			if event.id == world.event.S_EVENT_SHOT and event.initiator and event.initiator:isExist() then
+				local unitName = event.initiator:getName()
+				local groupId = event.initiator:getGroup():getID()
+				local name = event.weapon:getDesc().typeName
+				if name == 'weapons.bombs.Generic Crate [20000lb]' then
+					local prepared = self.context.hercPreparedDrops[groupId]
+
+					if not prepared then
+						prepared = 'supplies'
+								
+						if self.context.carriedInfantry[groupId] then
+							for _,v in ipairs(self.context.carriedInfantry[groupId]) do
+								if v.type ~= PlayerLogistics.infantryTypes.extractable then
+									prepared = v.type
+									break
+								end
+							end
+						end
+
+						env.info('PlayerLogistics - Hercules - auto preparing '..prepared)
+					end
+
+					if prepared then
+						if prepared == 'supplies' then
+							env.info('PlayerLogistics - Hercules - supplies getting dropped')
+							local carried = self.context.carriedCargo[groupId]
+							local amount = 0
+							if carried and carried > 0 then
+								amount = 9000
+								if carried < amount then
+									amount = carried
+								end
+							end
+							
+							if amount > 0 then
+								self.context.carriedCargo[groupId] = math.max(0,self.context.carriedCargo[groupId] - amount)
+								if not self.context.hercTracker.cargos[unitName] then
+									self.context.hercTracker.cargos[unitName] = {}
+								end
+								
+								table.insert(self.context.hercTracker.cargos[unitName],{
+									object = event.weapon,
+									supply = amount,
+									lastLoaded = self.context.lastLoaded[groupId],
+									unit = event.initiator
+								})
+								
+								env.info('PlayerLogistics - Hercules - '..unitName..' deployed crate with '..amount..' supplies')
+								self.context:processHercCargos(unitName)
+								self.context.hercPreparedDrops[groupId] = nil
+								trigger.action.outTextForUnit(event.initiator:getID(), 'Crate with '..amount..' supplies deployed', 10)
+							else
+								trigger.action.outTextForUnit(event.initiator:getID(), 'Empty crate deployed', 10)
+							end
+						else
+							env.info('PlayerLogistics - Hercules - searching for prepared infantry')
+							local toDrop = nil
+							local remaining = {}
+							if self.context.carriedInfantry[groupId] then
+								for _,v in ipairs(self.context.carriedInfantry[groupId]) do
+									if v.type == prepared and toDrop == nil then
+										toDrop = v
+									else
+										table.insert(remaining, v)
+									end
+								end
+							end
+							
+							
+							if toDrop then
+								env.info('PlayerLogistics - Hercules - dropping '..toDrop.type)
+								if not self.context.hercTracker.cargos[unitName] then
+									self.context.hercTracker.cargos[unitName] = {}
+								end
+								
+								table.insert(self.context.hercTracker.cargos[unitName],{
+									object = event.weapon,
+									squad = toDrop,
+									lastLoaded = self.context.lastLoaded[groupId],
+									unit = event.initiator
+								})
+								
+								env.info('PlayerLogistics - Hercules - '..unitName..' deployed crate with '..toDrop.type)
+								self.context:processHercCargos(unitName)
+								self.context.hercPreparedDrops[groupId] = nil
+								
+								local squadName = PlayerLogistics.getInfantryName(prepared)
+								trigger.action.outTextForUnit(event.initiator:getID(), squadName..' crate deployed.', 10)
+								self.context.carriedInfantry[groupId] = remaining
+								local weight = self.context:getCarriedPersonWeight(event.initiator:getGroup():getName())
+								trigger.action.setUnitInternalCargo(event.initiator:getName(), weight)
+							else
+								trigger.action.outTextForUnit(event.initiator:getID(), 'Empty crate deployed', 10)
+							end
+						end
+					else
+						trigger.action.outTextForUnit(event.initiator:getID(), 'Empty crate deployed', 10)
+					end
+				end
+			end
+		end
+		
+		world.addEventHandler(ev)
+	end
+
+	function PlayerLogistics:processHercCargos(unitName)
+		if not self.hercTracker.cargoCheckFunctions[unitName] then
+			env.info('PlayerLogistics - Hercules - start tracking cargos of '..unitName)
+			self.hercTracker.cargoCheckFunctions[unitName] = timer.scheduleFunction(function(params, time)
+				local reschedule = params.context:checkHercCargo(params.unitName, time)
+				if not reschedule then
+					params.context.hercTracker.cargoCheckFunctions[params.unitName] = nil
+					env.info('PlayerLogistics - Hercules - stopped tracking cargos of '..unitName)
+				end
+				
+				return reschedule
+			end, {unitName=unitName, context = self}, timer.getTime() + 0.1)
+		end
+	end
+
+	function PlayerLogistics:checkHercCargo(unitName, time)
+		local cargos = self.hercTracker.cargos[unitName]
+		if cargos and #cargos > 0 then
+			local remaining = {}
+			for _,cargo in ipairs(cargos) do
+				if cargo.object and cargo.object:isExist() then
+					local alt = Utils.getAGL(cargo.object)
+					if alt < 5 then
+						self:deliverHercCargo(cargo)
+					else
+						table.insert(remaining, cargo)
+					end
+				else
+					env.info('PlayerLogistics - Hercules - cargo crashed '..tostring(cargo.supply)..' '..tostring(cargo.squad))
+					if cargo.squad then 
+						env.info('PlayerLogistics - Hercules - squad crashed '..tostring(cargo.squad.type))
+					end
+
+					if cargo.unit and cargo.unit:isExist() then
+						if cargo.squad then
+							local squadName = PlayerLogistics.getInfantryName(cargo.squad.type)
+							trigger.action.outTextForUnit(cargo.unit:getID(), 'Cargo drop of '..cargo.unit:getPlayerName()..' with '..squadName..' crashed', 10)
+						elseif cargo.supply then
+							trigger.action.outTextForUnit(cargo.unit:getID(), 'Cargo drop of '..cargo.unit:getPlayerName()..' with '..cargo.supply..' supplies crashed', 10)
+						end
+					end
+				end
+			end
+
+			if #remaining > 0 then
+				self.hercTracker.cargos[unitName] = remaining
+				return time + 0.1
+			end
+		end
+	end
+
+	function PlayerLogistics:deliverHercCargo(cargo)
+		if cargo.object and cargo.object:isExist() then
+			if cargo.supply then
+				local zone = ZoneCommand.getZoneOfWeapon(cargo.object)
+				if zone then
+					zone:addResource(cargo.supply)
+					env.info('PlayerLogistics - Hercules - '..cargo.supply..' delivered to '..zone.name)
+
+					self:awardSupplyXP(cargo.lastLoaded, zone, cargo.unit, cargo.supply)
+				end
+			elseif cargo.squad then
+				local pos = Utils.getPointOnSurface(cargo.object:getPoint())
+				pos.y = pos.z
+				pos.z = nil
+				local surface = land.getSurfaceType(pos)
+				if surface == land.SurfaceType.LAND or surface == land.SurfaceType.ROAD or surface == land.SurfaceType.RUNWAY then
+					local zn = ZoneCommand.getZoneOfPoint(pos)
+					
+					local lastLoad = cargo.squad.loadedAt
+					if lastLoad and zn and zn.side == cargo.object:getCoalition() and zn.name==lastLoad.name then
+						if self.registeredSquadGroups[cargo.squad.type] then
+							local cost = self.registeredSquadGroups[cargo.squad.type].cost
+							zn:addResource(cost)
+							zn:refreshText()
+							if cargo.unit and cargo.unit:isExist() then
+								local squadName = PlayerLogistics.getInfantryName(cargo.squad.type)
+								trigger.action.outTextForUnit(cargo.unit:getID(), squadName..' unloaded', 10)
+							end
+						end
+					else
+						local error = DependencyManager.get("SquadTracker"):spawnInfantry(self.registeredSquadGroups[cargo.squad.type], pos)
+						if not error then
+							env.info('PlayerLogistics - Hercules - '..cargo.squad.type..' deployed')
+							
+							local squadName = PlayerLogistics.getInfantryName(cargo.squad.type)
+							
+							if cargo.unit and cargo.unit:isExist() and cargo.unit.getPlayerName then
+								trigger.action.outTextForUnit(cargo.unit:getID(), squadName..' deployed', 10)
+								local player = cargo.unit:getPlayerName()
+								local xp = RewardDefinitions.actions.squadDeploy * DependencyManager.get("PlayerTracker"):getPlayerMultiplier(player)
+								
+								DependencyManager.get("PlayerTracker"):addStat(player, math.floor(xp), PlayerTracker.statTypes.xp)
+								
+								if zn then
+									DependencyManager.get("MissionTracker"):tallyUnloadSquad(player, zn.name, cargo.squad.type)
+								else
+									DependencyManager.get("MissionTracker"):tallyUnloadSquad(player, '', cargo.squad.type)
+								end
+								trigger.action.outTextForUnit(cargo.unit:getID(), '+'..math.floor(xp)..' XP', 10)
+							end
+						end
+					end
+				else
+					env.info('PlayerLogistics - Hercules - '..cargo.squad.type..' dropped on invalid surface '..tostring(surface))
+					local cpos = cargo.object:getPoint()
+					env.info('PlayerLogistics - Hercules - cargo spot X:'..cpos.x..' Y:'..cpos.y..' Z:'..cpos.z)
+					env.info('PlayerLogistics - Hercules - surface spot X:'..pos.x..' Y:'..pos.y)
+					local squadName = PlayerLogistics.getInfantryName(cargo.squad.type)
+					trigger.action.outTextForUnit(cargo.unit:getID(), 'Cargo drop of '..cargo.unit:getPlayerName()..' with '..squadName..' crashed', 10)
+				end
+			end
+
+			cargo.object:destroy()
+		end
+	end
+
+	function PlayerLogistics:hercPrepareDrop(params)
+		local groupname = params.group
+		local type = params.type
+		local gr = Group.getByName(groupname)
+		if gr then
+			local un = gr:getUnit(1)
+
+			if type == 'supplies' then
+				local cargo = self.carriedCargo[gr:getID()]
+				if cargo and cargo > 0 then
+					self.hercPreparedDrops[gr:getID()] = type
+					trigger.action.outTextForUnit(un:getID(), 'Supply drop prepared', 10)
+				else
+					trigger.action.outTextForUnit(un:getID(), 'No supplies onboard the aircraft', 10)
+				end
+			else
+				local exists = false
+				if self.carriedInfantry[gr:getID()] then
+					for i,v in ipairs(self.carriedInfantry[gr:getID()]) do
+						if v.type == type then
+							exists = true
+							break
+						end
+					end
+				end
+			
+				if exists then
+					self.hercPreparedDrops[gr:getID()] = type
+					local squadName = PlayerLogistics.getInfantryName(type)
+					trigger.action.outTextForUnit(un:getID(), squadName..' drop prepared', 10)
+				else
+					local squadName = PlayerLogistics.getInfantryName(type)
+					trigger.action.outTextForUnit(un:getID(), 'No '..squadName..' onboard the aircraft', 10)
+				end
+			end
+		end
+	end
+
+	function PlayerLogistics:awardSupplyXP(lastLoad, zone, unit, amount)
+		if lastLoad and zone.name~=lastLoad.name and not zone.isCarrier and not lastLoad.isCarrier then
+			if unit and unit.isExist and unit:isExist() and unit.getPlayerName then
+				local player = unit:getPlayerName()
+				local xp = amount*RewardDefinitions.actions.supplyRatio
+
+				local totalboost = 0
+				local dist = mist.utils.get2DDist(lastLoad.zone.point, zone.zone.point)
+				if dist > 15000 then
+					local extradist = math.max(dist - 15000, 85000)
+					local kmboost = extradist/85000
+					local actualboost = xp * kmboost * 1
+					totalboost = totalboost + actualboost
+				end
+
+				local both = true
+				if zone:criticalOnSupplies() then
+					local actualboost = xp * RewardDefinitions.actions.supplyBoost
+					totalboost = totalboost + actualboost
+				else 
+					both = false
+				end
+
+				if zone.distToFront == 0 then
+					local actualboost = xp * RewardDefinitions.actions.supplyBoost
+					totalboost = totalboost + actualboost
+				else 
+					both = false
+				end
+
+				if both then
+					local actualboost = xp * 1
+					totalboost = totalboost + actualboost
+				end
+
+				xp = xp + totalboost
+
+				if lastLoad.distToFront >= zone.distToFront then
+					xp = xp * 0.25
+				end
+
+				xp = xp * DependencyManager.get("PlayerTracker"):getPlayerMultiplier(player)
+
+				DependencyManager.get("PlayerTracker"):addStat(player, math.floor(xp), PlayerTracker.statTypes.xp)
+				DependencyManager.get("MissionTracker"):tallySupplies(player, amount, zone.name)
+				trigger.action.outTextForUnit(unit:getID(), '+'..math.floor(xp)..' XP', 10)
+			end
+		end
+	end
+	
+	function PlayerLogistics.markWithSmoke(zonename)
+		local zone = CustomZone:getByName(zonename)
+		local p = Utils.getPointOnSurface(zone.point)
+		trigger.action.smoke(p, 0)
+	end
+	
+	function PlayerLogistics.getWeight(supplies)
+		return math.floor(supplies)
+	end
+
+	function PlayerLogistics:getCarriedPersonWeight(groupname)
+		local gr = Group.getByName(groupname)
+		local un = gr:getUnit(1)
+		if un then
+			if not PlayerLogistics.allowedTypes[un:getDesc().typeName] then return 0 end
+			
+			local max = PlayerLogistics.allowedTypes[un:getDesc().typeName].personCapacity
+
+			local pilotWeight = 0
+			local squadWeight = 0
+			if not self.carriedPilots[gr:getID()] then self.carriedPilots[gr:getID()] = {} end
+			local pilots = self.carriedPilots[gr:getID()]
+			if pilots then 
+				pilotWeight = 100 * #pilots
+			end
+
+			if not self.carriedInfantry[gr:getID()] then self.carriedInfantry[gr:getID()] = {} end
+			local squads = self.carriedInfantry[gr:getID()]
+			if squads then
+				for _,squad in ipairs(squads) do 
+					squadWeight = squadWeight + squad.weight
+				end
+			end
+
+			return pilotWeight + squadWeight
+		end
+	end
+
+	function PlayerLogistics:getOccupiedPersonCapacity(groupname)
+		local gr = Group.getByName(groupname)
+		local un = gr:getUnit(1)
+		if un then
+			if not PlayerLogistics.allowedTypes[un:getDesc().typeName] then return 0 end
+			if self.carriedCargo[gr:getID()] and self.carriedCargo[gr:getID()] > 0 then return 0 end
+			
+			local max = PlayerLogistics.allowedTypes[un:getDesc().typeName].personCapacity
+
+			local pilotCount = 0
+			local squadCount = 0
+			if not self.carriedPilots[gr:getID()] then self.carriedPilots[gr:getID()] = {} end
+			local pilots = self.carriedPilots[gr:getID()]
+			if pilots then 
+				pilotCount = #pilots
+			end
+
+			if not self.carriedInfantry[gr:getID()] then self.carriedInfantry[gr:getID()] = {} end
+			local squads = self.carriedInfantry[gr:getID()]
+			if squads then
+				for _,squad in ipairs(squads) do 
+					squadCount = squadCount + squad.size
+				end
+			end
+
+			local total = pilotCount + squadCount
+
+			return total
+		end
+	end
+
+	function PlayerLogistics:getRemainingPersonCapacity(groupname)
+		local gr = Group.getByName(groupname)
+		local un = gr:getUnit(1)
+		if un then
+			if not PlayerLogistics.allowedTypes[un:getDesc().typeName] then return 0 end
+			if self.carriedCargo[gr:getID()] and self.carriedCargo[gr:getID()] > 0 then return 0 end
+			
+			local max = PlayerLogistics.allowedTypes[un:getDesc().typeName].personCapacity
+
+			local total = self:getOccupiedPersonCapacity(groupname)
+
+			return max - total
+		end
+	end
+
+	function PlayerLogistics:canFitCargo(groupname)
+		local gr = Group.getByName(groupname)
+		local un = gr:getUnit(1)
+		if un then
+			if not PlayerLogistics.allowedTypes[un:getDesc().typeName] then return false end
+			return self:getOccupiedPersonCapacity(groupname) == 0
+		end
+	end
+
+	function PlayerLogistics:canFitPersonnel(groupname, toFit)
+		local gr = Group.getByName(groupname)
+		local un = gr:getUnit(1)
+		if un then
+			if not PlayerLogistics.allowedTypes[un:getDesc().typeName] then return false end
+
+			return self:getRemainingPersonCapacity(groupname) >= toFit
+		end
+	end
+
+	function PlayerLogistics:showPilot(groupname)
+		local gr = Group.getByName(groupname)
+		if gr then
+			local un = gr:getUnit(1)
+			if un then
+				local data = DependencyManager.get("CSARTracker"):getClosestPilot(un:getPoint())
+				
+				if not data then 
+					trigger.action.outTextForUnit(un:getID(), 'No pilots in need of extraction', 10)
+					return
+				end
+
+				local pos = data.pilot:getUnit(1):getPoint()
+				local brg = math.floor(Utils.getBearing(un:getPoint(), data.pilot:getUnit(1):getPoint()))
+				local dist = data.dist
+				local dstft = math.floor(dist/0.3048)
+
+				local msg = data.name..' requesting extraction'
+				msg = msg..'\n\n Distance: '
+				if dist>1000 then
+					local dstkm = string.format('%.2f',dist/1000)
+					local dstnm = string.format('%.2f',dist/1852)
+					
+					msg = msg..dstkm..'km | '..dstnm..'nm'
+				else
+					local dstft = math.floor(dist/0.3048)
+					msg = msg..math.floor(dist)..'m | '..dstft..'ft'
+				end
+				
+				msg = msg..'\n Bearing: '..brg
+				
+				trigger.action.outTextForUnit(un:getID(), msg, 10)
+			end
+		end
+	end
+	
+	function PlayerLogistics:smokePilot(groupname)
+		local gr = Group.getByName(groupname)
+		if gr then
+			local un = gr:getUnit(1)
+			if un then
+				local data = DependencyManager.get("CSARTracker"):getClosestPilot(un:getPoint())
+				
+				if not data or data.dist >= 5000 then 
+					trigger.action.outTextForUnit(un:getID(), 'No pilots nearby', 10)
+					return
+				end
+
+				DependencyManager.get("CSARTracker"):markPilot(data)
+				trigger.action.outTextForUnit(un:getID(), 'Location of '..data.name..' marked with green smoke.', 10)
+			end
+		end
+	end
+	
+	function PlayerLogistics:flarePilot(groupname)
+		local gr = Group.getByName(groupname)
+		if gr then
+			local un = gr:getUnit(1)
+			if un then
+				local data = DependencyManager.get("CSARTracker"):getClosestPilot(un:getPoint())
+				
+				if not data or data.dist >= 5000 then 
+					trigger.action.outTextForUnit(un:getID(), 'No pilots nearby', 10)
+					return
+				end
+
+				DependencyManager.get("CSARTracker"):flarePilot(data)
+				trigger.action.outTextForUnit(un:getID(), data.name..' has deployed a green flare', 10)
+			end
+		end
+	end
+	
+	function PlayerLogistics:unloadPilots(groupname)
+		local gr = Group.getByName(groupname)
+		if gr then
+			local un = gr:getUnit(1)
+			if un then
+				local pilots = self.carriedPilots[gr:getID()]
+				if not pilots or #pilots==0 then
+					trigger.action.outTextForUnit(un:getID(), 'No pilots onboard', 10)
+					return
+				end
+
+				if Utils.isInAir(un) then
+					trigger.action.outTextForUnit(un:getID(), 'Can not unload pilot while in air', 10)
+					return
+				end
+				
+				if not self:isCargoDoorOpen(un) then
+					trigger.action.outTextForUnit(un:getID(), 'Can not unload pilot while cargo door closed', 10)
+					return
+				end
+
+				local zn = ZoneCommand.getZoneOfUnit(un:getName())
+				if not zn then 
+					zn = CarrierCommand.getCarrierOfUnit(un:getName())
+				end
+				
+				if not zn then
+					trigger.action.outTextForUnit(un:getID(), 'Can only unload extracted pilots while within a friendly zone', 10)
+					return
+				end
+				
+				if zn.side ~= 0 and zn.side ~= un:getCoalition()then
+					trigger.action.outTextForUnit(un:getID(), 'Can only unload extracted pilots while within a friendly zone', 10)
+					return
+				end
+
+				zn:addResource(200*#pilots)
+				zn:refreshText()
+
+				if un.getPlayerName then
+					local player = un:getPlayerName()
+
+					local xp = #pilots*RewardDefinitions.actions.pilotExtract
+
+					xp = xp * DependencyManager.get("PlayerTracker"):getPlayerMultiplier(player)
+
+					DependencyManager.get("PlayerTracker"):addStat(player, math.floor(xp), PlayerTracker.statTypes.xp)
+					DependencyManager.get("MissionTracker"):tallyUnloadPilot(player, zn.name)
+					trigger.action.outTextForUnit(un:getID(), '+'..math.floor(xp)..' XP', 10)
+				end
+
+				self.carriedPilots[gr:getID()] = {}
+				trigger.action.setUnitInternalCargo(un:getName(), 0)
+				trigger.action.outTextForUnit(un:getID(), 'Pilots unloaded', 10)
+			end
+		end
+	end
+	
+	function PlayerLogistics:extractPilot(groupname)
+		local gr = Group.getByName(groupname)
+		if gr then
+			local un = gr:getUnit(1)
+			if un then
+				if not self:canFitPersonnel(groupname, 1) then
+					trigger.action.outTextForUnit(un:getID(), 'Not enough free space onboard. (Need 1)', 10)
+					return
+				end
+
+				timer.scheduleFunction(function(param,time) 
+					local self = param.context
+					local un = param.unit
+					if not un then return end
+					if not un:isExist() then return end
+					local gr = un:getGroup()
+
+					local data = DependencyManager.get("CSARTracker"):getClosestPilot(un:getPoint())
+
+					if not data or data.dist > 500 then
+						trigger.action.outTextForUnit(un:getID(), 'There is no pilot nearby that needs extraction', 10)
+						return
+					else
+						if not self:isCargoDoorOpen(un) then
+							trigger.action.outTextForUnit(un:getID(), 'Cargo door closed', 1)
+						elseif Utils.getAGL(un) > 70 then
+							trigger.action.outTextForUnit(un:getID(), 'Altitude too high (< 70 m). Current: '..string.format('%.2f',Utils.getAGL(un))..' m', 1)
+						elseif mist.vec.mag(un:getVelocity())>5 then
+							trigger.action.outTextForUnit(un:getID(), 'Moving too fast (< 5 m/s). Current: '..string.format('%.2f',mist.vec.mag(un:getVelocity()))..' m/s', 1)
+						else
+							if data.dist > 100 then
+								trigger.action.outTextForUnit(un:getID(), 'Too far (< 100m). Current: '..string.format('%.2f',data.dist)..' m', 1)
+							else
+								if not self.carriedPilots[gr:getID()] then self.carriedPilots[gr:getID()] = {} end
+								table.insert(self.carriedPilots[gr:getID()], data.name)
+								local player = un:getPlayerName()
+								DependencyManager.get("MissionTracker"):tallyLoadPilot(player, data)
+								DependencyManager.get("CSARTracker"):removePilot(data.name)
+								local weight = self:getCarriedPersonWeight(gr:getName())
+								trigger.action.setUnitInternalCargo(un:getName(), weight)
+								trigger.action.outTextForUnit(un:getID(), data.name..' onboard. ('..weight..' kg)', 10)
+								return
+							end
+						end
+					end
+
+					param.trys = param.trys - 1
+					if param.trys > 0 then
+						return time+1
+					end
+				end, {context = self, unit = un, trys = 60}, timer.getTime()+0.1)
+			end
+		end
+	end
+	
+	function PlayerLogistics:extractSquad(groupname)
+		local gr = Group.getByName(groupname)
+		if gr then
+			local un = gr:getUnit(1)
+			if un then
+
+				if Utils.isInAir(un) then
+					trigger.action.outTextForUnit(un:getID(), 'Can not load infantry while in air', 10)
+					return
+				end
+				
+				if not self:isCargoDoorOpen(un) then
+					trigger.action.outTextForUnit(un:getID(), 'Can not load infantry while cargo door closed', 10)
+					return
+				end
+
+				local squad, distance = DependencyManager.get("SquadTracker"):getClosestExtractableSquad(un:getPoint(), un:getCoalition())
+				if squad and distance < 50 then
+					local squadgr = Group.getByName(squad.name)
+					if squadgr and squadgr:isExist() then
+						local sqsize = squadgr:getSize()
+						if not self:canFitPersonnel(groupname, sqsize) then
+							trigger.action.outTextForUnit(un:getID(), 'Not enough free space onboard. (Need '..sqsize..')', 10)
+							return
+						end
+
+						if not self.carriedInfantry[gr:getID()] then self.carriedInfantry[gr:getID()] = {} end
+						table.insert(self.carriedInfantry[gr:getID()],{type = PlayerLogistics.infantryTypes.extractable, size = sqsize, weight = sqsize * 100})
+						
+						local weight = self:getCarriedPersonWeight(gr:getName())
+
+						trigger.action.setUnitInternalCargo(un:getName(), weight)
+						
+						local loadedInfName = PlayerLogistics.getInfantryName(PlayerLogistics.infantryTypes.extractable)
+						trigger.action.outTextForUnit(un:getID(), loadedInfName..' onboard. ('..weight..' kg)', 10)
+						
+						local player = un:getPlayerName()
+						DependencyManager.get("MissionTracker"):tallyLoadSquad(player, squad)
+						DependencyManager.get("SquadTracker"):removeSquad(squad.name)
+						
+						squadgr:destroy()
+					end
+				else
+					trigger.action.outTextForUnit(un:getID(), 'There is no infantry nearby that is ready to be extracted.', 10)
+				end
+			end
+		end
+	end
+
+	function PlayerLogistics:loadInfantry(params)
+		if not ZoneCommand then return end
+		
+		local gr = Group.getByName(params.group)
+		local squadType = params.type
+		local squadName = PlayerLogistics.getInfantryName(squadType)
+		
+		local squadCost = 0
+		local squadSize = 999999
+		local squadWeight = 0
+		if self.registeredSquadGroups[squadType] then
+			squadCost = self.registeredSquadGroups[squadType].cost
+			squadSize = self.registeredSquadGroups[squadType].size
+			squadWeight = self.registeredSquadGroups[squadType].weight
+		end
+		
+		if gr then
+			local un = gr:getUnit(1)
+			if un then
+				if Utils.isInAir(un) then
+					trigger.action.outTextForUnit(un:getID(), 'Can not load infantry while in air', 10)
+					return
+				end
+				
+				local zn = ZoneCommand.getZoneOfUnit(un:getName())
+				if not zn then 
+					zn = CarrierCommand.getCarrierOfUnit(un:getName())
+				end
+				
+				if not zn then
+					trigger.action.outTextForUnit(un:getID(), 'Can only load infantry while within a friendly zone', 10)
+					return
+				end
+				
+				if zn.side ~= un:getCoalition() then
+					trigger.action.outTextForUnit(un:getID(), 'Can only load infantry while within a friendly zone', 10)
+					return
+				end
+
+				if not self:isCargoDoorOpen(un) then
+					trigger.action.outTextForUnit(un:getID(), 'Can not load infantry while cargo door closed', 10)
+					return
+				end
+
+				if zn:criticalOnSupplies() then
+					trigger.action.outTextForUnit(un:getID(), 'Can not load infantry, zone is low on resources', 10)
+					return
+				end
+
+				if zn.resource < zn.spendTreshold + squadCost then
+					trigger.action.outTextForUnit(un:getID(), 'Can not afford to load '..squadName..' (Cost: '..squadCost..'). Resources would fall to a critical level.', 10)
+					return
+				end
+
+				if not self:canFitPersonnel(params.group, squadSize) then
+					trigger.action.outTextForUnit(un:getID(), 'Not enough free space on board. (Need '..squadSize..')', 10)
+					return
+				end
+				
+				zn:removeResource(squadCost)
+				zn:refreshText()
+				if not self.carriedInfantry[gr:getID()] then self.carriedInfantry[gr:getID()] = {} end
+				table.insert(self.carriedInfantry[gr:getID()],{ type = squadType, size = squadSize, weight = squadWeight, loadedAt = zn })
+				self.lastLoaded[gr:getID()] = zn
+				
+				local weight = self:getCarriedPersonWeight(gr:getName())
+				trigger.action.setUnitInternalCargo(un:getName(), weight)
+				
+				local loadedInfName = PlayerLogistics.getInfantryName(squadType)
+				trigger.action.outTextForUnit(un:getID(), loadedInfName..' onboard. ('..weight..' kg)', 10)
+			end
+		end
+	end
+
+	function PlayerLogistics:unloadInfantry(params)
+		if not ZoneCommand then return end
+		local groupname = params.group
+		local sqtype = params.type
+		
+		local gr = Group.getByName(groupname)
+		if gr then
+			local un = gr:getUnit(1)
+			if un then
+				if Utils.isInAir(un) then
+					trigger.action.outTextForUnit(un:getID(), 'Can not unload infantry while in air', 10)
+					return
+				end
+
+				if not self:isCargoDoorOpen(un) then
+					trigger.action.outTextForUnit(un:getID(), 'Can not unload infantry while cargo door closed', 10)
+					return
+				end
+
+				local carriedSquads = self.carriedInfantry[gr:getID()]
+				if not carriedSquads or #carriedSquads == 0 then
+					trigger.action.outTextForUnit(un:getID(), 'No infantry onboard', 10)
+					return
+				end
+				
+				local toUnload = carriedSquads
+				local remaining = {}
+				if sqtype then
+					toUnload = {}
+					local sqToUnload = nil
+					for _,sq in ipairs(carriedSquads) do
+						if sq.type == sqtype and not sqToUnload then
+							sqToUnload = sq
+						else
+							table.insert(remaining, sq)
+						end
+					end
+
+					if sqToUnload then toUnload = { sqToUnload } end
+				end
+
+				if #toUnload == 0 then
+					if sqtype then
+						local squadName = PlayerLogistics.getInfantryName(sqtype)
+						trigger.action.outTextForUnit(un:getID(), 'No '..squadName..' onboard.', 10)
+					else
+						trigger.action.outTextForUnit(un:getID(), 'No infantry onboard.', 10)
+					end
+
+					return
+				end
+				
+				local zn = ZoneCommand.getZoneOfUnit(un:getName())
+				if not zn then 
+					zn = CarrierCommand.getCarrierOfUnit(un:getName())
+				end
+
+				for _, sq in ipairs(toUnload) do
+					local squadName = PlayerLogistics.getInfantryName(sq.type)
+					local lastLoad = sq.loadedAt
+					if lastLoad and zn and zn.side == un:getCoalition() and zn.name==lastLoad.name then
+						if self.registeredSquadGroups[sq.type] then
+							local cost = self.registeredSquadGroups[sq.type].cost
+							zn:addResource(cost)
+							zn:refreshText()
+							trigger.action.outTextForUnit(un:getID(), squadName..' unloaded', 10)
+						end
+					else
+						if sq.type == PlayerLogistics.infantryTypes.extractable then
+							if not zn then
+								trigger.action.outTextForUnit(un:getID(), 'Can only unload extracted infantry while within a friendly zone', 10)
+								table.insert(remaining, sq)
+							elseif zn.side ~= un:getCoalition() then
+								trigger.action.outTextForUnit(un:getID(), 'Can only unload extracted infantry while within a friendly zone', 10)
+								table.insert(remaining, sq)
+							else
+								trigger.action.outTextForUnit(un:getID(), 'Infantry recovered', 10)
+								zn:addResource(200)
+								zn:refreshText()
+								
+								if un.getPlayerName then
+									local player = un:getPlayerName()
+									local xp = RewardDefinitions.actions.squadExtract * DependencyManager.get("PlayerTracker"):getPlayerMultiplier(player)
+			
+									DependencyManager.get("PlayerTracker"):addStat(player, math.floor(xp), PlayerTracker.statTypes.xp)
+									DependencyManager.get("MissionTracker"):tallyUnloadSquad(player, zn.name, sq.type)
+									trigger.action.outTextForUnit(un:getID(), '+'..math.floor(xp)..' XP', 10)
+								end
+							end
+						elseif self.registeredSquadGroups[sq.type] then
+							local pos = Utils.getPointOnSurface(un:getPoint())
+		
+							local error = DependencyManager.get("SquadTracker"):spawnInfantry(self.registeredSquadGroups[sq.type], pos)
+							
+							if not error then
+								trigger.action.outTextForUnit(un:getID(), squadName..' deployed', 10)
+		
+								if un.getPlayerName then
+									local player = un:getPlayerName()
+									local xp = RewardDefinitions.actions.squadDeploy * DependencyManager.get("PlayerTracker"):getPlayerMultiplier(player)
+				
+									DependencyManager.get("PlayerTracker"):addStat(player, math.floor(xp), PlayerTracker.statTypes.xp)
+
+									if zn then
+										DependencyManager.get("MissionTracker"):tallyUnloadSquad(player, zn.name, sq.type)
+									else
+										DependencyManager.get("MissionTracker"):tallyUnloadSquad(player, '', sq.type)
+									end
+									trigger.action.outTextForUnit(un:getID(), '+'..math.floor(xp)..' XP', 10)
+								end
+							else
+								trigger.action.outTextForUnit(un:getID(), 'Failed to deploy squad, no suitable location nearby', 10)
+								table.insert(remaining, sq)
+							end
+						else
+							trigger.action.outText("ERROR: SQUAD TYPE NOT REGISTERED", 60)
+						end
+					end
+				end
+				
+				self.carriedInfantry[gr:getID()] = remaining
+				local weight = self:getCarriedPersonWeight(groupname)
+				trigger.action.setUnitInternalCargo(un:getName(), weight)
+			end
+		end
+	end
+
+	function PlayerLogistics:unloadAll(groupname)
+		local gr = Group.getByName(groupname)
+		if gr then 
+			local un = gr:getUnit(1)
+			if un then
+				local cargo = self.carriedCargo[gr:getID()]
+				local squad = self.carriedInfantry[gr:getID()]
+				local pilot = self.carriedPilots[gr:getID()]
+
+				if cargo and cargo>0 then
+					self:unloadSupplies({group=groupname, amount=9999999})
+				end
+
+				if squad and #squad>0 then
+					self:unloadInfantry({group=groupname})
+				end
+
+				if pilot and #pilot>0 then
+					self:unloadPilots(groupname)
+				end
+			end
+		end
+	end
+	
+	function PlayerLogistics:cargoStatus(groupName)
+		local gr = Group.getByName(groupName)
+		if gr then
+			local un = gr:getUnit(1)
+			if un then
+				local onboard = self.carriedCargo[gr:getID()]
+				if onboard and onboard > 0 then
+					local weight = self.getWeight(onboard)
+					trigger.action.outTextForUnit(un:getID(), onboard..' supplies onboard. ('..weight..' kg)', 10)
+				else
+					local msg = ''
+					local squads = self.carriedInfantry[gr:getID()]
+					if squads and #squads>0 then
+						msg = msg..'Squads:\n'
+
+						for _,squad in ipairs(squads) do
+							local infName = PlayerLogistics.getInfantryName(squad.type)
+							msg = msg..'  \n'..infName..' (Size: '..squad.size..')'
+						end
+					end
+
+					local pilots = self.carriedPilots[gr:getID()]
+					if pilots and #pilots>0 then
+						msg = msg.."\n\nPilots:\n"
+						for i,v in ipairs(pilots) do
+							msg = msg..'\n '..v
+						end
+
+					end
+					
+					local max = PlayerLogistics.allowedTypes[un:getDesc().typeName].personCapacity
+					local occupied = self:getOccupiedPersonCapacity(groupName)
+
+					msg = msg..'\n\nCapacity: '..occupied..'/'..max
+					
+					msg = msg..'\n('..self:getCarriedPersonWeight(groupName)..' kg)'
+
+					if un:getDesc().typeName == 'Hercules' then
+						local preped = self.hercPreparedDrops[gr:getID()]
+						if preped then
+							if preped == 'supplies' then
+								msg = msg..'\nSupplies prepared for next drop.'
+							else
+								local squadName = PlayerLogistics.getInfantryName(preped)
+								msg = msg..'\n'..squadName..' prepared for next drop.'
+							end
+						end
+					end
+
+					trigger.action.outTextForUnit(un:getID(), msg, 10)
+				end
+			end
+		end
+	end
+
+	function PlayerLogistics:isCargoDoorOpen(unit)
+		if unit then
+			local tp = unit:getDesc().typeName
+			if tp == "Mi-8MT" then
+				if unit:getDrawArgumentValue(86) == 1 then return true end
+				if unit:getDrawArgumentValue(38) > 0.85 then return true end
+			elseif tp == "UH-1H" then
+				if unit:getDrawArgumentValue(43) == 1 then return true end
+				if unit:getDrawArgumentValue(44) == 1 then return true end
+			elseif tp == "Mi-24P" then
+				if unit:getDrawArgumentValue(38) == 1 then return true end
+				if unit:getDrawArgumentValue(86) == 1 then return true end
+			elseif tp == "Hercules" then
+				if unit:getDrawArgumentValue(1215) == 1 and unit:getDrawArgumentValue(1216) == 1 then return true end
+			elseif tp == "UH-60L" then
+				if unit:getDrawArgumentValue(401) == 1 then return true end
+				if unit:getDrawArgumentValue(402) == 1 then return true end
+			elseif tp == "SA342Mistral" then
+				if unit:getDrawArgumentValue(34) == 1 then return true end
+				if unit:getDrawArgumentValue(38) == 1 then return true end
+			elseif tp == "SA342L" then
+				if unit:getDrawArgumentValue(34) == 1 then return true end
+				if unit:getDrawArgumentValue(38) == 1 then return true end
+			elseif tp == "SA342M" then
+				if unit:getDrawArgumentValue(34) == 1 then return true end
+				if unit:getDrawArgumentValue(38) == 1 then return true end
+			elseif tp == "SA342Minigun" then
+				if unit:getDrawArgumentValue(34) == 1 then return true end
+				if unit:getDrawArgumentValue(38) == 1 then return true end
+			else
+				return true
+			end
+		end
+	end
+	
+	function PlayerLogistics:loadSupplies(params)
+		if not ZoneCommand then return end
+		
+		local groupName = params.group
+		local amount = params.amount
+		
+		local gr = Group.getByName(groupName)
+		if gr then
+			local un = gr:getUnit(1)
+			if un then
+				if not self:canFitCargo(groupName) then
+					trigger.action.outTextForUnit(un:getID(), 'Can not load cargo. Personnel onboard.', 10)
+					return
+				end
+
+				if Utils.isInAir(un) then
+					trigger.action.outTextForUnit(un:getID(), 'Can not load supplies while in air', 10)
+					return
+				end
+				
+				local zn = ZoneCommand.getZoneOfUnit(un:getName())
+				if not zn then 
+					zn = CarrierCommand.getCarrierOfUnit(un:getName())
+				end
+
+				if not zn then
+					trigger.action.outTextForUnit(un:getID(), 'Can only load supplies while within a friendly zone', 10)
+					return
+				end
+				
+				if zn.side ~= un:getCoalition() then
+					trigger.action.outTextForUnit(un:getID(), 'Can only load supplies while within a friendly zone', 10)
+					return
+				end
+
+				if not self:isCargoDoorOpen(un) then
+					trigger.action.outTextForUnit(un:getID(), 'Can not load supplies while cargo door closed', 10)
+					return
+				end
+
+				if zn:criticalOnSupplies() then
+					trigger.action.outTextForUnit(un:getID(), 'Can not load supplies, zone is low on resources', 10)
+					return
+				end
+
+				if zn.resource < zn.spendTreshold + amount then
+					trigger.action.outTextForUnit(un:getID(), 'Can not load supplies if resources would fall to a critical level.', 10)
+					return
+				end
+
+				local carried = self.carriedCargo[gr:getID()] or 0
+				if amount > zn.resource then
+					amount = zn.resource
+				end
+				
+				zn:removeResource(amount)
+				zn:refreshText()
+				self.carriedCargo[gr:getID()] = carried + amount
+				self.lastLoaded[gr:getID()] = zn
+				local onboard = self.carriedCargo[gr:getID()]
+				local weight = self.getWeight(onboard)
+
+				if un:getDesc().typeName == "Hercules" then
+					local loadedInCrates = 0
+					local ammo = un:getAmmo()
+					if ammo then 
+						for _,load in ipairs(ammo) do
+							if load.desc.typeName == 'weapons.bombs.Generic Crate [20000lb]' then
+								loadedInCrates = 9000 * load.count
+							end
+						end
+					end
+
+					local internal = 0
+					if weight > loadedInCrates then
+						internal = weight - loadedInCrates
+					end
+
+					trigger.action.setUnitInternalCargo(un:getName(), internal)
+				else
+					trigger.action.setUnitInternalCargo(un:getName(), weight)
+				end
+
+				trigger.action.outTextForUnit(un:getID(), amount..' supplies loaded', 10)
+				trigger.action.outTextForUnit(un:getID(), onboard..' supplies onboard. ('..weight..' kg)', 10)
+			end
+		end
+	end
+	
+	function PlayerLogistics:unloadSupplies(params)
+		if not ZoneCommand then return end
+		
+		local groupName = params.group
+		local amount = params.amount
+		
+		local gr = Group.getByName(groupName)
+		if gr then
+			local un = gr:getUnit(1)
+			if un then
+				if Utils.isInAir(un) then
+					trigger.action.outTextForUnit(un:getID(), 'Can not unload supplies while in air', 10)
+					return
+				end
+				
+				local zn = ZoneCommand.getZoneOfUnit(un:getName())
+				if not zn then 
+					zn = CarrierCommand.getCarrierOfUnit(un:getName())
+				end
+				
+				if not zn then
+					trigger.action.outTextForUnit(un:getID(), 'Can only unload supplies while within a friendly zone', 10)
+					return
+				end
+				
+				if zn.side ~= 0 and zn.side ~= un:getCoalition()then
+					trigger.action.outTextForUnit(un:getID(), 'Can only unload supplies while within a friendly zone', 10)
+					return
+				end
+
+				if not self:isCargoDoorOpen(un) then
+					trigger.action.outTextForUnit(un:getID(), 'Can not unload supplies while cargo door closed', 10)
+					return
+				end
+
+				if not self.carriedCargo[gr:getID()] or self.carriedCargo[gr:getID()] == 0 then
+					trigger.action.outTextForUnit(un:getID(), 'No supplies loaded', 10)
+					return
+				end
+				
+				local carried = self.carriedCargo[gr:getID()]
+				if amount > carried then
+					amount = carried
+				end
+				
+				self.carriedCargo[gr:getID()] = carried-amount
+				zn:addResource(amount)
+
+				local lastLoad = self.lastLoaded[gr:getID()]
+				self:awardSupplyXP(lastLoad, zn, un, amount)
+
+				zn:refreshText()
+				local onboard = self.carriedCargo[gr:getID()]
+				local weight = self.getWeight(onboard)
+			
+				if un:getDesc().typeName == "Hercules" then
+					local loadedInCrates = 0
+					local ammo = un:getAmmo()
+					for _,load in ipairs(ammo) do
+						if load.desc.typeName == 'weapons.bombs.Generic Crate [20000lb]' then
+							loadedInCrates = 9000 * load.count
+						end
+					end
+
+					local internal = 0
+					if weight > loadedInCrates then
+						internal = weight - loadedInCrates
+					end
+					
+					trigger.action.setUnitInternalCargo(un:getName(), internal)
+				else
+					trigger.action.setUnitInternalCargo(un:getName(), weight)
+				end
+
+				trigger.action.outTextForUnit(un:getID(), amount..' supplies unloaded', 10)
+				trigger.action.outTextForUnit(un:getID(), onboard..' supplies remaining onboard. ('..weight..' kg)', 10)
+			end
+		end
+	end
+end
+
+-----------------[[ END OF PlayerLogistics.lua ]]-----------------
+
+
+
 -----------------[[ GroupMonitor.lua ]]-----------------
 
 GroupMonitor = {}
@@ -607,6 +1954,61 @@ do
 
 	GroupMonitor.siegeExplosiveTime = 5*60 -- how long until random upgrade is detonated in zone
 	GroupMonitor.siegeExplosiveStrength = 1000 -- detonation strength
+
+	GroupMonitor.timeBeforeSquadDeploy = 10*60
+	GroupMonitor.squadChance = 0.001
+	GroupMonitor.ambushChance = 0.7
+
+	GroupMonitor.aiSquads = {
+		ambush = {
+			[1] = {
+				name='ambush-squad-red', 
+				type=PlayerLogistics.infantryTypes.ambush,
+				weight = 900,
+				cost= 300,
+				jobtime= 60*60*2,
+				extracttime= 0,
+				size = 5,
+				side = 1,
+				isAISpawned = true
+			},
+			[2] = {
+				name='ambush-squad', 
+				type=PlayerLogistics.infantryTypes.ambush,
+				weight = 900,
+				cost= 300,
+				jobtime= 60*60,
+				extracttime= 60*30,
+				size = 5,
+				side = 2,
+				isAISpawned = true
+			},
+		},
+		manpads = {
+			[1] = {
+				name='manpads-squad-red',
+				type=PlayerLogistics.infantryTypes.manpads, 
+				weight = 900,
+				cost= 500,
+				jobtime= 60*60*2,
+				extracttime= 0,
+				size = 5, 
+				side= 1,
+				isAISpawned = true
+			},
+			[2] = {
+				name='manpads-squad',
+				type=PlayerLogistics.infantryTypes.manpads, 
+				weight = 900,
+				cost= 500,
+				jobtime= 60*60,
+				extracttime= 60*30,
+				size = 5, 
+				side= 2,
+				isAISpawned = true
+			}
+		}
+	}
 
 	function GroupMonitor:new()
 		local obj = {}
@@ -682,6 +2084,7 @@ do
 			env.info('GroupMonitor - registerGroup ['..product.name..'] restored state '..savedData.state..' dur:'..savedData.lastStateDuration)
 			self.groups[product.name].state = savedData.state
 			self.groups[product.name].lastStateTime = timer.getAbsTime() - savedData.lastStateDuration
+			self.groups[product.name].spawnedSquad = savedData.spawnedSquad
 		end
 	end
 	
@@ -943,6 +2346,25 @@ do
 									end
 								elseif group.unstuck_attempts and group.unstuck_attempts > 0 then
 									group.unstuck_attempts = 0
+								end
+							end
+
+							local timeElapsed = timer.getAbsTime() - group.lastStateTime
+							if not group.spawnedSquad and timeElapsed > GroupMonitor.timeBeforeSquadDeploy then
+								local die = math.random()
+								if die < GroupMonitor.squadChance then
+									local pos = gr:getUnit(1):getPoint()
+
+									local squadData = nil
+									if math.random() > GroupMonitor.ambushChance then
+										squadData = GroupMonitor.aiSquads.manpads[gr:getCoalition()]
+									else
+										squadData = GroupMonitor.aiSquads.ambush[gr:getCoalition()]
+									end
+
+									DependencyManager.get("SquadTracker"):spawnInfantry(squadData, pos)
+									env.info('GroupMonitor: processSurface ['..group.name..'] has deployed '..squadData.type..' squad')
+									group.spawnedSquad = true
 								end
 							end
 						end
@@ -1918,13 +3340,16 @@ do
 			y = point.z - dy
 		}
 
+		local orbit_speed = 97
+		local travel_speed = 450
+
 		local orbit = { 
 			id = 'Orbit', 
 			params = { 
 				pattern = AI.Task.OrbitPattern.RACE_TRACK,
 				point = pos1,
    				point2 = pos2,
-				speed = 195,
+				speed = orbit_speed,
 				altitude = alt
 			}
 		}
@@ -1963,7 +3388,7 @@ do
 				type= AI.Task.WaypointType.TURNING_POINT,
 				x = pos1.x,
 				y = pos1.y,
-				speed = 450,
+				speed = travel_speed,
 				action = AI.Task.TurnMethod.FLY_OVER_POINT,
 				alt = alt,
 				alt_type = AI.Task.AltitudeType.BARO,
@@ -1986,7 +3411,7 @@ do
 			type= AI.Task.WaypointType.TURNING_POINT,
 			x = pos1.x,
 			y = pos1.y,
-			speed = 195,
+			speed = orbit_speed,
 			action = AI.Task.TurnMethod.FLY_OVER_POINT,
 			alt = alt,
 			alt_type = AI.Task.AltitudeType.BARO,
@@ -2004,7 +3429,7 @@ do
 			type= AI.Task.WaypointType.TURNING_POINT,
 			x = pos2.x,
 			y = pos2.y,
-			speed = 195,
+			speed = orbit_speed,
 			action = AI.Task.TurnMethod.FLY_OVER_POINT,
 			alt = alt,
 			alt_type = AI.Task.AltitudeType.BARO,
@@ -2025,7 +3450,7 @@ do
 				helipadId = landUnitID,
 				x = startPos.x,
 				y = startPos.z,
-				speed = 450,
+				speed = travel_speed,
 				action = AI.Task.TurnMethod.FIN_POINT,
 				alt = 0,
 				alt_type = AI.Task.AltitudeType.RADIO
@@ -2035,7 +3460,7 @@ do
 				type= AI.Task.WaypointType.LAND,
 				x = startPos.x,
 				y = startPos.z,
-				speed = 450,
+				speed = travel_speed,
 				action = AI.Task.TurnMethod.FIN_POINT,
 				alt = 0,
 				alt_type = AI.Task.AltitudeType.RADIO
@@ -2753,6 +4178,62 @@ do
 		group:getController():setTask(mis)
 	end
 
+	function TaskExtensions.fireAtTargets(group, targets, amount)
+		if not group then return end
+		if not group:isExist() or group:getSize() == 0 then return end
+
+		local units = {}
+		for i,v in pairs(targets) do
+			local g = Group.getByName(v.name)
+			if g then
+				for i2,v2 in ipairs(g:getUnits()) do
+					table.insert(units, v2)
+				end
+			else
+				local s = StaticObject.getByName(v.name)
+				if s then
+					table.insert(units, s)
+				end
+			end
+		end
+		
+		if #units == 0 then
+			return
+		end
+		
+		local selected = {}
+		for i=1,amount,1 do
+			if #units == 0 then 
+				break
+			end
+			
+			local tgt = math.random(1,#units)
+			
+			table.insert(selected, units[tgt])
+			table.remove(units, tgt)
+		end
+		
+		while #selected < amount do
+			local ind = math.random(1,#selected)
+			table.insert(selected, selected[ind])
+		end
+		
+		for i,v in ipairs(selected) do
+			local unt = v
+			if unt then
+				local target = {}
+				target.x = unt:getPosition().p.x
+				target.y = unt:getPosition().p.z
+				target.radius = 100
+				target.expendQty = 1
+				target.expendQtyEnabled = true
+				local fire = {id = 'FireAtPoint', params = target}
+				
+				group:getController():pushTask(fire)
+			end
+		end
+	end
+
 	function TaskExtensions.carrierGoToPos(group, point)
 		if not group or not point then return end
 		if not group:isExist() or group:getSize()==0 then return end
@@ -2879,1353 +4360,6 @@ end
 
 
 
------------------[[ PlayerLogistics.lua ]]-----------------
-
-PlayerLogistics = {}
-do
-	PlayerLogistics.allowedTypes = {}
-	PlayerLogistics.allowedTypes['Mi-24P'] = { supplies = true, personCapacity = 8 }
-	PlayerLogistics.allowedTypes['Mi-8MT'] = { supplies = true, personCapacity = 24 }
-	PlayerLogistics.allowedTypes['UH-1H'] = { supplies = true, personCapacity = 12}
-	PlayerLogistics.allowedTypes['Hercules'] = { supplies = true, personCapacity = 92 }
-	PlayerLogistics.allowedTypes['UH-60L'] = { supplies = true, personCapacity = 12 }
-	PlayerLogistics.allowedTypes['Ka-50'] = { supplies = false }
-	PlayerLogistics.allowedTypes['Ka-50_3'] = { supplies = false }
-	PlayerLogistics.allowedTypes['SA342L'] = { supplies = false, personCapacity = 2}
-	PlayerLogistics.allowedTypes['SA342M'] = { supplies = false, personCapacity = 2}
-	PlayerLogistics.allowedTypes['SA342Minigun'] = { supplies = false, personCapacity = 2}
-	PlayerLogistics.allowedTypes['AH-64D_BLK_II'] = { supplies = false }
-
-	PlayerLogistics.infantryTypes = {
-		capture = 'capture',
-		sabotage = 'sabotage',
-		ambush = 'ambush',
-		engineer = 'engineer',
-		manpads = 'manpads',
-		spy = 'spy',
-		rapier = 'rapier',
-		extractable = 'extractable'
-	}
-
-	function PlayerLogistics.getInfantryName(infType)
-		if infType==PlayerLogistics.infantryTypes.capture then
-			return "Capture Squad"
-		elseif infType==PlayerLogistics.infantryTypes.sabotage then
-			return "Sabotage Squad"
-		elseif infType==PlayerLogistics.infantryTypes.ambush then
-			return "Ambush Squad"
-		elseif infType==PlayerLogistics.infantryTypes.engineer then
-			return "Engineer"
-		elseif infType==PlayerLogistics.infantryTypes.manpads then
-			return "MANPADS"
-		elseif infType==PlayerLogistics.infantryTypes.spy then
-			return "Spy"
-		elseif infType==PlayerLogistics.infantryTypes.rapier then
-			return "Rapier SAM"
-		elseif infType==PlayerLogistics.infantryTypes.extractable then
-			return "Extracted infantry"
-		end
-
-		return "INVALID SQUAD"
-	end
-	
-	function PlayerLogistics:new()
-		local obj = {}
-		obj.groupMenus = {} -- groupid = path
-		obj.carriedCargo = {} -- groupid = source
-		obj.carriedInfantry = {} -- groupid = source
-		obj.carriedPilots = {} --groupid = source
-		obj.registeredSquadGroups = {}
-		obj.lastLoaded = {} -- groupid = zonename
-
-		obj.hercTracker = {
-			cargos = {},
-			cargoCheckFunctions = {}
-		}
-
-		obj.hercPreparedDrops = {}
-		
-		setmetatable(obj, self)
-		self.__index = self
-		
-		obj:start()
-		
-		DependencyManager.register("PlayerLogistics", obj)
-		return obj
-	end
-
-	function PlayerLogistics:registerSquadGroup(squadType, groupname, weight, cost, jobtime, extracttime, squadSize)
-		self.registeredSquadGroups[squadType] = { name=groupname, type=squadType, weight=weight, cost=cost, jobtime=jobtime, extracttime=extracttime, size = squadSize}
-	end
-	
-	function PlayerLogistics:start()
-		if not ZoneCommand then return end
-	
-        MenuRegistry:register(3, function(event, context)
-			if event.id == world.event.S_EVENT_BIRTH and event.initiator and event.initiator.getPlayerName then
-				local player = event.initiator:getPlayerName()
-				if player then
-					local unitType = event.initiator:getDesc()['typeName']
-					local groupid = event.initiator:getGroup():getID()
-					local groupname = event.initiator:getGroup():getName()
-					
-					local logistics = context.allowedTypes[unitType]
-					if logistics and (logistics.supplies or logistics.personCapacity)then
-
-						if context.groupMenus[groupid] then
-							missionCommands.removeItemForGroup(groupid, context.groupMenus[groupid])
-							context.groupMenus[groupid] = nil
-						end
-
-						if not context.groupMenus[groupid] then
-							local size = event.initiator:getGroup():getSize()
-							if size > 1 then
-								trigger.action.outText('WARNING: group '..groupname..' has '..size..' units. Logistics will only function for group leader', 10)
-							end
-							
-							local cargomenu = missionCommands.addSubMenuForGroup(groupid, 'Logistics')
-							if logistics.supplies then
-								local supplyMenu = missionCommands.addSubMenuForGroup(groupid, 'Supplies', cargomenu)
-								local loadMenu = missionCommands.addSubMenuForGroup(groupid, 'Load', supplyMenu)
-								missionCommands.addCommandForGroup(groupid, 'Load 100 supplies', loadMenu, Utils.log(context.loadSupplies), context, {group=groupname, amount=100})
-								missionCommands.addCommandForGroup(groupid, 'Load 500 supplies', loadMenu, Utils.log(context.loadSupplies), context, {group=groupname, amount=500})
-								missionCommands.addCommandForGroup(groupid, 'Load 1000 supplies', loadMenu, Utils.log(context.loadSupplies), context, {group=groupname, amount=1000})
-								missionCommands.addCommandForGroup(groupid, 'Load 2000 supplies', loadMenu, Utils.log(context.loadSupplies), context, {group=groupname, amount=2000})
-								missionCommands.addCommandForGroup(groupid, 'Load 5000 supplies', loadMenu, Utils.log(context.loadSupplies), context, {group=groupname, amount=5000})
-
-								local unloadMenu = missionCommands.addSubMenuForGroup(groupid, 'Unload', supplyMenu)
-								missionCommands.addCommandForGroup(groupid, 'Unload 100 supplies', unloadMenu, Utils.log(context.unloadSupplies), context, {group=groupname, amount=100})
-								missionCommands.addCommandForGroup(groupid, 'Unload 500 supplies', unloadMenu, Utils.log(context.unloadSupplies), context, {group=groupname, amount=500})
-								missionCommands.addCommandForGroup(groupid, 'Unload 1000 supplies', unloadMenu, Utils.log(context.unloadSupplies), context, {group=groupname, amount=1000})
-								missionCommands.addCommandForGroup(groupid, 'Unload 2000 supplies', unloadMenu, Utils.log(context.unloadSupplies), context, {group=groupname, amount=2000})
-								missionCommands.addCommandForGroup(groupid, 'Unload 5000 supplies', unloadMenu, Utils.log(context.unloadSupplies), context, {group=groupname, amount=5000})
-								missionCommands.addCommandForGroup(groupid, 'Unload all supplies', unloadMenu, Utils.log(context.unloadSupplies), context, {group=groupname, amount=9999999})
-							end
-
-							local sqs = {}
-							for sqType,_ in pairs(context.registeredSquadGroups) do
-								table.insert(sqs,sqType)
-							end
-							table.sort(sqs)
-
-							if logistics.personCapacity then
-								local infMenu = missionCommands.addSubMenuForGroup(groupid, 'Infantry', cargomenu)
-								
-								local loadInfMenu = missionCommands.addSubMenuForGroup(groupid, 'Load', infMenu)
-								for _,sqType in ipairs(sqs) do
-									local menuName =  'Load '..PlayerLogistics.getInfantryName(sqType)
-									missionCommands.addCommandForGroup(groupid, menuName, loadInfMenu, Utils.log(context.loadInfantry), context, {group=groupname, type=sqType})
-								end
-
-								local unloadInfMenu = missionCommands.addSubMenuForGroup(groupid, 'Unload', infMenu)
-								for _,sqType in ipairs(sqs) do
-									local menuName =  'Unload '..PlayerLogistics.getInfantryName(sqType)
-									missionCommands.addCommandForGroup(groupid, menuName, unloadInfMenu, Utils.log(context.unloadInfantry), context, {group=groupname, type=sqType})
-								end
-								missionCommands.addCommandForGroup(groupid, 'Unload Extracted squad', unloadInfMenu, Utils.log(context.unloadInfantry), context, {group=groupname, type=PlayerLogistics.infantryTypes.extractable})
-
-								missionCommands.addCommandForGroup(groupid, 'Extract squad', infMenu, Utils.log(context.extractSquad), context, groupname)
-								missionCommands.addCommandForGroup(groupid, 'Unload all', infMenu, Utils.log(context.unloadInfantry), context, {group=groupname})
-
-								local csarMenu = missionCommands.addSubMenuForGroup(groupid, 'CSAR', cargomenu)
-								missionCommands.addCommandForGroup(groupid, 'Show info (closest)', csarMenu, Utils.log(context.showPilot), context, groupname)
-								missionCommands.addCommandForGroup(groupid, 'Smoke marker (closest)', csarMenu, Utils.log(context.smokePilot), context, groupname)
-								missionCommands.addCommandForGroup(groupid, 'Flare (closest)', csarMenu, Utils.log(context.flarePilot), context, groupname)
-								missionCommands.addCommandForGroup(groupid, 'Extract pilot', csarMenu, Utils.log(context.extractPilot), context, groupname)
-								missionCommands.addCommandForGroup(groupid, 'Unload pilots', csarMenu, Utils.log(context.unloadPilots), context, groupname)
-							end
-
-							missionCommands.addCommandForGroup(groupid, 'Cargo status', cargomenu, Utils.log(context.cargoStatus), context, groupname)
-							missionCommands.addCommandForGroup(groupid, 'Unload Everything', cargomenu, Utils.log(context.unloadAll), context, groupname)
-							
-							if unitType == 'Hercules' then
-								local loadmasterMenu = missionCommands.addSubMenuForGroup(groupid, 'Loadmaster', cargomenu)
-
-								for _,sqType in ipairs(sqs) do
-									local menuName =  'Prepare '..PlayerLogistics.getInfantryName(sqType)
-									missionCommands.addCommandForGroup(groupid, menuName, loadmasterMenu, Utils.log(context.hercPrepareDrop), context, {group=groupname, type=sqType})
-								end
-
-								missionCommands.addCommandForGroup(groupid, 'Prepare Supplies', loadmasterMenu, Utils.log(context.hercPrepareDrop), context, {group=groupname, type='supplies'})
-							end
-							
-							
-							context.groupMenus[groupid] = cargomenu
-						end
-						
-						if context.carriedCargo[groupid] then
-							context.carriedCargo[groupid] = 0
-						end
-
-						if context.carriedInfantry[groupid] then
-							context.carriedInfantry[groupid] = {}
-						end
-
-						if context.carriedPilots[groupid] then
-							context.carriedPilots[groupid] = {}
-						end
-
-						if context.lastLoaded[groupid] then
-							context.lastLoaded[groupid] = nil
-						end
-
-						if context.hercPreparedDrops[groupid] then
-							context.hercPreparedDrops[groupid] = nil
-						end
-					end
-				end
-			elseif (event.id == world.event.S_EVENT_PLAYER_LEAVE_UNIT or event.id == world.event.S_EVENT_DEAD) and event.initiator and event.initiator.getPlayerName then
-                local player = event.initiator:getPlayerName()
-				if player then
-					local groupid = event.initiator:getGroup():getID()
-					
-					if context.groupMenus[groupid] then
-						missionCommands.removeItemForGroup(groupid, context.groupMenus[groupid])
-						context.groupMenus[groupid] = nil
-					end
-				end
-            end
-		end, self)
-
-		local ev = {}
-		ev.context = self
-		function ev:onEvent(event)
-			if event.id == world.event.S_EVENT_SHOT and event.initiator and event.initiator:isExist() then
-				local unitName = event.initiator:getName()
-				local groupId = event.initiator:getGroup():getID()
-				local name = event.weapon:getDesc().typeName
-				if name == 'weapons.bombs.Generic Crate [20000lb]' then
-					local prepared = self.context.hercPreparedDrops[groupId]
-
-					if not prepared then
-						prepared = 'supplies'
-								
-						if self.context.carriedInfantry[groupId] then
-							for _,v in ipairs(self.context.carriedInfantry[groupId]) do
-								if v.type ~= PlayerLogistics.infantryTypes.extractable then
-									prepared = v.type
-									break
-								end
-							end
-						end
-
-						env.info('PlayerLogistics - Hercules - auto preparing '..prepared)
-					end
-
-					if prepared then
-						if prepared == 'supplies' then
-							env.info('PlayerLogistics - Hercules - supplies getting dropped')
-							local carried = self.context.carriedCargo[groupId]
-							local amount = 0
-							if carried and carried > 0 then
-								amount = 9000
-								if carried < amount then
-									amount = carried
-								end
-							end
-							
-							if amount > 0 then
-								self.context.carriedCargo[groupId] = math.max(0,self.context.carriedCargo[groupId] - amount)
-								if not self.context.hercTracker.cargos[unitName] then
-									self.context.hercTracker.cargos[unitName] = {}
-								end
-								
-								table.insert(self.context.hercTracker.cargos[unitName],{
-									object = event.weapon,
-									supply = amount,
-									lastLoaded = self.context.lastLoaded[groupId],
-									unit = event.initiator
-								})
-								
-								env.info('PlayerLogistics - Hercules - '..unitName..' deployed crate with '..amount..' supplies')
-								self.context:processHercCargos(unitName)
-								self.context.hercPreparedDrops[groupId] = nil
-								trigger.action.outTextForUnit(event.initiator:getID(), 'Crate with '..amount..' supplies deployed', 10)
-							else
-								trigger.action.outTextForUnit(event.initiator:getID(), 'Empty crate deployed', 10)
-							end
-						else
-							env.info('PlayerLogistics - Hercules - searching for prepared infantry')
-							local toDrop = nil
-							local remaining = {}
-							if self.context.carriedInfantry[groupId] then
-								for _,v in ipairs(self.context.carriedInfantry[groupId]) do
-									if v.type == prepared and toDrop == nil then
-										toDrop = v
-									else
-										table.insert(remaining, v)
-									end
-								end
-							end
-							
-							
-							if toDrop then
-								env.info('PlayerLogistics - Hercules - dropping '..toDrop.type)
-								if not self.context.hercTracker.cargos[unitName] then
-									self.context.hercTracker.cargos[unitName] = {}
-								end
-								
-								table.insert(self.context.hercTracker.cargos[unitName],{
-									object = event.weapon,
-									squad = toDrop,
-									lastLoaded = self.context.lastLoaded[groupId],
-									unit = event.initiator
-								})
-								
-								env.info('PlayerLogistics - Hercules - '..unitName..' deployed crate with '..toDrop.type)
-								self.context:processHercCargos(unitName)
-								self.context.hercPreparedDrops[groupId] = nil
-								
-								local squadName = PlayerLogistics.getInfantryName(prepared)
-								trigger.action.outTextForUnit(event.initiator:getID(), squadName..' crate deployed.', 10)
-								self.context.carriedInfantry[groupId] = remaining
-								local weight = self.context:getCarriedPersonWeight(event.initiator:getGroup():getName())
-								trigger.action.setUnitInternalCargo(event.initiator:getName(), weight)
-							else
-								trigger.action.outTextForUnit(event.initiator:getID(), 'Empty crate deployed', 10)
-							end
-						end
-					else
-						trigger.action.outTextForUnit(event.initiator:getID(), 'Empty crate deployed', 10)
-					end
-				end
-			end
-		end
-		
-		world.addEventHandler(ev)
-	end
-
-	function PlayerLogistics:processHercCargos(unitName)
-		if not self.hercTracker.cargoCheckFunctions[unitName] then
-			env.info('PlayerLogistics - Hercules - start tracking cargos of '..unitName)
-			self.hercTracker.cargoCheckFunctions[unitName] = timer.scheduleFunction(function(params, time)
-				local reschedule = params.context:checkHercCargo(params.unitName, time)
-				if not reschedule then
-					params.context.hercTracker.cargoCheckFunctions[params.unitName] = nil
-					env.info('PlayerLogistics - Hercules - stopped tracking cargos of '..unitName)
-				end
-				
-				return reschedule
-			end, {unitName=unitName, context = self}, timer.getTime() + 0.1)
-		end
-	end
-
-	function PlayerLogistics:checkHercCargo(unitName, time)
-		local cargos = self.hercTracker.cargos[unitName]
-		if cargos and #cargos > 0 then
-			local remaining = {}
-			for _,cargo in ipairs(cargos) do
-				if cargo.object and cargo.object:isExist() then
-					local alt = Utils.getAGL(cargo.object)
-					if alt < 5 then
-						self:deliverHercCargo(cargo)
-					else
-						table.insert(remaining, cargo)
-					end
-				else
-					env.info('PlayerLogistics - Hercules - cargo crashed '..tostring(cargo.supply)..' '..tostring(cargo.squad))
-					if cargo.squad then 
-						env.info('PlayerLogistics - Hercules - squad crashed '..tostring(cargo.squad.type))
-					end
-
-					if cargo.unit and cargo.unit:isExist() then
-						if cargo.squad then
-							local squadName = PlayerLogistics.getInfantryName(cargo.squad.type)
-							trigger.action.outTextForUnit(cargo.unit:getID(), 'Cargo drop of '..cargo.unit:getPlayerName()..' with '..squadName..' crashed', 10)
-						elseif cargo.supply then
-							trigger.action.outTextForUnit(cargo.unit:getID(), 'Cargo drop of '..cargo.unit:getPlayerName()..' with '..cargo.supply..' supplies crashed', 10)
-						end
-					end
-				end
-			end
-
-			if #remaining > 0 then
-				self.hercTracker.cargos[unitName] = remaining
-				return time + 0.1
-			end
-		end
-	end
-
-	function PlayerLogistics:deliverHercCargo(cargo)
-		if cargo.object and cargo.object:isExist() then
-			if cargo.supply then
-				local zone = ZoneCommand.getZoneOfWeapon(cargo.object)
-				if zone then
-					zone:addResource(cargo.supply)
-					env.info('PlayerLogistics - Hercules - '..cargo.supply..' delivered to '..zone.name)
-
-					self:awardSupplyXP(cargo.lastLoaded, zone, cargo.unit, cargo.supply)
-				end
-			elseif cargo.squad then
-				local pos = Utils.getPointOnSurface(cargo.object:getPoint())
-				pos.y = pos.z
-				pos.z = nil
-				local surface = land.getSurfaceType(pos)
-				if surface == land.SurfaceType.LAND or surface == land.SurfaceType.ROAD or surface == land.SurfaceType.RUNWAY then
-					local zn = ZoneCommand.getZoneOfPoint(pos)
-					
-					local lastLoad = cargo.squad.loadedAt
-					if lastLoad and zn and zn.side == cargo.object:getCoalition() and zn.name==lastLoad.name then
-						if self.registeredSquadGroups[cargo.squad.type] then
-							local cost = self.registeredSquadGroups[cargo.squad.type].cost
-							zn:addResource(cost)
-							zn:refreshText()
-							if cargo.unit and cargo.unit:isExist() then
-								local squadName = PlayerLogistics.getInfantryName(cargo.squad.type)
-								trigger.action.outTextForUnit(cargo.unit:getID(), squadName..' unloaded', 10)
-							end
-						end
-					else
-						local error = DependencyManager.get("SquadTracker"):spawnInfantry(self.registeredSquadGroups[cargo.squad.type], pos)
-						if not error then
-							env.info('PlayerLogistics - Hercules - '..cargo.squad.type..' deployed')
-							
-							local squadName = PlayerLogistics.getInfantryName(cargo.squad.type)
-							
-							if cargo.unit and cargo.unit:isExist() and cargo.unit.getPlayerName then
-								trigger.action.outTextForUnit(cargo.unit:getID(), squadName..' deployed', 10)
-								local player = cargo.unit:getPlayerName()
-								local xp = RewardDefinitions.actions.squadDeploy * DependencyManager.get("PlayerTracker"):getPlayerMultiplier(player)
-								
-								DependencyManager.get("PlayerTracker"):addStat(player, math.floor(xp), PlayerTracker.statTypes.xp)
-								
-								if zn then
-									DependencyManager.get("MissionTracker"):tallyUnloadSquad(player, zn.name, cargo.squad.type)
-								else
-									DependencyManager.get("MissionTracker"):tallyUnloadSquad(player, '', cargo.squad.type)
-								end
-								trigger.action.outTextForUnit(cargo.unit:getID(), '+'..math.floor(xp)..' XP', 10)
-							end
-						end
-					end
-				else
-					env.info('PlayerLogistics - Hercules - '..cargo.squad.type..' dropped on invalid surface '..tostring(surface))
-					local cpos = cargo.object:getPoint()
-					env.info('PlayerLogistics - Hercules - cargo spot X:'..cpos.x..' Y:'..cpos.y..' Z:'..cpos.z)
-					env.info('PlayerLogistics - Hercules - surface spot X:'..pos.x..' Y:'..pos.y)
-					local squadName = PlayerLogistics.getInfantryName(cargo.squad.type)
-					trigger.action.outTextForUnit(cargo.unit:getID(), 'Cargo drop of '..cargo.unit:getPlayerName()..' with '..squadName..' crashed', 10)
-				end
-			end
-
-			cargo.object:destroy()
-		end
-	end
-
-	function PlayerLogistics:hercPrepareDrop(params)
-		local groupname = params.group
-		local type = params.type
-		local gr = Group.getByName(groupname)
-		if gr then
-			local un = gr:getUnit(1)
-
-			if type == 'supplies' then
-				local cargo = self.carriedCargo[gr:getID()]
-				if cargo and cargo > 0 then
-					self.hercPreparedDrops[gr:getID()] = type
-					trigger.action.outTextForUnit(un:getID(), 'Supply drop prepared', 10)
-				else
-					trigger.action.outTextForUnit(un:getID(), 'No supplies onboard the aircraft', 10)
-				end
-			else
-				local exists = false
-				if self.carriedInfantry[gr:getID()] then
-					for i,v in ipairs(self.carriedInfantry[gr:getID()]) do
-						if v.type == type then
-							exists = true
-							break
-						end
-					end
-				end
-			
-				if exists then
-					self.hercPreparedDrops[gr:getID()] = type
-					local squadName = PlayerLogistics.getInfantryName(type)
-					trigger.action.outTextForUnit(un:getID(), squadName..' drop prepared', 10)
-				else
-					local squadName = PlayerLogistics.getInfantryName(type)
-					trigger.action.outTextForUnit(un:getID(), 'No '..squadName..' onboard the aircraft', 10)
-				end
-			end
-		end
-	end
-
-	function PlayerLogistics:awardSupplyXP(lastLoad, zone, unit, amount)
-		if lastLoad and zone.name~=lastLoad.name and not zone.isCarrier and not lastLoad.isCarrier then
-			if unit and unit.isExist and unit:isExist() and unit.getPlayerName then
-				local player = unit:getPlayerName()
-				local xp = amount*RewardDefinitions.actions.supplyRatio
-
-				local totalboost = 0
-				local dist = mist.utils.get2DDist(lastLoad.zone.point, zone.zone.point)
-				if dist > 15000 then
-					local extradist = math.max(dist - 15000, 85000)
-					local kmboost = extradist/85000
-					local actualboost = xp * kmboost * 1
-					totalboost = totalboost + actualboost
-				end
-
-				local both = true
-				if zone:criticalOnSupplies() then
-					local actualboost = xp * RewardDefinitions.actions.supplyBoost
-					totalboost = totalboost + actualboost
-				else 
-					both = false
-				end
-
-				if zone.distToFront == 0 then
-					local actualboost = xp * RewardDefinitions.actions.supplyBoost
-					totalboost = totalboost + actualboost
-				else 
-					both = false
-				end
-
-				if both then
-					local actualboost = xp * 1
-					totalboost = totalboost + actualboost
-				end
-
-				xp = xp + totalboost
-
-				if lastLoad.distToFront >= zone.distToFront then
-					xp = xp * 0.25
-				end
-
-				xp = xp * DependencyManager.get("PlayerTracker"):getPlayerMultiplier(player)
-
-				DependencyManager.get("PlayerTracker"):addStat(player, math.floor(xp), PlayerTracker.statTypes.xp)
-				DependencyManager.get("MissionTracker"):tallySupplies(player, amount, zone.name)
-				trigger.action.outTextForUnit(unit:getID(), '+'..math.floor(xp)..' XP', 10)
-			end
-		end
-	end
-	
-	function PlayerLogistics.markWithSmoke(zonename)
-		local zone = CustomZone:getByName(zonename)
-		local p = Utils.getPointOnSurface(zone.point)
-		trigger.action.smoke(p, 0)
-	end
-	
-	function PlayerLogistics.getWeight(supplies)
-		return math.floor(supplies)
-	end
-
-	function PlayerLogistics:getCarriedPersonWeight(groupname)
-		local gr = Group.getByName(groupname)
-		local un = gr:getUnit(1)
-		if un then
-			if not PlayerLogistics.allowedTypes[un:getDesc().typeName] then return 0 end
-			
-			local max = PlayerLogistics.allowedTypes[un:getDesc().typeName].personCapacity
-
-			local pilotWeight = 0
-			local squadWeight = 0
-			if not self.carriedPilots[gr:getID()] then self.carriedPilots[gr:getID()] = {} end
-			local pilots = self.carriedPilots[gr:getID()]
-			if pilots then 
-				pilotWeight = 100 * #pilots
-			end
-
-			if not self.carriedInfantry[gr:getID()] then self.carriedInfantry[gr:getID()] = {} end
-			local squads = self.carriedInfantry[gr:getID()]
-			if squads then
-				for _,squad in ipairs(squads) do 
-					squadWeight = squadWeight + squad.weight
-				end
-			end
-
-			return pilotWeight + squadWeight
-		end
-	end
-
-	function PlayerLogistics:getOccupiedPersonCapacity(groupname)
-		local gr = Group.getByName(groupname)
-		local un = gr:getUnit(1)
-		if un then
-			if not PlayerLogistics.allowedTypes[un:getDesc().typeName] then return 0 end
-			if self.carriedCargo[gr:getID()] and self.carriedCargo[gr:getID()] > 0 then return 0 end
-			
-			local max = PlayerLogistics.allowedTypes[un:getDesc().typeName].personCapacity
-
-			local pilotCount = 0
-			local squadCount = 0
-			if not self.carriedPilots[gr:getID()] then self.carriedPilots[gr:getID()] = {} end
-			local pilots = self.carriedPilots[gr:getID()]
-			if pilots then 
-				pilotCount = #pilots
-			end
-
-			if not self.carriedInfantry[gr:getID()] then self.carriedInfantry[gr:getID()] = {} end
-			local squads = self.carriedInfantry[gr:getID()]
-			if squads then
-				for _,squad in ipairs(squads) do 
-					squadCount = squadCount + squad.size
-				end
-			end
-
-			local total = pilotCount + squadCount
-
-			return total
-		end
-	end
-
-	function PlayerLogistics:getRemainingPersonCapacity(groupname)
-		local gr = Group.getByName(groupname)
-		local un = gr:getUnit(1)
-		if un then
-			if not PlayerLogistics.allowedTypes[un:getDesc().typeName] then return 0 end
-			if self.carriedCargo[gr:getID()] and self.carriedCargo[gr:getID()] > 0 then return 0 end
-			
-			local max = PlayerLogistics.allowedTypes[un:getDesc().typeName].personCapacity
-
-			local total = self:getOccupiedPersonCapacity(groupname)
-
-			return max - total
-		end
-	end
-
-	function PlayerLogistics:canFitCargo(groupname)
-		local gr = Group.getByName(groupname)
-		local un = gr:getUnit(1)
-		if un then
-			if not PlayerLogistics.allowedTypes[un:getDesc().typeName] then return false end
-			return self:getOccupiedPersonCapacity(groupname) == 0
-		end
-	end
-
-	function PlayerLogistics:canFitPersonnel(groupname, toFit)
-		local gr = Group.getByName(groupname)
-		local un = gr:getUnit(1)
-		if un then
-			if not PlayerLogistics.allowedTypes[un:getDesc().typeName] then return false end
-
-			return self:getRemainingPersonCapacity(groupname) >= toFit
-		end
-	end
-
-	function PlayerLogistics:showPilot(groupname)
-		local gr = Group.getByName(groupname)
-		if gr then
-			local un = gr:getUnit(1)
-			if un then
-				local data = DependencyManager.get("CSARTracker"):getClosestPilot(un:getPoint())
-				
-				if not data then 
-					trigger.action.outTextForUnit(un:getID(), 'No pilots in need of extraction', 10)
-					return
-				end
-
-				local pos = data.pilot:getUnit(1):getPoint()
-				local brg = math.floor(Utils.getBearing(un:getPoint(), data.pilot:getUnit(1):getPoint()))
-				local dist = data.dist
-				local dstft = math.floor(dist/0.3048)
-
-				local msg = data.name..' requesting extraction'
-				msg = msg..'\n\n Distance: '
-				if dist>1000 then
-					local dstkm = string.format('%.2f',dist/1000)
-					local dstnm = string.format('%.2f',dist/1852)
-					
-					msg = msg..dstkm..'km | '..dstnm..'nm'
-				else
-					local dstft = math.floor(dist/0.3048)
-					msg = msg..math.floor(dist)..'m | '..dstft..'ft'
-				end
-				
-				msg = msg..'\n Bearing: '..brg
-				
-				trigger.action.outTextForUnit(un:getID(), msg, 10)
-			end
-		end
-	end
-	
-	function PlayerLogistics:smokePilot(groupname)
-		local gr = Group.getByName(groupname)
-		if gr then
-			local un = gr:getUnit(1)
-			if un then
-				local data = DependencyManager.get("CSARTracker"):getClosestPilot(un:getPoint())
-				
-				if not data or data.dist >= 5000 then 
-					trigger.action.outTextForUnit(un:getID(), 'No pilots nearby', 10)
-					return
-				end
-
-				DependencyManager.get("CSARTracker"):markPilot(data)
-				trigger.action.outTextForUnit(un:getID(), 'Location of '..data.name..' marked with green smoke.', 10)
-			end
-		end
-	end
-	
-	function PlayerLogistics:flarePilot(groupname)
-		local gr = Group.getByName(groupname)
-		if gr then
-			local un = gr:getUnit(1)
-			if un then
-				local data = DependencyManager.get("CSARTracker"):getClosestPilot(un:getPoint())
-				
-				if not data or data.dist >= 5000 then 
-					trigger.action.outTextForUnit(un:getID(), 'No pilots nearby', 10)
-					return
-				end
-
-				DependencyManager.get("CSARTracker"):flarePilot(data)
-				trigger.action.outTextForUnit(un:getID(), data.name..' has deployed a green flare', 10)
-			end
-		end
-	end
-	
-	function PlayerLogistics:unloadPilots(groupname)
-		local gr = Group.getByName(groupname)
-		if gr then
-			local un = gr:getUnit(1)
-			if un then
-				local pilots = self.carriedPilots[gr:getID()]
-				if not pilots or #pilots==0 then
-					trigger.action.outTextForUnit(un:getID(), 'No pilots onboard', 10)
-					return
-				end
-
-				if Utils.isInAir(un) then
-					trigger.action.outTextForUnit(un:getID(), 'Can not unload pilot while in air', 10)
-					return
-				end
-				
-				if not self:isCargoDoorOpen(un) then
-					trigger.action.outTextForUnit(un:getID(), 'Can not unload pilot while cargo door closed', 10)
-					return
-				end
-
-				local zn = ZoneCommand.getZoneOfUnit(un:getName())
-				if not zn then 
-					zn = CarrierCommand.getCarrierOfUnit(un:getName())
-				end
-				
-				if not zn then
-					trigger.action.outTextForUnit(un:getID(), 'Can only unload extracted pilots while within a friendly zone', 10)
-					return
-				end
-				
-				if zn.side ~= 0 and zn.side ~= un:getCoalition()then
-					trigger.action.outTextForUnit(un:getID(), 'Can only unload extracted pilots while within a friendly zone', 10)
-					return
-				end
-
-				zn:addResource(200*#pilots)
-				zn:refreshText()
-
-				if un.getPlayerName then
-					local player = un:getPlayerName()
-
-					local xp = #pilots*RewardDefinitions.actions.pilotExtract
-
-					xp = xp * DependencyManager.get("PlayerTracker"):getPlayerMultiplier(player)
-
-					DependencyManager.get("PlayerTracker"):addStat(player, math.floor(xp), PlayerTracker.statTypes.xp)
-					DependencyManager.get("MissionTracker"):tallyUnloadPilot(player, zn.name)
-					trigger.action.outTextForUnit(un:getID(), '+'..math.floor(xp)..' XP', 10)
-				end
-
-				self.carriedPilots[gr:getID()] = {}
-				trigger.action.setUnitInternalCargo(un:getName(), 0)
-				trigger.action.outTextForUnit(un:getID(), 'Pilots unloaded', 10)
-			end
-		end
-	end
-	
-	function PlayerLogistics:extractPilot(groupname)
-		local gr = Group.getByName(groupname)
-		if gr then
-			local un = gr:getUnit(1)
-			if un then
-				if not self:canFitPersonnel(groupname, 1) then
-					trigger.action.outTextForUnit(un:getID(), 'Not enough free space onboard. (Need 1)', 10)
-					return
-				end
-
-				timer.scheduleFunction(function(param,time) 
-					local self = param.context
-					local un = param.unit
-					if not un then return end
-					if not un:isExist() then return end
-					local gr = un:getGroup()
-
-					local data = DependencyManager.get("CSARTracker"):getClosestPilot(un:getPoint())
-
-					if not data or data.dist > 500 then
-						trigger.action.outTextForUnit(un:getID(), 'There is no pilot nearby that needs extraction', 10)
-						return
-					else
-						if not self:isCargoDoorOpen(un) then
-							trigger.action.outTextForUnit(un:getID(), 'Cargo door closed', 1)
-						elseif Utils.getAGL(un) > 70 then
-							trigger.action.outTextForUnit(un:getID(), 'Altitude too high (< 70 m). Current: '..string.format('%.2f',Utils.getAGL(un))..' m', 1)
-						elseif mist.vec.mag(un:getVelocity())>5 then
-							trigger.action.outTextForUnit(un:getID(), 'Moving too fast (< 5 m/s). Current: '..string.format('%.2f',mist.vec.mag(un:getVelocity()))..' m/s', 1)
-						else
-							if data.dist > 100 then
-								trigger.action.outTextForUnit(un:getID(), 'Too far (< 100m). Current: '..string.format('%.2f',data.dist)..' m', 1)
-							else
-								if not self.carriedPilots[gr:getID()] then self.carriedPilots[gr:getID()] = {} end
-								table.insert(self.carriedPilots[gr:getID()], data.name)
-								local player = un:getPlayerName()
-								DependencyManager.get("MissionTracker"):tallyLoadPilot(player, data)
-								DependencyManager.get("CSARTracker"):removePilot(data.name)
-								local weight = self:getCarriedPersonWeight(gr:getName())
-								trigger.action.setUnitInternalCargo(un:getName(), weight)
-								trigger.action.outTextForUnit(un:getID(), data.name..' onboard. ('..weight..' kg)', 10)
-								return
-							end
-						end
-					end
-
-					param.trys = param.trys - 1
-					if param.trys > 0 then
-						return time+1
-					end
-				end, {context = self, unit = un, trys = 60}, timer.getTime()+0.1)
-			end
-		end
-	end
-	
-	function PlayerLogistics:extractSquad(groupname)
-		local gr = Group.getByName(groupname)
-		if gr then
-			local un = gr:getUnit(1)
-			if un then
-
-				if Utils.isInAir(un) then
-					trigger.action.outTextForUnit(un:getID(), 'Can not load infantry while in air', 10)
-					return
-				end
-				
-				if not self:isCargoDoorOpen(un) then
-					trigger.action.outTextForUnit(un:getID(), 'Can not load infantry while cargo door closed', 10)
-					return
-				end
-
-				local squad, distance = DependencyManager.get("SquadTracker"):getClosestExtractableSquad(un:getPoint())
-				if squad and distance < 50 then
-					local squadgr = Group.getByName(squad.name)
-					if squadgr and squadgr:isExist() then
-						local sqsize = squadgr:getSize()
-						if not self:canFitPersonnel(groupname, sqsize) then
-							trigger.action.outTextForUnit(un:getID(), 'Not enough free space onboard. (Need '..sqsize..')', 10)
-							return
-						end
-
-						if not self.carriedInfantry[gr:getID()] then self.carriedInfantry[gr:getID()] = {} end
-						table.insert(self.carriedInfantry[gr:getID()],{type = PlayerLogistics.infantryTypes.extractable, size = sqsize, weight = sqsize * 100})
-						
-						local weight = self:getCarriedPersonWeight(gr:getName())
-
-						trigger.action.setUnitInternalCargo(un:getName(), weight)
-						
-						local loadedInfName = PlayerLogistics.getInfantryName(PlayerLogistics.infantryTypes.extractable)
-						trigger.action.outTextForUnit(un:getID(), loadedInfName..' onboard. ('..weight..' kg)', 10)
-						
-						local player = un:getPlayerName()
-						DependencyManager.get("MissionTracker"):tallyLoadSquad(player, squad)
-						DependencyManager.get("SquadTracker"):removeSquad(squad.name)
-						
-						squadgr:destroy()
-					end
-				else
-					trigger.action.outTextForUnit(un:getID(), 'There is no infantry nearby that is ready to be extracted.', 10)
-				end
-			end
-		end
-	end
-
-	function PlayerLogistics:loadInfantry(params)
-		if not ZoneCommand then return end
-		
-		local gr = Group.getByName(params.group)
-		local squadType = params.type
-		local squadName = PlayerLogistics.getInfantryName(squadType)
-		
-		local squadCost = 0
-		local squadSize = 999999
-		local squadWeight = 0
-		if self.registeredSquadGroups[squadType] then
-			squadCost = self.registeredSquadGroups[squadType].cost
-			squadSize = self.registeredSquadGroups[squadType].size
-			squadWeight = self.registeredSquadGroups[squadType].weight
-		end
-		
-		if gr then
-			local un = gr:getUnit(1)
-			if un then
-				if Utils.isInAir(un) then
-					trigger.action.outTextForUnit(un:getID(), 'Can not load infantry while in air', 10)
-					return
-				end
-				
-				local zn = ZoneCommand.getZoneOfUnit(un:getName())
-				if not zn then 
-					zn = CarrierCommand.getCarrierOfUnit(un:getName())
-				end
-				
-				if not zn then
-					trigger.action.outTextForUnit(un:getID(), 'Can only load infantry while within a friendly zone', 10)
-					return
-				end
-				
-				if zn.side ~= un:getCoalition() then
-					trigger.action.outTextForUnit(un:getID(), 'Can only load infantry while within a friendly zone', 10)
-					return
-				end
-
-				if not self:isCargoDoorOpen(un) then
-					trigger.action.outTextForUnit(un:getID(), 'Can not load infantry while cargo door closed', 10)
-					return
-				end
-
-				if zn:criticalOnSupplies() then
-					trigger.action.outTextForUnit(un:getID(), 'Can not load infantry, zone is low on resources', 10)
-					return
-				end
-
-				if zn.resource < zn.spendTreshold + squadCost then
-					trigger.action.outTextForUnit(un:getID(), 'Can not afford to load '..squadName..' (Cost: '..squadCost..'). Resources would fall to a critical level.', 10)
-					return
-				end
-
-				if not self:canFitPersonnel(params.group, squadSize) then
-					trigger.action.outTextForUnit(un:getID(), 'Not enough free space on board. (Need '..squadSize..')', 10)
-					return
-				end
-				
-				zn:removeResource(squadCost)
-				zn:refreshText()
-				if not self.carriedInfantry[gr:getID()] then self.carriedInfantry[gr:getID()] = {} end
-				table.insert(self.carriedInfantry[gr:getID()],{ type = squadType, size = squadSize, weight = squadWeight, loadedAt = zn })
-				self.lastLoaded[gr:getID()] = zn
-				
-				local weight = self:getCarriedPersonWeight(gr:getName())
-				trigger.action.setUnitInternalCargo(un:getName(), weight)
-				
-				local loadedInfName = PlayerLogistics.getInfantryName(squadType)
-				trigger.action.outTextForUnit(un:getID(), loadedInfName..' onboard. ('..weight..' kg)', 10)
-			end
-		end
-	end
-
-	function PlayerLogistics:unloadInfantry(params)
-		if not ZoneCommand then return end
-		local groupname = params.group
-		local sqtype = params.type
-		
-		local gr = Group.getByName(groupname)
-		if gr then
-			local un = gr:getUnit(1)
-			if un then
-				if Utils.isInAir(un) then
-					trigger.action.outTextForUnit(un:getID(), 'Can not unload infantry while in air', 10)
-					return
-				end
-
-				if not self:isCargoDoorOpen(un) then
-					trigger.action.outTextForUnit(un:getID(), 'Can not unload infantry while cargo door closed', 10)
-					return
-				end
-
-				local carriedSquads = self.carriedInfantry[gr:getID()]
-				if not carriedSquads or #carriedSquads == 0 then
-					trigger.action.outTextForUnit(un:getID(), 'No infantry onboard', 10)
-					return
-				end
-				
-				local toUnload = carriedSquads
-				local remaining = {}
-				if sqtype then
-					toUnload = {}
-					local sqToUnload = nil
-					for _,sq in ipairs(carriedSquads) do
-						if sq.type == sqtype and not sqToUnload then
-							sqToUnload = sq
-						else
-							table.insert(remaining, sq)
-						end
-					end
-
-					if sqToUnload then toUnload = { sqToUnload } end
-				end
-
-				if #toUnload == 0 then
-					if sqtype then
-						local squadName = PlayerLogistics.getInfantryName(sqtype)
-						trigger.action.outTextForUnit(un:getID(), 'No '..squadName..' onboard.', 10)
-					else
-						trigger.action.outTextForUnit(un:getID(), 'No infantry onboard.', 10)
-					end
-
-					return
-				end
-				
-				local zn = ZoneCommand.getZoneOfUnit(un:getName())
-				if not zn then 
-					zn = CarrierCommand.getCarrierOfUnit(un:getName())
-				end
-
-				for _, sq in ipairs(toUnload) do
-					local squadName = PlayerLogistics.getInfantryName(sq.type)
-					local lastLoad = sq.loadedAt
-					if lastLoad and zn and zn.side == un:getCoalition() and zn.name==lastLoad.name then
-						if self.registeredSquadGroups[sq.type] then
-							local cost = self.registeredSquadGroups[sq.type].cost
-							zn:addResource(cost)
-							zn:refreshText()
-							trigger.action.outTextForUnit(un:getID(), squadName..' unloaded', 10)
-						end
-					else
-						if sq.type == PlayerLogistics.infantryTypes.extractable then
-							if not zn then
-								trigger.action.outTextForUnit(un:getID(), 'Can only unload extracted infantry while within a friendly zone', 10)
-								table.insert(remaining, sq)
-							elseif zn.side ~= un:getCoalition() then
-								trigger.action.outTextForUnit(un:getID(), 'Can only unload extracted infantry while within a friendly zone', 10)
-								table.insert(remaining, sq)
-							else
-								trigger.action.outTextForUnit(un:getID(), 'Infantry recovered', 10)
-								zn:addResource(200)
-								zn:refreshText()
-								
-								if un.getPlayerName then
-									local player = un:getPlayerName()
-									local xp = RewardDefinitions.actions.squadExtract * DependencyManager.get("PlayerTracker"):getPlayerMultiplier(player)
-			
-									DependencyManager.get("PlayerTracker"):addStat(player, math.floor(xp), PlayerTracker.statTypes.xp)
-									DependencyManager.get("MissionTracker"):tallyUnloadSquad(player, zn.name, sq.type)
-									trigger.action.outTextForUnit(un:getID(), '+'..math.floor(xp)..' XP', 10)
-								end
-							end
-						elseif self.registeredSquadGroups[sq.type] then
-							local pos = Utils.getPointOnSurface(un:getPoint())
-		
-							local error = DependencyManager.get("SquadTracker"):spawnInfantry(self.registeredSquadGroups[sq.type], pos)
-							
-							if not error then
-								trigger.action.outTextForUnit(un:getID(), squadName..' deployed', 10)
-		
-								if un.getPlayerName then
-									local player = un:getPlayerName()
-									local xp = RewardDefinitions.actions.squadDeploy * DependencyManager.get("PlayerTracker"):getPlayerMultiplier(player)
-				
-									DependencyManager.get("PlayerTracker"):addStat(player, math.floor(xp), PlayerTracker.statTypes.xp)
-
-									if zn then
-										DependencyManager.get("MissionTracker"):tallyUnloadSquad(player, zn.name, sq.type)
-									else
-										DependencyManager.get("MissionTracker"):tallyUnloadSquad(player, '', sq.type)
-									end
-									trigger.action.outTextForUnit(un:getID(), '+'..math.floor(xp)..' XP', 10)
-								end
-							else
-								trigger.action.outTextForUnit(un:getID(), 'Failed to deploy squad, no suitable location nearby', 10)
-								table.insert(remaining, sq)
-							end
-						else
-							trigger.action.outText("ERROR: SQUAD TYPE NOT REGISTERED", 60)
-						end
-					end
-				end
-				
-				self.carriedInfantry[gr:getID()] = remaining
-				local weight = self:getCarriedPersonWeight(groupname)
-				trigger.action.setUnitInternalCargo(un:getName(), weight)
-			end
-		end
-	end
-
-	function PlayerLogistics:unloadAll(groupname)
-		local gr = Group.getByName(groupname)
-		if gr then 
-			local un = gr:getUnit(1)
-			if un then
-				local cargo = self.carriedCargo[gr:getID()]
-				local squad = self.carriedInfantry[gr:getID()]
-				local pilot = self.carriedPilots[gr:getID()]
-
-				if cargo and cargo>0 then
-					self:unloadSupplies({group=groupname, amount=9999999})
-				end
-
-				if squad and #squad>0 then
-					self:unloadInfantry({group=groupname})
-				end
-
-				if pilot and #pilot>0 then
-					self:unloadPilots(groupname)
-				end
-			end
-		end
-	end
-	
-	function PlayerLogistics:cargoStatus(groupName)
-		local gr = Group.getByName(groupName)
-		if gr then
-			local un = gr:getUnit(1)
-			if un then
-				local onboard = self.carriedCargo[gr:getID()]
-				if onboard and onboard > 0 then
-					local weight = self.getWeight(onboard)
-					trigger.action.outTextForUnit(un:getID(), onboard..' supplies onboard. ('..weight..' kg)', 10)
-				else
-					local msg = ''
-					local squads = self.carriedInfantry[gr:getID()]
-					if squads and #squads>0 then
-						msg = msg..'Squads:\n'
-
-						for _,squad in ipairs(squads) do
-							local infName = PlayerLogistics.getInfantryName(squad.type)
-							msg = msg..'  \n'..infName..' (Size: '..squad.size..')'
-						end
-					end
-
-					local pilots = self.carriedPilots[gr:getID()]
-					if pilots and #pilots>0 then
-						msg = msg.."\n\nPilots:\n"
-						for i,v in ipairs(pilots) do
-							msg = msg..'\n '..v
-						end
-
-					end
-					
-					local max = PlayerLogistics.allowedTypes[un:getDesc().typeName].personCapacity
-					local occupied = self:getOccupiedPersonCapacity(groupName)
-
-					msg = msg..'\n\nCapacity: '..occupied..'/'..max
-					
-					msg = msg..'\n('..self:getCarriedPersonWeight(groupName)..' kg)'
-
-					if un:getDesc().typeName == 'Hercules' then
-						local preped = self.hercPreparedDrops[gr:getID()]
-						if preped then
-							if preped == 'supplies' then
-								msg = msg..'\nSupplies prepared for next drop.'
-							else
-								local squadName = PlayerLogistics.getInfantryName(preped)
-								msg = msg..'\n'..squadName..' prepared for next drop.'
-							end
-						end
-					end
-
-					trigger.action.outTextForUnit(un:getID(), msg, 10)
-				end
-			end
-		end
-	end
-
-	function PlayerLogistics:isCargoDoorOpen(unit)
-		if unit then
-			local tp = unit:getDesc().typeName
-			if tp == "Mi-8MT" then
-				if unit:getDrawArgumentValue(86) == 1 then return true end
-				if unit:getDrawArgumentValue(38) > 0.85 then return true end
-			elseif tp == "UH-1H" then
-				if unit:getDrawArgumentValue(43) == 1 then return true end
-				if unit:getDrawArgumentValue(44) == 1 then return true end
-			elseif tp == "Mi-24P" then
-				if unit:getDrawArgumentValue(38) == 1 then return true end
-				if unit:getDrawArgumentValue(86) == 1 then return true end
-			elseif tp == "Hercules" then
-				if unit:getDrawArgumentValue(1215) == 1 and unit:getDrawArgumentValue(1216) == 1 then return true end
-			elseif tp == "UH-60L" then
-				if unit:getDrawArgumentValue(401) == 1 then return true end
-				if unit:getDrawArgumentValue(402) == 1 then return true end
-			elseif tp == "SA342Mistral" then
-				if unit:getDrawArgumentValue(34) == 1 then return true end
-				if unit:getDrawArgumentValue(38) == 1 then return true end
-			elseif tp == "SA342L" then
-				if unit:getDrawArgumentValue(34) == 1 then return true end
-				if unit:getDrawArgumentValue(38) == 1 then return true end
-			elseif tp == "SA342M" then
-				if unit:getDrawArgumentValue(34) == 1 then return true end
-				if unit:getDrawArgumentValue(38) == 1 then return true end
-			elseif tp == "SA342Minigun" then
-				if unit:getDrawArgumentValue(34) == 1 then return true end
-				if unit:getDrawArgumentValue(38) == 1 then return true end
-			else
-				return true
-			end
-		end
-	end
-	
-	function PlayerLogistics:loadSupplies(params)
-		if not ZoneCommand then return end
-		
-		local groupName = params.group
-		local amount = params.amount
-		
-		local gr = Group.getByName(groupName)
-		if gr then
-			local un = gr:getUnit(1)
-			if un then
-				if not self:canFitCargo(groupName) then
-					trigger.action.outTextForUnit(un:getID(), 'Can not load cargo. Personnel onboard.', 10)
-					return
-				end
-
-				if Utils.isInAir(un) then
-					trigger.action.outTextForUnit(un:getID(), 'Can not load supplies while in air', 10)
-					return
-				end
-				
-				local zn = ZoneCommand.getZoneOfUnit(un:getName())
-				if not zn then 
-					zn = CarrierCommand.getCarrierOfUnit(un:getName())
-				end
-
-				if not zn then
-					trigger.action.outTextForUnit(un:getID(), 'Can only load supplies while within a friendly zone', 10)
-					return
-				end
-				
-				if zn.side ~= un:getCoalition() then
-					trigger.action.outTextForUnit(un:getID(), 'Can only load supplies while within a friendly zone', 10)
-					return
-				end
-
-				if not self:isCargoDoorOpen(un) then
-					trigger.action.outTextForUnit(un:getID(), 'Can not load supplies while cargo door closed', 10)
-					return
-				end
-
-				if zn:criticalOnSupplies() then
-					trigger.action.outTextForUnit(un:getID(), 'Can not load supplies, zone is low on resources', 10)
-					return
-				end
-
-				if zn.resource < zn.spendTreshold + amount then
-					trigger.action.outTextForUnit(un:getID(), 'Can not load supplies if resources would fall to a critical level.', 10)
-					return
-				end
-
-				local carried = self.carriedCargo[gr:getID()] or 0
-				if amount > zn.resource then
-					amount = zn.resource
-				end
-				
-				zn:removeResource(amount)
-				zn:refreshText()
-				self.carriedCargo[gr:getID()] = carried + amount
-				self.lastLoaded[gr:getID()] = zn
-				local onboard = self.carriedCargo[gr:getID()]
-				local weight = self.getWeight(onboard)
-
-				if un:getDesc().typeName == "Hercules" then
-					local loadedInCrates = 0
-					local ammo = un:getAmmo()
-					if ammo then 
-						for _,load in ipairs(ammo) do
-							if load.desc.typeName == 'weapons.bombs.Generic Crate [20000lb]' then
-								loadedInCrates = 9000 * load.count
-							end
-						end
-					end
-
-					local internal = 0
-					if weight > loadedInCrates then
-						internal = weight - loadedInCrates
-					end
-
-					trigger.action.setUnitInternalCargo(un:getName(), internal)
-				else
-					trigger.action.setUnitInternalCargo(un:getName(), weight)
-				end
-
-				trigger.action.outTextForUnit(un:getID(), amount..' supplies loaded', 10)
-				trigger.action.outTextForUnit(un:getID(), onboard..' supplies onboard. ('..weight..' kg)', 10)
-			end
-		end
-	end
-	
-	function PlayerLogistics:unloadSupplies(params)
-		if not ZoneCommand then return end
-		
-		local groupName = params.group
-		local amount = params.amount
-		
-		local gr = Group.getByName(groupName)
-		if gr then
-			local un = gr:getUnit(1)
-			if un then
-				if Utils.isInAir(un) then
-					trigger.action.outTextForUnit(un:getID(), 'Can not unload supplies while in air', 10)
-					return
-				end
-				
-				local zn = ZoneCommand.getZoneOfUnit(un:getName())
-				if not zn then 
-					zn = CarrierCommand.getCarrierOfUnit(un:getName())
-				end
-				
-				if not zn then
-					trigger.action.outTextForUnit(un:getID(), 'Can only unload supplies while within a friendly zone', 10)
-					return
-				end
-				
-				if zn.side ~= 0 and zn.side ~= un:getCoalition()then
-					trigger.action.outTextForUnit(un:getID(), 'Can only unload supplies while within a friendly zone', 10)
-					return
-				end
-
-				if not self:isCargoDoorOpen(un) then
-					trigger.action.outTextForUnit(un:getID(), 'Can not unload supplies while cargo door closed', 10)
-					return
-				end
-
-				if not self.carriedCargo[gr:getID()] or self.carriedCargo[gr:getID()] == 0 then
-					trigger.action.outTextForUnit(un:getID(), 'No supplies loaded', 10)
-					return
-				end
-				
-				local carried = self.carriedCargo[gr:getID()]
-				if amount > carried then
-					amount = carried
-				end
-				
-				self.carriedCargo[gr:getID()] = carried-amount
-				zn:addResource(amount)
-
-				local lastLoad = self.lastLoaded[gr:getID()]
-				self:awardSupplyXP(lastLoad, zn, un, amount)
-
-				zn:refreshText()
-				local onboard = self.carriedCargo[gr:getID()]
-				local weight = self.getWeight(onboard)
-			
-				if un:getDesc().typeName == "Hercules" then
-					local loadedInCrates = 0
-					local ammo = un:getAmmo()
-					for _,load in ipairs(ammo) do
-						if load.desc.typeName == 'weapons.bombs.Generic Crate [20000lb]' then
-							loadedInCrates = 9000 * load.count
-						end
-					end
-
-					local internal = 0
-					if weight > loadedInCrates then
-						internal = weight - loadedInCrates
-					end
-					
-					trigger.action.setUnitInternalCargo(un:getName(), internal)
-				else
-					trigger.action.setUnitInternalCargo(un:getName(), weight)
-				end
-
-				trigger.action.outTextForUnit(un:getID(), amount..' supplies unloaded', 10)
-				trigger.action.outTextForUnit(un:getID(), onboard..' supplies remaining onboard. ('..weight..' kg)', 10)
-			end
-		end
-	end
-end
-
------------------[[ END OF PlayerLogistics.lua ]]-----------------
-
-
-
 -----------------[[ MarkerCommands.lua ]]-----------------
 
 MarkerCommands = {}
@@ -4335,6 +4469,7 @@ do
 		obj.reservedMissions = {}
 		obj.isHeloSpawn = false
 		obj.isPlaneSpawn = false
+		obj.spawnSurface = nil
 		
 		obj.zone = CustomZone:getByName(zonename)
 		obj.products = {}
@@ -4481,14 +4616,16 @@ do
 		return nil
 	end
 
-	function ZoneCommand.getClosestZoneToPoint(point)
+	function ZoneCommand.getClosestZoneToPoint(point, side)
 		local minDist = 9999999
 		local closest = nil
 		for i,v in pairs(ZoneCommand.allZones) do
-			local d = mist.utils.get2DDist(v.zone.point, point)
-			if d < minDist then
-				minDist = d
-				closest = v
+			if not side or side == v.side then
+				local d = mist.utils.get2DDist(v.zone.point, point)
+				if d < minDist then
+					minDist = d
+					closest = v
+				end
 			end
 		end
 		
@@ -4660,8 +4797,13 @@ do
 		self:refreshSpawnBlocking()
 	end
 
-	function ZoneCommand:reveal()
-		self.revealTime = 60*30
+	function ZoneCommand:reveal(time)
+		local revtime = 30
+		if time then
+			revtime = time
+		end
+
+		self.revealTime = 60*revtime
 		self:refreshText()
 	end
 	
@@ -4702,7 +4844,7 @@ do
 		if product.type == 'defense' or product.type == 'upgrade' then
 			env.info('ZoneCommand: instantBuild ['..product.name..']')
 			if self.built[product.name] == nil then
-				self.zone:spawnGroup(product)
+				self.zone:spawnGroup(product, self.spawnSurface)
 				self.built[product.name] = product
 			end
 		elseif product.type == 'mission' then
@@ -5101,10 +5243,10 @@ do
 					elseif self.currentBuild.product.type == 'defense' or self.currentBuild.product.type=='upgrade' then
 						if self.currentBuild.isRepair then
 							if Group.getByName(self.currentBuild.product.name) then
-								self.zone:spawnGroup(self.currentBuild.product)
+								self.zone:spawnGroup(self.currentBuild.product, self.spawnSurface)
 							end
 						else
-							self.zone:spawnGroup(self.currentBuild.product)
+							self.zone:spawnGroup(self.currentBuild.product, self.spawnSurface)
 						end
 						
 						self.built[self.currentBuild.product.name] = self.currentBuild.product
@@ -6808,7 +6950,7 @@ do
     PlayerTracker.cmdShopPrices = {
         [PlayerTracker.cmdShopTypes.smoke] = 1,
         [PlayerTracker.cmdShopTypes.prio] = 10,
-        [PlayerTracker.cmdShopTypes.jtac] = 5,
+        [PlayerTracker.cmdShopTypes.jtac] = 20,
         [PlayerTracker.cmdShopTypes.bribe1] = 5,
         [PlayerTracker.cmdShopTypes.bribe2] = 10,
         [PlayerTracker.cmdShopTypes.artillery] = 15,
@@ -7311,6 +7453,8 @@ do
                 local cmdTokens = self.stats[player][PlayerTracker.statTypes.cmd]
 
                 if cmdTokens and cost <= cmdTokens then
+                    local canPurchase = true
+
                     if self.groupTgtMenus[gr:getID()] then
                         missionCommands.removeItemForGroup(gr:getID(), self.groupTgtMenus[gr:getID()])
                         self.groupTgtMenus[gr:getID()] = nil
@@ -7321,8 +7465,14 @@ do
                         self.groupTgtMenus[gr:getID()] = MenuRegistry.showTargetZoneMenu(gr:getID(), "Smoke Marker target", function(params) 
                             CommandFunctions.smokeTargets(params.zone, 5)
                             trigger.action.outTextForGroup(params.groupid, "Targets marked at "..params.zone.name.." with red smoke", 5)
-                        end, 1, 1)
-                        trigger.action.outTextForGroup(gr:getID(), "Select target from radio menu",10)
+                        end, 1, 1, nil, nil, true)
+
+                        if self.groupTgtMenus[gr:getID()] then
+                            trigger.action.outTextForGroup(gr:getID(), "Select target from radio menu",10)
+                        else
+                            trigger.action.outTextForGroup(gr:getID(), "No valid targets available",10)
+                            canPurchase = false
+                        end
 
                     elseif itemType == PlayerTracker.cmdShopTypes.jtac then
 
@@ -7332,7 +7482,13 @@ do
                             trigger.action.outTextForGroup(params.groupid, "Reaper orbiting "..params.zone.name,5)
 
                         end, 1, 1)
-                        trigger.action.outTextForGroup(gr:getID(), "Select target from radio menu",10)
+
+                        if self.groupTgtMenus[gr:getID()] then
+                            trigger.action.outTextForGroup(gr:getID(), "Select target from radio menu",10)
+                        else
+                            trigger.action.outTextForGroup(gr:getID(), "No valid targets available",10)
+                            canPurchase = false
+                        end
 
                     elseif itemType== PlayerTracker.cmdShopTypes.prio then
 
@@ -7340,7 +7496,13 @@ do
                             BattlefieldManager.overridePriority(2, params.zone, 4)
                             trigger.action.outTextForGroup(params.groupid, "Blue is concentrating efforts on "..params.zone.name.." for the next two hours", 5)
                         end, nil, 1)
-                        trigger.action.outTextForGroup(gr:getID(), "Select target from radio menu",10)
+
+                        if self.groupTgtMenus[gr:getID()] then
+                            trigger.action.outTextForGroup(gr:getID(), "Select target from radio menu",10)
+                        else
+                            trigger.action.outTextForGroup(gr:getID(), "No valid targets available",10)
+                            canPurchase = false
+                        end
 
                     elseif itemType== PlayerTracker.cmdShopTypes.bribe1 then
 
@@ -7388,16 +7550,29 @@ do
                             CommandFunctions.shellZone(params.zone, 50)
                         end, 1, 1)
 
-                        trigger.action.outTextForGroup(gr:getID(), "Select target zone from radio menu",10)
+                        if self.groupTgtMenus[gr:getID()] then
+                            trigger.action.outTextForGroup(gr:getID(), "Select target from radio menu",10)
+                        else
+                            trigger.action.outTextForGroup(gr:getID(), "No valid targets available",10)
+                            canPurchase = false
+                        end
+
                     elseif itemType == PlayerTracker.cmdShopTypes.sabotage1 then
                         self.groupTgtMenus[gr:getID()] = MenuRegistry.showTargetZoneMenu(gr:getID(), "Sabotage target", function(params)
                             CommandFunctions.sabotageZone(params.zone)
                         end, 1, 1)
 
-                        trigger.action.outTextForGroup(gr:getID(), "Select target zone from radio menu",10)
+                        if self.groupTgtMenus[gr:getID()] then
+                            trigger.action.outTextForGroup(gr:getID(), "Select target from radio menu",10)
+                        else
+                            trigger.action.outTextForGroup(gr:getID(), "No valid targets available",10)
+                            canPurchase = false
+                        end
                     end
                     
-                    self.stats[player][PlayerTracker.statTypes.cmd] = self.stats[player][PlayerTracker.statTypes.cmd] - cost
+                    if canPurchase then
+                        self.stats[player][PlayerTracker.statTypes.cmd] = self.stats[player][PlayerTracker.statTypes.cmd] - cost
+                    end
                 else
                     trigger.action.outTextForUnit(un:getID(), "Insufficient CMD to buy selected item", 5)
                 end
@@ -7619,6 +7794,350 @@ end
 
 
 
+-----------------[[ ReconManager.lua ]]-----------------
+
+ReconManager = {}
+do
+    ReconManager.groupMenus = {}
+    ReconManager.requiredProgress = 5*60
+    ReconManager.updateFrequency = 5
+
+    function ReconManager:new()
+        local obj = {}
+        obj.recondata = {}
+        obj.cancelRequests = {}
+
+        setmetatable(obj, self)
+		self.__index = self
+		DependencyManager.register("ReconManager", obj)
+        obj:init()
+        return obj
+    end
+
+    function ReconManager:init()
+        MenuRegistry:register(7, function(event, context)
+            if event.id == world.event.S_EVENT_BIRTH and event.initiator and event.initiator.getPlayerName then
+                local player = event.initiator:getPlayerName()
+                if player then
+                    local groupid = event.initiator:getGroup():getID()
+                    local groupname = event.initiator:getGroup():getName()
+                    
+                    if ReconManager.groupMenus[groupid] then
+                        missionCommands.removeItemForGroup(groupid, ReconManager.groupMenus[groupid])
+                        ReconManager.groupMenus[groupid] = nil
+                    end
+    
+                    if not ReconManager.groupMenus[groupid] then
+                        local menu = missionCommands.addSubMenuForGroup(groupid, 'Recon')
+                        missionCommands.addCommandForGroup(groupid, 'Start', menu, Utils.log(context.activateRecon), context, groupname)
+                        missionCommands.addCommandForGroup(groupid, 'Cancel', menu, Utils.log(context.cancelRecon), context, groupname)
+                        missionCommands.addCommandForGroup(groupid, 'Analyze', menu, Utils.log(context.analyzeData), context, groupname)
+    
+                        ReconManager.groupMenus[groupid] = menu
+                    end
+                end
+            elseif (event.id == world.event.S_EVENT_PLAYER_LEAVE_UNIT or event.id == world.event.S_EVENT_DEAD) and event.initiator and event.initiator.getPlayerName then
+                local player = event.initiator:getPlayerName()
+                if player then
+                    local groupid = event.initiator:getGroup():getID()
+                    
+                    if ReconManager.groupMenus[groupid] then
+                        missionCommands.removeItemForGroup(groupid, ReconManager.groupMenus[groupid])
+                        ReconManager.groupMenus[groupid] = nil
+                    end
+                end
+            end
+        end, self)
+    end
+
+    function ReconManager:activateRecon(groupname)
+        local gr = Group.getByName(groupname)
+		if gr then
+			local un = gr:getUnit(1)
+			if un and un:isExist() then
+                timer.scheduleFunction(function(param, time)
+                    local cancelRequest = param.context.cancelRequests[param.groupname]
+                    if cancelRequest and (timer.getAbsTime() - cancelRequest < 5) then
+                        param.context.cancelRequests[param.groupname] = nil
+                        return
+                    end
+
+                    local shouldUpdateMsg = (timer.getAbsTime() - param.lastUpdate) > ReconManager.updateFrequency
+
+                    local withinParameters = false
+
+                    local pgr = Group.getByName(param.groupname)
+                    if not pgr then 
+                        return 
+                    end
+                    local pun = pgr:getUnit(1)
+                    if not pun or not pun:isExist() then 
+                        return
+                    end
+
+                    local closestZone = nil
+                    if param.lastZone then
+                        if param.lastZone.side == 0 or param.lastZone.side == pun:getCoalition() then
+                            local msg = param.lastZone.name..' is no longer controlled by the enemy.'
+                            msg = msg..'\n Discarding data.'
+                            trigger.action.outTextForUnit(pun:getID(), msg, 20)
+                            closestZone = ZoneCommand.getClosestZoneToPoint(pun:getPoint(), Utils.getEnemy(pun:getCoalition()))
+                        else
+                            closestZone = param.lastZone
+                        end
+                    else
+                        closestZone = ZoneCommand.getClosestZoneToPoint(pun:getPoint(), Utils.getEnemy(pun:getCoalition()))
+                    end
+                    
+                    if not closestZone then
+                        return
+                    end
+
+                    local stats = ReconManager.getAircraftStats(pun:getDesc().typeName)
+                    local currentParameters = {
+                        distance = 0,
+                        deviation = 0,
+                        percent_visible = 0
+                    }
+                    
+                    currentParameters.distance = mist.utils.get2DDist(pun:getPoint(), closestZone.zone.point)
+
+                    local unitPos = pun:getPosition()
+                    local unitheading = math.deg(math.atan2(unitPos.x.z, unitPos.x.x))
+                    local bearing = Utils.getBearing(pun:getPoint(), closestZone.zone.point)
+                    
+                    currentParameters.deviation = math.abs(Utils.getHeadingDiff(unitheading, bearing))
+
+                    local unitsCount = 0
+                    local visibleCount = 0
+                    for _,product in pairs(closestZone.built) do
+                        if product.side ~= pun:getCoalition() then
+                            local gr = Group.getByName(product.name)
+                            if gr then
+                                for _,enemyUnit in ipairs(gr:getUnits()) do
+                                    unitsCount = unitsCount+1
+                                    local from = pun:getPoint()
+                                    from.y = from.y+1.5
+                                    local to = enemyUnit:getPoint()
+                                    to.y = to.y+1.5
+                                    if land.isVisible(from, to) then
+                                        visibleCount = visibleCount+1
+                                    end
+                                end 
+                            else
+                                local st = StaticObject.getByName(product.name)
+                                if st then
+                                    unitsCount = unitsCount+1
+                                    local from = pun:getPoint()
+                                    from.y = from.y+1.5
+                                    local to = st:getPoint()
+                                    to.y = to.y+1.5
+                                    if land.isVisible(from, to) then
+                                        visibleCount = visibleCount+1
+                                    end
+                                end
+                            end
+                        end
+                    end
+                    
+                    if unitsCount > 0 and visibleCount > 0 then
+                        currentParameters.percent_visible = visibleCount/unitsCount
+                    end
+
+                    if currentParameters.distance < (stats.minDist * 1000) and currentParameters.percent_visible >= 0.5 then
+                        if stats.maxDeviation then
+                            if currentParameters.deviation <= stats.maxDeviation then
+                                withinParameters = true
+                            end
+                        else
+                            withinParameters = true
+                        end
+                    end
+
+                    if withinParameters then
+                        if not param.lastZone then
+                            param.lastZone = closestZone
+                        end
+
+                        param.timeout = 300
+
+                        local speed = stats.recon_speed * currentParameters.percent_visible
+                        param.progress = math.min(param.progress + speed, ReconManager.requiredProgress)
+
+                        if shouldUpdateMsg then
+                            local msg = "[Recon: "..param.lastZone.name..']'
+                            msg = msg.."\nProgress: "..string.format('%.1f', (param.progress/ReconManager.requiredProgress)*100)..'%\n'
+                            msg = msg.."\nVisibility: "..string.format('%.1f', currentParameters.percent_visible*100)..'%'
+                            trigger.action.outTextForUnit(pun:getID(), msg, ReconManager.updateFrequency)
+
+                            param.lastUpdate = timer.getAbsTime()
+                        end
+                    else
+                        param.timeout = param.timeout - 1
+                        if shouldUpdateMsg then
+
+                            local msg = "[Nearest enemy zone: "..closestZone.name..']'
+                            
+                            if param.lastZone then
+                                msg = "[Recon in progress: "..param.lastZone.name..']'
+                                msg = msg.."\nProgress: "..string.format('%.1f', (param.progress/ReconManager.requiredProgress)*100)..'%\n'
+                            end
+                            
+                            if stats.maxDeviation then
+                                msg = msg.."\nDeviation: "..string.format('%.1f', currentParameters.deviation)..' deg (under '..stats.maxDeviation..' deg)'
+                            end
+                            
+                            msg = msg.."\nDistance: "..string.format('%.2f', currentParameters.distance/1000)..'km (under '..stats.minDist..' km)'
+                            msg = msg.."\nVisibility: "..string.format('%.1f', currentParameters.percent_visible*100)..'% (min 50%)'
+                            msg = msg.."\n\nTime left: "..param.timeout..' sec'
+                            trigger.action.outTextForUnit(pun:getID(), msg, ReconManager.updateFrequency)
+
+                            param.lastUpdate = timer.getAbsTime()
+                        end
+                    end
+
+                    if param.progress >= ReconManager.requiredProgress then
+
+                        local msg = "Data recorded for "..param.lastZone.name
+                        msg = msg.."\nAnalyze data at a friendly zone to recover results"
+                        trigger.action.outTextForUnit(pun:getID(), msg, 20)
+
+                        param.context.recondata[param.groupname] = param.lastZone
+                        return
+                    end
+                    
+                    if param.timeout > 0 then
+                        return time+1
+                    end
+
+                    local msg = "Recon cancelled."
+                    if param.progress > 0 then
+                        msg = msg.." Data lost."
+                    end 
+                    trigger.action.outTextForUnit(pun:getID(), msg, 20)
+
+                end, {context = self, groupname = groupname, timeout = 300, progress = 0, lastZone = nil, lastUpdate = timer.getAbsTime()-5}, timer.getTime()+1)
+            end
+        end
+    end
+
+    function ReconManager:cancelRecon(groupname)
+        self.cancelRequests[groupname] = timer.getAbsTime()
+    end
+
+    function ReconManager:analyzeData(groupname)
+        local gr = Group.getByName(groupname)
+        if not gr then return end
+        local un = gr:getUnit(1)
+        if not un or not un:isExist() then return end
+        local player = un:getPlayerName()
+        
+        local zn = ZoneCommand.getZoneOfUnit(un:getName())
+        if not zn then
+            zn = CarrierCommand.getCarrierOfUnit(un:getName())
+        end
+
+        if not zn or not Utils.isLanded(un, zn.isCarrier) then 
+            trigger.action.outTextForUnit(un:getID(), "Recon data can only be analyzed while landed in a friendly zone.", 5)
+            return 
+        end
+
+        local data = self.recondata[groupname]
+        if data then
+            if data.side == 0 or data.side == un:getCoalition() then
+                local msg = param.lastZone.name..' is no longer controlled by the enemy.'
+                msg = msg..'\n Data discarded.'
+                trigger.action.outTextForUnit(un:getID(), msg, 20)
+            else
+                local wasRevealed = data.revealTime > 60
+                data:reveal()
+
+                if data:hasUnitWithAttributeOnSide({'Buildings'}, 1) then
+                    local tgt = data:getRandomUnitWithAttributeOnSide({'Buildings'}, 1)
+                    if tgt then
+                        MissionTargetRegistry.addStrikeTarget(tgt, data)
+                        trigger.action.outTextForUnit(un:getID(), tgt.display..' discovered at '..data.name, 20)
+                    end
+                end
+
+                local xp = RewardDefinitions.actions.recon * DependencyManager.get("PlayerTracker"):getPlayerMultiplier(player)
+                if wasRevealed then
+                    xp = xp/10
+                end
+
+                DependencyManager.get("PlayerTracker"):addStat(player, math.floor(xp), PlayerTracker.statTypes.xp)
+                local msg = '+'..math.floor(xp)..' XP'
+                trigger.action.outTextForUnit(un:getID(), msg, 10)
+
+                DependencyManager.get("MissionTracker"):tallyRecon(player, data.name, zn.name)
+            end
+
+            self.recondata[groupname] = nil
+        else
+            trigger.action.outTextForUnit(un:getID(), "No data recorded.", 5)
+        end
+    end
+
+    function ReconManager.getAircraftStats(aircraftType)
+        local stats = ReconManager.aircraftStats[aircraftType]
+        if not stats then
+            stats = { recon_speed = 1, minDist = 5 }
+        end
+
+        return stats
+    end
+
+    ReconManager.aircraftStats = {
+        ['A-10A'] =         { recon_speed = 1,  minDist = 5,  },
+        ['A-10C'] =         { recon_speed = 2,  minDist = 20, },
+        ['A-10C_2'] =       { recon_speed = 2,  minDist = 20, },
+        ['A-4E-C'] =        { recon_speed = 1,  minDist = 5,  },
+        ['AJS37'] =         { recon_speed = 10, minDist = 10, },
+        ['AV8BNA'] =        { recon_speed = 2,  minDist = 20, },
+        ['C-101CC'] =       { recon_speed = 1,  minDist = 5,  },
+        ['F-14A-135-GR'] =  { recon_speed = 10, minDist = 5,  },
+        ['F-14B'] =         { recon_speed = 10, minDist = 5,  },
+        ['F-15C'] =         { recon_speed = 1,  minDist = 5,  },
+        ['F-16C_50'] =      { recon_speed = 2,  minDist = 20, },
+        ['F-5E-3'] =        { recon_speed = 1,  minDist = 5,  },
+        ['F-86F Sabre'] =   { recon_speed = 1,  minDist = 5,  },
+        ['FA-18C_hornet'] = { recon_speed = 2,  minDist = 20, },
+        ['Hercules'] =      { recon_speed = 1,  minDist = 5,  },
+        ['J-11A'] =         { recon_speed = 1,  minDist = 5,  },
+        ['JF-17'] =         { recon_speed = 2,  minDist = 20, },
+        ['L-39ZA'] =        { recon_speed = 1,  minDist = 5,  },
+        ['M-2000C'] =       { recon_speed = 1,  minDist = 5,  },
+        ['Mirage-F1BE'] =   { recon_speed = 1,  minDist = 5,  },
+        ['Mirage-F1CE'] =   { recon_speed = 1,  minDist = 5,  },
+        ['Mirage-F1EE'] =   { recon_speed = 1,  minDist = 5,  },
+        ['MiG-15bis'] =     { recon_speed = 1,  minDist = 5,  },
+        ['MiG-19P'] =       { recon_speed = 1,  minDist = 5,  },
+        ['MiG-21Bis'] =     { recon_speed = 1,  minDist = 5,  },
+        ['MiG-29A'] =       { recon_speed = 1,  minDist = 5,  },
+        ['MiG-29G'] =       { recon_speed = 1,  minDist = 5,  },
+        ['MiG-29S'] =       { recon_speed = 1,  minDist = 5,  },
+        ['Su-25'] =         { recon_speed = 1,  minDist = 5,  },
+        ['Su-25T'] =        { recon_speed = 2,  minDist = 10, },
+        ['Su-27'] =         { recon_speed = 1,  minDist = 5,  },
+        ['Su-33'] =         { recon_speed = 1,  minDist = 5,  },
+        ['T-45'] =          { recon_speed = 1,  minDist = 5,  },
+        ['AH-64D_BLK_II'] = { recon_speed = 5,  minDist = 15, maxDeviation = 120 },
+        ['Ka-50'] =         { recon_speed = 5,  minDist = 15, maxDeviation = 35  },
+        ['Ka-50_3'] =       { recon_speed = 5,  minDist = 15, maxDeviation = 35  },
+        ['Mi-24P'] =        { recon_speed = 5,  minDist = 10, maxDeviation = 60  },
+        ['Mi-8MT'] =        { recon_speed = 1,  minDist = 5,  maxDeviation = 30  },
+        ['SA342L'] =        { recon_speed = 5,  minDist = 10, maxDeviation = 120 },
+        ['SA342M'] =        { recon_speed = 10, minDist = 15, maxDeviation = 120 },
+        ['SA342Minigun'] =  { recon_speed = 2,  minDist = 5,  maxDeviation = 45  },
+        ['UH-1H'] =         { recon_speed = 1,  minDist = 5,  maxDeviation = 30  },
+        ['UH-60L'] =        { recon_speed = 1,  minDist = 5,  maxDeviation = 30  }
+    }
+end
+
+-----------------[[ END OF ReconManager.lua ]]-----------------
+
+
+
 -----------------[[ MissionTargetRegistry.lua ]]-----------------
 
 MissionTargetRegistry = {}
@@ -7694,8 +8213,8 @@ do
     MissionTargetRegistry.strikeTargetExpireTime = 60*60
     MissionTargetRegistry.strikeTargets = {}
 
-    function MissionTargetRegistry.addStrikeTarget(target, zone, isDeep)
-        MissionTargetRegistry.strikeTargets[target.name] = {data=target, zone=zone, addedTime = timer.getAbsTime(), isDeep = isDeep}
+    function MissionTargetRegistry.addStrikeTarget(target, zone)
+        MissionTargetRegistry.strikeTargets[target.name] = {data=target, zone=zone, addedTime = timer.getAbsTime()}
         env.info('MissionTargetRegistry - strike target added '..target.name)
     end
 
@@ -7709,7 +8228,7 @@ do
                     MissionTargetRegistry.removeStrikeTarget(v)
                 elseif timer.getAbsTime() - v.addedTime > MissionTargetRegistry.strikeTargetExpireTime then
                     MissionTargetRegistry.removeStrikeTarget(v)
-                elseif v.isDeep == isDeep then
+                elseif not isDeep or v.zone.distToFront >= 2 then
                     return true
                 end
             end
@@ -7729,7 +8248,7 @@ do
                     MissionTargetRegistry.removeStrikeTarget(v)
                 elseif timer.getAbsTime() - v.addedTime > MissionTargetRegistry.strikeTargetExpireTime then
                     MissionTargetRegistry.removeStrikeTarget(v)
-                elseif v.isDeep == isDeep then
+                elseif not isDeep or v.zone.distToFront >= 2 then
                     table.insert(targets, v)
                 end
             end
@@ -7753,7 +8272,7 @@ do
                     MissionTargetRegistry.removeStrikeTarget(v)
                 elseif timer.getAbsTime() - v.addedTime > MissionTargetRegistry.strikeTargetExpireTime then
                     MissionTargetRegistry.removeStrikeTarget(v)
-                elseif v.isDeep == isDeep then
+                else
                     table.insert(targets, v)
                 end
             end
@@ -7774,10 +8293,10 @@ do
         env.info('MissionTargetRegistry - squad added '..squad.name)
     end
 
-    function MissionTargetRegistry.squadsReadyToExtract()
+    function MissionTargetRegistry.squadsReadyToExtract(onside)
         for i,v in pairs(MissionTargetRegistry.extractableSquads) do
             local gr = Group.getByName(i)
-            if gr and gr:isExist() and gr:getSize() > 0 then
+            if gr and gr:isExist() and gr:getSize() > 0 and gr:getCoalition() == onside then
                 return true
             end
         end
@@ -7785,11 +8304,11 @@ do
         return false
     end
 
-    function MissionTargetRegistry.getRandomSquad()
+    function MissionTargetRegistry.getRandomSquad(onside)
         local targets = {}
         for i,v in pairs(MissionTargetRegistry.extractableSquads) do
             local gr = Group.getByName(i)
-            if gr and gr:isExist() and gr:getSize() > 0 then
+            if gr and gr:isExist() and gr:getSize() > 0 and gr:getCoalition() == onside then
                 table.insert(targets, v)
             end
         end
@@ -8061,7 +8580,17 @@ do
         local save = self.data
         if save.squadTracker then
             for i,v in pairs(save.squadTracker) do
-                local sdata = DependencyManager.get("PlayerLogistics").registeredSquadGroups[v.type]
+                local sdata = nil
+                if v.isAISpawned then
+                    if v.type == PlayerLogistics.infantryTypes.ambush then
+                        sdata = GroupMonitor.aiSquads.ambush[v.side]
+                    else 
+                        sdata = GroupMonitor.aiSquads.manpads[v.side]
+                    end
+                else
+                    sdata = DependencyManager.get("PlayerLogistics").registeredSquadGroups[v.type]
+                end
+
                 if sdata then
                     v.data = sdata
                     DependencyManager.get("SquadTracker"):restoreInfantry(v)
@@ -8094,59 +8623,74 @@ do
                 local carrier = CarrierCommand.getCarrierByName(v.name)
                 if carrier then 
                     carrier.resource = math.min(v.resource, carrier.maxResource)
+                    carrier.weaponStocks = v.weaponStocks or {}
                     carrier:refreshSpawnBlocking()
 
-                    local unit = Unit.getByName(v.name)
-                    if unit then
-                        if not v.isAlive then
-                            unit:destroy()
-                        else
-                            local vars = {
-                                groupName = unit:getGroup():getName(),
-                                point = v.position.p,
-                                action = 'teleport',
-                                heading = math.atan2(v.position.x.z, v.position.x.x),
-                                initTasks = false,
-                                route = {}
-                            }
-                    
-                            mist.teleportToPoint(vars)
+                    local group = Group.getByName(v.name)
+                    if group then
+                        local vars = {
+                            groupName = group:getName(),
+                            point = v.position.p,
+                            action = 'teleport',
+                            heading = math.atan2(v.position.x.z, v.position.x.x),
+                            initTasks = false,
+                            route = {}
+                        }
+                
+                        mist.teleportToPoint(vars)
 
-                            timer.scheduleFunction(function(param, time)
-                                param:setupRadios()
-                            end, carrier, timer.getTime()+3)
+                        timer.scheduleFunction(function(param, time)
+                            param:setupRadios()
+                        end, carrier, timer.getTime()+3)
 
-                            carrier.navigation.waypoints = v.navigation.waypoints
-                            carrier.navigation.currentWaypoint = nil
-                            carrier.navigation.nextWaypoint = v.navigation.currentWaypoint
-                            carrier.navigation.loop = v.navigation.loop
+                        carrier.navigation.waypoints = v.navigation.waypoints
+                        carrier.navigation.currentWaypoint = nil
+                        carrier.navigation.nextWaypoint = v.navigation.currentWaypoint
+                        carrier.navigation.loop = v.navigation.loop
 
-                            if v.supportFlightStates then
-                                for sfsName, sfsData in pairs(v.supportFlightStates) do
-                                    local sflight = carrier.supportFlights[sfsName]
-                                    if sflight then
-                                        if sfsData.state == CarrierCommand.supportStates.inair and sfsData.targetName and sfsData.position then
-                                            local zn = ZoneCommand.getZoneByName(sfsData.targetName)
-                                            if not zn then 
-                                                zn = CarrierCommand.getCarrierByName(sfsData.targetName)
-                                            end
+                        if v.supportFlightStates then
+                            for sfsName, sfsData in pairs(v.supportFlightStates) do
+                                local sflight = carrier.supportFlights[sfsName]
+                                if sflight then
+                                    if sfsData.state == CarrierCommand.supportStates.inair and sfsData.targetName and sfsData.position then
+                                        local zn = ZoneCommand.getZoneByName(sfsData.targetName)
+                                        if not zn then 
+                                            zn = CarrierCommand.getCarrierByName(sfsData.targetName)
+                                        end
 
-                                            if zn then
-                                                CarrierCommand.spawnSupport(sflight, zn, sfsData)
-                                            end
-                                        elseif sfsData.state == CarrierCommand.supportStates.takeoff and sfsData.targetName then
-                                            local zn = ZoneCommand.getZoneByName(sfsData.targetName)
-                                            if not zn then 
-                                                zn = CarrierCommand.getCarrierByName(sfsData.targetName)
-                                            end
+                                        if zn then
+                                            CarrierCommand.spawnSupport(sflight, zn, sfsData)
+                                        end
+                                    elseif sfsData.state == CarrierCommand.supportStates.takeoff and sfsData.targetName then
+                                        local zn = ZoneCommand.getZoneByName(sfsData.targetName)
+                                        if not zn then 
+                                            zn = CarrierCommand.getCarrierByName(sfsData.targetName)
+                                        end
 
-                                            if zn then
-                                                CarrierCommand.spawnSupport(sflight, zn)
-                                            end
+                                        if zn then
+                                            CarrierCommand.spawnSupport(sflight, zn)
                                         end
                                     end
                                 end
                             end
+                        end
+
+                        if v.aliveGroupMembers then
+                            timer.scheduleFunction(function(param, time)
+                                local g = Group.getByName(param.name)
+                                if not g then return end
+                                local grMembers = g:getUnits()
+                                local liveMembers = {}
+                                for _, agm in ipairs(param.aliveGroupMembers) do
+                                    liveMembers[agm] = true
+                                end
+
+                                for _, gm in ipairs(grMembers) do
+                                    if not liveMembers[gm:getName()] then
+                                        gm:destroy()
+                                    end
+                                end
+                            end, v, timer.getTime()+4)
                         end
                     end
                 end
@@ -8197,11 +8741,13 @@ do
                 if b.type == 'defense' then
                     local typeList = {}
                     local gr = Group.getByName(b.name)
-                    for _,unit in ipairs(gr:getUnits()) do
-                        table.insert(typeList, unit:getDesc().typeName)
-                    end
+                    if gr then
+                        for _,unit in ipairs(gr:getUnits()) do
+                            table.insert(typeList, unit:getDesc().typeName)
+                        end
 
-                    tosave.zones[i].built[n] = typeList
+                        tosave.zones[i].built[n] = typeList
+                    end
                 else
                     tosave.zones[i].built[n] = true
                 end
@@ -8241,6 +8787,10 @@ do
                     tosave.activeGroups[i].lastMission = v.product.lastMission
                     tosave.activeGroups[i].heading = math.atan2(un:getPosition().x.z, un:getPosition().x.x)
                 end
+            end
+
+            if v.spawnedSquad then
+                tosave.activeGroups[i].spawnedSquad = true
             end
 
             if v.target then
@@ -8308,42 +8858,52 @@ do
                 remainingStateTime = v.remainingStateTime,
                 position = v.position,
                 name = v.name,
-                type = v.data.type
+                type = v.data.type,
+                side = v.data.side,
+				isAISpawned = v.data.isAISpawned,
+                discovered = v.discovered
             }
         end
 
         tosave.carriers = {}
         for cname,cdata in pairs(CarrierCommand.getAllCarriers()) do
-            local unit = Unit.getByName(cdata.name)
+            local group = Group.getByName(cdata.name)
+            if group and group:isExist() then
 
-            tosave.carriers[cname] = {
-                name = cdata.name,
-                resource = cdata.resource,
-                isAlive = unit ~= nil,
-                position = unit:getPosition(),
-                navigation = cdata.navigation,
-                supportFlightStates = {}
-            }
-
-            for spname, spdata in pairs(cdata.supportFlights) do
-                tosave.carriers[cname].supportFlightStates[spname] = {
-                    name = spdata.name, 
-                    state = spdata.state,
-                    lastStateDuration = timer.getAbsTime() - spdata.lastStateTime,
-                    returning = spdata.returning
+                tosave.carriers[cname] = {
+                    name = cdata.name,
+                    resource = cdata.resource,
+                    position = group:getUnit(1):getPosition(),
+                    navigation = cdata.navigation,
+                    supportFlightStates = {},
+                    weaponStocks = cdata.weaponStocks,
+                    aliveGroupMembers = {}
                 }
 
-                if spdata.target then
-                    tosave.carriers[cname].supportFlightStates[spname].targetName = spdata.target.name
+                for _, gm in ipairs(group:getUnits()) do
+                    table.insert(tosave.carriers[cname].aliveGroupMembers, gm:getName())
                 end
 
-                if spdata.state == CarrierCommand.supportStates.inair then
-                    local spgr = Group.getByName(spname)
-                    if spgr and spgr:isExist() and spgr:getSize()>0 then
-                        local spun = spgr:getUnit(1)
-                        if spun and spun:isExist() then
-                            tosave.carriers[cname].supportFlightStates[spname].position = spun:getPoint()
-                            tosave.carriers[cname].supportFlightStates[spname].heading = math.atan2(spun:getPosition().x.z, spun:getPosition().x.x)
+                for spname, spdata in pairs(cdata.supportFlights) do
+                    tosave.carriers[cname].supportFlightStates[spname] = {
+                        name = spdata.name, 
+                        state = spdata.state,
+                        lastStateDuration = timer.getAbsTime() - spdata.lastStateTime,
+                        returning = spdata.returning
+                    }
+
+                    if spdata.target then
+                        tosave.carriers[cname].supportFlightStates[spname].targetName = spdata.target.name
+                    end
+
+                    if spdata.state == CarrierCommand.supportStates.inair then
+                        local spgr = Group.getByName(spname)
+                        if spgr and spgr:isExist() and spgr:getSize()>0 then
+                            local spun = spgr:getUnit(1)
+                            if spun and spun:isExist() then
+                                tosave.carriers[cname].supportFlightStates[spname].position = spun:getPoint()
+                                tosave.carriers[cname].supportFlightStates[spname].heading = math.atan2(spun:getPosition().x.z, spun:getPosition().x.x)
+                            end
                         end
                     end
                 end
@@ -8426,6 +8986,31 @@ do
             "Soldier stinger",
             "Soldier stinger",
             "Soldier M4 GRG"
+        },
+        skill = "Good",
+        dataCategory= TemplateDB.type.group
+    }
+
+    TemplateDB.templates["ambush-squad-red"] = {
+        units = {
+            "Paratrooper RPG-16",
+            "Paratrooper RPG-16",
+            "Infantry AK ver2",
+            "Infantry AK",
+            "Infantry AK ver3"
+        },
+        skill = "Good",
+        invisible = true,
+        dataCategory= TemplateDB.type.group
+    }
+
+    TemplateDB.templates["manpads-squad-red"] = {
+        units = {
+            "Infantry AK ver3",
+            "Infantry AK ver2",
+            "SA-18 Igla manpad",
+            "SA-18 Igla manpad",
+            "Infantry AK"
         },
         skill = "Good",
         dataCategory= TemplateDB.type.group
@@ -8741,6 +9326,7 @@ do
             CommandFunctions.jtac:deployAtZone(zone)
             CommandFunctions.jtac:showMenu()
             CommandFunctions.jtac:setLifeTime(60)
+            zone:reveal(60)
         end
     end
 
@@ -8780,10 +9366,13 @@ do
     function CommandFunctions.sabotageZone(zone)
         trigger.action.outText("Saboteurs have been dispatched to "..zone.name, 10)
         local delay = math.random(5*60, 7*60)
+        local isReveled = zone.revealTime > 0
         timer.scheduleFunction(function(param, time)
-            if math.random() < 0.1 then
-                trigger.action.outText("Saboteurs have been caught by the enemy before they could complete their mission", 10)
-                return
+            if not param.isRevealed then
+                if math.random() < 0.3 then
+                    trigger.action.outText("Saboteurs have been caught by the enemy before they could complete their mission", 10)
+                    return
+                end
             end
 
             local zone = param.zone
@@ -8819,13 +9408,15 @@ do
 
                 trigger.action.outText("Saboteurs have succesfully triggered explosions at "..zone.name, 10)
             end
-        end, { zone = zone }, timer.getTime()+delay)
+        end, { zone = zone , isRevealed = isReveled}, timer.getTime()+delay)
     end
 
     function CommandFunctions.shellZone(zone, count)
         local minutes = math.random(3,7)
         local seconds = math.random(-30,30)
         local delay = (minutes*60)+seconds
+
+        local isRevealed = zone.revealTime > 0
         trigger.action.outText("Artillery preparing to fire on "..zone.name.." ETA: "..minutes.." minutes", 10)
         
         local positions = {}
@@ -8852,11 +9443,16 @@ do
         timer.scheduleFunction(function(param, time)
             param.count = param.count - 1
             
+            local accuracy = 50
+            if param.isRevealed then
+                accuracy = 10
+            end
+
             local selected = param.positions[math.random(1,#param.positions)]
             local offsetPos = {
-                x = selected.x + math.random(-50,50),
+                x = selected.x + math.random(-accuracy,accuracy),
                 y = selected.y,
-                z = selected.z + math.random(-50,50)
+                z = selected.z + math.random(-accuracy,accuracy)
             }
 
             offsetPos.y = land.getHeight({x = offsetPos.x, y = offsetPos.z})
@@ -8868,7 +9464,7 @@ do
             else
                 trigger.action.outText("Artillery finished firing on "..param.zone.name, 10)
             end
-        end, { positions = positions, count = count, zone = zone}, timer.getTime()+delay)
+        end, { positions = positions, count = count, zone = zone, isRevealed = isRevealed}, timer.getTime()+delay)
     end
 end
 
@@ -9348,7 +9944,8 @@ do
 		cap = 'CAP',
 		awacs = 'AWACS',
 		tanker = 'Tanker',
-		transport = 'Transport'
+		transport = 'Transport',
+		mslstrike = 'Cruise Missiles'
 	}
 
 	CarrierCommand.supportStates = {
@@ -9377,6 +9974,8 @@ do
         obj.isHeloSpawn = true
         obj.isPlaneSpawn = true
 		obj.supportFlights = {}
+		obj.extraSupports = {}
+		obj.weaponStocks = {}
 		
 		obj.navigation = {
 			currentWaypoint = nil,
@@ -9447,6 +10046,10 @@ do
             local unit = Unit.getByName(self.name)
             if not unit then
 				self:clearDrawings()
+				local gr = Group.getByName(self.name)
+				if gr and gr:isExist() then
+					TaskExtensions.stopCarrier(gr)
+				end
 				return
 			end
 			
@@ -9468,6 +10071,13 @@ do
 	function CarrierCommand:updateSupports()
 		for _, data in pairs(self.supportFlights) do
 			self:processAir(data)
+		end
+
+		
+		for wep, stock in pairs(self.weaponStocks) do
+			local gr = Unit.getByName(self.name):getGroup()
+			local realstock = Utils.getAmmo(gr, wep)
+			self.weaponStocks[wep] = math.min(stock, realstock)	
 		end
 	end
 
@@ -9688,6 +10298,63 @@ do
 		if gr then gr:destroy() end
 	end
 
+	function CarrierCommand:addExtraSupport(name, cost, type, data)
+		self.extraSupports[name] = { 
+			name = name, 
+			cost = cost, 
+			type = type, 
+			target = nil,
+			carrier = self
+		}
+
+		for i,v in pairs(data) do
+			self.extraSupports[name][i] = v
+		end
+	end
+
+	function CarrierCommand:setWPStock(wpname, amount)
+		self.weaponStocks[wpname] = amount
+	end
+
+	function CarrierCommand:callExtraSupport(data, groupname)
+		local playerGroup = Group.getByName(groupname)
+		if not playerGroup then return end
+
+		if self.resource < data.cost then
+			trigger.action.outTextForGroup(playerGroup:getID(), self.name..' does not have enough resources for '..data.name, 10)
+			return
+		end
+
+		local cru = Unit.getByName(self.name)
+		if not cru or not cru:isExist() then return end
+
+		local crg = cru:getGroup()
+
+		local ammo = self.weaponStocks[data.wpType] or 0
+		if ammo < data.salvo then
+			trigger.action.outTextForGroup(playerGroup:getID(), data.name..' is not available at this time.', 10)
+			return
+		end
+
+		local success = MenuRegistry.showTargetZoneMenu(playerGroup:getID(), "Select "..data.name..'('..data.type..") target", function(params)
+			local cru = Unit.getByName(params.data.carrier.name)
+			if not cru or not cru:isExist() then return end
+			local crg = cru:getGroup()
+
+			TaskExtensions.fireAtTargets(crg, params.zone.built, params.data.salvo)
+			if params.data.carrier.weaponStocks[params.data.wpType] then
+				params.data.carrier.weaponStocks[params.data.wpType] = params.data.carrier.weaponStocks[params.data.wpType] - params.data.salvo
+			end
+		end, 1, nil, data, nil, true)
+
+		if success then
+			self:removeResource(data.cost)
+			trigger.action.outTextForGroup(playerGroup:getID(), 'Select target for '..data.name..' ('..data.type..') from radio menu.', 10)
+		else
+			trigger.action.outTextForGroup(playerGroup:getID(), 'No valid targets for '..data.name..' ('..data.type..')', 10)
+		end
+	end
+
 	function CarrierCommand:callSupport(data, groupname)
 		local playerGroup = Group.getByName(groupname)
 		if not playerGroup then return end
@@ -9697,7 +10364,7 @@ do
 			return
 		end
 
-		if self.resource <= data.cost then
+		if self.resource < data.cost then
 			trigger.action.outTextForGroup(playerGroup:getID(), self.name..' does not have enough resources to deploy '..data.name, 10)
 			return
 		end
@@ -9705,10 +10372,11 @@ do
 		local targetCoalition = nil
 		local minDistToFront = nil
 		local includeCarriers = nil
+		local onlyRevealed = nil
 
 		if data.type == CarrierCommand.supportTypes.strike then
 			targetCoalition = 1
-			minDistToFront = 1
+			onlyRevealed = true
 		elseif data.type == CarrierCommand.supportTypes.cap then
 			minDistToFront = 1
 			includeCarriers = true
@@ -9722,13 +10390,17 @@ do
 			targetCoalition = {0,2}
 		end
 		
-		MenuRegistry.showTargetZoneMenu(playerGroup:getID(), "Select "..data.name..'('..data.type..") target", function(params)
+		local success = MenuRegistry.showTargetZoneMenu(playerGroup:getID(), "Select "..data.name..'('..data.type..") target", function(params)
 			CarrierCommand.spawnSupport(params.data, params.zone)
 			trigger.action.outTextForGroup(params.groupid, params.data.name..'('..params.data.type..') heading to '..params.zone.name, 10)
-		end, targetCoalition, minDistToFront, data, includeCarriers)
+		end, targetCoalition, minDistToFront, data, includeCarriers, onlyRevealed)
 
-		self:removeResource(data.cost)
-		trigger.action.outTextForGroup(playerGroup:getID(), 'Select target for '..data.name..' ('..data.type..') from radio menu.', 20)
+		if success then
+			self:removeResource(data.cost)
+			trigger.action.outTextForGroup(playerGroup:getID(), 'Select target for '..data.name..' ('..data.type..') from radio menu.', 10)
+		else
+			trigger.action.outTextForGroup(playerGroup:getID(), 'No valid targets for '..data.name..' ('..data.type..')', 10)
+		end
 	end
 
 	local function getDefaultPos(savedData)
@@ -9926,6 +10598,43 @@ do
 				end
 			end
 
+			if Utils.getTableSize(self.extraSupports) > 0 then
+				local extras = {}
+				for _, data in pairs(self.extraSupports) do
+					if data.cost <= self.resource then
+						if data.type == CarrierCommand.supportTypes.mslstrike then
+							local cru = Unit.getByName(self.name)
+							if cru and cru:isExist() then
+								local crg = cru:getGroup()
+								local remaining = self.weaponStocks[data.wpType] or 0
+								if remaining > data.salvo then
+									table.insert(extras, data)
+								end
+							end
+						end
+					end
+				end
+				
+				table.sort(extras, function(a,b) return a.name<b.name end)
+				
+				if #extras > 0 then
+					msg = msg..'\n\n Other:'
+					for _,data in ipairs(extras) do
+						if data.type == CarrierCommand.supportTypes.mslstrike then
+							local cru = Unit.getByName(self.name)
+							if cru and cru:isExist() then
+								local crg = cru:getGroup()
+								local remaining = self.weaponStocks[data.wpType] or 0
+								if remaining > data.salvo then
+									remaining = math.floor(remaining/data.salvo)
+									msg = msg..'\n    '..data.name..' ('..data.type..') ['..data.cost..'] ('..remaining..' left)'
+								end
+							end
+						end
+					end
+				end
+			end
+
             trigger.action.outTextForGroup(gr:getID(), msg, 20)
 		end
 	end
@@ -10107,6 +10816,17 @@ do
 								for _, data in ipairs(flights) do
 									local name = data.name..' ('..data.type..') ['..data.cost..']'
 									missionCommands.addCommandForGroup(groupid, name, supm, Utils.log(carrier.callSupport), carrier, data, groupname)
+								end
+
+								local extras = {}
+								for _, data in pairs(carrier.extraSupports) do
+									table.insert(extras, data)
+								end
+
+								table.sort(extras, function(a,b) return a.name<b.name end)
+								for _, data in ipairs(extras) do
+									local name = data.name..' ('..data.type..') ['..data.cost..']'
+									missionCommands.addCommandForGroup(groupid, name, supm, Utils.log(carrier.callExtraSupport), carrier, data, groupname)
 								end
 							end
 
@@ -10977,19 +11697,12 @@ ObjReconZone = Objective:new(Objective.types.recon_zone)
 do
     ObjReconZone.requiredParams = { 
         ['target'] = true,
-        ['maxAmount'] = true,
-        ['amount'] = true,
-        ['allowedDeviation'] = true,
-        ['proxDist'] = true,
-        ['lastUpdate'] = true,
         ['failZones'] = true
     }
 
     function ObjReconZone:getText()
-        local msg = 'Stay within range of '..self.param.target.name..' and observe the enemy.'
+        local msg = 'Conduct a recon mission on '..self.param.target.name..' and return with data to a friendly zone.'
 
-        local prg = math.floor(((self.param.maxAmount - self.param.amount)/self.param.maxAmount)*100)
-        msg = msg.. '\n Progress: '..prg..'%'
         return msg
     end
 
@@ -11009,110 +11722,13 @@ do
                 for _,zn in ipairs(self.param.failZones[2]) do
                     if zn.side ~= 2 then 
                         self.isFailed = true
-                        self.mission.failureReason = zn.name..' was lost.'
                         break
                     end
                 end
             end
 
             if not self.isFailed then
-                local plycount = Utils.getTableSize(self.mission.players)
-                if plycount == 0 then plycount = 1 end
-                local updateFrequency = 5 -- seconds
-                local shouldUpdateMsg = (timer.getAbsTime() - self.param.lastUpdate) > updateFrequency
-
-                for name, unit in pairs(self.mission.players) do
-                    if unit and unit:isExist() then
-                        local dist = mist.utils.get2DDist(unit:getPoint(), self.param.target.zone.point)
-                        if dist < self.param.proxDist then
-                            local unitPos = unit:getPosition()
-                            local unitheading = math.deg(math.atan2(unitPos.x.z, unitPos.x.x))
-                            local bearing = Utils.getBearing(unit:getPoint(), self.param.target.zone.point)
-
-                            local diff = Utils.getHeadingDiff(unitheading, bearing)
-
-                            if math.abs(diff) <= self.param.allowedDeviation then
-                                local unitsCount = 0
-                                local visibleCount = 0
-                                for _,product in pairs(self.param.target.built) do
-                                    if product.side ~= unit:getCoalition() then
-                                        local gr = Group.getByName(product.name)
-                                        if gr then
-                                            for _,enemyUnit in ipairs(gr:getUnits()) do
-                                                unitsCount = unitsCount+1
-                                                local from = unit:getPoint()
-                                                from.y = from.y+1.5
-                                                local to = enemyUnit:getPoint()
-                                                to.y = to.y+1.5
-                                                if land.isVisible(from, to) then
-                                                    visibleCount = visibleCount+1
-                                                end
-                                            end 
-                                        else
-                                            local st = StaticObject.getByName(product.name)
-                                            if st then
-                                                unitsCount = unitsCount+1
-                                                local from = unit:getPoint()
-                                                from.y = from.y+1.5
-                                                local to = st:getPoint()
-                                                to.y = to.y+1.5
-                                                if land.isVisible(from, to) then
-                                                    visibleCount = visibleCount+1
-                                                end
-                                            end
-                                        end
-                                    end
-                                end
-                                
-                                local percentVisible = 0
-                                if unitsCount > 0 and visibleCount > 0 then
-                                    percentVisible = visibleCount/unitsCount
-                                    if percentVisible > 0.5 then
-                                        self.param.amount = self.param.amount - percentVisible
-                                    else
-
-                                    end
-                                    env.info('Scout_Helo - player can see '..string.format('%.2f',percentVisible)..'%')
-                                end
-                                
-                                
-                                if shouldUpdateMsg then
-                                    if visibleCount == 0 then
-                                        local prg = string.format('%.1f',((self.param.maxAmount - self.param.amount)/self.param.maxAmount)*100)
-                                        trigger.action.outTextForUnit(unit:getID(), 'No enemy visible.\nProgress: '..prg..'%', updateFrequency)
-                                    else
-                                        local percent = string.format('%.1f',percentVisible*100)
-
-                                        local prg = string.format('%.1f',((self.param.maxAmount - self.param.amount)/self.param.maxAmount)*100)
-                                        trigger.action.outTextForUnit(unit:getID(), percent..'% of enemies visible.\nProgress: '..prg..'%', updateFrequency)
-                                    end
-                                end
-                            else
-                                if shouldUpdateMsg then
-                                    local m = 'Within range\nTurn heading: '..math.floor(Utils.getBearing(unit:getPoint(), self.param.target.zone.point))
-                                    trigger.action.outTextForUnit(unit:getID(), m, updateFrequency)
-                                end
-                            end
-                        else
-                            if shouldUpdateMsg then
-                                local dstkm = string.format('%.2f',dist/1000)
-                                local dstnm = string.format('%.2f',dist/1852)
-
-                                local m = 'Distance: '
-                                m = m..dstkm..'km | '..dstnm..'nm'
-
-                                m = m..'\nBearing: '..math.floor(Utils.getBearing(unit:getPoint(), self.param.target.zone.point))
-                                trigger.action.outTextForUnit(unit:getID(), m, updateFrequency)
-                            end
-                        end
-                    end
-                end
-
-                if shouldUpdateMsg then
-                    self.param.lastUpdate = timer.getAbsTime()
-                end
-
-                if self.param.amount <= 0 then
+                if self.param.reconData then
                     self.isComplete = true
                     return true
                 end
@@ -11631,15 +12247,13 @@ do
         strike_hard = 'strike_hard',    -- destroy all structures at zone A and turn it neutral
         deep_strike = 'deep_strike',   -- destroy specific structure taken from strike queue - show LatLon and Alt in mission description
 
-        recon_plane ='recon_plane',   -- overly target zone and survive
-        recon_plane_deep = 'recon_plane_deep', -- overfly zone where distance from front == 2, add target to a strike queue, stays there until building exists, or 1hr passes
         anti_runway = 'anti_runway',  -- drop at least X anti runway bombs on runway zone (if player unit launches correct weapon, track, if agl>10m check if in zone, tally), define list of runway zones somewhere
         
         supply_easy = 'supply_easy',   -- transfer resources to zone A(low supply)
         supply_hard = 'supply_hard',   -- transfer resources to zone A(low supply), high resource number
         escort = 'escort',              -- follow and protect friendly convoy until they get to target OR 10 minutes pass
-        csar = 'csar',              -- extract specific pilot to friendly zone, track friendly pilots ejected
-        scout_helo = 'scout_helo',       -- within X km, facing Y angle +-, % of enemy units in LOS progress faster
+        csar = 'csar',                  -- extract specific pilot to friendly zone, track friendly pilots ejected
+        recon = 'recon',                -- conduct recon
         extraction = 'extraction',  -- extract a deployed squad to friendly zone, generate mission if squad has extractionReady state
         deploy_squad = 'deploy_squad',  -- deploy squad to zone
     }
@@ -11984,6 +12598,18 @@ do
                 if obj.type == ObjUnloadExtractedPilotOrSquad:getType() then
                     if obj.param.extractObjective.param.loadedBy == player then
                         obj.param.unloadedAt = zonename
+                    end
+                end
+            end
+        end
+    end
+
+    function Mission:tallyRecon(player, targetzone, analyzezonename)
+        for _,obj in ipairs(self.objectives) do
+            if not obj.isComplete and not obj.isFailed then
+                if obj.type == ObjReconZone:getType() then
+                    if obj.param.target.name == targetzone then
+                        obj.param.reconData = targetzone
                     end
                 end
             end
@@ -13081,209 +13707,42 @@ end
 
 
 
------------------[[ Missions/Recon_Plane.lua ]]-----------------
+-----------------[[ Missions/Recon.lua ]]-----------------
 
-Recon_Plane = Mission:new()
+Recon = Mission:new()
 do
-    function Recon_Plane.canCreate()
+    function Recon.canCreate()
         local zoneNum = 0
         for _,zone in pairs(ZoneCommand.getAllZones()) do
-            if zone.side == 1 and zone.distToFront == 0 then 
+            if zone.side == 1 and zone.distToFront == 0 and zone.revealTime == 0 then 
                 return true
             end
         end
     end
 
-    function Recon_Plane:getMissionName()
+    function Recon:getMissionName()
         return 'Recon'
     end
 
-    function Recon_Plane:isUnitTypeAllowed(unit)
-        return unit:hasAttribute('Planes')
+    function Recon:isUnitTypeAllowed(unit)
+        return true
     end
 
-    function Recon_Plane:generateObjectives()
+    function Recon:isInstantReward()
+        return true
+    end
+
+    function Recon:generateObjectives()
         self.completionType = Mission.completion_type.any
         local description = ''
         local viableZones = {}
         local secondaryViableZones = {}
         for _,zone in pairs(ZoneCommand.getAllZones()) do
-            if zone.side == 1 and zone.distToFront == 0 then
-                if zone.revealTime <= 60*5 then
-                    table.insert(viableZones, zone)
-                else
-                    table.insert(secondaryViableZones, zone)
-                end
+            if zone.side == 1 and zone.distToFront == 0 and zone.revealTime == 0 then
+                table.insert(viableZones, zone)
             end
         end
 
-        if #viableZones == 0 then
-            viableZones = secondaryViableZones
-        end
-        
-        
-        if #viableZones > 0 then
-            local choice1 = math.random(1,#viableZones)
-            local zn1 = viableZones[choice1]
-
-            local recon = ObjFlyToZoneSequence:new()
-            recon:initialize(self,{
-                waypoints = { 
-                    [1] = {zone = zn1, complete = false}
-                },
-                failZones = {
-                    [1] = {zn1}
-                }
-            })
-
-            table.insert(self.objectives, recon)
-            description = description..'   Overfly '..zn1.name..'\n'
-        end
-
-        self.description = self.description..description
-    end
-
-    function Recon_Plane:objectiveCompletedCallback(objective)
-        if objective.type == ObjFlyToZoneSequence:getType() then
-            local firstWP = objective.param.waypoints[1]
-
-            if firstWP and firstWP.zone:hasUnitWithAttributeOnSide({'Buildings'}, 1) then
-                local tgt = firstWP.zone:getRandomUnitWithAttributeOnSide({'Buildings'}, 1)
-                if tgt then
-                    MissionTargetRegistry.addStrikeTarget(tgt, firstWP.zone, false)
-                    self:pushMessageToPlayers(tgt.display..' discovered at '..firstWP.zone.name)
-                    firstWP.zone:reveal()
-                end
-            end
-        end
-    end
-end
-
------------------[[ END OF Missions/Recon_Plane.lua ]]-----------------
-
-
-
------------------[[ Missions/Deep_Recon_Plane.lua ]]-----------------
-
-Deep_Recon_Plane = Mission:new()
-do
-    function Deep_Recon_Plane.canCreate()
-        local zoneNum = 0
-        for _,zone in pairs(ZoneCommand.getAllZones()) do
-            if zone.side == 1 and zone.distToFront == 2 then 
-                return true
-            end
-        end
-    end
-    
-    function Deep_Recon_Plane:getMissionName()
-        return 'Deep Recon'
-    end
-
-    function Deep_Recon_Plane:isUnitTypeAllowed(unit)
-        return unit:hasAttribute('Planes')
-    end
-
-    function Deep_Recon_Plane:generateObjectives()
-        self.completionType = Mission.completion_type.any
-        local description = ''
-        local viableZones = {}
-        local secondaryViableZones = {}
-        for _,zone in pairs(ZoneCommand.getAllZones()) do
-            if zone.side == 1 and zone.distToFront == 2 then
-                if zone.revealTime <= 60*5 then
-                    table.insert(viableZones, zone)
-                else
-                    table.insert(secondaryViableZones, zone)
-                end
-            end
-        end
-
-        if #viableZones == 0 then
-            viableZones = secondaryViableZones
-        end
-        
-        if #viableZones > 0 then
-            local choice1 = math.random(1,#viableZones)
-            local zn1 = viableZones[choice1]
-
-            local recon = ObjFlyToZoneSequence:new()
-            recon:initialize(self, {
-                waypoints = { 
-                    [1] = {zone = zn1, complete = false}
-                },
-                failZones = {
-                    [1] = {zn1}
-                }
-            })
-
-            table.insert(self.objectives, recon)
-            description = description..'   Overfly '..zn1.name..'\n'
-        end
-
-        self.description = self.description..description
-    end
-
-    function Deep_Recon_Plane:objectiveCompletedCallback(objective)
-        if objective.type == ObjFlyToZoneSequence:getType() then
-            local firstWP = objective.param.waypoints[1]
-
-            if firstWP and firstWP.zone:hasUnitWithAttributeOnSide({'Buildings'}, 1) then
-                local tgt = firstWP.zone:getRandomUnitWithAttributeOnSide({'Buildings'}, 1)
-                if tgt then
-                    MissionTargetRegistry.addStrikeTarget(tgt, firstWP.zone, true)
-                    self:pushMessageToPlayers(tgt.display..' discovered at '..firstWP.zone.name)
-                    firstWP.zone:reveal()
-                end
-            end
-        end
-    end
-end
-
------------------[[ END OF Missions/Deep_Recon_Plane.lua ]]-----------------
-
-
-
------------------[[ Missions/Scout_Helo.lua ]]-----------------
-
-Scout_Helo = Mission:new()
-do
-    function Scout_Helo.canCreate()
-        local zoneNum = 0
-        for _,zone in pairs(ZoneCommand.getAllZones()) do
-            if zone.side == 1 and zone.distToFront == 0 then 
-                return true
-            end
-        end
-    end
-
-    function Scout_Helo:getMissionName()
-        return 'Recon'
-    end
-
-    function Scout_Helo:isUnitTypeAllowed(unit)
-        return unit:hasAttribute('Helicopters')
-    end
-
-    function Scout_Helo:generateObjectives()
-        self.completionType = Mission.completion_type.any
-        local description = ''
-        local viableZones = {}
-        local secondaryViableZones = {}
-        for _,zone in pairs(ZoneCommand.getAllZones()) do
-            if zone.side == 1 and zone.distToFront == 0 then
-                if zone.revealTime <= 60*5 then
-                    table.insert(viableZones, zone)
-                else
-                    table.insert(secondaryViableZones, zone)
-                end
-            end
-        end
-
-        if #viableZones == 0 then
-            viableZones = secondaryViableZones
-        end
-        
         if #viableZones > 0 then
             local choice1 = math.random(1,#viableZones)
             local zn1 = viableZones[choice1]
@@ -13291,11 +13750,6 @@ do
             local recon = ObjReconZone:new()
             recon:initialize(self, {
                 target = zn1,
-                maxAmount = 60*1.5,
-                amount = 60*1.5,
-                allowedDeviation = 20,
-                proxDist = 10000,
-                lastUpdate = timer.getAbsTime(),
                 failZones = {
                     [1] = {zn1}
                 }
@@ -13307,22 +13761,9 @@ do
 
         self.description = self.description..description
     end
-
-    function Scout_Helo:objectiveCompletedCallback(objective)
-        if objective.type == ObjReconZone:getType() then
-            if objective.param.target:hasUnitWithAttributeOnSide({'Buildings'}, 1) then
-                local tgt = objective.param.target:getRandomUnitWithAttributeOnSide({'Buildings'}, 1)
-                if tgt then
-                    MissionTargetRegistry.addStrikeTarget(tgt, objective.param.target, false)
-                    self:pushMessageToPlayers(tgt.display..' discovered at '..objective.param.target.name)
-                    objective.param.target:reveal()
-                end
-            end
-        end
-    end
 end
 
------------------[[ END OF Missions/Scout_Helo.lua ]]-----------------
+-----------------[[ END OF Missions/Recon.lua ]]-----------------
 
 
 
@@ -13509,7 +13950,7 @@ end
 Extraction = Mission:new()
 do
     function Extraction.canCreate()
-        return MissionTargetRegistry.squadsReadyToExtract()
+        return MissionTargetRegistry.squadsReadyToExtract(2)
     end
 
     function Extraction:getMissionName()
@@ -13531,8 +13972,8 @@ do
         self.completionType = Mission.completion_type.all
         local description = ''
         
-        if MissionTargetRegistry.squadsReadyToExtract() then
-            local tgt = MissionTargetRegistry.getRandomSquad()
+        if MissionTargetRegistry.squadsReadyToExtract(2) then
+            local tgt = MissionTargetRegistry.getRandomSquad(2)
             if tgt then
                 local extract = ObjExtractSquad:new()
                 extract:initialize(self, {
@@ -13692,13 +14133,11 @@ do
       [Mission.types.strike_medium]   = { xp = { low = 20, high = 30, boost = 0   } },
       [Mission.types.strike_hard]     = { xp = { low = 30, high = 40, boost = 0   } },
       [Mission.types.deep_strike]     = { xp = { low = 30, high = 40, boost = 0   } },
-      [Mission.types.recon_plane]     = { xp = { low = 20, high = 30, boost = 0   } },
-      [Mission.types.recon_plane_deep]= { xp = { low = 30, high = 40, boost = 0   } },
       [Mission.types.anti_runway]     = { xp = { low = 20, high = 30, boost = 25  } },
       [Mission.types.supply_easy]     = { xp = { low = 10, high = 20, boost = 0   } },
       [Mission.types.supply_hard]     = { xp = { low = 20, high = 30, boost = 0   } },
       [Mission.types.escort]          = { xp = { low = 20, high = 30, boost = 0   } },
-      [Mission.types.scout_helo]      = { xp = { low = 20, high = 30, boost = 0   } },
+      [Mission.types.recon]           = { xp = { low = 20, high = 30, boost = 0   } },
       [Mission.types.csar]            = { xp = { low = 20, high = 30, boost = 0   } },
       [Mission.types.extraction]      = { xp = { low = 20, high = 30, boost = 0   } },
       [Mission.types.deploy_squad]    = { xp = { low = 20, high = 30, boost = 0   } }
@@ -13709,7 +14148,8 @@ do
       squadDeploy = 150,
       squadExtract = 150,
       supplyRatio = 0.06,
-      supplyBoost = 0.5
+      supplyBoost = 0.5,
+      recon = 150
     }
 end
 
@@ -13737,10 +14177,8 @@ do
         [Mission.types.dead] = 1,
         [Mission.types.escort] = 2,
         [Mission.types.tarcap] = 1,
-        [Mission.types.recon_plane] = 3,
-        [Mission.types.recon_plane_deep] = 3,
         [Mission.types.deep_strike] = 3,
-        [Mission.types.scout_helo] = 3,
+        [Mission.types.recon] = 3,
         [Mission.types.bai] = 1,
         [Mission.types.anti_runway] = 2,
         [Mission.types.csar] = 1,
@@ -14263,12 +14701,8 @@ do
             newmis = Escort:new(misid, misType)
         elseif misType == Mission.types.tarcap then
             newmis = TARCAP:new(misid, misType, self.activeMissions)
-        elseif misType == Mission.types.recon_plane then
-            newmis = Recon_Plane:new(misid, misType)
-        elseif misType == Mission.types.recon_plane_deep then
-            newmis = Deep_Recon_Plane:new(misid, misType)
-        elseif misType == Mission.types.scout_helo then
-            newmis = Scout_Helo:new(misid, misType)
+        elseif misType == Mission.types.recon then
+            newmis = Recon:new(misid, misType)
         elseif misType == Mission.types.bai then
             newmis = BAI:new(misid, misType)
         elseif misType == Mission.types.anti_runway then
@@ -14379,6 +14813,17 @@ do
             if m.players[player] then
                 if m.state == Mission.states.active then
                     m:tallyUnloadSquad(player, zonename, squadType)
+                end
+            end
+        end
+    end
+
+    function MissionTracker:tallyRecon(player, targetzone, analyzezonename)
+        env.info("MissionTracker - tallyRecon: "..player.." analyzed "..targetzone.." recon data at "..analyzezonename)
+        for _,m in pairs(self.activeMissions) do
+            if m.players[player] then
+                if m.state == Mission.states.active then
+                    m:tallyRecon(player, targetzone, analyzezonename)
                 end
             end
         end
@@ -14570,12 +15015,8 @@ do
             return Escort.canCreate()
         elseif misType == Mission.types.tarcap then
             return TARCAP.canCreate(self.activeMissions)
-        elseif misType == Mission.types.recon_plane then
-            return Recon_Plane.canCreate()
-        elseif misType == Mission.types.recon_plane_deep then
-            return Deep_Recon_Plane.canCreate()
-        elseif misType == Mission.types.scout_helo then
-            return Scout_Helo.canCreate()
+        elseif misType == Mission.types.recon then
+            return Recon.canCreate()
         elseif misType == Mission.types.bai then
             return BAI.canCreate()
         elseif misType == Mission.types.anti_runway then
@@ -14642,7 +15083,7 @@ do
 
     function SquadTracker:restoreInfantry(save)
 
-        Spawner.createObject(save.name, save.data.name, save.position, 2, 20, 30,{
+        Spawner.createObject(save.name, save.data.name, save.position, save.side, 20, 30,{
             [land.SurfaceType.LAND] = true, 
             [land.SurfaceType.ROAD] = true,
             [land.SurfaceType.RUNWAY] = true,
@@ -14653,6 +15094,8 @@ do
             position = save.position, 
             state = save.state, 
             remainingStateTime=save.remainingStateTime, 
+            shouldDiscover = save.discovered,
+            discovered = save.discovered,
             data = save.data
         }
 
@@ -14666,7 +15109,7 @@ do
     function SquadTracker:spawnInfantry(infantryData, position)
         local callsign = self:generateCallsign()
         if callsign then
-            Spawner.createObject(callsign, infantryData.name, position, 2, 20, 30,{
+            Spawner.createObject(callsign, infantryData.name, position, infantryData.side, 20, 30,{
                 [land.SurfaceType.LAND] = true, 
                 [land.SurfaceType.ROAD] = true,
                 [land.SurfaceType.RUNWAY] = true,
@@ -14710,12 +15153,12 @@ do
         end
     end
 
-    function SquadTracker:getClosestExtractableSquad(sourcePoint)
+    function SquadTracker:getClosestExtractableSquad(sourcePoint, onside)
         local minDist = 99999999
         local squad = nil
 
         for i,v in pairs(self.activeInfantrySquads) do
-            if v.state == 'extractReady' then
+            if v.state == 'extractReady' and v.data.side == onside then
                 local gr = Group.getByName(v.name)
                 if gr and gr:getSize()>0 then
                     local dist = mist.utils.get2DDist(sourcePoint, gr:getUnit(1):getPoint())
@@ -14803,7 +15246,7 @@ do
                                     if v:hasUnitWithAttributeOnSide({'Buildings'}, v.side) then
                                         local tgt = v:getRandomUnitWithAttributeOnSide({'Buildings'}, v.side)
                                         if tgt then
-                                            MissionTargetRegistry.addStrikeTarget(tgt, v, v.distToFront >= 2)
+                                            MissionTargetRegistry.addStrikeTarget(tgt, v)
                                         end
                                     end
                                 end
@@ -14814,12 +15257,62 @@ do
                     else
                         env.info('SquadTracker - '..squad.name..'('..squad.data.type..') not in zone, cant infiltrate')
                     end
+                elseif squad.data.type == PlayerLogistics.infantryTypes.ambush then
+                    local cnt = gr:getController()
+                    cnt:setCommand({ 
+                        id = 'SetInvisible', 
+                        params = { 
+                            value = false 
+                        } 
+                    })
                 end
 
                 squad.state = 'extractReady'
                 squad.remainingStateTime = squad.data.extracttime
                 MissionTargetRegistry.addSquad(squad)
-			end
+			else
+                if squad.data.type == PlayerLogistics.infantryTypes.ambush then
+                    if not squad.discovered then
+                        local frcnt = gr:getUnit(1):getController()
+                        local targets = frcnt:getDetectedTargets()
+                        local isTargetClose = false
+                        if #targets > 0 then
+                            for _,tgt in ipairs(targets) do
+                                if tgt.visible and tgt.object then
+                                    if tgt.object.isExist and tgt.object:isExist() and tgt.object.getCoalition and tgt.object:getCoalition()~=gr:getCoalition() and 
+                                    Object.getCategory(tgt.object) == 1 then
+                                        local dist = mist.utils.get3DDist(gr:getUnit(1):getPoint(), tgt.object:getPoint())
+                                        if dist < 100 then
+                                            isTargetClose = true
+                                            break
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                        
+                        if isTargetClose then
+                            squad.discovered = true
+                            local cnt = gr:getController()
+                            cnt:setCommand({ 
+                                id = 'SetInvisible',
+                                params = { 
+                                    value = false 
+                                }
+                            })
+                        end
+                    elseif squad.shouldDiscover then
+                        squad.shouldDiscover = nil
+                        local cnt = gr:getController()
+                        cnt:setCommand({ 
+                            id = 'SetInvisible',
+                            params = { 
+                                value = false 
+                            }
+                        })
+                    end
+                end
+            end
         elseif squad.state == 'extractReady' then
             if squad.remainingStateTime <= 0 then
                 env.info('SquadTracker - '..squad.name..'('..squad.data.type..') extract time elapsed, group MIA')

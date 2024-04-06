@@ -120,20 +120,27 @@ class ConflictTheater:
         )
         return new_point
 
-    def control_points_for(self, player: bool) -> Iterator[ControlPoint]:
+    def control_points_for(
+        self, player: bool, state_check: bool = False
+    ) -> Iterator[ControlPoint]:
         for point in self.controlpoints:
             if point.captured == player:
-                yield point
+                if not state_check:
+                    yield point
+                elif point.is_carrier and point.runway_is_operational():
+                    yield point
+                elif not point.is_carrier:
+                    yield point
 
-    def player_points(self) -> List[ControlPoint]:
-        return list(self.control_points_for(player=True))
+    def player_points(self, state_check: bool = False) -> List[ControlPoint]:
+        return list(self.control_points_for(player=True, state_check=state_check))
 
     def conflicts(self) -> Iterator[FrontLine]:
         for cp in self.player_points():
             yield from cp.front_lines.values()
 
-    def enemy_points(self) -> List[ControlPoint]:
-        return list(self.control_points_for(player=False))
+    def enemy_points(self, state_check: bool = False) -> List[ControlPoint]:
+        return list(self.control_points_for(player=False, state_check=state_check))
 
     def closest_control_point(
         self, point: Point, allow_naval: bool = False

@@ -7,6 +7,7 @@ from dcs.task import (
     SwitchWaypoint,
 )
 
+from game.utils import knots
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 
@@ -29,10 +30,12 @@ class SplitPointBuilder(PydcsWaypointBuilder):
             waypoint.tasks.append(OptFormation.rotary_wedge())
         else:
             waypoint.tasks.append(OptFormation.finger_four_close())
-        if not self.flight.is_helo:
-            waypoint.speed_locked = True
+        waypoint.speed_locked = True
+        waypoint.ETA_locked = False
+        if self.flight.is_helo:
+            waypoint.speed = knots(100).meters_per_second
+        else:
             waypoint.speed = self.flight.coalition.doctrine.rtb_speed.meters_per_second
-            waypoint.ETA_locked = False
         if self.flight is self.package.primary_flight:
             script = RunScript(
                 f'trigger.action.setUserFlag("split-{id(self.package)}", true)'

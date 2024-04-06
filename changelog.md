@@ -1,6 +1,8 @@
 # Retribution v1.3.0
+#### Note: Re-save your missions in DCS' Mission Editor to avoid possible crashes due to datalink (usually the case when F-16C blk50s are used) when hosting missions on a dedicated server.
 
 ## Features/Improvements
+* **[Engine]** Support for DCS v2.9.3.51704
 * **[Package Planning]** Option to "Auto-Create" package
 * **[Modding]** Custom weapons injection system (definition in aircraft's yaml file)
 * **[Payload Editor]** Ability to save/back-up payloads
@@ -30,12 +32,15 @@
 * **[COMMs]** Aircraft-specific callsigns will now also be used.
 * **[COMMs]** Ability to set a specific callsign to a flight.
 * **[Mission Generator]** Channel terrain fix on exclusion zones, sea zones and inclusion zones
-* **[Options]** Cheat-option for accessing Air Wing Config Dialog after campaign start
+* **[Options]** Cheat-option for accessing Air Wing Config Dialog after campaign start (re-initializes turn if applied, thus plan your mission ___after___ making changes)
 * **[Options]** Option to enable unlimited fuel for AI (player and non-player flights)
 * **[Mission Generator]** F-15E Strike targets are automatically added as Mission Set 1 
 * **[Mission Generator]** Set F-14's IP waypoint according to the flight-plan's ingress point
 * **[Mission Generator]** Automatically de-spawn aircraft when arrival/divert is an off-map spawn
 * **[Options]** Option to de-spawn AI flights in the air if their start-type was manually set to In-Flight
+* **[Config]** Preference setting to use custom Liberation payloads instead of prioritizing Retribution's default
+* **[Config]** Preference setting to configure the server-port on which Retribution's back-end will run
+* **[Options]** Made AI jettisoning empty fuel tanks optional (disabled by default)
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task
@@ -49,6 +54,8 @@
 * **[Capture Logic]** Release all parking slots when an airbase is captured
 * **[Modding]** Swedish Military Assets Pack air defence presets are now correctly removed from the faction when the mod is disabled.
 * **[Mission Generation]** Naval aircraft not always returning to carrier
+* **[Mission Generation]** AI AirLift aircraft crashing into terrain due to insufficient waypoints
+* **[Mission Generation]** Fix friendly AI shooting at fires on the front-line
 
 # Retribution v1.2.1 (hotfix)
 

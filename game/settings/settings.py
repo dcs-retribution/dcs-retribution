@@ -193,11 +193,12 @@ class Settings:
         default=False,
         detail=(
             "If checked, squadrons with a primary task matching the mission will be "
-            "preferred even if there is a closer squadron capable of the mission as a"
+            "preferred even if there is a closer squadron capable of the mission as a "
             "secondary task. Expect longer flights, but squadrons will be more often "
             "assigned to their primary task."
         ),
     )
+    # CAMPAIGN DOCTRINE
     autoplan_tankers_for_strike: bool = boolean_option(
         "Auto-planner plans refueling flights for Strike packages",
         page=CAMPAIGN_DOCTRINE_PAGE,
@@ -283,6 +284,23 @@ class Settings:
             "setting to avoid the AI flying into the terrain."
         ),
     )
+    atflir_autoswap: bool = boolean_option(
+        "Auto-swap ATFLIR to LITENING",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=True,
+        detail=(
+            "Automatically swaps ATFLIR to LITENING pod for newly generated land-based F-18 flights "
+            "without having to change the payload. <u>Takes effect after current turn!</u>"
+        ),
+    )
+    ai_jettison_empty_tanks: bool = boolean_option(
+        "Enable AI empty fuel tank jettison",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=False,
+        detail=("AI will jettison their fuel tanks as soon as they're empty."),
+    )
     airbase_threat_range: int = bounded_int_option(
         "Airbase threat range (nmi)",
         page=CAMPAIGN_DOCTRINE_PAGE,
@@ -291,7 +309,7 @@ class Settings:
         min=0,
         max=300,
         detail=(
-            "Will impact both defensive (BARCAP) and offensive flights. Also has a performance impact,"
+            "Will impact both defensive (BARCAP) and offensive flights. Also has a performance impact, "
             "lower threat range generally means less BARCAPs are planned."
         ),
     )
@@ -339,7 +357,7 @@ class Settings:
         min=0,
         max=300,
         detail=(
-            "How far, at minimum, will AEW&C racetracks be planned"
+            "How far, at minimum, will AEW&C racetracks be planned "
             "to known threat zones."
         ),
     )
@@ -375,7 +393,7 @@ class Settings:
         default=True,
         detail=(
             "If set, squadrons will be limited to a maximum number of pilots and dead "
-            "pilots will replenish at a fixed rate, each defined with the settings"
+            "pilots will replenish at a fixed rate, each defined with the settings "
             "below. Auto-purchase may buy aircraft for which there are no pilots"
             "available, so this feature is still a work-in-progress."
         ),
@@ -573,7 +591,7 @@ class Settings:
         default=35,
         min=0,
         max=100,
-        detail="See 2-ship weight factor (WF2)",
+        detail="See 2-ship weight factor (WF3)",
     )
     fpa_4ship_weight: int = bounded_int_option(
         "4-ship weight factor (WF4)",
@@ -582,7 +600,7 @@ class Settings:
         default=15,
         min=0,
         max=100,
-        detail="See 2-ship weight factor (WF2)",
+        detail="See 2-ship weight factor (WF4)",
     )
 
     # Mission Generator
@@ -673,16 +691,6 @@ class Settings:
         detail=(
             "Warning: Enabling this will significantly reduce the number of "
             "targets available for OCA/Aircraft missions."
-        ),
-    )
-    atflir_autoswap: bool = boolean_option(
-        "Auto-swap ATFLIR to LITENING",
-        MISSION_GENERATOR_PAGE,
-        GAMEPLAY_SECTION,
-        default=True,
-        detail=(
-            "Automatically swaps ATFLIR to LITENING pod for newly generated land-based F-18 flights "
-            "without having to change the payload. <u>Takes effect after current turn!</u>"
         ),
     )
     default_start_type: StartType = choices_option(
@@ -777,7 +785,7 @@ class Settings:
         GAMEPLAY_SECTION,
         default=False,
         detail=(
-            "If enabled, AI can use roadbases or airbases which only have ground spawns."
+            "If enabled, AI can use roadbases or airbases which only have ground spawns. "
             "AI will always air-start from these bases (due to DCS limitation)."
         ),
     )
@@ -787,7 +795,7 @@ class Settings:
         GAMEPLAY_SECTION,
         default=True,
         detail=(
-            "Can be used to remove lightposts and other obstacles from roadbase runways."
+            "Can be used to remove lightposts and other obstacles from roadbase runways. "
             "Might not work in DCS multiplayer."
         ),
     )

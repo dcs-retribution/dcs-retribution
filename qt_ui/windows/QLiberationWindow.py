@@ -569,7 +569,7 @@ class QLiberationWindow(QMainWindow):
         LAYOUTS.import_templates()
 
     def showLogsDialog(self):
-        self.dialog = QLogsWindow()
+        self.dialog = QLogsWindow(self)
         self.dialog.show()
 
     def onDebriefing(self, debrief: Debriefing):

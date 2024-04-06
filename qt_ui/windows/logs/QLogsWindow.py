@@ -8,6 +8,7 @@ from PySide6.QtWidgets import (
     QPlainTextEdit,
     QVBoxLayout,
     QPushButton,
+    QWidget,
 )
 
 from qt_ui.logging_handler import HookableInMemoryHandler
@@ -21,8 +22,8 @@ class QLogsWindow(QDialog):
     clear_button: QPushButton
     _logging_handler: typing.Optional[HookableInMemoryHandler]
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent: QWidget):
+        super().__init__(parent)
 
         self.setWindowTitle("Logs")
         self.setMinimumSize(400, 100)

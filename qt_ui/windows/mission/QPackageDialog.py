@@ -237,11 +237,12 @@ class QPackageDialog(QDialog):
         auto_create_dialog = QAutoCreateDialog(
             self.game, self.package_model, parent=self.window()
         )
-        auto_create_dialog.exec_()
-        for f in self.package_model.package.flights:
-            EventStream.put_nowait(GameUpdateEvents().new_flight(f))
-        self.package_model.update_tot()
-        self.package_changed.emit()
+        if auto_create_dialog.exec_() == QDialog.DialogCode.Accepted:
+            for f in self.package_model.package.flights:
+                EventStream.put_nowait(GameUpdateEvents().new_flight(f))
+            self.package_model.update_tot()
+            self.package_changed.emit()
+            self.auto_create_button.setDisabled(True)
 
     def on_change_name(self) -> None:
         self.package_model.package.custom_name = self.package_name_text.text()

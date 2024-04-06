@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Optional, Type
+from typing import Any, Optional, Type, List
 
 from dcs.task import (
     AWACS,
@@ -124,7 +124,8 @@ class AircraftBehavior:
                 unit.gun = 0
 
         group.points[0].tasks.append(OptRTBOnBingoFuel(rtb_on_bingo))
-        group.points[0].tasks.append(OptJettisonEmptyTanks())
+        if flight.coalition.game.settings.ai_jettison_empty_tanks:
+            group.points[0].tasks.append(OptJettisonEmptyTanks())
         # Do not restrict afterburner.
         # https://forums.eagle.ru/forum/english/digital-combat-simulator/dcs-world-2-5/bugs-and-problems-ai/ai-ad/7121294-ai-stuck-at-high-aoa-after-making-sharp-turn-if-afterburner-is-restricted
 
@@ -152,7 +153,7 @@ class AircraftBehavior:
         self.configure_behavior(flight, group, rtb_winchester=ammo_type)
 
     def configure_cas(self, group: FlyingGroup[Any], flight: Flight) -> None:
-        self.configure_task(flight, group, CAS, AFAC)
+        self.configure_task(flight, group, CAS, [AFAC, AntishipStrike])
         self.configure_behavior(
             flight,
             group,
@@ -170,7 +171,7 @@ class AircraftBehavior:
         # Note that the only effect that the DCS task type has is in determining which
         # waypoint actions the group may perform.
 
-        self.configure_task(flight, group, SEAD, CAS)
+        self.configure_task(flight, group, SEAD, [CAS, AFAC, AntishipStrike])
         self.configure_behavior(
             flight,
             group,
@@ -186,7 +187,7 @@ class AircraftBehavior:
         # available aircraft, and F-14s are not able to be SEAD despite having TALDs.
         # https://forums.eagle.ru/topic/272112-cannot-assign-f-14-to-sead/
 
-        self.configure_task(flight, group, SEAD, CAS)
+        self.configure_task(flight, group, SEAD, [CAS, AFAC, AntishipStrike])
         self.configure_behavior(
             flight,
             group,
@@ -200,7 +201,7 @@ class AircraftBehavior:
         )
 
     def configure_strike(self, group: FlyingGroup[Any], flight: Flight) -> None:
-        self.configure_task(flight, group, GroundAttack, PinpointStrike)
+        self.configure_task(flight, group, GroundAttack, [PinpointStrike, AFAC])
         self.configure_behavior(
             flight,
             group,
@@ -211,7 +212,7 @@ class AircraftBehavior:
         )
 
     def configure_anti_ship(self, group: FlyingGroup[Any], flight: Flight) -> None:
-        self.configure_task(flight, group, AntishipStrike, CAS)
+        self.configure_task(flight, group, AntishipStrike, [CAS, AFAC, SEAD])
         self.configure_behavior(
             flight,
             group,
@@ -233,7 +234,7 @@ class AircraftBehavior:
         )
 
     def configure_oca_strike(self, group: FlyingGroup[Any], flight: Flight) -> None:
-        self.configure_task(flight, group, CAS)
+        self.configure_task(flight, group, CAS, [AFAC, SEAD])
         self.configure_behavior(
             flight,
             group,
@@ -345,7 +346,7 @@ class AircraftBehavior:
         flight: Flight,
         group: FlyingGroup[Any],
         preferred_task: Type[MainTask],
-        fallback_task: Optional[Type[MainTask]] = None,
+        fallback_tasks: Optional[List[Type[MainTask]]] = None,
     ) -> None:
         ac_type = flight.unit_type.dcs_unit_type.id
 
@@ -358,15 +359,22 @@ class AircraftBehavior:
 
         if preferred_task in flight.unit_type.dcs_unit_type.tasks:
             group.task = preferred_task.name
-        elif fallback_task and fallback_task in flight.unit_type.dcs_unit_type.tasks:
-            group.task = fallback_task.name
+        elif fallback_tasks:
+            for task in fallback_tasks:
+                if task in flight.unit_type.dcs_unit_type.tasks:
+                    group.task = task.name
+                    return
         elif flight.unit_type.dcs_unit_type.task_default and preferred_task == Nothing:
             group.task = flight.unit_type.dcs_unit_type.task_default.name
             logging.warning(
                 f"{ac_type} is not capable of 'Nothing', using default task '{group.task}'"
             )
         else:
-            fallback_part = f" nor {fallback_task.name}" if fallback_task else ""
+            fallback_part = (
+                f" nor any of the following fall-back tasks: {[task.name for task in fallback_tasks]}"
+                if fallback_tasks
+                else ""
+            )
             raise RuntimeError(
                 f"{ac_type} is neither capable of {preferred_task.name}"
                 f"{fallback_part}. Can't generate {flight.flight_type} flight."

@@ -3,6 +3,7 @@ from enum import Enum, auto
 from typing import Optional
 
 from game.ato.flighttype import FlightType
+from game.dcs.aircrafttype import AircraftType
 from game.theater import MissionTarget
 
 
@@ -32,6 +33,8 @@ class ProposedFlight:
     #: the threat they defend against. If this flight is not an escort, this
     #: field is None.
     escort_type: Optional[EscortType] = field(default=None)
+
+    preferred_type: Optional[AircraftType] = field(default=None)
 
     def __str__(self) -> str:
         return f"{self.task} {self.num_aircraft} ship"

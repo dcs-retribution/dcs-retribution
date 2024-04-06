@@ -243,6 +243,8 @@ class FlightGroupSpawner:
             speed=speed.kph,
             maintask=None,
             group_size=self.flight.count,
+            callsign_name=self.flight.callsign.name if self.flight.callsign else None,
+            callsign_nr=self.flight.callsign.nr if self.flight.callsign else None,
         )
 
         group.points[0].alt_type = alt_type

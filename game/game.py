@@ -372,10 +372,10 @@ class Game:
         persistency.autosave(self)
 
     def check_win_loss(self) -> TurnState:
-        if not self.theater.player_points():
+        if not self.theater.player_points(state_check=True):
             return TurnState.LOSS
 
-        if not self.theater.enemy_points():
+        if not self.theater.enemy_points(state_check=True):
             return TurnState.WIN
 
         return TurnState.CONTINUE

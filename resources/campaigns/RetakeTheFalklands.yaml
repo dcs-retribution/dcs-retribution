@@ -7,7 +7,7 @@ recommended_enemy_faction: China/Argentina Falklands Occupation Force
 description: <p>Argentina and China have taken the Falklands by surprise. Currently on the East Coast of the United States for training, an Invicible-class carrier is steaming down to the South Atlantic to retake the islands, with the help of the United States Carrier Group. A beachhead has been established on the small air base of San Julian where the USAF has parked a small number of F-15Es and F-16 to assist. <p>Retake the Falklands, and proceed inland to neutralize the enemy.</p></p><p><b>Author's notes</b><br/>For this campaign, you can use UK Harrier and Apache skins, and Argentine JF-17 and Mirage Skins. Original campaign Gran Polvorin by Fuzzle.</p>
 miz: RetakeTheFalklands.miz
 performance: 2
-recommended_start_date: 2005-06-15
+recommended_start_date: 2002-12-21
 version: "10.7"
 squadrons:
 # Off-map spawn

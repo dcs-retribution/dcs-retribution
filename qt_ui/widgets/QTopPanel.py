@@ -166,6 +166,8 @@ class QTopPanel(QFrame):
         with logged_duration("Skipping turn"):
             self.game.pass_turn(no_action=True)
             GameUpdateSignal.get_instance().updateGame(self.game)
+            state = self.game_model.game.check_win_loss()
+            GameUpdateSignal.get_instance().gameStateChanged(state)
             self.proceedButton.setEnabled(True)
 
     def negative_start_packages(self, now: datetime) -> List[Package]:
