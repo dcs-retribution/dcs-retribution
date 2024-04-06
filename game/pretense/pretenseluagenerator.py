@@ -1509,7 +1509,9 @@ class PretenseLuaGenerator(LuaGenerator):
         )
 
         lua_string_zones = ""
-        lua_string_carriers = self.generate_pretense_carrier_zones()
+        lua_string_carriers = ""
+        if self.game.settings.pretense_controllable_carrier:
+            lua_string_carriers += self.generate_pretense_carrier_zones()
 
         for cp in self.game.theater.controlpoints:
             cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalpha()])
