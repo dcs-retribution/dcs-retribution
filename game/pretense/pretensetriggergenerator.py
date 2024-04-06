@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import logging
+import math
+import random
 from typing import TYPE_CHECKING, List
 
 from dcs import Point
@@ -29,7 +31,10 @@ from dcs.terrain.syria.airports import Damascus, Khalkhalah
 from dcs.translation import String
 from dcs.triggers import Event, TriggerCondition, TriggerOnce
 from dcs.unit import Skill
+from numpy import cross, einsum, arctan2
+from shapely import MultiPolygon, Point as ShapelyPoint
 
+from game.naming import ALPHA_MILITARY
 from game.theater import Airfield
 from game.theater.controlpoint import Fob, TRIGGER_RADIUS_CAPTURE, OffMapSpawn
 
@@ -56,9 +61,13 @@ TRIGGER_RADIUS_PRETENSE_TGO = 500
 TRIGGER_RADIUS_PRETENSE_SUPPLY = 500
 TRIGGER_RADIUS_PRETENSE_HELI = 1000
 TRIGGER_RADIUS_PRETENSE_HELI_BUFFER = 500
-TRIGGER_RADIUS_PRETENSE_CARRIER = 50000
+TRIGGER_RADIUS_PRETENSE_CARRIER = 20000
+TRIGGER_RADIUS_PRETENSE_CARRIER_SMALL = 3000
+TRIGGER_RADIUS_PRETENSE_CARRIER_CORNER = 25000
 TRIGGER_RUNWAY_LENGTH_PRETENSE = 2500
 TRIGGER_RUNWAY_WIDTH_PRETENSE = 400
+
+SIMPLIFY_RUNS_PRETENSE_CARRIER = 10000
 
 
 class Silence(Option):
@@ -221,12 +230,105 @@ class PretenseTriggerGenerator:
                 self.mission.triggerrules.triggers.append(recapture_trigger)
 
     def _generate_pretense_zone_triggers(self) -> None:
-        """Creates a pair of triggers for each control point of `cls.capture_zone_types`.
-        One for the initial capture of a control point, and one if it is recaptured.
-        Directly appends to the global `base_capture_events` var declared by `dcs_libaration.lua`
+        """Creates triggger zones for the Pretense campaign. These include:
+        - Carrier zones for friendly forces, generated from the navmesh / sea zone intersection
+        - Carrier zones for opposing forces
+        - Airfield and FARP zones
+        - Airfield and FARP spawn points / helicopter spawn points / ground object positions
         """
+
+        # First generate carrier zones for friendly forces
+        use_blue_navmesh = (
+            self.game.settings.pretense_carrier_zones_navmesh == "Blue navmesh"
+        )
+        sea_zones_landmap = self.game.coalition_for(
+            player=False
+        ).nav_mesh.theater.landmap
+        if (
+            self.game.settings.pretense_controllable_carrier
+            and sea_zones_landmap is not None
+        ):
+            navmesh_number = 0
+            for navmesh_poly in self.game.coalition_for(
+                player=use_blue_navmesh
+            ).nav_mesh.polys:
+                navmesh_number += 1
+                if sea_zones_landmap.sea_zones.intersects(navmesh_poly.poly):
+                    # Get the intersection between the navmesh zone and the sea zone
+                    navmesh_sea_intersection = sea_zones_landmap.sea_zones.intersection(
+                        navmesh_poly.poly
+                    )
+                    navmesh_zone_verticies = navmesh_sea_intersection
+
+                    # Simplify it to get a quadrangle
+                    for simplify_run in range(SIMPLIFY_RUNS_PRETENSE_CARRIER):
+                        navmesh_zone_verticies = navmesh_sea_intersection.simplify(
+                            float(simplify_run * 10), preserve_topology=False
+                        )
+                        if isinstance(navmesh_zone_verticies, MultiPolygon):
+                            break
+                        if len(navmesh_zone_verticies.exterior.coords) <= 4:
+                            break
+                    if isinstance(navmesh_zone_verticies, MultiPolygon):
+                        continue
+                    trigger_zone_verticies = []
+                    terrain = self.game.theater.terrain
+                    alpha = random.choice(ALPHA_MILITARY)
+
+                    # Generate the quadrangle zone and four points inside it for carrier navigation
+                    if len(navmesh_zone_verticies.exterior.coords) == 4:
+                        zone_color = {1: 1.0, 2: 1.0, 3: 1.0, 4: 0.15}
+                        corner_point_num = 0
+                        for point_coord in navmesh_zone_verticies.exterior.coords:
+                            corner_point = Point(
+                                x=point_coord[0], y=point_coord[1], terrain=terrain
+                            )
+                            nav_point = corner_point.point_from_heading(
+                                corner_point.heading_between_point(
+                                    navmesh_sea_intersection.centroid
+                                ),
+                                TRIGGER_RADIUS_PRETENSE_CARRIER_CORNER,
+                            )
+                            corner_point_num += 1
+
+                            zone_name = f"{alpha}-{navmesh_number}-{corner_point_num}"
+                            if sea_zones_landmap.sea_zones.contains(
+                                ShapelyPoint(nav_point.x, nav_point.y)
+                            ):
+                                self.mission.triggers.add_triggerzone(
+                                    nav_point,
+                                    radius=TRIGGER_RADIUS_PRETENSE_CARRIER_SMALL,
+                                    hidden=False,
+                                    name=zone_name,
+                                    color=zone_color,
+                                )
+
+                            trigger_zone_verticies.append(corner_point)
+
+                        zone_name = f"{alpha}-{navmesh_number}"
+                        trigger_zone = self.mission.triggers.add_triggerzone_quad(
+                            navmesh_sea_intersection.centroid,
+                            trigger_zone_verticies,
+                            hidden=False,
+                            name=zone_name,
+                            color=zone_color,
+                        )
+                        try:
+                            if len(self.game.pretense_carrier_zones) == 0:
+                                self.game.pretense_carrier_zones = []
+                        except AttributeError:
+                            self.game.pretense_carrier_zones = []
+                        self.game.pretense_carrier_zones.append(zone_name)
+
         for cp in self.game.theater.controlpoints:
-            if cp.is_fleet:
+            if (
+                cp.is_fleet
+                and self.game.settings.pretense_controllable_carrier
+                and cp.captured
+            ):
+                # Friendly carrier zones are generated above
+                continue
+            elif cp.is_fleet:
                 trigger_radius = float(TRIGGER_RADIUS_PRETENSE_CARRIER)
             elif isinstance(cp, Fob) and cp.has_helipads:
                 trigger_radius = TRIGGER_RADIUS_PRETENSE_HELI
@@ -247,6 +349,8 @@ class PretenseTriggerGenerator:
                     or isinstance(cp.dcs_airport, Khalkhalah)
                     or isinstance(cp.dcs_airport, Krasnodar_Pashkovsky)
                 ):
+                    # Increase the size of Pretense zones at Damascus, Khalkhalah and Krasnodar-Pashkovsky
+                    # (which are quite spread out) so the zone would encompass the entire airfield.
                     trigger_radius = int(TRIGGER_RADIUS_CAPTURE * 1.8)
                 else:
                     trigger_radius = TRIGGER_RADIUS_CAPTURE

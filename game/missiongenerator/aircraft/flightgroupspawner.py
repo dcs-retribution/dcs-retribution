@@ -15,6 +15,7 @@ from dcs.planes import (
     C_101CC,
     Su_33,
     MiG_15bis,
+    M_2000C,
 )
 from dcs.point import PointAction
 from dcs.ships import KUZNECOW
@@ -35,7 +36,7 @@ from game.missiongenerator.missiondata import MissionData
 from game.naming import namegen
 from game.theater import Airfield, ControlPoint, Fob, NavalControlPoint, OffMapSpawn
 from game.utils import feet, meters
-from pydcs_extensions import A_4E_C
+from pydcs_extensions import A_4E_C, VSN_F4B, VSN_F4C
 
 WARM_START_HELI_ALT = meters(500)
 WARM_START_ALTITUDE = meters(3000)
@@ -400,6 +401,18 @@ class FlightGroupSpawner:
         group.points[0].type = "TakeOffGround"
         group.units[0].heading = ground_spawn[0].units[0].heading
 
+        if (
+            cp.coalition.game.settings.ground_start_airbase_statics_farps_remove
+            and isinstance(cp, Airfield)
+        ):
+            # Remove invisible FARPs from airfields because they are unnecessary
+            neutral_country = self.mission.country(
+                cp.coalition.game.neutral_country.name
+            )
+            neutral_country.remove_static_group(ground_spawn[0])
+            group.points[0].link_unit = None
+            group.points[0].helipad_id = None
+
         # Hot start aircraft which require ground power to start, when ground power
         # trucks have been disabled for performance reasons
         ground_power_available = (
@@ -410,10 +423,31 @@ class FlightGroupSpawner:
             and self.flight.coalition.game.settings.ground_start_ground_power_trucks_roadbase
         )
 
-        if self.start_type is not StartType.COLD or (
-            not ground_power_available
-            and self.flight.unit_type.dcs_unit_type
-            in [A_4E_C, F_5E_3, F_86F_Sabre, MiG_15bis, F_14A_135_GR, F_14B, C_101CC]
+        # Also hot start aircraft which require ground crew support (ground air or chock removal)
+        # which might not be available at roadbases
+        if (
+            self.start_type is not StartType.COLD
+            or (
+                not ground_power_available
+                and self.flight.unit_type.dcs_unit_type
+                in [
+                    A_4E_C,
+                    F_86F_Sabre,
+                    MiG_15bis,
+                    F_14A_135_GR,
+                    F_14B,
+                    C_101CC,
+                ]
+            )
+            or (
+                self.flight.unit_type.dcs_unit_type
+                in [
+                    F_5E_3,
+                    M_2000C,
+                    VSN_F4B,
+                    VSN_F4C,
+                ]
+            )
         ):
             group.points[0].action = PointAction.FromGroundAreaHot
             group.points[0].type = "TakeOffGroundHot"
@@ -435,6 +469,17 @@ class FlightGroupSpawner:
                     ground_spawn[0].x, ground_spawn[0].y, terrain=terrain
                 )
                 group.units[1 + i].heading = ground_spawn[0].units[0].heading
+
+                if (
+                    cp.coalition.game.settings.ground_start_airbase_statics_farps_remove
+                    and isinstance(cp, Airfield)
+                ):
+                    # Remove invisible FARPs from airfields because they are unnecessary
+                    neutral_country = self.mission.country(
+                        cp.coalition.game.neutral_country.name
+                    )
+                    neutral_country.remove_static_group(ground_spawn[0])
+
             except IndexError as ex:
                 raise NoParkingSlotError(
                     f"Not enough STOL slots available at {cp}"

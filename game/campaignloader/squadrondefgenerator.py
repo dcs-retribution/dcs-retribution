@@ -21,7 +21,7 @@ class SquadronDefGenerator:
         self.used_nicknames: set[str] = set()
 
     def generate_for_task(
-        self, task: FlightType, control_point: ControlPoint
+        self, task: FlightType, control_point: ControlPoint, squadron_random_chance: int
     ) -> Optional[SquadronDef]:
         aircraft_choice: Optional[AircraftType] = None
         for aircraft in AircraftType.priority_list_for_task(task):
@@ -30,9 +30,9 @@ class SquadronDefGenerator:
             if not control_point.can_operate(aircraft):
                 continue
             aircraft_choice = aircraft
-            # 50/50 chance to keep looking for an aircraft that isn't as far up the
+            # squadron_random_chance percent chance to keep looking for an aircraft that isn't as far up the
             # priority list to maintain some unit variety.
-            if random.choice([True, False]):
+            if squadron_random_chance >= random.randint(1, 100):
                 break
 
         if aircraft_choice is None:

@@ -38,6 +38,7 @@ from ..ato.airtaaskingorder import AirTaskingOrder
 from ..callsigns import callsign_for_support_unit
 from ..dcs.aircrafttype import AircraftType
 from ..missiongenerator import MissionGenerator
+from ..theater import Airfield
 
 if TYPE_CHECKING:
     from game import Game
@@ -103,6 +104,26 @@ class PretenseMissionGenerator(MissionGenerator):
         # rather than the first player flight with a TGP.
         self.generate_ground_conflicts()
         self.generate_air_units(tgo_generator)
+
+        for cp in self.game.theater.controlpoints:
+            if (
+                self.game.settings.ground_start_airbase_statics_farps_remove
+                and isinstance(cp, Airfield)
+            ):
+                while len(tgo_generator.ground_spawns[cp]) > 0:
+                    ground_spawn = tgo_generator.ground_spawns[cp].pop()
+                    # Remove invisible FARPs from airfields because they are unnecessary
+                    neutral_country = self.mission.country(
+                        cp.coalition.game.neutral_country.name
+                    )
+                    neutral_country.remove_static_group(ground_spawn[0])
+                while len(tgo_generator.ground_spawns_roadbase[cp]) > 0:
+                    ground_spawn = tgo_generator.ground_spawns_roadbase[cp].pop()
+                    # Remove invisible FARPs from airfields because they are unnecessary
+                    neutral_country = self.mission.country(
+                        cp.coalition.game.neutral_country.name
+                    )
+                    neutral_country.remove_static_group(ground_spawn[0])
 
         self.mission.triggerrules.triggers.clear()
         PretenseTriggerGenerator(self.mission, self.game).generate()

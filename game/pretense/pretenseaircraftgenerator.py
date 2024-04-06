@@ -191,13 +191,13 @@ class PretenseAircraftGenerator:
         """
 
         squadron_def = coalition.air_wing.squadron_def_generator.generate_for_task(
-            flight_type, cp
+            flight_type, cp, self.game.settings.squadron_random_chance
         )
         for retries in range(num_retries):
             if squadron_def is None or fixed_wing == squadron_def.aircraft.helicopter:
                 squadron_def = (
                     coalition.air_wing.squadron_def_generator.generate_for_task(
-                        flight_type, cp
+                        flight_type, cp, self.game.settings.squadron_random_chance
                     )
                 )
 
@@ -302,7 +302,10 @@ class PretenseAircraftGenerator:
         # First check what are the capabilities of the squadrons on this CP
         for squadron in cp.squadrons:
             for task in sead_tasks:
-                if task in squadron.auto_assignable_mission_types:
+                if (
+                    task in squadron.auto_assignable_mission_types
+                    or FlightType.DEAD in squadron.auto_assignable_mission_types
+                ):
                     sead_capable_cp = True
             for task in strike_tasks:
                 if task in squadron.auto_assignable_mission_types:
@@ -360,6 +363,8 @@ class PretenseAircraftGenerator:
                         continue
                     if cp.coalition != squadron.coalition:
                         continue
+                    if num_of_sead >= self.game.settings.pretense_sead_flights_per_cp:
+                        break
 
                     mission_types = squadron.auto_assignable_mission_types
                     if (
@@ -400,6 +405,11 @@ class PretenseAircraftGenerator:
                         continue
                     if cp.coalition != squadron.coalition:
                         continue
+                    if (
+                        num_of_strike
+                        >= self.game.settings.pretense_strike_flights_per_cp
+                    ):
+                        break
 
                     mission_types = squadron.auto_assignable_mission_types
                     for task in strike_tasks:
@@ -422,6 +432,8 @@ class PretenseAircraftGenerator:
                         continue
                     if cp.coalition != squadron.coalition:
                         continue
+                    if num_of_cap >= self.game.settings.pretense_barcap_flights_per_cp:
+                        break
 
                     mission_types = squadron.auto_assignable_mission_types
                     for task in patrol_tasks:
@@ -444,6 +456,8 @@ class PretenseAircraftGenerator:
                         continue
                     if cp.coalition != squadron.coalition:
                         continue
+                    if num_of_cas >= self.game.settings.pretense_cas_flights_per_cp:
+                        break
 
                     mission_types = squadron.auto_assignable_mission_types
                     if (
@@ -467,6 +481,8 @@ class PretenseAircraftGenerator:
                         continue
                     if cp.coalition != squadron.coalition:
                         continue
+                    if num_of_bai >= self.game.settings.pretense_bai_flights_per_cp:
+                        break
 
                     mission_types = squadron.auto_assignable_mission_types
                     if FlightType.BAI in mission_types:

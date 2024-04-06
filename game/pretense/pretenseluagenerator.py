@@ -7,13 +7,15 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, List, Type
 
 from dcs import Mission
 from dcs.action import DoScript, DoScriptFile
+from dcs.ships import Stennis, CVN_71, CVN_72, CVN_73, CVN_75, Forrestal
 from dcs.translation import String
 from dcs.triggers import TriggerStart
-from dcs.vehicles import AirDefence
+from dcs.unittype import VehicleType, ShipType
+from dcs.vehicles import AirDefence, Unarmed
 
 from game.ato import FlightType
 from game.coalition import Coalition
@@ -283,6 +285,7 @@ class PretenseLuaGenerator(LuaGenerator):
             "nasamsb",
             "nasamsc",
             "rapier",
+            "roland",
             "irondome",
             "davidsling",
         ]:
@@ -381,6 +384,8 @@ class PretenseLuaGenerator(LuaGenerator):
                         == AirDefence.Rapier_fsa_launcher
                     ):
                         sam_presets["rapier"].enabled = True
+                    if ground_unit.unit_type.dcs_unit_type == AirDefence.Roland_ADS:
+                        sam_presets["roland"].enabled = True
                     if ground_unit.unit_type.dcs_unit_type == IRON_DOME_LN:
                         sam_presets["irondome"].enabled = True
                     if ground_unit.unit_type.dcs_unit_type == DAVID_SLING_LN:
@@ -526,22 +531,9 @@ class PretenseLuaGenerator(LuaGenerator):
         cp_name_trimmed = "".join([i for i in cp_name.lower() if i.isalpha()])
         cp_side_str = "blue" if cp_side == PRETENSE_BLUE_SIDE else "red"
 
-        if cp_side == PRETENSE_BLUE_SIDE:
-            if random.randint(0, 1):
-                supply_ship = "shipSupplyTilde"
-            else:
-                supply_ship = "shipLandingShipLstMk2"
-            tanker_ship = "shipTankerSeawisegiant"
-            command_ship = "shipLandingShipSamuelChase"
-            ship_group = "blueShipGroup"
-        else:
-            if random.randint(0, 1):
-                supply_ship = "shipBulkerYakushev"
-            else:
-                supply_ship = "shipCargoIvanov"
-            tanker_ship = "shipTankerElnya"
-            command_ship = "shipLandingShipRopucha"
-            ship_group = "redShipGroup"
+        supply_ship = "oilPump"
+        tanker_ship = "chemTank"
+        command_ship = "comCenter"
 
         lua_string_zones += (
             "        presets.upgrades.supply." + supply_ship + ":extend({\n"
@@ -581,7 +573,7 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_zones += "            }\n"
         lua_string_zones += "        }),\n"
         lua_string_zones += (
-            "        presets.upgrades.attack." + command_ship + ":extend({\n"
+            "        presets.upgrades.airdef." + command_ship + ":extend({\n"
         )
         lua_string_zones += (
             f"            name = '{cp_name_trimmed}-mission-command-"
@@ -592,11 +584,9 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_zones += (
             "                presets.defenses."
             + cp_side_str
-            + "."
-            + ship_group
-            + ":extend({ name='"
+            + ".shorad:extend({ name='"
             + cp_name_trimmed
-            + "-sam-"
+            + "-shorad-"
             + cp_side_str
             + "' }),\n"
         )
@@ -719,6 +709,8 @@ class PretenseLuaGenerator(LuaGenerator):
         return lua_string_zones
 
     def generate_pretense_zone_land(self, cp_name: str) -> str:
+        is_artillery_zone = random.choice([True, False])
+
         lua_string_zones = ""
         cp_name_trimmed = "".join([i for i in cp_name.lower() if i.isalpha()])
 
@@ -727,11 +719,12 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_zones += "        presets.upgrades.basic.tent:extend({\n"
         lua_string_zones += f"            name='{cp_name_trimmed}-tent-red',\n"
         lua_string_zones += "            products = {\n"
-        lua_string_zones += (
-            "                presets.special.red.infantry:extend({ name='"
-            + cp_name_trimmed
-            + "-defense-red'})\n"
-        )
+        if not is_artillery_zone:
+            lua_string_zones += (
+                "                presets.special.red.infantry:extend({ name='"
+                + cp_name_trimmed
+                + "-defense-red'})\n"
+            )
         lua_string_zones += "            }\n"
         lua_string_zones += "        }),\n"
         lua_string_zones += "        presets.upgrades.basic.comPost:extend({\n"
@@ -742,13 +735,25 @@ class PretenseLuaGenerator(LuaGenerator):
             + cp_name_trimmed
             + "-defense-red'}),\n"
         )
-        lua_string_zones += (
-            "                presets.defenses.red.infantry:extend({ name='"
-            + cp_name_trimmed
-            + "-garrison-red' })\n"
-        )
+        if not is_artillery_zone:
+            lua_string_zones += (
+                "                presets.defenses.red.infantry:extend({ name='"
+                + cp_name_trimmed
+                + "-garrison-red' })\n"
+            )
         lua_string_zones += "            }\n"
         lua_string_zones += "        }),\n"
+        if is_artillery_zone:
+            lua_string_zones += "        presets.upgrades.basic.artyBunker:extend({\n"
+            lua_string_zones += f"            name='{cp_name_trimmed}-arty-red',\n"
+            lua_string_zones += "            products = {\n"
+            lua_string_zones += (
+                "                presets.defenses.red.artillery:extend({ name='"
+                + cp_name_trimmed
+                + "-artillery-red'})\n"
+            )
+            lua_string_zones += "            }\n"
+            lua_string_zones += "        }),\n"
 
         lua_string_zones += self.generate_pretense_land_upgrade_supply(
             cp_name, PRETENSE_RED_SIDE
@@ -760,11 +765,12 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_zones += "        presets.upgrades.basic.tent:extend({\n"
         lua_string_zones += f"            name='{cp_name_trimmed}-tent-blue',\n"
         lua_string_zones += "            products = {\n"
-        lua_string_zones += (
-            "                presets.special.blue.infantry:extend({ name='"
-            + cp_name_trimmed
-            + "-defense-blue'})\n"
-        )
+        if not is_artillery_zone:
+            lua_string_zones += (
+                "                presets.special.blue.infantry:extend({ name='"
+                + cp_name_trimmed
+                + "-defense-blue'})\n"
+            )
         lua_string_zones += "            }\n"
         lua_string_zones += "        }),\n"
         lua_string_zones += "        presets.upgrades.basic.comPost:extend({\n"
@@ -775,13 +781,25 @@ class PretenseLuaGenerator(LuaGenerator):
             + cp_name_trimmed
             + "-defense-blue'}),\n"
         )
-        lua_string_zones += (
-            "                presets.defenses.blue.infantry:extend({ name='"
-            + cp_name_trimmed
-            + "-garrison-blue' })\n"
-        )
+        if not is_artillery_zone:
+            lua_string_zones += (
+                "                presets.defenses.blue.infantry:extend({ name='"
+                + cp_name_trimmed
+                + "-garrison-blue' })\n"
+            )
         lua_string_zones += "            }\n"
         lua_string_zones += "        }),\n"
+        if is_artillery_zone:
+            lua_string_zones += "        presets.upgrades.basic.artyBunker:extend({\n"
+            lua_string_zones += f"            name='{cp_name_trimmed}-arty-blue',\n"
+            lua_string_zones += "            products = {\n"
+            lua_string_zones += (
+                "                presets.defenses.blue.artillery:extend({ name='"
+                + cp_name_trimmed
+                + "-artillery-blue'})\n"
+            )
+            lua_string_zones += "            }\n"
+            lua_string_zones += "        }),\n"
 
         lua_string_zones += self.generate_pretense_land_upgrade_supply(
             cp_name, PRETENSE_BLUE_SIDE
@@ -816,14 +834,204 @@ class PretenseLuaGenerator(LuaGenerator):
 
         return lua_string_zones
 
+    def generate_pretense_carrier_zones(self) -> str:
+        lua_string_carrier_zones = "cmap1 = CarrierMap:new({"
+        for zone_name in self.game.pretense_carrier_zones:
+            lua_string_carrier_zones += f'"{zone_name}",'
+        lua_string_carrier_zones += "})\n"
+
+        return lua_string_carrier_zones
+
+    def generate_pretense_carriers(
+        self,
+        cp_name: str,
+        cp_side: int,
+        cp_carrier_group_type: Type[ShipType] | None,
+        cp_carrier_group_name: str | None,
+    ) -> str:
+        lua_string_carrier = "\n"
+        cp_name_trimmed = "".join([i for i in cp_name.lower() if i.isalpha()])
+
+        link4carriers = [Stennis, CVN_71, CVN_72, CVN_73, CVN_75, Forrestal]
+        is_link4carrier = False
+        carrier_unit_name = ""
+        icls_channel = 10
+        link4_freq = 339000000
+        tacan_channel = 44
+        tacan_callsign = ""
+        radio = 137500000
+        if cp_carrier_group_type is not None:
+            if cp_carrier_group_type in link4carriers:
+                is_link4carrier = True
+        else:
+            return lua_string_carrier
+        if cp_carrier_group_name is None:
+            return lua_string_carrier
+
+        for carrier in self.mission_data.carriers:
+            if cp_carrier_group_name == carrier.group_name:
+                carrier_unit_name = carrier.unit_name
+                tacan_channel = carrier.tacan.number
+                tacan_callsign = carrier.callsign
+                radio = carrier.freq.hertz
+                if carrier.link4_freq is not None:
+                    link4_freq = carrier.link4_freq.hertz
+                if carrier.icls_channel is not None:
+                    icls_channel = carrier.icls_channel
+                break
+
+        lua_string_carrier += (
+            f'{cp_name_trimmed} = CarrierCommand:new("'
+            + carrier_unit_name
+            + '", 3000, cmap1:getNavMap(), '
+            + "{\n"
+        )
+        if is_link4carrier:
+            lua_string_carrier += "	icls = " + str(icls_channel) + ",\n"
+            lua_string_carrier += "	acls = true,\n"
+            lua_string_carrier += "	link4 = " + str(link4_freq) + ",\n"
+        lua_string_carrier += (
+            "	tacan = {channel = "
+            + str(tacan_channel)
+            + ', callsign="'
+            + tacan_callsign
+            + '"},\n'
+        )
+        lua_string_carrier += "	radio = " + str(radio) + "\n"
+        lua_string_carrier += "}, 30000)\n"
+
+        for mission_type in self.game.pretense_air[cp_side][cp_name_trimmed]:
+            if mission_type == FlightType.SEAD:
+                mission_name = "supportTypes.strike"
+                for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
+                    mission_type
+                ]:
+                    lua_string_carrier += (
+                        f'{cp_name_trimmed}:addSupportFlight("{air_group}", 1000, CarrierCommand.{mission_name}, '
+                        + "{altitude = 25000, expend=AI.Task.WeaponExpend.ALL})\n"
+                    )
+            elif mission_type == FlightType.CAS:
+                mission_name = "supportTypes.strike"
+                for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
+                    mission_type
+                ]:
+                    lua_string_carrier += (
+                        f'{cp_name_trimmed}:addSupportFlight("{air_group}", 1000, CarrierCommand.{mission_name}, '
+                        + "{altitude = 15000, expend=AI.Task.WeaponExpend.ONE})\n"
+                    )
+            elif mission_type == FlightType.BAI:
+                mission_name = "supportTypes.strike"
+                for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
+                    mission_type
+                ]:
+                    lua_string_carrier += (
+                        f'{cp_name_trimmed}:addSupportFlight("{air_group}", 1000, CarrierCommand.{mission_name}, '
+                        + "{altitude = 10000, expend=AI.Task.WeaponExpend.ONE})\n"
+                    )
+            elif mission_type == FlightType.STRIKE:
+                mission_name = "supportTypes.strike"
+                for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
+                    mission_type
+                ]:
+                    lua_string_carrier += (
+                        f'{cp_name_trimmed}:addSupportFlight("{air_group}", 2000, CarrierCommand.{mission_name}, '
+                        + "{altitude = 20000})\n"
+                    )
+            elif mission_type == FlightType.BARCAP:
+                mission_name = "supportTypes.cap"
+                for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
+                    mission_type
+                ]:
+                    lua_string_carrier += (
+                        f'{cp_name_trimmed}:addSupportFlight("{air_group}", 1000, CarrierCommand.{mission_name}, '
+                        + "{altitude = 25000, range=25})\n"
+                    )
+            elif mission_type == FlightType.REFUELING:
+                mission_name = "supportTypes.tanker"
+                for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
+                    mission_type
+                ]:
+                    tanker_freq = 257.0
+                    tanker_tacan = 37.0
+                    tanker_variant = "Drogue"
+                    for tanker in self.mission_data.tankers:
+                        if tanker.group_name == air_group:
+                            tanker_freq = tanker.freq.hertz / 1000000
+                            tanker_tacan = tanker.tacan.number if tanker.tacan else 0.0
+                            if tanker.variant == "KC-135 Stratotanker":
+                                tanker_variant = "Boom"
+                    lua_string_carrier += (
+                        f'{cp_name_trimmed}:addSupportFlight("{air_group}", 3000, CarrierCommand.{mission_name}, '
+                        + "{altitude = 19000, freq="
+                        + str(tanker_freq)
+                        + ", tacan="
+                        + str(tanker_tacan)
+                        + "})\n"
+                    )
+            elif mission_type == FlightType.AEWC:
+                mission_name = "supportTypes.awacs"
+                for air_group in self.game.pretense_air[cp_side][cp_name_trimmed][
+                    mission_type
+                ]:
+                    awacs_freq = 257.5
+                    for awacs in self.mission_data.awacs:
+                        if awacs.group_name == air_group:
+                            awacs_freq = awacs.freq.hertz / 1000000
+                    lua_string_carrier += (
+                        f'{cp_name_trimmed}:addSupportFlight("{air_group}", 5000, CarrierCommand.{mission_name}, '
+                        + "{altitude = 30000, freq="
+                        + str(awacs_freq)
+                        + "})\n"
+                    )
+
+        # lua_string_carrier += f'{cp_name_trimmed}:addExtraSupport("BGM-109B", 10000, CarrierCommand.supportTypes.mslstrike, ' + '{salvo = 10, wpType = \'weapons.missiles.BGM_109B\'})\n'
+
+        return lua_string_carrier
+
     def get_ground_unit(
         self, coalition: Coalition, side: int, desired_unit_classes: list[UnitClass]
     ) -> str:
+        ammo_trucks: List[Type[VehicleType]] = [
+            Unarmed.S_75_ZIL,
+            Unarmed.GAZ_3308,
+            Unarmed.GAZ_66,
+            Unarmed.KAMAZ_Truck,
+            Unarmed.KrAZ6322,
+            Unarmed.Ural_375,
+            Unarmed.Ural_375_PBU,
+            Unarmed.Ural_4320_31,
+            Unarmed.Ural_4320T,
+            Unarmed.ZIL_135,
+            Unarmed.Blitz_36_6700A,
+            Unarmed.M_818,
+            Unarmed.Bedford_MWD,
+        ]
+
         for unit_class in desired_unit_classes:
             if coalition.faction.has_access_to_unit_class(unit_class):
                 dcs_unit_type = PretenseGroundObjectGenerator.ground_unit_of_class(
                     coalition=coalition, unit_class=unit_class
                 )
+                if (
+                    dcs_unit_type is not None
+                    and unit_class == UnitClass.LOGISTICS
+                    and dcs_unit_type.dcs_unit_type.__class__ not in ammo_trucks
+                ):
+                    # ground_unit_of_class returned a logistics unit not capable of ammo resupply
+                    # Retry up to 10 times
+                    for truck_retry in range(10):
+                        dcs_unit_type = (
+                            PretenseGroundObjectGenerator.ground_unit_of_class(
+                                coalition=coalition, unit_class=unit_class
+                            )
+                        )
+                        if (
+                            dcs_unit_type is not None
+                            and dcs_unit_type.dcs_unit_type in ammo_trucks
+                        ):
+                            break
+                        else:
+                            dcs_unit_type = None
                 if dcs_unit_type is not None:
                     return dcs_unit_type.dcs_id
 
@@ -849,6 +1057,11 @@ class PretenseLuaGenerator(LuaGenerator):
                 return "LAV-25"
             else:
                 return "BTR-80"
+        elif desired_unit_classes[0] == UnitClass.ARTILLERY:
+            if side == PRETENSE_BLUE_SIDE:
+                return "M-109"
+            else:
+                return "SAU Gvozdika"
         elif desired_unit_classes[0] == UnitClass.RECON:
             if side == PRETENSE_BLUE_SIDE:
                 return "M1043 HMMWV Armament"
@@ -865,10 +1078,16 @@ class PretenseLuaGenerator(LuaGenerator):
             else:
                 return "KS-19"
         elif desired_unit_classes[0] == UnitClass.MANPAD:
-            if side == PRETENSE_BLUE_SIDE:
-                return "Soldier stinger"
+            if coalition.game.date.year >= 1990:
+                if side == PRETENSE_BLUE_SIDE:
+                    return "Soldier stinger"
+                else:
+                    return "SA-18 Igla manpad"
             else:
-                return "SA-18 Igla manpad"
+                if side == PRETENSE_BLUE_SIDE:
+                    return "Soldier M4"
+                else:
+                    return "Infantry AK"
         elif desired_unit_classes[0] == UnitClass.LOGISTICS:
             if side == PRETENSE_BLUE_SIDE:
                 return "M 818"
@@ -904,6 +1123,26 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.INFANTRY])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.INFANTRY])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.INFANTRY])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.MANPAD, UnitClass.INFANTRY])}"\n'
+        lua_string_ground_groups += "            },\n"
+        lua_string_ground_groups += f'            skill = "{skill_str}",\n'
+        lua_string_ground_groups += "            dataCategory = TemplateDB.type.group\n"
+        lua_string_ground_groups += "}\n"
+
+        lua_string_ground_groups += (
+            'TemplateDB.templates["artillery-' + side_str + '"] = {\n'
+        )
+        lua_string_ground_groups += "    units = {\n"
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.ARTILLERY])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.ARTILLERY])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.ARTILLERY])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.ARTILLERY])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.INFANTRY])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.INFANTRY])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.INFANTRY])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.INFANTRY])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.MANPAD, UnitClass.INFANTRY])}"\n'
         lua_string_ground_groups += "            },\n"
         lua_string_ground_groups += f'            skill = "{skill_str}",\n'
@@ -1173,6 +1412,30 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_ground_groups += "            dataCategory = TemplateDB.type.group\n"
         lua_string_ground_groups += "}\n"
 
+        lua_string_ground_groups += (
+            'TemplateDB.templates["roland-' + side_str + '"] = {\n'
+        )
+        lua_string_ground_groups += "    units = {\n"
+        lua_string_ground_groups += '                "Roland ADS",\n'
+        lua_string_ground_groups += '                "Roland ADS",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.AAA, UnitClass.SHORAD, UnitClass.MANPAD])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.SHORAD, UnitClass.AAA, UnitClass.MANPAD])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.SHORAD, UnitClass.AAA, UnitClass.MANPAD])}",\n'
+        lua_string_ground_groups += '                "Roland ADS",\n'
+        lua_string_ground_groups += '                "Roland ADS",\n'
+        lua_string_ground_groups += '                "Roland ADS",\n'
+        lua_string_ground_groups += '                "Roland ADS",\n'
+        lua_string_ground_groups += '                "Roland Radar",\n'
+        lua_string_ground_groups += '                "Roland Radar",\n'
+        lua_string_ground_groups += '                "Roland Radar"\n'
+        lua_string_ground_groups += "            },\n"
+        lua_string_ground_groups += "            maxDist = 300,\n"
+        lua_string_ground_groups += f'            skill = "{skill_str}",\n'
+        lua_string_ground_groups += "            dataCategory = TemplateDB.type.group\n"
+        lua_string_ground_groups += "}\n"
+
         return lua_string_ground_groups
 
     @staticmethod
@@ -1219,7 +1482,6 @@ class PretenseLuaGenerator(LuaGenerator):
             + str(self.game.settings.pretense_maxdistfromfront_distance * 1000)
             + "\n"
         )
-
         trigger = TriggerStart(comment="Pretense config")
         trigger.add_action(DoScript(String(lua_string_config)))
         self.mission.triggerrules.triggers.append(trigger)
@@ -1247,16 +1509,30 @@ class PretenseLuaGenerator(LuaGenerator):
         )
 
         lua_string_zones = ""
+        lua_string_carriers = self.generate_pretense_carrier_zones()
 
         for cp in self.game.theater.controlpoints:
-            if isinstance(cp, OffMapSpawn):
-                continue
-
             cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalpha()])
             cp_name = "".join(
                 [i for i in cp.name if i.isalnum() or i.isspace() or i == "-"]
             )
             cp_side = 2 if cp.captured else 1
+
+            if isinstance(cp, OffMapSpawn):
+                continue
+            elif (
+                cp.is_fleet
+                and cp.captured
+                and self.game.settings.pretense_controllable_carrier
+            ):
+                # Friendly carrier, generate carrier parameters
+                cp_carrier_group_type = cp.get_carrier_group_type()
+                cp_carrier_group_name = cp.get_carrier_group_name()
+                lua_string_carriers += self.generate_pretense_carriers(
+                    cp_name, cp_side, cp_carrier_group_type, cp_carrier_group_name
+                )
+                continue
+
             for side in range(1, 3):
                 if cp_name_trimmed not in self.game.pretense_air[cp_side]:
                     self.game.pretense_air[side][cp_name_trimmed] = {}
@@ -1306,7 +1582,10 @@ class PretenseLuaGenerator(LuaGenerator):
             lua_string_zones += (
                 f"zones.{cp_name_trimmed}.keepActive = " + is_keep_active + "\n"
             )
-            lua_string_zones += self.generate_pretense_zone_land(cp.name)
+            if cp.is_fleet:
+                lua_string_zones += self.generate_pretense_zone_sea(cp_name)
+            else:
+                lua_string_zones += self.generate_pretense_zone_land(cp_name)
 
         lua_string_connman = "	cm = ConnectionManager:new()\n"
 
@@ -1326,7 +1605,10 @@ class PretenseLuaGenerator(LuaGenerator):
                     )
             if len(cp.connected_points) == 0 and len(cp.shipping_lanes) == 0:
                 # Also connect carrier and LHA control points to adjacent friendly points
-                if cp.is_fleet:
+                if cp.is_fleet and (
+                    not self.game.settings.pretense_controllable_carrier
+                    or not cp.captured
+                ):
                     num_of_carrier_connections = 0
                     for (
                         other_cp
@@ -1347,7 +1629,19 @@ class PretenseLuaGenerator(LuaGenerator):
                 for extra_connection in range(
                     self.game.settings.pretense_extra_zone_connections
                 ):
-                    if len(closest_cps) > extra_connection:
+                    if (
+                        cp.is_fleet
+                        and cp.captured
+                        and self.game.settings.pretense_controllable_carrier
+                    ):
+                        break
+                    elif (
+                        closest_cps[extra_connection].is_fleet
+                        and closest_cps[extra_connection].captured
+                        and self.game.settings.pretense_controllable_carrier
+                    ):
+                        break
+                    elif len(closest_cps) > extra_connection:
                         lua_string_connman += self.generate_pretense_zone_connection(
                             connected_points,
                             cp.name,
@@ -1387,9 +1681,9 @@ class PretenseLuaGenerator(LuaGenerator):
 
         lua_string_jtac = ""
         for jtac in self.mission_data.jtacs:
-            lua_string_jtac = f"Group.getByName('{jtac.group_name}'): destroy()"
+            lua_string_jtac = f"Group.getByName('{jtac.group_name}'): destroy()\n"
             lua_string_jtac += (
-                "CommandFunctions.jtac = JTAC:new({name = '" + jtac.group_name + "'})"
+                "CommandFunctions.jtac = JTAC:new({name = '" + jtac.group_name + "'})\n"
             )
 
         init_body_2_file = open("./resources/plugins/pretense/init_body_2.lua", "r")
@@ -1411,6 +1705,7 @@ class PretenseLuaGenerator(LuaGenerator):
             + lua_string_connman
             + init_body_2
             + lua_string_jtac
+            + lua_string_carriers
             + init_body_3
             + lua_string_supply
             + init_footer

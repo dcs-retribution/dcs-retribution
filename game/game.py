@@ -157,6 +157,7 @@ class Game:
             2: {},
         }
         self.pretense_air_groups: dict[str, Flight] = {}
+        self.pretense_carrier_zones: List[str] = []
 
         self.on_load(game_still_initializing=True)
 

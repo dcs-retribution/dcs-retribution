@@ -8,12 +8,14 @@ create the pydcs groups and statics for those areas and add them to the mission.
 from __future__ import annotations
 
 import random
+import logging
 from collections import defaultdict
-from typing import Dict, Optional, TYPE_CHECKING, Tuple, Type
+from typing import Dict, Optional, TYPE_CHECKING, Tuple, Type, Iterator
 
 from dcs import Mission, Point
 from dcs.countries import *
 from dcs.country import Country
+from dcs.ships import Stennis, CVN_71, CVN_72, CVN_73, CVN_75, Forrestal, LHA_Tarawa
 from dcs.unitgroup import StaticGroup, VehicleGroup
 from dcs.unittype import VehicleType
 
@@ -23,7 +25,7 @@ from game.dcs.groundunittype import GroundUnitType
 from game.missiongenerator.groundforcepainter import (
     GroundForcePainter,
 )
-from game.missiongenerator.missiondata import MissionData
+from game.missiongenerator.missiondata import MissionData, CarrierInfo
 from game.missiongenerator.tgogenerator import (
     TgoGenerator,
     HelipadGenerator,
@@ -33,10 +35,11 @@ from game.missiongenerator.tgogenerator import (
     CarrierGenerator,
     LhaGenerator,
     MissileSiteGenerator,
+    GenericCarrierGenerator,
 )
 from game.point_with_heading import PointWithHeading
 from game.radio.radios import RadioRegistry
-from game.radio.tacan import TacanRegistry
+from game.radio.tacan import TacanRegistry, TacanBand, TacanUsage
 from game.runways import RunwayData
 from game.theater import (
     ControlPoint,
@@ -51,9 +54,11 @@ from game.theater.theatergroundobject import (
     MissileSiteGroundObject,
     BuildingGroundObject,
     VehicleGroupGroundObject,
+    GenericCarrierGroundObject,
 )
 from game.theater.theatergroup import TheaterGroup
 from game.unitmap import UnitMap
+from game.utils import Heading
 from pydcs_extensions import (
     Char_M551_Sheridan,
     BV410_RBS70,
@@ -147,6 +152,7 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
         faction_units = (
             set(coalition.faction.frontline_units)
             | set(coalition.faction.artillery_units)
+            | set(coalition.faction.air_defense_units)
             | set(coalition.faction.logistics_units)
         )
         of_class = list({u for u in faction_units if u.unit_class is unit_class})
@@ -608,6 +614,172 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
         return vehicle_group
 
 
+class PretenseGenericCarrierGenerator(GenericCarrierGenerator):
+    """Base type for carrier group generation.
+
+    Used by both CV(N) groups and LHA groups.
+    """
+
+    def __init__(
+        self,
+        ground_object: GenericCarrierGroundObject,
+        control_point: NavalControlPoint,
+        country: Country,
+        game: Game,
+        mission: Mission,
+        radio_registry: RadioRegistry,
+        tacan_registry: TacanRegistry,
+        icls_alloc: Iterator[int],
+        runways: Dict[str, RunwayData],
+        unit_map: UnitMap,
+        mission_data: MissionData,
+    ) -> None:
+        super().__init__(
+            ground_object,
+            control_point,
+            country,
+            game,
+            mission,
+            radio_registry,
+            tacan_registry,
+            icls_alloc,
+            runways,
+            unit_map,
+            mission_data,
+        )
+        self.ground_object = ground_object
+        self.control_point = control_point
+        self.radio_registry = radio_registry
+        self.tacan_registry = tacan_registry
+        self.icls_alloc = icls_alloc
+        self.runways = runways
+        self.mission_data = mission_data
+
+    def generate(self) -> None:
+        if self.control_point.frequency is not None:
+            atc = self.control_point.frequency
+            if atc not in self.radio_registry.allocated_channels:
+                self.radio_registry.reserve(atc)
+        else:
+            atc = self.radio_registry.alloc_uhf()
+
+        for g_id, group in enumerate(self.ground_object.groups):
+            if not group.units:
+                logging.warning(f"Found empty carrier group in {self.control_point}")
+                continue
+
+            ship_units = []
+            for unit in group.units:
+                if unit.alive:
+                    # All alive Ships
+                    print(
+                        f"Added {unit.unit_name} to ship_units of group {group.group_name}"
+                    )
+                    ship_units.append(unit)
+
+            if not ship_units:
+                # Empty array (no alive units), skip this group
+                continue
+
+            ship_group = self.create_ship_group(group.group_name, ship_units, atc)
+
+            if self.game.settings.pretense_carrier_steams_into_wind:
+                # Always steam into the wind, even if the carrier is being moved.
+                # There are multiple unsimulated hours between turns, so we can
+                # count those as the time the carrier uses to move and the mission
+                # time as the recovery window.
+                brc = self.steam_into_wind(ship_group)
+            else:
+                brc = Heading(0)
+
+            # Set Carrier Specific Options
+            if g_id == 0 and self.control_point.runway_is_operational():
+                # Get Correct unit type for the carrier.
+                # This will upgrade to super carrier if option is enabled
+                carrier_type = self.carrier_type
+                if carrier_type is None:
+                    raise RuntimeError(
+                        f"Error generating carrier group for {self.control_point.name}"
+                    )
+                ship_group.units[0].type = carrier_type.id
+                if self.control_point.tacan is None:
+                    tacan = self.tacan_registry.alloc_for_band(
+                        TacanBand.X, TacanUsage.TransmitReceive
+                    )
+                else:
+                    tacan = self.control_point.tacan
+                if self.control_point.tcn_name is None:
+                    tacan_callsign = self.tacan_callsign()
+                else:
+                    tacan_callsign = self.control_point.tcn_name
+                link4 = None
+                link4carriers = [Stennis, CVN_71, CVN_72, CVN_73, CVN_75, Forrestal]
+                if carrier_type in link4carriers:
+                    if self.control_point.link4 is None:
+                        link4 = self.radio_registry.alloc_uhf()
+                    else:
+                        link4 = self.control_point.link4
+                icls = None
+                icls_name = self.control_point.icls_name
+                if carrier_type in link4carriers or carrier_type == LHA_Tarawa:
+                    if self.control_point.icls_channel is None:
+                        icls = next(self.icls_alloc)
+                    else:
+                        icls = self.control_point.icls_channel
+                self.activate_beacons(
+                    ship_group, tacan, tacan_callsign, icls, icls_name, link4
+                )
+                self.add_runway_data(
+                    brc or Heading.from_degrees(0), atc, tacan, tacan_callsign, icls
+                )
+                self.mission_data.carriers.append(
+                    CarrierInfo(
+                        group_name=ship_group.name,
+                        unit_name=ship_group.units[0].name,
+                        callsign=tacan_callsign,
+                        freq=atc,
+                        tacan=tacan,
+                        icls_channel=icls,
+                        link4_freq=link4,
+                        blue=self.control_point.captured,
+                    )
+                )
+
+
+class PretenseCarrierGenerator(PretenseGenericCarrierGenerator):
+    def tacan_callsign(self) -> str:
+        # TODO: Assign these properly.
+        return random.choice(
+            [
+                "STE",
+                "CVN",
+                "CVH",
+                "CCV",
+                "ACC",
+                "ARC",
+                "GER",
+                "ABR",
+                "LIN",
+                "TRU",
+            ]
+        )
+
+
+class PretenseLhaGenerator(PretenseGenericCarrierGenerator):
+    def tacan_callsign(self) -> str:
+        # TODO: Assign these properly.
+        return random.choice(
+            [
+                "LHD",
+                "LHA",
+                "LHB",
+                "LHC",
+                "LHD",
+                "LDS",
+            ]
+        )
+
+
 class PretenseTgoGenerator(TgoGenerator):
     """Creates DCS groups and statics for the theater during mission generation.
 
@@ -693,7 +865,7 @@ class PretenseTgoGenerator(TgoGenerator):
                 if isinstance(ground_object, CarrierGroundObject) and isinstance(
                     cp, NavalControlPoint
                 ):
-                    generator = CarrierGenerator(
+                    generator = PretenseCarrierGenerator(
                         ground_object,
                         cp,
                         country,
@@ -709,7 +881,7 @@ class PretenseTgoGenerator(TgoGenerator):
                 elif isinstance(ground_object, LhaGroundObject) and isinstance(
                     cp, NavalControlPoint
                 ):
-                    generator = LhaGenerator(
+                    generator = PretenseLhaGenerator(
                         ground_object,
                         cp,
                         country,

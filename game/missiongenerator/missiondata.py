@@ -52,6 +52,8 @@ class CarrierInfo(UnitInfo):
     """Carrier information."""
 
     tacan: TacanChannel
+    icls_channel: int | None
+    link4_freq: RadioFrequency | None
 
 
 @dataclass
