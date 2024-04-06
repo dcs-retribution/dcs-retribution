@@ -1395,6 +1395,11 @@ class NavalControlPoint(
                     L02,
                     L52,
                     L61,
+                    CV_1143_5,
+                    CVN_71,
+                    CVN_72,
+                    CVN_73,
+                    CVN_75,
                 ]:
                     return True
         return False
