@@ -137,7 +137,8 @@ def run_ui(game: Optional[Game], ui_flags: UiFlags) -> None:
     # Replace DCS Mission scripting file to allow DCS Retribution to work
     try:
         liberation_install.replace_mission_scripting_file()
-    except:
+    except Exception as e:
+        logging.error(e)
         error_dialog = QtWidgets.QErrorMessage()
         error_dialog.setWindowTitle("Wrong DCS installation directory.")
         error_dialog.showMessage(
