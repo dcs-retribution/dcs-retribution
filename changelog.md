@@ -11,6 +11,7 @@
 
 ## Fixes
 * **[UI/UX]** A-10A flights can be edited again.
+* **[Mission Generation]** IADS bug sometimes triggering "no skynet usable units" error during mission generation
 
 
 # Retribution v1.3.1
