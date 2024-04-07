@@ -27,7 +27,13 @@ from . import (
     Fob,
     OffMapSpawn,
 )
-from .theatergroup import IadsGroundGroup, IadsRole, SceneryUnit, TheaterGroup
+from .theatergroup import (
+    IadsGroundGroup,
+    IadsRole,
+    SceneryUnit,
+    TheaterGroup,
+    TheaterUnit,
+)
 from ..armedforces.armedforces import ArmedForces
 from ..armedforces.forcegroup import ForceGroup
 from ..campaignloader.campaignairwingconfig import CampaignAirWingConfig
@@ -241,7 +247,7 @@ class GenericCarrierGroundObjectGenerator(ControlPointGroundObjectGenerator):
         if ccfg := carrier_map.get(self.control_point.name):
             preferred_name = ccfg.preferred_name
             preferred_type = ccfg.preferred_type
-        carrier_unit = self.control_point.ground_objects[0].groups[0].units[0]
+        carrier_unit = self.get_carrier_unit()
         if preferred_type and preferred_type.dcs_unit_type in [
             v
             for k, v in country_dict[self.faction.country.id].Ship.__dict__.items()  # type: ignore
@@ -267,6 +273,17 @@ class GenericCarrierGroundObjectGenerator(ControlPointGroundObjectGenerator):
                     self.faction.carriers[carrier_type_key].remove(
                         self.control_point.name
                     )
+
+    def get_carrier_unit(self) -> TheaterUnit:
+        carrier_go = [
+            go
+            for go in self.control_point.ground_objects
+            if go.category in ["CARRIER", "LHA"]
+        ][0]
+        groups = [
+            g for g in carrier_go.groups if "Carrier" in g.name or "LHA" in g.name
+        ]
+        return groups[0].units[0]
 
 
 class CarrierGroundObjectGenerator(GenericCarrierGroundObjectGenerator):
