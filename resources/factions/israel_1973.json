@@ -9,7 +9,8 @@
   "aircrafts": [
     "A-4E Skyhawk",
     "F-4E Phantom II",
-    "UH-1H Iroquois"
+    "UH-1H Iroquois",
+    "C-130"
   ],
   "awacs": [
     "E-2C Hawkeye"
