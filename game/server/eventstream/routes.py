@@ -18,7 +18,7 @@ class ConnectionManager:
         futures = []
         for connection in self.active_connections:
             futures.append(connection.close())
-        await wait(futures)
+        await wait(futures)  # type: ignore
 
     async def connect(self, websocket: WebSocket) -> None:
         await websocket.accept()
@@ -31,7 +31,7 @@ class ConnectionManager:
         futures = []
         for connection in self.active_connections:
             futures.append(connection.send_json(jsonable_encoder(events)))
-        await wait(futures)
+        await wait(futures)  # type: ignore
 
 
 manager = ConnectionManager()
