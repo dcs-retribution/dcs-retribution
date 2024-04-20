@@ -96,11 +96,16 @@ class PilotControls(QHBoxLayout):
     player_toggled = Signal()
 
     def __init__(
-        self, squadron: Optional[Squadron], roster: Optional[FlightRoster], idx: int
+        self,
+        squadron: Optional[Squadron],
+        roster: Optional[FlightRoster],
+        idx: int,
+        pilots_changed: Signal,
     ) -> None:
         super().__init__()
         self.roster = roster
         self.pilot_index = idx
+        self.pilots_changed = pilots_changed
 
         self.selector = PilotSelector(squadron, roster, idx)
         self.selector.currentIndexChanged.connect(self.on_pilot_changed)
@@ -130,6 +135,8 @@ class PilotControls(QHBoxLayout):
             return
         pilot.player = checked
         self.player_toggled.emit()
+
+        self.pilots_changed.emit()
 
     def on_pilot_changed(self, index: int) -> None:
         pilot = self.selector.itemData(index)
@@ -176,7 +183,10 @@ class FlightRosterEditor(QVBoxLayout):
     MAX_PILOTS = 4
 
     def __init__(
-        self, squadron: Optional[Squadron], roster: Optional[IFlightRoster]
+        self,
+        squadron: Optional[Squadron],
+        roster: Optional[IFlightRoster],
+        pilots_changed: Signal,
     ) -> None:
         super().__init__()
         self.roster = roster
@@ -190,7 +200,7 @@ class FlightRosterEditor(QVBoxLayout):
 
                 return callback
 
-            controls = PilotControls(squadron, roster, pilot_idx)
+            controls = PilotControls(squadron, roster, pilot_idx, pilots_changed)
             controls.selector.available_pilots_changed.connect(
                 make_reset_callback(pilot_idx)
             )
@@ -226,7 +236,13 @@ class FlightRosterEditor(QVBoxLayout):
 class QFlightSlotEditor(QGroupBox):
     flight_resized = Signal(int)
 
-    def __init__(self, package_model: PackageModel, flight: Flight, game: Game):
+    def __init__(
+        self,
+        package_model: PackageModel,
+        flight: Flight,
+        game: Game,
+        pilots_changed: Signal,
+    ):
         super().__init__("Slots")
         self.package_model = package_model
         self.flight = flight
@@ -252,7 +268,9 @@ class QFlightSlotEditor(QGroupBox):
         layout.addWidget(QLabel(str(self.flight.squadron)), 1, 1)
 
         layout.addWidget(QLabel("Assigned pilots:"), 2, 0)
-        self.roster_editor = FlightRosterEditor(flight.squadron, flight.roster)
+        self.roster_editor = FlightRosterEditor(
+            flight.squadron, flight.roster, pilots_changed
+        )
         layout.addLayout(self.roster_editor, 2, 1)
 
         self.setLayout(layout)
