@@ -32,7 +32,7 @@ pluggy==1.4.0
 pre-commit==3.6.0
 pydantic==2.7.0
 pydantic-settings==2.2.1
-pydcs @ git+https://github.com/dcs-retribution/pydcs@dc827885ad821e23bcf21e24220bea9c3bb7adc9
+pydcs @ git+https://github.com/dcs-retribution/pydcs@cdf0b586927b94d86ca2419db936b7c68f2d14bf
 pyinstaller==5.13.2
 pyinstaller-hooks-contrib==2024.0
 pyparsing==3.1.1
