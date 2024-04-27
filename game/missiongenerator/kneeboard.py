@@ -50,6 +50,7 @@ from game.weather.weather import Weather
 from .aircraft.flightdata import FlightData
 from .briefinggenerator import CommInfo, JtacInfo, MissionInfoGenerator
 from .missiondata import AwacsInfo, TankerInfo
+from ..persistency import kneeboards_dir
 
 if TYPE_CHECKING:
     from game import Game
@@ -821,6 +822,12 @@ class KneeboardGenerator(MissionInfoGenerator):
                 page_path = aircraft_dir / f"page{idx:02}.png"
                 page.write(page_path)
                 self.mission.add_aircraft_kneeboard(aircraft.dcs_unit_type, page_path)
+        for type in Path(kneeboards_dir()).iterdir():
+            if type.is_dir():
+                for kneeboard in type.iterdir():
+                    self.mission.custom_kneeboards[type.name].append(kneeboard)
+            else:
+                self.mission.custom_kneeboards[""].append(type)
 
     def pages_by_airframe(self) -> Dict[AircraftType, List[KneeboardPage]]:
         """Returns a list of kneeboard pages per airframe in the mission.
