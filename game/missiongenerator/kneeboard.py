@@ -440,13 +440,14 @@ class BriefingPage(KneeboardPage):
         sun = Sun(start_pos.lat, start_pos.lng)
 
         date = fl.squadron.coalition.game.date
+        dt = datetime.datetime(date.year, date.month, date.day)
         tz = fl.squadron.coalition.game.theater.timezone
 
         # Get today's sunrise and sunset in UTC
-        sr_utc = sun.get_sunrise_time(date)
-        ss_utc = sun.get_sunset_time(date)
-        sr = sr_utc + tz.utcoffset(sun.get_sunrise_time(date))
-        ss = ss_utc + tz.utcoffset(sun.get_sunset_time(date))
+        sr_utc = sun.get_sunrise_time(dt)
+        ss_utc = sun.get_sunset_time(dt)
+        sr = sr_utc + tz.utcoffset(sun.get_sunrise_time(dt))
+        ss = ss_utc + tz.utcoffset(sun.get_sunset_time(dt))
 
         writer.text(
             f"Sunrise - Sunset: {sr.strftime('%H:%M')} - {ss.strftime('%H:%M')}"
