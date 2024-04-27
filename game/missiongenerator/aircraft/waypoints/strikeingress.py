@@ -62,11 +62,31 @@ class StrikeIngressBuilder(PydcsWaypointBuilder):
     def add_strike_tasks(
         self, waypoint: MovingPoint, weapon_type: WeaponType = WeaponType.Auto
     ) -> None:
+        bomber = self.group.units[0].unit_type in [B_1B, B_52H]
+        ratio = len(self.group.units) / len(self.waypoint.targets)
         for target in self.waypoint.targets:
             bombing = Bombing(target.position, weapon_type=weapon_type)
-            # If there is only one target, drop all ordnance in one pass.
+            # If there is only one target, drop all ordnance in one pass with group attack.
             if len(self.waypoint.targets) == 1:
                 bombing.params["expend"] = Expend.All.value
+                bombing.params["groupAttack"] = True
+            elif ratio >= 1:
+                # #TGTs > 1 & #AC >= #TGTs => each AC drops entire payload per TGT
+                bombing.params["expend"] = Expend.All.value
+            elif 1 > ratio >= 0.5:
+                # #TGTs > 1 & 2 * #AC >= #TGTs => each AC drops half payload per TGT
+                bombing.params["expend"] = Expend.Half.value
+            elif 0.5 > ratio >= 0.25:
+                # #TGTs > 1 & 4 * #AC >= #TGTs => each AC drops quarter payload per TGT
+                bombing.params["expend"] = Expend.Quarter.value
+            elif 0.25 > ratio >= (1.0 / 6) and bomber:
+                # #TGTs > 1 & 4 * #AC < #TGTs & bomber => each AC drops 4 bombs per TGT
+                bombing.params["expend"] = Expend.Four.value
+            elif bomber:
+                # #TGTs > 1 & 6 * #AC < #TGTs & bomber => each AC drops 2 bombs per TGT
+                bombing.params["expend"] = Expend.Two.value
+            # else => Auto QTY
+
             waypoint.tasks.append(bombing)
 
             waypoint.speed = mach(0.85, meters(waypoint.alt)).meters_per_second
