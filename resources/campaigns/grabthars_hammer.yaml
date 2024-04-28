@@ -17,6 +17,8 @@ miz: grabthars_hammer.miz
 performance: 2
 recommended_start_date: 1999-12-25
 version: "10.7"
+settings:
+  hercules: true
 squadrons:
   #Mount Pleasant
   2:
@@ -43,7 +45,13 @@ squadrons:
     - primary: Refueling
       aircraft:
         - KC-135 Stratotanker
-      size: 2
+      size: 1
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - C-130J-30 Super Hercules
+        - C-130
+      size: 1
   #San Julian
   11:
     - primary: BAI
