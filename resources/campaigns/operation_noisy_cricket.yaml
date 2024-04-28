@@ -54,6 +54,12 @@ squadrons:
       size: 4
   #Al Minhad AFB (61)
   12:
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - C-130J-30 Super Hercules
+        - C-130
+      size: 2
     - primary: DEAD
       secondary: any
       aircraft:
