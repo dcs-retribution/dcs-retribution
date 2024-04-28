@@ -18,6 +18,8 @@ miz: operation_peace_spring.miz
 performance: 2
 recommended_start_date: 2019-12-23
 version: "10.7"
+settings:
+  hercules: true
 squadrons:
   Blue CV-1:
     - primary: SEAD
@@ -38,19 +40,23 @@ squadrons:
       aircraft:
         - S-3B Tanker
       size: 4
-  Bombers from RAF Fairford:
-    - primary: DEAD
-      secondary: air-to-ground
-      aircraft:
-        - B-52H Stratofortress
-      size: 8
   # Akrotiri
   44:
     - primary: Strike
       secondary: air-to-ground
       aircraft:
         - B-1B Lancer
-      size: 8
+      size: 4
+    - primary: Refueling
+      aircraft:
+        - KC-135 Stratotanker
+      size: 2
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - C-130J-30 Super Hercules
+        - C-130
+      size: 2
     - primary: OCA/Runway
       secondary: any
       aircraft:
