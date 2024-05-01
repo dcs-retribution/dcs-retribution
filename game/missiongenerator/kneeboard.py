@@ -822,7 +822,9 @@ class KneeboardGenerator(MissionInfoGenerator):
                 page_path = aircraft_dir / f"page{idx:02}.png"
                 page.write(page_path)
                 self.mission.add_aircraft_kneeboard(aircraft.dcs_unit_type, page_path)
-        for type in Path(kneeboards_dir()).iterdir():
+        if not kneeboards_dir().exists():
+            return
+        for type in kneeboards_dir().iterdir():
             if type.is_dir():
                 for kneeboard in type.iterdir():
                     self.mission.custom_kneeboards[type.name].append(kneeboard)
