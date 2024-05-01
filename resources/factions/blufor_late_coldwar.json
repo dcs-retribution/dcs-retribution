@@ -10,24 +10,25 @@
     "A-7E Corsair II",
     "AH-1W SuperCobra",
     "AJS-37 Viggen",
-	"AV-8B Harrier II Night Attack",
+    "AV-8B Harrier II Night Attack",
     "B-52H Stratofortress",
     "C-130",
     "C-130J-30 Super Hercules",
     "F-14A Tomcat (Block 135-GR Late)",
     "F-14B Tomcat",
-	"F-15C Eagle",
-	"F-15E Strike Eagle (Suite 4+)",
-	"F-16CM Fighting Falcon (Block 50)",
-	"F/A-18C Hornet (Lot 20)",
+    "F-15C Eagle",
+    "F-15E Strike Eagle (Suite 4+)",
+    "F-16CM Fighting Falcon (Block 50)",
+    "F/A-18C Hornet (Lot 20)",
     "F-4E Phantom II",
     "F-5E Tiger II",
+    "MiG-21bis Fishbed-N",
     "Mirage-F1B",
     "Mirage-F1BE",
     "Mirage-F1CE",
     "Mirage-F1C-200",
     "Mirage-F1EE",
-	"S-3B Viking",
+    "S-3B Viking",
     "SA 342L Gazelle",
     "SA 342M Gazelle",
     "UH-1H Iroquois"
@@ -42,7 +43,7 @@
   ],
   "frontline_units": [
     "M113",
-	"M163 Vulcan Air Defense System",
+    "M163 Vulcan Air Defense System",
     "M48 Chaparral",
     "M60A3 \"Patton\""
   ],
@@ -63,7 +64,7 @@
   ],
   "naval_units": [
     "FFG Oliver Hazard Perry",
-	"CG Ticonderoga",
+    "CG Ticonderoga",
     "LHA-1 Tarawa",
     "CV-59 Forrestal"
   ],
@@ -76,7 +77,7 @@
     "CVN-59 Forrestal",
     "CVN-60 Saratoga",
     "CVN-61 Ranger",
-	"CVN-62 Independence"
+    "CVN-62 Independence"
   ],
   "helicopter_carrier_names": [
     "LHA-1 Tarawa",
