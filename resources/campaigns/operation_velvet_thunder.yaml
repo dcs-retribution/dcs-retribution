@@ -22,6 +22,8 @@ performance: 1
 recommended_start_date: 1970-11-29
 version: "10.7"
 settings:
+  airbase_threat_range: 25
+  restrict_weapons_by_date: true
   a4_skyhawk: true
   hercules: true
   ov10a_bronco: true
