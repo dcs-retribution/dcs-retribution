@@ -13,12 +13,15 @@
     "MiG-21bis Fishbed-N",
     "MiG-23MLD Flogger-K",
     "MiG-25PD Foxbat-E",
+    "MiG-27K Flogger-J2",
     "MiG-29A Fulcrum-A",
+    "MiG-31 Foxhound",
     "Su-17M4 Fitter-K",
     "Su-24M Fencer-D",
     "Su-25 Frogfoot",
+    "Su-27 Flanker-B",
     "Tu-142 Bear-F",
-	"Tu-22M3 Backfire-C",
+    "Tu-22M3 Backfire-C",
     "Tu-95MS Bear-H"
   ],
   "awacs": [
