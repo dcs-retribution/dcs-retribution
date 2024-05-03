@@ -10,6 +10,7 @@
 * **[Campaign Setup]** Allow adjustments to naval TGOs (except carriers) on turn 0
 * **[Campaign Design]** Ability to configure specific carrier names & types in campaign's yaml file 
 * **[Mission Generation]** Ability to inject custom kneeboards
+* **[Options]** New option in Settings: Default start type for Player flights.
 
 ## Fixes
 * **[UI/UX]** A-10A flights can be edited again.
