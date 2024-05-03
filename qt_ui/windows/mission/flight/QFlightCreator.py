@@ -189,7 +189,6 @@ class QFlightCreator(QDialog):
 
         flight = Flight(
             self.package,
-            self.country,
             squadron,
             # A bit of a hack to work around the old API. Not actually relevant because
             # the roster is passed explicitly. Needs a refactor.
