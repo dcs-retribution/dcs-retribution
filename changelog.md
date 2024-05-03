@@ -1,3 +1,30 @@
+# Retribution v1.4.0
+#### Note: Re-save your missions in DCS' Mission Editor to avoid possible crashes due to datalink (usually the case when F-16C blk50s are used) when hosting missions on a dedicated server.
+
+## Features/Improvements
+* **[Payload Editor]** Ability to configure liveries on flight/flight-member level
+* **[Factions]** Support for definitions in yml/yaml format
+* **[Campaigns/Factions]** Support for inline recommended faction in campaign's yaml file
+* **[Squadrons]** Ability to define a livery-set for each squadron from which Retribution will randomly choose during mission generation
+* **[Modding]** Updated support for F/A-18E/F/G mod version 2.2.5
+* **[Campaign Setup]** Allow adjustments to naval TGOs (except carriers) on turn 0
+* **[Campaign Design]** Ability to configure specific carrier names & types in campaign's yaml file 
+* **[Mission Generation]** Ability to inject custom kneeboards
+
+## Fixes
+* **[UI/UX]** A-10A flights can be edited again.
+* **[Mission Generation]** IADS bug sometimes triggering "no skynet usable units" error during mission generation
+* **[New Game Wizard]** Campaign errors show a dialog again and avoid CTDs
+
+
+# Retribution v1.3.1
+#### Note: Re-save your missions in DCS' Mission Editor to avoid possible crashes due to datalink (usually the case when F-16C blk50s are used) when hosting missions on a dedicated server.
+
+## Fixes
+* **[UX]** Fix save-compatibility issue
+* **[UX]** Avoid crash on startup due to incompatible save
+
+
 # Retribution v1.3.0
 #### Note: Re-save your missions in DCS' Mission Editor to avoid possible crashes due to datalink (usually the case when F-16C blk50s are used) when hosting missions on a dedicated server.
 
@@ -15,6 +42,8 @@
 * **[Modding]** Updated support for F-4B/C Phantom mod to 2.8.7.204
 * **[Modding]** Updated Community A-4E-C mod version support to 2.2.0 release.
 * **[Modding]** Added F/A-18E/F Super Hornet AI Tanker mod support (Chiller Juice Studios SuperBug Tanker AI version 1.4)
+* **[Modding]** Added VSN Super Étendard mod support (v2.5.5)
+* **[Modding]** Added F9F Panther mod support (version v2.8.7.101)
 * **[Modding]** Updated Irondome support to IDF Assets Pack V1.1, adding support for the David's Sling
 * **[Radios]** Added HF-FM band for AN/ARC-222
 * **[Radios]** Ability to define preset channels for radios on squadron level (for human pilots only)
@@ -41,6 +70,12 @@
 * **[Config]** Preference setting to use custom Liberation payloads instead of prioritizing Retribution's default
 * **[Config]** Preference setting to configure the server-port on which Retribution's back-end will run
 * **[Options]** Made AI jettisoning empty fuel tanks optional (disabled by default)
+* **[Options]** Add option (so it can be disabled when fixed in DCS) to force air-starts (except for the slots that work) at Nevatim due to https://forum.dcs.world/topic/335545-29-nevatim-ramp-starts-still-bugged/
+* **[Cheat]** Add cheat option to manually manage REDFOR's TGOs
+* **[UX]** Buy/Replace TGOs for free before the campaign has started
+* **[Data]** Ability to define "cruise" & "combat" altitudes for airplanes
+* **[Options]** Option to randomize altitudes for flights with airplanes
+* **[Options]** Options to configure/override maximum mission distance for airplanes & helicopters 
 
 ## Fixes
 * **[Mission Generation]** Anti-ship strikes should use "group attack" in their attack-task
@@ -266,6 +301,7 @@ BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 * **[UI]** Fixed flight properties UI to support F-15E S4+ laser codes.
 * **[UI]** Fixed UI bug where altering an "ahead of package" TOT offset would change the offset back to a "behind pacakge" offset.
 * **[UI]** Fixed bug where changing TOT offsets could result in flight startup times that are in the past.
+* **[UI]** Flight plan paths are now drawn behind all other map elements, fixing rare cases where they could prevent other UI elements from being clickable.
 
 # 8.1.0
 

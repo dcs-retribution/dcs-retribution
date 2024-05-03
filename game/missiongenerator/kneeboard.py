@@ -50,6 +50,7 @@ from game.weather.weather import Weather
 from .aircraft.flightdata import FlightData
 from .briefinggenerator import CommInfo, JtacInfo, MissionInfoGenerator
 from .missiondata import AwacsInfo, TankerInfo
+from ..persistency import kneeboards_dir
 
 if TYPE_CHECKING:
     from game import Game
@@ -440,13 +441,14 @@ class BriefingPage(KneeboardPage):
         sun = Sun(start_pos.lat, start_pos.lng)
 
         date = fl.squadron.coalition.game.date
+        dt = datetime.datetime(date.year, date.month, date.day)
         tz = fl.squadron.coalition.game.theater.timezone
 
         # Get today's sunrise and sunset in UTC
-        sr_utc = sun.get_sunrise_time(date)
-        ss_utc = sun.get_sunset_time(date)
-        sr = sr_utc + tz.utcoffset(sun.get_sunrise_time(date))
-        ss = ss_utc + tz.utcoffset(sun.get_sunset_time(date))
+        sr_utc = sun.get_sunrise_time(dt)
+        ss_utc = sun.get_sunset_time(dt)
+        sr = sr_utc + tz.utcoffset(sun.get_sunrise_time(dt))
+        ss = ss_utc + tz.utcoffset(sun.get_sunset_time(dt))
 
         writer.text(
             f"Sunrise - Sunset: {sr.strftime('%H:%M')} - {ss.strftime('%H:%M')}"
@@ -820,6 +822,14 @@ class KneeboardGenerator(MissionInfoGenerator):
                 page_path = aircraft_dir / f"page{idx:02}.png"
                 page.write(page_path)
                 self.mission.add_aircraft_kneeboard(aircraft.dcs_unit_type, page_path)
+        if not kneeboards_dir().exists():
+            return
+        for type in kneeboards_dir().iterdir():
+            if type.is_dir():
+                for kneeboard in type.iterdir():
+                    self.mission.custom_kneeboards[type.name].append(kneeboard)
+            else:
+                self.mission.custom_kneeboards[""].append(type)
 
     def pages_by_airframe(self) -> Dict[AircraftType, List[KneeboardPage]]:
         """Returns a list of kneeboard pages per airframe in the mission.

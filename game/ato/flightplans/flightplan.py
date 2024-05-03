@@ -34,6 +34,7 @@ if TYPE_CHECKING:
 @dataclass
 class Layout(ABC):
     departure: FlightWaypoint
+    custom_waypoints: list[FlightWaypoint]
 
     @property
     def waypoints(self) -> list[FlightWaypoint]:

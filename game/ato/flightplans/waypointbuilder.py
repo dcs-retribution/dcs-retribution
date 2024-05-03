@@ -26,6 +26,8 @@ from game.theater import (
 )
 from game.utils import Distance, meters, nautical_miles, feet
 
+AGL_TRANSITION_ALT = 5000
+
 if TYPE_CHECKING:
     from game.transfers import MultiGroupTransport
     from game.theater.theatergroup import TheaterGroup
@@ -51,10 +53,33 @@ class WaypointBuilder:
         self.navmesh = coalition.nav_mesh
         self.targets = targets
         self._bullseye = coalition.bullseye
+        self.settings = self.flight.coalition.game.settings
 
     @property
     def is_helo(self) -> bool:
         return self.flight.is_helo
+
+    @property
+    def get_patrol_altitude(self) -> Distance:
+        return self.get_altitude(self.flight.unit_type.preferred_patrol_altitude)
+
+    @property
+    def get_cruise_altitude(self) -> Distance:
+        return self.get_altitude(self.flight.unit_type.preferred_cruise_altitude)
+
+    @property
+    def get_combat_altitude(self) -> Distance:
+        return self.get_altitude(self.flight.unit_type.preferred_combat_altitude)
+
+    def get_altitude(self, alt: Distance) -> Distance:
+        randomized_alt = feet(round(alt.feet + self.flight.plane_altitude_offset))
+        altitude = max(
+            self.doctrine.min_combat_altitude,
+            min(self.doctrine.max_combat_altitude, randomized_alt),
+        )
+        return (
+            feet(self.settings.heli_combat_alt_agl) if self.flight.is_helo else altitude
+        )
 
     def takeoff(self, departure: ControlPoint) -> FlightWaypoint:
         """Create takeoff waypoint for the given arrival airfield or carrier.
@@ -72,9 +97,7 @@ class WaypointBuilder:
                 "NAV",
                 FlightWaypointType.NAV,
                 position,
-                feet(self.flight.coalition.game.settings.heli_cruise_alt_agl)
-                if self.is_helo
-                else self.doctrine.rendezvous_altitude,
+                self.get_cruise_altitude,
                 description="Enter theater",
                 pretty_name="Enter theater",
             )
@@ -101,9 +124,7 @@ class WaypointBuilder:
                 "NAV",
                 FlightWaypointType.NAV,
                 position,
-                feet(self.flight.coalition.game.settings.heli_cruise_alt_agl)
-                if self.is_helo
-                else self.doctrine.rendezvous_altitude,
+                self.get_cruise_altitude,
                 description="Exit theater",
                 pretty_name="Exit theater",
             )
@@ -129,14 +150,10 @@ class WaypointBuilder:
             return None
 
         position = divert.position
-        altitude_type: AltitudeReference
+        altitude_type: AltitudeReference = "BARO"
         if isinstance(divert, OffMapSpawn):
-            altitude = (
-                feet(self.flight.coalition.game.settings.heli_cruise_alt_agl)
-                if self.is_helo
-                else self.doctrine.rendezvous_altitude
-            )
-            altitude_type = "BARO"
+            altitude = self.get_cruise_altitude
+            altitude_type = "RADIO" if self.is_helo else altitude_type
         else:
             altitude = meters(0)
             altitude_type = "RADIO"
@@ -166,16 +183,15 @@ class WaypointBuilder:
 
     def hold(self, position: Point) -> FlightWaypoint:
         alt_type: AltitudeReference = "BARO"
-        if self.is_helo:
+        if self.is_helo or self.get_combat_altitude.feet <= AGL_TRANSITION_ALT:
             alt_type = "RADIO"
 
         return FlightWaypoint(
             "HOLD",
             FlightWaypointType.LOITER,
             position,
-            feet(self.flight.coalition.game.settings.heli_cruise_alt_agl)
-            if self.is_helo
-            else self.doctrine.ingress_altitude,
+            # TODO: dedicated altitude setting for holding
+            self.get_cruise_altitude if self.is_helo else self.get_combat_altitude,
             alt_type,
             description="Wait until push time",
             pretty_name="Hold",
@@ -183,16 +199,14 @@ class WaypointBuilder:
 
     def join(self, position: Point) -> FlightWaypoint:
         alt_type: AltitudeReference = "BARO"
-        if self.is_helo:
+        if self.is_helo or self.get_cruise_altitude.feet <= AGL_TRANSITION_ALT:
             alt_type = "RADIO"
 
         return FlightWaypoint(
             "JOIN",
             FlightWaypointType.JOIN,
             position,
-            feet(self.flight.coalition.game.settings.heli_cruise_alt_agl)
-            if self.is_helo
-            else self.doctrine.ingress_altitude,
+            self.get_cruise_altitude,
             alt_type,
             description="Rendezvous with package",
             pretty_name="Join",
@@ -200,16 +214,14 @@ class WaypointBuilder:
 
     def refuel(self, position: Point) -> FlightWaypoint:
         alt_type: AltitudeReference = "BARO"
-        if self.is_helo:
+        if self.is_helo or self.get_cruise_altitude.feet <= AGL_TRANSITION_ALT:
             alt_type = "RADIO"
 
         return FlightWaypoint(
             "REFUEL",
             FlightWaypointType.REFUEL,
             position,
-            feet(self.flight.coalition.game.settings.heli_cruise_alt_agl)
-            if self.is_helo
-            else self.doctrine.ingress_altitude,
+            self.get_cruise_altitude,
             alt_type,
             description="Refuel from tanker",
             pretty_name="Refuel",
@@ -217,16 +229,14 @@ class WaypointBuilder:
 
     def split(self, position: Point) -> FlightWaypoint:
         alt_type: AltitudeReference = "BARO"
-        if self.is_helo:
+        if self.is_helo or self.get_combat_altitude.feet <= AGL_TRANSITION_ALT:
             alt_type = "RADIO"
 
         return FlightWaypoint(
             "SPLIT",
             FlightWaypointType.SPLIT,
             position,
-            feet(self.flight.coalition.game.settings.heli_combat_alt_agl)
-            if self.is_helo
-            else self.doctrine.ingress_altitude,
+            self.get_combat_altitude,
             alt_type,
             description="Depart from package",
             pretty_name="Split",
@@ -238,7 +248,7 @@ class WaypointBuilder:
         position: Point,
         objective: MissionTarget,
     ) -> FlightWaypoint:
-        alt = self.doctrine.ingress_altitude
+        alt = self.get_combat_altitude
         alt_type: AltitudeReference = "BARO"
         if self.is_helo or self.flight.is_hercules:
             alt_type = "RADIO"
@@ -247,6 +257,8 @@ class WaypointBuilder:
                 if self.is_helo
                 else feet(1000)
             )
+        elif alt.feet <= AGL_TRANSITION_ALT:
+            alt_type = "RADIO"
 
         heading = objective.position.heading_between_point(position)
 
@@ -265,16 +277,14 @@ class WaypointBuilder:
 
     def egress(self, position: Point, target: MissionTarget) -> FlightWaypoint:
         alt_type: AltitudeReference = "BARO"
-        if self.is_helo:
+        if self.is_helo or self.get_combat_altitude.feet <= AGL_TRANSITION_ALT:
             alt_type = "RADIO"
 
         return FlightWaypoint(
             "EGRESS",
             FlightWaypointType.EGRESS,
             position,
-            feet(self.flight.coalition.game.settings.heli_combat_alt_agl)
-            if self.is_helo
-            else self.doctrine.ingress_altitude,
+            self.get_combat_altitude,
             alt_type,
             description=f"EGRESS from {target.name}",
             pretty_name=f"EGRESS from {target.name}",
@@ -312,11 +322,15 @@ class WaypointBuilder:
         return self._target_area(f"STRIKE {target.name}", target)
 
     def sead_area(self, target: MissionTarget) -> FlightWaypoint:
+        alt_type: AltitudeReference = "BARO"
+        if self.get_combat_altitude.feet <= AGL_TRANSITION_ALT:
+            alt_type = "RADIO"
+
         return self._target_area(
             f"SEAD on {target.name}",
             target,
-            altitude=self.doctrine.ingress_altitude,
-            alt_type="BARO",
+            altitude=self.get_combat_altitude,
+            alt_type=alt_type,
         )
 
     def dead_area(self, target: MissionTarget) -> FlightWaypoint:
@@ -387,11 +401,13 @@ class WaypointBuilder:
             position: Position of the waypoint.
             altitude: Altitude of the racetrack.
         """
+        baro: AltitudeReference = "BARO"
         return FlightWaypoint(
             "RACETRACK START",
             FlightWaypointType.PATROL_TRACK,
             position,
             altitude,
+            "RADIO" if altitude.feet <= AGL_TRANSITION_ALT else baro,
             description="Orbit between this point and the next point",
             pretty_name="Race-track start",
         )
@@ -404,11 +420,13 @@ class WaypointBuilder:
             position: Position of the waypoint.
             altitude: Altitude of the racetrack.
         """
+        baro: AltitudeReference = "BARO"
         return FlightWaypoint(
             "RACETRACK END",
             FlightWaypointType.PATROL,
             position,
             altitude,
+            "RADIO" if altitude.feet <= AGL_TRANSITION_ALT else baro,
             description="Orbit between this point and the previous point",
             pretty_name="Race-track end",
         )
@@ -436,42 +454,39 @@ class WaypointBuilder:
             start: Position of the waypoint.
             altitude: Altitude of the racetrack.
         """
-
+        baro: AltitudeReference = "BARO"
         return FlightWaypoint(
             "ORBIT",
             FlightWaypointType.LOITER,
             start,
             altitude,
+            "RADIO" if altitude.feet <= AGL_TRANSITION_ALT else baro,
             description="Anchor and hold at this point",
             pretty_name="Orbit",
         )
 
     def sead_search(self, target: MissionTarget) -> FlightWaypoint:
         hold = self._sead_search_point(target)
-
+        baro: AltitudeReference = "BARO"
         return FlightWaypoint(
             "SEAD Search",
             FlightWaypointType.NAV,
             hold,
-            feet(self.flight.coalition.game.settings.heli_combat_alt_agl)
-            if self.is_helo
-            else self.doctrine.ingress_altitude,
-            alt_type="BARO",
+            self.get_combat_altitude,
+            "RADIO" if self.get_combat_altitude.feet <= AGL_TRANSITION_ALT else baro,
             description="Anchor and search from this point",
             pretty_name="SEAD Search",
         )
 
     def sead_sweep(self, target: MissionTarget) -> FlightWaypoint:
         hold = self._sead_search_point(target)
-
+        baro: AltitudeReference = "BARO"
         return FlightWaypoint(
             "SEAD Sweep",
             FlightWaypointType.NAV,
             hold,
-            feet(self.flight.coalition.game.settings.heli_combat_alt_agl)
-            if self.is_helo
-            else self.doctrine.ingress_altitude,
-            alt_type="BARO",
+            self.get_combat_altitude,
+            "RADIO" if self.get_combat_altitude.feet <= AGL_TRANSITION_ALT else baro,
             description="Anchor and search from this point",
             pretty_name="SEAD Sweep",
         )
@@ -499,15 +514,16 @@ class WaypointBuilder:
         )
         return hold
 
-    def escort_hold(self, start: Point, altitude: Distance) -> FlightWaypoint:
+    def escort_hold(self, start: Point) -> FlightWaypoint:
         """Creates custom waypoint for escort flights that need to hold.
 
         Args:
             start: Position of the waypoint.
-            altitude: Altitude of the holding pattern.
         """
+        altitude = self.get_combat_altitude
+
         alt_type: Literal["BARO", "RADIO"] = "BARO"
-        if self.is_helo:
+        if self.is_helo or altitude.feet <= AGL_TRANSITION_ALT:
             alt_type = "RADIO"
 
         return FlightWaypoint(
@@ -528,11 +544,13 @@ class WaypointBuilder:
             position: Position of the waypoint.
             altitude: Altitude of the sweep in meters.
         """
+        baro: AltitudeReference = "BARO"
         return FlightWaypoint(
             "SWEEP START",
             FlightWaypointType.INGRESS_SWEEP,
             position,
             altitude,
+            "RADIO" if altitude.feet <= AGL_TRANSITION_ALT else baro,
             description="Proceed to the target and engage enemy aircraft",
             pretty_name="Sweep start",
         )
@@ -545,11 +563,13 @@ class WaypointBuilder:
             position: Position of the waypoint.
             altitude: Altitude of the sweep in meters.
         """
+        baro: AltitudeReference = "BARO"
         return FlightWaypoint(
             "SWEEP END",
             FlightWaypointType.EGRESS,
             position,
             altitude,
+            "RADIO" if altitude.feet <= AGL_TRANSITION_ALT else baro,
             description="End of sweep",
             pretty_name="Sweep end",
         )
@@ -578,7 +598,7 @@ class WaypointBuilder:
             target: The mission target.
         """
         alt_type: AltitudeReference = "BARO"
-        if self.is_helo:
+        if self.is_helo or self.get_combat_altitude.feet <= AGL_TRANSITION_ALT:
             alt_type = "RADIO"
 
         # This would preferably be no points at all, and instead the Escort task
@@ -592,9 +612,7 @@ class WaypointBuilder:
             "TARGET",
             FlightWaypointType.TARGET_GROUP_LOC,
             target.position,
-            feet(self.flight.coalition.game.settings.heli_combat_alt_agl)
-            if self.is_helo
-            else self.doctrine.ingress_altitude,
+            self.get_combat_altitude,
             alt_type,
             description="Escort the package",
             pretty_name="Target area",
@@ -616,17 +634,19 @@ class WaypointBuilder:
             pretty_name="Pick-up zone",
         )
 
-    @staticmethod
-    def dropoff_zone(drop_off: MissionTarget) -> FlightWaypoint:
+    def dropoff_zone(self, drop_off: MissionTarget) -> FlightWaypoint:
         """Creates a dropoff landing zone waypoint
         This waypoint is used to generate the Trigger Zone used for AirAssault and
         AirLift using the CTLD plugin (see LogisticsGenerator)
         """
+        heli_alt = feet(self.flight.coalition.game.settings.heli_cruise_alt_agl)
+        altitude = heli_alt if self.flight.is_helo else meters(0)
+
         return FlightWaypoint(
             "DROPOFFZONE",
             FlightWaypointType.DROPOFF_ZONE,
             drop_off.position,
-            meters(0),
+            altitude,
             "RADIO",
             description=f"Drop off cargo at {drop_off.name}",
             pretty_name="Drop-off zone",
@@ -660,7 +680,7 @@ class WaypointBuilder:
             altitude_is_agl: True for altitude is AGL. False if altitude is MSL.
         """
         alt_type: AltitudeReference = "BARO"
-        if altitude_is_agl:
+        if altitude_is_agl or altitude.feet <= AGL_TRANSITION_ALT:
             alt_type = "RADIO"
 
         return FlightWaypoint(

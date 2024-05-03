@@ -86,7 +86,7 @@ class QFlightWaypointList(QTableView):
 
         self.model.setItem(row, 0, QWaypointItem(waypoint, row))
 
-        altitude = int(waypoint.alt.feet)
+        altitude = round(waypoint.alt.feet)
         altitude_item = QStandardItem(f"{altitude}")
         altitude_item.setEditable(True)
         self.model.setItem(row, 1, altitude_item)

@@ -27,7 +27,14 @@ class AircraftPainter:
     def livery_from_squadron(self) -> Optional[str]:
         return self.flight.squadron.livery
 
+    def livery_from_squadron_set(self) -> Optional[str]:
+        if not self.flight.squadron.livery_set:
+            return None
+        return random.choice(self.flight.squadron.livery_set)
+
     def determine_livery(self) -> Optional[str]:
+        if (livery := self.livery_from_squadron_set()) is not None:
+            return livery
         if (livery := self.livery_from_squadron()) is not None:
             return livery
         if (livery := self.livery_from_faction()) is not None:
@@ -37,8 +44,10 @@ class AircraftPainter:
         return None
 
     def apply_livery(self) -> None:
-        livery = self.determine_livery()
-        if livery is None:
-            return
-        for unit in self.group.units:
-            unit.livery_id = livery
+        for unit, member in zip(self.group.units, self.flight.iter_members()):
+            livery = self.determine_livery()
+            if not (livery or member.livery):
+                continue
+            unit.livery_id = member.livery if member.livery else livery
+            assert isinstance(unit.livery_id, str)
+            unit.livery_id = unit.livery_id.lower()

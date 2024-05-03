@@ -31,6 +31,7 @@ class PatrollingLayout(StandardLayout):
         if self.divert is not None:
             yield self.divert
         yield self.bullseye
+        yield from self.custom_waypoints
 
 
 LayoutT = TypeVar("LayoutT", bound=PatrollingLayout)

@@ -26,8 +26,6 @@ class Doctrine:
     strike: bool
     antiship: bool
 
-    rendezvous_altitude: Distance
-
     #: The minimum distance between the departure airfield and the hold point.
     hold_distance: Distance
 
@@ -46,11 +44,14 @@ class Doctrine:
     #: target.
     min_ingress_distance: Distance
 
-    ingress_altitude: Distance
-
     min_patrol_altitude: Distance
     max_patrol_altitude: Distance
-    pattern_altitude: Distance
+
+    min_cruise_altitude: Distance
+    max_cruise_altitude: Distance
+
+    min_combat_altitude: Distance
+    max_combat_altitude: Distance
 
     #: The duration that CAP flights will remain on-station.
     cap_duration: timedelta
@@ -97,16 +98,17 @@ MODERN_DOCTRINE = Doctrine(
     sead=True,
     strike=True,
     antiship=True,
-    rendezvous_altitude=feet(25000),
     hold_distance=nautical_miles(25),
     push_distance=nautical_miles(20),
     join_distance=nautical_miles(20),
     max_ingress_distance=nautical_miles(45),
     min_ingress_distance=nautical_miles(10),
-    ingress_altitude=feet(20000),
     min_patrol_altitude=feet(15000),
     max_patrol_altitude=feet(33000),
-    pattern_altitude=feet(5000),
+    min_cruise_altitude=feet(10000),
+    max_cruise_altitude=feet(40000),
+    min_combat_altitude=feet(1000),
+    max_combat_altitude=feet(35000),
     cap_duration=timedelta(minutes=30),
     cap_min_track_length=nautical_miles(15),
     cap_max_track_length=nautical_miles(40),
@@ -140,16 +142,17 @@ COLDWAR_DOCTRINE = Doctrine(
     sead=True,
     strike=True,
     antiship=True,
-    rendezvous_altitude=feet(22000),
     hold_distance=nautical_miles(15),
     push_distance=nautical_miles(10),
     join_distance=nautical_miles(10),
     max_ingress_distance=nautical_miles(30),
     min_ingress_distance=nautical_miles(10),
-    ingress_altitude=feet(18000),
     min_patrol_altitude=feet(10000),
     max_patrol_altitude=feet(24000),
-    pattern_altitude=feet(5000),
+    min_cruise_altitude=feet(10000),
+    max_cruise_altitude=feet(30000),
+    min_combat_altitude=feet(1000),
+    max_combat_altitude=feet(25000),
     cap_duration=timedelta(minutes=30),
     cap_min_track_length=nautical_miles(12),
     cap_max_track_length=nautical_miles(24),
@@ -186,13 +189,14 @@ WWII_DOCTRINE = Doctrine(
     hold_distance=nautical_miles(10),
     push_distance=nautical_miles(5),
     join_distance=nautical_miles(5),
-    rendezvous_altitude=feet(10000),
     max_ingress_distance=nautical_miles(7),
     min_ingress_distance=nautical_miles(5),
-    ingress_altitude=feet(8000),
     min_patrol_altitude=feet(4000),
     max_patrol_altitude=feet(15000),
-    pattern_altitude=feet(5000),
+    min_cruise_altitude=feet(5000),
+    max_cruise_altitude=feet(30000),
+    min_combat_altitude=feet(1000),
+    max_combat_altitude=feet(10000),
     cap_duration=timedelta(minutes=30),
     cap_min_track_length=nautical_miles(8),
     cap_max_track_length=nautical_miles(18),

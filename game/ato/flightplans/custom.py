@@ -17,8 +17,6 @@ if TYPE_CHECKING:
 
 @dataclass
 class CustomLayout(Layout):
-    custom_waypoints: list[FlightWaypoint]
-
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
         yield self.departure
         yield from self.custom_waypoints

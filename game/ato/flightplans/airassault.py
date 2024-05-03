@@ -49,6 +49,7 @@ class AirAssaultLayout(FormationAttackLayout):
         if self.divert is not None:
             yield self.divert
         yield self.bullseye
+        yield from self.custom_waypoints
 
 
 class AirAssaultFlightPlan(FormationAttackFlightPlan, UiZoneDisplay):
@@ -111,11 +112,10 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
             )
         assert self.package.waypoints is not None
 
-        heli_alt = feet(self.coalition.game.settings.heli_cruise_alt_agl)
-        altitude = heli_alt if self.flight.is_helo else self.doctrine.ingress_altitude
-        altitude_is_agl = self.flight.is_helo
-
         builder = WaypointBuilder(self.flight)
+
+        altitude = builder.get_cruise_altitude
+        altitude_is_agl = self.flight.is_helo
 
         if self.flight.is_hercules or self.flight.departure.cptype in [
             ControlPointType.AIRCRAFT_CARRIER_GROUP,
@@ -133,13 +133,21 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
                     self._generate_ctld_pickup(),
                 )
             )
-            pickup.alt = heli_alt
+            pickup.alt = altitude
             pickup_position = pickup.position
 
-        ingress = builder.ingress(
-            FlightWaypointType.INGRESS_AIR_ASSAULT,
-            self.package.waypoints.ingress,
-            self.package.target,
+        ingress = (
+            builder.ingress(
+                FlightWaypointType.INGRESS_AIR_ASSAULT,
+                self.package.waypoints.ingress,
+                self.package.target,
+            )
+            if not self.flight.is_hercules
+            else builder.ingress(
+                FlightWaypointType.INGRESS_AIR_ASSAULT,
+                self.package.waypoints.initial,
+                self.package.target,
+            )
         )
 
         assault_area = builder.assault_area(self.package.target)
@@ -159,8 +167,6 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
             drop_pos = tgt.position.point_from_heading(heading, 1200)
         drop_off_zone = MissionTarget("Dropoff zone", drop_pos)
         dz = builder.dropoff_zone(drop_off_zone) if self.flight.is_helo else None
-        if dz:
-            dz.alt = heli_alt
 
         return AirAssaultLayout(
             departure=builder.takeoff(self.flight.departure),
@@ -184,9 +190,10 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
             hold=None,
-            join=builder.join(ingress.position),
+            join=builder.join(self.package.waypoints.ingress),
             split=builder.split(self.flight.arrival.position),
             refuel=None,
+            custom_waypoints=list(),
         )
 
     def build(self, dump_debug_info: bool = False) -> AirAssaultFlightPlan:

@@ -57,7 +57,7 @@ squadrons:
       size: 20
   Squadrons from Incirlik:
     - primary: CAS
-      secondary: air-to-ground
+      secondary: any
       aircraft:
         - AH-64D Apache Longbow
       size: 4

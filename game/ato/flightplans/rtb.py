@@ -27,6 +27,7 @@ class RtbLayout(StandardLayout):
         if self.divert is not None:
             yield self.divert
         yield self.bullseye
+        yield from self.custom_waypoints
 
 
 class RtbFlightPlan(StandardFlightPlan[RtbLayout]):
@@ -65,13 +66,13 @@ class Builder(IBuilder[RtbFlightPlan, RtbLayout]):
         current_position = self.flight.state.estimate_position()
         current_altitude, altitude_reference = self.flight.state.estimate_altitude()
 
+        builder = WaypointBuilder(self.flight)
         altitude_is_agl = self.flight.is_helo
         altitude = (
             feet(self.coalition.game.settings.heli_cruise_alt_agl)
             if altitude_is_agl
-            else self.flight.unit_type.preferred_patrol_altitude
+            else builder.get_patrol_altitude
         )
-        builder = WaypointBuilder(self.flight)
         abort_point = builder.nav(
             current_position, current_altitude, altitude_reference == "RADIO"
         )
@@ -91,6 +92,7 @@ class Builder(IBuilder[RtbFlightPlan, RtbLayout]):
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
             nav_from=[],
+            custom_waypoints=list(),
         )
 
     def build(self, dump_debug_info: bool = False) -> RtbFlightPlan:

@@ -2,6 +2,7 @@ from typing import Dict, List, Set, Any
 
 from dcs import task
 from dcs.planes import PlaneType
+from dcs.unitpropertydescription import UnitPropertyDescription
 from dcs.weapons_data import Weapons
 
 from game.modsupport import planemod
@@ -34,11 +35,11 @@ inject_weapons(WeaponsFA18EFG)
 class FA_18E(PlaneType):
     id = "FA-18E"
     flyable = True
-    height = 4.66
-    width = 11.43
-    length = 17.07
+    height = 4.88
+    width = 13.62456
+    length = 18.31
     fuel_max = 4900
-    max_speed = 1950.12
+    max_speed = 2120.04
     chaff = 60
     flare = 60
     charge_total = 120
@@ -120,6 +121,9 @@ class FA_18E(PlaneType):
         "OuterBoard": 0,
         "InnerBoard": 0,
         "HelmetMountedDevice": 1,
+        "VoiceCallsignLabel": None,
+        "VoiceCallsignNumber": None,
+        "STN_L16": None,
     }
 
     class Properties:
@@ -145,6 +149,80 @@ class FA_18E(PlaneType):
                 JHMCS = 1
                 NVG = 2
 
+        class VoiceCallsignLabel:
+            id = "VoiceCallsignLabel"
+
+        class VoiceCallsignNumber:
+            id = "VoiceCallsignNumber"
+
+        class STN_L16:
+            id = "STN_L16"
+
+    properties = {
+        "OuterBoard": UnitPropertyDescription(
+            identifier="OuterBoard",
+            control="comboList",
+            label="Outerboard rockets mode",
+            player_only=True,
+            default=0,
+            w_ctrl=150,
+            values={
+                0: "Single",
+                1: "Ripple",
+            },
+        ),
+        "InnerBoard": UnitPropertyDescription(
+            identifier="InnerBoard",
+            control="comboList",
+            label="Innerboard rockets mode",
+            player_only=True,
+            default=0,
+            w_ctrl=150,
+            values={
+                0: "Single",
+                1: "Ripple",
+            },
+        ),
+        "HelmetMountedDevice": UnitPropertyDescription(
+            identifier="HelmetMountedDevice",
+            control="comboList",
+            label="Helmet Mounted Device",
+            player_only=True,
+            default=1,
+            w_ctrl=150,
+            values={
+                0: "Not installed",
+                1: "JHMCS",
+                2: "NVG",
+            },
+        ),
+        "datalink_Label": UnitPropertyDescription(
+            identifier="datalink_Label",
+            control="label",
+            label="DATALINK",
+            player_only=False,
+            x_lbl=150,
+        ),
+        "VoiceCallsignLabel": UnitPropertyDescription(
+            identifier="VoiceCallsignLabel",
+            control="editbox",
+            label="Voice Callsign Label",
+            player_only=False,
+        ),
+        "VoiceCallsignNumber": UnitPropertyDescription(
+            identifier="VoiceCallsignNumber",
+            control="editbox",
+            label="Voice Callsign Number",
+            player_only=False,
+        ),
+        "STN_L16": UnitPropertyDescription(
+            identifier="STN_L16",
+            control="editbox",
+            label="STN",
+            player_only=False,
+        ),
+    }
+
     livery_name = "FA-18E"  # from type
 
     class Pylon1:
@@ -153,7 +231,10 @@ class FA_18E(PlaneType):
         # ERRR {CATM-9M}
         # ERRR {CATM-9X}
         AIM_9X_Sidewinder_IR_AAM = (1, Weapons.AIM_9X_Sidewinder_IR_AAM)
-        AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (1, Weapons.AN_ASQ_T50_TCTS_Pod___ACMI_Pod)
+        AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
+            1,
+            Weapons.AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+        )
 
     class Pylon2:
         TLAU_127 = (2, WeaponsFA18EFG.TLAU_127)
@@ -194,15 +275,24 @@ class FA_18E(PlaneType):
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_,
         )
         Mk_82___500lb_GP_Bomb_LD = (2, Weapons.Mk_82___500lb_GP_Bomb_LD)
-        Mk_82_Snakeye___500lb_GP_Bomb_HD = (2, Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD)
+        Mk_82_Snakeye___500lb_GP_Bomb_HD = (
+            2,
+            Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD,
+        )
         Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             2,
             Weapons.Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         Mk_83___1000lb_GP_Bomb_LD = (2, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         BDU_45___500lb_Practice_Bomb = (2, Weapons.BDU_45___500lb_Practice_Bomb)
-        BDU_45B___500lb_Practice_Bomb = (2, Weapons.BDU_45B___500lb_Practice_Bomb)
-        GBU_12___500lb_Laser_Guided_Bomb = (2, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
+        BDU_45B___500lb_Practice_Bomb = (
+            2,
+            Weapons.BDU_45B___500lb_Practice_Bomb,
+        )
+        GBU_12___500lb_Laser_Guided_Bomb = (
+            2,
+            Weapons.GBU_12___500lb_Laser_Guided_Bomb,
+        )
         GBU_16___1000lb_Laser_Guided_Bomb = (
             2,
             Weapons.GBU_16___1000lb_Laser_Guided_Bomb,
@@ -228,9 +318,10 @@ class FA_18E(PlaneType):
             2,
             Weapons.GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
-        AGM_154A___JSOW_CEB__CBU_type_ = (2, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
-        AGM_154C___JSOW_Unitary_BROACH = (2, Weapons.AGM_154C___JSOW_Unitary_BROACH)
-        BRU_42_with_2_x_ADM_141A_TALD = (2, Weapons.BRU_42_with_2_x_ADM_141A_TALD)
+        BRU_42_with_2_x_ADM_141A_TALD = (
+            2,
+            Weapons.BRU_42_with_2_x_ADM_141A_TALD,
+        )
         BRU_42_with_ADM_141A_TALD = (2, Weapons.BRU_42_with_ADM_141A_TALD)
 
     class Pylon3:
@@ -287,7 +378,10 @@ class FA_18E(PlaneType):
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_,
         )
         Mk_82___500lb_GP_Bomb_LD = (3, Weapons.Mk_82___500lb_GP_Bomb_LD)
-        Mk_82_Snakeye___500lb_GP_Bomb_HD = (3, Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD)
+        Mk_82_Snakeye___500lb_GP_Bomb_HD = (
+            3,
+            Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD,
+        )
         Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             3,
             Weapons.Mk_82Y___500lb_GP_Chute_Retarded_HD,
@@ -295,7 +389,10 @@ class FA_18E(PlaneType):
         Mk_83___1000lb_GP_Bomb_LD = (3, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_84___2000lb_GP_Bomb_LD = (3, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         BDU_45___500lb_Practice_Bomb = (3, Weapons.BDU_45___500lb_Practice_Bomb)
-        BDU_45B___500lb_Practice_Bomb = (3, Weapons.BDU_45B___500lb_Practice_Bomb)
+        BDU_45B___500lb_Practice_Bomb = (
+            3,
+            Weapons.BDU_45B___500lb_Practice_Bomb,
+        )
         AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             3,
             Weapons.AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
@@ -340,11 +437,10 @@ class FA_18E(PlaneType):
             3,
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
-        BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD = (
+        GBU_12___500lb_Laser_Guided_Bomb = (
             3,
-            Weapons.BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD,
+            Weapons.GBU_12___500lb_Laser_Guided_Bomb,
         )
-        GBU_12___500lb_Laser_Guided_Bomb = (3, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
         GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             3,
             Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
@@ -370,12 +466,18 @@ class FA_18E(PlaneType):
             Weapons.BRU_33_with_2_x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         # ERRR <CLEAN>
-        AGM_154A___JSOW_CEB__CBU_type_ = (3, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
+        AGM_154A___JSOW_CEB__CBU_type_ = (
+            3,
+            Weapons.AGM_154A___JSOW_CEB__CBU_type_,
+        )
         BRU_55_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
             3,
             Weapons.BRU_55_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
         )
-        AGM_154C___JSOW_Unitary_BROACH = (3, Weapons.AGM_154C___JSOW_Unitary_BROACH)
+        AGM_154C___JSOW_Unitary_BROACH = (
+            3,
+            Weapons.AGM_154C___JSOW_Unitary_BROACH,
+        )
         BRU_55_with_2_x_AGM_154C___JSOW_Unitary_BROACH = (
             3,
             Weapons.BRU_55_with_2_x_AGM_154C___JSOW_Unitary_BROACH,
@@ -406,8 +508,14 @@ class FA_18E(PlaneType):
             3,
             Weapons.GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
-        BRU_42_with_3_x_ADM_141A_TALD = (3, Weapons.BRU_42_with_3_x_ADM_141A_TALD)
-        BRU_42_with_2_x_ADM_141A_TALD = (3, Weapons.BRU_42_with_2_x_ADM_141A_TALD)
+        BRU_42_with_3_x_ADM_141A_TALD = (
+            3,
+            Weapons.BRU_42_with_3_x_ADM_141A_TALD,
+        )
+        BRU_42_with_2_x_ADM_141A_TALD = (
+            3,
+            Weapons.BRU_42_with_2_x_ADM_141A_TALD,
+        )
         BRU_42_with_ADM_141A_TALD = (3, Weapons.BRU_42_with_ADM_141A_TALD)
 
     class Pylon4:
@@ -463,7 +571,10 @@ class FA_18E(PlaneType):
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_,
         )
         Mk_82___500lb_GP_Bomb_LD = (5, Weapons.Mk_82___500lb_GP_Bomb_LD)
-        Mk_82_Snakeye___500lb_GP_Bomb_HD = (5, Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD)
+        Mk_82_Snakeye___500lb_GP_Bomb_HD = (
+            5,
+            Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD,
+        )
         Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             5,
             Weapons.Mk_82Y___500lb_GP_Chute_Retarded_HD,
@@ -510,11 +621,10 @@ class FA_18E(PlaneType):
             5,
             Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
-        BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD = (
+        GBU_12___500lb_Laser_Guided_Bomb = (
             5,
-            Weapons.BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD,
+            Weapons.GBU_12___500lb_Laser_Guided_Bomb,
         )
-        GBU_12___500lb_Laser_Guided_Bomb = (5, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
         GBU_16___1000lb_Laser_Guided_Bomb = (
             5,
             Weapons.GBU_16___1000lb_Laser_Guided_Bomb,
@@ -536,12 +646,18 @@ class FA_18E(PlaneType):
             Weapons.BRU_33_with_2_x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         # ERRR <CLEAN>
-        AGM_154A___JSOW_CEB__CBU_type_ = (5, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
+        AGM_154A___JSOW_CEB__CBU_type_ = (
+            5,
+            Weapons.AGM_154A___JSOW_CEB__CBU_type_,
+        )
         BRU_55_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
             5,
             Weapons.BRU_55_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
         )
-        AGM_154C___JSOW_Unitary_BROACH = (5, Weapons.AGM_154C___JSOW_Unitary_BROACH)
+        AGM_154C___JSOW_Unitary_BROACH = (
+            5,
+            Weapons.AGM_154C___JSOW_Unitary_BROACH,
+        )
         BRU_55_with_2_x_AGM_154C___JSOW_Unitary_BROACH = (
             5,
             Weapons.BRU_55_with_2_x_AGM_154C___JSOW_Unitary_BROACH,
@@ -612,7 +728,10 @@ class FA_18E(PlaneType):
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_,
         )
         Mk_82___500lb_GP_Bomb_LD = (6, Weapons.Mk_82___500lb_GP_Bomb_LD)
-        Mk_82_Snakeye___500lb_GP_Bomb_HD = (6, Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD)
+        Mk_82_Snakeye___500lb_GP_Bomb_HD = (
+            6,
+            Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD,
+        )
         Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             6,
             Weapons.Mk_82Y___500lb_GP_Chute_Retarded_HD,
@@ -620,7 +739,10 @@ class FA_18E(PlaneType):
         Mk_83___1000lb_GP_Bomb_LD = (6, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_84___2000lb_GP_Bomb_LD = (6, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         BDU_45___500lb_Practice_Bomb = (6, Weapons.BDU_45___500lb_Practice_Bomb)
-        BDU_45B___500lb_Practice_Bomb = (6, Weapons.BDU_45B___500lb_Practice_Bomb)
+        BDU_45B___500lb_Practice_Bomb = (
+            6,
+            Weapons.BDU_45B___500lb_Practice_Bomb,
+        )
         AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             6,
             Weapons.AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
@@ -669,11 +791,10 @@ class FA_18E(PlaneType):
             6,
             Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
-        BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD = (
+        GBU_12___500lb_Laser_Guided_Bomb = (
             6,
-            Weapons.BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD,
+            Weapons.GBU_12___500lb_Laser_Guided_Bomb,
         )
-        GBU_12___500lb_Laser_Guided_Bomb = (6, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
         GBU_16___1000lb_Laser_Guided_Bomb = (
             6,
             Weapons.GBU_16___1000lb_Laser_Guided_Bomb,
@@ -695,12 +816,18 @@ class FA_18E(PlaneType):
             Weapons.BRU_33_with_2_x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         # ERRR <CLEAN>
-        AGM_154A___JSOW_CEB__CBU_type_ = (6, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
+        AGM_154A___JSOW_CEB__CBU_type_ = (
+            6,
+            Weapons.AGM_154A___JSOW_CEB__CBU_type_,
+        )
         BRU_55_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
             6,
             Weapons.BRU_55_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
         )
-        AGM_154C___JSOW_Unitary_BROACH = (6, Weapons.AGM_154C___JSOW_Unitary_BROACH)
+        AGM_154C___JSOW_Unitary_BROACH = (
+            6,
+            Weapons.AGM_154C___JSOW_Unitary_BROACH,
+        )
         BRU_55_with_2_x_AGM_154C___JSOW_Unitary_BROACH = (
             6,
             Weapons.BRU_55_with_2_x_AGM_154C___JSOW_Unitary_BROACH,
@@ -786,7 +913,10 @@ class FA_18E(PlaneType):
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_,
         )
         Mk_82___500lb_GP_Bomb_LD = (7, Weapons.Mk_82___500lb_GP_Bomb_LD)
-        Mk_82_Snakeye___500lb_GP_Bomb_HD = (7, Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD)
+        Mk_82_Snakeye___500lb_GP_Bomb_HD = (
+            7,
+            Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD,
+        )
         Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             7,
             Weapons.Mk_82Y___500lb_GP_Chute_Retarded_HD,
@@ -794,7 +924,10 @@ class FA_18E(PlaneType):
         Mk_83___1000lb_GP_Bomb_LD = (7, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_84___2000lb_GP_Bomb_LD = (7, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         BDU_45___500lb_Practice_Bomb = (7, Weapons.BDU_45___500lb_Practice_Bomb)
-        BDU_45B___500lb_Practice_Bomb = (7, Weapons.BDU_45B___500lb_Practice_Bomb)
+        BDU_45B___500lb_Practice_Bomb = (
+            7,
+            Weapons.BDU_45B___500lb_Practice_Bomb,
+        )
         AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             7,
             Weapons.AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
@@ -839,11 +972,10 @@ class FA_18E(PlaneType):
             7,
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
-        BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD = (
+        GBU_12___500lb_Laser_Guided_Bomb = (
             7,
-            Weapons.BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD,
+            Weapons.GBU_12___500lb_Laser_Guided_Bomb,
         )
-        GBU_12___500lb_Laser_Guided_Bomb = (7, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
         GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             7,
             Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
@@ -869,12 +1001,18 @@ class FA_18E(PlaneType):
             Weapons.BRU_33_with_2_x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         # ERRR <CLEAN>
-        AGM_154A___JSOW_CEB__CBU_type_ = (7, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
+        AGM_154A___JSOW_CEB__CBU_type_ = (
+            7,
+            Weapons.AGM_154A___JSOW_CEB__CBU_type_,
+        )
         BRU_55_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
             7,
             Weapons.BRU_55_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
         )
-        AGM_154C___JSOW_Unitary_BROACH = (7, Weapons.AGM_154C___JSOW_Unitary_BROACH)
+        AGM_154C___JSOW_Unitary_BROACH = (
+            7,
+            Weapons.AGM_154C___JSOW_Unitary_BROACH,
+        )
         BRU_55_with_2_x_AGM_154C___JSOW_Unitary_BROACH = (
             7,
             Weapons.BRU_55_with_2_x_AGM_154C___JSOW_Unitary_BROACH,
@@ -905,8 +1043,14 @@ class FA_18E(PlaneType):
             7,
             Weapons.GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
-        BRU_42_with_3_x_ADM_141A_TALD = (7, Weapons.BRU_42_with_3_x_ADM_141A_TALD)
-        BRU_42_with_2_x_ADM_141A_TALD = (7, Weapons.BRU_42_with_2_x_ADM_141A_TALD)
+        BRU_42_with_3_x_ADM_141A_TALD = (
+            7,
+            Weapons.BRU_42_with_3_x_ADM_141A_TALD,
+        )
+        BRU_42_with_2_x_ADM_141A_TALD = (
+            7,
+            Weapons.BRU_42_with_2_x_ADM_141A_TALD,
+        )
         BRU_42_with_ADM_141A_TALD = (7, Weapons.BRU_42_with_ADM_141A_TALD)
 
     class Pylon8:
@@ -948,15 +1092,24 @@ class FA_18E(PlaneType):
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_,
         )
         Mk_82___500lb_GP_Bomb_LD = (8, Weapons.Mk_82___500lb_GP_Bomb_LD)
-        Mk_82_Snakeye___500lb_GP_Bomb_HD = (8, Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD)
+        Mk_82_Snakeye___500lb_GP_Bomb_HD = (
+            8,
+            Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD,
+        )
         Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             8,
             Weapons.Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         Mk_83___1000lb_GP_Bomb_LD = (8, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         BDU_45___500lb_Practice_Bomb = (8, Weapons.BDU_45___500lb_Practice_Bomb)
-        BDU_45B___500lb_Practice_Bomb = (8, Weapons.BDU_45B___500lb_Practice_Bomb)
-        GBU_12___500lb_Laser_Guided_Bomb = (8, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
+        BDU_45B___500lb_Practice_Bomb = (
+            8,
+            Weapons.BDU_45B___500lb_Practice_Bomb,
+        )
+        GBU_12___500lb_Laser_Guided_Bomb = (
+            8,
+            Weapons.GBU_12___500lb_Laser_Guided_Bomb,
+        )
         GBU_16___1000lb_Laser_Guided_Bomb = (
             8,
             Weapons.GBU_16___1000lb_Laser_Guided_Bomb,
@@ -982,9 +1135,10 @@ class FA_18E(PlaneType):
             8,
             Weapons.GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
-        AGM_154A___JSOW_CEB__CBU_type_ = (8, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
-        AGM_154C___JSOW_Unitary_BROACH = (8, Weapons.AGM_154C___JSOW_Unitary_BROACH)
-        BRU_42_with_2_x_ADM_141A_TALD = (8, Weapons.BRU_42_with_2_x_ADM_141A_TALD)
+        BRU_42_with_2_x_ADM_141A_TALD = (
+            8,
+            Weapons.BRU_42_with_2_x_ADM_141A_TALD,
+        )
         BRU_42_with_ADM_141A_TALD = (8, Weapons.BRU_42_with_ADM_141A_TALD)
 
     class Pylon9:
@@ -993,7 +1147,10 @@ class FA_18E(PlaneType):
         # ERRR {CATM-9M}
         # ERRR {CATM-9X}
         AIM_9X_Sidewinder_IR_AAM = (9, Weapons.AIM_9X_Sidewinder_IR_AAM)
-        AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (9, Weapons.AN_ASQ_T50_TCTS_Pod___ACMI_Pod)
+        AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
+            9,
+            Weapons.AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+        )
 
     # ERRR <CLEAN>
 
@@ -1035,11 +1192,11 @@ class FA_18E(PlaneType):
 class FA_18F(PlaneType):
     id = "FA-18F"
     flyable = True
-    height = 4.66
-    width = 11.43
-    length = 17.07
+    height = 4.88
+    width = 13.62456
+    length = 18.31
     fuel_max = 4900
-    max_speed = 1950.12
+    max_speed = 2120.04
     chaff = 60
     flare = 60
     charge_total = 120
@@ -1121,6 +1278,9 @@ class FA_18F(PlaneType):
         "OuterBoard": 0,
         "InnerBoard": 0,
         "HelmetMountedDevice": 1,
+        "VoiceCallsignLabel": None,
+        "VoiceCallsignNumber": None,
+        "STN_L16": None,
     }
 
     class Properties:
@@ -1146,6 +1306,80 @@ class FA_18F(PlaneType):
                 JHMCS = 1
                 NVG = 2
 
+        class VoiceCallsignLabel:
+            id = "VoiceCallsignLabel"
+
+        class VoiceCallsignNumber:
+            id = "VoiceCallsignNumber"
+
+        class STN_L16:
+            id = "STN_L16"
+
+    properties = {
+        "OuterBoard": UnitPropertyDescription(
+            identifier="OuterBoard",
+            control="comboList",
+            label="Outerboard rockets mode",
+            player_only=True,
+            default=0,
+            w_ctrl=150,
+            values={
+                0: "Single",
+                1: "Ripple",
+            },
+        ),
+        "InnerBoard": UnitPropertyDescription(
+            identifier="InnerBoard",
+            control="comboList",
+            label="Innerboard rockets mode",
+            player_only=True,
+            default=0,
+            w_ctrl=150,
+            values={
+                0: "Single",
+                1: "Ripple",
+            },
+        ),
+        "HelmetMountedDevice": UnitPropertyDescription(
+            identifier="HelmetMountedDevice",
+            control="comboList",
+            label="Helmet Mounted Device",
+            player_only=True,
+            default=1,
+            w_ctrl=150,
+            values={
+                0: "Not installed",
+                1: "JHMCS",
+                2: "NVG",
+            },
+        ),
+        "datalink_Label": UnitPropertyDescription(
+            identifier="datalink_Label",
+            control="label",
+            label="DATALINK",
+            player_only=False,
+            x_lbl=150,
+        ),
+        "VoiceCallsignLabel": UnitPropertyDescription(
+            identifier="VoiceCallsignLabel",
+            control="editbox",
+            label="Voice Callsign Label",
+            player_only=False,
+        ),
+        "VoiceCallsignNumber": UnitPropertyDescription(
+            identifier="VoiceCallsignNumber",
+            control="editbox",
+            label="Voice Callsign Number",
+            player_only=False,
+        ),
+        "STN_L16": UnitPropertyDescription(
+            identifier="STN_L16",
+            control="editbox",
+            label="STN",
+            player_only=False,
+        ),
+    }
+
     livery_name = "FA-18F"  # from type
 
     class Pylon1:
@@ -1154,7 +1388,10 @@ class FA_18F(PlaneType):
         # ERRR {CATM-9M}
         # ERRR {CATM-9X}
         AIM_9X_Sidewinder_IR_AAM = (1, Weapons.AIM_9X_Sidewinder_IR_AAM)
-        AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (1, Weapons.AN_ASQ_T50_TCTS_Pod___ACMI_Pod)
+        AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
+            1,
+            Weapons.AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+        )
 
     class Pylon2:
         TLAU_127 = (2, WeaponsFA18EFG.TLAU_127)
@@ -1195,15 +1432,24 @@ class FA_18F(PlaneType):
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_,
         )
         Mk_82___500lb_GP_Bomb_LD = (2, Weapons.Mk_82___500lb_GP_Bomb_LD)
-        Mk_82_Snakeye___500lb_GP_Bomb_HD = (2, Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD)
+        Mk_82_Snakeye___500lb_GP_Bomb_HD = (
+            2,
+            Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD,
+        )
         Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             2,
             Weapons.Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         Mk_83___1000lb_GP_Bomb_LD = (2, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         BDU_45___500lb_Practice_Bomb = (2, Weapons.BDU_45___500lb_Practice_Bomb)
-        BDU_45B___500lb_Practice_Bomb = (2, Weapons.BDU_45B___500lb_Practice_Bomb)
-        GBU_12___500lb_Laser_Guided_Bomb = (2, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
+        BDU_45B___500lb_Practice_Bomb = (
+            2,
+            Weapons.BDU_45B___500lb_Practice_Bomb,
+        )
+        GBU_12___500lb_Laser_Guided_Bomb = (
+            2,
+            Weapons.GBU_12___500lb_Laser_Guided_Bomb,
+        )
         GBU_16___1000lb_Laser_Guided_Bomb = (
             2,
             Weapons.GBU_16___1000lb_Laser_Guided_Bomb,
@@ -1229,9 +1475,10 @@ class FA_18F(PlaneType):
             2,
             Weapons.GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
-        AGM_154A___JSOW_CEB__CBU_type_ = (2, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
-        AGM_154C___JSOW_Unitary_BROACH = (2, Weapons.AGM_154C___JSOW_Unitary_BROACH)
-        BRU_42_with_2_x_ADM_141A_TALD = (2, Weapons.BRU_42_with_2_x_ADM_141A_TALD)
+        BRU_42_with_2_x_ADM_141A_TALD = (
+            2,
+            Weapons.BRU_42_with_2_x_ADM_141A_TALD,
+        )
         BRU_42_with_ADM_141A_TALD = (2, Weapons.BRU_42_with_ADM_141A_TALD)
 
     class Pylon3:
@@ -1288,7 +1535,10 @@ class FA_18F(PlaneType):
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_,
         )
         Mk_82___500lb_GP_Bomb_LD = (3, Weapons.Mk_82___500lb_GP_Bomb_LD)
-        Mk_82_Snakeye___500lb_GP_Bomb_HD = (3, Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD)
+        Mk_82_Snakeye___500lb_GP_Bomb_HD = (
+            3,
+            Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD,
+        )
         Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             3,
             Weapons.Mk_82Y___500lb_GP_Chute_Retarded_HD,
@@ -1296,7 +1546,10 @@ class FA_18F(PlaneType):
         Mk_83___1000lb_GP_Bomb_LD = (3, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_84___2000lb_GP_Bomb_LD = (3, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         BDU_45___500lb_Practice_Bomb = (3, Weapons.BDU_45___500lb_Practice_Bomb)
-        BDU_45B___500lb_Practice_Bomb = (3, Weapons.BDU_45B___500lb_Practice_Bomb)
+        BDU_45B___500lb_Practice_Bomb = (
+            3,
+            Weapons.BDU_45B___500lb_Practice_Bomb,
+        )
         AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             3,
             Weapons.AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
@@ -1341,11 +1594,10 @@ class FA_18F(PlaneType):
             3,
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
-        BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD = (
+        GBU_12___500lb_Laser_Guided_Bomb = (
             3,
-            Weapons.BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD,
+            Weapons.GBU_12___500lb_Laser_Guided_Bomb,
         )
-        GBU_12___500lb_Laser_Guided_Bomb = (3, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
         GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             3,
             Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
@@ -1371,12 +1623,18 @@ class FA_18F(PlaneType):
             Weapons.BRU_33_with_2_x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         # ERRR <CLEAN>
-        AGM_154A___JSOW_CEB__CBU_type_ = (3, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
+        AGM_154A___JSOW_CEB__CBU_type_ = (
+            3,
+            Weapons.AGM_154A___JSOW_CEB__CBU_type_,
+        )
         BRU_55_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
             3,
             Weapons.BRU_55_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
         )
-        AGM_154C___JSOW_Unitary_BROACH = (3, Weapons.AGM_154C___JSOW_Unitary_BROACH)
+        AGM_154C___JSOW_Unitary_BROACH = (
+            3,
+            Weapons.AGM_154C___JSOW_Unitary_BROACH,
+        )
         BRU_55_with_2_x_AGM_154C___JSOW_Unitary_BROACH = (
             3,
             Weapons.BRU_55_with_2_x_AGM_154C___JSOW_Unitary_BROACH,
@@ -1407,8 +1665,14 @@ class FA_18F(PlaneType):
             3,
             Weapons.GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
-        BRU_42_with_3_x_ADM_141A_TALD = (3, Weapons.BRU_42_with_3_x_ADM_141A_TALD)
-        BRU_42_with_2_x_ADM_141A_TALD = (3, Weapons.BRU_42_with_2_x_ADM_141A_TALD)
+        BRU_42_with_3_x_ADM_141A_TALD = (
+            3,
+            Weapons.BRU_42_with_3_x_ADM_141A_TALD,
+        )
+        BRU_42_with_2_x_ADM_141A_TALD = (
+            3,
+            Weapons.BRU_42_with_2_x_ADM_141A_TALD,
+        )
         BRU_42_with_ADM_141A_TALD = (3, Weapons.BRU_42_with_ADM_141A_TALD)
 
     class Pylon4:
@@ -1464,7 +1728,10 @@ class FA_18F(PlaneType):
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_,
         )
         Mk_82___500lb_GP_Bomb_LD = (5, Weapons.Mk_82___500lb_GP_Bomb_LD)
-        Mk_82_Snakeye___500lb_GP_Bomb_HD = (5, Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD)
+        Mk_82_Snakeye___500lb_GP_Bomb_HD = (
+            5,
+            Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD,
+        )
         Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             5,
             Weapons.Mk_82Y___500lb_GP_Chute_Retarded_HD,
@@ -1511,11 +1778,10 @@ class FA_18F(PlaneType):
             5,
             Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
-        BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD = (
+        GBU_12___500lb_Laser_Guided_Bomb = (
             5,
-            Weapons.BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD,
+            Weapons.GBU_12___500lb_Laser_Guided_Bomb,
         )
-        GBU_12___500lb_Laser_Guided_Bomb = (5, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
         GBU_16___1000lb_Laser_Guided_Bomb = (
             5,
             Weapons.GBU_16___1000lb_Laser_Guided_Bomb,
@@ -1537,12 +1803,18 @@ class FA_18F(PlaneType):
             Weapons.BRU_33_with_2_x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         # ERRR <CLEAN>
-        AGM_154A___JSOW_CEB__CBU_type_ = (5, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
+        AGM_154A___JSOW_CEB__CBU_type_ = (
+            5,
+            Weapons.AGM_154A___JSOW_CEB__CBU_type_,
+        )
         BRU_55_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
             5,
             Weapons.BRU_55_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
         )
-        AGM_154C___JSOW_Unitary_BROACH = (5, Weapons.AGM_154C___JSOW_Unitary_BROACH)
+        AGM_154C___JSOW_Unitary_BROACH = (
+            5,
+            Weapons.AGM_154C___JSOW_Unitary_BROACH,
+        )
         BRU_55_with_2_x_AGM_154C___JSOW_Unitary_BROACH = (
             5,
             Weapons.BRU_55_with_2_x_AGM_154C___JSOW_Unitary_BROACH,
@@ -1613,7 +1885,10 @@ class FA_18F(PlaneType):
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_,
         )
         Mk_82___500lb_GP_Bomb_LD = (6, Weapons.Mk_82___500lb_GP_Bomb_LD)
-        Mk_82_Snakeye___500lb_GP_Bomb_HD = (6, Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD)
+        Mk_82_Snakeye___500lb_GP_Bomb_HD = (
+            6,
+            Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD,
+        )
         Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             6,
             Weapons.Mk_82Y___500lb_GP_Chute_Retarded_HD,
@@ -1621,7 +1896,10 @@ class FA_18F(PlaneType):
         Mk_83___1000lb_GP_Bomb_LD = (6, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_84___2000lb_GP_Bomb_LD = (6, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         BDU_45___500lb_Practice_Bomb = (6, Weapons.BDU_45___500lb_Practice_Bomb)
-        BDU_45B___500lb_Practice_Bomb = (6, Weapons.BDU_45B___500lb_Practice_Bomb)
+        BDU_45B___500lb_Practice_Bomb = (
+            6,
+            Weapons.BDU_45B___500lb_Practice_Bomb,
+        )
         AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             6,
             Weapons.AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
@@ -1670,11 +1948,10 @@ class FA_18F(PlaneType):
             6,
             Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
-        BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD = (
+        GBU_12___500lb_Laser_Guided_Bomb = (
             6,
-            Weapons.BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD,
+            Weapons.GBU_12___500lb_Laser_Guided_Bomb,
         )
-        GBU_12___500lb_Laser_Guided_Bomb = (6, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
         GBU_16___1000lb_Laser_Guided_Bomb = (
             6,
             Weapons.GBU_16___1000lb_Laser_Guided_Bomb,
@@ -1696,12 +1973,18 @@ class FA_18F(PlaneType):
             Weapons.BRU_33_with_2_x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         # ERRR <CLEAN>
-        AGM_154A___JSOW_CEB__CBU_type_ = (6, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
+        AGM_154A___JSOW_CEB__CBU_type_ = (
+            6,
+            Weapons.AGM_154A___JSOW_CEB__CBU_type_,
+        )
         BRU_55_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
             6,
             Weapons.BRU_55_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
         )
-        AGM_154C___JSOW_Unitary_BROACH = (6, Weapons.AGM_154C___JSOW_Unitary_BROACH)
+        AGM_154C___JSOW_Unitary_BROACH = (
+            6,
+            Weapons.AGM_154C___JSOW_Unitary_BROACH,
+        )
         BRU_55_with_2_x_AGM_154C___JSOW_Unitary_BROACH = (
             6,
             Weapons.BRU_55_with_2_x_AGM_154C___JSOW_Unitary_BROACH,
@@ -1787,7 +2070,10 @@ class FA_18F(PlaneType):
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_,
         )
         Mk_82___500lb_GP_Bomb_LD = (7, Weapons.Mk_82___500lb_GP_Bomb_LD)
-        Mk_82_Snakeye___500lb_GP_Bomb_HD = (7, Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD)
+        Mk_82_Snakeye___500lb_GP_Bomb_HD = (
+            7,
+            Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD,
+        )
         Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             7,
             Weapons.Mk_82Y___500lb_GP_Chute_Retarded_HD,
@@ -1795,7 +2081,10 @@ class FA_18F(PlaneType):
         Mk_83___1000lb_GP_Bomb_LD = (7, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_84___2000lb_GP_Bomb_LD = (7, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         BDU_45___500lb_Practice_Bomb = (7, Weapons.BDU_45___500lb_Practice_Bomb)
-        BDU_45B___500lb_Practice_Bomb = (7, Weapons.BDU_45B___500lb_Practice_Bomb)
+        BDU_45B___500lb_Practice_Bomb = (
+            7,
+            Weapons.BDU_45B___500lb_Practice_Bomb,
+        )
         AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             7,
             Weapons.AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
@@ -1840,11 +2129,10 @@ class FA_18F(PlaneType):
             7,
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
-        BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD = (
+        GBU_12___500lb_Laser_Guided_Bomb = (
             7,
-            Weapons.BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD,
+            Weapons.GBU_12___500lb_Laser_Guided_Bomb,
         )
-        GBU_12___500lb_Laser_Guided_Bomb = (7, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
         GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             7,
             Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
@@ -1870,12 +2158,18 @@ class FA_18F(PlaneType):
             Weapons.BRU_33_with_2_x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         # ERRR <CLEAN>
-        AGM_154A___JSOW_CEB__CBU_type_ = (7, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
+        AGM_154A___JSOW_CEB__CBU_type_ = (
+            7,
+            Weapons.AGM_154A___JSOW_CEB__CBU_type_,
+        )
         BRU_55_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
             7,
             Weapons.BRU_55_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
         )
-        AGM_154C___JSOW_Unitary_BROACH = (7, Weapons.AGM_154C___JSOW_Unitary_BROACH)
+        AGM_154C___JSOW_Unitary_BROACH = (
+            7,
+            Weapons.AGM_154C___JSOW_Unitary_BROACH,
+        )
         BRU_55_with_2_x_AGM_154C___JSOW_Unitary_BROACH = (
             7,
             Weapons.BRU_55_with_2_x_AGM_154C___JSOW_Unitary_BROACH,
@@ -1906,8 +2200,14 @@ class FA_18F(PlaneType):
             7,
             Weapons.GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
-        BRU_42_with_3_x_ADM_141A_TALD = (7, Weapons.BRU_42_with_3_x_ADM_141A_TALD)
-        BRU_42_with_2_x_ADM_141A_TALD = (7, Weapons.BRU_42_with_2_x_ADM_141A_TALD)
+        BRU_42_with_3_x_ADM_141A_TALD = (
+            7,
+            Weapons.BRU_42_with_3_x_ADM_141A_TALD,
+        )
+        BRU_42_with_2_x_ADM_141A_TALD = (
+            7,
+            Weapons.BRU_42_with_2_x_ADM_141A_TALD,
+        )
         BRU_42_with_ADM_141A_TALD = (7, Weapons.BRU_42_with_ADM_141A_TALD)
 
     class Pylon8:
@@ -1949,15 +2249,24 @@ class FA_18F(PlaneType):
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_,
         )
         Mk_82___500lb_GP_Bomb_LD = (8, Weapons.Mk_82___500lb_GP_Bomb_LD)
-        Mk_82_Snakeye___500lb_GP_Bomb_HD = (8, Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD)
+        Mk_82_Snakeye___500lb_GP_Bomb_HD = (
+            8,
+            Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD,
+        )
         Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             8,
             Weapons.Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         Mk_83___1000lb_GP_Bomb_LD = (8, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         BDU_45___500lb_Practice_Bomb = (8, Weapons.BDU_45___500lb_Practice_Bomb)
-        BDU_45B___500lb_Practice_Bomb = (8, Weapons.BDU_45B___500lb_Practice_Bomb)
-        GBU_12___500lb_Laser_Guided_Bomb = (8, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
+        BDU_45B___500lb_Practice_Bomb = (
+            8,
+            Weapons.BDU_45B___500lb_Practice_Bomb,
+        )
+        GBU_12___500lb_Laser_Guided_Bomb = (
+            8,
+            Weapons.GBU_12___500lb_Laser_Guided_Bomb,
+        )
         GBU_16___1000lb_Laser_Guided_Bomb = (
             8,
             Weapons.GBU_16___1000lb_Laser_Guided_Bomb,
@@ -1983,9 +2292,10 @@ class FA_18F(PlaneType):
             8,
             Weapons.GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
-        AGM_154A___JSOW_CEB__CBU_type_ = (8, Weapons.AGM_154A___JSOW_CEB__CBU_type_)
-        AGM_154C___JSOW_Unitary_BROACH = (8, Weapons.AGM_154C___JSOW_Unitary_BROACH)
-        BRU_42_with_2_x_ADM_141A_TALD = (8, Weapons.BRU_42_with_2_x_ADM_141A_TALD)
+        BRU_42_with_2_x_ADM_141A_TALD = (
+            8,
+            Weapons.BRU_42_with_2_x_ADM_141A_TALD,
+        )
         BRU_42_with_ADM_141A_TALD = (8, Weapons.BRU_42_with_ADM_141A_TALD)
 
     class Pylon9:
@@ -1994,7 +2304,10 @@ class FA_18F(PlaneType):
         # ERRR {CATM-9M}
         # ERRR {CATM-9X}
         AIM_9X_Sidewinder_IR_AAM = (9, Weapons.AIM_9X_Sidewinder_IR_AAM)
-        AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (9, Weapons.AN_ASQ_T50_TCTS_Pod___ACMI_Pod)
+        AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
+            9,
+            Weapons.AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+        )
 
     # ERRR <CLEAN>
 
@@ -2036,11 +2349,11 @@ class FA_18F(PlaneType):
 class EA_18G(PlaneType):
     id = "EA-18G"
     flyable = True
-    height = 4.66
-    width = 11.43
-    length = 17.07
+    height = 4.88
+    width = 13.62456
+    length = 18.31
     fuel_max = 4900
-    max_speed = 1950.12
+    max_speed = 2120.04
     chaff = 60
     flare = 60
     charge_total = 120
@@ -2122,6 +2435,9 @@ class EA_18G(PlaneType):
         "OuterBoard": 0,
         "InnerBoard": 0,
         "HelmetMountedDevice": 1,
+        "VoiceCallsignLabel": None,
+        "VoiceCallsignNumber": None,
+        "STN_L16": None,
     }
 
     class Properties:
@@ -2147,6 +2463,80 @@ class EA_18G(PlaneType):
                 JHMCS = 1
                 NVG = 2
 
+        class VoiceCallsignLabel:
+            id = "VoiceCallsignLabel"
+
+        class VoiceCallsignNumber:
+            id = "VoiceCallsignNumber"
+
+        class STN_L16:
+            id = "STN_L16"
+
+    properties = {
+        "OuterBoard": UnitPropertyDescription(
+            identifier="OuterBoard",
+            control="comboList",
+            label="Outerboard rockets mode",
+            player_only=True,
+            default=0,
+            w_ctrl=150,
+            values={
+                0: "Single",
+                1: "Ripple",
+            },
+        ),
+        "InnerBoard": UnitPropertyDescription(
+            identifier="InnerBoard",
+            control="comboList",
+            label="Innerboard rockets mode",
+            player_only=True,
+            default=0,
+            w_ctrl=150,
+            values={
+                0: "Single",
+                1: "Ripple",
+            },
+        ),
+        "HelmetMountedDevice": UnitPropertyDescription(
+            identifier="HelmetMountedDevice",
+            control="comboList",
+            label="Helmet Mounted Device",
+            player_only=True,
+            default=1,
+            w_ctrl=150,
+            values={
+                0: "Not installed",
+                1: "JHMCS",
+                2: "NVG",
+            },
+        ),
+        "datalink_Label": UnitPropertyDescription(
+            identifier="datalink_Label",
+            control="label",
+            label="DATALINK",
+            player_only=False,
+            x_lbl=150,
+        ),
+        "VoiceCallsignLabel": UnitPropertyDescription(
+            identifier="VoiceCallsignLabel",
+            control="editbox",
+            label="Voice Callsign Label",
+            player_only=False,
+        ),
+        "VoiceCallsignNumber": UnitPropertyDescription(
+            identifier="VoiceCallsignNumber",
+            control="editbox",
+            label="Voice Callsign Number",
+            player_only=False,
+        ),
+        "STN_L16": UnitPropertyDescription(
+            identifier="STN_L16",
+            control="editbox",
+            label="STN",
+            player_only=False,
+        ),
+    }
+
     livery_name = "EA-18G"  # from type
 
     class Pylon1:
@@ -2166,6 +2556,22 @@ class EA_18G(PlaneType):
             WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
         ALQ_99Wing = (2, WeaponsFA18EFG.ALQ_99Wing)
+        AGM_154A___JSOW_CEB__CBU_type_ = (
+            2,
+            Weapons.AGM_154A___JSOW_CEB__CBU_type_,
+        )
+        BRU_55_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
+            2,
+            Weapons.BRU_55_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
+        )
+        AGM_154C___JSOW_Unitary_BROACH = (
+            2,
+            Weapons.AGM_154C___JSOW_Unitary_BROACH,
+        )
+        BRU_55_with_2_x_AGM_154C___JSOW_Unitary_BROACH = (
+            2,
+            Weapons.BRU_55_with_2_x_AGM_154C___JSOW_Unitary_BROACH,
+        )
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_ = (
             2,
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_,
@@ -2174,7 +2580,10 @@ class EA_18G(PlaneType):
     # ERRR <CLEAN>
 
     class Pylon3:
-        AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (3, Weapons.AN_ASQ_T50_TCTS_Pod___ACMI_Pod)
+        AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
+            3,
+            Weapons.AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+        )
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_ = (
             3,
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_,
@@ -2213,7 +2622,10 @@ class EA_18G(PlaneType):
         )
 
     class Pylon7:
-        AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (7, Weapons.AN_ASQ_T50_TCTS_Pod___ACMI_Pod)
+        AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
+            7,
+            Weapons.AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+        )
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_ = (
             7,
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_,
@@ -2228,6 +2640,22 @@ class EA_18G(PlaneType):
             WeaponsFA18EFG.FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
         ALQ_99Wing = (8, WeaponsFA18EFG.ALQ_99Wing)
+        AGM_154A___JSOW_CEB__CBU_type_ = (
+            8,
+            Weapons.AGM_154A___JSOW_CEB__CBU_type_,
+        )
+        BRU_55_with_2_x_AGM_154A___JSOW_CEB__CBU_type_ = (
+            8,
+            Weapons.BRU_55_with_2_x_AGM_154A___JSOW_CEB__CBU_type_,
+        )
+        AGM_154C___JSOW_Unitary_BROACH = (
+            8,
+            Weapons.AGM_154C___JSOW_Unitary_BROACH,
+        )
+        BRU_55_with_2_x_AGM_154C___JSOW_Unitary_BROACH = (
+            8,
+            Weapons.BRU_55_with_2_x_AGM_154C___JSOW_Unitary_BROACH,
+        )
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_ = (
             8,
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_,

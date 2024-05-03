@@ -84,9 +84,11 @@ class NewGameWizard(QtWidgets.QWizard):
             no_player_navy=self.field("no_player_navy"),
             no_enemy_navy=self.field("no_enemy_navy"),
             tgo_config=campaign.load_ground_forces_config(),
+            carrier_config=campaign.load_carrier_config(),
             squadrons_start_full=self.field("squadrons_start_full"),
         )
         mod_settings = ModSettings(
+            f9f_panther=self.field("f9f_panther"),
             a4_skyhawk=self.field("a4_skyhawk"),
             a6a_intruder=self.field("a6a_intruder"),
             a7e_corsair2=self.field("a7e_corsair2"),
@@ -105,6 +107,7 @@ class NewGameWizard(QtWidgets.QWizard):
             irondome=self.field("irondome"),
             uh_60l=self.field("uh_60l"),
             jas39_gripen=self.field("jas39_gripen"),
+            super_etendard=self.field("super_etendard"),
             su30_flanker_h=self.field("su30_flanker_h"),
             su57_felon=self.field("su57_felon"),
             ov10a_bronco=self.field("ov10a_bronco"),

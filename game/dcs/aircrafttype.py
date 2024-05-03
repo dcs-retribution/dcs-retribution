@@ -133,6 +133,21 @@ class PatrolConfig:
 
 
 @dataclass(frozen=True)
+class AltitudesConfig:
+    cruise: Optional[Distance]
+    combat: Optional[Distance]
+
+    @classmethod
+    def from_data(cls, data: dict[str, Any]) -> AltitudesConfig:
+        cruise = data.get("cruise", None)
+        combat = data.get("combat", None)
+        return AltitudesConfig(
+            feet(cruise) if cruise is not None else None,
+            feet(combat) if combat is not None else None,
+        )
+
+
+@dataclass(frozen=True)
 class FuelConsumption:
     #: The estimated taxi fuel requirement, in pounds.
     taxi: int
@@ -181,6 +196,9 @@ class AircraftType(UnitType[Type[FlyingType]]):
     max_group_size: int
     patrol_altitude: Optional[Distance]
     patrol_speed: Optional[Speed]
+
+    cruise_altitude: Optional[Distance]
+    combat_altitude: Optional[Distance]
 
     #: The maximum range between the origin airfield and the target for which the auto-
     #: planner will consider this aircraft usable for a mission.
@@ -245,33 +263,13 @@ class AircraftType(UnitType[Type[FlyingType]]):
     def max_speed(self) -> Speed:
         return kph(self.dcs_unit_type.max_speed)
 
-    @property
+    @cached_property
     def preferred_patrol_altitude(self) -> Distance:
-        if self.patrol_altitude is not None:
+        if self.patrol_altitude:
             return self.patrol_altitude
         else:
-            # Estimate based on max speed.
-            # Aircaft with max speed 600 kph will prefer patrol at 10 000 ft
-            # Aircraft with max speed 2800 kph will prefer pratrol at 33 000 ft
-            altitude_for_lowest_speed = feet(10 * 1000)
-            altitude_for_highest_speed = feet(33 * 1000)
-            lowest_speed = kph(600)
-            highest_speed = kph(2800)
-            factor = (self.max_speed - lowest_speed).kph / (
-                highest_speed - lowest_speed
-            ).kph
-            altitude = (
-                altitude_for_lowest_speed
-                + (altitude_for_highest_speed - altitude_for_lowest_speed) * factor
-            )
-            logging.debug(
-                f"Preferred patrol altitude for {self.dcs_unit_type.id}: {altitude.feet}"
-            )
-            rounded_altitude = feet(round(1000 * round(altitude.feet / 1000)))
-            return max(
-                altitude_for_lowest_speed,
-                min(altitude_for_highest_speed, rounded_altitude),
-            )
+            # TODO: somehow make the upper and lower limit configurable
+            return self.preferred_altitude(10, 33, "patrol")
 
     def preferred_patrol_speed(self, altitude: Distance) -> Speed:
         """Preferred true airspeed when patrolling"""
@@ -308,6 +306,46 @@ class AircraftType(UnitType[Type[FlyingType]]):
                     f"{self.display_name} max_speed * 0.5 is {max_speed * 0.5}"
                 )
                 return min(Speed.from_mach(0.35, altitude), max_speed * 0.5)
+
+    @cached_property
+    def preferred_cruise_altitude(self) -> Distance:
+        if self.cruise_altitude:
+            return self.cruise_altitude
+        else:
+            # TODO: somehow make the upper and lower limit configurable
+            return self.preferred_altitude(20, 20, "cruise")
+
+    @cached_property
+    def preferred_combat_altitude(self) -> Distance:
+        if self.combat_altitude:
+            return self.combat_altitude
+        else:
+            # TODO: somehow make the upper and lower limit configurable
+            return self.preferred_altitude(20, 20, "combat")
+
+    def preferred_altitude(self, low: int, high: int, type: str) -> Distance:
+        # Estimate based on max speed.
+        # Aircraft with max speed 600 kph will prefer low
+        # Aircraft with max speed 2800 kph will prefer high
+        altitude_for_lowest_speed = feet(low * 1000)
+        altitude_for_highest_speed = feet(high * 1000)
+        lowest_speed = kph(600)
+        highest_speed = kph(2800)
+        factor = (self.max_speed - lowest_speed).kph / (
+            highest_speed - lowest_speed
+        ).kph
+        altitude = (
+            altitude_for_lowest_speed
+            + (altitude_for_highest_speed - altitude_for_lowest_speed) * factor
+        )
+        logging.debug(
+            f"Preferred {type} altitude for {self.dcs_unit_type.id}: {altitude.feet}"
+        )
+        rounded_altitude = feet(round(1000 * round(altitude.feet / 1000)))
+        return max(
+            altitude_for_lowest_speed,
+            min(altitude_for_highest_speed, rounded_altitude),
+        )
 
     def alloc_flight_radio(self, radio_registry: RadioRegistry) -> RadioFrequency:
         from game.radio.radios import ChannelInUseError, kHz
@@ -442,6 +480,7 @@ class AircraftType(UnitType[Type[FlyingType]]):
 
         radio_config = RadioConfig.from_data(data.get("radios", {}))
         patrol_config = PatrolConfig.from_data(data.get("patrol", {}))
+        altitudes_config = AltitudesConfig.from_data(data.get("altitudes", {}))
 
         try:
             mission_range = nautical_miles(int(data["max_range"]))
@@ -510,6 +549,8 @@ class AircraftType(UnitType[Type[FlyingType]]):
             max_group_size=data.get("max_group_size", aircraft.group_size_max),
             patrol_altitude=patrol_config.altitude,
             patrol_speed=patrol_config.speed,
+            cruise_altitude=altitudes_config.cruise,
+            combat_altitude=altitudes_config.combat,
             max_mission_range=mission_range,
             fuel_consumption=fuel_consumption,
             default_livery=data.get("default_livery"),

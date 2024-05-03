@@ -111,6 +111,10 @@ def airwing_dir() -> Path:
     return base_path() / "Retribution" / "AirWing"
 
 
+def kneeboards_dir() -> Path:
+    return base_path() / "Retribution" / "Kneeboards"
+
+
 def payloads_dir(backup: bool = False) -> Path:
     payloads = base_path() / "MissionEditor" / "UnitPayloads"
     if backup:

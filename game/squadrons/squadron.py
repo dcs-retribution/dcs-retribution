@@ -18,7 +18,7 @@ from game.theater import ParkingType
 from .pilot import Pilot, PilotStatus
 from ..db.database import Database
 from ..radio.radios import RadioFrequency
-from ..utils import meters
+from ..utils import meters, nautical_miles
 
 if TYPE_CHECKING:
     from game import Game
@@ -40,6 +40,7 @@ class Squadron:
     aircraft: AircraftType
     max_size: int
     livery: Optional[str]
+    livery_set: list[str]  # will override livery if not empty
     primary_task: FlightType
     auto_assignable_mission_types: set[FlightType]
     radio_presets: dict[Union[str, int], list[RadioFrequency]]
@@ -281,6 +282,7 @@ class Squadron:
         size: int,
         heli: bool,
         this_turn: bool,
+        ignore_range: bool = False,
     ) -> bool:
         if (
             self.location.cptype.name in ["FOB", "FARP"]
@@ -304,8 +306,23 @@ class Squadron:
         if heli and task == FlightType.REFUELING:
             return False
 
+        if ignore_range:
+            return True
+
         distance_to_target = meters(location.distance_to(self.location))
-        return distance_to_target <= self.aircraft.max_mission_range
+        max_plane_dist = nautical_miles(
+            self.coalition.game.settings.max_mission_range_planes
+        )
+        max_heli_dist = nautical_miles(
+            self.coalition.game.settings.max_mission_range_helicopters
+        )
+        if self.aircraft.helicopter:
+            return distance_to_target <= max(
+                self.aircraft.max_mission_range, max_heli_dist
+            )
+        return distance_to_target <= max(
+            self.aircraft.max_mission_range, max_plane_dist
+        )
 
     def operates_from(self, control_point: ControlPoint) -> bool:
         if not control_point.can_operate(self.aircraft):
@@ -487,6 +504,7 @@ class Squadron:
             squadron_def.aircraft,
             max_size,
             squadron_def.livery,
+            squadron_def.livery_set,
             primary_task,
             squadron_def.auto_assignable_mission_types,
             squadron_def.radio_presets,

@@ -17,7 +17,7 @@ description:
     adversarial nation, dubbed Orangeland. This scenario is designed to 
     simulate a mock invasion against Cairo, and presents a valuable 
     opportunity for participating nations to refine their joint operational 
-    capabilities and improve logistical and tactical interoperability</p><p>
+    capabilities and improve logistical and tactical interoperability.</p><p>
     A historic addition to Exercise Bright Star 2025 is the participation of 
     Israel as an observer nation. This marks a significant milestone, given 
     the complex historical relations in the region, and symbolises a step 
@@ -25,11 +25,17 @@ description:
     hosting the aggressor faction of the exercise coalition at its airfields, 
     not only demonstrates the broadening scope of the exercise but also highlights 
     the value of fostering an environment of mutual cooperation and shared 
-    security objectives.</p>
+    security objectives.</p><p>
+    <strong>Note:</strong> There is no overland supply route between Melez and 
+    Wadi al Jandali due to the simulated destruction of the Al Salam Bridge spanning 
+    the Suez Canal. Consequently, ground units will have to be ferried across by 
+    air during the exercise.
 miz: exercise_bright_star.miz
 performance: 1
 recommended_start_date: 2025-09-01
 version: "10.7"
+settings:
+  hercules: true
 squadrons:
   Blue CV-1:
     - primary: SEAD
@@ -45,7 +51,7 @@ squadrons:
       aircraft:
         - S-3B Tanker
       size: 4
-  Bombers from RAF Fairford:
+  Bombers from Al Udeid Air Base:
     - primary: Anti-ship
       secondary: air-to-ground
       aircraft:
@@ -56,8 +62,13 @@ squadrons:
       aircraft:
         - B-1B Lancer
       size: 8
-  # Hatzerim (141)
-  7:
+  # Ovda
+  10:
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - A-10C Thunderbolt II (Suite 7)
+      size: 8
     - primary: Escort
       secondary: any
       aircraft:
@@ -68,36 +79,47 @@ squadrons:
       aircraft:
         - F-15E Strike Eagle (Suite 4+)
       size: 16
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - JF-17 Thunder
+      size: 12
+  # Ramon Airbase
+  9:
     - primary: DEAD
       secondary: any
       aircraft:
         - F-16CM Fighting Falcon (Block 50)
       size: 20
-    - primary: BAI
-      secondary: any
-      aircraft:
-        - JF-17 Thunder
-      size: 16
     - primary: BARCAP
       secondary: any
       aircraft:
         - Mirage 2000C
       size: 12
-  # Kedem
-  12:
     - primary: Transport
       secondary: any
       aircraft:
         - CH-47D
-      size: 20
+      size: 12
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - AH-64D Apache Longbow
+      size: 8
     - primary: Air Assault
       secondary: any
       aircraft:
         - UH-60L
         - UH-60A
       size: 4
-  # Nevatim (106)
-  8:
+  # Ben-Gurion
+  24:
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - C-130J-30 Super Hercules
+        - C-130
+      size: 8
     - primary: AEW&C
       aircraft:
         - E-3A
@@ -106,16 +128,12 @@ squadrons:
       aircraft:
         - KC-135 Stratotanker
       size: 2
-    - primary: CAS
-      secondary: air-to-ground
-      aircraft:
-        - A-10C Thunderbolt II (Suite 7)
-      size: 8
   # Melez (30)
   5:
     - primary: CAS
-      secondary: air-to-ground
+      secondary: any
       aircraft:
+        - Ka-50 Hokum III
         - Ka-50 Hokum (Blackshark 3)
       size: 4
     - primary: BAI
@@ -140,7 +158,17 @@ squadrons:
         - F-4E Phantom II
       size: 20
     - primary: DEAD
-      secondary: any
+      secondary: 
+        - BAI
+        - BARCAP
+        - CAS
+        - Escort
+        - Fighter sweep
+        - Intercept
+        - OCA/Aircraft
+        - OCA/Runway
+        - Strike
+        - TARCAP
       aircraft:
         - F-16CM Fighting Falcon (Block 50)
       size: 20
@@ -157,7 +185,9 @@ squadrons:
   # Cairo West (95)
   18:
     - primary: Transport
+      secondary: any
       aircraft:
+        - C-130J-30 Super Hercules
         - C-130
       size: 8
     - primary: BARCAP

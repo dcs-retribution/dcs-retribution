@@ -17,6 +17,8 @@ miz: grabthars_hammer.miz
 performance: 2
 recommended_start_date: 1999-12-25
 version: "10.7"
+settings:
+  hercules: true
 squadrons:
   #Mount Pleasant
   2:
@@ -35,10 +37,21 @@ squadrons:
       aircraft:
         - F-15C Eagle
       size: 8
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - AH-64D Apache Longbow
+      size: 8
     - primary: Refueling
       aircraft:
         - KC-135 Stratotanker
-      size: 2
+      size: 1
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - C-130J-30 Super Hercules
+        - C-130
+      size: 1
   #San Julian
   11:
     - primary: BAI
@@ -142,14 +155,15 @@ squadrons:
   #Ushuaia
   7:
     - primary: CAS
-      secondary: air-to-ground
+      secondary: any
       aircraft:
+        - Ka-50 Hokum III
         - Ka-50 Hokum (Blackshark 3)
       size: 8
   #Ushuaia Helo Port
   8:
     - primary: Air Assault
-      secondary: air-to-ground
+      secondary: any
       aircraft:
         - Mi-24P Hind-F
       size: 8

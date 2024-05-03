@@ -12,7 +12,7 @@ from dcs.task import StartCommand
 from dcs.triggers import Event, TriggerOnce, TriggerRule
 from dcs.unitgroup import FlyingGroup
 
-from game.ato import Flight, FlightWaypoint
+from game.ato import Flight, FlightWaypoint, FlightType
 from game.ato.flightstate import InFlight, WaitingForStart
 from game.ato.flightwaypointtype import FlightWaypointType
 from game.ato.starttype import StartType
@@ -73,6 +73,18 @@ class WaypointGenerator:
             if point.only_for_player and not self.flight.client_count:
                 continue
             if isinstance(self.flight.state, InFlight):
+                if self.flight.flight_type in [
+                    FlightType.ESCORT,
+                    FlightType.SEAD_ESCORT,
+                ]:
+                    is_join = point.waypoint_type == FlightWaypointType.JOIN
+                    join_passed = self.flight.state.has_passed_waypoint(point)
+                    if (
+                        is_join
+                        and join_passed
+                        and point != self.flight.state.current_waypoint
+                    ):
+                        self.builder_for_waypoint(point).add_tasks(self.group.points[0])
                 if point == self.flight.state.current_waypoint:
                     # We don't need to build this waypoint because pydcs did that for
                     # us, but we do need to configure the tasks for it so that mid-

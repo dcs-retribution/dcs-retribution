@@ -32,6 +32,7 @@ from game.theater.theatergroundobject import (
     EwrGroundObject,
     SamGroundObject,
     VehicleGroupGroundObject,
+    ShipGroundObject,
 )
 from qt_ui.uiconstants import EVENT_ICONS
 
@@ -188,7 +189,8 @@ class QGroundObjectTemplateLayout(QGroupBox):
 
     @property
     def affordable(self) -> bool:
-        return self.cost <= self.game.blue.budget
+        coalition = self.ground_object.coalition
+        return self.cost <= coalition.budget or self.game.turn == 0
 
     def add_theater_group(
         self, group_name: str, force_group: ForceGroup, groups: list[TgoLayoutUnitGroup]
@@ -226,7 +228,8 @@ class QGroundObjectTemplateLayout(QGroupBox):
             self.game.theater.heading_to_conflict_from(self.ground_object.position)
             or self.ground_object.heading
         )
-        self.game.blue.budget -= self.cost
+        coalition = self.ground_object.coalition
+        coalition.budget -= self.cost if self.game.turn else 0
         self.ground_object.groups = []
         for group_name, groups in self.layout_model.groups.items():
             for group in groups:
@@ -276,13 +279,17 @@ class QGroundObjectBuyMenu(QDialog):
         elif isinstance(ground_object, EwrGroundObject):
             role = GroupRole.AIR_DEFENSE
             tasks.append(GroupTask.EARLY_WARNING_RADAR)
+        elif isinstance(ground_object, ShipGroundObject):
+            role = GroupRole.NAVAL
+            tasks.append(GroupTask.NAVY)
         else:
             raise NotImplementedError(f"Unhandled TGO type {ground_object.__class__}")
 
         if not tasks:
             tasks = role.tasks
 
-        for group in game.blue.armed_forces.groups_for_tasks(tasks):
+        coalition = ground_object.coalition
+        for group in coalition.armed_forces.groups_for_tasks(tasks):
             self.force_group_selector.addItem(group.name, userData=group)
         self.force_group_selector.setEnabled(self.force_group_selector.count() > 1)
         self.force_group_selector.adjustSize()

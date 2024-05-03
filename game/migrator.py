@@ -52,7 +52,7 @@ class Migrator:
                 continue
             found = False
             for d in doctrines:
-                if c.faction.doctrine.rendezvous_altitude == d.rendezvous_altitude:
+                if c.faction.doctrine.max_patrol_altitude == d.max_patrol_altitude:
                     c.faction.doctrine = d
                     found = True
                     break
@@ -78,6 +78,7 @@ class Migrator:
     def _update_control_points(self) -> None:
         is_sinai = self.game.theater.terrain.name == "SinaiMap"
         for cp in self.game.theater.controlpoints:
+            cp.release_parking_slots()
             is_carrier = cp.is_carrier
             is_lha = cp.is_lha
             is_fob = cp.category == "fob"
@@ -107,6 +108,7 @@ class Migrator:
         layout = f.flight_plan.layout
         try_set_attr(layout, "nav_to", [])
         try_set_attr(layout, "nav_from", [])
+        try_set_attr(layout, "custom_waypoints", [])
         if f.flight_type == FlightType.CAS:
             try_set_attr(layout, "ingress", None)
         if isinstance(layout, FormationLayout):
@@ -121,10 +123,14 @@ class Migrator:
             try_set_attr(f, "tacan")
             try_set_attr(f, "tcn_name")
             try_set_attr(f, "fuel", f.unit_type.max_fuel)
+            try_set_attr(f, "plane_altitude_offset", 0)
+            try_set_attr(f, "use_same_livery_for_all_members", True)
             if f.package in f.squadron.coalition.ato.packages:
                 self._update_flight_plan(f)
             else:
                 to_remove.append(f.id)
+            for m in f.roster.members:
+                try_set_attr(m, "livery", None)
         for fid in to_remove:
             self.game.db.flights.remove(fid)
 
@@ -156,6 +162,7 @@ class Migrator:
                 try_set_attr(s, "primary_task", preferred_task)
                 try_set_attr(s, "max_size", 12)
                 try_set_attr(s, "radio_presets", {})
+                try_set_attr(s, "livery_set", [])
                 if isinstance(s.country, str):
                     c = country_dict.get(s.country, s.country)
                     s.country = countries_by_name[c]()
@@ -201,12 +208,6 @@ class Migrator:
                 c.faction.air_defense_units = set(c.faction.air_defense_units)
             if isinstance(c.faction.missiles, list):
                 c.faction.missiles = set(c.faction.missiles)
-            if isinstance(c.faction.carrier_names, list):
-                c.faction.carrier_names = set(c.faction.carrier_names)
-            if isinstance(c.faction.helicopter_carrier_names, list):
-                c.faction.helicopter_carrier_names = set(
-                    c.faction.helicopter_carrier_names
-                )
             if isinstance(c.faction.naval_units, list):
                 c.faction.naval_units = set(c.faction.naval_units)
             if isinstance(c.faction.building_set, list):

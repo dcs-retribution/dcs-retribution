@@ -86,7 +86,7 @@ def capture_fuzz_failures(solver: IpSolver) -> Iterator[None]:
         WaypointSolverTestCaseReducer(
             solver.debug_output_directory, test_case_directory
         ).reduce()
-        ex.add_note(f"Reduced test case was written to {test_case_directory}")  # type: ignore
+        ex.add_note(f"Reduced test case was written to {test_case_directory}")
         raise
 
 

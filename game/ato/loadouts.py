@@ -137,11 +137,15 @@ class Loadout:
                 continue
             name = payload["name"]
             pylons = payload["pylons"]
-            yield Loadout(
-                name,
-                {p["num"]: Weapon.with_clsid(p["CLSID"]) for p in pylons.values()},
-                date=None,
-            )
+            try:
+                yield Loadout(
+                    name,
+                    {p["num"]: Weapon.with_clsid(p["CLSID"]) for p in pylons.values()},
+                    date=None,
+                )
+            except KeyError:
+                # invalid loadout
+                continue
 
     @staticmethod
     def valid_payload(pylons: Dict[int, Dict[str, str]]) -> bool:

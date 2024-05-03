@@ -2,7 +2,7 @@ from pathlib import Path
 
 
 MAJOR_VERSION = 1
-MINOR_VERSION = 3
+MINOR_VERSION = 4
 MICRO_VERSION = 0
 
 

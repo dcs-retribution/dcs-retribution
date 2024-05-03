@@ -314,8 +314,18 @@ class Settings:
         page=CAMPAIGN_DOCTRINE_PAGE,
         section=GENERAL_SECTION,
         default=False,
-        detail=("AI will jettison their fuel tanks as soon as they're empty."),
+        detail="AI will jettison their fuel tanks as soon as they're empty.",
     )
+    max_plane_altitude_offset: int = bounded_int_option(
+        "Maximum randomized altitude offset (x1000 ft) for airplanes.",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        min=0,
+        max=5,
+        default=2,
+        detail="Creates a randomized altitude offset for airplanes.",
+    )
+    # Doctrine Distances Section
     airbase_threat_range: int = bounded_int_option(
         "Airbase threat range (nmi)",
         page=CAMPAIGN_DOCTRINE_PAGE,
@@ -386,6 +396,32 @@ class Settings:
         detail=(
             "How far, at minimum, will theater tanker racetracks be "
             "planned to known threat zones."
+        ),
+    )
+    max_mission_range_planes: int = bounded_int_option(
+        "Auto-planner maximum mission range for airplanes (NM)",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=DOCTRINE_DISTANCES_SECTION,
+        default=150,
+        min=150,
+        max=1000,
+        detail=(
+            "The maximum mission distance that's used by the auto-planner for airplanes. "
+            "This setting won't take effect when a larger "
+            "range is defined in the airplane's yaml specification."
+        ),
+    )
+    max_mission_range_helicopters: int = bounded_int_option(
+        "Auto-planner maximum mission range for helicopters (NM)",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=DOCTRINE_DISTANCES_SECTION,
+        default=100,
+        min=50,
+        max=1000,
+        detail=(
+            "The maximum mission distance that's used by the auto-planner for helicopters. "
+            "This setting won't take effect when a larger "
+            "range is defined in the helicopter's yaml specification."
         ),
     )
     # Pilots and Squadrons
@@ -718,6 +754,16 @@ class Settings:
             "Warning: Options other than Cold will significantly reduce the number of "
             "targets available for OCA/Aircraft missions, and OCA/Aircraft flights "
             "will not be included in automatically planned OCA packages."
+        ),
+    )
+    nevatim_parking_fix: bool = boolean_option(
+        "Force air-starts for all aircraft at Nevatim",
+        page=MISSION_GENERATOR_PAGE,
+        section=GAMEPLAY_SECTION,
+        default=True,  # TODO: set to False or remove this when DCS is fixed
+        detail=(
+            "Air-starts forced for all aircraft at Nevatim except parking slots "
+            "55 till 65, since those are the only ones that work."
         ),
     )
     # Mission specific
@@ -1150,6 +1196,7 @@ class Settings:
     enable_transfer_cheat: bool = False
     enable_runway_state_cheat: bool = False
     enable_air_wing_adjustments: bool = False
+    enable_enemy_buy_sell: bool = False
 
     # LUA Plugins system
     plugins: Dict[str, bool] = field(default_factory=dict)

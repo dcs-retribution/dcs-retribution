@@ -8,7 +8,7 @@ from typing import Optional
 from typing import TYPE_CHECKING, Type
 
 from game.theater.missiontarget import MissionTarget
-from game.utils import feet, Distance
+from game.utils import Distance
 from ._common_ctld import generate_random_ctld_point
 from .ibuilder import IBuilder
 from .planningerror import PlanningError
@@ -92,6 +92,7 @@ class AirliftLayout(StandardLayout):
         if self.divert is not None:
             yield self.divert
         yield self.bullseye
+        yield from self.custom_waypoints
 
 
 class AirliftFlightPlan(StandardFlightPlan[AirliftLayout]):
@@ -132,11 +133,10 @@ class Builder(IBuilder[AirliftFlightPlan, AirliftLayout]):
                 "Cannot plan transport mission for flight with no cargo."
             )
 
-        heli_alt = feet(self.coalition.game.settings.heli_cruise_alt_agl)
-        altitude = heli_alt if self.flight.is_helo else self.doctrine.ingress_altitude
-        altitude_is_agl = self.flight.is_helo
-
         builder = WaypointBuilder(self.flight)
+
+        altitude = builder.get_cruise_altitude
+        altitude_is_agl = self.flight.is_helo
 
         pickup_ascent = None
         pickup_descent = None
@@ -246,6 +246,7 @@ class Builder(IBuilder[AirliftFlightPlan, AirliftLayout]):
             arrival=builder.land(self.flight.arrival),
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
+            custom_waypoints=list(),
         )
 
     def build(self, dump_debug_info: bool = False) -> AirliftFlightPlan:

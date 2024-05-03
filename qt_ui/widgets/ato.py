@@ -141,6 +141,7 @@ class QFlightList(QListView):
             )
             return
         self.package_model.add_flight(clone)
+        EventStream.put_nowait(GameUpdateEvents().new_flight(clone))
 
     def cancel_or_abort_flight(self, index: QModelIndex) -> None:
         self.package_model.cancel_or_abort_flight_at_index(index)
@@ -338,6 +339,10 @@ class QPackageList(QListView):
             )
             return
         self.ato_model.add_package(clone)
+        events = GameUpdateEvents()
+        for f in clone.flights:
+            events.new_flight(f)
+        EventStream.put_nowait(events)
 
     def delete_package(self, index: QModelIndex) -> None:
         self.ato_model.cancel_or_abort_package_at_index(index)
