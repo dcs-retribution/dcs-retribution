@@ -286,6 +286,7 @@ class PretenseLuaGenerator(LuaGenerator):
             "nasamsc",
             "rapier",
             "roland",
+            "hq7",
             "irondome",
             "davidsling",
         ]:
@@ -386,6 +387,8 @@ class PretenseLuaGenerator(LuaGenerator):
                         sam_presets["rapier"].enabled = True
                     if ground_unit.unit_type.dcs_unit_type == AirDefence.Roland_ADS:
                         sam_presets["roland"].enabled = True
+                    if ground_unit.unit_type.dcs_unit_type == AirDefence.HQ_7_STR_SP:
+                        sam_presets["hq7"].enabled = True
                     if ground_unit.unit_type.dcs_unit_type == IRON_DOME_LN:
                         sam_presets["irondome"].enabled = True
                     if ground_unit.unit_type.dcs_unit_type == DAVID_SLING_LN:
@@ -443,7 +446,7 @@ class PretenseLuaGenerator(LuaGenerator):
                         f"                presets.missions.{mission_name}:extend"
                         + "({name='"
                         + air_group
-                        + "', altitude=15000, expend=AI.Task.WeaponExpend.ONE}),\n"
+                        + "', altitude=15000, expend=AI.Task.WeaponExpend.QUARTER}),\n"
                     )
             elif mission_type == FlightType.BAI:
                 mission_name = "attack.bai"
@@ -454,7 +457,7 @@ class PretenseLuaGenerator(LuaGenerator):
                         f"                presets.missions.{mission_name}:extend"
                         + "({name='"
                         + air_group
-                        + "', altitude=10000, expend=AI.Task.WeaponExpend.ONE}),\n"
+                        + "', altitude=10000, expend=AI.Task.WeaponExpend.QUARTER}),\n"
                     )
             elif mission_type == FlightType.STRIKE:
                 mission_name = "attack.strike"
@@ -625,7 +628,7 @@ class PretenseLuaGenerator(LuaGenerator):
                         f"                presets.missions.{mission_name}:extend"
                         + "({name='"
                         + air_group
-                        + "', altitude=15000, expend=AI.Task.WeaponExpend.ONE}),\n"
+                        + "', altitude=15000, expend=AI.Task.WeaponExpend.QUARTER}),\n"
                     )
             elif mission_type == FlightType.BAI:
                 mission_name = "attack.bai"
@@ -636,7 +639,7 @@ class PretenseLuaGenerator(LuaGenerator):
                         f"                presets.missions.{mission_name}:extend"
                         + "({name='"
                         + air_group
-                        + "', altitude=10000, expend=AI.Task.WeaponExpend.ONE}),\n"
+                        + "', altitude=10000, expend=AI.Task.WeaponExpend.QUARTER}),\n"
                     )
             elif mission_type == FlightType.STRIKE:
                 mission_name = "attack.strike"
@@ -917,7 +920,7 @@ class PretenseLuaGenerator(LuaGenerator):
                 ]:
                     lua_string_carrier += (
                         f'{cp_name_trimmed}:addSupportFlight("{air_group}", 1000, CarrierCommand.{mission_name}, '
-                        + "{altitude = 15000, expend=AI.Task.WeaponExpend.ONE})\n"
+                        + "{altitude = 15000, expend=AI.Task.WeaponExpend.QUARTER})\n"
                     )
             elif mission_type == FlightType.BAI:
                 mission_name = "supportTypes.strike"
@@ -926,7 +929,7 @@ class PretenseLuaGenerator(LuaGenerator):
                 ]:
                     lua_string_carrier += (
                         f'{cp_name_trimmed}:addSupportFlight("{air_group}", 1000, CarrierCommand.{mission_name}, '
-                        + "{altitude = 10000, expend=AI.Task.WeaponExpend.ONE})\n"
+                        + "{altitude = 10000, expend=AI.Task.WeaponExpend.QUARTER})\n"
                     )
             elif mission_type == FlightType.STRIKE:
                 mission_name = "supportTypes.strike"
@@ -1169,9 +1172,11 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_ground_groups += "    units = {\n"
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.SHORAD, UnitClass.AAA, UnitClass.MANPAD])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.SHORAD, UnitClass.AAA, UnitClass.MANPAD])}",\n'
-        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.AAA, UnitClass.SHORAD, UnitClass.MANPAD])}",\n'
-        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.AAA, UnitClass.SHORAD, UnitClass.MANPAD])}"\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.AAA, UnitClass.SHORAD, UnitClass.MANPAD])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}"\n'
         lua_string_ground_groups += "            },\n"
         lua_string_ground_groups += "            maxDist = 300,\n"
         lua_string_ground_groups += f'            skill = "{skill_str}",\n'
@@ -1183,12 +1188,16 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_ground_groups += '                "p-19 s-125 sr",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += '                "S_75M_Volhov",\n'
         lua_string_ground_groups += '                "S_75M_Volhov",\n'
         lua_string_ground_groups += '                "S_75M_Volhov",\n'
         lua_string_ground_groups += '                "S_75M_Volhov",\n'
         lua_string_ground_groups += '                "S_75M_Volhov",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.SHORAD, UnitClass.AAA, UnitClass.MANPAD])}",\n'
+        lua_string_ground_groups += '                "RD_75",\n'
         lua_string_ground_groups += '                "SNR_75V"\n'
         lua_string_ground_groups += "            },\n"
         lua_string_ground_groups += "            maxDist = 300,\n"
@@ -1209,6 +1218,10 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_ground_groups += '                "Hawk ln",\n'
         lua_string_ground_groups += '                "Hawk tr",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += '                "Hawk sr"\n'
         lua_string_ground_groups += "            },\n"
         lua_string_ground_groups += "            maxDist = 300,\n"
@@ -1222,6 +1235,9 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_ground_groups += "    units = {\n"
         lua_string_ground_groups += '                "Patriot cp",\n'
         lua_string_ground_groups += '                "Patriot str",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += '                "Patriot ln",\n'
@@ -1247,6 +1263,9 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_ground_groups += '                "5p73 s-125 ln",\n'
         lua_string_ground_groups += '                "5p73 s-125 ln",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += '                "5p73 s-125 ln",\n'
         lua_string_ground_groups += '                "5p73 s-125 ln"\n'
         lua_string_ground_groups += "            },\n"
@@ -1263,8 +1282,11 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_ground_groups += '                "Kub 2P25 ln",\n'
         lua_string_ground_groups += '                "Kub 2P25 ln",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.SHORAD, UnitClass.AAA, UnitClass.MANPAD])}",\n'
-        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.SHORAD, UnitClass.AAA, UnitClass.MANPAD])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += '                "Kub 2P25 ln"\n'
         lua_string_ground_groups += "            },\n"
         lua_string_ground_groups += "            maxDist = 300,\n"
@@ -1283,6 +1305,8 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += '                "S-300PS 5P85C ln",\n'
         lua_string_ground_groups += '                "S-300PS 5P85C ln",\n'
         lua_string_ground_groups += '                "S-300PS 5P85C ln",\n'
@@ -1298,6 +1322,9 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_ground_groups += 'TemplateDB.templates["sa5-' + side_str + '"] = {\n'
         lua_string_ground_groups += "    units = {\n"
         lua_string_ground_groups += '                "RLS_19J6",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += '                "RPC_5N62V",\n'
@@ -1327,6 +1354,9 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_ground_groups += '                "SA-11 Buk SR 9S18M1",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += '                "SA-11 Buk CC 9S470M1"\n'
         lua_string_ground_groups += "            },\n"
         lua_string_ground_groups += "            maxDist = 300,\n"
@@ -1341,6 +1371,9 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_ground_groups += '                "NASAMS_Command_Post",\n'
         lua_string_ground_groups += '                "NASAMS_Radar_MPQ64F1",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.AAA, UnitClass.SHORAD, UnitClass.MANPAD])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.SHORAD, UnitClass.AAA, UnitClass.MANPAD])}",\n'
@@ -1367,6 +1400,9 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.AAA, UnitClass.SHORAD, UnitClass.MANPAD])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.SHORAD, UnitClass.AAA, UnitClass.MANPAD])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.SHORAD, UnitClass.AAA, UnitClass.MANPAD])}",\n'
         lua_string_ground_groups += '                "NASAMS_LN_C",\n'
@@ -1389,6 +1425,9 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_ground_groups += '                "rapier_fsa_blindfire_radar",\n'
         lua_string_ground_groups += '                "rapier_fsa_blindfire_radar",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.AAA, UnitClass.SHORAD, UnitClass.MANPAD])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.SHORAD, UnitClass.AAA, UnitClass.MANPAD])}",\n'
@@ -1421,6 +1460,9 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.AAA, UnitClass.SHORAD, UnitClass.MANPAD])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.SHORAD, UnitClass.AAA, UnitClass.MANPAD])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.SHORAD, UnitClass.AAA, UnitClass.MANPAD])}",\n'
         lua_string_ground_groups += '                "Roland ADS",\n'
@@ -1430,6 +1472,31 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_ground_groups += '                "Roland Radar",\n'
         lua_string_ground_groups += '                "Roland Radar",\n'
         lua_string_ground_groups += '                "Roland Radar"\n'
+        lua_string_ground_groups += "            },\n"
+        lua_string_ground_groups += "            maxDist = 300,\n"
+        lua_string_ground_groups += f'            skill = "{skill_str}",\n'
+        lua_string_ground_groups += "            dataCategory = TemplateDB.type.group\n"
+        lua_string_ground_groups += "}\n"
+
+        lua_string_ground_groups += 'TemplateDB.templates["hq7-' + side_str + '"] = {\n'
+        lua_string_ground_groups += "    units = {\n"
+        lua_string_ground_groups += '                "HQ-7_LN_EO",\n'
+        lua_string_ground_groups += '                "HQ-7_LN_EO",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.AAA, UnitClass.SHORAD, UnitClass.MANPAD])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.SHORAD, UnitClass.AAA, UnitClass.MANPAD])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.SHORAD, UnitClass.AAA, UnitClass.MANPAD])}",\n'
+        lua_string_ground_groups += '                "HQ-7_LN_SP",\n'
+        lua_string_ground_groups += '                "HQ-7_LN_SP",\n'
+        lua_string_ground_groups += '                "HQ-7_LN_SP",\n'
+        lua_string_ground_groups += '                "HQ-7_LN_SP",\n'
+        lua_string_ground_groups += '                "HQ-7_STR_SP",\n'
+        lua_string_ground_groups += '                "HQ-7_STR_SP",\n'
+        lua_string_ground_groups += '                "HQ-7_STR_SP"\n'
         lua_string_ground_groups += "            },\n"
         lua_string_ground_groups += "            maxDist = 300,\n"
         lua_string_ground_groups += f'            skill = "{skill_str}",\n'
@@ -1599,12 +1666,11 @@ class PretenseLuaGenerator(LuaGenerator):
                     connected_points, cp.name, other_cp.name
                 )
             for sea_connection in cp.shipping_lanes:
-                if sea_connection.is_friendly_to(cp):
-                    lua_string_connman += self.generate_pretense_zone_connection(
-                        connected_points,
-                        cp.name,
-                        sea_connection.name,
-                    )
+                lua_string_connman += self.generate_pretense_zone_connection(
+                    connected_points,
+                    cp.name,
+                    sea_connection.name,
+                )
             if len(cp.connected_points) == 0 and len(cp.shipping_lanes) == 0:
                 # Also connect carrier and LHA control points to adjacent friendly points
                 if cp.is_fleet and (
