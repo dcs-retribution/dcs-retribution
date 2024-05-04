@@ -5,7 +5,9 @@ from typing import Any, Tuple
 from dcs import Mission
 from dcs.country import Country
 from dcs.mapping import Vector2, Point
-from dcs.terrain import NoParkingSlotError
+from dcs.terrain import NoParkingSlotError, TheChannel, Falklands
+from dcs.terrain.falklands.airports import San_Carlos_FOB, Goose_Green, Gull_Point
+from dcs.terrain.thechannel.airports import Manston
 from dcs.unitgroup import (
     FlyingGroup,
     ShipGroup,
@@ -37,6 +39,10 @@ class PretenseNameGenerator(NameGenerator):
 
 
 namegen = PretenseNameGenerator
+# Air-start AI aircraft which are faster than this on WWII terrains
+# 1000 km/h is just above the max speed of the Harrier and Su-25,
+# so they will still start normally from grass and dirt strips
+WW2_TERRAIN_SUPERSONIC_AI_AIRSTART_SPEED = 1000
 
 
 class PretenseFlightGroupSpawner(FlightGroupSpawner):
@@ -147,11 +153,35 @@ class PretenseFlightGroupSpawner(FlightGroupSpawner):
                 raise NoParkingSlotError
             elif isinstance(cp, Airfield):
                 is_heli = self.flight.squadron.aircraft.helicopter
+                is_vtol = not is_heli and self.flight.squadron.aircraft.lha_capable
                 if cp.has_helipads and is_heli:
                     self.insert_into_pretense(name)
                     pad_group = self._generate_at_cp_helipad(name, cp)
                     if pad_group is not None:
                         return pad_group
+                # Air-start supersonic AI aircraft if the campaign is being flown in a WWII terrain
+                # This will improve these terrains' use in cold war campaigns
+                if isinstance(cp.theater.terrain, TheChannel) and not isinstance(
+                    cp.dcs_airport, Manston
+                ):
+                    if (
+                        self.flight.client_count == 0
+                        and self.flight.squadron.aircraft.max_speed.speed_in_kph
+                        > WW2_TERRAIN_SUPERSONIC_AI_AIRSTART_SPEED
+                    ):
+                        self.insert_into_pretense(name)
+                        return self._generate_over_departure(name, cp)
+                # Air-start AI fixed wing (non-VTOL) aircraft if the campaign is being flown in the South Atlantic terrain and
+                # the airfield is one of the Harrier-only ones in East Falklands.
+                # This will help avoid AI aircraft from smashing into the end of the runway and exploding.
+                if isinstance(cp.theater.terrain, Falklands) and (
+                    isinstance(cp.dcs_airport, San_Carlos_FOB)
+                    or isinstance(cp.dcs_airport, Goose_Green)
+                    or isinstance(cp.dcs_airport, Gull_Point)
+                ):
+                    if self.flight.client_count == 0 and is_vtol:
+                        self.insert_into_pretense(name)
+                        return self._generate_over_departure(name, cp)
                 if (
                     cp.has_ground_spawns
                     and len(self.ground_spawns[cp])
