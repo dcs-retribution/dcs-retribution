@@ -77,8 +77,6 @@ class PretenseMissionGenerator(MissionGenerator):
         now = datetime.now()
         date_time = now.strftime("%Y-%d-%mT%H_%M_%S")
         game_backup_pickle = pickle.dumps(self.game)
-        blue_coalition_backup = copy.deepcopy(self.game.blue)
-        red_coalition_backup = copy.deepcopy(self.game.red)
         try:
             with open(
                 self.game.savepath + ".pre-pretense-backup." + date_time, "wb"
@@ -161,8 +159,6 @@ class PretenseMissionGenerator(MissionGenerator):
             f"Loading pre-pretense save, number of BLUFOR squadrons: {len(self.game.blue.air_wing.squadrons)}"
         )
         self.game = pickle.loads(game_backup_pickle)
-        self.game.blue = copy.deepcopy(blue_coalition_backup)
-        self.game.red = copy.deepcopy(red_coalition_backup)
         print(
             f"Loaded pre-pretense save, number of BLUFOR squadrons: {len(self.game.blue.air_wing.squadrons)}"
         )
