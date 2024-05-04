@@ -101,6 +101,7 @@ class Builder(IBuilder[PretenseCargoFlightPlan, FerryLayout]):
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
             nav_from=[],
+            custom_waypoints=list(),
         )
         ferry_layout.departure = builder.join(offmap_transport_spawn)
         ferry_layout.nav_to.append(builder.join(offmap_transport_spawn))
