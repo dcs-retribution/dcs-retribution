@@ -247,7 +247,7 @@ class QFlightCreator(QDialog):
         self.roster_editor.replace(None, None)
         if squadron is not None:
             self.roster_editor.replace(
-                FlightRoster(squadron, self.flight_size_spinner.value())
+                squadron, FlightRoster(squadron, self.flight_size_spinner.value())
             )
             self.on_departure_changed(squadron.location)
 
