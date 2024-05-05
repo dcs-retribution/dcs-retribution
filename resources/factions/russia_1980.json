@@ -2,23 +2,27 @@
   "country": "Russia",
   "name": "Russia 1980",
   "authors": "Starfire",
-  "description": "<p>Soviet army in the 1980s.</p>",
+  "description": "<p>Soviet military in the 1980s.</p>",
   "locales": [
     "ru_RU"
   ],
   "aircrafts": [
+    "IL-76MD",
     "Mi-24V Hind-E",
     "Mi-24P Hind-F",
     "Mi-8MTV2 Hip",
     "MiG-21bis Fishbed-N",
     "MiG-23MLD Flogger-K",
     "MiG-25PD Foxbat-E",
+    "MiG-27K Flogger-J2",
     "MiG-29A Fulcrum-A",
+    "MiG-31 Foxhound",
     "Su-17M4 Fitter-K",
     "Su-24M Fencer-D",
     "Su-25 Frogfoot",
+    "Su-27 Flanker-B",
     "Tu-142 Bear-F",
-	"Tu-22M3 Backfire-C",
+    "Tu-22M3 Backfire-C",
     "Tu-95MS Bear-H"
   ],
   "awacs": [
@@ -60,7 +64,9 @@
     "KS-19/SON-9"
   ],
   "naval_units": [
-    "Corvette 1241.1 Molniya"
+    "Corvette 1241.1 Molniya",
+    "Corvette 1124.4 Grish",
+    "SSK 877V Kilo"
   ],
   "air_defense_units": [
     "SAM P19 \"Flat Face\" SR (SA-2/3)",
