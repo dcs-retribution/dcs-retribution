@@ -288,7 +288,7 @@ class Settings:
         section=GENERAL_SECTION,
         default=True,
         detail=(
-            "Automatically swaps ATFLIR to LITENING pod for newly generated land-based F-18 flights "
+            "Automatically swaps ATFLIR to LITENING pod for newly generated land-based F/A-18 flights "
             "without having to change the payload. <u>Takes effect after current turn!</u>"
         ),
     )
@@ -310,7 +310,7 @@ class Settings:
     )
     # Doctrine Distances Section
     airbase_threat_range: int = bounded_int_option(
-        "Airbase threat range (nmi)",
+        "Airbase threat range (NM)",
         page=CAMPAIGN_DOCTRINE_PAGE,
         section=DOCTRINE_DISTANCES_SECTION,
         default=100,
@@ -322,7 +322,7 @@ class Settings:
         ),
     )
     cas_engagement_range_distance: int = bounded_int_option(
-        "CAS engagement range (nmi)",
+        "CAS engagement range (NM)",
         page=CAMPAIGN_DOCTRINE_PAGE,
         section=DOCTRINE_DISTANCES_SECTION,
         default=10,
@@ -330,7 +330,7 @@ class Settings:
         max=100,
     )
     sead_sweep_engagement_range_distance: int = bounded_int_option(
-        "SEAD Sweep engagement range (nmi)",
+        "SEAD Sweep engagement range (NM)",
         page=CAMPAIGN_DOCTRINE_PAGE,
         section=DOCTRINE_DISTANCES_SECTION,
         default=30,
@@ -338,7 +338,7 @@ class Settings:
         max=100,
     )
     sead_threat_buffer_min_distance: int = bounded_int_option(
-        "SEAD Escort/Sweep threat buffer distance (nmi)",
+        "SEAD Escort/Sweep threat buffer distance (NM)",
         page=CAMPAIGN_DOCTRINE_PAGE,
         section=DOCTRINE_DISTANCES_SECTION,
         default=5,
@@ -349,7 +349,7 @@ class Settings:
         ),
     )
     tarcap_threat_buffer_min_distance: int = bounded_int_option(
-        "TARCAP threat buffer distance (nmi)",
+        "TARCAP threat buffer distance (NM)",
         page=CAMPAIGN_DOCTRINE_PAGE,
         section=DOCTRINE_DISTANCES_SECTION,
         default=20,
@@ -358,7 +358,7 @@ class Settings:
         detail=("How close to known threats will the TARCAP racetrack extend."),
     )
     aewc_threat_buffer_min_distance: int = bounded_int_option(
-        "AEW&C threat buffer distance (nmi)",
+        "AEW&C threat buffer distance (NM)",
         page=CAMPAIGN_DOCTRINE_PAGE,
         section=DOCTRINE_DISTANCES_SECTION,
         default=80,
@@ -370,7 +370,7 @@ class Settings:
         ),
     )
     tanker_threat_buffer_min_distance: int = bounded_int_option(
-        "Theater tanker threat buffer distance (nmi)",
+        "Theater tanker threat buffer distance (NM)",
         page=CAMPAIGN_DOCTRINE_PAGE,
         section=DOCTRINE_DISTANCES_SECTION,
         default=70,
@@ -530,7 +530,7 @@ class Settings:
         default=True,
     )
     auto_procurement_balance: int = bounded_int_option(
-        "AI ground unit procurement budget ratio (%) for BLUE",
+        "AI ground unit procurement budget ratio (%) for OWNFOR",
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         min=0,
@@ -543,7 +543,7 @@ class Settings:
         ),
     )
     frontline_reserves_factor: int = bounded_int_option(
-        "AI ground unit front-line reserves factor (%) for BLUE",
+        "AI ground unit front-line reserves factor (%) for OWNFOR",
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         min=0,
@@ -555,18 +555,18 @@ class Settings:
         ),
     )
     reserves_procurement_target: int = bounded_int_option(
-        "AI ground unit reserves procurement target for BLUE",
+        "AI ground unit reserves procurement target for OWNFOR",
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         min=0,
         max=1000,
         default=10,
         detail=(
-            "The number of units that will be bought as reserves for applicable control points"
+            "The number of units that will be bought as reserves for applicable control points."
         ),
     )
     auto_procurement_balance_red: int = bounded_int_option(
-        "AI ground unit procurement budget ratio (%) for RED",
+        "AI ground unit procurement budget ratio (%) for OPFOR",
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         min=0,
@@ -579,7 +579,7 @@ class Settings:
         ),
     )
     frontline_reserves_factor_red: int = bounded_int_option(
-        "AI ground unit front-line reserves factor (%) for RED",
+        "AI ground unit front-line reserves factor (%) for OPFOR",
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         min=0,
@@ -591,14 +591,14 @@ class Settings:
         ),
     )
     reserves_procurement_target_red: int = bounded_int_option(
-        "AI ground unit reserves procurement target for RED",
+        "AI ground unit reserves procurement target for OPFOR",
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         min=0,
         max=1000,
         default=10,
         detail=(
-            "The number of units that will be bought as reserves for applicable control points"
+            "The number of units that will be bought as reserves for applicable control points."
         ),
     )
 
@@ -975,7 +975,7 @@ class Settings:
         default=True,
     )
     perf_disable_untasked_blufor_aircraft: bool = boolean_option(
-        "Disable untasked BLUFOR aircraft at airfields",
+        "Disable untasked OWNFOR aircraft at airfields",
         page=MISSION_GENERATOR_PAGE,
         section=PERFORMANCE_SECTION,
         default=False,
