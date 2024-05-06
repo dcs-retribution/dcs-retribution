@@ -58,7 +58,7 @@ class CheatSettingsBox(QGroupBox):
         self.red_ato_checkbox = QCheckBox()
         self.red_ato_checkbox.setChecked(sc.settings.show_red_ato)
         self.red_ato_checkbox.toggled.connect(apply_settings)
-        self.red_ato = QLabeledWidget("Show Red ATO:", self.red_ato_checkbox)
+        self.red_ato = QLabeledWidget("Show OPFOR ATO:", self.red_ato_checkbox)
         self.main_layout.addLayout(self.red_ato)
 
         # Frontline
