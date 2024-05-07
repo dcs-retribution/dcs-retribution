@@ -286,11 +286,11 @@ presets = {
 				type='defense',
 				template='davidsling-red',
 			}),
-			redShipGroup = Preset:new({
+			hq7 = Preset:new({
 				display = 'SAM',
 				cost=3000,
 				type='defense',
-				template='redShipGroup',
+				template='hq7-red',
 			})
 		},
 		blue = {
@@ -396,11 +396,11 @@ presets = {
 				type='defense',
 				template='davidsling-blue',
 			}),
-			blueShipGroup = Preset:new({
+			hq7 = Preset:new({
 				display = 'SAM',
 				cost=3000,
 				type='defense',
-				template='blueShipGroup',
+				template='hq7-blue',
 			})
 		}
 	},
