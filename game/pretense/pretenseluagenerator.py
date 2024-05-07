@@ -1503,6 +1503,62 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_ground_groups += "            dataCategory = TemplateDB.type.group\n"
         lua_string_ground_groups += "}\n"
 
+        lua_string_ground_groups += (
+            'TemplateDB.templates["irondome-' + side_str + '"] = {\n'
+        )
+        lua_string_ground_groups += "    units = {\n"
+        lua_string_ground_groups += '                "Iron_Dome_David_Sling_CP",\n'
+        lua_string_ground_groups += '                "ELM2084_MMR_AD_RT",\n'
+        lua_string_ground_groups += '                "ELM2084_MMR_AD_SC",\n'
+        lua_string_ground_groups += '                "ELM2084_MMR_WLR",\n'
+        lua_string_ground_groups += '                "IRON_DOME_LN",\n'
+        lua_string_ground_groups += '                "IRON_DOME_LN",\n'
+        lua_string_ground_groups += '                "IRON_DOME_LN",\n'
+        lua_string_ground_groups += '                "IRON_DOME_LN",\n'
+        lua_string_ground_groups += '                "IRON_DOME_LN",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.SHORAD, UnitClass.AAA, UnitClass.MANPAD])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.SHORAD, UnitClass.AAA, UnitClass.MANPAD])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.AAA, UnitClass.SHORAD, UnitClass.MANPAD])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.AAA, UnitClass.SHORAD, UnitClass.MANPAD])}"\n'
+        lua_string_ground_groups += "            },\n"
+        lua_string_ground_groups += "            maxDist = 300,\n"
+        lua_string_ground_groups += f'            skill = "{skill_str}",\n'
+        lua_string_ground_groups += "            dataCategory = TemplateDB.type.group\n"
+        lua_string_ground_groups += "}\n"
+
+        lua_string_ground_groups += (
+            'TemplateDB.templates["davidsling-' + side_str + '"] = {\n'
+        )
+        lua_string_ground_groups += "    units = {\n"
+        lua_string_ground_groups += '                "Iron_Dome_David_Sling_CP",\n'
+        lua_string_ground_groups += '                "ELM2084_MMR_AD_RT",\n'
+        lua_string_ground_groups += '                "ELM2084_MMR_AD_SC",\n'
+        lua_string_ground_groups += '                "ELM2084_MMR_WLR",\n'
+        lua_string_ground_groups += '                "DAVID_SLING_LN",\n'
+        lua_string_ground_groups += '                "DAVID_SLING_LN",\n'
+        lua_string_ground_groups += '                "DAVID_SLING_LN",\n'
+        lua_string_ground_groups += '                "DAVID_SLING_LN",\n'
+        lua_string_ground_groups += '                "DAVID_SLING_LN",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.SHORAD, UnitClass.AAA, UnitClass.MANPAD])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.SHORAD, UnitClass.AAA, UnitClass.MANPAD])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.AAA, UnitClass.SHORAD, UnitClass.MANPAD])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.AAA, UnitClass.SHORAD, UnitClass.MANPAD])}"\n'
+        lua_string_ground_groups += "            },\n"
+        lua_string_ground_groups += "            maxDist = 300,\n"
+        lua_string_ground_groups += f'            skill = "{skill_str}",\n'
+        lua_string_ground_groups += "            dataCategory = TemplateDB.type.group\n"
+        lua_string_ground_groups += "}\n"
+
         return lua_string_ground_groups
 
     @staticmethod
