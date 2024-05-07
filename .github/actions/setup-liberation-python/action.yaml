@@ -1,5 +1,5 @@
-name: Liberation Python set-up
-description: Sets up the Liberation Python environment.
+name: Retribution Python set-up
+description: Sets up the Retribution Python environment.
 runs:
   using: composite
   steps:

@@ -3,7 +3,7 @@
     "defaultValue": true,
     "specificOptions": [
         {
-            "nameInUI": "Tailor CTLD for the Liberation specific missions",
+            "nameInUI": "Tailor CTLD for the Retribution specific missions",
             "mnemonic": "tailorctld",
             "defaultValue": true
         },
