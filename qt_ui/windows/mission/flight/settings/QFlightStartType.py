@@ -67,9 +67,7 @@ class QFlightStartType(QGroupBox):
                 self.flight.coalition.game.settings.default_start_type
             )
 
-        for i, st in enumerate([b for b in ["Cold", "Warm", "Runway", "In Flight"]]):
-            if self.flight.start_type.value == st:
-                self.start_type.setCurrentIndex(i)
+        self.start_type.setCurrentText(self.flight.start_type.value)
 
         self.package_model.update_tot()
 
