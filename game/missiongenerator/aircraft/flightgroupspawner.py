@@ -137,7 +137,9 @@ class FlightGroupSpawner:
                     slot
                     for slot in cp.dcs_airport.free_parking_slots(ac_type)
                     if slot.slot_name
-                    in [str(n) for n in [1, 2, 3, 4, 5, 6, 13, 14, 15, 16, 17, 18, 61]]
+                    not in [
+                        str(n) for n in [1, 2, 3, 4, 5, 6, 13, 14, 15, 16, 17, 18, 61]
+                    ]
                 ]
             group = self._generate_at_airfield(
                 name=namegen.next_aircraft_name(self.country, self.flight),
@@ -230,7 +232,7 @@ class FlightGroupSpawner:
                             self.flight.squadron.aircraft.dcs_unit_type
                         )
                         if slot.slot_name
-                        in [
+                        not in [
                             str(n)
                             for n in [1, 2, 3, 4, 5, 6, 13, 14, 15, 16, 17, 18, 61]
                         ]
