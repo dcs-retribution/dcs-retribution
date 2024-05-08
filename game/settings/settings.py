@@ -746,7 +746,7 @@ class Settings:
         default=True,  # TODO: set to False or remove this when DCS is fixed
         detail=(
             "Air-starts forced for all aircraft at Nevatim and Ramon Airbase except parking slots "
-            "55 till 65, since those are the only ones that work."
+            "which are known to work as of DCS World 2.9.4.53990."
         ),
     )
     # Mission specific
