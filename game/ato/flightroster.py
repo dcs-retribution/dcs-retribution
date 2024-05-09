@@ -22,6 +22,10 @@ class FlightRoster(IFlightRoster):
     def iter_pilots(self) -> Iterator[Pilot | None]:
         yield from self.pilots
 
+    @property
+    def player_count(self) -> int:
+        return len([p for p in self.pilots if p is not None and p.player])
+
     def pilot_at(self, idx: int) -> Pilot | None:
         return self.pilots[idx]
 

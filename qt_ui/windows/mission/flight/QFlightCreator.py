@@ -89,8 +89,7 @@ class QFlightCreator(QDialog):
             roster = None
         else:
             roster = FlightRoster(
-                squadron,
-                initial_size=self.flight_size_spinner.value(),
+                squadron, initial_size=self.flight_size_spinner.value()
             )
         self.roster_editor = FlightRosterEditor(squadron, roster)
         self.flight_size_spinner.valueChanged.connect(self.roster_editor.resize)
@@ -100,10 +99,12 @@ class QFlightCreator(QDialog):
         roster_layout.addWidget(QLabel("Assigned pilots:"))
         roster_layout.addLayout(self.roster_editor)
 
+        self.roster_editor.pilots_changed.connect(self.on_pilot_selected)
+
         # When an off-map spawn overrides the start type to in-flight, we save
         # the selected type into this value. If a non-off-map spawn is selected
         # we restore the previous choice.
-        self.restore_start_type = self.game.settings.default_start_type
+        self.restore_start_type: Optional[str] = None
         self.start_type = QComboBox()
         for start_type in StartType:
             self.start_type.addItem(start_type.value, start_type)
@@ -139,6 +140,8 @@ class QFlightCreator(QDialog):
         layout.addWidget(self.create_button, alignment=Qt.AlignmentFlag.AlignRight)
 
         self.setLayout(layout)
+
+        self.roster_editor.pilots_changed.emit()
 
     def reject(self) -> None:
         super().reject()
@@ -213,6 +216,8 @@ class QFlightCreator(QDialog):
         )
         self.divert.change_aircraft(new_aircraft)
 
+        self.roster_editor.pilots_changed.emit()
+
     def on_departure_changed(self, departure: ControlPoint) -> None:
         if isinstance(departure, OffMapSpawn):
             previous_type = self.start_type.currentData()
@@ -245,6 +250,8 @@ class QFlightCreator(QDialog):
             )
             self.on_departure_changed(squadron.location)
 
+            self.roster_editor.pilots_changed.emit()
+
     def update_max_size(self, available: int) -> None:
         aircraft = self.aircraft_selector.currentData()
         if aircraft is None:
@@ -255,3 +262,23 @@ class QFlightCreator(QDialog):
 
         default_size = max(2, available, aircraft.max_group_size)
         self.flight_size_spinner.setValue(default_size)
+
+        try:
+            self.roster_editor.pilots_changed.emit()
+        except AttributeError:
+            return
+
+    def on_pilot_selected(self):
+        # Pilot selection detected. If this is a player flight, set start_type
+        # as configured for players in the settings.
+        # Otherwise, set the start_type as configured for AI.
+        # https://github.com/dcs-liberation/dcs_liberation/issues/1567
+
+        roster = self.roster_editor.roster
+
+        if roster is not None and roster.player_count > 0:
+            start_type = self.game.settings.default_start_type_client
+        else:
+            start_type = self.game.settings.default_start_type
+
+        self.start_type.setCurrentText(start_type.value)
