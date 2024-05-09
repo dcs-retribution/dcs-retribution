@@ -1,4 +1,3 @@
-from PySide6.QtCore import Signal
 from PySide6.QtWidgets import (
     QComboBox,
     QGroupBox,
@@ -7,7 +6,6 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 
-from game import Game
 from game.ato.flight import Flight
 from game.ato.starttype import StartType
 from game.theater import OffMapSpawn
@@ -15,12 +13,7 @@ from qt_ui.models import PackageModel
 
 
 class QFlightStartType(QGroupBox):
-    def __init__(
-        self,
-        package_model: PackageModel,
-        flight: Flight,
-        pilots_changed: Signal,
-    ):
+    def __init__(self, package_model: PackageModel, flight: Flight):
         super().__init__()
         self.package_model = package_model
         self.flight = flight
@@ -49,8 +42,6 @@ class QFlightStartType(QGroupBox):
             )
         )
         self.setLayout(self.layout)
-
-        pilots_changed.connect(self.on_pilot_selected)
 
     def on_pilot_selected(self):
         # Pilot selection detected. If this is a player flight, set start_type
