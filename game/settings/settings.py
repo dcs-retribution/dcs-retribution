@@ -748,13 +748,13 @@ class Settings:
         detail=("Default start type for flights containing Player/Client slots."),
     )
     nevatim_parking_fix: bool = boolean_option(
-        "Force air-starts for all aircraft at Nevatim",
+        "Force air-starts for aircraft at Nevatim and Ramon Airbase inoperable parking slots",
         page=MISSION_GENERATOR_PAGE,
         section=GAMEPLAY_SECTION,
         default=True,  # TODO: set to False or remove this when DCS is fixed
         detail=(
-            "Air-starts forced for all aircraft at Nevatim except parking slots "
-            "55 till 65, since those are the only ones that work."
+            "Air-starts forced for all aircraft at Nevatim and Ramon Airbase except parking slots "
+            "which are known to work as of DCS World 2.9.4.53990."
         ),
     )
     # Mission specific
