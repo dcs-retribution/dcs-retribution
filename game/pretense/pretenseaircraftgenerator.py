@@ -529,6 +529,12 @@ class PretenseAircraftGenerator:
                 StartType.COLD,
                 divert=cp,
             )
+            if flight.roster is not None and flight.roster.player_count > 0:
+                flight.start_type = (
+                    squadron.coalition.game.settings.default_start_type_client
+                )
+            else:
+                flight.start_type = squadron.coalition.game.settings.default_start_type
             package.add_flight(flight)
             flight.state = WaitingForStart(
                 flight, self.game.settings, self.game.conditions.start_time
@@ -683,6 +689,13 @@ class PretenseAircraftGenerator:
                     flight, self.game.settings, self.game.conditions.start_time
                 )
                 ato.add_package(package)
+        if squadron is not None:
+            if flight.roster is not None and flight.roster.player_count > 0:
+                flight.start_type = (
+                    squadron.coalition.game.settings.default_start_type_client
+                )
+            else:
+                flight.start_type = squadron.coalition.game.settings.default_start_type
         return
 
     def generate_pretense_aircraft_for_players(
@@ -730,7 +743,7 @@ class PretenseAircraftGenerator:
                         squadron,
                         aircraft_per_flight,
                         squadron.primary_task,
-                        StartType.COLD,
+                        squadron.coalition.game.settings.default_start_type_client,
                         divert=cp,
                     )
                     for roster_pilot in flight.roster.members:
