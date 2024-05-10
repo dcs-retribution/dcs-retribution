@@ -564,6 +564,7 @@ class PretenseAircraftGenerator:
         """
 
         aircraft_per_flight = 1
+        squadron: Optional[Squadron] = None
         if (cp.has_helipads or isinstance(cp, Airfield)) and not cp.is_fleet:
             flight_type = FlightType.AIR_ASSAULT
             squadron = self.generate_pretense_squadron(
