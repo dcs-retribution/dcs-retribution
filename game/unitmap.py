@@ -1,4 +1,4 @@
-"""Maps generated units back to their Liberation types."""
+"""Maps generated units back to their Retribution types."""
 from __future__ import annotations
 
 import itertools

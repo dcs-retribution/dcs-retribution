@@ -19,7 +19,7 @@ from dcs.planes import (
 from dcs.point import PointAction
 from dcs.ships import KUZNECOW
 from dcs.terrain import NoParkingSlotError, Sinai, ParkingSlot
-from dcs.terrain.sinai.airports import Nevatim
+from dcs.terrain.sinai.airports import Nevatim, Ramon_Airbase
 from dcs.unitgroup import (
     FlyingGroup,
     ShipGroup,
@@ -133,6 +133,16 @@ class FlightGroupSpawner:
                     for slot in cp.dcs_airport.free_parking_slots(ac_type)
                     if slot.slot_name in [str(n) for n in range(55, 66)]
                 ]
+            elif self._check_ramon_airbase_hack(cp):
+                ac_type = self.flight.unit_type.dcs_unit_type
+                slots = [
+                    slot
+                    for slot in cp.dcs_airport.free_parking_slots(ac_type)
+                    if slot.slot_name
+                    not in [
+                        str(n) for n in [1, 2, 3, 4, 5, 6, 13, 14, 15, 16, 17, 18, 61]
+                    ]
+                ]
             group = self._generate_at_airfield(
                 name=namegen.next_aircraft_name(self.country, self.flight),
                 airfield=cp,
@@ -234,17 +244,7 @@ class FlightGroupSpawner:
                     if pad_group is not None:
                         return pad_group
 
-                # TODO: get rid of the nevatim hack once fixed in DCS...
-                if self._check_nevatim_hack(cp):
-                    slots = [
-                        slot
-                        for slot in cp.dcs_airport.free_parking_slots(
-                            self.flight.squadron.aircraft.dcs_unit_type
-                        )
-                        if slot.slot_name in [str(n) for n in range(55, 66)]
-                    ]
-                    return self._generate_at_airfield(name, cp, slots)
-                elif (
+                if (
                     cp.has_ground_spawns
                     and len(self.ground_spawns[cp])
                     + len(self.ground_spawns_roadbase[cp])
@@ -255,7 +255,32 @@ class FlightGroupSpawner:
                     if pad_group is not None:
                         return pad_group
                 try:
-                    return self._generate_at_airfield(name, cp)
+                    # TODO: get rid of the nevatim hack once fixed in DCS...
+                    if self._check_nevatim_hack(cp):
+                        slots = [
+                            slot
+                            for slot in cp.dcs_airport.free_parking_slots(
+                                self.flight.squadron.aircraft.dcs_unit_type
+                            )
+                            if slot.slot_name in [str(n) for n in range(55, 66)]
+                        ]
+                        return self._generate_at_airfield(name, cp, slots)
+                    elif self._check_ramon_airbase_hack(cp):
+                        # TODO: get rid of the ramon airbase hack once fixed in DCS...
+                        slots = [
+                            slot
+                            for slot in cp.dcs_airport.free_parking_slots(
+                                self.flight.squadron.aircraft.dcs_unit_type
+                            )
+                            if slot.slot_name
+                            not in [
+                                str(n)
+                                for n in [1, 2, 3, 4, 5, 6, 13, 14, 15, 16, 17, 18, 61]
+                            ]
+                        ]
+                        return self._generate_at_airfield(name, cp, slots)
+                    else:
+                        return self._generate_at_airfield(name, cp)
                 except NoParkingSlotError:
                     if (
                         cp.has_ground_spawns
@@ -287,6 +312,13 @@ class FlightGroupSpawner:
         nevatim_hack &= isinstance(self.mission.terrain, Sinai)
         nevatim_hack &= isinstance(cp.dcs_airport, Nevatim)
         return nevatim_hack
+
+    def _check_ramon_airbase_hack(self, cp: ControlPoint) -> bool:
+        # TODO: get rid of the ramon airbase hack once fixed in DCS...
+        ramon_airbase_hack = self.flight.coalition.game.settings.nevatim_parking_fix
+        ramon_airbase_hack &= isinstance(self.mission.terrain, Sinai)
+        ramon_airbase_hack &= isinstance(cp.dcs_airport, Ramon_Airbase)
+        return ramon_airbase_hack
 
     def generate_mid_mission(self) -> FlyingGroup[Any]:
         assert isinstance(self.flight.state, InFlight)

@@ -38,6 +38,17 @@ class QGeneralFlightSettingsTab(QFrame):
         self.flight_slot_editor.flight_resized.connect(self.flight_size_changed)
         for pc in self.flight_slot_editor.roster_editor.pilot_controls:
             pc.player_toggled.connect(self.on_player_toggle)
+            pc.player_toggled.connect(
+                self.flight_slot_editor.roster_editor.pilots_changed
+            )
+
+        start_type = QFlightStartType(
+            package_model,
+            flight,
+        )
+
+        roster = self.flight_slot_editor.roster_editor
+        roster.pilots_changed.connect(start_type.on_pilot_selected)
 
         widgets = [
             QFlightTypeTaskInfo(flight),
@@ -46,7 +57,7 @@ class QGeneralFlightSettingsTab(QFrame):
                 game.game, package_model, flight, flight_wpt_list
             ),
             self.flight_slot_editor,
-            QFlightStartType(package_model, flight),
+            start_type,
             QFlightCustomName(flight),
         ]
         layout = QGridLayout()
