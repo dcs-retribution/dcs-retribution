@@ -96,11 +96,16 @@ class PilotControls(QHBoxLayout):
     player_toggled = Signal()
 
     def __init__(
-        self, squadron: Optional[Squadron], roster: Optional[FlightRoster], idx: int
+        self,
+        squadron: Optional[Squadron],
+        roster: Optional[FlightRoster],
+        idx: int,
+        pilots_changed: Signal,
     ) -> None:
         super().__init__()
         self.roster = roster
         self.pilot_index = idx
+        self.pilots_changed = pilots_changed
 
         self.selector = PilotSelector(squadron, roster, idx)
         self.selector.currentIndexChanged.connect(self.on_pilot_changed)
@@ -131,6 +136,8 @@ class PilotControls(QHBoxLayout):
         pilot.player = checked
         self.player_toggled.emit()
 
+        self.pilots_changed.emit()
+
     def on_pilot_changed(self, index: int) -> None:
         pilot = self.selector.itemData(index)
         self.player_checkbox.blockSignals(True)
@@ -143,6 +150,10 @@ class PilotControls(QHBoxLayout):
             if self.roster is not None:
                 self.player_checkbox.setEnabled(self.roster.squadron.aircraft.flyable)
             self.player_checkbox.blockSignals(False)
+            # on_pilot_changed should emit pilots_changed in its finally block,
+            # otherwise the start-type isn't updated if you have a single client
+            # pilot which you switch to a non-client pilot
+            self.pilots_changed.emit()
 
     def update_available_pilots(self) -> None:
         self.selector.rebuild()
@@ -174,9 +185,12 @@ class PilotControls(QHBoxLayout):
 
 class FlightRosterEditor(QVBoxLayout):
     MAX_PILOTS = 4
+    pilots_changed = Signal()
 
     def __init__(
-        self, squadron: Optional[Squadron], roster: Optional[IFlightRoster]
+        self,
+        squadron: Optional[Squadron],
+        roster: Optional[IFlightRoster],
     ) -> None:
         super().__init__()
         self.roster = roster
@@ -190,7 +204,7 @@ class FlightRosterEditor(QVBoxLayout):
 
                 return callback
 
-            controls = PilotControls(squadron, roster, pilot_idx)
+            controls = PilotControls(squadron, roster, pilot_idx, self.pilots_changed)
             controls.selector.available_pilots_changed.connect(
                 make_reset_callback(pilot_idx)
             )
@@ -226,7 +240,12 @@ class FlightRosterEditor(QVBoxLayout):
 class QFlightSlotEditor(QGroupBox):
     flight_resized = Signal(int)
 
-    def __init__(self, package_model: PackageModel, flight: Flight, game: Game):
+    def __init__(
+        self,
+        package_model: PackageModel,
+        flight: Flight,
+        game: Game,
+    ):
         super().__init__("Slots")
         self.package_model = package_model
         self.flight = flight

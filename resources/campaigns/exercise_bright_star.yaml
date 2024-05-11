@@ -86,21 +86,16 @@ squadrons:
       size: 12
   # Ramon Airbase
   9:
-    - primary: DEAD
-      secondary: any
-      aircraft:
-        - F-16CM Fighting Falcon (Block 50)
-      size: 20
     - primary: BARCAP
       secondary: any
       aircraft:
         - Mirage 2000C
       size: 12
-    - primary: Transport
+    - primary: DEAD
       secondary: any
       aircraft:
-        - CH-47D
-      size: 12
+        - F-16CM Fighting Falcon (Block 50)
+      size: 20
     - primary: BAI
       secondary: any
       aircraft:
