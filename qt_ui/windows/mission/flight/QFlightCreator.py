@@ -84,10 +84,12 @@ class QFlightCreator(QDialog):
         self.update_max_size(self.squadron_selector.aircraft_available)
         layout.addLayout(QLabeledWidget("Size:", self.flight_size_spinner))
 
+        required_start_type = None
         squadron = self.squadron_selector.currentData()
         if squadron is None:
             roster = None
         else:
+            required_start_type = squadron.location.required_aircraft_start_type
             roster = FlightRoster(
                 squadron, initial_size=self.flight_size_spinner.value()
             )
@@ -116,7 +118,6 @@ class QFlightCreator(QDialog):
                 tooltip="Selects the start type for this flight.",
             )
         )
-        required_start_type = squadron.location.required_aircraft_start_type
         if squadron is not None and required_start_type:
             self.start_type.setEnabled(False)
         layout.addWidget(
