@@ -12,6 +12,7 @@
 * **[Mission Generation]** Ability to inject custom kneeboards
 * **[Options]** Extend option (so it can be disabled when fixed in DCS) to force air-starts (except for the slots that work) at Ramon Airbase, similar to the Nevatim fix in Retribution 1.3.0
 * **[Options]** New option in Settings: Default start type for Player flights.
+* **[AirWing]** Expose OPFOR Squadrons, giving the ability to change liveries, auto-assignable mission types & an easy way to retrieve debug information.
 
 ## Fixes
 * **[UI/UX]** A-10A flights can be edited again.

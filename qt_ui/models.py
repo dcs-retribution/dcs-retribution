@@ -540,6 +540,7 @@ class GameModel:
         self.sim_controller = sim_controller
         self.transfer_model = TransferModel(self)
         self.blue_air_wing_model = AirWingModel(self, player=True)
+        self.red_air_wing_model = AirWingModel(self, player=False)
         if self.game is None:
             self.ato_model = AtoModel(self, AirTaskingOrder())
             self.red_ato_model = AtoModel(self, AirTaskingOrder())
