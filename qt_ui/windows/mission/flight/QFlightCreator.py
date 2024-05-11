@@ -107,7 +107,7 @@ class QFlightCreator(QDialog):
         self.restore_start_type: Optional[str] = None
         self.start_type = QComboBox()
         for start_type in StartType:
-            self.start_type.addItem(start_type.value, start_type)
+            self.start_type.addItem(start_type.value, userData=start_type)
         self.start_type.setCurrentText(self.game.settings.default_start_type.value)
         layout.addLayout(
             QLabeledWidget(
@@ -116,8 +116,8 @@ class QFlightCreator(QDialog):
                 tooltip="Selects the start type for this flight.",
             )
         )
-        if squadron is not None and isinstance(squadron.location, OffMapSpawn):
-            self.start_type.setCurrentText(StartType.IN_FLIGHT.value)
+        required_start_type = squadron.location.required_aircraft_start_type
+        if squadron is not None and required_start_type:
             self.start_type.setEnabled(False)
         layout.addWidget(
             QLabel(
@@ -275,8 +275,14 @@ class QFlightCreator(QDialog):
         # https://github.com/dcs-liberation/dcs_liberation/issues/1567
 
         roster = self.roster_editor.roster
+        required_start_type = None
+        squadron = self.squadron_selector.currentData()
+        if squadron:
+            required_start_type = squadron.location.required_aircraft_start_type
 
-        if roster is not None and roster.player_count > 0:
+        if required_start_type:
+            start_type = required_start_type
+        elif roster is not None and roster.player_count > 0:
             start_type = self.game.settings.default_start_type_client
         else:
             start_type = self.game.settings.default_start_type
