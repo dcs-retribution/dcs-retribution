@@ -54,13 +54,6 @@ class CheatSettingsBox(QGroupBox):
         self.main_layout = QVBoxLayout()
         self.setLayout(self.main_layout)
 
-        # ATO
-        self.red_ato_checkbox = QCheckBox()
-        self.red_ato_checkbox.setChecked(sc.settings.show_red_ato)
-        self.red_ato_checkbox.toggled.connect(apply_settings)
-        self.red_ato = QLabeledWidget("Show Red ATO:", self.red_ato_checkbox)
-        self.main_layout.addLayout(self.red_ato)
-
         # Frontline
         self.frontline_cheat_checkbox = QCheckBox()
         self.frontline_cheat_checkbox.setChecked(sc.settings.enable_frontline_cheats)
@@ -121,10 +114,6 @@ class CheatSettingsBox(QGroupBox):
             "Enable OPFOR Buy/Sell actions Cheat:", self.opfor_buysell_checkbox
         )
         self.main_layout.addLayout(self.redfor_buysell_cheat)
-
-    @property
-    def show_red_ato(self) -> bool:
-        return self.red_ato_checkbox.isChecked()
 
     @property
     def show_frontline_cheat(self) -> bool:
@@ -496,7 +485,6 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
     def applySettings(self):
         if self.updating_ui:
             return
-        self.settings.show_red_ato = self.cheat_options.show_red_ato
         self.settings.enable_frontline_cheats = self.cheat_options.show_frontline_cheat
         self.settings.enable_base_capture_cheat = (
             self.cheat_options.show_base_capture_cheat
@@ -525,7 +513,6 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
         for p in self.pages.values():
             p.update_from_settings()
 
-        self.cheat_options.red_ato_checkbox.setChecked(self.settings.show_red_ato)
         self.cheat_options.base_capture_cheat_checkbox.setChecked(
             self.settings.enable_base_capture_cheat
         )

@@ -37,7 +37,7 @@ class Dialog:
     def open_new_package_dialog(cls, mission_target: MissionTarget, parent=None):
         """Opens the dialog to create a new package with the given target."""
         cls.new_package_dialog = QNewPackageDialog(
-            cls.game_model, cls.game_model.ato_model, mission_target, parent=parent
+            cls.game_model, mission_target, parent=parent
         )
         cls.new_package_dialog.show()
 
