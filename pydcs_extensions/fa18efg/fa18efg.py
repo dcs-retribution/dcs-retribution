@@ -45,9 +45,9 @@ class WeaponsFA18EFG:
         "name": "Pylon 10 | 8 - AIM-120C AMRAAM - Active Radar AAM",
         "weight": 322.96,
     }
-    Pylon_10_8___AIM_120B_AMRAAM___Active_Rdr_AAM = {
+    Pylon_10_8___AIM_120B_AMRAAM___Active_Radar_AAM = {
         "clsid": "{Right_Outboard_Inboard_2X_AIM-120}",
-        "name": "Pylon 10 | 8 - AIM-120D AMRAAM - Active Rdr AAM",
+        "name": "Pylon 10 | 8 - AIM-120D AMRAAM - Active Radar AAM",
         "weight": 324.8,
     }
     Pylon_10_8___BDU_33___25lb_Practice_Bomb_LD = {
@@ -115,9 +115,9 @@ class WeaponsFA18EFG:
         "name": "Pylon 2 | 4 - AIM-120C AMRAAM - Active Radar AAM",
         "weight": 322.96,
     }
-    Pylon_2_4___AIM_120B_AMRAAM___Active_Rdr_AAM = {
+    Pylon_2_4___AIM_120B_AMRAAM___Active_Radar_AAM = {
         "clsid": "{Left_Outboard_Inboard_2X_AIM-120}",
-        "name": "Pylon 2 | 4 - AIM-120D AMRAAM - Active Rdr AAM",
+        "name": "Pylon 2 | 4 - AIM-120D AMRAAM - Active Radar AAM",
         "weight": 324.8,
     }
     Pylon_2_4___BDU_33___25lb_Practice_Bomb_LD = {
@@ -808,9 +808,9 @@ class FA_18E(PlaneType):
         BRU_42_with_2_x_ADM_141A_TALD = (2, Weapons.BRU_42_with_2_x_ADM_141A_TALD)
         BRU_42_with_ADM_141A_TALD = (2, Weapons.BRU_42_with_ADM_141A_TALD)
         AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (2, Weapons.AN_ASQ_T50_TCTS_Pod___ACMI_Pod)
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         AIM_120C_AMRAAM___Active_Radar_AAM = (
             2,
@@ -1102,9 +1102,9 @@ class FA_18E(PlaneType):
     # ERRR {Left_Inboard_1X_AGM-84H}
 
     class Pylon4:
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             4,
-            Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         AIM_120C_AMRAAM___Active_Radar_AAM = (
             4,
@@ -1134,9 +1134,9 @@ class FA_18E(PlaneType):
         Smoke_Generator___orange_ = (5, Weapons.Smoke_Generator___orange_)
 
     class Pylon6:
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             6,
-            Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         AIM_120C_AMRAAM___Active_Radar_AAM = (
             6,
@@ -1452,9 +1452,9 @@ class FA_18E(PlaneType):
         BRU_42_with_2_x_ADM_141A_TALD = (8, Weapons.BRU_42_with_2_x_ADM_141A_TALD)
         BRU_42_with_ADM_141A_TALD = (8, Weapons.BRU_42_with_ADM_141A_TALD)
         AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (8, Weapons.AN_ASQ_T50_TCTS_Pod___ACMI_Pod)
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         AIM_120C_AMRAAM___Active_Radar_AAM = (
             8,
@@ -1784,9 +1784,9 @@ class FA_18F(PlaneType):
         BRU_42_with_2_x_ADM_141A_TALD = (2, Weapons.BRU_42_with_2_x_ADM_141A_TALD)
         BRU_42_with_ADM_141A_TALD = (2, Weapons.BRU_42_with_ADM_141A_TALD)
         AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (2, Weapons.AN_ASQ_T50_TCTS_Pod___ACMI_Pod)
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         AIM_120C_AMRAAM___Active_Radar_AAM = (
             2,
@@ -2078,9 +2078,9 @@ class FA_18F(PlaneType):
     # ERRR {Left_Inboard_1X_AGM-84H}
 
     class Pylon4:
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             4,
-            Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         AIM_120C_AMRAAM___Active_Radar_AAM = (
             4,
@@ -2110,9 +2110,9 @@ class FA_18F(PlaneType):
         Smoke_Generator___orange_ = (5, Weapons.Smoke_Generator___orange_)
 
     class Pylon6:
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             6,
-            Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         AIM_120C_AMRAAM___Active_Radar_AAM = (
             6,
@@ -2428,9 +2428,9 @@ class FA_18F(PlaneType):
         BRU_42_with_2_x_ADM_141A_TALD = (8, Weapons.BRU_42_with_2_x_ADM_141A_TALD)
         BRU_42_with_ADM_141A_TALD = (8, Weapons.BRU_42_with_ADM_141A_TALD)
         AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (8, Weapons.AN_ASQ_T50_TCTS_Pod___ACMI_Pod)
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         AIM_120C_AMRAAM___Active_Radar_AAM = (
             8,
@@ -2746,9 +2746,9 @@ class EA_18G(PlaneType):
     class Pylon3:
         AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (3, Weapons.AN_ASQ_T50_TCTS_Pod___ACMI_Pod)
         AIM_9X_Sidewinder_IR_AAM = (3, Weapons.AIM_9X_Sidewinder_IR_AAM)
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             3,
-            Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         AIM_120C_AMRAAM___Active_Radar_AAM = (
             3,
@@ -2762,9 +2762,9 @@ class EA_18G(PlaneType):
         TLAU_127_ = (3, WeaponsFA18EFG.TLAU_127_)
 
     class Pylon4:
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             4,
-            Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         AIM_120C_AMRAAM___Active_Radar_AAM = (
             4,
@@ -2785,9 +2785,9 @@ class EA_18G(PlaneType):
     # ERRR <CLEAN>
 
     class Pylon6:
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             6,
-            Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         AIM_120C_AMRAAM___Active_Radar_AAM = (
             6,
@@ -2797,9 +2797,9 @@ class EA_18G(PlaneType):
     class Pylon7:
         AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (7, Weapons.AN_ASQ_T50_TCTS_Pod___ACMI_Pod)
         AIM_9X_Sidewinder_IR_AAM = (7, Weapons.AIM_9X_Sidewinder_IR_AAM)
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         AIM_120C_AMRAAM___Active_Radar_AAM = (
             7,
