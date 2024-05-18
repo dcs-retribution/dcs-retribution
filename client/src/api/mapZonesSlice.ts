@@ -1,7 +1,6 @@
 import { RootState } from "../app/store";
 import { gameLoaded, gameUnloaded } from "./actions";
 import { createSlice } from "@reduxjs/toolkit";
-import { LatLngLiteral } from "leaflet";
 import { MapZones } from "./_liberationApi";
 
 interface MapZonesState {

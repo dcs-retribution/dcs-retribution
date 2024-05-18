@@ -1,4 +1,3 @@
-import { useGetTerrainZonesQuery } from "../../api/liberationApi";
 import { useAppSelector } from "../../app/hooks";
 import { LatLngLiteral } from "leaflet";
 import { LayerGroup, LayersControl, Polygon } from "react-leaflet";
