@@ -7,7 +7,6 @@
     "ru_RU"
   ],
   "aircrafts": [
-    "IL-76MD",
     "Mi-24V Hind-E",
     "Mi-24P Hind-F",
     "Mi-8MTV2 Hip",
@@ -37,8 +36,8 @@
     "BRDM-2",
     "BTR-80",
     "PT-76",
-    "SAM SA-8 Osa \"Gecko\" TEL",
-    "T-55A"
+    "T-55A",
+    "T-72B with Kontakt-1 ERA"
   ],
   "artillery_units": [
     "2S1 Gvozdika",
@@ -59,14 +58,13 @@
     "SA-2/S-75 V-759/5V23",
     "SA-3/S-125",
     "SA-3/S-125 V-601P/5V27",
+    "SA-5/S-200",
     "SA-6",
-    "Cold-War-Flak",
     "KS-19/SON-9"
   ],
   "naval_units": [
     "Corvette 1241.1 Molniya",
-    "Corvette 1124.4 Grish",
-    "SSK 877V Kilo"
+    "Corvette 1124.4 Grish"
   ],
   "air_defense_units": [
     "SAM P19 \"Flat Face\" SR (SA-2/3)",
