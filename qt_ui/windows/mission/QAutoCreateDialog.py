@@ -31,11 +31,14 @@ def _spinbox_template() -> QSpinBox:
 
 
 class QAutoCreateDialog(QDialog):
-    def __init__(self, game: Game, model: PackageModel, parent=None) -> None:
+    def __init__(
+        self, game: Game, model: PackageModel, is_ownfor: bool, parent=None
+    ) -> None:
         super().__init__(parent)
         self.game = game
         self.package_model = model
         self.package = model.package
+        self.is_ownfor = is_ownfor
 
         self.setMinimumSize(300, 400)
         self.setWindowTitle(
@@ -159,7 +162,7 @@ class QAutoCreateDialog(QDialog):
             FlightType.BAI,
             FlightType.CAS,
         }
-        for mt in self.package.target.mission_types(True):
+        for mt in self.package.target.mission_types(self.is_ownfor):
             if mt in primary_tasks:
                 self.primary_combobox.addItem(mt.value, mt)
         self.primary_combobox.setCurrentIndex(0)
@@ -172,15 +175,16 @@ class QAutoCreateDialog(QDialog):
         return cb
 
     def _create_type_selector(self, flight_type: FlightType) -> QComboBox:
-        airwing = self.game.blue.air_wing
+        air_wing = self.game.blue.air_wing if self.is_ownfor else self.game.red.air_wing
         cb = QComboBox()
-        for ac in airwing.best_available_aircrafts_for(flight_type):
+        for ac in air_wing.best_available_aircrafts_for(flight_type):
             cb.addItem(ac.variant_id, ac)
         return cb
 
     def _load_aircraft_types(self):
         self.primary_type.clear()
-        for ac in self.game.blue.air_wing.best_available_aircrafts_for(
+        air_wing = self.game.blue.air_wing if self.is_ownfor else self.game.red.air_wing
+        for ac in air_wing.best_available_aircrafts_for(
             self.primary_combobox.currentData()
         ):
             self.primary_type.addItem(ac.variant_id, ac)
@@ -217,7 +221,7 @@ class QAutoCreateDialog(QDialog):
             with tracer.trace(f"Auto-plan package"):
                 pm = ProposedMission(self.package.target, pf, asap=True)
                 pff = PackageFulfiller(
-                    self.game.coalition_for(True),
+                    self.game.coalition_for(self.is_ownfor),
                     self.game.theater,
                     self.game.db.flights,
                     self.game.settings,

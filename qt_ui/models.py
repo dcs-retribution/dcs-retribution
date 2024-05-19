@@ -540,12 +540,14 @@ class GameModel:
         self.sim_controller = sim_controller
         self.transfer_model = TransferModel(self)
         self.blue_air_wing_model = AirWingModel(self, player=True)
+        self.red_air_wing_model = AirWingModel(self, player=False)
         if self.game is None:
             self.ato_model = AtoModel(self, AirTaskingOrder())
             self.red_ato_model = AtoModel(self, AirTaskingOrder())
         else:
             self.ato_model = AtoModel(self, self.game.blue.ato)
             self.red_ato_model = AtoModel(self, self.game.red.ato)
+        self.is_ownfor = True
 
         # For UI purposes
         self.allocated_freqs: list[RadioFrequency] = list()
