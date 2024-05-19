@@ -25,10 +25,10 @@ export default function LiberationMap() {
   const map = useRef<Map>(null);
   const mapCenter = useAppSelector(selectMapCenter);
   useEffect(() => {
-    map.current?.setView(mapCenter, 8, { animate: true, duration: 1 });
+    map.current?.setView(mapCenter, map.current?.getZoom() ?? 8, { animate: true, duration: 1 });
   });
   return (
-    <MapContainer zoom={8} zoomControl={false} ref={map}>
+    <MapContainer zoom={map.current?.getZoom() ?? 8} zoomControl={false} ref={map}>
       <ScaleControl />
       <LeafletRuler />
       <LayersControl collapsed={false}>
