@@ -27,6 +27,7 @@ from game.missiongenerator.missiondata import MissionData
 from game.pretense.pretenseflightgroupconfigurator import (
     PretenseFlightGroupConfigurator,
 )
+from game.pretense.pretenseflightgroupspawner import PretenseNameGenerator
 from game.radio.radios import RadioRegistry
 from game.radio.tacan import TacanRegistry
 from game.runways import RunwayData
@@ -772,7 +773,7 @@ class PretenseAircraftGenerator:
             cp: Control point to generate aircraft for.
             flight: The current flight being generated.
         """
-        cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalpha()])
+        cp_name_trimmed = PretenseNameGenerator.pretense_trimmed_cp_name(cp.name)
 
         for side in range(1, 3):
             if cp_name_trimmed not in cp.coalition.game.pretense_air[side]:
@@ -792,7 +793,7 @@ class PretenseAircraftGenerator:
             flight: The current flight being generated.
         """
         flight_type = flight.flight_type
-        cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalpha()])
+        cp_name_trimmed = PretenseNameGenerator.pretense_trimmed_cp_name(cp.name)
 
         for side in range(1, 3):
             if cp_name_trimmed not in flight.coalition.game.pretense_air[side]:

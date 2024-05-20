@@ -38,6 +38,7 @@ from game.missiongenerator.tgogenerator import (
     GenericCarrierGenerator,
 )
 from game.point_with_heading import PointWithHeading
+from game.pretense.pretenseflightgroupspawner import PretenseNameGenerator
 from game.radio.radios import RadioRegistry
 from game.radio.tacan import TacanRegistry, TacanBand, TacanUsage
 from game.runways import RunwayData
@@ -356,8 +357,8 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
     def generate(self) -> None:
         if self.culled:
             return
-        cp_name_trimmed = "".join(
-            [i for i in self.ground_object.control_point.name.lower() if i.isalpha()]
+        cp_name_trimmed = PretenseNameGenerator.pretense_trimmed_cp_name(
+            self.ground_object.control_point.name
         )
         country_name_trimmed = "".join(
             [i for i in self.country.shortname.lower() if i.isalpha()]
@@ -456,8 +457,8 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
                             control_point = other_cp
                             break
 
-                    cp_name_trimmed = "".join(
-                        [i for i in control_point.name.lower() if i.isalpha()]
+                    cp_name_trimmed = PretenseNameGenerator.pretense_trimmed_cp_name(
+                        control_point.name
                     )
                     is_player = True
                     side = (
@@ -565,8 +566,8 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
                         control_point = other_cp
                         break
 
-        cp_name_trimmed = "".join(
-            [i for i in control_point.name.lower() if i.isalpha()]
+        cp_name_trimmed = PretenseNameGenerator.pretense_trimmed_cp_name(
+            control_point.name
         )
         is_player = True
         side = (
@@ -825,7 +826,7 @@ class PretenseTgoGenerator(TgoGenerator):
 
     def generate(self) -> None:
         for cp in self.game.theater.controlpoints:
-            cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalpha()])
+            cp_name_trimmed = PretenseNameGenerator.pretense_trimmed_cp_name(cp.name)
             for side in range(1, 3):
                 if cp_name_trimmed not in self.game.pretense_ground_supply[side]:
                     self.game.pretense_ground_supply[side][cp_name_trimmed] = list()

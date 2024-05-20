@@ -24,6 +24,7 @@ from game.dcs.aircrafttype import AircraftType
 from game.missiongenerator.luagenerator import LuaGenerator
 from game.missiongenerator.missiondata import MissionData
 from game.plugins import LuaPluginManager
+from game.pretense.pretenseflightgroupspawner import PretenseNameGenerator
 from game.pretense.pretensetgogenerator import PretenseGroundObjectGenerator
 from game.theater import Airfield, OffMapSpawn, TheaterGroundObject
 from game.theater.iadsnetwork.iadsrole import IadsRole
@@ -266,7 +267,7 @@ class PretenseLuaGenerator(LuaGenerator):
 
     def generate_pretense_land_upgrade_supply(self, cp_name: str, cp_side: int) -> str:
         lua_string_zones = ""
-        cp_name_trimmed = "".join([i for i in cp_name.lower() if i.isalpha()])
+        cp_name_trimmed = PretenseNameGenerator.pretense_trimmed_cp_name(cp_name)
         cp_side_str = "blue" if cp_side == PRETENSE_BLUE_SIDE else "red"
         cp = self.game.theater.controlpoints[0]
         for loop_cp in self.game.theater.controlpoints:
@@ -531,7 +532,7 @@ class PretenseLuaGenerator(LuaGenerator):
 
     def generate_pretense_sea_upgrade_supply(self, cp_name: str, cp_side: int) -> str:
         lua_string_zones = ""
-        cp_name_trimmed = "".join([i for i in cp_name.lower() if i.isalpha()])
+        cp_name_trimmed = PretenseNameGenerator.pretense_trimmed_cp_name(cp_name)
         cp_side_str = "blue" if cp_side == PRETENSE_BLUE_SIDE else "red"
 
         supply_ship = "oilPump"
@@ -715,7 +716,7 @@ class PretenseLuaGenerator(LuaGenerator):
         is_artillery_zone = random.choice([True, False])
 
         lua_string_zones = ""
-        cp_name_trimmed = "".join([i for i in cp_name.lower() if i.isalpha()])
+        cp_name_trimmed = PretenseNameGenerator.pretense_trimmed_cp_name(cp_name)
 
         lua_string_zones += f"zones.{cp_name_trimmed}:defineUpgrades(" + "{\n"
         lua_string_zones += "    [1] = { --red side\n"
@@ -815,7 +816,7 @@ class PretenseLuaGenerator(LuaGenerator):
 
     def generate_pretense_zone_sea(self, cp_name: str) -> str:
         lua_string_zones = ""
-        cp_name_trimmed = "".join([i for i in cp_name.lower() if i.isalpha()])
+        cp_name_trimmed = PretenseNameGenerator.pretense_trimmed_cp_name(cp_name)
 
         lua_string_zones += f"zones.{cp_name_trimmed}:defineUpgrades(" + "{\n"
         lua_string_zones += "    [1] = { --red side\n"
@@ -853,7 +854,7 @@ class PretenseLuaGenerator(LuaGenerator):
         cp_carrier_group_name: str | None,
     ) -> str:
         lua_string_carrier = "\n"
-        cp_name_trimmed = "".join([i for i in cp_name.lower() if i.isalpha()])
+        cp_name_trimmed = PretenseNameGenerator.pretense_trimmed_cp_name(cp_name)
 
         link4carriers = [Stennis, CVN_71, CVN_72, CVN_73, CVN_75, Forrestal]
         is_link4carrier = False
@@ -1587,6 +1588,19 @@ class PretenseLuaGenerator(LuaGenerator):
             cp_name_conn_other = "".join(
                 [i for i in other_cp_name if i.isalnum() or i.isspace() or i == "-"]
             )
+            cp_name_conn = cp_name_conn.replace("Ä", "A")
+            cp_name_conn = cp_name_conn.replace("Ö", "O")
+            cp_name_conn = cp_name_conn.replace("Ø", "O")
+            cp_name_conn = cp_name_conn.replace("ä", "a")
+            cp_name_conn = cp_name_conn.replace("ö", "o")
+            cp_name_conn = cp_name_conn.replace("ø", "o")
+
+            cp_name_conn_other = cp_name_conn_other.replace("Ä", "A")
+            cp_name_conn_other = cp_name_conn_other.replace("Ö", "O")
+            cp_name_conn_other = cp_name_conn_other.replace("Ø", "O")
+            cp_name_conn_other = cp_name_conn_other.replace("ä", "a")
+            cp_name_conn_other = cp_name_conn_other.replace("ö", "o")
+            cp_name_conn_other = cp_name_conn_other.replace("ø", "o")
             lua_string_connman = (
                 f"    cm: addConnection('{cp_name_conn}', '{cp_name_conn_other}')\n"
             )
@@ -1637,10 +1651,16 @@ class PretenseLuaGenerator(LuaGenerator):
             lua_string_carriers += self.generate_pretense_carrier_zones()
 
         for cp in self.game.theater.controlpoints:
-            cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalpha()])
+            cp_name_trimmed = PretenseNameGenerator.pretense_trimmed_cp_name(cp.name)
             cp_name = "".join(
                 [i for i in cp.name if i.isalnum() or i.isspace() or i == "-"]
             )
+            cp_name.replace("Ä", "A")
+            cp_name.replace("Ö", "O")
+            cp_name.replace("Ø", "O")
+            cp_name.replace("ä", "a")
+            cp_name.replace("ö", "o")
+            cp_name.replace("ø", "o")
             cp_side = 2 if cp.captured else 1
 
             if isinstance(cp, OffMapSpawn):
@@ -1665,6 +1685,12 @@ class PretenseLuaGenerator(LuaGenerator):
                     self.game.pretense_ground_supply[side][cp_name_trimmed] = list()
                 if cp_name_trimmed not in self.game.pretense_ground_assault[cp_side]:
                     self.game.pretense_ground_assault[side][cp_name_trimmed] = list()
+            cp_name = cp_name.replace("Ä", "A")
+            cp_name = cp_name.replace("Ö", "O")
+            cp_name = cp_name.replace("Ø", "O")
+            cp_name = cp_name.replace("ä", "a")
+            cp_name = cp_name.replace("ö", "o")
+            cp_name = cp_name.replace("ø", "o")
             lua_string_zones += (
                 f"zones.{cp_name_trimmed} = ZoneCommand:new('{cp_name}')\n"
             )
@@ -1783,7 +1809,9 @@ class PretenseLuaGenerator(LuaGenerator):
                 cp_side_captured = cp_side == 2
                 if cp_side_captured != cp.captured:
                     continue
-                cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalpha()])
+                cp_name_trimmed = PretenseNameGenerator.pretense_trimmed_cp_name(
+                    cp.name
+                )
                 for mission_type in self.game.pretense_air[cp_side][cp_name_trimmed]:
                     if mission_type == FlightType.PRETENSE_CARGO:
                         for air_group in self.game.pretense_air[cp_side][
@@ -1796,7 +1824,9 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_supply += "local offmapZones = {\n"
         for cp in self.game.theater.controlpoints:
             if isinstance(cp, Airfield):
-                cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalpha()])
+                cp_name_trimmed = PretenseNameGenerator.pretense_trimmed_cp_name(
+                    cp.name
+                )
                 lua_string_supply += f"   zones.{cp_name_trimmed},\n"
         lua_string_supply += "}\n"
 

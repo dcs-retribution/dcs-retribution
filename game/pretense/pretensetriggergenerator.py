@@ -35,6 +35,7 @@ from numpy import cross, einsum, arctan2
 from shapely import MultiPolygon, Point as ShapelyPoint
 
 from game.naming import ALPHA_MILITARY
+from game.pretense.pretenseflightgroupspawner import PretenseNameGenerator
 from game.theater import Airfield
 from game.theater.controlpoint import Fob, TRIGGER_RADIUS_CAPTURE, OffMapSpawn
 
@@ -357,6 +358,12 @@ class PretenseTriggerGenerator:
             cp_name = "".join(
                 [i for i in cp.name if i.isalnum() or i.isspace() or i == "-"]
             )
+            cp_name = cp_name.replace("Ä", "A")
+            cp_name = cp_name.replace("Ö", "O")
+            cp_name = cp_name.replace("Ø", "O")
+            cp_name = cp_name.replace("ä", "a")
+            cp_name = cp_name.replace("ö", "o")
+            cp_name = cp_name.replace("ø", "o")
             if not isinstance(cp, OffMapSpawn):
                 zone_color = {1: 0.0, 2: 0.0, 3: 0.0, 4: 0.15}
                 self.mission.triggers.add_triggerzone(
@@ -366,7 +373,7 @@ class PretenseTriggerGenerator:
                     name=cp_name,
                     color=zone_color,
                 )
-            cp_name_trimmed = "".join([i for i in cp.name.lower() if i.isalpha()])
+            cp_name_trimmed = PretenseNameGenerator.pretense_trimmed_cp_name(cp.name)
             tgo_num = 0
             for tgo in cp.ground_objects:
                 if cp.is_fleet or tgo.sea_object:
@@ -414,8 +421,8 @@ class PretenseTriggerGenerator:
             cp_airport = self.mission.terrain.airport_by_id(airfield.airport.id)
             if cp_airport is None:
                 continue
-            cp_name_trimmed = "".join(
-                [i for i in cp_airport.name.lower() if i.isalpha()]
+            cp_name_trimmed = PretenseNameGenerator.pretense_trimmed_cp_name(
+                cp_airport.name
             )
             zone_color = {1: 0.0, 2: 1.0, 3: 0.5, 4: 0.15}
             if cp_airport is None:
