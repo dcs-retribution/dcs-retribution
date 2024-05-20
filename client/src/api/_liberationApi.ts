@@ -466,6 +466,7 @@ export type Game = {
   navmeshes: NavMeshes;
   map_center?: LatLng;
   unculled_zones: UnculledZone[];
+  map_zones: MapZones;
 };
 export type MapZones = {
   inclusion: LatLng[][][];

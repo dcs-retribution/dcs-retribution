@@ -1036,7 +1036,6 @@ class Settings:
 
     # Cheating. Not using auto settings because the same page also has buttons which do
     # not alter settings.
-    show_red_ato: bool = False
     enable_frontline_cheats: bool = False
     enable_base_capture_cheat: bool = False
     enable_transfer_cheat: bool = False

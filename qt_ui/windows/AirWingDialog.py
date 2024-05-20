@@ -245,7 +245,16 @@ class AirWingTabs(QTabWidget):
                 game_model.game.theater,
                 game_model.sim_controller,
             ),
-            "Squadrons",
+            "Squadrons OWNFOR",
+        )
+        self.addTab(
+            SquadronList(
+                game_model.red_ato_model,
+                game_model.red_air_wing_model,
+                game_model.game.theater,
+                game_model.sim_controller,
+            ),
+            "Squadrons OPFOR",
         )
         self.addTab(AirInventoryView(game_model), "Inventory")
 
