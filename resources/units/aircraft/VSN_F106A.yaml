@@ -13,7 +13,7 @@ role: Interceptor
 max_range: 250
 gunfighter: false
 variants:
-  F-106A Deltadart: {}
+  F-106A Delta Dart: {}
 tasks:
   BARCAP: 250
   Escort: 150
