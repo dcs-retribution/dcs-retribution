@@ -103,6 +103,7 @@ class NewGameWizard(QtWidgets.QWizard):
             f100_supersabre=self.field("f100_supersabre"),
             f104_starfighter=self.field("f104_starfighter"),
             f105_thunderchief=self.field("f105_thunderchief"),
+            f106_deltadart=self.field("f106_deltadart"),
             hercules=self.field("hercules"),
             irondome=self.field("irondome"),
             uh_60l=self.field("uh_60l"),

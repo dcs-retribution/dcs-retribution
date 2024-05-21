@@ -122,6 +122,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("f104_starfighter", self.f104_starfighter)
         self.f105_thunderchief = QtWidgets.QCheckBox()
         self.registerField("f105_thunderchief", self.f105_thunderchief)
+        self.f106_deltadart = QtWidgets.QCheckBox()
+        self.registerField("f106_deltadart", self.f106_deltadart)
         self.jas39_gripen = QtWidgets.QCheckBox()
         self.registerField("jas39_gripen", self.jas39_gripen)
         self.super_etendard = QtWidgets.QCheckBox()
@@ -161,6 +163,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("F-100 Super Sabre (v2.7.18.30765 patch 20.10.22)", self.f100_supersabre),
             ("F-104 Starfighter (v2.7.11.222.01)", self.f104_starfighter),
             ("F-105 Thunderchief (v2.7.12.23x)", self.f105_thunderchief),
+            ("F-106 Delta Dart (v2.9.4.101)", self.f106_deltadart),
             ("F-15D Baz (v1.0)", self.f15d_baz),
             ("F-15I Ra'am (v1.0 by IDF Mods Project)", self.f_15_idf),
             ("F-16I Sufa & F-16D (v3.6 by IDF Mods Project)", self.f_16_idf),
@@ -234,6 +237,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.f100_supersabre.setChecked(s.get("f100_supersabre", False))
         self.f104_starfighter.setChecked(s.get("f104_starfighter", False))
         self.f105_thunderchief.setChecked(s.get("f105_thunderchief", False))
+        self.f106_deltadart.setChecked(s.get("f106_deltadart", False))
         self.jas39_gripen.setChecked(s.get("jas39_gripen", False))
         self.super_etendard.setChecked(s.get("super_etendard", False))
         self.su30_flanker_h.setChecked(s.get("su30_flanker_h", False))

@@ -80,6 +80,7 @@ class ModSettings:
     f100_supersabre: bool = False
     f104_starfighter: bool = False
     f105_thunderchief: bool = False
+    f106_deltadart: bool = False
     hercules: bool = False
     irondome: bool = False
     uh_60l: bool = False
