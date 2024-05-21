@@ -5,6 +5,7 @@
   "description": "<p>A more modern NATO mixed faction reflecting the units involved in Operation Iraqi Freedom.</p>",
   "aircrafts": [
     "A-10C Thunderbolt II (Suite 3)",
+    "A-10C Thunderbolt II (Suite 7)",
     "AH-64D Apache Longbow",
     "AH-64D Apache Longbow (AI)",
     "AV-8B Harrier II Night Attack",
@@ -22,10 +23,10 @@
     "F-15E Strike Eagle (Suite 4+)",
     "F-16A MLU",
     "F-16CM Fighting Falcon (Block 50)",
-	"F-16D Fighting Falcon (Block 52+)",
-	"F-16D Fighting Falcon (Block 52)",
-	"F-16D Fighting Falcon (Block 50+)",
-	"F-16D Fighting Falcon (Block 50)",
+    "F-16D Fighting Falcon (Block 52+)",
+    "F-16D Fighting Falcon (Block 52)",
+    "F-16D Fighting Falcon (Block 50+)",
+    "F-16D Fighting Falcon (Block 50)",
     "F-22A Raptor",
     "F/A-18C Hornet (Lot 20)",
     "Mirage 2000C",
@@ -46,6 +47,7 @@
   "tankers": [
     "KC-130",
     "KC-130J",
+    "KC-135 Stratotanker MPRS",
     "KC-135 Stratotanker",
     "S-3B Tanker"
   ],

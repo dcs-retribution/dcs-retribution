@@ -14,11 +14,14 @@
 * **[Options]** New option in Settings: Default start type for Player flights.
 * **[AirWing]** Expose OPFOR Squadrons, giving the ability to change liveries, auto-assignable mission types & an easy way to retrieve debug information.
 * **[ATO]** Allow planning as OPFOR
-* 
+* **[Campaign Design]** Support for Kola map by Orbx
+* **[UI]** Zoom level retained when switching campaigns
+
 ## Fixes
-* **[UI/UX]** A-10A flights can be edited again.
+* **[UI/UX]** A-10A flights can be edited again
 * **[Mission Generation]** IADS bug sometimes triggering "no skynet usable units" error during mission generation
 * **[New Game Wizard]** Campaign errors show a dialog again and avoid CTDs
+* **[UI]** Landmap wasn't updating when switching to a different theater
 
 # Retribution v1.3.1
 #### Note: Re-save your missions in DCS' Mission Editor to avoid possible crashes due to datalink (usually the case when F-16C blk50s are used) when hosting missions on a dedicated server.

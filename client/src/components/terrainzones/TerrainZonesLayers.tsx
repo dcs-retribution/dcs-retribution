@@ -1,6 +1,7 @@
-import { useGetTerrainZonesQuery } from "../../api/liberationApi";
+import { useAppSelector } from "../../app/hooks";
 import { LatLngLiteral } from "leaflet";
 import { LayerGroup, LayersControl, Polygon } from "react-leaflet";
+import { selectMapZones } from "../../api/mapZonesSlice";
 
 interface TerrainZoneLayerProps {
   zones: LatLngLiteral[][][];
@@ -28,33 +29,28 @@ function TerrainZoneLayer(props: TerrainZoneLayerProps) {
 }
 
 export default function TerrainZonesLayers() {
-  const { data, error, isLoading } = useGetTerrainZonesQuery();
+  const zones = useAppSelector(selectMapZones).mapZones;
   var exclusion = <></>;
   var inclusion = <></>;
   var sea = <></>;
 
-  if (error) {
-    console.error("Error while loading terrain zones", error);
-  } else if (isLoading) {
-  } else if (!data) {
-    console.log("Empty response when loading terrain zones");
-  } else {
+  if (zones) {
     exclusion = (
       <TerrainZoneLayer
-        zones={data.exclusion}
+        zones={zones.exclusion}
         color="#969696"
         fillColor="#303030"
       />
     );
     inclusion = (
       <TerrainZoneLayer
-        zones={data.inclusion}
+        zones={zones.inclusion}
         color="#969696"
         fillColor="#4b4b4b"
       />
     );
     sea = (
-      <TerrainZoneLayer zones={data.sea} color="#344455" fillColor="#344455" />
+      <TerrainZoneLayer zones={zones.sea} color="#344455" fillColor="#344455" />
     );
   }
   return (
