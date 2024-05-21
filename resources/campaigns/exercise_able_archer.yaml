@@ -189,14 +189,10 @@ squadrons:
       size: 16
   #Severomorsk3
   6:
-    - primary: AEW&C
-      aircraft:
-        - A-50
-      size: 1
     - primary: Refueling
       aircraft:
         - IL-78M
-      size: 1
+      size: 2
     - primary: DEAD
       secondary: any
       aircraft:
@@ -224,10 +220,9 @@ squadrons:
       aircraft:
         - Tu-22M3 Backfire-C
       size: 16
-    - primary: Transport
-      secondary: any
+    - primary: Refueling
       aircraft:
-        - IL-76MD
+        - IL-78M
       size: 2
   #Monchegorsk
   10:
@@ -246,3 +241,14 @@ squadrons:
       aircraft:
         - MiG-21bis Fishbed-N
       size: 16
+  #Murmansk International
+  12:
+    - primary: AEW&C
+      aircraft:
+        - A-50
+      size: 1
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - IL-76MD
+      size: 2
