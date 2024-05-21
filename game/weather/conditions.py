@@ -4,6 +4,7 @@ import datetime
 import logging
 import random
 from dataclasses import dataclass
+from typing import Tuple
 
 from game.settings import Settings, NightMissions
 from game.theater import ConflictTheater, SeasonalConditions
@@ -74,10 +75,24 @@ class Conditions:
         # time constrained to that. DaytimeMap enforces that we have only whole hour
         # ranges for now, so we don't need to worry about accidentally changing the time
         # of day by truncating sub-hours.
-        time = datetime.time(
-            hour=random.randint(time_range[0].hour, time_range[1].hour)
-        )
+        day, hours = Conditions.random_time_progression(day, time_range)
+        time = datetime.time(hour=hours)
         return datetime.datetime.combine(day, time)
+
+    @staticmethod
+    def random_time_progression(
+        day: datetime.date, time_range: Tuple[datetime.time, datetime.time]
+    ) -> Tuple[datetime.date, int]:
+        start, end = time_range[0].hour, time_range[1].hour
+        if start > end:
+            end += 24
+            hours = random.randint(start, end)
+            if hours > 23:
+                day += datetime.timedelta(days=1.0)
+                hours %= 24
+        else:
+            hours = random.randint(start, end)
+        return day, hours
 
     @classmethod
     def generate_weather(

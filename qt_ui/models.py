@@ -547,7 +547,7 @@ class GameModel:
         else:
             self.ato_model = AtoModel(self, self.game.blue.ato)
             self.red_ato_model = AtoModel(self, self.game.red.ato)
-        self.is_ownfor = False
+        self.is_ownfor = True
 
         # For UI purposes
         self.allocated_freqs: list[RadioFrequency] = list()
