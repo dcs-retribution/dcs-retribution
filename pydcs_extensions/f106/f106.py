@@ -123,7 +123,7 @@ class VSN_F106A(PlaneType):
     tasks = [task.CAP, task.Escort, task.FighterSweep, task.Intercept, task.Reconnaissance]
     task_default = task.FighterSweep
 
-
+@planemod
 class VSN_F106B(PlaneType):
     id = "VSN_F106B"
     flyable = True
