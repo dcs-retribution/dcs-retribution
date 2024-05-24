@@ -7,7 +7,6 @@ from dcs.weapons_data import Weapons
 from game.modsupport import planemod
 from pydcs_extensions import inject_weapons, WeaponsA7E
 
-
 inject_weapons(WeaponsA7E)
 
 
@@ -61,7 +60,7 @@ class VSN_A6A(PlaneType):
             Weapons.LAU_7_with_AIM_9P_Sidewinder_IR_AAM,
         )
         AGM_45A_Shrike_ARM = (1, Weapons.AGM_45A_Shrike_ARM)
-        AGM_45B_Shrike_ARM__Imp_ = (1, Weapons.AGM_45B_Shrike_ARM__Imp_)
+        AGM_45B_Shrike_ARM = (1, Weapons.AGM_45B_Shrike_ARM)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             1,
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
@@ -213,7 +212,7 @@ class VSN_A6A(PlaneType):
             Weapons.LAU_7_with_AIM_9P_Sidewinder_IR_AAM,
         )
         AGM_45A_Shrike_ARM = (2, Weapons.AGM_45A_Shrike_ARM)
-        AGM_45B_Shrike_ARM__Imp_ = (2, Weapons.AGM_45B_Shrike_ARM__Imp_)
+        AGM_45B_Shrike_ARM = (2, Weapons.AGM_45B_Shrike_ARM)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             2,
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
@@ -423,7 +422,7 @@ class VSN_A6A(PlaneType):
             Weapons.LAU_7_with_AIM_9P_Sidewinder_IR_AAM,
         )
         AGM_45A_Shrike_ARM = (4, Weapons.AGM_45A_Shrike_ARM)
-        AGM_45B_Shrike_ARM__Imp_ = (4, Weapons.AGM_45B_Shrike_ARM__Imp_)
+        AGM_45B_Shrike_ARM = (4, Weapons.AGM_45B_Shrike_ARM)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             4,
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
@@ -578,7 +577,7 @@ class VSN_A6A(PlaneType):
             Weapons.LAU_7_with_AIM_9P_Sidewinder_IR_AAM,
         )
         AGM_45A_Shrike_ARM = (5, Weapons.AGM_45A_Shrike_ARM)
-        AGM_45B_Shrike_ARM__Imp_ = (5, Weapons.AGM_45B_Shrike_ARM__Imp_)
+        AGM_45B_Shrike_ARM = (5, Weapons.AGM_45B_Shrike_ARM)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             5,
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,

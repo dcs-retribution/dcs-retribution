@@ -503,9 +503,9 @@ class A_7E(PlaneType):
             1,
             Weapons.AGM_62_Walleye_II___Guided_Weapon_Mk_5__TV_Guided_,
         )
-        LAU_118A___AGM_45B_Shrike_ARM__Imp_ = (
+        LAU_118A___AGM_45B_Shrike_ARM = (
             1,
-            Weapons.LAU_118A___AGM_45B_Shrike_ARM__Imp_,
+            Weapons.LAU_118A___AGM_45B_Shrike_ARM,
         )
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_ = (
             1,
@@ -698,9 +698,9 @@ class A_7E(PlaneType):
         LAU_117_AGM_65G = (2, Weapons.LAU_117_AGM_65G)
         LAU_117_AGM_65H = (2, Weapons.LAU_117_AGM_65H)
         LAU_88_AGM_65H_2_L = (2, Weapons.LAU_88_AGM_65H_2_L)
-        LAU_118A___AGM_45B_Shrike_ARM__Imp_ = (
+        LAU_118A___AGM_45B_Shrike_ARM = (
             2,
-            Weapons.LAU_118A___AGM_45B_Shrike_ARM__Imp_,
+            Weapons.LAU_118A___AGM_45B_Shrike_ARM,
         )
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_ = (
             2,
@@ -1116,9 +1116,9 @@ class A_7E(PlaneType):
         LAU_117_AGM_65G = (7, Weapons.LAU_117_AGM_65G)
         LAU_117_AGM_65H = (7, Weapons.LAU_117_AGM_65H)
         LAU_88_AGM_65H_2_R = (7, Weapons.LAU_88_AGM_65H_2_R)
-        LAU_118A___AGM_45B_Shrike_ARM__Imp_ = (
+        LAU_118A___AGM_45B_Shrike_ARM = (
             7,
-            Weapons.LAU_118A___AGM_45B_Shrike_ARM__Imp_,
+            Weapons.LAU_118A___AGM_45B_Shrike_ARM,
         )
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_ = (
             7,
@@ -1275,9 +1275,9 @@ class A_7E(PlaneType):
             8,
             Weapons.AGM_62_Walleye_II___Guided_Weapon_Mk_5__TV_Guided_,
         )
-        LAU_118A___AGM_45B_Shrike_ARM__Imp_ = (
+        LAU_118A___AGM_45B_Shrike_ARM = (
             8,
-            Weapons.LAU_118A___AGM_45B_Shrike_ARM__Imp_,
+            Weapons.LAU_118A___AGM_45B_Shrike_ARM,
         )
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_ = (
             8,

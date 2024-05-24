@@ -26,7 +26,7 @@ from dcs.vehicles import AirDefence
 from pydcs_extensions import highdigitsams as hds
 
 TELARS = {
-    AirDefence.X_2S6_Tunguska,
+    AirDefence.x_2S6_Tunguska,
     AirDefence.SA_11_Buk_LN_9A310M1,
     AirDefence.Osa_9A33_ln,
     AirDefence.Tor_9A331,
@@ -36,14 +36,14 @@ TELARS = {
 
 TRACK_RADARS = {
     AirDefence.Kub_1S91_str,
-    AirDefence.Snr_s_125_tr,
+    AirDefence.snr_s_125_tr,
     AirDefence.S_300PS_40B6M_tr,
     AirDefence.S_300PS_5H63C_30H6_tr,
     AirDefence.Hawk_tr,
     AirDefence.Patriot_str,
     AirDefence.SNR_75V,
     AirDefence.RPC_5N62V,
-    AirDefence.Rapier_fsa_blindfire_radar,
+    AirDefence.rapier_fsa_blindfire_radar,
     AirDefence.HQ_7_STR_SP,
     AirDefence.NASAMS_Radar_MPQ64F1,
     hds.SAM_SA_10B_S_300PS_30N6_TR,
@@ -55,7 +55,7 @@ TRACK_RADARS = {
 
 LAUNCHER_TRACKER_PAIRS = {
     AirDefence.Kub_2P25_ln: (AirDefence.Kub_1S91_str,),
-    AirDefence.X_5p73_s_125_ln: (AirDefence.Snr_s_125_tr,),
+    AirDefence.x_5p73_s_125_ln: (AirDefence.snr_s_125_tr,),
     AirDefence.S_300PS_5P85C_ln: (
         AirDefence.S_300PS_40B6M_tr,
         AirDefence.S_300PS_5H63C_30H6_tr,
@@ -67,14 +67,14 @@ LAUNCHER_TRACKER_PAIRS = {
     AirDefence.Hawk_ln: (AirDefence.Hawk_tr,),
     AirDefence.Patriot_ln: (AirDefence.Patriot_str,),
     AirDefence.S_75M_Volhov: (AirDefence.SNR_75V,),
-    AirDefence.Rapier_fsa_launcher: (AirDefence.Rapier_fsa_blindfire_radar,),
+    AirDefence.rapier_fsa_launcher: (AirDefence.rapier_fsa_blindfire_radar,),
     AirDefence.HQ_7_LN_SP: (AirDefence.HQ_7_STR_SP,),
     AirDefence.S_200_Launcher: (AirDefence.RPC_5N62V,),
     AirDefence.NASAMS_LN_B: (AirDefence.NASAMS_Radar_MPQ64F1,),
     AirDefence.NASAMS_LN_C: (AirDefence.NASAMS_Radar_MPQ64F1,),
     hds.SAM_SA_2__V759__LN_SM_90: (AirDefence.SNR_75V,),
     hds.SAM_HQ_2_LN_SM_90: (AirDefence.SNR_75V,),
-    hds.SAM_SA_3__V_601P__LN_5P73: (AirDefence.Snr_s_125_tr,),
+    hds.SAM_SA_3__V_601P__LN_5P73: (AirDefence.snr_s_125_tr,),
     hds.SAM_SA_10B_S_300PS_5P85SE_LN: (hds.SAM_SA_10B_S_300PS_30N6_TR,),
     hds.SAM_SA_10B_S_300PS_5P85SU_LN: (hds.SAM_SA_10B_S_300PS_30N6_TR,),
     hds.SAM_SA_12_S_300V_9A82_LN: (hds.SAM_SA_12_S_300V_9S32_TR,),
@@ -88,7 +88,7 @@ LAUNCHER_TRACKER_PAIRS = {
 
 UNITS_WITH_RADAR = {
     # Radars
-    AirDefence.X_2S6_Tunguska,
+    AirDefence.x_2S6_Tunguska,
     AirDefence.SA_11_Buk_LN_9A310M1,
     AirDefence.Osa_9A33_ln,
     AirDefence.Tor_9A331,
@@ -96,11 +96,11 @@ UNITS_WITH_RADAR = {
     AirDefence.Vulcan,
     AirDefence.Roland_ADS,
     AirDefence.ZSU_23_4_Shilka,
-    AirDefence.X_1L13_EWR,
+    AirDefence.x_1L13_EWR,
     AirDefence.Kub_1S91_str,
     AirDefence.S_300PS_40B6M_tr,
     AirDefence.S_300PS_40B6MD_sr,
-    AirDefence.X_55G6_EWR,
+    AirDefence.x_55G6_EWR,
     AirDefence.S_300PS_64H6E_sr,
     AirDefence.SA_11_Buk_SR_9S18M1,
     AirDefence.Dog_Ear_radar,
@@ -108,13 +108,13 @@ UNITS_WITH_RADAR = {
     AirDefence.Hawk_sr,
     AirDefence.Patriot_str,
     AirDefence.Hawk_cwar,
-    AirDefence.P_19_s_125_sr,
+    AirDefence.p_19_s_125_sr,
     AirDefence.Roland_Radar,
-    AirDefence.Snr_s_125_tr,
+    AirDefence.snr_s_125_tr,
     AirDefence.SNR_75V,
     AirDefence.RLS_19J6,
     AirDefence.RPC_5N62V,
-    AirDefence.Rapier_fsa_blindfire_radar,
+    AirDefence.rapier_fsa_blindfire_radar,
     AirDefence.HQ_7_LN_SP,
     AirDefence.HQ_7_STR_SP,
     AirDefence.FuMG_401,
