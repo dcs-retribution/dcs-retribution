@@ -95,7 +95,7 @@ squadrons:
     - primary: Strike
       secondary: air-to-ground
       aircraft:
-        - F-4E Phantom II
+        - F-4E-45MC Phantom II
         - H-6J Badger
       size: 16
     - primary: BAI
@@ -121,7 +121,7 @@ squadrons:
     - primary: Escort
       secondary: air-to-air
       aircraft:
-        - F-4E Phantom II
+        - F-4E-45MC Phantom II
         - Mirage-F1EQ
       size: 16
   # Abu Al Duhur
@@ -129,7 +129,7 @@ squadrons:
     - primary: Fighter sweep
       secondary: air-to-air
       aircraft:
-        - F-4E Phantom II
+        - F-4E-45MC Phantom II
         - MiG-23ML Flogger-G
       size: 8
   # Gaziantep

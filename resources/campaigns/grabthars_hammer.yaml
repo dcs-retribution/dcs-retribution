@@ -22,10 +22,10 @@ settings:
 squadrons:
   #Mount Pleasant
   2:
-    - primary: DEAD
+    - primary: BAI
       secondary: any
       aircraft:
-        - F-16CM Fighting Falcon (Block 50)
+        - F-15E Strike Eagle (Suite 4+)
       size: 8
     - primary: CAS
       secondary: air-to-ground
@@ -54,10 +54,10 @@ squadrons:
       size: 1
   #San Julian
   11:
-    - primary: BAI
+    - primary: DEAD
       secondary: any
       aircraft:
-        - F-15E Strike Eagle (Suite 4+)
+        - F-16CM Fighting Falcon (Block 50)
       size: 8
   #Blue CV
   Blue-CV:
