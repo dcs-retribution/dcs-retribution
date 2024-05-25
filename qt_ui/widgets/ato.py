@@ -535,4 +535,6 @@ class QAirTaskingOrderPanel(QSplitter):
         self.package_panel.enable_buttons(False)
         self.package_panel.current_changed.connect(self.on_package_change)
         self.flight_panel.flight_list.set_package(None)
+        events = GameUpdateEvents().deselect_flight()
+        EventStream.put_nowait(events)
         self.game_model.is_ownfor = not opfor
