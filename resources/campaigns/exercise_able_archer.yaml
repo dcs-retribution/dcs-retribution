@@ -49,11 +49,6 @@ squadrons:
       aircraft:
         - F-15C Eagle
       size: 12
-    - primary: Escort
-      secondary: any
-      aircraft:
-        - Mirage-F1CE
-      size: 12
     - primary: BAI
       secondary: any
       aircraft:
@@ -69,7 +64,7 @@ squadrons:
         - C-130J-30 Super Hercules
         - C-130
       size: 2
-  #Lakselv
+  #Banak
   1:
     - primary: SEAD
       secondary: any
@@ -93,6 +88,16 @@ squadrons:
       aircraft:
         - MiG-21bis Fishbed-N
       size: 12
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - F-4E-45MC Phantom II
+      size: 12
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - Mirage-F1CE
+      size: 12
     - primary: Air Assault
       secondary: any
       aircraft:
@@ -105,7 +110,7 @@ squadrons:
       aircraft:
         - C-47 Dakota
       size: 3
-  #Kiruna (14)
+  #Kiruna
   5:
     - primary: DEAD
       secondary: air-to-ground
@@ -151,7 +156,7 @@ squadrons:
       aircraft:
         - AH-1J SeaCobra
       size: 2
-  #RAF Fairfield
+  #RAF Fairford
   Bombers from RAF Fairford:
     - primary: Strike
       secondary: any
@@ -170,7 +175,7 @@ squadrons:
       aircraft:
         - Su-17M4 Fitter-K
       size: 6
-  #Severomorsk1
+  #Severomorsk-1
   8:
     - primary: BARCAP
       secondary: any
@@ -187,7 +192,7 @@ squadrons:
       aircraft:
         - MiG-27K Flogger-J2
       size: 16
-  #Severomorsk3
+  #Severomorsk-3
   6:
     - primary: Refueling
       aircraft:
@@ -208,7 +213,7 @@ squadrons:
       aircraft:
         - Mi-8MTV2 Hip
       size: 4
-  #Olenegorsk
+  #Olenya
   9:
     - primary: Strike
       secondary: any

@@ -98,7 +98,7 @@ squadrons:
     - primary: SEAD
       secondary: air-to-ground
       aircraft:
-        - F-4E Phantom II
+        - F-4E-45MC Phantom II
       size: 20
     - primary: TARCAP
       secondary: air-to-air
