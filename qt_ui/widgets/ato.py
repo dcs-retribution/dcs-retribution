@@ -475,6 +475,11 @@ class QPackagePanel(QGroupBox):
             return
         self.package_list.delete_package(index)
 
+    def enable_buttons(self, enabled: bool) -> None:
+        self.edit_button.setEnabled(enabled)
+        self.clone_button.setEnabled(enabled)
+        self.delete_button.setEnabled(enabled)
+
 
 class QAirTaskingOrderPanel(QSplitter):
     """A split panel for displaying the packages and flights of an ATO.
@@ -511,8 +516,10 @@ class QAirTaskingOrderPanel(QSplitter):
         """Sets the newly selected flight for display in the bottom panel."""
         index = self.package_panel.package_list.currentIndex()
         if index.isValid():
+            self.package_panel.enable_buttons(True)
             self.flight_panel.set_package(self.ato_model.get_package_model(index))
         else:
+            self.package_panel.enable_buttons(False)
             self.flight_panel.set_package(None)
 
     def on_ato_changed(self) -> None:
@@ -525,6 +532,7 @@ class QAirTaskingOrderPanel(QSplitter):
         self.package_panel.ato_model = ato_model
         self.package_panel.package_list.ato_model = ato_model
         self.package_panel.package_list.setModel(ato_model)
+        self.package_panel.enable_buttons(False)
         self.package_panel.current_changed.connect(self.on_package_change)
         self.flight_panel.flight_list.set_package(None)
         self.game_model.is_ownfor = not opfor
