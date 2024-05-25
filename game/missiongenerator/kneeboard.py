@@ -33,7 +33,7 @@ from typing import Dict, Iterator, List, Optional, TYPE_CHECKING, Tuple
 from PIL import Image, ImageDraw, ImageFont
 from dcs.mission import Mission
 from dcs.planes import F_15ESE
-from suntime import Sun  # type: ignore
+from suntime import Sun, SunTimeException  # type: ignore
 from tabulate import tabulate
 
 from game.ato.flighttype import FlightType
@@ -445,14 +445,23 @@ class BriefingPage(KneeboardPage):
         tz = fl.squadron.coalition.game.theater.timezone
 
         # Get today's sunrise and sunset in UTC
-        sr_utc = sun.get_sunrise_time(dt)
-        ss_utc = sun.get_sunset_time(dt)
-        sr = sr_utc + tz.utcoffset(sun.get_sunrise_time(dt))
-        ss = ss_utc + tz.utcoffset(sun.get_sunset_time(dt))
+        try:
+            rise_utc = sun.get_sunrise_time(dt)
+            rise = rise_utc + tz.utcoffset(sun.get_sunrise_time(dt))
+        except SunTimeException:
+            rise_utc = None
+            rise = None
+
+        try:
+            set_utc = sun.get_sunset_time(dt)
+            sunset = set_utc + tz.utcoffset(sun.get_sunset_time(dt))
+        except SunTimeException:
+            set_utc = None
+            sunset = None
 
         writer.text(
-            f"Sunrise - Sunset: {sr.strftime('%H:%M')} - {ss.strftime('%H:%M')}"
-            f" ({sr_utc.strftime('%H:%M')} - {ss_utc.strftime('%H:%M')} UTC)"
+            f"Sunrise - Sunset: {rise.strftime('%H:%M') if rise else 'N/A'} - {sunset.strftime('%H:%M') if sunset else 'N/A'}"
+            f" ({rise_utc.strftime('%H:%M') if rise_utc else 'N/A'} - {set_utc.strftime('%H:%M') if set_utc else 'N/A'} UTC)"
         )
 
         if fl.bingo_fuel and fl.joker_fuel:
