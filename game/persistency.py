@@ -87,12 +87,13 @@ class MigrationUnpickler(pickle.Unpickler):
             elif name == "Olenegorsk":
                 from dcs.terrain.kola.airports import Olenya
                 return Olenya
-        if module == "dcs.vehicles":
+        if module in ["dcs.vehicles", "dcs.ships"]:
             try:
                 return super().find_class(module, name)
             except AttributeError:
                 alternate = name.split('.')[:-1] + [name.split('.')[-1][0].lower() + name.split('.')[-1][1:]]
                 name = '.'.join(alternate)
+                print(name)
         return super().find_class(module, name)
 # fmt: on
 
