@@ -28,6 +28,7 @@ from qt_ui.models import AirWingModel, AtoModel, GameModel, SquadronModel
 from qt_ui.simcontroller import SimController
 from qt_ui.windows.AirWingConfigurationDialog import AirWingConfigurationDialog
 from qt_ui.windows.SquadronDialog import SquadronDialog
+from qt_ui.windows.newgame.WizardPages.QFactionSelection import QFactionUnits
 
 
 class SquadronDelegate(TwoColumnRowDelegate):
@@ -238,6 +239,8 @@ class AirWingTabs(QTabWidget):
     def __init__(self, game_model: GameModel) -> None:
         super().__init__()
 
+        self.game_model = game_model
+
         self.addTab(
             SquadronList(
                 game_model.ato_model,
@@ -260,18 +263,33 @@ class AirWingTabs(QTabWidget):
 
         if game_model.game.settings.enable_air_wing_adjustments:
             pb = QPushButton("Open Air Wing Config Dialog")
-            pb.clicked.connect(lambda _: self.open_awcd(game_model))
+            pb.clicked.connect(self.open_awcd)
             pb.setMaximumWidth(300)
             layout = QHBoxLayout()
             layout.addWidget(pb)
             w = QWidget(layout=layout)
             self.addTab(w, "Cheats")
 
-    def open_awcd(self, gm: GameModel):
-        AirWingConfigurationDialog(gm.game, True, self).exec_()
+        self.addTab(
+            QFactionUnits(
+                game_model.game.coalition_for(True).faction,
+                self,
+            ),
+            "Faction OWNFOR",
+        )
+        self.addTab(
+            QFactionUnits(
+                game_model.game.coalition_for(False).faction,
+                self,
+            ),
+            "Faction OPFOR",
+        )
+
+    def open_awcd(self):
+        AirWingConfigurationDialog(self.game_model.game, True, self).exec_()
         events = GameUpdateEvents().begin_new_turn()
         EventStream.put_nowait(events)
-        gm.ato_model.on_sim_update(events)
+        self.game_model.ato_model.on_sim_update(events)
 
 
 class AirWingDialog(QDialog):
