@@ -74,6 +74,26 @@ class MigrationUnpickler(pickle.Unpickler):
                 return ELM2084_MMR_AD_RT
             elif name == "IRON_DOME_CP":
                 return Iron_Dome_David_Sling_CP
+        if module == "dcs.terrain.kola.airports":
+            if name == "Lakselv":
+                from dcs.terrain.kola.airports import Banak
+                return Banak
+            elif name == "Severomorsk1":
+                from dcs.terrain.kola.airports import Severomorsk_1
+                return Severomorsk_1
+            elif name == "Severomorsk3":
+                from dcs.terrain.kola.airports import Severomorsk_3
+                return Severomorsk_3
+            elif name == "Olenegorsk":
+                from dcs.terrain.kola.airports import Olenya
+                return Olenya
+        if module in ["dcs.vehicles", "dcs.ships"]:
+            try:
+                return super().find_class(module, name)
+            except AttributeError:
+                alternate = name.split('.')[:-1] + [name.split('.')[-1][0].lower() + name.split('.')[-1][1:]]
+                name = '.'.join(alternate)
+                print(name)
         return super().find_class(module, name)
 # fmt: on
 

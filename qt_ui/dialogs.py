@@ -44,9 +44,7 @@ class Dialog:
     @classmethod
     def open_edit_package_dialog(cls, package_model: PackageModel):
         """Opens the dialog to edit the given package."""
-        cls.edit_package_dialog = QEditPackageDialog(
-            cls.game_model, cls.game_model.ato_model, package_model
-        )
+        cls.edit_package_dialog = QEditPackageDialog(cls.game_model, package_model)
         cls.edit_package_dialog.show()
 
     @classmethod

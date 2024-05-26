@@ -397,6 +397,9 @@ class Faction:
         if not mod_settings.f105_thunderchief:
             self.remove_aircraft("VSN_F105D")
             self.remove_aircraft("VSN_F105G")
+        if not mod_settings.f106_deltadart:
+            self.remove_aircraft("VSN_F106A")
+            self.remove_aircraft("VSN_F106B")
         if not mod_settings.a6a_intruder:
             self.remove_aircraft("VSN_A6A")
         if not mod_settings.jas39_gripen:

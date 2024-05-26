@@ -67,7 +67,7 @@ squadrons:
     - primary: DEAD
       secondary: air-to-ground
       aircraft:
-        - F-4E Phantom II
+        - F-4E-45MC Phantom II
       size: 12
   #Akrotiri
   44:

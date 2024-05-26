@@ -212,9 +212,9 @@ class VSN_F100(PlaneType):
             5,
             Weapons.LAU_7_with_AIM_9B_Sidewinder_IR_AAM,
         )
-        LAU_118A___AGM_45B_Shrike_ARM__Imp_ = (
+        LAU_118A___AGM_45B_Shrike_ARM = (
             5,
-            Weapons.LAU_118A___AGM_45B_Shrike_ARM__Imp_,
+            Weapons.LAU_118A___AGM_45B_Shrike_ARM,
         )
 
         Fuel_tank_500_Liter = (5, WeaponsF100.Fuel_tank_500_Liter)
@@ -295,9 +295,9 @@ class VSN_F100(PlaneType):
             7,
             Weapons.LAU_7_with_AIM_9P_Sidewinder_IR_AAM,
         )
-        LAU_118A___AGM_45B_Shrike_ARM__Imp_ = (
+        LAU_118A___AGM_45B_Shrike_ARM = (
             7,
-            Weapons.LAU_118A___AGM_45B_Shrike_ARM__Imp_,
+            Weapons.LAU_118A___AGM_45B_Shrike_ARM,
         )
         Fuel_tank_500_Liter = (7, WeaponsF100.Fuel_tank_500_Liter)
 
