@@ -38,7 +38,7 @@ class PretenseNameGenerator(NameGenerator):
         )
 
     @classmethod
-    def pretense_trimmed_cp_name(cls, cp_name: str):
+    def pretense_trimmed_cp_name(cls, cp_name: str) -> str:
         cp_name_trimmed = "".join([i for i in cp_name.lower() if i.isalpha()])
         cp_name_trimmed = cp_name_trimmed.replace("ä", "a")
         cp_name_trimmed = cp_name_trimmed.replace("ö", "o")
