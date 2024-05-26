@@ -150,7 +150,7 @@ squadrons:
     - primary: SEAD
       secondary: any
       aircraft:
-        - F-4E Phantom II
+        - F-4E-45MC Phantom II
       size: 20
     - primary: DEAD
       secondary: 

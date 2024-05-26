@@ -11,10 +11,12 @@
     "AH-1W SuperCobra",
     "AJS-37 Viggen",
     "AV-8B Harrier II Night Attack",
+    "B-1B Lancer",
     "B-52H Stratofortress",
     "C-101CC Aviojet",
     "C-130",
     "C-130J-30 Super Hercules",
+    "C-47 Dakota",
     "CH-47D",
     "CH-53E",
     "F-14A Tomcat (Block 135-GR Late)",
@@ -24,6 +26,7 @@
     "F-16CM Fighting Falcon (Block 50)",
     "F/A-18C Hornet (Lot 20)",
     "F-4E Phantom II",
+    "F-4E-45MC Phantom II",
     "F-5E Tiger II",
     "Mi-8MTV2 Hip",
     "MiG-21bis Fishbed-N",
@@ -35,6 +38,7 @@
     "S-3B Viking",
     "SA 342L Gazelle",
     "SA 342M Gazelle",
+    "SH-60B Seahawk",
     "UH-1H Iroquois",
     "UH-60A",
     "UH-60L"
@@ -51,10 +55,16 @@
     "M113",
     "M163 Vulcan Air Defense System",
     "M48 Chaparral",
-    "M60A3 \"Patton\""
+    "M60A3 \"Patton\"",
+    "Leopard 2",
+    "M1A2 Abrams",
+    "M2A2 Bradley",
+    "Marder 1A3",
+    "VAB Mephisto"
   ],
   "artillery_units": [
-    "M109A6 Paladin"
+    "M109A6 Paladin",
+    "M270 Multiple Launch Rocket System"
   ],
   "logistics_units": [
     "Truck M818 6x6"
@@ -66,7 +76,8 @@
   "missiles": [],
   "preset_groups": [
     "Hawk",
-    "Cold-War-Flak"
+    "Patriot",
+    "Rapier"
   ],
   "naval_units": [
     "FFG Oliver Hazard Perry",
@@ -77,7 +88,9 @@
   "air_defense_units": [
     "SAM Hawk SR (AN/MPQ-50)",
     "M163 Vulcan Air Defense System",
-    "M48 Chaparral"
+    "M48 Chaparral",
+    "Flakpanzer Gepard",
+    "Roland 2 (Marder Chassis)"
   ],
   "carrier_names": [
     "CVN-59 Forrestal",

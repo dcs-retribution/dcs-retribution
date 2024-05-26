@@ -612,9 +612,9 @@ class F_16D_52(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (3, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (3, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (3, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -795,9 +795,9 @@ class F_16D_52(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (4, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             4,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (4, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (4, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -919,9 +919,9 @@ class F_16D_52(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (6, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             6,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (6, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (6, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -1046,9 +1046,9 @@ class F_16D_52(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (7, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (7, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (7, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -1499,9 +1499,9 @@ class F_16D_50(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (3, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (3, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (3, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -1682,9 +1682,9 @@ class F_16D_50(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (4, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             4,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (4, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (4, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -1806,9 +1806,9 @@ class F_16D_50(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (6, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             6,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (6, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (6, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -1933,9 +1933,9 @@ class F_16D_50(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (7, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (7, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (7, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -2386,9 +2386,9 @@ class F_16D_52_NS(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (3, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (3, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (3, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -2569,9 +2569,9 @@ class F_16D_52_NS(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (4, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             4,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (4, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (4, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -2693,9 +2693,9 @@ class F_16D_52_NS(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (6, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             6,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (6, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (6, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -2820,9 +2820,9 @@ class F_16D_52_NS(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (7, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (7, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (7, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -3272,9 +3272,9 @@ class F_16D_50_NS(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (3, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (3, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (3, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -3455,9 +3455,9 @@ class F_16D_50_NS(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (4, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             4,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (4, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (4, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -3579,9 +3579,9 @@ class F_16D_50_NS(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (6, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             6,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (6, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (6, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -3706,9 +3706,9 @@ class F_16D_50_NS(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (7, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (7, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (7, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -4159,9 +4159,9 @@ class F_16D_Barak_40(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (3, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (3, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (3, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -4342,9 +4342,9 @@ class F_16D_Barak_40(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (4, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             4,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (4, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (4, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -4454,9 +4454,9 @@ class F_16D_Barak_40(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (6, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             6,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (6, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (6, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -4570,9 +4570,9 @@ class F_16D_Barak_40(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (7, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (7, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (7, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -5020,9 +5020,9 @@ class F_16D_Barak_30(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (3, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (3, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (3, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -5203,9 +5203,9 @@ class F_16D_Barak_30(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (4, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             4,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (4, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (4, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -5315,9 +5315,9 @@ class F_16D_Barak_30(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (6, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             6,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (6, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (6, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -5431,9 +5431,9 @@ class F_16D_Barak_30(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (7, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (7, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (7, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -5880,9 +5880,9 @@ class F_16I(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (3, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (3, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (3, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -6063,9 +6063,9 @@ class F_16I(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (4, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             4,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (4, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (4, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -6187,9 +6187,9 @@ class F_16I(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (6, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             6,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (6, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (6, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
@@ -6314,9 +6314,9 @@ class F_16I(PlaneType):
             Weapons.GBU_10___2000lb_Laser_Guided_Bomb,
         )
         GBU_12___500lb_Laser_Guided_Bomb = (7, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
-        GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb = (
+        GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.GBU_24_Paveway_III___2000lb_Laser_Guided_Bomb,
+            Weapons.GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         CBU_87___202_x_CEM_Cluster_Bomb = (7, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
         CBU_97___10_x_SFW_Cluster_Bomb = (7, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)

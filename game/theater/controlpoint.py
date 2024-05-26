@@ -28,7 +28,7 @@ from uuid import UUID
 
 from dcs.mapping import Point
 from dcs.ships import (
-    Ara_vdm,
+    ara_vdm,
     CVN_71,
     CVN_72,
     CVN_73,
@@ -39,7 +39,7 @@ from dcs.ships import (
     LHA_Tarawa,
     Stennis,
     Type_071,
-    Hms_invincible,
+    hms_invincible,
 )
 from dcs.terrain.terrain import Airport, ParkingSlot
 from dcs.unitgroup import ShipGroup, StaticGroup
@@ -1385,13 +1385,13 @@ class NavalControlPoint(
         for group in self.find_main_tgo().groups:
             for u in group.units:
                 if u.alive and u.type in [
-                    Ara_vdm,
+                    ara_vdm,
                     Forrestal,
                     Stennis,
                     LHA_Tarawa,
                     KUZNECOW,
                     Type_071,
-                    Hms_invincible,
+                    hms_invincible,
                     L02,
                     L52,
                     L61,

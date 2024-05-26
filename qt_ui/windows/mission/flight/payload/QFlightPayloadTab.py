@@ -41,12 +41,12 @@ class FlightMemberSelector(QSpinBox):
     def __init__(self, flight: Flight, parent: QWidget | None = None) -> None:
         super().__init__(parent)
         self.flight = flight
-        self.setMinimum(0)
-        self.setMaximum(flight.count - 1)
+        self.setMinimum(1)
+        self.setMaximum(flight.count)
 
     @property
     def selected_member(self) -> FlightMember:
-        return self.flight.roster.members[self.value()]
+        return self.flight.roster.members[self.value() - 1]
 
 
 class DcsFuelSelector(QHBoxLayout):
@@ -237,7 +237,7 @@ class QFlightPayloadTab(QFrame):
         self.payload_editor.set_flight_member(member)
         self.weapon_laser_code_selector.set_flight_member(member)
         self.own_laser_code_info.set_flight_member(member)
-        if self.member_selector.value() != 0:
+        if self.member_selector.value() != 1:
             self.loadout_selector.setDisabled(
                 self.flight.use_same_loadout_for_all_members
             )
