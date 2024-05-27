@@ -18,6 +18,34 @@ variants:
   F-4E-45MC Phantom II: {}
   Phantom FGR.2: {}
   F-4EJ Phantom II: {}
+radios:
+  intra_flight: AN/ARC-164
+  inter_flight: AN/ARC-164
+  channels:
+    type: common
+    namer: phantom
+    intra_flight_radio_index: 2
+    inter_flight_radio_index: 1
+default_overrides:
+  INSAlignmentStored: true
+  #Quality: 100
+  #Wear: 0
+  #UseReferenceAircraft: false
+  #IsNvgAllowed: true
+  #TacanChannel: 0
+  #TacanBand: 0
+  #VORILSFrequencyMHZ: 108
+  #VORILSFrequencyDecimalMHZ: 0
+  #KY28Key: 1
+  #ChaffDoubleDispense: false
+  #IffMode2Digit1: 0
+  #IffMode2Digit2: 0
+  #IffMode2Digit3: 0
+  #IffMode2Digit4: 0
+  #LaserCodeDigit1: 1
+  #LaserCodeDigit2: 6
+  #LaserCodeDigit3: 8
+  #LaserCodeDigit4: 8
 tasks:
   Anti-ship: 110
   BAI: 570
