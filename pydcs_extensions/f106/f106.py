@@ -71,72 +71,72 @@ class VSN_F106A(PlaneType):
         Smokewinder___blue = (1, Weapons.Smokewinder___blue)
         Smokewinder___white = (1, Weapons.Smokewinder___white)
         Smokewinder___yellow = (1, Weapons.Smokewinder___yellow)
-        Weapons.Fuel_Tank = (1, Weapons.Fuel_Tank)
+        Fuel_Tank = (1, WeaponsF106.Fuel_Tank)
 
     # ERRR <CLEAN>
 
     class Pylon2:
-        Weapons.AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_ = (
+        AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_ = (
             2,
-            Weapons.AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_,
+            WeaponsF106.AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_,
         )
-        Weapons.AIM_4F_Semi_active_radar_homing_air_to_air_missile_ = (
+        AIM_4F_Semi_active_radar_homing_air_to_air_missile_ = (
             2,
-            Weapons.AIM_4F_Semi_active_radar_homing_air_to_air_missile_,
+            WeaponsF106.AIM_4F_Semi_active_radar_homing_air_to_air_missile_,
         )
-        Weapons.AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_ = (
+        AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_ = (
             2,
-            Weapons.AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_,
+            WeaponsF106.AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_,
         )
 
     class Pylon3:
-        Weapons.AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_ = (
+        AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_ = (
             3,
-            Weapons.AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_,
+            WeaponsF106.AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_,
         )
-        Weapons.AIM_4F_Semi_active_radar_homing_air_to_air_missile_ = (
+        AIM_4F_Semi_active_radar_homing_air_to_air_missile_ = (
             3,
-            Weapons.AIM_4F_Semi_active_radar_homing_air_to_air_missile_,
+            WeaponsF106.AIM_4F_Semi_active_radar_homing_air_to_air_missile_,
         )
-        Weapons.AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_ = (
+        AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_ = (
             3,
-            Weapons.AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_,
+            WeaponsF106.AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_,
         )
 
     class Pylon4:
-        Weapons.AIR_2A_Genie_Nuclear_air_to_air_unguided_rocket_ = (
+        AIR_2A_Genie_Nuclear_air_to_air_unguided_rocket_ = (
             4,
-            Weapons.AIR_2A_Genie_Nuclear_air_to_air_unguided_rocket_,
+            WeaponsF106.AIR_2A_Genie_Nuclear_air_to_air_unguided_rocket_,
         )
 
     # ERRR <CLEAN>
 
     class Pylon5:
-        Weapons.AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_ = (
+        AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_ = (
             5,
-            Weapons.AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_,
+            WeaponsF106.AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_,
         )
-        Weapons.AIM_4F_Semi_active_radar_homing_air_to_air_missile_ = (
+        AIM_4F_Semi_active_radar_homing_air_to_air_missile_ = (
             5,
-            Weapons.AIM_4F_Semi_active_radar_homing_air_to_air_missile_,
+            WeaponsF106.AIM_4F_Semi_active_radar_homing_air_to_air_missile_,
         )
-        Weapons.AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_ = (
+        AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_ = (
             5,
-            Weapons.AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_,
+            WeaponsF106.AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_,
         )
 
     class Pylon6:
-        Weapons.AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_ = (
+        AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_ = (
             6,
-            Weapons.AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_,
+            WeaponsF106.AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_,
         )
-        Weapons.AIM_4F_Semi_active_radar_homing_air_to_air_missile_ = (
+        AIM_4F_Semi_active_radar_homing_air_to_air_missile_ = (
             6,
-            Weapons.AIM_4F_Semi_active_radar_homing_air_to_air_missile_,
+            WeaponsF106.AIM_4F_Semi_active_radar_homing_air_to_air_missile_,
         )
-        Weapons.AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_ = (
+        AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_ = (
             6,
-            Weapons.AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_,
+            WeaponsF106.AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_,
         )
 
     class Pylon7:
@@ -145,7 +145,7 @@ class VSN_F106A(PlaneType):
         Smokewinder___blue = (7, Weapons.Smokewinder___blue)
         Smokewinder___white = (7, Weapons.Smokewinder___white)
         Smokewinder___yellow = (7, Weapons.Smokewinder___yellow)
-        Weapons.Fuel_Tank_ = (7, Weapons.Fuel_Tank_)
+        Fuel_Tank_ = (7, WeaponsF106.Fuel_Tank_)
 
     # ERRR <CLEAN>
 
@@ -200,72 +200,72 @@ class VSN_F106B(PlaneType):
         Smokewinder___blue = (1, Weapons.Smokewinder___blue)
         Smokewinder___white = (1, Weapons.Smokewinder___white)
         Smokewinder___yellow = (1, Weapons.Smokewinder___yellow)
-        Fuel_Tank = (1, Weapons.Fuel_Tank)
+        Fuel_Tank = (1, WeaponsF106.Fuel_Tank)
 
     # ERRR <CLEAN>
 
     class Pylon2:
-        Weapons.AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_ = (
+        AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_ = (
             2,
-            Weapons.AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_,
+            WeaponsF106.AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_,
         )
-        Weapons.AIM_4F_Semi_active_radar_homing_air_to_air_missile_ = (
+        AIM_4F_Semi_active_radar_homing_air_to_air_missile_ = (
             2,
-            Weapons.AIM_4F_Semi_active_radar_homing_air_to_air_missile_,
+            WeaponsF106.AIM_4F_Semi_active_radar_homing_air_to_air_missile_,
         )
-        Weapons.AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_ = (
+        AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_ = (
             2,
-            Weapons.AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_,
+            WeaponsF106.AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_,
         )
 
     class Pylon3:
-        Weapons.AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_ = (
+        AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_ = (
             3,
-            Weapons.AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_,
+            WeaponsF106.AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_,
         )
-        Weapons.AIM_4F_Semi_active_radar_homing_air_to_air_missile_ = (
+        AIM_4F_Semi_active_radar_homing_air_to_air_missile_ = (
             3,
-            Weapons.AIM_4F_Semi_active_radar_homing_air_to_air_missile_,
+            WeaponsF106.AIM_4F_Semi_active_radar_homing_air_to_air_missile_,
         )
-        Weapons.AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_ = (
+        AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_ = (
             3,
-            Weapons.AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_,
+            WeaponsF106.AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_,
         )
 
     class Pylon4:
-        Weapons.AIR_2A_Genie_Nuclear_air_to_air_unguided_rocket_ = (
+        AIR_2A_Genie_Nuclear_air_to_air_unguided_rocket_ = (
             4,
-            Weapons.AIR_2A_Genie_Nuclear_air_to_air_unguided_rocket_,
+            WeaponsF106.AIR_2A_Genie_Nuclear_air_to_air_unguided_rocket_,
         )
 
     # ERRR <CLEAN>
 
     class Pylon5:
-        Weapons.AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_ = (
+        AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_ = (
             5,
-            Weapons.AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_,
+            WeaponsF106.AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_,
         )
-        Weapons.AIM_4F_Semi_active_radar_homing_air_to_air_missile_ = (
+        AIM_4F_Semi_active_radar_homing_air_to_air_missile_ = (
             5,
-            Weapons.AIM_4F_Semi_active_radar_homing_air_to_air_missile_,
+            WeaponsF106.AIM_4F_Semi_active_radar_homing_air_to_air_missile_,
         )
-        Weapons.AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_ = (
+        AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_ = (
             5,
-            Weapons.AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_,
+            WeaponsF106.AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_,
         )
 
     class Pylon6:
-        Weapons.AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_ = (
+        AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_ = (
             6,
-            Weapons.AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_,
+            WeaponsF106.AIM_4D_Rear_aspect_advanced_heat_seeking_air_to_air_missile_,
         )
-        Weapons.AIM_4F_Semi_active_radar_homing_air_to_air_missile_ = (
+        AIM_4F_Semi_active_radar_homing_air_to_air_missile_ = (
             6,
-            Weapons.AIM_4F_Semi_active_radar_homing_air_to_air_missile_,
+            WeaponsF106.AIM_4F_Semi_active_radar_homing_air_to_air_missile_,
         )
-        Weapons.AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_ = (
+        AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_ = (
             6,
-            Weapons.AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_,
+            WeaponsF106.AIM_4G_Rear_aspect_heat_seeking_air_to_air_missile_,
         )
 
     class Pylon7:
@@ -274,7 +274,7 @@ class VSN_F106B(PlaneType):
         Smokewinder___blue = (7, Weapons.Smokewinder___blue)
         Smokewinder___white = (7, Weapons.Smokewinder___white)
         Smokewinder___yellow = (7, Weapons.Smokewinder___yellow)
-        Fuel_Tank_ = (7, Weapons.Fuel_Tank_)
+        Fuel_Tank_ = (7, WeaponsF106.Fuel_Tank_)
 
     # ERRR <CLEAN>
 

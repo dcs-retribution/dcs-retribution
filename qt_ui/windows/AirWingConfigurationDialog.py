@@ -525,7 +525,6 @@ class AircraftSquadronsPage(QWidget):
         scrolling_area.setHorizontalScrollBarPolicy(
             Qt.ScrollBarPolicy.ScrollBarAlwaysOff
         )
-        scrolling_area.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
         scrolling_area.setWidgetResizable(True)
         scrolling_area.setWidget(scrolling_widget)
 

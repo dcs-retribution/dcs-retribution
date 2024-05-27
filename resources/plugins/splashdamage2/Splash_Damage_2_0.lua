@@ -149,13 +149,15 @@ explTable = {
   ["AGM_45B"] = 66,                             -- Shrike B
   ["AGM_65A"] = 57,                             
   ["AGM_65B"] = 57,                             
-  ["AGM_65D"] = 57,             
+  ["AGM_65D"] = 57,
   ["AGM_65E"] = 136,
   ["AGM_65F"] = 136,
   ["AGM_65G"] = 136,
   ["AGM_65H"] = 57,
   ["AGM_65K"] = 136,
   ["AGM_65L"] = 136,
+  ["AGM_78A"] = 97,
+  ["AGM_78B"] = 97,
   ["AGM_84A"] = 221,
   ["AGM_84D"] = 221,
   ["AGM_84S"] = 221,
@@ -278,6 +280,9 @@ explTable = {
   --["BLU-97/B"] = 10,
   --["BLU-97B"] = 10,
   --["MK118"] = 8,
+  ["HB_F4E_AGM_12C"] = 440,
+  ["HB_F4E_GBU_8_HOBOS"] = 429,
+  ["HB_F4E_GBU15V1"] = 910,
 }
 
 clusterDamage = {

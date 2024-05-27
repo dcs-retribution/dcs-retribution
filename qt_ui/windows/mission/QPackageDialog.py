@@ -23,7 +23,7 @@ from game.radio.radios import RadioFrequency
 from game.server import EventStream
 from game.sim import GameUpdateEvents
 from game.theater.missiontarget import MissionTarget
-from qt_ui.models import AtoModel, GameModel, PackageModel
+from qt_ui.models import GameModel, PackageModel
 from qt_ui.uiconstants import EVENT_ICONS
 from qt_ui.widgets.QFrequencyWidget import QFrequencyWidget
 from qt_ui.widgets.ato import QFlightList
@@ -333,11 +333,9 @@ class QEditPackageDialog(QPackageDialog):
     Changes to existing packages occur immediately.
     """
 
-    def __init__(
-        self, game_model: GameModel, model: AtoModel, package: PackageModel
-    ) -> None:
-        super().__init__(game_model, package)
-        self.ato_model = model
+    def __init__(self, gm: GameModel, package: PackageModel) -> None:
+        super().__init__(gm, package)
+        self.ato_model = gm.ato_model if gm.is_ownfor else gm.red_ato_model
 
         self.delete_button = QPushButton("Delete package")
         self.delete_button.setProperty("style", "btn-danger")
