@@ -354,7 +354,7 @@ class PretenseLuaGenerator(LuaGenerator):
                         sam_presets["sa2"].enabled = True
                     if (
                         ground_unit.unit_type.dcs_unit_type
-                        == AirDefence.X_5p73_s_125_ln
+                        == AirDefence.x_5p73_s_125_ln
                     ):
                         sam_presets["sa3"].enabled = True
                     if ground_unit.unit_type.dcs_unit_type == AirDefence.S_200_Launcher:
@@ -383,7 +383,7 @@ class PretenseLuaGenerator(LuaGenerator):
                         sam_presets["nasamsc"].enabled = True
                     if (
                         ground_unit.unit_type.dcs_unit_type
-                        == AirDefence.Rapier_fsa_launcher
+                        == AirDefence.rapier_fsa_launcher
                     ):
                         sam_presets["rapier"].enabled = True
                     if ground_unit.unit_type.dcs_unit_type == AirDefence.Roland_ADS:
