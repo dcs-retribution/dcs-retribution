@@ -1,0 +1,417 @@
+---
+name: Persian Gulf - WRL - Operation Noisy Cricket (Redux)
+theater: Persian Gulf
+authors: Deadhead (Based on the original by Starfire)
+recommended_player_faction: WRL - Task Force Blue
+recommended_enemy_faction: Iran 2015
+description: >
+  <p>This mission was modified by Deadhead for the WRL Group. Join us for weekly PVE events. 
+  <a style="color: white" href="https://werunliberation.com">werunliberation.com</a></p>
+  <p>In the face of mounting sanctions against their nuclear program, Iran has
+  barred all shipping from transiting the Strait of Hormuz. Three days ago, the
+  Iranian Vice-President ordered a series of missile attacks on commercial
+  vessels entering the Gulf of Oman through the highly strategic chokepoint,
+  sinking a container ship and damaging two oil tankers. Operation Noisy Cricket
+  is the American response to this threat to regional stability. The objective
+  is to render inoperative Iran's array of coastal anti-ship missile sites, as
+  well as disable the airfields from which maritime strike aircraft could be
+  launched.</p><p>While officially intended only to deter any further attempts
+  to disrupt the flow of maritime traffic and and protect the interests of the
+  global economy, The USAF will also leverage the resultant degradation in
+  Iranian air defences to launch a deep strike from airfields in the UAE in an
+  attempt to take out Iran's last combat-worthy F-14 Tomcats, currently
+  stationed at Kerman. At the same time, a carrier-based Marine detachment will
+  be inserted via helicopter to conduct an unscheduled inspection of the Bushehr
+  Nuclear Power Plant, in order to verify Iran's compliance with international
+  nuclear agreements and gather evidence of any ongoing nuclear weapons
+  development.</p>
+  <p>All WRL Campaigns use high budget and high income to focus on the PVE goals 
+  to eliminate the enemy. Use lower starting money and income for increased difficulty</p>
+miz: WRL_Operation_Noisy_Cricket_Redux.miz
+performance: 1
+recommended_start_date: 2019-07-13
+recommended_player_money: 5000
+recommended_enemy_money: 1000
+recommended_player_income_multiplier: 0.8
+recommended_enemy_income_multiplier: 0.4
+version: "10.7"
+settings:
+  #Mods to be used
+  hercules: true
+  uh_60l: true
+squadrons:
+  Blue CV-1:
+    - primary: SEAD
+      secondary: any
+      aircraft:
+        - F/A-18C Hornet (Lot 20)
+      size: 12
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - F-14B Tomcat
+      size: 12
+    - primary: AEW&C
+      aircraft:
+        - E-2D Advanced Hawkeye
+      size: 2
+    - primary: Refueling
+      aircraft:
+        - S-3B Tanker
+      size: 4
+  Blue LHA-1:
+    - primary: DEAD
+      secondary: air-to-ground
+      aircraft:
+        - AV-8B Harrier II Night Attack
+      size: 8
+  #Khasab (10)
+  10:
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - UH-60L
+        - UH-60A
+      size: 8
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - AH-64D Apache Longbow
+      size: 8
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Ka-50 Hokum III
+      size: 8
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - A-10C Thunderbolt II (Suite 7)
+      size: 12
+  # Al Minhad AFB (61)
+  12:
+    - primary: SEAD
+      secondary: any
+      aircraft:
+        - F/A-18C Hornet (Lot 20)
+      size: 12
+    - primary: DEAD
+      secondary: any
+      aircraft:
+        - F-16CM Fighting Falcon (Block 50)
+      size: 18
+    - primary: Escort
+      secondary: air-to-air
+      aircraft:
+        - F-15C Eagle
+      size: 18
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - JF-17 Thunder
+      size: 12
+    - primary: BAI
+      secondary: air-to-air
+      aircraft:
+        - Mirage 2000C
+      size: 12
+  #Al Dhafra AFB (251)
+  4:
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - B-1B Lancer
+      size: 4
+    - primary: Refueling
+      aircraft:
+        - KC-135 Stratotanker
+      size: 2
+    - primary: Refueling
+      aircraft:
+        - KC-130
+      size: 2
+    - primary: Air Assault
+      secondary: air-to-ground
+      aircraft:
+        - C-130J-30 Super Hercules
+      size: 8
+    - primary: Air Assault
+      secondary: air-to-ground
+      aircraft:
+        - C-130
+      size: 8
+    - primary: OCA/Runway
+      secondary: any
+      aircraft:
+        - F-15E Strike Eagle (Suite 4+)
+      size: 18
+  #Bandar Abbas Intl (51)
+  2:
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - F-4E Phantom II
+      size: 18
+    - primary: TARCAP
+      secondary: air-to-air
+      aircraft:
+        - F-5E Tiger II
+      size: 16
+  #Qeshm Island (12)
+  13:
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - Mi-24P Hind-F
+      size: 12
+  #Abu Musa Island (8)
+  1:
+    - primary: DEAD
+      secondary: air-to-ground
+      aircraft:
+        - Su-25T Frogfoot
+      size: 8
+  #Kish Intl (46)
+  24:
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - Su-24MK Fencer-D
+      size: 20
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - Mirage-F1EQ
+      size: 16
+  #Shiraz Intl (122)
+  19:
+    - primary: Transport
+      aircraft:
+        - IL-76MD
+      size: 5
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - MiG-29A Fulcrum-A
+      size: 12
+  #Kerman
+  18:
+    - primary: AEW&C
+      aircraft:
+        - A-50
+      size: 1
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - F-14A Tomcat (Block 135-GR Late)
+      size: 10
+advanced_iads: true
+iads_config:
+  # Command And Control
+  - RED COMMAND 1:
+      - RED POWER 1
+      - RED POWER 2
+      - RED COMMS 1
+      - RED COMMS 2
+  - RED COMMAND 2:
+      - RED COMMS 3
+      - RED COMMS 4
+      - RED POWER 2
+      - RED POWER 3
+  # Nuclear Zone
+  - RED EWR 8:
+      - RED POWER 1
+      - RED COMMS 1
+  - RED EWR 9:
+      - RED POWER 1
+      - RED COMMS 1
+  - RED EWR 10:
+      - RED POWER 1
+      - RED COMMS 1
+  - RED L-SHORT POWER1:
+      - RED POWER 1
+      - RED COMMS 1
+  - RED L-SHORT SHIRAZ 1:
+      - RED POWER 1
+      - RED COMMS 1
+  - RED L-MED 1:
+      - RED POWER 1
+      - RED COMMS 1
+  - RED L-MED 9:
+      - RED POWER 1
+      - RED COMMS 1
+  - RED L-LONG 2:
+      - RED POWER 1
+      - RED COMMS 1
+  - RED L-LONG 3:
+      - RED POWER 1
+      - RED COMMS 1
+  # Northern Region
+  - RED EWR 4:
+      - RED POWER 2
+      - RED COMMS 2
+  - RED EWR 5:
+      - RED POWER 2
+      - RED COMMS 2
+  - RED L-LONG 1:
+      - RED POWER 2
+      - RED COMMS 2
+  - RED L-LONG 4:
+      - RED POWER 2
+      - RED COMMS 2
+  - RED L-MED 11:
+      - RED POWER 2
+      - RED COMMS 2
+  - RED L-SHORT KERMAN 1:
+      - RED POWER 2
+      - RED COMMS 2
+  # Bandar Abbas Region
+  - RED EWR 1:
+      - RED POWER 1
+      - RED COMMS 3
+  - RED EWR 2:
+      - RED POWER 3
+      - RED COMMS 3
+  - RED EWR 3:
+      - RED POWER 3
+      - RED COMMS 4
+  - RED L-MED 2:
+      - RED POWER 1
+      - RED COMMS 2
+      - RED COMMS 4
+  - RED L-MED 7:
+      - RED COMMS 3
+      - RED COMMS 4
+      - RED POWER 3
+  - RED L-MED 8:
+      - RED COMMS 3
+      - RED COMMS 4
+      - RED POWER 3
+  - RED L-MED 10:
+      - RED COMMS 3
+      - RED COMMS 4
+      - RED POWER 3
+  - RED L-SHORT BANDAR 1:
+      - RED POWER 3
+      - RED COMMS 4
+  - RED L-SHORT BANDAR 2:
+      - RED POWER 3
+      - RED COMMS 4
+  - RED L-SHORT KISH 1:
+      - RED POWER 3
+      - RED COMMS 3
+  - RED L-SHORT KISH 2:
+      - RED POWER 3
+      - RED COMMS 3
+  - RED L-SHORT QESHM 1:
+      - RED POWER 3
+      - RED COMMS 3
+  - RED L-SHORT TUNB 1:
+      - RED POWER 3
+      - RED COMMS 3
+  # Peninsula
+  - BLUE EWR 1:
+      - BLUE POWER
+      - BLUE COMMS 1
+      - BLUE COMMS 5
+  - BLUE EWR 2:
+      - BLUE POWER
+      - BLUE COMMS 2
+      - BLUE COMMS 3
+  - BLUE EWR 3:
+      - BLUE POWER
+      - BLUE COMMS 3
+      - BLUE COMMS 4
+  - BLUE EWR 4:
+      - BLUE POWER
+      - BLUE COMMS 2
+      - BLUE COMMS 4
+  - BLUE EWR 5:
+      - BLUE POWER
+      - BLUE COMMS 1
+      - BLUE COMMS 4
+  - BLUE L-SHORT KHASAB 1:
+      - BLUE POWER
+      - BLUE COMMS 5
+  - BLUE L-SHORT KHASAB 2:
+      - BLUE POWER
+      - BLUE COMMS 5
+  - BLUE L-SHORT MINHAD 1:
+      - BLUE POWER
+      - BLUE COMMS 1
+      - BLUE COMMS 2
+  - BLUE L-SHORT MINHAD 2:
+      - BLUE POWER
+      - BLUE COMMS 1
+      - BLUE COMMS 2
+  - BLUE L-SHORT DHAFRA 1:
+      - BLUE POWER
+      - BLUE COMMS 2
+      - BLUE COMMS 3
+  - BLUE L-SHORT DHAFRA 2:
+      - BLUE POWER
+      - BLUE COMMS 2
+      - BLUE COMMS 3
+  - BLUE L-MED 1:
+      - BLUE POWER
+      - BLUE COMMS 5
+  - BLUE L-MED 2:
+      - BLUE POWER
+      - BLUE COMMS 5
+      - BLUE COMMS 1
+  - BLUE L-MED 3:
+      - BLUE POWER
+      - BLUE COMMS 1
+      - BLUE COMMS 2
+  - BLUE L-MED 4:
+      - BLUE POWER
+      - BLUE COMMS 2
+      - BLUE COMMS 3
+  - BLUE L-MED 5:
+      - BLUE POWER
+      - BLUE COMMS 2
+      - BLUE COMMS 3
+  - BLUE L-LONG 1:
+      - BLUE POWER
+      - BLUE COMMS 1
+      - BLUE COMMS 2
+  - BLUE L-LONG 2:
+      - BLUE POWER
+      - BLUE COMMS 2
+      - BLUE COMMS 3
+  - BLUE L-LONG 3:
+      - BLUE POWER
+      - BLUE COMMS 1
+      - BLUE COMMS 4
+  - BLUE L-LONG 4:
+      - BLUE POWER
+      - BLUE COMMS 5
+ground_forces:
+  RED L-LONG 1: SA-10/S-300PS
+  RED L-LONG 2: SA-5/S-200
+  RED L-LONG 3: SA-5/S-200
+  RED L-LONG 4: SA-10B/S-300PS
+  RED L-MED 1: SA-2/S-75
+  RED L-MED 2: SA-2/S-75
+  RED L-MED 3: SA-11
+  RED L-MED 4: SA-11
+  RED L-MED 5: SA-6
+  RED L-MED 6: SA-6
+  RED L-MED 7: SA-11
+  RED L-MED 8: SA-11
+  RED L-MED 9: SA-6
+  RED L-MED 10: SA-6
+  RED L-MED 11: SA-11
+  RED L-SHORT TUNB 1: SA-15 SHORAD
+  RED L-SHORT QESHM 1: SA-15 SHORAD
+  RED L-SHORT KISH 1: SA-15 SHORAD
+  RED L-SHORT KISH 2: SA-15 SHORAD
+  RED L-SHORT BANDAR 1: SA-15 SHORAD
+  RED L-SHORT BANDAR 2: SA-15 SHORAD
+  RED L-SHORT KERMAN 1: SA-15 SHORAD
+  RED L-SHORT SHIRAZ 1: SA-15 SHORAD
+  RED L-SHORT POWER1: SA-15 SHORAD
+  BLUE L-LONG 1: Patriot
+  BLUE L-LONG 2: Patriot
+  BLUE L-LONG 3: Patriot
+  BLUE L-LONG 4: Patriot
