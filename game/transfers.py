@@ -661,10 +661,16 @@ class PendingTransfers:
     def _cancel_transport_air(
         self, transport: Airlift, _transfer: TransferOrder
     ) -> None:
+        from game.sim import GameUpdateEvents
+        from game.server import EventStream
+
         flight = transport.flight
         flight.package.remove_flight(flight)
+        events = GameUpdateEvents().delete_flight(flight)
         if not flight.package.flights:
             self.game.ato_for(self.player).remove_package(flight.package)
+            events = events.delete_flights_in_package(flight.package)
+        EventStream().put_nowait(events)
 
     @cancel_transport.register
     def _cancel_transport_convoy(
