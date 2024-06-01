@@ -93,7 +93,6 @@ class MigrationUnpickler(pickle.Unpickler):
             except AttributeError:
                 alternate = name.split('.')[:-1] + [name.split('.')[-1][0].lower() + name.split('.')[-1][1:]]
                 name = '.'.join(alternate)
-                print(name)
         return super().find_class(module, name)
 # fmt: on
 
