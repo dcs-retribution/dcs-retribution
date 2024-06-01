@@ -357,10 +357,10 @@ class PretenseAircraftGenerator:
         # Then plan SEAD and DEAD, if capable
         if sead_capable_cp:
             while num_of_sead < self.game.settings.pretense_sead_flights_per_cp:
+                # Intentionally don't spawn anything at OffMapSpawns in Pretense
+                if isinstance(cp, OffMapSpawn):
+                    break
                 for squadron in random_squadron_list:
-                    # Intentionally don't spawn anything at OffMapSpawns in Pretense
-                    if isinstance(squadron.location, OffMapSpawn):
-                        continue
                     if cp.coalition != squadron.coalition:
                         continue
                     if num_of_sead >= self.game.settings.pretense_sead_flights_per_cp:
@@ -399,10 +399,10 @@ class PretenseAircraftGenerator:
         # Then plan Strike, if capable
         if strike_capable_cp:
             while num_of_strike < self.game.settings.pretense_strike_flights_per_cp:
+                # Intentionally don't spawn anything at OffMapSpawns in Pretense
+                if isinstance(cp, OffMapSpawn):
+                    break
                 for squadron in random_squadron_list:
-                    # Intentionally don't spawn anything at OffMapSpawns in Pretense
-                    if isinstance(squadron.location, OffMapSpawn):
-                        continue
                     if cp.coalition != squadron.coalition:
                         continue
                     if (
@@ -426,10 +426,10 @@ class PretenseAircraftGenerator:
         # Then plan air-to-air, if capable
         if patrol_capable_cp:
             while num_of_cap < self.game.settings.pretense_barcap_flights_per_cp:
+                # Intentionally don't spawn anything at OffMapSpawns in Pretense
+                if isinstance(cp, OffMapSpawn):
+                    break
                 for squadron in random_squadron_list:
-                    # Intentionally don't spawn anything at OffMapSpawns in Pretense
-                    if isinstance(squadron.location, OffMapSpawn):
-                        continue
                     if cp.coalition != squadron.coalition:
                         continue
                     if num_of_cap >= self.game.settings.pretense_barcap_flights_per_cp:
@@ -450,10 +450,10 @@ class PretenseAircraftGenerator:
         # Then plan CAS, if capable
         if cas_capable_cp:
             while num_of_cas < self.game.settings.pretense_cas_flights_per_cp:
+                # Intentionally don't spawn anything at OffMapSpawns in Pretense
+                if isinstance(cp, OffMapSpawn):
+                    break
                 for squadron in random_squadron_list:
-                    # Intentionally don't spawn anything at OffMapSpawns in Pretense
-                    if isinstance(squadron.location, OffMapSpawn):
-                        continue
                     if cp.coalition != squadron.coalition:
                         continue
                     if num_of_cas >= self.game.settings.pretense_cas_flights_per_cp:
@@ -475,10 +475,10 @@ class PretenseAircraftGenerator:
         # And finally, plan BAI, if capable
         if bai_capable_cp:
             while num_of_bai < self.game.settings.pretense_bai_flights_per_cp:
+                # Intentionally don't spawn anything at OffMapSpawns in Pretense
+                if isinstance(cp, OffMapSpawn):
+                    break
                 for squadron in random_squadron_list:
-                    # Intentionally don't spawn anything at OffMapSpawns in Pretense
-                    if isinstance(squadron.location, OffMapSpawn):
-                        continue
                     if cp.coalition != squadron.coalition:
                         continue
                     if num_of_bai >= self.game.settings.pretense_bai_flights_per_cp:
