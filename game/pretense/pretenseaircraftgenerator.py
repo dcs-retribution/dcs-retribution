@@ -92,9 +92,8 @@ class PretenseAircraftGenerator:
     @cached_property
     def use_client(self) -> bool:
         """True if Client should be used instead of Player."""
-        blue_clients = self.client_slots_in_ato(self.game.blue.ato)
-        red_clients = self.client_slots_in_ato(self.game.red.ato)
-        return blue_clients + red_clients > 1
+        """Pretense should always use Client slots."""
+        return True
 
     @staticmethod
     def client_slots_in_ato(ato: AirTaskingOrder) -> int:
