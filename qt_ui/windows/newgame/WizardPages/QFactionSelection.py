@@ -146,11 +146,6 @@ class QFactionUnits(QScrollArea):
         self, cb: QComboBox, callback: Callable, predicate: Callable
     ):
         for ac_dcs in sorted(AircraftType.each_dcs_type(), key=lambda x: x.id):
-            if (
-                ac_dcs not in self.faction.country.planes
-                and ac_dcs not in self.faction.country.helicopters
-            ):
-                continue
             for ac in AircraftType.for_dcs_type(ac_dcs):
                 if ac in self.faction.aircraft:
                     continue
