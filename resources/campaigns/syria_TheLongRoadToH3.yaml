@@ -18,6 +18,7 @@ recommended_enemy_faction:
     - Mi-24V Hind-E
     - Mi-24P Hind-F
     - Mi-8MTV2 Hip
+    - MiG-19P Farmer-B
     - MiG-23MLD Flogger-K
     - MiG-25PD Foxbat-E
     - MiG-29A Fulcrum-A
@@ -227,6 +228,13 @@ squadrons:
       aircraft:
         - Su-33 Flanker-D
       size: 12
+  # Aleppo - 29
+  27:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - MiG-19P Farmer-B
+        - MiG-23MLD Flogger-K
   # Tabqa - 29
   37:
     - primary: CAS
