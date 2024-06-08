@@ -4,7 +4,7 @@ theater: Syria
 authors: tmz42 (original campaign by Plob)
 description: 
   <p>From Incirlik to H-3, repel the alliance between Iraq and Syria.</p>
-  <p>This campaign is based on and meant as a lighter alternative to Syria - Full Map</p>
+  <p>This campaign is based on and meant as a lighter alternative to Syria - Full Map.</p>
 recommended_player_faction: NATO OIF
 recommended_enemy_faction:
   country: Combined Joint Task Forces Red
@@ -94,7 +94,7 @@ recommended_enemy_faction:
   carrier_names: []
 recommended_start_date: 2005-06-05
 miz: syria_TheLongRoadToH3.miz
-performance: 3
+performance: 2
 version: 10.7
 advanced_iads: true
 settings:
