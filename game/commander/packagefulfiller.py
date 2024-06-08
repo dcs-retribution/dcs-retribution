@@ -133,6 +133,21 @@ class PackageFulfiller:
                 threats[EscortType.Sead] = True
         return threats
 
+    def can_plan_escort(self, type: EscortType) -> bool:
+        if type == EscortType.AirToAir:
+            return self.air_wing_can_plan(FlightType.ESCORT)
+        elif type == EscortType.Sead:
+            for task in [
+                FlightType.SEAD,
+                FlightType.SEAD_ESCORT,
+                FlightType.SEAD_SWEEP,
+            ]:
+                if self.air_wing_can_plan(task):
+                    return True
+        elif type == EscortType.Refuel:
+            return self.air_wing_can_plan(FlightType.REFUELING)
+        return False
+
     def plan_mission(
         self,
         mission: ProposedMission,
@@ -207,7 +222,9 @@ class PackageFulfiller:
             # This list was generated from the not None set, so this should be
             # impossible.
             assert escort.escort_type is not None
-            if needed_escorts[escort.escort_type]:
+            if needed_escorts[escort.escort_type] and self.can_plan_escort(
+                escort.escort_type
+            ):
                 with tracer.trace("Flight planning"):
                     self.plan_flight(
                         mission, escort, builder, missing_types, purchase_multiplier
