@@ -1,5 +1,6 @@
 """Widgets for displaying air tasking orders."""
 import logging
+from copy import deepcopy
 from typing import Optional
 
 from PySide6.QtCore import (
@@ -143,6 +144,7 @@ class QFlightList(QListView):
             )
             return
         self.package_model.add_flight(clone)
+        clone.flight_plan.layout = deepcopy(flight.flight_plan.layout)
         EventStream.put_nowait(GameUpdateEvents().new_flight(clone))
 
     def cancel_or_abort_flight(self, index: QModelIndex) -> None:
