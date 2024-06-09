@@ -1,15 +1,15 @@
 ---
-name: US Army 17th Cavalry Regiment 3rd Squadron Troop C
-nickname: Crazy Horse
+name: US Army 17th Cavalry Regiment 1st Squadron Troop A
+nickname: Roughnecks
 female_pilot_percentage: 10
 country: USA
 role: Light Attack and Scout Helicopter
 aircraft: OH-58D(R) Kiowa Warrior
 livery_set:
-  - US 3-17 C 001 Jasmine
-  - US 3-17 C 179 Presley Marie
-  - US 3-17 C 561 Ariel
-  - US 3-17 C 976 Jenny
+  - US 1-17 A 002
+  - US 1-17 A 079
+  - US 1-17 A 115
+  - US 1-17 A 344
 mission_types:
   - BAI
   - CAS
