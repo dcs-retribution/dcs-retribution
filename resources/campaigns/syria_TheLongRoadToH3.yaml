@@ -1,0 +1,377 @@
+---
+name: Syria - The Long Road to H3
+theater: Syria
+authors: tmz42 (original campaign by Plob)
+description: 
+  <p>From Incirlik to H-3, repel the alliance between Iraq and Syria.</p>
+  <p>This campaign is based on and meant as a lighter alternative to Syria - Full Map.</p>
+recommended_player_faction: NATO OIF
+recommended_enemy_faction:
+  country: Combined Joint Task Forces Red
+  name: Iraq-Syria 2000s
+  authors: tmz42
+  description: <p>Iraq - Syria fictional alliance in the 2000s.</p>
+  aircrafts:
+    - IL-76MD
+    - L-39ZA Albatros
+    - MiG-21bis Fishbed-N
+    - Mi-24V Hind-E
+    - Mi-24P Hind-F
+    - Mi-8MTV2 Hip
+    - MiG-19P Farmer-B
+    - MiG-23MLD Flogger-K
+    - MiG-25PD Foxbat-E
+    - MiG-29A Fulcrum-A
+    - SA 342L Gazelle
+    - Su-22M4 Fitter-K
+    - Su-24M Fencer-D
+    - Tu-22M3 Backfire-C
+    - Su-25 Frogfoot
+    - Mirage-F1EQ
+    - H-6J Badger
+  awacs:
+    - A-50
+  tankers:
+    - IL-78M
+  frontline_units:
+    - BMP-1
+    - BMP-2
+    - BTR-80
+    - BRDM-2
+    - Cobra
+    - MT-LB
+    - T-55A
+    - T-72B with Kontakt-1 ERA
+    - T-90A
+    - ZSU-57-2 'Sparka'
+  artillery_units:
+    - BM-21 Grad
+    - 2S1 Gvozdika
+    - 2S9 Nona-S
+  logistics_units:
+    - Truck Ural-375
+    - LUV UAZ-469 Jeep
+  infantry_units:
+    - Paratrooper AKS
+    - Infantry AK-74 Rus
+    - Paratrooper RPG-16
+    - MANPADS SA-18 Igla-S "Grouse"
+  preset_groups:
+    - SA-5/S-200
+    - SA-2/S-75
+    - SA-2/S-75 V-759/5V23
+    - SA-3/S-125
+    - SA-3/S-125 V-601P/5V27
+    - SA-6
+    - SA-11
+    - SA-10/S-300PS
+    - SA-12/S-300V
+    - Cold-War-Flak
+    - Silkworm
+    - KS-19/SON-9
+  naval_units:
+    - Corvette 1124.4 Grish
+    - Corvette 1241.1 Molniya
+    - FAC La Combattante IIa
+    - Frigate 1135M Rezky
+  air_defense_units:
+    - SAM P19 "Flat Face" SR (SA-2/3)
+    - EWR 1L13
+    - EWR 55G6
+    - SAM SA-8 Osa "Gecko" TEL
+    - SA-9 Strela
+    - SA-13 Gopher (9K35 Strela-10M3)
+    - SA-19 Grison (2K22 Tunguska)
+    - SA-15 Tor
+    - ZSU-57-2 'Sparka'
+    - AAA ZU-23 Closed Emplacement
+    - ZU-23 on Ural-375
+    - ZSU-23-4 Shilka
+  missiles:
+    - SSM SS-1C Scud-B
+  helicopter_carrier_names: []
+  requirements: {}
+  carrier_names: []
+recommended_start_date: 2005-06-05
+miz: syria_TheLongRoadToH3.miz
+performance: 2
+version: 10.7
+advanced_iads: true
+settings:
+  # Set mission duration to 45 minutes
+  desired_player_mission_duration: 45
+  #  Set max frontline width to 30 km
+  max_frontline_width: 30
+squadrons:
+####################### BLUEFOR
+  Blue CV:
+    # Tomcat F-14B - Swordsmen
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - VF-32
+        - F-14B Tomcat
+      size: 14
+    # Tomcat F-14A - Black Aces
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - VF-41
+        - F-14A Tomcat (Block 135-GR Late)
+      size: 14
+    # Hornet - Golden Dragons
+    - primary: SEAD
+      secondary: any
+      aircraft:
+        - VFA-192
+        - F/A-18C Hornet (Lot 20)
+    # Hornet - Bulls
+    - primary: DEAD
+      secondary: any
+      aircraft:
+        - VFA-37
+        - F/A-18C Hornet (Lot 20)
+    - primary: Refueling
+      aircraft:
+        - S-3B Tanker
+      size: 4
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - S-3B Viking
+      size: 8
+    - primary: AEW&C
+      aircraft:
+        - E-2C Hawkeye
+      size: 2
+  Blue LHA:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - AV-8B Harrier II Night Attack
+      size: 10
+    - primary: Air Assault
+      secondary: air-to-ground
+      aircraft:
+        - UH-1H Iroquois
+      size: 4
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - AH-1W SuperCobra
+      size: 6
+  # Incirlik
+  16:
+    - primary: Refueling
+      aircraft:
+        - KC-135 Stratotanker
+      size: 2
+    - primary: Refueling
+      aircraft:
+        - KC-135 Stratotanker
+      size: 2
+    - primary: AEW&C
+      aircraft:
+        - E-3A
+      size: 2
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - C-130J-30 Super Hercules
+        - C-130
+      size: 8
+    # Viper Warhawks
+    - primary: SEAD
+      secondary: any
+      aircraft:
+        - 480th FS
+        - F-16CM Fighting Falcon (Block 50)
+      size: 12
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - B-1B Lancer
+      size: 4
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - 494th Fighter Squadron
+        - F-15E Strike Eagle (Suite 4+)
+      size: 12
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - AV-8B Harrier II Night Attack
+      size: 12
+    # Hornet - Thunderbolts
+    - primary: DEAD
+      secondary: any
+      aircraft:
+        - VMFA-251
+      size: 12
+  # Gaziantep
+  11:
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - UH-1H Iroquois
+      size: 4
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - AH-64D Apache Longbow
+      size: 8
+####################### REDFOR
+  Red CV:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - Su-33 Flanker-D
+      size: 12
+  # Aleppo - 29
+  27:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - MiG-19P Farmer-B
+        - MiG-23MLD Flogger-K
+  # Tabqa - 29
+  37:
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - L-39ZA Albatros
+        - Su-25 Frogfoot
+      size: 12
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Su-22M4 Fitter-K
+        - Su-24M Fencer-D
+      size: 8
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - MiG-23MLD Flogger-K
+        - MiG-29S Fulcrum-C
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Mi-24P Hind-F
+      size: 2
+  # Al-Tanf - 2
+  63:
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Mi-24P Hind-F
+      size: 2
+# Al Quasyr - 34
+  3:
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Mi-24P Hind-F
+      size: 2 
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - MiG-21bis Fishbed-N
+        - MiG-23MLD Flogger-K
+      size: 12
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - Su-22M4 Fitter-K
+        - Su-24M Fencer-D
+      size: 12
+  # Bassel Al-Assad - 53
+  21:
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Mi-24P Hind-F
+      size: 4
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - MiG-29A Fulcrum-A
+        - MiG-29S Fulcrum-C
+      size: 12
+    - primary: Refueling
+      aircraft:
+        - IL-78M
+      size: 2
+    - primary: Transport
+      aircraft:
+        - IL-76MD
+      size: 2
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - SA 342L Gazelle
+      size: 4
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - Su-24M Fencer-D
+        - Su-34 Fullback
+      size: 6
+# Tiyas - 82
+  39:
+    - primary: TARCAP
+      secondary: air-to-air
+      aircraft:
+        - MiG-25PD Foxbat-E
+      size: 12
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - Su-24M Fencer-D
+      size: 12
+    - primary: AEW&C
+      aircraft:
+        - A-50
+      size: 2
+# H3 - 68
+  53:
+    - primary: TARCAP
+      secondary: air-to-air
+      aircraft:
+        - MiG-25PD Foxbat-E
+      size: 12
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - Mirage-F1EQ
+      size: 12
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - Su-24M Fencer-D
+      size: 8
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - H-6J Badger
+      size: 8
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Mi-24P Hind-F
+    - primary: AEW&C
+      aircraft:
+        - A-50
+      size: 2
+  # Kharab - 11
+  59:
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Mi-24P Hind-F
+      size: 4
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Mi-8MTV2 Hip
+      size: 4

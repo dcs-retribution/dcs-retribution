@@ -11,31 +11,32 @@ description:
     Exercise Bright Star. The exercise has grown over the years to incorporate 
     a wide array of international participants. The 2025 iteration of 
     Exercise Bright Star features eight participating nations alongside 
-    fourteen observer nations.</p><p>
-    For the 2025 exercises, the United States, along with a select contingent 
+    fourteen observer nations.</p>
+    <p>For the 2025 exercises, the United States, along with a select contingent 
     from the exercise coalition, will take on the role of a hypothetical 
     adversarial nation, dubbed Orangeland. This scenario is designed to 
     simulate a mock invasion against Cairo, and presents a valuable 
     opportunity for participating nations to refine their joint operational 
-    capabilities and improve logistical and tactical interoperability.</p><p>
-    A historic addition to Exercise Bright Star 2025 is the participation of 
+    capabilities and improve logistical and tactical interoperability.</p>
+    <p>A historic addition to Exercise Bright Star 2025 is the participation of 
     Israel as an observer nation. This marks a significant milestone, given 
     the complex historical relations in the region, and symbolises a step 
     forward in regional collaboration and military diplomacy. Israel's role, 
     hosting the aggressor faction of the exercise coalition at its airfields, 
     not only demonstrates the broadening scope of the exercise but also highlights 
     the value of fostering an environment of mutual cooperation and shared 
-    security objectives.</p><p>
-    <strong>Note:</strong> There is no overland supply route between Melez and 
+    security objectives.</p>
+    <p><strong>Note:</strong> There is no overland supply route between Melez and 
     Wadi al Jandali due to the simulated destruction of the Al Salam Bridge spanning 
     the Suez Canal. Consequently, ground units will have to be ferried across by 
-    air during the exercise.
+    air during the exercise.</p>
 miz: exercise_bright_star.miz
 performance: 1
 recommended_start_date: 2025-09-01
 version: "10.7"
 settings:
   hercules: true
+  squadron_start_full: true  
 squadrons:
   Blue CV-1:
     - primary: SEAD
@@ -56,12 +57,12 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - B-52H Stratofortress
-      size: 8
+      size: 4
     - primary: Strike
       secondary: air-to-ground
       aircraft:
         - B-1B Lancer
-      size: 8
+      size: 4
   # Ovda
   10:
     - primary: CAS
@@ -73,7 +74,7 @@ squadrons:
       secondary: any
       aircraft:
         - F-15C Eagle
-      size: 20
+      size: 16
     - primary: OCA/Runway
       secondary: any
       aircraft:
@@ -83,19 +84,14 @@ squadrons:
       secondary: any
       aircraft:
         - JF-17 Thunder
-      size: 12
+      size: 16
   # Ramon Airbase
   9:
-    - primary: BARCAP
-      secondary: any
-      aircraft:
-        - Mirage 2000C
-      size: 12
     - primary: DEAD
       secondary: any
       aircraft:
         - F-16CM Fighting Falcon (Block 50)
-      size: 20
+      size: 16
     - primary: BAI
       secondary: any
       aircraft:
@@ -104,7 +100,6 @@ squadrons:
     - primary: Air Assault
       secondary: any
       aircraft:
-        - UH-60L
         - UH-60A
       size: 4
   # Ben-Gurion
@@ -114,7 +109,7 @@ squadrons:
       aircraft:
         - C-130J-30 Super Hercules
         - C-130
-      size: 8
+      size: 2
     - primary: AEW&C
       aircraft:
         - E-3A
@@ -184,7 +179,7 @@ squadrons:
       aircraft:
         - C-130J-30 Super Hercules
         - C-130
-      size: 8
+      size: 2
     - primary: BARCAP
       secondary: air-to-air
       aircraft:

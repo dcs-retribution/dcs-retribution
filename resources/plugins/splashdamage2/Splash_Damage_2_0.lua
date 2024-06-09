@@ -110,6 +110,7 @@ explTable = {
   ["HB_F4E_GBU_8_HOBOS"]  = 874,                -- Heatblur F-4E HOBOS 
   ["GBU_10"]  = 874,                            --
   ["GBU_12"]  = 241,                            --
+  ["HB_F4E_GBU15V1"] = 874,                     -- Heatblur F-4E GBU-15 
   ["GBU_16"]  = 447,                    --
   ["GBU_31"]  = 874,
   ["GBU_31_V_3B"] = 874,                        --
@@ -145,6 +146,7 @@ explTable = {
   ["AGM_12A"] = 113,                            -- Bullpup A
   ["AGM_12B"] = 113,                            -- Bullpup B
   ["AGM_12C"] = 454,                            -- Bullpup C
+  ["HB_F4E_AGM_12C"] = 454,                     -- Bullpup C - Heatblur
   ["AGM_45A"] = 66,                             -- Shrike A
   ["AGM_45B"] = 66,                             -- Shrike B
   ["AGM_65A"] = 57,                             
@@ -280,9 +282,6 @@ explTable = {
   --["BLU-97/B"] = 10,
   --["BLU-97B"] = 10,
   --["MK118"] = 8,
-  ["HB_F4E_AGM_12C"] = 440,
-  ["HB_F4E_GBU_8_HOBOS"] = 429,
-  ["HB_F4E_GBU15V1"] = 910,
 }
 
 clusterDamage = {

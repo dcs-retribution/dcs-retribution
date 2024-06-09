@@ -13,6 +13,7 @@ recommended_player_faction:
     - en_US
   aircrafts:
     - F-4E Phantom II
+    - F-4E-45MC Phantom II
     - F-15C Eagle
     - F-15E Strike Eagle
     - F-15E Strike Eagle (Suite 4+)
@@ -261,7 +262,9 @@ squadrons:
     - primary: SEAD
       secondary: any
       aircraft:
+        - F-4E-45MC Phantom II
         - 201th Squadron
+      size: 16
     - primary: Refueling
       aircraft:
         - VMGR-352
@@ -327,6 +330,7 @@ squadrons:
     - primary: BARCAP
       secondary: air-to-air
       aircraft:
+        - MiG-21bis Fishbed-N
         - MiG-29A Fulcrum-A
       size: 12
     - primary: Strike
@@ -383,6 +387,7 @@ squadrons:
     - primary: BARCAP
       secondary: air-to-air
       aircraft:
+        - MiG-23MLD Flogger-K
         - Su-30 Flanker-C
     - primary: CAS
       secondary: air-to-ground
@@ -394,6 +399,7 @@ squadrons:
     - primary: TARCAP
       secondary: air-to-air
       aircraft:
+        - MiG-25PD Foxbat-E
         - MiG-23ML Flogger-G
     - primary: BARCAP
       secondary: any
@@ -403,6 +409,7 @@ squadrons:
     - primary: Strike
       secondary: air-to-ground
       aircraft:
+        - Su-24M Fencer-D
         - Su-34 Fullback
     - primary: Transport
       secondary: air-to-ground

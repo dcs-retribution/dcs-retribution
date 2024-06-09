@@ -119,7 +119,7 @@ class AircraftGenerator:
             if not package.flights:
                 continue
             for flight in package.flights:
-                if flight.alive:
+                if flight.alive and not isinstance(flight.state, Completed):
                     if not flight.squadron.location.runway_is_operational():
                         logging.warning(
                             f"Runway not operational, skipping flight: {flight.flight_type}"

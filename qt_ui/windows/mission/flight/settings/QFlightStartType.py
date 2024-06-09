@@ -49,7 +49,9 @@ class QFlightStartType(QGroupBox):
         # Otherwise, set the start_type as configured for AI.
         # https://github.com/dcs-liberation/dcs_liberation/issues/1567
 
-        if self.flight.roster.player_count > 0:
+        if isinstance(self.flight.departure, OffMapSpawn):
+            return
+        elif self.flight.roster.player_count > 0:
             self.flight.start_type = (
                 self.flight.coalition.game.settings.default_start_type_client
             )

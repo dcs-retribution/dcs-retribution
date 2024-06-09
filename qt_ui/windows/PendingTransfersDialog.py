@@ -121,6 +121,8 @@ class PendingTransfersDialog(QDialog):
     ) -> None:
         """Updates the state of the delete button."""
         if selected.empty():
-            self.cancel_button.setEnabled(False)
+            self.cancel_button.setEnabled(
+                self.can_cancel(self.transfer_list.currentIndex())
+            )
             return
         self.cancel_button.setEnabled(self.can_cancel(selected.indexes()[0]))
