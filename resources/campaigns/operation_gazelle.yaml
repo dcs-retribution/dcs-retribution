@@ -23,6 +23,7 @@ version: "10.7"
 settings:
   a4_skyhawk: true
   hercules: true
+  squadron_start_full: true
 squadrons:
   # Ben-Gurion
   24:

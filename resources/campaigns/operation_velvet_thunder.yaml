@@ -17,6 +17,7 @@ description:
   A-4 Skyhawk, OV-10A, and C-130J aircraft mods active. The C-101CC has also 
   been included as a stand-in for the Cessna A-37 Dragonfly in order to provide 
   a CAS platform of roughly equivalent combat capability.</p>
+  <strong>Note:</strong> Airbase threat range should be set to 25 for this campaign.
 miz: operation_velvet_thunder.miz
 performance: 1
 recommended_start_date: 1970-11-29
@@ -27,6 +28,7 @@ settings:
   a4_skyhawk: true
   hercules: true
   ov10a_bronco: true
+  squadron_start_full: true
 squadrons:
   #Andersen AFB
   6:

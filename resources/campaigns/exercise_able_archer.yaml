@@ -29,8 +29,8 @@ performance: 1
 recommended_start_date: 1983-11-09
 version: "10.7"
 settings:
-  restrict_weapons_by_date: true
   hercules: true
+  squadron_start_full: true
 squadrons:
   #Bodo
   7:
@@ -43,17 +43,12 @@ squadrons:
       secondary: any
       aircraft:
         - F-5E Tiger II
-      size: 12
+      size: 8
     - primary: TARCAP
       secondary: any
       aircraft:
         - F-15C Eagle
-      size: 12
-    - primary: BAI
-      secondary: any
-      aircraft:
-        - F-4E Phantom II
-      size: 12
+      size: 8
     - primary: Refueling
       aircraft:
         - KC-135 Stratotanker
@@ -70,12 +65,17 @@ squadrons:
       secondary: any
       aircraft:
         - F-16CM Fighting Falcon (Block 50)
-      size: 16
+      size: 12
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - OH-58D(R) Kiowa Warrior
+      size: 4
     - primary: Refueling
       aircraft:
         - KC-130
       size: 1
-    - primary: Air Assault
+    - primary: Transport
       secondary: any
       aircraft:
         - C-130J-30 Super Hercules
@@ -87,7 +87,7 @@ squadrons:
       secondary: any
       aircraft:
         - MiG-21bis Fishbed-N
-      size: 12
+      size: 8
     - primary: BAI
       secondary: any
       aircraft:
@@ -97,7 +97,7 @@ squadrons:
       secondary: any
       aircraft:
         - Mirage-F1CE
-      size: 12
+      size: 8
     - primary: Air Assault
       secondary: any
       aircraft:
@@ -116,7 +116,7 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - AJS-37 Viggen
-      size: 10
+      size: 8
   #Blue Carrier
   Blue-CV:
     - primary: TARCAP
@@ -127,7 +127,7 @@ squadrons:
     - primary: AEW&C
       aircraft:
         - E-2C Hawkeye
-      size: 4
+      size: 2
     - primary: BAI
       secondary: air-to-ground
       aircraft:
@@ -136,26 +136,15 @@ squadrons:
     - primary: Air Assault
       secondary: any
       aircraft:
-        - UH-60L
         - UH-60A
-      size: 4  
+      size: 4
   #Blue LHA
   Blue-LHA:
     - primary: DEAD
       secondary: air-to-ground
       aircraft:
         - AV-8B Harrier II Night Attack
-      size: 16
-    - primary: Air Assault
-      secondary: any
-      aircraft:
-        - UH-1H Iroquois
-      size: 2
-    - primary: Escort
-      secondary: any
-      aircraft:
-        - AH-1J SeaCobra
-      size: 2
+      size: 20
   #RAF Fairford
   Bombers from RAF Fairford:
     - primary: Strike
@@ -174,7 +163,7 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - Su-17M4 Fitter-K
-      size: 6
+      size: 4
   #Severomorsk-1
   8:
     - primary: BARCAP
@@ -191,7 +180,7 @@ squadrons:
       secondary: any
       aircraft:
         - MiG-27K Flogger-J2
-      size: 16
+      size: 12
   #Severomorsk-3
   6:
     - primary: Refueling
@@ -202,7 +191,7 @@ squadrons:
       secondary: any
       aircraft:
         - Su-24M Fencer-D
-      size: 20
+      size: 12
     - primary: TARCAP
       secondary: any
       aircraft:
@@ -212,19 +201,19 @@ squadrons:
       secondary: any
       aircraft:
         - Mi-8MTV2 Hip
-      size: 4
+      size: 2
   #Olenya
   9:
     - primary: Strike
       secondary: any
       aircraft:
         - Tu-95MS Bear-H
-      size: 16
+      size: 8
     - primary: Strike
       secondary: any
       aircraft:
         - Tu-22M3 Backfire-C
-      size: 16
+      size: 8
     - primary: Refueling
       aircraft:
         - IL-78M
@@ -245,7 +234,7 @@ squadrons:
       secondary: any
       aircraft:
         - MiG-21bis Fishbed-N
-      size: 16
+      size: 12
   #Murmansk International
   12:
     - primary: AEW&C
