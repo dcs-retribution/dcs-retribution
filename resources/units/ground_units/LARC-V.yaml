@@ -2,3 +2,4 @@ class: Logistics
 price: 3
 variants:
   LARC-V Amphibious Cargo Vehicle: null
+  LARC-V: null
