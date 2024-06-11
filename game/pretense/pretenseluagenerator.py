@@ -1779,25 +1779,31 @@ class PretenseLuaGenerator(LuaGenerator):
                 for extra_connection in range(
                     self.game.settings.pretense_extra_zone_connections
                 ):
-                    if (
-                        cp.is_fleet
-                        and cp.captured
-                        and self.game.settings.pretense_controllable_carrier
-                    ):
-                        break
-                    elif (
-                        closest_cps[extra_connection].is_fleet
-                        and closest_cps[extra_connection].captured
-                        and self.game.settings.pretense_controllable_carrier
-                    ):
-                        break
-                    elif len(closest_cps) > extra_connection:
-                        lua_string_connman += self.generate_pretense_zone_connection(
-                            connected_points,
-                            cp.name,
-                            closest_cps[extra_connection].name,
-                        )
-                    else:
+                    try:
+                        if (
+                            cp.is_fleet
+                            and cp.captured
+                            and self.game.settings.pretense_controllable_carrier
+                        ):
+                            break
+                        elif (
+                            closest_cps[extra_connection].is_fleet
+                            and closest_cps[extra_connection].captured
+                            and self.game.settings.pretense_controllable_carrier
+                        ):
+                            break
+                        elif len(closest_cps) > extra_connection:
+                            lua_string_connman += (
+                                self.generate_pretense_zone_connection(
+                                    connected_points,
+                                    cp.name,
+                                    closest_cps[extra_connection].name,
+                                )
+                            )
+                        else:
+                            break
+                    except IndexError:
+                        # No more connected points, so no need to continue the loop
                         break
 
         lua_string_supply = "local redSupply = {\n"
