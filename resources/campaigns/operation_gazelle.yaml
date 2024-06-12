@@ -32,7 +32,7 @@ squadrons:
       aircraft:
         - C-130J-30 Super Hercules
         - C-130
-      size: 8
+      size: 4
   # Tel Nof
   23:
     - primary: SEAD
@@ -53,20 +53,20 @@ squadrons:
       secondary: any
       aircraft:
         - UH-1H Iroquois
-      size: 8
+      size: 4
   # Hatzor
   20:
     - primary: BAI
       secondary: any
       aircraft:
         - A-4E Skyhawk
-        - F-4E Phantom II
+        - F-4E-45MC Phantom II
       size: 20
     - primary: Strike
       secondary: any
       aircraft:
         - A-4E Skyhawk
-        - F-4E Phantom II
+        - F-4E-45MC Phantom II
       size: 20
   # El Arish
   29:
@@ -83,7 +83,7 @@ squadrons:
       secondary: any
       aircraft:
         - MiG-15bis Fagot
-      size: 8
+      size: 16
     - primary: Air Assault
       secondary: any
       aircraft:
@@ -91,50 +91,31 @@ squadrons:
       size: 4
   # Al Mansurah
   14:
-    - primary: Escort
-      secondary:
-        - BAI
-        - BARCAP
-        - Escort
-        - Fighter sweep
-        - Intercept
-        - TARCAP
+    - primary: BARCAP
+      secondary: any
       aircraft:
         - MiG-21bis Fishbed-N
-      size: 20    
+      size: 16
     - primary: BAI
       secondary: any
       aircraft:
         - MiG-19P Farmer-B
-      size: 20
-    - primary: Transport
-      secondary: any
-      aircraft:
-        - Mi-8MTV2 Hip
-      size: 4
+      size: 16
   # Cairo West
   18:
     - primary: Strike
-      secondary:
-        - DEAD
-        - OCA/Runway
+      secondary: any
       aircraft:
         - Tu-16 Badger
-      size: 15
-    - primary: BARCAP
-      secondary:
-        - BAI
-        - BARCAP
-        - Escort
-        - Fighter sweep
-        - Intercept
-        - TARCAP
+      size: 14
+    - primary: Escort
+      secondary: air-to-air
       aircraft:
         - MiG-21bis Fishbed-N
-      size: 20
+      size: 16
   # FARP
   Port Tewfik Staging Area:
-    - primary: Air Assault
+    - primary: Transport
       secondary: any
       aircraft:
         - Mi-8MTV2 Hip
