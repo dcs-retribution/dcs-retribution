@@ -19,6 +19,7 @@ from game.radio.RadioFrequencyContainer import RadioFrequencyContainer
 from game.radio.TacanContainer import TacanContainer
 from game.server import EventStream
 from game.sim import GameUpdateEvents
+from game.sim.missionresultsprocessor import MissionResultsProcessor
 from game.theater import (
     AMMO_DEPOT_FRONTLINE_UNIT_CONTRIBUTION,
     ControlPoint,
@@ -181,6 +182,8 @@ class QBaseMenu2(QDialog):
     def cheat_capture(self) -> None:
         events = GameUpdateEvents()
         self.cp.capture(self.game_model.game, events, for_player=not self.cp.captured)
+        mrp = MissionResultsProcessor(self.game_model.game)
+        mrp.redeploy_units(self.cp)
         # Reinitialized ground planners and the like. The ATO needs to be reset because
         # missions planned against the flipped base are no longer valid.
         self.game_model.game.initialize_turn(events)

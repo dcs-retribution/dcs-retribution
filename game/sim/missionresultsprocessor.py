@@ -159,10 +159,12 @@ class MissionResultsProcessor:
                 captured.control_point.capture(
                     self.game, events, captured.captured_by_player
                 )
-                logging.info(f"Will run redeploy for {captured.control_point}")
-                self.redeploy_units(captured.control_point)
             except Exception:
                 logging.exception(f"Could not process base capture {captured}")
+
+        for captured in debriefing.base_captures:
+            logging.info(f"Will run redeploy for {captured.control_point}")
+            self.redeploy_units(captured.control_point)
 
     def record_carcasses(self, debriefing: Debriefing) -> None:
         for destroyed_unit in debriefing.state_data.destroyed_statics:
@@ -301,10 +303,6 @@ class MissionResultsProcessor:
         """ "
         Auto redeploy units to newly captured base
         """
-
-        ally_connected_cps = [
-            ocp for ocp in cp.connected_points if cp.captured == ocp.captured
-        ]
         enemy_connected_cps = [
             ocp for ocp in cp.connected_points if cp.captured != ocp.captured
         ]
@@ -314,28 +312,54 @@ class MissionResultsProcessor:
         if len(enemy_connected_cps) == 0:
             return
 
+        ally_connected_cps = [
+            ocp
+            for ocp in cp.transitive_connected_friendly_destinations()
+            if cp.captured == ocp.captured and ocp.base.total_armor
+        ]
+
+        settings = cp.coalition.game.settings
+        factor = (
+            settings.frontline_reserves_factor
+            if cp.captured
+            else settings.frontline_reserves_factor_red
+        )
+
         # From each ally cp, send reinforcements
-        for ally_cp in ally_connected_cps:
+        for ally_cp in sorted(
+            ally_connected_cps,
+            key=lambda x: len(
+                [cp for cp in x.connected_points if x.captured != cp.captured]
+            ),
+        ):
             self.redeploy_between(cp, ally_cp)
+            if cp.base.total_armor > factor * cp.deployable_front_line_units:
+                break
 
     def redeploy_between(self, destination: ControlPoint, source: ControlPoint) -> None:
         total_units_redeployed = 0
         moved_units = {}
 
-        if source.has_active_frontline or not destination.captured:
-            # If there are still active front lines to defend at the
-            # transferring CP we should not transfer all units.
-            #
-            # Opfor also does not transfer all of their units.
-            # TODO: Balance the CPs rather than moving half from everywhere.
-            move_factor = 0.5
-        else:
-            # Otherwise we can move everything.
-            move_factor = 1
+        settings = source.coalition.game.settings
+        reserves = max(
+            1,
+            settings.reserves_procurement_target
+            if source.captured
+            else settings.reserves_procurement_target_red,
+        )
+        total_units = source.base.total_armor
+        reserves_factor = (reserves - 1) / total_units  # slight underestimation
+
+        source_frontline_count = len(
+            [cp for cp in source.connected_points if not source.is_friendly_to(cp)]
+        )
+
+        move_factor = max(0.0, 1 / (source_frontline_count + 1) - reserves_factor)
 
         for frontline_unit, count in source.base.armor.items():
-            moved_units[frontline_unit] = int(count * move_factor)
-            total_units_redeployed = total_units_redeployed + int(count * move_factor)
+            moved_count = int(count * move_factor)
+            moved_units[frontline_unit] = moved_count
+            total_units_redeployed += moved_count
 
         destination.base.commission_units(moved_units)
         source.base.commit_losses(moved_units)
