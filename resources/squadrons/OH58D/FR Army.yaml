@@ -3,8 +3,7 @@ name: French Army
 country: France
 role: Light Attack and Scout Helicopter
 aircraft: OH-58D(R) Kiowa Warrior
-livery:
-  - FR Army Fictional
+livery: FR Army Fictional
 mission_types:
   - BAI
   - CAS

@@ -3,8 +3,7 @@ name: Greek Army
 country: Greece
 role: Light Attack and Scout Helicopter
 aircraft: OH-58D(R) Kiowa Warrior
-livery:
-  - GR Army Fictional
+livery: GR Army Fictional
 mission_types:
   - BAI
   - CAS
