@@ -36,6 +36,11 @@ squadrons:
       aircraft:
         - S-3B Tanker
       size: 4
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - UH-60A
+      size: 4      
   # Akrotiri
   44:
     - primary: Strike
@@ -84,11 +89,6 @@ squadrons:
       secondary: any
       aircraft:
         - OH-58D(R) Kiowa Warrior
-      size: 4
-    - primary: Air Assault
-      secondary: any
-      aircraft:
-        - UH-60A
       size: 4
   # Damascus
   7:
