@@ -3,8 +3,7 @@ name: British Army Air Corps
 country: UK
 role: Light Attack and Scout Helicopter
 aircraft: OH-58D(R) Kiowa Warrior
-livery:
-  - UK Army Fictional
+livery: UK Army Fictional
 mission_types:
   - BAI
   - CAS
