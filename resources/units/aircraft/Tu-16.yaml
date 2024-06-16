@@ -1,0 +1,23 @@
+description:
+  "The Tupolev Tu-16 (NATO reporting name: Badger) is a twin-engined
+  jet strategic heavy bomber used by the Soviet Union.
+  It has the capability to carry KS-1, KSR-2 and KSR-5 missiles.
+  This aircraft is part of the Cold War assets mod by tripod3."
+introduced: 1954
+manufacturer: Tupolev
+origin: USSR
+price: 40
+role: Strategic bomber
+max_range: 2000
+variants:
+  Tu-16 Badger-B: {}
+# default_overrides:
+#   Belly_Bay_Door: false
+tasks:
+  Anti-ship: 150
+  BAI: 370
+  CAS: 370
+  DEAD: 170
+  OCA/Aircraft: 370
+  OCA/Runway: 630
+  Strike: 640

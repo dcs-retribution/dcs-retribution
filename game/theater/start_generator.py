@@ -94,6 +94,7 @@ class ModSettings:
     ov10a_bronco: bool = False
     spanishnavypack: bool = False
     swedishmilitaryassetspack: bool = False
+    coldwarassets: bool = False
     SWPack: bool = False
 
 

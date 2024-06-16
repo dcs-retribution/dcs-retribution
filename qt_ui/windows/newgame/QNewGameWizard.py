@@ -117,6 +117,7 @@ class NewGameWizard(QtWidgets.QWizard):
             high_digit_sams=self.field("high_digit_sams"),
             spanishnavypack=self.field("spanishnavypack"),
             swedishmilitaryassetspack=self.field("swedishmilitaryassetspack"),
+            coldwarassets=self.field("coldwarassets"),
             SWPack=self.field("SWPack"),
         )
 

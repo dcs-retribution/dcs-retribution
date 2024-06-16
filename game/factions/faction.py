@@ -540,6 +540,8 @@ class Faction:
             self.remove_preset("LvS-103 Rb103A Mobile")
             self.remove_preset("LvS-103 Rb103B")
             self.remove_preset("LvS-103 Rb103B Mobile")
+        if not mod_settings.coldwarassets:
+            self.remove_aircraft("EA_6B")
         # SWPack
         if not mod_settings.SWPack:
             self.remove_aircraft("AWINGA")

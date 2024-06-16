@@ -1,0 +1,20 @@
+description:
+  "The Boeing B-47 Stratojet is an American long-range, six-engined, turbojet-powered
+  strategic bomber designed to fly at high subsonic speed and at high altitude to
+  avoid enemy interceptor aircraft. The primary mission of the B-47 was as a nuclear
+  bomber capable of striking targets within the Soviet Union."
+introduced: 1951
+manufacturer: Boeing
+origin: USA
+price: 30
+role: Strategic Bomber
+max_range: 2000
+variants:
+  B-47 Stratojet: {}
+tasks:
+  Anti-ship: 90
+  DEAD: 200
+  OCA/Runway: 610
+  Strike: 610
+  SEAD: 90
+  SEAD Escort: 90

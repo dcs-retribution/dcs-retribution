@@ -1,0 +1,25 @@
+description:
+  "The Tupolev Tu-22 (NATO reporting name: Blinder) was the first
+  supersonic bomber to enter production in the Soviet Union.
+  This is the missile-carrier version built from 1965, equipped
+  to launch the Raduga Kh-22 (AS-4 Kitchen) missile.
+  This aircraft is part of the Cold War assets mod by tripod3."
+introduced: 1965
+manufacturer: Tupolev
+origin: USSR
+price: 45
+role: Medium bomber
+variants:
+  Tu-22KD Blinder: {}
+# default_overrides:
+#   Belly_Bay_Door: false
+tasks:
+  Anti-ship: 100
+  BAI: 350
+  CAS: 350
+  DEAD: 150
+  OCA/Aircraft: 350
+  OCA/Runway: 600
+  Strike: 600
+  SEAD: 30
+  SEAD Escort: 30
