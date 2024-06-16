@@ -338,6 +338,7 @@ def create_game(
             jas39_gripen=False,
             su30_flanker_h=False,
             su57_felon=False,
+            coldwarassets=False,
             frenchpack=False,
             high_digit_sams=False,
         ),
