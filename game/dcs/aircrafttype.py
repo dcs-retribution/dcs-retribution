@@ -538,6 +538,9 @@ class AircraftType(UnitType[Type[FlyingType]]):
         ):
             task_priorities[FlightType.SEAD_SWEEP] = task_priorities[FlightType.SEAD]
 
+        cls._custom_weapon_injections(aircraft, data)
+        cls._user_weapon_injections(aircraft)
+
         display_name = data.get("display_name", variant_id)
         return AircraftType(
             dcs_unit_type=aircraft,
