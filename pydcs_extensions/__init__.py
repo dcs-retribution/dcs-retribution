@@ -21,6 +21,8 @@ from .hercules import *
 from .highdigitsams import *
 from .irondome import *
 from .jas39 import *
+from .oh6 import *
+from .oh6_vietnamassetpack import *
 from .ov10a import *
 from .spanishnavypack import *
 from .super_etendard import *
