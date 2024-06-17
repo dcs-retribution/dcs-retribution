@@ -30,7 +30,6 @@ Pillow==10.3.0
 platformdirs==4.2.1
 pluggy==1.5.0
 pre-commit==3.7.0
-pybind11==2.12
 pydantic==2.7.1
 pydantic-settings==2.2.1
 pydcs @ git+https://github.com/dcs-retribution/pydcs@4f4d3fd51dc14ad8e16e3bf6b130e8efc18dcabd
