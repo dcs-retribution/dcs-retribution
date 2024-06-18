@@ -43,6 +43,26 @@ local unitPayloads = {
 			},
 		},
 		[3] = {
+			["name"] = "SEAD",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{TU_22_KH22P}",
+					["num"] = 1,
+				},
+				[2] = {
+					["CLSID"] = "<CLEAN>",
+					["num"] = 2,
+				},
+				[3] = {
+					["CLSID"] = "<CLEAN>",
+					["num"] = 3,
+				},
+			},
+			["tasks"] = {
+				[1] = 32,
+			},
+		},
+		[4] = {
 			["name"] = "ANTISHIP",
 			["pylons"] = {
 				[1] = {
@@ -62,16 +82,17 @@ local unitPayloads = {
 				[1] = 32,
 			},
 		},
-		[4] = {
-			["name"] = "SEAD",
+		[5] = {
+			["displayName"] = "DEAD",
+			["name"] = "DEAD",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{TU_22_KH22P}",
-					["num"] = 1,
-				},
-				[2] = {
 					["CLSID"] = "<CLEAN>",
 					["num"] = 2,
+				},
+				[2] = {
+					["CLSID"] = "{Tu_22_Kh22PSI}",
+					["num"] = 1,
 				},
 				[3] = {
 					["CLSID"] = "<CLEAN>",
