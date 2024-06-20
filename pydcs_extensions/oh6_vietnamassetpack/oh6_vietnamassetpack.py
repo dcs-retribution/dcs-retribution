@@ -262,6 +262,69 @@ class Vap_vc_mg_nest(unittype.VehicleType):
     air_weapon_dist = 500
 
 
+@vehiclemod
+class Vap_mule(unittype.VehicleType):
+    id = "vap_mule"
+    name = "VAP US Mule"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class Vap_mutt(unittype.VehicleType):
+    id = "vap_mutt"
+    name = "VAP US MUTT"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class Vap_m35_truck(unittype.VehicleType):
+    id = "vap_m35_truck"
+    name = "VAP US M35 Truck"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class Vap_vc_zis(unittype.VehicleType):
+    id = "vap_vc_zis"
+    name = "VAP VC Zis 150"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class Vap_vc_bicycle(unittype.VehicleType):
+    id = "vap_vc_bicycle"
+    name = "VAP VC Bicycle"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class Vap_vc_zil(unittype.VehicleType):
+    id = "vap_vc_zil"
+    name = "VAP VC Zil 130"
+    detection_range = 5000
+    threat_range = 500
+    air_weapon_dist = 500
+
+
+@vehiclemod
+class Vap_vc_bicycle_ak(unittype.VehicleType):
+    id = "vap_vc_bicycle_ak"
+    name = "VAP VC Bicycle AK"
+    detection_range = 5000
+    threat_range = 500
+    air_weapon_dist = 500
+
+
 @shipmod
 class Vap_us_seafloat(unittype.ShipType):
     id = "vap_us_seafloat"
