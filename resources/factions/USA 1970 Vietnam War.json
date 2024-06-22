@@ -38,7 +38,8 @@
 	"frontline_units": [
 		"M113",
 		"M163 Vulcan Air Defense System",
-		"M60A3 \"Patton\""
+		"M60A3 \"Patton\"",
+		"M151A1C MUTT w/ 106mm Recoilless Rifle"
 	],
 	"artillery_units": [
 		"M109A6 Paladin"
@@ -48,7 +49,10 @@
 		"Infantry M4 Georgia"
 	],
 	"logistics_units": [
-		"Truck M818 6x6"
+		"Truck M818 6x6",
+		"VAP US M35 Truck",
+		"M151 1/4-ton 4x4 utility truck",
+		"M274 1/2-ton 4x4 utility truck"
 	],
 	"air_defense_units": [
 		"SAM Hawk SR (AN/MPQ-50)",
