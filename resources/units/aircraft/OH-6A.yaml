@@ -1,9 +1,8 @@
 class: Helicopter
 carrier_capable: false
 description:
-  The UH-1 Iroquois, better known as the Huey, is one of the most iconic
-  helicopters in the world. Indispensable in the Vietnam War, the Huey continues to
-  serve in both military and civilian roles around the globe today.
+  The Hughes OH-6 Cayuse is a single-engine light helicopter designed and
+  produced by the American aerospace company Hughes Helicopters.
 introduced: 1966
 lha_capable: false
 can_carry_crates: false
