@@ -5,8 +5,7 @@ female_pilot_percentage: 10
 country: USA
 role: Light Attack and Scout Helicopter
 aircraft: OH-58D(R) Kiowa Warrior
-livery:
-  - US 3-17 B 937 Iraq
+livery: US 3-17 B 937 Iraq
 mission_types:
   - BAI
   - CAS

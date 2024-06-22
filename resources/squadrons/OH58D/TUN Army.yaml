@@ -3,8 +3,7 @@ name: Tunisian Army
 country: Tunisia
 role: Light Attack and Scout Helicopter
 aircraft: OH-58D(R) Kiowa Warrior
-livery:
-  - TUN Army
+livery: TUN Army
 mission_types:
   - BAI
   - CAS

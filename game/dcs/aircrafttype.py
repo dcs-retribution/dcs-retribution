@@ -532,6 +532,15 @@ class AircraftType(UnitType[Type[FlyingType]]):
         for task_name, priority in data.get("tasks", {}).items():
             task_priorities[FlightType(task_name)] = priority
 
+        if (
+            FlightType.SEAD_SWEEP not in task_priorities
+            and FlightType.SEAD in task_priorities
+        ):
+            task_priorities[FlightType.SEAD_SWEEP] = task_priorities[FlightType.SEAD]
+
+        cls._custom_weapon_injections(aircraft, data)
+        cls._user_weapon_injections(aircraft)
+
         display_name = data.get("display_name", variant_id)
         return AircraftType(
             dcs_unit_type=aircraft,
