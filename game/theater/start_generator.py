@@ -84,6 +84,8 @@ class ModSettings:
     f106_deltadart: bool = False
     hercules: bool = False
     irondome: bool = False
+    oh_6: bool = False
+    oh_6_vietnamassetpack: bool = False
     uh_60l: bool = False
     jas39_gripen: bool = False
     super_etendard: bool = False

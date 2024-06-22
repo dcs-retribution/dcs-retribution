@@ -15,7 +15,7 @@ class WeaponsOH6:
         "name": "M134 Door Minigun",
         "weight": 110,
     }
-    M134_Minigun = {
+    M134_Minigun_ = {
         "clsid": "{OH-6_M134_Minigun}",
         "name": "M134 Minigun",
         "weight": 39,
@@ -137,7 +137,7 @@ class OH_6A(HelicopterType):
     # ERRR <CLEAN>
 
     class Pylon8:
-        M134_Minigun = (8, WeaponsOH6.M134_Minigun)
+        M134_Minigun_ = (8, WeaponsOH6.M134_Minigun_)
 
     class Pylon9:
         XM158_Weapon_System__7_ = (9, WeaponsOH6.XM158_Weapon_System__7_)
