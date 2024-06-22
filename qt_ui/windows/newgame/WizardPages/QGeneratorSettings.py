@@ -130,6 +130,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("jas39_gripen", self.jas39_gripen)
         self.super_etendard = QtWidgets.QCheckBox()
         self.registerField("super_etendard", self.super_etendard)
+        self.su15_flagon = QtWidgets.QCheckBox()
+        self.registerField("su15_flagon", self.su15_flagon)
         self.su30_flanker_h = QtWidgets.QCheckBox()
         self.registerField("su30_flanker_h", self.su30_flanker_h)
         self.su57_felon = QtWidgets.QCheckBox()
@@ -183,6 +185,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("OV-10A Bronco", self.ov10a_bronco),
             ("Spanish Naval Assets pack (desdemicabina 3.2.0)", self.spanishnavypack),
             ("Star Wars Modpack 2.54+", self.SWPack),
+            ("Su-15 Flagon (v1.0)", self.su15_flagon),
             ("Su-30 Flanker-H (V2.7.3 beta)", self.su30_flanker_h),
             ("Su-57 Felon (build-04)", self.su57_felon),
             ("Super Étendard (v2.5.5)", self.super_etendard),

@@ -1,0 +1,19 @@
+description:
+  "The Sukhoi Su-15 (NATO reporting name: Flagon) is a twinjet supersonic interceptor
+  aircraft developed by the Soviet Union. It entered service in 1965 and remained one
+  of the front-line designs into the 1990s."
+introduced: 1965
+manufacturer: Sukhoi
+origin: USSR/Russia
+price: 12
+role: Interceptor
+max_range: 200
+variants:
+  Su-15 Flagon-A: {}
+kneeboard_units: "metric"
+tasks:
+  BARCAP: 360
+  Escort: 360
+  Fighter sweep: 360
+  Intercept: 360
+  TARCAP: 360
