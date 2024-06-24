@@ -74,6 +74,8 @@ class MizCampaignLoader:
         AirDefence.Hawk_ln.id,
         AirDefence.S_75M_Volhov.id,
         AirDefence.x_5p73_s_125_ln.id,
+        AirDefence.NASAMS_LN_B.id,
+        AirDefence.NASAMS_LN_C.id,
     }
 
     SHORT_RANGE_SAM_UNIT_TYPES = {

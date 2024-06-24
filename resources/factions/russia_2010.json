@@ -63,6 +63,7 @@
   ],
   "missiles": [],
   "preset_groups": [
+    "SA-6",
     "SA-11",
     "SA-10/S-300PS",
     "SA-10B/S-300PS",
@@ -99,5 +100,5 @@
     "Admiral Kuznetsov"
   ],
   "has_jtac": true,
-  "jtac_unit": "MQ-9 Reaper"
+  "jtac_unit": "Yak-52"
 }

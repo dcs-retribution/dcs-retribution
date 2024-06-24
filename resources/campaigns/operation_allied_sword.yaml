@@ -263,11 +263,8 @@ squadrons:
       secondary: any
       aircraft:
         - F-4E-45MC Phantom II
-      size: 16
-    - primary: SEAD
-      secondary: any
-      aircraft:
         - 201th Squadron
+      size: 16
     - primary: Refueling
       aircraft:
         - VMGR-352

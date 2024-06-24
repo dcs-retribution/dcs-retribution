@@ -94,6 +94,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("a6a_intruder", self.a6a_intruder)
         self.a7e_corsair2 = QtWidgets.QCheckBox()
         self.registerField("a7e_corsair2", self.a7e_corsair2)
+        self.ea6b_prowler = QtWidgets.QCheckBox()
+        self.registerField("ea6b_prowler", self.ea6b_prowler)
         self.hercules = QtWidgets.QCheckBox()
         self.registerField("hercules", self.hercules)
         self.uh_60l = QtWidgets.QCheckBox()
@@ -160,6 +162,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("A-6A Intruder (v2.7.5.01)", self.a6a_intruder),
             ("A-7E Corsair II", self.a7e_corsair2),
             ("C-130J-30 Super Hercules (v6.8.2)", self.hercules),
+            ("EA-6B Prowler (v2.9.4.102)", self.ea6b_prowler),
             ("F-100 Super Sabre (v2.7.18.30765 patch 20.10.22)", self.f100_supersabre),
             ("F-104 Starfighter (v2.7.11.222.01)", self.f104_starfighter),
             ("F-105 Thunderchief (v2.7.12.23x)", self.f105_thunderchief),
@@ -225,6 +228,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.a4_skyhawk.setChecked(s.get("a4_skyhawk", False))
         self.a6a_intruder.setChecked(s.get("a6a_intruder", False))
         self.a7e_corsair2.setChecked(s.get("a7e_corsair2", False))
+        self.ea6b_prowler.setChecked(s.get("ea6b_prowler", False))
         self.hercules.setChecked(s.get("hercules", False))
         self.uh_60l.setChecked(s.get("uh_60l", False))
         self.f4bc_phantom.setChecked(s.get("f4bc_phantom", False))

@@ -1,8 +1,9 @@
 from __future__ import annotations
 
+from copy import deepcopy
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Literal, TYPE_CHECKING
+from typing import Literal, TYPE_CHECKING, Any, Dict, Optional
 
 from dcs import Point
 
@@ -56,3 +57,17 @@ class FlightWaypoint:
 
     def __hash__(self) -> int:
         return hash(id(self))
+
+    def __deepcopy__(self, memo: Optional[Dict[int, Any]] = None) -> FlightWaypoint:
+        obj = FlightWaypoint(self.name, self.waypoint_type, self.position)
+        for attr in dir(self):
+            if attr == "control_point":
+                obj.control_point = self.control_point
+            elif attr == "targets":
+                obj.targets = self.targets
+            elif "__" in attr or attr not in obj.__dataclass_fields__:
+                continue
+            else:
+                attr_copy = deepcopy(getattr(self, attr))
+                setattr(obj, attr, attr_copy)
+        return obj

@@ -21,6 +21,7 @@ from qt_ui.windows.mission.flight.waypoints.QFlightWaypointList import (
 
 class QGeneralFlightSettingsTab(QFrame):
     flight_size_changed = Signal()
+    squadron_changed = Signal(Flight)
 
     def __init__(
         self,
@@ -36,6 +37,7 @@ class QGeneralFlightSettingsTab(QFrame):
 
         self.flight_slot_editor = QFlightSlotEditor(package_model, flight, game.game)
         self.flight_slot_editor.flight_resized.connect(self.flight_size_changed)
+        self.flight_slot_editor.squadron_changed.connect(self.squadron_changed)
         for pc in self.flight_slot_editor.roster_editor.pilot_controls:
             pc.player_toggled.connect(self.on_player_toggle)
             pc.player_toggled.connect(

@@ -572,6 +572,23 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
             connected.extend(cp.transitive_friendly_shipping_destinations(seen))
         return connected
 
+    def transitive_connected_friendly_destinations(
+        self, seen: Optional[Set[ControlPoint]] = None
+    ) -> List[ControlPoint]:
+        if seen is None:
+            seen = {self}
+
+        connected = []
+        for cp in set(self.connected_points + list(self.shipping_lanes.keys())):
+            if cp.captured != self.captured:
+                continue
+            if cp in seen:
+                continue
+            seen.add(cp)
+            connected.append(cp)
+            connected.extend(cp.transitive_connected_friendly_destinations(seen))
+        return connected
+
     @property
     def has_factory(self) -> bool:
         for tgo in self.connected_objectives:

@@ -235,6 +235,7 @@ class Package(RadioFrequencyContainer):
         clone.time_over_target = deepcopy(package.time_over_target)
         for f in package.flights:
             cf = Flight.clone_flight(f)
+            cf.flight_plan.layout = deepcopy(f.flight_plan.layout)
             cf.package = clone
             clone.add_flight(cf)
         return clone
