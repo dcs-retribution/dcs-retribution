@@ -41,6 +41,517 @@ class WeaponsFA18EFG:
     TLAU_127 = {"clsid": "{TLAU_127}", "name": "TLAU_127", "weight": 0}
     TLAU_127_ = {"clsid": "{TLAU_127}", "name": "TLAU_127", "weight": 0}
     USAFlag = {"clsid": "{USAFlag}", "name": "USAFlag", "weight": 0}
+    USAFlag_ = {"clsid": "{USAFlag}", "name": "USAFlag", "weight": 0}
+    Pylon_10_8___AIM_120C_AMRAAM___Active_Radar_AAM = {
+        "clsid": "{Right_Outboard_Inboard_2X_AIM-120C}",
+        "name": "Pylon 10 | 8 - AIM-120C AMRAAM - Active Radar AAM",
+        "weight": 322.96,
+    }
+    Pylon_10_8___AIM_120B_AMRAAM___Active_Radar_AAM = {
+        "clsid": "{Right_Outboard_Inboard_2X_AIM-120}",
+        "name": "Pylon 10 | 8 - AIM-120D AMRAAM - Active Radar AAM",
+        "weight": 324.8,
+    }
+    Pylon_10_8___BDU_33___25lb_Practice_Bomb_LD = {
+        "clsid": "{Right_Outboard_Inboard_2X_BDU-33}",
+        "name": "Pylon 10 | 8 - BDU-33 - 25lb Practice Bomb LD",
+        "weight": 22.6,
+    }
+    Pylon_10_8___BDU_45B___500lb_Practice_Bomb = {
+        "clsid": "{Right_Outboard_Inboard_2X_BDU-45B}",
+        "name": "Pylon 10 | 8 - BDU-45B - 500lb Practice Bomb",
+        "weight": 464,
+    }
+    Pylon_10_8___BDU_45___500lb_Practice_Bomb = {
+        "clsid": "{Right_Outboard_Inboard_2X_BDU-45}",
+        "name": "Pylon 10 | 8 - BDU-45 - 500lb Practice Bomb",
+        "weight": 464,
+    }
+    Pylon_10_8___BDU_50LGB___500lb_Laser_Guided_Inert_Practice_Bomb_LD = {
+        "clsid": "{Right_Outboard_Inboard_2X_BDU-50LGB}",
+        "name": "Pylon 10 | 8 - BDU-50LGB - 500lb Laser Guided Inert Practice Bomb LD",
+        "weight": 560,
+    }
+    Pylon_10_8___GBU_12___500lb_Laser_Guided_Bomb = {
+        "clsid": "{Right_Outboard_Inboard_2X_GBU-12}",
+        "name": "Pylon 10 | 8 - GBU-12 - 500lb Laser Guided Bomb",
+        "weight": 554,
+    }
+    Pylon_10_8___GBU_16___1000lb_Laser_Guided_Bomb = {
+        "clsid": "{Right_Outboard_Inboard_2X_GBU-16}",
+        "name": "Pylon 10 | 8 - GBU-16 - 1000lb Laser Guided Bomb",
+        "weight": 1026,
+    }
+    Pylon_10_8___GBU_38___JDAM__500lb_GPS_Guided_Bomb = {
+        "clsid": "{Right_Outboard_Inboard_2X_GBU-38}",
+        "name": "Pylon 10 | 8 - GBU-38 - JDAM, 500lb GPS Guided Bomb",
+        "weight": 482,
+    }
+    Pylon_10_8___Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = {
+        "clsid": "{Right_Outboard_Inboard_2X_ROCKEYE}",
+        "name": "Pylon 10 | 8 - Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets",
+        "weight": 444,
+    }
+    Pylon_10_8___Mk_82Y___500lb_GP_Chute_Retarded_HD = {
+        "clsid": "{Right_Outboard_Inboard_2X_MK-82Y}",
+        "name": "Pylon 10 | 8 - Mk-82Y - 500lb GP Chute Retarded HD",
+        "weight": 464,
+    }
+    Pylon_10_8___Mk_82_Snakeye___500lb_GP_Bomb_HD = {
+        "clsid": "{Right_Outboard_Inboard_2X_MK-82_Snakeye}",
+        "name": "Pylon 10 | 8 - Mk-82 Snakeye - 500lb GP Bomb HD",
+        "weight": 499,
+    }
+    Pylon_10_8___Mk_82___500lb_GP_Bomb_LD = {
+        "clsid": "{Right_Outboard_Inboard_2X_MK-82}",
+        "name": "Pylon 10 | 8 - Mk-82 - 500lb GP Bomb LD",
+        "weight": 456,
+    }
+    Pylon_10_8___Mk_83___1000lb_GP_Bomb_LD = {
+        "clsid": "{Right_Outboard_Inboard_2X_MK-83}",
+        "name": "Pylon 10 | 8 - Mk-83 - 1000lb GP Bomb LD",
+        "weight": 908,
+    }
+    Pylon_2_4___AIM_120C_AMRAAM___Active_Radar_AAM = {
+        "clsid": "{Left_Outboard_Inboard_2X_AIM-120C}",
+        "name": "Pylon 2 | 4 - AIM-120C AMRAAM - Active Radar AAM",
+        "weight": 322.96,
+    }
+    Pylon_2_4___AIM_120B_AMRAAM___Active_Radar_AAM = {
+        "clsid": "{Left_Outboard_Inboard_2X_AIM-120}",
+        "name": "Pylon 2 | 4 - AIM-120D AMRAAM - Active Radar AAM",
+        "weight": 324.8,
+    }
+    Pylon_2_4___BDU_33___25lb_Practice_Bomb_LD = {
+        "clsid": "{Left_Outboard_Inboard_2X_BDU-33}",
+        "name": "Pylon 2 | 4 - BDU-33 - 25lb Practice Bomb LD",
+        "weight": 22.6,
+    }
+    Pylon_2_4___BDU_45B___500lb_Practice_Bomb = {
+        "clsid": "{Left_Outboard_Inboard_2X_BDU-45B}",
+        "name": "Pylon 2 | 4 - BDU-45B - 500lb Practice Bomb",
+        "weight": 464,
+    }
+    Pylon_2_4___BDU_45___500lb_Practice_Bomb = {
+        "clsid": "{Left_Outboard_Inboard_2X_BDU-45}",
+        "name": "Pylon 2 | 4 - BDU-45 - 500lb Practice Bomb",
+        "weight": 464,
+    }
+    Pylon_2_4___BDU_50LGB___500lb_Laser_Guided_Inert_Practice_Bomb_LD = {
+        "clsid": "{Left_Outboard_Inboard_2X_BDU-50LGB}",
+        "name": "Pylon 2 | 4 - BDU-50LGB - 500lb Laser Guided Inert Practice Bomb LD",
+        "weight": 560,
+    }
+    Pylon_2_4___GBU_12___500lb_Laser_Guided_Bomb = {
+        "clsid": "{Left_Outboard_Inboard_2X_GBU-12}",
+        "name": "Pylon 2 | 4 - GBU-12 - 500lb Laser Guided Bomb",
+        "weight": 554,
+    }
+    Pylon_2_4___GBU_16___1000lb_Laser_Guided_Bomb = {
+        "clsid": "{Left_Outboard_Inboard_2X_GBU-16}",
+        "name": "Pylon 2 | 4 - GBU-16 - 1000lb Laser Guided Bomb",
+        "weight": 1026,
+    }
+    Pylon_2_4___GBU_38___JDAM__500lb_GPS_Guided_Bomb = {
+        "clsid": "{Left_Outboard_Inboard_2X_GBU-38}",
+        "name": "Pylon 2 | 4 - GBU-38 - JDAM, 500lb GPS Guided Bomb",
+        "weight": 482,
+    }
+    Pylon_2_4___Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = {
+        "clsid": "{Left_Outboard_Inboard_2X_ROCKEYE}",
+        "name": "Pylon 2 | 4 - Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets",
+        "weight": 444,
+    }
+    Pylon_2_4___Mk_82Y___500lb_GP_Chute_Retarded_HD = {
+        "clsid": "{Left_Outboard_Inboard_2X_MK-82Y}",
+        "name": "Pylon 2 | 4 - Mk-82Y - 500lb GP Chute Retarded HD",
+        "weight": 464,
+    }
+    Pylon_2_4___Mk_82_Snakeye___500lb_GP_Bomb_HD = {
+        "clsid": "{Left_Outboard_Inboard_2X_MK-82_Snakeye}",
+        "name": "Pylon 2 | 4 - Mk-82 Snakeye - 500lb GP Bomb HD",
+        "weight": 499,
+    }
+    Pylon_2_4___Mk_82___500lb_GP_Bomb_LD = {
+        "clsid": "{Left_Outboard_Inboard_2X_MK-82}",
+        "name": "Pylon 2 | 4 - Mk-82 - 500lb GP Bomb LD",
+        "weight": 456,
+    }
+    Pylon_2_4___Mk_83___1000lb_GP_Bomb_LD = {
+        "clsid": "{Left_Outboard_Inboard_2X_MK-83}",
+        "name": "Pylon 2 | 4 - Mk-83 - 1000lb GP Bomb LD",
+        "weight": 908,
+    }
+    Pylon_3_4___AGM_154A___JSOW_CEB__CBU_type_ = {
+        "clsid": "{Left_Midboard_Inboard_2X_AGM-154A}",
+        "name": "Pylon 3 | 4 - AGM-154A - JSOW CEB (CBU-type)",
+        "weight": 970,
+    }
+    Pylon_3_4___AGM_154C___JSOW_Unitary_BROACH = {
+        "clsid": "{Left_Midboard_Inboard_2X_AGM-154C}",
+        "name": "Pylon 3 | 4 - AGM-154C - JSOW Unitary BROACH",
+        "weight": 968,
+    }
+    Pylon_3_4___BDU_45B___500lb_Practice_Bomb = {
+        "clsid": "{Left_Midboard_Inboard_2X_BDU-45B}",
+        "name": "Pylon 3 | 4 - BDU-45B - 500lb Practice Bomb",
+        "weight": 464,
+    }
+    Pylon_3_4___BDU_45_LG___500lb_Practice_Laser_Guided_Bomb = {
+        "clsid": "{Left_Midboard_Inboard_2X_BDU-50LGB}",
+        "name": "Pylon 3 | 4 - BDU-45 LG - 500lb Practice Laser Guided Bomb",
+        "weight": 560,
+    }
+    Pylon_3_4___BDU_45___500lb_Practice_Bomb = {
+        "clsid": "{Left_Midboard_Inboard_2X_BDU-45}",
+        "name": "Pylon 3 | 4 - BDU-45 - 500lb Practice Bomb",
+        "weight": 464,
+    }
+    Pylon_3_4___GBU_12___500lb_Laser_Guided_Bomb = {
+        "clsid": "{Left_Midboard_Inboard_2X_GBU-12}",
+        "name": "Pylon 3 | 4 - GBU-12 - 500lb Laser Guided Bomb",
+        "weight": 554,
+    }
+    Pylon_3_4___GBU_16___1000lb_Laser_Guided_Bomb = {
+        "clsid": "{Left_Midboard_Inboard_2X_GBU-16}",
+        "name": "Pylon 3 | 4 - GBU-16 - 1000lb Laser Guided Bomb",
+        "weight": 1026,
+    }
+    Pylon_3_4___GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = {
+        "clsid": "{Left_Midboard_Inboard_2X_GBU-24}",
+        "name": "Pylon 3 | 4 - GBU-24A/B Paveway III - 2000lb Laser Guided Bomb",
+        "weight": 1868,
+    }
+    Pylon_3_4___GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb = {
+        "clsid": "{Left_Midboard_Inboard_2X_GBU-31}",
+        "name": "Pylon 3 | 4 - GBU-31(V)2/B - JDAM, 2000lb GPS Guided Bomb",
+        "weight": 1868,
+    }
+    Pylon_3_4___GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb = {
+        "clsid": "{Left_Midboard_Inboard_2X_GBU-31V}",
+        "name": "Pylon 3 | 4 - GBU-31(V)4/B - JDAM, 2000lb GPS Guided Penetrator Bomb",
+        "weight": 1962,
+    }
+    Pylon_3_4___GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb = {
+        "clsid": "{Left_Midboard_Inboard_2X_GBU-38}",
+        "name": "Pylon 3 | 4 - GBU-38(V)1/B - JDAM, 500lb GPS Guided Bomb",
+        "weight": 482,
+    }
+    Pylon_3_4___Mk_20_Rockeye___490lb_CBU__247_x_HEAT_Bomblets = {
+        "clsid": "{Left_Midboard_Inboard_2X_ROCKEYE}",
+        "name": "Pylon 3 | 4 - Mk-20 Rockeye - 490lb CBU, 247 x HEAT Bomblets",
+        "weight": 444,
+    }
+    Pylon_3_4___Mk_82Y___500lb_GP_Bomb_Chute_Retarded_HD = {
+        "clsid": "{Left_Midboard_Inboard_2X_MK-82Y}",
+        "name": "Pylon 3 | 4 - Mk-82Y - 500lb GP Bomb Chute Retarded HD",
+        "weight": 464,
+    }
+    Pylon_3_4___Mk_82_Snakeye___500lb_GP_Bomb_HD = {
+        "clsid": "{Left_Midboard_Inboard_2X_MK-82_Snakeye}",
+        "name": "Pylon 3 | 4 - Mk-82 Snakeye - 500lb GP Bomb HD",
+        "weight": 499,
+    }
+    Pylon_3_4___Mk_82___500lb_GP_Bomb_LD = {
+        "clsid": "{Left_Midboard_Inboard_2X_MK-82}",
+        "name": "Pylon 3 | 4 - Mk-82 - 500lb GP Bomb LD",
+        "weight": 456,
+    }
+    Pylon_3_4___Mk_83___1000lb_GP_Bomb_LD = {
+        "clsid": "{Left_Midboard_Inboard_2X_MK-83}",
+        "name": "Pylon 3 | 4 - Mk-83 - 1000lb GP Bomb LD",
+        "weight": 908,
+    }
+    Pylon_3_4___Mk_84___2000lb_GP_Bomb_LD = {
+        "clsid": "{Left_Midboard_Inboard_2X_MK-84}",
+        "name": "Pylon 3 | 4 - Mk-84 - 2000lb GP Bomb LD",
+        "weight": 1824,
+    }
+    Pylon_4___AGM_154A___JSOW_CEB__CBU_type_ = {
+        "clsid": "{Left_Midboard_Inboard_1X_AGM-154A}",
+        "name": "Pylon 4 - AGM-154A - JSOW CEB (CBU-type)",
+        "weight": 485,
+    }
+    Pylon_4___AGM_154C___JSOW_Unitary_BROACH = {
+        "clsid": "{Left_Midboard_Inboard_1X_AGM-154C}",
+        "name": "Pylon 4 - AGM-154C - JSOW Unitary BROACH",
+        "weight": 484,
+    }
+    Pylon_4___AGM_84A_Harpoon_AShM = {
+        "clsid": "{Left_Inboard_1X_AGM-84A}",
+        "name": "Pylon 4 - AGM-84A Harpoon AShM",
+        "weight": 540,
+    }
+    Pylon_4___AGM_84D_Harpoon_AShM = {
+        "clsid": "{Left_Inboard_1X_AGM-84D}",
+        "name": "Pylon 4 - AGM-84D Harpoon AShM",
+        "weight": 540,
+    }
+    Pylon_4___AGM_84E_Harpoon_SLAM = {
+        "clsid": "{Left_Inboard_1X_AGM-84E}",
+        "name": "Pylon 4 - AGM-84E Harpoon/SLAM",
+        "weight": 628,
+    }
+    Pylon_4___BDU_45B___500lb_Practice_Bomb = {
+        "clsid": "{Left_Midboard_Inboard_1X_BDU-45B}",
+        "name": "Pylon 4 - BDU-45B - 500lb Practice Bomb",
+        "weight": 232,
+    }
+    Pylon_4___BDU_45_LG___500lb_Practice_Laser_Guided_Bomb = {
+        "clsid": "{Left_Midboard_Inboard_1X_BDU-50LGB}",
+        "name": "Pylon 4 - BDU-45 LG - 500lb Practice Laser Guided Bomb",
+        "weight": 280,
+    }
+    Pylon_4___BDU_45___500lb_Practice_Bomb = {
+        "clsid": "{Left_Midboard_Inboard_1X_BDU-45}",
+        "name": "Pylon 4 - BDU-45 - 500lb Practice Bomb",
+        "weight": 232,
+    }
+    Pylon_4___GBU_12___500lb_Laser_Guided_Bomb = {
+        "clsid": "{Left_Midboard_Inboard_1X_GBU-12}",
+        "name": "Pylon 4 - GBU-12 - 500lb Laser Guided Bomb",
+        "weight": 277,
+    }
+    Pylon_4___GBU_16___1000lb_Laser_Guided_Bomb = {
+        "clsid": "{Left_Midboard_Inboard_1X_GBU-16}",
+        "name": "Pylon 4 - GBU-16 - 1000lb Laser Guided Bomb",
+        "weight": 513,
+    }
+    Pylon_4___GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = {
+        "clsid": "{Left_Midboard_Inboard_1X_GBU-24}",
+        "name": "Pylon 4 - GBU-24A/B Paveway III - 2000lb Laser Guided Bomb",
+        "weight": 934,
+    }
+    Pylon_4___GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb = {
+        "clsid": "{Left_Midboard_Inboard_1X_GBU-31}",
+        "name": "Pylon 4 - GBU-31(V)2/B - JDAM, 2000lb GPS Guided Bomb",
+        "weight": 934,
+    }
+    Pylon_4___GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb = {
+        "clsid": "{Left_Midboard_Inboard_1X_GBU-31V}",
+        "name": "Pylon 4 - GBU-31(V)4/B - JDAM, 2000lb GPS Guided Penetrator Bomb",
+        "weight": 981,
+    }
+    Pylon_4___GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb = {
+        "clsid": "{Left_Midboard_Inboard_1X_GBU-38}",
+        "name": "Pylon 4 - GBU-38(V)1/B - JDAM, 500lb GPS Guided Bomb",
+        "weight": 241,
+    }
+    Pylon_4___Mk_20_Rockeye___490lb_CBU__247_x_HEAT_Bomblets = {
+        "clsid": "{Left_Midboard_Inboard_1X_ROCKEYE}",
+        "name": "Pylon 4 - Mk-20 Rockeye - 490lb CBU, 247 x HEAT Bomblets",
+        "weight": 222,
+    }
+    Pylon_4___Mk_82Y___500lb_GP_Bomb_Chute_Retarded_HD = {
+        "clsid": "{Left_Midboard_Inboard_1X_MK-82Y}",
+        "name": "Pylon 4 - Mk-82Y - 500lb GP Bomb Chute Retarded HD",
+        "weight": 232,
+    }
+    Pylon_4___Mk_82_Snakeye___500lb_GP_Bomb_HD = {
+        "clsid": "{Left_Midboard_Inboard_1X_MK-82_Snakeye}",
+        "name": "Pylon 4 - Mk-82 Snakeye - 500lb GP Bomb HD",
+        "weight": 249.5,
+    }
+    Pylon_4___Mk_82___500lb_GP_Bomb_LD = {
+        "clsid": "{Left_Midboard_Inboard_1X_MK-82}",
+        "name": "Pylon 4 - Mk-82 - 500lb GP Bomb LD",
+        "weight": 228,
+    }
+    Pylon_4___Mk_83___1000lb_GP_Bomb_LD = {
+        "clsid": "{Left_Midboard_Inboard_1X_MK-83}",
+        "name": "Pylon 4 - Mk-83 - 1000lb GP Bomb LD",
+        "weight": 454,
+    }
+    Pylon_4___Mk_84___2000lb_GP_Bomb_LD = {
+        "clsid": "{Left_Midboard_Inboard_1X_MK-84}",
+        "name": "Pylon 4 - Mk-84 - 2000lb GP Bomb LD",
+        "weight": 912,
+    }
+    Pylon_8___AGM_154A___JSOW_CEB__CBU_type_ = {
+        "clsid": "{Right_Midboard_Inboard_1X_AGM-154A}",
+        "name": "Pylon 8 - AGM-154A - JSOW CEB (CBU-type)",
+        "weight": 485,
+    }
+    Pylon_8___AGM_154C___JSOW_Unitary_BROACH = {
+        "clsid": "{Right_Midboard_Inboard_1X_AGM-154C}",
+        "name": "Pylon 8 - AGM-154C - JSOW Unitary BROACH",
+        "weight": 484,
+    }
+    Pylon_8___AGM_84A_Harpoon_AShM = {
+        "clsid": "{Right_Inboard_1X_AGM-84A}",
+        "name": "Pylon 8 - AGM-84A Harpoon AShM",
+        "weight": 540,
+    }
+    Pylon_8___AGM_84D_Harpoon_AShM = {
+        "clsid": "{Right_Inboard_1X_AGM-84D}",
+        "name": "Pylon 8 - AGM-84D Harpoon AShM",
+        "weight": 540,
+    }
+    Pylon_8___AGM_84E_Harpoon_SLAM = {
+        "clsid": "{Right_Inboard_1X_AGM-84E}",
+        "name": "Pylon 8 - AGM-84E Harpoon/SLAM",
+        "weight": 628,
+    }
+    Pylon_8___BDU_45B___500lb_Practice_Bomb = {
+        "clsid": "{Right_Midboard_Inboard_1X_BDU-45B}",
+        "name": "Pylon 8 - BDU-45B - 500lb Practice Bomb",
+        "weight": 232,
+    }
+    Pylon_8___BDU_45_LG___500lb_Practice_Laser_Guided_Bomb = {
+        "clsid": "{Right_Midboard_Inboard_1X_BDU-50LGB}",
+        "name": "Pylon 8 - BDU-45 LG - 500lb Practice Laser Guided Bomb",
+        "weight": 280,
+    }
+    Pylon_8___BDU_45___500lb_Practice_Bomb = {
+        "clsid": "{Right_Midboard_Inboard_1X_BDU-45}",
+        "name": "Pylon 8 - BDU-45 - 500lb Practice Bomb",
+        "weight": 232,
+    }
+    Pylon_8___GBU_12___500lb_Laser_Guided_Bomb = {
+        "clsid": "{Right_Midboard_Inboard_1X_GBU-12}",
+        "name": "Pylon 8 - GBU-12 - 500lb Laser Guided Bomb",
+        "weight": 277,
+    }
+    Pylon_8___GBU_16___1000lb_Laser_Guided_Bomb = {
+        "clsid": "{Right_Midboard_Inboard_1X_GBU-16}",
+        "name": "Pylon 8 - GBU-16 - 1000lb Laser Guided Bomb",
+        "weight": 513,
+    }
+    Pylon_8___GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = {
+        "clsid": "{Right_Midboard_Inboard_1X_GBU-24}",
+        "name": "Pylon 8 - GBU-24A/B Paveway III - 2000lb Laser Guided Bomb",
+        "weight": 934,
+    }
+    Pylon_8___GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb = {
+        "clsid": "{Right_Midboard_Inboard_1X_GBU-31}",
+        "name": "Pylon 8 - GBU-31(V)2/B - JDAM, 2000lb GPS Guided Bomb",
+        "weight": 934,
+    }
+    Pylon_8___GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb = {
+        "clsid": "{Right_Midboard_Inboard_1X_GBU-31V}",
+        "name": "Pylon 8 - GBU-31(V)4/B - JDAM, 2000lb GPS Guided Penetrator Bomb",
+        "weight": 981,
+    }
+    Pylon_8___GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb = {
+        "clsid": "{Right_Midboard_Inboard_1X_GBU-38}",
+        "name": "Pylon 8 - GBU-38(V)1/B - JDAM, 500lb GPS Guided Bomb",
+        "weight": 241,
+    }
+    Pylon_8___Mk_20_Rockeye___490lb_CBU__247_x_HEAT_Bomblets = {
+        "clsid": "{Right_Midboard_Inboard_1X_ROCKEYE}",
+        "name": "Pylon 8 - Mk-20 Rockeye - 490lb CBU, 247 x HEAT Bomblets",
+        "weight": 222,
+    }
+    Pylon_8___Mk_82Y___500lb_GP_Bomb_Chute_Retarded_HD = {
+        "clsid": "{Right_Midboard_Inboard_1X_MK-82Y}",
+        "name": "Pylon 8 - Mk-82Y - 500lb GP Bomb Chute Retarded HD",
+        "weight": 232,
+    }
+    Pylon_8___Mk_82_Snakeye___500lb_GP_Bomb_HD = {
+        "clsid": "{Right_Midboard_Inboard_1X_MK-82_Snakeye}",
+        "name": "Pylon 8 - Mk-82 Snakeye - 500lb GP Bomb HD",
+        "weight": 249.5,
+    }
+    Pylon_8___Mk_82___500lb_GP_Bomb_LD = {
+        "clsid": "{Right_Midboard_Inboard_1X_MK-82}",
+        "name": "Pylon 8 - Mk-82 - 500lb GP Bomb LD",
+        "weight": 228,
+    }
+    Pylon_8___Mk_83___1000lb_GP_Bomb_LD = {
+        "clsid": "{Right_Midboard_Inboard_1X_MK-83}",
+        "name": "Pylon 8 - Mk-83 - 1000lb GP Bomb LD",
+        "weight": 454,
+    }
+    Pylon_8___Mk_84___2000lb_GP_Bomb_LD = {
+        "clsid": "{Right_Midboard_Inboard_1X_MK-84}",
+        "name": "Pylon 8 - Mk-84 - 2000lb GP Bomb LD",
+        "weight": 912,
+    }
+    Pylon_9_8___AGM_154A___JSOW_CEB__CBU_type_ = {
+        "clsid": "{Right_Midboard_Inboard_2X_AGM-154A}",
+        "name": "Pylon 9 | 8 - AGM-154A - JSOW CEB (CBU-type)",
+        "weight": 970,
+    }
+    Pylon_9_8___AGM_154C___JSOW_Unitary_BROACH = {
+        "clsid": "{Right_Midboard_Inboard_2X_AGM-154C}",
+        "name": "Pylon 9 | 8 - AGM-154C - JSOW Unitary BROACH",
+        "weight": 968,
+    }
+    Pylon_9_8___BDU_45B___500lb_Practice_Bomb = {
+        "clsid": "{Right_Midboard_Inboard_2X_BDU-45B}",
+        "name": "Pylon 9 | 8 - BDU-45B - 500lb Practice Bomb",
+        "weight": 464,
+    }
+    Pylon_9_8___BDU_45_LG___500lb_Practice_Laser_Guided_Bomb = {
+        "clsid": "{Right_Midboard_Inboard_2X_BDU-50LGB}",
+        "name": "Pylon 9 | 8 - BDU-45 LG - 500lb Practice Laser Guided Bomb",
+        "weight": 560,
+    }
+    Pylon_9_8___BDU_45___500lb_Practice_Bomb = {
+        "clsid": "{Right_Midboard_Inboard_2X_BDU-45}",
+        "name": "Pylon 9 | 8 - BDU-45 - 500lb Practice Bomb",
+        "weight": 464,
+    }
+    Pylon_9_8___GBU_12___500lb_Laser_Guided_Bomb = {
+        "clsid": "{Right_Midboard_Inboard_2X_GBU-12}",
+        "name": "Pylon 9 | 8 - GBU-12 - 500lb Laser Guided Bomb",
+        "weight": 554,
+    }
+    Pylon_9_8___GBU_16___1000lb_Laser_Guided_Bomb = {
+        "clsid": "{Right_Midboard_Inboard_2X_GBU-16}",
+        "name": "Pylon 9 | 8 - GBU-16 - 1000lb Laser Guided Bomb",
+        "weight": 1026,
+    }
+    Pylon_9_8___GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = {
+        "clsid": "{Right_Midboard_Inboard_2X_GBU-24}",
+        "name": "Pylon 9 | 8 - GBU-24A/B Paveway III - 2000lb Laser Guided Bomb",
+        "weight": 1868,
+    }
+    Pylon_9_8___GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb = {
+        "clsid": "{Right_Midboard_Inboard_2X_GBU-31}",
+        "name": "Pylon 9 | 8 - GBU-31(V)2/B - JDAM, 2000lb GPS Guided Bomb",
+        "weight": 1868,
+    }
+    Pylon_9_8___GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb = {
+        "clsid": "{Right_Midboard_Inboard_2X_GBU-31V}",
+        "name": "Pylon 9 | 8 - GBU-31(V)4/B - JDAM, 2000lb GPS Guided Penetrator Bomb",
+        "weight": 1962,
+    }
+    Pylon_9_8___GBU_38_V_1_B___JDAM__500lb_GPS_Guided_Bomb = {
+        "clsid": "{Right_Midboard_Inboard_2X_GBU-38}",
+        "name": "Pylon 9 | 8 - GBU-38(V)1/B - JDAM, 500lb GPS Guided Bomb",
+        "weight": 482,
+    }
+    Pylon_9_8___Mk_20_Rockeye___490lb_CBU__247_x_HEAT_Bomblets = {
+        "clsid": "{Right_Midboard_Inboard_2X_ROCKEYE}",
+        "name": "Pylon 9 | 8 - Mk-20 Rockeye - 490lb CBU, 247 x HEAT Bomblets",
+        "weight": 444,
+    }
+    Pylon_9_8___Mk_82Y___500lb_GP_Bomb_Chute_Retarded_HD = {
+        "clsid": "{Right_Midboard_Inboard_2X_MK-82Y}",
+        "name": "Pylon 9 | 8 - Mk-82Y - 500lb GP Bomb Chute Retarded HD",
+        "weight": 464,
+    }
+    Pylon_9_8___Mk_82_Snakeye___500lb_GP_Bomb_HD = {
+        "clsid": "{Right_Midboard_Inboard_2X_MK-82_Snakeye}",
+        "name": "Pylon 9 | 8 - Mk-82 Snakeye - 500lb GP Bomb HD",
+        "weight": 499,
+    }
+    Pylon_9_8___Mk_82___500lb_GP_Bomb_LD = {
+        "clsid": "{Right_Midboard_Inboard_2X_MK-82}",
+        "name": "Pylon 9 | 8 - Mk-82 - 500lb GP Bomb LD",
+        "weight": 456,
+    }
+    Pylon_9_8___Mk_83___1000lb_GP_Bomb_LD = {
+        "clsid": "{Right_Midboard_Inboard_2X_MK-83}",
+        "name": "Pylon 9 | 8 - Mk-83 - 1000lb GP Bomb LD",
+        "weight": 908,
+    }
+    Pylon_9_8___Mk_84___2000lb_GP_Bomb_LD = {
+        "clsid": "{Right_Midboard_Inboard_2X_MK-84}",
+        "name": "Pylon 9 | 8 - Mk-84 - 2000lb GP Bomb LD",
+        "weight": 1824,
+    }
 
 
 inject_weapons(WeaponsFA18EFG)
