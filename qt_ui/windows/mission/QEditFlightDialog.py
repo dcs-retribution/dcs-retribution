@@ -26,6 +26,8 @@ class QEditFlightDialog(QDialog):
 
         self.game_model = game_model
         self.flight = flight
+        self.package_model = package_model
+        self.events = GameUpdateEvents()
 
         self.setWindowTitle("Edit flight")
         self.setWindowIcon(EVENT_ICONS["strike"])
@@ -34,11 +36,24 @@ class QEditFlightDialog(QDialog):
         layout = QVBoxLayout()
 
         self.flight_planner = QFlightPlanner(package_model, flight, game_model)
+        self.flight_planner.squadron_changed.connect(self.on_squadron_change)
         layout.addWidget(self.flight_planner)
 
         self.setLayout(layout)
         self.finished.connect(self.on_close)
 
+    def on_squadron_change(self, flight: Flight):
+        self.events = GameUpdateEvents().delete_flight(self.flight)
+        self.events = self.events.new_flight(flight)
+        self.game_model.ato_model.client_slots_changed.emit()
+        self.flight = flight
+        self.reject()
+        new_dialog = QEditFlightDialog(
+            self.game_model, self.package_model, flight, self.parent()
+        )
+        new_dialog.show()
+
     def on_close(self, _result) -> None:
-        EventStream.put_nowait(GameUpdateEvents().update_flight(self.flight))
+        self.events = self.events.update_flight(self.flight)
+        EventStream.put_nowait(self.events)
         self.game_model.ato_model.client_slots_changed.emit()

@@ -130,6 +130,8 @@ class IadsNetwork:
             # but if it does, we want to know because it's supposed to be impossible afaict
             skynet_node = SkynetNode.from_group(node.group)
             for connection in node.connections.values():
+                if not any([x.alive for x in connection.units]):
+                    continue
                 if connection.ground_object.is_friendly(
                     skynet_node.player
                 ) and not game.iads_considerate_culling(connection.ground_object):

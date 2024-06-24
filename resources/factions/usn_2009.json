@@ -11,7 +11,12 @@
     "F/A-18C Hornet (Lot 20)",
 	"F/A-18E Super Hornet",
 	"F/A-18F Super Hornet",
+<<<<<<< HEAD
   "EA-18G Growler",
+=======
+  "EA-18G Growler",
+    "EA-6B Prowler",
+>>>>>>> 45edc7afc9696b874d1948473c0002f3e62b9b43
     "AV-8B Harrier II Night Attack",
     "AH-1W SuperCobra",
     "S-3B Viking",

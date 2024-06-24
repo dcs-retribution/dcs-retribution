@@ -28,7 +28,7 @@ from uuid import UUID
 
 from dcs.mapping import Point
 from dcs.ships import (
-    Ara_vdm,
+    ara_vdm,
     CVN_71,
     CVN_72,
     CVN_73,
@@ -39,7 +39,7 @@ from dcs.ships import (
     LHA_Tarawa,
     Stennis,
     Type_071,
-    Hms_invincible,
+    hms_invincible,
 )
 from dcs.terrain.terrain import Airport, ParkingSlot
 from dcs.unitgroup import ShipGroup, StaticGroup
@@ -570,6 +570,23 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
             seen.add(cp)
             connected.append(cp)
             connected.extend(cp.transitive_friendly_shipping_destinations(seen))
+        return connected
+
+    def transitive_connected_friendly_destinations(
+        self, seen: Optional[Set[ControlPoint]] = None
+    ) -> List[ControlPoint]:
+        if seen is None:
+            seen = {self}
+
+        connected = []
+        for cp in set(self.connected_points + list(self.shipping_lanes.keys())):
+            if cp.captured != self.captured:
+                continue
+            if cp in seen:
+                continue
+            seen.add(cp)
+            connected.append(cp)
+            connected.extend(cp.transitive_connected_friendly_destinations(seen))
         return connected
 
     @property
@@ -1385,16 +1402,21 @@ class NavalControlPoint(
         for group in self.find_main_tgo().groups:
             for u in group.units:
                 if u.alive and u.type in [
-                    Ara_vdm,
+                    ara_vdm,
                     Forrestal,
                     Stennis,
                     LHA_Tarawa,
                     KUZNECOW,
                     Type_071,
-                    Hms_invincible,
+                    hms_invincible,
                     L02,
                     L52,
                     L61,
+                    CV_1143_5,
+                    CVN_71,
+                    CVN_72,
+                    CVN_73,
+                    CVN_75,
                 ]:
                     return True
         return False

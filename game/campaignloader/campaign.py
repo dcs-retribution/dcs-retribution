@@ -19,6 +19,7 @@ from game.theater.iadsnetwork.iadsnetwork import IadsNetwork
 from game.theater.theaterloader import TheaterLoader
 from game.version import CAMPAIGN_FORMAT_VERSION
 from .campaignairwingconfig import CampaignAirWingConfig
+from .campaigncarrierconfig import CampaignCarrierConfig
 from .campaigngroundconfig import TgoConfig
 from .mizcampaignloader import MizCampaignLoader
 from ..factions import FACTIONS, Faction
@@ -163,6 +164,13 @@ class Campaign:
             logging.warning(f"Campaign {self.name} does not define any squadrons")
             return CampaignAirWingConfig({})
         return CampaignAirWingConfig.from_campaign_data(squadron_data, theater)
+
+    def load_carrier_config(self) -> CampaignCarrierConfig:
+        try:
+            carrier_data = self.data["carriers"]
+        except KeyError:
+            return CampaignCarrierConfig({})
+        return CampaignCarrierConfig.from_campaign_data(carrier_data)
 
     def load_ground_forces_config(self) -> TgoConfig:
         ground_forces = self.data.get("ground_forces", {})

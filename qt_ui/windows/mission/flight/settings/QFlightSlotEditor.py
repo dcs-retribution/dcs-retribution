@@ -11,14 +11,21 @@ from PySide6.QtWidgets import (
     QHBoxLayout,
     QCheckBox,
     QVBoxLayout,
+    QPushButton,
+    QDialog,
+    QWidget,
 )
 
 from game import Game
+from game.ato.closestairfields import ClosestAirfields
 from game.ato.flight import Flight
 from game.ato.flightroster import FlightRoster
 from game.ato.iflightroster import IFlightRoster
+from game.dcs.aircrafttype import AircraftType
 from game.squadrons import Squadron
 from game.squadrons.pilot import Pilot
+from game.theater import ControlPoint, OffMapSpawn
+from game.utils import nautical_miles
 from qt_ui.models import PackageModel
 
 
@@ -96,11 +103,16 @@ class PilotControls(QHBoxLayout):
     player_toggled = Signal()
 
     def __init__(
-        self, squadron: Optional[Squadron], roster: Optional[FlightRoster], idx: int
+        self,
+        squadron: Optional[Squadron],
+        roster: Optional[FlightRoster],
+        idx: int,
+        pilots_changed: Signal,
     ) -> None:
         super().__init__()
         self.roster = roster
         self.pilot_index = idx
+        self.pilots_changed = pilots_changed
 
         self.selector = PilotSelector(squadron, roster, idx)
         self.selector.currentIndexChanged.connect(self.on_pilot_changed)
@@ -131,6 +143,8 @@ class PilotControls(QHBoxLayout):
         pilot.player = checked
         self.player_toggled.emit()
 
+        self.pilots_changed.emit()
+
     def on_pilot_changed(self, index: int) -> None:
         pilot = self.selector.itemData(index)
         self.player_checkbox.blockSignals(True)
@@ -143,6 +157,10 @@ class PilotControls(QHBoxLayout):
             if self.roster is not None:
                 self.player_checkbox.setEnabled(self.roster.squadron.aircraft.flyable)
             self.player_checkbox.blockSignals(False)
+            # on_pilot_changed should emit pilots_changed in its finally block,
+            # otherwise the start-type isn't updated if you have a single client
+            # pilot which you switch to a non-client pilot
+            self.pilots_changed.emit()
 
     def update_available_pilots(self) -> None:
         self.selector.rebuild()
@@ -174,9 +192,12 @@ class PilotControls(QHBoxLayout):
 
 class FlightRosterEditor(QVBoxLayout):
     MAX_PILOTS = 4
+    pilots_changed = Signal()
 
     def __init__(
-        self, squadron: Optional[Squadron], roster: Optional[IFlightRoster]
+        self,
+        squadron: Optional[Squadron],
+        roster: Optional[IFlightRoster],
     ) -> None:
         super().__init__()
         self.roster = roster
@@ -190,7 +211,7 @@ class FlightRosterEditor(QVBoxLayout):
 
                 return callback
 
-            controls = PilotControls(squadron, roster, pilot_idx)
+            controls = PilotControls(squadron, roster, pilot_idx, self.pilots_changed)
             controls.selector.available_pilots_changed.connect(
                 make_reset_callback(pilot_idx)
             )
@@ -223,14 +244,64 @@ class FlightRosterEditor(QVBoxLayout):
             controls.replace(squadron, new_roster)
 
 
+class QSquadronSelector(QDialog):
+    def __init__(self, flight: Flight, parent: Optional[QWidget] = None):
+        super().__init__(parent)
+        self.flight = flight
+        self.parent = parent
+        self.init()
+
+    def init(self):
+        vbox = QVBoxLayout()
+        self.setLayout(vbox)
+
+        self.selector = QComboBox()
+        air_wing = self.flight.coalition.air_wing
+        for squadron in air_wing.best_squadrons_for(
+            self.flight.package.target,
+            self.flight.flight_type,
+            self.flight.roster.max_size,
+            self.flight.is_helo,
+            True,
+            ignore_range=True,
+        ):
+            if squadron is self.flight.squadron:
+                continue
+            self.selector.addItem(
+                f"{squadron.name} - {squadron.aircraft.variant_id}", squadron
+            )
+
+        vbox.addWidget(self.selector)
+
+        hbox = QHBoxLayout()
+        accept = QPushButton("Accept")
+        accept.clicked.connect(self.accept)
+        hbox.addWidget(accept)
+        cancel = QPushButton("Cancel")
+        cancel.clicked.connect(self.reject)
+        hbox.addWidget(cancel)
+
+        vbox.addLayout(hbox)
+
+
 class QFlightSlotEditor(QGroupBox):
     flight_resized = Signal(int)
+    squadron_changed = Signal(Flight)
 
-    def __init__(self, package_model: PackageModel, flight: Flight, game: Game):
+    def __init__(
+        self,
+        package_model: PackageModel,
+        flight: Flight,
+        game: Game,
+    ):
         super().__init__("Slots")
         self.package_model = package_model
         self.flight = flight
         self.game = game
+        self.closest_airfields = ClosestAirfields(
+            flight.package.target,
+            list(game.theater.control_points_for(self.flight.coalition.player)),
+        )
         available = self.flight.squadron.untasked_aircraft
         max_count = self.flight.count + available
         if max_count > 4:
@@ -249,13 +320,58 @@ class QFlightSlotEditor(QGroupBox):
         layout.addWidget(self.aircraft_count_spinner, 0, 1)
 
         layout.addWidget(QLabel("Squadron:"), 1, 0)
-        layout.addWidget(QLabel(str(self.flight.squadron)), 1, 1)
+        hbox = QHBoxLayout()
+        hbox.addWidget(QLabel(str(self.flight.squadron)))
+        squadron_btn = QPushButton("Change Squadron")
+        squadron_btn.clicked.connect(self._change_squadron)
+        hbox.addWidget(squadron_btn)
+        layout.addLayout(hbox, 1, 1)
 
         layout.addWidget(QLabel("Assigned pilots:"), 2, 0)
         self.roster_editor = FlightRosterEditor(flight.squadron, flight.roster)
         layout.addLayout(self.roster_editor, 2, 1)
 
         self.setLayout(layout)
+
+    def _change_squadron(self):
+        dialog = QSquadronSelector(self.flight)
+        if dialog.exec():
+            squadron: Optional[Squadron] = dialog.selector.currentData()
+            if not squadron:
+                return
+            flight = Flight(
+                self.package_model.package,
+                squadron,
+                self.flight.count,
+                self.flight.flight_type,
+                self.flight.start_type,
+                self._find_divert_field(squadron.aircraft, squadron.location),
+                frequency=self.flight.frequency,
+                cargo=self.flight.cargo,
+                channel=self.flight.tacan,
+                callsign_tcn=self.flight.tcn_name,
+            )
+            self.package_model.add_flight(flight)
+            self.package_model.delete_flight(self.flight)
+            self.squadron_changed.emit(flight)
+
+    def _find_divert_field(
+        self, aircraft: AircraftType, arrival: ControlPoint
+    ) -> Optional[ControlPoint]:
+        divert_limit = nautical_miles(150)
+        for airfield in self.closest_airfields.operational_airfields_within(
+            divert_limit
+        ):
+            if airfield.captured != self.flight.coalition.player:
+                continue
+            if airfield == arrival:
+                continue
+            if not airfield.can_operate(aircraft):
+                continue
+            if isinstance(airfield, OffMapSpawn):
+                continue
+            return airfield
+        return None
 
     def _changed_aircraft_count(self):
         old_count = self.flight.count

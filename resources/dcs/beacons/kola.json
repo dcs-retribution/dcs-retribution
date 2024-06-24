@@ -1,0 +1,226 @@
+{
+ "world_0": {
+  "name": "SPO",
+  "callsign": "SPO",
+  "beacon_type": 2,
+  "hertz": 115900000,
+  "channel": 106
+ },
+ "world_1": {
+  "name": "IL",
+  "callsign": "IL",
+  "beacon_type": 8,
+  "hertz": 320000,
+  "channel": null
+ },
+ "world_2": {
+  "name": "KM",
+  "callsign": "KMV",
+  "beacon_type": 8,
+  "hertz": 445000,
+  "channel": null
+ },
+ "world_3": {
+  "name": "I",
+  "callsign": "I",
+  "beacon_type": 12,
+  "hertz": 595000,
+  "channel": null
+ },
+ "world_4": {
+  "name": "IO",
+  "callsign": "IO",
+  "beacon_type": 11,
+  "hertz": 1210000,
+  "channel": null
+ },
+ "world_5": {
+  "name": "TG",
+  "callsign": "TG",
+  "beacon_type": 8,
+  "hertz": 346000,
+  "channel": null
+ },
+ "world_6": {
+  "name": "OG",
+  "callsign": "OG",
+  "beacon_type": 11,
+  "hertz": 325000,
+  "channel": null
+ },
+ "world_7": {
+  "name": "NAT",
+  "callsign": "NAT",
+  "beacon_type": 3,
+  "hertz": 113000000,
+  "channel": 77
+ },
+ "airfield3_0": {
+  "name": "kemi",
+  "callsign": "ke",
+  "beacon_type": 14,
+  "hertz": 110900000,
+  "channel": null
+ },
+ "airfield3_1": {
+  "name": "kemi",
+  "callsign": "ke",
+  "beacon_type": 13,
+  "hertz": 110900000,
+  "channel": null
+ },
+ "airfield2_0": {
+  "name": "ROVANIEMI",
+  "callsign": "ro",
+  "beacon_type": 13,
+  "hertz": 111700000,
+  "channel": null
+ },
+ "airfield2_1": {
+  "name": "rovaniemi",
+  "callsign": "roi",
+  "beacon_type": 3,
+  "hertz": 117700000,
+  "channel": 124
+ },
+ "airfield2_2": {
+  "name": "ROVANIEMI",
+  "callsign": "RO",
+  "beacon_type": 14,
+  "hertz": 111700000,
+  "channel": null
+ },
+ "airfield7_0": {
+  "name": "BODO",
+  "callsign": "BO",
+  "beacon_type": 14,
+  "hertz": 110300000,
+  "channel": null
+ },
+ "airfield7_1": {
+  "name": "BODO",
+  "callsign": "BDO",
+  "beacon_type": 3,
+  "hertz": 117550000,
+  "channel": 122
+ },
+ "airfield7_2": {
+  "name": "BODO",
+  "callsign": "BO",
+  "beacon_type": 13,
+  "hertz": 110300000,
+  "channel": null
+ },
+ "airfield7_3": {
+  "name": "BODO",
+  "callsign": "BD",
+  "beacon_type": 13,
+  "hertz": 108700000,
+  "channel": null
+ },
+ "airfield7_4": {
+  "name": "BODO-ILSTAD",
+  "callsign": "BD",
+  "beacon_type": 14,
+  "hertz": 108700000,
+  "channel": null
+ },
+ "airfield7_5": {
+  "name": "bodo",
+  "callsign": "boo",
+  "beacon_type": 4,
+  "hertz": 110800000,
+  "channel": 45
+ },
+ "airfield1_0": {
+  "name": "banak",
+  "callsign": "ba",
+  "beacon_type": 14,
+  "hertz": 108300000,
+  "channel": 20
+ },
+ "airfield1_1": {
+  "name": "banak",
+  "callsign": "ba",
+  "beacon_type": 14,
+  "hertz": 108300000,
+  "channel": null
+ },
+ "airfield1_2": {
+  "name": "BANAK",
+  "callsign": "BNA",
+  "beacon_type": 3,
+  "hertz": 114400000,
+  "channel": 91
+ },
+ "airfield1_3": {
+  "name": "ENNA",
+  "callsign": "BNK",
+  "beacon_type": 4,
+  "hertz": 111000000,
+  "channel": 47
+ },
+ "airfield1_4": {
+  "name": "banak",
+  "callsign": "ba",
+  "beacon_type": 13,
+  "hertz": 108300000,
+  "channel": null
+ },
+ "airfield5_0": {
+  "name": "kiruna",
+  "callsign": "KRA",
+  "beacon_type": 3,
+  "hertz": 115200000,
+  "channel": 99
+ },
+ "airfield5_1": {
+  "name": "kiruna",
+  "callsign": "nq",
+  "beacon_type": 14,
+  "hertz": 110300000,
+  "channel": 0
+ },
+ "airfield5_2": {
+  "name": "OP",
+  "callsign": "OP",
+  "beacon_type": 8,
+  "hertz": 360000,
+  "channel": null
+ },
+ "airfield5_3": {
+  "name": "kiruna",
+  "callsign": "nq",
+  "beacon_type": 13,
+  "hertz": 110300000,
+  "channel": 0
+ },
+ "airfield12_0": {
+  "name": "IRD",
+  "callsign": "ird",
+  "beacon_type": 13,
+  "hertz": 108500000,
+  "channel": null
+ },
+ "airfield12_1": {
+  "name": "IPF",
+  "callsign": "ipf",
+  "beacon_type": 13,
+  "hertz": 110300000,
+  "channel": null
+ },
+ "airfield12_2": {
+  "name": "IRD",
+  "callsign": "ird",
+  "beacon_type": 14,
+  "hertz": 108500000,
+  "channel": null
+ },
+ "airfield12_3": {
+  "name": "IPF",
+  "callsign": "ipf",
+  "beacon_type": 14,
+  "hertz": 110300000,
+  "channel": null
+ }
+}

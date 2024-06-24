@@ -1,5 +1,5 @@
-name: Build Liberation package
-description: Assembles the full Liberation application.
+name: Build Retribution package
+description: Assembles the full Retribution application.
 runs:
   using: composite
   steps:

@@ -104,19 +104,19 @@ local unitPayloads = {
 			["name"] = "SEAD",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{3E6B632D-65EB-44D2-9501-1C2D04515404}",
+					["CLSID"] = "{AGM_45B}",
 					["num"] = 4,
 				},
 				[2] = {
-					["CLSID"] = "{3E6B632D-65EB-44D2-9501-1C2D04515404}",
+					["CLSID"] = "{AGM_45B}",
 					["num"] = 5,
 				},
 				[3] = {
-					["CLSID"] = "{3E6B632D-65EB-44D2-9501-1C2D04515404}",
+					["CLSID"] = "{AGM_45B}",
 					["num"] = 2,
 				},
 				[4] = {
-					["CLSID"] = "{3E6B632D-65EB-44D2-9501-1C2D04515404}",
+					["CLSID"] = "{AGM_45B}",
 					["num"] = 1,
 				},
 				[5] = {
@@ -132,19 +132,19 @@ local unitPayloads = {
 			["name"] = "ANTISHIP",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{3E6B632D-65EB-44D2-9501-1C2D04515404}",
+					["CLSID"] = "{AGM_45B}",
 					["num"] = 5,
 				},
 				[2] = {
-					["CLSID"] = "{3E6B632D-65EB-44D2-9501-1C2D04515404}",
+					["CLSID"] = "{AGM_45B}",
 					["num"] = 4,
 				},
 				[3] = {
-					["CLSID"] = "{3E6B632D-65EB-44D2-9501-1C2D04515404}",
+					["CLSID"] = "{AGM_45B}",
 					["num"] = 2,
 				},
 				[4] = {
-					["CLSID"] = "{3E6B632D-65EB-44D2-9501-1C2D04515404}",
+					["CLSID"] = "{AGM_45B}",
 					["num"] = 1,
 				},
 				[5] = {

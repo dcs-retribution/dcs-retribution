@@ -76,6 +76,16 @@ class PackageBuilder:
                 member.assign_tgp_laser_code(
                     self.laser_code_registry.alloc_laser_code()
                 )
+        # If this is a client flight, set the start_type again to match the configured default
+        # https://github.com/dcs-liberation/dcs_liberation/issues/1567
+        if (
+            squadron.location.required_aircraft_start_type is None
+            and flight.roster is not None
+            and flight.roster.player_count > 0
+        ):
+            flight.start_type = (
+                squadron.coalition.game.settings.default_start_type_client
+            )
         self.package.add_flight(flight)
         return True
 

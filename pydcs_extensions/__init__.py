@@ -2,10 +2,12 @@ from .SWPack import *
 from .a4ec import *
 from .a7e import *
 from .a6a import *
+from .ea6b import *
 from .f9f import *
 from .f100 import *
 from .f104 import *
 from .f105 import *
+from .f106 import *
 from .f15d import *
 from .f15i_idf import *
 from .f16i_idf import *

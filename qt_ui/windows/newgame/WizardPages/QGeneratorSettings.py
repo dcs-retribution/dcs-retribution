@@ -94,6 +94,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("a6a_intruder", self.a6a_intruder)
         self.a7e_corsair2 = QtWidgets.QCheckBox()
         self.registerField("a7e_corsair2", self.a7e_corsair2)
+        self.ea6b_prowler = QtWidgets.QCheckBox()
+        self.registerField("ea6b_prowler", self.ea6b_prowler)
         self.hercules = QtWidgets.QCheckBox()
         self.registerField("hercules", self.hercules)
         self.uh_60l = QtWidgets.QCheckBox()
@@ -122,6 +124,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("f104_starfighter", self.f104_starfighter)
         self.f105_thunderchief = QtWidgets.QCheckBox()
         self.registerField("f105_thunderchief", self.f105_thunderchief)
+        self.f106_deltadart = QtWidgets.QCheckBox()
+        self.registerField("f106_deltadart", self.f106_deltadart)
         self.jas39_gripen = QtWidgets.QCheckBox()
         self.registerField("jas39_gripen", self.jas39_gripen)
         self.super_etendard = QtWidgets.QCheckBox()
@@ -154,34 +158,36 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         modLayout_row = 1
 
         mod_pairs = [
-            ("F9F Panther (v2.8.7.101)", self.f9f_panther),
             ("A-4E Skyhawk (v2.2.0)", self.a4_skyhawk),
             ("A-6A Intruder (v2.7.5.01)", self.a6a_intruder),
             ("A-7E Corsair II", self.a7e_corsair2),
-            ("C-130J-30 Super Hercules", self.hercules),
-            ("F-4B/C Phantom II (2.8.7.204)", self.f4bc_phantom),
-            ("F-15D Baz (v1.0)", self.f15d_baz),
-            ("F-15I Ra'am (v1.0 by IDF Mods Project)", self.f_15_idf),
-            ("F-16I Sufa & F-16D (v3.6 by IDF Mods Project)", self.f_16_idf),
-            ("F/A-18E/F/G Super Hornet (version 2.1)", self.fa_18efg),
-            ("F/A-18E/F Super Hornet AI Tanker (version 1.4)", self.fa18ef_tanker),
-            ("F-22A Raptor", self.f22_raptor),
-            ("F-84G Thunderjet (v2.5.7.01)", self.f84g_thunderjet),
+            ("C-130J-30 Super Hercules (v6.8.2)", self.hercules),
+            ("EA-6B Prowler (v2.9.4.102)", self.ea6b_prowler),
             ("F-100 Super Sabre (v2.7.18.30765 patch 20.10.22)", self.f100_supersabre),
             ("F-104 Starfighter (v2.7.11.222.01)", self.f104_starfighter),
             ("F-105 Thunderchief (v2.7.12.23x)", self.f105_thunderchief),
-            ("Frenchpack", self.frenchpack),
+            ("F-106 Delta Dart (v2.9.4.101)", self.f106_deltadart),
+            ("F-15D Baz (v1.0)", self.f15d_baz),
+            ("F-15I Ra'am (v1.0 by IDF Mods Project)", self.f_15_idf),
+            ("F-16I Sufa & F-16D (v3.6 by IDF Mods Project)", self.f_16_idf),
+            ("F-22A Raptor", self.f22_raptor),
+            ("F-4B/C Phantom II (2.8.7.204)", self.f4bc_phantom),
+            ("F-84G Thunderjet (v2.5.7.01)", self.f84g_thunderjet),
+            ("F9F Panther (v2.8.7.101)", self.f9f_panther),
+            ("F/A-18E/F Super Hornet AI Tanker (version 1.4)", self.fa18ef_tanker),
+            ("F/A-18E/F/G Super Hornet (version 2.3.2)", self.fa_18efg),
+            ("Frenchpack (v4.9.1)", self.frenchpack),
             ("High Digit SAMs", self.high_digit_sams),
-            ("Swedish Military Assets pack (1.10)", self.swedishmilitaryassetspack),
+            ("IDF Assets Pack (v1.1 by IDF Mods Project)", self.irondome),
             ("JAS 39 Gripen (v1.8.5-beta)", self.jas39_gripen),
             ("OV-10A Bronco", self.ov10a_bronco),
-            ("Super Étendard (v2.5.5)", self.super_etendard),
-            ("Su-30 Flanker-H (V2.7.3  beta)", self.su30_flanker_h),
-            ("Su-57 Felon (build-04)", self.su57_felon),
-            ("UH-60L Black Hawk (v1.3.1)", self.uh_60l),
-            ("Star Wars Modpack 2.54+", self.SWPack),
             ("Spanish Naval Assets pack (desdemicabina 3.2.0)", self.spanishnavypack),
-            ("IDF Assets Pack (v1.1 by IDF Mods Project)", self.irondome),
+            ("Star Wars Modpack 2.54+", self.SWPack),
+            ("Su-30 Flanker-H (V2.7.3 beta)", self.su30_flanker_h),
+            ("Su-57 Felon (build-04)", self.su57_felon),
+            ("Super Étendard (v2.5.5)", self.super_etendard),
+            ("Swedish Military Assets pack (1.10)", self.swedishmilitaryassetspack),
+            ("UH-60L Black Hawk (v1.3.1)", self.uh_60l),
         ]
 
         for i in range(len(mod_pairs)):
@@ -222,6 +228,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.a4_skyhawk.setChecked(s.get("a4_skyhawk", False))
         self.a6a_intruder.setChecked(s.get("a6a_intruder", False))
         self.a7e_corsair2.setChecked(s.get("a7e_corsair2", False))
+        self.ea6b_prowler.setChecked(s.get("ea6b_prowler", False))
         self.hercules.setChecked(s.get("hercules", False))
         self.uh_60l.setChecked(s.get("uh_60l", False))
         self.f4bc_phantom.setChecked(s.get("f4bc_phantom", False))
@@ -234,6 +241,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.f100_supersabre.setChecked(s.get("f100_supersabre", False))
         self.f104_starfighter.setChecked(s.get("f104_starfighter", False))
         self.f105_thunderchief.setChecked(s.get("f105_thunderchief", False))
+        self.f106_deltadart.setChecked(s.get("f106_deltadart", False))
         self.jas39_gripen.setChecked(s.get("jas39_gripen", False))
         self.super_etendard.setChecked(s.get("super_etendard", False))
         self.su30_flanker_h.setChecked(s.get("su30_flanker_h", False))

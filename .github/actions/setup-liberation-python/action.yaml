@@ -1,12 +1,12 @@
-name: Liberation Python set-up
-description: Sets up the Liberation Python environment.
+name: Retribution Python set-up
+description: Sets up the Retribution Python environment.
 runs:
   using: composite
   steps:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: "3.10"
+        python-version: "3.11"
         cache: pip
 
     - name: Install environment

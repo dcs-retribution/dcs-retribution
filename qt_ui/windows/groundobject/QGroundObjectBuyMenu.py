@@ -32,6 +32,7 @@ from game.theater.theatergroundobject import (
     EwrGroundObject,
     SamGroundObject,
     VehicleGroupGroundObject,
+    ShipGroundObject,
 )
 from qt_ui.uiconstants import EVENT_ICONS
 
@@ -278,6 +279,9 @@ class QGroundObjectBuyMenu(QDialog):
         elif isinstance(ground_object, EwrGroundObject):
             role = GroupRole.AIR_DEFENSE
             tasks.append(GroupTask.EARLY_WARNING_RADAR)
+        elif isinstance(ground_object, ShipGroundObject):
+            role = GroupRole.NAVAL
+            tasks.append(GroupTask.NAVY)
         else:
             raise NotImplementedError(f"Unhandled TGO type {ground_object.__class__}")
 

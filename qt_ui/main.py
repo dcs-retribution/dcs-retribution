@@ -137,7 +137,8 @@ def run_ui(game: Optional[Game], ui_flags: UiFlags) -> None:
     # Replace DCS Mission scripting file to allow DCS Retribution to work
     try:
         liberation_install.replace_mission_scripting_file()
-    except:
+    except Exception as e:
+        logging.error(e)
         error_dialog = QtWidgets.QErrorMessage()
         error_dialog.setWindowTitle("Wrong DCS installation directory.")
         error_dialog.showMessage(
@@ -317,11 +318,13 @@ def create_game(
             no_player_navy=False,
             no_enemy_navy=False,
             tgo_config=campaign.load_ground_forces_config(),
+            carrier_config=campaign.load_carrier_config(),
         ),
         ModSettings(
             a4_skyhawk=False,
             a6a_intruder=False,
             a7e_corsair2=False,
+            ea6b_prowler=False,
             fa_18efg=False,
             fa18ef_tanker=False,
             f4bc_phantom=False,

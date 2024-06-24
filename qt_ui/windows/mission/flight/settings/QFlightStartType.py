@@ -43,6 +43,27 @@ class QFlightStartType(QGroupBox):
         )
         self.setLayout(self.layout)
 
+    def on_pilot_selected(self):
+        # Pilot selection detected. If this is a player flight, set start_type
+        # as configured for players in the settings.
+        # Otherwise, set the start_type as configured for AI.
+        # https://github.com/dcs-liberation/dcs_liberation/issues/1567
+
+        if isinstance(self.flight.departure, OffMapSpawn):
+            return
+        elif self.flight.roster.player_count > 0:
+            self.flight.start_type = (
+                self.flight.coalition.game.settings.default_start_type_client
+            )
+        else:
+            self.flight.start_type = (
+                self.flight.coalition.game.settings.default_start_type
+            )
+
+        self.start_type.setCurrentText(self.flight.start_type.value)
+
+        self.package_model.update_tot()
+
     def _on_start_type_selected(self):
         selected = self.start_type.currentData()
         self.flight.start_type = selected

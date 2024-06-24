@@ -1,6 +1,7 @@
 import logging
 from typing import Any, Optional, Type, List
 
+from dcs.point import MovingPoint
 from dcs.task import (
     AWACS,
     AWACSTaskAction,
@@ -31,8 +32,10 @@ from dcs.unitgroup import FlyingGroup
 
 from game.ato import Flight, FlightType
 from game.ato.flightplans.aewc import AewcFlightPlan
+from game.ato.flightplans.formationattack import FormationAttackLayout
 from game.ato.flightplans.packagerefueling import PackageRefuelingFlightPlan
 from game.ato.flightplans.theaterrefueling import TheaterRefuelingFlightPlan
+from game.utils import nautical_miles
 
 
 class AircraftBehavior:
@@ -100,8 +103,25 @@ class AircraftBehavior:
                 flight.squadron.coalition.game.settings.ai_unlimited_fuel
             )
 
+        # at IP, insert waypoint to orient aircraft in correct direction
+        layout = flight.flight_plan.layout
+        at_ip_or_combat = flight.state.is_at_ip or flight.state.in_combat
+        if at_ip_or_combat and isinstance(layout, FormationAttackLayout):
+            a = group.points[0].position
+            b = layout.targets[0].position
+            pos = a.point_from_heading(
+                a.heading_between_point(b), nautical_miles(1).meters
+            )
+            point = MovingPoint(pos)
+            point.alt = group.points[0].alt
+            point.alt_type = group.points[0].alt_type
+            point.ETA_locked = False
+            point.speed = group.points[0].speed
+            point.name = "Orientation WPT"
+            group.points.insert(1, point)
+
         # Activate AI unlimited fuel for all flights at startup
-        if ai_unlimited_fuel and not (flight.state.is_at_ip or flight.state.in_combat):
+        if ai_unlimited_fuel and not at_ip_or_combat:
             group.points[0].tasks.append(SetUnlimitedFuelCommand(True))
 
         group.points[0].tasks.append(OptReactOnThreat(react_on_threat))

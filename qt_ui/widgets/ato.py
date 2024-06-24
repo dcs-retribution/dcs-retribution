@@ -1,5 +1,6 @@
 """Widgets for displaying air tasking orders."""
 import logging
+from copy import deepcopy
 from typing import Optional
 
 from PySide6.QtCore import (
@@ -23,12 +24,14 @@ from PySide6.QtWidgets import (
     QSplitter,
     QVBoxLayout,
     QMessageBox,
+    QCheckBox,
 )
 
 from game.ato.flight import Flight
 from game.ato.package import Package
 from game.server import EventStream
 from game.sim import GameUpdateEvents
+from .QLabeledWidget import QLabeledWidget
 from ..delegates import TwoColumnRowDelegate
 from ..models import AtoModel, GameModel, NullListModel, PackageModel
 
@@ -141,6 +144,7 @@ class QFlightList(QListView):
             )
             return
         self.package_model.add_flight(clone)
+        clone.flight_plan.layout = deepcopy(flight.flight_plan.layout)
         EventStream.put_nowait(GameUpdateEvents().new_flight(clone))
 
     def cancel_or_abort_flight(self, index: QModelIndex) -> None:
@@ -473,6 +477,11 @@ class QPackagePanel(QGroupBox):
             return
         self.package_list.delete_package(index)
 
+    def enable_buttons(self, enabled: bool) -> None:
+        self.edit_button.setEnabled(enabled)
+        self.clone_button.setEnabled(enabled)
+        self.delete_button.setEnabled(enabled)
+
 
 class QAirTaskingOrderPanel(QSplitter):
     """A split panel for displaying the packages and flights of an ATO.
@@ -484,7 +493,19 @@ class QAirTaskingOrderPanel(QSplitter):
 
     def __init__(self, game_model: GameModel) -> None:
         super().__init__(Qt.Orientation.Vertical)
+        self.game_model = game_model
         self.ato_model = game_model.ato_model
+
+        # ATO
+        self.red_ato_checkbox = QCheckBox()
+        self.red_ato_checkbox.toggled.connect(self.on_ato_changed)
+        self.red_ato_labeled = QLabeledWidget(
+            "Show/Plan OPFOR's ATO: ", self.red_ato_checkbox
+        )
+
+        self.ato_group_box = QGroupBox("ATO")
+        self.ato_group_box.setLayout(self.red_ato_labeled)
+        self.addWidget(self.ato_group_box)
 
         self.package_panel = QPackagePanel(game_model, self.ato_model)
         self.package_panel.current_changed.connect(self.on_package_change)
@@ -497,6 +518,25 @@ class QAirTaskingOrderPanel(QSplitter):
         """Sets the newly selected flight for display in the bottom panel."""
         index = self.package_panel.package_list.currentIndex()
         if index.isValid():
+            self.package_panel.enable_buttons(True)
             self.flight_panel.set_package(self.ato_model.get_package_model(index))
         else:
+            self.package_panel.enable_buttons(False)
             self.flight_panel.set_package(None)
+
+    def on_ato_changed(self) -> None:
+        opfor = self.red_ato_checkbox.isChecked()
+        ato_model = (
+            self.game_model.red_ato_model if opfor else self.game_model.ato_model
+        )
+        ato_model.layoutChanged.connect(self.package_panel.on_current_changed)
+        self.ato_model = ato_model
+        self.package_panel.ato_model = ato_model
+        self.package_panel.package_list.ato_model = ato_model
+        self.package_panel.package_list.setModel(ato_model)
+        self.package_panel.enable_buttons(False)
+        self.package_panel.current_changed.connect(self.on_package_change)
+        self.flight_panel.flight_list.set_package(None)
+        events = GameUpdateEvents().deselect_flight()
+        EventStream.put_nowait(events)
+        self.game_model.is_ownfor = not opfor

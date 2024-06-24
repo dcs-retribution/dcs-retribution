@@ -136,10 +136,18 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
             pickup.alt = altitude
             pickup_position = pickup.position
 
-        ingress = builder.ingress(
-            FlightWaypointType.INGRESS_AIR_ASSAULT,
-            self.package.waypoints.ingress,
-            self.package.target,
+        ingress = (
+            builder.ingress(
+                FlightWaypointType.INGRESS_AIR_ASSAULT,
+                self.package.waypoints.ingress,
+                self.package.target,
+            )
+            if not self.flight.is_hercules
+            else builder.ingress(
+                FlightWaypointType.INGRESS_AIR_ASSAULT,
+                self.package.waypoints.initial,
+                self.package.target,
+            )
         )
 
         assault_area = builder.assault_area(self.package.target)
@@ -182,7 +190,7 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
             hold=None,
-            join=builder.join(ingress.position),
+            join=builder.join(self.package.waypoints.ingress),
             split=builder.split(self.flight.arrival.position),
             refuel=None,
             custom_waypoints=list(),

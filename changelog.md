@@ -6,10 +6,24 @@
 * **[Factions]** Support for definitions in yml/yaml format
 * **[Campaigns/Factions]** Support for inline recommended faction in campaign's yaml file
 * **[Squadrons]** Ability to define a livery-set for each squadron from which Retribution will randomly choose during mission generation
+* **[Modding]** Updated support for F/A-18E/F/G mod version 2.2.5
+* **[Modding]** Added VSN F-106 Delta Dart mod support (v2.9.4.101)
+* **[Campaign Setup]** Allow adjustments to naval TGOs (except carriers) on turn 0
+* **[Campaign Design]** Ability to configure specific carrier names & types in campaign's yaml file 
+* **[Mission Generation]** Ability to inject custom kneeboards
+* **[Options]** Extend option (so it can be disabled when fixed in DCS) to force air-starts (except for the slots that work) at Ramon Airbase, similar to the Nevatim fix in Retribution 1.3.0
+* **[Options]** New option in Settings: Default start type for Player flights.
+* **[AirWing]** Expose OPFOR Squadrons, giving the ability to change liveries, auto-assignable mission types & an easy way to retrieve debug information.
+* **[ATO]** Allow planning as OPFOR
+* **[Campaign Design]** Support for Kola map by Orbx
+* **[UI]** Zoom level retained when switching campaigns
+* **[UX]** Allow changing squadrons in flight's edit dialog
 
 ## Fixes
-* **[UI/UX]** A-10A flights can be edited again.
-
+* **[UI/UX]** A-10A flights can be edited again
+* **[Mission Generation]** IADS bug sometimes triggering "no skynet usable units" error during mission generation
+* **[New Game Wizard]** Campaign errors show a dialog again and avoid CTDs
+* **[UI]** Landmap wasn't updating when switching to a different theater
 
 # Retribution v1.3.1
 #### Note: Re-save your missions in DCS' Mission Editor to avoid possible crashes due to datalink (usually the case when F-16C blk50s are used) when hosting missions on a dedicated server.

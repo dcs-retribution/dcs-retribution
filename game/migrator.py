@@ -208,12 +208,6 @@ class Migrator:
                 c.faction.air_defense_units = set(c.faction.air_defense_units)
             if isinstance(c.faction.missiles, list):
                 c.faction.missiles = set(c.faction.missiles)
-            if isinstance(c.faction.carrier_names, list):
-                c.faction.carrier_names = set(c.faction.carrier_names)
-            if isinstance(c.faction.helicopter_carrier_names, list):
-                c.faction.helicopter_carrier_names = set(
-                    c.faction.helicopter_carrier_names
-                )
             if isinstance(c.faction.naval_units, list):
                 c.faction.naval_units = set(c.faction.naval_units)
             if isinstance(c.faction.building_set, list):

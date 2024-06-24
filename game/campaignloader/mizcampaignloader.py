@@ -56,7 +56,7 @@ class MizCampaignLoader:
     OFFSHORE_STRIKE_TARGET_UNIT_TYPE = Fortification.Oil_platform.id
     SHIP_UNIT_TYPE = USS_Arleigh_Burke_IIa.id
     MISSILE_SITE_UNIT_TYPE = MissilesSS.Scud_B.id
-    COASTAL_DEFENSE_UNIT_TYPE = MissilesSS.Hy_launcher.id
+    COASTAL_DEFENSE_UNIT_TYPE = MissilesSS.hy_launcher.id
 
     COMMAND_CENTER_UNIT_TYPE = Fortification._Command_Center.id
     CONNECTION_NODE_UNIT_TYPE = Fortification.Comms_tower_M.id
@@ -73,23 +73,25 @@ class MizCampaignLoader:
     MEDIUM_RANGE_SAM_UNIT_TYPES = {
         AirDefence.Hawk_ln.id,
         AirDefence.S_75M_Volhov.id,
-        AirDefence.X_5p73_s_125_ln.id,
+        AirDefence.x_5p73_s_125_ln.id,
+        AirDefence.NASAMS_LN_B.id,
+        AirDefence.NASAMS_LN_C.id,
     }
 
     SHORT_RANGE_SAM_UNIT_TYPES = {
         AirDefence.M1097_Avenger.id,
-        AirDefence.Rapier_fsa_launcher.id,
-        AirDefence.X_2S6_Tunguska.id,
+        AirDefence.rapier_fsa_launcher.id,
+        AirDefence.x_2S6_Tunguska.id,
         AirDefence.Strela_1_9P31.id,
     }
 
     AAA_UNIT_TYPES = {
-        AirDefence.Flak18.id,
+        AirDefence.flak18.id,
         AirDefence.Vulcan.id,
         AirDefence.ZSU_23_4_Shilka.id,
     }
 
-    EWR_UNIT_TYPE = AirDefence.X_1L13_EWR.id
+    EWR_UNIT_TYPE = AirDefence.x_1L13_EWR.id
 
     ARMOR_GROUP_UNIT_TYPE = Armor.M_1_Abrams.id
 

@@ -23,7 +23,7 @@ from game.radio.radios import RadioFrequency
 from game.server import EventStream
 from game.sim import GameUpdateEvents
 from game.theater.missiontarget import MissionTarget
-from qt_ui.models import AtoModel, GameModel, PackageModel
+from qt_ui.models import GameModel, PackageModel
 from qt_ui.uiconstants import EVENT_ICONS
 from qt_ui.widgets.QFrequencyWidget import QFrequencyWidget
 from qt_ui.widgets.ato import QFlightList
@@ -198,7 +198,10 @@ class QPackageDialog(QDialog):
     def on_add_flight(self) -> None:
         """Opens the new flight dialog."""
         self.add_flight_dialog = QFlightCreator(
-            self.game, self.package_model.package, parent=self.window()
+            self.game,
+            self.package_model.package,
+            is_ownfor=self.game_model.is_ownfor,
+            parent=self.window(),
         )
         self.add_flight_dialog.created.connect(self.add_flight)
         self.add_flight_dialog.show()
@@ -235,7 +238,10 @@ class QPackageDialog(QDialog):
     def on_auto_create(self) -> None:
         """Opens the new flight dialog."""
         auto_create_dialog = QAutoCreateDialog(
-            self.game, self.package_model, parent=self.window()
+            self.game,
+            self.package_model,
+            self.game_model.is_ownfor,
+            parent=self.window(),
         )
         if auto_create_dialog.exec_() == QDialog.DialogCode.Accepted:
             for f in self.package_model.package.flights:
@@ -275,7 +281,7 @@ class QNewPackageDialog(QPackageDialog):
     """
 
     def __init__(
-        self, game_model: GameModel, model: AtoModel, target: MissionTarget, parent=None
+        self, game_model: GameModel, target: MissionTarget, parent=None
     ) -> None:
         super().__init__(
             game_model,
@@ -284,7 +290,9 @@ class QNewPackageDialog(QPackageDialog):
             ),
             parent=parent,
         )
-        self.ato_model = model
+        self.ato_model = (
+            game_model.ato_model if game_model.is_ownfor else game_model.red_ato_model
+        )
 
         # In the *new* package dialog, a package has been created and may have aircraft
         # assigned to it, but it is not a part of the ATO until the user saves it.
@@ -325,11 +333,9 @@ class QEditPackageDialog(QPackageDialog):
     Changes to existing packages occur immediately.
     """
 
-    def __init__(
-        self, game_model: GameModel, model: AtoModel, package: PackageModel
-    ) -> None:
-        super().__init__(game_model, package)
-        self.ato_model = model
+    def __init__(self, gm: GameModel, package: PackageModel) -> None:
+        super().__init__(gm, package)
+        self.ato_model = gm.ato_model if gm.is_ownfor else gm.red_ato_model
 
         self.delete_button = QPushButton("Delete package")
         self.delete_button.setProperty("style", "btn-danger")

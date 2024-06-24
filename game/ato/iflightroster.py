@@ -26,6 +26,11 @@ class IFlightRoster(ABC):
     def max_size(self) -> int:
         ...
 
+    @property
+    @abstractmethod
+    def player_count(self) -> int:
+        ...
+
     @abstractmethod
     def resize(self, new_size: int) -> None:
         ...
