@@ -11,6 +11,7 @@ origin: USSR/Russia
 price: 12
 role: Interceptor
 max_range: 200
+gunfighter: true
 variants:
   Su-15TM Flagon-E: {}
 kneeboard_units: "metric"

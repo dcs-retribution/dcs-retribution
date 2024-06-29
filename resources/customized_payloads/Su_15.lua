@@ -5,20 +5,20 @@ local unitPayloads = {
 			["name"] = "BARCAP",
 			["pylons"] = {
 				[1] = {
+					["CLSID"] = "{R-8M1R}",
+					["num"] = 4,
+				},
+				[2] = {
 					["CLSID"] = "{R-8M1T}",
 					["num"] = 1,
 				},
-				[2] = {
-					["CLSID"] = "{Su_15_PTB-600}",
-					["num"] = 2,
-				},
 				[3] = {
-					["CLSID"] = "{Su_15_PTB-600}",
+					["CLSID"] = "{E92CBFE5-C153-11d8-9897-000476191836}",
 					["num"] = 3,
 				},
 				[4] = {
-					["CLSID"] = "{R-8M1R}",
-					["num"] = 4,
+					["CLSID"] = "{E92CBFE5-C153-11d8-9897-000476191836}",
+					["num"] = 2,
 				},
 			},
 			["tasks"] = {
