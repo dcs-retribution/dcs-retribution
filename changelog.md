@@ -8,6 +8,7 @@
 * **[Squadrons]** Ability to define a livery-set for each squadron from which Retribution will randomly choose during mission generation
 * **[Modding]** Updated support for F/A-18E/F/G mod version 2.2.5
 * **[Modding]** Added VSN F-106 Delta Dart mod support (v2.9.4.101)
+* **[Modding]** Added VSN Mirage III mod support (2.5.7.01)
 * **[Campaign Setup]** Allow adjustments to naval TGOs (except carriers) on turn 0
 * **[Campaign Design]** Ability to configure specific carrier names & types in campaign's yaml file 
 * **[Mission Generation]** Ability to inject custom kneeboards
