@@ -1,5 +1,5 @@
-# Requires Swedish Military Assets for DCS by Currenthill:
-# https://forum.dcs.world/topic/295202-swedish-military-assets-for-dcs-by-currenthill/
+# Requires OH-6 Vietnam Asset Pack:
+# https://github.com/tobi-be/DCS-OH-6A
 #
 
 from typing import Set
