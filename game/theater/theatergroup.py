@@ -66,6 +66,18 @@ class TheaterUnit:
         if self.ground_object.is_iads:
             iads = self.ground_object.control_point.coalition.game.theater.iads_network
             iads.update_tgo(self.ground_object, events)
+        if self.ground_object.is_naval_control_point:
+            cp = self.ground_object.control_point
+            for squadron in cp.squadrons:
+                cp.coalition.air_wing.squadrons[squadron.aircraft].remove(squadron)
+
+    def revive(self, events: GameUpdateEvents) -> None:
+        self.alive = True
+        self.ground_object.threat_poly()
+        events.update_tgo(self.ground_object)
+        if self.ground_object.is_iads:
+            iads = self.ground_object.control_point.coalition.game.theater.iads_network
+            iads.update_tgo(self.ground_object, events)
 
     @property
     def unit_name(self) -> str:

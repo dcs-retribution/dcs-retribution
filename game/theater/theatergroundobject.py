@@ -283,6 +283,10 @@ class TheaterGroundObject(MissionTarget, SidcDescribable, ABC):
     def coalition(self) -> Coalition:
         return self.control_point.coalition
 
+    @property
+    def is_naval_control_point(self) -> bool:
+        return False
+
 
 class BuildingGroundObject(TheaterGroundObject):
     def __init__(
@@ -382,6 +386,10 @@ class NavalGroundObject(TheaterGroundObject, ABC):
 class GenericCarrierGroundObject(NavalGroundObject, ABC):
     @property
     def is_control_point(self) -> bool:
+        return True
+
+    @property
+    def is_naval_control_point(self) -> bool:
         return True
 
 
