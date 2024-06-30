@@ -19,6 +19,7 @@
 * **[UI]** Zoom level retained when switching campaigns
 * **[UX]** Allow changing squadrons in flight's edit dialog
 * **[Cheats]** Sink/Resurrect carriers instead of showing an error during cheat-capture (use AWCD-cheat to add squadrons upon resurrection)
+* **[UI/UX]** Allow changing conditions such as Time, Date & Weather
 
 ## Fixes
 * **[UI/UX]** A-10A flights can be edited again
