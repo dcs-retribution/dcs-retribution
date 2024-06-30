@@ -20,6 +20,7 @@
 * **[UX]** Allow changing squadrons in flight's edit dialog
 * **[Cheats]** Sink/Resurrect carriers instead of showing an error during cheat-capture (use AWCD-cheat to add squadrons upon resurrection)
 * **[UI/UX]** Allow changing conditions such as Time, Date & Weather
+* * **[Modding]** Added support for Su-15 Flagon mod (v1.0)
 
 ## Fixes
 * **[UI/UX]** A-10A flights can be edited again
