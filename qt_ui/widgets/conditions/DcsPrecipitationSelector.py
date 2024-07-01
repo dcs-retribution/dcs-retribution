@@ -18,7 +18,8 @@ class DcsPrecipitationSelector(QHBoxLayout):
         for p in PydcsWeather.Preceptions:
             self.selector.addItem(p.name.replace("_", ""), p)
 
-        self.selector.setCurrentText(clouds.precipitation.name.replace("_", ""))
+        if clouds:
+            self.selector.setCurrentText(clouds.precipitation.name.replace("_", ""))
         self.addWidget(self.selector, 1)
 
     def update_ui(self, preset: Optional[CloudPreset]) -> None:
