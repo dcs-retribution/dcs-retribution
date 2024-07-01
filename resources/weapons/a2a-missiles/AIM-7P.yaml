@@ -1,0 +1,7 @@
+name: AIM-7P
+year: 1987
+fallback: AIM-7M
+clsids:
+  - "{SHOULDER AIM-7P}"
+  - "{BELLY AIM-7P}"
+  - "{AIM-7P}"

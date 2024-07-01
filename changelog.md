@@ -18,6 +18,9 @@
 * **[Campaign Design]** Support for Kola map by Orbx
 * **[UI]** Zoom level retained when switching campaigns
 * **[UX]** Allow changing squadrons in flight's edit dialog
+* **[Cheats]** Sink/Resurrect carriers instead of showing an error during cheat-capture (use AWCD-cheat to add squadrons upon resurrection)
+* **[UI/UX]** Allow changing conditions such as Time, Date & Weather
+* **[Modding]** Added support for Su-15 Flagon mod (v1.0)
 * **[Plugins]** Support for Carsten's Arty Spotter script
 
 ## Fixes
@@ -25,6 +28,7 @@
 * **[Mission Generation]** IADS bug sometimes triggering "no skynet usable units" error during mission generation
 * **[New Game Wizard]** Campaign errors show a dialog again and avoid CTDs
 * **[UI]** Landmap wasn't updating when switching to a different theater
+* **[Mission Results Processor]** Squadrons of a sunken carrier are now disbanded
 
 # Retribution v1.3.1
 #### Note: Re-save your missions in DCS' Mission Editor to avoid possible crashes due to datalink (usually the case when F-16C blk50s are used) when hosting missions on a dedicated server.

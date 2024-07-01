@@ -110,6 +110,7 @@ class NewGameWizard(QtWidgets.QWizard):
             uh_60l=self.field("uh_60l"),
             jas39_gripen=self.field("jas39_gripen"),
             super_etendard=self.field("super_etendard"),
+            su15_flagon=self.field("su15_flagon"),
             su30_flanker_h=self.field("su30_flanker_h"),
             su57_felon=self.field("su57_felon"),
             ov10a_bronco=self.field("ov10a_bronco"),
