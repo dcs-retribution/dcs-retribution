@@ -5,3 +5,5 @@ fallback: AIM-7E
 clsids:
   - "{LAU-115 - AIM-7E}"
   - "{AIM-7E}"
+  - "{AIM-7E-2}"
+  - "{HB_F4E_AIM-7E-2}"

@@ -15,7 +15,6 @@ tasks:
   BAI: 350
   CAS: 450
   DEAD: 450
-  Escort: 90
   OCA/Aircraft: 400
   OCA/Runway: 400
   SEAD: 450

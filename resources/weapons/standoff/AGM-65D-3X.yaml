@@ -3,3 +3,5 @@ year: 1986
 fallback: 2xAGM-65D
 clsids:
   - "{DAC53A2F-79CA-42FF-A77A-F5649B601308}"
+  - "{HB_F4EAGM-65D_LAU88_3x_Right}"
+  - "{HB_F4EAGM-65D_LAU88_3x_Left}"
