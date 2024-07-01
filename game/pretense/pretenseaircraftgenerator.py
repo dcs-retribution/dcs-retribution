@@ -286,8 +286,6 @@ class PretenseAircraftGenerator:
         sead_tasks = [FlightType.SEAD, FlightType.SEAD_SWEEP, FlightType.SEAD_ESCORT]
         strike_tasks = [
             FlightType.STRIKE,
-            FlightType.OCA_RUNWAY,
-            FlightType.OCA_AIRCRAFT,
         ]
         patrol_tasks = [
             FlightType.BARCAP,
@@ -746,11 +744,14 @@ class PretenseAircraftGenerator:
                     for pilot in squadron.pilot_pool:
                         pilot.player = True
                     package = Package(cp, squadron.flight_db, auto_asap=False)
+                    primary_task = squadron.primary_task
+                    if primary_task in [FlightType.OCA_AIRCRAFT, FlightType.OCA_RUNWAY]:
+                        primary_task = FlightType.STRIKE
                     flight = Flight(
                         package,
                         squadron,
                         aircraft_per_flight,
-                        squadron.primary_task,
+                        primary_task,
                         squadron.coalition.game.settings.default_start_type_client,
                         divert=cp,
                     )
