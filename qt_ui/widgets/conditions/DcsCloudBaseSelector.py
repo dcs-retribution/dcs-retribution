@@ -2,22 +2,27 @@ from typing import Optional
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QHBoxLayout, QLabel, QSlider, QSpinBox, QComboBox
-from dcs.weather import CloudPreset
+
+from game.weather.clouds import Clouds
 
 
 class DcsCloudBaseSelector(QHBoxLayout):
     M2FT_FACTOR = 3.2808399
 
-    def __init__(self, preset: Optional[CloudPreset]) -> None:
+    def __init__(self, clouds: Optional[Clouds]) -> None:
         super().__init__()
-        self.preset = preset
+        self.preset = clouds.preset if clouds else None
         self.unit_changing = False
 
         self.label = QLabel("Cloud Base: ")
         self.addWidget(self.label)
 
         self.base = QSlider(Qt.Orientation.Horizontal)
-        self.base.setValue(round(self.max_base - (self.max_base - self.min_base) / 2))
+        self.base.setValue(
+            clouds.base
+            if clouds
+            else round(self.max_base - (self.max_base - self.min_base) / 2)
+        )
         self.base.valueChanged.connect(self.on_slider_change)
         self.addWidget(self.base, 1)
 

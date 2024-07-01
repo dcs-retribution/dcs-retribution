@@ -10,7 +10,7 @@ from game.weather.clouds import Clouds
 class DcsCloudThicknessSelector(QHBoxLayout):
     M2FT_FACTOR = 3.2808399
 
-    def __init__(self, clouds: Clouds) -> None:
+    def __init__(self, clouds: Optional[Clouds]) -> None:
         super().__init__()
         self.unit_changing = False
 
@@ -19,7 +19,8 @@ class DcsCloudThicknessSelector(QHBoxLayout):
 
         self.thickness = QSlider(Qt.Orientation.Horizontal)
         self.thickness.setRange(200, 2000)
-        self.thickness.setValue(clouds.thickness)
+        if clouds:
+            self.thickness.setValue(clouds.thickness)
         self.thickness.valueChanged.connect(self.on_slider_change)
         self.addWidget(self.thickness, 1)
 

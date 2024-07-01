@@ -8,7 +8,7 @@ from game.weather.clouds import Clouds
 
 
 class DcsCloudDensitySelector(QHBoxLayout):
-    def __init__(self, clouds: Clouds) -> None:
+    def __init__(self, clouds: Optional[Clouds]) -> None:
         super().__init__()
         self.unit_changing = False
 
@@ -17,7 +17,8 @@ class DcsCloudDensitySelector(QHBoxLayout):
 
         self.density = QSlider(Qt.Orientation.Horizontal)
         self.density.setRange(0, 10)
-        self.density.setValue(clouds.density)
+        if clouds:
+            self.density.setValue(clouds.density)
         self.density.valueChanged.connect(self.on_slider_change)
         self.addWidget(self.density, 1)
 
