@@ -1,17 +1,25 @@
 -- Artillery Spotter script - Multiplayer version
 -- by Carsten Gurk aka Don Rudi
 
+-- Map for passing settings from Retribution
+cg_arty_options = {
+  ["user_fireDelay"] = 10,
+  ["user_quantity"] = 20,
+  ["user_spread"] = 50,
+  ["user_spottingDistance"] = 15,
+}
+
 local version = "MP 1.2"
 
 -- User configurable variables
 
-local user_fireDelay = 10				-- time to impcat of the rounds
-local user_quantity = 20				-- how many rounds will be fired in a fire for effect task
-local user_spread = 50					-- impact radius of the rounds during fire for effect
-local user_spottingDistance = 15		-- max allowable distance from player to target to prevent cheating. In kilometers.
-local user_restrictByType = ""        	-- Restriction by type ("", "helo", etc.)
-local user_restrictByUnitName = "" 		-- Restriction by unit name ("", "spotter", etc.), not case sensitive	
-local user_markerPrefix = ""     		-- Prefix for marker text, for instance "#arty"
+local user_fireDelay = cg_arty_options.user_fireDelay					-- time to impcat of the rounds
+local user_quantity = cg_arty_options.user_quantity						-- how many rounds will be fired in a fire for effect task
+local user_spread = cg_arty_options.user_spread							-- impact radius of the rounds during fire for effect
+local user_spottingDistance = cg_arty_options.user_spottingDistance		-- max allowable distance from player to target to prevent cheating. In kilometers.
+local user_restrictByType = ""        									-- Restriction by type ("", "helo", etc.)
+local user_restrictByUnitName = "" 										-- Restriction by unit name ("", "spotter", etc.), not case sensitive
+local user_markerPrefix = ""     										-- Prefix for marker text, for instance "#arty"
 
 -- end of user block
 

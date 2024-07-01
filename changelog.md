@@ -18,6 +18,7 @@
 * **[Campaign Design]** Support for Kola map by Orbx
 * **[UI]** Zoom level retained when switching campaigns
 * **[UX]** Allow changing squadrons in flight's edit dialog
+* **[Plugins]** Support for Carsten's Arty Spotter script
 
 ## Fixes
 * **[UI/UX]** A-10A flights can be edited again
