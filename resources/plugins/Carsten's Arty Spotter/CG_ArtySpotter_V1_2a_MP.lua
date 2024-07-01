@@ -21,7 +21,7 @@ local SINGLE_ROUND = false  			-- pilot called single round on marker (from F10 
 
 local artyCall     = 0 					-- pilot called arty (from F10 menu)
 local artyRadius   = user_spread		-- Artillery Radius
-local adjustRadius = 20  				-- fire adjustment
+local adjustRadius = 20  				-- fire adjustment 
 local quantity     = 1   				-- Rounds expanded 
 local quantity_effect = user_quantity	-- Rounds expanded during fire for effect
 local tntEquivalent = 12				-- TNT equivalent for explosion

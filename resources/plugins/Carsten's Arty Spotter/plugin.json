@@ -19,7 +19,7 @@
             "defaultValue": 150
         },
         {
-            "nameInUI": "Max spotting distance. In kilometers.",
+            "nameInUI": "Max spotting distance. In kilometers.", 
             "mnemonic": "user_spottingDistance",
             "defaultValue": 15
         },
