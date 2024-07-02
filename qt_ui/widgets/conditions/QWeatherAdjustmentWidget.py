@@ -43,6 +43,8 @@ class QWeatherAdjustmentWidget(QWidget):
         label.setMaximumHeight(50)
         vbox.addWidget(label)
 
+        clouds = weather.clouds
+
         hbox = QHBoxLayout()
         hbox.addWidget(QLabel("Preset"))
         self.preset_selector = QComboBox()
@@ -50,18 +52,14 @@ class QWeatherAdjustmentWidget(QWidget):
             self.preset_selector.addItem(preset.value.ui_name, preset.value)
         self.preset_selector.addItem("Custom", None)
         self.preset_selector.setCurrentText(
-            weather.clouds.preset.ui_name
-            if weather.clouds and weather.clouds.preset
-            else "Custom"
+            clouds.preset.ui_name if clouds and clouds.preset else "Custom"
         )
         self.preset_selector.currentIndexChanged.connect(self.update_ui)
         hbox.addWidget(self.preset_selector)
         vbox.addLayout(hbox)
 
-        self.cloud_base = DcsCloudBaseSelector(self.preset_selector.currentData())
+        self.cloud_base = DcsCloudBaseSelector(clouds)
         vbox.addLayout(self.cloud_base)
-
-        clouds = self.weather.conditions.weather.clouds
 
         self.cloud_thickness = DcsCloudThicknessSelector(clouds)
         vbox.addLayout(self.cloud_thickness)
