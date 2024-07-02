@@ -18,6 +18,7 @@ class DcsCloudBaseSelector(QHBoxLayout):
         self.addWidget(self.label)
 
         self.base = QSlider(Qt.Orientation.Horizontal)
+        self.base.setRange(self.min_base, self.max_base)
         self.base.setValue(
             clouds.base
             if clouds
