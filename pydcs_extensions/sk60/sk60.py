@@ -9,10 +9,27 @@ from pydcs_extensions.weapon_injector import inject_weapons
 
 
 class WeaponsSK_60:
-    _1x_13_5cm_HE_rocket = {"clsid": "{d694b359-e7a8-4909-88d4-7100b77afd13}", "name": "1x 13,5cm HE rocket", "weight": 50}
-    _1x_14_5cm_HEAT_rocket = {"clsid": "{d694b359-e7a8-4909-88d4-7100b77afd12}", "name": "1x 14,5cm HEAT rocket", "weight": 50}
-    _2x_13_5cm_HE_rocket = {"clsid": "{d694b359-e7a8-4909-88d4-7100b77afd11}", "name": "2x 13,5cm HE rocket", "weight": 95}
-    AKAN_m_55_Gunpod = {"clsid": "{5d5aa063-a002-4de8-8a89-6eda1e80ee7b}", "name": "AKAN m/55 Gunpod", "weight": 196}
+    _1x_13_5cm_HE_rocket = {
+        "clsid": "{d694b359-e7a8-4909-88d4-7100b77afd13}",
+        "name": "1x 13,5cm HE rocket",
+        "weight": 50,
+    }
+    _1x_14_5cm_HEAT_rocket = {
+        "clsid": "{d694b359-e7a8-4909-88d4-7100b77afd12}",
+        "name": "1x 14,5cm HEAT rocket",
+        "weight": 50,
+    }
+    _2x_13_5cm_HE_rocket = {
+        "clsid": "{d694b359-e7a8-4909-88d4-7100b77afd11}",
+        "name": "2x 13,5cm HE rocket",
+        "weight": 95,
+    }
+    AKAN_m_55_Gunpod = {
+        "clsid": "{5d5aa063-a002-4de8-8a89-6eda1e80ee7b}",
+        "name": "AKAN m/55 Gunpod",
+        "weight": 196,
+    }
+
 
 inject_weapons(WeaponsSK_60)
 
@@ -32,7 +49,7 @@ class SK_60(PlaneType):
     chaff_charge_size = 0
     flare_charge_size = 0
     eplrs = True
-    category = "Interceptor"  #{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
+    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 243
 
     livery_name = "SK-60"  # from type
@@ -72,13 +89,13 @@ class SK_60(PlaneType):
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8}
 
     tasks = [
-        task.GroundAttack, 
-        task.PinpointStrike, 
-        task.CAS, 
-        task.AFAC, 
-        task.RunwayAttack, 
-        task.SEAD, 
-        task.Escort, 
-        task.Reconnaissance
+        task.GroundAttack,
+        task.PinpointStrike,
+        task.CAS,
+        task.AFAC,
+        task.RunwayAttack,
+        task.SEAD,
+        task.Escort,
+        task.Reconnaissance,
     ]
     task_default = task.GroundAttack
