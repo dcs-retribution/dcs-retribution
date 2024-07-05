@@ -269,6 +269,7 @@ class PretenseMissionGenerator(MissionGenerator):
             mission_data=self.mission_data,
             helipads=tgo_generator.helipads,
             ground_spawns_roadbase=tgo_generator.ground_spawns_roadbase,
+            ground_spawns_large=tgo_generator.ground_spawns_large,
             ground_spawns=tgo_generator.ground_spawns,
         )
 
