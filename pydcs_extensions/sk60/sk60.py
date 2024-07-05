@@ -7,6 +7,7 @@ from dcs.weapons_data import Weapons
 from game.modsupport import planemod
 from pydcs_extensions.weapon_injector import inject_weapons
 
+
 class WeaponsSK_60:
     _1x_13_5cm_HE_rocket = {"clsid": "{d694b359-e7a8-4909-88d4-7100b77afd13}", "name": "1x 13,5cm HE rocket", "weight": 50}
     _1x_14_5cm_HEAT_rocket = {"clsid": "{d694b359-e7a8-4909-88d4-7100b77afd12}", "name": "1x 14,5cm HEAT rocket", "weight": 50}
