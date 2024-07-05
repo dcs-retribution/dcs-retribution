@@ -187,7 +187,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("OV-10A Bronco", self.ov10a_bronco),
             ("Spanish Naval Assets pack (desdemicabina 3.2.0)", self.spanishnavypack),
             ("Star Wars Modpack 2.54+", self.SWPack),
-            ("Saab 105/SK-60 (v1.2.1)", self.sk_60),
+            ("Saab 105/SK-60B (v1.2.1)", self.sk_60),
             ("Su-15 Flagon (v1.0)", self.su15_flagon),
             ("Su-30 Flanker-H (V2.7.3 beta)", self.su30_flanker_h),
             ("Su-57 Felon (build-04)", self.su57_felon),
