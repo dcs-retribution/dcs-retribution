@@ -410,6 +410,8 @@ class Faction:
             self.remove_aircraft("JAS39Gripen_AG")
         if not mod_settings.super_etendard:
             self.remove_aircraft("VSN_SEM")
+        if not mod_settings.sk60_saab105:
+            self.remove_aircraft("SK-60B")
         if not mod_settings.su15_flagon:
             self.remove_aircraft("Su_15")
             self.remove_aircraft("Su_15TM")
