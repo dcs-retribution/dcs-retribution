@@ -43,11 +43,6 @@ squadrons:
       aircraft:
         - AH-64D Apache Longbow
       size: 4
-    - primary: CAS
-      secondary: any
-      aircraft:
-        - OH-58D(R) Kiowa Warrior
-      size: 4
     - primary: Refueling
       aircraft:
         - KC-135 Stratotanker
@@ -101,7 +96,12 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - AV-8B Harrier II Night Attack
-      size: 18
+      size: 10
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - OH-58D(R) Kiowa Warrior
+      size: 8      
     - primary: Air Assault
       secondary: any
       aircraft:

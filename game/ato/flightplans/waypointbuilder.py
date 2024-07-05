@@ -249,6 +249,22 @@ class WaypointBuilder:
         objective: MissionTarget,
     ) -> FlightWaypoint:
         alt = self.get_combat_altitude
+        if ingress_type in [
+            FlightWaypointType.INGRESS_CAS,
+            FlightWaypointType.INGRESS_OCA_AIRCRAFT,
+        ]:
+            weather = self.flight.coalition.game.conditions.weather
+            max_alt = feet(30000)
+            if weather.clouds and (
+                weather.clouds.preset
+                and "overcast" in weather.clouds.preset.description.lower()
+                or weather.clouds.density > 5
+            ):
+                max_alt = meters(
+                    max(feet(500).meters, weather.clouds.base - feet(500).meters)
+                )
+            alt = min(alt, max_alt)
+
         alt_type: AltitudeReference = "BARO"
         if self.is_helo or self.flight.is_hercules:
             alt_type = "RADIO"
@@ -381,13 +397,23 @@ class WaypointBuilder:
         return waypoint
 
     def cas(self, position: Point) -> FlightWaypoint:
+        weather = self.flight.coalition.game.conditions.weather
+        max_alt = feet(30000)
+        if weather.clouds and (
+            weather.clouds.preset
+            and "overcast" in weather.clouds.preset.description.lower()
+            or weather.clouds.density > 5
+        ):
+            max_alt = meters(
+                max(feet(500).meters, weather.clouds.base - feet(500).meters)
+            )
         return FlightWaypoint(
             "CAS",
             FlightWaypointType.CAS,
             position,
             feet(self.flight.coalition.game.settings.heli_combat_alt_agl)
             if self.is_helo
-            else meters(1000),
+            else min(meters(1000), max_alt),
             "RADIO",
             description="Provide CAS",
             pretty_name="CAS",

@@ -96,6 +96,7 @@ class Migrator:
             try_set_attr(cp, "ground_spawns_roadbase", [])
             try_set_attr(cp, "helipads_quad", [])
             try_set_attr(cp, "helipads_invisible", [])
+            try_set_attr(cp, "ground_spawns_large", [])
             if (
                 cp.dcs_airport and is_sinai and cp.dcs_airport.id == 20
             ):  # fix for Hatzor

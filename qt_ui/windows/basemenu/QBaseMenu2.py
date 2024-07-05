@@ -19,6 +19,7 @@ from game.radio.RadioFrequencyContainer import RadioFrequencyContainer
 from game.radio.TacanContainer import TacanContainer
 from game.server import EventStream
 from game.sim import GameUpdateEvents
+from game.sim.missionresultsprocessor import MissionResultsProcessor
 from game.theater import (
     AMMO_DEPOT_FRONTLINE_UNIT_CONTRIBUTION,
     ControlPoint,
@@ -158,7 +159,8 @@ class QBaseMenu2(QDialog):
             transfer_button.clicked.connect(self.open_transfer_dialog)
 
         if self.cheat_capturable:
-            capture_button = QPushButton("CHEAT: Capture")
+            label = "Sink/Resurrect" if self.cp.is_fleet else "Capture"
+            capture_button = QPushButton(f"CHEAT: {label}")
             capture_button.setProperty("style", "btn-danger")
             bottom_row.addWidget(capture_button)
             capture_button.clicked.connect(self.cheat_capture)
@@ -180,9 +182,23 @@ class QBaseMenu2(QDialog):
 
     def cheat_capture(self) -> None:
         events = GameUpdateEvents()
-        self.cp.capture(self.game_model.game, events, for_player=not self.cp.captured)
+        if self.cp.is_fleet:
+            for go in self.cp.ground_objects:
+                if go.is_naval_control_point:
+                    if go.alive_unit_count > 0:
+                        for u in go.units:
+                            u.kill(events)
+                    else:
+                        for u in go.units:
+                            u.revive(events)
+        else:
+            self.cp.capture(
+                self.game_model.game, events, for_player=not self.cp.captured
+            )
+            mrp = MissionResultsProcessor(self.game_model.game)
+            mrp.redeploy_units(self.cp)
         # Reinitialized ground planners and the like. The ATO needs to be reset because
-        # missions planned against the flipped base are no longer valid.
+        # missions planned against the flipped base (or killed carrier) are no longer valid.
         self.game_model.game.initialize_turn(events)
         EventStream.put_nowait(events)
         GameUpdateSignal.get_instance().updateGame(self.game_model.game)

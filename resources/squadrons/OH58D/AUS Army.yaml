@@ -3,8 +3,7 @@ name: Australian Army
 country: Australia
 role: Light Attack and Scout Helicopter
 aircraft: OH-58D(R) Kiowa Warrior
-livery:
-  - AUS Army Fictional
+livery: AUS Army Fictional
 mission_types:
   - BAI
   - CAS

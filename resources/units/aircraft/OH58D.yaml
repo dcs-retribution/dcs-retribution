@@ -29,7 +29,7 @@ radios:
 default_overrides:
   #NetCrewControlPriority: 0,
   #Remove_doors: true,
-  PDU: true,
+  #PDU: true,
   #Rifles: true,
   #MMS_removal: false,
   #Rapid_Deployment_Gear: false,

@@ -1,0 +1,5 @@
+name: AGM-62 Walleye I
+year: 1967
+fallback: AGM-12C
+clsids:
+  - "{AGM_62_I}"

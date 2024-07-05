@@ -402,12 +402,17 @@ class Faction:
             self.remove_aircraft("VSN_F106B")
         if not mod_settings.a6a_intruder:
             self.remove_aircraft("VSN_A6A")
+        if not mod_settings.ea6b_prowler:
+            self.remove_aircraft("EA_6B")
         if not mod_settings.jas39_gripen:
             self.remove_aircraft("JAS39Gripen")
             self.remove_aircraft("JAS39Gripen_BVR")
             self.remove_aircraft("JAS39Gripen_AG")
         if not mod_settings.super_etendard:
             self.remove_aircraft("VSN_SEM")
+        if not mod_settings.su15_flagon:
+            self.remove_aircraft("Su_15")
+            self.remove_aircraft("Su_15TM")
         if not mod_settings.su30_flanker_h:
             self.remove_aircraft("Su-30MKA")
             self.remove_aircraft("Su-30MKI")

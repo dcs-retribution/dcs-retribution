@@ -68,6 +68,7 @@ class ModSettings:
     a4_skyhawk: bool = False
     a6a_intruder: bool = False
     a7e_corsair2: bool = False
+    ea6b_prowler: bool = False
     f4bc_phantom: bool = False
     f9f_panther: bool = False
     f15d_baz: bool = False
@@ -86,6 +87,7 @@ class ModSettings:
     uh_60l: bool = False
     jas39_gripen: bool = False
     super_etendard: bool = False
+    su15_flagon: bool = False
     su30_flanker_h: bool = False
     su57_felon: bool = False
     frenchpack: bool = False
