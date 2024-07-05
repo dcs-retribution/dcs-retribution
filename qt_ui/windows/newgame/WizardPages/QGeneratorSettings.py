@@ -249,7 +249,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.f105_thunderchief.setChecked(s.get("f105_thunderchief", False))
         self.f106_deltadart.setChecked(s.get("f106_deltadart", False))
         self.jas39_gripen.setChecked(s.get("jas39_gripen", False))
-        self.sk60_saab105.setChecked(s.get("sk_60", False))
+        self.sk_60.setChecked(s.get("sk_60", False))
         self.super_etendard.setChecked(s.get("super_etendard", False))
         self.su30_flanker_h.setChecked(s.get("su30_flanker_h", False))
         self.su57_felon.setChecked(s.get("su57_felon", False))
