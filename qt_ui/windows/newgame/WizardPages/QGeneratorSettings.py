@@ -130,7 +130,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("jas39_gripen", self.jas39_gripen)
         self.super_etendard = QtWidgets.QCheckBox()
         self.registerField("super_etendard", self.super_etendard)
-        self.sk60_saab105 = QtWidgets.QCheckBox()
+        self.sk_60 = QtWidgets.QCheckBox()
         self.registerField("sk_60", self.sk_60)
         self.su15_flagon = QtWidgets.QCheckBox()
         self.registerField("su15_flagon", self.su15_flagon)
