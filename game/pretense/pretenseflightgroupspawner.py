@@ -61,6 +61,7 @@ class PretenseFlightGroupSpawner(FlightGroupSpawner):
         mission: Mission,
         helipads: dict[ControlPoint, list[StaticGroup]],
         ground_spawns_roadbase: dict[ControlPoint, list[Tuple[StaticGroup, Point]]],
+        ground_spawns_large: dict[ControlPoint, list[Tuple[StaticGroup, Point]]],
         ground_spawns: dict[ControlPoint, list[Tuple[StaticGroup, Point]]],
         mission_data: MissionData,
     ) -> None:
@@ -70,6 +71,7 @@ class PretenseFlightGroupSpawner(FlightGroupSpawner):
             mission,
             helipads,
             ground_spawns_roadbase,
+            ground_spawns_large,
             ground_spawns,
             mission_data,
         )
