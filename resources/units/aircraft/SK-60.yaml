@@ -4,7 +4,8 @@ description:
   as a private venture by Saab AB.[2] The Swedish Air Force, which had opted to procure the type 
   for various roles, issued the aircraft with the designation Sk 60. The Sk 60 entered service in 1967, 
   replacing the ageing De Havilland Vampire fleet.
-  SK-60B is a two-seat attack version for the Swedish Air Force, modified from Sk 60A with new weapons sight
+  SK-60B is a two-seat attack version for the Swedish Air Force, modified from Sk 60A with new weapons sight.
+  This version entered service in 1968.
   
 introduced: 1968
 manufacturer: Saab AB
@@ -14,6 +15,14 @@ role: COIN / FAC /Light Attack
 gunfighter: true
 variants:
   SK-60: {}
+radios:
+  intra_flight: AN/ARC-164
+  inter_flight: R&S M3AR UHF
+  channels:
+    type: common
+    namer: viper
+    intra_flight_radio_index: 1
+    inter_flight_radio_index: 2
 tasks:
   BAI: 650
   CAS: 650
