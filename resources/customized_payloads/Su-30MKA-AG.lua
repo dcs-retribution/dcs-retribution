@@ -1,5 +1,5 @@
 local unitPayloads = {
-	["name"] = "Su-30MKA",
+	["name"] = "Su-30MKA-AG",
 	["payloads"] = {
 		[1] = {
 			["name"] = "Retribution CAS",
@@ -525,6 +525,6 @@ local unitPayloads = {
 	},
 	["tasks"] = {
 	},
-	["unitType"] = "Su-30MKA",
+	["unitType"] = "Su-30MKA-AG",
 }
 return unitPayloads
