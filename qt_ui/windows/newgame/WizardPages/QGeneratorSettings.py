@@ -186,7 +186,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("Spanish Naval Assets pack (desdemicabina 3.2.0)", self.spanishnavypack),
             ("Star Wars Modpack 2.54+", self.SWPack),
             ("Su-15 Flagon (v1.0)", self.su15_flagon),
-            ("Su-30 Flanker-H (V2.7.3 beta)", self.su30_flanker_h),
+            ("Su-30 Flanker-H (V2.7.73b)", self.su30_flanker_h),
             ("Su-57 Felon (build-04)", self.su57_felon),
             ("Super Étendard (v2.5.5)", self.super_etendard),
             ("Swedish Military Assets pack (1.10)", self.swedishmilitaryassetspack),
