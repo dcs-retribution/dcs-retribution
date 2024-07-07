@@ -32,7 +32,15 @@ def aircraft_banner_for(unit_type: AircraftType) -> Path:
         name = "Mirage-F1C-200"
     elif unit_type.dcs_id in {"Mirage-F1CE", "Mirage-F1M-CE"}:
         name = "Mirage-F1C"
-    elif unit_type.dcs_id in {"Su-30MKA", "Su-30MKI", "Su-30MKM"}:
+    elif unit_type.dcs_id in {
+        "Su-30MKA",
+        "Su-30MKI",
+        "Su-30MKM",
+        "Su-30MKA-AG",
+        "Su-30MKI-AG",
+        "Su-30MKM-AG",
+        "Su-30SM-AG"
+    }:
         name = "Su-30SM"
     elif unit_type.dcs_id == "F-15ESE":
         name = "F-15E"
