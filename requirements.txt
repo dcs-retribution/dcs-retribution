@@ -4,7 +4,7 @@ asgiref==3.8.1
 atomicwrites==1.4.1
 attrs==23.2.0
 black==23.9.1
-certifi==2024.6.2
+certifi==2024.7.4
 cfgv==3.4.0
 click==8.1.7
 colorama==0.4.6

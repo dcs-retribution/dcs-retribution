@@ -1,0 +1,37 @@
+description:
+    "The Sukhoi Su-30 (Russian: \u0421\u0443\u0445\u043E\u0439 \u0421\u0443\
+  -30; NATO reporting name: Flanker-C/G/H) is a twin-engine, two-seat supermaneuverable\
+  \ fighter aircraft developed in the Soviet Union by Russia's Sukhoi Aviation Corporation.\
+  \ It is a multirole fighter for all-weather, air-to-air and air-to-surface deep\
+  interdiction missions. 630 numbers have been build.\
+  \ \
+  \ MKI for Modernizirovannyi Kommercheskiy Indiski - \"Modernized Commercial Indian\". An export version for India,\
+  \ jointly developed with Hindustan Aeronautics Limited (HAL). It is the first Su-30 family member to feature\
+  \ thrust vectoring control (TVC) and canards. Equipped with a multinational avionics complex\
+  \ sourced from Russia, India, France and Israel."
+introduced: 2002  # https://en.wikipedia.org/wiki/Sukhoi_Su-30MKI
+manufacturer: Sukhoi
+origin: USSR/Russia
+price: 24
+role: Multirole Fighter
+max_range: 300
+variants:
+  Su-30MKI Flanker-H (A-G): {}
+radios:
+  intra_flight: R-800
+  inter_flight: R-800
+tasks:
+  Anti-ship: 150
+  BAI: 740
+  BARCAP: 450
+  CAS: 740
+  DEAD: 440
+  Escort: 450
+  Fighter sweep: 450
+  Intercept: 450
+  OCA/Aircraft: 740
+  OCA/Runway: 600
+  SEAD: 430
+  SEAD Escort: 430
+  Strike: 600
+  TARCAP: 450

@@ -98,8 +98,8 @@ export default function LiberationMap() {
         <LayersControl.Overlay name="Allied IADS Network">
           <Iadsnetworklayer blue={true} />
         </LayersControl.Overlay>
-        <LayersControl.Overlay name="Selected blue flight plan">
-          <FlightPlansLayer blue={true} selectedOnly />
+        <LayersControl.Overlay name="Selected flight plan">
+          <FlightPlansLayer selectedOnly />
         </LayersControl.Overlay>
         <LayersControl.Overlay name="All blue flight plans" checked>
           <FlightPlansLayer blue={true} />
