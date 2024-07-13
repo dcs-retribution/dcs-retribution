@@ -564,7 +564,6 @@ function onWpnEvent(event)
       return  --we wont track these types of weapons, so exit here
     end
     env.info(event.weapon:getTypeName().." missing from Splash Damage script")
-    debugMsg(event.weapon:getTypeName().." missing from Splash Damage script")
     if splash_damage_options.weapon_missing_message == true then
       debugMsg(event.weapon:getTypeName().." missing from Splash Damage script")
       debugMsg("desc: "..mist.utils.tableShow(event.weapon:getDesc()))
