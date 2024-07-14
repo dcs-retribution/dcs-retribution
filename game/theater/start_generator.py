@@ -87,6 +87,7 @@ class ModSettings:
     uh_60l: bool = False
     jas39_gripen: bool = False
     super_etendard: bool = False
+    su15_flagon: bool = False
     su30_flanker_h: bool = False
     su57_felon: bool = False
     frenchpack: bool = False
