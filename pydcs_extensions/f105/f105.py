@@ -90,11 +90,11 @@ class VSN_F105G(PlaneType):
         AGM_45A_Shrike_ARM = (4, Weapons.AGM_45A_Shrike_ARM)
         LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk1__HE = (
             4,
-            Weapons.LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk1__HE,
+            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE,
         )
         LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT = (
             4,
-            Weapons.LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT,
+            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT,
         )
 
     # ERRR <CLEAN>
@@ -119,11 +119,11 @@ class VSN_F105G(PlaneType):
         _3_Mk_83 = (5, Weapons._3_Mk_83)
         LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk1__HE = (
             5,
-            Weapons.LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk1__HE,
+            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE,
         )
         LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT = (
             5,
-            Weapons.LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT,
+            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT,
         )
 
     # ERRR {BRU33_2*LAU61_M282}
@@ -164,11 +164,11 @@ class VSN_F105G(PlaneType):
         _3_Mk_83 = (7, Weapons._3_Mk_83)
         LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk1__HE = (
             7,
-            Weapons.LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk1__HE,
+            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE,
         )
         LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT = (
             7,
-            Weapons.LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT,
+            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT,
         )
 
     # ERRR {BRU33_2*LAU61_M282}
@@ -192,11 +192,11 @@ class VSN_F105G(PlaneType):
         AGM_45A_Shrike_ARM = (8, Weapons.AGM_45A_Shrike_ARM)
         LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk1__HE = (
             8,
-            Weapons.LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk1__HE,
+            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE,
         )
         LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT = (
             8,
-            Weapons.LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT,
+            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT,
         )
 
     # ERRR <CLEAN>
@@ -264,11 +264,11 @@ class VSN_F105D(PlaneType):
         AGM_45A_Shrike_ARM = (4, Weapons.AGM_45A_Shrike_ARM)
         LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk1__HE = (
             4,
-            Weapons.LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk1__HE,
+            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE,
         )
         LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT = (
             4,
-            Weapons.LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT,
+            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT,
         )
 
     # ERRR <CLEAN>
@@ -292,11 +292,11 @@ class VSN_F105D(PlaneType):
         _3_Mk_83 = (5, Weapons._3_Mk_83)
         LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk1__HE = (
             5,
-            Weapons.LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk1__HE,
+            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE,
         )
         LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT = (
             5,
-            Weapons.LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT,
+            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT,
         )
 
     # ERRR {BRU33_2*LAU61_M282}
@@ -336,11 +336,11 @@ class VSN_F105D(PlaneType):
         _3_Mk_83 = (7, Weapons._3_Mk_83)
         LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk1__HE = (
             7,
-            Weapons.LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk1__HE,
+            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE,
         )
         LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT = (
             7,
-            Weapons.LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT,
+            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT,
         )
 
     # ERRR {BRU33_2*LAU61_M282}
@@ -364,11 +364,11 @@ class VSN_F105D(PlaneType):
         AGM_45A_Shrike_ARM = (8, Weapons.AGM_45A_Shrike_ARM)
         LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk1__HE = (
             8,
-            Weapons.LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk1__HE,
+            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE,
         )
         LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT = (
             8,
-            Weapons.LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT,
+            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT,
         )
 
     # ERRR <CLEAN>

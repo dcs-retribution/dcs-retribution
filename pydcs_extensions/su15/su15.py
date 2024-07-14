@@ -1,4 +1,4 @@
-from typing import Any, Dict, Set
+from typing import Set
 
 from dcs import task
 from dcs.planes import PlaneType
@@ -46,11 +46,11 @@ class Su_15TM(PlaneType):
         R_8M1T = (1, WeaponsSu15.R_8M1T)
         UB_32A_pod___32_x_S_5KO__57mm_UnGd_Rkts__HEAT_Frag = (
             1,
-            Weapons.UB_32A_pod___32_x_S_5KO__57mm_UnGd_Rkts__HEAT_Frag,
+            Weapons.UB_32A___32_x_UnGd_Rkts__57_mm_S_5KO_HEAT_Frag,
         )
         UB_16UM_pod___16_x_S_5KO__57mm_UnGd_Rkts__HEAT_Frag = (
             1,
-            Weapons.UB_16UM_pod___16_x_S_5KO__57mm_UnGd_Rkts__HEAT_Frag,
+            Weapons.UB_16_57UMP___16_x_UnGd_Rkts__57_mm_S_5KO_HEAT_Frag,
         )
         S_24B___240mm_UnGd_Rkt__235kg__HE_Frag___Low_Smk_ = (
             1,
@@ -78,11 +78,11 @@ class Su_15TM(PlaneType):
         PTB_600 = (3, WeaponsSu15.PTB_600)
         UB_32A_pod___32_x_S_5KO__57mm_UnGd_Rkts__HEAT_Frag = (
             3,
-            Weapons.UB_32A_pod___32_x_S_5KO__57mm_UnGd_Rkts__HEAT_Frag,
+            Weapons.UB_32A___32_x_UnGd_Rkts__57_mm_S_5KO_HEAT_Frag,
         )
         UB_16UM_pod___16_x_S_5KO__57mm_UnGd_Rkts__HEAT_Frag = (
             3,
-            Weapons.UB_16UM_pod___16_x_S_5KO__57mm_UnGd_Rkts__HEAT_Frag,
+            Weapons.UB_16_57UMP___16_x_UnGd_Rkts__57_mm_S_5KO_HEAT_Frag,
         )
         S_24B___240mm_UnGd_Rkt__235kg__HE_Frag___Low_Smk_ = (
             3,
@@ -100,11 +100,11 @@ class Su_15TM(PlaneType):
         PTB_600 = (4, WeaponsSu15.PTB_600)
         UB_32A_pod___32_x_S_5KO__57mm_UnGd_Rkts__HEAT_Frag = (
             4,
-            Weapons.UB_32A_pod___32_x_S_5KO__57mm_UnGd_Rkts__HEAT_Frag,
+            Weapons.UB_32A___32_x_UnGd_Rkts__57_mm_S_5KO_HEAT_Frag,
         )
         UB_16UM_pod___16_x_S_5KO__57mm_UnGd_Rkts__HEAT_Frag = (
             4,
-            Weapons.UB_16UM_pod___16_x_S_5KO__57mm_UnGd_Rkts__HEAT_Frag,
+            Weapons.UB_16_57UMP___16_x_UnGd_Rkts__57_mm_S_5KO_HEAT_Frag,
         )
         S_24B___240mm_UnGd_Rkt__235kg__HE_Frag___Low_Smk_ = (
             4,
@@ -131,11 +131,11 @@ class Su_15TM(PlaneType):
         R_8M1T = (6, WeaponsSu15.R_8M1T)
         UB_32A_pod___32_x_S_5KO__57mm_UnGd_Rkts__HEAT_Frag = (
             6,
-            Weapons.UB_32A_pod___32_x_S_5KO__57mm_UnGd_Rkts__HEAT_Frag,
+            Weapons.UB_32A___32_x_UnGd_Rkts__57_mm_S_5KO_HEAT_Frag,
         )
         UB_16UM_pod___16_x_S_5KO__57mm_UnGd_Rkts__HEAT_Frag = (
             6,
-            Weapons.UB_16UM_pod___16_x_S_5KO__57mm_UnGd_Rkts__HEAT_Frag,
+            Weapons.UB_16_57UMP___16_x_UnGd_Rkts__57_mm_S_5KO_HEAT_Frag,
         )
         S_24B___240mm_UnGd_Rkt__235kg__HE_Frag___Low_Smk_ = (
             6,

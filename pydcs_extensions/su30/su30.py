@@ -718,19 +718,19 @@ class Su_30SM(PlaneType):
         )
         _2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag = (
             3,
-            Weapons._2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag,
+            Weapons._2_x_B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag = (
             3,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange = (
             3,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP = (
             3,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
         )
         _2_x_S_25 = (3, Weapons._2_x_S_25)
 
@@ -1621,19 +1621,19 @@ class Su_30SM(PlaneType):
         )
         _2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag = (
             10,
-            Weapons._2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag,
+            Weapons._2_x_B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag = (
             10,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange = (
             10,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP = (
             10,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
         )
         _2_x_S_25 = (10, Weapons._2_x_S_25)
 
@@ -2074,19 +2074,19 @@ class Su_30MKA(PlaneType):
         )
         _2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag = (
             3,
-            Weapons._2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag,
+            Weapons._2_x_B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag = (
             3,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange = (
             3,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP = (
             3,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
         )
         _2_x_S_25 = (3, Weapons._2_x_S_25)
 
@@ -2766,19 +2766,19 @@ class Su_30MKA(PlaneType):
         )
         _2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag = (
             10,
-            Weapons._2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag,
+            Weapons._2_x_B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag = (
             10,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange = (
             10,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP = (
             10,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
         )
         _2_x_S_25 = (10, Weapons._2_x_S_25)
 
@@ -3196,19 +3196,19 @@ class Su_30MKM(PlaneType):
         )
         _2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag = (
             3,
-            Weapons._2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag,
+            Weapons._2_x_B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag = (
             3,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange = (
             3,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP = (
             3,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
         )
         _2_x_S_25 = (3, Weapons._2_x_S_25)
         Mk_82___500lb_GP_Bomb_LD = (3, Weapons.Mk_82___500lb_GP_Bomb_LD)
@@ -3823,19 +3823,19 @@ class Su_30MKM(PlaneType):
         )
         _2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag = (
             10,
-            Weapons._2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag,
+            Weapons._2_x_B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag = (
             10,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange = (
             10,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP = (
             10,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
         )
         _2_x_S_25 = (10, Weapons._2_x_S_25)
         # ERRR <CLEAN>
@@ -4261,19 +4261,19 @@ class Su_30MKM_AG(PlaneType):
         )
         _2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag = (
             3,
-            Weapons._2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag,
+            Weapons._2_x_B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag = (
             3,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange = (
             3,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP = (
             3,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
         )
         _2_x_S_25 = (3, Weapons._2_x_S_25)
         Mk_82___500lb_GP_Bomb_LD = (3, Weapons.Mk_82___500lb_GP_Bomb_LD)
@@ -4888,19 +4888,19 @@ class Su_30MKM_AG(PlaneType):
         )
         _2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag = (
             10,
-            Weapons._2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag,
+            Weapons._2_x_B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag = (
             10,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange = (
             10,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP = (
             10,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
         )
         _2_x_S_25 = (10, Weapons._2_x_S_25)
         # ERRR <CLEAN>
@@ -5333,19 +5333,19 @@ class Su_30MKI(PlaneType):
         )
         _2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag = (
             3,
-            Weapons._2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag,
+            Weapons._2_x_B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag = (
             3,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange = (
             3,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP = (
             3,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
         )
         _2_x_S_25 = (3, Weapons._2_x_S_25)
 
@@ -5967,19 +5967,19 @@ class Su_30MKI(PlaneType):
         )
         _2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag = (
             10,
-            Weapons._2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag,
+            Weapons._2_x_B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag = (
             10,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange = (
             10,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP = (
             10,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
         )
         _2_x_S_25 = (10, Weapons._2_x_S_25)
 
@@ -6416,19 +6416,19 @@ class Su_30MKA_AG(PlaneType):
         )
         _2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag = (
             3,
-            Weapons._2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag,
+            Weapons._2_x_B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag = (
             3,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange = (
             3,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP = (
             3,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
         )
         _2_x_S_25 = (3, Weapons._2_x_S_25)
 
@@ -7108,19 +7108,19 @@ class Su_30MKA_AG(PlaneType):
         )
         _2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag = (
             10,
-            Weapons._2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag,
+            Weapons._2_x_B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag = (
             10,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange = (
             10,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP = (
             10,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
         )
         _2_x_S_25 = (10, Weapons._2_x_S_25)
 
@@ -7592,19 +7592,19 @@ class Su_30SM_AG(PlaneType):
         )
         _2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag = (
             3,
-            Weapons._2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag,
+            Weapons._2_x_B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag = (
             3,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange = (
             3,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP = (
             3,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
         )
         _2_x_S_25 = (3, Weapons._2_x_S_25)
 
@@ -8495,19 +8495,19 @@ class Su_30SM_AG(PlaneType):
         )
         _2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag = (
             10,
-            Weapons._2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag,
+            Weapons._2_x_B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag = (
             10,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange = (
             10,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP = (
             10,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
         )
         _2_x_S_25 = (10, Weapons._2_x_S_25)
 
@@ -8938,19 +8938,19 @@ class Su_30MKI_AG(PlaneType):
         )
         _2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag = (
             3,
-            Weapons._2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag,
+            Weapons._2_x_B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag = (
             3,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange = (
             3,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP = (
             3,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
         )
         _2_x_S_25 = (3, Weapons._2_x_S_25)
 
@@ -9572,19 +9572,19 @@ class Su_30MKI_AG(PlaneType):
         )
         _2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag = (
             10,
-            Weapons._2_x_B_13L_pods___10_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag,
+            Weapons._2_x_B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag = (
             10,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange = (
             10,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8TsM_SM_Orange,
         )
         _2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP = (
             10,
-            Weapons._2_x_B_8M1___40_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
+            Weapons._2_x_B_8M1___20_x_UnGd_Rkts__80_mm_S_8OFP2_MPP,
         )
         _2_x_S_25 = (10, Weapons._2_x_S_25)
 
