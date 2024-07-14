@@ -126,10 +126,10 @@
   "channel": null
  },
  "airfield7_5": {
-  "name": "bodo",
-  "callsign": "boo",
+  "name": "BODO",
+  "callsign": "BOO",
   "beacon_type": 4,
-  "hertz": 110800000,
+  "hertz": null,
   "channel": 45
  },
  "airfield1_0": {
