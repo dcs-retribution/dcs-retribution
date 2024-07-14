@@ -130,6 +130,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("jas39_gripen", self.jas39_gripen)
         self.super_etendard = QtWidgets.QCheckBox()
         self.registerField("super_etendard", self.super_etendard)
+        self.sk_60 = QtWidgets.QCheckBox()
+        self.registerField("sk_60", self.sk_60)
         self.su15_flagon = QtWidgets.QCheckBox()
         self.registerField("su15_flagon", self.su15_flagon)
         self.su30_flanker_h = QtWidgets.QCheckBox()
@@ -179,7 +181,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("F-84G Thunderjet (v2.5.7.01)", self.f84g_thunderjet),
             ("F9F Panther (v2.8.7.101)", self.f9f_panther),
             ("F/A-18E/F Super Hornet AI Tanker (version 1.4)", self.fa18ef_tanker),
-            ("F/A-18E/F/G Super Hornet (version 2.2.5)", self.fa_18efg),
+            ("F/A-18E/F/G Super Hornet (version 2.3.2)", self.fa_18efg),
             ("Cold War Assets mod (v1.0)", self.coldwarassets),
             ("Frenchpack (v4.9.1)", self.frenchpack),
             ("High Digit SAMs", self.high_digit_sams),
@@ -188,8 +190,9 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("OV-10A Bronco", self.ov10a_bronco),
             ("Spanish Naval Assets pack (desdemicabina 3.2.0)", self.spanishnavypack),
             ("Star Wars Modpack 2.54+", self.SWPack),
+            ("Saab 105/SK-60B (v1.2.1)", self.sk_60),
             ("Su-15 Flagon (v1.0)", self.su15_flagon),
-            ("Su-30 Flanker-H (V2.7.3 beta)", self.su30_flanker_h),
+            ("Su-30 Flanker-H (V2.7.73b)", self.su30_flanker_h),
             ("Su-57 Felon (build-04)", self.su57_felon),
             ("Super Étendard (v2.5.5)", self.super_etendard),
             ("Swedish Military Assets pack (1.10)", self.swedishmilitaryassetspack),
@@ -249,6 +252,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.f105_thunderchief.setChecked(s.get("f105_thunderchief", False))
         self.f106_deltadart.setChecked(s.get("f106_deltadart", False))
         self.jas39_gripen.setChecked(s.get("jas39_gripen", False))
+        self.sk_60.setChecked(s.get("sk_60", False))
         self.super_etendard.setChecked(s.get("super_etendard", False))
         self.su30_flanker_h.setChecked(s.get("su30_flanker_h", False))
         self.su57_felon.setChecked(s.get("su57_felon", False))

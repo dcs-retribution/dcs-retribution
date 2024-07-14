@@ -336,6 +336,7 @@ def create_game(
             f105_thunderchief=False,
             hercules=False,
             jas39_gripen=False,
+            sk60_saab105=False,
             su15_flagon=False,
             su30_flanker_h=False,
             su57_felon=False,
