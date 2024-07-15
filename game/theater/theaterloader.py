@@ -17,7 +17,7 @@ from dcs.terrain import (
     Syria,
     TheChannel,
     Sinai,
-    Kola,
+    Kola, Afghanistan,
 )
 
 from .conflicttheater import ConflictTheater
@@ -36,6 +36,7 @@ ALL_TERRAINS = [
     Syria(),
     Sinai(),
     Kola(),
+    Afghanistan(),
 ]
 
 TERRAINS_BY_NAME = {t.name: t for t in ALL_TERRAINS}
