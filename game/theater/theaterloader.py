@@ -17,7 +17,8 @@ from dcs.terrain import (
     Syria,
     TheChannel,
     Sinai,
-    Kola, Afghanistan,
+    Kola,
+    Afghanistan,
 )
 
 from .conflicttheater import ConflictTheater
