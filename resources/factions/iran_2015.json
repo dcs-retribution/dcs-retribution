@@ -7,22 +7,17 @@
     "fa_IR"
   ],
   "aircrafts": [
-    "F-14A Tomcat (AI)",
+    "C-130",
     "F-14A Tomcat (Block 135-GR Late)",
-    "F-4E Phantom II",
     "F-4E-45MC Phantom II",
     "F-5E Tiger II",
-    "IL-76MD",
-    "Mi-24V Hind-E",
-    "Mi-24P Hind-F",
-    "Mi-28N Havoc",
+    "F-5E-3_FC",
+    "Mi-8MTV2 Hip",
     "MiG-21bis Fishbed-N",
     "MiG-29A Fulcrum-A",
-    "Mirage-F1EQ",
-    "Su-22M4 Fitter-K",
+    "Mirage-F1EE",
     "Su-24MK Fencer-D",
-    "Su-25 Frogfoot",
-    "Su-25T Frogfoot"
+    "Su-25 Frogfoot"
   ],
   "awacs": [
     "A-50"
@@ -89,10 +84,27 @@
     "SSM SS-1C Scud-B"
   ],
   "has_jtac": true,
-  "jtac_unit": "MQ-9 Reaper",
+  "jtac_unit": "WingLoong-I",
   "liveries_overrides": {
     "F-14A Tomcat (Block 135-GR Late)": [
       "Rogue Nation(Top Gun - Maverick)"
-    ]
+    ],
+    "F-4E-45MC Phantom II": [
+      "IRIAF-3-6564",
+      "IRIAF-3-6643",
+      "IRIAF-3-6673"
+    ],
+    "F-5E Tiger II": [
+      "IR IRIAF Camo"
+    ],
+    "F-5E-3_FC": [
+      "IR IRIAF Camo"
+    ],
+    "MiG-21bis Fishbed-N": [
+      "Iran - Standard"
+    ],
+    "Mirage-F1EE": [
+      "IRIAF 3-6210 _ 2013 Gray (EQ Variant)"
+	  ]
   }
 }
