@@ -334,9 +334,7 @@ RADIOS: List[Radio] = [
     # F-86 Sabre
     Radio(
         "AN/ARC-27",
-        (
-            RadioRange(MHz(225), MHz(400), kHz(100), Modulation.AM),
-        ),
+        (RadioRange(MHz(225), MHz(400), kHz(100), Modulation.AM),),
     ),
 ]
 
