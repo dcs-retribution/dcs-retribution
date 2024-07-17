@@ -1,0 +1,176 @@
+---
+name: Afghanistan - Graveyard of Empires
+theater: Afghanistan
+authors: Starfire
+recommended_player_faction: Bluefor Modern
+recommended_enemy_faction: Redfor (Russia) 2010
+description:
+  <p>Following the 9/11 attacks, the United States and its NATO allies launched a 
+  full-scale invasion of Afghanistan to dismantle the Taliban regime and root out 
+  Al-Qaeda. As the conflict progressed, Russia grew increasingly concerned that the 
+  Western powers were using the War on Terror as a pretext for territorial expansion 
+  in Central Asia. The Kremlin viewed NATO's growing presence in Afghanistan as a 
+  direct threat to its sphere of influence and a potential encroachment on its 
+  southern borders.</p>
+  <p>Shortly after the fall of Kandahar, which signalled the end of organised Taliban 
+  control of Afghanistan, Russia and a coalition of its allies with historical ties 
+  to the Soviet Union decided to intervene under the guise of protecting regional 
+  stability and sovereignty. While Russia did not openly ally with the insurgents, 
+  it covertly provided logistical support, intelligence, and military aid to 
+  various anti-NATO factions within Afghanistan as part of a broader strategy to 
+  prevent NATO forces from gaining a foothold in the region.</p>
+  <p>The conflict quickly escalated into a multi-faceted and very costly war. The 
+  United States and its allies found themselves not only battling insurgents but 
+  also facing direct confrontations with increasing numbers of conventional 
+  Russian forces both in the air and on the ground. The ferocity of the war 
+  underscored once more the peril of foreign intervention in this historically 
+  unyielding land.</p>
+miz: graveyard_of_empires.miz
+performance: 1
+recommended_start_date: 2002-01-27
+version: "10.7"
+settings:
+  hercules: true
+  squadron_start_full: true
+squadrons:
+  #Kandahar
+  7:
+    - primary: OCA/Runway
+      secondary: air-to-ground
+      aircraft:
+        - B-1B Lancer
+      size: 4
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - B-52H Stratofortress
+      size: 4
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - C-130J-30 Super Hercules
+        - C-130
+      size: 2
+    - primary: Refueling
+      aircraft:
+        - KC-135 Stratotanker
+      size: 1
+    - primary: AEW&C
+      aircraft:
+        - E-3A
+      size: 1
+    - primary: DEAD
+      secondary: any
+      aircraft:
+        - F-16CM Fighting Falcon (Block 50)
+      size: 16
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - F-15E Strike Eagle (Suite 4+)
+      size: 8
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - F-15C Eagle
+      size: 16
+  # Kandahar Heliport
+  15:  
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - UH-60A
+      size: 4
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - CH-47D
+      size: 4
+  #Camp Bastion
+  10:
+    - primary: Refueling
+      aircraft:
+        - KC-130J
+        - KC-130
+      size: 1
+    - primary: SEAD
+      secondary: any
+      aircraft:
+        - F/A-18C Hornet (Lot 20)
+      size: 16
+    - primary: SEAD Escort
+      secondary: air-to-ground
+      aircraft:
+        - AV-8B Harrier II Night Attack
+      size: 8
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - A-10C Thunderbolt II (Suite 7)
+      size: 8
+  #Camp Bastion Heliport
+  13:
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - AH-64D Apache Longbow
+      size: 4
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - OH-58D(R) Kiowa Warrior
+      size: 4
+  #Shindand
+  3:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Su-25T Frogfoot
+      size: 16
+    - primary: TARCAP
+      secondary: air-to-air
+      aircraft:
+        - Su-27 Flanker-B
+      size: 12
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - Su-24M Fencer-D
+      size: 16
+  #Shindand Heliport
+  14:
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - Mi-24P Hind-F
+      size: 4
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - Mi-8MTV2 Hip
+      size: 4
+  #Herat
+  1:
+    - primary: DEAD
+      secondary: air-to-ground
+      aircraft:
+        - Su-34 Fullback
+      size: 12
+    - primary: Escort
+      secondary: air-to-air
+      aircraft:
+        - MiG-29S Fulcrum-C
+      size: 10
+    - primary: SEAD Escort
+      secondary: any
+      aircraft:
+        - JF-17 Thunder
+      size: 8
+  #Farah
+  2:
+    - primary: CAS
+      secondary: any
+      aircraft:
+         - Ka-50 Hokum III
+         - Ka-50 Hokum (Blackshark 3)
+      size: 4
