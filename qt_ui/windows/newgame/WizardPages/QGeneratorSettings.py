@@ -146,6 +146,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("high_digit_sams", self.high_digit_sams)
         self.swedishmilitaryassetspack = QtWidgets.QCheckBox()
         self.registerField("swedishmilitaryassetspack", self.swedishmilitaryassetspack)
+        self.coldwarassets = QtWidgets.QCheckBox()
+        self.registerField("coldwarassets", self.coldwarassets)
         self.SWPack = QtWidgets.QCheckBox()
         self.registerField("SWPack", self.SWPack)
         self.spanishnavypack = QtWidgets.QCheckBox()
@@ -179,7 +181,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("F-84G Thunderjet (v2.5.7.01)", self.f84g_thunderjet),
             ("F9F Panther (v2.8.7.101)", self.f9f_panther),
             ("F/A-18E/F Super Hornet AI Tanker (version 1.4)", self.fa18ef_tanker),
-            ("F/A-18E/F/G Super Hornet (version 2.2.5)", self.fa_18efg),
+            ("F/A-18E/F/G Super Hornet (version 2.3.2)", self.fa_18efg),
+            ("Cold War Assets mod (v1.0)", self.coldwarassets),
             ("Frenchpack (v4.9.1)", self.frenchpack),
             ("High Digit SAMs", self.high_digit_sams),
             ("IDF Assets Pack (v1.1 by IDF Mods Project)", self.irondome),

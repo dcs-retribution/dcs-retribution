@@ -44,6 +44,8 @@ def aircraft_banner_for(unit_type: AircraftType) -> Path:
         name = "Su-30SM"
     elif unit_type.dcs_id == "F-15ESE":
         name = "F-15E"
+    elif "_FC" in unit_type.dcs_id:
+        name = unit_type.dcs_id.replace("_FC", "")
     else:
         name = unit_type.dcs_id
     return AIRCRAFT_BANNERS_BASE / f"{name}.jpg"

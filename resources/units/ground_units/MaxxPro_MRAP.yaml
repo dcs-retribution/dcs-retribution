@@ -1,0 +1,9 @@
+class: APC
+description: 2007
+introduced: 
+manufacturer: Navistar/Plasan
+origin: USA
+price: 8
+role: Armoured Personnel Carrier
+variants:
+  APC MRAP MaxxPro: {}
