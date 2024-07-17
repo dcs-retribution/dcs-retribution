@@ -116,5 +116,25 @@
     "LHA-5 Peleliu"
   ],
   "has_jtac": true,
-  "jtac_unit": "MQ-9 Reaper"
+  "jtac_unit": "MQ-9 Reaper",
+  "liveries_overrides": {
+    "F/A-18C Hornet (Lot 20)": [
+      "VFA-106",
+      "VFA-113",
+      "VFA-122",
+      "VFA-131",
+      "VFA-192",
+      "VFA-34",
+      "VFA-37",
+      "VFA-83",
+      "VFA-87",
+      "VFA-97",
+      "VMFA-122",
+      "VMFA-132",
+      "VMFA-251",
+      "VMFA-312",
+      "VMFA-314",
+      "VMFA-323"
+    ]
+  }
 }
