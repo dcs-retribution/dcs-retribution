@@ -1,14 +1,20 @@
 ---
-name: Persian Gulf - Full
+name: Persian Gulf - [Pretense] - Full map
 theater: Persian Gulf
 authors: Colonel Akir Nakesh
 recommended_player_faction: Bluefor Modern
 recommended_enemy_faction: Iran 2015
 description:
-  <p>A Persian Gulf full map campaign. The campaign is tuned for out-of-the-box Pretense generation compatibility and as such will be unbalanced for a standard campaign. Recommended settings for campaign generation: disable frontline smoke, disable CTLD, disable Skynet, set CVBG navmesh to Redfor.</p>
+  <p>A Persian Gulf full map campaign. The campaign is tuned for out-of-the-box Pretense generation compatibility and as such will be unbalanced for a standard campaign. Recommended settings for campaign generation&#58; disable frontline smoke, disable CTLD, disable Skynet, set CVBG navmesh to Redfor.</p>
 miz: persian_gulf_full.miz
 performance: 3
 version: "10.7"
+settings:
+  pretense_carrier_zones_navmesh: "Red navmesh"
+  perf_smoke_gen: false
+  plugins:
+    ctld: false
+    skynetiads: false
 squadrons:
   #Al Dhafra AFB
   4:
