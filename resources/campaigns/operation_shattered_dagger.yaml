@@ -1,0 +1,76 @@
+---
+name: Afghanistan - Operation Shattered Dagger
+theater: Afghanistan
+authors: Starfire
+recommended_player_faction: USA 2005
+recommended_enemy_faction: Toyota Al Gaib 2001
+description:
+  <p>In the spring of 2006, insurgents initiated a well-coordinated offensive in southern Afghanistan, 
+  focusing their efforts on the strategically vital provinces of Helmand and Kandahar. Insurgent 
+  operations extended beyond small skirmishes, including major assaults on multiple Forward Operating 
+  Bases (FOBs) that were crucial for coalition operations. The loss or isolation of these bases would 
+  have significantly hindered NATO forces' ability to maintain control in the region, severely impacting 
+  the overall stability and security of the region.</p>
+  <p>With multiple FOBs under siege and cut off from friendly forces, the situation for the coalition 
+  troops became increasingly dire. In response to these attacks, Apache and Kiowa Warrior helicopters were 
+  tasked with providing close air support, targeting insurgent positions, and neutralising enemy forces 
+  surrounding the FOBs. Once cleared of enemy forces, Blackhawk and Chinook helicopters can then deliver 
+  much needed reinforcements and supplies to coalition troops.</p>
+miz: operation_shattered_dagger.miz
+performance: 1
+recommended_start_date: 2006-04-24
+recommended_enemy_money: 0
+recommended_enemy_income_multiplier: 0.0
+version: "10.7"
+settings:
+  hercules: true
+  squadron_start_full: true
+squadrons:
+  #Kandahar
+  7:
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - C-130J-30 Super Hercules
+        - C-130
+      size: 4
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - A-10C Thunderbolt II (Suite 7)
+      size: 4
+  # Kandahar Heliport
+  15:  
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - UH-60A
+      size: 4
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - OH-58D(R) Kiowa Warrior
+      size: 4
+  #Camp Bastion
+  10:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - AV-8B Harrier II Night Attack
+      size: 4
+    - primary: AEW&C
+      aircraft:
+        - E-3A
+      size: 1
+  #Camp Bastion Heliport
+  13:
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - AH-64D Apache Longbow
+      size: 4
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - CH-47D
+      size: 4

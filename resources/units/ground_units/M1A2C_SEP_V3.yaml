@@ -1,0 +1,9 @@
+class: Tank
+description: 
+introduced: 1992
+manufacturer: General Dynamics Land Systems
+origin: USA
+price: 25
+role: Main Battle Tank
+variants:
+  MBT M1A2C SEP v3 Abrams: {}
