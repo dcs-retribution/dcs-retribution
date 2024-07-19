@@ -323,7 +323,9 @@ class WaypointBuilder:
         return FlightWaypoint(
             target.name,
             FlightWaypointType.TARGET_POINT,
-            target.target.position,
+            target.target.ground_object.position
+            if isinstance(target.target, (TheaterGroup, TheaterUnit))
+            else target.target.position,
             meters(0),
             "RADIO",
             description=description,
