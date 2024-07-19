@@ -355,8 +355,7 @@ class MissionGenerator:
         for tmu in self.unit_map.theater_objects.values():
             if (
                 tmu.theater_unit.is_ship
-                or
-                isinstance(tmu.dcs_unit, Static)
+                or isinstance(tmu.dcs_unit, Static)
                 and tmu.dcs_unit.category in ["Warehouses", "Heliports"]
             ):
                 # We'll serialize more than is actually necessary
@@ -366,7 +365,9 @@ class MissionGenerator:
                     tmu.theater_unit.position,
                     self.mission.terrain,
                 ).dict()
-                warehouse["coalition"] = "blue" if tmu.theater_unit.ground_object.coalition.player else "red"
+                warehouse["coalition"] = (
+                    "blue" if tmu.theater_unit.ground_object.coalition.player else "red"
+                )
                 warehouse["dynamicCargo"] = settings.dynamic_cargo
                 if tmu.theater_unit.is_ship or tmu.dcs_unit.category == "Heliports":  # type: ignore
                     warehouse["dynamicSpawn"] = settings.dynamic_slots

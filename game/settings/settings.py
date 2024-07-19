@@ -907,20 +907,15 @@ class Settings:
         MISSION_GENERATOR_PAGE,
         GAMEPLAY_SECTION,
         default=True,
-        detail=(
-            "Enables hot start for dynamic slots."
-        ),
+        detail=("Enables hot start for dynamic slots."),
     )
     dynamic_cargo: bool = boolean_option(
         "Dynamic cargo",
         MISSION_GENERATOR_PAGE,
         GAMEPLAY_SECTION,
         default=True,
-        detail=(
-            "Enables dynamic cargo for airfields, ships, FARPs & warehouses."
-        ),
+        detail=("Enables dynamic cargo for airfields, ships, FARPs & warehouses."),
     )
-
 
     # Performance
     perf_smoke_gen: bool = boolean_option(
