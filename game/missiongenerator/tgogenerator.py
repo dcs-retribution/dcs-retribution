@@ -38,6 +38,7 @@ from dcs.task import (
     FireAtPoint,
     OptAlarmState,
 )
+from dcs.terrain import Airport
 from dcs.translation import String
 from dcs.triggers import (
     Event,
@@ -842,6 +843,14 @@ class HelipadGenerator:
             )
         else:
             self.helipads.append(sg)
+
+        warehouse = Airport(
+            pad.position,
+            self.m.terrain,
+        ).dict()
+        warehouse["coalition"] = "blue" if self.cp.coalition.player else "red"
+        # configure dynamic spawn + hot start of DS, plus dynamic cargo?
+        self.m.warehouses.warehouses[pad.id] = warehouse
 
         # Generate a FARP Ammo and Fuel stack for each pad
         self.m.static_group(
