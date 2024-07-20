@@ -1,0 +1,17 @@
+class: Tank
+description: The T-64 is a Soviet second-generation main battle tank, designed by
+  Kharkiv Morozov Machine Building Design Bureau in Ukraine, introduced in the early
+  1960s. It was a more advanced counterpart to the T-62; the T-64 served in tank
+  divisions, while the T-62 supported infantry in motorized rifle divisions. It
+  introduced a number of advanced features including composite armour, a compact
+  engine and transmission, and a smoothbore 125-mm gun equipped with an autoloader
+  to allow the crew to be reduced to three so the tank could be smaller and lighter.
+  In spite of being armed and armoured like a heavy tank, the T-64 weighed only 38
+  tonnes (42 short tons; 37 long tons).
+introduced: 1966
+manufacturer: Kharkiv
+origin: USSR/Russia
+price: 19
+role: Main Battle Tank
+variants:
+  T-64BV: {}
