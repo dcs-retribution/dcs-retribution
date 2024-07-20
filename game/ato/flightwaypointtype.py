@@ -51,3 +51,4 @@ class FlightWaypointType(IntEnum):
     INGRESS_AIR_ASSAULT = 31
     INGRESS_ANTI_SHIP = 32
     INGRESS_SEAD_SWEEP = 33
+    INGRESS_ARMED_RECON = 34

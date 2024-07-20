@@ -183,6 +183,7 @@ class Package(RadioFrequencyContainer):
             FlightType.SEAD_SWEEP,
             FlightType.TARCAP,
             FlightType.BARCAP,
+            FlightType.ARMED_RECON,
             FlightType.AEWC,
             FlightType.FERRY,
             FlightType.REFUELING,

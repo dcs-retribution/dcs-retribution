@@ -161,6 +161,7 @@ class QAutoCreateDialog(QDialog):
             FlightType.ANTISHIP,
             FlightType.BAI,
             FlightType.CAS,
+            FlightType.ARMED_RECON,
         }
         for mt in self.package.target.mission_types(self.is_ownfor):
             if mt in primary_tasks:

@@ -6,7 +6,7 @@ import math
 from collections.abc import Iterator
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Optional, TYPE_CHECKING, Union
+from typing import Optional, TYPE_CHECKING, Union, Dict
 
 from game.commander.battlepositions import BattlePositions
 from game.commander.objectivefinder import ObjectiveFinder
@@ -163,6 +163,15 @@ class TheaterState(WorldState["TheaterState"]):
         barcap_duration = coalition.doctrine.cap_duration.total_seconds()
         barcap_rounds = math.ceil(mission_duration / barcap_duration)
 
+        battle_postitions: Dict[ControlPoint, BattlePositions] = {
+            cp: BattlePositions.for_control_point(cp)
+            for cp in ordered_capturable_points
+        }
+
+        vulnerable_control_points = [
+            cp for cp, bp in battle_postitions.items() if not bp.blocking_capture
+        ]
+
         return TheaterState(
             context=context,
             barcaps_needed={
@@ -179,10 +188,7 @@ class TheaterState(WorldState["TheaterState"]):
             enemy_convoys=list(finder.convoys()),
             enemy_shipping=list(finder.cargo_ships()),
             enemy_ships=list(finder.enemy_ships()),
-            enemy_battle_positions={
-                cp: BattlePositions.for_control_point(cp)
-                for cp in ordered_capturable_points
-            },
+            enemy_battle_positions=battle_postitions,
             oca_targets=list(
                 finder.oca_targets(
                     min_aircraft=game.settings.oca_target_autoplanner_min_aircraft_count
@@ -191,5 +197,5 @@ class TheaterState(WorldState["TheaterState"]):
             strike_targets=list(finder.strike_targets()),
             enemy_barcaps=list(game.theater.control_points_for(not player)),
             threat_zones=game.threat_zone_for(not player),
-            vulnerable_control_points=list(finder.vulnerable_enemy_control_points()),
+            vulnerable_control_points=vulnerable_control_points,
         )

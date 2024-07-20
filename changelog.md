@@ -25,6 +25,7 @@
 * **[Modding]** Added support for Su-15 Flagon mod (v1.0)
 * **[Plugins]** Support for Carsten's Arty Spotter script
 * **[Modding]** Added support for SK-60 mod (v1.2.1)
+* **[Mission Generation]** Introducing the Armed Recon flight plan, i.e. CAS against any Theater Ground Object
 
 ## Fixes
 * **[UI/UX]** A-10A flights can be edited again
