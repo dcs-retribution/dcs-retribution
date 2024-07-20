@@ -38,6 +38,7 @@ from dcs.task import (
     FireAtPoint,
     OptAlarmState,
 )
+from dcs.terrain import Airport
 from dcs.translation import String
 from dcs.triggers import (
     Event,
@@ -859,6 +860,14 @@ class HelipadGenerator:
             cull_farp_statics = False
 
         if not cull_farp_statics:
+            warehouse = Airport(
+                pad.position,
+                self.m.terrain,
+            ).dict()
+            warehouse["coalition"] = "blue" if self.cp.coalition.player else "red"
+            # configure dynamic spawn + hot start of DS, plus dynamic cargo?
+            self.m.warehouses.warehouses[pad.id] = warehouse
+
             # Generate a FARP Ammo and Fuel stack for each pad
             self.m.static_group(
                 country=country,
@@ -1095,6 +1104,14 @@ class GroundSpawnLargeGenerator:
             country.id
         )
 
+        warehouse = Airport(
+            pad.position,
+            self.m.terrain,
+        ).dict()
+        warehouse["coalition"] = "blue" if self.cp.coalition.player else "red"
+        # configure dynamic spawn + hot start of DS, plus dynamic cargo?
+        self.m.warehouses.warehouses[pad.id] = warehouse
+
         # Generate a FARP Ammo and Fuel stack for each pad
         if self.game.settings.ground_start_trucks:
             self.m.vehicle_group(
@@ -1231,6 +1248,14 @@ class GroundSpawnGenerator:
             cull_farp_statics = False
 
         if not cull_farp_statics:
+            warehouse = Airport(
+                pad.position,
+                self.m.terrain,
+            ).dict()
+            warehouse["coalition"] = "blue" if self.cp.coalition.player else "red"
+            # configure dynamic spawn + hot start of DS, plus dynamic cargo?
+            self.m.warehouses.warehouses[pad.id] = warehouse
+
             # Generate a FARP Ammo and Fuel stack for each pad
             if self.game.settings.ground_start_trucks:
                 self.m.vehicle_group(

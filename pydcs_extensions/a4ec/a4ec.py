@@ -957,7 +957,6 @@ class A_4E_C(PlaneType):
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk = (
             1,
             Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice = (
             1,

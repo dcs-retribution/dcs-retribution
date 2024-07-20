@@ -10,6 +10,8 @@ from dcs import Mission, Point
 from dcs.coalition import Coalition
 from dcs.countries import country_dict
 from dcs.task import OptReactOnThreat
+from dcs.terrain import Airport
+from dcs.unit import Static
 
 from game.atcdata import AtcData
 from game.dcs.beacons import Beacons
@@ -112,8 +114,8 @@ class MissionGenerator:
 
         self.notify_info_generators()
 
-        # TODO: Shouldn't this be first?
         namegen.reset_numbers()
+        self.generate_warehouses()
         self.mission.save(output)
 
         return self.unit_map
@@ -347,3 +349,33 @@ class MissionGenerator:
         self.mission.groundControl.blue_tactical_commander = commanders
         self.mission.groundControl.blue_jtac = settings.jtac_count
         self.mission.groundControl.blue_observer = settings.observer_count
+
+    def generate_warehouses(self) -> None:
+        settings = self.game.settings
+        for tmu in self.unit_map.theater_objects.values():
+            if (
+                tmu.theater_unit.is_ship
+                or isinstance(tmu.dcs_unit, Static)
+                and tmu.dcs_unit.category in ["Warehouses", "Heliports"]
+            ):
+                # We'll serialize more than is actually necessary
+                # DCS will filter out warehouses as dynamic spawns so no need to worry there
+                # thus, if we serialize a ship as a warehouse that's not supported, DCS will filter it out
+                warehouse = Airport(
+                    tmu.theater_unit.position,
+                    self.mission.terrain,
+                ).dict()
+                warehouse["coalition"] = (
+                    "blue" if tmu.theater_unit.ground_object.coalition.player else "red"
+                )
+                warehouse["dynamicCargo"] = settings.dynamic_cargo
+                if tmu.theater_unit.is_ship or tmu.dcs_unit.category == "Heliports":  # type: ignore
+                    warehouse["dynamicSpawn"] = settings.dynamic_slots
+                    warehouse["allowHotStart"] = settings.dynamic_slots_hot
+                self.mission.warehouses.warehouses[tmu.dcs_unit.id] = warehouse
+
+        # configure dynamic spawn, hot start of DS & dynamic cargo for airfields
+        for ap in self.mission.terrain.airports.values():
+            ap.dynamic_spawn = settings.dynamic_slots
+            ap.allow_hot_start = settings.dynamic_slots_hot
+            ap.dynamic_cargo = settings.dynamic_cargo

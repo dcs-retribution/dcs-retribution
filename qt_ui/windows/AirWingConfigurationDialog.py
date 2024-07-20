@@ -45,7 +45,7 @@ from game.dcs.aircrafttype import AircraftType
 from game.persistency import airwing_dir
 from game.squadrons import AirWing, Pilot, Squadron
 from game.squadrons.squadrondef import SquadronDef
-from game.theater import ControlPoint, ParkingType
+from game.theater import ControlPoint, ParkingType, Airfield
 from qt_ui.uiconstants import AIRCRAFT_ICONS, ICONS
 from qt_ui.widgets.combos.QSquadronLiverySelector import SquadronLiverySelector
 from qt_ui.widgets.combos.primarytaskselector import PrimaryTaskSelector
@@ -127,7 +127,9 @@ class SquadronBaseSelector(QComboBox):
         self.clear()
         if aircraft_type:
             for base in self.bases:
-                if not base.can_operate(aircraft_type):
+                if not base.can_operate(aircraft_type) and not isinstance(
+                    base, Airfield
+                ):
                     continue
                 self.addItem(base.name, base)
             self.model().sort(0)
