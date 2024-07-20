@@ -215,7 +215,11 @@ class SquadronDestinationComboBox(QComboBox):
                     f"Consider moving these squadrons to different airfield "
                     "to avoid possible air-starts.",
                 )
-            return len(ap.free_parking_slots(dcs_unit_type))
+            return (
+                len(ap.free_parking_slots(dcs_unit_type))
+                + free_helicopter_slots
+                + free_ground_spawns
+            )
         else:
             parking_type = ParkingType().from_aircraft(
                 next(AircraftType.for_dcs_type(dcs_unit_type)),
