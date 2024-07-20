@@ -24,13 +24,13 @@ from game.theater import (
     TheaterGroundObject,
     TheaterUnit,
 )
+from game.theater.theatergroup import TheaterGroup
 from game.utils import Distance, meters, nautical_miles, feet
 
 AGL_TRANSITION_ALT = 5000
 
 if TYPE_CHECKING:
     from game.transfers import MultiGroupTransport
-    from game.theater.theatergroup import TheaterGroup
     from game.ato.flight import Flight
 
 
