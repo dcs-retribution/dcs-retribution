@@ -275,8 +275,6 @@ class Flight(
             self.fuel = unit_type.fuel_max * 0.5
         elif unit_type == Hercules:
             self.fuel = unit_type.fuel_max * 0.75
-        elif self.departure.cptype.name in ["FARP", "FOB"] and not self.is_helo:
-            self.fuel = unit_type.fuel_max * 0.75
 
     def any_member_has_weapon_of_type(self, weapon_type: WeaponType) -> bool:
         return any(
