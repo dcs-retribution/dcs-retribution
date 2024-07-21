@@ -790,8 +790,7 @@ class WaypointBuilder:
         return previous_threatened and next_threatened
 
     @staticmethod
-    def perturb(point: Point) -> Point:
-        deviation = nautical_miles(1)
+    def perturb(point: Point, deviation: Distance = nautical_miles(1)) -> Point:
         x_adj = random.randint(int(-deviation.meters), int(deviation.meters))
         y_adj = random.randint(int(-deviation.meters), int(deviation.meters))
         return point + Vector2(x_adj, y_adj)

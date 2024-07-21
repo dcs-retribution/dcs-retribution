@@ -11,6 +11,7 @@ from .formationattack import (
 )
 from .waypointbuilder import WaypointBuilder
 from .. import FlightType
+from ...utils import feet
 
 
 class EscortFlightPlan(FormationAttackFlightPlan):
@@ -34,7 +35,7 @@ class Builder(FormationAttackBuilder[EscortFlightPlan, FormationAttackLayout]):
             hold = builder.hold(self._hold_point())
 
         join_pos = (
-            self.package.waypoints.ingress
+            WaypointBuilder.perturb(self.package.waypoints.ingress, feet(500))
             if self.flight.is_helo
             else self.package.waypoints.join
         )

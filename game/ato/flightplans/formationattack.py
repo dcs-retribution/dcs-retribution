@@ -193,6 +193,7 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
         join_pos = self.package.waypoints.join
         if self.flight.is_helo:
             join_pos = self.package.waypoints.ingress
+            join_pos = WaypointBuilder.perturb(join_pos, feet(500))
         join = builder.join(join_pos)
         split = builder.split(self._get_split())
         refuel = self._build_refuel(builder)
