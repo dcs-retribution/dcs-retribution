@@ -308,17 +308,24 @@ class AircraftType(UnitType[Type[FlyingType]]):
             elif max_speed > SPEED_OF_SOUND_AT_SEA_LEVEL * 0.7:
                 # Semi-fast like airliners or similar
                 return (
-                    Speed.from_mach(0.5, altitude)
+                    Speed.from_mach(0.6, altitude)
                     if altitude.feet > 20000
-                    else Speed.from_mach(0.4, altitude)
+                    else Speed.from_mach(0.5, altitude)
                 )
+            elif self.helicopter:
+                return max_speed * 0.4
             else:
-                # Slow like warbirds or helicopters
-                # Use whichever is slowest - mach 0.35 or 50% of max speed
-                logging.debug(
-                    f"{self.display_name} max_speed * 0.5 is {max_speed * 0.5}"
+                # Slow like warbirds or attack planes
+                # return 50% of max speed + 5% per 2k above 10k to maintain momentum
+                return max_speed * min(
+                    1.0,
+                    0.5
+                    + (
+                        (((altitude.feet - 10000) / 2000) * 0.05)
+                        if altitude.feet > 10000
+                        else 0
+                    ),
                 )
-                return min(Speed.from_mach(0.35, altitude), max_speed * 0.5)
 
     @cached_property
     def preferred_cruise_altitude(self) -> Distance:
