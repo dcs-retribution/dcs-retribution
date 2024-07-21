@@ -3,9 +3,11 @@ name: Syria - The Long Road to H3
 theater: Syria
 authors: tmz42 (original campaign by Plob)
 description: 
-  <p>From Incirlik to H-3, repel the alliance between Iraq and Syria.</p>
+  <p>From Incirlik to H-3, repel the alliance between Syria and Iraq.</p>
   <p>This campaign is based on and meant as a lighter alternative to Syria - Full Map.</p>
 recommended_player_faction: NATO OIF
+settings:
+  squadron_start_full: true
 recommended_enemy_faction:
   country: Combined Joint Task Forces Red
   name: Iraq-Syria 2000s
@@ -42,12 +44,14 @@ recommended_enemy_faction:
     - MT-LB
     - T-55A
     - T-72B with Kontakt-1 ERA
-    - T-90A
     - ZSU-57-2 'Sparka'
+    - Scout LC with DSHK 12.7mm
+    - Scout HL with DSHK 12.7mm
+    - SPAAA HL with ZU-23
   artillery_units:
-    - BM-21 Grad
     - 2S1 Gvozdika
     - 2S9 Nona-S
+    - MLRS LC with B8M1 80mm
   logistics_units:
     - Truck Ural-375
     - LUV UAZ-469 Jeep
@@ -65,19 +69,16 @@ recommended_enemy_faction:
     - SA-6
     - SA-11
     - SA-10/S-300PS
-    - SA-12/S-300V
     - Cold-War-Flak
     - Silkworm
     - KS-19/SON-9
   naval_units:
     - Corvette 1124.4 Grish
     - Corvette 1241.1 Molniya
-    - FAC La Combattante IIa
     - Frigate 1135M Rezky
+    - LS Ropucha
   air_defense_units:
     - SAM P19 "Flat Face" SR (SA-2/3)
-    - EWR 1L13
-    - EWR 55G6
     - SAM SA-8 Osa "Gecko" TEL
     - SA-9 Strela
     - SA-13 Gopher (9K35 Strela-10M3)
