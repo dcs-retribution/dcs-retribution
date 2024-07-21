@@ -11,7 +11,7 @@ from dcs import Point
 
 from game.flightplan import HoldZoneGeometry
 from game.theater import MissionTarget
-from game.utils import meters, nautical_miles
+from game.utils import nautical_miles, Speed, feet
 from .flightplan import FlightPlan
 from .formation import FormationFlightPlan, FormationLayout
 from .ibuilder import IBuilder
@@ -33,6 +33,17 @@ class FormationAttackFlightPlan(FormationFlightPlan, ABC):
             self.layout.split,
         } | set(self.layout.targets)
 
+    def speed_between_waypoints(self, a: FlightWaypoint, b: FlightWaypoint) -> Speed:
+        # FlightWaypoint is only comparable by identity, so adding
+        # target_area_waypoint to package_speed_waypoints is useless.
+        if b.waypoint_type == FlightWaypointType.TARGET_GROUP_LOC:
+            # Should be impossible, as any package with at least one
+            # FormationFlightPlan flight needs a formation speed.
+            speed = self.package.formation_speed(self.flight.is_helo)
+            assert speed is not None
+            return speed
+        return super().speed_between_waypoints(a, b)
+
     @property
     def tot_waypoint(self) -> FlightWaypoint:
         return self.layout.targets[0]
@@ -43,7 +54,7 @@ class FormationAttackFlightPlan(FormationFlightPlan, ABC):
             "TARGET AREA",
             FlightWaypointType.TARGET_GROUP_LOC,
             self.package.target.position,
-            meters(0),
+            feet(0),
             "RADIO",
         )
 
