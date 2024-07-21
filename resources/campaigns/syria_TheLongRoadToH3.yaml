@@ -6,8 +6,6 @@ description:
   <p>From Incirlik to H-3, repel the alliance between Syria and Iraq.</p>
   <p>This campaign is based on and meant as a lighter alternative to Syria - Full Map.</p>
 recommended_player_faction: NATO OIF
-settings:
-  squadron_start_full: true
 recommended_enemy_faction:
   country: Combined Joint Task Forces Red
   name: Iraq-Syria 2000s
@@ -27,7 +25,6 @@ recommended_enemy_faction:
     - SA 342L Gazelle
     - Su-22M4 Fitter-K
     - Su-24M Fencer-D
-    - Tu-22M3 Backfire-C
     - Su-25 Frogfoot
     - Mirage-F1EQ
     - H-6J Badger
@@ -45,13 +42,10 @@ recommended_enemy_faction:
     - T-55A
     - T-72B with Kontakt-1 ERA
     - ZSU-57-2 'Sparka'
-    - Scout LC with DSHK 12.7mm
-    - Scout HL with DSHK 12.7mm
-    - SPAAA HL with ZU-23
+    - ZSU-23-4 Shilka
   artillery_units:
     - 2S1 Gvozdika
     - 2S9 Nona-S
-    - MLRS LC with B8M1 80mm
   logistics_units:
     - Truck Ural-375
     - LUV UAZ-469 Jeep
@@ -103,6 +97,7 @@ settings:
   desired_player_mission_duration: 45
   #  Set max frontline width to 30 km
   max_frontline_width: 30
+  squadron_start_full: true
 squadrons:
 ####################### BLUEFOR
   Blue CV:
