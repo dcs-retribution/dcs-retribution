@@ -283,6 +283,10 @@ class TheaterGroundObject(MissionTarget, SidcDescribable, ABC):
     def coalition(self) -> Coalition:
         return self.control_point.coalition
 
+    @property
+    def is_naval_control_point(self) -> bool:
+        return False
+
 
 class BuildingGroundObject(TheaterGroundObject):
     def __init__(
@@ -372,7 +376,7 @@ class NavalGroundObject(TheaterGroundObject, ABC):
 
     @property
     def purchasable(self) -> bool:
-        return False
+        return self.control_point.coalition.game.turn == 0
 
     @property
     def is_iads(self) -> bool:
@@ -382,6 +386,10 @@ class NavalGroundObject(TheaterGroundObject, ABC):
 class GenericCarrierGroundObject(NavalGroundObject, ABC):
     @property
     def is_control_point(self) -> bool:
+        return True
+
+    @property
+    def is_naval_control_point(self) -> bool:
         return True
 
 
@@ -452,7 +460,7 @@ class MissileSiteGroundObject(TheaterGroundObject):
 
     @property
     def purchasable(self) -> bool:
-        return False
+        return self.control_point.coalition.game.turn == 0
 
     @property
     def should_head_to_conflict(self) -> bool:
@@ -493,7 +501,7 @@ class CoastalSiteGroundObject(TheaterGroundObject):
 
     @property
     def purchasable(self) -> bool:
-        return False
+        return self.control_point.coalition.game.turn == 0
 
     @property
     def should_head_to_conflict(self) -> bool:

@@ -5,3 +5,4 @@ fallback: AIM-9X
 clsids:
   - "{SHOULDER AIM-7E}"
   - "{BELLY AIM-7E}"
+  - "{HB_F4E_AIM-7E}"

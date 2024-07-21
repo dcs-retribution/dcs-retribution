@@ -20,8 +20,8 @@ variants:
     origin: China
   MiG-21bis Fishbed-N: {}
 radios:
-  intra_flight: RSIU-5V
-  inter_flight: RSIU-5V
+  intra_flight: R-832
+  inter_flight: R-832
   channels:
     type: common
     namer: single

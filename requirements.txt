@@ -4,7 +4,7 @@ asgiref==3.8.1
 atomicwrites==1.4.1
 attrs==23.2.0
 black==23.9.1
-certifi==2024.6.2
+certifi==2024.7.4
 cfgv==3.4.0
 click==8.1.7
 colorama==0.4.6
@@ -33,7 +33,7 @@ pluggy==1.5.0
 pre-commit==3.7.1
 pydantic==2.7.4
 pydantic-settings==2.3.3
-pydcs @ git+https://github.com/dcs-retribution/pydcs@4f4d3fd51dc14ad8e16e3bf6b130e8efc18dcabd
+pydcs @ git+https://github.com/dcs-retribution/pydcs@987dadca2faa9e4b7ce10a4c3fcb935b1bc8e91b
 pyinstaller==5.13.2
 pyinstaller-hooks-contrib==2024.0
 pyparsing==3.1.2

@@ -238,7 +238,13 @@ RADIOS: List[Radio] = [
     # MiG-19P
     Radio("RSIU-4V", (RadioRange(MHz(100), MHz(150), kHz(25), Modulation.AM),)),
     # MiG-21bis
-    Radio("RSIU-5V", (RadioRange(MHz(118), MHz(140), kHz(25), Modulation.AM),)),
+    Radio(
+        "R-832",
+        (
+            RadioRange(MHz(118), MHz(140), kHz(100), Modulation.AM),
+            RadioRange(MHz(220), MHz(390), kHz(100), Modulation.AM),
+        ),
+    ),
     # Ka-50
     # Note: Also capable of 100MHz-150MHz, but we can't model gaps.
     Radio("R-800L1", (RadioRange(MHz(220), MHz(400), kHz(25), Modulation.AM),)),
@@ -330,6 +336,11 @@ RADIOS: List[Radio] = [
             # The Range from 30-88MHz should be FM but its modeled as AM in dcs
             RadioRange(MHz(30), MHz(88), kHz(25), Modulation.AM),
         ),
+    ),
+    # F-86 Sabre
+    Radio(
+        "AN/ARC-27",
+        (RadioRange(MHz(225), MHz(400), kHz(100), Modulation.AM),),
     ),
 ]
 

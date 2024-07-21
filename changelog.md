@@ -9,6 +9,8 @@
 * **[Modding]** Updated support for F/A-18E/F/G mod version 2.2.5
 * **[Modding]** Added VSN F-106 Delta Dart mod support (v2.9.4.101)
 * **[Modding]** Added OH-6 Cayuse (v1.2) mod support, including the Vietnam Asset Pack v1.0
+* **[Modding]** Added VSN EA-6B Prowler mod support (v2.9.4.102)
+* **[Modding]** Added tripod3 Cold War assets mod support (v1.0)
 * **[Campaign Setup]** Allow adjustments to naval TGOs (except carriers) on turn 0
 * **[Campaign Design]** Ability to configure specific carrier names & types in campaign's yaml file 
 * **[Mission Generation]** Ability to inject custom kneeboards
@@ -19,12 +21,19 @@
 * **[Campaign Design]** Support for Kola map by Orbx
 * **[UI]** Zoom level retained when switching campaigns
 * **[UX]** Allow changing squadrons in flight's edit dialog
+* **[Cheats]** Sink/Resurrect carriers instead of showing an error during cheat-capture (use AWCD-cheat to add squadrons upon resurrection)
+* **[UI/UX]** Allow changing conditions such as Time, Date & Weather
+* **[Modding]** Added support for Su-15 Flagon mod (v1.0)
+* **[Plugins]** Support for Carsten's Arty Spotter script
+* **[Modding]** Added support for SK-60 mod (v1.2.1)
+* **[Mission Generation]** Introducing the Armed Recon flight plan, i.e. CAS against any Theater Ground Object
 
 ## Fixes
 * **[UI/UX]** A-10A flights can be edited again
 * **[Mission Generation]** IADS bug sometimes triggering "no skynet usable units" error during mission generation
 * **[New Game Wizard]** Campaign errors show a dialog again and avoid CTDs
 * **[UI]** Landmap wasn't updating when switching to a different theater
+* **[Mission Results Processor]** Squadrons of a sunken carrier are now disbanded
 
 # Retribution v1.3.1
 #### Note: Re-save your missions in DCS' Mission Editor to avoid possible crashes due to datalink (usually the case when F-16C blk50s are used) when hosting missions on a dedicated server.
@@ -76,6 +85,7 @@
 * **[Mission Generator]** Set F-14's IP waypoint according to the flight-plan's ingress point
 * **[Mission Generator]** Automatically de-spawn aircraft when arrival/divert is an off-map spawn
 * **[Options]** Option to de-spawn AI flights in the air if their start-type was manually set to In-Flight
+* **[Campaign Design]** Ability to add separate ground spawns for C-130 and other large aircraft to campaigns.
 * **[Config]** Preference setting to use custom Liberation payloads instead of prioritizing Retribution's default
 * **[Config]** Preference setting to configure the server-port on which Retribution's back-end will run
 * **[Options]** Made AI jettisoning empty fuel tanks optional (disabled by default)

@@ -390,6 +390,7 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         self.helipads_quad: List[PointWithHeading] = []
         self.helipads_invisible: List[PointWithHeading] = []
         self.ground_spawns_roadbase: List[Tuple[PointWithHeading, Point]] = []
+        self.ground_spawns_large: List[Tuple[PointWithHeading, Point]] = []
         self.ground_spawns: List[Tuple[PointWithHeading, Point]] = []
 
         self._coalition: Optional[Coalition] = None
@@ -611,7 +612,12 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         """
         Returns true if cp can operate STOL aircraft
         """
-        return len(self.ground_spawns_roadbase) + len(self.ground_spawns) > 0
+        return (
+            len(self.ground_spawns_roadbase)
+            + len(self.ground_spawns_large)
+            + len(self.ground_spawns)
+            > 0
+        )
 
     def can_recruit_ground_units(self, game: Game) -> bool:
         """Returns True if this control point is capable of recruiting ground units."""
@@ -1283,6 +1289,7 @@ class Airfield(ControlPoint, CTLD):
         if parking_type.include_fixed_wing_stol:
             parking_slots += len(self.ground_spawns)
             parking_slots += len(self.ground_spawns_roadbase)
+            parking_slots += len(self.ground_spawns_large)
         if parking_type.include_fixed_wing:
             parking_slots += len(self.airport.parking_slots)
         return parking_slots
@@ -1654,7 +1661,6 @@ class Fob(ControlPoint, RadioFrequencyContainer, CTLD):
         from game.ato import FlightType
 
         if not self.is_friendly(for_player):
-            yield FlightType.STRIKE
             yield FlightType.AIR_ASSAULT
             if self.total_aircraft_parking(ParkingType(True, True, True)):
                 yield FlightType.OCA_AIRCRAFT
@@ -1672,13 +1678,19 @@ class Fob(ControlPoint, RadioFrequencyContainer, CTLD):
                 + len(self.helipads_invisible)
             )
 
-        try:
-            if parking_type.include_fixed_wing_stol:
+        if parking_type.include_fixed_wing_stol:
+            try:
                 parking_slots += len(self.ground_spawns)
+            except AttributeError:
+                self.ground_spawns_roadbase = []
+            try:
                 parking_slots += len(self.ground_spawns_roadbase)
-        except AttributeError:
-            self.ground_spawns_roadbase = []
-            self.ground_spawns = []
+            except AttributeError:
+                self.ground_spawns_large = []
+            try:
+                parking_slots += len(self.ground_spawns_large)
+            except AttributeError:
+                self.ground_spawns = []
         return parking_slots
 
     def can_operate(self, aircraft: AircraftType) -> bool:

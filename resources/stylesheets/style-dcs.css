@@ -590,6 +590,11 @@ QFrame[style="QConditionsWidget"] {
     background: transparent;
 }
 
+QFrame[style="QConditionsWidget"]:hover {
+    cursor: pointer;
+    background: #43A6C6;
+}
+
 QGroupBox[style="QWeatherWidget"] {
     padding: 0px;
     margin-left: 0px;
@@ -663,4 +668,8 @@ QCalendarWidget QTableView{
 
 .comms {
     padding: 2px;
+}
+
+.hidden {
+    visibility: hidden;
 }

@@ -57,6 +57,8 @@ class AircraftBehavior:
             self.configure_refueling(group, flight)
         elif self.task in [FlightType.CAS, FlightType.BAI]:
             self.configure_cas(group, flight)
+        elif self.task == FlightType.ARMED_RECON:
+            self.configure_armed_recon(group, flight)
         elif self.task == FlightType.DEAD:
             self.configure_dead(group, flight)
         elif self.task in [FlightType.SEAD, FlightType.SEAD_SWEEP]:
@@ -180,6 +182,17 @@ class AircraftBehavior:
             react_on_threat=OptReactOnThreat.Values.EvadeFire,
             roe=OptROE.Values.OpenFire,
             rtb_winchester=OptRTBOnOutOfAmmo.Values.Unguided,
+            restrict_jettison=True,
+        )
+
+    def configure_armed_recon(self, group: FlyingGroup[Any], flight: Flight) -> None:
+        self.configure_task(flight, group, CAS, [AFAC, AntishipStrike])
+        self.configure_behavior(
+            flight,
+            group,
+            react_on_threat=OptReactOnThreat.Values.EvadeFire,
+            roe=OptROE.Values.OpenFire,
+            rtb_winchester=OptRTBOnOutOfAmmo.Values.All,
             restrict_jettison=True,
         )
 

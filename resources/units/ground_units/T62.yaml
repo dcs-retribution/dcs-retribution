@@ -1,0 +1,14 @@
+class: Tank
+description: The T-62 is a Soviet main battle tank that was first introduced in 1961.
+  As a further development of the T-55 series, the T-62 retained many similar design
+  elements of its predecessor including low profile and thick turret armour. In
+  contrast with previous tanks, which were armed with rifled tank guns, the T-62 was
+  the first production tank armed with a smoothbore tank gun that could fire APFSDS
+  rounds at higher velocities. 
+introduced: 1961
+manufacturer: UralVagonZavod
+origin: USSR/Russia
+price: 19
+role: Main Battle Tank
+variants:
+  T-62: {}

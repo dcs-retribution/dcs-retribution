@@ -449,6 +449,11 @@ class Faction:
             self.remove_aircraft("JAS39Gripen_AG")
         if not mod_settings.super_etendard:
             self.remove_aircraft("VSN_SEM")
+        if not mod_settings.sk_60:
+            self.remove_aircraft("SK-60")
+        if not mod_settings.su15_flagon:
+            self.remove_aircraft("Su_15")
+            self.remove_aircraft("Su_15TM")
         if not mod_settings.su30_flanker_h:
             self.remove_aircraft("Su-30MKA")
             self.remove_aircraft("Su-30MKI")
@@ -579,6 +584,12 @@ class Faction:
             self.remove_preset("LvS-103 Rb103A Mobile")
             self.remove_preset("LvS-103 Rb103B")
             self.remove_preset("LvS-103 Rb103B Mobile")
+        if not mod_settings.coldwarassets:
+            self.remove_aircraft("B_47")
+            self.remove_aircraft("Tu-4K")
+            self.remove_aircraft("Tu-16")
+            self.remove_aircraft("tu_22D")
+            self.remove_aircraft("tu_22KD")
         # SWPack
         if not mod_settings.SWPack:
             self.remove_aircraft("AWINGA")

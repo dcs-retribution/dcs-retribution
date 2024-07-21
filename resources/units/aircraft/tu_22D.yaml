@@ -1,0 +1,22 @@
+description:
+  "The Tupolev Tu-22 (NATO reporting name: Blinder) was the first
+  supersonic bomber to enter production in the Soviet Union.
+  This is the original free-fall bomber variant.
+  This aircraft is part of the Cold War assets mod by tripod3."
+introduced: 1962
+manufacturer: Tupolev
+origin: USSR
+price: 40
+role: Medium bomber
+variants:
+  Tu-22D Blinder: {}
+# default_overrides:
+#   Belly_Bay_Door: false
+tasks:
+  Anti-ship: 100
+  BAI: 350
+  CAS: 350
+  DEAD: 150
+  OCA/Aircraft: 350
+  OCA/Runway: 600
+  Strike: 600

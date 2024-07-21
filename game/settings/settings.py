@@ -329,6 +329,14 @@ class Settings:
         min=0,
         max=100,
     )
+    armed_recon_engagement_range_distance: int = bounded_int_option(
+        "Armed Recon engagement range (NM)",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=DOCTRINE_DISTANCES_SECTION,
+        default=5,
+        min=0,
+        max=25,
+    )
     sead_sweep_engagement_range_distance: int = bounded_int_option(
         "SEAD Sweep engagement range (NM)",
         page=CAMPAIGN_DOCTRINE_PAGE,
@@ -892,6 +900,29 @@ class Settings:
             "AI aircraft have unlimited fuel applied at start, removed at join/racetrack start,"
             " and reapplied at split/racetrack end for applicable flights. "
         ),
+    )
+    dynamic_slots: bool = boolean_option(
+        "Dynamic slots",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=False,
+        detail=(
+            "Enables dynamic slots. Please note that losses from dynamic slots won't be registered."
+        ),
+    )
+    dynamic_slots_hot: bool = boolean_option(
+        "Allow dynamic slot hot start",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=True,
+        detail=("Enables hot start for dynamic slots."),
+    )
+    dynamic_cargo: bool = boolean_option(
+        "Dynamic cargo",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=True,
+        detail=("Enables dynamic cargo for airfields, ships, FARPs & warehouses."),
     )
 
     # Performance

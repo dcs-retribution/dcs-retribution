@@ -1,0 +1,6 @@
+name: AGM-12C
+year: 1965
+fallback: AGM-12B
+clsids:
+  - "{AGM_12C}"
+  - "{AGM_12C_SWA}"

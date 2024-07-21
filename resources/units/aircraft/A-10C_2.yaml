@@ -14,6 +14,9 @@ price: 20
 role: Close Air Support/Attack
 variants:
   A-10C Thunderbolt II (Suite 7): {}
+altitudes:
+  cruise: 15000
+  combat: 10000
 radios:
   # DCS will clobber channel 1 of the AN/ARC-164 with the flight's assigned
   # frequency, so we may as well use that one for intra-flight.

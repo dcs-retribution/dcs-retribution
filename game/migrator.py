@@ -11,6 +11,7 @@ from game.ato.flightplans.formation import FormationLayout
 from game.ato.flightplans.waypointbuilder import WaypointBuilder
 from game.ato.packagewaypoints import PackageWaypoints
 from game.data.doctrine import MODERN_DOCTRINE, COLDWAR_DOCTRINE, WWII_DOCTRINE
+from game.dcs.aircrafttype import AircraftType
 from game.theater import ParkingType, SeasonalConditions
 
 if TYPE_CHECKING:
@@ -96,6 +97,7 @@ class Migrator:
             try_set_attr(cp, "ground_spawns_roadbase", [])
             try_set_attr(cp, "helipads_quad", [])
             try_set_attr(cp, "helipads_invisible", [])
+            try_set_attr(cp, "ground_spawns_large", [])
             if (
                 cp.dcs_airport and is_sinai and cp.dcs_airport.id == 20
             ):  # fix for Hatzor
@@ -163,6 +165,7 @@ class Migrator:
                 try_set_attr(s, "max_size", 12)
                 try_set_attr(s, "radio_presets", {})
                 try_set_attr(s, "livery_set", [])
+                s.aircraft = AircraftType.named(s.aircraft.variant_id)
                 if isinstance(s.country, str):
                     c = country_dict.get(s.country, s.country)
                     s.country = countries_by_name[c]()
