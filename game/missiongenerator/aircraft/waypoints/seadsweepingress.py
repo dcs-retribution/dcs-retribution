@@ -2,8 +2,8 @@ from dcs.point import MovingPoint
 from dcs.task import (
     OptECMUsing,
     ControlledTask,
-    EngageTargets,
     Targets,
+    EngageTargetsInZone,
 )
 
 from game.utils import nautical_miles
@@ -19,9 +19,9 @@ class SeadSweepIngressBuilder(PydcsWaypointBuilder):
 
         waypoint.add_task(
             ControlledTask(
-                EngageTargets(
-                    # TODO: From doctrine.
-                    max_distance=int(
+                EngageTargetsInZone(
+                    position=self.flight.flight_plan.tot_waypoint.position,
+                    radius=int(
                         nautical_miles(
                             self.flight.coalition.game.settings.sead_sweep_engagement_range_distance
                         ).meters
