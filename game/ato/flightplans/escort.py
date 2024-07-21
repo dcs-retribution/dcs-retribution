@@ -59,8 +59,6 @@ class Builder(FormationAttackBuilder[EscortFlightPlan, FormationAttackLayout]):
                 join = builder.join(ascent.position)
                 if layout.pickup and layout.drop_off_ascent:
                     join = builder.join(layout.drop_off_ascent.position)
-            elif layout.pickup:
-                join = builder.join(layout.pickup.position)
             split = builder.split(layout.arrival.position)
             if layout.drop_off:
                 initial = builder.escort_hold(

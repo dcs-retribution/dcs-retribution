@@ -11,7 +11,7 @@ from dcs import Point
 
 from game.flightplan import HoldZoneGeometry
 from game.theater import MissionTarget
-from game.utils import Speed, meters, nautical_miles
+from game.utils import meters, nautical_miles
 from .flightplan import FlightPlan
 from .formation import FormationFlightPlan, FormationLayout
 from .ibuilder import IBuilder
@@ -32,16 +32,6 @@ class FormationAttackFlightPlan(FormationFlightPlan, ABC):
             self.layout.ingress,
             self.layout.split,
         } | set(self.layout.targets)
-
-    def speed_between_waypoints(self, a: FlightWaypoint, b: FlightWaypoint) -> Speed:
-        # FlightWaypoint is only comparable by identity, so adding
-        # target_area_waypoint to package_speed_waypoints is useless.
-        if b.waypoint_type == FlightWaypointType.TARGET_GROUP_LOC:
-            # Should be impossible, as any package with at least one
-            # FormationFlightPlan flight needs a formation speed.
-            assert self.package.formation_speed is not None
-            return self.package.formation_speed
-        return super().speed_between_waypoints(a, b)
 
     @property
     def tot_waypoint(self) -> FlightWaypoint:
