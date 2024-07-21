@@ -1661,7 +1661,6 @@ class Fob(ControlPoint, RadioFrequencyContainer, CTLD):
         from game.ato import FlightType
 
         if not self.is_friendly(for_player):
-            yield FlightType.STRIKE
             yield FlightType.AIR_ASSAULT
             if self.total_aircraft_parking(ParkingType(True, True, True)):
                 yield FlightType.OCA_AIRCRAFT
