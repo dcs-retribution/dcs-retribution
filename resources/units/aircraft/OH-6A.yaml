@@ -13,6 +13,8 @@ role: Light Observation/Light Attack
 variants:
   OH-6A Cayuse: {}
 tasks:
-  BAI: 200
-  CAS: 200
-  OCA/Aircraft: 200
+  BAI: 0
+  CAS: 0
+  OCA/Aircraft: 0
+  Air Assault: 50
+  Transport: 50
