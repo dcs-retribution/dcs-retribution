@@ -1,0 +1,6 @@
+class: ATGM
+description:
+price: 7
+role: Armed Truck
+variants:
+  VAP VC Zil 130 Armed: {}
