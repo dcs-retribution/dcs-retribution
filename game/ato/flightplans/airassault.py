@@ -65,7 +65,7 @@ class AirAssaultFlightPlan(FormationAttackFlightPlan, UiZoneDisplay):
     def tot_waypoint(self) -> FlightWaypoint:
         if self.flight.is_helo and self.layout.drop_off is not None:
             return self.layout.drop_off
-        return self.target_area_waypoint
+        return self.layout.targets[0]
 
     @property
     def ingress_time(self) -> datetime:
