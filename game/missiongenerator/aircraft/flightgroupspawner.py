@@ -496,21 +496,20 @@ class FlightGroupSpawner:
     ) -> Optional[FlyingGroup[Any]]:
         is_airbase = False
         is_roadbase = False
+        ground_spawn = None
 
-        try:
-            if is_large:
-                if len(self.ground_spawns_large[cp]) > 0:
-                    ground_spawn = self.ground_spawns_large[cp].pop()
-                    is_airbase = True
-            else:
-                if len(self.ground_spawns_roadbase[cp]) > 0:
-                    ground_spawn = self.ground_spawns_roadbase[cp].pop()
-                    is_roadbase = True
-                if len(self.ground_spawns[cp]) > 0:
-                    ground_spawn = self.ground_spawns[cp].pop()
-                    is_airbase = True
-        except IndexError as ex:
-            logging.warning("Not enough ground spawn slots available at " + str(ex))
+        if not is_large and len(self.ground_spawns_roadbase[cp]) > 0:
+            ground_spawn = self.ground_spawns_roadbase[cp].pop()
+            is_roadbase = True
+        elif not is_large and len(self.ground_spawns[cp]) > 0:
+            ground_spawn = self.ground_spawns[cp].pop()
+            is_airbase = True
+        elif len(self.ground_spawns_large[cp]) > 0:
+            ground_spawn = self.ground_spawns_large[cp].pop()
+            is_airbase = True
+
+        if ground_spawn is None:
+            logging.warning("Not enough ground spawn slots available at " + cp.name)
             return None
 
         group = self._generate_at_group(name, ground_spawn[0])
@@ -547,14 +546,12 @@ class FlightGroupSpawner:
         for i in range(self.flight.count - 1):
             try:
                 terrain = cp.coalition.game.theater.terrain
-                if is_large:
-                    if len(self.ground_spawns_large[cp]) > 0:
-                        ground_spawn = self.ground_spawns_large[cp].pop()
-                else:
-                    if len(self.ground_spawns_roadbase[cp]) > 0:
-                        ground_spawn = self.ground_spawns_roadbase[cp].pop()
-                    else:
-                        ground_spawn = self.ground_spawns[cp].pop()
+                if not is_large and len(self.ground_spawns_roadbase[cp]) > 0:
+                    ground_spawn = self.ground_spawns_roadbase[cp].pop()
+                elif not is_large and len(self.ground_spawns[cp]) > 0:
+                    ground_spawn = self.ground_spawns[cp].pop()
+                elif len(self.ground_spawns_large[cp]) > 0:
+                    ground_spawn = self.ground_spawns_large[cp].pop()
                 group.units[1 + i].position = Point(
                     ground_spawn[0].x, ground_spawn[0].y, terrain=terrain
                 )
