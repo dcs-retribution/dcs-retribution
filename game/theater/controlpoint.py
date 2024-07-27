@@ -1388,6 +1388,11 @@ class NavalControlPoint(
                 FlightType.SEAD_ESCORT,
             ]
         yield from super().mission_types(for_player)
+        if self.is_friendly(for_player):
+            yield from [
+                FlightType.AEWC,
+                FlightType.REFUELING,
+            ]
 
     @property
     def heading(self) -> Heading:
@@ -1485,16 +1490,6 @@ class Carrier(NavalControlPoint):
     @property
     def symbol_set_and_entity(self) -> tuple[SymbolSet, Entity]:
         return SymbolSet.SEA_SURFACE, SeaSurfaceEntity.CARRIER
-
-    def mission_types(self, for_player: bool) -> Iterator[FlightType]:
-        from game.ato.flighttype import FlightType
-
-        yield from super().mission_types(for_player)
-        if self.is_friendly(for_player):
-            yield from [
-                FlightType.AEWC,
-                FlightType.REFUELING,
-            ]
 
     def capture(self, game: Game, events: GameUpdateEvents, for_player: bool) -> None:
         raise RuntimeError("Carriers cannot be captured")
