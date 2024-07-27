@@ -28,7 +28,8 @@
 * **[Modding]** Added support for SK-60 mod (v1.2.1)
 * **[Mission Generation]** Introducing the Armed Recon flight plan, i.e. CAS against any Theater Ground Object
 * **[Doctrine]** Ability to customize the startup time allocated to the player
-
+* **[Mission Generation]** Ability to choose whether player flights can spawn on the sixpack or not
+* 
 ## Fixes
 * **[UI/UX]** A-10A flights can be edited again
 * **[Mission Generation]** IADS bug sometimes triggering "no skynet usable units" error during mission generation
