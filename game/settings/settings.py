@@ -308,6 +308,20 @@ class Settings:
         default=2,
         detail="Creates a randomized altitude offset for airplanes.",
     )
+
+    player_startup_time: int = bounded_int_option(
+        "Player startup time",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=10,
+        min=0,
+        max=100,
+        detail=(
+            "The startup time allocated to player flights (default : 10 minutes, AI is 2 minutes). "
+            "Takes effect after the next turn. "
+        ),
+    )
+
     # Doctrine Distances Section
     airbase_threat_range: int = bounded_int_option(
         "Airbase threat range (NM)",
@@ -415,6 +429,7 @@ class Settings:
             "range is defined in the helicopter's yaml specification."
         ),
     )
+
     # Pilots and Squadrons
     ai_pilot_levelling: bool = boolean_option(
         "Allow AI pilot leveling",
