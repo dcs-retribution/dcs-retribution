@@ -205,7 +205,10 @@ class WaypointGenerator:
             not self.flight.state.in_flight
             and self.flight.state.spawn_type is not StartType.RUNWAY
             and self.flight.departure.is_fleet
-            and not self.flight.client_count
+            and not (
+                self.flight.client_count
+                and self.flight.coalition.game.settings.player_flights_sixpack
+            )
         ):
             # https://github.com/dcs-liberation/dcs_liberation/issues/1309
             # Without a delay, AI aircraft will be spawned on the sixpack, which other

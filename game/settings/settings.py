@@ -939,6 +939,12 @@ class Settings:
         default=True,
         detail=("Enables dynamic cargo for airfields, ships, FARPs & warehouses."),
     )
+    player_flights_sixpack: bool = boolean_option(
+        "Player flights can spawn on the sixpack",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=True,
+    )
 
     # Performance
     perf_smoke_gen: bool = boolean_option(
