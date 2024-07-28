@@ -81,9 +81,7 @@ class PretenseMissionGenerator(MissionGenerator):
             with open(path, "wb") as f:
                 pickle.dump(self.game, f)
         except:
-            logging.error(
-                f"Unable to save Pretense pre-generation backup to {path}"
-            )
+            logging.error(f"Unable to save Pretense pre-generation backup to {path}")
 
         if self.generation_started:
             raise RuntimeError(
