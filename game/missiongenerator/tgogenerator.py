@@ -859,15 +859,15 @@ class HelipadGenerator:
         else:
             cull_farp_statics = False
 
-        if not cull_farp_statics:
-            warehouse = Airport(
-                pad.position,
-                self.m.terrain,
-            ).dict()
-            warehouse["coalition"] = "blue" if self.cp.coalition.player else "red"
-            # configure dynamic spawn + hot start of DS, plus dynamic cargo?
-            self.m.warehouses.warehouses[pad.id] = warehouse
+        warehouse = Airport(
+            pad.position,
+            self.m.terrain,
+        ).dict()
+        warehouse["coalition"] = "blue" if self.cp.coalition.player else "red"
+        # configure dynamic spawn + hot start of DS, plus dynamic cargo?
+        self.m.warehouses.warehouses[pad.id] = warehouse
 
+        if not cull_farp_statics:
             # Generate a FARP Ammo and Fuel stack for each pad
             self.m.static_group(
                 country=country,
@@ -985,6 +985,14 @@ class GroundSpawnRoadbaseGenerator:
                             break
         else:
             cull_farp_statics = False
+
+        warehouse = Airport(
+            pad.position,
+            self.m.terrain,
+        ).dict()
+        warehouse["coalition"] = "blue" if self.cp.coalition.player else "red"
+        # configure dynamic spawn + hot start of DS, plus dynamic cargo?
+        self.m.warehouses.warehouses[pad.id] = warehouse
 
         if not cull_farp_statics:
             # Generate ammo truck/farp and fuel truck/stack for each pad
