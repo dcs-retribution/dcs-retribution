@@ -19,6 +19,7 @@ from .ocaaircraft import OcaAircraftFlightPlan
 from .ocarunway import OcaRunwayFlightPlan
 from .packagerefueling import PackageRefuelingFlightPlan
 from .planningerror import PlanningError
+from .pretensecargo import PretenseCargoFlightPlan
 from .sead import SeadFlightPlan
 from .seadsweep import SeadSweepFlightPlan
 from .strike import StrikeFlightPlan
@@ -61,6 +62,7 @@ class FlightPlanBuilderTypes:
             FlightType.TRANSPORT: AirliftFlightPlan.builder_type(),
             FlightType.FERRY: FerryFlightPlan.builder_type(),
             FlightType.AIR_ASSAULT: AirAssaultFlightPlan.builder_type(),
+            FlightType.PRETENSE_CARGO: PretenseCargoFlightPlan.builder_type(),
             FlightType.ARMED_RECON: ArmedReconFlightPlan.builder_type(),
         }
         try:

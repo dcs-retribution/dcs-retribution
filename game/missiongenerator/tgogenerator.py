@@ -67,6 +67,7 @@ from game.theater import (
     TheaterGroundObject,
     TheaterUnit,
     NavalControlPoint,
+    Airfield,
 )
 from game.theater.theatergroundobject import (
     CarrierGroundObject,
@@ -297,11 +298,9 @@ class GroundObjectGenerator:
                     # All alive Ships
                     ship_units.append(unit)
             if vehicle_units:
-                vg = self.create_vehicle_group(group.group_name, vehicle_units)
-                vg.hidden_on_mfd = self.ground_object.hide_on_mfd
+                self.create_vehicle_group(group.group_name, vehicle_units)
             if ship_units:
-                sg = self.create_ship_group(group.group_name, ship_units)
-                sg.hidden_on_mfd = self.ground_object.hide_on_mfd
+                self.create_ship_group(group.group_name, ship_units)
 
     def create_vehicle_group(
         self, group_name: str, units: list[TheaterUnit]
@@ -333,6 +332,7 @@ class GroundObjectGenerator:
             self._register_theater_unit(unit, vehicle_group.units[-1])
         if vehicle_group is None:
             raise RuntimeError(f"Error creating VehicleGroup for {group_name}")
+        vehicle_group.hidden_on_mfd = self.ground_object.hide_on_mfd
         return vehicle_group
 
     def create_ship_group(
@@ -369,6 +369,7 @@ class GroundObjectGenerator:
             self._register_theater_unit(unit, ship_group.units[-1])
         if ship_group is None:
             raise RuntimeError(f"Error creating ShipGroup for {group_name}")
+        ship_group.hidden_on_mfd = self.ground_object.hide_on_mfd
         return ship_group
 
     def create_static_group(self, unit: TheaterUnit) -> None:
@@ -645,6 +646,8 @@ class GenericCarrierGenerator(GroundObjectGenerator):
                         callsign=tacan_callsign,
                         freq=atc,
                         tacan=tacan,
+                        icls_channel=icls,
+                        link4_freq=link4,
                         blue=self.control_point.captured,
                     )
                 )
@@ -844,6 +847,20 @@ class HelipadGenerator:
         else:
             self.helipads.append(sg)
 
+        if self.game.position_culled(helipad):
+            cull_farp_statics = True
+            if self.cp.coalition.player:
+                for package in self.cp.coalition.ato.packages:
+                    for flight in package.flights:
+                        if flight.squadron.location == self.cp:
+                            cull_farp_statics = False
+                            break
+                        elif flight.divert and flight.divert == self.cp:
+                            cull_farp_statics = False
+                            break
+        else:
+            cull_farp_statics = False
+
         warehouse = Airport(
             pad.position,
             self.m.terrain,
@@ -852,30 +869,31 @@ class HelipadGenerator:
         # configure dynamic spawn + hot start of DS, plus dynamic cargo?
         self.m.warehouses.warehouses[pad.id] = warehouse
 
-        # Generate a FARP Ammo and Fuel stack for each pad
-        self.m.static_group(
-            country=country,
-            name=(name + "_fuel"),
-            _type=Fortification.FARP_Fuel_Depot,
-            position=pad.position.point_from_heading(helipad.heading.degrees, 35),
-            heading=pad.heading + 180,
-        )
-        self.m.static_group(
-            country=country,
-            name=(name + "_ammo"),
-            _type=Fortification.FARP_Ammo_Dump_Coating,
-            position=pad.position.point_from_heading(
-                helipad.heading.degrees, 35
-            ).point_from_heading(helipad.heading.degrees + 90, 10),
-            heading=pad.heading + 90,
-        )
-        self.m.static_group(
-            country=country,
-            name=(name + "_ws"),
-            _type=Fortification.Windsock,
-            position=helipad.point_from_heading(helipad.heading.degrees + 45, 35),
-            heading=pad.heading,
-        )
+        if not cull_farp_statics:
+            # Generate a FARP Ammo and Fuel stack for each pad
+            self.m.static_group(
+                country=country,
+                name=(name + "_fuel"),
+                _type=Fortification.FARP_Fuel_Depot,
+                position=pad.position.point_from_heading(helipad.heading.degrees, 35),
+                heading=pad.heading + 180,
+            )
+            self.m.static_group(
+                country=country,
+                name=(name + "_ammo"),
+                _type=Fortification.FARP_Ammo_Dump_Coating,
+                position=pad.position.point_from_heading(
+                    helipad.heading.degrees, 35
+                ).point_from_heading(helipad.heading.degrees + 90, 10),
+                heading=pad.heading + 90,
+            )
+            self.m.static_group(
+                country=country,
+                name=(name + "_ws"),
+                _type=Fortification.Windsock,
+                position=helipad.point_from_heading(helipad.heading.degrees + 45, 35),
+                heading=pad.heading,
+            )
 
     def append_helipad(
         self,
@@ -952,61 +970,88 @@ class GroundSpawnRoadbaseGenerator:
             country.id
         )
 
-        # Generate ammo truck/farp and fuel truck/stack for each pad
-        if self.game.settings.ground_start_trucks_roadbase:
-            self.m.vehicle_group(
-                country=country,
-                name=(name + "_fuel"),
-                _type=tanker_type,
-                position=pad.position.point_from_heading(
-                    ground_spawn[0].heading.degrees + 90, 35
-                ),
-                group_size=1,
-                heading=pad.heading + 315,
-                move_formation=PointAction.OffRoad,
-            )
-            self.m.vehicle_group(
-                country=country,
-                name=(name + "_ammo"),
-                _type=ammo_truck_type,
-                position=pad.position.point_from_heading(
-                    ground_spawn[0].heading.degrees + 90, 35
-                ).point_from_heading(ground_spawn[0].heading.degrees + 180, 10),
-                group_size=1,
-                heading=pad.heading + 315,
-                move_formation=PointAction.OffRoad,
-            )
+        if self.game.settings.ground_start_airbase_statics_farps_remove and isinstance(
+            self.cp, Airfield
+        ):
+            cull_farp_statics = True
+        elif self.game.position_culled(ground_spawn[0]):
+            cull_farp_statics = True
+            if self.cp.coalition.player:
+                for package in self.cp.coalition.ato.packages:
+                    for flight in package.flights:
+                        if flight.squadron.location == self.cp:
+                            cull_farp_statics = False
+                            break
+                        elif flight.divert and flight.divert == self.cp:
+                            cull_farp_statics = False
+                            break
         else:
-            self.m.static_group(
-                country=country,
-                name=(name + "_fuel"),
-                _type=Fortification.FARP_Fuel_Depot,
-                position=pad.position.point_from_heading(
-                    ground_spawn[0].heading.degrees + 90, 35
-                ),
-                heading=pad.heading + 270,
-            )
-            self.m.static_group(
-                country=country,
-                name=(name + "_ammo"),
-                _type=Fortification.FARP_Ammo_Dump_Coating,
-                position=pad.position.point_from_heading(
-                    ground_spawn[0].heading.degrees + 90, 35
-                ).point_from_heading(ground_spawn[0].heading.degrees + 180, 10),
-                heading=pad.heading + 180,
-            )
-        if self.game.settings.ground_start_ground_power_trucks_roadbase:
-            self.m.vehicle_group(
-                country=country,
-                name=(name + "_power"),
-                _type=power_truck_type,
-                position=pad.position.point_from_heading(
-                    ground_spawn[0].heading.degrees + 90, 35
-                ).point_from_heading(ground_spawn[0].heading.degrees + 180, 20),
-                group_size=1,
-                heading=pad.heading + 315,
-                move_formation=PointAction.OffRoad,
-            )
+            cull_farp_statics = False
+
+        warehouse = Airport(
+            pad.position,
+            self.m.terrain,
+        ).dict()
+        warehouse["coalition"] = "blue" if self.cp.coalition.player else "red"
+        # configure dynamic spawn + hot start of DS, plus dynamic cargo?
+        self.m.warehouses.warehouses[pad.id] = warehouse
+
+        if not cull_farp_statics:
+            # Generate ammo truck/farp and fuel truck/stack for each pad
+            if self.game.settings.ground_start_trucks_roadbase:
+                self.m.vehicle_group(
+                    country=country,
+                    name=(name + "_fuel"),
+                    _type=tanker_type,
+                    position=pad.position.point_from_heading(
+                        ground_spawn[0].heading.degrees + 90, 35
+                    ),
+                    group_size=1,
+                    heading=pad.heading + 315,
+                    move_formation=PointAction.OffRoad,
+                )
+                self.m.vehicle_group(
+                    country=country,
+                    name=(name + "_ammo"),
+                    _type=ammo_truck_type,
+                    position=pad.position.point_from_heading(
+                        ground_spawn[0].heading.degrees + 90, 35
+                    ).point_from_heading(ground_spawn[0].heading.degrees + 180, 10),
+                    group_size=1,
+                    heading=pad.heading + 315,
+                    move_formation=PointAction.OffRoad,
+                )
+            else:
+                self.m.static_group(
+                    country=country,
+                    name=(name + "_fuel"),
+                    _type=Fortification.FARP_Fuel_Depot,
+                    position=pad.position.point_from_heading(
+                        ground_spawn[0].heading.degrees + 90, 35
+                    ),
+                    heading=pad.heading + 270,
+                )
+                self.m.static_group(
+                    country=country,
+                    name=(name + "_ammo"),
+                    _type=Fortification.FARP_Ammo_Dump_Coating,
+                    position=pad.position.point_from_heading(
+                        ground_spawn[0].heading.degrees + 90, 35
+                    ).point_from_heading(ground_spawn[0].heading.degrees + 180, 10),
+                    heading=pad.heading + 180,
+                )
+            if self.game.settings.ground_start_ground_power_trucks_roadbase:
+                self.m.vehicle_group(
+                    country=country,
+                    name=(name + "_power"),
+                    _type=power_truck_type,
+                    position=pad.position.point_from_heading(
+                        ground_spawn[0].heading.degrees + 90, 35
+                    ).point_from_heading(ground_spawn[0].heading.degrees + 180, 20),
+                    group_size=1,
+                    heading=pad.heading + 315,
+                    move_formation=PointAction.OffRoad,
+                )
 
     def generate(self) -> None:
         try:
@@ -1068,6 +1113,14 @@ class GroundSpawnLargeGenerator:
         tanker_type, ammo_truck_type, power_truck_type = farp_truck_types_for_country(
             country.id
         )
+
+        warehouse = Airport(
+            pad.position,
+            self.m.terrain,
+        ).dict()
+        warehouse["coalition"] = "blue" if self.cp.coalition.player else "red"
+        # configure dynamic spawn + hot start of DS, plus dynamic cargo?
+        self.m.warehouses.warehouses[pad.id] = warehouse
 
         # Generate a FARP Ammo and Fuel stack for each pad
         if self.game.settings.ground_start_trucks:
@@ -1186,61 +1239,88 @@ class GroundSpawnGenerator:
             country.id
         )
 
-        # Generate a FARP Ammo and Fuel stack for each pad
-        if self.game.settings.ground_start_trucks:
-            self.m.vehicle_group(
-                country=country,
-                name=(name + "_fuel"),
-                _type=tanker_type,
-                position=pad.position.point_from_heading(
-                    vtol_pad[0].heading.degrees - 175, 35
-                ),
-                group_size=1,
-                heading=pad.heading + 45,
-                move_formation=PointAction.OffRoad,
-            )
-            self.m.vehicle_group(
-                country=country,
-                name=(name + "_ammo"),
-                _type=ammo_truck_type,
-                position=pad.position.point_from_heading(
-                    vtol_pad[0].heading.degrees - 185, 35
-                ),
-                group_size=1,
-                heading=pad.heading + 45,
-                move_formation=PointAction.OffRoad,
-            )
+        if self.game.settings.ground_start_airbase_statics_farps_remove and isinstance(
+            self.cp, Airfield
+        ):
+            cull_farp_statics = True
+        elif self.game.position_culled(vtol_pad[0]):
+            cull_farp_statics = True
+            if self.cp.coalition.player:
+                for package in self.cp.coalition.ato.packages:
+                    for flight in package.flights:
+                        if flight.squadron.location == self.cp:
+                            cull_farp_statics = False
+                            break
+                        elif flight.divert and flight.divert == self.cp:
+                            cull_farp_statics = False
+                            break
         else:
-            self.m.static_group(
-                country=country,
-                name=(name + "_fuel"),
-                _type=Fortification.FARP_Fuel_Depot,
-                position=pad.position.point_from_heading(
-                    vtol_pad[0].heading.degrees - 180, 45
-                ),
-                heading=pad.heading,
-            )
-            self.m.static_group(
-                country=country,
-                name=(name + "_ammo"),
-                _type=Fortification.FARP_Ammo_Dump_Coating,
-                position=pad.position.point_from_heading(
-                    vtol_pad[0].heading.degrees - 180, 35
-                ),
-                heading=pad.heading + 270,
-            )
-        if self.game.settings.ground_start_ground_power_trucks:
-            self.m.vehicle_group(
-                country=country,
-                name=(name + "_power"),
-                _type=power_truck_type,
-                position=pad.position.point_from_heading(
-                    vtol_pad[0].heading.degrees - 185, 35
-                ),
-                group_size=1,
-                heading=pad.heading + 45,
-                move_formation=PointAction.OffRoad,
-            )
+            cull_farp_statics = False
+
+        if not cull_farp_statics:
+            warehouse = Airport(
+                pad.position,
+                self.m.terrain,
+            ).dict()
+            warehouse["coalition"] = "blue" if self.cp.coalition.player else "red"
+            # configure dynamic spawn + hot start of DS, plus dynamic cargo?
+            self.m.warehouses.warehouses[pad.id] = warehouse
+
+            # Generate a FARP Ammo and Fuel stack for each pad
+            if self.game.settings.ground_start_trucks:
+                self.m.vehicle_group(
+                    country=country,
+                    name=(name + "_fuel"),
+                    _type=tanker_type,
+                    position=pad.position.point_from_heading(
+                        vtol_pad[0].heading.degrees - 175, 35
+                    ),
+                    group_size=1,
+                    heading=pad.heading + 45,
+                    move_formation=PointAction.OffRoad,
+                )
+                self.m.vehicle_group(
+                    country=country,
+                    name=(name + "_ammo"),
+                    _type=ammo_truck_type,
+                    position=pad.position.point_from_heading(
+                        vtol_pad[0].heading.degrees - 185, 35
+                    ),
+                    group_size=1,
+                    heading=pad.heading + 45,
+                    move_formation=PointAction.OffRoad,
+                )
+            else:
+                self.m.static_group(
+                    country=country,
+                    name=(name + "_fuel"),
+                    _type=Fortification.FARP_Fuel_Depot,
+                    position=pad.position.point_from_heading(
+                        vtol_pad[0].heading.degrees - 180, 45
+                    ),
+                    heading=pad.heading,
+                )
+                self.m.static_group(
+                    country=country,
+                    name=(name + "_ammo"),
+                    _type=Fortification.FARP_Ammo_Dump_Coating,
+                    position=pad.position.point_from_heading(
+                        vtol_pad[0].heading.degrees - 180, 35
+                    ),
+                    heading=pad.heading + 270,
+                )
+            if self.game.settings.ground_start_ground_power_trucks:
+                self.m.vehicle_group(
+                    country=country,
+                    name=(name + "_power"),
+                    _type=power_truck_type,
+                    position=pad.position.point_from_heading(
+                        vtol_pad[0].heading.degrees - 185, 35
+                    ),
+                    group_size=1,
+                    heading=pad.heading + 45,
+                    move_formation=PointAction.OffRoad,
+                )
 
     def generate(self) -> None:
         try:

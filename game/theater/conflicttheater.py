@@ -202,6 +202,29 @@ class ConflictTheater:
         assert closest_red is not None
         return closest_blue, closest_red
 
+    def closest_friendly_control_points_to(
+        self, cp: ControlPoint
+    ) -> List[ControlPoint]:
+        """
+        Returns a list of the friendly ControlPoints in theater to ControlPoint cp, sorted closest to farthest.
+        """
+        closest_cps = list()
+        distances_to_cp = dict()
+        if cp.captured:
+            control_points = self.player_points()
+        else:
+            control_points = self.enemy_points()
+        for other_cp in control_points:
+            if cp == other_cp:
+                continue
+
+            dist = other_cp.position.distance_to_point(cp.position)
+            distances_to_cp[dist] = other_cp
+        for i in sorted(distances_to_cp.keys()):
+            closest_cps.append(distances_to_cp[i])
+
+        return closest_cps
+
     def find_control_point_by_id(self, cp_id: UUID) -> ControlPoint:
         for i in self.controlpoints:
             if i.id == cp_id:

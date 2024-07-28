@@ -22,5 +22,6 @@ env/
 
 /logs/
 /resources/logging.yaml
+/resources/plugins/pretense/pretense_output.lua
 
 *.psd
