@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import copy
 import logging
 import pickle
 from datetime import datetime
@@ -20,7 +19,6 @@ from dcs.task import AFAC, FAC, SetInvisibleCommand, SetImmortalCommand, OrbitAc
 from game.lasercodes.lasercoderegistry import LaserCodeRegistry
 from game.missiongenerator.convoygenerator import ConvoyGenerator
 from game.missiongenerator.environmentgenerator import EnvironmentGenerator
-from game.missiongenerator.flotgenerator import FlotGenerator
 from game.missiongenerator.forcedoptionsgenerator import ForcedOptionsGenerator
 from game.missiongenerator.frontlineconflictdescription import (
     FrontLineConflictDescription,
@@ -29,6 +27,7 @@ from game.missiongenerator.missiondata import MissionData, JtacInfo
 from game.missiongenerator.tgogenerator import TgoGenerator
 from game.missiongenerator.visualsgenerator import VisualsGenerator
 from game.naming import namegen
+from game.persistency import pre_pretense_backups_dir
 from game.pretense.pretenseaircraftgenerator import PretenseAircraftGenerator
 from game.radio.radios import RadioRegistry
 from game.radio.tacan import TacanRegistry
@@ -74,17 +73,16 @@ class PretenseMissionGenerator(MissionGenerator):
             self.mission.options.load_from_dict(options)
 
     def generate_miz(self, output: Path) -> UnitMap:
-        now = datetime.now()
-        date_time = now.strftime("%Y-%d-%mT%H_%M_%S")
         game_backup_pickle = pickle.dumps(self.game)
+        path = pre_pretense_backups_dir()
+        path.mkdir(parents=True, exist_ok=True)
+        path /= f".pre-pretense-backup.retribution"
         try:
-            with open(
-                self.game.savepath + ".pre-pretense-backup." + date_time, "wb"
-            ) as f:
+            with open(path, "wb") as f:
                 pickle.dump(self.game, f)
         except:
             logging.error(
-                f"Unable to save Pretense pre-generation backup to {self.game.savepath}.pre-pretense-backup.{date_time}"
+                f"Unable to save Pretense pre-generation backup to {path}"
             )
 
         if self.generation_started:

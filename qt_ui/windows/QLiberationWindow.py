@@ -1,6 +1,7 @@
 import logging
 import traceback
 import webbrowser
+from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
@@ -21,6 +22,7 @@ from game import Game, VERSION, persistency, Migrator
 from game.debriefing import Debriefing
 from game.game import TurnState
 from game.layout import LAYOUTS
+from game.persistency import pre_pretense_backups_dir
 from game.pretense.pretensemissiongenerator import PretenseMissionGenerator
 from game.server import EventStream, GameContext
 from game.server.dependencies import QtCallbacks, QtContext
@@ -322,9 +324,23 @@ class QLiberationWindow(QMainWindow):
 
     def newPretenseCampaign(self):
         output = persistency.mission_path_for("pretense_campaign.miz")
-        PretenseMissionGenerator(
-            self.game, self.game.conditions.start_time
-        ).generate_miz(output)
+        try:
+            PretenseMissionGenerator(
+                self.game, self.game.conditions.start_time
+            ).generate_miz(output)
+        except Exception as e:
+            now = datetime.now()
+            date_time = now.strftime("%Y-%d-%mT%H_%M_%S")
+            path = pre_pretense_backups_dir()
+            path.mkdir(parents=True, exist_ok=True)
+            tgt = path / f"pre-pretense-backup_{date_time}.retribution"
+            path /= f".pre-pretense-backup.retribution"
+            if path.exists():
+                with open(path, "rb") as source:
+                    with open(tgt, "wb") as target:
+                        target.write(source.read())
+            raise e
+
         title = "Pretense campaign generated"
         msg = f"A Pretense campaign mission has been successfully generated in {output}"
         QMessageBox.information(QApplication.focusWidget(), title, msg, QMessageBox.Ok)
