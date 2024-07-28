@@ -6,6 +6,9 @@ country: USA
 role: Strike Fighter
 aircraft: F/A-18C Hornet (Lot 20)
 livery: VMFA-251 high visibility
+bases:
+  shore: true
+  carrier: true
 mission_types:
   - Anti-ship
   - BAI

@@ -57,6 +57,8 @@ class AircraftBehavior:
             self.configure_refueling(group, flight)
         elif self.task in [FlightType.CAS, FlightType.BAI]:
             self.configure_cas(group, flight)
+        elif self.task == FlightType.ARMED_RECON:
+            self.configure_armed_recon(group, flight)
         elif self.task == FlightType.DEAD:
             self.configure_dead(group, flight)
         elif self.task in [FlightType.SEAD, FlightType.SEAD_SWEEP]:
@@ -180,6 +182,17 @@ class AircraftBehavior:
             react_on_threat=OptReactOnThreat.Values.EvadeFire,
             roe=OptROE.Values.OpenFire,
             rtb_winchester=OptRTBOnOutOfAmmo.Values.Unguided,
+            restrict_jettison=True,
+        )
+
+    def configure_armed_recon(self, group: FlyingGroup[Any], flight: Flight) -> None:
+        self.configure_task(flight, group, CAS, [AFAC, AntishipStrike])
+        self.configure_behavior(
+            flight,
+            group,
+            react_on_threat=OptReactOnThreat.Values.EvadeFire,
+            roe=OptROE.Values.OpenFire,
+            rtb_winchester=OptRTBOnOutOfAmmo.Values.All,
             restrict_jettison=True,
         )
 
@@ -379,23 +392,35 @@ class AircraftBehavior:
 
         if preferred_task in flight.unit_type.dcs_unit_type.tasks:
             group.task = preferred_task.name
-        elif fallback_tasks:
+            return
+        if fallback_tasks:
             for task in fallback_tasks:
                 if task in flight.unit_type.dcs_unit_type.tasks:
                     group.task = task.name
                     return
-        elif flight.unit_type.dcs_unit_type.task_default and preferred_task == Nothing:
+        if flight.unit_type.dcs_unit_type.task_default and preferred_task == Nothing:
             group.task = flight.unit_type.dcs_unit_type.task_default.name
             logging.warning(
                 f"{ac_type} is not capable of 'Nothing', using default task '{group.task}'"
             )
-        else:
-            fallback_part = (
-                f" nor any of the following fall-back tasks: {[task.name for task in fallback_tasks]}"
-                if fallback_tasks
-                else ""
+            return
+        if flight.roster.members and flight.roster.members[0].is_player:
+            group.task = (
+                flight.unit_type.dcs_unit_type.task_default.name
+                if flight.unit_type.dcs_unit_type.task_default
+                else group.task  # even if this is incompatible, if it's a client we don't really care...
             )
-            raise RuntimeError(
-                f"{ac_type} is neither capable of {preferred_task.name}"
-                f"{fallback_part}. Can't generate {flight.flight_type} flight."
+            logging.warning(
+                f"Client override: {ac_type} is not capable of '{preferred_task}', using default task '{group.task}'"
             )
+            return
+
+        fallback_part = (
+            f" nor any of the following fall-back tasks: {[task.name for task in fallback_tasks]}"
+            if fallback_tasks
+            else ""
+        )
+        raise RuntimeError(
+            f"{ac_type} is neither capable of {preferred_task.name}"
+            f"{fallback_part}. Can't generate {flight.flight_type} flight."
+        )

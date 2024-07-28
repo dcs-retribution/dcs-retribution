@@ -75,23 +75,12 @@ class AirAssaultFlightPlan(FormationAttackFlightPlan, UiZoneDisplay):
         )
         return tot - travel_time
 
-    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
-        if waypoint is self.tot_waypoint:
-            return self.tot
-        elif waypoint is self.layout.ingress:
-            return self.ingress_time
-        return None
-
     def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         return None
 
     @property
     def ctld_target_zone_radius(self) -> Distance:
         return meters(2500)
-
-    @property
-    def mission_begin_on_station_time(self) -> datetime | None:
-        return None
 
     @property
     def mission_departure_time(self) -> datetime:

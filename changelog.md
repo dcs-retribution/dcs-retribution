@@ -8,6 +8,7 @@
 * **[Squadrons]** Ability to define a livery-set for each squadron from which Retribution will randomly choose during mission generation
 * **[Modding]** Updated support for F/A-18E/F/G mod version 2.2.5
 * **[Modding]** Added VSN F-106 Delta Dart mod support (v2.9.4.101)
+* **[Modding]** Added OH-6 Cayuse (v1.2) mod support, including the Vietnam Asset Pack v1.0
 * **[Modding]** Added VSN EA-6B Prowler mod support (v2.9.4.102)
 * **[Modding]** Added tripod3 Cold War assets mod support (v1.0)
 * **[Campaign Setup]** Allow adjustments to naval TGOs (except carriers) on turn 0
@@ -25,6 +26,9 @@
 * **[Modding]** Added support for Su-15 Flagon mod (v1.0)
 * **[Plugins]** Support for Carsten's Arty Spotter script
 * **[Modding]** Added support for SK-60 mod (v1.2.1)
+* **[Mission Generation]** Introducing the Armed Recon flight plan, i.e. CAS against any Theater Ground Object
+* **[Doctrine]** Ability to customize the startup time allocated to the player
+* **[Mission Generation]** Ability to choose whether player flights can spawn on the sixpack or not
 
 ## Fixes
 * **[UI/UX]** A-10A flights can be edited again

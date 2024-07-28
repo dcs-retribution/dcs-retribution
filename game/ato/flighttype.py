@@ -58,9 +58,8 @@ class FlightType(Enum):
     FERRY = "Ferry"
     AIR_ASSAULT = "Air Assault"
     SEAD_SWEEP = "SEAD Sweep"  # Reintroduce legacy "engage-whatever-you-can-find" SEAD
-    PRETENSE_CARGO = (
-        "Cargo Transport"  # Flight type for Pretense campaign AI cargo planes
-    )
+    PRETENSE_CARGO = "Cargo Transport"  # For Pretense campaign AI cargo planes
+    ARMED_RECON = "Armed Recon"
 
     def __str__(self) -> str:
         return self.value
@@ -96,6 +95,7 @@ class FlightType(Enum):
             FlightType.SEAD_ESCORT,
             FlightType.AIR_ASSAULT,
             FlightType.SEAD_SWEEP,
+            FlightType.ARMED_RECON,
         }
 
     @property
@@ -107,6 +107,7 @@ class FlightType(Enum):
         return {
             FlightType.AEWC: AirEntity.AIRBORNE_EARLY_WARNING,
             FlightType.ANTISHIP: AirEntity.ANTISURFACE_WARFARE,
+            FlightType.ARMED_RECON: AirEntity.ATTACK_STRIKE,
             FlightType.BAI: AirEntity.ATTACK_STRIKE,
             FlightType.BARCAP: AirEntity.FIGHTER,
             FlightType.CAS: AirEntity.ATTACK_STRIKE,

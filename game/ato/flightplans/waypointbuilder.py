@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 import random
 from dataclasses import dataclass
 from typing import (
@@ -252,18 +253,9 @@ class WaypointBuilder:
         if ingress_type in [
             FlightWaypointType.INGRESS_CAS,
             FlightWaypointType.INGRESS_OCA_AIRCRAFT,
+            FlightWaypointType.INGRESS_ARMED_RECON,
         ]:
-            weather = self.flight.coalition.game.conditions.weather
-            max_alt = feet(30000)
-            if weather.clouds and (
-                weather.clouds.preset
-                and "overcast" in weather.clouds.preset.description.lower()
-                or weather.clouds.density > 5
-            ):
-                max_alt = meters(
-                    max(feet(500).meters, weather.clouds.base - feet(500).meters)
-                )
-            alt = min(alt, max_alt)
+            alt = self._adjust_altitude_for_clouds(alt)
 
         alt_type: AltitudeReference = "BARO"
         if self.is_helo or self.flight.is_hercules:
@@ -290,6 +282,19 @@ class WaypointBuilder:
             pretty_name=f"INGRESS on {objective.name}",
             targets=objective.strike_targets,
         )
+
+    def _adjust_altitude_for_clouds(self, alt: Distance) -> Distance:
+        weather = self.flight.coalition.game.conditions.weather
+        max_alt = feet(math.inf)
+        if weather.clouds and (
+            weather.clouds.preset
+            and "overcast" in weather.clouds.preset.description.lower()
+            or weather.clouds.density > 5
+        ):
+            max_alt = meters(
+                max(feet(500).meters, weather.clouds.base - feet(500).meters)
+            )
+        return min(alt, max_alt)
 
     def egress(self, position: Point, target: MissionTarget) -> FlightWaypoint:
         alt_type: AltitudeReference = "BARO"
@@ -354,6 +359,21 @@ class WaypointBuilder:
     def dead_area(self, target: MissionTarget) -> FlightWaypoint:
         return self._target_area(f"DEAD on {target.name}", target)
 
+    def armed_recon_area(self, target: MissionTarget) -> FlightWaypoint:
+        # Force AI aircraft to fly towards target area
+        alt = self.get_combat_altitude
+        alt = self._adjust_altitude_for_clouds(alt)
+        alt_type: AltitudeReference = "BARO"
+        if self.is_helo or alt.feet <= AGL_TRANSITION_ALT:
+            alt_type = "RADIO"
+        return self._target_area(
+            f"ARMED RECON {target.name}",
+            target,
+            altitude=alt,
+            alt_type=alt_type,
+            flyover=True,
+        )
+
     def oca_strike_area(self, target: MissionTarget) -> FlightWaypoint:
         return self._target_area(f"ATTACK {target.name}", target, flyover=True)
 
@@ -398,15 +418,14 @@ class WaypointBuilder:
             waypoint.only_for_player = True
         return waypoint
 
-    def cas(self, position: Point) -> FlightWaypoint:
+    def cas(self, position: Point, altitude: Distance) -> FlightWaypoint:
         weather = self.flight.coalition.game.conditions.weather
-        max_alt = feet(30000)
         if weather.clouds and (
             weather.clouds.preset
             and "overcast" in weather.clouds.preset.description.lower()
             or weather.clouds.density > 5
         ):
-            max_alt = meters(
+            altitude = meters(
                 max(feet(500).meters, weather.clouds.base - feet(500).meters)
             )
         return FlightWaypoint(
@@ -415,7 +434,7 @@ class WaypointBuilder:
             position,
             feet(self.flight.coalition.game.settings.heli_combat_alt_agl)
             if self.is_helo
-            else min(meters(1000), max_alt),
+            else max(meters(1000), altitude),
             "RADIO",
             description="Provide CAS",
             pretty_name="CAS",
@@ -667,14 +686,13 @@ class WaypointBuilder:
         This waypoint is used to generate the Trigger Zone used for AirAssault and
         AirLift using the CTLD plugin (see LogisticsGenerator)
         """
-        heli_alt = feet(self.flight.coalition.game.settings.heli_cruise_alt_agl)
-        altitude = heli_alt if self.flight.is_helo else meters(0)
+        alt = self.get_combat_altitude if self.flight.is_helo else meters(0)
 
         return FlightWaypoint(
             "DROPOFFZONE",
             FlightWaypointType.DROPOFF_ZONE,
             drop_off.position,
-            altitude,
+            alt,
             "RADIO",
             description=f"Drop off cargo at {drop_off.name}",
             pretty_name="Drop-off zone",
@@ -772,8 +790,7 @@ class WaypointBuilder:
         return previous_threatened and next_threatened
 
     @staticmethod
-    def perturb(point: Point) -> Point:
-        deviation = nautical_miles(1)
+    def perturb(point: Point, deviation: Distance = nautical_miles(1)) -> Point:
         x_adj = random.randint(int(-deviation.meters), int(deviation.meters))
         y_adj = random.randint(int(-deviation.meters), int(deviation.meters))
         return point + Vector2(x_adj, y_adj)

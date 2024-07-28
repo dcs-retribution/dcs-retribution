@@ -241,9 +241,18 @@ class AircraftType(UnitType[Type[FlyingType]]):
 
     def __post_init__(self) -> None:
         enrich = {}
-        for t in self.task_priorities:
-            if t == FlightType.SEAD:
-                enrich[FlightType.SEAD_SWEEP] = self.task_priorities[t]
+        if FlightType.SEAD_SWEEP not in self.task_priorities:
+            if (value := self.task_priorities.get(FlightType.SEAD)) or (
+                value := self.task_priorities.get(FlightType.SEAD_ESCORT)
+            ):
+                enrich[FlightType.SEAD_SWEEP] = value
+
+        if FlightType.ARMED_RECON not in self.task_priorities:
+            if (value := self.task_priorities.get(FlightType.CAS)) or (
+                value := self.task_priorities.get(FlightType.BAI)
+            ):
+                enrich[FlightType.ARMED_RECON] = value
+
         self.task_priorities.update(enrich)
 
     @classmethod
@@ -299,17 +308,24 @@ class AircraftType(UnitType[Type[FlyingType]]):
             elif max_speed > SPEED_OF_SOUND_AT_SEA_LEVEL * 0.7:
                 # Semi-fast like airliners or similar
                 return (
-                    Speed.from_mach(0.5, altitude)
+                    Speed.from_mach(0.6, altitude)
                     if altitude.feet > 20000
-                    else Speed.from_mach(0.4, altitude)
+                    else Speed.from_mach(0.5, altitude)
                 )
+            elif self.helicopter:
+                return max_speed * 0.4
             else:
-                # Slow like warbirds or helicopters
-                # Use whichever is slowest - mach 0.35 or 50% of max speed
-                logging.debug(
-                    f"{self.display_name} max_speed * 0.5 is {max_speed * 0.5}"
+                # Slow like warbirds or attack planes
+                # return 50% of max speed + 5% per 2k above 10k to maintain momentum
+                return max_speed * min(
+                    1.0,
+                    0.5
+                    + (
+                        (((altitude.feet - 10000) / 2000) * 0.05)
+                        if altitude.feet > 10000
+                        else 0
+                    ),
                 )
-                return min(Speed.from_mach(0.35, altitude), max_speed * 0.5)
 
     @cached_property
     def preferred_cruise_altitude(self) -> Distance:
@@ -526,17 +542,7 @@ class AircraftType(UnitType[Type[FlyingType]]):
         if prop_overrides is not None:
             cls._set_props_overrides(prop_overrides, aircraft)
 
-        from game.ato.flighttype import FlightType
-
-        task_priorities: dict[FlightType, int] = {}
-        for task_name, priority in data.get("tasks", {}).items():
-            task_priorities[FlightType(task_name)] = priority
-
-        if (
-            FlightType.SEAD_SWEEP not in task_priorities
-            and FlightType.SEAD in task_priorities
-        ):
-            task_priorities[FlightType.SEAD_SWEEP] = task_priorities[FlightType.SEAD]
+        task_priorities = cls.get_task_priorities(data)
 
         cls._custom_weapon_injections(aircraft, data)
         cls._user_weapon_injections(aircraft)
@@ -582,6 +588,27 @@ class AircraftType(UnitType[Type[FlyingType]]):
             ],
             use_f15e_waypoint_names=data.get("use_f15e_waypoint_names", False),
         )
+
+    @classmethod
+    def get_task_priorities(cls, data: dict[str, Any]) -> dict[FlightType, int]:
+        task_priorities: dict[FlightType, int] = {}
+        for task_name, priority in data.get("tasks", {}).items():
+            task_priorities[FlightType(task_name)] = priority
+        if (
+            FlightType.SEAD_SWEEP not in task_priorities
+            and FlightType.SEAD in task_priorities
+        ):
+            task_priorities[FlightType.SEAD_SWEEP] = task_priorities[FlightType.SEAD]
+        if FlightType.ARMED_RECON not in task_priorities:
+            if FlightType.CAS in task_priorities:
+                task_priorities[FlightType.ARMED_RECON] = task_priorities[
+                    FlightType.CAS
+                ]
+            elif FlightType.BAI in task_priorities:
+                task_priorities[FlightType.ARMED_RECON] = task_priorities[
+                    FlightType.BAI
+                ]
+        return task_priorities
 
     @staticmethod
     def _custom_weapon_injections(

@@ -14,6 +14,9 @@ price: 18
 role: Close Air Support/Attack
 variants:
   A-10C Thunderbolt II (Suite 3): {}
+altitudes:
+  cruise: 15000
+  combat: 10000
 radios:
   intra_flight: AN/ARC-186(V) AM
   inter_flight: AN/ARC-164

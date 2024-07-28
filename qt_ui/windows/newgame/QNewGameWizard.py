@@ -107,6 +107,8 @@ class NewGameWizard(QtWidgets.QWizard):
             f106_deltadart=self.field("f106_deltadart"),
             hercules=self.field("hercules"),
             irondome=self.field("irondome"),
+            oh_6=self.field("oh_6"),
+            oh_6_vietnamassetpack=self.field("oh_6_vietnamassetpack"),
             uh_60l=self.field("uh_60l"),
             jas39_gripen=self.field("jas39_gripen"),
             super_etendard=self.field("super_etendard"),

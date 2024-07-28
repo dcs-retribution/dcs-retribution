@@ -8,6 +8,8 @@ description: <p>Argentina and China have taken the Falklands by surprise. Curren
 miz: RetakeTheFalklands.miz
 performance: 2
 recommended_start_date: 2002-12-21
+settings:
+  squadron_start_full: true
 version: "10.7"
 squadrons:
 # Off-map spawn
@@ -21,6 +23,12 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - F-15E Strike Eagle (Suite 4+)
+      size: 12
+     # Gamblers
+    - primary: DEAD
+      secondary: any
+      aircraft:
+        - 77th FS
       size: 12
     - primary: Strike
       secondary: air-to-ground
@@ -88,14 +96,6 @@ squadrons:
       size: 12
       aircraft:
         - J-15 Flanker X-2
- # Blue - San Julian
-  11:
-     # Gamblers
-    - primary: DEAD
-      secondary: any
-      aircraft:
-        - 77th FS
-      size: 9
  # RED - Punta Arenas
   9:
     - primary: CAS

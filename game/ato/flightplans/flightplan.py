@@ -105,19 +105,6 @@ class FlightPlan(ABC, Generic[LayoutT]):
             #
             # Plus, it's a loiter point so there's no reason to hurry.
             factor = 0.75
-        elif (
-            self.flight.is_helo
-            and (
-                a.waypoint_type == FlightWaypointType.JOIN
-                or "INGRESS" in a.waypoint_type.name
-                or a.waypoint_type == FlightWaypointType.CUSTOM
-            )
-            and self.package.primary_flight
-            and not self.package.primary_flight.flight_plan.is_airassault
-        ):
-            # Helicopter flights should be slowed down between JOIN & INGRESS
-            # to allow the escort to keep up while engaging targets along the way.
-            factor = 0.50
         # TODO: Adjust if AGL.
         # We don't have an exact heightmap, but we should probably be performing
         # *some* adjustment for NTTR since the minimum altitude of the map is
@@ -268,7 +255,9 @@ class FlightPlan(ABC, Generic[LayoutT]):
     def estimate_startup(self) -> timedelta:
         if self.flight.start_type is StartType.COLD:
             if self.flight.client_count:
-                return timedelta(minutes=10)
+                return timedelta(
+                    minutes=self.flight.coalition.game.settings.player_startup_time
+                )
             else:
                 # The AI doesn't seem to have a real startup procedure.
                 return timedelta(minutes=2)

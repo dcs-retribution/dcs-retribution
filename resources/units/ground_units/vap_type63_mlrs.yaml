@@ -1,0 +1,5 @@
+class: Artillery
+price: 10
+role: Multiple-Launch Rocket System
+variants:
+  VAP VC Type63 107mm MLRS: {}

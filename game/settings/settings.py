@@ -325,6 +325,20 @@ class Settings:
         default=2,
         detail="Creates a randomized altitude offset for airplanes.",
     )
+
+    player_startup_time: int = bounded_int_option(
+        "Player startup time",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=10,
+        min=0,
+        max=100,
+        detail=(
+            "The startup time allocated to player flights (default : 10 minutes, AI is 2 minutes). "
+            "Packages have to be planned again for this to take effect. "
+        ),
+    )
+
     # Doctrine Distances Section
     airbase_threat_range: int = bounded_int_option(
         "Airbase threat range (NM)",
@@ -345,6 +359,14 @@ class Settings:
         default=10,
         min=0,
         max=100,
+    )
+    armed_recon_engagement_range_distance: int = bounded_int_option(
+        "Armed Recon engagement range (NM)",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=DOCTRINE_DISTANCES_SECTION,
+        default=5,
+        min=0,
+        max=25,
     )
     sead_sweep_engagement_range_distance: int = bounded_int_option(
         "SEAD Sweep engagement range (NM)",
@@ -424,6 +446,7 @@ class Settings:
             "range is defined in the helicopter's yaml specification."
         ),
     )
+
     # Pilots and Squadrons
     ai_pilot_levelling: bool = boolean_option(
         "Allow AI pilot leveling",
@@ -943,6 +966,12 @@ class Settings:
         GAMEPLAY_SECTION,
         default=True,
         detail=("Enables dynamic cargo for airfields, ships, FARPs & warehouses."),
+    )
+    player_flights_sixpack: bool = boolean_option(
+        "Player flights can spawn on the sixpack",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=True,
     )
 
     # Performance

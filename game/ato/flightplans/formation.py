@@ -64,8 +64,10 @@ class FormationFlightPlan(LoiterFlightPlan, ABC):
         return min(speeds)
 
     def speed_between_waypoints(self, a: FlightWaypoint, b: FlightWaypoint) -> Speed:
-        if self.package.formation_speed and b in self.package_speed_waypoints:
-            return self.package.formation_speed
+        if (
+            speed := self.package.formation_speed(self.flight.is_helo)
+        ) and b in self.package_speed_waypoints:
+            return speed
         return super().speed_between_waypoints(a, b)
 
     @property
