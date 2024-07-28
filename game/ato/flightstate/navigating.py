@@ -33,6 +33,7 @@ class Navigating(InFlight):
         # by zero error
         if self.total_time_to_next_waypoint.total_seconds() < 1:
             return 1.0
+
         return (
             self.elapsed_time.total_seconds()
             / self.total_time_to_next_waypoint.total_seconds()
