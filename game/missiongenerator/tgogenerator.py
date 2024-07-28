@@ -332,6 +332,7 @@ class GroundObjectGenerator:
             self._register_theater_unit(unit, vehicle_group.units[-1])
         if vehicle_group is None:
             raise RuntimeError(f"Error creating VehicleGroup for {group_name}")
+        vehicle_group.hidden_on_mfd = self.ground_object.hide_on_mfd
         return vehicle_group
 
     def create_ship_group(
@@ -368,6 +369,7 @@ class GroundObjectGenerator:
             self._register_theater_unit(unit, ship_group.units[-1])
         if ship_group is None:
             raise RuntimeError(f"Error creating ShipGroup for {group_name}")
+        ship_group.hidden_on_mfd = self.ground_object.hide_on_mfd
         return ship_group
 
     def create_static_group(self, unit: TheaterUnit) -> None:
