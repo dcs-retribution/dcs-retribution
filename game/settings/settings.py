@@ -318,7 +318,7 @@ class Settings:
         max=100,
         detail=(
             "The startup time allocated to player flights (default : 10 minutes, AI is 2 minutes). "
-            "Takes effect after the next turn. "
+            "Packages have to be planned again for this to take effect. "
         ),
     )
 
