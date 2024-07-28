@@ -962,6 +962,7 @@ class PretenseAircraftGenerator:
         elif (
             flight.flight_type == FlightType.STRIKE
             or flight.flight_type == FlightType.BAI
+            or flight.flight_type == FlightType.ARMED_RECON
         ):
             for cp in control_points_to_scan:
                 if cp.coalition == flight.coalition or cp == flight.departure:
