@@ -497,7 +497,7 @@ class FlightGroupSpawner:
     ) -> Optional[FlyingGroup[Any]]:
         is_airbase = False
         is_roadbase = False
-        ground_spawn = None
+        ground_spawn: Optional[Tuple[StaticGroup, Point]] = None
 
         if not is_large and len(self.ground_spawns_roadbase[cp]) > 0:
             ground_spawn = self.ground_spawns_roadbase[cp].pop()
@@ -520,17 +520,7 @@ class FlightGroupSpawner:
         group.points[0].type = "TakeOffGround"
         group.units[0].heading = ground_spawn[0].units[0].heading
 
-        if (
-            cp.coalition.game.settings.ground_start_airbase_statics_farps_remove
-            and isinstance(cp, Airfield)
-        ):
-            # Remove invisible FARPs from airfields because they are unnecessary
-            neutral_country = self.mission.country(
-                cp.coalition.game.neutral_country.name
-            )
-            neutral_country.remove_static_group(ground_spawn[0])
-            group.points[0].link_unit = None
-            group.points[0].helipad_id = None
+        self._remove_invisible_farps_if_requested(cp, ground_spawn[0], group)
 
         # Hot start aircraft which require ground power to start, when ground power
         # trucks have been disabled for performance reasons
@@ -591,21 +581,31 @@ class FlightGroupSpawner:
                 )
                 group.units[1 + i].heading = ground_spawn[0].units[0].heading
 
-                if (
-                    cp.coalition.game.settings.ground_start_airbase_statics_farps_remove
-                    and isinstance(cp, Airfield)
-                ):
-                    # Remove invisible FARPs from airfields because they are unnecessary
-                    neutral_country = self.mission.country(
-                        cp.coalition.game.neutral_country.name
-                    )
-                    neutral_country.remove_static_group(ground_spawn[0])
-
+                self._remove_invisible_farps_if_requested(cp, ground_spawn[0])
             except IndexError as ex:
                 raise NoParkingSlotError(
                     f"Not enough STOL slots available at {cp}"
                 ) from ex
         return group
+
+    def _remove_invisible_farps_if_requested(
+        self,
+        cp: ControlPoint,
+        ground_spawn: StaticGroup,
+        group: Optional[FlyingGroup[Any]] = None,
+    ) -> None:
+        if (
+            cp.coalition.game.settings.ground_start_airbase_statics_farps_remove
+            and isinstance(cp, Airfield)
+        ):
+            # Remove invisible FARPs from airfields because they are unnecessary
+            neutral_country = self.mission.country(
+                cp.coalition.game.neutral_country.name
+            )
+            neutral_country.remove_static_group(ground_spawn)
+            if group:
+                group.points[0].link_unit = None
+                group.points[0].helipad_id = None
 
     def dcs_start_type(self) -> DcsStartType:
         if self.start_type is StartType.RUNWAY:
