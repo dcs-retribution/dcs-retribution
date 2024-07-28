@@ -33,6 +33,7 @@ from game.radio.tacan import TacanRegistry
 from game.runways import RunwayData
 from game.settings import Settings
 from game.squadrons import AirWing
+from game.squadrons import Squadron
 from game.theater.controlpoint import (
     ControlPoint,
     OffMapSpawn,
@@ -43,7 +44,6 @@ from game.theater.controlpoint import (
 )
 from game.theater.theatergroundobject import EwrGroundObject, SamGroundObject
 from game.unitmap import UnitMap
-from game.squadrons import Squadron
 
 if TYPE_CHECKING:
     from game import Game
@@ -193,13 +193,13 @@ class PretenseAircraftGenerator:
         """
 
         squadron_def = coalition.air_wing.squadron_def_generator.generate_for_task(
-            flight_type, cp, self.game.settings.squadron_random_chance
+            flight_type, cp
         )
         for retries in range(num_retries):
             if squadron_def is None or fixed_wing == squadron_def.aircraft.helicopter:
                 squadron_def = (
                     coalition.air_wing.squadron_def_generator.generate_for_task(
-                        flight_type, cp, self.game.settings.squadron_random_chance
+                        flight_type, cp
                     )
                 )
 
