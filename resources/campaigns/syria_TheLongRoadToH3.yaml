@@ -164,7 +164,7 @@ squadrons:
       size: 2
     - primary: Refueling
       aircraft:
-        - KC-135 Stratotanker
+        - KC-135 Stratotanker MPRS
       size: 2
     - primary: AEW&C
       aircraft:
@@ -183,6 +183,12 @@ squadrons:
         - 480th FS
         - F-16CM Fighting Falcon (Block 50)
       size: 12
+    # Mirage 2000s
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - Escadron de chasse 1/30
+      size: 12
     - primary: Strike
       secondary: air-to-ground
       aircraft:
@@ -193,17 +199,6 @@ squadrons:
       aircraft:
         - 494th Fighter Squadron
         - F-15E Strike Eagle (Suite 4+)
-      size: 12
-    - primary: BAI
-      secondary: air-to-ground
-      aircraft:
-        - AV-8B Harrier II Night Attack
-      size: 12
-    # Hornet - Thunderbolts
-    - primary: DEAD
-      secondary: any
-      aircraft:
-        - VMFA-251
       size: 12
   # Gaziantep
   11:
@@ -371,3 +366,27 @@ squadrons:
       aircraft:
         - Mi-8MTV2 Hip
       size: 4
+ # Damascus - 
+  7:
+    - primary: TARCAP
+      secondary: air-to-air
+      aircraft:
+        - MiG-29A Fulcrum-A
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - L-39ZA Albatros
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - Su-22M4 Fitter-K
+        - Su-24M Fencer-D
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - SA 342L Gazelle
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - H-6J Badger
+      size: 8
