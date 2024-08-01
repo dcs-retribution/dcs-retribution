@@ -151,7 +151,9 @@ class QFlightPayloadTab(QFrame):
         )
         self.same_livery_for_all_checkbox.toggled.connect(self.on_same_livery_toggled)
         hbox.addWidget(self.same_livery_for_all_checkbox)
-        self.livery_selector = SquadronLiverySelector(self.flight.squadron)
+        self.livery_selector = SquadronLiverySelector(
+            self.flight.squadron, full_list_view_override=True
+        )
         self.livery_selector.insertItem(0, "Default", None)
         self.livery_selector.setCurrentIndex(
             self.livery_selector.findData(self.member_selector.selected_member.livery)
