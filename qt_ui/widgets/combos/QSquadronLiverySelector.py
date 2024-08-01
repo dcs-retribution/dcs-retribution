@@ -11,7 +11,9 @@ class SquadronLiverySelector(QComboBox):
     The combo box will automatically be populated with all available liveries.
     """
 
-    def __init__(self, squadron: Squadron) -> None:
+    def __init__(
+        self, squadron: Squadron, full_list_view_override: bool = False
+    ) -> None:
         super().__init__()
         self.setSizeAdjustPolicy(QComboBox.SizeAdjustPolicy.AdjustToContents)
 
@@ -33,7 +35,11 @@ class SquadronLiverySelector(QComboBox):
             for x in faction.liveries_overrides.get(self.aircraft_type, [])
             if x in [y.id.lower() for y in liveries]
         ]
-        if selected_livery is None and squadron.livery_set:
+        if (
+            selected_livery is None
+            and squadron.livery_set
+            and not full_list_view_override
+        ):
             self.addItem("Using livery-set from squadron's yaml", userData=None)
             self.setEnabled(False)
             return
