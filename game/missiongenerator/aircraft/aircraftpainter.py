@@ -27,18 +27,17 @@ class AircraftPainter:
     def livery_from_squadron(self) -> Optional[str]:
         return self.flight.squadron.livery
 
-    def livery_from_squadron_set(self) -> Optional[str]:
+    def livery_from_squadron_set(self, member_uses_livery_set: bool) -> Optional[str]:
         if not (
-            self.flight.squadron.livery_set and self.flight.squadron.use_livery_set
+            self.flight.squadron.livery_set
+            and (self.flight.squadron.use_livery_set or member_uses_livery_set)
         ):
             return None
         return random.choice(self.flight.squadron.livery_set)
 
     def determine_livery(self, member_uses_livery_set: bool) -> Optional[str]:
-        if (
-            member_uses_livery_set
-            and (livery := self.livery_from_squadron_set()) is not None
-        ):
+        livery = self.livery_from_squadron_set(member_uses_livery_set)
+        if livery is not None:
             return livery
         if (livery := self.livery_from_squadron()) is not None:
             return livery
