@@ -33,6 +33,7 @@ from game.radio.radios import RadioRegistry
 from game.radio.tacan import TacanRegistry
 from game.theater.bullseye import Bullseye
 from game.unitmap import UnitMap
+from qt_ui.windows.GameUpdateSignal import GameUpdateSignal
 from .pretenseluagenerator import PretenseLuaGenerator
 from .pretensetgogenerator import PretenseTgoGenerator
 from .pretensetriggergenerator import PretenseTriggerGenerator
@@ -159,7 +160,7 @@ class PretenseMissionGenerator(MissionGenerator):
         print(
             f"Loaded pre-pretense save, number of BLUFOR squadrons: {len(self.game.blue.air_wing.squadrons)}"
         )
-        self.game.on_load()
+        GameUpdateSignal.get_instance().game_loaded.emit(self.game)
 
         return self.unit_map
 
