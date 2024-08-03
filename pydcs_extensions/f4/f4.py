@@ -110,6 +110,7 @@ class VSN_F4B(PlaneType):
     flare_charge_size = 1
     category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 264
+    livery_name = "VSN_F4B"  # from type
 
     panel_radio = {
         1: {
@@ -502,6 +503,7 @@ class VSN_F4C(PlaneType):
     flare_charge_size = 1
     category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 264
+    livery_name = "VSN_F4C"  # from type
 
     panel_radio = {
         1: {
