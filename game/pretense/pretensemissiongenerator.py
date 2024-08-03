@@ -149,6 +149,7 @@ class PretenseMissionGenerator(MissionGenerator):
 
         # TODO: Shouldn't this be first?
         namegen.reset_numbers()
+        self.generate_warehouses()
         self.mission.save(output)
 
         print(
