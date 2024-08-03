@@ -239,6 +239,16 @@ class AircraftType(UnitType[Type[FlyingType]]):
         list
     )
 
+    def __setstate__(self, state: dict[str, Any]) -> None:
+        # Save compat: the `name` field has been renamed `variant_id`.
+        if "name" in state:
+            state["variant_id"] = state.pop("name")
+
+        # Update any existing models with new data on load.
+        updated = AircraftType.named(state["variant_id"])
+        updated.__dict__.update(state)
+        self.__dict__.update(updated.__dict__)
+
     def __post_init__(self) -> None:
         enrich = {}
         if FlightType.SEAD_SWEEP not in self.task_priorities:
@@ -418,16 +428,6 @@ class AircraftType(UnitType[Type[FlyingType]]):
 
     def task_priority(self, task: FlightType) -> int:
         return self.task_priorities[task]
-
-    def __setstate__(self, state: dict[str, Any]) -> None:
-        # Save compat: the `name` field has been renamed `variant_id`.
-        if "name" in state:
-            state["variant_id"] = state.pop("name")
-
-        # Update any existing models with new data on load.
-        updated = AircraftType.named(state["variant_id"])
-        state.update(updated.__dict__)
-        self.__dict__.update(state)
 
     @staticmethod
     def _migrator() -> Dict[str, str]:
