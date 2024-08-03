@@ -23,6 +23,8 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from game import Game
 from game.debriefing import Debriefing
 from game.profiling import logged_duration
+from game.server import EventStream
+from game.sim import GameUpdateEvents
 from qt_ui.simcontroller import SimController
 from qt_ui.windows.GameUpdateSignal import GameUpdateSignal
 
@@ -237,9 +239,12 @@ class QWaitingForMissionResultWindow(QDialog):
 
     def reset_game_state(self):
         self.sim_controller.set_game(self.game)
+        events = GameUpdateEvents()
         for _, f in self.game.db.flights.objects.items():
             f.state.reinitialize(self.game.conditions.start_time)
+            events.update_flight(f)
         for cp in self.game.theater.controlpoints:
             cp.release_parking_slots()
         GameUpdateSignal.get_instance().updateGame(self.game)
+        EventStream().put_nowait(events)
         self.close()
