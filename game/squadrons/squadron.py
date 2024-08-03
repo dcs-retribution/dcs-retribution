@@ -70,9 +70,13 @@ class Squadron:
     untasked_aircraft: int = field(init=False, hash=False, compare=False, default=0)
     pending_deliveries: int = field(init=False, hash=False, compare=False, default=0)
 
+    use_livery_set: bool = False  # if livery-set should be used when present
+
     def __setstate__(self, state: dict[str, Any]) -> None:
         if "id" not in state:
             state["id"] = uuid4()
+        if "use_livery_set" not in state:
+            state["use_livery_set"] = len(state["livery_set"]) > 0
         self.__dict__.update(state)
 
     def __str__(self) -> str:

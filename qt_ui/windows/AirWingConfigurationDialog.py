@@ -439,7 +439,6 @@ class SquadronConfigurationBox(QGroupBox):
         if base is None:
             raise RuntimeError("Base cannot be none")
         self.squadron.assign_to_base(base)
-        self.squadron.livery = self.livery_selector.currentData()
         self.return_players_to_squadron()
 
         # Also update the auto assignable mission types
