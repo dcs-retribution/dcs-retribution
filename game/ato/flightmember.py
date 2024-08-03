@@ -18,13 +18,12 @@ class FlightMember:
         self.weapon_laser_code: LaserCode | None = None
         self.properties: dict[str, bool | float | int] = {}
         self.livery: Optional[str] = None
+        self.use_livery_set: bool = True
 
     def __setstate__(self, state: dict[str, Any]) -> None:
-        if "tgp_laser_code" not in state:
-            state["tgp_laser_code"] = None
-        if "weapon_laser_code" not in state:
-            state["weapon_laser_code"] = None
-        self.__dict__.update(state)
+        new_state = FlightMember(state["pilot"], state["loadout"])
+        new_state.__dict__.update(state)
+        self.__dict__.update(new_state.__dict__)
 
     def assign_tgp_laser_code(self, code: LaserCode) -> None:
         if self.tgp_laser_code is not None:

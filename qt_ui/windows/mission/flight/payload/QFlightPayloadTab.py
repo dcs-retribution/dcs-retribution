@@ -152,11 +152,7 @@ class QFlightPayloadTab(QFrame):
         self.same_livery_for_all_checkbox.toggled.connect(self.on_same_livery_toggled)
         hbox.addWidget(self.same_livery_for_all_checkbox)
         self.livery_selector = SquadronLiverySelector(
-            self.flight.squadron, full_list_view_override=True
-        )
-        self.livery_selector.insertItem(0, "Default", None)
-        self.livery_selector.setCurrentIndex(
-            self.livery_selector.findData(self.member_selector.selected_member.livery)
+            self.flight.squadron, update_squadron=False
         )
         self.livery_selector.currentIndexChanged.connect(self.on_livery_change)
         hbox.addWidget(self.livery_selector)
@@ -313,8 +309,11 @@ class QFlightPayloadTab(QFrame):
 
     def on_livery_change(self) -> None:
         livery = self.livery_selector.currentData()
+        use_livery_set = self.livery_selector.using_livery_set
         if self.flight.use_same_livery_for_all_members:
             for m in self.flight.roster.members:
                 m.livery = livery
+                m.use_livery_set = use_livery_set
         else:
             self.member_selector.selected_member.livery = livery
+            self.member_selector.selected_member.use_livery_set = use_livery_set

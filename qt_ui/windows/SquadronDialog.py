@@ -268,7 +268,6 @@ class SquadronDialog(QDialog):
 
         left_column.addWidget(QLabel("Livery"))
         self.livery_selector = SquadronLiverySelector(self.squadron_model.squadron)
-        self.livery_selector.currentIndexChanged.connect(self.on_livery_changed)
         left_column.addWidget(self.livery_selector)
 
         auto_assigned_tasks = AutoAssignedTaskControls(squadron_model)
@@ -422,6 +421,3 @@ class SquadronDialog(QDialog):
         if task is None:
             raise RuntimeError("Selected task cannot be None")
         self.squadron.primary_task = task
-
-    def on_livery_changed(self) -> None:
-        self.squadron.livery = self.livery_selector.currentData()
