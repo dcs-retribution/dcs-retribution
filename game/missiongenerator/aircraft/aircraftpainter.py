@@ -33,7 +33,7 @@ class AircraftPainter:
             and (self.flight.squadron.use_livery_set or member_uses_livery_set)
         ):
             return None
-        return random.choice(self.flight.squadron.livery_set)
+        return self.flight.squadron.random_round_robin_livery_from_set()
 
     def determine_livery(self, member_uses_livery_set: bool) -> Optional[str]:
         livery = self.livery_from_squadron_set(member_uses_livery_set)

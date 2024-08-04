@@ -92,6 +92,9 @@ class Squadron:
             return False
         return self.id == other.id
 
+    def __post_init__(self) -> None:
+        self._livery_pool: list[str] = []
+
     @property
     def player(self) -> bool:
         return self.coalition.player
@@ -103,6 +106,15 @@ class Squadron:
     @property
     def pilot_limits_enabled(self) -> bool:
         return self.settings.enable_squadron_pilot_limits
+
+    def random_round_robin_livery_from_set(self) -> str:
+        livery = random.choice(self.livery_set)
+        self._livery_pool.append(livery)
+        self.livery_set.remove(livery)
+        if not self.livery_set:
+            self.livery_set = self._livery_pool
+            self._livery_pool = []
+        return livery
 
     def set_auto_assignable_mission_types(
         self, mission_types: Iterable[FlightType]
