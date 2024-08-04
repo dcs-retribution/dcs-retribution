@@ -187,7 +187,7 @@ class Game:
     def generate_conditions(self, forced_time: time | None = None) -> Conditions:
         return Conditions.generate(
             self.theater,
-            self.current_day,
+            self.conditions.start_time.date(),
             self.current_turn_time_of_day,
             self.settings,
             forced_time=forced_time,
