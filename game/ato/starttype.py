@@ -13,3 +13,6 @@ class StartType(Enum):
     WARM = "Warm"
     RUNWAY = "Runway"
     IN_FLIGHT = "In Flight"
+
+    def __str__(self) -> str:
+        return f"{self.value}"
