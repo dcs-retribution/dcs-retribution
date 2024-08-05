@@ -285,7 +285,9 @@ class Flight(
         return self.__str__()
 
     def __str__(self) -> str:
-        string = f"[{self.flight_type}] {self.count} x {self.unit_type}"
+        string = (
+            f"[{self.flight_type}] {self.count} x {self.unit_type} - {self.start_type}"
+        )
         if self.custom_name:
             return f"{self.custom_name} - {string}"
         return string
