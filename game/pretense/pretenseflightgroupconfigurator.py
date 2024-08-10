@@ -113,8 +113,6 @@ class PretenseFlightGroupConfigurator(FlightGroupConfigurator):
                 self.time,
                 self.mission_data,
             ).build()
- 
-
 
         divert_position: Point | None = None
         if self.flight.divert is not None:
