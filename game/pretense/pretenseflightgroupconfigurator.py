@@ -21,7 +21,9 @@ from game.missiongenerator.aircraft.flightgroupconfigurator import (
     FlightGroupConfigurator,
 )
 from game.missiongenerator.aircraft.waypoints import WaypointGenerator
-from game.missiongenerator.aircraft.waypoints.pydcswaypointbuilder import PydcsWaypointBuilder
+from game.missiongenerator.aircraft.waypoints.pydcswaypointbuilder import (
+    PydcsWaypointBuilder,
+)
 from game.missiongenerator.missiondata import MissionData
 from game.radio.radios import RadioRegistry
 from game.radio.tacan import (
@@ -98,21 +100,25 @@ class PretenseFlightGroupConfigurator(FlightGroupConfigurator):
             self.mission_data,
         ).create_waypoints()
 
-        for cp in self.game.theater.controlpoints:
-            PydcsWaypointBuilder(
-                FlightWaypoint(
-                    name=cp.full_name,
-                    waypoint_type=FlightWaypointType.NAV,
-                    position=cp.position,
-                    alt_type="RADIO",
-                    control_point=cp,
-                ),
-                self.group,
-                self.flight,
-                self.mission,
-                self.time,
-                self.mission_data,
-            ).build()
+        if self.flight.client_count >= 1:
+            waypoints = waypoints[:1]
+            self.group.points = self.group.points[:1]
+
+            for cp in self.game.theater.controlpoints:
+                PydcsWaypointBuilder(
+                    FlightWaypoint(
+                        name=cp.full_name,
+                        waypoint_type=FlightWaypointType.NAV,
+                        position=cp.position,
+                        alt_type="RADIO",
+                        control_point=cp,
+                    ),
+                    self.group,
+                    self.flight,
+                    self.mission,
+                    self.time,
+                    self.mission_data,
+                ).build()
 
         divert_position: Point | None = None
         if self.flight.divert is not None:
