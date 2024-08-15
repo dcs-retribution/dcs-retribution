@@ -105,32 +105,53 @@
   "channel": 122
  },
  "airfield7_2": {
-  "name": "BODO",
-  "callsign": "BO",
-  "beacon_type": 13,
-  "hertz": 110300000,
-  "channel": null
- },
- "airfield7_3": {
-  "name": "BODO",
-  "callsign": "BD",
-  "beacon_type": 13,
-  "hertz": 108700000,
-  "channel": null
- },
- "airfield7_4": {
   "name": "BODO-ILSTAD",
   "callsign": "BD",
   "beacon_type": 14,
   "hertz": 108700000,
   "channel": null
  },
- "airfield7_5": {
+ "airfield7_3": {
   "name": "BODO",
   "callsign": "BOO",
   "beacon_type": 4,
   "hertz": null,
   "channel": 45
+ },
+ "airfield7_4": {
+  "name": "BODO",
+  "callsign": "BO",
+  "beacon_type": 13,
+  "hertz": 110300000,
+  "channel": null
+ },
+ "airfield7_5": {
+  "name": "BODO",
+  "callsign": "BD",
+  "beacon_type": 13,
+  "hertz": 108700000,
+  "channel": null
+ },
+ "airfield14_0": {
+  "name": "KIRKENES",
+  "callsign": "KIK",
+  "beacon_type": 3,
+  "hertz": 112000000,
+  "channel": null
+ },
+ "airfield14_1": {
+  "name": "KIRKENES",
+  "callsign": "KR",
+  "beacon_type": 14,
+  "hertz": 110300000,
+  "channel": null
+ },
+ "airfield14_2": {
+  "name": "KIRKENES",
+  "callsign": "KR",
+  "beacon_type": 13,
+  "hertz": 110300000,
+  "channel": null
  },
  "airfield1_0": {
   "name": "banak",
@@ -194,6 +215,48 @@
   "beacon_type": 13,
   "hertz": 110300000,
   "channel": 0
+ },
+ "airfield15_0": {
+  "name": "KALLAX",
+  "callsign": "SPA",
+  "beacon_type": 13,
+  "hertz": 109900000,
+  "channel": null
+ },
+ "airfield15_1": {
+  "name": "KALLAX",
+  "callsign": "PA",
+  "beacon_type": 13,
+  "hertz": 110300000,
+  "channel": null
+ },
+ "airfield15_2": {
+  "name": "KALLAX",
+  "callsign": "PA",
+  "beacon_type": 14,
+  "hertz": 110300000,
+  "channel": null
+ },
+ "airfield15_3": {
+  "name": "KALLAX",
+  "callsign": "SPA",
+  "beacon_type": 14,
+  "hertz": 109900000,
+  "channel": null
+ },
+ "airfield17_0": {
+  "name": "VIDSEL",
+  "callsign": "VDL",
+  "beacon_type": 14,
+  "hertz": 109500000,
+  "channel": null
+ },
+ "airfield17_1": {
+  "name": "VIDSEL",
+  "callsign": "VDL",
+  "beacon_type": 13,
+  "hertz": 109500000,
+  "channel": null
  },
  "airfield12_0": {
   "name": "IRD",
