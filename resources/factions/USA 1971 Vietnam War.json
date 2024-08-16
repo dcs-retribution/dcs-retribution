@@ -1,345 +1,364 @@
 {
-	"country": "USA",
-	"name": "1971 USA Vietnam War",
-	"authors": "Turbolious",
-	"description": "<p>US Army 1971 in Vietnam.</p>",
-	"locales": ["en_US"],
-	"aircrafts": [
-		"CH-47D",
-		"CH-53E",
-    	"OH-6A Cayuse",
-		"UH-1H Iroquois",
-		"AH-1W SuperCobra",
-		"OV-10A Bronco",
-		"C-130",
-		"A-4E Skyhawk",
-		"A-6A Intruder",
-	    "A-7E Corsair II",
-		"F-4B Phantom II",
-		"F-4C Phantom II",
-		"F-4E Phantom II",
-		"F-4E-45MC Phantom II",
-		"F-5E Tiger II",
-		"F-100 Super Sabre",
-		"F-104C Starfighter",
-		"F-104G Starfighter",
-		"F-105D Thunderchief",
-		"F-105G Thunderchief",
-		"B-52H Stratofortress"
-	],
-	"awacs": [
-		"E-2C Hawkeye"
-	],
-	"tankers": [
-		"KC-130",
-		"KC-135 Stratotanker"
-	],
-	"frontline_units": [
-		"M113",
-		"M163 Vulcan Air Defense System",
-		"M60A3 \"Patton\"",
-		"M151A1C MUTT w/ 106mm Recoilless Rifle"
-	],
-	"artillery_units": [
-		"M109A6 Paladin"
-	],
-	"infantry_units": [
-		"Infantry M249",
-		"Infantry M4 Georgia"
-	],
-	"logistics_units": [
-		"Truck M818 6x6",
-		"VAP US M35 Truck",
-		"M151 1/4-ton 4x4 utility truck",
-		"M274 1/2-ton 4x4 utility truck"
-	],
-	"air_defense_units": [
-		"SAM Hawk SR (AN/MPQ-50)",
-		"M163 Vulcan Air Defense System",
-		"M48 Chaparral"
-	],
-	"missiles": [],
-	"requirements": {},
-	"preset_groups": [
-		"Hawk",
-		"Cold-War-Flak"
-	],
-	"naval_units": [
-		"CV-59 Forrestal"
-	],
-	"carrier_names": [
-		"CV-59 USS Forrestal",
-		"CV-61 USS Ranger",
-		"CV-60 USS Saratoga",
-		"CV-62 USS Independence"
-	],
-	"has_jtac": true,
-	"jtac_unit": "OV-10A Bronco",
-	"doctrine": "coldwar",
-	"liveries_overrides": {
-		"CH-47D": [
-			"US Army - 14-08200"
-		],
-		"CH-53E": [
-			"USAF - 70s - USAF"
-		],
-		"AH-1W SuperCobra": [
-			"USA 90s -  X Black"
-		],
-		"UH-1H Iroquois": [
-			"25th Infantry DIvision",
-			"Army 101AD_LaPointe",
-			"Army 173rd AHC",
-			"Army 228ASHB_377_1969",
-			"Army 229ABn_A_Co_1965",
-			"Army 229ABn_A_Co_1967",
-			"Army 229ABn_B_Co_1965",
-			"Army 229ABn_B_Co_Killer_Spade_1968",
-			"Army 229ABn_C-1_1968",
-			"Army 229ABn_C-2_1968",
-			"Army 229ABn_C_Co_1965",
-			"Army 229ABn_Crandall",
-			"Army 229ABn_D_Co_1966",
-			"Army 229ABn_D_Co_1968",
-			"Army 229ABn_Freeman",
-			"Army 82Arty_E_051_1966",
-			"Army 82Arty_E_938_1965",
-			"Army 82nd Medical Detachment",
-			"US ARMY VIETNAM 1960 LAF",
-			"USMC HML-167 29 1970",
-			"USMC HML-167 30 1969",
-			"USMC HML-367 1968",
-			"USMC HML-367 1975",
-			"USMC VMO-2",
-			"USMC VMO-3",
-			"USMC VMO-6"
-		],
-		"OV-10A Bronco": [
-			"TASS 19th USAF 67-14657",
-			"TASS 19th USAF TCW 67-14663",
-			"TASS 20th USAF 64-14654",
-			"TASS 22nd USAF 67-14647WH",
-			"VAL-4 104",
-			"VAL-4 106",
-			"VAL-4 Black Ponies UM114",
-			"VAL-4 Black Ponies UM119",
-			"VAL-4 Black Ponies UM15",
-			"VAL-4 Black Ponies UM17",
-			"VMO-2",
-			"VMO-5 UV",
-			"VS-41 Shamrocks"
-		],
-		"C-130": [
-			"USAF - 70s - USAF DZ63-779",
-			"USAF - 70s - USAF PR63-820",
-			"USAF - 70s - USAF SEA",
-			"USAF - 70s - USAF SG56-471",
-			"USAF - 70s - USAF YJ56-470",
-			"USAF South Vietnam - 70s - KQVN HCF",
-			"USAF South Vietnam - 70s - KQVN HCL"
-		],
-		"A-4E Skyhawk": [
-			"USMC VMA-121 Green Knights",
-			"USMC VMA-124 Memphis Marines",
-			"USMC VMA-131 Diamondbacks",
-			"USMC VMA-131 Diamondbacks - CAG",
-			"USMC VMA-131 Diamondbacks - Gray",
-			"USMC VMA-142 Flying Gators",
-			"USMC VMA-211 Avengers",
-			"USMC VMA-211 Wake",
-			"USMC VMA-214 Black Sheep 1989",
-			"USMC VMA-311 Tomcats",
-			"USMC VMA-322 Fighting Gamecocks",
-			"USMC VMA-324 Vagabonds",
-			"USMC VMA-331 Bumblebees",
-			"USN VA-106 Gladiators",
-			"USN VA-144 Roadrunners",
-			"USN VA-153 Blue Tail Flies",
-			"USN VA-163 Saints",
-			"USN VA-164 Ghostriders",
-			"USN VA-195 Dambusters",
-			"USN VA-212 Rampant Raiders",
-			"USN VA-22",
-			"USN VA-45 Blackbirds",
-			"USN VA-46 Clansmen",
-			"USN VA-55 Warhorses",
-			"USN VA-64 Black Lancers",
-			"USN VA-83 Rampagers",
-			"USN VC-7 Tallyhoers"
-		],
-		"A-6A Intruder": [
-			"VA-176 AE 503",
-			"VA-176 AE 507",
-			"VA-176 AE 514",
-			"VA-176 AE 515",
-			"VA-176 AE 516",
-			"VA-176 Thunderbolts AE HiViz",
-			"VA-34 Blue Blasters AB",
-			"VA-35 Black Panthers AA",
-			"VA-52 Knightriders NL",
-			"VA-95 Skynights NH HiViz"
-		],
-		"F-4B Phantom II": [
-			"USAF 433 TFS 63-7680 (SEA)",
-			"USAF 45th TFS 40646",
-			"USAF 45th TFS 40693",
-			"USAF 45th TFS 40697",
-			"USAF 45th TFS 40723",
-			"USAF 555 TFS - 463 (SEA)",
-			"USAF 555 TFS - 643 (SEA)",
-			"USAF 555 TFS - 683 (SEA)",
-			"USAF 555 TFS - 704 (SEA)",
-			"VF-103 Sluggers 206",
-			"VF-111 200 USS CORAL SEA",
-			"VF-111 201 USS CORAL SEA",
-			"VF-111 214 USS CORAL SEA",
-			"VF-114 Aardvarks 210",
-			"VF-114 Aardvarks 210 (Kills)",
-			"VF-121-118",
-			"VF-14 100",
-			"VF-14 101",
-			"VF-14 102",
-			"VF-14 103",
-			"VF-14 104",
-			"VF-14 107",
-			"VF-14 108",
-			"VF-14 109",
-			"VF-14 110",
-			"VF-151 201 USS MIDWAY",
-			"VF-151 213 USS MIDWAY",
-			"VF-161 101",
-			"VF-21 101 USS MIDWAY",
-			"VF-21 102 USS MIDWAY",
-			"VF-31 Tomcatters 106",
-			"VF-41 112",
-			"VF-51 100 USS CORAL SEA",
-			"VF-51 110 USS CORAL SEA",
-			"VF-51 113 USS CORAL SEA",
-			"VF-51 114 USS CORAL SEA",
-			"VF-84 Jolly Rogers 200",
-			"VMFA-212 AC01",
-			"VMFA-212 AC02",
-			"VMFA-314 5",
-			"VMFA-531 207",
-			"VMFA-531_10"
-		],
-		"F-4C Phantom II": [
-			"113 TFS 63-7623",
-			"433 TFS 63-7680",
-			"555 TFS - 643",
-			"USAF 40646",
-			"USAF 67463"
-			],
-		"F-4E Phantom II": [
-			"USAF JV 69-313 (SEA)",
-			"USAF JV 69-310 (SEA)",
-			"USAF JV 69-290 (SEA)",
-			"USAF JV 69-292 (SEA)",
-			"USAF JV 69-123 (SEA)",
-			"USAF JH 68-804 (SEA)",
-			"USAF FJ-693",
-			"USMC VMFA 235"
-		],
-		"F-5E Tiger II": [
-			"USAF - 70s - Skoshi Tiger (SEA)",
-			"USAF - 70s - USAF 425th TFTS (SEA)",
-			"USAF - 70s - USAF Bare Metal",
-			"USAF - 70s - F5Erolloutversion",
-			"South Vietnam 522nd Figher Sqn 00847",
-			"South Vietnam 522nd Figher Sqn 00878",
-			"South Vietnam 522nd Figher Sqn 01640",
-			"South Vietnam 522nd Figher Sqn 10525"
-		],
-		"F-100 Super Sabre": [
-			"481 TFS 63054",
-			"481 TFS 63055",
-			"481 TFS 63063",
-			"481 TFS 63285",
-			"AF 53 CT 318",
-			"AF 53 CT 665",
-			"AF 53 CT 805",
-			"AF 53 CT 853"
-		],
-		"F-104C Starfighter": [
-			"USAF 60891 Snoopy Sniper",
-			"USAF 70914 George AFB"
-		],
-		"F-104G Starfighter": [
-			"USAF 70925 Smoke II",
-			"USAF_70914_George_AFB",
-			"USAF_13690_Luke_AFB"
-		],
-		"F-105D Thunderchief": [
-			"465th TFS 61 0061",
-			"465th TFS 61 0069",
-			"465th TFS 61 0084",
-			"465th TFS 61 0099",
-			"465th TFS 61 0108",
-			"465th TFS 61 0115",
-			"465th TFS 62 4285",
-			"465th TFS 62 4360",
-			"465th TFS 62 4372",
-			"466th TFS 62 4346",
-			"466th TFS 62 4359",
-			"466th TFS 62 4361",
-			"562nd TFS 24294",
-			"562nd TFS 91750",
-			"562nd TFS 91761",
-			"562nd TFS 91764",
-			"JJ-AF 61-132"
-		],
-		"F-105G Thunderchief": [
-			"128th TFS Georgia",
-			"465th TFS 63 4331",
-			"466th TFS 62 4309",
-			"562nd TFS 38304",
-			"562nd TFS 38343"
-		],
-		"B-52H Stratofortress": [
-			"USAF - 70s - South East Asia"
-		],
-		"S-3B Viking": [
-			"USAF - VS-21 - CAG",
-			"USAF - VS-21 - CAG 80's"
-		],
-		"E-2C Hawkeye": [
-			"US Navy - 90s - VAW-122 AE 600",
-			"US Navy - 90s - VAW-122 AE 601",
-			"US Navy - 90s - VAW-122 AE 602",
-			"US Navy - 90s - VAW-122 AE 603"
-		],
-		"S-3B Tanker": [
-			"USAF - VS-24 - CAG",
-			"USAF - VS-28 - CAG"
-		],
-		"KC-130": [
-			"US Navy single tone wings",
-			"US Navy Two Tone wings, Dark Center",
-			"US Navy Two Tone Wings, Light Center"
-],
-		"KC-135 Stratotanker": [
-			"55th RW USAF EC-135R",
-			"55th RW USAF RC-135W",
-			"55th RW USAF WC-135R",
-			"390th Fighter SQN"
-		]
-	},
-	"liveries_overrides_ground_forces":{
-		"Forrestal":		["Forrestal HD",
-							"CV-61 USS Ranger"],
-		"M-113":			["USA Cold War"],
-		"M-60":				["Army Green",
-							"Army Green Base",
-							"Army Green Markings"],
-		"M-109":			["VIETNAM",
-							"VIETNAM 1",
-							"VIETNAM 2"],
-		"M 818":			["Vietnam"],
-		"Soldier M249":		["summer"],
-		"Soldier M4 GRG":	["Vietnam 1st air cav m69",
-							"Vietnam 1st air cav susp",
-							"Vietnam 1st inf m69",
-							"Vietnam 1st inf susp"],
-		"Soldier stinger":	["multicam"]
-	}
+  "country": "USA",
+  "name": "1971 USA Vietnam War",
+  "authors": "Turbolious",
+  "description": "<p>US Army 1971 in Vietnam.</p>",
+  "locales": [
+    "en_US"
+  ],
+  "aircrafts": [
+    "CH-47D",
+    "CH-47F Block I",
+    "CH-53E",
+    "OH-6A Cayuse",
+    "UH-1H Iroquois",
+    "AH-1W SuperCobra",
+    "OV-10A Bronco",
+    "C-130",
+    "A-4E Skyhawk",
+    "A-6A Intruder",
+    "A-7E Corsair II",
+    "F-4B Phantom II",
+    "F-4C Phantom II",
+    "F-4E Phantom II",
+    "F-4E-45MC Phantom II",
+    "F-5E Tiger II",
+    "F-100 Super Sabre",
+    "F-104C Starfighter",
+    "F-104G Starfighter",
+    "F-105D Thunderchief",
+    "F-105G Thunderchief",
+    "B-52H Stratofortress"
+  ],
+  "awacs": [
+    "E-2C Hawkeye"
+  ],
+  "tankers": [
+    "KC-130",
+    "KC-135 Stratotanker"
+  ],
+  "frontline_units": [
+    "M113",
+    "M163 Vulcan Air Defense System",
+    "M60A3 \"Patton\"",
+    "M151A1C MUTT w/ 106mm Recoilless Rifle"
+  ],
+  "artillery_units": [
+    "M109A6 Paladin"
+  ],
+  "infantry_units": [
+    "Infantry M249",
+    "Infantry M4 Georgia"
+  ],
+  "logistics_units": [
+    "Truck M818 6x6",
+    "VAP US M35 Truck",
+    "M151 1/4-ton 4x4 utility truck",
+    "M274 1/2-ton 4x4 utility truck"
+  ],
+  "air_defense_units": [
+    "SAM Hawk SR (AN/MPQ-50)",
+    "M163 Vulcan Air Defense System",
+    "M48 Chaparral"
+  ],
+  "missiles": [],
+  "requirements": {},
+  "preset_groups": [
+    "Hawk",
+    "Cold-War-Flak"
+  ],
+  "naval_units": [
+    "CV-59 Forrestal"
+  ],
+  "carrier_names": [
+    "CV-59 USS Forrestal",
+    "CV-61 USS Ranger",
+    "CV-60 USS Saratoga",
+    "CV-62 USS Independence"
+  ],
+  "has_jtac": true,
+  "jtac_unit": "OV-10A Bronco",
+  "doctrine": "coldwar",
+  "liveries_overrides": {
+    "CH-47D": [
+      "US Army - 14-08200"
+    ],
+    "CH-53E": [
+      "USAF - 70s - USAF"
+    ],
+    "AH-1W SuperCobra": [
+      "USA 90s -  X Black"
+    ],
+    "UH-1H Iroquois": [
+      "25th Infantry DIvision",
+      "Army 101AD_LaPointe",
+      "Army 173rd AHC",
+      "Army 228ASHB_377_1969",
+      "Army 229ABn_A_Co_1965",
+      "Army 229ABn_A_Co_1967",
+      "Army 229ABn_B_Co_1965",
+      "Army 229ABn_B_Co_Killer_Spade_1968",
+      "Army 229ABn_C-1_1968",
+      "Army 229ABn_C-2_1968",
+      "Army 229ABn_C_Co_1965",
+      "Army 229ABn_Crandall",
+      "Army 229ABn_D_Co_1966",
+      "Army 229ABn_D_Co_1968",
+      "Army 229ABn_Freeman",
+      "Army 82Arty_E_051_1966",
+      "Army 82Arty_E_938_1965",
+      "Army 82nd Medical Detachment",
+      "US ARMY VIETNAM 1960 LAF",
+      "USMC HML-167 29 1970",
+      "USMC HML-167 30 1969",
+      "USMC HML-367 1968",
+      "USMC HML-367 1975",
+      "USMC VMO-2",
+      "USMC VMO-3",
+      "USMC VMO-6"
+    ],
+    "OV-10A Bronco": [
+      "TASS 19th USAF 67-14657",
+      "TASS 19th USAF TCW 67-14663",
+      "TASS 20th USAF 64-14654",
+      "TASS 22nd USAF 67-14647WH",
+      "VAL-4 104",
+      "VAL-4 106",
+      "VAL-4 Black Ponies UM114",
+      "VAL-4 Black Ponies UM119",
+      "VAL-4 Black Ponies UM15",
+      "VAL-4 Black Ponies UM17",
+      "VMO-2",
+      "VMO-5 UV",
+      "VS-41 Shamrocks"
+    ],
+    "C-130": [
+      "USAF - 70s - USAF DZ63-779",
+      "USAF - 70s - USAF PR63-820",
+      "USAF - 70s - USAF SEA",
+      "USAF - 70s - USAF SG56-471",
+      "USAF - 70s - USAF YJ56-470",
+      "USAF South Vietnam - 70s - KQVN HCF",
+      "USAF South Vietnam - 70s - KQVN HCL"
+    ],
+    "A-4E Skyhawk": [
+      "USMC VMA-121 Green Knights",
+      "USMC VMA-124 Memphis Marines",
+      "USMC VMA-131 Diamondbacks",
+      "USMC VMA-131 Diamondbacks - CAG",
+      "USMC VMA-131 Diamondbacks - Gray",
+      "USMC VMA-142 Flying Gators",
+      "USMC VMA-211 Avengers",
+      "USMC VMA-211 Wake",
+      "USMC VMA-214 Black Sheep 1989",
+      "USMC VMA-311 Tomcats",
+      "USMC VMA-322 Fighting Gamecocks",
+      "USMC VMA-324 Vagabonds",
+      "USMC VMA-331 Bumblebees",
+      "USN VA-106 Gladiators",
+      "USN VA-144 Roadrunners",
+      "USN VA-153 Blue Tail Flies",
+      "USN VA-163 Saints",
+      "USN VA-164 Ghostriders",
+      "USN VA-195 Dambusters",
+      "USN VA-212 Rampant Raiders",
+      "USN VA-22",
+      "USN VA-45 Blackbirds",
+      "USN VA-46 Clansmen",
+      "USN VA-55 Warhorses",
+      "USN VA-64 Black Lancers",
+      "USN VA-83 Rampagers",
+      "USN VC-7 Tallyhoers"
+    ],
+    "A-6A Intruder": [
+      "VA-176 AE 503",
+      "VA-176 AE 507",
+      "VA-176 AE 514",
+      "VA-176 AE 515",
+      "VA-176 AE 516",
+      "VA-176 Thunderbolts AE HiViz",
+      "VA-34 Blue Blasters AB",
+      "VA-35 Black Panthers AA",
+      "VA-52 Knightriders NL",
+      "VA-95 Skynights NH HiViz"
+    ],
+    "F-4B Phantom II": [
+      "USAF 433 TFS 63-7680 (SEA)",
+      "USAF 45th TFS 40646",
+      "USAF 45th TFS 40693",
+      "USAF 45th TFS 40697",
+      "USAF 45th TFS 40723",
+      "USAF 555 TFS - 463 (SEA)",
+      "USAF 555 TFS - 643 (SEA)",
+      "USAF 555 TFS - 683 (SEA)",
+      "USAF 555 TFS - 704 (SEA)",
+      "VF-103 Sluggers 206",
+      "VF-111 200 USS CORAL SEA",
+      "VF-111 201 USS CORAL SEA",
+      "VF-111 214 USS CORAL SEA",
+      "VF-114 Aardvarks 210",
+      "VF-114 Aardvarks 210 (Kills)",
+      "VF-121-118",
+      "VF-14 100",
+      "VF-14 101",
+      "VF-14 102",
+      "VF-14 103",
+      "VF-14 104",
+      "VF-14 107",
+      "VF-14 108",
+      "VF-14 109",
+      "VF-14 110",
+      "VF-151 201 USS MIDWAY",
+      "VF-151 213 USS MIDWAY",
+      "VF-161 101",
+      "VF-21 101 USS MIDWAY",
+      "VF-21 102 USS MIDWAY",
+      "VF-31 Tomcatters 106",
+      "VF-41 112",
+      "VF-51 100 USS CORAL SEA",
+      "VF-51 110 USS CORAL SEA",
+      "VF-51 113 USS CORAL SEA",
+      "VF-51 114 USS CORAL SEA",
+      "VF-84 Jolly Rogers 200",
+      "VMFA-212 AC01",
+      "VMFA-212 AC02",
+      "VMFA-314 5",
+      "VMFA-531 207",
+      "VMFA-531_10"
+    ],
+    "F-4C Phantom II": [
+      "113 TFS 63-7623",
+      "433 TFS 63-7680",
+      "555 TFS - 643",
+      "USAF 40646",
+      "USAF 67463"
+    ],
+    "F-4E Phantom II": [
+      "USAF JV 69-313 (SEA)",
+      "USAF JV 69-310 (SEA)",
+      "USAF JV 69-290 (SEA)",
+      "USAF JV 69-292 (SEA)",
+      "USAF JV 69-123 (SEA)",
+      "USAF JH 68-804 (SEA)",
+      "USAF FJ-693",
+      "USMC VMFA 235"
+    ],
+    "F-5E Tiger II": [
+      "USAF - 70s - Skoshi Tiger (SEA)",
+      "USAF - 70s - USAF 425th TFTS (SEA)",
+      "USAF - 70s - USAF Bare Metal",
+      "USAF - 70s - F5Erolloutversion",
+      "South Vietnam 522nd Figher Sqn 00847",
+      "South Vietnam 522nd Figher Sqn 00878",
+      "South Vietnam 522nd Figher Sqn 01640",
+      "South Vietnam 522nd Figher Sqn 10525"
+    ],
+    "F-100 Super Sabre": [
+      "481 TFS 63054",
+      "481 TFS 63055",
+      "481 TFS 63063",
+      "481 TFS 63285",
+      "AF 53 CT 318",
+      "AF 53 CT 665",
+      "AF 53 CT 805",
+      "AF 53 CT 853"
+    ],
+    "F-104C Starfighter": [
+      "USAF 60891 Snoopy Sniper",
+      "USAF 70914 George AFB"
+    ],
+    "F-104G Starfighter": [
+      "USAF 70925 Smoke II",
+      "USAF_70914_George_AFB",
+      "USAF_13690_Luke_AFB"
+    ],
+    "F-105D Thunderchief": [
+      "465th TFS 61 0061",
+      "465th TFS 61 0069",
+      "465th TFS 61 0084",
+      "465th TFS 61 0099",
+      "465th TFS 61 0108",
+      "465th TFS 61 0115",
+      "465th TFS 62 4285",
+      "465th TFS 62 4360",
+      "465th TFS 62 4372",
+      "466th TFS 62 4346",
+      "466th TFS 62 4359",
+      "466th TFS 62 4361",
+      "562nd TFS 24294",
+      "562nd TFS 91750",
+      "562nd TFS 91761",
+      "562nd TFS 91764",
+      "JJ-AF 61-132"
+    ],
+    "F-105G Thunderchief": [
+      "128th TFS Georgia",
+      "465th TFS 63 4331",
+      "466th TFS 62 4309",
+      "562nd TFS 38304",
+      "562nd TFS 38343"
+    ],
+    "B-52H Stratofortress": [
+      "USAF - 70s - South East Asia"
+    ],
+    "S-3B Viking": [
+      "USAF - VS-21 - CAG",
+      "USAF - VS-21 - CAG 80's"
+    ],
+    "E-2C Hawkeye": [
+      "US Navy - 90s - VAW-122 AE 600",
+      "US Navy - 90s - VAW-122 AE 601",
+      "US Navy - 90s - VAW-122 AE 602",
+      "US Navy - 90s - VAW-122 AE 603"
+    ],
+    "S-3B Tanker": [
+      "USAF - VS-24 - CAG",
+      "USAF - VS-28 - CAG"
+    ],
+    "KC-130": [
+      "US Navy single tone wings",
+      "US Navy Two Tone wings, Dark Center",
+      "US Navy Two Tone Wings, Light Center"
+    ],
+    "KC-135 Stratotanker": [
+      "55th RW USAF EC-135R",
+      "55th RW USAF RC-135W",
+      "55th RW USAF WC-135R",
+      "390th Fighter SQN"
+    ]
+  },
+  "liveries_overrides_ground_forces": {
+    "Forrestal": [
+      "Forrestal HD",
+      "CV-61 USS Ranger"
+    ],
+    "M-113": [
+      "USA Cold War"
+    ],
+    "M-60": [
+      "Army Green",
+      "Army Green Base",
+      "Army Green Markings"
+    ],
+    "M-109": [
+      "VIETNAM",
+      "VIETNAM 1",
+      "VIETNAM 2"
+    ],
+    "M 818": [
+      "Vietnam"
+    ],
+    "Soldier M249": [
+      "summer"
+    ],
+    "Soldier M4 GRG": [
+      "Vietnam 1st air cav m69",
+      "Vietnam 1st air cav susp",
+      "Vietnam 1st inf m69",
+      "Vietnam 1st inf susp"
+    ],
+    "Soldier stinger": [
+      "multicam"
+    ]
+  }
 }

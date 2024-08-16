@@ -48,7 +48,7 @@
     "M1128 Stryker Mobile Gun System",
     "M1134 Stryker ATGM (BGM-71 TOW)",
     "M1A2 Abrams"
-    ],
+  ],
   "artillery_units": [
     "M109A6 Paladin",
     "M270 Multiple Launch Rocket System"
@@ -82,7 +82,8 @@
     "EWR AN/FPS-117 Radar"
   ],
   "requirements": {},
-  "carrier_names": ["CVN-71 Theodore Roosevelt",
+  "carrier_names": [
+    "CVN-71 Theodore Roosevelt",
     "CVN-72 Abraham Lincoln",
     "CVN-73 George Washington",
     "CVN-74 John C. Stennis",
@@ -121,7 +122,7 @@
     ],
     "UH-60L": [
       "Israeli Air Force"
-    ]	
+    ]
   },
   "unrestricted_satnav": true
 }
