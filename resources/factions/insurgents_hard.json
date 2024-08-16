@@ -32,7 +32,10 @@
     "MLRS HL with B8M1 80mm",
     "BM-21 Grad"
   ],
-  "logistics_units": ["LUV UAZ-469 Jeep", "Truck Ural-375"],
+  "logistics_units": [
+    "LUV UAZ-469 Jeep",
+    "Truck Ural-375"
+  ],
   "infantry_units": [
     "Infantry RPG",
     "Insurgent AK-74",
@@ -50,5 +53,7 @@
   ],
   "preset_groups": [],
   "naval_units": [],
-  "missiles": ["SSM SS-1C Scud-B"]
+  "missiles": [
+    "SSM SS-1C Scud-B"
+  ]
 }

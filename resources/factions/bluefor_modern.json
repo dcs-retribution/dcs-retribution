@@ -153,15 +153,35 @@
   "jtac_unit": "MQ-9 Reaper",
   "unrestricted_satnav": true,
   "liveries_overrides": {
-    "J-11A Flanker-L": ["USN Aggressor VFC-13 'Ferris' (Fictional)"],
-    "JF-17 Thunder": ["'Splinter' Camo for Blue Side (Fictional)"],
-    "Ka-50 Hokum": ["georgia camo"],
-    "Ka-50 Hokum III": ["Ka-50_black_neutral"],
-    "Mi-8MTV2 Hip": ["Ukraine"],
-    "Mi-24P Hind-F": ["Ukrainian Army Aviation"],
-    "MiG-29S Fulcrum-C": ["Air Force Ukraine Standard"],
-    "Su-24M Fencer-D": ["Ukrainian Air Force Standard"],
-    "Su-25T Frogfoot": ["af standard 101"],
-    "Su-27 Flanker-B": ["Air Force Ukraine Standard"]
+    "J-11A Flanker-L": [
+      "USN Aggressor VFC-13 'Ferris' (Fictional)"
+    ],
+    "JF-17 Thunder": [
+      "'Splinter' Camo for Blue Side (Fictional)"
+    ],
+    "Ka-50 Hokum": [
+      "georgia camo"
+    ],
+    "Ka-50 Hokum III": [
+      "Ka-50_black_neutral"
+    ],
+    "Mi-8MTV2 Hip": [
+      "Ukraine"
+    ],
+    "Mi-24P Hind-F": [
+      "Ukrainian Army Aviation"
+    ],
+    "MiG-29S Fulcrum-C": [
+      "Air Force Ukraine Standard"
+    ],
+    "Su-24M Fencer-D": [
+      "Ukrainian Air Force Standard"
+    ],
+    "Su-25T Frogfoot": [
+      "af standard 101"
+    ],
+    "Su-27 Flanker-B": [
+      "Air Force Ukraine Standard"
+    ]
   }
 }

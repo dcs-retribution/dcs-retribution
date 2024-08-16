@@ -8,7 +8,7 @@
   ],
   "aircrafts": [
     "AJS-37 Viggen",
-	"SK-60",
+    "SK-60",
     "UH-1H Iroquois"
   ],
   "awacs": [
@@ -23,7 +23,7 @@
     "Leopard 2A4",
     "M1097 Heavy HMMWV Avenger",
     "M1126 Stryker ICV (M2 HMG)",
-	"M48 Chaparral"
+    "M48 Chaparral"
   ],
   "artillery_units": [],
   "logistics_units": [
@@ -44,7 +44,7 @@
   "air_defense_units": [
     "SAM Hawk SR (AN/MPQ-50)",
     "M1097 Heavy HMMWV Avenger",
-	"M48 Chaparral"
+    "M48 Chaparral"
   ],
   "has_jtac": true,
   "jtac_unit": "SK-60"
