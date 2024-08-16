@@ -43,6 +43,9 @@ class Migrator:
         self._update_tgos()
         self._reload_terrain()
 
+        # TODO: remove in due time as this is supposedly fixed
+        self.game.settings.nevatim_parking_fix = False
+
     def _update_doctrine(self) -> None:
         doctrines = [
             MODERN_DOCTRINE,
