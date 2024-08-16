@@ -6,6 +6,7 @@
 	"locales": ["en_US"],
 	"aircrafts": [
 		"CH-47D",
+        "CH-47F Block I",
 		"CH-53E",
     	"OH-6A Cayuse",
 		"UH-1H Iroquois",
