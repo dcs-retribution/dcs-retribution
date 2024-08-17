@@ -52,7 +52,7 @@ squadrons:
     - primary: Air Assault
       secondary: any
       aircraft:
-        - UH-60A
+        - CH-47F Block I
       size: 4
   #San Carlos FOB
   3:
