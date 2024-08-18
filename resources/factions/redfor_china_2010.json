@@ -25,9 +25,11 @@
     "Su-30MKK Flanker-G",
     "Su-34 Fullback",
     "Tu-22M3 Backfire-C",
+    "Tu-95MS Bear-H",
     "H-6J Badger"
   ],
   "awacs": [
+    "A-50",
     "KJ-2000"
   ],
   "tankers": [
