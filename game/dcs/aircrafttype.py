@@ -265,6 +265,9 @@ class AircraftType(UnitType[Type[FlyingType]]):
 
         self.task_priorities.update(enrich)
 
+    def __eq__(self, other: object) -> bool:
+        return isinstance(other, AircraftType) and self.variant_id == other.variant_id
+
     @classmethod
     def register(cls, unit_type: AircraftType) -> None:
         cls._by_name[unit_type.variant_id] = unit_type
