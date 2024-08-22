@@ -1,4 +1,4 @@
-from PySide2.QtGui import QStandardItem, QStandardItemModel
+from PySide6.QtGui import QStandardItem, QStandardItemModel
 
 from game import Game
 from game.ato.flightwaypoint import FlightWaypoint
@@ -97,6 +97,7 @@ class QPredefinedWaypointSelectionComboBox(QFilteredComboBox):
                     wpt.description = f"Friendly unit: {target.name}"
                 else:
                     wpt.description = f"Enemy unit: {target.name}"
+                    wpt.waypoint_type = FlightWaypointType.TARGET_POINT
                 i = add_model_item(i, model, wpt.pretty_name, wpt)
 
         if self.include_airbases:

@@ -10,6 +10,7 @@ import supplyRoutesReducer from "../api/supplyRoutesSlice";
 import tgosReducer from "../api/tgosSlice";
 import threatZonesReducer from "../api/threatZonesSlice";
 import unculledZonesReducer from "../api/unculledZonesSlice";
+import mapZonesReducer from "../api/mapZonesSlice";
 import {
   Action,
   PreloadedState,
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
   threatZones: threatZonesReducer,
   [baseApi.reducerPath]: baseApi.reducer,
   unculledZones: unculledZonesReducer,
+  mapZones: mapZonesReducer,
 });
 
 export function setupStore(preloadedState?: PreloadedState<RootState>) {

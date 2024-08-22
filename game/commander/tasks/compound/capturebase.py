@@ -7,6 +7,7 @@ from game.commander.tasks.compound.destroyenemygroundunits import (
 from game.commander.tasks.compound.reduceenemyfrontlinecapacity import (
     ReduceEnemyFrontLineCapacity,
 )
+from game.commander.tasks.primitive.airassault import PlanAirAssault
 from game.commander.tasks.primitive.breakthroughattack import BreakthroughAttack
 from game.commander.theaterstate import TheaterState
 from game.htn import CompoundTask, Method
@@ -22,6 +23,7 @@ class CaptureBase(CompoundTask[TheaterState]):
         yield [DestroyEnemyGroundUnits(self.front_line)]
         if self.worth_destroying_ammo_depots(state):
             yield [ReduceEnemyFrontLineCapacity(self.enemy_cp(state))]
+        yield [PlanAirAssault(self.enemy_cp(state))]
 
     def enemy_cp(self, state: TheaterState) -> ControlPoint:
         return self.front_line.control_point_hostile_to(state.context.coalition.player)

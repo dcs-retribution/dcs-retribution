@@ -3,8 +3,8 @@ import logging
 import sys
 import traceback
 
-from PySide2.QtCore import Signal, QObject
-from PySide2.QtWidgets import QMessageBox, QApplication
+from PySide6.QtCore import Signal, QObject
+from PySide6.QtWidgets import QMessageBox, QApplication
 
 
 class UncaughtExceptionHandler(QObject):
@@ -36,7 +36,7 @@ class UncaughtExceptionHandler(QObject):
                 QApplication.focusWidget(),
                 "An unexpected error occurred",
                 "\n".join([message, "", exception]),
-                QMessageBox.Ok,
+                QMessageBox.StandardButton.Ok,
             )
         else:
             logging.critical("No QApplication instance available.")

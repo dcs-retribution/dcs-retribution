@@ -1,6 +1,7 @@
 from typing import Optional
 
-from PySide2.QtWidgets import QGroupBox, QHBoxLayout, QLineEdit, QLabel, QMessageBox
+from PySide6.QtWidgets import QGroupBox, QHBoxLayout, QLineEdit, QLabel, QMessageBox
+
 from game.ato.flight import Flight
 
 

@@ -1,10 +1,10 @@
 import { Flight } from "../../api/liberationApi";
 import { Icon, Point } from "leaflet";
-import { Symbol } from "milsymbol";
+import ms from "milsymbol";
 import { Marker } from "react-leaflet";
 
 function iconForFlight(flight: Flight) {
-  const symbol = new Symbol(flight.sidc, {
+  const symbol = new ms.Symbol(flight.sidc, {
     size: 20,
   });
 

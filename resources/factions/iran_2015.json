@@ -10,6 +10,7 @@
     "F-14A Tomcat (AI)",
     "F-14A Tomcat (Block 135-GR Late)",
     "F-4E Phantom II",
+    "F-4E-45MC Phantom II",
     "F-5E Tiger II",
     "IL-76MD",
     "Mi-24V Hind-E",
@@ -17,6 +18,7 @@
     "Mi-28N Havoc",
     "MiG-21bis Fishbed-N",
     "MiG-29A Fulcrum-A",
+    "Mirage-F1EQ",
     "Su-22M4 Fitter-K",
     "Su-24MK Fencer-D",
     "Su-25 Frogfoot",
@@ -62,8 +64,8 @@
     "SA-11",
     "Rapier",
     "SA-17",
-    "Silkworm",
-    "KS-19/SON-9"
+    "KS-19/SON-9",
+    "Silkworm"
   ],
   "naval_units": [
     "Corvette 1124.4 Grish",
@@ -89,6 +91,8 @@
   "has_jtac": true,
   "jtac_unit": "MQ-9 Reaper",
   "liveries_overrides": {
-    "F-14A Tomcat (Block 135-GR Late)": ["Rogue Nation(Top Gun - Maverick)"]
+    "F-14A Tomcat (Block 135-GR Late)": [
+      "Rogue Nation(Top Gun - Maverick)"
+    ]
   }
 }

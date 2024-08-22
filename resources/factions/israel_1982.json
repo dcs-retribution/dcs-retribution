@@ -13,6 +13,7 @@
     "F-16A",
     "F-16CM Fighting Falcon (Block 50)",
     "F-4E Phantom II",
+    "F-4E-45MC Phantom II",
     "UH-1H Iroquois"
   ],
   "awacs": [
@@ -28,8 +29,8 @@
     "M60A3 \"Patton\""
   ],
   "artillery_units": [
-    "(IDF Mods Project) BM-21 Grad 122mm",
-    "(IDF Mods Project) Urgan BM-27 220mm"
+    "M109A6 Paladin",
+    "M270 Multiple Launch Rocket System"
   ],
   "logistics_units": [
     "Truck M818 6x6"

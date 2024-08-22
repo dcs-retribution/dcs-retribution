@@ -4,30 +4,47 @@ theater: Nevada
 authors: Starfire
 recommended_player_faction: USA 2005
 recommended_enemy_faction: Redfor (China) 2010
-description: <p>Welcome to Vegas Nerve, an asymmetrical Red Flag Exercise scenario. You are starting off in control of the two Tonopah airports, and will push south from there. For the duration of this exercise, Creech AFB has been cleared of all fixed wing aircraft and will function as a FARP for rotor ops. OPFOR has a substantial resource advantage and an extensive IADS. Reducing that resource advantage while degrading their IADS will be vital to a successful completion of this exercise. Good luck, Commander.</p>
+description:
+  <p>Welcome to Vegas Nerve, an asymmetrical Red Flag Exercise scenario. You are
+  starting off in control of the two Tonopah airports, and will push south from
+  there. For the duration of this exercise, Creech AFB has been cleared of all
+  fixed wing aircraft and will function as a FARP for rotor ops. OPFOR has a
+  substantial resource advantage and an extensive IADS. Reducing that resource
+  advantage while degrading their IADS will be vital to a successful completion
+  of this exercise. Good luck, Commander.</p>
 miz: exercise_vegas_nerve.miz
 performance: 1
 recommended_start_date: 2011-02-24
 version: "10.7"
+settings:
+  hercules: true
+  squadron_start_full: true
 squadrons:
-# Tonopah Airport
-  17:
-    - primary: BARCAP
-      secondary: air-to-air
-      aircraft:
-        - F-15C Eagle
-      size: 12
+  Bombers from Minot AFB:
     - primary: Strike
       secondary: air-to-ground
       aircraft:
-        - F-15E Strike Eagle (AI)
-        - F-15E Strike Eagle (Suite 4+)
-      size: 12
-    - primary: AEW&C
+        - B-52H Stratofortress
+      size: 4
+  Bombers from Ellsworth AFB:
+    - primary: OCA/Runway
+      secondary: air-to-ground
       aircraft:
-        - E-3A
-      size: 1
-# Tonopah Test Range
+        - B-1B Lancer
+      size: 4
+  # Tonopah Airport
+  17:
+    - primary: TARCAP
+      secondary: any
+      aircraft:
+        - F-15C Eagle
+      size: 16
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - F-15E Strike Eagle (Suite 4+)
+      size: 8
+  # Tonopah Test Range
   18:
     - primary: BAI
       secondary: air-to-ground
@@ -35,10 +52,15 @@ squadrons:
         - A-10C Thunderbolt II (Suite 7)
       size: 8
     - primary: CAS
-      secondary: air-to-ground
+      secondary: any
       aircraft:
         - AH-64D Apache Longbow
-      size: 10
+      size: 2
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - OH-58D(R) Kiowa Warrior
+      size: 2
     - primary: DEAD
       secondary: air-to-ground
       aircraft:
@@ -49,36 +71,42 @@ squadrons:
       aircraft:
         - F-16CM Fighting Falcon (Block 50)
       size: 24
-    - primary: Air Assault
-      secondary: air-to-ground
+    - primary: AEW&C
       aircraft:
-        - UH-1H Iroquois
-      size: 2
-# Groom Lake
+        - E-3A
+      size: 1
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - C-130J-30 Super Hercules
+        - CH-47F Block I
+      size: 1
+  # Groom Lake
   2:
     - primary: Escort
       secondary: air-to-air
       aircraft:
         - J-11A Flanker-L
-      size: 20
+      size: 16
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - Su-25T Frogfoot
-      size: 20
-# Creech
-  Creech FARP:
+      size: 12
+  # Creech
+  1:
     - primary: CAS
-      secondary: air-to-ground
+      secondary: any
       aircraft:
+        - Ka-50 Hokum III
         - Ka-50 Hokum (Blackshark 3)
       size: 8
     - primary: Air Assault
-      secondary: air-to-ground
+      secondary: any
       aircraft:
         - Mi-24P Hind-F
       size: 4
-# Nellis AFB
+  # Nellis AFB
   4:
     - primary: Strike
       secondary: air-to-ground
@@ -93,16 +121,16 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - Su-24M Fencer-D
-      size: 20
+      size: 16
     - primary: DEAD
       secondary: air-to-ground
       aircraft:
         - Su-34 Fullback
-      size: 20
-# Boulder City Airport
+      size: 16
+  # Boulder City Airport
   6:
     - primary: SEAD Escort
       secondary: any
       aircraft:
         - FC-1 Fierce Dragon
-      size: 20
+      size: 16

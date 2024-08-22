@@ -8,12 +8,16 @@ from typing import Optional, TYPE_CHECKING, Any
 
 import dcs.terrain.falklands.airports
 
+import pydcs_extensions
 from game.profiling import logged_duration
+from pydcs_extensions import ELM2084_MMR_AD_RT, Iron_Dome_David_Sling_CP
 
 if TYPE_CHECKING:
     from game import Game
 
 _dcs_saved_game_folder: Optional[str] = None
+_prefer_liberation_payloads: bool = False
+_server_port: int = 16880
 
 
 # fmt: off
@@ -59,13 +63,50 @@ class MigrationUnpickler(pickle.Unpickler):
             return dcs.terrain.falklands.airports.Hipico_Flying_Club
         if name in ["SaveManager", "SaveGameBundle"]:
             return DummyObject
+        if name == "CaletaTortel":
+            return dcs.terrain.falklands.airports.Caleta_Tortel_Airport
+        if module == "pydcs_extensions.f4b.f4b":
+            return pydcs_extensions.f4
+        if module == "pydcs_extensions.irondome.irondome":
+            if name in ["I9K57_URAGAN", "I9K51_GRAD", "I9K58_SMERCH"]:
+                return None
+            elif name == "ELM2048_MMR":
+                return ELM2084_MMR_AD_RT
+            elif name == "IRON_DOME_CP":
+                return Iron_Dome_David_Sling_CP
+        if module == "dcs.terrain.kola.airports":
+            if name == "Lakselv":
+                from dcs.terrain.kola.airports import Banak
+                return Banak
+            elif name == "Severomorsk1":
+                from dcs.terrain.kola.airports import Severomorsk_1
+                return Severomorsk_1
+            elif name == "Severomorsk3":
+                from dcs.terrain.kola.airports import Severomorsk_3
+                return Severomorsk_3
+            elif name == "Olenegorsk":
+                from dcs.terrain.kola.airports import Olenya
+                return Olenya
+            if name == "Bas_100":
+                from dcs.terrain.kola.airports import Vuojarvi
+                return Vuojarvi
+        if module in ["dcs.vehicles", "dcs.ships"]:
+            try:
+                return super().find_class(module, name)
+            except AttributeError:
+                alternate = name.split('.')[:-1] + [name.split('.')[-1][0].lower() + name.split('.')[-1][1:]]
+                name = '.'.join(alternate)
         return super().find_class(module, name)
 # fmt: on
 
 
-def setup(user_folder: str) -> None:
+def setup(user_folder: str, prefer_liberation_payloads: bool, port: int) -> None:
     global _dcs_saved_game_folder
+    global _prefer_liberation_payloads
+    global _server_port
     _dcs_saved_game_folder = user_folder
+    _prefer_liberation_payloads = prefer_liberation_payloads
+    _server_port = port
     if not save_dir().exists():
         save_dir().mkdir(parents=True)
 
@@ -76,8 +117,24 @@ def base_path() -> Path:
     return Path(_dcs_saved_game_folder)
 
 
+def debug_dir() -> Path:
+    return base_path() / "Retribution" / "Debug"
+
+
+def waypoint_debug_directory() -> Path:
+    return debug_dir() / "Waypoints"
+
+
 def settings_dir() -> Path:
     return base_path() / "Retribution" / "Settings"
+
+
+def airwing_dir() -> Path:
+    return base_path() / "Retribution" / "AirWing"
+
+
+def kneeboards_dir() -> Path:
+    return base_path() / "Retribution" / "Kneeboards"
 
 
 def payloads_dir(backup: bool = False) -> Path:
@@ -87,12 +144,26 @@ def payloads_dir(backup: bool = False) -> Path:
     return payloads
 
 
+def prefer_liberation_payloads() -> bool:
+    global _prefer_liberation_payloads
+    return _prefer_liberation_payloads
+
+
 def user_custom_weapon_injections_dir() -> Path:
     return base_path() / "Retribution" / "WeaponInjections"
 
 
 def save_dir() -> Path:
     return base_path() / "Retribution" / "Saves"
+
+
+def pre_pretense_backups_dir() -> Path:
+    return save_dir() / "PrePretenseBackups"
+
+
+def server_port() -> int:
+    global _server_port
+    return _server_port
 
 
 def _temporary_save_file() -> str:

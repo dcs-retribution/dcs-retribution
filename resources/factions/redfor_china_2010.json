@@ -10,6 +10,7 @@
     "J-15 Flanker X-2",
     "J-7B",
     "Ka-50 Hokum",
+    "Ka-50 Hokum (Blackshark 3)",
     "L-39ZA Albatros",
     "Mi-24V Hind-E",
     "Mi-24P Hind-F",
@@ -24,9 +25,11 @@
     "Su-30MKK Flanker-G",
     "Su-34 Fullback",
     "Tu-22M3 Backfire-C",
+    "Tu-95MS Bear-H",
     "H-6J Badger"
   ],
   "awacs": [
+    "A-50",
     "KJ-2000"
   ],
   "tankers": [

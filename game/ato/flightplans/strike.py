@@ -11,6 +11,7 @@ from .formationattack import (
 from .invalidobjectivelocation import InvalidObjectiveLocation
 from .waypointbuilder import StrikeTarget
 from ..flightwaypointtype import FlightWaypointType
+from ...theater.theatergroup import SceneryUnit
 
 
 class StrikeFlightPlan(FormationAttackFlightPlan):
@@ -28,9 +29,12 @@ class Builder(FormationAttackBuilder[StrikeFlightPlan, FormationAttackLayout]):
 
         targets: list[StrikeTarget] = []
         for idx, unit in enumerate(location.strike_targets):
-            targets.append(StrikeTarget(f"{unit.type.id} #{idx}", unit))
+            name = unit.type.id
+            if isinstance(unit, SceneryUnit):
+                name = unit.name
+            targets.append(StrikeTarget(f"{name} #{idx}", unit))
 
         return self._build(FlightWaypointType.INGRESS_STRIKE, targets)
 
-    def build(self) -> StrikeFlightPlan:
+    def build(self, dump_debug_info: bool = False) -> StrikeFlightPlan:
         return StrikeFlightPlan(self.flight, self.layout())

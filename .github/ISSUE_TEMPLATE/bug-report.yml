@@ -31,9 +31,8 @@ body:
         If the bug was found in a test/development build, select "Test build" or "Development build"
         and provide a link to the applicable build in the field below.
       options:
-        - v1.2.1
+        - v1.3.1
         - Test build
-        - Development build
   - type: input
     attributes:
       label: Test/Development build

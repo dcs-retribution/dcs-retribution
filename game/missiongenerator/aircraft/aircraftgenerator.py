@@ -21,7 +21,6 @@ from game.ato.flightstate import Completed, WaitingForStart
 from game.ato.flighttype import FlightType
 from game.ato.package import Package
 from game.ato.starttype import StartType
-from game.missiongenerator.lasercoderegistry import LaserCodeRegistry
 from game.missiongenerator.missiondata import MissionData
 from game.radio.radios import RadioRegistry
 from game.radio.tacan import TacanRegistry
@@ -53,11 +52,11 @@ class AircraftGenerator:
         time: datetime,
         radio_registry: RadioRegistry,
         tacan_registry: TacanRegistry,
-        laser_code_registry: LaserCodeRegistry,
         unit_map: UnitMap,
         mission_data: MissionData,
         helipads: dict[ControlPoint, list[StaticGroup]],
         ground_spawns_roadbase: dict[ControlPoint, list[Tuple[StaticGroup, Point]]],
+        ground_spawns_large: dict[ControlPoint, list[Tuple[StaticGroup, Point]]],
         ground_spawns: dict[ControlPoint, list[Tuple[StaticGroup, Point]]],
     ) -> None:
         self.mission = mission
@@ -66,12 +65,12 @@ class AircraftGenerator:
         self.time = time
         self.radio_registry = radio_registry
         self.tacan_registy = tacan_registry
-        self.laser_code_registry = laser_code_registry
         self.unit_map = unit_map
         self.flights: List[FlightData] = []
         self.mission_data = mission_data
         self.helipads = helipads
         self.ground_spawns_roadbase = ground_spawns_roadbase
+        self.ground_spawns_large = ground_spawns_large
         self.ground_spawns = ground_spawns
 
         self.ewrj_package_dict: Dict[int, List[FlyingGroup[Any]]] = {}
@@ -122,7 +121,7 @@ class AircraftGenerator:
             if not package.flights:
                 continue
             for flight in package.flights:
-                if flight.alive:
+                if flight.alive and not isinstance(flight.state, Completed):
                     if not flight.squadron.location.runway_is_operational():
                         logging.warning(
                             f"Runway not operational, skipping flight: {flight.flight_type}"
@@ -211,6 +210,7 @@ class AircraftGenerator:
                 self.mission,
                 self.helipads,
                 self.ground_spawns_roadbase,
+                self.ground_spawns_large,
                 self.ground_spawns,
                 self.mission_data,
             ).create_idle_aircraft()
@@ -242,6 +242,7 @@ class AircraftGenerator:
             self.mission,
             self.helipads,
             self.ground_spawns_roadbase,
+            self.ground_spawns_large,
             self.ground_spawns,
             self.mission_data,
         ).create_flight_group()
@@ -254,7 +255,6 @@ class AircraftGenerator:
                 self.time,
                 self.radio_registry,
                 self.tacan_registy,
-                self.laser_code_registry,
                 self.mission_data,
                 dynamic_runways,
                 self.use_client,
@@ -275,17 +275,16 @@ class AircraftGenerator:
             or flight.client_count
             and (
                 not self.need_ecm
-                or flight.loadout.has_weapon_of_type(WeaponType.JAMMER)
+                or flight.any_member_has_weapon_of_type(WeaponType.JAMMER)
             )
         ):
             self.ewrj_package_dict[id(flight.package)].append(group)
 
     def _reserve_frequencies_and_tacan(self, ato: AirTaskingOrder) -> None:
         for package in ato.packages:
-            if package.frequency is None:
-                continue
-            if package.frequency not in self.radio_registry.allocated_channels:
-                self.radio_registry.reserve(package.frequency)
+            pfreq = package.frequency
+            if pfreq and pfreq not in self.radio_registry.allocated_channels:
+                self.radio_registry.reserve(pfreq)
             for f in package.flights:
                 if (
                     f.frequency

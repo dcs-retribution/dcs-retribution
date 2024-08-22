@@ -1,7 +1,7 @@
 from typing import Optional, Type
 
-from PySide2.QtCore import Qt, Signal
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Qt, Signal
+from PySide6.QtWidgets import (
     QComboBox,
     QDialog,
     QLabel,
@@ -33,7 +33,9 @@ from qt_ui.windows.mission.flight.settings.QFlightSlotEditor import FlightRoster
 class QFlightCreator(QDialog):
     created = Signal(Flight)
 
-    def __init__(self, game: Game, package: Package, parent=None) -> None:
+    def __init__(
+        self, game: Game, package: Package, is_ownfor: bool, parent=None
+    ) -> None:
         super().__init__(parent=parent)
         self.setMinimumWidth(400)
 
@@ -50,23 +52,22 @@ class QFlightCreator(QDialog):
         layout = QVBoxLayout()
 
         self.task_selector = QFlightTypeComboBox(
-            self.game.theater, package.target, self.game.settings
+            self.game.theater, package.target, self.game.settings, is_ownfor
         )
         self.task_selector.setCurrentIndex(0)
         self.task_selector.currentIndexChanged.connect(self.on_task_changed)
         layout.addLayout(QLabeledWidget("Task:", self.task_selector))
 
+        self.air_wing = self.game.blue.air_wing if is_ownfor else self.game.red.air_wing
         self.aircraft_selector = QAircraftTypeSelector(
-            self.game.blue.air_wing.best_available_aircrafts_for(
-                self.task_selector.currentData()
-            )
+            self.air_wing.best_available_aircrafts_for(self.task_selector.currentData())
         )
         self.aircraft_selector.setCurrentIndex(0)
         self.aircraft_selector.currentIndexChanged.connect(self.on_aircraft_changed)
         layout.addLayout(QLabeledWidget("Aircraft:", self.aircraft_selector))
 
         self.squadron_selector = SquadronSelector(
-            self.game.air_wing_for(player=True),
+            self.air_wing,
             self.task_selector.currentData(),
             self.aircraft_selector.currentData(),
         )
@@ -74,7 +75,7 @@ class QFlightCreator(QDialog):
         layout.addLayout(QLabeledWidget("Squadron:", self.squadron_selector))
 
         self.divert = QArrivalAirfieldSelector(
-            [cp for cp in game.theater.controlpoints if cp.captured],
+            [cp for cp in game.theater.controlpoints if cp.captured == is_ownfor],
             self.aircraft_selector.currentData(),
             "None",
         )
@@ -84,14 +85,16 @@ class QFlightCreator(QDialog):
         self.update_max_size(self.squadron_selector.aircraft_available)
         layout.addLayout(QLabeledWidget("Size:", self.flight_size_spinner))
 
+        required_start_type = None
         squadron = self.squadron_selector.currentData()
         if squadron is None:
             roster = None
         else:
+            required_start_type = squadron.location.required_aircraft_start_type
             roster = FlightRoster(
                 squadron, initial_size=self.flight_size_spinner.value()
             )
-        self.roster_editor = FlightRosterEditor(roster)
+        self.roster_editor = FlightRosterEditor(squadron, roster)
         self.flight_size_spinner.valueChanged.connect(self.roster_editor.resize)
         self.squadron_selector.currentIndexChanged.connect(self.on_squadron_changed)
         roster_layout = QHBoxLayout()
@@ -99,13 +102,15 @@ class QFlightCreator(QDialog):
         roster_layout.addWidget(QLabel("Assigned pilots:"))
         roster_layout.addLayout(self.roster_editor)
 
+        self.roster_editor.pilots_changed.connect(self.on_pilot_selected)
+
         # When an off-map spawn overrides the start type to in-flight, we save
         # the selected type into this value. If a non-off-map spawn is selected
         # we restore the previous choice.
-        self.restore_start_type = self.game.settings.default_start_type
+        self.restore_start_type: Optional[str] = None
         self.start_type = QComboBox()
         for start_type in StartType:
-            self.start_type.addItem(start_type.value, start_type)
+            self.start_type.addItem(start_type.value, userData=start_type)
         self.start_type.setCurrentText(self.game.settings.default_start_type.value)
         layout.addLayout(
             QLabeledWidget(
@@ -114,8 +119,7 @@ class QFlightCreator(QDialog):
                 tooltip="Selects the start type for this flight.",
             )
         )
-        if squadron is not None and isinstance(squadron.location, OffMapSpawn):
-            self.start_type.setCurrentText(StartType.IN_FLIGHT.value)
+        if squadron is not None and required_start_type:
             self.start_type.setEnabled(False)
         layout.addWidget(
             QLabel(
@@ -135,14 +139,16 @@ class QFlightCreator(QDialog):
 
         self.create_button = QPushButton("Create")
         self.create_button.clicked.connect(self.create_flight)
-        layout.addWidget(self.create_button, alignment=Qt.AlignRight)
+        layout.addWidget(self.create_button, alignment=Qt.AlignmentFlag.AlignRight)
 
         self.setLayout(layout)
+
+        self.roster_editor.pilots_changed.emit()
 
     def reject(self) -> None:
         super().reject()
         # Clear the roster to return pilots to the pool.
-        self.roster_editor.replace(None)
+        self.roster_editor.replace(None, None)
 
     def set_custom_name_text(self, text: str):
         self.custom_name_text = text
@@ -172,7 +178,9 @@ class QFlightCreator(QDialog):
     def create_flight(self) -> None:
         error = self.verify_form()
         if error is not None:
-            QMessageBox.critical(self, "Could not create flight", error, QMessageBox.Ok)
+            QMessageBox.critical(
+                self, "Could not create flight", error, QMessageBox.StandardButton.Ok
+            )
             return
 
         task = self.task_selector.currentData()
@@ -193,6 +201,12 @@ class QFlightCreator(QDialog):
             roster=roster,
         )
 
+        for member in flight.iter_members():
+            if member.is_player:
+                member.assign_tgp_laser_code(
+                    self.game.laser_code_registry.alloc_laser_code()
+                )
+
         # noinspection PyUnresolvedReferences
         self.created.emit(flight)
         self.accept()
@@ -203,6 +217,8 @@ class QFlightCreator(QDialog):
             self.task_selector.currentData(), new_aircraft
         )
         self.divert.change_aircraft(new_aircraft)
+
+        self.roster_editor.pilots_changed.emit()
 
     def on_departure_changed(self, departure: ControlPoint) -> None:
         if isinstance(departure, OffMapSpawn):
@@ -220,7 +236,7 @@ class QFlightCreator(QDialog):
     def on_task_changed(self, index: int) -> None:
         task = self.task_selector.itemData(index)
         self.aircraft_selector.update_items(
-            self.game.blue.air_wing.best_available_aircrafts_for(task)
+            self.air_wing.best_available_aircrafts_for(task)
         )
         self.squadron_selector.update_items(task, self.aircraft_selector.currentData())
 
@@ -229,12 +245,14 @@ class QFlightCreator(QDialog):
         self.update_max_size(self.squadron_selector.aircraft_available)
         # Clear the roster first so we return the pilots to the pool. This way if we end
         # up repopulating from the same squadron we'll get the same pilots back.
-        self.roster_editor.replace(None)
+        self.roster_editor.replace(None, None)
         if squadron is not None:
             self.roster_editor.replace(
-                FlightRoster(squadron, self.flight_size_spinner.value())
+                squadron, FlightRoster(squadron, self.flight_size_spinner.value())
             )
             self.on_departure_changed(squadron.location)
+
+            self.roster_editor.pilots_changed.emit()
 
     def update_max_size(self, available: int) -> None:
         aircraft = self.aircraft_selector.currentData()
@@ -246,3 +264,29 @@ class QFlightCreator(QDialog):
 
         default_size = max(2, available, aircraft.max_group_size)
         self.flight_size_spinner.setValue(default_size)
+
+        try:
+            self.roster_editor.pilots_changed.emit()
+        except AttributeError:
+            return
+
+    def on_pilot_selected(self):
+        # Pilot selection detected. If this is a player flight, set start_type
+        # as configured for players in the settings.
+        # Otherwise, set the start_type as configured for AI.
+        # https://github.com/dcs-liberation/dcs_liberation/issues/1567
+
+        roster = self.roster_editor.roster
+        required_start_type = None
+        squadron = self.squadron_selector.currentData()
+        if squadron:
+            required_start_type = squadron.location.required_aircraft_start_type
+
+        if required_start_type:
+            start_type = required_start_type
+        elif roster is not None and roster.player_count > 0:
+            start_type = self.game.settings.default_start_type_client
+        else:
+            start_type = self.game.settings.default_start_type
+
+        self.start_type.setCurrentText(start_type.value)

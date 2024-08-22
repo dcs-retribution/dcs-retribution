@@ -1,0 +1,28 @@
+carrier_capable: true
+description:
+  The Grumman F9F Panther is an early carrier-based jet fighter designed and produced
+  by the American aircraft manufacturer Grumman. It was the first jet-powered fighter
+  aircraft operated by the United States Navy as well as being Grumman’s first jet fighter.
+  The F9F is a single-engined, straight-winged day fighter, armed with four 20 mm (0.79 in)
+  cannons and could also carry a wide assortment of air-to-ground munitions.
+  The Panther was used extensively by the U.S. Navy and Marine Corps in the Korean War.
+introduced: 1947
+manufacturer: Grumman
+origin: USA
+price: 6
+role: Carrier-based Attack/Light Fighter
+gunfighter: true
+variants:
+  F9F Panther: {}
+tasks:
+  BAI: 650
+  BARCAP: 150
+  CAS: 650
+  DEAD: 370
+  Escort: 150
+  Fighter sweep: 150
+  Intercept: 150
+  OCA/Aircraft: 650
+  OCA/Runway: 350
+  Strike: 350
+  TARCAP: 150

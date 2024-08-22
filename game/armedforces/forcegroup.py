@@ -191,11 +191,12 @@ class ForceGroup:
         location: PresetLocation,
         control_point: ControlPoint,
         game: Game,
+        task: Optional[GroupTask],
     ) -> TheaterGroundObject:
         """Create a random TheaterGroundObject from the available templates"""
         layout = random.choice(self.layouts)
         return self.create_ground_object_for_layout(
-            layout, name, location, control_point, game
+            layout, name, location, control_point, game, task
         )
 
     def create_ground_object_for_layout(
@@ -205,9 +206,10 @@ class ForceGroup:
         location: PresetLocation,
         control_point: ControlPoint,
         game: Game,
+        task: Optional[GroupTask],
     ) -> TheaterGroundObject:
         """Create a TheaterGroundObject for the given template"""
-        go = layout.create_ground_object(name, location, control_point)
+        go = layout.create_ground_object(name, location, control_point, task)
         # Generate all groups using the randomization if it defined
         for tgo_group in layout.groups:
             for unit_group in tgo_group.unit_groups:
@@ -287,7 +289,7 @@ class ForceGroup:
             unit.id = game.next_unit_id()
             # Add unit name escaped so that we do not have scripting issues later
             unit.name = escape_string_for_lua(
-                unit.unit_type.name if unit.unit_type else unit.type.name
+                unit.unit_type.variant_id if unit.unit_type else unit.type.name
             )
             unit.position = PointWithHeading.from_point(
                 ground_object.position + unit.position,

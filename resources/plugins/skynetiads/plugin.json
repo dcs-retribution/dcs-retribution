@@ -31,6 +31,26 @@
             "nameInUI": "Generate debug information for BLUE IADS",
             "mnemonic": "debugBLUE",
             "defaultValue": false
+        },
+        {
+            "nameInUI": "Enable Mobile SAMs",
+            "mnemonic": "actMobile",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "Maximum emission time (s) for Mobile SAMs",
+            "mnemonic": "actMobileMaxEmissionTime",
+            "defaultValue": 120
+        },
+        {
+            "nameInUI": "Minimum scoot distance (m) for Mobile SAMs",
+            "mnemonic": "actMobileMinimumScootDistance",
+            "defaultValue": 500
+        },
+        {
+            "nameInUI": "Maximum scoot distance (m) for Mobile SAMs",
+            "mnemonic": "actMobileMaximumScootDistance",
+            "defaultValue": 3000
         }
     ],
     "scriptsWorkOrders": [

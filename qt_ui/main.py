@@ -1,17 +1,16 @@
 import argparse
 import logging
 import ntpath
-import os
 import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
 import yaml
-from PySide2 import QtWidgets
-from PySide2.QtCore import Qt
-from PySide2.QtGui import QPixmap
-from PySide2.QtWidgets import QApplication, QCheckBox, QSplashScreen
+from PySide6 import QtWidgets
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QPixmap
+from PySide6.QtWidgets import QApplication, QCheckBox, QSplashScreen
 from dcs.liveries.liverycache import LiveryCache
 from dcs.payloads import PayloadDirectories
 
@@ -62,34 +61,17 @@ def inject_custom_payloads(user_path: Path) -> None:
     PayloadDirectories.set_preferred(user_path / "MissionEditor" / "UnitPayloads")
 
 
-def inject_mod_payloads(mod_path: Path) -> None:
-    if mod_path.exists():
-        payloads = mod_path
-    else:
-        raise RuntimeError(
-            f"Could not find mod payloads at {mod_path}."
-            f"Aircraft will have no payloads."
-        )
-    # We configure these as preferred so the mod's loadouts override the stock ones.
-    PayloadDirectories.set_preferred(payloads)
-
-
 def on_game_load(game: Optional[Game]) -> None:
     EventStream.drain()
     EventStream.put_nowait(GameUpdateEvents().game_loaded(game))
 
 
 def run_ui(game: Optional[Game], ui_flags: UiFlags) -> None:
-    os.environ["QT_ENABLE_HIGHDPI_SCALING"] = "1"  # Potential fix for 4K screens
     QApplication.setHighDpiScaleFactorRoundingPolicy(
         Qt.HighDpiScaleFactorRoundingPolicy.PassThrough
     )
 
     app = QApplication(sys.argv)
-
-    app.setAttribute(Qt.AA_DisableWindowContextHelpButton)
-    app.setAttribute(Qt.AA_EnableHighDpiScaling, True)  # enable highdpi scaling
-    app.setAttribute(Qt.AA_UseHighDpiPixmaps, True)  # use highdpi icons
 
     # init the theme and load the stylesheet based on the theme index
     liberation_theme.init()
@@ -155,14 +137,15 @@ def run_ui(game: Optional[Game], ui_flags: UiFlags) -> None:
     # Replace DCS Mission scripting file to allow DCS Retribution to work
     try:
         liberation_install.replace_mission_scripting_file()
-    except:
+    except Exception as e:
+        logging.error(e)
         error_dialog = QtWidgets.QErrorMessage()
         error_dialog.setWindowTitle("Wrong DCS installation directory.")
         error_dialog.showMessage(
             "Unable to modify Mission Scripting file. Possible issues with rights. "
             "Try running as admin, or please perform the modification of the MissionScripting file manually."
         )
-        error_dialog.exec_()
+        error_dialog.exec()
 
     # Apply CSS (need works)
     GameUpdateSignal()
@@ -172,7 +155,7 @@ def run_ui(game: Optional[Game], ui_flags: UiFlags) -> None:
     window = QLiberationWindow(game, ui_flags)
     window.showMaximized()
     splash.finish(window)
-    qt_execution_code = app.exec_()
+    qt_execution_code = app.exec()
 
     # Restore Mission Scripting file
     logging.info("QT App terminated with status code : " + str(qt_execution_code))
@@ -335,22 +318,32 @@ def create_game(
             no_player_navy=False,
             no_enemy_navy=False,
             tgo_config=campaign.load_ground_forces_config(),
+            carrier_config=campaign.load_carrier_config(),
         ),
         ModSettings(
             a4_skyhawk=False,
             a6a_intruder=False,
             a7e_corsair2=False,
+            ea6b_prowler=False,
             fa_18efg=False,
+            fa18ef_tanker=False,
             f4bc_phantom=False,
+            f9f_panther=False,
             f22_raptor=False,
             f84g_thunderjet=False,
             f100_supersabre=False,
             f104_starfighter=False,
             f105_thunderchief=False,
             hercules=False,
+            oh_6=False,
+            oh_6_vietnamassetpack=False,
+            uh_60l=False,
             jas39_gripen=False,
+            sk60_saab105=False,
+            su15_flagon=False,
             su30_flanker_h=False,
             su57_felon=False,
+            coldwarassets=False,
             frenchpack=False,
             high_digit_sams=False,
         ),
@@ -459,7 +452,8 @@ def main():
         dump_task_priorities()
         return
 
-    with Server().run_in_thread():
+    liberation_install.init()
+    with Server(liberation_install.server_port()).run_in_thread():
         run_ui(game, UiFlags(args.dev, args.show_sim_speed_controls))
 
 

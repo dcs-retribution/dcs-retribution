@@ -1,0 +1,21 @@
+description:
+  "The Convair F-106 Delta Dart is a supersonic interceptor that served with \
+  \ the United States Air Force from 1959 to 1988. Capable of Mach 2.3 it was \
+  \ envisioned as the ultimate interceptor. The F-106 was designed without a \
+  \ gun or provision for carrying bombs, instead carrying its AIM-4 Falcon \
+  \ air-to-air missiles within an internal weapons bay, its clean exterior was \
+  \ beneficial to supersonic flight."
+introduced: 1959
+manufacturer: Convair
+origin: USA
+price: 9
+role: Interceptor
+max_range: 250
+gunfighter: false
+variants:
+  F-106B Delta Dart: {}
+tasks:
+  BARCAP: 250
+  Escort: 150
+  Fighter sweep: 200
+  Intercept: 300

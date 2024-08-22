@@ -5,11 +5,11 @@ import {
 import { Tgo as TgoModel } from "../../api/liberationApi";
 import SplitLines from "../splitlines/SplitLines";
 import { Icon, Point } from "leaflet";
-import { Symbol as MilSymbol } from "milsymbol";
+import ms from "milsymbol";
 import { Marker, Tooltip } from "react-leaflet";
 
 function iconForTgo(cp: TgoModel) {
-  const symbol = new MilSymbol(cp.sidc, {
+  const symbol = new ms.Symbol(cp.sidc, {
     size: 24,
   });
 

@@ -8,6 +8,7 @@ from dcs.task import (
     OrbitAction,
     Tanker,
     Targets,
+    SetUnlimitedFuelCommand,
 )
 
 from game.ato import FlightType
@@ -19,6 +20,15 @@ from .pydcswaypointbuilder import PydcsWaypointBuilder
 class RaceTrackBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
         flight_plan = self.flight.flight_plan
+
+        # Unlimited fuel option : disable at racetrack start. Must be first option to work.
+        if self.flight.squadron.coalition.game.settings.ai_unlimited_fuel:
+            if waypoint.tasks and isinstance(
+                waypoint.tasks[0], SetUnlimitedFuelCommand
+            ):
+                waypoint.tasks[0] = SetUnlimitedFuelCommand(False)
+            else:
+                waypoint.tasks.insert(0, SetUnlimitedFuelCommand(False))
 
         if not isinstance(flight_plan, PatrollingFlightPlan):
             flight_plan_type = flight_plan.__class__.__name__
@@ -57,7 +67,7 @@ class RaceTrackBuilder(PydcsWaypointBuilder):
 
         racetrack = ControlledTask(orbit)
         self.set_waypoint_tot(waypoint, flight_plan.patrol_start_time)
-        loiter_duration = flight_plan.patrol_end_time - self.elapsed_mission_time
+        loiter_duration = flight_plan.patrol_end_time - self.now
         elapsed = int(loiter_duration.total_seconds())
         racetrack.stop_after_time(elapsed)
         # What follows is some code to cope with the broken 'stop after time' condition
@@ -68,9 +78,9 @@ class RaceTrackBuilder(PydcsWaypointBuilder):
     def configure_refueling_actions(self, waypoint: MovingPoint) -> None:
         waypoint.add_task(Tanker())
 
-        if self.flight.unit_type.dcs_unit_type.tacan:
-            tanker_info = self.mission_data.tankers[-1]
-            tacan = tanker_info.tacan
+        tanker_info = self.mission_data.tankers[-1]
+        tacan = tanker_info.tacan
+        if self.flight.unit_type.dcs_unit_type.tacan and tacan:
             if self.flight.tcn_name is None:
                 cs = tanker_info.callsign[:-2]
                 csn = tanker_info.callsign[-1]

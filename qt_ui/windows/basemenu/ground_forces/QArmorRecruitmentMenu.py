@@ -1,5 +1,5 @@
-from PySide2.QtCore import Qt
-from PySide2.QtWidgets import QGridLayout, QScrollArea, QVBoxLayout, QWidget
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QGridLayout, QScrollArea, QVBoxLayout, QWidget
 
 from game.dcs.groundunittype import GroundUnitType
 from game.purchaseadapter import GroundUnitPurchaseAdapter
@@ -32,7 +32,7 @@ class QArmorRecruitmentMenu(UnitTransactionFrame[GroundUnitType]):
         unit_types = list(
             set(self.game_model.game.faction_for(player=True).ground_units)
         )
-        unit_types.sort(key=lambda u: u.name)
+        unit_types.sort(key=lambda u: u.display_name)
         for row, unit_type in enumerate(unit_types):
             self.add_purchase_row(unit_type, task_box_layout, row)
         stretch = QVBoxLayout()
@@ -41,8 +41,8 @@ class QArmorRecruitmentMenu(UnitTransactionFrame[GroundUnitType]):
 
         scroll_content.setLayout(task_box_layout)
         scroll = QScrollArea()
-        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
         scroll.setWidgetResizable(True)
         scroll.setWidget(scroll_content)
         main_layout.addWidget(scroll)

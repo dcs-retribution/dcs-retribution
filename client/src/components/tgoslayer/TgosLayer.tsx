@@ -6,14 +6,21 @@ import { LayerGroup } from "react-leaflet";
 interface TgosLayerProps {
   categories?: string[];
   exclude?: true;
+  task?: string;
 }
 
 export default function TgosLayer(props: TgosLayerProps) {
   const allTgos = Object.values(useAppSelector(selectTgos).tgos);
   const categoryFilter = props.categories ?? [];
+  const taskFilter = props.task ?? "";
   const tgos = allTgos.filter(
-    (tgo) => categoryFilter.includes(tgo.category) === !(props.exclude ?? false)
-  );
+      (tgo) => {
+        if (taskFilter && tgo.task){
+          return taskFilter === tgo.task[0]
+        }
+        return categoryFilter.includes(tgo.category) === !(props.exclude ?? false)
+      }
+    );
   return (
     <LayerGroup>
       {tgos.map((tgo) => {

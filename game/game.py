@@ -22,12 +22,14 @@ from game.models.game_stats import GameStats
 from game.plugins import LuaPluginManager
 from game.utils import Distance
 from . import naming, persistency
+from .ato import Flight
 from .ato.flighttype import FlightType
 from .campaignloader import CampaignAirWingConfig
 from .coalition import Coalition
 from .db.gamedb import GameDb
 from .dcs.countries import country_with_name
 from .infos.information import Information
+from .lasercodes.lasercoderegistry import LaserCodeRegistry
 from .profiling import logged_duration
 from .settings import Settings
 from .theater import ConflictTheater
@@ -121,6 +123,7 @@ class Game:
         self.current_unit_id = 0
         self.current_group_id = 0
         self.name_generator = naming.namegen
+        self.laser_code_registry = LaserCodeRegistry()
 
         self.db = GameDb()
 
@@ -146,10 +149,24 @@ class Game:
         self.blue.configure_default_air_wing(air_wing_config)
         self.red.configure_default_air_wing(air_wing_config)
 
+        # Side, control point, mission type
+        self.pretense_ground_supply: dict[int, dict[str, List[str]]] = {1: {}, 2: {}}
+        self.pretense_ground_assault: dict[int, dict[str, List[str]]] = {1: {}, 2: {}}
+        self.pretense_air: dict[int, dict[str, dict[FlightType, List[str]]]] = {
+            1: {},
+            2: {},
+        }
+        self.pretense_air_groups: dict[str, Flight] = {}
+        self.pretense_carrier_zones: List[str] = []
+
         self.on_load(game_still_initializing=True)
 
     def __setstate__(self, state: dict[str, Any]) -> None:
         self.__dict__.update(state)
+        if not hasattr(self, "laser_code_registry"):
+            self.laser_code_registry = LaserCodeRegistry()
+            for front_line in self.theater.conflicts():
+                front_line.laser_code = self.laser_code_registry.alloc_laser_code()
         # Regenerate any state that was not persisted.
         self.on_load()
 
@@ -305,7 +322,7 @@ class Game:
             self.theater.iads_network.initialize_network(self.theater.ground_objects)
 
         for control_point in self.theater.controlpoints:
-            control_point.initialize_turn_0()
+            control_point.initialize_turn_0(self.laser_code_registry)
             for tgo in control_point.connected_objectives:
                 self.db.tgos.add(tgo.id, tgo)
 
@@ -326,7 +343,9 @@ class Game:
         # TODO: Check for overfull bases.
         # We don't need to actually stream events for turn zero because we haven't given
         # *any* state to the UI yet, so it will need to do a full draw once we do.
-        self.initialize_turn(GameUpdateEvents())
+        self.initialize_turn(
+            GameUpdateEvents(), squadrons_start_full=squadrons_start_full
+        )
 
     def pass_turn(self, no_action: bool = False) -> None:
         """Ends the current turn and initializes the new turn.
@@ -354,10 +373,10 @@ class Game:
         persistency.autosave(self)
 
     def check_win_loss(self) -> TurnState:
-        if not self.theater.player_points():
+        if not self.theater.player_points(state_check=True):
             return TurnState.LOSS
 
-        if not self.theater.enemy_points():
+        if not self.theater.enemy_points(state_check=True):
             return TurnState.WIN
 
         return TurnState.CONTINUE
@@ -372,6 +391,7 @@ class Game:
         events: GameUpdateEvents,
         for_red: bool = True,
         for_blue: bool = True,
+        squadrons_start_full: bool = False,
     ) -> None:
         """Performs turn initialization for the specified players.
 
@@ -406,6 +426,7 @@ class Game:
             events: Game update event container for turn initialization.
             for_red: True if opfor should be re-initialized.
             for_blue: True if the player coalition should be re-initialized.
+            squadrons_start_full: True if generator setting was checked.
         """
         # Check for win or loss condition FIRST!
         turn_state = self.check_win_loss()
@@ -424,9 +445,9 @@ class Game:
 
         # Plan Coalition specific turn
         if for_blue:
-            self.blue.initialize_turn(self.turn == 0)
+            self.blue.initialize_turn(self.turn == 0 and squadrons_start_full)
         if for_red:
-            self.red.initialize_turn(self.turn == 0)
+            self.red.initialize_turn(self.turn == 0 and squadrons_start_full)
 
         # Plan GroundWar
         self.ground_planners = {}

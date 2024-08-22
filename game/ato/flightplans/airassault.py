@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+import random
 from dataclasses import dataclass
-from datetime import timedelta
+from datetime import datetime
 from typing import Iterator, TYPE_CHECKING, Type
 
 from game.theater.controlpoint import ControlPointType
@@ -38,6 +39,7 @@ class AirAssaultLayout(FormationAttackLayout):
         if self.pickup is not None:
             yield self.pickup
         yield from self.nav_to
+        yield self.join
         yield self.ingress
         if self.drop_off is not None:
             yield self.drop_off
@@ -47,6 +49,7 @@ class AirAssaultLayout(FormationAttackLayout):
         if self.divert is not None:
             yield self.divert
         yield self.bullseye
+        yield from self.custom_waypoints
 
 
 class AirAssaultFlightPlan(FormationAttackFlightPlan, UiZoneDisplay):
@@ -62,24 +65,17 @@ class AirAssaultFlightPlan(FormationAttackFlightPlan, UiZoneDisplay):
     def tot_waypoint(self) -> FlightWaypoint:
         if self.flight.is_helo and self.layout.drop_off is not None:
             return self.layout.drop_off
-        return self.layout.target
+        return self.layout.targets[0]
 
     @property
-    def ingress_time(self) -> timedelta:
+    def ingress_time(self) -> datetime:
         tot = self.tot
         travel_time = self.travel_time_between_waypoints(
-            self.layout.ingress, self.layout.drop_off
+            self.layout.ingress, self.tot_waypoint
         )
         return tot - travel_time
 
-    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
-        if waypoint is self.tot_waypoint:
-            return self.tot
-        elif waypoint is self.layout.ingress:
-            return self.ingress_time
-        return None
-
-    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
+    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         return None
 
     @property
@@ -87,12 +83,12 @@ class AirAssaultFlightPlan(FormationAttackFlightPlan, UiZoneDisplay):
         return meters(2500)
 
     @property
-    def mission_departure_time(self) -> timedelta:
+    def mission_departure_time(self) -> datetime:
         return self.package.time_over_target
 
     def ui_zone(self) -> UiZone:
         return UiZone(
-            [self.layout.target.position],
+            [self.layout.targets[0].position],
             self.ctld_target_zone_radius,
         )
 
@@ -105,10 +101,10 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
             )
         assert self.package.waypoints is not None
 
-        altitude = feet(1500) if self.flight.is_helo else self.doctrine.ingress_altitude
-        altitude_is_agl = self.flight.is_helo
+        builder = WaypointBuilder(self.flight)
 
-        builder = WaypointBuilder(self.flight, self.coalition)
+        altitude = builder.get_cruise_altitude
+        altitude_is_agl = self.flight.is_helo
 
         if self.flight.is_hercules or self.flight.departure.cptype in [
             ControlPointType.AIRCRAFT_CARRIER_GROUP,
@@ -126,18 +122,39 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
                     self._generate_ctld_pickup(),
                 )
             )
+            pickup.alt = altitude
             pickup_position = pickup.position
+
+        ingress = (
+            builder.ingress(
+                FlightWaypointType.INGRESS_AIR_ASSAULT,
+                self.package.waypoints.ingress,
+                self.package.target,
+            )
+            if not self.flight.is_hercules
+            else builder.ingress(
+                FlightWaypointType.INGRESS_AIR_ASSAULT,
+                self.package.waypoints.initial,
+                self.package.target,
+            )
+        )
+
         assault_area = builder.assault_area(self.package.target)
-        heading = self.package.target.position.heading_between_point(pickup_position)
         if self.flight.is_hercules:
             assault_area.only_for_player = False
             assault_area.alt = feet(1000)
 
-        # TODO: define CTLD dropoff zones in campaign miz?
-        drop_off_zone = MissionTarget(
-            "Dropoff zone",
-            self.package.target.position.point_from_heading(heading, 1200),
-        )
+        tgt = self.package.target
+        if isinstance(tgt, CTLD) and tgt.ctld_zones:
+            top3 = sorted(
+                tgt.ctld_zones, key=lambda x: ingress.position.distance_to_point(x[0])
+            )[:3]
+            pos, dist = random.choice(top3)
+            drop_pos = pos.random_point_within(dist)
+        else:
+            heading = tgt.position.heading_between_point(ingress.position)
+            drop_pos = tgt.position.point_from_heading(heading, 1200)
+        drop_off_zone = MissionTarget("Dropoff zone", drop_pos)
         dz = builder.dropoff_zone(drop_off_zone) if self.flight.is_helo else None
 
         return AirAssaultLayout(
@@ -149,11 +166,7 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
                 altitude,
                 altitude_is_agl,
             ),
-            ingress=builder.ingress(
-                FlightWaypointType.INGRESS_AIR_ASSAULT,
-                self.package.waypoints.ingress,
-                self.package.target,
-            ),
+            ingress=ingress,
             drop_off=dz,
             targets=[assault_area],
             nav_from=builder.nav_path(
@@ -166,12 +179,13 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
             hold=None,
-            join=builder.join(pickup_position),
-            split=builder.split(self.package.waypoints.split),
+            join=builder.join(self.package.waypoints.ingress),
+            split=builder.split(self.flight.arrival.position),
             refuel=None,
+            custom_waypoints=list(),
         )
 
-    def build(self) -> AirAssaultFlightPlan:
+    def build(self, dump_debug_info: bool = False) -> AirAssaultFlightPlan:
         return AirAssaultFlightPlan(self.flight, self.layout())
 
     def _generate_ctld_pickup(self) -> Point:

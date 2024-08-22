@@ -1,6 +1,6 @@
-from PySide2.QtCore import Qt
-from PySide2.QtGui import QCloseEvent, QPixmap
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QCloseEvent, QPixmap
+from PySide6.QtWidgets import (
     QDialog,
     QHBoxLayout,
     QLabel,
@@ -19,6 +19,7 @@ from game.radio.RadioFrequencyContainer import RadioFrequencyContainer
 from game.radio.TacanContainer import TacanContainer
 from game.server import EventStream
 from game.sim import GameUpdateEvents
+from game.sim.missionresultsprocessor import MissionResultsProcessor
 from game.theater import (
     AMMO_DEPOT_FRONTLINE_UNIT_CONTRIBUTION,
     ControlPoint,
@@ -54,7 +55,7 @@ class QBaseMenu2(QDialog):
 
         self.setWindowIcon(EVENT_ICONS["capture"])
 
-        self.setWindowFlags(Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint)
         self.setMinimumSize(300, 200)
         self.setMinimumWidth(1024)
         self.setMaximumWidth(1024)
@@ -74,7 +75,7 @@ class QBaseMenu2(QDialog):
         top_layout.addLayout(cp_settings)
 
         title = QLabel("<b>" + self.cp.name + "</b>")
-        title.setAlignment(Qt.AlignLeft | Qt.AlignTop)
+        title.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
         title.setProperty("style", "base-title")
         cp_settings.addWidget(title, 0, 0, 1, 2)
         cp_settings.setHorizontalSpacing(20)
@@ -114,12 +115,25 @@ class QBaseMenu2(QDialog):
         self.intel_summary.setToolTip(self.generate_intel_tooltip())
         self.update_intel_summary()
         top_layout.addWidget(self.intel_summary)
-        top_layout.setAlignment(Qt.AlignTop)
+        top_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
+
+        runway_buttons_layout = QVBoxLayout()
+        top_layout.addLayout(runway_buttons_layout)
+
+        if (
+            self.cp.runway_is_destroyable
+            and self.game_model.game.settings.enable_runway_state_cheat
+        ):
+            self.cheat_runway_state = QPushButton()
+            self.update_cheat_runway_state_text()
+            self.cheat_runway_state.clicked.connect(self.on_cheat_runway_state)
+            runway_buttons_layout.addWidget(self.cheat_runway_state)
 
         self.repair_button = QPushButton()
         self.repair_button.clicked.connect(self.begin_runway_repair)
         self.update_repair_button()
-        top_layout.addWidget(self.repair_button)
+        runway_buttons_layout.addWidget(self.repair_button)
+        runway_buttons_layout.addStretch()
 
         base_menu_header.setProperty("style", "baseMenuHeader")
         base_menu_header.setLayout(top_layout)
@@ -145,7 +159,8 @@ class QBaseMenu2(QDialog):
             transfer_button.clicked.connect(self.open_transfer_dialog)
 
         if self.cheat_capturable:
-            capture_button = QPushButton("CHEAT: Capture")
+            label = "Sink/Resurrect" if self.cp.is_fleet else "Capture"
+            capture_button = QPushButton(f"CHEAT: {label}")
             capture_button.setProperty("style", "btn-danger")
             bottom_row.addWidget(capture_button)
             capture_button.clicked.connect(self.cheat_capture)
@@ -153,7 +168,9 @@ class QBaseMenu2(QDialog):
         self.budget_display = QLabel(
             UnitTransactionFrame.BUDGET_FORMAT.format(self.game_model.game.blue.budget)
         )
-        self.budget_display.setAlignment(Qt.AlignRight | Qt.AlignBottom)
+        self.budget_display.setAlignment(
+            Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignBottom
+        )
         self.budget_display.setProperty("style", "budget-label")
         bottom_row.addWidget(self.budget_display)
         GameUpdateSignal.get_instance().budgetupdated.connect(self.update_budget)
@@ -165,9 +182,23 @@ class QBaseMenu2(QDialog):
 
     def cheat_capture(self) -> None:
         events = GameUpdateEvents()
-        self.cp.capture(self.game_model.game, events, for_player=not self.cp.captured)
+        if self.cp.is_fleet:
+            for go in self.cp.ground_objects:
+                if go.is_naval_control_point:
+                    if go.alive_unit_count > 0:
+                        for u in go.units:
+                            u.kill(events)
+                    else:
+                        for u in go.units:
+                            u.revive(events)
+        else:
+            self.cp.capture(
+                self.game_model.game, events, for_player=not self.cp.captured
+            )
+            mrp = MissionResultsProcessor(self.game_model.game)
+            mrp.redeploy_units(self.cp)
         # Reinitialized ground planners and the like. The ATO needs to be reset because
-        # missions planned against the flipped base are no longer valid.
+        # missions planned against the flipped base (or killed carrier) are no longer valid.
         self.game_model.game.initialize_turn(events)
         EventStream.put_nowait(events)
         GameUpdateSignal.get_instance().updateGame(self.game_model.game)
@@ -180,6 +211,23 @@ class QBaseMenu2(QDialog):
         return self.game_model.game.transit_network_for(
             self.cp.captured
         ).has_destinations(self.cp)
+
+    def update_cheat_runway_state_text(self) -> None:
+        if self.cp.runway_can_be_repaired:
+            self.cheat_runway_state.setText("CHEAT: Repair runway")
+        else:
+            self.cheat_runway_state.setText("CHEAT: Destroy runway")
+
+    def on_cheat_runway_state(self) -> None:
+        if self.cp.runway_can_be_repaired:
+            self.cp.runway_status.repair()
+        else:
+            self.cp.runway_status.damage()
+        self.update_cheat_runway_state_text()
+        self.update_repair_button()
+        self.update_intel_summary()
+        with EventStream.event_context() as events:
+            events.update_control_point(self.cp)
 
     @property
     def can_repair_runway(self) -> bool:
@@ -196,7 +244,7 @@ class QBaseMenu2(QDialog):
                 "Cannot repair runway",
                 f"Runway repair costs ${RUNWAY_REPAIR_COST}M but you have "
                 f"only ${self.game_model.game.blue.budget}M available.",
-                QMessageBox.Ok,
+                QMessageBox.StandardButton.Ok,
             )
             return
         if not self.can_repair_runway:
@@ -204,7 +252,7 @@ class QBaseMenu2(QDialog):
                 self,
                 "Cannot repair runway",
                 f"Cannot repair this runway.",
-                QMessageBox.Ok,
+                QMessageBox.StandardButton.Ok,
             )
             return
 

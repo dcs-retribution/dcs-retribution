@@ -66,13 +66,21 @@ squadrons:
         - Mi-24V Hind-E
   #Kutaisi, primary opfor base
   25:
-    - primary: BAI
+    - primary: DEAD
+      secondary: air-to-ground
       aircraft:
         - Tornado IDS
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - MiG-29G Fulcrum-A
         - Su-17M4 Fitter-K
         - Su-24M Fencer-D
+        - F-16CM Fighting Falcon (Block 50)
     - primary: BARCAP
+      secondary: air-to-air
       aircraft:
+        - MiG-29G Fulcrum-A
         - F-16CM Fighting Falcon (Block 50)
         - F-4F Phantom II
         - F-5E Tiger II

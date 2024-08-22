@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import timedelta
 from typing import Type
 
-from game.utils import Heading, feet, meters, nautical_miles
+from game.utils import Heading, meters, nautical_miles
 from .ibuilder import IBuilder
 from .patrolling import PatrollingLayout
 from .refuelingflightplan import RefuelingFlightPlan
@@ -37,7 +37,7 @@ class Builder(IBuilder[TheaterRefuelingFlightPlan, PatrollingLayout]):
 
         # Station 70nm outside the threat zone.
         threat_buffer = nautical_miles(
-            self.flight.coalition.game.settings.tanker_threat_buffer_min_distance
+            self.coalition.game.settings.tanker_threat_buffer_min_distance
         )
         if self.threat_zones.threatened(location.position):
             orbit_distance = distance_to_threat + threat_buffer
@@ -56,13 +56,9 @@ class Builder(IBuilder[TheaterRefuelingFlightPlan, PatrollingLayout]):
             orbit_heading.left.degrees, racetrack_half_distance
         )
 
-        builder = WaypointBuilder(self.flight, self.coalition)
+        builder = WaypointBuilder(self.flight)
 
-        tanker_type = self.flight.unit_type
-        if tanker_type.patrol_altitude is not None:
-            altitude = tanker_type.patrol_altitude
-        else:
-            altitude = feet(21000)
+        altitude = builder.get_patrol_altitude
 
         racetrack = builder.race_track(racetrack_start, racetrack_end, altitude)
 
@@ -79,7 +75,8 @@ class Builder(IBuilder[TheaterRefuelingFlightPlan, PatrollingLayout]):
             arrival=builder.land(self.flight.arrival),
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
+            custom_waypoints=list(),
         )
 
-    def build(self) -> TheaterRefuelingFlightPlan:
+    def build(self, dump_debug_info: bool = False) -> TheaterRefuelingFlightPlan:
         return TheaterRefuelingFlightPlan(self.flight, self.layout())

@@ -120,20 +120,27 @@ class ConflictTheater:
         )
         return new_point
 
-    def control_points_for(self, player: bool) -> Iterator[ControlPoint]:
+    def control_points_for(
+        self, player: bool, state_check: bool = False
+    ) -> Iterator[ControlPoint]:
         for point in self.controlpoints:
             if point.captured == player:
-                yield point
+                if not state_check:
+                    yield point
+                elif point.is_carrier and point.runway_is_operational():
+                    yield point
+                elif not point.is_carrier:
+                    yield point
 
-    def player_points(self) -> List[ControlPoint]:
-        return list(self.control_points_for(player=True))
+    def player_points(self, state_check: bool = False) -> List[ControlPoint]:
+        return list(self.control_points_for(player=True, state_check=state_check))
 
     def conflicts(self) -> Iterator[FrontLine]:
         for cp in self.player_points():
             yield from cp.front_lines.values()
 
-    def enemy_points(self) -> List[ControlPoint]:
-        return list(self.control_points_for(player=False))
+    def enemy_points(self, state_check: bool = False) -> List[ControlPoint]:
+        return list(self.control_points_for(player=False, state_check=state_check))
 
     def closest_control_point(
         self, point: Point, allow_naval: bool = False
@@ -194,6 +201,29 @@ class ConflictTheater:
         assert closest_blue is not None
         assert closest_red is not None
         return closest_blue, closest_red
+
+    def closest_friendly_control_points_to(
+        self, cp: ControlPoint
+    ) -> List[ControlPoint]:
+        """
+        Returns a list of the friendly ControlPoints in theater to ControlPoint cp, sorted closest to farthest.
+        """
+        closest_cps = list()
+        distances_to_cp = dict()
+        if cp.captured:
+            control_points = self.player_points()
+        else:
+            control_points = self.enemy_points()
+        for other_cp in control_points:
+            if cp == other_cp:
+                continue
+
+            dist = other_cp.position.distance_to_point(cp.position)
+            distances_to_cp[dist] = other_cp
+        for i in sorted(distances_to_cp.keys()):
+            closest_cps.append(distances_to_cp[i])
+
+        return closest_cps
 
     def find_control_point_by_id(self, cp_id: UUID) -> ControlPoint:
         for i in self.controlpoints:

@@ -34,7 +34,7 @@ app.include_router(waypoints.router)
 app.include_router(iadsnetwork.router)
 
 
-origins = []
+origins = ["file://"]
 if ServerSettings.get().cors_allow_debug_server:
     origins.append("http://localhost:3000")
 

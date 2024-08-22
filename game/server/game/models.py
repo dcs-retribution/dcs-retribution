@@ -9,7 +9,11 @@ from game.server.flights.models import FlightJs
 from game.server.frontlines.models import FrontLineJs
 from game.server.iadsnetwork.models import IadsNetworkJs
 from game.server.leaflet import LeafletPoint
-from game.server.mapzones.models import ThreatZoneContainerJs, UnculledZoneJs
+from game.server.mapzones.models import (
+    ThreatZoneContainerJs,
+    UnculledZoneJs,
+    MapZonesJs,
+)
 from game.server.navmesh.models import NavMeshesJs
 from game.server.supplyroutes.models import SupplyRouteJs
 from game.server.tgos.models import TgoJs
@@ -29,6 +33,7 @@ class GameJs(BaseModel):
     navmeshes: NavMeshesJs
     map_center: LeafletPoint | None
     unculled_zones: list[UnculledZoneJs]
+    map_zones: MapZonesJs
 
     class Config:
         title = "Game"
@@ -46,4 +51,5 @@ class GameJs(BaseModel):
             navmeshes=NavMeshesJs.from_game(game),
             map_center=game.theater.terrain.map_view_default.position.latlng(),
             unculled_zones=UnculledZoneJs.from_game(game),
+            map_zones=MapZonesJs.from_game(game),
         )

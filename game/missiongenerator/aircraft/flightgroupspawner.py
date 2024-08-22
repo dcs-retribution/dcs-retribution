@@ -1,15 +1,26 @@
 import logging
 import random
-from typing import Any, Union, Tuple, Optional
+from typing import Any, Union, Tuple, Optional, List
 
 from dcs import Mission
 from dcs.country import Country
 from dcs.mapping import Vector2, Point
 from dcs.mission import StartType as DcsStartType
-from dcs.planes import F_14A, Su_33
+from dcs.planes import (
+    F_14A,
+    F_14A_135_GR,
+    F_14B,
+    F_5E_3,
+    F_86F_Sabre,
+    C_101CC,
+    Su_33,
+    MiG_15bis,
+    M_2000C,
+)
 from dcs.point import PointAction
 from dcs.ships import KUZNECOW
-from dcs.terrain import NoParkingSlotError
+from dcs.terrain import NoParkingSlotError, Sinai, ParkingSlot
+from dcs.terrain.sinai.airports import Nevatim, Ramon_Airbase
 from dcs.unitgroup import (
     FlyingGroup,
     ShipGroup,
@@ -26,6 +37,7 @@ from game.missiongenerator.missiondata import MissionData
 from game.naming import namegen
 from game.theater import Airfield, ControlPoint, Fob, NavalControlPoint, OffMapSpawn
 from game.utils import feet, meters
+from pydcs_extensions import A_4E_C, VSN_F4B, VSN_F4C
 
 WARM_START_HELI_ALT = meters(500)
 WARM_START_ALTITUDE = meters(3000)
@@ -55,6 +67,7 @@ class FlightGroupSpawner:
         mission: Mission,
         helipads: dict[ControlPoint, list[StaticGroup]],
         ground_spawns_roadbase: dict[ControlPoint, list[Tuple[StaticGroup, Point]]],
+        ground_spawns_large: dict[ControlPoint, list[Tuple[StaticGroup, Point]]],
         ground_spawns: dict[ControlPoint, list[Tuple[StaticGroup, Point]]],
         mission_data: MissionData,
     ) -> None:
@@ -63,6 +76,7 @@ class FlightGroupSpawner:
         self.mission = mission
         self.helipads = helipads
         self.ground_spawns_roadbase = ground_spawns_roadbase
+        self.ground_spawns_large = ground_spawns_large
         self.ground_spawns = ground_spawns
         self.mission_data = mission_data
 
@@ -99,24 +113,41 @@ class FlightGroupSpawner:
 
     def create_idle_aircraft(self) -> Optional[FlyingGroup[Any]]:
         group = None
-        if (
-            self.flight.is_helo
-            or self.flight.is_lha
-            and isinstance(self.flight.squadron.location, Fob)
-        ):
+        cp = self.flight.squadron.location
+        if self.flight.is_helo or self.flight.is_lha and isinstance(cp, Fob):
             group = self._generate_at_cp_helipad(
                 name=namegen.next_aircraft_name(self.country, self.flight),
                 cp=self.flight.squadron.location,
             )
-        elif isinstance(self.flight.squadron.location, Fob):
+        elif isinstance(cp, Fob):
             group = self._generate_at_cp_ground_spawn(
                 name=namegen.next_aircraft_name(self.country, self.flight),
                 cp=self.flight.squadron.location,
             )
-        elif isinstance(self.flight.squadron.location, Airfield):
+        elif isinstance(cp, Airfield):
+            # TODO: remove hack when fixed in DCS
+            slots = None
+            if self._check_nevatim_hack(cp):
+                ac_type = self.flight.unit_type.dcs_unit_type
+                slots = [
+                    slot
+                    for slot in cp.dcs_airport.free_parking_slots(ac_type)
+                    if slot.slot_name in [str(n) for n in range(55, 66)]
+                ]
+            elif self._check_ramon_airbase_hack(cp):
+                ac_type = self.flight.unit_type.dcs_unit_type
+                slots = [
+                    slot
+                    for slot in cp.dcs_airport.free_parking_slots(ac_type)
+                    if slot.slot_name
+                    not in [
+                        str(n) for n in [1, 2, 3, 4, 5, 6, 13, 14, 15, 16, 17, 18, 61]
+                    ]
+                ]
             group = self._generate_at_airfield(
                 name=namegen.next_aircraft_name(self.country, self.flight),
-                airfield=self.flight.squadron.location,
+                airfield=cp,
+                parking_slots=slots,
             )
         if group:
             group.uncontrolled = True
@@ -149,7 +180,9 @@ class FlightGroupSpawner:
                     raise RuntimeError(
                         f"Cannot spawn fixed-wing aircraft at {cp} because of insufficient ground spawn slots."
                     )
-                pilot_count = len(self.flight.roster.pilots)
+                is_large = self.flight.unit_type.dcs_unit_type.width > 40
+
+                pilot_count = len(self.flight.roster.members)
                 if (
                     not is_heli
                     and self.flight.roster.player_count != pilot_count
@@ -164,10 +197,18 @@ class FlightGroupSpawner:
                     pad_group = self._generate_at_cp_helipad(name, cp)
                     if pad_group is not None:
                         return pad_group
+                if cp.has_ground_spawns and self.flight.client_count > 0 and is_large:
+                    pad_group = self._generate_at_cp_ground_spawn(name, cp, is_large)
+                    if pad_group is not None:
+                        return pad_group
                 if cp.has_ground_spawns and (self.flight.client_count > 0 or is_heli):
                     pad_group = self._generate_at_cp_ground_spawn(name, cp)
                     if pad_group is not None:
                         return pad_group
+                    else:
+                        pad_group = self._generate_at_cp_ground_spawn(name, cp, True)
+                        if pad_group is not None:
+                            return pad_group
                 return self._generate_over_departure(name, cp)
             elif isinstance(cp, Airfield):
                 is_heli = self.flight.squadron.aircraft.helicopter
@@ -175,6 +216,35 @@ class FlightGroupSpawner:
                     pad_group = self._generate_at_cp_helipad(name, cp)
                     if pad_group is not None:
                         return pad_group
+                # Large planes (wingspan more than 40 meters, looking at you, C-130)
+                # First try spawning on large ground spawns
+                # Then try the regular airfield ramp spawns
+                is_large = self.flight.unit_type.dcs_unit_type.width > 40
+                if (
+                    cp.has_ground_spawns
+                    and is_large
+                    and len(self.ground_spawns_large[cp]) >= self.flight.count
+                    and (self.flight.client_count > 0)
+                ):
+                    pad_group = self._generate_at_cp_ground_spawn(name, cp, is_large)
+                    if pad_group is not None:
+                        return pad_group
+                # Below 40 meter wingspan aircraft
+                # First try spawning on regular or roadbase ground spawns
+                # Then try the regular airfield ramp spawns
+                # Then, if both of the above fail, use the large ground spawns
+                if (
+                    cp.has_ground_spawns
+                    and len(self.ground_spawns[cp])
+                    + len(self.ground_spawns_roadbase[cp])
+                    + len(self.ground_spawns_large[cp])
+                    >= self.flight.count
+                    and (self.flight.client_count > 0 or is_heli)
+                ):
+                    pad_group = self._generate_at_cp_ground_spawn(name, cp)
+                    if pad_group is not None:
+                        return pad_group
+
                 if (
                     cp.has_ground_spawns
                     and len(self.ground_spawns[cp])
@@ -185,6 +255,44 @@ class FlightGroupSpawner:
                     pad_group = self._generate_at_cp_ground_spawn(name, cp)
                     if pad_group is not None:
                         return pad_group
+                try:
+                    # TODO: get rid of the nevatim hack once fixed in DCS...
+                    if self._check_nevatim_hack(cp):
+                        slots = [
+                            slot
+                            for slot in cp.dcs_airport.free_parking_slots(
+                                self.flight.squadron.aircraft.dcs_unit_type
+                            )
+                            if slot.slot_name in [str(n) for n in range(55, 66)]
+                        ]
+                        return self._generate_at_airfield(name, cp, slots)
+                    elif self._check_ramon_airbase_hack(cp):
+                        # TODO: get rid of the ramon airbase hack once fixed in DCS...
+                        slots = [
+                            slot
+                            for slot in cp.dcs_airport.free_parking_slots(
+                                self.flight.squadron.aircraft.dcs_unit_type
+                            )
+                            if slot.slot_name
+                            not in [
+                                str(n)
+                                for n in [1, 2, 3, 4, 5, 6, 13, 14, 15, 16, 17, 18, 61]
+                            ]
+                        ]
+                        return self._generate_at_airfield(name, cp, slots)
+                    else:
+                        return self._generate_at_airfield(name, cp)
+                except NoParkingSlotError:
+                    if (
+                        cp.has_ground_spawns
+                        and len(self.ground_spawns_large[cp]) >= self.flight.count
+                        and (self.flight.client_count > 0 or is_heli)
+                    ):
+                        pad_group = self._generate_at_cp_ground_spawn(name, cp, True)
+                        if pad_group is not None:
+                            return pad_group
+                        else:
+                            raise NoParkingSlotError
                 return self._generate_at_airfield(name, cp)
             else:
                 raise NotImplementedError(
@@ -198,6 +306,20 @@ class FlightGroupSpawner:
             self.flight.start_type = StartType.IN_FLIGHT
             group = self._generate_over_departure(name, cp)
             return group
+
+    def _check_nevatim_hack(self, cp: ControlPoint) -> bool:
+        # TODO: get rid of the nevatim hack once fixed in DCS...
+        nevatim_hack = self.flight.coalition.game.settings.nevatim_parking_fix
+        nevatim_hack &= isinstance(self.mission.terrain, Sinai)
+        nevatim_hack &= isinstance(cp.dcs_airport, Nevatim)
+        return nevatim_hack
+
+    def _check_ramon_airbase_hack(self, cp: ControlPoint) -> bool:
+        # TODO: get rid of the ramon airbase hack once fixed in DCS...
+        ramon_airbase_hack = self.flight.coalition.game.settings.nevatim_parking_fix
+        ramon_airbase_hack &= isinstance(self.mission.terrain, Sinai)
+        ramon_airbase_hack &= isinstance(cp.dcs_airport, Ramon_Airbase)
+        return ramon_airbase_hack
 
     def generate_mid_mission(self) -> FlyingGroup[Any]:
         assert isinstance(self.flight.state, InFlight)
@@ -233,12 +355,19 @@ class FlightGroupSpawner:
             speed=speed.kph,
             maintask=None,
             group_size=self.flight.count,
+            callsign_name=self.flight.callsign.name if self.flight.callsign else None,
+            callsign_nr=self.flight.callsign.nr if self.flight.callsign else None,
         )
 
         group.points[0].alt_type = alt_type
         return group
 
-    def _generate_at_airfield(self, name: str, airfield: Airfield) -> FlyingGroup[Any]:
+    def _generate_at_airfield(
+        self,
+        name: str,
+        airfield: Airfield,
+        parking_slots: Optional[List[ParkingSlot]] = None,
+    ) -> FlyingGroup[Any]:
         # TODO: Delayed runway starts should be converted to air starts for multiplayer.
         # Runway starts do not work with late activated aircraft in multiplayer. Instead
         # of spawning on the runway the aircraft will spawn on the taxiway, potentially
@@ -255,7 +384,9 @@ class FlightGroupSpawner:
             maintask=None,
             start_type=self._start_type_at_airfield(airfield),
             group_size=self.flight.count,
-            parking_slots=None,
+            parking_slots=parking_slots,
+            callsign_name=self.flight.callsign.name if self.flight.callsign else None,
+            callsign_nr=self.flight.callsign.nr if self.flight.callsign else None,
         )
 
     def _generate_over_departure(
@@ -289,6 +420,8 @@ class FlightGroupSpawner:
             speed=speed.kph,
             maintask=None,
             group_size=self.flight.count,
+            callsign_name=self.flight.callsign.name if self.flight.callsign else None,
+            callsign_nr=self.flight.callsign.nr if self.flight.callsign else None,
         )
 
         group.points[0].alt_type = alt_type
@@ -305,6 +438,8 @@ class FlightGroupSpawner:
             maintask=None,
             start_type=self._start_type_at_group(at),
             group_size=self.flight.count,
+            callsign_name=self.flight.callsign.name if self.flight.callsign else None,
+            callsign_nr=self.flight.callsign.nr if self.flight.callsign else None,
         )
 
     def _generate_at_cp_helipad(
@@ -358,17 +493,25 @@ class FlightGroupSpawner:
         return group
 
     def _generate_at_cp_ground_spawn(
-        self, name: str, cp: ControlPoint
+        self, name: str, cp: ControlPoint, is_large: bool = False
     ) -> Optional[FlyingGroup[Any]]:
-        try:
-            if len(self.ground_spawns_roadbase[cp]) > 0:
-                ground_spawn = self.ground_spawns_roadbase[cp].pop()
-            else:
-                ground_spawn = self.ground_spawns[cp].pop()
-        except IndexError as ex:
-            logging.warning("Not enough STOL slots available at " + str(ex))
+        is_airbase = False
+        is_roadbase = False
+        ground_spawn: Optional[Tuple[StaticGroup, Point]] = None
+
+        if not is_large and len(self.ground_spawns_roadbase[cp]) > 0:
+            ground_spawn = self.ground_spawns_roadbase[cp].pop()
+            is_roadbase = True
+        elif not is_large and len(self.ground_spawns[cp]) > 0:
+            ground_spawn = self.ground_spawns[cp].pop()
+            is_airbase = True
+        elif len(self.ground_spawns_large[cp]) > 0:
+            ground_spawn = self.ground_spawns_large[cp].pop()
+            is_airbase = True
+
+        if ground_spawn is None:
+            logging.warning("Not enough ground spawn slots available at " + cp.name)
             return None
-            # raise RuntimeError(f"Not enough STOL slots available at {cp}") from ex
 
         group = self._generate_at_group(name, ground_spawn[0])
 
@@ -376,6 +519,47 @@ class FlightGroupSpawner:
         group.points[0].action = PointAction.FromGroundArea
         group.points[0].type = "TakeOffGround"
         group.units[0].heading = ground_spawn[0].units[0].heading
+
+        self._remove_invisible_farps_if_requested(cp, ground_spawn[0], group)
+
+        # Hot start aircraft which require ground power to start, when ground power
+        # trucks have been disabled for performance reasons
+        ground_power_available = (
+            is_airbase
+            and self.flight.coalition.game.settings.ground_start_ground_power_trucks
+        ) or (
+            is_roadbase
+            and self.flight.coalition.game.settings.ground_start_ground_power_trucks_roadbase
+        )
+
+        # Also hot start aircraft which require ground crew support (ground air or chock removal)
+        # which might not be available at roadbases
+        if (
+            self.start_type is not StartType.COLD
+            or (
+                not ground_power_available
+                and self.flight.unit_type.dcs_unit_type
+                in [
+                    A_4E_C,
+                    F_86F_Sabre,
+                    MiG_15bis,
+                    F_14A_135_GR,
+                    F_14B,
+                    C_101CC,
+                ]
+            )
+            or (
+                self.flight.unit_type.dcs_unit_type
+                in [
+                    F_5E_3,
+                    M_2000C,
+                    VSN_F4B,
+                    VSN_F4C,
+                ]
+            )
+        ):
+            group.points[0].action = PointAction.FromGroundAreaHot
+            group.points[0].type = "TakeOffGroundHot"
 
         try:
             cp.coalition.game.scenery_clear_zones
@@ -386,17 +570,42 @@ class FlightGroupSpawner:
         for i in range(self.flight.count - 1):
             try:
                 terrain = cp.coalition.game.theater.terrain
-                if len(self.ground_spawns_roadbase[cp]) > 0:
+                if not is_large and len(self.ground_spawns_roadbase[cp]) > 0:
                     ground_spawn = self.ground_spawns_roadbase[cp].pop()
-                else:
+                elif not is_large and len(self.ground_spawns[cp]) > 0:
                     ground_spawn = self.ground_spawns[cp].pop()
+                elif len(self.ground_spawns_large[cp]) > 0:
+                    ground_spawn = self.ground_spawns_large[cp].pop()
                 group.units[1 + i].position = Point(
                     ground_spawn[0].x, ground_spawn[0].y, terrain=terrain
                 )
                 group.units[1 + i].heading = ground_spawn[0].units[0].heading
+
+                self._remove_invisible_farps_if_requested(cp, ground_spawn[0])
             except IndexError as ex:
-                raise RuntimeError(f"Not enough STOL slots available at {cp}") from ex
+                raise NoParkingSlotError(
+                    f"Not enough STOL slots available at {cp}"
+                ) from ex
         return group
+
+    def _remove_invisible_farps_if_requested(
+        self,
+        cp: ControlPoint,
+        ground_spawn: StaticGroup,
+        group: Optional[FlyingGroup[Any]] = None,
+    ) -> None:
+        if (
+            cp.coalition.game.settings.ground_start_airbase_statics_farps_remove
+            and isinstance(cp, Airfield)
+        ):
+            # Remove invisible FARPs from airfields because they are unnecessary
+            neutral_country = self.mission.country(
+                cp.coalition.game.neutral_country.name
+            )
+            neutral_country.remove_static_group(ground_spawn)
+            if group:
+                group.points[0].link_unit = None
+                group.points[0].helipad_id = None
 
     def dcs_start_type(self) -> DcsStartType:
         if self.start_type is StartType.RUNWAY:

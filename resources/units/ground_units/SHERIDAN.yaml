@@ -1,0 +1,14 @@
+class: ATGM
+description: The M551 Sheridan AR/AAV (Armored Reconnaissance/Airborne Assault Vehicle)
+  is a light tank developed by the United States and named after General Philip Sheridan,
+  of American Civil War fame. It was designed to be landed by parachute and to swim across
+  rivers. It is armed with the technically advanced M81/M81 Modified/M81E1 152 mm
+  gun/launcher, which fires both conventional ammunition and the MGM-51 Shillelagh guided
+  anti-tank missile.
+introduced: 1966
+manufacturer: General Motors, Cadillac Motor Company
+origin: USA
+price: 16
+role: Light Tank
+variants:
+  M551 "Sheridan": {}

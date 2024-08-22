@@ -4,7 +4,9 @@ import logging
 import random
 from collections.abc import Iterable
 from dataclasses import dataclass, field
-from typing import Optional, Sequence, TYPE_CHECKING, Any
+from datetime import datetime
+from typing import Any, Union
+from typing import Optional, Sequence, TYPE_CHECKING
 from uuid import uuid4, UUID
 
 from dcs.country import Country
@@ -16,7 +18,7 @@ from game.theater import ParkingType
 from .pilot import Pilot, PilotStatus
 from ..db.database import Database
 from ..radio.radios import RadioFrequency
-from ..utils import meters
+from ..utils import meters, nautical_miles
 
 if TYPE_CHECKING:
     from game import Game
@@ -38,9 +40,10 @@ class Squadron:
     aircraft: AircraftType
     max_size: int
     livery: Optional[str]
+    livery_set: list[str]  # will override livery if not empty
     primary_task: FlightType
     auto_assignable_mission_types: set[FlightType]
-    radio_presets: dict[str, list[RadioFrequency]]
+    radio_presets: dict[Union[str, int], list[RadioFrequency]]
     operating_bases: OperatingBases
     female_pilot_percentage: int
 
@@ -67,9 +70,13 @@ class Squadron:
     untasked_aircraft: int = field(init=False, hash=False, compare=False, default=0)
     pending_deliveries: int = field(init=False, hash=False, compare=False, default=0)
 
+    use_livery_set: bool = False  # if livery-set should be used when present
+
     def __setstate__(self, state: dict[str, Any]) -> None:
         if "id" not in state:
             state["id"] = uuid4()
+        if "use_livery_set" not in state:
+            state["use_livery_set"] = len(state["livery_set"]) > 0
         self.__dict__.update(state)
 
     def __str__(self) -> str:
@@ -85,6 +92,9 @@ class Squadron:
             return False
         return self.id == other.id
 
+    def __post_init__(self) -> None:
+        self._livery_pool: list[str] = []
+
     @property
     def player(self) -> bool:
         return self.coalition.player
@@ -96,6 +106,15 @@ class Squadron:
     @property
     def pilot_limits_enabled(self) -> bool:
         return self.settings.enable_squadron_pilot_limits
+
+    def random_round_robin_livery_from_set(self) -> str:
+        livery = random.choice(self.livery_set)
+        self._livery_pool.append(livery)
+        self.livery_set.remove(livery)
+        if not self.livery_set:
+            self.livery_set = self._livery_pool
+            self._livery_pool = []
+        return livery
 
     def set_auto_assignable_mission_types(
         self, mission_types: Iterable[FlightType]
@@ -279,6 +298,7 @@ class Squadron:
         size: int,
         heli: bool,
         this_turn: bool,
+        ignore_range: bool = False,
     ) -> bool:
         if (
             self.location.cptype.name in ["FOB", "FARP"]
@@ -302,8 +322,23 @@ class Squadron:
         if heli and task == FlightType.REFUELING:
             return False
 
+        if ignore_range:
+            return True
+
         distance_to_target = meters(location.distance_to(self.location))
-        return distance_to_target <= self.aircraft.max_mission_range
+        max_plane_dist = nautical_miles(
+            self.coalition.game.settings.max_mission_range_planes
+        )
+        max_heli_dist = nautical_miles(
+            self.coalition.game.settings.max_mission_range_helicopters
+        )
+        if self.aircraft.helicopter:
+            return distance_to_target <= max(
+                self.aircraft.max_mission_range, max_heli_dist
+            )
+        return distance_to_target <= max(
+            self.aircraft.max_mission_range, max_plane_dist
+        )
 
     def operates_from(self, control_point: ControlPoint) -> bool:
         if not control_point.can_operate(self.aircraft):
@@ -380,7 +415,7 @@ class Squadron:
     def arrival(self) -> ControlPoint:
         return self.location if self.destination is None else self.destination
 
-    def plan_relocation(self, destination: ControlPoint) -> None:
+    def plan_relocation(self, destination: ControlPoint, now: datetime) -> None:
         from game.theater import ParkingType
 
         if destination == self.location:
@@ -402,7 +437,7 @@ class Squadron:
         if not destination.can_operate(self.aircraft):
             raise RuntimeError(f"{self} cannot operate at {destination}.")
         self.destination = destination
-        self.replan_ferry_flights()
+        self.replan_ferry_flights(now)
 
     def cancel_relocation(self) -> None:
         from game.theater import ParkingType
@@ -415,16 +450,14 @@ class Squadron:
             return
 
         parking_type = ParkingType().from_squadron(self)
-        if self.expected_size_next_turn >= self.location.unclaimed_parking(
-            parking_type
-        ):
+        if self.expected_size_next_turn > self.location.unclaimed_parking(parking_type):
             raise RuntimeError(f"Not enough parking for {self} at {self.location}.")
         self.destination = None
         self.cancel_ferry_flights()
 
-    def replan_ferry_flights(self) -> None:
+    def replan_ferry_flights(self, now: datetime) -> None:
         self.cancel_ferry_flights()
-        self.plan_ferry_flights()
+        self.plan_ferry_flights(now)
 
     def cancel_ferry_flights(self) -> None:
         for package in self.coalition.ato.packages:
@@ -435,7 +468,7 @@ class Squadron:
             if not package.flights:
                 self.coalition.ato.remove_package(package)
 
-    def plan_ferry_flights(self) -> None:
+    def plan_ferry_flights(self, now: datetime) -> None:
         if self.destination is None:
             raise RuntimeError(
                 f"Cannot plan ferry flights for {self} because there is no destination."
@@ -449,7 +482,7 @@ class Squadron:
             size = min(remaining, self.aircraft.max_group_size)
             self.plan_ferry_flight(package, size)
             remaining -= size
-        package.set_tot_asap()
+        package.set_tot_asap(now)
         self.coalition.ato.add_package(package)
 
     def plan_ferry_flight(self, package: Package, size: int) -> None:
@@ -487,6 +520,7 @@ class Squadron:
             squadron_def.aircraft,
             max_size,
             squadron_def.livery,
+            squadron_def.livery_set,
             primary_task,
             squadron_def.auto_assignable_mission_types,
             squadron_def.radio_presets,

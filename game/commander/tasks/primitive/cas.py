@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from game.ato.flighttype import FlightType
+from game.commander.missionproposals import EscortType
 from game.commander.tasks.packageplanningtask import PackagePlanningTask
 from game.commander.theaterstate import TheaterState
 from game.theater import FrontLine
@@ -31,5 +32,5 @@ class PlanCas(PackagePlanningTask[FrontLine]):
     def propose_flights(self) -> None:
         size = self.get_flight_size()
         self.propose_flight(FlightType.CAS, size)
-        self.propose_flight(FlightType.TARCAP, 2)
-        self.propose_flight(FlightType.SEAD_SWEEP, 2)
+        self.propose_flight(FlightType.TARCAP, 2, EscortType.AirToAir)
+        self.propose_flight(FlightType.SEAD_SWEEP, 2, EscortType.Sead)

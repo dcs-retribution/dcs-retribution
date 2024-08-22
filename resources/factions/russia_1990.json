@@ -9,6 +9,7 @@
   "aircrafts": [
     "IL-76MD",
     "Ka-50 Hokum",
+    "Ka-50 Hokum III",
     "Mi-24V Hind-E",
     "Mi-24P Hind-F",
     "Mi-8MTV2 Hip",
@@ -90,5 +91,5 @@
     "Admiral Gorshkov"
   ],
   "has_jtac": true,
-  "jtac_unit": "MQ-9 Reaper"
+  "jtac_unit": "Yak-52"
 }

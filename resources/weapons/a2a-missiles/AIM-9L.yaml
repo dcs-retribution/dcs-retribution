@@ -10,3 +10,5 @@ clsids:
   - "LAU-127_AIM-9L"
   - "{LAU-138 wtip - AIM-9L}"
   - "{LAU-7 - AIM-9L}"
+  - "{LAU-7_AIM-9L_Left}"
+  - "{LAU-7_AIM-9L_Right}"

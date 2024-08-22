@@ -21,6 +21,7 @@ from game.sidc import (
 )
 from game.theater.presetlocation import PresetLocation
 from .missiontarget import MissionTarget
+from ..data.groups import GroupTask
 from ..utils import Distance, Heading, meters
 
 if TYPE_CHECKING:
@@ -62,6 +63,8 @@ class TheaterGroundObject(MissionTarget, SidcDescribable, ABC):
         location: PresetLocation,
         control_point: ControlPoint,
         sea_object: bool,
+        task: Optional[GroupTask],
+        hide_on_mfd: bool = False,
     ) -> None:
         super().__init__(name, location)
         self.id = uuid.uuid4()
@@ -72,6 +75,8 @@ class TheaterGroundObject(MissionTarget, SidcDescribable, ABC):
         self.groups: List[TheaterGroup] = []
         self.original_name = location.original_name
         self._threat_poly: ThreatPoly | None = None
+        self.task = task
+        self.hide_on_mfd = hide_on_mfd
 
     def __getstate__(self) -> dict[str, Any]:
         state = self.__dict__.copy()
@@ -278,6 +283,10 @@ class TheaterGroundObject(MissionTarget, SidcDescribable, ABC):
     def coalition(self) -> Coalition:
         return self.control_point.coalition
 
+    @property
+    def is_naval_control_point(self) -> bool:
+        return False
+
 
 class BuildingGroundObject(TheaterGroundObject):
     def __init__(
@@ -286,6 +295,7 @@ class BuildingGroundObject(TheaterGroundObject):
         category: str,
         location: PresetLocation,
         control_point: ControlPoint,
+        task: Optional[GroupTask],
         is_fob_structure: bool = False,
     ) -> None:
         super().__init__(
@@ -294,6 +304,7 @@ class BuildingGroundObject(TheaterGroundObject):
             location=location,
             control_point=control_point,
             sea_object=False,
+            task=task,
         )
         self.is_fob_structure = is_fob_structure
 
@@ -365,7 +376,7 @@ class NavalGroundObject(TheaterGroundObject, ABC):
 
     @property
     def purchasable(self) -> bool:
-        return False
+        return self.control_point.coalition.game.turn == 0
 
     @property
     def is_iads(self) -> bool:
@@ -375,6 +386,10 @@ class NavalGroundObject(TheaterGroundObject, ABC):
 class GenericCarrierGroundObject(NavalGroundObject, ABC):
     @property
     def is_control_point(self) -> bool:
+        return True
+
+    @property
+    def is_naval_control_point(self) -> bool:
         return True
 
 
@@ -389,6 +404,7 @@ class CarrierGroundObject(GenericCarrierGroundObject):
             location=location,
             control_point=control_point,
             sea_object=True,
+            task=GroupTask.AIRCRAFT_CARRIER,
         )
 
     @property
@@ -410,6 +426,7 @@ class LhaGroundObject(GenericCarrierGroundObject):
             location=location,
             control_point=control_point,
             sea_object=True,
+            task=GroupTask.HELICOPTER_CARRIER,
         )
 
     @property
@@ -430,6 +447,7 @@ class MissileSiteGroundObject(TheaterGroundObject):
             location=location,
             control_point=control_point,
             sea_object=False,
+            task=GroupTask.MISSILE,
         )
 
     @property
@@ -442,7 +460,7 @@ class MissileSiteGroundObject(TheaterGroundObject):
 
     @property
     def purchasable(self) -> bool:
-        return False
+        return self.control_point.coalition.game.turn == 0
 
     @property
     def should_head_to_conflict(self) -> bool:
@@ -470,6 +488,7 @@ class CoastalSiteGroundObject(TheaterGroundObject):
             location=location,
             control_point=control_point,
             sea_object=False,
+            task=GroupTask.COASTAL,
         )
 
     @property
@@ -482,7 +501,7 @@ class CoastalSiteGroundObject(TheaterGroundObject):
 
     @property
     def purchasable(self) -> bool:
-        return False
+        return self.control_point.coalition.game.turn == 0
 
     @property
     def should_head_to_conflict(self) -> bool:
@@ -503,6 +522,7 @@ class IadsGroundObject(TheaterGroundObject, ABC):
         name: str,
         location: PresetLocation,
         control_point: ControlPoint,
+        task: Optional[GroupTask],
         category: str = "aa",
     ) -> None:
         super().__init__(
@@ -511,6 +531,7 @@ class IadsGroundObject(TheaterGroundObject, ABC):
             location=location,
             control_point=control_point,
             sea_object=False,
+            task=task,
         )
 
     def mission_types(self, for_player: bool) -> Iterator[FlightType]:
@@ -538,12 +559,14 @@ class SamGroundObject(IadsGroundObject):
         name: str,
         location: PresetLocation,
         control_point: ControlPoint,
+        task: Optional[GroupTask],
     ) -> None:
         super().__init__(
             name=name,
             category="aa",
             location=location,
             control_point=control_point,
+            task=task,
         )
 
     @property
@@ -589,6 +612,7 @@ class VehicleGroupGroundObject(TheaterGroundObject):
         name: str,
         location: PresetLocation,
         control_point: ControlPoint,
+        task: Optional[GroupTask],
     ) -> None:
         super().__init__(
             name=name,
@@ -596,6 +620,7 @@ class VehicleGroupGroundObject(TheaterGroundObject):
             location=location,
             control_point=control_point,
             sea_object=False,
+            task=task,
         )
 
     @property
@@ -637,6 +662,7 @@ class EwrGroundObject(IadsGroundObject):
             location=location,
             control_point=control_point,
             category="ewr",
+            task=GroupTask.EARLY_WARNING_RADAR,
         )
 
     @property
@@ -662,6 +688,7 @@ class ShipGroundObject(NavalGroundObject):
             location=location,
             control_point=control_point,
             sea_object=True,
+            task=GroupTask.NAVY,
         )
 
     @property

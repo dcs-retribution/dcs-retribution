@@ -25,10 +25,10 @@ export default function LiberationMap() {
   const map = useRef<Map>(null);
   const mapCenter = useAppSelector(selectMapCenter);
   useEffect(() => {
-    map.current?.setView(mapCenter, 8, { animate: true, duration: 1 });
+    map.current?.setView(mapCenter, map.current?.getZoom() ?? 8, { animate: true, duration: 1 });
   });
   return (
-    <MapContainer zoom={8} zoomControl={false} ref={map}>
+    <MapContainer zoom={map.current?.getZoom() ?? 8} zoomControl={false} ref={map}>
       <ScaleControl />
       <LeafletRuler />
       <LayersControl collapsed={false}>
@@ -52,6 +52,18 @@ export default function LiberationMap() {
         </LayersControl.Overlay>
         <LayersControl.Overlay name="Air defenses" checked>
           <TgosLayer categories={["aa"]} />
+        </LayersControl.Overlay>
+        <LayersControl.Overlay name="LORAD" >
+          <TgosLayer categories={["aa"]} task={"LORAD"} />
+        </LayersControl.Overlay>
+        <LayersControl.Overlay name="MERAD" >
+          <TgosLayer categories={["aa"]} task={"MERAD"} />
+        </LayersControl.Overlay>
+        <LayersControl.Overlay name="SHORAD" >
+          <TgosLayer categories={["aa"]} task={"SHORAD"} />
+        </LayersControl.Overlay>
+        <LayersControl.Overlay name="AAA" >
+          <TgosLayer categories={["aa"]} task={"AAA"} />
         </LayersControl.Overlay>
         <LayersControl.Overlay name="Factories" checked>
           <TgosLayer categories={["factory"]} />
@@ -86,8 +98,8 @@ export default function LiberationMap() {
         <LayersControl.Overlay name="Allied IADS Network">
           <Iadsnetworklayer blue={true} />
         </LayersControl.Overlay>
-        <LayersControl.Overlay name="Selected blue flight plan">
-          <FlightPlansLayer blue={true} selectedOnly />
+        <LayersControl.Overlay name="Selected flight plan">
+          <FlightPlansLayer selectedOnly />
         </LayersControl.Overlay>
         <LayersControl.Overlay name="All blue flight plans" checked>
           <FlightPlansLayer blue={true} />

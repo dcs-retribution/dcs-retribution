@@ -17,7 +17,7 @@ class HoldPointBuilder(PydcsWaypointBuilder):
         loiter = ControlledTask(
             OrbitAction(
                 altitude=waypoint.alt,
-                speed=speed.meters_per_second,
+                speed=speed.kph,
                 pattern=OrbitAction.OrbitPattern.Circle,
             )
         )
@@ -31,7 +31,7 @@ class HoldPointBuilder(PydcsWaypointBuilder):
             return
         push_time = self.flight.flight_plan.push_time
         self.waypoint.departure_time = push_time
-        elapsed = int((push_time - self.elapsed_mission_time).total_seconds()) - 60
+        elapsed = int((push_time - self.now).total_seconds()) - 60
         loiter.stop_after_time(elapsed)
         # What follows is some code to cope with the broken 'stop after time' condition
         create_stop_orbit_trigger(loiter, self.package, self.mission, elapsed)
@@ -40,4 +40,4 @@ class HoldPointBuilder(PydcsWaypointBuilder):
         if self.flight.is_helo:
             waypoint.add_task(OptFormation.rotary_column())
         else:
-            waypoint.add_task(OptFormation.finger_four_close())
+            waypoint.add_task(OptFormation.finger_four_open())

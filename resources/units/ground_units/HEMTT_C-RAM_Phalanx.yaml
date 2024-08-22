@@ -1,0 +1,11 @@
+class: AAA
+description: "Counter rocket, artillery, and mortar, abbreviated C-RAM or counter-RAM, is a set of
+ systems used to detect and/or destroy incoming rockets, artillery, and mortar rounds in the air
+  before they hit their ground targets, or simply provide early warning."
+introduced: 2005
+manufacturer: General Electric
+origin: USA
+price: 14
+role: Self-Propelled Anti-Aircraft Gun
+variants:
+  HEMTT C-RAM Phalanx: {}

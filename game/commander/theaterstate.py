@@ -5,7 +5,8 @@ import itertools
 import math
 from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import Optional, TYPE_CHECKING, Union
+from datetime import datetime
+from typing import Optional, TYPE_CHECKING, Union, Dict
 
 from game.commander.battlepositions import BattlePositions
 from game.commander.objectivefinder import ObjectiveFinder
@@ -36,6 +37,7 @@ class PersistentContext:
     coalition: Coalition
     theater: ConflictTheater
     turn: int
+    now: datetime
     settings: Settings
     tracer: MultiEventTracer
 
@@ -60,6 +62,7 @@ class TheaterState(WorldState["TheaterState"]):
     strike_targets: list[TheaterGroundObject]
     enemy_barcaps: list[ControlPoint]
     threat_zones: ThreatZones
+    vulnerable_control_points: list[ControlPoint]
 
     def _rebuild_threat_zones(self) -> None:
         """Recreates the theater's threat zones based on the current planned state."""
@@ -133,18 +136,25 @@ class TheaterState(WorldState["TheaterState"]):
             # IADS threats so that DegradeIads will consider it a threat later.
             threatening_air_defenses=self.threatening_air_defenses,
             detecting_air_defenses=self.detecting_air_defenses,
+            vulnerable_control_points=self.vulnerable_control_points,
         )
 
     @classmethod
     def from_game(
-        cls, game: Game, player: bool, tracer: MultiEventTracer
+        cls, game: Game, player: bool, now: datetime, tracer: MultiEventTracer
     ) -> TheaterState:
         coalition = game.coalition_for(player)
         finder = ObjectiveFinder(game, player)
         ordered_capturable_points = finder.prioritized_unisolated_points()
 
         context = PersistentContext(
-            game.db, coalition, game.theater, game.turn, game.settings, tracer
+            game.db,
+            coalition,
+            game.theater,
+            game.turn,
+            now,
+            game.settings,
+            tracer,
         )
 
         # Plan enough rounds of CAP that the target has coverage over the expected
@@ -152,6 +162,15 @@ class TheaterState(WorldState["TheaterState"]):
         mission_duration = game.settings.desired_player_mission_duration.total_seconds()
         barcap_duration = coalition.doctrine.cap_duration.total_seconds()
         barcap_rounds = math.ceil(mission_duration / barcap_duration)
+
+        battle_postitions: Dict[ControlPoint, BattlePositions] = {
+            cp: BattlePositions.for_control_point(cp)
+            for cp in ordered_capturable_points
+        }
+
+        vulnerable_control_points = [
+            cp for cp, bp in battle_postitions.items() if not bp.blocking_capture
+        ]
 
         return TheaterState(
             context=context,
@@ -169,10 +188,7 @@ class TheaterState(WorldState["TheaterState"]):
             enemy_convoys=list(finder.convoys()),
             enemy_shipping=list(finder.cargo_ships()),
             enemy_ships=list(finder.enemy_ships()),
-            enemy_battle_positions={
-                cp: BattlePositions.for_control_point(cp)
-                for cp in ordered_capturable_points
-            },
+            enemy_battle_positions=battle_postitions,
             oca_targets=list(
                 finder.oca_targets(
                     min_aircraft=game.settings.oca_target_autoplanner_min_aircraft_count
@@ -181,4 +197,5 @@ class TheaterState(WorldState["TheaterState"]):
             strike_targets=list(finder.strike_targets()),
             enemy_barcaps=list(game.theater.control_points_for(not player)),
             threat_zones=game.threat_zone_for(not player),
+            vulnerable_control_points=vulnerable_control_points,
         )

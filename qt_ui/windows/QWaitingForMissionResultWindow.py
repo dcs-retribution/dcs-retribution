@@ -4,10 +4,10 @@ import logging
 from pathlib import Path
 from typing import Optional
 
-from PySide2 import QtCore
-from PySide2.QtCore import QObject, Signal
-from PySide2.QtGui import QIcon, QMovie, QPixmap
-from PySide2.QtWidgets import (
+from PySide6 import QtCore
+from PySide6.QtCore import QObject, Signal
+from PySide6.QtGui import QIcon, QMovie, QPixmap
+from PySide6.QtWidgets import (
     QDialog,
     QFileDialog,
     QGridLayout,
@@ -23,6 +23,8 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from game import Game
 from game.debriefing import Debriefing
 from game.profiling import logged_duration
+from game.server import EventStream
+from game.sim import GameUpdateEvents
 from qt_ui.simcontroller import SimController
 from qt_ui.windows.GameUpdateSignal import GameUpdateSignal
 
@@ -54,7 +56,7 @@ class QWaitingForMissionResultWindow(QDialog):
         parent: Optional[QWidget] = None,
     ) -> None:
         super(QWaitingForMissionResultWindow, self).__init__(parent=parent)
-        self.setWindowModality(QtCore.Qt.WindowModal)
+        self.setWindowModality(QtCore.Qt.WindowModality.WindowModal)
         self.game = game
         self.sim_controller = sim_controller
         self.setWindowTitle("Waiting for mission completion.")
@@ -98,7 +100,7 @@ class QWaitingForMissionResultWindow(QDialog):
         self.gridLayout.addWidget(self.instructions_text, 1, 0)
 
         progress = QLabel("")
-        progress.setAlignment(QtCore.Qt.AlignCenter)
+        progress.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         progress_bar = QMovie("./resources/ui/loader.gif")
         progress.setMovie(progress_bar)
 
@@ -237,5 +239,12 @@ class QWaitingForMissionResultWindow(QDialog):
 
     def reset_game_state(self):
         self.sim_controller.set_game(self.game)
+        events = GameUpdateEvents()
+        for _, f in self.game.db.flights.objects.items():
+            f.state.reinitialize(self.game.conditions.start_time)
+            events.update_flight(f)
+        for cp in self.game.theater.controlpoints:
+            cp.release_parking_slots()
         GameUpdateSignal.get_instance().updateGame(self.game)
+        EventStream().put_nowait(events)
         self.close()

@@ -1,0 +1,12 @@
+---
+name: Taiwanese Army
+country: Combined Joint Task Forces Blue
+role: Light Attack and Scout Helicopter
+aircraft: OH-58D(R) Kiowa Warrior
+livery: TWN Army Fictional
+mission_types:
+  - BAI
+  - CAS
+  - DEAD
+  - Escort
+  - OCA/Aircraft

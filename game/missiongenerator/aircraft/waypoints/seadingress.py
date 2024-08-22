@@ -17,7 +17,8 @@ from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 class SeadIngressBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
-        self.register_special_waypoints(self.waypoint.targets)
+        self.register_special_strike_points(self.waypoint.targets)
+        self.register_special_ingress_points()
 
         target = self.package.target
         if not isinstance(target, TheaterGroundObject):
@@ -53,7 +54,7 @@ class SeadIngressBuilder(PydcsWaypointBuilder):
             )
             waypoint.tasks.append(attack_task)
 
-            if self.flight.loadout.has_weapon_of_type(WeaponType.ARM):
+            if self.flight.any_member_has_weapon_of_type(WeaponType.ARM):
                 # Special handling for ARM Weapon types:
                 # The SEAD flight will Search for the targeted group and then engage it
                 # if it is found only. This will prevent AI from having huge problems

@@ -70,6 +70,7 @@
   "missiles": [],
   "air_defense_units": [
     "EWR AN/FPS-117 Radar",
+    "HEMTT C-RAM Phalanx",
     "M1097 Heavy HMMWV Avenger"
   ],
   "requirements": {},

@@ -2,7 +2,8 @@ from __future__ import annotations
 
 import logging
 from collections import defaultdict
-from datetime import timedelta
+from copy import deepcopy
+from datetime import datetime
 from typing import Dict, Optional, TYPE_CHECKING
 
 from game.db import Database
@@ -42,16 +43,18 @@ class Package(RadioFrequencyContainer):
         self.auto_asap = auto_asap
         self.flights: list[Flight] = []
 
-        # Desired TOT as an offset from mission start.
-        self.time_over_target: timedelta = timedelta()
+        # Desired TOT as an offset from mission start. Obviously datetime.min is bogus,
+        # but it's going to be replaced by whatever is scheduling the package very soon.
+        # TODO: Constructor should maybe take the current time and use that to preserve
+        # the old behavior?
+        self.time_over_target: datetime = datetime.min
         self.waypoints: PackageWaypoints | None = None
 
     @property
     def has_players(self) -> bool:
         return any(flight.client_count for flight in self.flights)
 
-    @property
-    def formation_speed(self) -> Optional[Speed]:
+    def formation_speed(self, is_helo: bool) -> Optional[Speed]:
         """The speed of the package when in formation.
 
         If none of the flights in the package will join a formation, this
@@ -62,7 +65,10 @@ class Package(RadioFrequencyContainer):
         """
         speeds = []
         for flight in self.flights:
-            if isinstance(flight.flight_plan, FormationFlightPlan):
+            if (
+                isinstance(flight.flight_plan, FormationFlightPlan)
+                and flight.is_helo == is_helo
+            ):
                 speeds.append(flight.flight_plan.best_flight_formation_speed)
         if not speeds:
             return None
@@ -71,7 +77,7 @@ class Package(RadioFrequencyContainer):
     # TODO: Should depend on the type of escort.
     # SEAD might be able to leave before CAP.
     @property
-    def escort_start_time(self) -> Optional[timedelta]:
+    def escort_start_time(self) -> datetime | None:
         times = []
         for flight in self.flights:
             waypoint = flight.flight_plan.request_escort_at()
@@ -90,7 +96,7 @@ class Package(RadioFrequencyContainer):
         return None
 
     @property
-    def escort_end_time(self) -> Optional[timedelta]:
+    def escort_end_time(self) -> datetime | None:
         times = []
         for flight in self.flights:
             waypoint = flight.flight_plan.dismiss_escort_at()
@@ -112,7 +118,7 @@ class Package(RadioFrequencyContainer):
         return None
 
     @property
-    def mission_departure_time(self) -> Optional[timedelta]:
+    def mission_departure_time(self) -> datetime | None:
         times = []
         for flight in self.flights:
             times.append(flight.flight_plan.mission_departure_time)
@@ -120,8 +126,8 @@ class Package(RadioFrequencyContainer):
             return max(times)
         return None
 
-    def set_tot_asap(self) -> None:
-        self.time_over_target = TotEstimator(self).earliest_tot()
+    def set_tot_asap(self, now: datetime) -> None:
+        self.time_over_target = TotEstimator(self).earliest_tot(now)
 
     def add_flight(self, flight: Flight) -> None:
         """Adds a flight to the package."""
@@ -179,6 +185,7 @@ class Package(RadioFrequencyContainer):
             FlightType.SEAD_SWEEP,
             FlightType.TARCAP,
             FlightType.BARCAP,
+            FlightType.ARMED_RECON,
             FlightType.AEWC,
             FlightType.FERRY,
             FlightType.REFUELING,
@@ -228,8 +235,10 @@ class Package(RadioFrequencyContainer):
     @staticmethod
     def clone_package(package: Package) -> Package:
         clone = Package(package.target, package._db, package.auto_asap)
-        clone.time_over_target = package.time_over_target
+        clone.time_over_target = deepcopy(package.time_over_target)
         for f in package.flights:
             cf = Flight.clone_flight(f)
+            cf.flight_plan.layout = deepcopy(f.flight_plan.layout)
+            cf.package = clone
             clone.add_flight(cf)
         return clone

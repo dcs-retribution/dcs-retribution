@@ -1,16 +1,14 @@
 import logging
 import traceback
 import webbrowser
+from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
-from PySide2.QtCore import QSettings, Qt, Signal
-from PySide2.QtGui import QCloseEvent, QIcon
-from PySide2.QtWidgets import (
-    QAction,
-    QActionGroup,
+from PySide6.QtCore import QSettings, Qt, Signal
+from PySide6.QtGui import QCloseEvent, QIcon, QAction, QGuiApplication, QActionGroup
+from PySide6.QtWidgets import (
     QApplication,
-    QDesktopWidget,
     QFileDialog,
     QMainWindow,
     QMessageBox,
@@ -24,6 +22,8 @@ from game import Game, VERSION, persistency, Migrator
 from game.debriefing import Debriefing
 from game.game import TurnState
 from game.layout import LAYOUTS
+from game.persistency import pre_pretense_backups_dir
+from game.pretense.pretensemissiongenerator import PretenseMissionGenerator
 from game.server import EventStream, GameContext
 from game.server.dependencies import QtCallbacks, QtContext
 from game.theater import ControlPoint, MissionTarget, TheaterGroundObject
@@ -99,9 +99,9 @@ class QLiberationWindow(QMainWindow):
 
         # Default to maximized on the main display if we don't have any persistent
         # configuration.
-        screen = QDesktopWidget().screenGeometry()
+        screen = QGuiApplication.primaryScreen().availableSize()
         self.setGeometry(0, 0, screen.width(), screen.height())
-        self.setWindowState(Qt.WindowMaximized)
+        self.setWindowState(Qt.WindowState.WindowMaximized)
 
         # But override it with the saved configuration if it exists.
         self._restore_window_geometry()
@@ -111,7 +111,7 @@ class QLiberationWindow(QMainWindow):
             if last_save_file:
                 logging.info("Loading last saved game : " + str(last_save_file))
                 game = persistency.load_game(last_save_file)
-                self.migrate_game(game, last_save_file)
+                game = self.migrate_game(game, last_save_file)
                 self.onGameGenerated(game)
                 self.updateWindowTitle(last_save_file if game else None)
             else:
@@ -120,8 +120,8 @@ class QLiberationWindow(QMainWindow):
             self.onGameGenerated(self.game)
 
     def initUi(self, ui_flags: UiFlags) -> None:
-        hbox = QSplitter(Qt.Horizontal)
-        vbox = QSplitter(Qt.Vertical)
+        hbox = QSplitter(Qt.Orientation.Horizontal)
+        vbox = QSplitter(Qt.Orientation.Vertical)
         hbox.addWidget(self.ato_panel)
         hbox.addWidget(vbox)
         vbox.addWidget(self.liberation_map)
@@ -134,7 +134,7 @@ class QLiberationWindow(QMainWindow):
 
         self.top_panel = QTopPanel(self.game_model, self.sim_controller, ui_flags)
         vbox = QVBoxLayout()
-        vbox.setMargin(0)
+        vbox.setContentsMargins(0, 0, 0, 0)
         vbox.addWidget(self.top_panel)
         vbox.addWidget(hbox)
 
@@ -196,6 +196,20 @@ class QLiberationWindow(QMainWindow):
             lambda: webbrowser.open_new_tab("https://shdwp.github.io/ukraine/")
         )
 
+        self.pretenseLinkAction = QAction("&DCS: Pretense", self)
+        self.pretenseLinkAction.setIcon(QIcon(CONST.ICONS["Pretense_discord"]))
+        self.pretenseLinkAction.triggered.connect(
+            lambda: webbrowser.open_new_tab(
+                "https://" + "discord.gg" + "/" + "PtPsb9Mpk6"
+            )
+        )
+
+        self.newPretenseAction = QAction(
+            "&Generate a Pretense Campaign from the running campaign", self
+        )
+        self.newPretenseAction.setIcon(QIcon(CONST.ICONS["Pretense_generate"]))
+        self.newPretenseAction.triggered.connect(self.newPretenseCampaign)
+
         self.openLogsAction = QAction("Show &logs", self)
         self.openLogsAction.triggered.connect(self.showLogsDialog)
 
@@ -237,6 +251,8 @@ class QLiberationWindow(QMainWindow):
         self.links_bar.addAction(self.openDiscordAction)
         self.links_bar.addAction(self.openGithubAction)
         self.links_bar.addAction(self.ukraineAction)
+        self.links_bar.addAction(self.pretenseLinkAction)
+        self.links_bar.addAction(self.newPretenseAction)
 
         self.actions_bar = self.addToolBar("Actions")
         self.actions_bar.addAction(self.openSettingsAction)
@@ -306,6 +322,29 @@ class QLiberationWindow(QMainWindow):
         wizard.show()
         wizard.accepted.connect(lambda: self.onGameGenerated(wizard.generatedGame))
 
+    def newPretenseCampaign(self):
+        output = persistency.mission_path_for("pretense_campaign.miz")
+        try:
+            PretenseMissionGenerator(
+                self.game, self.game.conditions.start_time
+            ).generate_miz(output)
+        except Exception as e:
+            now = datetime.now()
+            date_time = now.strftime("%Y-%d-%mT%H_%M_%S")
+            path = pre_pretense_backups_dir()
+            path.mkdir(parents=True, exist_ok=True)
+            tgt = path / f"pre-pretense-backup_{date_time}.retribution"
+            path /= f".pre-pretense-backup.retribution"
+            if path.exists():
+                with open(path, "rb") as source:
+                    with open(tgt, "wb") as target:
+                        target.write(source.read())
+            raise e
+
+        title = "Pretense campaign generated"
+        msg = f"A Pretense campaign mission has been successfully generated in {output}"
+        QMessageBox.information(QApplication.focusWidget(), title, msg, QMessageBox.Ok)
+
     def openFile(self):
         if self.game is not None and self.game.savepath:
             save_dir = self.game.savepath
@@ -319,7 +358,7 @@ class QLiberationWindow(QMainWindow):
         )
         if file is not None and file[0] != "":
             game = persistency.load_game(file[0])
-            self.migrate_game(game, file[0])
+            game = self.migrate_game(game, file[0])
             GameUpdateSignal.get_instance().game_loaded.emit(game)
 
             self.updateWindowTitle(file[0])
@@ -327,15 +366,23 @@ class QLiberationWindow(QMainWindow):
     def migrate_game(self, game, path):
         if game:
             is_liberation = ".liberation" in path
-            Migrator(game, is_liberation)
+            try:
+                Migrator(game, is_liberation)
+                return game
+            except Exception:
+                self.incompatible_save_popup(path)
         else:
-            relative_path = Path(path)
-            QMessageBox.critical(
-                self,
-                "Incompatible save",
-                "Incompatible save file detected, please report the issue on GitHub or Discord.\n"
-                f"Make sure to include the campaign that fails to load, i.e.:\n\n{relative_path}",
-            )
+            self.incompatible_save_popup(path)
+        return None
+
+    def incompatible_save_popup(self, path):
+        relative_path = Path(path)
+        QMessageBox.critical(
+            self,
+            "Incompatible save",
+            "Incompatible save file detected, please report the issue on GitHub or Discord.\n"
+            f"Make sure to include the campaign that fails to load, i.e.:\n\n{relative_path}",
+        )
 
     def saveGame(self):
         logging.info("Saving game")
@@ -401,11 +448,11 @@ class QLiberationWindow(QMainWindow):
             QApplication.focusWidget(),
             title,
             msg,
-            QMessageBox.Yes,
-            QMessageBox.No,
+            QMessageBox.StandardButton.Yes,
+            QMessageBox.StandardButton.No,
         )
 
-        if result is not None and result == QMessageBox.Yes:
+        if result is not None and result == QMessageBox.StandardButton.Yes:
             self.newGame()
 
     def setGame(self, game: Optional[Game]):
@@ -425,7 +472,7 @@ class QLiberationWindow(QMainWindow):
                 "version of DCS Retribution.\n"
                 "\n"
                 f"{traceback.format_exc()}",
-                QMessageBox.Ok,
+                QMessageBox.StandardButton.Ok,
             )
             GameUpdateSignal.get_instance().updateGame(None)
         finally:
@@ -489,6 +536,8 @@ class QLiberationWindow(QMainWindow):
             "kivipe",
             "Turbolious",
             "ingax01",
+            "M-Chimiste",
+            "tmz42",
         ]
         text = (
             "<h3>DCS Retribution " + VERSION + "</h3>" + "<b>Source code : </b>"
@@ -544,7 +593,7 @@ class QLiberationWindow(QMainWindow):
         LAYOUTS.import_templates()
 
     def showLogsDialog(self):
-        self.dialog = QLogsWindow()
+        self.dialog = QLogsWindow(self)
         self.dialog.show()
 
     def onDebriefing(self, debrief: Debriefing):
@@ -578,11 +627,13 @@ class QLiberationWindow(QMainWindow):
             self,
             "Quit Retribution?",
             "Would you like to save before quitting?",
-            QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel,
-            QMessageBox.Cancel,
+            QMessageBox.StandardButton.Yes
+            | QMessageBox.StandardButton.No
+            | QMessageBox.StandardButton.Cancel,
+            QMessageBox.StandardButton.Cancel,
         )
-        if result in [QMessageBox.Yes, QMessageBox.No]:
-            if result == QMessageBox.Yes:
+        if result in [QMessageBox.StandardButton.Yes, QMessageBox.StandardButton.No]:
+            if result == QMessageBox.StandardButton.Yes:
                 self.saveGame()
             self._save_window_geometry()
             super().closeEvent(event)

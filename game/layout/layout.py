@@ -220,6 +220,7 @@ class TgoLayout:
         name: str,
         location: PresetLocation,
         control_point: ControlPoint,
+        task: Optional[GroupTask],
     ) -> TheaterGroundObject:
         """Create the TheaterGroundObject for the TgoLayout
 
@@ -240,11 +241,12 @@ class AntiAirLayout(TgoLayout):
         name: str,
         location: PresetLocation,
         control_point: ControlPoint,
+        task: Optional[GroupTask],
     ) -> IadsGroundObject:
         if GroupTask.EARLY_WARNING_RADAR in self.tasks:
             return EwrGroundObject(name, location, control_point)
         elif any(tasking in self.tasks for tasking in GroupRole.AIR_DEFENSE.tasks):
-            return SamGroundObject(name, location, control_point)
+            return SamGroundObject(name, location, control_point, task)
         raise RuntimeError(
             f" No Template for AntiAir tasking ({', '.join(task.description for task in self.tasks)})"
         )
@@ -256,6 +258,7 @@ class BuildingLayout(TgoLayout):
         name: str,
         location: PresetLocation,
         control_point: ControlPoint,
+        task: Optional[GroupTask],
     ) -> BuildingGroundObject:
         iads_role = IadsRole.for_category(self.category)
         tgo_type = (
@@ -266,6 +269,7 @@ class BuildingLayout(TgoLayout):
             self.category,
             location,
             control_point,
+            task,
             self.category == "fob",
         )
 
@@ -283,6 +287,7 @@ class NavalLayout(TgoLayout):
         name: str,
         location: PresetLocation,
         control_point: ControlPoint,
+        task: Optional[GroupTask],
     ) -> TheaterGroundObject:
         if GroupTask.NAVY in self.tasks:
             return ShipGroundObject(name, location, control_point)
@@ -299,6 +304,7 @@ class DefensesLayout(TgoLayout):
         name: str,
         location: PresetLocation,
         control_point: ControlPoint,
+        task: Optional[GroupTask],
     ) -> TheaterGroundObject:
         if GroupTask.MISSILE in self.tasks:
             return MissileSiteGroundObject(name, location, control_point)
@@ -313,5 +319,6 @@ class GroundForceLayout(TgoLayout):
         name: str,
         location: PresetLocation,
         control_point: ControlPoint,
+        task: Optional[GroupTask],
     ) -> TheaterGroundObject:
-        return VehicleGroupGroundObject(name, location, control_point)
+        return VehicleGroupGroundObject(name, location, control_point, task)

@@ -37,17 +37,6 @@ utc_kneeboard: true
 #   InnerBoard: 0
 #   OuterBoard: 0
 tasks:
-  Anti-ship: 150
-  BAI: 740
-  BARCAP: 450
-  CAS: 740
-  DEAD: 440
-  Escort: 450
-  Fighter sweep: 450
-  Intercept: 450
-  OCA/Aircraft: 740
-  OCA/Runway: 600
-  SEAD: 430
-  SEAD Escort: 430
-  Strike: 600
-  TARCAP: 450
+  DEAD: 500
+  SEAD: 600
+  SEAD Escort: 550

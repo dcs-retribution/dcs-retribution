@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 from dataclasses import dataclass
-from datetime import timedelta
+from datetime import datetime
 from typing import TYPE_CHECKING, Type
 
 from .flightplan import FlightPlan, Layout
@@ -17,8 +17,6 @@ if TYPE_CHECKING:
 
 @dataclass
 class CustomLayout(Layout):
-    custom_waypoints: list[FlightWaypoint]
-
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
         yield self.departure
         yield from self.custom_waypoints
@@ -28,6 +26,10 @@ class CustomFlightPlan(FlightPlan[CustomLayout]):
     @staticmethod
     def builder_type() -> Type[Builder]:
         return Builder
+
+    @property
+    def is_custom(self) -> bool:
+        return True
 
     @property
     def tot_waypoint(self) -> FlightWaypoint:
@@ -42,16 +44,20 @@ class CustomFlightPlan(FlightPlan[CustomLayout]):
                 return waypoint
         return self.layout.departure
 
-    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
+    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         if waypoint == self.tot_waypoint:
-            return self.package.time_over_target + self.tot_offset
+            return self.tot
         return None
 
-    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
+    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         return None
 
     @property
-    def mission_departure_time(self) -> timedelta:
+    def mission_begin_on_station_time(self) -> datetime | None:
+        return None
+
+    @property
+    def mission_departure_time(self) -> datetime:
         return self.package.time_over_target
 
 
@@ -65,8 +71,8 @@ class Builder(IBuilder[CustomFlightPlan, CustomLayout]):
         self.waypoints = waypoints
 
     def layout(self) -> CustomLayout:
-        builder = WaypointBuilder(self.flight, self.coalition)
+        builder = WaypointBuilder(self.flight)
         return CustomLayout(builder.takeoff(self.flight.departure), self.waypoints)
 
-    def build(self) -> CustomFlightPlan:
+    def build(self, dump_debug_info: bool = False) -> CustomFlightPlan:
         return CustomFlightPlan(self.flight, self.layout())

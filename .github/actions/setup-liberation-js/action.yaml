@@ -1,5 +1,5 @@
-name: Liberation JS set-up
-description: Sets up the Liberation Javascript environment.
+name: Retribution JS set-up
+description: Sets up the Retribution Javascript environment.
 runs:
   using: composite
   steps:

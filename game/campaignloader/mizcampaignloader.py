@@ -9,7 +9,7 @@ from uuid import UUID
 from dcs import Mission
 from dcs.countries import CombinedJointTaskForcesBlue, CombinedJointTaskForcesRed
 from dcs.country import Country
-from dcs.planes import F_15C, A_10A, AJS37
+from dcs.planes import F_15C, A_10A, AJS37, C_130
 from dcs.ships import HandyWind, LHA_Tarawa, Stennis, USS_Arleigh_Burke_IIa
 from dcs.statics import Fortification, Warehouse
 from dcs.terrain import Airport
@@ -43,6 +43,7 @@ class MizCampaignLoader:
     OFF_MAP_UNIT_TYPE = F_15C.id
     GROUND_SPAWN_UNIT_TYPE = A_10A.id
     GROUND_SPAWN_ROADBASE_UNIT_TYPE = AJS37.id
+    GROUND_SPAWN_LARGE_UNIT_TYPE = C_130.id
 
     CV_UNIT_TYPE = Stennis.id
     LHA_UNIT_TYPE = LHA_Tarawa.id
@@ -56,7 +57,7 @@ class MizCampaignLoader:
     OFFSHORE_STRIKE_TARGET_UNIT_TYPE = Fortification.Oil_platform.id
     SHIP_UNIT_TYPE = USS_Arleigh_Burke_IIa.id
     MISSILE_SITE_UNIT_TYPE = MissilesSS.Scud_B.id
-    COASTAL_DEFENSE_UNIT_TYPE = MissilesSS.Hy_launcher.id
+    COASTAL_DEFENSE_UNIT_TYPE = MissilesSS.hy_launcher.id
 
     COMMAND_CENTER_UNIT_TYPE = Fortification._Command_Center.id
     CONNECTION_NODE_UNIT_TYPE = Fortification.Comms_tower_M.id
@@ -73,23 +74,25 @@ class MizCampaignLoader:
     MEDIUM_RANGE_SAM_UNIT_TYPES = {
         AirDefence.Hawk_ln.id,
         AirDefence.S_75M_Volhov.id,
-        AirDefence.X_5p73_s_125_ln.id,
+        AirDefence.x_5p73_s_125_ln.id,
+        AirDefence.NASAMS_LN_B.id,
+        AirDefence.NASAMS_LN_C.id,
     }
 
     SHORT_RANGE_SAM_UNIT_TYPES = {
         AirDefence.M1097_Avenger.id,
-        AirDefence.Rapier_fsa_launcher.id,
-        AirDefence.X_2S6_Tunguska.id,
+        AirDefence.rapier_fsa_launcher.id,
+        AirDefence.x_2S6_Tunguska.id,
         AirDefence.Strela_1_9P31.id,
     }
 
     AAA_UNIT_TYPES = {
-        AirDefence.Flak18.id,
+        AirDefence.flak18.id,
         AirDefence.Vulcan.id,
         AirDefence.ZSU_23_4_Shilka.id,
     }
 
-    EWR_UNIT_TYPE = AirDefence.X_1L13_EWR.id
+    EWR_UNIT_TYPE = AirDefence.x_1L13_EWR.id
 
     ARMOR_GROUP_UNIT_TYPE = Armor.M_1_Abrams.id
 
@@ -233,6 +236,12 @@ class MizCampaignLoader:
     def ground_spawns_roadbase(self) -> Iterator[PlaneGroup]:
         for group in itertools.chain(self.blue.plane_group, self.red.plane_group):
             if group.units[0].type == self.GROUND_SPAWN_ROADBASE_UNIT_TYPE:
+                yield group
+
+    @property
+    def ground_spawns_large(self) -> Iterator[PlaneGroup]:
+        for group in itertools.chain(self.blue.plane_group, self.red.plane_group):
+            if group.units[0].type == self.GROUND_SPAWN_LARGE_UNIT_TYPE:
                 yield group
 
     @property
@@ -533,6 +542,10 @@ class MizCampaignLoader:
         for plane_group in self.ground_spawns_roadbase:
             closest, distance = self.objective_info(plane_group)
             self._add_ground_spawn(closest.ground_spawns_roadbase, plane_group)
+
+        for plane_group in self.ground_spawns_large:
+            closest, distance = self.objective_info(plane_group)
+            self._add_ground_spawn(closest.ground_spawns_large, plane_group)
 
         for plane_group in self.ground_spawns:
             closest, distance = self.objective_info(plane_group)

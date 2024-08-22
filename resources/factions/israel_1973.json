@@ -9,7 +9,10 @@
   "aircrafts": [
     "A-4E Skyhawk",
     "F-4E Phantom II",
-    "UH-1H Iroquois"
+    "F-4E-45MC Phantom II",
+    "UH-1H Iroquois",
+    "C-130",
+    "C-130J-30 Super Hercules"
   ],
   "awacs": [
     "E-2C Hawkeye"
@@ -26,7 +29,7 @@
     "M60A3 \"Patton\""
   ],
   "artillery_units": [
-    "(IDF Mods Project) BM-21 Grad 122mm"
+    "M109A6 Paladin"
   ],
   "logistics_units": [
     "Truck M818 6x6"

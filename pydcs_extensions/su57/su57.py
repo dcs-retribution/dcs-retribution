@@ -115,11 +115,11 @@ class Su_57(PlaneType):
         )
         B_13L_pod___5_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag = (
             2,
-            Weapons.B_13L_pod___5_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag,
+            Weapons.B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation,
         )
         S_25_OFM___340mm_UnGd_Rkt__480kg_Penetrator = (
             2,
-            Weapons.S_25_OFM___340mm_UnGd_Rkt__480kg_Penetrator,
+            Weapons.O_25___1_x_UnGd_Rkts__340_mm_S_25_OFM_Hardened_Target_Penetrator,
         )
         BetAB_500___500kg_Concrete_Piercing_Bomb_LD = (
             2,
@@ -236,11 +236,11 @@ class Su_57(PlaneType):
         )
         B_13L_pod___5_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag = (
             4,
-            Weapons.B_13L_pod___5_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag,
+            Weapons.B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation,
         )
         S_25_OFM___340mm_UnGd_Rkt__480kg_Penetrator = (
             4,
-            Weapons.S_25_OFM___340mm_UnGd_Rkt__480kg_Penetrator,
+            Weapons.O_25___1_x_UnGd_Rkts__340_mm_S_25_OFM_Hardened_Target_Penetrator,
         )
         BetAB_500___500kg_Concrete_Piercing_Bomb_LD = (
             4,
@@ -365,11 +365,11 @@ class Su_57(PlaneType):
         )
         B_13L_pod___5_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag = (
             9,
-            Weapons.B_13L_pod___5_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag,
+            Weapons.B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation,
         )
         S_25_OFM___340mm_UnGd_Rkt__480kg_Penetrator = (
             9,
-            Weapons.S_25_OFM___340mm_UnGd_Rkt__480kg_Penetrator,
+            Weapons.O_25___1_x_UnGd_Rkts__340_mm_S_25_OFM_Hardened_Target_Penetrator,
         )
         BetAB_500___500kg_Concrete_Piercing_Bomb_LD = (
             9,
@@ -479,11 +479,11 @@ class Su_57(PlaneType):
         )
         B_13L_pod___5_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag = (
             11,
-            Weapons.B_13L_pod___5_x_S_13_OF__122mm_UnGd_Rkts__Blast_Frag,
+            Weapons.B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation,
         )
         S_25_OFM___340mm_UnGd_Rkt__480kg_Penetrator = (
             11,
-            Weapons.S_25_OFM___340mm_UnGd_Rkt__480kg_Penetrator,
+            Weapons.O_25___1_x_UnGd_Rkts__340_mm_S_25_OFM_Hardened_Target_Penetrator,
         )
         BetAB_500___500kg_Concrete_Piercing_Bomb_LD = (
             11,

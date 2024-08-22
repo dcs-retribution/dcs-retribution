@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 from dataclasses import dataclass
-from datetime import timedelta
+from datetime import datetime
 from typing import TYPE_CHECKING, Type
 
 from game.utils import feet
@@ -17,23 +17,14 @@ if TYPE_CHECKING:
 
 @dataclass
 class FerryLayout(StandardLayout):
-    nav_to_destination: list[FlightWaypoint]
-
-    def delete_waypoint(self, waypoint: FlightWaypoint) -> bool:
-        if super().delete_waypoint(waypoint):
-            return True
-        if waypoint in self.nav_to_destination:
-            self.nav_to_destination.remove(waypoint)
-            return True
-        return False
-
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
         yield self.departure
-        yield from self.nav_to_destination
+        yield from self.nav_to
         yield self.arrival
         if self.divert is not None:
             yield self.divert
         yield self.bullseye
+        yield from self.custom_waypoints
 
 
 class FerryFlightPlan(StandardFlightPlan[FerryLayout]):
@@ -45,16 +36,20 @@ class FerryFlightPlan(StandardFlightPlan[FerryLayout]):
     def tot_waypoint(self) -> FlightWaypoint:
         return self.layout.arrival
 
-    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
+    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         # TOT planning isn't really useful for ferries. They're behind the front
         # lines so no need to wait for escorts or for other missions to complete.
         return None
 
-    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
+    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         return None
 
     @property
-    def mission_departure_time(self) -> timedelta:
+    def mission_begin_on_station_time(self) -> datetime | None:
+        return None
+
+    @property
+    def mission_departure_time(self) -> datetime:
         return self.package.time_over_target
 
 
@@ -66,17 +61,17 @@ class Builder(IBuilder[FerryFlightPlan, FerryLayout]):
                 f"{self.flight.departure}"
             )
 
-        altitude_is_agl = self.flight.unit_type.dcs_unit_type.helicopter
+        builder = WaypointBuilder(self.flight)
+        altitude_is_agl = self.flight.is_helo
         altitude = (
-            feet(1500)
+            feet(self.coalition.game.settings.heli_cruise_alt_agl)
             if altitude_is_agl
-            else self.flight.unit_type.preferred_patrol_altitude
+            else builder.get_patrol_altitude
         )
 
-        builder = WaypointBuilder(self.flight, self.coalition)
         return FerryLayout(
             departure=builder.takeoff(self.flight.departure),
-            nav_to_destination=builder.nav_path(
+            nav_to=builder.nav_path(
                 self.flight.departure.position,
                 self.flight.arrival.position,
                 altitude,
@@ -85,7 +80,9 @@ class Builder(IBuilder[FerryFlightPlan, FerryLayout]):
             arrival=builder.land(self.flight.arrival),
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
+            nav_from=[],
+            custom_waypoints=list(),
         )
 
-    def build(self) -> FerryFlightPlan:
+    def build(self, dump_debug_info: bool = False) -> FerryFlightPlan:
         return FerryFlightPlan(self.flight, self.layout())

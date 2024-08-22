@@ -3,3 +3,5 @@ year: 1989
 fallback: AGM-65F
 clsids:
   - "LAU_117_AGM_65G"
+  - "{LAU_117A_AGM_65G}"
+  - "{HB_F4E_AGM-65G_LAU117}"

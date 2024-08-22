@@ -161,7 +161,7 @@ RADIOS: List[Radio] = [
     Radio(
         "AN/ARC-186(V) AM", (RadioRange(MHz(116), MHz(152), kHz(25), Modulation.AM),)
     ),
-    Radio("AN/ARC-186(V) FM", (RadioRange(MHz(30), MHz(76), kHz(25), Modulation.FM),)),
+    Radio("AN/ARC-186(V) FM", (RadioRange(MHz(30), MHz(88), kHz(25), Modulation.FM),)),
     Radio(
         "AN/ARC-210",
         (
@@ -190,8 +190,8 @@ RADIOS: List[Radio] = [
     Radio(
         "AN/ARC-222",
         (
-            RadioRange(MHz(30), MHz(88), kHz(25), Modulation.FM),
             RadioRange(MHz(116), MHz(152), kHz(25), Modulation.AM),
+            RadioRange(MHz(30), MHz(88), kHz(25), Modulation.FM),
         ),
     ),
     Radio("SCR-522", (RadioRange(MHz(100), MHz(156), kHz(25), Modulation.AM),)),
@@ -200,8 +200,8 @@ RADIOS: List[Radio] = [
     Radio(
         "TRT ERA 7000 V/UHF",
         (
-            RadioRange(MHz(118), MHz(150), kHz(25), Modulation.AM),
             RadioRange(MHz(225), MHz(400), kHz(25), Modulation.AM),
+            RadioRange(MHz(118), MHz(150), kHz(25), Modulation.AM),
         ),
     ),
     Radio(
@@ -238,7 +238,13 @@ RADIOS: List[Radio] = [
     # MiG-19P
     Radio("RSIU-4V", (RadioRange(MHz(100), MHz(150), kHz(25), Modulation.AM),)),
     # MiG-21bis
-    Radio("RSIU-5V", (RadioRange(MHz(118), MHz(140), kHz(25), Modulation.AM),)),
+    Radio(
+        "R-832",
+        (
+            RadioRange(MHz(118), MHz(140), kHz(100), Modulation.AM),
+            RadioRange(MHz(220), MHz(390), kHz(100), Modulation.AM),
+        ),
+    ),
     # Ka-50
     # Note: Also capable of 100MHz-150MHz, but we can't model gaps.
     Radio("R-800L1", (RadioRange(MHz(220), MHz(400), kHz(25), Modulation.AM),)),
@@ -247,10 +253,10 @@ RADIOS: List[Radio] = [
     Radio(
         "R-863",
         (
-            RadioRange(MHz(100), MHz(150), kHz(25), Modulation.AM),
             RadioRange(MHz(220), MHz(400), kHz(25), Modulation.AM),
-            RadioRange(MHz(100), MHz(150), kHz(25), Modulation.FM),
+            RadioRange(MHz(100), MHz(150), kHz(25), Modulation.AM),
             RadioRange(MHz(220), MHz(400), kHz(25), Modulation.FM),
+            RadioRange(MHz(100), MHz(150), kHz(25), Modulation.FM),
         ),
     ),
     # UH-1H
@@ -263,8 +269,8 @@ RADIOS: List[Radio] = [
     Radio(
         "V/UHF TRAP 136",
         (
-            RadioRange(MHz(118), MHz(144), kHz(25), Modulation.AM),
             RadioRange(MHz(225), MHz(400), kHz(25), Modulation.AM),
+            RadioRange(MHz(118), MHz(144), kHz(25), Modulation.AM),
         ),
     ),
     Radio("UHF TRAP 137B", (RadioRange(MHz(225), MHz(400), kHz(25), Modulation.AM),)),
@@ -272,9 +278,9 @@ RADIOS: List[Radio] = [
     Radio(
         "R-800",
         (
-            RadioRange(MHz(30), MHz(88), kHz(25), Modulation.AM),
-            RadioRange(MHz(108), MHz(174), kHz(25), Modulation.AM),
             RadioRange(MHz(225), MHz(400), kHz(25), Modulation.AM),
+            RadioRange(MHz(108), MHz(174), kHz(25), Modulation.AM),
+            RadioRange(MHz(30), MHz(88), kHz(25), Modulation.AM),
         ),
     ),
     # MB-339A
@@ -294,18 +300,11 @@ RADIOS: List[Radio] = [
         "SRT-651/N",
         (
             RadioRange(
-                MHz(30),
-                MHz(88),
+                MHz(225),
+                MHz(400),
                 kHz(25),
-                Modulation.FM,
-                frozenset((MHz(40, 500),)),
-            ),
-            RadioRange(
-                MHz(108),
-                MHz(156),
-                kHz(25),
-                Modulation.AM,
-                frozenset((MHz(121, 500),)),
+                Modulation.AM,  # Actually AM/FM, but we can't represent that.
+                frozenset((MHz(243),)),
             ),
             RadioRange(
                 MHz(156),
@@ -315,13 +314,33 @@ RADIOS: List[Radio] = [
                 frozenset((MHz(156, 800),)),
             ),
             RadioRange(
-                MHz(225),
-                MHz(400),
+                MHz(108),
+                MHz(156),
                 kHz(25),
-                Modulation.AM,  # Actually AM/FM, but we can't represent that.
-                frozenset((MHz(243),)),
+                Modulation.AM,
+                frozenset((MHz(121, 500),)),
+            ),
+            RadioRange(
+                MHz(30),
+                MHz(88),
+                kHz(25),
+                Modulation.FM,
+                frozenset((MHz(40, 500),)),
             ),
         ),
+    ),
+    # UH-60L
+    Radio(
+        "AN/ARC-201",
+        (
+            # The Range from 30-88MHz should be FM but its modeled as AM in dcs
+            RadioRange(MHz(30), MHz(88), kHz(25), Modulation.AM),
+        ),
+    ),
+    # F-86 Sabre
+    Radio(
+        "AN/ARC-27",
+        (RadioRange(MHz(225), MHz(400), kHz(100), Modulation.AM),),
     ),
 ]
 
@@ -397,15 +416,19 @@ class RadioRegistry:
                 already allocated.
         """
         try:
+            while_count = 0
             while (channel := random_frequency(radio)) in self.allocated_channels:
+                while_count += 1
+                if while_count > 1000:
+                    raise StopIteration
                 pass
             self.reserve(channel)
             return channel
         except StopIteration:
             # In the event of too many channel users, fail gracefully by reusing
-            # the last channel.
+            # a channel.
             # https://github.com/dcs-liberation/dcs_liberation/issues/598
-            channel = radio.last_channel
+            channel = random_frequency(radio)
             logging.warning(
                 f"No more free channels for {radio.name}. Reusing {channel}."
             )

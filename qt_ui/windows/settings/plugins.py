@@ -1,7 +1,7 @@
 from typing import Dict, List
 
-from PySide2.QtCore import Qt, QLocale
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Qt, QLocale
+from PySide6.QtWidgets import (
     QCheckBox,
     QGridLayout,
     QGroupBox,
@@ -22,7 +22,7 @@ class PluginsBox(QGroupBox):
         super().__init__("Plugins")
 
         layout = QGridLayout()
-        layout.setAlignment(Qt.AlignTop)
+        layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.setLayout(layout)
 
         self.plugin_map: Dict[str, QCheckBox] = {}
@@ -52,7 +52,7 @@ class PluginsPage(QWidget):
         self.sc = sc
 
         layout = QVBoxLayout()
-        layout.setAlignment(Qt.AlignTop)
+        layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.setLayout(layout)
 
         self.plugins_box = PluginsBox()
@@ -67,13 +67,15 @@ class PluginOptionsBox(QGroupBox):
         super().__init__(plugin.name)
 
         layout = QGridLayout()
-        layout.setAlignment(Qt.AlignTop)
+        layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.setLayout(layout)
 
         self.widgets: Dict[str, QWidget] = {}
 
         for row, option in enumerate(plugin.options):
-            layout.addWidget(QLabel(option.name), row, 0)
+            label = QLabel(option.name)
+            label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+            layout.addWidget(label, row, 0)
 
             val = option.get_value
             if type(val) == bool:
@@ -86,7 +88,7 @@ class PluginOptionsBox(QGroupBox):
                 if type(val) == float:
                     spinbox = QDoubleSpinBox()
                     spinbox.setSingleStep(0.01)
-                    spinbox.setLocale(QLocale.English)
+                    spinbox.setLocale(QLocale.Language.English)
                 else:
                     spinbox = QSpinBox()
                 spinbox.setMinimum(option.min)
@@ -113,7 +115,7 @@ class PluginOptionsPage(QWidget):
         self.sc = sc
 
         layout = QVBoxLayout()
-        layout.setAlignment(Qt.AlignTop)
+        layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.setLayout(layout)
 
         self.pobs: List[PluginOptionsBox] = []

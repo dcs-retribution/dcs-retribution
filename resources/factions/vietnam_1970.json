@@ -8,8 +8,8 @@
     "MiG-19P Farmer-B",
     "MiG-21bis Fishbed-N",
     "Mi-8MTV2 Hip",
-	"An-26B",
-	"An-30M"
+    "An-26B",
+    "An-30M"
   ],
   "awacs": [
   ],
@@ -26,15 +26,15 @@
   ],
   "artillery_units": [
     "BM-21 Grad",
-	"MO 120 RT",
-	"Mortar 2B11 120mm"
+    "MO 120 RT",
+    "Mortar 2B11 120mm"
   ],
   "logistics_units": [
     "Truck Ural-375",
-	"Truck GAZ-66",
+    "Truck GAZ-66",
     "LUV UAZ-469 Jeep",
-	"Truck Bedford",
-	"Truck Opel Blitz"
+    "Truck Bedford",
+    "Truck Opel Blitz"
   ],
   "infantry_units": [
     "Infantry AK-74 Rus",
@@ -43,17 +43,17 @@
   "preset_groups": [
     "SA-2/S-75",
     "HQ-2",
-	"Cold-War-Flak"
+    "Cold-War-Flak"
   ],
   "air_defense_units": [
     "AAA KS-19 100mm",
-	"8.8 cm Flak 18",
-	"S-60 57mm",
-	"AAA ZU-23 Closed Emplacement",
-	"AAA ZU-23 Emplacement",
-	"ZSU-23-4 Shilka",
-	"ZSU-57-2 'Sparka'",
-	"ZU-23 on Ural-375"
+    "8.8 cm Flak 18",
+    "S-60 57mm",
+    "AAA ZU-23 Closed Emplacement",
+    "AAA ZU-23 Emplacement",
+    "ZSU-23-4 Shilka",
+    "ZSU-57-2 'Sparka'",
+    "ZU-23 on Ural-375"
   ],
   "naval_units": [
     "P258 Leeds Castle",
@@ -61,39 +61,43 @@
   ],
   "doctrine": "coldwar",
   "liveries_overrides": {
-	"MiG-15bis Fagot": [
-		"VPAF MiG-17 Shiny",
-		"VPAF MiG-17 Red Tips",
-		"VPAF MiG-17 Red Tail",
-		"VPAF Jungle_Camo"
-		],
+    "MiG-15bis Fagot": [
+      "VPAF MiG-17 Shiny",
+      "VPAF MiG-17 Red Tips",
+      "VPAF MiG-17 Red Tail",
+      "VPAF Jungle_Camo"
+    ],
     "MiG-19P Farmer-B": [
-		"VPAF Green",
-		"VPAF CC_NV925th",
-		"VPAF J6 14.FAD"
-	],
+      "VPAF Green",
+      "VPAF CC_NV925th",
+      "VPAF J6 14.FAD"
+    ],
     "MiG-21bis Fishbed-N": [
-		"VPAF - 921st Sao Do - 5040",
-		"VPAF - 925th Hanoi Noi Bai",
-		"VPAF - 927th Fighter Regiment Metal",
-		"VPAF - 927th Lam Son - 6122",
-		"VPAF - 5121 Pham Tuan  921st FR Yen Bai",
-		"VPAF - 5015 Red"
-	],
+      "VPAF - 921st Sao Do - 5040",
+      "VPAF - 925th Hanoi Noi Bai",
+      "VPAF - 927th Fighter Regiment Metal",
+      "VPAF - 927th Lam Son - 6122",
+      "VPAF - 5121 Pham Tuan  921st FR Yen Bai",
+      "VPAF - 5015 Red"
+    ],
     "Mi-8MTV2 Hip": [
-		"North Vietnam"
-	],
-	"An-26B": [
-		"CCCP Aeroflot An-26B"
-	],
-	"An-30M": [
-		"China CAAC"
-	]
+      "North Vietnam"
+    ],
+    "An-26B": [
+      "CCCP Aeroflot An-26B"
+    ],
+    "An-30M": [
+      "China CAAC"
+    ]
   },
-  "liveries_overrides_ground_forces":{
-		"BTR-80":				["autumn"],
-		"Infantry AK":			["VIETNAM",
-								"CHINA",
-								"CHINAWOOD"]
-	}
+  "liveries_overrides_ground_forces": {
+    "BTR-80": [
+      "autumn"
+    ],
+    "Infantry AK": [
+      "VIETNAM",
+      "CHINA",
+      "CHINAWOOD"
+    ]
+  }
 }

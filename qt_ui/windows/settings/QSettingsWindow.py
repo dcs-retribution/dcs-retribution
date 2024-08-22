@@ -4,10 +4,10 @@ import textwrap
 import zipfile
 from typing import Callable, Optional, Dict
 
-from PySide2 import QtWidgets
-from PySide2.QtCore import QItemSelectionModel, QPoint, QSize, Qt
-from PySide2.QtGui import QStandardItem, QStandardItemModel
-from PySide2.QtWidgets import (
+from PySide6 import QtWidgets
+from PySide6.QtCore import QItemSelectionModel, QPoint, QSize, Qt
+from PySide6.QtGui import QStandardItem, QStandardItemModel
+from PySide6.QtWidgets import (
     QAbstractItemView,
     QCheckBox,
     QComboBox,
@@ -54,42 +54,66 @@ class CheatSettingsBox(QGroupBox):
         self.main_layout = QVBoxLayout()
         self.setLayout(self.main_layout)
 
-        self.red_ato_checkbox = QCheckBox()
-        self.red_ato_checkbox.setChecked(sc.settings.show_red_ato)
-        self.red_ato_checkbox.toggled.connect(apply_settings)
-
+        # Frontline
         self.frontline_cheat_checkbox = QCheckBox()
         self.frontline_cheat_checkbox.setChecked(sc.settings.enable_frontline_cheats)
         self.frontline_cheat_checkbox.toggled.connect(apply_settings)
+        self.frontline_cheat = QLabeledWidget(
+            "Enable Frontline Cheats:", self.frontline_cheat_checkbox
+        )
+        self.main_layout.addLayout(self.frontline_cheat)
 
+        # Base capture
         self.base_capture_cheat_checkbox = QCheckBox()
         self.base_capture_cheat_checkbox.setChecked(
             sc.settings.enable_base_capture_cheat
         )
         self.base_capture_cheat_checkbox.toggled.connect(apply_settings)
-
-        self.transfer_cheat_checkbox = QCheckBox()
-        self.transfer_cheat_checkbox.setChecked(sc.settings.enable_transfer_cheat)
-        self.transfer_cheat_checkbox.toggled.connect(apply_settings)
-
-        self.red_ato = QLabeledWidget("Show Red ATO:", self.red_ato_checkbox)
-        self.main_layout.addLayout(self.red_ato)
-        self.frontline_cheat = QLabeledWidget(
-            "Enable Frontline Cheats:", self.frontline_cheat_checkbox
-        )
-        self.main_layout.addLayout(self.frontline_cheat)
         self.base_capture_cheat = QLabeledWidget(
             "Enable Base Capture Cheat:", self.base_capture_cheat_checkbox
         )
         self.main_layout.addLayout(self.base_capture_cheat)
+
+        # Runway state
+        self.base_runway_state_cheat_checkbox = QCheckBox()
+        self.base_runway_state_cheat_checkbox.setChecked(
+            sc.settings.enable_runway_state_cheat
+        )
+        self.base_runway_state_cheat_checkbox.toggled.connect(apply_settings)
+        self.main_layout.addLayout(
+            QLabeledWidget(
+                "Enable Runway State Cheat:", self.base_runway_state_cheat_checkbox
+            )
+        )
+
+        # Instant transfer
+        self.transfer_cheat_checkbox = QCheckBox()
+        self.transfer_cheat_checkbox.setChecked(sc.settings.enable_transfer_cheat)
+        self.transfer_cheat_checkbox.toggled.connect(apply_settings)
         self.transfer_cheat = QLabeledWidget(
             "Enable Instant Squadron Transfer Cheat:", self.transfer_cheat_checkbox
         )
         self.main_layout.addLayout(self.transfer_cheat)
 
-    @property
-    def show_red_ato(self) -> bool:
-        return self.red_ato_checkbox.isChecked()
+        # Air wing adjustments
+        self.air_wing_adjustments_checkbox = QCheckBox()
+        self.air_wing_adjustments_checkbox.setChecked(
+            sc.settings.enable_air_wing_adjustments
+        )
+        self.air_wing_adjustments_checkbox.toggled.connect(apply_settings)
+        self.air_wing_cheat = QLabeledWidget(
+            "Enable Air Wing adjustments:", self.air_wing_adjustments_checkbox
+        )
+        self.main_layout.addLayout(self.air_wing_cheat)
+
+        # Buy/Sell actions for OPFOR
+        self.opfor_buysell_checkbox = QCheckBox()
+        self.opfor_buysell_checkbox.setChecked(sc.settings.enable_enemy_buy_sell)
+        self.opfor_buysell_checkbox.toggled.connect(apply_settings)
+        self.redfor_buysell_cheat = QLabeledWidget(
+            "Enable OPFOR Buy/Sell actions Cheat:", self.opfor_buysell_checkbox
+        )
+        self.main_layout.addLayout(self.redfor_buysell_cheat)
 
     @property
     def show_frontline_cheat(self) -> bool:
@@ -102,6 +126,18 @@ class CheatSettingsBox(QGroupBox):
     @property
     def show_transfer_cheat(self) -> bool:
         return self.transfer_cheat_checkbox.isChecked()
+
+    @property
+    def enable_runway_state_cheat(self) -> bool:
+        return self.base_runway_state_cheat_checkbox.isChecked()
+
+    @property
+    def enable_air_wing_cheats(self) -> bool:
+        return self.air_wing_adjustments_checkbox.isChecked()
+
+    @property
+    def enable_redfor_buysell(self) -> bool:
+        return self.opfor_buysell_checkbox.isChecked()
 
 
 class AutoSettingsLayout(QGridLayout):
@@ -148,6 +184,7 @@ class AutoSettingsLayout(QGridLayout):
         label = QLabel(text)
         if description.tooltip is not None:
             label.setToolTip(description.tooltip)
+        label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
         self.addWidget(label, row, 0)
 
     def add_checkbox_for(self, row: int, name: str, description: BooleanOption) -> None:
@@ -164,7 +201,7 @@ class AutoSettingsLayout(QGridLayout):
             value = not value
         checkbox.setChecked(value)
         checkbox.toggled.connect(on_toggle)
-        self.addWidget(checkbox, row, 1, Qt.AlignRight)
+        self.addWidget(checkbox, row, 1, Qt.AlignmentFlag.AlignRight)
         self.settings_map[name] = checkbox
 
     def add_combobox_for(self, row: int, name: str, description: ChoicesOption) -> None:
@@ -179,7 +216,7 @@ class AutoSettingsLayout(QGridLayout):
             description.text_for_value(self.sc.settings.__dict__[name])
         )
         combobox.currentIndexChanged.connect(on_changed)
-        self.addWidget(combobox, row, 1, Qt.AlignRight)
+        self.addWidget(combobox, row, 1, Qt.AlignmentFlag.AlignRight)
         self.settings_map[name] = combobox
 
     def add_float_spin_slider_for(
@@ -196,7 +233,7 @@ class AutoSettingsLayout(QGridLayout):
             self.sc.settings.__dict__[name] = spinner.value
 
         spinner.spinner.valueChanged.connect(on_changed)
-        self.addLayout(spinner, row, 1, Qt.AlignRight)
+        self.addLayout(spinner, row, 1, Qt.AlignmentFlag.AlignRight)
         self.settings_map[name] = spinner
 
     def add_spinner_for(
@@ -213,7 +250,7 @@ class AutoSettingsLayout(QGridLayout):
         spinner.setValue(self.sc.settings.__dict__[name])
 
         spinner.valueChanged.connect(on_changed)
-        self.addWidget(spinner, row, 1, Qt.AlignRight)
+        self.addWidget(spinner, row, 1, Qt.AlignmentFlag.AlignRight)
         self.settings_map[name] = spinner
 
     def add_duration_controls_for(
@@ -227,7 +264,7 @@ class AutoSettingsLayout(QGridLayout):
             self.sc.settings.__dict__[name] = inputs.value
 
         inputs.spinner.valueChanged.connect(on_changed)
-        self.addLayout(inputs, row, 1, Qt.AlignRight)
+        self.addLayout(inputs, row, 1, Qt.AlignmentFlag.AlignRight)
         self.settings_map[name] = inputs
 
     def update_from_settings(self) -> None:
@@ -277,7 +314,7 @@ class AutoSettingsPageLayout(QVBoxLayout):
         write_full_settings: Callable[[], None],
     ) -> None:
         super().__init__()
-        self.setAlignment(Qt.AlignTop)
+        self.setAlignment(Qt.AlignmentFlag.AlignTop)
 
         self.widgets = []
         for section in Settings.sections(page):
@@ -387,10 +424,13 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
         scroll.setWidgetResizable(True)
         self.right_layout.addWidget(scroll)
 
-        self.categoryList.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.categoryList.setSelectionBehavior(
+            QAbstractItemView.SelectionBehavior.SelectRows
+        )
         self.categoryList.setModel(self.categoryModel)
         self.categoryList.selectionModel().setCurrentIndex(
-            self.categoryList.indexAt(QPoint(1, 1)), QItemSelectionModel.Select
+            self.categoryList.indexAt(QPoint(1, 1)),
+            QItemSelectionModel.SelectionFlag.Select,
         )
         self.categoryList.selectionModel().selectionChanged.connect(
             self.onSelectionChanged
@@ -418,7 +458,7 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
 
         self.moneyCheatBox = QGroupBox("Money Cheat")
         self.moneyCheatBox.setDisabled(self.game is None)
-        self.moneyCheatBox.setAlignment(Qt.AlignTop)
+        self.moneyCheatBox.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.moneyCheatBoxLayout = QGridLayout()
         self.moneyCheatBox.setLayout(self.moneyCheatBoxLayout)
 
@@ -445,12 +485,18 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
     def applySettings(self):
         if self.updating_ui:
             return
-        self.settings.show_red_ato = self.cheat_options.show_red_ato
         self.settings.enable_frontline_cheats = self.cheat_options.show_frontline_cheat
         self.settings.enable_base_capture_cheat = (
             self.cheat_options.show_base_capture_cheat
         )
         self.settings.enable_transfer_cheat = self.cheat_options.show_transfer_cheat
+        self.settings.enable_runway_state_cheat = (
+            self.cheat_options.enable_runway_state_cheat
+        )
+        self.settings.enable_air_wing_adjustments = (
+            self.cheat_options.enable_air_wing_cheats
+        )
+        self.settings.enable_enemy_buy_sell = self.cheat_options.enable_redfor_buysell
 
         if self.game:
             events = GameUpdateEvents()
@@ -467,7 +513,6 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
         for p in self.pages.values():
             p.update_from_settings()
 
-        self.cheat_options.red_ato_checkbox.setChecked(self.settings.show_red_ato)
         self.cheat_options.base_capture_cheat_checkbox.setChecked(
             self.settings.enable_base_capture_cheat
         )
@@ -476,6 +521,15 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
         )
         self.cheat_options.transfer_cheat_checkbox.setChecked(
             self.settings.enable_transfer_cheat
+        )
+        self.cheat_options.base_runway_state_cheat_checkbox.setChecked(
+            self.settings.enable_runway_state_cheat
+        )
+        self.cheat_options.air_wing_adjustments_checkbox.setChecked(
+            self.settings.enable_air_wing_adjustments
+        )
+        self.cheat_options.opfor_buysell_checkbox.setChecked(
+            self.settings.enable_enemy_buy_sell
         )
 
         self.pluginsPage.update_from_settings()
@@ -504,7 +558,7 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
         if not sd.exists():
             sd.mkdir()
         fd = QFileDialog(caption="Save Settings", directory=str(sd), filter="*.zip")
-        fd.setAcceptMode(QFileDialog.AcceptSave)
+        fd.setAcceptMode(QFileDialog.AcceptMode.AcceptSave)
         if fd.exec_():
             zipfilename = fd.selectedFiles()[0]
             with zipfile.ZipFile(zipfilename, "w", zipfile.ZIP_DEFLATED) as zf:

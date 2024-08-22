@@ -3,7 +3,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from collections.abc import Iterator
 from dataclasses import dataclass
-from datetime import timedelta
+from datetime import datetime, timedelta
 from typing import Any, TYPE_CHECKING, TypeGuard, TypeVar
 
 from game.ato.flightplans.standard import StandardFlightPlan, StandardLayout
@@ -18,21 +18,8 @@ if TYPE_CHECKING:
 
 @dataclass
 class PatrollingLayout(StandardLayout):
-    nav_to: list[FlightWaypoint]
     patrol_start: FlightWaypoint
     patrol_end: FlightWaypoint
-    nav_from: list[FlightWaypoint]
-
-    def delete_waypoint(self, waypoint: FlightWaypoint) -> bool:
-        if super().delete_waypoint(waypoint):
-            return True
-        if waypoint in self.nav_to:
-            self.nav_to.remove(waypoint)
-            return True
-        elif waypoint in self.nav_from:
-            self.nav_from.remove(waypoint)
-            return True
-        return False
 
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
         yield self.departure
@@ -44,6 +31,7 @@ class PatrollingLayout(StandardLayout):
         if self.divert is not None:
             yield self.divert
         yield self.bullseye
+        yield from self.custom_waypoints
 
 
 LayoutT = TypeVar("LayoutT", bound=PatrollingLayout)
@@ -72,22 +60,22 @@ class PatrollingFlightPlan(StandardFlightPlan[LayoutT], UiZoneDisplay, ABC):
         """
 
     @property
-    def patrol_start_time(self) -> timedelta:
-        return self.package.time_over_target + self.tot_offset
+    def patrol_start_time(self) -> datetime:
+        return self.tot
 
     @property
-    def patrol_end_time(self) -> timedelta:
+    def patrol_end_time(self) -> datetime:
         # TODO: This is currently wrong for CAS.
         # CAS missions end when they're winchester or bingo. We need to
         # configure push tasks for the escorts rather than relying on timing.
         return self.patrol_start_time + self.patrol_duration
 
-    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
+    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         if waypoint == self.layout.patrol_start:
             return self.patrol_start_time
         return None
 
-    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
+    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         if waypoint == self.layout.patrol_end:
             return self.patrol_end_time
         return None
@@ -101,7 +89,11 @@ class PatrollingFlightPlan(StandardFlightPlan[LayoutT], UiZoneDisplay, ABC):
         return self.layout.patrol_start
 
     @property
-    def mission_departure_time(self) -> timedelta:
+    def mission_begin_on_station_time(self) -> datetime | None:
+        return self.patrol_start_time
+
+    @property
+    def mission_departure_time(self) -> datetime:
         return self.patrol_end_time
 
     @self_type_guard

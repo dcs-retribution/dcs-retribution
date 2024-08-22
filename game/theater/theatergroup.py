@@ -66,6 +66,18 @@ class TheaterUnit:
         if self.ground_object.is_iads:
             iads = self.ground_object.control_point.coalition.game.theater.iads_network
             iads.update_tgo(self.ground_object, events)
+        if self.ground_object.is_naval_control_point:
+            cp = self.ground_object.control_point
+            for squadron in cp.squadrons:
+                cp.coalition.air_wing.squadrons[squadron.aircraft].remove(squadron)
+
+    def revive(self, events: GameUpdateEvents) -> None:
+        self.alive = True
+        self.ground_object.threat_poly()
+        events.update_tgo(self.ground_object)
+        if self.ground_object.is_iads:
+            iads = self.ground_object.control_point.coalition.game.theater.iads_network
+            iads.update_tgo(self.ground_object, events)
 
     @property
     def unit_name(self) -> str:
@@ -217,8 +229,9 @@ class TheaterGroup:
             else:
                 max_non_radar = max(max_non_radar, unit.threat_range)
         for launcher, threat_range in launchers.items():
-            if LAUNCHER_TRACKER_PAIRS[launcher] in live_trs:
-                max_tel_range = max(max_tel_range, threat_range)
+            for tr in LAUNCHER_TRACKER_PAIRS[launcher]:
+                if tr in live_trs:
+                    max_tel_range = max(max_tel_range, threat_range)
         if radar_only:
             return max(max_tel_range, max_telar_range)
         return max(max_tel_range, max_telar_range, max_non_radar)

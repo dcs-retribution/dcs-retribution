@@ -7,12 +7,13 @@ from datetime import datetime, time
 from typing import List, Optional
 
 import dcs.statics
+from dcs.countries import country_dict
 
 from game import Game
 from game.factions.faction import Faction
 from game.naming import namegen
 from game.scenery_group import SceneryGroup
-from game.theater import PointWithHeading, PresetLocation
+from game.theater import PointWithHeading, PresetLocation, NavalControlPoint
 from game.theater.theatergroundobject import (
     BuildingGroundObject,
     IadsBuildingGroundObject,
@@ -26,12 +27,21 @@ from . import (
     Fob,
     OffMapSpawn,
 )
-from .theatergroup import IadsGroundGroup, IadsRole, SceneryUnit, TheaterGroup
+from .theatergroup import (
+    IadsGroundGroup,
+    IadsRole,
+    SceneryUnit,
+    TheaterGroup,
+    TheaterUnit,
+)
 from ..armedforces.armedforces import ArmedForces
 from ..armedforces.forcegroup import ForceGroup
 from ..campaignloader.campaignairwingconfig import CampaignAirWingConfig
+from ..campaignloader.campaigncarrierconfig import CampaignCarrierConfig
 from ..campaignloader.campaigngroundconfig import TgoConfig
 from ..data.groups import GroupTask
+from ..data.units import UnitClass
+from ..dcs.shipunittype import ShipUnitType
 from ..profiling import logged_duration
 from ..settings import Settings
 
@@ -49,6 +59,7 @@ class GeneratorSettings:
     no_player_navy: bool
     no_enemy_navy: bool
     tgo_config: TgoConfig
+    carrier_config: CampaignCarrierConfig
     squadrons_start_full: bool
 
 
@@ -57,20 +68,29 @@ class ModSettings:
     a4_skyhawk: bool = False
     a6a_intruder: bool = False
     a7e_corsair2: bool = False
+    ea6b_prowler: bool = False
     f4bc_phantom: bool = False
+    f9f_panther: bool = False
     f15d_baz: bool = False
     f_15_idf: bool = False
     f_16_idf: bool = False
     fa_18efg: bool = False
+    fa18ef_tanker: bool = False
     f22_raptor: bool = False
     f84g_thunderjet: bool = False
     f100_supersabre: bool = False
     f104_starfighter: bool = False
     f105_thunderchief: bool = False
+    f106_deltadart: bool = False
     hercules: bool = False
     irondome: bool = False
+    oh_6: bool = False
+    oh_6_vietnamassetpack: bool = False
     uh_60l: bool = False
     jas39_gripen: bool = False
+    sk_60: bool = False
+    super_etendard: bool = False
+    su15_flagon: bool = False
     su30_flanker_h: bool = False
     su57_felon: bool = False
     frenchpack: bool = False
@@ -78,6 +98,7 @@ class ModSettings:
     ov10a_bronco: bool = False
     spanishnavypack: bool = False
     swedishmilitaryassetspack: bool = False
+    coldwarassets: bool = False
     SWPack: bool = False
 
 
@@ -124,11 +145,13 @@ class GameGenerator:
 
     def should_remove_carrier(self, player: bool) -> bool:
         faction = self.player if player else self.enemy
-        return self.generator_settings.no_carrier or not faction.carrier_names
+        return self.generator_settings.no_carrier or not faction.carriers
 
     def should_remove_lha(self, player: bool) -> bool:
         faction = self.player if player else self.enemy
-        return self.generator_settings.no_lha or not faction.helicopter_carrier_names
+        return self.generator_settings.no_lha or not [
+            x for x in faction.carriers if x.unit_class == UnitClass.HELICOPTER_CARRIER
+        ]
 
     def prepare_theater(self) -> None:
         to_remove: List[ControlPoint] = []
@@ -177,13 +200,17 @@ class ControlPointGroundObjectGenerator:
         return True
 
     def generate_ground_object_from_group(
-        self, unit_group: ForceGroup, location: PresetLocation
+        self,
+        unit_group: ForceGroup,
+        location: PresetLocation,
+        task: Optional[GroupTask] = None,
     ) -> None:
         ground_object = unit_group.generate(
             namegen.random_objective_name(),
             location,
             self.control_point,
             self.game,
+            task,
         )
         self.control_point.connected_objectives.append(ground_object)
 
@@ -199,7 +226,7 @@ class ControlPointGroundObjectGenerator:
             if not unit_group:
                 logging.warning(f"{self.faction_name} has no ForceGroup for Navy")
                 return
-            self.generate_ground_object_from_group(unit_group, position)
+            self.generate_ground_object_from_group(unit_group, position, GroupTask.NAVY)
 
 
 class NoOpGroundObjectGenerator(ControlPointGroundObjectGenerator):
@@ -216,14 +243,63 @@ class GenericCarrierGroundObjectGenerator(ControlPointGroundObjectGenerator):
         carrier = next(self.control_point.ground_objects[-1].units)
         carrier.name = carrier_name
 
+    def apply_carrier_config(self) -> None:
+        assert isinstance(self.control_point, NavalControlPoint)
+        # If the campaign designer has specified a preferred name, use that
+        # Note that the preferred name needs to exist in the faction, so we
+        # don't end up with Kuznetsov carriers called CV-59 Forrestal
+        preferred_name = None
+        preferred_type = None
+        carrier_map = self.generator_settings.carrier_config.by_original_name
+        if ccfg := carrier_map.get(self.control_point.name):
+            preferred_name = ccfg.preferred_name
+            preferred_type = ccfg.preferred_type
+        carrier_unit = self.get_carrier_unit()
+        if preferred_type and preferred_type.dcs_unit_type in [
+            v
+            for k, v in country_dict[self.faction.country.id].Ship.__dict__.items()  # type: ignore
+            if "__" not in k
+        ]:
+            carrier_unit.type = preferred_type.dcs_unit_type
+        if preferred_name:
+            self.control_point.name = preferred_name
+        else:
+            carrier_type = preferred_type if preferred_type else carrier_unit.unit_type
+            assert isinstance(carrier_type, ShipUnitType)
+            # Otherwise pick randomly from the names specified for that particular carrier type
+            carrier_names = self.faction.carriers.get(carrier_type)
+            if carrier_names:
+                self.control_point.name = random.choice(list(carrier_names))
+            else:
+                self.control_point.name = carrier_type.display_name
+        carrier_unit.name = self.control_point.name
+        # Prevents duplicate carrier or LHA names in campaigns with more that one of either.
+        for carrier_type_key in self.faction.carriers:
+            for carrier_name in self.faction.carriers[carrier_type_key]:
+                if carrier_name == self.control_point.name:
+                    self.faction.carriers[carrier_type_key].remove(
+                        self.control_point.name
+                    )
+
+    def get_carrier_unit(self) -> TheaterUnit:
+        carrier_go = [
+            go
+            for go in self.control_point.ground_objects
+            if go.category in ["CARRIER", "LHA"]
+        ][0]
+        groups = [
+            g for g in carrier_go.groups if "Carrier" in g.name or "LHA" in g.name
+        ]
+        return groups[0].units[0]
+
 
 class CarrierGroundObjectGenerator(GenericCarrierGroundObjectGenerator):
     def generate(self) -> bool:
         if not super().generate():
             return False
 
-        carrier_names = self.faction.carrier_names
-        if not carrier_names:
+        carriers = self.faction.carriers
+        if not carriers:
             logging.info(
                 f"Skipping generation of {self.control_point.name} because "
                 f"{self.faction_name} has no carriers"
@@ -234,6 +310,7 @@ class CarrierGroundObjectGenerator(GenericCarrierGroundObjectGenerator):
         if not unit_group:
             logging.error(f"{self.faction_name} has no access to AircraftCarrier")
             return False
+
         self.generate_ground_object_from_group(
             unit_group,
             PresetLocation(
@@ -241,8 +318,9 @@ class CarrierGroundObjectGenerator(GenericCarrierGroundObjectGenerator):
                 self.control_point.position,
                 self.control_point.heading,
             ),
+            GroupTask.AIRCRAFT_CARRIER,
         )
-        self.update_carrier_name(random.choice(list(carrier_names)))
+        self.apply_carrier_config()
         return True
 
 
@@ -251,8 +329,8 @@ class LhaGroundObjectGenerator(GenericCarrierGroundObjectGenerator):
         if not super().generate():
             return False
 
-        lha_names = self.faction.helicopter_carrier_names
-        if not lha_names:
+        lhas = self.faction.carriers
+        if not lhas:
             logging.info(
                 f"Skipping generation of {self.control_point.name} because "
                 f"{self.faction_name} has no LHAs"
@@ -272,8 +350,9 @@ class LhaGroundObjectGenerator(GenericCarrierGroundObjectGenerator):
                 self.control_point.position,
                 self.control_point.heading,
             ),
+            GroupTask.HELICOPTER_CARRIER,
         )
-        self.update_carrier_name(random.choice(list(lha_names)))
+        self.apply_carrier_config()
         return True
 
 
@@ -325,9 +404,8 @@ class AirbaseGroundObjectGenerator(ControlPointGroundObjectGenerator):
                                 if g.unit_class in ug.unit_classes:
                                     fg.units.append(g)
             unit_group: Optional[ForceGroup] = fg
-            self.armed_forces.add_or_update_force_group(fg)
         else:
-            if fg and not valid_fg:
+            if fg:
                 logging.warning(
                     f"Override in ground_forces failed for {fg} at {position.original_name}"
                 )
@@ -340,7 +418,9 @@ class AirbaseGroundObjectGenerator(ControlPointGroundObjectGenerator):
             if not unit_group:
                 logging.error(f"{self.faction_name} has no ForceGroup for Armor")
                 return
-            self.generate_ground_object_from_group(unit_group, position)
+            self.generate_ground_object_from_group(
+                unit_group, position, GroupTask.BASE_DEFENSE
+            )
 
     def generate_aa(self) -> None:
         presets = self.control_point.preset_locations
@@ -365,7 +445,9 @@ class AirbaseGroundObjectGenerator(ControlPointGroundObjectGenerator):
             if not unit_group:
                 logging.error(f"{self.faction_name} has no ForceGroup for EWR")
                 return
-            self.generate_ground_object_from_group(unit_group, position)
+            self.generate_ground_object_from_group(
+                unit_group, position, GroupTask.EARLY_WARNING_RADAR
+            )
 
     def generate_building_at(
         self,
@@ -378,7 +460,7 @@ class AirbaseGroundObjectGenerator(ControlPointGroundObjectGenerator):
             raise RuntimeError(
                 f"{self.faction_name} has no access to Building {group_task.description}"
             )
-        self.generate_ground_object_from_group(unit_group, location)
+        self.generate_ground_object_from_group(unit_group, location, group_task)
 
     def generate_ammunition_depots(self) -> None:
         for position in self.control_point.preset_locations.ammunition_depots:
@@ -394,7 +476,7 @@ class AirbaseGroundObjectGenerator(ControlPointGroundObjectGenerator):
             if unit_group:
                 # Only take next (smaller) aa_range when no template available for the
                 # most requested range. Otherwise break the loop and continue
-                self.generate_ground_object_from_group(unit_group, location)
+                self.generate_ground_object_from_group(unit_group, location, task)
                 return
 
         logging.error(
@@ -430,6 +512,7 @@ class AirbaseGroundObjectGenerator(ControlPointGroundObjectGenerator):
             scenery.category,
             PresetLocation(scenery.zone_def.name, scenery.position),
             self.control_point,
+            SceneryGroup.group_task_for_scenery_group_category(scenery.category),
         )
         ground_group = TheaterGroup(
             self.game.next_group_id(),
@@ -464,7 +547,9 @@ class AirbaseGroundObjectGenerator(ControlPointGroundObjectGenerator):
             if not unit_group:
                 logging.warning(f"{self.faction_name} has no ForceGroup for Missile")
                 return
-            self.generate_ground_object_from_group(unit_group, position)
+            self.generate_ground_object_from_group(
+                unit_group, position, GroupTask.MISSILE
+            )
 
     def generate_coastal_sites(self) -> None:
         for position in self.control_point.preset_locations.coastal_defenses:
@@ -472,7 +557,9 @@ class AirbaseGroundObjectGenerator(ControlPointGroundObjectGenerator):
             if not unit_group:
                 logging.warning(f"{self.faction_name} has no ForceGroup for Coastal")
                 return
-            self.generate_ground_object_from_group(unit_group, position)
+            self.generate_ground_object_from_group(
+                unit_group, position, GroupTask.COASTAL
+            )
 
     def generate_strike_targets(self) -> None:
         for position in self.control_point.preset_locations.strike_locations:

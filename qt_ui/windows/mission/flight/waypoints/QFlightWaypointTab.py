@@ -1,14 +1,15 @@
 import logging
 from typing import Iterable, List, Optional
 
-from PySide2.QtCore import Signal
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Signal, Qt, QModelIndex
+from PySide6.QtWidgets import (
     QFrame,
     QGridLayout,
     QLabel,
     QMessageBox,
     QPushButton,
     QVBoxLayout,
+    QWidget,
 )
 
 from game import Game
@@ -42,6 +43,7 @@ class QFlightWaypointTab(QFrame):
         self.flight_waypoint_list: Optional[QFlightWaypointList] = None
         self.rtb_waypoint: Optional[QPushButton] = None
         self.delete_selected: Optional[QPushButton] = None
+        self.add_nav_waypoint: Optional[QPushButton] = None
         self.open_fast_waypoint_button: Optional[QPushButton] = None
         self.recreate_buttons: List[QPushButton] = []
         self.init_ui()
@@ -77,6 +79,10 @@ class QFlightWaypointTab(QFrame):
             rlayout.addWidget(button)
             self.recreate_buttons.append(button)
 
+        self.add_nav_waypoint = QPushButton("Insert NAV point")
+        self.add_nav_waypoint.clicked.connect(self.on_add_nav)
+        rlayout.addWidget(self.add_nav_waypoint)
+
         rlayout.addWidget(QLabel("<strong>Advanced : </strong>"))
         rlayout.addWidget(QLabel("<small>Do not use for AI flights</small>"))
 
@@ -94,6 +100,33 @@ class QFlightWaypointTab(QFrame):
         rlayout.addStretch()
         self.setLayout(layout)
 
+    def on_add_nav(self):
+        selected = self.flight_waypoint_list.selectedIndexes()
+        if not selected:
+            return
+        index: QModelIndex = selected[0]
+        self.flight_waypoint_list.setCurrentIndex(index)
+        wpt: FlightWaypoint = self.flight_waypoint_list.model.data(
+            index, Qt.ItemDataRole.UserRole
+        )
+        next_wpt: Optional[FlightWaypoint] = None
+        if index.row() + 1 < self.flight_waypoint_list.model.rowCount():
+            next_wpt = self.flight_waypoint_list.model.data(
+                index.siblingAtRow(index.row() + 1), Qt.ItemDataRole.UserRole
+            )
+        if not self.flight.flight_plan.layout.add_waypoint(wpt, next_wpt):
+            QMessageBox.critical(
+                QWidget(),
+                "Failed to add NAV waypoint",
+                "Could not insert a new waypoint given the currently selected waypoint.\n"
+                "Please select a different waypoint to insert the new NAV waypoint.",
+            )
+        else:
+            self.flight_waypoint_list.model.insertRow(
+                self.flight_waypoint_list.model.rowCount()
+            )
+            self.on_change()
+
     def on_delete_waypoint(self):
         waypoints = []
         selection = self.flight_waypoint_list.selectionModel()
@@ -102,7 +135,6 @@ class QFlightWaypointTab(QFrame):
                 waypoints.append(self.flight.flight_plan.waypoints[selected_row.row()])
         for waypoint in waypoints:
             self.delete_waypoint(waypoint)
-        self.flight_waypoint_list.update_list()
         self.on_change()
 
     def delete_waypoint(self, waypoint: FlightWaypoint) -> None:
@@ -116,24 +148,31 @@ class QFlightWaypointTab(QFrame):
             if is_target and count > 1:
                 fp.target_area_waypoint.targets.remove(waypoint)
                 return
-
+        model = self.flight_waypoint_list.model
         if fp.layout.delete_waypoint(waypoint):
+            model.removeRow(model.rowCount() - 1)
             return
 
+        if not self.flight.flight_plan.is_custom:
+            confirmed = self.confirm_degrade()
+            if not confirmed:
+                return
+        model.removeRow(model.rowCount() - 1)
+        self.degrade_to_custom_flight_plan()
+        assert isinstance(self.flight.flight_plan, CustomFlightPlan)
+        self.flight.flight_plan.layout.custom_waypoints.remove(waypoint)
+
+    def confirm_degrade(self, parent: Optional[QWidget] = None) -> bool:
         result = QMessageBox.warning(
-            self,
+            parent if parent else self,
             "Degrade flight-plan?",
             "Deleting the selected waypoint(s) will require degradation to a custom flight-plan. "
             "A custom flight-plan will no longer respect the TOTs of the package.<br><br>"
             "<b>Are you sure you wish to continue?</b>",
-            QMessageBox.Yes,
-            QMessageBox.No,
+            QMessageBox.StandardButton.Yes,
+            QMessageBox.StandardButton.No,
         )
-        if result == QMessageBox.No:
-            return
-        self.degrade_to_custom_flight_plan()
-        assert isinstance(self.flight.flight_plan, CustomFlightPlan)
-        self.flight.flight_plan.layout.custom_waypoints.remove(waypoint)
+        return result == QMessageBox.StandardButton.Yes
 
     def on_fast_waypoint(self):
         self.subwindow = QPredefinedWaypointSelectionWindow(
@@ -145,19 +184,20 @@ class QFlightWaypointTab(QFrame):
     def on_waypoints_added(self, waypoints: Iterable[FlightWaypoint]) -> None:
         if not waypoints:
             return
-        self.degrade_to_custom_flight_plan()
-        assert isinstance(self.flight.flight_plan, CustomFlightPlan)
         self.flight.flight_plan.layout.custom_waypoints.extend(waypoints)
-        self.flight_waypoint_list.update_list()
+        self.add_rows(len(list(waypoints)))
+
+    def add_rows(self, count: int) -> None:
+        rc = self.flight_waypoint_list.model.rowCount()
+        self.flight_waypoint_list.model.insertRows(rc, count)
         self.on_change()
 
     def on_rtb_waypoint(self):
-        rtb = WaypointBuilder(self.flight, self.coalition).land(self.flight.arrival)
+        rtb = WaypointBuilder(self.flight).land(self.flight.arrival)
         self.degrade_to_custom_flight_plan()
         assert isinstance(self.flight.flight_plan, CustomFlightPlan)
         self.flight.flight_plan.layout.custom_waypoints.append(rtb)
-        self.flight_waypoint_list.update_list()
-        self.on_change()
+        self.add_rows(1)
 
     def degrade_to_custom_flight_plan(self) -> None:
         if not isinstance(self.flight.flight_plan, CustomFlightPlan):
@@ -171,25 +211,31 @@ class QFlightWaypointTab(QFrame):
                 "Changing the flight type will reset its flight plan. Do you want "
                 "to continue?"
             ),
-            QMessageBox.No,
-            QMessageBox.Yes,
+            QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.Yes,
         )
         original_task = self.flight.flight_type
-        if result == QMessageBox.Yes:
+        if result == QMessageBox.StandardButton.Yes:
             self.flight.set_flight_type(task)
             try:
-                self.flight.recreate_flight_plan()
+                self.flight.recreate_flight_plan(dump_debug_info=True)
             except PlanningError as ex:
                 self.flight.set_flight_type(original_task)
                 logging.exception("Could not recreate flight")
                 QMessageBox.critical(
-                    self, "Could not recreate flight", str(ex), QMessageBox.Ok
+                    self,
+                    "Could not recreate flight",
+                    str(ex),
+                    QMessageBox.StandardButton.Ok,
                 )
-            if not self.flight.loadout.is_custom:
-                self.flight.loadout = Loadout.default_for(self.flight)
-                self.loadout_changed.emit()
+            for member in self.flight.iter_members():
+                if not member.loadout.is_custom:
+                    member.loadout = Loadout.default_for(self.flight)
+                    self.loadout_changed.emit()
             self.flight_waypoint_list.update_list()
             self.on_change()
 
     def on_change(self):
         self.flight_waypoint_list.update_list()
+        self.flight_waypoint_list.on_changed()
+        self.update()

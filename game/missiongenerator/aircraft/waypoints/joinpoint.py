@@ -8,7 +8,7 @@ from dcs.task import (
     OptECMUsing,
     OptFormation,
     Targets,
-    OptROE,
+    SetUnlimitedFuelCommand,
 )
 
 from game.ato import FlightType
@@ -19,6 +19,15 @@ from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 class JoinPointBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
+        # Unlimited fuel option : disable at racetrack start. Must be first option to work.
+        if self.flight.squadron.coalition.game.settings.ai_unlimited_fuel:
+            if waypoint.tasks and isinstance(
+                waypoint.tasks[0], SetUnlimitedFuelCommand
+            ):
+                waypoint.tasks[0] = SetUnlimitedFuelCommand(False)
+            else:
+                waypoint.tasks.insert(0, SetUnlimitedFuelCommand(False))
+
         if self.flight.is_helo:
             waypoint.tasks.append(OptFormation.rotary_wedge())
         else:
@@ -35,7 +44,7 @@ class JoinPointBuilder(PydcsWaypointBuilder):
                 targets = [
                     Targets.All.Air.Helicopters.id,
                     Targets.All.GroundUnits.AirDefence.id,
-                    Targets.All.GroundUnits.GroundVehicles.UnarmedVehicles.id,
+                    Targets.All.GroundUnits.Infantry.id,
                     Targets.All.GroundUnits.GroundVehicles.ArmoredVehicles.id,
                     Targets.All.Naval.Ships.ArmedShips.LightArmedShips.id,
                 ]
@@ -84,8 +93,6 @@ class JoinPointBuilder(PydcsWaypointBuilder):
         max_dist: float = 30.0,
         vertical_spacing: float = 2000.0,
     ) -> None:
-        waypoint.tasks.append(OptROE(value=OptROE.Values.OpenFireWeaponFree))
-
         rx = (random.random() + 0.1) * 333
         ry = feet(vertical_spacing).meters
         rz = (random.random() + 0.1) * 166 * random.choice([-1, 1])

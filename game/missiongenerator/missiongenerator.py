@@ -10,6 +10,8 @@ from dcs import Mission, Point
 from dcs.coalition import Coalition
 from dcs.countries import country_dict
 from dcs.task import OptReactOnThreat
+from dcs.terrain import Airport
+from dcs.unit import Static
 
 from game.atcdata import AtcData
 from game.dcs.beacons import Beacons
@@ -32,7 +34,6 @@ from .flotgenerator import FlotGenerator
 from .forcedoptionsgenerator import ForcedOptionsGenerator
 from .frontlineconflictdescription import FrontLineConflictDescription
 from .kneeboard import KneeboardGenerator
-from .lasercoderegistry import LaserCodeRegistry
 from .luagenerator import LuaGenerator
 from .missiondata import MissionData
 from .tgogenerator import TgoGenerator
@@ -53,7 +54,6 @@ class MissionGenerator:
 
         self.mission_data = MissionData()
 
-        self.laser_code_registry = LaserCodeRegistry()
         self.radio_registry = RadioRegistry()
         self.tacan_registry = TacanRegistry()
 
@@ -66,6 +66,7 @@ class MissionGenerator:
             options = dcs.lua.loads(f.read())["options"]
             ext_view = game.settings.external_views_allowed
             options["miscellaneous"]["f11_free_camera"] = ext_view
+            options["miscellaneous"]["f5_nearest_ac"] = ext_view
             options["difficulty"]["spectatorExternalViews"] = ext_view
             self.mission.options.load_from_dict(options)
 
@@ -113,8 +114,8 @@ class MissionGenerator:
 
         self.notify_info_generators()
 
-        # TODO: Shouldn't this be first?
         namegen.reset_numbers()
+        self.generate_warehouses()
         self.mission.save(output)
 
         return self.unit_map
@@ -122,7 +123,11 @@ class MissionGenerator:
     @staticmethod
     def _configure_ewrj(gen: AircraftGenerator) -> None:
         for groups in gen.ewrj_package_dict.values():
-            optrot = groups[0].points[0].tasks[0]
+            optrot = [
+                task
+                for task in groups[0].points[0].tasks
+                if isinstance(task, OptReactOnThreat)
+            ][0]
             assert isinstance(optrot, OptReactOnThreat)
             if (
                 len(groups) == 1
@@ -131,9 +136,13 @@ class MissionGenerator:
                 # primary flight with no EWR-Jamming capability
                 continue
             for group in groups:
-                group.points[0].tasks[0] = OptReactOnThreat(
-                    OptReactOnThreat.Values.PassiveDefense
-                )
+                tasks = group.points[0].tasks
+                for i in range(len(tasks)):
+                    if isinstance(tasks[i], OptReactOnThreat):
+                        tasks[i] = OptReactOnThreat(
+                            OptReactOnThreat.Values.PassiveDefense
+                        )
+                        break
 
     def setup_mission_coalitions(self) -> None:
         self.mission.coalition["blue"] = Coalition(
@@ -206,7 +215,7 @@ class MissionGenerator:
             player_cp = front_line.blue_cp
             enemy_cp = front_line.red_cp
             conflict = FrontLineConflictDescription.frontline_cas_conflict(
-                front_line, self.game.theater, self.game.settings
+                front_line, self.game.theater
             )
             # Generate frontline ops
             player_gp = self.game.ground_planners[player_cp.id].units_per_cp[
@@ -224,7 +233,6 @@ class MissionGenerator:
                 self.unit_map,
                 self.radio_registry,
                 self.mission_data,
-                self.laser_code_registry,
             )
             ground_conflict_gen.generate()
 
@@ -239,11 +247,11 @@ class MissionGenerator:
             self.time,
             self.radio_registry,
             self.tacan_registry,
-            self.laser_code_registry,
             self.unit_map,
             mission_data=self.mission_data,
             helipads=tgo_generator.helipads,
             ground_spawns_roadbase=tgo_generator.ground_spawns_roadbase,
+            ground_spawns_large=tgo_generator.ground_spawns_large,
             ground_spawns=tgo_generator.ground_spawns,
         )
 
@@ -341,3 +349,33 @@ class MissionGenerator:
         self.mission.groundControl.blue_tactical_commander = commanders
         self.mission.groundControl.blue_jtac = settings.jtac_count
         self.mission.groundControl.blue_observer = settings.observer_count
+
+    def generate_warehouses(self) -> None:
+        settings = self.game.settings
+        for tmu in self.unit_map.theater_objects.values():
+            if (
+                tmu.theater_unit.is_ship
+                or isinstance(tmu.dcs_unit, Static)
+                and tmu.dcs_unit.category in ["Warehouses", "Heliports"]
+            ):
+                # We'll serialize more than is actually necessary
+                # DCS will filter out warehouses as dynamic spawns so no need to worry there
+                # thus, if we serialize a ship as a warehouse that's not supported, DCS will filter it out
+                warehouse = Airport(
+                    tmu.theater_unit.position,
+                    self.mission.terrain,
+                ).dict()
+                warehouse["coalition"] = (
+                    "blue" if tmu.theater_unit.ground_object.coalition.player else "red"
+                )
+                warehouse["dynamicCargo"] = settings.dynamic_cargo
+                if tmu.theater_unit.is_ship or tmu.dcs_unit.category == "Heliports":  # type: ignore
+                    warehouse["dynamicSpawn"] = settings.dynamic_slots
+                    warehouse["allowHotStart"] = settings.dynamic_slots_hot
+                self.mission.warehouses.warehouses[tmu.dcs_unit.id] = warehouse
+
+        # configure dynamic spawn, hot start of DS & dynamic cargo for airfields
+        for ap in self.mission.terrain.airports.values():
+            ap.dynamic_spawn = settings.dynamic_slots
+            ap.allow_hot_start = settings.dynamic_slots_hot
+            ap.dynamic_cargo = settings.dynamic_cargo

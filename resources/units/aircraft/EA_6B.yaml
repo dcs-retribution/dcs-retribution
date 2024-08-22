@@ -1,0 +1,17 @@
+carrier_capable: true
+description:
+  "The Northrop Grumman EA-6B Prowler is a twin-engine, four-seat, mid-wing electronic-warfare \
+  \ aircraft derived from the A-6 Intruder airframe. The EA-6A was the initial electronic warfare \
+  \ version of the A-6 used by the United States Marine Corps and United States Navy. \
+  \ It was capable of carrying and firing anti-radiation missiles (ARMs), such as the AGM-88 HARM."
+introduced: 1971
+manufacturer: Northrop Grumman
+origin: USA
+price: 11
+role: Carrier-based Electronic-warfare Aircraft
+gunfighter: false
+variants:
+  EA-6B Prowler: {}
+tasks:
+  SEAD: 460
+  SEAD Escort: 460

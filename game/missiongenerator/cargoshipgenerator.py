@@ -4,7 +4,6 @@ import itertools
 from typing import TYPE_CHECKING
 
 from dcs import Mission
-from dcs.ships import HandyWind
 from dcs.unitgroup import ShipGroup
 
 from game.transfers import CargoShip
@@ -24,20 +23,22 @@ class CargoShipGenerator:
 
     def generate(self) -> None:
         # Reset the count to make generation deterministic.
-        for coalition in self.game.coalitions:
-            for ship in coalition.transfers.cargo_ships:
-                self.generate_cargo_ship(ship)
+        if not self.game.settings.perf_disable_cargo_ships:
+            for coalition in self.game.coalitions:
+                for ship in coalition.transfers.cargo_ships:
+                    self.generate_cargo_ship(ship)
 
     def generate_cargo_ship(self, ship: CargoShip) -> ShipGroup:
+        coalition = self.game.coalition_for(ship.player_owned)
         waypoints = ship.route
 
-        country = self.game.coalition_for(ship.player_owned).faction.country
+        country = coalition.faction.country
         country = self.mission.country(country.name)
 
         group = self.mission.ship_group(
             country,
             ship.name,
-            HandyWind,
+            coalition.faction.cargo_ship.dcs_unit_type,
             position=waypoints[0],
             group_size=1,
         )

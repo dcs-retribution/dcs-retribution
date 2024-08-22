@@ -116,6 +116,8 @@ class CommonRadioChannelAllocator(RadioChannelAllocator):
                 radio_id = self.intra_flight_radio_index
             elif self.inter_flight_radio_index and radio == "inter_flight":
                 radio_id = self.inter_flight_radio_index
+            elif type(radio) == int:
+                radio_id = radio
             for channel, freq in enumerate(presets[radio], start=1):
                 flight.assign_channel(radio_id, channel, freq)
 
@@ -406,3 +408,29 @@ class WarthogChannelNamer(ChannelNamer):
     @classmethod
     def name(cls) -> str:
         return "a10c-ii"
+
+
+class PhantomChannelNamer(ChannelNamer):
+    """Channel namer for the F-14."""
+
+    @staticmethod
+    def channel_name(radio_id: int, channel_id: int) -> str:
+        radio_name = ["COMM", "AUX"][radio_id - 1]
+        return f"{radio_name} Ch {channel_id}"
+
+    @classmethod
+    def name(cls) -> str:
+        return "phantom"
+
+
+class KiowaChannelNamer(ChannelNamer):
+    """Channel namer for OH58D Kiowa Warrior"""
+
+    @staticmethod
+    def channel_name(radio_id: int, channel_id: int) -> str:
+        radio_name = ["UHF AM", "VHF AM", "VHF FM1", "VHF FM2"][radio_id - 1]
+        return f"{radio_name} Ch {channel_id}"
+
+    @classmethod
+    def name(cls) -> str:
+        return "kiowa"

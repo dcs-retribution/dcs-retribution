@@ -1,0 +1,10 @@
+name: David's Sling
+tasks:
+  - LORAD
+units:
+  - ELM-2084MMR AD Rotating Mode
+  - ELM-2084MMR AD Sector Mode
+  - David's Sling CP
+  - David's Sling LN
+layouts:
+  - 4 Launcher Site (Circle)

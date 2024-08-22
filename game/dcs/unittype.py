@@ -1,12 +1,15 @@
 from __future__ import annotations
 
+import logging
 from abc import ABC
 from dataclasses import dataclass
 from functools import cached_property
-from typing import ClassVar, Generic, Iterator, Type, TypeVar
-from typing_extensions import Self
+from pathlib import Path
+from typing import ClassVar, Generic, Iterator, Type, TypeVar, Any
 
+import yaml
 from dcs.unittype import UnitType as DcsUnitType
+from typing_extensions import Self
 
 from game.data.units import UnitClass
 
@@ -16,7 +19,8 @@ DcsUnitTypeT = TypeVar("DcsUnitTypeT", bound=Type[DcsUnitType])
 @dataclass(frozen=True)
 class UnitType(ABC, Generic[DcsUnitTypeT]):
     dcs_unit_type: DcsUnitTypeT
-    name: str
+    variant_id: str
+    display_name: str
     description: str
     year_introduced: str
     country_of_origin: str
@@ -28,7 +32,7 @@ class UnitType(ABC, Generic[DcsUnitTypeT]):
     _loaded: ClassVar[bool] = False
 
     def __str__(self) -> str:
-        return self.name
+        return self.display_name
 
     @property
     def dcs_id(self) -> str:
@@ -51,7 +55,28 @@ class UnitType(ABC, Generic[DcsUnitTypeT]):
         raise NotImplementedError
 
     @classmethod
+    def _data_directory(cls) -> Path:
+        raise NotImplementedError
+
+    @classmethod
     def _each_variant_of(cls, unit: DcsUnitTypeT) -> Iterator[Self]:
+        data_path = cls._data_directory() / f"{unit.id}.yaml"
+        if not data_path.exists():
+            logging.warning(f"No data for {unit.id}; it will not be available")
+            return
+
+        with data_path.open(encoding="utf-8") as data_file:
+            data = yaml.safe_load(data_file)
+
+        for variant_id, variant_data in data.get("variants", {unit.id: {}}).items():
+            if variant_data is None:
+                variant_data = {}
+            yield cls._variant_from_dict(unit, variant_id, data | variant_data)
+
+    @classmethod
+    def _variant_from_dict(
+        cls, dcs_unit_type: DcsUnitTypeT, variant_id: str, data: dict[str, Any]
+    ) -> Self:
         raise NotImplementedError
 
     @classmethod

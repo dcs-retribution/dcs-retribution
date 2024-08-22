@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Callable, Optional, TYPE_CHECKING
 
-from PySide2.QtCore import QObject, Signal
+from PySide6.QtCore import QObject, Signal
 
 from game.polldebriefingfilethread import PollDebriefingFileThread
 from game.sim.gameloop import GameLoop
@@ -34,10 +34,17 @@ class SimController(QObject):
         return self.game_loop.completed
 
     @property
-    def current_time_in_sim(self) -> Optional[datetime]:
+    def current_time_in_sim_if_game_loaded(self) -> datetime | None:
         if self.game_loop is None:
             return None
         return self.game_loop.current_time_in_sim
+
+    @property
+    def current_time_in_sim(self) -> datetime:
+        time = self.current_time_in_sim_if_game_loaded
+        if time is None:
+            raise RuntimeError("No game is loaded")
+        return time
 
     @property
     def elapsed_time(self) -> timedelta:

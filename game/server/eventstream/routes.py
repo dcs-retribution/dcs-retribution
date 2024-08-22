@@ -1,4 +1,4 @@
-from asyncio import wait
+from asyncio import wait, tasks
 
 from fastapi import APIRouter, WebSocket
 from fastapi.encoders import jsonable_encoder
@@ -17,7 +17,7 @@ class ConnectionManager:
     async def shutdown(self) -> None:
         futures = []
         for connection in self.active_connections:
-            futures.append(connection.close())
+            futures.append(tasks.create_task(connection.close()))
         await wait(futures)
 
     async def connect(self, websocket: WebSocket) -> None:
@@ -30,7 +30,9 @@ class ConnectionManager:
     async def broadcast(self, events: GameUpdateEventsJs) -> None:
         futures = []
         for connection in self.active_connections:
-            futures.append(connection.send_json(jsonable_encoder(events)))
+            futures.append(
+                tasks.create_task(connection.send_json(jsonable_encoder(events)))
+            )
         await wait(futures)
 
 

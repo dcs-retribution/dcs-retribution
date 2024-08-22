@@ -45,7 +45,8 @@
   ],
   "missiles": [],
   "air_defense_units": [
-    "SAM Hawk SR (AN/MPQ-50)"
+    "SAM Hawk SR (AN/MPQ-50)",
+    "HEMTT C-RAM Phalanx"
   ],
   "requirements": {
     "C-130J-30 Super Hercules Mod by Anubis": "https://forums.eagle.ru/topic/252075-dcs-super-hercules-mod-by-anubis/"

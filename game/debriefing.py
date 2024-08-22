@@ -363,7 +363,7 @@ class Debriefing:
         seen = set()
         captures = []
         for capture in reversed(self.state_data.base_capture_events):
-            # The ID string in the JSON file will be the UUID generated from liberation
+            # The ID string in the JSON file will be the UUID generated from retribution
             cp_id, new_owner_id_str, _name = capture.split("||")
 
             # Only the most recent capture event matters.

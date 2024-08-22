@@ -17,7 +17,7 @@ climate:
   day_night_temperature_difference: 11.0
   seasons:
     # "winter" and "summer" are actually interpreted as northern hemisphere
-    # seasons in liberation, so these seasons are all inverted.
+    # seasons in Retribution, so these seasons are all inverted.
     winter:
       average_pressure: 29.63
       average_temperature: 21.0

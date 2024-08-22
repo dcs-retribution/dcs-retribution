@@ -1,4 +1,4 @@
-"""Maps generated units back to their Liberation types."""
+"""Maps generated units back to their Retribution types."""
 from __future__ import annotations
 
 import itertools
@@ -68,7 +68,7 @@ class UnitMap:
         self.airlifts: Dict[str, AirliftUnits] = {}
 
     def add_aircraft(self, group: FlyingGroup[Any], flight: Flight) -> None:
-        for pilot, unit in zip(flight.roster.pilots, group.units):
+        for pilot, unit in zip(flight.roster.iter_pilots(), group.units):
             # The actual name is a String (the pydcs translatable string), which
             # doesn't define __eq__.
             name = str(unit.name)

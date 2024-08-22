@@ -24,6 +24,18 @@ class MapZonesJs(BaseModel):
     def empty(cls) -> MapZonesJs:
         return MapZonesJs(inclusion=[], exclusion=[], sea=[])
 
+    @classmethod
+    def from_game(cls, game: Game) -> MapZonesJs:
+        zones = game.theater.landmap
+        if zones is None:
+            return cls.empty()
+
+        return MapZonesJs(
+            inclusion=ShapelyUtil.polys_to_leaflet(zones.inclusion_zones, game.theater),
+            exclusion=ShapelyUtil.polys_to_leaflet(zones.exclusion_zones, game.theater),
+            sea=ShapelyUtil.polys_to_leaflet(zones.sea_zones, game.theater),
+        )
+
 
 class UnculledZoneJs(BaseModel):
     position: LeafletPoint

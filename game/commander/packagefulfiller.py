@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 from collections import defaultdict
+from datetime import datetime
 from typing import Dict, Iterable, Optional, Set, TYPE_CHECKING
 
 from game.ato.airtaaskingorder import AirTaskingOrder
@@ -80,8 +81,9 @@ class PackageFulfiller:
         builder: PackageBuilder,
         missing_types: Set[FlightType],
         purchase_multiplier: int,
+        ignore_range: bool = False,
     ) -> None:
-        if not builder.plan_flight(flight):
+        if not builder.plan_flight(flight, ignore_range):
             pf = builder.package.primary_flight
             heli = pf.is_helo if pf else False
             missing_types.add(flight.task)
@@ -131,17 +133,35 @@ class PackageFulfiller:
                 threats[EscortType.Sead] = True
         return threats
 
+    def can_plan_escort(self, type: EscortType) -> bool:
+        if type == EscortType.AirToAir:
+            return self.air_wing_can_plan(FlightType.ESCORT)
+        elif type == EscortType.Sead:
+            for task in [
+                FlightType.SEAD,
+                FlightType.SEAD_ESCORT,
+                FlightType.SEAD_SWEEP,
+            ]:
+                if self.air_wing_can_plan(task):
+                    return True
+        elif type == EscortType.Refuel:
+            return self.air_wing_can_plan(FlightType.REFUELING)
+        return False
+
     def plan_mission(
         self,
         mission: ProposedMission,
         purchase_multiplier: int,
+        now: datetime,
         tracer: MultiEventTracer,
+        ignore_range: bool = False,
     ) -> Optional[Package]:
         """Allocates aircraft for a proposed mission and adds it to the ATO."""
         builder = PackageBuilder(
             mission.location,
             ObjectiveDistanceCache.get_closest_airfields(mission.location),
             self.air_wing,
+            self.coalition.laser_code_registry,
             self.flight_db,
             self.is_player,
             self.default_start_type,
@@ -154,17 +174,17 @@ class PackageFulfiller:
         missing_types: Set[FlightType] = set()
         escorts = []
         for proposed_flight in mission.flights:
+            if proposed_flight.escort_type is not None:
+                # Escorts are planned after the primary elements of the package.
+                # If the package does not need escorts they may be pruned.
+                escorts.append(proposed_flight)
+                continue
             if not self.air_wing_can_plan(proposed_flight.task):
                 # This air wing can never plan this mission type because they do not
                 # have compatible aircraft or squadrons. Skip fulfillment so that we
                 # don't place the purchase request.
                 missing_types.add(proposed_flight.task)
                 break
-            if proposed_flight.escort_type is not None:
-                # Escorts are planned after the primary elements of the package.
-                # If the package does not need escorts they may be pruned.
-                escorts.append(proposed_flight)
-                continue
             with tracer.trace("Flight planning"):
                 self.plan_flight(
                     mission,
@@ -172,6 +192,7 @@ class PackageFulfiller:
                     builder,
                     missing_types,
                     purchase_multiplier,
+                    ignore_range,
                 )
 
         if missing_types:
@@ -201,7 +222,9 @@ class PackageFulfiller:
             # This list was generated from the not None set, so this should be
             # impossible.
             assert escort.escort_type is not None
-            if needed_escorts[escort.escort_type]:
+            if needed_escorts[escort.escort_type] and self.can_plan_escort(
+                escort.escort_type
+            ):
                 with tracer.trace("Flight planning"):
                     self.plan_flight(
                         mission, escort, builder, missing_types, purchase_multiplier
@@ -224,6 +247,6 @@ class PackageFulfiller:
 
         if package.has_players and self.player_missions_asap:
             package.auto_asap = True
-            package.set_tot_asap()
+            package.set_tot_asap(now)
 
         return package

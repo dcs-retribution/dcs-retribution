@@ -1,20 +1,27 @@
 from __future__ import unicode_literals
 
 from copy import deepcopy
-from typing import Union
+from typing import Union, Callable, Set, Optional
 
-from PySide2 import QtWidgets, QtGui
-from PySide2.QtCore import Qt
-from PySide2.QtWidgets import (
+from PySide6 import QtWidgets, QtGui
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (
     QScrollArea,
     QWidget,
     QGridLayout,
     QCheckBox,
     QLabel,
     QTextBrowser,
+    QPushButton,
+    QComboBox,
+    QHBoxLayout,
 )
 
+from game.ato import FlightType
 from game.campaignloader import Campaign
+from game.dcs.aircrafttype import AircraftType
+from game.dcs.groundunittype import GroundUnitType
+from game.dcs.unittype import UnitType
 from game.factions import Faction, FACTIONS
 from qt_ui.windows.newgame.jinja_env import jinja_env
 
@@ -29,14 +36,23 @@ class QFactionUnits(QScrollArea):
         self.faction = faction
         self._create_checkboxes()
 
-    def _add_checkboxes(self, units: set, counter: int, grid: QGridLayout) -> int:
+    def _add_checkboxes(
+        self,
+        units: set,
+        counter: int,
+        grid: QGridLayout,
+        combo_layout: Optional[QHBoxLayout] = None,
+    ) -> int:
         counter += 1
-        for i, v in enumerate(sorted(units, key=lambda x: x.name), counter):
-            cb = QCheckBox(v.name)
+        for i, v in enumerate(sorted(units, key=lambda x: str(x)), counter):
+            cb = QCheckBox(str(v))
             cb.setCheckState(Qt.CheckState.Checked)
-            self.checkboxes[v.name] = cb
+            self.checkboxes[str(v)] = cb
             grid.addWidget(cb, i, 1)
             counter += 1
+        if combo_layout:
+            counter += 1
+            grid.addLayout(combo_layout, counter, 1)
         counter += 1
         return counter
 
@@ -44,18 +60,47 @@ class QFactionUnits(QScrollArea):
         counter = 0
         self.checkboxes: dict[str, QCheckBox] = {}
         grid = QGridLayout()
+        grid.setColumnStretch(1, 1)
         if len(self.faction.aircraft) > 0:
+            self.add_ac_combo = QComboBox()
+            hbox = self._create_aircraft_combobox(
+                self.add_ac_combo,
+                lambda: self._on_add_ac(self.faction.aircraft, self.add_ac_combo),
+                self._aircraft_predicate,
+            )
             grid.addWidget(QLabel("<strong>Aircraft:</strong>"), counter, 0)
-            counter = self._add_checkboxes(self.faction.aircraft, counter, grid)
+            counter = self._add_checkboxes(self.faction.aircraft, counter, grid, hbox)
         if len(self.faction.awacs) > 0:
+            self.add_awacs_combo = QComboBox()
+            hbox = self._create_aircraft_combobox(
+                self.add_awacs_combo,
+                lambda: self._on_add_ac(self.faction.awacs, self.add_awacs_combo),
+                self._awacs_predicate,
+            )
             grid.addWidget(QLabel("<strong>AWACS:</strong>"), counter, 0)
-            counter = self._add_checkboxes(self.faction.awacs, counter, grid)
+            counter = self._add_checkboxes(self.faction.awacs, counter, grid, hbox)
         if len(self.faction.tankers) > 0:
+            self.add_tanker_combo = QComboBox()
+            hbox = self._create_aircraft_combobox(
+                self.add_tanker_combo,
+                lambda: self._on_add_ac(self.faction.tankers, self.add_tanker_combo),
+                self._tanker_predicate,
+            )
             grid.addWidget(QLabel("<strong>Tankers:</strong>"), counter, 0)
-            counter = self._add_checkboxes(self.faction.tankers, counter, grid)
+            counter = self._add_checkboxes(self.faction.tankers, counter, grid, hbox)
         if len(self.faction.frontline_units) > 0:
+            self.add_frontline_combo = QComboBox()
+            hbox = self._create_unit_combobox(
+                self.add_frontline_combo,
+                lambda: self._on_add_unit(
+                    self.faction.frontline_units, self.add_frontline_combo
+                ),
+                self.faction.frontline_units,
+            )
             grid.addWidget(QLabel("<strong>Frontlines vehicles:</strong>"), counter, 0)
-            counter = self._add_checkboxes(self.faction.frontline_units, counter, grid)
+            counter = self._add_checkboxes(
+                self.faction.frontline_units, counter, grid, hbox
+            )
         if len(self.faction.artillery_units) > 0:
             grid.addWidget(QLabel("<strong>Artillery units:</strong>"), counter, 0)
             counter = self._add_checkboxes(self.faction.artillery_units, counter, grid)
@@ -82,6 +127,71 @@ class QFactionUnits(QScrollArea):
 
         self.content.setLayout(grid)
 
+    def _aircraft_predicate(self, ac: AircraftType):
+        if (
+            FlightType.AEWC not in ac.task_priorities
+            and FlightType.REFUELING not in ac.task_priorities
+        ):
+            self.add_ac_combo.addItem(ac.variant_id, ac)
+
+    def _awacs_predicate(self, ac: AircraftType):
+        if FlightType.AEWC in ac.task_priorities:
+            self.add_awacs_combo.addItem(ac.variant_id, ac)
+
+    def _tanker_predicate(self, ac: AircraftType):
+        if FlightType.REFUELING in ac.task_priorities:
+            self.add_tanker_combo.addItem(ac.variant_id, ac)
+
+    def _create_aircraft_combobox(
+        self, cb: QComboBox, callback: Callable, predicate: Callable
+    ):
+        for ac_dcs in sorted(AircraftType.each_dcs_type(), key=lambda x: x.id):
+            for ac in AircraftType.for_dcs_type(ac_dcs):
+                if ac in self.faction.aircraft:
+                    continue
+                predicate(ac)
+        add_ac = QPushButton("+")
+        add_ac.setStyleSheet("QPushButton{ font-weight: bold; }")
+        add_ac.setFixedWidth(50)
+        add_ac.clicked.connect(callback)
+        hbox = QHBoxLayout()
+        hbox.addWidget(cb)
+        hbox.addWidget(add_ac)
+        return hbox
+
+    def _create_unit_combobox(
+        self, cb: QComboBox, callback: Callable, units: Set[GroundUnitType]
+    ):
+        for dcs_unit in sorted(GroundUnitType.each_dcs_type(), key=lambda x: x.id):
+            if dcs_unit not in self.faction.country.vehicles:
+                continue
+            for unit in GroundUnitType.for_dcs_type(dcs_unit):
+                if unit in units:
+                    continue
+                cb.addItem(unit.variant_id, unit)
+        add_unit = QPushButton("+")
+        add_unit.setStyleSheet("QPushButton{ font-weight: bold; }")
+        add_unit.setFixedWidth(50)
+        add_unit.clicked.connect(callback)
+        hbox = QHBoxLayout()
+        hbox.addWidget(cb)
+        hbox.addWidget(add_unit)
+        return hbox
+
+    def _on_add_unit(self, units: Set[UnitType], cb: QComboBox):
+        units.add(cb.currentData())
+        if self.faction.__dict__.get("accessible_units"):
+            # invalidate the cached property
+            del self.faction.__dict__["accessible_units"]
+        self.updateFaction(self.faction)
+
+    def _on_add_ac(self, aircraft: Set[AircraftType], cb: QComboBox):
+        aircraft.add(cb.currentData())
+        if self.faction.__dict__.get("all_aircrafts"):
+            # invalidate the cached property
+            del self.faction.__dict__["all_aircrafts"]
+        self.updateFaction(self.faction)
+
     def updateFaction(self, faction: Faction):
         self.faction = faction
         self.content = QWidget()
@@ -94,7 +204,7 @@ class QFactionUnits(QScrollArea):
     def updateFactionUnits(self, units: Union[set, list]):
         deletes = []
         for a in units:
-            if not self.checkboxes[a.name].isChecked():
+            if not self.checkboxes[str(a)].isChecked():
                 deletes.append(a)
         for d in deletes:
             units.remove(d)
@@ -109,7 +219,7 @@ class FactionSelection(QtWidgets.QWizardPage):
             "\nChoose the two opposing factions and select the player side."
         )
         self.setPixmap(
-            QtWidgets.QWizard.LogoPixmap,
+            QtWidgets.QWizard.WizardPixmap.LogoPixmap,
             QtGui.QPixmap("./resources/ui/misc/generator.png"),
         )
 
@@ -133,13 +243,17 @@ class FactionSelection(QtWidgets.QWizardPage):
         self.blueFactionDescription = QTextBrowser()
         self.blueFactionDescription.setReadOnly(True)
         self.blueFactionDescription.setOpenExternalLinks(True)
-        self.blueFactionDescription.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.blueFactionDescription.setVerticalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOn
+        )
         self.blueFactionDescription.setMaximumHeight(120)
 
         self.redFactionDescription = QTextBrowser()
         self.redFactionDescription.setReadOnly(True)
         self.redFactionDescription.setOpenExternalLinks(True)
-        self.redFactionDescription.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.redFactionDescription.setVerticalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOn
+        )
         self.redFactionDescription.setMaximumHeight(120)
 
         # Setup default selected factions
@@ -177,7 +291,7 @@ class FactionSelection(QtWidgets.QWizardPage):
         docsText = QtWidgets.QLabel(
             '<a href="https://github.com/dcs-retribution/dcs-retribution/wiki/Custom-Factions"><span style="color:#FFFFFF;">How to create your own faction</span></a>'
         )
-        docsText.setAlignment(Qt.AlignCenter)
+        docsText.setAlignment(Qt.AlignmentFlag.AlignCenter)
         docsText.setOpenExternalLinks(True)
 
         # Link form fields
@@ -234,7 +348,7 @@ class FactionSelection(QtWidgets.QWizardPage):
     @staticmethod
     def _filter_selected_units(qfu: QFactionUnits) -> Faction:
         fac = deepcopy(qfu.faction)
-        qfu.updateFactionUnits(fac.aircrafts)
+        qfu.updateFactionUnits(fac.aircraft)
         qfu.updateFactionUnits(fac.awacs)
         qfu.updateFactionUnits(fac.tankers)
         qfu.updateFactionUnits(fac.frontline_units)

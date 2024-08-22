@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import itertools
 import logging
+from collections import defaultdict
 from dataclasses import dataclass, field
 from functools import cached_property
 from typing import Optional, Dict, Type, List, Any, Iterator, TYPE_CHECKING, Set
@@ -44,6 +45,9 @@ class Faction:
     #: List of locales to use when generating random names. If not set, Faker will
     #: choose the default locale.
     locales: Optional[List[str]]
+
+    # The unit type to spawn for cargo shipping.
+    cargo_ship: ShipUnitType
 
     # Country used by this faction
     country: Country
@@ -90,11 +94,8 @@ class Faction:
     # Required mods or asset packs
     requirements: Dict[str, str] = field(default_factory=dict)
 
-    # Possible carrier names
-    carrier_names: Set[str] = field(default_factory=set)
-
-    # Possible helicopter carrier names
-    helicopter_carrier_names: Set[str] = field(default_factory=set)
+    # Possible carrier units mapped to names
+    carriers: Dict[ShipUnitType, Set[str]] = field(default_factory=dict)
 
     # Available Naval Units
     naval_units: Set[ShipUnitType] = field(default_factory=set)
@@ -166,7 +167,7 @@ class Faction:
     def air_defenses(self) -> list[str]:
         """Returns the Air Defense types"""
         # This is used for the faction overview in NewGameWizard
-        air_defenses = [a.name for a in self.air_defense_units]
+        air_defenses = [a.variant_id for a in self.air_defense_units]
         air_defenses.extend(
             [
                 pg.name
@@ -177,7 +178,7 @@ class Faction:
         return sorted(air_defenses)
 
     @cached_property
-    def aircrafts(self) -> list[UnitType[Any]]:
+    def all_aircrafts(self) -> list[UnitType[Any]]:
         # Migrator can't cope with this, so we need to do it here...
         self.aircraft = set(self.aircraft)
         self.awacs = set(self.awacs)
@@ -194,7 +195,11 @@ class Faction:
                 "country ID"
             ) from ex
 
-        faction = Faction(locales=json.get("locales"), country=country)
+        faction = Faction(
+            locales=json.get("locales"),
+            country=country,
+            cargo_ship=ShipUnitType.named(json.get("cargo_ship", "Bulker Handy Wind")),
+        )
 
         faction.name = json.get("name", "")
         if not faction.name:
@@ -234,8 +239,30 @@ class Faction:
 
         faction.requirements = json.get("requirements", {})
 
-        faction.carrier_names = json.get("carrier_names", [])
-        faction.helicopter_carrier_names = json.get("helicopter_carrier_names", [])
+        # First try to load the carriers in the new format which
+        # specifies different names for different carrier types
+        loaded_carriers = load_carriers(json)
+
+        carriers: List[ShipUnitType] = [
+            unit
+            for unit in faction.naval_units
+            if unit.unit_class
+            in [
+                UnitClass.AIRCRAFT_CARRIER,
+                UnitClass.HELICOPTER_CARRIER,
+            ]
+        ]
+        carrier_names = json.get("carrier_names", [])
+        helicopter_carrier_names = json.get("helicopter_carrier_names", [])
+        for c in carriers:
+            if c.variant_id not in loaded_carriers:
+                if c.unit_class == UnitClass.AIRCRAFT_CARRIER:
+                    loaded_carriers[c] = carrier_names
+                elif c.unit_class == UnitClass.HELICOPTER_CARRIER:
+                    loaded_carriers[c] = helicopter_carrier_names
+
+        faction.carriers = loaded_carriers
+        faction.naval_units.union(faction.carriers.keys())
 
         faction.has_jtac = json.get("has_jtac", False)
         jtac_name = json.get("jtac_unit", None)
@@ -325,12 +352,55 @@ class Faction:
             self.remove_aircraft("A-4E-C")
         if not mod_settings.hercules:
             self.remove_aircraft("Hercules")
+        if not mod_settings.oh_6:
+            self.remove_aircraft("OH-6A")
+        if not mod_settings.oh_6_vietnamassetpack:
+            self.remove_vehicle("vap_mutt_gun")
+            self.remove_vehicle("vap_type63_mlrs")
+            self.remove_vehicle("vap_vc_bicycle_mortar")
+            self.remove_vehicle("vap_zis_150_aa")
+            self.remove_vehicle("vap_us_hooch_LP")
+            self.remove_vehicle("vap_ammo_50cal_line")
+            self.remove_vehicle("vap_ammo_50cal_pack")
+            self.remove_vehicle("vap_barrels_line")
+            self.remove_vehicle("vap_barrels")
+            self.remove_vehicle("vap_ammo_box_pile")
+            self.remove_vehicle("vap_ammo_box_wood_long")
+            self.remove_vehicle("vap_ammo_box_wood_small")
+            self.remove_vehicle("vap_barrel_red")
+            self.remove_vehicle("vap_barrel_green")
+            self.remove_vehicle("vap_mre_boxes")
+            self.remove_vehicle("vap_mixed_cargo_1")
+            self.remove_vehicle("vap_mixed_cargo_2")
+            self.remove_vehicle("vap_watchtower")
+            self.remove_vehicle("vap_house_high")
+            self.remove_vehicle("vap_house_long")
+            self.remove_vehicle("vap_house_small")
+            self.remove_vehicle("vap_house_T")
+            self.remove_vehicle("vap_house_tiny")
+            self.remove_vehicle("vap_house1")
+            self.remove_vehicle("vap_us_hooch_radio")
+            self.remove_vehicle("vap_us_hooch_closed")
+            self.remove_vehicle("vap_vc_bunker_single")
+            self.remove_vehicle("vap_vc_mg_nest")
+            self.remove_vehicle("vap_mule")
+            self.remove_vehicle("vap_mutt")
+            self.remove_vehicle("vap_m35_truck")
+            self.remove_vehicle("vap_vc_zis")
+            self.remove_vehicle("vap_vc_bicycle")
+            self.remove_vehicle("vap_vc_zil")
+            self.remove_vehicle("vap_vc_bicycle_ak")
+            self.remove_ship("vap_us_seafloat")
         if not mod_settings.uh_60l:
             self.remove_aircraft("UH-60L")
             self.remove_aircraft("KC130J")
+        if not mod_settings.fa18ef_tanker:
+            self.remove_aircraft("Superbug_AITanker")
         if not mod_settings.f4bc_phantom:
             self.remove_aircraft("VSN_F4B")
             self.remove_aircraft("VSN_F4C")
+        if not mod_settings.f9f_panther:
+            self.remove_aircraft("VSN_F9F")
         if not mod_settings.f15d_baz:
             self.remove_aircraft("F-15D")
         if not mod_settings.f_15_idf:
@@ -366,12 +436,24 @@ class Faction:
         if not mod_settings.f105_thunderchief:
             self.remove_aircraft("VSN_F105D")
             self.remove_aircraft("VSN_F105G")
+        if not mod_settings.f106_deltadart:
+            self.remove_aircraft("VSN_F106A")
+            self.remove_aircraft("VSN_F106B")
         if not mod_settings.a6a_intruder:
             self.remove_aircraft("VSN_A6A")
+        if not mod_settings.ea6b_prowler:
+            self.remove_aircraft("EA_6B")
         if not mod_settings.jas39_gripen:
             self.remove_aircraft("JAS39Gripen")
             self.remove_aircraft("JAS39Gripen_BVR")
             self.remove_aircraft("JAS39Gripen_AG")
+        if not mod_settings.super_etendard:
+            self.remove_aircraft("VSN_SEM")
+        if not mod_settings.sk_60:
+            self.remove_aircraft("SK-60")
+        if not mod_settings.su15_flagon:
+            self.remove_aircraft("Su_15")
+            self.remove_aircraft("Su_15TM")
         if not mod_settings.su30_flanker_h:
             self.remove_aircraft("Su-30MKA")
             self.remove_aircraft("Su-30MKI")
@@ -449,13 +531,16 @@ class Faction:
             self.remove_ship("L02")
             self.remove_ship("DDG39")
         if not mod_settings.irondome:
-            self.remove_vehicle("I9K51_GRAD")
-            self.remove_vehicle("I9K57_URAGAN")
-            self.remove_vehicle("I9K58_SMERCH")
-            self.remove_vehicle("IRON_DOME_CP")
+            self.remove_vehicle("Iron_Dome_David_Sling_CP")
             self.remove_vehicle("IRON_DOME_LN")
-            self.remove_vehicle("ELM2048_MMR")
+            self.remove_vehicle("DAVID_SLING_LN")
+            self.remove_vehicle("ELM2084_MMR_AD_RT")
+            self.remove_vehicle("ELM2084_MMR_AD_SC")
+            self.remove_vehicle("ELM2084_MMR_WLR")
             self.remove_preset("Iron Dome")
+            self.remove_preset("Iron Dome (Semicircle)")
+            self.remove_preset("David's Sling")
+            self.remove_preset("David's Sling (Semicircle)")
         # swedish military assets pack
         if not mod_settings.swedishmilitaryassetspack:
             self.remove_vehicle("BV410_RBS70")
@@ -495,6 +580,16 @@ class Faction:
             self.remove_ship("HSwMS_Visby")
             self.remove_ship("Strb90")
             self.remove_aircraft("HKP15B")
+            self.remove_preset("LvS-103 Rb103A")
+            self.remove_preset("LvS-103 Rb103A Mobile")
+            self.remove_preset("LvS-103 Rb103B")
+            self.remove_preset("LvS-103 Rb103B Mobile")
+        if not mod_settings.coldwarassets:
+            self.remove_aircraft("B_47")
+            self.remove_aircraft("Tu-4K")
+            self.remove_aircraft("Tu-16")
+            self.remove_aircraft("tu_22D")
+            self.remove_aircraft("tu_22KD")
         # SWPack
         if not mod_settings.SWPack:
             self.remove_aircraft("AWINGA")
@@ -528,14 +623,16 @@ class Faction:
             self.remove_ship("Destroyer_carrier")
 
     def remove_aircraft(self, name: str) -> None:
-        for i in list(self.aircrafts):
-            if i.dcs_unit_type.id == name:
-                self.aircrafts.remove(i)
+        for aircraft_set in [self.aircraft, self.awacs, self.tankers]:
+            for i in list(aircraft_set):
+                if i.dcs_unit_type.id == name:
+                    aircraft_set.remove(i)
 
     def remove_aircraft_by_name(self, name: str) -> None:
-        for i in list(self.aircrafts):
-            if i.name == name:
-                self.aircrafts.remove(i)
+        for aircraft_set in [self.aircraft, self.awacs, self.tankers]:
+            for i in list(aircraft_set):
+                if i.display_name == name:
+                    aircraft_set.remove(i)
 
     def remove_preset(self, name: str) -> None:
         for pg in self.preset_groups:
@@ -573,4 +670,15 @@ def load_all_ships(data: list[str]) -> List[Type[ShipType]]:
         item = load_ship(name)
         if item is not None:
             items.append(item)
+    return items
+
+
+def load_carriers(json: Dict[str, Any]) -> Dict[ShipUnitType, Set[str]]:
+    # Load carriers
+    items: Dict[ShipUnitType, Set[str]] = defaultdict(Set[str])
+    carriers = json.get("carriers", {})
+    for carrier_shiptype, shipnames in carriers.items():
+        shiptype = ShipUnitType.named(carrier_shiptype)
+        if shiptype is not None:
+            items[shiptype] = shipnames
     return items

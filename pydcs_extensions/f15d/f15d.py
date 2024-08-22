@@ -57,10 +57,13 @@ class F_15D(PlaneType):
     livery_name = "F-15D"  # from type
 
     class Pylon1:
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (1, Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM)
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             1,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
+        )
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
+            1,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         Smokewinder___red = (1, Weapons.Smokewinder___red)
         Smokewinder___green = (1, Weapons.Smokewinder___green)
@@ -83,20 +86,26 @@ class F_15D(PlaneType):
         CFT_Fuel_Right_750gal = (2, WeaponsF15D.CFT_Fuel_Right_750gal)
 
     class Pylon3:
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (3, Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM)
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             3,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
+        )
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
+            3,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         Python_5 = (3, WeaponsF15D.Python_5)
         I_Derby_ER = (3, WeaponsF15D.I_Derby_ER)
         AIM_9X_Sidewinder_IR_AAM = (3, Weapons.AIM_9X_Sidewinder_IR_AAM)
 
     class Pylon4:
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (4, Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM)
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             4,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
+        )
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
+            4,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         AIM_7M_Sparrow_Semi_Active_Radar = (4, Weapons.AIM_7M_Sparrow_Semi_Active_Radar)
         AIM_7F_Sparrow_Semi_Active_Radar = (4, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
@@ -111,10 +120,13 @@ class F_15D(PlaneType):
         I_Derby_ER = (4, WeaponsF15D.I_Derby_ER)
 
     class Pylon5:
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (5, Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM)
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             5,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
+        )
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
+            5,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         AIM_7M_Sparrow_Semi_Active_Radar = (5, Weapons.AIM_7M_Sparrow_Semi_Active_Radar)
         AIM_7F_Sparrow_Semi_Active_Radar = (5, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
@@ -134,10 +146,13 @@ class F_15D(PlaneType):
         Mk_84___2000lb_GP_Bomb_LD = (6, Weapons.Mk_84___2000lb_GP_Bomb_LD)
 
     class Pylon7:
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (7, Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM)
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
+        )
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
+            7,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         AIM_7M_Sparrow_Semi_Active_Radar = (7, Weapons.AIM_7M_Sparrow_Semi_Active_Radar)
         AIM_7F_Sparrow_Semi_Active_Radar = (7, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
@@ -152,10 +167,13 @@ class F_15D(PlaneType):
         I_Derby_ER = (7, WeaponsF15D.I_Derby_ER)
 
     class Pylon8:
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (8, Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM)
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
+        )
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
+            8,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         AIM_7M_Sparrow_Semi_Active_Radar = (8, Weapons.AIM_7M_Sparrow_Semi_Active_Radar)
         AIM_7F_Sparrow_Semi_Active_Radar = (8, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
@@ -170,10 +188,13 @@ class F_15D(PlaneType):
         I_Derby_ER = (8, WeaponsF15D.I_Derby_ER)
 
     class Pylon9:
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (9, Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM)
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             9,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
+        )
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
+            9,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         Python_5 = (9, WeaponsF15D.Python_5)
         I_Derby_ER = (9, WeaponsF15D.I_Derby_ER)
@@ -190,13 +211,13 @@ class F_15D(PlaneType):
         CFT_Fuel_left_750gal = (10, WeaponsF15D.CFT_Fuel_left_750gal)
 
     class Pylon11:
-        AIM_120B_AMRAAM___Active_Rdr_AAM = (
+        AIM_120B_AMRAAM___Active_Radar_AAM = (
             11,
-            Weapons.AIM_120B_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120B_AMRAAM___Active_Radar_AAM,
         )
-        AIM_120C_5_AMRAAM___Active_Rdr_AAM = (
+        AIM_120C_AMRAAM___Active_Radar_AAM = (
             11,
-            Weapons.AIM_120C_5_AMRAAM___Active_Rdr_AAM,
+            Weapons.AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         Smokewinder___red = (11, Weapons.Smokewinder___red)
         Smokewinder___green = (11, Weapons.Smokewinder___green)

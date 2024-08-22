@@ -1,0 +1,260 @@
+---
+name: Kola Peninsula - Operation Frostbite (Test Build)
+theater: Kola
+authors: Chimiste
+recommended_player_faction: Bluefor Modern
+recommended_enemy_faction: Russia 2010
+description:
+  <p>The year is 2016. The world watches with bated breath as NATO's expansion eastward stokes the flames of conflict with Russia. Under the iron rule of President Nikolai Zakharov, the Kremlin perceives this encroachment as a direct threat to its national security and a relic of Cold War hostilities.</p>
+  <p>Finland, a neutral nation sharing a vast border with Russia, becomes the focal point of this geopolitical chess match. Its potential accession to NATO would significantly bolster the alliance's presence on Russia's doorstep, a prospect Zakharov views as intolerable.</p>
+  <p>In June of 2016, amidst swirling rumors and escalating tensions, whispers of secret NATO expansion talks involving Finland reach the Kremlin. Zakharov, fearing imminent encirclement, makes a decisive and ruthless move. Under the cover of darkness, Russian forces launch a swift and brutal invasion, catching the Finnish military off guard.</p>
+  <p>Within days, Russian armored divisions and airborne troops seize control of a significant portion of Lapland, a strategic region rich in natural resources and bordering key NATO member, Norway. The world is stunned by the brazen aggression, and the once neutral Finland finds itself thrust into the center of a new global conflict.</p>
+miz: operation_frostbite.miz
+performance: 3
+recommended_start_date: 2016-06-06
+version: "10.7"
+settings:
+  restrict_weapons_by_date: false
+  hercules: false
+squadrons:
+  #Lakselv
+  1:
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - A-10C Thunderbolt II (Suite 7)
+    - primary: SEAD
+      secondary: any
+      aircraft:
+        - F-16CM Fighting Falcon (Block 50)
+    - primary: TARCAP
+      secondary: any
+      aircraft:
+        - F-15C Eagle
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - F/A-18C Hornet (Lot 20)
+    - primary: Refueling
+      aircraft:
+        - KC-135 Stratotanker
+    - primary: AEW&C
+      aircraft:
+        - E-2C Hawkeye
+  #BAS 100
+  4:
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - F/A-18C Hornet (Lot 20)
+        - A-10C Thunderbolt II (Suite 7)
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - AH-64D Apache Longbow
+  #Rovaniemi
+  2:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - F/A-18C Hornet (Lot 20)
+    - primary: TARCAP
+      secondary: any
+      aircraft:
+        - F-14B Tomcat
+    - primary: SEAD
+      secondary: any
+      aircraft:
+        - F-16CM Fighting Falcon (Block 50)
+  #Kemi Tornio
+  3:
+    - primary: DEAD
+      secondary: air-to-ground
+      aircraft:
+        - F-16CM Fighting Falcon (Block 50)
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - F/A-18C Hornet (Lot 20)
+  
+  FOB Jeesio:
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - AH-64D Apache Longbow
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - AJS-37 Viggen
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - F/A-18C Hornet (Lot 20)
+  
+  #Severomorsk1
+  8:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - MiG-29S Fulcrum-C
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - MiG-29S Fulcrum-C
+    - primary: SEAD
+      secondary: any
+      aircraft:
+        - Su-33 Flanker-D
+  #Severomorsk3
+  6:
+    - primary: AEW&C
+      aircraft:
+        - A-50
+    - primary: Refueling
+      aircraft:
+        - IL-76M
+    - primary: DEAD
+      secondary: any
+      aircraft:
+        - Su-34 Fullback
+    - primary: TARCAP
+      secondary: any
+      aircraft:
+        - Su-27 Flanker-B
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - Mi-24P Hind-F
+  #Olenegorsk
+  9:
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - Tu-95MS Bear-H
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - Su-25T Frogfoot
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - IL-76MD
+  #Monchegorsk
+  10:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - MiG-29S Fulcrum-C
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - MiG-29S Fulcrum-C
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - Su-25T Frogfoot
+
+  FOB Verkhnetulomskiy:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - MiG-29S Fulcrum-C
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - Su-25T Frogfoot
+        - Mi-24P Hind-F
+    - primary: DEAD
+      secondary: any
+      aircraft:
+        - Su-34 Fullback
+  
+  FOB Nikel:
+    - primary: SEAD
+      secondary: any
+      aircraft:
+        - Su-24M Fencer-D
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - MiG-29S Fulcrum-C
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - Mi-24P Hind-F
+
+  FOB Neiden:
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - Mi-24P Hind-F
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - Su-27 Flanker-B
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - Su-30 Flanker-C
+  
+  FOB Kevajarvi:
+    - primary: TARCAP
+      secondary: any
+      aircraft:
+        - MiG-29S Fulcrum-C
+    - primary: SEAD
+      secondary: any
+      aircraft:
+        - Su-24M Fencer-D
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - Su-27 Flanker-B
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - Mi-24P Hind-F
+  
+  FOB Karigasniemi:
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - Mi-24P Hind-F
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - Su-25T Frogfoot
+    - primary: TARCAP
+      secondary: any
+      aircraft:
+        - Su-33 Flanker-D
+  
+  FOB Lokka:
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - Mi-24P Hind-F
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - Su-27 Flanker-B
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - Su-30 Flanker-C
+
+  FOB Zasheyek:
+    - primary: SEAD
+      secondary: any
+      aircraft:
+        - Su-24M Fencer-D
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - Mi-24P Hind-F
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - Su-27 Flanker-B
+
+

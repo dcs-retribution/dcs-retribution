@@ -1,5 +1,5 @@
-from PySide2.QtCore import Signal
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Signal
+from PySide6.QtWidgets import (
     QHBoxLayout,
     QLabel,
     QPushButton,
@@ -46,8 +46,8 @@ class QLink4Widget(QWidget):
         return f"<b>LINK4: {freq}</b>"
 
     def open_freq_dialog(self) -> None:
-        range = RadioRange(MHz(225), MHz(400), kHz(25))
-        self.frequency_dialog = QRadioFrequencyDialog(self, self.cp, range, link4=True)
+        ranges = [RadioRange(MHz(225), MHz(400), kHz(25))]
+        self.frequency_dialog = QRadioFrequencyDialog(self, self.cp, ranges, link4=True)
         self.frequency_dialog.accepted.connect(self.assign_frequency)
         self.frequency_dialog.show()
 

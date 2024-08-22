@@ -1,20 +1,20 @@
 """Widgets for displaying air tasking orders."""
 import logging
-from datetime import timedelta
+from copy import deepcopy
 from typing import Optional
 
-from PySide2.QtCore import (
+from PySide6.QtCore import (
     QItemSelectionModel,
     QModelIndex,
     QSize,
     Qt,
 )
-from PySide2.QtGui import (
+from PySide6.QtGui import (
     QContextMenuEvent,
-)
-from PySide2.QtWidgets import (
-    QAbstractItemView,
     QAction,
+)
+from PySide6.QtWidgets import (
+    QAbstractItemView,
     QGroupBox,
     QHBoxLayout,
     QLabel,
@@ -24,12 +24,14 @@ from PySide2.QtWidgets import (
     QSplitter,
     QVBoxLayout,
     QMessageBox,
+    QCheckBox,
 )
 
 from game.ato.flight import Flight
 from game.ato.package import Package
 from game.server import EventStream
 from game.sim import GameUpdateEvents
+from .QLabeledWidget import QLabeledWidget
 from ..delegates import TwoColumnRowDelegate
 from ..models import AtoModel, GameModel, NullListModel, PackageModel
 
@@ -51,7 +53,7 @@ class FlightDelegate(TwoColumnRowDelegate):
             clients = self.num_clients(index)
             return f"Player Slots: {clients}" if clients else ""
         elif (row, column) == (1, 0):
-            origin = flight.from_cp.name
+            origin = flight.departure.name
             if flight.arrival != flight.departure:
                 return f"From {origin} to {flight.arrival.name}"
             return f"From {origin}"
@@ -80,7 +82,7 @@ class QFlightList(QListView):
         if package_model is not None:
             self.setItemDelegate(FlightDelegate(package_model.package))
         self.setIconSize(QSize(91, 24))
-        self.setSelectionBehavior(QAbstractItemView.SelectItems)
+        self.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectItems)
         self.doubleClicked.connect(self.on_double_click)
 
     def set_package(self, model: Optional[PackageModel]) -> None:
@@ -94,7 +96,8 @@ class QFlightList(QListView):
             # noinspection PyUnresolvedReferences
             model.deleted.connect(self.disconnect_model)
             self.selectionModel().setCurrentIndex(
-                model.index(0, 0, QModelIndex()), QItemSelectionModel.Select
+                model.index(0, 0, QModelIndex()),
+                QItemSelectionModel.SelectionFlag.Select,
             )
 
     def disconnect_model(self) -> None:
@@ -141,6 +144,8 @@ class QFlightList(QListView):
             )
             return
         self.package_model.add_flight(clone)
+        clone.flight_plan.layout = deepcopy(flight.flight_plan.layout)
+        EventStream.put_nowait(GameUpdateEvents().new_flight(clone))
 
     def cancel_or_abort_flight(self, index: QModelIndex) -> None:
         self.package_model.cancel_or_abort_flight_at_index(index)
@@ -285,16 +290,7 @@ class PackageDelegate(TwoColumnRowDelegate):
             clients = self.num_clients(index)
             return f"Player Slots: {clients}" if clients else ""
         elif (row, column) == (1, 0):
-            tot_delay = (
-                package.time_over_target - self.game_model.sim_controller.elapsed_time
-            )
-            if tot_delay >= timedelta():
-                return f"TOT in {tot_delay}"
-            game = self.game_model.game
-            if game is None:
-                raise RuntimeError("Package TOT has elapsed but no game is loaded")
-            tot_time = game.conditions.start_time + package.time_over_target
-            return f"TOT passed at {tot_time:%H:%M:%S}"
+            return f"TOT at {package.time_over_target:%H:%M:%S}"
         elif (row, column) == (1, 1):
             unassigned_pilots = self.missing_pilots(index)
             return f"Missing pilots: {unassigned_pilots}" if unassigned_pilots else ""
@@ -318,7 +314,7 @@ class QPackageList(QListView):
         self.setModel(model)
         self.setItemDelegate(PackageDelegate(game_model))
         self.setIconSize(QSize(0, 0))
-        self.setSelectionBehavior(QAbstractItemView.SelectItems)
+        self.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectItems)
         self.model().rowsInserted.connect(self.on_new_packages)
         self.doubleClicked.connect(self.on_double_click)
 
@@ -347,6 +343,10 @@ class QPackageList(QListView):
             )
             return
         self.ato_model.add_package(clone)
+        events = GameUpdateEvents()
+        for f in clone.flights:
+            events.new_flight(f)
+        EventStream.put_nowait(events)
 
     def delete_package(self, index: QModelIndex) -> None:
         self.ato_model.cancel_or_abort_package_at_index(index)
@@ -356,7 +356,7 @@ class QPackageList(QListView):
         # the player saving a new package, so selecting it helps them view/edit
         # it faster.
         self.selectionModel().setCurrentIndex(
-            self.model().index(first, 0), QItemSelectionModel.Select
+            self.model().index(first, 0), QItemSelectionModel.SelectionFlag.Select
         )
 
     def on_double_click(self, index: QModelIndex) -> None:
@@ -477,6 +477,11 @@ class QPackagePanel(QGroupBox):
             return
         self.package_list.delete_package(index)
 
+    def enable_buttons(self, enabled: bool) -> None:
+        self.edit_button.setEnabled(enabled)
+        self.clone_button.setEnabled(enabled)
+        self.delete_button.setEnabled(enabled)
+
 
 class QAirTaskingOrderPanel(QSplitter):
     """A split panel for displaying the packages and flights of an ATO.
@@ -487,8 +492,20 @@ class QAirTaskingOrderPanel(QSplitter):
     """
 
     def __init__(self, game_model: GameModel) -> None:
-        super().__init__(Qt.Vertical)
+        super().__init__(Qt.Orientation.Vertical)
+        self.game_model = game_model
         self.ato_model = game_model.ato_model
+
+        # ATO
+        self.red_ato_checkbox = QCheckBox()
+        self.red_ato_checkbox.toggled.connect(self.on_ato_changed)
+        self.red_ato_labeled = QLabeledWidget(
+            "Show/Plan OPFOR's ATO: ", self.red_ato_checkbox
+        )
+
+        self.ato_group_box = QGroupBox("ATO")
+        self.ato_group_box.setLayout(self.red_ato_labeled)
+        self.addWidget(self.ato_group_box)
 
         self.package_panel = QPackagePanel(game_model, self.ato_model)
         self.package_panel.current_changed.connect(self.on_package_change)
@@ -501,6 +518,25 @@ class QAirTaskingOrderPanel(QSplitter):
         """Sets the newly selected flight for display in the bottom panel."""
         index = self.package_panel.package_list.currentIndex()
         if index.isValid():
+            self.package_panel.enable_buttons(True)
             self.flight_panel.set_package(self.ato_model.get_package_model(index))
         else:
+            self.package_panel.enable_buttons(False)
             self.flight_panel.set_package(None)
+
+    def on_ato_changed(self) -> None:
+        opfor = self.red_ato_checkbox.isChecked()
+        ato_model = (
+            self.game_model.red_ato_model if opfor else self.game_model.ato_model
+        )
+        ato_model.layoutChanged.connect(self.package_panel.on_current_changed)
+        self.ato_model = ato_model
+        self.package_panel.ato_model = ato_model
+        self.package_panel.package_list.ato_model = ato_model
+        self.package_panel.package_list.setModel(ato_model)
+        self.package_panel.enable_buttons(False)
+        self.package_panel.current_changed.connect(self.on_package_change)
+        self.flight_panel.flight_list.set_package(None)
+        events = GameUpdateEvents().deselect_flight()
+        EventStream.put_nowait(events)
+        self.game_model.is_ownfor = not opfor

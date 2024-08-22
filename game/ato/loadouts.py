@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import datetime
 import logging
 from collections.abc import Iterable
@@ -10,6 +11,7 @@ from dcs.unittype import FlyingType
 from game.data.weapons import Pylon, Weapon, WeaponType
 from game.dcs.aircrafttype import AircraftType
 from .flighttype import FlightType
+from ..persistency import prefer_liberation_payloads
 
 if TYPE_CHECKING:
     from .flight import Flight
@@ -34,6 +36,11 @@ class Loadout:
 
     def derive_custom(self, name: str) -> Loadout:
         return Loadout(name, self.pylons, self.date, is_custom=True)
+
+    def clone(self) -> Loadout:
+        return Loadout(
+            self.name, dict(self.pylons), copy.deepcopy(self.date), self.is_custom
+        )
 
     def has_weapon_of_type(self, weapon_type: WeaponType) -> bool:
         for weapon in self.pylons.values():
@@ -130,11 +137,15 @@ class Loadout:
                 continue
             name = payload["name"]
             pylons = payload["pylons"]
-            yield Loadout(
-                name,
-                {p["num"]: Weapon.with_clsid(p["CLSID"]) for p in pylons.values()},
-                date=None,
-            )
+            try:
+                yield Loadout(
+                    name,
+                    {p["num"]: Weapon.with_clsid(p["CLSID"]) for p in pylons.values()},
+                    date=None,
+                )
+            except KeyError:
+                # invalid loadout
+                continue
 
     @staticmethod
     def valid_payload(pylons: Dict[int, Dict[str, str]]) -> bool:
@@ -155,7 +166,10 @@ class Loadout:
         # last - the first element in the tuple will be tried first, then the second,
         # etc.
         loadout_names = {
-            t: [f"Retribution {t.value}", f"Liberation {t.value}"] for t in FlightType
+            t: [f"Liberation {t.value}", f"Retribution {t.value}"]
+            if prefer_liberation_payloads()
+            else [f"Retribution {t.value}", f"Liberation {t.value}"]
+            for t in FlightType
         }
         legacy_names = {
             FlightType.TARCAP: (
@@ -194,6 +208,7 @@ class Loadout:
         loadout_names[FlightType.INTERCEPTION].extend(loadout_names[FlightType.BARCAP])
         # OCA/Aircraft falls back to BAI, which falls back to CAS.
         loadout_names[FlightType.BAI].extend(loadout_names[FlightType.CAS])
+        loadout_names[FlightType.ARMED_RECON].extend(loadout_names[FlightType.CAS])
         loadout_names[FlightType.OCA_AIRCRAFT].extend(loadout_names[FlightType.BAI])
         # DEAD also falls back to BAI.
         loadout_names[FlightType.DEAD].extend(loadout_names[FlightType.BAI])

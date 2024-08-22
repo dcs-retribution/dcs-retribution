@@ -1,7 +1,7 @@
 import logging
 
-from PySide2.QtGui import QTransform
-from PySide2.QtWidgets import (
+from PySide6.QtGui import QTransform
+from PySide6.QtWidgets import (
     QDialog,
     QGridLayout,
     QGroupBox,
@@ -11,6 +11,7 @@ from PySide2.QtWidgets import (
     QVBoxLayout,
     QSpinBox,
     QWidget,
+    QCheckBox,
 )
 from dcs import Point
 
@@ -41,6 +42,13 @@ class HeadingIndicator(QLabel):
         self.setPixmap(
             ICONS["heading"].transformed(QTransform().rotate(heading.degrees))
         )
+
+
+class SamIndicator(QLabel):
+    def __init__(self, parent: QWidget) -> None:
+        super().__init__(parent)
+        self.setFixedSize(32, 32)
+        self.setPixmap(ICONS["blue-sam"])
 
 
 class QGroundObjectMenu(QDialog):
@@ -83,6 +91,8 @@ class QGroundObjectMenu(QDialog):
         else:
             self.mainLayout.addWidget(self.intelBox)
             self.mainLayout.addWidget(self.orientationBox)
+            if self.ground_object.is_iads and self.cp.is_friendly(to_player=False):
+                self.mainLayout.addWidget(self.hiddenBox)
 
         self.actionLayout = QHBoxLayout()
 
@@ -95,13 +105,21 @@ class QGroundObjectMenu(QDialog):
         self.buy_replace.setProperty("style", "btn-success")
 
         if self.ground_object.purchasable:
+            # if not purchasable but is_iads => naval unit
             if self.total_value > 0:
                 self.actionLayout.addWidget(self.sell_all_button)
             self.actionLayout.addWidget(self.buy_replace)
 
-        if self.cp.captured and self.ground_object.purchasable:
+        if self.show_buy_sell_actions and self.ground_object.purchasable:
+            # if not purchasable but is_iads => naval unit
             self.mainLayout.addLayout(self.actionLayout)
         self.setLayout(self.mainLayout)
+
+    @property
+    def show_buy_sell_actions(self) -> bool:
+        buysell_allowed = self.game.settings.enable_enemy_buy_sell
+        buysell_allowed |= self.cp.captured
+        return buysell_allowed
 
     def doLayout(self):
         self.update_total_value()
@@ -188,11 +206,25 @@ class QGroundObjectMenu(QDialog):
         else:
             self.headingSelector.setEnabled(False)
 
+        # Hidden Box
+        self.hiddenBox = QGroupBox()
+        self.hiddenBoxLayout = QHBoxLayout()
+        self.hiddenBoxLayout.addWidget(SamIndicator(self))
+        self.hiddenBoxLayout.addWidget(QLabel("Hidden on MFD:"))
+        self.hiddenCheckBox = QCheckBox()
+        self.hiddenCheckBox.setChecked(self.ground_object.hide_on_mfd)
+        self.hiddenCheckBox.stateChanged.connect(self.update_hidden_on_mfd)
+        self.hiddenBoxLayout.addWidget(self.hiddenCheckBox)
+
         # Set the layouts
         self.financesBox.setLayout(self.financesBoxLayout)
         self.buildingBox.setLayout(self.buildingsLayout)
         self.intelBox.setLayout(self.intelLayout)
         self.orientationBox.setLayout(self.orientationBoxLayout)
+        self.hiddenBox.setLayout(self.hiddenBoxLayout)
+
+    def update_hidden_on_mfd(self, state: bool) -> None:
+        self.ground_object.hide_on_mfd = bool(state)
 
     def do_refresh_layout(self):
         try:
@@ -216,7 +248,7 @@ class QGroundObjectMenu(QDialog):
                 self.actionLayout.addWidget(self.sell_all_button)
             self.actionLayout.addWidget(self.buy_replace)
 
-            if self.cp.captured and self.ground_object.purchasable:
+            if self.show_buy_sell_actions and self.ground_object.purchasable:
                 self.mainLayout.addLayout(self.actionLayout)
         except Exception as e:
             logging.exception(e)
@@ -252,7 +284,8 @@ class QGroundObjectMenu(QDialog):
 
     def sell_all(self):
         self.update_total_value()
-        self.game.blue.budget += self.total_value
+        coalition = self.ground_object.coalition
+        coalition.budget += self.total_value
         self.ground_object.groups = []
         self.update_game()
 
@@ -272,7 +305,10 @@ class QGroundObjectMenu(QDialog):
             for package in self.game.ato_for(player=False).packages
         ):
             # Replan if the tgo was a target of the redfor
-            self.game.initialize_turn(events, for_red=True, for_blue=False)
+            coalition = self.ground_object.coalition
+            self.game.initialize_turn(
+                events, for_red=coalition.player, for_blue=not coalition.player
+            )
         EventStream.put_nowait(events)
         GameUpdateSignal.get_instance().updateGame(self.game)
         # Refresh the dialog

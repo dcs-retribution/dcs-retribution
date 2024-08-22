@@ -1,0 +1,47 @@
+description:
+  "The Sukhoi Su-30 (Russian: \u0421\u0443\u0445\u043E\u0439 \u0421\u0443\
+  -30; NATO reporting name: Flanker-C/G/H) is a twin-engine, two-seat supermaneuverable \
+  \ fighter aircraft developed in the Soviet Union by Russia's Sukhoi Aviation Corporation. \
+  \ It is a multirole fighter for all-weather, air-to-air and air-to-surface deep \
+  \ interdiction missions. 630 numbers have been build. \
+  \ \
+  \ SM for Serijnyi Modernizirovannyi - \"Serial Modernized\". A specialised version of the thrust-vectoring \
+  \ Su-30MKI for the Russian Air Force, produced by the Irkut Corporation. NATO reporting name Flanker-H. \
+  \ The Su-30SM is considered a 4+ generation fighter jet. The aircraft has been upgraded according to \
+  \ Russian military requirements for radar, radio communications systems, friend-or-foe identification system, \
+  \ ejection seats, weapons, and other aircraft systems. It is equipped with the N011M Bars radar with a \
+  \ maximum detection range 400 km, search range 200 km using a phased array antenna, frontal horizontal fins \
+  \ and steerable thrusters for supermaneuverability as well as with wide-angle HUD. \
+  \ The aircraft can be used to gain air supremacy same as for targeting adversary on the ground using \
+  \ wide range of weapons including air-to-air, air-to-surface and guided and unguided bombs with total weapons \
+  \ weight up to 8,000 kg. It is also equipped with the one barrel, 30 mm GSh-30-1 autocannon. \
+  \ To ensure operations at major distances from airfield, the ability of in-flight refueling (IFR) is included. \
+  \ Besides that, for electronic warfare purposes two SAP-518 jamming pods can be fitted on the wing tips. \
+  \ The SAP-518 is designed to protect the aircraft from various air-to-air and surface-to-air missiles by \
+  \ creating false targets, jamming missile's guidance, enemy aircraft radars or ground and seaborne air defence."
+introduced: 2012  # https://www.airforce-technology.com/projects/su-30sm-multirole-fighter-aircraft/
+manufacturer: Sukhoi
+origin: USSR/Russia
+price: 24
+role: Multirole Fighter
+max_range: 300
+variants:
+  Su-30SM Flanker-H (A-G): {}
+radios:
+  intra_flight: R-800
+  inter_flight: R-800
+tasks:
+  Anti-ship: 150
+  BAI: 740
+  BARCAP: 450
+  CAS: 740
+  DEAD: 440
+  Escort: 450
+  Fighter sweep: 450
+  Intercept: 450
+  OCA/Aircraft: 740
+  OCA/Runway: 600
+  SEAD: 430
+  SEAD Escort: 430
+  Strike: 600
+  TARCAP: 450

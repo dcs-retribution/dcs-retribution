@@ -1,0 +1,25 @@
+description:
+  The Dassault-Breguet Super Étendard is a French carrier-borne strike fighter aircraft
+  designed for service with the French Navy aircraft carriers. 
+  
+  The aircraft is an advanced development of the Étendard IVM, which it replaced.
+  Super Étendards have seen combat in Kosovo, Afghanistan, Libya, Falklands and 
+  in the Iraq-Iran war.
+introduced: 1978
+manufacturer: Dassault-Breguet
+origin: France
+price: 10
+role: Carrier-based Strike Fighter
+carrier_capable: true
+gunfighter: true
+max_range: 200
+variants:
+  Super Étendard: {}
+tasks:
+  Anti-ship: 150
+  BAI: 250
+  CAS: 250
+  DEAD: 250
+  OCA/Aircraft: 250
+  OCA/Runway: 230
+  Strike: 230
