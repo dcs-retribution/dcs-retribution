@@ -59,11 +59,6 @@ squadrons:
         - C-130J-30 Super Hercules
         - C-130
       size: 2
-    - primary: Air Assault
-      secondary: any
-      aircraft:
-        - CH-47F Block I
-      size: 4      
   #Banak
   1:
     - primary: SEAD
@@ -86,13 +81,6 @@ squadrons:
         - C-130J-30 Super Hercules
         - C-130
       size: 2
-  #Kirkenes
-  14:
-    - primary: CAS
-      secondary: any
-      aircraft:
-        - Mi-24P Hind-F
-      size: 4
   #Rovaniemi
   2:
     - primary: BARCAP
@@ -121,7 +109,7 @@ squadrons:
       secondary: any
       aircraft:
         - C-47 Dakota
-      size: 2
+      size: 3
   #Kiruna
   5:
     - primary: DEAD
@@ -173,16 +161,18 @@ squadrons:
       size: 8
   #Vuojarvi
   4:
-    - primary: CAS
-      secondary: air-to-ground
-      aircraft:
-        - Su-25 Frogfoot
-      size: 4
     - primary: DEAD
       secondary: air-to-ground
       aircraft:
         - Su-17M4 Fitter-K
-      size: 4
+      size: 8
+  #Kirkenes
+  14:
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Su-25 Frogfoot
+      size: 8
   #Severomorsk-1
   8:
     - primary: BARCAP
@@ -199,7 +189,7 @@ squadrons:
       secondary: any
       aircraft:
         - MiG-27K Flogger-J2
-      size: 12
+      size: 8
   #Severomorsk-3
   6:
     - primary: Refueling
@@ -210,7 +200,7 @@ squadrons:
       secondary: any
       aircraft:
         - Su-24M Fencer-D
-      size: 12
+      size: 8
     - primary: TARCAP
       secondary: any
       aircraft:
@@ -253,7 +243,7 @@ squadrons:
       secondary: any
       aircraft:
         - MiG-21bis Fishbed-N
-      size: 12
+      size: 8
   #Murmansk International
   12:
     - primary: AEW&C
