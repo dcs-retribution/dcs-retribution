@@ -24,6 +24,7 @@ origin: USSR/Russia
 price: 14
 role: Attack/Transport
 kneeboard_units: "metric"
+default_livery: Russian Air Force
 variants:
   Mi-24P Hind-F: {}
 radios:

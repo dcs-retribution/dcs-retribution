@@ -5,6 +5,7 @@ cabin_size: 24 # It should have 33 but we do not want so much for CTLD to be pos
 can_carry_crates: true
 description: The CH-47D is a transport helicopter.
 price: 6
+default_livery: standard
 variants:
   CH-47D: null
 tasks:

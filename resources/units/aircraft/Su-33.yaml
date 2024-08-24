@@ -22,6 +22,7 @@ origin: USSR/Russia
 price: 22
 role: Carrier-based Multirole Fighter
 max_range: 300
+default_livery: t-10k-9 test paint scheme
 variants:
   J-15 Flanker X-2:
     introduced: 2013

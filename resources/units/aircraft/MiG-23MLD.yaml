@@ -15,6 +15,7 @@ manufacturer: Mikoyan-Gurevich
 origin: USSR/Russia
 price: 12
 role: Fighter
+default_livery: af standard-3 (worn-out)
 variants:
   MiG-23ML Flogger-G:
     introduced: 1981
