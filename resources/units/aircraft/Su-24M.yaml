@@ -12,6 +12,7 @@ origin: USSR/Russia
 price: 14
 role: Attack
 max_range: 200
+default_livery: af standard
 variants:
   Su-24M Fencer-D: {}
   Su-24MK Fencer-D:

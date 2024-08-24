@@ -12,6 +12,7 @@ origin: USSR/Russia
 price: 18
 role: Close Air Support/Attack
 max_range: 200
+default_livery: af standard 1
 variants:
   Su-25T Frogfoot: {}
 kneeboard_units: "metric"
