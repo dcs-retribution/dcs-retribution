@@ -246,7 +246,6 @@ class AircraftType(UnitType[Type[FlyingType]]):
 
         # Update any existing models with new data on load.
         updated = AircraftType.named(state["variant_id"])
-        updated.__dict__.update(state)
         self.__dict__.update(updated.__dict__)
 
     def __post_init__(self) -> None:
