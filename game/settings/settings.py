@@ -797,6 +797,20 @@ class Settings:
             "which are known to work as of DCS World 2.9.4.53990."
         ),
     )
+    limit_ai_radios: bool = boolean_option(
+        "Limit AI radio callouts",
+        page=MISSION_GENERATOR_PAGE,
+        section=GAMEPLAY_SECTION,
+        default=True,
+        detail="Avoids the target-detection callouts over the radio by AI. (except for AWACS flights)",
+    )
+    silence_ai_radios: bool = boolean_option(
+        "Suppress AI radio callouts",
+        page=MISSION_GENERATOR_PAGE,
+        section=GAMEPLAY_SECTION,
+        default=False,
+        detail="Keeps the AI silent at all times for flights with human pilots. (except for AWACS flights)",
+    )
     # Mission specific
     desired_player_mission_duration: timedelta = minutes_option(
         "Desired mission duration",
