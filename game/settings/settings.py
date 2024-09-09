@@ -1056,7 +1056,7 @@ class Settings:
         default=False,
     )
     perf_frontline_units_max_supply: int = bounded_int_option(
-        "Maximum frontline unit supply per control point",
+        "Maximum ground units deployed per frontline by faction",
         page=MISSION_GENERATOR_PAGE,
         section=PERFORMANCE_SECTION,
         default=60,
