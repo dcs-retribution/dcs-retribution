@@ -129,7 +129,13 @@ class PackagePlanningTask(TheaterCommanderTask, Generic[MissionTargetT]):
             if range_type is RangeType.Detection:
                 target_range = target.max_detection_range()
             elif range_type is RangeType.Threat:
-                target_range = target.max_threat_range()
+                settings = state.context.coalition.game.settings
+                margin = 100 - (
+                    settings.ownfor_autoplanner_aggressiveness
+                    if state.context.coalition.player
+                    else settings.opfor_autoplanner_aggressiveness
+                )
+                target_range = target.max_threat_range() * (margin / 100)
             else:
                 raise ValueError(f"Unknown RangeType: {range_type}")
             if not target_range:
@@ -173,15 +179,7 @@ class PackagePlanningTask(TheaterCommanderTask, Generic[MissionTargetT]):
 
         if not ignore_iads:
             for iads_threat in self.iter_iads_threats(state):
-                # Only consider blue faction flights threatened.
-                # Red might still plan missions into hostile territory,
-                # depending on the aggressiveness setting.
-                if (
-                    state.context.coalition.player
-                    or random.randint(1, 100)
-                    > state.context.coalition.game.settings.opfor_autoplanner_aggressiveness
-                ):
-                    threatened = True
+                threatened = True
                 if iads_threat not in state.threatening_air_defenses:
                     state.threatening_air_defenses.append(iads_threat)
         return not threatened

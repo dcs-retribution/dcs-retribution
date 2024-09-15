@@ -259,6 +259,19 @@ class Settings:
             "the auto-planner to plan an OCA strike against it."
         ),
     )
+    ownfor_autoplanner_aggressiveness: int = bounded_int_option(
+        "OWNFOR auto-planner aggressiveness (%)",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=20,
+        min=0,
+        max=100,
+        detail=(
+            "Ratio of the threat-radius that will be ignored by the OWNFOR "
+            "AI-autoplanner. 0% means the entire threat-radius is considered, "
+            "while 100% would have the autoplanner completely ignore OPFOR air defences."
+        ),
+    )
     opfor_autoplanner_aggressiveness: int = bounded_int_option(
         "OPFOR auto-planner aggressiveness (%)",
         page=CAMPAIGN_DOCTRINE_PAGE,
@@ -267,9 +280,9 @@ class Settings:
         min=0,
         max=100,
         detail=(
-            "Chance (larger number -> higher chance) that the OPFOR AI "
-            "auto-planner will take risks and plan flights against targets "
-            "within threatened airspace."
+            "Ratio of the threat-radius that will be ignored by the OPFOR "
+            "AI-autoplanner. 0% means the entire threat-radius is considered, "
+            "while 100% would have the autoplanner completely ignore OWNFOR air defences."
         ),
     )
     heli_combat_alt_agl: int = bounded_int_option(
