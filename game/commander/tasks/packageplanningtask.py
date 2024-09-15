@@ -14,6 +14,7 @@ from game.commander.missionproposals import EscortType, ProposedFlight, Proposed
 from game.commander.packagefulfiller import PackageFulfiller
 from game.commander.tasks.theatercommandertask import TheaterCommanderTask
 from game.commander.theaterstate import TheaterState
+from game.data.groups import GroupTask
 from game.settings import AutoAtoBehavior
 from game.theater import MissionTarget
 from game.theater.theatergroundobject import IadsGroundObject, NavalGroundObject
@@ -136,6 +137,8 @@ class PackagePlanningTask(TheaterCommanderTask, Generic[MissionTargetT]):
                     else settings.opfor_autoplanner_aggressiveness
                 )
                 target_range = target.max_threat_range() * (margin / 100)
+                corrective_factor = self.corrective_factor_for_type(target)
+                target_range *= corrective_factor
             else:
                 raise ValueError(f"Unknown RangeType: {range_type}")
             if not target_range:
@@ -155,6 +158,18 @@ class PackagePlanningTask(TheaterCommanderTask, Generic[MissionTargetT]):
         target_ranges = sorted(target_ranges, key=operator.itemgetter(1))
         for target, _range in target_ranges:
             yield target
+
+    @staticmethod
+    def corrective_factor_for_type(
+        target: IadsGroundObject | NavalGroundObject,
+    ) -> float:
+        return (
+            1.0
+            if target.task in [GroupTask.LORAD, GroupTask.MERAD]
+            else 0.5
+            if target.task == GroupTask.AAA
+            else 0.9
+        )
 
     def iter_detecting_iads(
         self, state: TheaterState
