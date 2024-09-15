@@ -2,6 +2,7 @@ from collections.abc import Iterator
 from dataclasses import dataclass
 
 from game.commander.tasks.compound.capturebase import CaptureBase
+from game.commander.tasks.primitive.airassault import PlanAirAssault
 from game.commander.theaterstate import TheaterState
 from game.htn import CompoundTask, Method
 
@@ -11,3 +12,5 @@ class CaptureBases(CompoundTask[TheaterState]):
     def each_valid_method(self, state: TheaterState) -> Iterator[Method[TheaterState]]:
         for front in state.active_front_lines:
             yield [CaptureBase(front)]
+        for cp in state.vulnerable_control_points:
+            yield [PlanAirAssault(cp)]

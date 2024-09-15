@@ -21,6 +21,5 @@ class PlanAirAssault(PackagePlanningTask[ControlPoint]):
         state.vulnerable_control_points.remove(self.target)
 
     def propose_flights(self) -> None:
-        size = self.get_flight_size()
-        self.propose_flight(FlightType.AIR_ASSAULT, size)
+        self.propose_flight(FlightType.AIR_ASSAULT, self.get_flight_size())
         self.propose_common_escorts()
