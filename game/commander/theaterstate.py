@@ -145,7 +145,7 @@ class TheaterState(WorldState["TheaterState"]):
     ) -> TheaterState:
         coalition = game.coalition_for(player)
         finder = ObjectiveFinder(game, player)
-        ordered_capturable_points = finder.prioritized_unisolated_points()
+        ordered_capturable_points = finder.prioritized_points()
 
         context = PersistentContext(
             game.db,
