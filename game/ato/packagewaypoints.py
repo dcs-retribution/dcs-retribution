@@ -38,7 +38,7 @@ class PackageWaypoints:
             dcs_to_shapely_point(origin.position),
             dcs_to_shapely_point(package.target.position),
             coalition.doctrine,
-            coalition.opponent.threat_zone.all,
+            coalition.opponent.threat_zone.air_defenses,
         )
         ip_solver.set_debug_properties(
             waypoint_debug_directory() / "IP", coalition.game.theater.terrain
