@@ -64,6 +64,7 @@ class TheaterState(WorldState["TheaterState"]):
     threat_zones: ThreatZones
     vulnerable_control_points: list[ControlPoint]
     control_point_priority_queue: list[ControlPoint]
+    priority_cp: Optional[ControlPoint]
 
     def _rebuild_threat_zones(self) -> None:
         """Recreates the theater's threat zones based on the current planned state."""
@@ -139,6 +140,7 @@ class TheaterState(WorldState["TheaterState"]):
             detecting_air_defenses=self.detecting_air_defenses,
             vulnerable_control_points=self.vulnerable_control_points,
             control_point_priority_queue=self.control_point_priority_queue,
+            priority_cp=self.priority_cp,
         )
 
     @classmethod
@@ -201,4 +203,7 @@ class TheaterState(WorldState["TheaterState"]):
             threat_zones=game.threat_zone_for(not player),
             vulnerable_control_points=vulnerable_control_points,
             control_point_priority_queue=ordered_capturable_points,
+            priority_cp=ordered_capturable_points[0]
+            if ordered_capturable_points
+            else None,
         )

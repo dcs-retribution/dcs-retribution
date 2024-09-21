@@ -130,15 +130,7 @@ class PackagePlanningTask(TheaterCommanderTask, Generic[MissionTargetT]):
             if range_type is RangeType.Detection:
                 target_range = target.max_detection_range()
             elif range_type is RangeType.Threat:
-                settings = state.context.coalition.game.settings
-                margin = 100 - (
-                    settings.ownfor_autoplanner_aggressiveness
-                    if state.context.coalition.player
-                    else settings.opfor_autoplanner_aggressiveness
-                )
-                target_range = target.max_threat_range() * (margin / 100)
-                corrective_factor = self.corrective_factor_for_type(target)
-                target_range *= corrective_factor
+                target_range = target.max_threat_range()
             else:
                 raise ValueError(f"Unknown RangeType: {range_type}")
             if not target_range:
@@ -194,10 +186,30 @@ class PackagePlanningTask(TheaterCommanderTask, Generic[MissionTargetT]):
 
         if not ignore_iads:
             for iads_threat in self.iter_iads_threats(state):
-                threatened = True
+                weighted = self._get_weighted_threat_range(iads_threat, state)
+                if weighted < meters(0):
+                    threatened = True
                 if iads_threat not in state.threatening_air_defenses:
                     state.threatening_air_defenses.append(iads_threat)
         return not threatened
+
+    def _get_weighted_threat_range(
+        self,
+        iads_threat: Union[IadsGroundObject | NavalGroundObject],
+        state: TheaterState,
+    ) -> Distance:
+        distance = meters(iads_threat.distance_to(self.target))
+        settings = state.context.coalition.game.settings
+        margin = 100 - (
+            settings.ownfor_autoplanner_aggressiveness
+            if state.context.coalition.player
+            else settings.opfor_autoplanner_aggressiveness
+        )
+        threat_range = iads_threat.max_threat_range() * (margin / 100)
+        corrective_factor = self.corrective_factor_for_type(iads_threat)
+        threat_range *= corrective_factor
+        distance_to_threat = distance - threat_range
+        return distance_to_threat
 
     def get_flight_size(self) -> int:
         settings = self.target.coalition.game.settings
