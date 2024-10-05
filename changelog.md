@@ -29,6 +29,7 @@
 * **[Mission Generation]** Introducing the Armed Recon flight plan, i.e. CAS against any Theater Ground Object
 * **[Doctrine]** Ability to customize the startup time allocated to the player
 * **[Mission Generation]** Ability to choose whether player flights can spawn on the sixpack or not
+* **[Options]** New options in Mission Generator section: Limit AI radio callouts & Suppress AI radio callouts.
 
 ## Fixes
 * **[UI/UX]** A-10A flights can be edited again

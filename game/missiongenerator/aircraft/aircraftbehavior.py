@@ -27,6 +27,9 @@ from dcs.task import (
     PinpointStrike,
     AFAC,
     SetUnlimitedFuelCommand,
+    OptNoReportWaypointPass,
+    OptRadioUsageContact,
+    OptRadioSilence,
 )
 from dcs.unitgroup import FlyingGroup
 
@@ -150,6 +153,19 @@ class AircraftBehavior:
             group.points[0].tasks.append(OptJettisonEmptyTanks())
         # Do not restrict afterburner.
         # https://forums.eagle.ru/forum/english/digital-combat-simulator/dcs-world-2-5/bugs-and-problems-ai/ai-ad/7121294-ai-stuck-at-high-aoa-after-making-sharp-turn-if-afterburner-is-restricted
+
+        if flight.client_count and flight.flight_type != FlightType.AEWC:
+            # configure AI radio usage for player flights to avoid AI spamming the channel
+            if flight.coalition.game.settings.silence_ai_radios:
+                group.points[0].tasks.append(OptRadioSilence(True))
+            elif flight.coalition.game.settings.limit_ai_radios:
+                # the pydcs api models this in a quite strange way for some reason,
+                # and has no proper support to choose "nothing"
+                radio_usage = OptRadioUsageContact()
+                radio_usage.params["action"]["params"]["value"] = "none;"
+                group.points[0].tasks.append(radio_usage)
+
+            group.points[0].tasks.append(OptNoReportWaypointPass(True))
 
     @staticmethod
     def configure_eplrs(group: FlyingGroup[Any], flight: Flight) -> None:

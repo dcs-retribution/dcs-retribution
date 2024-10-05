@@ -78,12 +78,17 @@ class Beacons:
         if theater.terrain.name in cls._by_terrain:
             return
 
-        beacons_file = BEACONS_RESOURCE_PATH / f"{theater.terrain.name.lower()}.json"
-        if not beacons_file.exists():
-            raise RuntimeError(f"Beacon file {beacons_file.resolve()} is missing")
+        beacons_filename_mapper = {
+            "sinaimap": "sinai",
+        }
+        filename = theater.terrain.name.lower()
+        filename = beacons_filename_mapper.get(filename, filename)
+        beacons_path = BEACONS_RESOURCE_PATH / f"{filename}.json"
+        if not beacons_path.exists():
+            raise RuntimeError(f"Beacon file {beacons_path.resolve()} is missing")
 
         beacons = {}
-        for bid, beacon in json.loads(beacons_file.read_text()).items():
+        for bid, beacon in json.loads(beacons_path.read_text()).items():
             beacons[bid] = Beacon(
                 name=beacon["name"],
                 callsign=beacon["callsign"],

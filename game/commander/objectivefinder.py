@@ -254,17 +254,20 @@ class ObjectiveFinder:
             if not c.is_friendly(self.is_player)
         )
 
-    def prioritized_unisolated_points(self) -> list[ControlPoint]:
+    def prioritized_points(self) -> list[ControlPoint]:
         prioritized = []
         capturable_later = []
+        isolated = []
         for cp in self.game.theater.control_points_for(not self.is_player):
             if cp.is_isolated:
+                isolated.append(cp)
                 continue
             if cp.has_active_frontline:
                 prioritized.append(cp)
             else:
                 capturable_later.append(cp)
         prioritized.extend(self._targets_by_range(capturable_later))
+        prioritized.extend(self._targets_by_range(isolated))
         return prioritized
 
     @staticmethod

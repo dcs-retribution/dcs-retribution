@@ -35,7 +35,7 @@ jobs:
           Compress-Archive -Path .\dist\dcs-retribution\ -DestinationPath
           dist\dcs-retribution.zip
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: dcs-retribution
           path: dist/dcs-retribution.zip

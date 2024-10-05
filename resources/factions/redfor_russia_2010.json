@@ -1,5 +1,5 @@
 {
-  "country": "Russia",
+  "country": "Combined Joint Task Forces Red",
   "name": "Redfor (Russia) 2010",
   "authors": "Robert Peary",
   "description": "<p>Combined Redfor under Russia's leadership in the late 2000s, early 2010s.</p>",
@@ -28,10 +28,13 @@
     "Su-30SM Flanker-H",
     "Su-33 Flanker-D",
     "Su-34 Fullback",
-    "Tu-22M3 Backfire-C"
+    "Tu-22M3 Backfire-C",
+    "Tu-95MS Bear-H",
+    "Tu-16 Badger"
   ],
   "awacs": [
-    "A-50"
+    "A-50",
+    "KJ-2000"
   ],
   "tankers": [
     "IL-78M"

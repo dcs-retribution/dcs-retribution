@@ -117,6 +117,13 @@ squadrons:
       aircraft:
         - AJS-37 Viggen
       size: 8
+  #Jokkmokk
+  11:
+    - primary: DEAD
+      secondary: air-to-ground
+      aircraft:
+        - AJS-37 Viggen
+      size: 8
   #Blue Carrier
   Blue-CV:
     - primary: TARCAP
@@ -152,18 +159,20 @@ squadrons:
       aircraft:
         - B-52H Stratofortress
       size: 8
-  #Bas 100
+  #Vuojarvi
   4:
-    - primary: CAS
-      secondary: air-to-ground
-      aircraft:
-        - Su-25 Frogfoot
-      size: 4
     - primary: DEAD
       secondary: air-to-ground
       aircraft:
         - Su-17M4 Fitter-K
-      size: 4
+      size: 8
+  #Kirkenes
+  14:
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Su-25 Frogfoot
+      size: 8
   #Severomorsk-1
   8:
     - primary: BARCAP
@@ -180,7 +189,7 @@ squadrons:
       secondary: any
       aircraft:
         - MiG-27K Flogger-J2
-      size: 12
+      size: 8
   #Severomorsk-3
   6:
     - primary: Refueling
@@ -191,7 +200,7 @@ squadrons:
       secondary: any
       aircraft:
         - Su-24M Fencer-D
-      size: 12
+      size: 8
     - primary: TARCAP
       secondary: any
       aircraft:
@@ -234,7 +243,7 @@ squadrons:
       secondary: any
       aircraft:
         - MiG-21bis Fishbed-N
-      size: 12
+      size: 8
   #Murmansk International
   12:
     - primary: AEW&C

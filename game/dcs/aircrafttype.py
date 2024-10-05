@@ -246,7 +246,6 @@ class AircraftType(UnitType[Type[FlyingType]]):
 
         # Update any existing models with new data on load.
         updated = AircraftType.named(state["variant_id"])
-        updated.__dict__.update(state)
         self.__dict__.update(updated.__dict__)
 
     def __post_init__(self) -> None:
@@ -264,6 +263,9 @@ class AircraftType(UnitType[Type[FlyingType]]):
                 enrich[FlightType.ARMED_RECON] = value
 
         self.task_priorities.update(enrich)
+
+    def __eq__(self, other: object) -> bool:
+        return isinstance(other, AircraftType) and self.variant_id == other.variant_id
 
     @classmethod
     def register(cls, unit_type: AircraftType) -> None:

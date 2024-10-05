@@ -1,6 +1,7 @@
 """Runway information and selection."""
 from __future__ import annotations
 
+import logging
 from dataclasses import dataclass
 from typing import Iterator, Optional, TYPE_CHECKING
 
@@ -14,6 +15,7 @@ from game.utils import Heading
 from game.weather.conditions import Conditions
 
 if TYPE_CHECKING:
+    from game.dcs.beacons import Beacon
     from game.theater import ConflictTheater
 
 
@@ -51,13 +53,17 @@ class RunwayData:
             atc = atc_radio.uhf
 
         for beacon_data in airport.beacons:
-            beacon = Beacons.with_id(beacon_data.id, theater)
+            beacon = cls._get_beacon(beacon_data.id, theater)
+            if not beacon:
+                continue
             if beacon.is_tacan:
                 tacan = beacon.tacan_channel
                 tacan_callsign = beacon.callsign
 
         for beacon_data in runway.beacons:
-            beacon = Beacons.with_id(beacon_data.id, theater)
+            beacon = cls._get_beacon(beacon_data.id, theater)
+            if not beacon:
+                continue
             if beacon.beacon_type is BeaconType.BEACON_TYPE_ILS_GLIDESLOPE:
                 ils = beacon.frequency
 
@@ -70,6 +76,17 @@ class RunwayData:
             tacan_callsign=tacan_callsign,
             ils=ils,
         )
+
+    @staticmethod
+    def _get_beacon(beacon_id: str, theater: ConflictTheater) -> Optional[Beacon]:
+        try:
+            beacon = Beacons.with_id(beacon_id, theater)
+            return beacon
+        except KeyError:
+            # this means pydcs found a beacon in the "standlist"
+            # but isn't present in beacons.lua file, which in turn causes problems...
+            logging.error(f"Could not find data for '{beacon_id}', skipping beacon...")
+            return None
 
     @classmethod
     def for_pydcs_airport(

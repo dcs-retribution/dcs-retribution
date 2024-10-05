@@ -89,6 +89,7 @@ class AirWing:
                 # This looks like the opposite of what we want because False sorts
                 # before True.
                 s.primary_task != task,
+                best_aircraft.index(s.aircraft),
                 s.location.distance_to(location),
             ),
         )

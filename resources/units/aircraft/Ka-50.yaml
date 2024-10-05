@@ -15,6 +15,7 @@ manufacturer: Kamov
 origin: USSR/Russia
 price: 20
 role: Attack
+default_livery: Russia Standard Army
 variants:
   Ka-50 Hokum: {}
 radios:

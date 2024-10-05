@@ -39,6 +39,12 @@ class SquadronLiverySelector(QComboBox):
             for x in faction.liveries_overrides.get(self.aircraft_type, [])
             if x in [y.id.lower() for y in liveries]
         ]
+        if selected_livery and selected_livery.lower() not in [
+            livery.id.lower() for livery in liveries
+        ]:
+            # squadron livery not found, or incompatible with faction
+            # => attempt to use the unit's default-livery as a fallback
+            selected_livery = None
         if squadron.livery_set:
             self.addItem(LIVERY_SET_TEXT, userData=None)
         if len(overrides) > 0:

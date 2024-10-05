@@ -14,6 +14,7 @@ from game.commander.missionproposals import EscortType, ProposedFlight, Proposed
 from game.commander.packagefulfiller import PackageFulfiller
 from game.commander.tasks.theatercommandertask import TheaterCommanderTask
 from game.commander.theaterstate import TheaterState
+from game.data.groups import GroupTask
 from game.settings import AutoAtoBehavior
 from game.theater import MissionTarget
 from game.theater.theatergroundobject import IadsGroundObject, NavalGroundObject
@@ -150,6 +151,18 @@ class PackagePlanningTask(TheaterCommanderTask, Generic[MissionTargetT]):
         for target, _range in target_ranges:
             yield target
 
+    @staticmethod
+    def corrective_factor_for_type(
+        target: IadsGroundObject | NavalGroundObject,
+    ) -> float:
+        return (
+            1.0
+            if target.task in [GroupTask.LORAD, GroupTask.MERAD]
+            else 0.5
+            if target.task == GroupTask.AAA
+            else 0.9
+        )
+
     def iter_detecting_iads(
         self, state: TheaterState
     ) -> Iterator[Union[IadsGroundObject, NavalGroundObject]]:
@@ -173,18 +186,30 @@ class PackagePlanningTask(TheaterCommanderTask, Generic[MissionTargetT]):
 
         if not ignore_iads:
             for iads_threat in self.iter_iads_threats(state):
-                # Only consider blue faction flights threatened.
-                # Red might still plan missions into hostile territory,
-                # depending on the aggressiveness setting.
-                if (
-                    state.context.coalition.player
-                    or random.randint(1, 100)
-                    > state.context.coalition.game.settings.opfor_autoplanner_aggressiveness
-                ):
+                weighted = self._get_weighted_threat_range(iads_threat, state)
+                if weighted < meters(0):
                     threatened = True
                 if iads_threat not in state.threatening_air_defenses:
                     state.threatening_air_defenses.append(iads_threat)
         return not threatened
+
+    def _get_weighted_threat_range(
+        self,
+        iads_threat: Union[IadsGroundObject | NavalGroundObject],
+        state: TheaterState,
+    ) -> Distance:
+        distance = meters(iads_threat.distance_to(self.target))
+        settings = state.context.coalition.game.settings
+        margin = 100 - (
+            settings.ownfor_autoplanner_aggressiveness
+            if state.context.coalition.player
+            else settings.opfor_autoplanner_aggressiveness
+        )
+        threat_range = iads_threat.max_threat_range() * (margin / 100)
+        corrective_factor = self.corrective_factor_for_type(iads_threat)
+        threat_range *= corrective_factor
+        distance_to_threat = distance - threat_range
+        return distance_to_threat
 
     def get_flight_size(self) -> int:
         settings = self.target.coalition.game.settings

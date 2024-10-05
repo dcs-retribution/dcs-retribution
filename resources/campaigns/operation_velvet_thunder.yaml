@@ -65,7 +65,7 @@ squadrons:
     - primary: Transport
       secondary: any
       aircraft:
-        - CH-47D
+        - CH-47F Block I
       size: 4
   #Antonio B. Won Pat Intl
   4:
