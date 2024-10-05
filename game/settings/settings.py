@@ -824,6 +824,13 @@ class Settings:
         default=False,
         detail="Keeps the AI silent at all times for flights with human pilots. (except for AWACS flights)",
     )
+    use_ai_combat_landing: bool = boolean_option(
+        "Use AI combat landing waypoint task",
+        page=MISSION_GENERATOR_PAGE,
+        section=GAMEPLAY_SECTION,
+        default=False,
+        detail="Turns the combat landing flag on in the landing waypoint task.",
+    )
     # Mission specific
     desired_player_mission_duration: timedelta = minutes_option(
         "Desired mission duration",
