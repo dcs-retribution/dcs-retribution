@@ -90,6 +90,10 @@ class MigrationUnpickler(pickle.Unpickler):
             if name == "Bas_100":
                 from dcs.terrain.kola.airports import Vuojarvi
                 return Vuojarvi
+        if module == "dcs.terrain.syria.airports":
+            if name == "Amman":
+                from dcs.terrain.syria.airports import Marka
+                return Marka
         if module in ["dcs.vehicles", "dcs.ships"]:
             try:
                 return super().find_class(module, name)
