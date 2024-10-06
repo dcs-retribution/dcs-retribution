@@ -603,7 +603,7 @@ class QLiberationWindow(QMainWindow):
         self.game_model.init_comms_registry()
 
     def open_tgo_info_dialog(self, tgo: TheaterGroundObject) -> None:
-        QGroundObjectMenu(self, tgo, tgo.control_point, self.game).show()
+        QGroundObjectMenu(self, tgo, tgo.control_point, self.game_model).show()
 
     def open_control_point_info_dialog(self, cp: ControlPoint) -> None:
         self._cp_dialog = QBaseMenu2(None, cp, self.game_model)
