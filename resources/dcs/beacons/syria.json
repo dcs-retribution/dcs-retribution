@@ -505,30 +505,30 @@
  },
  "airfield68_0": {
   "name": "",
-  "callsign": "",
+  "callsign": "IGHS",
   "beacon_type": 13,
-  "hertz": 112910000,
+  "hertz": 109700000,
   "channel": null
  },
  "airfield68_1": {
   "name": "",
-  "callsign": "",
-  "beacon_type": 13,
-  "hertz": 112900000,
+  "callsign": "IGHS",
+  "beacon_type": 14,
+  "hertz": 109700000,
   "channel": null
  },
  "airfield68_2": {
   "name": "",
-  "callsign": "",
-  "beacon_type": 14,
-  "hertz": 112910000,
+  "callsign": "IGHI",
+  "beacon_type": 13,
+  "hertz": 108900000,
   "channel": null
  },
  "airfield68_3": {
   "name": "",
-  "callsign": "",
+  "callsign": "IGHI",
   "beacon_type": 14,
-  "hertz": 112900000,
+  "hertz": 108900000,
   "channel": null
  },
  "airfield27_0": {
@@ -609,24 +609,24 @@
   "channel": 79
  },
  "airfield64_0": {
-  "name": "PrinceHussein",
-  "callsign": "ABC",
-  "beacon_type": 4,
-  "hertz": 0,
-  "channel": 106
- },
- "airfield64_1": {
   "name": "",
   "callsign": "ABC",
   "beacon_type": 13,
-  "hertz": 111400000,
+  "hertz": 111700000,
   "channel": null
+ },
+ "airfield64_1": {
+  "name": "PrinceHussein",
+  "callsign": "ABC",
+  "beacon_type": 5,
+  "hertz": 115900000,
+  "channel": 106
  },
  "airfield64_2": {
   "name": "",
   "callsign": "ABC",
   "beacon_type": 14,
-  "hertz": 111400000,
+  "hertz": 111700000,
   "channel": null
  },
  "airfield30_0": {

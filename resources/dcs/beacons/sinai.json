@@ -678,11 +678,25 @@
   "hertz": 115650000,
   "channel": 38
  },
+ "airfield35_0": {
+  "name": "BorgElArabIntl",
+  "callsign": "BIL",
+  "beacon_type": 14,
+  "hertz": 111300000,
+  "channel": null
+ },
  "airfield35_1": {
   "name": "AXD",
   "callsign": "BEAI",
   "beacon_type": 3,
   "hertz": 115900000,
+  "channel": null
+ },
+ "airfield35_2": {
+  "name": "BorgElArabIntl",
+  "callsign": "BIL",
+  "beacon_type": 13,
+  "hertz": 111300000,
   "channel": null
  },
  "airfield17_0": {
@@ -854,17 +868,17 @@
   "channel": 112
  },
  "airfield38_1": {
-  "name": "SHM",
-  "callsign": "SHES",
+  "name": "HURG",
+  "callsign": "HIL",
   "beacon_type": 13,
-  "hertz": 114200000,
+  "hertz": 110300000,
   "channel": 0
  },
  "airfield38_2": {
-  "name": "SHM",
-  "callsign": "SHES",
+  "name": "HURG",
+  "callsign": "HIL",
   "beacon_type": 14,
-  "hertz": 114200000,
+  "hertz": 110300000,
   "channel": 0
  },
  "airfield19_0": {
@@ -946,30 +960,30 @@
  },
  "airfield41_0": {
   "name": "Eilat/IlanandAsafRamonAirport",
-  "callsign": "RC",
+  "callsign": "RB",
   "beacon_type": 13,
-  "hertz": 108700000,
+  "hertz": 110500000,
   "channel": 0
  },
  "airfield41_1": {
   "name": "Eilat/IlanandAsafRamonAirport",
-  "callsign": "RC",
+  "callsign": "RB",
   "beacon_type": 14,
-  "hertz": 108700000,
+  "hertz": 110500000,
   "channel": 0
  },
  "airfield41_2": {
   "name": "Eilat/IlanandAsafRamonAirport",
-  "callsign": "RB",
+  "callsign": "R\u00d0\u00a1",
   "beacon_type": 14,
-  "hertz": 110500000,
+  "hertz": 108700000,
   "channel": null
  },
  "airfield41_3": {
   "name": "Eilat/IlanandAsafRamonAirport",
-  "callsign": "RB",
+  "callsign": "RC",
   "beacon_type": 14,
-  "hertz": 110500000,
+  "hertz": 108700000,
   "channel": null
  },
  "airfield41_4": {
@@ -1023,23 +1037,16 @@
  },
  "airfield43_0": {
   "name": "WADIABURISH",
-  "callsign": "RBV",
-  "beacon_type": 2,
-  "hertz": 113000000,
+  "callsign": "RB",
+  "beacon_type": 14,
+  "hertz": 110600000,
   "channel": null
  },
  "airfield43_1": {
   "name": "WADIABURISH",
   "callsign": "RB",
-  "beacon_type": 14,
-  "hertz": 0,
-  "channel": null
- },
- "airfield43_2": {
-  "name": "WADIABURISH",
-  "callsign": "RB",
   "beacon_type": 13,
-  "hertz": 0,
+  "hertz": 110600000,
   "channel": null
  },
  "airfield13_0": {

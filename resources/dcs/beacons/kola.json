@@ -55,6 +55,20 @@
   "hertz": 113000000,
   "channel": 77
  },
+ "airfield18_0": {
+  "name": "IVALO",
+  "callsign": "iv",
+  "beacon_type": 14,
+  "hertz": 212000000,
+  "channel": null
+ },
+ "airfield18_1": {
+  "name": "IVALO",
+  "callsign": "iv",
+  "beacon_type": 13,
+  "hertz": 212000000,
+  "channel": null
+ },
  "airfield3_0": {
   "name": "kemi",
   "callsign": "ke",
@@ -67,6 +81,27 @@
   "callsign": "ke",
   "beacon_type": 13,
   "hertz": 110900000,
+  "channel": null
+ },
+ "airfield16_0": {
+  "name": "KUUSAMO",
+  "callsign": "KO",
+  "beacon_type": 14,
+  "hertz": 110300000,
+  "channel": null
+ },
+ "airfield16_1": {
+  "name": "Kuusamo",
+  "callsign": "ko",
+  "beacon_type": 14,
+  "hertz": 110300000,
+  "channel": null
+ },
+ "airfield16_2": {
+  "name": "KUUSAMO",
+  "callsign": "KO",
+  "beacon_type": 13,
+  "hertz": 110300000,
   "channel": null
  },
  "airfield2_0": {
