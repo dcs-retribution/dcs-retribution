@@ -125,6 +125,14 @@ def debug_dir() -> Path:
     return base_path() / "Retribution" / "Debug"
 
 
+def groups_dir() -> Path:
+    return base_path() / "Retribution" / "Groups"
+
+
+def layouts_dir() -> Path:
+    return base_path() / "Retribution" / "Layouts"
+
+
 def waypoint_debug_directory() -> Path:
     return debug_dir() / "Waypoints"
 

@@ -9,6 +9,7 @@ from typing import Any, ClassVar, Iterator, Optional, TYPE_CHECKING, Type
 import yaml
 from dcs.unittype import ShipType, StaticType, UnitType as DcsUnitType, VehicleType
 
+from game import persistency
 from game.data.groups import GroupTask
 from game.dcs.groundunittype import GroundUnitType
 from game.dcs.helpers import static_type_from_name
@@ -317,7 +318,18 @@ class ForceGroup:
 
     @classmethod
     def _load_all(cls) -> None:
-        for file in Path("resources/groups").glob("*.yaml"):
+        locations = [
+            Path("resources/groups"),
+            persistency.groups_dir(),
+        ]
+        for path in locations:
+            cls._process_path(path)
+
+        cls._loaded = True
+
+    @classmethod
+    def _process_path(cls, path: Path) -> None:
+        for file in path.glob("*.yaml"):
             if not file.is_file():
                 raise RuntimeError(f"{file.name} is not a valid ForceGroup")
 
@@ -365,5 +377,3 @@ class ForceGroup:
             )
 
             cls._by_name[force_group.name] = force_group
-
-        cls._loaded = True
