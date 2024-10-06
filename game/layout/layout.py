@@ -33,6 +33,10 @@ if TYPE_CHECKING:
     from game.theater.controlpoint import ControlPoint
 
 
+FIXED_POS_ARG = "--fix-pos"
+FIXED_HDG_ARG = "--fix-hdg"
+
+
 class LayoutException(Exception):
     pass
 
@@ -152,7 +156,12 @@ class TgoLayoutUnitGroup:
         return len(self.layout_units)
 
     def generate_units(
-        self, go: TheaterGroundObject, unit_type: Type[DcsUnitType], amount: int
+        self,
+        go: TheaterGroundObject,
+        unit_type: Type[DcsUnitType],
+        amount: int,
+        fixed_pos: bool,
+        fixed_hdg: bool,
     ) -> list[TheaterUnit]:
         """Generate units of the given unit type and amount for the TgoLayoutGroup"""
         if amount > len(self.layout_units):
@@ -160,7 +169,14 @@ class TgoLayoutUnitGroup:
                 f"{self.name} has incorrect unit_count for {unit_type.id}"
             )
         return [
-            TheaterUnit.from_template(i, unit_type, self.layout_units[i], go)
+            TheaterUnit.from_template(
+                i,
+                unit_type,
+                self.layout_units[i],
+                go,
+                fixed_pos,
+                fixed_hdg,
+            )
             for i in range(amount)
         ]
 

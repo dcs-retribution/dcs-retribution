@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Optional, TYPE_CHECKING, Type
 
+from dcs import Point
 from dcs.triggers import TriggerZone
 from dcs.unittype import ShipType, StaticType, UnitType as DcsUnitType, VehicleType
 
@@ -16,7 +17,7 @@ from game.theater.iadsnetwork.iadsrole import IadsRole
 from game.utils import Heading, Distance, meters
 
 if TYPE_CHECKING:
-    from game.layout.layout import LayoutUnit
+    from game.layout.layout import LayoutUnit, FIXED_POS_ARG, FIXED_HDG_ARG
     from game.sim import GameUpdateEvents
     from game.theater.theatergroundobject import TheaterGroundObject
 
@@ -35,12 +36,21 @@ class TheaterUnit:
     position: PointWithHeading
     # The parent ground object
     ground_object: TheaterGroundObject
+    # Should the unit's position remain fixed?
+    fixed_pos: bool = False
+    # Should the unit's heading remain fixed?
+    fixed_hdg: bool = False
     # State of the unit, dead or alive
     alive: bool = True
 
     @staticmethod
     def from_template(
-        id: int, dcs_type: Type[DcsUnitType], t: LayoutUnit, go: TheaterGroundObject
+        id: int,
+        dcs_type: Type[DcsUnitType],
+        t: LayoutUnit,
+        go: TheaterGroundObject,
+        fixed_pos: bool,
+        fixed_hdg: bool,
     ) -> TheaterUnit:
         return TheaterUnit(
             id,
@@ -48,6 +58,8 @@ class TheaterUnit:
             dcs_type,
             PointWithHeading.from_point(t.position, Heading.from_degrees(t.heading)),
             go,
+            fixed_pos or FIXED_POS_ARG in t.name,
+            fixed_hdg or FIXED_HDG_ARG in t.name,
         )
 
     @property
@@ -131,6 +143,16 @@ class TheaterUnit:
     def threat_range(self) -> Distance:
         unit_range = getattr(self.type, "threat_range", None)
         return meters(unit_range if unit_range is not None and self.alive else 0)
+
+    def rotate_heading_clockwise(self, rotation: Heading) -> None:
+        if self.fixed_hdg:
+            return
+        self.position.heading += rotation
+
+    def rotate_position_clockwise(self, position: Point, rotation: Heading) -> None:
+        if self.fixed_pos:
+            return
+        self.position.rotate(position, rotation)
 
 
 class SceneryUnit(TheaterUnit):

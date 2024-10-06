@@ -15,7 +15,12 @@ from game.dcs.helpers import static_type_from_name
 from game.dcs.shipunittype import ShipUnitType
 from game.dcs.unittype import UnitType
 from game.layout import LAYOUTS
-from game.layout.layout import TgoLayout, TgoLayoutUnitGroup
+from game.layout.layout import (
+    TgoLayout,
+    TgoLayoutUnitGroup,
+    FIXED_POS_ARG,
+    FIXED_HDG_ARG,
+)
 from game.point_with_heading import PointWithHeading
 from game.theater.theatergroundobject import (
     IadsGroundObject,
@@ -249,7 +254,11 @@ class ForceGroup:
             # No units to be created so dont create a theater group for them
             return
         # Generate Units
-        units = unit_group.generate_units(ground_object, unit_type, unit_count)
+        fixed_pos = FIXED_POS_ARG in unit_group.name
+        fixed_hdg = FIXED_HDG_ARG in unit_group.name
+        units = unit_group.generate_units(
+            ground_object, unit_type, unit_count, fixed_pos, fixed_hdg
+        )
         # Get or create the TheaterGroup
         ground_group = ground_object.group_by_name(group_name)
         if ground_group is not None:
@@ -304,7 +313,7 @@ class ForceGroup:
                 # Reverse the heading of the unit
                 unit.position.heading = unit.position.heading.opposite
             # Rotate unit around the center to align the orientation of the group
-            unit.position.rotate(ground_object.position, rotation)
+            unit.rotate_position_clockwise(ground_object.position, rotation)
 
     @classmethod
     def _load_all(cls) -> None:
