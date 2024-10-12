@@ -69,6 +69,9 @@ class QFlightWaypointList(QTableView):
                 self.model.index(current_index, 0),
                 QItemSelectionModel.SelectionFlag.Select,
             )
+            self.model.setVerticalHeaderLabels([str(n) for n in range(len(waypoints))])
+            self.verticalHeader().setMaximumWidth(25)
+
             self.resizeColumnsToContents()
             total_column_width = self.verticalHeader().width() + self.lineWidth()
             for i in range(0, self.model.columnCount()):
