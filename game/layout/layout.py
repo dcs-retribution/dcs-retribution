@@ -33,10 +33,6 @@ if TYPE_CHECKING:
     from game.theater.controlpoint import ControlPoint
 
 
-FIXED_POS_ARG = "--fix-pos"
-FIXED_HDG_ARG = "--fix-hdg"
-
-
 class LayoutException(Exception):
     pass
 

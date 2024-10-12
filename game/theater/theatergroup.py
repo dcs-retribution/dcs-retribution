@@ -17,9 +17,12 @@ from game.theater.iadsnetwork.iadsrole import IadsRole
 from game.utils import Heading, Distance, meters
 
 if TYPE_CHECKING:
-    from game.layout.layout import LayoutUnit, FIXED_POS_ARG, FIXED_HDG_ARG
+    from game.layout.layout import LayoutUnit
     from game.sim import GameUpdateEvents
     from game.theater.theatergroundobject import TheaterGroundObject
+
+FIXED_POS_ARG = "--fix-pos"
+FIXED_HDG_ARG = "--fix-hdg"
 
 
 @dataclass

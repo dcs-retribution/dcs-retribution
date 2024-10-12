@@ -19,8 +19,6 @@ from game.layout import LAYOUTS
 from game.layout.layout import (
     TgoLayout,
     TgoLayoutUnitGroup,
-    FIXED_POS_ARG,
-    FIXED_HDG_ARG,
 )
 from game.point_with_heading import PointWithHeading
 from game.theater.theatergroundobject import (
@@ -28,7 +26,13 @@ from game.theater.theatergroundobject import (
     IadsBuildingGroundObject,
     NavalGroundObject,
 )
-from game.theater.theatergroup import IadsGroundGroup, IadsRole, TheaterGroup
+from game.theater.theatergroup import (
+    IadsGroundGroup,
+    IadsRole,
+    TheaterGroup,
+    FIXED_POS_ARG,
+    FIXED_HDG_ARG,
+)
 from game.utils import escape_string_for_lua
 
 if TYPE_CHECKING:
