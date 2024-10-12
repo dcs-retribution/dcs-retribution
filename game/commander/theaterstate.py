@@ -203,7 +203,7 @@ class TheaterState(WorldState["TheaterState"]):
             threat_zones=game.threat_zone_for(not player),
             vulnerable_control_points=vulnerable_control_points,
             control_point_priority_queue=ordered_capturable_points,
-            priority_cp=ordered_capturable_points[0]
-            if ordered_capturable_points
-            else None,
+            priority_cp=(
+                ordered_capturable_points[0] if ordered_capturable_points else None
+            ),
         )

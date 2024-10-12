@@ -16,5 +16,4 @@ class CallsignContainer:
 
     @property
     @abstractmethod
-    def available_callsigns(self) -> List[str]:
-        ...
+    def available_callsigns(self) -> List[str]: ...

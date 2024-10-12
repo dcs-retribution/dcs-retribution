@@ -1,4 +1,5 @@
 """Maps generated units back to their Retribution types."""
+
 from __future__ import annotations
 
 import itertools

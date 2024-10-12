@@ -5,6 +5,7 @@ groups, statics, missile sites, and AA sites for the mission. Each of these
 objectives is defined in the Theater by a TheaterGroundObject. These classes
 create the pydcs groups and statics for those areas and add them to the mission.
 """
+
 from __future__ import annotations
 
 import random
@@ -819,9 +820,9 @@ class PretenseTgoGenerator(TgoGenerator):
         self.ground_spawns_roadbase: dict[
             ControlPoint, list[Tuple[StaticGroup, Point]]
         ] = defaultdict(list)
-        self.ground_spawns: dict[
-            ControlPoint, list[Tuple[StaticGroup, Point]]
-        ] = defaultdict(list)
+        self.ground_spawns: dict[ControlPoint, list[Tuple[StaticGroup, Point]]] = (
+            defaultdict(list)
+        )
         self.mission_data = mission_data
 
     def generate(self) -> None:
@@ -848,9 +849,9 @@ class PretenseTgoGenerator(TgoGenerator):
                 self.m, cp, self.game, self.radio_registry, self.tacan_registry
             )
             ground_spawn_roadbase_gen.generate()
-            self.ground_spawns_roadbase[
-                cp
-            ] = ground_spawn_roadbase_gen.ground_spawns_roadbase
+            self.ground_spawns_roadbase[cp] = (
+                ground_spawn_roadbase_gen.ground_spawns_roadbase
+            )
             random.shuffle(self.ground_spawns_roadbase[cp])
 
             # Generate STOL pads

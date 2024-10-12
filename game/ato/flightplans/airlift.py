@@ -201,9 +201,11 @@ class Builder(IBuilder[AirliftFlightPlan, AirliftLayout]):
 
         return_ascent = self._create_ascent_or_descent(
             builder,
-            cargo.next_stop.position
-            if cargo.next_stop != self.flight.arrival
-            else cargo.origin.position,
+            (
+                cargo.next_stop.position
+                if cargo.next_stop != self.flight.arrival
+                else cargo.origin.position
+            ),
             self.flight.arrival.position,
             altitude,
             altitude_is_agl,
@@ -211,9 +213,11 @@ class Builder(IBuilder[AirliftFlightPlan, AirliftLayout]):
         return_descent = self._create_ascent_or_descent(
             builder,
             self.flight.arrival.position,
-            cargo.next_stop.position
-            if cargo.next_stop != self.flight.arrival
-            else cargo.origin.position,
+            (
+                cargo.next_stop.position
+                if cargo.next_stop != self.flight.arrival
+                else cargo.origin.position
+            ),
             altitude,
             altitude_is_agl,
         )

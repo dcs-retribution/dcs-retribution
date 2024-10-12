@@ -273,9 +273,11 @@ class WaypointBuilder:
         return FlightWaypoint(
             "INGRESS",
             ingress_type,
-            objective.position.point_from_heading(heading, nautical_miles(5).meters)
-            if self.is_helo
-            else position,
+            (
+                objective.position.point_from_heading(heading, nautical_miles(5).meters)
+                if self.is_helo
+                else position
+            ),
             alt,
             alt_type,
             description=f"INGRESS on {objective.name}",
@@ -328,9 +330,11 @@ class WaypointBuilder:
         return FlightWaypoint(
             target.name,
             FlightWaypointType.TARGET_POINT,
-            target.target.ground_object.position
-            if isinstance(target.target, TheaterGroup)
-            else target.target.position,
+            (
+                target.target.ground_object.position
+                if isinstance(target.target, TheaterGroup)
+                else target.target.position
+            ),
             meters(0),
             "RADIO",
             description=description,
@@ -432,9 +436,11 @@ class WaypointBuilder:
             "CAS",
             FlightWaypointType.CAS,
             position,
-            feet(self.flight.coalition.game.settings.heli_combat_alt_agl)
-            if self.is_helo
-            else max(meters(1000), altitude),
+            (
+                feet(self.flight.coalition.game.settings.heli_combat_alt_agl)
+                if self.is_helo
+                else max(meters(1000), altitude)
+            ),
             "RADIO",
             description="Provide CAS",
             pretty_name="CAS",
