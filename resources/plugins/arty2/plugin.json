@@ -1,9 +1,9 @@
 {
-    "nameInUI": "Carsten's Arty Spotter for Dedicated Server",
+    "nameInUI": "Carsten's Arty Spotter for Single Player",
     "defaultValue": false,
     "specificOptions": [
         {
-            "nameInUI": "Time to impact of the rounds",
+            "nameInUI": "Time to impcat of the rounds",
             "mnemonic": "user_fireDelay",
             "defaultValue": 15
         },
@@ -18,7 +18,7 @@
             "defaultValue": 150
         },
         {
-            "nameInUI": "Max spotting distance (in km)", 
+            "nameInUI": "Max spotting distance. In kilometers.", 
             "mnemonic": "user_spottingDistance",
             "defaultValue": 15
         }
