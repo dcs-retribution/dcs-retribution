@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from typing import TYPE_CHECKING
 
 from game.ato.flightstate import InCombat
+from game.settings.settings import CombatResolutionMethod
 from .frozencombat import FrozenCombat
 from .. import GameUpdateEvents
 
@@ -43,8 +44,14 @@ class DefendingSam(FrozenCombat):
         events: GameUpdateEvents,
         time: datetime,
         elapsed_time: timedelta,
+        resolution_method: CombatResolutionMethod,
     ) -> None:
         assert isinstance(self.flight.state, InCombat)
+
+        if resolution_method is CombatResolutionMethod.SKIP:
+            self.flight.state.exit_combat(events, time, elapsed_time)
+            return
+
         if random.random() >= 0.5:
             logging.debug(f"Air defense combat auto-resolved with {self.flight} lost")
             self.flight.kill(results, events)

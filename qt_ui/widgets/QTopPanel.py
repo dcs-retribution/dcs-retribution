@@ -16,6 +16,7 @@ from game.ato.flightstate import Uninitialized
 from game.ato.package import Package
 from game.ato.traveltime import TotEstimator
 from game.profiling import logged_duration
+from game.settings.settings import FastForwardStopCondition
 from game.utils import meters
 from qt_ui.models import GameModel
 from qt_ui.simcontroller import SimController
@@ -307,9 +308,10 @@ class QTopPanel(QFrame):
             if not self.confirm_negative_start_time(negative_starts):
                 return
 
-        if self.game.settings.fast_forward_to_first_contact:
-            if not self.check_for_contact():
-                return
+        if self.game.settings.fast_forward_stop_condition not in [
+            FastForwardStopCondition.DISABLED,
+            FastForwardStopCondition.MANUAL,
+        ]:
             with logged_duration("Simulating to first contact"):
                 self.sim_controller.run_to_first_contact()
         self.sim_controller.generate_miz(

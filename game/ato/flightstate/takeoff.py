@@ -9,6 +9,8 @@ from .navigating import Navigating
 from ..starttype import StartType
 from ...utils import LBS_TO_KG
 
+from game.settings.settings import FastForwardStopCondition
+
 if TYPE_CHECKING:
     from game.ato.flight import Flight
     from game.settings import Settings
@@ -50,8 +52,8 @@ class Takeoff(AtDeparture):
     def should_halt_sim(self) -> bool:
         if (
             self.flight.client_count > 0
-            and self.settings.player_mission_interrupts_sim_at
-            in [StartType.COLD, StartType.WARM, StartType.RUNWAY]
+            and self.settings.fast_forward_stop_condition
+            == FastForwardStopCondition.PLAYER_TAKEOFF
         ):
             logging.info(
                 f"Interrupting simulation because {self.flight} has players and has "

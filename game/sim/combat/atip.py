@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 from .frozencombat import FrozenCombat
 from .. import GameUpdateEvents
 from ...ato.flightstate import InCombat
+from game.settings.settings import CombatResolutionMethod
 
 if TYPE_CHECKING:
     from game.ato import Flight
@@ -34,6 +35,7 @@ class AtIp(FrozenCombat):
         events: GameUpdateEvents,
         time: datetime,
         elapsed_time: timedelta,
+        resolution_method: CombatResolutionMethod,
     ) -> None:
         logging.debug(
             f"{self.flight} attack on {self.flight.package.target} auto-resolved with "
