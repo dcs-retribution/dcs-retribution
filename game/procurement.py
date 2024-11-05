@@ -116,11 +116,11 @@ class ProcurementAi:
                 budget -= RUNWAY_REPAIR_COST
                 if self.is_player:
                     self.game.message(
-                        "OPFOR has begun repairing the runway at " f"{control_point}"
+                        "We have begun repairing the runway at " f"{control_point}"
                     )
                 else:
                     self.game.message(
-                        "We have begun repairing the runway at " f"{control_point}"
+                        "OPFOR has begun repairing the runway at " f"{control_point}"
                     )
         return budget
 
