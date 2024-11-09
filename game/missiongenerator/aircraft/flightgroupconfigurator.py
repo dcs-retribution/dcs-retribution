@@ -380,7 +380,11 @@ class FlightGroupConfigurator:
 
         loadout = member.loadout
         if self.game.settings.restrict_weapons_by_date:
-            loadout = loadout.degrade_for_date(self.flight.unit_type, self.game.date)
+            loadout = loadout.degrade_for_date(
+                self.flight.unit_type,
+                self.game.date,
+                self.flight.squadron.coalition.faction,
+            )
 
         for pylon_number, weapon in loadout.pylons.items():
             if weapon is None:
