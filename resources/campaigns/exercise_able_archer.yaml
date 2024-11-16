@@ -34,21 +34,11 @@ settings:
 squadrons:
   #Bodo
   7:
-    - primary: CAS
-      secondary: any
-      aircraft:
-        - A-10A Thunderbolt II
-      size: 4
-    - primary: BARCAP
-      secondary: any
-      aircraft:
-        - F-5E Tiger II
-      size: 8
     - primary: TARCAP
       secondary: any
       aircraft:
         - F-15C Eagle
-      size: 8
+      size: 12
     - primary: Refueling
       aircraft:
         - KC-135 Stratotanker
@@ -59,8 +49,18 @@ squadrons:
         - C-130J-30 Super Hercules
         - C-130
       size: 2
-  #Banak
-  1:
+  #Andoya
+  20:
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - B-52H Stratofortress
+      size: 4
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - A-10A Thunderbolt II
+      size: 4
     - primary: SEAD
       secondary: any
       aircraft:
@@ -71,16 +71,12 @@ squadrons:
       aircraft:
         - OH-58D(R) Kiowa Warrior
       size: 4
-    - primary: Refueling
-      aircraft:
-        - KC-130
-      size: 1
     - primary: Transport
       secondary: any
       aircraft:
         - C-130J-30 Super Hercules
         - C-130
-      size: 2
+      size: 1
   #Rovaniemi
   2:
     - primary: BARCAP
@@ -103,13 +99,6 @@ squadrons:
       aircraft:
         - Mi-8MTV2 Hip
       size: 4
-  #Kemi Tornio
-  3:
-    - primary: Transport
-      secondary: any
-      aircraft:
-        - C-47 Dakota
-      size: 3
   #Kiruna
   5:
     - primary: DEAD
@@ -123,6 +112,19 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - AJS-37 Viggen
+      size: 8
+  #Kallax
+  15:
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - C-130J-30 Super Hercules
+        - C-130
+      size: 1
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - F-5E Tiger II
       size: 8
   #Blue Carrier
   Blue-CV:
@@ -152,34 +154,29 @@ squadrons:
       aircraft:
         - AV-8B Harrier II Night Attack
       size: 20
-  #RAF Fairford
-  Bombers from RAF Fairford:
-    - primary: Strike
-      secondary: any
-      aircraft:
-        - B-52H Stratofortress
-      size: 8
   #Vuojarvi
   4:
-    - primary: DEAD
+    - primary: SEAD Sweep
       secondary: air-to-ground
       aircraft:
         - Su-17M4 Fitter-K
       size: 8
-  #Kirkenes
-  14:
+  #Banak
+  1:
     - primary: CAS
       secondary: air-to-ground
       aircraft:
         - Su-25 Frogfoot
       size: 8
-  #Severomorsk-1
-  8:
+  #Kirkenes
+  14:
     - primary: BARCAP
       secondary: any
       aircraft:
         - MiG-31 Foxhound
-      size: 4
+      size: 6
+  #Severomorsk-1
+  8:
     - primary: Escort
       secondary: any
       aircraft:
@@ -200,50 +197,40 @@ squadrons:
       secondary: any
       aircraft:
         - Su-24M Fencer-D
-      size: 8
+      size: 12
     - primary: TARCAP
       secondary: any
       aircraft:
         - Su-27 Flanker-B
       size: 8
-    - primary: Air Assault
-      secondary: any
-      aircraft:
-        - Mi-8MTV2 Hip
-      size: 2
   #Olenya
   9:
     - primary: Strike
       secondary: any
       aircraft:
         - Tu-95MS Bear-H
-      size: 8
+      size: 16
     - primary: Strike
       secondary: any
       aircraft:
         - Tu-22M3 Backfire-C
-      size: 8
+      size: 16
     - primary: Refueling
       aircraft:
         - IL-78M
       size: 2
   #Monchegorsk
   10:
-    - primary: BARCAP
-      secondary: any
-      aircraft:
-        - MiG-25PD Foxbat-E
-      size: 4
     - primary: Escort
       secondary: any
       aircraft:
         - MiG-29A Fulcrum-A
-      size: 8
+      size: 12
     - primary: BAI
       secondary: any
       aircraft:
         - MiG-21bis Fishbed-N
-      size: 8
+      size: 12
   #Murmansk International
   12:
     - primary: AEW&C
@@ -255,3 +242,20 @@ squadrons:
       aircraft:
         - IL-76MD
       size: 2
+#Ivalo
+  18:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - MiG-25PD Foxbat-E
+      size: 4
+    - primary: OCA/Aircraft
+      secondary: any
+      aircraft:
+        - Mi-24P Hind-F
+      size: 4
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - Mi-8MTV2 Hip
+      size: 4
