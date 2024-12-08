@@ -621,6 +621,21 @@ class Faction:
             self.remove_vehicle("TR_TT")
             self.remove_vehicle("Gozanti")
             self.remove_ship("Destroyer_carrier")
+        # vietnamwarvessels
+        if not mod_settings.vietnamwarvessels:
+            self.remove_ship("cva-31")
+            self.remove_ship("USS Maddox")
+            self.remove_ship("PBR_MKII")
+            self.remove_ship("P4")
+            self.remove_vehicle("vwv_bdg_indohut1")
+            self.remove_vehicle("vwv_bdg_indohut2")
+            self.remove_aircraft("vwv_a1_skyraider")
+            self.remove_aircraft("vwv_crusader")
+            self.remove_aircraft("vwv_crusader_np")
+            self.remove_aircraft("vwv_mig17f")
+            self.remove_aircraft("vwv_o-1")
+            self.remove_aircraft("vwv_sh2f")
+            self.remove_aircraft("vwv_hh2d")
 
     def remove_aircraft(self, name: str) -> None:
         for aircraft_set in [self.aircraft, self.awacs, self.tankers]:
