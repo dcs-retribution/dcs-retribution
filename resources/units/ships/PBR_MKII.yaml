@@ -1,0 +1,4 @@
+class: Boat
+price: 0
+variants:
+  Patrol Boat, River MkII: null
