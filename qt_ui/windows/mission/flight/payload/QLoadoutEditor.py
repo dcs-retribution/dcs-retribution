@@ -21,7 +21,10 @@ from game import Game
 from game.ato.flight import Flight
 from game.ato.flightmember import FlightMember
 from game.data.weapons import Pylon
-from game.persistency import payloads_dir
+from game.persistency import (
+    payloads_dir,
+    mission_editor_dir,
+)
 from qt_ui.blocksignals import block_signals
 from qt_ui.windows.mission.flight.payload.QPylonEditor import QPylonEditor
 
@@ -103,6 +106,9 @@ class QLoadoutEditor(QGroupBox):
         payload_name = payload_name_input.textValue()
         ac_type = self.flight.unit_type.dcs_unit_type
         ac_id = ac_type.id
+        mission_editor_folder = mission_editor_dir()
+        if not mission_editor_folder.exists():
+            mission_editor_folder.mkdir()
         payloads_folder = payloads_dir()
         payload_file = payloads_folder / f"{ac_id}.lua"
         if not payloads_folder.exists():
