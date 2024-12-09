@@ -169,10 +169,6 @@ def kneeboards_dir() -> Path:
     return base_path() / "Retribution" / "Kneeboards"
 
 
-def mission_editor_dir() -> Path:
-    return base_path() / "MissionEditor"
-
-
 def payloads_dir(backup: bool = False) -> Path:
     payloads = base_path() / "MissionEditor" / "UnitPayloads"
     if backup:
