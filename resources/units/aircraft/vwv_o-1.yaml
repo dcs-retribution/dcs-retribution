@@ -1,0 +1,54 @@
+# TODO set prince
+# TODO define task numbers
+# TODO define weapon injections
+#
+carrier_capable: false
+description:
+  The Cessna O-1 Bird Dog is a liaison and observation aircraft that first flew on 
+  December 14, 1949, and entered service in 1950 as the L-19 in the Korean War. 
+  It went to serve in many branches of the U.S. Armed Forces, was not retired until 
+  the 1970s in a number of variants, and also served in the Vietnam War. It was 
+  also called the OE-1 and OE-2 in Navy service, flying with the Marine Corps, and 
+  in the 1960s it was re-designated the O-1. It remains a civilian-flown warbird 
+  aircraft, and there are examples in aviation museums. It was the first all-metal 
+  fixed-wing aircraft ordered for and by the United States Army following the 
+  Army Air Forces' separation from it in 1947. The Bird Dog had a lengthy career 
+  in the U.S. military as well as in other countries, with over 3400 produced.
+introduced: 1950
+manufacturer: Cessna
+origin: USA
+price: 9    # TODO define argument, Starfighter = 9, Thunderchief = 9
+role: observation aircraft
+gunfighter: false
+# TODO maxrange?
+variants:
+  O-1E Bird Dog: {}
+#
+#    tasks = [
+#        task.CAP,
+#        task.Escort,
+#        task.FighterSweep,
+#        task.Intercept,
+#        task.Reconnaissance,
+#        task.GroundAttack,
+#        task.CAS,
+#    ]
+#    task_default = task.CAP
+#
+tasks:
+  Anti-ship: 660
+  BAI: 660    # TODO  how to determine these numbers?
+  CAS: 660
+  DEAD: 60
+  OCA/Aircraft: 360   # TODO is this parked a/c?
+  OCA/Runway: 360
+  Strike: 360
+weapon_injections:     # TODO  update
+  1:
+    - "{AIM-9J-ON-ADAPTER}"
+  2:
+    - "{AIM-9J-ON-ADAPTER}"
+  4:
+    - "{AIM-9J-ON-ADAPTER}"
+  5:
+    - "{AIM-9J-ON-ADAPTER}"
