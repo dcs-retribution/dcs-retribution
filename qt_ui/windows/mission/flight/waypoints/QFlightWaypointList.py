@@ -63,8 +63,10 @@ class QFlightWaypointList(QTableView):
             self.model.setHorizontalHeaderLabels(HEADER_LABELS)
 
             waypoints = self.flight.flight_plan.waypoints
+            previous_waypoint = None
             for row, waypoint in enumerate(waypoints):
-                self._add_waypoint_row(row, self.flight, waypoint)
+                self._add_waypoint_row(row, self.flight, previous_waypoint, waypoint)
+                previous_waypoint = waypoint
             self.selectionModel().setCurrentIndex(
                 self.model.index(current_index, 0),
                 QItemSelectionModel.SelectionFlag.Select,
@@ -83,7 +85,11 @@ class QFlightWaypointList(QTableView):
             self.update(self.currentIndex())
 
     def _add_waypoint_row(
-        self, row: int, flight: Flight, waypoint: FlightWaypoint
+        self,
+        row: int,
+        flight: Flight,
+        previous_waypoint: FlightWaypoint,
+        waypoint: FlightWaypoint,
     ) -> None:
         self.model.insertRow(self.model.rowCount())
 
@@ -99,7 +105,7 @@ class QFlightWaypointList(QTableView):
         altitude_type_item.setEditable(False)
         self.model.setItem(row, 2, altitude_type_item)
 
-        tot = self.tot_text(flight, waypoint)
+        tot = self.tot_text(flight, previous_waypoint, waypoint)
         tot_item = QStandardItem(tot)
         tot_item.setEditable(False)
         self.model.setItem(row, 3, tot_item)
@@ -112,18 +118,36 @@ class QFlightWaypointList(QTableView):
             name = self.model.item(i, 0).text()
             self.flight.flight_plan.waypoints[i].pretty_name = name
 
-    def tot_text(self, flight: Flight, waypoint: FlightWaypoint) -> str:
+    def tot_text(
+        self,
+        flight: Flight,
+        previous_waypoint: FlightWaypoint,
+        waypoint: FlightWaypoint,
+    ) -> str:
         if waypoint.waypoint_type == FlightWaypointType.TAKEOFF:
+            self.update_last_tot(flight.flight_plan.takeoff_time())
             return self.takeoff_text(flight)
         prefix = ""
         time = flight.flight_plan.tot_for_waypoint(waypoint)
+        self.update_last_tot(time)
         if time is None:
             prefix = "Depart "
             time = flight.flight_plan.depart_time_for_waypoint(waypoint)
+            self.update_last_tot(time)
         if time is None:
-            return ""
+            # TODO: Add functionality for calculating TOT based on previous waypoints
+            prefix = ""
+            timedelta = flight.flight_plan.travel_time_between_waypoints(
+                previous_waypoint, waypoint
+            )
+            time = self.last_tot + timedelta
+            self.update_last_tot(time)
         return f"{prefix}{time:%H:%M:%S}"
 
     @staticmethod
     def takeoff_text(flight: Flight) -> str:
         return f"{flight.flight_plan.takeoff_time():%H:%M:%S}"
+
+    def update_last_tot(self, time) -> None:
+        if time is not None:
+            self.last_tot = time
