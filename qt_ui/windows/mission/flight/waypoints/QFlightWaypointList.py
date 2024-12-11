@@ -135,7 +135,6 @@ class QFlightWaypointList(QTableView):
             time = flight.flight_plan.depart_time_for_waypoint(waypoint)
             self.update_last_tot(time)
         if time is None:
-            # TODO: Add functionality for calculating TOT based on previous waypoints
             prefix = ""
             timedelta = flight.flight_plan.travel_time_between_waypoints(
                 previous_waypoint, waypoint
