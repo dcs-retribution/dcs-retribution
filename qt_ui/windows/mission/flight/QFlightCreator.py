@@ -1,6 +1,6 @@
 from typing import Optional, Type
 
-from PySide6.QtCore import Qt, Signal
+from PySide6.QtCore import Qt, Signal, QEvent
 from PySide6.QtWidgets import (
     QComboBox,
     QDialog,
@@ -10,6 +10,9 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QLineEdit,
     QHBoxLayout,
+    # QTextEdit,
+    QStyledItemDelegate,
+    QToolTip,
 )
 from dcs.unittype import FlyingType
 
@@ -88,8 +91,16 @@ class QFlightCreator(QDialog):
 
         layout.addWidget(QLabel("Loadout:"))
         self.loadout_selector = QComboBox()
+        self.loadout_selector.setItemDelegate(LoadoutDelegate(self.loadout_selector))
         for loadout in Loadout.iter_for_aircraft(self.aircraft_selector.currentData()):
             self.loadout_selector.addItem(loadout.name, loadout)
+        for loadout in Loadout.default_loadout_names_for(
+            self.task_selector.currentData()
+        ):
+            index = self.loadout_selector.findText(loadout)
+            if index != -1:
+                self.loadout_selector.setCurrentIndex(index)
+                break
         layout.addWidget(self.loadout_selector)
 
         required_start_type = None
@@ -225,11 +236,20 @@ class QFlightCreator(QDialog):
             self.task_selector.currentData(), new_aircraft
         )
         self.divert.change_aircraft(new_aircraft)
-
-        self.loadout_selector.clear()
-        for loadout in Loadout.iter_for_aircraft(new_aircraft):
-            self.loadout_selector.addItem(loadout.name, loadout)
         self.roster_editor.pilots_changed.emit()
+        if self.aircraft_selector.currentData() is not None:
+            self.loadout_selector.clear()
+            for loadout in Loadout.iter_for_aircraft(
+                self.aircraft_selector.currentData()
+            ):
+                self.loadout_selector.addItem(loadout.name, loadout)
+            for loadout in Loadout.default_loadout_names_for(
+                self.task_selector.currentData()
+            ):
+                index = self.loadout_selector.findText(loadout)
+                if index != -1:
+                    self.loadout_selector.setCurrentIndex(index)
+                    break
 
     def on_departure_changed(self, departure: ControlPoint) -> None:
         if isinstance(departure, OffMapSpawn):
@@ -307,3 +327,18 @@ class QFlightCreator(QDialog):
         if loadout is None:
             return Loadout.empty_loadout()
         return loadout
+
+
+class LoadoutDelegate(QStyledItemDelegate):
+    def helpEvent(self, event, view, option, index):
+        if event.type() == QEvent.ToolTip:
+            loadout = index.data(Qt.UserRole)
+            if loadout:
+                max_pylon = max(loadout.pylons.keys(), default=0)
+                pylons_info = "\n".join(
+                    f"Pylon {pylon}: {loadout.pylons.get(pylon, 'Empty')}"
+                    for pylon in range(1, max_pylon + 1)
+                )
+                QToolTip.showText(event.globalPos(), pylons_info, view)
+                return True
+        return helpEvent(event, view, option, index)
