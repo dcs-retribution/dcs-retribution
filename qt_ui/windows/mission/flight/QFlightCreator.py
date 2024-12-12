@@ -16,6 +16,7 @@ from dcs.unittype import FlyingType
 from game import Game
 from game.ato.flight import Flight
 from game.ato.flightroster import FlightRoster
+from game.ato.loadouts import Loadout
 from game.ato.package import Package
 from game.ato.starttype import StartType
 from game.squadrons.squadron import Squadron
@@ -84,6 +85,12 @@ class QFlightCreator(QDialog):
         self.flight_size_spinner = QFlightSizeSpinner()
         self.update_max_size(self.squadron_selector.aircraft_available)
         layout.addLayout(QLabeledWidget("Size:", self.flight_size_spinner))
+
+        layout.addWidget(QLabel("Loadout:"))
+        self.loadout_selector = QComboBox()
+        for loadout in Loadout.iter_for_aircraft(self.aircraft_selector.currentData()):
+            self.loadout_selector.addItem(loadout.name, loadout)
+        layout.addWidget(self.loadout_selector)
 
         required_start_type = None
         squadron = self.squadron_selector.currentData()
@@ -206,6 +213,7 @@ class QFlightCreator(QDialog):
                 member.assign_tgp_laser_code(
                     self.game.laser_code_registry.alloc_laser_code()
                 )
+            member.loadout = self.current_loadout()
 
         # noinspection PyUnresolvedReferences
         self.created.emit(flight)
@@ -218,6 +226,9 @@ class QFlightCreator(QDialog):
         )
         self.divert.change_aircraft(new_aircraft)
 
+        self.loadout_selector.clear()
+        for loadout in Loadout.iter_for_aircraft(new_aircraft):
+            self.loadout_selector.addItem(loadout.name, loadout)
         self.roster_editor.pilots_changed.emit()
 
     def on_departure_changed(self, departure: ControlPoint) -> None:
@@ -290,3 +301,9 @@ class QFlightCreator(QDialog):
             start_type = self.game.settings.default_start_type
 
         self.start_type.setCurrentText(start_type.value)
+
+    def current_loadout(self) -> Loadout:
+        loadout = self.loadout_selector.currentData()
+        if loadout is None:
+            return Loadout.empty_loadout()
+        return loadout
