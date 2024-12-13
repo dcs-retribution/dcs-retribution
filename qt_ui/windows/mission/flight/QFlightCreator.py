@@ -328,9 +328,8 @@ class LoadoutDelegate(QStyledItemDelegate):
             if loadout:
                 max_pylon = max(loadout.pylons.keys(), default=0)
                 pylons_info = "\n".join(
-                    f"Pylon {pylon}: {loadout.pylons.get(pylon, 'Empty')}"
+                    f"Pylon {pylon}: {loadout.pylons.get(pylon, 'Clean')}"
                     for pylon in range(1, max_pylon + 1)
                 )
                 QToolTip.showText(event.globalPos(), pylons_info, view)
                 return True
-        return helpEvent(event, view, option, index)
