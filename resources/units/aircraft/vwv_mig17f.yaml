@@ -3,7 +3,7 @@
 # TODO define weapon injections
 #
 carrier_capable: false
-description:
+description:   # from: https://en.wikipedia.org/wiki/Mikoyan-Gurevich_MiG-17
   The Mikoyan-Gurevich MiG-17 (NATO reporting name Fresco) is a high-subsonic fighter 
   aircraft produced in the Soviet Union from 1952 and was operated by air forces 
   internationally. The MiG-17 was license-built in China as the Shenyang J-5 and 
@@ -22,7 +22,7 @@ description:
 introduced: 1952
 manufacturer: Mikoyan-Gurevich
 origin: Soviet Union
-price: 7    # TODO define argument, Skyhawk = 7
+price: 9    # reference: MiG-15bis = 8, MiG-19P = 10
 role: Interceptor
 gunfighter: true   # TODO  what is this?
 # TODO maxrange?

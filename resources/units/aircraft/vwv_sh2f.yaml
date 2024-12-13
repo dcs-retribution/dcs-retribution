@@ -17,11 +17,11 @@ description:  # from https://en.wikipedia.org/wiki/Kaman_SH-2_Seasprite
   operate safety from the smaller flight decks like the smaller Seasprite.
 lha_capable: true
 introduced: 1962   # TODO original model or F-model?
-cabin_size: 24 # It should have 33 but we do not want so much for CTLD to be possible
+cabin_size: 12  # from: https://plane-encyclopedia.com/cold-war/kaman-sh-2f-seasprite/
 can_carry_crates: true
 manufacturer: Kaman Aircraft Corporation
 origin: USA
-price: 8   #TODO
+price: 4   # reference: UH-1H = 4, UH-60A = 4
 role: Transport, Anti-Submarine Warfare
 variants:
   SH-2F Seasprite: {}

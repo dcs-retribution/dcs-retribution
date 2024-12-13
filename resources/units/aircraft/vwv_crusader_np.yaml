@@ -3,7 +3,7 @@
 # TODO define weapon injections
 #
 carrier_capable: true
-description:
+description:    # from: https://en.wikipedia.org/wiki/Vought_F-8_Crusader
   The Vought F-8 Crusader (originally F8U) is a single-engine, supersonic, 
   carrier-based air superiority jet aircraft designed and produced by the American 
   aircraft manufacturer Vought. It was the last American fighter that had guns as 
@@ -22,7 +22,7 @@ description:
 introduced: 1957
 manufacturer: Vought
 origin: USA  # TODO is this nation of manufacturer or operator?
-price: 9    # TODO define argument, Starfighter = 9, Thunderchief = 9
+price: 9    # reference: Starfighter = 9, Thunderchief = 9
 role: Carrier-based Interceptor
 gunfighter: true
 # TODO maxrange?

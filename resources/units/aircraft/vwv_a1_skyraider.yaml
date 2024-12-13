@@ -3,7 +3,7 @@
 # TODO define weapon injections
 #
 carrier_capable: true
-description:
+description:    # from: https://en.wikipedia.org/wiki/Douglas_A-1_Skyraider
   The Douglas A-1 Skyraider (formerly designated AD before the 1962 unification of 
   Navy and Air Force designations) is an American single-seat attack aircraft in service 
   from 1946 to the early 1980s, which served during the Korean War and Vietnam War. 
@@ -14,7 +14,7 @@ description:
 introduced: 1946
 manufacturer: Douglas
 origin: USA
-price: 5    # TODO define argument, Skyhawk = 7, Bronco = 4
+price: 5    # reference: Skyhawk = 7, Bronco = 4
 role: Carrier-based Attack Aircraft
 gunfighter: true   # TODO  what is this?
 # TODO maxrange?

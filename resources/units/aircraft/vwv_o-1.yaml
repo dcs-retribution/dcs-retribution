@@ -3,7 +3,7 @@
 # TODO define weapon injections
 #
 carrier_capable: false
-description:
+description:    # from: https://en.wikipedia.org/wiki/Cessna_O-1_Bird_Dog
   The Cessna O-1 Bird Dog is a liaison and observation aircraft that first flew on 
   December 14, 1949, and entered service in 1950 as the L-19 in the Korean War. 
   It went to serve in many branches of the U.S. Armed Forces, was not retired until 
@@ -17,7 +17,7 @@ description:
 introduced: 1950
 manufacturer: Cessna
 origin: USA
-price: 9    # TODO define argument, Starfighter = 9, Thunderchief = 9
+price: 2    # reference: Bronco = 4
 role: observation aircraft
 gunfighter: false
 # TODO maxrange?
