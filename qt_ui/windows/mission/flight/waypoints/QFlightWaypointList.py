@@ -63,10 +63,8 @@ class QFlightWaypointList(QTableView):
             self.model.setHorizontalHeaderLabels(HEADER_LABELS)
 
             waypoints = self.flight.flight_plan.waypoints
-            previous_waypoint = None
             for row, waypoint in enumerate(waypoints):
-                self._add_waypoint_row(row, self.flight, previous_waypoint, waypoint)
-                previous_waypoint = waypoint
+                self._add_waypoint_row(row, self.flight, waypoint)
             self.selectionModel().setCurrentIndex(
                 self.model.index(current_index, 0),
                 QItemSelectionModel.SelectionFlag.Select,
@@ -88,7 +86,6 @@ class QFlightWaypointList(QTableView):
         self,
         row: int,
         flight: Flight,
-        previous_waypoint: FlightWaypoint,
         waypoint: FlightWaypoint,
     ) -> None:
         self.model.insertRow(self.model.rowCount())
@@ -105,7 +102,7 @@ class QFlightWaypointList(QTableView):
         altitude_type_item.setEditable(False)
         self.model.setItem(row, 2, altitude_type_item)
 
-        tot = self.tot_text(flight, previous_waypoint, waypoint)
+        tot = self.tot_text(flight, waypoint)
         tot_item = QStandardItem(tot)
         tot_item.setEditable(False)
         self.model.setItem(row, 3, tot_item)
@@ -121,7 +118,6 @@ class QFlightWaypointList(QTableView):
     def tot_text(
         self,
         flight: Flight,
-        previous_waypoint: FlightWaypoint,
         waypoint: FlightWaypoint,
     ) -> str:
         if waypoint.waypoint_type == FlightWaypointType.TAKEOFF:
@@ -137,10 +133,11 @@ class QFlightWaypointList(QTableView):
         if time is None:
             prefix = ""
             timedelta = flight.flight_plan.travel_time_between_waypoints(
-                previous_waypoint, waypoint
+                self._last_waypoint, waypoint
             )
-            time = self.last_tot + timedelta
+            time = self._last_tot + timedelta
             self.update_last_tot(time)
+        self._last_waypoint = waypoint
         return f"{prefix}{time:%H:%M:%S}"
 
     @staticmethod
@@ -149,4 +146,4 @@ class QFlightWaypointList(QTableView):
 
     def update_last_tot(self, time) -> None:
         if time is not None:
-            self.last_tot = time
+            self._last_tot = time
