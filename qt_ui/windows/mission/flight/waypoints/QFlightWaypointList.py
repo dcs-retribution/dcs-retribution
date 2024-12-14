@@ -1,3 +1,5 @@
+from typing import Optional
+
 from PySide6.QtCore import QItemSelectionModel, QPoint, QModelIndex
 from PySide6.QtGui import QStandardItem, QStandardItemModel
 from PySide6.QtWidgets import (
@@ -32,6 +34,7 @@ class AltitudeEditorDelegate(QStyledItemDelegate):
 class QFlightWaypointList(QTableView):
     def __init__(self, package: Package, flight: Flight):
         super().__init__()
+        self._last_waypoint: Optional[FlightWaypoint] = None
         self.package = package
         self.flight = flight
 
@@ -122,21 +125,20 @@ class QFlightWaypointList(QTableView):
     ) -> str:
         if waypoint.waypoint_type == FlightWaypointType.TAKEOFF:
             self.update_last_tot(flight.flight_plan.takeoff_time())
+            self._last_waypoint = waypoint
             return self.takeoff_text(flight)
         prefix = ""
         time = flight.flight_plan.tot_for_waypoint(waypoint)
-        self.update_last_tot(time)
         if time is None:
             prefix = "Depart "
             time = flight.flight_plan.depart_time_for_waypoint(waypoint)
-            self.update_last_tot(time)
         if time is None:
             prefix = ""
             timedelta = flight.flight_plan.travel_time_between_waypoints(
                 self._last_waypoint, waypoint
             )
             time = self._last_tot + timedelta
-            self.update_last_tot(time)
+        self.update_last_tot(time)
         self._last_waypoint = waypoint
         return f"{prefix}{time:%H:%M:%S}"
 
