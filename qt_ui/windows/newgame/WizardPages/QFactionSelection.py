@@ -35,6 +35,7 @@ class QFactionUnits(QScrollArea):
         self.parent = parent
         self.faction = faction
         self._create_checkboxes(show_jtac)
+        self.show_jtac = show_jtac
 
     def _add_checkboxes(
         self,
@@ -214,7 +215,7 @@ class QFactionUnits(QScrollArea):
         self.faction = faction
         self.content = QWidget()
         self.setWidget(self.content)
-        self._create_checkboxes()
+        self._create_checkboxes(self.show_jtac)
         self.update()
         if self.parent:
             self.parent.update()

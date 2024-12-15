@@ -1,3 +1,5 @@
+from typing import Optional
+
 from PySide6.QtCore import QItemSelectionModel, QPoint, QModelIndex
 from PySide6.QtGui import QStandardItem, QStandardItemModel
 from PySide6.QtWidgets import (
@@ -32,6 +34,7 @@ class AltitudeEditorDelegate(QStyledItemDelegate):
 class QFlightWaypointList(QTableView):
     def __init__(self, package: Package, flight: Flight):
         super().__init__()
+        self._last_waypoint: Optional[FlightWaypoint] = None
         self.package = package
         self.flight = flight
 
@@ -83,7 +86,10 @@ class QFlightWaypointList(QTableView):
             self.update(self.currentIndex())
 
     def _add_waypoint_row(
-        self, row: int, flight: Flight, waypoint: FlightWaypoint
+        self,
+        row: int,
+        flight: Flight,
+        waypoint: FlightWaypoint,
     ) -> None:
         self.model.insertRow(self.model.rowCount())
 
@@ -112,18 +118,36 @@ class QFlightWaypointList(QTableView):
             name = self.model.item(i, 0).text()
             self.flight.flight_plan.waypoints[i].pretty_name = name
 
-    def tot_text(self, flight: Flight, waypoint: FlightWaypoint) -> str:
+    def tot_text(
+        self,
+        flight: Flight,
+        waypoint: FlightWaypoint,
+    ) -> str:
         if waypoint.waypoint_type == FlightWaypointType.TAKEOFF:
+            self.update_last_tot(flight.flight_plan.takeoff_time())
+            self._last_waypoint = waypoint
             return self.takeoff_text(flight)
         prefix = ""
         time = flight.flight_plan.tot_for_waypoint(waypoint)
         if time is None:
             prefix = "Depart "
             time = flight.flight_plan.depart_time_for_waypoint(waypoint)
-        if time is None:
+        if time is None and self._last_waypoint is not None:
+            prefix = ""
+            timedelta = flight.flight_plan.travel_time_between_waypoints(
+                self._last_waypoint, waypoint
+            )
+            time = self._last_tot + timedelta
+        else:
             return ""
+        self.update_last_tot(time)
+        self._last_waypoint = waypoint
         return f"{prefix}{time:%H:%M:%S}"
 
     @staticmethod
     def takeoff_text(flight: Flight) -> str:
         return f"{flight.flight_plan.takeoff_time():%H:%M:%S}"
+
+    def update_last_tot(self, time) -> None:
+        if time is not None:
+            self._last_tot = time
