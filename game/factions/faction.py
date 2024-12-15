@@ -629,8 +629,6 @@ class Faction:
             self.remove_ship("USS Fletcher")
             self.remove_ship("PBR_MKII")
             self.remove_ship("P4")
-            # self.remove_vehicle("vwv_bdg_indohut1")   currently not included
-            # self.remove_vehicle("vwv_bdg_indohut2")   currently not included
             self.remove_aircraft("vwv_a1_skyraider")
             self.remove_aircraft("vwv_crusader")
             self.remove_aircraft("vwv_crusader_np")
