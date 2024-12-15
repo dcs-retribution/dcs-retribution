@@ -625,10 +625,12 @@ class Faction:
         if not mod_settings.vietnamwarvessels:
             self.remove_ship("cva-31")
             self.remove_ship("USS Maddox")
+            self.remove_ship("USS The Sullivans")
+            self.remove_ship("USS Fletcher")
             self.remove_ship("PBR_MKII")
             self.remove_ship("P4")
-            self.remove_vehicle("vwv_bdg_indohut1")
-            self.remove_vehicle("vwv_bdg_indohut2")
+            # self.remove_vehicle("vwv_bdg_indohut1")   currently not included
+            # self.remove_vehicle("vwv_bdg_indohut2")   currently not included
             self.remove_aircraft("vwv_a1_skyraider")
             self.remove_aircraft("vwv_crusader")
             self.remove_aircraft("vwv_crusader_np")
