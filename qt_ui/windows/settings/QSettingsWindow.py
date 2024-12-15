@@ -572,3 +572,33 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
                     ),
                     zipfile.ZIP_DEFLATED,
                 )
+
+    def load_default_settings(self):
+        sd = settings_dir()
+        default_zip_path = sd / "Default.zip"
+        if default_zip_path.exists():
+            with zipfile.ZipFile(default_zip_path, "r") as zf:
+                filename = "Default.json"
+                if filename in zf.namelist():
+                    settings_data = json.loads(
+                        zf.read(filename).decode("utf-8"),
+                        object_hook=self.settings.obj_hook,
+                    )
+                    self.settings.__setstate__(settings_data)
+        else:
+            if self.settings is None:
+                default_settings = Settings()
+            else:
+                default_settings = self.settings
+            with zipfile.ZipFile(default_zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
+                filename = "Default.json"
+                zf.writestr(
+                    filename,
+                    json.dumps(
+                        default_settings.__dict__,
+                        indent=2,
+                        default=default_settings.default_json,
+                    ),
+                    zipfile.ZIP_DEFLATED,
+                )
+            self.settings = default_settings

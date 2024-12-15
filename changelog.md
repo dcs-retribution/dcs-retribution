@@ -39,6 +39,7 @@
 * **[Mission Generation]** Automatic datalink network setup for applicable aircraft (_should_ in theory avoid the need to re-save the mission)
 * **[Options]** New option to force-enable deck-crew for super-carriers on dedicated server.
 * **[Mission Generation]** Enable Supercarrier's LSO & Airboss stations
+* **[UX]** Default settings are now loaded from Default.zip
 
 ## Fixes
 * **[UI/UX]** A-10A flights can be edited again

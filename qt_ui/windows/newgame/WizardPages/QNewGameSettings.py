@@ -12,7 +12,9 @@ class NewGameSettings(QtWidgets.QWizardPage):
         super().__init__(parent)
 
         self.setTitle("Campaign options")
-        self.setSubTitle("\nAll other options unrelated to campaign generation.")
+        self.setSubTitle(
+            "\nAll other options unrelated to campaign generation. Defaults can be changed by overwriting Defualt.zip"
+        )
         self.setPixmap(
             QtWidgets.QWizard.WizardPixmap.LogoPixmap,
             QtGui.QPixmap("./resources/ui/wizard/logo1.png"),
@@ -20,12 +22,15 @@ class NewGameSettings(QtWidgets.QWizardPage):
 
         settings = Settings()
         settings.__setstate__(campaign.settings)
+        self.settings_widget = QSettingsWidget(settings)
+        self.settings_widget.load_default_settings()
+        settings = self.settings_widget.settings
+        settings.__dict__.update(campaign.settings)
         settings.player_income_multiplier = (
             campaign.recommended_player_income_multiplier
         )
         settings.enemy_income_multiplier = campaign.recommended_enemy_income_multiplier
-        settings.__dict__.update(campaign.settings)
-        self.settings_widget = QSettingsWidget(settings)
+        self.settings_widget.update_from_settings()
         self.setLayout(self.settings_widget.layout)
 
     def set_campaign_values(self, c: Campaign):
