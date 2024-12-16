@@ -588,6 +588,8 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
                     # (eg. Operation Velvet Thunder). Removing this value allows for small campaigns to run as
                     # intended.
                     settings_data.pop("airbase_threat_range")
+                    if "plugins" in settings_data:
+                        self.settings.plugins.update(settings_data.pop("plugins"))
                     self.settings.__dict__.update(settings_data)
         else:
             if self.settings is None:
