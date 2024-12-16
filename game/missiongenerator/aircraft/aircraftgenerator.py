@@ -299,6 +299,7 @@ class AircraftGenerator:
             self.mission_data,
             dynamic_runways,
             self.use_client,
+            self.unit_map,
         ).configure()
 
         self.flights.append(flight_data)

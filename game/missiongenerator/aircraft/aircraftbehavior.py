@@ -37,6 +37,7 @@ from game.ato import Flight, FlightType
 from game.ato.flightplans.aewc import AewcFlightPlan
 from game.ato.flightplans.formationattack import FormationAttackLayout
 from game.ato.flightplans.packagerefueling import PackageRefuelingFlightPlan
+from game.ato.flightplans.shiprecoverytanker import RecoveryTankerFlightPlan
 from game.ato.flightplans.theaterrefueling import TheaterRefuelingFlightPlan
 from game.utils import nautical_miles
 
@@ -317,6 +318,7 @@ class AircraftBehavior:
         if not (
             isinstance(flight.flight_plan, TheaterRefuelingFlightPlan)
             or isinstance(flight.flight_plan, PackageRefuelingFlightPlan)
+            or isinstance(flight.flight_plan, RecoveryTankerFlightPlan)
         ):
             logging.error(
                 f"Cannot configure racetrack refueling tasks for {flight} because it "

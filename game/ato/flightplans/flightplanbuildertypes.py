@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any, TYPE_CHECKING, Type
 
 from game.ato import FlightType
+from game.theater.controlpoint import NavalControlPoint
 from .aewc import AewcFlightPlan
 from .airassault import AirAssaultFlightPlan
 from .airlift import AirliftFlightPlan
@@ -22,6 +23,7 @@ from .planningerror import PlanningError
 from .pretensecargo import PretenseCargoFlightPlan
 from .sead import SeadFlightPlan
 from .seadsweep import SeadSweepFlightPlan
+from .shiprecoverytanker import RecoveryTankerFlightPlan
 from .strike import StrikeFlightPlan
 from .sweep import SweepFlightPlan
 from .tarcap import TarCapFlightPlan
@@ -37,6 +39,10 @@ class FlightPlanBuilderTypes:
         from game.theater import FrontLine
 
         if flight.flight_type is FlightType.REFUELING:
+            if flight.package.target.is_friendly(flight.squadron.player) and isinstance(
+                target, NavalControlPoint
+            ):
+                return RecoveryTankerFlightPlan.builder_type()
             if flight.package.target.is_friendly(flight.squadron.player) or isinstance(
                 flight.package.target, FrontLine
             ):
