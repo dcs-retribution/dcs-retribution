@@ -13,7 +13,7 @@ class NewGameSettings(QtWidgets.QWizardPage):
 
         self.setTitle("Campaign options")
         self.setSubTitle(
-            "\nAll other options unrelated to campaign generation. Defaults can be changed by overwriting Defualt.zip"
+            "\nAll other options unrelated to campaign generation. Defaults can be changed by overwriting Default.zip"
         )
         self.setPixmap(
             QtWidgets.QWizard.WizardPixmap.LogoPixmap,
@@ -25,7 +25,6 @@ class NewGameSettings(QtWidgets.QWizardPage):
         self.settings_widget = QSettingsWidget(settings)
         self.settings_widget.load_default_settings()
         settings = self.settings_widget.settings
-        settings.__dict__.update(campaign.settings)
         settings.player_income_multiplier = (
             campaign.recommended_player_income_multiplier
         )
@@ -36,7 +35,7 @@ class NewGameSettings(QtWidgets.QWizardPage):
     def set_campaign_values(self, c: Campaign):
         sw = self.settings_widget
         sw.settings.__setstate__(c.settings)
+        sw.load_default_settings()
         sw.settings.player_income_multiplier = c.recommended_player_income_multiplier
         sw.settings.enemy_income_multiplier = c.recommended_enemy_income_multiplier
-        sw.settings.__dict__.update(c.settings)
         sw.update_from_settings()
