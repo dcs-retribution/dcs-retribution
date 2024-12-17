@@ -610,7 +610,7 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
                 vehicle_unit.heading = unit.position.heading.degrees
                 GroundForcePainter(faction, vehicle_unit).apply_livery()
                 vehicle_group.add_unit(vehicle_unit)
-            self._register_theater_unit(unit, vehicle_group.units[-1])
+            self._register_theater_unit(vehicle_group.id, unit, vehicle_group.units[-1])
         if vehicle_group is None:
             raise RuntimeError(f"Error creating VehicleGroup for {group_name}")
         return vehicle_group

@@ -30,6 +30,7 @@ from game.radio.tacan import (
     TacanRegistry,
 )
 from game.runways import RunwayData
+from game.unitmap import UnitMap
 
 if TYPE_CHECKING:
     from game import Game
@@ -49,6 +50,7 @@ class PretenseFlightGroupConfigurator(FlightGroupConfigurator):
         mission_data: MissionData,
         dynamic_runways: dict[str, RunwayData],
         use_client: bool,
+        unit_map: UnitMap,
     ) -> None:
         super().__init__(
             flight,
@@ -62,6 +64,7 @@ class PretenseFlightGroupConfigurator(FlightGroupConfigurator):
             mission_data,
             dynamic_runways,
             use_client,
+            unit_map,
         )
 
         self.flight = flight
@@ -75,6 +78,7 @@ class PretenseFlightGroupConfigurator(FlightGroupConfigurator):
         self.mission_data = mission_data
         self.dynamic_runways = dynamic_runways
         self.use_client = use_client
+        self.unit_map = unit_map
 
     def configure(self) -> FlightData:
         AircraftBehavior(self.flight.flight_type).apply_to(self.flight, self.group)
@@ -101,6 +105,7 @@ class PretenseFlightGroupConfigurator(FlightGroupConfigurator):
             self.time,
             self.game.settings,
             self.mission_data,
+            self.unit_map,
         ).create_waypoints()
 
         if self.flight.client_count >= 1:
@@ -121,6 +126,7 @@ class PretenseFlightGroupConfigurator(FlightGroupConfigurator):
                     self.mission,
                     self.time,
                     self.mission_data,
+                    self.unit_map,
                 ).build()
 
         divert_position: Point | None = None
