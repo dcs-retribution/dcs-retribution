@@ -5,12 +5,12 @@ from datetime import timedelta
 from typing import Iterator, Type
 from game.ato.flightplans.ibuilder import IBuilder
 from .patrolling import PatrollingLayout
-from .recoverytankerflightplan import RecoveryTankerFlightPlan
+from .recoveryflightplan import RecoveryFlightPlan
 from game.ato.flightplans.waypointbuilder import WaypointBuilder
 from game.ato.flightwaypoint import FlightWaypoint
 
 
-class RecoveryTankerFlightPlan(RecoveryTankerFlightPlan):
+class RecoveryTankerFlightPlan(RecoveryFlightPlan):
     @staticmethod
     def builder_type() -> Type[Builder]:
         return Builder

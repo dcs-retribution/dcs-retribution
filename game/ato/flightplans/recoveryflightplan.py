@@ -4,7 +4,7 @@ from game.utils import Distance, Speed, knots, meters
 from .patrolling import PatrollingFlightPlan, PatrollingLayout
 
 
-class RecoveryTankerFlightPlan(PatrollingFlightPlan[PatrollingLayout], ABC):
+class RecoveryFlightPlan(PatrollingFlightPlan[PatrollingLayout], ABC):
     @property
     def patrol_speed(self) -> Speed:
         # TODO: Could use self.flight.unit_type.preferred_patrol_speed(altitude).
