@@ -40,7 +40,7 @@ class FlightPlanBuilderTypes:
 
         if flight.flight_type is FlightType.REFUELING:
             if flight.package.target.is_friendly(flight.squadron.player) and isinstance(
-                target, NavalControlPoint
+                flight.package.target, NavalControlPoint
             ):
                 return RecoveryTankerFlightPlan.builder_type()
             if flight.package.target.is_friendly(flight.squadron.player) or isinstance(
