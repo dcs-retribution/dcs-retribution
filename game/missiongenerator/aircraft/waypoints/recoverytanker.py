@@ -1,5 +1,10 @@
 from dcs.point import MovingPoint
-from dcs.task import ActivateBeaconCommand, RecoveryTanker, Tanker
+from dcs.task import (
+    ActivateBeaconCommand,
+    RecoveryTanker,
+    Tanker,
+    SetUnlimitedFuelCommand,
+)
 
 from game.ato import FlightType
 from game.utils import feet, knots
