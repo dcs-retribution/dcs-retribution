@@ -1344,14 +1344,14 @@ class Settings:
     @staticmethod
     def deserialize_state_dict(state: dict[str, Any]) -> dict[str, Any]:
         # restore Enum & timedelta types
-        settings = Settings()
+        s = Settings()
         for key, value in state.items():
-            if isinstance(settings.__dict__.get(key), timedelta) and isinstance(value, int):
+            if isinstance(s.__dict__.get(key), timedelta) and isinstance(value, int):
                 state[key] = timedelta(minutes=value)
-            elif isinstance(settings.__dict__.get(key), Enum) and isinstance(value, str):
+            elif isinstance(s.__dict__.get(key), Enum) and isinstance(value, str):
                 state[key] = eval(value)
             elif isinstance(value, dict):
-                state[key] = settings.obj_hook(value)
+                state[key] = s.obj_hook(value)
         return state
 
     @classmethod
