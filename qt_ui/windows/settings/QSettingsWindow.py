@@ -584,13 +584,7 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
                         zf.read(filename).decode("utf-8"),
                         object_hook=self.settings.obj_hook,
                     )
-                    # Some campaigns require airbase_threat_range to be set lower than the default of 100nm
-                    # (eg. Operation Velvet Thunder). Removing this value allows for small campaigns to run as
-                    # intended.
-                    settings_data.pop("airbase_threat_range")
-                    if "plugins" in settings_data:
-                        self.settings.plugins.update(settings_data.pop("plugins"))
-                    self.settings.__dict__.update(settings_data)
+                    self.settings.__setstate__(settings_data)
         else:
             if self.settings is None:
                 default_settings = Settings()

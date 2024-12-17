@@ -1329,26 +1329,30 @@ class Settings:
         self.plugins[self.plugin_settings_key(identifier)] = value
 
     def __setstate__(self, state: dict[str, Any]) -> None:
-        # restore Enum & timedelta types
-        for key, value in state.items():
-            if isinstance(self.__dict__.get(key), timedelta) and isinstance(value, int):
-                state[key] = timedelta(minutes=value)
-            elif isinstance(self.__dict__.get(key), Enum) and isinstance(value, str):
-                state[key] = eval(value)
-            elif isinstance(value, dict):
-                state[key] = self.obj_hook(value)
-
         # __setstate__ is called with the dict of the object being unpickled. We
         # can provide save compatibility for new settings options (which
         # normally would not be present in the unpickled object) by creating a
         # new settings object, updating it with the unpickled state, and
         # updating our dict with that.
         new_state = Settings().__dict__
-        new_state.update(state)
+        new_state.update(self.deserialize_state_dict(state))
         self.__dict__.update(new_state)
         from game.plugins import LuaPluginManager
 
         LuaPluginManager().load_settings(self)
+
+    @staticmethod
+    def deserialize_state_dict(state: dict[str, Any]) -> dict[str, Any]:
+        # restore Enum & timedelta types
+        settings = Settings()
+        for key, value in state.items():
+            if isinstance(settings.__dict__.get(key), timedelta) and isinstance(value, int):
+                state[key] = timedelta(minutes=value)
+            elif isinstance(settings.__dict__.get(key), Enum) and isinstance(value, str):
+                state[key] = eval(value)
+            elif isinstance(value, dict):
+                state[key] = settings.obj_hook(value)
+        return state
 
     @classmethod
     def _field_description(cls, settings_field: Field[Any]) -> OptionDescription:
