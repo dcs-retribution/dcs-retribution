@@ -41,6 +41,7 @@
 * **[Mission Generation]** Enable Supercarrier's LSO & Airboss stations
 * **[UX]** Default settings are now loaded from Default.zip
 * **[Autoplanner]** Plan Air-to-Air Escorts for AWACS & Tankers
+* **[Package Planning]** Ability to plan recovery tanker flights
 
 ## Fixes
 * **[UI/UX]** A-10A flights can be edited again
