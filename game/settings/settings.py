@@ -689,6 +689,16 @@ class Settings:
         max=100,
         detail="See 2-ship weight factor (WF4)",
     )
+    primary_task_distance_factor: int = bounded_int_option(
+        "Primary task distance weight (NM)",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        FLIGHT_PLANNER_AUTOMATION,
+        default=75,
+        min=10,
+        max=250,
+        detail="A larger number will force the auto-planner to stick with squadrons that have a matching primary task."
+        " A smaller number will ignore squadrons with a matching primary task that are too far out.",
+    )
 
     # Mission Generator
     # Gameplay

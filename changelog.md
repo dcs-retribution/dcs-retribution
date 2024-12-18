@@ -40,6 +40,7 @@
 * **[Options]** New option to force-enable deck-crew for super-carriers on dedicated server.
 * **[Mission Generation]** Enable Supercarrier's LSO & Airboss stations
 * **[UX]** Default settings are now loaded from Default.zip
+* **[Autoplanner]** Plan Air-to-Air Escorts for AWACS & Tankers
 
 ## Fixes
 * **[UI/UX]** A-10A flights can be edited again

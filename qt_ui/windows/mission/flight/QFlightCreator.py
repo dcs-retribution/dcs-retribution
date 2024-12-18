@@ -318,6 +318,8 @@ class QFlightCreator(QDialog):
             self.loadout_selector.addItem("No loadouts available", None)
             self.loadout_selector.setDisabled(True)
             return
+        else:
+            self.loadout_selector.setDisabled(False)
         for loadout in Loadout.iter_for_aircraft(ac_type):
             self.loadout_selector.addItem(loadout.name, loadout)
         for loadout in Loadout.default_loadout_names_for(

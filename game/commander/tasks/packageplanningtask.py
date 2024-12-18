@@ -102,8 +102,14 @@ class PackagePlanningTask(TheaterCommanderTask, Generic[MissionTargetT]):
             state.context.settings,
         )
         with state.context.tracer.trace(f"{color} {self.flights[0].task} planning"):
+            asap = False
+            if (
+                not state.context.coalition.ato.has_awacs_package
+                and FlightType.AEWC in [f.task for f in self.flights]
+            ):
+                asap = True
             self.package = fulfiller.plan_mission(
-                ProposedMission(self.target, self.flights),
+                ProposedMission(self.target, self.flights, asap=asap),
                 self.purchase_multiplier,
                 state.context.now,
                 state.context.tracer,

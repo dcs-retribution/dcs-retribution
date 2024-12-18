@@ -11,6 +11,7 @@ from .formationattack import (
 )
 from .waypointbuilder import WaypointBuilder
 from .. import FlightType
+from ..packagewaypoints import PackageWaypoints
 from ...utils import feet
 
 
@@ -22,16 +23,28 @@ class EscortFlightPlan(FormationAttackFlightPlan):
 
 class Builder(FormationAttackBuilder[EscortFlightPlan, FormationAttackLayout]):
     def layout(self) -> FormationAttackLayout:
-        assert self.package.waypoints is not None
+        non_formation_escort = False
+        if self.package.waypoints is None:
+            self.package.waypoints = PackageWaypoints.create(
+                self.package, self.coalition, dump_debug_info=False
+            )
+            if self.package.primary_flight:
+                departure = self.package.primary_flight.flight_plan.layout.departure
+                self.package.waypoints.join = departure.position.lerp(
+                    self.package.target.position, 0.2
+                )
+                non_formation_escort = True
 
         builder = WaypointBuilder(self.flight)
         ingress, target = builder.escort(
             self.package.waypoints.ingress, self.package.target
         )
+        if non_formation_escort:
+            target.position = self.package.waypoints.join
         ingress.only_for_player = True
         target.only_for_player = True
         hold = None
-        if not self.flight.is_helo:
+        if not (self.flight.is_helo or non_formation_escort):
             hold = builder.hold(self._hold_point())
 
         join_pos = (

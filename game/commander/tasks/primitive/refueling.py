@@ -25,3 +25,4 @@ class PlanRefueling(PackagePlanningTask[MissionTarget]):
 
     def propose_flights(self) -> None:
         self.propose_flight(FlightType.REFUELING, 1)
+        self.propose_flight(FlightType.ESCORT, 2)

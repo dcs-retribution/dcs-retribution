@@ -4,6 +4,7 @@ from typing import Optional, TYPE_CHECKING
 
 from game.theater import ControlPoint, MissionTarget, OffMapSpawn
 from game.utils import nautical_miles
+from ..ato import FlightType
 from ..ato.flight import Flight
 from ..ato.package import Package
 from ..ato.starttype import StartType
@@ -46,10 +47,18 @@ class PackageBuilder:
         caller should return any previously planned flights to the inventory
         using release_planned_aircraft.
         """
+        target = self.package.target
+        heli = False
         pf = self.package.primary_flight
-        heli = pf.is_helo if pf else False
+        if pf:
+            target = (
+                pf.departure
+                if pf.flight_type in [FlightType.AEWC, FlightType.REFUELING]
+                else target
+            )
+            heli = pf.is_helo
         squadron = self.air_wing.best_squadron_for(
-            self.package.target,
+            target,
             plan.task,
             plan.num_aircraft,
             heli,

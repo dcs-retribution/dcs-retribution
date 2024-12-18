@@ -25,6 +25,7 @@ class PlanAewc(PackagePlanningTask[MissionTarget]):
 
     def propose_flights(self) -> None:
         self.propose_flight(FlightType.AEWC, 1)
+        self.propose_flight(FlightType.ESCORT, 2)
 
     @property
     def asap(self) -> bool:

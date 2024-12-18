@@ -10,6 +10,7 @@ from .squadrondefloader import SquadronDefLoader
 from ..campaignloader.squadrondefgenerator import SquadronDefGenerator
 from ..factions.faction import Faction
 from ..theater import ControlPoint, MissionTarget
+from ..utils import Distance
 
 if TYPE_CHECKING:
     from game.game import Game
@@ -87,10 +88,12 @@ class AirWing:
             ordered,
             key=lambda s: (
                 # This looks like the opposite of what we want because False sorts
-                # before True.
-                s.primary_task != task,
-                best_aircraft.index(s.aircraft),
-                s.location.distance_to(location),
+                # before True. Distance is also added,
+                # i.e. 75NM with primary task match is similar to non-primary with 0NM to target
+                int(s.primary_task != task)
+                + Distance.from_meters(s.location.distance_to(location)).nautical_miles
+                / self.settings.primary_task_distance_factor
+                + best_aircraft.index(s.aircraft) / len(best_aircraft),
             ),
         )
 

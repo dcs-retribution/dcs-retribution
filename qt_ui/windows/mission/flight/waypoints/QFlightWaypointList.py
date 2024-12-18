@@ -138,7 +138,7 @@ class QFlightWaypointList(QTableView):
                 self._last_waypoint, waypoint
             )
             time = self._last_tot + timedelta
-        else:
+        elif time is None:
             return ""
         self.update_last_tot(time)
         self._last_waypoint = waypoint

@@ -14,7 +14,7 @@ description:
     <p>Under the guise of protecting regional stability, China has spearheaded an offensive from 
     the Red Sea, aimed at seizing the vital oil rigs and offshore platforms scattered along the 
     Mediterranean coast of Egypt. Significant air and ground forces have also been mobilised for 
-    a parallel offensive against Israeli energy prduction and industrial facilities, with the intent 
+    a parallel offensive against Israeli energy production and industrial facilities, with the intent 
     of stretching NATO resources thinly across multiple fronts.</p>
     <p>This Sinai campaign is not merely about control of resources or territory; it was a battle 
     for influence and power in a region that has long been a flashpoint for global conflict. The 
@@ -70,8 +70,13 @@ squadrons:
       aircraft:
         - B-1B Lancer
       size: 4
-  #Nevatim
-  8:
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - A-10C Thunderbolt II (Suite 7)
+      size: 8    
+  #Tel Nof
+  23:
     - primary: Escort
       secondary: any
       aircraft:
@@ -87,11 +92,6 @@ squadrons:
       aircraft:
         - F-16CM Fighting Falcon (Block 50)
       size: 12
-    - primary: CAS
-      secondary: air-to-ground
-      aircraft:
-        - A-10C Thunderbolt II (Suite 7)
-      size: 8    
     - primary: BAI
       secondary: any
       aircraft:
