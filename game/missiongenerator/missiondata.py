@@ -4,6 +4,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Optional, TYPE_CHECKING
 
+from dcs import Point
 from dcs.flyingunit import FlyingUnit
 
 from game.dcs.aircrafttype import AircraftType

@@ -744,6 +744,8 @@ class PretenseGenericCarrierGenerator(GenericCarrierGenerator):
                         icls_channel=icls,
                         link4_freq=link4,
                         blue=self.control_point.captured,
+                        position=ship_group.position,
+                        id=ship_group.id,
                     )
                 )
 
