@@ -610,7 +610,7 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
                 vehicle_unit.heading = unit.position.heading.degrees
                 GroundForcePainter(faction, vehicle_unit).apply_livery()
                 vehicle_group.add_unit(vehicle_unit)
-            self._register_theater_unit(vehicle_group.id, unit, vehicle_group.units[-1])
+            self._register_theater_unit(unit, vehicle_group.units[-1])
         if vehicle_group is None:
             raise RuntimeError(f"Error creating VehicleGroup for {group_name}")
         return vehicle_group
@@ -820,9 +820,9 @@ class PretenseTgoGenerator(TgoGenerator):
         self.ground_spawns_roadbase: dict[
             ControlPoint, list[Tuple[StaticGroup, Point]]
         ] = defaultdict(list)
-        self.ground_spawns: dict[ControlPoint, list[Tuple[StaticGroup, Point]]] = (
-            defaultdict(list)
-        )
+        self.ground_spawns: dict[
+            ControlPoint, list[Tuple[StaticGroup, Point]]
+        ] = defaultdict(list)
         self.mission_data = mission_data
 
     def generate(self) -> None:
@@ -849,9 +849,9 @@ class PretenseTgoGenerator(TgoGenerator):
                 self.m, cp, self.game, self.radio_registry, self.tacan_registry
             )
             ground_spawn_roadbase_gen.generate()
-            self.ground_spawns_roadbase[cp] = (
-                ground_spawn_roadbase_gen.ground_spawns_roadbase
-            )
+            self.ground_spawns_roadbase[
+                cp
+            ] = ground_spawn_roadbase_gen.ground_spawns_roadbase
             random.shuffle(self.ground_spawns_roadbase[cp])
 
             # Generate STOL pads

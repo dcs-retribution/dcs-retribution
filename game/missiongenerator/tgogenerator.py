@@ -330,7 +330,7 @@ class GroundObjectGenerator:
                 vehicle_unit.heading = unit.position.heading.degrees
                 GroundForcePainter(faction, vehicle_unit).apply_livery()
                 vehicle_group.add_unit(vehicle_unit)
-            self._register_theater_unit(vehicle_group.id, unit, vehicle_group.units[-1])
+            self._register_theater_unit(unit, vehicle_group.units[-1])
         if vehicle_group is None:
             raise RuntimeError(f"Error creating VehicleGroup for {group_name}")
         vehicle_group.hidden_on_mfd = self.ground_object.hide_on_mfd
@@ -367,7 +367,7 @@ class GroundObjectGenerator:
                 ship_unit.heading = unit.position.heading.degrees
                 NavalForcePainter(faction, ship_unit).apply_livery()
                 ship_group.add_unit(ship_unit)
-            self._register_theater_unit(ship_group.id, unit, ship_group.units[-1])
+            self._register_theater_unit(unit, ship_group.units[-1])
         if ship_group is None:
             raise RuntimeError(f"Error creating ShipGroup for {group_name}")
         ship_group.hidden_on_mfd = self.ground_object.hide_on_mfd
@@ -382,7 +382,7 @@ class GroundObjectGenerator:
             heading=unit.position.heading.degrees,
             dead=not unit.alive,
         )
-        self._register_theater_unit(static_group.id, unit, static_group.units[0])
+        self._register_theater_unit(unit, static_group.units[0])
 
     @staticmethod
     def enable_eplrs(group: VehicleGroup, unit_type: Type[VehicleType]) -> None:
@@ -397,11 +397,10 @@ class GroundObjectGenerator:
 
     def _register_theater_unit(
         self,
-        dcs_group_id: int,
         theater_unit: TheaterUnit,
         dcs_unit: Unit,
     ) -> None:
-        self.unit_map.add_theater_unit_mapping(dcs_group_id, theater_unit, dcs_unit)
+        self.unit_map.add_theater_unit_mapping(theater_unit, dcs_unit)
 
     def add_trigger_zone_for_scenery(self, scenery: SceneryUnit) -> None:
         # Align the trigger zones to the faction color on the DCS briefing/F10 map.
@@ -651,6 +650,8 @@ class GenericCarrierGenerator(GroundObjectGenerator):
                         icls_channel=icls,
                         link4_freq=link4,
                         blue=self.control_point.captured,
+                        position=ship_group.position,
+                        id=ship_group.id,
                     )
                 )
 
@@ -1364,9 +1365,9 @@ class TgoGenerator:
         self.ground_spawns_large: dict[
             ControlPoint, list[Tuple[StaticGroup, Point]]
         ] = defaultdict(list)
-        self.ground_spawns: dict[ControlPoint, list[Tuple[StaticGroup, Point]]] = (
-            defaultdict(list)
-        )
+        self.ground_spawns: dict[
+            ControlPoint, list[Tuple[StaticGroup, Point]]
+        ] = defaultdict(list)
         self.mission_data = mission_data
 
     def generate(self) -> None:
@@ -1385,9 +1386,9 @@ class TgoGenerator:
                 self.m, cp, self.game, self.radio_registry, self.tacan_registry
             )
             ground_spawn_roadbase_gen.generate()
-            self.ground_spawns_roadbase[cp] = (
-                ground_spawn_roadbase_gen.ground_spawns_roadbase
-            )
+            self.ground_spawns_roadbase[
+                cp
+            ] = ground_spawn_roadbase_gen.ground_spawns_roadbase
             random.shuffle(self.ground_spawns_roadbase[cp])
 
             # Generate Large Ground Spawn slots

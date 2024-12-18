@@ -44,11 +44,9 @@ class RecoveryTankerBuilder(PydcsWaypointBuilder):
     def _get_carrier_group_id(self) -> int:
         name = self.package.target.name
         carrier_position = self.package.target.position
-        theater_objects = self.unit_map.theater_objects
-        for key, value in theater_objects.items():
-            # Check name and position in case there are multiple of same carrier.
-            if name in key and value.theater_unit.position == carrier_position:
-                return value.dcs_group_id
+        for carrier in self.mission_data.carriers:
+            if carrier.position == carrier_position:
+                return carrier.id
         raise RuntimeError(
             f"Could not find a carrier in the mission matching {name} at "
             f"({carrier_position.x}, {carrier_position.y})"

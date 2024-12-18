@@ -22,7 +22,6 @@ from game.missiongenerator.aircraft.waypoints.recoverytanker import (
 )
 from game.missiongenerator.missiondata import MissionData
 from game.settings import Settings
-from game.unitmap import UnitMap
 from game.utils import pairwise
 from .airassaultingress import AirAssaultIngressBuilder
 from .antishipingress import AntiShipIngressBuilder
@@ -58,7 +57,6 @@ class WaypointGenerator:
         time: datetime,
         settings: Settings,
         mission_data: MissionData,
-        unit_map: UnitMap,
     ) -> None:
         self.flight = flight
         self.group = group
@@ -66,7 +64,6 @@ class WaypointGenerator:
         self.time = time
         self.settings = settings
         self.mission_data = mission_data
-        self.unit_map = unit_map
 
     def create_waypoints(self) -> tuple[timedelta, list[FlightWaypoint]]:
         for waypoint in self.flight.points:
@@ -173,7 +170,6 @@ class WaypointGenerator:
             self.mission,
             self.time,
             self.mission_data,
-            self.unit_map,
         )
 
     def _estimate_min_fuel_for(self, waypoints: list[FlightWaypoint]) -> None:

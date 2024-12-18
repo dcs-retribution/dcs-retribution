@@ -58,6 +58,8 @@ class CarrierInfo(UnitInfo):
     tacan: TacanChannel
     icls_channel: int | None
     link4_freq: RadioFrequency | None
+    position: Point
+    id: int
 
 
 @dataclass
