@@ -820,9 +820,9 @@ class PretenseTgoGenerator(TgoGenerator):
         self.ground_spawns_roadbase: dict[
             ControlPoint, list[Tuple[StaticGroup, Point]]
         ] = defaultdict(list)
-        self.ground_spawns: dict[
-            ControlPoint, list[Tuple[StaticGroup, Point]]
-        ] = defaultdict(list)
+        self.ground_spawns: dict[ControlPoint, list[Tuple[StaticGroup, Point]]] = (
+            defaultdict(list)
+        )
         self.mission_data = mission_data
 
     def generate(self) -> None:
@@ -849,9 +849,9 @@ class PretenseTgoGenerator(TgoGenerator):
                 self.m, cp, self.game, self.radio_registry, self.tacan_registry
             )
             ground_spawn_roadbase_gen.generate()
-            self.ground_spawns_roadbase[
-                cp
-            ] = ground_spawn_roadbase_gen.ground_spawns_roadbase
+            self.ground_spawns_roadbase[cp] = (
+                ground_spawn_roadbase_gen.ground_spawns_roadbase
+            )
             random.shuffle(self.ground_spawns_roadbase[cp])
 
             # Generate STOL pads
