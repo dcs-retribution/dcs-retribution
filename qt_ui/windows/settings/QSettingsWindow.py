@@ -28,7 +28,6 @@ from PySide6.QtWidgets import (
 import qt_ui.uiconstants as CONST
 from game.game import Game
 from game.persistency import settings_dir
-from game.plugins import LuaPluginManager
 from game.server import EventStream
 from game.settings import (
     BooleanOption,
@@ -589,7 +588,6 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
         else:
             if self.settings is None:
                 default_settings = Settings()
-                LuaPluginManager.load_settings(default_settings)
             else:
                 default_settings = self.settings
             with zipfile.ZipFile(default_zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
@@ -603,4 +601,4 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
                     ),
                     zipfile.ZIP_DEFLATED,
                 )
-            self.settings = default_settings
+            self.settings.__setstate__(default_settings.__dict__)
