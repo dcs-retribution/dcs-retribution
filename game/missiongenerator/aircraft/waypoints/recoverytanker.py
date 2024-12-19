@@ -26,10 +26,15 @@ class RecoveryTankerBuilder(PydcsWaypointBuilder):
                 waypoint.tasks.insert(0, SetUnlimitedFuelCommand(False))
 
         waypoint.add_task(Tanker())
-
         group_id = self._get_carrier_group_id()
         speed = knots(250).meters_per_second
         altitude = feet(6000).meters
+        if self.flight.squadron.coalition.game.conditions.weather.clouds is not None:
+            cloudbase = self.flight.squadron.coalition.game.conditions.weather.clouds.base
+        if abs(cloudbase - altitude) < feet(1000).meters:
+            altitude = cloudbase - feet(1000).meters
+        if altitude < feet(2000).meters:
+            altitude = cloudbase + feet(6000).meters
 
         # Last waypoint has index of 1.
         # Give the tanker a end condition of the last carrier waypoint.
@@ -46,7 +51,7 @@ class RecoveryTankerBuilder(PydcsWaypointBuilder):
         carrier_position = self.package.target.position
         for carrier in self.mission_data.carriers:
             if carrier.position == carrier_position:
-                return carrier.id
+                return carrier.group_id
         raise RuntimeError(
             f"Could not find a carrier in the mission matching {name} at "
             f"({carrier_position.x}, {carrier_position.y})"

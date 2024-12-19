@@ -30,7 +30,6 @@ from game.radio.tacan import (
     TacanRegistry,
 )
 from game.runways import RunwayData
-from game.unitmap import UnitMap
 
 if TYPE_CHECKING:
     from game import Game

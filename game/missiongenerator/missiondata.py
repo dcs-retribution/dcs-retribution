@@ -60,7 +60,7 @@ class CarrierInfo(UnitInfo):
     icls_channel: int | None
     link4_freq: RadioFrequency | None
     position: Point
-    id: int
+    group_id: int
 
 
 @dataclass
