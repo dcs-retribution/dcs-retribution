@@ -30,7 +30,9 @@ class RecoveryTankerBuilder(PydcsWaypointBuilder):
         speed = knots(250).meters_per_second
         altitude = feet(6000).meters
         if self.flight.squadron.coalition.game.conditions.weather.clouds is not None:
-            cloudbase = self.flight.squadron.coalition.game.conditions.weather.clouds.base
+            cloudbase = (
+                self.flight.squadron.coalition.game.conditions.weather.clouds.base
+            )
         if abs(cloudbase - altitude) < feet(1000).meters:
             altitude = cloudbase - feet(1000).meters
         if altitude < feet(2000).meters:
