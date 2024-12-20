@@ -60,6 +60,7 @@ class FlightType(Enum):
     SEAD_SWEEP = "SEAD Sweep"  # Reintroduce legacy "engage-whatever-you-can-find" SEAD
     PRETENSE_CARGO = "Cargo Transport"  # For Pretense campaign AI cargo planes
     ARMED_RECON = "Armed Recon"
+    RECOVERY = "Recovery"
 
     def __str__(self) -> str:
         return self.value
@@ -117,6 +118,7 @@ class FlightType(Enum):
             FlightType.INTERCEPTION: AirEntity.FIGHTER,
             FlightType.OCA_AIRCRAFT: AirEntity.ATTACK_STRIKE,
             FlightType.OCA_RUNWAY: AirEntity.ATTACK_STRIKE,
+            FlightType.RECOVERY: AirEntity.TANKER,
             FlightType.REFUELING: AirEntity.TANKER,
             FlightType.SEAD: AirEntity.SUPPRESSION_OF_ENEMY_AIR_DEFENCE,
             FlightType.SEAD_ESCORT: AirEntity.SUPPRESSION_OF_ENEMY_AIR_DEFENCE,

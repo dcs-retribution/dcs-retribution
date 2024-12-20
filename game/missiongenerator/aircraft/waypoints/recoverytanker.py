@@ -14,7 +14,7 @@ from .pydcswaypointbuilder import PydcsWaypointBuilder
 class RecoveryTankerBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
 
-        assert self.flight.flight_type == FlightType.REFUELING
+        assert self.flight.flight_type == FlightType.RECOVERY
 
         # Unlimited fuel option : disable at racetrack start. Must be first option to work.
         if self.flight.squadron.coalition.game.settings.ai_unlimited_fuel:
@@ -50,8 +50,8 @@ class RecoveryTankerBuilder(PydcsWaypointBuilder):
         name = self.package.target.name
         carrier_position = self.package.target.position
         for carrier in self.mission_data.carriers:
-            if carrier.position == carrier_position:
-                return carrier.group_id
+            if carrier.ship_group.position == carrier_position:
+                return carrier.ship_group.id
         raise RuntimeError(
             f"Could not find a carrier in the mission matching {name} at "
             f"({carrier_position.x}, {carrier_position.y})"

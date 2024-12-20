@@ -262,6 +262,12 @@ class AircraftType(UnitType[Type[FlyingType]]):
             ):
                 enrich[FlightType.ARMED_RECON] = value
 
+        if FlightType.RECOVERY not in self.task_priorities:
+            if (
+                value := self.task_priorities.get(FlightType.REFUELING)
+            ) and self.carrier_capable is True:
+                enrich[FlightType.RECOVERY] = value
+
         self.task_priorities.update(enrich)
 
     def __eq__(self, other: object) -> bool:

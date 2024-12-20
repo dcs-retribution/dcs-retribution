@@ -1370,6 +1370,7 @@ class NavalControlPoint(
         if self.is_friendly(for_player):
             yield from [
                 FlightType.AEWC,
+                FlightType.RECOVERY,
                 FlightType.REFUELING,
                 # TODO: FlightType.INTERCEPTION
                 # TODO: Buddy tanking for the A-4?

@@ -39,10 +39,6 @@ class FlightPlanBuilderTypes:
         from game.theater import FrontLine
 
         if flight.flight_type is FlightType.REFUELING:
-            if flight.package.target.is_friendly(flight.squadron.player) and isinstance(
-                flight.package.target, NavalControlPoint
-            ):
-                return RecoveryTankerFlightPlan.builder_type()
             if flight.package.target.is_friendly(flight.squadron.player) or isinstance(
                 flight.package.target, FrontLine
             ):
@@ -70,6 +66,7 @@ class FlightPlanBuilderTypes:
             FlightType.AIR_ASSAULT: AirAssaultFlightPlan.builder_type(),
             FlightType.PRETENSE_CARGO: PretenseCargoFlightPlan.builder_type(),
             FlightType.ARMED_RECON: ArmedReconFlightPlan.builder_type(),
+            FlightType.RECOVERY: RecoveryTankerFlightPlan.builder_type(),
         }
         try:
             return builder_dict[flight.flight_type]
