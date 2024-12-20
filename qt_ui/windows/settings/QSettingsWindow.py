@@ -575,6 +575,8 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
 
     def load_default_settings(self):
         sd = settings_dir()
+        if not sd.exists():
+            sd.mkdir()
         default_zip_path = sd / "Default.zip"
         if default_zip_path.exists():
             with zipfile.ZipFile(default_zip_path, "r") as zf:
