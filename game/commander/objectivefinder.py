@@ -228,16 +228,13 @@ class ObjectiveFinder:
             raise RuntimeError("Found no friendly control points. You probably lost.")
         return farthest
 
-    def closest_friendly_control_point(self) -> ControlPoint | None:
+    def closest_friendly_control_point(self) -> ControlPoint:
         """Finds the friendly control point that is closest to any threats."""
         threat_zones = self.game.threat_zone_for(not self.is_player)
 
         closest = None
         min_distance = meters(math.inf)
         for cp in self.friendly_control_points():
-            # If statement for https://github.com/dcs-liberation/dcs_liberation/issues/2693
-            if cp.is_fleet:
-                return closest
             if isinstance(cp, OffMapSpawn):
                 continue
             distance = threat_zones.distance_to_threat(cp.position)
