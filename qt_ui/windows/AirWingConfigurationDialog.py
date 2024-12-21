@@ -818,8 +818,6 @@ class AirWingConfigurationDialog(QDialog):
 
     def save_config(self) -> None:
         awd = airwing_dir()
-        if not awd.exists():
-            awd.mkdir()
         fd = QFileDialog(
             caption="Save Air Wing", directory=str(awd), filter="*.yaml;*.yml"
         )
@@ -876,8 +874,6 @@ class AirWingConfigurationDialog(QDialog):
             return
 
         awd = airwing_dir()
-        if not awd.exists():
-            awd.mkdir()
         fd = QFileDialog(
             caption="Load Air Wing", directory=str(awd), filter="*.yaml;*.yml"
         )

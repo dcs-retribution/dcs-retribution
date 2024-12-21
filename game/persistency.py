@@ -124,6 +124,12 @@ class MigrationUnpickler(pickle.Unpickler):
 # fmt: on
 
 
+def _create_dir_if_needed(path: Path) -> Path:
+    if not path.exists():
+        path.mkdir(755, parents=True)
+    return path
+
+
 def setup(user_folder: str, prefer_liberation_payloads: bool, port: int) -> None:
     global _dcs_saved_game_folder
     global _prefer_liberation_payloads
@@ -131,49 +137,48 @@ def setup(user_folder: str, prefer_liberation_payloads: bool, port: int) -> None
     _dcs_saved_game_folder = user_folder
     _prefer_liberation_payloads = prefer_liberation_payloads
     _server_port = port
-    if not save_dir().exists():
-        save_dir().mkdir(parents=True)
+    _create_dir_if_needed(save_dir())
 
 
 def base_path() -> Path:
     global _dcs_saved_game_folder
     assert _dcs_saved_game_folder
-    return Path(_dcs_saved_game_folder)
+    return _create_dir_if_needed(Path(_dcs_saved_game_folder))
 
 
 def debug_dir() -> Path:
-    return base_path() / "Retribution" / "Debug"
+    return _create_dir_if_needed(base_path() / "Retribution" / "Debug")
 
 
 def groups_dir() -> Path:
-    return base_path() / "Retribution" / "Groups"
+    return _create_dir_if_needed(base_path() / "Retribution" / "Groups")
 
 
 def layouts_dir() -> Path:
-    return base_path() / "Retribution" / "Layouts"
+    return _create_dir_if_needed(base_path() / "Retribution" / "Layouts")
 
 
 def waypoint_debug_directory() -> Path:
-    return debug_dir() / "Waypoints"
+    return _create_dir_if_needed(debug_dir() / "Waypoints")
 
 
 def settings_dir() -> Path:
-    return base_path() / "Retribution" / "Settings"
+    return _create_dir_if_needed(base_path() / "Retribution" / "Settings")
 
 
 def airwing_dir() -> Path:
-    return base_path() / "Retribution" / "AirWing"
+    return _create_dir_if_needed(base_path() / "Retribution" / "AirWing")
 
 
 def kneeboards_dir() -> Path:
-    return base_path() / "Retribution" / "Kneeboards"
+    return _create_dir_if_needed(base_path() / "Retribution" / "Kneeboards")
 
 
 def payloads_dir(backup: bool = False) -> Path:
     payloads = base_path() / "MissionEditor" / "UnitPayloads"
     if backup:
-        return payloads / "_retribution_backups"
-    return payloads
+        return _create_dir_if_needed(payloads / "_retribution_backups")
+    return _create_dir_if_needed(payloads)
 
 
 def prefer_liberation_payloads() -> bool:
@@ -182,15 +187,15 @@ def prefer_liberation_payloads() -> bool:
 
 
 def user_custom_weapon_injections_dir() -> Path:
-    return base_path() / "Retribution" / "WeaponInjections"
+    return _create_dir_if_needed(base_path() / "Retribution" / "WeaponInjections")
 
 
 def save_dir() -> Path:
-    return base_path() / "Retribution" / "Saves"
+    return _create_dir_if_needed(base_path() / "Retribution" / "Saves")
 
 
 def pre_pretense_backups_dir() -> Path:
-    return save_dir() / "PrePretenseBackups"
+    return _create_dir_if_needed(save_dir() / "PrePretenseBackups")
 
 
 def server_port() -> int:

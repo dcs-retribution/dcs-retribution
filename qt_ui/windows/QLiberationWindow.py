@@ -332,7 +332,6 @@ class QLiberationWindow(QMainWindow):
             now = datetime.now()
             date_time = now.strftime("%Y-%d-%mT%H_%M_%S")
             path = pre_pretense_backups_dir()
-            path.mkdir(parents=True, exist_ok=True)
             tgt = path / f"pre-pretense-backup_{date_time}.retribution"
             path /= f".pre-pretense-backup.retribution"
             if path.exists():

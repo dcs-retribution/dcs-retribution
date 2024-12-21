@@ -61,7 +61,6 @@ class PretenseMissionGenerator(MissionGenerator):
     def generate_miz(self, output: Path) -> UnitMap:
         game_backup_pickle = pickle.dumps(self.game)
         path = pre_pretense_backups_dir()
-        path.mkdir(parents=True, exist_ok=True)
         path /= f".pre-pretense-backup.retribution"
         try:
             with open(path, "wb") as f:
