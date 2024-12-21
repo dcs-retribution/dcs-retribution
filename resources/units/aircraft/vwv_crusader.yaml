@@ -1,7 +1,3 @@
-# TODO set prince
-# TODO define task numbers
-# TODO define weapon injections
-#
 carrier_capable: true
 description:    # from: https://en.wikipedia.org/wiki/Vought_F-8_Crusader
   The Vought F-8 Crusader (originally F8U) is a single-engine, supersonic, 
@@ -18,42 +14,26 @@ description:    # from: https://en.wikipedia.org/wiki/Vought_F-8_Crusader
   to pilot. American F-8s saw active combat during the Vietnam War, engaging in multiple 
   dogfights with MiG-17s of the Vietnam People's Air Force as well as performing ground 
   attack missions in the theatre.
-introduced: 1957
+introduced: 1963     # original type 1957, F-8E before 1964, USA retired 1976
 manufacturer: Vought
 origin: USA
 price: 9    # reference: Starfighter = 9, Thunderchief = 9
 role: Carrier-based Interceptor
 gunfighter: true
-# TODO maxrange?
 variants:
   F-8E Crusader: {}
-#
-#    tasks = [
-#        task.CAP,
-#        task.Escort,
-#        task.FighterSweep,
-#        task.Intercept,
-#        task.Reconnaissance,
-#        task.GroundAttack,
-#        task.CAS,
-#        task.AntishipStrike,
-#    ]
-#    task_default = task.CAP
-#
 tasks:
-  Anti-ship: 660
-  BAI: 660    # TODO  how to determine these numbers?
-  CAS: 660
-  DEAD: 60
-  OCA/Aircraft: 360   # TODO is this parked a/c?
-  OCA/Runway: 360
-  Strike: 360
-weapon_injections:     # TODO  update
-  1:
-    - "{AIM-9J-ON-ADAPTER}"
-  2:
-    - "{AIM-9J-ON-ADAPTER}"
-  4:
-    - "{AIM-9J-ON-ADAPTER}"
-  5:
-    - "{AIM-9J-ON-ADAPTER}"
+  Anti-ship: 100
+  BAI: 100
+  CAS: 100
+  SEAD: 0
+  SEAD Sweep: 0
+  DEAD: 0
+  OCA/Aircraft: 0
+  OCA/Runway: 0
+  Strike: 100
+  Escort: 300
+  Fighter sweep: 300
+  Intercept: 400
+  TARCAP: 300
+  BARCAP: 300

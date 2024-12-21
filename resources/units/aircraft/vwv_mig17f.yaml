@@ -1,7 +1,3 @@
-# TODO set prince
-# TODO define task numbers
-# TODO define weapon injections
-#
 carrier_capable: false
 description:   # from: https://en.wikipedia.org/wiki/Mikoyan-Gurevich_MiG-17
   The Mikoyan-Gurevich MiG-17 (NATO reporting name Fresco) is a high-subsonic fighter 
@@ -19,43 +15,26 @@ description:   # from: https://en.wikipedia.org/wiki/Mikoyan-Gurevich_MiG-17
   the American F-4 Phantom and F-105 Thunderchief, which were focused on speed and 
   long range combat, as well as the fact that MiG-17 was armed with guns, which 
   initial models of the F-4 Phantom lacked.
-introduced: 1952
+introduced: 1953     # original type 1952, MiG-17F 1953, USSR retired ?
 manufacturer: Mikoyan-Gurevich
 origin: Soviet Union
 price: 9    # reference: MiG-15bis = 8, MiG-19P = 10
 role: Interceptor
-gunfighter: true   # TODO  what is this?
-# TODO maxrange?
+gunfighter: true
 variants:
   MiG-17F Fresco C: {}
-#
-#    tasks = [
-#        task.CAP,
-#        task.Escort,
-#        task.FighterSweep,
-#        task.Intercept,
-#        task.Reconnaissance,
-#        task.GroundAttack,
-#        task.CAS,
-#        task.AFAC,
-#        task.RunwayAttack,
-#    ]
-#    task_default = task.CAP
-#
 tasks:
-  Anti-ship: 660
-  BAI: 660    # TODO  how to determine these numbers?
-  CAS: 660
-  DEAD: 60
-  OCA/Aircraft: 360   # TODO is this parked a/c?
-  OCA/Runway: 360
-  Strike: 360
-weapon_injections:     # TODO  update
-  1:
-    - "{AIM-9J-ON-ADAPTER}"
-  2:
-    - "{AIM-9J-ON-ADAPTER}"
-  4:
-    - "{AIM-9J-ON-ADAPTER}"
-  5:
-    - "{AIM-9J-ON-ADAPTER}"
+  Anti-ship: 0
+  BAI: 100
+  CAS: 100
+  SEAD: 0
+  SEAD Sweep: 0
+  DEAD: 0
+  OCA/Aircraft: 100
+  OCA/Runway: 100
+  Strike: 100
+  Escort: 300
+  Fighter sweep: 300
+  Intercept: 300
+  TARCAP: 300
+  BARCAP: 300

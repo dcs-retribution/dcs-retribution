@@ -1,7 +1,3 @@
-# TODO set prince
-# TODO define task numbers
-# TODO define weapon injections
-#
 carrier_capable: false
 description:    # from: https://en.wikipedia.org/wiki/Cessna_O-1_Bird_Dog
   The Cessna O-1 Bird Dog is a liaison and observation aircraft that first flew on 
@@ -20,35 +16,20 @@ origin: USA
 price: 2    # reference: Bronco = 4
 role: observation aircraft
 gunfighter: false
-# TODO maxrange?
 variants:
   O-1E Bird Dog: {}
-#
-#    tasks = [
-#        task.CAP,
-#        task.Escort,
-#        task.FighterSweep,
-#        task.Intercept,
-#        task.Reconnaissance,
-#        task.GroundAttack,
-#        task.CAS,
-#    ]
-#    task_default = task.CAP
-#
 tasks:
-  Anti-ship: 660
-  BAI: 660    # TODO  how to determine these numbers?
-  CAS: 660
-  DEAD: 60
-  OCA/Aircraft: 360   # TODO is this parked a/c?
-  OCA/Runway: 360
-  Strike: 360
-weapon_injections:     # TODO  update
-  1:
-    - "{AIM-9J-ON-ADAPTER}"
-  2:
-    - "{AIM-9J-ON-ADAPTER}"
-  4:
-    - "{AIM-9J-ON-ADAPTER}"
-  5:
-    - "{AIM-9J-ON-ADAPTER}"
+  Anti-ship: 0
+  BAI: 100
+  CAS: 100
+  SEAD: 0
+  SEAD Sweep: 0
+  DEAD: 0
+  OCA/Aircraft: 0
+  OCA/Runway: 0
+  Strike: 100
+  Escort: 0
+  Fighter sweep: 0
+  Intercept: 0
+  TARCAP: 0
+  BARCAP: 0

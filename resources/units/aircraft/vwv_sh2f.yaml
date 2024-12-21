@@ -16,7 +16,7 @@ description:  # from https://en.wikipedia.org/wiki/Kaman_SH-2_Seasprite
   Sea Hawk which entered service starting in the mid-1980s, but it could not 
   operate safety from the smaller flight decks like the smaller Seasprite.
 lha_capable: true
-introduced: 1962   # TODO original model or F-model?
+introduced: 1973   # original type 1962, SH-2F 1973
 cabin_size: 12  # from: https://plane-encyclopedia.com/cold-war/kaman-sh-2f-seasprite/
 can_carry_crates: true
 manufacturer: Kaman Aircraft Corporation
@@ -32,20 +32,20 @@ radios:   #TODO radios??
     type: common
     intra_flight_radio_index: 1
     inter_flight_radio_index: 1
-#
-#    tasks = [
-#        task.CAP,
-#        task.Escort,
-#        task.Intercept,
-#        task.FighterSweep,
-#        task.GroundAttack,
-#        task.CAS,
-#        task.AFAC,
-#        task.RunwayAttack,
-#        task.AntishipStrike,
-#    ]
-#    task_default = task.AntishipStrike
-#
 tasks:
-  Air Assault: 120
-  Transport: 110
+  Anti-ship: 300
+  BAI: 0
+  CAS: 100
+  SEAD: 0
+  SEAD Sweep: 0
+  DEAD: 0
+  OCA/Aircraft: 0
+  OCA/Runway: 100
+  Strike: 100
+  Escort: 0
+  Fighter sweep: 0
+  Intercept: 0
+  TARCAP: 0
+  BARCAP: 0
+  Air Assault: 100
+  Transport: 100

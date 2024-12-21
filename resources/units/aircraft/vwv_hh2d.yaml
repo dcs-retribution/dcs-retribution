@@ -17,7 +17,7 @@ description:  # from: https://en.wikipedia.org/wiki/Kaman_SH-2_Seasprite
   situational awareness of ships. The SH-2D first flew on 16 March 1971.
   HH-2D was a search and rescue version.
 lha_capable: true
-introduced: 1962   # TODO original model or D-model?
+introduced: 1971   # original type 1962, SH-2D 1971
 cabin_size: 12  # from: https://plane-encyclopedia.com/cold-war/kaman-sh-2f-seasprite/
 can_carry_crates: true
 manufacturer: Kaman Aircraft Corporation
@@ -33,10 +33,6 @@ radios:   #TODO radios??
     type: common
     intra_flight_radio_index: 1
     inter_flight_radio_index: 1
-#
-#      tasks = [task.Escort, task.GroundAttack, task.CAS, task.AFAC, task.AntishipStrike]
-#    task_default = task.AntishipStrike
-#
 tasks:
-  Air Assault: 120
-  Transport: 110
+  Air Assault: 0
+  Transport: 100
