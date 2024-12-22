@@ -25,7 +25,7 @@ origin: USA
 price: 4   # reference: UH-1H = 4, UH-60A = 4
 role: Search and Rescue
 variants:
-  SH-2F Seasprite: {}
+  HH-2D Seasprite: {}
 radios:   #TODO radios??
   intra_flight: AN/ARC-186(V) FM
   inter_flight: AN/ARC-186(V) FM
