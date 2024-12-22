@@ -1,5 +1,6 @@
 class: Helicopter
 carrier_capable: true
+lha_capable: true
 description:  # from: https://en.wikipedia.org/wiki/Kaman_SH-2_Seasprite
   The Kaman SH-2 Seasprite is a ship-based helicopter originally developed and 
   produced by American manufacturer Kaman Aircraft Corporation. It has been 
@@ -16,7 +17,6 @@ description:  # from: https://en.wikipedia.org/wiki/Kaman_SH-2_Seasprite
   SH-2Ds, and became mobile radar and sonar platforms that enhanced the 
   situational awareness of ships. The SH-2D first flew on 16 March 1971.
   HH-2D was a search and rescue version.
-lha_capable: true
 introduced: 1971   # original type 1962, SH-2D 1971
 cabin_size: 12  # from: https://plane-encyclopedia.com/cold-war/kaman-sh-2f-seasprite/
 can_carry_crates: true
@@ -26,13 +26,6 @@ price: 4   # reference: UH-1H = 4, UH-60A = 4
 role: Search and Rescue
 variants:
   SH-2F Seasprite: {}
-radios:   #TODO radios??
-  intra_flight: AN/ARC-186(V) FM
-  inter_flight: AN/ARC-186(V) FM
-  channels:
-    type: common
-    intra_flight_radio_index: 1
-    inter_flight_radio_index: 1
 tasks:
   Air Assault: 0
   Transport: 100
