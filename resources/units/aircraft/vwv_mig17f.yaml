@@ -22,7 +22,7 @@ price: 9    # reference: MiG-15bis = 8, MiG-19P = 10
 role: Interceptor
 gunfighter: true
 variants:
-  MiG-17F Fresco C: {}
+  MiG-17F Fresco-C: {}
 tasks:
   Anti-ship: 0
   BAI: 100
