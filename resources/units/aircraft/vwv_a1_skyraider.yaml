@@ -1,3 +1,7 @@
+# TODO set prince
+# TODO define task numbers
+# TODO define weapon injections
+#
 carrier_capable: true
 description:    # from: https://en.wikipedia.org/wiki/Douglas_A-1_Skyraider
   The Douglas A-1 Skyraider (formerly designated AD before the 1962 unification of 
@@ -7,12 +11,13 @@ description:    # from: https://en.wikipedia.org/wiki/Douglas_A-1_Skyraider
   the Jet Age (when most piston-engine attack or fighter aircraft were replaced by 
   jet aircraft); thus becoming known by some as an "anachronism". The aircraft was 
   nicknamed "Spad", after the French World War I fighter.
-introduced: 1963      # original type 1946, A-1H before 1964, USA retired 1973
+introduced: 1946      # original type 1946, A-1H before 1964, USA retired 1973
 manufacturer: Douglas
 origin: USA
 price: 5    # reference: Skyhawk = 7, Bronco = 4
 role: Carrier-based Attack Aircraft
 gunfighter: true
+# TODO maxrange?
 variants:
   A-1H Skyraider: {}
 tasks:
@@ -30,3 +35,12 @@ tasks:
   Intercept: 0
   TARCAP: 0
   BARCAP: 0
+weapon_injections:     # TODO  update
+  1:
+    - "{AIM-9J-ON-ADAPTER}"
+  2:
+    - "{AIM-9J-ON-ADAPTER}"
+  4:
+    - "{AIM-9J-ON-ADAPTER}"
+  5:
+    - "{AIM-9J-ON-ADAPTER}"
