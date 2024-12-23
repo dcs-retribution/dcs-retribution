@@ -26,11 +26,6 @@ tasks:
   Anti-ship: 100
   BAI: 100
   CAS: 100
-  SEAD: 0
-  SEAD Sweep: 0
-  DEAD: 0
-  OCA/Aircraft: 0
-  OCA/Runway: 0
   Strike: 100
   Escort: 300
   Fighter sweep: 300

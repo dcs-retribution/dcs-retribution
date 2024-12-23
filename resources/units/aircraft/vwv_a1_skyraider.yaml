@@ -25,9 +25,4 @@ tasks:
   OCA/Aircraft: 200
   OCA/Runway: 200
   Strike: 300
-  Escort: 0
-  Fighter sweep: 0
-  Intercept: 0
-  TARCAP: 0
-  BARCAP: 0
   

@@ -19,17 +19,6 @@ gunfighter: false
 variants:
   O-1E Bird Dog: {}
 tasks:
-  Anti-ship: 0
   BAI: 100
   CAS: 100
-  SEAD: 0
-  SEAD Sweep: 0
-  DEAD: 0
-  OCA/Aircraft: 0
-  OCA/Runway: 0
   Strike: 100
-  Escort: 0
-  Fighter sweep: 0
-  Intercept: 0
-  TARCAP: 0
-  BARCAP: 0

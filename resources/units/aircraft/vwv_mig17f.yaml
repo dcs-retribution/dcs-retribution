@@ -24,12 +24,8 @@ gunfighter: true
 variants:
   MiG-17F Fresco-C: {}
 tasks:
-  Anti-ship: 0
   BAI: 100
   CAS: 100
-  SEAD: 0
-  SEAD Sweep: 0
-  DEAD: 0
   OCA/Aircraft: 100
   OCA/Runway: 100
   Strike: 100
