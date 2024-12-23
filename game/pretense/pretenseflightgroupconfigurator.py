@@ -77,12 +77,14 @@ class PretenseFlightGroupConfigurator(FlightGroupConfigurator):
         self.use_client = use_client
 
     def configure(self) -> FlightData:
-        AircraftBehavior(self.flight.flight_type).apply_to(self.flight, self.group)
+        flight_channel = self.setup_radios()
+        AircraftBehavior(self.flight.flight_type, self.mission_data).apply_to(
+            self.flight, self.group
+        )
         AircraftPainter(self.flight, self.group).apply_livery()
         self.setup_props()
         self.setup_payloads()
         self.setup_fuel()
-        flight_channel = self.setup_radios()
 
         laser_codes: list[Optional[int]] = []
         for unit, pilot in zip(self.group.units, self.flight.roster.members):

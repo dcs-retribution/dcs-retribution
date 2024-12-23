@@ -19,6 +19,7 @@ class PlanArmedRecon(PackagePlanningTask[ControlPoint]):
 
     def apply_effects(self, state: TheaterState) -> None:
         state.control_point_priority_queue.remove(self.target)
+        super().apply_effects(state)
 
     def propose_flights(self) -> None:
         self.propose_flight(FlightType.ARMED_RECON, self.get_flight_size())

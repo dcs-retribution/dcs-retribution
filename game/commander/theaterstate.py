@@ -15,7 +15,12 @@ from game.ground_forces.combat_stance import CombatStance
 from game.htn import WorldState
 from game.profiling import MultiEventTracer
 from game.settings import Settings
-from game.theater import ConflictTheater, ControlPoint, FrontLine, MissionTarget
+from game.theater import (
+    ConflictTheater,
+    ControlPoint,
+    FrontLine,
+    MissionTarget,
+)
 from game.theater.theatergroundobject import (
     BuildingGroundObject,
     IadsGroundObject,
@@ -51,6 +56,7 @@ class TheaterState(WorldState["TheaterState"]):
     vulnerable_front_lines: list[FrontLine]
     aewc_targets: list[MissionTarget]
     refueling_targets: list[MissionTarget]
+    recovery_targets: dict[ControlPoint, int]
     enemy_air_defenses: list[IadsGroundObject]
     threatening_air_defenses: list[Union[IadsGroundObject, NavalGroundObject]]
     detecting_air_defenses: list[Union[IadsGroundObject, NavalGroundObject]]
@@ -118,6 +124,7 @@ class TheaterState(WorldState["TheaterState"]):
             vulnerable_front_lines=list(self.vulnerable_front_lines),
             aewc_targets=list(self.aewc_targets),
             refueling_targets=list(self.refueling_targets),
+            recovery_targets=dict(self.recovery_targets),
             enemy_air_defenses=list(self.enemy_air_defenses),
             enemy_convoys=list(self.enemy_convoys),
             enemy_shipping=list(self.enemy_shipping),
@@ -186,6 +193,7 @@ class TheaterState(WorldState["TheaterState"]):
             vulnerable_front_lines=list(finder.front_lines()),
             aewc_targets=[finder.farthest_friendly_control_point()],
             refueling_targets=[finder.closest_friendly_control_point()],
+            recovery_targets={cp: 0 for cp in finder.friendly_naval_control_points()},
             enemy_air_defenses=list(finder.enemy_air_defenses()),
             threatening_air_defenses=[],
             detecting_air_defenses=[],

@@ -60,6 +60,16 @@ class CustomFlightPlan(FlightPlan[CustomLayout]):
     def mission_departure_time(self) -> datetime:
         return self.package.time_over_target
 
+    @property
+    def landing_time(self) -> datetime:
+        arrival = (
+            self.layout.custom_waypoints[-1]
+            if self.layout.custom_waypoints
+            else self.layout.departure
+        )
+        return_time = self.total_time_between_waypoints(self.tot_waypoint, arrival)
+        return self.tot + return_time
+
 
 class Builder(IBuilder[CustomFlightPlan, CustomLayout]):
     def __init__(

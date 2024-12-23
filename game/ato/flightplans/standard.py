@@ -3,6 +3,7 @@ from __future__ import annotations
 from abc import ABC
 from copy import deepcopy
 from dataclasses import dataclass
+from datetime import datetime
 from typing import TYPE_CHECKING, TypeVar, Optional
 
 from game.ato.flightplans.flightplan import FlightPlan, Layout
@@ -86,3 +87,10 @@ class StandardFlightPlan(FlightPlan[LayoutT], ABC):
     others are guaranteed to have certain properties like departure and arrival points,
     potentially a divert field, and a bullseye
     """
+
+    @property
+    def landing_time(self) -> datetime:
+        return_time = self.total_time_between_waypoints(
+            self.tot_waypoint, self.layout.arrival
+        )
+        return self.tot + return_time

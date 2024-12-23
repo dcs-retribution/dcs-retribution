@@ -100,7 +100,7 @@ class RaceTrackBuilder(PydcsWaypointBuilder):
                 ActivateBeaconCommand(
                     tacan.number,
                     tacan.band.value,
-                    tacan_callsign,
+                    tacan_callsign.upper(),
                     bearing=True,
                     unit_id=self.group.units[0].id,
                     aa=True,

@@ -40,6 +40,8 @@ class MissionScheduler:
             p for p in self.coalition.ato.packages if p.primary_task not in dca_types
         ]
 
+        carrier_etas = []
+
         start_time = start_time_generator(
             count=len(non_dca_packages),
             earliest=5 * 60,
@@ -47,6 +49,8 @@ class MissionScheduler:
             margin=5 * 60,
         )
         for package in self.coalition.ato.packages:
+            if package.primary_task is FlightType.RECOVERY:
+                continue
             tot = TotEstimator(package).earliest_tot(now)
             if package.primary_task in dca_types:
                 previous_end_time = previous_cap_end_time[package.target]
@@ -74,3 +78,19 @@ class MissionScheduler:
                 # to be present. Runway and air started aircraft will be
                 # delayed until their takeoff time by AirConflictGenerator.
                 package.time_over_target = next(start_time) + tot
+            arrivals = []
+            for f in package.flights:
+                if f.departure.is_fleet and not f.is_helo:
+                    arrivals.append(f.flight_plan.landing_time - timedelta(minutes=10))
+            if arrivals:
+                carrier_etas.append(min(arrivals))
+
+        for package in [
+            p
+            for p in self.coalition.ato.packages
+            if p.primary_task is FlightType.RECOVERY
+        ]:
+            if carrier_etas:
+                package.time_over_target = carrier_etas.pop(0)
+            else:
+                break

@@ -246,6 +246,9 @@ class ObjectiveFinder:
             raise RuntimeError("Found no friendly control points. You probably lost.")
         return closest
 
+    def friendly_naval_control_points(self) -> Iterator[ControlPoint]:
+        return (cp for cp in self.friendly_control_points() if cp.is_fleet)
+
     def enemy_control_points(self) -> Iterator[ControlPoint]:
         """Iterates over all enemy control points."""
         return (

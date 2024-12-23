@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from random import randint
 
 from game.ato.flighttype import FlightType
 from game.commander.missionproposals import EscortType
@@ -21,6 +20,7 @@ class PlanAntiShip(PackagePlanningTask[NavalGroundObject]):
 
     def apply_effects(self, state: TheaterState) -> None:
         state.eliminate_ship(self.target)
+        super().apply_effects(state)
 
     def propose_flights(self) -> None:
         size = self.get_flight_size()

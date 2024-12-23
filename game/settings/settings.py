@@ -247,6 +247,17 @@ class Settings:
             "provided the faction has access to them."
         ),
     )
+    aircraft_per_recovery_tanker: int = bounded_int_option(
+        "Number of aircraft per recovery tanker",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=4,
+        min=2,
+        max=12,
+        detail=(
+            "A higher number will force the autoplanner to generate less recovery tankers."
+        ),
+    )
     oca_target_autoplanner_min_aircraft_count: int = bounded_int_option(
         "Minimum number of aircraft (at vulnerable airfields) for auto-planner to plan OCA packages against",
         page=CAMPAIGN_DOCTRINE_PAGE,
