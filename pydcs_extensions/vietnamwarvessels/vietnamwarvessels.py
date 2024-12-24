@@ -18,7 +18,7 @@ class WeaponsVWV:
     AN_M81___260lb_GP_Bomb_LD = {
         "clsid": "{AN-M81}",
         "name": "AN-M81 - 260lb GP Bomb LD",
-        "weight": 117.93392,
+        "weight": 117.93392,  # [kg]
     }
     AN_M88___220lb_GP_Bomb_LD = {
         "clsid": "{AN-M88}",

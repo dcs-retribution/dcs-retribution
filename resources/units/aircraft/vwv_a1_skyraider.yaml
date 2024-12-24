@@ -7,7 +7,7 @@ description:    # from: https://en.wikipedia.org/wiki/Douglas_A-1_Skyraider
   the Jet Age (when most piston-engine attack or fighter aircraft were replaced by 
   jet aircraft); thus becoming known by some as an "anachronism". The aircraft was 
   nicknamed "Spad", after the French World War I fighter.
-introduced: 1946      # original type 1946, A-1H before 1964, USA retired 1973
+introduced: 1946    # original type 1946, A-1H before 1964, USA retired 1973
 manufacturer: Douglas
 origin: USA
 price: 5    # reference: Skyhawk = 7, Bronco = 4

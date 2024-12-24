@@ -1,5 +1,5 @@
 carrier_capable: false
-description:   # from: https://en.wikipedia.org/wiki/Mikoyan-Gurevich_MiG-17
+description:    # from: https://en.wikipedia.org/wiki/Mikoyan-Gurevich_MiG-17
   The Mikoyan-Gurevich MiG-17 (NATO reporting name Fresco) is a high-subsonic fighter 
   aircraft produced in the Soviet Union from 1952 and was operated by air forces 
   internationally. The MiG-17 was license-built in China as the Shenyang J-5 and 
@@ -15,12 +15,12 @@ description:   # from: https://en.wikipedia.org/wiki/Mikoyan-Gurevich_MiG-17
   the American F-4 Phantom and F-105 Thunderchief, which were focused on speed and 
   long range combat, as well as the fact that MiG-17 was armed with guns, which 
   initial models of the F-4 Phantom lacked.
-introduced: 1953     # original type 1952, MiG-17F 1953, USSR retired ?
+introduced: 1953    # original type 1952, MiG-17F 1953, USSR retired ?
 manufacturer: Mikoyan-Gurevich
 origin: Soviet Union
 price: 9    # reference: MiG-15bis = 8, MiG-19P = 10
 role: Interceptor
-max_range: 500     # combat range without droptanks [nmi]
+max_range: 500    # combat range without droptanks [nmi]
 gunfighter: true
 variants:
   MiG-17F Fresco-C: {}

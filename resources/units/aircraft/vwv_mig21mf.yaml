@@ -1,5 +1,5 @@
 carrier_capable: false
-description:   # from: https://en.wikipedia.org/wiki/Mikoyan-Gurevich_MiG-21
+description:    # from: https://en.wikipedia.org/wiki/Mikoyan-Gurevich_MiG-21
   The Mikoyan-Gurevich MiG-21 (NATO reporting name Fishbed) is a supersonic jet 
   fighter and interceptor aircraft, designed by the Mikoyan-Gurevich Design Bureau 
   in the Soviet Union. Its nicknames include "Balalaika", because its planform 
@@ -16,12 +16,12 @@ description:   # from: https://en.wikipedia.org/wiki/Mikoyan-Gurevich_MiG-21
   Mach 2 Soviet designs were based on nose intakes with either swept-back wings, 
   such as the Sukhoi Su-7, or tailed deltas, of which the MiG-21 would be the 
   most successful.
-introduced: 1959     # original type 1959, MiG-21MF ?, USSR retired ?
+introduced: 1959    # original type 1959, MiG-21MF ?, USSR retired ?
 manufacturer: Mikoyan-Gurevich
 origin: Soviet Union
 price: 12    # reference: MiG-21bis = 12
 role: Interceptor
-max_range: 200     # combat range without droptanks [nmi]
+max_range: 200    # combat range without droptanks [nmi]
 gunfighter: true
 variants:
   MiG-21MF Fishbed-J: {}
