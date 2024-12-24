@@ -585,7 +585,7 @@ class vwv_ra_5(PlaneType):
 @planemod
 class vwv_crusader(PlaneType):
     id = "vwv_crusader"
-    flyable = True
+    # flyable = True    # not available in current mod version
     height = 4.8
     width = 10.72
     length = 16.61
@@ -738,7 +738,7 @@ class vwv_crusader(PlaneType):
 @planemod
 class vwv_mig17f(PlaneType):
     id = "vwv_mig17f"
-    flyable = True
+    # flyable = True    # not available in current mod version
     height = 3.8
     width = 9.628
     length = 11.09
