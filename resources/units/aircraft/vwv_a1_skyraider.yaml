@@ -12,6 +12,7 @@ manufacturer: Douglas
 origin: USA
 price: 5    # reference: Skyhawk = 7, Bronco = 4
 role: Carrier-based Attack Aircraft
+max_range: 1000    # combat range [nmi]
 gunfighter: true
 variants:
   A-1H Skyraider: {}

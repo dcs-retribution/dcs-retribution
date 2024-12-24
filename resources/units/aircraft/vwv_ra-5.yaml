@@ -26,6 +26,7 @@ manufacturer: North American Aviation
 origin: USA
 price: 15    # reference: 
 role: Carrier-based Reconnaissance and Tactical Strike
+max_range: 1000    # combat range without droptanks [nmi]
 gunfighter: false
 variants:
   RA-5C Vigilante: {}

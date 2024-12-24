@@ -19,6 +19,7 @@ manufacturer: Vought
 origin: USA
 price: 9    # reference: Starfighter = 9, Thunderchief = 9
 role: Carrier-based Interceptor
+max_range: 394     # combat range without droptanks [nmi]
 gunfighter: true
 variants:
   F-8E Crusader: {}

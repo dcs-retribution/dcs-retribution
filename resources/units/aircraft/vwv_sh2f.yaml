@@ -23,6 +23,7 @@ manufacturer: Kaman Aircraft Corporation
 origin: USA
 price: 4   # reference: UH-1H = 4, UH-60A = 4
 role: Transport, Anti-Submarine Warfare
+max_range: 367    # combat range [nmi]
 variants:
   SH-2F Seasprite: {}
 tasks:
