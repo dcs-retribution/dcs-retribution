@@ -16,7 +16,7 @@ max_range: 1000    # combat range [nmi]
 gunfighter: true
 variants:
   A-1H Skyraider: {}
-tasks:
+tasks:    # defined in flighttype.py
   Anti-ship: 200
   BAI: 300
   CAS: 300

@@ -19,7 +19,7 @@ max_range: 460    # combat range [nmi]
 gunfighter: false
 variants:
   O-1E Bird Dog: {}
-tasks:
+tasks:    # defined in flighttype.py
   BAI: 100
   CAS: 100
   Strike: 100

@@ -26,7 +26,7 @@ role: Transport, Anti-Submarine Warfare
 max_range: 367    # combat range [nmi]
 variants:
   SH-2F Seasprite: {}
-tasks:
+tasks:    # defined in flighttype.py
   Anti-ship: 300
   CAS: 100
   OCA/Runway: 100

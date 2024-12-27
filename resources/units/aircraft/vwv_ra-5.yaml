@@ -30,6 +30,5 @@ max_range: 1000    # combat range without droptanks [nmi]
 gunfighter: false
 variants:
   RA-5C Vigilante: {}
-tasks:
-  # Reconnaissance
-  Intercept: 0
+tasks:    # defined in flighttype.py
+  Armed Recon: 300

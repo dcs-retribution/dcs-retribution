@@ -24,7 +24,7 @@ max_range: 500    # combat range without droptanks [nmi]
 gunfighter: true
 variants:
   MiG-17F Fresco-C: {}
-tasks:
+tasks:    # defined in flighttype.py
   BAI: 100
   CAS: 100
   OCA/Aircraft: 100

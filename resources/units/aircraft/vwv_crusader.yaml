@@ -23,7 +23,7 @@ max_range: 394    # combat range without droptanks [nmi]
 gunfighter: true
 variants:
   F-8E Crusader: {}
-tasks:
+tasks:    # defined in flighttype.py
   Anti-ship: 100
   BAI: 100
   CAS: 100
