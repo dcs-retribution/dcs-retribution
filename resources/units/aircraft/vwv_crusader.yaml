@@ -24,9 +24,6 @@ gunfighter: true
 variants:
   F-8E Crusader: {}
 tasks:    # defined in flighttype.py
-  Anti-ship: 100
-  BAI: 100
-  CAS: 100
   Strike: 100
   Escort: 300
   Fighter sweep: 300
