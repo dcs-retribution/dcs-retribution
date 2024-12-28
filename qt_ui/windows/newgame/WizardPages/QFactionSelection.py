@@ -23,6 +23,7 @@ from PySide6.QtWidgets import (
     QFileDialog,
 )
 
+from game import persistency
 from game.armedforces.forcegroup import ForceGroup
 from game.ato import FlightType
 from game.campaignloader import Campaign
@@ -554,11 +555,15 @@ class QFactionSaver(QDialog):
         self.setLayout(layout)
 
     def save_faction(self) -> None:
+        # TODO: Reload factions combobox on save
         self.faction.name = self.name_text.text()
         self.faction.description = f"<p>{self.description_text.text()}</p>"
         self.faction.authors = self.authors_text.text()
+        user_faction_path = persistency.factions_dir()
 
-        fd = QFileDialog(caption="Save Faction", filter="*.json")
+        fd = QFileDialog(
+            caption="Save Faction", directory=str(user_faction_path), filter="*.json"
+        )
         fd.setAcceptMode(QFileDialog.AcceptMode.AcceptSave)
         if fd.exec_():
             json_filename = fd.selectedFiles()[0]

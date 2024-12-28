@@ -150,6 +150,10 @@ def debug_dir() -> Path:
     return _create_dir_if_needed(base_path() / "Retribution" / "Debug")
 
 
+def factions_dir() -> Path:
+    return _create_dir_if_needed(base_path() / "Retribution" / "Factions")
+
+
 def groups_dir() -> Path:
     return _create_dir_if_needed(base_path() / "Retribution" / "Groups")
 
