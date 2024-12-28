@@ -31,7 +31,8 @@ local unitPayloads = {
 			},
 			["tasks"]=
 			{
-				[1]=31
+				[1]=32,
+				[2]=33
 			}
 		},
 		[2]=
@@ -73,7 +74,8 @@ local unitPayloads = {
 			},
 			["tasks"]=
 			{
-				[1]=31
+				[1]=11,
+				[2]=10
 			}
 		},
 		[3]=
@@ -115,7 +117,7 @@ local unitPayloads = {
 			},
 			["tasks"]=
 			{
-				[1]=31
+				[1]=11
 			}
 		},
 		[4]=
@@ -157,7 +159,7 @@ local unitPayloads = {
 			},
 			["tasks"]=
 			{
-				[1]=31
+				[1]=18
 			}
 		},
 		[5]=
@@ -199,7 +201,7 @@ local unitPayloads = {
 			},
 			["tasks"]=
 			{
-				[1]=31
+				[1]=19
 			}
 		}
 	},
