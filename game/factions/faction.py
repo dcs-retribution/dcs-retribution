@@ -327,7 +327,7 @@ class Faction:
             "name": self.name,
             "description": self.description,
             "authors": self.authors,
-            "aircraft": [ac.variant_id for ac in self.aircraft],
+            "aircrafts": [ac.variant_id for ac in self.aircraft],
             "awacs": [ac.variant_id for ac in self.awacs],
             "tankers": [ac.variant_id for ac in self.tankers],
             "frontline_units": [unit.variant_id for unit in self.frontline_units],
@@ -351,7 +351,6 @@ class Faction:
             "carriers": {
                 carrier.variant_id: names for carrier, names in self.carriers.items()
             },
-            "mod_settings": self.mod_settings.to_dict() if self.mod_settings else None,
         }
 
     @property

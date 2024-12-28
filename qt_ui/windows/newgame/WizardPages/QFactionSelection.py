@@ -55,12 +55,13 @@ class QFactionUnits(QScrollArea):
         combo_layout: Optional[QHBoxLayout] = None,
     ) -> int:
         counter += 1
-        for i, v in enumerate(sorted(units, key=lambda x: str(x)), counter):
-            cb = QCheckBox(str(v))
-            cb.setCheckState(Qt.CheckState.Checked)
-            self.checkboxes[str(v)] = cb
-            grid.addWidget(cb, i, 1)
-            counter += 1
+        if len(units) > 0:
+            for i, v in enumerate(sorted(units, key=lambda x: str(x)), counter):
+                cb = QCheckBox(str(v))
+                cb.setCheckState(Qt.CheckState.Checked)
+                self.checkboxes[str(v)] = cb
+                grid.addWidget(cb, i, 1)
+                counter += 1
         if combo_layout:
             counter += 1
             grid.addLayout(combo_layout, counter, 1)
@@ -72,139 +73,128 @@ class QFactionUnits(QScrollArea):
         self.checkboxes: dict[str, QCheckBox] = {}
         grid = QGridLayout()
         grid.setColumnStretch(1, 1)
-        if len(self.faction.aircraft) > 0:
-            self.add_ac_combo = QComboBox()
-            hbox = self._create_aircraft_combobox(
-                self.add_ac_combo,
-                lambda: self._on_add_ac(self.faction.aircraft, self.add_ac_combo),
-                self._aircraft_predicate,
-            )
-            grid.addWidget(QLabel("<strong>Aircraft:</strong>"), counter, 0)
-            counter = self._add_checkboxes(self.faction.aircraft, counter, grid, hbox)
-        if len(self.faction.awacs) > 0:
-            self.add_awacs_combo = QComboBox()
-            hbox = self._create_aircraft_combobox(
-                self.add_awacs_combo,
-                lambda: self._on_add_ac(self.faction.awacs, self.add_awacs_combo),
-                self._awacs_predicate,
-            )
-            grid.addWidget(QLabel("<strong>AWACS:</strong>"), counter, 0)
-            counter = self._add_checkboxes(self.faction.awacs, counter, grid, hbox)
-        if len(self.faction.tankers) > 0:
-            self.add_tanker_combo = QComboBox()
-            hbox = self._create_aircraft_combobox(
-                self.add_tanker_combo,
-                lambda: self._on_add_ac(self.faction.tankers, self.add_tanker_combo),
-                self._tanker_predicate,
-            )
-            grid.addWidget(QLabel("<strong>Tankers:</strong>"), counter, 0)
-            counter = self._add_checkboxes(self.faction.tankers, counter, grid, hbox)
-        if len(self.faction.frontline_units) > 0:
-            self.add_frontline_combo = QComboBox()
-            hbox = self._create_unit_combobox(
-                self.add_frontline_combo,
-                lambda: self._on_add_unit(
-                    self.faction.frontline_units, self.add_frontline_combo
-                ),
-                self.faction.frontline_units,
-                ["Frontline vehicles"],
-            )
-            grid.addWidget(QLabel("<strong>Frontlines vehicles:</strong>"), counter, 0)
-            counter = self._add_checkboxes(
-                self.faction.frontline_units, counter, grid, hbox
-            )
-        if len(self.faction.artillery_units) > 0:
-            self.add_artillery_combo = QComboBox()
-            hbox = self._create_unit_combobox(
-                self.add_artillery_combo,
-                lambda: self._on_add_unit(
-                    self.faction.artillery_units, self.add_artillery_combo
-                ),
-                self.faction.artillery_units,
-                ["Artillery"],
-            )
-            grid.addWidget(QLabel("<strong>Artillery units:</strong>"), counter, 0)
-            counter = self._add_checkboxes(
-                self.faction.artillery_units, counter, grid, hbox
-            )
-        if len(self.faction.logistics_units) > 0:
-            self.add_logistics_combo = QComboBox()
-            hbox = self._create_unit_combobox(
-                self.add_logistics_combo,
-                lambda: self._on_add_unit(
-                    self.faction.logistics_units, self.add_logistics_combo
-                ),
-                self.faction.logistics_units,
-                ["Logistics"],
-            )
-            grid.addWidget(QLabel("<strong>Logistics units:</strong>"), counter, 0)
-            counter = self._add_checkboxes(
-                self.faction.logistics_units, counter, grid, hbox
-            )
-        if len(self.faction.infantry_units) > 0:
-            self.add_infantry_combo = QComboBox()
-            hbox = self._create_unit_combobox(
-                self.add_infantry_combo,
-                lambda: self._on_add_unit(
-                    self.faction.infantry_units, self.add_infantry_combo
-                ),
-                self.faction.infantry_units,
-                ["Infantry"],
-            )
-            grid.addWidget(QLabel("<strong>Infantry units:</strong>"), counter, 0)
-            counter = self._add_checkboxes(
-                self.faction.infantry_units, counter, grid, hbox
-            )
-        if len(self.faction.preset_groups) > 0:
-            self.add_preset_group_combo = QComboBox()
-            hbox = self._create_preset_group_combobox(
-                self.add_preset_group_combo,
-                lambda: self._on_add_preset_group(
-                    self.faction.preset_groups, self.add_preset_group_combo
-                ),
-            )
-            grid.addWidget(QLabel("<strong>Preset groups:</strong>"), counter, 0)
-            counter = self._add_checkboxes(
-                self.faction.preset_groups, counter, grid, hbox
-            )
-        if len(self.faction.air_defense_units) > 0:
-            self.add_air_defense_combo = QComboBox()
-            hbox = self._create_unit_combobox(
-                self.add_air_defense_combo,
-                lambda: self._on_add_unit(
-                    self.faction.air_defense_units, self.add_air_defense_combo
-                ),
-                self.faction.air_defense_units,
-                ["EarlyWarningRadar", "AAA", "SHORAD"],
-            )
-            grid.addWidget(QLabel("<strong>Air defenses:</strong>"), counter, 0)
-            counter = self._add_checkboxes(
-                self.faction.air_defense_units, counter, grid, hbox
-            )
-        if len(self.faction.naval_units) > 0:
-            self.add_naval_combo = QComboBox()
-            hbox = self._create_naval_combobox(
-                self.add_naval_combo,
-                lambda: self._on_add_unit(
-                    self.faction.naval_units, self.add_naval_combo
-                ),
-            )
-            grid.addWidget(QLabel("<strong>Naval units:</strong>"), counter, 0)
-            counter = self._add_checkboxes(
-                self.faction.naval_units, counter, grid, hbox
-            )
-        if len(self.faction.missiles) > 0:
-            self.add_missile_combo = QComboBox()
-            hbox = self._create_unit_combobox(
-                self.add_missile_combo,
-                lambda: self._on_add_unit(
-                    self.faction.missiles, self.add_missile_combo
-                ),
-                self.faction.missiles,
-                ["Missile"],
-            )
-            grid.addWidget(QLabel("<strong>Missile units:</strong>"), counter, 0)
-            self._add_checkboxes(self.faction.missiles, counter, grid, hbox)
+        self.add_ac_combo = QComboBox()
+        hbox = self._create_aircraft_combobox(
+            self.add_ac_combo,
+            lambda: self._on_add_ac(self.faction.aircraft, self.add_ac_combo),
+            self._aircraft_predicate,
+        )
+        grid.addWidget(QLabel("<strong>Aircraft:</strong>"), counter, 0)
+        counter = self._add_checkboxes(self.faction.aircraft, counter, grid, hbox)
+
+        self.add_awacs_combo = QComboBox()
+        hbox = self._create_aircraft_combobox(
+            self.add_awacs_combo,
+            lambda: self._on_add_ac(self.faction.awacs, self.add_awacs_combo),
+            self._awacs_predicate,
+        )
+        grid.addWidget(QLabel("<strong>AWACS:</strong>"), counter, 0)
+        counter = self._add_checkboxes(self.faction.awacs, counter, grid, hbox)
+
+        self.add_tanker_combo = QComboBox()
+        hbox = self._create_aircraft_combobox(
+            self.add_tanker_combo,
+            lambda: self._on_add_ac(self.faction.tankers, self.add_tanker_combo),
+            self._tanker_predicate,
+        )
+        grid.addWidget(QLabel("<strong>Tankers:</strong>"), counter, 0)
+        counter = self._add_checkboxes(self.faction.tankers, counter, grid, hbox)
+
+        self.add_frontline_combo = QComboBox()
+        hbox = self._create_unit_combobox(
+            self.add_frontline_combo,
+            lambda: self._on_add_unit(
+                self.faction.frontline_units, self.add_frontline_combo
+            ),
+            self.faction.frontline_units,
+            ["Frontline vehicles"],
+        )
+        grid.addWidget(QLabel("<strong>Frontlines vehicles:</strong>"), counter, 0)
+        counter = self._add_checkboxes(
+            self.faction.frontline_units, counter, grid, hbox
+        )
+
+        self.add_artillery_combo = QComboBox()
+        hbox = self._create_unit_combobox(
+            self.add_artillery_combo,
+            lambda: self._on_add_unit(
+                self.faction.artillery_units, self.add_artillery_combo
+            ),
+            self.faction.artillery_units,
+            ["Artillery"],
+        )
+        grid.addWidget(QLabel("<strong>Artillery units:</strong>"), counter, 0)
+        counter = self._add_checkboxes(
+            self.faction.artillery_units, counter, grid, hbox
+        )
+
+        self.add_logistics_combo = QComboBox()
+        hbox = self._create_unit_combobox(
+            self.add_logistics_combo,
+            lambda: self._on_add_unit(
+                self.faction.logistics_units, self.add_logistics_combo
+            ),
+            self.faction.logistics_units,
+            ["Logistics"],
+        )
+        grid.addWidget(QLabel("<strong>Logistics units:</strong>"), counter, 0)
+        counter = self._add_checkboxes(
+            self.faction.logistics_units, counter, grid, hbox
+        )
+
+        self.add_infantry_combo = QComboBox()
+        hbox = self._create_unit_combobox(
+            self.add_infantry_combo,
+            lambda: self._on_add_unit(
+                self.faction.infantry_units, self.add_infantry_combo
+            ),
+            self.faction.infantry_units,
+            ["Infantry"],
+        )
+        grid.addWidget(QLabel("<strong>Infantry units:</strong>"), counter, 0)
+        counter = self._add_checkboxes(self.faction.infantry_units, counter, grid, hbox)
+
+        self.add_preset_group_combo = QComboBox()
+        hbox = self._create_preset_group_combobox(
+            self.add_preset_group_combo,
+            lambda: self._on_add_preset_group(
+                self.faction.preset_groups, self.add_preset_group_combo
+            ),
+        )
+        grid.addWidget(QLabel("<strong>Preset groups:</strong>"), counter, 0)
+        counter = self._add_checkboxes(self.faction.preset_groups, counter, grid, hbox)
+
+        self.add_air_defense_combo = QComboBox()
+        hbox = self._create_unit_combobox(
+            self.add_air_defense_combo,
+            lambda: self._on_add_unit(
+                self.faction.air_defense_units, self.add_air_defense_combo
+            ),
+            self.faction.air_defense_units,
+            ["EarlyWarningRadar", "AAA", "SHORAD"],
+        )
+        grid.addWidget(QLabel("<strong>Air defenses:</strong>"), counter, 0)
+        counter = self._add_checkboxes(
+            self.faction.air_defense_units, counter, grid, hbox
+        )
+
+        self.add_naval_combo = QComboBox()
+        hbox = self._create_naval_combobox(
+            self.add_naval_combo,
+            lambda: self._on_add_unit(self.faction.naval_units, self.add_naval_combo),
+        )
+        grid.addWidget(QLabel("<strong>Naval units:</strong>"), counter, 0)
+        counter = self._add_checkboxes(self.faction.naval_units, counter, grid, hbox)
+
+        self.add_missile_combo = QComboBox()
+        hbox = self._create_unit_combobox(
+            self.add_missile_combo,
+            lambda: self._on_add_unit(self.faction.missiles, self.add_missile_combo),
+            self.faction.missiles,
+            ["Missile"],
+        )
+        grid.addWidget(QLabel("<strong>Missile units:</strong>"), counter, 0)
+        counter = self._add_checkboxes(self.faction.missiles, counter, grid, hbox)
 
         if show_jtac:
             grid.addWidget(QLabel("<strong>JTAC</strong>"), counter, 0)
@@ -513,6 +503,11 @@ class FactionSelection(QtWidgets.QWizardPage):
     def show_save_faction_dialog(self, faction: Faction):
         dialog = QFactionSaver(faction)
         dialog.exec_()
+        for r in FACTIONS:
+            if self.blueFactionSelect.findText(r) == -1:
+                self.blueFactionSelect.addItem(r, FACTIONS[r])
+            if self.redFactionSelect.findText(r) == -1:
+                self.redFactionSelect.addItem(r, FACTIONS[r])
 
     @property
     def selected_blue_faction(self) -> Faction:
@@ -555,7 +550,6 @@ class QFactionSaver(QDialog):
         self.setLayout(layout)
 
     def save_faction(self) -> None:
-        # TODO: Reload factions combobox on save
         self.faction.name = self.name_text.text()
         self.faction.description = f"<p>{self.description_text.text()}</p>"
         self.faction.authors = self.authors_text.text()
@@ -569,4 +563,5 @@ class QFactionSaver(QDialog):
             json_filename = fd.selectedFiles()[0]
             with open(json_filename, "w") as file:
                 json.dump(self.faction.to_dict(), file, indent=2)
+            FACTIONS.factions[self.faction.name] = self.faction
         self.accept()
