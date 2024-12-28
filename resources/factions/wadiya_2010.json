@@ -1,14 +1,15 @@
 {
-  "country": "Iraq",
+  "country": "Combined Joint Task Forces Red",
   "name": "Republic of Wadiya 2010",
   "authors": "Starfire",
-  "description": "<p>Wadiyan forces during Operation Desert Aladeen/p>",
+  "description": "<p>Wadiyan Armed Forces during Operation Desert Aladeen/p>",
   "aircrafts": [
     "IL-76MD",
     "L-39ZA Albatros",
     "Mi-24V Hind-E",
     "Mi-24P Hind-F",
     "Mi-8MTV2 Hip",
+    "Mi-26",
     "MiG-19P Farmer-B",
     "MiG-21bis Fishbed-N",
     "MiG-23ML Flogger-G",
@@ -31,19 +32,17 @@
     "IL-78M"
   ],
   "frontline_units": [
-    "2S1 Gvozdika",
-    "Chieftain Mk.3",
     "BMP-1",
     "BRDM-2",
     "BTR-80",
     "MT-LB",
     "PT-76",
     "T-55A",
-    "T-72B with Kontakt-1 ERA",
-    "ZSU-23-4 Shilka",
-    "ZSU-57-2 'Sparka'"
+    "T-72B with Kontakt-1 ERA"
   ],
   "artillery_units": [
+    "2S1 Gvozdika",
+    "2S9 Nona-S",
     "BM-21 Grad"
   ],
   "logistics_units": [
@@ -64,20 +63,18 @@
     "SA-6",
     "SA-10/S-300PS",
     "SA-10B/S-300PS",
-    "Cold-War-Flak",
     "KS-19/SON-9"
   ],
-  "naval_units": [
-  ],
+  "naval_units": [],
   "air_defense_units": [
     "SAM P19 \"Flat Face\" SR (SA-2/3)",
     "EWR 1L13",
     "SAM SA-8 Osa \"Gecko\" TEL",
     "SA-9 Strela",
     "SA-13 Gopher (9K35 Strela-10M3)",
-    "AAA ZU-23 Closed Emplacement",
     "ZU-23 on Ural-375",
-    "ZSU-23-4 Shilka"
+    "ZSU-23-4 Shilka",
+    "ZSU-57-2 'Sparka'"
   ],
   "missiles": [
     "SSM SS-1C Scud-B"
