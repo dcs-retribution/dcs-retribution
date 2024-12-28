@@ -2,10 +2,23 @@
 name: Iraq - Operation Desert Aladeen
 theater: Iraq
 authors: Starfire
-recommended_player_faction: Bluefor Modern
+recommended_player_faction: USA 2005
 recommended_enemy_faction: Republic of Wadiya 2010
 description:
-  <p>Meow</p>
+  <p>In the heart of the Middle East, the flamboyant and tyrannical Admiral-General Haffaz Aladeen, 
+  supreme leader of Wadiya, has once again defied international norms. Despite mounting global concerns 
+  over his nation's nuclear ambitions (rumours of weapons-grade uranium refinement swirl like smoke 
+  from a burning oil field), Aladeen has refused to comply with United Nations demands for transparency. 
+  After months of diplomatic deadlock, the UN has voted to authorise military intervention to end the 
+  threat posed by Wadiya's regime.</p>
+  <p>A coalition of American and British forces, bolstered by an Australian contingent who were not 
+  invited but turned up anyway, have been tasked with crippling Wadiya's military infrastructure, 
+  dismantling the Wadiyan war machine, and putting an end to Aladeen's nuclear ambitions.</p>
+  <p>Take to the skies and engage in high-stakes operations across Wadiya's outlandish and strategically 
+  dubious facilities, including the Beard of Doom Rocket Test Range, the Nuclear Nadal Memorial Warhead 
+  Design Lab, and the Wadiyan Ministry of Sports and Executions. Your task is to secure peace, freedom, 
+  and of course, oil for the free world. Aladeen luck, Commander.
+  <p>
 miz: operation_desert_aladeen.miz
 performance: 1
 recommended_start_date: 2012-05-16
@@ -54,11 +67,6 @@ squadrons:
       aircraft:
         - F/A-18C Hornet (Lot 20)
       size: 16
-    - primary: BARCAP
-      secondary: any
-      aircraft:
-        - Mirage 2000C
-      size: 8
   # Al-Salam Airbase
   14:  
     - primary: CAS
@@ -70,7 +78,7 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - AV-8B Harrier II Night Attack
-      size: 8
+      size: 16
     - primary: OCA/Runway
       secondary: any
       aircraft:
@@ -130,6 +138,16 @@ squadrons:
       aircraft:
         - Mirage-F1EQ
       size: 8
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - Mi-26
+      size: 2
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - Mi-24P Hind-F
+      size: 4
   #Sulaimaniyah International Airport
   7:
     - primary: BAI
