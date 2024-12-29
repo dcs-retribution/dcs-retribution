@@ -20,12 +20,12 @@ local unitPayloads = {
 				},
 				[3]=
 				{
-					["CLSID"]="{AIM-9J}",
+					["CLSID"]="{AIM-9D}",
 					["num"]=3
 				},
 				[4]=
 				{
-					["CLSID"]="{AIM-9J}",
+					["CLSID"]="{AIM-9D}",
 					["num"]=4
 				}
 			},
@@ -43,32 +43,32 @@ local unitPayloads = {
 			{
 				[1]=
 				{
-					["CLSID"]="<CLEAN>",
+					["CLSID"]="{DFT-150gal}",
 					["num"]=1
 				},
 				[2]=
 				{
-					["CLSID"]="<CLEAN>",
+					["CLSID"]="{DFT-150gal}",
 					["num"]=6
 				},
 				[3]=
 				{
-					["CLSID"]="{AIM-9J}",
+					["CLSID"]="{AIM-9D}",
 					["num"]=3
 				},
 				[4]=
 				{
-					["CLSID"]="{AIM-9J}",
+					["CLSID"]="{AIM-9D}",
 					["num"]=4
 				},
 				[5]=
 				{
-					["CLSID"]="{AIM-9J}",
+					["CLSID"]="{AIM-9D}",
 					["num"]=2
 				},
 				[6]=
 				{
-					["CLSID"]="{AIM-9J}",
+					["CLSID"]="{AIM-9D}",
 					["num"]=5
 				}
 			},
@@ -86,32 +86,32 @@ local unitPayloads = {
 			{
 				[1]=
 				{
-					["CLSID"]="<CLEAN>",
+					["CLSID"]="{DFT-150gal}",
 					["num"]=1
 				},
 				[2]=
 				{
-					["CLSID"]="<CLEAN>",
+					["CLSID"]="{DFT-150gal}",
 					["num"]=6
 				},
 				[3]=
 				{
-					["CLSID"]="{AIM-9J}",
+					["CLSID"]="{AIM-9D}",
 					["num"]=3
 				},
 				[4]=
 				{
-					["CLSID"]="{AIM-9J}",
+					["CLSID"]="{AIM-9D}",
 					["num"]=4
 				},
 				[5]=
 				{
-					["CLSID"]="{AIM-9J}",
+					["CLSID"]="{AIM-9D}",
 					["num"]=2
 				},
 				[6]=
 				{
-					["CLSID"]="{AIM-9J}",
+					["CLSID"]="{AIM-9D}",
 					["num"]=5
 				}
 			},
@@ -128,32 +128,32 @@ local unitPayloads = {
 			{
 				[1]=
 				{
-					["CLSID"]="<CLEAN>",
+					["CLSID"]="{DFT-150gal}",
 					["num"]=1
 				},
 				[2]=
 				{
-					["CLSID"]="<CLEAN>",
+					["CLSID"]="{DFT-150gal}",
 					["num"]=6
 				},
 				[3]=
 				{
-					["CLSID"]="{AIM-9J}",
+					["CLSID"]="{AIM-9D}",
 					["num"]=3
 				},
 				[4]=
 				{
-					["CLSID"]="{AIM-9J}",
+					["CLSID"]="{AIM-9D}",
 					["num"]=4
 				},
 				[5]=
 				{
-					["CLSID"]="{AIM-9J}",
+					["CLSID"]="{AIM-9D}",
 					["num"]=2
 				},
 				[6]=
 				{
-					["CLSID"]="{AIM-9J}",
+					["CLSID"]="{AIM-9D}",
 					["num"]=5
 				}
 			},
@@ -170,32 +170,32 @@ local unitPayloads = {
 			{
 				[1]=
 				{
-					["CLSID"]="<CLEAN>",
+					["CLSID"]="{DFT-150gal}",
 					["num"]=1
 				},
 				[2]=
 				{
-					["CLSID"]="<CLEAN>",
+					["CLSID"]="{DFT-150gal}",
 					["num"]=6
 				},
 				[3]=
 				{
-					["CLSID"]="{AIM-9J}",
+					["CLSID"]="{AIM-9D}",
 					["num"]=3
 				},
 				[4]=
 				{
-					["CLSID"]="{AIM-9J}",
+					["CLSID"]="{AIM-9D}",
 					["num"]=4
 				},
 				[5]=
 				{
-					["CLSID"]="{AIM-9J}",
+					["CLSID"]="{AIM-9D}",
 					["num"]=2
 				},
 				[6]=
 				{
-					["CLSID"]="{AIM-9J}",
+					["CLSID"]="{AIM-9D}",
 					["num"]=5
 				}
 			},
