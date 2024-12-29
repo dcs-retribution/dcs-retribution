@@ -321,7 +321,7 @@ class Faction:
 
         return faction
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "country": self.country.name,
             "name": self.name,
