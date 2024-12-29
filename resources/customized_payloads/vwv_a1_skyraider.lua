@@ -770,3 +770,21 @@ local unitPayloads = {
 	["unitType"]="vwv_a1_skyraider"
 }
 return unitPayloads
+
+-- from task.py --
+-- SEAD: id = 29
+-- CAS: id = 31
+-- GroundAttack: id = 32
+-- PinpointStrike: id = 33
+-- RunwayAttack: id = 34
+-- AntishipStrike: id = 30
+-- CAP: id = 11
+-- Intercept: id = 10
+-- FighterSweep: id = 19
+-- Escort: id = 18
+-- Reconnaissance: id = 17
+-- AFAC: id = 16
+-- AWACS: id = 14
+-- Transport: id = 35
+-- Refueling: id = 13
+-- Nothing: id = 15
