@@ -2,7 +2,8 @@ from __future__ import annotations
 
 import math
 from datetime import timezone
-from typing import Iterator, List, Optional, TYPE_CHECKING, Tuple
+from pathlib import Path
+from typing import Iterator, List, Optional, TYPE_CHECKING, Tuple, Any
 from uuid import UUID
 
 from dcs.mapping import Point
@@ -12,7 +13,7 @@ from shapely import geometry, ops
 from .daytimemap import DaytimeMap
 from .frontline import FrontLine
 from .iadsnetwork.iadsnetwork import IadsNetwork
-from .landmap import Landmap, poly_contains
+from .landmap import poly_contains, load_landmap
 from .seasonalconditions import SeasonalConditions
 from ..utils import Heading
 
@@ -21,23 +22,49 @@ if TYPE_CHECKING:
     from .theatergroundobject import TheaterGroundObject
 
 
+THEATER_RESOURCE_DIR = Path("resources/theaters")
+
+
 class ConflictTheater:
     iads_network: IadsNetwork
 
     def __init__(
         self,
         terrain: Terrain,
-        landmap: Landmap | None,
+        landmap_path: Path,
         time_zone: timezone,
         seasonal_conditions: SeasonalConditions,
         daytime_map: DaytimeMap,
     ) -> None:
         self.terrain = terrain
-        self.landmap = landmap
+        self.landmap_path = landmap_path
+        self.landmap = load_landmap(self.landmap_path)
         self.timezone = time_zone
         self.seasonal_conditions = seasonal_conditions
         self.daytime_map = daytime_map
         self.controlpoints: list[ControlPoint] = []
+
+    def __setstate__(self, state: dict[str, Any]) -> None:
+        if "landmap_path" not in state:
+            state["landmap_path"] = self.landmap_path_for_terrain_name(
+                state["terrain"].name
+            )
+        self.__dict__ = state
+        self.landmap = load_landmap(self.landmap_path)
+
+    @staticmethod
+    def landmap_path_for_terrain_name(terrain_name: str) -> Path:
+        theather_mapping = {  # map Pydcs name to respective directory name
+            "PersianGulf": "persian gulf",
+            "TheChannel": "the channel",
+            "MarianaIslands": "marianaislands",
+        }
+        if terrain_name in theather_mapping:
+            terrain_name = theather_mapping[terrain_name]
+        for theater_dir in THEATER_RESOURCE_DIR.iterdir():
+            if theater_dir.name.lower() in terrain_name.lower():
+                return theater_dir / "landmap.p"
+        raise RuntimeError(f"Could not determine landmap path for {terrain_name}")
 
     def add_controlpoint(self, point: ControlPoint) -> None:
         self.controlpoints.append(point)

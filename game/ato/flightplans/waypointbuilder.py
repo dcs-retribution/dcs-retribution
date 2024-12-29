@@ -800,3 +800,18 @@ class WaypointBuilder:
         x_adj = random.randint(int(-deviation.meters), int(deviation.meters))
         y_adj = random.randint(int(-deviation.meters), int(deviation.meters))
         return point + Vector2(x_adj, y_adj)
+
+    @staticmethod
+    def recovery_tanker(position: Point) -> FlightWaypoint:
+        alt_type: AltitudeReference = "BARO"
+
+        return FlightWaypoint(
+            "RECOVERY",
+            FlightWaypointType.RECOVERY_TANKER,
+            position,
+            feet(6000),
+            alt_type,
+            description="Recovery tanker for aircraft carriers",
+            pretty_name="Recovery",
+            only_for_player=True,  # for visual purposes in Retribution only
+        )

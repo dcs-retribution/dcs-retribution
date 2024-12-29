@@ -18,7 +18,7 @@ class BarCapFlightPlan(PatrollingFlightPlan[PatrollingLayout]):
 
     @property
     def patrol_duration(self) -> timedelta:
-        return self.flight.coalition.doctrine.cap_duration
+        return self.flight.coalition.game.settings.desired_barcap_mission_duration
 
     @property
     def patrol_speed(self) -> Speed:

@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-import random
 from dataclasses import dataclass
-from random import randint
 
 from game.ato.flighttype import FlightType
 from game.commander.tasks.packageplanningtask import PackagePlanningTask
@@ -21,6 +19,7 @@ class PlanBarcap(PackagePlanningTask[ControlPoint]):
 
     def apply_effects(self, state: TheaterState) -> None:
         state.barcaps_needed[self.target] -= 1
+        super().apply_effects(state)
 
     def propose_flights(self) -> None:
         size = self.get_flight_size()

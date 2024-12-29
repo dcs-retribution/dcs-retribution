@@ -49,7 +49,7 @@ options =
         ["easyCommunication"] = true,
         ["labels"] = true,
     }, -- end of ["difficulty"]
-    ["VR"] = 
+    ["VR"] =
     {
         ["use_mouse"] = true,
         ["hand_controllers"] = true,
@@ -60,7 +60,7 @@ options =
         ["box_mouse_cursor"] = false,
         ["pixel_density"] = 1,
     }, -- end of ["VR"]
-    ["graphics"] = 
+    ["graphics"] =
     {
         ["rainDroplets"] = 1,
         ["preloadRadius"] = 100000,
@@ -100,8 +100,18 @@ options =
         ["clutterMaxDistance"] = 750,
         ["civTraffic"] = "",
     }, -- end of ["graphics"]
-    ["plugins"] = 
+    ["plugins"] =
     {
+        ["Supercarrier"] =
+		{
+			["deck_crew"] = true,
+			["enable_FLOLS_overlay"] = true,
+			["messages_enabled"] = true,
+			["helpers_enabled"] = true,
+			["Use_native_ATC_text"] = false,
+			["velocity_limit_enabled"] = true,
+			["simplified_taxi"] = true,
+		}, -- end of ["Supercarrier"]
         ["Su-25T"] = 
         {
             ["CPLocalList"] = "default",

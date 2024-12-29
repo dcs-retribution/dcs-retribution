@@ -6,6 +6,7 @@ from collections.abc import Iterator, Callable
 from dataclasses import dataclass
 from typing import Any
 
+import numpy as np
 from dcs.mapping import heading_between_points
 from shapely.geometry import Point, MultiPolygon, Polygon
 from shapely.geometry.base import BaseGeometry as Geometry, BaseGeometry
@@ -232,11 +233,12 @@ class WaypointStrategy:
         min_distance_from_threat_to_target_buffer = target.buffer(
             target_size.meters
         ).distance(self.threat_zones.boundary)
-        threat_mask = self.threat_zones.buffer(
-            -min_distance_from_threat_to_target_buffer - wiggle.meters
-        )
-        self._threat_tolerance = ThreatTolerance(target, target_size, wiggle)
-        self.threat_zones = self.threat_zones.difference(threat_mask)
+        if np.isfinite(min_distance_from_threat_to_target_buffer).all():
+            threat_mask = self.threat_zones.buffer(
+                -min_distance_from_threat_to_target_buffer - wiggle.meters
+            )
+            self._threat_tolerance = ThreatTolerance(target, target_size, wiggle)
+            self.threat_zones = self.threat_zones.difference(threat_mask)
 
     def nearest(self, point: Point) -> None:
         if self.point_for_nearest_solution is not None:

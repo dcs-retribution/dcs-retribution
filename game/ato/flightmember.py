@@ -16,7 +16,7 @@ class FlightMember:
         self.use_custom_loadout = False
         self.tgp_laser_code: LaserCode | None = None
         self.weapon_laser_code: LaserCode | None = None
-        self.properties: dict[str, bool | float | int] = {}
+        self.properties: dict[str, bool | float | int | str] = {}
         self.livery: Optional[str] = None
         self.use_livery_set: bool = True
 

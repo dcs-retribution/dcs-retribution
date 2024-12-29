@@ -4,6 +4,9 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Optional, TYPE_CHECKING
 
+from dcs.flyingunit import FlyingUnit
+from dcs.unitgroup import ShipGroup
+
 from game.dcs.aircrafttype import AircraftType
 from game.dcs.groundunittype import GroundUnitType
 from game.missiongenerator.aircraft.flightdata import FlightData
@@ -36,6 +39,7 @@ class AwacsInfo(GroupInfo):
     depature_location: Optional[str]
     start_time: datetime
     end_time: datetime
+    unit: FlyingUnit  # reference to be used as L16 donor
 
 
 @dataclass
@@ -55,6 +59,7 @@ class CarrierInfo(UnitInfo):
     tacan: TacanChannel
     icls_channel: int | None
     link4_freq: RadioFrequency | None
+    ship_group: ShipGroup
 
 
 @dataclass
@@ -102,6 +107,7 @@ class MissionData:
     runways: list[RunwayData] = field(default_factory=list)
     carriers: list[CarrierInfo] = field(default_factory=list)
     flights: list[FlightData] = field(default_factory=list)
+    packages: dict[int, list[FlightData]] = field(default_factory=dict)
     tankers: list[TankerInfo] = field(default_factory=list)
     jtacs: list[JtacInfo] = field(default_factory=list)
     logistics: list[LogisticsInfo] = field(default_factory=list)

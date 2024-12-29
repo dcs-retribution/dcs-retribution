@@ -28,6 +28,7 @@ from game.pretense.pretenseflightgroupconfigurator import (
     PretenseFlightGroupConfigurator,
 )
 from game.pretense.pretenseflightgroupspawner import PretenseNameGenerator
+from game.radio.datalink import DataLinkRegistry
 from game.radio.radios import RadioRegistry
 from game.radio.tacan import TacanRegistry
 from game.runways import RunwayData
@@ -64,6 +65,7 @@ class PretenseAircraftGenerator:
         time: datetime,
         radio_registry: RadioRegistry,
         tacan_registry: TacanRegistry,
+        datalink_registry: DataLinkRegistry,
         laser_code_registry: LaserCodeRegistry,
         unit_map: UnitMap,
         mission_data: MissionData,
@@ -78,6 +80,7 @@ class PretenseAircraftGenerator:
         self.time = time
         self.radio_registry = radio_registry
         self.tacan_registy = tacan_registry
+        self.datalink_registry = datalink_registry
         self.laser_code_registry = laser_code_registry
         self.unit_map = unit_map
         self.flights: List[FlightData] = []
@@ -1032,6 +1035,7 @@ class PretenseAircraftGenerator:
                 self.time,
                 self.radio_registry,
                 self.tacan_registy,
+                self.datalink_registry,
                 self.mission_data,
                 dynamic_runways,
                 self.use_client,

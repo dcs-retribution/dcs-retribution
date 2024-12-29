@@ -15,7 +15,12 @@ from game.ground_forces.combat_stance import CombatStance
 from game.htn import WorldState
 from game.profiling import MultiEventTracer
 from game.settings import Settings
-from game.theater import ConflictTheater, ControlPoint, FrontLine, MissionTarget
+from game.theater import (
+    ConflictTheater,
+    ControlPoint,
+    FrontLine,
+    MissionTarget,
+)
 from game.theater.theatergroundobject import (
     BuildingGroundObject,
     IadsGroundObject,
@@ -51,6 +56,7 @@ class TheaterState(WorldState["TheaterState"]):
     vulnerable_front_lines: list[FrontLine]
     aewc_targets: list[MissionTarget]
     refueling_targets: list[MissionTarget]
+    recovery_targets: dict[ControlPoint, int]
     enemy_air_defenses: list[IadsGroundObject]
     threatening_air_defenses: list[Union[IadsGroundObject, NavalGroundObject]]
     detecting_air_defenses: list[Union[IadsGroundObject, NavalGroundObject]]
@@ -118,6 +124,7 @@ class TheaterState(WorldState["TheaterState"]):
             vulnerable_front_lines=list(self.vulnerable_front_lines),
             aewc_targets=list(self.aewc_targets),
             refueling_targets=list(self.refueling_targets),
+            recovery_targets=dict(self.recovery_targets),
             enemy_air_defenses=list(self.enemy_air_defenses),
             enemy_convoys=list(self.enemy_convoys),
             enemy_shipping=list(self.enemy_shipping),
@@ -164,7 +171,7 @@ class TheaterState(WorldState["TheaterState"]):
         # Plan enough rounds of CAP that the target has coverage over the expected
         # mission duration.
         mission_duration = game.settings.desired_player_mission_duration.total_seconds()
-        barcap_duration = coalition.doctrine.cap_duration.total_seconds()
+        barcap_duration = game.settings.desired_barcap_mission_duration.total_seconds()
         barcap_rounds = math.ceil(mission_duration / barcap_duration)
 
         battle_postitions: Dict[ControlPoint, BattlePositions] = {
@@ -173,19 +180,26 @@ class TheaterState(WorldState["TheaterState"]):
         }
 
         vulnerable_control_points = [
-            cp for cp, bp in battle_postitions.items() if not bp.blocking_capture
+            cp
+            for cp, bp in battle_postitions.items()
+            if not bp.blocking_capture or cp.is_fleet
         ]
+
+        aewc_targets = [cp for cp in finder.friendly_control_points() if cp.is_carrier]
+        aewc_targets.append(finder.farthest_friendly_control_point())
 
         return TheaterState(
             context=context,
             barcaps_needed={
-                cp: barcap_rounds for cp in finder.vulnerable_control_points()
+                cp: 2 * barcap_rounds if cp.is_fleet else barcap_rounds
+                for cp in finder.vulnerable_control_points()
             },
             active_front_lines=list(finder.front_lines()),
             front_line_stances={f: None for f in finder.front_lines()},
             vulnerable_front_lines=list(finder.front_lines()),
-            aewc_targets=[finder.farthest_friendly_control_point()],
+            aewc_targets=list(aewc_targets),
             refueling_targets=[finder.closest_friendly_control_point()],
+            recovery_targets={cp: 0 for cp in finder.friendly_naval_control_points()},
             enemy_air_defenses=list(finder.enemy_air_defenses()),
             threatening_air_defenses=[],
             detecting_air_defenses=[],

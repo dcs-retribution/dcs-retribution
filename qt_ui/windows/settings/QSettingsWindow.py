@@ -6,7 +6,7 @@ from typing import Callable, Optional, Dict
 
 from PySide6 import QtWidgets
 from PySide6.QtCore import QItemSelectionModel, QPoint, QSize, Qt
-from PySide6.QtGui import QStandardItem, QStandardItemModel
+from PySide6.QtGui import QStandardItem, QStandardItemModel, QCloseEvent
 from PySide6.QtWidgets import (
     QAbstractItemView,
     QCheckBox,
@@ -40,6 +40,7 @@ from game.settings import (
 )
 from game.settings.ISettingsContainer import SettingsContainer
 from game.sim import GameUpdateEvents
+from pydcs_extensions import BanditClouds
 from qt_ui.widgets.QLabeledWidget import QLabeledWidget
 from qt_ui.widgets.spinsliders import FloatSpinSlider, TimeInputs
 from qt_ui.windows.GameUpdateSignal import GameUpdateSignal
@@ -354,6 +355,16 @@ class QSettingsWindow(QDialog):
         self.setWindowIcon(CONST.ICONS["Settings"])
         self.setMinimumSize(840, 480)
 
+    def closeEvent(self, event: QCloseEvent) -> None:
+        self._handle_mod_settings()
+        super().closeEvent(event)
+
+    def _handle_mod_settings(self) -> None:
+        if self.game.settings.use_bandit_clouds:
+            BanditClouds.activate()
+        else:
+            BanditClouds.deactivate()
+
 
 class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
     def __init__(self, settings: Settings, game: Optional[Game] = None):
@@ -539,8 +550,6 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
 
     def load_settings(self):
         sd = settings_dir()
-        if not sd.exists():
-            sd.mkdir()
         fd = QFileDialog(caption="Load Settings", directory=str(sd), filter="*.zip")
         if fd.exec_():
             zipfilename = fd.selectedFiles()[0]
@@ -555,8 +564,6 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
 
     def save_settings(self):
         sd = settings_dir()
-        if not sd.exists():
-            sd.mkdir()
         fd = QFileDialog(caption="Save Settings", directory=str(sd), filter="*.zip")
         fd.setAcceptMode(QFileDialog.AcceptMode.AcceptSave)
         if fd.exec_():
@@ -572,3 +579,33 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
                     ),
                     zipfile.ZIP_DEFLATED,
                 )
+
+    def load_default_settings(self):
+        sd = settings_dir()
+        default_zip_path = sd / "Default.zip"
+        if default_zip_path.exists():
+            with zipfile.ZipFile(default_zip_path, "r") as zf:
+                filename = "Default.json"
+                if filename in zf.namelist():
+                    settings_data = json.loads(
+                        zf.read(filename).decode("utf-8"),
+                        object_hook=self.settings.obj_hook,
+                    )
+                    self.settings.__setstate__(settings_data)
+        else:
+            if self.settings is None:
+                default_settings = Settings()
+            else:
+                default_settings = self.settings
+            with zipfile.ZipFile(default_zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
+                filename = "Default.json"
+                zf.writestr(
+                    filename,
+                    json.dumps(
+                        default_settings.__dict__,
+                        indent=2,
+                        default=default_settings.default_json,
+                    ),
+                    zipfile.ZIP_DEFLATED,
+                )
+            self.settings.__setstate__(default_settings.__dict__)

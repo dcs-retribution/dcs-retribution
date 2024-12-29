@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 import dcs.lua
-from dcs import Mission, Point
+from dcs import Point
 from dcs.coalition import Coalition
 from dcs.countries import (
     country_dict,
@@ -16,21 +16,18 @@ from dcs.countries import (
 )
 from dcs.task import AFAC, FAC, SetInvisibleCommand, SetImmortalCommand, OrbitAction
 
-from game.lasercodes.lasercoderegistry import LaserCodeRegistry
 from game.missiongenerator.convoygenerator import ConvoyGenerator
 from game.missiongenerator.environmentgenerator import EnvironmentGenerator
 from game.missiongenerator.forcedoptionsgenerator import ForcedOptionsGenerator
 from game.missiongenerator.frontlineconflictdescription import (
     FrontLineConflictDescription,
 )
-from game.missiongenerator.missiondata import MissionData, JtacInfo
+from game.missiongenerator.missiondata import JtacInfo
 from game.missiongenerator.tgogenerator import TgoGenerator
 from game.missiongenerator.visualsgenerator import VisualsGenerator
 from game.naming import namegen
 from game.persistency import pre_pretense_backups_dir
 from game.pretense.pretenseaircraftgenerator import PretenseAircraftGenerator
-from game.radio.radios import RadioRegistry
-from game.radio.tacan import TacanRegistry
 from game.theater.bullseye import Bullseye
 from game.unitmap import UnitMap
 from qt_ui.windows.GameUpdateSignal import GameUpdateSignal
@@ -40,6 +37,7 @@ from .pretensetriggergenerator import PretenseTriggerGenerator
 from ..ato.airtaaskingorder import AirTaskingOrder
 from ..callsigns import callsign_for_support_unit
 from ..dcs.aircrafttype import AircraftType
+from ..lasercodes import LaserCodeRegistry
 from ..missiongenerator import MissionGenerator
 from ..theater import Airfield
 
@@ -50,21 +48,8 @@ if TYPE_CHECKING:
 class PretenseMissionGenerator(MissionGenerator):
     def __init__(self, game: Game, time: datetime) -> None:
         super().__init__(game, time)
-        self.game = game
-        self.time = time
-        self.mission = Mission(game.theater.terrain)
-        self.unit_map = UnitMap()
-
-        self.mission_data = MissionData()
 
         self.laser_code_registry = LaserCodeRegistry()
-        self.radio_registry = RadioRegistry()
-        self.tacan_registry = TacanRegistry()
-
-        self.generation_started = False
-
-        self.p_country = country_dict[self.game.blue.faction.country.id]()
-        self.e_country = country_dict[self.game.red.faction.country.id]()
 
         with open("resources/default_options.lua", "r", encoding="utf-8") as f:
             options = dcs.lua.loads(f.read())["options"]
@@ -76,7 +61,6 @@ class PretenseMissionGenerator(MissionGenerator):
     def generate_miz(self, output: Path) -> UnitMap:
         game_backup_pickle = pickle.dumps(self.game)
         path = pre_pretense_backups_dir()
-        path.mkdir(parents=True, exist_ok=True)
         path /= f".pre-pretense-backup.retribution"
         try:
             with open(path, "wb") as f:
@@ -99,7 +83,10 @@ class PretenseMissionGenerator(MissionGenerator):
         self.add_airfields_to_unit_map()
         self.initialize_registries()
 
-        EnvironmentGenerator(self.mission, self.game.conditions, self.time).generate()
+        auto_fog = self.game.settings.use_auto_fog
+        EnvironmentGenerator(
+            self.mission, self.game.conditions, self.time, auto_fog
+        ).generate()
 
         tgo_generator = PretenseTgoGenerator(
             self.mission,
@@ -262,6 +249,7 @@ class PretenseMissionGenerator(MissionGenerator):
             self.time,
             self.radio_registry,
             self.tacan_registry,
+            self.datalink_registry,
             self.laser_code_registry,
             self.unit_map,
             mission_data=self.mission_data,

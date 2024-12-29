@@ -30,22 +30,33 @@ from dcs.task import (
     OptNoReportWaypointPass,
     OptRadioUsageContact,
     OptRadioSilence,
+    Tanker,
+    RecoveryTanker,
+    ActivateBeaconCommand,
+    ControlledTask,
 )
-from dcs.unitgroup import FlyingGroup
+from dcs.unitgroup import FlyingGroup, ShipGroup
 
-from game.ato import Flight, FlightType
+from game.ato import Flight, FlightType, Package
 from game.ato.flightplans.aewc import AewcFlightPlan
 from game.ato.flightplans.formationattack import FormationAttackLayout
 from game.ato.flightplans.packagerefueling import PackageRefuelingFlightPlan
+from game.ato.flightplans.shiprecoverytanker import RecoveryTankerFlightPlan
 from game.ato.flightplans.theaterrefueling import TheaterRefuelingFlightPlan
-from game.utils import nautical_miles
+from game.missiongenerator.missiondata import MissionData
+from game.utils import nautical_miles, knots, feet
 
 
 class AircraftBehavior:
-    def __init__(self, task: FlightType) -> None:
+    def __init__(self, task: FlightType, mission_data: MissionData) -> None:
         self.task = task
+        self.mission_data = mission_data
 
-    def apply_to(self, flight: Flight, group: FlyingGroup[Any]) -> None:
+    def apply_to(
+        self,
+        flight: Flight,
+        group: FlyingGroup[Any],
+    ) -> None:
         if self.task in [
             FlightType.BARCAP,
             FlightType.TARCAP,
@@ -58,6 +69,8 @@ class AircraftBehavior:
             self.configure_awacs(group, flight)
         elif self.task == FlightType.REFUELING:
             self.configure_refueling(group, flight)
+        elif self.task == FlightType.RECOVERY:
+            self.configure_recovery(group, flight)
         elif self.task in [FlightType.CAS, FlightType.BAI]:
             self.configure_cas(group, flight)
         elif self.task == FlightType.ARMED_RECON:
@@ -317,6 +330,7 @@ class AircraftBehavior:
         if not (
             isinstance(flight.flight_plan, TheaterRefuelingFlightPlan)
             or isinstance(flight.flight_plan, PackageRefuelingFlightPlan)
+            or isinstance(flight.flight_plan, RecoveryTankerFlightPlan)
         ):
             logging.error(
                 f"Cannot configure racetrack refueling tasks for {flight} because it "
@@ -330,6 +344,95 @@ class AircraftBehavior:
             react_on_threat=OptReactOnThreat.Values.EvadeFire,
             roe=OptROE.Values.WeaponHold,
             restrict_jettison=True,
+        )
+
+    def configure_recovery(
+        self,
+        group: FlyingGroup[Any],
+        flight: Flight,
+    ) -> None:
+        self.configure_refueling(group, flight)
+        if not isinstance(flight.flight_plan, RecoveryTankerFlightPlan):
+            logging.error(
+                f"Cannot configure recovery task for {flight} because it "
+                "does not have an recovery tanker flight plan."
+            )
+            return
+
+        self.configure_tanker_tacan(flight, group)
+
+        clouds = flight.squadron.coalition.game.conditions.weather.clouds
+        speed = knots(250).meters_per_second
+        altitude = feet(6000).meters
+        if clouds is not None:
+            if abs(clouds.base - altitude) < feet(1000).meters:
+                altitude = clouds.base - feet(1000).meters
+            if altitude < feet(2000).meters:
+                altitude = clouds.base + feet(6000).meters
+
+        naval_group = self._get_carrier_group(flight.package)
+        last_waypoint = len(naval_group.points)  # last waypoint of the CVN/LHA
+
+        tanker_tos = flight.coalition.game.settings.desired_tanker_on_station_time
+        lua_predicate = f"""
+                local lowfuel = false
+                for i, unitObject in pairs(Group.getByName('{group.name}'):getUnits()) do
+                    if Unit.getFuel(unitObject) < 0.2 then lowfuel = true end
+                end
+                return lowfuel
+            """
+
+        tanker = ControlledTask(Tanker())
+        tanker.stop_after_duration(int(tanker_tos.total_seconds()) + 1)
+        tanker.stop_if_lua_predicate(lua_predicate)
+        group.points[0].add_task(tanker)
+
+        recovery = ControlledTask(
+            RecoveryTanker(naval_group.id, speed, altitude, last_waypoint)
+        )
+        recovery.stop_if_lua_predicate(lua_predicate)
+        recovery.stop_after_duration(int(tanker_tos.total_seconds()) + 1)
+        group.points[0].add_task(recovery)
+
+    def configure_tanker_tacan(self, flight: Flight, group: FlyingGroup[Any]) -> None:
+        tanker_info = self.mission_data.tankers[-1]
+        tacan = tanker_info.tacan
+        if flight.unit_type.dcs_unit_type.tacan and tacan:
+            if flight.tcn_name is None:
+                cs = tanker_info.callsign[:-2]
+                csn = tanker_info.callsign[-1]
+                tacan_callsign = {
+                    "Texaco": "TX",
+                    "Arco": "AC",
+                    "Shell": "SH",
+                }.get(cs)
+                if tacan_callsign:
+                    tacan_callsign = tacan_callsign + csn
+                else:
+                    tacan_callsign = cs[0:2] + csn
+            else:
+                tacan_callsign = flight.tcn_name
+
+            group.points[0].add_task(
+                ActivateBeaconCommand(
+                    tacan.number,
+                    tacan.band.value,
+                    tacan_callsign.upper(),
+                    bearing=True,
+                    unit_id=group.units[0].id,
+                    aa=True,
+                )
+            )
+
+    def _get_carrier_group(self, package: Package) -> ShipGroup:
+        name = package.target.name
+        carrier_position = package.target.position
+        for carrier in self.mission_data.carriers:
+            if carrier.ship_group.position == carrier_position:
+                return carrier.ship_group
+        raise RuntimeError(
+            f"Could not find a carrier in the mission matching {name} at "
+            f"({carrier_position.x}, {carrier_position.y})"
         )
 
     def configure_escort(self, group: FlyingGroup[Any], flight: Flight) -> None:

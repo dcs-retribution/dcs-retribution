@@ -650,6 +650,7 @@ class GenericCarrierGenerator(GroundObjectGenerator):
                         icls_channel=icls,
                         link4_freq=link4,
                         blue=self.control_point.captured,
+                        ship_group=ship_group,
                     )
                 )
 

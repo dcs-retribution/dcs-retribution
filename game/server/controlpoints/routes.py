@@ -89,6 +89,15 @@ def set_destination(
             detail=f"Cannot move {cp} more than "
             f"{cp.max_move_distance.nautical_miles}nm.",
         )
+    if (
+        cp.is_fleet
+        and game.theater.landmap
+        and game.theater.landmap.land_inbetween(cp.position, point)
+    ):
+        raise HTTPException(
+            status.HTTP_400_BAD_REQUEST,
+            detail=f"Cannot move {cp} over land.",
+        )
     cp.target_position = point
     from .. import EventStream
 

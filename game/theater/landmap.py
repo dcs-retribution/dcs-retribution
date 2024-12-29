@@ -10,7 +10,7 @@ from dcs.drawing.polygon import FreeFormPolygon
 from dcs.mapping import Point
 from dcs.mission import Mission
 from dcs.terrain.terrain import Terrain
-from shapely import geometry
+from shapely import geometry, LineString
 from shapely.geometry import MultiPolygon, Polygon
 
 
@@ -31,6 +31,10 @@ class Landmap:
     @cached_property
     def inclusion_zone_only(self) -> MultiPolygon:
         return self.inclusion_zones - self.exclusion_zones - self.sea_zones
+
+    def land_inbetween(self, a: Point, b: Point) -> bool:
+        line = LineString([[a.x, a.y], [b.x, b.y]])
+        return self.inclusion_zones.intersects(line)
 
 
 def load_landmap(filename: Path) -> Optional[Landmap]:

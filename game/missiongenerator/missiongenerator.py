@@ -40,6 +40,7 @@ from .tgogenerator import TgoGenerator
 from .triggergenerator import TriggerGenerator
 from .visualsgenerator import VisualsGenerator
 from ..radio.TacanContainer import TacanContainer
+from ..radio.datalink import DataLinkRegistry
 
 if TYPE_CHECKING:
     from game import Game
@@ -56,6 +57,7 @@ class MissionGenerator:
 
         self.radio_registry = RadioRegistry()
         self.tacan_registry = TacanRegistry()
+        self.datalink_registry = DataLinkRegistry()
 
         self.generation_started = False
 
@@ -68,6 +70,8 @@ class MissionGenerator:
             options["miscellaneous"]["f11_free_camera"] = ext_view
             options["miscellaneous"]["f5_nearest_ac"] = ext_view
             options["difficulty"]["spectatorExternalViews"] = ext_view
+            sc_deck_crew = game.settings.supercarrier_deck_crew
+            options["plugins"]["Supercarrier"]["deck_crew"] = sc_deck_crew
             self.mission.options.load_from_dict(options)
 
     def generate_miz(self, output: Path) -> UnitMap:
@@ -82,7 +86,10 @@ class MissionGenerator:
         self.add_airfields_to_unit_map()
         self.initialize_registries()
 
-        EnvironmentGenerator(self.mission, self.game.conditions, self.time).generate()
+        auto_fog = self.game.settings.use_auto_fog
+        EnvironmentGenerator(
+            self.mission, self.game.conditions, self.time, auto_fog
+        ).generate()
 
         tgo_generator = TgoGenerator(
             self.mission,
@@ -247,6 +254,7 @@ class MissionGenerator:
             self.time,
             self.radio_registry,
             self.tacan_registry,
+            self.datalink_registry,
             self.unit_map,
             mission_data=self.mission_data,
             helipads=tgo_generator.helipads,

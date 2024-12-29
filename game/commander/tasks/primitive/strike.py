@@ -20,6 +20,7 @@ class PlanStrike(PackagePlanningTask[TheaterGroundObject]):
 
     def apply_effects(self, state: TheaterState) -> None:
         state.strike_targets.remove(self.target)
+        super().apply_effects(state)
 
     def propose_flights(self) -> None:
         tgt_count = self.target.alive_unit_count

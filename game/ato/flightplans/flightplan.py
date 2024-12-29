@@ -296,6 +296,10 @@ class FlightPlan(ABC, Generic[LayoutT]):
         """The time that the mission is complete and the flight RTBs."""
         raise NotImplementedError
 
+    @property
+    def landing_time(self) -> datetime:
+        raise NotImplementedError
+
     @self_type_guard
     def is_loiter(self, flight_plan: FlightPlan[Any]) -> TypeGuard[LoiterFlightPlan]:
         return False

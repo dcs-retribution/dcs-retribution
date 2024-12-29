@@ -18,7 +18,7 @@
 * **[Options]** New option in Settings: Default start type for Player flights.
 * **[AirWing]** Expose OPFOR Squadrons, giving the ability to change liveries, auto-assignable mission types & an easy way to retrieve debug information.
 * **[ATO]** Allow planning as OPFOR
-* **[Campaign Design]** Support for Kola map by Orbx
+* **[Campaign Design]** Support for latest maps (Kola, Afghanistan, Iraq)
 * **[UI]** Zoom level retained when switching campaigns
 * **[UX]** Allow changing squadrons in flight's edit dialog
 * **[Cheats]** Sink/Resurrect carriers instead of showing an error during cheat-capture (use AWCD-cheat to add squadrons upon resurrection)
@@ -35,6 +35,15 @@
 * **[UI/UX]** Sync package waypoints when primary flight's waypoints are updated and recreate other flights within the package to ensure JOIN, INGRESS & SPLIT are synced
 * **[UI/UX]** Allow changing loadout on flight creation
 * **[UI]** Display TOT for all waypoints in the flight plan
+* **[UI]** Edit basic datalink properties for applicable aircraft
+* **[Mission Generation]** Automatic datalink network setup for applicable aircraft (_should_ in theory avoid the need to re-save the mission)
+* **[Options]** New option to force-enable deck-crew for super-carriers on dedicated server.
+* **[Mission Generation]** Enable Supercarrier's LSO & Airboss stations
+* **[UX]** Default settings are now loaded from Default.zip
+* **[Autoplanner]** Plan Air-to-Air Escorts for AWACS & Tankers
+* **[Package Planning]** Ability to plan recovery tanker flights
+* **[Modding]** Support for Bandit's cloud presets mod (v15)
+* **[UX]** Reduce size of save-file by loading landmap data on the fly, which also implies no new campaign needs to be started to benefit from an updated landmap
 
 ## Fixes
 * **[UI/UX]** A-10A flights can be edited again

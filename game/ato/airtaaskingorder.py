@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from typing import List
 
+from game.ato import FlightType
 from game.ato.package import Package
 
 
@@ -10,6 +11,16 @@ class AirTaskingOrder:
 
     #: The set of all planned packages in the ATO.
     packages: List[Package] = field(default_factory=list)
+
+    @property
+    def has_awacs_package(self) -> bool:
+        return any(
+            [
+                p
+                for p in self.packages
+                if any([f for f in p.flights if f.flight_type is FlightType.AEWC])
+            ]
+        )
 
     def add_package(self, package: Package) -> None:
         """Adds a package to the ATO."""

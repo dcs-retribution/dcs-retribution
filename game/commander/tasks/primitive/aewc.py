@@ -22,9 +22,11 @@ class PlanAewc(PackagePlanningTask[MissionTarget]):
 
     def apply_effects(self, state: TheaterState) -> None:
         state.aewc_targets.remove(self.target)
+        super().apply_effects(state)
 
     def propose_flights(self) -> None:
         self.propose_flight(FlightType.AEWC, 1)
+        self.propose_flight(FlightType.ESCORT, 2)
 
     @property
     def asap(self) -> bool:

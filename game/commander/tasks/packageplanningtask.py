@@ -16,7 +16,7 @@ from game.commander.tasks.theatercommandertask import TheaterCommanderTask
 from game.commander.theaterstate import TheaterState
 from game.data.groups import GroupTask
 from game.settings import AutoAtoBehavior
-from game.theater import MissionTarget
+from game.theater import MissionTarget, ControlPoint
 from game.theater.theatergroundobject import IadsGroundObject, NavalGroundObject
 from game.utils import Distance, meters
 
@@ -50,6 +50,15 @@ class PackagePlanningTask(TheaterCommanderTask, Generic[MissionTargetT]):
         ):
             return False
         return self.fulfill_mission(state)
+
+    def apply_effects(self, state: TheaterState) -> None:
+        seen: set[ControlPoint] = set()
+        if not self.package:
+            return
+        for f in self.package.flights:
+            if f.departure.is_fleet and not f.is_helo and f.departure not in seen:
+                state.recovery_targets[f.departure] += f.count
+                seen.add(f.departure)
 
     def execute(self, coalition: Coalition) -> None:
         if self.package is None:
@@ -102,8 +111,14 @@ class PackagePlanningTask(TheaterCommanderTask, Generic[MissionTargetT]):
             state.context.settings,
         )
         with state.context.tracer.trace(f"{color} {self.flights[0].task} planning"):
+            asap = False
+            if (
+                not state.context.coalition.ato.has_awacs_package
+                and FlightType.AEWC in [f.task for f in self.flights]
+            ):
+                asap = True
             self.package = fulfiller.plan_mission(
-                ProposedMission(self.target, self.flights),
+                ProposedMission(self.target, self.flights, asap=asap),
                 self.purchase_multiplier,
                 state.context.now,
                 state.context.tracer,

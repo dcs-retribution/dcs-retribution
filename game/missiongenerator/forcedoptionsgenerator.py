@@ -15,20 +15,17 @@ class ForcedOptionsGenerator:
         self.game = game
 
     def _set_options_view(self) -> None:
-        self.mission.forced_options.options_view = (
-            self.game.settings.map_coalition_visibility
-        )
+        value = self.game.settings.map_coalition_visibility
+        self.mission.forced_options.options_view = value
 
     def _set_external_views(self) -> None:
         if not self.game.settings.external_views_allowed:
-            self.mission.forced_options.external_views = (
-                self.game.settings.external_views_allowed
-            )
+            value = self.game.settings.external_views_allowed
+            self.mission.forced_options.external_views = value
 
     def _set_easy_communication(self) -> None:
-        self.mission.forced_options.easy_communication = (
-            self.game.settings.easy_communication
-        )
+        value = self.game.settings.easy_communication
+        self.mission.forced_options.easy_communication = value
 
     def _set_labels(self) -> None:
         # TODO: Fix settings to use the real type.
@@ -49,9 +46,12 @@ class ForcedOptionsGenerator:
             self.mission.forced_options.unrestricted_satnav = True
 
     def _set_battle_damage_assessment(self) -> None:
-        self.mission.forced_options.battle_damage_assessment = (
-            self.game.settings.battle_damage_assessment
-        )
+        value = self.game.settings.battle_damage_assessment
+        self.mission.forced_options.battle_damage_assessment = value
+
+    def _set_supercarrier_deck_crew(self) -> None:
+        value = self.game.settings.supercarrier_deck_crew
+        self.mission.forced_options.supercarrier_deck_crew = value
 
     def generate(self) -> None:
         self._set_options_view()
@@ -60,3 +60,4 @@ class ForcedOptionsGenerator:
         self._set_labels()
         self._set_unrestricted_satnav()
         self._set_battle_damage_assessment()
+        self._set_supercarrier_deck_crew()

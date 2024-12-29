@@ -12,7 +12,7 @@ from game.utils import Distance, Heading, Speed, knots, meters, nautical_miles
 class AewcFlightPlan(PatrollingFlightPlan[PatrollingLayout]):
     @property
     def patrol_duration(self) -> timedelta:
-        return timedelta(hours=4)
+        return self.flight.coalition.game.settings.desired_awacs_mission_duration
 
     @property
     def patrol_speed(self) -> Speed:

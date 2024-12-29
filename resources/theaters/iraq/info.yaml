@@ -1,0 +1,48 @@
+---
+name: Iraq
+timezone: +3
+daytime:
+  dawn: [5, 7]
+  day: [7, 17]
+  dusk: [17, 19]
+  night: [20, 4]
+climate:
+  day_night_temperature_difference: 15.26
+  seasons:
+    winter:
+      average_pressure: 30.02
+      average_temperature: 13.6
+      weather:
+        thunderstorm: 1
+        raining: 15
+        cloudy: 40
+        clear: 40
+    spring:
+      average_pressure: 29.73
+      average_temperature: 28.6
+      weather:
+        thunderstorm: 1
+        raining: 10
+        cloudy: 30
+        clear: 20
+    summer:
+      average_pressure: 29.56
+      average_temperature: 34.1
+      weather:
+        thunderstorm: 1
+        raining: 1
+        cloudy: 20
+        clear: 40
+    fall:
+      average_pressure: 30.01
+      average_temperature: 18.2
+      weather:
+        thunderstorm: 1
+        raining: 7
+        cloudy: 40
+        clear: 30
+  turbulence:
+    high_avg_yearly_turbulence_per_10cm: 11
+    low_avg_yearly_turbulence_per_10cm: 2.3
+    solar_noon_turbulence_per_10cm: 1.5
+    midnight_turbulence_per_10cm: -2.5

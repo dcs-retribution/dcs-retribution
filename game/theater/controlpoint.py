@@ -1369,6 +1369,9 @@ class NavalControlPoint(
 
         if self.is_friendly(for_player):
             yield from [
+                FlightType.AEWC,
+                FlightType.RECOVERY,
+                FlightType.REFUELING,
                 # TODO: FlightType.INTERCEPTION
                 # TODO: Buddy tanking for the A-4?
                 # TODO: Rescue chopper?
@@ -1382,8 +1385,7 @@ class NavalControlPoint(
         yield from super().mission_types(for_player)
         if self.is_friendly(for_player):
             yield from [
-                FlightType.AEWC,
-                FlightType.REFUELING,
+                # Nothing yet
             ]
 
     @property
