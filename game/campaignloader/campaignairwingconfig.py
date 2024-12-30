@@ -71,9 +71,25 @@ class CampaignAirWingConfig:
         cls, data: dict[Union[str, int], Any], theater: ConflictTheater
     ) -> CampaignAirWingConfig:
         by_location: dict[ControlPoint, list[SquadronConfig]] = defaultdict(list)
+        carriers = theater.find_carriers()
+        lhas = theater.find_lhas()
         for base_id, squadron_configs in data.items():
             if isinstance(base_id, int):
                 base = theater.find_control_point_by_airport_id(base_id)
+            elif "CVN" in base_id:
+                if carriers:
+                    base = carriers.pop(0)
+                else:
+                    raise ValueError(
+                        f"Air wing config incompatible due to lack of carriers in theater"
+                    )
+            elif "LHA" in base_id:
+                if lhas:
+                    base = lhas.pop(0)
+                else:
+                    raise ValueError(
+                        f"Air wing config incompatible due to lack of LHAs in theater"
+                    )
             else:
                 base = theater.control_point_named(base_id)
 

@@ -823,6 +823,8 @@ class AirWingConfigurationDialog(QDialog):
         )
         fd.setAcceptMode(QFileDialog.AcceptMode.AcceptSave)
         if fd.exec_():
+            for tab in self.tabs:
+                tab.apply()
             airwing = self._build_air_wing()
             filename = fd.selectedFiles()[0]
             with open(filename, "w") as f:
