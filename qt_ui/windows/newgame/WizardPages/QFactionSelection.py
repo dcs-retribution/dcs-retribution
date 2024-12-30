@@ -55,13 +55,12 @@ class QFactionUnits(QScrollArea):
         combo_layout: Optional[QHBoxLayout] = None,
     ) -> int:
         counter += 1
-        if len(units) > 0:
-            for i, v in enumerate(sorted(units, key=lambda x: str(x)), counter):
-                cb = QCheckBox(str(v))
-                cb.setCheckState(Qt.CheckState.Checked)
-                self.checkboxes[str(v)] = cb
-                grid.addWidget(cb, i, 1)
-                counter += 1
+        for i, v in enumerate(sorted(units, key=lambda x: str(x)), counter):
+            cb = QCheckBox(str(v))
+            cb.setCheckState(Qt.CheckState.Checked)
+            self.checkboxes[str(v)] = cb
+            grid.addWidget(cb, i, 1)
+            counter += 1
         if combo_layout:
             counter += 1
             grid.addLayout(combo_layout, counter, 1)
@@ -330,11 +329,11 @@ class QFactionUnits(QScrollArea):
         hbox.addWidget(cb)
         hbox.addWidget(add_button)
         if cb.count() == 0:
-            cb.hide()
-            add_button.hide()
+            cb.setEnabled(False)
+            add_button.setEnabled(False)
         else:
-            cb.show()
-            add_button.show()
+            cb.setEnabled(True)
+            add_button.setEnabled(True)
         return hbox
 
 
@@ -393,8 +392,8 @@ class FactionSelection(QtWidgets.QWizardPage):
             if r == "USA 2005":
                 self.blueFactionSelect.setCurrentIndex(i)
 
-        self.saveBlueFactionButton = QtWidgets.QPushButton("Save as new faction")
-        self.saveRedFactionButton = QtWidgets.QPushButton("Save as new faction")
+        self.saveBlueFactionButton = QPushButton("Save as new faction")
+        self.saveRedFactionButton = QPushButton("Save as new faction")
         self.blueGroupLayout.addWidget(self.saveBlueFactionButton, 3, 0, 1, 2)
         self.redGroupLayout.addWidget(self.saveRedFactionButton, 3, 0, 1, 2)
         self.saveBlueFactionButton.clicked.connect(
@@ -502,7 +501,7 @@ class FactionSelection(QtWidgets.QWizardPage):
 
     def show_save_faction_dialog(self, faction: Faction):
         dialog = QFactionSaver(faction)
-        dialog.exec_()
+        dialog.exec()
         for r in FACTIONS:
             if self.blueFactionSelect.findText(r) == -1:
                 self.blueFactionSelect.addItem(r, FACTIONS[r])
