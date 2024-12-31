@@ -817,6 +817,17 @@ class AirWingConfigurationDialog(QDialog):
         layout.addLayout(buttons_layout)
 
     def save_config(self) -> None:
+        result = QMessageBox.information(
+            None,
+            "Save Air Wing?",
+            "Revert will not be possible after saving a different Air Wing.<br />"
+            "Are you sure you want to continue?",
+            QMessageBox.StandardButton.Yes,
+            QMessageBox.StandardButton.No,
+        )
+        if result == QMessageBox.StandardButton.No:
+            return
+
         awd = airwing_dir()
         fd = QFileDialog(
             caption="Save Air Wing", directory=str(awd), filter="*.yaml;*.yml"
