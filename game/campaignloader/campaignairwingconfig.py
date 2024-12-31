@@ -9,7 +9,6 @@ from game.theater.controlpoint import ControlPoint
 
 if TYPE_CHECKING:
     from game.theater import ConflictTheater
-    from game.factions import Faction
 
 
 DEFAULT_SQUADRON_SIZE = 12
