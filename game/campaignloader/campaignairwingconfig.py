@@ -4,8 +4,6 @@ from collections import defaultdict
 from dataclasses import dataclass
 from typing import Any, Optional, TYPE_CHECKING, Union
 
-from game.dcs.shipunittype import ShipUnitType
-
 from game.ato.flighttype import FlightType
 from game.theater.controlpoint import ControlPoint
 
