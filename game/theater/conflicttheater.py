@@ -272,12 +272,18 @@ class ConflictTheater:
         raise KeyError(f"Cannot find ControlPoint named {name}")
 
     def find_carriers(self) -> List[ControlPoint]:
-        carriers = [cp for cp in self.controlpoints if cp.is_carrier]
-        return carriers
+        try:
+            carriers = [cp for cp in self.controlpoints if cp.is_carrier]
+            return carriers
+        except:
+            return []
 
     def find_lhas(self) -> List[ControlPoint]:
-        lhas = [cp for cp in self.controlpoints if cp.is_lha]
-        return lhas
+        try:
+            lhas = [cp for cp in self.controlpoints if cp.is_lha]
+            return lhas
+        except:
+            return []
 
     def heading_to_conflict_from(self, position: Point) -> Optional[Heading]:
         # Heading for a Group to the enemy.

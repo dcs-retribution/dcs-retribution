@@ -4,11 +4,14 @@ from collections import defaultdict
 from dataclasses import dataclass
 from typing import Any, Optional, TYPE_CHECKING, Union
 
+from game.dcs.shipunittype import ShipUnitType
+
 from game.ato.flighttype import FlightType
 from game.theater.controlpoint import ControlPoint
 
 if TYPE_CHECKING:
     from game.theater import ConflictTheater
+    from game.factions import Faction
 
 
 DEFAULT_SQUADRON_SIZE = 12
@@ -74,24 +77,24 @@ class CampaignAirWingConfig:
         carriers = theater.find_carriers()
         lhas = theater.find_lhas()
         for base_id, squadron_configs in data.items():
+            base: Optional[ControlPoint] = None
             if isinstance(base_id, int):
                 base = theater.find_control_point_by_airport_id(base_id)
-            elif "CVN" in base_id:
-                if carriers:
-                    base = carriers.pop(0)
-                else:
-                    raise ValueError(
-                        f"Air wing config incompatible due to lack of carriers in theater"
-                    )
-            elif "LHA" in base_id:
-                if lhas:
-                    base = lhas.pop(0)
-                else:
-                    raise ValueError(
-                        f"Air wing config incompatible due to lack of LHAs in theater"
-                    )
             else:
-                base = theater.control_point_named(base_id)
+                try:
+                    base = theater.control_point_named(base_id)
+                except:
+                    if base_id == "Red CV":
+                        base = next((c for c in carriers if not c.captured), None)
+                    elif base_id == "Blue CV":
+                        base = next((c for c in carriers if c.captured), None)
+                    elif base_id == "Red LHA":
+                        base = next((l for l in lhas if not l.captured), None)
+                    elif base_id == "Blue LHA":
+                        base = next((l for l in lhas if l.captured), None)
+
+            if base is None:
+                raise ValueError(f"No valid control points found {base_id}")
 
             for squadron_data in squadron_configs:
                 by_location[base].append(SquadronConfig.from_data(squadron_data))

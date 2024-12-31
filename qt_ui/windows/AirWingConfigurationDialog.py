@@ -849,7 +849,7 @@ class AirWingConfigurationDialog(QDialog):
             for s in sqs:
                 cp = s.location.at
                 if isinstance(cp, Point):
-                    key = s.location.name
+                    key = s.location.full_name
                 else:
                     key = cp.id
                 name = (
