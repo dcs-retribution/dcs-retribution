@@ -1,3 +1,5 @@
+-- VWV Crusader payloads (AIM-9D, Drop tanks) do not seem to work (from Retribution)
+-- Reverting to AIM-9B
 local unitPayloads = {
 	["name"]="vwv_crusader",
 	["payloads"]=
@@ -20,12 +22,12 @@ local unitPayloads = {
 				},
 				[3]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=3
 				},
 				[4]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=4
 				}
 			},
@@ -53,22 +55,22 @@ local unitPayloads = {
 				},
 				[3]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=3
 				},
 				[4]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=4
 				},
 				[5]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=2
 				},
 				[6]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=5
 				}
 			},
@@ -96,22 +98,22 @@ local unitPayloads = {
 				},
 				[3]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=3
 				},
 				[4]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=4
 				},
 				[5]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=2
 				},
 				[6]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=5
 				}
 			},
@@ -138,22 +140,22 @@ local unitPayloads = {
 				},
 				[3]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=3
 				},
 				[4]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=4
 				},
 				[5]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=2
 				},
 				[6]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=5
 				}
 			},
@@ -180,22 +182,22 @@ local unitPayloads = {
 				},
 				[3]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=3
 				},
 				[4]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=4
 				},
 				[5]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=2
 				},
 				[6]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=5
 				}
 			},
