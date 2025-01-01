@@ -35,7 +35,12 @@ class CapBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
                 closest_airfield = airfield
                 break
         else:
-            raise PlanningError("Could not find any enemy airfields")
+            for airfield in closest_cache.closest_airfields:
+                if airfield.captured != self.is_player:
+                    closest_airfield = airfield
+                    break
+            else:
+                raise PlanningError("Could not find any enemy airfields")
 
         heading = Heading.from_degrees(
             location.position.heading_between_point(closest_airfield.position)

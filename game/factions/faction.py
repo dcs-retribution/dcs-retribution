@@ -321,6 +321,38 @@ class Faction:
 
         return faction
 
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "country": self.country.name,
+            "name": self.name,
+            "description": self.description,
+            "authors": self.authors,
+            "aircrafts": [ac.variant_id for ac in self.aircraft],
+            "awacs": [ac.variant_id for ac in self.awacs],
+            "tankers": [ac.variant_id for ac in self.tankers],
+            "frontline_units": [unit.variant_id for unit in self.frontline_units],
+            "artillery_units": [unit.variant_id for unit in self.artillery_units],
+            "logistics_units": [unit.variant_id for unit in self.logistics_units],
+            "infantry_units": [unit.variant_id for unit in self.infantry_units],
+            "preset_groups": [group.name for group in self.preset_groups],
+            "air_defense_units": [unit.variant_id for unit in self.air_defense_units],
+            "naval_units": [unit.variant_id for unit in self.naval_units],
+            "missiles": [unit.variant_id for unit in self.missiles],
+            "has_jtac": self.has_jtac,
+            "jtac_unit": self.jtac_unit.variant_id if self.jtac_unit else None,
+            "doctrine": self.doctrine.name,
+            "building_set": list(self.building_set),
+            "liveries_overrides": {
+                ac.variant_id: livery for ac, livery in self.liveries_overrides.items()
+            },
+            "liveries_overrides_ground_forces": self.liveries_overrides_ground_forces,
+            "unrestricted_satnav": self.unrestricted_satnav,
+            "requirements": self.requirements,
+            "carriers": {
+                carrier.variant_id: names for carrier, names in self.carriers.items()
+            },
+        }
+
     @property
     def ground_units(self) -> Iterator[GroundUnitType]:
         yield from self.artillery_units
