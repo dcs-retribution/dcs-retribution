@@ -4,8 +4,8 @@ local unitPayloads = {
 	{
 		[1]=
 		{
-			["displayName"]="Retribution Air Assault",
-			["name"]="Retribution Air Assault",
+			["displayName"]="Retribution Transport",
+			["name"]="Retribution Transport",
 			["pylons"]=
 			{
 			},

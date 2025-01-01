@@ -28,5 +28,4 @@ max_range: 367    # combat range [nmi]
 variants:
   HH-2D Seasprite: {}
 tasks:    # defined in flighttype.py
-  Air Assault: 0
   Transport: 100
