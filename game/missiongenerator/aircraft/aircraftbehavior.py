@@ -30,6 +30,7 @@ from dcs.task import (
     OptNoReportWaypointPass,
     OptRadioUsageContact,
     OptRadioSilence,
+    OptVerticalTakeoffLanding,
     Tanker,
     RecoveryTanker,
     ActivateBeaconCommand,
@@ -114,11 +115,17 @@ class AircraftBehavior:
         mission_uses_gun: bool = True,
         rtb_on_bingo: bool = True,
         ai_unlimited_fuel: Optional[bool] = None,
+        ai_vertical_takoff_landing: Optional[bool] = None,
     ) -> None:
         group.points[0].tasks.clear()
         if ai_unlimited_fuel is None:
             ai_unlimited_fuel = (
                 flight.squadron.coalition.game.settings.ai_unlimited_fuel
+            )
+
+        if ai_vertical_takoff_landing is None:
+            ai_vertical_takoff_landing = (
+                flight.squadron.coalition.game.settings.ai_vertical_takoff_landing
             )
 
         # at IP, insert waypoint to orient aircraft in correct direction
@@ -149,6 +156,9 @@ class AircraftBehavior:
             group.points[0].tasks.append(OptRestrictJettison(restrict_jettison))
         if rtb_winchester is not None:
             group.points[0].tasks.append(OptRTBOnOutOfAmmo(rtb_winchester))
+
+        if ai_vertical_takoff_landing and flight.is_helo:
+            group.points[0].tasks.append(OptVerticalTakeoffLanding(True))
 
         # Confiscate the bullets of AI missions that do not rely on the gun. There is no
         # "all but gun" RTB winchester option, so air to ground missions with mixed

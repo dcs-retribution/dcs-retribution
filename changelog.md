@@ -45,6 +45,7 @@
 * **[Modding]** Support for Bandit's cloud presets mod (v15)
 * **[UX]** Reduce size of save-file by loading landmap data on the fly, which also implies no new campaign needs to be started to benefit from an updated landmap
 * **[New Game Wizard]** Ability to save an edited faction during new game creation
+* **[Options]** New option to make AI helicopters prefer vertical takeoff and landing
 
 ## Fixes
 * **[UI/UX]** A-10A flights can be edited again
