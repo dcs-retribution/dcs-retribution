@@ -41,6 +41,8 @@ from dcs.ships import (
     Type_071,
     hms_invincible,
 )
+from pydcs_extensions.vietnamwarvessels import Cva_31
+
 from dcs.terrain.terrain import Airport, ParkingSlot
 from dcs.unitgroup import ShipGroup, StaticGroup
 from dcs.unittype import ShipType
@@ -525,7 +527,8 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
 
     @property
     @abstractmethod
-    def heading(self) -> Heading: ...
+    def heading(self) -> Heading:
+        ...
 
     def __str__(self) -> str:
         return self.name
@@ -689,7 +692,8 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
 
     @property
     @abstractmethod
-    def can_deploy_ground_units(self) -> bool: ...
+    def can_deploy_ground_units(self) -> bool:
+        ...
 
     @abstractmethod
     def total_aircraft_parking(self, parking_type: ParkingType) -> int:
@@ -984,7 +988,8 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         return None
 
     @abstractmethod
-    def can_operate(self, aircraft: AircraftType) -> bool: ...
+    def can_operate(self, aircraft: AircraftType) -> bool:
+        ...
 
     def unclaimed_parking(self, parking_type: ParkingType) -> int:
         return (
@@ -998,7 +1003,8 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         theater: ConflictTheater,
         conditions: Conditions,
         dynamic_runways: Dict[str, RunwayData],
-    ) -> RunwayData: ...
+    ) -> RunwayData:
+        ...
 
     def stub_runway_data(self) -> RunwayData:
         return RunwayData(
@@ -1015,11 +1021,13 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
 
     @property
     @abstractmethod
-    def runway_is_destroyable(self) -> bool: ...
+    def runway_is_destroyable(self) -> bool:
+        ...
 
     @property
     @abstractmethod
-    def runway_status(self) -> RunwayStatus: ...
+    def runway_status(self) -> RunwayStatus:
+        ...
 
     @property
     def runway_can_be_repaired(self) -> bool:
@@ -1193,11 +1201,13 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
 
     @property
     @abstractmethod
-    def category(self) -> str: ...
+    def category(self) -> str:
+        ...
 
     @property
     @abstractmethod
-    def status(self) -> ControlPointStatus: ...
+    def status(self) -> ControlPointStatus:
+        ...
 
 
 class Airfield(ControlPoint, CTLD):
@@ -1419,6 +1429,7 @@ class NavalControlPoint(
                     L52,
                     L61,
                     CV_1143_5,
+                    Cva_31,  # Vietnam War Vessels Mod
                     CVN_71,
                     CVN_72,
                     CVN_73,
