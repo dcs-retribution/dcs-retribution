@@ -69,8 +69,8 @@ local unitPayloads = {
 		},
 		[3]=
 		{
-			["displayName"]="Retribution STRIKE",
-			["name"]="Retribution STRIKE",
+			["displayName"]="Retribution Strike",
+			["name"]="Retribution Strike",
 			["pylons"]=
 			{
 				[1]=
@@ -167,8 +167,8 @@ local unitPayloads = {
 		},
 		[6]=
 		{
-			["displayName"]="Retribution ESCORT",
-			["name"]="Retribution ESCORT",
+			["displayName"]="Retribution Escort",
+			["name"]="Retribution Escort",
 			["pylons"]=
 			{
 				[1]=
@@ -199,8 +199,8 @@ local unitPayloads = {
 		},
 		[7]=
 		{
-			["displayName"]="Retribution FIGHTER SWEEP",
-			["name"]="Retribution FIGHTER SWEEP",
+			["displayName"]="Retribution Fighter sweep",
+			["name"]="Retribution Fighter sweep",
 			["pylons"]=
 			{
 				[1]=

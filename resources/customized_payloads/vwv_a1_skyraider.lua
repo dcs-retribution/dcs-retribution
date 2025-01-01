@@ -303,8 +303,8 @@ local unitPayloads = {
 		},
 		[5]=
 		{
-			["displayName"]="Retribution STRIKE",
-			["name"]="Retribution STRIKE",
+			["displayName"]="Retribution Strike",
+			["name"]="Retribution Strike",
 			["pylons"]=
 			{
 				[1]=
@@ -386,8 +386,8 @@ local unitPayloads = {
 		},
 		[6]=
 		{
-			["displayName"]="Retribution STRIKE - Toilet",
-			["name"]="Retribution STRIKE - Toilet",
+			["displayName"]="Retribution Strike - Toilet",
+			["name"]="Retribution Strike - Toilet",
 			["pylons"]=
 			{
 				[1]=
@@ -469,8 +469,8 @@ local unitPayloads = {
 		},
 		[7]=
 		{
-			["displayName"]="Retribution ANTISHIP",
-			["name"]="Retribution ANTISHIP",
+			["displayName"]="Retribution Anti-ship",
+			["name"]="Retribution Anti-ship",
 			["pylons"]=
 			{
 				[1]=
@@ -541,8 +541,8 @@ local unitPayloads = {
 		},
 		[8]=
 		{
-			["displayName"]="Retribution OCA_AIRCRAFT",
-			["name"]="Retribution OCA_AIRCRAFT",
+			["displayName"]="Retribution OCA/Aircraft",
+			["name"]="Retribution OCA/Aircraft",
 			["pylons"]=
 			{
 				[1]=
@@ -614,8 +614,8 @@ local unitPayloads = {
 		},
 		[9]=
 		{
-			["displayName"]="Retribution OCA_RUNWAY",
-			["name"]="Retribution OCA_RUNWAY",
+			["displayName"]="Retribution OCA/Runway",
+			["name"]="Retribution OCA/Runway",
 			["pylons"]=
 			{
 				[1]=
@@ -696,8 +696,8 @@ local unitPayloads = {
 		},
 		[10]=
 		{
-			["displayName"]="Retribution SEAD_SWEEP",
-			["name"]="Retribution SEAD_SWEEP",
+			["displayName"]="Retribution SEAD Sweep",
+			["name"]="Retribution SEAD Sweep",
 			["pylons"]=
 			{
 				[1]=

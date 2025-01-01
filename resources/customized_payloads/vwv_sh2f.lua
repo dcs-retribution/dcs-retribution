@@ -4,8 +4,8 @@ local unitPayloads = {
 	{
 		[1]=
 		{
-			["displayName"]="Retribution AIR_ASSAULT",
-			["name"]="Retribution AIR_ASSAULT",
+			["displayName"]="Retribution Air Assault",
+			["name"]="Retribution Air Assault",
 			["pylons"]=
 			{
 			},
@@ -16,8 +16,8 @@ local unitPayloads = {
 		},
 		[2]=
 		{
-			["displayName"]="Retribution ANTISHIP",
-			["name"]="Retribution ANTISHIP",
+			["displayName"]="Retribution Anti-ship",
+			["name"]="Retribution Anti-ship",
 			["pylons"]=
 			{
 				[1]=
