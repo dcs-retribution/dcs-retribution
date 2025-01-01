@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import logging
+
 from collections import defaultdict
 from dataclasses import dataclass
 from typing import Any, Optional, TYPE_CHECKING, Union
@@ -90,10 +92,12 @@ class CampaignAirWingConfig:
                     elif base_id == "Blue LHA":
                         base = next((l for l in lhas if l.captured), None)
 
-            if base is None:
-                raise ValueError(f"No valid control points found {base_id}")
-
             for squadron_data in squadron_configs:
-                by_location[base].append(SquadronConfig.from_data(squadron_data))
+                if base is None:
+                    logging.warning(
+                        f"Skipping squadron config for unknown base: {base_id}"
+                    )
+                else:
+                    by_location[base].append(SquadronConfig.from_data(squadron_data))
 
         return CampaignAirWingConfig(by_location)
