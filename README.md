@@ -93,4 +93,4 @@ Excellent lua scripts DCS Liberation/Retribution uses as plugins:
 * Carstens Arty Spotter https://www.digitalcombatsimulator.com/en/files/3339128/ is an amazing force multiplyer to drop the hammer on enemies.
 * MBot's [Call Artillery Script](https://forum.dcs.world/topic/310506-call-artillery-script/) uses in-map artillery and forward observers to enable artillery fire missions.
 
-Please also show some support to these projects ! 
+Please also show some support to these projects! 
