@@ -76,7 +76,7 @@ class Squadron:
         if "id" not in state:
             state["id"] = uuid4()
         if "use_livery_set" not in state:
-            state["use_livery_set"] = len(state["livery_set"]) > 0
+            state["use_livery_set"] = len(state.get("livery_set", [])) > 0
         self.__dict__.update(state)
 
     def __str__(self) -> str:
