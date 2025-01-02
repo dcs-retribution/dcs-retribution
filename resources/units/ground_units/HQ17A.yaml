@@ -10,4 +10,4 @@ origin: China
 price: 40
 role: Self-Propelled Anti-Aircraft System
 variants:
-  \[CH] HQ-17A SHORAD: {}
+  "[CH] HQ-17A SHORAD": {}

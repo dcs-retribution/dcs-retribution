@@ -11,4 +11,4 @@ origin: China
 price: 50
 role: Self-Propelled Surface-to-Air Missile Launcher
 variants:
-  \[CH] LD-3000 C-RAM Stationary: {}
+  "[CH] LD-3000 C-RAM Stationary": {}

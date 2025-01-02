@@ -15,4 +15,4 @@ origin: China
 price: 12
 role: Infantry Fighting Vehicle
 variants:
-  \[CH] ZTL-11 AFV: {}
+  "[CH] ZTL-11 AFV": {}

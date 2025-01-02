@@ -8,4 +8,4 @@ origin: China
 price: 25
 role: Self-Propelled Gun
 variants:
-  \[CH] PCL-181 SPG 155 HE: {}
+  "[CH] PCL-181 SPG 155 HE": {}
