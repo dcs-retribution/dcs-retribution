@@ -34,6 +34,7 @@ from .su57 import *
 from .swedishmilitaryassetspack import *
 from .coldwarassets import *
 from .uh60l import *
+from .chinamilitaryassetspack import *
 
 
 def load_mods() -> None:
