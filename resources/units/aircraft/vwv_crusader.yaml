@@ -30,3 +30,4 @@ tasks:    # defined in flighttype.py
   Intercept: 400
   TARCAP: 300
   BARCAP: 300
+  Armed Recon: 200

@@ -33,7 +33,7 @@ local unitPayloads = {
 			{
 				[1]=11,
 				[2]=10
-			},
+			}
 		},
 		[2]=
 		{
@@ -65,7 +65,7 @@ local unitPayloads = {
 			["tasks"]=
 			{
 				[1]=31
-			},
+			}
 		},
 		[3]=
 		{
@@ -98,7 +98,7 @@ local unitPayloads = {
 			{
 				[1]=32,
 				[2]=33
-			},
+			}
 		},
 		[4]=
 		{
@@ -131,7 +131,7 @@ local unitPayloads = {
 			{
 				[1]=32,
 				[2]=33
-			},
+			}
 		},
 		[5]=
 		{
@@ -163,7 +163,7 @@ local unitPayloads = {
 			["tasks"]=
 			{
 				[1]=11
-			},
+			}
 		},
 		[6]=
 		{
@@ -195,7 +195,7 @@ local unitPayloads = {
 			["tasks"]=
 			{
 				[1]=18
-			},
+			}
 		},
 		[7]=
 		{
@@ -227,8 +227,41 @@ local unitPayloads = {
 			["tasks"]=
 			{
 				[1]=19
-			},
+			}
 		},
+		[8]=
+		{
+			["displayName"]="Retribution Armed Recon",
+			["name"]="Retribution Armed Recon",
+			["pylons"]=
+			{
+				[1]=
+				{
+					["CLSID"]="{R-3S}",
+					["num"]=1
+				},
+				[2]=
+				{
+					["CLSID"]="{R-3S}",
+					["num"]=2
+				},
+				[3]=
+				{
+					["CLSID"]="{R-3S}",
+					["num"]=3
+				},
+				[4]=
+				{
+					["CLSID"]="{R-3S}",
+					["num"]=4
+				}
+			},
+			["tasks"]=
+			{
+				[1]=11,
+				[2]=10
+			}
+		}
 	},
 	["unitType"]="vwv_mig21mf"
 }

@@ -99,6 +99,39 @@ local unitPayloads = {
 				[1]=32,
 				[2]=33
 			}
+		},
+		[4]=
+		{
+			["displayName"]="Retribution Armed Recon",
+			["name"]="Retribution Armed Recon",
+			["pylons"]=
+			{
+				[1]=
+				{
+					["CLSID"]="{LAU68_FFAR_MK5HEAT}",
+					["num"]=1
+				},
+				[2]=
+				{
+					["CLSID"]="{LAU68_FFAR_MK5HEAT}",
+					["num"]=4
+				},
+				[3]=
+				{
+					["CLSID"]="{3xM8_ROCKETS_IN_TUBES}",
+					["num"]=2
+				},
+				[4]=
+				{
+					["CLSID"]="{3xM8_ROCKETS_IN_TUBES}",
+					["num"]=3
+				}
+			},
+			["tasks"]=
+			{
+				[1]=32,
+				[2]=33
+			}
 		}
 	},
 	["unitType"]="vwv_o-1"

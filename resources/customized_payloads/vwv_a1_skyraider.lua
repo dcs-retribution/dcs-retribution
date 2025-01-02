@@ -765,6 +765,79 @@ local unitPayloads = {
 			{
 				[1]=29
 			}
+		},
+		[11]=
+		{
+			["displayName"]="Retribution Armed Recon",
+			["name"]="Retribution Armed Recon",
+			["pylons"]=
+			{
+				[1]=
+				{
+					["CLSID"]="<CLEAN>",
+					["num"]=1
+				},
+				[2]=
+				{
+					["CLSID"]="{A021F29D-18AB-4d3e-985C-FC9C60E35E9E}",
+					["num"]=2
+				},
+				[3]=
+				{
+					["CLSID"]="<CLEAN>",
+					["num"]=3
+				},
+				[4]=
+				{
+					["CLSID"]="<CLEAN>",
+					["num"]=5
+				},
+				[5]=
+				{
+					["CLSID"]="{A021F29D-18AB-4d3e-985C-FC9C60E35E9E}",
+					["num"]=6
+				},
+				[6]=
+				{
+					["CLSID"]="<CLEAN>",
+					["num"]=8
+				},
+				[7]=
+				{
+					["CLSID"]="{A021F29D-18AB-4d3e-985C-FC9C60E35E9E}",
+					["num"]=12
+				},
+				[8]=
+				{
+					["CLSID"]="{A021F29D-18AB-4d3e-985C-FC9C60E35E9E}",
+					["num"]=14
+				},
+				[9]=
+				{
+					["CLSID"]="<CLEAN>",
+					["num"]=7
+				},
+				[10]=
+				{
+					["CLSID"]="<CLEAN>",
+					["num"]=9
+				},
+				[11]=
+				{
+					["CLSID"]="{A021F29D-18AB-4d3e-985C-FC9C60E35E9E}",
+					["num"]=4
+				},
+				[12]=
+				{
+					["CLSID"]="{A021F29D-18AB-4d3e-985C-FC9C60E35E9E}",
+					["num"]=10
+				}
+			},
+			["tasks"]=
+			{
+				[1]=32,
+				[2]=33
+			}
 		}
 	},
 	["unitType"]="vwv_a1_skyraider"

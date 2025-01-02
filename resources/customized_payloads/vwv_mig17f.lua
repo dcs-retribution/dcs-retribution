@@ -23,7 +23,7 @@ local unitPayloads = {
 			{
 				[1]=11,
 				[2]=10
-			},
+			}
 		},
 		[2]=
 		{
@@ -46,7 +46,7 @@ local unitPayloads = {
 			{
 				[1]=32,
 				[2]=33
-			},
+			}
 		},
 		[3]=
 		{
@@ -68,7 +68,7 @@ local unitPayloads = {
 			["tasks"]=
 			{
 				[1]=31
-			},
+			}
 		},
 		[4]=
 		{
@@ -91,7 +91,7 @@ local unitPayloads = {
 			{
 				[1]=32,
 				[2]=33
-			},
+			}
 		},
 		[5]=
 		{
@@ -113,7 +113,7 @@ local unitPayloads = {
 			["tasks"]=
 			{
 				[1]=11
-			},
+			}
 		},
 		[6]=
 		{
@@ -135,7 +135,7 @@ local unitPayloads = {
 			["tasks"]=
 			{
 				[1]=18
-			},
+			}
 		},
 		[7]=
 		{
@@ -157,8 +157,31 @@ local unitPayloads = {
 			["tasks"]=
 			{
 				[1]=19
-			},
+			}
 		},
+		[8]=
+		{
+			["displayName"]="Retribution Armed Recon",
+			["name"]="Retribution Armed Recon",
+			["pylons"]=
+			{
+				[1]=
+				{
+					["CLSID"]="PTB400_MIG15",
+					["num"]=3
+				},
+				[2]=
+				{
+					["CLSID"]="PTB400_MIG15",
+					["num"]=4
+				}
+			},
+			["tasks"]=
+			{
+				[1]=11,
+				[2]=10
+			}
+		}
 	},
 	["unitType"]="vwv_mig17f"
 }

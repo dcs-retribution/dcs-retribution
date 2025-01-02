@@ -26,4 +26,5 @@ tasks:    # defined in flighttype.py
   OCA/Aircraft: 200
   OCA/Runway: 200
   Strike: 300
+  Armed Recon: 200
   

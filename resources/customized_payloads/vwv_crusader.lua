@@ -205,6 +205,49 @@ local unitPayloads = {
 			{
 				[1]=19
 			}
+		},
+		[6]=
+		{
+			["displayName"]="Retribution Armed Recon",
+			["name"]="Retribution Armed Recon",
+			["pylons"]=
+			{
+				[1]=
+				{
+					["CLSID"]="{DFT-150gal}",
+					["num"]=1
+				},
+				[2]=
+				{
+					["CLSID"]="{DFT-150gal}",
+					["num"]=6
+				},
+				[3]=
+				{
+					["CLSID"]="{AIM-9B}",
+					["num"]=3
+				},
+				[4]=
+				{
+					["CLSID"]="{AIM-9B}",
+					["num"]=4
+				},
+				[5]=
+				{
+					["CLSID"]="{AIM-9B}",
+					["num"]=2
+				},
+				[6]=
+				{
+					["CLSID"]="{AIM-9B}",
+					["num"]=5
+				}
+			},
+			["tasks"]=
+			{
+				[1]=11,
+				[2]=10
+			}
 		}
 	},
 	["unitType"]="vwv_crusader"
