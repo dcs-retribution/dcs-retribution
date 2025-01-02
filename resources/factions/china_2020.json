@@ -1,8 +1,8 @@
 {
   "country": "China",
-  "name": "China 2010 CH",
+  "name": "China 2020",
   "authors": "Eclipse",
-  "description": "<p>China in the late 2000s, early 2010s.</p>",
+  "description": "<p>China in the late 2010s, early 2020s.</p>",
   "locales": [
     "zh_CN"
   ],
@@ -57,9 +57,7 @@
     "[CH] YJ-12B LBASM"
   ],
   "preset_groups": [
-    "SA-2/S-75",
     "HQ-2",
-    "SA-6",
     "SA-11",
     "HQ-7",
     "HQ-22",
@@ -82,6 +80,7 @@
   "air_defense_units": [
     "EWR 1L13",
     "EWR 55G6",
+    "AAA ZU-23 Closed Emplacement",
     "[CH] LD-3000 C-RAM Mobile",
     "[CH] LD-3000 C-RAM Stationary",
     "[CH] PGZ-09 SPAAG",
