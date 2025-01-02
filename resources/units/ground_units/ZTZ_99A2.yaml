@@ -13,4 +13,4 @@ origin: China
 price: 40
 role: Main Battle Tank
 variants:
-  [CH] ZTZ-99A2 MBT: {}
+  \[CH] ZTZ-99A2 MBT: {}

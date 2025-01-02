@@ -9,4 +9,4 @@ origin: China
 price: 10
 role: Self-Propelled Anti-Aircraft Gun
 variants:
-  [CH] PGZ-95 SPAAG: {}
+  \[CH] PGZ-95 SPAAG: {}
