@@ -100,7 +100,7 @@ class ModSettings:
     swedishmilitaryassetspack: bool = False
     coldwarassets: bool = False
     SWPack: bool = False
-    chinamilitaryassetspack: bool = False
+    chinesemilitaryassetspack: bool = False
 
 
 class GameGenerator:

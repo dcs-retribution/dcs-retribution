@@ -653,8 +653,8 @@ class Faction:
             self.remove_vehicle("TR_TT")
             self.remove_vehicle("Gozanti")
             self.remove_ship("Destroyer_carrier")
-        # China Military Assets Pack
-        if not mod_settings.chinamilitaryassetspack:
+        # Chinese Military Assets Pack
+        if not mod_settings.chinesemilitaryassetspack:
             self.remove_vehicle("CH_PCL181_155")
             self.remove_vehicle("CH_PCL181_GP155")
             self.remove_vehicle("CH_PHL11_HE")
@@ -684,6 +684,7 @@ class Faction:
             self.remove_ship("Type055")
             self.remove_ship("CH_Type056A")
             self.remove_ship("CH_Type054B")
+            self.remove_preset("HQ-22")
 
     def remove_aircraft(self, name: str) -> None:
         for aircraft_set in [self.aircraft, self.awacs, self.tankers]:

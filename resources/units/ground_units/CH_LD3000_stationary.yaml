@@ -8,4 +8,5 @@ manufacturer: 713th Research Institute
 origin: China
 price: 10
 role: Self-Propelled Anti-Aircraft Gun
+variants:
   "[CH] LD-3000 C-RAM Stationary": {}

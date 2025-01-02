@@ -158,8 +158,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("spanishnavypack", self.spanishnavypack)
         self.irondome = QtWidgets.QCheckBox()
         self.registerField("irondome", self.irondome)
-        self.chinamilitaryassetspack = QtWidgets.QCheckBox()
-        self.registerField("chinamilitaryassetspack", self.chinamilitaryassetspack)
+        self.chinesemilitaryassetspack = QtWidgets.QCheckBox()
+        self.registerField("chinesemilitaryassetspack", self.chinesemilitaryassetspack)
 
         modHelpText = QtWidgets.QLabel(
             "<p>Select the mods you have installed. If your chosen factions support them, you'll be able to use these mods in your campaign.</p>"
@@ -205,7 +205,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("OH-6 Cayuse (v1.2)", self.oh_6),
             ("OH-6 Vietnam Asset Pack (v1.0)", self.oh_6_vietnamassetpack),
             ("UH-60L Black Hawk (v1.3.1)", self.uh_60l),
-            ("China Military Assets pack (1.1.4)", self.chinamilitaryassetspack),
+            ("Chinese Military Assets pack (1.1.4)", self.chinesemilitaryassetspack),
         ]
 
         for i in range(len(mod_pairs)):
@@ -273,4 +273,6 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.swedishmilitaryassetspack.setChecked(
             s.get("swedishmilitaryassetspack", False)
         )
-        self.chinamilitaryassetspack.setChecked(s.get("chinamilitaryassetspack", False))
+        self.chinesemilitaryassetspack.setChecked(
+            s.get("chinesemilitaryassetspack", False)
+        )
