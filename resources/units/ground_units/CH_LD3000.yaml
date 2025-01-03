@@ -1,0 +1,12 @@
+class: AAA
+description: The land-based variant of Type 1130 CIWS, the LD-3000 is a Chinese eleven-barrelled
+  30 mm Gatling gun/rotary cannon CIWS. It is mounted in an enclosed automatic turret and
+  directed by radar. The maximum rate of fire is 5800 rd/m, and the effective range is up to 
+  3 km.
+introduced: 2022
+manufacturer: 713th Research Institute
+origin: China
+price: 15
+role: Self-Propelled Anti-Aircraft Gun
+variants:
+  "[CH] LD-3000 C-RAM Mobile": {}

@@ -1,0 +1,526 @@
+---
+name: Syria - Into the Hornet's Nest
+# v1.0 - Original Release
+theater: Syria
+authors: Astro
+recommended_player_faction: USA 2005
+recommended_enemy_faction: Russia 2020
+recommended_start_date: 2022-06-04
+description: "<p>This campaign is about defeating an Integrated Air Defence System (IADS). The IADS can be taken down by striking its communication towers or power sources, or directly attacking its SAMs. The enemy has a significant number of ground and air assets, making this a challenging campaign, but also providing a lot of targets to strike. Expect a lot of red air activity right from turn one (squadrons are set to begin full). Make sure to destroy more assets each turn than you lose, because the enemy income is double that of yours.<br><br>The campaign is mainly designed for a group of players using weasel tactics, but can also be played by a single player after adjusting some settings.<br><br>Recommended settings for a group of players:<br>- Use High Digit SAMs and Skynet<br>- Keep default income multipliers<br>- Turn off display of Air Defenses during mission planning<br>Recommended settings for single player SEAD/DEAD missions:<br>- Use Skynet, but turn off High Digit SAMs<br>- Reduce enemy income muiltiplier<br>Recommended settings for single player Strike missions (with AI SEAD mssions):<br>- Turn off Skynet and High Digit SAMs<br>- Reduce enemy income muiltiplier<br><br>Note:<br>- Income multipliers are set to 0.7 (lower than 1.0) to include many assets to strike and still keep the available income at a lower level to not increase the amount of frontline units such that it hits the computer CPU limits<br>- Squadrons are set to start full, which provides high red air activity right from the start<br>- Mission duration is set to 30 min (all enemy missions airborne before 30 min), which will result in a total mission duration of about 1 hour<br>- Advanced IADS setting should be set to On<br><br>This campaign does not represent any historical time period or events. It is based on the Assault on Damascus campaign by HolyOrangeJuice, which is again based on the Battle for Golan Heights campaign by Khopa.</p>"
+miz: IntotheHornetsNest.miz
+performance: 2
+version: "10.7"    # CTLD Zones Added
+recommended_player_money: 300
+recommended_enemy_money: 300
+recommended_player_income_multiplier: 0.7
+recommended_enemy_income_multiplier: 0.7
+settings:
+  max_frontline_width: 30
+  squadron_start_full: true
+  enable_squadron_aircraft_limits: true
+  desired_player_mission_duration: 30
+  desired_tanker_on_station_time: 30
+  perf_culling: true
+  perf_culling_distance: 200
+  perf_do_not_cull_threatening_iads: true
+  perf_do_not_cull_carrier: true
+  # Mods to be used
+  high_digit_sams: true
+# Campaign has IADS with connection_nodes / power_sources / command_centers
+advanced_iads: true
+iads_config:
+# REDFOR DEFENSE AL-DUMAYR AIRBASE AREA (North)
+  - A-COMMAND-NORTH:
+    - A-POWER-NORTH
+    - A-POWER-EAST
+    - A-POWER-2
+  - A-EWRPNTDEF-1:
+    - A-COMMAND-NORTH
+  - A-EWR-1:
+    - A-POWER-NORTH
+    - A-COMMAND-NORTH
+    - A-EWRPNTDEF-1
+  - A-SAM-1:
+    - A-COMMAND-NORTH
+  - A-SAMPNTDEF-1:
+    - A-COMMAND-NORTH
+  - A-COMMAND-EAST:
+    - A-POWER-EAST
+    - A-POWER-NORTH
+    - A-POWER-2
+    - S-TOWER-1
+  - A-LRSAM-1:
+    - A-COMMAND-EAST
+    - D-COMMAND
+  - A-EWRPNTDEF-2:
+    - A-COMMAND-EAST
+  - A-EWR-2:
+    - A-COMMAND-EAST
+    - A-POWER-EAST
+    - A-EWRPNTDEF-2
+  - A-SAM-2:
+    - A-COMMAND-EAST
+  - A-SAMPNTDEF-2:
+    - A-COMMAND-EAST
+  - A-SHORAD-1:
+    - A-COMMAND-EAST
+  - A-SHORAD-2:
+    - A-COMMAND-NORTH
+# REDFOR DEFENSE SAYQAL (North)
+  - S-SHORAD-1:
+    - S-TOWER-1
+# REDFOR DEFENSE DAMASCUS AIRBASE AREA (Centre)
+  - D-COMMAND:
+    - D-POWER-EAST
+    - D-POWER-WEST
+    - MEZZEH-TOWER-1
+    - FOB-ALPHA-TOWER-1
+  - D-EWRPNTDEF-1:
+    - D-COMMAND
+  - D-EWR-1:
+    - D-POWER-WEST
+    - D-COMMAND
+    - D-EWRPNTDEF-1
+  - D-SAM-2:
+    - D-COMMAND
+  - D-SAMPNTDEF-2:
+    - D-COMMAND
+  - D-EWRPNTDEF-2:
+    - D-COMMAND
+  - D-SHORAD-1:
+    - D-COMMAND
+  - D-SHORAD-2:
+    - D-COMMAND
+  - D-SHORAD-3:
+    - D-COMMAND
+  - D-SHORAD-4:
+    - D-COMMAND
+  - D-SHORAD-5:
+    - D-COMMAND
+# REDFOR DEFENSE MEZZEH
+  - MEZZEH-SHORAD-1:
+    - MEZZEH-TOWER-1
+# REDFOR DEFENSE MARJ RUHAYYIL AIRBASE AREA (South)
+  - M-EWRPNTDEF-1:
+    - D-COMMAND
+  - M-EWR-1:
+    - D-POWER-EAST-POWER
+    - D-COMMAND
+    - M-EWRPNTDEF-1
+  - M-SAM-1:
+    - D-COMMAND
+  - M-SAMPNTDEF-1:
+    - D-COMMAND
+  - M-SHORAD-1:
+    - D-COMMAND
+  - M-SHORAD-2:
+    - D-COMMAND
+# REDFOR DEFENCE KHALKHALAH AIRBASE (Southeast)
+  - K-COMMAND:
+    - K-POWER-1
+    - K-POWER-2
+    - FOB-BRAVO-TOWER-1
+  - K-EWRPNTDEF-1:
+    - K-COMMAND
+  - K-EWR-1:
+    - K-POWER-1
+    - K-COMMAND
+    - K-EWRPNTDEF-1
+  - K-EWRPNTDEF-2:
+    - K-COMMAND
+  - K-EWR-2:
+    - K-POWER-1
+    - K-COMMAND
+    - D-COMMAND
+    - K-EWRPNTDEF-2
+  - K-SAM-2:
+    - K-COMMAND
+  - K-SAMPNTDEF-2:
+    - K-COMMAND
+  - K-SHORAD-1:
+    - K-COMMAND
+# REDFOR DEFENCE BEIRUT
+  - B-COMMAND:
+    - B-POWER-1
+    - B-POWER-2
+  - B-EWRPNTDEF-1:
+    - B-COMMAND
+  - B-EWR-1:
+    - B-POWER-1
+    - B-COMMAND
+    - B-EWRPNTDEF-1
+  - B-SAM-1:
+    - B-COMMAND
+  - B-SAMPNTDEF-1:
+    - B-COMMAND
+# FOB ALPHA
+  - FOB-ALPHA-SHORAD-1:
+    - FOB-ALPHA-TOWER-1
+  - FOB-ALPHA-SHORAD-2:
+    - FOB-ALPHA-TOWER-1
+# FOB BRAVO
+  - FOB-BRAVO-SHORAD-1:
+    - FOB-BRAVO-TOWER-1
+  - FOB-BRAVO-SHORAD-2:
+    - FOB-BRAVO-TOWER-1
+  - FOB-BRAVO-SHORAD-3:
+    - FOB-BRAVO-TOWER-1
+  - FOB-BRAVO-SHORAD-4:
+    - FOB-BRAVO-TOWER-1
+# BLUEFOR RAMAT DEFENSE
+# no skynet for blue, since DCS AI does not react well to IADS
+squadrons:
+# Navy
+  CVN-74 John Stennis:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - VF-142    # F14B
+      size: 4
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - VFA-192    # Hornet Navy
+      size: 8
+    - primary: AEW&C
+      aircraft:
+        - E-2D Advanced Hawkeye
+      size: 1
+    - primary: Refueling
+      aircraft:
+        - S-3B Tanker
+      size: 2
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - S-3B Viking
+      size: 4
+  LHA-1 Tarawa:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - AV-8B Harrier II Night Attack
+      size: 4
+    - primary: Transport
+      secondary: air-to-ground
+      aircraft:
+        - SH-60B Seahawk
+      size: 4
+# AIR SPAWN BLUE
+  BLUEAIR:
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - B-52H Stratofortress
+      size: 2
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - B-1B Lancer
+      size: 2
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - F-117A Nighthawk
+      size: 2   
+# Ramat-David (max 65)
+  30:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - F-15E Strike Eagle (Suite 4+)
+      size: 4  
+    - primary: Strike
+      secondary: air-to-air
+      aircraft:
+        - F/A-18C Hornet (Lot 20)
+      size: 2
+    - primary: SEAD
+      secondary: any
+      aircraft:
+        - F-16CM Fighting Falcon (Block 50)
+      size: 8
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - F-15C Eagle
+      size: 8
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - F-15C Eagle
+      size: 8
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - A-10C Thunderbolt II (Suite 7)
+      size: 4
+    - primary: Refueling
+      aircraft:
+        - KC-130J
+      size: 1
+    - primary: AEW&C
+      aircraft:
+        - E-3A
+      size: 1
+    - primary: Transport
+      aircraft:
+        - C-130J-30 Super Hercules
+        - C-130
+      size: 4
+# Haifa (max 16)
+  13:
+    - primary: SEAD
+      secondary: any
+      aircraft:
+        - F-16CM Fighting Falcon (Block 50)
+      size: 2
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - F-15C Eagle
+      size: 2
+# Golan North (max 14)
+  Golan North:
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - AH-64D Apache Longbow
+        - Ka-50 Hokum III
+      size: 4
+    - primary: Transport
+      secondary: air-to-ground
+      aircraft:
+        - UH-60A
+        - Mi-8MTV2 Hip
+      size: 4
+# Golan South (max 12)
+  Golan South: 
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - AH-64D Apache Longbow
+        - Mi-24P Hind-F
+      size: 4       
+    - primary: Transport
+      secondary: air-to-ground
+      aircraft:
+        - UH-60A
+        - Mi-8MTV2 Hip
+      size: 4
+# Damascus (max 66 + 8)
+  7:
+    - primary: AEW&C
+      aircraft:
+        - A-50
+      size: 2
+    - primary: Refueling
+      aircraft:
+        - IL-78M
+      size: 2
+    - primary: Transport
+      aircraft:
+        - IL-76MD
+      size: 2
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - MiG-29S Fulcrum-C
+      size: 8
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - Su-30 Flanker-C
+      size: 4
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - Su-34 Fullback
+      size: 4
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - Su-24M Fencer-D
+      size: 4
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Su-25T Frogfoot
+      size: 4
+    - primary: Transport
+      secondary: air-to-ground
+      aircraft:
+        - Mi-8MTV2 Hip
+      size: 2
+# Marj Ruhayyil (max 33 + 12)
+  23:
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - MiG-29S Fulcrum-C
+      size: 4
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Su-25T Frogfoot
+      size: 4
+# Al-Dumayr (max 57)
+  9:
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - MiG-29S Fulcrum-C
+      size: 4
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - Su-30 Flanker-C
+      size: 4
+# Khalkhalah (max 35 FW, max 20 RW)
+  18:
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - MiG-29S Fulcrum-C
+      size: 4
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - Su-34 Fullback
+      size: 4
+# Mezzeh (max 28, max 12 RW)
+#  25:
+# Sayqal(max 59)
+  35:
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - MiG-29S Fulcrum-C
+      size: 4
+    - primary: Transport
+      secondary: air-to-ground
+      aircraft:
+        - Mi-8MTV2 Hip
+      size: 2
+# Beirut (max 37)
+  6:
+    - primary: Transport
+      aircraft:
+        - IL-76MD
+      size: 2
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - MiG-29S Fulcrum-C
+      size: 4
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - Su-24M Fencer-D
+      size: 4
+    - primary: Transport
+      secondary: air-to-ground
+      aircraft:
+        - Mi-8MTV2 Hip
+      size: 2
+# FOB ALPHA (max 20 RW)
+  FOB ALPHA:
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Ka-50 Hokum III
+        - AH-64D Apache Longbow
+      size: 4
+    - primary: Transport
+      secondary: air-to-ground
+      aircraft:
+        - Mi-8MTV2 Hip
+        - UH-60A
+      size: 4
+# FOB BRAVO (max 8 FW, max 14 RW)
+  FOB BRAVO:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Mi-24P Hind-F
+        - AH-64D Apache Longbow
+      size: 4
+    - primary: Transport
+      secondary: air-to-ground
+      aircraft:
+        - Mi-8MTV2 Hip
+        - UH-60A
+      size: 4
+# QABR AS SITT
+#  29:
+ground_forces:
+# REDFOR DEFENSE AL-DUMAYR AIRBASE AREA (North)
+  A-LRSAM-1: SA-20/S-300PMU-1    # options: SA-10B/S-300PS, SA-12/S-300V
+  A-LRPNTDEF-1: SA-15 SHORAD
+  # A-SAM-1:
+  A-SAMPNTDEF-1: SA-15 SHORAD
+  # A-SAM-2: SA-17
+  A-SAMPNTDEF-2: SA-15 SHORAD
+  A-SHORAD-1: SA-15 SHORAD
+  # A-SHORAD-2:
+  A-EWRPNTDEF-1: SA-15 SHORAD
+  A-EWRPNTDEF-2: SA-15 SHORAD
+  A-AAA-1: ZSU-23-4 AAA
+  A-AAA-2: ZSU-23-4 AAA
+  A-AAA-3: ZSU-23-4 AAA
+# REDFOR DEFENSE DAMASCUS AIRBASE AREA (Centre)
+  # D-SAM-1: 
+  D-SAM-2: SA-17
+  D-EWRPNTDEF-1: SA-15 SHORAD
+  D-EWRPNTDEF-2: SA-15 SHORAD
+  D-SAMPNTDEF-1: SA-15 SHORAD
+  D-SAMPNTDEF-2: SA-15 SHORAD
+  D-SAMPNTDEF-3: SA-15 SHORAD
+  D-SHORAD-1: SA-15 SHORAD
+  D-SHORAD-2: SA-15 SHORAD
+  # D-SHORAD-3: 
+  # D-SHORAD-4: 
+  D-SHORAD-5: SA-15 SHORAD  
+# REDFOR DEFENSE MEZZEH
+  MEZZEH-SHORAD-1: SA-15 SHORAD
+# REDFOR DEFENSE MARJ RUHAYYIL AIRBASE AREA (South)
+  M-SAM-1: SA-11
+  M-SAMPNTDEF-1: SA-15 SHORAD
+  M-EWRPNTDEF-1: SA-15 SHORAD
+  M-SHORAD-1: SA-15 SHORAD
+  # M-SHORAD-2:
+  M-AAA-1: ZSU-23-4 AAA
+# REDFOR DEFENSE KHALKHALAH
+  K-SAM-2: SA-17
+  K-SAMPNTDEF-2: SA-15 SHORAD
+  K-EWRPNTDEF-1: SA-15 SHORAD
+  K-EWRPNTDEF-2: SA-15 SHORAD
+  K-SHORAD-1: SA-15 SHORAD
+  K-AAA-1: ZSU-23-4 AAA
+  K-AAA-2: ZSU-23-4 AAA
+# REDFOR DEFENCE BEIRUT
+  # B-SAM-1: SA-17
+  B-SAMPNTDEF-1: SA-15 SHORAD
+  B-EWRPNTDEF-1: SA-15 SHORAD
+# REDFOR DEFENCE QABR AS SITT
+  ABR-SHORAD-2: SA-15 SHORAD
+# REDFOR DEFENCE SAYQAL
+  S-AAA-1: ZSU-23-4 AAA
+  S-SHORAD-1: SA-15 SHORAD
+# REDFOR DEFENCE FOB ALPHA
+  FOB-ALPHA-SHORAD-1: SA-15 SHORAD
+  FOB-ALPHA-SHORAD-2: SA-15 SHORAD
+  FOB-ALPHA-AAA-1: ZSU-23-4 AAA
+# REDFOR DEFENCE FOB BRAVO
+  FOB-BRAVO-SHORAD-1: SA-15 SHORAD
+  FOB-BRAVO-AAA-1: ZSU-23-4 AAA
+# REDFOR DEFENCE SHORAD IR
+  SHORAD-IR-1: SA-9 SHORAD
+  SHORAD-IR-2: SA-9 SHORAD
+  SHORAD-IR-3: SA-9 SHORAD
+  SHORAD-IR-4: SA-9 SHORAD
+  SHORAD-IR-5: SA-9 SHORAD
+  SHORAD-IR-6: SA-9 SHORAD
+  SHORAD-IR-7: SA-9 SHORAD
+  SHORAD-IR-8: SA-9 SHORAD
+# BLUEFOR ------------

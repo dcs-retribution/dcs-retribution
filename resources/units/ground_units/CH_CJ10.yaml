@@ -1,0 +1,4 @@
+class: Missile
+price: 0
+variants:
+  "[CH] CJ-10 GLCM": null

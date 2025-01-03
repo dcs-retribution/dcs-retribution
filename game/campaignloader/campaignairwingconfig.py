@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import logging
+
 from collections import defaultdict
 from dataclasses import dataclass
 from typing import Any, Optional, TYPE_CHECKING, Union
@@ -71,13 +73,31 @@ class CampaignAirWingConfig:
         cls, data: dict[Union[str, int], Any], theater: ConflictTheater
     ) -> CampaignAirWingConfig:
         by_location: dict[ControlPoint, list[SquadronConfig]] = defaultdict(list)
+        carriers = theater.find_carriers()
+        lhas = theater.find_lhas()
         for base_id, squadron_configs in data.items():
+            base: Optional[ControlPoint] = None
             if isinstance(base_id, int):
                 base = theater.find_control_point_by_airport_id(base_id)
             else:
-                base = theater.control_point_named(base_id)
+                try:
+                    base = theater.control_point_named(base_id)
+                except:
+                    if base_id == "Red CV":
+                        base = next((c for c in carriers if not c.captured), None)
+                    elif base_id == "Blue CV":
+                        base = next((c for c in carriers if c.captured), None)
+                    elif base_id == "Red LHA":
+                        base = next((l for l in lhas if not l.captured), None)
+                    elif base_id == "Blue LHA":
+                        base = next((l for l in lhas if l.captured), None)
 
             for squadron_data in squadron_configs:
-                by_location[base].append(SquadronConfig.from_data(squadron_data))
+                if base is None:
+                    logging.warning(
+                        f"Skipping squadron config for unknown base: {base_id}"
+                    )
+                else:
+                    by_location[base].append(SquadronConfig.from_data(squadron_data))
 
         return CampaignAirWingConfig(by_location)

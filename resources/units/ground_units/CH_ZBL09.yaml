@@ -1,0 +1,8 @@
+class: IFV
+introduced: 2009
+manufacturer: Norinco
+origin: China
+price: 12
+role: Infantry Fighting Vehicle
+variants:
+  "[CH] ZBL-09 IFV": {}

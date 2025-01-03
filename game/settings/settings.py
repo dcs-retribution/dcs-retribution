@@ -332,6 +332,13 @@ class Settings:
         default=False,
         detail="AI will jettison their fuel tanks as soon as they're empty.",
     )
+    ai_vertical_takoff_landing: bool = boolean_option(
+        "AI helicopters use vertical takeoff and landing",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=False,
+        detail="AI will use vertical takeoff and landing instead of combat takeoff and landing.",
+    )
     max_plane_altitude_offset: int = bounded_int_option(
         "Maximum randomized altitude offset (x1000 ft) for airplanes.",
         page=CAMPAIGN_DOCTRINE_PAGE,

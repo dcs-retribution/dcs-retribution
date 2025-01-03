@@ -1,0 +1,53 @@
+name: HQ-22 Battery
+tasks:
+  - LORAD
+groups:
+  - Patriot:
+    - name: Patriot Battery 0
+      unit_count:
+        - 2
+      unit_types:
+        - CH_HQ22_SR
+    - name: Patriot Battery 1
+      unit_count:
+        - 1
+      unit_types:
+        - CH_HQ22_LN
+    - name: Patriot Battery 2
+      unit_count:
+        - 1
+      unit_types:
+        - CH_HQ22_STR
+    - name: Patriot Battery 3
+      unit_count:
+        - 1
+      unit_types:
+        - CH_HQ22_LN
+    - name: Patriot Battery 4
+      unit_count:
+        - 1
+      unit_types:
+        - CH_HQ22_LN
+    - name: Patriot Battery 5
+      unit_count:
+        - 3
+      unit_types:
+        - CH_HQ22_LN
+  - PD:
+    - name: Patriot Battery 7
+      optional: true
+      sub_task: PointDefense
+      unit_count:
+        - 1
+        - 2
+      unit_classes:
+        - SHORAD
+    - name: Patriot Battery 6
+      sub_task: AAA
+      optional: true
+      unit_count:
+        - 1
+        - 2
+      unit_classes:
+        - AAA
+layout_file: resources/layouts/anti_air/Patriot_Battery.miz

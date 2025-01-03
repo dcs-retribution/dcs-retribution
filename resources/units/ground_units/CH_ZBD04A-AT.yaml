@@ -1,0 +1,14 @@
+class: ATGM
+description: ZBD-04A's chassis works as the mobile launching platform for AFT-10 (HJ-10)
+  anti-tank missiles. Noted the AFT-10 is a specific version of the HJ-10 missile that is
+  designed for firing from vehicle launching platforms such as ZBD-04A. The sensors include
+  a thermal camera, TV camera, and a laser range finder.[21] A millimeter-wave radar system
+  is mounted at the front-right corner of the vehicle to improve all-weather operation
+  capability.
+introduced: 2021
+manufacturer: Norinco
+origin: China
+price: 12
+role: Tank Destroyer
+variants:
+  "[CH] ZBD-04A AT SPATGM": {}

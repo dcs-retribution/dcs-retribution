@@ -1,0 +1,10 @@
+class: Artillery
+description: The PHL-16, also known as PCL-191, is a truck-mounted self-propelled multiple
+  rocket launcher (MRL) system developed by the People's Republic of China.
+introduced: 2019
+manufacturer: People's Republic of China
+origin: China
+price: 85
+role: Multiple-Launch Rocket System
+variants:
+  "[CH] PHL-16 SPMRL (FD280)": {}
