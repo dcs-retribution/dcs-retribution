@@ -1,0 +1,8 @@
+name: SA-9 SHORAD
+tasks:
+  - SHORAD
+units:
+  - SA-9 Strela
+  - Truck Ural-375
+layouts:
+  - Short Range Anti Air Group
