@@ -30,7 +30,7 @@ groups:
         - CH_HQ22_LN
     - name: Patriot Battery 5
       unit_count:
-        - 8
+        - 3
       unit_types:
         - CH_HQ22_LN
   - PD:
