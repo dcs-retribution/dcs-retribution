@@ -3,8 +3,10 @@ name: Nevada - Exercise Vegas Nerve
 theater: Nevada
 authors: Starfire
 recommended_player_faction: USA 2005
-recommended_enemy_faction: Redfor (China) 2010
+recommended_enemy_faction: Redfor (China) 2020
 description:
+  <p><strong>This campaign is intended to be run with CurrentHill's China Asset 
+  Pack installed, though this is not mandatory.</strong></p>
   <p>Welcome to Vegas Nerve, an asymmetrical Red Flag Exercise scenario. You are
   starting off in control of the two Tonopah airports, and will push south from
   there. For the duration of this exercise, Creech AFB has been cleared of all
@@ -17,6 +19,7 @@ performance: 1
 recommended_start_date: 2011-02-24
 version: "10.7"
 settings:
+  chinesemilitaryassetspack: true
   hercules: true
   squadron_start_full: true
 squadrons:

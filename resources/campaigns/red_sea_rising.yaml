@@ -3,9 +3,10 @@ name: Sinai - Red Sea Rising
 theater: Sinai
 authors: Starfire
 recommended_player_faction: Bluefor Modern
-recommended_enemy_faction: Redfor (China) 2010
+recommended_enemy_faction: Redfor (China) 2020
 description:
-    <p><strong>This is a sequel to the Afghanistan campaign - Graveyard of Empires</strong></p>
+    <p><strong>This is a sequel to the Afghanistan campaign - Graveyard of Empires. This campaign 
+    is intended to be run with CurrentHill's China Asset Pack installed, though this is not mandatory.</strong></p>
     <p>As the war in Afghanistan continued to rage, a new front has emerged on the global stage.
     Seeking to capitalise on NATO's entanglement in Central Asia, China has set its gaze on the 
     Middle East. The objective - cripple oil production in Egypt and disrupt the manufacturing 
@@ -25,8 +26,9 @@ performance: 1
 recommended_start_date: 2003-01-11
 version: "10.7"
 settings:
+  chinesemilitaryassetspack: true
   hercules: true
-  squadron_start_full: true  
+  squadron_start_full: true
 squadrons:
   Blue CV-1:
     - primary: SEAD
