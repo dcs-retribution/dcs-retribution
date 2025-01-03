@@ -24,6 +24,8 @@ from dcs.ships import (
 from dcs.vehicles import AirDefence
 
 from pydcs_extensions import highdigitsams as hds
+from pydcs_extensions import vietnamwarvessels as vwv
+
 
 TELARS = {
     AirDefence.x_2S6_Tunguska,
@@ -141,4 +143,10 @@ UNITS_WITH_RADAR = {
     Type_054A,
     USS_Arleigh_Burke_IIa,
     VINSON,
+    vwv.Cva_31,
+    vwv.USS_Fletcher,
+    vwv.USS_Laffey,
+    vwv.USS_Maddox,
+    vwv.USS_Sumner,
+    vwv.USS_The_Sullivans,
 }
