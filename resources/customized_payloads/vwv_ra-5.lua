@@ -30,15 +30,14 @@ local unitPayloads = {
 		},
 		[3]=
 		{
-			["displayName"]="Retribution CAS",
-			["name"]="Retribution CAS",
+			["displayName"]="Retribution Intercept",
+			["name"]="Retribution Intercept",
 			["pylons"]=
 			{
 			},
 			["tasks"]=
 			{
-				[1]=31,
-				[2]=16
+				[1]=10
 			}
 		}
 	},

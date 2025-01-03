@@ -578,7 +578,12 @@ class vwv_ra_5(PlaneType):
 
     pylons: Set[int] = set()
 
-    tasks = [task.Reconnaissance]
+    tasks = [
+        task.Intercept,
+        task.Reconnaissance,
+        task.GroundAttack,
+        task.CAS,
+    ]
     task_default = task.Reconnaissance
 
 

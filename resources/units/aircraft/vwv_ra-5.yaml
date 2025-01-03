@@ -32,5 +32,6 @@ variants:
   RA-5C Vigilante: {}
 tasks:    # defined in flighttype.py
   Armed Recon: 300
-  Strike: 100    # current VWV version (v0.9.0) does not have any weapons for Vigilante
-  CAS: 100    # Retribution wants a fallback task
+  Strike: 1    # current VWV version (v0.9.0) does not have any weapons for Vigilante
+  Intercept: 1    # current VWV version (v0.9.0) does not have any weapons for Vigilante
+  CAS: 1    # Retribution wants a fallback task
