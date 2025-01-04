@@ -163,7 +163,6 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.chinesemilitaryassetspack = QtWidgets.QCheckBox()
         self.registerField("chinesemilitaryassetspack", self.chinesemilitaryassetspack)
 
-
         modHelpText = QtWidgets.QLabel(
             "<p>Select the mods you have installed. If your chosen factions support them, you'll be able to use these mods in your campaign.</p>"
         )
