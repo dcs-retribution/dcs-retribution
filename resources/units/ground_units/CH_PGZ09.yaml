@@ -1,0 +1,13 @@
+class: AAA
+description: "The Type 09 (PLA military designation: PGZ09 – Chinese: \u0030\u0039\u5f0f\u81ea\u884c\u9ad8\u5c04\u70ae;
+  pinyin: \u0030\u0039\u0020\u0073\u0068\u00ec\u0020\u007a\u00ec\u0020\u0078\u00ed\u006e\u0067\u0020\u0067\u0101\u006f\u0073\u0068\u00e8\u0070\u00e0\u006f,
+  'Type 09 self-propelled anti-aircraft artillery') is a Chinese self-propelled anti-aircraft
+  vehicle manufactured by Norinco. It is armed with two 35 millimeter cannons. 
+  It started to gradually replace the predecessor Type 95 in 2009."
+introduced: 2009
+manufacturer: Norinco
+origin: China
+price: 15
+role: Self-Propelled Anti-Aircraft Gun
+variants:
+  "[CH] PGZ-09 SPAAG": {}

@@ -1,0 +1,18 @@
+class: IFV
+description: "The Type 08 (Chinese: \u0030\u0038\u5f0f\u8f6e\u5f0f\u88c5\u7532\u8f66\u65cf; 
+  pinyin: \u004c\u00ed\u006e\u0067\u0020\u0062\u0101\u0020\u0053\u0068\u00ec\u0020\u006c\u00fa\u006e\u0073\u0068\u00ec\u0020\u007a\u0068\u0075\u0101\u006e\u0067\u006a\u0069\u01ce\u0063\u0068\u0113\u0020\u007a\u00fa;
+  lit. 'Type 08 wheeled armored vehicle family') is a Chinese family of modern eight-wheeled,
+  amphibious, modular armored vehicles developed by Norinco for infantry fire support,
+  battlefield logistics, and quick reaction operations. The ZTL-11 assault vehicle is fitted
+  with ZPL-98A[11] 105 mm rifled gun with capability of launching armor piercing fin stabilized
+  discarding sabot (APFSDS), high explosive (HE), and high-explosive anti-tank (HEAT)
+  ammunitions, as well as the indigenous GP105 105 mm gun-fired laser beam riding guided 
+  anti-tank missile (ATGM). Secondary weapons include QJT-88 5.8 mm coaxial machine gun and 
+  QJC-88 12.7 mm roof-mounted heavy machine gun."
+introduced: 2008
+manufacturer: Norinco
+origin: China
+price: 12
+role: Infantry Fighting Vehicle
+variants:
+  "[CH] ZTL-11 AFV": {}

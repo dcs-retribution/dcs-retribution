@@ -1,0 +1,14 @@
+class: SHORAD
+description: Unnamed prototype vehicle featuring a 6-barrel 25 mm gatling gun and four FN-6B
+  (FN-16) for short-range air defense. code-named "625", PGL-XX was revealed under testing in
+  2021. It uses 25x287 mm ammunition technology with upgraded radar, computer system, and
+  data-link. The 625 anti-air system will be paired with HQ-17A wheeled short-range air-defense
+  system. The Gatling gun system was deemed by PLA to be better at counter rocket, artillery,
+  and mortar missions.
+introduced: 2021
+manufacturer: Norinco
+origin: China
+price: 50
+role: Self-Propelled Surface-to-Air Missile Launcher
+variants:
+  "[CH] LD-3000 C-RAM Stationary": {}

@@ -1,0 +1,12 @@
+class: AAA
+description: "The Type 95 (PLA military designation: PGZ95 – Chinese: \u0039\u0035\u5f0f\u81ea\u884c\u9ad8\u5c04\u70ae;
+  pinyin: \u0039\u0035\u0020\u0073\u0068\u0069\u0020\u007a\u0069\u0078\u0069\u006e\u0067\u0020\u0067\u0061\u006f\u0073\u0068\u0065\u0070\u0061\u006f,
+  'Type 95 self-propelled anti-aircraft artillery') is a Chinese self-propelled anti-aircraft
+  vehicle. It is armed with four 25 mm caliber cannons."
+introduced: 1999
+manufacturer: Norinco
+origin: China
+price: 10
+role: Self-Propelled Anti-Aircraft Gun
+variants:
+  "[CH] PGZ-95 SPAAG": {}

@@ -18,10 +18,21 @@ if dcsRetribution and SkynetIADS then
     local includeBlueInRadio = false
     local debugRED = false
     local debugBLUE = false
-    local actMobile = false
-    local actMobileMaxEmissionTime = 120
-    local actMobileMinimumScootDistance = 500
-    local actMobileMaximumScootDistance = 3000
+    local actMobile = false    -- did not change to actMobile_shorad for backwards compatibility
+    local actMobileMaxEmissionTime = 30
+    local actMobileMinimumScootDistance = 300
+    local actMobileMaximumScootDistance = 500
+    local actMobile_exclude_SA15 = false
+    local actMobile_merad = false
+    local actMobileMaxEmissionTime_merad = 120
+    local actMobileMinimumScootDistance_merad = 500
+    local actMobileMaximumScootDistance_merad = 3000
+    local adjustGoLiveRange = false
+    local adjustGoLiveRange_SA5 = 100
+    local adjustGoLiveRange_SA10 = 100
+    local adjustGoLiveRange_SA17 = 100
+    local adjustGoLiveRange_SA20 = 100
+    local adjustGoLiveRange_SA23 = 100
 
     -- retrieve specific options values
     if dcsRetribution.plugins then
@@ -36,6 +47,17 @@ if dcsRetribution and SkynetIADS then
             actMobileMaxEmissionTime = dcsRetribution.plugins.skynetiads.actMobileMaxEmissionTime
             actMobileMinimumScootDistance = dcsRetribution.plugins.skynetiads.actMobileMinimumScootDistance
             actMobileMaximumScootDistance = dcsRetribution.plugins.skynetiads.actMobileMaximumScootDistance
+            actMobile_exclude_SA15 = dcsRetribution.plugins.skynetiads.actMobile_exclude_SA15
+            actMobile_merad = dcsRetribution.plugins.skynetiads.actMobile_merad
+            actMobileMaxEmissionTime_merad = dcsRetribution.plugins.skynetiads.actMobileMaxEmissionTime_merad
+            actMobileMinimumScootDistance_merad = dcsRetribution.plugins.skynetiads.actMobileMinimumScootDistance_merad
+            actMobileMaximumScootDistance_merad = dcsRetribution.plugins.skynetiads.actMobileMaximumScootDistance_merad
+            adjustGoLiveRange = dcsRetribution.plugins.skynetiads.adjustGoLiveRange
+            adjustGoLiveRange_SA5 = dcsRetribution.plugins.skynetiads.adjustGoLiveRange_SA5
+            adjustGoLiveRange_SA10 = dcsRetribution.plugins.skynetiads.adjustGoLiveRange_SA10
+            adjustGoLiveRange_SA17 = dcsRetribution.plugins.skynetiads.adjustGoLiveRange_SA17
+            adjustGoLiveRange_SA20 = dcsRetribution.plugins.skynetiads.adjustGoLiveRange_SA20
+            adjustGoLiveRange_SA23 = dcsRetribution.plugins.skynetiads.adjustGoLiveRange_SA23
         end
     end
 
@@ -194,11 +216,29 @@ if dcsRetribution and SkynetIADS then
         iads:activate()
     end
 
-    local function initializeMobileSams(iads)
-        local sams = {"SA-6", "SA-8", "SA-9", "SA-11", "SA-13", "SA-15", "SA-17", "SA-19"}
-        for _, sam in ipairs(sams) do
-            iads:getSAMSitesByNatoName(sam):setActMobile(true,actMobileMaxEmissionTime,actMobileMinimumScootDistance,actMobileMaximumScootDistance,nil)    --ActMobile
+    local function initializeMobileSams_shorad(iads)
+        local sams = {"SA-8", "SA-9", "SA-13", "SA-15", "SA-19"}
+        if actMobile_exclude_SA15 then
+            local sams = {"SA-8", "SA-9", "SA-13", "SA-19"}
         end
+        for _, sam in ipairs(sams) do
+            iads:getSAMSitesByNatoName(sam):setActMobile(true,actMobileMaxEmissionTime,actMobileMinimumScootDistance,actMobileMaximumScootDistance,nil)    --ActMobile SHORAD
+        end
+    end
+
+    local function initializeMobileSams_merad(iads)
+        local sams = {"SA-6", "SA-11", "SA-17"}
+        for _, sam in ipairs(sams) do
+            iads:getSAMSitesByNatoName(sam):setActMobile(true,actMobileMaxEmissionTime_merad,actMobileMinimumScootDistance_merad,actMobileMaximumScootDistance_merad,nil)    --ActMobile MERAD
+        end
+    end
+
+    local function setGoLiveRange(iads)
+        iads:getSAMSitesByNatoName('SA-5'):setGoLiveRangeInPercent(adjustGoLiveRange_SA5)
+        iads:getSAMSitesByNatoName('SA-10'):setGoLiveRangeInPercent(adjustGoLiveRange_SA10)
+        iads:getSAMSitesByNatoName('SA-17'):setGoLiveRangeInPercent(adjustGoLiveRange_SA17)
+        iads:getSAMSitesByNatoName('SA-20'):setGoLiveRangeInPercent(adjustGoLiveRange_SA20)
+        iads:getSAMSitesByNatoName('SA-23'):setGoLiveRangeInPercent(adjustGoLiveRange_SA23)
     end
 
 
@@ -210,7 +250,13 @@ if dcsRetribution and SkynetIADS then
         local redIADS = SkynetIADS:create("IADS")
         initializeIADS(redIADS, 1, includeRedInRadio, debugRED) -- RED
         if actMobile then
-            initializeMobileSams(redIADS)
+            initializeMobileSams_shorad(redIADS)
+        end
+        if actMobile_merad then
+            initializeMobileSams_merad(redIADS)
+        end
+        if adjustGoLiveRange then
+            setGoLiveRange(redIADS)
         end
     end
 
@@ -219,7 +265,13 @@ if dcsRetribution and SkynetIADS then
         local blueIADS = SkynetIADS:create("IADS")
         initializeIADS(blueIADS, 2, includeBlueInRadio, debugBLUE) -- BLUE
         if actMobile then
-            initializeMobileSams(blueIADS)
+            initializeMobileSams_shorad(blueIADS)
+        end
+        if actMobile_merad then
+            initializeMobileSams_merad(blueIADS)
+        end
+        if adjustGoLiveRange then
+            setGoLiveRange(blueIADS)
         end
     end
 

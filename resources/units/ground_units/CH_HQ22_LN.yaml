@@ -1,0 +1,11 @@
+class: Launcher
+description: "The HQ-22 (simplified Chinese: \u7ea2\u65d7\u002d\u0032\u0032; traditional
+  Chinese: \u7d05\u65d7\u002d\u0032\u0032; pinyin: \u0048\u00f3\u006e\u0067\u0020\u0051\u00ed\u002d\u0032\u0032;
+  lit. 'Red Banner-22') is a medium- to long-range semi-active radar homing/radio-command
+  guidance air defence system developed and manufactured in China."
+introduced: 2019
+manufacturer: China Aerospace Science and Industry Corporation
+origin: China
+price: 20
+variants:
+  "[CH] HQ-22 LN": {}

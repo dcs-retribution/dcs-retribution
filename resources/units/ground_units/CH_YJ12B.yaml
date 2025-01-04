@@ -1,0 +1,4 @@
+class: Missile
+price: 0
+variants:
+  "[CH] YJ-12B LBASM": null

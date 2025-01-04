@@ -101,6 +101,7 @@ class ModSettings:
     coldwarassets: bool = False
     SWPack: bool = False
     vietnamwarvessels: bool = False
+    chinesemilitaryassetspack: bool = False
 
 
 class GameGenerator:

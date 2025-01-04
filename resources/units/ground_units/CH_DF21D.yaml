@@ -1,0 +1,4 @@
+class: Missile
+price: 0
+variants:
+  "[CH] DF-21D LBASBM": null
