@@ -1,0 +1,8 @@
+name: Bastion-P LBASM
+tasks:
+  - Coastal
+units:
+  - "[CH] Bastion-P LBASM TEL"
+  - "[CH] Monolit-B LBASM STR"
+layouts:
+  - Bastion-P LBASM

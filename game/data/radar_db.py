@@ -22,10 +22,12 @@ from dcs.ships import (
     VINSON,
 )
 from dcs.vehicles import AirDefence
+from dcs.unittype import VehicleType
 
 from pydcs_extensions import highdigitsams as hds
 from pydcs_extensions import vietnamwarvessels as vwv
 from pydcs_extensions import chinesemilitaryassetspack as cmap
+from pydcs_extensions import russianmilitaryassetspack as rmap
 
 
 TELARS = {
@@ -37,6 +39,10 @@ TELARS = {
     hds.SAM_SA_17_Buk_M1_2_LN_9A310M1_2,
     cmap.PGL_625,
     cmap.HQ17A,
+    rmap.CH_BukM3_9A317M,
+    rmap.CH_BukM3_9A317MA,
+    rmap.CH_S350_50P6_9M96D,
+    rmap.CH_S350_50P6_9M100,
 }
 
 TRACK_RADARS = {
@@ -57,6 +63,8 @@ TRACK_RADARS = {
     hds.SAM_SA_20B_S_300PMU2_TR_92H6E_truck,
     hds.SAM_SA_23_S_300VM_9S32ME_TR,
     cmap.CH_HQ22_STR,
+    rmap.CH_BukM3_9S36M,
+    rmap.CH_S350_50N6,
 }
 
 LAUNCHER_TRACKER_PAIRS = {
@@ -91,6 +99,10 @@ LAUNCHER_TRACKER_PAIRS = {
     hds.SAM_SA_23_S_300VM_9A82ME_LN: (hds.SAM_SA_23_S_300VM_9S32ME_TR,),
     hds.SAM_SA_23_S_300VM_9A83ME_LN: (hds.SAM_SA_23_S_300VM_9S32ME_TR,),
     cmap.CH_HQ22_LN: (cmap.CH_HQ22_STR,),
+    rmap.CH_BukM3_9A317M: (rmap.CH_BukM3_9S36M,),
+    rmap.CH_BukM3_9A317MA: (rmap.CH_BukM3_9S36M,),
+    rmap.CH_S350_50P6_9M96D: (rmap.CH_S350_50N6,),
+    rmap.CH_S350_50P6_9M100: (rmap.CH_S350_50N6,),
 }
 
 UNITS_WITH_RADAR = {
@@ -126,6 +138,23 @@ UNITS_WITH_RADAR = {
     AirDefence.HQ_7_STR_SP,
     AirDefence.FuMG_401,
     AirDefence.FuSe_65,
+    cmap.PGL_625,
+    cmap.HQ17A,
+    cmap.CH_PGZ09,
+    cmap.CH_HQ22_SR,
+    cmap.CH_HQ22_STR,
+    cmap.CH_LD3000,
+    cmap.CH_LD3000_stationary,
+    cmap.CH_PGZ95,
+    rmap.PantsirS1,
+    rmap.PantsirS2,
+    rmap.TorM2,
+    rmap.TorM2K,
+    rmap.TorM2M,
+    rmap.CH_S350_96L6,
+    rmap.CH_S350_50N6,
+    rmap.CH_BukM3_9S18M13,
+    rmap.CH_BukM3_9S36M,
     # Ships
     ALBATROS,
     CVN_71,
@@ -159,4 +188,11 @@ UNITS_WITH_RADAR = {
     cmap.CH_Type054B,
     cmap.Type055,
     cmap.CH_Type056A,
+    rmap.Admiral_Gorshkov,
+    rmap.CH_Steregushchiy,
+    rmap.CH_Project22160,
+    rmap.CH_Grigorovich_AShM,
+    rmap.CH_Grigorovich_LACM,
+    rmap.CH_Gremyashchiy_AShM,
+    rmap.CH_Gremyashchiy_LACM,
 }
