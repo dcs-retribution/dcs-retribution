@@ -1,0 +1,11 @@
+name: BUK M3
+tasks:
+  - MERAD
+units:
+  - "[CH] Buk M3 9S18M1-3 SR"
+  - "[CH] Buk M3 9S36M TR"
+  - "[CH] Buk M3 9S510M CP"
+  - "[CH] Buk M3 9A317M TELAR"
+  - "[CH] Buk M3 9A317MA TELAR"
+layouts:
+  - BUK M3 Site

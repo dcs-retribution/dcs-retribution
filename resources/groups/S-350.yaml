@@ -1,0 +1,11 @@
+name: S-350
+tasks:
+  - MERAD
+units:
+  - "[CH] S-350 96L6 SR"
+  - "[CH] S-350 50N6 STR"
+  - "[CH] S-350 50K6 CP"
+  - "[CH] S-350 50P6 9M96D LN"
+  - "[CH] S-350 50P6 9M100 LN"
+layouts:
+  - S-350 Site

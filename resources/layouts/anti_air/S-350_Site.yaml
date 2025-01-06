@@ -1,0 +1,58 @@
+name: S-350 Site
+tasks:
+  - MERAD
+groups:
+  - S-300:
+    - name: S-300 Site SR1
+      unit_count:
+        - 1
+      unit_types:
+        - "[CH] S-350 96L6 SR"
+    - name: S-300 Site SR2
+      unit_count:
+        - 1
+      unit_types:
+        - "[CH] S-350 50N6 STR"
+    - name: S-300 Site CP
+      unit_count:
+        - 1
+      unit_types:
+        - "[CH] S-350 50K6 CP"
+    - name: S-300 Site TR
+      unit_count:
+        - 1
+      unit_types:
+        - "[CH] S-350 50N6 STR"
+    - name: S-300 Site LN1
+      unit_count:
+        - 3
+      unit_types:
+        - "[CH] S-350 50P6 9M100 LN"
+    - name: S-300 Site LN2
+      unit_count:
+        - 3
+      unit_types:
+        - "[CH] S-350 50P6 9M96D LN"
+  - PD:
+    - name: S-300 Site SHORAD1
+      optional: true
+      sub_task: PointDefense
+      unit_count:
+        - 0
+      unit_classes:
+        - SHORAD
+    - name: S-300 Site SHORAD2
+      optional: true
+      sub_task: PointDefense
+      unit_count:
+        - 0
+      unit_types:
+        - Tor 9A331
+    - name: S-300 Site AAA
+      sub_task: AAA
+      optional: true
+      unit_count:
+        - 1
+      unit_classes:
+        - AAA
+layout_file: resources/layouts/anti_air/S-300_Site.miz

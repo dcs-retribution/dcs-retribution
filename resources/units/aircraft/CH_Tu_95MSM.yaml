@@ -18,5 +18,4 @@ variants:
   "CH_Tu-95MSM": {}
 tasks:
   Anti-ship: 100
-  OCA/Runway: 660
   Strike: 670
