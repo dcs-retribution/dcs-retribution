@@ -1,0 +1,18 @@
+class: SearchRadar
+description: "The S-350 Vityaz (Russian: C-350 \xD0\x92\xD0\xB8\xD1\x82\xD1\x8F\xD0\xB7\xD1\x8C) is a Russian 
+  medium-range surface-to-air missile system developed by GSKB Almaz-Antey. Its purpose is to replace 
+  the S-300PS. The system design traces its roots from the joint South Korean-Russian KM-SAM project 
+  and uses the same 9M96 missile as the S-400 missile system."
+introduced: 2019
+manufacturer: Almaz-Antey
+origin: Russia
+price: 40
+variants:
+  "[CH] S-350 96L6 SR": {}
+skynet_properties: # Override skynet default properties
+  can_engage_harm: true
+  # can_engage_air_weapon: true # https://github.com/walder/Skynet-IADS/tree/develop#engage-air-weapons
+  go_live_range_in_percent: 100
+  harm_detection_chance: 90
+  engagement_zone: SkynetIADSAbstractRadarElement.GO_LIVE_WHEN_IN_KILL_ZONE # https://github.com/walder/Skynet-IADS/tree/develop#engagement-zone
+  autonomous_behaviour: SkynetIADSAbstractRadarElement.AUTONOMOUS_STATE_DCS_AI # https://github.com/walder/Skynet-IADS/tree/develop#autonomous-mode-behaviour
