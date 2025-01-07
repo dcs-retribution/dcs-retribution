@@ -35,6 +35,23 @@ local unitPayloads = {
 				[1] = 32,
 			},
 		},
+		[3] = {
+			["displayName"] = "BAI",
+			["name"] = "BAI",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{Tu160M2_Kh101x6}",
+					["num"] = 2,
+				},
+				[2] = {
+					["CLSID"] = "{Tu160M2_Kh101x6}",
+					["num"] = 1,
+				},
+			},
+			["tasks"] = {
+				[1] = 31,
+			},
+		},
 	},
 	["tasks"] = {
 	},

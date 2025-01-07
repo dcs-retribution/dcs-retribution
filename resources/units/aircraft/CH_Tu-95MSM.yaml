@@ -18,4 +18,6 @@ variants:
   "[CH] Tu-95MSM": {}
 tasks:
   Anti-ship: 100
+  BAI: 370
+  DEAD: 210
   Strike: 670
