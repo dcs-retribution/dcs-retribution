@@ -8,7 +8,6 @@
   ],
   "aircrafts": [
     "IL-76MD",
-    "Ka-50 Hokum",
     "Ka-50 Hokum III",
     "[CH] Ka-52",
     "[CH] Ka-52K",
@@ -76,11 +75,14 @@
     "[CH] Iskander-K GLCM"
   ],
   "preset_groups": [
-    "BUK M3",
-    "S-350",
-    "Russian Navy",
     "BAL LBASM",
-    "Bastion-P LBASM"
+    "Bastion-P LBASM",
+    "BUK M3",
+    "[CH] Russian Navy",
+    "SA-10/S-300PS",
+    "SA-10B/S-300PS",
+    "SA-11",
+    "S-350"
   ],
   "naval_units": [
     "[CH] Project 22160 Patrol Ship",
