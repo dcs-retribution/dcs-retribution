@@ -15,7 +15,7 @@ origin: USSR/Russia
 price: 35
 role: Strategic Bomber
 variants:
-  "CH_Tu-95MSM": {}
+  "[CH] Tu-95MSM": {}
 tasks:
   Anti-ship: 100
   Strike: 670

@@ -754,6 +754,10 @@ class Faction:
             self.remove_aircraft("CH_Mi28N")
             self.remove_aircraft("CH_Ka52")
             self.remove_aircraft("CH_Ka52K")
+            self.remove_preset("BAL_LBASM")
+            self.remove_preset("BUK_M3")
+            self.remove_preset("Bastion-P_LBASM")
+            self.remove_preset("S-350")
 
     def remove_aircraft(self, name: str) -> None:
         for aircraft_set in [self.aircraft, self.awacs, self.tankers]:

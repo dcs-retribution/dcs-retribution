@@ -2,7 +2,7 @@ class: Helicopter
 always_keeps_gun: true
 carrier_capable: true
 description:
-  "In the early 1980s, while comparative tests of the V-80 (Ka-50 prototype) and the Mi-28 were being conducted, 
+  In the early 1980s, while comparative tests of the V-80 (Ka-50 prototype) and the Mi-28 were being conducted, 
   the Kamov design team came up with a proposal to develop a dedicated helicopter to conduct battlefield 
   reconnaissance, provide target designation, support and coordinate group attack helicopter operations based on 
   the Ka-60. However, the economic hardships that hit the nation in the late 1980s hampered this new development 
@@ -10,7 +10,7 @@ description:
   reconnaissance and target designation system. The modified "Black Shark" required a second crew member to 
   operate the optotronics/radar reconnaissance suite. Kamov decided to use side-by-side seating arrangement, 
   due to the verified improvements in co-operation between the crew members. This twin-seat version was 
-  designated Ka-52."
+  designated Ka-52.
 introduced: 2008
 lha_capable: true
 cabin_size: 0 # Can not transport troops
@@ -21,7 +21,7 @@ price: 20
 role: Attack
 default_livery: CH_KA52K
 variants:
-  "CH_Ka52K": {}
+  "[CH] Ka-52K": {}
 kneeboard_units: "metric"
 tasks:
   BAI: 440

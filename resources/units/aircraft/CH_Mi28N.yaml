@@ -14,7 +14,7 @@ origin: USSR/Russia
 price: 16
 role: Attack
 variants:
-  "CH_Mi28N": {}
+  "[CH] Mi-28N AH": {}
 tasks:
   BAI: 420
   CAS: 420

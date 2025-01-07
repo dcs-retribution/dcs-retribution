@@ -15,7 +15,7 @@ price: 45
 role: Supersonic Strategic Bomber
 max_range: 2000
 variants:
-  "CH_Tu-160M2": {}
+  "[CH] Tu-160M2": {}
 tasks:
   Anti-ship: 100
   Strike: 680
