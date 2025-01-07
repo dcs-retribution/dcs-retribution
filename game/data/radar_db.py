@@ -22,7 +22,6 @@ from dcs.ships import (
     VINSON,
 )
 from dcs.vehicles import AirDefence
-from dcs.unittype import VehicleType
 
 from pydcs_extensions import highdigitsams as hds
 from pydcs_extensions import vietnamwarvessels as vwv

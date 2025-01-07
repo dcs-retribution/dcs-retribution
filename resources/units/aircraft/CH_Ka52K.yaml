@@ -24,6 +24,7 @@ variants:
   "[CH] Ka-52K": {}
 kneeboard_units: "metric"
 tasks:
+  Anti-ship: 500
   BAI: 440
   CAS: 440
   DEAD: 113

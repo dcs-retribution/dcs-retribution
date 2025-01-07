@@ -7,7 +7,7 @@ groups:
       unit_count:
         - 1
       unit_types:
-        - "[CH] Monolit-B LBASM STR"
+        - MonolitB
     - name: SilkwormGenerator 1
       unit_count:
         - 5

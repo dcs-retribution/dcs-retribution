@@ -7,32 +7,32 @@ groups:
       unit_count:
         - 1
       unit_types:
-        - "[CH] S-350 96L6 SR"
+        - CH_S350_96L6
     - name: S-300 Site SR2
       unit_count:
         - 1
       unit_types:
-        - "[CH] S-350 50N6 STR"
+        - CH_S350_50N6
     - name: S-300 Site CP
       unit_count:
         - 1
       unit_types:
-        - "[CH] S-350 50K6 CP"
+        - CH_S350_50K6
     - name: S-300 Site TR
       unit_count:
         - 1
       unit_types:
-        - "[CH] S-350 50N6 STR"
+        - CH_S350_50N6
     - name: S-300 Site LN1
       unit_count:
         - 3
       unit_types:
-        - "[CH] S-350 50P6 9M100 LN"
+        - CH_S350_50P6_9M100
     - name: S-300 Site LN2
       unit_count:
         - 3
       unit_types:
-        - "[CH] S-350 50P6 9M96D LN"
+        - CH_S350_50P6_9M96D
   - PD:
     - name: S-300 Site SHORAD1
       optional: true

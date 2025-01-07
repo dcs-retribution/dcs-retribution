@@ -7,32 +7,32 @@ groups:
       unit_count:
         - 1
       unit_types:
-        - "[CH] Buk M3 9S18M1-3 SR"
+        - CH_BukM3_9S18M13
     - name: S-300 Site SR2
       unit_count:
         - 1
       unit_types:
-        - "[CH] Buk M3 9S18M1-3 SR"
+        - CH_BukM3_9S18M13
     - name: S-300 Site CP
       unit_count:
         - 1
       unit_types:
-        - "[CH] Buk M3 9S510M CP"
+        - CH_BukM3_9S510M
     - name: S-300 Site TR
       unit_count:
         - 1
       unit_types:
-        - "[CH] Buk M3 9S36M TR"
+        - CH_BukM3_9S36M
     - name: S-300 Site LN1
       unit_count:
         - 3
       unit_types:
-        - "[CH] Buk M3 9A317M TELAR"
+        - CH_BukM3_9A317M
     - name: S-300 Site LN2
       unit_count:
         - 3
       unit_types:
-        - "[CH] Buk M3 9A317MA TELAR"
+        - CH_BukM3_9A317MA
   - PD:
     - name: S-300 Site SHORAD1
       optional: true
@@ -49,7 +49,7 @@ groups:
         - 0
         - 1
       unit_types:
-        - "[CH] Tor M2M SHORAD"
+        - TorM2M
     - name: S-300 Site AAA
       sub_task: AAA
       optional: true
