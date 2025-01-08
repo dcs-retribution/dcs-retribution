@@ -1,17 +1,15 @@
 {
   "country": "Combined Joint Task Forces Red",
-  "name": "Redfor (China) 2020",
+  "name": "Redfor (Russia) 2020",
   "authors": "Starfire",
-  "description": "<p>Combined Redfor under China's leadership in the 2020s.</p><p>Installation of the CurrentHill China Asset Pack is recommended, although not mandatory.</p>",
+  "description": "<p>Combined Redfor under Russia's leadership in the 2020s.</p><p>Installation of the CurrentHill Russia Asset Pack is recommended, although not mandatory.</p>",
   "locales": [
-    "zh_CN"
+    "ru_RU"
   ],
   "aircrafts": [
-    "FC-1 Fierce Dragon",
     "IL-76MD",
     "J-11A Flanker-L",
-    "J-15 Flanker X-2",
-    "J-7B",
+    "JF-17 Thunder",
     "Ka-50 Hokum",
     "Ka-50 Hokum III",
     "L-39ZA Albatros",
@@ -19,17 +17,25 @@
     "Mi-24P Hind-F",
     "Mi-28N Havoc",
     "Mi-8MTV2 Hip",
+    "MiG-21bis Fishbed-N",
     "MiG-29S Fulcrum-C",
     "MiG-31 Foxhound",
     "Su-24M Fencer-D",
     "Su-25 Frogfoot",
     "Su-25T Frogfoot",
     "Su-27 Flanker-B",
-    "Su-30MKK Flanker-G",
+    "Su-30 Flanker-C",
+    "Su-30SM Flanker-H",
+    "Su-33 Flanker-D",
     "Su-34 Fullback",
     "Tu-22M3 Backfire-C",
     "Tu-95MS Bear-H",
-    "H-6J Badger"
+    "Tu-16 Badger",
+    "[CH] Ka-52",
+    "[CH] Ka-52K",
+    "[CH] Mi-28N AH",
+    "[CH] Tu-160M2",
+    "[CH] Tu-95MSM"
   ],
   "awacs": [
     "A-50",
@@ -50,53 +56,47 @@
     "T-72B3 model 2011",
     "T-80UD",
     "T-90A",
-    "MT Type 59",
     "Type 04A (ZBD-04A)",
     "Type 96B (ZTZ-96B)",
-    "[CH] ZBL-09 IFV",
-    "[CH] ZBD-04A AT SPATGM",
-    "Type 04A (ZBD-04A)",
-    "Type 96B (ZTZ-96B)",
-    "[CH] ZTL-11 AFV",
-    "[CH] ZTZ-99A2 MBT"
+    "[CH] T-14 MBT",
+    "[CH] T-90M MBT",
+    "[CH] Tigr-M",
+    "[CH] T-90A MBT",
+    "[CH] T-80BVM MBT",
+    "[CH] BMD-4 IFV"
   ],
   "artillery_units": [
     "2S19 Msta-S",
     "2S9 Nona-S",
     "BM-27 Uragan",
     "BM-30 Smerch (9M55K5 HE Rockets)",
-    "PLZ-05",
-    "[CH] PCL-181 SPG GP155",
-    "[CH] PHL-11 SPMRL (DPICM)",
-    "[CH] PHL-11 SPMRL (HE)",
-    "[CH] PHL-16 SPMRL (FD280)",
-    "[CH] PLZ-07 SPG"
+    "[CH] 2S35 SPG",
+    "[CH] TOS-1A MRL"
   ],
   "logistics_units": [
     "LUV UAZ-469 Jeep",
-    "Truck Ural-375",
-    "[CH] SX2190 Truck"
+    "Truck Ural-375"
   ],
   "infantry_units": [
     "Infantry AK-74 Rus",
     "MANPADS SA-18 Igla \"Grouse\"",
     "Mortar 2B11 120mm",
     "Paratrooper AKS",
-    "Paratrooper RPG-16"
+    "Paratrooper RPG-16",
+    "[CH] DShK HMG",
+    "[CH] 9M133 ATGM Soldier",
+    "[CH] Kord HMG Soldier"
   ],
   "missiles": [
-    "[CH] DF-21D LBASBM",
-    "[CH] CJ-10 GLCM",
-    "[CH] YJ-12B LBASM"
+    "[CH] Iskander-M SRBM",
+    "[CH] Iskander-K GLCM"
   ],
   "preset_groups": [
     "SA-2/S-75",
-    "HQ-2",
+    "SA-2/S-75 V-759/5V23",
     "SA-6",
     "SA-11",
     "HQ-7",
-    "HQ-22",
-    "Silkworm",
     "SA-10/S-300PS",
     "SA-10B/S-300PS",
     "SA-17",
@@ -104,22 +104,30 @@
     "SA-20/S-300PMU-1",
     "SA-20B/S-300PMU-2",
     "SA-23/S-300VM",
-    "Chinese Navy"
+    "Russian Navy",
+    "BAL LBASM",
+    "Bastion-P LBASM",
+    "BUK M3",
+    "[CH] Russian Navy"
   ],
   "naval_units": [
+    "SSK 877V Kilo",
     "Frigate 1135M Rezky",
     "Type 052B Destroyer",
     "Type 052C Destroyer",
     "Corvette 1241.1 Molniya",
     "Type 054A Frigate",
     "CV 1143.5 Admiral Kuznetsov",
-    "Type 093 Attack Submarine",
     "Type 071 Amphibious Transport Dock",
-    "[CH] Type 022 FAC",
-    "[CH] Type 054B Frigate",
-    "[CH] Type 056A Corvette",
-    "[CH] Type 052D Destroyer",
-    "[CH] Type 055 Destroyer"
+    "[CH] Project 22160 Patrol Ship",
+    "[CH] Project 22350 Admiral Gorshkov Frigate",
+    "[CH] Project 11356R Admiral Grigorovich Frigate (AShM)",
+    "[CH] Project 11356R Admiral Grigorovich Frigate (LACM)",
+    "[CH] Project 22800 Karakurt Corvette AShM",
+    "[CH] Project 22800 Karakurt Corvette LACM",
+    "[CH] Project 20381 Steregushchiy Corvette",
+    "[CH] Project 20385 Gremyashchiy Corvette (AShM)",
+    "[CH] Project 20385 Gremyashchiy Corvette (LACM)"
   ],
   "air_defense_units": [
     "EWR 1L13",
@@ -130,28 +138,24 @@
     "SA-15 Tor",
     "SA-19 Grison (2K22 Tunguska)",
     "ZSU-23-4 Shilka",
-    "[CH] LD-3000 C-RAM Mobile",
-    "[CH] LD-3000 C-RAM Stationary",
-    "[CH] PGZ-09 SPAAG",
-    "[CH] PGZ-95 SPAAG",
-    "[CH] HQ-17A SHORAD"
-  ],
-  "carrier_names": [
-    "001 Liaoning",
-    "002 Shandong"
+    "[CH] 2S38 SPAAG (LG-HE)",
+    "[CH] 2S38 SPAAG",
+    "[CH] Pantsir-S1 SPAAGM",
+    "[CH] Pantsir-S2 SPAAGM",
+    "[CH] Tor M2K SHORAD",
+    "[CH] Tor M2 SHORAD",
+    "[CH] Tor M2M SHORAD"
   ],
   "helicopter_carrier_names": [
-    "Kunlun Shan",
-    "Jinggang Shan",
-    "Changbai Shan",
-    "Yimeng Shan",
-    "Longhu Shan",
-    "Wuzhi Shan",
-    "Wudang Shan"
+    "Ivan Rogov",
+    "Mitrofan Moskalenko"
   ],
   "requirements": {
-    "CurrentHill China Asset Pack": "https://www.currenthill.com/china"
+    "CurrentHill Russia Asset Pack": "https://www.currenthill.com/russia"
   },
+  "carrier_names": [
+    "Admiral Kuznetsov"
+  ],
   "has_jtac": true,
   "jtac_unit": "WingLoong-I"
 }
