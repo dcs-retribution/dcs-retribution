@@ -48,7 +48,6 @@ class PackageBuilder:
         using release_planned_aircraft.
         """
         target = self.package.target
-        heli = False
         pf = self.package.primary_flight
         if pf:
             target = (
@@ -57,12 +56,11 @@ class PackageBuilder:
                 in [FlightType.AEWC, FlightType.REFUELING, FlightType.RECOVERY]
                 else target
             )
-            heli = pf.is_helo
         squadron = self.air_wing.best_squadron_for(
             target,
             plan.task,
             plan.num_aircraft,
-            heli,
+            plan.preferred_type.helicopter,
             this_turn=True,
             preferred_type=plan.preferred_type,
             ignore_range=ignore_range,
