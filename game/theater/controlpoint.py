@@ -377,7 +377,7 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         position: Point,
         at: StartingPosition,
         theater: ConflictTheater,
-        starts_blue: bool,
+        starts_blue: Optional[bool],
         cptype: ControlPointType = ControlPointType.AIRBASE,
     ) -> None:
         super().__init__(name, position)
@@ -440,7 +440,8 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         # the entire game state when it comes up.
         from game.sim import GameUpdateEvents
 
-        self._create_missing_front_lines(laser_code_registry, GameUpdateEvents())
+        if self.captured is not None:
+            self._create_missing_front_lines(laser_code_registry, GameUpdateEvents())
 
     @property
     def front_line_db(self) -> Database[FrontLine]:
@@ -487,6 +488,8 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
 
     @property
     def has_frontline(self) -> bool:
+        if self.captured is None:
+            return False
         return bool(self.front_lines)
 
     def front_line_active_with(self, other: ControlPoint) -> bool:
@@ -1121,6 +1124,8 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
 
     @property
     def has_active_frontline(self) -> bool:
+        if self.captured is None:
+            return False
         return any(not c.is_friendly(self.captured) for c in self.connected_points)
 
     def front_is_active(self, other: ControlPoint) -> bool:

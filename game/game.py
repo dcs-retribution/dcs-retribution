@@ -6,7 +6,7 @@ import math
 from collections.abc import Iterator
 from datetime import date, datetime, time, timedelta
 from enum import Enum
-from typing import Any, List, TYPE_CHECKING, Type, Union, cast
+from typing import Any, List, TYPE_CHECKING, Type, Union, cast, Optional
 from uuid import UUID
 
 from dcs.countries import Switzerland, USAFAggressors, UnitedNationsPeacekeepers
@@ -140,6 +140,9 @@ class Game:
         self.sanitize_sides(player_faction, enemy_faction)
         self.blue = Coalition(self, player_faction, player_budget, player=True)
         self.red = Coalition(self, enemy_faction, enemy_budget, player=False)
+        neutral_faction = player_faction
+        neutral_faction.country = self.neutral_country
+        self.neutral = Coalition(self, neutral_faction, 0, player=None)
         self.blue.set_opponent(self.red)
         self.red.set_opponent(self.blue)
 
@@ -229,10 +232,13 @@ class Game:
         else:
             return USAFAggressors
 
-    def coalition_for(self, player: bool) -> Coalition:
+    def coalition_for(self, player: Optional[bool]) -> Coalition:
         if player:
             return self.blue
-        return self.red
+        elif player == None:
+            return self.neutral
+        else:
+            return self.red
 
     def adjust_budget(self, amount: float, player: bool) -> None:
         self.coalition_for(player).adjust_budget(amount)
