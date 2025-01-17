@@ -18,7 +18,7 @@ class TgoJs(BaseModel):
     name: str
     control_point_name: str
     category: str
-    blue: bool
+    blue: Optional[bool]
     position: LeafletPoint
     units: list[str]  # TODO: Event stream
     threat_ranges: list[float]  # TODO: Event stream

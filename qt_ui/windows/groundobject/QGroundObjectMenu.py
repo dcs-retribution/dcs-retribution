@@ -118,6 +118,8 @@ class QGroundObjectMenu(QDialog):
 
     @property
     def show_buy_sell_actions(self) -> bool:
+        if self.cp.captured is None:
+            return False
         buysell_allowed = self.game.settings.enable_enemy_buy_sell
         buysell_allowed |= self.cp.captured
         return buysell_allowed

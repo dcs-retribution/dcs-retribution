@@ -379,9 +379,6 @@ class AirbaseGroundObjectGenerator(ControlPointGroundObjectGenerator):
 
     def generate_ground_points(self) -> None:
         """Generate ground objects and AA sites for the control point."""
-        # TODO: Create dead objects for a neutral point
-        if self.control_point.captured is None:
-            return
         self.generate_armor_groups()
         self.generate_iads()
         self.generate_scenery_sites()
