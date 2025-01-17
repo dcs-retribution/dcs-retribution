@@ -867,7 +867,12 @@ class HelipadGenerator:
             pad.position,
             self.m.terrain,
         ).dict()
-        warehouse["coalition"] = "blue" if self.cp.coalition.player else "red"
+        if self.cp.coalition.player:
+            warehouse["coalition"] = "blue"
+        elif self.cp.coalition.player is None:
+            warehouse["coalition"] = "neutral"
+        else:
+            warehouse["coalition"] = "red"
         # configure dynamic spawn + hot start of DS, plus dynamic cargo?
         self.m.warehouses.warehouses[pad.id] = warehouse
 
@@ -994,7 +999,12 @@ class GroundSpawnRoadbaseGenerator:
             pad.position,
             self.m.terrain,
         ).dict()
-        warehouse["coalition"] = "blue" if self.cp.coalition.player else "red"
+        if self.cp.coalition.player:
+            warehouse["coalition"] = "blue"
+        elif self.cp.coalition.player is None:
+            warehouse["coalition"] = "neutral"
+        else:
+            warehouse["coalition"] = "red"
         # configure dynamic spawn + hot start of DS, plus dynamic cargo?
         self.m.warehouses.warehouses[pad.id] = warehouse
 
@@ -1120,7 +1130,12 @@ class GroundSpawnLargeGenerator:
             pad.position,
             self.m.terrain,
         ).dict()
-        warehouse["coalition"] = "blue" if self.cp.coalition.player else "red"
+        if self.cp.coalition.player:
+            warehouse["coalition"] = "blue"
+        elif self.cp.coalition.player is None:
+            warehouse["coalition"] = "neutral"
+        else:
+            warehouse["coalition"] = "red"
         # configure dynamic spawn + hot start of DS, plus dynamic cargo?
         self.m.warehouses.warehouses[pad.id] = warehouse
 
@@ -1264,7 +1279,12 @@ class GroundSpawnGenerator:
                 pad.position,
                 self.m.terrain,
             ).dict()
-            warehouse["coalition"] = "blue" if self.cp.coalition.player else "red"
+            if self.cp.coalition.player:
+                warehouse["coalition"] = "blue"
+            elif self.cp.coalition.player is None:
+                warehouse["coalition"] = "neutral"
+            else:
+                warehouse["coalition"] = "red"
             # configure dynamic spawn + hot start of DS, plus dynamic cargo?
             self.m.warehouses.warehouses[pad.id] = warehouse
 

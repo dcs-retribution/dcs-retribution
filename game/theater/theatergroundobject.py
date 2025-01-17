@@ -98,11 +98,12 @@ class TheaterGroundObject(MissionTarget, SidcDescribable, ABC):
 
     @property
     def standard_identity(self) -> StandardIdentity:
-        return (
-            StandardIdentity.FRIEND
-            if self.control_point.captured
-            else StandardIdentity.HOSTILE_FAKER
-        )
+        if self.control_point.captured:
+            return StandardIdentity.FRIEND
+        elif self.control_point.captured is None:
+            return StandardIdentity.UNKNOWN
+        else:
+            return StandardIdentity.HOSTILE_FAKER
 
     @property
     def is_dead(self) -> bool:

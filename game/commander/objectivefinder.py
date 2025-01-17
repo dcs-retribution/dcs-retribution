@@ -258,7 +258,7 @@ class ObjectiveFinder:
         return (
             c
             for c in self.game.theater.controlpoints
-            if not c.is_friendly(self.is_player)
+            if not c.is_friendly(self.is_player) and c.captured is not None
         )
 
     def prioritized_points(self) -> list[ControlPoint]:

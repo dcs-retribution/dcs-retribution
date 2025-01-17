@@ -149,7 +149,7 @@ class ConflictTheater:
         return new_point
 
     def control_points_for(
-        self, player: bool, state_check: bool = False
+        self, player: Optional[bool], state_check: bool = False
     ) -> Iterator[ControlPoint]:
         for point in self.controlpoints:
             if point.captured == player:

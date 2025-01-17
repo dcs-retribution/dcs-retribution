@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, TYPE_CHECKING
+from typing import Any, TYPE_CHECKING, Optional
 
 from dcs import Point
 from pydantic import BaseModel
@@ -66,7 +66,7 @@ class SupplyRouteJs(BaseModel):
     points: list[LeafletPoint]
     front_active: bool
     is_sea: bool
-    blue: bool
+    blue: Optional[bool]
     active_transports: list[str]
 
     class Config:

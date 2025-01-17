@@ -452,9 +452,11 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         self, laser_code_registry: LaserCodeRegistry, events: GameUpdateEvents
     ) -> None:
         for connection in self.convoy_routes.keys():
-            if not connection.front_line_active_with(
-                self
-            ) and not connection.is_friendly_to(self):
+            if (
+                not connection.front_line_active_with(self)
+                and not connection.is_friendly_to(self)
+                and not connection.captured is None
+            ):
                 self._create_front_line_with(laser_code_registry, connection, events)
 
     def _create_front_line_with(
@@ -504,9 +506,12 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
 
     @property
     def standard_identity(self) -> StandardIdentity:
-        return (
-            StandardIdentity.FRIEND if self.captured else StandardIdentity.HOSTILE_FAKER
-        )
+        if self.captured:
+            return StandardIdentity.FRIEND
+        elif self.captured is None:
+            return StandardIdentity.UNKNOWN
+        else:
+            return StandardIdentity.HOSTILE_FAKER
 
     @property
     def sidc_status(self) -> Status:
@@ -822,6 +827,8 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         return self.captured == to_player
 
     def is_friendly_to(self, control_point: ControlPoint) -> bool:
+        if control_point.captured is None:
+            return False
         return control_point.is_friendly(self.captured)
 
     def capture_equipment(self, game: Game) -> None:

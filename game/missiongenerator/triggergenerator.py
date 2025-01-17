@@ -99,9 +99,12 @@ class TriggerGenerator:
                 raise RuntimeError(
                     f"Could not find {airfield.airport.name} in the mission"
                 )
-            cp_airport.set_coalition(
-                airfield.captured and player_coalition or enemy_coalition
-            )
+            if airfield.captured and player_coalition:
+                cp_airport.set_coalition(player_coalition)
+            elif airfield.captured is None:
+                cp_airport.set_coalition("neutral")
+            elif not airfield.captured and enemy_coalition:
+                cp_airport.set_coalition(enemy_coalition)
 
     def _set_skill(self, player_coalition: str, enemy_coalition: str) -> None:
         """
@@ -241,6 +244,51 @@ class TriggerGenerator:
                 recapture_trigger.add_action(DoScript(script_string))
                 recapture_trigger.add_action(ClearFlag(flag=flag))
                 self.mission.triggerrules.triggers.append(recapture_trigger)
+
+                if cp.captured is None:
+                    red_capture_trigger = TriggerCondition(
+                        Event.NoEvent, "Capture Trigger"
+                    )
+                    red_capture_trigger.add_condition(
+                        AllOfCoalitionOutsideZone(
+                            attacking_coalition, trigger_zone.id, unit_type="GROUND"
+                        )
+                    )
+                    red_capture_trigger.add_condition(
+                        PartOfCoalitionInZone(
+                            defending_coalition, trigger_zone.id, unit_type="GROUND"
+                        )
+                    )
+                    red_capture_trigger.add_condition(FlagIsFalse(flag=flag))
+                    script_string = String(
+                        f'base_capture_events[#base_capture_events + 1] = "{cp.id}||{defend_coalition_int}||{cp.full_name}"'
+                    )
+                    red_capture_trigger.add_action(DoScript(script_string))
+                    red_capture_trigger.add_action(SetFlag(flag=flag))
+                    self.mission.triggerrules.triggers.append(red_capture_trigger)
+
+                    inverted_recapture_trigger = TriggerCondition(
+                        Event.NoEvent, "Capture Trigger"
+                    )
+                    inverted_recapture_trigger.add_condition(
+                        AllOfCoalitionOutsideZone(
+                            defending_coalition, trigger_zone.id, unit_type="GROUND"
+                        )
+                    )
+                    inverted_recapture_trigger.add_condition(
+                        PartOfCoalitionInZone(
+                            attacking_coalition, trigger_zone.id, unit_type="GROUND"
+                        )
+                    )
+                    inverted_recapture_trigger.add_condition(FlagIsTrue(flag=flag))
+                    script_string = String(
+                        f'base_capture_events[#base_capture_events + 1] = "{cp.id}||{attack_coalition_int}||{cp.full_name}"'
+                    )
+                    inverted_recapture_trigger.add_action(DoScript(script_string))
+                    inverted_recapture_trigger.add_action(ClearFlag(flag=flag))
+                    self.mission.triggerrules.triggers.append(
+                        inverted_recapture_trigger
+                    )
 
     def generate(self) -> None:
         player_coalition = "blue"
