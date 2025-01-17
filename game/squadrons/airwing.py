@@ -14,12 +14,13 @@ from ..utils import Distance
 
 if TYPE_CHECKING:
     from game.game import Game
+    from game.theater.player import Player
     from ..ato.flighttype import FlightType
     from .squadron import Squadron
 
 
 class AirWing:
-    def __init__(self, player: bool, game: Game, faction: Faction) -> None:
+    def __init__(self, player: Player, game: Game, faction: Faction) -> None:
         self.player = player
         self.squadrons: dict[AircraftType, list[Squadron]] = defaultdict(list)
         self.squadron_defs = SquadronDefLoader(game, faction).load()

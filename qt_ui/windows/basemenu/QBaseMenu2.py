@@ -27,6 +27,7 @@ from game.theater import (
     FREE_FRONTLINE_UNIT_SUPPLY,
     NavalControlPoint,
     ParkingType,
+    Player,
 )
 from qt_ui.dialogs import Dialog
 from qt_ui.models import GameModel
@@ -85,7 +86,7 @@ class QBaseMenu2(QDialog):
         self.freq_widget = None
         self.link4_widget = None
 
-        is_friendly = cp.is_friendly(True)
+        is_friendly = cp.is_friendly(Player.BLUE)
         if is_friendly and isinstance(cp, RadioFrequencyContainer):
             self.freq_widget = QFrequencyWidget(cp, self.game_model)
             cp_settings.addWidget(self.freq_widget, counter // 2, counter % 2)

@@ -1,9 +1,7 @@
 from __future__ import annotations
 
-import logging
-import math
 import random
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING
 
 from dcs import Point
 from dcs.action import (
@@ -11,10 +9,6 @@ from dcs.action import (
     DoScript,
     MarkToAll,
     SetFlag,
-    RemoveSceneObjects,
-    RemoveSceneObjectsMask,
-    SceneryDestructionZone,
-    Smoke,
 )
 from dcs.condition import (
     AllOfCoalitionOutsideZone,
@@ -22,7 +16,6 @@ from dcs.condition import (
     FlagIsTrue,
     PartOfCoalitionInZone,
     TimeAfter,
-    TimeSinceFlag,
 )
 from dcs.mission import Mission
 from dcs.task import Option
@@ -31,12 +24,11 @@ from dcs.terrain.syria.airports import Damascus, Khalkhalah
 from dcs.translation import String
 from dcs.triggers import Event, TriggerCondition, TriggerOnce
 from dcs.unit import Skill
-from numpy import cross, einsum, arctan2
 from shapely import MultiPolygon, Point as ShapelyPoint
 
 from game.naming import ALPHA_MILITARY
 from game.pretense.pretenseflightgroupspawner import PretenseNameGenerator
-from game.theater import Airfield
+from game.theater import Airfield, Player
 from game.theater.controlpoint import Fob, TRIGGER_RADIUS_CAPTURE, OffMapSpawn
 
 if TYPE_CHECKING:
@@ -157,7 +149,7 @@ class PretenseTriggerGenerator:
                         zone = self.mission.triggers.add_triggerzone(
                             location, radius=10, hidden=True, name="MARK"
                         )
-                        if cp.captured:
+                        if cp.captured.is_blue:
                             name = ground_object.obj_name + " [ALLY]"
                         else:
                             name = ground_object.obj_name + " [ENEMY]"
@@ -174,7 +166,7 @@ class PretenseTriggerGenerator:
         """
         for cp in self.game.theater.controlpoints:
             if isinstance(cp, self.capture_zone_types) and not cp.is_carrier:
-                if cp.captured:
+                if cp.captured.is_blue:
                     attacking_coalition = enemy_coalition
                     attack_coalition_int = 1  # 1 is the Event int for Red
                     defending_coalition = player_coalition
@@ -243,7 +235,7 @@ class PretenseTriggerGenerator:
             self.game.settings.pretense_carrier_zones_navmesh == "Blue navmesh"
         )
         sea_zones_landmap = self.game.coalition_for(
-            player=False
+            player=Player.RED
         ).nav_mesh.theater.landmap
         if (
             self.game.settings.pretense_controllable_carrier
@@ -251,7 +243,7 @@ class PretenseTriggerGenerator:
         ):
             navmesh_number = 0
             for navmesh_poly in self.game.coalition_for(
-                player=use_blue_navmesh
+                player=Player.BLUE if use_blue_navmesh else Player.RED
             ).nav_mesh.polys:
                 navmesh_number += 1
                 if sea_zones_landmap.sea_zones.intersects(navmesh_poly.poly):
@@ -325,7 +317,7 @@ class PretenseTriggerGenerator:
             if (
                 cp.is_fleet
                 and self.game.settings.pretense_controllable_carrier
-                and cp.captured
+                and cp.captured.is_blue
             ):
                 # Friendly carrier zones are generated above
                 continue

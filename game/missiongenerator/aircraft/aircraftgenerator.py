@@ -220,7 +220,7 @@ class AircraftGenerator:
             ):
                 continue
 
-            if control_point.captured:
+            if control_point.captured.is_blue:
                 country = player_country
             else:
                 country = enemy_country
@@ -237,12 +237,12 @@ class AircraftGenerator:
             squadron.location, Fob
         )
         if (
-            squadron.coalition.player
+            squadron.coalition.player.is_blue
             and self.game.settings.perf_disable_untasked_blufor_aircraft
         ):
             return
         elif (
-            not squadron.coalition.player
+            not squadron.coalition.player.is_red
             and self.game.settings.perf_disable_untasked_opfor_aircraft
         ):
             return
@@ -274,7 +274,7 @@ class AircraftGenerator:
             ).create_idle_aircraft()
             if group:
                 if (
-                    not squadron.coalition.player
+                    squadron.coalition.player.is_red
                     and squadron.aircraft.flyable
                     and (
                         self.game.settings.enable_squadron_pilot_limits

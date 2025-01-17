@@ -145,7 +145,7 @@ class MissionResultsProcessor:
     def commit_captures(self, debriefing: Debriefing, events: GameUpdateEvents) -> None:
         for captured in debriefing.base_captures:
             try:
-                if captured.captured_by_player:
+                if captured.captured_by_player.is_blue:
                     self.game.message(
                         f"{captured.control_point} captured!",
                         f"We took control of {captured.control_point}.",

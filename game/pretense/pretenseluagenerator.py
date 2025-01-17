@@ -1495,13 +1495,13 @@ class PretenseLuaGenerator(LuaGenerator):
             cp_name.replace("ä", "a")
             cp_name.replace("ö", "o")
             cp_name.replace("ø", "o")
-            cp_side = 2 if cp.captured else 1
+            cp_side = 2 if cp.captured.is_blue else 1
 
             if isinstance(cp, OffMapSpawn):
                 continue
             elif (
                 cp.is_fleet
-                and cp.captured
+                and cp.captured.is_blue
                 and self.game.settings.pretense_controllable_carrier
             ):
                 # Friendly carrier, generate carrier parameters
@@ -1591,7 +1591,7 @@ class PretenseLuaGenerator(LuaGenerator):
                 # Also connect carrier and LHA control points to adjacent friendly points
                 if cp.is_fleet and (
                     not self.game.settings.pretense_controllable_carrier
-                    or not cp.captured
+                    or cp.captured.is_red
                 ):
                     num_of_carrier_connections = 0
                     for (
@@ -1616,7 +1616,7 @@ class PretenseLuaGenerator(LuaGenerator):
                     try:
                         if (
                             cp.is_fleet
-                            and cp.captured
+                            and cp.captured.is_blue
                             and self.game.settings.pretense_controllable_carrier
                         ):
                             break

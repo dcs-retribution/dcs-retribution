@@ -35,6 +35,7 @@ if TYPE_CHECKING:
     from game.sim.gameupdateevents import GameUpdateEvents
     from game.sim.simulationresults import SimulationResults
     from game.squadrons import Squadron, Pilot
+    from game.theater.player import Player
     from game.transfers import TransferOrder
     from game.data.weapons import WeaponType
     from .flightmember import FlightMember
@@ -174,7 +175,7 @@ class Flight(
             self.roster = FlightMembers.from_roster(self, self.roster)
 
     @property
-    def blue(self) -> bool:
+    def blue(self) -> Player:
         return self.squadron.player
 
     @property

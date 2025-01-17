@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 from pydantic import BaseModel
 
 from game.server.leaflet import LeafletPoint, LeafletPoly, ShapelyUtil
-from game.theater import ConflictTheater
+from game.theater import ConflictTheater, Player
 from game.threatzones import ThreatZones
 
 if TYPE_CHECKING:
@@ -85,9 +85,9 @@ class ThreatZoneContainerJs(BaseModel):
     def for_game(game: Game) -> ThreatZoneContainerJs:
         return ThreatZoneContainerJs(
             blue=ThreatZonesJs.from_zones(
-                game.threat_zone_for(player=True), game.theater
+                game.threat_zone_for(player=Player.BLUE), game.theater
             ),
             red=ThreatZonesJs.from_zones(
-                game.threat_zone_for(player=False), game.theater
+                game.threat_zone_for(player=Player.RED), game.theater
             ),
         )

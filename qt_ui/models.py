@@ -24,7 +24,7 @@ from game.radio.tacan import TacanChannel
 from game.server import EventStream
 from game.sim.gameupdateevents import GameUpdateEvents
 from game.squadrons.squadron import Pilot, Squadron
-from game.theater import NavalControlPoint
+from game.theater import NavalControlPoint, Player
 from game.theater.missiontarget import MissionTarget
 from game.transfers import PendingTransfers, TransferOrder
 from qt_ui.simcontroller import SimController
@@ -564,8 +564,8 @@ class GameModel:
         self.allocated_icls: list[int] = list()
         self.init_comms_registry()
 
-    def ato_model_for(self, player: bool) -> AtoModel:
-        if player:
+    def ato_model_for(self, player: Player) -> AtoModel:
+        if player.is_blue:
             return self.ato_model
         return self.red_ato_model
 

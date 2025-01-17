@@ -10,15 +10,14 @@ from dcs import Mission
 from dcs.action import DoScript, DoScriptFile
 from dcs.translation import String
 from dcs.triggers import TriggerStart
-from dcs.unit import Skill
 
 from game.ato import FlightType
+from game.data.units import UnitClass
 from game.dcs.aircrafttype import AircraftType
 from game.plugins import LuaPluginManager
 from game.theater import TheaterGroundObject
 from game.theater.iadsnetwork.iadsrole import IadsRole
 from game.utils import escape_string_for_lua
-from game.data.units import UnitClass
 from .missiondata import MissionData
 
 if TYPE_CHECKING:
@@ -144,7 +143,7 @@ class LuaGenerator:
 
         target_points = lua_data.add_item("TargetPoints")
         for flight in self.mission_data.flights:
-            if flight.friendly and flight.flight_type in [
+            if flight.friendly.is_blue and flight.flight_type in [
                 FlightType.ANTISHIP,
                 FlightType.DEAD,
                 FlightType.SEAD,
@@ -178,7 +177,7 @@ class LuaGenerator:
         for cp in self.game.theater.controlpoints:
             coalition_object = (
                 lua_data.get_or_create_item("BlueAA")
-                if cp.captured
+                if cp.captured.is_blue
                 else lua_data.get_or_create_item("RedAA")
             )
             for ground_object in cp.ground_objects:

@@ -15,6 +15,7 @@ from game.runways import RunwayData
 if TYPE_CHECKING:
     from game.radio.radios import RadioFrequency
     from game.radio.tacan import TacanChannel
+    from game.theater.player import Player
     from game.utils import Distance
     from uuid import UUID
 
@@ -24,7 +25,7 @@ class GroupInfo:
     group_name: str
     callsign: str
     freq: RadioFrequency
-    blue: bool
+    blue: Player
 
 
 @dataclass
@@ -85,7 +86,7 @@ class LogisticsInfo:
 
     pilot_names: list[str]
     transport: AircraftType
-    blue: bool
+    blue: Player
 
     logistic_unit: str = field(default_factory=str)
     pickup_zone: str = field(default_factory=str)

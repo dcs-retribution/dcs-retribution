@@ -17,6 +17,7 @@ from game.procurement import AircraftProcurementRequest, ProcurementAi
 from game.profiling import MultiEventTracer, logged_duration
 from game.squadrons import AirWing
 from game.theater.bullseye import Bullseye
+from game.theater.player import Player
 from game.theater.transitnetwork import TransitNetwork, TransitNetworkBuilder
 from game.threatzones import ThreatZones
 from game.transfers import PendingTransfers
@@ -32,7 +33,7 @@ if TYPE_CHECKING:
 
 class Coalition:
     def __init__(
-        self, game: Game, faction: Faction, budget: float, player: bool
+        self, game: Game, faction: Faction, budget: float, player: Player
     ) -> None:
         self.game = game
         self.player = player
@@ -68,9 +69,11 @@ class Coalition:
 
     @property
     def coalition_id(self) -> int:
-        if self.player:
+        if self.player.is_blue:
             return 2
-        return 1
+        elif self.player.is_red:
+            return 1
+        return 0
 
     @property
     def opponent(self) -> Coalition:
@@ -95,8 +98,9 @@ class Coalition:
         state = self.__dict__.copy()
         # Avoid persisting any volatile types that can be deterministically
         # recomputed on load for the sake of save compatibility.
-        del state["_threat_zone"]
-        del state["_navmesh"]
+        if state["player"] != Player.NEUTRAL:
+            del state["_threat_zone"]
+            del state["_navmesh"]
         del state["faker"]
         return state
 
@@ -203,7 +207,7 @@ class Coalition:
             squadron.refund_orders()
 
     def plan_missions(self, now: datetime) -> None:
-        color = "Blue" if self.player else "Red"
+        color = "Blue" if self.player.is_blue else "Red"
         with MultiEventTracer() as tracer:
             with tracer.trace(f"{color} mission planning"):
                 with tracer.trace(f"{color} mission identification"):
@@ -220,7 +224,7 @@ class Coalition:
         # to ground forces and 1400 to aircraft. After that the budget will be spent
         # proportionally based on how much is already invested.
 
-        if self.player:
+        if self.player.is_blue:
             manage_runways = self.game.settings.automate_runway_repair
             manage_front_line = self.game.settings.automate_front_line_reinforcements
             manage_aircraft = self.game.settings.automate_aircraft_reinforcements

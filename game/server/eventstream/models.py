@@ -15,6 +15,7 @@ from game.server.mapzones.models import ThreatZonesJs, UnculledZoneJs
 from game.server.navmesh.models import NavMeshJs
 from game.server.supplyroutes.models import SupplyRouteJs
 from game.server.tgos.models import TgoJs
+from game.theater import Player
 
 if TYPE_CHECKING:
     from game import Game
@@ -26,9 +27,9 @@ class GameUpdateEventsJs(BaseModel):
     new_combats: list[FrozenCombatJs]
     updated_combats: list[FrozenCombatJs]
     ended_combats: list[UUID]
-    navmesh_updates: dict[bool, NavMeshJs]
+    navmesh_updates: dict[Player, NavMeshJs]
     updated_unculled_zones: list[UnculledZoneJs]
-    threat_zones_updated: dict[bool, ThreatZonesJs]
+    threat_zones_updated: dict[Player, ThreatZonesJs]
     new_flights: list[FlightJs]
     updated_flights: list[FlightJs]
     deleted_flights: set[UUID]

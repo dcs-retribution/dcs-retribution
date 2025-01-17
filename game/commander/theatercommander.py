@@ -67,10 +67,11 @@ from game.profiling import MultiEventTracer
 
 if TYPE_CHECKING:
     from game import Game
+    from game.theater.player import Player
 
 
 class TheaterCommander(Planner[TheaterState, TheaterCommanderTask]):
-    def __init__(self, game: Game, player: bool) -> None:
+    def __init__(self, game: Game, player: Player) -> None:
         super().__init__(
             PlanNextAction(
                 aircraft_cold_start=game.settings.default_start_type is StartType.COLD

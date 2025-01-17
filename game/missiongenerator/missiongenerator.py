@@ -391,9 +391,12 @@ class MissionGenerator:
                     tmu.theater_unit.position,
                     self.mission.terrain,
                 ).dict()
-                warehouse["coalition"] = (
-                    "blue" if tmu.theater_unit.ground_object.coalition.player else "red"
-                )
+                if tmu.theater_unit.ground_object.coalition.player.is_neutral:
+                    warehouse["coalition"] = "neutral"
+                elif tmu.theater_unit.ground_object.coalition.player.is_blue:
+                    warehouse["coalition"] = "blue"
+                else:
+                    warehouse["coalition"] = "red"
                 warehouse["dynamicCargo"] = settings.dynamic_cargo
                 if tmu.theater_unit.is_ship or tmu.dcs_unit.category == "Heliports":  # type: ignore
                     warehouse["dynamicSpawn"] = settings.dynamic_slots

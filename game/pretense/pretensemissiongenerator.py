@@ -28,6 +28,7 @@ from game.missiongenerator.visualsgenerator import VisualsGenerator
 from game.naming import namegen
 from game.persistency import pre_pretense_backups_dir
 from game.pretense.pretenseaircraftgenerator import PretenseAircraftGenerator
+from game.theater import Player
 from game.theater.bullseye import Bullseye
 from game.unitmap import UnitMap
 from qt_ui.windows.GameUpdateSignal import GameUpdateSignal
@@ -233,7 +234,7 @@ class PretenseMissionGenerator(MissionGenerator):
                         callsign=callsign,
                         region=frontline,
                         code=str(code),
-                        blue=True,
+                        blue=Player.BLUE,
                         freq=freq,
                     )
                 )

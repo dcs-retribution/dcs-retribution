@@ -40,7 +40,7 @@ from game.ground_forces.ai_ground_planner import (
 from game.ground_forces.combat_stance import CombatStance
 from game.naming import namegen
 from game.radio.radios import RadioRegistry
-from game.theater.controlpoint import ControlPoint
+from game.theater.controlpoint import ControlPoint, Player
 from game.unitmap import UnitMap
 from game.utils import Heading
 from .frontlineconflictdescription import FrontLineConflictDescription
@@ -101,12 +101,12 @@ class FlotGenerator:
 
         # Create player groups at random position
         player_groups = self._generate_groups(
-            self.player_planned_combat_groups, is_player=True
+            self.player_planned_combat_groups, is_player=Player.BLUE
         )
 
         # Create enemy groups at random position
         enemy_groups = self._generate_groups(
-            self.enemy_planned_combat_groups, is_player=False
+            self.enemy_planned_combat_groups, is_player=Player.RED
         )
 
         # TODO: Differentiate AirConflict and GroundConflict classes.
@@ -193,7 +193,7 @@ class FlotGenerator:
                     callsign=callsign,
                     region=frontline,
                     code=str(code),
-                    blue=True,
+                    blue=Player.BLUE,
                     freq=freq,
                 )
             )
@@ -215,7 +215,7 @@ class FlotGenerator:
     def gen_infantry_group_for_group(
         self,
         group: VehicleGroup,
-        is_player: bool,
+        is_player: Player,
         side: Country,
         forward_heading: Heading,
     ) -> None:
@@ -294,7 +294,7 @@ class FlotGenerator:
             GroundForcePainter(faction, vehicle).apply_livery()
             vg.hidden_on_mfd = True
 
-    def _earliest_tot_on_flot(self, player: bool) -> timedelta:
+    def _earliest_tot_on_flot(self, player: Player) -> timedelta:
         tots = [
             x.time_over_target
             for x in self.game.ato_for(player).packages
@@ -413,7 +413,7 @@ class FlotGenerator:
         """
         duration = timedelta()
         if stance in [CombatStance.DEFENSIVE, CombatStance.AGGRESSIVE]:
-            duration = self._earliest_tot_on_flot(not to_cp.coalition.player)
+            duration = self._earliest_tot_on_flot(to_cp.coalition.player.opponent)
         self._set_reform_waypoint(dcs_group, forward_heading, duration)
         if stance == CombatStance.AGGRESSIVE:
             # Attack nearest enemy if any
@@ -503,7 +503,7 @@ class FlotGenerator:
         """
         duration = timedelta()
         if stance in [CombatStance.DEFENSIVE, CombatStance.AGGRESSIVE]:
-            duration = self._earliest_tot_on_flot(not to_cp.coalition.player)
+            duration = self._earliest_tot_on_flot(to_cp.coalition.player.opponent)
         self._set_reform_waypoint(dcs_group, forward_heading, duration)
         if stance in [
             CombatStance.AGGRESSIVE,
@@ -762,7 +762,7 @@ class FlotGenerator:
         )
 
     def _generate_groups(
-        self, groups: list[CombatGroup], is_player: bool
+        self, groups: list[CombatGroup], is_player: Player
     ) -> List[Tuple[VehicleGroup, CombatGroup]]:
         """Finds valid positions for planned groups and generates a pydcs group for them"""
         positioned_groups = []
@@ -795,7 +795,7 @@ class FlotGenerator:
                 final_position,
                 heading=spawn_heading.opposite,
             )
-            if is_player:
+            if is_player == Player.BLUE:
                 g.set_skill(Skill(self.game.settings.player_skill))
             else:
                 g.set_skill(Skill(self.game.settings.enemy_vehicle_skill))
@@ -813,7 +813,7 @@ class FlotGenerator:
 
     def _generate_group(
         self,
-        player: bool,
+        player: Player,
         side: Country,
         unit_type: GroundUnitType,
         count: int,

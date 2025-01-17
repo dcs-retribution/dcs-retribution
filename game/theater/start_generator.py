@@ -32,6 +32,7 @@ from . import (
     Fob,
     OffMapSpawn,
 )
+from .player import Player
 from .theatergroup import (
     IadsGroundGroup,
     IadsRole,
@@ -158,12 +159,12 @@ class GameGenerator:
         game.settings.version = VERSION
         return game
 
-    def should_remove_carrier(self, player: bool) -> bool:
-        faction = self.player if player else self.enemy
+    def should_remove_carrier(self, player: Player) -> bool:
+        faction = self.player if player.is_blue else self.enemy
         return self.generator_settings.no_carrier or not faction.carriers
 
-    def should_remove_lha(self, player: bool) -> bool:
-        faction = self.player if player else self.enemy
+    def should_remove_lha(self, player: Player) -> bool:
+        faction = self.player if player.is_blue else self.enemy
         return self.generator_settings.no_lha or not [
             x for x in faction.carriers if x.unit_class == UnitClass.HELICOPTER_CARRIER
         ]
@@ -174,11 +175,13 @@ class GameGenerator:
         # Remove carrier and lha, invert situation if needed
         for cp in self.theater.controlpoints:
             if self.generator_settings.inverted:
-                cp.starts_blue = cp.captured_invert
+                cp.starting_coalition = (
+                    Player.RED if not cp.captured_invert else Player.BLUE
+                )
 
-            if cp.is_carrier and self.should_remove_carrier(cp.starts_blue):
+            if cp.is_carrier and self.should_remove_carrier(cp.starting_coalition):
                 to_remove.append(cp)
-            elif cp.is_lha and self.should_remove_lha(cp.starts_blue):
+            elif cp.is_lha and self.should_remove_lha(cp.starting_coalition):
                 to_remove.append(cp)
 
         # do remove
@@ -230,11 +233,13 @@ class ControlPointGroundObjectGenerator:
         self.control_point.connected_objectives.append(ground_object)
 
     def generate_navy(self) -> None:
+        if self.control_point.captured.is_neutral:
+            return
         skip_player_navy = self.generator_settings.no_player_navy
-        if self.control_point.captured and skip_player_navy:
+        if self.control_point.captured.is_blue and skip_player_navy:
             return
         skip_enemy_navy = self.generator_settings.no_enemy_navy
-        if not self.control_point.captured and skip_enemy_navy:
+        if self.control_point.captured.is_red and skip_enemy_navy:
             return
         for position in self.control_point.preset_locations.ships:
             unit_group = self.armed_forces.random_group_for_task(GroupTask.NAVY)
@@ -352,7 +357,7 @@ class CarrierGroundObjectGenerator(GenericCarrierGroundObjectGenerator):
                 self.control_point.name,
                 self.control_point.position,
                 self.game.theater,
-                self.control_point.starts_blue,
+                self.control_point.starting_coalition,
             )
             self.control_point.finish_init(self.game)
             self.game.theater.controlpoints.append(self.control_point)

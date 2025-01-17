@@ -790,7 +790,7 @@ class AirWingConfigurationDialog(QDialog):
         self.tabs = []
         for coalition in game.coalitions:
             coalition_tab = AirWingConfigurationTab(coalition, game, aircraft_present)
-            name = "Blue" if coalition.player else "Red"
+            name = "Blue" if coalition.player.is_blue else "Red"
             self.tab_widget.addTab(coalition_tab, name)
             self.tabs.append(coalition_tab)
 

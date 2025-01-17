@@ -16,6 +16,7 @@ from game.theater import (
     OffMapSpawn,
     ParkingType,
     NavalControlPoint,
+    Player,
 )
 from game.theater.theatergroundobject import (
     BuildingGroundObject,
@@ -35,7 +36,7 @@ MissionTargetType = TypeVar("MissionTargetType", bound=MissionTarget)
 class ObjectiveFinder:
     """Identifies potential objectives for the mission planner."""
 
-    def __init__(self, game: Game, is_player: bool) -> None:
+    def __init__(self, game: Game, is_player: Player) -> None:
         self.game = game
         self.is_player = is_player
 
@@ -154,7 +155,7 @@ class ObjectiveFinder:
             airfields_in_proximity = self.closest_airfields_to(cp)
             airbase_threat_range = self.game.settings.airbase_threat_range
             if (
-                not self.is_player
+                self.is_player.is_red
                 and randint(1, 100)
                 > self.game.settings.opfor_autoplanner_aggressiveness
             ):
@@ -216,7 +217,7 @@ class ObjectiveFinder:
 
     def farthest_friendly_control_point(self) -> ControlPoint:
         """Finds the friendly control point that is farthest from any threats."""
-        threat_zones = self.game.threat_zone_for(not self.is_player)
+        threat_zones = self.game.threat_zone_for(self.is_player.opponent)
 
         farthest = None
         max_distance = meters(0)
@@ -234,7 +235,7 @@ class ObjectiveFinder:
 
     def closest_friendly_control_point(self) -> ControlPoint:
         """Finds the friendly control point that is closest to any threats."""
-        threat_zones = self.game.threat_zone_for(not self.is_player)
+        threat_zones = self.game.threat_zone_for(self.is_player.opponent)
 
         closest = None
         min_distance = meters(math.inf)
@@ -258,14 +259,14 @@ class ObjectiveFinder:
         return (
             c
             for c in self.game.theater.controlpoints
-            if not c.is_friendly(self.is_player)
+            if not c.is_friendly(self.is_player) and c.captured != Player.NEUTRAL
         )
 
     def prioritized_points(self) -> list[ControlPoint]:
         prioritized = []
         capturable_later = []
         isolated = []
-        for cp in self.game.theater.control_points_for(not self.is_player):
+        for cp in self.game.theater.control_points_for(self.is_player.opponent):
             if cp.is_isolated:
                 isolated.append(cp)
                 continue

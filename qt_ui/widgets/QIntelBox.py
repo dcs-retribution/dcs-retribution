@@ -10,6 +10,7 @@ from PySide6.QtWidgets import (
 
 from game import Game
 from game.income import Income
+from game.theater import Player
 from qt_ui.windows.intel import IntelWindow
 
 
@@ -76,8 +77,8 @@ class QIntelBox(QGroupBox):
 
     def economic_strength_text(self) -> str:
         assert self.game is not None
-        own = Income(self.game, player=True).total
-        enemy = Income(self.game, player=False).total
+        own = Income(self.game, player=Player.BLUE).total
+        enemy = Income(self.game, player=Player.RED).total
 
         if not enemy:
             return "enemy economy ruined"

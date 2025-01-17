@@ -18,6 +18,7 @@ from game.utils import kph
 
 if TYPE_CHECKING:
     from game import Game
+    from game.theater.player import Player
 
 
 class ConvoyGenerator:
@@ -94,7 +95,7 @@ class ConvoyGenerator:
         name: str,
         position: Point,
         units: dict[GroundUnitType, int],
-        for_player: bool,
+        for_player: Player,
     ) -> VehicleGroup:
         unit_types = list(units.items())
         main_unit_type, main_unit_count = unit_types[0]

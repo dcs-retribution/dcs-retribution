@@ -43,7 +43,9 @@ class PackageFulfiller:
 
     @property
     def is_player(self) -> bool:
-        return self.coalition.player
+        if self.coalition.player.is_blue:
+            return True
+        return False
 
     @property
     def ato(self) -> AirTaskingOrder:

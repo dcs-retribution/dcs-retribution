@@ -26,6 +26,7 @@ from game.utils import Distance, meters, nautical_miles
 
 if TYPE_CHECKING:
     from game import Game
+    from game.theater.player import Player
 
 
 ThreatPoly = Union[MultiPolygon, Polygon]
@@ -187,7 +188,7 @@ class ThreatZones:
         return min(cap_threat_range, max_distance)
 
     @classmethod
-    def for_faction(cls, game: Game, player: bool) -> ThreatZones:
+    def for_faction(cls, game: Game, player: Player) -> ThreatZones:
         """Generates the threat zones projected by the given coalition.
 
         Args:

@@ -6,6 +6,7 @@ from collections.abc import Iterator
 from datetime import timedelta
 from typing import Optional, TYPE_CHECKING
 
+from game.theater.player import Player
 from .aircombat import AirCombat
 from .aircraftengagementzones import AircraftEngagementZones
 from .atip import AtIp
@@ -31,8 +32,10 @@ class CombatInitiator:
     def update_active_combats(self) -> None:
         blue_a2a = AircraftEngagementZones.from_ato(self.game.blue.ato)
         red_a2a = AircraftEngagementZones.from_ato(self.game.red.ato)
-        blue_sam = SamEngagementZones.from_theater(self.game.theater, player=True)
-        red_sam = SamEngagementZones.from_theater(self.game.theater, player=False)
+        blue_sam = SamEngagementZones.from_theater(
+            self.game.theater, player=Player.BLUE
+        )
+        red_sam = SamEngagementZones.from_theater(self.game.theater, player=Player.RED)
 
         # Check each vulnerable flight to see if it has initiated combat. If any flight
         # initiates combat, a single FrozenCombat will be created for all involved
@@ -46,7 +49,7 @@ class CombatInitiator:
             if flight.state.in_combat:
                 return
 
-            if flight.squadron.player:
+            if flight.squadron.player.is_blue:
                 a2a = red_a2a
                 own_a2a = blue_a2a
                 sam = red_sam

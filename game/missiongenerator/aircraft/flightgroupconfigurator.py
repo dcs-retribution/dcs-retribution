@@ -299,7 +299,7 @@ class FlightGroupConfigurator:
             unit.set_player()
 
     def skill_level_for(self, unit: FlyingUnit, pilot: Optional[Pilot]) -> Skill:
-        if self.flight.squadron.player:
+        if self.flight.squadron.player.is_blue:
             base_skill = Skill(self.game.settings.player_skill)
         else:
             base_skill = Skill(self.game.settings.enemy_skill)

@@ -66,7 +66,7 @@ class GroundUnitOrders:
         bought_units: dict[GroundUnitType, int] = {}
         units_needing_transfer: dict[GroundUnitType, int] = {}
         for unit_type, count in self.units.items():
-            allegiance = "Ally" if self.destination.captured else "Enemy"
+            allegiance = "Ally" if self.destination.captured.is_blue else "Enemy"
             d: dict[GroundUnitType, int]
             if self.destination != ground_unit_source:
                 source = ground_unit_source

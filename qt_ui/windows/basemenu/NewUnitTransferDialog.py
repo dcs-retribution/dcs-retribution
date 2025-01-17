@@ -25,7 +25,7 @@ from dcs.unittype import UnitType
 
 from game import Game
 from game.dcs.groundunittype import GroundUnitType
-from game.theater import ControlPoint
+from game.theater import ControlPoint, Player
 from game.transfers import TransferOrder
 from qt_ui.models import GameModel
 from qt_ui.widgets.QLabeledWidget import QLabeledWidget
@@ -40,7 +40,7 @@ class TransferDestinationComboBox(QComboBox):
         for cp in self.game.theater.controlpoints:
             if (
                 cp != self.origin
-                and cp.is_friendly(to_player=True)
+                and cp.is_friendly(to_player=Player.BLUE)
                 and cp.can_deploy_ground_units
             ):
                 self.addItem(cp.name, cp)
