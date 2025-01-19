@@ -1,0 +1,256 @@
+---
+name: Kola Peninsula - The Anvil of War
+theater: Kola
+authors: Starfire
+recommended_player_faction: Blufor Current
+recommended_enemy_faction: Redfor Current
+description:
+  <p><strong>This is the finale to the three-part campaign series that begun with Afghanistan - Graveyard of Empires and Sinai - Red Sea Rising. 
+  This campaign is intended to be run with CurrentHill's Russia, China, and Sweden Asset Packs installed, though this is not mandatory.</strong></p>
+  <p>As NATO struggles to counter simultaneous crises in Afghanistan and the Middle East, the precarious balance of global power tilts further 
+  toward instability. Russia and China, emboldened by their gains, now turn their attention northward, to Europe’s Arctic frontier.</p>
+  <p>The Kola Peninsula, a critical hub of Russian military power, becomes the staging ground for an unprecedented joint Russo-Chinese offensive. 
+  Their goals are clear - to dominate the Arctic shipping lanes, secure access to the region’s vast natural resources, and challenge NATO’s influence 
+  in Scandinavia.</p>
+  <p>Caught between the pincers of two challenging adversaries, NATO forces rally together in a bid to repel the invaders and preserve regional stability. 
+  The fate of Europe hangs in the balance, as this new offensive threatens to forever alter the geopolitical map.</p>
+miz: the_anvil_of_war.miz
+performance: 2
+recommended_start_date: 2005-05-13
+version: "10.7"
+settings:
+  russianmilitaryassetspack: true
+  chinesemilitaryassetspack: true
+  swedishmilitaryassetspack: true
+  f22_raptor: true
+  hercules: true
+  squadron_start_full: true
+squadrons:
+  #Ownfor Carrier
+  Blue-CV:
+    - primary: SEAD
+      secondary: any
+      aircraft:
+        - F/A-18C Hornet (Lot 20)
+      size: 32
+    - primary: AEW&C
+      aircraft:
+        - E-2D Advanced Hawkeye
+      size: 2
+    - primary: Refueling
+      aircraft:
+        - S-3B Tanker
+      size: 4
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - UH-60A
+      size: 4
+  #Bodo
+  7:
+    - primary: TARCAP
+      secondary: any
+      aircraft:
+        - F-22A Raptor
+        - F-15C Eagle
+      size: 12
+    - primary: Armed Recon
+      secondary: any
+      aircraft:
+        - F-15E Strike Eagle (Suite 4+)
+      size: 12
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - B-1B Lancer
+      size: 4
+  #Andoya
+  20:
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - B-52H Stratofortress
+      size: 4
+    - primary: Refueling
+      aircraft:
+        - KC-135 Stratotanker
+      size: 1
+  #Bardufoss
+  21:
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - F-15C Eagle
+      size: 12
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - C-130J-30 Super Hercules
+        - C-130
+      size: 1
+  #Kiruna
+  5:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - JAS-39 Gripen
+        - Mirage 2000C
+      size: 12
+  #Kalixfors
+  13:
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - AH-64D Apache Longbow
+      size: 8
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - OH-58D(R) Kiowa Warrior
+      size: 4
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - CH-47F Block I
+      size: 4
+  #Jokkmokk
+  11:
+    - primary: Armed Recon
+      secondary: air-to-ground
+      aircraft:
+        - A-10C Thunderbolt II (Suite 7)
+      size: 8
+    - primary: SEAD Sweep
+      secondary: air-to-ground
+      aircraft:
+        - AV-8B Harrier II Night Attack
+      size: 12
+  #Vidsel
+  17:
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - C-130J-30 Super Hercules
+        - C-130
+      size: 4
+  #Kallax
+  15:
+    - primary: DEAD
+      secondary: any
+      aircraft:
+        - F-16CM Fighting Falcon (Block 50)
+      size: 12
+    - primary: AEW&C
+      aircraft:
+        - E-3A
+      size: 1
+  #Opfor Carrier
+  Red-CV:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - SU-33 Flanker-D
+      size: 12
+  #Banak
+  1:
+    - primary: SEAD Escort
+      secondary: any
+      aircraft:
+        - JF-17 Thunder
+      size: 12
+#Ivalo
+  18:
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - Mi-24P Hind-F
+      size: 4
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - "[CH] Mi-28N AH"
+        - Mi-28N Havoc
+      size: 4
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - "[CH] Ka-52"
+        - Ka-50 Hokum III
+      size: 4
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - Mi-26
+      size: 2
+  #Kittila
+  22:
+    - primary: SEAD Sweep
+      secondary: air-to-ground
+      aircraft:
+        - Su-25 Frogfoot
+      size: 8
+  #Rovaniemi
+  2:
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - Su-27 Flanker-B
+      size: 12
+  #Severomorsk-1
+  8:
+    - primary: Anti-ship
+      secondary: any
+      aircraft:
+        - "[CH] Tu-160M2"
+        - Tu-160 Blackjack
+      size: 4
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - Su-24M Fencer-D
+      size: 12
+  #Severomorsk-3
+  6:
+    - primary: Refueling
+      aircraft:
+        - IL-78M
+      size: 2
+    - primary: Escort
+      secondary: air-to-air
+      aircraft:
+        - MiG-29S Fulcrum-C
+      size: 12
+  #Olenya
+  9:
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - "[CH] Tu-95MSM"
+        - Tu-95MS Bear-H
+      size: 12
+    - primary: OCA/Runway
+      secondary: any
+      aircraft:
+        - Tu-22M3 Backfire-C
+      size: 12
+    - primary: DEAD
+      secondary: any
+      aircraft:
+        - Tu-16 Badger
+      size: 12
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - IL-76MD
+      size: 2
+  #Monchegorsk
+  10:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Su-34 Fullback
+      size: 12
+    - primary: AEW&C
+      aircraft:
+        - KJ-2000
+      size: 2
