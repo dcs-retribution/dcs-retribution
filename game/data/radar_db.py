@@ -154,6 +154,8 @@ UNITS_WITH_RADAR = {
     rmap.CH_S350_50N6,
     rmap.CH_BukM3_9S18M13,
     rmap.CH_BukM3_9S36M,
+    rmap.CH_BukM3_9A317M,
+    rmap.CH_BukM3_9A317MA,
     # Ships
     ALBATROS,
     CVN_71,

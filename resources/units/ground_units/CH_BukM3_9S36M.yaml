@@ -1,4 +1,5 @@
 class: TrackRadar
+reversed_heading: true
 description: "The 9K317M 'Buk-M3' (9K37M3) is the latest production version, based on new hardware.
   It has 36 target channels and features advanced electronic components. Specifications include a maximum 
   target speed of 3,000 m/s (11,000 km/h; 6,700 mph; Mach 8.8), an altitude range of 0.015-35 km (49-114,829 ft) 
