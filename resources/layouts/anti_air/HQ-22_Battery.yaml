@@ -2,47 +2,55 @@ name: HQ-22 Battery
 tasks:
   - LORAD
 groups:
-  - Patriot:
-    - name: Patriot Battery 0
-      unit_count:
-        - 2
-      unit_types:
-        - CH_HQ22_SR
-    - name: Patriot Battery 1
+  - S-300:
+    - name: S-300 Site SR1
       unit_count:
         - 1
       unit_types:
-        - CH_HQ22_LN
-    - name: Patriot Battery 2
+        - CH_HQ22_SR
+    - name: S-300 Site SR2
+      unit_count:
+        - 1
+      unit_types:
+        - CH_HQ22_SR
+    - name: S-300 Site CP
+      unit_count:
+        - 1
+      unit_types:
+        - CH_SX2190
+    - name: S-300 Site TR
       unit_count:
         - 1
       unit_types:
         - CH_HQ22_STR
-    - name: Patriot Battery 3
+    - name: S-300 Site LN1
       unit_count:
-        - 1
+        - 3
       unit_types:
         - CH_HQ22_LN
-    - name: Patriot Battery 4
-      unit_count:
-        - 1
-      unit_types:
-        - CH_HQ22_LN
-    - name: Patriot Battery 5
+    - name: S-300 Site LN2
       unit_count:
         - 3
       unit_types:
         - CH_HQ22_LN
   - PD:
-    - name: Patriot Battery 7
+    - name: S-300 Site SHORAD1
       optional: true
       sub_task: PointDefense
       unit_count:
-        - 1
+        - 0
         - 2
       unit_classes:
         - SHORAD
-    - name: Patriot Battery 6
+    - name: S-300 Site SHORAD2
+      optional: true
+      sub_task: PointDefense
+      unit_count:
+        - 0
+        - 1
+      unit_types:
+        - HQ17A
+    - name: S-300 Site AAA
       sub_task: AAA
       optional: true
       unit_count:
@@ -50,4 +58,4 @@ groups:
         - 2
       unit_classes:
         - AAA
-layout_file: resources/layouts/anti_air/Patriot_Battery.miz
+layout_file: resources/layouts/anti_air/S-300_Site.miz

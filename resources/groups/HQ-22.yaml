@@ -5,5 +5,6 @@ units:
   - "[CH] HQ-22 JSG-100 SR"
   - "[CH] HQ-22 H-200 STR"
   - "[CH] HQ-22 LN"
+  - "[CH] SX2190 Truck"
 layouts:
   - HQ-22 Battery
