@@ -21,6 +21,7 @@ version: "10.7"
 settings:
   russianmilitaryassetspack: true
   chinesemilitaryassetspack: true
+  usamilitaryassetspack: true
   swedishmilitaryassetspack: true
   f22_raptor: true
   hercules: true
@@ -62,6 +63,7 @@ squadrons:
     - primary: Strike
       secondary: air-to-ground
       aircraft:
+        - B-21
         - B-1B Lancer
       size: 4
   #Andoya
