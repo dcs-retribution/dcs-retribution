@@ -2,7 +2,7 @@
   "country": "Combined Joint Task Forces Blue",
   "name": "Blufor Current",
   "authors": "Starfire",
-  "description": "<p>Combined Blufor in the 2020s intended for use with CurrentHill's Blufor asset packs (currently just Sweden).</p>",
+  "description": "<p>Combined Blufor in the 2020s intended for use with CurrentHill's USA and Sweden asset packs.</p>",
   "aircrafts": [
     "A-10C Thunderbolt II (Suite 7)",
     "A-10C Thunderbolt II (Suite 3)",
@@ -36,7 +36,8 @@
     "SA 342M Gazelle",
     "UH-1H Iroquois",
     "UH-60A",
-    "UH-60L"
+    "UH-60L",
+    "B-21"
   ],
   "awacs": [
     "E-2D Advanced Hawkeye",
@@ -69,16 +70,38 @@
     "Leopard 2A4",
     "Leopard 2A5",
     "BV 410",
-    "BV 410 RBS 90"
+    "BV 410 RBS 90",
+    "[CH] LAV-AD SPAAGM",
+    "[CH] M10 LT",
+    "[CH] M1A2 SEPv3 MBT",
+    "[CH] M2A3 IFV",
+    "[CH] M551 LT",
+    "[CH] Oshkosh L-ATV (M2)",
+    "[CH] Oshkosh L-ATV (Mk19)",
+    "[CH] Oshkosh M-ATV MRAP (M2)",
+    "[CH] Oshkosh M-ATV MRAP (Mk19)"
   ],
   "artillery_units": [
     "M109A6 Paladin",
     "M270 Multiple Launch Rocket System",
     "Grkpbv 90 SPM",
-    "Artillerisystem 08 SPG"
+    "Artillerisystem 08 SPG",
+    "[CH] M270A1 MLRS (GMLRS)",
+    "[CH] M777 LTH M795",
+    "[CH] M777 LTH M982 Excalibur",
+    "[CH] M777 LTH M982 Excalibur (MTVR)",
+    "[CH] M777 LTH M795 (MTVR)",
+    "[CH] M270A1 MLRS (GLSDB)",
+    "[CH] M142 HIMARS (GLSDB)",
+    "[CH] M142 HIMARS (AGMLRS)"
   ],
   "logistics_units": [
-    "Truck M818 6x6"
+    "Truck M818 6x6",
+    "[CH] Oshkosh FMTV M1083",
+    "[CH] Oshkosh HEMTT M977",
+    "[CH] Oshkosh HEMTT M983",
+    "[CH] Oshkosh MTVR MK23"
+
   ],
   "infantry_units": [
     "Infantry M249",
@@ -93,7 +116,18 @@
     "Soldier Pskott 86",
     "Soldier RBS 57 ATGM",
     "Soldier RBS 58 ATGM",
-    "RBS 90 EldE 90 Stationary SAM LN"
+    "RBS 90 EldE 90 Stationary SAM LN",
+    "[CH] FGM-148 ATGM Soldier",
+    "[CH] FIM-92K Stinger Soldier",
+    "[CH] M120 120 mm Mortar",
+    "[CH] M136 AT Soldier",
+    "[CH] M2 HMG Soldier",
+    "[CH] M240 GPMG Soldier",
+    "[CH] M249 LMG Soldier",
+    "[CH] M4 AR Soldier",
+    "[CH] M4/M203 AR/GL Soldier",
+    "[CH] M82 AMR Soldier",
+    "[CH] Mk19 AGL Soldier"
   ],
   "preset_groups": [
     "Hawk",
@@ -106,7 +140,11 @@
     "LvS-103 Rb103A",
     "LvS-103 Rb103B",
     "LvS-103 Rb103A Mobile",
-    "LvS-103 Rb103B Mobile"
+    "LvS-103 Rb103B Mobile",
+    "MIM-104 Patriot (Mobile)",
+    "MIM-104 Patriot (Stationary)",
+    "NASAMS 3",
+    "THAAD"
   ],
   "naval_units": [
     "DDG Arleigh Burke IIa",
@@ -120,9 +158,19 @@
     "F100 Álvaro de Bazán",
     "F105 Cristobal Colon",
     "HSwMS Visby Corvette",
-    "Strb 90 FAC"
+    "Strb 90 FAC",
+    "[CH] Arleigh Burke Flight IIA Destroyer",
+    "[CH] Arleigh Burke Flight III Destroyer",
+    "[CH] Constellation Frigate",
+    "[CH] Ticonderoga Cruiser",
+    "[CH] Ticonderoga CMP Cruiser"
   ],
-  "missiles": [],
+  "missiles": [
+    "[CH] M270A1 MLRS (ATACMS)",
+    "[CH] M142 HIMARS (ATACMS)",
+    "[CH] M142 HIMARS (PrSM)",
+    "[CH] M142 HIMARS (PrSM AShM)"
+  ],
   "air_defense_units": [
     "EWR AN/FPS-117 Radar",
     "Flakpanzer Gepard",
@@ -130,9 +178,12 @@
     "HEMTT C-RAM Phalanx",
     "M1097 Heavy HMMWV Avenger",
     "SAM Hawk SR (AN/MPQ-50)",
-    "SAM UndE 23 (RBS 70/90/98) STR"
+    "SAM UndE 23 (RBS 70/90/98) STR",
+    "[CH] Centurion C-RAM",
+    "[CH] LAV-AD SPAAGM"
   ],
   "requirements": {
+    "CurrentHill USA Asset Pack": "https://www.currenthill.com/usa",
     "CurrentHill Sweden Asset Pack": "https://www.currenthill.com/sweden"
   },
   "carrier_names": [
