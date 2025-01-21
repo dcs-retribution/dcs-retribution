@@ -164,6 +164,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("chinesemilitaryassetspack", self.chinesemilitaryassetspack)
         self.russianmilitaryassetspack = QtWidgets.QCheckBox()
         self.registerField("russianmilitaryassetspack", self.russianmilitaryassetspack)
+        self.usamilitaryassetspack = QtWidgets.QCheckBox()
+        self.registerField("usamilitaryassetspack", self.usamilitaryassetspack)
 
         modHelpText = QtWidgets.QLabel(
             "<p>Select the mods you have installed. If your chosen factions support them, you'll be able to use these mods in your campaign.</p>"
@@ -190,6 +192,10 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             (
                 "CurrentHill Swedish Military Assets pack (1.10)",
                 self.swedishmilitaryassetspack,
+            ),
+            (
+                "CurrentHill USA Military Assets pack (1.1.5)",
+                self.usamilitaryassetspack,
             ),
             ("EA-6B Prowler (v2.9.4.102)", self.ea6b_prowler),
             ("F-100 Super Sabre (v2.7.18.30765 patch 20.10.22)", self.f100_supersabre),
@@ -295,3 +301,4 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.russianmilitaryassetspack.setChecked(
             s.get("russianmilitaryassetspack", False)
         )
+        self.usamilitaryassetspack.setChecked(s.get("usamilitaryassetspack", False))

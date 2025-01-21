@@ -1,0 +1,14 @@
+name: MIM-104 Patriot (Stationary)
+tasks:
+  - LORAD
+units:
+  - "[CH] MIM-104 AN/MPQ-65 STR (stationary)"
+  - "[CH] MIM-104 AN/MPQ-65A STR (stationary)"
+  - "[CH] MIM-104 LTAMDS STR (stationary)"
+  - "[CH] MIM-104 ECS (HEMTT)"
+  - "[CH] MIM-104 EPP (HEMTT)"
+  - "[CH] MIM-104 M903 PAC-2 GEM/T LN (stationary)"
+  - "[CH] MIM-104 M903 PAC-3 MSE LN (stationary)"
+  - "[CH] Oshkosh HEMTT M977"
+layouts:
+  - MIM-104 Patriot Battery

@@ -103,6 +103,7 @@ class ModSettings:
     vietnamwarvessels: bool = False
     chinesemilitaryassetspack: bool = False
     russianmilitaryassetspack: bool = False
+    usamilitaryassetspack: bool = False
 
 
 class GameGenerator:

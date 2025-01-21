@@ -227,6 +227,7 @@ def load_aircraft_icons():
     AIRCRAFT_ICONS["CH_Mi28N"] = AIRCRAFT_ICONS["CH_Mi"]
     AIRCRAFT_ICONS["CH_Tu-95MSM"] = AIRCRAFT_ICONS["CH_Tu-95"]
     AIRCRAFT_ICONS["CH_Tu-160M2"] = AIRCRAFT_ICONS["CH_Tu-16"]
+    AIRCRAFT_ICONS["B-21"] = AIRCRAFT_ICONS["B"]
 
 
 def load_vehicle_icons():

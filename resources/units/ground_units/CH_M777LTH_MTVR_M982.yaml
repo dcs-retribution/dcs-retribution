@@ -1,0 +1,11 @@
+class: Artillery
+description: The M777 is a state-of-the-art artillery system designed for rapid deployment and
+  precision fire support. The M777 succeedes the M198 howitzer by being 40% lighter. It's able to
+  fire both unguided and guided munitions. It can be towed by an MTVR or deployed stationary.
+introduced: 2005
+manufacturer: BAE Systems
+origin: United States/United Kingdom
+price: 16
+role: Lightweight Towed Howitzer
+variants:
+  "[CH] M777 LTH M982 Excalibur (MTVR)": {}

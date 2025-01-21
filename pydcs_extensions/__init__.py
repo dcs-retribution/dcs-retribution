@@ -37,6 +37,7 @@ from .uh60l import *
 from .vietnamwarvessels import *
 from .chinesemilitaryassetspack import *
 from .russianmilitaryassetspack import *
+from .usamilitaryassetspack import *
 
 
 def load_mods() -> None:

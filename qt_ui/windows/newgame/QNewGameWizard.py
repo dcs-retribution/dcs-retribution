@@ -126,6 +126,7 @@ class NewGameWizard(QtWidgets.QWizard):
             vietnamwarvessels=self.field("vietnamwarvessels"),
             chinesemilitaryassetspack=self.field("chinesemilitaryassetspack"),
             russianmilitaryassetspack=self.field("russianmilitaryassetspack"),
+            usamilitaryassetspack=self.field("usamilitaryassetspack"),
         )
 
         blue_faction = self.faction_selection_page.selected_blue_faction

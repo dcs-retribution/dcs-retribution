@@ -1,0 +1,11 @@
+class: ATGM
+description: The M551 Sheridan was developed as a high movile air-droppable armored vehicle
+  designed for reconnaissance and light combat. Equipped with a 152mm M81 gun/launcher
+  the M551 can fire both conventional ammunition and the MGM-51C GLATGM.
+introduced: 1969
+manufacturer: FMC Corporation
+origin: United States
+price: 13
+role: Tank Destroyer
+variants:
+  "[CH] M551 LT": {}

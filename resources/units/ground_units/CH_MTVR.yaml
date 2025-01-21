@@ -1,0 +1,12 @@
+class: Logistics
+description: The FMTV (Family of Medium Tactical Vehicles) Truck is a versatile vehicle
+  designed for cargo transport and troop movement. The 6x6 configuration and advances suspension
+  offers good mobility in challenging terrains. The truck can be loaded with up to 2.5 tons
+  and outfitted with an armored cab for crew protection.
+introduced: 1996
+manufacturer: Oshkosh Defence (Stewart and Stevenson)
+origin: United States
+price: 3
+role: Tactical Transport Vehicle
+variants:
+  "[CH] Oshkosh MTVR MK23": {}
