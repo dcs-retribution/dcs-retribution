@@ -2,7 +2,7 @@
 name: Sinai - Red Sea Rising
 theater: Sinai
 authors: Starfire
-recommended_player_faction: Bluefor Modern
+recommended_player_faction: Blufor Current
 recommended_enemy_faction: Redfor (China) 2020
 description:
     <p><strong>This is a sequel to the Afghanistan campaign - Graveyard of Empires. This campaign 
@@ -26,6 +26,7 @@ performance: 1
 recommended_start_date: 2003-01-11
 version: "10.7"
 settings:
+  usamilitaryassetspack: true
   chinesemilitaryassetspack: true
   hercules: true
   squadron_start_full: true
@@ -76,7 +77,13 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - A-10C Thunderbolt II (Suite 7)
-      size: 8    
+      size: 8
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - B-21
+        - F-117A Nighthawk
+      size: 12
   #Tel Nof
   23:
     - primary: Escort

@@ -2,7 +2,7 @@
 name: Afghanistan - Graveyard of Empires
 theater: Afghanistan
 authors: Starfire
-recommended_player_faction: Bluefor Modern
+recommended_player_faction: Blufor Current
 recommended_enemy_faction: Redfor (Russia) 2020
 description:
   <p><strong>This campaign is intended to be run with CurrentHill's Russia Asset 
@@ -32,22 +32,19 @@ performance: 1
 recommended_start_date: 2002-01-27
 version: "10.7"
 settings:
+  usamilitaryassetspack: true
   russianmilitaryassetspack: true
   hercules: true
   squadron_start_full: true
 squadrons:
   #Kandahar
   7:
-    - primary: OCA/Runway
-      secondary: air-to-ground
-      aircraft:
-        - B-1B Lancer
-      size: 4
     - primary: Strike
       secondary: air-to-ground
       aircraft:
-        - B-52H Stratofortress
-      size: 4
+        - B-21
+        - B-1B Lancer
+      size: 8
     - primary: Transport
       secondary: any
       aircraft:
