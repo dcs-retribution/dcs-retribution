@@ -384,7 +384,7 @@ class PretenseTriggerGenerator:
                     tgo.position,
                     radius=TRIGGER_RADIUS_PRETENSE_TGO,
                     hidden=False,
-                    name=f"{cp_name_trimmed}-{tgo_num}",
+                    name=f"{cp_name}-{tgo_num}",
                     color=zone_color,
                 )
             for helipad in cp.helipads + cp.helipads_invisible + cp.helipads_quad:
@@ -393,7 +393,7 @@ class PretenseTriggerGenerator:
                     position=helipad,
                     radius=TRIGGER_RADIUS_PRETENSE_HELI,
                     hidden=False,
-                    name=f"{cp_name_trimmed}-hsp",
+                    name=f"{cp_name}-hsp",
                     color=zone_color,
                 )
                 break
@@ -410,7 +410,7 @@ class PretenseTriggerGenerator:
                     supply_position,
                     radius=TRIGGER_RADIUS_PRETENSE_TGO,
                     hidden=False,
-                    name=f"{cp_name_trimmed}-sp",
+                    name=f"{cp_name}-sp",
                     color=zone_color,
                 )
                 break
