@@ -616,6 +616,10 @@ class Faction:
             self.remove_preset("LvS-103 Rb103A Mobile")
             self.remove_preset("LvS-103 Rb103B")
             self.remove_preset("LvS-103 Rb103B Mobile")
+            self.remove_preset("RBS-15")
+            self.remove_preset("RBS-70")
+            self.remove_preset("RBS-90")
+            self.remove_preset("RBS-98")
         if not mod_settings.coldwarassets:
             self.remove_aircraft("B_47")
             self.remove_aircraft("Tu-4K")
@@ -754,9 +758,9 @@ class Faction:
             self.remove_aircraft("CH_Mi28N")
             self.remove_aircraft("CH_Ka52")
             self.remove_aircraft("CH_Ka52K")
-            self.remove_preset("BAL_LBASM")
-            self.remove_preset("BUK_M3")
-            self.remove_preset("Bastion-P_LBASM")
+            self.remove_preset("BAL LBASM")
+            self.remove_preset("BUK M3")
+            self.remove_preset("Bastion-P LBASM")
             self.remove_preset("S-350")
         if not mod_settings.usamilitaryassetspack:
             self.remove_vehicle("M142_HIMARS_GLSDB")
@@ -821,9 +825,9 @@ class Faction:
             self.remove_ship("CH_Ticonderoga")
             self.remove_ship("CH_Ticonderoga_CMP")
             self.remove_aircraft("B-21")
-            self.remove_preset("MIM-104_Patriot_Mobile")
-            self.remove_preset("MIM-104_Patriot_Stationary")
-            self.remove_preset("NASAMS3")
+            self.remove_preset("MIM-104 Patriot (Mobile)")
+            self.remove_preset("MIM-104 Patriot (Stationary)")
+            self.remove_preset("NASAMS 3")
             self.remove_preset("THAAD")
 
     def remove_aircraft(self, name: str) -> None:
