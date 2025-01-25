@@ -10,5 +10,4 @@ origin: Sweden
 price: 25
 role: Self-Propelled Gun
 variants:
-  Artillerisystem 08 SPG: {}
-  Haubits 77 AD SPG: {}
+  "[CH] Archer SPG SGR77B": {}

@@ -9,6 +9,8 @@ groups:
       unit_types:
         - LvS-103_PM103
     - name: Patriot Battery 1
+      optional: true # Allow groups without SHORAD
+      fill: false # Do not fill with faction possible units
       unit_count:
         - 1
       unit_classes:
@@ -19,6 +21,8 @@ groups:
       unit_types:
         - LvS-103_StriE103
     - name: Patriot Battery 3
+      optional: true # Allow groups without SHORAD
+      fill: false # Do not fill with faction possible units
       unit_count:
         - 1
       unit_classes:

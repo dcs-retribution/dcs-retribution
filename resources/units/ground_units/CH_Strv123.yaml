@@ -1,0 +1,13 @@
+class: Tank
+description: "Stridsvagn 122 is a Swedish main battle tank that, like the German Leopard 2A5, 
+  is based on the German Leopard 2 Improved variant utilizing such newer technology as command, 
+  control, and fire-control systems, reinforced armour, and long-term combat capacity. 
+  Externally, the vehicle is distinguished from the Leopard 2A5 by the French GALIX smoke 
+  dispensers, different storage bins, and the thicker crew hatches."
+introduced: 2025
+manufacturer: Krauss-Maffei Wegmann
+origin: Sweden
+price: 25
+role: Main Battle Tank
+variants:
+  "[CH] Strv 123 MBT": {}

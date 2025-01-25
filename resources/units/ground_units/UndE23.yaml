@@ -1,7 +1,8 @@
 class: SearchRadar
 price: 22
 variants:
-  SAM UndE 23 (RBS 70/90/98) STR: null
+  "SAM UndE 23 (RBS 70/90/98) STR"
+  "[CH] UndE 23 (RBS 70/90/98) STR": null
 skynet_properties: # Override skynet default properties
   can_engage_harm: true
   # can_engage_air_weapon: true # https://github.com/walder/Skynet-IADS/tree/develop#engage-air-weapons
