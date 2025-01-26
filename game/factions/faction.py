@@ -620,6 +620,10 @@ class Faction:
             self.remove_preset("LvS-103 Rb103A Mobile")
             self.remove_preset("LvS-103 Rb103B")
             self.remove_preset("LvS-103 Rb103B Mobile")
+            self.remove_preset("RBS-15")
+            self.remove_preset("RBS-70")
+            self.remove_preset("RBS-90")
+            self.remove_preset("RBS-98")
         if not mod_settings.coldwarassets:
             self.remove_aircraft("B_47")
             self.remove_aircraft("Tu-4K")
