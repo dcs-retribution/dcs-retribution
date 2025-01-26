@@ -2,4 +2,6 @@ class: Infantry
 price: 0
 spawn_weight: 1
 variants:
+  Soldier RBS 57 ATGM: null
+  Soldier NLAW ATGM: null
   "[CH] RBS 57 ATGM Soldier": null

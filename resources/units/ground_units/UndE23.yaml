@@ -1,7 +1,11 @@
 class: SearchRadar
 price: 22
 variants:
+<<<<<<< HEAD
   "SAM UndE 23 (RBS 70/90/98) STR"
+=======
+  SAM UndE 23 (RBS 70/90/98) STR: null
+>>>>>>> 449b38d7 (re add old variant names for save compat)
   "[CH] UndE 23 (RBS 70/90/98) STR": null
 skynet_properties: # Override skynet default properties
   can_engage_harm: true

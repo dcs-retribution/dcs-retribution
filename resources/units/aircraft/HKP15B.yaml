@@ -9,7 +9,7 @@ origin: Italy
 role: Transport
 price: 5
 variants:
-  HKP15B: null
+  "[CH] HKP15B": null
 tasks:
   Air Assault: 50
   Transport: 90

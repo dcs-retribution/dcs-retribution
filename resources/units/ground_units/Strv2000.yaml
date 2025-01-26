@@ -9,4 +9,5 @@ origin: Sweden
 price: 22
 role: Main Battle Tank
 variants:
+  Strv 2000 T140/40 MBT: {}
   "[CH] Strv 2000 T140/40 MBT": {}

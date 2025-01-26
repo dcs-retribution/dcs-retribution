@@ -2,4 +2,5 @@ class: Recon
 price: 4
 role: Recon
 variants:
+  Volvo 740 with KSP 58 7.62mm: {}
   "[CH] Volvo 740 Improvised fighting vehicle": {}

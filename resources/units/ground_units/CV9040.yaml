@@ -8,4 +8,6 @@ origin: Sweden
 price: 10
 role: Infantry Fighting Vehicle
 variants:
+  Strf 9040 IFV: {}
+  CV9040 IFV: {}
   "[CH] Strf 9040B IFV": {}

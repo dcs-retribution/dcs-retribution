@@ -9,7 +9,7 @@ origin: Sweden
 price: 21
 role: Fighter
 variants:
-  "CH_JAS39C": {}
+  "[CH] JAS 39C Gripen": {}
 tasks:
   BAI: 750
   DEAD: 750

@@ -13,4 +13,5 @@ origin: Sweden
 price: 18
 role: Main Battle Tank
 variants:
+  Strv 103 MBT: {}
   "[CH] Strv 103 MBT": {}

@@ -1,6 +1,7 @@
 class: SearchRadar
 price: 22
 variants:
+  SAM LvS-103 PM 103 Stationary STR: null
   "[CH] LvS-103 PM 103 STR": null
 skynet_properties: # Override skynet default properties
   can_engage_harm: true

@@ -63,6 +63,9 @@ from game.unitmap import UnitMap
 from game.utils import Heading
 from pydcs_extensions import (
     Char_M551_Sheridan,
+    CH_BVS10,
+    RBS_70,
+    RBS_90,
     VAB__50,
     VAB_T20_13,
 )

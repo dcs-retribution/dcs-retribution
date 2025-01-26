@@ -11,4 +11,5 @@ origin: Sweden
 price: 17
 role: Surface-to-Air Missile Launcher
 variants:
+  RBS 90 EldE 90 Stationary SAM LN: {}
   "[CH] RBS 90 VSHORAD LN": {}

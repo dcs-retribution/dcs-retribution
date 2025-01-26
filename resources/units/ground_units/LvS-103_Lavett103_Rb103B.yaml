@@ -8,4 +8,5 @@ description: Medium range air defense launcher.
   StriE 103 ECS and Elverk 103 EPP.
 price: 8
 variants:
+  SAM LvS-103 Lavett 103 Rb103B Stationary LN: null
   "[CH] LvS-103 Lavett 103 Rb103B LN": null
