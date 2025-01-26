@@ -2,57 +2,48 @@ name: S-350 Site
 tasks:
   - MERAD
 groups:
-  - S-300:
-    - name: S-300 Site SR1
+  - SAM:
+    - name: Search Radar
       unit_count:
         - 1
       unit_types:
         - CH_S350_96L6
-    - name: S-300 Site SR2
+    - name: Track Radar
       unit_count:
         - 1
       unit_types:
         - CH_S350_50N6
-    - name: S-300 Site CP
+    - name: Command Post
       unit_count:
         - 1
       unit_types:
         - CH_S350_50K6
-    - name: S-300 Site TR
-      unit_count:
-        - 1
-      unit_types:
-        - CH_S350_50N6
-    - name: S-300 Site LN1
-      unit_count:
-        - 3
-      unit_types:
-        - CH_S350_50P6_9M100
-    - name: S-300 Site LN2
+    - name: Launcher
       unit_count:
         - 3
       unit_types:
         - CH_S350_50P6_9M96D
-  - PD:
-    - name: S-300 Site SHORAD1
+    - name: Logistics
       optional: true
-      sub_task: PointDefense
       unit_count:
-        - 0
+        - 1
+        - 2
       unit_classes:
-        - SHORAD
-    - name: S-300 Site SHORAD2
-      optional: true
+        - Logistics
+  - PD: # Point Defense as separate group
+    - name: PD
       sub_task: PointDefense
+      optional: true
       unit_count:
-        - 0
+        - 1
       unit_types:
-        - Tor 9A331
-    - name: S-300 Site AAA
+        - CH_S350_50P6_9M100
+    - name: AAA
       sub_task: AAA
       optional: true
       unit_count:
         - 1
+        - 2
       unit_classes:
         - AAA
-layout_file: resources/layouts/anti_air/S-300_Site.miz
+layout_file: resources/layouts/anti_air/8_Launcher_Circle.miz
