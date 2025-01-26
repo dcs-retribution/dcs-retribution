@@ -11,7 +11,7 @@ price: 45
 role: Strategic Bomber
 max_range: 1000
 variants:
-  "B-21": {}
+  "[CH] B-21": {}
 tasks:
   Anti-ship: 100
   BAI: 370
