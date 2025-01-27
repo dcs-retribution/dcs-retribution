@@ -12,4 +12,5 @@ price: 17
 role: Surface-to-Air Missile Launcher
 variants:
   RBS 90 EldE 90 Stationary SAM LN: {}
+  BV 410 RBS 90: {}
   "[CH] RBS 90 VSHORAD LN": {}

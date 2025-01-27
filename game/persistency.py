@@ -10,7 +10,14 @@ import dcs.terrain.falklands.airports
 
 import pydcs_extensions
 from game.profiling import logged_duration
-from pydcs_extensions import ELM2084_MMR_AD_RT, Iron_Dome_David_Sling_CP
+from pydcs_extensions import (
+    ELM2084_MMR_AD_RT,
+    Iron_Dome_David_Sling_CP,
+    RBS_70,
+    RBS_90,
+    CH_BVS10,
+    Artillerisystem08_M982,
+)
 
 if TYPE_CHECKING:
     from game import Game
@@ -74,6 +81,15 @@ class MigrationUnpickler(pickle.Unpickler):
                 return ELM2084_MMR_AD_RT
             elif name == "IRON_DOME_CP":
                 return Iron_Dome_David_Sling_CP
+        if module == "pydcs_extensions.swedishmilitaryassetspack.swedishmilitaryassetspack":
+            if name == "BV410_RBS90":
+                return RBS_90
+            elif name == "BV410":
+                return CH_BVS10
+            elif name == "Artillerisystem08":
+                return Artillerisystem08_M982
+            elif name == "BV410_RBS70":
+                return RBS_70
         if module == "dcs.terrain.kola.airports":
             if name == "Lakselv":
                 from dcs.terrain.kola.airports import Banak
