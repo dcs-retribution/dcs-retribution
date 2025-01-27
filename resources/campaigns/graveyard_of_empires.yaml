@@ -42,7 +42,7 @@ squadrons:
     - primary: Strike
       secondary: air-to-ground
       aircraft:
-        - B-21
+        - "[CH] B-21"
         - B-1B Lancer
       size: 8
     - primary: Transport
@@ -115,7 +115,7 @@ squadrons:
       aircraft:
         - AH-64D Apache Longbow
       size: 4
-    - primary: CAS
+    - primary: Escort
       secondary: any
       aircraft:
         - OH-58D(R) Kiowa Warrior
@@ -132,7 +132,7 @@ squadrons:
       aircraft:
         - Su-27 Flanker-B
       size: 12
-    - primary: SEAD
+    - primary: Strike
       secondary: air-to-ground
       aircraft:
         - Su-24M Fencer-D

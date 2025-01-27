@@ -31,6 +31,7 @@ settings:
   hercules: true
   squadron_start_full: true
 squadrons:
+  #Ownfor Carrier
   Blue CV-1:
     - primary: SEAD
       secondary: any
@@ -51,7 +52,7 @@ squadrons:
       aircraft:
         - AV-8B Harrier II Night Attack
       size: 16
-    - primary: CAS
+    - primary: Escort
       secondary: any
       aircraft:
         - OH-58D(R) Kiowa Warrior
@@ -81,9 +82,9 @@ squadrons:
     - primary: Strike
       secondary: air-to-ground
       aircraft:
-        - B-21
+        - "[CH] B-21"
         - F-117A Nighthawk
-      size: 12
+      size: 16
   #Tel Nof
   23:
     - primary: Escort
@@ -101,7 +102,7 @@ squadrons:
       aircraft:
         - F-16CM Fighting Falcon (Block 50)
       size: 12
-    - primary: BAI
+    - primary: CAS
       secondary: any
       aircraft:
         - AH-64D Apache Longbow
@@ -215,6 +216,7 @@ squadrons:
       aircraft:
         - MiG-29S Fulcrum-C
       size: 8
+  #Opfor Carrier
   Red CV-1:
     - primary: BARCAP
       secondary: any

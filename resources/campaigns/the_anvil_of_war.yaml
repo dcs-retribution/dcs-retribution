@@ -33,7 +33,7 @@ squadrons:
       secondary: any
       aircraft:
         - F/A-18C Hornet (Lot 20)
-      size: 32
+      size: 40
     - primary: AEW&C
       aircraft:
         - E-2D Advanced Hawkeye
@@ -63,7 +63,7 @@ squadrons:
     - primary: Strike
       secondary: air-to-ground
       aircraft:
-        - B-21
+        - "[CH] B-21"
         - B-1B Lancer
       size: 4
   #Andoya
@@ -95,7 +95,7 @@ squadrons:
     - primary: BARCAP
       secondary: any
       aircraft:
-        - JAS-39 Gripen
+        - "[CH] JAS 39C Gripen"
         - Mirage 2000C
       size: 12
   #Kalixfors
@@ -105,7 +105,7 @@ squadrons:
       aircraft:
         - AH-64D Apache Longbow
       size: 8
-    - primary: CAS
+    - primary: Escort
       secondary: any
       aircraft:
         - OH-58D(R) Kiowa Warrior
@@ -151,7 +151,7 @@ squadrons:
     - primary: BARCAP
       secondary: any
       aircraft:
-        - SU-33 Flanker-D
+        - Su-33 Flanker-D
       size: 12
   #Banak
   1:
