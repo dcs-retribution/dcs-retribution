@@ -308,6 +308,8 @@ class QTopPanel(QFrame):
                 return
 
         if self.game.settings.fast_forward_to_first_contact:
+            if not self.check_for_contact():
+                return
             with logged_duration("Simulating to first contact"):
                 self.sim_controller.run_to_first_contact()
         self.sim_controller.generate_miz(
@@ -323,3 +325,22 @@ class QTopPanel(QFrame):
     def setControls(self, enabled: bool):
         for controller in self.controls:
             controller.setEnabled(enabled)
+
+    def check_for_contact(self) -> bool:
+        if (
+            len(self.game.blue.ato.packages) == 0
+            and len(self.game.red.ato.packages) == 0
+        ):
+            mbox = QMessageBox(
+                QMessageBox.Icon.Critical,
+                "No flights planned",
+                (
+                    "No flights are planned and fast forward to first contact "
+                    "is enabled. You must either plan flights or disable fast forward."
+                ),
+                parent=self,
+            )
+            mbox.setEscapeButton(mbox.addButton(QMessageBox.StandardButton.Close))
+            mbox.exec_()
+            return False
+        return True
