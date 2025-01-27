@@ -711,6 +711,8 @@ class Faction:
             self.remove_ship("CH_Type056A")
             self.remove_ship("CH_Type054B")
             self.remove_preset("HQ-22")
+            self.remove_preset("DF-21D LBASM")
+            self.remove_preset("YJ-12B LBASM")
         # Russian Military Assets Pack
         if not mod_settings.russianmilitaryassetspack:
             self.remove_vehicle("CH_2S35")

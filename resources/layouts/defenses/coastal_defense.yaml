@@ -1,16 +1,20 @@
-name: Bastion-P LBASM
+name: Coastal Defense
 tasks:
   - Coastal
 groups:
   - Silkworm:
     - name: SilkwormGenerator 0
+      optional: true
+      fill: false
       unit_count:
         - 1
-      unit_types:
-        - MonolitB
+      unit_classes:
+        - SearchRadar
+        - SearchTrackRadar
     - name: SilkwormGenerator 1
       unit_count:
-        - 5
+        - 2
+        - 3
       unit_classes:
         - AntiShipMissile
     - name: SilkwormGenerator 2
