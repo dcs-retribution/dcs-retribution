@@ -104,7 +104,6 @@
   "missiles": [
     "[CH] Iskander-M SRBM",
     "[CH] Iskander-K GLCM",
-    "[CH] DF-21D LBASBM",
     "[CH] CJ-10 GLCM",
     "[CH] YJ-12B LBASM"
   ],
@@ -127,6 +126,7 @@
     "BUK M3",
     "HQ-2",
     "HQ-22",
+    "S-350",
     "Silkworm",
     "Chinese Navy",
     "[CH] Russian Navy"
