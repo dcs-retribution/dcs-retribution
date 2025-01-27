@@ -1,6 +1,6 @@
 name: S-350
 tasks:
-  - MERAD
+  - LORAD
 units:
   - "[CH] S-350 96L6 SR"
   - "[CH] S-350 50N6 STR"
