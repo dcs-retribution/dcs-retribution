@@ -47,6 +47,11 @@
 * **[New Game Wizard]** Ability to save an edited faction during new game creation
 * **[Options]** New option to make AI helicopters prefer vertical takeoff and landing
 * **[Campaign Design/Mission Generation]** Introduction of "rebel zones" which randomly spawn units according to the campaign's definitions.
+* **[Mission Generation]** Missile sites now fire at random times instead of all at the beginning of the mission
+* **[Modding]** Support for CurrentHill's Chinese Asset Pack (v1.1.4)
+* **[Modding]** Updated support for CurrentHill's Swedish Asset Pack (v1.1.0)
+* **[Modding]** Support for CurrentHill's Russian Asset Pack (v1.2.0)
+* **[Modding]** Support for CurrentHill's USA Asset Pack (v1.1.5)
 
 ## Fixes
 * **[UI/UX]** A-10A flights can be edited again

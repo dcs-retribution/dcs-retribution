@@ -503,7 +503,9 @@ class MissileSiteGenerator(GroundObjectGenerator):
                     hold.stop_after_duration(
                         random.randint(
                             60,
-                            self.game.settings.desired_player_mission_duration.total_seconds(),
+                            int(
+                                self.game.settings.desired_player_mission_duration.total_seconds()
+                            ),
                         )
                     )
                     vg.points[0].add_task(hold)
