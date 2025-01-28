@@ -35,6 +35,8 @@ from dcs.task import (
     ActivateICLSCommand,
     ActivateLink4Command,
     ActivateACLSCommand,
+    ControlledTask,
+    Hold,
     EPLRS,
     FireAtPoint,
     OptAlarmState,
@@ -488,7 +490,6 @@ class MissileSiteGenerator(GroundObjectGenerator):
 
         # Note : Only the SCUD missiles group can fire (V1 site cannot fire in game right now)
         # TODO : Should be pre-planned ?
-        # TODO : Add delay to task to spread fire task over mission duration ?
         for group in self.ground_object.groups:
             vg = self.m.find_group(group.group_name)
             if vg is not None:
@@ -498,6 +499,14 @@ class MissileSiteGenerator(GroundObjectGenerator):
                     real_target = target.point_from_heading(
                         Heading.random().degrees, random.randint(0, 2500)
                     )
+                    hold = ControlledTask(Hold())
+                    hold.stop_after_duration(
+                        random.randint(
+                            60,
+                            self.game.settings.desired_player_mission_duration.total_seconds(),
+                        )
+                    )
+                    vg.points[0].add_task(hold)
                     vg.points[0].add_task(FireAtPoint(real_target))
                     logging.info("Set up fire task for missile group.")
                 else:
