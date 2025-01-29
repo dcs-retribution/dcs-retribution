@@ -2,9 +2,10 @@
 name: Iraq - Operation Desert Aladeen
 theater: Iraq
 authors: Starfire
-recommended_player_faction: USA 2005
+recommended_player_faction: USA 2020
 recommended_enemy_faction: Republic of Wadiya 2010
 description:
+  <p><strong>This campaign is intended to be run with CurrentHill's USA Asset Pack installed, though this is not mandatory.</strong></p>
   <p>In the heart of the Middle East, the flamboyant and tyrannical Admiral-General Haffaz Aladeen, 
   supreme leader of Wadiya, has once again defied international norms. Despite mounting global concerns 
   over his nation's nuclear ambitions (rumours of weapons-grade uranium refinement swirl like smoke 
@@ -24,6 +25,8 @@ performance: 1
 recommended_start_date: 2012-05-16
 version: "10.7"
 settings:
+  usamilitaryassetspack: true
+  f22_raptor: true
   hercules: true
   squadron_start_full: true
 squadrons:
@@ -41,25 +44,16 @@ squadrons:
       aircraft:
         - KC-135 Stratotanker MPRS
       size: 1
-    - primary: Anti-ship
-      secondary: air-to-ground
-      aircraft:
-        - B-52H Stratofortress
-      size: 4
     - primary: Strike
       secondary: air-to-ground
       aircraft:
-        - B-1B Lancer
-      size: 4
-    - primary: Transport
-      secondary: any
-      aircraft:
-        - C-130J-30 Super Hercules
-        - C-130
-      size: 4
+        - "[CH] B-21"
+        - F-14B Tomcat
+      size: 12
     - primary: Escort
       secondary: any
       aircraft:
+        - F-22A Raptor
         - F-15C Eagle
       size: 16
     - primary: SEAD
@@ -103,6 +97,12 @@ squadrons:
       secondary: any
       aircraft:
         - OH-58D(R) Kiowa Warrior
+      size: 4
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - C-130J-30 Super Hercules
+        - C-130
       size: 4
   #Kirkuk International Airport
   10:
