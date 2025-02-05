@@ -125,6 +125,7 @@ class MissionGenerator:
 
         namegen.reset_numbers()
         self.generate_warehouses()
+        output.parent.mkdir(parents=True, exist_ok=True)
         self.mission.save(output)
 
         return self.unit_map
