@@ -104,6 +104,7 @@ class ModSettings:
     chinesemilitaryassetspack: bool = False
     russianmilitaryassetspack: bool = False
     usamilitaryassetspack: bool = False
+    ukrainemilitaryassetspack: bool = False
 
 
 class GameGenerator:

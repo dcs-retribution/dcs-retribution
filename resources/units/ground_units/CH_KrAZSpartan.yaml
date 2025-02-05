@@ -1,0 +1,10 @@
+class: IFV
+description: "The STREIT Group Spartan is an Infantry mobility vehicle designed and built by 
+  STREIT Group; it is also license produced by KrAZ (Kremenchuk Automobile Plant) in Kremenchuk, Ukraine."
+introduced: 2014
+manufacturer: STREIT Group
+origin: Ukraine
+price: 10
+role: Infantry Fighting Vehicle
+variants:
+  "[CH] KrAZ Spartan APC": {}
