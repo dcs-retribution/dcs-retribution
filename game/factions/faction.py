@@ -860,6 +860,7 @@ class Faction:
             self.air_defense_units,
             self.artillery_units,
             self.logistics_units,
+            self.missiles,
         ]:
             for i in list(sequence):
                 if i.dcs_unit_type.id == name:
