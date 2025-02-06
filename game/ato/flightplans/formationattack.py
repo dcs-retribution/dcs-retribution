@@ -11,7 +11,7 @@ from dcs import Point
 
 from game.flightplan import HoldZoneGeometry
 from game.theater import MissionTarget
-from game.utils import Speed, meters, nautical_miles
+from game.utils import nautical_miles, Speed, feet
 from .flightplan import FlightPlan
 from .formation import FormationFlightPlan, FormationLayout
 from .ibuilder import IBuilder
@@ -39,8 +39,9 @@ class FormationAttackFlightPlan(FormationFlightPlan, ABC):
         if b.waypoint_type == FlightWaypointType.TARGET_GROUP_LOC:
             # Should be impossible, as any package with at least one
             # FormationFlightPlan flight needs a formation speed.
-            assert self.package.formation_speed is not None
-            return self.package.formation_speed
+            speed = self.package.formation_speed(self.flight.is_helo)
+            assert speed is not None
+            return speed
         return super().speed_between_waypoints(a, b)
 
     @property
@@ -53,7 +54,7 @@ class FormationAttackFlightPlan(FormationFlightPlan, ABC):
             "TARGET AREA",
             FlightWaypointType.TARGET_GROUP_LOC,
             self.package.target.position,
-            meters(0),
+            feet(0),
             "RADIO",
         )
 
@@ -192,6 +193,7 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
         join_pos = self.package.waypoints.join
         if self.flight.is_helo:
             join_pos = self.package.waypoints.ingress
+            join_pos = WaypointBuilder.perturb(join_pos, feet(500))
         join = builder.join(join_pos)
         split = builder.split(self._get_split())
         refuel = self._build_refuel(builder)
@@ -286,6 +288,8 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
             return builder.sead_area(location)
         elif flight.flight_type == FlightType.OCA_AIRCRAFT:
             return builder.oca_strike_area(location)
+        elif flight.flight_type == FlightType.ARMED_RECON:
+            return builder.armed_recon_area(location)
         else:
             return builder.strike_area(location)
 

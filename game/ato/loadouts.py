@@ -166,9 +166,11 @@ class Loadout:
         # last - the first element in the tuple will be tried first, then the second,
         # etc.
         loadout_names = {
-            t: [f"Liberation {t.value}", f"Retribution {t.value}"]
-            if prefer_liberation_payloads()
-            else [f"Retribution {t.value}", f"Liberation {t.value}"]
+            t: (
+                [f"Liberation {t.value}", f"Retribution {t.value}"]
+                if prefer_liberation_payloads()
+                else [f"Retribution {t.value}", f"Liberation {t.value}"]
+            )
             for t in FlightType
         }
         legacy_names = {
@@ -208,6 +210,7 @@ class Loadout:
         loadout_names[FlightType.INTERCEPTION].extend(loadout_names[FlightType.BARCAP])
         # OCA/Aircraft falls back to BAI, which falls back to CAS.
         loadout_names[FlightType.BAI].extend(loadout_names[FlightType.CAS])
+        loadout_names[FlightType.ARMED_RECON].extend(loadout_names[FlightType.CAS])
         loadout_names[FlightType.OCA_AIRCRAFT].extend(loadout_names[FlightType.BAI])
         # DEAD also falls back to BAI.
         loadout_names[FlightType.DEAD].extend(loadout_names[FlightType.BAI])

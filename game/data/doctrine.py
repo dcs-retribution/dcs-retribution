@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from datetime import timedelta
 
 from game.data.units import UnitClass
+from game.settings import Settings
 from game.utils import Distance, feet, nautical_miles, Speed, knots
 
 
@@ -89,6 +90,43 @@ class Doctrine:
     sead_escort_engagement_range: Distance
 
     escort_engagement_range: Distance
+
+    def from_settings(self, settings: Settings) -> "Doctrine":
+        # not sure if we're actually going to need this one,
+        # let it be for the time being, perhaps we'll make doctrines configurable...
+        return Doctrine(
+            name=self.name,
+            cap=self.cap,
+            cas=self.cas,
+            sead=self.sead,
+            strike=self.strike,
+            antiship=self.antiship,
+            hold_distance=self.hold_distance,
+            push_distance=self.push_distance,
+            join_distance=self.join_distance,
+            max_ingress_distance=self.max_ingress_distance,
+            min_ingress_distance=self.min_ingress_distance,
+            min_patrol_altitude=self.min_patrol_altitude,
+            max_patrol_altitude=self.max_patrol_altitude,
+            min_cruise_altitude=self.min_cruise_altitude,
+            max_cruise_altitude=self.max_cruise_altitude,
+            min_combat_altitude=self.min_combat_altitude,
+            max_combat_altitude=self.max_combat_altitude,
+            cap_duration=settings.desired_barcap_mission_duration,
+            cap_min_track_length=self.cap_min_track_length,
+            cap_max_track_length=self.cap_max_track_length,
+            cap_min_distance_from_cp=self.cap_min_distance_from_cp,
+            cap_max_distance_from_cp=self.cap_max_distance_from_cp,
+            cap_engagement_range=self.cap_engagement_range,
+            cas_duration=self.cas_duration,
+            sweep_distance=self.sweep_distance,
+            ground_unit_procurement_ratios=self.ground_unit_procurement_ratios,
+            rtb_speed=self.rtb_speed,
+            sead_escort_spacing=self.sead_escort_spacing,
+            escort_spacing=self.escort_spacing,
+            sead_escort_engagement_range=self.sead_escort_engagement_range,
+            escort_engagement_range=self.escort_engagement_range,
+        )
 
 
 MODERN_DOCTRINE = Doctrine(

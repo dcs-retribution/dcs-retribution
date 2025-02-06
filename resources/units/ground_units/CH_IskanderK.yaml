@@ -1,0 +1,11 @@
+class: Missile
+description: "The 9K720 Iskander (Russian: \xD0\x98\xD1\x81\xD0\xBA\xD0\xB0\xD0\xBD\xD0\xB4\xD0\xB5\xD1\x80; 
+  NATO reporting name SS-26 Stone) is a Russian mobile short-range ballistic missile system. It has a range of 
+  500 kilometres (270 nmi; 310 mi). It was intended to replace the OTR-21 Tochka in the Russian military by 
+  2020."
+introduced: 2006
+manufacturer: Votkinsk Plant State Production Association
+origin: Russia
+price: 0
+variants:
+  "[CH] Iskander-K GLCM": null

@@ -5,13 +5,14 @@ from datetime import timedelta
 from typing import TYPE_CHECKING, Any
 
 from dcs.countries import countries_by_name
+from dcs.terrain import Airport, Terrain
 
 from game.ato import FlightType
 from game.ato.flightplans.formation import FormationLayout
 from game.ato.flightplans.waypointbuilder import WaypointBuilder
 from game.ato.packagewaypoints import PackageWaypoints
 from game.data.doctrine import MODERN_DOCTRINE, COLDWAR_DOCTRINE, WWII_DOCTRINE
-from game.theater import ParkingType, SeasonalConditions
+from game.theater import ParkingType, SeasonalConditions, Airfield
 
 if TYPE_CHECKING:
     from game import Game
@@ -40,6 +41,11 @@ class Migrator:
         self._release_untasked_flights()
         self._update_weather()
         self._update_tgos()
+        self._reload_terrain()
+        self._update_theather()
+
+        # TODO: remove in due time as this is supposedly fixed
+        self.game.settings.nevatim_parking_fix = False
 
     def _update_doctrine(self) -> None:
         doctrines = [
@@ -96,6 +102,7 @@ class Migrator:
             try_set_attr(cp, "ground_spawns_roadbase", [])
             try_set_attr(cp, "helipads_quad", [])
             try_set_attr(cp, "helipads_invisible", [])
+            try_set_attr(cp, "ground_spawns_large", [])
             if (
                 cp.dcs_airport and is_sinai and cp.dcs_airport.id == 20
             ):  # fix for Hatzor
@@ -103,6 +110,8 @@ class Migrator:
                 faulty_beacon = [x for x in beacons if x.id == "airfield20_0"]
                 if faulty_beacon:
                     beacons.remove([x for x in beacons if x.id == "airfield20_0"][0])
+            if isinstance(cp, Airfield) and issubclass(cp.airport.__class__, Airport):
+                cp.airport = cp.airport.__class__(self.game.theater.terrain)  # type: ignore
 
     def _update_flight_plan(self, f: Flight) -> None:
         layout = f.flight_plan.layout
@@ -163,6 +172,7 @@ class Migrator:
                 try_set_attr(s, "max_size", 12)
                 try_set_attr(s, "radio_presets", {})
                 try_set_attr(s, "livery_set", [])
+                try_set_attr(s, "_livery_pool", [])
                 if isinstance(s.country, str):
                     c = country_dict.get(s.country, s.country)
                     s.country = countries_by_name[c]()
@@ -190,8 +200,14 @@ class Migrator:
         for c in self.game.coalitions:
             if isinstance(c.faction.country, str):
                 c.faction.country = countries_by_name[c.faction.country]()
-            if isinstance(c.faction.aircraft, list):
+            if getattr(c.faction, "aircraft", None) and isinstance(
+                c.faction.aircraft, list
+            ):
                 c.faction.aircraft = set(c.faction.aircraft)
+            elif getattr(c.faction, "aircrafts", None) and isinstance(
+                c.faction.aircrafts, list
+            ):
+                c.faction.aircraft = set(c.faction.aircrafts)
             if isinstance(c.faction.awacs, list):
                 c.faction.awacs = set(c.faction.awacs)
             if isinstance(c.faction.tankers, list):
@@ -237,3 +253,12 @@ class Migrator:
         for go in self.game.theater.ground_objects:
             try_set_attr(go, "task", None)
             try_set_attr(go, "hide_on_mfd", False)
+
+    def _reload_terrain(self) -> None:
+        t = self.game.theater.terrain
+        if issubclass(t.__class__, Terrain):
+            self.game.theater.terrain = type(t)()  # type: ignore
+
+    def _update_theather(self) -> None:
+        if not hasattr(self.game.theater, "rebel_zones"):
+            self.game.theater.rebel_zones = []

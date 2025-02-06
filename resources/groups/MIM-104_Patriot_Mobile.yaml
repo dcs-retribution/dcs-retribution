@@ -1,0 +1,14 @@
+name: MIM-104 Patriot (Mobile)
+tasks:
+  - LORAD
+units:
+  - "[CH] MIM-104 AN/MPQ-65 STR (HEMTT)"
+  - "[CH] MIM-104 AN/MPQ-65A STR (HEMTT)"
+  - "[CH] MIM-104 LTAMDS STR (HEMTT)"
+  - "[CH] MIM-104 ECS (HEMTT)"
+  - "[CH] MIM-104 EPP (HEMTT)"
+  - "[CH] MIM-104 M903 PAC-2 GEM/T LN (HEMTT)"
+  - "[CH] MIM-104 M903 PAC-3 MSE LN (HEMTT)"
+  - "[CH] Oshkosh HEMTT M977"
+layouts:
+  - MIM-104 Patriot Battery

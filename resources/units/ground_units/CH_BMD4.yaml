@@ -1,0 +1,15 @@
+class: IFV
+description: "The BMD-4 (Russian: \xD0\x91\xD0\xBE\xD0\xB5\xD0\xB2\xD0\xB0\xD1\x8F\x20\xD0\x9C\xD0\xB0\xD1\x88\xD0\xB8\xD0\xBD\xD0\xB0\x20\xD0\x94\xD0\xB5\xD1\x81\xD0\xB0\xD0\xBD\xD1\x82\xD0\xB0\x2D\x34, 
+  romanized: Boyevaya Mashina Desanta-4, English: Combat Vehicle of the Airborne) is an amphibious infantry 
+  fighting vehicle (IFV) originating from post-Cold War Russia. Originally designated as the BMD-3M, the chassis 
+  of the BMD-4 is the same as that of the BMD-3 because it was developed on the same basis. 
+  This armored fighting vehicle is one of the lightest in its class, possessing a substantial amount of 
+  firepower. The vehicle was designed to transport Russian Airborne Troops (VDV), increasing its mobility, 
+  armament, and protection on the battlefield"
+introduced: 2004
+manufacturer: Kurganmashzavod
+origin: Russia
+price: 12
+role: Infantry Fighting Vehicle
+variants:
+  "[CH] BMD-4 IFV": null

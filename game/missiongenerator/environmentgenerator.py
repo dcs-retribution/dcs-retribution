@@ -12,11 +12,12 @@ from game.weather.wind import WindConditions
 
 class EnvironmentGenerator:
     def __init__(
-        self, mission: Mission, conditions: Conditions, time: datetime
+        self, mission: Mission, conditions: Conditions, time: datetime, auto_fog: bool
     ) -> None:
         self.mission = mission
         self.conditions = conditions
         self.time = time
+        self.auto_fog = auto_fog
 
     def set_atmospheric(self, atmospheric: AtmosphericConditions) -> None:
         self.mission.weather.qnh = atmospheric.qnh.mm_hg
@@ -33,6 +34,7 @@ class EnvironmentGenerator:
         self.mission.weather.clouds_preset = clouds.preset
 
     def set_fog(self, fog: Optional[Fog]) -> None:
+        self.mission.weather.auto_fog = self.auto_fog
         if fog is None:
             return
         self.mission.weather.fog_visibility = int(fog.visibility.meters)

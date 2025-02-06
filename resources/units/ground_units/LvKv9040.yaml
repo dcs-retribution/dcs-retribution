@@ -10,3 +10,4 @@ price: 24
 role: Self-Propelled Anti-Aircraft Gun
 variants:
   Lvkv 9040 SPAAG: {}
+  "[CH] Lvkv 9040B SPAAG": {}

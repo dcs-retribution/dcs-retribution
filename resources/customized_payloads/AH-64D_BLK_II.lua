@@ -120,7 +120,7 @@ local unitPayloads = {
 			["name"] = "Retribution Escort",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{88D18A5E-99C8-4B04-B40B-1C02F2018B6E}",
+					["CLSID"] = "{M299_4xAGM_114L}",
 					["num"] = 3,
 				},
 				[2] = {
@@ -128,7 +128,7 @@ local unitPayloads = {
 					["num"] = 4,
 				},
 				[3] = {
-					["CLSID"] = "{88D18A5E-99C8-4B04-B40B-1C02F2018B6E}",
+					["CLSID"] = "{M299_4xAGM_114L}",
 					["num"] = 2,
 				},
 				[4] = {

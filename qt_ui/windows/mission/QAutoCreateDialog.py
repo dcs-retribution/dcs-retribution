@@ -131,6 +131,20 @@ class QAutoCreateDialog(QDialog):
         )
 
         hbox = QHBoxLayout()
+        self.armed_recon = self._create_checkbox("Armed Recon")
+        self.armed_recon_count = _spinbox_template()
+        hbox.addWidget(self.armed_recon)
+        hbox.addWidget(self.armed_recon_count)
+        self.armed_recon_type = self._create_type_selector(FlightType.ARMED_RECON)
+        hbox.addWidget(self.armed_recon_type)
+        self.layout.addLayout(hbox)
+        self.checkboxes[self.armed_recon] = (
+            FlightType.ARMED_RECON,
+            self.armed_recon_count,
+            self.armed_recon_type,
+        )
+
+        hbox = QHBoxLayout()
         self.refueling = self._create_checkbox("Refueling")
         self.refueling_count = _spinbox_template()
         self.refueling_count.setValue(1)
@@ -143,6 +157,21 @@ class QAutoCreateDialog(QDialog):
             FlightType.REFUELING,
             self.refueling_count,
             self.refueling_type,
+        )
+
+        hbox = QHBoxLayout()
+        self.recovery = self._create_checkbox("Recovery")
+        self.recovery_count = _spinbox_template()
+        self.recovery_count.setValue(1)
+        hbox.addWidget(self.recovery)
+        hbox.addWidget(self.recovery_count)
+        self.recovery_type = self._create_type_selector(FlightType.RECOVERY)
+        hbox.addWidget(self.recovery_type, 1)
+        self.layout.addLayout(hbox)
+        self.checkboxes[self.recovery] = (
+            FlightType.RECOVERY,
+            self.recovery_count,
+            self.recovery_type,
         )
 
         self.create_button = QPushButton("Create")
@@ -161,6 +190,8 @@ class QAutoCreateDialog(QDialog):
             FlightType.ANTISHIP,
             FlightType.BAI,
             FlightType.CAS,
+            FlightType.ARMED_RECON,
+            FlightType.AIR_ASSAULT,
         }
         for mt in self.package.target.mission_types(self.is_ownfor):
             if mt in primary_tasks:

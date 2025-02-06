@@ -1,0 +1,7 @@
+name: YJ-12B LBASBM
+tasks:
+  - Coastal
+units:
+  - "[CH] YJ-12B LBASM"
+layouts:
+  - Coastal Defense

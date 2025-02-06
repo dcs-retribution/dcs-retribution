@@ -19,7 +19,7 @@ if TYPE_CHECKING:
     from game.coalition import Coalition
 
 
-@dataclass(frozen=True)
+@dataclass
 class PackageWaypoints:
     join: Point
     ingress: Point
@@ -38,7 +38,7 @@ class PackageWaypoints:
             dcs_to_shapely_point(origin.position),
             dcs_to_shapely_point(package.target.position),
             coalition.doctrine,
-            coalition.opponent.threat_zone.all,
+            coalition.opponent.threat_zone.air_defenses,
         )
         ip_solver.set_debug_properties(
             waypoint_debug_directory() / "IP", coalition.game.theater.terrain
@@ -51,10 +51,8 @@ class PackageWaypoints:
             ingress_point_shapely.x, ingress_point_shapely.y
         )
 
-        hdg = package.target.position.heading_between_point(ingress_point)
-        # Generate a waypoint randomly between 7 & 9 NM
-        dist = nautical_miles(random.random() * 2 + 7).meters
-        initial_point = package.target.position.point_from_heading(hdg, dist)
+        tgt_point = package.target.position
+        initial_point = PackageWaypoints.get_initial_point(ingress_point, tgt_point)
 
         join_point = JoinZoneGeometry(
             package.target.position,
@@ -79,3 +77,11 @@ class PackageWaypoints:
             WaypointBuilder.perturb(join_point),
             refuel_point,
         )
+
+    @staticmethod
+    def get_initial_point(ingress_point: Point, tgt_point: Point) -> Point:
+        hdg = tgt_point.heading_between_point(ingress_point)
+        # Generate a waypoint randomly between 7 & 9 NM
+        dist = nautical_miles(random.random() * 2 + 7).meters
+        initial_point = tgt_point.point_from_heading(hdg, dist)
+        return initial_point

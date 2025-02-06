@@ -45,7 +45,7 @@ from game.dcs.aircrafttype import AircraftType
 from game.persistency import airwing_dir
 from game.squadrons import AirWing, Pilot, Squadron
 from game.squadrons.squadrondef import SquadronDef
-from game.theater import ControlPoint, ParkingType
+from game.theater import ControlPoint, ParkingType, Airfield
 from qt_ui.uiconstants import AIRCRAFT_ICONS, ICONS
 from qt_ui.widgets.combos.QSquadronLiverySelector import SquadronLiverySelector
 from qt_ui.widgets.combos.primarytaskselector import PrimaryTaskSelector
@@ -127,7 +127,9 @@ class SquadronBaseSelector(QComboBox):
         self.clear()
         if aircraft_type:
             for base in self.bases:
-                if not base.can_operate(aircraft_type):
+                if not base.can_operate(aircraft_type) and not isinstance(
+                    base, Airfield
+                ):
                     continue
                 self.addItem(base.name, base)
             self.model().sort(0)
@@ -437,7 +439,6 @@ class SquadronConfigurationBox(QGroupBox):
         if base is None:
             raise RuntimeError("Base cannot be none")
         self.squadron.assign_to_base(base)
-        self.squadron.livery = self.livery_selector.currentData()
         self.return_players_to_squadron()
 
         # Also update the auto assignable mission types
@@ -816,14 +817,25 @@ class AirWingConfigurationDialog(QDialog):
         layout.addLayout(buttons_layout)
 
     def save_config(self) -> None:
+        result = QMessageBox.information(
+            None,
+            "Save Air Wing?",
+            "Revert will not be possible after saving a different Air Wing.<br />"
+            "Are you sure you want to continue?",
+            QMessageBox.StandardButton.Yes,
+            QMessageBox.StandardButton.No,
+        )
+        if result == QMessageBox.StandardButton.No:
+            return
+
         awd = airwing_dir()
-        if not awd.exists():
-            awd.mkdir()
         fd = QFileDialog(
             caption="Save Air Wing", directory=str(awd), filter="*.yaml;*.yml"
         )
         fd.setAcceptMode(QFileDialog.AcceptMode.AcceptSave)
         if fd.exec_():
+            for tab in self.tabs:
+                tab.apply()
             airwing = self._build_air_wing()
             filename = fd.selectedFiles()[0]
             with open(filename, "w") as f:
@@ -837,7 +849,7 @@ class AirWingConfigurationDialog(QDialog):
             for s in sqs:
                 cp = s.location.at
                 if isinstance(cp, Point):
-                    key = s.location.name
+                    key = s.location.full_name
                 else:
                     key = cp.id
                 name = (
@@ -875,8 +887,6 @@ class AirWingConfigurationDialog(QDialog):
             return
 
         awd = airwing_dir()
-        if not awd.exists():
-            awd.mkdir()
         fd = QFileDialog(
             caption="Load Air Wing", directory=str(awd), filter="*.yaml;*.yml"
         )

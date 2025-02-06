@@ -1,0 +1,15 @@
+description: "The AgustaWestland HKP 15B, originally the Agusta A109, is a lightweight, 
+  twin-engine, eight-seat multi-purpose helicopter designed and initially produced by the 
+  Italian rotorcraft manufacturer Agusta. It was the first all-Italian helicopter to be 
+  mass-produced. Its production has been continued by Agusta's successor companies, 
+  presently Leonardo (formerly AgustaWestland, merged into the new Finmeccanica since 2016)."
+introduced: 1971
+manufacturer: Agusta
+origin: Italy
+role: Transport
+price: 5
+variants:
+  "[CH] HKP15B": null
+tasks:
+  Air Assault: 50
+  Transport: 90

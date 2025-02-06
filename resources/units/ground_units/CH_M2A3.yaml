@@ -1,0 +1,12 @@
+class: IFV
+description: The M2A3 Bradley is a heavily upgraded variant of the original Bradley Fighting Vehicle.
+  The A3 variant incorporates advanced optics, situal awareness, target aquisition and armor protection systems.
+  Armed with the 25mm M242 Bushmaster chain gun, a coaxial 7.62mm machine gun and iconic TOW missile launcher
+  the M2A3 is capable of engaging both armored vehicles and infantry.
+introduced: 2000
+manufacturer: BAE Systems
+origin: United States
+price: 13
+role: Infantry Fighting Vehicle
+variants:
+  "[CH] M2A3 IFV": {}

@@ -81,6 +81,11 @@ squadrons:
       aircraft:
         - A-10C Thunderbolt II (Suite 7)
       size: 4
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - CH-47F Block I
+      size: 4
     - primary: CAS
       secondary: any
       aircraft:

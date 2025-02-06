@@ -13,6 +13,7 @@ origin: USSR/Russia
 price: 10
 role: Fighter-Bomber
 max_range: 300
+default_livery: af standard (worn-out) (RUS)
 variants:
   Su-17M4 Fitter-K: {}
   Su-22M4 Fitter-K:

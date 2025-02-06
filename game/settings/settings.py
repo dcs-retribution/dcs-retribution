@@ -49,6 +49,8 @@ FLIGHT_PLANNER_AUTOMATION = "Flight Planner Automation"
 CAMPAIGN_DOCTRINE_PAGE = "Campaign Doctrine"
 DOCTRINE_DISTANCES_SECTION = "Doctrine distances"
 
+PRETENSE_PAGE = "Pretense"
+
 MISSION_GENERATOR_PAGE = "Mission Generator"
 
 GAMEPLAY_SECTION = "Gameplay"
@@ -156,6 +158,7 @@ class Settings:
         MISSION_RESTRICTIONS_SECTION,
         default=True,
     )
+
     easy_communication: Optional[bool] = choices_option(
         "Easy Communication",
         page=DIFFICULTY_PAGE,
@@ -172,31 +175,37 @@ class Settings:
         default=None,
     )
 
-    # Campaign management
-    # General
-    restrict_weapons_by_date: bool = boolean_option(
-        "Restrict weapons by date (WIP)",
-        page=CAMPAIGN_MANAGEMENT_PAGE,
-        section=GENERAL_SECTION,
-        default=False,
-        detail=(
-            "Restricts weapon availability based on the campaign date. Data is "
-            "extremely incomplete so does not affect all weapons."
-        ),
-    )
-    prefer_squadrons_with_matching_primary_task: bool = boolean_option(
-        "Prefer squadrons with matching primary task when planning missions",
-        page=CAMPAIGN_MANAGEMENT_PAGE,
-        section=GENERAL_SECTION,
-        default=False,
-        detail=(
-            "If checked, squadrons with a primary task matching the mission will be "
-            "preferred even if there is a closer squadron capable of the mission as a "
-            "secondary task. Expect longer flights, but squadrons will be more often "
-            "assigned to their primary task."
-        ),
-    )
     # CAMPAIGN DOCTRINE
+    desired_barcap_mission_duration: timedelta = minutes_option(
+        "Desired BARCAP on-station time",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=timedelta(minutes=60),
+        min=30,
+        max=150,
+        detail="Implicitly determines the number of BARCAPs planned by taking the mission duration"
+        " and dividing it by the desired on-station time.",
+    )
+    desired_awacs_mission_duration: timedelta = minutes_option(
+        "Desired AWACS on-station time",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=timedelta(minutes=120),
+        min=60,
+        max=300,
+        detail="Implicitly determines the number of AWACS flights planned by taking the mission duration"
+        " and dividing it by the desired on-station time.",
+    )
+    desired_tanker_on_station_time: timedelta = minutes_option(
+        "Desired tanker on-station time",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=timedelta(minutes=60),
+        min=30,
+        max=150,
+        detail="Implicitly determines the number of Tanker flights planned by taking the mission duration"
+        " and dividing it by the desired on-station time.",
+    )
     autoplan_tankers_for_strike: bool = boolean_option(
         "Auto-planner plans refueling flights for Strike packages",
         page=CAMPAIGN_DOCTRINE_PAGE,
@@ -230,6 +239,17 @@ class Settings:
             "provided the faction has access to them."
         ),
     )
+    aircraft_per_recovery_tanker: int = bounded_int_option(
+        "Number of aircraft per recovery tanker",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=4,
+        min=2,
+        max=12,
+        detail=(
+            "A higher number will force the autoplanner to generate less recovery tankers."
+        ),
+    )
     oca_target_autoplanner_min_aircraft_count: int = bounded_int_option(
         "Minimum number of aircraft (at vulnerable airfields) for auto-planner to plan OCA packages against",
         page=CAMPAIGN_DOCTRINE_PAGE,
@@ -242,6 +262,19 @@ class Settings:
             "the auto-planner to plan an OCA strike against it."
         ),
     )
+    ownfor_autoplanner_aggressiveness: int = bounded_int_option(
+        "OWNFOR auto-planner aggressiveness (%)",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=20,
+        min=0,
+        max=100,
+        detail=(
+            "Ratio of the threat-radius that will be ignored by the OWNFOR "
+            "AI-autoplanner. 0% means the entire threat-radius is considered, "
+            "while 100% would have the autoplanner completely ignore OPFOR air defences."
+        ),
+    )
     opfor_autoplanner_aggressiveness: int = bounded_int_option(
         "OPFOR auto-planner aggressiveness (%)",
         page=CAMPAIGN_DOCTRINE_PAGE,
@@ -250,9 +283,9 @@ class Settings:
         min=0,
         max=100,
         detail=(
-            "Chance (larger number -> higher chance) that the OPFOR AI "
-            "auto-planner will take risks and plan flights against targets "
-            "within threatened airspace."
+            "Ratio of the threat-radius that will be ignored by the OPFOR "
+            "AI-autoplanner. 0% means the entire threat-radius is considered, "
+            "while 100% would have the autoplanner completely ignore OWNFOR air defences."
         ),
     )
     heli_combat_alt_agl: int = bounded_int_option(
@@ -299,6 +332,13 @@ class Settings:
         default=False,
         detail="AI will jettison their fuel tanks as soon as they're empty.",
     )
+    ai_vertical_takoff_landing: bool = boolean_option(
+        "AI helicopters use vertical takeoff and landing",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=False,
+        detail="AI will use vertical takeoff and landing instead of combat takeoff and landing.",
+    )
     max_plane_altitude_offset: int = bounded_int_option(
         "Maximum randomized altitude offset (x1000 ft) for airplanes.",
         page=CAMPAIGN_DOCTRINE_PAGE,
@@ -308,6 +348,20 @@ class Settings:
         default=2,
         detail="Creates a randomized altitude offset for airplanes.",
     )
+
+    player_startup_time: int = bounded_int_option(
+        "Player startup time",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=10,
+        min=0,
+        max=100,
+        detail=(
+            "The startup time allocated to player flights (default : 10 minutes, AI is 2 minutes). "
+            "Packages have to be planned again for this to take effect. "
+        ),
+    )
+
     # Doctrine Distances Section
     airbase_threat_range: int = bounded_int_option(
         "Airbase threat range (NM)",
@@ -328,6 +382,14 @@ class Settings:
         default=10,
         min=0,
         max=100,
+    )
+    armed_recon_engagement_range_distance: int = bounded_int_option(
+        "Armed Recon engagement range (NM)",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=DOCTRINE_DISTANCES_SECTION,
+        default=5,
+        min=0,
+        max=25,
     )
     sead_sweep_engagement_range_distance: int = bounded_int_option(
         "SEAD Sweep engagement range (NM)",
@@ -407,6 +469,53 @@ class Settings:
             "range is defined in the helicopter's yaml specification."
         ),
     )
+
+    # Campaign management
+    # General
+    squadron_random_chance: int = bounded_int_option(
+        "Percentage of randomly selected aircraft types (only for generated squadrons)",
+        page=CAMPAIGN_MANAGEMENT_PAGE,
+        section=GENERAL_SECTION,
+        default=50,
+        min=0,
+        max=100,
+        detail=(
+            "Aircraft type selection is governed by the campaign and the squadron definitions available to "
+            "Retribution. Squadrons are generated by Retribution if the faction does not have access to the campaign "
+            "designer's squadron/aircraft definitions. Use the above to increase/decrease aircraft variety by making "
+            "some selections random instead of picking aircraft types from a priority list."
+        ),
+    )
+    restrict_weapons_by_date: bool = boolean_option(
+        "Restrict weapons by date (WIP)",
+        page=CAMPAIGN_MANAGEMENT_PAGE,
+        section=GENERAL_SECTION,
+        default=False,
+        detail=(
+            "Restricts weapon availability based on the campaign date. Data is "
+            "extremely incomplete so does not affect all weapons."
+        ),
+    )
+    prefer_squadrons_with_matching_primary_task: bool = boolean_option(
+        "Prefer squadrons with matching primary task when planning missions",
+        page=CAMPAIGN_MANAGEMENT_PAGE,
+        section=GENERAL_SECTION,
+        default=False,
+        detail=(
+            "If checked, squadrons with a primary task matching the mission will be "
+            "preferred even if there is a closer squadron capable of the mission as a "
+            "secondary task. Expect longer flights, but squadrons will be more often "
+            "assigned to their primary task."
+        ),
+    )
+    use_bandit_clouds: bool = boolean_option(
+        "Use Bandit's clouds",
+        page=CAMPAIGN_MANAGEMENT_PAGE,
+        section=GENERAL_SECTION,
+        default=False,
+        detail=("If checked, Bandit's cloud presets will become available."),
+    )
+
     # Pilots and Squadrons
     ai_pilot_levelling: bool = boolean_option(
         "Allow AI pilot leveling",
@@ -636,6 +745,16 @@ class Settings:
         max=100,
         detail="See 2-ship weight factor (WF4)",
     )
+    primary_task_distance_factor: int = bounded_int_option(
+        "Primary task distance weight (NM)",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        FLIGHT_PLANNER_AUTOMATION,
+        default=75,
+        min=10,
+        max=250,
+        detail="A larger number will force the auto-planner to stick with squadrons that have a matching primary task."
+        " A smaller number will ignore squadrons with a matching primary task that are too far out.",
+    )
 
     # Mission Generator
     # Gameplay
@@ -684,6 +803,12 @@ class Settings:
         MISSION_GENERATOR_PAGE,
         GAMEPLAY_SECTION,
         default=False,
+    )
+    supercarrier_deck_crew: bool = boolean_option(
+        "Use supercarrier deck-crew",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=True,
     )
     generate_marks: bool = boolean_option(
         "Put objective markers on the map",
@@ -745,17 +870,48 @@ class Settings:
         section=GAMEPLAY_SECTION,
         choices={v.value: v for v in StartType},
         default=StartType.COLD,
-        detail=("Default start type for flights containing Player/Client slots."),
+        detail="Default start type for flights containing Player/Client slots.",
     )
     nevatim_parking_fix: bool = boolean_option(
         "Force air-starts for aircraft at Nevatim and Ramon Airbase inoperable parking slots",
         page=MISSION_GENERATOR_PAGE,
         section=GAMEPLAY_SECTION,
-        default=True,  # TODO: set to False or remove this when DCS is fixed
+        default=False,  # TODO: set to False or remove this when DCS is fixed
         detail=(
             "Air-starts forced for all aircraft at Nevatim and Ramon Airbase except parking slots "
             "which are known to work as of DCS World 2.9.4.53990."
         ),
+    )
+    switch_baro_fix: bool = boolean_option(
+        "Switch altitude type of waypoints to AMSL above seas for helicopters",
+        page=MISSION_GENERATOR_PAGE,
+        section=GAMEPLAY_SECTION,
+        default=True,  # TODO: set to False or remove this when DCS is fixed?
+        detail=(
+            "AGL seems to reference the bottom of the sea which causes issues for helicopters"
+            " trying to fly at altitudes lower than the sea-bottom."
+        ),
+    )
+    limit_ai_radios: bool = boolean_option(
+        "Limit AI radio callouts",
+        page=MISSION_GENERATOR_PAGE,
+        section=GAMEPLAY_SECTION,
+        default=True,
+        detail="Avoids the target-detection callouts over the radio by AI. (except for AWACS flights)",
+    )
+    silence_ai_radios: bool = boolean_option(
+        "Suppress AI radio callouts",
+        page=MISSION_GENERATOR_PAGE,
+        section=GAMEPLAY_SECTION,
+        default=False,
+        detail="Keeps the AI silent at all times for flights with human pilots. (except for AWACS flights)",
+    )
+    use_ai_combat_landing: bool = boolean_option(
+        "Use AI combat landing waypoint task",
+        page=MISSION_GENERATOR_PAGE,
+        section=GAMEPLAY_SECTION,
+        default=False,
+        detail="Turns the combat landing flag on in the landing waypoint task.",
     )
     # Mission specific
     desired_player_mission_duration: timedelta = minutes_option(
@@ -766,15 +922,6 @@ class Settings:
         min=30,
         max=150,
     )
-    desired_tanker_on_station_time: timedelta = minutes_option(
-        "Desired tanker on-station time",
-        page=MISSION_GENERATOR_PAGE,
-        section=GAMEPLAY_SECTION,
-        default=timedelta(minutes=60),
-        min=30,
-        max=150,
-    )
-    # Mission specific
     max_frontline_width: int = bounded_int_option(
         "Maximum frontline width (km)",
         page=MISSION_GENERATOR_PAGE,
@@ -883,6 +1030,17 @@ class Settings:
             "Needed to cold-start some aircraft types. Might have a performance impact."
         ),
     )
+    ground_start_airbase_statics_farps_remove: bool = boolean_option(
+        "Remove ground spawn statics, including invisible FARPs, at airbases",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=True,
+        detail=(
+            "Ammo and fuel statics and invisible FARPs should be unnecessary when creating "
+            "additional spawns for players at airbases. This setting will disable them and "
+            "potentially grant a marginal performance benefit."
+        ),
+    )
     ai_unlimited_fuel: bool = boolean_option(
         "AI flights have unlimited fuel",
         MISSION_GENERATOR_PAGE,
@@ -892,6 +1050,41 @@ class Settings:
             "AI aircraft have unlimited fuel applied at start, removed at join/racetrack start,"
             " and reapplied at split/racetrack end for applicable flights. "
         ),
+    )
+    dynamic_slots: bool = boolean_option(
+        "Dynamic slots",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=False,
+        detail=(
+            "Enables dynamic slots. Please note that losses from dynamic slots won't be registered."
+        ),
+    )
+    dynamic_slots_hot: bool = boolean_option(
+        "Allow dynamic slot hot start",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=True,
+        detail=("Enables hot start for dynamic slots."),
+    )
+    dynamic_cargo: bool = boolean_option(
+        "Dynamic cargo",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=True,
+        detail=("Enables dynamic cargo for airfields, ships, FARPs & warehouses."),
+    )
+    player_flights_sixpack: bool = boolean_option(
+        "Player flights can spawn on the sixpack",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=True,
+    )
+    use_auto_fog: bool = boolean_option(
+        "Use DCS' automatic fog setting",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=True,
     )
 
     # Performance
@@ -962,7 +1155,7 @@ class Settings:
         default=False,
     )
     perf_frontline_units_max_supply: int = bounded_int_option(
-        "Maximum frontline unit supply per control point",
+        "Maximum ground units deployed per frontline by faction",
         page=MISSION_GENERATOR_PAGE,
         section=PERFORMANCE_SECTION,
         default=60,
@@ -1033,6 +1226,140 @@ class Settings:
             "if the start-up type was manually changed to 'In-Flight'."
         ),
     )
+    pretense_maxdistfromfront_distance: int = bounded_int_option(
+        "Max distance from front (km)",
+        page=PRETENSE_PAGE,
+        section=GENERAL_SECTION,
+        default=130,
+        min=10,
+        max=10000,
+        detail=(
+            "Zones farther away than this from the front line are switched "
+            "into low activity state, but will still be there as functional "
+            "parts of the economy. Use this to adjust performance."
+        ),
+    )
+    pretense_controllable_carrier: bool = boolean_option(
+        "Controllable carrier",
+        page=PRETENSE_PAGE,
+        section=GENERAL_SECTION,
+        default=True,
+        detail=(
+            "This can be used to enable or disable the native carrier support in Pretense. The Pretense carrier "
+            "can be controlled through the communication menu (if the Pretense character has enough rank/CMD points) "
+            "and the player can call in AI aerial and cruise missile missions using it."
+            "The controllable carriers in Pretense do not build and deploy AI missions autonomously, so if you prefer "
+            "to have both sides deploy carrier aviation autonomously, you might want to disable this option. "
+            "When this option is disabled, moving the carrier can only be done with the Retribution interface."
+        ),
+    )
+    pretense_carrier_steams_into_wind: bool = boolean_option(
+        "Carriers steam into wind",
+        page=PRETENSE_PAGE,
+        section=GENERAL_SECTION,
+        default=True,
+        detail=(
+            "This setting controls whether carriers and their escorts will steam into wind. Disable to "
+            "to ensure that the carriers stay within the carrier zone in Pretense, but note that "
+            "doing so might limit carrier operations, takeoff weights and landings."
+        ),
+    )
+    pretense_carrier_zones_navmesh: str = choices_option(
+        "Navmesh to use for Pretense carrier zones",
+        page=PRETENSE_PAGE,
+        section=GENERAL_SECTION,
+        choices=["Blue navmesh", "Red navmesh"],
+        default="Blue navmesh",
+        detail=(
+            "Use the Retribution map interface options to compare the blue navmesh and the red navmesh."
+            "You can select which navmesh to use when generating the zones in which the controllable carrier(s) "
+            "move and operate."
+        ),
+    )
+    pretense_extra_zone_connections: int = bounded_int_option(
+        "Extra friendly zone connections",
+        page=PRETENSE_PAGE,
+        section=GENERAL_SECTION,
+        default=2,
+        min=0,
+        max=10,
+        detail=(
+            "Add connections from each zone to this many closest friendly zones,"
+            "which don't have an existing supply route defined in the campaign."
+        ),
+    )
+    pretense_num_of_cargo_planes: int = bounded_int_option(
+        "Number of cargo planes per side",
+        page=PRETENSE_PAGE,
+        section=GENERAL_SECTION,
+        default=2,
+        min=1,
+        max=100,
+    )
+    pretense_sead_flights_per_cp: int = bounded_int_option(
+        "Number of AI SEAD flights per control point / zone",
+        page=PRETENSE_PAGE,
+        section=GENERAL_SECTION,
+        default=1,
+        min=1,
+        max=10,
+    )
+    pretense_cas_flights_per_cp: int = bounded_int_option(
+        "Number of AI CAS flights per control point / zone",
+        page=PRETENSE_PAGE,
+        section=GENERAL_SECTION,
+        default=1,
+        min=1,
+        max=10,
+    )
+    pretense_bai_flights_per_cp: int = bounded_int_option(
+        "Number of AI BAI flights per control point / zone",
+        page=PRETENSE_PAGE,
+        section=GENERAL_SECTION,
+        default=1,
+        min=1,
+        max=10,
+    )
+    pretense_strike_flights_per_cp: int = bounded_int_option(
+        "Number of AI Strike flights per control point / zone",
+        page=PRETENSE_PAGE,
+        section=GENERAL_SECTION,
+        default=1,
+        min=1,
+        max=10,
+    )
+    pretense_barcap_flights_per_cp: int = bounded_int_option(
+        "Number of AI BARCAP flights per control point / zone",
+        page=PRETENSE_PAGE,
+        section=GENERAL_SECTION,
+        default=1,
+        min=1,
+        max=10,
+    )
+    pretense_ai_aircraft_per_flight: int = bounded_int_option(
+        "Number of AI aircraft per flight",
+        page=PRETENSE_PAGE,
+        section=GENERAL_SECTION,
+        default=2,
+        min=1,
+        max=4,
+    )
+    pretense_player_flights_per_type: int = bounded_int_option(
+        "Number of player flights per aircraft type at each base",
+        page=PRETENSE_PAGE,
+        section=GENERAL_SECTION,
+        default=1,
+        min=1,
+        max=10,
+    )
+    pretense_ai_cargo_planes_per_side: int = bounded_int_option(
+        "Number of AI cargo planes per side",
+        page=PRETENSE_PAGE,
+        section=GENERAL_SECTION,
+        default=2,
+        min=1,
+        max=20,
+    )
 
     # Cheating. Not using auto settings because the same page also has buttons which do
     # not alter settings.
@@ -1065,26 +1392,30 @@ class Settings:
         self.plugins[self.plugin_settings_key(identifier)] = value
 
     def __setstate__(self, state: dict[str, Any]) -> None:
-        # restore Enum & timedelta types
-        for key, value in state.items():
-            if isinstance(self.__dict__.get(key), timedelta) and isinstance(value, int):
-                state[key] = timedelta(minutes=value)
-            elif isinstance(self.__dict__.get(key), Enum) and isinstance(value, str):
-                state[key] = eval(value)
-            elif isinstance(value, dict):
-                state[key] = self.obj_hook(value)
-
         # __setstate__ is called with the dict of the object being unpickled. We
         # can provide save compatibility for new settings options (which
         # normally would not be present in the unpickled object) by creating a
         # new settings object, updating it with the unpickled state, and
         # updating our dict with that.
         new_state = Settings().__dict__
-        new_state.update(state)
+        new_state.update(self.deserialize_state_dict(state))
         self.__dict__.update(new_state)
         from game.plugins import LuaPluginManager
 
         LuaPluginManager().load_settings(self)
+
+    @staticmethod
+    def deserialize_state_dict(state: dict[str, Any]) -> dict[str, Any]:
+        # restore Enum & timedelta types
+        s = Settings()
+        for key, value in state.items():
+            if isinstance(s.__dict__.get(key), timedelta) and isinstance(value, int):
+                state[key] = timedelta(minutes=value)
+            elif isinstance(s.__dict__.get(key), Enum) and isinstance(value, str):
+                state[key] = eval(value)
+            elif isinstance(value, dict):
+                state[key] = s.obj_hook(value)
+        return state
 
     @classmethod
     def _field_description(cls, settings_field: Field[Any]) -> OptionDescription:

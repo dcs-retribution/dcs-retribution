@@ -2,17 +2,19 @@ from __future__ import annotations
 
 import math
 from datetime import timezone
-from typing import Iterator, List, Optional, TYPE_CHECKING, Tuple
+from pathlib import Path
+from typing import Iterator, List, Optional, TYPE_CHECKING, Tuple, Any
 from uuid import UUID
 
 from dcs.mapping import Point
 from dcs.terrain.terrain import Terrain
+from dcs.triggers import TriggerZone
 from shapely import geometry, ops
 
 from .daytimemap import DaytimeMap
 from .frontline import FrontLine
 from .iadsnetwork.iadsnetwork import IadsNetwork
-from .landmap import Landmap, poly_contains
+from .landmap import poly_contains, load_landmap
 from .seasonalconditions import SeasonalConditions
 from ..utils import Heading
 
@@ -21,23 +23,69 @@ if TYPE_CHECKING:
     from .theatergroundobject import TheaterGroundObject
 
 
+THEATER_RESOURCE_DIR = Path("resources/theaters")
+
+
 class ConflictTheater:
     iads_network: IadsNetwork
 
     def __init__(
         self,
         terrain: Terrain,
-        landmap: Landmap | None,
+        landmap_path: Path,
         time_zone: timezone,
         seasonal_conditions: SeasonalConditions,
         daytime_map: DaytimeMap,
     ) -> None:
         self.terrain = terrain
-        self.landmap = landmap
+        self.landmap_path = landmap_path
+        self.landmap = load_landmap(self.landmap_path)
         self.timezone = time_zone
         self.seasonal_conditions = seasonal_conditions
         self.daytime_map = daytime_map
         self.controlpoints: list[ControlPoint] = []
+        self.rebel_zones: list[TriggerZone] = []
+
+    def __setstate__(self, state: dict[str, Any]) -> None:
+        if "landmap_path" not in state:
+            state["landmap_path"] = self.landmap_path_for_terrain_name(
+                state["terrain"].name
+            )
+        self.__dict__ = state
+        self.landmap = load_landmap(self.landmap_path)
+
+    @staticmethod
+    def landmap_path_for_terrain_name(terrain_name: str) -> Path:
+        theather_mapping = {  # map Pydcs name to respective directory name
+            "PersianGulf": "persian gulf",
+            "TheChannel": "the channel",
+            "MarianaIslands": "marianaislands",
+        }
+        if terrain_name in theather_mapping:
+            terrain_name = theather_mapping[terrain_name]
+        for theater_dir in THEATER_RESOURCE_DIR.iterdir():
+            if theater_dir.name.lower() in terrain_name.lower():
+                return theater_dir / "landmap.p"
+        raise RuntimeError(f"Could not determine landmap path for {terrain_name}")
+
+    def add_rebel_zones(self, zones: List[TriggerZone]) -> None:
+        self.rebel_zones.extend(zones)
+
+    @property
+    def opfor_rebel_zones(self) -> Iterator[TriggerZone]:
+        for rz in self.rebel_zones:
+            if {1: 1, 2: 0, 3: 0} == {
+                k: v for k, v in rz.color.items() if k in [1, 2, 3]
+            }:
+                yield rz
+
+    @property
+    def ownfor_rebel_zones(self) -> Iterator[TriggerZone]:
+        for rz in self.rebel_zones:
+            if {1: 0, 2: 0, 3: 1} == {
+                k: v for k, v in rz.color.items() if k in [1, 2, 3]
+            }:
+                yield rz
 
     def add_controlpoint(self, point: ControlPoint) -> None:
         self.controlpoints.append(point)
@@ -75,7 +123,7 @@ class ConflictTheater:
 
         return False
 
-    def is_on_land(self, point: Point) -> bool:
+    def is_on_land(self, point: Point, ignore_exclusion: bool = False) -> bool:
         if not self.landmap:
             return True
 
@@ -86,9 +134,10 @@ class ConflictTheater:
         if not is_point_included:
             return False
 
-        for exclusion_zone in self.landmap.exclusion_zones.geoms:
-            if poly_contains(point.x, point.y, exclusion_zone):
-                return False
+        if not ignore_exclusion:
+            for exclusion_zone in self.landmap.exclusion_zones.geoms:
+                if poly_contains(point.x, point.y, exclusion_zone):
+                    return False
 
         return True
 
@@ -202,6 +251,29 @@ class ConflictTheater:
         assert closest_red is not None
         return closest_blue, closest_red
 
+    def closest_friendly_control_points_to(
+        self, cp: ControlPoint
+    ) -> List[ControlPoint]:
+        """
+        Returns a list of the friendly ControlPoints in theater to ControlPoint cp, sorted closest to farthest.
+        """
+        closest_cps = list()
+        distances_to_cp = dict()
+        if cp.captured:
+            control_points = self.player_points()
+        else:
+            control_points = self.enemy_points()
+        for other_cp in control_points:
+            if cp == other_cp:
+                continue
+
+            dist = other_cp.position.distance_to_point(cp.position)
+            distances_to_cp[dist] = other_cp
+        for i in sorted(distances_to_cp.keys()):
+            closest_cps.append(distances_to_cp[i])
+
+        return closest_cps
+
     def find_control_point_by_id(self, cp_id: UUID) -> ControlPoint:
         for i in self.controlpoints:
             if i.id == cp_id:
@@ -219,6 +291,20 @@ class ConflictTheater:
             if cp.name == name:
                 return cp
         raise KeyError(f"Cannot find ControlPoint named {name}")
+
+    def find_carriers(self) -> List[ControlPoint]:
+        try:
+            carriers = [cp for cp in self.controlpoints if cp.is_carrier]
+            return carriers
+        except:
+            return []
+
+    def find_lhas(self) -> List[ControlPoint]:
+        try:
+            lhas = [cp for cp in self.controlpoints if cp.is_lha]
+            return lhas
+        except:
+            return []
 
     def heading_to_conflict_from(self, position: Point) -> Optional[Heading]:
         # Heading for a Group to the enemy.

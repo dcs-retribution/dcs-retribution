@@ -2,6 +2,7 @@ class: SearchRadar
 price: 22
 variants:
   SAM LvS-103 PM 103 Mobile STR: null
+  "[CH] LvS-103 PM 103 STR (HX)": null
 skynet_properties: # Override skynet default properties
   can_engage_harm: true
   # can_engage_air_weapon: true # https://github.com/walder/Skynet-IADS/tree/develop#engage-air-weapons

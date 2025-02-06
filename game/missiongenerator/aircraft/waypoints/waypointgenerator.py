@@ -22,6 +22,7 @@ from game.settings import Settings
 from game.utils import pairwise
 from .airassaultingress import AirAssaultIngressBuilder
 from .antishipingress import AntiShipIngressBuilder
+from .armedreconingress import ArmedReconIngressBuilder
 from .baiingress import BaiIngressBuilder
 from .casingress import CasIngressBuilder
 from .deadingress import DeadIngressBuilder
@@ -136,6 +137,7 @@ class WaypointGenerator:
             FlightWaypointType.DROPOFF_ZONE: LandingZoneBuilder,
             FlightWaypointType.INGRESS_AIR_ASSAULT: AirAssaultIngressBuilder,
             FlightWaypointType.INGRESS_ANTI_SHIP: AntiShipIngressBuilder,
+            FlightWaypointType.INGRESS_ARMED_RECON: ArmedReconIngressBuilder,
             FlightWaypointType.INGRESS_BAI: BaiIngressBuilder,
             FlightWaypointType.INGRESS_CAS: CasIngressBuilder,
             FlightWaypointType.INGRESS_DEAD: DeadIngressBuilder,
@@ -203,7 +205,10 @@ class WaypointGenerator:
             not self.flight.state.in_flight
             and self.flight.state.spawn_type is not StartType.RUNWAY
             and self.flight.departure.is_fleet
-            and not self.flight.client_count
+            and not (
+                self.flight.client_count
+                and self.flight.coalition.game.settings.player_flights_sixpack
+            )
         ):
             # https://github.com/dcs-liberation/dcs_liberation/issues/1309
             # Without a delay, AI aircraft will be spawned on the sixpack, which other

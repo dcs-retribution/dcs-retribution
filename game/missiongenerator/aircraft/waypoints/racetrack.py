@@ -55,7 +55,12 @@ class RaceTrackBuilder(PydcsWaypointBuilder):
             engagement_distance = int(flight_plan.engagement_distance.meters)
             waypoint.tasks.append(
                 EngageTargets(
-                    max_distance=engagement_distance, targets=[Targets.All.Air]
+                    max_distance=engagement_distance,
+                    targets=[
+                        Targets.All.Air,
+                        Targets.All.Missile.AntishipMissiles,
+                        Targets.All.Missile.CruiseMissiles,
+                    ],
                 )
             )
 
@@ -67,8 +72,7 @@ class RaceTrackBuilder(PydcsWaypointBuilder):
 
         racetrack = ControlledTask(orbit)
         self.set_waypoint_tot(waypoint, flight_plan.patrol_start_time)
-        loiter_duration = flight_plan.patrol_end_time - self.now
-        elapsed = int(loiter_duration.total_seconds())
+        elapsed = int((flight_plan.patrol_end_time - self.now).total_seconds())
         racetrack.stop_after_time(elapsed)
         # What follows is some code to cope with the broken 'stop after time' condition
         create_stop_orbit_trigger(racetrack, self.package, self.mission, elapsed)
@@ -100,7 +104,7 @@ class RaceTrackBuilder(PydcsWaypointBuilder):
                 ActivateBeaconCommand(
                     tacan.number,
                     tacan.band.value,
-                    tacan_callsign,
+                    tacan_callsign.upper(),
                     bearing=True,
                     unit_id=self.group.units[0].id,
                     aa=True,

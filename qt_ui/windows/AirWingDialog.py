@@ -18,7 +18,9 @@ from PySide6.QtWidgets import (
     QPushButton,
 )
 
+from game.armedforces.armedforces import ArmedForces
 from game.ato.flight import Flight
+from game.factions import Faction
 from game.server import EventStream
 from game.sim import GameUpdateEvents
 from game.squadrons import Squadron
@@ -270,18 +272,24 @@ class AirWingTabs(QTabWidget):
             w = QWidget(layout=layout)
             self.addTab(w, "Cheats")
 
+        qfu_ownfor = QFactionUnits(
+            game_model.game.coalition_for(True).faction,
+            self,
+            show_jtac=True,
+        )
+        qfu_ownfor.preset_groups_changed.connect(self.preset_group_updated_ownfor)
         self.addTab(
-            QFactionUnits(
-                game_model.game.coalition_for(True).faction,
-                self,
-            ),
+            qfu_ownfor,
             "Faction OWNFOR",
         )
+        qfu_opfor = QFactionUnits(
+            game_model.game.coalition_for(False).faction,
+            self,
+            show_jtac=True,
+        )
+        qfu_opfor.preset_groups_changed.connect(self.preset_group_updated_opfor)
         self.addTab(
-            QFactionUnits(
-                game_model.game.coalition_for(False).faction,
-                self,
-            ),
+            qfu_opfor,
             "Faction OPFOR",
         )
 
@@ -290,6 +298,15 @@ class AirWingTabs(QTabWidget):
         events = GameUpdateEvents().begin_new_turn()
         EventStream.put_nowait(events)
         self.game_model.ato_model.on_sim_update(events)
+
+    def preset_group_updated_ownfor(self, f: Faction) -> None:
+        self.preset_group_updated(f, player=True)
+
+    def preset_group_updated_opfor(self, f: Faction) -> None:
+        self.preset_group_updated(f, player=False)
+
+    def preset_group_updated(self, f: Faction, player: bool) -> None:
+        self.game_model.game.coalition_for(player).armed_forces = ArmedForces(f)
 
 
 class AirWingDialog(QDialog):

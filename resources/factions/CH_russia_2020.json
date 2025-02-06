@@ -1,0 +1,120 @@
+{
+  "country": "Russia",
+  "name": "[CH] Russia 2020",
+  "authors": "Eclipse",
+  "description": "<p>Russia in 2020, using the CurrentHill Russian Assets Pack.</p>",
+  "locales": [
+    "ru_RU"
+  ],
+  "aircrafts": [
+    "IL-76MD",
+    "Ka-50 Hokum III",
+    "[CH] Ka-52",
+    "[CH] Ka-52K",
+    "[CH] Mi-28N AH",
+    "L-39ZA Albatros",
+    "Mi-24V Hind-E",
+    "Mi-24P Hind-F",
+    "Mi-28N Havoc",
+    "Mi-8MTV2 Hip",
+    "MiG-29S Fulcrum-C",
+    "MiG-31 Foxhound",
+    "Su-24M Fencer-D",
+    "Su-25 Frogfoot",
+    "Su-25T Frogfoot",
+    "Su-27 Flanker-B",
+    "Su-30 Flanker-C",
+    "Su-30MKA Flanker-H",
+    "Su-30MKI Flanker-H",
+    "Su-30MKM Flanker-H",
+    "Su-30SM Flanker-H",
+    "Su-30MKA Flanker-H (A-G)",
+    "Su-30MKI Flanker-H (A-G)",
+    "Su-30MKM Flanker-H (A-G)",
+    "Su-30SM Flanker-H (A-G)",
+    "Su-33 Flanker-D",
+    "Su-34 Fullback",
+    "Tu-142 Bear-F",
+    "Tu-22M3 Backfire-C",
+    "[CH] Tu-160M2",
+    "[CH] Tu-95MSM"
+  ],
+  "awacs": [
+    "A-50"
+  ],
+  "tankers": [
+    "IL-78M"
+  ],
+  "frontline_units": [
+    "[CH] T-14 MBT",
+    "[CH] T-90M MBT",
+    "[CH] Tigr-M",
+    "[CH] T-90A MBT",
+    "[CH] T-80BVM MBT",
+    "[CH] BMD-4 IFV"
+  ],
+  "artillery_units": [
+    "[CH] 2S35 SPG",
+    "[CH] TOS-1A MRL"
+  ],
+  "logistics_units": [
+    "LUV UAZ-469 Jeep",
+    "Truck Ural-375"
+  ],
+  "infantry_units": [
+    "Infantry AK-74 Rus",
+    "MANPADS SA-18 Igla-S \"Grouse\"",
+    "Paratrooper AKS",
+    "Paratrooper RPG-16",
+    "[CH] DShK HMG",
+    "[CH] 9M133 ATGM Soldier",
+    "[CH] Kord HMG Soldier"
+  ],
+  "missiles": [
+    "[CH] Iskander-M SRBM",
+    "[CH] Iskander-K GLCM"
+  ],
+  "preset_groups": [
+    "BAL LBASM",
+    "Bastion-P LBASM",
+    "BUK M3",
+    "[CH] Russian Navy",
+    "SA-10/S-300PS",
+    "SA-10B/S-300PS",
+    "SA-11",
+    "S-350"
+  ],
+  "naval_units": [
+    "[CH] Project 22160 Patrol Ship",
+    "[CH] Project 22350 Admiral Gorshkov Frigate",
+    "CV 1143.5 Admiral Kuznetsov",
+    "[CH] Project 11356R Admiral Grigorovich Frigate (AShM)",
+    "[CH] Project 11356R Admiral Grigorovich Frigate (LACM)",
+    "[CH] Project 22800 Karakurt Corvette AShM",
+    "[CH] Project 22800 Karakurt Corvette LACM",
+    "[CH] Project 20381 Steregushchiy Corvette",
+    "[CH] Project 20385 Gremyashchiy Corvette (AShM)",
+    "[CH] Project 20385 Gremyashchiy Corvette (LACM)"
+  ],
+  "air_defense_units": [
+    "[CH] 2S38 SPAAG (LG-HE)",
+    "[CH] 2S38 SPAAG",
+    "[CH] Pantsir-S1 SPAAGM",
+    "[CH] Pantsir-S2 SPAAGM",
+    "[CH] Tor M2K SHORAD",
+    "[CH] Tor M2 SHORAD",
+    "[CH] Tor M2M SHORAD",
+    "AAA ZU-23 Closed Emplacement",
+    "ZU-23 on Ural-375",
+    "ZSU-23-4 Shilka"
+  ],
+  "helicopter_carrier_names": [],
+  "requirements": {
+    "CurrentHill Russian Assets Pack": "https://www.currenthill.com/russia"
+  },
+  "carrier_names": [
+    "Admiral Kuznetsov"
+  ],
+  "has_jtac": true,
+  "jtac_unit": "MQ-9 Reaper"
+}

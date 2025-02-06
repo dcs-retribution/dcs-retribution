@@ -1,0 +1,12 @@
+class: ATGM
+description: THe M10 Light Tank features a 105mm M35 rifled cannon, providing effective
+  firepower against enemy infantry, light vehicles, and armored threats. The M10's enhanced
+  optical sights and fire-control system enable rapid target engagement that suits it well for
+  highly mobile hit and run tactics.
+introduced: 2020
+manufacturer: General Dynamics
+origin: United States
+price: 14
+role: Tank Destroyer
+variants:
+  "[CH] M10 LT": {}

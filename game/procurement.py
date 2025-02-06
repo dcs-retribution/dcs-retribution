@@ -85,8 +85,8 @@ class ProcurementAi:
         ground = 1 - air
         weighted_investment = aircraft_investment * air + armor_investment * ground
         if weighted_investment == 0:
-            # Turn 0 or all units were destroyed. Either way, split 30/70.
-            return ground
+            # Turn 0 or all units were destroyed.
+            return balance / 100.0
 
         # the more planes we have, the more ground units we want and vice versa
         ground_unit_share = aircraft_investment * air / weighted_investment
@@ -116,11 +116,11 @@ class ProcurementAi:
                 budget -= RUNWAY_REPAIR_COST
                 if self.is_player:
                     self.game.message(
-                        "OPFOR has begun repairing the runway at " f"{control_point}"
+                        "We have begun repairing the runway at " f"{control_point}"
                     )
                 else:
                     self.game.message(
-                        "We have begun repairing the runway at " f"{control_point}"
+                        "OPFOR has begun repairing the runway at " f"{control_point}"
                     )
         return budget
 

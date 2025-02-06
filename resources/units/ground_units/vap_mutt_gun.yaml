@@ -1,0 +1,6 @@
+class: ATGM
+price: 10
+role: Self-Propelled Recoilless Rifle
+variants:
+  VAP US MUTT Gun: {}
+  M151A1C MUTT w/ 106mm Recoilless Rifle: {}

@@ -2,6 +2,7 @@ from .SWPack import *
 from .a4ec import *
 from .a7e import *
 from .a6a import *
+from .bandit_clouds import *
 from .ea6b import *
 from .f9f import *
 from .f100 import *
@@ -21,14 +22,22 @@ from .hercules import *
 from .highdigitsams import *
 from .irondome import *
 from .jas39 import *
+from .oh6 import *
+from .oh6_vietnamassetpack import *
 from .ov10a import *
 from .spanishnavypack import *
 from .super_etendard import *
+from .sk60 import *
+from .su15 import *
 from .su30 import *
 from .su57 import *
 from .swedishmilitaryassetspack import *
 from .coldwarassets import *
 from .uh60l import *
+from .vietnamwarvessels import *
+from .chinesemilitaryassetspack import *
+from .russianmilitaryassetspack import *
+from .usamilitaryassetspack import *
 
 
 def load_mods() -> None:

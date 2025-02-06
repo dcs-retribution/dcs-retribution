@@ -38,67 +38,67 @@ class VSN_F84G(PlaneType):
         Mk_83___1000lb_GP_Bomb_LD = (3, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice = (
             3,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT = (
             3,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice = (
             3,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
             3,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos = (
             3,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice = (
             3,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum = (
             3,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk = (
             3,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
         )
         LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice = (
             3,
-            Weapons.LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice,
+            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
         )
         LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT = (
             3,
-            Weapons.LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT,
+            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
         )
         LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice = (
             3,
-            Weapons.LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice,
+            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP,
         )
         LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
             3,
-            Weapons.LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE,
+            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
         )
         LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos = (
             3,
-            Weapons.LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos,
+            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice = (
             3,
-            Weapons.LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice,
+            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP,
         )
         LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum = (
             3,
-            Weapons.LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum,
+            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
         )
         LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk = (
             3,
-            Weapons.LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk,
+            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
         )
         M117___750lb_GP_Bomb_LD = (3, Weapons.M117___750lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD_ = (3, Weapons.AN_M64___500lb_GP_Bomb_LD_)
@@ -125,67 +125,67 @@ class VSN_F84G(PlaneType):
         Mk_83___1000lb_GP_Bomb_LD = (9, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice = (
             9,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT = (
             9,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice = (
             9,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
             9,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos = (
             9,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice = (
             9,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum = (
             9,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk = (
             9,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
         )
         LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice = (
             9,
-            Weapons.LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice,
+            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
         )
         LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT = (
             9,
-            Weapons.LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT,
+            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
         )
         LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice = (
             9,
-            Weapons.LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice,
+            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP,
         )
         LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
             9,
-            Weapons.LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE,
+            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
         )
         LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos = (
             9,
-            Weapons.LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos,
+            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice = (
             9,
-            Weapons.LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice,
+            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP,
         )
         LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum = (
             9,
-            Weapons.LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum,
+            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
         )
         LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk = (
             9,
-            Weapons.LAU_131_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk,
+            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
         )
         M117___750lb_GP_Bomb_LD = (9, Weapons.M117___750lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD_ = (9, Weapons.AN_M64___500lb_GP_Bomb_LD_)

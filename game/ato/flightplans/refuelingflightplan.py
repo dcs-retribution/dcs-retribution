@@ -1,10 +1,15 @@
 from abc import ABC
+from datetime import timedelta
 
-from game.utils import Distance, Speed, knots, meters
+from game.utils import Speed, knots, Distance, meters
 from .patrolling import PatrollingFlightPlan, PatrollingLayout
 
 
 class RefuelingFlightPlan(PatrollingFlightPlan[PatrollingLayout], ABC):
+    @property
+    def patrol_duration(self) -> timedelta:
+        return self.flight.coalition.game.settings.desired_tanker_on_station_time
+
     @property
     def patrol_speed(self) -> Speed:
         # TODO: Could use self.flight.unit_type.preferred_patrol_speed(altitude).

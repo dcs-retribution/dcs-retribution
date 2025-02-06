@@ -1,0 +1,38 @@
+carrier_capable: false
+description:    # from: https://en.wikipedia.org/wiki/Mikoyan-Gurevich_MiG-17
+  The Mikoyan-Gurevich MiG-17 (NATO reporting name Fresco) is a high-subsonic fighter 
+  aircraft produced in the Soviet Union from 1952 and was operated by air forces 
+  internationally. The MiG-17 was license-built in China as the Shenyang J-5 and 
+  Poland as the PZL-Mielec Lim-6. The MiG-17 is still being used by the North Korean 
+  air force in the present day and has seen combat in the Middle East and Asia.
+  The MiG-17 was an advanced modification of the MiG-15 aircraft produced by the 
+  Soviet Union during the Korean War. Production of the MiG-17 was too late for use 
+  in that conflict and was first used in the Second Taiwan Strait Crisis in 1958. 
+  While the MiG-17 was designed to shoot down slower American bombers, it showed 
+  surprising success when used by North Vietnamese pilots to combat American 
+  fighters and fighter-bombers during the Vietnam War, nearly a decade after its 
+  initial design. This was due to the MiG-17 being more agile and maneuverable than 
+  the American F-4 Phantom and F-105 Thunderchief, which were focused on speed and 
+  long range combat, as well as the fact that MiG-17 was armed with guns, which 
+  initial models of the F-4 Phantom lacked.
+introduced: 1953    # original type 1952, MiG-17F 1953, USSR retired ?
+manufacturer: Mikoyan-Gurevich
+origin: Soviet Union
+price: 9    # reference: MiG-15bis = 8, MiG-19P = 10
+role: Interceptor
+max_range: 500    # combat range without droptanks [nmi]
+gunfighter: true
+variants:
+  MiG-17F Fresco-C: {}
+tasks:    # defined in flighttype.py
+  BAI: 100
+  CAS: 100
+  OCA/Aircraft: 100
+  OCA/Runway: 100
+  Strike: 100
+  Escort: 300
+  Fighter sweep: 300
+  Intercept: 300
+  TARCAP: 300
+  BARCAP: 300
+  Armed Recon: 200

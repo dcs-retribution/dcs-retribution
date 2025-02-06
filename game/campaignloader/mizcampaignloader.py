@@ -9,7 +9,7 @@ from uuid import UUID
 from dcs import Mission
 from dcs.countries import CombinedJointTaskForcesBlue, CombinedJointTaskForcesRed
 from dcs.country import Country
-from dcs.planes import F_15C, A_10A, AJS37
+from dcs.planes import F_15C, A_10A, AJS37, C_130
 from dcs.ships import HandyWind, LHA_Tarawa, Stennis, USS_Arleigh_Burke_IIa
 from dcs.statics import Fortification, Warehouse
 from dcs.terrain import Airport
@@ -43,6 +43,7 @@ class MizCampaignLoader:
     OFF_MAP_UNIT_TYPE = F_15C.id
     GROUND_SPAWN_UNIT_TYPE = A_10A.id
     GROUND_SPAWN_ROADBASE_UNIT_TYPE = AJS37.id
+    GROUND_SPAWN_LARGE_UNIT_TYPE = C_130.id
 
     CV_UNIT_TYPE = Stennis.id
     LHA_UNIT_TYPE = LHA_Tarawa.id
@@ -235,6 +236,12 @@ class MizCampaignLoader:
     def ground_spawns_roadbase(self) -> Iterator[PlaneGroup]:
         for group in itertools.chain(self.blue.plane_group, self.red.plane_group):
             if group.units[0].type == self.GROUND_SPAWN_ROADBASE_UNIT_TYPE:
+                yield group
+
+    @property
+    def ground_spawns_large(self) -> Iterator[PlaneGroup]:
+        for group in itertools.chain(self.blue.plane_group, self.red.plane_group):
+            if group.units[0].type == self.GROUND_SPAWN_LARGE_UNIT_TYPE:
                 yield group
 
     @property
@@ -536,6 +543,10 @@ class MizCampaignLoader:
             closest, distance = self.objective_info(plane_group)
             self._add_ground_spawn(closest.ground_spawns_roadbase, plane_group)
 
+        for plane_group in self.ground_spawns_large:
+            closest, distance = self.objective_info(plane_group)
+            self._add_ground_spawn(closest.ground_spawns_large, plane_group)
+
         for plane_group in self.ground_spawns:
             closest, distance = self.objective_info(plane_group)
             self._add_ground_spawn(closest.ground_spawns, plane_group)
@@ -584,9 +595,18 @@ class MizCampaignLoader:
         self.add_preset_locations()
         self.add_supply_routes()
         self.add_shipping_lanes()
+        self.add_rebel_zones()
 
     def get_ctld_zones(self, prefix: str) -> List[Tuple[Point, float]]:
         zones = [t for t in self.mission.triggers.zones() if prefix + " CTLD" in t.name]
         for z in zones:
             self.mission.triggers.zones().remove(z)
         return [(z.position, z.radius) for z in zones]
+
+    def add_rebel_zones(self) -> None:
+        zones = [
+            t for t in self.mission.triggers.zones() if t.name.startswith("Rebels")
+        ]
+        for z in zones:
+            self.mission.triggers.zones().remove(z)
+        self.theater.add_rebel_zones(zones)

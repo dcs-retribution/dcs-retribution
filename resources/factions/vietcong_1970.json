@@ -1,0 +1,54 @@
+{
+  "country": "Vietnam",
+  "name": "Viet Cong 1970",
+  "authors": "Ghosti",
+  "description": "<p>National Liberation Front of South Vietnam during the Vietnam War from 1965 to 1975. Includes air units of the PAVN/VPAF. Requires the OH-6 Vietnam Asset Pack.</p>",
+  "locales": [
+    "vi_Vn"
+  ],
+  "aircrafts": [
+    "Mi-8MTV2 Hip",
+    "MiG-19P Farmer-B",
+    "MiG-21bis Fishbed-N"
+  ],
+  "awacs": [],
+  "tankers": [],
+  "frontline_units": [
+    "PT-76",
+    "VAP VC Zil 130 Armed",
+    "VAP VC Bicycle AK",
+    "VAP VC MG Nest",
+    "VAP VC Bunker"
+  ],
+  "artillery_units": [
+    "VAP VC Type63 107mm MLRS"
+  ],
+  "logistics_units": [
+    "VAP VC Zis 150",
+    "VAP VC Bicycle"
+  ],
+  "infantry_units": [
+    "Infantry AK-74 Rus",
+    "VAP VC Bicycle Mortar"
+  ],
+  "missiles": [],
+  "preset_groups": [
+    "KS-19/SON-9"
+  ],
+  "naval_units": [
+    "Boat Armed Hi-speed",
+    "Boat Schnellboot type S130"
+  ],
+  "air_defense_units": [
+    "VAP VC Zis 150 AAA",
+    "S-60 57mm",
+    "ZSU-57-2 'Sparka'",
+    "AAA ZU-23 Emplacement",
+    "ZU-23 on Ural-375",
+    "ZSU-23-4 Shilka"
+  ],
+  "requirements": {
+    "OH-6 Vietnam Asset Pack": "https://github.com/tobi-be/DCS-OH-6A"
+  },
+  "doctrine": "coldwar"
+}

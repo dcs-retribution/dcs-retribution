@@ -11,3 +11,4 @@ price: 15
 role: Self-Propelled Gun
 variants:
   Grkpbv 90 SPM: {}
+  "[CH] Grkpbv 90 SPM": {}

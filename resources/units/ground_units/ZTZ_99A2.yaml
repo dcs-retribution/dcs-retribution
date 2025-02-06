@@ -1,0 +1,16 @@
+class: Tank
+description: "The Type 99 (Chinese: \u0039\u0039\u5f0f\u4e3b\u6218\u5766\u514b;
+  pinyin: \u004a\u0069\u01d4\u006a\u0069\u01d4\u0073\u0068\u00ec\u0020\u005a\u0068\u01d4\u007a\u0068\u00e0\u006e\u0020\u0054\u01ce\u006e\u006b\u00e8
+  ) or ZTZ-99 is a Chinese third generation main battle tank (MBT). The vehicle was a 
+  replacement for the aging Type 88 introduced in the late 1980s. The Type 99 MBT was 
+  China's first mass-produced third-generation main battle tank. Combining modular composite
+  armour and tandem-charge defeating ERA, 125 mm smoothbore gun with ATGM-capability, high
+  mobility, digital systems and optics, the Type 99 represents a shift towards rapid 
+  modernization by the PLA."
+introduced: 2011
+manufacturer: Norinco
+origin: China
+price: 40
+role: Main Battle Tank
+variants:
+  "[CH] ZTZ-99A2 MBT": {}

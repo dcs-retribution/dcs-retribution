@@ -32,6 +32,9 @@ def load_icons():
         "./resources/ui/misc/" + get_theme_icons() + "/github.png"
     )
     ICONS["Ukraine"] = QPixmap("./resources/ui/misc/ukraine.png")
+    ICONS["Pretense"] = QPixmap("./resources/ui/misc/pretense.png")
+    ICONS["Pretense_discord"] = QPixmap("./resources/ui/misc/pretense_discord.png")
+    ICONS["Pretense_generate"] = QPixmap("./resources/ui/misc/pretense_generate.png")
 
     ICONS["Control Points"] = QPixmap(
         "./resources/ui/misc/" + get_theme_icons() + "/circle.png"
@@ -212,6 +215,13 @@ def load_aircraft_icons():
         AIRCRAFT_ICONS[f1] = AIRCRAFT_ICONS["Mirage-F1C-200"]
     AIRCRAFT_ICONS["Mirage-F1M-CE"] = AIRCRAFT_ICONS["Mirage-F1CE"]
     AIRCRAFT_ICONS["F-15ESE"] = AIRCRAFT_ICONS["F-15E"]
+    AIRCRAFT_ICONS["Su-30MKA-AG"] = AIRCRAFT_ICONS["Su-30MKA"]
+    AIRCRAFT_ICONS["Su-30MKI-AG"] = AIRCRAFT_ICONS["Su-30MKI"]
+    AIRCRAFT_ICONS["Su-30MKM-AG"] = AIRCRAFT_ICONS["Su-30MKM"]
+    AIRCRAFT_ICONS["Su-30SM-AG"] = AIRCRAFT_ICONS["Su-30SM"]
+    AIRCRAFT_ICONS["F-5E-3_FC"] = AIRCRAFT_ICONS["F-5E-3"]
+    AIRCRAFT_ICONS["F-86F_FC"] = AIRCRAFT_ICONS["F-86F Sabre"]
+    AIRCRAFT_ICONS["MiG-15bis_FC"] = AIRCRAFT_ICONS["MiG-15bis"]
 
 
 def load_vehicle_icons():

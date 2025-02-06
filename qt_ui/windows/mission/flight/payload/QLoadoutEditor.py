@@ -86,8 +86,6 @@ class QLoadoutEditor(QGroupBox):
             return
         backup_folder = payloads_dir(backup=True)
         backup_file = backup_folder / f"{ac_id}.lua"
-        if not backup_folder.exists():
-            backup_folder.mkdir()
         copyfile(payload_file, backup_file)
         QMessageBox.information(
             QWidget(),
@@ -105,8 +103,6 @@ class QLoadoutEditor(QGroupBox):
         ac_id = ac_type.id
         payloads_folder = payloads_dir()
         payload_file = payloads_folder / f"{ac_id}.lua"
-        if not payloads_folder.exists():
-            payloads_folder.mkdir()
         ac_type.payloads[payload_name] = DcsPayload.from_flight_member(
             self.flight_member, payload_name
         ).to_dict()

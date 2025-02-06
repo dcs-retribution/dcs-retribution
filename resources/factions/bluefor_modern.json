@@ -16,7 +16,8 @@
     "B-52H Stratofortress",
     "C-130",
     "C-130J-30 Super Hercules",
-	"CH-47D",
+    "CH-47D",
+    "CH-47F Block I",
     "F-14B Tomcat",
     "F-15C Eagle",
     "F-15D Baz",
@@ -24,16 +25,19 @@
     "F-15E Strike Eagle (Suite 4+)",
     "F-16A MLU",
     "F-16CM Fighting Falcon (Block 50)",
-	"F-16D Fighting Falcon (Block 52+)",
-	"F-16D Fighting Falcon (Block 52)",
-	"F-16D Fighting Falcon (Block 50+)",
-	"F-16D Fighting Falcon (Block 50)",
+    "F-16D Fighting Falcon (Block 52+)",
+    "F-16D Fighting Falcon (Block 52)",
+    "F-16D Fighting Falcon (Block 50+)",
+    "F-16D Fighting Falcon (Block 50)",
     "F-22A Raptor",
+    "F-4E-45MC Phantom II",
     "F-5E Tiger II",
+    "F-5E Tiger II (FC)",
     "F/A-18C Hornet (Lot 20)",
-	"F/A-18E Super Hornet",
-	"F/A-18F Super Hornet",
-	"EA-18G Growler",
+    "F/A-18E Super Hornet",
+    "F/A-18F Super Hornet",
+    "EA-18G Growler",
+    "J-11A Flanker-L",
     "JF-17 Thunder",
     "Ka-50 Hokum",
     "Ka-50 Hokum III",
@@ -48,16 +52,22 @@
     "Mirage-F1M-EE",
     "Mi-24P Hind-F",
     "Mi-8MTV2 Hip",
+    "MiG-21bis Fishbed-N",
     "MiG-29S Fulcrum-C",
     "OH-58D(R) Kiowa Warrior",
     "SA 342L Gazelle",
     "SA 342M Gazelle",
+    "Su-24M Fencer-D",
     "Su-25T Frogfoot",
     "Su-27 Flanker-B",
     "Su-30MKA Flanker-H",
     "Su-30MKI Flanker-H",
     "Su-30MKM Flanker-H",
     "Su-30SM Flanker-H",
+    "Su-30MKA Flanker-H (A-G)",
+    "Su-30MKI Flanker-H (A-G)",
+    "Su-30MKM Flanker-H (A-G)",
+    "Su-30SM Flanker-H (A-G)",
     "UH-1H Iroquois",
     "UH-60A",
     "UH-60L"
@@ -73,6 +83,8 @@
     "S-3B Tanker"
   ],
   "frontline_units": [
+    "MBT M1A2C SEP v3 Abrams",
+    "APC MRAP MaxxPro",
     "LAV-25",
     "Leopard 2",
     "M1043 HMMWV (M2 HMG)",
@@ -142,11 +154,35 @@
   "jtac_unit": "MQ-9 Reaper",
   "unrestricted_satnav": true,
   "liveries_overrides": {
-    "Ka-50 Hokum": ["georgia camo"],  
-    "Mi-8MTV2 Hip": ["Ukraine"],
-    "Mi-24P Hind-F": ["Ukrainian Army Aviation"],
-    "MiG-29S Fulcrum-C": ["Air Force Ukraine Standard"],
-    "Su-25T Frogfoot": ["af standard 101"],
-    "Su-27 Flanker-B": ["Air Force Ukraine Standard"]
+    "J-11A Flanker-L": [
+      "USN Aggressor VFC-13 'Ferris' (Fictional)"
+    ],
+    "JF-17 Thunder": [
+      "'Splinter' Camo for Blue Side (Fictional)"
+    ],
+    "Ka-50 Hokum": [
+      "georgia camo"
+    ],
+    "Ka-50 Hokum III": [
+      "Ka-50_black_neutral"
+    ],
+    "Mi-8MTV2 Hip": [
+      "Ukraine"
+    ],
+    "Mi-24P Hind-F": [
+      "Ukrainian Army Aviation"
+    ],
+    "MiG-29S Fulcrum-C": [
+      "Air Force Ukraine Standard"
+    ],
+    "Su-24M Fencer-D": [
+      "Ukrainian Air Force Standard"
+    ],
+    "Su-25T Frogfoot": [
+      "af standard 101"
+    ],
+    "Su-27 Flanker-B": [
+      "Air Force Ukraine Standard"
+    ]
   }
 }

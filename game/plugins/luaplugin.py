@@ -77,6 +77,7 @@ class LuaPluginDefinition:
     options: List[LuaPluginOption]
     work_orders: List[LuaPluginWorkOrder]
     config_work_orders: List[LuaPluginWorkOrder]
+    other_resource_files: List[str]
 
     @classmethod
     def from_json(cls, name: str, path: Path) -> LuaPluginDefinition:
@@ -124,6 +125,7 @@ class LuaPluginDefinition:
             options=options,
             work_orders=work_orders,
             config_work_orders=config_work_orders,
+            other_resource_files=data.get("otherResourceFiles", []),
         )
 
 
@@ -199,3 +201,10 @@ class LuaPlugin(PluginSettings):
 
         for work_order in self.definition.config_work_orders:
             work_order.work(lua_generator)
+
+    def inject_other_resource_files(self, lua_generator: LuaGenerator) -> None:
+        for resource_file in self.definition.other_resource_files:
+            # TODO: should probably deconflict names of resources
+            lua_generator.inject_other_plugin_resources(
+                self.definition.identifier, resource_file
+            )

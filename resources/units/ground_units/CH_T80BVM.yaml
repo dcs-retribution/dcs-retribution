@@ -1,0 +1,12 @@
+class: Tank
+description: "The T-80 is a main battle tank (MBT) that was designed and manufactured in the former Soviet Union 
+  and manufactured in Russia. The T-80 is based on the T-64, while incorporating features from the later T-72 
+  and changing the engine to a gas turbine. When it entered service in 1976, it was the first production tank to 
+  be powered solely by turbine"
+introduced: 2017
+manufacturer: LKZ and Omsk Transmash
+origin: Russia
+price: 25
+role: Main Battle Tank
+variants:
+  "[CH] T-80BVM MBT": {}

@@ -16,6 +16,7 @@ origin: USSR/Russia
 price: 24
 role: Interceptor
 max_range: 800
+default_livery: af standard
 variants:
   MiG-31 Foxhound: {}
 tasks:

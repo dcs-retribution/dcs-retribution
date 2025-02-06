@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import random
 from typing import Optional, TYPE_CHECKING
 
 from game.squadrons import Squadron
@@ -101,9 +102,10 @@ class DefaultSquadronAssigner:
         if aircraft not in self.coalition.faction.all_aircrafts:
             return None
 
-        lo = self.coalition.faction.liveries_overrides
         squadron_def = self.find_squadron_for_airframe(aircraft, task, control_point)
-        if squadron_def is not None and lo.get(aircraft) is None:
+        if squadron_def is not None and (
+            squadron_def.livery is not None or squadron_def.livery_set is not None
+        ):
             return squadron_def
 
         # No premade squadron available for this aircraft that meets the requirements,
@@ -124,11 +126,14 @@ class DefaultSquadronAssigner:
     def find_squadron_for_airframe(
         self, aircraft: AircraftType, task: FlightType, control_point: ControlPoint
     ) -> Optional[SquadronDef]:
+        choices = []
         for squadron in self.air_wing.squadron_defs[aircraft]:
             if not squadron.claimed and self.squadron_compatible_with(
                 squadron, task, control_point
             ):
-                return squadron
+                choices.append(squadron)
+        if choices:
+            return random.choice(choices)
         return None
 
     def find_squadron_by_name(

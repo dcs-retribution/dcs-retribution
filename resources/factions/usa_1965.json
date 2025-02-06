@@ -10,6 +10,7 @@
     "B-52H Stratofortress",
     "C-130",
     "CH-47D",
+    "CH-47F Block I",
     "A-4E Skyhawk",
     "A-6A Intruder",
     "F-4B Phantom II",
@@ -23,6 +24,7 @@
     "F-105G Thunderchief",
     "F-106A Delta Dart",
     "F-106B Delta Dart",
+    "OH-6A Cayuse",
     "UH-1H Iroquois"
   ],
   "awacs": [

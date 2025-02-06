@@ -321,6 +321,38 @@ class Faction:
 
         return faction
 
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "country": self.country.name,
+            "name": self.name,
+            "description": self.description,
+            "authors": self.authors,
+            "aircrafts": [ac.variant_id for ac in self.aircraft],
+            "awacs": [ac.variant_id for ac in self.awacs],
+            "tankers": [ac.variant_id for ac in self.tankers],
+            "frontline_units": [unit.variant_id for unit in self.frontline_units],
+            "artillery_units": [unit.variant_id for unit in self.artillery_units],
+            "logistics_units": [unit.variant_id for unit in self.logistics_units],
+            "infantry_units": [unit.variant_id for unit in self.infantry_units],
+            "preset_groups": [group.name for group in self.preset_groups],
+            "air_defense_units": [unit.variant_id for unit in self.air_defense_units],
+            "naval_units": [unit.variant_id for unit in self.naval_units],
+            "missiles": [unit.variant_id for unit in self.missiles],
+            "has_jtac": self.has_jtac,
+            "jtac_unit": self.jtac_unit.variant_id if self.jtac_unit else None,
+            "doctrine": self.doctrine.name,
+            "building_set": list(self.building_set),
+            "liveries_overrides": {
+                ac.variant_id: livery for ac, livery in self.liveries_overrides.items()
+            },
+            "liveries_overrides_ground_forces": self.liveries_overrides_ground_forces,
+            "unrestricted_satnav": self.unrestricted_satnav,
+            "requirements": self.requirements,
+            "carriers": {
+                carrier.variant_id: names for carrier, names in self.carriers.items()
+            },
+        }
+
     @property
     def ground_units(self) -> Iterator[GroundUnitType]:
         yield from self.artillery_units
@@ -352,6 +384,45 @@ class Faction:
             self.remove_aircraft("A-4E-C")
         if not mod_settings.hercules:
             self.remove_aircraft("Hercules")
+        if not mod_settings.oh_6:
+            self.remove_aircraft("OH-6A")
+        if not mod_settings.oh_6_vietnamassetpack:
+            self.remove_vehicle("vap_mutt_gun")
+            self.remove_vehicle("vap_type63_mlrs")
+            self.remove_vehicle("vap_vc_bicycle_mortar")
+            self.remove_vehicle("vap_zis_150_aa")
+            self.remove_vehicle("vap_us_hooch_LP")
+            self.remove_vehicle("vap_ammo_50cal_line")
+            self.remove_vehicle("vap_ammo_50cal_pack")
+            self.remove_vehicle("vap_barrels_line")
+            self.remove_vehicle("vap_barrels")
+            self.remove_vehicle("vap_ammo_box_pile")
+            self.remove_vehicle("vap_ammo_box_wood_long")
+            self.remove_vehicle("vap_ammo_box_wood_small")
+            self.remove_vehicle("vap_barrel_red")
+            self.remove_vehicle("vap_barrel_green")
+            self.remove_vehicle("vap_mre_boxes")
+            self.remove_vehicle("vap_mixed_cargo_1")
+            self.remove_vehicle("vap_mixed_cargo_2")
+            self.remove_vehicle("vap_watchtower")
+            self.remove_vehicle("vap_house_high")
+            self.remove_vehicle("vap_house_long")
+            self.remove_vehicle("vap_house_small")
+            self.remove_vehicle("vap_house_T")
+            self.remove_vehicle("vap_house_tiny")
+            self.remove_vehicle("vap_house1")
+            self.remove_vehicle("vap_us_hooch_radio")
+            self.remove_vehicle("vap_us_hooch_closed")
+            self.remove_vehicle("vap_vc_bunker_single")
+            self.remove_vehicle("vap_vc_mg_nest")
+            self.remove_vehicle("vap_mule")
+            self.remove_vehicle("vap_mutt")
+            self.remove_vehicle("vap_m35_truck")
+            self.remove_vehicle("vap_vc_zis")
+            self.remove_vehicle("vap_vc_bicycle")
+            self.remove_vehicle("vap_vc_zil")
+            self.remove_vehicle("vap_vc_bicycle_ak")
+            self.remove_ship("vap_us_seafloat")
         if not mod_settings.uh_60l:
             self.remove_aircraft("UH-60L")
             self.remove_aircraft("KC130J")
@@ -410,6 +481,11 @@ class Faction:
             self.remove_aircraft("JAS39Gripen_AG")
         if not mod_settings.super_etendard:
             self.remove_aircraft("VSN_SEM")
+        if not mod_settings.sk_60:
+            self.remove_aircraft("SK-60")
+        if not mod_settings.su15_flagon:
+            self.remove_aircraft("Su_15")
+            self.remove_aircraft("Su_15TM")
         if not mod_settings.su30_flanker_h:
             self.remove_aircraft("Su-30MKA")
             self.remove_aircraft("Su-30MKI")
@@ -499,8 +575,10 @@ class Faction:
             self.remove_preset("David's Sling (Semicircle)")
         # swedish military assets pack
         if not mod_settings.swedishmilitaryassetspack:
-            self.remove_vehicle("BV410_RBS70")
-            self.remove_vehicle("BV410_RBS90")
+            self.remove_vehicle("Grkpbv90")
+            self.remove_vehicle("Artillerisystem08_SGR77B")
+            self.remove_vehicle("Artillerisystem08_M982")
+            self.remove_vehicle("LvKv9040")
             self.remove_vehicle("LvS_103_Lavett103_Rb103A")
             self.remove_vehicle("LvS_103_Lavett103_Rb103B")
             self.remove_vehicle("LvS_103_Lavett103_HX_Rb103A")
@@ -509,39 +587,49 @@ class Faction:
             self.remove_vehicle("LvS_103_PM103")
             self.remove_vehicle("LvS_103_PM103_HX")
             self.remove_vehicle("LvS_103_Elverk103")
-            self.remove_vehicle("LvKv9040")
-            self.remove_vehicle("RBS_70")
-            self.remove_vehicle("RBS_90")
-            self.remove_vehicle("RBS_98")
+            self.remove_vehicle("RBS-70")
+            self.remove_vehicle("RBS-90")
+            self.remove_vehicle("RBS-98")
             self.remove_vehicle("UndE23")
-            self.remove_vehicle("BV410")
-            self.remove_vehicle("CV9040")
-            self.remove_vehicle("Strv103")
-            self.remove_vehicle("Strv121")
-            self.remove_vehicle("Strv122")
-            self.remove_vehicle("Strv2000")
-            self.remove_vehicle("Volvo740")
-            self.remove_vehicle("RBS_15KA")
-            self.remove_vehicle("AG_90")
             self.remove_vehicle("SwedishinfantryAK4")
             self.remove_vehicle("SwedishinfantryAK5")
             self.remove_vehicle("SwedishinfantryAK5GT")
             self.remove_vehicle("SwedishinfantryKSP90")
             self.remove_vehicle("SwedishinfantryKSP58")
             self.remove_vehicle("SwedishinfantryPskott86")
-            self.remove_vehicle("RBS_57")
-            self.remove_vehicle("RBS_58")
-            self.remove_vehicle("Artillerisystem08")
-            self.remove_vehicle("Grkpbv90")
-            self.remove_ship("HSwMS_Visby")
+            self.remove_vehicle("RBS-57")
+            self.remove_vehicle("RBS-58")
+            self.remove_vehicle("AG-90")
+            self.remove_vehicle("CV9040")
+            self.remove_vehicle("CH_Strf9040C")
+            self.remove_vehicle("Strv103")
+            self.remove_vehicle("Strv2000")
+            self.remove_vehicle("Volvo740")
+            self.remove_vehicle("CH_BVS10")
+            self.remove_vehicle("CH_CV9050")
+            self.remove_vehicle("CH_Ikv91")
+            self.remove_vehicle("CH_Strv123")
+            self.remove_vehicle("CH_Strv122")
+            self.remove_vehicle("CH_SisuGTP")
+            self.remove_vehicle("RBS-15KA")
             self.remove_ship("Strb90")
+            self.remove_ship("HSwMS_Visby")
             self.remove_aircraft("HKP15B")
+            self.remove_aircraft("CH_JAS39C")
             self.remove_preset("LvS-103 Rb103A")
             self.remove_preset("LvS-103 Rb103A Mobile")
             self.remove_preset("LvS-103 Rb103B")
             self.remove_preset("LvS-103 Rb103B Mobile")
+            self.remove_preset("RBS-15")
+            self.remove_preset("RBS-70")
+            self.remove_preset("RBS-90")
+            self.remove_preset("RBS-98")
         if not mod_settings.coldwarassets:
-            self.remove_aircraft("EA_6B")
+            self.remove_aircraft("B_47")
+            self.remove_aircraft("Tu-4K")
+            self.remove_aircraft("Tu-16")
+            self.remove_aircraft("tu_22D")
+            self.remove_aircraft("tu_22KD")
         # SWPack
         if not mod_settings.SWPack:
             self.remove_aircraft("AWINGA")
@@ -573,6 +661,180 @@ class Faction:
             self.remove_vehicle("TR_TT")
             self.remove_vehicle("Gozanti")
             self.remove_ship("Destroyer_carrier")
+        # vietnamwarvessels
+        if not mod_settings.vietnamwarvessels:
+            self.remove_ship("PBR_MKII")
+            self.remove_ship("USS Sumner")
+            self.remove_ship("cva-31")
+            self.remove_ship("USS Fletcher")
+            self.remove_ship("USS Laffey")
+            self.remove_ship("USS Maddox")
+            self.remove_ship("USS The Sullivans")
+            self.remove_ship("P4")
+            self.remove_aircraft("vwv_a1_skyraider")
+            self.remove_aircraft("vwv_ra-5")
+            self.remove_aircraft("vwv_crusader")
+            self.remove_aircraft("vwv_mig17f")
+            self.remove_aircraft("vwv_mig21mf")
+            self.remove_aircraft("vwv_o-1")
+            self.remove_aircraft("vwv_sh2f")
+            self.remove_aircraft("vwv_hh2d")
+        # Chinese Military Assets Pack
+        if not mod_settings.chinesemilitaryassetspack:
+            self.remove_vehicle("CH_PCL181_155")
+            self.remove_vehicle("CH_PCL181_GP155")
+            self.remove_vehicle("CH_PHL11_HE")
+            self.remove_vehicle("CH_PHL11_DPICM")
+            self.remove_vehicle("CH_PHL16_FD280")
+            self.remove_vehicle("CH_PLZ07")
+            self.remove_vehicle("HQ17A")
+            self.remove_vehicle("CH_HQ22_LN")
+            self.remove_vehicle("CH_HQ22_STR")
+            self.remove_vehicle("CH_HQ22_SR")
+            self.remove_vehicle("CH_LD3000")
+            self.remove_vehicle("CH_LD3000_stationary")
+            self.remove_vehicle("PGL_625")
+            self.remove_vehicle("CH_PGZ09")
+            self.remove_vehicle("CH_PGZ95")
+            self.remove_vehicle("CH_SX2190")
+            self.remove_vehicle("ZTZ_99A2")
+            self.remove_vehicle("CH_ZBD04A-AT")
+            self.remove_vehicle("CH_ZTQ_15")
+            self.remove_vehicle("CH_ZTL11")
+            self.remove_vehicle("CH_ZBL09")
+            self.remove_vehicle("CH_CJ10")
+            self.remove_vehicle("CH_YJ12B")
+            self.remove_vehicle("CH_DF21D")
+            self.remove_ship("CH_Type022")
+            self.remove_ship("Type052D")
+            self.remove_ship("Type055")
+            self.remove_ship("CH_Type056A")
+            self.remove_ship("CH_Type054B")
+            self.remove_preset("HQ-22")
+            self.remove_preset("DF-21D LBASM")
+            self.remove_preset("YJ-12B LBASM")
+        # Russian Military Assets Pack
+        if not mod_settings.russianmilitaryassetspack:
+            self.remove_vehicle("CH_2S35")
+            self.remove_vehicle("CH_TOS1A")
+            self.remove_vehicle("CH_DSHK_HMG_RUS")
+            self.remove_vehicle("CH_DSHK_HMG_UKR")
+            self.remove_vehicle("CH_9M133")
+            self.remove_vehicle("CH_RussianInfantry_Kord")
+            self.remove_vehicle("CH_2S38_LG")
+            self.remove_vehicle("CH_2S38")
+            self.remove_vehicle("PantsirS1")
+            self.remove_vehicle("PantsirS2")
+            self.remove_vehicle("CH_S350_50P6_9M96D")
+            self.remove_vehicle("CH_S350_50P6_9M100")
+            self.remove_vehicle("CH_S350_50N6")
+            self.remove_vehicle("CH_S350_50K6")
+            self.remove_vehicle("CH_S350_96L6")
+            self.remove_vehicle("TorM2K")
+            self.remove_vehicle("TorM2")
+            self.remove_vehicle("TorM2M")
+            self.remove_vehicle("CH_BukM3_9A317M")
+            self.remove_vehicle("CH_BukM3_9A317MA")
+            self.remove_vehicle("CH_BukM3_9S36M")
+            self.remove_vehicle("CH_BukM3_9S510M")
+            self.remove_vehicle("CH_BukM3_9S18M13")
+            self.remove_vehicle("CH_TM62_AT_Mine")
+            self.remove_vehicle("CH_T14")
+            self.remove_vehicle("CH_T90M")
+            self.remove_vehicle("CH_TigrM")
+            self.remove_vehicle("CH_T90A")
+            self.remove_vehicle("CH_T80BVM")
+            self.remove_vehicle("CH_BMD4")
+            self.remove_vehicle("CH_3K60_BAL")
+            self.remove_vehicle("K300P")
+            self.remove_vehicle("MonolitB")
+            self.remove_vehicle("CH_IskanderM")
+            self.remove_vehicle("CH_IskanderK")
+            self.remove_ship("CH_Project22160")
+            self.remove_ship("Admiral_Gorshkov")
+            self.remove_ship("CH_Grigorovich_AShM")
+            self.remove_ship("CH_Grigorovich_LACM")
+            self.remove_ship("Karakurt_AShM")
+            self.remove_ship("Karakurt_LACM")
+            self.remove_ship("CH_Steregushchiy")
+            self.remove_ship("CH_Gremyashchiy_AShM")
+            self.remove_ship("CH_Gremyashchiy_LACM")
+            self.remove_aircraft("CH_Tu-160M2")
+            self.remove_aircraft("CH_Tu-95MSM")
+            self.remove_aircraft("CH_Mi28N")
+            self.remove_aircraft("CH_Ka52")
+            self.remove_aircraft("CH_Ka52K")
+            self.remove_preset("BAL LBASM")
+            self.remove_preset("BUK M3")
+            self.remove_preset("Bastion-P LBASM")
+            self.remove_preset("S-350")
+        if not mod_settings.usamilitaryassetspack:
+            self.remove_vehicle("M142_HIMARS_GLSDB")
+            self.remove_vehicle("M142_HIMARS_ATACMS")
+            self.remove_vehicle("M142_HIMARS_GMLRS")
+            self.remove_vehicle("M142_HIMARS_PRSM")
+            self.remove_vehicle("M142_HIMARS_PRSM_ASHM")
+            self.remove_vehicle("CH_M270A1_GLSDB")
+            self.remove_vehicle("CH_M270A1_ATACMS")
+            self.remove_vehicle("CH_M270A1_GMLRS")
+            self.remove_vehicle("CH_M777LTH_M982")
+            self.remove_vehicle("CH_M777LTH_M795")
+            self.remove_vehicle("CH_M777LTH_MTVR_M982")
+            self.remove_vehicle("CH_M777LTH_MTVR_M795")
+            self.remove_vehicle("CH_USInfantry_FGM148")
+            self.remove_vehicle("CH_USInfantry_M136")
+            self.remove_vehicle("CH_USInfantry_M2")
+            self.remove_vehicle("CH_USInfantry_M82")
+            self.remove_vehicle("CH_USInfantry_MK19")
+            self.remove_vehicle("CH_USInfantry_M4")
+            self.remove_vehicle("CH_USInfantry_M240")
+            self.remove_vehicle("CH_USInfantry_M249")
+            self.remove_vehicle("CH_USInfantry_M4M203")
+            self.remove_vehicle("CH_USInfantry_FIM92")
+            self.remove_vehicle("CH_USInfantry_M120")
+            self.remove_vehicle("CH_NASAMS3_LN_AMRAAM_ER")
+            self.remove_vehicle("CH_NASAMS3_LN_AIM9X2")
+            self.remove_vehicle("CH_NASAMS3_SR")
+            self.remove_vehicle("CH_NASAMS3_CP")
+            self.remove_vehicle("CH_Centurion_C_RAM")
+            self.remove_vehicle("CH_LAVAD")
+            self.remove_vehicle("MIM104_M903_PAC2")
+            self.remove_vehicle("MIM104_M903_PAC3")
+            self.remove_vehicle("MIM104_ECS")
+            self.remove_vehicle("MIM104_ANMPQ65")
+            self.remove_vehicle("MIM104_ANMPQ65A")
+            self.remove_vehicle("MIM104_LTAMDS")
+            self.remove_vehicle("MIM104_EPP")
+            self.remove_vehicle("MIM104_M903_PAC2_HEMTT")
+            self.remove_vehicle("MIM104_M903_PAC3_HEMTT")
+            self.remove_vehicle("MIM104_ANMPQ65_HEMTT")
+            self.remove_vehicle("MIM104_ANMPQ65A_HEMTT")
+            self.remove_vehicle("MIM104_LTAMDS_HEMTT")
+            self.remove_vehicle("CH_THAAD_ANTPY2")
+            self.remove_vehicle("CH_THAAD_M1120")
+            self.remove_vehicle("CH_THAAD_TFCC")
+            self.remove_vehicle("CH_MTVR")
+            self.remove_vehicle("CH_FMTV_M1083")
+            self.remove_vehicle("CH_HEMTT_M977")
+            self.remove_vehicle("CH_HEMTT_M983")
+            self.remove_vehicle("CH_OshkoshLATV_M2")
+            self.remove_vehicle("CH_OshkoshLATV_MK19")
+            self.remove_vehicle("CH_M1A2SEPV3")
+            self.remove_vehicle("CH_M10")
+            self.remove_vehicle("CH_M551")
+            self.remove_vehicle("CH_OshkoshMATV_M2")
+            self.remove_vehicle("CH_OshkoshMATV_MK19")
+            self.remove_vehicle("CH_M2A3")
+            self.remove_ship("CH_Constellation")
+            self.remove_ship("CH_Arleigh_Burke_IIA")
+            self.remove_ship("CH_Arleigh_Burke_III")
+            self.remove_ship("CH_Ticonderoga")
+            self.remove_ship("CH_Ticonderoga_CMP")
+            self.remove_aircraft("B-21")
+            self.remove_preset("MIM-104 Patriot (Mobile)")
+            self.remove_preset("MIM-104 Patriot (Stationary)")
+            self.remove_preset("NASAMS 3")
+            self.remove_preset("THAAD")
 
     def remove_aircraft(self, name: str) -> None:
         for aircraft_set in [self.aircraft, self.awacs, self.tankers]:
@@ -598,6 +860,7 @@ class Faction:
             self.air_defense_units,
             self.artillery_units,
             self.logistics_units,
+            self.missiles,
         ]:
             for i in list(sequence):
                 if i.dcs_unit_type.id == name:

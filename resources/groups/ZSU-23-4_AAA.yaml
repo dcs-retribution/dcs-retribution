@@ -1,0 +1,8 @@
+name: ZSU-23-4 AAA
+tasks:
+  - AAA
+units:
+  - ZSU-23-4 Shilka
+  - Truck Ural-375
+layouts:
+  - AAA Site Small

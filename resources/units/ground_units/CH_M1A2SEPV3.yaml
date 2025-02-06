@@ -1,0 +1,12 @@
+class: Tank
+description: The M1A2 Abrams is an advanced version of hte renowned M1 Abrams. The M1A2
+  introduced a redisigned commanders independent thermal viewer (CITV), upgraded armor and
+  digital systems to bolster situational awareness. Despite a nearly 70 ton weight, the M1A2
+  maintains decent mobility with its 1,500 horspower engine.
+introduced: 1992
+manufacturer: General Dynamics
+origin: United States
+price: 25
+role: Main Battle Tank
+variants:
+  "[CH] M1A2 SEPv3 MBT": {}

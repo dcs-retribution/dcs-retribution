@@ -10,6 +10,7 @@ from dcs import Mission
 from dcs.action import DoScript, DoScriptFile
 from dcs.translation import String
 from dcs.triggers import TriggerStart
+from dcs.unit import Skill
 
 from game.ato import FlightType
 from game.dcs.aircrafttype import AircraftType
@@ -17,6 +18,7 @@ from game.plugins import LuaPluginManager
 from game.theater import TheaterGroundObject
 from game.theater.iadsnetwork.iadsrole import IadsRole
 from game.utils import escape_string_for_lua
+from game.data.units import UnitClass
 from .missiondata import MissionData
 
 if TYPE_CHECKING:
@@ -211,6 +213,59 @@ class LuaGenerator:
             for role, connections in node.connections.items():
                 iads_element.add_data_array(role, connections)
 
+        # Add artillery and support units info
+        artillery_object = lua_data.add_item("artilleryGroups")
+        ground_artillery_group_collection = artillery_object.get_or_create_item(
+            "groundArtillery"
+        )
+        ship_artillery_group_collection = artillery_object.get_or_create_item(
+            "shipArtillery"
+        )
+
+        # First add all artillery units that are theater objects (mostly ships)
+        for ground_object in self.game.theater.ground_objects:
+            for group in ground_object.groups:
+                # Check if first unit in group is ground-based or ship artillery
+                group_first_unit = group.units[0]
+                if group_first_unit.unit_type is None:
+                    continue
+                if group_first_unit.unit_type.unit_class == UnitClass.ARTILLERY:
+                    ground_artillery_group = (
+                        ground_artillery_group_collection.add_item()
+                    )
+                    ground_artillery_group.add_key_value("groupName", group.group_name)
+                elif group_first_unit.unit_type.unit_class in (
+                    UnitClass.CRUISER,
+                    UnitClass.DESTROYER,
+                    UnitClass.FRIGATE,
+                ):
+                    # TODO: we assume that these ship classes have guns... Which might not be the case.
+                    ship_artillery_group = ship_artillery_group_collection.add_item()
+                    ship_artillery_group.add_key_value("groupName", group.group_name)
+
+        # Add artillery that are frontline groups
+        for frontline_group in (
+            self.mission_data.player_frontline_groups
+            + self.mission_data.enemy_frontline_groups
+        ):
+            if frontline_group.unit_type.unit_class == UnitClass.ARTILLERY:
+                ground_artillery_group = ground_artillery_group_collection.add_item()
+                ground_artillery_group.add_key_value(
+                    "groupName", frontline_group.group_name
+                )
+
+        # Add forward observer (FO) (TODO: maybe adding new flight type "Foward Observer"?)
+        forward_observer_object = lua_data.add_item("forwardObserverUnits")
+        for flight in self.mission_data.flights:
+            if len(flight.client_units) == 0:
+                continue
+            if flight.flight_type != FlightType.ARMED_RECON:
+                continue
+
+            for client_unit in flight.client_units:
+                forward_observer = forward_observer_object.add_item()
+                forward_observer.add_key_value("unitName", client_unit.name)
+
         trigger = TriggerStart(comment="Set DCS Retribution data")
         trigger.add_action(DoScript(String(lua_data.create_operations_lua())))
         self.mission.triggerrules.triggers.append(trigger)
@@ -245,11 +300,23 @@ class LuaGenerator:
         trigger.add_action(DoScriptFile(fileref))
         self.mission.triggerrules.triggers.append(trigger)
 
+    def inject_other_plugin_resources(self, plugin_mnemonic: str, file: str) -> None:
+        plugin_path = Path("./resources/plugins", plugin_mnemonic)
+
+        resource_path = Path(plugin_path, file)
+        if not resource_path.exists():
+            logging.error(f"Cannot find {resource_path} for plugin {plugin_mnemonic}")
+            return
+
+        filename = resource_path.resolve()
+        self.mission.map_resource.add_resource_file(filename)
+
     def inject_plugins(self) -> None:
         for plugin in LuaPluginManager.plugins():
             if plugin.enabled:
                 plugin.inject_scripts(self)
                 plugin.inject_configuration(self)
+                plugin.inject_other_resource_files(self)
 
 
 class LuaValue:

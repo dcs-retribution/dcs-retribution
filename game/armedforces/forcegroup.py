@@ -9,20 +9,30 @@ from typing import Any, ClassVar, Iterator, Optional, TYPE_CHECKING, Type
 import yaml
 from dcs.unittype import ShipType, StaticType, UnitType as DcsUnitType, VehicleType
 
+from game import persistency
 from game.data.groups import GroupTask
 from game.dcs.groundunittype import GroundUnitType
 from game.dcs.helpers import static_type_from_name
 from game.dcs.shipunittype import ShipUnitType
 from game.dcs.unittype import UnitType
 from game.layout import LAYOUTS
-from game.layout.layout import TgoLayout, TgoLayoutUnitGroup
+from game.layout.layout import (
+    TgoLayout,
+    TgoLayoutUnitGroup,
+)
 from game.point_with_heading import PointWithHeading
 from game.theater.theatergroundobject import (
     IadsGroundObject,
     IadsBuildingGroundObject,
     NavalGroundObject,
 )
-from game.theater.theatergroup import IadsGroundGroup, IadsRole, TheaterGroup
+from game.theater.theatergroup import (
+    IadsGroundGroup,
+    IadsRole,
+    TheaterGroup,
+    FIXED_POS_ARG,
+    FIXED_HDG_ARG,
+)
 from game.utils import escape_string_for_lua
 
 if TYPE_CHECKING:
@@ -249,7 +259,11 @@ class ForceGroup:
             # No units to be created so dont create a theater group for them
             return
         # Generate Units
-        units = unit_group.generate_units(ground_object, unit_type, unit_count)
+        fixed_pos = FIXED_POS_ARG in unit_group.name
+        fixed_hdg = FIXED_HDG_ARG in unit_group.name
+        units = unit_group.generate_units(
+            ground_object, unit_type, unit_count, fixed_pos, fixed_hdg
+        )
         # Get or create the TheaterGroup
         ground_group = ground_object.group_by_name(group_name)
         if ground_group is not None:
@@ -304,11 +318,22 @@ class ForceGroup:
                 # Reverse the heading of the unit
                 unit.position.heading = unit.position.heading.opposite
             # Rotate unit around the center to align the orientation of the group
-            unit.position.rotate(ground_object.position, rotation)
+            unit.rotate_position_clockwise(ground_object.position, rotation)
 
     @classmethod
     def _load_all(cls) -> None:
-        for file in Path("resources/groups").glob("*.yaml"):
+        locations = [
+            Path("resources/groups"),
+            persistency.groups_dir(),
+        ]
+        for path in locations:
+            cls._process_path(path)
+
+        cls._loaded = True
+
+    @classmethod
+    def _process_path(cls, path: Path) -> None:
+        for file in path.glob("*.yaml"):
             if not file.is_file():
                 raise RuntimeError(f"{file.name} is not a valid ForceGroup")
 
@@ -356,5 +381,3 @@ class ForceGroup:
             )
 
             cls._by_name[force_group.name] = force_group
-
-        cls._loaded = True
