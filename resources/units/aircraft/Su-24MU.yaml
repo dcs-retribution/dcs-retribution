@@ -14,7 +14,7 @@ role: Attack
 max_range: 200
 default_livery: af standard
 variants:
-  "[CH] Su-24MU Bomber": {}
+  "[CH] Su-24MU": {}
 tasks:
   BAI: 610
   CAS: 610
