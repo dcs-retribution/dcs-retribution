@@ -110,6 +110,11 @@ class WeaponsColdWarAssets:
         "weight": 1450,
     }
     KSR_2 = {"clsid": "{TU_16_KSR2}", "name": "KSR-2", "weight": 1160}
+    KSR_2D_decoy_missile = {
+        "clsid": "{TU_16_KSR2d}",
+        "name": "KSR-2D decoy missile",
+        "weight": 1160,
+    }
     KSR_2_086__Passive_seeker_ = {
         "clsid": "{TU_16_KSR2ARM}",
         "name": "KSR-2.086 (Passive seeker)",
@@ -560,10 +565,6 @@ class Yak_28(PlaneType):
         MBD3_U6_68_with_6_x_FAB_100___100kg_GP_Bombs_LD = (
             3,
             Weapons.MBD3_U6_68_with_6_x_FAB_100___100kg_GP_Bombs_LD,
-        )
-        MBD3_U6_68_with_6_x_FAB_250___250kg_GP_Bombs_LD = (
-            3,
-            Weapons.MBD3_U6_68_with_6_x_FAB_250___250kg_GP_Bombs_LD,
         )
 
     class Pylon4:
