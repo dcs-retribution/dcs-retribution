@@ -180,7 +180,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("A-6A Intruder (v2.7.5.01)", self.a6a_intruder),
             ("A-7E Corsair II", self.a7e_corsair2),
             ("C-130J-30 Super Hercules (v6.8.2)", self.hercules),
-            ("Cold War Assets mod (v1.0)", self.coldwarassets),
+            ("Cold War Assets mod (v1.2)", self.coldwarassets),
             (
                 "CurrentHill Chinese Military Assets pack (1.1.4)",
                 self.chinesemilitaryassetspack,
@@ -211,7 +211,6 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("F9F Panther (v2.8.7.101)", self.f9f_panther),
             ("F/A-18E/F Super Hornet AI Tanker (version 1.4)", self.fa18ef_tanker),
             ("F/A-18E/F/G Super Hornet (version 2.3.2)", self.fa_18efg),
-            ("Cold War Assets mod (v1.0)", self.coldwarassets),
             ("Frenchpack (v4.9.1)", self.frenchpack),
             ("High Digit SAMs", self.high_digit_sams),
             ("IDF Assets Pack (v1.1 by IDF Mods Project)", self.irondome),
