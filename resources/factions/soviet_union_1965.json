@@ -1,7 +1,7 @@
 {
   "country": "USSR",
   "name": "Soviet Union 1965",
-  "authors": "Ghosti",
+  "authors": "Ghosti & Biggus",
   "description": "<p>Soviet armed forces in the 60s, unsing the Cold War Assets mod by tripod3.</p>",
   "locales": [
     "ru_RU"
@@ -11,13 +11,17 @@
     "MiG-15bis Fagot",
     "MiG-19P Farmer-B",
     "MiG-21bis Fishbed-N",
+    "Tu-128M Fiddler",
+    "Yak-28",
     "Tu-4K Bull",
     "Tu-16 Badger-B",
     "Tu-22D Blinder",
     "Tu-22KD Blinder",
+    "Tu-95K Bear-C",
     "Tu-95MS Bear-H"
   ],
   "awacs": [
+    "Tu-126",
     "A-50"
   ],
   "tankers": [

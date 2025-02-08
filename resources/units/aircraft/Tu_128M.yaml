@@ -1,0 +1,18 @@
+description:
+  "The Tupolev Tu-28 (NATO reporting name Fiddler) is a long-range interceptor aircraft introduced by the Soviet Union in the 1960s. The official designation was Tu-128, but this designation was less commonly used in the West. It was the largest and heaviest fighter ever in service."
+introduced: 1964
+manufacturer: Tupolev
+origin: USSR
+price: 15
+role: Interceptor
+max_range: 400
+gunfighter: false
+variants:
+  Tu-128M Fiddler: {}
+kneeboard_units: "metric"
+tasks:
+  BARCAP: 380
+  Escort: 380
+  Fighter sweep: 380
+  Intercept: 380
+  TARCAP: 380

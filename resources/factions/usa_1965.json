@@ -1,13 +1,15 @@
 {
   "country": "USA",
   "name": "USA 1965",
-  "authors": "Khopa",
-  "description": "<p>US army in the late 60s, during Vietnam war.</p>",
+  "authors": "Khopa, with additional units by Ghosti and Biggus",
+  "description": "<p>US forces in the late 60s, during Vietnam war.</p>",
   "locales": [
     "en_US"
   ],
   "aircrafts": [
     "B-52H Stratofortress",
+	"B-47 Stratojet",
+	"B-58 Hustler",
     "C-130",
     "CH-47D",
     "CH-47F Block I",

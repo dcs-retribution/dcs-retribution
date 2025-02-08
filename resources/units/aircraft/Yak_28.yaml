@@ -7,12 +7,13 @@ description:
   it began to enter service in 1964."
 introduced: 1964
 manufacturer: Yakovlev
-origin: USSR/Russia
-price: 11
+origin: USSR
+price: 15
 role: Interceptor
 max_range: 200
-gunfighter: true
+gunfighter: false
 variants:
+  Yak-28: {}
   Yak-28 Firebar: {}
 kneeboard_units: "metric"
 tasks:
@@ -21,3 +22,5 @@ tasks:
   Fighter sweep: 350
   Intercept: 350
   TARCAP: 350
+  CAS: 20
+  Armed Recon: 20

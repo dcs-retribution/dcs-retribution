@@ -1,0 +1,14 @@
+description: "The Tupolev Tu-126 (NATO reporting name: Moss) was an airborne early warning and control aircraft developed from the Tupolev Tu-114 airliner by the Tupolev design bureau. It was in service with the armed forces of the Soviet Union from 1965 to 1984."
+introduced: 1962
+max_group_size: 1
+max_range: 2000
+manufacturer: Tupolev
+origin: USSR
+price: 45
+patrol:
+  altitude: 25000
+variants:
+  Tu-126: null
+  Tu-126 Moss: null
+tasks:
+  AEW&C: 11
