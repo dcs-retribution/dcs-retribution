@@ -1,0 +1,23 @@
+description:
+  "The Yakovlev Yak-28 (Russian: Яковлев Як-28) is a swept wing, turbojet-powered 
+  combat aircraft used by the Soviet Union. Produced initially as a tactical medium 
+  bomber, it was also manufactured in reconnaissance, electronic warfare, interceptor, 
+  and trainer versions, known by the NATO reporting names Brewer, Brewer-E, Firebar, 
+  and Maestro respectively. Based on the Yak-129 prototype first flown on 5 March 1958, 
+  it began to enter service in 1964."
+introduced: 1964
+manufacturer: Yakovlev
+origin: USSR/Russia
+price: 11
+role: Interceptor
+max_range: 200
+gunfighter: true
+variants:
+  Yak-28 Firebar: {}
+kneeboard_units: "metric"
+tasks:
+  BARCAP: 350
+  Escort: 350
+  Fighter sweep: 350
+  Intercept: 350
+  TARCAP: 350
