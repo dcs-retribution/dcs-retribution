@@ -12,6 +12,7 @@ origin: USSR/Russia
 price: 11
 role: Close Air Support/Attack
 max_range: 200
+default_livery: forest camo scheme #1 (native)
 variants:
   Su-25 Frogfoot: {}
 kneeboard_units: "metric"

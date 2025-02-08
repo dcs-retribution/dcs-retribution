@@ -5,6 +5,7 @@ import logging
 import pickle
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
+from copy import deepcopy
 from pathlib import Path
 from typing import Iterator
 
@@ -41,6 +42,8 @@ LAYOUT_TYPES = {
     GroupRole.DEFENSES: DefensesLayout,
 }
 
+LOCATIONS_TO_CHECK: list[Path] = []
+
 
 class LayoutLoader:
     # Map of all available layouts indexed by name
@@ -51,8 +54,18 @@ class LayoutLoader:
 
     def initialize(self) -> None:
         if not self._layouts:
+            self.initialize_locations_to_check()
             with logged_duration("Loading layouts"):
                 self.load_templates()
+
+    @staticmethod
+    def initialize_locations_to_check() -> None:
+        global LOCATIONS_TO_CHECK
+        if not LOCATIONS_TO_CHECK:
+            LOCATIONS_TO_CHECK = [
+                Path(LAYOUT_DIR),
+                persistency.layouts_dir(),
+            ]
 
     @property
     def layouts(self) -> Iterator[TgoLayout]:
@@ -83,14 +96,9 @@ class LayoutLoader:
         self._layouts = {}
         mappings: dict[str, list[LayoutMapping]] = defaultdict(list)
         with logged_duration("Parsing mapping yamls"):
-            for file in Path(LAYOUT_DIR).rglob("*.yaml"):
-                if not file.is_file():
-                    raise RuntimeError(f"{file.name} is not a file")
-                with file.open("r", encoding="utf-8") as f:
-                    mapping_dict = yaml.safe_load(f)
-
-                template_map = LayoutMapping.from_dict(mapping_dict, f.name)
-                mappings[template_map.layout_file].append(template_map)
+            for path_to_check in LOCATIONS_TO_CHECK:
+                for file in path_to_check.rglob("*.yaml"):
+                    self._process_yaml(file, mappings)
 
         with logged_duration(f"Parsing all layout miz multithreaded"):
             with ThreadPoolExecutor() as exe:
@@ -105,6 +113,15 @@ class LayoutLoader:
         logging.info(f"Imported {len(self._layouts)} layouts")
         self._dump_templates()
 
+    @staticmethod
+    def _process_yaml(file: Path, mappings: dict[str, list[LayoutMapping]]) -> None:
+        if not file.is_file():
+            raise RuntimeError(f"{file.name} is not a file")
+        with file.open("r", encoding="utf-8") as f:
+            mapping_dict = yaml.safe_load(f)
+        template_map = LayoutMapping.from_dict(mapping_dict, f.name)
+        mappings[template_map.layout_file].append(template_map)
+
     def _dump_templates(self) -> None:
         file = persistency.base_path() / LAYOUT_DUMP
         dump = (VERSION, self._layouts)
@@ -112,6 +129,14 @@ class LayoutLoader:
             pickle.dump(dump, fdata)
 
     def _load_from_miz(self, miz: str, mappings: list[LayoutMapping]) -> None:
+        path = Path(miz)
+        locations_to_check = deepcopy(LOCATIONS_TO_CHECK)
+        while not path.exists() and locations_to_check:
+            path = locations_to_check.pop() / miz
+            miz = path.absolute().as_posix()
+        if not path.exists():
+            logging.warning(f"Layout miz file not found: '{miz}'")
+            return
         template_position: dict[str, Point] = {}
         temp_mis = dcs.Mission()
         with logged_duration(f"Parsing {miz}"):

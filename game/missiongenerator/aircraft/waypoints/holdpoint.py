@@ -17,7 +17,7 @@ class HoldPointBuilder(PydcsWaypointBuilder):
         loiter = ControlledTask(
             OrbitAction(
                 altitude=waypoint.alt,
-                speed=speed.meters_per_second,
+                speed=speed.kph,
                 pattern=OrbitAction.OrbitPattern.Circle,
             )
         )

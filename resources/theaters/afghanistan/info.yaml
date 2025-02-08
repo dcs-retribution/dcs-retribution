@@ -1,0 +1,48 @@
+---
+name: Afghanistan
+timezone: +4.5
+daytime:
+  dawn: [4, 6]
+  day: [6, 17]
+  dusk: [17, 19]
+  night: [20, 3]
+climate:
+  day_night_temperature_difference: 10.67
+  seasons:
+    winter:
+      average_pressure: 30.09
+      average_temperature: 2.0
+      weather:
+        thunderstorm: 1
+        raining: 20
+        cloudy: 40
+        clear: 40
+    spring:
+      average_pressure: 30.09
+      average_temperature: 15.0
+      weather:
+        thunderstorm: 1
+        raining: 40
+        cloudy: 40
+        clear: 20
+    summer:
+      average_pressure: 29.80
+      average_temperature: 26.0
+      weather:
+        thunderstorm: 1
+        raining: 30
+        cloudy: 30
+        clear: 40
+    fall:
+      average_pressure: 29.88
+      average_temperature: 16.0
+      weather:
+        thunderstorm: 1
+        raining: 20
+        cloudy: 50
+        clear: 30
+  turbulence:
+    high_avg_yearly_turbulence_per_10cm: 19
+    low_avg_yearly_turbulence_per_10cm: 2.5
+    solar_noon_turbulence_per_10cm: 4.5
+    midnight_turbulence_per_10cm: -2.5

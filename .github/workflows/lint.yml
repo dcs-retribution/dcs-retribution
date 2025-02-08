@@ -13,7 +13,6 @@ jobs:
         with:
           src: "."
           options: "--check"
-          version: "23.9.1"
 
   mypy:
     name: Type checking

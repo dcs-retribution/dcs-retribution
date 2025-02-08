@@ -84,10 +84,14 @@ class ModSettings:
     f106_deltadart: bool = False
     hercules: bool = False
     irondome: bool = False
+    oh_6: bool = False
+    oh_6_vietnamassetpack: bool = False
     uh_60l: bool = False
     jas39_gripen: bool = False
+    sk_60: bool = False
     mirage_3: bool = False
     super_etendard: bool = False
+    su15_flagon: bool = False
     su30_flanker_h: bool = False
     su57_felon: bool = False
     frenchpack: bool = False
@@ -95,7 +99,12 @@ class ModSettings:
     ov10a_bronco: bool = False
     spanishnavypack: bool = False
     swedishmilitaryassetspack: bool = False
+    coldwarassets: bool = False
     SWPack: bool = False
+    vietnamwarvessels: bool = False
+    chinesemilitaryassetspack: bool = False
+    russianmilitaryassetspack: bool = False
+    usamilitaryassetspack: bool = False
 
 
 class GameGenerator:

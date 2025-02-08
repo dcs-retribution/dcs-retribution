@@ -182,7 +182,7 @@ describe("FlightPlansLayer", () => {
       expect(mockLayerGroup).toBeCalledTimes(1);
     });
     it("are not drawn when only selected flights are to be drawn", () => {
-      renderWithProviders(<FlightPlansLayer blue={true} selectedOnly />, {
+      renderWithProviders(<FlightPlansLayer selectedOnly />, {
         preloadedState: {
           flights: {
             flights: {
@@ -355,7 +355,7 @@ describe("FlightPlansLayer", () => {
       expect(mockLayerGroup).toBeCalledTimes(1);
     });
     it("are not drawn if red", () => {
-      renderWithProviders(<FlightPlansLayer blue={false} selectedOnly />, {
+      renderWithProviders(<FlightPlansLayer selectedOnly />, {
         preloadedState: {
           flights: {
             flights: {
@@ -397,7 +397,7 @@ describe("FlightPlansLayer", () => {
           },
         },
       });
-      expect(mockPolyline).not.toHaveBeenCalled();
+      expect(mockPolyline).toHaveBeenCalled();
       expect(mockLayerGroup).toBeCalledTimes(1);
     });
   });

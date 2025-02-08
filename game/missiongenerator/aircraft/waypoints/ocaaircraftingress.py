@@ -3,7 +3,7 @@ import logging
 from dcs.point import MovingPoint
 from dcs.task import EngageTargetsInZone, Targets
 
-from game.theater import Airfield
+from game.theater import Airfield, Fob
 from game.utils import nautical_miles
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 
@@ -12,7 +12,7 @@ class OcaAircraftIngressBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
         target = self.package.target
         self.register_special_ingress_points()
-        if not isinstance(target, Airfield):
+        if not (isinstance(target, Airfield) or isinstance(target, Fob)):
             logging.error(
                 "Unexpected target type for OCA Strike mission: %s",
                 target.__class__.__name__,

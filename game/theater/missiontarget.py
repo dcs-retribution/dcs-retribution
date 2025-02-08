@@ -39,6 +39,7 @@ class MissionTarget:
                 FlightType.TARCAP,
                 FlightType.SEAD_ESCORT,
                 FlightType.SEAD_SWEEP,
+                FlightType.ARMED_RECON,
                 FlightType.SWEEP,
                 # TODO: FlightType.ELINT,
                 # TODO: FlightType.EWAR,

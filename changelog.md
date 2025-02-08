@@ -8,6 +8,9 @@
 * **[Squadrons]** Ability to define a livery-set for each squadron from which Retribution will randomly choose during mission generation
 * **[Modding]** Updated support for F/A-18E/F/G mod version 2.2.5
 * **[Modding]** Added VSN F-106 Delta Dart mod support (v2.9.4.101)
+* **[Modding]** Added OH-6 Cayuse (v1.2) mod support, including the Vietnam Asset Pack v1.0
+* **[Modding]** Added VSN EA-6B Prowler mod support (v2.9.4.102)
+* **[Modding]** Added tripod3 Cold War assets mod support (v1.0)
 * **[Modding]** Added VSN Mirage III mod support (2.5.7.01)
 * **[Campaign Setup]** Allow adjustments to naval TGOs (except carriers) on turn 0
 * **[Campaign Design]** Ability to configure specific carrier names & types in campaign's yaml file 
@@ -16,15 +19,48 @@
 * **[Options]** New option in Settings: Default start type for Player flights.
 * **[AirWing]** Expose OPFOR Squadrons, giving the ability to change liveries, auto-assignable mission types & an easy way to retrieve debug information.
 * **[ATO]** Allow planning as OPFOR
-* **[Campaign Design]** Support for Kola map by Orbx
+* **[Campaign Design]** Support for latest maps (Kola, Afghanistan, Iraq)
 * **[UI]** Zoom level retained when switching campaigns
 * **[UX]** Allow changing squadrons in flight's edit dialog
+* **[Cheats]** Sink/Resurrect carriers instead of showing an error during cheat-capture (use AWCD-cheat to add squadrons upon resurrection)
+* **[UI/UX]** Allow changing conditions such as Time, Date & Weather
+* **[Modding]** Added support for Su-15 Flagon mod (v1.0)
+* **[Plugins]** Support for Carsten's Arty Spotter script
+* **[Plugins]** Support for MBot's Call Artillery script (using on-map artillery)
+* **[Modding]** Added support for SK-60 mod (v1.2.1)
+* **[Mission Generation]** Introducing the Armed Recon flight plan, i.e. CAS against any Theater Ground Object
+* **[Doctrine]** Ability to customize the startup time allocated to the player
+* **[Mission Generation]** Ability to choose whether player flights can spawn on the sixpack or not
+* **[Options]** New options in Mission Generator section: Limit AI radio callouts & Suppress AI radio callouts.
+* **[Options]** New option to use the combat landing flag in the landing waypoint task for helicopters.
+* **[UI/UX]** Sync package waypoints when primary flight's waypoints are updated and recreate other flights within the package to ensure JOIN, INGRESS & SPLIT are synced
+* **[UI/UX]** Allow changing loadout on flight creation
+* **[UI]** Display TOT for all waypoints in the flight plan
+* **[UI]** Edit basic datalink properties for applicable aircraft
+* **[Mission Generation]** Automatic datalink network setup for applicable aircraft (_should_ in theory avoid the need to re-save the mission)
+* **[Options]** New option to force-enable deck-crew for super-carriers on dedicated server.
+* **[Mission Generation]** Enable Supercarrier's LSO & Airboss stations
+* **[UX]** Default settings are now loaded from Default.zip
+* **[Autoplanner]** Plan Air-to-Air Escorts for AWACS & Tankers
+* **[Package Planning]** Ability to plan recovery tanker flights
+* **[Modding]** Support for Bandit's cloud presets mod (v15)
+* **[UX]** Reduce size of save-file by loading landmap data on the fly, which also implies no new campaign needs to be started to benefit from an updated landmap
+* **[New Game Wizard]** Ability to save an edited faction during new game creation
+* **[Options]** New option to make AI helicopters prefer vertical takeoff and landing
+* **[Campaign Design/Mission Generation]** Introduction of "rebel zones" which randomly spawn units according to the campaign's definitions.
+* **[Mission Generation]** Missile sites now fire at random times instead of all at the beginning of the mission
+* **[Modding]** Support for CurrentHill's Chinese Asset Pack (v1.1.4)
+* **[Modding]** Updated support for CurrentHill's Swedish Asset Pack (v1.1.0)
+* **[Modding]** Support for CurrentHill's Russian Asset Pack (v1.2.0)
+* **[Modding]** Support for CurrentHill's USA Asset Pack (v1.1.5)
 
 ## Fixes
 * **[UI/UX]** A-10A flights can be edited again
 * **[Mission Generation]** IADS bug sometimes triggering "no skynet usable units" error during mission generation
 * **[New Game Wizard]** Campaign errors show a dialog again and avoid CTDs
 * **[UI]** Landmap wasn't updating when switching to a different theater
+* **[Mission Results Processor]** Squadrons of a sunken carrier are now disbanded
+* **[Mission Generation]** Introduced option to switch alt-type to AMSL during mission generation to avoid helicopters wanting to submerge over certain parts of the sea.
 
 # Retribution v1.3.1
 #### Note: Re-save your missions in DCS' Mission Editor to avoid possible crashes due to datalink (usually the case when F-16C blk50s are used) when hosting missions on a dedicated server.
@@ -76,6 +112,7 @@
 * **[Mission Generator]** Set F-14's IP waypoint according to the flight-plan's ingress point
 * **[Mission Generator]** Automatically de-spawn aircraft when arrival/divert is an off-map spawn
 * **[Options]** Option to de-spawn AI flights in the air if their start-type was manually set to In-Flight
+* **[Campaign Design]** Ability to add separate ground spawns for C-130 and other large aircraft to campaigns.
 * **[Config]** Preference setting to use custom Liberation payloads instead of prioritizing Retribution's default
 * **[Config]** Preference setting to configure the server-port on which Retribution's back-end will run
 * **[Options]** Made AI jettisoning empty fuel tanks optional (disabled by default)

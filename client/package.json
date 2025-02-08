@@ -15,7 +15,7 @@
     "@types/react": "^18.2.69",
     "@types/react-dom": "^18.2.22",
     "@types/react-redux": "^7.1.33",
-    "axios": "^1.6.8",
+    "axios": "^1.7.4",
     "electron-window-state": "^5.0.3",
     "esri-leaflet": "^3.0.12",
     "leaflet": "^1.9.4",

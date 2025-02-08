@@ -1,0 +1,12 @@
+class: Launcher
+price: 15
+description: "The MIM-104 Patriot is a mobile interceptor missile surface-to-air missile (SAM)
+  system, the primary such system used by the United States Army and several allied states. 
+  It is manufactured by the U.S. defense contractor Raytheon and derives its name from the 
+  radar component of the weapon system. The AN/MPQ-53 at the heart of the system is known as 
+  the Phased Array Tracking Radar to Intercept on Target, which is a backronym for Patriot."
+introduced: 2002
+manufacturer: Raytheon, Hughes, and RCA
+origin: USA
+variants:
+  "[CH] MIM-104 M903 PAC-3 MSE LN (stationary)": null

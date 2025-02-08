@@ -27,22 +27,37 @@ from dcs.task import (
     PinpointStrike,
     AFAC,
     SetUnlimitedFuelCommand,
+    OptNoReportWaypointPass,
+    OptRadioUsageContact,
+    OptRadioSilence,
+    OptVerticalTakeoffLanding,
+    Tanker,
+    RecoveryTanker,
+    ActivateBeaconCommand,
+    ControlledTask,
 )
-from dcs.unitgroup import FlyingGroup
+from dcs.unitgroup import FlyingGroup, ShipGroup
 
-from game.ato import Flight, FlightType
+from game.ato import Flight, FlightType, Package
 from game.ato.flightplans.aewc import AewcFlightPlan
 from game.ato.flightplans.formationattack import FormationAttackLayout
 from game.ato.flightplans.packagerefueling import PackageRefuelingFlightPlan
+from game.ato.flightplans.shiprecoverytanker import RecoveryTankerFlightPlan
 from game.ato.flightplans.theaterrefueling import TheaterRefuelingFlightPlan
-from game.utils import nautical_miles
+from game.missiongenerator.missiondata import MissionData
+from game.utils import nautical_miles, knots, feet
 
 
 class AircraftBehavior:
-    def __init__(self, task: FlightType) -> None:
+    def __init__(self, task: FlightType, mission_data: MissionData) -> None:
         self.task = task
+        self.mission_data = mission_data
 
-    def apply_to(self, flight: Flight, group: FlyingGroup[Any]) -> None:
+    def apply_to(
+        self,
+        flight: Flight,
+        group: FlyingGroup[Any],
+    ) -> None:
         if self.task in [
             FlightType.BARCAP,
             FlightType.TARCAP,
@@ -55,8 +70,12 @@ class AircraftBehavior:
             self.configure_awacs(group, flight)
         elif self.task == FlightType.REFUELING:
             self.configure_refueling(group, flight)
+        elif self.task == FlightType.RECOVERY:
+            self.configure_recovery(group, flight)
         elif self.task in [FlightType.CAS, FlightType.BAI]:
             self.configure_cas(group, flight)
+        elif self.task == FlightType.ARMED_RECON:
+            self.configure_armed_recon(group, flight)
         elif self.task == FlightType.DEAD:
             self.configure_dead(group, flight)
         elif self.task in [FlightType.SEAD, FlightType.SEAD_SWEEP]:
@@ -96,11 +115,17 @@ class AircraftBehavior:
         mission_uses_gun: bool = True,
         rtb_on_bingo: bool = True,
         ai_unlimited_fuel: Optional[bool] = None,
+        ai_vertical_takoff_landing: Optional[bool] = None,
     ) -> None:
         group.points[0].tasks.clear()
         if ai_unlimited_fuel is None:
             ai_unlimited_fuel = (
                 flight.squadron.coalition.game.settings.ai_unlimited_fuel
+            )
+
+        if ai_vertical_takoff_landing is None:
+            ai_vertical_takoff_landing = (
+                flight.squadron.coalition.game.settings.ai_vertical_takoff_landing
             )
 
         # at IP, insert waypoint to orient aircraft in correct direction
@@ -132,6 +157,9 @@ class AircraftBehavior:
         if rtb_winchester is not None:
             group.points[0].tasks.append(OptRTBOnOutOfAmmo(rtb_winchester))
 
+        if ai_vertical_takoff_landing and flight.is_helo:
+            group.points[0].tasks.append(OptVerticalTakeoffLanding(True))
+
         # Confiscate the bullets of AI missions that do not rely on the gun. There is no
         # "all but gun" RTB winchester option, so air to ground missions with mixed
         # weapon types will insist on using all of their bullets after running out of
@@ -148,6 +176,19 @@ class AircraftBehavior:
             group.points[0].tasks.append(OptJettisonEmptyTanks())
         # Do not restrict afterburner.
         # https://forums.eagle.ru/forum/english/digital-combat-simulator/dcs-world-2-5/bugs-and-problems-ai/ai-ad/7121294-ai-stuck-at-high-aoa-after-making-sharp-turn-if-afterburner-is-restricted
+
+        if flight.client_count and flight.flight_type != FlightType.AEWC:
+            # configure AI radio usage for player flights to avoid AI spamming the channel
+            if flight.coalition.game.settings.silence_ai_radios:
+                group.points[0].tasks.append(OptRadioSilence(True))
+            elif flight.coalition.game.settings.limit_ai_radios:
+                # the pydcs api models this in a quite strange way for some reason,
+                # and has no proper support to choose "nothing"
+                radio_usage = OptRadioUsageContact()
+                radio_usage.params["action"]["params"]["value"] = "none;"
+                group.points[0].tasks.append(radio_usage)
+
+            group.points[0].tasks.append(OptNoReportWaypointPass(True))
 
     @staticmethod
     def configure_eplrs(group: FlyingGroup[Any], flight: Flight) -> None:
@@ -180,6 +221,17 @@ class AircraftBehavior:
             react_on_threat=OptReactOnThreat.Values.EvadeFire,
             roe=OptROE.Values.OpenFire,
             rtb_winchester=OptRTBOnOutOfAmmo.Values.Unguided,
+            restrict_jettison=True,
+        )
+
+    def configure_armed_recon(self, group: FlyingGroup[Any], flight: Flight) -> None:
+        self.configure_task(flight, group, CAS, [AFAC, AntishipStrike])
+        self.configure_behavior(
+            flight,
+            group,
+            react_on_threat=OptReactOnThreat.Values.EvadeFire,
+            roe=OptROE.Values.OpenFire,
+            rtb_winchester=OptRTBOnOutOfAmmo.Values.All,
             restrict_jettison=True,
         )
 
@@ -288,6 +340,7 @@ class AircraftBehavior:
         if not (
             isinstance(flight.flight_plan, TheaterRefuelingFlightPlan)
             or isinstance(flight.flight_plan, PackageRefuelingFlightPlan)
+            or isinstance(flight.flight_plan, RecoveryTankerFlightPlan)
         ):
             logging.error(
                 f"Cannot configure racetrack refueling tasks for {flight} because it "
@@ -301,6 +354,95 @@ class AircraftBehavior:
             react_on_threat=OptReactOnThreat.Values.EvadeFire,
             roe=OptROE.Values.WeaponHold,
             restrict_jettison=True,
+        )
+
+    def configure_recovery(
+        self,
+        group: FlyingGroup[Any],
+        flight: Flight,
+    ) -> None:
+        self.configure_refueling(group, flight)
+        if not isinstance(flight.flight_plan, RecoveryTankerFlightPlan):
+            logging.error(
+                f"Cannot configure recovery task for {flight} because it "
+                "does not have an recovery tanker flight plan."
+            )
+            return
+
+        self.configure_tanker_tacan(flight, group)
+
+        clouds = flight.squadron.coalition.game.conditions.weather.clouds
+        speed = knots(250).meters_per_second
+        altitude = feet(6000).meters
+        if clouds is not None:
+            if abs(clouds.base - altitude) < feet(1000).meters:
+                altitude = clouds.base - feet(1000).meters
+            if altitude < feet(2000).meters:
+                altitude = clouds.base + feet(6000).meters
+
+        naval_group = self._get_carrier_group(flight.package)
+        last_waypoint = len(naval_group.points)  # last waypoint of the CVN/LHA
+
+        tanker_tos = flight.coalition.game.settings.desired_tanker_on_station_time
+        lua_predicate = f"""
+                local lowfuel = false
+                for i, unitObject in pairs(Group.getByName('{group.name}'):getUnits()) do
+                    if Unit.getFuel(unitObject) < 0.2 then lowfuel = true end
+                end
+                return lowfuel
+            """
+
+        tanker = ControlledTask(Tanker())
+        tanker.stop_after_duration(int(tanker_tos.total_seconds()) + 1)
+        tanker.stop_if_lua_predicate(lua_predicate)
+        group.points[0].add_task(tanker)
+
+        recovery = ControlledTask(
+            RecoveryTanker(naval_group.id, speed, altitude, last_waypoint)
+        )
+        recovery.stop_if_lua_predicate(lua_predicate)
+        recovery.stop_after_duration(int(tanker_tos.total_seconds()) + 1)
+        group.points[0].add_task(recovery)
+
+    def configure_tanker_tacan(self, flight: Flight, group: FlyingGroup[Any]) -> None:
+        tanker_info = self.mission_data.tankers[-1]
+        tacan = tanker_info.tacan
+        if flight.unit_type.dcs_unit_type.tacan and tacan:
+            if flight.tcn_name is None:
+                cs = tanker_info.callsign[:-2]
+                csn = tanker_info.callsign[-1]
+                tacan_callsign = {
+                    "Texaco": "TX",
+                    "Arco": "AC",
+                    "Shell": "SH",
+                }.get(cs)
+                if tacan_callsign:
+                    tacan_callsign = tacan_callsign + csn
+                else:
+                    tacan_callsign = cs[0:2] + csn
+            else:
+                tacan_callsign = flight.tcn_name
+
+            group.points[0].add_task(
+                ActivateBeaconCommand(
+                    tacan.number,
+                    tacan.band.value,
+                    tacan_callsign.upper(),
+                    bearing=True,
+                    unit_id=group.units[0].id,
+                    aa=True,
+                )
+            )
+
+    def _get_carrier_group(self, package: Package) -> ShipGroup:
+        name = package.target.name
+        carrier_position = package.target.position
+        for carrier in self.mission_data.carriers:
+            if carrier.ship_group.position == carrier_position:
+                return carrier.ship_group
+        raise RuntimeError(
+            f"Could not find a carrier in the mission matching {name} at "
+            f"({carrier_position.x}, {carrier_position.y})"
         )
 
     def configure_escort(self, group: FlyingGroup[Any], flight: Flight) -> None:
@@ -379,23 +521,35 @@ class AircraftBehavior:
 
         if preferred_task in flight.unit_type.dcs_unit_type.tasks:
             group.task = preferred_task.name
-        elif fallback_tasks:
+            return
+        if fallback_tasks:
             for task in fallback_tasks:
                 if task in flight.unit_type.dcs_unit_type.tasks:
                     group.task = task.name
                     return
-        elif flight.unit_type.dcs_unit_type.task_default and preferred_task == Nothing:
+        if flight.unit_type.dcs_unit_type.task_default and preferred_task == Nothing:
             group.task = flight.unit_type.dcs_unit_type.task_default.name
             logging.warning(
                 f"{ac_type} is not capable of 'Nothing', using default task '{group.task}'"
             )
-        else:
-            fallback_part = (
-                f" nor any of the following fall-back tasks: {[task.name for task in fallback_tasks]}"
-                if fallback_tasks
-                else ""
+            return
+        if flight.roster.members and flight.roster.members[0].is_player:
+            group.task = (
+                flight.unit_type.dcs_unit_type.task_default.name
+                if flight.unit_type.dcs_unit_type.task_default
+                else group.task  # even if this is incompatible, if it's a client we don't really care...
             )
-            raise RuntimeError(
-                f"{ac_type} is neither capable of {preferred_task.name}"
-                f"{fallback_part}. Can't generate {flight.flight_type} flight."
+            logging.warning(
+                f"Client override: {ac_type} is not capable of '{preferred_task}', using default task '{group.task}'"
             )
+            return
+
+        fallback_part = (
+            f" nor any of the following fall-back tasks: {[task.name for task in fallback_tasks]}"
+            if fallback_tasks
+            else ""
+        )
+        raise RuntimeError(
+            f"{ac_type} is neither capable of {preferred_task.name}"
+            f"{fallback_part}. Can't generate {flight.flight_type} flight."
+        )

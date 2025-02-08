@@ -541,6 +541,20 @@ function track_wpns()
 end
 
 function onWpnEvent(event)
+  --[[
+    What follows is a work-around for what is presumed to be a DCS-bug:
+    https://forum.dcs.world/topic/353679-possible-bug-in-objectgettypename-during-s_event_kill/
+  ]]--
+  if event.weapon then
+    local status, retval = pcall(event.weapon.getTypeName, event.weapon)
+    if not status then
+      -- gameMsg(tostring(event.id)..'  WTF?\n'..tostring(retval))
+      -- gameMsg(mist.utils.tableShow(event))
+      -- gameMsg(tostring(event.weapon.getTypeName))
+      return
+    end
+  end
+  -- end of work-around
   if event.weapon and ignoredWeaps[event.weapon:getTypeName()] then
     return
   end
@@ -550,7 +564,6 @@ function onWpnEvent(event)
       return  --we wont track these types of weapons, so exit here
     end
     env.info(event.weapon:getTypeName().." missing from Splash Damage script")
-    debugMsg(event.weapon:getTypeName().." missing from Splash Damage script")
     if splash_damage_options.weapon_missing_message == true then
       debugMsg(event.weapon:getTypeName().." missing from Splash Damage script")
       debugMsg("desc: "..mist.utils.tableShow(event.weapon:getDesc()))

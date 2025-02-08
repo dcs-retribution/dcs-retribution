@@ -6,7 +6,7 @@ import math
 from collections.abc import Iterator
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Optional, TYPE_CHECKING, Union
+from typing import Optional, TYPE_CHECKING, Union, Dict
 
 from game.commander.battlepositions import BattlePositions
 from game.commander.objectivefinder import ObjectiveFinder
@@ -15,7 +15,12 @@ from game.ground_forces.combat_stance import CombatStance
 from game.htn import WorldState
 from game.profiling import MultiEventTracer
 from game.settings import Settings
-from game.theater import ConflictTheater, ControlPoint, FrontLine, MissionTarget
+from game.theater import (
+    ConflictTheater,
+    ControlPoint,
+    FrontLine,
+    MissionTarget,
+)
 from game.theater.theatergroundobject import (
     BuildingGroundObject,
     IadsGroundObject,
@@ -51,6 +56,7 @@ class TheaterState(WorldState["TheaterState"]):
     vulnerable_front_lines: list[FrontLine]
     aewc_targets: list[MissionTarget]
     refueling_targets: list[MissionTarget]
+    recovery_targets: dict[ControlPoint, int]
     enemy_air_defenses: list[IadsGroundObject]
     threatening_air_defenses: list[Union[IadsGroundObject, NavalGroundObject]]
     detecting_air_defenses: list[Union[IadsGroundObject, NavalGroundObject]]
@@ -63,6 +69,8 @@ class TheaterState(WorldState["TheaterState"]):
     enemy_barcaps: list[ControlPoint]
     threat_zones: ThreatZones
     vulnerable_control_points: list[ControlPoint]
+    control_point_priority_queue: list[ControlPoint]
+    priority_cp: Optional[ControlPoint]
 
     def _rebuild_threat_zones(self) -> None:
         """Recreates the theater's threat zones based on the current planned state."""
@@ -116,6 +124,7 @@ class TheaterState(WorldState["TheaterState"]):
             vulnerable_front_lines=list(self.vulnerable_front_lines),
             aewc_targets=list(self.aewc_targets),
             refueling_targets=list(self.refueling_targets),
+            recovery_targets=dict(self.recovery_targets),
             enemy_air_defenses=list(self.enemy_air_defenses),
             enemy_convoys=list(self.enemy_convoys),
             enemy_shipping=list(self.enemy_shipping),
@@ -137,6 +146,8 @@ class TheaterState(WorldState["TheaterState"]):
             threatening_air_defenses=self.threatening_air_defenses,
             detecting_air_defenses=self.detecting_air_defenses,
             vulnerable_control_points=self.vulnerable_control_points,
+            control_point_priority_queue=self.control_point_priority_queue,
+            priority_cp=self.priority_cp,
         )
 
     @classmethod
@@ -145,7 +156,7 @@ class TheaterState(WorldState["TheaterState"]):
     ) -> TheaterState:
         coalition = game.coalition_for(player)
         finder = ObjectiveFinder(game, player)
-        ordered_capturable_points = finder.prioritized_unisolated_points()
+        ordered_capturable_points = finder.prioritized_points()
 
         context = PersistentContext(
             game.db,
@@ -160,29 +171,42 @@ class TheaterState(WorldState["TheaterState"]):
         # Plan enough rounds of CAP that the target has coverage over the expected
         # mission duration.
         mission_duration = game.settings.desired_player_mission_duration.total_seconds()
-        barcap_duration = coalition.doctrine.cap_duration.total_seconds()
+        barcap_duration = game.settings.desired_barcap_mission_duration.total_seconds()
         barcap_rounds = math.ceil(mission_duration / barcap_duration)
+
+        battle_postitions: Dict[ControlPoint, BattlePositions] = {
+            cp: BattlePositions.for_control_point(cp)
+            for cp in ordered_capturable_points
+        }
+
+        vulnerable_control_points = [
+            cp
+            for cp, bp in battle_postitions.items()
+            if not bp.blocking_capture or cp.is_fleet
+        ]
+
+        aewc_targets = [cp for cp in finder.friendly_control_points() if cp.is_carrier]
+        aewc_targets.append(finder.farthest_friendly_control_point())
 
         return TheaterState(
             context=context,
             barcaps_needed={
-                cp: barcap_rounds for cp in finder.vulnerable_control_points()
+                cp: 2 * barcap_rounds if cp.is_fleet else barcap_rounds
+                for cp in finder.vulnerable_control_points()
             },
             active_front_lines=list(finder.front_lines()),
             front_line_stances={f: None for f in finder.front_lines()},
             vulnerable_front_lines=list(finder.front_lines()),
-            aewc_targets=[finder.farthest_friendly_control_point()],
+            aewc_targets=list(aewc_targets),
             refueling_targets=[finder.closest_friendly_control_point()],
+            recovery_targets={cp: 0 for cp in finder.friendly_naval_control_points()},
             enemy_air_defenses=list(finder.enemy_air_defenses()),
             threatening_air_defenses=[],
             detecting_air_defenses=[],
             enemy_convoys=list(finder.convoys()),
             enemy_shipping=list(finder.cargo_ships()),
             enemy_ships=list(finder.enemy_ships()),
-            enemy_battle_positions={
-                cp: BattlePositions.for_control_point(cp)
-                for cp in ordered_capturable_points
-            },
+            enemy_battle_positions=battle_postitions,
             oca_targets=list(
                 finder.oca_targets(
                     min_aircraft=game.settings.oca_target_autoplanner_min_aircraft_count
@@ -191,5 +215,9 @@ class TheaterState(WorldState["TheaterState"]):
             strike_targets=list(finder.strike_targets()),
             enemy_barcaps=list(game.theater.control_points_for(not player)),
             threat_zones=game.threat_zone_for(not player),
-            vulnerable_control_points=list(finder.vulnerable_enemy_control_points()),
+            vulnerable_control_points=vulnerable_control_points,
+            control_point_priority_queue=ordered_capturable_points,
+            priority_cp=(
+                ordered_capturable_points[0] if ordered_capturable_points else None
+            ),
         )

@@ -83,12 +83,19 @@ class PackageFulfiller:
         purchase_multiplier: int,
         ignore_range: bool = False,
     ) -> None:
+        target = mission.location
+        pf = builder.package.primary_flight
+        if (
+            pf
+            and pf.flight_type in [FlightType.AEWC, FlightType.REFUELING]
+            and flight.task is FlightType.ESCORT
+        ):
+            target = pf.departure
         if not builder.plan_flight(flight, ignore_range):
-            pf = builder.package.primary_flight
             heli = pf.is_helo if pf else False
             missing_types.add(flight.task)
             purchase_order = AircraftProcurementRequest(
-                near=mission.location,
+                near=target,
                 task_capability=flight.task,
                 number=flight.num_aircraft * purchase_multiplier,
                 heli=heli,

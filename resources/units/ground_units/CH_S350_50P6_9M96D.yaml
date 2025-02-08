@@ -1,0 +1,11 @@
+class: TELAR
+description: "The S-350 Vityaz (Russian: C-350 \xD0\x92\xD0\xB8\xD1\x82\xD1\x8F\xD0\xB7\xD1\x8C) is a Russian 
+  medium-range surface-to-air missile system developed by GSKB Almaz-Antey. Its purpose is to replace 
+  the S-300PS. The system design traces its roots from the joint South Korean-Russian KM-SAM project 
+  and uses the same 9M96 missile as the S-400 missile system."
+introduced: 2019
+manufacturer: Almaz-Antey
+origin: Russia
+price: 20
+variants:
+  "[CH] S-350 50P6 9M96D LN": {}

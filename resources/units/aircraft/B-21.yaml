@@ -1,0 +1,22 @@
+description: "The Northrop Grumman B-21 Raider is an American strategic bomber in development 
+  for the United States Air Force (USAF) by Northrop Grumman. Part of the Long Range Strike 
+  Bomber (LRS-B) program, it is to be a stealth intercontinental strategic bomber that can 
+  deliver conventional and thermonuclear weapons. Named Raider in honor of the Doolittle 
+  Raiders of World War II, the B-21 is meant to replace the Rockwell B-1 Lancer and Northrop 
+  B-2 Spirit by 2040, and possibly the Boeing B-52 Stratofortress after that."
+introduced: 2023
+manufacturer: Northrop Grumman
+origin: USA
+price: 45
+role: Strategic Bomber
+max_range: 1000
+variants:
+  "[CH] B-21": {}
+tasks:
+  Anti-ship: 100
+  BAI: 370
+  CAS: 750
+  SEAD: 210
+  DEAD: 210
+  OCA/Runway: 660
+  Strike: 690

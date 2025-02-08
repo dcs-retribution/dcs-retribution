@@ -1,4 +1,12 @@
 <strong>Description:</strong> {{ faction.description|safe }}
 <br/>
 
+<strong>Requirements:</strong>
+<ul>
+  {% for key, value in faction.requirements.items() %}
+    <li>{{ key }}: {{ value }}</li>
+  {% endfor %}
+</ul>
+<br/>
+
 <strong>Author(s):</strong> {{ faction.authors }}

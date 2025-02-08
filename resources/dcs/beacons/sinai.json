@@ -119,466 +119,445 @@
   "channel": 110
  },
  "world_17": {
-  "name": "Ovda",
-  "callsign": "OVD",
-  "beacon_type": 8,
-  "hertz": 353000,
-  "channel": 0
- },
- "world_18": {
   "name": "Haifa",
   "callsign": "HFA",
   "beacon_type": 8,
   "hertz": 323000,
   "channel": 0
  },
- "world_19": {
+ "world_18": {
   "name": "Aqaba",
   "callsign": "AQ",
   "beacon_type": 8,
   "hertz": 404000,
   "channel": 0
  },
- "world_20": {
+ "world_19": {
   "name": "Alexandria",
   "callsign": "AXD",
   "beacon_type": 8,
   "hertz": 403000,
   "channel": 0
  },
- "world_21": {
+ "world_20": {
   "name": "Baltim",
   "callsign": "BLT",
   "beacon_type": 3,
   "hertz": 116900000,
   "channel": 116
  },
- "world_22": {
+ "world_21": {
   "name": "Turaif",
   "callsign": "TRF",
   "beacon_type": 3,
   "hertz": 116100000,
   "channel": 108
  },
- "world_23": {
+ "world_22": {
   "name": "Wejh",
   "callsign": "WEJ",
   "beacon_type": 5,
   "hertz": 113900000,
   "channel": 86
  },
- "world_24": {
+ "world_23": {
   "name": "Metzada",
   "callsign": "MZD",
   "beacon_type": 5,
   "hertz": 115000000,
   "channel": 97
  },
- "world_25": {
+ "world_24": {
   "name": "RoshPina",
   "callsign": "RPN",
   "beacon_type": 8,
   "hertz": 243000,
   "channel": 0
  },
- "world_26": {
-  "name": "Hurghada",
-  "callsign": "HGD",
-  "beacon_type": 3,
-  "hertz": 116500000,
-  "channel": 112
- },
- "world_27": {
+ "world_25": {
   "name": "Chekka",
   "callsign": "CAK",
   "beacon_type": 3,
   "hertz": 116200000,
   "channel": 109
  },
- "world_28": {
+ "world_26": {
   "name": "QueenAlia",
   "callsign": "QA",
   "beacon_type": 8,
   "hertz": 410000,
   "channel": 0
  },
- "world_29": {
+ "world_27": {
   "name": "October",
   "callsign": "OCT",
   "beacon_type": 8,
   "hertz": 340000,
   "channel": 0
  },
- "world_30": {
+ "world_28": {
   "name": "PortSaid",
   "callsign": "PSD",
   "beacon_type": 3,
   "hertz": 112700000,
   "channel": 74
  },
- "world_31": {
+ "world_29": {
   "name": "Alexandria",
   "callsign": "NOZ",
   "beacon_type": 3,
   "hertz": 115900000,
   "channel": 106
  },
- "world_32": {
+ "world_30": {
   "name": "DeirZzor",
   "callsign": "DRZ",
   "beacon_type": 8,
   "hertz": 295000,
   "channel": 0
  },
- "world_33": {
+ "world_31": {
   "name": "DeirZzor",
   "callsign": "DRZ",
   "beacon_type": 3,
   "hertz": 117000000,
   "channel": 117
  },
- "world_34": {
+ "world_32": {
   "name": "Cairo",
   "callsign": "ALI",
   "beacon_type": 8,
   "hertz": 310000,
   "channel": 0
  },
- "world_35": {
+ "world_33": {
   "name": "Al-Shigar",
   "callsign": "ASH",
   "beacon_type": 3,
   "hertz": 112300000,
   "channel": 70
  },
- "world_36": {
+ "world_34": {
   "name": "Cairo",
   "callsign": "MKT",
   "beacon_type": 8,
   "hertz": 317000,
   "channel": 0
  },
- "world_37": {
+ "world_35": {
   "name": "MarsaAlam",
   "callsign": "MAK",
   "beacon_type": 3,
   "hertz": 115500000,
   "channel": 102
  },
- "world_38": {
+ "world_36": {
   "name": "Taba",
   "callsign": "TBA",
   "beacon_type": 8,
   "hertz": 316000,
   "channel": 0
  },
- "world_39": {
+ "world_37": {
   "name": "Zofar",
   "callsign": "ZFR",
   "beacon_type": 3,
   "hertz": 115600000,
   "channel": 103
  },
- "world_40": {
+ "world_38": {
   "name": "Natania",
   "callsign": "NAT",
   "beacon_type": 5,
   "hertz": 112400000,
   "channel": 71
  },
- "world_41": {
+ "world_39": {
   "name": "Kariatain",
   "callsign": "KTN",
   "beacon_type": 3,
   "hertz": 117700000,
   "channel": 124
  },
- "world_42": {
+ "world_40": {
   "name": "Herzlia",
   "callsign": "HRZ",
   "beacon_type": 8,
   "hertz": 273000,
   "channel": 0
  },
- "world_43": {
+ "world_41": {
   "name": "Guriat",
   "callsign": "GRY",
   "beacon_type": 5,
   "hertz": 114700000,
   "channel": 94
  },
- "world_44": {
+ "world_42": {
   "name": "Gaza",
   "callsign": "GZA",
   "beacon_type": 3,
   "hertz": 113350000,
   "channel": 80
  },
- "world_45": {
+ "world_43": {
   "name": "Cairo",
   "callsign": "CVO",
   "beacon_type": 3,
   "hertz": 115200000,
   "channel": 99
  },
- "world_46": {
+ "world_44": {
   "name": "ReneMouawad",
   "callsign": "RA",
   "beacon_type": 8,
   "hertz": 450000,
   "channel": 0
  },
- "world_47": {
+ "world_45": {
   "name": "Amman",
   "callsign": "JYO",
   "beacon_type": 8,
   "hertz": 391000,
   "channel": 0
  },
- "world_48": {
+ "world_46": {
   "name": "Aqaba",
   "callsign": "AQA",
   "beacon_type": 8,
   "hertz": 418000,
   "channel": 0
  },
- "world_49": {
+ "world_47": {
   "name": "Cairo",
   "callsign": "CAI",
   "beacon_type": 3,
   "hertz": 112500000,
   "channel": 72
  },
- "world_50": {
+ "world_48": {
   "name": "BasselAlAssad",
   "callsign": "LTK",
   "beacon_type": 8,
   "hertz": 414000,
   "channel": 0
  },
- "world_51": {
-  "name": "SharmElSheikh",
-  "callsign": "SHM",
-  "beacon_type": 3,
-  "hertz": 114200000,
-  "channel": 89
- },
- "world_52": {
+ "world_49": {
   "name": "QueenAlia(Locator)",
   "callsign": "QL",
   "beacon_type": 8,
   "hertz": 307000,
   "channel": 0
  },
- "world_53": {
+ "world_50": {
   "name": "Khaldeh",
   "callsign": "KAD",
   "beacon_type": 3,
   "hertz": 112600000,
   "channel": 73
  },
- "world_54": {
+ "world_51": {
   "name": "ElDaba",
   "callsign": "DBA",
   "beacon_type": 3,
   "hertz": 115700000,
   "channel": 104
  },
- "world_55": {
+ "world_52": {
   "name": "InnerBeacon",
   "callsign": "D",
   "beacon_type": 8,
   "hertz": 273000,
   "channel": 0
  },
- "world_56": {
+ "world_53": {
   "name": "CairoWest",
   "callsign": "BLA",
   "beacon_type": 4,
   "hertz": 116700000,
   "channel": 114
  },
- "world_57": {
+ "world_54": {
   "name": "Gaza",
   "callsign": "RFH",
   "beacon_type": 8,
   "hertz": 380000,
   "channel": 0
  },
- "world_58": {
+ "world_55": {
   "name": "Palmyra",
   "callsign": "PAL",
   "beacon_type": 8,
   "hertz": 337000,
   "channel": 0
  },
- "world_59": {
+ "world_56": {
   "name": "ElKharga",
   "callsign": "KHG",
   "beacon_type": 3,
   "hertz": 113800000,
   "channel": 85
  },
- "world_60": {
+ "world_57": {
   "name": "Halaifa",
   "callsign": "HLF",
   "beacon_type": 3,
   "hertz": 116700000,
   "channel": 114
  },
- "world_61": {
+ "world_58": {
   "name": "Aqaba",
   "callsign": "AQB",
   "beacon_type": 3,
   "hertz": 113100000,
   "channel": 78
  },
- "world_62": {
+ "world_59": {
   "name": "Beirut",
   "callsign": "BAB",
   "beacon_type": 8,
   "hertz": 312000,
   "channel": 0
  },
- "world_63": {
+ "world_60": {
   "name": "SidiBarrani",
   "callsign": "BRN",
   "beacon_type": 3,
   "hertz": 116200000,
   "channel": 109
  },
- "world_64": {
+ "world_61": {
   "name": "Luxor",
   "callsign": "LXR",
   "beacon_type": 3,
   "hertz": 114400000,
   "channel": 91
  },
- "world_65": {
+ "world_62": {
   "name": "Luxor",
   "callsign": "LO",
   "beacon_type": 8,
   "hertz": 364000,
   "channel": 0
  },
- "world_66": {
+ "world_63": {
   "name": "Tabuk",
   "callsign": "TBK",
   "beacon_type": 5,
   "hertz": 115700000,
   "channel": 104
  },
- "world_67": {
+ "world_64": {
   "name": "Tanf",
   "callsign": "TAN",
   "beacon_type": 3,
   "hertz": 114000000,
   "channel": 87
  },
- "world_68": {
+ "world_65": {
   "name": "Qatraneh",
   "callsign": "JYT",
   "beacon_type": 8,
   "hertz": 302000,
   "channel": 0
  },
- "world_69": {
+ "world_66": {
   "name": "BorgElArab",
   "callsign": "DJ",
   "beacon_type": 8,
   "hertz": 563000,
   "channel": 0
  },
- "world_70": {
+ "world_67": {
   "name": "Abyad",
   "callsign": "ABD",
   "beacon_type": 8,
   "hertz": 264000,
   "channel": 0
  },
- "world_71": {
+ "world_68": {
   "name": "Otaebe",
   "callsign": "DAL",
   "beacon_type": 8,
   "hertz": 342000,
   "channel": 0
  },
- "world_72": {
+ "world_69": {
   "name": "Beer-Sheba",
   "callsign": "BSA",
   "beacon_type": 5,
   "hertz": 114300000,
   "channel": 90
  },
- "world_73": {
+ "world_70": {
   "name": "Dakhla",
   "callsign": "MB",
   "beacon_type": 8,
   "hertz": 387000,
   "channel": 0
  },
- "world_74": {
+ "world_71": {
   "name": "Eilot",
   "callsign": "LOT",
   "beacon_type": 3,
   "hertz": 112000000,
   "channel": 57
  },
- "world_75": {
+ "world_72": {
   "name": "SharmElSheikh",
   "callsign": "SKH",
   "beacon_type": 8,
   "hertz": 335000,
   "channel": 0
  },
- "world_76": {
+ "world_73": {
   "name": "RoshPina",
   "callsign": "ROP",
   "beacon_type": 3,
   "hertz": 115300000,
   "channel": 100
  },
- "world_77": {
+ "world_74": {
   "name": "Ovda",
   "callsign": "OVD",
-  "beacon_type": 3,
+  "beacon_type": 5,
   "hertz": 114100000,
   "channel": 88
  },
- "world_78": {
+ "world_75": {
   "name": "Qatraneh",
   "callsign": "QTR",
   "beacon_type": 3,
   "hertz": 112900000,
   "channel": 76
  },
- "world_79": {
+ "world_76": {
   "name": "Fayoum",
   "callsign": "FYM",
   "beacon_type": 3,
   "hertz": 117300000,
   "channel": 120
  },
+ "world_77": {
+  "name": "SHG",
+  "callsign": "SHG",
+  "beacon_type": 3,
+  "hertz": 115300000,
+  "channel": 100
+ },
  "airfield2_0": {
   "name": "",
   "callsign": "WAYR",
   "beacon_type": 13,
-  "hertz": 119700000,
+  "hertz": 109950000,
   "channel": null
  },
  "airfield2_1": {
   "name": "",
   "callsign": "WAYR",
   "beacon_type": 14,
-  "hertz": 119700000,
+  "hertz": 109950000,
   "channel": null
- },
- "airfield2_2": {
-  "name": "AbuSuwayr",
-  "callsign": "ZYT",
-  "beacon_type": 4,
-  "hertz": 109200000,
-  "channel": 29
  },
  "airfield4_0": {
   "name": "Ismailiyah",
@@ -594,13 +573,6 @@
   "hertz": 110300000,
   "channel": null
  },
- "airfield14_0": {
-  "name": "AlMansurah",
-  "callsign": "MRN",
-  "beacon_type": 4,
-  "hertz": 111600000,
-  "channel": 53
- },
  "airfield3_0": {
   "name": "AsSalihiyah",
   "callsign": "SAI",
@@ -614,20 +586,6 @@
   "beacon_type": 14,
   "hertz": 110700000,
   "channel": null
- },
- "airfield3_2": {
-  "name": "AsSalihiyah",
-  "callsign": "ASL",
-  "beacon_type": 4,
-  "hertz": 111200000,
-  "channel": 26
- },
- "airfield15_0": {
-  "name": "AzZaqaziq",
-  "callsign": "AMB",
-  "beacon_type": 4,
-  "hertz": 114700000,
-  "channel": 94
  },
  "airfield24_0": {
   "name": "BenGurion",
@@ -708,13 +666,6 @@
  },
  "airfield16_1": {
   "name": "BilbeisAirBase",
-  "callsign": "ARF",
-  "beacon_type": 4,
-  "hertz": 113900000,
-  "channel": 86
- },
- "airfield16_2": {
-  "name": "BilbeisAirBase",
   "callsign": "BA",
   "beacon_type": 13,
   "hertz": 108600000,
@@ -724,8 +675,29 @@
   "name": "Melez",
   "callsign": "MLZ",
   "beacon_type": 3,
-  "hertz": 110100000,
+  "hertz": 115650000,
   "channel": 38
+ },
+ "airfield35_0": {
+  "name": "BorgElArabIntl",
+  "callsign": "BIL",
+  "beacon_type": 14,
+  "hertz": 111300000,
+  "channel": null
+ },
+ "airfield35_1": {
+  "name": "AXD",
+  "callsign": "BEAI",
+  "beacon_type": 3,
+  "hertz": 115900000,
+  "channel": null
+ },
+ "airfield35_2": {
+  "name": "BorgElArabIntl",
+  "callsign": "BIL",
+  "beacon_type": 13,
+  "hertz": 111300000,
+  "channel": null
  },
  "airfield17_0": {
   "name": "CairoInternationalAirport",
@@ -812,20 +784,13 @@
   "channel": null
  },
  "airfield18_0": {
-  "name": "",
-  "callsign": "SPX",
-  "beacon_type": 5,
-  "hertz": 0,
-  "channel": null
- },
- "airfield18_1": {
   "name": "CairoWest",
   "callsign": "IPSX",
   "beacon_type": 14,
   "hertz": 111500000,
   "channel": null
  },
- "airfield18_2": {
+ "airfield18_1": {
   "name": "CairoWest",
   "callsign": "IPSX",
   "beacon_type": 13,
@@ -852,13 +817,6 @@
   "beacon_type": 14,
   "hertz": 110150000,
   "channel": 0
- },
- "airfield6_2": {
-  "name": "Faid",
-  "callsign": "GIO",
-  "beacon_type": 4,
-  "hertz": 117800000,
-  "channel": 125
  },
  "airfield7_0": {
   "name": "Hatzerim",
@@ -902,25 +860,39 @@
   "hertz": 108500000,
   "channel": null
  },
+ "airfield38_0": {
+  "name": "Hurghada",
+  "callsign": "HGD",
+  "beacon_type": 3,
+  "hertz": 116500000,
+  "channel": 112
+ },
+ "airfield38_1": {
+  "name": "HURG",
+  "callsign": "HIL",
+  "beacon_type": 13,
+  "hertz": 110300000,
+  "channel": 0
+ },
+ "airfield38_2": {
+  "name": "HURG",
+  "callsign": "HIL",
+  "beacon_type": 14,
+  "hertz": 110300000,
+  "channel": 0
+ },
  "airfield19_0": {
   "name": "InshasAirbase",
   "callsign": "ISH",
   "beacon_type": 14,
-  "hertz": 116900000,
+  "hertz": 111350000,
   "channel": null
  },
  "airfield19_1": {
   "name": "InshasAirbase",
-  "callsign": "IHA",
-  "beacon_type": 4,
-  "hertz": 115100000,
-  "channel": 98
- },
- "airfield19_2": {
-  "name": "InshasAirbase",
   "callsign": "ISH",
   "beacon_type": 13,
-  "hertz": 116900000,
+  "hertz": 111350000,
   "channel": null
  },
  "airfield11_0": {
@@ -933,25 +905,18 @@
  "airfield8_0": {
   "name": "Nevatim",
   "callsign": "NEV",
-  "beacon_type": 13,
-  "hertz": 108300000,
-  "channel": null
- },
- "airfield8_1": {
-  "name": "Nevatim",
-  "callsign": "NEV",
   "beacon_type": 14,
   "hertz": 108300000,
   "channel": null
  },
- "airfield8_2": {
+ "airfield8_1": {
   "name": "Nevatim",
   "callsign": "NGV",
   "beacon_type": 14,
   "hertz": 111500000,
   "channel": null
  },
- "airfield8_3": {
+ "airfield8_2": {
   "name": "Nevatim",
   "callsign": "NGV",
   "beacon_type": 13,
@@ -966,13 +931,6 @@
   "channel": null
  },
  "airfield10_1": {
-  "name": "Ovda",
-  "callsign": "OVD",
-  "beacon_type": 4,
-  "hertz": 133600000,
-  "channel": 63
- },
- "airfield10_2": {
   "name": "Ovda",
   "callsign": "VA",
   "beacon_type": 13,
@@ -1000,6 +958,62 @@
   "hertz": 115800000,
   "channel": 105
  },
+ "airfield41_0": {
+  "name": "Eilat/IlanandAsafRamonAirport",
+  "callsign": "RB",
+  "beacon_type": 13,
+  "hertz": 110500000,
+  "channel": 0
+ },
+ "airfield41_1": {
+  "name": "Eilat/IlanandAsafRamonAirport",
+  "callsign": "RB",
+  "beacon_type": 14,
+  "hertz": 110500000,
+  "channel": 0
+ },
+ "airfield41_2": {
+  "name": "Eilat/IlanandAsafRamonAirport",
+  "callsign": "R\u00d0\u00a1",
+  "beacon_type": 14,
+  "hertz": 108700000,
+  "channel": null
+ },
+ "airfield41_3": {
+  "name": "Eilat/IlanandAsafRamonAirport",
+  "callsign": "RC",
+  "beacon_type": 14,
+  "hertz": 108700000,
+  "channel": null
+ },
+ "airfield41_4": {
+  "name": "Eilat",
+  "callsign": "RAM",
+  "beacon_type": 3,
+  "hertz": 113850000,
+  "channel": 85
+ },
+ "airfield42_0": {
+  "name": "SharmElSheikhIntl",
+  "callsign": "KIL",
+  "beacon_type": 13,
+  "hertz": 109500000,
+  "channel": 0
+ },
+ "airfield42_1": {
+  "name": "SharmElSheikhIntl",
+  "callsign": "KIL",
+  "beacon_type": 14,
+  "hertz": 109500000,
+  "channel": 0
+ },
+ "airfield42_2": {
+  "name": "SharmElSheikhIntl",
+  "callsign": "SHM",
+  "beacon_type": 3,
+  "hertz": 114200000,
+  "channel": 89
+ },
  "airfield23_0": {
   "name": "TelNof",
   "callsign": "AKR",
@@ -1010,8 +1024,8 @@
  "airfield23_1": {
   "name": "TelNof",
   "callsign": "AKR",
-  "beacon_type": 13,
-  "hertz": 109700000,
+  "beacon_type": 14,
+  "hertz": 109100000,
   "channel": null
  },
  "airfield23_2": {
@@ -1019,6 +1033,20 @@
   "callsign": "AKR",
   "beacon_type": 13,
   "hertz": 109100000,
+  "channel": null
+ },
+ "airfield43_0": {
+  "name": "WADIABURISH",
+  "callsign": "RB",
+  "beacon_type": 14,
+  "hertz": 110600000,
+  "channel": null
+ },
+ "airfield43_1": {
+  "name": "WADIABURISH",
+  "callsign": "RB",
+  "beacon_type": 13,
+  "hertz": 110600000,
   "channel": null
  },
  "airfield13_0": {
@@ -1034,12 +1062,5 @@
   "beacon_type": 14,
   "hertz": 109700000,
   "channel": null
- },
- "airfield13_2": {
-  "name": "WadialJandali",
-  "callsign": "WAJ",
-  "beacon_type": 4,
-  "hertz": 114900000,
-  "channel": 96
  }
 }

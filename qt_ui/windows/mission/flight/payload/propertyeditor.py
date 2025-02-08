@@ -11,6 +11,7 @@ from game.ato.flightmember import FlightMember
 from .missingpropertydataerror import MissingPropertyDataError
 from .propertycheckbox import PropertyCheckBox
 from .propertycombobox import PropertyComboBox
+from .propertyeditbox import PropertyEditBox
 from .propertyspinbox import PropertySpinBox
 
 
@@ -22,6 +23,7 @@ class UnhandledControlTypeError(RuntimeError):
 class PropertyEditor(QGridLayout):
     def __init__(self, flight: Flight, flight_member: FlightMember) -> None:
         super().__init__()
+        self.flight = flight
         self.flight_member = flight_member
         self.flight_member_update_listeners: list[Callable[[FlightMember], None]] = []
 
@@ -78,7 +80,7 @@ class PropertyEditor(QGridLayout):
 
     def control_for_property(self, prop: UnitPropertyDescription) -> Optional[QWidget]:
         # Valid values are:
-        # "checkbox", "comboList", "groupbox", "label", "slider", "spinbox"
+        # "checkbox", "comboList", "groupbox", "label", "slider", "spinbox", "editbox"
         match prop.control:
             case "checkbox":
                 widget = PropertyCheckBox(self.flight_member, prop)
@@ -92,6 +94,10 @@ class PropertyEditor(QGridLayout):
                 return None
             case "slider" | "spinbox":
                 widget = PropertySpinBox(self.flight_member, prop)
+                self.flight_member_update_listeners.append(widget.set_flight_member)
+                return widget
+            case "editbox":
+                widget = PropertyEditBox(self.flight_member, prop, self.flight)
                 self.flight_member_update_listeners.append(widget.set_flight_member)
                 return widget
             case _:

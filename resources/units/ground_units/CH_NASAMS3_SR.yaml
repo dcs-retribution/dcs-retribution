@@ -1,0 +1,16 @@
+class: SearchRadar
+price: 26
+description: "NASAMS (National/Norwegian Advanced Surface to Air Missile System) is a distributed and networked medium to long range air-defence system.
+              NASAMS was the first surface-based application for the AIM-120 AMRAAM (Advanced Medium Range Air-to-Air Missile)."
+introduced: 2019
+manufacturer: Kongsberg Defence & Aerospace, Raytheon
+origin: Norway, USA
+variants:
+  "[CH] NASAMS 3 SR": null
+skynet_properties: # Override skynet default properties
+  can_engage_harm: true
+  # can_engage_air_weapon: true # https://github.com/walder/Skynet-IADS/tree/develop#engage-air-weapons
+  go_live_range_in_percent: 100
+  harm_detection_chance: 90
+  engagement_zone: SkynetIADSAbstractRadarElement.GO_LIVE_WHEN_IN_KILL_ZONE # https://github.com/walder/Skynet-IADS/tree/develop#engagement-zone
+  autonomous_behaviour: SkynetIADSAbstractRadarElement.AUTONOMOUS_STATE_DCS_AI # https://github.com/walder/Skynet-IADS/tree/develop#autonomous-mode-behaviour

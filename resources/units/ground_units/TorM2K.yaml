@@ -1,0 +1,13 @@
+class: SHORAD
+description: "The Tor (Russian: \xD0\xA2\xD0\xBE\xD1\x80; English: torus) is an all-weather, low-to 
+  medium-altitude, short-range surface-to-air missile system designed for destroying airplanes, helicopters, 
+  cruise missiles, unmanned aerial vehicles and short-range ballistic threats (anti-munitions). Originally 
+  developed by the Soviet Union under the GRAU designation 9K330 Tor, the system is commonly known by its 
+  NATO reporting name, SA-15 Gauntlet."
+introduced: 2007
+manufacturer: Almaz-Antey
+origin: Russia
+price: 40
+role: Self-Propelled Anti-Aircraft System
+variants:
+  "[CH] Tor M2K SHORAD": {}

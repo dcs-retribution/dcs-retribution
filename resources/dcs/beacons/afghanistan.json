@@ -1,0 +1,65 @@
+{
+ "airfield10_0": {
+  "name": "Bastion",
+  "callsign": "BS",
+  "beacon_type": 8,
+  "hertz": 423000,
+  "channel": null
+ },
+ "airfield10_1": {
+  "name": "Bastion",
+  "callsign": "BAS",
+  "beacon_type": 4,
+  "hertz": 115100000,
+  "channel": 98
+ },
+ "airfield11_0": {
+  "name": "Dwyer",
+  "callsign": "ADY",
+  "beacon_type": 4,
+  "hertz": null,
+  "channel": 46
+ },
+ "airfield1_0": {
+  "name": "Herat",
+  "callsign": "AHR",
+  "beacon_type": 3,
+  "hertz": 116200000,
+  "channel": 109
+ },
+ "airfield1_1": {
+  "name": "Herat",
+  "callsign": "HRT",
+  "beacon_type": 8,
+  "hertz": 412000,
+  "channel": null
+ },
+ "airfield1_2": {
+  "name": "Herat",
+  "callsign": "HRT",
+  "beacon_type": 4,
+  "hertz": null,
+  "channel": 54
+ },
+ "airfield7_0": {
+  "name": "Kandahar",
+  "callsign": "KAF",
+  "beacon_type": 4,
+  "hertz": null,
+  "channel": 75
+ },
+ "airfield7_1": {
+  "name": "Kandahar",
+  "callsign": "KDR",
+  "beacon_type": 3,
+  "hertz": 116000000,
+  "channel": 107
+ },
+ "airfield3_0": {
+  "name": "Shindand",
+  "callsign": "ASD",
+  "beacon_type": 4,
+  "hertz": 111100000,
+  "channel": 48
+ }
+}

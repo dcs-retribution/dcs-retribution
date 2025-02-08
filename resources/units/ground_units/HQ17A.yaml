@@ -1,0 +1,13 @@
+class: SHORAD
+description: "The HQ-17 (simplified Chinese: \u7ea2\u65d7\u002d\u0031\u0037;
+  traditional Chinese: \u7d05\u65d7\u002d\u0031\u0037; 
+  pinyin: \u0048\u00f3\u006e\u0067\u0020\u0051\u00ed\u002d\u0031\u0037; lit. 'Red Banner-17';
+  NATO reporting name: CH-SA-15) is an all-weather, low to medium altitude, short-range 
+  surface-to-air missile system derived from the Tor-M1."
+introduced: 2015
+manufacturer: China Precision Machinery Import-Export Corporation
+origin: China
+price: 40
+role: Self-Propelled Anti-Aircraft System
+variants:
+  "[CH] HQ-17A SHORAD": {}

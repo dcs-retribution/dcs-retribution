@@ -2,7 +2,6 @@ from dcs import task
 from dcs.planes import PlaneType
 from dcs.weapons_data import Weapons
 
-
 from game.modsupport import planemod
 from pydcs_extensions.weapon_injector import inject_weapons
 
@@ -54,7 +53,7 @@ class VSN_SEM(PlaneType):
         R550_Magic_2_IR_AAM = (1, Weapons.R550_Magic_2_IR_AAM)
         LAU_61_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
             1,
-            Weapons.LAU_61_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE,
+            Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE_,
         )
         ALQ_131___ECM_Pod = (1, Weapons.ALQ_131___ECM_Pod)
         AIM_9M_Sidewinder_IR_AAM = (1, Weapons.AIM_9M_Sidewinder_IR_AAM)
@@ -68,7 +67,7 @@ class VSN_SEM(PlaneType):
         GBU_12___500lb_Laser_Guided_Bomb = (2, Weapons.GBU_12___500lb_Laser_Guided_Bomb)
         LAU_61_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
             2,
-            Weapons.LAU_61_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE,
+            Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE_,
         )
         Mk_81___250lb_GP_Bomb_LD = (2, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (2, Weapons.Mk_82___500lb_GP_Bomb_LD)
@@ -103,7 +102,7 @@ class VSN_SEM(PlaneType):
         )
         LAU_61_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
             10,
-            Weapons.LAU_61_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE,
+            Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE_,
         )
         Mk_81___250lb_GP_Bomb_LD = (10, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (10, Weapons.Mk_82___500lb_GP_Bomb_LD)
@@ -122,7 +121,7 @@ class VSN_SEM(PlaneType):
         R550_Magic_2_IR_AAM = (11, Weapons.R550_Magic_2_IR_AAM)
         LAU_61_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
             11,
-            Weapons.LAU_61_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE,
+            Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE_,
         )
         ALQ_131___ECM_Pod = (11, Weapons.ALQ_131___ECM_Pod)
         AIM_9M_Sidewinder_IR_AAM = (11, Weapons.AIM_9M_Sidewinder_IR_AAM)

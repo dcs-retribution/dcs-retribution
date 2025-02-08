@@ -578,27 +578,27 @@ class A_7E(PlaneType):
         LAU3_HE5 = (1, Weapons.LAU3_HE5)
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
             1,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT = (
             1,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum = (
             1,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos = (
             1,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         LAU_61_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
             1,
-            Weapons.LAU_61_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE,
+            Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE_,
         )
         LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_Mk71__HE_FRAG = (
             1,
-            Weapons.LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_Mk71__HE_FRAG,
+            Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE,
         )
         BRU_42A___2_x_LAU_61___19_2_75__rockets_M151_HE = (
             1,
@@ -769,27 +769,27 @@ class A_7E(PlaneType):
         LAU3_HE5 = (2, Weapons.LAU3_HE5)
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
             2,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT = (
             2,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum = (
             2,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos = (
             2,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         LAU_61_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
             2,
-            Weapons.LAU_61_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE,
+            Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE_,
         )
         LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_Mk71__HE_FRAG = (
             2,
-            Weapons.LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_Mk71__HE_FRAG,
+            Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE,
         )
         BRU_42A___2_x_LAU_61___19_2_75__rockets_M151_HE = (
             2,
@@ -901,27 +901,27 @@ class A_7E(PlaneType):
         LAU3_HE5 = (3, Weapons.LAU3_HE5)
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
             3,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT = (
             3,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum = (
             3,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos = (
             3,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         LAU_61_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
             3,
-            Weapons.LAU_61_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE,
+            Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE_,
         )
         LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_Mk71__HE_FRAG = (
             3,
-            Weapons.LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_Mk71__HE_FRAG,
+            Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE,
         )
         BRU_42A___2_x_LAU_61___19_2_75__rockets_M151_HE = (
             3,
@@ -1032,27 +1032,27 @@ class A_7E(PlaneType):
         LAU3_HE5 = (6, Weapons.LAU3_HE5)
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
             6,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT = (
             6,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum = (
             6,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos = (
             6,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         LAU_61_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
             6,
-            Weapons.LAU_61_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE,
+            Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE_,
         )
         LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_Mk71__HE_FRAG = (
             6,
-            Weapons.LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_Mk71__HE_FRAG,
+            Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE,
         )
         BRU_42A___2_x_LAU_61___19_2_75__rockets_M151_HE_ = (
             6,
@@ -1188,27 +1188,27 @@ class A_7E(PlaneType):
         LAU3_HE5 = (7, Weapons.LAU3_HE5)
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
             7,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT = (
             7,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum = (
             7,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos = (
             7,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         LAU_61_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
             7,
-            Weapons.LAU_61_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE,
+            Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE_,
         )
         LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_Mk71__HE_FRAG = (
             7,
-            Weapons.LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_Mk71__HE_FRAG,
+            Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE,
         )
         BRU_42A___2_x_LAU_61___19_2_75__rockets_M151_HE_ = (
             7,
@@ -1350,27 +1350,27 @@ class A_7E(PlaneType):
         LAU3_HE5 = (8, Weapons.LAU3_HE5)
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
             8,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT = (
             8,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum = (
             8,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
         )
         LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos = (
             8,
-            Weapons.LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos,
+            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         LAU_61_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
             8,
-            Weapons.LAU_61_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE,
+            Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE_,
         )
         LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_Mk71__HE_FRAG = (
             8,
-            Weapons.LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_Mk71__HE_FRAG,
+            Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE,
         )
         BRU_42A___2_x_LAU_61___19_2_75__rockets_M151_HE_ = (
             8,

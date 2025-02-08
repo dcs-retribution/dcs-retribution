@@ -1,0 +1,37 @@
+carrier_capable: true
+description:    # from: https://en.wikipedia.org/wiki/North_American_A-5_Vigilante
+  The North American A-5 Vigilante is an American carrier-based supersonic bomber 
+  designed and built by North American Aviation (NAA) for the United States Navy.
+  Development of the A-5 had started in 1954 as a private venture by NAA, who sought 
+  to produce a capable supersonic long-distance bomber as a successor to the abortive 
+  North American XA2J Super Savage. It was a large and complex aircraft that 
+  incorporated several innovative features, such as being the first bomber to feature 
+  a digital computer, while its ability to attain speeds of up to Mach 2 while 
+  carrying a nuclear strike payload was also relatively ambitious for the era. 
+  The US Navy saw the value of such a bomber, leading to a contract for its full 
+  development and production being issued to the firm on 29 August 1956. The type 
+  performed its first flight just over two years later, on 31 August 1958. 
+  The Vigilante was introduced by the US Navy during June 1961; it succeeded the 
+  Douglas A-3 Skywarrior as the Navy's primary nuclear strike aircraft, but its 
+  service in this capacity was relatively brief due to the deemphasising of manned 
+  bombers in American nuclear strategy. A far larger quantity of the RA-5C tactical 
+  strike reconnaissance variant were also procured by the service, which saw 
+  extensive service during the Vietnam War. It also established several world records 
+  in both long-distance speed and altitude categories. During the mid-1970s, the 
+  withdrawal of the type commenced after a relatively short service life, largely due 
+  to the aircraft being expensive and complex to operate, as well being a victim of 
+  post-Vietnam military cutbacks.
+introduced: 1963    # original type 1961, RA-5C 1963, USA retired 1979
+manufacturer: North American Aviation
+origin: USA
+price: 15    # reference: 
+role: Carrier-based Reconnaissance and Tactical Strike
+max_range: 1000    # combat range without droptanks [nmi]
+gunfighter: false
+variants:
+  RA-5C Vigilante: {}
+tasks:    # defined in flighttype.py
+  Armed Recon: 300
+  Strike: 1    # current VWV version (v0.9.0) does not have any weapons for Vigilante
+  Intercept: 1    # current VWV version (v0.9.0) does not have any weapons for Vigilante
+  CAS: 1    # Retribution wants a fallback task

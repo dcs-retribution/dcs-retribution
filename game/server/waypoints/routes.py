@@ -78,5 +78,42 @@ def set_position(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Could not find PackageModel owning {flight}",
         )
+    events = GameUpdateEvents()
+    update_package_waypoints_if_primary_flight(waypoint, flight, events)
     package_model.update_tot()
-    EventStream.put_nowait(GameUpdateEvents().update_flight(flight))
+    EventStream.put_nowait(events.update_flight(flight))
+
+
+def update_package_waypoints_if_primary_flight(
+    waypoint: FlightWaypoint,
+    flight: Flight,
+    events: GameUpdateEvents,
+) -> None:
+    wpts = flight.package.waypoints
+    if flight is flight.package.primary_flight and wpts:
+        if waypoint.waypoint_type is FlightWaypointType.JOIN:
+            wpts.join = waypoint.position
+        elif waypoint.waypoint_type is FlightWaypointType.SPLIT:
+            wpts.split = waypoint.position
+        elif waypoint.waypoint_type is FlightWaypointType.REFUEL:
+            wpts.refuel = waypoint.position
+        elif "INGRESS" in waypoint.waypoint_type.name:
+            wpts.ingress = waypoint.position
+            wpts.initial = wpts.get_initial_point(
+                waypoint.position, flight.package.target.position
+            )
+        else:
+            return
+        for f in flight.package.flights:
+            if f is flight:
+                continue
+            for wpt in f.flight_plan.iter_waypoints():
+                if wpt.waypoint_type == waypoint.waypoint_type or (
+                    "INGRESS" in wpt.waypoint_type.name
+                    and "INGRESS" in waypoint.waypoint_type.name
+                ):
+                    wpt.position = waypoint.position.new_in_same_map(
+                        waypoint.position.x, waypoint.position.y
+                    )
+                    events.update_flight(f)
+                    break

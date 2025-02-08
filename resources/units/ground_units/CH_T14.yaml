@@ -1,0 +1,11 @@
+class: Tank
+description: "The T-14 Armata (Russian: T-14 \xD0\x90\xD1\x80\xD0\xBC\xD0\xB0\xD1\x82\xD0\xB0; industrial 
+  designation Russian: \xD0\x9E\xD0\xB1\xD1\x8A\xD0\xB5\xD0\xBA\xD1\x82 148, romanized: Obyekt 148, lit. 'Object 
+  148') is a Russian fourth-generation main battle tank (MBT) based on the Armata Universal Combat Platform."
+introduced: 2014
+manufacturer: Uralvagonzavod
+origin: Russia
+price: 20
+role: Main Battle Tank
+variants:
+  "[CH] T-14 MBT": {}

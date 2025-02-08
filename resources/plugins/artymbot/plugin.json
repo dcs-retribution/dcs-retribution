@@ -1,0 +1,26 @@
+{
+    "nameInUI": "Mbot Call Artillery Script",
+    "defaultValue": false,
+    "specificOptions": [
+        {
+            "nameInUI": "Enable ship artillery",
+            "mnemonic": "shipArtilleryEnable",
+            "defaultValue": true
+        }
+    ],
+    "scriptsWorkOrders": [
+        {
+            "file": "CallArtilleryScript.lua",
+            "mnemonic": "artymbot"
+        }
+    ],
+    "configurationWorkOrders": [
+        {
+            "file": "artymbot-config.lua",
+            "mnemonic": "artymbot-config"
+        }
+    ],
+    "otherResourceFiles": [
+        "beep.wav"
+    ]
+}

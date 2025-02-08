@@ -125,16 +125,12 @@ class Builder(IBuilder[CasFlightPlan, CasLayout]):
             ingress_point_shapely.x, ingress_point_shapely.y
         )
 
-        patrol_start_waypoint = builder.nav(
-            patrol_start, ingress_egress_altitude, use_agl_patrol_altitude
-        )
+        patrol_start_waypoint = builder.cas(patrol_start, ingress_egress_altitude)
         patrol_start_waypoint.name = "FLOT START"
         patrol_start_waypoint.pretty_name = "FLOT start"
         patrol_start_waypoint.description = "FLOT boundary"
 
-        patrol_end_waypoint = builder.nav(
-            patrol_end, ingress_egress_altitude, use_agl_patrol_altitude
-        )
+        patrol_end_waypoint = builder.cas(patrol_end, ingress_egress_altitude)
         patrol_end_waypoint.name = "FLOT END"
         patrol_end_waypoint.pretty_name = "FLOT end"
         patrol_end_waypoint.description = "FLOT boundary"

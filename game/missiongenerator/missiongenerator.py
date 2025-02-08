@@ -10,6 +10,8 @@ from dcs import Mission, Point
 from dcs.coalition import Coalition
 from dcs.countries import country_dict
 from dcs.task import OptReactOnThreat
+from dcs.terrain import Airport
+from dcs.unit import Static
 
 from game.atcdata import AtcData
 from game.dcs.beacons import Beacons
@@ -34,10 +36,12 @@ from .frontlineconflictdescription import FrontLineConflictDescription
 from .kneeboard import KneeboardGenerator
 from .luagenerator import LuaGenerator
 from .missiondata import MissionData
+from .rebelliongenerator import RebellionGenerator
 from .tgogenerator import TgoGenerator
 from .triggergenerator import TriggerGenerator
 from .visualsgenerator import VisualsGenerator
 from ..radio.TacanContainer import TacanContainer
+from ..radio.datalink import DataLinkRegistry
 
 if TYPE_CHECKING:
     from game import Game
@@ -54,6 +58,7 @@ class MissionGenerator:
 
         self.radio_registry = RadioRegistry()
         self.tacan_registry = TacanRegistry()
+        self.datalink_registry = DataLinkRegistry()
 
         self.generation_started = False
 
@@ -66,6 +71,8 @@ class MissionGenerator:
             options["miscellaneous"]["f11_free_camera"] = ext_view
             options["miscellaneous"]["f5_nearest_ac"] = ext_view
             options["difficulty"]["spectatorExternalViews"] = ext_view
+            sc_deck_crew = game.settings.supercarrier_deck_crew
+            options["plugins"]["Supercarrier"]["deck_crew"] = sc_deck_crew
             self.mission.options.load_from_dict(options)
 
     def generate_miz(self, output: Path) -> UnitMap:
@@ -80,7 +87,10 @@ class MissionGenerator:
         self.add_airfields_to_unit_map()
         self.initialize_registries()
 
-        EnvironmentGenerator(self.mission, self.game.conditions, self.time).generate()
+        auto_fog = self.game.settings.use_auto_fog
+        EnvironmentGenerator(
+            self.mission, self.game.conditions, self.time, auto_fog
+        ).generate()
 
         tgo_generator = TgoGenerator(
             self.mission,
@@ -102,6 +112,7 @@ class MissionGenerator:
         self.generate_ground_conflicts()
         self.generate_air_units(tgo_generator)
 
+        RebellionGenerator(self.mission, self.game).generate()
         TriggerGenerator(self.mission, self.game).generate()
         ForcedOptionsGenerator(self.mission, self.game).generate()
         VisualsGenerator(self.mission, self.game).generate()
@@ -112,8 +123,9 @@ class MissionGenerator:
 
         self.notify_info_generators()
 
-        # TODO: Shouldn't this be first?
         namegen.reset_numbers()
+        self.generate_warehouses()
+        output.parent.mkdir(parents=True, exist_ok=True)
         self.mission.save(output)
 
         return self.unit_map
@@ -245,10 +257,12 @@ class MissionGenerator:
             self.time,
             self.radio_registry,
             self.tacan_registry,
+            self.datalink_registry,
             self.unit_map,
             mission_data=self.mission_data,
             helipads=tgo_generator.helipads,
             ground_spawns_roadbase=tgo_generator.ground_spawns_roadbase,
+            ground_spawns_large=tgo_generator.ground_spawns_large,
             ground_spawns=tgo_generator.ground_spawns,
         )
 
@@ -346,3 +360,33 @@ class MissionGenerator:
         self.mission.groundControl.blue_tactical_commander = commanders
         self.mission.groundControl.blue_jtac = settings.jtac_count
         self.mission.groundControl.blue_observer = settings.observer_count
+
+    def generate_warehouses(self) -> None:
+        settings = self.game.settings
+        for tmu in self.unit_map.theater_objects.values():
+            if (
+                tmu.theater_unit.is_ship
+                or isinstance(tmu.dcs_unit, Static)
+                and tmu.dcs_unit.category in ["Warehouses", "Heliports"]
+            ):
+                # We'll serialize more than is actually necessary
+                # DCS will filter out warehouses as dynamic spawns so no need to worry there
+                # thus, if we serialize a ship as a warehouse that's not supported, DCS will filter it out
+                warehouse = Airport(
+                    tmu.theater_unit.position,
+                    self.mission.terrain,
+                ).dict()
+                warehouse["coalition"] = (
+                    "blue" if tmu.theater_unit.ground_object.coalition.player else "red"
+                )
+                warehouse["dynamicCargo"] = settings.dynamic_cargo
+                if tmu.theater_unit.is_ship or tmu.dcs_unit.category == "Heliports":  # type: ignore
+                    warehouse["dynamicSpawn"] = settings.dynamic_slots
+                    warehouse["allowHotStart"] = settings.dynamic_slots_hot
+                self.mission.warehouses.warehouses[tmu.dcs_unit.id] = warehouse
+
+        # configure dynamic spawn, hot start of DS & dynamic cargo for airfields
+        for ap in self.mission.terrain.airports.values():
+            ap.dynamic_spawn = settings.dynamic_slots
+            ap.allow_hot_start = settings.dynamic_slots_hot
+            ap.dynamic_cargo = settings.dynamic_cargo

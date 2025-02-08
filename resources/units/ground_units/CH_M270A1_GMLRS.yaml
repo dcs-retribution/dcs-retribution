@@ -1,0 +1,11 @@
+class: Artillery
+description: A highly mobile, tracked artillery system designed to dlivery devastating firepower
+  at long ranges. Capable of firing guided and unguided rockets the M270 is capable of engaging a
+  variety of targets at distances of up to 160 nautical miles.
+introduced: 1983
+manufacturer: Lockheed Martin
+origin: United States
+price: 45
+role: Long-Range Precision Artillery Striker
+variants: 
+  "[CH] M270A1 MLRS (GMLRS)": {}

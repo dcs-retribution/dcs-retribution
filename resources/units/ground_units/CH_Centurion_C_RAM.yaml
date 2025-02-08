@@ -1,0 +1,12 @@
+class: AAA
+description: The Centurion C-RAM is a land-based mobile countermeasure system designed to
+  protect military installations and assets form incoming artillery, rockets and mortary fire.
+  Based on the Centurion 20mm gun, the system fires at 4,500 rounds per minute to intercept hostile
+  projectiles.
+introduced: 2004
+manufacturer: General Dynamics
+origin: United States
+price: 15
+role: Self-Propelled Anti-Aircraft Gun
+variants: 
+  "[CH] Centurion C-RAM": {}

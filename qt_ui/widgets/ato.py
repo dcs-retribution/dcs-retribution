@@ -1,4 +1,5 @@
 """Widgets for displaying air tasking orders."""
+
 import logging
 from copy import deepcopy
 from typing import Optional

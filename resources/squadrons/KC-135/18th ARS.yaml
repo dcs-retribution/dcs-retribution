@@ -5,5 +5,6 @@ female_pilot_percentage: 6
 country: USA
 role: Air-to-Air Refueling
 aircraft: KC-135 Stratotanker
+livery: Standard USAF
 mission_types:
   - Refueling

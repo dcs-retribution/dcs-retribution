@@ -23,6 +23,8 @@ class SquadronDefGenerator:
     def generate_for_task(
         self, task: FlightType, control_point: ControlPoint
     ) -> Optional[SquadronDef]:
+        settings = control_point.coalition.game.settings
+        squadron_random_chance = settings.squadron_random_chance
         aircraft_choice: Optional[AircraftType] = None
         for aircraft in AircraftType.priority_list_for_task(task):
             if aircraft not in self.faction.all_aircrafts:
@@ -30,9 +32,9 @@ class SquadronDefGenerator:
             if not control_point.can_operate(aircraft):
                 continue
             aircraft_choice = aircraft
-            # 50/50 chance to keep looking for an aircraft that isn't as far up the
+            # squadron_random_chance percent chance to keep looking for an aircraft that isn't as far up the
             # priority list to maintain some unit variety.
-            if random.choice([True, False]):
+            if squadron_random_chance >= random.randint(1, 100):
                 break
 
         if aircraft_choice is None:

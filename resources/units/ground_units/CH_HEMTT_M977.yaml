@@ -1,0 +1,11 @@
+class: Logistics
+description: The HEMTT M977 Truck is a highly versatile cargo and troop transport. Equipped with a 450
+  horsepower diesel engine the M977 excels in transporting supplies, equipment and personnel in challenging
+  terrains. Its flatbed can carry up to 10 tons of material, making it a key asset in military logistics.
+introduced: 1982
+manufacturer: Oshkosh Defence (Stward and Stevenson)
+origin: United States
+price: 3
+role: Medium Tactical Vehicle
+variants:
+  "[CH] Oshkosh HEMTT M977": {}

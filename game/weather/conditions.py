@@ -91,6 +91,8 @@ class Conditions:
                 day += datetime.timedelta(days=1.0)
                 hours %= 24
         else:
+            if start == 0:
+                day += datetime.timedelta(days=1.0)
             hours = random.randint(start, end)
         return day, hours
 

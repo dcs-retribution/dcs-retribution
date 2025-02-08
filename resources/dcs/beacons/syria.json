@@ -223,6 +223,83 @@
   "hertz": 351000,
   "channel": null
  },
+ "airfield221_0": {
+  "name": "",
+  "callsign": "BG",
+  "beacon_type": 13,
+  "hertz": 110300000,
+  "channel": null
+ },
+ "airfield221_1": {
+  "name": "",
+  "callsign": "GP",
+  "beacon_type": 14,
+  "hertz": 110900000,
+  "channel": null
+ },
+ "airfield221_2": {
+  "name": "BenGurion",
+  "callsign": "BGN",
+  "beacon_type": 3,
+  "hertz": 113500000,
+  "channel": null
+ },
+ "airfield221_3": {
+  "name": "",
+  "callsign": "BD",
+  "beacon_type": 14,
+  "hertz": 111900000,
+  "channel": null
+ },
+ "airfield221_4": {
+  "name": "",
+  "callsign": "GP",
+  "beacon_type": 14,
+  "hertz": 108700000,
+  "channel": null
+ },
+ "airfield221_5": {
+  "name": "",
+  "callsign": "BA",
+  "beacon_type": 13,
+  "hertz": 110900000,
+  "channel": null
+ },
+ "airfield221_6": {
+  "name": "",
+  "callsign": "BN",
+  "beacon_type": 13,
+  "hertz": 109700000,
+  "channel": null
+ },
+ "airfield221_7": {
+  "name": "",
+  "callsign": "GP",
+  "beacon_type": 14,
+  "hertz": 110300000,
+  "channel": null
+ },
+ "airfield221_8": {
+  "name": "",
+  "callsign": "GP",
+  "beacon_type": 14,
+  "hertz": 109700000,
+  "channel": null
+ },
+ "airfield221_9": {
+  "name": "",
+  "callsign": "BA",
+  "beacon_type": 13,
+  "hertz": 108700000,
+  "channel": null
+ },
+ "airfield221_10": {
+  "name": "",
+  "callsign": "BD",
+  "beacon_type": 13,
+  "hertz": 111900000,
+  "channel": null
+ },
  "airfield7_0": {
   "name": "",
   "callsign": "IDA",
@@ -287,16 +364,23 @@
   "channel": null
  },
  "airfield49_0": {
+  "name": "",
+  "callsign": "IECR",
+  "beacon_type": 13,
+  "hertz": 108300000,
+  "channel": null
+ },
+ "airfield49_1": {
   "name": "ERCAN",
   "callsign": "ECN",
   "beacon_type": 3,
   "hertz": 117000000,
   "channel": null
  },
- "airfield49_1": {
+ "airfield49_2": {
   "name": "",
   "callsign": "IECR",
-  "beacon_type": 13,
+  "beacon_type": 14,
   "hertz": 108300000,
   "channel": null
  },
@@ -331,18 +415,25 @@
  "airfield41_0": {
   "name": "",
   "callsign": "IGZP",
-  "beacon_type": 13,
+  "beacon_type": 14,
   "hertz": 108500000,
   "channel": null
  },
  "airfield41_1": {
+  "name": "",
+  "callsign": "IGZP",
+  "beacon_type": 13,
+  "hertz": 108500000,
+  "channel": null
+ },
+ "airfield41_2": {
   "name": "ALANYA/GAZIPASA",
   "callsign": "GZP",
   "beacon_type": 3,
   "hertz": 114200000,
   "channel": 89
  },
- "airfield41_2": {
+ "airfield41_3": {
   "name": "GAZIPASA/ALANYA",
   "callsign": "GZP",
   "beacon_type": 9,
@@ -389,6 +480,27 @@
   "callsign": "HTY",
   "beacon_type": 9,
   "hertz": 336000,
+  "channel": null
+ },
+ "airfield222_0": {
+  "name": "",
+  "callsign": "HZR",
+  "beacon_type": 14,
+  "hertz": 108500000,
+  "channel": 0
+ },
+ "airfield222_1": {
+  "name": "",
+  "callsign": "HZR",
+  "beacon_type": 2,
+  "hertz": 115900000,
+  "channel": 106
+ },
+ "airfield222_2": {
+  "name": "",
+  "callsign": "HZR",
+  "beacon_type": 13,
+  "hertz": 108500000,
   "channel": null
  },
  "airfield16_0": {
@@ -505,30 +617,30 @@
  },
  "airfield68_0": {
   "name": "",
-  "callsign": "",
+  "callsign": "IGHS",
   "beacon_type": 13,
-  "hertz": 112910000,
+  "hertz": 109700000,
   "channel": null
  },
  "airfield68_1": {
   "name": "",
-  "callsign": "",
-  "beacon_type": 13,
-  "hertz": 112900000,
+  "callsign": "IGHS",
+  "beacon_type": 14,
+  "hertz": 109700000,
   "channel": null
  },
  "airfield68_2": {
   "name": "",
-  "callsign": "",
-  "beacon_type": 14,
-  "hertz": 112910000,
+  "callsign": "IGHI",
+  "beacon_type": 13,
+  "hertz": 107700000,
   "channel": null
  },
  "airfield68_3": {
   "name": "",
-  "callsign": "",
+  "callsign": "IGHI",
   "beacon_type": 14,
-  "hertz": 112900000,
+  "hertz": 107700000,
   "channel": null
  },
  "airfield27_0": {
@@ -609,24 +721,24 @@
   "channel": 79
  },
  "airfield64_0": {
-  "name": "PrinceHussein",
-  "callsign": "ABC",
-  "beacon_type": 4,
-  "hertz": 0,
-  "channel": 106
- },
- "airfield64_1": {
   "name": "",
   "callsign": "ABC",
   "beacon_type": 13,
-  "hertz": 111400000,
+  "hertz": 111700000,
   "channel": null
+ },
+ "airfield64_1": {
+  "name": "PrinceHussein",
+  "callsign": "ABC",
+  "beacon_type": 5,
+  "hertz": 115900000,
+  "channel": 106
  },
  "airfield64_2": {
   "name": "",
   "callsign": "ABC",
   "beacon_type": 14,
-  "hertz": 111400000,
+  "hertz": 111700000,
   "channel": null
  },
  "airfield30_0": {
@@ -676,6 +788,41 @@
   "callsign": "GAP",
   "beacon_type": 9,
   "hertz": 391000,
+  "channel": null
+ },
+ "airfield58_2": {
+  "name": "",
+  "callsign": "ISUR",
+  "beacon_type": 14,
+  "hertz": 111900000,
+  "channel": null
+ },
+ "airfield58_3": {
+  "name": "",
+  "callsign": "ISUR",
+  "beacon_type": 13,
+  "hertz": 111900000,
+  "channel": null
+ },
+ "airfield220_0": {
+  "name": "TEL_NOF",
+  "callsign": "XAKR",
+  "beacon_type": 10,
+  "hertz": 87000,
+  "channel": null
+ },
+ "airfield220_1": {
+  "name": "",
+  "callsign": "AKR",
+  "beacon_type": 13,
+  "hertz": 109100000,
+  "channel": null
+ },
+ "airfield220_2": {
+  "name": "",
+  "callsign": "AKR",
+  "beacon_type": 14,
+  "hertz": 109100000,
   "channel": null
  },
  "airfield40_0": {

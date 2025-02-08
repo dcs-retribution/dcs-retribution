@@ -23,6 +23,7 @@ class PlanDead(PackagePlanningTask[IadsGroundObject]):
 
     def apply_effects(self, state: TheaterState) -> None:
         state.eliminate_air_defense(self.target)
+        super().apply_effects(state)
 
     def propose_flights(self) -> None:
         tgt_count = self.target.alive_unit_count

@@ -1,0 +1,13 @@
+class: Artillery
+description: "The 2S35 Koalitsiya-SV (Russian: 2C35 \xD0\x9A\xD0\xBE\xD0\xB0\xD0\xBB\xD0\xB8\xD1\x86\xD0\xB8\xD1\x8F\x2D\xD0\xA1\xD0\x92,
+  lit. Coalition-SV) is a Russian self-propelled gun first seen in public
+  (initially with its turret covered) in 2015 during rehearsals for the Moscow Victory
+  Day Parade. The 2S35 is expected to supplement and eventually replace the 2S19 Msta in
+  the Russian Ground Forces."
+introduced: 2023
+manufacturer: Burevestnik Central Scientific Research Institute
+origin: Russia
+price: 25
+role: Self-Propelled Gun
+variants:
+  "[CH] 2S35 SPG": {}

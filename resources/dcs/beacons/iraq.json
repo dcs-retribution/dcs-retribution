@@ -1,0 +1,296 @@
+{
+ "airfield1_0": {
+  "name": "RAA",
+  "callsign": "RAA",
+  "beacon_type": 4,
+  "hertz": null,
+  "channel": 80
+ },
+ "airfield1_1": {
+  "name": "IRAA",
+  "callsign": "IRAA",
+  "beacon_type": 14,
+  "hertz": 108800000,
+  "channel": null
+ },
+ "airfield1_2": {
+  "name": "ISAD",
+  "callsign": "ISAD",
+  "beacon_type": 14,
+  "hertz": 108900000,
+  "channel": null
+ },
+ "airfield1_3": {
+  "name": "IRAA",
+  "callsign": "IRAA",
+  "beacon_type": 13,
+  "hertz": 108800000,
+  "channel": null
+ },
+ "airfield1_4": {
+  "name": "ISAD",
+  "callsign": "ISAD",
+  "beacon_type": 13,
+  "hertz": 108900000,
+  "channel": null
+ },
+ "airfield12_0": {
+  "name": "ALSAHRAAAF",
+  "callsign": "TKT",
+  "beacon_type": 8,
+  "hertz": 1669000,
+  "channel": null
+ },
+ "airfield9_0": {
+  "name": "AlTajiAirport",
+  "callsign": "TAJI",
+  "beacon_type": 8,
+  "hertz": 1650000,
+  "channel": null
+ },
+ "airfield13_0": {
+  "name": "Al Taquddum",
+  "callsign": "MAT",
+  "beacon_type": 4,
+  "hertz": null,
+  "channel": 70
+ },
+ "airfield2_0": {
+  "name": "BGD",
+  "callsign": "BGD",
+  "beacon_type": 3,
+  "hertz": 112900000,
+  "channel": 76
+ },
+ "airfield2_1": {
+  "name": "",
+  "callsign": "ORBI",
+  "beacon_type": 7,
+  "hertz": 118700000,
+  "channel": null
+ },
+ "airfield2_2": {
+  "name": "IYCA",
+  "callsign": "IYCA",
+  "beacon_type": 14,
+  "hertz": 110100000,
+  "channel": null
+ },
+ "airfield2_3": {
+  "name": "IYDB",
+  "callsign": "IYDB",
+  "beacon_type": 14,
+  "hertz": 110700000,
+  "channel": null
+ },
+ "airfield2_4": {
+  "name": "IYCA",
+  "callsign": "IYCA",
+  "beacon_type": 13,
+  "hertz": 110100000,
+  "channel": null
+ },
+ "airfield2_5": {
+  "name": "IYDB",
+  "callsign": "IYDB",
+  "beacon_type": 13,
+  "hertz": 110700000,
+  "channel": null
+ },
+ "airfield2_6": {
+  "name": "BAP",
+  "callsign": "BAP",
+  "beacon_type": 4,
+  "hertz": 121700000,
+  "channel": 64
+ },
+ "airfield2_7": {
+  "name": "ITAK",
+  "callsign": "ITAK",
+  "beacon_type": 14,
+  "hertz": 110900000,
+  "channel": null
+ },
+ "airfield2_8": {
+  "name": "INHA",
+  "callsign": "INHA",
+  "beacon_type": 14,
+  "hertz": 110300000,
+  "channel": null
+ },
+ "airfield2_9": {
+  "name": "INHA",
+  "callsign": "INHA",
+  "beacon_type": 13,
+  "hertz": 110300000,
+  "channel": null
+ },
+ "airfield2_10": {
+  "name": "ITAK",
+  "callsign": "ITAK",
+  "beacon_type": 13,
+  "hertz": 110900000,
+  "channel": null
+ },
+ "airfield8_0": {
+  "name": "BLD",
+  "callsign": "BLD",
+  "beacon_type": 5,
+  "hertz": 114600000,
+  "channel": 93
+ },
+ "airfield8_1": {
+  "name": "BaladAirbase",
+  "callsign": "IANC",
+  "beacon_type": 13,
+  "hertz": 109950000,
+  "channel": null
+ },
+ "airfield8_2": {
+  "name": "BaladAirbase",
+  "callsign": "IANC",
+  "beacon_type": 14,
+  "hertz": 109950000,
+  "channel": null
+ },
+ "airfield8_3": {
+  "name": "BaladAirbase",
+  "callsign": "IBLD",
+  "beacon_type": 13,
+  "hertz": 109900000,
+  "channel": null
+ },
+ "airfield8_4": {
+  "name": "BaladAirbase",
+  "callsign": "IBLD",
+  "beacon_type": 14,
+  "hertz": 109900000,
+  "channel": null
+ },
+ "airfield5_0": {
+  "name": "ORB",
+  "callsign": "ORB",
+  "beacon_type": 4,
+  "hertz": null,
+  "channel": 47
+ },
+ "airfield4_0": {
+  "name": "RER",
+  "callsign": "RER",
+  "beacon_type": 3,
+  "hertz": 116300000,
+  "channel": 110
+ },
+ "airfield4_1": {
+  "name": "ErbilInternationalAirport",
+  "callsign": "IREB",
+  "beacon_type": 14,
+  "hertz": 109700000,
+  "channel": null
+ },
+ "airfield4_2": {
+  "name": "ErbilInternationalAirport",
+  "callsign": "IREA",
+  "beacon_type": 14,
+  "hertz": 109200000,
+  "channel": null
+ },
+ "airfield4_3": {
+  "name": "ErbilInternationalAirport",
+  "callsign": "IREB",
+  "beacon_type": 13,
+  "hertz": 109700000,
+  "channel": null
+ },
+ "airfield4_4": {
+  "name": "ErbilInternationalAirport",
+  "callsign": "IREA",
+  "beacon_type": 13,
+  "hertz": 109200000,
+  "channel": null
+ },
+ "airfield4_5": {
+  "name": "ErbilInternationalAirport",
+  "callsign": "IRER",
+  "beacon_type": 13,
+  "hertz": 109300000,
+  "channel": null
+ },
+ "airfield4_6": {
+  "name": "ErbilInternationalAirport",
+  "callsign": "IRER",
+  "beacon_type": 14,
+  "hertz": 109300000,
+  "channel": null
+ },
+ "airfield10_0": {
+  "name": "KIR",
+  "callsign": "KIR",
+  "beacon_type": 3,
+  "hertz": 111200000,
+  "channel": 49
+ },
+ "airfield10_1": {
+  "name": "KRK",
+  "callsign": "KRK",
+  "beacon_type": 4,
+  "hertz": null,
+  "channel": 86
+ },
+ "airfield10_2": {
+  "name": "ISAD",
+  "callsign": "ISAD",
+  "beacon_type": 14,
+  "hertz": 109100000,
+  "channel": null
+ },
+ "airfield10_3": {
+  "name": "ISAD",
+  "callsign": "ISAD",
+  "beacon_type": 13,
+  "hertz": 109100000,
+  "channel": null
+ },
+ "airfield6_0": {
+  "name": "QYW",
+  "callsign": "QYW",
+  "beacon_type": 4,
+  "hertz": null,
+  "channel": 72
+ },
+ "airfield7_0": {
+  "name": "",
+  "callsign": "SUL",
+  "beacon_type": 13,
+  "hertz": 111700000,
+  "channel": null
+ },
+ "airfield7_1": {
+  "name": "",
+  "callsign": "NGA",
+  "beacon_type": 13,
+  "hertz": 111100000,
+  "channel": null
+ },
+ "airfield7_2": {
+  "name": "",
+  "callsign": "NGA",
+  "beacon_type": 14,
+  "hertz": 111100000,
+  "channel": null
+ },
+ "airfield7_3": {
+  "name": "",
+  "callsign": "SUL",
+  "beacon_type": 14,
+  "hertz": 111700000,
+  "channel": null
+ },
+ "airfield7_4": {
+  "name": "SUL",
+  "callsign": "SUL",
+  "beacon_type": 3,
+  "hertz": 117000000,
+  "channel": 117
+ }
+}

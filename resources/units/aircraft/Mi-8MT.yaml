@@ -12,6 +12,7 @@ manufacturer: Mil
 origin: USSR/Russia
 price: 5
 role: Transport/Light Attack
+default_livery: Russia_Army_Weather
 variants:
   Mi-8MTV2 Hip: {}
 kneeboard_units: "metric"

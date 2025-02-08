@@ -22,6 +22,7 @@ class PlanOcaStrike(PackagePlanningTask[ControlPoint]):
 
     def apply_effects(self, state: TheaterState) -> None:
         state.oca_targets.remove(self.target)
+        super().apply_effects(state)
 
     def propose_flights(self) -> None:
         size = self.get_flight_size()

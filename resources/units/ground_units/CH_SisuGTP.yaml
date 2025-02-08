@@ -1,0 +1,11 @@
+class: APC
+description: "The Sisu GTP is a Finnish made four-wheeled, 
+  modular mine-resistant ambush protected armoured personnel carrier (APC) 
+  designed and built by Sisu Auto. The first version was produced in 2018."
+introduced: 2022
+manufacturer: Sisu Auto
+origin: Sweden
+price: 6
+role: Armoured Personnel Carrier
+variants:
+  "[CH] Sisu GTP APC": {}

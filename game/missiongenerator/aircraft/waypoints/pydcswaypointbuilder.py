@@ -65,6 +65,9 @@ class PydcsWaypointBuilder:
             name=self.dcs_name_for_waypoint(),
         )
 
+        waypoint.alt_type = self.waypoint.alt_type
+        if self.flight.is_helo and self.flight.coalition.game.settings.switch_baro_fix:
+            self.switch_to_baro_if_in_sea(waypoint)
         if self.waypoint.flyover:
             waypoint.action = PointAction.FlyOverPoint
             # It seems we need to leave waypoint.type exactly as it is even
@@ -75,12 +78,20 @@ class PydcsWaypointBuilder:
                 waypoint.alt = 0
                 waypoint.alt_type = "RADIO"
 
-        waypoint.alt_type = self.waypoint.alt_type
         tot = self.flight.flight_plan.tot_for_waypoint(self.waypoint)
         if tot is not None:
             self.set_waypoint_tot(waypoint, tot)
         self.add_tasks(waypoint)
         return waypoint
+
+    def switch_to_baro_if_in_sea(self, waypoint: MovingPoint) -> None:
+        if waypoint.alt_type == "RADIO" and (
+            self.flight.coalition.game.theater.is_in_sea(waypoint.position)
+            or not self.flight.coalition.game.theater.is_on_land(
+                waypoint.position, ignore_exclusion=True
+            )
+        ):
+            waypoint.alt_type = "BARO"
 
     def ai_despawn(
         self, waypoint: MovingPoint, ignore_landing_wpt: bool = False

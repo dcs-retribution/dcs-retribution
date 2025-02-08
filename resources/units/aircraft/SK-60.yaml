@@ -1,0 +1,24 @@
+carrier_capable: false
+description:
+  The Saab 105 is a Swedish high-wing, twinjet trainer aircraft developed in the early 1960s 
+  as a private venture by Saab AB.[2] The Swedish Air Force, which had opted to procure the type 
+  for various roles, issued the aircraft with the designation Sk 60. The Sk 60 entered service in 1967, 
+  replacing the ageing De Havilland Vampire fleet.
+  SK-60B is a two-seat attack version for the Swedish Air Force, modified from Sk 60A with new weapons sight.
+  This version entered service in 1968.
+  
+introduced: 1968
+manufacturer: Saab AB
+origin: Sweden
+price: 4
+role: COIN / FAC /Light Attack
+gunfighter: true
+variants:
+  SK-60: {}
+tasks:
+  BAI: 650
+  CAS: 650
+  DEAD: 60
+  OCA/Aircraft: 650
+  OCA/Runway: 330
+  Strike: 330

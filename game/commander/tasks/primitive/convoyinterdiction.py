@@ -19,6 +19,7 @@ class PlanConvoyInterdiction(PackagePlanningTask[Convoy]):
 
     def apply_effects(self, state: TheaterState) -> None:
         state.enemy_convoys.remove(self.target)
+        super().apply_effects(state)
 
     def propose_flights(self) -> None:
         self.propose_flight(FlightType.BAI, 2)

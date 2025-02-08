@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import TYPE_CHECKING
 
-from game.utils import Distance, SPEED_OF_SOUND_AT_SEA_LEVEL, Speed, mach, meters
+from game.utils import Distance, SPEED_OF_SOUND_AT_SEA_LEVEL, Speed, mach
 
 if TYPE_CHECKING:
     from .flight import Flight
@@ -30,8 +30,8 @@ class GroundSpeed:
         # as it can at sea level. This probably isn't great assumption, but
         # might. be sufficient given the wiggle room. We can come up with
         # another heuristic if needed.
-        cruise_mach = max_speed.mach() * (0.60 if flight.is_helo else 0.85)
-        return mach(cruise_mach, altitude if not flight.is_helo else meters(0))
+        cruise_mach = max_speed.mach() * (0.7 if flight.is_helo else 0.85)
+        return mach(cruise_mach, altitude)
 
 
 # TODO: Most if not all of this should move into FlightPlan.

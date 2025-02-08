@@ -1,0 +1,17 @@
+class: Tank
+description: "The Type 15 (Chinese: \u0031\u0035\u5f0f\u8f7b\u578b\u5766\u514b;
+  pinyin: \u0079\u012b\u0077\u01d4\u0020\u0073\u0068\u00ec\u0020\u0071\u012b\u006e\u0067\u0078\u00ed\u006e\u0067\u0020\u0074\u01ce\u006e\u006b\u00e8,
+  also designated ZTQ-15), codenamed the Black Panther (Chinese: \u9ed1\u8c79; 
+  pinyin: \u0068\u0113\u0069\u0020\u0062\u00e0\u006f), is a Chinese third generation light tank
+  operated by the People's Liberation Army Ground Force, People's Liberation Army Navy 
+  Marine Corps, and People's Liberation Army Air Force Airborne Corps. The tank has also been
+  exported to the Bangladesh Army. It is the effective successor to the Type 62 light tank
+  that was retired from the Chinese army in 2013. The export version of the tank is known 
+  as VT-5."
+introduced: 2018
+manufacturer: Norinco
+origin: China
+price: 25
+role: Main Battle Tank
+variants:
+  "[CH] ZTZ-99A2 MBT": {}

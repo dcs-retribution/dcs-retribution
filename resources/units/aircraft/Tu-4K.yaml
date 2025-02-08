@@ -1,0 +1,16 @@
+description:
+  "The Tupolev Tu-4 (NATO reporting name: Bull) is a piston-engined
+  Soviet strategic bomber that served the Soviet Air Force from the
+  late 1940s to mid-1960s. It is a reverse-engineered copy of the
+  American B-29 Superfortress."
+introduced: 1949
+manufacturer: Tupolev/Boeing
+origin: USSR/USA
+price: 20
+role: Heavy Bomber
+variants:
+  Tu-4K Bull: {}
+tasks:
+  OCA/Runway: 200
+  Strike: 200
+  Anti-ship: 200

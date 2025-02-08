@@ -18,11 +18,12 @@ from dcs.terrain import (
     TheChannel,
     Sinai,
     Kola,
+    Afghanistan,
+    Iraq,
 )
 
-from .conflicttheater import ConflictTheater
+from .conflicttheater import ConflictTheater, THEATER_RESOURCE_DIR
 from .daytimemap import DaytimeMap
-from .landmap import load_landmap
 from .seasonalconditions import Season, SeasonalConditions, WeatherTypeChances
 
 ALL_TERRAINS = [
@@ -36,6 +37,8 @@ ALL_TERRAINS = [
     Syria(),
     Sinai(),
     Kola(),
+    Afghanistan(),
+    Iraq(),
 ]
 
 TERRAINS_BY_NAME = {t.name: t for t in ALL_TERRAINS}
@@ -79,15 +82,13 @@ class TurbulenceData:
 
 
 class TheaterLoader:
-    THEATER_RESOURCE_DIR = Path("resources/theaters")
-
     def __init__(self, name: str) -> None:
         self.name = name
-        self.descriptor_path = self.THEATER_RESOURCE_DIR / self.name / "info.yaml"
+        self.descriptor_path = THEATER_RESOURCE_DIR / self.name / "info.yaml"
 
     @classmethod
     def each(cls) -> Iterator[ConflictTheater]:
-        for theater_dir in cls.THEATER_RESOURCE_DIR.iterdir():
+        for theater_dir in THEATER_RESOURCE_DIR.iterdir():
             yield TheaterLoader(theater_dir.name).load()
 
     @property
@@ -110,7 +111,7 @@ class TheaterLoader:
             data = yaml.safe_load(descriptor_file)
         return ConflictTheater(
             TERRAINS_BY_NAME[data.get("pydcs_name", data["name"])],
-            load_landmap(self.landmap_path),
+            self.landmap_path,
             datetime.timezone(datetime.timedelta(hours=data["timezone"])),
             self._load_seasonal_conditions(data["climate"]),
             self._load_daytime_map(data["daytime"]),

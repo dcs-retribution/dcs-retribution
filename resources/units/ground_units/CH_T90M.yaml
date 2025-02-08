@@ -1,0 +1,13 @@
+class: Tank
+description: "The T-90 is a third-generation Russian main battle tank developed from, and designed to replace 
+  the T-72. It uses a 125 mm 2A46 smoothbore main gun, the 1A45T fire-control system, an upgraded engine, 
+  and gunner's thermal sight. Standard protective measures include a blend of steel and composite armour, 
+  smoke grenade dischargers, Kontakt-5 explosive reactive armour (ERA) and the Shtora infrared anti-tank 
+  guided missile (ATGM) jamming system."
+introduced: 2019
+manufacturer: Uralvagonzavod
+origin: Russia
+price: 25
+role: Main Battle Tank
+variants:
+  "[CH] T-90M MBT": {}

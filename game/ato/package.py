@@ -54,8 +54,7 @@ class Package(RadioFrequencyContainer):
     def has_players(self) -> bool:
         return any(flight.client_count for flight in self.flights)
 
-    @property
-    def formation_speed(self) -> Optional[Speed]:
+    def formation_speed(self, is_helo: bool) -> Optional[Speed]:
         """The speed of the package when in formation.
 
         If none of the flights in the package will join a formation, this
@@ -66,7 +65,10 @@ class Package(RadioFrequencyContainer):
         """
         speeds = []
         for flight in self.flights:
-            if isinstance(flight.flight_plan, FormationFlightPlan):
+            if (
+                isinstance(flight.flight_plan, FormationFlightPlan)
+                and flight.is_helo == is_helo
+            ):
                 speeds.append(flight.flight_plan.best_flight_formation_speed)
         if not speeds:
             return None
@@ -179,12 +181,14 @@ class Package(RadioFrequencyContainer):
             FlightType.DEAD,
             FlightType.TRANSPORT,
             FlightType.AIR_ASSAULT,
+            FlightType.ARMED_RECON,
             FlightType.SEAD,
             FlightType.SEAD_SWEEP,
             FlightType.TARCAP,
             FlightType.BARCAP,
             FlightType.AEWC,
             FlightType.FERRY,
+            FlightType.RECOVERY,
             FlightType.REFUELING,
             FlightType.SWEEP,
             FlightType.SEAD_ESCORT,
@@ -239,3 +243,10 @@ class Package(RadioFrequencyContainer):
             cf.package = clone
             clone.add_flight(cf)
         return clone
+
+    def all_flights_waiting_for_start(self) -> bool:
+        """Returns True if all flights in the package are waiting for start."""
+        for flight in self.flights:
+            if not flight.state.is_waiting_for_start:
+                return False
+        return True

@@ -1,0 +1,108 @@
+{
+  "country": "China",
+  "name": "China 2020",
+  "authors": "Eclipse",
+  "description": "<p>China in the late 2010s, early 2020s.</p>",
+  "locales": [
+    "zh_CN"
+  ],
+  "aircrafts": [
+    "FC-1 Fierce Dragon",
+    "IL-76MD",
+    "J-11A Flanker-L",
+    "J-15 Flanker X-2",
+    "J-7B",
+    "Mi-24P Hind-F",
+    "Mi-8MTV2 Hip",
+    "Su-30MKK Flanker-G",
+    "H-6J Badger"
+  ],
+  "awacs": [
+    "KJ-2000"
+  ],
+  "tankers": [
+    "IL-78M"
+  ],
+  "frontline_units": [
+    "[CH] ZBL-09 IFV",
+    "[CH] ZBD-04A AT SPATGM",
+    "MT Type 59",
+    "Type 04A (ZBD-04A)",
+    "Type 96B (ZTZ-96B)",
+    "[CH] ZTL-11 AFV",
+    "[CH] ZTZ-99A2 MBT"
+  ],
+  "artillery_units": [
+    "[CH] PCL-181 SPG GP155",
+    "[CH] PHL-11 SPMRL (DPICM)",
+    "[CH] PHL-11 SPMRL (HE)",
+    "[CH] PHL-16 SPMRL (FD280)",
+    "[CH] PLZ-07 SPG",
+    "PLZ-05"
+  ],
+  "logistics_units": [
+    "LUV UAZ-469 Jeep",
+    "Truck Ural-375",
+    "[CH] SX2190 Truck"
+  ],
+  "infantry_units": [
+    "Infantry AK-74 Rus",
+    "MANPADS SA-18 Igla-S \"Grouse\"",
+    "Paratrooper AKS",
+    "Paratrooper RPG-16"
+  ],
+  "missiles": [
+    "[CH] DF-21D LBASBM",
+    "[CH] CJ-10 GLCM",
+    "[CH] YJ-12B LBASM"
+  ],
+  "preset_groups": [
+    "HQ-2",
+    "SA-11",
+    "HQ-7",
+    "HQ-22",
+    "Silkworm",
+    "Chinese Navy"
+  ],
+  "naval_units": [
+    "Type 052B Destroyer",
+    "Type 052C Destroyer",
+    "Type 054A Frigate",
+    "CV 1143.5 Admiral Kuznetsov",
+    "Type 093 Attack Submarine",
+    "Type 071 Amphibious Transport Dock",
+    "[CH] Type 022 FAC",
+    "[CH] Type 054B Frigate",
+    "[CH] Type 056A Corvette",
+    "[CH] Type 052D Destroyer",
+    "[CH] Type 055 Destroyer"
+  ],
+  "air_defense_units": [
+    "EWR 1L13",
+    "EWR 55G6",
+    "AAA ZU-23 Closed Emplacement",
+    "[CH] LD-3000 C-RAM Mobile",
+    "[CH] LD-3000 C-RAM Stationary",
+    "[CH] PGZ-09 SPAAG",
+    "[CH] PGZ-95 SPAAG",
+    "[CH] HQ-17A SHORAD"
+  ],
+  "carrier_names": [
+    "001 Liaoning",
+    "002 Shandong"
+  ],
+  "helicopter_carrier_names": [
+    "Kunlun Shan",
+    "Jinggang Shan",
+    "Changbai Shan",
+    "Yimeng Shan",
+    "Longhu Shan",
+    "Wuzhi Shan",
+    "Wudang Shan"
+  ],
+  "requirements": {
+    "Chinese Military Assets for DCS by Currenthill": "https://www.currenthill.com/china"
+  },
+  "has_jtac": true,
+  "jtac_unit": "WingLoong-I"
+}

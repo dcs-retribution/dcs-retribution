@@ -70,9 +70,13 @@ class Squadron:
     untasked_aircraft: int = field(init=False, hash=False, compare=False, default=0)
     pending_deliveries: int = field(init=False, hash=False, compare=False, default=0)
 
+    use_livery_set: bool = False  # if livery-set should be used when present
+
     def __setstate__(self, state: dict[str, Any]) -> None:
         if "id" not in state:
             state["id"] = uuid4()
+        if "use_livery_set" not in state:
+            state["use_livery_set"] = len(state.get("livery_set", [])) > 0
         self.__dict__.update(state)
 
     def __str__(self) -> str:
@@ -88,6 +92,9 @@ class Squadron:
             return False
         return self.id == other.id
 
+    def __post_init__(self) -> None:
+        self._livery_pool: list[str] = []
+
     @property
     def player(self) -> bool:
         return self.coalition.player
@@ -99,6 +106,15 @@ class Squadron:
     @property
     def pilot_limits_enabled(self) -> bool:
         return self.settings.enable_squadron_pilot_limits
+
+    def random_round_robin_livery_from_set(self) -> str:
+        livery = random.choice(self.livery_set)
+        self._livery_pool.append(livery)
+        self.livery_set.remove(livery)
+        if not self.livery_set:
+            self.livery_set = self._livery_pool
+            self._livery_pool = []
+        return livery
 
     def set_auto_assignable_mission_types(
         self, mission_types: Iterable[FlightType]

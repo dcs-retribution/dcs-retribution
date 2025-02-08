@@ -1,0 +1,31 @@
+class: Helicopter
+carrier_capable: true
+lha_capable: true
+description:    # from: https://en.wikipedia.org/wiki/Kaman_SH-2_Seasprite
+  The Kaman SH-2 Seasprite is a ship-based helicopter originally developed and 
+  produced by American manufacturer Kaman Aircraft Corporation. It has been 
+  typically used as a compact and fast-moving rotorcraft for utility and 
+  anti-submarine warfare (ASW) missions. Early on it was modest sized 
+  single-engined naval utility helicopter, and progressed to twin-engine ASW 
+  and SAR, and the latest model served well into the 21st century, with G model 
+  in active service in the 2020s with Egypt, New Zealand, Peru, and Poland.
+  In October 1970, the UH-2 was selected as the interim Light Airborne 
+  Multi-Purpose System (LAMPS) helicopter. LAMPS evolved during the 1960s from 
+  an urgent requirement to provide non-aviation ships with manned support and 
+  ASW helicopters. The "LAMPS Mark I" suite included advanced sensors, 
+  processors, and display capabilities. H-2s upgraded with LAMPS were called 
+  SH-2Ds, and became mobile radar and sonar platforms that enhanced the 
+  situational awareness of ships. The SH-2D first flew on 16 March 1971.
+  HH-2D was a search and rescue version.
+introduced: 1971    # original type 1962, SH-2D 1971
+cabin_size: 12    # from: https://plane-encyclopedia.com/cold-war/kaman-sh-2f-seasprite/
+can_carry_crates: true
+manufacturer: Kaman Aircraft Corporation
+origin: USA
+price: 4    # reference: UH-1H = 4, UH-60A = 4
+role: Search and Rescue
+max_range: 367    # combat range [nmi]
+variants:
+  HH-2D Seasprite: {}
+tasks:    # defined in flighttype.py
+  Transport: 100

@@ -31,16 +31,6 @@ class WeaponsF106:
         "name": "AIR-2A Genie Nuclear air-to-air unguided rocket.",
         "weight": 66,
     }
-    L005_Sorbtsiya_ECM_pod__left_ = {
-        "clsid": "{44EE8698-89F9-48EE-AF36-5FD31896A82F}",
-        "name": "L005 Sorbtsiya ECM pod (left)",
-        "weight": 150,
-    }
-    L005_Sorbtsiya_ECM_pod__right_ = {
-        "clsid": "{44EE8698-89F9-48EE-AF36-5FD31896A82A}",
-        "name": "L005 Sorbtsiya ECM pod (right)",
-        "weight": 150,
-    }
 
 
 inject_weapons(WeaponsF106)
@@ -150,7 +140,7 @@ class VSN_F106A(PlaneType):
     # ERRR <CLEAN>
 
     class Pylon8:
-        WeaponsF106.L005_Sorbtsiya_ECM_pod__left_ = (
+        L005_Sorbtsiya_ECM_pod__left_ = (
             8,
             Weapons.L005_Sorbtsiya_ECM_pod__left_,
         )
@@ -279,7 +269,7 @@ class VSN_F106B(PlaneType):
     # ERRR <CLEAN>
 
     class Pylon8:
-        Weapons.L005_Sorbtsiya_ECM_pod__left_ = (
+        L005_Sorbtsiya_ECM_pod__left_ = (
             8,
             Weapons.L005_Sorbtsiya_ECM_pod__left_,
         )

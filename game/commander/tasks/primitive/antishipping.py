@@ -20,6 +20,7 @@ class PlanAntiShipping(PackagePlanningTask[CargoShip]):
 
     def apply_effects(self, state: TheaterState) -> None:
         state.enemy_shipping.remove(self.target)
+        super().apply_effects(state)
 
     def propose_flights(self) -> None:
         size = self.get_flight_size()

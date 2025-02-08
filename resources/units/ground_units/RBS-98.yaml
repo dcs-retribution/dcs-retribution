@@ -11,3 +11,4 @@ price: 20
 role: Self-Propelled Surface-to-Air Missile Launcher
 variants:
   RBS 98 EldE 98 Mobile SAM LN: {}
+  "[CH] RBS 98 SAM LN (BvS 10)": {}

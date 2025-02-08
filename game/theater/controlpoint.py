@@ -61,7 +61,7 @@ from game.sidc import (
 )
 from game.theater.presetlocation import PresetLocation
 from game.utils import Distance, Heading, meters
-from pydcs_extensions import L02, L52, L61
+from pydcs_extensions import L02, L52, L61, Cva_31
 from .base import Base
 from .frontline import FrontLine
 from .interfaces.CTLD import CTLD
@@ -390,6 +390,7 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         self.helipads_quad: List[PointWithHeading] = []
         self.helipads_invisible: List[PointWithHeading] = []
         self.ground_spawns_roadbase: List[Tuple[PointWithHeading, Point]] = []
+        self.ground_spawns_large: List[Tuple[PointWithHeading, Point]] = []
         self.ground_spawns: List[Tuple[PointWithHeading, Point]] = []
 
         self._coalition: Optional[Coalition] = None
@@ -524,8 +525,7 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
 
     @property
     @abstractmethod
-    def heading(self) -> Heading:
-        ...
+    def heading(self) -> Heading: ...
 
     def __str__(self) -> str:
         return self.name
@@ -611,7 +611,12 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         """
         Returns true if cp can operate STOL aircraft
         """
-        return len(self.ground_spawns_roadbase) + len(self.ground_spawns) > 0
+        return (
+            len(self.ground_spawns_roadbase)
+            + len(self.ground_spawns_large)
+            + len(self.ground_spawns)
+            > 0
+        )
 
     def can_recruit_ground_units(self, game: Game) -> bool:
         """Returns True if this control point is capable of recruiting ground units."""
@@ -684,8 +689,7 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
 
     @property
     @abstractmethod
-    def can_deploy_ground_units(self) -> bool:
-        ...
+    def can_deploy_ground_units(self) -> bool: ...
 
     @abstractmethod
     def total_aircraft_parking(self, parking_type: ParkingType) -> int:
@@ -831,7 +835,7 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         destinations = [
             GroundUnitDestination(cp)
             for cp in self.connected_points
-            if cp.captured == self.captured
+            if cp.captured == self.captured and cp is not self
         ]
         if not destinations:
             self.capture_equipment(game)
@@ -980,8 +984,7 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         return None
 
     @abstractmethod
-    def can_operate(self, aircraft: AircraftType) -> bool:
-        ...
+    def can_operate(self, aircraft: AircraftType) -> bool: ...
 
     def unclaimed_parking(self, parking_type: ParkingType) -> int:
         return (
@@ -995,8 +998,7 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         theater: ConflictTheater,
         conditions: Conditions,
         dynamic_runways: Dict[str, RunwayData],
-    ) -> RunwayData:
-        ...
+    ) -> RunwayData: ...
 
     def stub_runway_data(self) -> RunwayData:
         return RunwayData(
@@ -1013,13 +1015,11 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
 
     @property
     @abstractmethod
-    def runway_is_destroyable(self) -> bool:
-        ...
+    def runway_is_destroyable(self) -> bool: ...
 
     @property
     @abstractmethod
-    def runway_status(self) -> RunwayStatus:
-        ...
+    def runway_status(self) -> RunwayStatus: ...
 
     @property
     def runway_can_be_repaired(self) -> bool:
@@ -1193,13 +1193,11 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
 
     @property
     @abstractmethod
-    def category(self) -> str:
-        ...
+    def category(self) -> str: ...
 
     @property
     @abstractmethod
-    def status(self) -> ControlPointStatus:
-        ...
+    def status(self) -> ControlPointStatus: ...
 
 
 class Airfield(ControlPoint, CTLD):
@@ -1261,6 +1259,7 @@ class Airfield(ControlPoint, CTLD):
         if self.is_friendly(for_player):
             yield from [
                 FlightType.AEWC,
+                FlightType.ESCORT,
                 # TODO: FlightType.INTERCEPTION
                 # TODO: FlightType.LOGISTICS
             ]
@@ -1283,6 +1282,7 @@ class Airfield(ControlPoint, CTLD):
         if parking_type.include_fixed_wing_stol:
             parking_slots += len(self.ground_spawns)
             parking_slots += len(self.ground_spawns_roadbase)
+            parking_slots += len(self.ground_spawns_large)
         if parking_type.include_fixed_wing:
             parking_slots += len(self.airport.parking_slots)
         return parking_slots
@@ -1370,6 +1370,10 @@ class NavalControlPoint(
 
         if self.is_friendly(for_player):
             yield from [
+                FlightType.AEWC,
+                FlightType.RECOVERY,
+                FlightType.REFUELING,
+                FlightType.ESCORT,
                 # TODO: FlightType.INTERCEPTION
                 # TODO: Buddy tanking for the A-4?
                 # TODO: Rescue chopper?
@@ -1381,6 +1385,10 @@ class NavalControlPoint(
                 FlightType.SEAD_ESCORT,
             ]
         yield from super().mission_types(for_player)
+        if self.is_friendly(for_player):
+            yield from [
+                # Nothing yet
+            ]
 
     @property
     def heading(self) -> Heading:
@@ -1413,6 +1421,7 @@ class NavalControlPoint(
                     L52,
                     L61,
                     CV_1143_5,
+                    Cva_31,  # Vietnam War Vessels Mod
                     CVN_71,
                     CVN_72,
                     CVN_73,
@@ -1478,16 +1487,6 @@ class Carrier(NavalControlPoint):
     @property
     def symbol_set_and_entity(self) -> tuple[SymbolSet, Entity]:
         return SymbolSet.SEA_SURFACE, SeaSurfaceEntity.CARRIER
-
-    def mission_types(self, for_player: bool) -> Iterator[FlightType]:
-        from game.ato.flighttype import FlightType
-
-        yield from super().mission_types(for_player)
-        if self.is_friendly(for_player):
-            yield from [
-                FlightType.AEWC,
-                FlightType.REFUELING,
-            ]
 
     def capture(self, game: Game, events: GameUpdateEvents, for_player: bool) -> None:
         raise RuntimeError("Carriers cannot be captured")
@@ -1654,13 +1653,15 @@ class Fob(ControlPoint, RadioFrequencyContainer, CTLD):
         from game.ato import FlightType
 
         if not self.is_friendly(for_player):
-            yield FlightType.STRIKE
             yield FlightType.AIR_ASSAULT
             if self.total_aircraft_parking(ParkingType(True, True, True)):
                 yield FlightType.OCA_AIRCRAFT
         else:
-            yield FlightType.AEWC
-
+            yield from [
+                FlightType.AEWC,
+                FlightType.ESCORT,
+                FlightType.REFUELING,
+            ]
         yield from super().mission_types(for_player)
 
     def total_aircraft_parking(self, parking_type: ParkingType) -> int:
@@ -1672,13 +1673,19 @@ class Fob(ControlPoint, RadioFrequencyContainer, CTLD):
                 + len(self.helipads_invisible)
             )
 
-        try:
-            if parking_type.include_fixed_wing_stol:
+        if parking_type.include_fixed_wing_stol:
+            try:
                 parking_slots += len(self.ground_spawns)
+            except AttributeError:
+                self.ground_spawns_roadbase = []
+            try:
                 parking_slots += len(self.ground_spawns_roadbase)
-        except AttributeError:
-            self.ground_spawns_roadbase = []
-            self.ground_spawns = []
+            except AttributeError:
+                self.ground_spawns_large = []
+            try:
+                parking_slots += len(self.ground_spawns_large)
+            except AttributeError:
+                self.ground_spawns = []
         return parking_slots
 
     def can_operate(self, aircraft: AircraftType) -> bool:
