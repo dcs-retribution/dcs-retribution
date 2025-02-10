@@ -1,0 +1,9 @@
+name: AN/ALQ-99 ECM
+type: JAMMER
+# https://www.deagel.com/Components/ANALQ-99/a000899#001
+year: 1973
+fallback: 
+clsids:
+  - "{GROWLER_PYLON_03_MB_ALQ_99_HI_BAND}"
+  - "{GROWLER_PYLON_09_MB_ALQ_99_HI_BAND}"
+  - "{GROWLER_PYLON_06_CN_ANALQ_99_LO_BAND}"
