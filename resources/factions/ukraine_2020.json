@@ -16,7 +16,7 @@
     "Mirage 2000C",
     "[CH] Su-27P1M",
     "[CH] MiG-29MU2",
-    "[CH] Su-24MU Bomber"
+    "[CH] Su-24MU"
   ],
   "awacs": [],
   "tankers": [],
@@ -56,7 +56,10 @@
     "SA-11",
     "SA-10/S-300PS",
     "SA-17",
-    "SA-20/S-300PMU-1"
+    "SA-20/S-300PMU-1",
+    "Hawk",
+    "Patriot",
+    "NASAMS AIM-120C"
   ],
   "naval_units": [],
   "air_defense_units": [
@@ -66,7 +69,8 @@
     "SA-13 Gopher (9K35 Strela-10M3)",
     "SA-15 Tor",
     "SA-19 Grison (2K22 Tunguska)",
-    "ZSU-23-4 Shilka"
+    "ZSU-23-4 Shilka",
+    "M1097 Heavy HMMWV Avenger"
   ],
   "requirements": {
     "Currenthill Ukraine Asset Pack": "https://www.currenthill.com/ukraine"
