@@ -554,6 +554,7 @@ class Game:
                 FlightType.TRANSPORT,
                 FlightType.AEWC,
                 FlightType.REFUELING,
+                FlightType.RECOVERY,
             ]:
                 # BARCAPs will be planned at most locations on smaller theaters,
                 # rendering culling fairly useless. BARCAP packages don't really

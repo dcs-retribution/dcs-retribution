@@ -5,6 +5,7 @@ groups, statics, missile sites, and AA sites for the mission. Each of these
 objectives is defined in the Theater by a TheaterGroundObject. These classes
 create the pydcs groups and statics for those areas and add them to the mission.
 """
+
 from __future__ import annotations
 
 import logging
@@ -34,6 +35,8 @@ from dcs.task import (
     ActivateICLSCommand,
     ActivateLink4Command,
     ActivateACLSCommand,
+    ControlledTask,
+    Hold,
     EPLRS,
     FireAtPoint,
     OptAlarmState,
@@ -487,7 +490,6 @@ class MissileSiteGenerator(GroundObjectGenerator):
 
         # Note : Only the SCUD missiles group can fire (V1 site cannot fire in game right now)
         # TODO : Should be pre-planned ?
-        # TODO : Add delay to task to spread fire task over mission duration ?
         for group in self.ground_object.groups:
             vg = self.m.find_group(group.group_name)
             if vg is not None:
@@ -497,6 +499,16 @@ class MissileSiteGenerator(GroundObjectGenerator):
                     real_target = target.point_from_heading(
                         Heading.random().degrees, random.randint(0, 2500)
                     )
+                    hold = ControlledTask(Hold())
+                    hold.stop_after_duration(
+                        random.randint(
+                            60,
+                            int(
+                                self.game.settings.desired_player_mission_duration.total_seconds()
+                            ),
+                        )
+                    )
+                    vg.points[0].add_task(hold)
                     vg.points[0].add_task(FireAtPoint(real_target))
                     logging.info("Set up fire task for missile group.")
                 else:
@@ -649,6 +661,7 @@ class GenericCarrierGenerator(GroundObjectGenerator):
                         icls_channel=icls,
                         link4_freq=link4,
                         blue=self.control_point.captured,
+                        ship_group=ship_group,
                     )
                 )
 
@@ -1362,9 +1375,9 @@ class TgoGenerator:
         self.ground_spawns_large: dict[
             ControlPoint, list[Tuple[StaticGroup, Point]]
         ] = defaultdict(list)
-        self.ground_spawns: dict[
-            ControlPoint, list[Tuple[StaticGroup, Point]]
-        ] = defaultdict(list)
+        self.ground_spawns: dict[ControlPoint, list[Tuple[StaticGroup, Point]]] = (
+            defaultdict(list)
+        )
         self.mission_data = mission_data
 
     def generate(self) -> None:
@@ -1383,9 +1396,9 @@ class TgoGenerator:
                 self.m, cp, self.game, self.radio_registry, self.tacan_registry
             )
             ground_spawn_roadbase_gen.generate()
-            self.ground_spawns_roadbase[
-                cp
-            ] = ground_spawn_roadbase_gen.ground_spawns_roadbase
+            self.ground_spawns_roadbase[cp] = (
+                ground_spawn_roadbase_gen.ground_spawns_roadbase
+            )
             random.shuffle(self.ground_spawns_roadbase[cp])
 
             # Generate Large Ground Spawn slots

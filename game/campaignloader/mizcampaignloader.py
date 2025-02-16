@@ -595,9 +595,18 @@ class MizCampaignLoader:
         self.add_preset_locations()
         self.add_supply_routes()
         self.add_shipping_lanes()
+        self.add_rebel_zones()
 
     def get_ctld_zones(self, prefix: str) -> List[Tuple[Point, float]]:
         zones = [t for t in self.mission.triggers.zones() if prefix + " CTLD" in t.name]
         for z in zones:
             self.mission.triggers.zones().remove(z)
         return [(z.position, z.radius) for z in zones]
+
+    def add_rebel_zones(self) -> None:
+        zones = [
+            t for t in self.mission.triggers.zones() if t.name.startswith("Rebels")
+        ]
+        for z in zones:
+            self.mission.triggers.zones().remove(z)
+        self.theater.add_rebel_zones(zones)

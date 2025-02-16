@@ -1,4 +1,11 @@
 {
+ "world_0": {
+  "name": "MTP",
+  "callsign": "MTP",
+  "beacon_type": 1,
+  "hertz": 114700000,
+  "channel": 94
+ },
  "airfield14_0": {
   "name": "ELCALACAFE",
   "callsign": "EC",
@@ -21,39 +28,39 @@
   "channel": 94
  },
  "airfield2_0": {
-  "name": "MTPLEASANT",
-  "callsign": "imp",
-  "beacon_type": 13,
-  "hertz": 111900000,
-  "channel": null
- },
- "airfield2_1": {
   "name": "MP",
   "callsign": "MP",
   "beacon_type": 9,
   "hertz": 380000,
   "channel": null
  },
- "airfield2_2": {
-  "name": "MPA",
-  "callsign": "MPA",
-  "beacon_type": 4,
-  "hertz": 112200000,
-  "channel": 59
- },
- "airfield2_3": {
+ "airfield2_1": {
   "name": "MTP",
   "callsign": "MTP",
   "beacon_type": 1,
   "hertz": 114700000,
   "channel": 94
  },
- "airfield2_4": {
+ "airfield2_2": {
   "name": "MTPLEASANT",
   "callsign": "IMP",
   "beacon_type": 14,
   "hertz": 111900000,
   "channel": null
+ },
+ "airfield2_3": {
+  "name": "MTPLEASANT",
+  "callsign": "imp",
+  "beacon_type": 13,
+  "hertz": 111900000,
+  "channel": null
+ },
+ "airfield2_4": {
+  "name": "MPA",
+  "callsign": "MPA",
+  "beacon_type": 4,
+  "hertz": 112200000,
+  "channel": 59
  },
  "airfield1_0": {
   "name": "stanleyairport",

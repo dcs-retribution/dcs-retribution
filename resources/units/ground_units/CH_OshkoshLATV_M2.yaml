@@ -1,0 +1,11 @@
+class: Recon
+description: A highly versatile and agile combat vehicle developed to replace the aging Humvee
+  fleet in the 2010s. It features enhances mobility, survivability and payload capacity over its
+  predecessors. It's exceptoinal at performing reconnaissance in rugged terrain.
+introduced: 2015
+manufacturer: Oshkosh Defence
+origin: United States
+price: 3
+role: Light Tactical Vehicle
+variants: 
+  "[CH] Oshkosh L-ATV (M2)": {}

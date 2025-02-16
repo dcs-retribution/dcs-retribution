@@ -1,0 +1,9 @@
+name: THAAD
+tasks:
+  - LORAD
+units:
+  - "[CH] THAAD AN/TPY-2 STR"
+  - "[CH] THAAD TFCC"
+  - "[CH] THAAD M1120 LN"
+layouts:
+  - 4 Launcher Site (Semicircle)

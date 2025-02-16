@@ -89,6 +89,7 @@ class ModSettings:
     uh_60l: bool = False
     jas39_gripen: bool = False
     sk_60: bool = False
+    mirage_3: bool = False
     super_etendard: bool = False
     su15_flagon: bool = False
     su30_flanker_h: bool = False
@@ -100,6 +101,11 @@ class ModSettings:
     swedishmilitaryassetspack: bool = False
     coldwarassets: bool = False
     SWPack: bool = False
+    vietnamwarvessels: bool = False
+    chinesemilitaryassetspack: bool = False
+    russianmilitaryassetspack: bool = False
+    usamilitaryassetspack: bool = False
+    ukrainemilitaryassetspack: bool = False
 
 
 class GameGenerator:

@@ -159,6 +159,21 @@ class QAutoCreateDialog(QDialog):
             self.refueling_type,
         )
 
+        hbox = QHBoxLayout()
+        self.recovery = self._create_checkbox("Recovery")
+        self.recovery_count = _spinbox_template()
+        self.recovery_count.setValue(1)
+        hbox.addWidget(self.recovery)
+        hbox.addWidget(self.recovery_count)
+        self.recovery_type = self._create_type_selector(FlightType.RECOVERY)
+        hbox.addWidget(self.recovery_type, 1)
+        self.layout.addLayout(hbox)
+        self.checkboxes[self.recovery] = (
+            FlightType.RECOVERY,
+            self.recovery_count,
+            self.recovery_type,
+        )
+
         self.create_button = QPushButton("Create")
         self.create_button.setProperty("style", "start-button")
         self.create_button.clicked.connect(self.on_create_clicked)

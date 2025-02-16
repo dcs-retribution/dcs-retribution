@@ -21,6 +21,7 @@ from PySide6.QtWidgets import (
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from game import Game
+from game.ato.flightstate import Uninitialized
 from game.debriefing import Debriefing
 from game.profiling import logged_duration
 from game.server import EventStream
@@ -241,7 +242,7 @@ class QWaitingForMissionResultWindow(QDialog):
         self.sim_controller.set_game(self.game)
         events = GameUpdateEvents()
         for _, f in self.game.db.flights.objects.items():
-            f.state.reinitialize(self.game.conditions.start_time)
+            f.state = Uninitialized(f, self.game.settings)
             events.update_flight(f)
         for cp in self.game.theater.controlpoints:
             cp.release_parking_slots()

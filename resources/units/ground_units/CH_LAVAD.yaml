@@ -1,0 +1,11 @@
+class: SHORAD
+description: A highly mobile self-propelled anti-aircraft vehicle designed to provide defense for ground units
+  on the front line. It combines both radar guided ground to air missiles and a high volume of close in gunfire from
+  its 25mm M242 Bushmaster chain gun and stinger missiles.
+introduced: 1989
+manufacturer: General Dynamics
+origin: United States
+price: 30
+role: Self-Propelled Anti-Aircraft Gun
+variants:
+  "[CH] LAV-AD SPAAGM": {}

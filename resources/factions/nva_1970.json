@@ -8,7 +8,9 @@
   ],
   "aircrafts": [
     "Mi-8MTV2 Hip",
+    "MiG-17F Fresco-C",
     "MiG-19P Farmer-B",
+    "MiG-21MF Fishbed-J",
     "MiG-21bis Fishbed-N"
   ],
   "awacs": [],
@@ -51,8 +53,8 @@
     "ZSU-23-4 Shilka"
   ],
   "requirements": {
-    "WW2 Asset Pack": "https://www.digitalcombatsimulator.com/en/products/other/wwii_assets_pack/"
+    "WW2 Asset Pack": "https://www.digitalcombatsimulator.com/en/products/other/wwii_assets_pack/",
+    "Vietnam War Vessels (v0.9.0)": "https://forum.dcs.world/topic/338387-tetets-vietnam-war-vessels/"
   },
-  "requirements": {},
   "doctrine": "coldwar"
 }

@@ -1,0 +1,120 @@
+---
+name: Caucasus - Slava Ukraini
+theater: Caucasus
+authors: Starfire
+recommended_player_faction: Ukraine 2020
+recommended_enemy_faction: Redfor (Russia) 2020
+description:
+  <p><strong>This campaign is intended to be run with Currenthill's Ukraine and Russia Asset Packs installed.</strong></p>
+  <p>After years of brutal fighting, Ukraine has achieved the unthinkable - Crimea has been liberated. Now, the tide of war has turned, 
+  and Kyiv has set its sights on destroying the Iskander missile launchers in Southern Russia that continue to threaten its territory. 
+  Southern Russia's remaining air defences will need to be dismantled before this goal can be achieved. High priority secondary targets include 
+  elements of the rail transportation network that are used to move ammunition, fuel, and reinforcements to frontline troops, as well as the 
+  military airfields where Russia's fighter and bomber squadrons are based.</p>
+miz: slava_ukraini.miz
+performance: 1
+recommended_start_date: 2026-02-24
+version: "10.7"
+settings:
+  ukrainemilitaryassetspack: true
+  russianmilitaryassetspack: true
+  squadron_start_full: true
+squadrons:
+  #Anapa-Vityazevo
+  12:
+    - primary: SEAD
+      secondary: any
+      aircraft:
+        - "[CH] MiG-29MU2"
+        - MiG-29S Fulcrum-C
+      size: 12
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - "[CH] Su-27P1M"
+        - Su-27 Flanker-B
+      size: 12
+    - primary: DEAD
+      secondary: air-to-ground
+      aircraft:
+        - "[CH] Su-24MU"
+        - Su-24M Fencer-D
+      size: 12     
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - Mi-24P Hind-F
+      size: 4      
+  #Novorossiysk
+  14:
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Su-25 Frogfoot
+      size: 12
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - F-16CM Fighting Falcon (Block 50)
+      size: 12
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - Mirage 2000C
+      size: 12
+  #Maykop-Khanskaya
+  16:
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - Mi-26
+      size: 2
+    - primary: SEAD Sweep
+      secondary: air-to-ground
+      aircraft:
+        - Su-25T Frogfoot
+      size: 12
+    - primary: Escort
+      secondary: air-to-air
+      aircraft:
+        - Su-27 Flanker-B
+      size: 12
+    - primary: BAI
+      secondary: any
+      aircraft:
+         - "[CH] Ka-52"
+         - Ka-50 Hokum III
+      size: 8
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - "[CH] Mi-28N AH"
+      size: 4
+  #Mineralnye Vody
+  26:
+    - primary: Refueling
+      aircraft:
+        - IL-78M
+      size: 2
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - MiG-29S Fulcrum-C
+      size: 12
+    - primary: DEAD
+      secondary: air-to-ground
+      aircraft:
+        - Su-34 Fullback
+      size: 12
+  #Mozdok
+  28:  
+    - primary: AEW&C
+      aircraft:
+        - A-50
+      size: 2
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - "[CH] Tu-95MSM"
+        - Tu-95MS Bear-H
+      size: 12

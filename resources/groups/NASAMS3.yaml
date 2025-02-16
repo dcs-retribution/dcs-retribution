@@ -1,0 +1,10 @@
+name: NASAMS 3
+tasks:
+  - MERAD
+units:
+  - "[CH] NASAMS 3 CP"
+  - "[CH] NASAMS 3 SR"
+  - "[CH] NASAMS 3 LCHR LN (AMRAAM-ER)"
+  - "[CH] NASAMS 3 LCHR LN (AIM-9X-2)"
+layouts:
+  - NASAMS 3 Site

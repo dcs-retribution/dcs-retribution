@@ -1,0 +1,13 @@
+class: Launcher
+price: 15
+description: "Terminal High Altitude Area Defense (THAAD), formerly Theater High Altitude Area 
+  Defense, is an American anti-ballistic missile defense system designed to intercept and 
+  destroy short-, medium-, and intermediate-range ballistic missiles in their terminal phase 
+  (descent or reentry). The THAAD interceptor carries no warhead, instead relying on its 
+  kinetic energy of impact to destroy the incoming missile. THAAD was developed after the 
+  experience of Iraq's Scud missile attacks during the Gulf War in 1991."
+introduced: 2008
+manufacturer: Lockheed
+origin: USA
+variants:
+  "[CH] THAAD M1120 LN": null

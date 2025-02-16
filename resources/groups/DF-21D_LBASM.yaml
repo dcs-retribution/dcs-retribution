@@ -1,0 +1,7 @@
+name: DF-21D LBASBM
+tasks:
+  - Coastal
+units:
+  - "[CH] DF-21D LBASBM"
+layouts:
+  - Coastal Defense

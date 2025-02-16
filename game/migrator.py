@@ -42,6 +42,7 @@ class Migrator:
         self._update_weather()
         self._update_tgos()
         self._reload_terrain()
+        self._update_theather()
 
         # TODO: remove in due time as this is supposedly fixed
         self.game.settings.nevatim_parking_fix = False
@@ -199,8 +200,14 @@ class Migrator:
         for c in self.game.coalitions:
             if isinstance(c.faction.country, str):
                 c.faction.country = countries_by_name[c.faction.country]()
-            if isinstance(c.faction.aircraft, list):
+            if getattr(c.faction, "aircraft", None) and isinstance(
+                c.faction.aircraft, list
+            ):
                 c.faction.aircraft = set(c.faction.aircraft)
+            elif getattr(c.faction, "aircrafts", None) and isinstance(
+                c.faction.aircrafts, list
+            ):
+                c.faction.aircraft = set(c.faction.aircrafts)
             if isinstance(c.faction.awacs, list):
                 c.faction.awacs = set(c.faction.awacs)
             if isinstance(c.faction.tankers, list):
@@ -251,3 +258,7 @@ class Migrator:
         t = self.game.theater.terrain
         if issubclass(t.__class__, Terrain):
             self.game.theater.terrain = type(t)()  # type: ignore
+
+    def _update_theather(self) -> None:
+        if not hasattr(self.game.theater, "rebel_zones"):
+            self.game.theater.rebel_zones = []

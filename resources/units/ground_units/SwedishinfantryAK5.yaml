@@ -1,5 +1,6 @@
 class: Infantry
 price: 0
-spawn_weight: 1
+spawn_weight: 5
 variants:
   Soldier Ak 5: null
+  "[CH] Ak 5 Soldier": null

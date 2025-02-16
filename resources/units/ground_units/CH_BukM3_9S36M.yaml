@@ -1,0 +1,12 @@
+class: TrackRadar
+description: "The 9K317M 'Buk-M3' (9K37M3) is the latest production version, based on new hardware.
+  It has 36 target channels and features advanced electronic components. Specifications include a maximum 
+  target speed of 3,000 m/s (11,000 km/h; 6,700 mph; Mach 8.8), an altitude range of 0.015-35 km (49-114,829 ft) 
+  and a distance range of 2.5-70 km (1.6-43.5 mi). Extensive trials began in 2015, with the first deliveries 
+  planned for 2016."
+introduced: 2016
+manufacturer: Almaz-Antey
+origin: Russia
+price: 24
+variants:
+  "[CH] Buk M3 9S36M TR": null

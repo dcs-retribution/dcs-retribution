@@ -10,6 +10,8 @@
     "AJS-37 Viggen",
     "JAS 39 Gripen",
     "JAS 39 Gripen A/G",
+    "[CH] JAS 39C Gripen",
+    "[CH] HKP15B",
     "UH-1H Iroquois"
   ],
   "awacs": [
@@ -23,6 +25,8 @@
     "FV510 Warrior",
     "Leopard 2A4",
     "M1097 Heavy HMMWV Avenger",
+    "[CH] Ikv 91 LT",
+    "[CH] Strf 9040C IFV",
     "M1126 Stryker ICV (M2 HMG)"
   ],
   "artillery_units": [],
@@ -43,7 +47,8 @@
   "missiles": [],
   "air_defense_units": [
     "SAM Hawk SR (AN/MPQ-50)",
-    "M1097 Heavy HMMWV Avenger"
+    "M1097 Heavy HMMWV Avenger",
+    "[CH] Lvkv 9040B SPAAG"
   ],
   "requirements": {
     "JAS39 Gripen Mod by Community": "https://github.com/whisky-actual/Community-JAS-39-C"

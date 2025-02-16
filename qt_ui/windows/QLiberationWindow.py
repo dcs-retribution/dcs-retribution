@@ -332,7 +332,6 @@ class QLiberationWindow(QMainWindow):
             now = datetime.now()
             date_time = now.strftime("%Y-%d-%mT%H_%M_%S")
             path = pre_pretense_backups_dir()
-            path.mkdir(parents=True, exist_ok=True)
             tgt = path / f"pre-pretense-backup_{date_time}.retribution"
             path /= f".pre-pretense-backup.retribution"
             if path.exists():
@@ -369,7 +368,8 @@ class QLiberationWindow(QMainWindow):
             try:
                 Migrator(game, is_liberation)
                 return game
-            except Exception:
+            except Exception as e:
+                logging.exception(e)
                 self.incompatible_save_popup(path)
         else:
             self.incompatible_save_popup(path)
@@ -603,7 +603,7 @@ class QLiberationWindow(QMainWindow):
         self.game_model.init_comms_registry()
 
     def open_tgo_info_dialog(self, tgo: TheaterGroundObject) -> None:
-        QGroundObjectMenu(self, tgo, tgo.control_point, self.game).show()
+        QGroundObjectMenu(self, tgo, tgo.control_point, self.game_model).show()
 
     def open_control_point_info_dialog(self, cp: ControlPoint) -> None:
         self._cp_dialog = QBaseMenu2(None, cp, self.game_model)

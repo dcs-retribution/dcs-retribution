@@ -1,0 +1,12 @@
+class: Logistics
+description: The HEMTT M983 Tractor is a highly versatile, heavy-duty military vehicle designed
+  for transporting and towing large payloads, including missile systems and other heavy equipment.
+  With a 500-horsepower diesel engine the 8x8 is capable of exceptional off-road performance. It's been
+  used extensively since its debut in 1982 with US and allied forces.
+introduced: 1982
+manufacturer: Oshkosh Defence
+origin: United States
+price: 4
+role: Heavy Transport Vehicle
+variants:
+  "[CH] Oshkosh HEMTT M983": {}

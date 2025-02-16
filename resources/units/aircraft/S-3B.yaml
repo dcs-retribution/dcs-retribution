@@ -19,7 +19,7 @@ role: Carrier-based Attack
 variants:
   S-3B Viking: {}
 tasks:
-  Anti-ship: 350
+  Anti-ship: 130
   BAI: 570
   CAS: 570
   DEAD: 200

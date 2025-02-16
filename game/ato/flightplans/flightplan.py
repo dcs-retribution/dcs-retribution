@@ -5,6 +5,7 @@ MissionPlanner. Those only plan basic information like the objective, aircraft
 type, and the size of the flight. The FlightPlanBuilder is responsible for
 generating the waypoints for the mission.
 """
+
 from __future__ import annotations
 
 import math
@@ -293,6 +294,10 @@ class FlightPlan(ABC, Generic[LayoutT]):
     @property
     def mission_departure_time(self) -> datetime:
         """The time that the mission is complete and the flight RTBs."""
+        raise NotImplementedError
+
+    @property
+    def landing_time(self) -> datetime:
         raise NotImplementedError
 
     @self_type_guard

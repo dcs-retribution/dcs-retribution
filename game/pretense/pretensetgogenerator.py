@@ -5,6 +5,7 @@ groups, statics, missile sites, and AA sites for the mission. Each of these
 objectives is defined in the Theater by a TheaterGroundObject. These classes
 create the pydcs groups and statics for those areas and add them to the mission.
 """
+
 from __future__ import annotations
 
 import random
@@ -62,9 +63,9 @@ from game.unitmap import UnitMap
 from game.utils import Heading
 from pydcs_extensions import (
     Char_M551_Sheridan,
-    BV410_RBS70,
-    BV410_RBS90,
-    BV410,
+    CH_BVS10,
+    RBS_70,
+    RBS_90,
     VAB__50,
     VAB_T20_13,
 )
@@ -99,9 +100,6 @@ PRETENSE_AMPHIBIOUS_UNITS = [
     VAB__50,
     VAB_T20_13,
     Char_M551_Sheridan,
-    BV410_RBS70,
-    BV410_RBS90,
-    BV410,
 ]
 
 
@@ -743,6 +741,7 @@ class PretenseGenericCarrierGenerator(GenericCarrierGenerator):
                         icls_channel=icls,
                         link4_freq=link4,
                         blue=self.control_point.captured,
+                        ship_group=ship_group,
                     )
                 )
 
@@ -819,9 +818,9 @@ class PretenseTgoGenerator(TgoGenerator):
         self.ground_spawns_roadbase: dict[
             ControlPoint, list[Tuple[StaticGroup, Point]]
         ] = defaultdict(list)
-        self.ground_spawns: dict[
-            ControlPoint, list[Tuple[StaticGroup, Point]]
-        ] = defaultdict(list)
+        self.ground_spawns: dict[ControlPoint, list[Tuple[StaticGroup, Point]]] = (
+            defaultdict(list)
+        )
         self.mission_data = mission_data
 
     def generate(self) -> None:
@@ -848,9 +847,9 @@ class PretenseTgoGenerator(TgoGenerator):
                 self.m, cp, self.game, self.radio_registry, self.tacan_registry
             )
             ground_spawn_roadbase_gen.generate()
-            self.ground_spawns_roadbase[
-                cp
-            ] = ground_spawn_roadbase_gen.ground_spawns_roadbase
+            self.ground_spawns_roadbase[cp] = (
+                ground_spawn_roadbase_gen.ground_spawns_roadbase
+            )
             random.shuffle(self.ground_spawns_roadbase[cp])
 
             # Generate STOL pads

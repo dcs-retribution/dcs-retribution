@@ -246,7 +246,6 @@ class AircraftType(UnitType[Type[FlyingType]]):
 
         # Update any existing models with new data on load.
         updated = AircraftType.named(state["variant_id"])
-        updated.__dict__.update(state)
         self.__dict__.update(updated.__dict__)
 
     def __post_init__(self) -> None:
@@ -262,6 +261,12 @@ class AircraftType(UnitType[Type[FlyingType]]):
                 value := self.task_priorities.get(FlightType.BAI)
             ):
                 enrich[FlightType.ARMED_RECON] = value
+
+        if FlightType.RECOVERY not in self.task_priorities:
+            if (
+                value := self.task_priorities.get(FlightType.REFUELING)
+            ) and self.carrier_capable is True:
+                enrich[FlightType.RECOVERY] = value
 
         self.task_priorities.update(enrich)
 

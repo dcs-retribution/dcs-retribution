@@ -343,9 +343,11 @@ class MissionResultsProcessor:
         settings = source.coalition.game.settings
         reserves = max(
             1,
-            settings.reserves_procurement_target
-            if source.captured
-            else settings.reserves_procurement_target_red,
+            (
+                settings.reserves_procurement_target
+                if source.captured
+                else settings.reserves_procurement_target_red
+            ),
         )
         total_units = source.base.total_armor
         reserves_factor = (reserves - 1) / total_units  # slight underestimation

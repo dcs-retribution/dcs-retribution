@@ -162,7 +162,7 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
             pickup=pickup,
             nav_to=builder.nav_path(
                 pickup_position,
-                self.package.waypoints.ingress,
+                ingress.position,
                 altitude,
                 altitude_is_agl,
             ),

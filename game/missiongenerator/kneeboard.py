@@ -22,6 +22,7 @@ https://forums.eagle.ru/showthread.php?t=206360 claims that kneeboard pages can
 only be added per airframe, so PvP missions where each side have the same
 aircraft will be able to see the enemy's kneeboard for the same airframe.
 """
+
 import datetime
 import math
 import textwrap
@@ -151,7 +152,7 @@ class KneeboardPageWriter:
 
     def write(self, path: Path) -> None:
         self.image.save(path)
-        path.with_suffix(".txt").write_text(self.get_text_string())
+        path.with_suffix(".txt").write_text(self.get_text_string(), "utf8")
 
     @staticmethod
     def wrap_line(inputstr: str, max_length: int) -> str:
@@ -831,8 +832,6 @@ class KneeboardGenerator(MissionInfoGenerator):
                 page_path = aircraft_dir / f"page{idx:02}.png"
                 page.write(page_path)
                 self.mission.add_aircraft_kneeboard(aircraft.dcs_unit_type, page_path)
-        if not kneeboards_dir().exists():
-            return
         for type in kneeboards_dir().iterdir():
             if type.is_dir():
                 for kneeboard in type.iterdir():

@@ -1,0 +1,11 @@
+name: "[CH] Russian Navy"
+tasks:
+  - Navy
+units:
+  - "[CH] Project 20385 Gremyashchiy Corvette (AShM)"
+  - "[CH] Project 22800 Karakurt Corvette LACM"
+  - "[CH] Project 22350 Admiral Gorshkov Frigate"
+  - "[CH] Project 11356R Admiral Grigorovich Frigate (AShM)"
+  - Cruiser 1164 Moskva
+layouts:
+  - Naval Group

@@ -28,9 +28,10 @@ class PlanCas(PackagePlanningTask[FrontLine]):
 
     def apply_effects(self, state: TheaterState) -> None:
         state.vulnerable_front_lines.remove(self.target)
+        super().apply_effects(state)
 
     def propose_flights(self) -> None:
         size = self.get_flight_size()
         self.propose_flight(FlightType.CAS, size)
         self.propose_flight(FlightType.TARCAP, 2, EscortType.AirToAir)
-        self.propose_flight(FlightType.SEAD_SWEEP, 2, EscortType.Sead)
+        self.propose_flight(FlightType.SEAD_SWEEP, 2)

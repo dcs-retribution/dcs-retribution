@@ -1,0 +1,14 @@
+class: Artillery
+description: "TOS-1 Buratino (Russian: \xD1\x82\xD1\x8F\xD0\xB6\xD1\x91\xD0\xBB\xD0\xB0\xD1\x8F\x20\xD0\xBE\xD0\xB3\xD0\xBD\xD0\xB5\xD0\xBC\xD1\x91\xD1\x82\xD0\xBD\xD0\xB0\xD1\x8F\x20\xD1\x81\xD0\xB8\xD1\x81\xD1\x82\xD0\xB5\xD0\xBC\xD0\xB0\x20\x5B\xD0\xA2\xD0\x9E\xD0\xA1\x2D\x31\x5D,
+  romanized: Tyazhyelaya ognemyetnaya sistema [TOS-1], Heavy Flamethrower System) is a Soviet 220 mm
+  30-barrel (original system, Object 634 or TOS-1M) or 24-barrel (Object 634B or TOS-1A Solntsepyok)
+  multiple rocket launcher capable of using thermobaric warheads, mounted on a T-72 / T-90 tank chassis.
+  TOS-1 was designed to attack enemy fortified positions and lightly armored vehicles and transports,
+  particularly in open terrain."
+introduced: 2003
+manufacturer: Uralvagonzavod
+origin: USSR/Russia
+price: 45
+role: Multiple-Launch Rocket System
+variants:
+  "[CH] TOS-1A MRL": {}

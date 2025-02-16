@@ -55,6 +55,20 @@
   "hertz": 113000000,
   "channel": 77
  },
+ "airfield18_0": {
+  "name": "IVALO",
+  "callsign": "iv",
+  "beacon_type": 14,
+  "hertz": 212000000,
+  "channel": null
+ },
+ "airfield18_1": {
+  "name": "IVALO",
+  "callsign": "iv",
+  "beacon_type": 13,
+  "hertz": 212000000,
+  "channel": null
+ },
  "airfield3_0": {
   "name": "kemi",
   "callsign": "ke",
@@ -67,6 +81,34 @@
   "callsign": "ke",
   "beacon_type": 13,
   "hertz": 110900000,
+  "channel": null
+ },
+ "airfield16_0": {
+  "name": "KUUSAMO",
+  "callsign": "KO",
+  "beacon_type": 14,
+  "hertz": 110300000,
+  "channel": null
+ },
+ "airfield16_1": {
+  "name": "KUUSAMO",
+  "callsign": "KO",
+  "beacon_type": 13,
+  "hertz": 110300000,
+  "channel": null
+ },
+ "airfield22_0": {
+  "name": "KITTILA",
+  "callsign": "KT",
+  "beacon_type": 13,
+  "hertz": 111900000,
+  "channel": null
+ },
+ "airfield22_1": {
+  "name": "KITTILA",
+  "callsign": "KT",
+  "beacon_type": 14,
+  "hertz": 111900000,
   "channel": null
  },
  "airfield2_0": {
@@ -89,6 +131,20 @@
   "beacon_type": 14,
   "hertz": 111700000,
   "channel": null
+ },
+ "airfield20_0": {
+  "name": "andoya",
+  "callsign": "and",
+  "beacon_type": 3,
+  "hertz": 112200000,
+  "channel": null
+ },
+ "airfield20_1": {
+  "name": "ANDOYA",
+  "callsign": "OYA",
+  "beacon_type": 4,
+  "hertz": null,
+  "channel": 28
  },
  "airfield7_0": {
   "name": "BODO",
@@ -131,6 +187,34 @@
   "beacon_type": 13,
   "hertz": 108700000,
   "channel": null
+ },
+ "airfield21_0": {
+  "name": "BARDUFOSS",
+  "callsign": "BF",
+  "beacon_type": 13,
+  "hertz": 108700000,
+  "channel": null
+ },
+ "airfield21_1": {
+  "name": "BARDUFOSS",
+  "callsign": "BF",
+  "beacon_type": 14,
+  "hertz": 108700000,
+  "channel": null
+ },
+ "airfield21_2": {
+  "name": "BARDUFOSS",
+  "callsign": "BF",
+  "beacon_type": 13,
+  "hertz": 108700000,
+  "channel": null
+ },
+ "airfield21_3": {
+  "name": "BARDUFOSS",
+  "callsign": "BDF",
+  "beacon_type": 3,
+  "hertz": 114200000,
+  "channel": 89
  },
  "airfield14_0": {
   "name": "KIRKENES",

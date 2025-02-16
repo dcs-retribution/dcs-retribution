@@ -1,5 +1,5 @@
 class: Manpad
-spawn_weight: 1
+spawn_weight: 5
 description: Man-portable air defense system used for very short distances.
   Primarily used against slow and low flying attack aircraft or helicopters.
   
@@ -12,3 +12,5 @@ price: 17
 role: Surface-to-Air Missile Launcher
 variants:
   RBS 90 EldE 90 Stationary SAM LN: {}
+  BV 410 RBS 90: {}
+  "[CH] RBS 90 VSHORAD LN": {}

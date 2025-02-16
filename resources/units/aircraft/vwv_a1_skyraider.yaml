@@ -1,0 +1,30 @@
+carrier_capable: true
+description:    # from: https://en.wikipedia.org/wiki/Douglas_A-1_Skyraider
+  The Douglas A-1 Skyraider (formerly designated AD before the 1962 unification of 
+  Navy and Air Force designations) is an American single-seat attack aircraft in service 
+  from 1946 to the early 1980s, which served during the Korean War and Vietnam War. 
+  The Skyraider had an unusually long career, remaining in frontline service well into 
+  the Jet Age (when most piston-engine attack or fighter aircraft were replaced by 
+  jet aircraft); thus becoming known by some as an "anachronism". The aircraft was 
+  nicknamed "Spad", after the French World War I fighter.
+introduced: 1946    # original type 1946, A-1H before 1964, USA retired 1973
+manufacturer: Douglas
+origin: USA
+price: 5    # reference: Skyhawk = 7, Bronco = 4
+role: Carrier-based Attack Aircraft
+max_range: 1000    # combat range [nmi]
+gunfighter: true
+variants:
+  A-1H Skyraider: {}
+tasks:    # defined in flighttype.py
+  Anti-ship: 200
+  BAI: 300
+  CAS: 300
+  SEAD: 100
+  SEAD Sweep: 100
+  DEAD: 100
+  OCA/Aircraft: 200
+  OCA/Runway: 200
+  Strike: 300
+  Armed Recon: 200
+  

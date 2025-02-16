@@ -273,9 +273,11 @@ class WaypointBuilder:
         return FlightWaypoint(
             "INGRESS",
             ingress_type,
-            objective.position.point_from_heading(heading, nautical_miles(5).meters)
-            if self.is_helo
-            else position,
+            (
+                objective.position.point_from_heading(heading, nautical_miles(5).meters)
+                if self.is_helo
+                else position
+            ),
             alt,
             alt_type,
             description=f"INGRESS on {objective.name}",
@@ -328,9 +330,11 @@ class WaypointBuilder:
         return FlightWaypoint(
             target.name,
             FlightWaypointType.TARGET_POINT,
-            target.target.ground_object.position
-            if isinstance(target.target, (TheaterGroup, TheaterUnit))
-            else target.target.position,
+            (
+                target.target.ground_object.position
+                if isinstance(target.target, TheaterGroup)
+                else target.target.position
+            ),
             meters(0),
             "RADIO",
             description=description,
@@ -432,9 +436,11 @@ class WaypointBuilder:
             "CAS",
             FlightWaypointType.CAS,
             position,
-            feet(self.flight.coalition.game.settings.heli_combat_alt_agl)
-            if self.is_helo
-            else max(meters(1000), altitude),
+            (
+                feet(self.flight.coalition.game.settings.heli_combat_alt_agl)
+                if self.is_helo
+                else max(meters(1000), altitude)
+            ),
             "RADIO",
             description="Provide CAS",
             pretty_name="CAS",
@@ -794,3 +800,18 @@ class WaypointBuilder:
         x_adj = random.randint(int(-deviation.meters), int(deviation.meters))
         y_adj = random.randint(int(-deviation.meters), int(deviation.meters))
         return point + Vector2(x_adj, y_adj)
+
+    @staticmethod
+    def recovery_tanker(position: Point) -> FlightWaypoint:
+        alt_type: AltitudeReference = "BARO"
+
+        return FlightWaypoint(
+            "RECOVERY",
+            FlightWaypointType.RECOVERY_TANKER,
+            position,
+            feet(6000),
+            alt_type,
+            description="Recovery tanker for aircraft carriers",
+            pretty_name="Recovery",
+            only_for_player=True,  # for visual purposes in Retribution only
+        )

@@ -15,6 +15,7 @@ origin: USSR/Russia
 price: 18
 role: Air-Superiority Fighter
 max_range: 300
+default_livery: Air Force Standard
 variants:
   Su-27 Flanker-B: {}
 kneeboard_units: "metric"

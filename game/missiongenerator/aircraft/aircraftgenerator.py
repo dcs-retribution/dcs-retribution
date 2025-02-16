@@ -9,6 +9,9 @@ from dcs import Point
 from dcs.action import AITaskPush
 from dcs.condition import FlagIsTrue, GroupDead, Or, FlagIsFalse
 from dcs.country import Country
+from dcs.datalinks.datalink import DataLinkType
+from dcs.datalinks.datalinkbase import DataLinkSettingsWithFlightLead
+from dcs.datalinks.link16 import Link16Network, ViperLink16NetworkMemberLink
 from dcs.mission import Mission
 from dcs.terrain.terrain import NoParkingSlotError
 from dcs.triggers import TriggerOnce, Event
@@ -37,6 +40,7 @@ from .flightdata import FlightData
 from .flightgroupconfigurator import FlightGroupConfigurator
 from .flightgroupspawner import FlightGroupSpawner
 from ...data.weapons import WeaponType
+from ...radio.datalink import DataLinkRegistry
 
 if TYPE_CHECKING:
     from game import Game
@@ -52,6 +56,7 @@ class AircraftGenerator:
         time: datetime,
         radio_registry: RadioRegistry,
         tacan_registry: TacanRegistry,
+        datalink_registry: DataLinkRegistry,
         unit_map: UnitMap,
         mission_data: MissionData,
         helipads: dict[ControlPoint, list[StaticGroup]],
@@ -65,6 +70,7 @@ class AircraftGenerator:
         self.time = time
         self.radio_registry = radio_registry
         self.tacan_registy = tacan_registry
+        self.datalink_registry = datalink_registry
         self.unit_map = unit_map
         self.flights: List[FlightData] = []
         self.mission_data = mission_data
@@ -115,6 +121,7 @@ class AircraftGenerator:
             dynamic_runways: Runway data for carriers and FARPs.
         """
         self._reserve_frequencies_and_tacan(ato)
+        self.mission_data.packages.clear()
 
         for package in reversed(sorted(ato.packages, key=lambda x: x.time_over_target)):
             logging.info(f"Generating package for target: {package.target.name}")
@@ -152,6 +159,39 @@ class AircraftGenerator:
                         splittrigger.add_action(AITaskPush(flight.group_id, 1))
                 if len(splittrigger.actions) > 0:
                     self.mission.triggerrules.triggers.append(splittrigger)
+
+        # at this point all flights were generated, so now start setting up datalink...
+        self._link_datalink_on_package_level_and_awacs()
+
+    def _link_datalink_on_package_level_and_awacs(self) -> None:
+        for _, flights in self.mission_data.packages.items():
+            for f in flights:
+                if not f.aircraft_type.dcs_unit_type.networked_datalink:
+                    continue
+                for awacs in self.mission_data.awacs:
+                    if awacs.blue == f.friendly:
+                        for u in f.units:
+                            assert u.datalink is not None
+                            if u.datalink.link_type == DataLinkType.LINK16:
+                                u.datalink.network.add_donor(awacs.unit.id)
+                for unit in f.units:
+                    assert unit.datalink is not None
+                    link_type = unit.datalink.link_type
+                    # check if there's room as team members
+                    for package_flight in flights:
+                        dcs_type = package_flight.aircraft_type.dcs_unit_type
+                        if f is package_flight or not dcs_type.networked_datalink:
+                            continue
+                        default_link = dcs_type.get_default_datalink()
+                        if default_link and link_type != default_link.link_type:
+                            continue
+                        pf_lead = package_flight.units[0]
+                        if not (
+                            unit.datalink.network.has_donors
+                            and unit.datalink.network.add_donor(pf_lead.id)
+                            or unit.datalink.network.add_member(pf_lead.id)
+                        ):
+                            break
 
     def spawn_unused_aircraft(
         self, player_country: Country, enemy_country: Country
@@ -246,25 +286,57 @@ class AircraftGenerator:
             self.ground_spawns,
             self.mission_data,
         ).create_flight_group()
-        self.flights.append(
-            FlightGroupConfigurator(
-                flight,
-                group,
-                self.game,
-                self.mission,
-                self.time,
-                self.radio_registry,
-                self.tacan_registy,
-                self.mission_data,
-                dynamic_runways,
-                self.use_client,
-            ).configure()
-        )
+
+        flight_data = FlightGroupConfigurator(
+            flight,
+            group,
+            self.game,
+            self.mission,
+            self.time,
+            self.radio_registry,
+            self.tacan_registy,
+            self.datalink_registry,
+            self.mission_data,
+            dynamic_runways,
+            self.use_client,
+        ).configure()
+
+        self.flights.append(flight_data)
+
+        if not self.mission_data.packages.get(id(flight.package)):
+            self.mission_data.packages[id(flight.package)] = []
+        self.mission_data.packages[id(flight.package)].append(flight_data)
+
+        dcs_type = flight.unit_type.dcs_unit_type
+        if dcs_type.networked_datalink:
+            self.setup_internal_datalink_network(group)
 
         if self.ewrj:
             self._track_ewrj_flight(flight, group)
 
         return group
+
+    @staticmethod
+    def setup_internal_datalink_network(group: FlyingGroup[Any]) -> None:
+        link = group.units[0].datalink
+        if not link:
+            return
+        if isinstance(link.settings, DataLinkSettingsWithFlightLead):
+            link.settings.flight_lead = True
+        for u1 in group.units:
+            assert u1.datalink is not None
+            for u2 in group.units:
+                if u1 is u2:
+                    continue
+                u1.datalink.network.add_member(u2.id)
+            net = u1.datalink.network
+            if (
+                isinstance(net, Link16Network)
+                and net.member_link_type == ViperLink16NetworkMemberLink
+            ):
+                for member_link in net.team_members:
+                    assert isinstance(member_link, ViperLink16NetworkMemberLink)
+                    member_link.tdoa = True
 
     def _track_ewrj_flight(self, flight: Flight, group: FlyingGroup[Any]) -> None:
         if not self.ewrj_package_dict.get(id(flight.package)):

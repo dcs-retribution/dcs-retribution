@@ -2,9 +2,11 @@
 name: Afghanistan - Graveyard of Empires
 theater: Afghanistan
 authors: Starfire
-recommended_player_faction: Bluefor Modern
-recommended_enemy_faction: Redfor (Russia) 2010
+recommended_player_faction: Blufor Current
+recommended_enemy_faction: Redfor (Russia) 2020
 description:
+  <p><strong>This campaign is intended to be run with CurrentHill's Russia Asset 
+  Pack installed, though this is not mandatory.</strong></p>
   <p>Following the 9/11 attacks, the United States and its NATO allies launched a 
   full-scale invasion of Afghanistan to dismantle the Taliban regime and root out 
   Al-Qaeda. As the conflict progressed, Russia grew increasingly concerned that the 
@@ -30,21 +32,19 @@ performance: 1
 recommended_start_date: 2002-01-27
 version: "10.7"
 settings:
+  usamilitaryassetspack: true
+  russianmilitaryassetspack: true
   hercules: true
   squadron_start_full: true
 squadrons:
   #Kandahar
   7:
-    - primary: OCA/Runway
-      secondary: air-to-ground
-      aircraft:
-        - B-1B Lancer
-      size: 4
     - primary: Strike
       secondary: air-to-ground
       aircraft:
-        - B-52H Stratofortress
-      size: 4
+        - "[CH] B-21"
+        - B-1B Lancer
+      size: 8
     - primary: Transport
       secondary: any
       aircraft:
@@ -115,7 +115,7 @@ squadrons:
       aircraft:
         - AH-64D Apache Longbow
       size: 4
-    - primary: CAS
+    - primary: Escort
       secondary: any
       aircraft:
         - OH-58D(R) Kiowa Warrior
@@ -132,7 +132,7 @@ squadrons:
       aircraft:
         - Su-27 Flanker-B
       size: 12
-    - primary: SEAD
+    - primary: Strike
       secondary: air-to-ground
       aircraft:
         - Su-24M Fencer-D
@@ -171,6 +171,6 @@ squadrons:
     - primary: CAS
       secondary: any
       aircraft:
+         - "[CH] Ka-52"
          - Ka-50 Hokum III
-         - Ka-50 Hokum (Blackshark 3)
       size: 4

@@ -29,7 +29,13 @@
     "F-105D Thunderchief",
     "F-105G Thunderchief",
     "B-52H Stratofortress",
-    "S-3B Viking"
+    "S-3B Viking",
+    "A-1H Skyraider",
+    "F-8E Crusader",
+    "O-1E Bird Dog",
+    "RA-5C Vigilante",
+    "SH-2F Seasprite",
+    "HH-2D Seasprite"
   ],
   "awacs": [
     "E-2C Hawkeye"
@@ -64,16 +70,22 @@
     "M48 Chaparral"
   ],
   "missiles": [],
-  "requirements": {},
   "preset_groups": [
     "Hawk",
     "Cold-War-Flak"
   ],
   "naval_units": [
     "DDG Arleigh Burke IIa",
-    "CV-59 Forrestal"
+    "CVA-31 Bon Homme Richard",
+    "CV-59 Forrestal",
+    "USS Allen M. Sumner (DD-692)",
+    "USS Fletcher FRAM II Destroyer",
+    "USS Laffey (DD-724)",
+    "USS Maddox (DD-731)",
+    "USS The Sullivans (DD-537)"
   ],
   "carrier_names": [
+    "CVA-31 Bon Homme Richard",
     "CV-59 USS Forrestal",
     "CV-61 USS Ranger",
     "CV-60 USS Saratoga",
@@ -81,6 +93,10 @@
   ],
   "has_jtac": true,
   "jtac_unit": "OV-10A Bronco",
+  "requirements": {
+    "OV-10A Bronco": "https://forum.dcs.world/topic/307951-ov-10a-bronco-mod-by-split-air-teamand-more/",
+    "Vietnam War Vessels (v0.9.0)": "https://forum.dcs.world/topic/338387-tetets-vietnam-war-vessels/"
+  },
   "doctrine": "coldwar",
   "liveries_overrides": {
     "CH-47D": [

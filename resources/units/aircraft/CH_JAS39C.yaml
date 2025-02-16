@@ -1,0 +1,24 @@
+description:
+  The Saab JAS 39 Gripen is a light single-engine multirole fighter aircraft
+  manufactured by the Swedish aerospace company Saab AB. The Gripen has a delta wing
+  and canard configuration with relaxed stability design and fly-by-wire flight controls.
+  Various versions have been built, grouped as A-, C- and E-series.
+introduced: 2002
+manufacturer: Saab AB
+origin: Sweden
+price: 21
+role: Fighter
+variants:
+  "[CH] JAS 39C Gripen": {}
+tasks:
+  BAI: 750
+  DEAD: 750
+  CAS: 750
+  BARCAP: 430
+  Escort: 430
+  Fighter sweep: 430
+  Intercept: 430
+  OCA/Aircraft: 750
+  OCA/Runway: 610
+  Strike: 610
+  TARCAP: 430

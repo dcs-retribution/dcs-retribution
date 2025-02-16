@@ -15,6 +15,7 @@ manufacturer: Kamov
 origin: USSR/Russia
 price: 20
 role: Attack
+default_livery: Ka-50_standart_black_RussianAirForce
 variants:
   Ka-50 Hokum III: {}
   Ka-50 Hokum (Blackshark 3): {}  # for compatibility with Liberation

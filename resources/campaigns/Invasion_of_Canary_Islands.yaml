@@ -44,7 +44,7 @@ settings:
   no_enemy_navy: false
   desired_player_mission_duration: 60
   external_views_allowed: true
-  max_frontline_length: 30
+  max_frontline_width: 30
  
  #Mods to be used
   a4_skyhawk: false

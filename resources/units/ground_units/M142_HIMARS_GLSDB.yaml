@@ -1,0 +1,12 @@
+class: Artillery
+description: "A highly mobile wheeled artillery rocket system designed to deliver long-range precision strikes.
+The HIMARS is based on a standard 5-ton truck chassis and can be airlifted by C-130 hercules aircraft for rapid
+deployment. Depending on the munitions, the HIMARS can engage targets at up to 27- nautical miles.
+It has been deployed in multiple combat theaters, including Iraq, Afghanistan and now Ukraine."
+introduced: 2005
+manufacturer: Lockheed Martin
+origin: United States
+price: 55
+role: Long-Range Precision Artillery Striker
+variants: 
+  "[CH] M142 HIMARS (GLSDB)": {}

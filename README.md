@@ -91,5 +91,6 @@ Excellent lua scripts DCS Liberation/Retribution uses as plugins:
 * For the JTAC feature, DCS Retribution embeds Ciribob's JTAC Autolase [script](https://github.com/ciribob/DCS-JTACAutoLaze).
 * Walder's [Skynet-IADS](https://github.com/walder/Skynet-IADS) is used for Integrated Air Defense System.
 * Carstens Arty Spotter https://www.digitalcombatsimulator.com/en/files/3339128/ is an amazing force multiplyer to drop the hammer on enemies.
+* MBot's [Call Artillery Script](https://forum.dcs.world/topic/310506-call-artillery-script/) uses in-map artillery and forward observers to enable artillery fire missions.
 
 Please also show some support to these projects ! 

@@ -1,0 +1,12 @@
+class: IFV
+description: "The infanterikanonvagn 91 (ikv 91), was a high 
+  mobility assault gun that was developed to meet the operational requirements of the Swedish 
+  Army. It was designed and manufactured by \x48\xC3\xA4\x67\x67\x6C\x75\x6E\x64\x20\x26\x20\x53\xC3\xB6\x6E\x65\x72 and employed common components 
+  with the Pbv 302 armoured personnel carrier series."
+introduced: 1975
+manufacturer: \x48\xC3\xA4\x67\x67\x6C\x75\x6E\x64\x20\x26\x20\x53\xC3\xB6\x6E\x65\x72
+origin: Sweden
+price: 10
+role: Infantry Fighting Vehicle
+variants:
+  "[CH] Ikv 91 LT": {}

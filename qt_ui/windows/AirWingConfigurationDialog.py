@@ -817,14 +817,25 @@ class AirWingConfigurationDialog(QDialog):
         layout.addLayout(buttons_layout)
 
     def save_config(self) -> None:
+        result = QMessageBox.information(
+            None,
+            "Save Air Wing?",
+            "Revert will not be possible after saving a different Air Wing.<br />"
+            "Are you sure you want to continue?",
+            QMessageBox.StandardButton.Yes,
+            QMessageBox.StandardButton.No,
+        )
+        if result == QMessageBox.StandardButton.No:
+            return
+
         awd = airwing_dir()
-        if not awd.exists():
-            awd.mkdir()
         fd = QFileDialog(
             caption="Save Air Wing", directory=str(awd), filter="*.yaml;*.yml"
         )
         fd.setAcceptMode(QFileDialog.AcceptMode.AcceptSave)
         if fd.exec_():
+            for tab in self.tabs:
+                tab.apply()
             airwing = self._build_air_wing()
             filename = fd.selectedFiles()[0]
             with open(filename, "w") as f:
@@ -838,7 +849,7 @@ class AirWingConfigurationDialog(QDialog):
             for s in sqs:
                 cp = s.location.at
                 if isinstance(cp, Point):
-                    key = s.location.name
+                    key = s.location.full_name
                 else:
                     key = cp.id
                 name = (
@@ -876,8 +887,6 @@ class AirWingConfigurationDialog(QDialog):
             return
 
         awd = airwing_dir()
-        if not awd.exists():
-            awd.mkdir()
         fd = QFileDialog(
             caption="Load Air Wing", directory=str(awd), filter="*.yaml;*.yml"
         )

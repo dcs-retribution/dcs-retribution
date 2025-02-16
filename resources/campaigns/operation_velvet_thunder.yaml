@@ -11,23 +11,22 @@ description:
   backdrop, allowing our forces to hone essential skills in jungle warfare, 
   unconventional tactics, and counterinsurgency operations. There are multiple 
   checkpoints scattered across the area of operations that will have to be 
-  captured by Air Assault. Due to the limited size and availability of LZs, it 
-  is vital to pay close attention to where you designate troop drop off zones.
-  </p><p><strong>Note:</strong> This campaign is intended to be played with the 
-  A-4 Skyhawk, OV-10A, and C-130J aircraft mods active. The C-101CC has also 
-  been included as a stand-in for the Cessna A-37 Dragonfly in order to provide 
-  a CAS platform of roughly equivalent combat capability.</p>
-  <strong>Note:</strong> Airbase threat range should be set to 25 for this campaign.
+  captured by Air Assault.</p>
+  <p><strong>Note:</strong> This campaign is intended to be played with the 
+  A-4 Skyhawk, OV-10A, C-130J, and Vietnam War Vessels mods active. If the Vietnam 
+  War Vessels is not active, the C-101CC will serve as a stand-in for the Skyraider 
+  in order to provide an Armed Recon platform. Airbase threat range is set to 20 
+  for this campaign to optimise autoplanner.</p>
 miz: operation_velvet_thunder.miz
 performance: 1
 recommended_start_date: 1970-11-29
 version: "10.7"
 settings:
-  airbase_threat_range: 25
-  restrict_weapons_by_date: true
+  airbase_threat_range: 20
   a4_skyhawk: true
   hercules: true
   ov10a_bronco: true
+  vietnamwarvessels: true
   squadron_start_full: true
 squadrons:
   #Andersen AFB
@@ -46,12 +45,7 @@ squadrons:
       secondary: any
       aircraft:
         - F-4E-45MC Phantom II
-      size: 8
-    - primary: DEAD
-      secondary: any
-      aircraft:
-        - F-4E Phantom II
-      size: 8
+      size: 16
     - primary: Strike
       secondary: any
       aircraft:
@@ -75,9 +69,10 @@ squadrons:
         - C-130J-30 Super Hercules
         - C-130
       size: 8
-    - primary: BAI
+    - primary: Armed Recon
       secondary: any
       aircraft:
+        - A-1H Skyraider
         - C-101CC Aviojet
       size: 8
   #Blue CV
@@ -85,6 +80,12 @@ squadrons:
     - primary: DEAD
       secondary: any
       aircraft:
+        - A-4E Skyhawk
+      size: 16
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - F-8E Crusader
         - A-4E Skyhawk
       size: 16
     - primary: AEW&C

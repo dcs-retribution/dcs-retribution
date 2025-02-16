@@ -80,6 +80,9 @@ class PatrollingFlightPlan(StandardFlightPlan[LayoutT], UiZoneDisplay, ABC):
             return self.patrol_end_time
         return None
 
+    def takeoff_time(self) -> datetime:
+        return self.patrol_start_time - self._travel_time_to_waypoint(self.tot_waypoint)
+
     @property
     def package_speed_waypoints(self) -> set[FlightWaypoint]:
         return {self.layout.patrol_start, self.layout.patrol_end}

@@ -166,9 +166,11 @@ class Loadout:
         # last - the first element in the tuple will be tried first, then the second,
         # etc.
         loadout_names = {
-            t: [f"Liberation {t.value}", f"Retribution {t.value}"]
-            if prefer_liberation_payloads()
-            else [f"Retribution {t.value}", f"Liberation {t.value}"]
+            t: (
+                [f"Liberation {t.value}", f"Retribution {t.value}"]
+                if prefer_liberation_payloads()
+                else [f"Retribution {t.value}", f"Liberation {t.value}"]
+            )
             for t in FlightType
         }
         legacy_names = {

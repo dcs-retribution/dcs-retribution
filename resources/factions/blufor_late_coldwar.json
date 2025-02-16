@@ -107,6 +107,7 @@
     "LHA-4 Nassau",
     "LHA-5 Peleliu"
   ],
-  "has_jtac": false,
+  "has_jtac": true,
+  "jtac_unit": "MQ-9 Reaper",
   "doctrine": "coldwar"
 }

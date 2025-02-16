@@ -1,0 +1,33 @@
+carrier_capable: true
+description:    # from: https://en.wikipedia.org/wiki/Vought_F-8_Crusader
+  The Vought F-8 Crusader (originally F8U) is a single-engine, supersonic, 
+  carrier-based air superiority jet aircraft designed and produced by the American 
+  aircraft manufacturer Vought. It was the last American fighter that had guns as 
+  the primary weapon, earning it the title "The Last of the Gunfighters". 
+  On 21 August 1956, U.S. Navy pilot R.W. Windsor attained a top speed of 1,015 mph; 
+  in doing so, the F-8 became the first jet fighter in American service to reach 
+  1,000 mph.
+  During March 1957, the F-8 was introduced into regular operations with the US Navy. 
+  In addition to the Navy, the type was also operated by the United States Marine Corps 
+  (replacing the Vought F7U Cutlass), the French Navy, and the Philippine Air Force. 
+  Early on, the type experienced an above-average mishap rate, being somewhat difficult 
+  to pilot. American F-8s saw active combat during the Vietnam War, engaging in multiple 
+  dogfights with MiG-17s of the Vietnam People's Air Force as well as performing ground 
+  attack missions in the theatre.
+introduced: 1963    # original type 1957, F-8E before 1964, USA retired 1976
+manufacturer: Vought
+origin: USA
+price: 9    # reference: Starfighter = 9, Thunderchief = 9
+role: Carrier-based Interceptor
+max_range: 394    # combat range without droptanks [nmi]
+gunfighter: true
+variants:
+  F-8E Crusader: {}
+tasks:    # defined in flighttype.py
+  Strike: 100
+  Escort: 300
+  Fighter sweep: 300
+  Intercept: 400
+  TARCAP: 300
+  BARCAP: 300
+  Armed Recon: 200

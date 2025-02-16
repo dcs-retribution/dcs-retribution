@@ -1,0 +1,26 @@
+carrier_capable: false
+description:    # from: https://en.wikipedia.org/wiki/Cessna_O-1_Bird_Dog
+  The Cessna O-1 Bird Dog is a liaison and observation aircraft that first flew on 
+  December 14, 1949, and entered service in 1950 as the L-19 in the Korean War. 
+  It went to serve in many branches of the U.S. Armed Forces, was not retired until 
+  the 1970s in a number of variants, and also served in the Vietnam War. It was 
+  also called the OE-1 and OE-2 in Navy service, flying with the Marine Corps, and 
+  in the 1960s it was re-designated the O-1. It remains a civilian-flown warbird 
+  aircraft, and there are examples in aviation museums. It was the first all-metal 
+  fixed-wing aircraft ordered for and by the United States Army following the 
+  Army Air Forces' separation from it in 1947. The Bird Dog had a lengthy career 
+  in the U.S. military as well as in other countries, with over 3400 produced.
+introduced: 1950
+manufacturer: Cessna
+origin: USA
+price: 2    # reference: Bronco = 4
+role: observation aircraft
+max_range: 460    # combat range [nmi]
+gunfighter: false
+variants:
+  O-1E Bird Dog: {}
+tasks:    # defined in flighttype.py
+  BAI: 100
+  CAS: 100
+  Strike: 100
+  Armed Recon: 100

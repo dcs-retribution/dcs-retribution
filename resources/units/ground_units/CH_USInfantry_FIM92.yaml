@@ -1,0 +1,5 @@
+class: Manpad
+price: 0
+spawn_weight: 1
+variants:
+  "[CH] FIM-92K Stinger Soldier": null

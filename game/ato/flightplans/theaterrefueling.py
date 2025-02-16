@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from datetime import timedelta
 from typing import Type
 
 from game.utils import Heading, meters, nautical_miles
@@ -14,10 +13,6 @@ class TheaterRefuelingFlightPlan(RefuelingFlightPlan):
     @staticmethod
     def builder_type() -> Type[Builder]:
         return Builder
-
-    @property
-    def patrol_duration(self) -> timedelta:
-        return self.flight.coalition.game.settings.desired_tanker_on_station_time
 
 
 class Builder(IBuilder[TheaterRefuelingFlightPlan, PatrollingLayout]):

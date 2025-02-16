@@ -1,0 +1,14 @@
+class: SHORAD
+description: "The Pantsir (Russian: \xD0\x9F\xD0\xB0\xD0\xBD\xD1\x86\xD0\xB8\xD1\x80\xD1\x8C, lit. '[body] 
+  armour') missile system is a family of self-propelled, medium-range surface-to-air missile and 
+  anti-aircraft artillery systems. Three types of vehicles make up one system: a missile launcher, 
+  a radar truck and a command post. Starting with the Pantsir-S1 (Russian: \xD0\x9F\xD0\xB0\xD0\xBD\xD1\x86\xD0\xB8\xD1\x80\xD1\x8C\x2D\xD0\xA1\x31, 
+  NATO reporting name SA-22 Greyhound) as the first version, it is produced by KBP Instrument Design 
+  Bureau of Tula, Russia, and is the successor to the Tunguska M1."
+introduced: 2012
+manufacturer: Ulyanovsk Mechanical Plant
+origin: Russia
+price: 40
+role: Self-Propelled Surface-to-Air Missile Launcher
+variants:
+  "[CH] Pantsir-S1 SPAAGM": {}

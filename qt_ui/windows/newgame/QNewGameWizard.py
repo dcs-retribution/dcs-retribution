@@ -111,6 +111,7 @@ class NewGameWizard(QtWidgets.QWizard):
             oh_6_vietnamassetpack=self.field("oh_6_vietnamassetpack"),
             uh_60l=self.field("uh_60l"),
             jas39_gripen=self.field("jas39_gripen"),
+            mirage_3=self.field("mirage_3"),
             super_etendard=self.field("super_etendard"),
             sk_60=self.field("sk_60"),
             su15_flagon=self.field("su15_flagon"),
@@ -123,6 +124,11 @@ class NewGameWizard(QtWidgets.QWizard):
             swedishmilitaryassetspack=self.field("swedishmilitaryassetspack"),
             coldwarassets=self.field("coldwarassets"),
             SWPack=self.field("SWPack"),
+            vietnamwarvessels=self.field("vietnamwarvessels"),
+            chinesemilitaryassetspack=self.field("chinesemilitaryassetspack"),
+            russianmilitaryassetspack=self.field("russianmilitaryassetspack"),
+            usamilitaryassetspack=self.field("usamilitaryassetspack"),
+            ukrainemilitaryassetspack=self.field("ukrainemilitaryassetspack"),
         )
 
         blue_faction = self.faction_selection_page.selected_blue_faction

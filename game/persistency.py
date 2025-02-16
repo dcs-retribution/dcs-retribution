@@ -10,7 +10,14 @@ import dcs.terrain.falklands.airports
 
 import pydcs_extensions
 from game.profiling import logged_duration
-from pydcs_extensions import ELM2084_MMR_AD_RT, Iron_Dome_David_Sling_CP
+from pydcs_extensions import (
+    ELM2084_MMR_AD_RT,
+    Iron_Dome_David_Sling_CP,
+    RBS_70,
+    RBS_90,
+    CH_BVS10,
+    Artillerisystem08_M982,
+)
 
 if TYPE_CHECKING:
     from game import Game
@@ -63,8 +70,8 @@ class MigrationUnpickler(pickle.Unpickler):
             return dcs.terrain.falklands.airports.Hipico_Flying_Club
         if name in ["SaveManager", "SaveGameBundle"]:
             return DummyObject
-        if name == "CaletaTortel":
-            return dcs.terrain.falklands.airports.Caleta_Tortel_Airport
+        if name in ["CaletaTortel", "Caleta_Tortel_Airport"]:
+            return dcs.terrain.Airport  # use base-class if airport was removed
         if module == "pydcs_extensions.f4b.f4b":
             return pydcs_extensions.f4
         if module == "pydcs_extensions.irondome.irondome":
@@ -74,6 +81,15 @@ class MigrationUnpickler(pickle.Unpickler):
                 return ELM2084_MMR_AD_RT
             elif name == "IRON_DOME_CP":
                 return Iron_Dome_David_Sling_CP
+        if module == "pydcs_extensions.swedishmilitaryassetspack.swedishmilitaryassetspack":
+            if name == "BV410_RBS90":
+                return RBS_90
+            elif name == "BV410":
+                return CH_BVS10
+            elif name == "Artillerisystem08":
+                return Artillerisystem08_M982
+            elif name == "BV410_RBS70":
+                return RBS_70
         if module == "dcs.terrain.kola.airports":
             if name == "Lakselv":
                 from dcs.terrain.kola.airports import Banak
@@ -87,17 +103,54 @@ class MigrationUnpickler(pickle.Unpickler):
             elif name == "Olenegorsk":
                 from dcs.terrain.kola.airports import Olenya
                 return Olenya
-            if name == "Bas_100":
+            elif name == "Bas_100":
                 from dcs.terrain.kola.airports import Vuojarvi
                 return Vuojarvi
+        if module == "dcs.terrain.syria.airports":
+            if name == "Amman":
+                from dcs.terrain.syria.airports import Marka
+                return Marka
+            elif name in [
+                "Helipad_88",
+                "Helipad_183",
+                "Helipad_217",
+                "Helipad_218"
+            ]:
+                return dcs.terrain.Airport  # use base-class if airport was removed
+        if module == "dcs.terrain.falklands.airports":
+            if name == "Aerodromo_De_Tolhuin":
+                from dcs.terrain.falklands.airports import Tolhuin
+                return Tolhuin
+            elif name == "Porvenir_Airfield":
+                from dcs.terrain.falklands.airports import Porvenir
+                return Porvenir
+            elif name == "Aeropuerto_de_Gobernador_Gregores":
+                from dcs.terrain.falklands.airports import Gobernador_Gregores
+                return Gobernador_Gregores
+            elif name == "Aerodromo_O_Higgins":
+                from dcs.terrain.falklands.airports import O_Higgins
+                return O_Higgins
         if module in ["dcs.vehicles", "dcs.ships"]:
             try:
                 return super().find_class(module, name)
             except AttributeError:
                 alternate = name.split('.')[:-1] + [name.split('.')[-1][0].lower() + name.split('.')[-1][1:]]
                 name = '.'.join(alternate)
+        try:
+            return super().find_class(module, name)
+        except AttributeError:
+            if "dcs.terrain" in module and "airports" not in module:
+                module = f"{module}.airports"
+            else:
+                raise
         return super().find_class(module, name)
 # fmt: on
+
+
+def _create_dir_if_needed(path: Path) -> Path:
+    if not path.exists():
+        path.mkdir(755, parents=True)
+    return path
 
 
 def setup(user_folder: str, prefer_liberation_payloads: bool, port: int) -> None:
@@ -107,41 +160,52 @@ def setup(user_folder: str, prefer_liberation_payloads: bool, port: int) -> None
     _dcs_saved_game_folder = user_folder
     _prefer_liberation_payloads = prefer_liberation_payloads
     _server_port = port
-    if not save_dir().exists():
-        save_dir().mkdir(parents=True)
+    _create_dir_if_needed(save_dir())
 
 
 def base_path() -> Path:
     global _dcs_saved_game_folder
     assert _dcs_saved_game_folder
-    return Path(_dcs_saved_game_folder)
+    return _create_dir_if_needed(Path(_dcs_saved_game_folder))
 
 
 def debug_dir() -> Path:
-    return base_path() / "Retribution" / "Debug"
+    return _create_dir_if_needed(base_path() / "Retribution" / "Debug")
+
+
+def factions_dir() -> Path:
+    return _create_dir_if_needed(base_path() / "Retribution" / "Factions")
+
+
+def groups_dir() -> Path:
+    return _create_dir_if_needed(base_path() / "Retribution" / "Groups")
+
+
+def layouts_dir() -> Path:
+    return _create_dir_if_needed(base_path() / "Retribution" / "Layouts")
 
 
 def waypoint_debug_directory() -> Path:
-    return debug_dir() / "Waypoints"
+    return _create_dir_if_needed(debug_dir() / "Waypoints")
 
 
 def settings_dir() -> Path:
-    return base_path() / "Retribution" / "Settings"
+    return _create_dir_if_needed(base_path() / "Retribution" / "Settings")
 
 
 def airwing_dir() -> Path:
-    return base_path() / "Retribution" / "AirWing"
+    return _create_dir_if_needed(base_path() / "Retribution" / "AirWing")
 
 
 def kneeboards_dir() -> Path:
-    return base_path() / "Retribution" / "Kneeboards"
+    return _create_dir_if_needed(base_path() / "Retribution" / "Kneeboards")
 
 
 def payloads_dir(backup: bool = False) -> Path:
     payloads = base_path() / "MissionEditor" / "UnitPayloads"
     if backup:
-        return payloads / "_retribution_backups"
-    return payloads
+        return _create_dir_if_needed(payloads / "_retribution_backups")
+    return _create_dir_if_needed(payloads)
 
 
 def prefer_liberation_payloads() -> bool:
@@ -150,15 +214,15 @@ def prefer_liberation_payloads() -> bool:
 
 
 def user_custom_weapon_injections_dir() -> Path:
-    return base_path() / "Retribution" / "WeaponInjections"
+    return _create_dir_if_needed(base_path() / "Retribution" / "WeaponInjections")
 
 
 def save_dir() -> Path:
-    return base_path() / "Retribution" / "Saves"
+    return _create_dir_if_needed(base_path() / "Retribution" / "Saves")
 
 
 def pre_pretense_backups_dir() -> Path:
-    return save_dir() / "PrePretenseBackups"
+    return _create_dir_if_needed(save_dir() / "PrePretenseBackups")
 
 
 def server_port() -> int:
@@ -193,12 +257,26 @@ def save_game(game: Game) -> bool:
     with logged_duration("Saving game"):
         try:
             with open(_temporary_save_file(), "wb") as f:
+                data = _unload_static_data(game)
                 pickle.dump(game, f)
+                _restore_static_data(game, data)
             shutil.copy(_temporary_save_file(), game.savepath)
             return True
         except Exception:
             logging.exception("Could not save game")
             return False
+
+
+def _restore_static_data(game: Game, data: dict[str, Any]) -> None:
+    game.theater.landmap = data["landmap"]
+
+
+def _unload_static_data(game: Game) -> dict[str, Any]:
+    landmap = game.theater.landmap
+    game.theater.landmap = None
+    return {
+        "landmap": landmap,
+    }
 
 
 def autosave(game: Game) -> bool:
@@ -209,7 +287,9 @@ def autosave(game: Game) -> bool:
     """
     try:
         with open(_autosave_path(), "wb") as f:
+            data = _unload_static_data(game)
             pickle.dump(game, f)
+            _restore_static_data(game, data)
         return True
     except Exception:
         logging.exception("Could not save game")

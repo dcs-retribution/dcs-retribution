@@ -1,0 +1,11 @@
+class: Recon
+description: The Mine-Resistant Ambush-Protected or M-ATV serves as a more heavily armored troop carrier
+  in response to increased threat from IEDs during the war on terror. THe rugged chassis allows for multiple
+  configurations of heavy armor. It exceps at convoy protection and troop transport in asymmetric warfare enviroments.
+introduced: 2007
+manufacturer: Oshkosh Defence
+origin: United States
+price: 3
+role: Armored PErsonnel Carrier
+variants: 
+  "[CH] Oshkosh M-ATV MRAP (Mk19)": {}
