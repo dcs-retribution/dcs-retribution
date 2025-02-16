@@ -1,0 +1,81 @@
+{
+  "country": "Ukraine",
+  "name": "Ukraine 2020",
+  "authors": "Starfire",
+  "description": "<p>Ukrainian military in the 2020s during the Russo-Ukrainian War. This faction is intended for use with the Currenthill Ukraine Asset Pack.</p>",
+  "aircrafts": [
+    "IL-76MD",
+    "Mi-24V Hind-E",
+    "Mi-24P Hind-F",
+    "Mi-8MTV2 Hip",
+    "MiG-29S Fulcrum-C",
+    "Su-24M Fencer-D",
+    "Su-25 Frogfoot",
+    "Su-27 Flanker-B",
+    "F-16CM Fighting Falcon (Block 50)",
+    "Mirage 2000C",
+    "[CH] Su-27P1M",
+    "[CH] MiG-29MU2",
+    "[CH] Su-24MU"
+  ],
+  "awacs": [],
+  "tankers": [],
+  "frontline_units": [
+    "BMP-2",
+    "BMP-3",
+    "BTR-80",
+    "M1043 HMMWV (M2 HMG)",
+    "T-72B with Kontakt-1 ERA",
+    "T-80UD",
+    "[CH] BTR-4 IFV",
+    "[CH] BRDM-2L1 ARV",
+    "[CH] Kozak-5 APC",
+    "[CH] KrAZ Spartan APC",
+    "[CH] T-64BV MBT",
+    "[CH] T-84 Oplot-M MBT"
+  ],
+  "artillery_units": [],
+  "logistics_units": [
+    "LUV UAZ-469 Jeep",
+    "Truck Ural-375",
+    "[CH] KrAZ-6322 Truck"
+  ],
+  "infantry_units": [
+    "Infantry AK-74 Rus",
+    "MANPADS SA-18 Igla-S \"Grouse\"",
+    "Paratrooper AKS",
+    "Paratrooper RPG-16",
+    "[CH] Alligator Sniper AMR",
+    "[CH] Stugna-P ATGM"
+  ],
+  "missiles": [],
+  "preset_groups": [
+    "SA-5/S-200",
+    "SA-3/S-125",
+    "SA-6",
+    "SA-11",
+    "SA-10/S-300PS",
+    "SA-17",
+    "SA-20/S-300PMU-1",
+    "Hawk",
+    "Patriot",
+    "NASAMS AIM-120C"
+  ],
+  "naval_units": [],
+  "air_defense_units": [
+    "SAM SA-10 S-300 \"Grumble\" Big Bird SR",
+    "SAM SA-8 Osa \"Gecko\" TEL",
+    "SA-9 Strela",
+    "SA-13 Gopher (9K35 Strela-10M3)",
+    "SA-15 Tor",
+    "SA-19 Grison (2K22 Tunguska)",
+    "ZSU-23-4 Shilka",
+    "M1097 Heavy HMMWV Avenger"
+  ],
+  "requirements": {
+    "Currenthill Ukraine Asset Pack": "https://www.currenthill.com/ukraine"
+  },
+  "has_jtac": true,
+  "jtac_unit": "MQ-9 Reaper",
+  "unrestricted_satnav": true
+}

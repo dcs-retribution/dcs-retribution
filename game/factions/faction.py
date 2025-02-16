@@ -479,6 +479,10 @@ class Faction:
             self.remove_aircraft("JAS39Gripen")
             self.remove_aircraft("JAS39Gripen_BVR")
             self.remove_aircraft("JAS39Gripen_AG")
+        if not mod_settings.mirage_3:
+            self.remove_aircraft("VSN_MirageIIIC")
+            self.remove_aircraft("VSN_MirageIIIC_AG")
+            self.remove_aircraft("VSN_MirageIIIS")
         if not mod_settings.super_etendard:
             self.remove_aircraft("VSN_SEM")
         if not mod_settings.sk_60:
@@ -838,6 +842,19 @@ class Faction:
             self.remove_preset("MIM-104 Patriot (Stationary)")
             self.remove_preset("NASAMS 3")
             self.remove_preset("THAAD")
+        if not mod_settings.ukrainemilitaryassetspack:
+            self.remove_aircraft("Su-24MU")
+            self.remove_aircraft("MiG-29MU2")
+            self.remove_aircraft("CH_Su-27P1M")
+            self.remove_vehicle("T84_OplotM")
+            self.remove_vehicle("BTR-4")
+            self.remove_vehicle("CH_T64BV")
+            self.remove_vehicle("CH_Kozak5")
+            self.remove_vehicle("CH_KrAZSpartan")
+            self.remove_vehicle("CH_BRDM2L1")
+            self.remove_vehicle("CH_Alligator_Sniper")
+            self.remove_vehicle("CH_Stugna_P")
+            self.remove_vehicle("CH_KrAZ6322")
 
     def remove_aircraft(self, name: str) -> None:
         for aircraft_set in [self.aircraft, self.awacs, self.tankers]:
