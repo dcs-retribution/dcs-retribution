@@ -3629,8 +3629,8 @@ class FA_18E(PlaneType):
     }
 
     property_defaults: Dict[str, Any] = {
-        "BlockIIIEquip": False,
-        "DemoEquipment": False,
+        "BlockIIIEquip": True,
+        "DemoEquipment": True,
         "RemoveLInboard": False,
         "RemoveRInboard": False,
         "USA_FLAG": False,
@@ -3645,26 +3645,14 @@ class FA_18E(PlaneType):
         class BlockIIIEquip:
             id = "BlockIIIEquip"
 
-            class Values:
-                Enabled = 0
-                Disabled = 1
-
         class DemoEquipment:
             id = "DemoEquipment"
 
         class RemoveLInboard:
             id = "RemoveLInboard"
 
-            class Values:
-                Enabled = 0
-                Disabled = 1
-
         class RemoveRInboard:
             id = "RemoveRInboard"
-
-            class Values:
-                Enabled = 0
-                Disabled = 1
 
         class USA_FLAG:
             id = "USA_FLAG"
@@ -3723,7 +3711,7 @@ class FA_18E(PlaneType):
             identifier="RemoveRInboard",
             control="comboList",
             label="Dismount STA 4 SUU-79A Pylon (Right)",
-            player_only=False,
+            player_only=True,
             default=0,
             w_ctrl=150,
             values={
@@ -3735,7 +3723,7 @@ class FA_18E(PlaneType):
             identifier="RemoveLInboard",
             control="comboList",
             label="Dismount STA 8 SUU-79A Pylon (Left)",
-            player_only=False,
+            player_only=True,
             default=0,
             w_ctrl=150,
             values={
@@ -3824,377 +3812,377 @@ class FA_18E(PlaneType):
     class Pylon1:
         STA_01_WNGTP_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             1,
-            Weapons.STA_01_WNGTP_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_01_WNGTP_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_01_WNGTP_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             1,
-            Weapons.STA_01_WNGTP_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_01_WNGTP_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_01_WNGTP_LAU127_1x_Captive_AIM_9M_for_ACM = (
             1,
-            Weapons.STA_01_WNGTP_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_01_WNGTP_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_01_WNGTP_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             1,
-            Weapons.STA_01_WNGTP_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_01_WNGTP_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
 
     class Pylon2:
         STA_02_SUU80_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             2,
-            Weapons.STA_02_SUU80_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_02_SUU80_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_02_SUU80_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_02_SUU80_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_02_SUU80_LAU127_1x_Captive_AIM_9M_for_ACM = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_02_SUU80_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
         STA_02_SUU80_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_02_SUU80_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_02_SUU80_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_02_SUU80_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             2,
-            Weapons.STA_02_SUU80_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            WeaponsFA18EFG.STA_02_SUU80_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         STA_02_SUU80_LAU117_1x_AGM_65F___Maverick_F__IIR_ = (
             2,
-            Weapons.STA_02_SUU80_LAU117_1x_AGM_65F___Maverick_F__IIR_,
+            WeaponsFA18EFG.STA_02_SUU80_LAU117_1x_AGM_65F___Maverick_F__IIR_,
         )
         STA_02_SUU80_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only = (
             2,
-            Weapons.STA_02_SUU80_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
+            WeaponsFA18EFG.STA_02_SUU80_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
         )
         STA_02_SUU80_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             2,
-            Weapons.STA_02_SUU80_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+            WeaponsFA18EFG.STA_02_SUU80_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
         STA_02_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_02_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_02_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_02_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_02_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_02_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_02_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_02_SUU80_BRU32___1x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
         STA_02_SUU80_BRU32___1x_GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
         STA_02_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_02_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb,
         )
         STA_02_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
         )
         STA_02_SUU80_BRU32___1x_CBU_99___490lbs__247_x_HEAT_Bomblets = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_CBU_99___490lbs__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_CBU_99___490lbs__247_x_HEAT_Bomblets,
         )
         STA_03_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             2,
-            Weapons.STA_03_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_03_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_03_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar = (
             2,
-            Weapons.STA_03_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_03_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar,
         )
         STA_03_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar = (
             2,
-            Weapons.STA_03_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_03_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
         STA_03_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar = (
             2,
-            Weapons.STA_03_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_03_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar,
         )
         STA_03_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_03_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_03_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             2,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_03_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_03_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_03_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             2,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_03_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_03_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_03_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_03_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_03_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_03_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
         )
         STA_03_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             2,
-            Weapons.STA_03_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         STA_03_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only = (
             2,
-            Weapons.STA_03_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
         )
         STA_03_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
         )
         STA_03_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_03_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH = (
             2,
-            Weapons.STA_03_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_03_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH = (
             2,
-            Weapons.STA_03_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_03_SUU79_BRU42___1x_ADM_141A_TALD_ = (
             2,
-            Weapons.STA_03_SUU79_BRU42___1x_ADM_141A_TALD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU42___1x_ADM_141A_TALD_,
         )
         STA_03_SUU79_BRU42___2x_ADM_141A_TALD_ = (
             2,
-            Weapons.STA_03_SUU79_BRU42___2x_ADM_141A_TALD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU42___2x_ADM_141A_TALD_,
         )
         STA_03_SUU79_BRU42___3x_ADM_141A_TALD = (
             2,
-            Weapons.STA_03_SUU79_BRU42___3x_ADM_141A_TALD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU42___3x_ADM_141A_TALD,
         )
         STA_03_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_03_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_03_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_03_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_03_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_03_SUU79_BRU55___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU55___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_03_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             2,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_03_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_03_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_02_03_79_80_LAU127_1x_1x_AIM_9M_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_02_03_79_80_LAU127_1x_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_02_03_79_80_LAU127_1x_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_02_03_79_80_LAU127_1x_1x_AIM_9X_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_02_03_79_80_LAU127_1x_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_02_03_79_80_LAU127_1x_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_02_03_79_80_LAU127_1x_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_02_03_79_80_LAU127_1x_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_02_03_79_80_LAU127_1x_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_02_03_79_80_LAU127_1x_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_02_03_79_80_LAU127_1x_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_02_03_79_80_LAU127_1x_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_02_03_79_80_LAU127_1x_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             2,
-            Weapons.STA_02_03_79_80_LAU127_1x_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_02_03_79_80_LAU127_1x_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_03_02_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_03_02_79_80_BRU32___2x_GBU_16___1000lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_03_02_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_03_02_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_03_02_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_03_02_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_03_02_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_04_02_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_04_02_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_02_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_04_02_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_04_02_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_02_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         # ERRR {SUPERHORNET_PYLON_02_MB_MK_BR55_1X_GBU-32V}
         # ERRR {SUPERHORNET_PYLON_02_MB_MK_BR55_2X_GBU-32V}
         STA_04_02_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_04_02_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_02_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_04_02_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             2,
-            Weapons.STA_04_02_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_04_02_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_04_02_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_04_02_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_02_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_04_02_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             2,
-            Weapons.STA_04_02_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_04_02_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_02_SUU80_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
         )
-        STA_02_SUU80_EMPTY = (2, Weapons.STA_02_SUU80_EMPTY)
+        STA_02_SUU80_EMPTY = (2, WeaponsFA18EFG.STA_02_SUU80_EMPTY)
         # ERRR <CLEAN>
         # ERRR {CATM-120C}
         # ERRR {CATM-9M}
@@ -4241,461 +4229,461 @@ class FA_18E(PlaneType):
     class Pylon3:
         STA_02_SUU79_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             3,
-            Weapons.STA_02_SUU79_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_02_SUU79_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
         STA_03_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar_ = (
             3,
-            Weapons.STA_03_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar_,
         )
         STA_03_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_,
         )
         STA_03_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_,
         )
         STA_03_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
         )
         STA_03_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM_,
         )
         STA_03_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM_,
         )
         STA_03_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
         )
         STA_03_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM_,
         )
         STA_03_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM_,
         )
         STA_03_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM_,
         )
         STA_03_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM_,
         )
         STA_03_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM_,
         )
         STA_03_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM_,
         )
         STA_03_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
         )
         STA_03_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
         )
         STA_03_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
         )
         STA_03_SUU79_BRU32___1x_ALQ_167_Countermeasures_System = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_ALQ_167_Countermeasures_System,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_ALQ_167_Countermeasures_System,
         )
         STA_03_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__ = (
             3,
-            Weapons.STA_03_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__,
         )
         STA_03_SUU79_LAU117_1x_AGM_65F___Maverick_F__IIR__ = (
             3,
-            Weapons.STA_03_SUU79_LAU117_1x_AGM_65F___Maverick_F__IIR__,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_AGM_65F___Maverick_F__IIR__,
         )
         STA_03_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only_ = (
             3,
-            Weapons.STA_03_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only_,
         )
         STA_03_SUU79_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             3,
-            Weapons.STA_03_SUU79_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+            WeaponsFA18EFG.STA_03_SUU79_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
         STA_03_SUU79_LAU117_1x_AGM_84D_Harpoon_Anti_Ship_Missile = (
             3,
-            Weapons.STA_03_SUU79_LAU117_1x_AGM_84D_Harpoon_Anti_Ship_Missile,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_AGM_84D_Harpoon_Anti_Ship_Missile,
         )
         STA_03_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             3,
-            Weapons.STA_03_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
         )
         STA_03_SUU79_LAU117_1x_AGM_84H_SLAM_ER__Expanded_Response_ = (
             3,
-            Weapons.STA_03_SUU79_LAU117_1x_AGM_84H_SLAM_ER__Expanded_Response_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_AGM_84H_SLAM_ER__Expanded_Response_,
         )
         STA_03_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_03_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH_ = (
             3,
-            Weapons.STA_03_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_03_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_ = (
             3,
-            Weapons.STA_03_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_03_SUU79_BRU55___1x_AGM_154A___JSOW_CEB__CBU_type_ = (
             3,
-            Weapons.STA_03_SUU79_BRU55___1x_AGM_154A___JSOW_CEB__CBU_type_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___1x_AGM_154A___JSOW_CEB__CBU_type_,
         )
         STA_03_SUU79_BRU55___2x_AGM_154A___JSOW_CEB__CBU_type_ = (
             3,
-            Weapons.STA_03_SUU79_BRU55___2x_AGM_154A___JSOW_CEB__CBU_type_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___2x_AGM_154A___JSOW_CEB__CBU_type_,
         )
         STA_03_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD_,
         )
         STA_03_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD_,
         )
         STA_03_SUU79_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD_,
         )
         STA_03_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD_,
         )
         STA_03_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD_,
         )
         STA_03_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb_,
         )
         STA_03_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb_,
         )
         STA_03_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb_,
         )
         STA_03_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb_,
         )
         STA_03_SUU79_BRU32___1x_GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_,
         )
         # ERRR {SUPERHORNET_PYLON_03_MB_MK_1X_GBU-32V}
         STA_03_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets_,
         )
         STA_03_SUU79_BRU32___1x_BDU_45___500lb_Practice_Bomb = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_BDU_45___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_BDU_45___500lb_Practice_Bomb,
         )
         STA_03_SUU79_BRU32___1x_BDU_45B___500lb_Practice_Bomb = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
         )
         STA_03_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb_,
         )
         STA_03_SUU79_BRU33___2x_BDU_45___500lb_Practice_Bomb = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_BDU_45___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_BDU_45___500lb_Practice_Bomb,
         )
         STA_03_SUU79_BRU33___2x_BDU_45B___500lb_Practice_Bomb = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_BDU_45B___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_BDU_45B___500lb_Practice_Bomb,
         )
         STA_03_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD_,
         )
         STA_03_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_03_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD_,
         )
         STA_03_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD_,
         )
         # ERRR {SUPERHORNET_PYLON_03_MB_MK_BR2_ROCKEYE}
         STA_03_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_,
         )
         STA_03_SUU79_BRU41___6x_BDU_33___25lb_Practice_Bomb_LD = (
             3,
-            Weapons.STA_03_SUU79_BRU41___6x_BDU_33___25lb_Practice_Bomb_LD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU41___6x_BDU_33___25lb_Practice_Bomb_LD,
         )
         STA_04_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             3,
-            Weapons.STA_04_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_04_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_04_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar = (
             3,
-            Weapons.STA_04_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_04_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar,
         )
         STA_04_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar = (
             3,
-            Weapons.STA_04_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_04_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
         STA_04_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar = (
             3,
-            Weapons.STA_04_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_04_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar,
         )
         STA_04_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_04_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_04_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_04_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_04_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_04_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
         )
         STA_04_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_04_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_04_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             3,
-            Weapons.STA_04_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_04_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_04_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_04_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             3,
-            Weapons.STA_04_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons = (
             3,
-            Weapons.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
         )
         STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis = (
             3,
-            Weapons.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
         )
         # ERRR {SUPERHORNET_PYLON_03_IB_PD_1X_ALQ-167}
         STA_04_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             3,
-            Weapons.STA_04_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
         )
         STA_04_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             3,
-            Weapons.STA_04_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            WeaponsFA18EFG.STA_04_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         STA_03_SUU79_BRU42___1x_ADM_141A_TALD__ = (
             3,
-            Weapons.STA_03_SUU79_BRU42___1x_ADM_141A_TALD__,
+            WeaponsFA18EFG.STA_03_SUU79_BRU42___1x_ADM_141A_TALD__,
         )
         STA_03_SUU79_BRU42___2x_ADM_141A_TALD__ = (
             3,
-            Weapons.STA_03_SUU79_BRU42___2x_ADM_141A_TALD__,
+            WeaponsFA18EFG.STA_03_SUU79_BRU42___2x_ADM_141A_TALD__,
         )
         STA_03_SUU79_BRU42___3x_ADM_141A_TALD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU42___3x_ADM_141A_TALD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU42___3x_ADM_141A_TALD_,
         )
         STA_04_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only = (
             3,
-            Weapons.STA_04_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
+            WeaponsFA18EFG.STA_04_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
         )
         STA_04_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH = (
             3,
-            Weapons.STA_04_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_04_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_04_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH = (
             3,
-            Weapons.STA_04_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_04_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_04_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_04_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_04_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_04_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_04_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_04_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_04_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_04_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             3,
-            Weapons.STA_04_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_04_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_04_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             3,
-            Weapons.STA_04_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_04_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_04_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         # ERRR {SUPERHORNET_PYLON_03_IB_MK_BR2_ROCKEYE}
         STA_04_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_04_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
         STA_04_03_79_80_BRU32___1x_1x_AGM_154C___JSOW_Unitary_BROACH = (
             3,
-            Weapons.STA_04_03_79_80_BRU32___1x_1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_04_03_79_80_BRU32___1x_1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_12___500lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_Mk_82___500lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_04_03_SUU79_BRU32___1x_1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_04_03_SUU79_BRU32___1x_1x_Mk_83___1000lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_04_03_SUU79_BRU32___1x_1x_Mk_84___2000lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_04_03_SUU79_BRU32___1x_1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_02_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X = (
             3,
-            Weapons.STA_02_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
+            WeaponsFA18EFG.STA_02_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
         )
-        STA_03_SUU79_EMPTY = (3, Weapons.STA_03_SUU79_EMPTY)
+        STA_03_SUU79_EMPTY = (3, WeaponsFA18EFG.STA_03_SUU79_EMPTY)
         # ERRR <CLEAN>
         # ERRR LAU-115_2*LAU-127_CATM-120C
         # ERRR LAU_117_TGM_65E
@@ -4757,56 +4745,56 @@ class FA_18E(PlaneType):
     class Pylon4:
         STA_05_CHEEK__LAU116_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_05_CHEEK__LAU116_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_05_CHEEK__LAU116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_05_CHEEK__LAU116_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_05_CHEEK__LAU116_1x_AIM_7F_Sparrow_Semi_Active_Radar = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_7F_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_7F_Sparrow_Semi_Active_Radar,
         )
         STA_05_CHEEK__LAU116_1x_AIM_7MH_Sparrow_Semi_Active_Radar = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
         STA_05_CHEEK__LAU116_1x_AIM_7P_Sparrow_Semi_Active_Radar = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_7P_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_7P_Sparrow_Semi_Active_Radar,
         )
         STA_05_CHEEK__TGPMNT_1x_AN_ASQ_228_ATFLIR___Targeting_Pod = (
             4,
-            Weapons.STA_05_CHEEK__TGPMNT_1x_AN_ASQ_228_ATFLIR___Targeting_Pod,
+            WeaponsFA18EFG.STA_05_CHEEK__TGPMNT_1x_AN_ASQ_228_ATFLIR___Targeting_Pod,
         )
         STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_ = (
             4,
-            Weapons.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_,
         )
         STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis_ = (
             4,
-            Weapons.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis_,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis_,
         )
         AWW_13_DATALINK_POD = (4, Weapons.AWW_13_DATALINK_POD)
         STA_04_SUU79_BRU32___Remove_SUU_79A_A_Pylon = (
             4,
-            Weapons.STA_04_SUU79_BRU32___Remove_SUU_79A_A_Pylon,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32___Remove_SUU_79A_A_Pylon,
         )
         STA_05_CHEEK__TGPMNT_Empty_TGP_Mount = (
             4,
-            Weapons.STA_05_CHEEK__TGPMNT_Empty_TGP_Mount,
+            WeaponsFA18EFG.STA_05_CHEEK__TGPMNT_Empty_TGP_Mount,
         )
         STA_05_CHEEK__LAU116_Empty_AIM_7_120_Ejectors = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_Empty_AIM_7_120_Ejectors,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_Empty_AIM_7_120_Ejectors,
         )
         # ERRR <CLEAN>
         AIM_7F_Sparrow_Semi_Active_Radar = (4, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
@@ -4823,25 +4811,25 @@ class FA_18E(PlaneType):
     class Pylon5:
         STA_06_SUU78_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons = (
             5,
-            Weapons.STA_06_SUU78_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
+            WeaponsFA18EFG.STA_06_SUU78_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
         )
         STA_06_SUU78_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis = (
             5,
-            Weapons.STA_06_SUU78_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.STA_06_SUU78_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
         )
         STA_06_SUU78_BRU32___1x_AA_42R_Aerial_Refueling_Buddy_Pod = (
             5,
-            Weapons.STA_06_SUU78_BRU32___1x_AA_42R_Aerial_Refueling_Buddy_Pod,
+            WeaponsFA18EFG.STA_06_SUU78_BRU32___1x_AA_42R_Aerial_Refueling_Buddy_Pod,
         )
         STA_06_SUU78_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod = (
             5,
-            Weapons.STA_06_SUU78_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
+            WeaponsFA18EFG.STA_06_SUU78_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
         )
         STA_06_SUU78_BRU32___1x_AN_AAQ_28_LITENING___Targeting_Pod = (
             5,
-            Weapons.STA_06_SUU78_BRU32___1x_AN_AAQ_28_LITENING___Targeting_Pod,
+            WeaponsFA18EFG.STA_06_SUU78_BRU32___1x_AN_AAQ_28_LITENING___Targeting_Pod,
         )
-        STA_06_SUU78_EMPTY = (5, Weapons.STA_06_SUU78_EMPTY)
+        STA_06_SUU78_EMPTY = (5, WeaponsFA18EFG.STA_06_SUU78_EMPTY)
         # ERRR <CLEAN>
         AWW_13_DATALINK_POD = (5, Weapons.AWW_13_DATALINK_POD)
         AN_AAQ_28_LITENING___Targeting_Pod_ = (
@@ -4852,52 +4840,52 @@ class FA_18E(PlaneType):
     class Pylon6:
         STA_07_CHEEK__LAU116_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_07_CHEEK__LAU116_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_07_CHEEK__LAU116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_07_CHEEK__LAU116_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_07_CHEEK__LAU116_1x_AIM_7F_Sparrow_Semi_Active_Radar = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_7F_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_7F_Sparrow_Semi_Active_Radar,
         )
         STA_07_CHEEK__LAU116_1x_AIM_7MH_Sparrow_Semi_Active_Radar = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
         STA_07_CHEEK__LAU116_1x_AIM_7P_Sparrow_Semi_Active_Radar = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_7P_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_7P_Sparrow_Semi_Active_Radar,
         )
         STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons = (
             6,
-            Weapons.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
         )
         STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis = (
             6,
-            Weapons.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
         )
         STA_08_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod = (
             6,
-            Weapons.STA_08_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
         )
         STA_07_SUU79_BRU32___Remove_SUU_79A_A_Pylon = (
             6,
-            Weapons.STA_07_SUU79_BRU32___Remove_SUU_79A_A_Pylon,
+            WeaponsFA18EFG.STA_07_SUU79_BRU32___Remove_SUU_79A_A_Pylon,
         )
-        STA_08_SUU79_EMPTY = (6, Weapons.STA_08_SUU79_EMPTY)
+        STA_08_SUU79_EMPTY = (6, WeaponsFA18EFG.STA_08_SUU79_EMPTY)
         STA_08_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X = (
             6,
-            Weapons.STA_08_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
         )
         # ERRR <CLEAN>
         AIM_7F_Sparrow_Semi_Active_Radar = (6, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
@@ -4911,462 +4899,462 @@ class FA_18E(PlaneType):
     class Pylon7:
         STA_09_SUU79_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
         STA_09_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             7,
-            Weapons.STA_09_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_09_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_09_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_09_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_09_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_09_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_09_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_09_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             7,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_09_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_09_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_09_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_09_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_09_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_09_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
         )
         STA_09_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons = (
             7,
-            Weapons.STA_09_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
         )
         STA_09_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis = (
             7,
-            Weapons.STA_09_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
         )
         STA_09_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod = (
             7,
-            Weapons.STA_09_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
         )
         STA_09_SUU79_BRU32___1x_ALQ_167_Countermeasures_System = (
             7,
-            Weapons.STA_09_SUU79_BRU32___1x_ALQ_167_Countermeasures_System,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_ALQ_167_Countermeasures_System,
         )
         STA_09_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             7,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         STA_09_SUU79_LAU117_1x_AGM_65F___Maverick_F__IIR_ = (
             7,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_65F___Maverick_F__IIR_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_65F___Maverick_F__IIR_,
         )
         STA_09_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only = (
             7,
-            Weapons.STA_09_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
         )
         STA_09_SUU79_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             7,
-            Weapons.STA_09_SUU79_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+            WeaponsFA18EFG.STA_09_SUU79_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
         STA_09_SUU79_LAU117_1x_AGM_84D_Harpoon_Anti_Ship_Missile = (
             7,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_84D_Harpoon_Anti_Ship_Missile,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_84D_Harpoon_Anti_Ship_Missile,
         )
         STA_09_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             7,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
         )
         STA_09_SUU79_LAU117_1x_AGM_84H_SLAM_ER__Expanded_Response_ = (
             7,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_84H_SLAM_ER__Expanded_Response_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_84H_SLAM_ER__Expanded_Response_,
         )
         STA_09_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH = (
             7,
-            Weapons.STA_09_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_09_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH = (
             7,
-            Weapons.STA_09_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_09_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH = (
             7,
-            Weapons.STA_09_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_09_SUU79_BRU55___1x_AGM_154A___JSOW_CEB__CBU_type_ = (
             7,
-            Weapons.STA_09_SUU79_BRU55___1x_AGM_154A___JSOW_CEB__CBU_type_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___1x_AGM_154A___JSOW_CEB__CBU_type_,
         )
         STA_09_SUU79_BRU55___2x_AGM_154A___JSOW_CEB__CBU_type_ = (
             7,
-            Weapons.STA_09_SUU79_BRU55___2x_AGM_154A___JSOW_CEB__CBU_type_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___2x_AGM_154A___JSOW_CEB__CBU_type_,
         )
         STA_09_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_09_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_09_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_09_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_09_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_09_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_09_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_09_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_09_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_09_SUU80_BRU32___1x_GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_09_SUU80_BRU32___1x_GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb,
         )
         STA_09_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         # ERRR {SUPERHORNET_PYLON_09_MB_MK_1X_GBU-32V}
         STA_09_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_09_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb,
         )
         STA_09_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
         )
         STA_09_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_09_SUU79_BRU33___2x_BDU_45___500lb_Practice_Bomb = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_BDU_45___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_BDU_45___500lb_Practice_Bomb,
         )
         STA_09_SUU79_BRU33___2x_BDU_45B___500lb_Practice_Bomb = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_BDU_45B___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_BDU_45B___500lb_Practice_Bomb,
         )
         STA_09_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_09_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_09_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_09_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         # ERRR {SUPERHORNET_PYLON_09_MB_MK_BR2_ROCKEYE}
         STA_09_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_09_SUU79_BRU41___6x_BDU_33___25lb_Practice_Bomb_LD = (
             7,
-            Weapons.STA_09_SUU79_BRU41___6x_BDU_33___25lb_Practice_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU41___6x_BDU_33___25lb_Practice_Bomb_LD,
         )
         STA_08_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             7,
-            Weapons.STA_08_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_08_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_08_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar = (
             7,
-            Weapons.STA_08_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_08_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar,
         )
         STA_08_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar = (
             7,
-            Weapons.STA_08_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_08_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
         STA_08_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar = (
             7,
-            Weapons.STA_08_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_08_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar,
         )
         STA_08_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_08_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_08_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_08_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_08_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_08_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
         )
         STA_08_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_08_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_08_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             7,
-            Weapons.STA_08_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_08_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_08_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_08_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             7,
-            Weapons.STA_08_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_ = (
             7,
-            Weapons.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_,
         )
         STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis_ = (
             7,
-            Weapons.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis_,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis_,
         )
         # ERRR {SUPERHORNET_PYLON_09_IB_PD_1X_ALQ-167}
         # ERRR {SUPERHORNET_PYLON_09_IB_PD_1X_ALQ-167}
         STA_08_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             7,
-            Weapons.STA_08_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
         )
         STA_08_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             7,
-            Weapons.STA_08_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            WeaponsFA18EFG.STA_08_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         STA_08_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only = (
             7,
-            Weapons.STA_08_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
+            WeaponsFA18EFG.STA_08_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
         )
         STA_08_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH = (
             7,
-            Weapons.STA_08_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_08_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_08_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_ = (
             7,
-            Weapons.STA_08_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_08_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_08_SUU79_BRU42___1x_ADM_141A_TALD = (
             7,
-            Weapons.STA_08_SUU79_BRU42___1x_ADM_141A_TALD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU42___1x_ADM_141A_TALD,
         )
         STA_08_SUU79_BRU42___2x_ADM_141A_TALD = (
             7,
-            Weapons.STA_08_SUU79_BRU42___2x_ADM_141A_TALD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU42___2x_ADM_141A_TALD,
         )
         STA_08_SUU79_BRU42___3x_ADM_141A_TALD = (
             7,
-            Weapons.STA_08_SUU79_BRU42___3x_ADM_141A_TALD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU42___3x_ADM_141A_TALD,
         )
         STA_08_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_08_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_08_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_08_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_08_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_08_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_08_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_08_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_08_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             7,
-            Weapons.STA_08_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_08_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             7,
-            Weapons.STA_08_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_08_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_08_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         # ERRR {SUPERHORNET_PYLON_09_IB_MK_BR2_ROCKEYE}
         STA_08_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_08_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
         STA_08_09_SUU79_BRU32___1x_1x_AGM_154C___JSOW_Unitary_BROACH = (
             7,
-            Weapons.STA_08_09_SUU79_BRU32___1x_1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_08_09_SUU79_BRU32___1x_1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_12___500lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_Mk_82___500lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_09_08_SUU79_BRU32___1x_1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_09_08_SUU79_BRU32___1x_1x_Mk_83___1000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_09_08_SUU79_BRU32___1x_1x_Mk_84___2000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_09_08_SUU79_BRU32___1x_1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_09_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
         )
-        STA_09_SUU79_EMPTY = (7, Weapons.STA_09_SUU79_EMPTY)
+        STA_09_SUU79_EMPTY = (7, WeaponsFA18EFG.STA_09_SUU79_EMPTY)
         # ERRR <CLEAN>
         # ERRR LAU-115_2*LAU-127_CATM-120C
         # ERRR LAU_117_TGM_65E
@@ -5424,350 +5412,350 @@ class FA_18E(PlaneType):
     class Pylon8:
         STA_10_SUU80_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             8,
-            Weapons.STA_10_SUU80_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_10_SUU80_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_10_SUU80_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_10_SUU80_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_10_SUU80_LAU127_1x_Captive_AIM_9M_for_ACM = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_10_SUU80_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
         STA_10_SUU80_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_10_SUU80_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_10_SUU80_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_10_SUU80_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             8,
-            Weapons.STA_10_SUU80_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            WeaponsFA18EFG.STA_10_SUU80_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         STA_10_SUU80_LAU117_1x_AGM_65F___Maverick_F__IIR_ = (
             8,
-            Weapons.STA_10_SUU80_LAU117_1x_AGM_65F___Maverick_F__IIR_,
+            WeaponsFA18EFG.STA_10_SUU80_LAU117_1x_AGM_65F___Maverick_F__IIR_,
         )
         STA_10_SUU80_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only = (
             8,
-            Weapons.STA_10_SUU80_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
+            WeaponsFA18EFG.STA_10_SUU80_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
         )
         STA_10_SUU80_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             8,
-            Weapons.STA_10_SUU80_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+            WeaponsFA18EFG.STA_10_SUU80_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
         STA_10_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_10_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_10_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_10_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_10_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_10_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_10_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         # ERRR {SUPERHORNET_PYLON_10_OB_MK_1X_GBU-32V}
         STA_10_SUU80_BRU32___1x_GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
         STA_10_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_10_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb,
         )
         STA_10_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
         )
         STA_10_SUU80_BRU32___1x_CBU_99___490lbs__247_x_HEAT_Bomblets = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_CBU_99___490lbs__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_CBU_99___490lbs__247_x_HEAT_Bomblets,
         )
         STA_09_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar_ = (
             8,
-            Weapons.STA_09_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar_,
         )
         STA_09_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar_ = (
             8,
-            Weapons.STA_09_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar_,
         )
         STA_09_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar_ = (
             8,
-            Weapons.STA_09_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar_,
         )
         STA_09_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar_ = (
             8,
-            Weapons.STA_09_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar_,
         )
         STA_09_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_,
         )
         STA_09_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_,
         )
         STA_09_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
         )
         STA_09_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM_,
         )
         STA_09_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM_,
         )
         STA_09_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
         )
         STA_09_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM_,
         )
         STA_09_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM_,
         )
         STA_09_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM_,
         )
         STA_09_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM_,
         )
         STA_09_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM_,
         )
         STA_09_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM_,
         )
         STA_09_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__ = (
             8,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__,
         )
         STA_09_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only_ = (
             8,
-            Weapons.STA_09_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only_,
         )
         STA_09_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile__ = (
             8,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile__,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile__,
         )
         STA_09_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH_ = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_09_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH_ = (
             8,
-            Weapons.STA_09_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_09_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_ = (
             8,
-            Weapons.STA_09_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_09_SUU79_BRU42___1x_ADM_141A_TALD_ = (
             8,
-            Weapons.STA_09_SUU79_BRU42___1x_ADM_141A_TALD_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU42___1x_ADM_141A_TALD_,
         )
         STA_09_SUU79_BRU42___2x_ADM_141A_TALD_ = (
             8,
-            Weapons.STA_09_SUU79_BRU42___2x_ADM_141A_TALD_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU42___2x_ADM_141A_TALD_,
         )
         STA_09_SUU79_BRU42___3x_ADM_141A_TALD = (
             8,
-            Weapons.STA_09_SUU79_BRU42___3x_ADM_141A_TALD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU42___3x_ADM_141A_TALD,
         )
         STA_09_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_09_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_09_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_09_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_09_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_09_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_ = (
             8,
-            Weapons.STA_09_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_,
         )
         STA_09_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
         STA_09_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD_ = (
             8,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD_,
         )
         STA_09_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD_ = (
             8,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD_,
         )
         STA_09_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD_ = (
             8,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD_,
         )
         STA_09_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb_ = (
             8,
-            Weapons.STA_09_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb_,
         )
         STA_09_10_79_80_LAU127_1x_1x_AIM_9M_Sidewinder_IR_AAM = (
             8,
-            Weapons.STA_09_10_79_80_LAU127_1x_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_10_79_80_LAU127_1x_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_09_10_79_80_LAU127_1x_1x_AIM_9X_Sidewinder_IR_AAM = (
             8,
-            Weapons.STA_09_10_79_80_LAU127_1x_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_10_79_80_LAU127_1x_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_09_10_79_80_LAU127_1x_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.STA_09_10_79_80_LAU127_1x_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_10_79_80_LAU127_1x_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_09_10_79_80_LAU127_1x_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.STA_09_10_79_80_LAU127_1x_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_10_79_80_LAU127_1x_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_09_10_79_80_LAU127_1x_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             8,
-            Weapons.STA_09_10_79_80_LAU127_1x_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_09_10_79_80_LAU127_1x_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_09_10_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_09_10_79_80_BRU32___2x_GBU_16___1000lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_09_10_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_09_10_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_09_10_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_09_10_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_09_10_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_10_08_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_10_08_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_10_08_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_10_08_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_10_08_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_10_08_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_10_08_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_10_08_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_10_08_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_10_08_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             8,
-            Weapons.STA_10_08_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_10_08_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_10_08_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_10_08_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_10_08_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_10_08_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             8,
-            Weapons.STA_10_08_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_10_08_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_10_SUU80_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
         )
-        STA_10_SUU80_EMPTY = (8, Weapons.STA_10_SUU80_EMPTY)
+        STA_10_SUU80_EMPTY = (8, WeaponsFA18EFG.STA_10_SUU80_EMPTY)
         # ERRR <CLEAN>
         # ERRR {CATM-120C}
         # ERRR {CATM-9M}
@@ -5814,49 +5802,49 @@ class FA_18E(PlaneType):
     class Pylon9:
         STA_11_WNGTP_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             9,
-            Weapons.STA_11_WNGTP_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_11_WNGTP_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_11_WNGTP_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             9,
-            Weapons.STA_11_WNGTP_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_11_WNGTP_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_11_WNGTP_LAU127_1x_Captive_AIM_9M_for_ACM = (
             9,
-            Weapons.STA_11_WNGTP_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_11_WNGTP_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_11_WNGTP_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             9,
-            Weapons.STA_11_WNGTP_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_11_WNGTP_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
 
     class Pylon10:
         STA_AX_FUEL_CELLS_1x_Internal_Auxillary_Fuel_Cells = (
             10,
-            Weapons.STA_AX_FUEL_CELLS_1x_Internal_Auxillary_Fuel_Cells,
+            WeaponsFA18EFG.STA_AX_FUEL_CELLS_1x_Internal_Auxillary_Fuel_Cells,
         )
         STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___White = (
             10,
-            Weapons.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___White,
+            WeaponsFA18EFG.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___White,
         )
         STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Red = (
             10,
-            Weapons.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Red,
+            WeaponsFA18EFG.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Red,
         )
         STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Green = (
             10,
-            Weapons.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Green,
+            WeaponsFA18EFG.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Green,
         )
         STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Blue = (
             10,
-            Weapons.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Blue,
+            WeaponsFA18EFG.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Blue,
         )
         STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Yellow = (
             10,
-            Weapons.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Yellow,
+            WeaponsFA18EFG.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Yellow,
         )
         STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Orange = (
             10,
-            Weapons.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Orange,
+            WeaponsFA18EFG.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Orange,
         )
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
@@ -5966,7 +5954,7 @@ class FA_18F(PlaneType):
 
     property_defaults: Dict[str, Any] = {
         "SoloFlight": False,
-        "BlockIIIEquip": False,
+        "BlockIIIEquip": True,
         "DemoEquipment": False,
         "RemoveLInboard": False,
         "RemoveRInboard": False,
@@ -6164,377 +6152,377 @@ class FA_18F(PlaneType):
     class Pylon1:
         STA_01_WNGTP_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             1,
-            Weapons.STA_01_WNGTP_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_01_WNGTP_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_01_WNGTP_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             1,
-            Weapons.STA_01_WNGTP_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_01_WNGTP_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_01_WNGTP_LAU127_1x_Captive_AIM_9M_for_ACM = (
             1,
-            Weapons.STA_01_WNGTP_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_01_WNGTP_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_01_WNGTP_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             1,
-            Weapons.STA_01_WNGTP_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_01_WNGTP_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
 
     class Pylon2:
         STA_02_SUU80_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             2,
-            Weapons.STA_02_SUU80_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_02_SUU80_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_02_SUU80_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_02_SUU80_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_02_SUU80_LAU127_1x_Captive_AIM_9M_for_ACM = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_02_SUU80_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
         STA_02_SUU80_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_02_SUU80_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_02_SUU80_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_02_SUU80_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             2,
-            Weapons.STA_02_SUU80_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            WeaponsFA18EFG.STA_02_SUU80_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         STA_02_SUU80_LAU117_1x_AGM_65F___Maverick_F__IIR_ = (
             2,
-            Weapons.STA_02_SUU80_LAU117_1x_AGM_65F___Maverick_F__IIR_,
+            WeaponsFA18EFG.STA_02_SUU80_LAU117_1x_AGM_65F___Maverick_F__IIR_,
         )
         STA_02_SUU80_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only = (
             2,
-            Weapons.STA_02_SUU80_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
+            WeaponsFA18EFG.STA_02_SUU80_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
         )
         STA_02_SUU80_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             2,
-            Weapons.STA_02_SUU80_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+            WeaponsFA18EFG.STA_02_SUU80_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
         STA_02_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_02_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_02_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_02_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_02_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_02_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_02_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_02_SUU80_BRU32___1x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
         STA_02_SUU80_BRU32___1x_GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
         STA_02_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_02_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb,
         )
         STA_02_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
         )
         STA_02_SUU80_BRU32___1x_CBU_99___490lbs__247_x_HEAT_Bomblets = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_CBU_99___490lbs__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_CBU_99___490lbs__247_x_HEAT_Bomblets,
         )
         STA_03_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             2,
-            Weapons.STA_03_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_03_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_03_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar = (
             2,
-            Weapons.STA_03_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_03_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar,
         )
         STA_03_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar = (
             2,
-            Weapons.STA_03_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_03_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
         STA_03_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar = (
             2,
-            Weapons.STA_03_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_03_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar,
         )
         STA_03_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_03_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_03_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             2,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_03_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_03_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_03_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             2,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_03_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_03_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_03_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_03_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_03_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_03_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
         )
         STA_03_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             2,
-            Weapons.STA_03_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         STA_03_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only = (
             2,
-            Weapons.STA_03_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
         )
         STA_03_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
         )
         STA_03_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_03_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH = (
             2,
-            Weapons.STA_03_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_03_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH = (
             2,
-            Weapons.STA_03_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_03_SUU79_BRU42___1x_ADM_141A_TALD_ = (
             2,
-            Weapons.STA_03_SUU79_BRU42___1x_ADM_141A_TALD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU42___1x_ADM_141A_TALD_,
         )
         STA_03_SUU79_BRU42___2x_ADM_141A_TALD_ = (
             2,
-            Weapons.STA_03_SUU79_BRU42___2x_ADM_141A_TALD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU42___2x_ADM_141A_TALD_,
         )
         STA_03_SUU79_BRU42___3x_ADM_141A_TALD = (
             2,
-            Weapons.STA_03_SUU79_BRU42___3x_ADM_141A_TALD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU42___3x_ADM_141A_TALD,
         )
         STA_03_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_03_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_03_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_03_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_03_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_03_SUU79_BRU55___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU55___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_03_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             2,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_03_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_03_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_02_03_79_80_LAU127_1x_1x_AIM_9M_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_02_03_79_80_LAU127_1x_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_02_03_79_80_LAU127_1x_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_02_03_79_80_LAU127_1x_1x_AIM_9X_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_02_03_79_80_LAU127_1x_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_02_03_79_80_LAU127_1x_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_02_03_79_80_LAU127_1x_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_02_03_79_80_LAU127_1x_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_02_03_79_80_LAU127_1x_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_02_03_79_80_LAU127_1x_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_02_03_79_80_LAU127_1x_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_02_03_79_80_LAU127_1x_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_02_03_79_80_LAU127_1x_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             2,
-            Weapons.STA_02_03_79_80_LAU127_1x_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_02_03_79_80_LAU127_1x_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_03_02_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_03_02_79_80_BRU32___2x_GBU_16___1000lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_03_02_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_03_02_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_03_02_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_03_02_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_03_02_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_04_02_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_04_02_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_02_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_04_02_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_04_02_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_02_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         # ERRR {SUPERHORNET_PYLON_02_MB_MK_BR55_1X_GBU-32V}
         # ERRR {SUPERHORNET_PYLON_02_MB_MK_BR55_2X_GBU-32V}
         STA_04_02_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_04_02_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_02_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_04_02_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             2,
-            Weapons.STA_04_02_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_04_02_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_04_02_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_04_02_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_02_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_04_02_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             2,
-            Weapons.STA_04_02_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_04_02_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_02_SUU80_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
         )
-        STA_02_SUU80_EMPTY = (2, Weapons.STA_02_SUU80_EMPTY)
+        STA_02_SUU80_EMPTY = (2, WeaponsFA18EFG.STA_02_SUU80_EMPTY)
         # ERRR <CLEAN>
         # ERRR {CATM-120C}
         # ERRR {CATM-9M}
@@ -6581,461 +6569,461 @@ class FA_18F(PlaneType):
     class Pylon3:
         STA_02_SUU79_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             3,
-            Weapons.STA_02_SUU79_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_02_SUU79_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
         STA_03_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar_ = (
             3,
-            Weapons.STA_03_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar_,
         )
         STA_03_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_,
         )
         STA_03_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_,
         )
         STA_03_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
         )
         STA_03_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM_,
         )
         STA_03_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM_,
         )
         STA_03_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
         )
         STA_03_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM_,
         )
         STA_03_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM_,
         )
         STA_03_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM_,
         )
         STA_03_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM_,
         )
         STA_03_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM_,
         )
         STA_03_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM_,
         )
         STA_03_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
         )
         STA_03_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
         )
         STA_03_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
         )
         STA_03_SUU79_BRU32___1x_ALQ_167_Countermeasures_System = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_ALQ_167_Countermeasures_System,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_ALQ_167_Countermeasures_System,
         )
         STA_03_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__ = (
             3,
-            Weapons.STA_03_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__,
         )
         STA_03_SUU79_LAU117_1x_AGM_65F___Maverick_F__IIR__ = (
             3,
-            Weapons.STA_03_SUU79_LAU117_1x_AGM_65F___Maverick_F__IIR__,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_AGM_65F___Maverick_F__IIR__,
         )
         STA_03_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only_ = (
             3,
-            Weapons.STA_03_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only_,
         )
         STA_03_SUU79_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             3,
-            Weapons.STA_03_SUU79_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+            WeaponsFA18EFG.STA_03_SUU79_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
         STA_03_SUU79_LAU117_1x_AGM_84D_Harpoon_Anti_Ship_Missile = (
             3,
-            Weapons.STA_03_SUU79_LAU117_1x_AGM_84D_Harpoon_Anti_Ship_Missile,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_AGM_84D_Harpoon_Anti_Ship_Missile,
         )
         STA_03_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             3,
-            Weapons.STA_03_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
         )
         STA_03_SUU79_LAU117_1x_AGM_84H_SLAM_ER__Expanded_Response_ = (
             3,
-            Weapons.STA_03_SUU79_LAU117_1x_AGM_84H_SLAM_ER__Expanded_Response_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_AGM_84H_SLAM_ER__Expanded_Response_,
         )
         STA_03_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_03_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH_ = (
             3,
-            Weapons.STA_03_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_03_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_ = (
             3,
-            Weapons.STA_03_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_03_SUU79_BRU55___1x_AGM_154A___JSOW_CEB__CBU_type_ = (
             3,
-            Weapons.STA_03_SUU79_BRU55___1x_AGM_154A___JSOW_CEB__CBU_type_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___1x_AGM_154A___JSOW_CEB__CBU_type_,
         )
         STA_03_SUU79_BRU55___2x_AGM_154A___JSOW_CEB__CBU_type_ = (
             3,
-            Weapons.STA_03_SUU79_BRU55___2x_AGM_154A___JSOW_CEB__CBU_type_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___2x_AGM_154A___JSOW_CEB__CBU_type_,
         )
         STA_03_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD_,
         )
         STA_03_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD_,
         )
         STA_03_SUU79_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD_,
         )
         STA_03_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD_,
         )
         STA_03_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD_,
         )
         STA_03_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb_,
         )
         STA_03_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb_,
         )
         STA_03_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb_,
         )
         STA_03_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb_,
         )
         STA_03_SUU79_BRU32___1x_GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_,
         )
         # ERRR {SUPERHORNET_PYLON_03_MB_MK_1X_GBU-32V}
         STA_03_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets_,
         )
         STA_03_SUU79_BRU32___1x_BDU_45___500lb_Practice_Bomb = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_BDU_45___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_BDU_45___500lb_Practice_Bomb,
         )
         STA_03_SUU79_BRU32___1x_BDU_45B___500lb_Practice_Bomb = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
         )
         STA_03_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb_,
         )
         STA_03_SUU79_BRU33___2x_BDU_45___500lb_Practice_Bomb = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_BDU_45___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_BDU_45___500lb_Practice_Bomb,
         )
         STA_03_SUU79_BRU33___2x_BDU_45B___500lb_Practice_Bomb = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_BDU_45B___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_BDU_45B___500lb_Practice_Bomb,
         )
         STA_03_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD_,
         )
         STA_03_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_03_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD_,
         )
         STA_03_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD_,
         )
         # ERRR {SUPERHORNET_PYLON_03_MB_MK_BR2_ROCKEYE}
         STA_03_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_,
         )
         STA_03_SUU79_BRU41___6x_BDU_33___25lb_Practice_Bomb_LD = (
             3,
-            Weapons.STA_03_SUU79_BRU41___6x_BDU_33___25lb_Practice_Bomb_LD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU41___6x_BDU_33___25lb_Practice_Bomb_LD,
         )
         STA_04_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             3,
-            Weapons.STA_04_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_04_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_04_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar = (
             3,
-            Weapons.STA_04_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_04_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar,
         )
         STA_04_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar = (
             3,
-            Weapons.STA_04_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_04_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
         STA_04_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar = (
             3,
-            Weapons.STA_04_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_04_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar,
         )
         STA_04_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_04_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_04_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_04_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_04_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_04_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
         )
         STA_04_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_04_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_04_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             3,
-            Weapons.STA_04_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_04_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_04_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_04_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             3,
-            Weapons.STA_04_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons = (
             3,
-            Weapons.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
         )
         STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis = (
             3,
-            Weapons.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
         )
         # ERRR {SUPERHORNET_PYLON_03_IB_PD_1X_ALQ-167}
         STA_04_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             3,
-            Weapons.STA_04_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
         )
         STA_04_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             3,
-            Weapons.STA_04_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            WeaponsFA18EFG.STA_04_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         STA_03_SUU79_BRU42___1x_ADM_141A_TALD__ = (
             3,
-            Weapons.STA_03_SUU79_BRU42___1x_ADM_141A_TALD__,
+            WeaponsFA18EFG.STA_03_SUU79_BRU42___1x_ADM_141A_TALD__,
         )
         STA_03_SUU79_BRU42___2x_ADM_141A_TALD__ = (
             3,
-            Weapons.STA_03_SUU79_BRU42___2x_ADM_141A_TALD__,
+            WeaponsFA18EFG.STA_03_SUU79_BRU42___2x_ADM_141A_TALD__,
         )
         STA_03_SUU79_BRU42___3x_ADM_141A_TALD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU42___3x_ADM_141A_TALD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU42___3x_ADM_141A_TALD_,
         )
         STA_04_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only = (
             3,
-            Weapons.STA_04_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
+            WeaponsFA18EFG.STA_04_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
         )
         STA_04_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH = (
             3,
-            Weapons.STA_04_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_04_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_04_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH = (
             3,
-            Weapons.STA_04_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_04_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_04_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_04_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_04_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_04_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_04_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_04_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_04_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_04_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             3,
-            Weapons.STA_04_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_04_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_04_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             3,
-            Weapons.STA_04_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_04_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_04_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         # ERRR {SUPERHORNET_PYLON_03_IB_MK_BR2_ROCKEYE}
         STA_04_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_04_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
         STA_04_03_79_80_BRU32___1x_1x_AGM_154C___JSOW_Unitary_BROACH = (
             3,
-            Weapons.STA_04_03_79_80_BRU32___1x_1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_04_03_79_80_BRU32___1x_1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_12___500lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_Mk_82___500lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_04_03_SUU79_BRU32___1x_1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_04_03_SUU79_BRU32___1x_1x_Mk_83___1000lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_04_03_SUU79_BRU32___1x_1x_Mk_84___2000lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_04_03_SUU79_BRU32___1x_1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_02_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X = (
             3,
-            Weapons.STA_02_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
+            WeaponsFA18EFG.STA_02_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
         )
-        STA_03_SUU79_EMPTY = (3, Weapons.STA_03_SUU79_EMPTY)
+        STA_03_SUU79_EMPTY = (3, WeaponsFA18EFG.STA_03_SUU79_EMPTY)
         # ERRR <CLEAN>
         # ERRR LAU-115_2*LAU-127_CATM-120C
         # ERRR LAU_117_TGM_65E
@@ -7097,56 +7085,56 @@ class FA_18F(PlaneType):
     class Pylon4:
         STA_05_CHEEK__LAU116_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_05_CHEEK__LAU116_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_05_CHEEK__LAU116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_05_CHEEK__LAU116_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_05_CHEEK__LAU116_1x_AIM_7F_Sparrow_Semi_Active_Radar = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_7F_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_7F_Sparrow_Semi_Active_Radar,
         )
         STA_05_CHEEK__LAU116_1x_AIM_7MH_Sparrow_Semi_Active_Radar = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
         STA_05_CHEEK__LAU116_1x_AIM_7P_Sparrow_Semi_Active_Radar = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_7P_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_7P_Sparrow_Semi_Active_Radar,
         )
         STA_05_CHEEK__TGPMNT_1x_AN_ASQ_228_ATFLIR___Targeting_Pod = (
             4,
-            Weapons.STA_05_CHEEK__TGPMNT_1x_AN_ASQ_228_ATFLIR___Targeting_Pod,
+            WeaponsFA18EFG.STA_05_CHEEK__TGPMNT_1x_AN_ASQ_228_ATFLIR___Targeting_Pod,
         )
         STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_ = (
             4,
-            Weapons.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_,
         )
         STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis_ = (
             4,
-            Weapons.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis_,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis_,
         )
         AWW_13_DATALINK_POD = (4, Weapons.AWW_13_DATALINK_POD)
         STA_04_SUU79_BRU32___Remove_SUU_79A_A_Pylon = (
             4,
-            Weapons.STA_04_SUU79_BRU32___Remove_SUU_79A_A_Pylon,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32___Remove_SUU_79A_A_Pylon,
         )
         STA_05_CHEEK__TGPMNT_Empty_TGP_Mount = (
             4,
-            Weapons.STA_05_CHEEK__TGPMNT_Empty_TGP_Mount,
+            WeaponsFA18EFG.STA_05_CHEEK__TGPMNT_Empty_TGP_Mount,
         )
         STA_05_CHEEK__LAU116_Empty_AIM_7_120_Ejectors = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_Empty_AIM_7_120_Ejectors,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_Empty_AIM_7_120_Ejectors,
         )
         # ERRR <CLEAN>
         AIM_7F_Sparrow_Semi_Active_Radar = (4, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
@@ -7163,25 +7151,25 @@ class FA_18F(PlaneType):
     class Pylon5:
         STA_06_SUU78_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons = (
             5,
-            Weapons.STA_06_SUU78_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
+            WeaponsFA18EFG.STA_06_SUU78_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
         )
         STA_06_SUU78_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis = (
             5,
-            Weapons.STA_06_SUU78_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.STA_06_SUU78_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
         )
         STA_06_SUU78_BRU32___1x_AA_42R_Aerial_Refueling_Buddy_Pod = (
             5,
-            Weapons.STA_06_SUU78_BRU32___1x_AA_42R_Aerial_Refueling_Buddy_Pod,
+            WeaponsFA18EFG.STA_06_SUU78_BRU32___1x_AA_42R_Aerial_Refueling_Buddy_Pod,
         )
         STA_06_SUU78_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod = (
             5,
-            Weapons.STA_06_SUU78_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
+            WeaponsFA18EFG.STA_06_SUU78_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
         )
         STA_06_SUU78_BRU32___1x_AN_AAQ_28_LITENING___Targeting_Pod = (
             5,
-            Weapons.STA_06_SUU78_BRU32___1x_AN_AAQ_28_LITENING___Targeting_Pod,
+            WeaponsFA18EFG.STA_06_SUU78_BRU32___1x_AN_AAQ_28_LITENING___Targeting_Pod,
         )
-        STA_06_SUU78_EMPTY = (5, Weapons.STA_06_SUU78_EMPTY)
+        STA_06_SUU78_EMPTY = (5, WeaponsFA18EFG.STA_06_SUU78_EMPTY)
         # ERRR <CLEAN>
         AWW_13_DATALINK_POD = (5, Weapons.AWW_13_DATALINK_POD)
         AN_AAQ_28_LITENING___Targeting_Pod_ = (
@@ -7192,52 +7180,52 @@ class FA_18F(PlaneType):
     class Pylon6:
         STA_07_CHEEK__LAU116_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_07_CHEEK__LAU116_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_07_CHEEK__LAU116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_07_CHEEK__LAU116_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_07_CHEEK__LAU116_1x_AIM_7F_Sparrow_Semi_Active_Radar = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_7F_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_7F_Sparrow_Semi_Active_Radar,
         )
         STA_07_CHEEK__LAU116_1x_AIM_7MH_Sparrow_Semi_Active_Radar = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
         STA_07_CHEEK__LAU116_1x_AIM_7P_Sparrow_Semi_Active_Radar = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_7P_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_7P_Sparrow_Semi_Active_Radar,
         )
         STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons = (
             6,
-            Weapons.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
         )
         STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis = (
             6,
-            Weapons.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
         )
         STA_08_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod = (
             6,
-            Weapons.STA_08_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
         )
         STA_07_SUU79_BRU32___Remove_SUU_79A_A_Pylon = (
             6,
-            Weapons.STA_07_SUU79_BRU32___Remove_SUU_79A_A_Pylon,
+            WeaponsFA18EFG.STA_07_SUU79_BRU32___Remove_SUU_79A_A_Pylon,
         )
-        STA_08_SUU79_EMPTY = (6, Weapons.STA_08_SUU79_EMPTY)
+        STA_08_SUU79_EMPTY = (6, WeaponsFA18EFG.STA_08_SUU79_EMPTY)
         STA_08_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X = (
             6,
-            Weapons.STA_08_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
         )
         # ERRR <CLEAN>
         AIM_7F_Sparrow_Semi_Active_Radar = (6, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
@@ -7251,462 +7239,462 @@ class FA_18F(PlaneType):
     class Pylon7:
         STA_09_SUU79_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
         STA_09_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             7,
-            Weapons.STA_09_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_09_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_09_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_09_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_09_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_09_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_09_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_09_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             7,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_09_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_09_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_09_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_09_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_09_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_09_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
         )
         STA_09_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons = (
             7,
-            Weapons.STA_09_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
         )
         STA_09_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis = (
             7,
-            Weapons.STA_09_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
         )
         STA_09_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod = (
             7,
-            Weapons.STA_09_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
         )
         STA_09_SUU79_BRU32___1x_ALQ_167_Countermeasures_System = (
             7,
-            Weapons.STA_09_SUU79_BRU32___1x_ALQ_167_Countermeasures_System,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_ALQ_167_Countermeasures_System,
         )
         STA_09_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             7,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         STA_09_SUU79_LAU117_1x_AGM_65F___Maverick_F__IIR_ = (
             7,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_65F___Maverick_F__IIR_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_65F___Maverick_F__IIR_,
         )
         STA_09_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only = (
             7,
-            Weapons.STA_09_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
         )
         STA_09_SUU79_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             7,
-            Weapons.STA_09_SUU79_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+            WeaponsFA18EFG.STA_09_SUU79_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
         STA_09_SUU79_LAU117_1x_AGM_84D_Harpoon_Anti_Ship_Missile = (
             7,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_84D_Harpoon_Anti_Ship_Missile,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_84D_Harpoon_Anti_Ship_Missile,
         )
         STA_09_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             7,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
         )
         STA_09_SUU79_LAU117_1x_AGM_84H_SLAM_ER__Expanded_Response_ = (
             7,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_84H_SLAM_ER__Expanded_Response_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_84H_SLAM_ER__Expanded_Response_,
         )
         STA_09_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH = (
             7,
-            Weapons.STA_09_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_09_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH = (
             7,
-            Weapons.STA_09_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_09_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH = (
             7,
-            Weapons.STA_09_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_09_SUU79_BRU55___1x_AGM_154A___JSOW_CEB__CBU_type_ = (
             7,
-            Weapons.STA_09_SUU79_BRU55___1x_AGM_154A___JSOW_CEB__CBU_type_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___1x_AGM_154A___JSOW_CEB__CBU_type_,
         )
         STA_09_SUU79_BRU55___2x_AGM_154A___JSOW_CEB__CBU_type_ = (
             7,
-            Weapons.STA_09_SUU79_BRU55___2x_AGM_154A___JSOW_CEB__CBU_type_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___2x_AGM_154A___JSOW_CEB__CBU_type_,
         )
         STA_09_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_09_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_09_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_09_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_09_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_09_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_09_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_09_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_09_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_09_SUU80_BRU32___1x_GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_09_SUU80_BRU32___1x_GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb,
         )
         STA_09_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         # ERRR {SUPERHORNET_PYLON_09_MB_MK_1X_GBU-32V}
         STA_09_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_09_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb,
         )
         STA_09_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
         )
         STA_09_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_09_SUU79_BRU33___2x_BDU_45___500lb_Practice_Bomb = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_BDU_45___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_BDU_45___500lb_Practice_Bomb,
         )
         STA_09_SUU79_BRU33___2x_BDU_45B___500lb_Practice_Bomb = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_BDU_45B___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_BDU_45B___500lb_Practice_Bomb,
         )
         STA_09_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_09_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_09_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_09_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         # ERRR {SUPERHORNET_PYLON_09_MB_MK_BR2_ROCKEYE}
         STA_09_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_09_SUU79_BRU41___6x_BDU_33___25lb_Practice_Bomb_LD = (
             7,
-            Weapons.STA_09_SUU79_BRU41___6x_BDU_33___25lb_Practice_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU41___6x_BDU_33___25lb_Practice_Bomb_LD,
         )
         STA_08_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             7,
-            Weapons.STA_08_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_08_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_08_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar = (
             7,
-            Weapons.STA_08_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_08_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar,
         )
         STA_08_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar = (
             7,
-            Weapons.STA_08_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_08_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
         STA_08_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar = (
             7,
-            Weapons.STA_08_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_08_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar,
         )
         STA_08_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_08_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_08_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_08_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_08_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_08_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
         )
         STA_08_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_08_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_08_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             7,
-            Weapons.STA_08_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_08_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_08_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_08_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             7,
-            Weapons.STA_08_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_ = (
             7,
-            Weapons.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_,
         )
         STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis_ = (
             7,
-            Weapons.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis_,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis_,
         )
         # ERRR {SUPERHORNET_PYLON_09_IB_PD_1X_ALQ-167}
         # ERRR {SUPERHORNET_PYLON_09_IB_PD_1X_ALQ-167}
         STA_08_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             7,
-            Weapons.STA_08_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
         )
         STA_08_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             7,
-            Weapons.STA_08_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            WeaponsFA18EFG.STA_08_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         STA_08_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only = (
             7,
-            Weapons.STA_08_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
+            WeaponsFA18EFG.STA_08_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
         )
         STA_08_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH = (
             7,
-            Weapons.STA_08_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_08_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_08_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_ = (
             7,
-            Weapons.STA_08_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_08_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_08_SUU79_BRU42___1x_ADM_141A_TALD = (
             7,
-            Weapons.STA_08_SUU79_BRU42___1x_ADM_141A_TALD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU42___1x_ADM_141A_TALD,
         )
         STA_08_SUU79_BRU42___2x_ADM_141A_TALD = (
             7,
-            Weapons.STA_08_SUU79_BRU42___2x_ADM_141A_TALD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU42___2x_ADM_141A_TALD,
         )
         STA_08_SUU79_BRU42___3x_ADM_141A_TALD = (
             7,
-            Weapons.STA_08_SUU79_BRU42___3x_ADM_141A_TALD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU42___3x_ADM_141A_TALD,
         )
         STA_08_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_08_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_08_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_08_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_08_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_08_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_08_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_08_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_08_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             7,
-            Weapons.STA_08_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_08_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             7,
-            Weapons.STA_08_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_08_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_08_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         # ERRR {SUPERHORNET_PYLON_09_IB_MK_BR2_ROCKEYE}
         STA_08_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_08_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
         STA_08_09_SUU79_BRU32___1x_1x_AGM_154C___JSOW_Unitary_BROACH = (
             7,
-            Weapons.STA_08_09_SUU79_BRU32___1x_1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_08_09_SUU79_BRU32___1x_1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_12___500lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_Mk_82___500lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_09_08_SUU79_BRU32___1x_1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_09_08_SUU79_BRU32___1x_1x_Mk_83___1000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_09_08_SUU79_BRU32___1x_1x_Mk_84___2000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_09_08_SUU79_BRU32___1x_1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_09_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
         )
-        STA_09_SUU79_EMPTY = (7, Weapons.STA_09_SUU79_EMPTY)
+        STA_09_SUU79_EMPTY = (7, WeaponsFA18EFG.STA_09_SUU79_EMPTY)
         # ERRR <CLEAN>
         # ERRR LAU-115_2*LAU-127_CATM-120C
         # ERRR LAU_117_TGM_65E
@@ -7764,350 +7752,350 @@ class FA_18F(PlaneType):
     class Pylon8:
         STA_10_SUU80_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             8,
-            Weapons.STA_10_SUU80_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_10_SUU80_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_10_SUU80_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_10_SUU80_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_10_SUU80_LAU127_1x_Captive_AIM_9M_for_ACM = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_10_SUU80_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
         STA_10_SUU80_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_10_SUU80_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_10_SUU80_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_10_SUU80_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             8,
-            Weapons.STA_10_SUU80_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            WeaponsFA18EFG.STA_10_SUU80_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         STA_10_SUU80_LAU117_1x_AGM_65F___Maverick_F__IIR_ = (
             8,
-            Weapons.STA_10_SUU80_LAU117_1x_AGM_65F___Maverick_F__IIR_,
+            WeaponsFA18EFG.STA_10_SUU80_LAU117_1x_AGM_65F___Maverick_F__IIR_,
         )
         STA_10_SUU80_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only = (
             8,
-            Weapons.STA_10_SUU80_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
+            WeaponsFA18EFG.STA_10_SUU80_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
         )
         STA_10_SUU80_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             8,
-            Weapons.STA_10_SUU80_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+            WeaponsFA18EFG.STA_10_SUU80_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
         STA_10_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_10_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_10_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_10_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_10_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_10_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_10_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         # ERRR {SUPERHORNET_PYLON_10_OB_MK_1X_GBU-32V}
         STA_10_SUU80_BRU32___1x_GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
         STA_10_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_10_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb,
         )
         STA_10_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
         )
         STA_10_SUU80_BRU32___1x_CBU_99___490lbs__247_x_HEAT_Bomblets = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_CBU_99___490lbs__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_CBU_99___490lbs__247_x_HEAT_Bomblets,
         )
         STA_09_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar_ = (
             8,
-            Weapons.STA_09_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar_,
         )
         STA_09_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar_ = (
             8,
-            Weapons.STA_09_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar_,
         )
         STA_09_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar_ = (
             8,
-            Weapons.STA_09_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar_,
         )
         STA_09_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar_ = (
             8,
-            Weapons.STA_09_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar_,
         )
         STA_09_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_,
         )
         STA_09_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_,
         )
         STA_09_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
         )
         STA_09_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM_,
         )
         STA_09_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM_,
         )
         STA_09_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
         )
         STA_09_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM_,
         )
         STA_09_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM_,
         )
         STA_09_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM_,
         )
         STA_09_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM_,
         )
         STA_09_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM_,
         )
         STA_09_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM_,
         )
         STA_09_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__ = (
             8,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__,
         )
         STA_09_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only_ = (
             8,
-            Weapons.STA_09_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only_,
         )
         STA_09_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile__ = (
             8,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile__,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile__,
         )
         STA_09_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH_ = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_09_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH_ = (
             8,
-            Weapons.STA_09_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_09_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_ = (
             8,
-            Weapons.STA_09_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_09_SUU79_BRU42___1x_ADM_141A_TALD_ = (
             8,
-            Weapons.STA_09_SUU79_BRU42___1x_ADM_141A_TALD_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU42___1x_ADM_141A_TALD_,
         )
         STA_09_SUU79_BRU42___2x_ADM_141A_TALD_ = (
             8,
-            Weapons.STA_09_SUU79_BRU42___2x_ADM_141A_TALD_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU42___2x_ADM_141A_TALD_,
         )
         STA_09_SUU79_BRU42___3x_ADM_141A_TALD = (
             8,
-            Weapons.STA_09_SUU79_BRU42___3x_ADM_141A_TALD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU42___3x_ADM_141A_TALD,
         )
         STA_09_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_09_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_09_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_09_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_09_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_09_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_ = (
             8,
-            Weapons.STA_09_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_,
         )
         STA_09_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
         STA_09_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD_ = (
             8,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD_,
         )
         STA_09_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD_ = (
             8,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD_,
         )
         STA_09_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD_ = (
             8,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD_,
         )
         STA_09_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb_ = (
             8,
-            Weapons.STA_09_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb_,
         )
         STA_09_10_79_80_LAU127_1x_1x_AIM_9M_Sidewinder_IR_AAM = (
             8,
-            Weapons.STA_09_10_79_80_LAU127_1x_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_10_79_80_LAU127_1x_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_09_10_79_80_LAU127_1x_1x_AIM_9X_Sidewinder_IR_AAM = (
             8,
-            Weapons.STA_09_10_79_80_LAU127_1x_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_10_79_80_LAU127_1x_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_09_10_79_80_LAU127_1x_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.STA_09_10_79_80_LAU127_1x_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_10_79_80_LAU127_1x_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_09_10_79_80_LAU127_1x_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.STA_09_10_79_80_LAU127_1x_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_10_79_80_LAU127_1x_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_09_10_79_80_LAU127_1x_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             8,
-            Weapons.STA_09_10_79_80_LAU127_1x_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_09_10_79_80_LAU127_1x_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_09_10_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_09_10_79_80_BRU32___2x_GBU_16___1000lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_09_10_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_09_10_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_09_10_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_09_10_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_09_10_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_10_08_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_10_08_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_10_08_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_10_08_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_10_08_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_10_08_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_10_08_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_10_08_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_10_08_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_10_08_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             8,
-            Weapons.STA_10_08_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_10_08_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_10_08_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_10_08_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_10_08_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_10_08_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             8,
-            Weapons.STA_10_08_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_10_08_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_10_SUU80_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
         )
-        STA_10_SUU80_EMPTY = (8, Weapons.STA_10_SUU80_EMPTY)
+        STA_10_SUU80_EMPTY = (8, WeaponsFA18EFG.STA_10_SUU80_EMPTY)
         # ERRR <CLEAN>
         # ERRR {CATM-120C}
         # ERRR {CATM-9M}
@@ -8154,49 +8142,49 @@ class FA_18F(PlaneType):
     class Pylon9:
         STA_11_WNGTP_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             9,
-            Weapons.STA_11_WNGTP_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_11_WNGTP_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_11_WNGTP_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             9,
-            Weapons.STA_11_WNGTP_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_11_WNGTP_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_11_WNGTP_LAU127_1x_Captive_AIM_9M_for_ACM = (
             9,
-            Weapons.STA_11_WNGTP_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_11_WNGTP_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_11_WNGTP_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             9,
-            Weapons.STA_11_WNGTP_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_11_WNGTP_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
 
     class Pylon10:
         STA_AX_FUEL_CELLS_1x_Internal_Auxillary_Fuel_Cells = (
             10,
-            Weapons.STA_AX_FUEL_CELLS_1x_Internal_Auxillary_Fuel_Cells,
+            WeaponsFA18EFG.STA_AX_FUEL_CELLS_1x_Internal_Auxillary_Fuel_Cells,
         )
         STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___White = (
             10,
-            Weapons.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___White,
+            WeaponsFA18EFG.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___White,
         )
         STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Red = (
             10,
-            Weapons.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Red,
+            WeaponsFA18EFG.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Red,
         )
         STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Green = (
             10,
-            Weapons.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Green,
+            WeaponsFA18EFG.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Green,
         )
         STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Blue = (
             10,
-            Weapons.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Blue,
+            WeaponsFA18EFG.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Blue,
         )
         STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Yellow = (
             10,
-            Weapons.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Yellow,
+            WeaponsFA18EFG.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Yellow,
         )
         STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Orange = (
             10,
-            Weapons.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Orange,
+            WeaponsFA18EFG.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Orange,
         )
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
@@ -8306,7 +8294,7 @@ class EA_18G(PlaneType):
 
     property_defaults: Dict[str, Any] = {
         "SoloFlight": False,
-        "BlockIIIEquip": False,
+        "BlockIIIEquip": True,
         "USA_FLAG": False,
         "RemoveLInboard": False,
         "RemoveRInboard": False,
@@ -8488,27 +8476,27 @@ class EA_18G(PlaneType):
     class Pylon1:
         STA_02_SUU80_LA127_1x_AIM_9M_Sidewinder_IR_AAM_ = (
             1,
-            Weapons.STA_02_SUU80_LA127_1x_AIM_9M_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_02_SUU80_LA127_1x_AIM_9M_Sidewinder_IR_AAM_,
         )
         STA_02_SUU80_LA127_1x_AIM_9X_Sidewinder_IR_AAM_ = (
             1,
-            Weapons.STA_02_SUU80_LA127_1x_AIM_9X_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_02_SUU80_LA127_1x_AIM_9X_Sidewinder_IR_AAM_,
         )
         STA_03_SUU79_BRU32_1x_AN_ALQ_99_ICAP_III_High_Band_Jamming_Pod = (
             1,
-            Weapons.STA_03_SUU79_BRU32_1x_AN_ALQ_99_ICAP_III_High_Band_Jamming_Pod,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32_1x_AN_ALQ_99_ICAP_III_High_Band_Jamming_Pod,
         )
         STA_03_SUU79_BRU32_1x_AN_ALQ_249_Mid_Band_Next_Generation_Jamming_Pod = (
             1,
-            Weapons.STA_03_SUU79_BRU32_1x_AN_ALQ_249_Mid_Band_Next_Generation_Jamming_Pod,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32_1x_AN_ALQ_249_Mid_Band_Next_Generation_Jamming_Pod,
         )
         STA_02_SUU80_LA127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X_ = (
             1,
-            Weapons.STA_02_SUU80_LA127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X_,
+            WeaponsFA18EFG.STA_02_SUU80_LA127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X_,
         )
         STA_03_SUU79_LA127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X = (
             1,
-            Weapons.STA_03_SUU79_LA127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
+            WeaponsFA18EFG.STA_03_SUU79_LA127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
         )
 
     # ERRR <CLEAN>
@@ -8516,88 +8504,88 @@ class EA_18G(PlaneType):
     class Pylon2:
         STA_02_SUU80_LA118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             2,
-            Weapons.STA_02_SUU80_LA118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+            WeaponsFA18EFG.STA_02_SUU80_LA118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
         STA_02_SUU80_LA115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             2,
-            Weapons.STA_02_SUU80_LA115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_02_SUU80_LA115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_02_SUU80_LA127_1x_AIM_9M_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_02_SUU80_LA127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_02_SUU80_LA127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_02_SUU80_LA127_1x_AIM_9X_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_02_SUU80_LA127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_02_SUU80_LA127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         # ERRR {GROWLER_PYLON_02_OB_Sw_1X_CATM-9M}
         STA_02_SUU80_LA127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_02_SUU80_LA127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_02_SUU80_LA127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_02_SUU80_LA127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_02_SUU80_LA127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_02_SUU80_LA127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_02_SUU80_LA127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             2,
-            Weapons.STA_02_SUU80_LA127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_02_SUU80_LA127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_02_SUU80_LA127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             2,
-            Weapons.STA_02_SUU80_LA127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_02_SUU80_LA127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
         STA_03_SUU79_LA127_1x_AIM_9M_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_03_SUU79_LA127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LA127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_03_SUU79_LA127_1x_AIM_9X_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_03_SUU79_LA127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LA127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_03_SUU79_LA127_2x_AIM_9M_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_03_SUU79_LA127_2x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LA127_2x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_03_SUU79_LA127_2x_AIM_9X_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_03_SUU79_LA127_2x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LA127_2x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_03_SUU79_LA127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_03_SUU79_LA127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LA127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_03_SUU79_LA127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_03_SUU79_LA127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LA127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_03_SUU79_LA127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             2,
-            Weapons.STA_03_SUU79_LA127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_03_SUU79_LA127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_03_SUU79_LA127_2x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_03_SUU79_LA127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LA127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_03_SUU79_LA127_2x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_03_SUU79_LA127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LA127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_03_SUU79_LA127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             2,
-            Weapons.STA_03_SUU79_LA127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_03_SUU79_LA127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_03_SUU79_LA118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             2,
-            Weapons.STA_03_SUU79_LA118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+            WeaponsFA18EFG.STA_03_SUU79_LA118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
         STA_03_SUU79_BRU32_1x_FPU_12_Fuel_Tank_480_gallons = (
             2,
-            Weapons.STA_03_SUU79_BRU32_1x_FPU_12_Fuel_Tank_480_gallons,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32_1x_FPU_12_Fuel_Tank_480_gallons,
         )
         STA_02_SUU80_LA127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X = (
             2,
-            Weapons.STA_02_SUU80_LA127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
+            WeaponsFA18EFG.STA_02_SUU80_LA127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
         )
 
     # ERRR <CLEAN>
@@ -8605,95 +8593,95 @@ class EA_18G(PlaneType):
     class Pylon3:
         STA_04_SUU79_LA127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             3,
-            Weapons.STA_04_SUU79_LA127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LA127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_04_SUU79_LA127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             3,
-            Weapons.STA_04_SUU79_LA127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LA127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_04_SUU79_LA127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             3,
-            Weapons.STA_04_SUU79_LA127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_04_SUU79_LA127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_04_SUU79_LA127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_ = (
             3,
-            Weapons.STA_04_SUU79_LA127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_04_SUU79_LA127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_,
         )
         STA_04_SUU79_LA127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_ = (
             3,
-            Weapons.STA_04_SUU79_LA127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_04_SUU79_LA127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_,
         )
         STA_04_SUU79_LA127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__ = (
             3,
-            Weapons.STA_04_SUU79_LA127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
+            WeaponsFA18EFG.STA_04_SUU79_LA127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
         )
         STA_04_SUU79_LA127_2x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             3,
-            Weapons.STA_04_SUU79_LA127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LA127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_04_SUU79_LA127_2x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             3,
-            Weapons.STA_04_SUU79_LA127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LA127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_04_SUU79_LA127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             3,
-            Weapons.STA_04_SUU79_LA127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_04_SUU79_LA127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_04_SUU79_LA127_1x_AIM_9M_Sidewinder_IR_AAM = (
             3,
-            Weapons.STA_04_SUU79_LA127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LA127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_04_SUU79_LA127_1x_AIM_9X_Sidewinder_IR_AAM = (
             3,
-            Weapons.STA_04_SUU79_LA127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LA127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_04_SUU79_LA127_1x_Captive_AIM_9M_for_ACM = (
             3,
-            Weapons.STA_04_SUU79_LA127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_04_SUU79_LA127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_04_SUU79_LA127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             3,
-            Weapons.STA_04_SUU79_LA127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_04_SUU79_LA127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
         STA_04_SUU80_LA118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             3,
-            Weapons.STA_04_SUU80_LA118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+            WeaponsFA18EFG.STA_04_SUU80_LA118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
         STA_04_SUU79_BRU32_1x_AGM_154A___JSOW_CEB__CBU_type_ = (
             3,
-            Weapons.STA_04_SUU79_BRU32_1x_AGM_154A___JSOW_CEB__CBU_type_,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32_1x_AGM_154A___JSOW_CEB__CBU_type_,
         )
         STA_04_SUU79_BRU55_1x_AGM_154A___JSOW_CEB__CBU_type_ = (
             3,
-            Weapons.STA_04_SUU79_BRU55_1x_AGM_154A___JSOW_CEB__CBU_type_,
+            WeaponsFA18EFG.STA_04_SUU79_BRU55_1x_AGM_154A___JSOW_CEB__CBU_type_,
         )
         STA_04_SUU79_BRU55_2x_AGM_154A___JSOW_CEB__CBU_type_ = (
             3,
-            Weapons.STA_04_SUU79_BRU55_2x_AGM_154A___JSOW_CEB__CBU_type_,
+            WeaponsFA18EFG.STA_04_SUU79_BRU55_2x_AGM_154A___JSOW_CEB__CBU_type_,
         )
         STA_04_SUU79_BRU32_1x_AGM_154C___JSOW_Unitary_BROACH = (
             3,
-            Weapons.STA_04_SUU79_BRU32_1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32_1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_04_SUU79_BRU55_1x_AGM_154C___JSOW_Unitary_BROACH = (
             3,
-            Weapons.STA_04_SUU79_BRU55_1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_04_SUU79_BRU55_1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_04_SUU79_BRU55_2x_AGM_154C___JSOW_Unitary_BROACH = (
             3,
-            Weapons.STA_04_SUU79_BRU55_2x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_04_SUU79_BRU55_2x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_04_SUU79_BRU32_1x_FPU_12_Fuel_Tank_480_gallons = (
             3,
-            Weapons.STA_04_SUU79_BRU32_1x_FPU_12_Fuel_Tank_480_gallons,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32_1x_FPU_12_Fuel_Tank_480_gallons,
         )
         STA_04_SUU79_BRU32_1x_FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             3,
-            Weapons.STA_04_SUU79_BRU32_1x_FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32_1x_FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
         STA_04_SUU79_LA127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X = (
             3,
-            Weapons.STA_04_SUU79_LA127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
+            WeaponsFA18EFG.STA_04_SUU79_LA127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
         )
 
     # ERRR <CLEAN>
@@ -8701,35 +8689,35 @@ class EA_18G(PlaneType):
     class Pylon4:
         STA_05_LA116_LA116_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             4,
-            Weapons.STA_05_LA116_LA116_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_05_LA116_LA116_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_05_LA116_LA116_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             4,
-            Weapons.STA_05_LA116_LA116_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_05_LA116_LA116_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_05_LA116_LA116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             4,
-            Weapons.STA_05_LA116_LA116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_05_LA116_LA116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_05_LA116_LA116_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             4,
-            Weapons.STA_05_LA116_LA116_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_05_LA116_LA116_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_05_LA116_LA116_1x_AIM_7F_Sparrow_Semi_Active_Radar = (
             4,
-            Weapons.STA_05_LA116_LA116_1x_AIM_7F_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_05_LA116_LA116_1x_AIM_7F_Sparrow_Semi_Active_Radar,
         )
         STA_05_LA116_LA116_1x_AIM_7MH_Sparrow_Semi_Active_Radar = (
             4,
-            Weapons.STA_05_LA116_LA116_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_05_LA116_LA116_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
         STA_05_LA116_LA116_1x_AIM_7P_Sparrow_Semi_Active_Radar = (
             4,
-            Weapons.STA_05_LA116_LA116_1x_AIM_7P_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_05_LA116_LA116_1x_AIM_7P_Sparrow_Semi_Active_Radar,
         )
         STA_05_LA116_LA116_Empty_AIM_7_120_Ejectors = (
             4,
-            Weapons.STA_05_LA116_LA116_Empty_AIM_7_120_Ejectors,
+            WeaponsFA18EFG.STA_05_LA116_LA116_Empty_AIM_7_120_Ejectors,
         )
         # ERRR <CLEAN>
         AIM_7F_Sparrow_Semi_Active_Radar = (4, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
@@ -8742,52 +8730,52 @@ class EA_18G(PlaneType):
     class Pylon5:
         STA_06_SUU78_BRU32_1x_FPU_12_Fuel_Tank_480_gallons = (
             5,
-            Weapons.STA_06_SUU78_BRU32_1x_FPU_12_Fuel_Tank_480_gallons,
+            WeaponsFA18EFG.STA_06_SUU78_BRU32_1x_FPU_12_Fuel_Tank_480_gallons,
         )
         STA_06_SUU78_BRU32_1x_FPU_12_Fuel_Tank_480_gallons_High_Vis = (
             5,
-            Weapons.STA_06_SUU78_BRU32_1x_FPU_12_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.STA_06_SUU78_BRU32_1x_FPU_12_Fuel_Tank_480_gallons_High_Vis,
         )
         STA_06_SUU78_BRU32_1x_AN_AWW_13_Advanced_Datalink_Pod = (
             5,
-            Weapons.STA_06_SUU78_BRU32_1x_AN_AWW_13_Advanced_Datalink_Pod,
+            WeaponsFA18EFG.STA_06_SUU78_BRU32_1x_AN_AWW_13_Advanced_Datalink_Pod,
         )
         STA_06_SUU78_BRU32_1x_AN_ALQ_99_ICAP_III_Low_Band_Jamming_Pod = (
             5,
-            Weapons.STA_06_SUU78_BRU32_1x_AN_ALQ_99_ICAP_III_Low_Band_Jamming_Pod,
+            WeaponsFA18EFG.STA_06_SUU78_BRU32_1x_AN_ALQ_99_ICAP_III_Low_Band_Jamming_Pod,
         )
-        STA_06_SUU78_EMPTY_ = (5, Weapons.STA_06_SUU78_EMPTY_)
+        STA_06_SUU78_EMPTY_ = (5, WeaponsFA18EFG.STA_06_SUU78_EMPTY_)
 
     # ERRR <CLEAN>
 
     class Pylon6:
         STA_07_LA116_LA116_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             6,
-            Weapons.STA_07_LA116_LA116_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_07_LA116_LA116_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_07_LA116_LA116_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             6,
-            Weapons.STA_07_LA116_LA116_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_07_LA116_LA116_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_07_LA116_LA116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             6,
-            Weapons.STA_07_LA116_LA116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_07_LA116_LA116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_07_LA116_LA116_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             6,
-            Weapons.STA_07_LA116_LA116_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_07_LA116_LA116_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_07_LA116_LA116_1x_AIM_7F_Sparrow_Semi_Active_Radar = (
             6,
-            Weapons.STA_07_LA116_LA116_1x_AIM_7F_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_07_LA116_LA116_1x_AIM_7F_Sparrow_Semi_Active_Radar,
         )
         STA_07_LA116_LA116_1x_AIM_7MH_Sparrow_Semi_Active_Radar = (
             6,
-            Weapons.STA_07_LA116_LA116_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_07_LA116_LA116_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
         STA_07_LA116_LA116_1x_AIM_7P_Sparrow_Semi_Active_Radar = (
             6,
-            Weapons.STA_07_LA116_LA116_1x_AIM_7P_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_07_LA116_LA116_1x_AIM_7P_Sparrow_Semi_Active_Radar,
         )
         AIM_7F_Sparrow_Semi_Active_Radar = (6, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
         AIM_7MH_Sparrow_Semi_Active_Radar = (
@@ -8797,7 +8785,7 @@ class EA_18G(PlaneType):
         AIM_7P_Sparrow_Semi_Active_Radar = (6, Weapons.AIM_7P_Sparrow_Semi_Active_Radar)
         STA_05_LA116_LA116_Empty_AIM_7_120_Ejectors = (
             6,
-            Weapons.STA_05_LA116_LA116_Empty_AIM_7_120_Ejectors,
+            WeaponsFA18EFG.STA_05_LA116_LA116_Empty_AIM_7_120_Ejectors,
         )
 
     # ERRR <CLEAN>
@@ -8805,95 +8793,95 @@ class EA_18G(PlaneType):
     class Pylon7:
         STA_08_SUU79_LA127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_08_SUU79_LA127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LA127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_08_SUU79_LA127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_08_SUU79_LA127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LA127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_08_SUU79_LA127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             7,
-            Weapons.STA_08_SUU79_LA127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_08_SUU79_LA127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_08_SUU79_LA127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_ = (
             7,
-            Weapons.STA_08_SUU79_LA127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_08_SUU79_LA127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_,
         )
         STA_08_SUU79_LA127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_ = (
             7,
-            Weapons.STA_08_SUU79_LA127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_08_SUU79_LA127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_,
         )
         STA_08_SUU79_LA127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__ = (
             7,
-            Weapons.STA_08_SUU79_LA127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
+            WeaponsFA18EFG.STA_08_SUU79_LA127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
         )
         STA_08_SUU79_LA127_2x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_08_SUU79_LA127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LA127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_08_SUU79_LA127_2x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_08_SUU79_LA127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LA127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_08_SUU79_LA127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             7,
-            Weapons.STA_08_SUU79_LA127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_08_SUU79_LA127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_08_SUU79_LA127_1x_AIM_9M_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_08_SUU79_LA127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LA127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_08_SUU79_LA127_1x_AIM_9X_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_08_SUU79_LA127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LA127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_08_SUU79_LA127_1x_Captive_AIM_9M_for_ACM = (
             7,
-            Weapons.STA_08_SUU79_LA127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_08_SUU79_LA127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_08_SUU79_LA127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             7,
-            Weapons.STA_08_SUU79_LA127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_08_SUU79_LA127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
         STA_08_SUU80_LA118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             7,
-            Weapons.STA_08_SUU80_LA118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+            WeaponsFA18EFG.STA_08_SUU80_LA118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
         STA_08_SUU79_BRU32_1x_AGM_154A___JSOW_CEB__CBU_type_ = (
             7,
-            Weapons.STA_08_SUU79_BRU32_1x_AGM_154A___JSOW_CEB__CBU_type_,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32_1x_AGM_154A___JSOW_CEB__CBU_type_,
         )
         STA_08_SUU79_BRU55_1x_AGM_154A___JSOW_CEB__CBU_type_ = (
             7,
-            Weapons.STA_08_SUU79_BRU55_1x_AGM_154A___JSOW_CEB__CBU_type_,
+            WeaponsFA18EFG.STA_08_SUU79_BRU55_1x_AGM_154A___JSOW_CEB__CBU_type_,
         )
         STA_08_SUU79_BRU55_2x_AGM_154A___JSOW_CEB__CBU_type_ = (
             7,
-            Weapons.STA_08_SUU79_BRU55_2x_AGM_154A___JSOW_CEB__CBU_type_,
+            WeaponsFA18EFG.STA_08_SUU79_BRU55_2x_AGM_154A___JSOW_CEB__CBU_type_,
         )
         STA_08_SUU79_BRU32_1x_AGM_154C___JSOW_Unitary_BROACH = (
             7,
-            Weapons.STA_08_SUU79_BRU32_1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32_1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_08_SUU79_BRU55_1x_AGM_154C___JSOW_Unitary_BROACH = (
             7,
-            Weapons.STA_08_SUU79_BRU55_1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_08_SUU79_BRU55_1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_08_SUU79_BRU55_2x_AGM_154C___JSOW_Unitary_BROACH = (
             7,
-            Weapons.STA_08_SUU79_BRU55_2x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_08_SUU79_BRU55_2x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_04_SUU79_BRU32_1x_FPU_12_Fuel_Tank_480_gallons_ = (
             7,
-            Weapons.STA_04_SUU79_BRU32_1x_FPU_12_Fuel_Tank_480_gallons_,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32_1x_FPU_12_Fuel_Tank_480_gallons_,
         )
         STA_04_SUU79_BRU32_1x_FPU_12_Fuel_Tank_480_gallons_High_Vis_ = (
             7,
-            Weapons.STA_04_SUU79_BRU32_1x_FPU_12_Fuel_Tank_480_gallons_High_Vis_,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32_1x_FPU_12_Fuel_Tank_480_gallons_High_Vis_,
         )
         STA_08_SUU79_LA127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X = (
             7,
-            Weapons.STA_08_SUU79_LA127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
+            WeaponsFA18EFG.STA_08_SUU79_LA127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
         )
 
     # ERRR <CLEAN>
@@ -8901,88 +8889,88 @@ class EA_18G(PlaneType):
     class Pylon8:
         STA_10_SUU80_LA118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             8,
-            Weapons.STA_10_SUU80_LA118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+            WeaponsFA18EFG.STA_10_SUU80_LA118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
         STA_10_SUU80_LA115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             8,
-            Weapons.STA_10_SUU80_LA115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_10_SUU80_LA115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_10_SUU80_LA127_1x_AIM_9M_Sidewinder_IR_AAM_ = (
             8,
-            Weapons.STA_10_SUU80_LA127_1x_AIM_9M_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_10_SUU80_LA127_1x_AIM_9M_Sidewinder_IR_AAM_,
         )
         STA_10_SUU80_LA127_1x_AIM_9X_Sidewinder_IR_AAM_ = (
             8,
-            Weapons.STA_10_SUU80_LA127_1x_AIM_9X_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_10_SUU80_LA127_1x_AIM_9X_Sidewinder_IR_AAM_,
         )
         # ERRR {GROWLER_PYLON_10_OB_Sw_1X_CATM-9M}
         STA_10_SUU80_LA127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.STA_10_SUU80_LA127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_10_SUU80_LA127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_10_SUU80_LA127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.STA_10_SUU80_LA127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_10_SUU80_LA127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_10_SUU80_LA127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             8,
-            Weapons.STA_10_SUU80_LA127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_10_SUU80_LA127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_10_SUU80_LA127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             8,
-            Weapons.STA_10_SUU80_LA127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_10_SUU80_LA127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
         STA_09_SUU79_LA127_1x_AIM_9M_Sidewinder_IR_AAM = (
             8,
-            Weapons.STA_09_SUU79_LA127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LA127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_09_SUU79_LA127_1x_AIM_9X_Sidewinder_IR_AAM = (
             8,
-            Weapons.STA_09_SUU79_LA127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LA127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_09_SUU79_LA127_2x_AIM_9M_Sidewinder_IR_AAM = (
             8,
-            Weapons.STA_09_SUU79_LA127_2x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LA127_2x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_09_SUU79_LA127_2x_AIM_9X_Sidewinder_IR_AAM = (
             8,
-            Weapons.STA_09_SUU79_LA127_2x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LA127_2x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_09_SUU79_LA127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.STA_09_SUU79_LA127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LA127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_09_SUU79_LA127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.STA_09_SUU79_LA127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LA127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_09_SUU79_LA127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             8,
-            Weapons.STA_09_SUU79_LA127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_09_SUU79_LA127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_09_SUU79_LA127_2x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.STA_09_SUU79_LA127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LA127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_09_SUU79_LA127_2x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.STA_09_SUU79_LA127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LA127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_09_SUU79_LA127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             8,
-            Weapons.STA_09_SUU79_LA127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_09_SUU79_LA127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_09_SUU79_LA118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             8,
-            Weapons.STA_09_SUU79_LA118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+            WeaponsFA18EFG.STA_09_SUU79_LA118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
         STA_09_SUU79_BRU32_1x_FPU_12_Fuel_Tank_480_gallons = (
             8,
-            Weapons.STA_09_SUU79_BRU32_1x_FPU_12_Fuel_Tank_480_gallons,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32_1x_FPU_12_Fuel_Tank_480_gallons,
         )
         STA_10_SUU80_LA127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X_ = (
             8,
-            Weapons.STA_10_SUU80_LA127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X_,
+            WeaponsFA18EFG.STA_10_SUU80_LA127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X_,
         )
 
     # ERRR <CLEAN>
@@ -8990,23 +8978,23 @@ class EA_18G(PlaneType):
     class Pylon9:
         STA_10_SUU80_LA127_1x_AIM_9M_Sidewinder_IR_AAM = (
             9,
-            Weapons.STA_10_SUU80_LA127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_10_SUU80_LA127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_10_SUU80_LA127_1x_AIM_9X_Sidewinder_IR_AAM = (
             9,
-            Weapons.STA_10_SUU80_LA127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_10_SUU80_LA127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_09_SUU79_BRU32_1x_AN_ALQ_99_ICAP_III_High_Band_Jamming_Pod = (
             9,
-            Weapons.STA_09_SUU79_BRU32_1x_AN_ALQ_99_ICAP_III_High_Band_Jamming_Pod,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32_1x_AN_ALQ_99_ICAP_III_High_Band_Jamming_Pod,
         )
         STA_09_SUU79_BRU32_1x_AN_ALQ_249_Mid_Band_Next_Generation_Jamming_Pod = (
             9,
-            Weapons.STA_09_SUU79_BRU32_1x_AN_ALQ_249_Mid_Band_Next_Generation_Jamming_Pod,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32_1x_AN_ALQ_249_Mid_Band_Next_Generation_Jamming_Pod,
         )
         STA_10_SUU80_LA127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X = (
             9,
-            Weapons.STA_10_SUU80_LA127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
+            WeaponsFA18EFG.STA_10_SUU80_LA127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
         )
 
     # ERRR {GROWLER_PYLON_09_MB_LAU127}
@@ -9015,7 +9003,7 @@ class EA_18G(PlaneType):
     class Pylon10:
         STA_AX_FUEL_CELLS_1x_Internal_Auxillary_Fuel_Cells = (
             10,
-            Weapons.STA_AX_FUEL_CELLS_1x_Internal_Auxillary_Fuel_Cells,
+            WeaponsFA18EFG.STA_AX_FUEL_CELLS_1x_Internal_Auxillary_Fuel_Cells,
         )
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
@@ -9113,7 +9101,7 @@ class FA_18ET(PlaneType):
 
     property_defaults: Dict[str, Any] = {
         "BlockIIIEquip": True,
-        "USA_FLAG": True,
+        "USA_FLAG": False,
         "HelmetMountedDevice": 1,
     }
 
@@ -9133,382 +9121,423 @@ class FA_18ET(PlaneType):
                 JHMCS = 1
                 NVG = 2
 
+    properties = (
+        {
+            "DemoEquipment": UnitPropertyDescription(
+                identifier="DemoEquipment",
+                control="comboList",
+                label="Demonstration Team Equipment",
+                player_only=False,
+                default=0,
+                w_ctrl=150,
+                values={
+                    0: "False",
+                    1: "True",
+                },
+            ),
+            "BlockIIIEquip": UnitPropertyDescription(
+                identifier="BlockIIIEquip",
+                control="comboList",
+                label="Block III Antennas (Cosmetic)",
+                player_only=False,
+                default=1,
+                w_ctrl=150,
+                values={
+                    0: "Disabled",
+                    1: "Enabled",
+                },
+            ),
+            "USA_FLAG": UnitPropertyDescription(
+                identifier="USA_FLAG",
+                control="comboList",
+                label="Hood Displayed USA Flag",
+                player_only=False,
+                default=0,
+                w_ctrl=150,
+                values={
+                    0: "False",
+                    1: "True",
+                },
+            ),
+        },
+    )
+
     livery_name = "FA-18E"  # from livery_entry
 
     class Pylon1:
         STA_01_WNGTP_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             1,
-            Weapons.STA_01_WNGTP_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_01_WNGTP_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_01_WNGTP_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             1,
-            Weapons.STA_01_WNGTP_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_01_WNGTP_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_01_WNGTP_LAU127_1x_Captive_AIM_9M_for_ACM = (
             1,
-            Weapons.STA_01_WNGTP_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_01_WNGTP_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_01_WNGTP_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             1,
-            Weapons.STA_01_WNGTP_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_01_WNGTP_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
 
     class Pylon2:
         STA_02_SUU80_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             2,
-            Weapons.STA_02_SUU80_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_02_SUU80_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_02_SUU80_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_02_SUU80_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_02_SUU80_LAU127_1x_Captive_AIM_9M_for_ACM = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_02_SUU80_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
         STA_02_SUU80_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_02_SUU80_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_02_SUU80_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_02_SUU80_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             2,
-            Weapons.STA_02_SUU80_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            WeaponsFA18EFG.STA_02_SUU80_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         STA_02_SUU80_LAU117_1x_AGM_65F___Maverick_F__IIR_ = (
             2,
-            Weapons.STA_02_SUU80_LAU117_1x_AGM_65F___Maverick_F__IIR_,
+            WeaponsFA18EFG.STA_02_SUU80_LAU117_1x_AGM_65F___Maverick_F__IIR_,
         )
         STA_02_SUU80_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only = (
             2,
-            Weapons.STA_02_SUU80_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
+            WeaponsFA18EFG.STA_02_SUU80_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
         )
         STA_02_SUU80_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             2,
-            Weapons.STA_02_SUU80_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+            WeaponsFA18EFG.STA_02_SUU80_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
         STA_02_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_02_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_02_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_02_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_02_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_02_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_02_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_02_SUU80_BRU32___1x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
         STA_02_SUU80_BRU32___1x_GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
         STA_02_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_02_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb,
         )
         STA_02_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
         )
         STA_02_SUU80_BRU32___1x_CBU_99___490lbs__247_x_HEAT_Bomblets = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_CBU_99___490lbs__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_CBU_99___490lbs__247_x_HEAT_Bomblets,
         )
         STA_03_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             2,
-            Weapons.STA_03_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_03_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_03_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar = (
             2,
-            Weapons.STA_03_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_03_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar,
         )
         STA_03_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar = (
             2,
-            Weapons.STA_03_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_03_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
         STA_03_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar = (
             2,
-            Weapons.STA_03_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_03_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar,
         )
         STA_03_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_03_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_03_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             2,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_03_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_03_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_03_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             2,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_03_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_03_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_03_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_03_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_03_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_03_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
         )
         STA_03_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             2,
-            Weapons.STA_03_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         STA_03_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only = (
             2,
-            Weapons.STA_03_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
         )
         STA_03_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
         )
         STA_03_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_03_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH = (
             2,
-            Weapons.STA_03_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_03_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH = (
             2,
-            Weapons.STA_03_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_03_SUU79_BRU42___1x_ADM_141A_TALD_ = (
             2,
-            Weapons.STA_03_SUU79_BRU42___1x_ADM_141A_TALD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU42___1x_ADM_141A_TALD_,
         )
         STA_03_SUU79_BRU42___2x_ADM_141A_TALD_ = (
             2,
-            Weapons.STA_03_SUU79_BRU42___2x_ADM_141A_TALD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU42___2x_ADM_141A_TALD_,
         )
         STA_03_SUU79_BRU42___3x_ADM_141A_TALD = (
             2,
-            Weapons.STA_03_SUU79_BRU42___3x_ADM_141A_TALD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU42___3x_ADM_141A_TALD,
         )
         STA_03_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_03_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_03_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_03_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_03_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_03_SUU79_BRU55___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU55___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_03_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             2,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_03_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_03_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_02_03_79_80_LAU127_1x_1x_AIM_9M_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_02_03_79_80_LAU127_1x_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_02_03_79_80_LAU127_1x_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_02_03_79_80_LAU127_1x_1x_AIM_9X_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_02_03_79_80_LAU127_1x_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_02_03_79_80_LAU127_1x_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_02_03_79_80_LAU127_1x_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_02_03_79_80_LAU127_1x_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_02_03_79_80_LAU127_1x_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_02_03_79_80_LAU127_1x_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_02_03_79_80_LAU127_1x_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_02_03_79_80_LAU127_1x_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_02_03_79_80_LAU127_1x_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             2,
-            Weapons.STA_02_03_79_80_LAU127_1x_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_02_03_79_80_LAU127_1x_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_03_02_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_03_02_79_80_BRU32___2x_GBU_16___1000lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_03_02_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_03_02_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_03_02_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_03_02_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_03_02_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_04_02_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_04_02_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_02_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_04_02_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_04_02_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_02_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         # ERRR {SUPERHORNET_PYLON_02_MB_MK_BR55_1X_GBU-32V}
         # ERRR {SUPERHORNET_PYLON_02_MB_MK_BR55_2X_GBU-32V}
         STA_04_02_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_04_02_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_02_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_04_02_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             2,
-            Weapons.STA_04_02_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_04_02_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_04_02_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_04_02_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_02_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_04_02_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             2,
-            Weapons.STA_04_02_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_04_02_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_02_SUU80_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
         )
-        STA_02_SUU80_EMPTY = (2, Weapons.STA_02_SUU80_EMPTY)
+        STA_02_SUU80_EMPTY = (2, WeaponsFA18EFG.STA_02_SUU80_EMPTY)
         # ERRR <CLEAN>
         # ERRR {CATM-120C}
         # ERRR {CATM-9M}
@@ -9555,461 +9584,461 @@ class FA_18ET(PlaneType):
     class Pylon3:
         STA_02_SUU79_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             3,
-            Weapons.STA_02_SUU79_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_02_SUU79_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
         STA_03_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar_ = (
             3,
-            Weapons.STA_03_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar_,
         )
         STA_03_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_,
         )
         STA_03_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_,
         )
         STA_03_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
         )
         STA_03_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM_,
         )
         STA_03_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM_,
         )
         STA_03_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
         )
         STA_03_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM_,
         )
         STA_03_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM_,
         )
         STA_03_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM_,
         )
         STA_03_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM_,
         )
         STA_03_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM_,
         )
         STA_03_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM_,
         )
         STA_03_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
         )
         STA_03_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
         )
         STA_03_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
         )
         STA_03_SUU79_BRU32___1x_ALQ_167_Countermeasures_System = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_ALQ_167_Countermeasures_System,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_ALQ_167_Countermeasures_System,
         )
         STA_03_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__ = (
             3,
-            Weapons.STA_03_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__,
         )
         STA_03_SUU79_LAU117_1x_AGM_65F___Maverick_F__IIR__ = (
             3,
-            Weapons.STA_03_SUU79_LAU117_1x_AGM_65F___Maverick_F__IIR__,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_AGM_65F___Maverick_F__IIR__,
         )
         STA_03_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only_ = (
             3,
-            Weapons.STA_03_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only_,
         )
         STA_03_SUU79_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             3,
-            Weapons.STA_03_SUU79_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+            WeaponsFA18EFG.STA_03_SUU79_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
         STA_03_SUU79_LAU117_1x_AGM_84D_Harpoon_Anti_Ship_Missile = (
             3,
-            Weapons.STA_03_SUU79_LAU117_1x_AGM_84D_Harpoon_Anti_Ship_Missile,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_AGM_84D_Harpoon_Anti_Ship_Missile,
         )
         STA_03_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             3,
-            Weapons.STA_03_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
         )
         STA_03_SUU79_LAU117_1x_AGM_84H_SLAM_ER__Expanded_Response_ = (
             3,
-            Weapons.STA_03_SUU79_LAU117_1x_AGM_84H_SLAM_ER__Expanded_Response_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_AGM_84H_SLAM_ER__Expanded_Response_,
         )
         STA_03_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_03_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH_ = (
             3,
-            Weapons.STA_03_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_03_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_ = (
             3,
-            Weapons.STA_03_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_03_SUU79_BRU55___1x_AGM_154A___JSOW_CEB__CBU_type_ = (
             3,
-            Weapons.STA_03_SUU79_BRU55___1x_AGM_154A___JSOW_CEB__CBU_type_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___1x_AGM_154A___JSOW_CEB__CBU_type_,
         )
         STA_03_SUU79_BRU55___2x_AGM_154A___JSOW_CEB__CBU_type_ = (
             3,
-            Weapons.STA_03_SUU79_BRU55___2x_AGM_154A___JSOW_CEB__CBU_type_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___2x_AGM_154A___JSOW_CEB__CBU_type_,
         )
         STA_03_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD_,
         )
         STA_03_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD_,
         )
         STA_03_SUU79_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD_,
         )
         STA_03_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD_,
         )
         STA_03_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD_,
         )
         STA_03_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb_,
         )
         STA_03_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb_,
         )
         STA_03_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb_,
         )
         STA_03_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb_,
         )
         STA_03_SUU79_BRU32___1x_GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_,
         )
         # ERRR {SUPERHORNET_PYLON_03_MB_MK_1X_GBU-32V}
         STA_03_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets_,
         )
         STA_03_SUU79_BRU32___1x_BDU_45___500lb_Practice_Bomb = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_BDU_45___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_BDU_45___500lb_Practice_Bomb,
         )
         STA_03_SUU79_BRU32___1x_BDU_45B___500lb_Practice_Bomb = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
         )
         STA_03_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb_,
         )
         STA_03_SUU79_BRU33___2x_BDU_45___500lb_Practice_Bomb = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_BDU_45___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_BDU_45___500lb_Practice_Bomb,
         )
         STA_03_SUU79_BRU33___2x_BDU_45B___500lb_Practice_Bomb = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_BDU_45B___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_BDU_45B___500lb_Practice_Bomb,
         )
         STA_03_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD_,
         )
         STA_03_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_03_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD_,
         )
         STA_03_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD_,
         )
         # ERRR {SUPERHORNET_PYLON_03_MB_MK_BR2_ROCKEYE}
         STA_03_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_,
         )
         STA_03_SUU79_BRU41___6x_BDU_33___25lb_Practice_Bomb_LD = (
             3,
-            Weapons.STA_03_SUU79_BRU41___6x_BDU_33___25lb_Practice_Bomb_LD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU41___6x_BDU_33___25lb_Practice_Bomb_LD,
         )
         STA_04_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             3,
-            Weapons.STA_04_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_04_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_04_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar = (
             3,
-            Weapons.STA_04_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_04_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar,
         )
         STA_04_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar = (
             3,
-            Weapons.STA_04_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_04_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
         STA_04_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar = (
             3,
-            Weapons.STA_04_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_04_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar,
         )
         STA_04_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_04_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_04_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_04_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_04_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_04_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
         )
         STA_04_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_04_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_04_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             3,
-            Weapons.STA_04_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_04_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_04_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_04_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             3,
-            Weapons.STA_04_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons = (
             3,
-            Weapons.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
         )
         STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis = (
             3,
-            Weapons.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
         )
         # ERRR {SUPERHORNET_PYLON_03_IB_PD_1X_ALQ-167}
         STA_04_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             3,
-            Weapons.STA_04_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
         )
         STA_04_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             3,
-            Weapons.STA_04_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            WeaponsFA18EFG.STA_04_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         STA_03_SUU79_BRU42___1x_ADM_141A_TALD__ = (
             3,
-            Weapons.STA_03_SUU79_BRU42___1x_ADM_141A_TALD__,
+            WeaponsFA18EFG.STA_03_SUU79_BRU42___1x_ADM_141A_TALD__,
         )
         STA_03_SUU79_BRU42___2x_ADM_141A_TALD__ = (
             3,
-            Weapons.STA_03_SUU79_BRU42___2x_ADM_141A_TALD__,
+            WeaponsFA18EFG.STA_03_SUU79_BRU42___2x_ADM_141A_TALD__,
         )
         STA_03_SUU79_BRU42___3x_ADM_141A_TALD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU42___3x_ADM_141A_TALD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU42___3x_ADM_141A_TALD_,
         )
         STA_04_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only = (
             3,
-            Weapons.STA_04_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
+            WeaponsFA18EFG.STA_04_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
         )
         STA_04_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH = (
             3,
-            Weapons.STA_04_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_04_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_04_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH = (
             3,
-            Weapons.STA_04_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_04_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_04_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_04_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_04_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_04_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_04_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_04_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_04_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_04_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             3,
-            Weapons.STA_04_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_04_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_04_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             3,
-            Weapons.STA_04_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_04_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_04_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         # ERRR {SUPERHORNET_PYLON_03_IB_MK_BR2_ROCKEYE}
         STA_04_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_04_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
         STA_04_03_79_80_BRU32___1x_1x_AGM_154C___JSOW_Unitary_BROACH = (
             3,
-            Weapons.STA_04_03_79_80_BRU32___1x_1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_04_03_79_80_BRU32___1x_1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_12___500lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_Mk_82___500lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_04_03_SUU79_BRU32___1x_1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_04_03_SUU79_BRU32___1x_1x_Mk_83___1000lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_04_03_SUU79_BRU32___1x_1x_Mk_84___2000lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_04_03_SUU79_BRU32___1x_1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_02_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X = (
             3,
-            Weapons.STA_02_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
+            WeaponsFA18EFG.STA_02_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
         )
-        STA_03_SUU79_EMPTY = (3, Weapons.STA_03_SUU79_EMPTY)
+        STA_03_SUU79_EMPTY = (3, WeaponsFA18EFG.STA_03_SUU79_EMPTY)
         # ERRR <CLEAN>
         # ERRR LAU-115_2*LAU-127_CATM-120C
         # ERRR LAU_117_TGM_65E
@@ -10071,56 +10100,56 @@ class FA_18ET(PlaneType):
     class Pylon4:
         STA_05_CHEEK__LAU116_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_05_CHEEK__LAU116_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_05_CHEEK__LAU116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_05_CHEEK__LAU116_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_05_CHEEK__LAU116_1x_AIM_7F_Sparrow_Semi_Active_Radar = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_7F_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_7F_Sparrow_Semi_Active_Radar,
         )
         STA_05_CHEEK__LAU116_1x_AIM_7MH_Sparrow_Semi_Active_Radar = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
         STA_05_CHEEK__LAU116_1x_AIM_7P_Sparrow_Semi_Active_Radar = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_7P_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_7P_Sparrow_Semi_Active_Radar,
         )
         STA_05_CHEEK__TGPMNT_1x_AN_ASQ_228_ATFLIR___Targeting_Pod = (
             4,
-            Weapons.STA_05_CHEEK__TGPMNT_1x_AN_ASQ_228_ATFLIR___Targeting_Pod,
+            WeaponsFA18EFG.STA_05_CHEEK__TGPMNT_1x_AN_ASQ_228_ATFLIR___Targeting_Pod,
         )
         STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_ = (
             4,
-            Weapons.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_,
         )
         STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis_ = (
             4,
-            Weapons.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis_,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis_,
         )
         AWW_13_DATALINK_POD = (4, Weapons.AWW_13_DATALINK_POD)
         STA_04_SUU79_BRU32___Remove_SUU_79A_A_Pylon = (
             4,
-            Weapons.STA_04_SUU79_BRU32___Remove_SUU_79A_A_Pylon,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32___Remove_SUU_79A_A_Pylon,
         )
         STA_05_CHEEK__TGPMNT_Empty_TGP_Mount = (
             4,
-            Weapons.STA_05_CHEEK__TGPMNT_Empty_TGP_Mount,
+            WeaponsFA18EFG.STA_05_CHEEK__TGPMNT_Empty_TGP_Mount,
         )
         STA_05_CHEEK__LAU116_Empty_AIM_7_120_Ejectors = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_Empty_AIM_7_120_Ejectors,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_Empty_AIM_7_120_Ejectors,
         )
         # ERRR <CLEAN>
         AIM_7F_Sparrow_Semi_Active_Radar = (4, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
@@ -10137,25 +10166,25 @@ class FA_18ET(PlaneType):
     class Pylon5:
         STA_06_SUU78_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons = (
             5,
-            Weapons.STA_06_SUU78_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
+            WeaponsFA18EFG.STA_06_SUU78_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
         )
         STA_06_SUU78_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis = (
             5,
-            Weapons.STA_06_SUU78_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.STA_06_SUU78_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
         )
         STA_06_SUU78_BRU32___1x_AA_42R_Aerial_Refueling_Buddy_Pod = (
             5,
-            Weapons.STA_06_SUU78_BRU32___1x_AA_42R_Aerial_Refueling_Buddy_Pod,
+            WeaponsFA18EFG.STA_06_SUU78_BRU32___1x_AA_42R_Aerial_Refueling_Buddy_Pod,
         )
         STA_06_SUU78_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod = (
             5,
-            Weapons.STA_06_SUU78_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
+            WeaponsFA18EFG.STA_06_SUU78_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
         )
         STA_06_SUU78_BRU32___1x_AN_AAQ_28_LITENING___Targeting_Pod = (
             5,
-            Weapons.STA_06_SUU78_BRU32___1x_AN_AAQ_28_LITENING___Targeting_Pod,
+            WeaponsFA18EFG.STA_06_SUU78_BRU32___1x_AN_AAQ_28_LITENING___Targeting_Pod,
         )
-        STA_06_SUU78_EMPTY = (5, Weapons.STA_06_SUU78_EMPTY)
+        STA_06_SUU78_EMPTY = (5, WeaponsFA18EFG.STA_06_SUU78_EMPTY)
         # ERRR <CLEAN>
         AWW_13_DATALINK_POD = (5, Weapons.AWW_13_DATALINK_POD)
         AN_AAQ_28_LITENING___Targeting_Pod_ = (
@@ -10166,52 +10195,52 @@ class FA_18ET(PlaneType):
     class Pylon6:
         STA_07_CHEEK__LAU116_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_07_CHEEK__LAU116_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_07_CHEEK__LAU116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_07_CHEEK__LAU116_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_07_CHEEK__LAU116_1x_AIM_7F_Sparrow_Semi_Active_Radar = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_7F_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_7F_Sparrow_Semi_Active_Radar,
         )
         STA_07_CHEEK__LAU116_1x_AIM_7MH_Sparrow_Semi_Active_Radar = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
         STA_07_CHEEK__LAU116_1x_AIM_7P_Sparrow_Semi_Active_Radar = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_7P_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_7P_Sparrow_Semi_Active_Radar,
         )
         STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons = (
             6,
-            Weapons.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
         )
         STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis = (
             6,
-            Weapons.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
         )
         STA_08_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod = (
             6,
-            Weapons.STA_08_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
         )
         STA_07_SUU79_BRU32___Remove_SUU_79A_A_Pylon = (
             6,
-            Weapons.STA_07_SUU79_BRU32___Remove_SUU_79A_A_Pylon,
+            WeaponsFA18EFG.STA_07_SUU79_BRU32___Remove_SUU_79A_A_Pylon,
         )
-        STA_08_SUU79_EMPTY = (6, Weapons.STA_08_SUU79_EMPTY)
+        STA_08_SUU79_EMPTY = (6, WeaponsFA18EFG.STA_08_SUU79_EMPTY)
         STA_08_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X = (
             6,
-            Weapons.STA_08_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
         )
         # ERRR <CLEAN>
         AIM_7F_Sparrow_Semi_Active_Radar = (6, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
@@ -10225,462 +10254,462 @@ class FA_18ET(PlaneType):
     class Pylon7:
         STA_09_SUU79_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
         STA_09_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             7,
-            Weapons.STA_09_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_09_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_09_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_09_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_09_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_09_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_09_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_09_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             7,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_09_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_09_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_09_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_09_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_09_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_09_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
         )
         STA_09_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons = (
             7,
-            Weapons.STA_09_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
         )
         STA_09_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis = (
             7,
-            Weapons.STA_09_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
         )
         STA_09_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod = (
             7,
-            Weapons.STA_09_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
         )
         STA_09_SUU79_BRU32___1x_ALQ_167_Countermeasures_System = (
             7,
-            Weapons.STA_09_SUU79_BRU32___1x_ALQ_167_Countermeasures_System,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_ALQ_167_Countermeasures_System,
         )
         STA_09_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             7,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         STA_09_SUU79_LAU117_1x_AGM_65F___Maverick_F__IIR_ = (
             7,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_65F___Maverick_F__IIR_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_65F___Maverick_F__IIR_,
         )
         STA_09_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only = (
             7,
-            Weapons.STA_09_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
         )
         STA_09_SUU79_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             7,
-            Weapons.STA_09_SUU79_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+            WeaponsFA18EFG.STA_09_SUU79_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
         STA_09_SUU79_LAU117_1x_AGM_84D_Harpoon_Anti_Ship_Missile = (
             7,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_84D_Harpoon_Anti_Ship_Missile,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_84D_Harpoon_Anti_Ship_Missile,
         )
         STA_09_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             7,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
         )
         STA_09_SUU79_LAU117_1x_AGM_84H_SLAM_ER__Expanded_Response_ = (
             7,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_84H_SLAM_ER__Expanded_Response_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_84H_SLAM_ER__Expanded_Response_,
         )
         STA_09_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH = (
             7,
-            Weapons.STA_09_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_09_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH = (
             7,
-            Weapons.STA_09_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_09_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH = (
             7,
-            Weapons.STA_09_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_09_SUU79_BRU55___1x_AGM_154A___JSOW_CEB__CBU_type_ = (
             7,
-            Weapons.STA_09_SUU79_BRU55___1x_AGM_154A___JSOW_CEB__CBU_type_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___1x_AGM_154A___JSOW_CEB__CBU_type_,
         )
         STA_09_SUU79_BRU55___2x_AGM_154A___JSOW_CEB__CBU_type_ = (
             7,
-            Weapons.STA_09_SUU79_BRU55___2x_AGM_154A___JSOW_CEB__CBU_type_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___2x_AGM_154A___JSOW_CEB__CBU_type_,
         )
         STA_09_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_09_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_09_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_09_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_09_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_09_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_09_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_09_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_09_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_09_SUU80_BRU32___1x_GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_09_SUU80_BRU32___1x_GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb,
         )
         STA_09_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         # ERRR {SUPERHORNET_PYLON_09_MB_MK_1X_GBU-32V}
         STA_09_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_09_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb,
         )
         STA_09_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
         )
         STA_09_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_09_SUU79_BRU33___2x_BDU_45___500lb_Practice_Bomb = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_BDU_45___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_BDU_45___500lb_Practice_Bomb,
         )
         STA_09_SUU79_BRU33___2x_BDU_45B___500lb_Practice_Bomb = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_BDU_45B___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_BDU_45B___500lb_Practice_Bomb,
         )
         STA_09_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_09_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_09_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_09_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         # ERRR {SUPERHORNET_PYLON_09_MB_MK_BR2_ROCKEYE}
         STA_09_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_09_SUU79_BRU41___6x_BDU_33___25lb_Practice_Bomb_LD = (
             7,
-            Weapons.STA_09_SUU79_BRU41___6x_BDU_33___25lb_Practice_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU41___6x_BDU_33___25lb_Practice_Bomb_LD,
         )
         STA_08_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             7,
-            Weapons.STA_08_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_08_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_08_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar = (
             7,
-            Weapons.STA_08_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_08_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar,
         )
         STA_08_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar = (
             7,
-            Weapons.STA_08_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_08_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
         STA_08_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar = (
             7,
-            Weapons.STA_08_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_08_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar,
         )
         STA_08_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_08_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_08_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_08_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_08_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_08_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
         )
         STA_08_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_08_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_08_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             7,
-            Weapons.STA_08_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_08_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_08_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_08_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             7,
-            Weapons.STA_08_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_ = (
             7,
-            Weapons.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_,
         )
         STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis_ = (
             7,
-            Weapons.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis_,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis_,
         )
         # ERRR {SUPERHORNET_PYLON_09_IB_PD_1X_ALQ-167}
         # ERRR {SUPERHORNET_PYLON_09_IB_PD_1X_ALQ-167}
         STA_08_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             7,
-            Weapons.STA_08_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
         )
         STA_08_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             7,
-            Weapons.STA_08_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            WeaponsFA18EFG.STA_08_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         STA_08_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only = (
             7,
-            Weapons.STA_08_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
+            WeaponsFA18EFG.STA_08_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
         )
         STA_08_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH = (
             7,
-            Weapons.STA_08_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_08_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_08_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_ = (
             7,
-            Weapons.STA_08_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_08_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_08_SUU79_BRU42___1x_ADM_141A_TALD = (
             7,
-            Weapons.STA_08_SUU79_BRU42___1x_ADM_141A_TALD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU42___1x_ADM_141A_TALD,
         )
         STA_08_SUU79_BRU42___2x_ADM_141A_TALD = (
             7,
-            Weapons.STA_08_SUU79_BRU42___2x_ADM_141A_TALD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU42___2x_ADM_141A_TALD,
         )
         STA_08_SUU79_BRU42___3x_ADM_141A_TALD = (
             7,
-            Weapons.STA_08_SUU79_BRU42___3x_ADM_141A_TALD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU42___3x_ADM_141A_TALD,
         )
         STA_08_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_08_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_08_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_08_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_08_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_08_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_08_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_08_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_08_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             7,
-            Weapons.STA_08_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_08_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             7,
-            Weapons.STA_08_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_08_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_08_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         # ERRR {SUPERHORNET_PYLON_09_IB_MK_BR2_ROCKEYE}
         STA_08_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_08_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
         STA_08_09_SUU79_BRU32___1x_1x_AGM_154C___JSOW_Unitary_BROACH = (
             7,
-            Weapons.STA_08_09_SUU79_BRU32___1x_1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_08_09_SUU79_BRU32___1x_1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_12___500lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_Mk_82___500lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_09_08_SUU79_BRU32___1x_1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_09_08_SUU79_BRU32___1x_1x_Mk_83___1000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_09_08_SUU79_BRU32___1x_1x_Mk_84___2000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_09_08_SUU79_BRU32___1x_1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_09_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
         )
-        STA_09_SUU79_EMPTY = (7, Weapons.STA_09_SUU79_EMPTY)
+        STA_09_SUU79_EMPTY = (7, WeaponsFA18EFG.STA_09_SUU79_EMPTY)
         # ERRR <CLEAN>
         # ERRR LAU-115_2*LAU-127_CATM-120C
         # ERRR LAU_117_TGM_65E
@@ -10738,350 +10767,350 @@ class FA_18ET(PlaneType):
     class Pylon8:
         STA_10_SUU80_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             8,
-            Weapons.STA_10_SUU80_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_10_SUU80_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_10_SUU80_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_10_SUU80_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_10_SUU80_LAU127_1x_Captive_AIM_9M_for_ACM = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_10_SUU80_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
         STA_10_SUU80_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_10_SUU80_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_10_SUU80_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_10_SUU80_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             8,
-            Weapons.STA_10_SUU80_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            WeaponsFA18EFG.STA_10_SUU80_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         STA_10_SUU80_LAU117_1x_AGM_65F___Maverick_F__IIR_ = (
             8,
-            Weapons.STA_10_SUU80_LAU117_1x_AGM_65F___Maverick_F__IIR_,
+            WeaponsFA18EFG.STA_10_SUU80_LAU117_1x_AGM_65F___Maverick_F__IIR_,
         )
         STA_10_SUU80_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only = (
             8,
-            Weapons.STA_10_SUU80_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
+            WeaponsFA18EFG.STA_10_SUU80_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
         )
         STA_10_SUU80_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             8,
-            Weapons.STA_10_SUU80_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+            WeaponsFA18EFG.STA_10_SUU80_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
         STA_10_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_10_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_10_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_10_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_10_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_10_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_10_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         # ERRR {SUPERHORNET_PYLON_10_OB_MK_1X_GBU-32V}
         STA_10_SUU80_BRU32___1x_GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
         STA_10_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_10_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb,
         )
         STA_10_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
         )
         STA_10_SUU80_BRU32___1x_CBU_99___490lbs__247_x_HEAT_Bomblets = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_CBU_99___490lbs__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_CBU_99___490lbs__247_x_HEAT_Bomblets,
         )
         STA_09_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar_ = (
             8,
-            Weapons.STA_09_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar_,
         )
         STA_09_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar_ = (
             8,
-            Weapons.STA_09_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar_,
         )
         STA_09_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar_ = (
             8,
-            Weapons.STA_09_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar_,
         )
         STA_09_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar_ = (
             8,
-            Weapons.STA_09_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar_,
         )
         STA_09_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_,
         )
         STA_09_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_,
         )
         STA_09_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
         )
         STA_09_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM_,
         )
         STA_09_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM_,
         )
         STA_09_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
         )
         STA_09_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM_,
         )
         STA_09_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM_,
         )
         STA_09_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM_,
         )
         STA_09_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM_,
         )
         STA_09_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM_,
         )
         STA_09_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM_,
         )
         STA_09_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__ = (
             8,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__,
         )
         STA_09_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only_ = (
             8,
-            Weapons.STA_09_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only_,
         )
         STA_09_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile__ = (
             8,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile__,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile__,
         )
         STA_09_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH_ = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_09_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH_ = (
             8,
-            Weapons.STA_09_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_09_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_ = (
             8,
-            Weapons.STA_09_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_09_SUU79_BRU42___1x_ADM_141A_TALD_ = (
             8,
-            Weapons.STA_09_SUU79_BRU42___1x_ADM_141A_TALD_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU42___1x_ADM_141A_TALD_,
         )
         STA_09_SUU79_BRU42___2x_ADM_141A_TALD_ = (
             8,
-            Weapons.STA_09_SUU79_BRU42___2x_ADM_141A_TALD_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU42___2x_ADM_141A_TALD_,
         )
         STA_09_SUU79_BRU42___3x_ADM_141A_TALD = (
             8,
-            Weapons.STA_09_SUU79_BRU42___3x_ADM_141A_TALD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU42___3x_ADM_141A_TALD,
         )
         STA_09_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_09_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_09_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_09_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_09_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_09_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_ = (
             8,
-            Weapons.STA_09_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_,
         )
         STA_09_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
         STA_09_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD_ = (
             8,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD_,
         )
         STA_09_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD_ = (
             8,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD_,
         )
         STA_09_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD_ = (
             8,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD_,
         )
         STA_09_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb_ = (
             8,
-            Weapons.STA_09_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb_,
         )
         STA_09_10_79_80_LAU127_1x_1x_AIM_9M_Sidewinder_IR_AAM = (
             8,
-            Weapons.STA_09_10_79_80_LAU127_1x_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_10_79_80_LAU127_1x_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_09_10_79_80_LAU127_1x_1x_AIM_9X_Sidewinder_IR_AAM = (
             8,
-            Weapons.STA_09_10_79_80_LAU127_1x_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_10_79_80_LAU127_1x_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_09_10_79_80_LAU127_1x_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.STA_09_10_79_80_LAU127_1x_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_10_79_80_LAU127_1x_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_09_10_79_80_LAU127_1x_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.STA_09_10_79_80_LAU127_1x_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_10_79_80_LAU127_1x_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_09_10_79_80_LAU127_1x_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             8,
-            Weapons.STA_09_10_79_80_LAU127_1x_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_09_10_79_80_LAU127_1x_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_09_10_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_09_10_79_80_BRU32___2x_GBU_16___1000lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_09_10_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_09_10_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_09_10_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_09_10_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_09_10_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_10_08_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_10_08_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_10_08_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_10_08_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_10_08_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_10_08_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_10_08_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_10_08_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_10_08_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_10_08_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             8,
-            Weapons.STA_10_08_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_10_08_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_10_08_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_10_08_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_10_08_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_10_08_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             8,
-            Weapons.STA_10_08_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_10_08_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_10_SUU80_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
         )
-        STA_10_SUU80_EMPTY = (8, Weapons.STA_10_SUU80_EMPTY)
+        STA_10_SUU80_EMPTY = (8, WeaponsFA18EFG.STA_10_SUU80_EMPTY)
         # ERRR <CLEAN>
         # ERRR {CATM-120C}
         # ERRR {CATM-9M}
@@ -11128,49 +11157,49 @@ class FA_18ET(PlaneType):
     class Pylon9:
         STA_11_WNGTP_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             9,
-            Weapons.STA_11_WNGTP_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_11_WNGTP_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_11_WNGTP_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             9,
-            Weapons.STA_11_WNGTP_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_11_WNGTP_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_11_WNGTP_LAU127_1x_Captive_AIM_9M_for_ACM = (
             9,
-            Weapons.STA_11_WNGTP_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_11_WNGTP_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_11_WNGTP_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             9,
-            Weapons.STA_11_WNGTP_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_11_WNGTP_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
 
     class Pylon10:
         STA_AX_FUEL_CELLS_1x_Internal_Auxillary_Fuel_Cells = (
             10,
-            Weapons.STA_AX_FUEL_CELLS_1x_Internal_Auxillary_Fuel_Cells,
+            WeaponsFA18EFG.STA_AX_FUEL_CELLS_1x_Internal_Auxillary_Fuel_Cells,
         )
         STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___White = (
             10,
-            Weapons.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___White,
+            WeaponsFA18EFG.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___White,
         )
         STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Red = (
             10,
-            Weapons.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Red,
+            WeaponsFA18EFG.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Red,
         )
         STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Green = (
             10,
-            Weapons.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Green,
+            WeaponsFA18EFG.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Green,
         )
         STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Blue = (
             10,
-            Weapons.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Blue,
+            WeaponsFA18EFG.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Blue,
         )
         STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Yellow = (
             10,
-            Weapons.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Yellow,
+            WeaponsFA18EFG.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Yellow,
         )
         STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Orange = (
             10,
-            Weapons.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Orange,
+            WeaponsFA18EFG.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Orange,
         )
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
@@ -11268,7 +11297,7 @@ class FA_18FT(PlaneType):
 
     property_defaults: Dict[str, Any] = {
         "SoloFlight": False,
-        "BlockIIIEquip": False,
+        "BlockIIIEquip": True,
         "USA_FLAG": False,
         "HelmetMountedDevice": 1,
     }
@@ -11292,382 +11321,459 @@ class FA_18FT(PlaneType):
                 JHMCS = 1
                 NVG = 2
 
+    properties = {
+        "SoloFlight": UnitPropertyDescription(
+            identifier="SoloFlight",
+            control="comboList",
+            label="Solo Flight (Remove WSO)",
+            player_only=False,
+            default=0,
+            w_ctrl=150,
+            values={
+                0: "False",
+                1: "True",
+            },
+        ),
+        "BlockIIIEquip": UnitPropertyDescription(
+            identifier="BlockIIIEquip",
+            control="comboList",
+            label="Block III Antennas (Cosmetic)",
+            player_only=False,
+            default=1,
+            w_ctrl=150,
+            values={
+                0: "Disabled",
+                1: "Enabled",
+            },
+        ),
+        "USA_FLAG": UnitPropertyDescription(
+            identifier="USA_FLAG",
+            control="comboList",
+            label="Hood Displayed USA Flag",
+            player_only=False,
+            default=0,
+            w_ctrl=150,
+            values={
+                0: "False",
+                1: "True",
+            },
+        ),
+        "HelmetMountedDevice": UnitPropertyDescription(
+            identifier="HelmetMountedDevice",
+            control="comboList",
+            label="Helmet Mounted Device",
+            player_only=True,
+            default=1,
+            w_ctrl=150,
+            values={
+                0: "Not installed",
+                1: "JHMCS",
+                2: "NVG",
+            },
+        ),
+        "datalink_Label": UnitPropertyDescription(
+            identifier="datalink_Label",
+            control="label",
+            label="DATALINK",
+            player_only=False,
+            x_lbl=150,
+        ),
+        "VoiceCallsignLabel": UnitPropertyDescription(
+            identifier="VoiceCallsignLabel",
+            control="editbox",
+            label="Voice Callsign Label",
+            player_only=False,
+        ),
+        "VoiceCallsignNumber": UnitPropertyDescription(
+            identifier="VoiceCallsignNumber",
+            control="editbox",
+            label="Voice Callsign Number",
+            player_only=False,
+        ),
+        "STN_L16": UnitPropertyDescription(
+            identifier="STN_L16",
+            control="editbox",
+            label="STN",
+            player_only=False,
+        ),
+    }
+
     livery_name = "FA-18F"  # from livery_entry
 
     class Pylon1:
         STA_01_WNGTP_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             1,
-            Weapons.STA_01_WNGTP_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_01_WNGTP_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_01_WNGTP_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             1,
-            Weapons.STA_01_WNGTP_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_01_WNGTP_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_01_WNGTP_LAU127_1x_Captive_AIM_9M_for_ACM = (
             1,
-            Weapons.STA_01_WNGTP_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_01_WNGTP_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_01_WNGTP_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             1,
-            Weapons.STA_01_WNGTP_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_01_WNGTP_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
 
     class Pylon2:
         STA_02_SUU80_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             2,
-            Weapons.STA_02_SUU80_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_02_SUU80_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_02_SUU80_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_02_SUU80_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_02_SUU80_LAU127_1x_Captive_AIM_9M_for_ACM = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_02_SUU80_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
         STA_02_SUU80_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_02_SUU80_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_02_SUU80_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_02_SUU80_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             2,
-            Weapons.STA_02_SUU80_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            WeaponsFA18EFG.STA_02_SUU80_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         STA_02_SUU80_LAU117_1x_AGM_65F___Maverick_F__IIR_ = (
             2,
-            Weapons.STA_02_SUU80_LAU117_1x_AGM_65F___Maverick_F__IIR_,
+            WeaponsFA18EFG.STA_02_SUU80_LAU117_1x_AGM_65F___Maverick_F__IIR_,
         )
         STA_02_SUU80_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only = (
             2,
-            Weapons.STA_02_SUU80_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
+            WeaponsFA18EFG.STA_02_SUU80_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
         )
         STA_02_SUU80_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             2,
-            Weapons.STA_02_SUU80_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+            WeaponsFA18EFG.STA_02_SUU80_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
         STA_02_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_02_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_02_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_02_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_02_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_02_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_02_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_02_SUU80_BRU32___1x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
         STA_02_SUU80_BRU32___1x_GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
         STA_02_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_02_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb,
         )
         STA_02_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
         )
         STA_02_SUU80_BRU32___1x_CBU_99___490lbs__247_x_HEAT_Bomblets = (
             2,
-            Weapons.STA_02_SUU80_BRU32___1x_CBU_99___490lbs__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_02_SUU80_BRU32___1x_CBU_99___490lbs__247_x_HEAT_Bomblets,
         )
         STA_03_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             2,
-            Weapons.STA_03_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_03_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_03_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar = (
             2,
-            Weapons.STA_03_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_03_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar,
         )
         STA_03_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar = (
             2,
-            Weapons.STA_03_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_03_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
         STA_03_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar = (
             2,
-            Weapons.STA_03_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_03_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar,
         )
         STA_03_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_03_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_03_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             2,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_03_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_03_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_03_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             2,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_03_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_03_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_03_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_03_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_03_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_03_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM = (
             2,
-            Weapons.STA_03_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
         )
         STA_03_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             2,
-            Weapons.STA_03_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         STA_03_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only = (
             2,
-            Weapons.STA_03_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
         )
         STA_03_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
         )
         STA_03_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_03_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH = (
             2,
-            Weapons.STA_03_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_03_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH = (
             2,
-            Weapons.STA_03_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_03_SUU79_BRU42___1x_ADM_141A_TALD_ = (
             2,
-            Weapons.STA_03_SUU79_BRU42___1x_ADM_141A_TALD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU42___1x_ADM_141A_TALD_,
         )
         STA_03_SUU79_BRU42___2x_ADM_141A_TALD_ = (
             2,
-            Weapons.STA_03_SUU79_BRU42___2x_ADM_141A_TALD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU42___2x_ADM_141A_TALD_,
         )
         STA_03_SUU79_BRU42___3x_ADM_141A_TALD = (
             2,
-            Weapons.STA_03_SUU79_BRU42___3x_ADM_141A_TALD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU42___3x_ADM_141A_TALD,
         )
         STA_03_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_03_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_03_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_03_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_03_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             2,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_03_SUU79_BRU55___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU55___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_03_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             2,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_03_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_03_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_02_03_79_80_LAU127_1x_1x_AIM_9M_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_02_03_79_80_LAU127_1x_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_02_03_79_80_LAU127_1x_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_02_03_79_80_LAU127_1x_1x_AIM_9X_Sidewinder_IR_AAM = (
             2,
-            Weapons.STA_02_03_79_80_LAU127_1x_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_02_03_79_80_LAU127_1x_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_02_03_79_80_LAU127_1x_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_02_03_79_80_LAU127_1x_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_02_03_79_80_LAU127_1x_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_02_03_79_80_LAU127_1x_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             2,
-            Weapons.STA_02_03_79_80_LAU127_1x_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_02_03_79_80_LAU127_1x_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_02_03_79_80_LAU127_1x_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             2,
-            Weapons.STA_02_03_79_80_LAU127_1x_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_02_03_79_80_LAU127_1x_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_03_02_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_03_02_79_80_BRU32___2x_GBU_16___1000lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_03_02_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_03_02_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_03_02_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_03_02_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_03_02_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             2,
-            Weapons.STA_03_02_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_03_02_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_04_02_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             2,
-            Weapons.STA_04_02_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_02_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_04_02_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             2,
-            Weapons.STA_04_02_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_02_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         # ERRR {SUPERHORNET_PYLON_02_MB_MK_BR55_1X_GBU-32V}
         # ERRR {SUPERHORNET_PYLON_02_MB_MK_BR55_2X_GBU-32V}
         STA_04_02_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_04_02_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_02_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_04_02_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             2,
-            Weapons.STA_04_02_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_04_02_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_04_02_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD = (
             2,
-            Weapons.STA_04_02_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_02_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_04_02_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             2,
-            Weapons.STA_04_02_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_04_02_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_02_SUU80_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X = (
             2,
-            Weapons.STA_02_SUU80_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
+            WeaponsFA18EFG.STA_02_SUU80_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
         )
-        STA_02_SUU80_EMPTY = (2, Weapons.STA_02_SUU80_EMPTY)
+        STA_02_SUU80_EMPTY = (2, WeaponsFA18EFG.STA_02_SUU80_EMPTY)
         # ERRR <CLEAN>
         # ERRR {CATM-120C}
         # ERRR {CATM-9M}
@@ -11714,461 +11820,461 @@ class FA_18FT(PlaneType):
     class Pylon3:
         STA_02_SUU79_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             3,
-            Weapons.STA_02_SUU79_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_02_SUU79_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
         STA_03_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar_ = (
             3,
-            Weapons.STA_03_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar_,
         )
         STA_03_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_,
         )
         STA_03_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_,
         )
         STA_03_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
         )
         STA_03_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM_,
         )
         STA_03_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM_,
         )
         STA_03_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
         )
         STA_03_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM_,
         )
         STA_03_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM_,
         )
         STA_03_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM_,
         )
         STA_03_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM_,
         )
         STA_03_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM_,
         )
         STA_03_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM_ = (
             3,
-            Weapons.STA_03_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM_,
         )
         STA_03_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
         )
         STA_03_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
         )
         STA_03_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
         )
         STA_03_SUU79_BRU32___1x_ALQ_167_Countermeasures_System = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_ALQ_167_Countermeasures_System,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_ALQ_167_Countermeasures_System,
         )
         STA_03_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__ = (
             3,
-            Weapons.STA_03_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__,
         )
         STA_03_SUU79_LAU117_1x_AGM_65F___Maverick_F__IIR__ = (
             3,
-            Weapons.STA_03_SUU79_LAU117_1x_AGM_65F___Maverick_F__IIR__,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_AGM_65F___Maverick_F__IIR__,
         )
         STA_03_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only_ = (
             3,
-            Weapons.STA_03_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only_,
         )
         STA_03_SUU79_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             3,
-            Weapons.STA_03_SUU79_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+            WeaponsFA18EFG.STA_03_SUU79_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
         STA_03_SUU79_LAU117_1x_AGM_84D_Harpoon_Anti_Ship_Missile = (
             3,
-            Weapons.STA_03_SUU79_LAU117_1x_AGM_84D_Harpoon_Anti_Ship_Missile,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_AGM_84D_Harpoon_Anti_Ship_Missile,
         )
         STA_03_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             3,
-            Weapons.STA_03_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
         )
         STA_03_SUU79_LAU117_1x_AGM_84H_SLAM_ER__Expanded_Response_ = (
             3,
-            Weapons.STA_03_SUU79_LAU117_1x_AGM_84H_SLAM_ER__Expanded_Response_,
+            WeaponsFA18EFG.STA_03_SUU79_LAU117_1x_AGM_84H_SLAM_ER__Expanded_Response_,
         )
         STA_03_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_03_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH_ = (
             3,
-            Weapons.STA_03_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_03_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_ = (
             3,
-            Weapons.STA_03_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_03_SUU79_BRU55___1x_AGM_154A___JSOW_CEB__CBU_type_ = (
             3,
-            Weapons.STA_03_SUU79_BRU55___1x_AGM_154A___JSOW_CEB__CBU_type_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___1x_AGM_154A___JSOW_CEB__CBU_type_,
         )
         STA_03_SUU79_BRU55___2x_AGM_154A___JSOW_CEB__CBU_type_ = (
             3,
-            Weapons.STA_03_SUU79_BRU55___2x_AGM_154A___JSOW_CEB__CBU_type_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___2x_AGM_154A___JSOW_CEB__CBU_type_,
         )
         STA_03_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD_,
         )
         STA_03_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD_,
         )
         STA_03_SUU79_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD_,
         )
         STA_03_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD_,
         )
         STA_03_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD_,
         )
         STA_03_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb_,
         )
         STA_03_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb_,
         )
         STA_03_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb_,
         )
         STA_03_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb_,
         )
         STA_03_SUU79_BRU32___1x_GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb,
         )
         STA_03_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_,
         )
         # ERRR {SUPERHORNET_PYLON_03_MB_MK_1X_GBU-32V}
         STA_03_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets_ = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets_,
         )
         STA_03_SUU79_BRU32___1x_BDU_45___500lb_Practice_Bomb = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_BDU_45___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_BDU_45___500lb_Practice_Bomb,
         )
         STA_03_SUU79_BRU32___1x_BDU_45B___500lb_Practice_Bomb = (
             3,
-            Weapons.STA_03_SUU79_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
         )
         STA_03_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb_,
         )
         STA_03_SUU79_BRU33___2x_BDU_45___500lb_Practice_Bomb = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_BDU_45___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_BDU_45___500lb_Practice_Bomb,
         )
         STA_03_SUU79_BRU33___2x_BDU_45B___500lb_Practice_Bomb = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_BDU_45B___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_BDU_45B___500lb_Practice_Bomb,
         )
         STA_03_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD_,
         )
         STA_03_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_03_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD_,
         )
         STA_03_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD_,
         )
         # ERRR {SUPERHORNET_PYLON_03_MB_MK_BR2_ROCKEYE}
         STA_03_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_ = (
             3,
-            Weapons.STA_03_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_,
         )
         STA_03_SUU79_BRU41___6x_BDU_33___25lb_Practice_Bomb_LD = (
             3,
-            Weapons.STA_03_SUU79_BRU41___6x_BDU_33___25lb_Practice_Bomb_LD,
+            WeaponsFA18EFG.STA_03_SUU79_BRU41___6x_BDU_33___25lb_Practice_Bomb_LD,
         )
         STA_04_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             3,
-            Weapons.STA_04_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_04_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_04_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar = (
             3,
-            Weapons.STA_04_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_04_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar,
         )
         STA_04_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar = (
             3,
-            Weapons.STA_04_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_04_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
         STA_04_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar = (
             3,
-            Weapons.STA_04_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_04_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar,
         )
         STA_04_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_04_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_04_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_04_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_04_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_04_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
         )
         STA_04_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_04_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_04_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             3,
-            Weapons.STA_04_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_04_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_04_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             3,
-            Weapons.STA_04_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_04_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             3,
-            Weapons.STA_04_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_04_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons = (
             3,
-            Weapons.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
         )
         STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis = (
             3,
-            Weapons.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
         )
         # ERRR {SUPERHORNET_PYLON_03_IB_PD_1X_ALQ-167}
         STA_04_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             3,
-            Weapons.STA_04_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
         )
         STA_04_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             3,
-            Weapons.STA_04_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            WeaponsFA18EFG.STA_04_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         STA_03_SUU79_BRU42___1x_ADM_141A_TALD__ = (
             3,
-            Weapons.STA_03_SUU79_BRU42___1x_ADM_141A_TALD__,
+            WeaponsFA18EFG.STA_03_SUU79_BRU42___1x_ADM_141A_TALD__,
         )
         STA_03_SUU79_BRU42___2x_ADM_141A_TALD__ = (
             3,
-            Weapons.STA_03_SUU79_BRU42___2x_ADM_141A_TALD__,
+            WeaponsFA18EFG.STA_03_SUU79_BRU42___2x_ADM_141A_TALD__,
         )
         STA_03_SUU79_BRU42___3x_ADM_141A_TALD_ = (
             3,
-            Weapons.STA_03_SUU79_BRU42___3x_ADM_141A_TALD_,
+            WeaponsFA18EFG.STA_03_SUU79_BRU42___3x_ADM_141A_TALD_,
         )
         STA_04_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only = (
             3,
-            Weapons.STA_04_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
+            WeaponsFA18EFG.STA_04_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
         )
         STA_04_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH = (
             3,
-            Weapons.STA_04_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_04_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_04_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH = (
             3,
-            Weapons.STA_04_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_04_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_04_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_04_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_04_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_04_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_04_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_04_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             3,
-            Weapons.STA_04_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_04_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_04_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_04_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_04_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             3,
-            Weapons.STA_04_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_04_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_04_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             3,
-            Weapons.STA_04_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_04_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_04_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         # ERRR {SUPERHORNET_PYLON_03_IB_MK_BR2_ROCKEYE}
         STA_04_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_04_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
         STA_04_03_79_80_BRU32___1x_1x_AGM_154C___JSOW_Unitary_BROACH = (
             3,
-            Weapons.STA_04_03_79_80_BRU32___1x_1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_04_03_79_80_BRU32___1x_1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_12___500lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_04_03_SUU79_BRU32___1x_1x_Mk_82___500lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_04_03_SUU79_BRU32___1x_1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_04_03_SUU79_BRU32___1x_1x_Mk_83___1000lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_04_03_SUU79_BRU32___1x_1x_Mk_84___2000lb_GP_Bomb_LD = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_04_03_SUU79_BRU32___1x_1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             3,
-            Weapons.STA_04_03_SUU79_BRU32___1x_1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_04_03_SUU79_BRU32___1x_1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_02_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X = (
             3,
-            Weapons.STA_02_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
+            WeaponsFA18EFG.STA_02_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
         )
-        STA_03_SUU79_EMPTY = (3, Weapons.STA_03_SUU79_EMPTY)
+        STA_03_SUU79_EMPTY = (3, WeaponsFA18EFG.STA_03_SUU79_EMPTY)
         # ERRR <CLEAN>
         # ERRR LAU-115_2*LAU-127_CATM-120C
         # ERRR LAU_117_TGM_65E
@@ -12230,56 +12336,56 @@ class FA_18FT(PlaneType):
     class Pylon4:
         STA_05_CHEEK__LAU116_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_05_CHEEK__LAU116_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_05_CHEEK__LAU116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_05_CHEEK__LAU116_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_05_CHEEK__LAU116_1x_AIM_7F_Sparrow_Semi_Active_Radar = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_7F_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_7F_Sparrow_Semi_Active_Radar,
         )
         STA_05_CHEEK__LAU116_1x_AIM_7MH_Sparrow_Semi_Active_Radar = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
         STA_05_CHEEK__LAU116_1x_AIM_7P_Sparrow_Semi_Active_Radar = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_1x_AIM_7P_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_1x_AIM_7P_Sparrow_Semi_Active_Radar,
         )
         STA_05_CHEEK__TGPMNT_1x_AN_ASQ_228_ATFLIR___Targeting_Pod = (
             4,
-            Weapons.STA_05_CHEEK__TGPMNT_1x_AN_ASQ_228_ATFLIR___Targeting_Pod,
+            WeaponsFA18EFG.STA_05_CHEEK__TGPMNT_1x_AN_ASQ_228_ATFLIR___Targeting_Pod,
         )
         STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_ = (
             4,
-            Weapons.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_,
         )
         STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis_ = (
             4,
-            Weapons.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis_,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis_,
         )
         AWW_13_DATALINK_POD = (4, Weapons.AWW_13_DATALINK_POD)
         STA_04_SUU79_BRU32___Remove_SUU_79A_A_Pylon = (
             4,
-            Weapons.STA_04_SUU79_BRU32___Remove_SUU_79A_A_Pylon,
+            WeaponsFA18EFG.STA_04_SUU79_BRU32___Remove_SUU_79A_A_Pylon,
         )
         STA_05_CHEEK__TGPMNT_Empty_TGP_Mount = (
             4,
-            Weapons.STA_05_CHEEK__TGPMNT_Empty_TGP_Mount,
+            WeaponsFA18EFG.STA_05_CHEEK__TGPMNT_Empty_TGP_Mount,
         )
         STA_05_CHEEK__LAU116_Empty_AIM_7_120_Ejectors = (
             4,
-            Weapons.STA_05_CHEEK__LAU116_Empty_AIM_7_120_Ejectors,
+            WeaponsFA18EFG.STA_05_CHEEK__LAU116_Empty_AIM_7_120_Ejectors,
         )
         # ERRR <CLEAN>
         AIM_7F_Sparrow_Semi_Active_Radar = (4, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
@@ -12296,25 +12402,25 @@ class FA_18FT(PlaneType):
     class Pylon5:
         STA_06_SUU78_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons = (
             5,
-            Weapons.STA_06_SUU78_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
+            WeaponsFA18EFG.STA_06_SUU78_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
         )
         STA_06_SUU78_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis = (
             5,
-            Weapons.STA_06_SUU78_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.STA_06_SUU78_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
         )
         STA_06_SUU78_BRU32___1x_AA_42R_Aerial_Refueling_Buddy_Pod = (
             5,
-            Weapons.STA_06_SUU78_BRU32___1x_AA_42R_Aerial_Refueling_Buddy_Pod,
+            WeaponsFA18EFG.STA_06_SUU78_BRU32___1x_AA_42R_Aerial_Refueling_Buddy_Pod,
         )
         STA_06_SUU78_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod = (
             5,
-            Weapons.STA_06_SUU78_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
+            WeaponsFA18EFG.STA_06_SUU78_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
         )
         STA_06_SUU78_BRU32___1x_AN_AAQ_28_LITENING___Targeting_Pod = (
             5,
-            Weapons.STA_06_SUU78_BRU32___1x_AN_AAQ_28_LITENING___Targeting_Pod,
+            WeaponsFA18EFG.STA_06_SUU78_BRU32___1x_AN_AAQ_28_LITENING___Targeting_Pod,
         )
-        STA_06_SUU78_EMPTY = (5, Weapons.STA_06_SUU78_EMPTY)
+        STA_06_SUU78_EMPTY = (5, WeaponsFA18EFG.STA_06_SUU78_EMPTY)
         # ERRR <CLEAN>
         AWW_13_DATALINK_POD = (5, Weapons.AWW_13_DATALINK_POD)
         AN_AAQ_28_LITENING___Targeting_Pod_ = (
@@ -12325,52 +12431,52 @@ class FA_18FT(PlaneType):
     class Pylon6:
         STA_07_CHEEK__LAU116_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_07_CHEEK__LAU116_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_07_CHEEK__LAU116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_07_CHEEK__LAU116_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_07_CHEEK__LAU116_1x_AIM_7F_Sparrow_Semi_Active_Radar = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_7F_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_7F_Sparrow_Semi_Active_Radar,
         )
         STA_07_CHEEK__LAU116_1x_AIM_7MH_Sparrow_Semi_Active_Radar = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
         STA_07_CHEEK__LAU116_1x_AIM_7P_Sparrow_Semi_Active_Radar = (
             6,
-            Weapons.STA_07_CHEEK__LAU116_1x_AIM_7P_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_07_CHEEK__LAU116_1x_AIM_7P_Sparrow_Semi_Active_Radar,
         )
         STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons = (
             6,
-            Weapons.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
         )
         STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis = (
             6,
-            Weapons.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
         )
         STA_08_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod = (
             6,
-            Weapons.STA_08_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
         )
         STA_07_SUU79_BRU32___Remove_SUU_79A_A_Pylon = (
             6,
-            Weapons.STA_07_SUU79_BRU32___Remove_SUU_79A_A_Pylon,
+            WeaponsFA18EFG.STA_07_SUU79_BRU32___Remove_SUU_79A_A_Pylon,
         )
-        STA_08_SUU79_EMPTY = (6, Weapons.STA_08_SUU79_EMPTY)
+        STA_08_SUU79_EMPTY = (6, WeaponsFA18EFG.STA_08_SUU79_EMPTY)
         STA_08_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X = (
             6,
-            Weapons.STA_08_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
         )
         # ERRR <CLEAN>
         AIM_7F_Sparrow_Semi_Active_Radar = (6, Weapons.AIM_7F_Sparrow_Semi_Active_Radar)
@@ -12384,462 +12490,462 @@ class FA_18FT(PlaneType):
     class Pylon7:
         STA_09_SUU79_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
         STA_09_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             7,
-            Weapons.STA_09_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_09_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_09_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_09_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_09_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_09_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_09_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_09_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             7,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_09_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_09_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_09_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_09_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_09_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_09_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM = (
             7,
-            Weapons.STA_09_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
         )
         STA_09_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons = (
             7,
-            Weapons.STA_09_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons,
         )
         STA_09_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis = (
             7,
-            Weapons.STA_09_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis,
         )
         STA_09_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod = (
             7,
-            Weapons.STA_09_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_AN_AWW_13_Advanced_Datalink_Pod,
         )
         STA_09_SUU79_BRU32___1x_ALQ_167_Countermeasures_System = (
             7,
-            Weapons.STA_09_SUU79_BRU32___1x_ALQ_167_Countermeasures_System,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_ALQ_167_Countermeasures_System,
         )
         STA_09_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             7,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         STA_09_SUU79_LAU117_1x_AGM_65F___Maverick_F__IIR_ = (
             7,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_65F___Maverick_F__IIR_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_65F___Maverick_F__IIR_,
         )
         STA_09_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only = (
             7,
-            Weapons.STA_09_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
         )
         STA_09_SUU79_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             7,
-            Weapons.STA_09_SUU79_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+            WeaponsFA18EFG.STA_09_SUU79_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
         STA_09_SUU79_LAU117_1x_AGM_84D_Harpoon_Anti_Ship_Missile = (
             7,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_84D_Harpoon_Anti_Ship_Missile,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_84D_Harpoon_Anti_Ship_Missile,
         )
         STA_09_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             7,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
         )
         STA_09_SUU79_LAU117_1x_AGM_84H_SLAM_ER__Expanded_Response_ = (
             7,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_84H_SLAM_ER__Expanded_Response_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_84H_SLAM_ER__Expanded_Response_,
         )
         STA_09_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH = (
             7,
-            Weapons.STA_09_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_09_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH = (
             7,
-            Weapons.STA_09_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_09_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH = (
             7,
-            Weapons.STA_09_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_09_SUU79_BRU55___1x_AGM_154A___JSOW_CEB__CBU_type_ = (
             7,
-            Weapons.STA_09_SUU79_BRU55___1x_AGM_154A___JSOW_CEB__CBU_type_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___1x_AGM_154A___JSOW_CEB__CBU_type_,
         )
         STA_09_SUU79_BRU55___2x_AGM_154A___JSOW_CEB__CBU_type_ = (
             7,
-            Weapons.STA_09_SUU79_BRU55___2x_AGM_154A___JSOW_CEB__CBU_type_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___2x_AGM_154A___JSOW_CEB__CBU_type_,
         )
         STA_09_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_09_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_09_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_09_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_09_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_09_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_09_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_09_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_09_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_09_SUU80_BRU32___1x_GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_31_V_2_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_09_SUU80_BRU32___1x_GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_31_V_4_B___JDAM__2000lb_GPS_Guided_Penetrator_Bomb,
         )
         STA_09_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         # ERRR {SUPERHORNET_PYLON_09_MB_MK_1X_GBU-32V}
         STA_09_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_09_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb,
         )
         STA_09_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb = (
             7,
-            Weapons.STA_09_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_09_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
         )
         STA_09_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_09_SUU79_BRU33___2x_BDU_45___500lb_Practice_Bomb = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_BDU_45___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_BDU_45___500lb_Practice_Bomb,
         )
         STA_09_SUU79_BRU33___2x_BDU_45B___500lb_Practice_Bomb = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_BDU_45B___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_BDU_45B___500lb_Practice_Bomb,
         )
         STA_09_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_09_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_09_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_09_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         # ERRR {SUPERHORNET_PYLON_09_MB_MK_BR2_ROCKEYE}
         STA_09_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_09_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_09_SUU79_BRU41___6x_BDU_33___25lb_Practice_Bomb_LD = (
             7,
-            Weapons.STA_09_SUU79_BRU41___6x_BDU_33___25lb_Practice_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU41___6x_BDU_33___25lb_Practice_Bomb_LD,
         )
         STA_08_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             7,
-            Weapons.STA_08_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_08_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_08_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar = (
             7,
-            Weapons.STA_08_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_08_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar,
         )
         STA_08_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar = (
             7,
-            Weapons.STA_08_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_08_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar,
         )
         STA_08_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar = (
             7,
-            Weapons.STA_08_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_08_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar,
         )
         STA_08_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_08_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_08_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_08_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_08_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_08_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM,
         )
         STA_08_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_08_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_08_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             7,
-            Weapons.STA_08_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_08_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_08_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             7,
-            Weapons.STA_08_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_08_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             7,
-            Weapons.STA_08_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_08_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_ = (
             7,
-            Weapons.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_,
         )
         STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis_ = (
             7,
-            Weapons.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis_,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32___1x_FPU_12_A_Fuel_Tank_480_gallons_High_Vis_,
         )
         # ERRR {SUPERHORNET_PYLON_09_IB_PD_1X_ALQ-167}
         # ERRR {SUPERHORNET_PYLON_09_IB_PD_1X_ALQ-167}
         STA_08_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_ = (
             7,
-            Weapons.STA_08_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
+            WeaponsFA18EFG.STA_08_SUU79_BRU32___1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
         )
         STA_08_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             7,
-            Weapons.STA_08_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            WeaponsFA18EFG.STA_08_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         STA_08_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only = (
             7,
-            Weapons.STA_08_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
+            WeaponsFA18EFG.STA_08_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
         )
         STA_08_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH = (
             7,
-            Weapons.STA_08_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_08_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_08_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_ = (
             7,
-            Weapons.STA_08_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_08_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_08_SUU79_BRU42___1x_ADM_141A_TALD = (
             7,
-            Weapons.STA_08_SUU79_BRU42___1x_ADM_141A_TALD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU42___1x_ADM_141A_TALD,
         )
         STA_08_SUU79_BRU42___2x_ADM_141A_TALD = (
             7,
-            Weapons.STA_08_SUU79_BRU42___2x_ADM_141A_TALD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU42___2x_ADM_141A_TALD,
         )
         STA_08_SUU79_BRU42___3x_ADM_141A_TALD = (
             7,
-            Weapons.STA_08_SUU79_BRU42___3x_ADM_141A_TALD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU42___3x_ADM_141A_TALD,
         )
         STA_08_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_08_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_08_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_08_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_08_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_08_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             7,
-            Weapons.STA_08_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_08_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_08_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_08_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_08_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_08_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             7,
-            Weapons.STA_08_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU33___2x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_08_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             7,
-            Weapons.STA_08_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_08_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_08_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_08_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         # ERRR {SUPERHORNET_PYLON_09_IB_MK_BR2_ROCKEYE}
         STA_08_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_08_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_08_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_08_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
         STA_08_09_SUU79_BRU32___1x_1x_AGM_154C___JSOW_Unitary_BROACH = (
             7,
-            Weapons.STA_08_09_SUU79_BRU32___1x_1x_AGM_154C___JSOW_Unitary_BROACH,
+            WeaponsFA18EFG.STA_08_09_SUU79_BRU32___1x_1x_AGM_154C___JSOW_Unitary_BROACH,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_12___500lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_09_08_SUU79_BRU32___1x_1x_Mk_82___500lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_09_08_SUU79_BRU32___1x_1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_09_08_SUU79_BRU32___1x_1x_Mk_83___1000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_09_08_SUU79_BRU32___1x_1x_Mk_84___2000lb_GP_Bomb_LD = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_09_08_SUU79_BRU32___1x_1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             7,
-            Weapons.STA_09_08_SUU79_BRU32___1x_1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_09_08_SUU79_BRU32___1x_1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_09_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X = (
             7,
-            Weapons.STA_09_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
         )
-        STA_09_SUU79_EMPTY = (7, Weapons.STA_09_SUU79_EMPTY)
+        STA_09_SUU79_EMPTY = (7, WeaponsFA18EFG.STA_09_SUU79_EMPTY)
         # ERRR <CLEAN>
         # ERRR LAU-115_2*LAU-127_CATM-120C
         # ERRR LAU_117_TGM_65E
@@ -12897,350 +13003,350 @@ class FA_18FT(PlaneType):
     class Pylon8:
         STA_10_SUU80_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar = (
             8,
-            Weapons.STA_10_SUU80_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
+            WeaponsFA18EFG.STA_10_SUU80_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar,
         )
         STA_10_SUU80_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_10_SUU80_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_10_SUU80_LAU127_1x_Captive_AIM_9M_for_ACM = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_10_SUU80_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
         STA_10_SUU80_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_10_SUU80_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_10_SUU80_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_10_SUU80_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             8,
-            Weapons.STA_10_SUU80_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            WeaponsFA18EFG.STA_10_SUU80_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         STA_10_SUU80_LAU117_1x_AGM_65F___Maverick_F__IIR_ = (
             8,
-            Weapons.STA_10_SUU80_LAU117_1x_AGM_65F___Maverick_F__IIR_,
+            WeaponsFA18EFG.STA_10_SUU80_LAU117_1x_AGM_65F___Maverick_F__IIR_,
         )
         STA_10_SUU80_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only = (
             8,
-            Weapons.STA_10_SUU80_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
+            WeaponsFA18EFG.STA_10_SUU80_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only,
         )
         STA_10_SUU80_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
             8,
-            Weapons.STA_10_SUU80_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
+            WeaponsFA18EFG.STA_10_SUU80_LAU118_1x_AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
         STA_10_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_10_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_10_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_Mk_82Y___500lb_GP_Chute_Retarded_HD,
         )
         STA_10_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_10_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_10_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_10_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         # ERRR {SUPERHORNET_PYLON_10_OB_MK_1X_GBU-32V}
         STA_10_SUU80_BRU32___1x_GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_GBU_54_V_1_B___LJDAM__500lb_Laser__GPS_Guided_Bomb_LD,
         )
         STA_10_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_10_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_BDU_45___500lb_Practice_Bomb,
         )
         STA_10_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_BDU_45B___500lb_Practice_Bomb,
         )
         STA_10_SUU80_BRU32___1x_CBU_99___490lbs__247_x_HEAT_Bomblets = (
             8,
-            Weapons.STA_10_SUU80_BRU32___1x_CBU_99___490lbs__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_10_SUU80_BRU32___1x_CBU_99___490lbs__247_x_HEAT_Bomblets,
         )
         STA_09_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar_ = (
             8,
-            Weapons.STA_09_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU115_1x_AIM_7M_Sparrow_Semi_Active_Radar_,
         )
         STA_09_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar_ = (
             8,
-            Weapons.STA_09_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU115_1x_AIM_7F_Sparrow_Semi_Active_Radar_,
         )
         STA_09_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar_ = (
             8,
-            Weapons.STA_09_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU115_1x_AIM_7MH_Sparrow_Semi_Active_Radar_,
         )
         STA_09_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar_ = (
             8,
-            Weapons.STA_09_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU115_1x_AIM_7P_Sparrow_Semi_Active_Radar_,
         )
         STA_09_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_120B_AMRAAM___Active_Radar_AAM_,
         )
         STA_09_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_120C_AMRAAM___Active_Radar_AAM_,
         )
         STA_09_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
         )
         STA_09_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_120B_AMRAAM___Active_Radar_AAM_,
         )
         STA_09_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_120C_AMRAAM___Active_Radar_AAM_,
         )
         STA_09_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only__,
         )
         STA_09_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_9M_Sidewinder_IR_AAM_,
         )
         STA_09_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_AIM_9X_Sidewinder_IR_AAM_,
         )
         STA_09_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_1x_Captive_AIM_9M_for_ACM_,
         )
         STA_09_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_9M_Sidewinder_IR_AAM_,
         )
         STA_09_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_AIM_9X_Sidewinder_IR_AAM_,
         )
         STA_09_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM_ = (
             8,
-            Weapons.STA_09_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU127_2x_Captive_AIM_9M_for_ACM_,
         )
         STA_09_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__ = (
             8,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__,
         )
         STA_09_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only_ = (
             8,
-            Weapons.STA_09_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only_,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_CATM_65K___Captive_Trg_Round_for_Mav_K__CCD___AI_Only_,
         )
         STA_09_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile__ = (
             8,
-            Weapons.STA_09_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile__,
+            WeaponsFA18EFG.STA_09_SUU79_LAU117_1x_AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile__,
         )
         STA_09_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH_ = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_09_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH_ = (
             8,
-            Weapons.STA_09_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___1x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_09_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_ = (
             8,
-            Weapons.STA_09_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___2x_AGM_154C___JSOW_Unitary_BROACH_,
         )
         STA_09_SUU79_BRU42___1x_ADM_141A_TALD_ = (
             8,
-            Weapons.STA_09_SUU79_BRU42___1x_ADM_141A_TALD_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU42___1x_ADM_141A_TALD_,
         )
         STA_09_SUU79_BRU42___2x_ADM_141A_TALD_ = (
             8,
-            Weapons.STA_09_SUU79_BRU42___2x_ADM_141A_TALD_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU42___2x_ADM_141A_TALD_,
         )
         STA_09_SUU79_BRU42___3x_ADM_141A_TALD = (
             8,
-            Weapons.STA_09_SUU79_BRU42___3x_ADM_141A_TALD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU42___3x_ADM_141A_TALD,
         )
         STA_09_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_09_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_09_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_09_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_Mk_84___2000lb_GP_Bomb_LD,
         )
         STA_09_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_10___2000lb_Laser_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_24A_B_Paveway_III___2000lb_Laser_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_31_V_1_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_31_V_3_B___JDAM__2000lb_GPS_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_09_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             8,
-            Weapons.STA_09_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_09_SUU79_BRU32___1x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_09_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_ = (
             8,
-            Weapons.STA_09_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb_,
         )
         STA_09_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_09_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_SUU79_BRU55___2x_GBU_32_V_2_B___JDAM__1000lb_GPS_Guided_Bomb,
         )
         STA_09_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD_ = (
             8,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_82___500lb_GP_Bomb_LD_,
         )
         STA_09_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD_ = (
             8,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD_,
         )
         STA_09_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD_ = (
             8,
-            Weapons.STA_09_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_Mk_83___1000lb_GP_Bomb_LD_,
         )
         STA_09_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb_ = (
             8,
-            Weapons.STA_09_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb_,
+            WeaponsFA18EFG.STA_09_SUU79_BRU33___2x_GBU_12___500lb_Laser_Guided_Bomb_,
         )
         STA_09_10_79_80_LAU127_1x_1x_AIM_9M_Sidewinder_IR_AAM = (
             8,
-            Weapons.STA_09_10_79_80_LAU127_1x_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_10_79_80_LAU127_1x_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_09_10_79_80_LAU127_1x_1x_AIM_9X_Sidewinder_IR_AAM = (
             8,
-            Weapons.STA_09_10_79_80_LAU127_1x_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_09_10_79_80_LAU127_1x_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_09_10_79_80_LAU127_1x_1x_AIM_120B_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.STA_09_10_79_80_LAU127_1x_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_10_79_80_LAU127_1x_1x_AIM_120B_AMRAAM___Active_Radar_AAM,
         )
         STA_09_10_79_80_LAU127_1x_1x_AIM_120C_AMRAAM___Active_Radar_AAM = (
             8,
-            Weapons.STA_09_10_79_80_LAU127_1x_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
+            WeaponsFA18EFG.STA_09_10_79_80_LAU127_1x_1x_AIM_120C_AMRAAM___Active_Radar_AAM,
         )
         STA_09_10_79_80_LAU127_1x_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_ = (
             8,
-            Weapons.STA_09_10_79_80_LAU127_1x_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
+            WeaponsFA18EFG.STA_09_10_79_80_LAU127_1x_1x_AIM_120D_AMRAAM___Active_Radar_AAM__AI_Only_,
         )
         STA_09_10_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_09_10_79_80_BRU32___2x_GBU_16___1000lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_GBU_16___1000lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_GBU_16___1000lb_Laser_Guided_Bomb,
         )
         STA_09_10_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_09_10_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_09_10_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_09_10_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_09_10_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             8,
-            Weapons.STA_09_10_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_09_10_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_10_08_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb = (
             8,
-            Weapons.STA_10_08_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
+            WeaponsFA18EFG.STA_10_08_79_80_BRU32___2x_GBU_12___500lb_Laser_Guided_Bomb,
         )
         STA_10_08_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb = (
             8,
-            Weapons.STA_10_08_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
+            WeaponsFA18EFG.STA_10_08_79_80_BRU32___2x_GBU_38___JDAM__500lb_GPS_Guided_Bomb,
         )
         STA_10_08_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_10_08_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_10_08_79_80_BRU32___2x_Mk_82___500lb_GP_Bomb_LD,
         )
         STA_10_08_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             8,
-            Weapons.STA_10_08_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            WeaponsFA18EFG.STA_10_08_79_80_BRU32___2x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
         STA_10_08_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD = (
             8,
-            Weapons.STA_10_08_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
+            WeaponsFA18EFG.STA_10_08_79_80_BRU32___2x_Mk_83___1000lb_GP_Bomb_LD,
         )
         STA_10_08_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             8,
-            Weapons.STA_10_08_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsFA18EFG.STA_10_08_79_80_BRU32___2x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
         )
         STA_10_SUU80_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X = (
             8,
-            Weapons.STA_10_SUU80_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
+            WeaponsFA18EFG.STA_10_SUU80_LAU127_1x_Marvin_LAU_127_Rail_Launcher_for_AIM_120B_C_D_and_AIM9L_M_X,
         )
-        STA_10_SUU80_EMPTY = (8, Weapons.STA_10_SUU80_EMPTY)
+        STA_10_SUU80_EMPTY = (8, WeaponsFA18EFG.STA_10_SUU80_EMPTY)
         # ERRR <CLEAN>
         # ERRR {CATM-120C}
         # ERRR {CATM-9M}
@@ -13287,49 +13393,49 @@ class FA_18FT(PlaneType):
     class Pylon9:
         STA_11_WNGTP_LAU127_1x_AIM_9M_Sidewinder_IR_AAM = (
             9,
-            Weapons.STA_11_WNGTP_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_11_WNGTP_LAU127_1x_AIM_9M_Sidewinder_IR_AAM,
         )
         STA_11_WNGTP_LAU127_1x_AIM_9X_Sidewinder_IR_AAM = (
             9,
-            Weapons.STA_11_WNGTP_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
+            WeaponsFA18EFG.STA_11_WNGTP_LAU127_1x_AIM_9X_Sidewinder_IR_AAM,
         )
         STA_11_WNGTP_LAU127_1x_Captive_AIM_9M_for_ACM = (
             9,
-            Weapons.STA_11_WNGTP_LAU127_1x_Captive_AIM_9M_for_ACM,
+            WeaponsFA18EFG.STA_11_WNGTP_LAU127_1x_Captive_AIM_9M_for_ACM,
         )
         STA_11_WNGTP_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (
             9,
-            Weapons.STA_11_WNGTP_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
+            WeaponsFA18EFG.STA_11_WNGTP_LAU127_1x_AN_ASQ_T50_TCTS_Pod___ACMI_Pod,
         )
 
     class Pylon10:
         STA_AX_FUEL_CELLS_1x_Internal_Auxillary_Fuel_Cells = (
             10,
-            Weapons.STA_AX_FUEL_CELLS_1x_Internal_Auxillary_Fuel_Cells,
+            WeaponsFA18EFG.STA_AX_FUEL_CELLS_1x_Internal_Auxillary_Fuel_Cells,
         )
         STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___White = (
             10,
-            Weapons.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___White,
+            WeaponsFA18EFG.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___White,
         )
         STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Red = (
             10,
-            Weapons.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Red,
+            WeaponsFA18EFG.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Red,
         )
         STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Green = (
             10,
-            Weapons.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Green,
+            WeaponsFA18EFG.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Green,
         )
         STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Blue = (
             10,
-            Weapons.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Blue,
+            WeaponsFA18EFG.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Blue,
         )
         STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Yellow = (
             10,
-            Weapons.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Yellow,
+            WeaponsFA18EFG.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Yellow,
         )
         STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Orange = (
             10,
-            Weapons.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Orange,
+            WeaponsFA18EFG.STA_AX_CKPIT_SMOKE_1x_Internal_Smoke_Generator___Orange,
         )
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
