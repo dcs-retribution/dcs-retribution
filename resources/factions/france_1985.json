@@ -9,6 +9,8 @@
   "doctrine": "coldwar",
   "aircrafts": [
     "C-130",
+    "Mirage IIIB/C",
+    "Mirage IIIB/C A/G",
     "Mirage 2000C",
     "Mirage-F1B",
     "Mirage-F1CE",
