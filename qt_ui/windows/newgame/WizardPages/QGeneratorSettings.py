@@ -138,6 +138,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("super_etendard", self.super_etendard)
         self.sk_60 = QtWidgets.QCheckBox()
         self.registerField("sk_60", self.sk_60)
+        self.sh3_sea_king = QtWidgets.QCheckBox()
+        self.registerField("sh3_sea_king", self.sh3_sea_king)
         self.su15_flagon = QtWidgets.QCheckBox()
         self.registerField("su15_flagon", self.su15_flagon)
         self.su30_flanker_h = QtWidgets.QCheckBox()
@@ -227,6 +229,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("OH-6 Cayuse (v1.2)", self.oh_6),
             ("OH-6 Vietnam Asset Pack (v1.0)", self.oh_6_vietnamassetpack),
             ("OV-10A Bronco", self.ov10a_bronco),
+            ("SH-3H / Mk.48 Sea King (v0.6)", self.sh3_sea_king),
             ("Saab 105/SK-60B (v1.2.1)", self.sk_60),
             ("Spanish Naval Assets pack (desdemicabina 3.2.0)", self.spanishnavypack),
             ("Star Wars Modpack 2.54+", self.SWPack),

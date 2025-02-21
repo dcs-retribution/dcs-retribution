@@ -26,6 +26,7 @@ from .mirage3 import *
 from .oh6 import *
 from .oh6_vietnamassetpack import *
 from .ov10a import *
+from .sh3 import *
 from .spanishnavypack import *
 from .super_etendard import *
 from .sk60 import *

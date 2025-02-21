@@ -88,6 +88,7 @@ class ModSettings:
     oh_6_vietnamassetpack: bool = False
     uh_60l: bool = False
     jas39_gripen: bool = False
+    sh3_sea_king: bool = False
     sk_60: bool = False
     mirage_3: bool = False
     super_etendard: bool = False
