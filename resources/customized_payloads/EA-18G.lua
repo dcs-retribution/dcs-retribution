@@ -4,7 +4,8 @@ local unitPayloads = {
 		[1] = {
 			["displayName"] = "Retribution SEAD",
 			["name"] = "Retribution SEAD",
-			["pylons"] = {
+			["pylons"]=
+			{
 				[1]=
 				{
 					["CLSID"]="{GROWLER_PYLON_09_MB_ALQ_99_HI_BAND}",
@@ -17,7 +18,7 @@ local unitPayloads = {
 				},
 				[3]=
 				{
-					["CLSID"]="{GROWLER_PYLON_08_IB_AR_1X_AGM-88}",
+					["CLSID"]="{GROWLER_PYLON_08_IB_FT_FPU-12_Fueltank}",
 					["num"]=7
 				},
 				[4]=
@@ -37,7 +38,7 @@ local unitPayloads = {
 				},
 				[7]=
 				{
-					["CLSID"]="{GROWLER_PYLON_04_IB_AR_1X_AGM-88}",
+					["CLSID"]="{GROWLER_PYLON_04_IB_FT_FPU-12_Fueltank}",
 					["num"]=3
 				},
 				[8]=
@@ -63,7 +64,8 @@ local unitPayloads = {
 		[2] = {
 			["displayName"] = "Retribution DEAD",
 			["name"] = "Retribution DEAD",
-			["pylons"] = {
+			["pylons"]=
+			{
 				[1]=
 				{
 					["CLSID"]="{GROWLER_PYLON_09_MB_ALQ_99_HI_BAND}",
@@ -76,7 +78,7 @@ local unitPayloads = {
 				},
 				[3]=
 				{
-					["CLSID"]="{GROWLER_PYLON_08_IB_AR_1X_AGM-88}",
+					["CLSID"]="{GROWLER_PYLON_08_IB_FT_FPU-12_Fueltank}",
 					["num"]=7
 				},
 				[4]=
@@ -96,7 +98,7 @@ local unitPayloads = {
 				},
 				[7]=
 				{
-					["CLSID"]="{GROWLER_PYLON_04_IB_AR_1X_AGM-88}",
+					["CLSID"]="{GROWLER_PYLON_04_IB_FT_FPU-12_Fueltank}",
 					["num"]=3
 				},
 				[8]=
@@ -122,7 +124,8 @@ local unitPayloads = {
 		[3] = {
 			["displayName"] = "Retribution SEAD Escort",
 			["name"] = "Retribution SEAD Escort",
-			["pylons"] = {
+			["pylons"]=
+			{
 				[1]=
 				{
 					["CLSID"]="{GROWLER_PYLON_09_MB_ALQ_99_HI_BAND}",
@@ -135,7 +138,7 @@ local unitPayloads = {
 				},
 				[3]=
 				{
-					["CLSID"]="{GROWLER_PYLON_08_IB_AR_1X_AGM-88}",
+					["CLSID"]="{GROWLER_PYLON_08_IB_FT_FPU-12_Fueltank}",
 					["num"]=7
 				},
 				[4]=
@@ -155,7 +158,7 @@ local unitPayloads = {
 				},
 				[7]=
 				{
-					["CLSID"]="{GROWLER_PYLON_04_IB_AR_1X_AGM-88}",
+					["CLSID"]="{GROWLER_PYLON_04_IB_FT_FPU-12_Fueltank}",
 					["num"]=3
 				},
 				[8]=
@@ -181,7 +184,8 @@ local unitPayloads = {
 		[4] = {
 			["displayName"] = "Retribution SEAD Sweep",
 			["name"] = "Retribution SEAD Sweep",
-			["pylons"] = {
+			["pylons"]=
+			{
 				[1]=
 				{
 					["CLSID"]="{GROWLER_PYLON_09_MB_ALQ_99_HI_BAND}",
@@ -194,7 +198,7 @@ local unitPayloads = {
 				},
 				[3]=
 				{
-					["CLSID"]="{GROWLER_PYLON_08_IB_AR_1X_AGM-88}",
+					["CLSID"]="{GROWLER_PYLON_08_IB_FT_FPU-12_Fueltank}",
 					["num"]=7
 				},
 				[4]=
@@ -214,7 +218,7 @@ local unitPayloads = {
 				},
 				[7]=
 				{
-					["CLSID"]="{GROWLER_PYLON_04_IB_AR_1X_AGM-88}",
+					["CLSID"]="{GROWLER_PYLON_04_IB_FT_FPU-12_Fueltank}",
 					["num"]=3
 				},
 				[8]=
@@ -239,8 +243,8 @@ local unitPayloads = {
 		},
 		[5]=
 		{
-			["displayName"]="Retribution SEAD (High-Mid Band)",
-			["name"]="Retribution SEAD (High-Mid Band)",
+			["displayName"]="Retribution SEAD (Low-Mid Band Next Gen)",
+			["name"]="Retribution SEAD (Low-Mid Band Next Gen)",
 			["pylons"]=
 			{
 				[1]=
