@@ -1,0 +1,20 @@
+class: Helicopter
+carrier_capable: true
+description: #from: https://en.wikipedia.org/wiki/Sikorsky_SH-3_Sea_King
+    The Sikorsky SH-3 Sea King is an American twin-engined anti-submarine warfare (ASW) helicopter designed and built by Sikorsky Aircraft. A landmark design, it was one of the first ASW rotorcraft to use turboshaft engines.
+    Introduced to service in 1961, it was operated by the United States Navy as a key ASW and utility asset for several decades. The Sea King also performed various other roles and missions such as search-and-rescue, transport, anti-shipping, medevac, plane guard, and airborne early warning operations.
+    The Sea King has also proved to be popular on the export market with foreign military customers, and has also been sold to civil operators as well.
+lha_capable: true
+introduced: 1961
+cabin_size: 15
+can_carry_crates: true
+manufacturer: Sikorsky
+origin: USA
+price: 6
+role: transport
+default_livery: standard
+variants:
+  SH-3H Seaking: null
+tasks:
+  Air Assault: 90
+  Transport: 70

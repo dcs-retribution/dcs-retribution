@@ -1,0 +1,24 @@
+class: Helicopter
+carrier_capable: true
+description: 
+    The Westland MK.48 is a British-built version of the Sikorsky S-61 helicopter, developed primarily for use by the Royal Navy and other military branches in the UK. 
+    The Sikorsky S-61, the American design, was introduced in the early 1960s. It was originally developed for commercial and military use, including roles such as anti-submarine warfare (ASW) and transport.
+    The Westland MK.48 variant of the S-61 was developed and introduced in the late 1960s and early 1970s. It was specifically tailored to the needs of the Royal Navy, primarily for anti-submarine warfare (ASW), transport, and rescue operations.
+    The MK.48 was equipped with the ASW radar and sonar systems, as well as a variety of weapons, including torpedoes and depth charges, for anti-submarine missions.The MK.48 served as a versatile multi-role helicopter for the Royal Navy, and its primary duties included
+    Anti-submarine warfare (ASW)
+    Search and rescue (SAR)
+    Transport of personnel and cargo It was also used for fleet support and played an essential part in naval operations, including during conflicts like the Falklands War in the early 1980s.
+lha_capable: true
+introduced: 1973
+cabin_size: 15
+can_carry_crates: true
+manufacturer: Westland Wessex Helicopters
+origin: UK
+price: 6
+role: transport
+default_livery: standard
+variants:
+  Westland MK-48 Seaking: null
+tasks:
+  Air Assault: 90
+  Transport: 70
