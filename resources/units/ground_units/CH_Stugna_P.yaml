@@ -1,0 +1,5 @@
+class: Infantry
+price: 0
+spawn_weight: 2
+variants:
+  "[CH] Stugna-P ATGM": null

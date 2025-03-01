@@ -1,0 +1,13 @@
+class: Tank
+description: "The T-84 is a Ukrainian main battle tank (MBT), based on the Soviet T-80 MBT 
+  introduced in 1976, specifically the diesel engine version: T-80UD. The T-84 was first built in 
+  1994 and entered service in the Ukrainian Armed Forces in 1999. Its high-performance opposed-piston 
+  engine makes it a fast tank, comparable to other modern MBTs with a power-to-weight ratio of about 
+  26 horsepower per tonne (19 kW/t)."
+introduced: 1999
+manufacturer: Malyshev Factory
+origin: Ukraine
+price: 25
+role: Main Battle Tank
+variants:
+  "[CH] T-84 Oplot-M MBT": {}

@@ -22,6 +22,7 @@ from .hercules import *
 from .highdigitsams import *
 from .irondome import *
 from .jas39 import *
+from .mirage3 import *
 from .oh6 import *
 from .oh6_vietnamassetpack import *
 from .ov10a import *
@@ -38,6 +39,7 @@ from .vietnamwarvessels import *
 from .chinesemilitaryassetspack import *
 from .russianmilitaryassetspack import *
 from .usamilitaryassetspack import *
+from .ukrainemilitaryassetspack import *
 
 
 def load_mods() -> None:

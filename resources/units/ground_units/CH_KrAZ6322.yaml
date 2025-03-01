@@ -1,0 +1,11 @@
+class: Logistics
+description: "The KrAZ-6322 is a Ukrainian off-road six-wheel drive truck intended for extreme 
+  conditions. It has been produced since 1994 and is manufactured at the KrAZ factory in Kremenchuk, 
+  Ukraine. It was first presented at the 1994 defence industry trade show in Kyiv."
+introduced: 1994
+manufacturer: KrAZ
+origin: Ukraine
+price: 3
+role: Tactical Transport Vehicle
+variants:
+  "[CH] KrAZ-6322 Truck": {}
