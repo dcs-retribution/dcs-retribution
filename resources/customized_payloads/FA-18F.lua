@@ -63,7 +63,8 @@ local unitPayloads = {
 		[2] = {
 			["displayName"] = "Retribution BARCAP",
 			["name"] = "Retribution BARCAP",
-			["pylons"] = {
+			["pylons"] = 
+			{
 				[1]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_11_SW_1X_AIM-9X}",
@@ -96,7 +97,7 @@ local unitPayloads = {
 				},
 				[7]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_06_CN_FT_FPU-12_Fueltank}",
+					["CLSID"]="<CLEAN>",
 					["num"]=5
 				},
 				[8]=
