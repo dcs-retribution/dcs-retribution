@@ -558,6 +558,9 @@ class Faction:
             self.remove_aircraft("FA-18E")
             self.remove_aircraft("FA-18F")
             self.remove_aircraft("EA-18G")
+        if not mod_settings.sh3_sea_king:
+            self.remove_aircraft("seaking_sikorsky_sh_3h")
+            self.remove_aircraft("seaking_westland_mk48")
         # spanish naval assets pack
         if not mod_settings.spanishnavypack:
             self.remove_ship("L61")

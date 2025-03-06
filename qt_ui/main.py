@@ -339,6 +339,7 @@ def create_game(
             oh_6_vietnamassetpack=False,
             uh_60l=False,
             jas39_gripen=False,
+            sh3_sea_king=False,
             sk60_saab105=False,
             su15_flagon=False,
             su30_flanker_h=False,

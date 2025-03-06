@@ -113,6 +113,7 @@ class NewGameWizard(QtWidgets.QWizard):
             jas39_gripen=self.field("jas39_gripen"),
             mirage_3=self.field("mirage_3"),
             super_etendard=self.field("super_etendard"),
+            sh3_sea_king=self.field("sh3_sea_king"),
             sk_60=self.field("sk_60"),
             su15_flagon=self.field("su15_flagon"),
             su30_flanker_h=self.field("su30_flanker_h"),
