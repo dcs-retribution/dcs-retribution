@@ -1,11 +1,16 @@
 {
-    "nameInUI": "EW Jammer (for player only)",
+    "nameInUI": "EW Jammer Scipt 2.0",
     "defaultValue": false,
     "specificOptions": [
         {
             "nameInUI": "Require ECM pod",
             "mnemonic": "ecm_required",
             "defaultValue": true
+        },    
+        {
+            "nameInUI": "Enable AI Jammers",
+            "mnemonic": "ai_jammer_enabled",
+            "defaultValue": false
         }
     ],
     "scriptsWorkOrders": [

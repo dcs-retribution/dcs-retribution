@@ -9,6 +9,8 @@ from dcs.task import (
     OptFormation,
     Targets,
     SetUnlimitedFuelCommand,
+    RunScript,
+    OptReactOnThreat,
 )
 
 from game.ato import FlightType
@@ -16,9 +18,17 @@ from game.theater import NavalControlPoint
 from game.utils import nautical_miles, feet
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 
+from game.data.weapons import WeaponType
+
 
 class JoinPointBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
+        # List of specific aircraft types that should get their own ewrj_menu_trigger and be excluded from needing a jammer
+        specific_aircraft_types = ["CLP_E7A" , "CLP_P8" , "CLP_TU214R" , "CLP_TU214"]  # Replace with aircraft types e.g. E-3A
+
+        # List of excluded aircraft types that should not get any triggers
+        excluded_aircraft_types = ["F-16C_50"]  # Replace with aircraft types with working ECM
+
         # Unlimited fuel option : disable at racetrack start. Must be first option to work.
         if self.flight.squadron.coalition.game.settings.ai_unlimited_fuel:
             if waypoint.tasks and isinstance(
@@ -54,6 +64,65 @@ class JoinPointBuilder(PydcsWaypointBuilder):
                 max_dist=doctrine.escort_engagement_range.nautical_miles,
                 vertical_spacing=doctrine.escort_spacing.feet,
             )
+
+        elif self.flight.flight_type == FlightType.SEAD_SWEEP:
+            # Start Defensive Jamming
+            settings = self.flight.coalition.game.settings
+
+            for unit, member in zip(self.group.units, self.flight.iter_members()):
+                if not settings.plugins.get("ewrj"):
+                    return
+
+                if unit.type in excluded_aircraft_types:
+                    return
+
+                if not settings.plugin_option("ewrj.ai_jammer_enabled"):
+                    return
+
+                # Check jammer requirement for non-specific aircraft types
+                if settings.plugin_option("ewrj.ecm_required"):
+                    ecm = WeaponType.JAMMER
+                    if not member.loadout.has_weapon_of_type(ecm):
+                        return
+                if not member.is_player:
+                    script_content = f'startDjamming("{unit.name}")'
+                    start_jamming_script = RunScript(script_content)
+                    waypoint.tasks.append(start_jamming_script)
+
+                passive_defense = OptReactOnThreat(
+                    OptReactOnThreat.Values.PassiveDefense
+                )
+                waypoint.tasks.append(passive_defense)
+
+        elif self.flight.flight_type == FlightType.SEAD:
+            # Start Defensive Jamming
+            settings = self.flight.coalition.game.settings
+
+            for unit, member in zip(self.group.units, self.flight.iter_members()):
+                if not settings.plugins.get("ewrj"):
+                    return
+
+                if unit.type in excluded_aircraft_types:
+                    return
+
+                if not settings.plugin_option("ewrj.ai_jammer_enabled"):
+                    return
+
+               # Check jammer requirement for non-specific aircraft types
+                if settings.plugin_option("ewrj.ecm_required"):
+                    ecm = WeaponType.JAMMER
+                    if not member.loadout.has_weapon_of_type(ecm):
+                        return
+                if not member.is_player:
+                    script_content = f'startDjamming("{unit.name}")'
+                    start_jamming_script = RunScript(script_content)
+                    waypoint.tasks.append(start_jamming_script)
+
+                passive_defense = OptReactOnThreat(
+                    OptReactOnThreat.Values.PassiveDefense
+                )
+                waypoint.tasks.append(passive_defense)
+
         elif self.flight.flight_type == FlightType.SEAD_ESCORT:
             if isinstance(self.flight.package.target, NavalControlPoint):
                 self.configure_escort_tasks(
@@ -72,6 +141,34 @@ class JoinPointBuilder(PydcsWaypointBuilder):
                     max_dist=doctrine.sead_escort_engagement_range.nautical_miles,
                     vertical_spacing=doctrine.sead_escort_spacing.feet,
                 )
+
+            # Start Defensive Jamming
+            settings = self.flight.coalition.game.settings
+
+            for unit, member in zip(self.group.units, self.flight.iter_members()):
+                if not settings.plugins.get("ewrj"):
+                    return
+
+                if unit.type in excluded_aircraft_types:
+                    return  # Skip this unit
+
+                if not settings.plugin_option("ewrj.ai_jammer_enabled"):
+                    return
+
+                # Check jammer requirement for non-specific aircraft types
+                if settings.plugin_option("ewrj.ecm_required"):
+                    ecm = WeaponType.JAMMER
+                    if not member.loadout.has_weapon_of_type(ecm):
+                        return
+                if not member.is_player:
+                    script_content = f'startDjamming("{unit.name}")'
+                    start_jamming_script = RunScript(script_content)
+                    waypoint.tasks.append(start_jamming_script)
+
+                passive_defense = OptReactOnThreat(
+                    OptReactOnThreat.Values.PassiveDefense
+                )
+                waypoint.tasks.append(passive_defense)
 
             # Let the AI use ECM to preemptively defend themselves.
             ecm_option = OptECMUsing(value=OptECMUsing.Values.UseIfDetectedLockByRadar)
