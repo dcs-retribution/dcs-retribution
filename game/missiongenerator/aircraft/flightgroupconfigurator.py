@@ -179,46 +179,21 @@ class FlightGroupConfigurator:
         else:
             laser_codes.append(None)
 
-        settings = self.flight.coalition.game.settings
+        self.handle_ew_jamming(member, unit)
 
-        if not settings.plugins.get("ewrj"):
+    def handle_ew_jamming(self, member: FlightMember, unit: FlyingUnit) -> None:
+        if not member.is_player:
             return
-
-        # List of specific aircraft types that should get their own ewrj_menu_trigger and be excluded from needing a jammer
-        specific_aircraft_types = [
-            "CLP_E7A",
-            "CLP_P8",
-            "CLP_TU214R",
-            "CLP_TU214",
-        ]  # Replace with aircraft types e.g. E-3A
-
-        # List of excluded aircraft types that should not get any triggers
-        excluded_aircraft_types = [
-            "F-16C_50"
-        ]  # Replace with aircraft types with working ECM
-
+        settings = self.flight.coalition.game.settings
         # Check if ecm_required option is enabled
         jammer_required = settings.plugin_option("ewrj.ecm_required")
-
-        # Exclude units in the excluded_aircraft_types list
-        if unit.type in excluded_aircraft_types:
-            return
-
-        # Check jammer requirement for non-specific aircraft types
-        if unit.type not in specific_aircraft_types:
-            if jammer_required:
-                ecm = WeaponType.JAMMER
-                if not member.loadout.has_weapon_of_type(ecm):
-                    return
-
-        if not member.is_player or not settings.plugins.get("ewrj"):
+        has_jammer = member.loadout.has_weapon_of_type(WeaponType.JAMMER)
+        if jammer_required and not has_jammer:
             return
         # Create the original ewrj_menu_trigger for player flight members
         ewrj_menu_trigger = TriggerStart(comment=f"EWRJ-{unit.name}")
         ewrj_menu_trigger.add_action(DoScript(String(f'EWJamming("{unit.name}")')))
-
         self.mission.triggerrules.triggers.append(ewrj_menu_trigger)
-
         self.group.points[0].tasks[0] = OptReactOnThreat(
             OptReactOnThreat.Values.PassiveDefense
         )
