@@ -1,5 +1,5 @@
 import random
-from typing import List, TYPE_CHECKING
+from typing import List
 
 from dcs.point import MovingPoint
 from dcs.task import (
@@ -14,13 +14,11 @@ from dcs.task import (
 )
 
 from game.ato import FlightType
+from game.data.doctrine import Doctrine
 from game.data.weapons import WeaponType
 from game.theater import NavalControlPoint
 from game.utils import nautical_miles, feet
 from .pydcswaypointbuilder import PydcsWaypointBuilder
-
-if TYPE_CHECKING:
-    from game.data.doctrine import Doctrine
 
 
 class JoinPointBuilder(PydcsWaypointBuilder):
