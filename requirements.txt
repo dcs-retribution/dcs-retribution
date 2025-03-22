@@ -3,7 +3,7 @@ anyio==3.7.1
 asgiref==3.8.1
 atomicwrites==1.4.1
 attrs==23.2.0
-black==24.10.0
+black==25.1.0
 certifi==2024.7.4
 cfgv==3.4.0
 click==8.1.7
@@ -17,7 +17,7 @@ httptools==0.6.1
 identify==2.5.36
 idna==3.7
 iniconfig==2.0.0
-Jinja2==3.1.5
+Jinja2==3.1.6
 lupa==2.2
 MarkupSafe==2.1.5
 mypy==1.10.0
