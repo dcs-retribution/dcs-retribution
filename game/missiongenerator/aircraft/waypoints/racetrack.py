@@ -18,15 +18,21 @@ from game.ato.flightplans.patrolling import PatrollingFlightPlan
 from ._helper import create_stop_orbit_trigger
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 
-from game.data.weapons import Pylon, WeaponType
 
 class RaceTrackBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
         # List of specific aircraft types that should get their own ewrj_menu_trigger and be excluded from needing a jammer
-        specific_aircraft_types = ["CLP_E7A" , "CLP_P8" , "CLP_TU214R" , "CLP_TU214"]  # Replace with aircraft types e.g. E-3A
+        specific_aircraft_types = [
+            "CLP_E7A",
+            "CLP_P8",
+            "CLP_TU214R",
+            "CLP_TU214",
+        ]  # Replace with aircraft types e.g. E-3A
 
         # List of excluded aircraft types that should not get any triggers
-        excluded_aircraft_types = ["F-16C_50"]  # Replace with aircraft types with working ECM
+        excluded_aircraft_types = [
+            "F-16C_50"
+        ]  # Replace with aircraft types with working ECM
 
         flight_plan = self.flight.flight_plan
 
@@ -48,25 +54,18 @@ class RaceTrackBuilder(PydcsWaypointBuilder):
             return
 
         if self.flight.flight_type == FlightType.AEWC:
-            #Start Offensive Jamming
+            # Start Offensive Jamming
             settings = self.flight.coalition.game.settings
-
-            for unit, member in zip(self.group.units, self.flight.iter_members()):
-                if not settings.plugins.get("ewrj"):
-                    return
-
-                if unit.type in excluded_aircraft_types:
-                    return
-
-                if not unit.type in specific_aircraft_types:
-                    return
-                
-                if not settings.plugin_option("ewrj.ai_jammer_enabled"):
-                    return
-
-                script_content = f'startEWjamm("{unit.name}")'
-                start_jamming_script = RunScript(script_content)
-                waypoint.tasks.append(start_jamming_script)
+            ai_jammer = settings.plugin_option("ewrj.ai_jammer_enabled")
+            if settings.plugins.get("ewrj") and ai_jammer:
+                for unit, member in zip(self.group.units, self.flight.iter_members()):
+                    if unit.type in excluded_aircraft_types:
+                        continue
+                    if unit.type not in specific_aircraft_types:
+                        continue
+                    script_content = f'startEWjamm("{unit.name}")'
+                    start_jamming_script = RunScript(script_content)
+                    waypoint.tasks.append(start_jamming_script)
 
                 passive_defense = OptReactOnThreat(
                     OptReactOnThreat.Values.PassiveDefense

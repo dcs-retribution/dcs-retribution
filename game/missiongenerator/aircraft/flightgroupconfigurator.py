@@ -185,10 +185,17 @@ class FlightGroupConfigurator:
             return
 
         # List of specific aircraft types that should get their own ewrj_menu_trigger and be excluded from needing a jammer
-        specific_aircraft_types = ["CLP_E7A" , "CLP_P8" , "CLP_TU214R" , "CLP_TU214"]  # Replace with aircraft types e.g. E-3A
+        specific_aircraft_types = [
+            "CLP_E7A",
+            "CLP_P8",
+            "CLP_TU214R",
+            "CLP_TU214",
+        ]  # Replace with aircraft types e.g. E-3A
 
         # List of excluded aircraft types that should not get any triggers
-        excluded_aircraft_types = ["F-16C_50"]  # Replace with aircraft types with working ECM
+        excluded_aircraft_types = [
+            "F-16C_50"
+        ]  # Replace with aircraft types with working ECM
 
         # Check if ecm_required option is enabled
         jammer_required = settings.plugin_option("ewrj.ecm_required")
