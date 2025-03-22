@@ -13,12 +13,16 @@ description:
 
 
   The Super Hornet is also known for its extreme, slow-speed maneuverability in a dogfight.
-  Although incredibly deadly, the Super Hornet is also a very easy aircraft to fly.'
+  Although incredibly deadly, the Super Hornet is also a very easy aircraft to fly.
+
+  
+  This version is an AI-only tanker aircraft, capable of in-flight refueling.'
 introduced: 1999
 manufacturer: McDonnell Douglas
 origin: USA
 price: 25
-role: Carrier-based Multirole Fighter
+max_group_size: 1
+role: Carrier-based Tanker
 fuel:
   # Parking A1 to RWY 32 at Akrotiri.
   taxi: 170
@@ -29,8 +33,13 @@ fuel:
   # ~0.9 mach for 100NM. Occasional AB use.
   combat_ppm: 27.5
   min_safe: 2000
+  patrol:
+    # ~265 knots IAS
+    speed: 320
+    altitude: 18000
+
 variants:
-  F/A-18E Super Hornet: {}
+  F/A-18E Tanker: {}
 radios:
   intra_flight: AN/ARC-210
   inter_flight: AN/ARC-210
@@ -48,31 +57,6 @@ utc_kneeboard: true
 #   InnerBoard: 0
 #   OuterBoard: 0
 tasks:
-  Anti-ship: 150
-  BAI: 740
-  BARCAP: 450
-  CAS: 740
-  DEAD: 440
-  Escort: 450
-  Fighter sweep: 450
-  Intercept: 450
-  OCA/Aircraft: 740
-  OCA/Runway: 600
-  SEAD: 430
-  SEAD Escort: 430
-  Strike: 600
-  TARCAP: 450
-  
-weapon_injections:  # AGM-154B only works for AI
-  2:
-    - "{AGM-154B}"
-    - "{BRU57_2*AGM-154B}"
-  3:
-    - "{AGM-154B}"
-    - "{BRU57_2*AGM-154B}"
-  7:
-    - "{AGM-154B}"
-    - "{BRU57_2*AGM-154B}"
-  8:
-    - "{AGM-154B}"
-    - "{BRU57_2*AGM-154B}"
+  Refueling: 0
+  Recovery: 0
+

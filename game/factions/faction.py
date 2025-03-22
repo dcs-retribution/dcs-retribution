@@ -427,7 +427,8 @@ class Faction:
             self.remove_aircraft("UH-60L")
             self.remove_aircraft("KC130J")
         if not mod_settings.fa18ef_tanker:
-            self.remove_aircraft("Superbug_AITanker")
+            self.remove_aircraft("FA-18ET")
+            self.remove_aircraft("FA-18FT")
         if not mod_settings.f4bc_phantom:
             self.remove_aircraft("VSN_F4B")
             self.remove_aircraft("VSN_F4C")
@@ -554,6 +555,7 @@ class Faction:
             self.remove_vehicle("SAM SA-14 Strela-3 manpad")
             self.remove_vehicle("SAM SA-24 Igla-S manpad")
             self.remove_vehicle("Polyana-D4M1 C2 node")
+        # CJS FA-18E/F/G Super Hornet Mod
         if not mod_settings.fa_18efg:
             self.remove_aircraft("FA-18E")
             self.remove_aircraft("FA-18F")
