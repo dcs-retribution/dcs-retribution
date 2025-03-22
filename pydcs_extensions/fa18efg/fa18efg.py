@@ -4,8 +4,6 @@ from dcs import task
 from dcs.planes import PlaneType
 from dcs.unitpropertydescription import UnitPropertyDescription
 from dcs.weapons_data import Weapons
-from dcs.unitpropertydescription import UnitPropertyDescription
-
 
 from game.modsupport import planemod
 from pydcs_extensions.weapon_injector import inject_weapons
@@ -361,16 +359,6 @@ class WeaponsFA18EFG:
         "clsid": "{SUPERHORNET_PYLON_03_MB_MK_1X_CBU-99}",
         "name": "[STA 03 | SUU79 | BRU32] - 1x CBU-99 - 490lbs, 247 x HEAT Bomblets",
         "weight": 56.47,
-    }
-    STA_03_SUU79_BRU32_1x_FPU_12_A_Fuel_Tank = {
-        "clsid": "{SUPERHORNET_PYLON_03_MB_FT_FPU-12_Fueltank}",
-        "name": "[STA 03 | SUU79 | BRU32] - 1x FPU-12/A Fuel Tank",
-        "weight": 1384.47,
-    }
-    STA_03_SUU79_BRU32_1x_FPU_12_A_Fuel_Tank___High_Vis = {
-        "clsid": "{SUPERHORNET_PYLON_03_MB_FT_FPU-12_FueltankHighVis}",
-        "name": "[STA 03 | SUU79 | BRU32] - 1x FPU-12/A Fuel Tank - High Vis",
-        "weight": 1384.47,
     }
     STA_03_SUU79_BRU32_1x_GBU_10___2000lb_Laser_Guided_Bomb = {
         "clsid": "{SUPERHORNET_PYLON_02_MB_MK_1X_GBU-10}",
@@ -1099,16 +1087,6 @@ class WeaponsFA18EFG:
         "name": "[STA 04 | SUU79 | BRU32   ] Remove SUU-79A/A Pylon",
         "weight": 0,
     }
-    STA_04_SUU79_BRU32_1x_AGM_154A___JSOW_CEB__CBU_type_ = {
-        "clsid": "{SUPERHORNET_PYLON_03_IB_JS_1X_AGM-154A}",
-        "name": "[STA 04 | SUU79 | BRU32] - 1x AGM-154A - JSOW CEB (CBU-type)",
-        "weight": 519.47,
-    }
-    STA_04_SUU79_BRU32_1x_AGM_154C___JSOW_Unitary_BROACH = {
-        "clsid": "{SUPERHORNET_PYLON_03_IB_JS_1X_AGM-154C}",
-        "name": "[STA 04 | SUU79 | BRU32] - 1x AGM-154C - JSOW Unitary BROACH",
-        "weight": 518.47,
-    }
     STA_04_SUU79_BRU32_1x_AGM_84D_Harpoon_Anti_Ship_Missile = {
         "clsid": "{SUPERHORNET_PYLON_03_IB_SM_1X_AGM-84D}",
         "name": "[STA 04 | SUU79 | BRU32] - 1x AGM-84D Harpoon Anti-Ship Missile",
@@ -1128,26 +1106,6 @@ class WeaponsFA18EFG:
         "clsid": "{SUPERHORNET_PYLON_03_IB_PD_1X_AWW-13}",
         "name": "[STA 04 | SUU79 | BRU32] - 1x AN/AWW-13 Advanced Datalink Pod",
         "weight": 234.47,
-    }
-    STA_04_SUU79_BRU32_1x_FPU_12_A_Fuel_Tank = {
-        "clsid": "{SUPERHORNET_PYLON_03_IB_FT_FPU-12_Fueltank}",
-        "name": "[STA 04 | SUU79 | BRU32] - 1x FPU-12/A Fuel Tank",
-        "weight": 1384.47,
-    }
-    STA_04_SUU79_BRU32_1x_FPU_12_A_Fuel_Tank_ = {
-        "clsid": "{SUPERHORNET_PYLON_04_IB_FT_FPU-12_Fueltank}",
-        "name": "[STA 04 | SUU79 | BRU32] - 1x FPU-12/A Fuel Tank",
-        "weight": 1384.47,
-    }
-    STA_04_SUU79_BRU32_1x_FPU_12_A_Fuel_Tank___High_Vis = {
-        "clsid": "{SUPERHORNET_PYLON_03_IB_FT_FPU-12_FueltankHighVis}",
-        "name": "[STA 04 | SUU79 | BRU32] - 1x FPU-12/A Fuel Tank - High Vis",
-        "weight": 1384.47,
-    }
-    STA_04_SUU79_BRU32_1x_FPU_12_A_Fuel_Tank___High_Vis_ = {
-        "clsid": "{SUPERHORNET_PYLON_04_IB_FT_FPU-12_FueltankHighVis}",
-        "name": "[STA 04 | SUU79 | BRU32] - 1x FPU-12/A Fuel Tank - High Vis",
-        "weight": 1384.47,
     }
     STA_04_SUU79_BRU33_2x_BDU_45B___500lb_Practice_Bomb = {
         "clsid": "{SUPERHORNET_PYLON_03_IB_MK_BR2_BDU-45B}",
@@ -1201,26 +1159,6 @@ class WeaponsFA18EFG:
     }
     STA_04_SUU79_BRU55_2x_AGM_154C___JSOW_Unitary_BROACH = {
         "clsid": "{GROWLER_PYLON_04_IB_JS_2X_BRU_AGM-154C}",
-        "name": "[STA 04 | SUU79 | BRU55] - 2x AGM-154C - JSOW Unitary BROACH",
-        "weight": 1089.97,
-    }
-    STA_04_SUU79_BRU55_1x_AGM_154A___JSOW_CEB__CBU_type_ = {
-        "clsid": "{SUPERHORNET_PYLON_03_IB_JS_1X_BRU_AGM-154A}",
-        "name": "[STA 04 | SUU79 | BRU55] - 1x AGM-154A - JSOW CEB (CBU-type)",
-        "weight": 606.97,
-    }
-    STA_04_SUU79_BRU55_1x_AGM_154C___JSOW_Unitary_BROACH = {
-        "clsid": "{SUPERHORNET_PYLON_03_IB_JS_1X_BRU_AGM-154C}",
-        "name": "[STA 04 | SUU79 | BRU55] - 1x AGM-154C - JSOW Unitary BROACH",
-        "weight": 605.97,
-    }
-    STA_04_SUU79_BRU55_2x_AGM_154A___JSOW_CEB__CBU_type_ = {
-        "clsid": "{SUPERHORNET_PYLON_03_IB_JS_2X_BRU_AGM-154A}",
-        "name": "[STA 04 | SUU79 | BRU55] - 2x AGM-154A - JSOW CEB (CBU-type)",
-        "weight": 1091.97,
-    }
-    STA_04_SUU79_BRU55_2x_AGM_154C___JSOW_Unitary_BROACH = {
-        "clsid": "{SUPERHORNET_PYLON_03_IB_JS_2X_BRU_AGM-154C}",
         "name": "[STA 04 | SUU79 | BRU55] - 2x AGM-154C - JSOW Unitary BROACH",
         "weight": 1089.97,
     }
@@ -1804,33 +1742,13 @@ class WeaponsFA18EFG:
         "name": "[STA 06 | SUU78 | BRU32] - 1x AN/AAQ-28 LITENING - Targeting Pod",
         "weight": 242.47,
     }
-    STA_06_SUU78_BRU32_1x_AN_AWW_13_Advanced_Datalink_Pod = {
-        "clsid": "{SUPERHORNET_PYLON_06_CN_PD_1X_AWW-13}",
-        "name": "[STA 06 | SUU78 | BRU32] - 1x AN/AWW-13 Advanced Datalink Pod",
-        "weight": 234.47,
-    }
     STA_06_SUU78_BRU32_1x_A_A_42R_1_Aerial_Refueling_Buddy_Pod = {
         "clsid": "{SUPERHORNET_PYLON_06_CN_FT_AA42R}",
         "name": "[STA 06 | SUU78 | BRU32] - 1x A/A-42R-1 Aerial Refueling Buddy Pod",
         "weight": 1249.47,
     }
-    STA_06_SUU78_BRU32_1x_FPU_12_A_Fuel_Tank = {
-        "clsid": "{SUPERHORNET_PYLON_06_CN_FT_FPU-12_Fueltank}",
-        "name": "[STA 06 | SUU78 | BRU32] - 1x FPU-12/A Fuel Tank",
-        "weight": 1384.47,
-    }
-    STA_06_SUU78_BRU32_1x_FPU_12_A_Fuel_Tank___High_Vis = {
-        "clsid": "{SUPERHORNET_PYLON_06_CN_FT_FPU-12_FueltankHighVis}",
-        "name": "[STA 06 | SUU78 | BRU32] - 1x FPU-12/A Fuel Tank - High Vis",
-        "weight": 1384.47,
-    }
     STA_06_SUU78_EMPTY = {
         "clsid": "{SUPERHORNET_PYLON_06_CN_EMPTY}",
-        "name": "[STA 06 | SUU78 | EMPTY ]",
-        "weight": 0,
-    }
-    STA_06_SUU78_EMPTY = {
-        "clsid": "{GROWLER_PYLON_06_CN_EMPTY}",
         "name": "[STA 06 | SUU78 | EMPTY ]",
         "weight": 0,
     }
@@ -1921,16 +1839,6 @@ class WeaponsFA18EFG:
     }
     STA_08_SUU79_BRU32_1x_AGM_154C___JSOW_Unitary_BROACH = {
         "clsid": "{GROWLER_PYLON_08_IB_JS_1X_AGM-154C}",
-        "name": "[STA 08 | SUU79 | BRU32] - 1x AGM-154C - JSOW Unitary BROACH",
-        "weight": 518.47,
-    }
-    STA_08_SUU79_BRU32_1x_AGM_154A___JSOW_CEB__CBU_type_ = {
-        "clsid": "{SUPERHORNET_PYLON_09_IB_JS_1X_AGM-154A}",
-        "name": "[STA 08 | SUU79 | BRU32] - 1x AGM-154A - JSOW CEB (CBU-type)",
-        "weight": 519.47,
-    }
-    STA_08_SUU79_BRU32_1x_AGM_154C___JSOW_Unitary_BROACH = {
-        "clsid": "{SUPERHORNET_PYLON_09_IB_JS_1X_AGM-154C}",
         "name": "[STA 08 | SUU79 | BRU32] - 1x AGM-154C - JSOW Unitary BROACH",
         "weight": 518.47,
     }
@@ -2049,20 +1957,10 @@ class WeaponsFA18EFG:
         "name": "[STA 08 | SUU79 | BRU55] - 2x AGM-154C - JSOW Unitary BROACH",
         "weight": 1089.97,
     }
-    STA_08_SUU79_BRU55_2x_AGM_154A___JSOW_CEB__CBU_type_ = {
-        "clsid": "{SUPERHORNET_PYLON_09_IB_JS_1X_BRU_AGM-154A}",
-        "name": "[STA 08 | SUU79 | BRU55] - 2x AGM-154A - JSOW CEB (CBU-type)",
-        "weight": 606.97,
-    }
     STA_08_SUU79_BRU55_2x_AGM_154A___JSOW_CEB__CBU_type__ = {
         "clsid": "{SUPERHORNET_PYLON_09_IB_JS_2X_BRU_AGM-154A}",
         "name": "[STA 08 | SUU79 | BRU55] - 2x AGM-154A - JSOW CEB (CBU-type)",
         "weight": 1091.97,
-    }
-    STA_08_SUU79_BRU55_2x_AGM_154C___JSOW_Unitary_BROACH = {
-        "clsid": "{SUPERHORNET_PYLON_09_IB_JS_1X_BRU_AGM-154C}",
-        "name": "[STA 08 | SUU79 | BRU55] - 2x AGM-154C - JSOW Unitary BROACH",
-        "weight": 605.97,
     }
     STA_08_SUU79_BRU55_2x_AGM_154C___JSOW_Unitary_BROACH_ = {
         "clsid": "{SUPERHORNET_PYLON_09_IB_JS_2X_BRU_AGM-154C}",
@@ -2403,16 +2301,6 @@ class WeaponsFA18EFG:
         "clsid": "{SUPERHORNET_PYLON_09_MB_PD_1X_AWW-13}",
         "name": "[STA 09 | SUU79 | BRU32] - 1x AN/AWW-13 Advanced Datalink Pod",
         "weight": 234.47,
-    }
-    STA_09_SUU79_BRU32_1x_FPU_12_A_Fuel_Tank = {
-        "clsid": "{SUPERHORNET_PYLON_09_MB_FT_FPU-12_Fueltank}",
-        "name": "[STA 09 | SUU79 | BRU32] - 1x FPU-12/A Fuel Tank",
-        "weight": 1384.47,
-    }
-    STA_09_SUU79_BRU32_1x_FPU_12_A_Fuel_Tank___High_Vis = {
-        "clsid": "{SUPERHORNET_PYLON_09_MB_FT_FPU-12_FueltankHighVis}",
-        "name": "[STA 09 | SUU79 | BRU32] - 1x FPU-12/A Fuel Tank - High Vis",
-        "weight": 1384.47,
     }
     STA_09_SUU79_BRU32_1x_GBU_10___2000lb_Laser_Guided_Bomb = {
         "clsid": "{SUPERHORNET_PYLON_10_MB_MK_1X_GBU-10}",
