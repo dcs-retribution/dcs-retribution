@@ -57,19 +57,6 @@ utc_kneeboard: true
 #   InnerBoard: 0
 #   OuterBoard: 0
 tasks:
-
   Refueling: 0
-  
-#weapon_injections:  # AGM-154B only works for AI
-#  2:
-#    - "{AGM-154B}"
-#    - "{BRU57_2*AGM-154B}"
-#  3:
-#    - "{AGM-154B}"
-#    - "{BRU57_2*AGM-154B}"
-#  7:
-#    - "{AGM-154B}"
-#    - "{BRU57_2*AGM-154B}"
-#  8:
-#    - "{AGM-154B}"
-#    - "{BRU57_2*AGM-154B}"
+  Recovery: 0
+
