@@ -427,7 +427,8 @@ class Faction:
             self.remove_aircraft("UH-60L")
             self.remove_aircraft("KC130J")
         if not mod_settings.fa18ef_tanker:
-            self.remove_aircraft("Superbug_AITanker")
+            self.remove_aircraft("FA-18ET")
+            self.remove_aircraft("FA-18FT")
         if not mod_settings.f4bc_phantom:
             self.remove_aircraft("VSN_F4B")
             self.remove_aircraft("VSN_F4C")
@@ -559,8 +560,6 @@ class Faction:
             self.remove_aircraft("FA-18E")
             self.remove_aircraft("FA-18F")
             self.remove_aircraft("EA-18G")
-            self.remove_aircraft("FA-18ET")
-            self.remove_aircraft("FA-18FT")
         # spanish naval assets pack
         if not mod_settings.spanishnavypack:
             self.remove_ship("L61")
