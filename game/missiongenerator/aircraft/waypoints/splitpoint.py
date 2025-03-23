@@ -1,5 +1,3 @@
-from typing import List
-
 from dcs.point import MovingPoint
 from dcs.task import (
     OptECMUsing,
@@ -18,11 +16,6 @@ from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 class SplitPointBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
-        # List of excluded aircraft types that should not get any triggers
-        excluded_aircraft_types = [
-            "F-16C_50"
-        ]  # Replace with aircraft types with working ECM
-
         # Unlimited fuel option : enable at split. Must be first option to work.
         if self.flight.squadron.coalition.game.settings.ai_unlimited_fuel:
             waypoint.tasks.insert(0, SetUnlimitedFuelCommand(True))
@@ -62,19 +55,14 @@ class SplitPointBuilder(PydcsWaypointBuilder):
                 if self.flight.flight_type.is_escort_type:
                     index = len(self.group.points)
                     self.group.add_trigger_action(SwitchWaypoint(None, index))
-            self.stop_defensive_jamming(excluded_aircraft_types, waypoint)
+            self.stop_defensive_jamming(waypoint)
 
-    def stop_defensive_jamming(
-        self, excluded_aircraft_types: List[str], waypoint: MovingPoint
-    ) -> None:
+    def stop_defensive_jamming(self, waypoint: MovingPoint) -> None:
         # Stop Defensive Jamming
         settings = self.flight.coalition.game.settings
         ai_jammer = settings.plugin_option("ewrj.ai_jammer_enabled")
         if settings.plugins.get("ewrj") and ai_jammer:
             for unit, member in zip(self.group.units, self.flight.iter_members()):
-                if unit.type in excluded_aircraft_types:
-                    continue
-                # Check jammer requirement for non-specific aircraft types
                 if settings.plugin_option("ewrj.ecm_required"):
                     ecm = WeaponType.JAMMER
                     if not member.loadout.has_weapon_of_type(ecm):

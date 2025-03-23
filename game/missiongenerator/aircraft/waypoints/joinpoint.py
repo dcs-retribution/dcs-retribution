@@ -23,11 +23,6 @@ from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 class JoinPointBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
-        # List of excluded aircraft types that should not get any triggers
-        excluded_aircraft_types = [
-            "F-16C_50"
-        ]  # Replace with aircraft types with working ECM
-
         # Unlimited fuel option : disable at racetrack start. Must be first option to work.
         if self.flight.squadron.coalition.game.settings.ai_unlimited_fuel:
             if waypoint.tasks and isinstance(
@@ -69,7 +64,7 @@ class JoinPointBuilder(PydcsWaypointBuilder):
             FlightType.SEAD,
             FlightType.SEAD_ESCORT,
         ]:
-            self.start_defensive_jamming(excluded_aircraft_types, waypoint)
+            self.start_defensive_jamming(waypoint)
             if self.flight.flight_type == FlightType.SEAD_ESCORT:
                 self.handle_sead_escort(doctrine, waypoint)
                 # Let the AI use ECM to preemptively defend themselves.
@@ -109,9 +104,7 @@ class JoinPointBuilder(PydcsWaypointBuilder):
                 vertical_spacing=doctrine.sead_escort_spacing.feet,
             )
 
-    def start_defensive_jamming(
-        self, excluded_aircraft_types: List[str], waypoint: MovingPoint
-    ) -> None:
+    def start_defensive_jamming(self, waypoint: MovingPoint) -> None:
         # Start Defensive Jamming
         settings = self.flight.coalition.game.settings
         ai_jammer = settings.plugin_option("ewrj.ai_jammer_enabled")
@@ -119,9 +112,6 @@ class JoinPointBuilder(PydcsWaypointBuilder):
             ecm_required = settings.plugin_option("ewrj.ecm_required")
             has_jammer = False
             for unit, member in zip(self.group.units, self.flight.iter_members()):
-                if unit.type in excluded_aircraft_types:
-                    continue
-                # Check jammer requirement for non-specific aircraft types
                 has_jammer = member.loadout.has_weapon_of_type(WeaponType.JAMMER)
                 if ecm_required and not has_jammer:
                     continue
