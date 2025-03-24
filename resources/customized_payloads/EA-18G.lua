@@ -42,7 +42,7 @@ local unitPayloads = {
 				},
 				[8]=
 				{
-					["CLSID"]="{GROWLER_PYLON_10_MB_AR_1X_AGM-88}",
+					["CLSID"]="{GROWLER_PYLON_10_OB_AR_1X_AGM-88}",
 					["num"]=8
 				},
 				[9]=
@@ -102,7 +102,7 @@ local unitPayloads = {
 				},
 				[8]=
 				{
-					["CLSID"]="{GROWLER_PYLON_10_MB_AR_1X_AGM-88}",
+					["CLSID"]="{GROWLER_PYLON_10_OB_AR_1X_AGM-88}",
 					["num"]=8
 				},
 				[9]=
@@ -162,7 +162,7 @@ local unitPayloads = {
 				},
 				[8]=
 				{
-					["CLSID"]="{GROWLER_PYLON_10_MB_AR_1X_AGM-88}",
+					["CLSID"]="{GROWLER_PYLON_10_OB_AR_1X_AGM-88}",
 					["num"]=8
 				},
 				[9]=
@@ -222,7 +222,7 @@ local unitPayloads = {
 				},
 				[8]=
 				{
-					["CLSID"]="{GROWLER_PYLON_10_MB_AR_1X_AGM-88}",
+					["CLSID"]="{GROWLER_PYLON_10_OB_AR_1X_AGM-88}",
 					["num"]=8
 				},
 				[9]=
@@ -283,7 +283,7 @@ local unitPayloads = {
 				},
 				[8]=
 				{
-					["CLSID"]="{GROWLER_PYLON_10_MB_AR_1X_AGM-88}",
+					["CLSID"]="{GROWLER_PYLON_10_OB_AR_1X_AGM-88}",
 					["num"]=8
 				},
 				[9]=
