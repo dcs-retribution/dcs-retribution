@@ -69,6 +69,7 @@ class ModSettings:
     a6a_intruder: bool = False
     a7e_corsair2: bool = False
     ea6b_prowler: bool = False
+    e7a_wedgetail: bool = False
     f4bc_phantom: bool = False
     f9f_panther: bool = False
     f15d_baz: bool = False

@@ -96,6 +96,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("a7e_corsair2", self.a7e_corsair2)
         self.ea6b_prowler = QtWidgets.QCheckBox()
         self.registerField("ea6b_prowler", self.ea6b_prowler)
+        self.e7a_wedgetail = QtWidgets.QCheckBox()
+        self.registerField("e7a_wedgetail", self.e7a_wedgetail)
         self.hercules = QtWidgets.QCheckBox()
         self.registerField("hercules", self.hercules)
         self.oh_6 = QtWidgets.QCheckBox()
@@ -206,6 +208,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
                 self.ukrainemilitaryassetspack,
             ),
             ("EA-6B Prowler (v2.9.4.102)", self.ea6b_prowler),
+            ("E-7A Wedgetail (AI Only, EW Capable)", self.e7a_wedgetail),
             ("F-100 Super Sabre (v2.7.18.30765 patch 20.10.22)", self.f100_supersabre),
             ("F-104 Starfighter (v2.7.11.222.01)", self.f104_starfighter),
             ("F-105 Thunderchief (v2.7.12.23x)", self.f105_thunderchief),
@@ -277,6 +280,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.a6a_intruder.setChecked(s.get("a6a_intruder", False))
         self.a7e_corsair2.setChecked(s.get("a7e_corsair2", False))
         self.ea6b_prowler.setChecked(s.get("ea6b_prowler", False))
+        self.e7a_wedgetail.setChecked(s.get("e7a_wedgetail", False))
         self.hercules.setChecked(s.get("hercules", False))
         self.uh_60l.setChecked(s.get("uh_60l", False))
         self.f4bc_phantom.setChecked(s.get("f4bc_phantom", False))

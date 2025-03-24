@@ -854,6 +854,9 @@ class Faction:
             self.remove_vehicle("CH_Alligator_Sniper")
             self.remove_vehicle("CH_Stugna_P")
             self.remove_vehicle("CH_KrAZ6322")
+        # CLP E7a Wedgetail Mod
+        if not mod_settings.e7a_wedgetail:
+            self.remove_aircraft("CLP_E7a")
 
     def remove_aircraft(self, name: str) -> None:
         for aircraft_set in [self.aircraft, self.awacs, self.tankers]:
