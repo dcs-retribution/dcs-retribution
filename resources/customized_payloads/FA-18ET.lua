@@ -12,48 +12,48 @@ local unitPayloads = {
 				},
 				[2]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_02_MB_AM_2X_AIM-120C}",
-					["num"]=2
-				},
-				[3]=
-				{
-					["CLSID"]="{SUPERHORNET_PYLON_05_AM_1X_AIM-120C}",
-					["num"]=4
-				},
-				[4]=
-				{
 					["CLSID"]="{SUPERHORNET_PYLON_06_CN_FT_AA42R}",
 					["num"]=5
 				},
-				[5]=
-				{
-					["CLSID"]="{SUPERHORNET_PYLON_07_AM_1X_AIM-120C}",
-					["num"]=6
-				},
-				[6]=
+				[3]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_11_SW_1X_AIM-9X}",
 					["num"]=9
 				},
-				[7]=
-				{
-					["CLSID"]="{SUPERHORNET_PYLON_10_MB_AM_2X_AIM-120C}",
-					["num"]=8
-				},
-				[8]=
+				[4]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_IN_FT_AUX_CELLS}",
 					["num"]=10
 				},
-				[9]=
+				[5]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_03_IB_FT_FPU-12_Fueltank}",
+					["CLSID"]="{SUPERHORNET_PYLON_10_MB_AM_2X_AIM-120C}",
+					["num"]=8
+				},
+				[6]=
+				{
+					["CLSID"]="{SUPERHORNET_PYLON_02_MB_AM_2X_AIM-120C}",
+					["num"]=2
+				},
+				[7]=
+				{
+					["CLSID"]="{GROWLER_PYLON_04_IB_FT_FPU-12_Fueltank}",
 					["num"]=3
 				},
-				[10]=
+				[8]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_09_IB_FT_FPU-12_Fueltank}",
 					["num"]=7
+				},
+				[9]=
+				{
+					["CLSID"]="{SUPERHORNET_PYLON_07_AM_1X_AIM-120C}",
+					["num"]=6
+				},
+				[10]=
+				{
+					["CLSID"]="{SUPERHORNET_PYLON_05_AM_1X_AIM-120C}",
+					["num"]=4
 				}
 			},
 			["tasks"] = {
