@@ -53,6 +53,9 @@
 * **[Modding]** Updated support for CurrentHill's Swedish Asset Pack (v1.1.0)
 * **[Modding]** Support for CurrentHill's Russian Asset Pack (v1.2.0)
 * **[Modding]** Support for CurrentHill's USA Asset Pack (v1.1.5)
+* **[Modding]** Update CJS Super Hornet to 2.4.2
+* **[Modding]** Support for Cowboy's E-7A Wedgetail mod (Supports EW Script Offensive Jamming)
+* **[Plugins]** Added initial AI support for EW Script 2.0
 
 ## Fixes
 * **[UI/UX]** A-10A flights can be edited again
