@@ -69,6 +69,7 @@ class ModSettings:
     a6a_intruder: bool = False
     a7e_corsair2: bool = False
     ea6b_prowler: bool = False
+    e7a_wedgetail: bool = False
     f4bc_phantom: bool = False
     f9f_panther: bool = False
     f15d_baz: bool = False
@@ -89,6 +90,7 @@ class ModSettings:
     uh_60l: bool = False
     jas39_gripen: bool = False
     sk_60: bool = False
+    mirage_3: bool = False
     super_etendard: bool = False
     su15_flagon: bool = False
     su30_flanker_h: bool = False
@@ -104,6 +106,7 @@ class ModSettings:
     chinesemilitaryassetspack: bool = False
     russianmilitaryassetspack: bool = False
     usamilitaryassetspack: bool = False
+    ukrainemilitaryassetspack: bool = False
 
 
 class GameGenerator:

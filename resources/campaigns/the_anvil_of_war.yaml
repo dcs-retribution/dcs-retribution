@@ -6,7 +6,7 @@ recommended_player_faction: Blufor Current
 recommended_enemy_faction: Redfor Current
 description:
   <p><strong>This is the finale to the three-part campaign series that begun with Afghanistan - Graveyard of Empires and Sinai - Red Sea Rising. 
-  This campaign is intended to be run with CurrentHill's Russia, China, and Sweden Asset Packs installed, though this is not mandatory.</strong></p>
+  This campaign is intended to be run with CurrentHill's USA, Russia, China, and Sweden Asset Packs installed, though this is not mandatory.</strong></p>
   <p>As NATO struggles to counter simultaneous crises in Afghanistan and the Middle East, the precarious balance of global power tilts further 
   toward instability. Russia and China, emboldened by their gains, now turn their attention northward, to Europe’s Arctic frontier.</p>
   <p>The Kola Peninsula, a critical hub of Russian military power, becomes the staging ground for an unprecedented joint Russo-Chinese offensive. 
@@ -189,7 +189,7 @@ squadrons:
     - primary: SEAD Sweep
       secondary: air-to-ground
       aircraft:
-        - Su-25 Frogfoot
+        - Su-25T Frogfoot
       size: 8
   #Rovaniemi
   2:

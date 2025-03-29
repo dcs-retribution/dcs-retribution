@@ -1,0 +1,12 @@
+class: IFV
+description: "The BTR-4 Bucephalus (Ukrainian: \xD0\x91\xD0\xA2\xD0\xA0\x2D\x34\x20\xC2\xAB\xD0\x91\xD1\x83\xD1\x86\xD0\xB5\xD1\x84\xD0\xB0\xD0\xBB\xC2\xBB, 
+  romanized: Butsefal, abbreviation of \xD0\x91\xD1\x80\xD0\xBE\xD0\xBD\xD0\xB5\xD1\x82\xD1\x80\xD0\xB0\xD0\xBD\xD1\x81\xD0\xBF\xD0\xBE\xD1\x80\xD1\x82\xD0\xB5\xD1\x80\x2C\x20\x42\x72\x6F\x6E\x65\x74\x72\x61\x6E\x73\x70\x6F\x72\x74\x65\x72, 
+  armoured transporter) is an amphibious 8x8 wheeled infantry fighting vehicle (IFV) designed in Ukraine 
+  by the Kharkiv Morozov Machine Building Design Bureau (SOE KMDB)."
+introduced: 2014
+manufacturer: Kharkiv Morozov Machine Building Design Bureau
+origin: Ukraine
+price: 12
+role: Infantry Fighting Vehicle
+variants:
+  "[CH] BTR-4 IFV": {}

@@ -1,0 +1,21 @@
+description:
+  The Dassault Mirage III is a family of single/dual-seat, single-engine, fighter aircraft
+  developed and manufactured by French aircraft company Dassault Aviation. It was the first
+  Western European combat aircraft to exceed Mach 2 in horizontal flight, a feat which was
+  achieved on 24 October 1958.
+  This is the interceptor variant.
+introduced: 1961
+manufacturer: Dassault
+origin: France
+price: 12
+role: Interceptor
+max_range: 150
+gunfighter: true
+variants:
+  Mirage IIIB/C: {}
+tasks:
+  BARCAP: 210
+  Escort: 210
+  Fighter sweep: 210
+  Intercept: 210
+  TARCAP: 210

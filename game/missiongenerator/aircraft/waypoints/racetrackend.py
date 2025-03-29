@@ -1,8 +1,13 @@
 import logging
 
 from dcs.point import MovingPoint
-from dcs.task import SetUnlimitedFuelCommand
+from dcs.task import (
+    SetUnlimitedFuelCommand,
+    RunScript,
+    OptReactOnThreat,
+)
 
+from game.ato import FlightType
 from game.ato.flightplans.patrolling import PatrollingFlightPlan
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 
@@ -12,6 +17,21 @@ class RaceTrackEndBuilder(PydcsWaypointBuilder):
         # Unlimited fuel option : enable at racetrack end. Must be first option to work.
         if self.flight.squadron.coalition.game.settings.ai_unlimited_fuel:
             waypoint.tasks.insert(0, SetUnlimitedFuelCommand(True))
+
+        # Disable Offensive Jamming at Racetrack End
+        if self.flight.flight_type == FlightType.AEWC:
+            # Stop Offensive Jamming for all AWACS flights
+            settings = self.flight.coalition.game.settings
+            ai_jammer = settings.plugin_option("ewrj.ai_jammer_enabled")
+            if settings.plugins.get("ewrj") and ai_jammer:
+                # all units in group are AWACS, no specific checks needed
+                for unit, member in zip(self.group.units, self.flight.iter_members()):
+                    script_content = f'stopEWjamming("{unit.name}")'
+                    stop_jamming_script = RunScript(script_content)
+                    waypoint.tasks.append(stop_jamming_script)
+
+                evade_fire = OptReactOnThreat(OptReactOnThreat.Values.EvadeFire)
+                waypoint.tasks.append(evade_fire)
 
     def build(self) -> MovingPoint:
         waypoint = super().build()

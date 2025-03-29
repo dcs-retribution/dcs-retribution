@@ -2,11 +2,14 @@ from dcs.point import MovingPoint
 from dcs.task import (
     OptECMUsing,
     OptFormation,
-    RunScript,
     SetUnlimitedFuelCommand,
     SwitchWaypoint,
+    RunScript,
+    OptReactOnThreat,
 )
 
+from game.ato import FlightType
+from game.data.weapons import WeaponType
 from game.utils import knots
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 
@@ -41,6 +44,33 @@ class SplitPointBuilder(PydcsWaypointBuilder):
                 f'trigger.action.setUserFlag("split-{id(self.package)}", true)'
             )
             waypoint.tasks.append(script)
-        elif self.flight.flight_type.is_escort_type:
-            index = len(self.group.points)
-            self.group.add_trigger_action(SwitchWaypoint(None, index))
+
+        elif self.flight.flight_type in [
+            FlightType.SEAD_SWEEP,
+            FlightType.SEAD,
+            FlightType.SEAD_ESCORT,
+        ]:
+            if self.flight.flight_type == FlightType.SEAD_ESCORT:
+                # Moved previous escort split tasks
+                if self.flight.flight_type.is_escort_type:
+                    index = len(self.group.points)
+                    self.group.add_trigger_action(SwitchWaypoint(None, index))
+            self.stop_defensive_jamming(waypoint)
+
+    def stop_defensive_jamming(self, waypoint: MovingPoint) -> None:
+        # Stop Defensive Jamming
+        settings = self.flight.coalition.game.settings
+        ai_jammer = settings.plugin_option("ewrj.ai_jammer_enabled")
+        if settings.plugins.get("ewrj") and ai_jammer:
+            for unit, member in zip(self.group.units, self.flight.iter_members()):
+                if settings.plugin_option("ewrj.ecm_required"):
+                    ecm = WeaponType.JAMMER
+                    if not member.loadout.has_weapon_of_type(ecm):
+                        continue
+                if not member.is_player:
+                    script_content = f'stopDjamming("{unit.name}")'
+                    stop_jamming_script = RunScript(script_content)
+                    waypoint.tasks.append(stop_jamming_script)
+
+            evaide_fire = OptReactOnThreat(OptReactOnThreat.Values.EvadeFire)
+            waypoint.tasks.append(evaide_fire)

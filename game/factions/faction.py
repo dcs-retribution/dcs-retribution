@@ -427,7 +427,8 @@ class Faction:
             self.remove_aircraft("UH-60L")
             self.remove_aircraft("KC130J")
         if not mod_settings.fa18ef_tanker:
-            self.remove_aircraft("Superbug_AITanker")
+            self.remove_aircraft("FA-18ET")
+            self.remove_aircraft("FA-18FT")
         if not mod_settings.f4bc_phantom:
             self.remove_aircraft("VSN_F4B")
             self.remove_aircraft("VSN_F4C")
@@ -479,6 +480,10 @@ class Faction:
             self.remove_aircraft("JAS39Gripen")
             self.remove_aircraft("JAS39Gripen_BVR")
             self.remove_aircraft("JAS39Gripen_AG")
+        if not mod_settings.mirage_3:
+            self.remove_aircraft("VSN_MirageIIIC")
+            self.remove_aircraft("VSN_MirageIIIC_AG")
+            self.remove_aircraft("VSN_MirageIIIS")
         if not mod_settings.super_etendard:
             self.remove_aircraft("VSN_SEM")
         if not mod_settings.sk_60:
@@ -550,6 +555,7 @@ class Faction:
             self.remove_vehicle("SAM SA-14 Strela-3 manpad")
             self.remove_vehicle("SAM SA-24 Igla-S manpad")
             self.remove_vehicle("Polyana-D4M1 C2 node")
+        # CJS FA-18E/F/G Super Hornet Mod
         if not mod_settings.fa_18efg:
             self.remove_aircraft("FA-18E")
             self.remove_aircraft("FA-18F")
@@ -840,6 +846,22 @@ class Faction:
             self.remove_preset("MIM-104 Patriot (Stationary)")
             self.remove_preset("NASAMS 3")
             self.remove_preset("THAAD")
+        if not mod_settings.ukrainemilitaryassetspack:
+            self.remove_aircraft("Su-24MU")
+            self.remove_aircraft("MiG-29MU2")
+            self.remove_aircraft("CH_Su-27P1M")
+            self.remove_vehicle("T84_OplotM")
+            self.remove_vehicle("BTR-4")
+            self.remove_vehicle("CH_T64BV")
+            self.remove_vehicle("CH_Kozak5")
+            self.remove_vehicle("CH_KrAZSpartan")
+            self.remove_vehicle("CH_BRDM2L1")
+            self.remove_vehicle("CH_Alligator_Sniper")
+            self.remove_vehicle("CH_Stugna_P")
+            self.remove_vehicle("CH_KrAZ6322")
+        # CLP E7a Wedgetail Mod
+        if not mod_settings.e7a_wedgetail:
+            self.remove_aircraft("CLP_E7a")
 
     def remove_aircraft(self, name: str) -> None:
         for aircraft_set in [self.aircraft, self.awacs, self.tankers]:

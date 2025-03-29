@@ -72,6 +72,8 @@ class MigrationUnpickler(pickle.Unpickler):
             return DummyObject
         if name in ["CaletaTortel", "Caleta_Tortel_Airport"]:
             return dcs.terrain.Airport  # use base-class if airport was removed
+        if name == "Superbug_AITanker":
+            return pydcs_extensions.fa18efg.FA_18ET
         if module == "pydcs_extensions.f4b.f4b":
             return pydcs_extensions.f4
         if module == "pydcs_extensions.irondome.irondome":

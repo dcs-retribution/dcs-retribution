@@ -1,0 +1,10 @@
+description: The Boeing E-7 Wedgetail, also marketed as the Boeing 737 AEW&C, is a twin-engine airborne early warning and control aircraft based on the Boeing 737 Next Generation design. It has a fixed, active electronically scanned array radar antenna instead of a rotating one as with the 707-based Boeing E-3 Sentry.[2][3] The E-7 was designed for the Royal Australian Air Force (RAAF) under "Project Wedgetail" and designated E-7A Wedgetail.
+price: 50
+max_group_size: 1
+max_range: 2000
+patrol:
+  altitude: 35000
+variants:
+  E-7A Wedgetail: {}
+tasks:
+  AEW&C: 30

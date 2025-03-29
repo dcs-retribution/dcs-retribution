@@ -9,6 +9,8 @@ from dcs.task import (
     Tanker,
     Targets,
     SetUnlimitedFuelCommand,
+    RunScript,
+    OptReactOnThreat,
 )
 
 from game.ato import FlightType
@@ -37,6 +39,22 @@ class RaceTrackBuilder(PydcsWaypointBuilder):
                 f"{flight_plan_type} does not define a patrol."
             )
             return
+
+        if self.flight.flight_type == FlightType.AEWC:
+            # Start Offensive Jamming for all AWACS flights
+            settings = self.flight.coalition.game.settings
+            ai_jammer = settings.plugin_option("ewrj.ai_jammer_enabled")
+            if settings.plugins.get("ewrj") and ai_jammer:
+                # all units in group are AWACS, no specific checks needed
+                for unit, member in zip(self.group.units, self.flight.iter_members()):
+                    script_content = f'startEWjamm("{unit.name}")'
+                    start_jamming_script = RunScript(script_content)
+                    waypoint.tasks.append(start_jamming_script)
+
+                passive_defense = OptReactOnThreat(
+                    OptReactOnThreat.Values.PassiveDefense
+                )
+                waypoint.tasks.append(passive_defense)
 
         # NB: It's important that the engage task comes before the orbit task.
         # Though they're on the same waypoint, if the orbit task comes first it
