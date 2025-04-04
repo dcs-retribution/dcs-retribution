@@ -84,31 +84,6 @@ local unitPayloads = {
 			},
 		},
 		[3] = {
-			["displayName"] = "Retribution SEAD",
-			["name"] = "Retribution SEAD",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{D8F2C90B-887B-4B9E-9FE2-996BC9E9AF03}",
-					["num"] = 7,
-				},
-				[2] = {
-					["CLSID"] = "{D8F2C90B-887B-4B9E-9FE2-996BC9E9AF03}",
-					["num"] = 2,
-				},
-				[3] = {
-					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
-					["num"] = 1,
-				},
-				[4] = {
-					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
-					["num"] = 8,
-				},
-			},
-			["tasks"] = {
-				[1] = 11,
-			},
-		},
-		[4] = {
 			["displayName"] = "Retribution BARCAP",
 			["name"] = "Retribution BARCAP",
 			["pylons"] = {
@@ -149,9 +124,68 @@ local unitPayloads = {
 				[1] = 11,
 			},
 		},
+		[4] = {
+			["displayName"] = "Retribution SEAD",
+			["name"] = "Retribution SEAD",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{D8F2C90B-887B-4B9E-9FE2-996BC9E9AF03}",
+					["num"] = 7,
+				},
+				[2] = {
+					["CLSID"] = "{D8F2C90B-887B-4B9E-9FE2-996BC9E9AF03}",
+					["num"] = 2,
+				},
+				[3] = {
+					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+					["num"] = 1,
+				},
+				[4] = {
+					["CLSID"] = "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+					["num"] = 8,
+				},
+			},
+			["tasks"] = {
+				[1] = 11,
+			},
+		},
+		[5] = {
+			["displayName"] = "Retribution SEAD Escort",
+			["name"] = "Retribution SEAD Escort",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{D8F2C90B-887B-4B9E-9FE2-996BC9E9AF03}",
+					["num"] = 7,
+				},
+				[2] = {
+					["CLSID"] = "{D8F2C90B-887B-4B9E-9FE2-996BC9E9AF03}",
+					["num"] = 2,
+				},
+				[3] = {
+					["CLSID"] = "{R-37M}",
+					["num"] = 3,
+				},
+				[4] = {
+					["CLSID"] = "{R-37M}",
+					["num"] = 4,
+				},
+				[5] = {
+					["CLSID"] = "{R-37M}",
+					["num"] = 5,
+				},
+				[6] = {
+					["CLSID"] = "{R-37M}",
+					["num"] = 6,
+				},
+			},
+			["tasks"] = {
+				[1] = 11,
+			},
+		},
 	},
 	["tasks"] = {
 	},
 	["unitType"] = "MiG-31BM",
 }
 return unitPayloads
+
