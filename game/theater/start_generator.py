@@ -107,6 +107,7 @@ class ModSettings:
     russianmilitaryassetspack: bool = False
     usamilitaryassetspack: bool = False
     ukrainemilitaryassetspack: bool = False
+    mig31bm_foxhound: bool = False
 
 
 class GameGenerator:
