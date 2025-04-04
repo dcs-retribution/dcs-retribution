@@ -130,6 +130,7 @@ class NewGameWizard(QtWidgets.QWizard):
             russianmilitaryassetspack=self.field("russianmilitaryassetspack"),
             usamilitaryassetspack=self.field("usamilitaryassetspack"),
             ukrainemilitaryassetspack=self.field("ukrainemilitaryassetspack"),
+            mig31bm_foxhound=self.field("mig31bm_foxhound"),
         )
 
         blue_faction = self.faction_selection_page.selected_blue_faction
