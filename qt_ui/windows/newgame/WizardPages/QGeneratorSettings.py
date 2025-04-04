@@ -172,7 +172,9 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("usamilitaryassetspack", self.usamilitaryassetspack)
         self.ukrainemilitaryassetspack = QtWidgets.QCheckBox()
         self.registerField("ukrainemilitaryassetspack", self.ukrainemilitaryassetspack)
-
+        self.mig31bm_foxhound = QtWidgets.QCheckBox()
+        self.registerField("mig31bm_foxhound", self.mig31bm_foxhound)
+        
         modHelpText = QtWidgets.QLabel(
             "<p>Select the mods you have installed. If your chosen factions support them, you'll be able to use these mods in your campaign.</p>"
         )
@@ -239,6 +241,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("Super Étendard (v2.5.5)", self.super_etendard),
             ("UH-60L Black Hawk (v1.3.1)", self.uh_60l),
             ("Vietnam War Vessels (v0.9.0 by TeTeT)", self.vietnamwarvessels),
+            ("MiG-31BM (v2.0)", self.mig31bm_foxhound),
         ]
 
         for i in range(len(mod_pairs)):
