@@ -1,4 +1,3 @@
-
 from typing import Any, Dict, Set
 
 from dcs import task
@@ -8,13 +7,28 @@ from dcs.weapons_data import Weapons
 from game.modsupport import planemod
 from pydcs_extensions.weapon_injector import inject_weapons
 
+
 class WeaponsMiG31BM:
 
-    Vympel_R_33__AA_9_Amos_ = {"clsid": "{R-33}", "name": "Vympel R-33 (AA-9 Amos)", "weight": 490}
-    Vympel_R_37M__AA_13_Axehead_ = {"clsid": "{R-37M}", "name": "Vympel R-37M (AA-13 Axehead)", "weight": 600}
-    Vympel_R_37__AA_13_Axehead_ = {"clsid": "{R-37}", "name": "Vympel R-37 (AA-13 Axehead)", "weight": 600}
+    Vympel_R_33__AA_9_Amos_ = {
+        "clsid": "{R-33}",
+        "name": "Vympel R-33 (AA-9 Amos)",
+        "weight": 490,
+    }
+    Vympel_R_37M__AA_13_Axehead_ = {
+        "clsid": "{R-37M}",
+        "name": "Vympel R-37M (AA-13 Axehead)",
+        "weight": 600,
+    }
+    Vympel_R_37__AA_13_Axehead_ = {
+        "clsid": "{R-37}",
+        "name": "Vympel R-37 (AA-13 Axehead)",
+        "weight": 600,
+    }
+
 
 inject_weapons(WeaponsMiG31BM)
+
 
 @planemod
 class MiG_31BM(PlaneType):
@@ -30,7 +44,7 @@ class MiG_31BM(PlaneType):
     charge_total = 220
     chaff_charge_size = 1
     flare_charge_size = 1
-    category = "Interceptor"  #{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
+    category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
 
     livery_name = "MIG-31BM"  # from type
 
@@ -44,14 +58,29 @@ class MiG_31BM(PlaneType):
         Vympel_R_37M__AA_13_Axehead_ = (2, WeaponsMiG31BM.Vympel_R_37M__AA_13_Axehead_)
         Vympel_R_37__AA_13_Axehead_ = (2, WeaponsMiG31BM.Vympel_R_37__AA_13_Axehead_)
         Vympel_R_33__AA_9_Amos_ = (2, WeaponsMiG31BM.Vympel_R_33__AA_9_Amos_)
-        R_40RD__AA_6_Acrid____Semi_Act_Rdr = (2, Weapons.R_40RD__AA_6_Acrid____Semi_Act_Rdr)
+        R_40RD__AA_6_Acrid____Semi_Act_Rdr = (
+            2,
+            Weapons.R_40RD__AA_6_Acrid____Semi_Act_Rdr,
+        )
         R_40TD__AA_6_Acrid____Infra_Red = (2, Weapons.R_40TD__AA_6_Acrid____Infra_Red)
-        APU_60_2M_with_2_x_R_60M__AA_8_Aphid_B____IR_AAM__ = (2, Weapons.APU_60_2M_with_2_x_R_60M__AA_8_Aphid_B____IR_AAM__)
-        R_27ET__AA_10_Alamo_D____IR_Extended_Range = (2, Weapons.R_27ET__AA_10_Alamo_D____IR_Extended_Range)
-        R_27ER__AA_10_Alamo_C____Semi_Act_Extended_Range = (2, Weapons.R_27ER__AA_10_Alamo_C____Semi_Act_Extended_Range)
+        APU_60_2M_with_2_x_R_60M__AA_8_Aphid_B____IR_AAM__ = (
+            2,
+            Weapons.APU_60_2M_with_2_x_R_60M__AA_8_Aphid_B____IR_AAM__,
+        )
+        R_27ET__AA_10_Alamo_D____IR_Extended_Range = (
+            2,
+            Weapons.R_27ET__AA_10_Alamo_D____IR_Extended_Range,
+        )
+        R_27ER__AA_10_Alamo_C____Semi_Act_Extended_Range = (
+            2,
+            Weapons.R_27ER__AA_10_Alamo_C____Semi_Act_Extended_Range,
+        )
         Fuel_tank_3000L = (2, Weapons.Fuel_tank_3000L)
         Fuel_tank_2000L = (2, Weapons.Fuel_tank_2000L)
-        Kh_31P__AS_17_Krypton____600kg__ARM__IN__Pas_Rdr = (2, Weapons.Kh_31P__AS_17_Krypton____600kg__ARM__IN__Pas_Rdr)
+        Kh_31P__AS_17_Krypton____600kg__ARM__IN__Pas_Rdr = (
+            2,
+            Weapons.Kh_31P__AS_17_Krypton____600kg__ARM__IN__Pas_Rdr,
+        )
 
     class Pylon3:
         Vympel_R_37M__AA_13_Axehead_ = (3, WeaponsMiG31BM.Vympel_R_37M__AA_13_Axehead_)
@@ -79,14 +108,29 @@ class MiG_31BM(PlaneType):
         Vympel_R_37M__AA_13_Axehead_ = (7, WeaponsMiG31BM.Vympel_R_37M__AA_13_Axehead_)
         Vympel_R_37__AA_13_Axehead_ = (7, WeaponsMiG31BM.Vympel_R_37__AA_13_Axehead_)
         Vympel_R_33__AA_9_Amos_ = (7, WeaponsMiG31BM.Vympel_R_33__AA_9_Amos_)
-        R_40RD__AA_6_Acrid____Semi_Act_Rdr = (7, Weapons.R_40RD__AA_6_Acrid____Semi_Act_Rdr)
+        R_40RD__AA_6_Acrid____Semi_Act_Rdr = (
+            7,
+            Weapons.R_40RD__AA_6_Acrid____Semi_Act_Rdr,
+        )
         R_40TD__AA_6_Acrid____Infra_Red = (7, Weapons.R_40TD__AA_6_Acrid____Infra_Red)
-        APU_60_2M_with_2_x_R_60M__AA_8_Aphid_B____IR_AAM___ = (7, Weapons.APU_60_2M_with_2_x_R_60M__AA_8_Aphid_B____IR_AAM___)
-        R_27ET__AA_10_Alamo_D____IR_Extended_Range = (7, Weapons.R_27ET__AA_10_Alamo_D____IR_Extended_Range)
-        R_27ER__AA_10_Alamo_C____Semi_Act_Extended_Range = (7, Weapons.R_27ER__AA_10_Alamo_C____Semi_Act_Extended_Range)
+        APU_60_2M_with_2_x_R_60M__AA_8_Aphid_B____IR_AAM___ = (
+            7,
+            Weapons.APU_60_2M_with_2_x_R_60M__AA_8_Aphid_B____IR_AAM___,
+        )
+        R_27ET__AA_10_Alamo_D____IR_Extended_Range = (
+            7,
+            Weapons.R_27ET__AA_10_Alamo_D____IR_Extended_Range,
+        )
+        R_27ER__AA_10_Alamo_C____Semi_Act_Extended_Range = (
+            7,
+            Weapons.R_27ER__AA_10_Alamo_C____Semi_Act_Extended_Range,
+        )
         Fuel_tank_3000L = (7, Weapons.Fuel_tank_3000L)
         Fuel_tank_2000L = (7, Weapons.Fuel_tank_2000L)
-        Kh_31P__AS_17_Krypton____600kg__ARM__IN__Pas_Rdr = (7, Weapons.Kh_31P__AS_17_Krypton____600kg__ARM__IN__Pas_Rdr)
+        Kh_31P__AS_17_Krypton____600kg__ARM__IN__Pas_Rdr = (
+            7,
+            Weapons.Kh_31P__AS_17_Krypton____600kg__ARM__IN__Pas_Rdr,
+        )
 
     class Pylon8:
         R_73__AA_11_Archer____Infra_Red = (8, Weapons.R_73__AA_11_Archer____Infra_Red)
@@ -94,5 +138,14 @@ class MiG_31BM(PlaneType):
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8}
 
-    tasks = [task.CAP, task.Intercept, task.Escort, task.FighterSweep, task.Reconnaissance, task.GroundAttack, task.AntishipStrike, task.SEAD]
+    tasks = [
+        task.CAP,
+        task.Intercept,
+        task.Escort,
+        task.FighterSweep,
+        task.Reconnaissance,
+        task.GroundAttack,
+        task.AntishipStrike,
+        task.SEAD,
+    ]
     task_default = task.CAP
