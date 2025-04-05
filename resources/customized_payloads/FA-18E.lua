@@ -17,7 +17,7 @@ local unitPayloads = {
 				},
 				[3]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_03_IB_TD_3X_BRU_ADM-141A}",
+					["CLSID"]="{BRU_42A_x3_ADM_141A}",
 					["num"]=3
 				},
 				[4]=
@@ -27,33 +27,33 @@ local unitPayloads = {
 				},
 				[5]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_07_AM_1X_AIM-120C}",
-					["num"]=6
+					["CLSID"]="{SUPERHORNET_PYLON_06_CN_FT_FPU-12_Fueltank}",
+					["num"]=5
 				},
 				[6]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_09_IB_TD_3X_BRU_ADM-141A}",
-					["num"]=7
+					["CLSID"]="{SUPERHORNET_PYLON_07_AM_1X_AIM-120C}",
+					["num"]=6
 				},
 				[7]=
+				{
+					["CLSID"]="{BRU_42A_x3_ADM_141A}",
+					["num"]=7
+				},
+				[8]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_10_OB_AR_1X_AGM-88}",
 					["num"]=8
 				},
-				[8]=
+				[9]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_11_SW_1X_AIM-9X}",
 					["num"]=9
 				},
-				[9]=
+				[10]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_IN_FT_AUX_CELLS}",
 					["num"]=10
-				},
-				[10]=
-				{
-					["CLSID"]="{GROWLER_PYLON_06_CN_FT_FPU-12_Fueltank}",
-					["num"]=5
 				}
 			},
 			["tasks"] = {
@@ -77,43 +77,43 @@ local unitPayloads = {
 				},
 				[3]=
 				{
-					["CLSID"]="{GROWLER_PYLON_04_IB_FT_FPU-12_Fueltank}",
+					["CLSID"]="{SUPERHORNET_PYLON_03_IB_FT_FPU-12_Fueltank}",
 					["num"]=3
 				},
 				[4]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_05_TP_ASQ228}",
+					["CLSID"]="{SUPERHORNET_PYLON_05_AM_1X_AIM-120C}",
 					["num"]=4
 				},
 				[5]=
 				{
+					["CLSID"]="{SUPERHORNET_PYLON_06_CN_EMPTY}",
+					["num"]=5
+				},
+				[6]=
+				{
 					["CLSID"]="{SUPERHORNET_PYLON_07_AM_1X_AIM-120C}",
 					["num"]=6
 				},
-				[6]=
+				[7]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_09_IB_FT_FPU-12_Fueltank}",
 					["num"]=7
 				},
-				[7]=
+				[8]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_10_MB_AM_2X_AIM-120C}",
 					["num"]=8
 				},
-				[8]=
+				[9]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_11_SW_1X_AIM-9X}",
 					["num"]=9
 				},
-				[9]=
+				[10]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_IN_FT_AUX_CELLS}",
 					["num"]=10
-				},
-				[10]=
-				{
-					["CLSID"]="{SUPERHORNET_PYLON_06_CN_EMPTY}",
-					["num"]=5
 				}
 			},
 			["tasks"] = {
@@ -136,43 +136,43 @@ local unitPayloads = {
 				},
 				[3]=
 				{
-					["CLSID"]="{GROWLER_PYLON_04_IB_FT_FPU-12_Fueltank}",
+					["CLSID"]="{SUPERHORNET_PYLON_03_IB_FT_FPU-12_Fueltank}",
 					["num"]=3
 				},
 				[4]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_05_TP_ASQ228}",
+					["CLSID"]="{SUPERHORNET_PYLON_05_AM_1X_AIM-120C}",
 					["num"]=4
 				},
 				[5]=
 				{
+					["CLSID"]="{SUPERHORNET_PYLON_06_CN_EMPTY}",
+					["num"]=5
+				},
+				[6]=
+				{
 					["CLSID"]="{SUPERHORNET_PYLON_07_AM_1X_AIM-120C}",
 					["num"]=6
 				},
-				[6]=
+				[7]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_09_IB_FT_FPU-12_Fueltank}",
 					["num"]=7
 				},
-				[7]=
+				[8]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_10_MB_AM_2X_AIM-120C}",
 					["num"]=8
 				},
-				[8]=
+				[9]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_11_SW_1X_AIM-9X}",
 					["num"]=9
 				},
-				[9]=
+				[10]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_IN_FT_AUX_CELLS}",
 					["num"]=10
-				},
-				[10]=
-				{
-					["CLSID"]="{SUPERHORNET_PYLON_06_CN_EMPTY}",
-					["num"]=5
 				}
 			},
 			["tasks"] = {
@@ -190,12 +190,12 @@ local unitPayloads = {
 				},
 				[2]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_02_MB_SM_1X_AGM-84E}",
+					["CLSID"]="{SUPERHORNET_PYLON_02_AM_1X_AIM-120C}",
 					["num"]=2
 				},
 				[3]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_03_IB_SM_1X_AGM-84E}",
+					["CLSID"]="{SUPERHORNET_PYLON_03_MB_SM_1X_AGM-84D}",
 					["num"]=3
 				},
 				[4]=
@@ -205,33 +205,33 @@ local unitPayloads = {
 				},
 				[5]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_07_AM_1X_AIM-120C}",
-					["num"]=6
+					["CLSID"]="{SUPERHORNET_PYLON_06_CN_FT_FPU-12_Fueltank}",
+					["num"]=5
 				},
 				[6]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_09_IB_SM_1X_AGM-84E}",
-					["num"]=7
+					["CLSID"]="{SUPERHORNET_PYLON_07_AM_1X_AIM-120C}",
+					["num"]=6
 				},
 				[7]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_10_MB_SM_1X_AGM-84E}",
-					["num"]=8
+					["CLSID"]="{SUPERHORNET_PYLON_09_MB_SM_1X_AGM-84D}",
+					["num"]=7
 				},
 				[8]=
+				{
+					["CLSID"]="{SUPERHORNET_PYLON_10_AM_1X_AIM-120C}",
+					["num"]=8
+				},
+				[9]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_11_SW_1X_AIM-9X}",
 					["num"]=9
 				},
-				[9]=
+				[10]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_IN_FT_AUX_CELLS}",
 					["num"]=10
-				},
-				[10]=
-				{
-					["CLSID"]="{GROWLER_PYLON_06_CN_FT_FPU-12_Fueltank}",
-					["num"]=5
 				}
 			},
 			["tasks"] = {
@@ -249,48 +249,48 @@ local unitPayloads = {
 				},
 				[2]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_02_OB_MV_1X_AGM-65F}",
-					["num"]=2
+					["CLSID"]="{SUPERHORNET_PYLON_IN_FT_AUX_CELLS}",
+					["num"]=10
 				},
 				[3]=
-				{
-					["CLSID"]="{SUPERHORNET_PYLON_03_MB_MV_1X_AGM-65F}",
-					["num"]=3
-				},
-				[4]=
-				{
-					["CLSID"]="{GROWLER_PYLON_08_IB_FT_FPU-12_Fueltank}",
-					["num"]=4
-				},
-				[5]=
-				{
-					["CLSID"]="{SUPERHORNET_PYLON_08_CN_FT_FPU-12_Fueltank}",
-					["num"]=6
-				},
-				[6]=
-				{
-					["CLSID"]="{SUPERHORNET_PYLON_09_MB_MV_1X_AGM-65F}",
-					["num"]=7
-				},
-				[7]=
-				{
-					["CLSID"]="{SUPERHORNET_PYLON_10_OB_MV_1X_AGM-65F}",
-					["num"]=8
-				},
-				[8]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_11_SW_1X_AIM-9X}",
 					["num"]=9
 				},
+				[4]=
+				{
+					["CLSID"]="{SUPERHORNET_PYLON_02_OB_MV_1X_AGM-65F}",
+					["num"]=2
+				},
+				[5]=
+				{
+					["CLSID"]="{SUPERHORNET_PYLON_03_MB_MV_1X_AGM-65F}",
+					["num"]=3
+				},
+				[6]=
+				{
+					["CLSID"]="{SUPERHORNET_PYLON_05_TP_ASQ228}",
+					["num"]=4
+				},
+				[7]=
+				{
+					["CLSID"]="{SUPERHORNET_PYLON_06_CN_FT_FPU-12_Fueltank}",
+					["num"]=5
+				},
+				[8]=
+				{
+					["CLSID"]="{SUPERHORNET_PYLON_07_AM_1X_AIM-120C}",
+					["num"]=6
+				},
 				[9]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_IN_FT_AUX_CELLS}",
-					["num"]=10
+					["CLSID"]="{SUPERHORNET_PYLON_10_OB_MV_1X_AGM-65F}",
+					["num"]=8
 				},
 				[10]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_06_CN_TP_AAQ28}",
-					["num"]=5
+					["CLSID"]="{SUPERHORNET_PYLON_09_MB_MV_1X_AGM-65F}",
+					["num"]=7
 				}
 			},
 			["tasks"] = {
@@ -308,48 +308,48 @@ local unitPayloads = {
 				},
 				[2]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_02_OB_MV_1X_AGM-65F}",
-					["num"]=2
+					["CLSID"]="{SUPERHORNET_PYLON_IN_FT_AUX_CELLS}",
+					["num"]=10
 				},
 				[3]=
-				{
-					["CLSID"]="{SUPERHORNET_PYLON_03_MB_MV_1X_AGM-65F}",
-					["num"]=3
-				},
-				[4]=
-				{
-					["CLSID"]="{SUPERHORNET_PYLON_05_TP_ASQ228}",
-					["num"]=4
-				},
-				[5]=
-				{
-					["CLSID"]="{SUPERHORNET_PYLON_07_AM_1X_AIM-120C}",
-					["num"]=6
-				},
-				[6]=
-				{
-					["CLSID"]="{SUPERHORNET_PYLON_09_MB_MV_1X_AGM-65F}",
-					["num"]=7
-				},
-				[7]=
-				{
-					["CLSID"]="{SUPERHORNET_PYLON_10_OB_MV_1X_AGM-65F}",
-					["num"]=8
-				},
-				[8]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_11_SW_1X_AIM-9X}",
 					["num"]=9
 				},
+				[4]=
+				{
+					["CLSID"]="{SUPERHORNET_PYLON_02_OB_MV_1X_AGM-65F}",
+					["num"]=2
+				},
+				[5]=
+				{
+					["CLSID"]="{SUPERHORNET_PYLON_03_MB_MV_1X_AGM-65F}",
+					["num"]=3
+				},
+				[6]=
+				{
+					["CLSID"]="{SUPERHORNET_PYLON_05_TP_ASQ228}",
+					["num"]=4
+				},
+				[7]=
+				{
+					["CLSID"]="{SUPERHORNET_PYLON_06_CN_FT_FPU-12_Fueltank}",
+					["num"]=5
+				},
+				[8]=
+				{
+					["CLSID"]="{SUPERHORNET_PYLON_07_AM_1X_AIM-120C}",
+					["num"]=6
+				},
 				[9]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_IN_FT_AUX_CELLS}",
-					["num"]=10
+					["CLSID"]="{SUPERHORNET_PYLON_10_OB_MV_1X_AGM-65F}",
+					["num"]=8
 				},
 				[10]=
 				{
-					["CLSID"]="{GROWLER_PYLON_06_CN_FT_FPU-12_Fueltank}",
-					["num"]=5
+					["CLSID"]="{SUPERHORNET_PYLON_09_MB_MV_1X_AGM-65F}",
+					["num"]=7
 				}
 			},
 			["tasks"] = {
@@ -382,33 +382,33 @@ local unitPayloads = {
 				},
 				[5]=
 				{
+					["CLSID"]="{SUPERHORNET_PYLON_06_CN_FT_FPU-12_Fueltank}",
+					["num"]=5
+				},
+				[6]=
+				{
 					["CLSID"]="{SUPERHORNET_PYLON_07_AM_1X_AIM-120C}",
 					["num"]=6
 				},
-				[6]=
+				[7]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_09_IB_MK_1X_GBU-31V}",
 					["num"]=7
 				},
-				[7]=
+				[8]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_10_MB_MK_1X_GBU-31V}",
 					["num"]=8
 				},
-				[8]=
+				[9]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_11_SW_1X_AIM-9X}",
 					["num"]=9
 				},
-				[9]=
+				[10]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_IN_FT_AUX_CELLS}",
 					["num"]=10
-				},
-				[10]=
-				{
-					["CLSID"]="{GROWLER_PYLON_06_CN_FT_FPU-12_Fueltank}",
-					["num"]=5
 				}
 			},
 			["tasks"] = {
@@ -426,12 +426,12 @@ local unitPayloads = {
 				},
 				[2]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_02_OB_AR_1X_AGM-88}",
+					["CLSID"]="{SUPERHORNET_PYLON_02_MB_JS_2X_BRU_AGM-154C}",
 					["num"]=2
 				},
 				[3]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_03_IB_TD_3X_BRU_ADM-141A}",
+					["CLSID"]="{SUPERHORNET_PYLON_03_IB_FT_FPU-12_Fueltank}",
 					["num"]=3
 				},
 				[4]=
@@ -441,33 +441,33 @@ local unitPayloads = {
 				},
 				[5]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_07_AM_1X_AIM-120C}",
-					["num"]=6
+					["CLSID"]="{SUPERHORNET_PYLON_06_CN_EMPTY}",
+					["num"]=5
 				},
 				[6]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_09_IB_TD_3X_BRU_ADM-141A}",
-					["num"]=7
+					["CLSID"]="{SUPERHORNET_PYLON_07_AM_1X_AIM-120C}",
+					["num"]=6
 				},
 				[7]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_10_OB_AR_1X_AGM-88}",
-					["num"]=8
+					["CLSID"]="{SUPERHORNET_PYLON_09_IB_FT_FPU-12_Fueltank}",
+					["num"]=7
 				},
 				[8]=
+				{
+					["CLSID"]="{SUPERHORNET_PYLON_10_MB_JS_2X_BRU55_AGM-154C}",
+					["num"]=8
+				},
+				[9]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_11_SW_1X_AIM-9X}",
 					["num"]=9
 				},
-				[9]=
+				[10]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_IN_FT_AUX_CELLS}",
 					["num"]=10
-				},
-				[10]=
-				{
-					["CLSID"]="{GROWLER_PYLON_06_CN_FT_FPU-12_Fueltank}",
-					["num"]=5
 				}
 			},
 			["tasks"] = {
@@ -490,7 +490,7 @@ local unitPayloads = {
 				},
 				[3]=
 				{
-					["CLSID"]="{GROWLER_PYLON_04_IB_FT_FPU-12_Fueltank}",
+					["CLSID"]="{SUPERHORNET_PYLON_03_IB_FT_FPU-12_Fueltank}",
 					["num"]=3
 				},
 				[4]=
@@ -500,33 +500,33 @@ local unitPayloads = {
 				},
 				[5]=
 				{
+					["CLSID"]="{SUPERHORNET_PYLON_06_CN_EMPTY}",
+					["num"]=5
+				},
+				[6]=
+				{
 					["CLSID"]="{SUPERHORNET_PYLON_07_AM_1X_AIM-120C}",
 					["num"]=6
 				},
-				[6]=
+				[7]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_09_IB_FT_FPU-12_Fueltank}",
 					["num"]=7
 				},
-				[7]=
+				[8]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_10_MB_MK_1X_GBU-31V}",
 					["num"]=8
 				},
-				[8]=
+				[9]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_11_SW_1X_AIM-9X}",
 					["num"]=9
 				},
-				[9]=
+				[10]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_IN_FT_AUX_CELLS}",
 					["num"]=10
-				},
-				[10]=
-				{
-					["CLSID"]="{SUPERHORNET_PYLON_06_CN_EMPTY}",
-					["num"]=5
 				}
 			},
 			["tasks"] = {
@@ -550,7 +550,7 @@ local unitPayloads = {
 				},
 				[3]=
 				{
-					["CLSID"]="{GROWLER_PYLON_04_IB_FT_FPU-12_Fueltank}",
+					["CLSID"]="{SUPERHORNET_PYLON_03_IB_FT_FPU-12_Fueltank}",
 					["num"]=3
 				},
 				[4]=
@@ -560,33 +560,33 @@ local unitPayloads = {
 				},
 				[5]=
 				{
+					["CLSID"]="{SUPERHORNET_PYLON_06_CN_EMPTY}",
+					["num"]=5
+				},
+				[6]=
+				{
 					["CLSID"]="{SUPERHORNET_PYLON_07_AM_1X_AIM-120C}",
 					["num"]=6
 				},
-				[6]=
+				[7]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_09_IB_FT_FPU-12_Fueltank}",
 					["num"]=7
 				},
-				[7]=
+				[8]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_10_MB_JS_2X_BRU55_AGM-154C}",
 					["num"]=8
 				},
-				[8]=
+				[9]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_11_SW_1X_AIM-9X}",
 					["num"]=9
 				},
-				[9]=
+				[10]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_IN_FT_AUX_CELLS}",
 					["num"]=10
-				},
-				[10]=
-				{
-					["CLSID"]="{SUPERHORNET_PYLON_06_CN_EMPTY}",
-					["num"]=5
 				}
 			},
 			["tasks"] = {
@@ -610,43 +610,43 @@ local unitPayloads = {
 				},
 				[3]=
 				{
-					["CLSID"]="{GROWLER_PYLON_04_IB_FT_FPU-12_Fueltank}",
+					["CLSID"]="{SUPERHORNET_PYLON_03_IB_FT_FPU-12_Fueltank}",
 					["num"]=3
 				},
 				[4]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_05_TP_ASQ228}",
+					["CLSID"]="{SUPERHORNET_PYLON_05_AM_1X_AIM-120C}",
 					["num"]=4
 				},
 				[5]=
 				{
+					["CLSID"]="{SUPERHORNET_PYLON_06_CN_EMPTY}",
+					["num"]=5
+				},
+				[6]=
+				{
 					["CLSID"]="{SUPERHORNET_PYLON_07_AM_1X_AIM-120C}",
 					["num"]=6
 				},
-				[6]=
+				[7]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_09_IB_FT_FPU-12_Fueltank}",
 					["num"]=7
 				},
-				[7]=
+				[8]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_10_MB_AM_2X_AIM-120C}",
 					["num"]=8
 				},
-				[8]=
+				[9]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_11_SW_1X_AIM-9X}",
 					["num"]=9
 				},
-				[9]=
+				[10]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_IN_FT_AUX_CELLS}",
 					["num"]=10
-				},
-				[10]=
-				{
-					["CLSID"]="{SUPERHORNET_PYLON_06_CN_EMPTY}",
-					["num"]=5
 				}
 			},
 			["tasks"] = {
@@ -670,7 +670,7 @@ local unitPayloads = {
 				},
 				[3]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_03_IB_TD_3X_BRU_ADM-141A}",
+					["CLSID"]="{BRU_42A_x3_ADM_141A}",
 					["num"]=3
 				},
 				[4]=
@@ -680,33 +680,33 @@ local unitPayloads = {
 				},
 				[5]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_07_AM_1X_AIM-120C}",
-					["num"]=6
+					["CLSID"]="{SUPERHORNET_PYLON_06_CN_FT_FPU-12_Fueltank}",
+					["num"]=5
 				},
 				[6]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_09_IB_TD_3X_BRU_ADM-141A}",
-					["num"]=7
+					["CLSID"]="{SUPERHORNET_PYLON_07_AM_1X_AIM-120C}",
+					["num"]=6
 				},
 				[7]=
+				{
+					["CLSID"]="{BRU_42A_x3_ADM_141A}",
+					["num"]=7
+				},
+				[8]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_10_OB_AR_1X_AGM-88}",
 					["num"]=8
 				},
-				[8]=
+				[9]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_11_SW_1X_AIM-9X}",
 					["num"]=9
 				},
-				[9]=
+				[10]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_IN_FT_AUX_CELLS}",
 					["num"]=10
-				},
-				[10]=
-				{
-					["CLSID"]="{GROWLER_PYLON_06_CN_FT_FPU-12_Fueltank}",
-					["num"]=5
 				}
 			},
 			["tasks"] = {
@@ -730,7 +730,7 @@ local unitPayloads = {
 				},
 				[3]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_03_IB_TD_3X_BRU_ADM-141A}",
+					["CLSID"]="{BRU_42A_x3_ADM_141A}",
 					["num"]=3
 				},
 				[4]=
@@ -740,33 +740,33 @@ local unitPayloads = {
 				},
 				[5]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_07_AM_1X_AIM-120C}",
-					["num"]=6
+					["CLSID"]="{SUPERHORNET_PYLON_06_CN_FT_FPU-12_Fueltank}",
+					["num"]=5
 				},
 				[6]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_09_IB_TD_3X_BRU_ADM-141A}",
-					["num"]=7
+					["CLSID"]="{SUPERHORNET_PYLON_07_AM_1X_AIM-120C}",
+					["num"]=6
 				},
 				[7]=
+				{
+					["CLSID"]="{BRU_42A_x3_ADM_141A}",
+					["num"]=7
+				},
+				[8]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_10_OB_AR_1X_AGM-88}",
 					["num"]=8
 				},
-				[8]=
+				[9]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_11_SW_1X_AIM-9X}",
 					["num"]=9
 				},
-				[9]=
+				[10]=
 				{
 					["CLSID"]="{SUPERHORNET_PYLON_IN_FT_AUX_CELLS}",
 					["num"]=10
-				},
-				[10]=
-				{
-					["CLSID"]="{GROWLER_PYLON_06_CN_FT_FPU-12_Fueltank}",
-					["num"]=5
 				}
 			},
 			["tasks"] = {
