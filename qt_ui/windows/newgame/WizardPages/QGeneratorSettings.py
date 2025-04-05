@@ -174,7 +174,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("ukrainemilitaryassetspack", self.ukrainemilitaryassetspack)
         self.mig31bm_foxhound = QtWidgets.QCheckBox()
         self.registerField("mig31bm_foxhound", self.mig31bm_foxhound)
-        
+
         modHelpText = QtWidgets.QLabel(
             "<p>Select the mods you have installed. If your chosen factions support them, you'll be able to use these mods in your campaign.</p>"
         )
