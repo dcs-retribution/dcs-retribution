@@ -55,6 +55,7 @@
 * **[Modding]** Support for CurrentHill's USA Asset Pack (v1.1.5)
 * **[Modding]** Update CJS Super Hornet to 2.4.2
 * **[Modding]** Support for Cowboy's E-7A Wedgetail mod (Supports EW Script Offensive Jamming)
+* **[Modding]** Support for szcz's MiG-31BM (v2.0)
 * **[Plugins]** Added initial AI support for EW Script 2.0
 
 ## Fixes
