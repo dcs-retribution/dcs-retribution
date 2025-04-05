@@ -41,9 +41,9 @@ class MiG_31BM(PlaneType):
     class Pylon2:
         R_73__AA_11_Archer____Infra_Red = (2, Weapons.R_73__AA_11_Archer____Infra_Red)
         R_77__AA_12_Adder____Active_Rdr = (2, Weapons.R_77__AA_12_Adder____Active_Rdr)
-        Vympel_R_37M__AA_13_Axehead_ = (2, Weapons.Vympel_R_37M__AA_13_Axehead_)
-        Vympel_R_37__AA_13_Axehead_ = (2, Weapons.Vympel_R_37__AA_13_Axehead_)
-        Vympel_R_33__AA_9_Amos_ = (2, Weapons.Vympel_R_33__AA_9_Amos_)
+        Vympel_R_37M__AA_13_Axehead_ = (2, WeaponsMiG31BM.Vympel_R_37M__AA_13_Axehead_)
+        Vympel_R_37__AA_13_Axehead_ = (2, WeaponsMiG31BM.Vympel_R_37__AA_13_Axehead_)
+        Vympel_R_33__AA_9_Amos_ = (2, WeaponsMiG31BM.Vympel_R_33__AA_9_Amos_)
         R_40RD__AA_6_Acrid____Semi_Act_Rdr = (2, Weapons.R_40RD__AA_6_Acrid____Semi_Act_Rdr)
         R_40TD__AA_6_Acrid____Infra_Red = (2, Weapons.R_40TD__AA_6_Acrid____Infra_Red)
         APU_60_2M_with_2_x_R_60M__AA_8_Aphid_B____IR_AAM__ = (2, Weapons.APU_60_2M_with_2_x_R_60M__AA_8_Aphid_B____IR_AAM__)
@@ -54,31 +54,31 @@ class MiG_31BM(PlaneType):
         Kh_31P__AS_17_Krypton____600kg__ARM__IN__Pas_Rdr = (2, Weapons.Kh_31P__AS_17_Krypton____600kg__ARM__IN__Pas_Rdr)
 
     class Pylon3:
-        Vympel_R_37M__AA_13_Axehead_ = (3, Weapons.Vympel_R_37M__AA_13_Axehead_)
-        Vympel_R_37__AA_13_Axehead_ = (3, Weapons.Vympel_R_37__AA_13_Axehead_)
-        Vympel_R_33__AA_9_Amos_ = (3, Weapons.Vympel_R_33__AA_9_Amos_)
+        Vympel_R_37M__AA_13_Axehead_ = (3, WeaponsMiG31BM.Vympel_R_37M__AA_13_Axehead_)
+        Vympel_R_37__AA_13_Axehead_ = (3, WeaponsMiG31BM.Vympel_R_37__AA_13_Axehead_)
+        Vympel_R_33__AA_9_Amos_ = (3, WeaponsMiG31BM.Vympel_R_33__AA_9_Amos_)
 
     class Pylon4:
-        Vympel_R_37M__AA_13_Axehead_ = (4, Weapons.Vympel_R_37M__AA_13_Axehead_)
-        Vympel_R_37__AA_13_Axehead_ = (4, Weapons.Vympel_R_37__AA_13_Axehead_)
-        Vympel_R_33__AA_9_Amos_ = (4, Weapons.Vympel_R_33__AA_9_Amos_)
+        Vympel_R_37M__AA_13_Axehead_ = (4, WeaponsMiG31BM.Vympel_R_37M__AA_13_Axehead_)
+        Vympel_R_37__AA_13_Axehead_ = (4, WeaponsMiG31BM.Vympel_R_37__AA_13_Axehead_)
+        Vympel_R_33__AA_9_Amos_ = (4, WeaponsMiG31BM.Vympel_R_33__AA_9_Amos_)
 
     class Pylon5:
-        Vympel_R_37M__AA_13_Axehead_ = (5, Weapons.Vympel_R_37M__AA_13_Axehead_)
-        Vympel_R_37__AA_13_Axehead_ = (5, Weapons.Vympel_R_37__AA_13_Axehead_)
-        Vympel_R_33__AA_9_Amos_ = (5, Weapons.Vympel_R_33__AA_9_Amos_)
+        Vympel_R_37M__AA_13_Axehead_ = (5, WeaponsMiG31BM.Vympel_R_37M__AA_13_Axehead_)
+        Vympel_R_37__AA_13_Axehead_ = (5, WeaponsMiG31BM.Vympel_R_37__AA_13_Axehead_)
+        Vympel_R_33__AA_9_Amos_ = (5, WeaponsMiG31BM.Vympel_R_33__AA_9_Amos_)
 
     class Pylon6:
-        Vympel_R_37M__AA_13_Axehead_ = (6, Weapons.Vympel_R_37M__AA_13_Axehead_)
-        Vympel_R_37__AA_13_Axehead_ = (6, Weapons.Vympel_R_37__AA_13_Axehead_)
-        Vympel_R_33__AA_9_Amos_ = (6, Weapons.Vympel_R_33__AA_9_Amos_)
+        Vympel_R_37M__AA_13_Axehead_ = (6, WeaponsMiG31BM.Vympel_R_37M__AA_13_Axehead_)
+        Vympel_R_37__AA_13_Axehead_ = (6, WeaponsMiG31BM.Vympel_R_37__AA_13_Axehead_)
+        Vympel_R_33__AA_9_Amos_ = (6, WeaponsMiG31BM.Vympel_R_33__AA_9_Amos_)
 
     class Pylon7:
         R_73__AA_11_Archer____Infra_Red = (7, Weapons.R_73__AA_11_Archer____Infra_Red)
         R_77__AA_12_Adder____Active_Rdr = (7, Weapons.R_77__AA_12_Adder____Active_Rdr)
-        Vympel_R_37M__AA_13_Axehead_ = (7, Weapons.Vympel_R_37M__AA_13_Axehead_)
-        Vympel_R_37__AA_13_Axehead_ = (7, Weapons.Vympel_R_37__AA_13_Axehead_)
-        Vympel_R_33__AA_9_Amos_ = (7, Weapons.Vympel_R_33__AA_9_Amos_)
+        Vympel_R_37M__AA_13_Axehead_ = (7, WeaponsMiG31BM.Vympel_R_37M__AA_13_Axehead_)
+        Vympel_R_37__AA_13_Axehead_ = (7, WeaponsMiG31BM.Vympel_R_37__AA_13_Axehead_)
+        Vympel_R_33__AA_9_Amos_ = (7, WeaponsMiG31BM.Vympel_R_33__AA_9_Amos_)
         R_40RD__AA_6_Acrid____Semi_Act_Rdr = (7, Weapons.R_40RD__AA_6_Acrid____Semi_Act_Rdr)
         R_40TD__AA_6_Acrid____Infra_Red = (7, Weapons.R_40TD__AA_6_Acrid____Infra_Red)
         APU_60_2M_with_2_x_R_60M__AA_8_Aphid_B____IR_AAM___ = (7, Weapons.APU_60_2M_with_2_x_R_60M__AA_8_Aphid_B____IR_AAM___)
