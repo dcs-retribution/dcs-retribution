@@ -1,6 +1,7 @@
 # Retribution v1.5.0
 
 ## Features/Improvements
+* **[Campaigns]** Ability to define invisible FOBs
 
 ## Fixes
 

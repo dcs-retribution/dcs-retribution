@@ -60,6 +60,7 @@ class GroupTask(Enum):
     FARP = ("Farp", GroupRole.BUILDING)
     FOB = ("FOB", GroupRole.BUILDING)
     FUEL = ("Fuel", GroupRole.BUILDING)
+    INVISIBLE_FOB = ("InvisibleFOB", GroupRole.BUILDING)
     OFFSHORE_STRIKE_TARGET = ("OffShoreStrikeTarget", GroupRole.BUILDING)
     OIL = ("Oil", GroupRole.BUILDING)
 
