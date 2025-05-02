@@ -113,6 +113,8 @@ class MissionGenerator:
         self.generate_ground_conflicts()
         self.generate_air_units(tgo_generator)
 
+        self.remove_unwanted_farp_statics(tgo_generator)
+
         RebellionGenerator(self.mission, self.game).generate()
         TriggerGenerator(self.mission, self.game).generate()
         ForcedOptionsGenerator(self.mission, self.game).generate()
@@ -307,6 +309,27 @@ class MissionGenerator:
 
         if self.game.settings.plugins.get("ewrj"):
             self._configure_react_to_threat_for_ew_jamming_packages(aircraft_generator)
+
+    def remove_unwanted_farp_statics(self, tgo_generator: TgoGenerator) -> None:
+        for cp in self.game.theater.controlpoints:
+            if (
+                self.game.settings.ground_start_airbase_statics_farps_remove
+                and isinstance(cp, Airfield)
+            ):
+                while len(tgo_generator.ground_spawns[cp]) > 0:
+                    ground_spawn = tgo_generator.ground_spawns[cp].pop()
+                    # Remove invisible FARPs from airfields because they are unnecessary
+                    neutral_country = self.mission.country(
+                        cp.coalition.game.neutral_country.name
+                    )
+                    neutral_country.remove_static_group(ground_spawn[0])
+                while len(tgo_generator.ground_spawns_roadbase[cp]) > 0:
+                    ground_spawn = tgo_generator.ground_spawns_roadbase[cp].pop()
+                    # Remove invisible FARPs from airfields because they are unnecessary
+                    neutral_country = self.mission.country(
+                        cp.coalition.game.neutral_country.name
+                    )
+                    neutral_country.remove_static_group(ground_spawn[0])
 
     def generate_destroyed_units(self) -> None:
         """Add destroyed units to the Mission"""
