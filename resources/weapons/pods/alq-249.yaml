@@ -1,0 +1,8 @@
+name: ALQ-249 Mid Band Next Generation Jammer
+type: JAMMER
+# https://www.deagel.com/Components/ALQ-249%20Next%20Generation%20Jammer/a002543#001
+year: 2025
+fallback:
+clsids:
+  - "{GROWLER_PYLON_03_MB_ALQ_249_MID_BAND}"
+  - "{GROWLER_PYLON_09_MB_ALQ_249_MID_BAND}"

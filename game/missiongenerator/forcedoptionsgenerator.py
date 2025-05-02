@@ -1,9 +1,12 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
+import dcs.lua
 from dcs.forcedoptions import ForcedOptions
 from dcs.mission import Mission
+
+from game.persistency import forced_options_path
 
 if TYPE_CHECKING:
     from game.game import Game
@@ -53,7 +56,17 @@ class ForcedOptionsGenerator:
         value = self.game.settings.supercarrier_deck_crew
         self.mission.forced_options.supercarrier_deck_crew = value
 
+    @staticmethod
+    def load_forced_options() -> dict[str, Any]:
+        result = {}
+        if forced_options_path().exists():
+            with open(forced_options_path(), "r+", encoding="utf-8") as f:
+                content = f.read()
+                result = dcs.lua.loads(content).get("forcedOptions", {})
+        return result
+
     def generate(self) -> None:
+        self.mission.forced_options.load_from_dict(self.load_forced_options())
         self._set_options_view()
         self._set_external_views()
         self._set_easy_communication()

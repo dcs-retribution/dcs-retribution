@@ -269,7 +269,7 @@ class MirageChannelNamer(ChannelNamer):
 
     @staticmethod
     def channel_name(radio_id: int, channel_id: int) -> str:
-        radio_name = ["V/UHF", "UHF"][radio_id - 1]
+        radio_name = ["UHF", "V/UHF"][radio_id - 1]
         return f"{radio_name} Ch {channel_id}"
 
     @classmethod

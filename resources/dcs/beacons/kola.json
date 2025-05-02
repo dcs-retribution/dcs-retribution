@@ -55,6 +55,20 @@
   "hertz": 113000000,
   "channel": 77
  },
+ "airfield26_0": {
+  "name": "enontekio",
+  "callsign": "ET",
+  "beacon_type": 14,
+  "hertz": 111300000,
+  "channel": null
+ },
+ "airfield26_1": {
+  "name": "enontekio",
+  "callsign": "ET",
+  "beacon_type": 13,
+  "hertz": 111300000,
+  "channel": null
+ },
  "airfield18_0": {
   "name": "IVALO",
   "callsign": "iv",
@@ -100,14 +114,14 @@
  "airfield22_0": {
   "name": "KITTILA",
   "callsign": "KT",
-  "beacon_type": 13,
+  "beacon_type": 14,
   "hertz": 111900000,
   "channel": null
  },
  "airfield22_1": {
   "name": "KITTILA",
   "callsign": "KT",
-  "beacon_type": 14,
+  "beacon_type": 13,
   "hertz": 111900000,
   "channel": null
  },
@@ -145,6 +159,27 @@
   "beacon_type": 4,
   "hertz": null,
   "channel": 28
+ },
+ "airfield24_0": {
+  "name": "alta",
+  "callsign": "AT",
+  "beacon_type": 13,
+  "hertz": 108900000,
+  "channel": null
+ },
+ "airfield24_1": {
+  "name": "alta",
+  "callsign": "AT",
+  "beacon_type": 14,
+  "hertz": 108900000,
+  "channel": null
+ },
+ "airfield24_2": {
+  "name": "alta",
+  "callsign": "ATA",
+  "beacon_type": 3,
+  "hertz": 117400000,
+  "channel": null
  },
  "airfield7_0": {
   "name": "BODO",
@@ -191,16 +226,16 @@
  "airfield21_0": {
   "name": "BARDUFOSS",
   "callsign": "BF",
-  "beacon_type": 13,
+  "beacon_type": 14,
   "hertz": 108700000,
   "channel": null
  },
  "airfield21_1": {
   "name": "BARDUFOSS",
-  "callsign": "BF",
-  "beacon_type": 14,
-  "hertz": 108700000,
-  "channel": null
+  "callsign": "BDF",
+  "beacon_type": 3,
+  "hertz": 114200000,
+  "channel": 89
  },
  "airfield21_2": {
   "name": "BARDUFOSS",
@@ -209,12 +244,26 @@
   "hertz": 108700000,
   "channel": null
  },
- "airfield21_3": {
-  "name": "BARDUFOSS",
-  "callsign": "BDF",
+ "airfield25_0": {
+  "name": "EVENES",
+  "callsign": "ev",
+  "beacon_type": 14,
+  "hertz": 108900000,
+  "channel": null
+ },
+ "airfield25_1": {
+  "name": "EVENES",
+  "callsign": "ev",
+  "beacon_type": 13,
+  "hertz": 108900000,
+  "channel": null
+ },
+ "airfield25_2": {
+  "name": "EVENES",
+  "callsign": "EVD",
   "beacon_type": 3,
-  "hertz": 114200000,
-  "channel": 89
+  "hertz": 117350000,
+  "channel": null
  },
  "airfield14_0": {
   "name": "KIRKENES",

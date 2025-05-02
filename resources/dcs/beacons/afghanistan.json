@@ -1,4 +1,263 @@
 {
+ "world_0": {
+  "name": "Gilgit",
+  "callsign": "GT",
+  "beacon_type": 8,
+  "hertz": 324000,
+  "channel": null
+ },
+ "world_1": {
+  "name": "Peshawar",
+  "callsign": "PS",
+  "beacon_type": 8,
+  "hertz": 308000,
+  "channel": null
+ },
+ "world_2": {
+  "name": "Dushanbe",
+  "callsign": "DNB",
+  "beacon_type": 3,
+  "hertz": 113600000,
+  "channel": 83
+ },
+ "world_3": {
+  "name": "Dangara",
+  "callsign": "DNR",
+  "beacon_type": 2,
+  "hertz": 114100000,
+  "channel": 88
+ },
+ "world_4": {
+  "name": "Zahedan",
+  "callsign": "ZAH",
+  "beacon_type": 4,
+  "hertz": null,
+  "channel": 76
+ },
+ "world_5": {
+  "name": "Muzaffarabad",
+  "callsign": "MF",
+  "beacon_type": 8,
+  "hertz": 207000,
+  "channel": null
+ },
+ "world_6": {
+  "name": "Quetta",
+  "callsign": "QT",
+  "beacon_type": 8,
+  "hertz": 348000,
+  "channel": null
+ },
+ "world_7": {
+  "name": "Zhob",
+  "callsign": "ZB",
+  "beacon_type": 3,
+  "hertz": 115700000,
+  "channel": 104
+ },
+ "world_8": {
+  "name": "Zhob",
+  "callsign": "ZB",
+  "beacon_type": 8,
+  "hertz": 245000,
+  "channel": null
+ },
+ "world_9": {
+  "name": "Fayzobod",
+  "callsign": "JD",
+  "beacon_type": 8,
+  "hertz": 475000,
+  "channel": null
+ },
+ "world_10": {
+  "name": "Multan",
+  "callsign": "MT",
+  "beacon_type": 8,
+  "hertz": 387000,
+  "channel": null
+ },
+ "world_11": {
+  "name": "Murgab",
+  "callsign": "MRB",
+  "beacon_type": 2,
+  "hertz": 114700000,
+  "channel": 94
+ },
+ "world_12": {
+  "name": "Dera Ghazi Khan",
+  "callsign": "DG",
+  "beacon_type": 8,
+  "hertz": 322000,
+  "channel": null
+ },
+ "world_13": {
+  "name": "Zahedan",
+  "callsign": "ZDN",
+  "beacon_type": 3,
+  "hertz": 116000000,
+  "channel": 107
+ },
+ "world_14": {
+  "name": "Sheikhupura",
+  "callsign": "SP",
+  "beacon_type": 8,
+  "hertz": 317000,
+  "channel": null
+ },
+ "world_15": {
+  "name": "D I Khan",
+  "callsign": "DI",
+  "beacon_type": 8,
+  "hertz": 286000000,
+  "channel": null
+ },
+ "world_16": {
+  "name": "Bahawalpur",
+  "callsign": "BW",
+  "beacon_type": 8,
+  "hertz": 332000,
+  "channel": null
+ },
+ "world_17": {
+  "name": "D I Khan",
+  "callsign": "DI",
+  "beacon_type": 1,
+  "hertz": 113100000,
+  "channel": null
+ },
+ "world_18": {
+  "name": "Parachinar",
+  "callsign": "PC",
+  "beacon_type": 8,
+  "hertz": 273000,
+  "channel": null
+ },
+ "world_19": {
+  "name": "Sarakhs",
+  "callsign": "SRS",
+  "beacon_type": 2,
+  "hertz": 334000000,
+  "channel": 108
+ },
+ "world_20": {
+  "name": "Peshawar",
+  "callsign": "PS",
+  "beacon_type": 3,
+  "hertz": 114300000,
+  "channel": 90
+ },
+ "world_21": {
+  "name": "Termez",
+  "callsign": "TRZ",
+  "beacon_type": 3,
+  "hertz": 113400000,
+  "channel": 81
+ },
+ "world_22": {
+  "name": "Faisalabad",
+  "callsign": "FA",
+  "beacon_type": 8,
+  "hertz": 212000,
+  "channel": null
+ },
+ "world_23": {
+  "name": "Multan",
+  "callsign": "MT",
+  "beacon_type": 1,
+  "hertz": 116700000,
+  "channel": null
+ },
+ "world_24": {
+  "name": "Islamabad",
+  "callsign": "BTR",
+  "beacon_type": 3,
+  "hertz": 114600000,
+  "channel": 93
+ },
+ "world_25": {
+  "name": "Rawalakot",
+  "callsign": "RT",
+  "beacon_type": 8,
+  "hertz": 295000,
+  "channel": null
+ },
+ "world_26": {
+  "name": "Bokhtar",
+  "callsign": "KTB",
+  "beacon_type": 2,
+  "hertz": 114500000,
+  "channel": 92
+ },
+ "world_27": {
+  "name": "Islamabad",
+  "callsign": "RN",
+  "beacon_type": 3,
+  "hertz": 112100000,
+  "channel": 58
+ },
+ "world_28": {
+  "name": "Oktyabrskiy",
+  "callsign": "PR",
+  "beacon_type": 8,
+  "hertz": 310000,
+  "channel": null
+ },
+ "world_29": {
+  "name": "Kulob",
+  "callsign": "KLB",
+  "beacon_type": 2,
+  "hertz": 114400000,
+  "channel": 91
+ },
+ "world_30": {
+  "name": "Zahedan",
+  "callsign": "ZD",
+  "beacon_type": 8,
+  "hertz": 224000,
+  "channel": null
+ },
+ "world_31": {
+  "name": "Saidu Sharif",
+  "callsign": "SS",
+  "beacon_type": 8,
+  "hertz": 357000,
+  "channel": null
+ },
+ "world_32": {
+  "name": "Islamabad",
+  "callsign": "RN",
+  "beacon_type": 8,
+  "hertz": 344000,
+  "channel": null
+ },
+ "world_33": {
+  "name": "Quetta",
+  "callsign": "QT",
+  "beacon_type": 3,
+  "hertz": 114700000,
+  "channel": 94
+ },
+ "world_34": {
+  "name": "Kerki",
+  "callsign": "FK",
+  "beacon_type": 8,
+  "hertz": 469000,
+  "channel": null
+ },
+ "world_35": {
+  "name": "Zabol",
+  "callsign": "ZAL",
+  "beacon_type": 3,
+  "hertz": 113000000,
+  "channel": 78
+ },
+ "world_36": {
+  "name": "Kerki",
+  "callsign": "LBK",
+  "beacon_type": 3,
+  "hertz": 109400000,
+  "channel": null
+ },
  "airfield10_0": {
   "name": "Bastion",
   "callsign": "BS",
@@ -61,5 +320,26 @@
   "beacon_type": 4,
   "hertz": 111100000,
   "channel": 48
+ },
+ "airfield16_0": {
+  "name": "Bagram",
+  "callsign": "BGM",
+  "beacon_type": 5,
+  "hertz": 112700000,
+  "channel": 74
+ },
+ "airfield17_0": {
+  "name": "Kabul",
+  "callsign": "KBL",
+  "beacon_type": 3,
+  "hertz": 112000000,
+  "channel": 57
+ },
+ "airfield17_1": {
+  "name": "Kabul",
+  "callsign": "OKB",
+  "beacon_type": 4,
+  "hertz": 133800000,
+  "channel": 65
  }
 }

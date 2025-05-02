@@ -1,0 +1,23 @@
+description:
+  The MiG-31 is a heavy, long-range interceptor, with a maximum takeoff weight of 46,200 kilograms and a top speed exceeding 3,000 kilometers per hour. 
+  Designed to operate in all weather conditions at high altitudes, the aircraft was built to counter strategic bombers and cruise missiles. 
+  MiG-31s played critical roles in the defense networks of the Soviet Union and later Russia, particularly in Arctic and border patrol missions. 
+  Decades after its first flight in 1975, many of the over 500 units produced remain in service, continuing to be upgraded and fielded by the Russian Aerospace Forces.
+
+introduced: 1981
+manufacturer: Mikoyan-Gurevich/Mikoyan
+origin: USSR/Russia
+price: 24
+role: Interceptor
+max_range: 800
+variants:
+  MiG-31BM Foxhound: {}
+kneeboard_units: "metric"
+tasks:
+  BARCAP: 550
+  Escort: 400
+  Fighter sweep: 500
+  Intercept: 600
+  TARCAP: 450
+  SEAD: 150
+  SEAD Escort: 150

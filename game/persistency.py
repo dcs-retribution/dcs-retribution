@@ -72,6 +72,8 @@ class MigrationUnpickler(pickle.Unpickler):
             return DummyObject
         if name in ["CaletaTortel", "Caleta_Tortel_Airport"]:
             return dcs.terrain.Airport  # use base-class if airport was removed
+        if name == "Superbug_AITanker":
+            return pydcs_extensions.fa18efg.FA_18ET
         if module == "pydcs_extensions.f4b.f4b":
             return pydcs_extensions.f4
         if module == "pydcs_extensions.irondome.irondome":
@@ -106,6 +108,9 @@ class MigrationUnpickler(pickle.Unpickler):
             elif name == "Bas_100":
                 from dcs.terrain.kola.airports import Vuojarvi
                 return Vuojarvi
+            elif name == "Alakourtti":
+                from dcs.terrain.kola.airports import Alakurtti
+                return Alakurtti
         if module == "dcs.terrain.syria.airports":
             if name == "Amman":
                 from dcs.terrain.syria.airports import Marka
@@ -191,6 +196,10 @@ def waypoint_debug_directory() -> Path:
 
 def settings_dir() -> Path:
     return _create_dir_if_needed(base_path() / "Retribution" / "Settings")
+
+
+def forced_options_path() -> Path:
+    return _create_dir_if_needed(base_path() / "Retribution") / "forced_options.lua"
 
 
 def airwing_dir() -> Path:

@@ -427,7 +427,8 @@ class Faction:
             self.remove_aircraft("UH-60L")
             self.remove_aircraft("KC130J")
         if not mod_settings.fa18ef_tanker:
-            self.remove_aircraft("Superbug_AITanker")
+            self.remove_aircraft("FA-18ET")
+            self.remove_aircraft("FA-18FT")
         if not mod_settings.f4bc_phantom:
             self.remove_aircraft("VSN_F4B")
             self.remove_aircraft("VSN_F4C")
@@ -554,6 +555,7 @@ class Faction:
             self.remove_vehicle("SAM SA-14 Strela-3 manpad")
             self.remove_vehicle("SAM SA-24 Igla-S manpad")
             self.remove_vehicle("Polyana-D4M1 C2 node")
+        # CJS FA-18E/F/G Super Hornet Mod
         if not mod_settings.fa_18efg:
             self.remove_aircraft("FA-18E")
             self.remove_aircraft("FA-18F")
@@ -630,10 +632,15 @@ class Faction:
             self.remove_preset("RBS-98")
         if not mod_settings.coldwarassets:
             self.remove_aircraft("B_47")
+            self.remove_aircraft("B_58")
             self.remove_aircraft("Tu-4K")
             self.remove_aircraft("Tu-16")
             self.remove_aircraft("tu_22D")
             self.remove_aircraft("tu_22KD")
+            self.remove_aircraft("Tu_95K")
+            self.remove_aircraft("Tu_126")
+            self.remove_aircraft("Tu_128M")
+            self.remove_aircraft("Yak_28")
         # SWPack
         if not mod_settings.SWPack:
             self.remove_aircraft("AWINGA")
@@ -852,6 +859,12 @@ class Faction:
             self.remove_vehicle("CH_Alligator_Sniper")
             self.remove_vehicle("CH_Stugna_P")
             self.remove_vehicle("CH_KrAZ6322")
+        # CLP E7a Wedgetail Mod
+        if not mod_settings.e7a_wedgetail:
+            self.remove_aircraft("CLP_E7a")
+        # MiG-31BM
+        if not mod_settings.mig31bm_foxhound:
+            self.remove_aircraft("MiG-31BM")
 
     def remove_aircraft(self, name: str) -> None:
         for aircraft_set in [self.aircraft, self.awacs, self.tankers]:

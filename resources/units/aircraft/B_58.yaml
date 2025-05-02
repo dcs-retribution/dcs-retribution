@@ -1,0 +1,17 @@
+description:
+  "The Convair B-58 Hustler, designed and produced by American aircraft manufacturer Convair, was the first operational bomber capable of Mach 2 flight."
+introduced: 1960
+manufacturer: Convair
+origin: USA
+price: 35
+role: Strategic Bomber
+max_range: 1500
+variants:
+  B-58 Hustler: {}
+tasks:
+  CAS: 100
+  Anti-ship: 90
+  DEAD: 220
+  OCA/Runway: 670
+  Strike: 670
+  Armed Recon: 200

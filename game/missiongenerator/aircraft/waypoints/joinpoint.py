@@ -12,6 +12,7 @@ from dcs.task import (
 )
 
 from game.ato import FlightType
+from game.data.doctrine import Doctrine
 from game.theater import NavalControlPoint
 from game.utils import nautical_miles, feet
 from .pydcswaypointbuilder import PydcsWaypointBuilder
@@ -54,29 +55,29 @@ class JoinPointBuilder(PydcsWaypointBuilder):
                 max_dist=doctrine.escort_engagement_range.nautical_miles,
                 vertical_spacing=doctrine.escort_spacing.feet,
             )
-        elif self.flight.flight_type == FlightType.SEAD_ESCORT:
-            if isinstance(self.flight.package.target, NavalControlPoint):
-                self.configure_escort_tasks(
-                    waypoint,
-                    [
-                        Targets.All.Naval.id,
-                        Targets.All.GroundUnits.AirDefence.AAA.SAMRelated.id,
-                    ],
-                    max_dist=doctrine.sead_escort_engagement_range.nautical_miles,
-                    vertical_spacing=doctrine.sead_escort_spacing.feet,
+
+        elif self.flight.flight_type in [
+            FlightType.SEAD_SWEEP,
+            FlightType.SEAD,
+            FlightType.SEAD_ESCORT,
+        ]:
+            settings = self.flight.coalition.game.settings
+            ai_jammer = settings.plugin_option("ewrj.ai_jammer_enabled")
+            if settings.plugins.get("ewrj") and ai_jammer:
+                self.offensive_jamming(waypoint, "start")
+                self.defensive_jamming(waypoint, "start")
+
+            if self.flight.flight_type == FlightType.SEAD_ESCORT:
+                self.handle_sead_escort(doctrine, waypoint)
+                # Let the AI use ECM to preemptively defend themselves.
+                ecm_option = OptECMUsing(
+                    value=OptECMUsing.Values.UseIfDetectedLockByRadar
                 )
+                waypoint.tasks.append(ecm_option)
             else:
-                self.configure_escort_tasks(
-                    waypoint,
-                    [Targets.All.GroundUnits.AirDefence.AAA.SAMRelated.id],
-                    max_dist=doctrine.sead_escort_engagement_range.nautical_miles,
-                    vertical_spacing=doctrine.sead_escort_spacing.feet,
-                )
-
-            # Let the AI use ECM to preemptively defend themselves.
-            ecm_option = OptECMUsing(value=OptECMUsing.Values.UseIfDetectedLockByRadar)
-            waypoint.tasks.append(ecm_option)
-
+                # Let the AI use ECM to defend themselves.
+                ecm_option = OptECMUsing(value=OptECMUsing.Values.UseIfOnlyLockByRadar)
+                waypoint.tasks.append(ecm_option)
         elif not self.flight.flight_type.is_air_to_air:
             # Capture any non A/A type to avoid issues with SPJs that use the primary radar such as the F/A-18C.
             # You can bully them with STT to not be able to fire radar guided missiles at you,
@@ -85,6 +86,25 @@ class JoinPointBuilder(PydcsWaypointBuilder):
             # Let the AI use ECM to defend themselves.
             ecm_option = OptECMUsing(value=OptECMUsing.Values.UseIfOnlyLockByRadar)
             waypoint.tasks.append(ecm_option)
+
+    def handle_sead_escort(self, doctrine: Doctrine, waypoint: MovingPoint) -> None:
+        if isinstance(self.flight.package.target, NavalControlPoint):
+            self.configure_escort_tasks(
+                waypoint,
+                [
+                    Targets.All.Naval.id,
+                    Targets.All.GroundUnits.AirDefence.AAA.SAMRelated.id,
+                ],
+                max_dist=doctrine.sead_escort_engagement_range.nautical_miles,
+                vertical_spacing=doctrine.sead_escort_spacing.feet,
+            )
+        else:
+            self.configure_escort_tasks(
+                waypoint,
+                [Targets.All.GroundUnits.AirDefence.AAA.SAMRelated.id],
+                max_dist=doctrine.sead_escort_engagement_range.nautical_miles,
+                vertical_spacing=doctrine.sead_escort_spacing.feet,
+            )
 
     def configure_escort_tasks(
         self,

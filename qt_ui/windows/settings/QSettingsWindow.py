@@ -585,8 +585,9 @@ class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):
         default_zip_path = sd / "Default.zip"
         if default_zip_path.exists():
             with zipfile.ZipFile(default_zip_path, "r") as zf:
-                filename = "Default.json"
-                if filename in zf.namelist():
+                filename = [n for n in zf.namelist() if n.lower() == "default.json"]
+                if filename:
+                    filename = filename[0]
                     settings_data = json.loads(
                         zf.read(filename).decode("utf-8"),
                         object_hook=self.settings.obj_hook,

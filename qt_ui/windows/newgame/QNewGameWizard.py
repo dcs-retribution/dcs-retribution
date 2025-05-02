@@ -93,6 +93,7 @@ class NewGameWizard(QtWidgets.QWizard):
             a6a_intruder=self.field("a6a_intruder"),
             a7e_corsair2=self.field("a7e_corsair2"),
             ea6b_prowler=self.field("ea6b_prowler"),
+            e7a_wedgetail=self.field("e7a_wedgetail"),
             f4bc_phantom=self.field("f4bc_phantom"),
             f15d_baz=self.field("f15d_baz"),
             f_15_idf=self.field("f_15_idf"),
@@ -129,6 +130,7 @@ class NewGameWizard(QtWidgets.QWizard):
             russianmilitaryassetspack=self.field("russianmilitaryassetspack"),
             usamilitaryassetspack=self.field("usamilitaryassetspack"),
             ukrainemilitaryassetspack=self.field("ukrainemilitaryassetspack"),
+            mig31bm_foxhound=self.field("mig31bm_foxhound"),
         )
 
         blue_faction = self.faction_selection_page.selected_blue_faction

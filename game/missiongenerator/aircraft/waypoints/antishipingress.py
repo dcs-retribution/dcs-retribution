@@ -1,4 +1,5 @@
 import logging
+from typing import List
 
 from dcs.point import MovingPoint
 from dcs.task import AttackGroup, OptFormation, WeaponType
@@ -28,6 +29,22 @@ class AntiShipIngressBuilder(PydcsWaypointBuilder):
             )
             return
 
+        self.add_attack_group_tasks_for_ordnance(
+            waypoint, group_names, WeaponType.Antiship
+        )
+        self.add_attack_group_tasks_for_ordnance(
+            waypoint, group_names, WeaponType.Guided
+        )
+        self.add_attack_group_tasks_for_ordnance(
+            waypoint, group_names, WeaponType.Unguided
+        )
+
+    def add_attack_group_tasks_for_ordnance(
+        self,
+        waypoint: MovingPoint,
+        group_names: List[str],
+        ordnance: WeaponType,
+    ) -> None:
         for group_name in group_names:
             miz_group = self.mission.find_group(group_name)
             if miz_group is None:
@@ -36,7 +53,5 @@ class AntiShipIngressBuilder(PydcsWaypointBuilder):
                 )
                 continue
 
-            task = AttackGroup(
-                miz_group.id, group_attack=True, weapon_type=WeaponType.Auto
-            )
+            task = AttackGroup(miz_group.id, group_attack=True, weapon_type=ordnance)
             waypoint.tasks.append(task)

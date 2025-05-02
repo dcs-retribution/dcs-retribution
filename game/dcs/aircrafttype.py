@@ -229,6 +229,10 @@ class AircraftType(UnitType[Type[FlyingType]]):
     # when no TGP is mounted on any station.
     has_built_in_target_pod: bool
 
+    # indicates if the aircraft has a built-in jammer allowing EWJamming to be used
+    # without the need for a jamming pod
+    has_built_in_ecm: bool
+
     task_priorities: dict[FlightType, int]
     laser_code_configs: list[LaserCodeConfig]
 
@@ -591,6 +595,7 @@ class AircraftType(UnitType[Type[FlyingType]]):
             can_carry_crates=data.get("can_carry_crates", aircraft.helicopter),
             task_priorities=task_priorities,
             has_built_in_target_pod=data.get("has_built_in_target_pod", False),
+            has_built_in_ecm=data.get("has_built_in_ecm", False),
             laser_code_configs=[
                 LaserCodeConfig.from_yaml(d) for d in data.get("laser_codes", [])
             ],

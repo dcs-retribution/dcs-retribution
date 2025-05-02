@@ -51,7 +51,7 @@ class Takeoff(AtDeparture):
         if (
             self.flight.client_count > 0
             and self.settings.player_mission_interrupts_sim_at
-            is [StartType.COLD, StartType.WARM, StartType.RUNWAY]
+            in [StartType.COLD, StartType.WARM, StartType.RUNWAY]
         ):
             logging.info(
                 f"Interrupting simulation because {self.flight} has players and has "

@@ -1,5 +1,11 @@
+# Retribution v1.5.0
+
+## Features/Improvements
+
+## Fixes
+
+
 # Retribution v1.4.0
-#### Note: Re-save your missions in DCS' Mission Editor to avoid possible crashes due to datalink (usually the case when F-16C blk50s are used) when hosting missions on a dedicated server.
 
 ## Features/Improvements
 * **[Payload Editor]** Ability to configure liveries on flight/flight-member level
@@ -10,7 +16,7 @@
 * **[Modding]** Added VSN F-106 Delta Dart mod support (v2.9.4.101)
 * **[Modding]** Added OH-6 Cayuse (v1.2) mod support, including the Vietnam Asset Pack v1.0
 * **[Modding]** Added VSN EA-6B Prowler mod support (v2.9.4.102)
-* **[Modding]** Added tripod3 Cold War assets mod support (v1.0)
+* **[Modding]** Added tripod3 Cold War assets mod support (v1.2)
 * **[Modding]** Added VSN Mirage III mod support (2.5.7.01)
 * **[Campaign Setup]** Allow adjustments to naval TGOs (except carriers) on turn 0
 * **[Campaign Design]** Ability to configure specific carrier names & types in campaign's yaml file 
@@ -53,6 +59,11 @@
 * **[Modding]** Updated support for CurrentHill's Swedish Asset Pack (v1.1.0)
 * **[Modding]** Support for CurrentHill's Russian Asset Pack (v1.2.0)
 * **[Modding]** Support for CurrentHill's USA Asset Pack (v1.1.5)
+* **[Modding]** Update CJS Super Hornet to 2.4.2
+* **[Modding]** Support for Cowboy's E-7A Wedgetail mod (Supports EW Script Offensive Jamming)
+* **[Modding]** Support for szcz's MiG-31BM (v2.0)
+* **[Plugins]** Added initial AI support for EW Script 2.0
+* **[Options]** Ability to configure certain forced-options via a file (WIP: https://github.com/dcs-retribution/dcs-retribution/issues/490).
 
 ## Fixes
 * **[UI/UX]** A-10A flights can be edited again

@@ -13,6 +13,7 @@ from dcs.datalinks.datalink import DataLinkType
 from dcs.datalinks.datalinkbase import DataLinkSettingsWithFlightLead
 from dcs.datalinks.link16 import Link16Network, ViperLink16NetworkMemberLink
 from dcs.mission import Mission
+from dcs.task import RunScript
 from dcs.terrain.terrain import NoParkingSlotError
 from dcs.triggers import TriggerOnce, Event
 from dcs.unit import Skill
@@ -341,16 +342,49 @@ class AircraftGenerator:
     def _track_ewrj_flight(self, flight: Flight, group: FlyingGroup[Any]) -> None:
         if not self.ewrj_package_dict.get(id(flight.package)):
             self.ewrj_package_dict[id(flight.package)] = []
+        added = False
         if (
-            flight.package.primary_flight
-            and flight is flight.package.primary_flight
-            or flight.client_count
+            not flight.flight_type.is_air_to_air
+            and any(
+                [
+                    wpt
+                    for wpt in group.points
+                    if wpt.name in ["JOIN", "SPLIT", "RACETRACK START", "RACETRACK END"]
+                    and any(
+                        [
+                            t
+                            for t in wpt.tasks
+                            if isinstance(t, RunScript)
+                            and (
+                                "Djamming" in t.params["action"]["params"]["command"]
+                                or "EWjamm" in t.params["action"]["params"]["command"]
+                            )
+                        ]
+                    )
+                ]
+            )
             and (
                 not self.need_ecm
                 or flight.any_member_has_weapon_of_type(WeaponType.JAMMER)
+                or flight.squadron.aircraft.has_built_in_ecm
             )
         ):
             self.ewrj_package_dict[id(flight.package)].append(group)
+            added = True
+        if (
+            added
+            or not flight.flight_type.is_air_to_air
+            and self.ewrj_package_dict[id(flight.package)]
+        ):
+            for f in flight.package.flights:
+                if f is flight or f.group_id == 0 or f.flight_type.is_air_to_air:
+                    continue
+                g = self.mission.find_group_by_id(f.group_id)
+                if (
+                    isinstance(g, FlyingGroup)
+                    and g not in self.ewrj_package_dict[id(flight.package)]
+                ):
+                    self.ewrj_package_dict[id(flight.package)].append(g)
 
     def _reserve_frequencies_and_tacan(self, ato: AirTaskingOrder) -> None:
         for package in ato.packages:

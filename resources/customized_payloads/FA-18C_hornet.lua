@@ -115,11 +115,11 @@ local unitPayloads = {
 					["num"] = 4,
 				},
 				[5] = {
-					["CLSID"] = "{B06DD79A-F21E-4EB9-BD9D-AB3844618C93}",
+					["CLSID"] = "{BRU_42A_x3_ADM_141A}",
 					["num"] = 3,
 				},
 				[6] = {
-					["CLSID"] = "{B06DD79A-F21E-4EB9-BD9D-AB3844618C93}",
+					["CLSID"] = "{BRU_42A_x3_ADM_141A}",
 					["num"] = 7,
 				},
 				[7] = {
@@ -414,6 +414,90 @@ local unitPayloads = {
 				[4] = 10,
 			},
 		},
+		[10] = {
+			["displayName"] = "Retribution SEAD Sweep",
+			["name"] = "Retribution SEAD Sweep",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{5CE2FF2A-645A-4197-B48D-8720AC69394F}",
+					["num"] = 9,
+				},
+				[2] = {
+					["CLSID"] = "{5CE2FF2A-645A-4197-B48D-8720AC69394F}",
+					["num"] = 1,
+				},
+				[3] = {
+					["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+					["num"] = 6,
+				},
+				[4] = {
+					["CLSID"] = "{AN_ASQ_228}",
+					["num"] = 4,
+				},
+				[5] = {
+					["CLSID"] = "{B06DD79A-F21E-4EB9-BD9D-AB3844618C93}",
+					["num"] = 3,
+				},
+				[6] = {
+					["CLSID"] = "{B06DD79A-F21E-4EB9-BD9D-AB3844618C93}",
+					["num"] = 7,
+				},
+				[7] = {
+					["CLSID"] = "{B06DD79A-F21E-4EB9-BD9D-AB3844618C93}",
+					["num"] = 2,
+				},
+				[8] = {
+					["CLSID"] = "{B06DD79A-F21E-4EB9-BD9D-AB3844618C93}",
+					["num"] = 8,
+				},
+				[9] = {
+					["CLSID"] = "{FPU_8A_FUEL_TANK}",
+					["num"] = 5,
+				},
+			},
+        },
+        [10] = {
+			["displayName"] = "Retribution SEAD Escort",
+			["name"] = "Retribution SEAD Escort",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{5CE2FF2A-645A-4197-B48D-8720AC69394F}",
+					["num"] = 9,
+				},
+				[2] = {
+					["CLSID"] = "{5CE2FF2A-645A-4197-B48D-8720AC69394F}",
+					["num"] = 1,
+				},
+				[3] = {
+					["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+					["num"] = 6,
+				},
+				[4] = {
+					["CLSID"] = "{AN_ASQ_228}",
+					["num"] = 4,
+				},
+				[5] = {
+					["CLSID"] = "{B06DD79A-F21E-4EB9-BD9D-AB3844618C93}",
+					["num"] = 3,
+				},
+				[6] = {
+					["CLSID"] = "{B06DD79A-F21E-4EB9-BD9D-AB3844618C93}",
+					["num"] = 7,
+				},
+				[7] = {
+					["CLSID"] = "{B06DD79A-F21E-4EB9-BD9D-AB3844618C93}",
+					["num"] = 2,
+				},
+				[8] = {
+					["CLSID"] = "{B06DD79A-F21E-4EB9-BD9D-AB3844618C93}",
+					["num"] = 8,
+				},
+				[9] = {
+					["CLSID"] = "{FPU_8A_FUEL_TANK}",
+					["num"] = 5,
+				},
+			},
+        },
 	},
 	["unitType"] = "FA-18C_hornet",
 }

@@ -2,11 +2,12 @@ from dcs.point import MovingPoint
 from dcs.task import (
     OptECMUsing,
     OptFormation,
-    RunScript,
     SetUnlimitedFuelCommand,
     SwitchWaypoint,
+    RunScript,
 )
 
+from game.ato import FlightType
 from game.utils import knots
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 
@@ -41,6 +42,19 @@ class SplitPointBuilder(PydcsWaypointBuilder):
                 f'trigger.action.setUserFlag("split-{id(self.package)}", true)'
             )
             waypoint.tasks.append(script)
-        elif self.flight.flight_type.is_escort_type:
-            index = len(self.group.points)
-            self.group.add_trigger_action(SwitchWaypoint(None, index))
+
+        elif self.flight.flight_type in [
+            FlightType.SEAD_SWEEP,
+            FlightType.SEAD,
+            FlightType.SEAD_ESCORT,
+        ]:
+            if self.flight.flight_type == FlightType.SEAD_ESCORT:
+                # Moved previous escort split tasks
+                if self.flight.flight_type.is_escort_type:
+                    index = len(self.group.points)
+                    self.group.add_trigger_action(SwitchWaypoint(None, index))
+            settings = self.flight.coalition.game.settings
+            ai_jammer = settings.plugin_option("ewrj.ai_jammer_enabled")
+            if settings.plugins.get("ewrj") and ai_jammer:
+                self.offensive_jamming(waypoint, "stop")
+                self.defensive_jamming(waypoint, "stop")

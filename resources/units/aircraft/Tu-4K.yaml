@@ -14,3 +14,5 @@ tasks:
   OCA/Runway: 200
   Strike: 200
   Anti-ship: 200
+  BAI: 270
+  DEAD: 245

@@ -9,6 +9,7 @@ import dcs.lua
 from dcs import Mission, Point
 from dcs.coalition import Coalition
 from dcs.countries import country_dict
+from dcs.point import MovingPoint
 from dcs.task import OptReactOnThreat
 from dcs.terrain import Airport
 from dcs.unit import Static
@@ -131,28 +132,42 @@ class MissionGenerator:
         return self.unit_map
 
     @staticmethod
-    def _configure_ewrj(gen: AircraftGenerator) -> None:
+    def _configure_react_to_threat_for_ew_jamming_packages(
+        gen: AircraftGenerator,
+    ) -> None:
         for groups in gen.ewrj_package_dict.values():
-            optrot = [
-                task
-                for task in groups[0].points[0].tasks
-                if isinstance(task, OptReactOnThreat)
-            ][0]
-            assert isinstance(optrot, OptReactOnThreat)
-            if (
-                len(groups) == 1
-                and optrot.value != OptReactOnThreat.Values.PassiveDefense
-            ):
-                # primary flight with no EWR-Jamming capability
-                continue
             for group in groups:
-                tasks = group.points[0].tasks
-                for i in range(len(tasks)):
-                    if isinstance(tasks[i], OptReactOnThreat):
-                        tasks[i] = OptReactOnThreat(
-                            OptReactOnThreat.Values.PassiveDefense
-                        )
-                        break
+                start_point = [
+                    p for p in group.points if p.name in ["JOIN", "RACETRACK START"]
+                ]
+                if not start_point:
+                    sp = group.points[0]
+                else:
+                    sp = start_point[0]
+                MissionGenerator.set_react_to_threat(
+                    OptReactOnThreat.Values.PassiveDefense, sp
+                )
+                stop_point = [
+                    p for p in group.points if p.name in ["SPLIT", "RACETRACK END"]
+                ]
+                if not stop_point:
+                    sp = group.points[0]
+                else:
+                    sp = stop_point[0]
+                MissionGenerator.set_react_to_threat(
+                    OptReactOnThreat.Values.EvadeFire, sp
+                )
+
+    @staticmethod
+    def set_react_to_threat(
+        optrot: OptReactOnThreat.Values, start_point: MovingPoint
+    ) -> None:
+        tasks = start_point.tasks
+        for i in range(len(tasks)):
+            if isinstance(tasks[i], OptReactOnThreat):
+                tasks[i] = OptReactOnThreat(optrot)
+                return
+        tasks.append(OptReactOnThreat(optrot))
 
     def setup_mission_coalitions(self) -> None:
         self.mission.coalition["blue"] = Coalition(
@@ -291,7 +306,7 @@ class MissionGenerator:
             flight.aircraft_type.assign_channels_for_flight(flight, self.mission_data)
 
         if self.game.settings.plugins.get("ewrj"):
-            self._configure_ewrj(aircraft_generator)
+            self._configure_react_to_threat_for_ew_jamming_packages(aircraft_generator)
 
     def generate_destroyed_units(self) -> None:
         """Add destroyed units to the Mission"""
