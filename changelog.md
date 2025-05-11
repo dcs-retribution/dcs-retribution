@@ -5,7 +5,7 @@
 * **[Config]** New preference setting to trigger the first-start window on every start (could help in scenarios multiple Retribution instances need to run concurrently)
 
 ## Fixes
-
+* **[Flight Plans]** Fixed a bug when a package was created with only escort flights
 
 # Retribution v1.4.0
 
