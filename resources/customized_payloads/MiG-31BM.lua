@@ -129,11 +129,11 @@ local unitPayloads = {
 			["name"] = "Retribution SEAD",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{D8F2C90B-887B-4B9E-9FE2-996BC9E9AF03}",
+					["CLSID"] = "{Kh-31_mig31bm}",
 					["num"] = 7,
 				},
 				[2] = {
-					["CLSID"] = "{D8F2C90B-887B-4B9E-9FE2-996BC9E9AF03}",
+					["CLSID"] = "{Kh-31_mig31bm}",
 					["num"] = 2,
 				},
 				[3] = {
@@ -154,11 +154,11 @@ local unitPayloads = {
 			["name"] = "Retribution SEAD Escort",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{D8F2C90B-887B-4B9E-9FE2-996BC9E9AF03}",
+					["CLSID"] = "{Kh-31_mig31bm}",
 					["num"] = 7,
 				},
 				[2] = {
-					["CLSID"] = "{D8F2C90B-887B-4B9E-9FE2-996BC9E9AF03}",
+					["CLSID"] = "{Kh-31_mig31bm}",
 					["num"] = 2,
 				},
 				[3] = {
