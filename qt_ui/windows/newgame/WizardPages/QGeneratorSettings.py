@@ -228,6 +228,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("High Digit SAMs", self.high_digit_sams),
             ("IDF Assets Pack (v1.1 by IDF Mods Project)", self.irondome),
             ("JAS 39 Gripen (v1.8.5-beta)", self.jas39_gripen),
+            ("MiG-31BM (v2.0)", self.mig31bm_foxhound),
             ("Mirage III (v2.5.7.01)", self.mirage_3),
             ("OH-6 Cayuse (v1.2)", self.oh_6),
             ("OH-6 Vietnam Asset Pack (v1.0)", self.oh_6_vietnamassetpack),
@@ -299,6 +300,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.f106_deltadart.setChecked(s.get("f106_deltadart", False))
         self.jas39_gripen.setChecked(s.get("jas39_gripen", False))
         self.sk_60.setChecked(s.get("sk_60", False))
+        self.mig31bm_foxhound.setChecked(s.get("mig31bm_foxhound", False))
         self.mirage_3.setChecked(s.get("mirage_3", False))
         self.super_etendard.setChecked(s.get("super_etendard", False))
         self.su30_flanker_h.setChecked(s.get("su30_flanker_h", False))

@@ -1,5 +1,13 @@
+# Retribution v1.5.0
+
+## Features/Improvements
+* **[Plugins]** Improvements to AI support for EW Script 2.0
+* **[Config]** New preference setting to trigger the first-start window on every start (could help in scenarios multiple Retribution instances need to run concurrently)
+
+## Fixes
+
+
 # Retribution v1.4.0
-#### Note: Re-save your missions in DCS' Mission Editor to avoid possible crashes due to datalink (usually the case when F-16C blk50s are used) when hosting missions on a dedicated server.
 
 ## Features/Improvements
 * **[Payload Editor]** Ability to configure liveries on flight/flight-member level
@@ -57,6 +65,7 @@
 * **[Modding]** Support for Cowboy's E-7A Wedgetail mod (Supports EW Script Offensive Jamming)
 * **[Modding]** Support for szcz's MiG-31BM (v2.0)
 * **[Plugins]** Added initial AI support for EW Script 2.0
+* **[Options]** Ability to configure certain forced-options via a file (WIP: https://github.com/dcs-retribution/dcs-retribution/issues/490).
 
 ## Fixes
 * **[UI/UX]** A-10A flights can be edited again

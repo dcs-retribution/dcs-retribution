@@ -3,8 +3,6 @@ import logging
 from dcs.point import MovingPoint
 from dcs.task import (
     SetUnlimitedFuelCommand,
-    RunScript,
-    OptReactOnThreat,
 )
 
 from game.ato import FlightType
@@ -20,18 +18,11 @@ class RaceTrackEndBuilder(PydcsWaypointBuilder):
 
         # Disable Offensive Jamming at Racetrack End
         if self.flight.flight_type == FlightType.AEWC:
-            # Stop Offensive Jamming for all AWACS flights
+            # Stop Defensive Jamming for all AWACS flights
             settings = self.flight.coalition.game.settings
             ai_jammer = settings.plugin_option("ewrj.ai_jammer_enabled")
             if settings.plugins.get("ewrj") and ai_jammer:
-                # all units in group are AWACS, no specific checks needed
-                for unit, member in zip(self.group.units, self.flight.iter_members()):
-                    script_content = f'stopEWjamming("{unit.name}")'
-                    stop_jamming_script = RunScript(script_content)
-                    waypoint.tasks.append(stop_jamming_script)
-
-                evade_fire = OptReactOnThreat(OptReactOnThreat.Values.EvadeFire)
-                waypoint.tasks.append(evade_fire)
+                self.defensive_jamming(waypoint, "stop")
 
     def build(self) -> MovingPoint:
         waypoint = super().build()

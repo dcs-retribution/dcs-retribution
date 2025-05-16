@@ -1,0 +1,8 @@
+name: MPS-410
+type: JAMMER
+# https://www.deagel.com/Components/ANALQ-99/a000899#001
+year: 1995 # this is a wild guess because there doesn't seem to be any info available
+fallback: 
+clsids:
+  - "{44EE8698-89F9-48EE-AF36-5FD31896A82D}"
+  - "{44EE8698-89F9-48EE-AF36-5FD31896A82C}"

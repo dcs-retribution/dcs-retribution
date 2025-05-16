@@ -601,7 +601,6 @@ function onWpnEvent(event)
 
       local player = event.initiator
       local targetName = event.target:getTypeName()
-      local impactPoint = event.target:getPosition().p
       if weapon and targetName then
         env.info(weapon.." hit "..targetName)
         debugMsg(weapon.." hit "..targetName)
@@ -610,7 +609,8 @@ function onWpnEvent(event)
       if clusterWeaps[weapon] then
         local ordnance = event.weapon
         tracked_weapons[event.weapon.id_] = { wpn = ordnance, init = event.initiator:getName(), pos = ordnance:getPoint(), dir = ordnance:getPosition().x, name = ordnance:getTypeName(), speed = ordnance:getVelocity(), cat = ordnance:getCategory(), player=event.initiator }
-      else
+      elseif event.target:getPosition() ~= nil then
+        local impactPoint = event.target:getPosition().p
         blastWave(impactPoint, splash_damage_options.blast_search_radius, event.weapon, getWeaponExplosive(weapon), player)
       end
     end

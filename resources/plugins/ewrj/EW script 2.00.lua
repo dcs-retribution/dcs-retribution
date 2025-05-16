@@ -272,7 +272,7 @@ getRadars()
  end
  end
  -- startEWjamm('Prowler1')
- function stopEWjamming(jammer)
+ function stopEWjamm(jammer)
 mist.removeFunction(offscriptfunc)
  trigger.action.outText("OFFENSIVE COUNTER MEASURES POD OFF "..jammer,5)
 end
@@ -300,7 +300,7 @@ local _jammermenuoff = missionCommands.addSubMenuForGroup(_groupID,"Offensive Ja
 missionCommands.addCommandForGroup(_groupID, "Start Defensive Jamming ",_jammermenudef, function () startDjamming(jammer)end, nil)
 missionCommands.addCommandForGroup(_groupID, "Stop Defensive Jamming ",_jammermenudef, function () stopDjamming(jammer)end, nil)
 missionCommands.addCommandForGroup(_groupID, "Start Offensive Jamming ",_jammermenuoff, function ()  startEWjamm(jammer)end, nil)
-missionCommands.addCommandForGroup(_groupID, "Stop Offensive Jamming ",_jammermenuoff, function () stopEWjamming(jammer)end, nil)
+missionCommands.addCommandForGroup(_groupID, "Stop Offensive Jamming ",_jammermenuoff, function () stopEWjamm(jammer)end, nil)
 end
 end
 

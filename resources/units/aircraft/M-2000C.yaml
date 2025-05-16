@@ -21,8 +21,8 @@ radios:
   channels:
     type: common
     namer: mirage
-    intra_flight_radio_index: 2
-    inter_flight_radio_index: 1
+    intra_flight_radio_index: 1
+    inter_flight_radio_index: 2
 # default_overrides:
 #   DisableVTBExport: false
 #   EnableTAF: true

@@ -29,7 +29,4 @@ class QLiberationPreferencesWindow(QDialog):
 
     def apply(self):
         if self.preferences.apply():
-            print("Closing")
             self.close()
-        else:
-            print("Not Closing")

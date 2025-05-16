@@ -9,13 +9,10 @@ from dcs.task import (
     OptFormation,
     Targets,
     SetUnlimitedFuelCommand,
-    RunScript,
-    OptReactOnThreat,
 )
 
 from game.ato import FlightType
 from game.data.doctrine import Doctrine
-from game.data.weapons import WeaponType
 from game.theater import NavalControlPoint
 from game.utils import nautical_miles, feet
 from .pydcswaypointbuilder import PydcsWaypointBuilder
@@ -64,7 +61,12 @@ class JoinPointBuilder(PydcsWaypointBuilder):
             FlightType.SEAD,
             FlightType.SEAD_ESCORT,
         ]:
-            self.start_defensive_jamming(waypoint)
+            settings = self.flight.coalition.game.settings
+            ai_jammer = settings.plugin_option("ewrj.ai_jammer_enabled")
+            if settings.plugins.get("ewrj") and ai_jammer:
+                self.offensive_jamming(waypoint, "start")
+                self.defensive_jamming(waypoint, "start")
+
             if self.flight.flight_type == FlightType.SEAD_ESCORT:
                 self.handle_sead_escort(doctrine, waypoint)
                 # Let the AI use ECM to preemptively defend themselves.
@@ -103,28 +105,6 @@ class JoinPointBuilder(PydcsWaypointBuilder):
                 max_dist=doctrine.sead_escort_engagement_range.nautical_miles,
                 vertical_spacing=doctrine.sead_escort_spacing.feet,
             )
-
-    def start_defensive_jamming(self, waypoint: MovingPoint) -> None:
-        # Start Defensive Jamming
-        settings = self.flight.coalition.game.settings
-        ai_jammer = settings.plugin_option("ewrj.ai_jammer_enabled")
-        if settings.plugins.get("ewrj") and ai_jammer:
-            ecm_required = settings.plugin_option("ewrj.ecm_required")
-            has_jammer = False
-            for unit, member in zip(self.group.units, self.flight.iter_members()):
-                has_jammer = member.loadout.has_weapon_of_type(WeaponType.JAMMER)
-                if ecm_required and not has_jammer:
-                    continue
-                if not member.is_player:
-                    script_content = f'startDjamming("{unit.name}")'
-                    start_jamming_script = RunScript(script_content)
-                    waypoint.tasks.append(start_jamming_script)
-                    has_jammer = True
-            if has_jammer:
-                passive_defense = OptReactOnThreat(
-                    OptReactOnThreat.Values.PassiveDefense
-                )
-                waypoint.tasks.append(passive_defense)
 
     def configure_escort_tasks(
         self,

@@ -108,6 +108,9 @@ class MigrationUnpickler(pickle.Unpickler):
             elif name == "Bas_100":
                 from dcs.terrain.kola.airports import Vuojarvi
                 return Vuojarvi
+            elif name == "Alakourtti":
+                from dcs.terrain.kola.airports import Alakurtti
+                return Alakurtti
         if module == "dcs.terrain.syria.airports":
             if name == "Amman":
                 from dcs.terrain.syria.airports import Marka
@@ -193,6 +196,10 @@ def waypoint_debug_directory() -> Path:
 
 def settings_dir() -> Path:
     return _create_dir_if_needed(base_path() / "Retribution" / "Settings")
+
+
+def forced_options_path() -> Path:
+    return _create_dir_if_needed(base_path() / "Retribution") / "forced_options.lua"
 
 
 def airwing_dir() -> Path:

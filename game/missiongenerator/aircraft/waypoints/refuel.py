@@ -20,5 +20,5 @@ class RefuelPointBuilder(PydcsWaypointBuilder):
                 --trigger.action.outText(tostring(Unit.getFuel(unitObject)), 15)
                 if Unit.getFuel(unitObject) < {fuel_level} then okfuel = false; break end
             end
-            return lowfuel
+            return okfuel
             """

@@ -24,6 +24,7 @@ settings:
   chinesemilitaryassetspack: true
   usamilitaryassetspack: true
   f22_raptor: true
+  fa_18efg: true
   hercules: true
   squadron_start_full: true
 squadrons:
@@ -46,7 +47,13 @@ squadrons:
       aircraft:
         - KC-135 Stratotanker MPRS
       size: 1
-    - primary: Escort
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - C-130J-30 Super Hercules
+        - C-130
+      size: 4
+    - primary: BARCAP
       secondary: any
       aircraft:
         - F-15C Eagle
@@ -56,31 +63,34 @@ squadrons:
       aircraft:
         - F-15E Strike Eagle (Suite 4+)
       size: 16
-    - primary: BAI
+  #Kabul
+  17:
+    - primary: OCA/Runway
+      secondary: air-to-ground
+      aircraft:
+        - B-1B Lancer
+      size: 4
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - A-10C Thunderbolt II (Suite 7)
+      size: 8
+    - primary: DEAD
       secondary: any
       aircraft:
         - F-16CM Fighting Falcon (Block 50)
       size: 16
-  #Kabul
-  17:
-    - primary: Transport
+    - primary: SEAD Escort
       secondary: any
       aircraft:
-        - C-130J-30 Super Hercules
-        - C-130
-      size: 2
-    - primary: DEAD
-      secondary: any
-      aircraft:
-        #- "[CH] B-21"
-        - F-16CM Fighting Falcon (Block 50)
+        - EA-18G Growler
       size: 16
     - primary: SEAD
       secondary: any
       aircraft:
         - F/A-18C Hornet (Lot 20)
       size: 16
-    - primary: TARCAP
+    - primary: Escort
       secondary: any
       aircraft:
         - F-22A Raptor
@@ -88,11 +98,6 @@ squadrons:
       size: 16
   #Sharana
   22:
-    - primary: CAS
-      secondary: air-to-ground
-      aircraft:
-        - A-10C Thunderbolt II (Suite 7)
-      size: 8
     - primary: SEAD Sweep
       secondary: air-to-ground
       aircraft:
