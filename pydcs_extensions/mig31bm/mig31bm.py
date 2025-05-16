@@ -7,6 +7,7 @@ from dcs.weapons_data import Weapons
 from game.modsupport import planemod
 from pydcs_extensions.weapon_injector import inject_weapons
 
+
 class WeaponsMiG31BM:
 
     Vympel_R_33__AA_9_Amos_ = {
@@ -29,8 +30,6 @@ class WeaponsMiG31BM:
         "name": "Kh-31P (AS-17 Krypton)",
         "weight": 758,
     }
-
-
 
 
 inject_weapons(WeaponsMiG31BM)
