@@ -104,7 +104,9 @@ class QLiberationPreferences(QFrame):
             0,
             alignment=Qt.AlignmentFlag.AlignLeft,
         )
-        layout.addWidget(self.setup_every_start_cb, 6, 1, alignment=Qt.AlignmentFlag.AlignRight)
+        layout.addWidget(
+            self.setup_every_start_cb, 6, 1, alignment=Qt.AlignmentFlag.AlignRight
+        )
 
         layout.addWidget(
             QLabel("<strong>Server port (restart required):</strong>"),

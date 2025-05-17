@@ -86,7 +86,13 @@ def init():
     return is_first_start
 
 
-def setup(saved_game_dir, install_dir, prefer_liberation_payloads, setup_preferences_on_every_start, port):
+def setup(
+    saved_game_dir,
+    install_dir,
+    prefer_liberation_payloads,
+    setup_preferences_on_every_start,
+    port,
+):
     global __dcs_saved_game_directory
     global __dcs_installation_directory
     global __prefer_liberation_payloads
@@ -143,6 +149,7 @@ def prefer_liberation_payloads():
 def setup_preferences_on_every_start():
     global __setup_preferences_on_every_start
     return __setup_preferences_on_every_start
+
 
 def server_port():
     global __server_port
