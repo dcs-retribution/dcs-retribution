@@ -47,6 +47,13 @@ class QLiberationPreferences(QFrame):
         self.payloads_cb = QCheckBox()
         self.payloads_cb.setChecked(self.prefer_liberation_payloads)
 
+        setup_on_startup = liberation_install.setup_preferences_on_every_start()
+        self.setup_preferences_on_every_start = (
+            setup_on_startup if setup_on_startup else False
+        )
+        self.setup_every_start_cb = QCheckBox()
+        self.setup_every_start_cb.setChecked(self.setup_preferences_on_every_start)
+
         self.port = liberation_install.server_port()
         self.port_input = QSpinBox()
 
@@ -92,12 +99,22 @@ class QLiberationPreferences(QFrame):
         layout.addWidget(self.payloads_cb, 5, 1, alignment=Qt.AlignmentFlag.AlignRight)
 
         layout.addWidget(
-            QLabel("<strong>Server port (restart required):</strong>"),
+            QLabel("<strong>Setup preferences on every start:</strong>"),
             6,
             0,
             alignment=Qt.AlignmentFlag.AlignLeft,
         )
-        layout.addWidget(self.port_input, 6, 1, alignment=Qt.AlignmentFlag.AlignRight)
+        layout.addWidget(
+            self.setup_every_start_cb, 6, 1, alignment=Qt.AlignmentFlag.AlignRight
+        )
+
+        layout.addWidget(
+            QLabel("<strong>Server port (restart required):</strong>"),
+            7,
+            0,
+            alignment=Qt.AlignmentFlag.AlignLeft,
+        )
+        layout.addWidget(self.port_input, 7, 1, alignment=Qt.AlignmentFlag.AlignRight)
         self.port_input.setRange(1, 2**16 - 1)
         self.port_input.setValue(self.port)
         self.port_input.setStyleSheet("QSpinBox{ width: 50 }")
@@ -124,10 +141,10 @@ class QLiberationPreferences(QFrame):
             self.edit_dcs_install_dir.setText(install_dir)
 
     def apply(self):
-        print("Applying changes")
         self.saved_game_dir = self.edit_saved_game_dir.text()
         self.dcs_install_dir = self.edit_dcs_install_dir.text()
         self.prefer_liberation_payloads = self.payloads_cb.isChecked()
+        self.setup_preferences_on_every_start = self.setup_every_start_cb.isChecked()
         self.port = self.port_input.value()
         set_theme_index(self.themeSelect.currentIndex())
 
@@ -188,6 +205,7 @@ class QLiberationPreferences(QFrame):
             self.saved_game_dir,
             self.dcs_install_dir,
             self.prefer_liberation_payloads,
+            self.setup_preferences_on_every_start,
             self.port,
         )
         liberation_install.save_config()

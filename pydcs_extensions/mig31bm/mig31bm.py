@@ -25,6 +25,11 @@ class WeaponsMiG31BM:
         "name": "Vympel R-37 (AA-13 Axehead)",
         "weight": 600,
     }
+    Kh_31P__AS_17_Krypton_ = {
+        "clsid": "{Kh-31_mig31bm}",
+        "name": "Kh-31P (AS-17 Krypton)",
+        "weight": 758,
+    }
 
 
 inject_weapons(WeaponsMiG31BM)
@@ -77,10 +82,7 @@ class MiG_31BM(PlaneType):
         )
         Fuel_tank_3000L = (2, Weapons.Fuel_tank_3000L)
         Fuel_tank_2000L = (2, Weapons.Fuel_tank_2000L)
-        Kh_31P__AS_17_Krypton____600kg__ARM__IN__Pas_Rdr = (
-            2,
-            Weapons.Kh_31P__AS_17_Krypton____600kg__ARM__IN__Pas_Rdr,
-        )
+        Kh_31P__AS_17_Krypton_ = (2, WeaponsMiG31BM.Kh_31P__AS_17_Krypton_)
 
     class Pylon3:
         Vympel_R_37M__AA_13_Axehead_ = (3, WeaponsMiG31BM.Vympel_R_37M__AA_13_Axehead_)
@@ -127,10 +129,7 @@ class MiG_31BM(PlaneType):
         )
         Fuel_tank_3000L = (7, Weapons.Fuel_tank_3000L)
         Fuel_tank_2000L = (7, Weapons.Fuel_tank_2000L)
-        Kh_31P__AS_17_Krypton____600kg__ARM__IN__Pas_Rdr = (
-            7,
-            Weapons.Kh_31P__AS_17_Krypton____600kg__ARM__IN__Pas_Rdr,
-        )
+        Kh_31P__AS_17_Krypton_ = (7, WeaponsMiG31BM.Kh_31P__AS_17_Krypton_)
 
     class Pylon8:
         R_73__AA_11_Archer____Infra_Red = (8, Weapons.R_73__AA_11_Archer____Infra_Red)
