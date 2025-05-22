@@ -228,7 +228,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("High Digit SAMs", self.high_digit_sams),
             ("IDF Assets Pack (v1.1 by IDF Mods Project)", self.irondome),
             ("JAS 39 Gripen (v1.8.5-beta)", self.jas39_gripen),
-            ("MiG-31BM (v2.6)", self.mig31bm_foxhound),
+            ("MiG-31BM (v2.62)", self.mig31bm_foxhound),
             ("Mirage III (v2.5.7.01)", self.mirage_3),
             ("OH-6 Cayuse (v1.2)", self.oh_6),
             ("OH-6 Vietnam Asset Pack (v1.0)", self.oh_6_vietnamassetpack),
