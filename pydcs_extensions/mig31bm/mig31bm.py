@@ -11,17 +11,22 @@ from pydcs_extensions.weapon_injector import inject_weapons
 class WeaponsMiG31BM:
 
     Vympel_R_33__AA_9_Amos_ = {
-        "clsid": "{R-33}",
+        "clsid": "{R-33_mig31bm}",
         "name": "Vympel R-33 (AA-9 Amos)",
         "weight": 490,
     }
+    Vympel_R_33S__AA_9_Amos_ = {
+        "clsid": "{R-33S_mig31bm}",
+        "name": "Vympel R-33S (AA-9 Amos)",
+        "weight": 490,
+    }
     Vympel_R_37M__AA_13_Axehead_ = {
-        "clsid": "{R-37M}",
+        "clsid": "{R-37M_mig31bm}",
         "name": "Vympel R-37M (AA-13 Axehead)",
         "weight": 600,
     }
     Vympel_R_37__AA_13_Axehead_ = {
-        "clsid": "{R-37}",
+        "clsid": "{R-37_mig31bm}",
         "name": "Vympel R-37 (AA-13 Axehead)",
         "weight": 600,
     }
@@ -62,6 +67,7 @@ class MiG_31BM(PlaneType):
         R_77__AA_12_Adder____Active_Rdr = (2, Weapons.R_77__AA_12_Adder____Active_Rdr)
         Vympel_R_37M__AA_13_Axehead_ = (2, WeaponsMiG31BM.Vympel_R_37M__AA_13_Axehead_)
         Vympel_R_37__AA_13_Axehead_ = (2, WeaponsMiG31BM.Vympel_R_37__AA_13_Axehead_)
+        Vympel_R_33S__AA_9_Amos_ = (2, WeaponsMiG31BM.Vympel_R_33S__AA_9_Amos_)
         Vympel_R_33__AA_9_Amos_ = (2, WeaponsMiG31BM.Vympel_R_33__AA_9_Amos_)
         R_40RD__AA_6_Acrid____Semi_Act_Rdr = (
             2,
@@ -87,21 +93,25 @@ class MiG_31BM(PlaneType):
     class Pylon3:
         Vympel_R_37M__AA_13_Axehead_ = (3, WeaponsMiG31BM.Vympel_R_37M__AA_13_Axehead_)
         Vympel_R_37__AA_13_Axehead_ = (3, WeaponsMiG31BM.Vympel_R_37__AA_13_Axehead_)
+        Vympel_R_33S__AA_9_Amos_ = (3, WeaponsMiG31BM.Vympel_R_33S__AA_9_Amos_)
         Vympel_R_33__AA_9_Amos_ = (3, WeaponsMiG31BM.Vympel_R_33__AA_9_Amos_)
 
     class Pylon4:
         Vympel_R_37M__AA_13_Axehead_ = (4, WeaponsMiG31BM.Vympel_R_37M__AA_13_Axehead_)
         Vympel_R_37__AA_13_Axehead_ = (4, WeaponsMiG31BM.Vympel_R_37__AA_13_Axehead_)
+        Vympel_R_33S__AA_9_Amos_ = (4, WeaponsMiG31BM.Vympel_R_33S__AA_9_Amos_)
         Vympel_R_33__AA_9_Amos_ = (4, WeaponsMiG31BM.Vympel_R_33__AA_9_Amos_)
 
     class Pylon5:
         Vympel_R_37M__AA_13_Axehead_ = (5, WeaponsMiG31BM.Vympel_R_37M__AA_13_Axehead_)
         Vympel_R_37__AA_13_Axehead_ = (5, WeaponsMiG31BM.Vympel_R_37__AA_13_Axehead_)
+        Vympel_R_33S__AA_9_Amos_ = (5, WeaponsMiG31BM.Vympel_R_33S__AA_9_Amos_)
         Vympel_R_33__AA_9_Amos_ = (5, WeaponsMiG31BM.Vympel_R_33__AA_9_Amos_)
 
     class Pylon6:
         Vympel_R_37M__AA_13_Axehead_ = (6, WeaponsMiG31BM.Vympel_R_37M__AA_13_Axehead_)
         Vympel_R_37__AA_13_Axehead_ = (6, WeaponsMiG31BM.Vympel_R_37__AA_13_Axehead_)
+        Vympel_R_33S__AA_9_Amos_ = (6, WeaponsMiG31BM.Vympel_R_33S__AA_9_Amos_)
         Vympel_R_33__AA_9_Amos_ = (6, WeaponsMiG31BM.Vympel_R_33__AA_9_Amos_)
 
     class Pylon7:
@@ -109,6 +119,7 @@ class MiG_31BM(PlaneType):
         R_77__AA_12_Adder____Active_Rdr = (7, Weapons.R_77__AA_12_Adder____Active_Rdr)
         Vympel_R_37M__AA_13_Axehead_ = (7, WeaponsMiG31BM.Vympel_R_37M__AA_13_Axehead_)
         Vympel_R_37__AA_13_Axehead_ = (7, WeaponsMiG31BM.Vympel_R_37__AA_13_Axehead_)
+        Vympel_R_33S__AA_9_Amos_ = (7, WeaponsMiG31BM.Vympel_R_33S__AA_9_Amos_)
         Vympel_R_33__AA_9_Amos_ = (7, WeaponsMiG31BM.Vympel_R_33__AA_9_Amos_)
         R_40RD__AA_6_Acrid____Semi_Act_Rdr = (
             7,
