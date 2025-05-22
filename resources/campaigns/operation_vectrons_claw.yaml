@@ -27,6 +27,8 @@ performance: 1
 recommended_start_date: 2008-08-08
 version: "10.7"
 settings:
+  fa_18efg: true
+  f22_raptor: true
   hercules: true
   squadron_start_full: true
 squadrons:
@@ -36,11 +38,17 @@ squadrons:
       aircraft:
         - F-14B Tomcat
       size: 16
+    - primary: SEAD Escort
+      secondary: any
+      aircraft:
+        - EA-18G Growler
+        - F/A-18C Hornet (Lot 20)
+      size: 16
     - primary: SEAD
       secondary: any
       aircraft:
         - F/A-18C Hornet (Lot 20)
-      size: 24
+      size: 16
     - primary: BAI
       secondary: air-to-ground
       aircraft:
@@ -108,6 +116,12 @@ squadrons:
       aircraft:
         - F-15E Strike Eagle (Suite 4+)
       size: 12
+    - primary: TARCAP
+      secondary: any
+      aircraft:
+        - F-22A Raptor
+        - F-15C Eagle
+      size: 16
     - primary: Escort
       secondary: any
       aircraft:

@@ -6,6 +6,7 @@ REQUIRED_BUILDINGS = [
     "ammo",
     "factory",
     "fob",
+    "invisiblefob",
     "oil",
 ]
 

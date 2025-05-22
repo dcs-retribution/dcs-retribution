@@ -177,6 +177,9 @@ class QPackageDialog(QDialog):
         )
 
     def on_save(self) -> None:
+        # TODO: Cache package start state and only update if valid
+        if not self.package_valid():
+            return
         self.save_tot()
 
     def save_tot(self) -> None:
@@ -280,6 +283,29 @@ class QPackageDialog(QDialog):
         self.package_model.package.frequency = None
         self.package_freq_text.setText("AUTO")
 
+    def package_valid(self) -> bool:
+        """Validates the package before saving.
+
+        Returns:
+            True if the package is valid, False otherwise.
+        """
+        # Validate the package has more than just escort flights but allow empty packages
+        if len(self.package_model.package.flights) == 0:
+            return True
+        if any(
+            flight.flight_type.name not in {"ESCORT", "SEAD_ESCORT"}
+            for flight in self.package_model.package.flights
+        ):
+            return True
+        else:
+            QMessageBox.critical(
+                self,
+                "Invalid Package",
+                "Package cannot contain only escort flights.",
+                QMessageBox.StandardButton.Ok,
+            )
+            return False
+
 
 class QNewPackageDialog(QPackageDialog):
     """Dialog window for creating a new package.
@@ -325,6 +351,8 @@ class QNewPackageDialog(QPackageDialog):
         Empty packages may be created. They can be modified later, and will have
         no effect if empty when the mission is generated.
         """
+        if not super().package_valid():
+            return
         super().on_save()
         self.ato_model.add_package(self.package_model.package)
 

@@ -31,6 +31,8 @@ recommended_enemy_money: 0
 recommended_player_income_multiplier: 0.2
 recommended_enemy_income_multiplier: 0.2
 settings:
+  fa_18efg: true
+  f22_raptor: true
   hercules: true
   squadron_start_full: true
 version: "10.7"
@@ -40,7 +42,13 @@ squadrons:
       secondary: any
       aircraft:
         - F/A-18C Hornet (Lot 20)
-      size: 40
+      size: 24
+    - primary: SEAD Escort
+      secondary: any
+      aircraft:
+        - EA-18G Growler
+        - F/A-18C Hornet (Lot 20)
+      size: 16
     - primary: AEW&C
       aircraft:
         - E-2C Hawkeye
@@ -67,16 +75,17 @@ squadrons:
       aircraft:
         - CH-47F Block I
       size: 4
+    - primary: TARCAP
+      secondary: any
+      aircraft:
+        - F-22A Raptor
+        - F-15C Eagle
+      size: 12
     - primary: DEAD
       secondary: any
       aircraft:
         - F-16CM Fighting Falcon (Block 50)
-      size: 20
-    - primary: Escort
-      secondary: air-to-air
-      aircraft:
-        - F-15C Eagle
-      size: 20
+      size: 16
   #Al Dhafra AFB (251)
   4:
     - primary: Strike
@@ -93,6 +102,11 @@ squadrons:
       aircraft:
         - F-15E Strike Eagle (Suite 4+)
       size: 16
+    - primary: Escort
+      secondary: air-to-air
+      aircraft:
+        - F-15C Eagle
+      size: 12
     - primary: DEAD
       secondary: air-to-ground
       aircraft:

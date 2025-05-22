@@ -16,7 +16,7 @@ description:
   The fate of Europe hangs in the balance, as this new offensive threatens to forever alter the geopolitical map.</p>
 miz: the_anvil_of_war.miz
 performance: 2
-recommended_start_date: 2005-05-13
+recommended_start_date: 2007-05-13
 version: "10.7"
 settings:
   russianmilitaryassetspack: true
@@ -24,16 +24,23 @@ settings:
   usamilitaryassetspack: true
   swedishmilitaryassetspack: true
   f22_raptor: true
+  fa_18efg: true
   hercules: true
   squadron_start_full: true
 squadrons:
   #Ownfor Carrier
   Blue-CV:
+    - primary: SEAD Escort
+      secondary: any
+      aircraft:
+        - EA-18G Growler
+        - F/A-18C Hornet (Lot 20)
+      size: 16
     - primary: SEAD
       secondary: any
       aircraft:
         - F/A-18C Hornet (Lot 20)
-      size: 40
+      size: 24
     - primary: AEW&C
       aircraft:
         - E-2D Advanced Hawkeye

@@ -377,6 +377,7 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         theater: ConflictTheater,
         starts_blue: bool,
         cptype: ControlPointType = ControlPointType.AIRBASE,
+        is_invisible: bool = False,
     ) -> None:
         super().__init__(name, position)
         self.id = uuid.uuid4()
@@ -384,6 +385,7 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         self.at = at
         self.theater = theater
         self.starts_blue = starts_blue
+        self.is_invisible = is_invisible
         self.connected_objectives: List[TheaterGroundObject] = []
         self.preset_locations = PresetLocations()
         self.helipads: List[PointWithHeading] = []
@@ -1618,12 +1620,14 @@ class Fob(ControlPoint, RadioFrequencyContainer, CTLD):
         theater: ConflictTheater,
         starts_blue: bool,
         ctld_zones: Optional[List[Tuple[Point, float]]] = None,
+        is_invisible: bool = False,
     ) -> None:
         super().__init__(
             name, at, at, theater, starts_blue, cptype=ControlPointType.FOB
         )
         self.name = name
         self.ctld_zones = ctld_zones
+        self.is_invisible = is_invisible
 
     @property
     def symbol_set_and_entity(self) -> tuple[SymbolSet, Entity]:
