@@ -14,19 +14,19 @@ local unitPayloads = {
 					["num"] = 2,
 				},
 				[3] = {
-					["CLSID"] = "{R-37}",
+					["CLSID"] = "{R-37M_mig31bm}",
 					["num"] = 3,
 				},
 				[4] = {
-					["CLSID"] = "{R-37}",
+					["CLSID"] = "{R-37M_mig31bm}",
 					["num"] = 4,
 				},
 				[5] = {
-					["CLSID"] = "{R-37}",
+					["CLSID"] = "{R-37M_mig31bm}",
 					["num"] = 5,
 				},
 				[6] = {
-					["CLSID"] = "{R-37}",
+					["CLSID"] = "{R-37M_mig31bm}",
 					["num"] = 6,
 				},
 				[7] = {
@@ -51,19 +51,19 @@ local unitPayloads = {
 					["num"] = 1,
 				},
 				[2] = {
-					["CLSID"] = "{R-33}",
+					["CLSID"] = "{R-33_mig31bm}",
 					["num"] = 3,
 				},
 				[3] = {
-					["CLSID"] = "{R-33}",
+					["CLSID"] = "{R-33_mig31bm}",
 					["num"] = 4,
 				},
 				[4] = {
-					["CLSID"] = "{R-33}",
+					["CLSID"] = "{R-33_mig31bm}",
 					["num"] = 5,
 				},
 				[5] = {
-					["CLSID"] = "{R-33}",
+					["CLSID"] = "{R-33_mig31bm}",
 					["num"] = 6,
 				},
 				[6] = {
@@ -96,19 +96,19 @@ local unitPayloads = {
 					["num"] = 2,
 				},
 				[3] = {
-					["CLSID"] = "{R-37M}",
+					["CLSID"] = "{R-37M_mig31bm}",
 					["num"] = 3,
 				},
 				[4] = {
-					["CLSID"] = "{R-37M}",
+					["CLSID"] = "{R-37M_mig31bm}",
 					["num"] = 4,
 				},
 				[5] = {
-					["CLSID"] = "{R-37M}",
+					["CLSID"] = "{R-37M_mig31bm}",
 					["num"] = 5,
 				},
 				[6] = {
-					["CLSID"] = "{R-37M}",
+					["CLSID"] = "{R-37M_mig31bm}",
 					["num"] = 6,
 				},
 				[7] = {
@@ -162,19 +162,19 @@ local unitPayloads = {
 					["num"] = 2,
 				},
 				[3] = {
-					["CLSID"] = "{R-37M}",
+					["CLSID"] = "{R-37M_mig31bm}",
 					["num"] = 3,
 				},
 				[4] = {
-					["CLSID"] = "{R-37M}",
+					["CLSID"] = "{R-37M_mig31bm}",
 					["num"] = 4,
 				},
 				[5] = {
-					["CLSID"] = "{R-37M}",
+					["CLSID"] = "{R-37M_mig31bm}",
 					["num"] = 5,
 				},
 				[6] = {
-					["CLSID"] = "{R-37M}",
+					["CLSID"] = "{R-37M_mig31bm}",
 					["num"] = 6,
 				},
 			},
