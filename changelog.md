@@ -4,6 +4,7 @@
 * **[Campaigns]** Ability to define invisible FOBs
 * **[Plugins]** Improvements to AI support for EW Script 2.0
 * **[Config]** New preference setting to trigger the first-start window on every start (could help in scenarios multiple Retribution instances need to run concurrently)
+* **[Modding]** Update Grinelli Designs F-22A Mod to 2.0.0 (May 2025)
 
 ## Fixes
 * **[Flight Plans]** Fixed a bug when a package was created with only escort flights
