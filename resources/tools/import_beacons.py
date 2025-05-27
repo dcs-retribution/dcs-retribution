@@ -31,13 +31,17 @@ import textwrap
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Dict, Iterable, Union
+import sys
 
 import lupa
 
-from game.dcs.beacons import BEACONS_RESOURCE_PATH, Beacon, BeaconType
 
 THIS_DIR = Path(__file__).parent.resolve()
 SRC_DIR = THIS_DIR.parents[1]
+
+sys.path.append(str(SRC_DIR))
+from game.dcs.beacons import BEACONS_RESOURCE_PATH, Beacon, BeaconType  # noqa: E402
+
 EXPORT_DIR = SRC_DIR / BEACONS_RESOURCE_PATH
 
 
