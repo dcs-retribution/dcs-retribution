@@ -3,6 +3,7 @@
 ## Features/Improvements
 * **[Plugins]** Improvements to AI support for EW Script 2.0
 * **[Config]** New preference setting to trigger the first-start window on every start (could help in scenarios multiple Retribution instances need to run concurrently)
+* **[Campaign Design]** Added support for Germany Cold War terrain by Ugra Media
 
 ## Fixes
 
