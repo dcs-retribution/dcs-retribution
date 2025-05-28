@@ -288,6 +288,8 @@ class BuildingLayout(TgoLayout):
     @property
     def category(self) -> str:
         for task in self.tasks:
+            if task is GroupTask.INVISIBLE_FOB:
+                return "fob"
             if task not in [GroupTask.STRIKE_TARGET, GroupTask.OFFSHORE_STRIKE_TARGET]:
                 return task.description.lower()
         raise RuntimeError(f"Building Template {self.name} has no building category")

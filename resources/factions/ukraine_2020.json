@@ -3,6 +3,7 @@
   "name": "Ukraine 2020",
   "authors": "Starfire",
   "description": "<p>Ukrainian military in the 2020s during the Russo-Ukrainian War. This faction is intended for use with the Currenthill Ukraine Asset Pack.</p>",
+  "locales": ["uk_UA"],
   "aircrafts": [
     "IL-76MD",
     "Mi-24V Hind-E",

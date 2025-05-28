@@ -586,14 +586,24 @@ class FobGroundObjectGenerator(AirbaseGroundObjectGenerator):
         return False
 
     def generate_fob(self) -> None:
-        self.generate_building_at(
-            GroupTask.FOB,
-            PresetLocation(
-                self.control_point.name,
-                self.control_point.position,
-                self.control_point.heading,
-            ),
-        )
+        if self.control_point.is_invisible:
+            self.generate_building_at(
+                GroupTask.INVISIBLE_FOB,
+                PresetLocation(
+                    self.control_point.name,
+                    self.control_point.position,
+                    self.control_point.heading,
+                ),
+            )
+        else:
+            self.generate_building_at(
+                GroupTask.FOB,
+                PresetLocation(
+                    self.control_point.name,
+                    self.control_point.position,
+                    self.control_point.heading,
+                ),
+            )
 
 
 class GroundObjectGenerator:

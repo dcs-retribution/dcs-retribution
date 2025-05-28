@@ -3,6 +3,7 @@
   "name": "Ukraine 2010",
   "authors": "Khopa",
   "description": "<p>Ukrainian army in the 2010s.</p>",
+  "locales": ["uk_UA"],
   "aircrafts": [
     "IL-76MD",
     "L-39ZA Albatros",

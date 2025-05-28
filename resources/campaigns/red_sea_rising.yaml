@@ -23,11 +23,13 @@ description:
     but for the entire world, as the balance of power teeters on a knife's edge.</p>
 miz: red_sea_rising.miz
 performance: 1
-recommended_start_date: 2003-01-11
+recommended_start_date: 2005-01-11
 version: "10.7"
 settings:
   usamilitaryassetspack: true
   chinesemilitaryassetspack: true
+  fa_18efg: true
+  f22_raptor: true
   hercules: true
   squadron_start_full: true
 squadrons:
@@ -37,7 +39,13 @@ squadrons:
       secondary: any
       aircraft:
         - F/A-18C Hornet (Lot 20)
-      size: 24
+      size: 12
+    - primary: SEAD Escort
+      secondary: any
+      aircraft:
+        - EA-18G Growler
+        - F/A-18C Hornet (Lot 20)
+      size: 12
     - primary: AEW&C
       aircraft:
         - E-2D Advanced Hawkeye
@@ -51,7 +59,7 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - AV-8B Harrier II Night Attack
-      size: 16
+      size: 12
     - primary: Escort
       secondary: any
       aircraft:
@@ -84,12 +92,18 @@ squadrons:
       aircraft:
         - "[CH] B-21"
         - F-117A Nighthawk
-      size: 16
+      size: 12
   #Tel Nof
   23:
     - primary: Escort
       secondary: any
       aircraft:
+        - F-15C Eagle
+      size: 12
+    - primary: TARCAP
+      secondary: any
+      aircraft:
+        - F-22A Raptor
         - F-15C Eagle
       size: 12
     - primary: OCA/Runway
@@ -155,7 +169,7 @@ squadrons:
       secondary: air-to-air
       aircraft:
         - Su-27 Flanker-B
-      size: 8
+      size: 12
   #St Catherine
   25:
     - primary: CAS
@@ -215,7 +229,7 @@ squadrons:
       secondary: air-to-air
       aircraft:
         - MiG-29S Fulcrum-C
-      size: 8
+      size: 12
   #Opfor Carrier
   Red CV-1:
     - primary: BARCAP
