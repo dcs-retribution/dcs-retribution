@@ -3,7 +3,6 @@
 import argparse
 import logging
 import pickle
-import sys
 from collections.abc import Iterator
 from enum import Enum, unique
 from pathlib import Path
@@ -14,18 +13,15 @@ from shapely import validation
 from shapely.geometry import LineString, MultiPolygon, Polygon, shape
 from shapely.ops import unary_union
 
+from game.profiling import logged_duration
+from game.theater import ConflictTheater, Landmap
+from game.theater.theaterloader import TheaterLoader
+from resources.tools.generate_landmap import to_multipoly
+
 THIS_DIR = Path(__file__).resolve()
 TOP_DIR = THIS_DIR.parents[2]
 IMPORT_DIR = TOP_DIR / "unshipped_data/arcgis_maps"
 RESOURCES_DIR = TOP_DIR / "resources"
-
-sys.path.append(str(TOP_DIR))
-
-from game.profiling import logged_duration  # noqa: E402
-from game.theater import ConflictTheater  # noqa: E402
-from game.theater.landmap import Landmap  # noqa: E402
-from game.theater.theaterloader import TheaterLoader  # noqa: E402
-from resources.tools.generate_landmap import to_multipoly  # noqa: E402
 
 
 ALL_THEATER_NAMES = [d.name for d in (RESOURCES_DIR / "theaters").iterdir()]
