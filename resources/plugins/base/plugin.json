@@ -15,6 +15,10 @@
         {
             "file": "dcs_retribution.lua",
             "mnemonic": "retribution"
+        },
+        {
+            "file": "moose.lua",
+            "mnemonic": "moose"
         }
     ],
     "configurationWorkOrders": []
