@@ -185,6 +185,8 @@ class FlightGroupConfigurator:
         if not member.is_player:
             return
         settings = self.flight.coalition.game.settings
+        if not settings.plugin_option("ewrj"):
+            return
         # Check if ecm_required option is enabled
         jammer_required = settings.plugin_option("ewrj.ecm_required")
         has_jammer = member.loadout.has_weapon_of_type(WeaponType.JAMMER)
