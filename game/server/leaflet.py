@@ -19,6 +19,10 @@ class LeafletPoint(BaseModel):
 
         title = "LatLng"
 
+    @staticmethod
+    def from_latlng(latlng: LatLng) -> LeafletPoint:
+        return LeafletPoint(lat=latlng.lat, lng=latlng.lng)
+
 
 LeafletLine = list[LeafletPoint]
 
