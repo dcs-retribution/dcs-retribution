@@ -6,9 +6,17 @@
 * **[Config]** New preference setting to trigger the first-start window on every start (could help in scenarios multiple Retribution instances need to run concurrently)
 * **[Modding]** Update Grinelli Designs F-22A Mod to 2.0.0 (May 2025)
 * **[Campaign Design]** Added support for Germany Cold War terrain by Ugra Media
+* **[Options]** New option to control EPLRS-task injection in mission generator
 
 ## Fixes
 * **[Flight Plans]** Fixed a bug when a package was created with only escort flights
+
+
+# Retribution v1.4.1 (hotfix)
+
+## Fixes
+* **[Plugins]** Avoid injecting jamming-tasks for player-controller aircraft when EW-Jamming plugin is disabled
+
 
 # Retribution v1.4.0
 

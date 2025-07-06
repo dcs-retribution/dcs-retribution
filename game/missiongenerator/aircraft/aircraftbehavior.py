@@ -192,7 +192,8 @@ class AircraftBehavior:
 
     @staticmethod
     def configure_eplrs(group: FlyingGroup[Any], flight: Flight) -> None:
-        if flight.unit_type.eplrs_capable:
+        eplrs_enabled = flight.coalition.game.settings.eplrs_enabled
+        if eplrs_enabled and flight.unit_type.eplrs_capable:
             group.points[0].tasks.append(EPLRS(group.id))
 
     def configure_cap(self, group: FlyingGroup[Any], flight: Flight) -> None:

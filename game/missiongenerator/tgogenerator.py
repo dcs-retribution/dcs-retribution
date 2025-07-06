@@ -386,9 +386,9 @@ class GroundObjectGenerator:
         )
         self._register_theater_unit(unit, static_group.units[0])
 
-    @staticmethod
-    def enable_eplrs(group: VehicleGroup, unit_type: Type[VehicleType]) -> None:
-        if unit_type.eplrs:
+    def enable_eplrs(self, group: VehicleGroup, unit_type: Type[VehicleType]) -> None:
+        eplrs_enabled = self.game.settings.eplrs_enabled
+        if eplrs_enabled and unit_type.eplrs:
             group.points[0].tasks.append(EPLRS(group.id))
 
     def set_alarm_state(self, group: MovingGroup[Any]) -> None:

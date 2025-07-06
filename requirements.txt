@@ -12,7 +12,7 @@ distlib==0.3.9
 Faker==37.0.2
 fastapi==0.115.11
 filelock==3.18.0
-h11==0.14.0
+h11==0.16.0
 httptools==0.6.4
 identify==2.6.9
 idna==3.10

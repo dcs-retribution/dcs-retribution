@@ -816,6 +816,12 @@ class Settings:
         GAMEPLAY_SECTION,
         default=True,
     )
+    eplrs_enabled: bool = boolean_option(
+        "Enable EPLRS",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=True,
+    )
     generate_dark_kneeboard: bool = boolean_option(
         "Generate dark kneeboard",
         MISSION_GENERATOR_PAGE,
