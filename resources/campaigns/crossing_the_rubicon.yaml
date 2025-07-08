@@ -1,0 +1,230 @@
+---
+name: Germany - Crossing the Rubicon
+theater: GermanyCW
+authors: Starfire
+recommended_player_faction: Blufor Late Cold War (80s)
+recommended_enemy_faction: Russia 1980
+description:
+  <p>In the summer of 1988, tensions simmering for decades finally ignite. Under the cover of pre-dawn darkness, 
+  Soviet and Warsaw Pact forces surge across the inner German border, launching a full-scale invasion through 
+  the Fulda Gap. For months, signs of a shift had been visible; escalating rhetoric, unusual troop movements, a 
+  hardening of positions. However, few believed the Kremlin would truly abandon the uneasy balance that had held 
+  since World War II. It was only when the tanks started rolling west that it became clear. The Soviet Union had 
+  finally crossed its Rubicon. The battle for Europe had begun.</p><p>
+  NATO forces, stretched thin and caught in partial readiness, are thrown into a desperate defence. From bases 
+  across West Germany, multi-national air assets scramble to blunt the assault. In the skies over Central Europe, 
+  control is fleeting, and the cost of failure is all too high.</p>
+miz: crossing_the_rubicon.miz
+performance: 2
+recommended_start_date: 1988-07-13
+version: "10.7"
+settings:
+  hercules: true
+  squadron_start_full: true
+squadrons:
+  #Ramstein
+  165:
+    - primary: OCA/Runway
+      secondary: air-to-ground
+      aircraft:
+        - B-1B Lancer
+      size: 4
+    - primary: Escort
+      secondary: air-to-air
+      aircraft:
+        - Mirage-F1EE
+      size: 8
+  #Sembach
+  156:
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - A-10A Thunderbolt II
+      size: 8
+    - primary: SEAD Sweep
+      secondary: air-to-ground
+      aircraft:
+        - AV-8B Harrier II Night Attack
+      size: 8
+  #Bitburg
+  200:
+    - primary: TARCAP
+      secondary: air-to-air
+      aircraft:
+        - F-15C Eagle
+      size: 8
+  #Spangdahlem
+  162:
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - F-4E-45MC Phantom II
+      size: 8
+  #Hahn
+  155:
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - B-52H Stratofortress
+      size: 4
+    - primary: DEAD
+      secondary: any
+      aircraft:
+        - F-16CM Fighting Falcon (Block 50)
+      size: 8
+  #Wiesbaden
+  170:
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - OH-58D(R) Kiowa Warrior
+      size: 6
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - UH-1H Iroquois
+      size: 6
+  #Frankfurt
+  163:
+    - primary: AEW&C
+      aircraft:
+        - E-3A
+      size: 2
+    - primary: Refueling
+      aircraft:
+        - KC-135 Stratotanker
+      size: 2
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - C-130J-30 Super Hercules
+        - C-130
+      size: 4
+  #Buchel
+  235:
+    - primary: SEAD Escort
+      secondary: any
+      aircraft:
+        - Tornado IDS
+      size: 8
+  #Carrier
+  Blue-CV:
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - F-14A Tomcat (Block 135-GR Late)
+      size: 8
+    - primary: SEAD
+      secondary: any
+      aircraft:
+        - F/A-18C Hornet (Lot 20)
+      size: 8
+    - primary: Armed Recon
+      secondary: air-to-ground
+      aircraft:
+        - S-3B Viking
+      size: 8
+    - primary: AEW&C
+      aircraft:
+        - E-2C Hawkeye
+      size: 2
+    - primary: Refueling
+      aircraft:
+        - S-3B Tanker
+      size: 4
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - UH-60A
+      size: 4
+  #Haina
+  161:
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - Mi-24P Hind-F
+      size: 4
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - Mi-8MTV2 Hip
+      size: 4
+    - primary: Armed Recon
+      secondary: air-to-ground
+      aircraft:
+        - Su-25 Frogfoot
+      size: 8
+  #Allstedt
+  157:
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - MiG-23MLD Flogger-K
+      size: 8
+    - primary: SEAD Escort
+      secondary: any
+      aircraft:
+        - MiG-27K Flogger-J2
+      size: 8
+  #Sperenberg
+  101:
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - Tu-95MS Bear-H
+      size: 8
+    - primary: OCA/Aircraft
+      secondary: any
+      aircraft:
+        - Tu-22M3 Backfire-C
+      size: 8
+    - primary: TARCAP
+      secondary: air-to-air
+      aircraft:
+        - Su-27 Flanker-B
+      size: 8
+  #Tempelhof
+  29:
+    - primary: AEW&C
+      aircraft:
+        - A-50
+      size: 1
+  #Schonefeld
+  26:
+    - primary: Refueling
+      aircraft:
+        - IL-78M
+      size: 2
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - AN-26B
+      size: 4
+  #Finow
+  12:
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - MiG-21bis Fishbed-N
+      size: 8
+  #Templin
+  15:
+    - primary: SEAD
+      secondary: any
+      aircraft:
+        - Su-24M Fencer-D
+      size: 8
+  #Wittstock:
+  1:
+    - primary: DEAD
+      secondary: air-to-ground
+      aircraft:
+        - Su-17M4 Fitter-K
+      size: 8
+  #Peenemunde
+  25:
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - MiG-29A Fulcrum-A
+      size: 8
