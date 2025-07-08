@@ -174,6 +174,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("ukrainemilitaryassetspack", self.ukrainemilitaryassetspack)
         self.mig31bm_foxhound = QtWidgets.QCheckBox()
         self.registerField("mig31bm_foxhound", self.mig31bm_foxhound)
+        self.tornado_adv = QtWidgets.QCheckBox()
+        self.registerField("tornado_adv", self.tornado_adv)
 
         modHelpText = QtWidgets.QLabel(
             "<p>Select the mods you have installed. If your chosen factions support them, you'll be able to use these mods in your campaign.</p>"
@@ -240,6 +242,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("Su-30 Flanker-H (V2.7.73b)", self.su30_flanker_h),
             ("Su-57 Felon (build-04)", self.su57_felon),
             ("Super Étendard (v2.5.5)", self.super_etendard),
+            ("Tornado F3 ADV (1.0)", self.tornado_adv),
             ("UH-60L Black Hawk (v1.3.1)", self.uh_60l),
             ("Vietnam War Vessels (v0.9.0 by TeTeT)", self.vietnamwarvessels),
         ]
@@ -323,3 +326,4 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.ukrainemilitaryassetspack.setChecked(
             s.get("ukrainemilitaryassetspack", False)
         )
+        self.tornado_adv.setChecked(s.get("tornado_adv", False))

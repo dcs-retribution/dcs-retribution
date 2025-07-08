@@ -1,0 +1,40 @@
+description:
+  "The Tornado ADV (Air Defence Variant) is an advanced interceptor aircraft developed by British 
+  Aerospace, now part of BAE Systems. This aircraft was designed primarily for air defense and is
+  equipped with sophisticated radar and missile systems to detect and engage enemy aircraft at
+  long ranges. The Tornado ADV is equipped with the AI.24 Foxhunter radar, which provides long-range
+  detection and tracking capabilities. It can carry a variety of air-to-air missiles,
+  including the AMRAAM (Advanced Medium-Range Air-to-Air Missile) and the Skyflash missile. The
+  aircraft is capable of high-speed intercepts and has excellent maneuverability, making it
+  effective in air-to-air combat."
+introduced: 1985
+manufacturer: Panavia
+origin: UK/Italy/West Germany
+price: 17
+role: Interceptor
+max_range: 350
+fuel:
+  # Parking 44 to RWY 06L at Anderson AFB.
+  taxi: 200
+  # AB takeoff to 350/0.75, reduce to MIL and maintain 350/0.75 to 25k ft.
+  climb_ppm: 28.33
+  # 0.85 mach for 100NM.
+  cruise_ppm: 12
+  # MIL for 100NM. Occasional AB use.
+  combat_ppm: 26
+  min_safe: 1000
+variants:
+  Tornado F3 ADV: {}
+#radios:
+#  intra_flight: AN/ARC-222
+#  inter_flight: AN/ARC-164
+#  channels:
+#    type: common
+#    namer: viper
+#    # COM2 is the AN/ARC-222, which is the VHF radio we want to use for
+#    # intra-flight communication to leave COM1 open for UHF inter-flight.
+#    intra_flight_radio_index: 2
+#    inter_flight_radio_index: 1
+tasks:
+  BARCAP: 500
+  Escort: 500

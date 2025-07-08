@@ -7,6 +7,7 @@
 * **[Modding]** Update Grinelli Designs F-22A Mod to 2.0.0 (May 2025)
 * **[Campaign Design]** Added support for Germany Cold War terrain by Ugra Media
 * **[Options]** New option to control EPLRS-task injection in mission generator
+* **[Modding]** Add Tornado F3 ADV (v1.0, requires FC3 fix)
 
 ## Fixes
 * **[Flight Plans]** Fixed a bug when a package was created with only escort flights
