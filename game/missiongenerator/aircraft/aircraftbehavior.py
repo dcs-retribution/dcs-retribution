@@ -307,7 +307,7 @@ class AircraftBehavior:
         )
 
     def configure_oca_strike(self, group: FlyingGroup[Any], flight: Flight) -> None:
-        self.configure_task(flight, group, CAS, [AFAC, SEAD])
+        self.configure_task(flight, group, CAS, [AFAC, SEAD, AntishipStrike])
         self.configure_behavior(
             flight,
             group,
