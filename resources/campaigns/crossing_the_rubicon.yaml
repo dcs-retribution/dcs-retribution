@@ -15,7 +15,7 @@ description:
   across West Germany, multi-national air assets scramble to blunt the assault. In the skies over Central Europe, 
   control is fleeting, and the cost of failure is all too high.</p>
 miz: crossing_the_rubicon.miz
-performance: 3
+performance: 2
 recommended_start_date: 1988-07-13
 version: "10.7"
 settings:
@@ -29,32 +29,28 @@ squadrons:
       aircraft:
         - B-1B Lancer
       size: 4
-    - primary: Escort
-      secondary: air-to-air
-      aircraft:
-        - Mirage-F1EE
-      size: 8
-  #Sembach
-  156:
     - primary: CAS
       secondary: any
       aircraft:
         - A-10A Thunderbolt II
+      size: 8
+    - primary: Escort
+      secondary: air-to-air
+      aircraft:
+        - Mirage-F1EE
       size: 8
     - primary: SEAD Sweep
       secondary: air-to-ground
       aircraft:
         - AV-8B Harrier II Night Attack
       size: 8
-  #Bitburg
-  200:
+  #Spangdahlem
+  162:
     - primary: TARCAP
       secondary: air-to-air
       aircraft:
         - F-15C Eagle
       size: 8
-  #Spangdahlem
-  162:
     - primary: BAI
       secondary: any
       aircraft:
@@ -72,18 +68,11 @@ squadrons:
       aircraft:
         - F-16CM Fighting Falcon (Block 50)
       size: 8
-  #Wiesbaden
-  170:
-    - primary: Escort
+    - primary: SEAD Escort
       secondary: any
       aircraft:
-        - OH-58D(R) Kiowa Warrior
-      size: 6
-    - primary: Air Assault
-      secondary: any
-      aircraft:
-        - UH-1H Iroquois
-      size: 6
+        - Tornado IDS
+      size: 8
   #Frankfurt
   163:
     - primary: AEW&C
@@ -100,13 +89,27 @@ squadrons:
         - C-130J-30 Super Hercules
         - C-130
       size: 4
-  #Buchel
-  235:
-    - primary: SEAD Escort
+  #H FRG 20
+  143:
+    - primary: Air Assault
       secondary: any
       aircraft:
-        - Tornado IDS
-      size: 8
+        - UH-1H Iroquois
+      size: 4
+  #H FRG 09
+  61:
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - OH-58D(R) Kiowa Warrior
+      size: 4
+  #H FRG 12
+  64:
+    - primary: Armed Recon
+      secondary: any
+      aircraft:
+        - AH-64D Apache Longbow
+      size: 4
   #Carrier
   Blue-CV:
     - primary: Escort
@@ -154,8 +157,6 @@ squadrons:
       aircraft:
         - Su-25 Frogfoot
       size: 8
-  #Allstedt
-  157:
     - primary: Escort
       secondary: any
       aircraft:
@@ -178,19 +179,17 @@ squadrons:
       aircraft:
         - Tu-22M3 Backfire-C
       size: 8
-    - primary: TARCAP
+    - primary: Escort
       secondary: air-to-air
       aircraft:
         - Su-27 Flanker-B
       size: 8
-  #Tempelhof
-  29:
+  #Schonefeld
+  26:
     - primary: AEW&C
       aircraft:
         - A-50
       size: 1
-  #Schonefeld
-  26:
     - primary: Refueling
       aircraft:
         - IL-78M
@@ -200,19 +199,17 @@ squadrons:
       aircraft:
         - AN-26B
       size: 4
-  #Finow
-  12:
-    - primary: BAI
-      secondary: any
-      aircraft:
-        - MiG-21bis Fishbed-N
-      size: 8
   #Templin
   15:
     - primary: SEAD
       secondary: any
       aircraft:
         - Su-24M Fencer-D
+      size: 8
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - MiG-21bis Fishbed-N
       size: 8
   #Wittstock:
   1:
@@ -223,7 +220,7 @@ squadrons:
       size: 8
   #Peenemunde
   25:
-    - primary: Escort
+    - primary: BARCAP
       secondary: any
       aircraft:
         - MiG-29A Fulcrum-A
