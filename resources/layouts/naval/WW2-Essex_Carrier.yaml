@@ -1,6 +1,6 @@
 name: WW2 Essex Carrier
 tasks:
-  - HelicopterCarrier
+  - AircraftCarrier
 groups:
   - Carrier: # the word "Carrier" or "LHA" needs to be present in the group-name
     - name: WW2 Carrier Group 0

@@ -1,6 +1,6 @@
 name: WW2Essex
 tasks:
-  - HelicopterCarrier
+  - AircraftCarrier
 units:
   - USS Bennington (CV-20)
 layouts:
