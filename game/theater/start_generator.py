@@ -13,7 +13,12 @@ from game import Game
 from game.factions.faction import Faction
 from game.naming import namegen
 from game.scenery_group import SceneryGroup
-from game.theater import PointWithHeading, PresetLocation, NavalControlPoint
+from game.theater import (
+    PointWithHeading,
+    PresetLocation,
+    NavalControlPoint,
+    EssexCarrier,
+)
 from game.theater.theatergroundobject import (
     BuildingGroundObject,
     IadsBuildingGroundObject,
@@ -322,6 +327,7 @@ class CarrierGroundObjectGenerator(GenericCarrierGroundObjectGenerator):
             logging.error(f"{self.faction_name} has no access to AircraftCarrier")
             return False
 
+        self.transform_to_essex_if_needed(unit_group)
         self.generate_ground_object_from_group(
             unit_group,
             PresetLocation(
@@ -333,6 +339,21 @@ class CarrierGroundObjectGenerator(GenericCarrierGroundObjectGenerator):
         )
         self.apply_carrier_config()
         return True
+
+    def transform_to_essex_if_needed(self, unit_group: ForceGroup) -> None:
+        classes = [u.unit_class for u in unit_group.units]
+        if any([c for c in classes if c == UnitClass.HELICOPTER_CARRIER]) and not any(
+            [c for c in classes if c == UnitClass.AIRCRAFT_CARRIER]
+        ):
+            self.game.theater.controlpoints.remove(self.control_point)
+            self.control_point = EssexCarrier(
+                self.control_point.name,
+                self.control_point.position,
+                self.game.theater,
+                self.control_point.starts_blue,
+            )
+            self.control_point.finish_init(self.game)
+            self.game.theater.controlpoints.append(self.control_point)
 
 
 class LhaGroundObjectGenerator(GenericCarrierGroundObjectGenerator):
