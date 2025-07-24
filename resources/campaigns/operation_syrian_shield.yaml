@@ -13,72 +13,47 @@ miz: operation_syrian_shield.miz
 performance: 2
 version: 10.7
 advanced_iads: true
-recommended_player_money: 500
-recommended_enemy_money: 500
+recommended_player_money: 900
+recommended_enemy_money: 900
 recommended_player_income_multiplier: 0.5
 recommended_enemy_income_multiplier: 0.5
-settings:
-  #  Set max frontline width to 30 km
-  max_frontline_width: 30
 squadrons:
   Blue CV:
-    # Tomcat F-14B - Swordsmen
-    - primary: BARCAP
-      secondary: any
-      aircraft:
-        - VF-32
-        - F-14B Tomcat
-      size: 4
-    # Tomcat F-14A - Black Aces
-    - primary: BARCAP
-      secondary: any
-      aircraft:
-        - VF-41
-        - F-14A Tomcat (Block 135-GR Late)
-      size: 4
-    # Hornet - Golden Dragons
+    # Hornet - VFA-11 "Red Rippers"
     - primary: SEAD
       secondary: any
       aircraft:
-        - VFA-192
         - F/A-18C Hornet (Lot 20)
       size: 6
-    # Hornet - Bulls
+    # Hornet - VFA-136 "Knighthawks"
     - primary: DEAD
       secondary: any
       aircraft:
-        - VFA-37
         - F/A-18C Hornet (Lot 20)
-      size: 6
+      size: 4
+    # Hornet - VFA-81 "Sunliners"
+    - primary: DEAD
+      secondary: any
+      aircraft:
+        - F/A-18C Hornet (Lot 20)
+      size: 4
+    # VRC-40 Det.1
     - primary: Refueling
       aircraft:
         - S-3B Tanker
       size: 1
-    - primary: BAI
-      secondary: air-to-ground
-      aircraft:
-        - S-3B Viking
-      size: 2
+    # VAW-126 "Seahawks"
     - primary: AEW&C
       aircraft:
         - E-2C Hawkeye
-      size: 2
+      size: 1
   Blue LHA:
+    # VMM-261 “Raging Bulls”
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - AV-8B Harrier II Night Attack
       size: 4
-    - primary: Air Assault
-      secondary: air-to-ground
-      aircraft:
-        - UH-1H Iroquois
-      size: 4
-    - primary: BAI
-      secondary: air-to-ground
-      aircraft:
-        - AH-1W SuperCobra
-      size: 2
   # Tiyas - 39  
   39:
     - primary: TARCAP
@@ -140,16 +115,40 @@ squadrons:
         - Su-24M Fencer-D
         - Su-34 Fullback
       size: 6
-  30:
-    - primary: Refueling
+  30: # Ramat David
+    # 109th Squadron “The Valley Squadron”
+    - primary: BARCAP
       aircraft:
-        - VMGR-352
-      size: 2
+        - F-16CM Fighting Falcon (Block 50)
+      size: 4
+    # 190th Squadron “Magic Touch”
     - primary: BAI
       secondary: any
       aircraft:
-        - 110th Squadron
-      size: 4
+        - AH-64D Apache Longbow
+      size: 2
+    # Unit 669 / 124th Squadron “Rolling Sword”
+    - primary: Air Assault
+      aircraft:
+        - UH-1H Iroquois
+      size: 2
+    # 100th ARW Detachment
+    - primary: Refueling
+      aircraft:
+        - KC-135 Stratotanker
+      size: 2
+    # 75th Fighter Squadron “Tiger Sharks”
+    - primary: CAS
+      aircraft:
+        - A-10C Thunderbolt II (Suite 7)
+        - A-10C Thunderbolt II (Suite 3)
+        - A-10A Thunderbolt II
+      size: 2
+    # 122nd Squadron “Nachshon”
+    - primary: AEW&C
+      aircraft:
+        - E-3A
+      size: 1
   # Dier Ezzor - 42
   42:
     - primary: TARCAP
