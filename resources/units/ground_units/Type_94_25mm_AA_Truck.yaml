@@ -1,0 +1,9 @@
+class: AAA
+description: Type 94 25mm Self-Propelled Anti-Aircraft Gun
+introduced: 1934
+manufacturer: 
+origin: Japan
+price: 5
+role: Self-Propelled Anti-Aircraft Gun
+variants:
+  AAA 25mm x 2 Type 94 Truck: {}

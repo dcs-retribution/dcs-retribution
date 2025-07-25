@@ -111,6 +111,13 @@ class MigrationUnpickler(pickle.Unpickler):
             elif name == "Alakourtti":
                 from dcs.terrain.kola.airports import Alakurtti
                 return Alakurtti
+        if module == "dcs.terrain.sinai.airports":
+            if name == "Borj_El_Arab_International_Airport":
+                from dcs.terrain.sinai.airports import Borg_El_Arab_International_Airport
+                return Borg_El_Arab_International_Airport
+            elif name == "Palmahim":
+                from dcs.terrain.sinai.airports import Palmachim
+                return Palmachim
         if module == "dcs.terrain.syria.airports":
             if name == "Amman":
                 from dcs.terrain.syria.airports import Marka

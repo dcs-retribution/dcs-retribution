@@ -1,0 +1,9 @@
+class: AAA
+description: Type 88 75mm Anti-Aircraft Artillery
+introduced: 1928
+manufacturer: 
+origin: Japan
+price: 6
+role: Anti-Aircraft Gun
+variants:
+  AAA 75mm Type 88 Flak: {}

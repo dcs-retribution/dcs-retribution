@@ -231,6 +231,15 @@ RADIOS: List[Radio] = [
     # P-51 / P-47 Radio
     # 4 preset channels (A/B/C/D)
     Radio("SCR522", (RadioRange(MHz(100), MHz(156), kHz(25), Modulation.AM),)),
+    # F4U-1D Radio
+    # 4 preset channels (1/2/3/4)
+    Radio(
+        "ARC-5",
+        (
+            RadioRange(MHz(100), MHz(150), kHz(25), Modulation.AM),
+            RadioRange(MHz(220), MHz(390), kHz(25), Modulation.AM),
+        ),
+    ),
     # JF-17 Radios should use AM
     Radio("R&S M3AR VHF", (RadioRange(MHz(120), MHz(174), kHz(25), Modulation.AM),)),
     Radio("R&S M3AR UHF", (RadioRange(MHz(225), MHz(400), kHz(25), Modulation.AM),)),

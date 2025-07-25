@@ -1,0 +1,8 @@
+class: Logistics
+description: Type 94 Logistics Truck
+introduced: 1934
+manufacturer:
+origin: Japan
+price: 2
+variants:
+  Truck Type 94: null

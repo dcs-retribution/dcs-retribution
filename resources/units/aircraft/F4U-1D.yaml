@@ -1,0 +1,41 @@
+always_keeps_gun: true
+carrier_capable: true
+lha_capable: true
+description: # From Wikipedia, the free encyclopedia
+  The Vought F4U Corsair is an American fighter aircraft that saw service primarily in World War II and the Korean War.
+  Designed and initially manufactured by Chance Vought, the Corsair was soon in great demand;
+   additional production contracts were given to Goodyear, whose Corsairs were designated FG, and Brewster, designated F3A.
+  The Corsair was designed and principally operated as a carrier-based aircraft, and entered service in large numbers
+  with the U.S. Navy and Marines in World War II. It quickly became one of the most capable carrier-based fighter-bombers
+  of the war.[3] Some Japanese pilots regarded it as the most formidable American fighter and U.S. naval aviators
+  achieved an 11:1 kill ratio.[4][5] Early problems with carrier landings and logistics led to it being eclipsed
+  as the dominant carrier-based fighter by the Grumman F6F Hellcat, powered by the same Double Wasp engine first
+  flown on the Corsair's initial prototype in 1940.[6] The Corsair's early deployment was to land-based squadrons
+  of the U.S. Marine Corps and U.S. Navy.
+introduced: 1942
+manufacturer: Chance Vought
+origin: USA
+price: 6
+role: Carrier Based Fighter-Bomber
+gunfighter: true
+variants:
+  F4U-1D Corsair: {}
+radios:
+  intra_flight: ARC-5
+  inter_flight: ARC-5
+  channels:
+    type: ARC-5
+    namer: ARC-5
+kneeboard_units: "imperial"
+tasks:
+  BAI: 100
+  BARCAP: 100
+  CAS: 100
+  Anti-ship: 100
+  Escort: 100
+  Fighter sweep: 100
+  Intercept: 100
+  OCA/Aircraft: 100
+  OCA/Runway: 60
+  Strike: 60
+  TARCAP: 100

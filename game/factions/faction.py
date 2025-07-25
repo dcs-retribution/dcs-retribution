@@ -875,6 +875,9 @@ class Faction:
             self.remove_aircraft("KC_10_Extender_D")
             self.remove_aircraft("P3C_Orion")
             self.remove_aircraft("V22_Osprey")
+        # Tornado f.3 ADV (1.0)
+        if not mod_settings.tornado_adv:
+            self.remove_aircraft("Tornado_ADV")
 
     def remove_aircraft(self, name: str) -> None:
         for aircraft_set in [self.aircraft, self.awacs, self.tankers]:

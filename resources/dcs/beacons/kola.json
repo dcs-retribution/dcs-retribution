@@ -196,7 +196,7 @@
   "channel": 122
  },
  "airfield7_2": {
-  "name": "BODO-ILSTAD",
+  "name": "BODO",
   "callsign": "BD",
   "beacon_type": 14,
   "hertz": 108700000,
@@ -264,6 +264,13 @@
   "beacon_type": 3,
   "hertz": 117350000,
   "channel": null
+ },
+ "airfield25_3": {
+  "name": "EVS",
+  "callsign": "Evenes",
+  "beacon_type": 4,
+  "hertz": 134000000,
+  "channel": 73
  },
  "airfield14_0": {
   "name": "KIRKENES",

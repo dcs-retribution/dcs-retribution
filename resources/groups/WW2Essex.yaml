@@ -1,0 +1,7 @@
+name: WW2Essex
+tasks:
+  - AircraftCarrier
+units:
+  - USS Bennington (CV-20)
+layouts:
+  - WW2 Essex Carrier

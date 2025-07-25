@@ -40,6 +40,7 @@ from dcs.ships import (
     Stennis,
     Type_071,
     hms_invincible,
+    Essex,
 )
 from dcs.terrain.terrain import Airport, ParkingSlot
 from dcs.unitgroup import ShipGroup, StaticGroup
@@ -1428,6 +1429,7 @@ class NavalControlPoint(
                     CVN_72,
                     CVN_73,
                     CVN_75,
+                    Essex,
                 ]:
                     return True
         return False
@@ -1506,6 +1508,11 @@ class Carrier(NavalControlPoint):
     @property
     def category(self) -> str:
         return "cv"
+
+
+class EssexCarrier(Carrier):
+    def can_operate(self, aircraft: AircraftType) -> bool:
+        return aircraft.lha_capable
 
 
 class Lha(NavalControlPoint):

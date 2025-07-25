@@ -5,11 +5,13 @@
 * **[Plugins]** Improvements to AI support for EW Script 2.0
 * **[Config]** New preference setting to trigger the first-start window on every start (could help in scenarios multiple Retribution instances need to run concurrently)
 * **[Modding]** Update Grinelli Designs F-22A Mod to 2.0.0 (May 2025)
+* **[Campaign Design]** Added support for Germany Cold War terrain by Ugra Media
 * **[Options]** New option to control EPLRS-task injection in mission generator
+* **[Modding]** Add Tornado F3 ADV (v1.0, requires FC3 fix)
 
 ## Fixes
 * **[Flight Plans]** Fixed a bug when a package was created with only escort flights
-
+* **[Flight Plans]** Added AntiShipStrike as a fallback task for OCA/Aircraft to fix a bug where the S-3B could not do OCA/Aircraft
 
 # Retribution v1.4.1 (hotfix)
 

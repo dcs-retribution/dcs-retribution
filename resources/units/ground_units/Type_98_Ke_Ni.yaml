@@ -1,0 +1,9 @@
+class: Tank
+description: MBT Type 98 Ke Ni
+introduced: 1938
+manufacturer: 
+origin: Japan
+price: 8
+role: Main Battle Tank
+variants:
+  Type 98 Ke Ni Tank: {}
