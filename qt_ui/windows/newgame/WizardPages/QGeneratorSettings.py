@@ -174,6 +174,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("ukrainemilitaryassetspack", self.ukrainemilitaryassetspack)
         self.mig31bm_foxhound = QtWidgets.QCheckBox()
         self.registerField("mig31bm_foxhound", self.mig31bm_foxhound)
+        self.mam = QtWidgets.QCheckBox()
+        self.registerField("mam", self.mam)
 
         modHelpText = QtWidgets.QLabel(
             "<p>Select the mods you have installed. If your chosen factions support them, you'll be able to use these mods in your campaign.</p>"
@@ -229,6 +231,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("IDF Assets Pack (v1.1 by IDF Mods Project)", self.irondome),
             ("JAS 39 Gripen (v1.8.5-beta)", self.jas39_gripen),
             ("MiG-31BM (v2.62)", self.mig31bm_foxhound),
+            ("Military Aircraft Mod (v1.7.1 - AI Only)", self.mam),
             ("Mirage III (v2.5.7.01)", self.mirage_3),
             ("OH-6 Cayuse (v1.2)", self.oh_6),
             ("OH-6 Vietnam Asset Pack (v1.0)", self.oh_6_vietnamassetpack),

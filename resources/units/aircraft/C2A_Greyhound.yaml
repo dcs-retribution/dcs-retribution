@@ -1,0 +1,19 @@
+carrier_capable: true
+description: "The Grumman C-2 Greyhound is a twin-engine, high-wing cargo aircraft designed to carry supplies, mail, and passengers to and from aircraft carriers of the United States Navy. 
+  Its primary mission is carrier onboard delivery (COD). The aircraft provides critical logistics support to carrier strike groups. The aircraft is mainly used to transport high-priority 
+  cargo such as jet engines and special stores, mail, and passengers between carriers and shore bases.
+
+  Prototype C-2s first flew in 1964, and production followed the next year. The initial Greyhound aircraft were overhauled in 1973. In 1984, more C-2As were ordered under 
+  designation Reprocured C-2A or C-2A(R). In 2010, all C-2A(R) aircraft received updated propellers (from four to eight blades) and navigational updates (glass cockpit). 
+  The U.S. Navy is to start replacing the remaining 27 C-2As with 38 Bell Boeing CMV-22Bs Osprey tiltrotors in 2020, with full fielding in 2028."
+
+introduced: 1966
+manufacturer: Northrop Grumman
+origin: USA
+price: 15
+role: Transport
+max_range: 1000
+variants:
+  C2A Greyhound: {}
+tasks:
+  Transport: 130
