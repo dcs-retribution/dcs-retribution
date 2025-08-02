@@ -1,0 +1,12 @@
+{
+    "nameInUI": "MOOSE",
+    "defaultValue": true,
+    "specificOptions": [],
+    "scriptsWorkOrders": [
+        {
+            "file": "Moose.lua",
+            "mnemonic": "MOOSE"
+        }
+    ],
+    "configurationWorkOrders": []
+}
