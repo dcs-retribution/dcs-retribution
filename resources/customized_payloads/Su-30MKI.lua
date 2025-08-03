@@ -61,8 +61,8 @@ local unitPayloads = {
 			},
 		},
 		[2] = {
-			["displayName"] = "CAP",
-			["name"] = "CAP",
+			["displayName"] = "Retribution CAP",
+			["name"] = "Retribution CAP",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{44EE8698-89F9-48EE-AF36-5FD31896A82A}",
@@ -179,8 +179,8 @@ local unitPayloads = {
 			},
 		},
 		[4] = {
-			["displayName"] = "ANTISHIP",
-			["name"] = "ANTISHIP",
+			["displayName"] = "Retribution Antiship",
+			["name"] = "Retribution Antiship",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{44EE8698-89F9-48EE-AF36-5FD31896A82A}",
