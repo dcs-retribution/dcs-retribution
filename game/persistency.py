@@ -36,6 +36,18 @@ class DummyObject:
 class MigrationUnpickler(pickle.Unpickler):
     """Custom unpickler to migrate campaign save-files for when components have been moved"""
     def find_class(self, module: Any, name: str) -> Any:
+        if name == "Su_30MKA_AG":
+            from pydcs_extensions.su30 import Su_30MKA
+            return Su_30MKA
+        if name == "Su_30MKI_AG":
+            from pydcs_extensions.su30 import Su_30MKI
+            return Su_30MKI
+        if name == "Su_30SM_AG":
+            from pydcs_extensions.su30 import Su_30SM
+            return Su_30SM
+        if name == "Su_30MKM_AG":
+            from pydcs_extensions.su30 import Su_30MKM
+            return Su_30MKM
         if name == "NightMissions":
             from game.settings import NightMissions
             return NightMissions
