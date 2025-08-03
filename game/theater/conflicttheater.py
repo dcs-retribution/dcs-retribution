@@ -292,6 +292,12 @@ class ConflictTheater:
                 return cp
         raise KeyError(f"Cannot find ControlPoint named {name}")
 
+    def control_point_by_full_name(self, full_name: str) -> ControlPoint:
+        for cp in self.controlpoints:
+            if cp.full_name == full_name:
+                return cp
+        raise KeyError(f"Cannot find ControlPoint with full name {full_name}")
+
     def find_carriers(self) -> List[ControlPoint]:
         try:
             carriers = [cp for cp in self.controlpoints if cp.is_carrier]

@@ -83,15 +83,14 @@ class CampaignAirWingConfig:
                 try:
                     base = theater.control_point_named(base_id)
                 except:
-                    if base_id == "Red CV":
-                        base = next((c for c in carriers if not c.captured), None)
-                    elif base_id == "Blue CV":
-                        base = next((c for c in carriers if c.captured), None)
-                    elif base_id == "Red LHA":
-                        base = next((l for l in lhas if not l.captured), None)
-                    elif base_id == "Blue LHA":
-                        base = next((l for l in lhas if l.captured), None)
-
+                    logging.warning(
+                        f"Control point {base_id} not found, trying to match by full name"
+                    )
+                if not base:
+                    try:
+                        base = theater.control_point_by_full_name(base_id)
+                    except KeyError:
+                        logging.error(f"Control point {base_id} not found, skipping")
             for squadron_data in squadron_configs:
                 if base is None:
                     logging.warning(
