@@ -60,7 +60,7 @@ class DefaultSquadronAssigner:
     ) -> Optional[SquadronDef]:
         for preferred_aircraft in config.aircraft:
             squadron_def = self.find_preferred_squadron(
-                preferred_aircraft, config.primary, control_point
+                preferred_aircraft, config.aircraft_type, config.primary, control_point
             )
             if squadron_def is not None:
                 return squadron_def
@@ -78,7 +78,11 @@ class DefaultSquadronAssigner:
         )
 
     def find_preferred_squadron(
-        self, preferred_aircraft: str, task: FlightType, control_point: ControlPoint
+        self,
+        preferred_aircraft: str,
+        aircraft_type: Optional[str],
+        task: FlightType,
+        control_point: ControlPoint,
     ) -> Optional[SquadronDef]:
         # Attempt to find a squadron with the name in the request.
         squadron_def = self.find_squadron_by_name(
@@ -90,7 +94,7 @@ class DefaultSquadronAssigner:
         # If the name didn't match a squadron available to this coalition, try to find
         # an aircraft with the matching name that meets the requirements.
         try:
-            aircraft = AircraftType.named(preferred_aircraft)
+            aircraft = AircraftType.named(aircraft_type or preferred_aircraft)
         except KeyError:
             logging.warning(
                 "%s is neither a compatible squadron or a known aircraft type, "

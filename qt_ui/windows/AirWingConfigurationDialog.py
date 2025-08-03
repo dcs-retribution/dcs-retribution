@@ -866,6 +866,7 @@ class AirWingConfigurationDialog(QDialog):
                         if sec.value != s.primary_task.value
                     ],
                     "aircraft": [name],
+                    "aircraft_type": s.aircraft.display_name,
                     "size": s.max_size,
                 }
                 if squadrons.get(key):
