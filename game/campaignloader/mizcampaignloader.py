@@ -16,6 +16,7 @@ from dcs.terrain import Airport
 from dcs.unitgroup import PlaneGroup, ShipGroup, StaticGroup, VehicleGroup
 from dcs.vehicles import AirDefence, Armor, MissilesSS, Unarmed
 
+from game.controlpoint_influenceradius import ControlPointInfluenceRadius, point_in_zone
 from game.point_with_heading import PointWithHeading
 from game.positioned import Positioned
 from game.profiling import logged_duration
@@ -24,6 +25,7 @@ from game.theater.controlpoint import (
     Airfield,
     Carrier,
     ControlPoint,
+    ControlPointType,
     Fob,
     Lha,
     OffMapSpawn,
@@ -279,6 +281,12 @@ class MizCampaignLoader:
         return SceneryGroup.from_trigger_zones(self.mission.triggers._zones)
 
     @cached_property
+    def cp_influence_zones(self) -> List[ControlPointInfluenceRadius]:
+        return ControlPointInfluenceRadius.from_trigger_zones(
+            self.mission.triggers._zones
+        )
+
+    @cached_property
     def control_points(self) -> dict[UUID, ControlPoint]:
         control_points = {}
         for airport in self.mission.terrain.airport_list():
@@ -331,6 +339,11 @@ class MizCampaignLoader:
                 control_point.captured_invert = fob.late_activation
                 control_points[control_point.id] = control_point
 
+        if self.cp_influence_zones:
+            for cp in control_points.values():
+                for influence_radius in self.cp_influence_zones:
+                    if cp.full_name == influence_radius.cp_name:
+                        cp.influence_radius = influence_radius
         return control_points
 
     @property
@@ -490,7 +503,59 @@ class MizCampaignLoader:
     def objective_info(
         self, near: Positioned, allow_naval: bool = False
     ) -> Tuple[ControlPoint, Distance]:
-        closest = self.theater.closest_control_point(near.position, allow_naval)
+        zones_containing_point = [
+            z
+            for z in self.cp_influence_zones
+            if point_in_zone(z.zone_def, near.position)
+        ]
+
+        # Ensure we only consider naval control points if allow_naval is True
+        candidates = [
+            self.theater.control_point_named(z.cp_name) for z in zones_containing_point
+        ]
+        if not allow_naval:
+            candidates = [
+                cp
+                for cp in candidates
+                if cp.cptype
+                not in [
+                    ControlPointType.AIRCRAFT_CARRIER_GROUP,
+                    ControlPointType.LHA_GROUP,
+                ]
+            ]
+
+        if candidates:
+            closest = min(
+                candidates, key=lambda cp: cp.position.distance_to_point(near.position)
+            )
+            distance = meters(closest.position.distance_to_point(near.position))
+            return closest, distance
+
+        # If no zones contain the point, find the closest control point without an influence radius
+        if not allow_naval:
+            fallback_candidates = [
+                cp
+                for cp in self.theater.controlpoints
+                if cp.cptype
+                not in [
+                    ControlPointType.AIRCRAFT_CARRIER_GROUP,
+                    ControlPointType.LHA_GROUP,
+                ]
+            ]
+        else:
+            fallback_candidates = self.theater.controlpoints
+
+        fallback_candidates = [
+            cp for cp in fallback_candidates if not cp.influence_radius
+        ]
+        if not fallback_candidates:
+            raise RuntimeError(
+                f"All control points have an influence zone but no zones contain {near} at {near.position}"
+            )
+        closest = min(
+            fallback_candidates,
+            key=lambda cp: cp.position.distance_to_point(near.position),
+        )
         distance = meters(closest.position.distance_to_point(near.position))
         return closest, distance
 

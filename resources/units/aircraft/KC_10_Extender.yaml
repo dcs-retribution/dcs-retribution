@@ -1,0 +1,22 @@
+description:
+  The McDonnell Douglas KC-10 Extender is an American tanker and cargo aircraft that was operated by the United States Air Force (USAF) 
+  from 1981 to 2024. A military version of the three-engine DC-10 airliner, the KC-10 was developed from the Advanced Tanker Cargo Aircraft Program. 
+  It incorporates military-specific equipment for its primary roles of aerial refueling and transport. It was developed to supplement the 
+  KC-135 Stratotanker following experiences in Southeast Asia and the Middle East. The KC-10 was the second McDonnell Douglas transport aircraft 
+  to be selected by the Air Force following the C-9. A total of 60 KC-10s were produced for the USAF. 
+  The Royal Netherlands Air Force operated two similar tankers from 1995 to 2021 designated KDC-10 that were converted from used civilian DC-10, instead of purpose built aircraft.
+
+introduced: 1981
+manufacturer: McDonnell Douglas
+origin: USA
+max_group_size: 1
+price: 20
+role: Refueling
+patrol:
+  # ~300 knots IAS.
+  speed: 405
+  altitude: 24000
+variants:
+  KC-10 Extender (Boom): {}
+tasks:
+  Refueling: 50

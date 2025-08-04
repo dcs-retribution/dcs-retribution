@@ -8,6 +8,7 @@
 * **[Campaign Design]** Added support for Germany Cold War terrain by Ugra Media
 * **[Options]** New option to control EPLRS-task injection in mission generator
 * **[Modding]** Add Tornado F3 ADV (v1.0, requires FC3 fix)
+* **[Modding]** Add Military Aircraft Mod 1.7.2 (See VSN Discord)
 
 ## Fixes
 * **[Flight Plans]** Fixed a bug when a package was created with only escort flights

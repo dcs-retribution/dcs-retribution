@@ -95,6 +95,7 @@ class ModSettings:
     uh_60l: bool = False
     jas39_gripen: bool = False
     sk_60: bool = False
+    mam: bool = False
     mirage_3: bool = False
     super_etendard: bool = False
     su15_flagon: bool = False
@@ -346,6 +347,7 @@ class CarrierGroundObjectGenerator(GenericCarrierGroundObjectGenerator):
             [c for c in classes if c == UnitClass.AIRCRAFT_CARRIER]
         ):
             self.game.theater.controlpoints.remove(self.control_point)
+            sqdrns = self.control_point.squadrons
             self.control_point = EssexCarrier(
                 self.control_point.name,
                 self.control_point.position,
@@ -354,6 +356,9 @@ class CarrierGroundObjectGenerator(GenericCarrierGroundObjectGenerator):
             )
             self.control_point.finish_init(self.game)
             self.game.theater.controlpoints.append(self.control_point)
+            for sqdrn in sqdrns:
+                if sqdrn.aircraft.lha_capable:
+                    sqdrn.location = self.control_point
 
 
 class LhaGroundObjectGenerator(GenericCarrierGroundObjectGenerator):
