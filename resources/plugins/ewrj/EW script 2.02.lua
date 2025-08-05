@@ -396,7 +396,7 @@ local pkill_5 =15
             end
             if remove_missile_method == 0 then
                 trigger.action.explosion(Object.getPosition(aiMissiles[id].missile).p, 5)
-                trigger.action.outText("MISSILE GO BOOM!!! "..jammer,10)
+                -- trigger.action.outText("MISSILE GO BOOM!!! "..jammer,10)
             else
                 Object.destroy(aiMissiles[id].missile)
             end
