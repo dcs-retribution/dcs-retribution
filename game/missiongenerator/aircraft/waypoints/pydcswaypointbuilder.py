@@ -164,12 +164,12 @@ class PydcsWaypointBuilder:
         settings = self.flight.coalition.game.settings
         ecm_required = settings.plugin_option("ewrj.ecm_required")
         for unit, member in zip(self.group.units, self.flight.iter_members()):
-            has_jammer = member.loadout.has_weapon_of_type(WeaponType.JAMMER)
+            has_jammer = (member.loadout.has_weapon_of_type(WeaponType.JAMMER) or member.loadout.has_weapon_of_type(WeaponType.OFFENSIVE_JAMMER))
             built_in_jammer = self.flight.squadron.aircraft.has_built_in_ecm
             if ecm_required and not (has_jammer or built_in_jammer):
                 continue
             if not member.is_player:
-                script_content = f'{action}Djamming("{unit.name}")'
+                script_content = f'{action}IAdefjamming("{unit.name}")'
                 jamming_script = RunScript(script_content)
                 waypoint.tasks.append(jamming_script)
 
@@ -178,7 +178,7 @@ class PydcsWaypointBuilder:
         settings = self.flight.coalition.game.settings
         ecm_required = settings.plugin_option("ewrj.ecm_required")
         for unit, member in zip(self.group.units, self.flight.iter_members()):
-            has_jammer = member.loadout.has_weapon_of_type(WeaponType.JAMMER)
+            has_jammer = member.loadout.has_weapon_of_type(WeaponType.OFFENSIVE_JAMMER)
             built_in_jammer = self.flight.squadron.aircraft.has_built_in_ecm
             if ecm_required and not (has_jammer or built_in_jammer):
                 continue
