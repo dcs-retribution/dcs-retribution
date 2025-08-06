@@ -25,7 +25,6 @@ class RaceTrackEndBuilder(PydcsWaypointBuilder):
                 self.defensive_jamming(waypoint, "stop")
                 self.offensive_jamming(waypoint, "stop")
 
-
     def build(self) -> MovingPoint:
         waypoint = super().build()
 
