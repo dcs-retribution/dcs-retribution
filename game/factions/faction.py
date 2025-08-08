@@ -865,6 +865,16 @@ class Faction:
         # MiG-31BM
         if not mod_settings.mig31bm_foxhound:
             self.remove_aircraft("MiG-31BM")
+        # Mlitary Aircraft Mod 1.7.1
+        if not mod_settings.mam:
+            self.remove_aircraft("A400M_Atlas")
+            self.remove_aircraft("B2_Spirit")
+            self.remove_aircraft("C2A_Greyhound")
+            self.remove_aircraft("C5_Galaxy")
+            self.remove_aircraft("KC_10_Extender")
+            self.remove_aircraft("KC_10_Extender_D")
+            self.remove_aircraft("P3C_Orion")
+            self.remove_aircraft("V22_Osprey")
         # Tornado f.3 ADV (1.0)
         if not mod_settings.tornado_adv:
             self.remove_aircraft("Tornado_ADV")

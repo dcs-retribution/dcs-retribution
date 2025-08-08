@@ -1,0 +1,17 @@
+description: "The Airbus A400M Atlas is a European four-engine turboprop military transport aircraft. It was designed by Airbus Military, 
+  now Airbus Defence and Space, as a tactical airlifter with strategic capabilities to replace older transport aircraft such as 
+  the Transall C-160 and the Lockheed C-130 Hercules.
+
+  The A400M is sized between the C-130 and the Boeing C-17 Globemaster III. It can carry heavier loads than the C-130 and can use 
+  rough landing strips."
+
+introduced: 2013
+manufacturer: Airbus Defence and Space
+origin: Europe
+price: 25
+role: Transport
+max_range: 1000
+variants:
+  A400M Atlas: {}
+tasks:
+  Transport: 130
