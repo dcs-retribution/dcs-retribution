@@ -1,0 +1,59 @@
+{
+    "nameInUI": "Autolase (Requires MOOSE)",
+    "defaultValue": true,
+    "specificOptions": [
+        {
+            "nameInUI": "JTAC Alpha - Smoke On/Off",
+            "mnemonic": "JtacAlphaSmoke",
+            "defaultValue": true
+        }, 
+    {
+            "nameInUI": "JTAC Alpha - UHF Frequency",
+            "mnemonic": "JtacAlphaUHF",
+            "defaultValue": 250
+    },  
+    {
+            "nameInUI": "JTAC Alpha - VHF Frequency",
+            "mnemonic": "JtacAlphaVHF",
+            "defaultValue": 123
+    },
+            {
+            "nameInUI": "JTAC Alpha - Notify Radius (NM)",
+            "mnemonic": "JtacAlphaRadiusNM",
+            "defaultValue": 40
+    },
+                {
+            "nameInUI": "JTAC Bravo - Smoke On/Off",
+            "mnemonic": "JtacBravoSmoke",
+            "defaultValue": true
+        }, 
+    {
+            "nameInUI": "JTAC Bravo - UHF Frequency",
+            "mnemonic": "JtacBravoUHF",
+            "defaultValue": 251
+    },  
+    {
+            "nameInUI": "JTAC Bravo - VHF Frequency",
+            "mnemonic": "JtacBravoVHF",
+            "defaultValue": 124
+    },
+            {
+            "nameInUI": "JTAC Bravo - Notify Radius (NM)",
+            "mnemonic": "JtacBravoRadiusNM",
+            "defaultValue": 40
+    }
+    ],
+    "scriptsWorkOrders": [
+        {
+            "file": "Plugin_Autolase_JTAC.lua",
+            "mnemonic": "Autolase 0.1"
+        }
+    ],
+    "configurationWorkOrders": [],
+    "otherResourceFiles": [
+        "SoundFiles/TargetLost.ogg",
+        "SoundFiles/TargetSmoke.ogg",
+        "SoundFiles/LaserOn.ogg",
+        "SoundFiles/LaserOff.ogg"
+    ]
+}
