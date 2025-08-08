@@ -17,9 +17,6 @@ ShipSamSounds = false -- true means they will play sounds with each missile laun
 -- Do you want red airplanes to play sounds when they fire their gun cannons?
 PlayRedShootingGuns = false -- true means they will play sounds with each gun burst
 
--- Do you want other people to know Safety Mode is on?
-SilentMode = true -- By default, turing on Safety Mode will not produce on-screen text
-
 -----------------------------------------------------------------------------------------------------------------------------------
 -- DEBUG
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -145,10 +142,10 @@ function EventHandler:OnEventKill(EventData)
 
         -- KILL SECTION (BLUE KILLS RED)
         if EventData.IniCoalition == coalition.side.BLUE or EventData.TgtCoalition == coalition.side.RED then
-            BASE:I("BLUE UNIT KILLED RED...")
+            if SoundDebug then BASE:I("BLUE UNIT KILLED RED...") end
             if (EventData.TgtCategory == 0 or EventData.TgtCategory == 1) and EventData.TgtObjectCategory == 1 and
                 GROUP:FindByName(EventData.IniGroupName):IsAirPlane() then -- 0 is plane, 1 is helo https://wiki.hoggitworld.com/view/DCS_Class_Unit
-                BASE:I("...AIRPLANE")
+                if SoundDebug then BASE:I("...AIRPLANE") end
 
                 random_Air_Unit_Sound = Sounds.Air_Unit_Sound_Table[math.random(1, #Sounds.Air_Unit_Sound_Table)]
                 local Air_Unit_Sound_Ogg = random_Air_Unit_Sound .. ".ogg"
@@ -157,7 +154,10 @@ function EventHandler:OnEventKill(EventData)
                 -- Determine who to play sound to
                 if EventData.IniGroup and SoundOnlyToGroup then
                     local SoundGroup = EventData.IniGroup
-                    BASE:I("-----SOUNDFILE PLAYED is " .. random_Air_Unit_Sound .. " TO " .. SoundGroup:GetName())
+                    if SoundDebug then
+                        BASE:I("-----SOUNDFILE PLAYED is " ..
+                        random_Air_Unit_Sound .. " TO " .. SoundGroup:GetName())
+                    end
                     RedA2ASound:ToGroup(SoundGroup)
                     if SoundDebug then
                         trigger.action.outText("-----SOUNDFILE PLAYED is " .. random_Air_Unit_Sound .. " TO " ..
@@ -165,7 +165,7 @@ function EventHandler:OnEventKill(EventData)
                     end
                 else
                     RedA2ASound:ToCoalition(coalition.side.BLUE)
-                    BASE:I("-----SOUNDFILE PLAYED is " .. random_Air_Unit_Sound .. " TO ALL-----")
+                    if SoundDebug then BASE:I("-----SOUNDFILE PLAYED is " .. random_Air_Unit_Sound .. " TO ALL-----") end
                     if SoundDebug then
                         trigger.action.outText("-----SOUNDFILE PLAYED is " .. random_Air_Unit_Sound .. " TO ALL", 10)
                     end
@@ -175,7 +175,7 @@ function EventHandler:OnEventKill(EventData)
             if EventData.IniGroupName then                                                                          -- If we don't have an IniGroupName, then don't proceed
                 if EventData.TgtCategory == 2 and EventData.IniCoalition ~= EventData.TgtCoalition and
                     GROUP:FindByName(EventData.IniGroupName):IsAirPlane() and EventData.TgtObjectCategory == 1 then -- TgtCategory 2 is Ground, TgtObjectCategory is Unit
-                    BASE:I("...GROUND UNIT (KILLED BY A BLUE AIRPLANE)")
+                    if SoundDebug then BASE:I("...GROUND UNIT (KILLED BY A BLUE AIRPLANE)") end
 
                     math.random()
                     random_Ground_Unit_Sound = Sounds.Ground_Unit_Sound_Table[math.random(1,
@@ -683,86 +683,6 @@ end -- Function End
 
 BASE:I("-----MISSILE/BOMB SOUNDS SET------")
 
------------------------------------------------------------------------------------------------------------------------------------
--- SHOOTING (RAPID FIRE) EVENT
------------------------------------------------------------------------------------------------------------------------------------
---[[
-ShootingEventHandler = EVENTHANDLER:New()
-ShootingEventHandler:HandleEvent(EVENTS.ShootingStart)
-
-function ShootingEventHandler:OnEventShootingStart(EventData)
-    if SoundDebug then
-        BASE:I("-----RAPID GUNS SHOOTING START, EVALUATING------")
-    end
-    local txt = UTILS.OneLineSerialize(EventData)
-    env.info("Guns Shooting EventData Debug: " .. txt)
-    local ShooterGroupName = EventData.IniGroupName
-    local ShooterUnitName = EventData.IniUnitName
-    if ShooterGroupName ~= nil and ShooterUnitName ~= nil then
-        ShooterGroup = GROUP:FindByName(ShooterGroupName)
-        ShooterUnit = UNIT:FindByName(ShooterUnitName)
-    end
-
-    if ShooterGroup:IsAirPlane() and ShooterUnit:IsClient() then
-        BASE:I("BLUE AIRPLANE GUNS DETECTED (FROM CLIENT)")
-        math.random()
-        Blue_Guns_Sound = Sounds.Blue_Guns_Table[math.random(1, #Sounds.Blue_Guns_Table)]
-        Brevity = tostring(Blue_Guns_Sound)
-        BASE:I("---------RANDOM BLUE GUNS SOUND SELECTED IS: " .. Brevity)
-
-        local GunsSound = Brevity .. ".ogg"
-        -- Sound Chosen
-        GunsSound = USERSOUND:New(SoundFilePath .. GunsSound)
-
-        -- Determine Who to Play Sound to
-        if SoundOnlyToGroup and EventData.IniGroup then
-            local SoundGroup = EventData.IniGroup
-            GunsSound:ToGroup(SoundGroup)
-            BASE:I("---------SOUNDFILE PLAYED---------is " .. Brevity .. " TO " .. SoundGroup:GetName())
-            if SoundDebug then
-                trigger.action.outText("-----SOUNDFILE PLAYED is " .. Brevity .. " TO " .. SoundGroup:GetName(), 10)
-            end
-        else
-            GunsSound:ToCoalition(coalition.side.BLUE)
-            BASE:I("---------SOUNDFILE PLAYED---------is " .. Brevity .. " TO ALL")
-            if SoundDebug then
-                trigger.action.outText("-----SOUNDFILE PLAYED is " .. Brevity .. " TO ALL", 10)
-            end
-        end
-    end
-
-    if ShooterGroup:IsAirPlane() and EventData.IniCoalition == 1 and PlayRedShootingGuns then
-        BASE:I("-----RED AIRPLANE GUNS DETECTED (AT CLIENT)------")
-        math.random()
-        Red_Guns_Sound = Sounds.Red_Guns_Table[math.random(1, #Sounds.Red_Guns_Table)]
-        Brevity = tostring(Red_Guns_Sound)
-        BASE:I("---------RANDOM RED GUNS SOUND SELECTED IS: " .. Brevity)
-
-        local GunsSound = Brevity .. ".ogg"
-        -- Sound Chosen
-        GunsSound = USERSOUND:New(SoundFilePath .. GunsSound)
-        -- Determine Who to Play Sound to
-        if SoundOnlyToGroup and EventData.TgtGroup then
-            local SoundGroup = EventData.TgtGroup
-            GunsSound:ToGroup(SoundGroup)
-            BASE:I("---------SOUNDFILE PLAYED---------is " .. Brevity .. " TO " .. SoundGroup:GetName())
-            if SoundDebug then
-                trigger.action.outText("-----SOUNDFILE PLAYED is " .. Brevity .. " TO " .. SoundGroup:GetName(), 10)
-            end
-        else
-            GunsSound:ToCoalition(coalition.side.BLUE)
-            BASE:I("---------SOUNDFILE PLAYED---------is " .. Brevity .. " TO ALL")
-            if SoundDebug then
-                trigger.action.outText("-----SOUNDFILE PLAYED is " .. Brevity .. " TO ALL", 10)
-            end
-        end
-    end
-
-end
-
-BASE:I("-----GUN SHOOTING SOUNDS SET------")
-]]
-
 -----------------------------------------------------------------
 -- MENU FOR SETTINGS
 -----------------------------------------------------------------
@@ -818,7 +738,3 @@ local GroupFalse = MENU_MISSION_COMMAND:New("Play Sounds to All", SoundsToGroupA
 BASE:I("-----SOUNDHANDLER SETTING SET------")
 
 MESSAGE:New("*SOUNDHANDLER LOADED*", 5, "MISSION", false):ToAll():ToLog()
-
--- Taco's Dyanmic Loadfile paths
--- assert(loadfile("D:\\DCS Moose\\MISSIONS\\Moose_Include_Static\\Moose_.lua"))()
--- assert(loadfile("D:\\DCS Moose\\MISSIONS\\SOUNDHANDLER\\SoundHandlerByTaco.lua"))()
