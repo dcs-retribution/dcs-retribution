@@ -20,6 +20,7 @@ role: Multirole Fighter
 max_range: 300
 variants:
   Su-30MKM Flanker-H: {}
+  Su-30MKM Flanker-H (A-G): {}
 radios:
   intra_flight: R-800
   inter_flight: R-800

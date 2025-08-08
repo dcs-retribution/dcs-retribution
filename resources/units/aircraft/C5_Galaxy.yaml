@@ -1,0 +1,16 @@
+description: "The Lockheed C-5 Galaxy is a large military transport aircraft designed and built by Lockheed, and now maintained and upgraded by its successor, Lockheed Martin. 
+  It provides the United States Air Force (USAF) with a heavy intercontinental-range strategic airlift capability, one that can carry outsized and oversized loads, including 
+  all air-certifiable cargo. The Galaxy has many similarities to the smaller Lockheed C-141 Starlifter and the later Boeing C-17 Globemaster III. 
+  The C-5 is among the largest military aircraft in the world. All 52 in-service aircraft have been upgraded to the C-5M Super Galaxy with new engines and modernized 
+  avionics designed to extend its service life to 2040 and beyond."
+
+introduced: 1970
+manufacturer: Lockheed Martin
+origin: USA
+price: 20
+role: Transport
+max_range: 1000
+variants:
+  C5 Galaxy: {}
+tasks:
+  Transport: 130

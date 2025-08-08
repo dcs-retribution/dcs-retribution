@@ -95,6 +95,7 @@ class ModSettings:
     uh_60l: bool = False
     jas39_gripen: bool = False
     sk_60: bool = False
+    mam: bool = False
     mirage_3: bool = False
     super_etendard: bool = False
     su15_flagon: bool = False

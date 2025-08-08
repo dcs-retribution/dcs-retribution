@@ -1,0 +1,25 @@
+description: "The Northrop B-2 Spirit is an American heavy strategic bomber that uses low-observable stealth technology to 
+  penetrate sophisticated anti-aircraft defenses. It is often referred to as a stealth bomber.
+
+  A subsonic flying wing with a crew of two, the B-2 was designed by Northrop (later Northrop Grumman) as the prime
+  contractor, with Boeing, Hughes, and Vought as principal subcontractors. It was produced from 1988 to 2000. The
+  bomber can drop conventional and thermonuclear weapons, such as up to eighty 500-pound class (230 kg) Mk 82 JDAM
+  GPS-guided bombs, or sixteen 2,400-pound (1,100 kg) B83 nuclear bombs. The B-2 is the only acknowledged in-service
+  aircraft that can carry large air-to-surface standoff weapons in a stealth configuration."
+
+introduced: 1988
+manufacturer: Northrop Grumman
+origin: USA
+price: 45
+role: Strategic Bomber
+max_range: 1000
+variants:
+  "B-2 Spirit": {}
+tasks:
+  BAI: 370
+  CAS: 750
+  SEAD: 210
+  DEAD: 210
+  OCA/Runway: 660
+  OCA/Aircraft: 770
+  Strike: 690

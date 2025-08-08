@@ -174,6 +174,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("ukrainemilitaryassetspack", self.ukrainemilitaryassetspack)
         self.mig31bm_foxhound = QtWidgets.QCheckBox()
         self.registerField("mig31bm_foxhound", self.mig31bm_foxhound)
+        self.mam = QtWidgets.QCheckBox()
+        self.registerField("mam", self.mam)
         self.tornado_adv = QtWidgets.QCheckBox()
         self.registerField("tornado_adv", self.tornado_adv)
 
@@ -231,6 +233,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("IDF Assets Pack (v1.1 by IDF Mods Project)", self.irondome),
             ("JAS 39 Gripen (v1.8.5-beta)", self.jas39_gripen),
             ("MiG-31BM (v2.62)", self.mig31bm_foxhound),
+            ("Military Aircraft Mod (v1.7.2 - AI Only)", self.mam),
             ("Mirage III (v2.5.7.01)", self.mirage_3),
             ("OH-6 Cayuse (v1.2)", self.oh_6),
             ("OH-6 Vietnam Asset Pack (v1.0)", self.oh_6_vietnamassetpack),
