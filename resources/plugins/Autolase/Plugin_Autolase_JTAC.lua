@@ -98,13 +98,13 @@ if GROUP:FindByName("JTAC Alpha") then
         --Adjust Orbit over LaserSpot
         if LaserSpot.coordinate == nil then
             local TgtCoord = JtacAlphaCoord
-            env.info("------JTAC ALPHA: ORBITING IN PLACE-------")
+            --env.info("------JTAC ALPHA: ORBITING IN PLACE-------")
             local NewOrbitInPlace = AUFTRAG:NewORBIT_CIRCLE(TgtCoord, 16000, 120)
             NewOrbitInPlace:SetPriority(1, true, 1)
             JtacAlphaFlightgroup:AddMission(NewOrbitInPlace)
         else
             local TgtCoord = LaserSpot.coordinate
-            env.info("------JTAC ALPHA: ORBITING OVER TARGET-------")
+            --env.info("------JTAC ALPHA: ORBITING OVER TARGET-------")
             local NewOrbitOverTarget = AUFTRAG:NewORBIT_CIRCLE(TgtCoord, 16000, 120)
             NewOrbitOverTarget:SetPriority(1, true, 1)
             JtacAlphaFlightgroup:AddMission(NewOrbitOverTarget)
@@ -292,13 +292,13 @@ if GROUP:FindByName("JTAC Bravo") then
         --Adjust Orbit over LaserSpot
         if LaserSpot.coordinate == nil then
             local TgtCoord = JtacBravoCoord
-            env.info("------JTAC BRAVO: ORBITING IN PLACE-------")
+            --env.info("------JTAC BRAVO: ORBITING IN PLACE-------")
             local NewOrbitInPlace = AUFTRAG:NewORBIT_CIRCLE(TgtCoord, 16000, 120)
             NewOrbitInPlace:SetPriority(1, true, 1)
             JtacBravoFlightgroup:AddMission(NewOrbitInPlace)
         else
             local TgtCoord = LaserSpot.coordinate
-            env.info("------JTAC BRAVO: ORBITING OVER TARGET-------")
+            --env.info("------JTAC BRAVO: ORBITING OVER TARGET-------")
             local NewOrbitOverTarget = AUFTRAG:NewORBIT_CIRCLE(TgtCoord, 16000, 120)
             NewOrbitOverTarget:SetPriority(1, true, 1)
             JtacBravoFlightgroup:AddMission(NewOrbitOverTarget)
