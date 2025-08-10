@@ -1,10 +1,25 @@
 {
-    "nameInUI": "Soundhandler Module (Moose)",
+    "nameInUI": "Soundhandler",
     "defaultValue": true,
     "specificOptions": [
         {
-            "nameInUI": "Enable Sounds for Ship SAMs",
+            "nameInUI": "Play Sounds to Involved Group Only",
+            "mnemonic": "SoundsToGroupOnly",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "Play SAM Sounds for Ship Surface to Air Missiles",
             "mnemonic": "ShipSamSounds",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "Play Sounds for Red Jet Cannons",
+            "mnemonic": "RedShootingSounds",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "Debug Mode",
+            "mnemonic": "Debug",
             "defaultValue": false
         }
     ],
@@ -14,7 +29,12 @@
             "mnemonic": "Soundhandler"
         }
     ],
-    "configurationWorkOrders": [],
+    "configurationWorkOrders": [
+        {
+            "file": "Soundhandler-config.lua",
+            "mnemonic": "Soundhandler-config"
+        }
+    ],
     "otherResourceFiles": [
         "SoundFiles/AAGoodKill.ogg",
         "SoundFiles/AAKill4.ogg",

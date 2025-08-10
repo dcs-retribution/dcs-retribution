@@ -6,12 +6,15 @@
 
 
 -- Autolase plugin - configuration
-if Soundhandler then
+if dcsRetribution then
     -- retrieve specific options values
     if dcsRetribution.plugins then
         if dcsRetribution.plugins.Soundhandler then
-            env.info("DCSRetribution|Soundhandler plugin - Setting Up")
+            env.info("------DCSRetribution|Soundhandler plugin - Setting Up------")
+            Soundhandler_options.SoundsToGroupOnly = dcsRetribution.plugins.Soundhandler.SoundsToGroupOnly
             Soundhandler_options.ShipSamSounds = dcsRetribution.plugins.Soundhandler.ShipSamSounds
+            Soundhandler_options.RedShootingSounds = dcsRetribution.plugins.Soundhandler.RedShootingSounds
+            Soundhandler_options.Debug = dcsRetribution.plugins.Soundhandler.Debug
         end
     end
 end
