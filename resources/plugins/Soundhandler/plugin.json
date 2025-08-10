@@ -1,11 +1,17 @@
 {
     "nameInUI": "Soundhandler Module (Moose)",
     "defaultValue": true,
-    "specificOptions": [],
+    "specificOptions": [
+        {
+            "nameInUI": "Enable Sounds for Ship SAMs",
+            "mnemonic": "ShipSamSounds",
+            "defaultValue": false
+        }
+    ],
     "scriptsWorkOrders": [
         {
             "file": "Plugin_Soundhandler.lua",
-            "mnemonic": "Soundhandler 0.1"
+            "mnemonic": "Soundhandler"
         }
     ],
     "configurationWorkOrders": [],
