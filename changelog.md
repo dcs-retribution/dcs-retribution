@@ -17,6 +17,7 @@
 ## Fixes
 * **[Flight Plans]** Fixed a bug when a package was created with only escort flights
 * **[Flight Plans]** Added AntiShipStrike as a fallback task for OCA/Aircraft to fix a bug where the S-3B could not do OCA/Aircraft
+* **[Squadrons]** Fixed a bug where loading an air wing config would not properly load all squadrons
 
 # Retribution v1.4.1 (hotfix)
 
