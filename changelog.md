@@ -2,13 +2,17 @@
 
 ## Features/Improvements
 * **[Campaigns]** Ability to define invisible FOBs
+* **[Campaigns]** Ability to define influence zones for Control Points
 * **[Plugins]** Improvements to AI support for EW Script 2.0
+* **[Plugins]** Add moose as a base plugin
 * **[Config]** New preference setting to trigger the first-start window on every start (could help in scenarios multiple Retribution instances need to run concurrently)
 * **[Modding]** Update Grinelli Designs F-22A Mod to 2.0.0 (May 2025)
 * **[Campaign Design]** Added support for Germany Cold War terrain by Ugra Media
 * **[Options]** New option to control EPLRS-task injection in mission generator
 * **[Modding]** Add Tornado F3 ADV (v1.0, requires FC3 fix)
 * **[Modding]** Add Military Aircraft Mod 1.7.2 (See VSN Discord)
+* **[Payload Editor]** Add Sniper POD
+* **[Modding]** Update SU-30 mod to v2.8.03 Beta + CWS 3.70
 
 ## Fixes
 * **[Flight Plans]** Fixed a bug when a package was created with only escort flights
