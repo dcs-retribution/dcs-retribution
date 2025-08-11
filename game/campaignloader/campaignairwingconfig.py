@@ -26,6 +26,7 @@ class SquadronConfig:
     name: Optional[str]
     nickname: Optional[str]
     female_pilot_percentage: Optional[int]
+    aircraft_type: Optional[str]
 
     @property
     def auto_assignable(self) -> set[FlightType]:
@@ -51,6 +52,7 @@ class SquadronConfig:
             data.get("name", None),
             data.get("nickname", None),
             data.get("female_pilot_percentage", None),
+            data.get("aircraft_type", None),
         )
 
     @staticmethod
@@ -83,15 +85,14 @@ class CampaignAirWingConfig:
                 try:
                     base = theater.control_point_named(base_id)
                 except:
-                    if base_id == "Red CV":
-                        base = next((c for c in carriers if not c.captured), None)
-                    elif base_id == "Blue CV":
-                        base = next((c for c in carriers if c.captured), None)
-                    elif base_id == "Red LHA":
-                        base = next((l for l in lhas if not l.captured), None)
-                    elif base_id == "Blue LHA":
-                        base = next((l for l in lhas if l.captured), None)
-
+                    logging.warning(
+                        f"Control point {base_id} not found, trying to match by full name"
+                    )
+                if not base:
+                    try:
+                        base = theater.control_point_by_full_name(base_id)
+                    except KeyError:
+                        logging.error(f"Control point {base_id} not found, skipping")
             for squadron_data in squadron_configs:
                 if base is None:
                     logging.warning(
