@@ -1,11 +1,11 @@
 {
-    "nameInUI": "MarkerOps (Requires MOOSE)",
+    "nameInUI": "MooseMarkerOps",
     "defaultValue": true,
     "specificOptions": [],
     "scriptsWorkOrders": [
         {
-            "file": "Retribution_MarkerOps.lua",
-            "mnemonic": "MarkeOps 0.1"
+            "file": "MooseMarkerOps.lua",
+            "mnemonic": "MooseMarkerOps"
         }
     ],
     "configurationWorkOrders": [],
