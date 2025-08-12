@@ -192,7 +192,11 @@ class FlightGroupConfigurator:
         has_jammer = member.loadout.has_weapon_of_type(
             WeaponType.JAMMER
         ) or member.loadout.has_weapon_of_type(WeaponType.OFFENSIVE_JAMMER)
-        if jammer_required and not has_jammer:
+        built_in_jammer = (
+            self.flight.squadron.aircraft.has_built_in_ecm
+            or self.flight.squadron.aircraft.has_built_in_jamming
+        )
+        if jammer_required and not (has_jammer or built_in_jammer):
             return
         # Create the original ewrj_menu_trigger for player flight members
         ewrj_menu_trigger = TriggerStart(comment=f"EWRJ-{unit.name}")
