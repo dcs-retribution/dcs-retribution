@@ -189,7 +189,9 @@ class FlightGroupConfigurator:
             return
         # Check if ecm_required option is enabled
         jammer_required = settings.plugin_option("ewrj.ecm_required")
-        has_jammer = member.loadout.has_weapon_of_type(WeaponType.OFFENSIVE_JAMMER)
+        has_jammer = member.loadout.has_weapon_of_type(
+            WeaponType.JAMMER
+        ) or member.loadout.has_weapon_of_type(WeaponType.OFFENSIVE_JAMMER)
         if jammer_required and not has_jammer:
             return
         # Create the original ewrj_menu_trigger for player flight members
