@@ -305,20 +305,53 @@ end
 
 --------------------- MENU CRATION FOR START/STOP JAMMING
 
+--function createmenu(jammer)
+--if Unit.getByName(jammer) ~= nil then
+--local _groupID =  Unit.getByName(jammer):getGroup():getID()
+--
+--local _jammermenu = missionCommands.addSubMenuForGroup(_groupID,"Jammer menu", nil)
+--local _jammermenudef = missionCommands.addSubMenuForGroup(_groupID,"Defensive Jamming", _jammermenu)
+--local _jammermenuoff = missionCommands.addSubMenuForGroup(_groupID,"Offensive Jamming", _jammermenu)
+--
+--missionCommands.addCommandForGroup(_groupID, "Start Defensive Jamming ",_jammermenudef, function () startDjamming(jammer)end, nil)
+--missionCommands.addCommandForGroup(_groupID, "Stop Defensive Jamming ",_jammermenudef, function () stopDjamming(jammer)end, nil)
+--missionCommands.addCommandForGroup(_groupID, "Start Offensive Jamming ",_jammermenuoff, function ()  startEWjamm(jammer)end, nil)
+--missionCommands.addCommandForGroup(_groupID, "Stop Offensive Jamming ",_jammermenuoff, function () stopEWjamm(jammer)end, nil)
+--end
+--end
+
+-------------------- Retribution Specific Menu Creation
+
 function createmenu(jammer)
-if Unit.getByName(jammer) ~= nil then
-local _groupID =  Unit.getByName(jammer):getGroup():getID()
+    if Unit.getByName(jammer) ~= nil then
+        local _groupID = Unit.getByName(jammer):getGroup():getID()
 
+        local ecmFlag = trigger.misc.getUserFlag("offensive_jamming_" .. jammer)
 
-local _jammermenu = missionCommands.addSubMenuForGroup(_groupID,"Jammer menu", nil)
-local _jammermenudef = missionCommands.addSubMenuForGroup(_groupID,"Defensive Jamming", _jammermenu)
-local _jammermenuoff = missionCommands.addSubMenuForGroup(_groupID,"Offensive Jamming", _jammermenu)
+        local _jammermenu = missionCommands.addSubMenuForGroup(_groupID, "Jammer menu", nil)
+        local _jammermenudef = missionCommands.addSubMenuForGroup(_groupID, "Defensive Jamming", _jammermenu)
 
-missionCommands.addCommandForGroup(_groupID, "Start Defensive Jamming ",_jammermenudef, function () startDjamming(jammer)end, nil)
-missionCommands.addCommandForGroup(_groupID, "Stop Defensive Jamming ",_jammermenudef, function () stopDjamming(jammer)end, nil)
-missionCommands.addCommandForGroup(_groupID, "Start Offensive Jamming ",_jammermenuoff, function ()  startEWjamm(jammer)end, nil)
-missionCommands.addCommandForGroup(_groupID, "Stop Offensive Jamming ",_jammermenuoff, function () stopEWjamm(jammer)end, nil)
-end
+        missionCommands.addCommandForGroup(_groupID, "Start Defensive Jamming", _jammermenudef, function ()
+            startDjamming(jammer)
+        end, nil)
+
+        missionCommands.addCommandForGroup(_groupID, "Stop Defensive Jamming", _jammermenudef, function ()
+            stopDjamming(jammer)
+        end, nil)
+
+        -- Only create Offensive Jamming menu if ECM flag is set
+        if ecmFlag == 1 then
+            local _jammermenuoff = missionCommands.addSubMenuForGroup(_groupID, "Offensive Jamming", _jammermenu)
+
+            missionCommands.addCommandForGroup(_groupID, "Start Offensive Jamming", _jammermenuoff, function ()
+                startEWjamm(jammer)
+            end, nil)
+
+            missionCommands.addCommandForGroup(_groupID, "Stop Offensive Jamming", _jammermenuoff, function ()
+                stopEWjamm(jammer)
+            end, nil)
+        end
+    end
 end
 
 -------------------- SWITCH TO ON AND OFF THE DEFENSIVE JAMMING

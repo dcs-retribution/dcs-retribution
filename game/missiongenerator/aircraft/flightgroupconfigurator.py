@@ -205,6 +205,24 @@ class FlightGroupConfigurator:
         self.group.points[0].tasks[0] = OptReactOnThreat(
             OptReactOnThreat.Values.PassiveDefense
         )
+        # Create LUA Flags for Offensive Jamming in EW Script for Player Flights
+        offensive_jammer = member.loadout.has_weapon_of_type(
+            WeaponType.OFFENSIVE_JAMMER
+        )
+        offensive_inbuilt = self.flight.squadron.aircraft.has_built_in_jamming
+        if not (offensive_jammer or offensive_inbuilt):
+            return
+        ewrj_offensive_trigger = TriggerStart(
+            comment=f"Offensive Jammer Flag {unit.name}"
+        )
+        ewrj_offensive_trigger.add_action(
+            DoScript(
+                String(
+                    f'trigger.action.setUserFlag("offensive_jamming_{unit.name}", 1)'
+                )
+            )
+        )
+        self.mission.triggerrules.triggers.append(ewrj_offensive_trigger)
 
     def setup_radios(self) -> RadioFrequency:
         freq = self.flight.frequency
