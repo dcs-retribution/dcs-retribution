@@ -13,12 +13,16 @@
 * **[Modding]** Add Military Aircraft Mod 1.7.2 (See VSN Discord)
 * **[Payload Editor]** Add Sniper POD
 * **[Modding]** Update SU-30 mod to v2.8.03 Beta + CWS 3.70
+* **[Plugins]** EW Script - DEAD added to applicable flight types.
+* **[Plugins]** EW Script - Offensive Jamming restricted to aircraft with ALQ99/249 pods, or "has_built_in_jamming: true" in aircarft yaml (AI and Player)
+
 
 ## Fixes
 * **[Flight Plans]** Fixed a bug when a package was created with only escort flights
 * **[Flight Plans]** Added AntiShipStrike as a fallback task for OCA/Aircraft to fix a bug where the S-3B could not do OCA/Aircraft
 * **[Squadrons]** Fixed a bug where loading an air wing config would not properly load all squadrons
 * **[Flight Plans]** Fixed a bug where SEAD flights would fire one ARM and RTB
+* **[Plugins]** EW Script - Fix radar detection routine.
 
 # Retribution v1.4.1 (hotfix)
 
