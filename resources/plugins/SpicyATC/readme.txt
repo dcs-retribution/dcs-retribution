@@ -1,6 +1,8 @@
 Hi, thank you for using my tool. I have worked hard on this and I hope it at least improves your experience. If you have any issues/suggestions, message me on discord @spicy2160
 
-Instructions:
+VERSION: Alpha 0.2
+
+Instructions: YOU CAN FIND A TUTORIAL VIDED AT (https://youtu.be/wROWrwPhODA?si=X_6bs6o-cDJ6KiKO)
 -Copy the script into your DCS mission’s Scripts folder or another location of your choice. (C:\Users{user}\Saved Games\DCS\Scripts)
 
 -In the DCS Mission Editor, add a trigger at mission start (i use the following):
