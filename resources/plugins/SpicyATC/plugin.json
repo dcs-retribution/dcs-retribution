@@ -1,0 +1,12 @@
+{
+    "nameInUI": "Spicy ATC Script",
+    "defaultValue": false,
+    "specificOptions": [],
+    "scriptsWorkOrders": [
+        {
+            "file": "spicyATC.lua",
+            "mnemonic": "spicyatc"
+        }
+    ],
+    "configurationWorkOrders": []
+}
