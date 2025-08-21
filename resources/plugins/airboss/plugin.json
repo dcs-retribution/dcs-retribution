@@ -1,7 +1,13 @@
 {
     "nameInUI": "Airboss Module (Moose)",
-    "defaultValue": false,
-    "specificOptions": [],
+    "defaultValue": true,
+    "specificOptions": [
+        {
+            "nameInUI": "Enable Rescue Helo",
+            "mnemonic": "enableRescueHelo",
+            "defaultValue": true
+        }
+    ],
 
     "scriptsWorkOrders": [
         {
@@ -9,7 +15,12 @@
             "mnemonic": "airboss"
         }
     ],
-    "configurationWorkOrders": [],
+    "configurationWorkOrders": [
+        {
+            "file": "airboss-config.lua",
+            "mnemonic": "airboss-config"
+        }
+    ],
     
     "otherResourceFiles": [
         "AIRBOSS Soundfiles/AIRBOSS-Noise.ogg",
@@ -123,7 +134,5 @@
         "AIRBOSS Soundfiles/PILOT-State.ogg",
         "AIRBOSS Soundfiles/PILOT-Tomcat.ogg",
         "AIRBOSS Soundfiles/PILOT-Viking.ogg"
-]
-
-
+    ]
 }

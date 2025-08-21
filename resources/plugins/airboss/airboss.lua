@@ -657,6 +657,13 @@ function SetupAirboss(nameOfCarrier)
         return isDay
     end
 
+    AIRBOSS_OPTIONS = {
+        ["enableRescueHelo"] = true
+    }
+
+    enableRescueHelo = AIRBOSS_OPTIONS.enableRescueHelo
+
+    retribution_enableRescueHelo = enableRescueHelo
     ---
     _SETTINGS:SetPlayerMenuOff(false)
     AirbossRetribution = AIRBOSS:New(nameOfCarrier)
@@ -679,6 +686,11 @@ function SetupAirboss(nameOfCarrier)
     AirbossRetribution:Load()
     AirbossRetribution:SetAutoSave()
     ReportDayNightStatusAtBullseye()
+    if AIRBOSS_OPTIONS then
+        env.info(string.format("MGC Rescue Helo Enabled: AIRBOSS_OPTIONS %s", tostring(AIRBOSS_OPTIONS.enableRescueHelo)))
+        env.info(string.format("MGC Rescue Helo Enabled: %s", tostring(enableRescueHelo)))
+        env.info(string.format("MGC Rescue Helo Enabled: Retribution %s", tostring(retribution_enableRescueHelo)))
+    end
     AirbossRetribution:Start()
 --    AirbossRetribution.carrier:CommandActivateLink4()
 --    AirbossRetribution.carrier:CommandActivateACLS()
