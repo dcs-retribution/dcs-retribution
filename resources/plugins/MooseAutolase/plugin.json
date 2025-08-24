@@ -1,6 +1,6 @@
 {
     "nameInUI": "Moose Autolase",
-    "defaultValue": true,
+    "defaultValue": false,
     "specificOptions": [
         {
             "nameInUI": "JTAC Alpha - Smoke On/Off",
@@ -18,9 +18,14 @@
             "defaultValue": 123
         },
         {
+            "nameInUI": "JTAC Alpha - Maximum Lasing Targets",
+            "mnemonic": "JtacAlphaTargetsMax",
+            "defaultValue": 1
+        },
+        {
             "nameInUI": "JTAC Alpha - Notify Radius (NM)",
             "mnemonic": "JtacAlphaRadiusNM",
-            "defaultValue": 40
+            "defaultValue": 50
         },
         {
             "nameInUI": "JTAC Bravo - Smoke On/Off",
@@ -38,16 +43,33 @@
             "defaultValue": 124
         },
         {
+            "nameInUI": "JTAC Bravo - Maximum Lasing Targets",
+            "mnemonic": "JtacBravoTargetsMax",
+            "defaultValue": 1
+        },
+        {
             "nameInUI": "JTAC Bravo - Notify Radius (NM)",
             "mnemonic": "JtacBravoRadiusNM",
-            "defaultValue": 40
+            "defaultValue": 50
+        },
+        {
+            "nameInUI": "Danger Close Radius (NM)",
+            "mnemonic": "DangerCloseNM",
+            "minimumValue": 0.1,
+            "maximumValue": 2,
+            "defaultValue": 1.0
+        },
+        {
+            "nameInUI": "Debug Mode",
+            "mnemonic": "MooseAutolaseDebug",
+            "defaultValue": false
         }
     ],
     "scriptsWorkOrders": [],
     "configurationWorkOrders": [
         {
             "file": "Plugin_Autolase_JTAC.lua",
-            "mnemonic": "autolase-config"
+            "mnemonic": "Moose-config"
         }
     ],
     "otherResourceFiles": [
@@ -55,6 +77,7 @@
         "SoundFiles/TargetSmoke.ogg",
         "SoundFiles/LaserOn.ogg",
         "SoundFiles/LaserOff.ogg",
-        "SoundFiles/RadioOn.ogg"
+        "SoundFiles/RadioOn.ogg",
+        "SoundFiles/ConvoyChaos.ogg"
     ]
 }
