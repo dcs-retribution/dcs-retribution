@@ -69,7 +69,7 @@
     "configurationWorkOrders": [
         {
             "file": "Plugin_Autolase_JTAC.lua",
-            "mnemonic": "Moose-config"
+            "mnemonic": "MooseAutolase-config"
         }
     ],
     "otherResourceFiles": [
