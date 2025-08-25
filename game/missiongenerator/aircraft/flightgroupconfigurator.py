@@ -189,12 +189,15 @@ class FlightGroupConfigurator:
             return
         # Check if ecm_required option is enabled
         jammer_required = settings.plugin_option("ewrj.ecm_required")
-        has_jammer = member.loadout.has_weapon_of_type(
-            WeaponType.JAMMER
-        ) or member.loadout.has_weapon_of_type(WeaponType.OFFENSIVE_JAMMER)
+        offensive_jammer = member.loadout.has_weapon_of_type(
+            WeaponType.OFFENSIVE_JAMMER
+        )
+        offensive_inbuilt = self.flight.squadron.aircraft.has_built_in_jamming
+        has_jammer = (
+            member.loadout.has_weapon_of_type(WeaponType.JAMMER) or offensive_jammer
+        )
         built_in_jammer = (
-            self.flight.squadron.aircraft.has_built_in_ecm
-            or self.flight.squadron.aircraft.has_built_in_jamming
+            self.flight.squadron.aircraft.has_built_in_ecm or offensive_inbuilt
         )
         if jammer_required and not (has_jammer or built_in_jammer):
             return
@@ -206,10 +209,6 @@ class FlightGroupConfigurator:
             OptReactOnThreat.Values.PassiveDefense
         )
         # Create LUA Flags for Offensive Jamming in EW Script for Player Flights
-        offensive_jammer = member.loadout.has_weapon_of_type(
-            WeaponType.OFFENSIVE_JAMMER
-        )
-        offensive_inbuilt = self.flight.squadron.aircraft.has_built_in_jamming
         if not (offensive_jammer or offensive_inbuilt):
             return
         ewrj_offensive_trigger = TriggerStart(
