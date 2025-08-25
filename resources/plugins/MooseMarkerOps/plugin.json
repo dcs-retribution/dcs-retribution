@@ -1,0 +1,13 @@
+{
+    "nameInUI": "Moose's MarkerOps",
+    "defaultValue": true,
+    "specificOptions": [],
+    "scriptsWorkOrders": [
+        {
+            "file": "MooseMarkerOps.lua",
+            "mnemonic": "MooseMarkerOps"
+        }
+    ],
+    "configurationWorkOrders": [],
+    "otherResourceFiles": []
+}

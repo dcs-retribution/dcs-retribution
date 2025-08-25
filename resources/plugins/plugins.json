@@ -1,4 +1,4 @@
-[    
+[
     "base",
     "ctld",
     "arty",
@@ -9,5 +9,6 @@
     "herculescargo",
     "lotatc",
     "skynetiads",
-    "splashdamage2"
+    "splashdamage2",
+    "MooseMarkerOps"
 ]
