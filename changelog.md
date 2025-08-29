@@ -23,6 +23,7 @@
 * **[Squadrons]** Fixed a bug where loading an air wing config would not properly load all squadrons
 * **[Flight Plans]** Fixed a bug where SEAD flights would fire one ARM and RTB
 * **[Plugins]** EW Script - Fix radar detection routine.
+* **[Campaign]** Fixed a bug where sinking a destroyer in a carrier group would cause squadrons to be removed from the carrier
 
 # Retribution v1.4.1 (hotfix)
 
