@@ -1,0 +1,13 @@
+{
+    "nameInUI": "Moose's Tiresias",
+    "defaultValue": true,
+    "specificOptions": [],
+    "scriptsWorkOrders": [
+        {
+            "file": "MooseTiresias.lua",
+            "mnemonic": "MooseTiresias"
+        }
+    ],
+    "configurationWorkOrders": [],
+    "otherResourceFiles": []
+}
