@@ -15,7 +15,7 @@
 * **[Modding]** Update SU-30 mod to v2.8.03 Beta + CWS 3.70
 * **[Plugins]** EW Script - DEAD added to applicable flight types.
 * **[Plugins]** EW Script - Offensive Jamming restricted to aircraft with ALQ99/249 pods, or "has_built_in_jamming: true" in aircarft yaml (AI and Player)
-
+* **[Modding]** Update to CJS Super Hornet Mod v2.4.4
 
 ## Fixes
 * **[Flight Plans]** Fixed a bug when a package was created with only escort flights
