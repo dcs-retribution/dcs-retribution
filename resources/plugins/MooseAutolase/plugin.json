@@ -1,0 +1,83 @@
+{
+    "nameInUI": "Moose Autolase",
+    "defaultValue": false,
+    "specificOptions": [
+        {
+            "nameInUI": "JTAC Alpha - Smoke On/Off",
+            "mnemonic": "JtacAlphaSmoke",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "JTAC Alpha - UHF Frequency",
+            "mnemonic": "JtacAlphaUHF",
+            "defaultValue": 250
+        },
+        {
+            "nameInUI": "JTAC Alpha - VHF Frequency",
+            "mnemonic": "JtacAlphaVHF",
+            "defaultValue": 123
+        },
+        {
+            "nameInUI": "JTAC Alpha - Maximum Lasing Targets",
+            "mnemonic": "JtacAlphaTargetsMax",
+            "defaultValue": 1
+        },
+        {
+            "nameInUI": "JTAC Alpha - Notify Radius (NM)",
+            "mnemonic": "JtacAlphaRadiusNM",
+            "defaultValue": 50
+        },
+        {
+            "nameInUI": "JTAC Bravo - Smoke On/Off",
+            "mnemonic": "JtacBravoSmoke",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "JTAC Bravo - UHF Frequency",
+            "mnemonic": "JtacBravoUHF",
+            "defaultValue": 251
+        },
+        {
+            "nameInUI": "JTAC Bravo - VHF Frequency",
+            "mnemonic": "JtacBravoVHF",
+            "defaultValue": 124
+        },
+        {
+            "nameInUI": "JTAC Bravo - Maximum Lasing Targets",
+            "mnemonic": "JtacBravoTargetsMax",
+            "defaultValue": 1
+        },
+        {
+            "nameInUI": "JTAC Bravo - Notify Radius (NM)",
+            "mnemonic": "JtacBravoRadiusNM",
+            "defaultValue": 50
+        },
+        {
+            "nameInUI": "Danger Close Radius (NM)",
+            "mnemonic": "DangerCloseNM",
+            "minimumValue": 0.1,
+            "maximumValue": 2,
+            "defaultValue": 1.0
+        },
+        {
+            "nameInUI": "Debug Mode",
+            "mnemonic": "MooseAutolaseDebug",
+            "defaultValue": false
+        }
+    ],
+    "scriptsWorkOrders": [],
+    "configurationWorkOrders": [
+        {
+            "file": "Plugin_Autolase_JTAC.lua",
+            "mnemonic": "MooseAutolase-config"
+        }
+    ],
+    "otherResourceFiles": [
+        "SoundFiles/TargetLost.ogg",
+        "SoundFiles/TargetSmoke.ogg",
+        "SoundFiles/LaserOn.ogg",
+        "SoundFiles/LaserOff.ogg",
+        "SoundFiles/RadioOn.ogg",
+        "SoundFiles/ConvoyChaos.ogg"
+    ]
+}

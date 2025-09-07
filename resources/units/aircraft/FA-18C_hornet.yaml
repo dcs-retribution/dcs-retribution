@@ -68,3 +68,5 @@ tasks:
   SEAD Escort: 450
   Strike: 600
   TARCAP: 450
+
+has_built_in_ecm: true
