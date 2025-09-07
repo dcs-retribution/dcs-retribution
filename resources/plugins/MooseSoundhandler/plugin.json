@@ -1,6 +1,6 @@
 {
     "nameInUI": "Soundhandler",
-    "defaultValue": true,
+    "defaultValue": false,
     "specificOptions": [
         {
             "nameInUI": "Play Sounds to Involved Group Only",

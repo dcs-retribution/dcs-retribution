@@ -1,6 +1,6 @@
 {
     "nameInUI": "Moose's MarkerOps",
-    "defaultValue": true,
+    "defaultValue": false,
     "specificOptions": [],
     "scriptsWorkOrders": [
         {
