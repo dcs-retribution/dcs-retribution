@@ -8,4 +8,4 @@ variants:
   E-7A Wedgetail: {}
 tasks:
   AEW&C: 30
-has_built_in_ecm: true
+has_built_in_jamming: true

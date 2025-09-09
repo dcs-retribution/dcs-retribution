@@ -1,0 +1,121 @@
+{
+    "nameInUI": "Soundhandler",
+    "defaultValue": false,
+    "specificOptions": [
+        {
+            "nameInUI": "Play Sounds to Involved Group Only",
+            "mnemonic": "SoundsToGroupOnly",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "Play SAM Sounds for Ship Surface to Air Missiles",
+            "mnemonic": "ShipSamSounds",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "Play Sounds for Red Jet Cannons",
+            "mnemonic": "RedShootingSounds",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "Debug Mode",
+            "mnemonic": "Debug",
+            "defaultValue": false
+        }
+    ],
+    "scriptsWorkOrders": [
+        {
+            "file": "Plugin_Soundhandler.lua",
+            "mnemonic": "Soundhandler"
+        }
+    ],
+    "configurationWorkOrders": [
+        {
+            "file": "Soundhandler-config.lua",
+            "mnemonic": "Soundhandler-config"
+        }
+    ],
+    "otherResourceFiles": [
+        "SoundFiles/AAGoodKill.ogg",
+        "SoundFiles/AAKill4.ogg",
+        "SoundFiles/AAKillGoodhiton1.ogg",
+        "SoundFiles/AAKillSplash.ogg",
+        "SoundFiles/AAKillSplashone.ogg",
+        "SoundFiles/AASplashOne.ogg",
+        "SoundFiles/AASplashOne_2.ogg",
+        "SoundFiles/Misil1.ogg",
+        "SoundFiles/Misil2.ogg",
+        "SoundFiles/Misil3.ogg",
+        "SoundFiles/Misil4.ogg",
+        "SoundFiles/Misil5.ogg",
+        "SoundFiles/Misil6.ogg",
+        "SoundFiles/AGKillBOOM1.ogg",
+        "SoundFiles/AGKillCOMEONBABY.ogg",
+        "SoundFiles/AGKillGoodBOOM.ogg",
+        "SoundFiles/AGKillSeeTheSmoke.ogg",
+        "SoundFiles/AGKill_TARGET_DESTROYED.ogg",
+        "SoundFiles/AGKillBeautiful_beautiful.ogg",
+        "SoundFiles/AGKillMotherFucker.ogg",
+        "SoundFiles/SAM1.ogg",
+        "SoundFiles/SAM2.ogg",
+        "SoundFiles/SAM3.ogg",
+        "SoundFiles/SAM4.ogg",
+        "SoundFiles/SAM5.ogg",
+        "SoundFiles/SAM6.ogg",
+        "SoundFiles/SAM7.ogg",
+        "SoundFiles/Defending.ogg",
+        "SoundFiles/Singer.ogg",
+        "SoundFiles/SCUD_Long.ogg",
+        "SoundFiles/Fireball.ogg",
+        "SoundFiles/PigsAway.ogg",
+        "SoundFiles/PigsAway2.ogg",
+        "SoundFiles/Paveway.ogg",
+        "SoundFiles/Bruiser.ogg",
+        "SoundFiles/Bruiser2.ogg",
+        "SoundFiles/Bruiser3.ogg",
+        "SoundFiles/Fox2A.ogg",
+        "SoundFiles/Fox2B.ogg",
+        "SoundFiles/Fox2C.ogg",
+        "SoundFiles/Fox2D.ogg",
+        "SoundFiles/Fox2E.ogg",
+        "SoundFiles/Fox3A.ogg",
+        "SoundFiles/Fox3B.ogg",
+        "SoundFiles/Fox3C.ogg",
+        "SoundFiles/Fox3D.ogg",
+        "SoundFiles/Fox3E.ogg",
+        "SoundFiles/Fox3F.ogg",
+        "SoundFiles/Fox1A.ogg",
+        "SoundFiles/Fox1B.ogg",
+        "SoundFiles/Magnum.ogg",
+        "SoundFiles/Magnum2.ogg",
+        "SoundFiles/RifleA.ogg",
+        "SoundFiles/RifleB.ogg",
+        "SoundFiles/RifleC.ogg",
+        "SoundFiles/RifleD.ogg",
+        "SoundFiles/RifleE.ogg",
+        "SoundFiles/Pickle1.ogg",
+        "SoundFiles/Pickle2.ogg",
+        "SoundFiles/Pickle3.ogg",
+        "SoundFiles/Pickle4.ogg",
+        "SoundFiles/Pickle5.ogg",
+        "SoundFiles/Pickle6.ogg",
+        "SoundFiles/Pickle7.ogg",
+        "SoundFiles/OhJesus.ogg",
+        "SoundFiles/SOS_Beacon.ogg",
+        "SoundFiles/HitEjecting1.ogg",
+        "SoundFiles/HitEjecting2.ogg",
+        "SoundFiles/HitEjecting3.ogg",
+        "SoundFiles/BlueGuns1.ogg",
+        "SoundFiles/BlueGuns2.ogg",
+        "SoundFiles/BlueGuns3.ogg",
+        "SoundFiles/Guns_Break_Right.ogg",
+        "SoundFiles/Guns_Break_Left.ogg",
+        "SoundFiles/A2G_Duck1.ogg",
+        "SoundFiles/A2G_Greyhound1.ogg",
+        "SoundFiles/A2G_Vampires1.ogg",
+        "SoundFiles/S2G_Tomahawk1.ogg",
+        "SoundFiles/FriendlyFire1.ogg",
+        "SoundFiles/FriendlyFire2.ogg",
+        "SoundFiles/BirdsAway.ogg"
+    ]
+}
