@@ -1,4 +1,7 @@
---EW Script 1.01
+-- EW Script 2.02
+-- Original script by ESA_Matador
+-- Adapted for Retribution with fixes by Drexyl
+--
 -- DEFENSIVE JAMMING
 -- We all know that DCS lacks an Electronic War (EW) enviroment… The ECM, are available only for individual aircraft. But in modern conflicts, since Vietnam, the Jammers, with aircrafts like, F4 Phantom, A6 Intruder, F18 Hornet, or AWACS... have been used to avoid enemy SAMs to shot down aircrafts. 
 -- What I did in this Script is to Emulate this EW (not simulate!!!). We need to use a little bit our imagination and to imagine, that some aircraft has Jamming Pods... with chaffs, ECMs or whatever. So i recommend that if you or any of your friends is flying as if he is carrying ECM pods... just put One or Two Mk82-84 to simulate that they are carrying this pod. And AVOID them to use them as weapons... (I would love if someone can model an AN/ANQ pod...
@@ -57,132 +60,146 @@ end
 
 ---------------------------- LOOP TO SEE IF A SAM SHOULD BE SHUT OFF DEPENDING ON THE TARGET DETECTED, THE JAMMER AND THE SAM
 function check(jammer, samunit)
--- trigger.action.outText(samunit.."Checking",1)
+    -- trigger.action.outText(samunit.."Checking",1)
+
+--- New logic to replace unreliable getRadar() ---
+
     local UnitObject = Unit.getByName(samunit)
         if UnitObject ~= nil then
-        local status, target = UnitObject:getRadar()
+
+        local status, target = false, nil
+        local controller = UnitObject:getController()
+        local detectedTargets = controller:getDetectedTargets()
+
+        for _, tgt in pairs(detectedTargets) do
+            if tgt.object and tgt.object:isExist() then
+                status = true
+                target = tgt.object
+                break
+            end
+        end
+
+--- Start of original script ---
+
         -- trigger.action.outText(Unitobject,20)
             -- if status == true then                         -- to see if the Radar is working
                 if target ~= nil then                    -- to see if it is engaging
                 local targetname = target:getName()    
                 -- trigger.action.outText(samunit.." Detecting  "..targetname,2)                    
                 -- trigger.action.outText(mist.utils.tableShow(jammerplanes),20)
+                -- trigger.action.outText("Target= "..target, "Jammer= "..jammer,10)
                    
                     jammerobject = Unit.getByName(jammer)
                         if jammerobject ~= nil then
                             -- trigger.action.outText(jammer.."   "..samunit,20)
                             
-                                if isLOS(samunit, jammer)==true then
-                                 -- trigger.action.outText(jammer..'is LOS with '..samunit,20)
+                            if isLOS(samunit, jammer)==true then
+                                -- trigger.action.outText(jammer..'is LOS with '..samunit,20)
                                 
-                                    local distSamJammer = get3DDist(Unit.getPoint(Unit.getByName(samunit)), Unit.getPoint(Unit.getByName(jammer)))
-                                    local distSamTarget = get3DDist(Unit.getPoint(Unit.getByName(samunit)), Unit.getPoint(Unit.getByName(targetname)))
-                                    local dice = math.random(0,100)                                                                
-                                    local conditiondist = 100 * distSamTarget  / distSamJammer
-    -------------------------------------------- HEIGHT OF JAMMER
+                                local distSamJammer = get3DDist(Unit.getPoint(Unit.getByName(samunit)), Unit.getPoint(Unit.getByName(jammer)))
+                                local distSamTarget = get3DDist(Unit.getByName(samunit):getPoint(), Unit.getByName(targetname):getPoint())
+                                local dice = math.random(0,100)                                                                
+                                local conditiondist = 100 * distSamTarget  / distSamJammer
 
-                        local Position_vec3 = Unit.getByName(jammer):getPoint()
-                        local _elevation = land.getHeight({x = Position_vec3.x, y = Position_vec3.z})
-                        local _height = Position_vec3.y - _elevation    
-                        
-                        
-                        local tPosition_vec3 = Unit.getByName(targetname):getPoint()
-                        local t_elevation = land.getHeight({x = tPosition_vec3.x, y = tPosition_vec3.z})
-                        local t_height = tPosition_vec3.y - t_elevation    
-                        local prob = dice + _height/1000  + (_height - t_height)/1000
-                        -- trigger.action.outText("dice  "..dice.."prob  "..prob.."altjammer".._height.."alttarget"..t_height,20)
+                                -- HEIGHT OF JAMMER
 
-                        
-    -------------------------------------------- LOBE parameter
-                    local SamPos = mist.utils.makeVec2(Unit.getByName(samunit):getPosition().p)-- tenemos un vector x e y
--- trigger.action.outText(mist.utils.tableShow(SamPos),20)
-                    local JammerPos = mist.utils.makeVec2(Unit.getByName(jammer):getPosition().p)        
--- trigger.action.outText(mist.utils.tableShow(JammerPos),20)                    
-                    local TargetPos = mist.utils.makeVec2(Unit.getByName(targetname):getPosition().p)    
--- trigger.action.outText(mist.utils.tableShow(TargetPos),20)                    
-                    local AngleSamJammer = mist.utils.toDegree(mist.utils.getDir(mist.vec.sub(mist.utils.makeVec3GL(JammerPos),mist.utils.makeVec3GL(SamPos))))
--- trigger.action.outText(AngleSamJammer,20)
-                    local AngleSamTarget = mist.utils.toDegree(mist.utils.getDir(mist.vec.sub(mist.utils.makeVec3GL(TargetPos),mist.utils.makeVec3GL(SamPos))))    
--- trigger.action.outText(AngleSamTarget,20)                    
-                    local offsetJamTar = smallestAngleDiff(AngleSamJammer, AngleSamTarget )
--- trigger.action.outText(offsetJamTar,20)
-                    local offsetJamSam = smallestAngleDiff(AngleSamJammer, 180 )
--- trigger.action.outText("Jamm "..AngleSamJammer.."-Target ".. AngleSamTarget.."-Offjam ".. offsetJamSam.." -Offtar "..offsetJamTar,20)
-
-                    local TargetandOffsetJamSam = smallestAngleDiff(AngleSamTarget, offsetJamSam )*2
-                            if TargetandOffsetJamSam < 0 then
-                                TargetandOffsetJamSam = -TargetandOffsetJamSam
-                        
-                            end
--- trigger.action.outText(conditiondist.." relacion ".. prob.." probabilidad",20)
-                    local anglecondition = 2/3 * distSamJammer/1000 
-                    -- trigger.action.outText(anglecondition.." target difference "..TargetandOffsetJamSam,20)
+                                local Position_vec3 = Unit.getByName(jammer):getPoint()
+                                local _elevation = land.getHeight({x = Position_vec3.x, y = Position_vec3.z})
+                                local _height = Position_vec3.y - _elevation    
                     
-    ---------------------------------------------------    PITCH and BANK
+                                local tPosition_vec3 = Unit.getByName(targetname):getPoint()
+                                local t_elevation = land.getHeight({x = tPosition_vec3.x, y = tPosition_vec3.z})
+                                local t_height = tPosition_vec3.y - t_elevation    
+                                local prob = dice + _height/1000  + (_height - t_height)/1000
+                                -- trigger.action.outText("dice  "..dice.."prob  "..prob.."altjammer".._height.."alttarget"..t_height,20)
 
-                    local bankr = mist.utils.toDegree(mist.getRoll(Unit.getByName(jammer)))
                         
-                    if bankr < 0 then
-                        bankr = -bankr
-                    end
-                        bank = bankr - 30
+                                -- LOBE parameter
+                                local SamPos = mist.utils.makeVec2(Unit.getByName(samunit):getPosition().p)-- tenemos un vector x e y
+                                -- trigger.action.outText(mist.utils.tableShow(SamPos),20)
+                                local JammerPos = mist.utils.makeVec2(Unit.getByName(jammer):getPosition().p)        
+                                -- trigger.action.outText(mist.utils.tableShow(JammerPos),20)                    
+                                local TargetPos = mist.utils.makeVec2(Unit.getByName(targetname):getPosition().p)    
+                                -- trigger.action.outText(mist.utils.tableShow(TargetPos),20)                    
+                                local AngleSamJammer = mist.utils.toDegree(mist.utils.getDir(mist.vec.sub(mist.utils.makeVec3GL(JammerPos),mist.utils.makeVec3GL(SamPos))))
+                                -- trigger.action.outText(AngleSamJammer,20)
+                                local AngleSamTarget = mist.utils.toDegree(mist.utils.getDir(mist.vec.sub(mist.utils.makeVec3GL(TargetPos),mist.utils.makeVec3GL(SamPos))))    
+                                -- trigger.action.outText(AngleSamTarget,20)                    
+                                local offsetJamTar = smallestAngleDiff(AngleSamJammer, AngleSamTarget )
+                                -- trigger.action.outText(offsetJamTar,20)
+                                local offsetJamSam = smallestAngleDiff(AngleSamJammer, 180 )
+                                -- trigger.action.outText("Jamm "..AngleSamJammer.."-Target ".. AngleSamTarget.."-Offjam ".. offsetJamSam.." -Offtar "..offsetJamTar,20)
+
+                                local TargetandOffsetJamSam = smallestAngleDiff(AngleSamTarget, offsetJamSam )*2
+                                    if TargetandOffsetJamSam < 0 then
+                                        TargetandOffsetJamSam = -TargetandOffsetJamSam
                         
-                        -- trigger.action.outText("real"..bankr.."tocado"..bank,20)
-                        
-                    local pitchr = mist.utils.toDegree(mist.getPitch(Unit.getByName(jammer)))
-                    if pitchr < 0 then
-                        pitchr = -pitch
-                    end
-                        pitch = pitchr - 30
-                        
-                        -- trigger.action.outText("real"..bankr.."tocado"..bank,20)
+                                    end
+                                -- trigger.action.outText(conditiondist.." relacion ".. prob.." probabilidad",20)
+                                local anglecondition = 2/3 * distSamJammer/1000 
+                                -- trigger.action.outText(anglecondition.." target difference "..TargetandOffsetJamSam,20)
                     
-                    local sPosition_vec3 = Unit.getByName(samunit):getPoint()
-                    -- trigger.action.outText(mist.utils.tableShow(sPosition_vec3),20)
-                    local s_elevation = land.getHeight({x = sPosition_vec3.x, y = sPosition_vec3.z})
-                    local s_height = sPosition_vec3.y - s_elevation    
+                                --    PITCH and BANK
+                                local bankr = mist.utils.toDegree(mist.getRoll(Unit.getByName(jammer)))
+                                if bankr < 0 then
+                                    bankr = -bankr
+                                end
+                                    bank = bankr - 30
+                        
+                                -- trigger.action.outText("real"..bankr.."tocado"..bank,20)
+                        
+                                local pitchr = mist.utils.toDegree(mist.getPitch(Unit.getByName(jammer)))
+                                if pitchr < 0 then
+                                    pitchr = -pitchr
+                                end
+                                    pitch = pitchr - 30
+                        
+                                -- trigger.action.outText("real"..pitchr.."tocado"..pitch,20)
                     
-                    local cateto = _height - s_height
-                    -- trigger.action.outText("altura sam "..cateto,20)
-                    local samunitposition = Unit.getByName(samunit):getPosition().p
-                    local jammerposition = Unit.getByName(jammer):getPosition().p
-                    local _2DDistSamJammer = mist.utils.get2DDist(samunitposition, jammerposition)
-                    local anglesamjam = mist.utils.toDegree(math.asin(cateto/_2DDistSamJammer))
-                    -- trigger.action.outText("angulo is "..anglesamjam,20) 
-    ------------------------------------------------------------------------
-local probsector1 = ((5/2)*conditiondist)+10
-local probsector2 = (conditiondist+30)
-local probsector3 = ((conditiondist/3)+57)
-                                            if      (conditiondist > 40.5)
-                                                and (prob <= probsector3) 
-                                                and (anglecondition < TargetandOffsetJamSam)
-                                                and anglesamjam >= bank 
-                                                and anglesamjam > pitch
-                                                then
-                                                
-                                            -- trigger.action.outText(samunit.." "..conditiondist.." "..probsector3.." "..dice,20)
-                                            mist.scheduleFunction(samOFF, {samunit}, timer.getTime())
-                                            
-                                            elseif    ((conditiondist < 40.5) and (conditiondist > 13.33)) 
-                                                and (prob <= probsector2) 
-                                                and (anglecondition < TargetandOffsetJamSam)
-                                                and anglesamjam >= bank 
-                                                and anglesamjam > pitch                                                 
-                                                then
-                                            -- trigger.action.outText(samunit.." "..conditiondist.." "..probsector2.." "..dice,20)
-                                                    mist.scheduleFunction(samOFF, {samunit}, timer.getTime())
-                                            elseif	 (conditiondist < 13.33) 
-												and  (prob <= 	probsector1 )
-												and (anglecondition < TargetandOffsetJamSam)
-                                                and anglesamjam >= bank 
-                                                and anglesamjam > pitch
-												then
-													mist.scheduleFunction(samOFF, {samunit}, timer.getTime())
-													-- trigger.action.outText(samunit.." "..conditiondist.." "..probsector1.." "..dice,20) 
-											else
-                                                    mist.scheduleFunction(samON, {samunit}, timer.getTime()+ math.random(15,25))
-                                            -- trigger.action.outText("fuera de cobertura",20)    
-                                            end
+                                local sPosition_vec3 = Unit.getByName(samunit):getPoint()
+                                -- trigger.action.outText(mist.utils.tableShow(sPosition_vec3),20)
+                                local s_elevation = land.getHeight({x = sPosition_vec3.x, y = sPosition_vec3.z})
+                                local s_height = sPosition_vec3.y - s_elevation    
+                    
+                                local cateto = _height - s_height
+                                -- trigger.action.outText("altura sam "..cateto,20)
+                                local samunitposition = Unit.getByName(samunit):getPosition().p
+                                local jammerposition = Unit.getByName(jammer):getPosition().p
+                                local _2DDistSamJammer = mist.utils.get2DDist(samunitposition, jammerposition)
+                                local anglesamjam = mist.utils.toDegree(math.asin(cateto/_2DDistSamJammer))
+                                -- trigger.action.outText("angulo is "..anglesamjam,20) 
+                                ------------------------------------------------------------------------
+                                local probsector1 = ((5/2)*conditiondist)+10
+                                local probsector2 = (conditiondist+30)
+                                local probsector3 = ((conditiondist/3)+57)
+                                if (conditiondist > 40.5)
+                                    and (prob <= probsector3) 
+                                    and (anglecondition < TargetandOffsetJamSam)
+                                    and anglesamjam >= bank 
+                                    and anglesamjam > pitch
+                                then
+                                -- trigger.action.outText(samunit.." "..conditiondist.." "..probsector3.." "..dice,20)
+                                mist.scheduleFunction(samOFF, {samunit}, timer.getTime())
+                                elseif ((conditiondist < 40.5) and (conditiondist > 13.33)) 
+                                    and (prob <= probsector2) 
+                                    and (anglecondition < TargetandOffsetJamSam)
+                                    and anglesamjam >= bank 
+                                    and anglesamjam > pitch                                                 
+                                then
+                                -- trigger.action.outText(samunit.." "..conditiondist.." "..probsector2.." "..dice,20)
+                                    mist.scheduleFunction(samOFF, {samunit}, timer.getTime())
+                                elseif (conditiondist < 13.33) 
+									and  (prob <= 	probsector1 )
+									and (anglecondition < TargetandOffsetJamSam)
+                                    and anglesamjam >= bank 
+                                    and anglesamjam > pitch
+								then
+									mist.scheduleFunction(samOFF, {samunit}, timer.getTime())
+									-- trigger.action.outText(samunit.." "..conditiondist.." "..probsector1.." "..dice,20) 
+								else
+                                    mist.scheduleFunction(samON, {samunit}, timer.getTime()+ math.random(15,25))
+                                    -- trigger.action.outText("fuera de cobertura",20)    
+                                end
                                 else
                                 -- trigger.action.outText(jammer..'NOT LOS with '..samunit,20)
                                 mist.scheduleFunction(samON, {samunit}, timer.getTime()+ math.random(15,25))
@@ -288,20 +305,53 @@ end
 
 --------------------- MENU CRATION FOR START/STOP JAMMING
 
+--function createmenu(jammer)
+--if Unit.getByName(jammer) ~= nil then
+--local _groupID =  Unit.getByName(jammer):getGroup():getID()
+--
+--local _jammermenu = missionCommands.addSubMenuForGroup(_groupID,"Jammer menu", nil)
+--local _jammermenudef = missionCommands.addSubMenuForGroup(_groupID,"Defensive Jamming", _jammermenu)
+--local _jammermenuoff = missionCommands.addSubMenuForGroup(_groupID,"Offensive Jamming", _jammermenu)
+--
+--missionCommands.addCommandForGroup(_groupID, "Start Defensive Jamming ",_jammermenudef, function () startDjamming(jammer)end, nil)
+--missionCommands.addCommandForGroup(_groupID, "Stop Defensive Jamming ",_jammermenudef, function () stopDjamming(jammer)end, nil)
+--missionCommands.addCommandForGroup(_groupID, "Start Offensive Jamming ",_jammermenuoff, function ()  startEWjamm(jammer)end, nil)
+--missionCommands.addCommandForGroup(_groupID, "Stop Offensive Jamming ",_jammermenuoff, function () stopEWjamm(jammer)end, nil)
+--end
+--end
+
+-------------------- Retribution Specific Menu Creation
+
 function createmenu(jammer)
-if Unit.getByName(jammer) ~= nil then
-local _groupID =  Unit.getByName(jammer):getGroup():getID()
+    if Unit.getByName(jammer) ~= nil then
+        local _groupID = Unit.getByName(jammer):getGroup():getID()
 
+        local ecmFlag = trigger.misc.getUserFlag("offensive_jamming_" .. jammer)
 
-local _jammermenu = missionCommands.addSubMenuForGroup(_groupID,"Jammer menu", nil)
-local _jammermenudef = missionCommands.addSubMenuForGroup(_groupID,"Defensive Jamming", _jammermenu)
-local _jammermenuoff = missionCommands.addSubMenuForGroup(_groupID,"Offensive Jamming", _jammermenu)
+        local _jammermenu = missionCommands.addSubMenuForGroup(_groupID, "Jammer menu", nil)
+        local _jammermenudef = missionCommands.addSubMenuForGroup(_groupID, "Defensive Jamming", _jammermenu)
 
-missionCommands.addCommandForGroup(_groupID, "Start Defensive Jamming ",_jammermenudef, function () startDjamming(jammer)end, nil)
-missionCommands.addCommandForGroup(_groupID, "Stop Defensive Jamming ",_jammermenudef, function () stopDjamming(jammer)end, nil)
-missionCommands.addCommandForGroup(_groupID, "Start Offensive Jamming ",_jammermenuoff, function ()  startEWjamm(jammer)end, nil)
-missionCommands.addCommandForGroup(_groupID, "Stop Offensive Jamming ",_jammermenuoff, function () stopEWjamm(jammer)end, nil)
-end
+        missionCommands.addCommandForGroup(_groupID, "Start Defensive Jamming", _jammermenudef, function ()
+            startDjamming(jammer)
+        end, nil)
+
+        missionCommands.addCommandForGroup(_groupID, "Stop Defensive Jamming", _jammermenudef, function ()
+            stopDjamming(jammer)
+        end, nil)
+
+        -- Only create Offensive Jamming menu if ECM flag is set
+        if ecmFlag == 1 then
+            local _jammermenuoff = missionCommands.addSubMenuForGroup(_groupID, "Offensive Jamming", _jammermenu)
+
+            missionCommands.addCommandForGroup(_groupID, "Start Offensive Jamming", _jammermenuoff, function ()
+                startEWjamm(jammer)
+            end, nil)
+
+            missionCommands.addCommandForGroup(_groupID, "Stop Offensive Jamming", _jammermenuoff, function ()
+                stopEWjamm(jammer)
+            end, nil)
+        end
+    end
 end
 
 -------------------- SWITCH TO ON AND OFF THE DEFENSIVE JAMMING
@@ -311,7 +361,7 @@ EWJD(jammer)
 end
 function startDjamming(jammer)
 switch[#switch+1]=jammer
-trigger.action.outText("DEFENSIVE COUNTER MEASURES POD ON"..jammer,5)
+trigger.action.outText("DEFENSIVE COUNTER MEASURES POD ON "..jammer,5)
 end
 
 function stopDjamming(jammer)
@@ -320,25 +370,29 @@ if switch[i]==jammer then
 switch[i] = nil
 end
 end
-trigger.action.outText("DEFENSIVE COUNTER MEASURES POD OFF"..jammer,5)
+trigger.action.outText("DEFENSIVE COUNTER MEASURES POD OFF "..jammer,5)
 end
 
 -------------------------------------- FUNCTION THAT EVALUATES THE DISTANCE OF THE MISSILE TO THE TARGET... YOU CAN EVEN DEFEND CLOSER AIRCRAFTS. BASED ON TRAINING MISSILES FROM GRIMES
 function EWJD(jammer)
 
-trigger.action.outText("EWJD Script ON"..jammer,5)
+-- trigger.action.outText("EWJD Script ON "..jammer,5)
 ------------------------------------------------------------ DISTANCES AND PROBABILITIES OF JAMM THE MISSILE FOR DEFENSIVE JAMMING REMOVALDIST1 CORRESPOND TO PKILL1, REMOVALDIST2 CORRESPOND TO PKILL2, ETC...
 local removalDist1 = 500
 local removalDist2 = 1500
 local removalDist3 = 3000
 local removalDist4 = 5000
 local removalDist5 = 7000
+-- local pkill_1 =100 -------- PROBAILITY OF SUCCESFULL JAMMING  REMOVALDIST1 CORRESPOND TO PKILL1, REMOVALDIST2 CORRESPOND TO PKILL2, ETC...
+-- local pkill_2 =100
+-- local pkill_3 =100
+-- local pkill_4 =100
+-- local pkill_5 =100
 local pkill_1 =95 -------- PROBAILITY OF SUCCESFULL JAMMING  REMOVALDIST1 CORRESPOND TO PKILL1, REMOVALDIST2 CORRESPOND TO PKILL2, ETC...
 local pkill_2 =65
 local pkill_3 =50
 local pkill_4 =30
 local pkill_5 =15
-
     local remove_missile_method = 0
     -- 0 will create an explosion
     -- 1 will use Object.destroy() which simply makes the missile disappear.
@@ -375,6 +429,7 @@ local pkill_5 =15
             end
             if remove_missile_method == 0 then
                 trigger.action.explosion(Object.getPosition(aiMissiles[id].missile).p, 5)
+                -- trigger.action.outText("MISSILE GO BOOM!!! "..jammer,10)
             else
                 Object.destroy(aiMissiles[id].missile)
             end
@@ -403,19 +458,19 @@ local pkill_5 =15
 					-- trigger.action.outText(prob..jammer, 20)
 							if dist < removalDist5 and prob < pkill_5 then -- if its close and still guiding
 								removeMis(mis.uid)
-								-- trigger.action.outText('5', 20)
+							--	trigger.action.outText('5', 20)
 							elseif	dist < removalDist4 and prob < pkill_4 then -- if its close and still guiding
 								removeMis(mis.uid)
-								-- trigger.action.outText('4', 20)
+							--	trigger.action.outText('4', 20)
 							elseif	dist < removalDist3 and prob < pkill_3 then -- if its close and still guiding
 								removeMis(mis.uid)
-								-- trigger.action.outText('3', 20)
+							--	trigger.action.outText('3', 20)
 							elseif	dist < removalDist2 and prob < pkill_2 then -- if its close and still guiding
 								removeMis(mis.uid)
-								-- trigger.action.outText('2', 20)
+							--	trigger.action.outText('2', 20)
 							elseif	dist < removalDist1 and prob < pkill_1 then -- if its close and still guiding
 								removeMis(mis.uid)
-								-- trigger.action.outText('1', 20)
+							--	trigger.action.outText('1', 20)
 							else
 								tot = math.min(10, dist/getMag(mist.vec.sub(misVel, targVel)))
 								timer.scheduleFunction(checkMis, mis, timer.getTime() + tot)

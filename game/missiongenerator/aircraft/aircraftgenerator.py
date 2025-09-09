@@ -366,7 +366,9 @@ class AircraftGenerator:
             and (
                 not self.need_ecm
                 or flight.any_member_has_weapon_of_type(WeaponType.JAMMER)
+                or flight.any_member_has_weapon_of_type(WeaponType.OFFENSIVE_JAMMER)
                 or flight.squadron.aircraft.has_built_in_ecm
+                or flight.squadron.aircraft.has_built_in_jamming
             )
         ):
             self.ewrj_package_dict[id(flight.package)].append(group)

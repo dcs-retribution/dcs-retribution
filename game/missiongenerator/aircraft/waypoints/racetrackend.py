@@ -23,6 +23,7 @@ class RaceTrackEndBuilder(PydcsWaypointBuilder):
             ai_jammer = settings.plugin_option("ewrj.ai_jammer_enabled")
             if settings.plugins.get("ewrj") and ai_jammer:
                 self.defensive_jamming(waypoint, "stop")
+                self.offensive_jamming(waypoint, "stop")
 
     def build(self) -> MovingPoint:
         waypoint = super().build()

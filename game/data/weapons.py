@@ -123,6 +123,7 @@ class WeaponType(Enum):
     TGP = "TGP"
     DECOY = "DECOY"
     JAMMER = "JAMMER"
+    OFFENSIVE_JAMMER = "OFFENSIVE_JAMMER"
     UNKNOWN = "unknown"
 
 

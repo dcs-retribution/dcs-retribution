@@ -22,12 +22,12 @@ local unitPayloads = {
 				},
 				[4]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_05_TP_ASQ228}",
+					["CLSID"]="{SUPERHORNET_PYLON_05_AM_1X_AIM-120C}",
 					["num"]=4
 				},
 				[5]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_06_CN_FT_FPU-12_Fueltank}",
+					["CLSID"]="{A111396E-D3E8-4b9c-8AC9-2432489304D5}",
 					["num"]=5
 				},
 				[6]=
@@ -200,12 +200,12 @@ local unitPayloads = {
 				},
 				[4]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_05_TP_ASQ228}",
+					["CLSID"]="{SUPERHORNET_PYLON_05_AM_1X_AIM-120C}",
 					["num"]=4
 				},
 				[5]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_06_CN_FT_FPU-12_Fueltank}",
+					["CLSID"]="{A111396E-D3E8-4b9c-8AC9-2432489304D5}",
 					["num"]=5
 				},
 				[6]=
@@ -269,7 +269,7 @@ local unitPayloads = {
 				},
 				[6]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_05_TP_ASQ228}",
+					["CLSID"]="{AN_ASQ_228}",
 					["num"]=4
 				},
 				[7]=
@@ -328,7 +328,7 @@ local unitPayloads = {
 				},
 				[6]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_05_TP_ASQ228}",
+					["CLSID"]="{AN_ASQ_228}",
 					["num"]=4
 				},
 				[7]=
@@ -377,7 +377,7 @@ local unitPayloads = {
 				},
 				[4]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_05_TP_ASQ228}",
+					["CLSID"]="{AN_ASQ_228}",
 					["num"]=4
 				},
 				[5]=
@@ -436,12 +436,12 @@ local unitPayloads = {
 				},
 				[4]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_05_TP_ASQ228}",
+					["CLSID"]="{SUPERHORNET_PYLON_05_AM_1X_AIM-120C}",
 					["num"]=4
 				},
 				[5]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_06_CN_EMPTY}",
+					["CLSID"]="{A111396E-D3E8-4b9c-8AC9-2432489304D5}",
 					["num"]=5
 				},
 				[6]=
@@ -495,12 +495,12 @@ local unitPayloads = {
 				},
 				[4]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_05_TP_ASQ228}",
+					["CLSID"]="{SUPERHORNET_PYLON_05_AM_1X_AIM-120C}",
 					["num"]=4
 				},
 				[5]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_06_CN_EMPTY}",
+					["CLSID"]="{A111396E-D3E8-4b9c-8AC9-2432489304D5}",
 					["num"]=5
 				},
 				[6]=
@@ -555,12 +555,12 @@ local unitPayloads = {
 				},
 				[4]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_05_TP_ASQ228}",
+					["CLSID"]="{SUPERHORNET_PYLON_05_AM_1X_AIM-120C}",
 					["num"]=4
 				},
 				[5]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_06_CN_EMPTY}",
+					["CLSID"]="{A111396E-D3E8-4b9c-8AC9-2432489304D5}",
 					["num"]=5
 				},
 				[6]=
@@ -675,7 +675,7 @@ local unitPayloads = {
 				},
 				[4]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_05_TP_ASQ228}",
+					["CLSID"]="{AN_ASQ_228}",
 					["num"]=4
 				},
 				[5]=
@@ -735,12 +735,12 @@ local unitPayloads = {
 				},
 				[4]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_05_TP_ASQ228}",
+					["CLSID"]="{SUPERHORNET_PYLON_05_AM_1X_AIM-120C}",
 					["num"]=4
 				},
 				[5]=
 				{
-					["CLSID"]="{SUPERHORNET_PYLON_06_CN_FT_FPU-12_Fueltank}",
+					["CLSID"]="{A111396E-D3E8-4b9c-8AC9-2432489304D5}",
 					["num"]=5
 				},
 				[6]=

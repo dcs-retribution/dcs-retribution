@@ -60,6 +60,7 @@ class JoinPointBuilder(PydcsWaypointBuilder):
             FlightType.SEAD_SWEEP,
             FlightType.SEAD,
             FlightType.SEAD_ESCORT,
+            FlightType.DEAD,
         ]:
             settings = self.flight.coalition.game.settings
             ai_jammer = settings.plugin_option("ewrj.ai_jammer_enabled")
