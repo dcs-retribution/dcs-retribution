@@ -1,24 +1,57 @@
 {
     "nameInUI": "Airboss Module (Moose)",
-    "defaultValue": true,
-    "specificOptions": [
+    "defaultValue": false,
+    "specificOptions": [        
         {
-            "nameInUI": "Enable Rescue Helo",
+            "nameInUI": "Enable Airboss Rescue Helo",
             "mnemonic": "enableRescueHelo",
             "defaultValue": true
+        },
+        {
+            "nameInUI": "Enable Airboss Recovery Tanker",
+            "mnemonic": "enableTanker",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "Enable Airboss for LHA",
+            "mnemonic": "enableForLHA",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "Enable Airboss AWACS",
+            "mnemonic": "enableAWACS",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "Rescue Helo Max Distance",
+            "mnemonic": "rescueHeloDistance",
+            "defaultValue": 50
+        },
+        {
+            "nameInUI": "Use UH-60L Mod",
+            "mnemonic": "useUH60mod",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "Rescue Duration (mins)",
+            "mnemonic": "rescueDuration",
+            "defaultValue": 5
+        },
+        {
+            "nameInUI": "Rescue Zone Radius (nm)",
+            "mnemonic": "rescueZoneRadius",
+            "defaultValue": 15
         }
+
+
     ],
 
-    "scriptsWorkOrders": [
+    "scriptsWorkOrders": [],
+
+    "configurationWorkOrders": [
         {
             "file": "airboss.lua",
             "mnemonic": "airboss"
-        }
-    ],
-    "configurationWorkOrders": [
-        {
-            "file": "airboss-config.lua",
-            "mnemonic": "airboss-config"
         }
     ],
     
@@ -134,5 +167,7 @@
         "AIRBOSS Soundfiles/PILOT-State.ogg",
         "AIRBOSS Soundfiles/PILOT-Tomcat.ogg",
         "AIRBOSS Soundfiles/PILOT-Viking.ogg"
-    ]
+]
+
+
 }

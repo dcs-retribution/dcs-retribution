@@ -1,4 +1,4 @@
-env.info( '*** MOOSE GITHUB Commit Hash ID: 2025-05-25T09:12:50+02:00-0d1a7c770b0fe92861f265138421de51ccb5adb9 ***' )
+env.info( '*** MOOSE GITHUB Commit Hash ID: 2025-09-07T18:58:47+02:00-9c3c27f8098f59e40f200d4199ecf6165c38c2ac ***' )
 
 -- Automatic dynamic loading of development files, if they exists.
 -- Try to load Moose as individual script files from <DcsInstallDir\Script\Moose
@@ -3005,12 +3005,12 @@ function UTILS.HdgDiff(h1, h2)
   return math.abs(delta)
 end
 
---- Returns the heading from one vec3 to another vec3.
--- @param DCS#Vec3 a From vec3.
--- @param DCS#Vec3 b To vec3.
+--- Returns the heading from one vec2/vec3 to another vec2/vec3.
+-- @param DCS#Vec3 a From Vec2 or Vec3.
+-- @param DCS#Vec3 b To Vec2 or Vec3.
 -- @return #number Heading in degrees.
 function UTILS.HdgTo(a, b)
-  local dz=b.z-a.z
+  local dz=(b.z or b.y) - (a.z or a.y)
   local dx=b.x-a.x
   local heading=math.deg(math.atan2(dz, dx))
   if heading < 0 then
@@ -3332,6 +3332,13 @@ end
 function UTILS.GetReportingName(Typename)
 
   local typename = string.lower(Typename)
+  
+  -- special cases - Shark and Manstay have "A-50" in the name
+  if string.find(typename,"ka-50",1,true) then
+    return "Shark"
+  elseif string.find(typename,"a-50",1,true) then
+    return "Mainstay"
+  end
 
   for name, value in pairs(ENUMS.ReportingName.NATO) do
     local svalue = string.lower(value)
@@ -5555,9 +5562,14 @@ end
 -- @param #string VehicleTemplate, template name for additional vehicles. Can be nil for no additional vehicles.
 -- @param #number Liquids Tons of fuel to be added initially to the FARP. Defaults to 10 (tons). Set to 0 for no fill.
 -- @param #number Equipment Number of equipment items per known item to be added initially to the FARP. Defaults to 10 (items). Set to 0 for no fill.
+-- @param #number Airframes Number of helicopter airframes per known type in Ops.CSAR#CSAR.AircraftType to be added initially to the FARP. Set to 0 for no airframes.
+-- @param #string F10Text Text to display on F10 map if given. Handy to post things like the ADF beacon Frequency, Callsign and ATC Frequency.
+-- @param #boolean DynamicSpawns If true, allow Dynamic Spawns from this FARP.
+-- @param #boolean HotStart If true and DynamicSpawns is true, allow hot starts for Dynamic Spawns from this FARP.
 -- @return #list<Wrapper.Static#STATIC> Table of spawned objects and vehicle object (if given).
 -- @return #string ADFBeaconName Name of the ADF beacon, to be able to remove/stop it later.
-function UTILS.SpawnFARPAndFunctionalStatics(Name,Coordinate,FARPType,Coalition,Country,CallSign,Frequency,Modulation,ADF,SpawnRadius,VehicleTemplate,Liquids,Equipment)
+-- @return #number MarkerID ID of the F10 Text, to be able to remove it later.
+function UTILS.SpawnFARPAndFunctionalStatics(Name,Coordinate,FARPType,Coalition,Country,CallSign,Frequency,Modulation,ADF,SpawnRadius,VehicleTemplate,Liquids,Equipment,Airframes,F10Text,DynamicSpawns,HotStart)
   
   -- Set Defaults
   local farplocation = Coordinate
@@ -5571,6 +5583,7 @@ function UTILS.SpawnFARPAndFunctionalStatics(Name,Coordinate,FARPType,Coalition,
   local liquids = Liquids or 10
   liquids = liquids * 1000 -- tons to kg
   local equip = Equipment or 10
+  local airframes = Airframes or 10
   local statictypes = ENUMS.FARPObjectTypeNamesAndShape[farptype] or {TypeName="FARP", ShapeName="FARPS"}
   local STypeName = statictypes.TypeName
   local SShapeName = statictypes.ShapeName
@@ -5580,7 +5593,7 @@ function UTILS.SpawnFARPAndFunctionalStatics(Name,Coordinate,FARPType,Coalition,
   -- Spawn FARP
   local newfarp = SPAWNSTATIC:NewFromType(STypeName,"Heliports",Country) --  "Invisible FARP" "FARP"
   newfarp:InitShape(SShapeName) -- "invisiblefarp" "FARPS"
-  newfarp:InitFARP(callsign,freq,mod)
+  newfarp:InitFARP(callsign,freq,mod,DynamicSpawns,HotStart)
   local spawnedfarp = newfarp:SpawnFromCoordinate(farplocation,0,Name)
   table.insert(ReturnObjects,spawnedfarp)
   -- Spawn Objects
@@ -5633,6 +5646,12 @@ function UTILS.SpawnFARPAndFunctionalStatics(Name,Coordinate,FARPType,Coalition,
     end
   end
   
+  if airframes and airframes > 0 then
+    for typename in pairs (CSAR.AircraftType) do
+      newWH:SetItem(typename,airframes)
+    end
+  end
+  
   local ADFName
   if ADF and type(ADF) == "number" then
     local ADFFreq = ADF*1000 -- KHz to Hz
@@ -5643,7 +5662,150 @@ function UTILS.SpawnFARPAndFunctionalStatics(Name,Coordinate,FARPType,Coalition,
     trigger.action.radioTransmission(Sound, vec3, 0, true, ADFFreq, 250, ADFName)
   end
   
-  return ReturnObjects, ADFName
+  local MarkerID = nil
+  if F10Text then
+    local Color = {0,0,1}
+    if Coalition == coalition.side.RED then
+      Color = {1,0,0}
+    elseif Coalition == coalition.side.NEUTRAL then
+      Color = {0,1,0}
+    end
+    local Alpha = 0.75
+    local coordinate = Coordinate:Translate(600,0)
+    MarkerID = coordinate:TextToAll(F10Text,Coalition,Color,1,{1,1,1},Alpha,14,true)
+  end
+  
+  return ReturnObjects, ADFName, MarkerID
+end
+
+--- Spawn a MASH at a given coordinate, optionally, add an ADF Beacon.
+-- @param #string Name Unique Name of the Mash.
+-- @param Core.Point#COORDINATE Coordinate Coordinate where to spawn the MASH. Can be given as a Core.Zone#ZONE object, in this case we take the center coordinate.
+-- @param #number Country Country ID the MASH belongs to, e.g. country.id.USA or country.id.RUSSIA.
+-- @param #number ADF (Optional) ADF Frequency in kHz (Kilohertz), if given activate an ADF Beacon at the location of the MASH.
+-- @param #string Livery (Optional) The livery of the static CH-47, defaults to dark green.
+-- @param #boolean DeployHelo (Optional) If true, deploy the helicopter static.
+-- @param #number MASHRadio MASH Radio Frequency, defaults to 127.5.
+-- @param #number MASHRadioModulation MASH Radio Modulation, defaults to radio.modulation.AM.
+-- @param #number MASHCallsign Defaults to CALLSIGN.FARP.Berlin.
+-- @param #table Templates (Optional) You can hand in your own template table of numbered(!) entries. Each entry consist of a relative(!) x,y position and data of a 
+-- static, shape_name is optional. Also, livery_id is optional, but is applied to the helicopter static only.
+-- @return #table Table of Wrapper.Static#STATIC objects that were spawned.
+-- @return #string ADFName Name of the ADF Beacon to remove it later.
+-- @usage
+--            -- MASH Template example, this one is the built in one used in the function:
+--            MASHTemplates = {
+--              [1]={category='Infantry',type='Soldier M4',shape_name='none',heading=0,x=0.000000,y=0.000000,},
+--              [2]={category='Infantry',type='Soldier M4',shape_name='none',heading=0,x=0.313533,y=8.778935,},
+--              [3]={category='Infantry',type='Soldier M4',shape_name='none',heading=0,x=16.303737,y=20.379671,},
+--              [4]={category='Helicopters',type='CH-47Fbl1',shape_name='none',heading=0,x=-20.047735,y=-63.166179,livery_id = "us army dark green",},
+--              [5]={category='Infantry',type='Soldier M4',shape_name='none',heading=0,x=26.650339,y=20.066138,},
+--              [6]={category='Heliports',type='FARP_SINGLE_01',shape_name='FARP_SINGLE_01',heading=0,x=-25.432292,y=9.077099,},
+--              [7]={category='Heliports',type='FARP_SINGLE_01',shape_name='FARP_SINGLE_01',heading=0,x=-12.717421,y=-3.216114,},
+--              [8]={category='Heliports',type='FARP_SINGLE_01',shape_name='FARP_SINGLE_01',heading=0,x=-25.439281,y=-3.216114,},
+--              [9]={category='Heliports',type='FARP_SINGLE_01',shape_name='FARP_SINGLE_01',heading=0,x=-12.717421,y=9.155603,},
+--              [10]={category='Fortifications',type='TACAN_beacon',shape_name='none',heading=0,x=-2.329847,y=-16.579903,},
+--              [11]={category='Fortifications',type='FARP Fuel Depot',shape_name='GSM Rus',heading=0,x=2.222011,y=4.487030,},
+--              [12]={category='Fortifications',type='APFC fuel',shape_name='M92_APFCfuel',heading=0,x=3.614927,y=0.367838,},
+--              [13]={category='Fortifications',type='Camouflage03',shape_name='M92_Camouflage03',heading=0,x=21.544148,y=21.998879,},
+--              [14]={category='Fortifications',type='Container_generator',shape_name='M92_Container_generator',heading=0,x=20.989192,y=37.314334,},
+--              [15]={category='Fortifications',type='FireExtinguisher02',shape_name='M92_FireExtinguisher02',heading=0,x=3.988003,y=8.362333,},
+--              [16]={category='Fortifications',type='FireExtinguisher02',shape_name='M92_FireExtinguisher02',heading=0,x=-3.953195,y=12.945844,},
+--              [17]={category='Fortifications',type='Windsock',shape_name='H-Windsock_RW',heading=0,x=-18.944173,y=-33.042196,},
+--              [18]={category='Fortifications',type='Tent04',shape_name='M92_Tent04',heading=0,x=21.220671,y=30.247529,},
+--              }
+--    
+function UTILS.SpawnMASHStatics(Name,Coordinate,Country,ADF,Livery,DeployHelo,MASHRadio,MASHRadioModulation,MASHCallsign,Templates)
+  
+  -- Basic objects table
+  
+  local MASHTemplates = {
+    [1]={category='Infantry',type='Soldier M4',shape_name='none',heading=0,x=0.000000,y=0.000000,},
+    [2]={category='Infantry',type='Soldier M4',shape_name='none',heading=0,x=0.313533,y=8.778935,},
+    [3]={category='Infantry',type='Soldier M4',shape_name='none',heading=0,x=16.303737,y=20.379671,},
+    [4]={category='Helicopters',type='CH-47Fbl1',shape_name='none',heading=0,x=-20.047735,y=-63.166179,livery_id = "us army dark green",},
+    [5]={category='Infantry',type='Soldier M4',shape_name='none',heading=0,x=26.650339,y=20.066138,},
+    [6]={category='Heliports',type='FARP_SINGLE_01',shape_name='FARP_SINGLE_01',heading=0,x=-25.432292,y=9.077099,},
+    [7]={category='Heliports',type='FARP_SINGLE_01',shape_name='FARP_SINGLE_01',heading=0,x=-12.717421,y=-3.216114,},
+    [8]={category='Heliports',type='FARP_SINGLE_01',shape_name='FARP_SINGLE_01',heading=0,x=-25.439281,y=-3.216114,},
+    [9]={category='Heliports',type='FARP_SINGLE_01',shape_name='FARP_SINGLE_01',heading=0,x=-12.717421,y=9.155603,},
+    [10]={category='Fortifications',type='TACAN_beacon',shape_name='none',heading=0,x=-2.329847,y=-16.579903,},
+    [11]={category='Fortifications',type='FARP Fuel Depot',shape_name='GSM Rus',heading=0,x=2.222011,y=4.487030,},
+    [12]={category='Fortifications',type='APFC fuel',shape_name='M92_APFCfuel',heading=0,x=3.614927,y=0.367838,},
+    [13]={category='Fortifications',type='Camouflage03',shape_name='M92_Camouflage03',heading=0,x=21.544148,y=21.998879,},
+    [14]={category='Fortifications',type='Container_generator',shape_name='M92_Container_generator',heading=0,x=20.989192,y=37.314334,},
+    [15]={category='Fortifications',type='FireExtinguisher02',shape_name='M92_FireExtinguisher02',heading=0,x=3.988003,y=8.362333,},
+    [16]={category='Fortifications',type='FireExtinguisher02',shape_name='M92_FireExtinguisher02',heading=0,x=-3.953195,y=12.945844,},
+    [17]={category='Fortifications',type='Windsock',shape_name='H-Windsock_RW',heading=0,x=-18.944173,y=-33.042196,},
+    [18]={category='Fortifications',type='Tent04',shape_name='M92_Tent04',heading=0,x=21.220671,y=30.247529,},
+    }
+
+  if Templates then MASHTemplates=Templates end
+  
+  -- locals
+  local name = Name or "Florence Nightingale"
+  local positionVec2
+  local positionVec3
+  local ReturnStatics = {} 
+  local CountryID = Country or country.id.USA
+  local livery = "us army dark green"
+  local MASHRadio = MASHRadio or 127.5
+  local MASHRadioModulation = MASHRadioModulation or radio.modulation.AM
+  local MASHCallsign = MASHCallsign or CALLSIGN.FARP.Berlin
+  
+  -- check for coordinate or zone  
+  if type(Coordinate) == "table" then
+    if Coordinate:IsInstanceOf("COORDINATE") or Coordinate:IsInstanceOf("ZONE_BASE") then
+      positionVec2 = Coordinate:GetVec2()
+      positionVec3 = Coordinate:GetVec3()  
+    end
+  else
+      BASE:E("Spawn MASH - no ZONE or COORDINATE handed!")
+      return
+  end
+  
+  -- position
+  local BaseX = positionVec2.x
+  local BaseY = positionVec2.y
+   
+  -- Statics
+  for id,object in pairs(MASHTemplates) do
+    local NewName = string.format("%s#%3d",name,id)
+    local vec2 = {x=BaseX+object.x,y=BaseY+object.y}
+    local Coordinate=COORDINATE:NewFromVec2(vec2)
+    local static = SPAWNSTATIC:NewFromType(object.type,object.category,CountryID)
+    if object.shape_name and object.shape_name ~= "none" then
+      static:InitShape(object.shape_name)
+    end
+    if object.category == "Helicopters" and DeployHelo == true then 
+      if object.livery_id ~= nil then
+        livery = object.livery_id
+      end
+      static:InitLivery(livery)
+      local newstatic = static:SpawnFromCoordinate(Coordinate,object.heading,NewName)
+      table.insert(ReturnStatics,newstatic)
+    elseif object.category == "Heliports" then
+      static:InitFARP(MASHCallsign,MASHRadio,MASHRadioModulation,false,false)
+      local newstatic = static:SpawnFromCoordinate(Coordinate,object.heading,NewName)
+      table.insert(ReturnStatics,newstatic)
+    elseif object.category ~= "Helicopters" and object.category ~= "Heliports" then
+      local newstatic = static:SpawnFromCoordinate(Coordinate,object.heading,NewName)
+      table.insert(ReturnStatics,newstatic)
+    end
+
+  end
+  
+  -- Beacon
+  local ADFName
+  if ADF and type(ADF) == "number" then
+    local ADFFreq = ADF*1000 -- KHz to Hz
+    local Sound =  "l10n/DEFAULT/beacon.ogg"
+    ADFName = Name .. " ADF "..tostring(ADF).."KHz"
+    --BASE:I(string.format("Adding MASH Beacon %d KHz Name %s",ADF,ADFName))
+    trigger.action.radioTransmission(Sound, positionVec3, 0, true, ADFFreq, 250, ADFName)
+  end
+  
+  return ReturnStatics, ADFName
 end
 
 --- Converts a Vec2 to a Vec3.
@@ -5839,6 +6001,452 @@ end
 --- The fog animation will be discarded and whatever the current thickness and visibility are set to will remain
 function UTILS.Weather.StopFogAnimation()
   return world.weather.setFogAnimation({})
+end
+
+--- Find a ME created zone by its name
+function UTILS.GetEnvZone(name)
+    for _,v in ipairs(env.mission.triggers.zones) do
+        if v.name == name then
+            return v
+        end
+    end
+end
+
+--- net.dostring_in
+function UTILS.DoStringIn(State,DoString)
+  return net.dostring_in(State,DoString)
+end
+
+--- Show a picture on the screen to all
+-- @param #string FileName File name of the picture
+-- @param #number Duration Duration in seconds, defaults to 10
+-- @param #boolean ClearView If true, clears the view before showing the picture, defaults to false
+-- @param #number StartDelay Delay in seconds before showing the picture, defaults to 0
+-- @param #number HorizontalAlign Horizontal alignment of the picture, 0: Left, 1: Center, 2: Right
+-- @param #number VerticalAlign Vertical alignment of the picture, 0: Top, 1: Center, 2: Bottom
+-- @param #number Size Size of the picture in percent, defaults to 100
+-- @param #number SizeUnits Size units, 0 for % of original picture size, and 1 for % of window size
+function UTILS.ShowPictureToAll(FilePath, Duration, ClearView, StartDelay, HorizontalAlign, VerticalAlign, Size, SizeUnits)
+    ClearView = ClearView or false
+    StartDelay = StartDelay or 0
+    HorizontalAlign = HorizontalAlign or 1
+    VerticalAlign = VerticalAlign or 1
+    Size = Size or 100
+    SizeUnits = SizeUnits or 0
+
+    if ClearView then ClearView = "true" else ClearView = "false" end
+
+    net.dostring_in("mission", string.format("a_out_picture(\"%s\", %d, %s, %d, \"%d\", \"%d\", %d, \"%d\")", FilePath, Duration or 10, ClearView, StartDelay, HorizontalAlign, VerticalAlign, Size, SizeUnits))
+end
+
+--- Show a picture on the screen to Coalition
+-- @param #number Coalition Coalition ID, can be coalition.side.BLUE, coalition.side.RED or coalition.side.NEUTRAL
+-- @param #string FileName File name of the picture
+-- @param #number Duration Duration in seconds, defaults to 10
+-- @param #boolean ClearView If true, clears the view before showing the picture, defaults to false
+-- @param #number StartDelay Delay in seconds before showing the picture, defaults to 0
+-- @param #number HorizontalAlign Horizontal alignment of the picture, 0: Left, 1: Center, 2: Right
+-- @param #number VerticalAlign Vertical alignment of the picture, 0: Top, 1: Center, 2: Bottom
+-- @param #number Size Size of the picture in percent, defaults to 100
+-- @param #number SizeUnits Size units, 0 for % of original picture size, and 1 for % of window size
+function UTILS.ShowPictureToCoalition(Coalition, FilePath, Duration, ClearView, StartDelay, HorizontalAlign, VerticalAlign, Size, SizeUnits)
+    ClearView = ClearView or false
+    StartDelay = StartDelay or 0
+    HorizontalAlign = HorizontalAlign or 1
+    VerticalAlign = VerticalAlign or 1
+    Size = Size or 100
+    SizeUnits = SizeUnits or 0
+
+    if ClearView then ClearView = "true" else ClearView = "false" end
+
+    local coalName = string.lower(UTILS.GetCoalitionName(Coalition))
+
+    net.dostring_in("mission", string.format("a_out_picture_s(\"%s\", \"%s\", %d, %s, %d, \"%d\", \"%d\", %d, \"%d\")", coalName, FilePath, Duration or 10, ClearView, StartDelay, HorizontalAlign, VerticalAlign, Size, SizeUnits))
+end
+
+--- Show a picture on the screen to Country
+-- @param #number Country Country ID, can be country.id.USA, country.id.RUSSIA, etc.
+-- @param #string FileName File name of the picture
+-- @param #number Duration Duration in seconds, defaults to 10
+-- @param #boolean ClearView If true, clears the view before showing the picture, defaults to false
+-- @param #number StartDelay Delay in seconds before showing the picture, defaults to 0
+-- @param #number HorizontalAlign Horizontal alignment of the picture, 0: Left, 1: Center, 2: Right
+-- @param #number VerticalAlign Vertical alignment of the picture, 0: Top, 1: Center, 2: Bottom
+-- @param #number Size Size of the picture in percent, defaults to 100
+-- @param #number SizeUnits Size units, 0 for % of original picture size, and 1 for % of window size
+function UTILS.ShowPictureToCountry(Country, FilePath, Duration, ClearView, StartDelay, HorizontalAlign, VerticalAlign, Size, SizeUnits)
+    ClearView = ClearView or false
+    StartDelay = StartDelay or 0
+    HorizontalAlign = HorizontalAlign or 1
+    VerticalAlign = VerticalAlign or 1
+    Size = Size or 100
+    SizeUnits = SizeUnits or 0
+
+    if ClearView then ClearView = "true" else ClearView = "false" end
+
+    net.dostring_in("mission", string.format("a_out_picture_c(%d, \"%s\", %d, %s, %d, \"%d\", \"%d\", %d, \"%d\")", Country, FilePath, Duration or 10, ClearView, StartDelay, HorizontalAlign, VerticalAlign, Size, SizeUnits))
+end
+
+--- Show a picture on the screen to Group
+-- @param Wrapper.Group#GROUP Group Group to show the picture to
+-- @param #string FileName File name of the picture
+-- @param #number Duration Duration in seconds, defaults to 10
+-- @param #boolean ClearView If true, clears the view before showing the picture, defaults to false
+-- @param #number StartDelay Delay in seconds before showing the picture, defaults to 0
+-- @param #number HorizontalAlign Horizontal alignment of the picture, 0: Left, 1: Center, 2: Right
+-- @param #number VerticalAlign Vertical alignment of the picture, 0: Top, 1: Center, 2: Bottom
+-- @param #number Size Size of the picture in percent, defaults to 100
+-- @param #number SizeUnits Size units, 0 for % of original picture size, and 1 for % of window size
+function UTILS.ShowPictureToGroup(Group, FilePath, Duration, ClearView, StartDelay, HorizontalAlign, VerticalAlign, Size, SizeUnits)
+    ClearView = ClearView or false
+    StartDelay = StartDelay or 0
+    HorizontalAlign = HorizontalAlign or 1
+    VerticalAlign = VerticalAlign or 1
+    Size = Size or 100
+    SizeUnits = SizeUnits or 0
+
+    if ClearView then ClearView = "true" else ClearView = "false" end
+
+    net.dostring_in("mission", string.format("a_out_picture_g(%d, \"%s\", %d, %s, %d, \"%d\", \"%d\", %d, \"%d\")", Group:GetID(), FilePath, Duration or 10, ClearView, StartDelay, HorizontalAlign, VerticalAlign, Size, SizeUnits))
+end
+
+--- Show a picture on the screen to Unit
+-- @param Wrapper.Unit#UNIT Unit Unit to show the picture to
+-- @param #string FileName File name of the picture
+-- @param #number Duration Duration in seconds, defaults to 10
+-- @param #boolean ClearView If true, clears the view before showing the picture, defaults to false
+-- @param #number StartDelay Delay in seconds before showing the picture, defaults to 0
+-- @param #number HorizontalAlign Horizontal alignment of the picture, 0: Left, 1: Center, 2: Right
+-- @param #number VerticalAlign Vertical alignment of the picture, 0: Top, 1: Center, 2: Bottom
+-- @param #number Size Size of the picture in percent, defaults to 100
+-- @param #number SizeUnits Size units, 0 for % of original picture size, and 1 for % of window size
+function UTILS.ShowPictureToUnit(Unit, FilePath, Duration, ClearView, StartDelay, HorizontalAlign, VerticalAlign, Size, SizeUnits)
+    ClearView = ClearView or false
+    StartDelay = StartDelay or 0
+    HorizontalAlign = HorizontalAlign or 1
+    VerticalAlign = VerticalAlign or 1
+    Size = Size or 100
+    SizeUnits = SizeUnits or 0
+
+    if ClearView then ClearView = "true" else ClearView = "false" end
+
+    net.dostring_in("mission", string.format("a_out_picture_u(%d, \"%s\", %d, %s, %d, \"%d\", \"%d\", %d, \"%d\")", Unit:GetID(), FilePath, Duration or 10, ClearView, StartDelay, HorizontalAlign, VerticalAlign, Size, SizeUnits))
+end
+
+--- Load a mission file. This will replace the current mission with the one given carrying along the online clients.
+-- @param #string FileName Mission filename
+function UTILS.LoadMission(FileName)
+    net.dostring_in("mission", string.format("a_load_mission(\"%s\")", FileName))
+end
+
+--- Set the mission briefing for a coalition.
+-- @param #number Coalition Briefing coalition ID, can be coalition.side.BLUE, coalition.side.RED or coalition.side.NEUTRAL
+-- @param #string Text Briefing text, can contain newlines, will be converted formatted properly for DCS
+-- @param #string Picture Picture file path, can be a file in the DEFAULT folder inside the .miz
+function UTILS.SetMissionBriefing(Coalition, Text, Picture)
+    Text = Text or ""
+    Text = Text:gsub("\n", "\\n")
+    Picture = Picture or ""
+    local coalName = string.lower(UTILS.GetCoalitionName(Coalition))
+    net.dostring_in("mission", string.format("a_set_briefing(\"%s\", \"%s\", \"%s\")", coalName, Picture, Text))
+end
+
+--- Show a helper gate at a DCS#Vec3 position
+-- @param DCS#Vec3 pos The position
+-- @param #number heading Heading in degrees, can be 0..359 degrees
+function UTILS.ShowHelperGate(pos, heading)
+    net.dostring_in("mission",string.format("a_show_helper_gate(%s, %s, %s, %f)", pos.x, pos.y, pos.z, math.rad(heading)))
+end
+
+--- Show a helper gate for a unit.
+-- @param Wrapper.Unit#UNIT Unit The unit to show the gate for
+-- @param #number Flag Helper gate flag
+function UTILS.ShowHelperGateForUnit(Unit, Flag)
+    net.dostring_in("mission",string.format("a_show_route_gates_for_unit(%d, \"%d\")", Unit:GetID(), Flag))
+end
+
+--- Set the carrier illumination mode. -2: OFF, -1: AUTO, 0: NAVIGATION, 1: AC LAUNCH, 2: AC RECOVERY
+-- @param #number UnitID Carrier unit ID ( UNIT:GetID() )
+-- @param #number Mode Illumination mode, can be -2: OFF, -1: AUTO, 0: NAVIGATION, 1: AC LAUNCH, 2: AC RECOVERY
+function UTILS.SetCarrierIlluminationMode(UnitID, Mode)
+    net.dostring_in("mission",string.format("a_set_carrier_illumination_mode(%d, %d)", UnitID, Mode))
+end
+
+--- Shell a zone, zone must ME created
+-- @param #string name The name of the ME created zone
+-- @param #number power Equals kg of TNT, e.g. 75
+-- @param #count Number of shells simulated
+function UTILS.ShellZone(name, power, count)
+    local z = UTILS.GetEnvZone(name)
+    if z then
+        net.dostring_in("mission",string.format("a_shelling_zone(%d, %d, %d)", z.zoneId, power, count))
+    end
+end
+
+--- Remove objects from a zone, zone must ME created
+-- @param #string name The name of the ME created zone
+-- @param #number type Type of objects to remove can be 0:all, 1: trees, 2:objects
+function UTILS.RemoveObjects(name, type)
+    local z = UTILS.GetEnvZone(name)
+    if z then
+        net.dostring_in("mission",string.format("a_remove_scene_objects(%d, %d)", z.zoneId, type))
+    end
+end
+
+--- Remove scenery objects from a zone, zone must ME created
+-- @param #string name The name of the ME created zone
+-- @param #number level Level of removal
+function UTILS.DestroyScenery(name, level)
+    local z = UTILS.GetEnvZone(name)
+    if z then
+        net.dostring_in("mission",string.format("a_scenery_destruction_zone(%d, %d)", z.zoneId, level))
+    end
+end
+
+--- Search for clear zones in a given area. A powerful and efficient function using Disposition to find clear areas for spawning ground units avoiding trees, water and map scenery.
+-- @param DCS##Vec3 Center position vector for the search area.
+-- @param #number SearchRadius Radius of the search area.
+-- @param #number PosRadius Required clear radius around each position.
+-- @param #number NumPositions Number of positions to find.
+-- @return #table A table of DCS#Vec2 positions that are clear of map objects within the given PosRadius.
+function UTILS.GetSimpleZones(Vec3, SearchRadius, PosRadius, NumPositions)
+    return Disposition.getSimpleZones(Vec3, SearchRadius, PosRadius, NumPositions)
+end
+
+--- Search for clear ground spawn zones within this zone. A powerful and efficient function using Disposition to find clear areas for spawning ground units avoiding trees, water and map scenery.
+-- @param Core.Zone#ZONE Zone to search.
+-- @param #number (Optional) PosRadius Required clear radius around each position. (Default is math.min(Radius/10, 200))
+-- @param #number (Optional) NumPositions Number of positions to find. (Default 50)
+-- @return #table A table of DCS#Vec2 positions that are clear of map objects within the given PosRadius. nil if no clear positions are found.
+function UTILS.GetClearZonePositions(Zone, PosRadius, NumPositions)
+    local radius = PosRadius or math.min(Zone:GetRadius()/10, 200)
+    local clearPositions = UTILS.GetSimpleZones(Zone:GetVec3(), Zone:GetRadius(), radius, NumPositions or 50)
+    if clearPositions and #clearPositions > 0 then
+        local validZones = {}
+        for _, vec2 in pairs(clearPositions) do
+            if Zone:IsVec2InZone(vec2) then
+                table.insert(validZones, vec2)
+            end
+        end
+        if #validZones > 0 then
+            return validZones, radius
+        end
+    end
+    return nil
+end
+
+
+--- Search for a random clear ground spawn coordinate within this zone. A powerful and efficient function using Disposition to find clear areas for spawning ground units avoiding trees, water and map scenery.
+-- @param Core.Zone#ZONE Zone to search.
+-- @param #number PosRadius (Optional) Required clear radius around each position. (Default is math.min(Radius/10, 200))
+-- @param #number NumPositions (Optional) Number of positions to find. (Default 50)
+-- @return Core.Point#COORDINATE A random coordinate for a clear zone. nil if no clear positions are found.
+-- @return #number Assigned radius for the found zones. nil if no clear positions are found.
+function UTILS.GetRandomClearZoneCoordinate(Zone, PosRadius, NumPositions)
+    local clearPositions = UTILS.GetClearZonePositions(Zone, PosRadius, NumPositions)
+    if clearPositions and #clearPositions > 0 then
+        local randomPosition, radius = clearPositions[math.random(1, #clearPositions)]
+        return COORDINATE:NewFromVec2(randomPosition), radius
+    end
+
+    return nil
+end
+
+--- Find the point on the radius of a circle closest to a point outside of the radius.
+-- @param DCS#Vec2 Vec1 Simple Vec2 marking the middle of the circle.
+-- @param #number Radius The radius of the circle.
+-- @param DCS#Vec2 Vec2 Simple Vec2 marking the point outside of the circle.
+-- @return DCS#Vec2 Vec2 point on the radius.
+function UTILS.FindNearestPointOnCircle(Vec1,Radius,Vec2)
+    local r = Radius
+    local cx = Vec1.x or 1
+    local cy = Vec1.y or 1
+    local px = Vec2.x or 1
+    local py = Vec2.y or 1
+
+    -- Berechne den Vektor vom Mittelpunkt zum externen Punkt
+    local dx = px - cx
+    local dy = py - cy
+
+    -- Berechne die Länge des Vektors
+    local dist = math.sqrt(dx * dx + dy * dy)
+
+    -- Wenn der Punkt im Mittelpunkt liegt, wähle einen Punkt auf der X-Achse
+    if dist == 0 then
+        return {x=cx + r, y=cy}
+    end
+
+    -- Normalisiere den Vektor (richtungsweise Vektor mit Länge 1)
+    local norm_dx = dx / dist
+    local norm_dy = dy / dist
+
+    -- Berechne den Punkt auf dem Rand des Kreises
+    local qx = cx + r * norm_dx
+    local qy = cy + r * norm_dy
+
+    local shift_factor = 1
+    qx = qx + shift_factor * norm_dx
+    qy = qy + shift_factor * norm_dy
+
+    return {x=qx, y=qy}
+end
+
+--- This function uses Disposition and other fallback logic to find better ground positions for ground units.
+--- NOTE: This is not a spawn randomizer.
+--- It will try to find clear ground locations avoiding trees, water, roads, runways, map scenery, statics and other units in the area and modifies the provided positions table.
+--- Maintains the original layout and unit positions as close as possible by searching for the next closest valid position to each unit.
+-- @param #table Positions A table of DCS#Vec2 or DCS#Vec3, can be a units table from the group template.
+-- @param DCS#Vec2 Anchor (Optional) DCS#Vec2 or DCS#Vec3 as anchor point to calculate offset of the units.
+-- @param #number MaxRadius (Optional) Max radius to search for valid ground locations in meters. Default is double the max radius of the units.
+-- @param #number Spacing (Optional) Minimum spacing between units in meters. Default is 5% of the search radius or 5 meters, whichever is larger.
+function UTILS.ValidateAndRepositionGroundUnits(Positions, Anchor, MaxRadius, Spacing)
+    local units = Positions
+    Anchor = Anchor or UTILS.GetCenterPoint(units)
+    local gPos = { x = Anchor.x, y = Anchor.z or Anchor.y }
+    local maxRadius = 0
+    local unitCount = 0
+    for _, unit in pairs(units) do
+        local pos = { x = unit.x, y = unit.z or unit.y }
+        local dist = UTILS.VecDist2D(pos, gPos)
+        if dist > maxRadius then
+            maxRadius = dist
+        end
+        unitCount = unitCount + 1
+    end
+    maxRadius = MaxRadius or math.max(maxRadius * 2, 10)
+    local spacing = Spacing or math.max(maxRadius * 0.05, 5)
+    if unitCount > 0 and maxRadius > 5 then
+        local spots = UTILS.GetSimpleZones(UTILS.Vec2toVec3(gPos), maxRadius, spacing, 1000)
+        if spots and #spots > 0 then
+            local validSpots = {}
+            for _, spot in pairs(spots) do -- Disposition sometimes returns points on roads, hence this filter.
+                if land.getSurfaceType(spot) == land.SurfaceType.LAND then
+                    table.insert(validSpots, spot)
+                end
+            end
+            spots = validSpots
+        end
+
+        local step = spacing
+        for _, unit in pairs(units) do
+            local pos = { x = unit.x, y = unit.z or unit.y }
+            local isOnLand = land.getSurfaceType(pos) == land.SurfaceType.LAND
+            local isValid = false
+            if spots and #spots > 0 then
+                local si = 1
+                local sid = 0
+                local closestDist = 100000000
+                local closestSpot
+                for _, spot in pairs(spots) do
+                    local dist = UTILS.VecDist2D(pos, spot)
+                    if dist < closestDist then
+                        closestDist = dist
+                        closestSpot = spot
+                        sid = si
+                    end
+                    si = si + 1
+                end
+                if closestSpot then
+                    if closestDist >= spacing then
+                        pos = closestSpot
+                    end
+                    isValid = true
+                    table.remove(spots, sid)
+                end
+            end
+
+            -- Failsafe calculation
+            if not isValid and not isOnLand then
+
+                local h = UTILS.HdgTo(pos, gPos)
+                local retries = 0
+                while not isValid and retries < 500 do
+
+                    local dist = UTILS.VecDist2D(pos, gPos)
+                    pos = UTILS.Vec2Translate(pos, step, h)
+
+                    local skip = false
+                    for _, unit2 in pairs(units) do
+                        if unit ~= unit2 then
+                            local pos2 = { x = unit2.x, y = unit2.z or unit2.y }
+                            local dist2 = UTILS.VecDist2D(pos, pos2)
+                            if dist2 < 12 then
+                                isValid = false
+                                skip = true
+                                break
+                            end
+                        end
+                    end
+
+                    if not skip and dist > step and land.getSurfaceType(pos) == land.SurfaceType.LAND then
+                        isValid = true
+                        break
+                    elseif dist <= step then
+                        break
+                    end
+
+                    retries = retries + 1
+                end
+            end
+
+            if isValid then
+                unit.x = pos.x
+                if unit.z then
+                    unit.z = pos.y
+                else
+                    unit.y = pos.y
+                end
+            end
+        end
+    end
+end
+
+--- This function uses Disposition and other fallback logic to find better ground positions for statics.
+--- NOTE: This is not a spawn randomizer.
+--- It will try to find clear ground locations avoiding trees, water, roads, runways, map scenery, statics and other units in the area and modifies the provided positions table.
+--- Maintains the original layout and unit positions as close as possible by searching for the next closest valid position to each unit.
+-- @param #table Positions A table of DCS#Vec2 or DCS#Vec3, can be a units table from the group template.
+-- @param DCS#Vec2 Position DCS#Vec2 or DCS#Vec3 initial spawn location.
+-- @param #number MaxRadius (Optional) Max radius to search for valid ground locations in meters. Default is double the max radius of the static.
+-- @return DCS#Vec2 Initial Position if it's valid, else a valid spawn position. nil if no valid position found.
+function UTILS.ValidateAndRepositionStatic(Country, Category, Type, Position, ShapeName, MaxRadius)
+    local coord = COORDINATE:NewFromVec2(Position)
+    local st = SPAWNSTATIC:NewFromType(Type, Category, Country)
+    if ShapeName then
+        st:InitShape(ShapeName)
+    end
+    local sName = "s-"..timer.getTime().."-"..math.random(1,10000)
+    local tempStatic = st:SpawnFromCoordinate(coord, 0, sName)
+    if tempStatic then
+        local sRadius = tempStatic:GetBoundingRadius(2) or 3
+        tempStatic:Destroy()
+        sRadius = sRadius * 0.5
+        MaxRadius = MaxRadius or math.max(sRadius * 10, 100)
+        local positions = UTILS.GetSimpleZones(coord:GetVec3(), MaxRadius, sRadius, 20)
+        if positions and #positions > 0 then
+            local closestSpot
+            local closestDist = math.huge
+            for _, spot in pairs(positions) do -- Disposition sometimes returns points on roads, hence this filter.
+                if land.getSurfaceType(spot) == land.SurfaceType.LAND then
+                    local dist = UTILS.VecDist2D(Position, spot)
+                    if dist < closestDist then
+                        closestDist = dist
+                        closestSpot = spot
+                    end
+                end
+            end
+
+            if closestSpot then
+                if closestDist >= sRadius then
+                    return closestSpot
+                else
+                    return Position
+                end
+            end
+        end
+    end
+
+    return nil
 end
 --- **Utils** - Lua Profiler.
 --
@@ -11418,7 +12026,7 @@ function SCHEDULEDISPATCHER:AddSchedule( Scheduler, ScheduleFunction, ScheduleAr
     local Name = Info.name or "?"
 
     local ErrorHandler = function( errmsg )
-      env.info( "Error in timer function: " .. errmsg )
+      env.info( "Error in timer function: " .. errmsg or "" )
       if BASE.Debug ~= nil then
         env.info( BASE.Debug.traceback() )
       end
@@ -11569,7 +12177,7 @@ function SCHEDULEDISPATCHER:Stop( Scheduler, CallID )
     local Schedule = self.Schedule[Scheduler][CallID] -- #SCHEDULEDISPATCHER.ScheduleData
 
     -- Only stop when there is a ScheduleID defined for the CallID. So, when the scheduler was stopped before, do nothing.
-    if Schedule.ScheduleID then
+    if Schedule and Schedule.ScheduleID then
 
       self:T( string.format( "SCHEDULEDISPATCHER stopping scheduler CallID=%s, ScheduleID=%s", tostring( CallID ), tostring( Schedule.ScheduleID ) ) )
 
@@ -15740,6 +16348,7 @@ end
 -- @field #table Table of any trigger zone properties from the ME. The key is the Name of the property, and the value is the property's Value.
 -- @field #number Surface Type of surface. Only determined at the center of the zone!
 -- @field #number Checktime Check every Checktime seconds, used for ZONE:Trigger()
+-- @field #boolean PartlyInside When called, a GROUP is considered inside as soon as any of its units enters the zone even if they are far apart.
 -- @extends Core.Fsm#FSM
 
 
@@ -16204,6 +16813,19 @@ function ZONE_BASE:GetZoneProbability()
   return self.ZoneProbability
 end
 
+--- Get the coordinate on the radius of the zone nearest to Outsidecoordinate. Useto e.g. find an ingress point.
+-- @param #ZONE_BASE self
+-- @param Core.Point#COORDINATE Outsidecoordinate The coordinate outside of the zone from where to look.
+-- @return Core.Point#COORDINATE CoordinateOnRadius
+function ZONE_BASE:FindNearestCoordinateOnRadius(Outsidecoordinate)
+  local Vec1 = self:GetVec2()
+  local Radius = self:GetRadius()
+  local Vec2 = Outsidecoordinate:GetVec2()
+  local Point = UTILS.FindNearestPointOnCircle(Vec1,Radius,Vec2)
+  local rc = COORDINATE:NewFromVec2(Point)
+  return rc
+end
+
 --- Get the zone taking into account the randomization probability of a zone to be selected.
 -- @param #ZONE_BASE self
 -- @return #ZONE_BASE The zone is selected taking into account the randomization probability factor.
@@ -16269,6 +16891,8 @@ end
 --
 --            -- Stop watching the zone after 1 hour
 --           triggerzone:__TriggerStop(3600)
+--            -- Call :SetPartlyInside() if you use SET_GROUP to count as inside when any of their units enters even when they are far apart.
+--            -- Make sure to call :SetPartlyInside() before :Trigger()!
 function ZONE_BASE:Trigger(Objects)
   --self:I("Added Zone Trigger")
   self:SetStartState("TriggerStopped")
@@ -16337,6 +16961,16 @@ function ZONE_BASE:Trigger(Objects)
   
 end
 
+  --- Toggle “partly-inside” handling for this zone. To be used before :Trigger().
+  -- * Default:* flag is **false** until you call the method.  
+  -- * Call with no argument or with **true** → enable.  
+  -- * Call with **false** → disable again (handy if it was enabled before).
+  -- @param #ZONE_BASE self
+  -- @return #ZONE_BASE self
+  function ZONE_BASE:SetPartlyInside(state)
+  self.PartlyInside = state or not ( state == false )
+  return self
+  end
 --- (Internal) Check the assigned objects for being in/out of the zone
 -- @param #ZONE_BASE self
 -- @param #boolean fromstart If true, do the init of the objects
@@ -16375,7 +17009,12 @@ function ZONE_BASE:_TriggerCheck(fromstart)
           obj.TriggerInZone[self.ZoneName] = false
         end
         -- is obj in zone?
-        local inzone = self:IsCoordinateInZone(obj:GetCoordinate())
+        local inzone
+        if self.PartlyInside and obj.ClassName == "GROUP" then
+            inzone = obj:IsAnyInZone(self)                     -- TRUE if any unit is inside
+        else
+            inzone = self:IsCoordinateInZone(obj:GetCoordinate()) -- original barycentre test
+        end
         --self:I("Object "..obj:GetName().." is in zone: "..tostring(inzone))
         if inzone and obj.TriggerInZone[self.ZoneName] then
           -- just count
@@ -17179,6 +17818,26 @@ function ZONE_RADIUS:IsVec3InZone( Vec3 )
   return InZone
 end
 
+--- Search for clear ground spawn zones within this zone. A powerful and efficient function using Disposition to find clear areas for spawning ground units avoiding trees, water and map scenery.
+-- @param #ZONE_RADIUS self
+-- @param #number PosRadius Required clear radius around each position.
+-- @param #number NumPositions Number of positions to find.
+-- @return #table A table of DCS#Vec2 positions that are clear of map objects within the given PosRadius. nil if no clear positions are found.
+function ZONE_RADIUS:GetClearZonePositions(PosRadius, NumPositions)
+    return UTILS.GetClearZonePositions(self, PosRadius, NumPositions)
+end
+
+
+--- Search for a random clear ground spawn coordinate within this zone. A powerful and efficient function using Disposition to find clear areas for spawning ground units avoiding trees, water and map scenery.
+-- @param #ZONE_RADIUS self
+-- @param #number PosRadius (Optional) Required clear radius around each position. (Default is math.min(Radius/10, 200))
+-- @param #number NumPositions (Optional) Number of positions to find. (Default 50)
+-- @return Core.Point#COORDINATE A random coordinate for a clear zone. nil if no clear positions are found.
+-- @return #number Assigned radius for the found zones. nil if no clear positions are found.
+function ZONE_RADIUS:GetRandomClearZoneCoordinate(PosRadius, NumPositions)
+    return UTILS.GetRandomClearZoneCoordinate(self, PosRadius, NumPositions)
+end
+
 --- Returns a random Vec2 location within the zone.
 -- @param #ZONE_RADIUS self
 -- @param #number inner (Optional) Minimal distance from the center of the zone. Default is 0.
@@ -17190,6 +17849,10 @@ function ZONE_RADIUS:GetRandomVec2(inner, outer, surfacetypes)
   local Vec2 = self:GetVec2()
   local _inner = inner or 0
   local _outer = outer or self:GetRadius()
+  
+  math.random()
+  math.random()
+  math.random()
 
   if surfacetypes and type(surfacetypes)~="table" then
     surfacetypes={surfacetypes}
@@ -18157,6 +18820,26 @@ function ZONE_POLYGON_BASE:Flush()
   return self
 end
 
+--- Search for clear ground spawn zones within this zone. A powerful and efficient function using Disposition to find clear areas for spawning ground units avoiding trees, water and map scenery.
+-- @param #ZONE_POLYGON_BASE self
+-- @param #number PosRadius Required clear radius around each position.
+-- @param #number NumPositions Number of positions to find.
+-- @return #table A table of DCS#Vec2 positions that are clear of map objects within the given PosRadius. nil if no clear positions are found.
+function ZONE_POLYGON_BASE:GetClearZonePositions(PosRadius, NumPositions)
+    return UTILS.GetClearZonePositions(self, PosRadius, NumPositions)
+end
+
+
+--- Search for a random clear ground spawn coordinate within this zone. A powerful and efficient function using Disposition to find clear areas for spawning ground units avoiding trees, water and map scenery.
+-- @param #ZONE_POLYGON_BASE self
+-- @param #number PosRadius (Optional) Required clear radius around each position. (Default is math.min(Radius/10, 200))
+-- @param #number NumPositions (Optional) Number of positions to find. (Default 50)
+-- @return Core.Point#COORDINATE A random coordinate for a clear zone. nil if no clear positions are found.
+-- @return #number Assigned radius for the found zones. nil if no clear positions are found.
+function ZONE_POLYGON_BASE:GetRandomClearZoneCoordinate(PosRadius, NumPositions)
+    return UTILS.GetRandomClearZoneCoordinate(self, PosRadius, NumPositions)
+end
+
 --- Smokes the zone boundaries in a color.
 -- @param #ZONE_POLYGON_BASE self
 -- @param #boolean UnBound If true, the tyres will be destroyed.
@@ -18535,6 +19218,11 @@ end
 function ZONE_POLYGON_BASE:GetRandomVec2()
     -- make sure we assign weights to the triangles based on their surface area, otherwise
     -- we'll be more likely to generate random points in smaller triangles
+    
+    math.random()
+    math.random()
+    math.random()
+    
     local weights = {}
     for _, triangle in pairs(self._Triangles) do
         weights[triangle] = triangle.SurfaceArea / self.SurfaceArea
@@ -18874,12 +19562,7 @@ function ZONE_POLYGON:Scan( ObjectCategories, UnitCategories )
 
   local vectors = self:GetBoundingSquare()
 
-  local minVec3 = {x=vectors.x1, y=0, z=vectors.y1}
-  local maxVec3 = {x=vectors.x2, y=0, z=vectors.y2}
-
-  local minmarkcoord = COORDINATE:NewFromVec3(minVec3)
-  local maxmarkcoord = COORDINATE:NewFromVec3(maxVec3)
-  local ZoneRadius = minmarkcoord:Get2DDistance(maxmarkcoord)/2
+  local ZoneRadius = UTILS.VecDist2D({x=vectors.x1, y=vectors.y1}, {x=vectors.x2, y=vectors.y2})/2
 --  self:I("Scan Radius:" ..ZoneRadius)
   local CenterVec3 = self:GetCoordinate():GetVec3()
 
@@ -21086,7 +21769,7 @@ function DATABASE:_RegisterGroupTemplate( GroupTemplate, CoalitionSide, Category
           self:E("WARNING: Invalid STN "..tostring(UnitTemplate.AddPropAircraft.STN_L16).." for ".. UnitTemplate.name)
         else
           self.STNS[stn] = UnitTemplate.name
-          self:I("Register STN "..tostring(UnitTemplate.AddPropAircraft.STN_L16).." for ".. UnitTemplate.name)
+          self:T("Register STN "..tostring(UnitTemplate.AddPropAircraft.STN_L16).." for ".. UnitTemplate.name)
         end
       end
       if UnitTemplate.AddPropAircraft.SADL_TN then
@@ -21095,7 +21778,7 @@ function DATABASE:_RegisterGroupTemplate( GroupTemplate, CoalitionSide, Category
           self:E("WARNING: Invalid SADL "..tostring(UnitTemplate.AddPropAircraft.SADL_TN).." for ".. UnitTemplate.name)
         else
           self.SADL[sadl] = UnitTemplate.name
-          self:I("Register SADL "..tostring(UnitTemplate.AddPropAircraft.SADL_TN).." for ".. UnitTemplate.name)
+          self:T("Register SADL "..tostring(UnitTemplate.AddPropAircraft.SADL_TN).." for ".. UnitTemplate.name)
         end
       end  
     end
@@ -21356,7 +22039,7 @@ function DATABASE:GetCoalitionFromClientTemplate( ClientName )
   if self.Templates.ClientsByName[ClientName] then  
     return self.Templates.ClientsByName[ClientName].CoalitionID
   end
-  self:E("WARNING: Template does not exist for client "..tostring(ClientName))
+  self:T("WARNING: Template does not exist for client "..tostring(ClientName))
   return nil
 end
 
@@ -21368,7 +22051,7 @@ function DATABASE:GetCategoryFromClientTemplate( ClientName )
   if self.Templates.ClientsByName[ClientName] then  
     return self.Templates.ClientsByName[ClientName].CategoryID
   end
-  self:E("WARNING: Template does not exist for client "..tostring(ClientName))
+  self:T("WARNING: Template does not exist for client "..tostring(ClientName))
   return nil
 end
 
@@ -21380,7 +22063,7 @@ function DATABASE:GetCountryFromClientTemplate( ClientName )
   if self.Templates.ClientsByName[ClientName] then  
     return self.Templates.ClientsByName[ClientName].CountryID
   end
-  self:E("WARNING: Template does not exist for client "..tostring(ClientName))
+  self:T("WARNING: Template does not exist for client "..tostring(ClientName))
   return nil  
 end
 
@@ -21673,7 +22356,7 @@ function DATABASE:_EventOnBirth( Event )
       if PlayerName then
 
         -- Debug info.
-        self:I(string.format("Player '%s' joined unit '%s' of group '%s'", tostring(PlayerName), tostring(Event.IniDCSUnitName), tostring(Event.IniDCSGroupName)))
+        self:I(string.format("Player '%s' joined unit '%s' (%s) of group '%s'", tostring(PlayerName), tostring(Event.IniDCSUnitName), tostring(Event.IniTypeName), tostring(Event.IniDCSGroupName)))
               
         -- Add client in case it does not exist already.
         if client == nil or (client and client:CountPlayers() == 0) then
@@ -23316,7 +23999,26 @@ do -- SET_BASE
 
     return ObjectNames
   end
+  
+    --- Get a *new* set table that only contains alive objects.
+  -- @param #SET_BASE self
+  -- @return #table Set table of alive objects.
+  function SET_BASE:GetAliveSet()
+    --self:F2()
 
+    local AliveSet = {}
+    -- Clean the Set before returning with only the alive Objects.
+    for ObjectName, Object in pairs( self.Set ) do
+      if Object then
+        if Object:IsAlive() then
+          AliveSet[#AliveSet+1] = Object
+        end
+      end
+    end
+
+    return AliveSet or {}
+  end
+  
 end
 
 do 
@@ -23483,25 +24185,25 @@ do
     
   end
   
-  --- Get a *new* set that only contains alive groups.
+  --- Get a *new* set table that only contains alive groups.
   -- @param #SET_GROUP self
-  -- @return #SET_GROUP Set of alive groups.
+  -- @return #table Set of alive groups.
   function SET_GROUP:GetAliveSet()
     --self:F2()
 
-    local AliveSet = SET_GROUP:New()
-
+    --local AliveSet = SET_GROUP:New()
+    local AliveSet = {}
     -- Clean the Set before returning with only the alive Groups.
     for GroupName, GroupObject in pairs( self.Set ) do
       local GroupObject = GroupObject -- Wrapper.Group#GROUP
       if GroupObject then
         if GroupObject:IsAlive() then
-          AliveSet:Add( GroupName, GroupObject )
+          AliveSet[GroupName] = GroupObject
         end
       end
     end
 
-    return AliveSet.Set or {}
+    return AliveSet or {}
   end
 
   --- Returns a report of of unit types.
@@ -24953,18 +25655,16 @@ do -- SET_UNIT
   
   --- Gets the alive set.
   -- @param #SET_UNIT self
-  -- @return #table Table of SET objects
+  -- @return #table Table of alive UNIT objects
   -- @return #SET_UNIT AliveSet 
   function SET_UNIT:GetAliveSet()
 
     local AliveSet = SET_UNIT:New()
 
     -- Clean the Set before returning with only the alive Groups.
-    for GroupName, GroupObject in pairs(self.Set) do    
-      local GroupObject=GroupObject --Wrapper.Client#CLIENT
-      
+    for GroupName, GroupObject in pairs(self.Set) do       
       if GroupObject and GroupObject:IsAlive() then      
-        AliveSet:Add(GroupName, GroupObject)
+        AliveSet[GroupName] = GroupObject
       end
     end
 
@@ -27142,18 +27842,16 @@ do -- SET_CLIENT
   -- @return #table Table of SET objects
   function SET_CLIENT:GetAliveSet()
 
-    local AliveSet = SET_CLIENT:New()
+    local AliveSet = {}
 
     -- Clean the Set before returning with only the alive Groups.
-    for GroupName, GroupObject in pairs(self.Set) do    
-      local GroupObject=GroupObject --Wrapper.Client#CLIENT
-      
+    for GroupName, GroupObject in pairs(self.Set) do      
       if GroupObject and GroupObject:IsAlive() then      
-        AliveSet:Add(GroupName, GroupObject)
+        AliveSet[GroupName] = GroupObject
       end
     end
 
-    return AliveSet.Set or {}
+    return AliveSet or {}
   end
 
   --- [User] Add a custom condition function.
@@ -29034,6 +29732,8 @@ do -- SET_ZONE
   --          
   --          -- Stop watching after 1 hour
   --          zoneset:__TriggerStop(3600)
+  --          -- Call :SetPartlyInside() on any zone (or SET_ZONE) if you want GROUPs to count as inside when any of their units enters even if they are far apart.
+  --          -- Make sure to call :SetPartlyInside() before :Trigger()!.
   function SET_ZONE:Trigger(Objects)
     --self:I("Added Set_Zone Trigger")
     self:AddTransition("*","TriggerStart","TriggerRunning")
@@ -29084,6 +29784,20 @@ do -- SET_ZONE
     -- @param Core.Zone#ZONE_BASE Zone The zone left.
   end
   
+  --- Toggle “partly-inside” handling for every zone in the set when those zones are used with :Trigger().
+  -- * Call with no argument or **true** → enable for all.  
+  -- * Call with **false** → disable again (handy if it was enabled before).
+  -- @param #SET_ZONE self
+  -- @return #SET_ZONE self
+  function SET_ZONE:SetPartlyInside(state)
+    for _,Zone in pairs(self.Set) do
+        if Zone.SetPartlyInside then
+            Zone:SetPartlyInside(state)
+        end
+    end
+    return self
+  end
+  
   --- (Internal) Check the assigned objects for being in/out of the zone
   -- @param #SET_ZONE self
   -- @param #boolean fromstart If true, do the init of the objects
@@ -29119,8 +29833,13 @@ do -- SET_ZONE
               -- has not been tagged previously - wasn't in set! 
               obj.TriggerInZone[_zone.ZoneName] = false 
             end
-            -- is obj in zone?
-            local inzone = _zone:IsCoordinateInZone(obj:GetCoordinate())
+            -- is obj in this zone?
+            local inzone
+            if _zone.PartlyInside and obj.ClassName == "GROUP" then
+                inzone = obj:IsAnyInZone(_zone)                 -- TRUE as soon as any unit is inside
+            else
+                inzone = _zone:IsCoordinateInZone(obj:GetCoordinate())  -- original centroid test
+            end
             --self:I("Object "..obj:GetName().." is in zone: "..tostring(inzone))
             if inzone and not obj.TriggerInZone[_zone.ZoneName] then
               -- wasn't in zone before
@@ -31633,6 +32352,10 @@ do -- COORDINATE
   --   * @{#COORDINATE.SmokeOrange}(): To smoke the point in orange.
   --   * @{#COORDINATE.SmokeWhite}(): To smoke the point in white.
   --   * @{#COORDINATE.SmokeGreen}(): To smoke the point in green.
+  --   * @{#COORDINATE.SetSmokeOffsetDirection}(): To set an offset point direction for smoke.
+  --   * @{#COORDINATE.SetSmokeOffsetDistance}(): To set an offset point distance for smoke.
+  --   * @{#COORDINATE.SwitchSmokeOffsetOn}(): To set an offset point for smoke to on.
+  --   * @{#COORDINATE.SwitchSmokeOffsetOff}(): To set an offset point for smoke to off.
   --
   -- ## 2.2) Flare
   --
@@ -32347,7 +33070,9 @@ do -- COORDINATE
   -- @return DCS#Vec2 Vec2
   function COORDINATE:GetRandomVec2InRadius( OuterRadius, InnerRadius )
     self:F2( { OuterRadius, InnerRadius } )
-
+    math.random()
+    math.random()
+    math.random()
     local Theta = 2 * math.pi * math.random()
     local Radials = math.random() + math.random()
     if Radials > 1 then
@@ -32407,6 +33132,26 @@ do -- COORDINATE
     return land.getHeight( Vec2 )
   end
 
+  --- Returns a table of DCS#Vec3 points representing the terrain profile between two points.
+  -- @param #COORDINATE self
+  -- @param Destination DCS#Vec3 Ending point of the profile.
+  -- @return #table DCS#Vec3 table of the profile
+  function COORDINATE:GetLandProfileVec3(Destination)
+    return land.profile(self:GetVec3(), Destination)
+  end
+
+  --- Returns a table of #COORDINATE representing the terrain profile between two points.
+  -- @param #COORDINATE self
+  -- @param Destination #COORDINATE Ending coordinate of the profile.
+  -- @return #table #COORDINATE table of the profile
+  function COORDINATE:GetLandProfileCoordinates(Destination)
+    local points = self:GetLandProfileVec3(Destination:GetVec3())
+    local coords = {}
+    for _, point in ipairs(points) do
+      table.insert(coords, COORDINATE:NewFromVec3(point))
+    end
+    return coords
+  end
 
   --- Set the heading of the coordinate, if applicable.
   -- @param #COORDINATE self
@@ -33698,21 +34443,32 @@ do -- COORDINATE
   -- @param #number Duration (Optional) Duration of the smoke in seconds. DCS stopps the smoke automatically after 5 min.
   -- @param #number Delay (Optional) Delay before the smoke is started in seconds.
   -- @param #string Name (Optional) Name if you want to stop the smoke early (normal duration: 5mins)
+  -- @param #boolean Offset (Optional) If true, offset the smokle a bit.
+  -- @param #number Direction (Optional) If Offset is true this is the direction of the offset, 1-359 (degrees). Default random.
+  -- @param #number Distance (Optional) If Offset is true this is the distance of the offset in meters. Default random 10-20.
   -- @return #COORDINATE self
-  function COORDINATE:Smoke( SmokeColor, Duration, Delay, Name)
-    self:F2( { SmokeColor, Name, Duration, Delay } )
+  function COORDINATE:Smoke( SmokeColor, Duration, Delay, Name, Offset,Direction,Distance)
+    self:F2( { SmokeColor, Name, Duration, Delay, Offset } )
 
     SmokeColor=SmokeColor or SMOKECOLOR.Green
     
     if Delay and Delay>0 then
-      self:ScheduleOnce(Delay, COORDINATE.Smoke, self, SmokeColor, Duration, 0, Name)
+      self:ScheduleOnce(Delay, COORDINATE.Smoke, self, SmokeColor, Duration, 0, Name, Direction,Distance)
     else
     
       -- Create a name which is used to stop the smoke manually
       self.firename = Name or "Smoke-"..math.random(1,100000)
       
       -- Create smoke
-      trigger.action.smoke( self:GetVec3(), SmokeColor, self.firename )
+      if Offset or self.SmokeOffset then
+        local Angle = Direction or self:GetSmokeOffsetDirection()
+        local Distance = Distance or self:GetSmokeOffsetDistance()
+        local newpos = self:Translate(Distance,Angle,true,false)
+        local newvec3 = newpos:GetVec3()
+        trigger.action.smoke( newvec3, SmokeColor, self.firename )
+      else
+        trigger.action.smoke( self:GetVec3(), SmokeColor, self.firename )
+      end
       
       -- Stop smoke
       if Duration and Duration>0 then
@@ -33721,6 +34477,72 @@ do -- COORDINATE
     end
     
     return self
+  end
+  
+  --- Get the offset direction when using `COORDINATE:Smoke()`.
+  -- @param #COORDINATE self
+  -- @return #number Direction in degrees.
+  function COORDINATE:GetSmokeOffsetDirection()
+    local direction = self.SmokeOffsetDirection or math.random(1,359)
+    return direction
+  end
+  
+  --- Set the offset direction when using `COORDINATE:Smoke()`.
+  -- @param #COORDINATE self
+  -- @param #number Direction (Optional) This is the direction of the offset, 1-359 (degrees). Default random.
+  -- @return #COORDINATE self
+  function COORDINATE:SetSmokeOffsetDirection(Direction)
+    if self then
+      self.SmokeOffsetDirection = Direction or math.random(1,359)
+      return self
+    else
+      COORDINATE.SmokeOffsetDirection = Direction or math.random(1,359)
+    end
+  end
+  
+  --- Get the offset distance when using `COORDINATE:Smoke()`.
+  -- @param #COORDINATE self
+  -- @return #number Distance Distance in meters.
+  function COORDINATE:GetSmokeOffsetDistance()
+    local distance = self.SmokeOffsetDistance or math.random(10,20)
+    return distance
+  end
+  
+  --- Set the offset distance when using `COORDINATE:Smoke()`.
+  -- @param #COORDINATE self
+  -- @param #number Distance (Optional) This is the distance of the offset in meters. Default random 10-20.
+  -- @return #COORDINATE self
+  function COORDINATE:SetSmokeOffsetDistance(Distance)
+    if self then
+      self.SmokeOffsetDistance = Distance or math.random(10,20)
+      return self
+    else
+      COORDINATE.SmokeOffsetDistance = Distance or math.random(10,20)
+    end
+  end
+  
+  --- Set the offset on when using `COORDINATE:Smoke()`.
+  -- @param #COORDINATE self
+  -- @return #COORDINATE self
+  function COORDINATE:SwitchSmokeOffsetOn()
+    if self then
+      self.SmokeOffset = true
+      return self
+    else
+      COORDINATE.SmokeOffset = true
+    end
+  end
+  
+  --- Set the offset off when using `COORDINATE:Smoke()`.
+  -- @param #COORDINATE self
+  -- @return #COORDINATE self
+  function COORDINATE:SwitchSmokeOffsetOff()
+    if self then
+      self.SmokeOffset = false
+      return self
+    else
+      COORDINATE.SmokeOffset = false
+    end
   end
 
   --- Stops smoking the point in a color.
@@ -35290,7 +36112,26 @@ do -- COORDINATE
   function COORDINATE:GetRandomPointVec3InRadius( OuterRadius, InnerRadius )
     return COORDINATE:NewFromVec3( self:GetRandomVec3InRadius( OuterRadius, InnerRadius ) )
   end
-  
+
+
+--- Search for clear zones in a given area. A powerful and efficient function using Disposition to find clear areas for spawning ground units avoiding trees, water and map scenery.
+-- @param #number SearchRadius Radius of the search area.
+-- @param #number PosRadius Required clear radius around each position.
+-- @param #number NumPositions Number of positions to find.
+-- @return #table A table of Core.Point#COORDINATE that are clear of map objects within the given PosRadius. nil if no positions are found.
+  function COORDINATE:GetSimpleZones(SearchRadius, PosRadius, NumPositions)
+    local clearPositions = UTILS.GetSimpleZones(self:GetVec3(), SearchRadius, PosRadius, NumPositions)
+    if clearPositions and #clearPositions > 0 then
+        local coords = {}
+        for _, pos in pairs(clearPositions) do
+          local coord = COORDINATE:NewFromVec2(pos)
+          table.insert(coords, coord)
+        end
+        return coords
+    end
+    return nil
+  end
+
 end
 
 do 
@@ -36103,7 +36944,7 @@ end
 _MESSAGESRS = {}
 
 --- Set up MESSAGE generally to allow Text-To-Speech via SRS and TTS functions. `SetMSRS()` will try to use as many attributes configured with @{Sound.SRS#MSRS.LoadConfigFile}() as possible.
--- @param #string PathToSRS (optional) Path to SRS Folder, defaults to "C:\\\\Program Files\\\\DCS-SimpleRadio-Standalone" or your configuration file setting.
+-- @param #string PathToSRS (optional) Path to SRS TTS Folder, defaults to "C:\\\\Program Files\\\\DCS-SimpleRadio-Standalone\\ExternalAudio" or your configuration file setting.
 -- @param #number Port Port (optional) number of SRS, defaults to 5002 or your configuration file setting.
 -- @param #string PathToCredentials (optional) Path to credentials file for Google.
 -- @param #number Frequency Frequency in MHz. Can also be given as a #table of frequencies.
@@ -36119,13 +36960,13 @@ _MESSAGESRS = {}
 -- @usage
 --          -- Mind the dot here, not using the colon this time around!
 --          -- Needed once only
---          MESSAGE.SetMSRS("D:\\Program Files\\DCS-SimpleRadio-Standalone",5012,nil,127,radio.modulation.FM,"female","en-US",nil,coalition.side.BLUE)
+--          MESSAGE.SetMSRS("D:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio",5012,nil,127,radio.modulation.FM,"female","en-US",nil,coalition.side.BLUE)
 --          -- later on in your code
 --          MESSAGE:New("Test message!",15,"SPAWN"):ToSRS()
 --          
 function MESSAGE.SetMSRS(PathToSRS,Port,PathToCredentials,Frequency,Modulation,Gender,Culture,Voice,Coalition,Volume,Label,Coordinate,Backend)
   
-  _MESSAGESRS.PathToSRS = PathToSRS or MSRS.path or "C:\\Program Files\\DCS-SimpleRadio-Standalone"
+  _MESSAGESRS.PathToSRS = PathToSRS or MSRS.path or "C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio"
   
   _MESSAGESRS.frequency = Frequency or MSRS.frequencies or 243
   _MESSAGESRS.modulation = Modulation or MSRS.modulations or radio.modulation.AM
@@ -36186,7 +37027,7 @@ end
 -- @usage
 --          -- Mind the dot here, not using the colon this time around!
 --          -- Needed once only
---          MESSAGE.SetMSRS("D:\\Program Files\\DCS-SimpleRadio-Standalone",5012,nil,127,radio.modulation.FM,"female","en-US",nil,coalition.side.BLUE)
+--          MESSAGE.SetMSRS("D:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio",5012,nil,127,radio.modulation.FM,"female","en-US",nil,coalition.side.BLUE)
 --          -- later on in your code
 --          MESSAGE:New("Test message!",15,"SPAWN"):ToSRS()
 --          
@@ -36218,7 +37059,7 @@ end
 -- @usage
 --          -- Mind the dot here, not using the colon this time around!
 --          -- Needed once only
---          MESSAGE.SetMSRS("D:\\Program Files\\DCS-SimpleRadio-Standalone",5012,nil,127,radio.modulation.FM,"female","en-US",nil,coalition.side.BLUE)
+--          MESSAGE.SetMSRS("D:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio",5012,nil,127,radio.modulation.FM,"female","en-US",nil,coalition.side.BLUE)
 --          -- later on in your code
 --          MESSAGE:New("Test message!",15,"SPAWN"):ToSRSBlue()
 --          
@@ -36240,7 +37081,7 @@ end
 -- @usage
 --          -- Mind the dot here, not using the colon this time around!
 --          -- Needed once only
---          MESSAGE.SetMSRS("D:\\Program Files\\DCS-SimpleRadio-Standalone",5012,nil,127,radio.modulation.FM,"female","en-US",nil,coalition.side.RED)
+--          MESSAGE.SetMSRS("D:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio",5012,nil,127,radio.modulation.FM,"female","en-US",nil,coalition.side.RED)
 --          -- later on in your code
 --          MESSAGE:New("Test message!",15,"SPAWN"):ToSRSRed()
 --          
@@ -36262,7 +37103,7 @@ end
 -- @usage
 --          -- Mind the dot here, not using the colon this time around!
 --          -- Needed once only
---          MESSAGE.SetMSRS("D:\\Program Files\\DCS-SimpleRadio-Standalone",5012,nil,127,radio.modulation.FM,"female","en-US",nil,coalition.side.NEUTRAL)
+--          MESSAGE.SetMSRS("D:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio",5012,nil,127,radio.modulation.FM,"female","en-US",nil,coalition.side.NEUTRAL)
 --          -- later on in your code
 --          MESSAGE:New("Test message!",15,"SPAWN"):ToSRSAll()
 --          
@@ -38761,6 +39602,23 @@ function SPAWN:InitSetUnitAbsolutePositions(Positions)
   return self
 end
 
+
+--- Uses Disposition and other fallback logic to find better ground positions for ground units.
+--- NOTE: This is not a spawn randomizer.
+--- It will try to find clear ground locations avoiding trees, water, roads, runways, map scenery, statics and other units in the area.
+--- Maintains the original layout and unit positions as close as possible by searching for the next closest valid position to each unit.
+-- @param #SPAWN self
+-- @param #boolean OnOff Enable/disable the feature.
+-- @param #number MaxRadius (Optional) Max radius to search for valid ground locations in meters. Default is double the max radius of the units.
+-- @param #number Spacing (Optional) Minimum spacing between units in meters. Default is 5% of the search radius or 5 meters, whichever is larger.
+-- @return #SPAWN
+function SPAWN:InitValidateAndRepositionGroundUnits(OnOff, MaxRadius, Spacing)
+    self.SpawnValidateAndRepositionGroundUnits = OnOff
+    self.SpawnValidateAndRepositionGroundUnitsRadius = MaxRadius
+    self.SpawnValidateAndRepositionGroundUnitsSpacing = Spacing
+    return self
+end
+
 --- This method is rather complicated to understand. But I'll try to explain.
 -- This method becomes useful when you need to spawn groups with random templates of groups defined within the mission editor,
 -- but they will all follow the same Template route and have the same prefix name.
@@ -39541,7 +40399,13 @@ function SPAWN:SpawnWithIndex( SpawnIndex, NoBirth )
         if self.SpawnHiddenOnMap then
           SpawnTemplate.hidden=self.SpawnHiddenOnMap
         end
-        
+
+        if self.SpawnValidateAndRepositionGroundUnits then
+            local units = SpawnTemplate.units
+            local gPos = { x = SpawnTemplate.x, y = SpawnTemplate.y }
+            UTILS.ValidateAndRepositionGroundUnits(units, gPos, self.SpawnValidateAndRepositionGroundUnitsRadius, self.SpawnValidateAndRepositionGroundUnitsSpacing)
+        end
+
         -- Set country, coalition and category.
         SpawnTemplate.CategoryID = self.SpawnInitCategory or SpawnTemplate.CategoryID
         SpawnTemplate.CountryID = self.SpawnInitCountry or SpawnTemplate.CountryID
@@ -41990,6 +42854,7 @@ function SPAWNSTATIC:NewFromStatic(SpawnTemplateName, SpawnCountryID)
     self.CategoryID          = CategoryID
     self.CoalitionID         = CoalitionID
     self.SpawnIndex          = 0
+    self.StaticCopyFrom      = SpawnTemplateName
   else
     error( "SPAWNSTATIC:New: There is no static declared in the mission editor with SpawnTemplatePrefix = '" .. tostring(SpawnTemplateName) .. "'" )
   end
@@ -42143,12 +43008,16 @@ end
 -- @param #number CallsignID Callsign ID. Default 1 (="London").
 -- @param #number Frequency Frequency in MHz. Default 127.5 MHz.
 -- @param #number Modulation Modulation 0=AM, 1=FM.
+-- @param #boolean DynamicSpawns If true, allow Dynamic Spawns
+-- @param #boolean DynamicHotStarts If true, and DynamicSpawns is true, then allow Dynamic Spawns with hot starts.
 -- @return #SPAWNSTATIC self
-function SPAWNSTATIC:InitFARP(CallsignID, Frequency, Modulation)
+function SPAWNSTATIC:InitFARP(CallsignID, Frequency, Modulation, DynamicSpawns,DynamicHotStarts)
   self.InitFarp=true
   self.InitFarpCallsignID=CallsignID or 1
   self.InitFarpFreq=Frequency or 127.5
   self.InitFarpModu=Modulation or 0
+  self.InitFarpDynamicSpawns = DynamicSpawns
+  self.InitFarpDynamicHotStarts = (DynamicSpawns == true and DynamicHotStarts == true) and true or nil
   return self
 end
 
@@ -42212,6 +43081,20 @@ function SPAWNSTATIC:InitLinkToUnit(Unit, OffsetX, OffsetY, OffsetAngle)
   self.InitOffsetAngle=OffsetAngle or 0
 
   return self
+end
+
+--- Uses Disposition and other fallback logic to find a better and valid ground spawn position.
+--- NOTE: This is not a spawn randomizer.
+--- It will try to a find clear ground location avoiding trees, water, roads, runways, map scenery, other statics and other units in the area.
+--- Uses the initial position if it's a valid location.
+-- @param #SPAWNSTATIC self
+-- @param #boolean OnOff Enable/disable the feature.
+-- @param #number MaxRadius (Optional) Max radius to search for a valid ground location in meters. Default is 10 times the max radius of the static.
+-- @return #SPAWNSTATIC self
+function SPAWNSTATIC:InitValidateAndRepositionStatic(OnOff, MaxRadius)
+    self.ValidateAndRepositionStatic = OnOff
+    self.ValidateAndRepositionStaticMaxRadius = MaxRadius
+    return self
 end
 
 --- Allows to place a CallFunction hook when a new static spawns.
@@ -42300,8 +43183,9 @@ end
 function SPAWNSTATIC:SpawnFromZone(Zone, Heading, NewName)
 
   -- Spawn the new static at the center of the zone.
-  local Static = self:SpawnFromPointVec2( Zone:GetPointVec2(), Heading, NewName )
-
+  --local Static = self:SpawnFromPointVec2( Zone:GetPointVec2(), Heading, NewName )
+  local Static = self:SpawnFromCoordinate(Zone:GetCoordinate(), Heading, NewName)
+    
   return Static
 end
 
@@ -42379,6 +43263,14 @@ function SPAWNSTATIC:_SpawnStatic(Template, CountryID)
   -- Add static to the game.
   local Static=nil  --DCS#StaticObject
 
+  if self.ValidateAndRepositionStatic then
+    local validPos = UTILS.ValidateAndRepositionStatic(CountryID, Template.category, Template.type, Template, Template.shape_name, self.ValidateAndRepositionStaticMaxRadius)
+    if validPos then
+        Template.x = validPos.x
+        Template.y = validPos.y
+    end
+  end
+
   if self.InitFarp then
 
     local TemplateGroup={}
@@ -42390,6 +43282,13 @@ function SPAWNSTATIC:_SpawnStatic(Template, CountryID)
     TemplateGroup.x=Template.x
     TemplateGroup.y=Template.y
     TemplateGroup.name=Template.name
+    
+    if self.InitFarpDynamicSpawns == true then
+      TemplateGroup.units[1].dynamicSpawn = true
+      if self.InitFarpDynamicHotStarts == true then
+        TemplateGroup.units[1].allowHotStart = true
+      end
+    end
 
     self:T("Spawning FARP")
     self:T({Template=Template})
@@ -42397,7 +43296,8 @@ function SPAWNSTATIC:_SpawnStatic(Template, CountryID)
 
     -- ED's dirty way to spawn FARPS.
     Static=coalition.addGroup(CountryID, -1, TemplateGroup)
-
+    --Static=coalition.addStaticObject(CountryID, Template)
+    
     -- Currently DCS 2.8 does not trigger birth events if FARPS are spawned!
     -- We create such an event. The airbase is registered in Core.Event
     local Event = {
@@ -42435,7 +43335,20 @@ function SPAWNSTATIC:_SpawnStatic(Template, CountryID)
     -- delay calling this for .3 seconds so that it hopefully comes after the BIRTH event of the group.
     self:ScheduleOnce(0.3, self.SpawnFunctionHook, mystatic, unpack(self.SpawnFunctionArguments))
   end
-
+  
+  if self.StaticCopyFrom ~= nil then
+    mystatic.StaticCopyFrom = self.StaticCopyFrom
+    if not _DATABASE.Templates.Statics[Template.name] then
+      local TemplateGroup={}
+      TemplateGroup.units={}
+      TemplateGroup.units[1]=Template
+      TemplateGroup.x=Template.x
+      TemplateGroup.y=Template.y
+      TemplateGroup.name=Template.name
+      _DATABASE:_RegisterStaticTemplate( TemplateGroup, self.CoalitionID, self.CategoryID, CountryID )
+    end
+  end
+  
   return mystatic
 end
 --- **Core** - Timer scheduler.
@@ -43385,7 +44298,7 @@ MARKEROPS_BASE = {
   ClassName = "MARKEROPS",
   Tag = "mytag",
   Keywords = {},
-  version = "0.1.3",
+  version = "0.1.4",
   debug = false,
   Casesensitive = true,
 }
@@ -43489,14 +44402,7 @@ function MARKEROPS_BASE:OnEventMark(Event)
       self:E("Skipping onEvent. Event or Event.idx unknown.")
       return true
     end
-    --position
-    local vec3={y=Event.pos.y, x=Event.pos.x, z=Event.pos.z}
-    local coord=COORDINATE:NewFromVec3(vec3)
-    if self.debug then
-      local coordtext = coord:ToStringLLDDM()
-      local text = tostring(Event.text)
-      local m = MESSAGE:New(string.format("Mark added at %s with text: %s",coordtext,text),10,"Info",false):ToAll()
-    end
+
     local coalition = Event.MarkCoalition
     -- decision
     if Event.id==world.event.S_EVENT_MARK_ADDED then
@@ -43505,8 +44411,14 @@ function MARKEROPS_BASE:OnEventMark(Event)
       local Eventtext = tostring(Event.text)
       if Eventtext~=nil then
         if self:_MatchTag(Eventtext) then
-         local matchtable = self:_MatchKeywords(Eventtext)
-         self:MarkAdded(Eventtext,matchtable,coord,Event.idx,coalition,Event.PlayerName,Event)
+          local coord=COORDINATE:NewFromVec3({y=Event.pos.y, x=Event.pos.x, z=Event.pos.z})
+          if self.debug then
+            local coordtext = coord:ToStringLLDDM()
+            local text = tostring(Event.text)
+            local m = MESSAGE:New(string.format("Mark added at %s with text: %s",coordtext,text),10,"Info",false):ToAll()
+          end
+          local matchtable = self:_MatchKeywords(Eventtext)
+          self:MarkAdded(Eventtext,matchtable,coord,Event.idx,coalition,Event.PlayerName,Event)
         end
       end
     elseif Event.id==world.event.S_EVENT_MARK_CHANGE then
@@ -43515,8 +44427,14 @@ function MARKEROPS_BASE:OnEventMark(Event)
       local Eventtext = tostring(Event.text)
       if Eventtext~=nil then
         if self:_MatchTag(Eventtext) then
-         local matchtable = self:_MatchKeywords(Eventtext)
-         self:MarkChanged(Eventtext,matchtable,coord,Event.idx,coalition,Event.PlayerName,Event)
+           local coord=COORDINATE:NewFromVec3({y=Event.pos.y, x=Event.pos.x, z=Event.pos.z})
+           if self.debug then
+              local coordtext = coord:ToStringLLDDM()
+              local text = tostring(Event.text)
+              local m = MESSAGE:New(string.format("Mark changed at %s with text: %s",coordtext,text),10,"Info",false):ToAll()
+           end
+           local matchtable = self:_MatchKeywords(Eventtext)
+           self:MarkChanged(Eventtext,matchtable,coord,Event.idx,coalition,Event.PlayerName,Event)
         end
       end
     elseif Event.id==world.event.S_EVENT_MARK_REMOVED then
@@ -44214,7 +45132,7 @@ end
 -- 
 -- @module Core.ClientMenu
 -- @image Core_Menu.JPG
--- last change: Jan 2025
+-- last change: Sept 2025
 
 -- TODO
 ----------------------------------------------------------------------------------------------------------------
@@ -44611,7 +45529,7 @@ end
 CLIENTMENUMANAGER = {
   ClassName = "CLIENTMENUMANAGER",
   lid = "",
-  version = "0.1.6",
+  version = "0.1.7",
   name = nil,
   clientset = nil,
   menutree = {},
@@ -44998,6 +45916,16 @@ function CLIENTMENUMANAGER:ResetMenuComplete()
   self.menutree = nil
   self.menutree = {}
   return self
+end
+
+--- Remove the entry and all entries below the given entry from the client's F10 menus.
+-- @param #CLIENTMENUMANAGER self
+-- @param #CLIENTMENU Entry The entry to remove
+-- @param Wrapper.Client#CLIENT Client (optional) If given, make this change only for this client. 
+-- @return #CLIENTMENUMANAGER self
+function CLIENTMENUMANAGER:DeleteEntry(Entry,Client)
+  self:T(self.lid.."DeleteEntry")
+  return self:DeleteF10Entry(Entry,Client)
 end
 
 --- Remove the entry and all entries below the given entry from the client's F10 menus.
@@ -45742,18 +46670,20 @@ end
 function POSITIONABLE:GetVec3()
   local DCSPositionable = self:GetDCSObject()
   if DCSPositionable then
-    --local status, vec3 = pcall(
-      -- function()
-        --  local vec3 = DCSPositionable:getPoint()
-        --  return vec3
-       --end
-    --)
+
     local vec3 = DCSPositionable:getPoint()
-    --if status then
-      return vec3
-    --else
-      --self:E( { "Cannot get Vec3 from DCS Object", Positionable = self, Alive = self:IsAlive() } )
-    --end
+    
+    if not vec3 then 
+      local pos = DCSPositionable:getPosition()
+      if pos and pos.p then 
+       vec3 = pos.p
+      else
+        self:E( { "Cannot get the position from DCS Object for GetVec3", Positionable = self, Alive = self:IsAlive() } )
+      end
+    end
+
+    return vec3
+
   end
   -- ERROR!
   self:E( { "Cannot get the Positionable DCS Object for GetVec3", Positionable = self, Alive = self:IsAlive() } )
@@ -45884,13 +46814,13 @@ function POSITIONABLE:GetCoordinate()
 
     -- Get the current position.
     local PositionableVec3 = self:GetVec3()
-
-    local coord=COORDINATE:NewFromVec3(PositionableVec3)
-    local heading = self:GetHeading()
-    coord.Heading = heading
-    -- Return a new coordiante object.
-    return coord
-
+    if PositionableVec3 then
+      local coord=COORDINATE:NewFromVec3(PositionableVec3)
+      local heading = self:GetHeading()
+      coord.Heading = heading
+      -- Return a new coordiante object.
+      return coord
+    end
   end
 
   -- Error message.
@@ -47749,16 +48679,25 @@ end
 --   * @{#CONTROLLABLE.OptionAlarmStateGreen}
 --   * @{#CONTROLLABLE.OptionAlarmStateRed}
 --
--- ## 5.4) Jettison weapons:
+-- ## 5.4) [AIR] Jettison weapons:
 --
 --   * @{#CONTROLLABLE.OptionAllowJettisonWeaponsOnThreat}
 --   * @{#CONTROLLABLE.OptionKeepWeaponsOnThreat}
 --
--- ## 5.5) Air-2-Air missile attack range:
+-- ## 5.5) [AIR] Air-2-Air missile attack range:
 --   * @{#CONTROLLABLE.OptionAAAttackRange}(): Defines the usage of A2A missiles against possible targets.
 --   
 -- # 6) [GROUND] IR Maker Beacons for GROUPs and UNITs
 --  * @{#CONTROLLABLE:NewIRMarker}(): Create a blinking IR Marker on a GROUP or UNIT.
+--  
+-- # 7) [HELICOPTER] Units prefer vertical landing and takeoffs:
+--  * @{#CONTROLLABLE.OptionPreferVerticalLanding}(): Set aircraft to prefer vertical landing and takeoff.
+--  
+-- # 8) [AIRCRAFT] Landing approach options
+--  * @{#CONTROLLABLE.SetOptionLandingStraightIn}(): Landing approach straight in.
+--  * @{#CONTROLLABLE.SetOptionLandingForcePair}(): Landing approach in pairs for groups > 1 unit.
+--  * @{#CONTROLLABLE.SetOptionLandingRestrictPair}(): Landing approach single.
+--  * @{#CONTROLLABLE.SetOptionLandingOverheadBreak}():  Landing approach overhead break.
 --
 -- @field #CONTROLLABLE
 CONTROLLABLE = {
@@ -49013,7 +49952,7 @@ end
 -- @param #number Speed The speed [m/s] flying when holding the position.
 -- @return #CONTROLLABLE self
 function CONTROLLABLE:TaskOrbitCircleAtVec2( Point, Altitude, Speed )
-  self:F2( { self.ControllableName, Point, Altitude, Speed } )
+  --self:F2( { self.ControllableName, Point, Altitude, Speed } )
 
   local DCSTask = {
     id = 'Orbit',
@@ -51210,6 +52149,26 @@ function CONTROLLABLE:OptionROTPassiveDefense()
   return nil
 end
 
+--- Helicopter - prefer vertical landing.
+-- @param #CONTROLLABLE self
+-- @return #CONTROLLABLE self
+function CONTROLLABLE:OptionPreferVerticalLanding()
+  self:F2( { self.ControllableName } )
+
+  local DCSControllable = self:GetDCSObject()
+  if DCSControllable then
+    local Controller = self:_GetController()
+
+    if self:IsAir() then
+      Controller:setOption( AI.Option.Air.id.PREFER_VERTICAL, true )
+    end
+
+    return self
+  end
+
+  return nil
+end
+
 --- Can the CONTROLLABLE evade on enemy fire?
 -- @param #CONTROLLABLE self
 -- @return #boolean
@@ -51762,6 +52721,50 @@ function CONTROLLABLE:OptionEngageRange( EngageRange )
     return self
   end
   return nil
+end
+
+--- [AIR] Set how the AI lands on an airfield. Here: Straight in.
+-- @param #CONTROLLABLE self
+-- @return #CONTROLLABLE self
+function CONTROLLABLE:SetOptionLandingStraightIn()
+  self:F2( { self.ControllableName } )
+  if self:IsAir() then
+    self:SetOption("36","0")
+  end
+  return self
+end
+
+--- [AIR] Set how the AI lands on an airfield. Here: In pairs (if > 1 aircraft in group)
+-- @param #CONTROLLABLE self
+-- @return #CONTROLLABLE self
+function CONTROLLABLE:SetOptionLandingForcePair()
+  self:F2( { self.ControllableName } )
+  if self:IsAir() then
+    self:SetOption("36","1")
+  end
+  return self
+end
+
+--- [AIR] Set how the AI lands on an airfield. Here: No landing in pairs.
+-- @param #CONTROLLABLE self
+-- @return #CONTROLLABLE self
+function CONTROLLABLE:SetOptionLandingRestrictPair()
+  self:F2( { self.ControllableName } )
+  if self:IsAir() then
+    self:SetOption("36","2")
+  end
+  return self
+end
+
+--- [AIR] Set how the AI lands on an airfield. Here: Overhead break.
+-- @param #CONTROLLABLE self
+-- @return #CONTROLLABLE self
+function CONTROLLABLE:SetOptionLandingOverheadBreak()
+  self:F2( { self.ControllableName } )
+  if self:IsAir() then
+    self:SetOption("36","3")
+  end
+  return self
 end
 
 --- [AIR] Set how the AI uses the onboard radar.
@@ -53668,6 +54671,7 @@ GROUP.Attribute = {
   GROUND_EWR="Ground_EWR",
   GROUND_AAA="Ground_AAA",
   GROUND_SAM="Ground_SAM",
+  GROUND_SHORAD="Ground_SHORAD",
   GROUND_OTHER="Ground_OtherGround",
   NAVAL_AIRCRAFTCARRIER="Naval_AircraftCarrier",
   NAVAL_WARSHIP="Naval_WarShip",
@@ -55668,6 +56672,10 @@ function GROUP:Respawn( Template, Reset )
 
   --UTILS.PrintTableToLog(Template)
 
+  if self.ValidateAndRepositionGroundUnits then
+    UTILS.ValidateAndRepositionGroundUnits(Template.units)
+  end
+
   -- Spawn new group.
   self:ScheduleOnce(0.1,_DATABASE.Spawn,_DATABASE,Template)
   --_DATABASE:Spawn(Template)
@@ -56629,6 +57637,63 @@ function GROUP:IsAAA()
   end
   return isAAA
 end
+
+--- This function uses Disposition and other fallback logic to find better ground positions for ground units.
+--- NOTE: This is not a spawn randomizer.
+--- It will try to find clear ground locations avoiding trees, water, roads, runways, map scenery, statics and other units in the area and modifies the provided positions table.
+--- Maintains the original layout and unit positions as close as possible by searching for the next closest valid position to each unit.
+--- Uses UTILS.ValidateAndRepositionGroundUnits.
+-- @param #GROUP self
+-- @param #boolean Enabled Enable/disable the feature.
+function GROUP:SetValidateAndRepositionGroundUnits(Enabled)
+    self.ValidateAndRepositionGroundUnits = Enabled
+end
+
+
+--- Get the bounding box of the group combining UNIT:GetBoundingBox() units.
+-- @param #GROUP self
+-- @return DCS#Box3 The bounding box of the GROUP.
+-- @return #nil The GROUP does not have any alive units.
+function GROUP:GetBoundingBox()
+    local bbox = { min = { x = math.huge, y = math.huge, z = math.huge },
+                   max = { x = -math.huge, y = -math.huge, z = -math.huge }
+    }
+
+    local Units = self:GetUnits() or {}
+    if #Units == 0 then
+        return nil
+    end
+
+    for _, unit in pairs(Units) do
+        if unit and unit:IsAlive() then
+            local ubox = unit:GetBoundingBox()
+
+            if ubox then
+                if ubox.min.x < bbox.min.x then
+                    bbox.min.x = ubox.min.x
+                end
+                if ubox.min.y < bbox.min.y then
+                    bbox.min.y = ubox.min.y
+                end
+                if ubox.min.z < bbox.min.z then
+                    bbox.min.z = ubox.min.z
+                end
+
+                if ubox.max.x > bbox.max.x then
+                    bbox.max.x = ubox.max.x
+                end
+                if ubox.max.y > bbox.max.y then
+                    bbox.max.y = ubox.max.y
+                end
+                if ubox.max.z > bbox.max.z then
+                    bbox.max.z = ubox.max.z
+                end
+            end
+        end
+    end
+
+    return bbox
+end
 --- **Wrapper** - UNIT is a wrapper class for the DCS Class Unit.
 -- 
 -- ===
@@ -57007,6 +58072,10 @@ function UNIT:ReSpawnAt(Coordinate, Heading)
     SpawnGroupTemplate.groupId = nil
 
     --self:T( SpawnGroupTemplate )
+
+    if self.ValidateAndRepositionGroundUnits then
+        UTILS.ValidateAndRepositionGroundUnits(SpawnGroupTemplate.units)
+    end
 
     _DATABASE:Spawn(SpawnGroupTemplate)
 end
@@ -58555,6 +59624,31 @@ function UNIT:IsAAA()
     end
     return false
 end
+
+--- Set the relative life points of a UNIT object
+-- @param #UNIT self
+-- @param #number Percent Percent to set, can be 0..100.
+function UNIT:SetLife(Percent)
+    net.dostring_in("mission",string.format("a_unit_set_life_percentage(%d, %f)", self:GetID(), Percent))
+end
+
+--- Set the carrier illumination mode. -2: OFF, -1: AUTO, 0: NAVIGATION, 1: AC LAUNCH, 2: AC RECOVERY
+-- @param #UNIT self
+-- @param #number Mode Illumination mode, can be -2: OFF, -1: AUTO, 0: NAVIGATION, 1: AC LAUNCH, 2: AC RECOVERY
+function UNIT:SetCarrierIlluminationMode(Mode)
+    UTILS.SetCarrierIlluminationMode(self:GetID(), Mode)
+end
+
+--- This function uses Disposition and other fallback logic to find better ground positions for ground units.
+--- NOTE: This is not a spawn randomizer.
+--- It will try to find clear ground locations avoiding trees, water, roads, runways, map scenery, statics and other units in the area and modifies the provided positions table.
+--- Maintains the original layout and unit positions as close as possible by searching for the next closest valid position to each unit.
+--- Uses UTILS.ValidateAndRepositionGroundUnits.
+-- @param #UNIT self
+-- @param #boolean Enabled Enable/disable the feature.
+function UNIT:SetValidateAndRepositionGroundUnits(Enabled)
+    self.ValidateAndRepositionGroundUnits = Enabled
+end
 --- **Wrapper** - CLIENT wraps DCS Unit objects acting as a __Client__ or __Player__ within a mission.
 -- 
 -- ===
@@ -59980,7 +61074,6 @@ AIRBASE.TheChannel = {
 -- * AIRBASE.Syria.Al_Dumayr
 -- * AIRBASE.Syria.Al_Qusayr
 -- * AIRBASE.Syria.Aleppo
--- * AIRBASE.Syria.Amman
 -- * AIRBASE.Syria.An_Nasiriyah
 -- * AIRBASE.Syria.At_Tanf
 -- * AIRBASE.Syria.Bassel_Al_Assad
@@ -60042,7 +61135,7 @@ AIRBASE.TheChannel = {
 -- * AIRBASE.Syria.Wujah_Al_Hajar
 -- * AIRBASE.Syria.Ben_Gurion 
 -- * AIRBASE.Syria.Hatzor
--- * AIRBASE.Syria.Palmashim
+-- * AIRBASE.Syria.Palmachim
 -- * AIRBASE.Syria.Tel_Nof
 -- * AIRBASE.Syria.Marka
 --
@@ -60054,7 +61147,6 @@ AIRBASE.Syria={
   ["Al_Dumayr"] = "Al-Dumayr",
   ["Al_Qusayr"] = "Al Qusayr",
   ["Aleppo"] = "Aleppo",
-  ["Amman"] = "Amman",
   ["An_Nasiriyah"] = "An Nasiriyah",
   ["At_Tanf"] = "At Tanf",
   ["Bassel_Al_Assad"] = "Bassel Al-Assad",
@@ -60086,6 +61178,7 @@ AIRBASE.Syria={
   ["Kuweires"] = "Kuweires",
   ["Lakatamia"] = "Lakatamia",
   ["Larnaca"] = "Larnaca",
+  ["Marka"] = "Marka",
   ["Marj_Ruhayyil"] = "Marj Ruhayyil",
   ["Marj_as_Sultan_North"] = "Marj as Sultan North",
   ["Marj_as_Sultan_South"] = "Marj as Sultan South",
@@ -60116,9 +61209,8 @@ AIRBASE.Syria={
   ["Wujah_Al_Hajar"] = "Wujah Al Hajar",
   ["Ben_Gurion"] = "Ben Gurion",
   ["Hatzor"] = "Hatzor",
-  ["Palmashim"] = "Palmashim",
+  ["Palmachim"] = "Palmachim",
   ["Tel_Nof"] = "Tel Nof",
-  ["Marka"] = "Marka",
 }
 
 --- Airbases of the Mariana Islands map:
@@ -60142,6 +61234,35 @@ AIRBASE.MarianaIslands = {
   ["Rota_Intl"] = "Rota Intl",
   ["Saipan_Intl"] = "Saipan Intl",
   ["Tinian_Intl"] = "Tinian Intl",
+}
+
+--- Airbase of the Marianas WWII map
+--
+-- * AIRBASE.MarianaIslandsWWII.Agana
+-- * AIRBASE.MarianaIslandsWWII.Airfield_3
+-- * AIRBASE.MarianaIslandsWWII.Charon_Kanoa
+-- * AIRBASE.MarianaIslandsWWII.Gurguan_Point
+-- * AIRBASE.MarianaIslandsWWII.Isley
+-- * AIRBASE.MarianaIslandsWWII.Kagman
+-- * AIRBASE.MarianaIslandsWWII.Marpi
+-- * AIRBASE.MarianaIslandsWWII.Orote
+-- * AIRBASE.MarianaIslandsWWII.Pagan
+-- * AIRBASE.MarianaIslandsWWII.Rota
+-- * AIRBASE.MarianaIslandsWWII.Ushi
+-- @field AIRBASE.MarianaIslandsWWII
+AIRBASE.MarianaIslandsWWII = 
+{
+  ["Agana"] = "Agana",
+  ["Airfield_3"] = "Airfield 3",
+  ["Charon_Kanoa"] = "Charon Kanoa",
+  ["Gurguan_Point"] = "Gurguan Point",
+  ["Isley"] = "Isley",
+  ["Kagman"] = "Kagman",
+  ["Marpi"] = "Marpi",
+  ["Orote"] = "Orote",
+  ["Pagan"] = "Pagan",
+  ["Rota"] = "Rota",
+  ["Ushi"] = "Ushi",
 }
 
 --- Airbases of the South Atlantic map:
@@ -60207,51 +61328,56 @@ AIRBASE.SouthAtlantic={
 
 --- Airbases of the Sinai map:
 --
--- * AIRBASE.Sinai.Abu_Rudeis
--- * AIRBASE.Sinai.Abu_Suwayr
--- * AIRBASE.Sinai.Al_Bahr_al_Ahmar
--- * AIRBASE.Sinai.Al_Ismailiyah
--- * AIRBASE.Sinai.Al_Khatatbah
--- * AIRBASE.Sinai.Al_Mansurah
--- * AIRBASE.Sinai.Al_Rahmaniyah_Air_Base
--- * AIRBASE.Sinai.As_Salihiyah
--- * AIRBASE.Sinai.AzZaqaziq
--- * AIRBASE.Sinai.Baluza
--- * AIRBASE.Sinai.Ben_Gurion
--- * AIRBASE.Sinai.Beni_Suef
--- * AIRBASE.Sinai.Bilbeis_Air_Base
--- * AIRBASE.Sinai.Bir_Hasanah
--- * AIRBASE.Sinai.Birma_Air_Base
--- * AIRBASE.Sinai.Borj_El_Arab_International_Airport
--- * AIRBASE.Sinai.Cairo_International_Airport
--- * AIRBASE.Sinai.Cairo_West
--- * AIRBASE.Sinai.Difarsuwar_Airfield
--- * AIRBASE.Sinai.El_Arish
--- * AIRBASE.Sinai.El_Gora
--- * AIRBASE.Sinai.El_Minya
--- * AIRBASE.Sinai.Fayed
--- * AIRBASE.Sinai.Gebel_El_Basur_Air_Base
--- * AIRBASE.Sinai.Hatzerim
--- * AIRBASE.Sinai.Hatzor
--- * AIRBASE.Sinai.Hurghada_International_Airport
--- * AIRBASE.Sinai.Inshas_Airbase
--- * AIRBASE.Sinai.Jiyanklis_Air_Base
--- * AIRBASE.Sinai.Kedem
--- * AIRBASE.Sinai.Kibrit_Air_Base
--- * AIRBASE.Sinai.Kom_Awshim
--- * AIRBASE.Sinai.Melez
--- * AIRBASE.Sinai.Nevatim
--- * AIRBASE.Sinai.Ovda
--- * AIRBASE.Sinai.Palmachim
--- * AIRBASE.Sinai.Quwaysina
--- * AIRBASE.Sinai.Ramon_Airbase
--- * AIRBASE.Sinai.Ramon_International_Airport
--- * AIRBASE.Sinai.Sde_Dov
--- * AIRBASE.Sinai.Sharm_El_Sheikh_International_Airport
--- * AIRBASE.Sinai.St_Catherine
--- * AIRBASE.Sinai.Tel_Nof
--- * AIRBASE.Sinai.Wadi_Abu_Rish
--- * AIRBASE.Sinai.Wadi_al_Jandali
+-- * AIRBASE.SinaiMap.Abu_Rudeis
+-- * AIRBASE.SinaiMap.Abu_Suwayr
+-- * AIRBASE.SinaiMap.Al_Bahr_al_Ahmar
+-- * AIRBASE.SinaiMap.Al_Ismailiyah
+-- * AIRBASE.SinaiMap.Al_Khatatbah
+-- * AIRBASE.SinaiMap.Al_Mansurah
+-- * AIRBASE.SinaiMap.Al_Rahmaniyah_Air_Base
+-- * AIRBASE.SinaiMap.As_Salihiyah
+-- * AIRBASE.SinaiMap.AzZaqaziq
+-- * AIRBASE.SinaiMap.Baluza
+-- * AIRBASE.SinaiMap.Ben_Gurion
+-- * AIRBASE.SinaiMap.Beni_Suef
+-- * AIRBASE.SinaiMap.Bilbeis_Air_Base
+-- * AIRBASE.SinaiMap.Bir_Hasanah
+-- * AIRBASE.SinaiMap.Birma_Air_Base
+-- * AIRBASE.SinaiMap.Borg_El_Arab_International_Airport
+-- * AIRBASE.SinaiMap.Cairo_International_Airport
+-- * AIRBASE.SinaiMap.Cairo_West
+-- * AIRBASE.SinaiMap.Damascus_Intl
+-- * AIRBASE.SinaiMap.Difarsuwar_Airfield
+-- * AIRBASE.SinaiMap.El_Arish
+-- * AIRBASE.SinaiMap.El_Gora
+-- * AIRBASE.SinaiMap.El_Minya
+-- * AIRBASE.SinaiMap.Fayed
+-- * AIRBASE.SinaiMap.Gebel_El_Basur_Air_Base
+-- * AIRBASE.SinaiMap.Hatzerim
+-- * AIRBASE.SinaiMap.Hatzor
+-- * AIRBASE.SinaiMap.Hurghada_International_Airport
+-- * AIRBASE.SinaiMap.Inshas_Airbase
+-- * AIRBASE.SinaiMap.Jiyanklis_Air_Base
+-- * AIRBASE.SinaiMap.Kedem
+-- * AIRBASE.SinaiMap.Kibrit_Air_Base
+-- * AIRBASE.SinaiMap.Kom_Awshim
+-- * AIRBASE.SinaiMap.Melez
+-- * AIRBASE.SinaiMap.Mezzeh_Air_Base
+-- * AIRBASE.SinaiMap.Nevatim
+-- * AIRBASE.SinaiMap.Ovda
+-- * AIRBASE.SinaiMap.Palmachim
+-- * AIRBASE.SinaiMap.Quwaysina
+-- * AIRBASE.SinaiMap.Rafic_Hariri_Intl
+-- * AIRBASE.SinaiMap.Ramat_David
+-- * AIRBASE.SinaiMap.Ramon_Airbase
+-- * AIRBASE.SinaiMap.Ramon_International_Airport
+-- * AIRBASE.SinaiMap.Sde_Dov
+-- * AIRBASE.SinaiMap.Sharm_El_Sheikh_International_Airport
+-- * AIRBASE.SinaiMap.St_Catherine
+-- * AIRBASE.SinaiMap.Tabuk
+-- * AIRBASE.SinaiMap.Tel_Nof
+-- * AIRBASE.SinaiMap.Wadi_Abu_Rish
+-- * AIRBASE.SinaiMap.Wadi_al_Jandali
 --
 -- @field Sinai
 AIRBASE.Sinai = {
@@ -60270,9 +61396,10 @@ AIRBASE.Sinai = {
   ["Bilbeis_Air_Base"] = "Bilbeis Air Base",
   ["Bir_Hasanah"] = "Bir Hasanah",
   ["Birma_Air_Base"] = "Birma Air Base",
-  ["Borj_El_Arab_International_Airport"] = "Borj El Arab International Airport",
+  ["Borg_El_Arab_International_Airport"] = "Borg El Arab International Airport",
   ["Cairo_International_Airport"] = "Cairo International Airport",
   ["Cairo_West"] = "Cairo West",
+  ["Damascus_Intl"] = "Damascus Intl",
   ["Difarsuwar_Airfield"] = "Difarsuwar Airfield",
   ["El_Arish"] = "El Arish",
   ["El_Gora"] = "El Gora",
@@ -60288,15 +61415,19 @@ AIRBASE.Sinai = {
   ["Kibrit_Air_Base"] = "Kibrit Air Base",
   ["Kom_Awshim"] = "Kom Awshim",
   ["Melez"] = "Melez",
+  ["Mezzeh_Air_Base"] = "Mezzeh Air Base",
   ["Nevatim"] = "Nevatim",
   ["Ovda"] = "Ovda",
   ["Palmachim"] = "Palmachim",
   ["Quwaysina"] = "Quwaysina",
+  ["Rafic_Hariri_Intl"] = "Rafic Hariri Intl",
+  ["Ramat_David"] = "Ramat David",
   ["Ramon_Airbase"] = "Ramon Airbase",
   ["Ramon_International_Airport"] = "Ramon International Airport",
   ["Sde_Dov"] = "Sde Dov",
   ["Sharm_El_Sheikh_International_Airport"] = "Sharm El Sheikh International Airport",
   ["St_Catherine"] = "St Catherine",
+  ["Tabuk"] = "Tabuk",
   ["Tel_Nof"] = "Tel Nof",
   ["Wadi_Abu_Rish"] = "Wadi Abu Rish",
   ["Wadi_al_Jandali"] = "Wadi al Jandali",
@@ -60361,6 +61492,12 @@ AIRBASE.Kola = {
   ["Enontekio"] = "Enontekio",
   ["Evenes"] = "Evenes",
   ["Hosio"] = "Hosio",
+  ["Kilpyavr"] = "Kilpyavr",
+  ["Afrikanda"] = "Afrikanda",
+  ["Kalevala"] = "Kalevala",
+  ["Koshka_Yavr"] = "Koshka Yavr",
+  ["Poduzhemye"] = "Poduzhemye",
+  ["Luostari_Pechenga"] = "Luostari Pechenga",
 }
 
 --- Airbases of the Afghanistan map
@@ -60965,7 +62102,7 @@ function AIRBASE:Register(AirbaseName)
   self.descriptors=self:GetDesc()
 
   -- Debug info.
-  --self:I({airbase=AirbaseName, descriptors=self.descriptors})
+  --self:T({airbase=AirbaseName, descriptors=self.descriptors})
 
   -- Category.
   self.category=self.descriptors and self.descriptors.category or Airbase.Category.AIRDROME
@@ -62132,6 +63269,7 @@ function AIRBASE:_InitRunways(IncludeInverse)
 
     --runway.name=string.format("%02d", tonumber(name))
     runway.magheading=tonumber(runway.name)*10
+    runway.idx=runway.magheading
     runway.heading=heading
     runway.width=width or 0
     runway.length=length or 0
@@ -62444,6 +63582,7 @@ function AIRBASE:GetRunwayData(magvar, mark)
     local runway={} --#AIRBASE.Runway
     runway.heading=hdg
     runway.idx=idx
+    runway.magheading=idx
     runway.length=c1:Get2DDistance(c2)
     runway.position=c1
     runway.endpoint=c2
@@ -62459,6 +63598,57 @@ function AIRBASE:GetRunwayData(magvar, mark)
     -- Add runway.
     table.insert(runways, runway)
 
+  end
+  
+    -- Look for identical (parallel) runways, e.g. 03L and 03R at Nellis.
+  local rpairs={}
+  for i,_ri in pairs(runways) do
+    local ri=_ri --#AIRBASE.Runway
+    for j,_rj in pairs(runways) do
+      local rj=_rj --#AIRBASE.Runway
+      if i<j then
+        if ri.name==rj.name then
+          rpairs[i]=j
+        end
+      end
+    end
+  end
+
+  local function isLeft(a, b, c)
+    --return ((b.x - a.x)*(c.z - a.z) - (b.z - a.z)*(c.x - a.x)) > 0
+    return ((b.z - a.z)*(c.x - a.x) - (b.x - a.x)*(c.z - a.z)) > 0
+  end
+
+  for i,j in pairs(rpairs) do
+    local ri=runways[i] --#AIRBASE.Runway
+    local rj=runways[j] --#AIRBASE.Runway
+
+    -- Draw arrow.
+    --ri.center:ArrowToAll(rj.center)
+
+    local c0=ri.position
+
+    -- Vector in the direction of the runway.
+    local a=UTILS.VecTranslate(c0, 1000, ri.heading)
+
+    -- Vector from runway i to runway j.
+    local b=UTILS.VecSubstract(rj.position, ri.position)
+    b=UTILS.VecAdd(ri.position, b)
+
+    -- Check if rj is left of ri.
+    local left=isLeft(c0, a, b)
+
+    --env.info(string.format("Found pair %s: i=%d, j=%d, left==%s", ri.name, i, j, tostring(left)))
+
+    if left then
+      ri.isLeft=false
+      rj.isLeft=true
+    else
+      ri.isLeft=true
+      rj.isLeft=false
+    end
+
+    --break
   end
 
   return runways
@@ -71188,6 +72378,7 @@ function SCORING:_EventOnHit( Event )
   local TargetUnitCoalition = nil
   local TargetUnitCategory = nil
   local TargetUnitType = nil
+  local TargetIsScenery = false
 
   if Event.IniDCSUnit then
 
@@ -71228,6 +72419,12 @@ function SCORING:_EventOnHit( Event )
     TargetCategory = Event.TgtCategory
     TargetType = Event.TgtTypeName
 
+    -- Scenery hit
+    if (not TargetCategory) and TargetUNIT ~= nil and TargetUnit:IsInstanceOf("SCENERY") then
+        TargetCategory = Unit.Category.STRUCTURE
+        TargetIsScenery = true
+    end
+    
     TargetUnitCoalition = _SCORINGCoalition[TargetCoalition]
     TargetUnitCategory = _SCORINGCategory[TargetCategory]
     TargetUnitType = TargetType
@@ -71320,17 +72517,22 @@ function SCORING:_EventOnHit( Event )
                                  MESSAGE.Type.Update )
                        :ToAllIf( self:IfMessagesHit() and self:IfMessagesToAll() )
                        :ToCoalitionIf( InitCoalition, self:IfMessagesHit() and self:IfMessagesToCoalition() )
-              else
+              elseif TargetIsScenery ~= true then
                 MESSAGE:NewType( self.DisplayMessagePrefix .. "Player '" .. InitPlayerName .. "' hit enemy target " .. TargetUnitCategory .. " ( " .. TargetType .. " ) " .. PlayerHit.ScoreHit .. " times. " ..
                                  "Score: " .. PlayerHit.Score .. ".  Score Total:" .. Player.Score - Player.Penalty,
                                  MESSAGE.Type.Update )
                        :ToAllIf( self:IfMessagesHit() and self:IfMessagesToAll() )
                        :ToCoalitionIf( InitCoalition, self:IfMessagesHit() and self:IfMessagesToCoalition() )
+              elseif TargetIsScenery == true then
+                MESSAGE:NewType( self.DisplayMessagePrefix .. "Player '" .. InitPlayerName .. "' hit scenery object." .. " Score: " .. PlayerHit.Score .. ".  Score Total:" .. Player.Score - Player.Penalty,
+                             MESSAGE.Type.Update )
+                   :ToAllIf( self:IfMessagesHit() and self:IfMessagesToAll() )
+                   :ToCoalitionIf( InitCoalition, self:IfMessagesHit() and self:IfMessagesToCoalition() )
               end
               self:ScoreCSV( InitPlayerName, TargetPlayerName, "HIT_SCORE", 1, 1, InitUnitName, InitUnitCoalition, InitUnitCategory, InitUnitType, TargetUnitName, TargetUnitCoalition, TargetUnitCategory, TargetUnitType )
             end
           else -- A scenery object was hit.
-            MESSAGE:NewType( self.DisplayMessagePrefix .. "Player '" .. InitPlayerName .. "' hit scenery object.",
+            MESSAGE:NewType( self.DisplayMessagePrefix .. "Player '" .. InitPlayerName .. "' hit nothing special.",
                              MESSAGE.Type.Update )
                    :ToAllIf( self:IfMessagesHit() and self:IfMessagesToAll() )
                    :ToCoalitionIf( InitCoalition, self:IfMessagesHit() and self:IfMessagesToCoalition() )
@@ -105184,7 +106386,7 @@ end
 -- @param #WAREHOUSE self
 -- @return Core.Point#COORDINATE The coordinate of the warehouse.
 function WAREHOUSE:GetCoordinate()
-  return self.warehouse:GetCoordinate()
+  return self.warehouse:GetCoord()
 end
 
 --- Get 3D vector of warehouse static.
@@ -106276,6 +107478,16 @@ function WAREHOUSE:_AssetItemInfo(asset)
   self:I(self.lid..text)
   self:T({DCSdesc=asset.DCSdesc})
   self:T3({Template=asset.template})
+end
+
+--- This function uses Disposition and other fallback logic to find better ground positions for ground units.
+--- NOTE: This is not a spawn randomizer.
+--- It will try to find clear ground locations avoiding trees, water, roads, runways, map scenery, statics and other units in the area and modifies the provided positions table.
+--- Maintains the original layout and unit positions as close as possible by searching for the next closest valid position to each unit.
+--- Uses UTILS.ValidateAndRepositionGroundUnits.
+-- @param #boolean Enabled Enable/disable the feature.
+function WAREHOUSE:SetValidateAndRepositionGroundUnits(Enabled)
+    self.ValidateAndRepositionGroundUnits = Enabled
 end
 
 --- On after "NewAsset" event. A new asset has been added to the warehouse stock.
@@ -107996,6 +109208,10 @@ function WAREHOUSE:_SpawnAssetGroundNaval(alias, asset, request, spawnzone, late
     template.y   = coord.z
     template.alt = coord.y
 
+    if self.ValidateAndRepositionGroundUnits then
+      UTILS.ValidateAndRepositionGroundUnits(template.units)
+    end
+
     -- Spawn group.
     local group=_DATABASE:Spawn(template) --Wrapper.Group#GROUP
 
@@ -108924,7 +110140,7 @@ function WAREHOUSE:_CheckConquered()
     for _,_unit in pairs(units) do
       local unit=_unit --Wrapper.Unit#UNIT
 
-      local distance=coord:Get2DDistance(unit:GetCoordinate())
+      local distance=coord:Get2DDistance(unit:GetCoord())
 
       -- Filter only alive groud units. Also check distance again, because the scan routine might give some larger distances.
       if unit:IsGround() and unit:IsAlive() and distance <= radius then
@@ -113190,7 +114406,7 @@ end
 -- @module Functional.Mantis
 -- @image Functional.Mantis.jpg
 --
--- Last Update: May 2025
+-- Last Update: August 2025
 
 -------------------------------------------------------------------------
 --- **MANTIS** class, extends Core.Base#BASE
@@ -113276,10 +114492,15 @@ end
 -- * Patriot
 -- * Rapier
 -- * Roland
+-- * IRIS-T SLM
+-- * Pantsir S1
+-- * TOR M2
+-- * C-RAM
 -- * Silkworm (though strictly speaking this is a surface to ship missile)
 -- * SA-2, SA-3, SA-5, SA-6, SA-7, SA-8, SA-9, SA-10, SA-11, SA-13, SA-15, SA-19
 -- * From IDF mod: STUNNER IDFA, TAMIR IDFA (Note all caps!)
--- * From HDS (see note on HDS below): SA-2, SA-3, SA-10B, SA-10C, SA-12, SA-17, SA-20A, SA-20B, SA-23, HQ-2
+-- * From HDS (see note on HDS below): SA-2, SA-3, SA-10B, SA-10C, SA-12, SA-17, SA-20A, SA-20B, SA-23, HQ-2, SAMP/T Block 1, SAMP/T Block 1INT,  SAMP/T Block2
+-- * Other Mods: Nike
 -- 
 -- * From SMA: RBS98M, RBS70, RBS90, RBS90M, RBS103A, RBS103B, RBS103AM, RBS103BM, Lvkv9040M 
 -- **NOTE** If you are using the Swedish Military Assets (SMA), please note that the **group name** for RBS-SAM types also needs to contain the keyword "SMA"
@@ -113293,10 +114514,11 @@ end
 -- * SA-2 (with V759 missile, e.g. "Red SAM SA-2 HDS")
 -- * SA-2 (with HQ-2 launcher, use HQ-2 in the group name, e.g. "Red SAM HQ-2" )
 -- * SA-3 (with V601P missile, e.g. "Red SAM SA-3 HDS")
--- * SA-10B (overlap with other SA-10 types, e.g. "Red SAM SA-10B HDS")
--- * SA-10C (overlap with other SA-10 types, e.g. "Red SAM SA-10C HDS")
--- * SA-12 (launcher dependent range, e.g. "Red SAM SA-12 HDS")
--- * SA-23 (launcher dependent range, e.g. "Red SAM SA-23 HDS") 
+-- * SA-10B (overlap with other SA-10 types, e.g. "Red SAM SA-10B HDS" with 5P85CE launcher)
+-- * SA-10C (overlap with other SA-10 types, e.g. "Red SAM SA-10C HDS" with 5P85SE launcher)
+-- * SA-12 (launcher dependent range, e.g. "Red SAM SA-12 HDS 2" for the 9A82 variant and "Red SAM SA-12 HDS 1" for the 9A83 variant)
+-- * SA-23 (launcher dependent range, e.g. "Red SAM SA-23 HDS 2" for the 9A82ME variant and "Red SAM SA-23 HDS 1" for the 9A83ME variant)
+-- * SAMP/T (launcher dependent range, e.g. "Blue SAM SAMPT Block 1 HDS" for Block 1, "Blue SAM SAMPT Block 1INT HDS", "Blue SAM SAMPT Block 2 HDS")
 -- 
 -- The other HDS types work like the rest of the known SAM systems.
 -- 
@@ -113442,6 +114664,7 @@ end
 MANTIS = {
   ClassName             = "MANTIS",
   name                  = "mymantis",
+  version               = "0.9.34",
   SAM_Templates_Prefix  = "",
   SAM_Group             = nil,
   EWR_Templates_Prefix  = "",
@@ -113550,15 +114773,21 @@ MANTIS.SamData = {
   ["Chaparral"] = { Range=8, Blindspot=0, Height=3, Type="Short", Radar="Chaparral" },
   ["Linebacker"] = { Range=4, Blindspot=0, Height=3, Type="Point", Radar="Linebacker", Point="true" },
   ["Silkworm"] = { Range=90, Blindspot=1, Height=0.2, Type="Long", Radar="Silkworm" },
-  ["HEMTT_C-RAM_Phalanx"] = { Range=2, Blindspot=0, Height=2, Type="Point", Radar="HEMTT_C-RAM_Phalanx", Point="true" },
+  ["C-RAM"] = { Range=2, Blindspot=0, Height=2, Type="Point", Radar="HEMTT_C-RAM_Phalanx", Point="true" },
   -- units from HDS Mod, multi launcher options is tricky
   ["SA-10B"] = { Range=75, Blindspot=0, Height=18, Type="Medium" , Radar="SA-10B"},
-  ["SA-17"] = { Range=50, Blindspot=3, Height=30, Type="Medium", Radar="SA-17" },
+  ["SA-17"] = { Range=50, Blindspot=3, Height=50, Type="Medium", Radar="SA-17" },
   ["SA-20A"] = { Range=150, Blindspot=5, Height=27, Type="Long" , Radar="S-300PMU1"},
   ["SA-20B"] = { Range=200, Blindspot=4, Height=27, Type="Long" , Radar="S-300PMU2"},
   ["HQ-2"] = { Range=50, Blindspot=6, Height=35, Type="Medium", Radar="HQ_2_Guideline_LN" },
   ["TAMIR IDFA"] = { Range=20, Blindspot=0.6, Height=12.3, Type="Short", Radar="IRON_DOME_LN" },
-  ["STUNNER IDFA"] = { Range=250, Blindspot=1, Height=45, Type="Long", Radar="DAVID_SLING_LN" },   
+  ["STUNNER IDFA"] = { Range=250, Blindspot=1, Height=45, Type="Long", Radar="DAVID_SLING_LN" },
+  ["NIKE"] = { Range=155, Blindspot=6, Height=30, Type="Long", Radar="HIPAR" },
+  ["Dog Ear"] = { Range=11, Blindspot=0, Height=9, Type="Point", Radar="Dog Ear", Point="true" },
+  -- CH Added to DCS core 2.9.19.x
+  ["Pantsir S1"] = { Range=20, Blindspot=1.2, Height=15, Type="Point", Radar="PantsirS1" , Point="true" }, 
+  ["Tor M2"] = { Range=12, Blindspot=1, Height=10, Type="Point", Radar="TorM2", Point="true"  },
+  ["IRIS-T SLM"] = { Range=40, Blindspot=0.5, Height=20, Type="Medium", Radar="CH_IRIST_SLM" }, 
 }
 
 --- SAM data HDS
@@ -113574,13 +114803,17 @@ MANTIS.SamDataHDS = {
   -- group name MUST contain HDS to ID launcher type correctly!
   ["SA-2 HDS"] = { Range=56, Blindspot=7, Height=30, Type="Medium", Radar="V759" }, 
   ["SA-3 HDS"] = { Range=20, Blindspot=6, Height=30, Type="Short", Radar="V-601P" },  
-  ["SA-10C HDS 2"] = { Range=90, Blindspot=5, Height=25, Type="Long" , Radar="5P85DE ln"}, -- V55RUD
-  ["SA-10C HDS 1"] = { Range=90, Blindspot=5, Height=25, Type="Long" , Radar="5P85CE ln"}, -- V55RUD
-  ["SA-12 HDS 2"] = { Range=100, Blindspot=10, Height=25, Type="Long" , Radar="S-300V 9A82 l"},
-  ["SA-12 HDS 1"] = { Range=75, Blindspot=1, Height=25, Type="Long" , Radar="S-300V 9A83 l"},
+  ["SA-10B HDS"] = { Range=90, Blindspot=5, Height=25, Type="Long" , Radar="5P85CE ln"}, -- V55RUD
+  ["SA-10C HDS"] = { Range=75, Blindspot=5, Height=25, Type="Long" , Radar="5P85SE ln"}, -- V55RUD
+  ["SA-17 HDS"] = { Range=50, Blindspot=3, Height=50, Type="Medium", Radar="SA-17 " },
+  ["SA-12 HDS 2"] = { Range=100, Blindspot=13, Height=30, Type="Long" , Radar="S-300V 9A82 l"},
+  ["SA-12 HDS 1"] = { Range=75, Blindspot=6, Height=25, Type="Long" , Radar="S-300V 9A83 l"},
   ["SA-23 HDS 2"] = { Range=200, Blindspot=5, Height=37, Type="Long", Radar="S-300VM 9A82ME" },
   ["SA-23 HDS 1"] = { Range=100, Blindspot=1, Height=50, Type="Long", Radar="S-300VM 9A83ME" },
   ["HQ-2 HDS"] = { Range=50, Blindspot=6, Height=35, Type="Medium", Radar="HQ_2_Guideline_LN" },
+  ["SAMPT Block 1 HDS"] = { Range=120, Blindspot=1, Height=20, Type="long", Radar="SAMPT_MLT_Blk1" }, -- Block 1 Launcher
+  ["SAMPT Block 1INT HDS"] = { Range=150, Blindspot=1, Height=25, Type="long", Radar="SAMPT_MLT_Blk1NT" }, -- Block 1-INT Launcher
+  ["SAMPT Block 2 HDS"] = { Range=200, Blindspot=10, Height=70, Type="long", Radar="SAMPT_MLT_Blk2" }, -- Block 2 Launcher
 }
 
 --- SAM data SMA
@@ -113620,15 +114853,15 @@ MANTIS.SamDataCH = {
     -- https://www.currenthill.com/
     -- group name MUST contain CHM to ID launcher type correctly!
    ["2S38 CHM"] = { Range=6, Blindspot=0.1, Height=4.5, Type="Short", Radar="2S38" },
-   ["PantsirS1 CHM"] = { Range=20, Blindspot=1.2, Height=15, Type="Short", Radar="PantsirS1" }, 
+   ["PantsirS1 CHM"] = { Range=20, Blindspot=1.2, Height=15, Type="Point", Radar="PantsirS1", Point="true"  }, 
    ["PantsirS2 CHM"] = { Range=30, Blindspot=1.2, Height=18, Type="Medium", Radar="PantsirS2" }, 
    ["PGL-625 CHM"] = { Range=10, Blindspot=1, Height=5, Type="Short", Radar="PGL_625" }, 
    ["HQ-17A CHM"] = { Range=15, Blindspot=1.5, Height=10, Type="Short", Radar="HQ17A" }, 
    ["M903PAC2 CHM"] = { Range=120, Blindspot=3, Height=24.5, Type="Long", Radar="MIM104_M903_PAC2" },
    ["M903PAC3 CHM"] = { Range=160, Blindspot=1, Height=40, Type="Long", Radar="MIM104_M903_PAC3" }, 
-   ["TorM2 CHM"] = { Range=12, Blindspot=1, Height=10, Type="Short", Radar="TorM2" },
-   ["TorM2K CHM"] = { Range=12, Blindspot=1, Height=10, Type="Short", Radar="TorM2K" },
-   ["TorM2M CHM"] = { Range=16, Blindspot=1, Height=10, Type="Short", Radar="TorM2M" }, 
+   ["TorM2 CHM"] = { Range=12, Blindspot=1, Height=10, Type="Point", Radar="TorM2", Point="true"  },
+   ["TorM2K CHM"] = { Range=12, Blindspot=1, Height=10, Type="Point", Radar="TorM2K", Point="true"  },
+   ["TorM2M CHM"] = { Range=16, Blindspot=1, Height=10, Type="Point", Radar="TorM2M", Point="true"  }, 
    ["NASAMS3-AMRAAMER CHM"] = { Range=50, Blindspot=2, Height=35.7, Type="Medium", Radar="CH_NASAMS3_LN_AMRAAM_ER" }, 
    ["NASAMS3-AIM9X2 CHM"] = { Range=20, Blindspot=0.2, Height=18, Type="Short", Radar="CH_NASAMS3_LN_AIM9X2" },
    ["C-RAM CHM"] = { Range=2, Blindspot=0, Height=2, Type="Point", Radar="CH_Centurion_C_RAM", Point="true" }, 
@@ -113848,9 +115081,6 @@ do
     -- counter for SAM table updates
     self.checkcounter = 1
     
-    -- TODO Version
-    -- @field #string version
-    self.version="0.9.30"
     self:I(string.format("***** Starting MANTIS Version %s *****", self.version))
 
     --- FSM Functions ---
@@ -114047,7 +115277,11 @@ do
     self.AcceptZones = AcceptZones or {}
     self.RejectZones = RejectZones or {}
     self.ConflictZones = ConflictZones or {}
-    if #self.AcceptZones > 0 or #self.RejectZones > 0 or #self.ConflictZones > 0 then
+    self.AcceptZonesNo = UTILS.TableLength(self.AcceptZones)
+    self.RejectZonesNo = UTILS.TableLength(self.RejectZones)
+    self.ConflictZonesNo = UTILS.TableLength(self.ConflictZones)
+    self:T(string.format("AcceptZonesNo = %d | RejectZonesNo = %d | ConflictZonesNo = %d",self.AcceptZonesNo,self.RejectZonesNo,self.ConflictZonesNo))
+    if self.AcceptZonesNo > 0 or self.RejectZonesNo > 0 or self.ConflictZonesNo > 0 then
       self.usezones = true
     end
     return self
@@ -114439,7 +115673,8 @@ do
     self:T(self.lid.."_CheckCoordinateInZones")
     local inzone = false
     -- acceptzones
-    if #self.AcceptZones > 0 then
+    self:T(string.format("AcceptZonesNo = %d | RejectZonesNo = %d | ConflictZonesNo = %d",self.AcceptZonesNo,self.RejectZonesNo,self.ConflictZonesNo))
+    if self.AcceptZonesNo > 0 then
       for _,_zone in pairs(self.AcceptZones) do
         local zone = _zone -- Core.Zone#ZONE
         if zone:IsCoordinateInZone(coord) then
@@ -114450,7 +115685,7 @@ do
       end
     end
     -- rejectzones
-    if #self.RejectZones > 0 and inzone then -- maybe in accept zone, but check the overlaps
+    if self.RejectZonesNo > 0 then 
       for _,_zone in pairs(self.RejectZones) do
         local zone = _zone -- Core.Zone#ZONE
         if zone:IsCoordinateInZone(coord) then
@@ -114461,7 +115696,7 @@ do
       end
     end
     -- conflictzones
-    if #self.ConflictZones > 0 and not inzone then -- if not already accepted, might be in conflict zones
+    if self.ConflictZonesNo > 0 then
       for _,_zone in pairs(self.ConflictZones) do
         local zone = _zone -- Core.Zone#ZONE
         if zone:IsCoordinateInZone(coord) then
@@ -114527,6 +115762,7 @@ do
       end
       -- check accept/reject zones
       local zonecheck = true
+      self:T("self.usezones = "..tostring(self.usezones))
       if self.usezones then
         -- DONE
         zonecheck = self:_CheckCoordinateInZones(coord)
@@ -114966,7 +116202,7 @@ do
       if self.Shorad and self.Shorad.ActiveGroups and self.Shorad.ActiveGroups[name] then
        activeshorad = true
       end
-      if IsInZone and not suppressed and not activeshorad then --check any target in zone and not currently managed by SEAD
+      if IsInZone and (not suppressed) and (not activeshorad) then --check any target in zone and not currently managed by SEAD
         if samgroup:IsAlive() then
           -- switch on SAM
           local switch = false
@@ -114998,7 +116234,7 @@ do
           -- link in to SHORAD if available
           -- DONE: Test integration fully
           if self.ShoradLink and (Distance < self.ShoradActDistance or Distance < blind ) then -- don't give SHORAD position away too early
-            local Shorad = self.Shorad
+            local Shorad = self.Shorad  --Functional.Shorad#SHORAD
             local radius = self.checkradius
             local ontime = self.ShoradTime
             Shorad:WakeUpShorad(name, radius, ontime)
@@ -115278,7 +116514,7 @@ do
     if self.debug and self.verbose then
       self:I(self.lid .. "Status Report")
       for _name,_state in pairs(self.SamStateTracker) do
-        self:I(string.format("Site %s\tStatus %s",_name,_state))
+        self:I(string.format("Site %s | Status %s",_name,_state))
       end
     end
     local interval = self.detectinterval * -1
@@ -116208,7 +117444,7 @@ end
 -- ===
 -- 
 -- ### Author: **Applevangelist**
--- Last Update Sept 2023
+-- Last Update July 2025
 --
 -- ===
 -- @module Functional.AICSAR
@@ -116243,6 +117479,8 @@ end
 -- @field #number Speed Default speed setting for the helicopter FLIGHTGROUP is 100kn.
 -- @field #boolean UseEventEject In case Event LandingAfterEjection isn't working, use set this to true.
 -- @field #number Delay In case of UseEventEject wait this long until we spawn a landed pilot.
+-- @field #boolean UseRescueZone If true, use a rescue zone and not the max distance to FARP/MASH
+-- @field Core.Zone#ZONE_RADIUS RescueZone Use this zone as operational area for the AICSAR instance.
 -- @extends Core.Fsm#FSM
 
 
@@ -116339,10 +117577,10 @@ end
 -- To set up AICSAR for SRS TTS output, add e.g. the following to your script:
 --              
 --              -- setup for google TTS, radio 243 AM, SRS server port 5002 with a google standard-quality voice (google cloud account required)
---              my_aicsar:SetSRSTTSRadio(true,"C:\\Program Files\\DCS-SimpleRadio-Standalone",243,radio.modulation.AM,5002,MSRS.Voices.Google.Standard.en_US_Standard_D,"en-US","female","C:\\Program Files\\DCS-SimpleRadio-Standalone\\google.json")
+--              my_aicsar:SetSRSTTSRadio(true,"C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio",243,radio.modulation.AM,5002,MSRS.Voices.Google.Standard.en_US_Standard_D,"en-US","female","C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio\\google.json")
 --              
 --              -- alternatively for MS Desktop TTS (voices need to be installed locally first!)
---              my_aicsar:SetSRSTTSRadio(true,"C:\\Program Files\\DCS-SimpleRadio-Standalone",243,radio.modulation.AM,5002,MSRS.Voices.Microsoft.Hazel,"en-GB","female")
+--              my_aicsar:SetSRSTTSRadio(true,"C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio",243,radio.modulation.AM,5002,MSRS.Voices.Microsoft.Hazel,"en-GB","female")
 --              
 --              -- define a different voice for the downed pilot(s)
 --              my_aicsar:SetPilotTTSVoice(MSRS.Voices.Google.Standard.en_AU_Standard_D,"en-AU","male")
@@ -116363,7 +117601,7 @@ end
 --           
 -- Switch on radio transmissions via **either** SRS **or** "normal" DCS radio e.g. like so:
 -- 
---          my_aicsar:SetSRSRadio(true,"C:\\Program Files\\DCS-SimpleRadio-Standalone",270,radio.modulation.AM,nil,5002)
+--          my_aicsar:SetSRSRadio(true,"C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio",270,radio.modulation.AM,nil,5002)
 --         
 -- or         
 --          
@@ -116377,7 +117615,7 @@ end
 -- @field #AICSAR
 AICSAR = {
   ClassName = "AICSAR",
-  version = "0.1.16",
+  version = "0.1.18",
   lid = "",
   coalition = coalition.side.BLUE,
   template = "",
@@ -116422,6 +117660,8 @@ AICSAR = {
   Altitude = 1500,
   UseEventEject = false,
   Delay = 100,
+  UseRescueZone = false,
+  RescueZone = nil,
 }
 
 -- TODO Messages
@@ -116490,8 +117730,9 @@ AICSAR.RadioLength = {
 -- @param #string Helotemplate Helicopter template name.
 -- @param Wrapper.Airbase#AIRBASE FARP FARP object or Airbase from where to start.
 -- @param Core.Zone#ZONE MASHZone Zone where to drop pilots after rescue.
+-- @param #number Helonumber Max number of alive Ai Helos at the same time. Defaults to three.
 -- @return #AICSAR self
-function AICSAR:New(Alias,Coalition,Pilottemplate,Helotemplate,FARP,MASHZone)
+function AICSAR:New(Alias,Coalition,Pilottemplate,Helotemplate,FARP,MASHZone,Helonumber)
   -- Inherit everything from FSM class.
   local self=BASE:Inherit(self, FSM:New())
   
@@ -116559,7 +117800,7 @@ function AICSAR:New(Alias,Coalition,Pilottemplate,Helotemplate,FARP,MASHZone)
   
   -- limit number of available helos at the same time
   self.limithelos = true
-  self.helonumber = 3
+  self.helonumber = Helonumber or 3
 
   -- localization
   self:InitLocalization()
@@ -116710,10 +117951,20 @@ function AICSAR:InitLocalization()
   return self
 end
 
+--- [User] Use a defined zone as area of operation and not the distance to FARP.
+-- @param #AICSAR self
+-- @param Core.Zone#ZONE Zone The operational zone to use. Downed pilots in this area will be rescued. Can be any known #ZONE type.
+-- @return #AICSAR self 
+function AICSAR:SetUsingRescueZone(Zone)
+  self.UseRescueZone = true
+  self.RescueZone = Zone
+  return self
+end
+
 --- [User] Switch sound output on and use SRS output for sound files.
 -- @param #AICSAR self
 -- @param #boolean OnOff Switch on (true) or off (false).
--- @param #string Path Path to your SRS Server Component, e.g. "C:\\\\Program Files\\\\DCS-SimpleRadio-Standalone"
+-- @param #string Path Path to your SRS Server External Audio Component, e.g. "C:\\\\Program Files\\\\DCS-SimpleRadio-Standalone\\\\ExternalAudio"
 -- @param #number Frequency Defaults to 243 (guard)
 -- @param #number Modulation Radio modulation. Defaults to radio.modulation.AM
 -- @param #string SoundPath Where to find the audio files. Defaults to nil, i.e. add messages via "Sound to..." in the Mission Editor.
@@ -116724,7 +117975,7 @@ function AICSAR:SetSRSRadio(OnOff,Path,Frequency,Modulation,SoundPath,Port)
   self.SRSRadio = OnOff and true
   self.SRSTTSRadio = false
   self.SRSFrequency = Frequency or 243
-  self.SRSPath = Path or MSRS.path or "C:\\Program Files\\DCS-SimpleRadio-Standalone"
+  self.SRSPath = Path or MSRS.path or "C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio"
   self.SRS:SetLabel("ACSR")
   self.SRS:SetCoalition(self.coalition)
   self.SRSModulation = Modulation or radio.modulation.AM
@@ -116742,7 +117993,7 @@ end
 -- See `AICSAR:SetPilotTTSVoice()` and `AICSAR:SetOperatorTTSVoice()`
 -- @param #AICSAR self
 -- @param #boolean OnOff Switch on (true) or off (false).
--- @param #string Path Path to your SRS Server Component, e.g. "E:\\\\Program Files\\\\DCS-SimpleRadio-Standalone"
+-- @param #string Path Path to your SRS Server Component, e.g. "E:\\\\Program Files\\\\DCS-SimpleRadio-Standalone\\ExternalAudio"
 -- @param #number Frequency (Optional) Defaults to 243 (guard)
 -- @param #number Modulation (Optional) Radio modulation. Defaults to radio.modulation.AM
 -- @param #number Port (Optional) Port of the SRS, defaults to 5002.
@@ -116756,7 +118007,7 @@ function AICSAR:SetSRSTTSRadio(OnOff,Path,Frequency,Modulation,Port,Voice,Cultur
   self.SRSTTSRadio = OnOff and true
   self.SRSRadio = false
   self.SRSFrequency = Frequency or 243
-  self.SRSPath = Path or MSRS.path or "C:\\Program Files\\DCS-SimpleRadio-Standalone"
+  self.SRSPath = Path or MSRS.path or "C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio"
   self.SRSModulation = Modulation or radio.modulation.AM
   self.SRSPort = Port or MSRS.port or 5002
   if OnOff then
@@ -116879,7 +118130,7 @@ function AICSAR:_EjectEventHandler(EventData)
       local _LandingPos = COORDINATE:NewFromVec3(_event.initiator:getPosition().p)
       local _country = _event.initiator:getCountry()
       local _coalition = coalition.getCountryCoalition( _country )
-      local data = UTILS.DeepCopy(EventData)
+      --local data = UTILS.DeepCopy(EventData)
       Unit.destroy(_event.initiator) -- shagrat remove static Pilot model
       self:ScheduleOnce(self.Delay,self._DelayedSpawnPilot,self,_LandingPos,_coalition)
     end
@@ -116894,7 +118145,14 @@ end
 -- @return #AICSAR self
 function AICSAR:_DelayedSpawnPilot(_LandingPos,_coalition)
 
-  local distancetofarp = _LandingPos:Get2DDistance(self.farp:GetCoordinate()) 
+  local distancetofarp = _LandingPos:Get2DDistance(self.farp:GetCoordinate())
+  if self.UseRescueZone == true and self.RescueZone ~= nil then
+    if self.RescueZone:IsCoordinateInZone(_LandingPos) then
+      distancetofarp = self.maxdistance - 10
+    else
+      distancetofarp = self.maxdistance + 10
+    end
+  end 
   -- Mayday Message
   local Text,Soundfile,Soundlength,Subtitle = self.gettext:GetEntry("PILOTDOWN",self.locale)
   local text = ""
@@ -116981,7 +118239,13 @@ function AICSAR:_EventHandler(EventData, FromEject)
 
   -- DONE: add distance check
   local distancetofarp = _LandingPos:Get2DDistance(self.farp:GetCoordinate())
-  
+  if self.UseRescueZone == true and self.RescueZone ~= nil then
+    if self.RescueZone:IsCoordinateInZone(_LandingPos) then
+      distancetofarp = self.maxdistance - 10
+    else
+      distancetofarp = self.maxdistance + 10
+    end
+  end 
   -- Mayday Message
   local Text,Soundfile,Soundlength,Subtitle = self.gettext:GetEntry("PILOTDOWN",self.locale)
   local text = ""
@@ -117003,7 +118267,6 @@ function AICSAR:_EventHandler(EventData, FromEject)
   if _coalition == self.coalition then
     if self.verbose then
       MESSAGE:New(msgtxt,15,"AICSAR"):ToCoalition(self.coalition)
-     -- MESSAGE:New(msgtxt,15,"AICSAR"):ToLog()
     end
     if self.SRSRadio then
       local sound = SOUNDFILE:New(Soundfile,self.SRSSoundPath,Soundlength)
@@ -117055,6 +118318,7 @@ function AICSAR:_GetFlight()
     :InitUnControlled(true)
     :OnSpawnGroup(
       function(Group)
+        Group:OptionPreferVerticalLanding()
         self:__HeloOnDuty(1,Group)
       end
     )
@@ -117078,7 +118342,7 @@ function AICSAR:_InitMission(Pilot,Index)
   --local pilotset = SET_GROUP:New()
   --pilotset:AddGroup(Pilot)
   
-    -- Cargo transport assignment.
+  -- Cargo transport assignment.
   local opstransport=OPSTRANSPORT:New(Pilot, pickupzone, self.farpzone)
   --opstransport:SetVerbosity(3)
   
@@ -117118,6 +118382,10 @@ function AICSAR:_InitMission(Pilot,Index)
   function helo:OnAfterUnloaded(From,Event,To,OpsGroupCargo)
     AICHeloUnloaded(helo,OpsGroupCargo)
     helo:__UnloadingDone(5)
+  end
+  
+  function helo:OnAfterLandAtAirbase(From,Event,To,airbase)
+    helo:Despawn(2)
   end
   
   self.helos[Index] = helo
@@ -117170,7 +118438,9 @@ function AICSAR:_CheckHelos()
       local name = helo:GetName()
       self:T("Helo group "..name.." in state "..state)
       if state == "Arrived" then
-        helo:__Stop(5)
+        --helo:__Stop(5)
+        helo.OnAfterDead = nil
+        helo:Despawn(35)
         self.helos[_index] = nil
       end
     else
@@ -117211,7 +118481,7 @@ function AICSAR:_CheckQueue(OpsGroup)
      if self:_CheckInMashZone(_pilot) then
       self:T("Pilot" .. _pilot.GroupName .. " rescued!")
       if OpsGroup then
-        OpsGroup:Despawn(10)
+        --OpsGroup:Despawn(10)
       else 
         _pilot:Destroy(true,10)
       end
@@ -118440,7 +119710,7 @@ AUTOLASE = {
   debug = false,
   smokemenu = true,
   RoundingPrecision = 0,
-  increasegroundawareness = true,
+  increasegroundawareness = false,
   MonitorFrequency = 30,
 }
 
@@ -118551,7 +119821,7 @@ function AUTOLASE:New(RecceSet, Coalition, Alias, PilotSet)
   self.smokemenu = true
   self.threatmenu = true
   self.RoundingPrecision = 0
-  self.increasegroundawareness = true
+  self.increasegroundawareness = false
   self.MonitorFrequency = 30
   
   self:EnableSmokeMenu({Angle=math.random(0,359),Distance=math.random(10,20)})
@@ -118828,7 +120098,7 @@ end
 --- (User) Function enable sending messages via SRS.
 -- @param #AUTOLASE self
 -- @param #boolean OnOff Switch usage on and off
--- @param #string Path Path to SRS directory, e.g. C:\\Program Files\\DCS-SimpleRadio-Standalone
+-- @param #string Path Path to SRS TTS directory, e.g. C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio
 -- @param #number Frequency Frequency to send, e.g. 243
 -- @param #number Modulation Modulation i.e. radio.modulation.AM or radio.modulation.FM
 -- @param #string Label (Optional) Short label to be used on the SRS Client Overlay
@@ -118843,7 +120113,7 @@ end
 function AUTOLASE:SetUsingSRS(OnOff,Path,Frequency,Modulation,Label,Gender,Culture,Port,Voice,Volume,PathToGoogleKey)
   if OnOff then
     self.useSRS = true
-    self.SRSPath = Path or MSRS.path or "C:\\Program Files\\DCS-SimpleRadio-Standalone"
+    self.SRSPath = Path or MSRS.path or "C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio"
     self.SRSFreq = Frequency or 271
     self.SRSMod = Modulation or radio.modulation.AM
     self.Gender = Gender or MSRS.gender or "male"
@@ -119355,7 +120625,7 @@ function AUTOLASE:_Prescient()
            self:T(self.lid.."Checking possibly visible STATICs for Recce "..unit:GetName())
             for _,_static in pairs(Statics) do -- DCS static object here
               local static = STATIC:Find(_static)
-              if static and static:GetCoalition() ~= self.coalition then
+              if static and static:GetCoalition() ~= self.coalition and static:GetCoordinate() then
                 local IsLOS = position:IsLOS(static:GetCoordinate())
                 if IsLOS then
                   unit:KnowUnit(static,true,true)
@@ -120124,524 +121394,601 @@ do -- ZoneGoal
   
 end
 
---- **Functional** - TIRESIAS - manages AI behaviour.
---
--- ===
--- 
--- The @{#TIRESIAS} class is working in the back to keep your large-scale ground units in check.
--- 
--- ## Features:
---
---  * Designed to keep CPU and Network usage lower on missions with a lot of ground units.
---  * Does not affect ships to keep the Navy guys happy.
---  * Does not affect OpsGroup type groups.
---  * Distinguishes between SAM groups, AAA groups and other ground groups.
---  * Exceptions can be defined to keep certain actions going.
---  * Works coalition-independent in the back
---  * Easy setup.
---
--- ===
---
--- ## Missions:
---
--- ### [TIRESIAS](https://github.com/FlightControl-Master/MOOSE_MISSIONS/tree/master)
---
--- ===
---
--- ### Author : **applevangelist **
---
--- @module Functional.Tiresias
--- @image Functional.Tiresias.jpg
---
--- Last Update: Dec 2023
+----- **Functional** - TIRESIAS - manages AI behaviour (OPTIMIZED VERSION).
 
--------------------------------------------------------------------------
---- **TIRESIAS** class, extends Core.Base#BASE
--- @type TIRESIAS
--- @field #string ClassName
--- @field #booelan debug
--- @field #string version
--- @field #number Interval
--- @field Core.Set#SET_GROUP GroundSet
--- @field #number Coalition
--- @field Core.Set#SET_GROUP VehicleSet
--- @field Core.Set#SET_GROUP AAASet
--- @field Core.Set#SET_GROUP SAMSet
--- @field Core.Set#SET_GROUP ExceptionSet
--- @field Core.Set#SET_OPSGROUP OpsGroupSet
--- @field #number AAARange
--- @field #number HeloSwitchRange
--- @field #number PlaneSwitchRange
--- @field Core.Set#SET_GROUP FlightSet
--- @field #boolean SwitchAAA 
--- @extends Core.Fsm#FSM
+----  ===
+
+---  The @{#TIRESIAS} class is working in the back to keep your large-scale ground units in check.
+--
+-- -- Features:
+--
+-- * Designed to keep CPU and Network usage lower on missions with a lot of ground units.
+-- * Does not affect ships to keep the Navy guys happy.
+-- * Does not affect OpsGroup type groups.
+-- * Distinguishes between SAM groups, AAA groups and other ground groups.
+-- * Exceptions can be defined to keep certain actions going.
+-- * Works coalition-independent in the back
+-- * Easy setup.
+--
+-- ===
+--
+-- ## Optimizations Applied:
+--
+-- * Cached frequently used functions and constants
+-- * Reduced string concatenations and formatting
+-- * Optimized loop structures and conditions
+-- * Pre-allocated tables where possible
+-- * Reduced function call overhead
+-- * Improved memory management
+--
+----  ===
+--
+----  #-- Author : **applevangelist ** (Optimized by AI)
 
 ---
--- @type TIRESIAS.Data
--- @field #string type
--- @field #number range
--- @field #boolean invisible
--- @field #boolean AIOff
--- @field #boolean exception
+-- @module Functional.Tiresias
+-- @image Functional.Tiresias.jpg
 
+--- Last Update: July 2025
 
---- *Tiresias, Greek demi-god and shapeshifter, blinded by the Gods, works as oracle for you.* (Wiki)
+--- **TIRESIAS** class, extends Core.Base#BASE
+--  @type TIRESIAS
+--  @field #string ClassName
+--  @field #boolean debug
+--  @field #string version
+--  @field #number Interval
+--  @field Core.Set#SET_GROUP GroundSet
+--  @field #number Coalition
+--  @field Core.Set#SET_GROUP VehicleSet
+--  @field Core.Set#SET_GROUP AAASet
+--  @field Core.Set#SET_GROUP SAMSet
+--  @field Core.Set#SET_GROUP ExceptionSet
+--  @field Core.Set#SET_OPSGROUP OpsGroupSet
+--  @field #number AAARange
+--  @field #number HeloSwitchRange
+--  @field #number PlaneSwitchRange
+--  @field Core.Set#SET_GROUP FlightSet
+--  @field #boolean SwitchAAA
+--  @field #string lid
+--  @field #table _cached_zones
+--  @field #table _cached_groupsets
+--  @extends Core.Fsm#FSM
+
+---
+--  @type TIRESIAS.Data
+--  @field #string type
+--  @field #number range
+--  @field #boolean invisible
+--  @field #boolean AIOff
+--  @field #boolean exception
+
+---
+-- *Tiresias, Greek demi-god and shapeshifter, blinded by the Gods, works as oracle for you.* (Wiki)
 --
--- ===
+--  ===
 --
--- ## TIRESIAS Concept
--- 
---  * Designed to keep CPU and Network usage lower on missions with a lot of ground units.
---  * Does not affect ships to keep the Navy guys happy.
---  * Does not affect OpsGroup type groups.
---  * Distinguishes between SAM groups, AAA groups and other ground groups.
---  * Exceptions can be defined in SET_GROUP objects to keep certain actions going.
---  * Works coalition-independent in the back
---  * Easy setup.
--- 
--- ## Setup
--- 
--- Setup is a one-liner:
--- 
---          local blinder = TIRESIAS:New()
---          
--- Optionally you can set up exceptions, e.g. for convoys driving around
--- 
---          local exceptionset = SET_GROUP:New():FilterCoalitions("red"):FilterPrefixes("Convoy"):FilterStart()
---          local blinder = TIRESIAS:New()
---          blinder:AddExceptionSet(exceptionset)
--- 
--- Options 
--- 
---          -- Setup different radius for activation around helo and airplane groups (applies to AI and humans)
---          blinder:SetActivationRanges(10,25) -- defaults are 10, and 25
+--  ## TIRESIAS Concept
 --
---          -- Setup engagement ranges for AAA (non-advanced SAM units like Flaks etc) and if you want them to be AIOff
---          blinder:SetAAARanges(60,true) -- defaults are 60, and true
+--   * Designed to keep CPU and Network usage lower on missions with a lot of ground units.
+--   * Does not affect ships to keep the Navy guys happy.
+--   * Does not affect OpsGroup type groups.
+--   * Distinguishes between SAM groups, AAA groups and other ground groups.
+--   * Exceptions can be defined in SET_GROUP objects to keep certain actions going.
+--   * Works coalition-independent in the back
+--   * Easy setup.
 --
--- @field #TIRESIAS
+-- ## Setup  
+-- --  Setup is a one-liner:
+--
+--            local blinder = TIRESIAS:New()
+--
+-- --  Optionally you can set up exceptions, e.g. for convoys driving around
+--
+--           local exceptionset = SET_GROUP:New():FilterCoalitions(" red" ):FilterPrefixes(" Convoy" ):FilterStart()
+--           local blinder = TIRESIAS:New()
+--           blinder:AddExceptionSet(exceptionset)
+--
+-- --  Options
+--
+--           --  Setup different radius for activation around helo and airplane groups (applies to AI and humans)
+--           blinder:SetActivationRanges(10,25) --  defaults are 10, and 25
+--
+--           --  Setup engagement ranges for AAA (non-advanced SAM units like Flaks etc) and if you want them to be AIOff
+--           blinder:SetAAARanges(60,true) --  defaults are 60, and true
+--
+---
+--  @field #TIRESIAS
 TIRESIAS = {
-  ClassName = "TIRESIAS",
-  debug = false,
-  version = "0.0.5",
-  Interval = 20,
-  GroundSet = nil,
-  VehicleSet = nil,
-  AAASet = nil,
-  SAMSet = nil,
-  ExceptionSet = nil,
-  AAARange = 60, -- 60%
-  HeloSwitchRange = 10, -- NM
-  PlaneSwitchRange = 25, -- NM
-  SwitchAAA = true,
-}
+  ClassName         = "TIRESIAS",
+  debug             = true,
+  version           = " 0.0.7-OPT" ,
+  Interval          = 20,
+  GroundSet         = nil,
+  VehicleSet        = nil,
+  AAASet            = nil,
+  SAMSet            = nil,
+  ExceptionSet      = nil,
+  AAARange          = 60, --  60%
+  HeloSwitchRange   = 10, --  NM
+  PlaneSwitchRange  = 25, --  NM
+  SwitchAAA         = true,
+  _cached_zones     = {}, --  Cache for zone objects
+  _cached_groupsets = {}, --  Cache for group_set objects
+  }
 
---- [USER] Create a new Tiresias object and start it up.
--- @param #TIRESIAS self
--- @return #TIRESIAS self 
+---
+-- [USER] Create a new Tiresias object and start it up.
+--  @param #TIRESIAS self
+--  @return #TIRESIAS self
 function TIRESIAS:New()
   
-    -- Inherit everything from FSM class.
-    local self = BASE:Inherit(self, FSM:New()) -- #TIRESIAS
-    
-    --- FSM Functions ---
-
-    -- Start State.
-    self:SetStartState("Stopped")
-
-    -- Add FSM transitions.
-    --                 From State  -->   Event            -->     To State
-    self:AddTransition("Stopped",       "Start",                   "Running")     -- Start FSM.
-    self:AddTransition("*",             "Status",                  "*")           -- TIRESIAS status update.
-    self:AddTransition("*",             "Stop",                    "Stopped")     -- Stop FSM.
-    
-    self.ExceptionSet = SET_GROUP:New():Clear(false)
-    
-    self:HandleEvent(EVENTS.PlayerEnterAircraft,self._EventHandler)
-    
-    self.lid = string.format("TIRESIAS %s | ",self.version)
-    
-    self:I(self.lid.."Managing ground groups!")
-    
-    --- Triggers the FSM event "Stop". Stops TIRESIAS and all its event handlers.
-    -- @function [parent=#TIRESIAS] Stop
-    -- @param #TIRESIAS self
-
-    --- Triggers the FSM event "Stop" after a delay. Stops TIRESIAS and all its event handlers.
-    -- @function [parent=#TIRESIAS] __Stop
-    -- @param #TIRESIAS self
-    -- @param #number delay Delay in seconds.
-    
-    --- Triggers the FSM event "Start". Starts TIRESIAS and all its event handlers. Note - `:New()` already starts the instance.
-    -- @function [parent=#TIRESIAS] Start
-    -- @param #TIRESIAS self
-
-    --- Triggers the FSM event "Start" after a delay. Starts TIRESIAS and all its event handlers. Note - `:New()` already starts the instance.
-    -- @function [parent=#TIRESIAS] __Start
-    -- @param #TIRESIAS self
-    -- @param #number delay Delay in seconds.  
-    
-    self:__Start(1)
+  -- Inherit everything from FSM class.
+  local self = BASE:Inherit(self, FSM:New()) -- #TIRESIAS
+  
+  --- FSM Functions ---
+  
+  -- Start State.
+  self:SetStartState("Stopped")
+  
+  -- Add FSM transitions.
+  --                 From State  -->   Event            -->     To State
+  self:AddTransition("Stopped",       "Start",                   "Running")     -- Start FSM.
+  self:AddTransition("*",             "Status",                  "*")           -- TIRESIAS status update.
+  self:AddTransition("*",             "Stop",                    "Stopped")     -- Stop FSM.
+  
+  self.ExceptionSet = nil --SET_GROUP:New():Clear(false)
+  self._cached_zones = {} -- Initialize zone cache
+  
+  self:HandleEvent(EVENTS.PlayerEnterAircraft, self._EventHandler)
+  
+  -- Cache the log identifier to avoid string concatenation in loops
+  self.lid = "TIRESIAS " .. self.version .. " | "
+  
+  self:I(self.lid .. "Managing ground groups!")
+  
+  --- Triggers the FSM event "Stop". Stops TIRESIAS and all its event handlers.
+  -- @function [parent=#TIRESIAS] Stop
+  -- @param #TIRESIAS self
+  
+  --- Triggers the FSM event "Stop" after a delay. Stops TIRESIAS and all its event handlers.
+  -- @function [parent=#TIRESIAS] __Stop
+  -- @param #TIRESIAS self
+  -- @param #number delay Delay in seconds.
+  
+  --- Triggers the FSM event "Start". Starts TIRESIAS and all its event handlers. Note - `:New()` already starts the instance.
+  -- @function [parent=#TIRESIAS] Start
+  -- @param #TIRESIAS self
+  
+  --- Triggers the FSM event "Start" after a delay. Starts TIRESIAS and all its event handlers. Note - `:New()` already starts the instance.
+  -- @function [parent=#TIRESIAS] __Start
+  -- @param #TIRESIAS self
+  -- @param #number delay Delay in seconds.  
+  
+  self:__Start(1)
+  
   return self
 end
 
--------------------------------------------------------------------------------------------------------------
---
--- Helper Functions
--- 
--------------------------------------------------------------------------------------------------------------
+-----
 
----[USER] Set activation radius for Helos and Planes in Nautical Miles.
--- @param #TIRESIAS self
--- @param #number HeloMiles Radius around a Helicopter in which AI ground units will be activated. Defaults to 10NM.
--- @param #number PlaneMiles Radius around an Airplane in which AI ground units will be activated. Defaults to 25NM.
--- @return #TIRESIAS self 
-function TIRESIAS:SetActivationRanges(HeloMiles,PlaneMiles)
+--- 
+--  Helper Functions
+---
+
+--- [USER] Set activation radius for Helos and Planes in Nautical Miles.
+--  @param #TIRESIAS self
+--  @param #number HeloMiles Radius around a Helicopter in which AI ground units will be activated. Defaults to 10NM.
+--  @param #number PlaneMiles Radius around an Airplane in which AI ground units will be activated. Defaults to 25NM.
+--  @return #TIRESIAS self
+function TIRESIAS:SetActivationRanges(HeloMiles, PlaneMiles)
   self.HeloSwitchRange = HeloMiles or 10
   self.PlaneSwitchRange = PlaneMiles or 25
+  --  Clear zone cache when ranges change
+  self._cached_zones = {}
   return self
 end
 
 ---[USER] Set AAA Ranges - AAA equals non-SAM systems which qualify as AAA in DCS world.
--- @param #TIRESIAS self
--- @param #number FiringRange The engagement range that AAA units will be set to. Can be 0 to 100 (percent). Defaults to 60.
--- @param #boolean SwitchAAA Decide if these system will have their AI switched off, too. Defaults to true.
--- @return #TIRESIAS self 
-function TIRESIAS:SetAAARanges(FiringRange,SwitchAAA)
+--  @param #TIRESIAS self
+--  @param #number FiringRange The engagement range that AAA units will be set to. Can be 0 to 100 (percent). Defaults to 60.
+--  @param #boolean SwitchAAA Decide if these system will have their AI switched off, too. Defaults to true.
+--  @return #TIRESIAS self
+function TIRESIAS:SetAAARanges(FiringRange, SwitchAAA)
   self.AAARange = FiringRange or 60
   self.SwitchAAA = (SwitchAAA == false) and false or true
   return self
 end
 
 --- [USER] Add a SET_GROUP of GROUP objects as exceptions. Can be done multiple times. Does **not** work work for GROUP objects spawned into the SET after start, i.e. the groups need to exist in the game already.
--- @param #TIRESIAS self
--- @param Core.Set#SET_GROUP Set to add to the exception list.
--- @return #TIRESIAS self
+--  @param #TIRESIAS self
+--  @param Core.Set#SET_GROUP Set to add to the exception list.
+--  @return #TIRESIAS self
 function TIRESIAS:AddExceptionSet(Set)
-  self:T(self.lid.."AddExceptionSet")
+  self:T(self.lid .. " AddExceptionSet" )
+  
+  if not self.ExceptionSet then
+   self.ExceptionSet = SET_GROUP:New()
+  end
+  
   local exceptions = self.ExceptionSet
+
+  --  Cache the exception data structure for reuse
+  local exception_data = {
+    type = " Exception" ,
+    exception = true,
+    }
+
   Set:ForEachGroupAlive(
     function(grp)
-      if not grp.Tiresias then
-        grp.Tiresias = { -- #TIRESIAS.Data
-          type = "Exception",
-          exception = true,
-        }
-       exceptions:AddGroup(grp,true)
+      local inAAASet = self.AAASet:IsIncludeObject(grp)
+      local inVehSet = self.VehicleSet:IsIncludeObject(grp)
+      local inSAMSet = self.SAMSet:IsIncludeObject(grp)
+      if grp:IsGround() and (not grp.Tiresias) and (not inAAASet) and (not inVehSet) and (not inSAMSet) then
+        grp.Tiresias = exception_data
+        exceptions:AddGroup(grp, true)
+        BASE:T(" TIRESIAS: Added exception group: "  .. grp:GetName())
       end
-      BASE:T("TIRESIAS: Added exception group: "..grp:GetName())
     end
-  )  
+    )  
   return self
 end
 
---- [INTERNAL] Filter Function
--- @param Wrapper.Group#GROUP Group
--- @return #boolean isin
+--- [INTERNAL] Filter Function - Optimized with cached calls
+--  @param Wrapper.Group#GROUP Group
+--  @return #boolean isin
 function TIRESIAS._FilterNotAAA(Group)
-  local grp = Group -- Wrapper.Group#GROUP
-  local isaaa = grp:IsAAA()
-  if isaaa == true and grp:IsGround() and not grp:IsShip() then 
-    return false -- remove from SET
-  else
-    return true -- keep in SET
+  local grp = Group --  Wrapper.Group#GROUP
+  --  Cache method calls to reduce overhead
+  local is_air = grp:IsAir()
+  local is_ship = grp:IsShip()
+  local is_AAA = grp:IsAAA()
+  if is_air or grp:IsShip() then --  air or ship - no AAA
+    return true --  keep in SET
   end
+  return not is_AAA --  remove AAA, keep others
 end
 
---- [INTERNAL] Filter Function
--- @param Wrapper.Group#GROUP Group
--- @return #boolean isin
+--- [INTERNAL] Filter Function - Optimized with cached calls
+--  @param Wrapper.Group#GROUP Group
+--  @return #boolean isin
 function TIRESIAS._FilterNotSAM(Group)
-  local grp = Group -- Wrapper.Group#GROUP
-  local issam = grp:IsSAM()
-  if issam == true and grp:IsGround() and not grp:IsShip()  then 
-    return false -- remove from SET
-  else
-    return true -- keep in SET
+  local grp = Group --  Wrapper.Group#GROUP
+  --  Cache method calls to reduce overhead
+  local is_air = grp:IsGround()
+  local is_ship = grp:IsShip()
+  local is_SAM = grp:IsSAM()
+  if is_air or grp:IsShip() then
+    return true --  keep in SET
   end
+  return not is_SAM --  remove SAM, keep others
 end
 
---- [INTERNAL] Filter Function
--- @param Wrapper.Group#GROUP Group
--- @return #boolean isin
+--- [INTERNAL] Filter Function - Optimized with cached calls
+--  @param Wrapper.Group#GROUP Group
+--  @return #boolean isin
 function TIRESIAS._FilterAAA(Group)
-  local grp = Group -- Wrapper.Group#GROUP
-  local isaaa = grp:IsAAA()
-  if isaaa == true and grp:IsGround() and not grp:IsShip() then 
-    return true -- remove from SET
-  else
-    return false -- keep in SET
+  local grp = Group --  Wrapper.Group#GROUP
+  --  Cache method calls to reduce overhead
+  local is_ground = grp:IsGround()
+  if (not is_ground) or grp:IsShip() then
+    return false --  not AAA
   end
+  return grp:IsAAA() --  only AAA
 end
 
---- [INTERNAL] Filter Function
--- @param Wrapper.Group#GROUP Group
--- @return #boolean isin
+--- [INTERNAL] Filter Function - Optimized with cached calls
+--  @param Wrapper.Group#GROUP Group
+--  @return #boolean isin
 function TIRESIAS._FilterSAM(Group)
-  local grp = Group -- Wrapper.Group#GROUP
-  local issam = grp:IsSAM()
-  if issam == true and grp:IsGround() and not grp:IsShip()  then 
-    return true -- remove from SET
-  else
-    return false -- keep in SET
+  local grp = Group --  Wrapper.Group#GROUP
+  --  Cache method calls to reduce overhead
+  local is_ground = grp:IsGround()
+  if (not is_ground) or grp:IsShip() then
+    return false --  not SAM
   end
+  return grp:IsSAM() --  only SAM
 end
 
---- [INTERNAL] Init Groups
--- @param #TIRESIAS self
--- @return #TIRESIAS self
+--- [INTERNAL] Init Groups - Optimized with reduced function calls
+--  @param #TIRESIAS self
+--  @return #TIRESIAS self
 function TIRESIAS:_InitGroups()
-  self:T(self.lid.."_InitGroups")
-  -- Set all groups invisible/motionless
-  local EngageRange = self.AAARange
-  local SwitchAAA = self.SwitchAAA
-  --- AAA
-  self.AAASet:ForEachGroupAlive(
-    function(grp)
-      if not grp.Tiresias then 
-        grp:OptionEngageRange(EngageRange)
+self:T(self.lid .. " _InitGroups" )
+
+--  Cache frequently used values
+local EngageRange = self.AAARange
+local SwitchAAA = self.SwitchAAA
+
+--  Pre-create data structures to avoid repeated table creation
+local aaa_data_template = {
+  type = " AAA" ,
+  invisible = true,
+  range = EngageRange,
+  exception = false,
+  AIOff = SwitchAAA,
+  }
+
+local vehicle_data_template = {
+  type = " Vehicle" ,
+  invisible = true,
+  AIOff = true,
+  exception = false,
+  }
+
+local sam_data_template = {
+  type = " SAM" ,
+  invisible = true,
+  exception = false,
+  }
+
+--- AAA - Optimized loop
+self.AAASet:ForEachGroupAlive(
+  function(grp)
+    local tiresias_data = grp.Tiresias
+    if not tiresias_data then
+      grp:OptionEngageRange(EngageRange)
+      grp:SetCommandInvisible(true)
+      if SwitchAAA then
+        grp:SetAIOff()
+        grp:EnableEmission(false)
+      end
+      grp.Tiresias = aaa_data_template
+    elseif not tiresias_data.exception == true then
+      if not tiresias_data.invisible == true then
         grp:SetCommandInvisible(true)
-        if SwitchAAA then
+        tiresias_data.invisible = true
+        if SwitchAAA == true then
           grp:SetAIOff()
           grp:EnableEmission(false)
-        end
-        grp.Tiresias = { -- #TIRESIAS.Data
-          type = "AAA",
-          invisible = true,
-          range = EngageRange,
-          exception = false,
-          AIOff = SwitchAAA,
-        }
-      end
-      if grp.Tiresias and (not grp.Tiresias.exception == true) then
-        if grp.Tiresias.invisible == false then
-          grp:SetCommandInvisible(true)
-          grp.Tiresias.invisible = true
-          if SwitchAAA then
-            grp:SetAIOff()
-            grp:EnableEmission(false)
-            grp.Tiresias.AIOff = true
-          end
+          tiresias_data.AIOff = true
         end
       end
-      --BASE:I(string.format("Init/Switch off AAA %s (Exception %s)",grp:GetName(),tostring(grp.Tiresias.exception)))
     end
+  end
   )
-  --- Vehicles
-  self.VehicleSet:ForEachGroupAlive(
-    function(grp)
-      if not grp.Tiresias then
+
+--- Vehicles - Optimized loop
+self.VehicleSet:ForEachGroupAlive(
+  function(grp)
+    local tiresias_data = grp.Tiresias
+    if not tiresias_data then
+      grp:SetAIOff()
+      grp:SetCommandInvisible(true)
+      grp.Tiresias = vehicle_data_template
+    elseif not tiresias_data.exception == true then
+      if not tiresias_data.invisible then
+        grp:SetCommandInvisible(true)
         grp:SetAIOff()
-        grp:SetCommandInvisible(true)
-        grp.Tiresias = { -- #TIRESIAS.Data
-          type = "Vehicle",
-          invisible = true,
-          AIOff = true,
-          exception = false,
-        }
+        tiresias_data.invisible = true
+        tiresias_data.AIOff = true
       end
-      if grp.Tiresias and (not grp.Tiresias.exception == true) then
-        if grp.Tiresias and grp.Tiresias.invisible == false then
-          grp:SetCommandInvisible(true)
-          grp:SetAIOff()
-          grp.Tiresias.invisible = true
-          grp.Tiresias.AIOff = true
-        end
-      end     
-      --BASE:I(string.format("Init/Switch off Vehicle %s (Exception %s)",grp:GetName(),tostring(grp.Tiresias.exception)))
-    end
+    end  
+  end
   )
-  --- SAM
-  self.SAMSet:ForEachGroupAlive(
-    function(grp)
-      if not grp.Tiresias then
+
+--- SAM - Optimized loop
+self.SAMSet:ForEachGroupAlive(
+  function(grp)
+    local tiresias_data = grp.Tiresias
+    if not tiresias_data then
+      grp:SetCommandInvisible(true)
+      grp.Tiresias = sam_data_template
+    elseif not tiresias_data.exception == true then
+      if not tiresias_data.invisible then
         grp:SetCommandInvisible(true)
-        grp.Tiresias = { -- #TIRESIAS.Data
-          type = "SAM",
-          invisible = true,
-          exception = false,
-        }
+        tiresias_data.invisible = true
       end
-      if grp.Tiresias and (not grp.Tiresias.exception == true) then
-        if grp.Tiresias and grp.Tiresias.invisible == false then
-          grp:SetCommandInvisible(true)
-          grp.Tiresias.invisible = true
-        end
-      end
-      --BASE:I(string.format("Init/Switch off SAM %s (Exception %s)",grp:GetName(),tostring(grp.Tiresias.exception)))
     end
+  end
   )
-  return self
+
+return self
 end
 
---- [INTERNAL] Event handler function
--- @param #TIRESIAS self
--- @param Core.Event#EVENTDATA EventData
--- @return #TIRESIAS self
+--- [INTERNAL] Event handler function - Optimized
+--  @param #TIRESIAS self
+--  @param Core.Event#EVENTDATA EventData
+--  @return #TIRESIAS self
 function TIRESIAS:_EventHandler(EventData)
-  self:T(string.format("%s Event = %d",self.lid, EventData.id))
-  local event = EventData -- Core.Event#EVENTDATA
+  self:T(string.format(" %s Event = %d" , self.lid, EventData.id))
+  
+  local event = EventData --  Core.Event#EVENTDATA
   if event.id == EVENTS.PlayerEnterAircraft or event.id == EVENTS.PlayerEnterUnit then
-    --local _coalition = event.IniCoalition
-    --if _coalition ~= self.Coalition then
-      --  return --ignore!
-    --end
-    local unitname = event.IniUnitName or "none"
-    local _unit = event.IniUnit
     local _group = event.IniGroup
     if _group and _group:IsAlive() then
-      local radius = self.PlaneSwitchRange
-      if _group:IsHelicopter() then
-        radius = self.HeloSwitchRange
-      end
-      self:_SwitchOnGroups(_group,radius)
+      --  Cache the radius calculation
+      local radius = _group:IsHelicopter() and self.HeloSwitchRange or self.PlaneSwitchRange
+      self:_SwitchOnGroups(_group, radius)
     end
   end
   return self
 end
 
---- [INTERNAL] Switch Groups Behaviour
--- @param #TIRESIAS self
--- @param Wrapper.Group#GROUP group
--- @param #number radius Radius in NM
--- @return #TIRESIAS self
-function TIRESIAS:_SwitchOnGroups(group,radius)
-  self:T(self.lid.."_SwitchOnGroups "..group:GetName().." Radius "..radius.." NM")
-  local zone = ZONE_GROUP:New("Zone-"..group:GetName(),group,UTILS.NMToMeters(radius))
-  local ground = SET_GROUP:New():FilterCategoryGround():FilterZones({zone}):FilterOnce()
-  local count = ground:CountAlive()
-  if self.debug then
-    local text = string.format("There are %d groups around this plane or helo!",count)
-    self:I(text)
+--- [INTERNAL] Switch Groups Behaviour - Optimized with zone caching
+--  @param #TIRESIAS self
+--  @param Wrapper.Group#GROUP group
+--  @param #number radius Radius in NM
+--  @return #TIRESIAS self
+function TIRESIAS:_SwitchOnGroups(group, radius)
+  self:T(self.lid .. " _SwitchOnGroups "  .. group:GetName() .. "  Radius "  .. radius .. "  NM" )
+  
+  --  Use cached zones to reduce object creation
+  local group_name = group:GetName()
+  local cache_key = group_name .. " _"  .. radius
+  local zone = self._cached_zones[cache_key]
+  local ground = self._cached_groupsets[cache_key]
+  
+  if not zone then
+    zone = ZONE_GROUP:New(" Zone-"  .. group_name, group, UTILS.NMToMeters(radius))
+    self._cached_zones[cache_key] = zone
+  else
+    --  Update zone center to current group position
+    zone:UpdateFromGroup(group)
   end
+  
+  if not ground then
+    ground = SET_GROUP:New():FilterCategoryGround():FilterZones({zone}):FilterOnce()
+    self._cached_groupsets[cache_key] = ground
+  else
+    ground:FilterZones({zone},true):FilterOnce()
+  end
+  
+  local count = ground:CountAlive()
+  
+  if self.debug then
+    self:I(string.format(" There are %d groups around this plane or helo!" , count))
+  end
+  
+  if count > 0 then
+  --  Cache values outside the loop
   local SwitchAAA = self.SwitchAAA
-  if ground:CountAlive() > 0 then
-    ground:ForEachGroupAlive(
-      function(grp)
-        local name = grp:GetName()
-        if grp:GetCoalition() ~= group:GetCoalition()
-                            and grp.Tiresias and grp.Tiresias.type and (not grp.Tiresias.exception == true ) then
-          if grp.Tiresias.invisible == true then
-            grp:SetCommandInvisible(false)
-            grp.Tiresias.invisible = false
-          end
-          if grp.Tiresias.type == "Vehicle" and grp.Tiresias.AIOff and grp.Tiresias.AIOff == true then
-            grp:SetAIOn()
-            grp.Tiresias.AIOff = false
-          end
-          if SwitchAAA and grp.Tiresias.type == "AAA" and grp.Tiresias.AIOff and grp.Tiresias.AIOff == true then
-            grp:SetAIOn()
-            grp:EnableEmission(true)
-            grp.Tiresias.AIOff = false
-          end
-          --BASE:I(string.format("TIRESIAS - Switch on %s %s (Exception %s)",tostring(grp.Tiresias.type),grp:GetName(),tostring(grp.Tiresias.exception)))
-        else
-          BASE:T("TIRESIAS - This group "..tostring(name).. " has not been initialized or is an exception!")
+  local group_coalition = group:GetCoalition()
+  
+  ground:ForEachGroupAlive(
+    function(grp)
+      local tiresias_data = grp.Tiresias
+      if grp:GetCoalition() ~= group_coalition 
+         and tiresias_data 
+         and tiresias_data.type 
+         and not tiresias_data.exception == true then
+        
+        -- Make group visible if invisible
+        if tiresias_data.invisible == true then
+          grp:SetCommandInvisible(false)
+          tiresias_data.invisible = false
         end
+        
+        -- Handle AI activation based on type
+        local grp_type = tiresias_data.type
+        if grp_type == "Vehicle" and tiresias_data.AIOff == true then
+          grp:SetAIOn()
+          tiresias_data.AIOff = false
+        elseif SwitchAAA == true and grp_type == "AAA" and tiresias_data.AIOff == true then
+          grp:SetAIOn()
+          grp:EnableEmission(true)
+          tiresias_data.AIOff = false
+        end
+      else
+        BASE:T("TIRESIAS - This group " .. tostring(grp:GetName()) .. " has not been initialized or is an exception!")
       end
-    )
+    end
+  )
+  
   end
   return self
 end
 
--------------------------------------------------------------------------------------------------------------
---
--- FSM Functions
--- 
--------------------------------------------------------------------------------------------------------------
+-----
 
---- [INTERNAL] FSM Function
--- @param #TIRESIAS self
--- @param #string From
--- @param #string Event
--- @param #string To
--- @return #TIRESIAS self
+--- 
+--  FSM Functions
+----
+
+--- [INTERNAL] FSM Function - Optimized initialization
+--  @param #TIRESIAS self
+--  @param #string From
+--  @param #string Event
+--  @param #string To
+--  @return #TIRESIAS self
 function TIRESIAS:onafterStart(From, Event, To)
-  self:T({From, Event, To})
-  
-  local VehicleSet = SET_GROUP:New():FilterCategoryGround():FilterFunction(TIRESIAS._FilterNotAAA):FilterFunction(TIRESIAS._FilterNotSAM):FilterStart()
-  local AAASet = SET_GROUP:New():FilterCategoryGround():FilterFunction(TIRESIAS._FilterAAA):FilterStart()
-  local SAMSet = SET_GROUP:New():FilterCategoryGround():FilterFunction(TIRESIAS._FilterSAM):FilterStart()
-  local OpsGroupSet = SET_OPSGROUP:New():FilterActive(true):FilterStart()
-  self.FlightSet = SET_GROUP:New():FilterCategories({"plane","helicopter"}):FilterStart()
-  
-  local EngageRange = self.AAARange
-  
-  local ExceptionSet = self.ExceptionSet
-  if self.ExceptionSet then   
-    function ExceptionSet:OnAfterAdded(From,Event,To,ObjectName,Object)
-      BASE:I("TIRESIAS: EXCEPTION Object Added: "..Object:GetName())
-      if Object and Object:IsAlive() then
-        Object.Tiresias = { -- #TIRESIAS.Data
-          type = "Exception",
-          exception = true,
-        }
+self:T({From, Event, To})
+
+--  Create sets with optimized filters
+local VehicleSet = SET_GROUP:New():FilterCategoryGround():FilterFunction(TIRESIAS._FilterNotAAA):FilterFunction(TIRESIAS._FilterNotSAM):FilterStart()
+local AAASet = SET_GROUP:New():FilterCategoryGround():FilterFunction(TIRESIAS._FilterAAA):FilterStart()
+local SAMSet = SET_GROUP:New():FilterCategoryGround():FilterFunction(TIRESIAS._FilterSAM):FilterStart()
+local OpsGroupSet = SET_OPSGROUP:New():FilterActive(true):FilterStart()
+self.FlightSet = SET_GROUP:New():FilterCategories({" plane" ," helicopter" }):FilterStart()
+
+--  Cache frequently used values
+local EngageRange = self.AAARange
+local SwitchAAA = self.SwitchAAA
+local ExceptionSet = self.ExceptionSet
+
+--  Pre-create data templates to reduce object creation
+local exception_data = {
+  type = " Exception" ,
+  exception = true,
+  }
+
+local vehicle_data = {
+  type = " Vehicle" ,
+  invisible = true,
+  AIOff = true,
+  exception = false,
+  }
+
+local aaa_data = {
+  type = " AAA" ,
+  invisible = true,
+  range = EngageRange,
+  exception = false,
+  AIOff = SwitchAAA,
+  }
+
+local sam_data = {
+  type = " SAM" ,
+  invisible = true,
+  exception = false,
+  }
+
+if ExceptionSet then  
+  function ExceptionSet:OnAfterAdded(From, Event, To, ObjectName, Object)
+    BASE:I(" TIRESIAS: EXCEPTION Object Added: "  .. Object:GetName())
+    if Object and Object:IsAlive() then
+      Object.Tiresias = exception_data
       Object:SetAIOn()
       Object:SetCommandInvisible(false)
       Object:EnableEmission(true)
-      end
-    end
-  
-    local OGS = OpsGroupSet:GetAliveSet()
-    for _,_OG in pairs(OGS or {}) do
-      local OG = _OG -- Ops.OpsGroup#OPSGROUP
-      local grp = OG:GetGroup()
-      ExceptionSet:AddGroup(grp,true)
-    end
-    
-    function OpsGroupSet:OnAfterAdded(From,Event,To,ObjectName,Object)
-      local grp = Object:GetGroup()
-      ExceptionSet:AddGroup(grp,true)
     end
   end
+
+  -- Process existing OpsGroups more efficiently
+  local OGS = OpsGroupSet:GetAliveSet()
+  for _, _OG in pairs(OGS or {}) do
+    local OG = _OG -- Ops.OpsGroup#OPSGROUP
+    local grp = OG:GetGroup()  
+    ExceptionSet:AddGroup(grp, true)
+  end
   
-  function VehicleSet:OnAfterAdded(From,Event,To,ObjectName,Object)
-    BASE:I("TIRESIAS: VEHCILE Object Added: "..Object:GetName())
-    if Object and Object:IsAlive() then
+  function OpsGroupSet:OnAfterAdded(From, Event, To, ObjectName, Object)
+    local grp = Object:GetGroup()
+    ExceptionSet:AddGroup(grp, true)
+  end
+end
+
+--  Optimized event handlers with pre-created data objects
+function VehicleSet:OnAfterAdded(From, Event, To, ObjectName, Object)
+  BASE:T(" TIRESIAS: VEHICLE Object Added: "  .. Object:GetName())
+  if Object and Object:IsAlive() then
+    Object:SetAIOff()
+    Object:SetCommandInvisible(true)
+    Object.Tiresias = vehicle_data
+  end
+end
+  
+function AAASet:OnAfterAdded(From, Event, To, ObjectName, Object)
+  if Object and Object:IsAlive() then
+    BASE:I(" TIRESIAS: AAA Object Added: "  .. Object:GetName())
+    Object:OptionEngageRange(EngageRange)
+    Object:SetCommandInvisible(true)
+    if SwitchAAA then
       Object:SetAIOff()
-      Object:SetCommandInvisible(true)
-      Object.Tiresias = { -- #TIRESIAS.Data
-        type = "Vehicle",
-        invisible = true,
-        AIOff = true,
-        exception = false,
-      }
+      Object:EnableEmission(false)
     end
+    Object.Tiresias = aaa_data
   end
+end
   
-  local SwitchAAA = self.SwitchAAA
-  
-  function AAASet:OnAfterAdded(From,Event,To,ObjectName,Object)
-    if Object and Object:IsAlive() then
-      BASE:I("TIRESIAS: AAA Object Added: "..Object:GetName())
-      Object:OptionEngageRange(EngageRange)
-      Object:SetCommandInvisible(true)
-      if SwitchAAA then
-          Object:SetAIOff()
-          Object:EnableEmission(false)
-      end
-      Object.Tiresias = { -- #TIRESIAS.Data
-          type = "AAA",
-          invisible = true,
-          range = EngageRange,
-          exception = false,
-          AIOff = SwitchAAA,
-        }
-    end
+function SAMSet:OnAfterAdded(From, Event, To, ObjectName, Object)
+  if Object and Object:IsAlive() then
+    BASE:T(" TIRESIAS: SAM Object Added: "  .. Object:GetName())
+    Object:SetCommandInvisible(true)
+    Object.Tiresias = sam_data
   end
+end
   
-  function SAMSet:OnAfterAdded(From,Event,To,ObjectName,Object)
-    if Object and Object:IsAlive() then
-      BASE:I("TIRESIAS: SAM Object Added: "..Object:GetName())
-      Object:SetCommandInvisible(true)
-      Object.Tiresias = { -- #TIRESIAS.Data
-        type = "SAM",
-        invisible = true,
-        exception = false,
-      }
-    end
-  end
-  
+  --  Store references
   self.VehicleSet = VehicleSet
   self.AAASet = AAASet
   self.SAMSet = SAMSet
@@ -120649,75 +121996,79 @@ function TIRESIAS:onafterStart(From, Event, To)
   
   self:_InitGroups()
   
-  self:__Status(1)    
+  self:__Status(1)  
   return self
 end
 
 --- [INTERNAL] FSM Function
--- @param #TIRESIAS self
--- @param #string From
--- @param #string Event
--- @param #string To
--- @return #TIRESIAS self
+--  @param #TIRESIAS self
+--  @param #string From
+--  @param #string Event
+--  @param #string To
+--  @return #TIRESIAS self
 function TIRESIAS:onbeforeStatus(From, Event, To)
   self:T({From, Event, To})
-  if self:GetState() == "Stopped" then
-    return false
-  end
-  return self
+  return self:GetState() ~= " Stopped" 
 end
 
---- [INTERNAL] FSM Function
--- @param #TIRESIAS self
--- @param #string From
--- @param #string Event
--- @param #string To
--- @return #TIRESIAS self
+--- [INTERNAL] FSM Function - Optimized status processing
+--  @param #TIRESIAS self
+--  @param #string From
+--  @param #string Event
+--  @param #string To
+--  @return #TIRESIAS self
 function TIRESIAS:onafterStatus(From, Event, To)
   self:T({From, Event, To})
-    if self.debug then
+  
+  if self.debug then
     local count = self.VehicleSet:CountAlive()
     local AAAcount = self.AAASet:CountAlive()
     local SAMcount = self.SAMSet:CountAlive()
-    local text = string.format("Overall: %d | Vehicles: %d | AAA: %d | SAM: %d",count+AAAcount+SAMcount,count,AAAcount,SAMcount)
-    self:I(text)
+    self:I(string.format(" Overall: %d | Vehicles: %d | AAA: %d | SAM: %d" ,
+    count + AAAcount + SAMcount, count, AAAcount, SAMcount))
   end
+  
   self:_InitGroups()
-  if self.FlightSet:CountAlive() > 0 then
+  
+  --  Process flight groups more efficiently
+  local flight_count = self.FlightSet:CountAlive()
+  if flight_count > 0 then
     local Set = self.FlightSet:GetAliveSet()
-    for _,_plane in pairs(Set) do
+    --  Cache range values outside loop
+    local helo_range = self.HeloSwitchRange
+    local plane_range = self.PlaneSwitchRange
+    
+    for _, _plane in pairs(Set or {}) do
       local plane = _plane -- Wrapper.Group#GROUP
-      local radius = self.PlaneSwitchRange
-      if plane:IsHelicopter() then
-        radius = self.HeloSwitchRange
-      end
-      self:_SwitchOnGroups(_plane,radius)
+      local radius = plane:IsHelicopter() and helo_range or plane_range
+      self:_SwitchOnGroups(plane, radius)
     end
   end
-  if self:GetState() ~= "Stopped" then
+  
+  if self:GetState() ~= " Stopped"  then
     self:__Status(self.Interval)
   end
+  
   return self
 end
 
 --- [INTERNAL] FSM Function
--- @param #TIRESIAS self
--- @param #string From
--- @param #string Event
--- @param #string To
--- @return #TIRESIAS self
+--  @param #TIRESIAS self
+--  @param #string From
+--  @param #string Event
+--  @param #string To
+--  @return #TIRESIAS self
 function TIRESIAS:onafterStop(From, Event, To)
   self:T({From, Event, To})
   self:UnHandleEvent(EVENTS.PlayerEnterAircraft)
+  --  Clear zone cache on stop to free memory
+  self._cached_zones = {}
   return self
 end
 
--------------------------------------------------------------------------------------------------------------
---
--- End
--- 
--------------------------------------------------------------------------------------------------------------
---- **Functional** - Stratego.
+-----
+----  End
+-------- **Functional** - Stratego.
 --
 -- **Main Features:**
 --
@@ -123083,12 +124434,15 @@ end
 --    * [USS George Washington](https://en.wikipedia.org/wiki/USS_George_Washington_\(CVN-73\)) (CVN-73) [Super Carrier Module]
 --    * [USS Harry S. Truman](https://en.wikipedia.org/wiki/USS_Harry_S._Truman) (CVN-75) [Super Carrier Module]
 --    * [USS Forrestal](https://en.wikipedia.org/wiki/USS_Forrestal_\(CV-59\)) (CV-59) [Heatblur Carrier Module]
+--    * [Essex Class](https://en.wikipedia.org/wiki/Essex-class_aircraft_carrier) (CV-11) [Magnitude 3 Carrier Module]
 --    * [HMS Hermes](https://en.wikipedia.org/wiki/HMS_Hermes_\(R12\)) (R12)
 --    * [HMS Invincible](https://en.wikipedia.org/wiki/HMS_Invincible_\(R05\)) (R05)
 --    * [USS Tarawa](https://en.wikipedia.org/wiki/USS_Tarawa_\(LHA-1\)) (LHA-1)
 --    * [USS America](https://en.wikipedia.org/wiki/USS_America_\(LHA-6\)) (LHA-6)
 --    * [Juan Carlos I](https://en.wikipedia.org/wiki/Spanish_amphibious_assault_ship_Juan_Carlos_I) (L61)
 --    * [HMAS Canberra](https://en.wikipedia.org/wiki/HMAS_Canberra_\(L02\)) (L02)
+--    * BONHOMMERICHARD [VWV Mod]
+--    * ENTERPRISE66 [VWV Mod]
 --
 -- **Supported Aircraft:**
 --
@@ -123098,6 +124452,7 @@ end
 --    * [AV-8B N/A Harrier](https://forums.eagle.ru/forumdisplay.php?f=555) (Player & AI)
 --    * [T-45C Goshawk](https://forum.dcs.world/topic/203816-vnao-t-45-goshawk/) (VNAO mod) (Player & AI)
 --    * [FE/A-18E/F/G Superhornet](https://forum.dcs.world/topic/316971-cjs-super-hornet-community-mod-v20-official-thread/) (CJS mod) (Player & AI)
+--    * [F4U-1D Corsair](https://forum.dcs.world/forum/781-f4u-1d/) (Player & AI)
 --    * F/A-18C Hornet (AI)
 --    * F-14A Tomcat (AI)
 --    * E-2D Hawkeye (AI)
@@ -124334,6 +125689,8 @@ AIRBOSS = {
 -- @field #string RHINOE F/A-18E Superhornet (mod).
 -- @field #string RHINOF F/A-18F Superhornet (mod).
 -- @field #string GROWLER FEA-18G Superhornet (mod).
+-- @field #string CORSAIR F4U-1D Corsair.
+-- @field #string CORSAIR_CW F4U-1D Corsair Mk.4 (clipped wing).
 AIRBOSS.AircraftCarrier={
   AV8B="AV8BNA",
   HORNET="FA-18C_hornet",
@@ -124350,6 +125707,8 @@ AIRBOSS.AircraftCarrier={
   RHINOE="FA-18E",
   RHINOF="FA-18F",
   GROWLER="EA-18G",
+  CORSAIR="F4U-1D",
+  CORSAIR_CW="F4U-1D CW",  
 }
 
 --- Carrier types.
@@ -124361,6 +125720,11 @@ AIRBOSS.AircraftCarrier={
 -- @field #string TRUMAN USS Harry S. Truman (CVN-75) [Super Carrier Module]
 -- @field #string FORRESTAL USS Forrestal (CV-59) [Heatblur Carrier Module]
 -- @field #string VINSON USS Carl Vinson (CVN-70) [Deprecated!]
+-- @field #string ESSEX Essex class carrier (e.g. USS Yorktown (CV-10)) [Magnitude 3 Carrier Module]
+-- @field #string BONHOMMERICHARD USS Bon Homme Richard carrier [VWV Mod]
+-- @field #string ESSEXSCB125 Generic Essex class carrier with angled deck (SCB-125 upgrade) [VWV Mod]
+-- @field #string ENTERPRISE66 USS Enterprise in the 1966 configuration [VWV Mod]
+-- @field #string ENTERPRISEMODERN USS Enterprise in a modern configuration [Derived VWV Mod]
 -- @field #string HERMES HMS Hermes (R12) [V/STOL Carrier]
 -- @field #string INVINCIBLE HMS Invincible (R05) [V/STOL Carrier]
 -- @field #string TARAWA USS Tarawa (LHA-1) [V/STOL Carrier]
@@ -124375,7 +125739,12 @@ AIRBOSS.CarrierType = {
   TRUMAN = "CVN_75",
   STENNIS = "Stennis",
   FORRESTAL = "Forrestal",
+  ENTERPRISE66 = "USS Enterprise 1966",
+  ENTERPRISEMODERN = "cvn-65",
   VINSON = "VINSON",
+  ESSEX = "Essex",
+  BONHOMMERICHARD = "USS Bon Homme Richard",
+  ESSEXSCB125 = "essex_scb125",
   HERMES = "HERMES81",
   INVINCIBLE = "hms_invincible",
   TARAWA = "LHA_Tarawa",
@@ -124487,6 +125856,7 @@ AIRBOSS.PatternStep = {
   GROOVE_IC = "Groove In Close",
   GROOVE_AR = "Groove At the Ramp",
   GROOVE_IW = "Groove In the Wires",
+  GROOVE_IWs = "Groove In the Wires stopped?", -- VNAO Edit - Added
   GROOVE_AL = "Groove Abeam Landing Spot",
   GROOVE_LC = "Groove Level Cross",
   BOLTER = "Bolter Pattern",
@@ -124798,7 +126168,7 @@ AIRBOSS.MenuF10Root = nil
 
 --- Airboss class version.
 -- @field #string version
-AIRBOSS.version = "1.3.3"
+AIRBOSS.version = "1.4.2"
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- TODO list
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -125061,9 +126431,19 @@ function AIRBOSS:New( carriername, alias )
     self:_InitNimitz()
   elseif self.carriertype == AIRBOSS.CarrierType.FORRESTAL then
     self:_InitForrestal()
+  elseif self.carriertype == AIRBOSS.CarrierType.ENTERPRISE66 then
+    self:_InitEnterprise()
+  elseif self.carriertype == AIRBOSS.CarrierType.ENTERPRISEMODERN then
+    self:_InitEnterprise()
   elseif self.carriertype == AIRBOSS.CarrierType.VINSON then
     -- Carl Vinson is legacy now.
     self:_InitStennis()
+  elseif self.carriertype == AIRBOSS.CarrierType.ESSEX then
+    self:_InitEssex()
+  elseif self.carriertype == AIRBOSS.CarrierType.BONHOMMERICHARD then
+    self:_InitBonHommeRichard()
+  elseif self.carriertype == AIRBOSS.CarrierType.ESSEXSCB125 then
+    self:_InitEssexSCB125()
   elseif self.carriertype == AIRBOSS.CarrierType.HERMES then
     -- Hermes parameters.
     self:_InitHermes()
@@ -125451,6 +126831,16 @@ end
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- USER API Functions
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--- Set the carrier illumination mode.
+-- @param #AIRBOSS self
+-- @param #number Mode Options are: -2: OFF, -1: AUTO, 0: NAVIGATION, 1: AC LAUNCH, 2: AC RECOVERY
+-- @return #AIRBOSS self
+function AIRBOSS:SetCarrierIllumination(Mode)
+  self.carrier:SetCarrierIlluminationMode(Mode)
+  return self
+end
+
 
 --- Set welcome messages for players.
 -- @param #AIRBOSS self
@@ -125917,23 +127307,28 @@ end
 function AIRBOSS:SetGlideslopeErrorThresholds(_max,_min, High, HIGH, Low, LOW)
 
   --Check if V/STOL Carrier
-  if self.carriertype == AIRBOSS.CarrierType.INVINCIBLE or self.carriertype == AIRBOSS.CarrierType.HERMES or self.carriertype == AIRBOSS.CarrierType.TARAWA or self.carriertype == AIRBOSS.CarrierType.AMERICA or self.carriertype == AIRBOSS.CarrierType.JCARLOS or self.carriertype == AIRBOSS.CarrierType.CANBERRA then
+  if self.carriertype == AIRBOSS.CarrierType.INVINCIBLE or 
+    self.carriertype == AIRBOSS.CarrierType.HERMES or 
+    self.carriertype == AIRBOSS.CarrierType.TARAWA or 
+    self.carriertype == AIRBOSS.CarrierType.AMERICA or 
+    self.carriertype == AIRBOSS.CarrierType.JCARLOS or 
+    self.carriertype == AIRBOSS.CarrierType.CANBERRA then
 
-  -- allow a larger GSE for V/STOL operations --Pene Testing
-  self.gle._max=_max or  0.7
-  self.gle.High=High or  1.4
-  self.gle.HIGH=HIGH or  1.9
-  self.gle._min=_min or -0.5
-  self.gle.Low=Low   or -1.2
-  self.gle.LOW=LOW   or -1.5
-  -- CVN values
+    -- allow a larger GSE for V/STOL operations --Pene Testing
+    self.gle._max=_max or  0.7
+    self.gle.High=High or  1.4
+    self.gle.HIGH=HIGH or  1.9
+    self.gle._min=_min or -0.5
+    self.gle.Low=Low   or -1.2
+    self.gle.LOW=LOW   or -1.5
   else
-  self.gle._max=_max or  0.4
-  self.gle.High=High or  0.8
-  self.gle.HIGH=HIGH or  1.5
-  self.gle._min=_min or -0.3
-  self.gle.Low=Low   or -0.6
-  self.gle.LOW=LOW   or -0.9
+    -- CVN values    
+    self.gle._max=_max or  0.4
+    self.gle.High=High or  0.8
+    self.gle.HIGH=HIGH or  1.5
+    self.gle._min=_min or -0.3
+    self.gle.Low=Low   or -0.6
+    self.gle.LOW=LOW   or -0.9
   end
 
   return self
@@ -126116,7 +127511,7 @@ end
 
 --- Set up SRS for usage without sound files
 -- @param #AIRBOSS self
--- @param #string PathToSRS Path to SRS folder, e.g. "C:\\Program Files\\DCS-SimpleRadio-Standalone".
+-- @param #string PathToSRS Path to SRS folder, e.g. "C:\\Program Files\\DCS-SimpleRadio\\ExternalAudio".
 -- @param #number Port Port of the SRS server, defaults to 5002.
 -- @param #string Culture (Optional, Airboss Culture)  Culture, defaults to "en-US".
 -- @param #string Gender (Optional, Airboss Gender)  Gender, e.g. "male" or "female". Defaults to "male".
@@ -126135,20 +127530,22 @@ function AIRBOSS:EnableSRS(PathToSRS,Port,Culture,Gender,Voice,GoogleCreds,Volum
   self.SRS:SetCulture(Culture or "en-US")
   --self.SRS:SetFrequencies(Frequencies)
   self.SRS:SetGender(Gender or "male")
-  self.SRS:SetPath(PathToSRS)
-  self.SRS:SetPort(Port or 5002)
+  --self.SRS:SetPath(PathToSRS)
+  self.SRS:SetPort(Port or MSRS.port or 5002)
   self.SRS:SetLabel(self.AirbossRadio.alias or "AIRBOSS")
   self.SRS:SetCoordinate(self.carrier:GetCoordinate())
   self.SRS:SetVolume(Volume or 1)
   --self.SRS:SetModulations(Modulations)
   if GoogleCreds then
-    self.SRS:SetProviderOptionsGoogle(GoogleCreds,GoogleCreds)
-    self.SRS:SetProvider(MSRS.Provider.GOOGLE)
+    self.SRS:SetGoogle(GoogleCreds)
   end
   if Voice then
     self.SRS:SetVoice(Voice)
   end
-  self.SRS:SetVolume(Volume or 1.0)
+  if (not Voice) and self.SRS and self.SRS:GetProvider() == MSRS.Provider.GOOGLE then
+    self.SRS.voice = MSRS.poptions["gcloud"].voice or MSRS.Voices.Google.Standard.en_US_Standard_B
+  end
+  --self.SRS:SetVolume(Volume or 1.0)
   -- SRSQUEUE
   self.SRSQ = MSRSQUEUE:New("AIRBOSS")
   self.SRSQ:SetTransmitOnlyWithPlayers(true)
@@ -126693,7 +128090,6 @@ function AIRBOSS:onafterStart( From, Event, To )
   self:HandleEvent( EVENTS.PlayerLeaveUnit, self._PlayerLeft )
   self:HandleEvent( EVENTS.MissionEnd )
   self:HandleEvent( EVENTS.RemoveUnit )
-  self:HandleEvent( EVENTS.UnitLost, self.OnEventRemoveUnit )
 
   -- self.StatusScheduler=SCHEDULER:New(self)
   -- self.StatusScheduler:Schedule(self, self._Status, {}, 1, 0.5)
@@ -127540,7 +128936,7 @@ function AIRBOSS:_InitStennis()
   -- Early break.
   self.BreakEarly.name = "Early Break"
   self.BreakEarly.Xmin = -UTILS.NMToMeters( 1 ) -- Not more than 1 NM behind the boat. Last check was at 0.
-  self.BreakEarly.Xmax = UTILS.NMToMeters( 5 ) -- Not more than 5 NM in front of the boat. Enough for late breaks?
+  self.BreakEarly.Xmax = UTILS.NMToMeters( 7 ) -- Not more than 5 NM in front of the boat. Enough for late breaks? -- VNAO EDIT - original value 5
   self.BreakEarly.Zmin = -UTILS.NMToMeters( 2 ) -- Not more than 2 NM port.
   self.BreakEarly.Zmax = UTILS.NMToMeters( 1 ) -- Not more than 1 NM starboard.
   self.BreakEarly.LimitXmin = 0 -- Check and next step 0.2 NM port and in front of boat.
@@ -127551,7 +128947,7 @@ function AIRBOSS:_InitStennis()
   -- Late break.
   self.BreakLate.name = "Late Break"
   self.BreakLate.Xmin = -UTILS.NMToMeters( 1 ) -- Not more than 1 NM behind the boat. Last check was at 0.
-  self.BreakLate.Xmax = UTILS.NMToMeters( 5 ) -- Not more than 5 NM in front of the boat. Enough for late breaks?
+  self.BreakLate.Xmax = UTILS.NMToMeters( 7 ) -- Not more than 5 NM in front of the boat. Enough for late breaks? -- VNAO EDIT - original value 5
   self.BreakLate.Zmin = -UTILS.NMToMeters( 2 ) -- Not more than 2 NM port.
   self.BreakLate.Zmax = UTILS.NMToMeters( 1 ) -- Not more than 1 NM starboard.
   self.BreakLate.LimitXmin = 0 -- Check and next step 0.8 NM port and in front of boat.
@@ -127562,7 +128958,7 @@ function AIRBOSS:_InitStennis()
   -- Abeam position.
   self.Abeam.name = "Abeam Position"
   self.Abeam.Xmin = -UTILS.NMToMeters( 5 ) -- Not more then 5 NM astern of boat. Should be LIG call anyway.
-  self.Abeam.Xmax = UTILS.NMToMeters( 5 ) -- Not more then 5 NM ahead of boat.
+    self.Abeam.Xmax = UTILS.NMToMeters( 7 ) -- Not more then 5 NM ahead of boat.    --VNAO EDIT  - original value 5
   self.Abeam.Zmin = -UTILS.NMToMeters( 2 ) -- Not more than 2 NM port.
   self.Abeam.Zmax = 500 -- Not more than 500 m starboard. Must be port!
   self.Abeam.LimitXmin = -200 -- Check and next step 200 meters behind the ship.
@@ -127641,7 +129037,7 @@ function AIRBOSS:_InitNimitz()
   self.carrierparam.wire1 = 55 -- Distance from stern to first wire.
   self.carrierparam.wire2 = 67
   self.carrierparam.wire3 = 79
-  self.carrierparam.wire4 = 92
+  self.carrierparam.wire4 = 96 -- VNAO Edit - original value was 92
 
   -- Landing distance.
   self.carrierparam.landingdist = self.carrierparam.sterndist+self.carrierparam.wire3
@@ -127677,6 +129073,100 @@ function AIRBOSS:_InitForrestal()
 
   -- Landing distance.
   self.carrierparam.landingdist = self.carrierparam.sterndist+self.carrierparam.wire3
+
+end
+
+--- Init parameters for Enterprise carrier.
+-- @param #AIRBOSS self
+function AIRBOSS:_InitEnterprise()
+  -- Using Forrestal as template
+  self:_InitForrestal()
+
+  self.carrierparam.sterndist = -164.30
+  self.carrierparam.deckheight = 19.52
+
+  self.carrierparam.totlength = 335
+  self.carrierparam.rwylength = 223
+
+  -- Wires.
+  self.carrierparam.wire1 = 57.7
+  self.carrierparam.wire2 = 69.6
+  self.carrierparam.wire3 = 79.5
+  self.carrierparam.wire4 = 90.0
+
+end
+
+--- Init parameters for Essec class carriers.
+-- @param #AIRBOSS self
+function AIRBOSS:_InitEssex()
+
+  -- Init Nimitz as default.
+  self:_InitNimitz()
+
+  -- Carrier Parameters.
+  self.carrierparam.sterndist = -126
+  self.carrierparam.deckheight = 19.27 --DCS World\CoreMods\tech\M3 WWII PTO units\Database\Essex_Class_Carrier_1944.lua
+
+  -- Total size of the carrier (approx as rectangle).
+  self.carrierparam.totlength = 268
+  self.carrierparam.totwidthport = 23
+  self.carrierparam.totwidthstarboard = 23
+
+  -- Landing runway.
+  self.carrierparam.rwyangle = 0.0
+  self.carrierparam.rwylength = 265
+  self.carrierparam.rwywidth = 20
+
+  -- Wires.
+  self.carrierparam.wire1  = 21.9
+  self.carrierparam.wire2  = 28.3
+  self.carrierparam.wire3  = 34.7
+  self.carrierparam.wire4  = 41.1
+  self.carrierparam.wire5  = 47.4
+  self.carrierparam.wire6  = 53.7
+  self.carrierparam.wire7  = 59.0
+
+  self.carrierparam.wire8  = 64.1
+  self.carrierparam.wire9  = 72.7
+  self.carrierparam.wire10 = 78.0
+  self.carrierparam.wire11 = 85.5
+
+  self.carrierparam.wire12 = 105.9
+  self.carrierparam.wire13 = 113.3
+  self.carrierparam.wire14 = 121.0
+  self.carrierparam.wire15 = 128.5
+
+  -- Landing distance.
+  self.carrierparam.landingdist = self.carrierparam.sterndist+self.carrierparam.wire3
+
+end
+
+--- Init parameters for CVA-31 Bon Homme Richard carriers.
+-- @param #AIRBOSS self
+function AIRBOSS:_InitBonHommeRichard()
+  -- Init Essex as default
+  self:_InitEssex()
+
+  self.carrierparam.deckheight = 16.95
+
+  -- Landing runway.
+  -- from BHR EssexRunwayAndRoutes.lua
+  self.carrierparam.rwyangle = -11.4
+  self.carrierparam.rwylength = 97
+  self.carrierparam.rwywidth = 20
+
+  -- Wires.
+  self.carrierparam.wire1 = 40.4 -- Distance from stern to first wire. Original from Frank - 42
+  self.carrierparam.wire2 = 45
+  self.carrierparam.wire3 = 51
+  self.carrierparam.wire4 = 58.1
+end
+
+--- Init parameters for Generic Essex SC125 class carriers.
+-- @param #AIRBOSS self
+function AIRBOSS:_InitEssexSCB125()
+  -- Init Bon Homme Richard as default
+  self:_InitBonHommeRichard()
 
 end
 
@@ -128089,6 +129579,7 @@ function AIRBOSS:SetVoiceOversLSOByRaynor( mizfolder )
   self.LSOCall.N8.duration = 0.38
   self.LSOCall.N9.duration = 0.34
   self.LSOCall.PADDLESCONTACT.duration = 0.91
+  self.LSOCall.POWERsoft.duration=0.9 -- VNAO Edit - Added
   self.LSOCall.POWER.duration = 0.45
   self.LSOCall.RADIOCHECK.duration = 0.90
   self.LSOCall.RIGHTFORLINEUP.duration = 0.70
@@ -128147,6 +129638,7 @@ function AIRBOSS:SetVoiceOversLSOByFF( mizfolder )
   self.LSOCall.N9.duration = 0.40
   self.LSOCall.PADDLESCONTACT.duration = 1.00
   self.LSOCall.POWER.duration = 0.50
+  self.LSOCall.POWERsoft.duration=0.9 -- VNAO Edit - Added
   self.LSOCall.RADIOCHECK.duration = 1.10
   self.LSOCall.RIGHTFORLINEUP.duration = 0.80
   self.LSOCall.ROGERBALL.duration = 1.00
@@ -128239,6 +129731,7 @@ function AIRBOSS:_InitVoiceOvers()
     HIGH = { file = "LSO-High", suffix = "ogg", loud = true, subtitle = "You're high", duration = 0.65, subduration = 1 },
     LOW = { file = "LSO-Low", suffix = "ogg", loud = true, subtitle = "You're low", duration = 0.50, subduration = 1 },
     POWER = { file = "LSO-Power", suffix = "ogg", loud = true, subtitle = "Power", duration = 0.50, subduration = 1 }, -- duration 0.45 was too short
+    POWERsoft={ file="LSO-Power-soft", suffix="ogg", loud=false, subtitle="Power-soft", duration=0.90, subduration=1 }, -- VNAO Edit - Added
     SLOW = { file = "LSO-Slow", suffix = "ogg", loud = true, subtitle = "You're slow", duration = 0.65, subduration = 1 },
     FAST = { file = "LSO-Fast", suffix = "ogg", loud = true, subtitle = "You're fast", duration = 0.70, subduration = 1 },
     ROGERBALL = { file = "LSO-RogerBall", suffix = "ogg", loud = false, subtitle = "Roger ball", duration = 1.00, subduration = 2 },
@@ -128382,7 +129875,8 @@ function AIRBOSS:_GetAircraftAoA( playerData )
   local goshawk = playerData.actype == AIRBOSS.AircraftCarrier.T45C
   local skyhawk = playerData.actype == AIRBOSS.AircraftCarrier.A4EC
   local harrier = playerData.actype == AIRBOSS.AircraftCarrier.AV8B
-  local tomcat = playerData.actype == AIRBOSS.AircraftCarrier.F14A or playerData.actype == AIRBOSS.AircraftCarrier.F14B
+  local tomcat  = playerData.actype == AIRBOSS.AircraftCarrier.F14A or playerData.actype == AIRBOSS.AircraftCarrier.F14B
+  local corsair = playerData.actype == AIRBOSS.AircraftCarrier.CORSAIR or playerData.actype == AIRBOSS.AircraftCarrier.CORSAIR_CW
 
   -- Table with AoA values.
   local aoa = {} -- #AIRBOSS.AircraftAoA
@@ -128399,13 +129893,13 @@ function AIRBOSS:_GetAircraftAoA( playerData )
   elseif tomcat then
     -- F-14A/B Tomcat parameters (taken from NATOPS). Converted from units 0-30 to degrees.
     -- Currently assuming a linear relationship with 0=-10 degrees and 30=+40 degrees as stated in NATOPS.
-    aoa.SLOW = self:_AoAUnit2Deg( playerData, 17.0 ) -- 18.33 --17.0 units
-    aoa.Slow = self:_AoAUnit2Deg( playerData, 16.0 ) -- 16.67 --16.0 units
-    aoa.OnSpeedMax = self:_AoAUnit2Deg( playerData, 15.5 ) -- 15.83 --15.5 units
+    aoa.SLOW = self:_AoAUnit2Deg( playerData, 17.5 ) -- 18.33 --17.0 units -- VNAO Edit - Original value 17
+    aoa.Slow = self:_AoAUnit2Deg( playerData, 16.5 ) -- 16.67 --16.0 units -- VNAO Edit - Original value 16
+    aoa.OnSpeedMax = self:_AoAUnit2Deg( playerData, 16.0 ) -- 15.83 --15.5 units -- VNAO Edit - Original value 15.5 
     aoa.OnSpeed = self:_AoAUnit2Deg( playerData, 15.0 ) -- 15.0  --15.0 units
-    aoa.OnSpeedMin = self:_AoAUnit2Deg( playerData, 14.5 ) -- 14.17 --14.5 units
-    aoa.Fast = self:_AoAUnit2Deg( playerData, 14.0 ) -- 13.33 --14.0 units
-    aoa.FAST = self:_AoAUnit2Deg( playerData, 13.0 ) -- 11.67 --13.0 units
+    aoa.OnSpeedMin = self:_AoAUnit2Deg( playerData, 14.0 ) -- 14.17 --14.5 units -- VNAO Edit - Original value 14.5
+    aoa.Fast = self:_AoAUnit2Deg( playerData, 13.5 ) -- 13.33 --14.0 units -- VNAO Edit - Original value 14
+    aoa.FAST = self:_AoAUnit2Deg( playerData, 12.5 ) -- 11.67 --13.0 units -- VNAO Edit - Original value 13
   elseif goshawk then
     -- T-45C Goshawk parameters.
     aoa.SLOW = 8.00 -- 19
@@ -128419,15 +129913,14 @@ function AIRBOSS:_GetAircraftAoA( playerData )
     -- A-4E-C Skyhawk parameters from https://forums.eagle.ru/showpost.php?p=3703467&postcount=390
     -- Note that these are arbitrary UNITS and not degrees. We need a conversion formula!
     -- Github repo suggests they simply use a factor of two to get from degrees to units.
-    aoa.SLOW = 9.50 -- =19.0/2
-    aoa.Slow = 9.25 -- =18.5/2
-    aoa.OnSpeedMax = 9.00 -- =18.0/2
-    aoa.OnSpeed = 8.75 -- =17.5/2 8.1
-    aoa.OnSpeedMin = 8.50 -- =17.0/2
-    aoa.Fast = 8.25 -- =17.5/2
-    aoa.FAST = 8.00 -- =16.5/2
+    aoa.SLOW = 10.50 -- =19.0/2 -- VNAO Edit - Original value 9.50
+    aoa.Slow = 9.50 -- =18.5/2 -- VNAO Edit - Original value 9.25
+    aoa.OnSpeedMax = 9.25 -- =18.0/2 -- VNAO Edit - Original value 9.00
+    aoa.OnSpeed = 8.75 -- =17.5/2 8.1 -- VNAO Edit - Original value 8.75
+    aoa.OnSpeedMin = 8.25 -- =17.0/2 -- VNAO Edit - Original value 8.50
+    aoa.Fast = 8.00 -- =17.5/2 -- VNAO Edit - Original value 8.25
+    aoa.FAST = 7.00 -- =16.5/2 -- VNAO Edit - Original value 8.0
   elseif harrier then
-
     -- AV-8B Harrier parameters. Tuning done on the Fast AoA to allow for abeam and ninety at Nozzles 55. Pene testing
     aoa.SLOW       = 16.0
     aoa.Slow       = 13.5
@@ -128436,7 +129929,15 @@ function AIRBOSS:_GetAircraftAoA( playerData )
     aoa.OnSpeedMin =  9.5
     aoa.Fast       =  8.0
     aoa.FAST       =  7.5
-
+  elseif corsair then
+    -- F4U-1D Corsair parameters.
+    aoa.SLOW       = 16.0
+    aoa.Slow       = 13.5
+    aoa.OnSpeedMax = 12.5
+    aoa.OnSpeed    = 10.0
+    aoa.OnSpeedMin =  9.5
+    aoa.Fast       =  8.0
+    aoa.FAST       =  7.5
   end
 
   return aoa
@@ -128549,6 +130050,7 @@ function AIRBOSS:_GetAircraftParameters( playerData, step )
   local tomcat = playerData.actype == AIRBOSS.AircraftCarrier.F14A or playerData.actype == AIRBOSS.AircraftCarrier.F14B
   local harrier = playerData.actype == AIRBOSS.AircraftCarrier.AV8B
   local goshawk = playerData.actype == AIRBOSS.AircraftCarrier.T45C
+  local corsair = playerData.actype == AIRBOSS.AircraftCarrier.CORSAIR or playerData.actype == AIRBOSS.AircraftCarrier.CORSAIR_CW
 
   -- Return values.
   local alt
@@ -128608,6 +130110,9 @@ function AIRBOSS:_GetAircraftParameters( playerData, step )
     elseif goshawk then
       alt = UTILS.FeetToMeters( 800 )
       speed = UTILS.KnotsToMps( 300 )
+    elseif corsair then
+      alt = UTILS.FeetToMeters( 300 )
+      speed = UTILS.KnotsToMps( 120 )
     end
 
   elseif step == AIRBOSS.PatternStep.BREAKENTRY then
@@ -128621,6 +130126,9 @@ function AIRBOSS:_GetAircraftParameters( playerData, step )
     elseif goshawk then
       alt = UTILS.FeetToMeters( 800 )
       speed = UTILS.KnotsToMps( 300 )
+    elseif corsair then
+      alt = UTILS.FeetToMeters( 200 )
+      speed = UTILS.KnotsToMps( 110 )
     end
 
   elseif step == AIRBOSS.PatternStep.EARLYBREAK then
@@ -128629,6 +130137,9 @@ function AIRBOSS:_GetAircraftParameters( playerData, step )
       alt = UTILS.FeetToMeters( 800 )
     elseif skyhawk then
       alt = UTILS.FeetToMeters( 600 )
+    elseif corsair then
+      alt = UTILS.FeetToMeters( 200 )
+      speed = UTILS.KnotsToMps( 100 )
     end
 
   elseif step == AIRBOSS.PatternStep.LATEBREAK then
@@ -128637,6 +130148,9 @@ function AIRBOSS:_GetAircraftParameters( playerData, step )
       alt = UTILS.FeetToMeters( 800 )
     elseif skyhawk then
       alt = UTILS.FeetToMeters( 600 )
+    elseif corsair then
+      alt = UTILS.FeetToMeters( 150 )
+      speed = UTILS.KnotsToMps( 100 )
     end
 
   elseif step == AIRBOSS.PatternStep.ABEAM then
@@ -128645,6 +130159,9 @@ function AIRBOSS:_GetAircraftParameters( playerData, step )
       alt = UTILS.FeetToMeters( 600 )
     elseif skyhawk then
       alt = UTILS.FeetToMeters( 500 )
+    elseif corsair then
+      alt = UTILS.FeetToMeters( 150 )
+      speed = UTILS.KnotsToMps( 90 )
     end
 
     aoa = aoaac.OnSpeed
@@ -128669,6 +130186,9 @@ function AIRBOSS:_GetAircraftParameters( playerData, step )
       alt = UTILS.FeetToMeters( 500 )
     elseif harrier then
       alt = UTILS.FeetToMeters( 425 )
+    elseif corsair then
+      alt = UTILS.FeetToMeters( 90 )
+      speed = UTILS.KnotsToMps( 90 )      
     end
 
     aoa = aoaac.OnSpeed
@@ -128681,6 +130201,8 @@ function AIRBOSS:_GetAircraftParameters( playerData, step )
       alt = UTILS.FeetToMeters( 430 ) -- Tomcat should be a bit higher as it intercepts the GS a bit higher.
     elseif skyhawk then
       alt = UTILS.FeetToMeters( 370 ) -- ?
+    elseif corsair then
+      alt = UTILS.FeetToMeters( 80 )
     end
     -- Harrier wont get into wake pos. Runway is not angled and it stays port.
 
@@ -128696,6 +130218,8 @@ function AIRBOSS:_GetAircraftParameters( playerData, step )
       alt = UTILS.FeetToMeters( 300 ) -- ?
     elseif harrier then
       alt=UTILS.FeetToMeters(312)-- 300-325 ft
+    elseif corsair then
+      alt = UTILS.FeetToMeters( 80 )      
     end
 
     aoa = aoaac.OnSpeed
@@ -129572,6 +131096,8 @@ function AIRBOSS:_LandAI( flight )
     Speed = UTILS.KnotsToKmph( 175 )
   elseif flight.actype == AIRBOSS.AircraftCarrier.S3B or flight.actype == AIRBOSS.AircraftCarrier.S3BTANKER then
     Speed = UTILS.KnotsToKmph( 140 )
+  elseif flight.actype == AIRBOSS.AircraftCarrier.CORSAIR or flight.actype == AIRBOSS.AircraftCarrier.CORSAIR_CW then
+    Speed = UTILS.KnotsToKmph( 100 )
   end
 
   -- Carrier position.
@@ -131035,6 +132561,32 @@ function AIRBOSS:_CheckPlayerStatus()
         -- TODO: This might cause problems if the CCA is set to be very small!
         if unit:IsInZone( self.zoneCCA ) then
 
+          -- VNAO Edit - Added wrapped up call to LSO grading
+          if playerData.step==AIRBOSS.PatternStep.WAKE then-- VNAO Edit - Added
+            if math.abs(playerData.unit:GetRoll())>35 and math.abs(playerData.unit:GetRoll())<=40 then-- VNAO Edit - Added
+              playerData.wrappedUpAtWakeLittle = true -- VNAO Edit - Added
+            elseif math.abs(playerData.unit:GetRoll()) >40 and math.abs(playerData.unit:GetRoll())<=45 then-- VNAO Edit - Added
+              playerData.wrappedUpAtWakeFull = true-- VNAO Edit - Added
+            elseif math.abs(playerData.unit:GetRoll()) >45 then-- VNAO Edit - Added
+              playerData.wrappedUpAtWakeUnderline = true -- VNAO Edit - Added
+            elseif math.abs(playerData.unit:GetRoll()) <20 and math.abs(playerData.unit:GetRoll()) >=10 then  -- VNAO Edit - Added a new AA comment based on discussion with Lipps today, and going to replace the AA at the X with the original LUL comments
+              playerData.AAatWakeLittle = true  -- VNAO Edit - Added
+            elseif math.abs(playerData.unit:GetRoll()) <10 and math.abs(playerData.unit:GetRoll()) >=2 then  -- VNAO Edit - Added a new AA comment based on discussion with Lipps today, and going to replace the AA at the X with the original LUL comments
+              playerData.AAatWakeFull = true  -- VNAO Edit - Added 
+            elseif math.abs(playerData.unit:GetRoll()) <2 then  -- VNAO Edit - Added a new AA comment based on discussion with Lipps today, and going to replace the AA at the X with the original LUL comments
+              playerData.AAatWakeUnderline = true  -- VNAO Edit - Added 
+            else  -- VNAO Edit - Added 
+            end -- VNAO Edit - Added
+
+            if math.abs(playerData.unit:GetAoA())>= 15 then  -- VNAO Edit - Added 
+              playerData.AFU = true  -- VNAO Edit - Added 
+            elseif math.abs(playerData.unit:GetAoA())<= 5 then  -- VNAO Edit - Added 
+              playerData.AFU = true  -- VNAO Edit - Added 
+            else  -- VNAO Edit - Added 
+            end  -- VNAO Edit - Added 
+          end-- VNAO Edit - Added
+
+
           -- Display aircraft attitude and other parameters as message text.
           if playerData.attitudemonitor then
             self:_AttitudeMonitor( playerData )
@@ -131266,7 +132818,7 @@ function AIRBOSS:_SetTimeInGroove( playerData )
 
   -- Set time in the groove
   if playerData.TIG0 then
-    playerData.Tgroove = timer.getTime() - playerData.TIG0
+    playerData.Tgroove = timer.getTime() - playerData.TIG0 - 1.5 -- VNAO Edit - Subtracting an extra 1.5
   else
     playerData.Tgroove = 999
   end
@@ -131794,13 +133346,13 @@ function AIRBOSS:OnEventRemoveUnit( EventData )
 
   -- Nil checks.
   if EventData == nil then
-    self:E( self.lid .. "ERROR: EventData=nil in event REMOVEUNIT!" )
-    self:E( EventData )
+    self:T( self.lid .. "ERROR: EventData=nil in event REMOVEUNIT!" )
+    self:T( EventData )
     return
   end
   if EventData.IniUnit == nil then
-    self:E( self.lid .. "ERROR: EventData.IniUnit=nil in event REMOVEUNIT!" )
-    self:E( EventData )
+    self:T( self.lid .. "ERROR: EventData.IniUnit=nil in event REMOVEUNIT!" )
+    self:T( EventData )
     return
   end
 
@@ -132387,7 +133939,19 @@ function AIRBOSS:_DirtyUp( playerData )
   if inzone then
 
     -- Hint for player about altitude, AoA etc.
-    self:_PlayerHint( playerData )
+    playerData.Tgroove = timer.getTime() - playerData.TIG0 - 1.5 -- VNAO Edit - Subtracting an extra 1.5
+
+    -- VNAO Edit - Added wrapped up call to LSO grading
+    playerData.wrappedUpAtWakeLittle = false -- VNAO Edit - Added
+    playerData.wrappedUpAtWakeFull = false -- VNAO Edit - Added
+    playerData.wrappedUpAtWakeUnderline = false -- VNAO Edit - Added
+    playerData.wrappedUpAtStartLittle = false -- VNAO Edit - Added 
+    playerData.wrappedUpAtStartFull = false -- VNAO Edit - Added
+    playerData.wrappedUpAtStartUnderline = false -- VNAO Edit - Added
+    playerData.AAatWakeLittle = false -- VNAO Edit - Added
+    playerData.AAatWakeFull = false -- VNAO Edit - Added
+    playerData.AAatWakeUnderline = false -- VNAO Edit - Added
+    playerData.AFU = false -- VNAO Edit - Added
 
     -- Radio call "Say/Fly needles". Delayed by 10/15 seconds.
     if   playerData.actype == AIRBOSS.AircraftCarrier.HORNET
@@ -132482,7 +134046,7 @@ end
 --- Break entry for case I/II recoveries.
 -- @param #AIRBOSS self
 -- @param #AIRBOSS.PlayerData playerData Player data table.
-function AIRBOSS:_BreakEntry( playerData )
+function AIRBOSS:_BreakEntry( playerData ) --Adam Edits begin 7/24/23
 
   -- Get distances between carrier and player unit (parallel and perpendicular to direction of movement of carrier)
   local X, Z = self:_GetDistances( playerData.unit )
@@ -132493,17 +134057,111 @@ function AIRBOSS:_BreakEntry( playerData )
     return
   end
 
+  local stern = self:_GetSternCoord()
+  local coord = playerData.unit:GetCoordinate()
+  local dist = coord:Get2DDistance( stern )
+
+  --adam edits
+  local playerCallsign = playerData.unit:GetCallsign()
+  --trigger.action.outText(' Hornet is hook down on pre-break entry for testing hook argument ', 5)
+  --trigger.action.outText(' Hornet callsign is '..playerCallsign, 5)
+  local playerName = playerData.name
+  local unit = playerData.unit
+  
+  --local playerName = unit:GetName()
+  --trigger.action.outText(' Hornet name is '..playerName, 5)
+  local unitClient = Unit.getByName(unit:GetName())
+  local hookArgument = unitClient:getDrawArgumentValue(25)
+  local hookArgument_Tomcat = unitClient:getDrawArgumentValue(1305)
+  local speedMPS = playerData.unit:GetVelocityMPS()
+  local speedKTS = UTILS.MpsToKnots( speedMPS )
+  local player_alt = playerData.unit:GetAltitude()
+
+  player_alt_feet = player_alt * 3.28
+  player_alt_feet = player_alt_feet/10
+  player_alt_feet = math.floor(player_alt_feet)*10
+  
+  local player_velocity_round = speedKTS * 1.00
+  player_velocity_round = player_velocity_round/10
+  player_velocity_round = math.floor(player_velocity_round)*10
+
+  local player_alt_feet = player_alt * 3.28
+  player_alt_feet = player_alt_feet/10
+  player_alt_feet = math.floor(player_alt_feet)*10
+
+  local Play_SH_Sound = USERSOUND:New( "Airboss Soundfiles/GreatBallsOfFire.ogg" )
+  local Play_666SH_Sound = USERSOUND:New( "Airboss Soundfiles/Runninwiththedevil.ogg" )
+  local playerType = playerData.actype 
+
+  
+
+  if dist <1000 and clientSHBFlag == false  then
+    
+    if speedKTS > 450 and speedKTS < 590 then
+      if player_alt_feet < 1500 then
+        if hookArgument > 0 or hookArgument_Tomcat > 0 then
+          --trigger.action.outText(' 1 - Hornet is hook down so SHB!!!! Hook argument is: '..hookArgument, 5)
+          playerData.shb = true
+          trigger.action.outText(playerName..' performing a Sierra Hotel Break in a '..playerType, 10)
+          local sh_message_to_discord = ('**'..playerName..' is performing a Sierra Hotel Break in a '..playerType..' at '..player_velocity_round..' knots and '..player_alt_feet..' feet!**')
+          HypeMan.sendBotMessage(sh_message_to_discord)
+          Play_SH_Sound:ToAll()  
+          clientSHBFlag = true 
+        else
+          --trigger.action.outText(' Hornet is hook up on initial and just fast so no SHB. Hook argument is: '..hookArgument, 5)
+          playerData.shb = false
+        end
+        -- Next step: Early Break.
+      else
+      end
+    elseif speedKTS > 589 then
+      if player_alt_feet < 625 and player_alt_feet >575 then --SHB 666
+        if hookArgument > 0 or hookArgument_Tomcat > 0 then
+          --trigger.action.outText(' 1 - Hornet is hook down so SHB!!!! Hook argument is: '..hookArgument, 5)
+          playerData.shb = true
+          trigger.action.outText(playerName..' performing a 666 Sierra Hotel Break in a '..playerType, 10)
+          local sh_message_to_discord = ('**'..playerName..' is performing a 666 Sierra Hotel Break in a '..playerType..' at '..player_velocity_round..' knots and '..player_alt_feet..' feet!**')
+          HypeMan.sendBotMessage(sh_message_to_discord)
+          Play_666SH_Sound:ToAll()  
+          clientSHBFlag = true 
+        else
+          --trigger.action.outText(' Hornet is hook up on initial and just fast so no SHB. Hook argument is: '..hookArgument, 5)
+          playerData.shb = false
+        end
+      else
+        if hookArgument > 0 or hookArgument_Tomcat > 0 then
+          --trigger.action.outText(' 1 - Hornet is hook down so SHB!!!! Hook argument is: '..hookArgument, 5)
+          playerData.shb = true
+          trigger.action.outText(playerName..' performing a Sierra Hotel Break in a '..playerType, 10)
+          local sh_message_to_discord = ('**'..playerName..' is performing a Sierra Hotel Break in a '..playerType..' at '..player_velocity_round..' knots and '..player_alt_feet..' feet!**')
+          HypeMan.sendBotMessage(sh_message_to_discord)
+          Play_SH_Sound:ToAll()  
+          clientSHBFlag = true 
+        else
+          --trigger.action.outText(' Hornet is hook up on initial and just fast so no SHB. Hook argument is: '..hookArgument, 5)
+          playerData.shb = false
+        end
+      end
+    else
+      --trigger.action.outText(' Hornet is less than 400 kts so not SHB.... ', 5)
+    end
+  else
+    --trigger.action.outText(' ******TEST OF of Break Entry and distance to CVN is: '..dist, 5)
+
+  end
+
+
   -- Check if we are in front of the boat (diffX > 0).
   if self:_CheckLimits( X, Z, self.BreakEntry ) then
+    --trigger.action.outText(' 2 - Hornet is hook down on break entry for testing hook argument ', 5)
 
     -- Hint for player about altitude, AoA etc.
     self:_PlayerHint( playerData )
-
-    -- Next step: Early Break.
     self:_SetPlayerStep( playerData, AIRBOSS.PatternStep.EARLYBREAK )
+    clientSHBFlag = false
 
   end
-end
+end--Adam Edits end 7/24/23
 
 --- Break.
 -- @param #AIRBOSS self
@@ -132639,6 +134297,18 @@ end
 -- @param #AIRBOSS.PlayerData playerData Player data table.
 function AIRBOSS:_Ninety( playerData )
 
+  -- VNAO Edit - Added wrapped up call to LSO grading
+  playerData.wrappedUpAtWakeLittle = false -- VNAO Edit - Added
+  playerData.wrappedUpAtWakeFull = false -- VNAO Edit - Added 
+  playerData.wrappedUpAtWakeUnderline = false -- VNAO Edit - Added
+  playerData.wrappedUpAtStartLittle = false -- VNAO Edit - Added
+  playerData.wrappedUpAtStartFull = false  -- VNAO Edit - Added
+  playerData.wrappedUpAtStartUnderline = false -- VNAO Edit - Added
+  playerData.AAatWakeLittle = false -- VNAO Edit - Added
+  playerData.AAatWakeFull = false -- VNAO Edit - Added
+  playerData.AAatWakeUnderline = false -- VNAO Edit - Added
+  playerData.AFU = false -- VNAO Edit - Added
+
   -- Get distances between carrier and player unit (parallel and perpendicular to direction of movement of carrier)
   local X, Z = self:_GetDistances( playerData.unit )
 
@@ -132742,6 +134412,9 @@ function AIRBOSS:_GetGrooveData( playerData )
   groovedata.AoA = playerData.unit:GetAoA()
   groovedata.GSE = self:_Glideslope( playerData.unit )
   groovedata.LUE = self:_Lineup( playerData.unit, true )
+  groovedata.LUEwire = self:_LineupWIRE( playerData.unit, true ) -- VNAO Edit - Added
+  groovedata.LeftNozzle = self:_NozzleArgumentLeft( playerData.unit ) -- VNAO Edit - Added
+  groovedata.RightNozzle = self:_NozzleArgumentRight( playerData.unit ) -- VNAO Edit - Added
   groovedata.Roll = playerData.unit:GetRoll()
   groovedata.Pitch = playerData.unit:GetPitch()
   groovedata.Yaw = playerData.unit:GetYaw()
@@ -132823,6 +134496,7 @@ function AIRBOSS:_Groove( playerData )
   local RIM = UTILS.NMToMeters( 0.500 ) -- In the Middle          0.50  =  926 m (middle one third of the glideslope)
   local RIC = UTILS.NMToMeters( 0.250 ) -- In Close               0.25  =  463 m (last one third of the glideslope)
   local RAR = UTILS.NMToMeters( 0.040 ) -- At the Ramp.           0.04  =   75 m
+  local RIW = UTILS.NMToMeters( -0.020 ) -- In the wires.           0.04  =   75 m -- VNAO Edit - Added
 
   -- Groove data.
   local groovedata = self:_GetGrooveData( playerData )
@@ -132846,7 +134520,8 @@ function AIRBOSS:_Groove( playerData )
   local glideslopeError = groovedata.GSE
   local AoA = groovedata.AoA
 
-  if rho <= RXX and playerData.step == AIRBOSS.PatternStep.GROOVE_XX and (math.abs( groovedata.Roll ) <= 4.0 and playerData.unit:IsInZone( self:_GetZoneLineup() )) then
+  -- if rho <= RXX and playerData.step == AIRBOSS.PatternStep.GROOVE_XX and (math.abs( groovedata.Roll ) <= 4.0 or playerData.unit:IsInZone( self:_GetZoneLineup() )) then -- VNAO Edit - Commented out
+  if rho <= RXX and playerData.step == AIRBOSS.PatternStep.GROOVE_XX and (math.abs( groovedata.Roll ) <= 3.5 or playerData.unit:IsInZone( self:_GetZoneLineup() )) then -- VNAO Edit - Added
 
     -- Start time in groove
     playerData.TIG0 = timer.getTime()
@@ -132896,7 +134571,8 @@ function AIRBOSS:_Groove( playerData )
     else
       self:_SetPlayerStep( playerData, AIRBOSS.PatternStep.GROOVE_IW )
     end
-
+  elseif rho <= RIW and playerData.step == AIRBOSS.PatternStep.GROOVE_IW then -- VNAO Edit - Added
+    playerData.groove.IW = UTILS.DeepCopy( groovedata ) -- VNAO Edit - Added
   elseif rho <= RAR and playerData.step == AIRBOSS.PatternStep.GROOVE_AL then
 
     -- Store data.
@@ -133030,6 +134706,58 @@ function AIRBOSS:_Groove( playerData )
 
       -- Distance in NM.
       local d = UTILS.MetersToNM( rho )
+
+      -- VNAO Edit - Added wrapped up call to LSO grading
+      if playerData.case ~=3 then -- VNAO Edit - Added
+        -- env.info("ADAM AIRBOSS EDIT- function AIRBOSS:_Groove(playerData) - playerData.case ~= 3, proceeding with checks") -- VNAO Edit - Added
+        if playerData.wrappedUpAtWakeUnderline == true or playerData.wrappedUpAtStartUnderline == true then -- VNAO Edit - Added
+          gd.WrappedUp="_WU_" -- VNAO Edit - Added
+          -- env.info("ADAM AIRBOSS EDIT- function AIRBOSS:_Groove(playerData) - UNDERLINE WU comment should be added for player: "..playerData.name) -- VNAO Edit - Added
+        elseif playerData.wrappedUpAtWakeUnderline == false and playerData.wrappedUpAtStartUnderline == false then -- VNAO Edit - Added
+          if playerData.wrappedUpAtWakeFull == true or playerData.wrappedUpAtStartFull == true then -- VNAO Edit - Added
+            gd.WrappedUp="WU" -- VNAO Edit - Added
+            -- env.info("ADAM AIRBOSS EDIT- function AIRBOSS:_Groove(playerData) - FULL WU comment should be added for player: "..playerData.name) -- VNAO Edit - Added
+          elseif playerData.wrappedUpAtStartFull == false then -- VNAO Edit - Added
+            if playerData.wrappedUpAtWakeLittle == true or playerData.wrappedUpAtStartLittle == true then -- VNAO Edit - Added
+              gd.WrappedUp="(WU)" -- VNAO Edit - Added
+              -- env.info("ADAM AIRBOSS EDIT- function AIRBOSS:_Groove(playerData) -  little WU comment should be added for player: "..playerData.name) -- VNAO Edit - Added
+            end -- VNAO Edit - Added
+          end -- VNAO Edit - Added
+        else -- VNAO Edit - Added
+          -- gd.WrappedUp="" -- VNAO Edit - Added
+          -- env.info("ADAM AIRBOSS EDIT- function AIRBOSS:_Groove(playerData) -  NO WU comment should be added for player: "..playerData.name) -- VNAO Edit - Added
+        end -- VNAO Edit - Added
+
+        if playerData.AAatWakeUnderline == true then -- VNAO Edit - Added
+          gd.AngledApch="_AA_" -- VNAO Edit - Added
+          -- env.info("ADAM AIRBOSS EDIT- function AIRBOSS:_Groove(playerData) - UNDERLINE AA comment should be added for player: "..playerData.name)  -- VNAO Edit - Added
+        elseif playerData.AAatWakeUnderline == false then -- VNAO Edit - Added
+          if playerData.AAatWakeFull == true then  -- VNAO Edit - Added
+            gd.AngledApch="AA" -- VNAO Edit - Added
+            -- env.info("ADAM AIRBOSS EDIT- function AIRBOSS:_Groove(playerData) - FULL AA comment should be added for player: "..playerData.name)  -- VNAO Edit - Added
+          elseif playerData.AAatWakeFull == false then  -- VNAO Edit - Added
+            if playerData.AAatWakeLittle == true then  -- VNAO Edit - Added
+              gd.AngledApch="(AA)" -- VNAO Edit - Added
+              -- env.info("ADAM AIRBOSS EDIT- function AIRBOSS:_Groove(playerData) -  little AA comment should be added for player: "..playerData.name)  -- VNAO Edit - Added
+            end -- VNAO Edit - Added
+          end -- VNAO Edit - Added
+        else -- VNAO Edit - Added
+          -- gd.AngledApch="" -- VNAO Edit - Added
+          -- env.info("ADAM AIRBOSS EDIT- function AIRBOSS:_Groove(playerData) -  NO AA comment should be added for player: "..playerData.name)  -- VNAO Edit - Added
+        end -- VNAO Edit - Added
+
+        if playerData.AFU == true then -- VNAO Edit - Added
+          gd.AFU="AFU" -- VNAO Edit - Added
+          -- env.info("ADAM AIRBOSS EDIT- function AIRBOSS:_Groove(playerData) -  AFU comment should be added for player: "..playerData.name)  -- VNAO Edit - Added
+        else  -- VNAO Edit - Added
+          -- env.info("ADAM AIRBOSS EDIT- function AIRBOSS:_Groove(playerData) -  NO AFU comment should be added for player: "..playerData.name)  -- VNAO Edit - Added
+        end -- VNAO Edit - Added
+      else  -- VNAO Edit - Added
+        -- gd.WrappedUp="" -- VNAO Edit - Added
+        -- gd.AngledApch="" -- VNAO Edit - Added
+        --gd.AFU="" -- VNAO Edit - Added
+        -- env.info("ADAM AIRBOSS EDIT- function AIRBOSS:_Groove(playerData) -  CASE 3, don't add WU, AA or AFU comments at all for player: "..playerData.name)  -- VNAO Edit - Added
+      end
 
       -- Drift on lineup.
       if rho >= RAR and rho <= RIM then
@@ -133367,6 +135095,9 @@ function AIRBOSS:_GetSternCoord()
   elseif self.carriertype == AIRBOSS.CarrierType.FORRESTAL then
     -- Forrestal
     self.sterncoord:Translate( self.carrierparam.sterndist, hdg, true, true ):Translate( 7.5, FB + 90, true, true )
+  elseif self.carriertype == AIRBOSS.CarrierType.ESSEX then
+    -- Forrestal
+    self.sterncoord:Translate( self.carrierparam.sterndist, hdg, true, true ):Translate( -1, FB + 90, true, true )
   else
     -- Nimitz SC: translate 8 meters starboard wrt Final bearing.
     self.sterncoord:Translate( self.carrierparam.sterndist, hdg, true, true ):Translate( 9.5, FB + 90, true, true )
@@ -133565,13 +135296,13 @@ function AIRBOSS:_Trapped( playerData )
     -- Message to player.
     local text = string.format( "Trapped %d-wire.", wire )
     if wire == 3 then
-      text = text .. " Well done!"
+      text = text .. " " -- VNAO Edit - Removed comment text
     elseif wire == 2 then
-      text = text .. " Not bad, maybe you even get the 3rd next time."
+      text = text .. " " -- VNAO Edit - Removed comment text
     elseif wire == 4 then
-      text = text .. " That was scary. You can do better than this!"
+      text = text .. " " -- VNAO Edit - Removed comment text
     elseif wire == 1 then
-      text = text .. " Try harder next time!"
+      text = text .. " " -- VNAO Edit - Removed comment text
     end
 
     -- Message to player.
@@ -134320,6 +136051,41 @@ function AIRBOSS:_AttitudeMonitor( playerData )
     text = text .. string.format( "\nGamma=%.1f° | Rho=%.1f°", relhead, phi )
   end
 
+  -- VNAO Edit: for testing the damn line up in the wires!
+  -- VNAO Edit: F-14A Nozzle: R-433, L-434, R Burner- 435, L Burner - 436
+  local lueWire = self:_LineupWIRE( playerData.unit, true )
+  text = text .. string.format( "\nLineUpForWireCalls=%.2f° | lineup for Groove calls=%.2f°", lueWire or 0, lue or 0)-- VNAO Edit - Added
+
+  local unitClient = Unit.getByName(unit:GetName()) -- VNAO Edit - Added
+  local hornet = playerData.actype == AIRBOSS.AircraftCarrier.HORNET -- VNAO Edit - Added
+  local tomcat = playerData.actype == AIRBOSS.AircraftCarrier.F14A or playerData.actype == AIRBOSS.AircraftCarrier.F14B -- VNAO Edit - Added
+
+  if hornet then -- VNAO Edit - Added
+    local nozzlePosL = 0  -- VNAO Edit - Added
+    local burnerPosL = unitClient:getDrawArgumentValue(28)  -- VNAO Edit - Added
+      if burnerPosL < 0.2 then -- VNAO Edit - Added
+        nozzlePosL = unitClient:getDrawArgumentValue(89) -- VNAO Edit - Added
+      else -- VNAO Edit - Added
+        nozzlePosL = 0 -- VNAO Edit - Added
+      end -- VNAO Edit - Added
+
+    local nozzlePosR = 0 -- VNAO Edit - Added
+    local burnerPosR = unitClient:getDrawArgumentValue(29) -- VNAO Edit - Added
+    if burnerPosR < 0.2 then -- VNAO Edit - Added
+      nozzlePosR = unitClient:getDrawArgumentValue(90) -- VNAO Edit - Added
+    else -- VNAO Edit - Added
+      nozzlePosR = 0 -- VNAO Edit - Added
+    end -- VNAO Edit - Added
+
+    text = text .. string.format( "\n Left Nozzle position=%.2f | Right Nozzle position=%.2f ", nozzlePosL, nozzlePosR ) -- VNAO Edit - Added
+  end -- VNAO Edit - Added
+
+  if tomcat then -- VNAO Edit - Added
+    local nozzlePosL = unitClient:getDrawArgumentValue(434) -- VNAO Edit - Added
+    local nozzlePosR = unitClient:getDrawArgumentValue(433) -- VNAO Edit - Added
+    text = text .. string.format( "\n Left Nozzle position=%.2f | Right Nozzle position=%.2f ", nozzlePosL, nozzlePosR ) -- VNAO Edit - Added
+  end -- VNAO Edit - Added
+
   MESSAGE:New( text, 1, nil, true ):ToClient( playerData.client )
 end
 
@@ -134452,6 +136218,111 @@ function AIRBOSS:_Lineup( unit, runway )
   return lineup
 end
 
+-- VNAO Edit - Added this function
+--- Get line up of player wrt to carrier.
+-- @param #AIRBOSS self
+-- @param Wrapper.Unit#UNIT unit Aircraft unit.
+-- @param #boolean runway If true, include angled runway.
+-- @return #number Line up with runway heading in degrees. 0 degrees = perfect line up. +1 too far left. -1 too far right.
+function AIRBOSS:_LineupWIRE( unit, runway ) -- VNAO Edit - Added
+
+  -- Landing coordinate
+  local landingcoord = self:_GetOptLandingCoordinateWIRE() -- VNAO Edit - Added
+
+  -- Vector to landing coord.
+  local A = landingcoord:GetVec3() -- VNAO Edit - Added
+
+  -- Vector to player.
+  local B = unit:GetVec3() -- VNAO Edit - Added
+
+  -- Vector from player to carrier.
+  local C = UTILS.VecSubstract( A, B ) -- VNAO Edit - Added
+
+  -- Only in 2D plane.
+  C.y = 0.0 -- VNAO Edit - Added
+
+  -- Orientation of carrier.
+  local X = self.carrier:GetOrientationX() -- VNAO Edit - Added
+  X.y = 0.0 -- VNAO Edit - Added
+
+  -- Rotate orientation to angled runway.
+  if runway then -- VNAO Edit - Added
+    X = UTILS.Rotate2D( X, -self.carrierparam.rwyangle ) -- VNAO Edit - Added
+  end -- VNAO Edit - Added
+
+  -- Projection of player pos on x component.
+  local x = UTILS.VecDot( X, C ) -- VNAO Edit - Added
+
+  -- Orientation of carrier.
+  local Z = self.carrier:GetOrientationZ() -- VNAO Edit - Added
+  Z.y = 0.0 -- VNAO Edit - Added
+
+  -- Rotate orientation to angled runway.
+  if runway then -- VNAO Edit - Added
+    Z = UTILS.Rotate2D( Z, -self.carrierparam.rwyangle ) -- VNAO Edit - Added
+  end -- VNAO Edit - Added
+
+  -- Projection of player pos on z component.
+  local z = UTILS.VecDot( Z, C ) -- VNAO Edit - Added
+
+  ---
+  local lineup = math.deg( math.atan2( z, x ) ) -- VNAO Edit - Added
+
+  return lineup -- VNAO Edit - Added
+end -- VNAO Edit - Added
+
+-- VNAO Edit - Added this function
+--- Get L/R Nozzle Position from Argument and L/R Burner Argument
+-- @param #AIRBOSS self
+-- @param Wrapper.Unit#UNIT unit Aircraft unit.
+-- @return #number Left Nozzle position argument
+function AIRBOSS:_NozzleArgumentLeft( unit ) -- VNAO Edit - Added
+  --Arguments for HORNET L burner and R burner are 28 and 29 respectively and >.2 indicates burner active
+  --Nozzle position greater than 0.3 for the hornet indicates either idle or burner
+  --if Lnoz > 0.6 and Rnoz > 0.6  is current check for EG
+  local unitClient = Unit.getByName(unit:GetName()) -- VNAO Edit - Added
+  local typeName = unit:GetTypeName() -- VNAO Edit - Added
+  local nozzlePosL = 0 -- VNAO Edit - Added
+  local burnerPosL = 0 -- VNAO Edit - Added
+  if typeName == "FA-18C_hornet" then -- VNAO Edit - Added
+    burnerPosL = unitClient:getDrawArgumentValue(28) -- VNAO Edit - Added
+    if burnerPosL < 0.2 then -- VNAO Edit - Added
+      nozzlePosL = unitClient:getDrawArgumentValue(89) -- VNAO Edit - Added
+    else -- VNAO Edit - Added
+      nozzlePosL = 0 -- VNAO Edit - Added
+    end -- VNAO Edit - Added
+  elseif typeName == "F-14A-135-GR" or typeName == "F-14B" then -- VNAO Edit - Added
+    nozzlePosL = unitClient:getDrawArgumentValue(434) -- VNAO Edit - Added
+  end -- VNAO Edit - Added
+  
+  return nozzlePosL -- VNAO Edit - Added
+end -- VNAO Edit - Added
+
+-- VNAO Edit - Added this function
+--- Get L/R Nozzle Position from Argument and L/R Burner Argument
+-- @param #AIRBOSS self
+-- @param Wrapper.Unit#UNIT unit Aircraft unit.
+-- @return #number Right Nozzle position argument
+function AIRBOSS:_NozzleArgumentRight( unit ) -- VNAO Edit - Added
+  local unitClient = Unit.getByName(unit:GetName()) -- VNAO Edit - Added
+  local typeName = unit:GetTypeName() -- VNAO Edit - Added
+  local nozzlePosR = 0 -- VNAO Edit - Added
+  local burnerPosR = 0 -- VNAO Edit - Added
+
+  if typeName == "FA-18C_hornet" then -- VNAO Edit - Added
+    burnerPosR = unitClient:getDrawArgumentValue(29) -- VNAO Edit - Added
+    if burnerPosR < 0.2 then -- VNAO Edit - Added
+      nozzlePosR = unitClient:getDrawArgumentValue(90) -- VNAO Edit - Added
+    else -- VNAO Edit - Added
+      nozzlePosR = 0 -- VNAO Edit - Added
+    end -- VNAO Edit - Added
+  elseif typeName == "F-14A-135-GR" or typeName == "F-14B" then -- VNAO Edit - Added
+    nozzlePosR = unitClient:getDrawArgumentValue(433) -- VNAO Edit - Added
+  end -- VNAO Edit - Added
+  return nozzlePosR -- VNAO Edit - Added
+end -- VNAO Edit - Added
+
+
 --- Get altitude of aircraft wrt carrier deck. Should give zero when the aircraft touched down.
 -- @param #AIRBOSS self
 -- @param Wrapper.Unit#UNIT unit Aircraft unit.
@@ -134514,6 +136385,39 @@ function AIRBOSS:_GetOptLandingCoordinate()
 
   end
 
+  return self.landingcoord
+end
+
+-- VNAO Edit - dded this whole function
+--- Get optimal landing position of the aircraft. Usually between second and third wire. In case of Tarawa, Canberrra, Juan Carlos and America we take the abeam landing spot 120 ft above and 21 ft abeam the 7.5 position, for the Juan Carlos I, HMS Invincible, and HMS Hermes and Invincible it is 120 ft above and 21 ft abeam the 5 position. For CASE III it is 120ft directly above the landing spot.
+-- @param #AIRBOSS self
+-- @return Core.Point#COORDINATE Optimal landing coordinate.
+function AIRBOSS:_GetOptLandingCoordinateWIRE()
+
+  -- Start with stern coordiante.
+  self.landingcoord:UpdateFromCoordinate( self:_GetSternCoord() )
+
+  -- Final bearing.
+  local FB=self:GetFinalBearing(false)
+
+  -- Cse
+  local case=self.case
+
+  -- set Case III V/STOL abeam landing spot over deck -- Pene Testing
+  
+  
+
+  -- Ideally we want to land between 2nd and 3rd wire.
+  if self.carrierparam.wire3 then
+    -- We take the position of the 3rd wire to approximately account for the length of the aircraft.
+    self.landingcoord:Translate( self.carrierparam.wire3 + 500, FB, true, true )-- adding 80 meter to wire to see if this is far enough to keep tracking a good lineup error (50 meters not enough), went from 250 meters to 500 meters 12/23/23, the more distance out front the less the error sensitivity down deck. I've checked the location of the landing spot 500 meters out front of 3 wire on CL with flares and smoke, appears to be dead on. Not sure why there's still this small difference between lined up left and right differences. 
+  end
+
+  -- Add 2 meters to account for aircraft height.
+  self.landingcoord.y = self.landingcoord.y + 2
+
+  
+  --self.landingcoord:FlareGreen() --for testing the lineup spot translated out in front of the carrier landing area by 500 meters. Appears good.
   return self.landingcoord
 end
 
@@ -134818,7 +136722,8 @@ function AIRBOSS:GetHeadingIntoWind_new( vdeck, magnetic, coord )
   local magvar= magnetic and self.magvar or 0
 
   -- Ship heading so cross wind is min for the given wind.
-  local intowind = (540 + (windto - magvar + math.deg(theta) )) % 360
+  -- local intowind = (540 + (windto - magvar + math.deg(theta) )) % 360 -- VNAO Edit: Using old heading into wind algorithm
+  local intowind = self:GetHeadingIntoWind_old(vdeck) -- VNAO Edit: Using old heading into wind algorithm
 
   return intowind, v
 end
@@ -135094,6 +136999,10 @@ function AIRBOSS:_LSOadvice( playerData, glideslopeError, lineupError )
     -- "Power."
     self:RadioTransmission( self.LSORadio, self.LSOCall.POWER, false, nil, nil, true )
     advice = advice + self.LSOCall.POWER.duration
+  elseif glideslopeError<self.gle._min then  -- -0.3 then -- VNAO Edit - Added
+    -- "power." -- VNAO Edit - Added
+    self:RadioTransmission(self.LSORadio, self.LSOCall.POWER, false, nil, nil, true) -- VNAO Edit - Added
+    advice=advice+self.LSOCall.POWERsoft.duration -- VNAO Edit - Added
   else
     -- "Good altitude."
   end
@@ -135188,16 +137097,23 @@ function AIRBOSS:_EvalGrooveTime( playerData )
 
   -- Time in groove.
   local t = playerData.Tgroove
-
   local grade = ""
-  if t < 9 then
-    grade = "_NESA_"
-  elseif t < 15 then
-    grade = "NESA"
-  elseif t < 19 then
-    grade = "OK Groove"
-  elseif t <= 24 then
-    grade = "(LIG)"
+
+  if t < 9 then      --Circuit edit was 15
+    grade = "_NESA_"  --Circuit edit was (NESA)
+  elseif t < 12 then  --Circuit added
+    grade = "NESA"    --Circuit added
+  elseif t < 15 then  --Circuit added
+    grade = "(NESA)"  --Circuit added
+  elseif t < 19  then 
+    grade = ""
+  elseif t < 22 then    --Circuit added
+    grade = "(LIG)"     --Circuit added
+  elseif t < 25 then    --Circuit added
+    grade = "LIG"       --Circuit added
+  elseif t >= 25 then   --Circuit added
+    grade = "_LIG_"     --Circuit added
+
     -- Time in groove for AV-8B
   elseif playerData.actype == AIRBOSS.AircraftCarrier.AV8B and t < 55 then -- VSTOL Late Hover stop selection too fast to Abeam LDG Spot AV-8B.
     grade = "FAST V/STOL Groove"
@@ -135210,7 +137126,7 @@ function AIRBOSS:_EvalGrooveTime( playerData )
   end
 
   -- The unicorn!
-  if t >= 16.4 and t <= 16.6 then
+  if t >= 16.49 and t <= 16.6 then 
     grade = "_OK_"
   end
 
@@ -135234,21 +137150,28 @@ function AIRBOSS:_LSOgrade( playerData )
   local function count( base, pattern )
     return select( 2, string.gsub( base, pattern, "" ) )
   end
-
+  local TIG =  ""
   -- Analyse flight data and convert to LSO text.
+  if playerData.Tgroove and playerData.Tgroove <= 360 and playerData.case < 3 then --Circuit Added
+   TIG = self:_EvalGrooveTime( playerData ) --Circuit Added
+  end                                               --Circuit Added
   local GXX, nXX = self:_Flightdata2Text( playerData, AIRBOSS.GroovePos.XX )
   local GIM, nIM = self:_Flightdata2Text( playerData, AIRBOSS.GroovePos.IM )
   local GIC, nIC = self:_Flightdata2Text( playerData, AIRBOSS.GroovePos.IC )
   local GAR, nAR = self:_Flightdata2Text( playerData, AIRBOSS.GroovePos.AR )
+  local GIW, nIW = self:_Flightdata2Text( playerData, AIRBOSS.GroovePos.IW ) -- VNAO Edit - Added
 
   -- VTOL approach, which is graded differently (currently only Harrier).
   local vtol=playerData.actype==AIRBOSS.AircraftCarrier.AV8B
 
   -- Put everything together.
-  local G = GXX .. " " .. GIM .. " " .. " " .. GIC .. " " .. GAR
+  local G = GXX .. " " .. GIM .. " " .. " " .. GIC .. " " .. GAR .. " " .. GIW .. " " .. TIG -- VNAO Edit - Added .. " " .. GIW Circuit added TIG
+
+  local gradeWithDeviations = GXX .. "[" .. nXX .. "] " .. GIM .. "[" .. nIM .. "] " .. GIC .. "[" .. nIC .. "] " .. GAR .. "[" .. nAR .. "] " .. GIW .. "[" .. nIW .. "]" -- VNAO Edit - Added
+  env.info("LSO Grade [with deviation count]: " .. gradeWithDeviations) -- VNAO Edit - Added
 
   -- Count number of minor/small nS, normal nN and major/large deviations nL.
-  local N=nXX+nIM+nIC+nAR
+  local N=nXX+nIM+nIC+nAR+nIW -- VNAO Edit - Added +nIW
   local nL=count(G, '_')/2
   local nS=count(G, '%(')
   local nN=N-nS-nL
@@ -135256,17 +137179,30 @@ function AIRBOSS:_LSOgrade( playerData )
 
   -- Groove time 15-18.99 sec for a unicorn. Or 60-65 for V/STOL unicorn.
   local Tgroove=playerData.Tgroove
-  local TgrooveUnicorn=Tgroove and (Tgroove>=15.0 and Tgroove<=18.99) or false
+  local TgrooveUnicorn=Tgroove and (Tgroove>=16.49 and Tgroove<=16.59) or false -- VNAO Edit - Original values 15.0/18.99
   local TgrooveVstolUnicorn=Tgroove and (Tgroove>=60.0 and Tgroove<=65.0)and playerData.actype==AIRBOSS.AircraftCarrier.AV8B or false
 
   local grade
   local points
-  if N == 0 and (TgrooveUnicorn or TgrooveVstolUnicorn or playerData.case==3) then
-    -- No deviations, should be REALLY RARE!
-    grade = "_OK_"
-    points = 5.0
-    G = "Unicorn"
-  else
+  -- if N == 0 and (TgrooveUnicorn or TgrooveVstolUnicorn or playerData.case==3) then -- VNAO Edit - Removed TgrooveUnicorn and case 3 as a factor
+    if N == 0 and TgrooveVstolUnicorn then -- VNAO Edit - Removed TgrooveUnicorn and case 3 as a factor
+      -- No deviations, should be REALLY RARE!
+      grade = "_OK_"
+      points = 5.0
+      G = "Unicorn"
+    end -- VNAO Edit - Added
+    if N==0 and TgrooveUnicorn then  -- VNAO Edit - Added
+      -- No deviations, should be REALLY RARE! -- VNAO Edit - Added
+      if playerData.wire == 3 then -- VNAO Edit - Added
+        grade="_OK_" -- VNAO Edit - Added
+        points=5.0 -- VNAO Edit - Added
+        G="Unicorn" -- VNAO Edit - Added
+      else -- VNAO Edit - Added
+        grade="OK" -- VNAO Edit - Added
+        points=4.0 -- VNAO Edit - Added
+      end -- VNAO Edit - Added
+  
+    else
 
     if vtol then
 
@@ -135341,6 +137277,7 @@ function AIRBOSS:_LSOgrade( playerData )
   text = text .. "# of normal deviations  = " .. nN .. "\n"
   text = text .. "# of small deviations ( = " .. nS .. "\n"
   self:T2( self.lid .. text )
+  env.info(text)-- VNAO Edit - Added
 
   -- Special cases.
   if playerData.wop then
@@ -135409,6 +137346,20 @@ function AIRBOSS:_LSOgrade( playerData )
     end
 
   end
+
+  -- VNAO EDIT: Subtract 1pt from overall grade if it is a 1 wire.  If it's already a 1pt pass, ignore.
+  if playerData.wire == 1 and points > 1 then -- VNAO EDIT: added
+    if points == 4 then -- VNAO EDIT: added
+        points = 3 -- VNAO EDIT: added
+        grade = "(OK)" -- VNAO EDIT: added
+    elseif points == 3 then -- VNAO EDIT: added
+        points = 2 -- VNAO EDIT: added
+        grade = "--" -- VNAO EDIT: added
+    end -- VNAO EDIT: added
+  end -- VNAO EDIT: added
+
+  env.info("Returning: " .. grade .. "  " .. points .. "  " .. G)
+
   return grade, points, G
 end
 
@@ -135442,26 +137393,34 @@ function AIRBOSS:_Flightdata2Text( playerData, groovestep )
   local AOA = fdata.AoA
   local GSE = fdata.GSE
   local LUE = fdata.LUE
+  local LUEwire = fdata.LUEwire -- VNAO Edit - Added
+  local Lnoz = fdata.LeftNozzle -- VNAO Edit - Added
+  local Rnoz = fdata.RightNozzle -- VNAO Edit - Added
   local ROL = fdata.Roll
+  local GT = fdata.GT -- Circuit Added
 
   -- Aircraft specific AoA values.
   local acaoa = self:_GetAircraftAoA( playerData )
 
   -- Angled Approach.
-  local P = nil
-  if step == AIRBOSS.PatternStep.GROOVE_XX and ROL <= 4.0 and playerData.case < 3 then
-    if LUE > self.lue.RIGHT then
-      P = underline( "AA" )
-    elseif LUE > self.lue.RightMed then
-      P = "AA "
-    elseif LUE > self.lue.Right then
-      P = little( "AA" )
+  -- VNAO Edit - changed this to regualr LUL at X, made my own Angled Approach check starting at the wake based on angle of bank less than 15 degrees/10 degrees/2 degrees
+  local P = nil -- VNAO Edit - Added
+  if step == AIRBOSS.PatternStep.GROOVE_XX and ROL <= 3.5 and playerData.case < 3 then -- VNAO Edit - Changed, original ROL val 4.0
+    if LUE > 3.2 then -- VNAO Edit - Original value self.lue.RIGHT
+      -- P = underline( "AA" )
+      P = underline( "LUL") -- VNAO Edit - Added
+    elseif LUE > 2.2 then -- VNAO Edit - Original value self.lue.RightMed
+      -- P = "AA "
+      P="LUL" -- VNAO Edit - Added
+    elseif LUE > 1.2 then -- VNAO Edit - Original value self.lue.Right
+      -- P = little( "AA" )
+      P= little( "LUL") -- VNAO Edit - Added
     end
   end
 
   -- Overshoot Start.
   local O = nil
-  if step == AIRBOSS.PatternStep.GROOVE_XX then
+  if step == AIRBOSS.PatternStep.GROOVE_XX and playerData.case < 3 then -- VNAO Edit - Added case 3 check
     if LUE < self.lue.LEFT then
       O = underline( "OS" )
     elseif LUE < self.lue.Left then
@@ -135473,99 +137432,261 @@ function AIRBOSS:_Flightdata2Text( playerData, groovestep )
 
   -- Speed via AoA. Depends on aircraft type.
   local S = nil
-  if AOA > acaoa.SLOW then
-    S = underline( "SLO" )
-  elseif AOA > acaoa.Slow then
-    S = "SLO"
-  elseif AOA > acaoa.OnSpeedMax then
-    S = little( "SLO" )
-  elseif AOA < acaoa.FAST then
-    S = underline( "F" )
-  elseif AOA < acaoa.Fast then
-    S = "F"
-  elseif AOA < acaoa.OnSpeedMin then
-    S = little( "F" )
-  end
+  if step~=AIRBOSS.PatternStep.GROOVE_IW then -- VNAO Edit - Added To avoid getting an AOA or GS grade in the wires... let's just check left or right in the wires
+    if  AIRBOSS.PatternStep.GROOVE_AR and playerData.waveoff == true and playerData.owo == true then -- VNAO Edit - Added
+      -- env.info('Adam MOOSE Edit -AR and waved off so do not add AOA or GS errors to comments ') -- VNAO Edit - Added
+    else -- VNAO Edit - Added
+      -- Speed via AoA. Depends on aircraft type.
+      if AOA > acaoa.SLOW then
+        S = underline( "SLO" )
+      elseif AOA > acaoa.Slow then
+        S = "SLO"
+      elseif AOA > acaoa.OnSpeedMax then
+        S = little( "SLO" )
+      elseif AOA < acaoa.FAST then
+        S = underline( "F" )
+      elseif AOA < acaoa.Fast then
+        S = "F"
+      elseif AOA < acaoa.OnSpeedMin then
+        S = little( "F" )
+      end
 
-  -- Glideslope/altitude. Good [-0.3, 0.4] asymmetric!
-  local A = nil
-  if GSE > self.gle.HIGH then
-    A = underline( "H" )
-  elseif GSE > self.gle.High then
-    A = "H"
-  elseif GSE > self.gle._max then
-    A = little( "H" )
-  elseif GSE < self.gle.LOW then
-    A = underline( "LO" )
-  elseif GSE < self.gle.Low then
-    A = "LO"
-  elseif GSE < self.gle._min then
-    A = little( "LO" )
-  end
+      -- Glideslope/altitude. Good [-0.3, 0.4] asymmetric!
+      local A = nil
+      if GSE > self.gle.HIGH then
+        A = underline( "H" )
+      elseif GSE > self.gle.High then
+        A = "H"
+      elseif GSE > self.gle._max then
+        A = little( "H" )
+      elseif GSE < self.gle.LOW then
+        A = underline( "LO" )
+      elseif GSE < self.gle.Low then
+        A = "LO"
+      elseif GSE < self.gle._min then
+        A = little( "LO" )
+      end
+    end -- VNAO Edit - Added
+  end -- VNAO Edit - Added
 
-  -- Line up. XX Step replaced by Overshoot start (OS). Good [-0.5, 0.5]
+  local stepMod=self:_GS(step) -- VNAO Edit - Added
+
   local D = nil
-  if LUE > self.lue.RIGHT then
-    D = underline( "LUL" )
-  elseif LUE > self.lue.Right then
-    D = "LUL"
-  elseif LUE > self.lue._max then
-    D = little( "LUL" )
-  elseif playerData.case < 3 then
-    if LUE < self.lue.LEFT and step ~= AIRBOSS.PatternStep.GROOVE_XX then
-      D = underline( "LUR" )
-    elseif LUE < self.lue.Left and step ~= AIRBOSS.PatternStep.GROOVE_XX then
-      D = "LUR"
-    elseif LUE < self.lue._min and step ~= AIRBOSS.PatternStep.GROOVE_XX then
-      D = little( "LUR" )
-    end
-  elseif playerData.case == 3 then
-    if LUE < self.lue.LEFT then
-      D = underline( "LUR" )
-    elseif LUE < self.lue.Left then
-      D = "LUR"
-    elseif LUE < self.lue._min then
-      D = little( "LUR" )
-    end
+  local DW = nil
+  local Rol = nil -- VNAO Edit - Added
+  local Noz = nil -- VNAO Edit - Added
+  -- VNAO Edit - Now replacing LUL with AA at Groove start for case 1 and 2, to fix problem with getting a full LUL with an (AA) and still getting a 4.0 OK
+  -- if playerData.case < 3 then -- VNAO Edit - Added
+  if AIRBOSS.PatternStep.GROOVE_AR and playerData.waveoff == true and playerData.owo == true then
+    -- env.info('Adam MOOSE Edit -AR and waved off so do not add LU errors to comments ')
+  else
+    if LUE > self.lue.RIGHT and step ~= AIRBOSS.PatternStep.GROOVE_XX and step~=AIRBOSS.PatternStep.GROOVE_IW then -- VNAO Edit - Changed
+      D = underline( "LUL" ) -- VNAO Edit - Changed
+    elseif LUE > self.lue.Right and step ~= AIRBOSS.PatternStep.GROOVE_XX and step~=AIRBOSS.PatternStep.GROOVE_IW then -- VNAO Edit - Changed
+      D = "LUL" -- VNAO Edit - Changed
+    elseif LUE > self.lue._max and step ~= AIRBOSS.PatternStep.GROOVE_XX and step~=AIRBOSS.PatternStep.GROOVE_IW then -- VNAO Edit - Changed
+      D = little( "LUL" ) -- VNAO Edit - Changed
+    elseif LUE < self.lue.LEFT and step ~= AIRBOSS.PatternStep.GROOVE_XX and step~=AIRBOSS.PatternStep.GROOVE_IW then -- VNAO Edit - Changed
+      D = underline( "LUR" ) -- VNAO Edit - Changed
+    elseif LUE < self.lue.Left and step ~= AIRBOSS.PatternStep.GROOVE_XX and step~=AIRBOSS.PatternStep.GROOVE_IW then -- VNAO Edit - Changed
+      D = "LUR" -- VNAO Edit - Changed
+    elseif LUE < self.lue._min and step ~= AIRBOSS.PatternStep.GROOVE_XX and step~=AIRBOSS.PatternStep.GROOVE_IW then -- VNAO Edit - Changed
+      D = little( "LUR" ) -- VNAO Edit - Changed
+    end -- VNAO Edit - Changed
   end
+  --[[
+  elseif playerData.case == 3 then -- VNAO Edit - Changed
+    if LUE>self.lue.RIGHT then -- VNAO Edit - Changed
+      D=underline("LUL") -- VNAO Edit - Changed
+    elseif LUE>self.lue.Right then -- VNAO Edit - Changed
+      D="LUL" -- VNAO Edit - Changed
+    elseif LUE>self.lue._max then -- VNAO Edit - Changed
+      D=little("LUL") -- VNAO Edit - Changed
+    elseif LUE < self.lue.LEFT then -- VNAO Edit - Changed
+      D = underline( "LUR" ) -- VNAO Edit - Changed
+    elseif LUE < self.lue.Left then -- VNAO Edit - Changed
+      D = "LUR" -- VNAO Edit - Changed
+    elseif LUE < self.lue._min then -- VNAO Edit - Changed
+      D = little( "LUR" ) -- VNAO Edit - Changed
+    end -- VNAO Edit - Changed
+  end -- VNAO Edit - Changed 
+--]]
+  if step == AIRBOSS.PatternStep.GROOVE_IW and playerData.waveoff == false and playerData.owo == false then -- VNAO Edit - Added check for waveoff so we don't get any IN THE WIRE comments if its a WO
+    -- env.info('Adam MOOSE Edit -IW code: checking for Landing Left or Landing Right, lue: '..LUEwire)
+    -- env.info("Adam MOOSE Edit -IW code: ROLL IN THE WIRES: "..ROL)
+
+    if LUEwire>1.2 then -- VNAO Edit - Added by using real time attitude monitor and using the ladders as a reference for distance down the deck, focusing on ladder rungs 4-8 but using specifiically values at ((rung 4 12/24/23) 12/24/23), average rung 3 and 4 after testing 12/27
+      -- env.info("Adam MOOSE Edit -IW code: Line up > 1.2, _LL_")
+      DW=underline("LL")-- VNAO Edit - Added 
+    elseif LUEwire>0.4 then -- VNAO Edit - Added  by using real time attitude monitor and using the ladders as a reference for distance down the deck, focusing on ladder rungs 4-8 but using specifiically values at (rung 4 12/24/23), average rung 3 and 4 after testing 12/27
+      -- env.info("Adam MOOSE Edit -IW code: Line up > 0.4, LL")
+      DW="LL"-- VNAO Edit - Added 
+    elseif LUEwire>0.25 then -- VNAO Edit - Added  by using real time attitude monitor and using the ladders as a reference for distance down the deck, focusing on ladder rungs 4-8 but using specifiically values at (rung 4 12/24/23), average rung 3 and 4 after testing 12/27
+      -- env.info("Adam MOOSE Edit -IW code: Line up > 0.25, (LL)")
+      DW=little("LL")-- VNAO Edit - Added 
+    elseif LUEwire<-1.17 then -- VNAO Edit - Added  by using real time attitude monitor and using the ladders as a reference for distance down the deck, focusing on ladder rungs 4-8 but using specifiically values at (rung 4 12/24/23), average rung 3 and 4 after testing 12/27
+      -- env.info("Adam MOOSE Edit -IW code: Line up < -1.17, _LR_")
+      DW=underline("LR")-- VNAO Edit - Added 
+    elseif LUEwire<-0.46 then -- VNAO Edit - Added  by using real time attitude monitor and using the ladders as a reference for distance down the deck, focusing on ladder rungs 4-8 but using specifiically values at (rung 4 12/24/23), average rung 3 and 4 after testing 12/27
+      -- env.info("Adam MOOSE Edit -IW code: Line up < -0.46, LR")
+      DW="LR"-- VNAO Edit - Added 
+    elseif LUEwire<-0.25 then -- VNAO Edit - Added  by using real time attitude monitor and using the ladders as a reference for distance down the deck, focusing on ladder rungs 4-8 but using specifiically values at (rung 4 12/24/23), average rung 3 and 4 after testing 12/27
+      -- env.info("Adam MOOSE Edit -IW code: Line up < -0.25, (LR)")
+      DW=little("LR")-- VNAO Edit - Added 
+    else-- VNAO Edit - Added 
+      -- env.info('Adam MOOSE Edit -IW code: checking for Landing Left or Landing Right: NO LINEUP ERROR DECTECTED ')
+      -- env.info("Adam MOOSE Edit -IW code: NO LINEUP ERORR DECTECTED ")
+    end-- VNAO Edit - Added 
+
+    if ROL > 5 and ROL <= 10 then-- VNAO Edit - Added 
+      -- env.info("Adam MOOSE Edit -IW code: ROLL GREATER THAN 5 DEGREES, maybe a (LRWD) ")
+      Rol=little("LRWD")-- VNAO Edit - Added 
+    elseif ROL > 10 and ROL <= 15 then-- VNAO Edit - Added 
+      -- env.info("Adam MOOSE Edit -IW code: ROLL GREATER THAN 10 DEGREES, maybe a LRWD ")
+      Rol=("LRWD")-- VNAO Edit - Added 
+    elseif ROL > 15 then-- VNAO Edit - Added 
+      -- env.info("Adam MOOSE Edit -IW code: ROLL GREATER THAN 20 DEGREES, maybe a _LRWD_ ")
+      Rol=underline("LRWD")-- VNAO Edit - Added 
+    elseif ROL < -5 and ROL >= -10 then-- VNAO Edit - Added 
+      -- env.info("Adam MOOSE Edit -IW code: ROLL GREATER THAN 5 DEGREES, maybe a (LLWD) ")
+      Rol=little("LLWD")-- VNAO Edit - Added 
+    elseif ROL < -10 and ROL >= -15 then-- VNAO Edit - Added 
+      -- env.info("Adam MOOSE Edit -IW code: ROLL GREATER THAN 10 DEGREES, maybe a LLWD ")
+      Rol=("LLWD")-- VNAO Edit - Added 
+    elseif ROL < -15 then-- VNAO Edit - Added 
+      -- env.info("Adam MOOSE Edit -IW code: ROLL GREATER THAN 20 DEGREES, maybe a _LLWD_ ")
+      Rol=underline("LLWD")-- VNAO Edit - Added 
+    else-- VNAO Edit - Added 
+      -- env.info("Adam MOOSE Edit -IW code: ROLL is acceptable, less than 5 degrees left or right ")
+    end-- VNAO Edit - Added 
+
+
+
+    local hornet =   playerData.actype == AIRBOSS.AircraftCarrier.HORNET-- VNAO Edit - Added 
+    local tomcat = playerData.actype == AIRBOSS.AircraftCarrier.F14A or playerData.actype == AIRBOSS.AircraftCarrier.F14B-- VNAO Edit - Added 
+
+    if hornet then-- VNAO Edit - Added 
+      if Lnoz > 0.6 and Rnoz > 0.6 then -- VNAO Edit - Added check them both, it's possilbe there could be a single engine landing and one is in idle perhaps?
+        -- env.info("Adam MOOSE Edit -IW code: Throttles maybe close to idle? EGIW?  L:"..Lnoz.." R: "..Rnoz)
+        Noz = underline("EG")-- VNAO Edit - Added 
+      else-- VNAO Edit - Added 
+        -- env.info("Adam MOOSE Edit -IW code: Throttles ok position- L:"..Lnoz.." R: "..Rnoz)
+      end-- VNAO Edit - Added 
+    end-- VNAO Edit - Added 
+
+   --[[ if tomcat then-- VNAO Edit - Added 
+      if Lnoz > 0.9 and Rnoz > 0.9 then -- VNAO Edit - Added Appears that when engines are idle nozzle arguments are Zero. Anything more than idle is close to 1 (0.95 to be exact) and Burner reduces to 0.3
+        -- env.info("Adam MOOSE Edit -IW code: Throttles maybe close to idle? EGIW?  L:"..Lnoz.." R: "..Rnoz)
+        Noz = underline("EG")-- VNAO Edit - Added 
+      else-- VNAO Edit - Added 
+        -- env.info("Adam MOOSE Edit -IW code: Throttles ok position- L:"..Lnoz.." R: "..Rnoz)
+      end-- VNAO Edit - Added 
+    end-- VNAO Edit - Added ]]
+
+    if playerData.Tgroove and playerData.Tgroove <= 360 and playerData.case < 3 then  --Circuit Added
+      local grooveTime = playerData.Tgroove --Circuit Added
+      if grooveTime > 19 or grooveTime < 15 then --Circuit Added
+        GT = "" --Circuit Added
+      end --Circuit Added
+    end --Circuit Added
+
+  end-- VNAO Edit - Added 
 
   -- Compile.
   local G = ""
   local n = 0
-  -- Fly trough.
+
+  -- VNAO Edit - Added WU, AA and AFU calls to LSO grading
+  if stepMod == "XX" then -- VNAO Edit - Added
+    if playerData.case < 3 then -- VNAO Edit - Added
+      if fdata.WrappedUp then -- VNAO Edit - Added
+        env.info("Adding WrappedUp deviation.")
+        G=G..fdata.WrappedUp -- VNAO Edit - Added
+        n=n + 1 -- VNAO Edit - Added
+        -- env.info('MOOSE/AIRBOSS- MOD - GRADE.... you`RE GETTING WU`D')
+      end -- VNAO Edit - Added
+      if fdata.AngledApch then  -- VNAO Edit - Added
+        env.info("Adding AngledApch deviation.")
+        G=G..fdata.AngledApch  -- VNAO Edit - Added
+        n=n+1   -- VNAO Edit - Added
+        -- env.info('Adam MOOSE Edit -AA code: Function- _Flightdata2Text: Trying to add AA comment only to the "Start" in comments for player: '..playerData.name)
+        -- env.info('MOOSE/AIRBOSS- MOD - GRADE.... you`RE GETTING AA`D')
+      end  -- VNAO Edit - Added
+      if fdata.AFU then  -- VNAO Edit - Added
+        env.info("Adding AFU deviation.")
+        G=G..fdata.AFU  -- VNAO Edit - Added
+        n=n+1   -- VNAO Edit - Added
+        -- env.info('Adam MOOSE Edit -AFU code: Function- _Flightdata2Text: Trying to add AFU comment only to the "Start" in comments for player: '..playerData.name)
+        -- env.info('MOOSE/AIRBOSS- MOD - GRADE....you`RE GETTING AFU`D')
+      end
+    end -- VNAO Edit - Added
+  end  -- VNAO Edit - Added
+
+  -- Fly through.
   if fdata.FlyThrough then
     G = G .. fdata.FlyThrough
   end
   -- Angled Approach - doesn't affect score, advisory only.
-  if P then
-    G = G .. P
-    n = n
-  end
+  -- if P then -- VNAO Edit - Commented out
+    -- G = G .. P -- VNAO Edit - Commented out
+  --   n = n + 1 -- VNAO Edit - Added + 1 -- VNAO Edit - Commented out
+  -- end -- VNAO Edit - Commented out
   -- Speed.
   if S then
+    env.info("Adding speed deviation.")--VNAO Added
     G = G .. S
     n = n + 1
   end
   -- Glide slope.
   if A then
+    env.info("Adding altitude deviation.")--VNAO Added
     G = G .. A
     n = n + 1
   end
   -- Line up.
   if D then
+    env.info("Adding line up deviation.")--VNAO Added
     G = G .. D
     n = n + 1
   end
   -- Drift in Lineup
   if fdata.Drift then
+    env.info("Adding drift deviation.")--VNAO Added
     G = G .. fdata.Drift
     n = n -- Drift doesn't affect score, advisory only.
   end
   -- Overshoot.
   if O then
+    env.info("Adding overshoot deviation.")--VNAO Added
     G = G .. O
     n = n + 1
   end
+
+  if DW then  -- VNAO Edit - Added
+    -- env.info("Adam MOOSE Edit -IW code:TRYING TO ADD COMMENT LANDED LEFT/RIGHT OF CENTER LINE ")  -- VNAO Edit - Added
+    env.info("Adding landed L/R deviation.")
+    G = G .. DW  -- VNAO Edit - Added
+    n = n + 1  -- VNAO Edit - Added
+  end  -- VNAO Edit - Added
+
+  if Rol then  -- VNAO Edit - Added
+    -- env.info("Adam MOOSE Edit -IW code:TRYING TO ADD COMMENT LANDED LEFT/RIGHT WING DOWN ")  -- VNAO Edit - Added
+    env.info("Adding landed rol deviation.")
+    G = G .. Rol  -- VNAO Edit - Added
+    n = n + 1  -- VNAO Edit - Added
+  end  -- VNAO Edit - Added
+
+  if Noz then  -- VNAO Edit - Added
+    -- env.info("Adam MOOSE Edit -IW code:TRYING TO ADD COMMENT EG ")  -- VNAO Edit - Added
+    env.info("Adding eased guns deviation.")
+    G = G .. Noz  -- VNAO Edit - Added
+    n = n + 1-- try to add 3 to get an automatic no grade.  -- VNAO Edit - Added
+  end  -- VNAO Edit - Added
+
+  if GT then  --Circuit Added
+    G = G .. GT --Circuit Added
+    n = n + 1 --Circuit Added
+  end --Circuit Added
 
   -- Add current step.
   local step = self:_GS( step )
@@ -136281,6 +138402,7 @@ function AIRBOSS:_Debrief( playerData )
     Points = points
   end
 
+
   -- My LSO grade.
   local mygrade = {} -- #AIRBOSS.LSOgrade
   mygrade.grade = grade
@@ -136337,7 +138459,8 @@ function AIRBOSS:_Debrief( playerData )
 
     -- Time in the groove. Only Case I/II and not pattern WO.
     if playerData.Tgroove and playerData.Tgroove <= 360 and playerData.case < 3 then
-      text = text .. string.format( "\nTime in the groove %.1f seconds: %s", playerData.Tgroove, self:_EvalGrooveTime( playerData ) )
+      -- text = text .. string.format( "\nTime in the groove %.1f seconds: %s", playerData.Tgroove, self:_EvalGrooveTime( playerData ) ) --Circuit changed removed groove comment
+      text = text .. string.format( "\nTime in the groove %.1f seconds.", playerData.Tgroove ) 
     end
 
   end
@@ -139792,6 +141915,17 @@ function AIRBOSS:_RequestEmergency( _unitName )
         -- Cleared.
         text = "affirmative, you can bypass the pattern and are cleared for final approach!"
 
+        -- VNAO Edit - Added wrapped up call to LSO grading
+        playerData.wrappedUpAtWakeLittle = false -- VNAO Edit - Added
+        playerData.wrappedUpAtWakeFull = false -- VNAO Edit - Added
+        playerData.wrappedUpAtWakeUnderline = false -- VNAO Edit - Added
+        playerData.wrappedUpAtStartLittle = false -- VNAO Edit - Added
+        playerData.wrappedUpAtStartFull = false -- VNAO Edit - Added
+        playerData.wrappedUpAtStartUnderline = false -- VNAO Edit - Added
+        playerData.AAatWakeLittle = false -- VNAO Edit - Added
+        playerData.AAatWakeFull = false -- VNAO Edit - Added
+        playerData.AAatWakeUnderline = false -- VNAO Edit - Added
+
         -- Now, if player is in the marshal or waiting queue he will be removed. But the new leader should stay in or not.
         local lead = self:_GetFlightLead( playerData )
 
@@ -141674,12 +143808,7 @@ function AIRBOSS:onafterLSOGrade(From, Event, To, playerData, grade)
     self.funkmanSocket:SendTable(result)
   end
 
-end
-
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
---- **Ops** - Recovery tanker for carrier operations.
+end--- **Ops** - Recovery tanker for carrier operations.
 -- 
 -- Tanker aircraft flying a racetrack pattern overhead an aircraft carrier.
 --
@@ -148120,7 +150249,7 @@ end
 -- @module Ops.CTLD
 -- @image OPS_CTLD.jpg
 
--- Last Update May 2025
+-- Last Update July 2025
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -148962,7 +151091,9 @@ do
 --          my_ctld.TroopUnloadDistHoverHook = 5 -- When hovering, unload troops this far behind the Chinook
 --          my_ctld.showstockinmenuitems = false -- When set to true, the menu lines will also show the remaining items in stock (that is, if you set any), downside is that the menu for all will be build every 30 seconds anew.
 --          my_ctld.onestepmenu = false -- When set to true, the menu will create Drop and build, Get and load, Pack and remove, Pack and load, Pack. it will be a 1 step solution.
--- 
+--          my_ctld.VehicleMoveFormation = AI.Task.VehicleFormation.VEE -- When a group moves to a MOVE zone, then it takes this formation. Can be a table of formations, which are then randomly chosen. Defaults to "Vee".
+--          my_ctld.validateAndRepositionUnits = false -- Uses Disposition and other logic to find better ground positions for ground units avoiding trees, water, roads, runways, map scenery, statics and other units in the area. (Default is false)
+--
 -- ## 2.1 CH-47 Chinook support
 -- 
 -- The Chinook comes with the option to use the ground crew menu to load and unload cargo into the Helicopter itself for better immersion. As well, it can sling-load cargo from ground. The cargo you can actually **create**
@@ -149389,6 +151520,7 @@ CTLD = {
   LoadedGroupsTable = {},
   keeploadtable = true,
   allowCATransport = false,
+  VehicleMoveFormation = AI.Task.VehicleFormation.VEE,
 }
 
 ------------------------------
@@ -149509,7 +151641,7 @@ CTLD.FixedWingTypes = {
 
 --- CTLD class version.
 -- @field #string version
-CTLD.version="1.3.34"
+CTLD.version="1.3.37"
 
 --- Instantiate a new CTLD.
 -- @param #CTLD self
@@ -149576,6 +151708,7 @@ function CTLD:New(Coalition, Prefixes, Alias)
   self:AddTransition("*",             "CratesRepaired",      "*")           -- CTLD repair  event.
   self:AddTransition("*",             "CratesBuildStarted",  "*")           -- CTLD build  event.
   self:AddTransition("*",             "CratesRepairStarted", "*")           -- CTLD repair  event.
+  self:AddTransition("*",             "CratesPacked",        "*")           -- CTLD repack  event.
   self:AddTransition("*",             "HelicopterLost",      "*")           -- CTLD lost  event.
   self:AddTransition("*",             "Load",                "*")           -- CTLD load  event.
   self:AddTransition("*",             "Loaded",              "*")           -- CTLD load  event.   
@@ -149648,13 +151781,17 @@ function CTLD:New(Coalition, Prefixes, Alias)
   self.movetroopsdistance = 5000
   self.troopdropzoneradius = 100
   
+  self.VehicleMoveFormation = AI.Task.VehicleFormation.VEE
+  
   -- added support Hercules Mod
   self.enableHercules = false -- deprecated
   self.enableFixedWing = false
   self.FixedMinAngels = 165 -- for troop/cargo drop via chute
   self.FixedMaxAngels = 2000 -- for troop/cargo drop via chute
   self.FixedMaxSpeed = 77 -- 280 kph or 150kn eq 77 mps
-  
+
+  self.validateAndRepositionUnits = false -- 280 kph or 150kn eq 77 mps
+
   -- message suppression
   self.suppressmessages = false
   
@@ -149854,6 +151991,17 @@ function CTLD:New(Coalition, Prefixes, Alias)
   -- @param Wrapper.Unit#UNIT Unit Unit Object.
   -- @param Wrapper.Group#GROUP Vehicle The #GROUP object of the vehicle or FOB repaired.
   -- @return #CTLD self
+        
+  --- FSM Function OnBeforeCratesPacked.
+  -- @function [parent=#CTLD] OnBeforeCratesPacked
+  -- @param #CTLD self
+  -- @param #string From State.
+  -- @param #string Event Trigger.
+  -- @param #string To State.
+  -- @param Wrapper.Group#GROUP Group Group Object.
+  -- @param Wrapper.Unit#UNIT Unit Unit Object.
+  -- @param #CTLD_CARGO Cargo Cargo crate that was repacked.
+  -- @return #CTLD self
     
   --- FSM Function OnBeforeTroopsRTB.
   -- @function [parent=#CTLD] OnBeforeTroopsRTB
@@ -149941,6 +152089,7 @@ function CTLD:New(Coalition, Prefixes, Alias)
   -- @param #string To State.
   -- @param Wrapper.Group#GROUP Group Group Object.
   -- @param Wrapper.Unit#UNIT Unit Unit Object.
+  -- @param CargoName The name of the cargo being built.
   -- @return #CTLD self
 
   --- FSM Function OnAfterCratesRepairStarted. Info event that a repair has been started.
@@ -149982,6 +152131,17 @@ function CTLD:New(Coalition, Prefixes, Alias)
   -- @param Wrapper.Group#GROUP Group Group Object.
   -- @param Wrapper.Unit#UNIT Unit Unit Object.
   -- @param Wrapper.Group#GROUP Vehicle The #GROUP object of the vehicle or FOB repaired.
+  -- @return #CTLD self
+  
+  --- FSM Function OnAfterCratesPacked.
+  -- @function [parent=#CTLD] OnAfterCratesPacked
+  -- @param #CTLD self
+  -- @param #string From State.
+  -- @param #string Event Trigger.
+  -- @param #string To State.
+  -- @param Wrapper.Group#GROUP Group Group Object.
+  -- @param Wrapper.Unit#UNIT Unit Unit Object.
+  -- @param #CTLD_CARGO Cargo Cargo crate that was repacked.
   -- @return #CTLD self
     
   --- FSM Function OnAfterTroopsRTB.
@@ -150170,6 +152330,9 @@ function CTLD:_EventHandler(EventData)
       local _group = event.IniGroup
       local _unit = event.IniUnit
       self:_RefreshLoadCratesMenu(_group, _unit)
+    if self:IsFixedWing(_unit) and self.enableFixedWing then
+      self:_RefreshDropCratesMenu(_group, _unit)
+    end
     end
   elseif event.id == EVENTS.PlayerLeaveUnit or event.id == EVENTS.UnitLost then
     -- remove from pilot table
@@ -150919,8 +153082,12 @@ function CTLD:_GetCrates(Group, Unit, Cargo, number, drop, pack)
       if cratedistance > self.CrateDistance then cratedistance = self.CrateDistance end
       -- altered heading logic
       -- DONE: right standard deviation?
-      rheading = UTILS.RandomGaussian(0,30,-90,90,100)
-      rheading = math.fmod((heading + rheading), 360)
+        if self:IsUnitInAir(Unit) and self:IsFixedWing(Unit) then
+          rheading = math.random(20,60)
+        else
+          rheading = UTILS.RandomGaussian(0, 30, -90, 90, 100)
+        end
+      rheading=math.fmod((heading+rheading),360)
       cratecoord = position:Translate(cratedistance,rheading)
     else
       cratedistance = (row-1)*6
@@ -151795,6 +153962,7 @@ function CTLD:_UnloadTroops(Group, Unit)
             self.DroppedTroops[self.TroopCounter] = SPAWN:NewWithAlias(_template,alias)
               :InitDelayOff()
               :InitSetUnitAbsolutePositions(Positions)
+              :InitValidateAndRepositionGroundUnits(self.validateAndRepositionUnits)
               :OnSpawnGroup(function(grp) grp.spawntime = timer.getTime() end)
               :SpawnFromVec2(randomcoord:GetVec2())
             self:__TroopsDeployed(1, Group, Unit, self.DroppedTroops[self.TroopCounter],type)
@@ -152057,7 +154225,7 @@ function CTLD:_BuildCrates(Group, Unit,Engineering,MultiDrop)
               local buildtimer = TIMER:New(self._BuildObjectFromCrates,self,Group,Unit,build,false,Group:GetCoordinate(),MultiDrop)
               buildtimer:Start(self.buildtime)
               self:_SendMessage(string.format("Build started, ready in %d seconds!",self.buildtime),15,false,Group)
-              self:__CratesBuildStarted(1,Group,Unit)
+              self:__CratesBuildStarted(1,Group,Unit,build.Name) 
               self:_RefreshDropTroopsMenu(Group,Unit)
           else
             self:_BuildObjectFromCrates(Group,Unit,build,false,nil,MultiDrop)
@@ -152099,6 +154267,7 @@ function CTLD:_PackCratesNearby(Group, Unit)
             _Group:Destroy() -- if a match is found destroy the Wrapper.Group#GROUP near the player
             self:_GetCrates(Group, Unit, _entry, nil, false, true) -- spawn the appropriate crates near the player
             self:_RefreshLoadCratesMenu(Group,Unit) -- call the refresher to show the crates in the menu
+            self:__CratesPacked(1,Group,Unit,_entry)
             return true
           end
         end
@@ -152240,11 +154409,13 @@ function CTLD:_BuildObjectFromCrates(Group,Unit,Build,Repair,RepairLocation,Mult
         self.DroppedTroops[self.TroopCounter] = SPAWN:NewWithAlias(_template,alias)
           --:InitRandomizeUnits(true,20,2)
           :InitDelayOff()
+          :InitValidateAndRepositionGroundUnits(self.validateAndRepositionUnits)
           :OnSpawnGroup(function(grp) grp.spawntime = timer.getTime() end)
           :SpawnFromVec2(randomcoord)
       else -- don't random position of e.g. SAM units build as FOB
         self.DroppedTroops[self.TroopCounter] = SPAWN:NewWithAlias(_template,alias)
           :InitDelayOff()
+          :InitValidateAndRepositionGroundUnits(self.validateAndRepositionUnits)
           :OnSpawnGroup(function(grp) grp.spawntime = timer.getTime() end)
           :SpawnFromVec2(randomcoord)
       end
@@ -152258,6 +154429,17 @@ function CTLD:_BuildObjectFromCrates(Group,Unit,Build,Repair,RepairLocation,Mult
     self:T(self.lid.."Group KIA while building!")
   end
   return self
+end
+
+--- (Internal) Function to get a vehicle formation for a moving group
+-- @param #CTLD self
+-- @return #string Formation
+function CTLD:_GetVehicleFormation()
+  local VehicleMoveFormation = self.VehicleMoveFormation or AI.Task.VehicleFormation.VEE
+  if type(self.VehicleMoveFormation)=="table" then
+    VehicleMoveFormation = self.VehicleMoveFormation[math.random(1,#self.VehicleMoveFormation)]
+  end
+  return VehicleMoveFormation
 end
 
 --- (Internal) Function to move group to WP zone.
@@ -152274,18 +154456,20 @@ function CTLD:_MoveGroupToZone(Group)
     -- yes, we can ;)
     local groupname = Group:GetName()
     local zonecoord = zone:GetRandomCoordinate(20,125) -- Core.Point#COORDINATE
-    local coordinate = zonecoord:GetVec2()
+    local formation = self:_GetVehicleFormation()
+    --local coordinate = zonecoord:GetVec2()
     Group:SetAIOn()
     Group:OptionAlarmStateAuto()
     Group:OptionDisperseOnAttack(30)
-    Group:OptionROEOpenFirePossible()
-    Group:RouteToVec2(coordinate,5)
+    Group:OptionROEOpenFire()
+    Group:RouteGroundTo(zonecoord,25,formation)
     end
   return self
 end
 
 --- (Internal) Housekeeping - Cleanup crates when build
 -- @param #CTLD self
+-- 
 -- @param #table Crates Table of #CTLD_CARGO objects near the unit.
 -- @param #CTLD.Buildable Build Table build object.
 -- @param #number Number Number of objects in Crates (found) to limit search.
@@ -152983,7 +155167,17 @@ function CTLD:_UnloadSingleCrateSet(Group, Unit, setIndex)
     cObj:SetWasDropped(true)
     cObj:SetHasMoved(true)
   end
-
+local cname  = crateObj:GetName() or "Unknown"
+local count  = #chunk
+if needed > 1 then
+if count == needed then
+    self:_SendMessage(string.format("Dropped %d %s.", 1, cname), 10, false, Group)
+else
+    self:_SendMessage(string.format("Dropped %d/%d crate(s) of %s.", count, needed, cname), 15, false, Group)
+end
+else
+self:_SendMessage(string.format("Dropped %d %s(s).", count, cname), 10, false, Group)
+end
   -- Rebuild the cargo list to remove the dropped crates
   local loadedData = self.Loaded_Cargo[unitName]
   if loadedData and loadedData.Cargo then
@@ -153102,8 +155296,10 @@ function CTLD:_RefreshDropCratesMenu(Group, Unit)
       --------------------------------------------------------------------
       local mAll=MENU_GROUP:New(Group,"Drop ALL crates",dropCratesMenu)
       MENU_GROUP_COMMAND:New(Group,"Drop",mAll,self._UnloadCrates,self,Group,Unit)
-      MENU_GROUP_COMMAND:New(Group,"Drop and build",mAll,self._DropAndBuild,self,Group,Unit)
-  
+      if not ( self:IsUnitInAir(Unit) and self:IsFixedWing(Unit) ) then
+        MENU_GROUP_COMMAND:New(Group,"Drop and build",mAll,self._DropAndBuild,self,Group,Unit)
+      end
+
       self.CrateGroupList=self.CrateGroupList or{}
       self.CrateGroupList[Unit:GetName()]={}
   
@@ -153124,7 +155320,9 @@ function CTLD:_RefreshDropCratesMenu(Group, Unit)
             local setIndex=#self.CrateGroupList[Unit:GetName()]
             local mSet=MENU_GROUP:New(Group,label,dropCratesMenu)
             MENU_GROUP_COMMAND:New(Group,"Drop",mSet,self._UnloadSingleCrateSet,self,Group,Unit,setIndex)
+            if not ( self:IsUnitInAir(Unit) and self:IsFixedWing(Unit) ) then
             MENU_GROUP_COMMAND:New(Group,"Drop and build",mSet,self._DropSingleAndBuild,self,Group,Unit,setIndex)
+            end
             i=i+needed
           else
             local chunk={}
@@ -153243,6 +155441,7 @@ function CTLD:_UnloadSingleTroopByID(Group, Unit, chunkID)
         self.DroppedTroops[self.TroopCounter] = SPAWN:NewWithAlias(_template, alias)
           :InitDelayOff()
           :InitSetUnitAbsolutePositions(Positions)
+          :InitValidateAndRepositionGroundUnits(self.validateAndRepositionUnits)
           :OnSpawnGroup(function(grp) grp.spawntime = timer.getTime() end)
           :SpawnFromVec2(randomcoord:GetVec2())
         self:__TroopsDeployed(1, Group, Unit, self.DroppedTroops[self.TroopCounter], cType)
@@ -153251,6 +155450,8 @@ function CTLD:_UnloadSingleTroopByID(Group, Unit, chunkID)
       foundCargo:SetWasDropped(true)
       if cType == CTLD_CARGO.Enum.ENGINEERS then
         self.Engineers = self.Engineers + 1
+          local grpname = self.DroppedTroops[self.TroopCounter]:GetName()
+        self.EngineersInField[self.Engineers] = CTLD_ENGINEERING:New(name, grpname)
         self:_SendMessage(string.format("Dropped Engineers %s into action!", name), 10, false, Group)
       else
         self:_SendMessage(string.format("Dropped Troops %s into action!", name), 10, false, Group)
@@ -154066,16 +156267,22 @@ function CTLD:SmokeZoneNearBy(Unit, Flare)
     for index,cargozone in pairs(zones[i]) do
       local CZone = cargozone --#CTLD.CargoZone
       local zonename = CZone.name
-      local zone = nil
+      local zone = nil -- Core.Zone#ZONE_RADIUS
+      local airbasezone = false
       if i == 4 then
         zone = UNIT:FindByName(zonename)
       else
         zone = ZONE:FindByName(zonename)
         if not zone then
           zone = AIRBASE:FindByName(zonename):GetZone()
+          airbasezone = true
         end
       end
       local zonecoord = zone:GetCoordinate()
+      -- Avoid smoke/flares on runways
+      if (i==1 or 1==3) and airbasezone==true and zone:IsInstanceOf("ZONE_BASE") then
+        zonecoord = zone:GetRandomCoordinate(inner,outer,{land.SurfaceType.LAND})
+      end
     if zonecoord then
       local active = CZone.active
       local color = CZone.color
@@ -155175,6 +157382,16 @@ end
       local filepath = self.filepath
       self:__Save(interval,filepath,filename)
     end
+    
+    if type(self.VehicleMoveFormation) == "table" then
+      local Formations = {}
+      for _,_formation in pairs(self.VehicleMoveFormation) do
+        table.insert(Formations,_formation)
+      end
+      self.VehicleMoveFormation = nil
+      self.VehicleMoveFormation = Formations
+    end
+  
     return self
   end
 
@@ -156503,25 +158720,25 @@ end
 --- **Ops** - Combat Search and Rescue.
 --
 -- ===
--- 
+--
 -- **CSAR** - MOOSE based Helicopter CSAR Operations.
--- 
+--
 -- ===
--- 
+--
 -- ## Missions:--- **Ops** -- Combat Search and Rescue.
 --
 -- ===
--- 
+--
 -- **CSAR** - MOOSE based Helicopter CSAR Operations.
--- 
+--
 -- ===
--- 
+--
 -- ## Missions:
 --
 -- ### [CSAR - Combat Search & Rescue](https://github.com/FlightControl-Master/MOOSE_MISSIONS/tree/develop/Ops/CSAR)
--- 
+--
 -- ===
--- 
+--
 -- **Main Features:**
 --
 --    * MOOSE-based Helicopter CSAR Operations for Players.
@@ -156533,7 +158750,7 @@ end
 -- @image OPS_CSAR.jpg
 
 ---
--- Last Update May 2025
+-- Last Update July 2025
 
 -------------------------------------------------------------------------
 --- **CSAR** class, extends Core.Base#BASE, Core.Fsm#FSM
@@ -156551,24 +158768,24 @@ end
 -- ===
 --
 -- # CSAR Concept
--- 
+--
 --  * MOOSE-based Helicopter CSAR Operations for Players.
 --  * Object oriented refactoring of Ciribob\'s fantastic CSAR script.
---  * No need for extra MIST loading. 
+--  * No need for extra MIST loading.
 --  * Additional events to tailor your mission.
 --  * Optional SpawnCASEVAC to create casualties without beacon (e.g. handling dead ground vehicles and create CASVAC requests).
--- 
+--
 -- ## 0. Prerequisites
--- 
+--
 -- You need to load an .ogg soundfile for the pilot\'s beacons into the mission, e.g. "beacon.ogg", use a once trigger, "sound to country" for that.
 -- Create a late-activated single infantry unit as template in the mission editor and name it e.g. "Downed Pilot".
--- 
+--
 -- Example sound files are here: [Moose Sound](https://github.com/FlightControl-Master/MOOSE_SOUND/tree/master/CTLD%20CSAR)
--- 
+--
 -- ## 1. Basic Setup
--- 
+--
 -- A basic setup example is the following:
---        
+--
 --        -- Instantiate and start a CSAR for the blue side, with template "Downed Pilot" and alias "Luftrettung"
 --        local my_csar = CSAR:New(coalition.side.BLUE,"Downed Pilot","Luftrettung")
 --        -- options
@@ -156576,9 +158793,9 @@ end
 --        my_csar.invisiblecrew = false -- downed pilot spawn is visible
 --        -- start the FSM
 --        my_csar:__Start(5)
--- 
+--
 -- ## 2. Options
--- 
+--
 -- The following options are available (with their defaults). Only set the ones you want changed:
 --
 --         mycsar.allowDownedPilotCAcontrol = false -- Set to false if you don\'t want to allow control by Combined Arms.
@@ -156589,7 +158806,7 @@ end
 --         mycsar.coordtype = 1 -- Use Lat/Long DDM (0), Lat/Long DMS (1), MGRS (2), Bullseye imperial (3) or Bullseye metric (4) for coordinates.
 --         mycsar.csarOncrash = false -- (WIP) If set to true, will generate a downed pilot when a plane crashes as well.
 --         mycsar.enableForAI = false -- set to false to disable AI pilots from being rescued.
---         mycsar.pilotRuntoExtractPoint = true -- Downed pilot will run to the rescue helicopter up to mycsar.extractDistance in meters. 
+--         mycsar.pilotRuntoExtractPoint = true -- Downed pilot will run to the rescue helicopter up to mycsar.extractDistance in meters.
 --         mycsar.extractDistance = 500 -- Distance the downed pilot will start to run to the rescue helicopter.
 --         mycsar.immortalcrew = true -- Set to true to make wounded crew immortal.
 --         mycsar.invisiblecrew = false -- Set to true to make wounded crew insvisible.
@@ -156597,14 +158814,14 @@ end
 --         mycsar.mashprefix = {"MASH"} -- prefixes of #GROUP objects used as MASHes. Will also try to add ZONE and STATIC objects with this prefix once at startup.
 --         mycsar.max_units = 6 -- max number of pilots that can be carried if #CSAR.AircraftType is undefined.
 --         mycsar.messageTime = 15 -- Time to show messages for in seconds. Doubled for long messages.
---         mycsar.radioSound = "beacon.ogg" -- the name of the sound file to use for the pilots\' radio beacons. 
+--         mycsar.radioSound = "beacon.ogg" -- the name of the sound file to use for the pilots\' radio beacons.
 --         mycsar.smokecolor = 4 -- Color of smokemarker, 0 is green, 1 is red, 2 is white, 3 is orange and 4 is blue.
 --         mycsar.useprefix = true  -- Requires CSAR helicopter #GROUP names to have the prefix(es) defined below.
---         mycsar.csarPrefix = { "helicargo", "MEDEVAC"} -- #GROUP name prefixes used for useprefix=true - DO NOT use # in helicopter names in the Mission Editor! 
+--         mycsar.csarPrefix = { "helicargo", "MEDEVAC"} -- #GROUP name prefixes used for useprefix=true - DO NOT use # in helicopter names in the Mission Editor!
 --         mycsar.verbose = 0 -- set to > 1 for stats output for debugging.
 --         -- limit amount of downed pilots spawned by **ejection** events
 --         mycsar.limitmaxdownedpilots = true
---         mycsar.maxdownedpilots = 10 
+--         mycsar.maxdownedpilots = 10
 --         -- allow to set far/near distance for approach and optionally pilot must open doors
 --         mycsar.approachdist_far = 5000 -- switch do 10 sec interval approach mode, meters
 --         mycsar.approachdist_near = 3000 -- switch to 5 sec interval approach mode, meters
@@ -156621,18 +158838,18 @@ end
 --         mycsar.PilotWeight = 80 --  Loaded pilots weigh 80kgs each
 --         mycsar.AllowIRStrobe = false -- Allow a menu item to request an IR strobe to find a downed pilot at night (requires NVGs to see it).
 --         mycsar.IRStrobeRuntime = 300 -- If an IR Strobe is activated, it runs for 300 seconds (5 mins).
---  
+--
 -- ## 2.1 Create own SET_GROUP to manage CTLD Pilot groups
--- 
+--
 --         -- Parameter: Set The SET_GROUP object created by the mission designer/user to represent the CSAR pilot groups.
 --         -- Needs to be set before starting the CSAR instance.
 --         local myset = SET_GROUP:New():FilterPrefixes("Helikopter"):FilterCoalitions("red"):FilterStart()
 --         mycsar:SetOwnSetPilotGroups(myset)
---         
+--
 -- ## 2.2 SRS Features and Other Features
--- 
+--
 --       mycsar.useSRS = false -- Set true to use FF\'s SRS integration
---       mycsar.SRSPath = "C:\\Progra~1\\DCS-SimpleRadio-Standalone\\" -- adjust your own path in your SRS installation -- server(!)
+--       mycsar.SRSPath = "C:\\Progra~1\\DCS-SimpleRadio-Standalone\\ExternalAudio\\" -- adjust your own path in your SRS installation -- server(!)
 --       mycsar.SRSchannel = 300 -- radio channel
 --       mycsar.SRSModulation = radio.modulation.AM -- modulation
 --       mycsar.SRSport = 5002  -- and SRS Server port
@@ -156649,88 +158866,88 @@ end
 --       mycsar.wetfeettemplate = "man in floating thingy" -- if you use a mod to have a pilot in a rescue float, put the template name in here for wet feet spawns. Note: in conjunction with csarUsePara this might create dual ejected pilots in edge cases.
 --       mycsar.allowbronco = false  -- set to true to use the Bronco mod as a CSAR plane
 --       mycsar.CreateRadioBeacons = true -- set to false to disallow creating ADF radio beacons.
---        
+--
 -- ## 3. Results
--- 
+--
 -- Number of successful landings with save pilots and aggregated number of saved pilots is stored in these variables in the object:
---      
+--
 --        mycsar.rescues -- number of successful landings *with* saved pilots
 --        mycsar.rescuedpilots -- aggregated number of pilots rescued from the field (of *all* players)
--- 
+--
 -- ## 4. Events
 --
 --  The class comes with a number of FSM-based events that missions designers can use to shape their mission.
 --  These are:
---  
--- ### 4.1. PilotDown. 
---      
+--
+-- ### 4.1. PilotDown.
+--
 --      The event is triggered when a new downed pilot is detected. Use e.g. `function my_csar:OnAfterPilotDown(...)` to link into this event:
---      
+--
 --          function my_csar:OnAfterPilotDown(from, event, to, spawnedgroup, frequency, groupname, coordinates_text)
 --            ... your code here ...
 --          end
---    
--- ### 4.2. Approach. 
---      
+--
+-- ### 4.2. Approach.
+--
 --      A CSAR helicpoter is closing in on a downed pilot. Use e.g. `function my_csar:OnAfterApproach(...)` to link into this event:
---      
+--
 --          function my_csar:OnAfterApproach(from, event, to, heliname, groupname)
 --            ... your code here ...
 --          end
---    
--- ### 4.3. Boarded. 
---    
+--
+-- ### 4.3. Boarded.
+--
 --      The pilot has been boarded to the helicopter. Use e.g. `function my_csar:OnAfterBoarded(...)` to link into this event:
---      
+--
 --          function my_csar:OnAfterBoarded(from, event, to, heliname, groupname, description)
 --            ... your code here ...
 --          end
---    
--- ### 4.4. Returning. 
---      
+--
+-- ### 4.4. Returning.
+--
 --       The CSAR helicopter is ready to return to an Airbase, FARP or MASH. Use e.g. `function my_csar:OnAfterReturning(...)` to link into this event:
---       
+--
 --          function my_csar:OnAfterReturning(from, event, to, heliname, groupname)
 --            ... your code here ...
 --          end
---    
--- ### 4.5. Rescued. 
---    
+--
+-- ### 4.5. Rescued.
+--
 --      The CSAR helicopter has landed close to an Airbase/MASH/FARP and the pilots are safe. Use e.g. `function my_csar:OnAfterRescued(...)` to link into this event:
---      
+--
 --          function my_csar:OnAfterRescued(from, event, to, heliunit, heliname, pilotssaved)
 --            ... your code here ...
---          end     
+--          end
 --
 -- ## 5. Spawn downed pilots at location to be picked up.
---  
+--
 --      If missions designers want to spawn downed pilots into the field, e.g. at mission begin to give the helicopter guys works, they can do this like so:
---      
+--
 --        -- Create downed "Pilot Wagner" in #ZONE "CSAR_Start_1" at a random point for the blue coalition
 --        my_csar:SpawnCSARAtZone( "CSAR_Start_1", coalition.side.BLUE, "Pilot Wagner", true )
 --
 --      --Create a casualty and CASEVAC request from a "Point" (VEC2) for the blue coalition --shagrat
---      my_csar:SpawnCASEVAC(Point, coalition.side.BLUE)  
---      
+--      my_csar:SpawnCASEVAC(Point, coalition.side.BLUE)
+--
 -- ## 6. Save and load downed pilots - Persistance
--- 
+--
 -- You can save and later load back downed pilots to make your mission persistent.
 -- For this to work, you need to de-sanitize **io** and **lfs** in your MissionScripting.lua, which is located in your DCS installtion folder under Scripts.
 -- There is a risk involved in doing that; if you do not know what that means, this is possibly not for you.
--- 
+--
 -- Use the following options to manage your saves:
--- 
+--
 --              mycsar.enableLoadSave = true -- allow auto-saving and loading of files
 --              mycsar.saveinterval = 600 -- save every 10 minutes
 --              mycsar.filename = "missionsave.csv" -- example filename
 --              mycsar.filepath = "C:\\Users\\myname\\Saved Games\\DCS\Missions\\MyMission" -- example path
---  
+--
 --  Then use an initial load at the beginning of your mission:
---  
+--
 --            mycsar:__Load(10)
---            
+--
 --  **Caveat:**
--- Dropped troop noMessage and forcedesc parameters aren't saved.      
+-- Dropped troop noMessage and forcedesc parameters aren't saved.
 --
 -- @field #CSAR
 CSAR = {
@@ -156756,7 +158973,7 @@ CSAR = {
   hoverStatus = {}, -- tracks status of a helis hover above a downed pilot
   pilotDisabled = {}, -- tracks what aircraft a pilot is disabled for
   pilotLives = {}, -- tracks how many lives a pilot has
-  useprefix    = true,  -- Use the Prefixed defined below, Requires Unit have the Prefix defined below 
+  useprefix    = true,  -- Use the Prefixed defined below, Requires Unit have the Prefix defined below
   csarPrefix = {},
   template = nil,
   mash = {},
@@ -156765,6 +158982,7 @@ CSAR = {
   rescuedpilots = 0,
   limitmaxdownedpilots = true,
   maxdownedpilots = 10,
+  useFIFOLimitReplacement = false, -- If true, it will remove the oldest downed pilot when a new one is added, if the limit is reached.
   allheligroupset = nil,
   topmenuname = "CSAR",
   ADFRadioPwr = 1000,
@@ -156801,10 +159019,10 @@ CSAR.AircraftType["SA342L"] = 4
 CSAR.AircraftType["SA342M"] = 4
 CSAR.AircraftType["UH-1H"] = 8
 CSAR.AircraftType["Mi-8MTV2"] = 12
-CSAR.AircraftType["Mi-8MT"] = 12  
-CSAR.AircraftType["Mi-24P"] = 8 
+CSAR.AircraftType["Mi-8MT"] = 12
+CSAR.AircraftType["Mi-24P"] = 8
 CSAR.AircraftType["Mi-24V"] = 8
-CSAR.AircraftType["Bell-47"] = 2                
+CSAR.AircraftType["Bell-47"] = 2
 CSAR.AircraftType["UH-60L"] = 10
 CSAR.AircraftType["AH-64D_BLK_II"] = 2
 CSAR.AircraftType["Bronco-OV-10A"] = 2
@@ -156815,7 +159033,7 @@ CSAR.AircraftType["CH-47Fbl1"] = 31
 
 --- CSAR class version.
 -- @field #string version
-CSAR.version="1.0.32"
+CSAR.version="1.0.33"
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- ToDo list
@@ -156835,12 +159053,12 @@ CSAR.version="1.0.32"
 -- @param #string Alias An *optional* alias how this object is called in the logs etc.
 -- @return #CSAR self
 function CSAR:New(Coalition, Template, Alias)
-  
+
   -- Inherit everything from FSM class.
   local self=BASE:Inherit(self, FSM:New()) -- #CSAR
-  
+
   BASE:T({Coalition, Template, Alias})
-  
+
   --set Coalition
   if Coalition and type(Coalition)=="string" then
     if Coalition=="blue" then
@@ -156859,12 +159077,12 @@ function CSAR:New(Coalition, Template, Alias)
     self.coalition = Coalition
     self.coalitiontxt = string.lower(UTILS.GetCoalitionName(self.coalition))
   end
-  
+
   -- Set alias.
   if Alias then
     self.alias=tostring(Alias)
   else
-    self.alias="Red Cross"  
+    self.alias="Red Cross"
     if self.coalition then
       if self.coalition==coalition.side.RED then
         self.alias="IFRC"
@@ -156873,10 +159091,10 @@ function CSAR:New(Coalition, Template, Alias)
       end
     end
   end
-  
+
   -- Set some string id for output to DCS.log file.
   self.lid=string.format("%s (%s) | ", self.alias, self.coalition and UTILS.GetCoalitionName(self.coalition) or "unknown")
-  
+
   -- Start State.
   self:SetStartState("Stopped")
 
@@ -156886,12 +159104,12 @@ function CSAR:New(Coalition, Template, Alias)
   self:AddTransition("*",             "Status",             "*")           -- CSAR status update.
   self:AddTransition("*",             "PilotDown",          "*")          -- Downed Pilot added
   self:AddTransition("*",             "Approach",           "*")         -- CSAR heli closing in.
-  self:AddTransition("*",             "Landed",             "*")         -- CSAR heli landed 
+  self:AddTransition("*",             "Landed",             "*")         -- CSAR heli landed
   self:AddTransition("*",             "Boarded",            "*")          -- Pilot boarded.
   self:AddTransition("*",             "Returning",          "*")        -- CSAR able to return to base.
   self:AddTransition("*",             "Rescued",            "*")          -- Pilot at MASH.
   self:AddTransition("*",             "KIA",                "*")          -- Pilot killed in action.
-  self:AddTransition("*",             "Load",                "*")           -- CSAR load  event.  
+  self:AddTransition("*",             "Load",                "*")           -- CSAR load  event.
   self:AddTransition("*",             "Save",                "*")           -- CSAR save  event.
   self:AddTransition("*",             "Stop",               "Stopped")     -- Stop FSM.
 
@@ -156912,7 +159130,7 @@ function CSAR:New(Coalition, Template, Alias)
   self.woundedGroups = {} -- contains the new group of units
   self.downedPilots = {} -- Replacement woundedGroups
   self.downedpilotcounter = 1
-  
+
   -- settings, counters etc
   self.rescues = 0 -- counter for successful rescue landings at FARP/AFB/MASH
   self.rescuedpilots = 0 -- counter for saved pilots
@@ -156922,9 +159140,9 @@ function CSAR:New(Coalition, Template, Alias)
   self.smokecolor = 4 -- Color of smokemarker for blue side, 0 is green, 1 is red, 2 is white, 3 is orange and 4 is blue
   self.coordtype = 2 -- Use Lat/Long DDM (0), Lat/Long DMS (1), MGRS (2), Bullseye imperial (3) or Bullseye metric (4) for coordinates.
   self.immortalcrew = true -- Set to true to make wounded crew immortal
-  self.invisiblecrew = false -- Set to true to make wounded crew insvisible 
-  self.messageTime = 15 -- Time to show longer messages for in seconds 
-  self.pilotRuntoExtractPoint = true -- Downed Pilot will run to the rescue helicopter up to self.extractDistance METERS 
+  self.invisiblecrew = false -- Set to true to make wounded crew insvisible
+  self.messageTime = 15 -- Time to show longer messages for in seconds
+  self.pilotRuntoExtractPoint = true -- Downed Pilot will run to the rescue helicopter up to self.extractDistance METERS
   self.loadDistance = 75 -- configure distance for pilot to get in helicopter in meters.
   self.extractDistance = 500 -- Distance the Downed pilot will run to the rescue helicopter
   self.loadtimemax = 135 -- seconds
@@ -156933,11 +159151,11 @@ function CSAR:New(Coalition, Template, Alias)
   self.allowFARPRescue = true --allows pilot to be rescued by landing at a FARP or Airbase
   self.FARPRescueDistance = 1000 -- you need to be this close to a FARP or Airport for the pilot to be rescued.
   self.max_units = 6 --max number of pilots that can be carried
-  self.useprefix = true  -- Use the Prefixed defined below, Requires Unit have the Prefix defined below 
+  self.useprefix = true  -- Use the Prefixed defined below, Requires Unit have the Prefix defined below
   self.csarPrefix = { "helicargo", "MEDEVAC"} -- prefixes used for useprefix=true - DON\'T use # in names!
   self.template = Template or "generic" -- template for downed pilot
   self.mashprefix = {"MASH"} -- prefixes used to find MASHes
- 
+
   self.autosmoke = false -- automatically smoke location when heli is near
   self.autosmokedistance = 2000 -- distance for autosmoke
   -- added 0.1.4
@@ -156950,39 +159168,39 @@ function CSAR:New(Coalition, Template, Alias)
   self.approachdist_near = 3000 -- switch to 5 sec interval approach mode, meters
   self.pilotmustopendoors = false -- switch to true to enable check on open doors
   self.suppressmessages = false
-  
+
   -- added 0.1.11r1
   self.rescuehoverheight = 20
   self.rescuehoverdistance = 10
- 
+
   -- added 0.1.12
   self.countryblue= country.id.USA
   self.countryred = country.id.RUSSIA
   self.countryneutral = country.id.UN_PEACEKEEPERS
-  
+
   -- added 0.1.3
   self.csarUsePara = false -- shagrat set to true, will use the LandingAfterEjection Event instead of Ejection
-  
+
   -- added 0.1.4
   self.wetfeettemplate = nil
   self.usewetfeet = false
-  
+
   -- added 1.0.15
   self.allowbronco = false  -- set to true to use the Bronco mod as a CSAR plane
-  
+
   self.ADFRadioPwr = 500
-  
+
   -- added 1.0.16
   self.PilotWeight = 80
-  
+
   -- Own SET_GROUP if any
   self.UserSetGroup = nil
-      
+
   -- WARNING - here\'ll be dragons
   -- for this to work you need to de-sanitize your mission environment in <DCS root>\Scripts\MissionScripting.lua
   -- needs SRS => 1.9.6 to work (works on the *server* side)
   self.useSRS = false -- Use FF\'s SRS integration
-  self.SRSPath = "E:\\Program Files\\DCS-SimpleRadio-Standalone" -- adjust your own path in your server(!)
+  self.SRSPath = "E:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio" -- adjust your own path in your server(!)
   self.SRSchannel = 300 -- radio channel
   self.SRSModulation = radio.modulation.AM -- modulation
   self.SRSport = 5002 -- port
@@ -156994,20 +159212,20 @@ function CSAR:New(Coalition, Template, Alias)
   self.CSARVoice = MSRS.Voices.Google.Standard.en_US_Standard_A
   self.CSARVoiceMS = MSRS.Voices.Microsoft.Hedda
   self.coordinate = nil -- Core.Point#COORDINATE
-    
+
   local AliaS = string.gsub(self.alias," ","_")
   self.filename = string.format("CSAR_%s_Persist.csv",AliaS)
-  
+
   -- load and save downed pilots
   self.enableLoadSave = false
   self.filepath = nil
   self.saveinterval = 600
-  
+
   ------------------------
   --- Pseudo Functions ---
   ------------------------
-  
-    --- Triggers the FSM event "Start". Starts the CSAR. Initializes parameters and starts event handlers.
+
+  --- Triggers the FSM event "Start". Starts the CSAR. Initializes parameters and starts event handlers.
   -- @function [parent=#CSAR] Start
   -- @param #CSAR self
 
@@ -157032,7 +159250,7 @@ function CSAR:New(Coalition, Template, Alias)
   -- @function [parent=#CSAR] __Status
   -- @param #CSAR self
   -- @param #number delay Delay in seconds.
-  -- 
+  --
   --   --- Triggers the FSM event "Load".
   -- @function [parent=#CSAR] Load
   -- @param #CSAR self
@@ -157041,7 +159259,7 @@ function CSAR:New(Coalition, Template, Alias)
   -- @function [parent=#CSAR] __Load
   -- @param #CSAR self
   -- @param #number delay Delay in seconds.
-  
+
   --- Triggers the FSM event "Save".
   -- @function [parent=#CSAR] Load
   -- @param #CSAR self
@@ -157050,7 +159268,7 @@ function CSAR:New(Coalition, Template, Alias)
   -- @function [parent=#CSAR] __Save
   -- @param #CSAR self
   -- @param #number delay Delay in seconds.
-  
+
   --- On After "PilotDown" event. Downed Pilot detected.
   -- @function [parent=#CSAR] OnAfterPilotDown
   -- @param #CSAR self
@@ -157062,7 +159280,7 @@ function CSAR:New(Coalition, Template, Alias)
   -- @param #string Leadername Name of the #UNIT of the downed pilot.
   -- @param #string CoordinatesText String of the position of the pilot. Format determined by self.coordtype.
   -- @param #string Playername Player name if any given. Might be nil!
-  
+
   --- On After "Aproach" event. Heli close to downed Pilot.
   -- @function [parent=#CSAR] OnAfterApproach
   -- @param #CSAR self
@@ -157071,8 +159289,8 @@ function CSAR:New(Coalition, Template, Alias)
   -- @param #string To To state.
   -- @param #string Heliname Name of the helicopter group.
   -- @param #string Woundedgroupname Name of the downed pilot\'s group.
-  
-   --- On After "Landed" event. Heli landed at an airbase.
+
+  --- On After "Landed" event. Heli landed at an airbase.
   -- @function [parent=#CSAR] OnAfterLanded
   -- @param #CSAR self
   -- @param #string From From state.
@@ -157080,8 +159298,8 @@ function CSAR:New(Coalition, Template, Alias)
   -- @param #string To To state.
   -- @param #string HeliName Name of the #UNIT which has landed.
   -- @param Wrapper.Airbase#AIRBASE Airbase Airbase where the heli landed.
-    
-   --- On After "Boarded" event. Downed pilot boarded heli.
+
+  --- On After "Boarded" event. Downed pilot boarded heli.
   -- @function [parent=#CSAR] OnAfterBoarded
   -- @param #CSAR self
   -- @param #string From From state.
@@ -157091,7 +159309,7 @@ function CSAR:New(Coalition, Template, Alias)
   -- @param #string Woundedgroupname Name of the downed pilot\'s group.
   -- @param #string Description Descriptive name of the group.
 
-    --- On After "Returning" event. Heli can return home with downed pilot(s).
+  --- On After "Returning" event. Heli can return home with downed pilot(s).
   -- @function [parent=#CSAR] OnAfterReturning
   -- @param #CSAR self
   -- @param #string From From state.
@@ -157099,8 +159317,8 @@ function CSAR:New(Coalition, Template, Alias)
   -- @param #string To To state.
   -- @param #string Heliname Name of the helicopter group.
   -- @param #string Woundedgroupname Name of the downed pilot\'s group.
-  
-    --- On After "Rescued" event. Pilot(s) have been brought to the MASH/FARP/AFB.
+
+  --- On After "Rescued" event. Pilot(s) have been brought to the MASH/FARP/AFB.
   -- @function [parent=#CSAR] OnAfterRescued
   -- @param #CSAR self
   -- @param #string From From state.
@@ -157109,7 +159327,7 @@ function CSAR:New(Coalition, Template, Alias)
   -- @param Wrapper.Unit#UNIT HeliUnit Unit of the helicopter.
   -- @param #string HeliName Name of the helicopter group.
   -- @param #number PilotsSaved Number of the saved pilots on board when landing.
-  
+
   --- On After "KIA" event. Pilot is dead.
   -- @function [parent=#CSAR] OnAfterKIA
   -- @param #CSAR self
@@ -157117,7 +159335,7 @@ function CSAR:New(Coalition, Template, Alias)
   -- @param #string Event Event.
   -- @param #string To To state.
   -- @param #string Pilotname Name of the pilot KIA.
-  
+
   --- FSM Function OnAfterLoad.
   -- @function [parent=#CSAR] OnAfterLoad
   -- @param #CSAR self
@@ -157126,7 +159344,7 @@ function CSAR:New(Coalition, Template, Alias)
   -- @param #string To To state.
   -- @param #string path (Optional) Path where the file is located. Default is the DCS root installation folder or your "Saved Games\\DCS" folder if the lfs module is desanitized.
   -- @param #string filename (Optional) File name for loading. Default is "CSAR_<alias>_Persist.csv".
-  
+
   --- FSM Function OnAfterSave.
   -- @function [parent=#CSAR] OnAfterSave
   -- @param #CSAR self
@@ -157135,7 +159353,7 @@ function CSAR:New(Coalition, Template, Alias)
   -- @param #string To To state.
   -- @param #string path (Optional) Path where the file is saved. Default is the DCS root installation folder or your "Saved Games\\DCS" folder if the lfs module is desanitized.
   -- @param #string filename (Optional) File name for saving. Default is "CSAR_<alias>_Persist.csv".
-  
+
   return self
 end
 
@@ -157157,7 +159375,7 @@ end
 -- @return #CSAR self.
 function CSAR:_CreateDownedPilotTrack(Group,Groupname,Side,OriginalUnit,Description,Typename,Frequency,Playername,Wetfeet,BeaconName)
   self:T({"_CreateDownedPilotTrack",Groupname,Side,OriginalUnit,Description,Typename,Frequency,Playername})
-  
+
   -- create new entry
   local DownedPilot = {} -- #CSAR.DownedPilot
   DownedPilot.desc = Description or ""
@@ -157173,7 +159391,7 @@ function CSAR:_CreateDownedPilotTrack(Group,Groupname,Side,OriginalUnit,Descript
   DownedPilot.alive = true
   DownedPilot.wetfeet = Wetfeet or false
   DownedPilot.BeaconName = BeaconName
-  
+
   -- Add Pilot
   local PilotTable = self.downedPilots
   local counter = self.downedpilotcounter
@@ -157189,14 +159407,14 @@ end
 --- (Internal) Count pilots on board.
 -- @param #CSAR self
 -- @param #string _heliName
--- @return #number count  
+-- @return #number count
 function CSAR:_PilotsOnboard(_heliName)
   self:T(self.lid .. " _PilotsOnboard")
- local count = 0
+  local count = 0
   if self.inTransitGroups[_heliName] then
-      for _, _group in pairs(self.inTransitGroups[_heliName]) do
-          count = count + 1
-      end
+    for _, _group in pairs(self.inTransitGroups[_heliName]) do
+      count = count + 1
+    end
   end
   return count
 end
@@ -157206,15 +159424,15 @@ end
 -- @param #string _unitname Name of unit.
 -- @return #boolean Outcome
 function CSAR:_DoubleEjection(_unitname)
-    if self.lastCrash[_unitname] then
-        local _time = self.lastCrash[_unitname]
-        if timer.getTime() - _time < 10 then
-            self:E(self.lid.."Caught double ejection!")
-            return true
-        end
+  if self.lastCrash[_unitname] then
+    local _time = self.lastCrash[_unitname]
+    if timer.getTime() - _time < 10 then
+      self:E(self.lid.."Caught double ejection!")
+      return true
     end
-    self.lastCrash[_unitname] = timer.getTime()
-    return false
+  end
+  self.lastCrash[_unitname] = timer.getTime()
+  return false
 end
 
 --- (User) Add a PLAYERTASK - FSM events will check success
@@ -157245,8 +159463,8 @@ function CSAR:_SpawnPilotInField(country,point,frequency,wetfeet)
   for i=1,10 do
     math.random(i,10000)
   end
-  if point:IsSurfaceTypeWater() or wetfeet then 
-    point.y = 0 
+  if point:IsSurfaceTypeWater() or wetfeet then
+    point.y = 0
   end
   local template = self.template
   if self.usewetfeet and wetfeet then
@@ -157271,29 +159489,29 @@ end
 function CSAR:_AddSpecialOptions(group)
   self:T(self.lid.." _AddSpecialOptions")
   self:T({group})
-  
+
   local immortalcrew = self.immortalcrew
   local invisiblecrew = self.invisiblecrew
   if immortalcrew then
     local _setImmortal = {
-        id = 'SetImmortal',
-        params = {
-            value = true
-        }
+      id = 'SetImmortal',
+      params = {
+        value = true
+      }
     }
     group:SetCommand(_setImmortal)
   end
 
   if invisiblecrew then
     local _setInvisible = {
-        id = 'SetInvisible',
-        params = {
-            value = true
-        }
+      id = 'SetInvisible',
+      params = {
+        value = true
+      }
     }
-    group:SetCommand(_setInvisible) 
+    group:SetCommand(_setInvisible)
   end
-  
+
   group:OptionAlarmStateGreen()
   group:OptionROEHoldFire()
   return self
@@ -157308,7 +159526,7 @@ end
 -- @param #string _unitName Unitname
 -- @param #string _playerName Playername
 -- @param #number _freq Frequency
--- @param #boolean noMessage 
+-- @param #boolean noMessage
 -- @param #string _description Description
 -- @param #boolean forcedesc Use the description only for the pilot track entry
 -- @return Wrapper.Group#GROUP PilotInField Pilot GROUP object
@@ -157319,31 +159537,31 @@ function CSAR:_AddCsar(_coalition , _country, _point, _typeName, _unitName, _pla
 
   local template = self.template
   local wetfeet = false
-  
+
   local surface = _point:GetSurfaceType()
   if surface == land.SurfaceType.WATER then
     wetfeet = true
   end
-  
+
   if not _freq then
     _freq = self:_GenerateADFFrequency()
     if not _freq then _freq = 333000 end --noob catch
-  end 
-  
+  end
+
   local _spawnedGroup, _alias = self:_SpawnPilotInField(_country,_point,_freq,wetfeet)
-  
+
   local _typeName = _typeName or "Pilot"
-  
+
   if not noMessage then
     if _freq ~= 0 then --shagrat different CASEVAC msg
-    self:_DisplayToAllSAR("MAYDAY MAYDAY! " .. _typeName .. " is down. ", self.coalition, self.messageTime)
-  else    
-    self:_DisplayToAllSAR("Troops In Contact. " .. _typeName .. " requests CASEVAC. ", self.coalition, self.messageTime)
+      self:_DisplayToAllSAR("MAYDAY MAYDAY! " .. _typeName .. " is down. ", self.coalition, self.messageTime)
+    else
+      self:_DisplayToAllSAR("Troops In Contact. " .. _typeName .. " requests CASEVAC. ", self.coalition, self.messageTime)
+    end
   end
-  end
-  
+
   local BeaconName
-  
+
   if _playerName then
     BeaconName = _playerName..math.random(1,10000)
   elseif _unitName then
@@ -157351,37 +159569,37 @@ function CSAR:_AddCsar(_coalition , _country, _point, _typeName, _unitName, _pla
   else
     BeaconName = "Ghost-1-1"..math.random(1,10000)
   end
-  
-  if (_freq and _freq ~= 0) then --shagrat only add beacon if _freq is NOT 0 
+
+  if (_freq and _freq ~= 0) then --shagrat only add beacon if _freq is NOT 0
     self:_AddBeaconToGroup(_spawnedGroup, _freq, BeaconName)
   end
-  
+
   self:_AddSpecialOptions(_spawnedGroup)
 
   local _text = _description
   if not forcedesc then
     if _playerName ~= nil then
-    if _freq ~= 0 then --shagrat
-      _text = "Pilot " .. _playerName
-    else
-      _text = "TIC - " .. _playerName
-    end
+      if _freq ~= 0 then --shagrat
+        _text = "Pilot " .. _playerName
+      else
+        _text = "TIC - " .. _playerName
+      end
     elseif _unitName ~= nil then
-        if _freq ~= 0 then --shagrat
-      _text = "AI Pilot of " .. _unitName
-    else
-      _text = "TIC - " .. _unitName
+      if _freq ~= 0 then --shagrat
+        _text = "AI Pilot of " .. _unitName
+      else
+        _text = "TIC - " .. _unitName
+      end
     end
   end
-  end   
   self:T({_spawnedGroup, _alias})
-  
+
   local _GroupName = _spawnedGroup:GetName() or _alias
 
   self:_CreateDownedPilotTrack(_spawnedGroup,_GroupName,_coalition,_unitName,_text,_typeName,_freq,_playerName,wetfeet,BeaconName)
 
   self:_InitSARForPilot(_spawnedGroup, _unitName, _freq, noMessage, _playerName) --shagrat use unitName to have the aircraft callsign / descriptive "name" etc.
-  
+
   return _spawnedGroup, _alias
 end
 
@@ -157398,7 +159616,7 @@ end
 function CSAR:_SpawnCsarAtZone( _zone, _coalition, _description, _randomPoint, _nomessage, unitname, typename, forcedesc)
   self:T(self.lid .. " _SpawnCsarAtZone")
   local freq = self:_GenerateADFFrequency()
-  
+
   local _triggerZone = nil
   if type(_zone) == "string" then
     _triggerZone = ZONE:New(_zone) -- trigger to use as reference position
@@ -157407,16 +159625,16 @@ function CSAR:_SpawnCsarAtZone( _zone, _coalition, _description, _randomPoint, _
       _triggerZone = _zone -- is already a zone
     end
   end
-  
+
   if _triggerZone == nil then
     self:E(self.lid.."ERROR: Can\'t find zone called " .. _zone, 10)
     return
   end
-  
+
   local _description = _description or "PoW"
   local unitname = unitname or "Old Rusty"
   local typename = typename or "Phantom II"
-  
+
   local pos = {}
   if _randomPoint then
     local _pos =  _triggerZone:GetRandomPointVec3()
@@ -157424,7 +159642,7 @@ function CSAR:_SpawnCsarAtZone( _zone, _coalition, _description, _randomPoint, _
   else
     pos  = _triggerZone:GetCoordinate()
   end
-  
+
   local _country = 0
   if _coalition == coalition.side.BLUE then
     _country = self.countryblue
@@ -157433,9 +159651,9 @@ function CSAR:_SpawnCsarAtZone( _zone, _coalition, _description, _randomPoint, _
   else
     _country = self.countryneutral
   end
-  
+
   self:_AddCsar(_coalition, _country, pos, typename, unitname, _description, freq, _nomessage, _description, forcedesc)
-  
+
   return self
 end
 
@@ -157450,7 +159668,7 @@ end
 -- @param #string Typename (optional) Type of plane.
 -- @param #boolean Forcedesc (optional) Force to use the **description passed only** for the pilot track entry. Use to have fully custom names.
 -- @usage If missions designers want to spawn downed pilots into the field, e.g. at mission begin, to give the helicopter guys work, they can do this like so:
---      
+--
 --        -- Create downed "Pilot Wagner" in #ZONE "CSAR_Start_1" at a random point for the blue coalition
 --        my_csar:SpawnCSARAtZone( "CSAR_Start_1", coalition.side.BLUE, "Wagner", true, false, "Charly-1-1", "F5E" )
 function CSAR:SpawnCSARAtZone(Zone, Coalition, Description, RandomPoint, Nomessage, Unitname, Typename, Forcedesc)
@@ -157469,14 +159687,14 @@ end
 -- @param #boolean forcedesc (optional) Force to use the description passed only for the pilot track entry. Use to have fully custom names.
 function CSAR:_SpawnCASEVAC( _Point, _coalition, _description, _nomessage, unitname, typename, forcedesc) --shagrat added internal Function _SpawnCASEVAC
   self:T(self.lid .. " _SpawnCASEVAC")
-       
+
   local _description = _description or "CASEVAC"
   local unitname = unitname or "CASEVAC"
   local typename = typename or "Ground Commander"
-  
+
   local pos = {}
   pos  = _Point
-   
+
   local _country = 0
   if _coalition == coalition.side.BLUE then
     _country = self.countryblue
@@ -157487,7 +159705,7 @@ function CSAR:_SpawnCASEVAC( _Point, _coalition, _description, _nomessage, unitn
   end
   --shagrat set frequency to 0 as "flag" for no beacon
   self:_AddCsar(_coalition, _country, pos, typename, unitname, _description, 0, _nomessage, _description, forcedesc)
-  
+
   return self
 end
 
@@ -157501,10 +159719,10 @@ end
 -- @param #string Typename (optional) Type of plane.
 -- @param #boolean Forcedesc (optional) Force to use the **description passed only** for the pilot track entry. Use to have fully custom names.
 -- @usage If missions designers want to spawn downed pilots into the field, e.g. at mission begin, to give the helicopter guys work, they can do this like so:
---      
+--
 --        -- Create casualty  "CASEVAC" at coordinate Core.Point#COORDINATE for the blue coalition.
 --        my_csar:SpawnCASEVAC( coordinate, coalition.side.BLUE )
-function CSAR:SpawnCASEVAC(Point, Coalition, Description, Nomessage, Unitname, Typename, Forcedesc) 
+function CSAR:SpawnCASEVAC(Point, Coalition, Description, Nomessage, Unitname, Typename, Forcedesc)
   self:_SpawnCASEVAC(Point, Coalition, Description, Nomessage, Unitname, Typename, Forcedesc)
   return self
 end --shagrat end added CASEVAC
@@ -157514,57 +159732,57 @@ end --shagrat end added CASEVAC
 function CSAR:_EventHandler(EventData)
   self:T(self.lid .. " _EventHandler")
   self:T({Event = EventData.id})
-  
+
   local _event = EventData -- Core.Event#EVENTDATA
-  
-    -- no Player  
+
+  -- no Player
   if self.enableForAI == false and _event.IniPlayerName == nil then
-      return self
-  end 
-   
-  -- no event  
+    return self
+  end
+
+  -- no event
   if _event == nil or _event.initiator == nil then
     return self
-  
-  -- take off
+
+      -- take off
   elseif _event.id == EVENTS.Takeoff then -- taken off
     self:T(self.lid .. " Event unit - Takeoff")
-      
+
     local _coalition = _event.IniCoalition
     if _coalition ~= self.coalition then
-        return self --ignore!
+      return self --ignore!
     end
-      
+
     if _event.IniGroupName then
-        self.takenOff[_event.IniUnitName] = true
+      self.takenOff[_event.IniUnitName] = true
     end
-    
+
     return self
-  
-  -- player enter unit
+
+      -- player enter unit
   elseif _event.id == EVENTS.PlayerEnterAircraft or _event.id == EVENTS.PlayerEnterUnit then --player entered unit
     self:T(self.lid .. " Event unit - Player Enter")
-    
+
     local _coalition = _event.IniCoalition
     self:T("Coalition = "..UTILS.GetCoalitionName(_coalition))
     if _coalition ~= self.coalition then
-        return self --ignore!
+      return self --ignore!
     end
-    
+
     if _event.IniPlayerName then
-        self.takenOff[_event.IniPlayerName] = nil
+      self.takenOff[_event.IniPlayerName] = nil
     end
-    
+
     -- jumped into flying plane?
     self:T("Taken Off: "..tostring(_event.IniUnit:InAir(true)))
-    
+
     if _event.IniUnit:InAir(true) then
       self.takenOff[_event.IniPlayerName] = true
     end
-    
+
     local _unit = _event.IniUnit
     local _group = _event.IniGroup
-    
+
     local function IsBronco(Group)
       local grp = Group -- Wrapper.Group#GROUP
       local typename = grp:GetTypeName()
@@ -157572,93 +159790,82 @@ function CSAR:_EventHandler(EventData)
       if typename == "Bronco-OV-10A" then return true end
       return false
     end
-    
+
     if _unit:IsHelicopter() or _group:IsHelicopter() or IsBronco(_group) then
       self:_AddMedevacMenuItem()
-    end 
-    
-    return self
-  
-  elseif (_event.id == EVENTS.PilotDead and self.csarOncrash == false) then
-      -- Pilot dead
-  
-      self:T(self.lid .. " Event unit - Pilot Dead")
-  
-      local _unit = _event.IniUnit
-      local _unitname = _event.IniUnitName
-      local _group = _event.IniGroup
-      
-      if _unit == nil then
-          return self -- error!
-      end
-  
-      local _coalition = _event.IniCoalition
-      if _coalition ~= self.coalition then
-          return self --ignore!
-      end
-  
-      -- Catch multiple events here?
-      if self.takenOff[_event.IniUnitName] == true or _group:IsAirborne() then
-          if self:_DoubleEjection(_unitname) then
-            return self
-          end
+    end
 
-      else
-          self:T(self.lid .. " Pilot has not taken off, ignore")
-      end
-  
-      return self
-  
-  elseif _event.id == EVENTS.PilotDead or _event.id == EVENTS.Ejection then
-      if _event.id == EVENTS.PilotDead and self.csarOncrash == false then 
-          return self    
-      end
-      self:T(self.lid .. " Event unit - Pilot Ejected")
-  
-      local _unit = _event.IniUnit
-      local _unitname = _event.IniUnitName
-      local _group = _event.IniGroup
-      
-      self:T({_unit.UnitName, _unitname, _group.GroupName})
-          
-      if _unit == nil then
-          self:T("Unit NIL!")
-          return self -- error!
-      end
-    
-    --local _coalition = _unit:GetCoalition() -- nil now for some reason
-    local _coalition = _group:GetCoalition() 
-      if _coalition ~= self.coalition then
-        self:T("Wrong coalition! Coalition = "..UTILS.GetCoalitionName(_coalition))
-          return self --ignore!
-      end
-      
-      
-      self:T("Airborne: "..tostring(_group:IsAirborne()))
-      self:T("Taken Off: "..tostring(self.takenOff[_event.IniUnitName]))
-      
-      if not self.takenOff[_event.IniUnitName] and not _group:IsAirborne() then
-          self:T(self.lid .. " Pilot has not taken off, ignore")
-         -- return self -- give up, pilot hasnt taken off
-      end
-      
+    return self
+
+  elseif (_event.id == EVENTS.PilotDead and self.csarOncrash == false) then
+    -- Pilot dead
+
+    self:T(self.lid .. " Event unit - Pilot Dead")
+
+    local _unit = _event.IniUnit
+    local _unitname = _event.IniUnitName
+    local _group = _event.IniGroup
+
+    if _unit == nil then
+      return self -- error!
+    end
+
+    local _coalition = _event.IniCoalition
+    if _coalition ~= self.coalition then
+      return self --ignore!
+    end
+
+    -- Catch multiple events here?
+    if self.takenOff[_event.IniUnitName] == true or _group:IsAirborne() then
       if self:_DoubleEjection(_unitname) then
-        self:T("Double Ejection!")
         return self
       end
-      
-      -- limit no of pilots in the field.
-      if self.limitmaxdownedpilots and self:_ReachedPilotLimit() then
-        self:T("Maxed Downed Pilot!")
-        return self
-      end
-    
-    
-    -- TODO: Over water check --- EVENTS.LandingAfterEjection NOT triggered by DCS, so handle csarUsePara = true case
-    -- might create dual pilots in edge cases
-    
-    local wetfeet = false
-    
+
+    else
+      self:T(self.lid .. " Pilot has not taken off, ignore")
+    end
+
+    return self
+
+  elseif _event.id == EVENTS.PilotDead or _event.id == EVENTS.Ejection then
+    if _event.id == EVENTS.PilotDead and self.csarOncrash == false then
+      return self
+    end
+    self:T(self.lid .. " Event unit - Pilot Ejected")
+
+    local _unit = _event.IniUnit
+    local _unitname = _event.IniUnitName
+    local _group = _event.IniGroup
+
+    self:T({_unit.UnitName, _unitname, _group.GroupName})
+
+    if _unit == nil then
+      self:T("Unit NIL!")
+      return self -- error!
+    end
+
+    --local _coalition = _unit:GetCoalition() -- nil now for some reason
+    local _coalition = _group:GetCoalition()
+    if _coalition ~= self.coalition then
+      self:T("Wrong coalition! Coalition = "..UTILS.GetCoalitionName(_coalition))
+      return self --ignore!
+    end
+
+
+    self:T("Airborne: "..tostring(_group:IsAirborne()))
+    self:T("Taken Off: "..tostring(self.takenOff[_event.IniUnitName]))
+
+    if not self.takenOff[_event.IniUnitName] and not _group:IsAirborne() then
+      self:T(self.lid .. " Pilot has not taken off, ignore")
+      -- return self -- give up, pilot hasnt taken off
+    end
+
+    if self:_DoubleEjection(_unitname) then
+      self:T("Double Ejection!")
+      return self
+    end
+
+
     local initdcscoord = nil
     local initcoord = nil
     if _event.id == EVENTS.Ejection then
@@ -157670,88 +159877,118 @@ function CSAR:_EventHandler(EventData)
       initcoord = COORDINATE:NewFromVec3(initdcscoord)
       self:T({initdcscoord})
     end
-    
+
+    -- Remove downed pilot if already exists to replace with new one.
+    if _event.IniPlayerName then
+      local PilotTable = self.downedPilots --#CSAR.DownedPilot
+      local _foundPilot = nil
+      for _,_pilot in pairs(PilotTable) do
+        if _pilot.player == _event.IniPlayerName and _pilot.alive == true then
+          _foundPilot = _pilot
+          break
+        end
+      end
+      if _foundPilot then
+        self:T("Downed pilot already exists!")
+        _foundPilot.group:Destroy(false)
+        self:_RemoveNameFromDownedPilots(_foundPilot.name)
+        self:_CheckDownedPilotTable()
+      end
+    end
+
+    -- limit no of pilots in the field.
+    if self.limitmaxdownedpilots and self:_ReachedPilotLimit() then
+      self:T("Maxed Downed Pilot!")
+      return self
+    end
+
+
+    -- TODO: Over water check --- EVENTS.LandingAfterEjection NOT triggered by DCS, so handle csarUsePara = true case
+    -- might create dual pilots in edge cases
+
+    local wetfeet = false
+
     --local surface = _unit:GetCoordinate():GetSurfaceType()
     local surface = initcoord:GetSurfaceType()
-    
+
     if surface == land.SurfaceType.WATER then
       self:T("Wet feet!")
       wetfeet = true
-    end  
-      -- all checks passed, get going.
+    end
+    -- all checks passed, get going.
     if self.csarUsePara == false or (self.csarUsePara and wetfeet ) then --shagrat check parameter LandingAfterEjection, if true don't spawn a Pilot from EJECTION event, wait for the Chute to land
       local _freq = self:_GenerateADFFrequency()
-       self:_AddCsar(_coalition, _unit:GetCountry(), initcoord , _unit:GetTypeName(),  _unit:GetName(), _event.IniPlayerName, _freq, false, "none")
+       self:_AddCsar(_coalition, _unit:GetCountry(), initcoord , _unit:GetTypeName(),  _unit:GetName(), _event.IniPlayerName, _freq, self.suppressmessages, "none")
       return self
     end
-  
+
   elseif _event.id == EVENTS.Land then
-      self:T(self.lid .. " Landing")
-      
-      if _event.IniUnitName then
-          self.takenOff[_event.IniUnitName] = nil
+    self:T(self.lid .. " Landing")
+
+    if _event.IniUnitName then
+      self.takenOff[_event.IniUnitName] = nil
+    end
+
+    if self.allowFARPRescue then
+
+      local _unit = _event.IniUnit  -- Wrapper.Unit#UNIT
+
+      if _unit == nil then
+        self:T(self.lid .. " Unit nil on landing")
+        return self -- error!
       end
-  
-      if self.allowFARPRescue then
-          
-          local _unit = _event.IniUnit  -- Wrapper.Unit#UNIT
-  
-          if _unit == nil then
-              self:T(self.lid .. " Unit nil on landing")
-              return self -- error!
-          end
-          
-          --local _coalition = _event.IniCoalition
-          local _coalition = _event.IniGroup:GetCoalition()
-          if _coalition ~= self.coalition then
-            self:T(self.lid .. " Wrong coalition")
-              return self --ignore!
-          end
-          
-          self.takenOff[_event.IniUnitName] = nil
- 
-          local _place = _event.Place -- Wrapper.Airbase#AIRBASE
-          
-          if _place == nil then
-              self:T(self.lid .. " Landing Place Nil")
-              return self -- error!
-          end
-          
-          -- anyone on board?
-          if self.inTransitGroups[_event.IniUnitName] == nil then
-            -- ignore
-            return self
-          end
-   
-          if _place:GetCoalition() == self.coalition or _place:GetCoalition() == coalition.side.NEUTRAL then
-            self:__Landed(2,_event.IniUnitName, _place)
-            self:_ScheduledSARFlight(_event.IniUnitName,_event.IniGroupName,true,true)
-          else
-              self:T(string.format("Airfield %d, Unit %d", _place:GetCoalition(), _unit:GetCoalition()))
-              end
-          end
-  
-          return self
+
+      --local _coalition = _event.IniCoalition
+      local _coalition = _event.IniGroup:GetCoalition()
+      if _coalition ~= self.coalition then
+        self:T(self.lid .. " Wrong coalition")
+        return self --ignore!
       end
-      
+
+      self.takenOff[_event.IniUnitName] = nil
+
+      local _place = _event.Place -- Wrapper.Airbase#AIRBASE
+
+      if _place == nil then
+        self:T(self.lid .. " Landing Place Nil")
+        return self -- error!
+      end
+
+      -- anyone on board?
+      if self.inTransitGroups[_event.IniUnitName] == nil then
+        -- ignore
+        return self
+      end
+
+      if _place:GetCoalition() == self.coalition or _place:GetCoalition() == coalition.side.NEUTRAL then
+        self:__Landed(2,_event.IniUnitName, _place)
+        self:_ScheduledSARFlight(_event.IniUnitName,_event.IniGroupName,true,true)
+      else
+        self:T(string.format("Airfield %d, Unit %d", _place:GetCoalition(), _unit:GetCoalition()))
+      end
+    end
+
+    return self
+  end
+
   ---- shagrat on event LANDING_AFTER_EJECTION spawn pilot at parachute location
   if (_event.id == EVENTS.LandingAfterEjection and self.csarUsePara == true) then
     self:T("LANDING_AFTER_EJECTION")
     local _LandingPos = COORDINATE:NewFromVec3(_event.initiator:getPosition().p)
     local _unitname = "Aircraft" --_event.initiator:getName() or "Aircraft" --shagrat Optional use of Object name which is unfortunately 'f15_Pilot_Parachute'
-    local _typename = "Ejected Pilot" --_event.Initiator.getTypeName() or "Ejected Pilot" 
+    local _typename = "Ejected Pilot" --_event.Initiator.getTypeName() or "Ejected Pilot"
     local _country = _event.initiator:getCountry()
     local _coalition = coalition.getCountryCoalition( _country )
     self:T("Country = ".._country.." Coalition = ".._coalition)
     if _coalition == self.coalition then
       local _freq = self:_GenerateADFFrequency()
       self:I({coalition=_coalition,country= _country, coord=_LandingPos, name=_unitname, player=_event.IniPlayerName, freq=_freq})
-      self:_AddCsar(_coalition, _country, _LandingPos, nil, _unitname, _event.IniPlayerName, _freq, false, "none")--shagrat add CSAR at Parachute location.
+      self:_AddCsar(_coalition, _country, _LandingPos, nil, _unitname, _event.IniPlayerName, _freq, self.suppressmessages, "none")--shagrat add CSAR at Parachute location.
     
       Unit.destroy(_event.initiator) -- shagrat remove static Pilot model
-    end 
+    end
   end
-  
+
   return self
 end
 
@@ -157769,38 +160006,38 @@ function CSAR:_InitSARForPilot(_downedGroup, _GroupName, _freq, _nomessage, _pla
   local _freqk = _freq / 1000
   local _coordinatesText = self:_GetPositionOfWounded(_downedGroup)
   local _leadername = _leader:GetName()
-  
+
   if not _nomessage then
-  if _freq ~= 0 then --shagrat
-    local _text = string.format("%s requests SAR at %s, beacon at %.2f KHz", _groupName, _coordinatesText, _freqk)--shagrat _groupName to prevent 'f15_Pilot_Parachute'
-    if self.coordtype ~= 2 then --not MGRS
-      self:_DisplayToAllSAR(_text,self.coalition,self.messageTime)
-    else
-      self:_DisplayToAllSAR(_text,self.coalition,self.messageTime,false,true)
-      local coordtext = UTILS.MGRSStringToSRSFriendly(_coordinatesText,true)
-      local _text = string.format("%s requests SAR at %s, beacon at %.2f kilo hertz", _groupName, coordtext, _freqk)
-      self:_DisplayToAllSAR(_text,self.coalition,self.messageTime,true,false)
+    if _freq ~= 0 then --shagrat
+      local _text = string.format("%s requests SAR at %s, beacon at %.2f KHz", _groupName, _coordinatesText, _freqk)--shagrat _groupName to prevent 'f15_Pilot_Parachute'
+      if self.coordtype ~= 2 then --not MGRS
+        self:_DisplayToAllSAR(_text,self.coalition,self.messageTime)
+      else
+        self:_DisplayToAllSAR(_text,self.coalition,self.messageTime,false,true)
+        local coordtext = UTILS.MGRSStringToSRSFriendly(_coordinatesText,true)
+        local _text = string.format("%s requests SAR at %s, beacon at %.2f kilo hertz", _groupName, coordtext, _freqk)
+        self:_DisplayToAllSAR(_text,self.coalition,self.messageTime,true,false)
+      end
+    else --shagrat CASEVAC msg
+      local _text = string.format("Pickup Zone at %s.", _coordinatesText )
+      if self.coordtype ~= 2 then --not MGRS
+        self:_DisplayToAllSAR(_text,self.coalition,self.messageTime)
+      else
+        self:_DisplayToAllSAR(_text,self.coalition,self.messageTime,false,true)
+        local coordtext = UTILS.MGRSStringToSRSFriendly(_coordinatesText,true)
+        local _text = string.format("Pickup Zone at %s.", coordtext )
+        self:_DisplayToAllSAR(_text,self.coalition,self.messageTime,true,false)
+      end
     end
-  else --shagrat CASEVAC msg
-    local _text = string.format("Pickup Zone at %s.", _coordinatesText )
-    if self.coordtype ~= 2 then --not MGRS
-      self:_DisplayToAllSAR(_text,self.coalition,self.messageTime)
-    else
-      self:_DisplayToAllSAR(_text,self.coalition,self.messageTime,false,true)
-      local coordtext = UTILS.MGRSStringToSRSFriendly(_coordinatesText,true)
-      local _text = string.format("Pickup Zone at %s.", coordtext )
-      self:_DisplayToAllSAR(_text,self.coalition,self.messageTime,true,false)
-    end
-  end 
   end
-  
+
   for _,_heliName in pairs(self.csarUnits) do
     self:_CheckWoundedGroupStatus(_heliName, _groupName)
   end
 
-   -- trigger FSM event
+  -- trigger FSM event
   self:__PilotDown(2,_downedGroup, _freqk, _groupName, _coordinatesText, _playername)
-  
+
   return self
 end
 
@@ -157818,7 +160055,7 @@ function CSAR:_CheckNameInDownedPilots(name)
       found = true
       table = _pilot
       break
-    end  
+    end
   end
   return found, table
 end
@@ -157848,13 +160085,13 @@ end
 -- @return #CSAR self
 function CSAR:SetCallSignOptions(ShortCallsign,Keepnumber,CallsignTranslations)
   if not ShortCallsign or ShortCallsign == false then
-   self.ShortCallsign = false
+    self.ShortCallsign = false
   else
-   self.ShortCallsign = true
+    self.ShortCallsign = true
   end
   self.Keepnumber = Keepnumber or false
   self.CallsignTranslations = CallsignTranslations
-  return self  
+  return self
 end
 
 --- (Internal) Check if a name is in downed pilot table and remove it.
@@ -157887,13 +160124,13 @@ function CSAR:_CheckWoundedGroupStatus(heliname,woundedgroupname)
     self:T("...not found in list!")
     return
   end
-  
+
   local _woundedGroup = _downedpilot.group
-  if _woundedGroup ~= nil and _woundedGroup:IsAlive() then 
+  if _woundedGroup ~= nil and _woundedGroup:IsAlive() then
     local _heliUnit = self:_GetSARHeli(_heliName) -- Wrapper.Unit#UNIT
-    
+
     local _lookupKeyHeli = _heliName .. "_" .. _woundedGroupName --lookup key for message state tracking
-            
+
     if _heliUnit == nil then
       self.heliVisibleMessage[_lookupKeyHeli] = nil
       self.heliCloseMessage[_lookupKeyHeli] = nil
@@ -157901,15 +160138,15 @@ function CSAR:_CheckWoundedGroupStatus(heliname,woundedgroupname)
       self:T("...heliunit nil!")
       return
     end
-    
+
     local _heliCoord = _heliUnit:GetCoordinate()
     local _leaderCoord = _woundedGroup:GetCoordinate()
     local _distance = self:_GetDistance(_heliCoord,_leaderCoord)
     -- autosmoke
     if (self.autosmoke == true) and (_distance < self.autosmokedistance) and (_distance ~= -1) then
-        self:_PopSmokeForGroup(_woundedGroupName, _woundedGroup)
+      self:_PopSmokeForGroup(_woundedGroupName, _woundedGroup)
     end
-    
+
     if _distance < self.approachdist_near and _distance > 0 then
       if self:_CheckCloseWoundedGroup(_distance, _heliUnit, _heliName, _woundedGroup, _woundedGroupName) == true then
         -- we\'re close, reschedule
@@ -157919,21 +160156,21 @@ function CSAR:_CheckWoundedGroupStatus(heliname,woundedgroupname)
     elseif _distance >= self.approachdist_near and _distance < self.approachdist_far then
       -- message once
       if self.heliVisibleMessage[_lookupKeyHeli] == nil then
-          local _pilotName = _downedpilot.desc
-          if self.autosmoke == true then
-            local dist = self.autosmokedistance / 1000
-            local disttext = string.format("%.0fkm",dist)
-            if _SETTINGS:IsImperial() then
-              local dist = UTILS.MetersToNM(self.autosmokedistance)
-              disttext = string.format("%.0fnm",dist)
-            end
-            self:_DisplayMessageToSAR(_heliUnit, string.format("%s: %s. I hear you! Finally, that is music in my ears!\nI'll pop a smoke when you are %s away.\nLand or hover by the smoke.", self:_GetCustomCallSign(_heliName), _pilotName, disttext), self.messageTime,false,true)
-          else
-            self:_DisplayMessageToSAR(_heliUnit, string.format("%s: %s. I hear you! Finally, that is music in my ears!\nRequest a flare or smoke if you need.", self:_GetCustomCallSign(_heliName), _pilotName), self.messageTime,false,true)
+        local _pilotName = _downedpilot.desc
+        if self.autosmoke == true then
+          local dist = self.autosmokedistance / 1000
+          local disttext = string.format("%.0fkm",dist)
+          if _SETTINGS:IsImperial() then
+            local dist = UTILS.MetersToNM(self.autosmokedistance)
+            disttext = string.format("%.0fnm",dist)
           end
-          --mark as shown for THIS heli and THIS group
-          self.heliVisibleMessage[_lookupKeyHeli] = true     
-      end    
+          self:_DisplayMessageToSAR(_heliUnit, string.format("%s: %s. I hear you! Finally, that is music in my ears!\nI'll pop a smoke when you are %s away.\nLand or hover by the smoke.", self:_GetCustomCallSign(_heliName), _pilotName, disttext), self.messageTime,false,true)
+        else
+          self:_DisplayMessageToSAR(_heliUnit, string.format("%s: %s. I hear you! Finally, that is music in my ears!\nRequest a flare or smoke if you need.", self:_GetCustomCallSign(_heliName), _pilotName), self.messageTime,false,true)
+        end
+        --mark as shown for THIS heli and THIS group
+        self.heliVisibleMessage[_lookupKeyHeli] = true
+      end
       self.heliCloseMessage[_lookupKeyHeli] = nil
       self.landedStatus[_lookupKeyHeli] = nil
       --reschedule as units aren\'t dead yet , schedule for a bit slower though as we\'re far away
@@ -157941,11 +160178,11 @@ function CSAR:_CheckWoundedGroupStatus(heliname,woundedgroupname)
       self:__Approach(-10,heliname,woundedgroupname)
     end
   else
-  self:T("...Downed Pilot KIA?!")
-  if not _downedpilot.alive then
-    --self:__KIA(1,_downedpilot.name)
-    self:_RemoveNameFromDownedPilots(_downedpilot.name, true)
-  end
+    self:T("...Downed Pilot KIA?!")
+    if not _downedpilot.alive then
+      --self:__KIA(1,_downedpilot.name)
+      self:_RemoveNameFromDownedPilots(_downedpilot.name, true)
+    end
   end
   return self
 end
@@ -157959,11 +160196,11 @@ function CSAR:_PopSmokeForGroup(_woundedGroupName, _woundedLeader)
   -- have we popped smoke already in the last 5 mins
   local _lastSmoke = self.smokeMarkers[_woundedGroupName]
   if _lastSmoke == nil or timer.getTime() > _lastSmoke then
-  
-      local _smokecolor = self.smokecolor
-      local _smokecoord = _woundedLeader:GetCoordinate():Translate( 6, math.random( 1, 360) ) --shagrat place smoke at a random 6 m distance, so smoke does not obscure the pilot
-      _smokecoord:Smoke(_smokecolor)
-      self.smokeMarkers[_woundedGroupName] = timer.getTime() + 300 -- next smoke time
+
+    local _smokecolor = self.smokecolor
+    local _smokecoord = _woundedLeader:GetCoordinate():Translate( 6, math.random( 1, 360) ) --shagrat place smoke at a random 6 m distance, so smoke does not obscure the pilot
+    _smokecoord:Smoke(_smokecolor)
+    self.smokeMarkers[_woundedGroupName] = timer.getTime() + 300 -- next smoke time
   end
   return self
 end
@@ -157980,43 +160217,43 @@ function CSAR:_PickupUnit(_heliUnit, _pilotName, _woundedGroup, _woundedGroupNam
   local _heliName = _heliUnit:GetName()
   local _groups = self.inTransitGroups[_heliName]
   local _unitsInHelicopter = self:_PilotsOnboard(_heliName)
-  
+
   -- init table if there is none for this helicopter
   if not _groups then
-      self.inTransitGroups[_heliName] = {}
-      _groups = self.inTransitGroups[_heliName]
+    self.inTransitGroups[_heliName] = {}
+    _groups = self.inTransitGroups[_heliName]
   end
-  
+
   -- if the heli can\'t pick them up, show a message and return
   local _maxUnits = self.AircraftType[_heliUnit:GetTypeName()]
   if _maxUnits == nil then
     _maxUnits = self.max_units
   end
   if _unitsInHelicopter + 1 > _maxUnits then
-      self:_DisplayMessageToSAR(_heliUnit, string.format("%s, %s. We\'re already crammed with %d guys! Sorry!", _pilotName, self:_GetCustomCallSign(_heliName), _unitsInHelicopter, _unitsInHelicopter), self.messageTime,false,false,true)
-      return self
+    self:_DisplayMessageToSAR(_heliUnit, string.format("%s, %s. We\'re already crammed with %d guys! Sorry!", _pilotName, self:_GetCustomCallSign(_heliName), _unitsInHelicopter, _unitsInHelicopter), self.messageTime,false,false,true)
+    return self
   end
-  
+
   local found,downedgrouptable = self:_CheckNameInDownedPilots(_woundedGroupName)
   local grouptable = downedgrouptable --#CSAR.DownedPilot
   self.inTransitGroups[_heliName][_woundedGroupName] =
-  {
+    {
       originalUnit = grouptable.originalUnit,
       woundedGroup = _woundedGroupName,
       side = self.coalition,
       desc = grouptable.desc,
       player = grouptable.player,
-  }
+    }
 
   _woundedGroup:Destroy(false)
   self:_RemoveNameFromDownedPilots(_woundedGroupName,true)
-  
+
   self:_DisplayMessageToSAR(_heliUnit, string.format("%s: %s I\'m in! Get to the MASH ASAP! ", self:_GetCustomCallSign(_heliName), _pilotName), self.messageTime,true,true)
-  
+
   self:_UpdateUnitCargoMass(_heliName)
-  
+
   self:__Boarded(5,_heliName,_woundedGroupName,grouptable.desc)
-  
+
   return self
 end
 
@@ -158070,136 +160307,136 @@ function CSAR:_CheckCloseWoundedGroup(_distance, _heliUnit, _heliName, _woundedG
 
   local _woundedLeader = _woundedGroup
   local _lookupKeyHeli = _heliUnit:GetName() .. "_" .. _woundedGroupName --lookup key for message state tracking
-  
+
   local _found, _pilotable = self:_CheckNameInDownedPilots(_woundedGroupName) -- #boolean, #CSAR.DownedPilot
   local _pilotName = _pilotable.desc
 
-  
+
   local _reset = true
-  
+
   if (_distance < 500) then
-      self:T(self.lid .. "[Pickup Debug] Helo closer than 500m: ".._lookupKeyHeli)
-      if self.heliCloseMessage[_lookupKeyHeli] == nil then
-          if self.autosmoke == true then
-            self:_DisplayMessageToSAR(_heliUnit, string.format("%s: %s. You\'re close now! Land or hover at the smoke.", self:_GetCustomCallSign(_heliName), _pilotName), self.messageTime,false,true)
-          else
-            self:_DisplayMessageToSAR(_heliUnit, string.format("%s: %s. You\'re close now! Land in a safe place, I will go there ", self:_GetCustomCallSign(_heliName), _pilotName), self.messageTime,false,true)
-          end
-          self.heliCloseMessage[_lookupKeyHeli] = true
+    self:T(self.lid .. "[Pickup Debug] Helo closer than 500m: ".._lookupKeyHeli)
+    if self.heliCloseMessage[_lookupKeyHeli] == nil then
+      if self.autosmoke == true then
+        self:_DisplayMessageToSAR(_heliUnit, string.format("%s: %s. You\'re close now! Land or hover at the smoke.", self:_GetCustomCallSign(_heliName), _pilotName), self.messageTime,false,true)
+      else
+        self:_DisplayMessageToSAR(_heliUnit, string.format("%s: %s. You\'re close now! Land in a safe place, I will go there ", self:_GetCustomCallSign(_heliName), _pilotName), self.messageTime,false,true)
       end
-      self:T(self.lid .. "[Pickup Debug] Checking landed vs Hover for ".._lookupKeyHeli)
-      -- have we landed close enough?
-      if not _heliUnit:InAir() then
-        self:T(self.lid .. "[Pickup Debug] Helo landed: ".._lookupKeyHeli)
-        if self.pilotRuntoExtractPoint == true then
-            if (_distance < self.extractDistance) then
-              local _time = self.landedStatus[_lookupKeyHeli]
-              self:T(self.lid .. "[Pickup Debug] Check pilot running or arrived ".._lookupKeyHeli)
-              if _time == nil then
-                  self:T(self.lid .. "[Pickup Debug] Pilot running not arrived yet ".._lookupKeyHeli)
-                  self.landedStatus[_lookupKeyHeli] = math.floor( (_distance - self.loadDistance) / 3.6 )   
-                  _time = self.landedStatus[_lookupKeyHeli]
-                  _woundedGroup:OptionAlarmStateGreen() 
-                  self:_OrderGroupToMoveToPoint(_woundedGroup, _heliUnit:GetCoordinate())
-                  self:_DisplayMessageToSAR(_heliUnit, "Wait till " .. _pilotName .. " gets in. \nETA " .. _time .. " more seconds.", self.messageTime, false)
-              else
-                  _time = self.landedStatus[_lookupKeyHeli] - 10
-                  self.landedStatus[_lookupKeyHeli] = _time
-              end
-              --if _time <= 0 or _distance < self.loadDistance then
-              self:T(self.lid .. "[Pickup Debug] Pilot close enough? ".._lookupKeyHeli)
-              if _distance < self.loadDistance + 5 or _distance <= 13 then
-                 self:T(self.lid .. "[Pickup Debug] Pilot close enough - YES ".._lookupKeyHeli)
-                 if self.pilotmustopendoors and (self:_IsLoadingDoorOpen(_heliName) == false) then
-                  self:_DisplayMessageToSAR(_heliUnit, "Open the door to let me in!", self.messageTime, true, true)
-                  self:T(self.lid .. "[Pickup Debug] Door closed, try again next loop ".._lookupKeyHeli)
-                  return false
-                 else
-                   self:T(self.lid .. "[Pickup Debug] Pick up Pilot ".._lookupKeyHeli)
-                   self.landedStatus[_lookupKeyHeli] = nil
-                   self:_PickupUnit(_heliUnit, _pilotName, _woundedGroup, _woundedGroupName)
-                   return true
-                 end
-              end
+      self.heliCloseMessage[_lookupKeyHeli] = true
+    end
+    self:T(self.lid .. "[Pickup Debug] Checking landed vs Hover for ".._lookupKeyHeli)
+    -- have we landed close enough?
+    if not _heliUnit:InAir() then
+      self:T(self.lid .. "[Pickup Debug] Helo landed: ".._lookupKeyHeli)
+      if self.pilotRuntoExtractPoint == true then
+        if (_distance < self.extractDistance) then
+          local _time = self.landedStatus[_lookupKeyHeli]
+          self:T(self.lid .. "[Pickup Debug] Check pilot running or arrived ".._lookupKeyHeli)
+          if _time == nil then
+            self:T(self.lid .. "[Pickup Debug] Pilot running not arrived yet ".._lookupKeyHeli)
+            self.landedStatus[_lookupKeyHeli] = math.floor( (_distance - self.loadDistance) / 3.6 )
+            _time = self.landedStatus[_lookupKeyHeli]
+            _woundedGroup:OptionAlarmStateGreen()
+            self:_OrderGroupToMoveToPoint(_woundedGroup, _heliUnit:GetCoordinate())
+            self:_DisplayMessageToSAR(_heliUnit, "Wait till " .. _pilotName .. " gets in. \nETA " .. _time .. " more seconds.", self.messageTime, false)
+          else
+            _time = self.landedStatus[_lookupKeyHeli] - 10
+            self.landedStatus[_lookupKeyHeli] = _time
+          end
+          --if _time <= 0 or _distance < self.loadDistance then
+          self:T(self.lid .. "[Pickup Debug] Pilot close enough? ".._lookupKeyHeli)
+          if _distance < self.loadDistance + 5 or _distance <= 13 then
+            self:T(self.lid .. "[Pickup Debug] Pilot close enough - YES ".._lookupKeyHeli)
+            if self.pilotmustopendoors and (self:_IsLoadingDoorOpen(_heliName) == false) then
+              self:_DisplayMessageToSAR(_heliUnit, "Open the door to let me in!", self.messageTime, true, true)
+              self:T(self.lid .. "[Pickup Debug] Door closed, try again next loop ".._lookupKeyHeli)
+              return false
+            else
+              self:T(self.lid .. "[Pickup Debug] Pick up Pilot ".._lookupKeyHeli)
+              self.landedStatus[_lookupKeyHeli] = nil
+              self:_PickupUnit(_heliUnit, _pilotName, _woundedGroup, _woundedGroupName)
+              return true
             end
-        else
-          self:T(self.lid .. "[Pickup Debug] Helo landed, pilot NOT set to run to helo ".._lookupKeyHeli)
-          if (_distance < self.loadDistance) then
-              self:T(self.lid .. "[Pickup Debug] Helo close enough, door check ".._lookupKeyHeli)
-              if self.pilotmustopendoors and (self:_IsLoadingDoorOpen(_heliName) == false) then
-                self:T(self.lid .. "[Pickup Debug] Door closed, try again next loop ".._lookupKeyHeli)
-                self:_DisplayMessageToSAR(_heliUnit, "Open the door to let me in!", self.messageTime, true, true)
-                return false
-              else
-                self:T(self.lid .. "[Pickup Debug] Pick up Pilot ".._lookupKeyHeli)
-                self:_PickupUnit(_heliUnit, _pilotName, _woundedGroup, _woundedGroupName)
-                return true
-              end
           end
         end
       else
-          self:T(self.lid .. "[Pickup Debug] Helo hovering".._lookupKeyHeli)
-          local _unitsInHelicopter = self:_PilotsOnboard(_heliName)
-          local _maxUnits = self.AircraftType[_heliUnit:GetTypeName()]
-          if _maxUnits == nil then
-            _maxUnits = self.max_units
+        self:T(self.lid .. "[Pickup Debug] Helo landed, pilot NOT set to run to helo ".._lookupKeyHeli)
+        if (_distance < self.loadDistance) then
+          self:T(self.lid .. "[Pickup Debug] Helo close enough, door check ".._lookupKeyHeli)
+          if self.pilotmustopendoors and (self:_IsLoadingDoorOpen(_heliName) == false) then
+            self:T(self.lid .. "[Pickup Debug] Door closed, try again next loop ".._lookupKeyHeli)
+            self:_DisplayMessageToSAR(_heliUnit, "Open the door to let me in!", self.messageTime, true, true)
+            return false
+          else
+            self:T(self.lid .. "[Pickup Debug] Pick up Pilot ".._lookupKeyHeli)
+            self:_PickupUnit(_heliUnit, _pilotName, _woundedGroup, _woundedGroupName)
+            return true
           end
-          self:T(self.lid .. "[Pickup Debug] Check capacity and close enough for winching ".._lookupKeyHeli)
-          if _heliUnit:InAir() and _unitsInHelicopter + 1 <= _maxUnits then
-              -- DONE - make variable
-              if _distance < self.rescuehoverdistance then
-                  self:T(self.lid .. "[Pickup Debug] Helo hovering close enough ".._lookupKeyHeli)
-                  --check height!
-                  local leaderheight = _woundedLeader:GetHeight()
-                  if leaderheight < 0 then leaderheight = 0 end
-                  local _height = _heliUnit:GetHeight() - leaderheight
-                  
-                  -- DONE - make variable
-                  if _height <= self.rescuehoverheight then
-                      self:T(self.lid .. "[Pickup Debug] Helo hovering low enough ".._lookupKeyHeli)
-                      local _time = self.hoverStatus[_lookupKeyHeli]
-  
-                      if _time == nil then
-                          self.hoverStatus[_lookupKeyHeli] = 10
-                          _time = 10
-                      else
-                          _time = self.hoverStatus[_lookupKeyHeli] - 10
-                          self.hoverStatus[_lookupKeyHeli] = _time
-                      end
-                      self:T(self.lid .. "[Pickup Debug] Check hover timer ".._lookupKeyHeli)
-                      if _time > 0 then
-                          self:T(self.lid .. "[Pickup Debug] Helo hovering not long enough ".._lookupKeyHeli)
-                          self:_DisplayMessageToSAR(_heliUnit, "Hovering above " .. _pilotName .. ". \n\nHold hover for " .. _time .. " seconds to winch them up. \n\nIf the countdown stops you\'re too far away!", self.messageTime, true)
-                      else
-                       self:T(self.lid .. "[Pickup Debug] Helo hovering long enough - door check ".._lookupKeyHeli)
-                       if self.pilotmustopendoors and (self:_IsLoadingDoorOpen(_heliName) == false) then
-                          self:_DisplayMessageToSAR(_heliUnit, "Open the door to let me in!", self.messageTime, true, true)
-                          self:T(self.lid .. "[Pickup Debug] Door closed, try again next loop ".._lookupKeyHeli)
-                          return false
-                        else
-                          self.hoverStatus[_lookupKeyHeli] = nil
-                          self:_PickupUnit(_heliUnit, _pilotName, _woundedGroup, _woundedGroupName)
-                          self:T(self.lid .. "[Pickup Debug] Pilot picked up ".._lookupKeyHeli)
-                          return true
-                        end
-                      end
-                      _reset = false
-                  else
-                      self:T(self.lid .. "[Pickup Debug] Helo hovering too high ".._lookupKeyHeli)
-                      self:_DisplayMessageToSAR(_heliUnit, "Too high to winch " .. _pilotName .. " \nReduce height and hover for 10 seconds!", self.messageTime, true,true)
-                      self:T(self.lid .. "[Pickup Debug] Hovering too high, try again next loop ".._lookupKeyHeli)
-                      return false
-                  end
-              end
-          
-          end
+        end
       end
+    else
+      self:T(self.lid .. "[Pickup Debug] Helo hovering".._lookupKeyHeli)
+      local _unitsInHelicopter = self:_PilotsOnboard(_heliName)
+      local _maxUnits = self.AircraftType[_heliUnit:GetTypeName()]
+      if _maxUnits == nil then
+        _maxUnits = self.max_units
+      end
+      self:T(self.lid .. "[Pickup Debug] Check capacity and close enough for winching ".._lookupKeyHeli)
+      if _heliUnit:InAir() and _unitsInHelicopter + 1 <= _maxUnits then
+        -- DONE - make variable
+        if _distance < self.rescuehoverdistance then
+          self:T(self.lid .. "[Pickup Debug] Helo hovering close enough ".._lookupKeyHeli)
+          --check height!
+          local leaderheight = _woundedLeader:GetHeight()
+          if leaderheight < 0 then leaderheight = 0 end
+          local _height = _heliUnit:GetHeight() - leaderheight
+
+          -- DONE - make variable
+          if _height <= self.rescuehoverheight then
+            self:T(self.lid .. "[Pickup Debug] Helo hovering low enough ".._lookupKeyHeli)
+            local _time = self.hoverStatus[_lookupKeyHeli]
+
+            if _time == nil then
+              self.hoverStatus[_lookupKeyHeli] = 10
+              _time = 10
+            else
+              _time = self.hoverStatus[_lookupKeyHeli] - 10
+              self.hoverStatus[_lookupKeyHeli] = _time
+            end
+            self:T(self.lid .. "[Pickup Debug] Check hover timer ".._lookupKeyHeli)
+            if _time > 0 then
+              self:T(self.lid .. "[Pickup Debug] Helo hovering not long enough ".._lookupKeyHeli)
+              self:_DisplayMessageToSAR(_heliUnit, "Hovering above " .. _pilotName .. ". \n\nHold hover for " .. _time .. " seconds to winch them up. \n\nIf the countdown stops you\'re too far away!", self.messageTime, true)
+            else
+              self:T(self.lid .. "[Pickup Debug] Helo hovering long enough - door check ".._lookupKeyHeli)
+              if self.pilotmustopendoors and (self:_IsLoadingDoorOpen(_heliName) == false) then
+                self:_DisplayMessageToSAR(_heliUnit, "Open the door to let me in!", self.messageTime, true, true)
+                self:T(self.lid .. "[Pickup Debug] Door closed, try again next loop ".._lookupKeyHeli)
+                return false
+              else
+                self.hoverStatus[_lookupKeyHeli] = nil
+                self:_PickupUnit(_heliUnit, _pilotName, _woundedGroup, _woundedGroupName)
+                self:T(self.lid .. "[Pickup Debug] Pilot picked up ".._lookupKeyHeli)
+                return true
+              end
+            end
+            _reset = false
+          else
+            self:T(self.lid .. "[Pickup Debug] Helo hovering too high ".._lookupKeyHeli)
+            self:_DisplayMessageToSAR(_heliUnit, "Too high to winch " .. _pilotName .. " \nReduce height and hover for 10 seconds!", self.messageTime, true,true)
+            self:T(self.lid .. "[Pickup Debug] Hovering too high, try again next loop ".._lookupKeyHeli)
+            return false
+          end
+        end
+
+      end
+    end
   end
-  
+
   if _reset then
-      self.hoverStatus[_lookupKeyHeli] = nil
+    self.hoverStatus[_lookupKeyHeli] = nil
   end
-  
+
   if _distance < 500 then
     return true
   else
@@ -158220,14 +160457,14 @@ function CSAR:_ScheduledSARFlight(heliname,groupname, isairport, noreschedule)
   local _woundedGroupName = groupname
 
   if (_heliUnit == nil) then
-      --helicopter crashed?
-      self.inTransitGroups[heliname] = nil
-      return
+    --helicopter crashed?
+    self.inTransitGroups[heliname] = nil
+    return
   end
 
   if self.inTransitGroups[heliname] == nil or self.inTransitGroups[heliname][_woundedGroupName] == nil then
-      -- Groups already rescued
-      return
+    -- Groups already rescued
+    return
   end
 
   local _dist = self:_GetClosestMASH(_heliUnit)
@@ -158236,9 +160473,9 @@ function CSAR:_ScheduledSARFlight(heliname,groupname, isairport, noreschedule)
     self:T(self.lid.."[Drop off debug] Check distance to MASH for "..heliname.." Distance can not be determined!")
     return
   end
-  
+
   self:T(self.lid.."[Drop off debug] Check distance to MASH for "..heliname.." Distance km: "..math.floor(_dist/1000))
-  
+
   if ( _dist < self.FARPRescueDistance or isairport ) and _heliUnit:InAir() == false then
     self:T(self.lid.."[Drop off debug] Distance ok, door check")
     if self.pilotmustopendoors and self:_IsLoadingDoorOpen(heliname) == false then
@@ -158253,8 +160490,8 @@ function CSAR:_ScheduledSARFlight(heliname,groupname, isairport, noreschedule)
 
   --queue up
   if not noreschedule then
-  self:__Returning(5,heliname,_woundedGroupName, isairport)
-  self:ScheduleOnce(5,self._ScheduledSARFlight,self,heliname,groupname, isairport, noreschedule)
+    self:__Returning(5,heliname,_woundedGroupName, isairport)
+    self:ScheduleOnce(5,self._ScheduledSARFlight,self,heliname,groupname, isairport, noreschedule)
   end
   return self
 end
@@ -158266,22 +160503,22 @@ function CSAR:_RescuePilots(_heliUnit)
   self:T(self.lid .. " _RescuePilots")
   local _heliName = _heliUnit:GetName()
   local _rescuedGroups = self.inTransitGroups[_heliName]
-  
+
   if _rescuedGroups == nil then
-      -- Groups already rescued
-      return
+    -- Groups already rescued
+    return
   end
 
   local PilotsSaved = self:_PilotsOnboard(_heliName)
-  
+
   self.inTransitGroups[_heliName] = nil
-  
+
   local _txt = string.format("%s: The %d pilot(s) have been taken to the\nmedical clinic. Good job!", self:_GetCustomCallSign(_heliName), PilotsSaved)
-  
+
   self:_DisplayMessageToSAR(_heliUnit, _txt, self.messageTime)
-  
+
   self:_UpdateUnitCargoMass(_heliName)
-  
+
   -- trigger event
   self:__Rescued(-1,_heliUnit,_heliName, PilotsSaved)
   return self
@@ -158343,9 +160580,9 @@ function CSAR:_GetPositionOfWounded(_woundedGroup,_Unit)
     if self.coordtype == 0 then -- Lat/Long DMTM
       _coordinatesText = _coordinate:ToStringLLDDM()
     elseif self.coordtype == 1 then -- Lat/Long DMS
-      _coordinatesText = _coordinate:ToStringLLDMS()  
+      _coordinatesText = _coordinate:ToStringLLDMS()
     elseif self.coordtype == 2 then -- MGRS
-      _coordinatesText = _coordinate:ToStringMGRS()  
+      _coordinatesText = _coordinate:ToStringMGRS()
     else -- Bullseye Metric --(medevac.coordtype == 4 or 3)
       _coordinatesText = _coordinate:ToStringBULLS(self.coalition)
     end
@@ -158378,15 +160615,15 @@ end
 -- @param #string _unitName Unit to display to
 function CSAR:_DisplayActiveSAR(_unitName)
   self:T(self.lid .. " _DisplayActiveSAR")
-  local _msg = "Active MEDEVAC/SAR:"  
+  local _msg = "Active MEDEVAC/SAR:"
   local _heli = self:_GetSARHeli(_unitName) -- Wrapper.Unit#UNIT
   if _heli == nil then
-      return
+    return
   end
-  
+
   local _heliSide = self.coalition
   local _csarList = {}
-  
+
   local _DownedPilotTable = self.downedPilots
   self:T({Table=_DownedPilotTable})
   for _, _value in pairs(_DownedPilotTable) do
@@ -158394,40 +160631,40 @@ function CSAR:_DisplayActiveSAR(_unitName)
     self:T(string.format("Display Active Pilot: %s", tostring(_groupName)))
     self:T({Table=_value})
     local _woundedGroup = _value.group
-    if _woundedGroup and _value.alive then  
-        local _coordinatesText = self:_GetPositionOfWounded(_woundedGroup,_heli) 
-        local _helicoord =  _heli:GetCoordinate()
-        local _woundcoord = _woundedGroup:GetCoordinate()
-        local _distance = self:_GetDistance(_helicoord, _woundcoord)
-        self:T({_distance = _distance})
-        local distancetext = ""
-        local settings = _SETTINGS
-        if _heli:GetPlayerName() then
-          settings = _DATABASE:GetPlayerSettings(_heli:GetPlayerName()) or _SETTINGS
-        end
-        if settings:IsImperial() then
-          distancetext = string.format("%.1fnm",UTILS.MetersToNM(_distance))
-        else
-          distancetext = string.format("%.1fkm", _distance/1000.0)
-        end
-        if _value.frequency == 0 or self.CreateRadioBeacons == false then--shagrat insert CASEVAC without Frequency
-          table.insert(_csarList, { dist = _distance, msg = string.format("%s at %s - %s ", _value.desc, _coordinatesText, distancetext) })
-        else
-          table.insert(_csarList, { dist = _distance, msg = string.format("%s at %s - %.2f KHz ADF - %s ", _value.desc, _coordinatesText, _value.frequency / 1000, distancetext) })
-        end
+    if _woundedGroup and _value.alive then
+      local _coordinatesText = self:_GetPositionOfWounded(_woundedGroup,_heli)
+      local _helicoord =  _heli:GetCoordinate()
+      local _woundcoord = _woundedGroup:GetCoordinate()
+      local _distance = self:_GetDistance(_helicoord, _woundcoord)
+      self:T({_distance = _distance})
+      local distancetext = ""
+      local settings = _SETTINGS
+      if _heli:GetPlayerName() then
+        settings = _DATABASE:GetPlayerSettings(_heli:GetPlayerName()) or _SETTINGS
+      end
+      if settings:IsImperial() then
+        distancetext = string.format("%.1fnm",UTILS.MetersToNM(_distance))
+      else
+        distancetext = string.format("%.1fkm", _distance/1000.0)
+      end
+      if _value.frequency == 0 or self.CreateRadioBeacons == false then--shagrat insert CASEVAC without Frequency
+        table.insert(_csarList, { dist = _distance, msg = string.format("%s at %s - %s ", _value.desc, _coordinatesText, distancetext) })
+      else
+        table.insert(_csarList, { dist = _distance, msg = string.format("%s at %s - %.2f KHz ADF - %s ", _value.desc, _coordinatesText, _value.frequency / 1000, distancetext) })
+      end
     end
   end
-  
+
   local function sortDistance(a, b)
-      return a.dist < b.dist
+    return a.dist < b.dist
   end
-  
+
   table.sort(_csarList, sortDistance)
-  
+
   for _, _line in pairs(_csarList) do
-      _msg = _msg .. "\n" .. _line.msg
+    _msg = _msg .. "\n" .. _line.msg
   end
-  
+
   self:_DisplayMessageToSAR(_heli, _msg, self.messageTime*2, false, false, true)
   return self
 end
@@ -158444,30 +160681,30 @@ function CSAR:_GetClosestDownedPilot(_heli)
   local _distance = 0
   local _closestGroupInfo = nil
   local _heliCoord = _heli:GetCoordinate() or _heli:GetCoordinate()
-  
-  if _heliCoord == nil then 
-    self:E("****Error obtaining coordinate!")
-    return nil 
-  end
-  
-  local DownedPilotsTable = self.downedPilots
-  
-  for _, _groupInfo in UTILS.spairs(DownedPilotsTable) do 
-  --for _, _groupInfo in pairs(DownedPilotsTable) do
-      local _woundedName = _groupInfo.name
-      local _tempWounded = _groupInfo.group
-      
-      -- check group exists and not moving to someone else
-      if _tempWounded then
-          local _tempCoord = _tempWounded:GetCoordinate()
-          _distance = self:_GetDistance(_heliCoord, _tempCoord)
 
-          if _distance ~= nil and (_shortestDistance == -1 or _distance < _shortestDistance) then
-              _shortestDistance = _distance
-              _closestGroup = _tempWounded
-              _closestGroupInfo = _groupInfo
-          end
+  if _heliCoord == nil then
+    self:E("****Error obtaining coordinate!")
+    return nil
+  end
+
+  local DownedPilotsTable = self.downedPilots
+
+  for _, _groupInfo in UTILS.spairs(DownedPilotsTable) do
+    --for _, _groupInfo in pairs(DownedPilotsTable) do
+    local _woundedName = _groupInfo.name
+    local _tempWounded = _groupInfo.group
+
+    -- check group exists and not moving to someone else
+    if _tempWounded then
+      local _tempCoord = _tempWounded:GetCoordinate()
+      _distance = self:_GetDistance(_heliCoord, _tempCoord)
+
+      if _distance ~= nil and (_shortestDistance == -1 or _distance < _shortestDistance) then
+        _shortestDistance = _distance
+        _closestGroup = _tempWounded
+        _closestGroupInfo = _groupInfo
       end
+    end
   end
 
   return { pilot = _closestGroup, distance = _shortestDistance, groupInfo = _closestGroupInfo }
@@ -158480,35 +160717,35 @@ function CSAR:_SignalFlare(_unitName)
   self:T(self.lid .. " _SignalFlare")
   local _heli = self:_GetSARHeli(_unitName)
   if _heli == nil then
-      return
+    return
   end
-  
+
   local _closest = self:_GetClosestDownedPilot(_heli)
   local smokedist = 8000
   if self.approachdist_far > smokedist then smokedist = self.approachdist_far end
   if _closest ~= nil and _closest.pilot ~= nil and _closest.distance > 0 and _closest.distance < smokedist then
-  
-      local _clockDir = self:_GetClockDirection(_heli, _closest.pilot)
-      local _distance = ""
-      if _SETTINGS:IsImperial() then
-        _distance = string.format("%.1fnm",UTILS.MetersToNM(_closest.distance))
-      else
-        _distance = string.format("%.1fkm",_closest.distance/1000)
-      end 
-      local _msg = string.format("%s - Firing signal flare at your %s o\'clock. Distance %s", self:_GetCustomCallSign(_unitName), _clockDir, _distance)
-      self:_DisplayMessageToSAR(_heli, _msg, self.messageTime, false, true, true)
-      
-      local _coord = _closest.pilot:GetCoordinate()
-      _coord:FlareRed(_clockDir)
+
+    local _clockDir = self:_GetClockDirection(_heli, _closest.pilot)
+    local _distance = ""
+    if _SETTINGS:IsImperial() then
+      _distance = string.format("%.1fnm",UTILS.MetersToNM(_closest.distance))
+    else
+      _distance = string.format("%.1fkm",_closest.distance/1000)
+    end
+    local _msg = string.format("%s - Firing signal flare at your %s o\'clock. Distance %s", self:_GetCustomCallSign(_unitName), _clockDir, _distance)
+    self:_DisplayMessageToSAR(_heli, _msg, self.messageTime, false, true, true)
+
+    local _coord = _closest.pilot:GetCoordinate()
+    _coord:FlareRed(_clockDir)
   else
-      local _distance = smokedist
-      local dtext = ""
-      if _SETTINGS:IsImperial() then
-        dtext = string.format("%.1fnm",UTILS.MetersToNM(smokedist))
-      else
-        dtext = string.format("%.1fkm",smokedist/1000)
-      end 
-      self:_DisplayMessageToSAR(_heli, string.format("No Pilots within %s",dtext), self.messageTime, false, false, true)
+    local _distance = smokedist
+    local dtext = ""
+    if _SETTINGS:IsImperial() then
+      dtext = string.format("%.1fnm",UTILS.MetersToNM(smokedist))
+    else
+      dtext = string.format("%.1fkm",smokedist/1000)
+    end
+    self:_DisplayMessageToSAR(_heli, string.format("No Pilots within %s",dtext), self.messageTime, false, false, true)
   end
   return self
 end
@@ -158516,7 +160753,7 @@ end
 --- (Internal) Display info to all SAR groups.
 -- @param #CSAR self
 -- @param #string _message Message to display.
--- @param #number _side Coalition of message. 
+-- @param #number _side Coalition of message.
 -- @param #number _messagetime How long to show.
 -- @param #boolean ToSRS If true or nil, send to SRS TTS
 -- @param #boolean ToScreen If true or nil, send to Screen
@@ -158536,7 +160773,7 @@ function CSAR:_DisplayToAllSAR(_message, _side, _messagetime,ToSRS,ToScreen)
     for _, _unitName in pairs(self.csarUnits) do
       local _unit = self:_GetSARHeli(_unitName)
       if _unit and not self.suppressmessages then
-         self:_DisplayMessageToSAR(_unit, _message, _messagetime)
+        self:_DisplayMessageToSAR(_unit, _message, _messagetime)
       end
     end
   end
@@ -158550,30 +160787,30 @@ function CSAR:_ReqIRStrobe( _unitName )
   self:T(self.lid .. " _ReqIRStrobe")
   local _heli = self:_GetSARHeli(_unitName)
   if _heli == nil then
-      return
+    return
   end
   local smokedist = 8000
   if smokedist < self.approachdist_far then smokedist = self.approachdist_far end
   local _closest = self:_GetClosestDownedPilot(_heli)
   if _closest ~= nil and _closest.pilot ~= nil and _closest.distance > 0 and _closest.distance < smokedist then
-      local _clockDir = self:_GetClockDirection(_heli, _closest.pilot)
-      local _distance = string.format("%.1fkm",_closest.distance/1000)
-      if _SETTINGS:IsImperial() then
-        _distance = string.format("%.1fnm",UTILS.MetersToNM(_closest.distance))
-      else
-        _distance = string.format("%.1fkm",_closest.distance/1000)
-      end 
-      local _msg = string.format("%s - IR Strobe active at your %s o\'clock. Distance %s", self:_GetCustomCallSign(_unitName), _clockDir, _distance)
-      self:_DisplayMessageToSAR(_heli, _msg, self.messageTime, false, true, true)
-      _closest.pilot:NewIRMarker(true,self.IRStrobeRuntime or 300)
+    local _clockDir = self:_GetClockDirection(_heli, _closest.pilot)
+    local _distance = string.format("%.1fkm",_closest.distance/1000)
+    if _SETTINGS:IsImperial() then
+      _distance = string.format("%.1fnm",UTILS.MetersToNM(_closest.distance))
+    else
+      _distance = string.format("%.1fkm",_closest.distance/1000)
+    end
+    local _msg = string.format("%s - IR Strobe active at your %s o\'clock. Distance %s", self:_GetCustomCallSign(_unitName), _clockDir, _distance)
+    self:_DisplayMessageToSAR(_heli, _msg, self.messageTime, false, true, true)
+    _closest.pilot:NewIRMarker(true,self.IRStrobeRuntime or 300)
   else
-      local _distance = string.format("%.1fkm",smokedist/1000)
-      if _SETTINGS:IsImperial() then
-        _distance = string.format("%.1fnm",UTILS.MetersToNM(smokedist))
-      else
-        _distance = string.format("%.1fkm",smokedist/1000)
-      end 
-      self:_DisplayMessageToSAR(_heli, string.format("No Pilots within %s",_distance), self.messageTime, false, false, true)
+    local _distance = string.format("%.1fkm",smokedist/1000)
+    if _SETTINGS:IsImperial() then
+      _distance = string.format("%.1fnm",UTILS.MetersToNM(smokedist))
+    else
+      _distance = string.format("%.1fkm",smokedist/1000)
+    end
+    self:_DisplayMessageToSAR(_heli, string.format("No Pilots within %s",_distance), self.messageTime, false, false, true)
   end
   return self
 end
@@ -158585,32 +160822,32 @@ function CSAR:_Reqsmoke( _unitName )
   self:T(self.lid .. " _Reqsmoke")
   local _heli = self:_GetSARHeli(_unitName)
   if _heli == nil then
-      return
+    return
   end
   local smokedist = 8000
   if smokedist < self.approachdist_far then smokedist = self.approachdist_far end
   local _closest = self:_GetClosestDownedPilot(_heli)
   if _closest ~= nil and _closest.pilot ~= nil and _closest.distance > 0 and _closest.distance < smokedist then
-      local _clockDir = self:_GetClockDirection(_heli, _closest.pilot)
-      local _distance = string.format("%.1fkm",_closest.distance/1000)
-      if _SETTINGS:IsImperial() then
-        _distance = string.format("%.1fnm",UTILS.MetersToNM(_closest.distance))
-      else
-        _distance = string.format("%.1fkm",_closest.distance/1000)
-      end 
-      local _msg = string.format("%s - Popping smoke at your %s o\'clock. Distance %s", self:_GetCustomCallSign(_unitName), _clockDir, _distance)
-      self:_DisplayMessageToSAR(_heli, _msg, self.messageTime, false, true, true)
-      local _coord = _closest.pilot:GetCoordinate()
-      local color = self.smokecolor
-      _coord:Smoke(color)
+    local _clockDir = self:_GetClockDirection(_heli, _closest.pilot)
+    local _distance = string.format("%.1fkm",_closest.distance/1000)
+    if _SETTINGS:IsImperial() then
+      _distance = string.format("%.1fnm",UTILS.MetersToNM(_closest.distance))
+    else
+      _distance = string.format("%.1fkm",_closest.distance/1000)
+    end
+    local _msg = string.format("%s - Popping smoke at your %s o\'clock. Distance %s", self:_GetCustomCallSign(_unitName), _clockDir, _distance)
+    self:_DisplayMessageToSAR(_heli, _msg, self.messageTime, false, true, true)
+    local _coord = _closest.pilot:GetCoordinate()
+    local color = self.smokecolor
+    _coord:Smoke(color)
   else
-      local _distance = string.format("%.1fkm",smokedist/1000)
-      if _SETTINGS:IsImperial() then
-        _distance = string.format("%.1fnm",UTILS.MetersToNM(smokedist))
-      else
-        _distance = string.format("%.1fkm",smokedist/1000)
-      end 
-      self:_DisplayMessageToSAR(_heli, string.format("No Pilots within %s",_distance), self.messageTime, false, false, true)
+    local _distance = string.format("%.1fkm",smokedist/1000)
+    if _SETTINGS:IsImperial() then
+      _distance = string.format("%.1fnm",UTILS.MetersToNM(smokedist))
+    else
+      _distance = string.format("%.1fkm",smokedist/1000)
+    end
+    self:_DisplayMessageToSAR(_heli, string.format("No Pilots within %s",_distance), self.messageTime, false, false, true)
   end
   return self
 end
@@ -158618,7 +160855,8 @@ end
 --- (Internal) Determine distance to closest MASH.
 -- @param #CSAR self
 -- @param Wrapper.Unit#UNIT _heli Helicopter #UNIT
--- @return #CSAR self
+-- @return #number Distance in meters
+-- @return #string MASH Name as string
 function CSAR:_GetClosestMASH(_heli)
   self:T(self.lid .. " _GetClosestMASH")
   local _mashset = self.mash -- Core.Set#SET_GROUP
@@ -158630,54 +160868,37 @@ function CSAR:_GetClosestMASH(_heli)
   local _shortestDistance = -1
   local _distance = 0
   local _helicoord = _heli:GetCoordinate()
-  
-  local function GetCloseAirbase(coordinate,Coalition,Category)
-      
-      local a=coordinate:GetVec3()
-      local distmin=math.huge
-      local airbase=nil
-      for DCSairbaseID, DCSairbase in pairs(world.getAirbases(Coalition)) do
-        local b=DCSairbase:getPoint()
-  
-        local c=UTILS.VecSubstract(a,b)
-        local dist=UTILS.VecNorm(c)
-  
-        if dist<distmin and (Category==nil or Category==DCSairbase:getDesc().category) then
-          distmin=dist
-          airbase=DCSairbase
-        end
-  
-      end  
-      return distmin
-  end
-  
+  local MashName = nil
+
   if self.allowFARPRescue then
     local position = _heli:GetCoordinate()
     local afb,distance = position:GetClosestAirbase(nil,self.coalition)
     _shortestDistance = distance
+    MashName = (afb ~= nil) and afb:GetName() or "Unknown"
   end
-  
+
   for _,_mashes in pairs(MashSets)  do
     for _, _mashUnit in pairs(_mashes or {}) do
-        local _mashcoord
-        if _mashUnit and (not _mashUnit:IsInstanceOf("ZONE_BASE")) and _mashUnit:IsAlive() then
-          _mashcoord = _mashUnit:GetCoordinate()
-        elseif _mashUnit and _mashUnit:IsInstanceOf("ZONE_BASE") then
-          _mashcoord = _mashUnit:GetCoordinate()
-        end
-        _distance = self:_GetDistance(_helicoord, _mashcoord)
-        if _distance ~= nil and (_shortestDistance == -1 or _distance < _shortestDistance) then
-          _shortestDistance = _distance
-        end
+      local _mashcoord
+      if _mashUnit and (not _mashUnit:IsInstanceOf("ZONE_BASE")) and _mashUnit:IsAlive() then
+        _mashcoord = _mashUnit:GetCoordinate()
+      elseif _mashUnit and _mashUnit:IsInstanceOf("ZONE_BASE") then
+        _mashcoord = _mashUnit:GetCoordinate()
+      end
+      _distance = self:_GetDistance(_helicoord, _mashcoord)
+      if _distance ~= nil and (_shortestDistance == -1 or _distance < _shortestDistance) then
+        _shortestDistance = _distance
+        MashName = _mashUnit:GetName() or "Unknown"
+      end
     end
   end
-  
+
   if _shortestDistance ~= -1 then
-      return _shortestDistance
+    return _shortestDistance, MashName
   else
-      return -1
+    return -1
   end
-  
+
 end
 
 --- (Internal) Display onboarded rescued pilots.
@@ -158685,47 +160906,47 @@ end
 -- @param #string _unitName Name of the chopper
 function CSAR:_CheckOnboard(_unitName)
   self:T(self.lid .. " _CheckOnboard")
-    local _unit = self:_GetSARHeli(_unitName)
-    if _unit == nil then
-        return
+  local _unit = self:_GetSARHeli(_unitName)
+  if _unit == nil then
+    return
+  end
+  --list onboard pilots
+  local _inTransit = self.inTransitGroups[_unitName]
+  if _inTransit == nil then
+    self:_DisplayMessageToSAR(_unit, "No Rescued Pilots onboard", self.messageTime, false, false, true)
+  else
+    local _text = "Onboard - RTB to FARP/Airfield or MASH: "
+    for _, _onboard in pairs(self.inTransitGroups[_unitName]) do
+      _text = _text .. "\n" .. _onboard.desc
     end
-    --list onboard pilots
-    local _inTransit = self.inTransitGroups[_unitName]
-    if _inTransit == nil then
-        self:_DisplayMessageToSAR(_unit, "No Rescued Pilots onboard", self.messageTime, false, false, true)
-    else
-        local _text = "Onboard - RTB to FARP/Airfield or MASH: "
-        for _, _onboard in pairs(self.inTransitGroups[_unitName]) do
-            _text = _text .. "\n" .. _onboard.desc
-        end
-        self:_DisplayMessageToSAR(_unit, _text, self.messageTime*2, false, false, true)
-    end
-    return self
+    self:_DisplayMessageToSAR(_unit, _text, self.messageTime*2, false, false, true)
+  end
+  return self
 end
 
 --- (Internal) Populate F10 menu for CSAR players.
 -- @param #CSAR self
 function CSAR:_AddMedevacMenuItem()
   self:T(self.lid .. " _AddMedevacMenuItem")
-  
+
   local coalition = self.coalition
   local allheligroupset = self.allheligroupset -- Core.Set#SET_GROUP
   local _allHeliGroups = allheligroupset:GetSetObjects()
   -- rebuild units table
   local _UnitList = {}
-  for _key, _group in pairs (_allHeliGroups) do  
+  for _key, _group in pairs (_allHeliGroups) do
     local _unit = _group:GetFirstUnitAlive() -- Asume that there is only one unit in the flight for players
     if _unit then
-      --self:T("Unitname ".._unit:GetName().." IsAlive "..tostring(_unit:IsAlive()).." IsPlayer "..tostring(_unit:IsPlayer())) 
-      if _unit:IsAlive() and _unit:IsPlayer() then         
+      --self:T("Unitname ".._unit:GetName().." IsAlive "..tostring(_unit:IsAlive()).." IsPlayer "..tostring(_unit:IsPlayer()))
+      if _unit:IsAlive() and _unit:IsPlayer() then
         local unitName = _unit:GetName()
-            _UnitList[unitName] = unitName
+        _UnitList[unitName] = unitName
       end -- end isAlive
     end -- end if _unit
   end -- end for
   self.csarUnits = _UnitList
-  
-  -- build unit menus  
+
+  -- build unit menus
   for _, _unitName in pairs(self.csarUnits) do
     local _unit = self:_GetSARHeli(_unitName) -- Wrapper.Unit#UNIT
     if _unit then
@@ -158748,7 +160969,7 @@ function CSAR:_AddMedevacMenuItem()
         end
       end
     end
-  end  
+  end
   return self
 end
 
@@ -158782,7 +161003,7 @@ end
 -- @param #CSAR self
 function CSAR:_GenerateVHFrequencies()
   self:T(self.lid .. " _GenerateVHFrequencies")
-      
+
   local FreeVHFFrequencies = {}
   FreeVHFFrequencies = UTILS.GenerateVHFrequencies()
   self.FreeVHFFrequencies = FreeVHFFrequencies
@@ -158796,8 +161017,8 @@ function CSAR:_GenerateADFFrequency()
   self:T(self.lid .. " _GenerateADFFrequency")
   -- get a free freq for a beacon
   if #self.FreeVHFFrequencies <= 3 then
-      self.FreeVHFFrequencies = self.UsedVHFFrequencies
-      self.UsedVHFFrequencies = {}
+    self.FreeVHFFrequencies = self.UsedVHFFrequencies
+    self.UsedVHFFrequencies = {}
   end
   local _vhf = table.remove(self.FreeVHFFrequencies, math.random(#self.FreeVHFFrequencies))
   return _vhf
@@ -158810,7 +161031,7 @@ end
 -- @return #number direction
 function CSAR:_GetClockDirection(_heli, _group)
   self:T(self.lid .. " _GetClockDirection")
- 
+
   local _playerPosition = _heli:GetCoordinate() -- get position of helicopter
   local _targetpostions = _group:GetCoordinate() -- get position of downed pilot
   local _heading = _heli:GetHeading() -- heading
@@ -158822,12 +161043,12 @@ function CSAR:_GetClockDirection(_heli, _group)
   if _heading and Angle then
     clock = 12
     --if angle == 0 then angle = 360 end
-    clock = _heading-Angle  
+    clock = _heading-Angle
     hours = (clock/30)*-1
     clock = 12+hours
     clock = UTILS.Round(clock,0)
     if clock > 12 then clock = clock-12 end
-  end  
+  end
   return clock
 end
 
@@ -158838,62 +161059,62 @@ end
 -- @param #string BeaconName Beacon Name to use
 -- @return #CSAR self
 function CSAR:_AddBeaconToGroup(_group, _freq, BeaconName)
-    self:T(self.lid .. " _AddBeaconToGroup")
-    if self.CreateRadioBeacons == false then return end
-    local _group = _group   
-    
-    if _group == nil then
-        --return frequency to pool of available
-        for _i, _current in ipairs(self.UsedVHFFrequencies) do
-            if _current == _freq then
-                table.insert(self.FreeVHFFrequencies, _freq)
-                table.remove(self.UsedVHFFrequencies, _i)
-            end
-        end
-        return
-    end
-    
-    if _group:IsAlive() then
-      local _radioUnit = _group:GetUnit(1)
-      if _radioUnit then    
-        local name = _radioUnit:GetName()
-        local Frequency = _freq -- Freq in Hertz
-        --local name = _radioUnit:GetName()
-        local Sound =  "l10n/DEFAULT/"..self.radioSound
-        local vec3 = _radioUnit:GetVec3() or _radioUnit:GetPositionVec3() or {x=0,y=0,z=0}
-        self:I(self.lid..string.format("Added Radio Beacon %d Hertz | Name %s | Position {%d,%d,%d}",Frequency,BeaconName,vec3.x,vec3.y,vec3.z))
-        trigger.action.radioTransmission(Sound, vec3, 0, true, Frequency, self.ADFRadioPwr or 500,BeaconName) -- Beacon in MP only runs for exactly 30secs straight
+  self:T(self.lid .. " _AddBeaconToGroup")
+  if self.CreateRadioBeacons == false then return end
+  local _group = _group
+
+  if _group == nil then
+    --return frequency to pool of available
+    for _i, _current in ipairs(self.UsedVHFFrequencies) do
+      if _current == _freq then
+        table.insert(self.FreeVHFFrequencies, _freq)
+        table.remove(self.UsedVHFFrequencies, _i)
       end
     end
-    
-    return self
+    return
+  end
+
+  if _group:IsAlive() then
+    local _radioUnit = _group:GetUnit(1)
+    if _radioUnit then
+      local name = _radioUnit:GetName()
+      local Frequency = _freq -- Freq in Hertz
+      --local name = _radioUnit:GetName()
+      local Sound =  "l10n/DEFAULT/"..self.radioSound
+      local vec3 = _radioUnit:GetVec3() or _radioUnit:GetPositionVec3() or {x=0,y=0,z=0}
+      self:I(self.lid..string.format("Added Radio Beacon %d Hertz | Name %s | Position {%d,%d,%d}",Frequency,BeaconName,vec3.x,vec3.y,vec3.z))
+      trigger.action.radioTransmission(Sound, vec3, 0, true, Frequency, self.ADFRadioPwr or 500,BeaconName) -- Beacon in MP only runs for exactly 30secs straight
+    end
+  end
+
+  return self
 end
 
 --- (Internal) Helper function to (re-)add beacon to downed pilot.
 -- @param #CSAR self
 -- @return #CSAR self
 function CSAR:_RefreshRadioBeacons()
-    self:T(self.lid .. " _RefreshRadioBeacons")
-    if self.CreateRadioBeacons == false then return end
-    if self:_CountActiveDownedPilots() > 0 then
-      local PilotTable = self.downedPilots
-      for _,_pilot in pairs (PilotTable) do
-        self:T({_pilot.name})
-        local pilot = _pilot -- #CSAR.DownedPilot
-        local group = pilot.group
-        local frequency = pilot.frequency or 0 -- thanks to @Thrud
-        local bname = pilot.BeaconName or pilot.name..math.random(1,100000)
-        --trigger.action.stopRadioTransmission(bname)
-        if group and group:IsAlive() and frequency > 0 then
-          --self:_AddBeaconToGroup(group,frequency,bname)
-        else
-          if frequency > 0 then
-            trigger.action.stopRadioTransmission(bname)
-          end
+  self:T(self.lid .. " _RefreshRadioBeacons")
+  if self.CreateRadioBeacons == false then return end
+  if self:_CountActiveDownedPilots() > 0 then
+    local PilotTable = self.downedPilots
+    for _,_pilot in pairs (PilotTable) do
+      self:T({_pilot.name})
+      local pilot = _pilot -- #CSAR.DownedPilot
+      local group = pilot.group
+      local frequency = pilot.frequency or 0 -- thanks to @Thrud
+      local bname = pilot.BeaconName or pilot.name..math.random(1,100000)
+      --trigger.action.stopRadioTransmission(bname)
+      if group and group:IsAlive() and frequency > 0 then
+      --self:_AddBeaconToGroup(group,frequency,bname)
+      else
+        if frequency > 0 then
+          trigger.action.stopRadioTransmission(bname)
         end
       end
     end
-    return self
+  end
+  return self
 end
 
 --- (Internal) Helper function to count active downed pilots.
@@ -158915,30 +161136,45 @@ end
 -- @param #CSAR self
 -- @return #boolean True or false.
 function CSAR:_ReachedPilotLimit()
-   self:T(self.lid .. " _ReachedPilotLimit")
-   local limit = self.maxdownedpilots
-   local islimited = self.limitmaxdownedpilots
-   local count = self:_CountActiveDownedPilots()
-   if islimited and (count >= limit) then
-      return true
-   else
-      return false
-   end
+  self:T(self.lid .. " _ReachedPilotLimit")
+  local limit = self.maxdownedpilots
+  local islimited = self.limitmaxdownedpilots
+  local count = self:_CountActiveDownedPilots()
+  if islimited and (count >= limit) then
+    if self.useFIFOLimitReplacement then
+      local oldIndex  = -1
+      local oldDownedPilot = nil
+      for _index, _downedpilot in pairs(self.downedPilots) do
+        oldIndex = _index
+        oldDownedPilot = _downedpilot
+        break
+      end
+      if oldDownedPilot then
+        oldDownedPilot.group:Destroy(false)
+        oldDownedPilot.alive = false
+        self:_CheckDownedPilotTable()
+        return false
+      end
+    end
+    return true
+  else
+    return false
+  end
 end
 
-  --- User - Function to add onw SET_GROUP Set-up for pilot filtering and assignment.
-  -- Needs to be set before starting the CSAR instance.
-  -- @param #CSAR self
-  -- @param Core.Set#SET_GROUP Set The SET_GROUP object created by the mission designer/user to represent the CSAR pilot groups.
-  -- @return #CSAR self 
-  function CSAR:SetOwnSetPilotGroups(Set)
-    self.UserSetGroup = Set
-    return self
-  end
+--- User - Function to add onw SET_GROUP Set-up for pilot filtering and assignment.
+-- Needs to be set before starting the CSAR instance.
+-- @param #CSAR self
+-- @param Core.Set#SET_GROUP Set The SET_GROUP object created by the mission designer/user to represent the CSAR pilot groups.
+-- @return #CSAR self
+function CSAR:SetOwnSetPilotGroups(Set)
+  self.UserSetGroup = Set
+  return self
+end
 
-  ------------------------------
-  --- FSM internal Functions ---
-  ------------------------------
+------------------------------
+--- FSM internal Functions ---
+------------------------------
 
 --- (Internal) Function called after Start() event.
 -- @param #CSAR self.
@@ -158956,7 +161192,7 @@ function CSAR:onafterStart(From, Event, To)
   self:HandleEvent(EVENTS.PlayerEnterAircraft, self._EventHandler)
   self:HandleEvent(EVENTS.PlayerEnterUnit, self._EventHandler)
   self:HandleEvent(EVENTS.PilotDead, self._EventHandler)
-  
+
   if self.UserSetGroup then
     self.allheligroupset  = self.UserSetGroup
   elseif self.allowbronco then
@@ -158968,12 +161204,12 @@ function CSAR:onafterStart(From, Event, To)
   else
     self.allheligroupset = SET_GROUP:New():FilterCoalitions(self.coalitiontxt):FilterCategoryHelicopter():FilterStart()
   end
-  
+
   self.mash = SET_GROUP:New():FilterCoalitions(self.coalitiontxt):FilterPrefixes(self.mashprefix):FilterStart()
-  
-  self.staticmashes = SET_STATIC:New():FilterCoalitions(self.coalitiontxt):FilterPrefixes(self.mashprefix):FilterOnce()
-  self.zonemashes = SET_ZONE:New():FilterPrefixes(self.mashprefix):FilterOnce()
-  
+
+  self.staticmashes = SET_STATIC:New():FilterCoalitions(self.coalitiontxt):FilterPrefixes(self.mashprefix):FilterStart()
+  self.zonemashes = SET_ZONE:New():FilterPrefixes(self.mashprefix):FilterStart()
+
   --[[
   if staticmashes:Count() > 0  then
     for _,_mash in pairs(staticmashes.Set) do
@@ -158989,10 +161225,10 @@ function CSAR:onafterStart(From, Event, To)
     self:T("Objects in SET: "..self.mash:Count())
   end
   --]]
-  
+
   if not self.coordinate then
     local csarhq = self.mash:GetRandom()
-    if csarhq then 
+    if csarhq then
       self.coordinate = csarhq:GetCoordinate()
     end
   end
@@ -159018,16 +161254,16 @@ function CSAR:onafterStart(From, Event, To)
     self.msrs:SetLabel("CSAR")
     self.SRSQueue = MSRSQUEUE:New("CSAR") -- Sound.SRS#MSRSQUEUE
   end
-  
+
   self:__Status(-10)
-  
+
   if self.enableLoadSave then
     local interval = self.saveinterval
     local filename = self.filename
     local filepath = self.filepath
     self:__Save(interval,filepath,filename)
   end
-  
+
   return self
 end
 
@@ -159036,11 +161272,11 @@ end
 function CSAR:_CheckDownedPilotTable()
   local pilots = self.downedPilots
   local npilots = {}
-  
+
   for _ind,_entry in pairs(pilots) do
     local _group = _entry.group
     if _group:IsAlive() then
-      npilots[_ind] = _entry      
+      npilots[_ind] = _entry
     else
       if _entry.alive then
         self:__KIA(1,_entry.desc)
@@ -159060,12 +161296,12 @@ function CSAR:onbeforeStatus(From, Event, To)
   self:T({From, Event, To})
   -- housekeeping
   self:_AddMedevacMenuItem()
-  
+
   if not self.BeaconTimer or (self.BeaconTimer and not self.BeaconTimer:IsRunning()) then
     self.BeaconTimer = TIMER:New(self._RefreshRadioBeacons,self)
     self.BeaconTimer:Start(2,self.beaconRefresher)
   end
-  
+
   self:_CheckDownedPilotTable()
   for _,_sar in pairs (self.csarUnits) do
     local PilotTable = self.downedPilots
@@ -159076,7 +161312,7 @@ function CSAR:onbeforeStatus(From, Event, To)
         local timestamp = entry.timestamp or 0
         local now = timer.getAbsTime()
         if now - timestamp > 17 then -- only check if we\'re not in approach mode, which is iterations of 5 and 10.
-            self:_CheckWoundedGroupStatus(_sar,name)
+          self:_CheckWoundedGroupStatus(_sar,name)
         end
       end
     end
@@ -159098,14 +161334,14 @@ function CSAR:onafterStatus(From, Event, To)
   end
 
   local PilotsInFieldN = self:_CountActiveDownedPilots()
-  
+
   local PilotsBoarded = 0
   for _, _unitName in pairs(self.inTransitGroups) do
     for _,_units in pairs(_unitName) do
       PilotsBoarded = PilotsBoarded + 1
     end
   end
-  
+
   if self.verbose > 0 then
     local text = string.format("%s Active SAR: %d | Downed Pilots in field: %d (max %d) | Pilots boarded: %d | Landings: %d | Pilots rescued: %d",
       self.lid,NumberOfSARPilots,PilotsInFieldN,self.maxdownedpilots,PilotsBoarded,self.rescues,self.rescuedpilots)
@@ -159175,7 +161411,7 @@ function CSAR:onbeforeBoarded(From, Event, To, Heliname, Woundedgroupname)
         -- right subtype?
         if Event == subtype and not task:IsDone() then
           local targetzone = task.Target:GetObject() -- Core.Zone#ZONE should be a zone in this case ....
-          if (targetzone and targetzone.ClassName and string.match(targetzone.ClassName,"ZONE") and targetzone:IsVec2InZone(dropvec2)) 
+          if (targetzone and targetzone.ClassName and string.match(targetzone.ClassName,"ZONE") and targetzone:IsVec2InZone(dropvec2))
             or (string.find(task.CSARPilotName,Woundedgroupname)) then
             if task.Clients:HasUniqueID(playername) then
               -- success
@@ -159189,7 +161425,7 @@ function CSAR:onbeforeBoarded(From, Event, To, Heliname, Woundedgroupname)
   return self
 end
 
---- (Internal) Function called before Returning() event. 
+--- (Internal) Function called before Returning() event.
 -- @param #CSAR self.
 -- @param #string From From state.
 -- @param #string Event Event triggered.
@@ -159224,10 +161460,10 @@ function CSAR:onbeforeRescued(From, Event, To, HeliUnit, HeliName, PilotsSaved)
         local subtype = task:GetSubType()
         -- right subtype?
         if Event == subtype and not task:IsDone() then
-            if task.Clients:HasUniqueID(playername) then
-              -- success
-              task:__Success(-1)
-            end
+          if task.Clients:HasUniqueID(playername) then
+            -- success
+            task:__Success(-1)
+          end
         end
       end
     )
@@ -159274,7 +161510,7 @@ function CSAR:onbeforeSave(From, Event, To, path, filename)
   if not self.enableLoadSave then
     return self
   end
-  -- Thanks to @FunkyFranky 
+  -- Thanks to @FunkyFranky
   -- Check io module is available.
   if not io then
     self:E(self.lid.."ERROR: io not desanitized. Can't save current state.")
@@ -159298,7 +161534,7 @@ end
 -- @param #string filename (Optional) File name for saving. Default is Default is "CSAR_<alias>_Persist.csv".
 function CSAR:onafterSave(From, Event, To, path, filename)
   self:T({From, Event, To, path, filename})
-  -- Thanks to @FunkyFranky 
+  -- Thanks to @FunkyFranky
   if not self.enableLoadSave then
     return self
   end
@@ -159313,7 +161549,7 @@ function CSAR:onafterSave(From, Event, To, path, filename)
   if lfs then
     path=self.filepath or lfs.writedir()
   end
-  
+
   -- Set file name.
   filename=filename or self.filename
 
@@ -159321,9 +161557,9 @@ function CSAR:onafterSave(From, Event, To, path, filename)
   if path~=nil then
     filename=path.."\\"..filename
   end
-  
+
   local pilots = self.downedPilots
-  
+
   --local data = "LoadedData = {\n"
   local data = "playerName,x,y,z,coalition,country,description,typeName,unitName,freq\n"
   local n = 0
@@ -159341,15 +161577,15 @@ function CSAR:onafterSave(From, Event, To, path, filename)
       local location = group:GetVec3()
       local unitName = DownedPilot.originalUnit
       local txt = string.format("%s,%d,%d,%d,%s,%s,%s,%s,%s,%d\n",playerName,location.x,location.y,location.z,coalition,country,description,typeName,unitName,freq)
-      
+
       self:I(self.lid.."Saving to CSAR File: " .. txt)
-      
+
       data = data .. txt
     end
   end
-  
+
   _savefile(filename, data)
-   
+
   -- AutoSave
   if self.enableLoadSave then
     local interval = self.saveinterval
@@ -159374,19 +161610,19 @@ function CSAR:onbeforeLoad(From, Event, To, path, filename)
   end
   --- Function that check if a file exists.
   local function _fileexists(name)
-     local f=io.open(name,"r")
-     if f~=nil then
+    local f=io.open(name,"r")
+    if f~=nil then
       io.close(f)
       return true
     else
       return false
     end
   end
-  
+
   -- Set file name and path
   filename=filename or self.filename
   path = path or self.filepath
-  
+
   -- Check io module is available.
   if not io then
     self:E(self.lid.."WARNING: io not desanitized. Cannot load file.")
@@ -159416,7 +161652,7 @@ function CSAR:onbeforeLoad(From, Event, To, path, filename)
   else
     self:E(self.lid..string.format("WARNING: State file %s might not exist.", filename))
     return false
-    --return self
+      --return self
   end
 
 end
@@ -159440,11 +161676,11 @@ function CSAR:onafterLoad(From, Event, To, path, filename)
     f:close()
     return data
   end
-  
+
   -- Set file name and path
   filename=filename or self.filename
   path = path or self.filepath
-  
+
   -- Set path or default.
   if lfs then
     path=path or lfs.writedir()
@@ -159459,29 +161695,29 @@ function CSAR:onafterLoad(From, Event, To, path, filename)
   local text=string.format("Loading CSAR state from file %s", filename)
   MESSAGE:New(text,10):ToAllIf(self.Debug)
   self:I(self.lid..text)
-  
+
   local file=assert(io.open(filename, "rb"))
-  
+
   local loadeddata = {}
   for line in file:lines() do
-      loadeddata[#loadeddata+1] = line
+    loadeddata[#loadeddata+1] = line
   end
   file:close()
-  
+
   -- remove header
   table.remove(loadeddata, 1)
-  
+
   for _id,_entry in pairs (loadeddata) do
     local dataset = UTILS.Split(_entry,",")
     -- 1=playerName,2=x,3=y,4=z,5=coalition,6=country,7=description,8=typeName,9=unitName,10=freq\n
     local playerName = dataset[1]
-    
+
     local vec3 = {}
     vec3.x = tonumber(dataset[2])
     vec3.y = tonumber(dataset[3])
     vec3.z = tonumber(dataset[4])
     local point = COORDINATE:NewFromVec3(vec3)
-    
+
     local coalition = tonumber(dataset[5])
     local country = tonumber(dataset[6])
     local description = dataset[7]
@@ -159489,9 +161725,9 @@ function CSAR:onafterLoad(From, Event, To, path, filename)
     local unitName = dataset[9]
     local freq = tonumber(dataset[10])
     
-    self:_AddCsar(coalition, country, point, typeName, unitName, playerName, freq, nil, description, nil)    
+    self:_AddCsar(coalition, country, point, typeName, unitName, playerName, freq, false, description, nil)    
   end
-  
+
   return self
 end
 
@@ -159659,6 +161895,8 @@ AIRWING = {
 -- @field #number refuelsystem Refueling system type: `0=Unit.RefuelingSystem.BOOM_AND_RECEPTACLE`, `1=Unit.RefuelingSystem.PROBE_AND_DROGUE`.
 -- @field #number noccupied Number of flights on this patrol point.
 -- @field Wrapper.Marker#MARKER marker F10 marker.
+-- @field #boolean IsZonePoint flag for using a (moving) zone as point for patrol etc.
+-- @field Core.Zone#ZONE_BASE patrolzone in case Patrol coordinate was handed as zone, store here.
 
 --- Patrol zone.
 -- @type AIRWING.PatrolZone
@@ -159687,13 +161925,14 @@ AIRWING = {
 
 --- AIRWING class version.
 -- @field #string version
-AIRWING.version="0.9.6"
+AIRWING.version="0.9.7"
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- ToDo list
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -- TODO: Check that airbase has enough parking spots if a request is BIG.
+-- DONE: Allow (moving) zones as base for patrol points.
 -- DONE: Spawn in air ==> Needs WAREHOUSE update.
 -- DONE: Spawn hot.
 -- DONE: Make special request to transfer squadrons to anther airwing (or warehouse).
@@ -160307,13 +162546,22 @@ function AIRWING:_PatrolPointMarkerText(point)
 end
 
 --- Update marker of the patrol point.
+-- @param #AIRWING self
 -- @param #AIRWING.PatrolData point Patrol point table.
 function AIRWING:UpdatePatrolPointMarker(point)
-  if self.markpoints then -- sometimes there's a direct call from #OPSGROUP
+
+  if self and self.markpoints then -- sometimes there's a direct call from #OPSGROUP
     local text=string.format("%s Occupied=%d\nheading=%03d, leg=%d NM, alt=%d ft, speed=%d kts",
     point.type, point.noccupied, point.heading, point.leg, point.altitude, point.speed)
-
-    point.marker:UpdateText(text, 1)
+ 
+    if point.IsZonePoint and point.IsZonePoint == true and point.patrolzone then
+      -- update position
+      local Coordinate = point.patrolzone:GetCoordinate()
+      point.marker:UpdateCoordinate(Coordinate)
+      point.marker:UpdateText(text, 1.5)
+    else
+      point.marker:UpdateText(text, 1)
+    end
   end
 end
 
@@ -160321,7 +162569,7 @@ end
 --- Create a new generic patrol point.
 -- @param #AIRWING self
 -- @param #string Type Patrol point type, e.g. "CAP" or "AWACS". Default "Unknown".
--- @param Core.Point#COORDINATE Coordinate Coordinate of the patrol point. Default 10-15 NM away from the location of the airwing.
+-- @param Core.Point#COORDINATE Coordinate Coordinate of the patrol point. Default 10-15 NM away from the location of the airwing. Can be handed as a Core.Zone#ZONE object (e.g. in case you want  the point to align with a moving zone).
 -- @param #number Altitude Orbit altitude in feet. Default random between Angels 10 and 20.
 -- @param #number Heading Heading in degrees. Default random (0, 360] degrees.
 -- @param #number LegLength Length of race-track orbit in NM. Default 15 NM.
@@ -160330,14 +162578,16 @@ end
 -- @return #AIRWING.PatrolData Patrol point table.
 function AIRWING:NewPatrolPoint(Type, Coordinate, Altitude, Speed, Heading, LegLength, RefuelSystem)
 
-  -- Check if a zone was passed instead of a coordinate.
-  if Coordinate and Coordinate:IsInstanceOf("ZONE_BASE") then
-    Coordinate=Coordinate:GetCoordinate()
-  end
-
   local patrolpoint={}  --#AIRWING.PatrolData
   patrolpoint.type=Type or "Unknown"
   patrolpoint.coord=Coordinate or self:GetCoordinate():Translate(UTILS.NMToMeters(math.random(10, 15)), math.random(360))
+  if Coordinate and Coordinate:IsInstanceOf("ZONE_BASE") then
+    patrolpoint.IsZonePoint = true
+    patrolpoint.patrolzone = Coordinate
+    patrolpoint.coord = patrolpoint.patrolzone:GetCoordinate()
+  else
+    patrolpoint.IsZonePoint = false
+  end
   patrolpoint.heading=Heading or math.random(360)
   patrolpoint.leg=LegLength or 15
   patrolpoint.altitude=Altitude or math.random(10,20)*1000
@@ -160347,7 +162597,7 @@ function AIRWING:NewPatrolPoint(Type, Coordinate, Altitude, Speed, Heading, LegL
 
   if self.markpoints then
     patrolpoint.marker=MARKER:New(Coordinate, "New Patrol Point"):ToAll()
-    AIRWING.UpdatePatrolPointMarker(patrolpoint)
+    self:UpdatePatrolPointMarker(patrolpoint)
   end
 
   return patrolpoint
@@ -160355,7 +162605,7 @@ end
 
 --- Add a patrol Point for CAP missions.
 -- @param #AIRWING self
--- @param Core.Point#COORDINATE Coordinate Coordinate of the patrol point.
+-- @param Core.Point#COORDINATE Coordinate Coordinate of the patrol point. Can be handed as a Core.Zone#ZONE object (e.g. in case you want  the point to align with a moving zone).
 -- @param #number Altitude Orbit altitude in feet.
 -- @param #number Speed Orbit speed in knots.
 -- @param #number Heading Heading in degrees.
@@ -160372,7 +162622,7 @@ end
 
 --- Add a patrol Point for RECON missions.
 -- @param #AIRWING self
--- @param Core.Point#COORDINATE Coordinate Coordinate of the patrol point.
+-- @param Core.Point#COORDINATE Coordinate Coordinate of the patrol point. Can be handed as a Core.Zone#ZONE object (e.g. in case you want  the point to align with a moving zone).
 -- @param #number Altitude Orbit altitude in feet.
 -- @param #number Speed Orbit speed in knots.
 -- @param #number Heading Heading in degrees.
@@ -160389,7 +162639,7 @@ end
 
 --- Add a patrol Point for TANKER missions.
 -- @param #AIRWING self
--- @param Core.Point#COORDINATE Coordinate Coordinate of the patrol point.
+-- @param Core.Point#COORDINATE Coordinate Coordinate of the patrol point. Can be handed as a Core.Zone#ZONE object (e.g. in case you want  the point to align with a moving zone).
 -- @param #number Altitude Orbit altitude in feet.
 -- @param #number Speed Orbit speed in knots.
 -- @param #number Heading Heading in degrees.
@@ -160407,7 +162657,7 @@ end
 
 --- Add a patrol Point for AWACS missions.
 -- @param #AIRWING self
--- @param Core.Point#COORDINATE Coordinate Coordinate of the patrol point.
+-- @param Core.Point#COORDINATE Coordinate Coordinate of the patrol point. Can be handed as a Core.Zone#ZONE object (e.g. in case you want  the point to align with a moving zone).
 -- @param #number Altitude Orbit altitude in feet.
 -- @param #number Speed Orbit speed in knots.
 -- @param #number Heading Heading in degrees.
@@ -160471,6 +162721,46 @@ end
 -- @return #AIRWING self
 function AIRWING:SetTakeoffAir()
   self:SetTakeoffType("Air")
+  return self
+end
+
+--- Set the aircraft of the AirWing to land straight in.
+-- @param #AIRWING self
+-- @return #FLIGHTGROUP self
+function AIRWING:SetLandingStraightIn()
+  self.OptionLandingStraightIn = true
+  return self
+end
+
+--- Set the aircraft of the AirWing to land in pairs for groups > 1 aircraft.
+-- @param #AIRWING self
+-- @return #AIRWING self
+function AIRWING:SetLandingForcePair()
+  self.OptionLandingForcePair = true
+  return self
+end
+
+--- Set the aircraft of the AirWing to NOT land in pairs.
+-- @param #AIRWING self
+-- @return #AIRWING self
+function AIRWING:SetLandingRestrictPair()
+  self.OptionLandingRestrictPair = true
+  return self
+end
+
+--- Set the aircraft of the AirWing to land after overhead break.
+-- @param #AIRWING self
+-- @return #AIRWING self
+function AIRWING:SetLandingOverheadBreak()
+  self.OptionLandingOverheadBreak = true
+  return self
+end
+
+--- [Helicopter] Set the aircraft of the AirWing to prefer vertical takeoff and landing.
+-- @param #AIRWING self
+-- @return #AIRWING self
+function AIRWING:SetOptionPreferVerticalLanding()
+  self.OptionPreferVerticalLanding = true
   return self
 end
 
@@ -160636,6 +162926,10 @@ function AIRWING:_GetPatrolData(PatrolPoints, RefuelSystem)
 
     for _,_patrolpoint in pairs(PatrolPoints) do
       local patrolpoint=_patrolpoint --#AIRWING.PatrolData
+      if patrolpoint.IsZonePoint and patrolpoint.IsZonePoint == true and patrolpoint.patrolzone then
+        -- update
+        patrolpoint.coord = patrolpoint.patrolzone:GetCoordinate()
+      end
       if (RefuelSystem and patrolpoint.refuelsystem and RefuelSystem==patrolpoint.refuelsystem) or RefuelSystem==nil or patrolpoint.refuelsystem==nil then
         return patrolpoint
       end
@@ -160695,7 +162989,7 @@ function AIRWING:CheckCAP()
 
     patrol.noccupied=patrol.noccupied+1
 
-    if self.markpoints then AIRWING.UpdatePatrolPointMarker(patrol) end
+    if self.markpoints then self:UpdatePatrolPointMarker(patrol) end
 
     self:AddMission(missionCAP)
 
@@ -160747,7 +163041,7 @@ function AIRWING:CheckRECON()
 
     patrol.noccupied=patrol.noccupied+1
 
-    if self.markpoints then AIRWING.UpdatePatrolPointMarker(patrol) end
+    if self.markpoints then self:UpdatePatrolPointMarker(patrol) end
 
     self:AddMission(missionRECON)
 
@@ -160792,7 +163086,7 @@ function AIRWING:CheckTANKER()
 
     patrol.noccupied=patrol.noccupied+1
 
-    if self.markpoints then AIRWING.UpdatePatrolPointMarker(patrol) end
+    if self.markpoints then self:UpdatePatrolPointMarker(patrol) end
 
     self:AddMission(mission)
 
@@ -160811,7 +163105,7 @@ function AIRWING:CheckTANKER()
 
     patrol.noccupied=patrol.noccupied+1
 
-    if self.markpoints then AIRWING.UpdatePatrolPointMarker(patrol) end
+    if self.markpoints then self:UpdatePatrolPointMarker(patrol) end
 
     self:AddMission(mission)
 
@@ -160849,7 +163143,7 @@ function AIRWING:CheckAWACS()
 
     patrol.noccupied=patrol.noccupied+1
 
-    if self.markpoints then AIRWING.UpdatePatrolPointMarker(patrol) end
+    if self.markpoints then self:UpdatePatrolPointMarker(patrol) end
 
     self:AddMission(mission)
 
@@ -160964,7 +163258,21 @@ function AIRWING:onafterFlightOnMission(From, Event, To, FlightGroup, Mission)
   self:T(self.lid..string.format("Group %s on %s mission %s", FlightGroup:GetName(), Mission:GetType(), Mission:GetName()))
   if self.UseConnectedOpsAwacs and self.ConnectedOpsAwacs then
     self.ConnectedOpsAwacs:__FlightOnMission(2,FlightGroup,Mission)
-  end  
+  end
+  -- Landing Options  
+  if self.OptionLandingForcePair then
+    FlightGroup:SetOptionLandingForcePair()
+  elseif self.OptionLandingOverheadBreak then
+   FlightGroup:SetOptionLandingOverheadBreak()
+  elseif self.OptionLandingRestrictPair then
+   FlightGroup:SetOptionLandingRestrictPair()
+  elseif self.OptionLandingStraightIn then
+    FlightGroup:SetOptionLandingStraightIn()
+  end
+  -- Landing Options Helo
+  if self.OptionPreferVerticalLanding then
+    FlightGroup:SetOptionPreferVertical()
+  end
 end
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -163826,6 +166134,7 @@ AUFTRAG = {
   conditionPush      =    {},
   conditionSuccessSet = false,
   conditionFailureSet = false,
+  repeatDelay = 1,
 }
 
 --- Global mission counter.
@@ -164749,13 +167058,19 @@ end
 -- @param #number Altitude Orbit altitude in feet. Default is y component of `Coordinate`.
 -- @param #number Speed Orbit indicated airspeed in knots at the set altitude ASL. Default 350 KIAS.
 -- @param #number Heading Heading of race-track pattern in degrees. Default 270 (East to West).
--- @param #number Leg Length of race-track in NM. Default 10 NM.
+-- @param #number Leg Length of race-track in NM. Default 10 NM. Set to 0 for a simple circular orbit.
 -- @param #number RefuelSystem Refueling system (0=boom, 1=probe). This info is *only* for AIRWINGs so they launch the right tanker type.
 -- @return #AUFTRAG self
 function AUFTRAG:NewTANKER(Coordinate, Altitude, Speed, Heading, Leg, RefuelSystem)
-
+  
+  local mission
+  if Leg == 0 then
+    mission=AUFTRAG:NewORBIT_CIRCLE(Coordinate,Altitude,Speed)
+  else
+    mission=AUFTRAG:NewORBIT_RACETRACK(Coordinate,Altitude,Speed,Heading,Leg)
+  end
   -- Create ORBIT first.
-  local mission=AUFTRAG:NewORBIT_RACETRACK(Coordinate, Altitude, Speed, Heading, Leg)
+  --local mission=AUFTRAG:NewORBIT_RACETRACK(Coordinate, Altitude, Speed, Heading, Leg)
 
   -- Mission type TANKER.
   mission.type=AUFTRAG.Type.TANKER
@@ -164857,7 +167172,7 @@ function AUFTRAG:NewCAP(ZoneCAP, Altitude, Speed, Coordinate, Heading, Leg, Targ
   mission:_SetLogID()
 
   -- DCS task parameters:
-  mission.engageZone=ZoneCAP
+  mission.engageZone=ZoneCAP or Coordinate
   mission.engageTargetTypes=TargetTypes or {"Air"}
 
   -- Mission options:
@@ -165144,6 +167459,42 @@ function AUFTRAG:NewSEAD(Target, Altitude)
   return mission
 end
 
+--- **[AIR]** Create a SEAD in Zone mission.
+-- @param #AUFTRAG self
+-- @param Core.Zone#ZONE TargetZone The target zone to attack.
+-- @param #number Altitude Engage altitude in feet. Default 25000 ft.
+-- @param #table TargetTypes Table of string of DCS known target types, defaults to {"Air Defence"}. See [DCS Target Attributes](https://wiki.hoggitworld.com/view/DCS_enum_attributes)
+-- @param #number Duration Engage this much time when the AUFTRAG starts executing.
+-- @return #AUFTRAG self
+function AUFTRAG:NewSEADInZone(TargetZone, Altitude, TargetTypes, Duration)
+
+  local mission=AUFTRAG:New(AUFTRAG.Type.SEAD)
+
+  --mission:_TargetFromObject(TargetZone)
+
+  -- DCS Task options:
+  mission.engageWeaponType=ENUMS.WeaponFlag.Auto
+  mission.engageWeaponExpend=AI.Task.WeaponExpend.ALL
+  mission.engageAltitude=UTILS.FeetToMeters(Altitude or 25000)
+  mission.engageZone = TargetZone
+  mission.engageTargetTypes = TargetTypes or {"Air Defence"}
+
+  -- Mission options:
+  mission.missionTask=ENUMS.MissionTask.SEAD
+  mission.missionAltitude=mission.engageAltitude
+  mission.missionFraction=0.2
+  mission.optionROE=ENUMS.ROE.OpenFire
+  mission.optionROT=ENUMS.ROT.EvadeFire
+
+  mission.categories={AUFTRAG.Category.AIRCRAFT}
+
+  mission.DCStask=mission:GetDCSMissionTask()
+  
+  mission:SetDuration(Duration or 1800)
+
+  return mission
+end
+
 --- **[AIR]** Create a STRIKE mission. Flight will attack the closest map object to the specified coordinate.
 -- @param #AUFTRAG self
 -- @param Core.Point#COORDINATE Target The target coordinate. Can also be given as a GROUP, UNIT, STATIC, SET_GROUP, SET_UNIT, SET_STATIC or TARGET object.
@@ -165181,8 +167532,9 @@ end
 -- @param Core.Point#COORDINATE Target Target coordinate. Can also be specified as a GROUP, UNIT, STATIC, SET_GROUP, SET_UNIT, SET_STATIC or TARGET object.
 -- @param #number Altitude Engage altitude in feet. Default 25000 ft.
 -- @param #number EngageWeaponType Which weapon to use. Defaults to auto, ie ENUMS.WeaponFlag.Auto. See ENUMS.WeaponFlag for options.
+-- @param #boolean Divebomb If true, use a dive bombing attack approach.
 -- @return #AUFTRAG self
-function AUFTRAG:NewBOMBING(Target, Altitude, EngageWeaponType)
+function AUFTRAG:NewBOMBING(Target, Altitude, EngageWeaponType, Divebomb)
 
   local mission=AUFTRAG:New(AUFTRAG.Type.BOMBING)
 
@@ -165199,6 +167551,7 @@ function AUFTRAG:NewBOMBING(Target, Altitude, EngageWeaponType)
   mission.missionFraction=0.5
   mission.optionROE=ENUMS.ROE.OpenFire
   mission.optionROT=ENUMS.ROT.NoReaction   -- No reaction is better.
+  mission.optionDivebomb = Divebomb or nil
 
   -- Evaluate result after 5 min. We might need time until the bombs have dropped and targets have been detroyed.
   mission.dTevaluate=5*60
@@ -166392,6 +168745,16 @@ end
 -- @return #AUFTRAG self
 function AUFTRAG:SetRepeat(Nrepeat)
   self.Nrepeat=Nrepeat or 0
+  return self
+end
+
+
+--- **[LEGION, COMMANDER, CHIEF]** Set the repeat delay in seconds after a mission is successful/failed. Only valid if the mission is handled by a LEGION (AIRWING, BRIGADE, FLEET) or higher level.
+-- @param #AUFTRAG self
+-- @param #number Nrepeat Repeat delay in seconds. Default 1.
+-- @return #AUFTRAG self
+function AUFTRAG:SetRepeatDelay(RepeatDelay)
+  self.repeatDelay = RepeatDelay
   return self
 end
 
@@ -168194,6 +170557,8 @@ end
 -- @return #boolean If `true`, all groups are done with the mission.
 function AUFTRAG:CheckGroupsDone()
 
+  local fsmState = self:GetState()
+
   -- Check status of all OPS groups.
   for groupname,data in pairs(self.groupdata) do
     local groupdata=data --#AUFTRAG.GroupData
@@ -168250,6 +170615,11 @@ function AUFTRAG:CheckGroupsDone()
   if self:IsStarted() and self:CountOpsGroups()==0 then
     self:T(self.lid..string.format("CheckGroupsDone: Mission is STARTED state %s [FSM=%s] but count of alive OPSGROUP is zero. Mission DONE!", self.status, self:GetState()))
     return true
+  end
+  
+  if (self:IsStarted() or self:IsExecuting()) and (fsmState == AUFTRAG.Status.STARTED or fsmState == AUFTRAG.Status.EXECUTING) and self:CountOpsGroups()>0 then
+    self:T(self.lid..string.format("CheckGroupsDone: Mission is STARTED state %s [FSM=%s] and count of alive OPSGROUP > zero. Mission NOT DONE!", self.status, self:GetState()))
+    return false
   end
 
   return true
@@ -168589,7 +170959,7 @@ function AUFTRAG:onafterSuccess(From, Event, To)
 
     -- Repeat mission.
     self:T(self.lid..string.format("Mission SUCCESS! Repeating mission for the %d time (max %d times) ==> Repeat mission!", self.repeated+1, N))
-    self:Repeat()
+    self:__Repeat(self.repeatDelay)
 
   else
 
@@ -168631,7 +171001,7 @@ function AUFTRAG:onafterFailed(From, Event, To)
 
     -- Repeat mission.
     self:T(self.lid..string.format("Mission FAILED! Repeating mission for the %d time (max %d times) ==> Repeat mission!", self.repeated+1, N))
-    self:Repeat()
+    self:__Repeat(self.repeatDelay)
 
   else
 
@@ -169539,7 +171909,7 @@ function AUFTRAG:GetDCSMissionTask()
 
     local coords = self.engageTarget:GetCoordinates()
     for _, coord in pairs(coords) do
-        local DCStask = CONTROLLABLE.TaskBombing(nil, coord:GetVec2(), self.engageAsGroup, self.engageWeaponExpend, self.engageQuantity, self.engageDirection, self.engageAltitude, self.engageWeaponType)
+        local DCStask = CONTROLLABLE.TaskBombing(nil, coord:GetVec2(), self.engageAsGroup, self.engageWeaponExpend, self.engageQuantity, self.engageDirection, self.engageAltitude, self.engageWeaponType, self.optionDivebomb)
 
         table.insert(DCStasks, DCStask)
     end
@@ -169579,8 +171949,16 @@ function AUFTRAG:GetDCSMissionTask()
     -----------------
     -- CAP Mission --
     -----------------
-
-    local DCStask=CONTROLLABLE.EnRouteTaskEngageTargetsInZone(nil, self.engageZone:GetVec2(), self.engageZone:GetRadius(), self.engageTargetTypes, Priority)
+    
+    local Vec2 = self.engageZone:GetVec2()
+    local Radius
+    if self.engageZone:IsInstanceOf("COORDINATE") then
+      Radius = UTILS.NMToMeters(20)
+    else
+      Radius = self.engageZone:GetRadius()
+    end
+        
+    local DCStask=CONTROLLABLE.EnRouteTaskEngageTargetsInZone(nil, Vec2, Radius, self.engageTargetTypes, Priority)
 
     table.insert(self.enrouteTasks, DCStask)
 
@@ -169734,9 +172112,35 @@ function AUFTRAG:GetDCSMissionTask()
     -- Add enroute task SEAD. Disabled that here because the group enganges everything on its route.
     --local DCStask=CONTROLLABLE.EnRouteTaskSEAD(nil, self.TargetType)
     --table.insert(self.enrouteTasks, DCStask)
-
-    self:_GetDCSAttackTask(self.engageTarget, DCStasks)
-
+    
+    if self.engageZone then
+    
+      --local DCStask=CONTROLLABLE.EnRouteTaskSEAD(nil, self.engageTargetTypes)
+      --table.insert(self.enrouteTasks, DCStask)
+      self.engageZone:Scan({Object.Category.UNIT},{Unit.Category.GROUND_UNIT})
+      local ScanUnitSet = self.engageZone:GetScannedSetUnit()
+      local SeadUnitSet = SET_UNIT:New()
+      for _,_unit in pairs (ScanUnitSet.Set) do
+        local unit = _unit -- Wrapper.Unit#UNTI
+        if unit and unit:IsAlive() and unit:HasSEAD() then
+          self:T("Adding UNIT for SEAD: "..unit:GetName())
+          local task = CONTROLLABLE.TaskAttackUnit(nil,unit,GroupAttack,AI.Task.WeaponExpend.ALL,1,Direction,self.engageAltitude,2956984318)
+          table.insert(DCStasks, task)
+          SeadUnitSet:AddUnit(unit)
+        end
+      end
+      self.engageTarget = TARGET:New(SeadUnitSet)
+      --local OrbitTask = CONTROLLABLE.TaskOrbitCircle(nil,self.engageAltitude,self.missionSpeed,self.engageZone:GetCoordinate())
+      --local Point = self.engageZone:GetVec2()
+      --local OrbitTask = CONTROLLABLE.TaskOrbitCircleAtVec2(nil,Point,self.engageAltitude,self.missionSpeed)
+      --table.insert(DCStasks, OrbitTask)
+     
+    else
+    
+      self:_GetDCSAttackTask(self.engageTarget, DCStasks)
+    
+    end
+    
   elseif self.type==AUFTRAG.Type.STRIKE then
 
     --------------------
@@ -170463,7 +172867,7 @@ end
 -- ===
 --
 -- ### Author: **applevangelist**
--- @date Last Update Jan 2025
+-- @date Last Update July 2025
 -- @module Ops.AWACS
 -- @image OPS_AWACS.jpg
 
@@ -170683,7 +173087,7 @@ do
 --            -- Callsign will be "Focus". We'll be a Angels 30, doing 300 knots, orbit leg to 88deg with a length of 25nm.
 --            testawacs:SetAwacsDetails(CALLSIGN.AWACS.Focus,1,30,300,88,25)
 --            -- Set up SRS on port 5010 - change the below to your path and port
---            testawacs:SetSRS("C:\\Program Files\\DCS-SimpleRadio-Standalone","female","en-GB",5010)
+--            testawacs:SetSRS("C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio","female","en-GB",5010)
 --            -- Add a "red" border we don't want to cross, set up in the mission editor with a late activated helo named "Red Border#ZONE_POLYGON"
 --            testawacs:SetRejectionZone(ZONE:FindByName("Red Border"))
 --            -- Our CAP flight will have the callsign "Ford", we want 4 AI planes, Time-On-Station is four hours, doing 300 kn IAS.
@@ -170701,7 +173105,7 @@ do
 --            -- The CAP station zone is called "Fremont". We will be on 255 AM. Note the Orbit Zone is given as *nil* in the `New()`-Statement
 --            local testawacs = AWACS:New("GCI Senaki",AwacsAW,"blue",AIRBASE.Caucasus.Senaki_Kolkhi,nil,ZONE:FindByName("Rock"),"Fremont",255,radio.modulation.AM )
 --            -- Set up SRS on port 5010 - change the below to your path and port
---            testawacs:SetSRS("C:\\Program Files\\DCS-SimpleRadio-Standalone","female","en-GB",5010)
+--            testawacs:SetSRS("C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio","female","en-GB",5010)
 --            -- Add a "red" border we don't want to cross, set up in the mission editor with a late activated helo named "Red Border#ZONE_POLYGON"
 --            testawacs:SetRejectionZone(ZONE:FindByName("Red Border"))
 --            -- Our CAP flight will have the callsign "Ford", we want 4 AI planes, Time-On-Station is four hours, doing 300 kn IAS.
@@ -170955,7 +173359,7 @@ do
 -- @field #AWACS
 AWACS = {
   ClassName = "AWACS", -- #string
-  version = "0.2.71", -- #string
+  version = "0.2.72", -- #string
   lid = "", -- #string
   coalition = coalition.side.BLUE, -- #number
   coalitiontxt = "blue", -- #string
@@ -171569,7 +173973,7 @@ function AWACS:New(Name,AirWing,Coalition,AirbaseName,AwacsOrbit,OpsZone,Station
   self.EscortMissionReplacement = {}
   
   -- SRS
-  self.PathToSRS = "C:\\Program Files\\DCS-SimpleRadio-Standalone"
+  self.PathToSRS = "C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio"
   self.Gender = "female"
   self.Culture = "en-GB"
   self.Voice = nil
@@ -171688,6 +174092,8 @@ function AWACS:New(Name,AirWing,Coalition,AirbaseName,AwacsOrbit,OpsZone,Station
   self:AddTransition("*",             "Intercept",          "*")
   self:AddTransition("*",             "InterceptSuccess",   "*")
   self:AddTransition("*",             "InterceptFailure",   "*")
+  self:AddTransition("*",             "VIDSuccess",   "*")
+  self:AddTransition("*",             "VIDFailure",   "*")
   self:AddTransition("*",             "Stop",               "Stopped")     -- Stop FSM.
   
   
@@ -171811,18 +174217,38 @@ function AWACS:New(Name,AirWing,Coalition,AirbaseName,AwacsOrbit,OpsZone,Station
   -- @param #string To To state.
   
   --- On After "InterceptSuccess" event. Intercept successful.
-  -- @function [parent=#AWACS] OnAfterIntercept
+  -- @function [parent=#AWACS] OnAfterInterceptSuccess
   -- @param #AWACS self
   -- @param #string From From state.
   -- @param #string Event Event.
   -- @param #string To To state.
   
   --- On After "InterceptFailure" event. Intercept failure.
-  -- @function [parent=#AWACS] OnAfterIntercept
+  -- @function [parent=#AWACS] OnAfterInterceptFailure
   -- @param #AWACS self
   -- @param #string From From state.
   -- @param #string Event Event.
   -- @param #string To To state.
+
+  --- On After "VIDSuccess" event. Intercept successful.
+  -- @function [parent=#AWACS] OnAfterVIDSuccess
+  -- @param #AWACS self
+  -- @param #string From From state.
+  -- @param #string Event Event.
+  -- @param #string To To state.
+  -- @param #number GID Managed group ID (Player)
+  -- @param Wrapper.Group#GROUP Group (Player) Group done the VID
+  -- @param #AWACS.ManagedContact Contact The contact that was VID'd 
+  
+  --- On After "VIDFailure" event. Intercept failure.
+  -- @function [parent=#AWACS] OnAfterVIDFailure
+  -- @param #AWACS self
+  -- @param #string From From state.
+  -- @param #string Event Event.
+  -- @param #string To To state.
+  -- @param #number GID Managed group ID (Player)
+  -- @param Wrapper.Group#GROUP Group (Player) Group done the VID
+  -- @param #AWACS.ManagedContact Contact The contact that was VID'd 
   
   return self
 end
@@ -172537,7 +174963,7 @@ end
 
 --- [User] Set AWACS SRS TTS details - see @{Sound.SRS} for details. `SetSRS()` will try to use as many attributes configured with @{Sound.SRS#MSRS.LoadConfigFile}() as possible.
 -- @param #AWACS self
--- @param #string PathToSRS Defaults to "C:\\Program Files\\DCS-SimpleRadio-Standalone"
+-- @param #string PathToSRS Defaults to "C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio"
 -- @param #string Gender Defaults to "male"
 -- @param #string Culture Defaults to "en-US"
 -- @param #number Port Defaults to 5002
@@ -172550,7 +174976,7 @@ end
 -- @return #AWACS self
 function AWACS:SetSRS(PathToSRS,Gender,Culture,Port,Voice,Volume,PathToGoogleKey,AccessKey,Backend)
   self:T(self.lid.."SetSRS")
-  self.PathToSRS = PathToSRS or MSRS.path or "C:\\Program Files\\DCS-SimpleRadio-Standalone" 
+  self.PathToSRS = PathToSRS or MSRS.path or "C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio" 
   self.Gender = Gender or MSRS.gender or "male"
   self.Culture = Culture or MSRS.culture or "en-US"
   self.Port = Port or MSRS.port or 5002
@@ -173709,12 +176135,14 @@ function AWACS:_VID(Group,Declaration)
           local vidpos = self.gettext:GetEntry("VIDPOS",self.locale)
           text = string.format(vidpos,Callsign,self.callsigntxt, Declaration)
           self:T(text)
+          self:__VIDSuccess(3,GID,group,cluster)
         else
           -- too far away
           self:T("Contact VID not close enough")
           local vidneg = self.gettext:GetEntry("VIDNEG",self.locale)
           text = string.format(vidneg,Callsign,self.callsigntxt)
           self:T(text)
+          self:__VIDFailure(3,GID,group,cluster)
         end
         self:_NewRadioEntry(text,text,GID,Outcome,true,true,false,true)
       end
@@ -181577,7 +184005,7 @@ COHORT = {
 
 --- COHORT class version.
 -- @field #string version
-COHORT.version="0.3.6"
+COHORT.version="0.3.7"
 
 --- Global variable to store the unique(!) cohort names
 _COHORTNAMES={}
@@ -181589,6 +184017,7 @@ _COHORTNAMES={}
 -- DONE: Create FLOTILLA class.
 -- DONE: Added check for properties.
 -- DONE: Make general so that PLATOON and SQUADRON can inherit this class.
+-- DONE: Better setting of call signs.
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Constructor
@@ -182004,10 +184433,12 @@ end
 -- @param #COHORT self
 -- @param #number Callsign Callsign from CALLSIGN.Aircraft, e.g. "Chevy" for CALLSIGN.Aircraft.CHEVY.
 -- @param #number Index Callsign index, Chevy-**1**.
+-- @param #string CallsignString (optional) Set this for tasks like TANKER, AWACS or KIOWA and the like, which have special names. E.g. "Darkstar" or "Roughneck".
 -- @return #COHORT self
-function COHORT:SetCallsign(Callsign, Index)
+function COHORT:SetCallsign(Callsign, Index, CallsignString)
   self.callsignName=Callsign
   self.callsignIndex=Index
+  self.callsignClearName=CallsignString
   self.callsign={}
   self.callsign.NumberSquad=Callsign
   self.callsign.NumberGroup=Index
@@ -182168,7 +184599,16 @@ end
 function COHORT:GetCallsign(Asset)
 
   if self.callsignName then
-  
+    --[[
+                    ["callsign"] = 
+                    {
+                      [2] = 1,
+                      ["name"] = "Darkstar11",
+                      [3] = 1,
+                      [1] = 5,
+                      [4] = "Darkstar11",
+                    }, -- end of ["callsign"]
+    ]]
     Asset.callsign={}
   
     for i=1,Asset.nunits do
@@ -182184,12 +184624,16 @@ function COHORT:GetCallsign(Asset)
       else
         self.callsigncounter=self.callsigncounter+1
       end
+      callsign["name"] = self.callsignClearName or UTILS.GetCallsignName(self.callsignName) or "None"
+      callsign["name"] = string.format("%s%d%d",callsign["name"],callsign[2],callsign[3])
+      callsign[4] = callsign["name"] 
     
       Asset.callsign[i]=callsign
       
       self:T3({callsign=callsign})
     
-      --TODO: there is also a table entry .name, which is a string.
+      --DONE: there is also a table entry .name, which is a string.
+      --UTILS.PrintTableToLog(callsign)
     end
   
   
@@ -183274,6 +185718,7 @@ COMMANDER = {
   awacsZones      =    {},
   tankerZones     =    {},
   limitMission    =    {},
+  maxMissionsAssignPerCycle = 1,
 }
 
 --- COMMANDER class version.
@@ -184673,6 +187118,8 @@ function COMMANDER:CheckMissionQueue()
     end
   end
 
+  local missionsAssigned = 0
+
   -- Loop over missions in queue.
   for _,_mission in pairs(self.missionqueue) do
     local mission=_mission --Ops.Auftrag#AUFTRAG
@@ -184732,9 +187179,12 @@ function COMMANDER:CheckMissionQueue()
           -- Recruited assets but no requested escort available. Unrecruit assets!
           LEGION.UnRecruitAssets(assets, mission)
         end        
-    
-        -- Only ONE mission is assigned.
-        return        
+
+        missionsAssigned = missionsAssigned + 1
+        if missionsAssigned >= (self.maxMissionsAssignPerCycle or 1) then
+            return
+        end
+
       end
       
     else
@@ -184747,6 +187197,16 @@ function COMMANDER:CheckMissionQueue()
   
   end
   
+end
+
+--- Set how many missions can be assigned in a single status iteration. (eg. This is useful for persistent missions where you need to load all AUFTRAGs on mission start and then change it back to default)
+--- Warning: Increasing this value will increase the number of missions started per iteration and thus may lead to performance issues if too many missions are started at once.
+-- @param #COMMANDER self
+-- @param #number Number of missions assigned per status iteration. Default is 1.
+-- @return #COMMANDER self.
+function COMMANDER:SetMaxMissionsAssignPerCycle(MaxMissionsAssignPerCycle)
+  self.maxMissionsAssignPerCycle = MaxMissionsAssignPerCycle or 1
+  return self
 end
 
 --- Get cohorts.
@@ -184808,9 +187268,12 @@ function COMMANDER:_GetCohorts(Legions, Cohorts, Operation)
     for _,_legion in pairs(Legions or {}) do
       local legion=_legion --Ops.Legion#LEGION
   
-      -- Check that runway is operational.    
-      local Runway=legion:IsAirwing() and legion:IsRunwayOperational() or true
-      
+      -- Check that runway is operational.
+      local Runway=true
+      if legion:IsAirwing() then
+        Runway=legion:IsRunwayOperational() and legion.airbase and legion.airbase:GetCoalition() == legion:GetCoalition()
+      end
+
       -- Legion has to be running.
       if legion:IsRunning() and Runway then
       
@@ -184841,9 +187304,12 @@ function COMMANDER:_GetCohorts(Legions, Cohorts, Operation)
     for _,_legion in pairs(self.legions) do
       local legion=_legion --Ops.Legion#LEGION
       
-      -- Check that runway is operational.    
-      local Runway=legion:IsAirwing() and legion:IsRunwayOperational() or true
-      
+      -- Check that runway is operational.
+      local Runway=true
+      if legion:IsAirwing() then
+        Runway=legion:IsRunwayOperational() and legion.airbase and legion.airbase:GetCoalition() == legion:GetCoalition()
+      end
+
       -- Legion has to be running.
       if legion:IsRunning() and Runway then
       
@@ -188200,7 +190666,7 @@ end
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Payer Menu
+-- Player Menu
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 --- Create player menu.
@@ -191279,6 +193745,61 @@ function FLIGHTGROUP:SetJettisonWeapons(Switch)
   return self
 end
 
+--- Set the aircraft to land straight in.
+-- @param #FLIGHTGROUP self
+-- @return #FLIGHTGROUP self
+function FLIGHTGROUP:SetOptionLandingStraightIn()
+  self.OptionLandingStraightIn = true
+  if self:GetGroup():IsAlive() then
+    self:GetGroup():SetOptionLandingStraightIn()
+  end
+  return self
+end
+
+--- Set the aircraft to land in pairs.
+-- @param #FLIGHTGROUP self
+-- @return #FLIGHTGROUP self
+function FLIGHTGROUP:SetOptionLandingForcePair()
+  self.OptionLandingForcePair = true
+  if self:GetGroup():IsAlive() then
+    self:GetGroup():SetOptionLandingForcePair()
+  end
+  return self
+end
+
+--- Set the aircraft to NOT land in pairs.
+-- @param #FLIGHTGROUP self
+-- @return #FLIGHTGROUP self
+function FLIGHTGROUP:SetOptionLandingRestrictPair()
+  self.OptionLandingRestrictPair = true
+  if self:GetGroup():IsAlive() then
+    self:GetGroup():SetOptionLandingRestrictPair()
+  end
+  return self
+end
+
+--- Set the aircraft to land after overhead break.
+-- @param #FLIGHTGROUP self
+-- @return #FLIGHTGROUP self
+function FLIGHTGROUP:SetOptionLandingOverheadBreak()
+  self.OptionLandingOverheadBreak = true
+  if self:GetGroup():IsAlive() then
+    self:GetGroup():SetOptionLandingOverheadBreak()
+  end
+  return self
+end
+
+--- [HELICOPTER] Set the aircraft to prefer takeoff and landing vertically.
+-- @param #FLIGHTGROUP self
+-- @return #FLIGHTGROUP self
+function FLIGHTGROUP:SetOptionPreferVertical()
+  self.OptionPreferVertical = true
+  if self:GetGroup():IsAlive() then
+    self:GetGroup():OptionPreferVerticalLanding()
+  end
+  return self
+end
+
 --- Set if group is ready for taxi/takeoff if controlled by a `FLIGHTCONTROL`.
 -- @param #FLIGHTGROUP self
 -- @param #boolean ReadyTO If `true`, flight is ready for takeoff.
@@ -192502,6 +195023,9 @@ function FLIGHTGROUP:onafterElementAirborne(From, Event, To, Element)
 
   -- Debug info.
   self:T2(self.lid..string.format("Element airborne %s", Element.name))
+  
+  -- Set parking spot to free. Also for FC. This is usually done after taxiing but doing it here in case the group is teleported.
+  self:_SetElementParkingFree(Element)  
 
   -- Set element status.
   self:_UpdateStatus(Element, OPSGROUP.ElementStatus.AIRBORNE)
@@ -193576,7 +196100,7 @@ function FLIGHTGROUP:onbeforeLandAtAirbase(From, Event, To, airbase)
     local Tsuspend=nil
 
     if airbase==nil then
-      self:T(self.lid.."ERROR: Airbase is nil in LandAtAirase() call!")
+      self:T(self.lid.."ERROR: Airbase is nil in LandAtAirbase() call!")
       allowed=false
     end
 
@@ -194994,6 +197518,11 @@ function FLIGHTGROUP:GetParkingSpot(element, maxdist, airbase)
   -- Airbase.
   airbase=airbase or self:GetClosestAirbase()
 
+  if airbase == nil then
+    self:T(self.lid.."No airbase found for element "..element.name)
+    return nil
+  end
+
   -- Parking table of airbase.
   local parking=airbase.parking --:GetParkingSpotsTable()
 
@@ -195104,10 +197633,12 @@ function FLIGHTGROUP:GetParking(airbase)
     local coords={}
     for clientname, client in pairs(clients) do
       local template=_DATABASE:GetGroupTemplateFromUnitName(clientname)
-      local units=template.units
-      for i,unit in pairs(units) do
-        local coord=COORDINATE:New(unit.x, unit.alt, unit.y)
-        coords[unit.name]=coord
+      if template then
+        local units=template.units
+        for i,unit in pairs(units) do
+          local coord=COORDINATE:New(unit.x, unit.alt, unit.y)
+          coords[unit.name]=coord
+        end
       end
     end
     return coords
@@ -200399,6 +202930,7 @@ function LEGION:_CreateFlightGroup(asset)
     ---  
   
     opsgroup=ARMYGROUP:New(asset.spawngroupname)
+    opsgroup:SetValidateAndRepositionGroundUnits(self.ValidateAndRepositionGroundUnits)
     
   elseif self:IsFleet() then
 
@@ -201089,9 +203621,12 @@ function LEGION._GetCohorts(Legions, Cohorts, Operation, OpsQueue)
     for _,_legion in pairs(Legions or {}) do
       local legion=_legion --Ops.Legion#LEGION
   
-      -- Check that runway is operational.    
-      local Runway=legion:IsAirwing() and legion:IsRunwayOperational() or true
-      
+      -- Check that runway is operational.
+      local Runway=true
+      if legion:IsAirwing() then
+        Runway=legion:IsRunwayOperational() and legion.airbase and legion.airbase:GetCoalition() == legion:GetCoalition()
+      end
+
       -- Legion has to be running.
       if legion:IsRunning() and Runway then
       
@@ -211458,10 +213993,13 @@ function OPSGROUP:onafterUnpauseMission(From, Event, To)
     -- Debug info.
     self:T(self.lid..string.format("Unpausing mission %s [%s]", mission:GetName(), mission:GetType()))
     
+    -- Set state of mission, e.g. for not teleporting again
+    mission.unpaused=true
+    
     -- Start mission.
     self:MissionStart(mission)
     
-    -- Remove mission from 
+    -- Remove mission from pausedmissions queue
     for i,mid in pairs(self.pausedmissions) do
       --self:T(self.lid..string.format("Checking paused mission", mid))
       if mid==mission.auftragsnummer then
@@ -211596,7 +214134,7 @@ function OPSGROUP:onafterMissionDone(From, Event, To, Mission)
   -- Decrease patrol data.
   if Mission.patroldata then
     Mission.patroldata.noccupied=Mission.patroldata.noccupied-1
-    AIRWING.UpdatePatrolPointMarker(Mission.patroldata)
+    AIRWING.UpdatePatrolPointMarker(self,Mission.patroldata)
   end
 
   -- Switch auto engage detected off. This IGNORES that engage detected had been activated for the group!
@@ -212101,7 +214639,7 @@ function OPSGROUP:RouteToMission(mission, delay)
     end
     
     -- Check if group is mobile. Note that some immobile units report a speed of 1 m/s = 3.6 km/h.
-    if self.speedMax<=3.6 or mission.teleport then
+    if (self.speedMax<=3.6 or mission.teleport) and not mission.unpaused then
 
       -- Teleport to waypoint coordinate. Mission will not be paused.
       self:Teleport(waypointcoord, nil, true)
@@ -213713,8 +216251,13 @@ function OPSGROUP:_Spawn(Delay, Template)
     -- Debug output.
     self:T2({Template=Template})
 
+    if self:IsArmygroup() and self.ValidateAndRepositionGroundUnits then
+        UTILS.ValidateAndRepositionGroundUnits(Template.units)
+    end
+
     -- Spawn new group.
     self.group=_DATABASE:Spawn(Template)
+    self.group:SetValidateAndRepositionGroundUnits(self.ValidateAndRepositionGroundUnits)
     --local countryID=self.group:GetCountry()
     --local categoryID=self.group:GetCategory()
     --local dcsgroup=coalition.addGroup(countryID, categoryID, Template)
@@ -219821,6 +222364,15 @@ function OPSGROUP:_GetDetectedTarget()
   return targetgroup, targetdist
 end
 
+--- This function uses Disposition and other fallback logic to find better ground positions for ground units.
+--- NOTE: This is not a spawn randomizer.
+--- It will try to find clear ground locations avoiding trees, water, roads, runways, map scenery, statics and other units in the area and modifies the provided positions table.
+--- Maintains the original layout and unit positions as close as possible by searching for the next closest valid position to each unit.
+--- Uses UTILS.ValidateAndRepositionGroundUnits.
+-- @param #boolean Enabled Enable/disable the feature.
+function OPSGROUP:SetValidateAndRepositionGroundUnits(Enabled)
+    self.ValidateAndRepositionGroundUnits = Enabled
+end
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -224237,7 +226789,7 @@ end
 -- ===
 -- @module Ops.PlayerTask
 -- @image OPS_PlayerTask.jpg
--- @date Last Update April 2025
+-- @date Last Update May 2025
 
 
 do
@@ -224314,7 +226866,7 @@ PLAYERTASK = {
 
 --- PLAYERTASK class version.
 -- @field #string version
-PLAYERTASK.version="0.1.26"
+PLAYERTASK.version="0.1.27"
 
 --- Generic task condition.
 -- @type PLAYERTASK.Condition
@@ -225656,9 +228208,9 @@ do
 --            taskmanager:AddRejectZone(ZONE:FindByName("RejectZone"))
 --            
 --            -- Set up using SRS for messaging
---            local hereSRSPath = "C:\\Program Files\\DCS-SimpleRadio-Standalone"
+--            local hereSRSPath = "C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio"
 --            local hereSRSPort = 5002
---            -- local hereSRSGoogle = "C:\\Program Files\\DCS-SimpleRadio-Standalone\\yourkey.json"
+--            -- local hereSRSGoogle = "C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio\\yourkey.json"
 --            taskmanager:SetSRS({130,255},{radio.modulation.AM,radio.modulation.AM},hereSRSPath,"female","en-GB",hereSRSPort,"Microsoft Hazel Desktop",0.7,hereSRSGoogle)
 --            
 --            -- Controller will announce itself under these broadcast frequencies, handy to use cold-start frequencies here of your aircraft
@@ -226167,7 +228719,7 @@ function PLAYERTASKCONTROLLER:New(Name, Coalition, Type, ClientFilter)
   self.taskinfomenu = false
   self.activehasinfomenu = false
   self.MenuName = nil
-  self.menuitemlimit = 5
+  self.menuitemlimit = 6
   self.holdmenutime = 30
   
   self.MarkerReadOnly = false
@@ -226797,7 +229349,7 @@ function PLAYERTASKCONTROLLER:SetMenuOptions(InfoMenu,ItemLimit,HoldTime)
   if self.activehasinfomenu then
     self:EnableTaskInfoMenu()
   end
-  self.menuitemlimit = ItemLimit or 5
+  self.menuitemlimit = ItemLimit+1 or 6
   self.holdmenutime = HoldTime or 30
   return self
 end
@@ -227702,7 +230254,7 @@ end
 -- @param #PLAYERTASKCONTROLLER self
 -- @param Ops.PlayerTask#PLAYERTASK PlayerTask
 -- @param #boolean Silent If true, make no "has new task" announcement
--- @param #boolen TaskFilter If true, apply the white/black-list task filters here, also
+-- @param #boolean TaskFilter If true, apply the white/black-list task filters here, also
 -- @return #PLAYERTASKCONTROLLER self
 -- @usage
 -- Example to create a PLAYERTASK of type CTLD and give Players 10 minutes to complete:
@@ -228822,7 +231374,7 @@ end
 -- @param #PLAYERTASKCONTROLLER self
 -- @param #number Frequency Frequency to be used. Can also be given as a table of multiple frequencies, e.g. 271 or {127,251}. There needs to be exactly the same number of modulations!
 -- @param #number Modulation Modulation to be used. Can also be given as a table of multiple modulations, e.g. radio.modulation.AM or {radio.modulation.FM,radio.modulation.AM}. There needs to be exactly the same number of frequencies!
--- @param #string PathToSRS Defaults to "C:\\Program Files\\DCS-SimpleRadio-Standalone"
+-- @param #string PathToSRS Defaults to "C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio"
 -- @param #string Gender (Optional) Defaults to "male"
 -- @param #string Culture (Optional) Defaults to "en-US"
 -- @param #number Port (Optional) Defaults to 5002
@@ -228836,7 +231388,7 @@ end
 -- @return #PLAYERTASKCONTROLLER self
 function PLAYERTASKCONTROLLER:SetSRS(Frequency,Modulation,PathToSRS,Gender,Culture,Port,Voice,Volume,PathToGoogleKey,AccessKey,Coordinate,Backend)
   self:T(self.lid.."SetSRS")
-  self.PathToSRS = PathToSRS or MSRS.path or "C:\\Program Files\\DCS-SimpleRadio-Standalone" --
+  self.PathToSRS = PathToSRS or MSRS.path or "C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio" --
   self.Gender = Gender or MSRS.gender or "male" --
   self.Culture = Culture or MSRS.culture or "en-US" --
   self.Port = Port or MSRS.port or 5002 --
@@ -230688,7 +233240,7 @@ end
 -- @param #PLAYERRECCE self
 -- @param #number Frequency Frequency to be used. Can also be given as a table of multiple frequencies, e.g. 271 or {127,251}. There needs to be exactly the same number of modulations!
 -- @param #number Modulation Modulation to be used. Can also be given as a table of multiple modulations, e.g. radio.modulation.AM or {radio.modulation.FM,radio.modulation.AM}. There needs to be exactly the same number of frequencies!
--- @param #string PathToSRS Defaults to "C:\\Program Files\\DCS-SimpleRadio-Standalone"
+-- @param #string PathToSRS Defaults to "C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio"
 -- @param #string Gender (Optional) Defaults to "male"
 -- @param #string Culture (Optional) Defaults to "en-US"
 -- @param #number Port (Optional) Defaults to 5002
@@ -230700,7 +233252,7 @@ end
 -- @return #PLAYERRECCE self
 function PLAYERRECCE:SetSRS(Frequency,Modulation,PathToSRS,Gender,Culture,Port,Voice,Volume,PathToGoogleKey,Backend)
   self:T(self.lid.."SetSRS")
-  self.PathToSRS = PathToSRS or MSRS.path or "C:\\Program Files\\DCS-SimpleRadio-Standalone" --
+  self.PathToSRS = PathToSRS or MSRS.path or "C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio" --
   self.Gender = Gender or MSRS.gender or "male" --
   self.Culture = Culture or MSRS.culture or "en-US" --
   self.Port = Port or MSRS.port or 5002 --
@@ -233935,13 +236487,18 @@ end
 -------------------------------------------------------------------------
 -- Easy CAP/GCI Class, based on OPS classes
 -------------------------------------------------------------------------
--- Documentation
+-- 
+-- ## Documentation:
 -- 
 -- https://flightcontrol-master.github.io/MOOSE_DOCS_DEVELOP/Documentation/Ops.EasyGCICAP.html
 -- 
+-- ## Example Missions:
+--
+-- Demo missions can be found on [github](https://github.com/FlightControl-Master/MOOSE_MISSIONS/tree/develop/Ops/EasyGCICAP).
+-- 
 -------------------------------------------------------------------------
 -- Date: September 2023
--- Last Update: July 2024
+-- Last Update: Aug 2025
 -------------------------------------------------------------------------
 --
 --- **Ops** - Easy GCI & CAP Manager
@@ -234005,6 +236562,9 @@ end
 -- @field #boolean DespawnAfterHolding
 -- @field #list<Ops.Auftrag#AUFTRAG> ListOfAuftrag
 -- @field #string defaulttakeofftype Take off type
+-- @field #number FuelLowThreshold
+-- @field #number FuelCriticalThreshold
+-- @field #boolean showpatrolpointmarks
 -- @extends Core.Fsm#FSM
 
 --- *“Airspeed, altitude, and brains. Two are always needed to successfully complete the flight.”* -- Unknown.
@@ -234160,6 +236720,9 @@ EASYGCICAP = {
   DespawnAfterHolding = true,
   ListOfAuftrag = {},
   defaulttakeofftype = "hot",
+  FuelLowThreshold = 25,
+  FuelCriticalThreshold = 10,
+  showpatrolpointmarks = false,
 }
 
 --- Internal Squadron data type
@@ -234192,10 +236755,11 @@ EASYGCICAP = {
 -- @field #number Speed
 -- @field #number Heading
 -- @field #number LegLength
+-- @field Core.Zone#ZONE_BASE Zone
 
 --- EASYGCICAP class version.
 -- @field #string version
-EASYGCICAP.version="0.1.21"
+EASYGCICAP.version="0.1.27"
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- TODO list
@@ -234249,6 +236813,9 @@ function EASYGCICAP:New(Alias, AirbaseName, Coalition, EWRName)
   self.DespawnAfterHolding = true
   self.ListOfAuftrag = {}
   self.defaulttakeofftype = "hot"
+  self.FuelLowThreshold = 25
+  self.FuelCriticalThreshold = 10
+  self.showpatrolpointmarks = false
   
   -- Set some string id for output to DCS.log file.
   self.lid=string.format("EASYGCICAP %s | ", self.alias)
@@ -234273,6 +236840,63 @@ end
 -- Functions
 -------------------------------------------------------------------------
 
+--- Get a specific managed AirWing by name
+-- @param #EASYGCICAP self
+-- @param #string AirbaseName Airbase name of the home of this wing.
+-- @return Ops.AirWing#AIRWING Airwing or nil if not found
+function EASYGCICAP:GetAirwing(AirbaseName)
+  self:T(self.lid.."GetAirwing")
+  if self.wings[AirbaseName] then
+    return self.wings[AirbaseName][1]
+  end
+  return nil
+end
+
+--- Get a table of all managed AirWings
+-- @param #EASYGCICAP self
+-- @return #table Table of Ops.AirWing#AIRWING Airwings
+function EASYGCICAP:GetAirwingTable()
+  self:T(self.lid.."GetAirwingTable")
+  local Wingtable = {}
+  for _,_object in pairs(self.wings or {}) do
+    table.insert(Wingtable,_object[1])
+  end
+  return Wingtable
+end
+
+--- Set "fuel low" threshold for CAP and INTERCEPT flights.
+-- @param #EASYGCICAP self
+-- @param #number Percent RTB if fuel at this percent. Values: 1..100, defaults to 25.
+-- @return #EASYGCICAP self
+function EASYGCICAP:SetFuelLow(Percent)
+  self:T(self.lid.."SetFuelLow")
+  self.FuelLowThreshold = Percent or 25
+  return self
+end
+
+--- Set markers on the map for Patrol Points.
+-- @param #EASYGCICAP self
+-- @param #boolean onoff Set to true to switch markers on.
+-- @return #EASYGCICAP self
+function EASYGCICAP:ShowPatrolPointMarkers(onoff)
+  if onoff then
+    self.showpatrolpointmarks = true
+  else
+    self.showpatrolpointmarks = false
+  end
+  return self
+end
+
+--- Set "fuel critical" threshold for CAP and INTERCEPT flights.
+-- @param #EASYGCICAP self
+-- @param #number Percent RTB if fuel at this percent. Values: 1..100, defaults to 10.
+-- @return #EASYGCICAP self
+function EASYGCICAP:SetFuelCritical(Percent)
+  self:T(self.lid.."SetFuelCritical")
+  self.FuelCriticalThreshold = Percent or 10
+  return self
+end
+
 --- Set CAP formation.
 -- @param #EASYGCICAP self
 -- @param #number Formation Formation to fly, defaults to ENUMS.Formation.FixedWing.FingerFour.Group
@@ -234293,7 +236917,7 @@ function EASYGCICAP:SetTankerAndAWACSInvisible(Switch)
   return self
 end
 
---- Count alive missions in our internal stack.
+--- (internal) Count alive missions in our internal stack.
 -- @param #EASYGCICAP self
 -- @return #number count
 function EASYGCICAP:_CountAliveAuftrags()
@@ -234516,6 +237140,13 @@ function EASYGCICAP:_AddAirwing(Airbasename, Alias)
   local DespawnAfterLanding = self.DespawnAfterLanding
   local DespawnAfterHolding = self.DespawnAfterHolding
   
+  -- Check STATIC name
+  local check = STATIC:FindByName(Airbasename,false) or UNIT:FindByName(Airbasename)
+  if check == nil then
+    MESSAGE:New(self.lid.."There's no warehouse static on the map (wrong naming?) for airbase "..tostring(Airbasename).."!",30,"CHECK"):ToAllIf(self.debug):ToLog()
+    return
+  end
+  
   -- Create Airwing
   local CAP_Wing = AIRWING:New(Airbasename,Alias)
   CAP_Wing:SetVerbosityLevel(0)
@@ -234525,6 +237156,10 @@ function EASYGCICAP:_AddAirwing(Airbasename, Alias)
   CAP_Wing:SetRespawnAfterDestroyed()
   CAP_Wing:SetNumberCAP(self.capgrouping)
   CAP_Wing:SetCapCloseRaceTrack(true)
+    
+  if self.showpatrolpointmarks then
+    CAP_Wing:ShowPatrolPointMarkers(true)
+  end
   
   if self.capOptionVaryStartTime then
     CAP_Wing:SetCapStartTimeVariation(self.capOptionVaryStartTime,self.capOptionVaryEndTime)
@@ -234555,6 +237190,8 @@ function EASYGCICAP:_AddAirwing(Airbasename, Alias)
   local engagerange = self.engagerange
   local GoZoneSet = self.GoZoneSet
   local NoGoZoneSet = self.NoGoZoneSet
+  local FuelLow = self.FuelLowThreshold or 25
+  local FuelCritical = self.FuelCriticalThreshold or 10
   
   function CAP_Wing:onbeforeFlightOnMission(From, Event, To, Flightgroup, Mission)
     local flightgroup = Flightgroup -- Ops.FlightGroup#FLIGHTGROUP
@@ -234566,10 +237203,15 @@ function EASYGCICAP:_AddAirwing(Airbasename, Alias)
     flightgroup:SetDestinationbase(AIRBASE:FindByName(Airbasename))
     flightgroup:GetGroup():CommandEPLRS(true,5)
     flightgroup:GetGroup():SetOptionRadarUsingForContinousSearch()
+    flightgroup:GetGroup():SetOptionLandingOverheadBreak()
     if Mission.type ~= AUFTRAG.Type.TANKER and Mission.type ~= AUFTRAG.Type.AWACS and Mission.type ~= AUFTRAG.Type.RECON then
       flightgroup:SetDetection(true)
       flightgroup:SetEngageDetectedOn(engagerange,{"Air"},GoZoneSet,NoGoZoneSet)
       flightgroup:SetOutOfAAMRTB()
+      flightgroup:SetFuelLowRTB(true)
+      flightgroup:SetFuelLowThreshold(FuelLow)
+      flightgroup:SetFuelCriticalRTB(true)
+      flightgroup:SetFuelCriticalThreshold(FuelCritical)
       if CapFormation then
         flightgroup:GetGroup():SetOption(AI.Option.Air.id.FORMATION,CapFormation)
       end
@@ -234608,24 +237250,30 @@ end
 --- Add a CAP patrol point to a Wing
 -- @param #EASYGCICAP self
 -- @param #string AirbaseName Name of the Wing's airbase
--- @param Core.Point#COORDINATE Coordinate.
+-- @param Core.Point#COORDINATE Coordinate. Can be handed as a Core.Zone#ZONE object (e.g. in case you want  the point to align with a moving zone).
 -- @param #number Altitude Defaults to 25000 feet ASL.
 -- @param #number Speed  Defaults to 300 knots TAS.
 -- @param #number Heading Defaults to 90 degrees (East).
 -- @param #number LegLength Defaults to 15 NM.
 -- @return #EASYGCICAP self
 function EASYGCICAP:AddPatrolPointCAP(AirbaseName,Coordinate,Altitude,Speed,Heading,LegLength)
-  self:T(self.lid.."AddPatrolPointCAP "..Coordinate:ToStringLLDDM())
-  local EntryCAP = {} -- #EASYGCICAP.CapPoint
+  self:T(self.lid.."AddPatrolPointCAP")--..Coordinate:ToStringLLDDM())
+  local coordinate = Coordinate
+  local EntryCAP = {} -- #EASYGCICAP.CapPoint  
+  if Coordinate:IsInstanceOf("ZONE_BASE") then
+    -- adjust coordinate and get the coordinate from the zone
+    coordinate = Coordinate:GetCoordinate()
+    EntryCAP.Zone = Coordinate
+  end
   EntryCAP.AirbaseName = AirbaseName
-  EntryCAP.Coordinate = Coordinate
+  EntryCAP.Coordinate = coordinate
   EntryCAP.Altitude = Altitude or 25000
   EntryCAP.Speed = Speed or 300
   EntryCAP.Heading = Heading or 90
   EntryCAP.LegLength = LegLength or 15
   self.ManagedCP[#self.ManagedCP+1] = EntryCAP
   if self.debug then
-    local mark = MARKER:New(Coordinate,self.lid.."Patrol Point"):ToAll()
+    local mark = MARKER:New(coordinate,self.lid.."Patrol Point"):ToAll()
   end
   return self
 end
@@ -234633,7 +237281,7 @@ end
 --- Add a RECON patrol point to a Wing
 -- @param #EASYGCICAP self
 -- @param #string AirbaseName Name of the Wing's airbase
--- @param Core.Point#COORDINATE Coordinate.
+-- @param Core.Point#COORDINATE Coordinate. Can be handed as a Core.Zone#ZONE object (e.g. in case you want  the point to align with a moving zone).
 -- @param #number Altitude Defaults to 25000 feet.
 -- @param #number Speed  Defaults to 300 knots.
 -- @param #number Heading Defaults to 90 degrees (East).
@@ -234658,7 +237306,7 @@ end
 --- Add a TANKER patrol point to a Wing
 -- @param #EASYGCICAP self
 -- @param #string AirbaseName Name of the Wing's airbase
--- @param Core.Point#COORDINATE Coordinate.
+-- @param Core.Point#COORDINATE Coordinate. Can be handed as a Core.Zone#ZONE object (e.g. in case you want  the point to align with a moving zone).
 -- @param #number Altitude Defaults to 25000 feet.
 -- @param #number Speed  Defaults to 300 knots.
 -- @param #number Heading Defaults to 90 degrees (East).
@@ -234683,7 +237331,7 @@ end
 --- Add an AWACS patrol point to a Wing
 -- @param #EASYGCICAP self
 -- @param #string AirbaseName Name of the Wing's airbase
--- @param Core.Point#COORDINATE Coordinate.
+-- @param Core.Point#COORDINATE Coordinate. Can be handed as a Core.Zone#ZONE object (e.g. in case you want  the point to align with a moving zone).
 -- @param #number Altitude Defaults to 25000 feet.
 -- @param #number Speed  Defaults to 300 knots.
 -- @param #number Heading Defaults to 90 degrees (East).
@@ -234712,6 +237360,11 @@ function EASYGCICAP:_SetTankerPatrolPoints()
   self:T(self.lid.."_SetTankerPatrolPoints")
   for _,_data in pairs(self.ManagedTK) do
     local data = _data --#EASYGCICAP.CapPoint
+    self:T("Airbasename = "..data.AirbaseName)
+    if not self.wings[data.AirbaseName] then
+      MESSAGE:New(self.lid.."You are trying to create a TANKER point for which there is no wing! "..tostring(data.AirbaseName),30,"CHECK"):ToAllIf(self.debug):ToLog()
+      return
+    end
     local Wing = self.wings[data.AirbaseName][1] -- Ops.Airwing#AIRWING
     local Coordinate = data.Coordinate
     local Altitude = data.Altitude
@@ -234731,6 +237384,11 @@ function EASYGCICAP:_SetAwacsPatrolPoints()
   self:T(self.lid.."_SetAwacsPatrolPoints")
   for _,_data in pairs(self.ManagedEWR) do
     local data = _data --#EASYGCICAP.CapPoint
+    self:T("Airbasename = "..data.AirbaseName)
+    if not self.wings[data.AirbaseName] then
+      MESSAGE:New(self.lid.."You are trying to create an AWACS point for which there is no wing! "..tostring(data.AirbaseName),30,"CHECK"):ToAllIf(self.debug):ToLog()
+      return
+    end
     local Wing = self.wings[data.AirbaseName][1] -- Ops.Airwing#AIRWING
     local Coordinate = data.Coordinate
     local Altitude = data.Altitude
@@ -234750,13 +237408,23 @@ function EASYGCICAP:_SetCAPPatrolPoints()
   self:T(self.lid.."_SetCAPPatrolPoints")
   for _,_data in pairs(self.ManagedCP) do
     local data = _data --#EASYGCICAP.CapPoint
+    self:T("Airbasename = "..data.AirbaseName)
+    if not self.wings[data.AirbaseName] then
+      MESSAGE:New(self.lid.."You are trying to create a CAP point for which there is no wing! "..tostring(data.AirbaseName),30,"CHECK"):ToAllIf(self.debug):ToLog()
+      return
+    end
     local Wing = self.wings[data.AirbaseName][1] -- Ops.Airwing#AIRWING
     local Coordinate = data.Coordinate
     local Altitude = data.Altitude
     local Speed = data.Speed 
     local Heading = data.Heading
     local LegLength = data.LegLength
-    Wing:AddPatrolPointCAP(Coordinate,Altitude,Speed,Heading,LegLength)
+    local Zone = _data.Zone
+    if Zone then
+        Wing:AddPatrolPointCAP(Zone,Altitude,Speed,Heading,LegLength)
+    else
+        Wing:AddPatrolPointCAP(Coordinate,Altitude,Speed,Heading,LegLength)
+    end
   end
   
   return self
@@ -234769,6 +237437,11 @@ function EASYGCICAP:_SetReconPatrolPoints()
   self:T(self.lid.."_SetReconPatrolPoints")
   for _,_data in pairs(self.ManagedREC) do
     local data = _data --#EASYGCICAP.CapPoint
+    self:T("Airbasename = "..data.AirbaseName)
+    if not self.wings[data.AirbaseName] then
+      MESSAGE:New(self.lid.."You are trying to create a RECON point for which there is no wing! "..tostring(data.AirbaseName),30,"CHECK"):ToAllIf(self.debug):ToLog()
+      return
+    end
     local Wing = self.wings[data.AirbaseName][1] -- Ops.Airwing#AIRWING
     local Coordinate = data.Coordinate
     local Altitude = data.Altitude
@@ -234817,7 +237490,7 @@ end
 -- @param #string SquadName Squadron name - must be unique!
 -- @param #string AirbaseName Name of the airbase the airwing resides on, e.g. AIRBASE.Caucasus.Kutaisi
 -- @param #number AirFrames Number of available airframes, e.g. 20.
--- @param #string Skill(optional) Skill level, e.g. AI.Skill.AVERAGE
+-- @param #string Skill (optional) Skill level, e.g. AI.Skill.AVERAGE
 -- @param #string Modex (optional) Modex to be used,e.g. 402.
 -- @param #string Livery (optional) Livery name to be used.
 -- @return #EASYGCICAP self 
@@ -235106,19 +237779,19 @@ end
 -- @return #boolean assigned
 -- @return #number leftover
 function EASYGCICAP:_TryAssignIntercept(ReadyFlightGroups,InterceptAuftrag,Group,WingSize)
-  self:I("_TryAssignIntercept for size "..WingSize or 1)
+  self:T("_TryAssignIntercept for size "..WingSize or 1)
   local assigned = false
   local wingsize = WingSize or 1
   local mindist = 0
   local disttable = {}
   if Group and Group:IsAlive() then
     local gcoord = Group:GetCoordinate() or COORDINATE:New(0,0,0)
-    self:I(self.lid..string.format("Assignment for %s",Group:GetName()))
+    self:T(self.lid..string.format("Assignment for %s",Group:GetName()))
     for _name,_FG in pairs(ReadyFlightGroups or {}) do
       local FG = _FG -- Ops.FlightGroup#FLIGHTGROUP
       local fcoord = FG:GetCoordinate()
       local dist = math.floor(UTILS.Round(fcoord:Get2DDistance(gcoord)/1000,1))
-      self:I(self.lid..string.format("FG %s Distance %dkm",_name,dist))
+      self:T(self.lid..string.format("FG %s Distance %dkm",_name,dist))
       disttable[#disttable+1] = { FG=FG, dist=dist}
       if dist>mindist then mindist=dist end
     end
@@ -235135,7 +237808,7 @@ function EASYGCICAP:_TryAssignIntercept(ReadyFlightGroups,InterceptAuftrag,Group
       local cm = FG:GetMissionCurrent()
       if cm then cm:Cancel() end
       wingsize = wingsize - 1
-      self:I(self.lid..string.format("Assigned to FG %s Distance %dkm",FG:GetName(),_entry.dist))
+      self:T(self.lid..string.format("Assigned to FG %s Distance %dkm",FG:GetName(),_entry.dist))
       if wingsize == 0 then 
         assigned = true
         break 
@@ -235165,7 +237838,7 @@ function EASYGCICAP:_AssignIntercept(Cluster)
   local conflictzoneset = self.ConflictZoneSet
   local ReadyFlightGroups = self.ReadyFlightGroups
   
-    -- Aircraft?
+  -- Aircraft?
   if Cluster.ctype ~= INTEL.Ctype.AIRCRAFT then return end
   -- Threatlevel 0..10
   local contact = self.Intel:GetHighestThreatContact(Cluster)
@@ -235210,6 +237883,10 @@ function EASYGCICAP:_AssignIntercept(Cluster)
       local data = _data -- #EASYGCICAP.CapPoint
       local name = data.AirbaseName
       local zonecoord = data.Coordinate
+      if data.Zone then
+            -- refresh coordinate in case we have a (moving) zone
+            zonecoord = data.Zone:GetCoordinate()
+      end
       local airwing = wings[name][1]
       local coa = AIRBASE:FindByName(name):GetCoalition()
       local samecoalitionab = coa == self.coalition and true or false
@@ -235311,7 +237988,7 @@ function EASYGCICAP:_StartIntel()
 end
 
 -------------------------------------------------------------------------
--- FSM Functions
+-- TODO FSM Functions
 -------------------------------------------------------------------------
 
 --- (Internal) FSM Function onafterStart
@@ -235407,7 +238084,7 @@ function EASYGCICAP:onafterStatus(From,Event,To)
         local engage = FG:IsEngaging()
         local hasmissiles = FG:IsOutOfMissiles() == nil and true or false
         local ready = hasmissiles and FG:IsFuelGood() and FG:IsAirborne()
-        --self:I(string.format("Flightgroup %s Engaging = %s Ready = %s",tostring(name),tostring(engage),tostring(ready)))
+        --self:T(string.format("Flightgroup %s Engaging = %s Ready = %s",tostring(name),tostring(engage),tostring(ready)))
         if ready then
           self.ReadyFlightGroups[name] = FG
         end
@@ -235442,6 +238119,9 @@ end
 function EASYGCICAP:onafterStop(From,Event,To)
   self:T({From,Event,To})
   self.Intel:Stop()
+  for _,_wing in pairs(self.wings or {}) do
+    _wing:Stop()
+  end
   return self
 end
 --- **AI** - Balance player slots with AI to create an engaging simulation environment, independent of the amount of players. 
@@ -261316,7 +263996,7 @@ end
 
 --- Checks if a point is contained within the circle.
 -- @param #table point The point to check
--- @return #bool True if the point is contained, false otherwise
+-- @return #boolean True if the point is contained, false otherwise
 function CIRCLE:ContainsPoint(point)
     if ((point.x - self.CenterVec2.x) ^ 2 + (point.y - self.CenterVec2.y) ^ 2) ^ 0.5 <= self.Radius then
         return true
@@ -261470,6 +264150,11 @@ end
 --- Returns a random Vec2 within the circle.
 -- @return #table The random Vec2
 function CIRCLE:GetRandomVec2()
+
+    math.random()
+    math.random()
+    math.random()
+    
     local angle = math.random() * 2 * math.pi
 
     local rx = math.random(0, self.Radius) * math.cos(angle) + self.CenterVec2.x
@@ -261481,6 +264166,11 @@ end
 --- Returns a random Vec2 on the border of the circle.
 -- @return #table The random Vec2
 function CIRCLE:GetRandomVec2OnBorder()
+    
+    math.random()
+    math.random()
+    math.random()
+
     local angle = math.random() * 2 * math.pi
 
     local rx = self.Radius * math.cos(angle) + self.CenterVec2.x
@@ -262487,6 +265177,7 @@ end
 --- Returns a random Vec2 within the polygon. The Vec2 is weighted by the areas of the triangles that make up the polygon.
 -- @return #table The random Vec2
 function POLYGON:GetRandomVec2()
+
     local weights = {}
     for _, triangle in pairs(self.Triangles) do
         weights[triangle] = triangle.SurfaceArea / self.SurfaceArea
@@ -262666,6 +265357,11 @@ end
 -- @param #table points The points of the triangle, or 3 other points if you're just using the TRIANGLE class without an object of it
 -- @return #table The random Vec2
 function TRIANGLE:GetRandomVec2(points)
+
+    math.random()
+    math.random()
+    math.random()
+    
     points = points or self.Points
     local pt = {math.random(), math.random()}
     table.sort(pt)
@@ -265196,28 +267892,32 @@ MSRS.Voices = {
        ["en_AU_Standard_B"] = 'en-AU-Standard-B', -- [2] MALE
        ["en_AU_Standard_C"] = 'en-AU-Standard-C', -- [3] FEMALE
        ["en_AU_Standard_D"] = 'en-AU-Standard-D', -- [4] MALE
-       ["en_IN_Standard_A"] = 'en-IN-Standard-A', -- [5] FEMALE
-       ["en_IN_Standard_B"] = 'en-IN-Standard-B', -- [6] MALE
-       ["en_IN_Standard_C"] = 'en-IN-Standard-C', -- [7] MALE
-       ["en_IN_Standard_D"] = 'en-IN-Standard-D', -- [8] FEMALE
+       -- IN
+        ["en_IN_Standard_A"] = 'en-IN-Standard-A', -- Female
+        ["en_IN_Standard_B"] = 'en-IN-Standard-B', -- Male
+        ["en_IN_Standard_C"] = 'en-IN-Standard-C', -- Male
+        ["en_IN_Standard_D"] = 'en-IN-Standard-D', -- Female
+        ["en_IN_Standard_E"] = 'en-IN-Standard-E', -- Female
+        ["en_IN_Standard_F"] = 'en-IN-Standard-F', -- Male
        -- 2025 changes
-       ["en_GB_Standard_A"] = 'en-GB-Standard-N', -- [9] FEMALE
-       ["en_GB_Standard_B"] = 'en-GB-Standard-O', -- [10] MALE
-       ["en_GB_Standard_C"] = 'en-GB-Standard-N', -- [11] FEMALE
-       ["en_GB_Standard_D"] = 'en-GB-Standard-O', -- [12] MALE
-       ["en_GB_Standard_F"] = 'en-GB-Standard-N', -- [13] FEMALE
-       ["en_GB_Standard_O"] = 'en-GB-Standard-O', -- [12] MALE
-       ["en_GB_Standard_N"] = 'en-GB-Standard-N', -- [13] FEMALE
-       ["en_US_Standard_A"] = 'en-US-Standard-A', -- [14] MALE
-       ["en_US_Standard_B"] = 'en-US-Standard-B', -- [15] MALE
-       ["en_US_Standard_C"] = 'en-US-Standard-C', -- [16] FEMALE
-       ["en_US_Standard_D"] = 'en-US-Standard-D', -- [17] MALE
-       ["en_US_Standard_E"] = 'en-US-Standard-E', -- [18] FEMALE
-       ["en_US_Standard_F"] = 'en-US-Standard-F', -- [19] FEMALE
-       ["en_US_Standard_G"] = 'en-US-Standard-G', -- [20] FEMALE
-       ["en_US_Standard_H"] = 'en-US-Standard-H', -- [21] FEMALE
-       ["en_US_Standard_I"] = 'en-US-Standard-I', -- [22] MALE
-       ["en_US_Standard_J"] = 'en-US-Standard-J', -- [23] MALE
+       ["en_GB_Standard_A"] = 'en-GB-Standard-A', -- Female
+       ["en_GB_Standard_B"] = 'en-GB-Standard-B', -- Male
+       ["en_GB_Standard_C"] = 'en-GB-Standard-C', -- Female
+       ["en_GB_Standard_D"] = 'en-GB-Standard-D', -- Male
+       ["en_GB_Standard_F"] = 'en-GB-Standard-F', -- Female
+       ["en_GB_Standard_N"] = 'en-GB-Standard-N', -- Female
+       ["en_GB_Standard_O"] = 'en-GB-Standard-O', -- Male
+       -- US
+       ["en_US_Standard_A"] = 'en-US-Standard-A', -- Male
+       ["en_US_Standard_B"] = 'en-US-Standard-B', -- Male
+       ["en_US_Standard_C"] = 'en-US-Standard-C', -- Female
+       ["en_US_Standard_D"] = 'en-US-Standard-D', -- Male
+       ["en_US_Standard_E"] = 'en-US-Standard-E', -- Female
+       ["en_US_Standard_F"] = 'en-US-Standard-F', -- Female
+       ["en_US_Standard_G"] = 'en-US-Standard-G', -- Female
+       ["en_US_Standard_H"] = 'en-US-Standard-H', -- Female
+       ["en_US_Standard_I"] = 'en-US-Standard-I', -- Male
+       ["en_US_Standard_J"] = 'en-US-Standard-J', -- Male
        -- 2025 catalog changes
        ["fr_FR_Standard_A"] = "fr-FR-Standard-F", -- Female
        ["fr_FR_Standard_B"] = "fr-FR-Standard-G", -- Male
@@ -265227,14 +267927,15 @@ MSRS.Voices = {
        ["fr_FR_Standard_G"] = "fr-FR-Standard-G", -- Male
        ["fr_FR_Standard_F"] = "fr-FR-Standard-F", -- Female
        -- 2025 catalog changes
-       ["de_DE_Standard_A"] = "de-DE-Standard-G", -- Female
-       ["de_DE_Standard_B"] = "de-DE-Standard-H", -- Male
-       ["de_DE_Standard_C"] = "de-DE-Standard-G", -- Female
-       ["de_DE_Standard_D"] = "de-DE-Standard-H", -- Male
-       ["de_DE_Standard_E"] = "de-DE-Standard-H", -- Male
-       ["de_DE_Standard_F"] = "de-DE-Standard-G", -- Female
-       ["de_DE_Standard_H"] = "de-DE-Standard-H", -- Male
-       ["de_DE_Standard_G"] = "de-DE-Standard-G", -- Female
+      ["de_DE_Standard_A"] = 'de-DE-Standard-A', -- Female
+      ["de_DE_Standard_B"] = 'de-DE-Standard-B', -- Male
+      ["de_DE_Standard_C"] = 'de-DE-Standard-C', -- Female
+      ["de_DE_Standard_D"] = 'de-DE-Standard-D', -- Male
+      ["de_DE_Standard_E"] = 'de-DE-Standard-E', -- Male
+      ["de_DE_Standard_F"] = 'de-DE-Standard-F', -- Female
+      ["de_DE_Standard_G"] = 'de-DE-Standard-G', -- Female
+      ["de_DE_Standard_H"] = 'de-DE-Standard-H', -- Male
+      -- ES
        ["es_ES_Standard_A"] = "es-ES-Standard-E", -- Female
        ["es_ES_Standard_B"] = "es-ES-Standard-F", -- Male
        ["es_ES_Standard_C"] = "es-ES-Standard-E", -- Female
@@ -265250,32 +267951,36 @@ MSRS.Voices = {
        ["it_IT_Standard_F"] = "it-IT-Standard-F", -- Male
       },
       Wavenet = {
-       ["en_AU_Wavenet_A"] = 'en-AU-Wavenet-A', -- [1] FEMALE
-       ["en_AU_Wavenet_B"] = 'en-AU-Wavenet-B', -- [2] MALE
-       ["en_AU_Wavenet_C"] = 'en-AU-Wavenet-C', -- [3] FEMALE
-       ["en_AU_Wavenet_D"] = 'en-AU-Wavenet-D', -- [4] MALE
-       ["en_IN_Wavenet_A"] = 'en-IN-Wavenet-A', -- [5] FEMALE
-       ["en_IN_Wavenet_B"] = 'en-IN-Wavenet-B', -- [6] MALE
-       ["en_IN_Wavenet_C"] = 'en-IN-Wavenet-C', -- [7] MALE
-       ["en_IN_Wavenet_D"] = 'en-IN-Wavenet-D', -- [8] FEMALE
+       ["en_AU_Wavenet_A"] = 'en-AU-Wavenet-A', -- Female
+       ["en_AU_Wavenet_B"] = 'en-AU-Wavenet-B', -- Male
+       ["en_AU_Wavenet_C"] = 'en-AU-Wavenet-C', -- Female
+       ["en_AU_Wavenet_D"] = 'en-AU-Wavenet-D', -- Male
+       -- IN
+        ["en_IN_Wavenet_A"] = 'en-IN-Wavenet-A', -- Female
+        ["en_IN_Wavenet_B"] = 'en-IN-Wavenet-B', -- Male
+        ["en_IN_Wavenet_C"] = 'en-IN-Wavenet-C', -- Male
+        ["en_IN_Wavenet_D"] = 'en-IN-Wavenet-D', -- Female
+        ["en_IN_Wavenet_E"] = 'en-IN-Wavenet-E', -- Female
+        ["en_IN_Wavenet_F"] = 'en-IN-Wavenet-F', -- Male
        -- 2025 changes
-       ["en_GB_Wavenet_A"] = 'en-GB-Wavenet-N', -- [9] FEMALE
-       ["en_GB_Wavenet_B"] = 'en-GB-Wavenet-O', -- [10] MALE
-       ["en_GB_Wavenet_C"] = 'en-GB-Wavenet-N', -- [11] FEMALE
-       ["en_GB_Wavenet_D"] = 'en-GB-Wavenet-O', -- [12] MALE
-       ["en_GB_Wavenet_F"] = 'en-GB-Wavenet-N', -- [13] FEMALE
+       ["en_GB_Wavenet_A"] = 'en-GB-Wavenet-A', -- [9] FEMALE
+       ["en_GB_Wavenet_B"] = 'en-GB-Wavenet-B', -- [10] MALE
+       ["en_GB_Wavenet_C"] = 'en-GB-Wavenet-C', -- [11] FEMALE
+       ["en_GB_Wavenet_D"] = 'en-GB-Wavenet-D', -- [12] MALE
+       ["en_GB_Wavenet_F"] = 'en-GB-Wavenet-F', -- [13] FEMALE
        ["en_GB_Wavenet_O"] = 'en-GB-Wavenet-O', -- [12] MALE
-       ["en_GB_Wavenet_N"] = 'en-GB-Wavenet-N', -- [13] FEMALE     
-       ["en_US_Wavenet_A"] = 'en-US-Wavenet-N', -- [14] MALE
-       ["en_US_Wavenet_B"] = 'en-US-Wavenet-B', -- [15] MALE
-       ["en_US_Wavenet_C"] = 'en-US-Wavenet-C', -- [16] FEMALE
-       ["en_US_Wavenet_D"] = 'en-US-Wavenet-D', -- [17] MALE
-       ["en_US_Wavenet_E"] = 'en-US-Wavenet-E', -- [18] FEMALE
-       ["en_US_Wavenet_F"] = 'en-US-Wavenet-F', -- [19] FEMALE
-       ["en_US_Wavenet_G"] = 'en-US-Wavenet-G', -- [20] FEMALE
-       ["en_US_Wavenet_H"] = 'en-US-Wavenet-H', -- [21] FEMALE
-       ["en_US_Wavenet_I"] = 'en-US-Wavenet-I', -- [22] MALE
-       ["en_US_Wavenet_J"] = 'en-US-Wavenet-J', -- [23] MALE
+       ["en_GB_Wavenet_N"] = 'en-GB-Wavenet-N', -- [13] FEMALE  
+       -- US   
+       ["en_US_Wavenet_A"] = 'en-US-Wavenet-A', -- Male
+       ["en_US_Wavenet_B"] = 'en-US-Wavenet-B', -- Male
+       ["en_US_Wavenet_C"] = 'en-US-Wavenet-C', -- Female
+       ["en_US_Wavenet_D"] = 'en-US-Wavenet-D', -- Male
+       ["en_US_Wavenet_E"] = 'en-US-Wavenet-E', -- Female
+       ["en_US_Wavenet_F"] = 'en-US-Wavenet-F', -- Female
+       ["en_US_Wavenet_G"] = 'en-US-Wavenet-G', -- Female
+       ["en_US_Wavenet_H"] = 'en-US-Wavenet-H', -- Female
+       ["en_US_Wavenet_I"] = 'en-US-Wavenet-I', -- Male
+       ["en_US_Wavenet_J"] = 'en-US-Wavenet-J', -- Male
        -- 2025 catalog changes
        ["fr_FR_Wavenet_A"] = "fr-FR-Wavenet-F", -- Female
        ["fr_FR_Wavenet_B"] = "fr-FR-Wavenet-G", -- Male
@@ -265285,14 +267990,15 @@ MSRS.Voices = {
        ["fr_FR_Wavenet_G"] = "fr-FR-Wavenet-G", -- Male
        ["fr_FR_Wavenet_F"] = "fr-FR-Wavenet-F", -- Female
        -- 2025 catalog changes
-       ["de_DE_Wavenet_A"] = "de-DE-Wavenet-G", -- Female
-       ["de_DE_Wavenet_B"] = "de-DE-Wavenet-H", -- Male
-       ["de_DE_Wavenet_C"] = "de-DE-Wavenet-G", -- Female
-       ["de_DE_Wavenet_D"] = "de-DE-Wavenet-H", -- Male
-       ["de_DE_Wavenet_E"] = "de-DE-Wavenet-H", -- Male
-       ["de_DE_Wavenet_F"] = "de-DE-Wavenet-G", -- Female
-       ["de_DE_Wavenet_H"] = "de-DE-Wavenet-H", -- Male
-       ["de_DE_Wavenet_G"] = "de-DE-Wavenet-G", -- Female
+        ["de_DE_Wavenet_A"] = 'de-DE-Wavenet-A', -- Female
+        ["de_DE_Wavenet_B"] = 'de-DE-Wavenet-B', -- Male
+        ["de_DE_Wavenet_C"] = 'de-DE-Wavenet-C', -- Female
+        ["de_DE_Wavenet_D"] = 'de-DE-Wavenet-D', -- Male
+        ["de_DE_Wavenet_E"] = 'de-DE-Wavenet-E', -- Male
+        ["de_DE_Wavenet_F"] = 'de-DE-Wavenet-F', -- Female
+        ["de_DE_Wavenet_G"] = 'de-DE-Wavenet-G', -- Female
+        ["de_DE_Wavenet_H"] = 'de-DE-Wavenet-H', -- Male
+       -- ES
        ["es_ES_Wavenet_B"] = "es-ES-Wavenet-E", -- Male
        ["es_ES_Wavenet_C"] = "es-ES-Wavenet-F", -- Female
        ["es_ES_Wavenet_D"] = "es-ES-Wavenet-E", -- Female
@@ -265306,6 +268012,134 @@ MSRS.Voices = {
        ["it_IT_Wavenet_E"] = "it-IT-Wavenet-E", -- Female
        ["it_IT_Wavenet_F"] = "it-IT-Wavenet-F", -- Male
       } ,
+      Chirp3HD = {
+       ["en_GB_Chirp3_HD_Aoede"] = 'en-GB-Chirp3-HD-Aoede', -- Female
+       ["en_GB_Chirp3_HD_Charon"] = 'en-GB-Chirp3-HD-Charon', -- Male
+       ["en_GB_Chirp3_HD_Fenrir"] = 'en-GB-Chirp3-HD-Fenrir', -- Male
+       ["en_GB_Chirp3_HD_Kore"] = 'en-GB-Chirp3-HD-Kore', -- Female
+       ["en_GB_Chirp3_HD_Leda"] = 'en-GB-Chirp3-HD-Leda', -- Female
+       ["en_GB_Chirp3_HD_Orus"] = 'en-GB-Chirp3-HD-Orus', -- Male
+       ["en_GB_Chirp3_HD_Puck"] = 'en-GB-Chirp3-HD-Puck', -- Male
+       ["en_GB_Chirp3_HD_Zephyr"] = 'en-GB-Chirp3-HD-Zephyr', -- Female
+       --["de_DE_Chirp3_HD_Aoede"] = 'de-DE-Chirp3-HD-Aoede', -- Female (Datenfehler im Original)
+       ["en_US_Chirp3_HD_Charon"] = 'en-US-Chirp3-HD-Charon', -- Male
+       ["en_US_Chirp3_HD_Fenrir"] = 'en-US-Chirp3-HD-Fenrir', -- Male
+       ["en_US_Chirp3_HD_Kore"] = 'en-US-Chirp3-HD-Kore', -- Female
+       ["en_US_Chirp3_HD_Leda"] = 'en-US-Chirp3-HD-Leda', -- Female
+       ["en_US_Chirp3_HD_Orus"] = 'en-US-Chirp3-HD-Orus', -- Male
+       ["en_US_Chirp3_HD_Puck"] = 'en-US-Chirp3-HD-Puck', -- Male
+       --["de_DE_Chirp3_HD_Zephyr"] = 'de-DE-Chirp3-HD-Zephyr', -- Female (Datenfehler im Original)
+       -- DE
+       ["de_DE_Chirp3_HD_Aoede"] = 'de-DE-Chirp3-HD-Aoede', -- Female
+       ["de_DE_Chirp3_HD_Charon"] = 'de-DE-Chirp3-HD-Charon', -- Male
+       ["de_DE_Chirp3_HD_Fenrir"] = 'de-DE-Chirp3-HD-Fenrir', -- Male
+       ["de_DE_Chirp3_HD_Kore"] = 'de-DE-Chirp3-HD-Kore', -- Female
+       ["de_DE_Chirp3_HD_Leda"] = 'de-DE-Chirp3-HD-Leda', -- Female
+       ["de_DE_Chirp3_HD_Orus"] = 'de-DE-Chirp3-HD-Orus', -- Male
+       ["de_DE_Chirp3_HD_Puck"] = 'de-DE-Chirp3-HD-Puck', -- Male
+       ["de_DE_Chirp3_HD_Zephyr"] = 'de-DE-Chirp3-HD-Zephyr', -- Female
+       -- AU
+       ["en_AU_Chirp3_HD_Aoede"] = 'en-AU-Chirp3-HD-Aoede', -- Female
+       ["en_AU_Chirp3_HD_Charon"] = 'en-AU-Chirp3-HD-Charon', -- Male
+       ["en_AU_Chirp3_HD_Fenrir"] = 'en-AU-Chirp3-HD-Fenrir', -- Male
+       ["en_AU_Chirp3_HD_Kore"] = 'en-AU-Chirp3-HD-Kore', -- Female
+       ["en_AU_Chirp3_HD_Leda"] = 'en-AU-Chirp3-HD-Leda', -- Female
+       ["en_AU_Chirp3_HD_Orus"] = 'en-AU-Chirp3-HD-Orus', -- Male
+       ["en_AU_Chirp3_HD_Puck"] = 'en-AU-Chirp3-HD-Puck', -- Male
+       ["en_AU_Chirp3_HD_Zephyr"] = 'en-AU-Chirp3-HD-Zephyr', -- Female
+       -- IN
+       ["en_IN_Chirp3_HD_Aoede"] = 'en-IN-Chirp3-HD-Aoede', -- Female
+       ["en_IN_Chirp3_HD_Charon"] = 'en-IN-Chirp3-HD-Charon', -- Male
+       ["en_IN_Chirp3_HD_Fenrir"] = 'en-IN-Chirp3-HD-Fenrir', -- Male
+       ["en_IN_Chirp3_HD_Kore"] = 'en-IN-Chirp3-HD-Kore', -- Female
+       ["en_IN_Chirp3_HD_Leda"] = 'en-IN-Chirp3-HD-Leda', -- Female
+       ["en_IN_Chirp3_HD_Orus"] = 'en-IN-Chirp3-HD-Orus', -- Male
+      },
+      ChirpHD = {
+       ["en_US_Chirp_HD_D"] = 'en-US-Chirp-HD-D', -- Male
+       ["en_US_Chirp_HD_F"] = 'en-US-Chirp-HD-F', -- Female
+       ["en_US_Chirp_HD_O"] = 'en-US-Chirp-HD-O', -- Female
+       -- DE
+       ["de_DE_Chirp_HD_D"] = 'de-DE-Chirp-HD-D', -- Male
+       ["de_DE_Chirp_HD_F"] = 'de-DE-Chirp-HD-F', -- Female
+       ["de_DE_Chirp_HD_O"] = 'de-DE-Chirp-HD-O', -- Female
+       -- AU
+       ["en_AU_Chirp_HD_D"] = 'en-AU-Chirp-HD-D', -- Male
+       ["en_AU_Chirp_HD_F"] = 'en-AU-Chirp-HD-F', -- Female
+       ["en_AU_Chirp_HD_O"] = 'en-AU-Chirp-HD-O', -- Female
+       -- IN
+       ["en_IN_Chirp_HD_D"] = 'en-IN-Chirp-HD-D', -- Male
+       ["en_IN_Chirp_HD_F"] = 'en-IN-Chirp-HD-F', -- Female
+       ["en_IN_Chirp_HD_O"] = 'en-IN-Chirp-HD-O', -- Female
+      },
+    },
+    Neural2 = {
+       ["en_GB_Neural2_A"] = 'en-GB-Neural2-A', -- Female
+       ["en_GB_Neural2_B"] = 'en-GB-Neural2-B', -- Male
+       ["en_GB_Neural2_C"] = 'en-GB-Neural2-C', -- Female
+       ["en_GB_Neural2_D"] = 'en-GB-Neural2-D', -- Male
+       ["en_GB_Neural2_F"] = 'en-GB-Neural2-F', -- Female
+       ["en_GB_Neural2_N"] = 'en-GB-Neural2-N', -- Female
+       ["en_GB_Neural2_O"] = 'en-GB-Neural2-O', -- Male
+       -- US
+       ["en_US_Neural2_A"] = 'en-US-Neural2-A', -- Male
+       ["en_US_Neural2_C"] = 'en-US-Neural2-C', -- Female
+       ["en_US_Neural2_D"] = 'en-US-Neural2-D', -- Male
+       ["en_US_Neural2_E"] = 'en-US-Neural2-E', -- Female
+       ["en_US_Neural2_F"] = 'en-US-Neural2-F', -- Female
+       ["en_US_Neural2_G"] = 'en-US-Neural2-G', -- Female
+       ["en_US_Neural2_H"] = 'en-US-Neural2-H', -- Female
+       ["en_US_Neural2_I"] = 'en-US-Neural2-I', -- Male
+       ["en_US_Neural2_J"] = 'en-US-Neural2-J', -- Male
+       -- DE
+       ["de_DE_Neural2_G"] = 'de-DE-Neural2-G', -- Female
+       ["de_DE_Neural2_H"] = 'de-DE-Neural2-H', -- Male
+       -- AU
+       ["en_AU_Neural2_A"] = 'en-AU-Neural2-A', -- Female
+       ["en_AU_Neural2_B"] = 'en-AU-Neural2-B', -- Male
+       ["en_AU_Neural2_C"] = 'en-AU-Neural2-C', -- Female
+       ["en_AU_Neural2_D"] = 'en-AU-Neural2-D', -- Male
+       -- IN
+       ["en_IN_Neural2_A"] = 'en-IN-Neural2-A', -- Female
+       ["en_IN_Neural2_B"] = 'en-IN-Neural2-B', -- Male
+       ["en_IN_Neural2_C"] = 'en-IN-Neural2-C', -- Male
+       ["en_IN_Neural2_D"] = 'en-IN-Neural2-D', -- Female
+    },
+    News = {
+       ["en_GB_News_G"] = 'en-GB-News-G', -- Female
+       ["en_GB_News_H"] = 'en-GB-News-H', -- Female
+       ["en_GB_News_I"] = 'en-GB-News-I', -- Female
+       ["en_GB_News_J"] = 'en-GB-News-J', -- Male
+       ["en_GB_News_K"] = 'en-GB-News-K', -- Male
+       ["en_GB_News_L"] = 'en-GB-News-L', -- Male
+       ["en_GB_News_M"] = 'en-GB-News-M', -- Male
+       -- US
+       ["en_US_News_K"] = 'en-US-News-K', -- Female
+       ["en_US_News_L"] = 'en-US-News-L', -- Female
+       ["en_US_News_N"] = 'en-US-News-N', -- Male
+       -- AU
+       ["en_AU_News_E"] = 'en-AU-News-E', -- Female
+       ["en_AU_News_F"] = 'en-AU-News-F', -- Female
+       ["en_AU_News_G"] = 'en-AU-News-G', -- Male
+    },
+    Casual = {
+       ["en_US_Casual_K"] = 'en-US-Casual-K', -- Male
+    },
+    Polyglot = {
+       ["en_US_Polyglot_1"] = 'en-US-Polyglot-1', -- Male
+       ["de_DE_Polyglot_1"] = 'de-DE-Polyglot-1', -- Male
+       ["en_AU_Polyglot_1"] = 'en-AU-Polyglot-1', -- Male
+    },
+    Studio = {
+       -- Englisch (UK) - Studio
+       ["en_GB_Studio_B"] = 'en-GB-Studio-B', -- Male
+       ["en_GB_Studio_C"] = 'en-GB-Studio-C', -- Female
+       -- Englisch (USA) - Studio
+       ["en_US_Studio_O"] = 'en-US-Studio-O', -- Female
+       ["en_US_Studio_Q"] = 'en-US-Studio-Q', -- Male
+       -- DE
+       ["de_DE_Studio_B"] = 'de-DE-Studio-B', -- Male
+       ["de_DE_Studio_C"] = 'de-DE-Studio-C', -- Female
     },
   }
 
@@ -265385,7 +268219,7 @@ end
 -- set the path to the exe file via @{#MSRS.SetPath}.
 --
 -- @param #MSRS self
--- @param #string Path Path to SRS directory. Default `C:\\Program Files\\DCS-SimpleRadio-Standalone`.
+-- @param #string Path Path to SRS directory. Default `C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio`.
 -- @param #number Frequency Radio frequency in MHz. Default 143.00 MHz. Can also be given as a #table of multiple frequencies.
 -- @param #number Modulation Radio modulation: 0=AM (default), 1=FM. See `radio.modulation.AM` and `radio.modulation.FM` enumerators. Can also be given as a #table of multiple modulations.
 -- @param #string Backend Backend used: `MSRS.Backend.SRSEXE` (default) or `MSRS.Backend.GRPC`.
@@ -265520,13 +268354,13 @@ end
 
 --- Set path to SRS install directory. More precisely, path to where the `DCS-SR-ExternalAudio.exe` is located.
 -- @param #MSRS self
--- @param #string Path Path to the directory, where the sound file is located. Default is `C:\\Program Files\\DCS-SimpleRadio-Standalone`.
+-- @param #string Path Path to the directory, where the sound file is located. Default is `C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio`.
 -- @return #MSRS self
 function MSRS:SetPath(Path)
   self:F( {Path=Path} )
 
   -- Set path.
-  self.path=Path or "C:\\Program Files\\DCS-SimpleRadio-Standalone"
+  self.path=Path or "C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio"
 
   -- Remove (back)slashes.
   local n=1 ; local nmax=1000
@@ -266570,7 +269404,7 @@ end
 --
 --     -- Moose MSRS default Config
 --     MSRS_Config = {
---       Path = "C:\\Program Files\\DCS-SimpleRadio-Standalone", -- Path to SRS install directory.
+--       Path = "C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio", -- Path to SRS install directory.
 --       Port = 5002,            -- Port of SRS server. Default 5002.
 --       Backend = "srsexe",     -- Interface to SRS: "srsexe" or "grpc".
 --       Frequency = {127, 243}, -- Default frequences. Must be a table 1..n entries!
@@ -266590,7 +269424,7 @@ end
 --       -- Google Cloud
 --       gcloud = {
 --         voice = "en-GB-Standard-A", -- The Google Cloud voice to use (see https://cloud.google.com/text-to-speech/docs/voices).
---         credentials="C:\\Program Files\\DCS-SimpleRadio-Standalone\\yourfilename.json", -- Full path to credentials JSON file (only for SRS-TTS.exe backend)
+--         credentials="C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio\\yourfilename.json", -- Full path to credentials JSON file (only for SRS-TTS.exe backend)
 --         key="Your access Key", -- Google API access key (only for DCS-gRPC backend)
 --       },
 --       -- Amazon Web Service
@@ -266658,7 +269492,7 @@ function MSRS:LoadConfigFile(Path,Filename)
 
       local Self = self or MSRS  --#MSRS
 
-      Self.path = MSRS_Config.Path or "C:\\Program Files\\DCS-SimpleRadio-Standalone"
+      Self.path = MSRS_Config.Path or "C:\\Program Files\\DCS-SimpleRadio-Standalone\\ExternalAudio"
       Self.port = MSRS_Config.Port or 5002
       Self.backend = MSRS_Config.Backend or MSRS.Backend.SRSEXE
       Self.frequencies = MSRS_Config.Frequency or {127,243}
