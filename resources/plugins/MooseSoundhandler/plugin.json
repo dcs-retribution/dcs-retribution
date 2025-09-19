@@ -1,10 +1,10 @@
 {
-    "nameInUI": "Soundhandler",
-    "defaultValue": false,
+    "nameInUI": "Moose Soundhandler",
+    "defaultValue": true,
     "specificOptions": [
         {
             "nameInUI": "Play Sounds to Involved Group Only",
-            "mnemonic": "SoundsToGroupOnly",
+            "mnemonic": "SoundToGroupOnly",
             "defaultValue": true
         },
         {
@@ -13,26 +13,26 @@
             "defaultValue": true
         },
         {
-            "nameInUI": "Play Sounds for Red Jet Cannons",
-            "mnemonic": "RedShootingSounds",
+            "nameInUI": "Play Sounds for Own Jet Cannons",
+            "mnemonic": "PlayOwnShootingGuns",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "Play Sounds for OpFor Jet Cannons",
+            "mnemonic": "PlayOpForShootingGuns",
             "defaultValue": true
         },
         {
             "nameInUI": "Debug Mode",
-            "mnemonic": "Debug",
+            "mnemonic": "SoundDebug",
             "defaultValue": false
         }
     ],
-    "scriptsWorkOrders": [
-        {
-            "file": "Plugin_Soundhandler.lua",
-            "mnemonic": "Soundhandler"
-        }
-    ],
+    "scriptsWorkOrders": [],
     "configurationWorkOrders": [
         {
-            "file": "Soundhandler-config.lua",
-            "mnemonic": "Soundhandler-config"
+            "file": "Plugin_Soundhandler.lua",
+            "mnemonic": "MooseSoundhandler-config"
         }
     ],
     "otherResourceFiles": [
@@ -116,6 +116,7 @@
         "SoundFiles/S2G_Tomahawk1.ogg",
         "SoundFiles/FriendlyFire1.ogg",
         "SoundFiles/FriendlyFire2.ogg",
-        "SoundFiles/BirdsAway.ogg"
+        "SoundFiles/BirdsAway.ogg",
+        "SoundFiles/StartFindingMeBoys.ogg"
     ]
 }
