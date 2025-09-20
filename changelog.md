@@ -12,7 +12,7 @@
 * **[Modding]** Add Tornado F3 ADV (v1.0, requires FC3 fix)
 * **[Modding]** Add Military Aircraft Mod 1.7.2 (See VSN Discord)
 * **[Payload Editor]** Add Sniper POD
-* **[Modding]** Update SU-30 mod to v2.8.03 Beta + CWS 3.70
+* **[Modding]** Update SU-30 mod to v2.8.04 Beta + CWS 3.72
 * **[Plugins]** EW Script - DEAD added to applicable flight types.
 * **[Plugins]** EW Script - Offensive Jamming restricted to aircraft with ALQ99/249 pods, or "has_built_in_jamming: true" in aircarft yaml (AI and Player)
 * **[Modding]** Update to CJS Super Hornet Mod v2.4.4
