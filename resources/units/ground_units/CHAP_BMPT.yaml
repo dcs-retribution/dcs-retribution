@@ -1,0 +1,13 @@
+class: IFV
+description: "The BMPT \"Terminator\" is an armored fighting vehicle (AFV), designed and manufactured by 
+  the Russian company Uralvagonzavod. This vehicle was designed for supporting tanks and other AFVs in urban areas.
+  The BMPT is unofficially named the \"Terminator\" by the manufacturers. It is heavily armed and armored to survive 
+  in urban combat. The AFV is armed with four 9M120 Ataka missile launchers, two 30 mm 2A42 autocannons, two AG-17D grenade launchers, 
+  and one coaxial 7.62 mm PKTM machine gun."
+introduced: 2011
+manufacturer: Uralvagonzavod
+origin: Russia
+price: 18
+role: Amphibious Infantry Fighting Vehicle
+variants:
+  "IFV BMPT Terminator [CH]": {}

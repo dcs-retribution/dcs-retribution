@@ -26,6 +26,7 @@ groups:
         - 1
       unit_classes:
         - OpticalTracker
+        - CommandPost
     - name: Launcher
       unit_count:
         - 2
