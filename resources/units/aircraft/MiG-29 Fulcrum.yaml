@@ -24,11 +24,11 @@ introduced: 1983
 manufacturer: Mikoyan
 origin: USSR/Russia
 price: 15
-role: Multirole Fighter
+role: Interceptor
 max_range: 150
 variants:
-  MiG-29A Fulcrum-A:
-    display_name: MiG-29A Fulcrum-A (FC3)
+  MIG-29-FULCRUM:
+    display_name: MiG-29A Fulcrum
 kneeboard_units: "metric"
 tasks:
   BAI: 530
