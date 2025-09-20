@@ -40,15 +40,15 @@ class Su_15TM(PlaneType):
     livery_name = "SU_15TM"  # from type
 
     class Pylon1:
-        R_98MR = (1, WeaponsSu15.R_98MR)
-        R_98MT = (1, WeaponsSu15.R_98MT)
-        R_8M1R = (1, WeaponsSu15.R_8M1R)
-        R_8M1T = (1, WeaponsSu15.R_8M1T)
-        UB_32A_pod___32_x_S_5KO__57mm_UnGd_Rkts__HEAT_Frag = (
+        R_98MR = (1, Weapons.R_98MR)
+        R_98MT = (1, Weapons.R_98MT)
+        R_8M1R = (1, Weapons.R_8M1R)
+        R_8M1T = (1, Weapons.R_8M1T)
+        UB_32A___32_x_UnGd_Rkts__57_mm_S_5KO_HEAT_Frag = (
             1,
             Weapons.UB_32A___32_x_UnGd_Rkts__57_mm_S_5KO_HEAT_Frag,
         )
-        UB_16UM_pod___16_x_S_5KO__57mm_UnGd_Rkts__HEAT_Frag = (
+        UB_16_57UMP___16_x_UnGd_Rkts__57_mm_S_5KO_HEAT_Frag = (
             1,
             Weapons.UB_16_57UMP___16_x_UnGd_Rkts__57_mm_S_5KO_HEAT_Frag,
         )
@@ -56,9 +56,9 @@ class Su_15TM(PlaneType):
             1,
             Weapons.S_24B___240mm_UnGd_Rkt__235kg__HE_Frag___Low_Smk_,
         )
-        FAB_100___100kg_GP_Bomb_LD = (1, Weapons.FAB_100___100kg_GP_Bomb_LD)
-        FAB_250___250kg_GP_Bomb_LD = (1, Weapons.FAB_250___250kg_GP_Bomb_LD)
-        FAB_500_M_62___500kg_GP_Bomb_LD = (1, Weapons.FAB_500_M_62___500kg_GP_Bomb_LD)
+        OFAB_100_120___100_kg_GP_Bomb_LD = (1, Weapons.OFAB_100_120___100_kg_GP_Bomb_LD)
+        OFAB_250_270___250_kg_GP_Bomb_LD = (1, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
+        FAB_500M_62___500_kg_GP_Bomb_LD = (1, Weapons.FAB_500M_62___500_kg_GP_Bomb_LD)
 
     class Pylon2:
         APU_60_1M_with_R_60__AA_8_Aphid____IR_AAM = (
@@ -75,12 +75,12 @@ class Su_15TM(PlaneType):
             3,
             Weapons.SPPU_22_1___2_x_23mm__GSh_23L_Autocannon_Pod,
         )
-        PTB_600 = (3, WeaponsSu15.PTB_600)
-        UB_32A_pod___32_x_S_5KO__57mm_UnGd_Rkts__HEAT_Frag = (
+        PTB_600 = (3, Weapons.PTB_600)
+        UB_32A___32_x_UnGd_Rkts__57_mm_S_5KO_HEAT_Frag = (
             3,
             Weapons.UB_32A___32_x_UnGd_Rkts__57_mm_S_5KO_HEAT_Frag,
         )
-        UB_16UM_pod___16_x_S_5KO__57mm_UnGd_Rkts__HEAT_Frag = (
+        UB_16_57UMP___16_x_UnGd_Rkts__57_mm_S_5KO_HEAT_Frag = (
             3,
             Weapons.UB_16_57UMP___16_x_UnGd_Rkts__57_mm_S_5KO_HEAT_Frag,
         )
@@ -88,21 +88,21 @@ class Su_15TM(PlaneType):
             3,
             Weapons.S_24B___240mm_UnGd_Rkt__235kg__HE_Frag___Low_Smk_,
         )
-        FAB_100___100kg_GP_Bomb_LD = (3, Weapons.FAB_100___100kg_GP_Bomb_LD)
-        FAB_250___250kg_GP_Bomb_LD = (3, Weapons.FAB_250___250kg_GP_Bomb_LD)
-        FAB_500_M_62___500kg_GP_Bomb_LD = (3, Weapons.FAB_500_M_62___500kg_GP_Bomb_LD)
+        OFAB_100_120___100_kg_GP_Bomb_LD = (3, Weapons.OFAB_100_120___100_kg_GP_Bomb_LD)
+        OFAB_250_270___250_kg_GP_Bomb_LD = (3, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
+        FAB_500M_62___500_kg_GP_Bomb_LD = (3, Weapons.FAB_500M_62___500_kg_GP_Bomb_LD)
 
     class Pylon4:
         SPPU_22_1___2_x_23mm__GSh_23L_Autocannon_Pod = (
             4,
             Weapons.SPPU_22_1___2_x_23mm__GSh_23L_Autocannon_Pod,
         )
-        PTB_600 = (4, WeaponsSu15.PTB_600)
-        UB_32A_pod___32_x_S_5KO__57mm_UnGd_Rkts__HEAT_Frag = (
+        PTB_600 = (4, Weapons.PTB_600)
+        UB_32A___32_x_UnGd_Rkts__57_mm_S_5KO_HEAT_Frag = (
             4,
             Weapons.UB_32A___32_x_UnGd_Rkts__57_mm_S_5KO_HEAT_Frag,
         )
-        UB_16UM_pod___16_x_S_5KO__57mm_UnGd_Rkts__HEAT_Frag = (
+        UB_16_57UMP___16_x_UnGd_Rkts__57_mm_S_5KO_HEAT_Frag = (
             4,
             Weapons.UB_16_57UMP___16_x_UnGd_Rkts__57_mm_S_5KO_HEAT_Frag,
         )
@@ -110,9 +110,9 @@ class Su_15TM(PlaneType):
             4,
             Weapons.S_24B___240mm_UnGd_Rkt__235kg__HE_Frag___Low_Smk_,
         )
-        FAB_100___100kg_GP_Bomb_LD = (4, Weapons.FAB_100___100kg_GP_Bomb_LD)
-        FAB_250___250kg_GP_Bomb_LD = (4, Weapons.FAB_250___250kg_GP_Bomb_LD)
-        FAB_500_M_62___500kg_GP_Bomb_LD = (4, Weapons.FAB_500_M_62___500kg_GP_Bomb_LD)
+        OFAB_100_120___100_kg_GP_Bomb_LD = (4, Weapons.OFAB_100_120___100_kg_GP_Bomb_LD)
+        OFAB_250_270___250_kg_GP_Bomb_LD = (4, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
+        FAB_500M_62___500_kg_GP_Bomb_LD = (4, Weapons.FAB_500M_62___500_kg_GP_Bomb_LD)
 
     class Pylon5:
         APU_60_1M_with_R_60__AA_8_Aphid____IR_AAM = (
@@ -125,15 +125,15 @@ class Su_15TM(PlaneType):
         )
 
     class Pylon6:
-        R_98MR = (6, WeaponsSu15.R_98MR)
-        R_98MT = (6, WeaponsSu15.R_98MT)
-        R_8M1R = (6, WeaponsSu15.R_8M1R)
-        R_8M1T = (6, WeaponsSu15.R_8M1T)
-        UB_32A_pod___32_x_S_5KO__57mm_UnGd_Rkts__HEAT_Frag = (
+        R_98MR = (6, Weapons.R_98MR)
+        R_98MT = (6, Weapons.R_98MT)
+        R_8M1R = (6, Weapons.R_8M1R)
+        R_8M1T = (6, Weapons.R_8M1T)
+        UB_32A___32_x_UnGd_Rkts__57_mm_S_5KO_HEAT_Frag = (
             6,
             Weapons.UB_32A___32_x_UnGd_Rkts__57_mm_S_5KO_HEAT_Frag,
         )
-        UB_16UM_pod___16_x_S_5KO__57mm_UnGd_Rkts__HEAT_Frag = (
+        UB_16_57UMP___16_x_UnGd_Rkts__57_mm_S_5KO_HEAT_Frag = (
             6,
             Weapons.UB_16_57UMP___16_x_UnGd_Rkts__57_mm_S_5KO_HEAT_Frag,
         )
@@ -141,9 +141,9 @@ class Su_15TM(PlaneType):
             6,
             Weapons.S_24B___240mm_UnGd_Rkt__235kg__HE_Frag___Low_Smk_,
         )
-        FAB_100___100kg_GP_Bomb_LD = (6, Weapons.FAB_100___100kg_GP_Bomb_LD)
-        FAB_250___250kg_GP_Bomb_LD = (6, Weapons.FAB_250___250kg_GP_Bomb_LD)
-        FAB_500_M_62___500kg_GP_Bomb_LD = (6, Weapons.FAB_500_M_62___500kg_GP_Bomb_LD)
+        OFAB_100_120___100_kg_GP_Bomb_LD = (6, Weapons.OFAB_100_120___100_kg_GP_Bomb_LD)
+        OFAB_250_270___250_kg_GP_Bomb_LD = (6, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
+        FAB_500M_62___500_kg_GP_Bomb_LD = (6, Weapons.FAB_500M_62___500_kg_GP_Bomb_LD)
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6}
 
