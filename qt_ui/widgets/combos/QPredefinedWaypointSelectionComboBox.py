@@ -103,8 +103,8 @@ class QPredefinedWaypointSelectionComboBox(QFilteredComboBox):
 
         if self.include_airbases:
             for cp in self.game.theater.controlpoints:
-                if (self.include_enemy and not cp.captured) or (
-                    self.include_friendly and cp.captured
+                if (self.include_enemy and cp.captured.is_red) or (
+                    self.include_friendly and cp.captured.is_blue
                 ):
                     wpt = FlightWaypoint(
                         cp.name,
@@ -113,7 +113,7 @@ class QPredefinedWaypointSelectionComboBox(QFilteredComboBox):
                         Distance.from_meters(0),
                     )
                     wpt.alt_type = "RADIO"
-                    if cp.captured:
+                    if cp.captured.is_blue:
                         wpt.description = (
                             "Position of " + cp.name + " [Friendly Airbase]"
                         )

@@ -3,6 +3,7 @@ from PySide6.QtWidgets import QHBoxLayout, QGroupBox, QPushButton
 import qt_ui.uiconstants as CONST
 from game import Game
 from game.income import Income
+from game.theater.player import Player
 from qt_ui.windows.finances.QFinancesMenu import QFinancesMenu
 
 
@@ -41,7 +42,9 @@ class QBudgetBox(QGroupBox):
             return
 
         self.game = game
-        self.setBudget(self.game.blue.budget, Income(self.game, player=True).total)
+        self.setBudget(
+            self.game.blue.budget, Income(self.game, player=Player.BLUE).total
+        )
         self.finances.setEnabled(True)
 
     def openFinances(self):

@@ -377,7 +377,7 @@ class TransferModel(QAbstractListModel):
 
     @property
     def transfers(self) -> PendingTransfers:
-        return self.game_model.game.coalition_for(player=True).transfers
+        return self.game_model.game.coalition_for(player=Player.BLUE).transfers
 
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
         return self.transfers.pending_transfer_count
@@ -433,7 +433,7 @@ class AirWingModel(QAbstractListModel):
 
     SquadronRole = Qt.ItemDataRole.UserRole
 
-    def __init__(self, game_model: GameModel, player: bool) -> None:
+    def __init__(self, game_model: GameModel, player: Player) -> None:
         super().__init__()
         self.game_model = game_model
         self.player = player
@@ -548,8 +548,8 @@ class GameModel:
         self.game: Optional[Game] = game
         self.sim_controller = sim_controller
         self.transfer_model = TransferModel(self)
-        self.blue_air_wing_model = AirWingModel(self, player=True)
-        self.red_air_wing_model = AirWingModel(self, player=False)
+        self.blue_air_wing_model = AirWingModel(self, player=Player.BLUE)
+        self.red_air_wing_model = AirWingModel(self, player=Player.RED)
         if self.game is None:
             self.ato_model = AtoModel(self, AirTaskingOrder())
             self.red_ato_model = AtoModel(self, AirTaskingOrder())

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import itertools
 from collections import defaultdict
-from typing import Iterator, Optional, Sequence, TYPE_CHECKING
+from typing import Iterator, Optional, Sequence, TYPE_CHECKING, Any
 
 from game.ato.closestairfields import ObjectiveDistanceCache
 from game.dcs.aircrafttype import AircraftType
@@ -26,6 +26,18 @@ class AirWing:
         self.squadron_defs = SquadronDefLoader(game, faction).load()
         self.squadron_def_generator = SquadronDefGenerator(faction)
         self.settings = game.settings
+
+    def __setstate__(self, state: dict[str, Any]) -> None:
+        # Migration: Convert old boolean player values to Player enum
+        if "player" in state and isinstance(state["player"], bool):
+            from game.theater.player import Player
+
+            if state["player"]:
+                state["player"] = Player.BLUE
+            else:
+                state["player"] = Player.RED
+
+        self.__dict__.update(state)
 
     def unclaim_squadron_def(self, squadron: Squadron) -> None:
         if squadron.aircraft in self.squadron_defs:

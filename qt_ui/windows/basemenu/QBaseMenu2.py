@@ -51,7 +51,7 @@ class QBaseMenu2(QDialog):
         self.game_model = game_model
         self.objectName = "menuDialogue"
 
-        if self.cp.captured:
+        if self.cp.captured.is_blue:
             self.deliveryEvent = None
 
         self.setWindowIcon(EVENT_ICONS["capture"])
@@ -146,14 +146,14 @@ class QBaseMenu2(QDialog):
         bottom_row = QHBoxLayout()
         main_layout.addLayout(bottom_row)
 
-        if FlightType.OCA_RUNWAY in self.cp.mission_types(for_player=True):
+        if FlightType.OCA_RUNWAY in self.cp.mission_types(for_player=Player.BLUE):
             runway_attack_button = QPushButton("Attack airfield")
             bottom_row.addWidget(runway_attack_button)
 
             runway_attack_button.setProperty("style", "btn-danger")
             runway_attack_button.clicked.connect(self.new_package)
 
-        if self.cp.captured and self.has_transfer_destinations:
+        if self.cp.captured.is_blue and self.has_transfer_destinations:
             transfer_button = QPushButton("Transfer Units")
             transfer_button.setProperty("style", "btn-success")
             bottom_row.addWidget(transfer_button)
@@ -194,7 +194,7 @@ class QBaseMenu2(QDialog):
                             u.revive(events)
         else:
             self.cp.capture(
-                self.game_model.game, events, for_player=not self.cp.captured
+                self.game_model.game, events, for_player=self.cp.captured.opponent
             )
             mrp = MissionResultsProcessor(self.game_model.game)
             mrp.redeploy_units(self.cp)
@@ -232,7 +232,7 @@ class QBaseMenu2(QDialog):
 
     @property
     def can_repair_runway(self) -> bool:
-        return self.cp.captured and self.cp.runway_can_be_repaired
+        return self.cp.captured.is_blue and self.cp.runway_can_be_repaired
 
     @property
     def can_afford_runway_repair(self) -> bool:
@@ -266,7 +266,7 @@ class QBaseMenu2(QDialog):
     def update_repair_button(self) -> None:
         self.repair_button.setVisible(True)
         turns_remaining = self.cp.runway_status.repair_turns_remaining
-        if self.cp.captured and turns_remaining is not None:
+        if self.cp.captured.is_blue and turns_remaining is not None:
             self.repair_button.setText("Repairing...")
             self.repair_button.setDisabled(True)
             return

@@ -38,7 +38,16 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime
 from functools import singledispatchmethod
-from typing import Generic, Iterator, List, Optional, Sequence, TYPE_CHECKING, TypeVar
+from typing import (
+    Any,
+    Generic,
+    Iterator,
+    List,
+    Optional,
+    Sequence,
+    TYPE_CHECKING,
+    TypeVar,
+)
 
 from dcs.mapping import Point
 
@@ -246,10 +255,7 @@ class Airlift(Transport):
 
     @property
     def player_owned(self) -> bool:
-        if self.transfer.player.is_blue:
-            return True
-        else:
-            return False
+        return self.transfer.player.is_blue
 
     def find_escape_route(self) -> Optional[ControlPoint]:
         # TODO: Move units to closest base.
@@ -395,10 +401,9 @@ class MultiGroupTransport(MissionTarget, Transport):
         self.transfers: List[TransferOrder] = []
 
     def is_friendly(self, to_player: Player) -> bool:
-        if self.origin.captured.is_blue:
+        if self.origin.captured == to_player:
             return True
-        else:
-            return False
+        return False
 
     def add_units(self, transfer: TransferOrder) -> None:
         self.transfers.append(transfer)
@@ -589,6 +594,18 @@ class PendingTransfers:
         self.convoys = ConvoyMap()
         self.cargo_ships = CargoShipMap()
         self.pending_transfers: List[TransferOrder] = []
+
+    def __setstate__(self, state: dict[str, Any]) -> None:
+        # Migration: Convert old boolean player values to Player enum
+        if "player" in state and isinstance(state["player"], bool):
+            from game.theater.player import Player
+
+            if state["player"]:
+                state["player"] = Player.BLUE
+            else:
+                state["player"] = Player.RED
+
+        self.__dict__.update(state)
 
     def __iter__(self) -> Iterator[TransferOrder]:
         yield from self.pending_transfers

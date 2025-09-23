@@ -15,6 +15,7 @@ from faker import Faker
 from game.ato import Flight, FlightType, Package
 from game.settings import AutoAtoBehavior, Settings
 from game.theater import ParkingType
+from game.theater.player import Player
 from .pilot import Pilot, PilotStatus
 from ..db.database import Database
 from ..radio.radios import RadioFrequency
@@ -24,7 +25,7 @@ if TYPE_CHECKING:
     from game import Game
     from game.coalition import Coalition
     from game.dcs.aircrafttype import AircraftType
-    from game.theater import ControlPoint, MissionTarget, Player
+    from game.theater import ControlPoint, MissionTarget
     from .operatingbases import OperatingBases
     from .squadrondef import SquadronDef
 

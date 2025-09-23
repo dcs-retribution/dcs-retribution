@@ -321,7 +321,7 @@ class MissionResultsProcessor:
         settings = cp.coalition.game.settings
         factor = (
             settings.frontline_reserves_factor
-            if cp.captured
+            if cp.captured.is_blue
             else settings.frontline_reserves_factor_red
         )
 

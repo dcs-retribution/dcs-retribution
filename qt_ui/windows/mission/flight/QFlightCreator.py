@@ -78,7 +78,11 @@ class QFlightCreator(QDialog):
         layout.addLayout(QLabeledWidget("Squadron:", self.squadron_selector))
 
         self.divert = QArrivalAirfieldSelector(
-            [cp for cp in game.theater.controlpoints if cp.captured == is_ownfor],
+            [
+                cp
+                for cp in game.theater.controlpoints
+                if cp.captured.is_blue == is_ownfor
+            ],
             self.aircraft_selector.currentData(),
             "None",
         )

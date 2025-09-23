@@ -4,6 +4,7 @@ from PySide6.QtWidgets import QGridLayout, QScrollArea, QVBoxLayout, QWidget
 from game.dcs.groundunittype import GroundUnitType
 from game.purchaseadapter import GroundUnitPurchaseAdapter
 from game.theater import ControlPoint
+from game.theater.player import Player
 from qt_ui.models import GameModel
 from qt_ui.windows.basemenu.UnitTransactionFrame import UnitTransactionFrame
 
@@ -30,7 +31,7 @@ class QArmorRecruitmentMenu(UnitTransactionFrame[GroundUnitType]):
         row = 0
 
         unit_types = list(
-            set(self.game_model.game.faction_for(player=True).ground_units)
+            set(self.game_model.game.faction_for(player=Player.BLUE).ground_units)
         )
         unit_types.sort(key=lambda u: u.display_name)
         for row, unit_type in enumerate(unit_types):

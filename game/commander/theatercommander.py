@@ -56,7 +56,7 @@ https://en.wikipedia.org/wiki/Hierarchical_task_network
 from __future__ import annotations
 
 from datetime import datetime
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from game.ato.starttype import StartType
 from game.commander.tasks.compound.nextaction import PlanNextAction
@@ -79,6 +79,18 @@ class TheaterCommander(Planner[TheaterState, TheaterCommanderTask]):
         )
         self.game = game
         self.player = player
+
+    def __setstate__(self, state: dict[str, Any]) -> None:
+        # Migration: Convert old boolean player values to Player enum
+        if "player" in state and isinstance(state["player"], bool):
+            from game.theater.player import Player
+
+            if state["player"]:
+                state["player"] = Player.BLUE
+            else:
+                state["player"] = Player.RED
+
+        self.__dict__.update(state)
 
     def plan_missions(self, now: datetime, tracer: MultiEventTracer) -> None:
         state = TheaterState.from_game(self.game, self.player, now, tracer)

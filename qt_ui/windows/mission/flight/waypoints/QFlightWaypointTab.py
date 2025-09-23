@@ -22,6 +22,7 @@ from game.ato.flighttype import FlightType
 from game.ato.flightwaypoint import FlightWaypoint
 from game.ato.loadouts import Loadout
 from game.ato.package import Package
+from game.theater import Player
 from qt_ui.windows.mission.flight.waypoints.QFlightWaypointList import (
     QFlightWaypointList,
 )
@@ -36,7 +37,7 @@ class QFlightWaypointTab(QFrame):
     def __init__(self, game: Game, package: Package, flight: Flight):
         super(QFlightWaypointTab, self).__init__()
         self.game = game
-        self.coalition = game.coalition_for(player=True)
+        self.coalition = game.coalition_for(player=Player.BLUE)
         self.package = package
         self.flight = flight
 
@@ -61,7 +62,7 @@ class QFlightWaypointTab(QFrame):
         rlayout.addWidget(QLabel("<small>AI compatible</small>"))
 
         self.recreate_buttons.clear()
-        for task in self.package.target.mission_types(for_player=True):
+        for task in self.package.target.mission_types(for_player=Player.BLUE):
             if task == FlightType.AIR_ASSAULT and not self.game.settings.plugin_option(
                 "ctld"
             ):

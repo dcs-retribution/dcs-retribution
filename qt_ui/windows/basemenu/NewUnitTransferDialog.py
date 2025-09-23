@@ -174,7 +174,9 @@ class ScrollingUnitTransferGrid(QFrame):
         scroll_content = QWidget()
         task_box_layout = QGridLayout()
 
-        unit_types = set(self.game_model.game.faction_for(player=True).ground_units)
+        unit_types = set(
+            self.game_model.game.faction_for(player=Player.BLUE).ground_units
+        )
         sorted_units = sorted(
             {u for u in unit_types if self.cp.base.total_units_of_type(u)},
             key=lambda u: u.display_name,

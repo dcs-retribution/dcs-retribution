@@ -114,7 +114,7 @@ class PendingTransfersDialog(QDialog):
     def can_cancel(self, index: QModelIndex) -> bool:
         if not index.isValid():
             return False
-        return self.transfer_model.transfer_at_index(index).player
+        return self.transfer_model.transfer_at_index(index).player.is_blue
 
     def on_selection_changed(
         self, selected: QItemSelection, _deselected: QItemSelection

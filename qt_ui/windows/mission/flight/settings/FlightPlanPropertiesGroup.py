@@ -84,7 +84,7 @@ class FlightPlanPropertiesGroup(QGroupBox):
         layout.addLayout(QLabeledWidget("Arrival:", arrival_label))
 
         self.divert = QArrivalAirfieldSelector(
-            [cp for cp in game.theater.controlpoints if cp.captured],
+            [cp for cp in game.theater.controlpoints if cp.captured.is_blue],
             flight.unit_type,
             "None",
         )

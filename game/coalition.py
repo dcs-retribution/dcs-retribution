@@ -105,6 +105,15 @@ class Coalition:
         return state
 
     def __setstate__(self, state: dict[str, Any]) -> None:
+        # Migration: Convert old boolean player values to Player enum
+        if "player" in state and isinstance(state["player"], bool):
+            from game.theater.player import Player
+
+            if state["player"]:
+                state["player"] = Player.BLUE
+            else:
+                state["player"] = Player.RED
+
         self.__dict__.update(state)
         # Regenerate any state that was not persisted.
         self.on_load()
