@@ -158,6 +158,7 @@ class TheaterState(WorldState["TheaterState"]):
         coalition = game.coalition_for(player)
         finder = ObjectiveFinder(game, player)
         ordered_capturable_points = finder.prioritized_points()
+        air_assault_capturable_points = finder.air_assault_targets()
 
         context = PersistentContext(
             game.db,
@@ -177,7 +178,7 @@ class TheaterState(WorldState["TheaterState"]):
 
         battle_postitions: Dict[ControlPoint, BattlePositions] = {
             cp: BattlePositions.for_control_point(cp)
-            for cp in ordered_capturable_points
+            for cp in air_assault_capturable_points
         }
 
         vulnerable_control_points = [

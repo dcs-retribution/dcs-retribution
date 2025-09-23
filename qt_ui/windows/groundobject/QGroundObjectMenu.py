@@ -305,12 +305,12 @@ class QGroundObjectMenu(QDialog):
         self.game.theater.iads_network.update_tgo(self.ground_object, events)
         if any(
             package.target == self.ground_object
-            for package in self.game.ato_for(player=False).packages
+            for package in self.game.ato_for(player=Player.RED).packages
         ):
             # Replan if the tgo was a target of the redfor
             coalition = self.ground_object.coalition
             self.game.initialize_turn(
-                events, for_red=coalition.player, for_blue=not coalition.player
+                events, for_red=coalition.player, for_blue=coalition.player.opponent
             )
         EventStream.put_nowait(events)
         GameUpdateSignal.get_instance().updateGame(self.game)

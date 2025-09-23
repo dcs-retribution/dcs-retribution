@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import itertools
 import math
 import operator
 from collections.abc import Iterable, Iterator
@@ -267,6 +268,29 @@ class ObjectiveFinder:
         capturable_later = []
         isolated = []
         for cp in self.game.theater.control_points_for(self.is_player.opponent):
+            if cp.is_isolated:
+                isolated.append(cp)
+                continue
+            if cp.has_active_frontline:
+                prioritized.append(cp)
+            else:
+                capturable_later.append(cp)
+        prioritized.extend(self._targets_by_range(capturable_later))
+        prioritized.extend(self._targets_by_range(isolated))
+        return prioritized
+
+    def air_assault_targets(self) -> list[ControlPoint]:
+        """Returns control points suitable for air assault missions, including neutral bases."""
+        prioritized = []
+        capturable_later = []
+        isolated = []
+
+        combined_control_points = itertools.chain(
+            self.game.theater.control_points_for(self.is_player.opponent),
+            self.game.theater.control_points_for(Player.NEUTRAL),
+        )
+
+        for cp in combined_control_points:
             if cp.is_isolated:
                 isolated.append(cp)
                 continue

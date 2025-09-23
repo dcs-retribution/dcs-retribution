@@ -101,13 +101,15 @@ class LuaGenerator:
         for logistic_info in self.mission_data.logistics:
             if logistic_info.transport not in transports:
                 transports.append(logistic_info.transport)
-            coalition_color = "blue" if logistic_info.blue else "red"
+            coalition_color = "blue" if logistic_info.blue.is_blue else "red"
             logistics_item = logistics_flights.add_item()
             logistics_item.add_data_array("pilot_names", logistic_info.pilot_names)
             logistics_item.add_key_value("pickup_zone", logistic_info.pickup_zone)
             logistics_item.add_key_value("drop_off_zone", logistic_info.drop_off_zone)
             logistics_item.add_key_value("target_zone", logistic_info.target_zone)
-            logistics_item.add_key_value("side", str(2 if logistic_info.blue else 1))
+            logistics_item.add_key_value(
+                "side", str(2 if logistic_info.blue.is_blue else 1)
+            )
             logistics_item.add_key_value("logistic_unit", logistic_info.logistic_unit)
             logistics_item.add_key_value(
                 "aircraft_type", logistic_info.transport.dcs_id
@@ -201,7 +203,9 @@ class LuaGenerator:
         # Should probably do the same with all the roles... but the script is already
         # tolerant of those being empty.
         for node in self.game.theater.iads_network.skynet_nodes(self.game):
-            coalition = iads_object.get_or_create_item("BLUE" if node.player else "RED")
+            coalition = iads_object.get_or_create_item(
+                "BLUE" if node.player.is_blue else "RED"
+            )
             iads_type = coalition.get_or_create_item(node.iads_role.value)
             iads_element = iads_type.add_item()
             iads_element.add_key_value("dcsGroupName", node.dcs_name)

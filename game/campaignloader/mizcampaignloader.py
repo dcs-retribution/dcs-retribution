@@ -57,6 +57,7 @@ class MizCampaignLoader:
     FOB_UNIT_TYPE = Unarmed.SKP_11.id
     FARP_HELIPADS_TYPE = ["Invisible FARP", "SINGLE_HELIPAD", "FARP"]
     INVISIBLE_FOB_UNIT_TYPE = Unarmed.M_818.id
+    NEUTRAL_FOB_UNIT_TYPE = Unarmed.KrAZ6322.id
 
     OFFSHORE_STRIKE_TARGET_UNIT_TYPE = Fortification.Oil_platform.id
     SHIP_UNIT_TYPE = USS_Arleigh_Burke_IIa.id
@@ -178,6 +179,12 @@ class MizCampaignLoader:
     def invisible_fobs(self, blue: Player) -> Iterator[VehicleGroup]:
         for group in self.country(blue).vehicle_group:
             if group.units[0].type == self.INVISIBLE_FOB_UNIT_TYPE:
+                yield group
+
+    @property
+    def neutral_fobs(self) -> Iterator[VehicleGroup]:
+        for group in self.red.vehicle_group:
+            if group.units[0].type == self.NEUTRAL_FOB_UNIT_TYPE:
                 yield group
 
     @property
@@ -344,6 +351,18 @@ class MizCampaignLoader:
                 )
                 control_point.captured_invert = fob.late_activation
                 control_points[control_point.id] = control_point
+
+        for fob in self.neutral_fobs:
+            ctld_zones = self.get_ctld_zones(fob.name)
+            control_point = Fob(
+                str(fob.name),
+                fob.position,
+                self.theater,
+                starts_blue=Player.NEUTRAL,
+                ctld_zones=ctld_zones,
+            )
+            control_point.captured_invert = fob.late_activation
+            control_points[control_point.id] = control_point
 
         if self.cp_influence_zones:
             for cp in control_points.values():

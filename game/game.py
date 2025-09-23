@@ -225,9 +225,9 @@ class Game:
     def neutral_country(self) -> Country:
         """Return the best fitting country that can be used as neutral faction in the generated mission"""
         countries_in_use = {self.red.faction.country, self.blue.faction.country}
-        if UnitedNationsPeacekeepers not in countries_in_use:
+        if UnitedNationsPeacekeepers() not in countries_in_use:
             return UnitedNationsPeacekeepers()
-        elif Switzerland.name not in countries_in_use:
+        elif Switzerland() not in countries_in_use:
             return Switzerland()
         else:
             return USAFAggressors()

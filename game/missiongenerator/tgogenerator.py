@@ -810,9 +810,12 @@ class HelipadGenerator:
         # capture triggers
         pad: BaseFARP
         neutral_country = self.m.country(self.game.neutral_country.name)
-        country = self.m.country(
-            self.game.coalition_for(self.cp.captured).faction.country.name
-        )
+        if self.cp.captured is Player.NEUTRAL:
+            country = neutral_country
+        else:
+            country = self.m.country(
+                self.game.coalition_for(self.cp.captured).faction.country.name
+            )
 
         name = f"{self.cp.name} {helipad_type} {i}"
         logging.info("Generating helipad static : " + name)
@@ -1403,7 +1406,11 @@ class TgoGenerator:
 
     def generate(self) -> None:
         for cp in self.game.theater.controlpoints:
-            country = self.m.country(cp.coalition.faction.country.name)
+            # Use neutral country for neutral control points
+            if cp.captured is Player.NEUTRAL:
+                country = self.m.country(self.game.neutral_country.name)
+            else:
+                country = self.m.country(cp.coalition.faction.country.name)
 
             # Generate helipads
             helipad_gen = HelipadGenerator(
