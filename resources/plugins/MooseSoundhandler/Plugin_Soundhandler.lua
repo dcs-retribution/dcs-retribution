@@ -4,7 +4,7 @@ env.info("-----DCSRetribution|MOOSE Soundhandler plugin - configuration start --
 -- CONFIG
 -----------------------------------------------------------------------------------------------------------------------------------
 -- Defaults (overridden by dcsRetribution.plugins.MooseSoundhandler.* if present)
-SoundToGroupOnly      = true -- <- this is the single canonical toggle (do NOT rename)
+SoundToGroupOnly      = true
 ShipSamSounds         = true
 PlayOwnShootingGuns   = true
 PlayOpForShootingGuns = true
@@ -329,7 +329,7 @@ function EventHandler:OnEventShot(EventData)
         local inc = ChooseRandom(Sounds.Incoming_Missile_Table)
         local incsnd = NewSound(inc)
         local function DelayedIncoming() if tgtGroup then incsnd:ToGroup(tgtGroup) end end
-        TIMER:New(DelayedIncoming):Start(math.random(3, 7))
+        TIMER:New(DelayedIncoming):Start(math.random(3, 7)) --TODO make UI Variables
     end
 
     -- Hostile SAM at target → SAM call to TARGET group

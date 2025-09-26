@@ -1,6 +1,6 @@
 {
     "nameInUI": "Moose Soundhandler",
-    "defaultValue": true,
+    "defaultValue": false,
     "specificOptions": [
         {
             "nameInUI": "Play Sounds to Involved Group Only",
@@ -15,11 +15,6 @@
         {
             "nameInUI": "Play Sounds for Own Jet Cannons",
             "mnemonic": "PlayOwnShootingGuns",
-            "defaultValue": true
-        },
-        {
-            "nameInUI": "Play Sounds for OpFor Jet Cannons",
-            "mnemonic": "PlayOpForShootingGuns",
             "defaultValue": true
         },
         {
