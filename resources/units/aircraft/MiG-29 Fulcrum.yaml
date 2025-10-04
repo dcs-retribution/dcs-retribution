@@ -30,6 +30,9 @@ variants:
   MIG-29-FULCRUM:
     display_name: MiG-29A Fulcrum
 kneeboard_units: "metric"
+radios:
+  intra_flight: R-862
+  inter_flight: R-862
 tasks:
   BAI: 530
   BARCAP: 370
