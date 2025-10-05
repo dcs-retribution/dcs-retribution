@@ -99,6 +99,10 @@ class Coalition:
         # Avoid persisting any volatile types that can be deterministically
         # recomputed on load for the sake of save compatibility.
         del state["faker"]
+        # TODO: Figure out why this is needed after adding neutral point support
+        if state["player"] != Player.NEUTRAL:
+            del state["_threat_zone"]
+            del state["_navmesh"]
         return state
 
     def __setstate__(self, state: dict[str, Any]) -> None:
