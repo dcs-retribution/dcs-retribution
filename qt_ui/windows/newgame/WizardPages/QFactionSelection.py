@@ -221,15 +221,15 @@ class QFactionUnits(QScrollArea):
             FlightType.AEWC not in ac.task_priorities
             and FlightType.REFUELING not in ac.task_priorities
         ):
-            self.add_ac_combo.addItem(ac.variant_id, ac)
+            self.add_ac_combo.addItem(ac.display_name, ac)
 
     def _awacs_predicate(self, ac: AircraftType):
         if FlightType.AEWC in ac.task_priorities:
-            self.add_awacs_combo.addItem(ac.variant_id, ac)
+            self.add_awacs_combo.addItem(ac.display_name, ac)
 
     def _tanker_predicate(self, ac: AircraftType):
         if FlightType.REFUELING in ac.task_priorities:
-            self.add_tanker_combo.addItem(ac.variant_id, ac)
+            self.add_tanker_combo.addItem(ac.display_name, ac)
 
     def _create_aircraft_combobox(
         self, cb: QComboBox, callback: Callable, predicate: Callable
