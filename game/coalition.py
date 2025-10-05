@@ -98,9 +98,6 @@ class Coalition:
         state = self.__dict__.copy()
         # Avoid persisting any volatile types that can be deterministically
         # recomputed on load for the sake of save compatibility.
-        if state["player"] != Player.NEUTRAL:
-            del state["_threat_zone"]
-            del state["_navmesh"]
         del state["faker"]
         return state
 

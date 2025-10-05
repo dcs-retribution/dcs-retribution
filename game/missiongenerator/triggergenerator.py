@@ -32,6 +32,7 @@ from game.theater.controlpoint import Fob, TRIGGER_RADIUS_CAPTURE
 
 if TYPE_CHECKING:
     from game.game import Game
+    from game.theater.controlpoint import ControlPoint
 
 PUSH_TRIGGER_SIZE = 3000
 PUSH_TRIGGER_ACTIVATION_AGL = 25
@@ -179,26 +180,57 @@ class TriggerGenerator:
             # clear_trigger.add_action(MessageToAll(text=String("Enable clear trigger"),))
             self.mission.triggerrules.triggers.append(enable_clear_trigger)
 
-    def _generate_capture_triggers(
-        self, player_coalition: str, enemy_coalition: str
-    ) -> None:
+    def _create_capture_trigger(
+        self,
+        trigger_zone_id: int,
+        flag: int,
+        capturing_coalition: str,
+        losing_coalition: str,
+        capturing_coalition_int: int,
+        cp: ControlPoint,
+        flag_condition_true: bool = False,
+    ) -> TriggerCondition:
+        """Helper method to create a single capture trigger with the given parameters."""
+        trigger = TriggerCondition(Event.NoEvent, "Capture Trigger")
+        trigger.add_condition(
+            AllOfCoalitionOutsideZone(
+                losing_coalition, trigger_zone_id, unit_type="GROUND"
+            )
+        )
+        trigger.add_condition(
+            PartOfCoalitionInZone(
+                capturing_coalition, trigger_zone_id, unit_type="GROUND"
+            )
+        )
+
+        if flag_condition_true:
+            trigger.add_condition(FlagIsTrue(flag=flag))
+            trigger.add_action(ClearFlag(flag=flag))
+        else:
+            trigger.add_condition(FlagIsFalse(flag=flag))
+            trigger.add_action(SetFlag(flag=flag))
+
+        script_string = String(
+            f'base_capture_events[#base_capture_events + 1] = "{cp.id}||{capturing_coalition_int}||{cp.full_name}"'
+        )
+        trigger.add_action(DoScript(script_string))
+        return trigger
+
+    def _generate_capture_triggers(self) -> None:
         """Creates a pair of triggers for each control point of `cls.capture_zone_types`.
         One for the initial capture of a control point, and one if it is recaptured.
         Directly appends to the global `base_capture_events` var declared by `dcs_libaration.lua`
         """
         for cp in self.game.theater.controlpoints:
+            attacking_coalition = str.lower(cp.captured.opponent.name)
+            defending_coalition = str.lower(cp.captured.opponent.opponent.name)
+            if attacking_coalition == "red":
+                attack_coalition_int = 1  # 1 is the Event int for Red
+                defend_coalition_int = 2  # 2 is the Event int for Blue
+            else:
+                attack_coalition_int = 2
+                defend_coalition_int = 1
             if isinstance(cp, self.capture_zone_types) and not cp.is_carrier:
-                if cp.captured.is_blue:
-                    attacking_coalition = enemy_coalition
-                    attack_coalition_int = 1  # 1 is the Event int for Red
-                    defending_coalition = player_coalition
-                    defend_coalition_int = 2  # 2 is the Event int for Blue
-                else:
-                    attacking_coalition = player_coalition
-                    attack_coalition_int = 2
-                    defending_coalition = enemy_coalition
-                    defend_coalition_int = 1
-
                 trigger_zone = self.mission.triggers.add_triggerzone(
                     cp.position,
                     radius=TRIGGER_RADIUS_CAPTURE,
@@ -206,87 +238,47 @@ class TriggerGenerator:
                     name="CAPTURE",
                 )
                 flag = self.get_capture_zone_flag()
-                capture_trigger = TriggerCondition(Event.NoEvent, "Capture Trigger")
-                capture_trigger.add_condition(
-                    AllOfCoalitionOutsideZone(
-                        defending_coalition, trigger_zone.id, unit_type="GROUND"
-                    )
+                capture = self._create_capture_trigger(
+                    trigger_zone.id,
+                    flag,
+                    attacking_coalition,
+                    defending_coalition,
+                    attack_coalition_int,
+                    cp,
                 )
-                capture_trigger.add_condition(
-                    PartOfCoalitionInZone(
-                        attacking_coalition, trigger_zone.id, unit_type="GROUND"
-                    )
+                recapture = self._create_capture_trigger(
+                    trigger_zone.id,
+                    flag,
+                    defending_coalition,
+                    attacking_coalition,
+                    defend_coalition_int,
+                    cp,
+                    flag_condition_true=True,
                 )
-                capture_trigger.add_condition(FlagIsFalse(flag=flag))
-                script_string = String(
-                    f'base_capture_events[#base_capture_events + 1] = "{cp.id}||{attack_coalition_int}||{cp.full_name}"'
-                )
-                capture_trigger.add_action(DoScript(script_string))
-                capture_trigger.add_action(SetFlag(flag=flag))
-                self.mission.triggerrules.triggers.append(capture_trigger)
-
-                recapture_trigger = TriggerCondition(Event.NoEvent, "Capture Trigger")
-                recapture_trigger.add_condition(
-                    AllOfCoalitionOutsideZone(
-                        attacking_coalition, trigger_zone.id, unit_type="GROUND"
-                    )
-                )
-                recapture_trigger.add_condition(
-                    PartOfCoalitionInZone(
-                        defending_coalition, trigger_zone.id, unit_type="GROUND"
-                    )
-                )
-                recapture_trigger.add_condition(FlagIsTrue(flag=flag))
-                script_string = String(
-                    f'base_capture_events[#base_capture_events + 1] = "{cp.id}||{defend_coalition_int}||{cp.full_name}"'
-                )
-                recapture_trigger.add_action(DoScript(script_string))
-                recapture_trigger.add_action(ClearFlag(flag=flag))
-                self.mission.triggerrules.triggers.append(recapture_trigger)
+                self.mission.triggerrules.triggers.extend([capture, recapture])
 
                 if cp.captured.is_neutral:
-                    red_capture_trigger = TriggerCondition(
-                        Event.NoEvent, "Capture Trigger"
+                    # In this case attacking_coalition is blue and defending_coalition is red because
+                    # neutral control points always have blue set as the opponent
+                    red_capture = self._create_capture_trigger(
+                        trigger_zone.id,
+                        flag,
+                        defending_coalition,
+                        attacking_coalition,
+                        defend_coalition_int,
+                        cp,
                     )
-                    red_capture_trigger.add_condition(
-                        AllOfCoalitionOutsideZone(
-                            attacking_coalition, trigger_zone.id, unit_type="GROUND"
-                        )
+                    red_recapture = self._create_capture_trigger(
+                        trigger_zone.id,
+                        flag,
+                        defending_coalition,
+                        attacking_coalition,
+                        defend_coalition_int,
+                        cp,
+                        flag_condition_true=True,
                     )
-                    red_capture_trigger.add_condition(
-                        PartOfCoalitionInZone(
-                            defending_coalition, trigger_zone.id, unit_type="GROUND"
-                        )
-                    )
-                    red_capture_trigger.add_condition(FlagIsFalse(flag=flag))
-                    script_string = String(
-                        f'base_capture_events[#base_capture_events + 1] = "{cp.id}||{defend_coalition_int}||{cp.full_name}"'
-                    )
-                    red_capture_trigger.add_action(DoScript(script_string))
-                    red_capture_trigger.add_action(SetFlag(flag=flag))
-                    self.mission.triggerrules.triggers.append(red_capture_trigger)
-
-                    inverted_recapture_trigger = TriggerCondition(
-                        Event.NoEvent, "Capture Trigger"
-                    )
-                    inverted_recapture_trigger.add_condition(
-                        AllOfCoalitionOutsideZone(
-                            defending_coalition, trigger_zone.id, unit_type="GROUND"
-                        )
-                    )
-                    inverted_recapture_trigger.add_condition(
-                        PartOfCoalitionInZone(
-                            attacking_coalition, trigger_zone.id, unit_type="GROUND"
-                        )
-                    )
-                    inverted_recapture_trigger.add_condition(FlagIsTrue(flag=flag))
-                    script_string = String(
-                        f'base_capture_events[#base_capture_events + 1] = "{cp.id}||{attack_coalition_int}||{cp.full_name}"'
-                    )
-                    inverted_recapture_trigger.add_action(DoScript(script_string))
-                    inverted_recapture_trigger.add_action(ClearFlag(flag=flag))
-                    self.mission.triggerrules.triggers.append(
-                        inverted_recapture_trigger
+                    self.mission.triggerrules.triggers.extend(
+                        [red_capture, red_recapture]
                     )
 
     def generate(self) -> None:
@@ -296,7 +288,7 @@ class TriggerGenerator:
         self._set_skill(player_coalition, enemy_coalition)
         self._set_allegiances(player_coalition, enemy_coalition)
         self._gen_markers()
-        self._generate_capture_triggers(player_coalition, enemy_coalition)
+        self._generate_capture_triggers()
         if self.game.settings.ground_start_scenery_remove_triggers:
             try:
                 self._generate_clear_statics_trigger(self.game.scenery_clear_zones)
