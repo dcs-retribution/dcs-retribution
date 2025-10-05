@@ -33,6 +33,11 @@ kneeboard_units: "metric"
 radios:
   intra_flight: R-862
   inter_flight: R-862
+  channels:
+    type: common
+    namer: fulcrum
+    intra_flight_radio_index: 1
+    inter_flight_radio_index: 1
 tasks:
   BAI: 530
   BARCAP: 370

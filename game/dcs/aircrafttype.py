@@ -43,6 +43,7 @@ from game.radio.channels import (
     KiowaChannelNamer,
     ARC5RadioChannelAllocator,
     ARC5ChannelNamer,
+    FulcrumChannelNamer,
 )
 from game.utils import (
     Distance,
@@ -122,6 +123,7 @@ class RadioConfig:
             "a10c-ii": WarthogChannelNamer,
             "phantom": PhantomChannelNamer,
             "kiowa": KiowaChannelNamer,
+            "fulcrum": FulcrumChannelNamer,
         }[config.get("namer", "default")]
 
 
