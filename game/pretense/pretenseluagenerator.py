@@ -1725,7 +1725,9 @@ class PretenseLuaGenerator(LuaGenerator):
     ) -> None:
         # Hard block MOOSE injection for Pretense missions
         if script_mnemonic.lower() == "moose" or "moose" in script.lower():
-            logging.info("PretenseLuaGenerator: Skipping hard-blocked Moose.lua injection")
+            logging.info(
+                "PretenseLuaGenerator: Skipping hard-blocked Moose.lua injection"
+            )
             return
 
         if script_mnemonic in self.plugin_scripts:
@@ -1745,7 +1747,6 @@ class PretenseLuaGenerator(LuaGenerator):
         fileref = self.mission.map_resource.add_resource_file(filename)
         trigger.add_action(DoScriptFile(fileref))
         self.mission.triggerrules.triggers.append(trigger)
-
 
     def inject_plugins(self) -> None:
         for plugin in LuaPluginManager.plugins():
