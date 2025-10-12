@@ -104,6 +104,23 @@ class AircraftGenerator:
             for parking_slot in cp.parking_slots:
                 parking_slot.unit_id = None
 
+    def _prioritized_packages(self, ato: AirTaskingOrder) -> List[Package]:
+        """Returns the packages in the order they should be generated."""
+        return sorted(
+            ato.packages,
+            key=lambda p: (
+                (
+                    1
+                    if any(
+                        f.flight_type in [FlightType.AEWC, FlightType.REFUELING]
+                        for f in p.flights
+                    )
+                    else 0
+                ),
+                p.time_over_target,
+            ),
+        )
+
     def generate_flights(
         self,
         country: Country,
@@ -124,7 +141,7 @@ class AircraftGenerator:
         self._reserve_frequencies_and_tacan(ato)
         self.mission_data.packages.clear()
 
-        for package in reversed(sorted(ato.packages, key=lambda x: x.time_over_target)):
+        for package in reversed(self._prioritized_packages(ato)):
             logging.info(f"Generating package for target: {package.target.name}")
             if not package.flights:
                 continue
