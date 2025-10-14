@@ -90,6 +90,8 @@ class TheaterGroundObject(MissionTarget, SidcDescribable, ABC):
 
     @property
     def sidc_status(self) -> Status:
+        if self.control_point.captured.is_neutral:
+            return Status.PRESENT
         if self.is_dead:
             return Status.PRESENT_DESTROYED
         elif self.dead_units:
@@ -575,6 +577,8 @@ class SamGroundObject(IadsGroundObject):
 
     @property
     def sidc_status(self) -> Status:
+        if self.control_point.captured.is_neutral:
+            return Status.PRESENT
         if self.is_dead:
             return Status.PRESENT_DESTROYED
         elif self.dead_units:
