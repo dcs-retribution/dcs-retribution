@@ -190,12 +190,12 @@ class SquadronDestinationComboBox(QComboBox):
                         or cp.coalition.game.settings.ground_start_ai_planes
                     )
 
-                    if free_helicopter_slots > 0 and (is_heli or is_vtol):
-                        free_helicopter_slots = -1
+                    if free_helicopter_slots > 0 and is_heli:
+                        free_helicopter_slots -= 1
                     elif free_ground_spawns > 0 and (
                         is_heli or is_vtol or count_ground_spawns
                     ):
-                        free_ground_spawns = -1
+                        free_ground_spawns -= 1
                     else:
                         slot = ap.free_parking_slot(s.aircraft.dcs_unit_type)
                         if slot:

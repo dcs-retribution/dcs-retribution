@@ -580,9 +580,9 @@ class CH_Ka52K(HelicopterType):
             1,
             Weapons.KMGU_2___96_x_PTAB_2_5KO_Dispenser__CBU__HEAT_AP,
         )
-        FAB_250___250kg_GP_Bomb_LD = (1, Weapons.FAB_250___250kg_GP_Bomb_LD)
-        FAB_250_M62___250_kg_GP_Bomb_LD = (1, Weapons.FAB_250_M62___250_kg_GP_Bomb_LD)
-        FAB_500_M_62___500kg_GP_Bomb_LD = (1, Weapons.FAB_500_M_62___500kg_GP_Bomb_LD)
+        OFAB_250_270___250_kg_GP_Bomb_LD = (1, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
+        FAB_250M_62___250_kg_GP_Bomb_LD = (1, Weapons.FAB_250M_62___250_kg_GP_Bomb_LD)
+        FAB_500M_62___500_kg_GP_Bomb_LD = (1, Weapons.FAB_500M_62___500_kg_GP_Bomb_LD)
         Fuel_tank_PTB_450 = (1, Weapons.Fuel_tank_PTB_450)
         APU_6___6_x_9M127_Vikhr___ATGM__LOSBR__Tandem_HEAT_Frag = (
             1,
@@ -625,9 +625,9 @@ class CH_Ka52K(HelicopterType):
             2,
             Weapons.KMGU_2___96_x_PTAB_2_5KO_Dispenser__CBU__HEAT_AP,
         )
-        FAB_250___250kg_GP_Bomb_LD = (2, Weapons.FAB_250___250kg_GP_Bomb_LD)
-        FAB_250_M62___250_kg_GP_Bomb_LD = (2, Weapons.FAB_250_M62___250_kg_GP_Bomb_LD)
-        FAB_500_M_62___500kg_GP_Bomb_LD = (2, Weapons.FAB_500_M_62___500kg_GP_Bomb_LD)
+        OFAB_250_270___250_kg_GP_Bomb_LD = (2, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
+        FAB_250M_62___250_kg_GP_Bomb_LD = (2, Weapons.FAB_250M_62___250_kg_GP_Bomb_LD)
+        FAB_500M_62___500_kg_GP_Bomb_LD = (2, Weapons.FAB_500M_62___500_kg_GP_Bomb_LD)
         Fuel_tank_PTB_450 = (2, Weapons.Fuel_tank_PTB_450)
         APU_6___6_x_9M127_Vikhr___ATGM__LOSBR__Tandem_HEAT_Frag = (
             2,
@@ -673,9 +673,9 @@ class CH_Ka52K(HelicopterType):
             3,
             Weapons.KMGU_2___96_x_PTAB_2_5KO_Dispenser__CBU__HEAT_AP,
         )
-        FAB_250___250kg_GP_Bomb_LD = (3, Weapons.FAB_250___250kg_GP_Bomb_LD)
-        FAB_250_M62___250_kg_GP_Bomb_LD = (3, Weapons.FAB_250_M62___250_kg_GP_Bomb_LD)
-        FAB_500_M_62___500kg_GP_Bomb_LD = (3, Weapons.FAB_500_M_62___500kg_GP_Bomb_LD)
+        OFAB_250_270___250_kg_GP_Bomb_LD = (3, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
+        FAB_250M_62___250_kg_GP_Bomb_LD = (3, Weapons.FAB_250M_62___250_kg_GP_Bomb_LD)
+        FAB_500M_62___500_kg_GP_Bomb_LD = (3, Weapons.FAB_500M_62___500_kg_GP_Bomb_LD)
         Fuel_tank_PTB_450 = (3, Weapons.Fuel_tank_PTB_450)
         APU_6___6_x_9M127_Vikhr___ATGM__LOSBR__Tandem_HEAT_Frag = (
             3,
@@ -721,9 +721,9 @@ class CH_Ka52K(HelicopterType):
             4,
             Weapons.KMGU_2___96_x_PTAB_2_5KO_Dispenser__CBU__HEAT_AP,
         )
-        FAB_250___250kg_GP_Bomb_LD = (4, Weapons.FAB_250___250kg_GP_Bomb_LD)
-        FAB_250_M62___250_kg_GP_Bomb_LD = (4, Weapons.FAB_250_M62___250_kg_GP_Bomb_LD)
-        FAB_500_M_62___500kg_GP_Bomb_LD = (4, Weapons.FAB_500_M_62___500kg_GP_Bomb_LD)
+        OFAB_250_270___250_kg_GP_Bomb_LD = (4, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
+        FAB_250M_62___250_kg_GP_Bomb_LD = (4, Weapons.FAB_250M_62___250_kg_GP_Bomb_LD)
+        FAB_500M_62___500_kg_GP_Bomb_LD = (4, Weapons.FAB_500M_62___500_kg_GP_Bomb_LD)
         Fuel_tank_PTB_450 = (4, Weapons.Fuel_tank_PTB_450)
         APU_6___6_x_9M127_Vikhr___ATGM__LOSBR__Tandem_HEAT_Frag = (
             4,
@@ -797,9 +797,9 @@ class CH_Ka52(HelicopterType):
             1,
             Weapons.KMGU_2___96_x_PTAB_2_5KO_Dispenser__CBU__HEAT_AP,
         )
-        FAB_250___250kg_GP_Bomb_LD = (1, Weapons.FAB_250___250kg_GP_Bomb_LD)
-        FAB_250_M62___250_kg_GP_Bomb_LD = (1, Weapons.FAB_250_M62___250_kg_GP_Bomb_LD)
-        FAB_500_M_62___500kg_GP_Bomb_LD = (1, Weapons.FAB_500_M_62___500kg_GP_Bomb_LD)
+        OFAB_250_270___250_kg_GP_Bomb_LD = (1, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
+        FAB_250M_62___250_kg_GP_Bomb_LD = (1, Weapons.FAB_250M_62___250_kg_GP_Bomb_LD)
+        FAB_500M_62___500_kg_GP_Bomb_LD = (1, Weapons.FAB_500M_62___500_kg_GP_Bomb_LD)
         Fuel_tank_PTB_450 = (1, Weapons.Fuel_tank_PTB_450)
         APU_6___6_x_9M127_Vikhr___ATGM__LOSBR__Tandem_HEAT_Frag = (
             1,
@@ -838,9 +838,9 @@ class CH_Ka52(HelicopterType):
             2,
             Weapons.KMGU_2___96_x_PTAB_2_5KO_Dispenser__CBU__HEAT_AP,
         )
-        FAB_250___250kg_GP_Bomb_LD = (2, Weapons.FAB_250___250kg_GP_Bomb_LD)
-        FAB_250_M62___250_kg_GP_Bomb_LD = (2, Weapons.FAB_250_M62___250_kg_GP_Bomb_LD)
-        FAB_500_M_62___500kg_GP_Bomb_LD = (2, Weapons.FAB_500_M_62___500kg_GP_Bomb_LD)
+        OFAB_250_270___250_kg_GP_Bomb_LD = (2, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
+        FAB_250M_62___250_kg_GP_Bomb_LD = (2, Weapons.FAB_250M_62___250_kg_GP_Bomb_LD)
+        FAB_500M_62___500_kg_GP_Bomb_LD = (2, Weapons.FAB_500M_62___500_kg_GP_Bomb_LD)
         Fuel_tank_PTB_450 = (2, Weapons.Fuel_tank_PTB_450)
 
     class Pylon3:
@@ -867,9 +867,9 @@ class CH_Ka52(HelicopterType):
             3,
             Weapons.KMGU_2___96_x_PTAB_2_5KO_Dispenser__CBU__HEAT_AP,
         )
-        FAB_250___250kg_GP_Bomb_LD = (3, Weapons.FAB_250___250kg_GP_Bomb_LD)
-        FAB_250_M62___250_kg_GP_Bomb_LD = (3, Weapons.FAB_250_M62___250_kg_GP_Bomb_LD)
-        FAB_500_M_62___500kg_GP_Bomb_LD = (3, Weapons.FAB_500_M_62___500kg_GP_Bomb_LD)
+        OFAB_250_270___250_kg_GP_Bomb_LD = (3, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
+        FAB_250M_62___250_kg_GP_Bomb_LD = (3, Weapons.FAB_250M_62___250_kg_GP_Bomb_LD)
+        FAB_500M_62___500_kg_GP_Bomb_LD = (3, Weapons.FAB_500M_62___500_kg_GP_Bomb_LD)
         Fuel_tank_PTB_450 = (3, Weapons.Fuel_tank_PTB_450)
 
     class Pylon4:
@@ -900,9 +900,9 @@ class CH_Ka52(HelicopterType):
             4,
             Weapons.KMGU_2___96_x_PTAB_2_5KO_Dispenser__CBU__HEAT_AP,
         )
-        FAB_250___250kg_GP_Bomb_LD = (4, Weapons.FAB_250___250kg_GP_Bomb_LD)
-        FAB_250_M62___250_kg_GP_Bomb_LD = (4, Weapons.FAB_250_M62___250_kg_GP_Bomb_LD)
-        FAB_500_M_62___500kg_GP_Bomb_LD = (4, Weapons.FAB_500_M_62___500kg_GP_Bomb_LD)
+        OFAB_250_270___250_kg_GP_Bomb_LD = (4, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
+        FAB_250M_62___250_kg_GP_Bomb_LD = (4, Weapons.FAB_250M_62___250_kg_GP_Bomb_LD)
+        FAB_500M_62___500_kg_GP_Bomb_LD = (4, Weapons.FAB_500M_62___500_kg_GP_Bomb_LD)
         Fuel_tank_PTB_450 = (4, Weapons.Fuel_tank_PTB_450)
         APU_6___6_x_9M127_Vikhr___ATGM__LOSBR__Tandem_HEAT_Frag = (
             4,
@@ -979,9 +979,9 @@ class CH_Mi28N(HelicopterType):
             1,
             Weapons.KMGU_2___96_x_PTAB_2_5KO_Dispenser__CBU__HEAT_AP,
         )
-        FAB_250___250kg_GP_Bomb_LD = (1, Weapons.FAB_250___250kg_GP_Bomb_LD)
-        FAB_250_M62___250_kg_GP_Bomb_LD = (1, Weapons.FAB_250_M62___250_kg_GP_Bomb_LD)
-        FAB_500_M_62___500kg_GP_Bomb_LD = (1, Weapons.FAB_500_M_62___500kg_GP_Bomb_LD)
+        OFAB_250_270___250_kg_GP_Bomb_LD = (1, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
+        FAB_250M_62___250_kg_GP_Bomb_LD = (1, Weapons.FAB_250M_62___250_kg_GP_Bomb_LD)
+        FAB_500M_62___500_kg_GP_Bomb_LD = (1, Weapons.FAB_500M_62___500_kg_GP_Bomb_LD)
         Fuel_tank_PTB_450 = (1, Weapons.Fuel_tank_PTB_450)
         _6_x_9M120_Ataka__AT_9_Spiral_2____ATGM__SACLOS__Tandem_HEAT = (
             1,
@@ -1017,9 +1017,9 @@ class CH_Mi28N(HelicopterType):
             2,
             Weapons.KMGU_2___96_x_PTAB_2_5KO_Dispenser__CBU__HEAT_AP,
         )
-        FAB_250___250kg_GP_Bomb_LD = (2, Weapons.FAB_250___250kg_GP_Bomb_LD)
-        FAB_250_M62___250_kg_GP_Bomb_LD = (2, Weapons.FAB_250_M62___250_kg_GP_Bomb_LD)
-        FAB_500_M_62___500kg_GP_Bomb_LD = (2, Weapons.FAB_500_M_62___500kg_GP_Bomb_LD)
+        OFAB_250_270___250_kg_GP_Bomb_LD = (2, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
+        FAB_250M_62___250_kg_GP_Bomb_LD = (2, Weapons.FAB_250M_62___250_kg_GP_Bomb_LD)
+        FAB_500M_62___500_kg_GP_Bomb_LD = (2, Weapons.FAB_500M_62___500_kg_GP_Bomb_LD)
         Fuel_tank_PTB_450 = (2, Weapons.Fuel_tank_PTB_450)
         _6_x_9M120_Ataka__AT_9_Spiral_2____ATGM__SACLOS__Tandem_HEAT = (
             2,
@@ -1055,9 +1055,9 @@ class CH_Mi28N(HelicopterType):
             3,
             Weapons.KMGU_2___96_x_PTAB_2_5KO_Dispenser__CBU__HEAT_AP,
         )
-        FAB_250___250kg_GP_Bomb_LD = (3, Weapons.FAB_250___250kg_GP_Bomb_LD)
-        FAB_250_M62___250_kg_GP_Bomb_LD = (3, Weapons.FAB_250_M62___250_kg_GP_Bomb_LD)
-        FAB_500_M_62___500kg_GP_Bomb_LD = (3, Weapons.FAB_500_M_62___500kg_GP_Bomb_LD)
+        OFAB_250_270___250_kg_GP_Bomb_LD = (3, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
+        FAB_250M_62___250_kg_GP_Bomb_LD = (3, Weapons.FAB_250M_62___250_kg_GP_Bomb_LD)
+        FAB_500M_62___500_kg_GP_Bomb_LD = (3, Weapons.FAB_500M_62___500_kg_GP_Bomb_LD)
         Fuel_tank_PTB_450 = (3, Weapons.Fuel_tank_PTB_450)
         _6_x_9M120_Ataka__AT_9_Spiral_2____ATGM__SACLOS__Tandem_HEAT = (
             3,
@@ -1089,9 +1089,9 @@ class CH_Mi28N(HelicopterType):
             4,
             Weapons.KMGU_2___96_x_PTAB_2_5KO_Dispenser__CBU__HEAT_AP,
         )
-        FAB_250___250kg_GP_Bomb_LD = (4, Weapons.FAB_250___250kg_GP_Bomb_LD)
-        FAB_250_M62___250_kg_GP_Bomb_LD = (4, Weapons.FAB_250_M62___250_kg_GP_Bomb_LD)
-        FAB_500_M_62___500kg_GP_Bomb_LD = (4, Weapons.FAB_500_M_62___500kg_GP_Bomb_LD)
+        OFAB_250_270___250_kg_GP_Bomb_LD = (4, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
+        FAB_250M_62___250_kg_GP_Bomb_LD = (4, Weapons.FAB_250M_62___250_kg_GP_Bomb_LD)
+        FAB_500M_62___500_kg_GP_Bomb_LD = (4, Weapons.FAB_500M_62___500_kg_GP_Bomb_LD)
         Fuel_tank_PTB_450 = (4, Weapons.Fuel_tank_PTB_450)
         _6_x_9M120_Ataka__AT_9_Spiral_2____ATGM__SACLOS__Tandem_HEAT = (
             4,
@@ -1135,6 +1135,8 @@ class CH_Tu_95MSM(PlaneType):
     eplrs = True
 
     property_defaults: Dict[str, Any] = {}
+
+    properties = {}
 
     livery_name = "CH_TU-95MSM"  # from type
 

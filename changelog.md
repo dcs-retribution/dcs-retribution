@@ -12,10 +12,11 @@
 * **[Modding]** Add Tornado F3 ADV (v1.0, requires FC3 fix)
 * **[Modding]** Add Military Aircraft Mod 1.7.2 (See VSN Discord)
 * **[Payload Editor]** Add Sniper POD
-* **[Modding]** Update SU-30 mod to v2.8.03 Beta + CWS 3.70
+* **[Modding]** Update SU-30 mod to v2.8.04 Beta + CWS 3.72
 * **[Plugins]** EW Script - DEAD added to applicable flight types.
 * **[Plugins]** EW Script - Offensive Jamming restricted to aircraft with ALQ99/249 pods, or "has_built_in_jamming: true" in aircarft yaml (AI and Player)
 * **[Modding]** Update to CJS Super Hornet Mod v2.4.4
+* **[Engine]** Support for DCS 2.9.20.15010, including MiG-29A Fulcrum support.
 
 ## Fixes
 * **[Flight Plans]** Fixed a bug when a package was created with only escort flights
@@ -24,6 +25,8 @@
 * **[Flight Plans]** Fixed a bug where SEAD flights would fire one ARM and RTB
 * **[Plugins]** EW Script - Fix radar detection routine.
 * **[Campaign]** Fixed a bug where sinking a destroyer in a carrier group would cause squadrons to be removed from the carrier
+* **[Engine]** Fixed a bug with transfers to Helipads
+* **[Engine]** Fixed a bug with parking allocation
 
 # Retribution v1.4.1 (hotfix)
 

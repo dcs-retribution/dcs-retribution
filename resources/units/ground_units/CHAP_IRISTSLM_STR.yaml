@@ -1,0 +1,18 @@
+class: SearchTrackRadar
+reversed_heading: true
+description: "The IRIS-T SL is a family of short and high to medium air defense surface-to-air missile systems. 
+  The missile systems are developed from the IRIS-T air-to-air missile. Two variants and their derivatives are at the moment in service. 
+  Those two variants are IRIS-T SLS and the IRIS-T SLM."
+introduced: 2020
+manufacturer: Diehl Defence and Hensoldt, Saab AB
+origin: Germany/Sweden
+price: 20
+variants:
+  "SAM IRIS-T SLM STR [CH]": {}
+skynet_properties: # Override skynet default properties
+  can_engage_harm: true
+  # can_engage_air_weapon: true # https://github.com/walder/Skynet-IADS/tree/develop#engage-air-weapons
+  go_live_range_in_percent: 100
+  harm_detection_chance: 90
+  engagement_zone: SkynetIADSAbstractRadarElement.GO_LIVE_WHEN_IN_KILL_ZONE # https://github.com/walder/Skynet-IADS/tree/develop#engagement-zone
+  autonomous_behaviour: SkynetIADSAbstractRadarElement.AUTONOMOUS_STATE_DCS_AI # https://github.com/walder/Skynet-IADS/tree/develop#autonomous-mode-behaviour

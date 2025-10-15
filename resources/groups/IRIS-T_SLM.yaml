@@ -1,0 +1,9 @@
+name: IRIS-T SLM
+tasks:
+  - MERAD
+units:
+  - SAM IRIS-T SLM STR [CH]
+  - SAM IRIS-T SLM LN [CH]
+  - SAM IRIS-T SLM C2 [CH]
+layouts:
+  - 2 Launcher Site

@@ -17,7 +17,6 @@ max_range: 2000
 variants:
   Tu-160 Blackjack: {}
 tasks:
-  Anti-ship: 100
   BAI: 370
   DEAD: 210
   Strike: 680
