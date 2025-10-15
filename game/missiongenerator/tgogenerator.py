@@ -866,7 +866,7 @@ class HelipadGenerator:
 
         if self.game.position_culled(helipad):
             cull_farp_statics = True
-            if self.cp.coalition.player:
+            if self.cp.coalition.player.is_blue:
                 for package in self.cp.coalition.ato.packages:
                     for flight in package.flights:
                         if flight.squadron.location == self.cp:
@@ -998,7 +998,7 @@ class GroundSpawnRoadbaseGenerator:
             cull_farp_statics = True
         elif self.game.position_culled(ground_spawn[0]):
             cull_farp_statics = True
-            if self.cp.coalition.player:
+            if self.cp.coalition.player.is_blue:
                 for package in self.cp.coalition.ato.packages:
                     for flight in package.flights:
                         if flight.squadron.location == self.cp:
@@ -1277,7 +1277,7 @@ class GroundSpawnGenerator:
             cull_farp_statics = True
         elif self.game.position_culled(vtol_pad[0]):
             cull_farp_statics = True
-            if self.cp.coalition.player:
+            if self.cp.coalition.player.is_blue:
                 for package in self.cp.coalition.ato.packages:
                     for flight in package.flights:
                         if flight.squadron.location == self.cp:

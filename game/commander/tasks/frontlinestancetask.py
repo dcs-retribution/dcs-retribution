@@ -27,7 +27,7 @@ class FrontLineStanceTask(TheaterCommanderTask, ABC):
     @staticmethod
     def management_allowed(state: TheaterState) -> bool:
         return (
-            not state.context.coalition.player
+            not state.context.coalition.player.is_blue
             or state.context.settings.automate_front_line_stance
         )
 

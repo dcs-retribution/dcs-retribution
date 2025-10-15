@@ -195,7 +195,9 @@ class QGroundObjectMenu(QDialog):
             lambda degrees: self.rotate_tgo(Heading(degrees))
         )
         self.orientationBoxLayout.addWidget(self.headingSelector)
-        can_adjust_heading = self.cp.is_friendly(to_player=self.game_model.is_ownfor)
+        can_adjust_heading = self.cp.is_friendly(
+            to_player=Player.BLUE if self.game_model.is_ownfor else Player.RED
+        )
         if can_adjust_heading:
             self.head_to_conflict_button = QPushButton("Head to conflict")
             heading = (

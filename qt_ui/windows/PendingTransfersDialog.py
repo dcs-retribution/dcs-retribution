@@ -58,7 +58,7 @@ class PendingTransfersList(QListView):
         index = self.indexAt(event.pos())
         if not index.isValid():
             return
-        if not self.transfer_model.transfer_at_index(index).player:
+        if not self.transfer_model.transfer_at_index(index).player.is_blue:
             return
 
         menu = QMenu("Menu")
