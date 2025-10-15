@@ -25,6 +25,8 @@
 * **[Flight Plans]** Fixed a bug where SEAD flights would fire one ARM and RTB
 * **[Plugins]** EW Script - Fix radar detection routine.
 * **[Campaign]** Fixed a bug where sinking a destroyer in a carrier group would cause squadrons to be removed from the carrier
+* **[Engine]** Fixed a bug with transfers to Helipads
+* **[Engine]** Fixed a bug with parking allocation
 
 # Retribution v1.4.1 (hotfix)
 

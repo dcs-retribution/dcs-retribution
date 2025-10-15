@@ -1723,6 +1723,13 @@ class PretenseLuaGenerator(LuaGenerator):
     def inject_plugin_script(
         self, plugin_mnemonic: str, script: str, script_mnemonic: str
     ) -> None:
+        # Hard block MOOSE injection for Pretense missions
+        if script_mnemonic.lower() == "moose" or "moose" in script.lower():
+            logging.info(
+                "PretenseLuaGenerator: Skipping hard-blocked Moose.lua injection"
+            )
+            return
+
         if script_mnemonic in self.plugin_scripts:
             logging.debug(f"Skipping already loaded {script} for {plugin_mnemonic}")
             return
@@ -1730,7 +1737,6 @@ class PretenseLuaGenerator(LuaGenerator):
         self.plugin_scripts.append(script_mnemonic)
 
         plugin_path = Path("./resources/plugins", plugin_mnemonic)
-
         script_path = Path(plugin_path, script)
         if not script_path.exists():
             logging.error(f"Cannot find {script_path} for plugin {plugin_mnemonic}")
