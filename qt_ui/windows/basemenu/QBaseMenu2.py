@@ -303,9 +303,8 @@ class QBaseMenu2(QDialog):
             fixed_wing=False, fixed_wing_stol=False, rotary_wing=True
         )
 
-        fixed_wing_parking = self.cp.total_aircraft_parking(parking_type_fixed_wing)
         ground_spawn_parking = self.cp.total_aircraft_parking(parking_type_stol)
-        rotary_wing_parking = self.cp.total_aircraft_parking(parking_type_rotary_wing)
+        helipads = self.cp.total_aircraft_parking(parking_type_rotary_wing)
         ground_unit_limit = self.cp.frontline_unit_count_limit
         deployable_unit_info = ""
 
@@ -319,14 +318,27 @@ class QBaseMenu2(QDialog):
             deployable_unit_info = (
                 f" (Up to {ground_unit_limit} deployable, {unit_overage} reserve)"
             )
-
+        fixed_wing_airfield_parking = [
+            slot
+            for slot in self.cp.parking_slots
+            if slot.airplanes and not slot.helicopter
+        ]
+        rotary_wing_airfield_parking = [
+            slot
+            for slot in self.cp.parking_slots
+            if slot.helicopter and not slot.airplanes
+        ]
+        mixed_parking = [
+            slot for slot in self.cp.parking_slots if slot.helicopter and slot.airplanes
+        ]
         self.intel_summary.setText(
             "\n".join(
                 [
                     f"{aircraft}/{parking} aircraft",
-                    f"{fixed_wing_parking} fixed wing parking",
+                    f"{len(fixed_wing_airfield_parking)} fixed-wing only parking",
+                    f"{len(rotary_wing_airfield_parking) + helipads} rotary-wing only parking",
+                    f"{len(mixed_parking)} mixed parking",
                     f"{ground_spawn_parking} ground spawns",
-                    f"{rotary_wing_parking} rotary wing parking",
                     f"{self.cp.base.total_armor} ground units" + deployable_unit_info,
                     f"{allocated.total_transferring} more ground units en route, {allocated.total_ordered} ordered",
                     str(self.cp.runway_status),
