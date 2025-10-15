@@ -389,9 +389,9 @@ function startEWjamm(jammer)
         if radarUnit and Unit.isExist(radarUnit) then
             table.insert(validRadarList, radarName)
         else
-            env.info("[DEBUG EW] Removing destroyed or missing radar: " .. tostring(radarName))
+            -- env.info("[DEBUG EW] Removing destroyed or missing radar: " .. tostring(radarName))
         end
-        env.info(radarList[k])
+        -- env.info(radarList[k])
     end
     radarList = validRadarList  -- update the global list safely
 
@@ -403,13 +403,13 @@ function startEWjamm(jammer)
         if radarUnit and jammerUnit and radarUnit:isExist() and jammerUnit:isExist() then
             if radarUnit:getCoalition() ~= jammerUnit:getCoalition() then
                 check(jammer, radarName)
-                env.info("[DEBUG EW] Checking radar: " .. radarName)
+                -- env.info("[DEBUG EW] Checking radar: " .. radarName)
             end
         else
             if not radarUnit or not radarUnit:isExist() then
-                env.info("[DEBUG] Skipping destroyed radar: " .. tostring(radarName))
+                -- env.info("[DEBUG] Skipping destroyed radar: " .. tostring(radarName))
             elseif not jammerUnit or not jammerUnit:isExist() then
-                env.info("[DEBUG EW] Jammer destroyed or missing: " .. tostring(jammer))
+                -- env.info("[DEBUG EW] Jammer destroyed or missing: " .. tostring(jammer))
                 return  -- stop processing if jammer gone
             end
         end
@@ -425,7 +425,7 @@ function stopEWjamm(jammer)
     local anyActive = false
     for otherJammer, active in pairs(ActiveJammers) do
         if active and otherJammer ~= jammer then
-            env.info("[DEBUG] stopEWjamm(): "..jammer.." stopped, but "..otherJammer.." still active")
+            -- env.info("[DEBUG] stopEWjamm(): "..jammer.." stopped, but "..otherJammer.." still active")
             anyActive = true
             break
         end
@@ -433,7 +433,7 @@ function stopEWjamm(jammer)
 
     -- Only restore SAMs if no other jammer exists
     if not anyActive then
-        env.info("[DEBUG] stopEWjamm(): No jammers left, restoring all SAMs")
+        -- env.info("[DEBUG] stopEWjamm(): No jammers left, restoring all SAMs")
         for _, samName in pairs(radarList) do
             local samUnit = Unit.getByName(samName)
             if samUnit and samUnit:isExist() then
@@ -441,7 +441,7 @@ function stopEWjamm(jammer)
             end
         end
     else
-        env.info("[DEBUG] stopEWjamm(): SAMs remain suppressed due to other active jammers")
+        -- env.info("[DEBUG] stopEWjamm(): SAMs remain suppressed due to other active jammers")
     end
 end
 
