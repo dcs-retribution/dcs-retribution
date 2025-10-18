@@ -376,21 +376,45 @@ getRadars()
  
  
 function startEWjamm(jammer)
---    local jammerName = jammer
-    trigger.action.outText("OFFENSIVE COUNTER MEASURES POD ON "..jammer,5)
-    env.info("[DEBUG] Start Offensive Jamming: " ..jammer)
+    trigger.action.outText("OFFENSIVE COUNTER MEASURES POD ON "..jammer, 5)
+    env.info("[DEBUG] Start Offensive Jamming: " .. jammer)
 
     -- mark jammer active for multi-jammer logic
     ActiveJammers[jammer] = true
 
-    for k,v in pairs ( radarList)do
-        if Unit.getByName(radarList[k]):getCoalition()~= Unit.getByName(jammer):getCoalition() then
-            check(jammer, radarList[k]) 
-            -- trigger.action.outText(radarList[k],5)
+    -- clean radar list and process live units only
+    local validRadarList = {}
+    for k, radarName in pairs(radarList) do
+        local radarUnit = Unit.getByName(radarName)
+        if radarUnit and Unit.isExist(radarUnit) then
+            table.insert(validRadarList, radarName)
+        else
+            -- env.info("[DEBUG EW] Removing destroyed or missing radar: " .. tostring(radarName))
+        end
+        -- env.info(radarList[k])
+    end
+    radarList = validRadarList  -- update the global list safely
+
+    -- now run checks for remaining valid radars
+    for _, radarName in pairs(radarList) do
+        local radarUnit = Unit.getByName(radarName)
+        local jammerUnit = Unit.getByName(jammer)
+
+        if radarUnit and jammerUnit and radarUnit:isExist() and jammerUnit:isExist() then
+            if radarUnit:getCoalition() ~= jammerUnit:getCoalition() then
+                check(jammer, radarName)
+                -- env.info("[DEBUG EW] Checking radar: " .. radarName)
+            end
+        else
+            if not radarUnit or not radarUnit:isExist() then
+                -- env.info("[DEBUG] Skipping destroyed radar: " .. tostring(radarName))
+            elseif not jammerUnit or not jammerUnit:isExist() then
+                -- env.info("[DEBUG EW] Jammer destroyed or missing: " .. tostring(jammer))
+                return  -- stop processing if jammer gone
+            end
         end
     end
-end
- -- startEWjamm('Prowler1')
+end -- startEWjamm('Prowler1')
  
 function stopEWjamm(jammer)
     ActiveJammers[jammer] = nil
