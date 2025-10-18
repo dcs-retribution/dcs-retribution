@@ -1,21 +1,16 @@
 {
-    "nameInUI": "Airboss Module (Moose)",
+    "nameInUI": "Moose Airboss",
     "defaultValue": false,
     "specificOptions": [        
         {
-            "nameInUI": "Enable Airboss Rescue Helo",
-            "mnemonic": "enableRescueHelo",
+            "nameInUI": "Enable Airboss for LHA",
+            "mnemonic": "enableForLHA",
             "defaultValue": true
         },
         {
             "nameInUI": "Enable Airboss Recovery Tanker",
             "mnemonic": "enableTanker",
-            "defaultValue": true
-        },
-        {
-            "nameInUI": "Enable Airboss for LHA",
-            "mnemonic": "enableForLHA",
-            "defaultValue": true
+            "defaultValue": false
         },
         {
             "nameInUI": "Enable Airboss AWACS",
@@ -23,27 +18,40 @@
             "defaultValue": false
         },
         {
-            "nameInUI": "Rescue Helo Max Distance",
+            "nameInUI": "Enable Airboss Rescue Helo (Required for MSRS)",
+            "mnemonic": "enableRescueHelo",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "Rescue Helo Max Distance (nm)",
             "mnemonic": "rescueHeloDistance",
             "defaultValue": 50
         },
         {
-            "nameInUI": "Use UH-60L Mod",
+            "nameInUI": "Use UH-60L Mod for Rescue Helo",
             "mnemonic": "useUH60mod",
             "defaultValue": false
         },
         {
             "nameInUI": "Rescue Duration (mins)",
             "mnemonic": "rescueDuration",
-            "defaultValue": 5
+            "defaultValue": 3
         },
         {
             "nameInUI": "Rescue Zone Radius (nm)",
             "mnemonic": "rescueZoneRadius",
             "defaultValue": 15
+        },
+        {
+            "nameInUI": "Recovery Window Start Time (mins)",
+            "mnemonic": "windowStartOption",
+            "defaultValue": 30
+        },
+        {
+            "nameInUI": "Recovery Window Length (mins)",
+            "mnemonic": "windowLengthOption",
+            "defaultValue": 60
         }
-
-
     ],
 
     "scriptsWorkOrders": [],
@@ -167,7 +175,5 @@
         "AIRBOSS Soundfiles/PILOT-State.ogg",
         "AIRBOSS Soundfiles/PILOT-Tomcat.ogg",
         "AIRBOSS Soundfiles/PILOT-Viking.ogg"
-]
-
-
+    ]
 }

@@ -1,7 +1,6 @@
 [
     "base",
     "ctld",
-    "airboss",
     "arty",
     "artymbot",
     "dismounts",
@@ -11,6 +10,7 @@
     "lotatc",
     "skynetiads",
     "splashdamage2",
+    "airboss",
     "MooseAutolase",
     "MooseMarkerOps"
 ]
