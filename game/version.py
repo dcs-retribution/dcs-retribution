@@ -184,5 +184,8 @@ VERSION = _build_version_string()
 #: * Support for defining squadron sizes.
 #: * Definition of "spawn-routes" allowing convoys to spawn on the road
 #:      please note that an insufficiently long route can cause trouble in case of large convoys
+#:
+#: Version 10.8
+#: * Neutral base support.
 
-CAMPAIGN_FORMAT_VERSION = (10, 7)
+CAMPAIGN_FORMAT_VERSION = (10, 8)
