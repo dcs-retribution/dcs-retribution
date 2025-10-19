@@ -367,7 +367,7 @@ class MissionResultsProcessor:
         source.base.commit_losses(moved_units)
 
         # Also transfer pending deliveries.
-        for unit_type, count in source.ground_unit_orders.units.items():
+        for unit_type, count in list(source.ground_unit_orders.units.items()):
             move_count = int(count * move_factor)
             source.ground_unit_orders.sell({unit_type: move_count})
             destination.ground_unit_orders.order({unit_type: move_count})
