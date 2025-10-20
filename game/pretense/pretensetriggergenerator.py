@@ -111,7 +111,7 @@ class PretenseTriggerGenerator:
                     f"Could not find {airfield.airport.name} in the mission"
                 )
             cp_airport.set_coalition(
-                airfield.captured and player_coalition or enemy_coalition
+                airfield.captured.is_blue and player_coalition or enemy_coalition
             )
 
     def _set_skill(self, player_coalition: str, enemy_coalition: str) -> None:

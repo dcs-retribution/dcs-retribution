@@ -1622,7 +1622,7 @@ class PretenseLuaGenerator(LuaGenerator):
                             break
                         elif (
                             closest_cps[extra_connection].is_fleet
-                            and closest_cps[extra_connection].captured
+                            and closest_cps[extra_connection].captured.is_blue
                             and self.game.settings.pretense_controllable_carrier
                         ):
                             break
@@ -1647,7 +1647,7 @@ class PretenseLuaGenerator(LuaGenerator):
                 if isinstance(cp, OffMapSpawn):
                     continue
                 cp_side_captured = cp_side == 2
-                if cp_side_captured != cp.captured:
+                if cp_side_captured != cp.captured.is_blue:
                     continue
                 cp_name_trimmed = PretenseNameGenerator.pretense_trimmed_cp_name(
                     cp.name
