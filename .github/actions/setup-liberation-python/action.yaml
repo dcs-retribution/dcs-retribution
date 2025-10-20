@@ -7,14 +7,23 @@ runs:
       uses: actions/setup-python@v5
       with:
         python-version: "3.11"
-        cache: pip
+    - name: Cache virtual environment
+      uses: actions/cache@v4
+      id: cache-venv
+      with:
+        path: ./venv
+        key: venv-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
+        restore-keys: |
+          venv-${{ runner.os }}-
 
     - name: Install environment
+      if: steps.cache-venv.outputs.cache-hit != 'true'
       shell: powershell
       run: |
         python -m venv ./venv
 
     - name: Install dependencies
+      if: steps.cache-venv.outputs.cache-hit != 'true'
       shell: powershell
       run: |
         ./venv/scripts/activate
