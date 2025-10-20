@@ -186,6 +186,6 @@ VERSION = _build_version_string()
 #:      please note that an insufficiently long route can cause trouble in case of large convoys
 #:
 #: Version 10.8
-#: * Neutral base support.
+#: * Neutral base support, neutral FOB support, invisible FOBs, and control point influence zones
 
 CAMPAIGN_FORMAT_VERSION = (10, 8)

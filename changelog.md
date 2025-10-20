@@ -17,6 +17,9 @@
 * **[Plugins]** EW Script - Offensive Jamming restricted to aircraft with ALQ99/249 pods, or "has_built_in_jamming: true" in aircarft yaml (AI and Player)
 * **[Modding]** Update to CJS Super Hornet Mod v2.4.4
 * **[Engine]** Support for DCS 2.9.20.15010, including MiG-29A Fulcrum support.
+* **[Campaigns]** Ability to define neutral FOBs and Airfields
+* **[Modding]** Add Airboss Moose Module
+* **[AirWing]** Use aircraft display names for easier differentiation between modules
 
 ## Fixes
 * **[Flight Plans]** Fixed a bug when a package was created with only escort flights
@@ -28,6 +31,8 @@
 * **[Engine]** Fixed a bug with transfers to Helipads
 * **[Engine]** Fixed a bug with parking allocation
 * **[Flight Plans]** Fixed a bug where divert airfield was broken for opfor
+* **[Engine]** Fixed a bug with state.json loading wrt transfers
+* **[Engine]** Fixed a bug wrt pretense generation and moose script conflicts
 
 # Retribution v1.4.1 (hotfix)
 
