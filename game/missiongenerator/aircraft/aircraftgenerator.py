@@ -242,7 +242,7 @@ class AircraftGenerator:
         ):
             return
         elif (
-            not squadron.coalition.player.is_red
+            squadron.coalition.player.is_red
             and self.game.settings.perf_disable_untasked_opfor_aircraft
         ):
             return
