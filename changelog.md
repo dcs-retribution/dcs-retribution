@@ -27,6 +27,7 @@
 * **[Campaign]** Fixed a bug where sinking a destroyer in a carrier group would cause squadrons to be removed from the carrier
 * **[Engine]** Fixed a bug with transfers to Helipads
 * **[Engine]** Fixed a bug with parking allocation
+* **[Flight Plans]** Fixed a bug where divert airfield was broken for opfor
 
 # Retribution v1.4.1 (hotfix)
 

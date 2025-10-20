@@ -81,7 +81,7 @@ class QFlightCreator(QDialog):
             [
                 cp
                 for cp in game.theater.controlpoints
-                if cp.captured.is_blue == is_ownfor
+                if cp.captured.is_blue == is_ownfor and not cp.captured.is_neutral
             ],
             self.aircraft_selector.currentData(),
             "None",
@@ -178,7 +178,7 @@ class QFlightCreator(QDialog):
             return "You must select an aircraft type."
         if squadron is None:
             return "You must select a squadron."
-        if divert is not None and not divert.captured:
+        if divert is not None and divert.captured != squadron.player:
             return f"{divert.name} is not owned by your coalition."
         available = squadron.untasked_aircraft
         if not available:
