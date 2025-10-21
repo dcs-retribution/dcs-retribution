@@ -175,9 +175,10 @@ class GameGenerator:
         # Remove carrier and lha, invert situation if needed
         for cp in self.theater.controlpoints:
             if self.generator_settings.inverted:
-                cp.starting_coalition = (
-                    Player.RED if not cp.captured_invert else Player.BLUE
-                )
+                if not cp.starting_coalition.is_neutral:
+                    cp.starting_coalition = (
+                        Player.RED if not cp.captured_invert else Player.BLUE
+                    )
 
             if cp.is_carrier and self.should_remove_carrier(cp.starting_coalition):
                 to_remove.append(cp)

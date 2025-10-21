@@ -4,6 +4,7 @@ import itertools
 import logging
 import math
 from collections.abc import Iterator
+from copy import deepcopy
 from datetime import date, datetime, time, timedelta
 from enum import Enum
 from typing import Any, List, TYPE_CHECKING, Union, cast
@@ -140,7 +141,7 @@ class Game:
         self.sanitize_sides(player_faction, enemy_faction)
         self.blue = Coalition(self, player_faction, player_budget, player=Player.BLUE)
         self.red = Coalition(self, enemy_faction, enemy_budget, player=Player.RED)
-        neutral_faction = player_faction
+        neutral_faction = deepcopy(player_faction)
         neutral_faction.country = self.neutral_country
         self.neutral = Coalition(self, neutral_faction, 0, player=Player.NEUTRAL)
         self.blue.set_opponent(self.red)
