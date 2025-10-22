@@ -1,0 +1,125 @@
+{
+    "nameInUI": "Splash Damage 3.4.2",
+    "defaultValue": false,
+    "specificOptions": [
+        {
+            "nameInUI": "Enable game messages",
+            "mnemonic": "game_messages",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "Enable Debug Messages",
+            "mnemonic": "debug",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "Enable Weapon Missing Messages",
+            "mnemonic": "weapon_missing_message",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "Enable F10 Radio Menu",
+            "mnemonic": "enable_radio_menu",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "Enable Wave Explosions",
+            "mnemonic": "wave_explosions",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "Enable Larger Explosions",
+            "mnemonic": "larger_explosions",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "Enable Dynamic Blast Radius",
+            "mnemonic": "use_dynamic_blast_radius",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "Dynamic Blast Radius Multiplier (%)",
+            "mnemonic": "dynamic_blast_radius_modifier",
+            "minimumValue": 1,
+            "maximumValue": 5000,
+            "defaultValue": 200
+        },
+        {
+            "nameInUI": "Enable Damage Model",
+            "mnemonic": "damage_model",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "Static Objects Damage Boost",
+            "mnemonic": "static_damage_boost",
+            "minimumValue": 1000,
+            "maximumValue": 5000,
+            "defaultValue": 2000
+        },
+        {
+            "nameInUI": "Overall Scaling (%)",
+            "mnemonic": "overall_scaling",
+            "minimumValue": 1,
+            "maximumValue": 5000,
+            "defaultValue": 100
+        },
+        {
+            "nameInUI": "Health Value Units Movements are Disabled (%)",
+            "mnemonic": "unit_disabled_health",
+            "minimumValue": 1,
+            "maximumValue": 100,
+            "defaultValue": 30
+        },
+        {
+            "nameInUI": "Health Value Units Weapons are Disabled (%)",
+            "mnemonic": "unit_cant_fire_health",
+            "minimumValue": 1,
+            "maximumValue": 100,
+            "defaultValue": 40
+        },
+        {
+            "nameInUI": "Health Value Infantry Can't Fire (%)",
+            "mnemonic": "infantry_cant_fire_health",
+            "minimumValue": 1,
+            "maximumValue": 100,
+            "defaultValue": 60
+        },
+        {
+            "nameInUI": "Enable Cluster Munition Effects",
+            "mnemonic": "cluster_enabled",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "Rockets damage multiplier (%)",
+            "mnemonic": "rocket_multiplier",
+            "minimumValue": 10,
+            "maximumValue": 500,
+            "defaultValue": 130
+        },
+        {
+            "nameInUI": "Enable Ship Radar Damage by Anti-Radiation Missiles",
+            "mnemonic": "shipRadarDamageEnable",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "OCA Aircraft Damage Boost for Wave Explosions",
+            "mnemonic": "oca_aircraft_damage_boost",
+            "minimumValue": 0,
+            "maximumValue": 5000,
+            "defaultValue": 3000
+        }
+    ],
+    "scriptsWorkOrders": [
+        {
+            "file": "Splash_Damage_3.4.2_Standard_Retribution.lua",
+            "mnemonic": "splashdamage3"
+        }
+    ],
+    
+    "configurationWorkOrders": [
+        {
+            "file": "sd3-config.lua",
+            "mnemonic": "sd3config"
+        }
+    ]
+}
