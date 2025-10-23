@@ -33,6 +33,7 @@
 * **[Flight Plans]** Fixed a bug where divert airfield was broken for opfor
 * **[Engine]** Fixed a bug with state.json loading wrt transfers
 * **[Engine]** Fixed a bug wrt pretense generation and moose script conflicts
+* **[Engine]** Fixed a bug where frontline debriefing was not properly calculated
 
 # Retribution v1.4.1 (hotfix)
 

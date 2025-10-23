@@ -174,7 +174,7 @@ class MissionResultsProcessor:
         self, debriefing: Debriefing, events: GameUpdateEvents
     ) -> None:
         for cp in self.game.theater.player_points():
-            enemy_cps = [e for e in cp.connected_points if not e.captured]
+            enemy_cps = [e for e in cp.connected_points if e.captured.is_red]
             for enemy_cp in enemy_cps:
                 front_line = cp.front_line_with(enemy_cp)
                 front_line.update_position()
@@ -345,7 +345,7 @@ class MissionResultsProcessor:
             1,
             (
                 settings.reserves_procurement_target
-                if source.captured
+                if source.captured.is_blue
                 else settings.reserves_procurement_target_red
             ),
         )
