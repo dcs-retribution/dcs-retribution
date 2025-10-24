@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from datetime import datetime, timedelta
+import logging
 from typing import TYPE_CHECKING
 
 from dcs import Point
@@ -11,6 +12,7 @@ from game.ato.flightstate.flightstate import FlightState
 from game.ato.flightwaypoint import FlightWaypoint
 from game.ato.flightwaypointtype import FlightWaypointType
 from game.ato.starttype import StartType
+from game.settings.settings import FastForwardStopCondition
 from game.utils import Distance, LBS_TO_KG, Speed, pairwise
 
 if TYPE_CHECKING:
@@ -158,3 +160,17 @@ class InFlight(FlightState, ABC):
         else:
             abort = ""
         return f"{abort}Flying to {self.next_waypoint.name}"
+
+    def should_halt_sim(self) -> bool:
+        if (
+            self.flight.client_count > 0
+            and self.settings.fast_forward_stop_condition
+            == FastForwardStopCondition.PLAYER_AT_IP
+            and self.is_at_ip
+        ):
+            logging.info(
+                f"Interrupting simulation because {self.flight} has players and has "
+                "reached IP"
+            )
+            return True
+        return False
