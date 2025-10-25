@@ -474,7 +474,7 @@ local function AutoSetup()
         BASE:I(string.format("AIRBOSS: %s is a %s (Group: %03d | %s)", unitName, typeName, groupID, groupName))
 
         -- CVN detection
-        if string.find(typeNameLower, "cvn_71", 1, true) then
+        if (string.find(typeNameLower, "cvn") or string.find(typeNameLower, "stennis") or string.find(typeNameLower, "forrestal")) then
             MESSAGE:New("AIRBOSS: CARRIER (CVN) FOUND: " .. unitName, 15, "SPAWN"):ToLog()
             SetupAirboss(unitName, "CVN")
 
@@ -486,12 +486,12 @@ local function AutoSetup()
             if airboss_options.enableTanker     then AddTrickOrTreat(unitName) end
 
         -- LHA detection
-        elseif (string.find(typeNameLower, "lha") or string.find(typeNameLower, "tarawa")) and airboss_options.enableForLHA then
+        elseif (string.find(typeNameLower, "lha") or string.find(typeNameLower, "tarawa") or string.find(typeNameLower, "hms_invincible") or string.find(typeNameLower, "essex")) and airboss_options.enableForLHA then
             MESSAGE:New("AIRBOSS: CARRIER (LHA) FOUND: " .. unitName, 15, "SPAWN"):ToLog()
             SetupAirboss(unitName, "LHA")
             if airboss_options.enableRescueHelo then AddRescueHelo(unitName) end
 
-        elseif string.find(typeNameLower, "lha") or string.find(typeNameLower, "tarawa") then
+        elseif (string.find(typeNameLower, "lha") or string.find(typeNameLower, "tarawa") or string.find(typeNameLower, "hms_invincible") or string.find(typeNameLower, "essex")) and airboss_options.enableForLHA then
             MESSAGE:New("AIRBOSS: LHA FOUND BUT AIRBOSS DISABLED: " .. unitName, 15, "SPAWN"):ToLog()
 
         -- DDG/CG detection with task match or groupID offset
