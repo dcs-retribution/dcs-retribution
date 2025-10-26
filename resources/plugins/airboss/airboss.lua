@@ -460,55 +460,95 @@ rescueHomeBase = nil
 local function AutoSetup()
     MESSAGE:New("AIRBOSS: SETTING UP CARRIER ASSETS", 5, "RETRIBUTION", false):ToAll():ToLog()
 
-    local cvnGroupID = nil
-    local cvnTaskName = nil
+    local cvnUnits = {}
+    local lhaUnits = {}
+    local escortCandidates = {}
 
+    -- First pass: classify units
     BlueNavalUnitSet:ForEachUnit(function(unt)
         local unitName = unt:GetName()
-        local typeName = unt:GetTypeName()
-        local typeNameLower = string.lower(typeName)
+        local typeUnitName = string.lower(unt:GetName())
+        local typeNameLower = string.lower(unt:GetTypeName())
         local group = unt:GetGroup()
         local groupID = group:GetID()
         local groupName = group:GetName()
 
-        BASE:I(string.format("AIRBOSS: %s is a %s (Group: %03d | %s)", unitName, typeName, groupID, groupName))
+        BASE:I(string.format("AIRBOSS: %s is a %s (Group: %03d | %s)", unitName, unt:GetTypeName(), groupID, groupName))
 
         -- CVN detection
-        if (string.find(typeNameLower, "cvn") or string.find(typeNameLower, "stennis") or string.find(typeNameLower, "forrestal")) then
-            MESSAGE:New("AIRBOSS: CARRIER (CVN) FOUND: " .. unitName, 15, "SPAWN"):ToLog()
-            SetupAirboss(unitName, "CVN")
-
-            cvnGroupID = groupID
-            cvnTaskName = string.match(groupName, "^(%S+)")
-
-            if airboss_options.enableRescueHelo then AddRescueHelo(unitName) end
-            if airboss_options.enableAWACS      then AddShipAWACS(unitName) end
-            if airboss_options.enableTanker     then AddTrickOrTreat(unitName) end
+        if string.find(typeNameLower, "cvn", 1, true)
+            or string.find(typeNameLower, "stennis", 1, true)
+            or string.find(typeNameLower, "forrestal", 1, true)
+        then
+            table.insert(cvnUnits, {
+                unit = unt,
+                name = unitName,
+                groupID = groupID,
+                groupName = groupName,
+                prefix = tonumber(string.match(unitName, "^(%d+)"))
+            })
 
         -- LHA detection
-        elseif (string.find(typeNameLower, "lha") or string.find(typeNameLower, "tarawa") or string.find(typeNameLower, "hms_invincible") or string.find(typeNameLower, "essex")) and airboss_options.enableForLHA then
-            MESSAGE:New("AIRBOSS: CARRIER (LHA) FOUND: " .. unitName, 15, "SPAWN"):ToLog()
-            SetupAirboss(unitName, "LHA")
-            if airboss_options.enableRescueHelo then AddRescueHelo(unitName) end
+        elseif string.find(typeNameLower, "lha", 1, true)
+            or string.find(typeNameLower, "tarawa", 1, true)
+            or string.find(typeNameLower, "hms_invincible", 1, true)
+            or string.find(typeNameLower, "essex", 1, true)
+        then
+            table.insert(lhaUnits, {
+                unit = unt,
+                name = unitName,
+                groupID = groupID,
+                groupName = groupName
+            })
 
-        elseif (string.find(typeNameLower, "lha") or string.find(typeNameLower, "tarawa") or string.find(typeNameLower, "hms_invincible") or string.find(typeNameLower, "essex")) and airboss_options.enableForLHA then
-            MESSAGE:New("AIRBOSS: LHA FOUND BUT AIRBOSS DISABLED: " .. unitName, 15, "SPAWN"):ToLog()
-
-        -- DDG/CG detection with task match or groupID offset
-        elseif string.find(typeNameLower, "arleigh") or string.find(typeNameLower, "burke") or string.find(typeNameLower, "ticon") then
-            local escortTaskName = string.match(groupName, "^(%S+)")
-            if (cvnGroupID and groupID == cvnGroupID + 1) or (cvnTaskName and escortTaskName == cvnTaskName) then
-                MESSAGE:New("AIRBOSS: MATCHED ESCORT FOR CVN: " .. unitName, 10, "RETRIBUTION"):ToLog()
-                -- Set rescueHomeBase to first matched escort
-                if not rescueHomeBase then
-                    rescueHomeBase = unitName
-                    env.info("AIRBOSS: Rescue Helo Home Base set to ESCORT: " .. rescueHomeBase)
-                end
-            else
-                MESSAGE:New("AIRBOSS: UNMATCHED ESCORT: " .. unitName, 10, "RETRIBUTION"):ToLog()
-            end
+        -- Escort detection
+        elseif string.find(typeNameLower, "arleigh")
+            or string.find(typeNameLower, "burke")
+            or string.find(typeNameLower, "ticon")
+            or string.find(typeNameLower, "bdk")
+        then
+            table.insert(escortCandidates, {
+                unit = unt,
+                name = unitName,
+                groupID = groupID,
+                groupName = groupName,
+                prefix = tonumber(string.match(unitName, "^(%d+)"))
+            })
         end
     end)
+
+    -- Setup CVNs and match escorts
+    for _, cvn in ipairs(cvnUnits) do
+        MESSAGE:New("AIRBOSS: CARRIER (CVN) FOUND: " .. cvn.name, 15, "SPAWN"):ToLog()
+        SetupAirboss(cvn.name, "CVN")
+
+        if airboss_options.enableRescueHelo then AddRescueHelo(cvn.name) end
+        if airboss_options.enableAWACS      then AddShipAWACS(cvn.name) end
+        if airboss_options.enableTanker     then AddTrickOrTreat(cvn.name) end
+
+        -- Match escort by prefix +1
+        for _, escort in ipairs(escortCandidates) do
+            if cvn.prefix and escort.prefix and escort.prefix == cvn.prefix + 1 then
+                MESSAGE:New("AIRBOSS: MATCHED ESCORT FOR CVN: " .. escort.name, 10, "RETRIBUTION"):ToLog()
+                if not rescueHomeBase then
+                    rescueHomeBase = escort.name
+                    env.info("AIRBOSS: Rescue Helo Home Base set to ESCORT: " .. rescueHomeBase)
+                end
+                break -- only use first valid match
+            end
+        end
+    end
+
+    -- Setup LHAs
+    for _, lha in ipairs(lhaUnits) do
+        if airboss_options.enableForLHA then
+            MESSAGE:New("AIRBOSS: CARRIER (LHA) FOUND: " .. lha.name, 15, "SPAWN"):ToLog()
+            SetupAirboss(lha.name, "LHA")
+            if airboss_options.enableRescueHelo then AddRescueHelo(lha.name) end
+        else
+            MESSAGE:New("AIRBOSS: LHA FOUND BUT AIRBOSS DISABLED: " .. lha.name, 15, "SPAWN"):ToLog()
+        end
+    end
 end
 
 AutoSetup()
