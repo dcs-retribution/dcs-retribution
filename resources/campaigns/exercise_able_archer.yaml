@@ -27,7 +27,7 @@ description:
 miz: exercise_able_archer.miz
 performance: 1
 recommended_start_date: 1983-11-09
-version: "10.7"
+version: "10.8"
 settings:
   hercules: true
   squadron_start_full: true
@@ -66,11 +66,6 @@ squadrons:
       aircraft:
         - F-16CM Fighting Falcon (Block 50)
       size: 12
-    - primary: CAS
-      secondary: any
-      aircraft:
-        - OH-58D(R) Kiowa Warrior
-      size: 4
     - primary: Transport
       secondary: any
       aircraft:
@@ -97,7 +92,17 @@ squadrons:
     - primary: Air Assault
       secondary: any
       aircraft:
-        - Mi-8MTV2 Hip
+        - CH-47F Block I
+      size: 4
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - AH-64D Apache Longbow
+      size: 4
+    - primary: Armed Recon
+      secondary: any
+      aircraft:
+        - OH-58D(R) Kiowa Warrior
       size: 4
   #Kiruna
   5:

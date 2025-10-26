@@ -18,7 +18,7 @@ description:
 miz: clash_of_the_titans.miz
 performance: 1
 recommended_start_date: 2006-01-27
-version: "10.7"
+version: "10.8"
 settings:
   russianmilitaryassetspack: true
   chinesemilitaryassetspack: true
@@ -57,19 +57,20 @@ squadrons:
       secondary: any
       aircraft:
         - F-15C Eagle
-      size: 16
+      size: 12
     - primary: Armed Recon
       secondary: any
       aircraft:
         - F-15E Strike Eagle (Suite 4+)
-      size: 16
+      size: 12
   #Kabul
   17:
-    - primary: OCA/Runway
-      secondary: air-to-ground
+    - primary: DEAD
+      secondary: any
       aircraft:
-        - B-1B Lancer
-      size: 4
+        - "[CH] B-21"
+        - F-16CM Fighting Falcon (Block 50)
+      size: 12
     - primary: CAS
       secondary: air-to-ground
       aircraft:
@@ -79,17 +80,18 @@ squadrons:
       secondary: any
       aircraft:
         - F-16CM Fighting Falcon (Block 50)
-      size: 16
+      size: 12
     - primary: SEAD Escort
       secondary: any
       aircraft:
         - EA-18G Growler
-      size: 16
+        - F/A-18C Hornet (Lot 20)
+      size: 12
     - primary: SEAD
       secondary: any
       aircraft:
         - F/A-18C Hornet (Lot 20)
-      size: 16
+      size: 12
     - primary: Escort
       secondary: any
       aircraft:
@@ -119,7 +121,12 @@ squadrons:
       secondary: any
       aircraft:
         - AH-64D Apache Longbow
-      size: 8
+      size: 4
+    - primary: Armed Recon
+      secondary: any
+      aircraft:
+        - AH-64D Apache Longbow
+      size: 4
   #Tarinkot
   9:
     - primary: SEAD Escort
@@ -166,14 +173,14 @@ squadrons:
       secondary: any
       aircraft:
         - Mi-24P Hind-F
-      size: 6
+      size: 4
     - primary: Escort
       secondary: any
       aircraft:
          - Ka-50 Hokum III
-      size: 6
+      size: 4
   #FOB Lagman
-  Forward Operating Base Lagman:
+  FOB Lagman:
     - primary: CAS
       secondary: any
       aircraft:
@@ -217,4 +224,4 @@ squadrons:
       secondary: any
       aircraft:
         - Mi-8MTV2 Hip
-      size: 4
+      size: 2
