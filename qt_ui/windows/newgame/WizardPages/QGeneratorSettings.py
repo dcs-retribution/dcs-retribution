@@ -229,7 +229,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("F/A-18E/F/G Super Hornet (version 2.4.4)", self.fa_18efg),
             ("F/A-18E/F Super Hornet AI Tanker (version 2.4.4)", self.fa18ef_tanker),
             ("Frenchpack (v4.9.1)", self.frenchpack),
-            ("High Digit SAMs", self.high_digit_sams),
+            ("High Digit SAMs (v1.4.0)", self.high_digit_sams),
             ("IDF Assets Pack (v1.1 by IDF Mods Project)", self.irondome),
             ("JAS 39 Gripen (v1.8.5-beta)", self.jas39_gripen),
             ("MiG-31BM (v2.62)", self.mig31bm_foxhound),
