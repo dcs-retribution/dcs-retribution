@@ -30,7 +30,7 @@ description:
 miz: graveyard_of_empires.miz
 performance: 1
 recommended_start_date: 2002-01-27
-version: "10.7"
+version: "10.8"
 settings:
   usamilitaryassetspack: true
   russianmilitaryassetspack: true
@@ -76,11 +76,6 @@ squadrons:
       size: 16
   # Kandahar Heliport
   15:  
-    - primary: Air Assault
-      secondary: any
-      aircraft:
-        - UH-60A
-      size: 4
     - primary: Transport
       secondary: any
       aircraft:
@@ -110,7 +105,7 @@ squadrons:
       size: 8
   #Camp Bastion Heliport
   13:
-    - primary: CAS
+    - primary: Armed Recon
       secondary: any
       aircraft:
         - AH-64D Apache Longbow
@@ -119,6 +114,11 @@ squadrons:
       secondary: any
       aircraft:
         - OH-58D(R) Kiowa Warrior
+      size: 4
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - UH-60A
       size: 4
   #Shindand
   3:
@@ -139,12 +139,12 @@ squadrons:
       size: 16
   #Shindand Heliport
   14:
-    - primary: Air Assault
+    - primary: Escort
       secondary: any
       aircraft:
         - Mi-24P Hind-F
       size: 4
-    - primary: Transport
+    - primary: Air Assault
       secondary: any
       aircraft:
         - Mi-8MTV2 Hip

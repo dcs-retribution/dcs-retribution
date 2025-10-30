@@ -141,6 +141,10 @@ class MigrationUnpickler(pickle.Unpickler):
                 "Helipad_218"
             ]:
                 return dcs.terrain.Airport  # use base-class if airport was removed
+        if module == "dcs.terrain.afghanistan.airports":
+            if name == "Khost_Heliport":
+                from dcs.terrain.afghanistan.airports import FOB_Salerno
+                return FOB_Salerno
         if module == "dcs.terrain.falklands.airports":
             if name == "Aerodromo_De_Tolhuin":
                 from dcs.terrain.falklands.airports import Tolhuin

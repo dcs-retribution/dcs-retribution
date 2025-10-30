@@ -40,7 +40,7 @@ class ArmedForces:
         # all layouts which are usable by the given faction.
         for layout in LAYOUTS.layouts:
             if layout.generic and layout.usable_by_faction(faction):
-                # Creates a faction compatible GorceGroup
+                # Creates a faction compatible ForceGroup
                 self.add_or_update_force_group(ForceGroup.for_layout(layout, faction))
 
         # Add all preset groups afterwards to prevent them being merged with generics

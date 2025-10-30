@@ -356,6 +356,34 @@
   "hertz": 110300000,
   "channel": 0
  },
+ "airfield36_0": {
+  "name": "NX",
+  "callsign": "nx",
+  "beacon_type": 14,
+  "hertz": 111500000,
+  "channel": null
+ },
+ "airfield36_1": {
+  "name": "ARV",
+  "callsign": "arv",
+  "beacon_type": 14,
+  "hertz": 109350000,
+  "channel": null
+ },
+ "airfield36_2": {
+  "name": "NX",
+  "callsign": "nx",
+  "beacon_type": 13,
+  "hertz": 111500000,
+  "channel": null
+ },
+ "airfield36_3": {
+  "name": "ARV",
+  "callsign": "arv",
+  "beacon_type": 13,
+  "hertz": 109350000,
+  "channel": null
+ },
  "airfield15_0": {
   "name": "KALLAX",
   "callsign": "SPA",
