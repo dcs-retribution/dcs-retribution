@@ -20,7 +20,7 @@ description:
 miz: operation_velvet_thunder.miz
 performance: 1
 recommended_start_date: 1970-11-29
-version: "10.7"
+version: "10.8"
 settings:
   airbase_threat_range: 20
   a4_skyhawk: true
