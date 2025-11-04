@@ -8,7 +8,7 @@ description:
   <p>In the face of mounting sanctions against their nuclear program, Iran has
   barred all shipping from transiting the Strait of Hormuz. Three days ago, the
   Iranian Vice-President ordered a series of missile attacks on commercial
-  vessels entering the Gulf of Oman through the highly strategic chokepoint,
+  vessels entering the Gulf of Oman through the highly strategic choke point,
   sinking a container ship and damaging two oil tankers. Operation Noisy Cricket
   is the American response to this threat to regional stability. The objective
   is to render inoperative Iran's array of coastal anti-ship missile sites, as
@@ -35,7 +35,7 @@ settings:
   f22_raptor: true
   hercules: true
   squadron_start_full: true
-version: "10.7"
+version: "10.8"
 squadrons:
   Blue CV-1:
     - primary: SEAD
@@ -74,6 +74,11 @@ squadrons:
       secondary: any
       aircraft:
         - CH-47F Block I
+      size: 4
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - AH-64D Apache Longbow
       size: 4
     - primary: TARCAP
       secondary: any
@@ -130,7 +135,17 @@ squadrons:
       secondary: any
       aircraft:
         - Mi-24P Hind-F
-      size: 12
+      size: 4
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - Mi-17 Hip
+      size: 4
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - AH-1J SeaCobra
+      size: 4      
   #Abu Musa Island (8)
   1:
     - primary: SEAD Escort
