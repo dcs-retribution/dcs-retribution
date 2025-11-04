@@ -21,7 +21,7 @@ performance: 1
 recommended_start_date: 2006-04-24
 recommended_enemy_money: 0
 recommended_enemy_income_multiplier: 0.0
-version: "10.7"
+version: "10.8"
 settings:
   hercules: true
   squadron_start_full: true

@@ -20,12 +20,11 @@ description:
   to begin the operation with light vehicles, employing breakthrough tactics to 
   avoid direct confrontations with enemy forces. Alternatively, the use of 
   heavier ground units is an option for commanders seeking a more conventional 
-  combat engagement. C-17 Globemasters stand ready bring in additional ground 
-  units from Incirlik to reinforce existing troops, upon recapture of Sukhumi.</p>
+  combat engagement.</p>
 miz: operation_vectrons_claw.miz
 performance: 1
 recommended_start_date: 2008-08-08
-version: "10.7"
+version: "10.8"
 settings:
   fa_18efg: true
   f22_raptor: true
@@ -62,11 +61,6 @@ squadrons:
       aircraft:
         - S-3B Tanker
       size: 4
-    - primary: Air Assault
-      secondary: any
-      aircraft:
-        - UH-60A
-      size: 4
   Blue LHA:
     - primary: BAI
       secondary: air-to-ground
@@ -94,15 +88,15 @@ squadrons:
       aircraft:
         - CH-47F Block I
       size: 4
-    - primary: CAS
+    - primary: Armed Recon
       secondary: any
       aircraft:
         - AH-64D Apache Longbow
       size: 4
-    - primary: CAS
+    - primary: Transport
       secondary: any
       aircraft:
-        - OH-58D(R) Kiowa Warrior
+        - UH-60A
       size: 4
   #Vaziani
   31:
@@ -141,14 +135,24 @@ squadrons:
       size: 4
   #OWNFOR FARP
   UNOMIG Sector HQ:
-    - primary: Transport
+    - primary: Air Assault
       secondary: any
       aircraft:
         - UH-1H Iroquois
-      size: 2
+      size: 4
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - OH-58D(R) Kiowa Warrior
+      size: 4
   #OPFOR FARP
   Dzhugba:
     - primary: Air Assault
+      secondary: any
+      aircraft:
+        - Mi-8MTV2 Hip
+      size: 4
+    - primary: Escort
       secondary: any
       aircraft:
         - Mi-24P Hind-F
@@ -168,22 +172,12 @@ squadrons:
         - Su-27 Flanker-B
       size: 8
     - primary: SEAD Escort
-      secondary:
-        - BAI
-        - SEAD
-        - DEAD
-        - OCA/Runway
-        - SEAD Sweep
+      secondary: air-to-ground
       aircraft:
         - Su-24M Fencer-D
       size: 20
     - primary: BAI
-      secondary:
-        - SEAD
-        - DEAD
-        - OCA/Runway
-        - SEAD Escort
-        - SEAD Sweep       
+      secondary: air-to-ground
       aircraft:
         - Su-34 Fullback
       size: 20
