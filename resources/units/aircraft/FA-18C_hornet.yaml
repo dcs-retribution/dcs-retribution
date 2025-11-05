@@ -46,8 +46,8 @@ radios:
     # assigned frequency. Since the F/A-18's two radios are both AN/ARC-210s,
     # radio 1 will be compatible regardless of which frequency is assigned, so
     # we must use radio 1 for the intra-flight radio.
-    intra_flight_radio_index: 1
-    inter_flight_radio_index: 2
+    intra_flight_radio_index: 2
+    inter_flight_radio_index: 1
 utc_kneeboard: true
 # default_overrides:
 #   HelmetMountedDevice: 1
