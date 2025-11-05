@@ -78,7 +78,7 @@ class ProcurementAi:
 
         balance = (
             self.game.settings.auto_procurement_balance
-            if self.is_player
+            if self.is_player.is_blue
             else self.game.settings.auto_procurement_balance_red
         )
         air = balance / 100.0
@@ -269,7 +269,7 @@ class ProcurementAi:
 
             reserves_factor = (
                 self.game.settings.frontline_reserves_factor
-                if self.is_player
+                if self.is_player.is_blue
                 else self.game.settings.frontline_reserves_factor_red
             )
             fr_factor = reserves_factor / 100.0
@@ -308,7 +308,7 @@ class ProcurementAi:
             )
             target = (
                 self.game.settings.reserves_procurement_target
-                if self.is_player
+                if self.is_player.is_blue
                 else self.game.settings.reserves_procurement_target_red
             )
             if allocated.total >= target:

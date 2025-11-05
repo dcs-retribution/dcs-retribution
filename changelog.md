@@ -34,6 +34,7 @@
 * **[Engine]** Fixed a bug with state.json loading wrt transfers
 * **[Engine]** Fixed a bug wrt pretense generation and moose script conflicts
 * **[Engine]** Fixed a bug where frontline debriefing was not properly calculated
+* **[Mission Generation]** Fixed an issue where blue and red units spawned next to each other on frontlines
 
 # Retribution v1.4.1 (hotfix)
 
