@@ -33,7 +33,7 @@ def init():
     if PREFERENCES_PATH.exists():
         try:
             logging.debug("Loading Retribution preferences from %s", PREFERENCES_PATH)
-            with PREFERENCES_PATH.open() as prefs:
+            with PREFERENCES_PATH.open(encoding="utf-8") as prefs:
                 pref_data = json.load(prefs)
             __dcs_saved_game_directory = pref_data["saved_game_dir"]
             __dcs_installation_directory = pref_data["dcs_install_dir"]
@@ -127,8 +127,8 @@ def save_config():
         "server_port": __server_port,
     }
     PREFERENCES_PATH.parent.mkdir(exist_ok=True, parents=True)
-    with PREFERENCES_PATH.open("w") as prefs:
-        json.dump(pref_data, prefs, indent="  ")
+    with PREFERENCES_PATH.open("w", encoding="utf-8") as prefs:
+        json.dump(pref_data, prefs, indent="  ", ensure_ascii=False)
 
 
 def get_dcs_install_directory():
@@ -183,9 +183,9 @@ def replace_mission_scripting_file():
     liberation_scripting_path = "./resources/scripts/MissionScripting.lua"
     backup_scripting_path = "./resources/scripts/MissionScripting.original.lua"
     if install_dir != "" and os.path.isfile(mission_scripting_path):
-        with open(mission_scripting_path, "r") as ms:
+        with open(mission_scripting_path, "r", encoding="utf-8") as ms:
             current_file_content = ms.read()
-        with open(liberation_scripting_path, "r") as libe_ms:
+        with open(liberation_scripting_path, "r", encoding="utf-8") as libe_ms:
             liberation_file_content = libe_ms.read()
 
         # Save original file

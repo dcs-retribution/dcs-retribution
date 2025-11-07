@@ -562,7 +562,7 @@ class QFactionSaver(QDialog):
         fd.setAcceptMode(QFileDialog.AcceptMode.AcceptSave)
         if fd.exec_():
             json_filename = fd.selectedFiles()[0]
-            with open(json_filename, "w") as file:
-                json.dump(self.faction.to_dict(), file, indent=2)
+            with open(json_filename, "w", encoding="utf-8") as file:
+                json.dump(self.faction.to_dict(), file, indent=2, ensure_ascii=False)
             FACTIONS.factions[self.faction.name] = self.faction
         self.accept()

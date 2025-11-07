@@ -840,8 +840,8 @@ class AirWingConfigurationDialog(QDialog):
                 tab.apply()
             airwing = self._build_air_wing()
             filename = fd.selectedFiles()[0]
-            with open(filename, "w") as f:
-                f.write(yaml.dump(airwing))
+            with open(filename, "w", encoding="utf-8") as f:
+                f.write(yaml.dump(airwing, allow_unicode=True))
 
     def _build_air_wing(self) -> dict:
         w = self.tab_widget.currentWidget()
@@ -895,7 +895,7 @@ class AirWingConfigurationDialog(QDialog):
         )
         if fd.exec_():
             filename = fd.selectedFiles()[0]
-            with open(filename, "r") as f:
+            with open(filename, "r", encoding="utf-8") as f:
                 airwing = yaml.safe_load(f)
                 self._construct_air_wing_tab(airwing)
 
