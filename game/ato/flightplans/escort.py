@@ -23,7 +23,13 @@ class EscortFlightPlan(FormationAttackFlightPlan):
 
     @property
     def split_time(self) -> datetime:
-        if self.package.primary_flight and self.package.primary_flight.flight_plan:
+        # Avoid infinite recursion when this escort flight is itself the primary flight
+        # This can happen when only escort flights remain in a package
+        if (
+            self.package.primary_flight
+            and self.package.primary_flight != self.flight
+            and self.package.primary_flight.flight_plan
+        ):
             return self.package.primary_flight.flight_plan.mission_departure_time
         else:
             return super().split_time
