@@ -48,6 +48,18 @@ function AddRescueHelo(nameOfCarrier)
     local rescueHeloType = airboss_options.useUH60mod and "UH-60L" or "SH-60B"
     env.info("AIRBOSS: RescueHelo Type = " .. tostring(rescueHeloType))
 
+    -- Ensure BlueNavalUnitSet is initialized
+    if not BlueNavalUnitSet then
+        BlueNavalUnitSet = SET_UNIT:New():FilterCoalitions("blue"):FilterCategories("ship"):FilterStart()
+    end
+
+    local navalUnit = BlueNavalUnitSet:GetFirst()
+    local inferredCountryID = navalUnit and navalUnit:GetCountry() or country.id.USA
+
+    -- Generate unique names
+    local groupName = UTILS.UniqueName("RescueHeloGroup")
+    local unitName = UTILS.UniqueName("RescueHeloUnit")
+
     local heli = {
         ["dynSpawnTemplate"] = false,
         ["lateActivation"] = true,
@@ -77,7 +89,6 @@ function AddRescueHelo(nameOfCarrier)
                 }
             }
         },
-        ["groupId"] = 2,
         ["hidden"] = false,
         ["units"] = {
             [1] = {
@@ -88,15 +99,14 @@ function AddRescueHelo(nameOfCarrier)
                 ["ropeLength"] = 15,
                 ["speed"] = 46.25,
                 ["type"] = rescueHeloType,
-                ["unitId"] = 2,
                 ["psi"] = 0,
                 ["onboard_num"] = "010",
                 ["y"] = -206504.32547097,
                 ["x"] = 123036.89246336,
-                ["name"] = "Rescue Helo Group",
+                ["name"] = unitName,
                 ["payload"] = {
                     ["pylons"] = {},
-                    ["fuel"] = "1100",
+                    ["fuel"] = 1100,
                     ["flare"] = 30,
                     ["chaff"] = 30,
                     ["gun"] = 100
@@ -105,23 +115,23 @@ function AddRescueHelo(nameOfCarrier)
                 ["callsign"] = {
                     [1] = 1,
                     [2] = 1,
-                    ["name"] = "Enfield11",
-                    [3] = 1
+                    [3] = 1,
+                    ["name"] = "Enfield11"
                 }
             }
         },
         ["y"] = -206504.32547097,
         ["x"] = 123036.89246336,
-        ["name"] = "Rescue Helo Group",
+        ["name"] = groupName,
         ["communication"] = true,
         ["start_time"] = 0,
         ["modulation"] = 0,
         ["frequency"] = 127.5
     }
 
-    local SH60 = SPAWN:NewFromTemplate(heli, UTILS.UniqueName("SH60B"))
+    local SH60 = SPAWN:NewFromTemplate(heli, groupName)
     SH60:InitLateActivated()
-    SH60:InitCountry(country.id.CJTF_BLUE)
+    SH60:InitCountry(inferredCountryID)
     SH60:InitCategory(Group.Category.HELICOPTER)
     SH60:InitCoalition(coalition.side.BLUE)
 
@@ -129,8 +139,13 @@ function AddRescueHelo(nameOfCarrier)
         MESSAGE:New("AIRBOSS: Group Spawned Late Activated: " .. grp:GetName(), 15, "SPAWN"):ToLog()
 
         local carrierUnit = UNIT:FindByName(nameOfCarrier)
+        if not carrierUnit then
+            env.info("AIRBOSS: Carrier unit not found: " .. nameOfCarrier)
+            return
+        end
+
         local carrierNameLower = string.lower(nameOfCarrier)
-        carrierUnitHeading = carrierUnit:GetHeading()
+        local carrierUnitHeading = carrierUnit:GetHeading()
 
         rescueheloTED = RESCUEHELO:New(nameOfCarrier, grp:GetName())
         rescueheloTED:SetRescueOn()
@@ -146,7 +161,6 @@ function AddRescueHelo(nameOfCarrier)
             env.info("AIRBOSS: Rescue Helo Home Base set to LHA: " .. nameOfCarrier)
         end
 
-        -- Assign relay units to this Rescue Helo
         function rescueheloTED:OnAfterStart(From, Event, To)
             local unitName = self:GetUnitName()
             if AirbossRetribution then
@@ -161,13 +175,26 @@ function AddRescueHelo(nameOfCarrier)
         rescueheloTED:Start()
     end)
 
-    SH60:Spawn()
+    SH60:Spawn(5)
 end
 
 -- S3 TANKER
 
 function AddTrickOrTreat(nameOfCarrier)
     env.info("AIRBOSS: Loading S3 Tanker")
+
+    -- Ensure BlueNavalUnitSet is initialized
+    if not BlueNavalUnitSet then
+        BlueNavalUnitSet = SET_UNIT:New():FilterCoalitions("blue"):FilterCategories("ship"):FilterStart()
+    end
+
+    local navalUnit = BlueNavalUnitSet:GetFirst()
+    local inferredCountryID = navalUnit and navalUnit:GetCountry() or country.id.USA
+
+    -- Generate unique names
+    local groupName = UTILS.UniqueName("TankerS3Group")
+    local unitName = UTILS.UniqueName("TankerS3Unit")
+
     local TankerS3 = {
         ["dynSpawnTemplate"] = false,
         ["lateActivation"] = true,
@@ -187,10 +214,10 @@ function AddTrickOrTreat(nameOfCarrier)
                         ["id"] = "ComboTask",
                         ["params"] = {
                             ["tasks"] = {
-                                [1] = { ["enabled"] = true, ["auto"] = true, ["id"] = "Tanker", ["number"] = 1, ["params"] = {} },
-                                [2] = { ["enabled"] = true, ["auto"] = true, ["id"] = "WrappedAction", ["number"] = 2, ["params"] = { ["action"] = { ["id"] = "ActivateBeacon", ["params"] = { ["type"] = 4, ["AA"] = false, ["callsign"] = "TKR", ["system"] = 4, ["channel"] = 1, ["modeChannel"] = "X", ["bearing"] = true, ["frequency"] = 962000000 } } } },
-                                [3] = { ["enabled"] = true, ["auto"] = true, ["id"] = "WrappedAction", ["number"] = 3, ["params"] = { ["action"] = { ["id"] = "EPLRS", ["params"] = { ["value"] = true, ["groupId"] = 1 } } } },
-                                [4] = { ["enabled"] = true, ["auto"] = true, ["id"] = "WrappedAction", ["number"] = 4, ["params"] = { ["action"] = { ["id"] = "Option", ["params"] = { ["value"] = true, ["name"] = 35 } } } }
+                                { ["enabled"] = true, ["auto"] = true, ["id"] = "Tanker", ["number"] = 1, ["params"] = {} },
+                                { ["enabled"] = true, ["auto"] = true, ["id"] = "WrappedAction", ["number"] = 2, ["params"] = { ["action"] = { ["id"] = "ActivateBeacon", ["params"] = { ["type"] = 4, ["AA"] = false, ["callsign"] = "TKR", ["system"] = 4, ["channel"] = 1, ["modeChannel"] = "X", ["bearing"] = true, ["frequency"] = 962000000 } } } },
+                                { ["enabled"] = true, ["auto"] = true, ["id"] = "WrappedAction", ["number"] = 3, ["params"] = { ["action"] = { ["id"] = "EPLRS", ["params"] = { ["value"] = true, ["groupId"] = 1 } } } },
+                                { ["enabled"] = true, ["auto"] = true, ["id"] = "WrappedAction", ["number"] = 4, ["params"] = { ["action"] = { ["id"] = "Option", ["params"] = { ["value"] = true, ["name"] = 35 } } } }
                             }
                         }
                     },
@@ -204,7 +231,6 @@ function AddTrickOrTreat(nameOfCarrier)
                 }
             }
         },
-        ["groupId"] = 2,
         ["hidden"] = false,
         ["units"] = {
             [1] = {
@@ -214,29 +240,40 @@ function AddTrickOrTreat(nameOfCarrier)
                 ["speed"] = 82.222222222222,
                 ["AddPropAircraft"] = { ["STN_L16"] = "00202", ["VoiceCallsignNumber"] = "11", ["VoiceCallsignLabel"] = "SD" },
                 ["type"] = "S-3B Tanker",
-                ["unitId"] = 2,
                 ["psi"] = 0,
                 ["onboard_num"] = "011",
                 ["y"] = -110857.14285714,
                 ["x"] = -18142.857142857,
-                ["name"] = "TankerS3",
-                ["payload"] = { ["pylons"] = {}, ["fuel"] = 6887, ["flare"] = 30, ["chaff"] = 30, ["gun"] = 100 },
+                ["name"] = unitName,
+                ["payload"] = {
+                    ["pylons"] = {},
+                    ["fuel"] = 6887,
+                    ["flare"] = 30,
+                    ["chaff"] = 30,
+                    ["gun"] = 100
+                },
                 ["heading"] = 0,
-                ["callsign"] = { [1] = 5, [2] = 1, [3] = 1, [4] = "Arco11", ["name"] = "Arco11" }
+                ["callsign"] = {
+                    [1] = 5,
+                    [2] = 1,
+                    [3] = 1,
+                    [4] = "Arco11",
+                    ["name"] = "Arco11"
+                }
             }
         },
         ["y"] = -110857.14285714,
         ["x"] = -18142.857142857,
-        ["name"] = "TankerS3",
+        ["name"] = groupName,
         ["communication"] = true,
         ["start_time"] = 0,
         ["modulation"] = 0,
         ["frequency"] = 251
     }
 
-    local S3 = SPAWN:NewFromTemplate(TankerS3, UTILS.UniqueName("S3"))
+    local S3 = SPAWN:NewFromTemplate(TankerS3, groupName)
     S3:InitLateActivated()
-    S3:InitCountry(country.id.CJTF_BLUE)
+    S3:InitCountry(inferredCountryID)
     S3:InitCategory(Group.Category.AIRPLANE)
     S3:InitCoalition(coalition.side.BLUE)
 
@@ -264,6 +301,7 @@ function AddTrickOrTreat(nameOfCarrier)
             end
         end
     end)
+
     S3:Spawn()
 end
 
@@ -271,6 +309,18 @@ end
 
 function AddShipAWACS(nameOfCarrier)
     env.info("AIRBOSS: Loading E2D for AWACS")
+
+    -- Ensure BlueNavalUnitSet is initialized
+    if not BlueNavalUnitSet then
+        BlueNavalUnitSet = SET_UNIT:New():FilterCoalitions("blue"):FilterCategories("ship"):FilterStart()
+    end
+
+    local navalUnit = BlueNavalUnitSet:GetFirst()
+    local inferredCountryID = navalUnit and navalUnit:GetCountry() or country.id.USA
+
+    -- Generate unique names
+    local groupName = UTILS.UniqueName("AWACSGroup")
+    local unitName = UTILS.UniqueName("AWACSUnit")
 
     local heli = {
         ["dynSpawnTemplate"] = false,
@@ -290,9 +340,9 @@ function AddShipAWACS(nameOfCarrier)
                         ["id"] = "ComboTask",
                         ["params"] = {
                             ["tasks"] = {
-                                [1] = { ["enabled"] = true, ["auto"] = true, ["id"] = "AWACS", ["number"] = 1, ["params"] = {} },
-                                [2] = { ["enabled"] = true, ["auto"] = true, ["id"] = "WrappedAction", ["number"] = 2, ["params"] = { ["action"] = { ["id"] = "EPLRS", ["params"] = { ["value"] = true, ["groupId"] = 2 } } } },
-                                [3] = { ["enabled"] = true, ["auto"] = true, ["id"] = "WrappedAction", ["number"] = 3, ["params"] = { ["action"] = { ["id"] = "Option", ["params"] = { ["value"] = true, ["name"] = 35 } } } }
+                                { ["enabled"] = true, ["auto"] = true, ["id"] = "AWACS", ["number"] = 1, ["params"] = {} },
+                                { ["enabled"] = true, ["auto"] = true, ["id"] = "WrappedAction", ["number"] = 2, ["params"] = { ["action"] = { ["id"] = "EPLRS", ["params"] = { ["value"] = true, ["groupId"] = 2 } } } },
+                                { ["enabled"] = true, ["auto"] = true, ["id"] = "WrappedAction", ["number"] = 3, ["params"] = { ["action"] = { ["id"] = "Option", ["params"] = { ["value"] = true, ["name"] = 35 } } } }
                             }
                         }
                     },
@@ -306,7 +356,6 @@ function AddShipAWACS(nameOfCarrier)
                 }
             }
         },
-        ["groupId"] = 3,
         ["hidden"] = false,
         ["units"] = {
             [1] = {
@@ -315,33 +364,48 @@ function AddShipAWACS(nameOfCarrier)
                 ["livery_id"] = "E-2D Demo",
                 ["skill"] = "High",
                 ["speed"] = 133.61111111111,
-                ["AddPropAircraft"] = { ["STN_L16"] = "00203", ["VoiceCallsignNumber"] = "11", ["VoiceCallsignLabel"] = "OD" },
+                ["AddPropAircraft"] = {
+                    ["STN_L16"] = "00203",
+                    ["VoiceCallsignNumber"] = "11",
+                    ["VoiceCallsignLabel"] = "OD"
+                },
                 ["type"] = "E-2C",
-                ["unitId"] = 3,
                 ["psi"] = 0,
                 ["onboard_num"] = "012",
                 ["y"] = -87714.285714285,
                 ["x"] = -36142.857142857,
-                ["name"] = "E-2D",
-                ["payload"] = { ["pylons"] = {}, ["fuel"] = "5624", ["flare"] = 60, ["chaff"] = 120, ["gun"] = 100 },
+                ["name"] = unitName,
+                ["payload"] = {
+                    ["pylons"] = {},
+                    ["fuel"] = 5624,
+                    ["flare"] = 60,
+                    ["chaff"] = 120,
+                    ["gun"] = 100
+                },
                 ["heading"] = 0,
-                ["callsign"] = { [1] = 1, [2] = 1, ["name"] = "Overlord11", [3] = 1 }
+                ["callsign"] = {
+                    [1] = 1,
+                    [2] = 1,
+                    [3] = 1,
+                    ["name"] = "Overlord11"
+                }
             }
         },
         ["y"] = -87714.285714285,
         ["x"] = -36142.857142857,
-        ["name"] = "E-2D",
+        ["name"] = groupName,
         ["communication"] = true,
         ["start_time"] = 0,
         ["modulation"] = 0,
         ["frequency"] = 251
     }
 
-    local E2D = SPAWN:NewFromTemplate(heli, UTILS.UniqueName("E2D"))
+    local E2D = SPAWN:NewFromTemplate(heli, groupName)
     E2D:InitLateActivated()
-    E2D:InitCountry(country.id.CJTF_BLUE)
+    E2D:InitCountry(inferredCountryID)
     E2D:InitCategory(Group.Category.AIRPLANE)
     E2D:InitCoalition(coalition.side.BLUE)
+
     E2D:OnSpawnGroup(function(grp)
         MESSAGE:New("AIRBOSS: Group Spawned Late Activated: " .. grp:GetName(), 15, "SPAWN"):ToLog()
 
@@ -367,6 +431,7 @@ function AddShipAWACS(nameOfCarrier)
             end
         end
     end)
+
     E2D:Spawn()
 end
 
@@ -460,55 +525,95 @@ rescueHomeBase = nil
 local function AutoSetup()
     MESSAGE:New("AIRBOSS: SETTING UP CARRIER ASSETS", 5, "RETRIBUTION", false):ToAll():ToLog()
 
-    local cvnGroupID = nil
-    local cvnTaskName = nil
+    local cvnUnits = {}
+    local lhaUnits = {}
+    local escortCandidates = {}
 
+    -- First pass: classify units
     BlueNavalUnitSet:ForEachUnit(function(unt)
         local unitName = unt:GetName()
-        local typeName = unt:GetTypeName()
-        local typeNameLower = string.lower(typeName)
+        local typeUnitName = string.lower(unt:GetName())
+        local typeNameLower = string.lower(unt:GetTypeName())
         local group = unt:GetGroup()
         local groupID = group:GetID()
         local groupName = group:GetName()
 
-        BASE:I(string.format("AIRBOSS: %s is a %s (Group: %03d | %s)", unitName, typeName, groupID, groupName))
+        BASE:I(string.format("AIRBOSS: %s is a %s (Group: %03d | %s)", unitName, unt:GetTypeName(), groupID, groupName))
 
         -- CVN detection
-        if string.find(typeNameLower, "cvn_71", 1, true) then
-            MESSAGE:New("AIRBOSS: CARRIER (CVN) FOUND: " .. unitName, 15, "SPAWN"):ToLog()
-            SetupAirboss(unitName, "CVN")
-
-            cvnGroupID = groupID
-            cvnTaskName = string.match(groupName, "^(%S+)")
-
-            if airboss_options.enableRescueHelo then AddRescueHelo(unitName) end
-            if airboss_options.enableAWACS      then AddShipAWACS(unitName) end
-            if airboss_options.enableTanker     then AddTrickOrTreat(unitName) end
+        if string.find(typeNameLower, "cvn", 1, true)
+            or string.find(typeNameLower, "stennis", 1, true)
+            or string.find(typeNameLower, "forrestal", 1, true)
+        then
+            table.insert(cvnUnits, {
+                unit = unt,
+                name = unitName,
+                groupID = groupID,
+                groupName = groupName,
+                prefix = tonumber(string.match(unitName, "^(%d+)"))
+            })
 
         -- LHA detection
-        elseif (string.find(typeNameLower, "lha") or string.find(typeNameLower, "tarawa")) and airboss_options.enableForLHA then
-            MESSAGE:New("AIRBOSS: CARRIER (LHA) FOUND: " .. unitName, 15, "SPAWN"):ToLog()
-            SetupAirboss(unitName, "LHA")
-            if airboss_options.enableRescueHelo then AddRescueHelo(unitName) end
+        elseif string.find(typeNameLower, "lha", 1, true)
+            or string.find(typeNameLower, "tarawa", 1, true)
+            or string.find(typeNameLower, "hms_invincible", 1, true)
+            or string.find(typeNameLower, "essex", 1, true)
+        then
+            table.insert(lhaUnits, {
+                unit = unt,
+                name = unitName,
+                groupID = groupID,
+                groupName = groupName
+            })
 
-        elseif string.find(typeNameLower, "lha") or string.find(typeNameLower, "tarawa") then
-            MESSAGE:New("AIRBOSS: LHA FOUND BUT AIRBOSS DISABLED: " .. unitName, 15, "SPAWN"):ToLog()
-
-        -- DDG/CG detection with task match or groupID offset
-        elseif string.find(typeNameLower, "arleigh") or string.find(typeNameLower, "burke") or string.find(typeNameLower, "ticon") then
-            local escortTaskName = string.match(groupName, "^(%S+)")
-            if (cvnGroupID and groupID == cvnGroupID + 1) or (cvnTaskName and escortTaskName == cvnTaskName) then
-                MESSAGE:New("AIRBOSS: MATCHED ESCORT FOR CVN: " .. unitName, 10, "RETRIBUTION"):ToLog()
-                -- Set rescueHomeBase to first matched escort
-                if not rescueHomeBase then
-                    rescueHomeBase = unitName
-                    env.info("AIRBOSS: Rescue Helo Home Base set to ESCORT: " .. rescueHomeBase)
-                end
-            else
-                MESSAGE:New("AIRBOSS: UNMATCHED ESCORT: " .. unitName, 10, "RETRIBUTION"):ToLog()
-            end
+        -- Escort detection
+        elseif string.find(typeNameLower, "arleigh")
+            or string.find(typeNameLower, "burke")
+            or string.find(typeNameLower, "ticon")
+            or string.find(typeNameLower, "bdk")
+        then
+            table.insert(escortCandidates, {
+                unit = unt,
+                name = unitName,
+                groupID = groupID,
+                groupName = groupName,
+                prefix = tonumber(string.match(unitName, "^(%d+)"))
+            })
         end
     end)
+
+    -- Setup CVNs and match escorts
+    for _, cvn in ipairs(cvnUnits) do
+        MESSAGE:New("AIRBOSS: CARRIER (CVN) FOUND: " .. cvn.name, 15, "SPAWN"):ToLog()
+        SetupAirboss(cvn.name, "CVN")
+
+        if airboss_options.enableRescueHelo then AddRescueHelo(cvn.name) end
+        if airboss_options.enableAWACS      then AddShipAWACS(cvn.name) end
+        if airboss_options.enableTanker     then AddTrickOrTreat(cvn.name) end
+
+        -- Match escort by prefix +1
+        for _, escort in ipairs(escortCandidates) do
+            if cvn.prefix and escort.prefix and escort.prefix == cvn.prefix + 1 then
+                MESSAGE:New("AIRBOSS: MATCHED ESCORT FOR CVN: " .. escort.name, 10, "RETRIBUTION"):ToLog()
+                if not rescueHomeBase then
+                    rescueHomeBase = escort.name
+                    env.info("AIRBOSS: Rescue Helo Home Base set to ESCORT: " .. rescueHomeBase)
+                end
+                break -- only use first valid match
+            end
+        end
+    end
+
+    -- Setup LHAs
+    for _, lha in ipairs(lhaUnits) do
+        if airboss_options.enableForLHA then
+            MESSAGE:New("AIRBOSS: CARRIER (LHA) FOUND: " .. lha.name, 15, "SPAWN"):ToLog()
+            SetupAirboss(lha.name, "LHA")
+            if airboss_options.enableRescueHelo then AddRescueHelo(lha.name) end
+        else
+            MESSAGE:New("AIRBOSS: LHA FOUND BUT AIRBOSS DISABLED: " .. lha.name, 15, "SPAWN"):ToLog()
+        end
+    end
 end
 
 AutoSetup()

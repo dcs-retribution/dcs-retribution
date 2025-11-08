@@ -24,7 +24,7 @@ description:
 miz: red_sea_rising.miz
 performance: 1
 recommended_start_date: 2005-01-11
-version: "10.7"
+version: "10.8"
 settings:
   usamilitaryassetspack: true
   chinesemilitaryassetspack: true
@@ -54,6 +54,7 @@ squadrons:
       aircraft:
         - S-3B Tanker
       size: 4
+  #Ownfor LHA
   Blue LHA-1:
     - primary: BAI
       secondary: air-to-ground
@@ -143,6 +144,12 @@ squadrons:
       aircraft:
         - MiG-21bis Fishbed-N
       size: 8
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - UH-60L
+        - UH-60A
+      size: 4
   #Borj El Arab International Airport
   35:
     - primary: Anti-ship
@@ -176,7 +183,6 @@ squadrons:
       secondary: any
       aircraft:
         - Ka-50 Hokum III
-        - Ka-50 Hokum (Blackshark 3)
       size: 4
   #Sharm El Sheikh International Airport
   42:

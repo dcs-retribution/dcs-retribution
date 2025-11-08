@@ -33,7 +33,7 @@ description:
 miz: battle_for_no_mans_land.miz
 performance: 1
 recommended_start_date: 2001-11-10
-version: "10.7"
+version: "10.8"
 settings:
   squadron_start_full: true
 squadrons:
@@ -56,16 +56,20 @@ squadrons:
       size: 4
   #San Carlos FOB
   3:
-    - primary: BAI
-      secondary: any
-      aircraft:
-        - Mi-24P Hind-F
-      size: 6
-  #Goose Green
-  24:
     - primary: DEAD
       secondary: any
       aircraft:
         - Ka-50 Hokum III
-        - Ka-50 Hokum (Blackshark 3)
       size: 6
+  #Goose Green
+  24:
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - Mi-24P Hind-F
+      size: 4
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - Mi-8MTV2 Hip
+      size: 2

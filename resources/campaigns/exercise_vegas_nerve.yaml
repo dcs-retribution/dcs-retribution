@@ -17,7 +17,7 @@ description:
 miz: exercise_vegas_nerve.miz
 performance: 1
 recommended_start_date: 2011-02-24
-version: "10.7"
+version: "10.8"
 settings:
   chinesemilitaryassetspack: true
   fa_18efg: true
@@ -57,16 +57,21 @@ squadrons:
       aircraft:
         - A-10C Thunderbolt II (Suite 7)
       size: 8
-    - primary: CAS
+    - primary: Armed Recon
       secondary: any
       aircraft:
         - AH-64D Apache Longbow
-      size: 2
-    - primary: CAS
+      size: 4
+    - primary: Escort
       secondary: any
       aircraft:
         - OH-58D(R) Kiowa Warrior
-      size: 2
+      size: 4
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - CH-47F Block I
+      size: 4
     - primary: SEAD
       secondary: any
       aircraft:
@@ -91,7 +96,7 @@ squadrons:
       secondary: any
       aircraft:
         - C-130J-30 Super Hercules
-        - CH-47F Block I
+        - C-130
       size: 1
   # Groom Lake
   2:
@@ -100,23 +105,27 @@ squadrons:
       aircraft:
         - J-11A Flanker-L
       size: 16
-    - primary: BAI
+    - primary: CAS
       secondary: air-to-ground
       aircraft:
         - Su-25T Frogfoot
       size: 12
   # Creech
   1:
-    - primary: CAS
+    - primary: Armed Recon
       secondary: any
       aircraft:
         - Ka-50 Hokum III
-        - Ka-50 Hokum (Blackshark 3)
-      size: 8
-    - primary: Air Assault
+      size: 4
+    - primary: Escort
       secondary: any
       aircraft:
         - Mi-24P Hind-F
+      size: 4
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - Mi-8MTV2 Hip
       size: 4
   # Nellis AFB
   4:
