@@ -379,3 +379,101 @@ class _34Ya6E_Gazetchik_E_decoy(unittype.VehicleType):
     detection_range = 20000
     threat_range = 0
     air_weapon_dist = 0
+
+
+@vehiclemod
+class SAMPT_MLT_Blk1(unittype.VehicleType):
+    id = "SAMPT_MLT_Blk1"
+    name = "SAMP/T MLT Launcher Block 1"
+    detection_range = 0
+    threat_range = 120000
+    air_weapon_dist = 120000
+    eplrs = True
+
+
+@vehiclemod
+class SAMPT_MLT_Blk1NT(unittype.VehicleType):
+    id = "SAMPT_MLT_Blk1NT"
+    name = "SAMP/T MLT Launcher Block 1NT"
+    detection_range = 0
+    threat_range = 150000
+    air_weapon_dist = 150000
+    eplrs = True
+
+
+@vehiclemod
+class SAMPT_MLT_Blk2(unittype.VehicleType):
+    id = "SAMPT_MLT_Blk2"
+    name = "SAMP/T MLT Launcher Block 2"
+    detection_range = 0
+    threat_range = 200000
+    air_weapon_dist = 200000
+    eplrs = True
+
+
+@vehiclemod
+class SAMPT_MRI_ARABEL(unittype.VehicleType):
+    id = "SAMPT_MRI_ARABEL"
+    name = "SAMP/T MRI ARABEL STR"
+    detection_range = 120000
+    threat_range = 0
+    air_weapon_dist = 0
+    eplrs = True
+
+
+@vehiclemod
+class SAMPT_MRI_GF300(unittype.VehicleType):
+    id = "SAMPT_MRI_GF300"
+    name = "SAMP/T MRI Ground Fire 300 STR"
+    detection_range = 400000
+    threat_range = 0
+    air_weapon_dist = 0
+    eplrs = True
+
+
+@vehiclemod
+class SAMPT_MC(unittype.VehicleType):
+    id = "SAMPT_MC"
+    name = "SAMP/T Control Station"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+    eplrs = True
+
+
+@vehiclemod
+class SAMPT_ME(unittype.VehicleType):
+    id = "SAMPT_ME"
+    name = "SAMP/T Engagement Station"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+    eplrs = True
+
+
+@vehiclemod
+class SAMPT_MGE(unittype.VehicleType):
+    id = "SAMPT_MGE"
+    name = "SAMP/T Electric Generator"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+    eplrs = True
+
+
+@vehiclemod
+class SA_7_Strela_2_manpad(unittype.VehicleType):
+    id = "SA-7 Strela-2 manpad"
+    name = 'MANPADS SA-7 Strela-2 "Grail"'
+    detection_range = 5000
+    threat_range = 3200
+    air_weapon_dist = 3200
+
+
+@vehiclemod
+class SA_7b_Strela_2M_manpad(unittype.VehicleType):
+    id = "SA-7b Strela-2M manpad"
+    name = 'MANPADS SA-7b Strela-2M "Grail"'
+    detection_range = 5000
+    threat_range = 4200
+    air_weapon_dist = 4200
