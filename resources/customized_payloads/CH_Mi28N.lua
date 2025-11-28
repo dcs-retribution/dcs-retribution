@@ -6,7 +6,7 @@ local unitPayloads = {
 			["name"] = "Retribution CAS",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{Ka52_9M120_6}",
+					["CLSID"] = "{FC56DF80-9B09-44C5-8976-DCFAFF219062}",
 					["num"] = 4,
 				},
 				[2] = {
@@ -18,7 +18,7 @@ local unitPayloads = {
 					["num"] = 2,
 				},
 				[4] = {
-					["CLSID"] = "{Ka52_9M120_6}",
+					["CLSID"] = "{FC56DF80-9B09-44C5-8976-DCFAFF219062}",
 					["num"] = 1,
 				},
 			},
@@ -52,31 +52,6 @@ local unitPayloads = {
 			},
 		},
 		[3] = {
-			["displayName"] = "Retribution Escort",
-			["name"] = "Retribution Escort",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{9S846_2xIGLA}",
-					["num"] = 4,
-				},
-				[2] = {
-					["CLSID"] = "{Ka52_9M120_6}",
-					["num"] = 3,
-				},
-				[3] = {
-					["CLSID"] = "{Ka52_9M120_6}",
-					["num"] = 2,
-				},
-				[4] = {
-					["CLSID"] = "{9S846_2xIGLA}",
-					["num"] = 1,
-				},
-			},
-			["tasks"] = {
-				[1] = 31,
-			},
-		},
-		[4] = {
 			["displayName"] = "Retribution OCA/Aircraft",
 			["name"] = "Retribution OCA/Aircraft",
 			["pylons"] = {
@@ -94,6 +69,31 @@ local unitPayloads = {
 				},
 				[4] = {
 					["CLSID"] = "{Ka52_9M120F_6}",
+					["num"] = 1,
+				},
+			},
+			["tasks"] = {
+				[1] = 31,
+			},
+		},
+		[4] = {
+			["displayName"] = "Retribution Escort",
+			["name"] = "Retribution Escort",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{9S846_2xIGLA}",
+					["num"] = 4,
+				},
+				[2] = {
+					["CLSID"] = "{Ka52_9M120_6}",
+					["num"] = 3,
+				},
+				[3] = {
+					["CLSID"] = "{Ka52_9M120_6}",
+					["num"] = 2,
+				},
+				[4] = {
+					["CLSID"] = "{9S846_2xIGLA}",
 					["num"] = 1,
 				},
 			},
