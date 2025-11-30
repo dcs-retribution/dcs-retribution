@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from typing import Any, List, Optional, TYPE_CHECKING
 
 from dcs import Point
-from dcs.planes import C_101CC, C_101EB, Su_33, FA_18C_hornet
+from dcs.planes import C_101CC, C_101EB, Su_33, FA_18C_hornet, C_130J_30
 
 from game.dcs.aircrafttype import AircraftType
 from game.theater import ControlPoint, MissionTarget
@@ -220,6 +220,8 @@ class Flight(
 
     @property
     def is_hercules(self) -> bool:
+        if self.unit_type == AircraftType.named("C-130J-30"):
+            return True
         return self.unit_type == AircraftType.named("C-130J-30 Super Hercules")
 
     @property
@@ -274,7 +276,7 @@ class Flight(
                 self.fuel = Su_33.fuel_max * 0.8
         elif unit_type in {C_101EB, C_101CC}:
             self.fuel = unit_type.fuel_max * 0.5
-        elif unit_type == Hercules:
+        elif unit_type in {Hercules, C_130J_30}:
             self.fuel = unit_type.fuel_max * 0.75
 
     def any_member_has_weapon_of_type(self, weapon_type: WeaponType) -> bool:
