@@ -45,6 +45,7 @@
 * **[Mission Generation]** Fixed an issue where kneeboards showed both opfor and ownfor support aircraft
 * **[Campaigns]** Fixed a bug where off map spawns could own ground objects, causing them not to spawn
 * **[Performance]** Adjusted state.json writes to batch processing to reduce CPU utilization
+* **[Kneeboard]** Fixed bug where additional target points did not show on the kneeboard
 
 # Retribution v1.4.1 (hotfix)
 
