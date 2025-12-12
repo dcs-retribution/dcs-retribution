@@ -16,7 +16,7 @@ description:
 miz: grabthars_hammer.miz
 performance: 2
 recommended_start_date: 1999-12-25
-version: "10.7"
+version: "10.8"
 settings:
   hercules: true
   squadron_start_full: true
@@ -42,6 +42,11 @@ squadrons:
       secondary: any
       aircraft:
         - AH-64D Apache Longbow
+      size: 4
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - CH-47F Block I
       size: 4
     - primary: Refueling
       aircraft:
@@ -96,17 +101,17 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - AV-8B Harrier II Night Attack
-      size: 10
+      size: 12
     - primary: CAS
       secondary: any
       aircraft:
         - OH-58D(R) Kiowa Warrior
-      size: 8      
+      size: 4     
     - primary: Air Assault
       secondary: any
       aircraft:
         - UH-1H Iroquois
-      size: 2
+      size: 4
   Bombers from Edwards AFB:
     - primary: Strike
       secondary: air-to-ground
@@ -159,7 +164,7 @@ squadrons:
       size: 2
   #Ushuaia
   7:
-    - primary: CAS
+    - primary: Escort
       secondary: any
       aircraft:
         - Ka-50 Hokum III

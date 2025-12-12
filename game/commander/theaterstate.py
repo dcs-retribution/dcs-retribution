@@ -20,6 +20,7 @@ from game.theater import (
     ControlPoint,
     FrontLine,
     MissionTarget,
+    Player,
 )
 from game.theater.theatergroundobject import (
     BuildingGroundObject,
@@ -152,11 +153,12 @@ class TheaterState(WorldState["TheaterState"]):
 
     @classmethod
     def from_game(
-        cls, game: Game, player: bool, now: datetime, tracer: MultiEventTracer
+        cls, game: Game, player: Player, now: datetime, tracer: MultiEventTracer
     ) -> TheaterState:
         coalition = game.coalition_for(player)
         finder = ObjectiveFinder(game, player)
         ordered_capturable_points = finder.prioritized_points()
+        air_assault_capturable_points = finder.air_assault_targets()
 
         context = PersistentContext(
             game.db,
@@ -176,7 +178,7 @@ class TheaterState(WorldState["TheaterState"]):
 
         battle_postitions: Dict[ControlPoint, BattlePositions] = {
             cp: BattlePositions.for_control_point(cp)
-            for cp in ordered_capturable_points
+            for cp in air_assault_capturable_points
         }
 
         vulnerable_control_points = [
@@ -213,8 +215,8 @@ class TheaterState(WorldState["TheaterState"]):
                 )
             ),
             strike_targets=list(finder.strike_targets()),
-            enemy_barcaps=list(game.theater.control_points_for(not player)),
-            threat_zones=game.threat_zone_for(not player),
+            enemy_barcaps=list(game.theater.control_points_for(player.opponent)),
+            threat_zones=game.threat_zone_for(player.opponent),
             vulnerable_control_points=vulnerable_control_points,
             control_point_priority_queue=ordered_capturable_points,
             priority_cp=(

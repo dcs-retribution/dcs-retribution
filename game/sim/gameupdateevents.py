@@ -12,7 +12,7 @@ if TYPE_CHECKING:
     from game.ato import Flight, Package
     from game.navmesh import NavMesh
     from game.sim.combat import FrozenCombat
-    from game.theater import ControlPoint, FrontLine, TheaterGroundObject
+    from game.theater import ControlPoint, FrontLine, TheaterGroundObject, Player
     from game.threatzones import ThreatZones
     from game.theater.iadsnetwork.iadsnetwork import IadsNetworkNode
 
@@ -24,9 +24,9 @@ class GameUpdateEvents:
     updated_combats: list[FrozenCombat] = field(default_factory=list)
     ended_combats: list[FrozenCombat] = field(default_factory=list)
     updated_flight_positions: list[tuple[Flight, Point]] = field(default_factory=list)
-    navmesh_updates: dict[bool, NavMesh] = field(default_factory=dict)
+    navmesh_updates: dict[Player, NavMesh] = field(default_factory=dict)
     unculled_zones_updated: list[Point] = field(default_factory=list)
-    threat_zones_updated: dict[bool, ThreatZones] = field(default_factory=dict)
+    threat_zones_updated: dict[Player, ThreatZones] = field(default_factory=dict)
     new_flights: set[Flight] = field(default_factory=set)
     updated_flights: set[Flight] = field(default_factory=set)
     deleted_flights: set[UUID] = field(default_factory=set)
@@ -70,7 +70,7 @@ class GameUpdateEvents:
         self.updated_flight_positions.append((flight, new_position))
         return self
 
-    def update_navmesh(self, player: bool, navmesh: NavMesh) -> GameUpdateEvents:
+    def update_navmesh(self, player: Player, navmesh: NavMesh) -> GameUpdateEvents:
         self.navmesh_updates[player] = navmesh
         return self
 
@@ -78,7 +78,9 @@ class GameUpdateEvents:
         self.unculled_zones_updated = zones
         return self
 
-    def update_threat_zones(self, player: bool, zones: ThreatZones) -> GameUpdateEvents:
+    def update_threat_zones(
+        self, player: Player, zones: ThreatZones
+    ) -> GameUpdateEvents:
         self.threat_zones_updated[player] = zones
         return self
 

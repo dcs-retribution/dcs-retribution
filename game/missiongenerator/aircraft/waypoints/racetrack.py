@@ -43,6 +43,7 @@ class RaceTrackBuilder(PydcsWaypointBuilder):
         ai_jammer = settings.plugin_option("ewrj.ai_jammer_enabled")
         if settings.plugins.get("ewrj") and ai_jammer:
             self.defensive_jamming(waypoint, "start")
+            self.offensive_jamming(waypoint, "start")
 
         # NB: It's important that the engage task comes before the orbit task.
         # Though they're on the same waypoint, if the orbit task comes first it

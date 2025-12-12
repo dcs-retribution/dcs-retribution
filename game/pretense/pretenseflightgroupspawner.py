@@ -25,7 +25,7 @@ from game.missiongenerator.aircraft.flightgroupspawner import (
 )
 from game.missiongenerator.missiondata import MissionData
 from game.naming import NameGenerator
-from game.theater import Airfield, ControlPoint, Fob, NavalControlPoint
+from game.theater import Airfield, ControlPoint, Fob, NavalControlPoint, Player
 
 
 class PretenseNameGenerator(NameGenerator):
@@ -87,7 +87,7 @@ class PretenseFlightGroupSpawner(FlightGroupSpawner):
 
     def insert_into_pretense(self, name: str) -> None:
         cp = self.flight.departure
-        is_player = True
+        is_player = Player.BLUE
         cp_side = (
             2
             if self.flight.coalition

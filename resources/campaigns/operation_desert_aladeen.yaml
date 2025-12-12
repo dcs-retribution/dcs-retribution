@@ -23,7 +23,7 @@ description:
 miz: operation_desert_aladeen.miz
 performance: 1
 recommended_start_date: 2012-05-16
-version: "10.7"
+version: "10.8"
 settings:
   usamilitaryassetspack: true
   f22_raptor: true
@@ -126,6 +126,16 @@ squadrons:
       aircraft:
         - MiG-29A Fulcrum-A
       size: 8
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - Mi-24P Hind-F
+      size: 4
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - Mi-8MTV2 Hip
+      size: 4
   #Qayyarah Airfield West
   6:
     - primary: DEAD
@@ -143,11 +153,6 @@ squadrons:
       aircraft:
         - Mi-26
       size: 2
-    - primary: Air Assault
-      secondary: any
-      aircraft:
-        - Mi-24P Hind-F
-      size: 4
   #Sulaimaniyah International Airport
   7:
     - primary: BAI

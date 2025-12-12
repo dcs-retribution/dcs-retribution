@@ -1495,13 +1495,13 @@ class PretenseLuaGenerator(LuaGenerator):
             cp_name.replace("ä", "a")
             cp_name.replace("ö", "o")
             cp_name.replace("ø", "o")
-            cp_side = 2 if cp.captured else 1
+            cp_side = 2 if cp.captured.is_blue else 1
 
             if isinstance(cp, OffMapSpawn):
                 continue
             elif (
                 cp.is_fleet
-                and cp.captured
+                and cp.captured.is_blue
                 and self.game.settings.pretense_controllable_carrier
             ):
                 # Friendly carrier, generate carrier parameters
@@ -1591,7 +1591,7 @@ class PretenseLuaGenerator(LuaGenerator):
                 # Also connect carrier and LHA control points to adjacent friendly points
                 if cp.is_fleet and (
                     not self.game.settings.pretense_controllable_carrier
-                    or not cp.captured
+                    or cp.captured.is_red
                 ):
                     num_of_carrier_connections = 0
                     for (
@@ -1616,13 +1616,13 @@ class PretenseLuaGenerator(LuaGenerator):
                     try:
                         if (
                             cp.is_fleet
-                            and cp.captured
+                            and cp.captured.is_blue
                             and self.game.settings.pretense_controllable_carrier
                         ):
                             break
                         elif (
                             closest_cps[extra_connection].is_fleet
-                            and closest_cps[extra_connection].captured
+                            and closest_cps[extra_connection].captured.is_blue
                             and self.game.settings.pretense_controllable_carrier
                         ):
                             break
@@ -1647,7 +1647,7 @@ class PretenseLuaGenerator(LuaGenerator):
                 if isinstance(cp, OffMapSpawn):
                     continue
                 cp_side_captured = cp_side == 2
-                if cp_side_captured != cp.captured:
+                if cp_side_captured != cp.captured.is_blue:
                     continue
                 cp_name_trimmed = PretenseNameGenerator.pretense_trimmed_cp_name(
                     cp.name
@@ -1723,6 +1723,13 @@ class PretenseLuaGenerator(LuaGenerator):
     def inject_plugin_script(
         self, plugin_mnemonic: str, script: str, script_mnemonic: str
     ) -> None:
+        # Hard block MOOSE injection for Pretense missions
+        if script_mnemonic.lower() == "moose" or "moose" in script.lower():
+            logging.info(
+                "PretenseLuaGenerator: Skipping hard-blocked Moose.lua injection"
+            )
+            return
+
         if script_mnemonic in self.plugin_scripts:
             logging.debug(f"Skipping already loaded {script} for {plugin_mnemonic}")
             return
@@ -1730,7 +1737,6 @@ class PretenseLuaGenerator(LuaGenerator):
         self.plugin_scripts.append(script_mnemonic)
 
         plugin_path = Path("./resources/plugins", plugin_mnemonic)
-
         script_path = Path(plugin_path, script)
         if not script_path.exists():
             logging.error(f"Cannot find {script_path} for plugin {plugin_mnemonic}")

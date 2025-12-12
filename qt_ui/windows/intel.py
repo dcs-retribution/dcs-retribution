@@ -17,7 +17,7 @@ from PySide6.QtWidgets import (
 )
 
 from game.game import Game
-from game.theater import ParkingType
+from game.theater import ParkingType, Player
 from qt_ui.uiconstants import ICONS
 from qt_ui.windows.finances.QFinancesMenu import FinancesLayout
 
@@ -45,7 +45,7 @@ class ScrollingFrame(QFrame):
 
 
 class EconomyIntelTab(ScrollingFrame):
-    def __init__(self, game: Game, player: bool) -> None:
+    def __init__(self, game: Game, player: Player) -> None:
         super().__init__()
         self.addLayout(FinancesLayout(game, player=player, total_at_top=True))
 
@@ -75,7 +75,7 @@ class IntelTableLayout(QGridLayout):
 
 
 class AircraftIntelLayout(IntelTableLayout):
-    def __init__(self, game: Game, player: bool) -> None:
+    def __init__(self, game: Game, player: Player) -> None:
         super().__init__()
 
         total = 0
@@ -102,13 +102,13 @@ class AircraftIntelLayout(IntelTableLayout):
 
 
 class AircraftIntelTab(ScrollingFrame):
-    def __init__(self, game: Game, player: bool) -> None:
+    def __init__(self, game: Game, player: Player) -> None:
         super().__init__()
         self.addLayout(AircraftIntelLayout(game, player=player))
 
 
 class ArmyIntelLayout(IntelTableLayout):
-    def __init__(self, game: Game, player: bool) -> None:
+    def __init__(self, game: Game, player: Player) -> None:
         super().__init__()
 
         total = 0
@@ -131,13 +131,13 @@ class ArmyIntelLayout(IntelTableLayout):
 
 
 class ArmyIntelTab(ScrollingFrame):
-    def __init__(self, game: Game, player: bool) -> None:
+    def __init__(self, game: Game, player: Player) -> None:
         super().__init__()
         self.addLayout(ArmyIntelLayout(game, player=player))
 
 
 class IntelTabs(QTabWidget):
-    def __init__(self, game: Game, player: bool):
+    def __init__(self, game: Game, player: Player):
         super().__init__()
 
         self.addTab(EconomyIntelTab(game, player), "Economy")
@@ -150,7 +150,7 @@ class IntelWindow(QDialog):
         super().__init__()
 
         self.game = game
-        self.player = True
+        self.player = Player.BLUE
         self.setModal(True)
         self.setWindowTitle("Intelligence")
         self.setWindowIcon(ICONS["Statistics"])
@@ -162,7 +162,7 @@ class IntelWindow(QDialog):
         self.refresh_layout()
 
     def on_faction_changed(self) -> None:
-        self.player = not self.player
+        self.player = self.player.opponent
         self.refresh_layout()
 
     def refresh_layout(self) -> None:
@@ -174,7 +174,7 @@ class IntelWindow(QDialog):
 
         # Add the new layout
         own_faction = QCheckBox("Enemy Info")
-        own_faction.setChecked(not self.player)
+        own_faction.setChecked(self.player.is_red)
         own_faction.stateChanged.connect(self.on_faction_changed)
 
         intel_tabs = IntelTabs(self.game, self.player)

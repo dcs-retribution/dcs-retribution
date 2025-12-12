@@ -34,12 +34,16 @@ class TgoJs(BaseModel):
     def for_tgo(tgo: TheaterGroundObject) -> TgoJs:
         threat_ranges = [group.max_threat_range().meters for group in tgo.groups]
         detection_ranges = [group.max_detection_range().meters for group in tgo.groups]
+        if tgo.control_point.captured.is_blue:
+            blue = True
+        else:
+            blue = False
         return TgoJs(
             id=tgo.id,
             name=tgo.name,
             control_point_name=tgo.control_point.name,
             category=tgo.category,
-            blue=tgo.control_point.captured,
+            blue=blue,
             position=tgo.position.latlng(),
             units=[unit.display_name for unit in tgo.units],
             threat_ranges=threat_ranges,

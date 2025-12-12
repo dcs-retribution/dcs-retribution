@@ -15,6 +15,7 @@ role: Transport/Light Attack
 default_livery: Russia_Army_Weather
 variants:
   Mi-8MTV2 Hip: {}
+  Mi-17 Hip: {}
 kneeboard_units: "metric"
 radios:
   # Ideally this would use the R-828 for intra-flight to be used for flight comms,

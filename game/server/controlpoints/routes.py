@@ -6,6 +6,7 @@ from fastapi import APIRouter, Body, Depends, HTTPException, status
 from starlette.responses import Response
 
 from game import Game
+from game.theater.player import Player
 from .models import ControlPointJs
 from ..dependencies import GameContext
 from ..leaflet import LeafletPoint
@@ -75,7 +76,7 @@ def set_destination(
         )
     if not cp.moveable:
         raise HTTPException(status.HTTP_403_FORBIDDEN, detail=f"{cp} is not mobile")
-    if not cp.captured:
+    if not cp.captured.is_blue:
         raise HTTPException(
             status.HTTP_403_FORBIDDEN, detail=f"{cp} is not owned by the player"
         )
@@ -120,7 +121,7 @@ def cancel_travel(cp_id: UUID, game: Game = Depends(GameContext.require)) -> Non
         )
     if not cp.moveable:
         raise HTTPException(status.HTTP_403_FORBIDDEN, detail=f"{cp} is not mobile")
-    if not cp.captured:
+    if not cp.captured.is_blue:
         raise HTTPException(
             status.HTTP_403_FORBIDDEN, detail=f"{cp} is not owned by the player"
         )

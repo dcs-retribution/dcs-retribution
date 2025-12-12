@@ -24,7 +24,7 @@ from game.factions import Faction
 from game.server import EventStream
 from game.sim import GameUpdateEvents
 from game.squadrons import Squadron
-from game.theater import ConflictTheater
+from game.theater import ConflictTheater, Player
 from qt_ui.delegates import TwoColumnRowDelegate
 from qt_ui.models import AirWingModel, AtoModel, GameModel, SquadronModel
 from qt_ui.simcontroller import SimController
@@ -221,13 +221,17 @@ class AirInventoryView(QWidget):
         self.table.setSortingEnabled(True)
 
     def iter_allocated_aircraft(self) -> Iterator[AircraftInventoryData]:
-        coalition = self.game_model.game.coalition_for(not self.enemy_info)
+        coalition = self.game_model.game.coalition_for(
+            Player.BLUE if not self.enemy_info else Player.RED
+        )
         for package in coalition.ato.packages:
             for flight in package.flights:
                 yield from AircraftInventoryData.from_flight(flight)
 
     def iter_unallocated_aircraft(self) -> Iterator[AircraftInventoryData]:
-        coalition = self.game_model.game.coalition_for(not self.enemy_info)
+        coalition = self.game_model.game.coalition_for(
+            Player.BLUE if not self.enemy_info else Player.RED
+        )
         for squadron in coalition.air_wing.iter_squadrons():
             yield from AircraftInventoryData.each_untasked_from_squadron(squadron)
 
@@ -273,7 +277,7 @@ class AirWingTabs(QTabWidget):
             self.addTab(w, "Cheats")
 
         qfu_ownfor = QFactionUnits(
-            game_model.game.coalition_for(True).faction,
+            game_model.game.coalition_for(Player.BLUE).faction,
             self,
             show_jtac=True,
         )
@@ -283,7 +287,7 @@ class AirWingTabs(QTabWidget):
             "Faction OWNFOR",
         )
         qfu_opfor = QFactionUnits(
-            game_model.game.coalition_for(False).faction,
+            game_model.game.coalition_for(Player.RED).faction,
             self,
             show_jtac=True,
         )
@@ -300,12 +304,12 @@ class AirWingTabs(QTabWidget):
         self.game_model.ato_model.on_sim_update(events)
 
     def preset_group_updated_ownfor(self, f: Faction) -> None:
-        self.preset_group_updated(f, player=True)
+        self.preset_group_updated(f, player=Player.BLUE)
 
     def preset_group_updated_opfor(self, f: Faction) -> None:
-        self.preset_group_updated(f, player=False)
+        self.preset_group_updated(f, player=Player.RED)
 
-    def preset_group_updated(self, f: Faction, player: bool) -> None:
+    def preset_group_updated(self, f: Faction, player: Player) -> None:
         self.game_model.game.coalition_for(player).armed_forces = ArmedForces(f)
 
 

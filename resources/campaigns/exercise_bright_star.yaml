@@ -26,14 +26,10 @@ description:
     not only demonstrates the broadening scope of the exercise but also highlights 
     the value of fostering an environment of mutual cooperation and shared 
     security objectives.</p>
-    <p><strong>Note:</strong> There is no overland supply route between Melez and 
-    Wadi al Jandali due to the simulated destruction of the Al Salam Bridge spanning 
-    the Suez Canal. Consequently, ground units will have to be ferried across by 
-    air during the exercise.</p>
 miz: exercise_bright_star.miz
 performance: 2
 recommended_start_date: 2025-09-01
-version: "10.7"
+version: "10.8"
 settings:
   fa_18efg: true
   f22_raptor: true
@@ -83,7 +79,7 @@ squadrons:
       aircraft:
         - F-15E Strike Eagle (Suite 4+)
       size: 8
-    - primary: BAI
+    - primary: SEAD Sweep
       secondary: any
       aircraft:
         - JF-17 Thunder
@@ -131,13 +127,24 @@ squadrons:
       aircraft:
         - KC-135 Stratotanker
       size: 2
-  #Melez
+  #Al Salam Bridgehead
+  Al Salam Bridgehead: 
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - Mi-24P Hind-F
+      size: 4
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - SA 342L Gazelle
+      size: 4
+   #Melez
   5:
     - primary: CAS
       secondary: any
       aircraft:
         - Ka-50 Hokum III
-        - Ka-50 Hokum (Blackshark 3)
       size: 4
     - primary: BAI
       secondary: any
@@ -166,16 +173,6 @@ squadrons:
       aircraft:
         - F-4E-45MC Phantom II
       size: 20
-    - primary: Air Assault
-      secondary: any
-      aircraft:
-        - Mi-24P Hind-F
-      size: 4
-    - primary: OCA/Aircraft
-      secondary: any
-      aircraft:
-        - SA 342L Gazelle
-      size: 4
   #Wadi Abu Rish
   43:
     - primary: BARCAP

@@ -43,66 +43,64 @@ recommended_player_money: 1000
 recommended_enemy_money: 0
 recommended_player_income_multiplier: 1.0
 recommended_enemy_income_multiplier: 0.0
-version: "10.7"
+version: "10.8"
 settings:
   squadron_start_full: true
 squadrons:
   #Tarawa Class LHA
   Blue-LHA:
-    - primary: DEAD
+    - primary: Armed Recon
       secondary: any
       aircraft:
         - AH-64D Apache Longbow
       size: 8
-    - primary: CAS
-      secondary: any
-      aircraft:
-        - OH-58D(R) Kiowa Warrior
-      size: 4
     - primary: DEAD
       secondary: air-to-ground
       aircraft:
         - AV-8B Harrier II Night Attack
-      size: 6
+      size: 8
     - primary: Air Assault
       secondary: any
       aircraft:
         - UH-1H Iroquois
-      size: 2
-  #Paphos
-  46:
-    - primary: DEAD
-      secondary: air-to-ground
-      aircraft:
-        - F-4E-45MC Phantom II
-      size: 12
+      size: 4
   #Akrotiri
   44:
-    - primary: BAI
+    - primary: Escort
       secondary: any
       aircraft:
         - AH-1W SuperCobra
       size: 4
-    - primary: CAS
-      secondary: air-to-ground
+    - primary: Armed Recon
+      secondary: any
       aircraft:
-        - OH-58D(R) Kiowa Warrior
+        - AH-1W SuperCobra
       size: 4
-    - primary: Transport
+    - primary: Air Assault
       secondary: any
       aircraft:
         - UH-60A
-      size: 4
+      size: 2
   #Larnaca
   47:
     - primary: Transport
       aircraft:
         - C-130
       size: 6
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - F-4E-45MC Phantom II
+      size: 12
   #Ercan
   49:
-    - primary: Transport
+    - primary: Air Assault
       secondary: any
       aircraft:
         - CH-47F Block I
-      size: 6
+      size: 2
+    - primary: Escort
+      secondary: air-to-ground
+      aircraft:
+        - OH-58D(R) Kiowa Warrior
+      size: 4

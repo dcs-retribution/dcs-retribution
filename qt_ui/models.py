@@ -24,7 +24,7 @@ from game.radio.tacan import TacanChannel
 from game.server import EventStream
 from game.sim.gameupdateevents import GameUpdateEvents
 from game.squadrons.squadron import Pilot, Squadron
-from game.theater import NavalControlPoint
+from game.theater import NavalControlPoint, Player
 from game.theater.missiontarget import MissionTarget
 from game.transfers import PendingTransfers, TransferOrder
 from qt_ui.simcontroller import SimController
@@ -377,7 +377,7 @@ class TransferModel(QAbstractListModel):
 
     @property
     def transfers(self) -> PendingTransfers:
-        return self.game_model.game.coalition_for(player=True).transfers
+        return self.game_model.game.coalition_for(player=Player.BLUE).transfers
 
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
         return self.transfers.pending_transfer_count
@@ -433,7 +433,7 @@ class AirWingModel(QAbstractListModel):
 
     SquadronRole = Qt.ItemDataRole.UserRole
 
-    def __init__(self, game_model: GameModel, player: bool) -> None:
+    def __init__(self, game_model: GameModel, player: Player) -> None:
         super().__init__()
         self.game_model = game_model
         self.player = player
@@ -548,8 +548,8 @@ class GameModel:
         self.game: Optional[Game] = game
         self.sim_controller = sim_controller
         self.transfer_model = TransferModel(self)
-        self.blue_air_wing_model = AirWingModel(self, player=True)
-        self.red_air_wing_model = AirWingModel(self, player=False)
+        self.blue_air_wing_model = AirWingModel(self, player=Player.BLUE)
+        self.red_air_wing_model = AirWingModel(self, player=Player.RED)
         if self.game is None:
             self.ato_model = AtoModel(self, AirTaskingOrder())
             self.red_ato_model = AtoModel(self, AirTaskingOrder())
@@ -564,8 +564,8 @@ class GameModel:
         self.allocated_icls: list[int] = list()
         self.init_comms_registry()
 
-    def ato_model_for(self, player: bool) -> AtoModel:
-        if player:
+    def ato_model_for(self, player: Player) -> AtoModel:
+        if player.is_blue:
             return self.ato_model
         return self.red_ato_model
 

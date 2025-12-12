@@ -84,7 +84,7 @@
   "channel": 94
  },
  "world_12": {
-  "name": "Dera Ghazi Khan",
+  "name": "DeraGhaziKhan",
   "callsign": "DG",
   "beacon_type": 8,
   "hertz": 322000,
@@ -105,10 +105,10 @@
   "channel": null
  },
  "world_15": {
-  "name": "D I Khan",
+  "name": "DIKhan",
   "callsign": "DI",
   "beacon_type": 8,
-  "hertz": 286000000,
+  "hertz": 286000,
   "channel": null
  },
  "world_16": {
@@ -119,7 +119,7 @@
   "channel": null
  },
  "world_17": {
-  "name": "D I Khan",
+  "name": "DIKhan",
   "callsign": "DI",
   "beacon_type": 1,
   "hertz": 113100000,
@@ -217,7 +217,7 @@
   "channel": null
  },
  "world_31": {
-  "name": "Saidu Sharif",
+  "name": "SaiduSharif",
   "callsign": "SS",
   "beacon_type": 8,
   "hertz": 357000,

@@ -14,6 +14,7 @@ if TYPE_CHECKING:
     from game.dcs.aircrafttype import AircraftType
     from game.radio.radios import RadioFrequency
     from game.runways import RunwayData
+    from game.theater.player import Player
 
 
 @dataclass(frozen=True)
@@ -42,7 +43,7 @@ class FlightData:
     size: int
 
     #: True if this flight belongs to the player's coalition.
-    friendly: bool
+    friendly: Player
 
     #: Number of seconds after mission start the flight is set to depart.
     departure_delay: timedelta

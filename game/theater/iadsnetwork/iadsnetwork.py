@@ -16,6 +16,7 @@ from game.theater.theatergroundobject import (
     TheaterGroundObject,
 )
 from game.theater.theatergroup import IadsGroundGroup
+from game.theater.player import Player
 
 if TYPE_CHECKING:
     from game.game import Game
@@ -31,7 +32,7 @@ class SkynetNode:
     """Dataclass for a SkynetNode used in the LUA Data table by the luagenerator"""
 
     dcs_name: str
-    player: bool
+    player: Player
     iads_role: IadsRole
     properties: dict[str, str] = field(default_factory=dict)
     connections: dict[str, list[str]] = field(default_factory=lambda: defaultdict(list))
@@ -62,7 +63,7 @@ class SkynetNode:
     def from_group(cls, group: IadsGroundGroup) -> SkynetNode:
         node = cls(
             cls.dcs_name_for_group(group),
-            group.ground_object.is_friendly(True),
+            group.ground_object.coalition.player,
             group.iads_role,
         )
         unit_type = group.units[0].unit_type
@@ -314,8 +315,8 @@ class IadsNetwork:
                 self._make_advanced_connections_by_range(node)
 
     def _is_friendly(self, node: IadsNetworkNode, tgo: TheaterGroundObject) -> bool:
-        node_friendly = node.group.ground_object.is_friendly(True)
-        tgo_friendly = tgo.is_friendly(True)
+        node_friendly = node.group.ground_object.is_friendly(Player.BLUE)
+        tgo_friendly = tgo.is_friendly(Player.BLUE)
         return node_friendly == tgo_friendly
 
     def _update_network(

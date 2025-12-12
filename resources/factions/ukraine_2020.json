@@ -32,8 +32,8 @@
     "[CH] BRDM-2L1 ARV",
     "[CH] Kozak-5 APC",
     "[CH] KrAZ Spartan APC",
-    "[CH] T-64BV MBT",
-    "[CH] T-84 Oplot-M MBT"
+    "MBT T-64BV Type 2017 [CH]",
+    "MBT T-84 Oplot-M [CH]"
   ],
   "artillery_units": [],
   "logistics_units": [

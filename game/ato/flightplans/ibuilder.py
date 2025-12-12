@@ -11,7 +11,7 @@ from ..packagewaypoints import PackageWaypoints
 if TYPE_CHECKING:
     from game.coalition import Coalition
     from game.data.doctrine import Doctrine
-    from game.theater import ConflictTheater
+    from game.theater import ConflictTheater, Player
     from game.threatzones import ThreatZones
     from ..flight import Flight
     from ..package import Package
@@ -38,7 +38,7 @@ class IBuilder(ABC, Generic[FlightPlanT, LayoutT]):
             self._generate_package_waypoints_if_needed(dump_debug_info)
             self._flight_plan = self.build(dump_debug_info)
         except NavMeshError as ex:
-            color = "blue" if self.flight.squadron.player else "red"
+            color = "blue" if self.flight.squadron.player.is_blue else "red"
             raise PlanningError(
                 f"Could not plan {color} {self.flight.flight_type.value} from "
                 f"{self.flight.departure} to {self.package.target}"
@@ -71,7 +71,7 @@ class IBuilder(ABC, Generic[FlightPlanT, LayoutT]):
         return self.flight.coalition
 
     @property
-    def is_player(self) -> bool:
+    def is_player(self) -> Player:
         return self.coalition.player
 
     @property

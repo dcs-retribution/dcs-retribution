@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import itertools
 from collections import defaultdict
-from typing import Iterator, Optional, Sequence, TYPE_CHECKING
+from typing import Iterator, Optional, Sequence, TYPE_CHECKING, Any
 
 from game.ato.closestairfields import ObjectiveDistanceCache
 from game.dcs.aircrafttype import AircraftType
@@ -14,17 +14,30 @@ from ..utils import Distance
 
 if TYPE_CHECKING:
     from game.game import Game
+    from game.theater.player import Player
     from ..ato.flighttype import FlightType
     from .squadron import Squadron
 
 
 class AirWing:
-    def __init__(self, player: bool, game: Game, faction: Faction) -> None:
+    def __init__(self, player: Player, game: Game, faction: Faction) -> None:
         self.player = player
         self.squadrons: dict[AircraftType, list[Squadron]] = defaultdict(list)
         self.squadron_defs = SquadronDefLoader(game, faction).load()
         self.squadron_def_generator = SquadronDefGenerator(faction)
         self.settings = game.settings
+
+    def __setstate__(self, state: dict[str, Any]) -> None:
+        # Migration: Convert old boolean player values to Player enum
+        if "player" in state and isinstance(state["player"], bool):
+            from game.theater.player import Player
+
+            if state["player"]:
+                state["player"] = Player.BLUE
+            else:
+                state["player"] = Player.RED
+
+        self.__dict__.update(state)
 
     def unclaim_squadron_def(self, squadron: Squadron) -> None:
         if squadron.aircraft in self.squadron_defs:

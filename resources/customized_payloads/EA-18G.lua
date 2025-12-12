@@ -37,7 +37,7 @@ local unitPayloads = {
 				},
 				[7]=
 				{
-					["CLSID"]="{GROWLER_PYLON_04_IB_FT_FPU-12_Fueltank}",
+					["CLSID"]="{GROWLER_PYLON_08_IB_FT_FPU-12_Fueltank}",
 					["num"]=7
 				},
 				[8]=
@@ -97,7 +97,7 @@ local unitPayloads = {
 				},
 				[7]=
 				{
-					["CLSID"]="{GROWLER_PYLON_04_IB_FT_FPU-12_Fueltank}",
+					["CLSID"]="{GROWLER_PYLON_08_IB_FT_FPU-12_Fueltank}",
 					["num"]=7
 				},
 				[8]=
@@ -157,7 +157,7 @@ local unitPayloads = {
 				},
 				[7]=
 				{
-					["CLSID"]="{GROWLER_PYLON_04_IB_FT_FPU-12_Fueltank}",
+					["CLSID"]="{GROWLER_PYLON_08_IB_FT_FPU-12_Fueltank}",
 					["num"]=7
 				},
 				[8]=
@@ -217,7 +217,7 @@ local unitPayloads = {
 				},
 				[7]=
 				{
-					["CLSID"]="{GROWLER_PYLON_04_IB_FT_FPU-12_Fueltank}",
+					["CLSID"]="{GROWLER_PYLON_08_IB_FT_FPU-12_Fueltank}",
 					["num"]=7
 				},
 				[8]=
@@ -278,7 +278,7 @@ local unitPayloads = {
 				},
 				[7]=
 				{
-					["CLSID"]="{GROWLER_PYLON_04_IB_FT_FPU-12_Fueltank}",
+					["CLSID"]="{GROWLER_PYLON_08_IB_FT_FPU-12_Fueltank}",
 					["num"]=7
 				},
 				[8]=

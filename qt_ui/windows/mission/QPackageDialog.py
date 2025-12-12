@@ -298,6 +298,8 @@ class QPackageDialog(QDialog):
         ):
             return True
         else:
+            for flight in list(self.package_model.package.flights):
+                self.package_model.cancel_or_abort_flight(flight)
             QMessageBox.critical(
                 self,
                 "Invalid Package",

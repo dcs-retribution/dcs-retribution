@@ -67,6 +67,7 @@ from game.radio.tacan import TacanBand, TacanChannel, TacanRegistry, TacanUsage
 from game.runways import RunwayData
 from game.theater import (
     ControlPoint,
+    Player,
     TheaterGroundObject,
     TheaterUnit,
     NavalControlPoint,
@@ -408,7 +409,7 @@ class GroundObjectGenerator:
         # Align the trigger zones to the faction color on the DCS briefing/F10 map.
         color = (
             {1: 0.2, 2: 0.7, 3: 1, 4: 0.15}
-            if scenery.ground_object.is_friendly(to_player=True)
+            if scenery.ground_object.is_friendly(to_player=Player.BLUE)
             else {1: 1, 2: 0.2, 3: 0.2, 4: 0.15}
         )
 
@@ -809,9 +810,12 @@ class HelipadGenerator:
         # capture triggers
         pad: BaseFARP
         neutral_country = self.m.country(self.game.neutral_country.name)
-        country = self.m.country(
-            self.game.coalition_for(self.cp.captured).faction.country.name
-        )
+        if self.cp.captured is Player.NEUTRAL:
+            country = neutral_country
+        else:
+            country = self.m.country(
+                self.game.coalition_for(self.cp.captured).faction.country.name
+            )
 
         name = f"{self.cp.name} {helipad_type} {i}"
         logging.info("Generating helipad static : " + name)
@@ -862,7 +866,7 @@ class HelipadGenerator:
 
         if self.game.position_culled(helipad):
             cull_farp_statics = True
-            if self.cp.coalition.player:
+            if self.cp.coalition.player.is_blue:
                 for package in self.cp.coalition.ato.packages:
                     for flight in package.flights:
                         if flight.squadron.location == self.cp:
@@ -878,7 +882,12 @@ class HelipadGenerator:
             pad.position,
             self.m.terrain,
         ).dict()
-        warehouse["coalition"] = "blue" if self.cp.coalition.player else "red"
+        if self.cp.coalition.player.is_neutral:
+            warehouse["coalition"] = "neutral"
+        elif self.cp.coalition.player.is_blue:
+            warehouse["coalition"] = "blue"
+        else:
+            warehouse["coalition"] = "red"
         # configure dynamic spawn + hot start of DS, plus dynamic cargo?
         self.m.warehouses.warehouses[pad.id] = warehouse
 
@@ -989,7 +998,7 @@ class GroundSpawnRoadbaseGenerator:
             cull_farp_statics = True
         elif self.game.position_culled(ground_spawn[0]):
             cull_farp_statics = True
-            if self.cp.coalition.player:
+            if self.cp.coalition.player.is_blue:
                 for package in self.cp.coalition.ato.packages:
                     for flight in package.flights:
                         if flight.squadron.location == self.cp:
@@ -1005,7 +1014,12 @@ class GroundSpawnRoadbaseGenerator:
             pad.position,
             self.m.terrain,
         ).dict()
-        warehouse["coalition"] = "blue" if self.cp.coalition.player else "red"
+        if self.cp.coalition.player.is_neutral:
+            warehouse["coalition"] = "neutral"
+        elif self.cp.coalition.player.is_blue:
+            warehouse["coalition"] = "blue"
+        else:
+            warehouse["coalition"] = "red"
         # configure dynamic spawn + hot start of DS, plus dynamic cargo?
         self.m.warehouses.warehouses[pad.id] = warehouse
 
@@ -1131,7 +1145,12 @@ class GroundSpawnLargeGenerator:
             pad.position,
             self.m.terrain,
         ).dict()
-        warehouse["coalition"] = "blue" if self.cp.coalition.player else "red"
+        if self.cp.coalition.player.is_neutral:
+            warehouse["coalition"] = "neutral"
+        elif self.cp.coalition.player.is_blue:
+            warehouse["coalition"] = "blue"
+        else:
+            warehouse["coalition"] = "red"
         # configure dynamic spawn + hot start of DS, plus dynamic cargo?
         self.m.warehouses.warehouses[pad.id] = warehouse
 
@@ -1258,7 +1277,7 @@ class GroundSpawnGenerator:
             cull_farp_statics = True
         elif self.game.position_culled(vtol_pad[0]):
             cull_farp_statics = True
-            if self.cp.coalition.player:
+            if self.cp.coalition.player.is_blue:
                 for package in self.cp.coalition.ato.packages:
                     for flight in package.flights:
                         if flight.squadron.location == self.cp:
@@ -1275,7 +1294,12 @@ class GroundSpawnGenerator:
                 pad.position,
                 self.m.terrain,
             ).dict()
-            warehouse["coalition"] = "blue" if self.cp.coalition.player else "red"
+            if self.cp.coalition.player.is_neutral:
+                warehouse["coalition"] = "neutral"
+            elif self.cp.coalition.player.is_blue:
+                warehouse["coalition"] = "blue"
+            else:
+                warehouse["coalition"] = "red"
             # configure dynamic spawn + hot start of DS, plus dynamic cargo?
             self.m.warehouses.warehouses[pad.id] = warehouse
 
@@ -1382,7 +1406,11 @@ class TgoGenerator:
 
     def generate(self) -> None:
         for cp in self.game.theater.controlpoints:
-            country = self.m.country(cp.coalition.faction.country.name)
+            # Use neutral country for neutral control points
+            if cp.captured is Player.NEUTRAL:
+                country = self.m.country(self.game.neutral_country.name)
+            else:
+                country = self.m.country(cp.coalition.faction.country.name)
 
             # Generate helipads
             helipad_gen = HelipadGenerator(

@@ -8,7 +8,7 @@ from typing import Iterator, List, Optional, TYPE_CHECKING, Tuple
 from game.config import RUNWAY_REPAIR_COST
 from game.data.units import UnitClass
 from game.dcs.groundunittype import GroundUnitType
-from game.theater import ControlPoint, MissionTarget, ParkingType
+from game.theater import ControlPoint, MissionTarget, ParkingType, Player
 
 if TYPE_CHECKING:
     from game import Game
@@ -34,20 +34,20 @@ class ProcurementAi:
     def __init__(
         self,
         game: Game,
-        for_player: bool,
+        owner: Player,
         faction: Faction,
         manage_runways: bool,
         manage_front_line: bool,
         manage_aircraft: bool,
     ) -> None:
         self.game = game
-        self.is_player = for_player
-        self.air_wing = game.air_wing_for(for_player)
+        self.is_player = owner
+        self.air_wing = game.air_wing_for(owner)
         self.faction = faction
         self.manage_runways = manage_runways
         self.manage_front_line = manage_front_line
         self.manage_aircraft = manage_aircraft
-        self.threat_zones = self.game.threat_zone_for(not self.is_player)
+        self.threat_zones = self.game.threat_zone_for(self.is_player.opponent)
 
     def calculate_ground_unit_budget_share(self) -> float:
         armor_investment = 0
@@ -78,7 +78,7 @@ class ProcurementAi:
 
         balance = (
             self.game.settings.auto_procurement_balance
-            if self.is_player
+            if self.is_player.is_blue
             else self.game.settings.auto_procurement_balance_red
         )
         air = balance / 100.0
@@ -114,7 +114,7 @@ class ProcurementAi:
             if control_point.runway_can_be_repaired:
                 control_point.begin_runway_repair()
                 budget -= RUNWAY_REPAIR_COST
-                if self.is_player:
+                if self.is_player.is_blue:
                     self.game.message(
                         "We have begun repairing the runway at " f"{control_point}"
                     )
@@ -223,7 +223,7 @@ class ProcurementAi:
 
     @property
     def owned_points(self) -> List[ControlPoint]:
-        if self.is_player:
+        if self.is_player.is_blue:
             return self.game.theater.player_points()
         else:
             return self.game.theater.enemy_points()
@@ -269,7 +269,7 @@ class ProcurementAi:
 
             reserves_factor = (
                 self.game.settings.frontline_reserves_factor
-                if self.is_player
+                if self.is_player.is_blue
                 else self.game.settings.frontline_reserves_factor_red
             )
             fr_factor = reserves_factor / 100.0
@@ -308,7 +308,7 @@ class ProcurementAi:
             )
             target = (
                 self.game.settings.reserves_procurement_target
-                if self.is_player
+                if self.is_player.is_blue
                 else self.game.settings.reserves_procurement_target_red
             )
             if allocated.total >= target:

@@ -35,6 +35,7 @@ from game.runways import RunwayData
 from game.settings import Settings
 from game.squadrons import AirWing
 from game.squadrons import Squadron
+from game.theater.player import Player
 from game.theater.controlpoint import (
     ControlPoint,
     OffMapSpawn,
@@ -833,7 +834,7 @@ class PretenseAircraftGenerator:
         """
         self.initialize_pretense_data_structures(cp)
 
-        is_player = True
+        is_player = Player.BLUE
         if country == cp.coalition.faction.country:
             offmap_transport_cp = self.find_pretense_cargo_plane_cp(cp)
 
@@ -868,7 +869,7 @@ class PretenseAircraftGenerator:
             coalition = (
                 self.game.coalition_for(is_player)
                 if country == self.game.coalition_for(is_player).faction.country
-                else self.game.coalition_for(False)
+                else self.game.coalition_for(Player.RED)
             )
             self.generate_pretense_aircraft_for_other_side(cp, coalition, ato)
 
@@ -1057,6 +1058,7 @@ class PretenseAircraftGenerator:
             and (
                 not self.need_ecm
                 or flight.any_member_has_weapon_of_type(WeaponType.JAMMER)
+                or flight.any_member_has_weapon_of_type(WeaponType.OFFENSIVE_JAMMER)
             )
         ):
             self.ewrj_package_dict[id(flight.package)].append(group)

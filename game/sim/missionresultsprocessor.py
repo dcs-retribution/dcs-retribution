@@ -145,7 +145,7 @@ class MissionResultsProcessor:
     def commit_captures(self, debriefing: Debriefing, events: GameUpdateEvents) -> None:
         for captured in debriefing.base_captures:
             try:
-                if captured.captured_by_player:
+                if captured.captured_by_player.is_blue:
                     self.game.message(
                         f"{captured.control_point} captured!",
                         f"We took control of {captured.control_point}.",
@@ -174,7 +174,7 @@ class MissionResultsProcessor:
         self, debriefing: Debriefing, events: GameUpdateEvents
     ) -> None:
         for cp in self.game.theater.player_points():
-            enemy_cps = [e for e in cp.connected_points if not e.captured]
+            enemy_cps = [e for e in cp.connected_points if e.captured.is_red]
             for enemy_cp in enemy_cps:
                 front_line = cp.front_line_with(enemy_cp)
                 front_line.update_position()
@@ -321,7 +321,7 @@ class MissionResultsProcessor:
         settings = cp.coalition.game.settings
         factor = (
             settings.frontline_reserves_factor
-            if cp.captured
+            if cp.captured.is_blue
             else settings.frontline_reserves_factor_red
         )
 
@@ -345,7 +345,7 @@ class MissionResultsProcessor:
             1,
             (
                 settings.reserves_procurement_target
-                if source.captured
+                if source.captured.is_blue
                 else settings.reserves_procurement_target_red
             ),
         )
@@ -367,7 +367,7 @@ class MissionResultsProcessor:
         source.base.commit_losses(moved_units)
 
         # Also transfer pending deliveries.
-        for unit_type, count in source.ground_unit_orders.units.items():
+        for unit_type, count in list(source.ground_unit_orders.units.items()):
             move_count = int(count * move_factor)
             source.ground_unit_orders.sell({unit_type: move_count})
             destination.ground_unit_orders.order({unit_type: move_count})

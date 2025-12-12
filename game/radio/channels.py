@@ -472,3 +472,15 @@ class KiowaChannelNamer(ChannelNamer):
     @classmethod
     def name(cls) -> str:
         return "kiowa"
+
+
+class FulcrumChannelNamer(ChannelNamer):
+    """Channel namer for the MiG-29 Fulcrum A"""
+
+    @staticmethod
+    def channel_name(radio_id: int, channel_id: int) -> str:
+        return f"Ch {channel_id -1}"
+
+    @classmethod
+    def name(cls) -> str:
+        return "fulcrum"

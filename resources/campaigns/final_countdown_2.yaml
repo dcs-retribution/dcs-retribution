@@ -5,7 +5,7 @@ authors: Starfire
 recommended_player_faction: D-Day Allied Forces 1944 and 1990
 recommended_enemy_faction: Germany 1944
 description:
-  <p>While enroute to the Persian Gulf for Operation Desert Shield, the USS
+  <p>While en route to the Persian Gulf for Operation Desert Shield, the USS
   Theodore Roosevelt and its carrier strike group are engufled by an electrical
   vortex and transported through time and space to the English channel on the
   morning of the Normandy Landings - June 6th 1944. Seeking to reduce the cost
@@ -20,7 +20,7 @@ description:
 miz: final_countdown_2.miz
 performance: 2
 recommended_start_date: 1944-06-06
-version: "10.7"
+version: "10.8"
 settings:
   squadron_start_full: true
 squadrons:
@@ -29,7 +29,7 @@ squadrons:
     - primary: TARCAP
       secondary: any
       aircraft:
-        - F-14B Tomcat
+        - F-14A Tomcat (Block 135-GR Late)
       size: 24
     - primary: DEAD
       secondary: any
@@ -48,12 +48,29 @@ squadrons:
     - primary: Refueling
       aircraft:
         - S-3B Tanker
-      size: 2
+      size: 8
+  #Blue LHA (20)
+  Blue-LHA:
+    - primary: Armed Recon
+      secondary: any
+      aircraft:
+        - AH-64D Apache Longbow
+      size: 4
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - OH-58D(R) Kiowa Warrior
+      size: 4
     - primary: Air Assault
       secondary: any
       aircraft:
-        - UH-60A
-      size: 6
+        - CH-47F Block I
+      size: 4
+    - primary: SEAD Sweep
+      secondary: air-to-ground
+      aircraft:
+        - AV-8B Harrier II Night Attack
+      size: 8
   #Stoney Cross (39)
   58:
     - primary: OCA/Runway
@@ -74,14 +91,14 @@ squadrons:
       aircraft:
         - MosquitoFBMkVI
       size: 20
-  #RAF Grafton Underwood (1000)
-  Bombers from RAF Grafton Underwood:
+  #Northolt (22)
+  88:
     - primary: Strike
       secondary: air-to-ground
       aircraft:
         - B-17G Flying Fortress
         - Fortress Mk.III
-      size: 20
+      size: 16
   #Lymington (56)
   37:
     - primary: Escort
@@ -89,14 +106,18 @@ squadrons:
       aircraft:
         - P-51D-30-NA Mustang
         - Mustang Mk.IV (Late)
-      size: 20
+      size: 16
     - primary: BAI
       secondary: any
       aircraft:
         - P-47D-40 Thunderbolt
         - Thunderbolt Mk.II (Late)
-      size: 20
-
+      size: 16
+    - primary: Armed Recon
+      secondary: any
+      aircraft:
+        - F4U-1D Corsair
+      size: 16
   #Carpiquet (47)
   19:
     - primary: TARCAP

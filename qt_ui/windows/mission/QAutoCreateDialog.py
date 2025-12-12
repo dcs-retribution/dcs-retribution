@@ -17,6 +17,7 @@ from game.ato import FlightType
 from game.commander.missionproposals import ProposedFlight, ProposedMission
 from game.commander.packagefulfiller import PackageFulfiller
 from game.profiling import MultiEventTracer
+from game.theater.player import Player
 from qt_ui.models import PackageModel
 from qt_ui.uiconstants import EVENT_ICONS
 
@@ -193,7 +194,9 @@ class QAutoCreateDialog(QDialog):
             FlightType.ARMED_RECON,
             FlightType.AIR_ASSAULT,
         }
-        for mt in self.package.target.mission_types(self.is_ownfor):
+        for mt in self.package.target.mission_types(
+            Player.BLUE if self.is_ownfor else Player.RED
+        ):
             if mt in primary_tasks:
                 self.primary_combobox.addItem(mt.value, mt)
         self.primary_combobox.setCurrentIndex(0)
@@ -252,7 +255,9 @@ class QAutoCreateDialog(QDialog):
             with tracer.trace(f"Auto-plan package"):
                 pm = ProposedMission(self.package.target, pf, asap=True)
                 pff = PackageFulfiller(
-                    self.game.coalition_for(self.is_ownfor),
+                    self.game.coalition_for(
+                        Player.BLUE if self.is_ownfor else Player.RED
+                    ),
                     self.game.theater,
                     self.game.db.flights,
                     self.game.settings,

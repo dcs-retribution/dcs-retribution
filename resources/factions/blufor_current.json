@@ -81,8 +81,9 @@
     "[CH] M551 LT",
     "[CH] Oshkosh L-ATV (M2)",
     "[CH] Oshkosh L-ATV (Mk19)",
-    "[CH] Oshkosh M-ATV MRAP (M2)",
-    "[CH] Oshkosh M-ATV MRAP (Mk19)"
+    "APC MRAP M-ATV [CH]",
+    "[CH] Oshkosh M-ATV MRAP (Mk19)",
+    "IFV M1130 Stryker CV [CH]"
   ],
   "artillery_units": [
     "M109A6 Paladin",
@@ -92,16 +93,17 @@
     "[CH] M777 LTH M982 Excalibur",
     "[CH] M777 LTH M982 Excalibur (MTVR)",
     "[CH] M777 LTH M795 (MTVR)",
-    "[CH] M270A1 MLRS (GLSDB)",
-    "[CH] M142 HIMARS (GLSDB)",
-    "[CH] M142 HIMARS (AGMLRS)",
+    "MLRS M142 HIMARS ATACMS CM [CH]",
+    "MLRS M142 HIMARS ATACMS HE [CH]",
+    "MLRS M142 HIMARS GMLRS CM [CH]",
+    "MLRS M142 HIMARS GMLRS HE [CH]",
     "[CH] Grkpbv 90 SPM",
     "[CH] Archer SPG SGR77B",
     "[CH] Archer SPG M982 Excalibur"
   ],
   "logistics_units": [
     "Truck M818 6x6",
-    "[CH] Oshkosh FMTV M1083",
+    "Truck M1083 A1P2 MTV [CH]",
     "[CH] Oshkosh HEMTT M977",
     "[CH] Oshkosh HEMTT M983",
     "[CH] Oshkosh MTVR MK23"
@@ -148,7 +150,8 @@
     "MIM-104 Patriot (Mobile)",
     "MIM-104 Patriot (Stationary)",
     "NASAMS 3",
-    "THAAD"
+    "THAAD",
+    "IRIS-T SLM"
   ],
   "naval_units": [
     "DDG Arleigh Burke IIa",

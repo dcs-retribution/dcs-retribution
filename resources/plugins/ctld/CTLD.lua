@@ -412,6 +412,7 @@ ctld.logisticUnits = {
 ctld.vehicleTransportEnabled = {
     "76MD", -- the il-76 mod doesnt use a normal - sign so il-76md wont match... !!!! GRR
     "Hercules",
+    "C-130J-30",
 }
 
 

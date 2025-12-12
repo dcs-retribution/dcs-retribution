@@ -38,7 +38,16 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime
 from functools import singledispatchmethod
-from typing import Generic, Iterator, List, Optional, Sequence, TYPE_CHECKING, TypeVar
+from typing import (
+    Any,
+    Generic,
+    Iterator,
+    List,
+    Optional,
+    Sequence,
+    TYPE_CHECKING,
+    TypeVar,
+)
 
 from dcs.mapping import Point
 
@@ -50,7 +59,14 @@ from game.dcs.aircrafttype import AircraftType
 from game.dcs.groundunittype import GroundUnitType
 from game.naming import namegen
 from game.procurement import AircraftProcurementRequest
-from game.theater import ControlPoint, MissionTarget, ParkingType, Carrier, Airfield
+from game.theater import (
+    ControlPoint,
+    MissionTarget,
+    ParkingType,
+    Carrier,
+    Airfield,
+    Player,
+)
 from game.theater.transitnetwork import (
     TransitConnection,
     TransitNetwork,
@@ -92,7 +108,7 @@ class TransferOrder:
     position: ControlPoint = field(init=False)
 
     #: True if the transfer order belongs to the player.
-    player: bool = field(init=False)
+    player: Player = field(init=False)
 
     #: The units being transferred.
     units: dict[GroundUnitType, int]
@@ -111,7 +127,7 @@ class TransferOrder:
 
     def __post_init__(self) -> None:
         self.position = self.origin
-        self.player = self.origin.is_friendly(to_player=True)
+        self.player = self.origin.captured
 
     @property
     def description(self) -> str:
@@ -239,7 +255,7 @@ class Airlift(Transport):
 
     @property
     def player_owned(self) -> bool:
-        return self.transfer.player
+        return self.transfer.player.is_blue
 
     def find_escape_route(self) -> Optional[ControlPoint]:
         # TODO: Move units to closest base.
@@ -384,8 +400,10 @@ class MultiGroupTransport(MissionTarget, Transport):
         self.origin = origin
         self.transfers: List[TransferOrder] = []
 
-    def is_friendly(self, to_player: bool) -> bool:
-        return self.origin.captured
+    def is_friendly(self, to_player: Player) -> bool:
+        if self.origin.captured == to_player:
+            return True
+        return False
 
     def add_units(self, transfer: TransferOrder) -> None:
         self.transfers.append(transfer)
@@ -432,7 +450,7 @@ class MultiGroupTransport(MissionTarget, Transport):
                 yield unit_type
 
     @property
-    def player_owned(self) -> bool:
+    def player_owned(self) -> Player:
         return self.origin.captured
 
     def find_escape_route(self) -> Optional[ControlPoint]:
@@ -450,7 +468,7 @@ class Convoy(MultiGroupTransport):
     def __init__(self, origin: ControlPoint, destination: ControlPoint) -> None:
         super().__init__(namegen.next_convoy_name(), origin, destination)
 
-    def mission_types(self, for_player: bool) -> Iterator[FlightType]:
+    def mission_types(self, for_player: Player) -> Iterator[FlightType]:
         if self.is_friendly(for_player):
             return
 
@@ -476,7 +494,7 @@ class CargoShip(MultiGroupTransport):
     def __init__(self, origin: ControlPoint, destination: ControlPoint) -> None:
         super().__init__(namegen.next_cargo_ship_name(), origin, destination)
 
-    def mission_types(self, for_player: bool) -> Iterator[FlightType]:
+    def mission_types(self, for_player: Player) -> Iterator[FlightType]:
         if self.is_friendly(for_player):
             return
 
@@ -570,12 +588,24 @@ class CargoShipMap(TransportMap[CargoShip]):
 
 
 class PendingTransfers:
-    def __init__(self, game: Game, player: bool) -> None:
+    def __init__(self, game: Game, player: Player) -> None:
         self.game = game
         self.player = player
         self.convoys = ConvoyMap()
         self.cargo_ships = CargoShipMap()
         self.pending_transfers: List[TransferOrder] = []
+
+    def __setstate__(self, state: dict[str, Any]) -> None:
+        # Migration: Convert old boolean player values to Player enum
+        if "player" in state and isinstance(state["player"], bool):
+            from game.theater.player import Player
+
+            if state["player"]:
+                state["player"] = Player.BLUE
+            else:
+                state["player"] = Player.RED
+
+        self.__dict__.update(state)
 
     def __iter__(self) -> Iterator[TransferOrder]:
         yield from self.pending_transfers

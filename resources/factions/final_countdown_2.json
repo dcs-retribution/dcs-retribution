@@ -13,9 +13,14 @@
     "Spitfire LF Mk IX",
     "Thunderbolt Mk.II (Late)",
     "MosquitoFBMkVI",
-    "F-14B Tomcat",
+    "F4U-1D Corsair",
+    "F-14A Tomcat (Block 135-GR Late)",
     "F/A-18C Hornet (Lot 20)",
+    "AV-8B Harrier II Night Attack",
     "S-3B Viking",
+    "AH-64D Apache Longbow",
+    "OH-58D(R) Kiowa Warrior",
+    "CH-47F Block I",
     "UH-60L",
     "UH-60A"
   ],
@@ -49,7 +54,8 @@
   "naval_units": [
     "DDG Arleigh Burke IIa",
     "CG Ticonderoga",
-    "CVN-74 John C. Stennis"
+    "CVN-74 John C. Stennis",
+    "LHA-1 Tarawa"
   ],
   "missiles": [],
   "air_defense_units": [
@@ -63,6 +69,9 @@
   },
   "carrier_names": [
     "CVN-71 Theodore Roosevelt"
+  ],
+  "helicopter_carrier_names": [
+    "LHA-4 Nassau"
   ],
   "has_jtac": true,
   "jtac_unit": "MQ-9 Reaper",

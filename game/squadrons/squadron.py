@@ -15,6 +15,7 @@ from faker import Faker
 from game.ato import Flight, FlightType, Package
 from game.settings import AutoAtoBehavior, Settings
 from game.theater import ParkingType
+from game.theater.player import Player
 from .pilot import Pilot, PilotStatus
 from ..db.database import Database
 from ..radio.radios import RadioFrequency
@@ -96,7 +97,7 @@ class Squadron:
         self._livery_pool: list[str] = []
 
     @property
-    def player(self) -> bool:
+    def player(self) -> Player:
         return self.coalition.player
 
     def assign_to_base(self, base: ControlPoint) -> None:
@@ -134,7 +135,7 @@ class Squadron:
             return self.claim_new_pilot_if_allowed()
 
         # For opfor, so player/AI option is irrelevant.
-        if not self.player:
+        if self.player != Player.BLUE:
             return self.available_pilots.pop()
 
         preference = self.settings.auto_ato_behavior

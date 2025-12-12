@@ -47,15 +47,17 @@
   ],
   "frontline_units": [
     "[CH] T-14 MBT",
-    "[CH] T-90M MBT",
+    "MBT T-90M [CH]",
     "[CH] Tigr-M",
     "[CH] T-90A MBT",
     "[CH] T-80BVM MBT",
-    "[CH] BMD-4 IFV"
+    "[CH] BMD-4 IFV",
+    "IFV BMPT Terminator [CH]",
+    "MBT T-64BV Type 2017 [CH]"
   ],
   "artillery_units": [
     "[CH] 2S35 SPG",
-    "[CH] TOS-1A MRL"
+    "MLRS TOS-1A Solntsepyok [CH]"
   ],
   "logistics_units": [
     "LUV UAZ-469 Jeep",
@@ -72,7 +74,8 @@
   ],
   "missiles": [
     "[CH] Iskander-M SRBM",
-    "[CH] Iskander-K GLCM"
+    "SRBM 9K720 Iskander HE [CH]",
+    "SRBM 9K720 Iskander CM [CH]"
   ],
   "preset_groups": [
     "BAL LBASM",
@@ -85,7 +88,8 @@
     "S-350"
   ],
   "naval_units": [
-    "[CH] Project 22160 Patrol Ship",
+    "Project 22160 Patrol Ship [CH]",
+    "Project 22160 Patrol Ship with Tor M2KM [CH]",
     "[CH] Project 22350 Admiral Gorshkov Frigate",
     "CV 1143.5 Admiral Kuznetsov",
     "[CH] Project 11356R Admiral Grigorovich Frigate (AShM)",
@@ -99,10 +103,10 @@
   "air_defense_units": [
     "[CH] 2S38 SPAAG (LG-HE)",
     "[CH] 2S38 SPAAG",
-    "[CH] Pantsir-S1 SPAAGM",
+    "SAM SA-22 Pantsir-S1 \"Greyhound\" [CH]",
     "[CH] Pantsir-S2 SPAAGM",
     "[CH] Tor M2K SHORAD",
-    "[CH] Tor M2 SHORAD",
+    "SAM SA-15 Tor M2 \"Gauntlet\" [CH]",
     "[CH] Tor M2M SHORAD",
     "AAA ZU-23 Closed Emplacement",
     "ZU-23 on Ural-375",

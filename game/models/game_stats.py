@@ -55,7 +55,7 @@ class GameStats:
         turn_data = GameTurnMetadata()
 
         for cp in game.theater.controlpoints:
-            if cp.captured:
+            if cp.captured.is_blue:
                 for squadron in cp.squadrons:
                     turn_data.allied_units.aircraft_count += squadron.owned_aircraft
                 turn_data.allied_units.vehicles_count += sum(cp.base.armor.values())

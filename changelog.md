@@ -12,13 +12,30 @@
 * **[Modding]** Add Tornado F3 ADV (v1.0, requires FC3 fix)
 * **[Modding]** Add Military Aircraft Mod 1.7.2 (See VSN Discord)
 * **[Payload Editor]** Add Sniper POD
-* **[Modding]** Update SU-30 mod to v2.8.03 Beta + CWS 3.70
+* **[Modding]** Update SU-30 mod to v2.8.04 Beta + CWS 3.72
+* **[Plugins]** EW Script - DEAD added to applicable flight types.
+* **[Plugins]** EW Script - Offensive Jamming restricted to aircraft with ALQ99/249 pods, or "has_built_in_jamming: true" in aircarft yaml (AI and Player)
+* **[Modding]** Update to CJS Super Hornet Mod v2.4.4
+* **[Engine]** Support for DCS 2.9.20.15010, including MiG-29A Fulcrum support.
+* **[Campaigns]** Ability to define neutral FOBs and Airfields
+* **[Modding]** Add Airboss Moose Module
+* **[AirWing]** Use aircraft display names for easier differentiation between modules
 
 ## Fixes
-* **[Flight Plans]** Fixed a bug when a package was created with only escort flights
+* **[Flight Plans]** Fixed bugs wrt planning escort flights
 * **[Flight Plans]** Added AntiShipStrike as a fallback task for OCA/Aircraft to fix a bug where the S-3B could not do OCA/Aircraft
 * **[Squadrons]** Fixed a bug where loading an air wing config would not properly load all squadrons
 * **[Flight Plans]** Fixed a bug where SEAD flights would fire one ARM and RTB
+* **[Plugins]** EW Script - Fix radar detection routine.
+* **[Campaign]** Fixed a bug where sinking a destroyer in a carrier group would cause squadrons to be removed from the carrier
+* **[Engine]** Fixed a bug with transfers to Helipads
+* **[Engine]** Fixed a bug with parking allocation
+* **[Flight Plans]** Fixed a bug where divert airfield was broken for opfor
+* **[Engine]** Fixed a bug with state.json loading wrt transfers
+* **[Engine]** Fixed a bug wrt pretense generation and moose script conflicts
+* **[Engine]** Fixed a bug where frontline debriefing was not properly calculated
+* **[Mission Generation]** Fixed an issue where blue and red units spawned next to each other on frontlines
+* **[Mission Generation]** Fixed an issue where kneeboards showed both opfor and ownfor support aircraft
 
 # Retribution v1.4.1 (hotfix)
 

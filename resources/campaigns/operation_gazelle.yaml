@@ -19,7 +19,7 @@ description:
 miz: operation_gazelle.miz
 performance: 1
 recommended_start_date: 1973-10-15
-version: "10.7"
+version: "10.8"
 settings:
   a4_skyhawk: true
   hercules: true
@@ -54,6 +54,11 @@ squadrons:
       aircraft:
         - UH-1H Iroquois
       size: 4
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - UH-1H Iroquois
+      size: 4
   # Hatzor
   20:
     - primary: BAI
@@ -76,7 +81,12 @@ squadrons:
         - MiG-19P Farmer-B
       size: 12
   # Baluza
-  #27:
+  27:
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - Mi-8MTV2 Hip
+      size: 4
   # Melez
   5:
     - primary: BAI
@@ -119,4 +129,4 @@ squadrons:
       secondary: any
       aircraft:
         - Mi-8MTV2 Hip
-      size: 8
+      size: 4

@@ -1,0 +1,29 @@
+description:
+  "The Lockheed C-130 Hercules is an American four-engine turboprop military transport aircraft designed and built by Lockheed (now Lockheed Martin). 
+  Capable of using unprepared runways for takeoffs and landings, the C-130 was originally designed as a troop, medevac, and cargo transport aircraft. 
+  The versatile airframe has found uses in other roles, including as a gunship (AC-130), for airborne assault, search and rescue, scientific research support, 
+  weather reconnaissance, aerial refueling, maritime patrol, and aerial firefighting. It is now the main tactical airlifter for many military forces worldwide. 
+  More than 40 variants of the Hercules, including civilian versions marketed as the Lockheed L-100, operate in more than 60 nations."
+introduced: 1999
+manufacturer: Lockheed Martin
+origin: USA
+price: 15
+role: Transport
+max_range: 1000
+cabin_size: 24 #TODO: Copied from Hercules, unsure if needed
+radios:
+  intra_flight: AN/ARC-222
+  inter_flight: AN/ARC-164
+  channels:
+    type: common
+    namer: viper
+    intra_flight_radio_index: 2
+    inter_flight_radio_index: 1
+variants:
+  C-130J-30: {}
+altitudes:
+  cruise: 10000
+  combat: 1000
+tasks:
+  # Air Assault: 0 #TODO: Add once we have proper support for paradrops
+  Transport: 140

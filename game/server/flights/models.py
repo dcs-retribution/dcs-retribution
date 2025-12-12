@@ -41,9 +41,13 @@ class FlightJs(BaseModel):
         waypoints = None
         if with_waypoints:
             waypoints = waypoints_for_flight(flight)
+        if flight.blue.is_blue:
+            blue = True
+        else:
+            blue = False
         return FlightJs(
             id=flight.id,
-            blue=flight.blue,
+            blue=blue,
             position=position,
             sidc=str(flight.sidc()),
             waypoints=waypoints,

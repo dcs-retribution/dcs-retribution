@@ -8,6 +8,7 @@ from typing import Any, Iterator, List, TYPE_CHECKING, Tuple
 from dcs.mapping import Point
 
 from .missiontarget import MissionTarget
+from .player import Player
 from ..lasercodes.lasercode import LaserCode
 from ..utils import Heading, pairwise
 
@@ -89,19 +90,22 @@ class FrontLine(MissionTarget):
     def update_position(self) -> None:
         self.position = self._compute_position()
 
-    def control_point_friendly_to(self, player: bool) -> ControlPoint:
-        if player:
+    def control_point_friendly_to(self, player: Player) -> ControlPoint:
+        if player.is_blue:
             return self.blue_cp
         return self.red_cp
 
-    def control_point_hostile_to(self, player: bool) -> ControlPoint:
-        return self.control_point_friendly_to(not player)
+    def control_point_hostile_to(self, player: Player) -> ControlPoint:
+        if player.is_blue:
+            return self.red_cp
+        else:
+            return self.blue_cp
 
-    def is_friendly(self, to_player: bool) -> bool:
+    def is_friendly(self, to_player: Player) -> bool:
         """Returns True if the objective is in friendly territory."""
         return False
 
-    def mission_types(self, for_player: bool) -> Iterator[FlightType]:
+    def mission_types(self, for_player: Player) -> Iterator[FlightType]:
         from game.ato import FlightType
 
         yield from [
@@ -210,6 +214,6 @@ class FrontLine(MissionTarget):
             raise ValueError(
                 "Cannot sort control points that are friendly to each other"
             )
-        if a.captured:
+        if a.captured.is_blue:
             return a, b
         return b, a

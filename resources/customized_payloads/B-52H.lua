@@ -2,19 +2,32 @@ local unitPayloads = {
 	["name"] = "B-52H",
 	["payloads"] = {
 		[1] = {
-			["name"] = "Retribution OCA/Runway",
+			["displayName"] = "Retribution BAI",
+			["name"] = "Retribution BAI",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{585D626E-7F42-4073-AB70-41E728C333E2}",
+					["CLSID"] = "{HSAB_8x_CBU105_R}",
 					["num"] = 3,
+					["settings"] = {
+						["NFP_fuze_type_nose"] = "FZU39",
+						["function_altitude_ctrl_FZU39_SUU65_SFW"] = 457.2,
+						["function_delay_ctrl_FZU39_SUU65_SFW"] = 2.23,
+					},
 				},
 				[2] = {
-					["CLSID"] = "{6C47D097-83FF-4FB2-9496-EAB36DDF0B05}",
-					["num"] = 2,
+					["CLSID"] = "{HSAB_8x_CBU105_L}",
+					["num"] = 1,
+					["settings"] = {
+						["NFP_PRESID"] = "MDRN_CC_A_SUU65Plus_SFW",
+						["NFP_PRESVER"] = 1,
+						["NFP_fuze_type_nose"] = "FZU39",
+						["function_altitude_ctrl_FZU39_SUU65_SFW"] = 457.2,
+						["function_delay_ctrl_FZU39_SUU65_SFW"] = 2.23,
+					},
 				},
 				[3] = {
-					["CLSID"] = "{585D626E-7F42-4073-AB70-41E728C333E2}",
-					["num"] = 1,
+					["CLSID"] = "{A111396E-D3E8-4b9c-8AC9-2432489304D5}",
+					["num"] = 4,
 				},
 			},
 			["tasks"] = {
@@ -36,6 +49,10 @@ local unitPayloads = {
 					["CLSID"] = "{45447F82-01B5-4029-A572-9AAD28AF0275}",
 					["num"] = 1,
 				},
+				[4] = {
+					["CLSID"] = "{A111396E-D3E8-4b9c-8AC9-2432489304D5}",
+					["num"] = 4,
+				},
 			},
 			["tasks"] = {
 				[1] = 32,
@@ -46,12 +63,16 @@ local unitPayloads = {
 			["name"] = "Retribution Anti-ship",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{HSAB-6xAGM-84}",
+					["CLSID"] = "{HSAB_4x_AGM84D_R}",
 					["num"] = 3,
 				},
 				[2] = {
-					["CLSID"] = "{HSAB-6xAGM-84}",
+					["CLSID"] = "{HSAB_4x_AGM84D_L}",
 					["num"] = 1,
+				},
+				[3] = {
+					["CLSID"] = "{A111396E-D3E8-4b9c-8AC9-2432489304D5}",
+					["num"] = 4,
 				},
 			},
 			["tasks"] = {
@@ -59,20 +80,130 @@ local unitPayloads = {
 			},
 		},
 		[4] = {
+			["name"] = "Retribution OCA/Runway",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{HSAB_6x_GBU31V3_R}",
+					["num"] = 3,
+					["settings"] = {
+						["01_prfx_arm_delay_ctrl_FMU143"] = 5.5,
+						["01_prfx_function_delay_ctrl_FMU143"] = 0.03,
+						["NFP_fuze_type_tail"] = "FMU143",
+					},
+				},
+				[2] = {
+					["CLSID"] = "{HSAB_6x_GBU31V3_L}",
+					["num"] = 1,
+					["settings"] = {
+						["01_prfx_arm_delay_ctrl_FMU143"] = 5.5,
+						["01_prfx_function_delay_ctrl_FMU143"] = 0.03,
+						["NFP_PRESID"] = "MDRN_B_A_PGM_HTP",
+						["NFP_PRESVER"] = 2,
+						["NFP_fuze_type_tail"] = "FMU143",
+					},
+				},
+				[3] = {
+					["CLSID"] = "{CSRL_GBU31V3}",
+					["num"] = 2,
+					["settings"] = {
+						["01_prfx_arm_delay_ctrl_FMU143"] = 5.5,
+						["01_prfx_function_delay_ctrl_FMU143"] = 0.03,
+						["NFP_PRESID"] = "MDRN_B_A_PGM_HTP",
+						["NFP_PRESVER"] = 2,
+						["NFP_fuze_type_tail"] = "FMU143",
+					},
+				},
+				[4] = {
+					["CLSID"] = "{A111396E-D3E8-4b9c-8AC9-2432489304D5}",
+					["num"] = 4,
+				},
+			},
+			["tasks"] = {
+				[1] = 32,
+			},
+		},
+		[5] = {
 			["displayName"] = "Retribution Strike",
 			["name"] = "Retribution Strike",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{585D626E-7F42-4073-AB70-41E728C333E2}",
+					["CLSID"] = "{HSAB_6x_GBU31V3_R}",
 					["num"] = 3,
+					["settings"] = {
+						["01_prfx_arm_delay_ctrl_FMU143"] = 5.5,
+						["01_prfx_function_delay_ctrl_FMU143"] = 0.03,
+						["NFP_fuze_type_tail"] = "FMU143",
+					},
 				},
 				[2] = {
-					["CLSID"] = "{6C47D097-83FF-4FB2-9496-EAB36DDF0B05}",
+					["CLSID"] = "{CSRL_GBU31V3}",
 					["num"] = 2,
+					["settings"] = {
+						["01_prfx_arm_delay_ctrl_FMU143"] = 5.5,
+						["01_prfx_function_delay_ctrl_FMU143"] = 0.03,
+						["NFP_PRESID"] = "MDRN_B_A_PGM_HTP",
+						["NFP_PRESVER"] = 2,
+						["NFP_fuze_type_tail"] = "FMU143",
+					},
 				},
 				[3] = {
-					["CLSID"] = "{585D626E-7F42-4073-AB70-41E728C333E2}",
+					["CLSID"] = "{HSAB_6x_GBU31V3_L}",
 					["num"] = 1,
+					["settings"] = {
+						["01_prfx_arm_delay_ctrl_FMU143"] = 5.5,
+						["01_prfx_function_delay_ctrl_FMU143"] = 0.03,
+						["NFP_PRESID"] = "MDRN_B_A_PGM_HTP",
+						["NFP_PRESVER"] = 2,
+						["NFP_fuze_type_tail"] = "FMU143",
+					},
+				},
+				[4] = {
+					["CLSID"] = "{A111396E-D3E8-4b9c-8AC9-2432489304D5}",
+					["num"] = 4,
+				},
+			},
+			["tasks"] = {
+				[1] = 32,
+			},
+		},
+		[6] = {
+			["displayName"] = "Retribution OCA/Aircraft",
+			["name"] = "Retribution OCA/Aircraft",
+			["pylons"] = {
+				[1] = {
+					["CLSID"] = "{HSAB_6x_GBU31V3_R}",
+					["num"] = 3,
+					["settings"] = {
+						["01_prfx_arm_delay_ctrl_FMU143"] = 5.5,
+						["01_prfx_function_delay_ctrl_FMU143"] = 0.03,
+						["NFP_fuze_type_tail"] = "FMU143",
+					},
+				},
+				[2] = {
+					["CLSID"] = "{HSAB_6x_GBU31V3_L}",
+					["num"] = 1,
+					["settings"] = {
+						["01_prfx_arm_delay_ctrl_FMU143"] = 5.5,
+						["01_prfx_function_delay_ctrl_FMU143"] = 0.03,
+						["NFP_PRESID"] = "MDRN_B_A_PGM_HTP",
+						["NFP_PRESVER"] = 2,
+						["NFP_fuze_type_tail"] = "FMU143",
+					},
+				},
+				[3] = {
+					["CLSID"] = "{CSRL_GBU31V3}",
+					["num"] = 2,
+					["settings"] = {
+						["01_prfx_arm_delay_ctrl_FMU143"] = 5.5,
+						["01_prfx_function_delay_ctrl_FMU143"] = 0.03,
+						["NFP_PRESID"] = "MDRN_B_A_PGM_HTP",
+						["NFP_PRESVER"] = 2,
+						["NFP_fuze_type_tail"] = "FMU143",
+					},
+				},
+				[4] = {
+					["CLSID"] = "{A111396E-D3E8-4b9c-8AC9-2432489304D5}",
+					["num"] = 4,
 				},
 			},
 			["tasks"] = {

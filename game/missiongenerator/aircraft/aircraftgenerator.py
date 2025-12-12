@@ -104,6 +104,23 @@ class AircraftGenerator:
             for parking_slot in cp.parking_slots:
                 parking_slot.unit_id = None
 
+    def _prioritized_packages(self, ato: AirTaskingOrder) -> List[Package]:
+        """Returns the packages in the order they should be generated."""
+        return sorted(
+            ato.packages,
+            key=lambda p: (
+                (
+                    1
+                    if any(
+                        f.flight_type in [FlightType.AEWC, FlightType.REFUELING]
+                        for f in p.flights
+                    )
+                    else 0
+                ),
+                p.time_over_target,
+            ),
+        )
+
     def generate_flights(
         self,
         country: Country,
@@ -124,7 +141,7 @@ class AircraftGenerator:
         self._reserve_frequencies_and_tacan(ato)
         self.mission_data.packages.clear()
 
-        for package in reversed(sorted(ato.packages, key=lambda x: x.time_over_target)):
+        for package in reversed(self._prioritized_packages(ato)):
             logging.info(f"Generating package for target: {package.target.name}")
             if not package.flights:
                 continue
@@ -203,7 +220,7 @@ class AircraftGenerator:
             ):
                 continue
 
-            if control_point.captured:
+            if control_point.captured.is_blue:
                 country = player_country
             else:
                 country = enemy_country
@@ -220,12 +237,12 @@ class AircraftGenerator:
             squadron.location, Fob
         )
         if (
-            squadron.coalition.player
+            squadron.coalition.player.is_blue
             and self.game.settings.perf_disable_untasked_blufor_aircraft
         ):
             return
         elif (
-            not squadron.coalition.player
+            squadron.coalition.player.is_red
             and self.game.settings.perf_disable_untasked_opfor_aircraft
         ):
             return
@@ -257,7 +274,7 @@ class AircraftGenerator:
             ).create_idle_aircraft()
             if group:
                 if (
-                    not squadron.coalition.player
+                    squadron.coalition.player.is_red
                     and squadron.aircraft.flyable
                     and (
                         self.game.settings.enable_squadron_pilot_limits
@@ -366,7 +383,9 @@ class AircraftGenerator:
             and (
                 not self.need_ecm
                 or flight.any_member_has_weapon_of_type(WeaponType.JAMMER)
+                or flight.any_member_has_weapon_of_type(WeaponType.OFFENSIVE_JAMMER)
                 or flight.squadron.aircraft.has_built_in_ecm
+                or flight.squadron.aircraft.has_built_in_jamming
             )
         ):
             self.ewrj_package_dict[id(flight.package)].append(group)
