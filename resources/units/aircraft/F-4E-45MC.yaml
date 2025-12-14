@@ -46,6 +46,8 @@ default_overrides:
   #LaserCodeDigit2: 6
   #LaserCodeDigit3: 8
   #LaserCodeDigit4: 8
+  IsEfbAllowed: true
+  #CombatTreeSpoofable: 1 # 0 = all, 1 = historical, 2 = none
 tasks:
   Anti-ship: 110
   BAI: 570
