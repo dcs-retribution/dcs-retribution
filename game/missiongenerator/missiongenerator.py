@@ -351,15 +351,15 @@ class MissionGenerator:
                 gen.add_dynamic_runway(dynamic_runway)
 
             for tanker in mission_data.tankers:
-                if tanker.blue:
+                if tanker.blue.is_blue:
                     gen.add_tanker(tanker)
 
             for aewc in mission_data.awacs:
-                if aewc.blue:
+                if aewc.blue.is_blue:
                     gen.add_awacs(aewc)
 
             for jtac in mission_data.jtacs:
-                if jtac.blue:
+                if jtac.blue.is_blue:
                     gen.add_jtac(jtac)
 
             for flight in mission_data.flights:
