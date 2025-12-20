@@ -7,11 +7,12 @@ from dataclasses import dataclass, field
 from enum import unique, Enum
 from functools import cached_property
 from pathlib import Path
-from typing import Iterator, Optional, Any, ClassVar
+from typing import Iterator, Optional, Any, ClassVar, Dict
 
 import yaml
 from dcs.flyingunit import FlyingUnit
 from dcs.weapons_data import weapon_ids
+from dcs.weapon_settings import WeaponSettings, has_settings, create_settings
 
 from game.dcs.aircrafttype import AircraftType
 from game.factions.faction import Faction
@@ -122,6 +123,20 @@ class Weapon:
         while fallback is not None:
             yield from fallback.weapons
             fallback = fallback.fallback
+
+    def has_settings(self) -> bool:
+        """Check if this weapon has configurable settings."""
+        try:
+            return has_settings(self.pydcs_data)
+        except Exception:
+            return False
+
+    def create_settings(self) -> Optional[WeaponSettings]:
+        """Create a WeaponSettings instance for this weapon."""
+        try:
+            return create_settings(self.pydcs_data)
+        except Exception:
+            return None
 
 
 @unique
@@ -287,13 +302,25 @@ class Pylon:
         # configuration.
         return weapon in self.allowed or weapon.clsid == "<CLEAN>"
 
-    def equip(self, unit: FlyingUnit, weapon: Weapon) -> None:
+    def equip(
+        self,
+        unit: FlyingUnit,
+        weapon: Weapon,
+        settings: Optional[Dict[str, Any]] = None,
+    ) -> None:
         if not self.can_equip(weapon):
             logging.error(f"Pylon {self.number} cannot equip {weapon.name}")
-        unit.load_pylon(self.make_pydcs_assignment(weapon), self.number)
+        assignment = self.make_pydcs_assignment(weapon, settings)
+        unit.load_pylon(assignment, self.number)
 
-    def make_pydcs_assignment(self, weapon: Weapon) -> PydcsWeaponAssignment:
-        return self.number, weapon.pydcs_data
+    def make_pydcs_assignment(
+        self, weapon: Weapon, settings: Optional[Dict[str, Any]] = None
+    ) -> PydcsWeaponAssignment:
+        weapon_data = dict(weapon.pydcs_data)
+        # Add settings if provided and weapon supports them
+        if settings and weapon.has_settings():
+            weapon_data["settings"] = settings
+        return self.number, weapon_data
 
     def available_on(self, date: datetime.date, faction: Faction) -> Iterator[Weapon]:
         for weapon in self.allowed:

@@ -1,7 +1,7 @@
 from collections.abc import Iterator
 from dataclasses import dataclass
 from shutil import copyfile
-from typing import Dict, Union
+from typing import Dict, Union, Any
 
 from PySide6.QtCore import Signal
 from PySide6.QtWidgets import (
@@ -170,7 +170,7 @@ class QLoadoutEditor(QGroupBox):
 class DcsPayload:
     displayName: str
     name: str
-    pylons: Dict[int, Dict[str, Union[str, int]]]
+    pylons: Dict[int, Dict[str, Union[str, int, Dict[str, Any]]]]
     tasks: Dict[int, int]
 
     @classmethod
@@ -179,10 +179,18 @@ class DcsPayload:
         for i, nr in enumerate(member.loadout.pylons, 1):
             wpn = member.loadout.pylons[nr]
             clsid = wpn.clsid if wpn else "<CLEAN>"
-            pylons[i] = {
+            pylon_dict: Dict[str, Union[str, int, Dict[str, Any]]] = {
                 "CLSID": clsid,
                 "num": nr,
             }
+
+            # Add weapon settings if present
+            if nr in member.loadout.pylon_settings:
+                settings = member.loadout.pylon_settings[nr]
+                if settings:  # Only add if settings dict is non-empty
+                    pylon_dict["settings"] = settings
+
+            pylons[i] = pylon_dict
 
         return DcsPayload(
             f"{payload_name}",

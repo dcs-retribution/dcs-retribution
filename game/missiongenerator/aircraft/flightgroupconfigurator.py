@@ -390,7 +390,9 @@ class FlightGroupConfigurator:
             if weapon is None:
                 continue
             pylon = Pylon.for_aircraft(self.flight.unit_type, pylon_number)
-            pylon.equip(unit, weapon)
+            # Get weapon settings for this pylon if they exist
+            settings = loadout.pylon_settings.get(pylon_number)
+            pylon.equip(unit, weapon, settings)
 
     def setup_fuel(self) -> None:
         fuel = self.flight.state.estimate_fuel()

@@ -4,7 +4,7 @@ import copy
 import datetime
 import logging
 from collections.abc import Iterable
-from typing import Iterator, Optional, TYPE_CHECKING, Type, Dict
+from typing import Iterator, Optional, TYPE_CHECKING, Type, Dict, Any
 
 from dcs.unittype import FlyingType
 
@@ -26,6 +26,7 @@ class Loadout:
         pylons: Dict[int, Optional[Weapon]],
         date: Optional[datetime.date],
         is_custom: bool = False,
+        pylon_settings: Optional[Dict[int, Dict[str, Any]]] = None,
     ) -> None:
         self.name = name
         # We clear unused pylon entries on initialization, but UI actions can still
@@ -35,13 +36,32 @@ class Loadout:
         }
         self.date = date
         self.is_custom = is_custom
+        # Store weapon settings per pylon (pylon_number -> settings_dict)
+        self.pylon_settings: Dict[int, Dict[str, Any]] = pylon_settings or {}
+
+    def __setstate__(self, state: Dict[str, Any]) -> None:
+        """Handle loading from old save files that don't have pylon_settings."""
+        # Ensure pylon_settings exists for backwards compatibility
+        if "pylon_settings" not in state:
+            state["pylon_settings"] = {}
+        self.__dict__.update(state)
 
     def derive_custom(self, name: str) -> Loadout:
-        return Loadout(name, self.pylons, self.date, is_custom=True)
+        return Loadout(
+            name,
+            self.pylons,
+            self.date,
+            is_custom=True,
+            pylon_settings=self.pylon_settings.copy(),
+        )
 
     def clone(self) -> Loadout:
         return Loadout(
-            self.name, dict(self.pylons), copy.deepcopy(self.date), self.is_custom
+            self.name,
+            dict(self.pylons),
+            copy.deepcopy(self.date),
+            self.is_custom,
+            copy.deepcopy(self.pylon_settings),
         )
 
     def has_weapon_of_type(self, weapon_type: WeaponType) -> bool:
@@ -74,21 +94,37 @@ class Loadout:
         self, unit_type: AircraftType, date: datetime.date, faction: Faction
     ) -> Loadout:
         if self.date is not None and self.date <= date:
-            return Loadout(self.name, self.pylons, self.date, self.is_custom)
+            return Loadout(
+                self.name,
+                self.pylons,
+                self.date,
+                self.is_custom,
+                pylon_settings=self.pylon_settings.copy(),
+            )
 
         new_pylons = dict(self.pylons)
+        new_settings = self.pylon_settings.copy()
         for pylon_number, weapon in self.pylons.items():
             if weapon is None:
                 del new_pylons[pylon_number]
+                new_settings.pop(pylon_number, None)
                 continue
             if not weapon.available_on(date, faction):
                 pylon = Pylon.for_aircraft(unit_type, pylon_number)
                 fallback = self._fallback_for(weapon, pylon, date, faction)
                 if fallback is None:
                     del new_pylons[pylon_number]
+                    new_settings.pop(pylon_number, None)
                 else:
                     new_pylons[pylon_number] = fallback
-        loadout = Loadout(self.name, new_pylons, date, self.is_custom)
+                    new_settings.pop(pylon_number, None)
+        loadout = Loadout(
+            self.name,
+            new_pylons,
+            date,
+            self.is_custom,
+            pylon_settings=new_settings,
+        )
         # If this is not a custom loadout, we should replace any LGBs with iron bombs if
         # the loadout lost its TGP.
         #
@@ -116,8 +152,10 @@ class Loadout:
                 )
                 if fallback is None:
                     del new_pylons[pylon_number]
+                    self.pylon_settings.pop(pylon_number, None)
                 else:
                     new_pylons[pylon_number] = fallback
+                    self.pylon_settings.pop(pylon_number, None)
         self.pylons = new_pylons
 
     @classmethod
