@@ -29,12 +29,16 @@ class ControlPointJs(BaseModel):
         destination = None
         if control_point.target_position is not None:
             destination = control_point.target_position.latlng()
+        if control_point.captured.is_blue:
+            blue = True
+        else:
+            blue = False
         return ControlPointJs(
             id=control_point.id,
             name=control_point.name,
-            blue=control_point.captured,
+            blue=blue,
             position=control_point.position.latlng(),
-            mobile=control_point.moveable and control_point.captured,
+            mobile=control_point.moveable and control_point.captured.is_blue,
             destination=destination,
             sidc=str(control_point.sidc()),
         )

@@ -1,0 +1,9 @@
+class: AAA
+description: Type 96 75mm Anti-Aircraft Gun
+introduced: 1936
+manufacturer: 
+origin: Japan
+price: 4
+role: Anti-Aircraft Gun
+variants:
+  AAA 25mm x 2 Type 96: {}

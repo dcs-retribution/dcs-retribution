@@ -10,7 +10,7 @@ from game.commander.tasks.compound.reduceenemyfrontlinecapacity import (
 from game.commander.tasks.primitive.breakthroughattack import BreakthroughAttack
 from game.commander.theaterstate import TheaterState
 from game.htn import CompoundTask, Method
-from game.theater import ControlPoint, FrontLine
+from game.theater import ControlPoint, FrontLine, Player
 
 
 @dataclass(frozen=True)
@@ -26,12 +26,12 @@ class CaptureBase(CompoundTask[TheaterState]):
     def enemy_cp(self, state: TheaterState) -> ControlPoint:
         return self.front_line.control_point_hostile_to(state.context.coalition.player)
 
-    def units_deployable(self, state: TheaterState, player: bool) -> int:
+    def units_deployable(self, state: TheaterState, player: Player) -> int:
         cp = self.front_line.control_point_friendly_to(player)
         ammo_depots = list(state.ammo_dumps_at(cp))
         return cp.deployable_front_line_units_with(len(ammo_depots))
 
-    def unit_cap(self, state: TheaterState, player: bool) -> int:
+    def unit_cap(self, state: TheaterState, player: Player) -> int:
         cp = self.front_line.control_point_friendly_to(player)
         ammo_depots = list(state.ammo_dumps_at(cp))
         return cp.front_line_capacity_with(len(ammo_depots))

@@ -6,7 +6,7 @@ from dcs.mapping import Point
 
 if TYPE_CHECKING:
     from game.ato.flighttype import FlightType
-    from game.theater import TheaterUnit, Coalition
+    from game.theater import TheaterUnit, Coalition, Player
 
 
 class MissionTarget:
@@ -24,11 +24,11 @@ class MissionTarget:
         """Computes the distance to the given mission target."""
         return self.position.distance_to_point(other.position)
 
-    def is_friendly(self, to_player: bool) -> bool:
+    def is_friendly(self, to_player: Player) -> bool:
         """Returns True if the objective is in friendly territory."""
         raise NotImplementedError
 
-    def mission_types(self, for_player: bool) -> Iterator[FlightType]:
+    def mission_types(self, for_player: Player) -> Iterator[FlightType]:
         from game.ato import FlightType
 
         if self.is_friendly(for_player):

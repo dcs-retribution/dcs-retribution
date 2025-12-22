@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from game.config import REWARDS
+from game.theater.player import Player
 
 if TYPE_CHECKING:
     from game import Game
@@ -22,8 +23,8 @@ class BuildingIncome:
 
 
 class Income:
-    def __init__(self, game: Game, player: bool) -> None:
-        if player:
+    def __init__(self, game: Game, player: Player) -> None:
+        if player.is_blue:
             self.multiplier = game.settings.player_income_multiplier
         else:
             self.multiplier = game.settings.enemy_income_multiplier

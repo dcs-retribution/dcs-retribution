@@ -68,7 +68,7 @@ Our plans for future releases can be found on our
 [Projects page](https://github.com/dcs-retribution/dcs-retribution/projects).
 Each planned release has a Project, and the page for that project has columns for to do,
 in progress, and done. Items in the Done column are in the
-[preview build](https://github.com/dcs-retribution/dcs-retribution/wiki/Betas)
+[preview build](https://github.com/dcs-retribution/dcs-retribution/wiki/Preview-builds)
 for that release. Items in the To do column are planned to be added to that release.
 
 ## Resources

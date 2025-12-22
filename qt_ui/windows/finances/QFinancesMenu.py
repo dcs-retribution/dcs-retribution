@@ -12,7 +12,7 @@ from PySide6.QtWidgets import (
 import qt_ui.uiconstants as CONST
 from game.game import Game
 from game.income import BuildingIncome, Income
-from game.theater import ControlPoint
+from game.theater import ControlPoint, Player
 
 
 class QHorizontalSeparationLine(QFrame):
@@ -26,7 +26,7 @@ class QHorizontalSeparationLine(QFrame):
 
 
 class FinancesLayout(QGridLayout):
-    def __init__(self, game: Game, player: bool, total_at_top: bool = False) -> None:
+    def __init__(self, game: Game, player: Player, total_at_top: bool = False) -> None:
         super().__init__()
         self.row = itertools.count(0)
 
@@ -112,4 +112,4 @@ class QFinancesMenu(QDialog):
         self.setWindowIcon(CONST.ICONS["Money"])
         self.setMinimumSize(450, 200)
 
-        self.setLayout(FinancesLayout(game, player=True))
+        self.setLayout(FinancesLayout(game, player=Player.BLUE))

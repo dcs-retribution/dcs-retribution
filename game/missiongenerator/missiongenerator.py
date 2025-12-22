@@ -351,15 +351,15 @@ class MissionGenerator:
                 gen.add_dynamic_runway(dynamic_runway)
 
             for tanker in mission_data.tankers:
-                if tanker.blue:
+                if tanker.blue.is_blue:
                     gen.add_tanker(tanker)
 
             for aewc in mission_data.awacs:
-                if aewc.blue:
+                if aewc.blue.is_blue:
                     gen.add_awacs(aewc)
 
             for jtac in mission_data.jtacs:
-                if jtac.blue:
+                if jtac.blue.is_blue:
                     gen.add_jtac(jtac)
 
             for flight in mission_data.flights:
@@ -391,9 +391,12 @@ class MissionGenerator:
                     tmu.theater_unit.position,
                     self.mission.terrain,
                 ).dict()
-                warehouse["coalition"] = (
-                    "blue" if tmu.theater_unit.ground_object.coalition.player else "red"
-                )
+                if tmu.theater_unit.ground_object.coalition.player.is_neutral:
+                    warehouse["coalition"] = "neutral"
+                elif tmu.theater_unit.ground_object.coalition.player.is_blue:
+                    warehouse["coalition"] = "blue"
+                else:
+                    warehouse["coalition"] = "red"
                 warehouse["dynamicCargo"] = settings.dynamic_cargo
                 if tmu.theater_unit.is_ship or tmu.dcs_unit.category == "Heliports":  # type: ignore
                     warehouse["dynamicSpawn"] = settings.dynamic_slots

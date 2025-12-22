@@ -13,19 +13,28 @@
   "frontline_units": [
     "8.8 cm Flak 18",
     "Panzerkampfwagen IV Ausf. H",
-    "Sd.Kfz.251 \"Hanomag\""
+    "Sd.Kfz.251 \"Hanomag\"",
+    "Type 89 I Go Tank",
+    "AAA 25mm x 2 Type 94 Truck",
+    "Type 98 Ke Ni Tank",
+    "APC Type 98 So Da"
   ],
   "artillery_units": [
     "Mortar 2B11 120mm"
   ],
   "logistics_units": [
-    "Truck Opel Blitz"
+    "Truck Opel Blitz",
+    "Truck Type 94"
   ],
   "infantry_units": [
     "Infantry AK-74 Rus"
   ],
   "air_defense_units": [
-    "8.8 cm Flak 18"
+    "8.8 cm Flak 18",
+    "AAA 80mm Type 3 Flak",
+    "AAA 75mm Type 88 Flak",
+    "AAA 25mm x 2 Type 96",
+    "AAA 25mm x 2 Type 94 Truck"
   ],
   "preset_groups": [],
   "naval_units": [],

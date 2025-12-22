@@ -1,92 +1,82 @@
 local unitPayloads = {
 	["name"] = "F-22A",
 	["payloads"] = {
+
 		[1] = {
-			["displayName"] = "Retribution Ferry",
-			["name"] = "Retribution Ferry",
+			["displayName"] = "Retribution Escort",
+			["name"] = "Retribution Escort",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{E1F29B21-F291-4589-9FD8-3272EEC69506}",
-					["num"] = 2,
+					["CLSID"] = "{AIM9X-BLKII}",
+					["num"] = 1,
 				},
 				[2] = {
-					["CLSID"] = "{E1F29B21-F291-4589-9FD8-3272EEC69506}",
-					["num"] = 10,
-				},
-				[3] = {
-					["CLSID"] = "{AIM-9XX}",
+					["CLSID"] = "{AIM9X-BLKII}",
 					["num"] = 11,
 				},
-				[4] = {
-					["CLSID"] = "{AIM-120D}",
+				[3] = {
+					["CLSID"] = "{AIM-120D-3}",
 					["num"] = 9,
 				},
-				[5] = {
-					["CLSID"] = "{AIM-120D}",
+				[4] = {
+					["CLSID"] = "{AIM_120D-3_IRST_RIGHT}",
 					["num"] = 8,
 				},
-				[6] = {
-					["CLSID"] = "{AIM-120D}",
+				[5] = {
+					["CLSID"] = "{MAKO_A2A_C}",
 					["num"] = 7,
 				},
-				[7] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 5,
-				},
-				[8] = {
-					["CLSID"] = "{AIM-120D}",
+				[6] = {
+					["CLSID"] = "{AIM_120D-3_IRST_LEFT}",
 					["num"] = 4,
 				},
-				[9] = {
-					["CLSID"] = "{AIM-120D}",
+				[7] = {
+					["CLSID"] = "{AIM-120D-3}",
 					["num"] = 3,
 				},
-				[10] = {
-					["CLSID"] = "{AIM-9XX}",
-					["num"] = 1,
+				[8] = {
+					["CLSID"] = "{MAKO_A2A_C}",
+					["num"] = 5,
 				},
 			},
 			["tasks"] = {
-				[1] = 10,
-				[2] = 11,
-				[3] = 18,
-				[4] = 15,
+				[1] = 11,
 			},
 		},
 		[2] = {
-			["name"] = "SEAD",
+			["name"] = "Retribution BARCAP",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 9,
-				},
-				[2] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 8,
-				},
-				[3] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 7,
-				},
-				[4] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 5,
-				},
-				[5] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 4,
-				},
-				[6] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 3,
-				},
-				[7] = {
-					["CLSID"] = "{AIM-9XX}",
+					["CLSID"] = "{AIM9X-BLKII}",
 					["num"] = 1,
 				},
-				[8] = {
-					["CLSID"] = "{AIM-9XX}",
+				[2] = {
+					["CLSID"] = "{AIM9X-BLKII}",
 					["num"] = 11,
+				},
+				[3] = {
+					["CLSID"] = "{AIM-120D-3}",
+					["num"] = 9,
+				},
+				[4] = {
+					["CLSID"] = "{AIM_120D-3_IRST_RIGHT}",
+					["num"] = 8,
+				},
+				[5] = {
+					["CLSID"] = "{MAKO_A2A_C}",
+					["num"] = 7,
+				},
+				[6] = {
+					["CLSID"] = "{AIM_120D-3_IRST_LEFT}",
+					["num"] = 4,
+				},
+				[7] = {
+					["CLSID"] = "{AIM-120D-3}",
+					["num"] = 3,
+				},
+				[8] = {
+					["CLSID"] = "{MAKO_A2A_C}",
+					["num"] = 5,
 				},
 			},
 			["tasks"] = {
@@ -94,39 +84,39 @@ local unitPayloads = {
 			},
 		},
 		[3] = {
-			["name"] = "ANTISHIP",
+			["name"] = "Retribution Fighter Sweep",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 9,
-				},
-				[2] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 8,
-				},
-				[3] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 7,
-				},
-				[4] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 5,
-				},
-				[5] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 4,
-				},
-				[6] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 3,
-				},
-				[7] = {
-					["CLSID"] = "{AIM-9XX}",
+					["CLSID"] = "{AIM9X-BLKII}",
 					["num"] = 1,
 				},
-				[8] = {
-					["CLSID"] = "{AIM-9XX}",
+				[2] = {
+					["CLSID"] = "{AIM9X-BLKII}",
 					["num"] = 11,
+				},
+				[3] = {
+					["CLSID"] = "{AIM-120D-3}",
+					["num"] = 9,
+				},
+				[4] = {
+					["CLSID"] = "{AIM_120D-3_IRST_RIGHT}",
+					["num"] = 8,
+				},
+				[5] = {
+					["CLSID"] = "{MAKO_A2A_C}",
+					["num"] = 7,
+				},
+				[6] = {
+					["CLSID"] = "{AIM_120D-3_IRST_LEFT}",
+					["num"] = 4,
+				},
+				[7] = {
+					["CLSID"] = "{AIM-120D-3}",
+					["num"] = 3,
+				},
+				[8] = {
+					["CLSID"] = "{MAKO_A2A_C}",
+					["num"] = 5,
 				},
 			},
 			["tasks"] = {
@@ -134,39 +124,39 @@ local unitPayloads = {
 			},
 		},
 		[4] = {
-			["name"] = "CAS",
+			["name"] = "Retribution TARCAP",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 9,
-				},
-				[2] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 8,
-				},
-				[3] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 7,
-				},
-				[4] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 5,
-				},
-				[5] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 4,
-				},
-				[6] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 3,
-				},
-				[7] = {
-					["CLSID"] = "{AIM-9XX}",
+					["CLSID"] = "{AIM9X-BLKII}",
 					["num"] = 1,
 				},
-				[8] = {
-					["CLSID"] = "{AIM-9XX}",
+				[2] = {
+					["CLSID"] = "{AIM9X-BLKII}",
 					["num"] = 11,
+				},
+				[3] = {
+					["CLSID"] = "{AIM-120D-3}",
+					["num"] = 9,
+				},
+				[4] = {
+					["CLSID"] = "{AIM_120D-3_IRST_RIGHT}",
+					["num"] = 8,
+				},
+				[5] = {
+					["CLSID"] = "{MAKO_A2A_C}",
+					["num"] = 7,
+				},
+				[6] = {
+					["CLSID"] = "{AIM_120D-3_IRST_LEFT}",
+					["num"] = 4,
+				},
+				[7] = {
+					["CLSID"] = "{AIM-120D-3}",
+					["num"] = 3,
+				},
+				[8] = {
+					["CLSID"] = "{MAKO_A2A_C}",
+					["num"] = 5,
 				},
 			},
 			["tasks"] = {
@@ -174,39 +164,39 @@ local unitPayloads = {
 			},
 		},
 		[5] = {
-			["name"] = "BAI",
+			["name"] = "Retribution Intercept",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 9,
-				},
-				[2] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 8,
-				},
-				[3] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 7,
-				},
-				[4] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 5,
-				},
-				[5] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 4,
-				},
-				[6] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 3,
-				},
-				[7] = {
-					["CLSID"] = "{AIM-9XX}",
+					["CLSID"] = "{AIM9X-BLKII}",
 					["num"] = 1,
 				},
-				[8] = {
-					["CLSID"] = "{AIM-9XX}",
+				[2] = {
+					["CLSID"] = "{AIM9X-BLKII}",
 					["num"] = 11,
+				},
+				[3] = {
+					["CLSID"] = "{AIM-120D-3}",
+					["num"] = 9,
+				},
+				[4] = {
+					["CLSID"] = "{AIM_120D-3_IRST_RIGHT}",
+					["num"] = 8,
+				},
+				[5] = {
+					["CLSID"] = "{MAKO_A2A_C}",
+					["num"] = 7,
+				},
+				[6] = {
+					["CLSID"] = "{AIM_120D-3_IRST_LEFT}",
+					["num"] = 4,
+				},
+				[7] = {
+					["CLSID"] = "{AIM-120D-3}",
+					["num"] = 3,
+				},
+				[8] = {
+					["CLSID"] = "{MAKO_A2A_C}",
+					["num"] = 5,
 				},
 			},
 			["tasks"] = {
@@ -214,247 +204,39 @@ local unitPayloads = {
 			},
 		},
 		[6] = {
-			["name"] = "DEAD",
+			["name"] = "Retribution Reconnaissance",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 9,
-				},
-				[2] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 8,
-				},
-				[3] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 7,
-				},
-				[4] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 5,
-				},
-				[5] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 4,
-				},
-				[6] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 3,
-				},
-				[7] = {
-					["CLSID"] = "{AIM-9XX}",
+					["CLSID"] = "{AIM9X-BLKII}",
 					["num"] = 1,
 				},
-				[8] = {
-					["CLSID"] = "{AIM-9XX}",
-					["num"] = 11,
-				},
-			},
-			["tasks"] = {
-				[1] = 11,
-			},
-		},
-		[7] = {
-			["name"] = "INTERCEPT",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 9,
-				},
 				[2] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 8,
+					["CLSID"] = "{AIM9X-BLKII}",
+					["num"] = 11,
 				},
 				[3] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 7,
-				},
-				[4] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 5,
-				},
-				[5] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 4,
-				},
-				[6] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 3,
-				},
-				[7] = {
-					["CLSID"] = "{AIM-9XX}",
-					["num"] = 1,
-				},
-				[8] = {
-					["CLSID"] = "{AIM-9XX}",
-					["num"] = 11,
-				},
-			},
-			["tasks"] = {
-				[1] = 11,
-			},
-		},
-		[8] = {
-			["name"] = "OCA",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{AIM-120D}",
+					["CLSID"] = "{AIM-120D-3}",
 					["num"] = 9,
 				},
-				[2] = {
-					["CLSID"] = "{AIM-120D}",
+				[4] = {
+					["CLSID"] = "{AIM_120D-3_IRST_RIGHT}",
 					["num"] = 8,
 				},
-				[3] = {
-					["CLSID"] = "{AIM-120D}",
+				[5] = {
+					["CLSID"] = "{MAKO_A2A_C}",
 					["num"] = 7,
 				},
-				[4] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 5,
-				},
-				[5] = {
-					["CLSID"] = "{AIM-120D}",
+				[6] = {
+					["CLSID"] = "{AIM_120D-3_IRST_LEFT}",
 					["num"] = 4,
 				},
-				[6] = {
-					["CLSID"] = "{AIM-120D}",
+				[7] = {
+					["CLSID"] = "{AIM-120D-3}",
 					["num"] = 3,
 				},
-				[7] = {
-					["CLSID"] = "{AIM-9XX}",
-					["num"] = 1,
-				},
 				[8] = {
-					["CLSID"] = "{AIM-9XX}",
-					["num"] = 11,
-				},
-			},
-			["tasks"] = {
-				[1] = 11,
-			},
-		},
-		[9] = {
-			["name"] = "STRIKE",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 9,
-				},
-				[2] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 8,
-				},
-				[3] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 7,
-				},
-				[4] = {
-					["CLSID"] = "{AIM-120D}",
+					["CLSID"] = "{MAKO_A2A_C}",
 					["num"] = 5,
-				},
-				[5] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 4,
-				},
-				[6] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 3,
-				},
-				[7] = {
-					["CLSID"] = "{AIM-9XX}",
-					["num"] = 1,
-				},
-				[8] = {
-					["CLSID"] = "{AIM-9XX}",
-					["num"] = 11,
-				},
-			},
-			["tasks"] = {
-				[1] = 11,
-			},
-		},
-		[10] = {
-			["name"] = "CAP",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 9,
-				},
-				[2] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 8,
-				},
-				[3] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 7,
-				},
-				[4] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 5,
-				},
-				[5] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 4,
-				},
-				[6] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 3,
-				},
-				[7] = {
-					["CLSID"] = "{AIM-9XX}",
-					["num"] = 1,
-				},
-				[8] = {
-					["CLSID"] = "{AIM-9XX}",
-					["num"] = 11,
-				},
-				[9] = {
-					["CLSID"] = "{E1F29B21-F291-4589-9FD8-3272EEC69506}",
-					["num"] = 10,
-				},
-				[10] = {
-					["CLSID"] = "{E1F29B21-F291-4589-9FD8-3272EEC69506}",
-					["num"] = 2,
-				},
-			},
-			["tasks"] = {
-				[1] = 11,
-			},
-		},
-		[11] = {
-			["name"] = "RUNWAY_ATTACK",
-			["pylons"] = {
-				[1] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 9,
-				},
-				[2] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 8,
-				},
-				[3] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 7,
-				},
-				[4] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 5,
-				},
-				[5] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 4,
-				},
-				[6] = {
-					["CLSID"] = "{AIM-120D}",
-					["num"] = 3,
-				},
-				[7] = {
-					["CLSID"] = "{AIM-9XX}",
-					["num"] = 1,
-				},
-				[8] = {
-					["CLSID"] = "{AIM-9XX}",
-					["num"] = 11,
 				},
 			},
 			["tasks"] = {

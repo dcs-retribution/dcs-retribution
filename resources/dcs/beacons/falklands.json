@@ -9,14 +9,14 @@
  "airfield14_0": {
   "name": "ELCALACAFE",
   "callsign": "EC",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 108900000,
   "channel": null
  },
  "airfield14_1": {
   "name": "ELCALAFATE",
   "callsign": "ec",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 108900000,
   "channel": null
  },
@@ -30,7 +30,7 @@
  "airfield2_0": {
   "name": "MP",
   "callsign": "MP",
-  "beacon_type": 9,
+  "beacon_type": 4104,
   "hertz": 380000,
   "channel": null
  },
@@ -44,14 +44,14 @@
  "airfield2_2": {
   "name": "MTPLEASANT",
   "callsign": "IMP",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 111900000,
   "channel": null
  },
  "airfield2_3": {
   "name": "MTPLEASANT",
   "callsign": "imp",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 111900000,
   "channel": null
  },
@@ -65,7 +65,7 @@
  "airfield1_0": {
   "name": "stanleyairport",
   "callsign": "SA",
-  "beacon_type": 9,
+  "beacon_type": 4104,
   "hertz": 305000,
   "channel": null
  },
@@ -93,14 +93,14 @@
  "airfield9_0": {
   "name": "ptarenas",
   "callsign": "inas",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 109900000,
   "channel": null
  },
  "airfield9_1": {
   "name": "",
   "callsign": "INAS",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 109900000,
   "channel": null
  },
@@ -128,21 +128,21 @@
  "airfield5_1": {
   "name": "RIOGALLEGOS",
   "callsign": "gl",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 110300000,
   "channel": null
  },
  "airfield5_2": {
   "name": "RIOGALLEGOS",
   "callsign": "gl",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 110300000,
   "channel": null
  },
  "airfield6_0": {
   "name": "RIOGRANDE",
   "callsign": "gr",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 109500000,
   "channel": null
  },
@@ -156,14 +156,14 @@
  "airfield6_2": {
   "name": "RIOGRANDE",
   "callsign": "gr",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 109500000,
   "channel": null
  },
  "airfield6_3": {
   "name": "riograndendb",
   "callsign": "P",
-  "beacon_type": 9,
+  "beacon_type": 4104,
   "hertz": 265000,
   "channel": null
  },
@@ -177,7 +177,7 @@
  "airfield20_0": {
   "name": "BIO",
   "callsign": "BIO",
-  "beacon_type": 9,
+  "beacon_type": 4104,
   "hertz": 205000,
   "channel": null
  },
@@ -191,14 +191,14 @@
  "airfield7_0": {
   "name": "RIOGRANDE",
   "callsign": "us",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 111300000,
   "channel": null
  },
  "airfield7_1": {
   "name": "Ushuaia",
   "callsign": "us",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 111300000,
   "channel": null
  },

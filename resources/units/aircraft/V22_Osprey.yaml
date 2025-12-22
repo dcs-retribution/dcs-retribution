@@ -1,0 +1,16 @@
+description: "The Bell Boeing V-22 Osprey is an American multi-use, tiltrotor military transport and cargo aircraft with both vertical takeoff and landing (VTOL) 
+  and short takeoff and landing (STOL) capabilities. It is designed to combine the functionality of a conventional helicopter with the long-range, high-speed cruise 
+  performance of a turboprop aircraft. The V-22 is operated by the United States and Japan, and is not only a new aircraft design, but a new type of aircraft that 
+  entered service in the 2000s, a tiltrotor compared to fixed wing and helicopter designs. The V-22 first flew in 1989 and after a long development was fielded in 2007. 
+  The design combines the vertical takeoff ability of a helicopter with the speed and range of a fixed-wing airplane."
+
+introduced: 2007
+manufacturer: Bell Boeing
+origin: USA
+price: 15
+role: Transport
+max_range: 1000
+variants:
+  V22 Osprey: {}
+tasks:
+  Transport: 130

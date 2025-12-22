@@ -62,6 +62,7 @@ class SeadIngressBuilder(PydcsWaypointBuilder):
                 # into the SAM instead of waiting for it to come alive
                 engage_task = EngageGroup(miz_group.id)
                 engage_task.params["weaponType"] = DcsWeaponType.ARM.value
+                engage_task.params["expend"] = Expend.All.value
                 waypoint.tasks.append(engage_task)
 
             # Use other Air-to-Surface Missiles at last

@@ -12,7 +12,7 @@ from game.theater import MissionTarget
 class PlanAewc(PackagePlanningTask[MissionTarget]):
     def preconditions_met(self, state: TheaterState) -> bool:
         if (
-            state.context.coalition.player
+            state.context.coalition.player.is_blue
             and not state.context.settings.auto_ato_behavior_awacs
         ):
             return False

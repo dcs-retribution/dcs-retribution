@@ -9,7 +9,7 @@ from shapely.ops import unary_union
 from game.utils import dcs_to_shapely_point
 
 if TYPE_CHECKING:
-    from game.theater import ConflictTheater, TheaterGroundObject
+    from game.theater import ConflictTheater, TheaterGroundObject, Player
     from game.threatzones import ThreatPoly
 
 
@@ -31,7 +31,9 @@ class SamEngagementZones:
                 yield tgo
 
     @classmethod
-    def from_theater(cls, theater: ConflictTheater, player: bool) -> SamEngagementZones:
+    def from_theater(
+        cls, theater: ConflictTheater, player: Player
+    ) -> SamEngagementZones:
         commit_regions = []
         individual_zones = []
         for cp in theater.control_points_for(player):

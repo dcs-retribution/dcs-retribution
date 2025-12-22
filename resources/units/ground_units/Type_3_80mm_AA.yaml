@@ -1,0 +1,9 @@
+class: AAA
+description: Type 3 80mm Anti-Aircraft Artillery
+introduced: 1943
+manufacturer: 
+origin: Japan
+price: 7
+role: Anti-Aircraft Gun
+variants:
+  AAA 80mm Type 3 Flak: {}

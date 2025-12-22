@@ -59,3 +59,5 @@ utc_kneeboard: true
 tasks:
   Refueling: 0
   Recovery: 0
+
+has_built_in_ecm: true

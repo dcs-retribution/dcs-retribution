@@ -30,7 +30,7 @@ class QGroundForcesStrategy(QGroupBox):
 
         layout = QVBoxLayout()
         for enemy_cp in self.cp.connected_points:
-            if not enemy_cp.captured:
+            if enemy_cp.captured.is_red:
                 layout.addWidget(QLabel(enemy_cp.name))
                 layout.addWidget(QGroundForcesStrategySelector(self.cp, enemy_cp))
                 if self.game.settings.enable_frontline_cheats:

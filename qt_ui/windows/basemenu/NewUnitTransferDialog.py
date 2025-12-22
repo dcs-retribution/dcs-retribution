@@ -25,7 +25,7 @@ from dcs.unittype import UnitType
 
 from game import Game
 from game.dcs.groundunittype import GroundUnitType
-from game.theater import ControlPoint
+from game.theater import ControlPoint, Player
 from game.transfers import TransferOrder
 from qt_ui.models import GameModel
 from qt_ui.widgets.QLabeledWidget import QLabeledWidget
@@ -40,7 +40,7 @@ class TransferDestinationComboBox(QComboBox):
         for cp in self.game.theater.controlpoints:
             if (
                 cp != self.origin
-                and cp.is_friendly(to_player=True)
+                and cp.is_friendly(to_player=Player.BLUE)
                 and cp.can_deploy_ground_units
             ):
                 self.addItem(cp.name, cp)
@@ -174,7 +174,9 @@ class ScrollingUnitTransferGrid(QFrame):
         scroll_content = QWidget()
         task_box_layout = QGridLayout()
 
-        unit_types = set(self.game_model.game.faction_for(player=True).ground_units)
+        unit_types = set(
+            self.game_model.game.faction_for(player=Player.BLUE).ground_units
+        )
         sorted_units = sorted(
             {u for u in unit_types if self.cp.base.total_units_of_type(u)},
             key=lambda u: u.display_name,

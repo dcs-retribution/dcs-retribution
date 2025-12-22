@@ -2,28 +2,28 @@
  "airfield1_0": {
   "name": "Creech",
   "callsign": "ICRR",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 108700000,
   "channel": 24
  },
  "airfield1_1": {
   "name": "Creech",
   "callsign": "ICRR",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 108700000,
   "channel": 24
  },
  "airfield1_2": {
   "name": "Creech",
   "callsign": "ICRS",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 108500000,
   "channel": 22
  },
  "airfield1_3": {
   "name": "Creech",
   "callsign": "ICRS",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 108500000,
   "channel": 22
  },
@@ -37,14 +37,14 @@
  "airfield2_0": {
   "name": "Groom-Lake",
   "callsign": "GLRI",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 109300000,
   "channel": 30
  },
  "airfield2_1": {
   "name": "Groom-Lake",
   "callsign": "GLRI",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 109300000,
   "channel": 30
  },
@@ -58,28 +58,28 @@
  "airfield3_0": {
   "name": "McCarran-International",
   "callsign": "I-RLE",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 111750000,
   "channel": null
  },
  "airfield3_1": {
   "name": "McCarran-International",
   "callsign": "I-LAS",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 110300000,
   "channel": 40
  },
  "airfield3_2": {
   "name": "McCarran-International",
   "callsign": "I-RLE",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 111750000,
   "channel": null
  },
  "airfield3_3": {
   "name": "McCarran-International",
   "callsign": "I-LAS",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 110300000,
   "channel": 40
  },
@@ -93,7 +93,7 @@
  "airfield4_0": {
   "name": "Nellis",
   "callsign": "IDIQ",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 109100000,
   "channel": null
  },
@@ -107,49 +107,49 @@
  "airfield4_2": {
   "name": "Nellis",
   "callsign": "IDIQ",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 109100000,
   "channel": null
  },
  "airfield15_0": {
   "name": "North-Las-Vegas",
   "callsign": "I-HWG",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 110700000,
   "channel": null
  },
  "airfield15_1": {
   "name": "North-Las-Vegas",
   "callsign": "I-HWG",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 110700000,
   "channel": null
  },
  "airfield18_0": {
   "name": "Tonopah-Test-Range",
   "callsign": "I-RVP",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 108300000,
   "channel": null
  },
  "airfield18_1": {
   "name": "Tonopah-Test-Range",
   "callsign": "I-UVV",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 111700000,
   "channel": null
  },
  "airfield18_2": {
   "name": "Tonopah-Test-Range",
   "callsign": "I-UVV",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 111700000,
   "channel": null
  },
  "airfield18_3": {
   "name": "Tonopah-Test-Range",
   "callsign": "I-RVP",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 108300000,
   "channel": null
  },
@@ -184,14 +184,14 @@
  "world_3": {
   "name": "Colorado City",
   "callsign": "AZC",
-  "beacon_type": 9,
+  "beacon_type": 4104,
   "hertz": 403000,
   "channel": null
  },
  "world_4": {
   "name": "Meggi",
   "callsign": "EC",
-  "beacon_type": 9,
+  "beacon_type": 4104,
   "hertz": 217000,
   "channel": null
  },
@@ -310,7 +310,7 @@
  "world_21": {
   "name": "Mercury",
   "callsign": "MCY",
-  "beacon_type": 9,
+  "beacon_type": 4104,
   "hertz": 326000,
   "channel": null
  }

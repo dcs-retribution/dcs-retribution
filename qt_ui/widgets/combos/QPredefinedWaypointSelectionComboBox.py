@@ -6,6 +6,7 @@ from game.ato.flightwaypointtype import FlightWaypointType
 from game.missiongenerator.frontlineconflictdescription import (
     FrontLineConflictDescription,
 )
+from game.theater.player import Player
 from game.theater.controlpoint import ControlPointType
 from game.utils import Distance
 from qt_ui.widgets.combos.QFilteredComboBox import QFilteredComboBox
@@ -93,7 +94,7 @@ class QPredefinedWaypointSelectionComboBox(QFilteredComboBox):
                 wpt.targets.append(target)
                 wpt.obj_name = tgo.obj_name
                 wpt.waypoint_type = FlightWaypointType.CUSTOM
-                if tgo.is_friendly(to_player=True):
+                if tgo.is_friendly(to_player=Player.BLUE):
                     wpt.description = f"Friendly unit: {target.name}"
                 else:
                     wpt.description = f"Enemy unit: {target.name}"
@@ -102,8 +103,8 @@ class QPredefinedWaypointSelectionComboBox(QFilteredComboBox):
 
         if self.include_airbases:
             for cp in self.game.theater.controlpoints:
-                if (self.include_enemy and not cp.captured) or (
-                    self.include_friendly and cp.captured
+                if (self.include_enemy and cp.captured.is_red) or (
+                    self.include_friendly and cp.captured.is_blue
                 ):
                     wpt = FlightWaypoint(
                         cp.name,
@@ -112,7 +113,7 @@ class QPredefinedWaypointSelectionComboBox(QFilteredComboBox):
                         Distance.from_meters(0),
                     )
                     wpt.alt_type = "RADIO"
-                    if cp.captured:
+                    if cp.captured.is_blue:
                         wpt.description = (
                             "Position of " + cp.name + " [Friendly Airbase]"
                         )

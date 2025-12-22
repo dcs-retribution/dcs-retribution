@@ -8,7 +8,7 @@ from dcs.triggers import TriggerZone
 from dcs.unittype import ShipType, StaticType, UnitType as DcsUnitType, VehicleType
 
 from game.data.radar_db import LAUNCHER_TRACKER_PAIRS, TELARS, TRACK_RADARS
-from game.data.units import ANTI_AIR_UNIT_CLASSES
+from game.data.units import ANTI_AIR_UNIT_CLASSES, UnitClass
 from game.dcs.groundunittype import GroundUnitType
 from game.dcs.shipunittype import ShipUnitType
 from game.dcs.unittype import UnitType
@@ -82,9 +82,17 @@ class TheaterUnit:
             iads = self.ground_object.control_point.coalition.game.theater.iads_network
             iads.update_tgo(self.ground_object, events)
         if self.ground_object.is_naval_control_point:
-            cp = self.ground_object.control_point
-            for squadron in cp.squadrons:
-                cp.coalition.air_wing.squadrons[squadron.aircraft].remove(squadron)
+            for unit in self.ground_object.units:
+                if (
+                    unit.unit_type
+                    and unit.unit_type.unit_class is UnitClass.AIRCRAFT_CARRIER
+                    and not unit.alive
+                ):
+                    cp = self.ground_object.control_point
+                    for squadron in cp.squadrons:
+                        cp.coalition.air_wing.squadrons[squadron.aircraft].remove(
+                            squadron
+                        )
 
     def revive(self, events: GameUpdateEvents) -> None:
         self.alive = True

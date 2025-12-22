@@ -13,7 +13,12 @@ from game import Game
 from game.factions.faction import Faction
 from game.naming import namegen
 from game.scenery_group import SceneryGroup
-from game.theater import PointWithHeading, PresetLocation, NavalControlPoint
+from game.theater import (
+    PointWithHeading,
+    PresetLocation,
+    NavalControlPoint,
+    EssexCarrier,
+)
 from game.theater.theatergroundobject import (
     BuildingGroundObject,
     IadsBuildingGroundObject,
@@ -27,6 +32,7 @@ from . import (
     Fob,
     OffMapSpawn,
 )
+from .player import Player
 from .theatergroup import (
     IadsGroundGroup,
     IadsRole,
@@ -90,11 +96,13 @@ class ModSettings:
     uh_60l: bool = False
     jas39_gripen: bool = False
     sk_60: bool = False
+    mam: bool = False
     mirage_3: bool = False
     super_etendard: bool = False
     su15_flagon: bool = False
     su30_flanker_h: bool = False
     su57_felon: bool = False
+    tornado_adv: bool = False
     frenchpack: bool = False
     high_digit_sams: bool = False
     ov10a_bronco: bool = False
@@ -151,12 +159,12 @@ class GameGenerator:
         game.settings.version = VERSION
         return game
 
-    def should_remove_carrier(self, player: bool) -> bool:
-        faction = self.player if player else self.enemy
+    def should_remove_carrier(self, player: Player) -> bool:
+        faction = self.player if player.is_blue else self.enemy
         return self.generator_settings.no_carrier or not faction.carriers
 
-    def should_remove_lha(self, player: bool) -> bool:
-        faction = self.player if player else self.enemy
+    def should_remove_lha(self, player: Player) -> bool:
+        faction = self.player if player.is_blue else self.enemy
         return self.generator_settings.no_lha or not [
             x for x in faction.carriers if x.unit_class == UnitClass.HELICOPTER_CARRIER
         ]
@@ -167,11 +175,14 @@ class GameGenerator:
         # Remove carrier and lha, invert situation if needed
         for cp in self.theater.controlpoints:
             if self.generator_settings.inverted:
-                cp.starts_blue = cp.captured_invert
+                if not cp.starting_coalition.is_neutral:
+                    cp.starting_coalition = (
+                        Player.RED if not cp.captured_invert else Player.BLUE
+                    )
 
-            if cp.is_carrier and self.should_remove_carrier(cp.starts_blue):
+            if cp.is_carrier and self.should_remove_carrier(cp.starting_coalition):
                 to_remove.append(cp)
-            elif cp.is_lha and self.should_remove_lha(cp.starts_blue):
+            elif cp.is_lha and self.should_remove_lha(cp.starting_coalition):
                 to_remove.append(cp)
 
         # do remove
@@ -223,11 +234,13 @@ class ControlPointGroundObjectGenerator:
         self.control_point.connected_objectives.append(ground_object)
 
     def generate_navy(self) -> None:
+        if self.control_point.captured.is_neutral:
+            return
         skip_player_navy = self.generator_settings.no_player_navy
-        if self.control_point.captured and skip_player_navy:
+        if self.control_point.captured.is_blue and skip_player_navy:
             return
         skip_enemy_navy = self.generator_settings.no_enemy_navy
-        if not self.control_point.captured and skip_enemy_navy:
+        if self.control_point.captured.is_red and skip_enemy_navy:
             return
         for position in self.control_point.preset_locations.ships:
             unit_group = self.armed_forces.random_group_for_task(GroupTask.NAVY)
@@ -296,7 +309,9 @@ class GenericCarrierGroundObjectGenerator(ControlPointGroundObjectGenerator):
             if go.category in ["CARRIER", "LHA"]
         ][0]
         groups = [
-            g for g in carrier_go.groups if "Carrier" in g.name or "LHA" in g.name
+            g
+            for g in carrier_go.groups
+            if "carrier" in g.name.lower() or "lha" in g.name.lower()
         ]
         return groups[0].units[0]
 
@@ -319,6 +334,7 @@ class CarrierGroundObjectGenerator(GenericCarrierGroundObjectGenerator):
             logging.error(f"{self.faction_name} has no access to AircraftCarrier")
             return False
 
+        self.transform_to_essex_if_needed(unit_group)
         self.generate_ground_object_from_group(
             unit_group,
             PresetLocation(
@@ -330,6 +346,25 @@ class CarrierGroundObjectGenerator(GenericCarrierGroundObjectGenerator):
         )
         self.apply_carrier_config()
         return True
+
+    def transform_to_essex_if_needed(self, unit_group: ForceGroup) -> None:
+        classes = [u.unit_class for u in unit_group.units]
+        if any([c for c in classes if c == UnitClass.HELICOPTER_CARRIER]) and not any(
+            [c for c in classes if c == UnitClass.AIRCRAFT_CARRIER]
+        ):
+            self.game.theater.controlpoints.remove(self.control_point)
+            sqdrns = self.control_point.squadrons
+            self.control_point = EssexCarrier(
+                self.control_point.name,
+                self.control_point.position,
+                self.game.theater,
+                self.control_point.starting_coalition,
+            )
+            self.control_point.finish_init(self.game)
+            self.game.theater.controlpoints.append(self.control_point)
+            for sqdrn in sqdrns:
+                if sqdrn.aircraft.lha_capable:
+                    sqdrn.location = self.control_point
 
 
 class LhaGroundObjectGenerator(GenericCarrierGroundObjectGenerator):
@@ -586,14 +621,24 @@ class FobGroundObjectGenerator(AirbaseGroundObjectGenerator):
         return False
 
     def generate_fob(self) -> None:
-        self.generate_building_at(
-            GroupTask.FOB,
-            PresetLocation(
-                self.control_point.name,
-                self.control_point.position,
-                self.control_point.heading,
-            ),
-        )
+        if self.control_point.is_invisible:
+            self.generate_building_at(
+                GroupTask.INVISIBLE_FOB,
+                PresetLocation(
+                    self.control_point.name,
+                    self.control_point.position,
+                    self.control_point.heading,
+                ),
+            )
+        else:
+            self.generate_building_at(
+                GroupTask.FOB,
+                PresetLocation(
+                    self.control_point.name,
+                    self.control_point.position,
+                    self.control_point.heading,
+                ),
+            )
 
 
 class GroundObjectGenerator:

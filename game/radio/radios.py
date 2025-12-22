@@ -84,6 +84,10 @@ def kHz(
     return RadioFrequency(num * 1000 + hz, modulation)
 
 
+def Hz(num: int, hz: int = 0, modulation: Modulation = Modulation.AM) -> RadioFrequency:
+    return RadioFrequency(num + hz, modulation)
+
+
 @dataclass(frozen=True)
 class RadioRange:
     """Defines the minimum (inclusive) and maximum (exclusive) range of the radio."""
@@ -231,6 +235,15 @@ RADIOS: List[Radio] = [
     # P-51 / P-47 Radio
     # 4 preset channels (A/B/C/D)
     Radio("SCR522", (RadioRange(MHz(100), MHz(156), kHz(25), Modulation.AM),)),
+    # F4U-1D Radio
+    # 4 preset channels (1/2/3/4)
+    Radio(
+        "ARC-5",
+        (
+            RadioRange(MHz(100), MHz(150), kHz(25), Modulation.AM),
+            RadioRange(MHz(220), MHz(390), kHz(25), Modulation.AM),
+        ),
+    ),
     # JF-17 Radios should use AM
     Radio("R&S M3AR VHF", (RadioRange(MHz(120), MHz(174), kHz(25), Modulation.AM),)),
     Radio("R&S M3AR UHF", (RadioRange(MHz(225), MHz(400), kHz(25), Modulation.AM),)),
@@ -342,6 +355,20 @@ RADIOS: List[Radio] = [
     Radio(
         "AN/ARC-27",
         (RadioRange(MHz(225), MHz(400), kHz(100), Modulation.AM),),
+    ),
+    # MiG-29 Fulcrum A
+    Radio(
+        "R-862",
+        (
+            RadioRange(MHz(220), MHz(400), kHz(25), Modulation.AM),
+            RadioRange(MHz(100), MHz(150), kHz(25), Modulation.AM),
+            RadioRange(MHz(220), MHz(400), kHz(25), Modulation.FM),
+            RadioRange(MHz(100), MHz(150), kHz(25), Modulation.FM),
+        ),
+    ),
+    Radio(
+        "ARK-19",
+        (RadioRange(kHz(150), kHz(1300), Hz(500), Modulation.AM),),
     ),
 ]
 

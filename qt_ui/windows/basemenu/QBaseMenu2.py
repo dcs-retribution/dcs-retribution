@@ -27,6 +27,7 @@ from game.theater import (
     FREE_FRONTLINE_UNIT_SUPPLY,
     NavalControlPoint,
     ParkingType,
+    Player,
 )
 from qt_ui.dialogs import Dialog
 from qt_ui.models import GameModel
@@ -50,7 +51,7 @@ class QBaseMenu2(QDialog):
         self.game_model = game_model
         self.objectName = "menuDialogue"
 
-        if self.cp.captured:
+        if self.cp.captured.is_blue:
             self.deliveryEvent = None
 
         self.setWindowIcon(EVENT_ICONS["capture"])
@@ -85,7 +86,7 @@ class QBaseMenu2(QDialog):
         self.freq_widget = None
         self.link4_widget = None
 
-        is_friendly = cp.is_friendly(True)
+        is_friendly = cp.is_friendly(Player.BLUE)
         if is_friendly and isinstance(cp, RadioFrequencyContainer):
             self.freq_widget = QFrequencyWidget(cp, self.game_model)
             cp_settings.addWidget(self.freq_widget, counter // 2, counter % 2)
@@ -145,14 +146,14 @@ class QBaseMenu2(QDialog):
         bottom_row = QHBoxLayout()
         main_layout.addLayout(bottom_row)
 
-        if FlightType.OCA_RUNWAY in self.cp.mission_types(for_player=True):
+        if FlightType.OCA_RUNWAY in self.cp.mission_types(for_player=Player.BLUE):
             runway_attack_button = QPushButton("Attack airfield")
             bottom_row.addWidget(runway_attack_button)
 
             runway_attack_button.setProperty("style", "btn-danger")
             runway_attack_button.clicked.connect(self.new_package)
 
-        if self.cp.captured and self.has_transfer_destinations:
+        if self.cp.captured.is_blue and self.has_transfer_destinations:
             transfer_button = QPushButton("Transfer Units")
             transfer_button.setProperty("style", "btn-success")
             bottom_row.addWidget(transfer_button)
@@ -193,7 +194,7 @@ class QBaseMenu2(QDialog):
                             u.revive(events)
         else:
             self.cp.capture(
-                self.game_model.game, events, for_player=not self.cp.captured
+                self.game_model.game, events, for_player=self.cp.captured.opponent
             )
             mrp = MissionResultsProcessor(self.game_model.game)
             mrp.redeploy_units(self.cp)
@@ -231,7 +232,7 @@ class QBaseMenu2(QDialog):
 
     @property
     def can_repair_runway(self) -> bool:
-        return self.cp.captured and self.cp.runway_can_be_repaired
+        return self.cp.captured.is_blue and self.cp.runway_can_be_repaired
 
     @property
     def can_afford_runway_repair(self) -> bool:
@@ -265,7 +266,7 @@ class QBaseMenu2(QDialog):
     def update_repair_button(self) -> None:
         self.repair_button.setVisible(True)
         turns_remaining = self.cp.runway_status.repair_turns_remaining
-        if self.cp.captured and turns_remaining is not None:
+        if self.cp.captured.is_blue and turns_remaining is not None:
             self.repair_button.setText("Repairing...")
             self.repair_button.setDisabled(True)
             return
@@ -303,9 +304,8 @@ class QBaseMenu2(QDialog):
             fixed_wing=False, fixed_wing_stol=False, rotary_wing=True
         )
 
-        fixed_wing_parking = self.cp.total_aircraft_parking(parking_type_fixed_wing)
         ground_spawn_parking = self.cp.total_aircraft_parking(parking_type_stol)
-        rotary_wing_parking = self.cp.total_aircraft_parking(parking_type_rotary_wing)
+        helipads = self.cp.total_aircraft_parking(parking_type_rotary_wing)
         ground_unit_limit = self.cp.frontline_unit_count_limit
         deployable_unit_info = ""
 
@@ -319,14 +319,27 @@ class QBaseMenu2(QDialog):
             deployable_unit_info = (
                 f" (Up to {ground_unit_limit} deployable, {unit_overage} reserve)"
             )
-
+        fixed_wing_airfield_parking = [
+            slot
+            for slot in self.cp.parking_slots
+            if slot.airplanes and not slot.helicopter
+        ]
+        rotary_wing_airfield_parking = [
+            slot
+            for slot in self.cp.parking_slots
+            if slot.helicopter and not slot.airplanes
+        ]
+        mixed_parking = [
+            slot for slot in self.cp.parking_slots if slot.helicopter and slot.airplanes
+        ]
         self.intel_summary.setText(
             "\n".join(
                 [
                     f"{aircraft}/{parking} aircraft",
-                    f"{fixed_wing_parking} fixed wing parking",
+                    f"{len(fixed_wing_airfield_parking)} fixed-wing only parking",
+                    f"{len(rotary_wing_airfield_parking) + helipads} rotary-wing only parking",
+                    f"{len(mixed_parking)} mixed parking",
                     f"{ground_spawn_parking} ground spawns",
-                    f"{rotary_wing_parking} rotary wing parking",
                     f"{self.cp.base.total_armor} ground units" + deployable_unit_info,
                     f"{allocated.total_transferring} more ground units en route, {allocated.total_ordered} ordered",
                     str(self.cp.runway_status),

@@ -761,7 +761,7 @@ class vwv_mig17f(PlaneType):
 
     class Pylon1:
         FAB_50 = (1, Weapons.FAB_50)
-        FAB_250___250kg_GP_Bomb_LD = (1, Weapons.FAB_250___250kg_GP_Bomb_LD)
+        OFAB_250_270___250_kg_GP_Bomb_LD = (1, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
         B_8V20A_CM = (1, Weapons.B_8V20A_CM)
         B_8V20A_OM = (1, Weapons.B_8V20A_OM)
         B_8M1___20_S_8OFP2 = (1, Weapons.B_8M1___20_S_8OFP2)
@@ -774,7 +774,7 @@ class vwv_mig17f(PlaneType):
 
     class Pylon2:
         FAB_50 = (2, Weapons.FAB_50)
-        FAB_250___250kg_GP_Bomb_LD = (2, Weapons.FAB_250___250kg_GP_Bomb_LD)
+        OFAB_250_270___250_kg_GP_Bomb_LD = (2, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
         B_8V20A_CM = (2, Weapons.B_8V20A_CM)
         B_8V20A_OM = (2, Weapons.B_8V20A_OM)
         B_8M1___20_S_8OFP2 = (2, Weapons.B_8M1___20_S_8OFP2)
@@ -828,7 +828,7 @@ class vwv_mig21mf(PlaneType):
 
     class Pylon1:
         FAB_50 = (1, Weapons.FAB_50)
-        FAB_250___250kg_GP_Bomb_LD = (1, Weapons.FAB_250___250kg_GP_Bomb_LD)
+        OFAB_250_270___250_kg_GP_Bomb_LD = (1, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
         B_8V20A_CM = (1, Weapons.B_8V20A_CM)
         B_8V20A_OM = (1, Weapons.B_8V20A_OM)
         B_8M1___20_S_8OFP2 = (1, Weapons.B_8M1___20_S_8OFP2)
@@ -854,7 +854,7 @@ class vwv_mig21mf(PlaneType):
 
     class Pylon2:
         FAB_50 = (2, Weapons.FAB_50)
-        FAB_250___250kg_GP_Bomb_LD = (2, Weapons.FAB_250___250kg_GP_Bomb_LD)
+        OFAB_250_270___250_kg_GP_Bomb_LD = (2, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
         B_8V20A_CM = (2, Weapons.B_8V20A_CM)
         B_8V20A_OM = (2, Weapons.B_8V20A_OM)
         B_8M1___20_S_8OFP2 = (2, Weapons.B_8M1___20_S_8OFP2)
@@ -880,7 +880,7 @@ class vwv_mig21mf(PlaneType):
 
     class Pylon3:
         FAB_50 = (3, Weapons.FAB_50)
-        FAB_250___250kg_GP_Bomb_LD = (3, Weapons.FAB_250___250kg_GP_Bomb_LD)
+        OFAB_250_270___250_kg_GP_Bomb_LD = (3, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
         B_8V20A_CM = (3, Weapons.B_8V20A_CM)
         B_8V20A_OM = (3, Weapons.B_8V20A_OM)
         B_8M1___20_S_8OFP2 = (3, Weapons.B_8M1___20_S_8OFP2)
@@ -906,7 +906,7 @@ class vwv_mig21mf(PlaneType):
 
     class Pylon4:
         FAB_50 = (4, Weapons.FAB_50)
-        FAB_250___250kg_GP_Bomb_LD = (4, Weapons.FAB_250___250kg_GP_Bomb_LD)
+        OFAB_250_270___250_kg_GP_Bomb_LD = (4, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
         B_8V20A_CM = (4, Weapons.B_8V20A_CM)
         B_8V20A_OM = (4, Weapons.B_8V20A_OM)
         B_8M1___20_S_8OFP2 = (4, Weapons.B_8M1___20_S_8OFP2)

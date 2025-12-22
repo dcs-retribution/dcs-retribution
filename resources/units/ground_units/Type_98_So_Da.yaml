@@ -1,0 +1,9 @@
+class: APC
+description: Armored Personnel Carrier Type 98 So Da
+introduced: 1938
+manufacturer: 
+origin: Japan
+price: 4
+role: Armoured Personnel Carrier
+variants:
+  APC Type 98 So Da: {}

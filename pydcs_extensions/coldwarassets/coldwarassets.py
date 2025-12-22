@@ -152,18 +152,21 @@ class B_47(PlaneType):
 
     property_defaults: Dict[str, Any] = {}
 
+    properties = {}
+
     livery_name = "B_47"  # from type
 
     class Pylon1:
-        GAM_63_RASCAL = (1, WeaponsColdWarAssets.GAM_63_RASCAL)
+        GAM_63_RASCAL = (1, Weapons.GAM_63_RASCAL)
 
     class Pylon2:
-        Mk_53 = (2, WeaponsColdWarAssets.Mk_53)
+        Mk_53 = (2, Weapons.Mk_53)
         # ERRR {72CAC282-AE18-490B-BD4D-35E7EE969E73}
         # ERRR {B84DFE16-6AC7-4854-8F6D-34137892E166}
         Mk_84_28 = (2, Weapons.Mk_84_28)
-        # ERRR {F092B80C-BB54-477E-9408-66DEEF740008}
-        # ERRR {574EDEDF-20DE-4942-B2A2-B2EDFD621562}
+
+    # ERRR {F092B80C-BB54-477E-9408-66DEEF740008}
+    # ERRR {574EDEDF-20DE-4942-B2A2-B2EDFD621562}
 
     pylons: Set[int] = {1, 2}
 
@@ -176,7 +179,6 @@ class B_47(PlaneType):
         task.CAS,
         task.Reconnaissance,
     ]
-
     task_default = task.AntishipStrike
 
 
@@ -197,26 +199,23 @@ class B_58(PlaneType):
     livery_name = "B_58"  # from type
 
     class Pylon1:
-        B_43 = (1, WeaponsColdWarAssets.B_43)
+        B_43 = (1, Weapons.B_43)
         Mk_84___2000lb_GP_Bomb_LD = (1, Weapons.Mk_84___2000lb_GP_Bomb_LD)
 
     class Pylon2:
-        B_43 = (2, WeaponsColdWarAssets.B_43)
+        B_43 = (2, Weapons.B_43)
         Mk_84___2000lb_GP_Bomb_LD = (2, Weapons.Mk_84___2000lb_GP_Bomb_LD)
 
     class Pylon3:
-        B_43 = (3, WeaponsColdWarAssets.B_43)
+        B_43 = (3, Weapons.B_43)
         Mk_84___2000lb_GP_Bomb_LD = (3, Weapons.Mk_84___2000lb_GP_Bomb_LD)
 
     class Pylon4:
-        B_43 = (4, WeaponsColdWarAssets.B_43)
+        B_43 = (4, Weapons.B_43)
         Mk_84___2000lb_GP_Bomb_LD = (4, Weapons.Mk_84___2000lb_GP_Bomb_LD)
 
     class Pylon5:
-        W_53_H_Bomb_with_fuel_tank = (
-            5,
-            WeaponsColdWarAssets.W_53_H_Bomb_with_fuel_tank,
-        )
+        W_53_H_Bomb_with_fuel_tank = (5, Weapons.W_53_H_Bomb_with_fuel_tank)
 
     pylons: Set[int] = {1, 2, 3, 4, 5}
 
@@ -246,16 +245,17 @@ class Tu_4K(PlaneType):
     }
 
     class Properties:
+
         class Belly_Bay_Door:
             id = "Belly Bay Door"
 
     livery_name = "TU-4K"  # from type
 
     class Pylon1:
-        KS_1 = (1, WeaponsColdWarAssets.KS_1)
+        KS_1 = (1, Weapons.KS_1)
 
     class Pylon2:
-        KS_1 = (2, WeaponsColdWarAssets.KS_1)
+        KS_1 = (2, Weapons.KS_1)
 
     pylons: Set[int] = {1, 2}
 
@@ -280,44 +280,40 @@ class Tu_16(PlaneType):
 
     property_defaults: Dict[str, Any] = {}
 
+    properties = {}
+
     livery_name = "TU-16"  # from type
 
     class Pylon1:
-        KS_1_late = (1, WeaponsColdWarAssets.KS_1_late)
-        KSR_2 = (1, WeaponsColdWarAssets.KSR_2)
-        KSR_2_086__Passive_seeker_ = (
-            1,
-            WeaponsColdWarAssets.KSR_2_086__Passive_seeker_,
-        )
-        KSR_2D_decoy_missile = (1, WeaponsColdWarAssets.KSR_2D_decoy_missile)
-        KSR5P__Passive_seeker_ = (1, WeaponsColdWarAssets.KSR5P__Passive_seeker_)
-        KSR_5 = (1, WeaponsColdWarAssets.KSR_5)
+        KS_1_late = (1, Weapons.KS_1_late)
+        KSR_2 = (1, Weapons.KSR_2)
+        KSR_2_086__Passive_seeker_ = (1, Weapons.KSR_2_086__Passive_seeker_)
+        KSR_2D_decoy_missile = (1, Weapons.KSR_2D_decoy_missile)
+        KSR5P__Passive_seeker_ = (1, Weapons.KSR5P__Passive_seeker_)
+        KSR_5 = (1, Weapons.KSR_5)
 
     class Pylon2:
-        FAB_3000_M54 = (2, WeaponsColdWarAssets.FAB_3000_M54)
-        FAB_9000_M54 = (2, WeaponsColdWarAssets.FAB_9000_M54)
-        RDS_37 = (2, WeaponsColdWarAssets.RDS_37)
+        FAB_3000_M54 = (2, Weapons.FAB_3000_M54)
+        FAB_9000_M54 = (2, Weapons.FAB_9000_M54)
+        RDS_37 = (2, Weapons.RDS_37)
 
     # ERRR <CLEAN>
 
     class Pylon3:
-        _33_x_FAB_250___250kg_GP_Bombs_LD = (
+        _33_x_OFAB_250_270___250_kg_GP_Bomb_LD = (
             3,
-            Weapons._33_x_FAB_250___250kg_GP_Bombs_LD,
+            Weapons._33_x_OFAB_250_270___250_kg_GP_Bomb_LD,
         )
 
     # ERRR <CLEAN>
 
     class Pylon4:
-        KS_1_late = (4, WeaponsColdWarAssets.KS_1_late)
-        KSR_2 = (4, WeaponsColdWarAssets.KSR_2)
-        KSR_2_086__Passive_seeker_ = (
-            4,
-            WeaponsColdWarAssets.KSR_2_086__Passive_seeker_,
-        )
-        KSR_2D_decoy_missile = (4, WeaponsColdWarAssets.KSR_2D_decoy_missile)
-        KSR5P__Passive_seeker_ = (4, WeaponsColdWarAssets.KSR5P__Passive_seeker_)
-        KSR_5 = (4, WeaponsColdWarAssets.KSR_5)
+        KS_1_late = (4, Weapons.KS_1_late)
+        KSR_2 = (4, Weapons.KSR_2)
+        KSR_2_086__Passive_seeker_ = (4, Weapons.KSR_2_086__Passive_seeker_)
+        KSR_2D_decoy_missile = (4, Weapons.KSR_2D_decoy_missile)
+        KSR5P__Passive_seeker_ = (4, Weapons.KSR5P__Passive_seeker_)
+        KSR_5 = (4, Weapons.KSR_5)
 
     pylons: Set[int] = {1, 2, 3, 4}
 
@@ -350,10 +346,12 @@ class Tu_95K(PlaneType):
 
     property_defaults: Dict[str, Any] = {}
 
+    properties = {}
+
     livery_name = "TU_95K"  # from type
 
     class Pylon1:
-        Kh_20 = (1, WeaponsColdWarAssets.Kh_20)
+        Kh_20 = (1, Weapons.Kh_20)
 
     pylons: Set[int] = {1}
 
@@ -387,8 +385,8 @@ class tu_22D(PlaneType):
     livery_name = "TU_22D"  # from type
 
     class Pylon1:
-        FAB_3000_M54 = (1, WeaponsColdWarAssets.FAB_3000_M54)
-        FAB_9000_M54 = (1, WeaponsColdWarAssets.FAB_9000_M54)
+        FAB_3000_M54 = (1, Weapons.FAB_3000_M54)
+        FAB_9000_M54 = (1, Weapons.FAB_9000_M54)
         _6_x_FAB_1500_M_54___1500kg_GP_Bombs_LD = (
             1,
             Weapons._6_x_FAB_1500_M_54___1500kg_GP_Bombs_LD,
@@ -397,9 +395,9 @@ class tu_22D(PlaneType):
             1,
             Weapons.MBD3_U2T_with_2_x_FAB_1500_M_54___1500kg_GP_Bombs_LD,
         )
-        MBD3_U6_68_with_6_x_FAB_500_M_62___500kg_GP_Bombs_LD = (
+        MBD3_U6_68___6_x_FAB_500M_62___500_kg_GP_Bomb_LD = (
             1,
-            Weapons.MBD3_U6_68_with_6_x_FAB_500_M_62___500kg_GP_Bombs_LD,
+            Weapons.MBD3_U6_68___6_x_FAB_500M_62___500_kg_GP_Bomb_LD,
         )
         RN_24___470kg__nuclear_bomb__free_fall = (
             1,
@@ -409,14 +407,14 @@ class tu_22D(PlaneType):
             1,
             Weapons.RN_28___260_kg__nuclear_bomb__free_fall,
         )
-        RDS_37 = (1, WeaponsColdWarAssets.RDS_37)
+        RDS_37 = (1, Weapons.RDS_37)
 
     # ERRR <CLEAN>
 
     class Pylon2:
-        _33_x_FAB_250___250kg_GP_Bombs_LD = (
+        _33_x_OFAB_250_270___250_kg_GP_Bomb_LD = (
             2,
-            Weapons._33_x_FAB_250___250kg_GP_Bombs_LD,
+            Weapons._33_x_OFAB_250_270___250_kg_GP_Bomb_LD,
         )
 
     # ERRR <CLEAN>
@@ -455,12 +453,12 @@ class tu_22KD(PlaneType):
             1,
             Weapons.Kh_22__AS_4_Kitchen____1000kg__AShM__IN__Act_Pas_Rdr,
         )
-        Kh_22MA = (1, WeaponsColdWarAssets.Kh_22MA)
-        Kh_22P__Passive_seeker_ = (1, WeaponsColdWarAssets.Kh_22P__Passive_seeker_)
+        Kh_22MA = (1, Weapons.Kh_22MA)
+        Kh_22P__Passive_seeker_ = (1, Weapons.Kh_22P__Passive_seeker_)
 
     class Pylon2:
-        FAB_3000_M54 = (2, WeaponsColdWarAssets.FAB_3000_M54)
-        FAB_9000_M54 = (2, WeaponsColdWarAssets.FAB_9000_M54)
+        FAB_3000_M54 = (2, Weapons.FAB_3000_M54)
+        FAB_9000_M54 = (2, Weapons.FAB_9000_M54)
         _6_x_FAB_1500_M_54___1500kg_GP_Bombs_LD = (
             2,
             Weapons._6_x_FAB_1500_M_54___1500kg_GP_Bombs_LD,
@@ -469,18 +467,18 @@ class tu_22KD(PlaneType):
             2,
             Weapons.MBD3_U2T_with_2_x_FAB_1500_M_54___1500kg_GP_Bombs_LD,
         )
-        MBD3_U6_68_with_6_x_FAB_500_M_62___500kg_GP_Bombs_LD = (
+        MBD3_U6_68___6_x_FAB_500M_62___500_kg_GP_Bomb_LD = (
             2,
-            Weapons.MBD3_U6_68_with_6_x_FAB_500_M_62___500kg_GP_Bombs_LD,
+            Weapons.MBD3_U6_68___6_x_FAB_500M_62___500_kg_GP_Bomb_LD,
         )
-        RDS_37 = (1, WeaponsColdWarAssets.RDS_37)
+        RDS_37 = (2, Weapons.RDS_37)
 
     # ERRR <CLEAN>
 
     class Pylon3:
-        _33_x_FAB_250___250kg_GP_Bombs_LD = (
+        _33_x_OFAB_250_270___250_kg_GP_Bomb_LD = (
             3,
-            Weapons._33_x_FAB_250___250kg_GP_Bombs_LD,
+            Weapons._33_x_OFAB_250_270___250_kg_GP_Bomb_LD,
         )
 
     # ERRR <CLEAN>
@@ -517,20 +515,20 @@ class Yak_28(PlaneType):
             1,
             Weapons.APU_13U_2_with_R_3S__AA_2_Atoll_B____IR_AAM,
         )
-        R_8M1R = (1, WeaponsColdWarAssets.R_8M1R_Yak_28)
-        R_8M1T = (1, WeaponsColdWarAssets.R_8M1T_Yak_28)
-        R_98MT = (1, WeaponsColdWarAssets.R_98MT_Yak_28)
-        R_98MR = (1, WeaponsColdWarAssets.R_98MR_Yak_28)
+        R_8M1R = (1, Weapons.R_8M1R)
+        R_8M1T = (1, Weapons.R_8M1T)
+        R_98MT = (1, Weapons.R_98MT)
+        R_98MR = (1, Weapons.R_98MR)
 
     class Pylon2:
         APU_13U_2_with_R_3S__AA_2_Atoll_B____IR_AAM = (
             2,
             Weapons.APU_13U_2_with_R_3S__AA_2_Atoll_B____IR_AAM,
         )
-        R_8M1R = (2, WeaponsColdWarAssets.R_8M1R_Yak_28)
-        R_8M1T = (2, WeaponsColdWarAssets.R_8M1T_Yak_28)
-        R_98MT = (2, WeaponsColdWarAssets.R_98MT_Yak_28)
-        R_98MR = (2, WeaponsColdWarAssets.R_98MR_Yak_28)
+        R_8M1R = (2, Weapons.R_8M1R)
+        R_8M1T = (2, Weapons.R_8M1T)
+        R_98MT = (2, Weapons.R_98MT)
+        R_98MR = (2, Weapons.R_98MR)
         ORO_57K___S_5M_x_8 = (2, Weapons.ORO_57K___S_5M_x_8)
 
     class Pylon3:
@@ -546,25 +544,29 @@ class Yak_28(PlaneType):
             3,
             Weapons.FAB_1500_M_54___1500kg_GP_Bomb_LD,
         )
-        MBD3_U4T_with_4_x_FAB_250___250kg_GP_Bombs_LD = (
+        MBD3_U4T___4_x_OFAB_250_270___250_kg_GP_Bomb_LD = (
             3,
-            Weapons.MBD3_U4T_with_4_x_FAB_250___250kg_GP_Bombs_LD,
+            Weapons.MBD3_U4T___4_x_OFAB_250_270___250_kg_GP_Bomb_LD,
         )
-        MBD3_U6_68_with_3_x_FAB_250___250kg_GP_Bombs_LD = (
+        MBD3_U6_68___3_x_OFAB_250_270___250_kg_GP_Bomb_LD = (
             3,
-            Weapons.MBD3_U6_68_with_3_x_FAB_250___250kg_GP_Bombs_LD,
+            Weapons.MBD3_U6_68___3_x_OFAB_250_270___250_kg_GP_Bomb_LD,
         )
         FAB_500_M54_TU___480_kg__bomb__parachute = (
             3,
             Weapons.FAB_500_M54_TU___480_kg__bomb__parachute,
         )
-        MBD3_U6_68_with_6_x_FAB_250___250kg_GP_Bombs_LD = (
+        MBD3_U6_68___6_x_OFAB_250_270___250_kg_GP_Bomb_LD = (
             3,
-            Weapons.MBD3_U6_68_with_6_x_FAB_250___250kg_GP_Bombs_LD,
+            Weapons.MBD3_U6_68___6_x_OFAB_250_270___250_kg_GP_Bomb_LD,
         )
-        MBD3_U6_68_with_6_x_FAB_100___100kg_GP_Bombs_LD = (
+        MBD3_U6_68___6_x_OFAB_100_120___100_kg_GP_Bomb_LD = (
             3,
-            Weapons.MBD3_U6_68_with_6_x_FAB_100___100kg_GP_Bombs_LD,
+            Weapons.MBD3_U6_68___6_x_OFAB_100_120___100_kg_GP_Bomb_LD,
+        )
+        MBD3_U6_68___6_x_OFAB_250_270___250_kg_GP_Bomb_LD = (
+            3,
+            Weapons.MBD3_U6_68___6_x_OFAB_250_270___250_kg_GP_Bomb_LD,
         )
 
     class Pylon4:
@@ -572,20 +574,20 @@ class Yak_28(PlaneType):
             4,
             Weapons.APU_13U_2_with_R_3S__AA_2_Atoll_B____IR_AAM,
         )
-        R_8M1R = (4, WeaponsColdWarAssets.R_8M1R_Yak_28)
-        R_8M1T = (4, WeaponsColdWarAssets.R_8M1T_Yak_28)
-        R_98MT = (4, WeaponsColdWarAssets.R_98MT_Yak_28)
-        R_98MR = (4, WeaponsColdWarAssets.R_98MR_Yak_28)
+        R_8M1R = (4, Weapons.R_8M1R)
+        R_8M1T = (4, Weapons.R_8M1T)
+        R_98MT = (4, Weapons.R_98MT)
+        R_98MR = (4, Weapons.R_98MR)
 
     class Pylon5:
         APU_13U_2_with_R_3S__AA_2_Atoll_B____IR_AAM = (
             5,
             Weapons.APU_13U_2_with_R_3S__AA_2_Atoll_B____IR_AAM,
         )
-        R_8M1R = (5, WeaponsColdWarAssets.R_8M1R_Yak_28)
-        R_8M1T = (5, WeaponsColdWarAssets.R_8M1T_Yak_28)
-        R_98MT = (5, WeaponsColdWarAssets.R_98MT_Yak_28)
-        R_98MR = (5, WeaponsColdWarAssets.R_98MR_Yak_28)
+        R_8M1R = (5, Weapons.R_8M1R)
+        R_8M1T = (5, Weapons.R_8M1T)
+        R_98MT = (5, Weapons.R_98MT)
+        R_98MR = (5, Weapons.R_98MR)
         ORO_57K___S_5M_x_8 = (5, Weapons.ORO_57K___S_5M_x_8)
 
     pylons: Set[int] = {1, 2, 3, 4, 5}
@@ -618,6 +620,8 @@ class Tu_126(PlaneType):
 
     property_defaults: Dict[str, Any] = {}
 
+    properties = {}
+
     livery_name = "TU_126"  # from type
 
     pylons: Set[int] = set()
@@ -645,20 +649,20 @@ class Tu_128M(PlaneType):
     livery_name = "TU_128M"  # from type
 
     class Pylon1:
-        R_4RM = (1, WeaponsColdWarAssets.R_4RM)
-        R_4TM = (1, WeaponsColdWarAssets.R_4TM)
+        R_4RM = (1, Weapons.R_4RM)
+        R_4TM = (1, Weapons.R_4TM)
 
     class Pylon2:
-        R_4RM = (2, WeaponsColdWarAssets.R_4RM)
-        R_4TM = (2, WeaponsColdWarAssets.R_4TM)
+        R_4RM = (2, Weapons.R_4RM)
+        R_4TM = (2, Weapons.R_4TM)
 
     class Pylon3:
-        R_4RM = (3, WeaponsColdWarAssets.R_4RM)
-        R_4TM = (3, WeaponsColdWarAssets.R_4TM)
+        R_4RM = (3, Weapons.R_4RM)
+        R_4TM = (3, Weapons.R_4TM)
 
     class Pylon4:
-        R_4RM = (4, WeaponsColdWarAssets.R_4RM)
-        R_4TM = (4, WeaponsColdWarAssets.R_4TM)
+        R_4RM = (4, Weapons.R_4RM)
+        R_4TM = (4, Weapons.R_4TM)
 
     pylons: Set[int] = {1, 2, 3, 4}
 

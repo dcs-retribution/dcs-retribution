@@ -26,6 +26,7 @@ from game.utils import Distance, meters, nautical_miles
 
 if TYPE_CHECKING:
     from game import Game
+    from game.theater.player import Player
 
 
 ThreatPoly = Union[MultiPolygon, Polygon]
@@ -187,7 +188,7 @@ class ThreatZones:
         return min(cap_threat_range, max_distance)
 
     @classmethod
-    def for_faction(cls, game: Game, player: bool) -> ThreatZones:
+    def for_faction(cls, game: Game, player: Player) -> ThreatZones:
         """Generates the threat zones projected by the given coalition.
 
         Args:
@@ -239,9 +240,13 @@ class ThreatZones:
             cap_threat_range = cls.barcap_threat_range(doctrine, barcap)
             air_threats.append(point.buffer(cap_threat_range.meters))
 
+        settings = theater.controlpoints[0].coalition.game.settings
         for tgo in air_defenses:
             for group in tgo.groups:
-                threat_range = group.max_threat_range()
+                # cap threat-range, otherwise it can cause issues wrt NavMesh calculations
+                threat_range = min(
+                    group.max_threat_range(), nautical_miles(settings.max_threat_range)
+                )
                 # Any system with a shorter range than this is not worth
                 # even avoiding.
                 if threat_range > nautical_miles(3):

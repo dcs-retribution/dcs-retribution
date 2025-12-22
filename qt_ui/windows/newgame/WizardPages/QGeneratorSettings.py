@@ -174,6 +174,10 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("ukrainemilitaryassetspack", self.ukrainemilitaryassetspack)
         self.mig31bm_foxhound = QtWidgets.QCheckBox()
         self.registerField("mig31bm_foxhound", self.mig31bm_foxhound)
+        self.mam = QtWidgets.QCheckBox()
+        self.registerField("mam", self.mam)
+        self.tornado_adv = QtWidgets.QCheckBox()
+        self.registerField("tornado_adv", self.tornado_adv)
 
         modHelpText = QtWidgets.QLabel(
             "<p>Select the mods you have installed. If your chosen factions support them, you'll be able to use these mods in your campaign.</p>"
@@ -218,17 +222,18 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("F-15D Baz (v1.0)", self.f15d_baz),
             ("F-15I Ra'am (v1.0 by IDF Mods Project)", self.f_15_idf),
             ("F-16I Sufa & F-16D (v3.6 by IDF Mods Project)", self.f_16_idf),
-            ("F-22A Raptor (v3.0)", self.f22_raptor),
+            ("F-22A Raptor (v2.0.0 released May 2025)", self.f22_raptor),
             ("F-4B/C Phantom II (2.8.7.204)", self.f4bc_phantom),
             ("F-84G Thunderjet (v2.5.7.01)", self.f84g_thunderjet),
             ("F9F Panther (v2.8.7.101)", self.f9f_panther),
-            ("F/A-18E/F/G Super Hornet (version 2.4.2)", self.fa_18efg),
-            ("F/A-18E/F Super Hornet AI Tanker (version 2.4.2)", self.fa18ef_tanker),
+            ("F/A-18E/F/G Super Hornet (version 2.4.4)", self.fa_18efg),
+            ("F/A-18E/F Super Hornet AI Tanker (version 2.4.4)", self.fa18ef_tanker),
             ("Frenchpack (v4.9.1)", self.frenchpack),
-            ("High Digit SAMs", self.high_digit_sams),
+            ("High Digit SAMs (v1.4.0)", self.high_digit_sams),
             ("IDF Assets Pack (v1.1 by IDF Mods Project)", self.irondome),
             ("JAS 39 Gripen (v1.8.5-beta)", self.jas39_gripen),
-            ("MiG-31BM (v2.0)", self.mig31bm_foxhound),
+            ("MiG-31BM (v2.62)", self.mig31bm_foxhound),
+            ("Military Aircraft Mod (v1.7.2 - AI Only)", self.mam),
             ("Mirage III (v2.5.7.01)", self.mirage_3),
             ("OH-6 Cayuse (v1.2)", self.oh_6),
             ("OH-6 Vietnam Asset Pack (v1.0)", self.oh_6_vietnamassetpack),
@@ -237,9 +242,10 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("Spanish Naval Assets pack (desdemicabina 3.2.0)", self.spanishnavypack),
             ("Star Wars Modpack 2.54+", self.SWPack),
             ("Su-15 Flagon (v1.0)", self.su15_flagon),
-            ("Su-30 Flanker-H (V2.7.73b)", self.su30_flanker_h),
+            ("Su-30 Flanker-H (v2.8.04b + CWS 3.72)", self.su30_flanker_h),
             ("Su-57 Felon (build-04)", self.su57_felon),
             ("Super Étendard (v2.5.5)", self.super_etendard),
+            ("Tornado F3 ADV (1.0)", self.tornado_adv),
             ("UH-60L Black Hawk (v1.3.1)", self.uh_60l),
             ("Vietnam War Vessels (v0.9.0 by TeTeT)", self.vietnamwarvessels),
         ]
@@ -323,3 +329,4 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.ukrainemilitaryassetspack.setChecked(
             s.get("ukrainemilitaryassetspack", False)
         )
+        self.tornado_adv.setChecked(s.get("tornado_adv", False))

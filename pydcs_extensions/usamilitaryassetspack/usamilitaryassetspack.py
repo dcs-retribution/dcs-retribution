@@ -690,9 +690,9 @@ class B_21(PlaneType):
         GBU_31_8 = (1, Weapons.GBU_31_8)
         B_1B_Mk_84_8 = (1, Weapons.B_1B_Mk_84_8)
         GBU_31V3B_8 = (1, Weapons.GBU_31V3B_8)
-        _4_x_AGM_154C___JSOW_Unitary_BROACH = (
+        MPRL___4_x_AGM_154C___JSOW_Unitary_BROACH = (
             1,
-            Weapons._4_x_AGM_154C___JSOW_Unitary_BROACH,
+            Weapons.MPRL___4_x_AGM_154C___JSOW_Unitary_BROACH,
         )
         _4_x_AGM_158B_JASSM_ER_ALCM = (1, Weapons._4_x_AGM_158B_JASSM_ER_ALCM)
         _4_x_AGM_158C_LRASM_AShM = (1, Weapons._4_x_AGM_158C_LRASM_AShM)
@@ -712,9 +712,9 @@ class B_21(PlaneType):
         GBU_31_8 = (2, Weapons.GBU_31_8)
         B_1B_Mk_84_8 = (2, Weapons.B_1B_Mk_84_8)
         GBU_31V3B_8 = (2, Weapons.GBU_31V3B_8)
-        _4_x_AGM_154C___JSOW_Unitary_BROACH = (
+        MPRL___4_x_AGM_154C___JSOW_Unitary_BROACH = (
             2,
-            Weapons._4_x_AGM_154C___JSOW_Unitary_BROACH,
+            Weapons.MPRL___4_x_AGM_154C___JSOW_Unitary_BROACH,
         )
         _4_x_AGM_158B_JASSM_ER_ALCM = (2, Weapons._4_x_AGM_158B_JASSM_ER_ALCM)
         _4_x_AGM_158C_LRASM_AShM = (2, Weapons._4_x_AGM_158C_LRASM_AShM)

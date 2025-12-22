@@ -1,0 +1,199 @@
+---
+name: Germany - Northern Guardian
+theater: GermanyCW
+authors: Revi
+recommended_player_faction: Blufor Current 
+recommended_enemy_faction:  "[CH] Russia 2020" 
+description:
+ <p><strong>OPERATION NORTHERN GUARDIAN<strong><p>
+ <p>TO NATO Joint Operations Command FROM Combined NATO Task Force, Northeast Germany DATE 17 July 2027 SUBJECT SITREP 001 - Emerging Insurrection Threat, Northeast Germany (OPFOR Russian-Backed Separatists)<p>
+ <p><strong>1.SITUATION OVERVIEW<strong><p>
+ <p>Intelligence indicates a rapidly escalating hybrid threat in Northeast Germany, primarily within the historically restive regions bordering Poland, particularly around Mecklenburg-Vorpommern and portions of Brandenburg. Russian-backed separatist elements, leveraging pre-existing socio-economic grievances and disinformation campaigns, have begun to coalesce into organized armed groups. Their objectives appear to include the destabilization of the federal government, creation of a "Trans-Oder Republic," and ultimately, a land corridor facilitating direct Russian influence in the Baltic Sea region.<p>
+ <p><strong>Recent overt actions include<strong><p>
+ <p>07/15/27 Coordinated cyber-attacks against critical infrastructure (power grid, localized communications networks) in Stralsund and Greifswald, causing widespread disruption.<p>
+ <p>07/16/27 Armed seizure of a local police station in Anklam, followed by distribution of propaganda and seizure of small arms.<p>
+ <p>07/16/27 Unconfirmed reports of foreign "volunteers" and light armored vehicles (likely ex-Soviet stock) crossing the Polish border, facilitated by covert Russian Special Operations Forces (SOF).<p>
+ <p>07/17/27 Establishment of fortified checkpoints on key roads leading into and out of Rostock and Neubrandenburg.<p>
+ <p><strong>2.ENEMY FORCES (OPFOR)<strong><p>
+ <p>Composition Estimated 1,500-2,500 irregular fighters, organized into company-sized elements. Leadership appears to be a mix of local nationalist agitators and experienced foreign (likely Russian GRU/Wagner Group) operatives.
+ Capabilities Equipped with small arms, light machine guns, RPGs, and an increasing number of MANPADS. Limited access to anti-tank guided missiles (ATGM) and potentially, captured or supplied light armored vehicles (MT-LBs, old BTR variants). Growing indications of sophisticated electronic warfare (EW) capabilities, likely provided by Russian advisors.
+ Intentions Isolate key urban centers, disrupt NATO reinforcement efforts, and establish de facto control over territory to demand international recognition. Expect extensive use of asymmetric tactics, including IEDs, ambushes, and civilian shields.</p>
+miz: Northern Guardian.miz
+performance: 2
+recommended_start_date: 2027-07-17
+recommended_player_money: 500
+recommended_enemy_money: 500
+recommended_player_income_multiplier: 0.7
+recommended_enemy_income_multiplier: 1
+version: "10.7"
+settings:
+  hercules: true
+  squadron_start_full: true
+  russianmilitaryassetspack: true
+  usamilitaryassetspack: true
+  swedishmilitaryassetspack: true
+squadrons:
+  #Fassberg
+  11:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - A-10C Thunderbolt II (Suite 7)
+      size: 6
+    - primary: DEAD
+      secondary: any
+      aircraft:
+        - 522nd FS
+      size: 8
+    - primary: Strike
+      secondary: air-to-air
+      aircraft:
+        - 335th FS
+      size: 4
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - C-130J-30 Super Hercules
+      size: 2
+  #H FRG 04
+  56:
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - RNLAF Redskins 301 Sqn
+      size: 4
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - CH-47F Block I
+      size: 2
+  #H FRG 12
+  64:
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:  
+        - Ka-50 Hokum III
+      size: 4
+   #H FRG 17
+  95: 
+    - primary: Armed Recon
+      secondary: air-to-ground
+      aircraft:  
+        - Mi-24P Hind-F
+      size: 6
+   #H GDR 21
+  152:
+    - primary: Transport
+      secondary: air-to-ground
+      aircraft:  
+        - Mi-8MTV2 Hip
+      size: 4 
+  #H GDR 31
+  229:
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:  
+        - Mi-24P Hind-F
+      size: 4 
+  #H GDR 30
+  146:
+    - primary: Air Assault
+      secondary: air-to-ground
+      aircraft:  
+        - Mi-8MTV2 Hip
+      size: 2 
+    - primary: Armed Recon
+      secondary: air-to-ground
+      aircraft:  
+        - Mi-24P Hind-F
+      size: 2 
+  #H GDR 13
+  91:
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:  
+        - Mi-24P Hind-F
+      size: 4 
+  #H GDR 09
+  75:
+    - primary: Armed Recon
+      secondary: air-to-ground
+      aircraft:  
+        - Mi-8MTV2 Hip
+      size: 4 
+  #Peenemunde
+  25:
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:  
+        - MiG-29S Fulcrum-C
+      size: 4 
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:  
+        - Su-25T Frogfoot
+      size: 4 
+    - primary: BAI
+      secondary: any
+      aircraft:  
+        - L-39ZA Albatros
+      size: 6
+  FOB Schwerin: 
+    - primary: Armed Recon
+      secondary: air-to-ground
+      aircraft:  
+        - German Army
+      size: 4
+    - primary: Armed Recon
+      secondary: air-to-ground
+      aircraft:  
+        - A Company, 1-211th ARB
+      size: 2
+  FOB Fehmarn:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:  
+        - C Company, 2-159th ARB
+      size: 4
+    - primary: Transport
+      secondary: any
+      aircraft:  
+        - CH-47F Block I
+      size: 2
+  FOB Schwaan: 
+    - primary: Armed Recon
+      secondary: air-to-ground
+      aircraft:  
+        - Ka-50 Hokum III
+      size: 6
+  Roadbase Usadel:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - 36th FS
+      size: 1
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - A-10C Thunderbolt II (Suite 7)
+      size: 1
+  NLD-UK corridor: 
+    - primary: AEW&C
+      aircraft:
+        - E-3A
+      size: 1
+    - primary: Refueling
+      aircraft:
+        - KC-135 Stratotanker 
+      size: 1
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - F-15C Eagle
+      size: 4
+
+
+  
+      
+
+ 

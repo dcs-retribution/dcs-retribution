@@ -13,6 +13,7 @@ from dcs.vehicles import vehicle_map
 
 from game.dcs.groundunittype import GroundUnitType
 from game.naming import namegen
+from game.theater import Player
 
 if TYPE_CHECKING:
     from game import Game
@@ -25,12 +26,12 @@ class RebellionGenerator:
 
     def generate(self) -> None:
         ownfor_country = self.mission.country(
-            self.game.coalition_for(player=True).faction.country.name
+            self.game.coalition_for(player=Player.BLUE).faction.country.name
         )
         for rz in self.game.theater.ownfor_rebel_zones:
             self._generate_rebel_zone(ownfor_country, rz)
         opfor_country = self.mission.country(
-            self.game.coalition_for(player=False).faction.country.name
+            self.game.coalition_for(player=Player.RED).faction.country.name
         )
         for rz in self.game.theater.opfor_rebel_zones:
             self._generate_rebel_zone(opfor_country, rz)

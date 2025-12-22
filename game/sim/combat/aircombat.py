@@ -46,7 +46,7 @@ class AirCombat(JoinableCombat):
         blue_flights = []
         red_flights = []
         for flight in self.flights:
-            if flight.squadron.player:
+            if flight.squadron.player.is_blue:
                 blue_flights.append(str(flight))
             else:
                 red_flights.append(str(flight))
@@ -71,7 +71,7 @@ class AirCombat(JoinableCombat):
         blue = []
         red = []
         for flight in self.flights:
-            if flight.squadron.player:
+            if flight.squadron.player.is_blue:
                 blue.append(flight)
             else:
                 red.append(flight)

@@ -238,6 +238,10 @@ class QWaitingForMissionResultWindow(QDialog):
                 self.sim_controller.debrief_current_state(Path(file[0]), force_end=True)
             )
 
+    def reject(self):
+        self.reset_game_state()
+        super().reject()
+
     def reset_game_state(self):
         self.sim_controller.set_game(self.game)
         events = GameUpdateEvents()

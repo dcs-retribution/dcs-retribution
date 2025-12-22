@@ -9,28 +9,28 @@
  "airfield1_1": {
   "name": "IRAA",
   "callsign": "IRAA",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 108800000,
   "channel": null
  },
  "airfield1_2": {
   "name": "ISAD",
   "callsign": "ISAD",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 108900000,
   "channel": null
  },
  "airfield1_3": {
   "name": "IRAA",
   "callsign": "IRAA",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 108800000,
   "channel": null
  },
  "airfield1_4": {
   "name": "ISAD",
   "callsign": "ISAD",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 108900000,
   "channel": null
  },
@@ -65,35 +65,35 @@
  "airfield2_1": {
   "name": "",
   "callsign": "ORBI",
-  "beacon_type": 7,
+  "beacon_type": 1024,
   "hertz": 118700000,
   "channel": null
  },
  "airfield2_2": {
   "name": "IYCA",
   "callsign": "IYCA",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 110100000,
   "channel": null
  },
  "airfield2_3": {
   "name": "IYDB",
   "callsign": "IYDB",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 110700000,
   "channel": null
  },
  "airfield2_4": {
   "name": "IYCA",
   "callsign": "IYCA",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 110100000,
   "channel": null
  },
  "airfield2_5": {
   "name": "IYDB",
   "callsign": "IYDB",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 110700000,
   "channel": null
  },
@@ -107,28 +107,28 @@
  "airfield2_7": {
   "name": "ITAK",
   "callsign": "ITAK",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 110900000,
   "channel": null
  },
  "airfield2_8": {
   "name": "INHA",
   "callsign": "INHA",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 110300000,
   "channel": null
  },
  "airfield2_9": {
   "name": "INHA",
   "callsign": "INHA",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 110300000,
   "channel": null
  },
  "airfield2_10": {
   "name": "ITAK",
   "callsign": "ITAK",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 110900000,
   "channel": null
  },
@@ -142,28 +142,28 @@
  "airfield8_1": {
   "name": "BaladAirbase",
   "callsign": "IANC",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 109950000,
   "channel": null
  },
  "airfield8_2": {
   "name": "BaladAirbase",
   "callsign": "IANC",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 109950000,
   "channel": null
  },
  "airfield8_3": {
   "name": "BaladAirbase",
   "callsign": "IBLD",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 109900000,
   "channel": null
  },
  "airfield8_4": {
   "name": "BaladAirbase",
   "callsign": "IBLD",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 109900000,
   "channel": null
  },
@@ -184,42 +184,42 @@
  "airfield4_1": {
   "name": "ErbilInternationalAirport",
   "callsign": "IREB",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 109700000,
   "channel": null
  },
  "airfield4_2": {
   "name": "ErbilInternationalAirport",
   "callsign": "IREA",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 109200000,
   "channel": null
  },
  "airfield4_3": {
   "name": "ErbilInternationalAirport",
   "callsign": "IREB",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 109700000,
   "channel": null
  },
  "airfield4_4": {
   "name": "ErbilInternationalAirport",
   "callsign": "IREA",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 109200000,
   "channel": null
  },
  "airfield4_5": {
   "name": "ErbilInternationalAirport",
   "callsign": "IRER",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 109300000,
   "channel": null
  },
  "airfield4_6": {
   "name": "ErbilInternationalAirport",
   "callsign": "IRER",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 109300000,
   "channel": null
  },
@@ -240,14 +240,14 @@
  "airfield10_2": {
   "name": "ISAD",
   "callsign": "ISAD",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 109100000,
   "channel": null
  },
  "airfield10_3": {
   "name": "ISAD",
   "callsign": "ISAD",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 109100000,
   "channel": null
  },
@@ -261,28 +261,28 @@
  "airfield7_0": {
   "name": "",
   "callsign": "SUL",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 111700000,
   "channel": null
  },
  "airfield7_1": {
   "name": "",
   "callsign": "NGA",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 111100000,
   "channel": null
  },
  "airfield7_2": {
   "name": "",
   "callsign": "NGA",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 111100000,
   "channel": null
  },
  "airfield7_3": {
   "name": "",
   "callsign": "SUL",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 111700000,
   "channel": null
  },

@@ -1,0 +1,9 @@
+class: Tank
+description: MBT Type 89 I Go
+introduced: 1929
+manufacturer: 
+origin: Japan
+price: 7
+role: Main Battle Tank
+variants:
+  Type 89 I Go Tank: {}

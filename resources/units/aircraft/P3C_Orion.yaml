@@ -1,0 +1,21 @@
+description:
+  "The Lockheed P-3 Orion is a four-engined, turboprop anti-submarine and maritime surveillance aircraft developed for the United States Navy 
+  and introduced in the 1960s. It is based on the L-188 Electra commercial airliner by Lockheed; it is easily distinguished from the Electra 
+  by its distinctive tail stinger or \"MAD\" boom, used for the magnetic anomaly detection (MAD) of submarines.
+
+  Over the years, the P-3 has seen numerous design developments, most notably in its electronics packages. Numerous navies and air forces around 
+  the world continue to use the type primarily for maritime patrol, reconnaissance, anti-surface warfare and anti-submarine warfare. 
+  A total of 757 P-3s have been built. In 2012, it joined the handful of military aircraft including the Boeing B-52 Stratofortress, 
+  Boeing KC-135 Stratotanker, and Lockheed C-130 Hercules that the United States military has been using for more than 50 years. 
+  
+  In the twenty-first century, the turbofan-powered Boeing P-8 Poseidon began to supplement, and will eventually replace, the U.S. Navy's P-3s."
+
+introduced: 1972
+manufacturer: Lockheed
+origin: USA
+price: 35
+role: Maritime Patrol/Anti-Ship
+variants:
+  P-3C Orion: {}
+tasks:
+  Anti-ship: 180

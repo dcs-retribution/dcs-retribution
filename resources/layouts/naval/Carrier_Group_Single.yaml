@@ -1,0 +1,13 @@
+name: Single Carrier
+tasks:
+  - AircraftCarrier
+generic: true
+groups:
+  - Carrier: # the word "Carrier" or "LHA" needs to be present in the group-name
+    - name: Carrier Group 0
+      unit_count:
+        - 1
+      unit_types:
+        - ara_vdm
+        - Essex
+        - cva-31

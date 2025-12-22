@@ -45,7 +45,7 @@ class PackagePlanningTask(TheaterCommanderTask, Generic[MissionTargetT]):
 
     def preconditions_met(self, state: TheaterState) -> bool:
         if (
-            state.context.coalition.player
+            state.context.coalition.player.is_blue
             and state.context.settings.auto_ato_behavior is AutoAtoBehavior.Disabled
         ):
             return False
@@ -102,7 +102,7 @@ class PackagePlanningTask(TheaterCommanderTask, Generic[MissionTargetT]):
         return 1
 
     def fulfill_mission(self, state: TheaterState) -> bool:
-        color = "blue" if state.context.coalition.player else "red"
+        color = "blue" if state.context.coalition.player.is_blue else "red"
         self.propose_flights()
         fulfiller = PackageFulfiller(
             state.context.coalition,
@@ -214,7 +214,7 @@ class PackagePlanningTask(TheaterCommanderTask, Generic[MissionTargetT]):
         settings = state.context.coalition.game.settings
         margin = 100 - (
             settings.ownfor_autoplanner_aggressiveness
-            if state.context.coalition.player
+            if state.context.coalition.player.is_blue
             else settings.opfor_autoplanner_aggressiveness
         )
         threat_range = iads_threat.max_threat_range() * (margin / 100)

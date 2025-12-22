@@ -226,14 +226,14 @@
  "airfield2_2": {
   "name": "",
   "callsign": "IBND",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 109900000,
   "channel": null
  },
  "airfield2_3": {
   "name": "",
   "callsign": "IBND",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 109900000,
   "channel": null
  },
@@ -282,56 +282,56 @@
  "airfield4_0": {
   "name": "",
   "callsign": "MMA",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 109100000,
   "channel": 28
  },
  "airfield4_1": {
   "name": "",
   "callsign": "LMA",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 108700000,
   "channel": 24
  },
  "airfield4_2": {
   "name": "",
   "callsign": "IMA",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 111100000,
   "channel": 48
  },
  "airfield4_3": {
   "name": "",
   "callsign": "RMA",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 108700000,
   "channel": 24
  },
  "airfield4_4": {
   "name": "",
   "callsign": "MMA",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 109100000,
   "channel": 28
  },
  "airfield4_5": {
   "name": "",
   "callsign": "RMA",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 108700000,
   "channel": 24
  },
  "airfield4_6": {
   "name": "",
   "callsign": "LMA",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 108700000,
   "channel": 24
  },
  "airfield4_7": {
   "name": "",
   "callsign": "IMA",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 111100000,
   "channel": 48
  },
@@ -345,84 +345,84 @@
  "airfield5_0": {
   "name": "",
   "callsign": "IDBW",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 109500000,
   "channel": null
  },
  "airfield5_1": {
   "name": "",
   "callsign": "IDBR",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 110100000,
   "channel": null
  },
  "airfield5_2": {
   "name": "",
   "callsign": "IDBE",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 111300000,
   "channel": null
  },
  "airfield5_3": {
   "name": "",
   "callsign": "IDBL",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 110900000,
   "channel": null
  },
  "airfield5_4": {
   "name": "",
   "callsign": "IDBL",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 110900000,
   "channel": null
  },
  "airfield5_5": {
   "name": "",
   "callsign": "IDBR",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 110100000,
   "channel": null
  },
  "airfield5_6": {
   "name": "",
   "callsign": "IDBE",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 111300000,
   "channel": null
  },
  "airfield5_7": {
   "name": "",
   "callsign": "IDBW",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 109500000,
   "channel": null
  },
  "airfield6_0": {
   "name": "",
   "callsign": "IJEA",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 111750000,
   "channel": null
  },
  "airfield6_1": {
   "name": "",
   "callsign": "IJWA",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 109750000,
   "channel": null
  },
  "airfield6_2": {
   "name": "",
   "callsign": "IJEA",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 111750000,
   "channel": null
  },
  "airfield6_3": {
   "name": "",
   "callsign": "IJWA",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 109750000,
   "channel": null
  },
@@ -436,14 +436,14 @@
  "airfield7_1": {
   "name": "",
   "callsign": "IFJR",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 111500000,
   "channel": null
  },
  "airfield7_2": {
   "name": "",
   "callsign": "IFJR",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 111500000,
   "channel": null
  },
@@ -457,21 +457,21 @@
  "airfield9_1": {
   "name": "",
   "callsign": "IBHD",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 108900000,
   "channel": null
  },
  "airfield9_2": {
   "name": "",
   "callsign": "IBHD",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 108900000,
   "channel": null
  },
  "airfield27_0": {
   "name": "Jiroft",
   "callsign": "JIR",
-  "beacon_type": 9,
+  "beacon_type": 4104,
   "hertz": 276000,
   "channel": null
  },
@@ -499,14 +499,14 @@
  "airfield10_0": {
   "name": "",
   "callsign": "IBKS",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 110300000,
   "channel": null
  },
  "airfield10_1": {
   "name": "",
   "callsign": "IBKS",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 110300000,
   "channel": null
  },
@@ -569,28 +569,28 @@
  "airfield12_1": {
   "name": "",
   "callsign": "IMNW",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 110700000,
   "channel": null
  },
  "airfield12_2": {
   "name": "",
   "callsign": "IMNW",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 110700000,
   "channel": null
  },
  "airfield12_3": {
   "name": "",
   "callsign": "IMNR",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 110750000,
   "channel": null
  },
  "airfield12_4": {
   "name": "",
   "callsign": "IMNR",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 110750000,
   "channel": null
  },
@@ -625,28 +625,28 @@
  "airfield14_0": {
   "name": "",
   "callsign": "ISRE",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 108550000,
   "channel": null
  },
  "airfield14_1": {
   "name": "",
   "callsign": "ISHW",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 111950000,
   "channel": null
  },
  "airfield14_2": {
   "name": "",
   "callsign": "ISHW",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 111950000,
   "channel": null
  },
  "airfield14_3": {
   "name": "",
   "callsign": "ISRE",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 108550000,
   "channel": null
  },
@@ -674,14 +674,14 @@
  "airfield19_3": {
   "name": "",
   "callsign": "ISYZ",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 108500000,
   "channel": null
  },
  "airfield19_4": {
   "name": "",
   "callsign": "ISYZ",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 108500000,
   "channel": null
  },

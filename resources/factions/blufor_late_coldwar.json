@@ -5,6 +5,9 @@
   "description": "<p>Blufor 1980s late cold war faction featuring units from NATO and NATO-aligned nations.</p>",
   "aircrafts": [
     "A-10A Thunderbolt II",
+    "A-10C Thunderbolt II (Suite 3)",
+    "A-10C Thunderbolt II (Suite 7)",
+    "AH-64D Apache Longbow",
     "A-4E Skyhawk",
     "A-6A Intruder",
     "A-7E Corsair II",
@@ -29,6 +32,7 @@
     "F-4E Phantom II",
     "F-4E-45MC Phantom II",
     "F-5E Tiger II",
+    "F-5E Tiger II (FC)",
     "OH-58D(R) Kiowa Warrior",
     "Mi-8MTV2 Hip",
     "MiG-21bis Fishbed-N",
@@ -37,6 +41,7 @@
     "Mirage-F1CE",
     "Mirage-F1C-200",
     "Mirage-F1EE",
+    "Mirage 2000C",
     "S-3B Viking",
     "SA 342L Gazelle",
     "SA 342M Gazelle",
@@ -52,7 +57,8 @@
   ],
   "tankers": [
     "KC-130",
-    "KC-135 Stratotanker"
+    "KC-135 Stratotanker",
+    "S-3B Tanker"
   ],
   "frontline_units": [
     "M113",

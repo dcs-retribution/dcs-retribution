@@ -12,6 +12,7 @@ from dcs.mission import Mission
 from dcs.terrain.terrain import Terrain
 from shapely import geometry, LineString
 from shapely.geometry import MultiPolygon, Polygon
+import shapely as shp
 
 
 @dataclass(frozen=True)
@@ -27,6 +28,11 @@ class Landmap:
             raise RuntimeError("Exclusion zones not valid")
         if not self.sea_zones.is_valid:
             raise RuntimeError("Sea zones not valid")
+
+        # Generate Spatial Index using `prepare` to improve performance
+        shp.prepare(self.inclusion_zones)
+        shp.prepare(self.exclusion_zones)
+        shp.prepare(self.sea_zones)
 
     @cached_property
     def inclusion_zone_only(self) -> MultiPolygon:

@@ -11,10 +11,11 @@ from game.theater import FrontLine
 
 if TYPE_CHECKING:
     from game.coalition import Coalition
+    from game.theater.player import Player
 
 
 class FrontLineStanceTask(TheaterCommanderTask, ABC):
-    def __init__(self, front_line: FrontLine, player: bool) -> None:
+    def __init__(self, front_line: FrontLine, player: Player) -> None:
         self.front_line = front_line
         self.friendly_cp = self.front_line.control_point_friendly_to(player)
         self.enemy_cp = self.front_line.control_point_hostile_to(player)
@@ -26,7 +27,7 @@ class FrontLineStanceTask(TheaterCommanderTask, ABC):
     @staticmethod
     def management_allowed(state: TheaterState) -> bool:
         return (
-            not state.context.coalition.player
+            not state.context.coalition.player.is_blue
             or state.context.settings.automate_front_line_stance
         )
 
