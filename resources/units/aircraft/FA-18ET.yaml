@@ -57,7 +57,7 @@ utc_kneeboard: true
 #   InnerBoard: 0
 #   OuterBoard: 0
 tasks:
-  Refueling: 0
-  Recovery: 0
+  Refueling: 10
+  Recovery: 10
 
 has_built_in_ecm: true

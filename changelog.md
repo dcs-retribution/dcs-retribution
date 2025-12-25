@@ -15,7 +15,7 @@
 * **[Modding]** Update SU-30 mod to v2.8.04 Beta + CWS 3.72
 * **[Plugins]** EW Script - DEAD added to applicable flight types.
 * **[Plugins]** EW Script - Offensive Jamming restricted to aircraft with ALQ99/249 pods, or "has_built_in_jamming: true" in aircarft yaml (AI and Player)
-* **[Modding]** Update to CJS Super Hornet Mod v2.4.4
+* **[Modding]** Update to CJS Super Hornet Mod v2.4.5
 * **[Engine]** Support for DCS 2.9.20.15010, including MiG-29A Fulcrum support.
 * **[Campaigns]** Ability to define neutral FOBs and Airfields
 * **[Modding]** Add Airboss Moose Module
