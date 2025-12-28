@@ -82,6 +82,7 @@ class Beacons:
 
         beacons_filename_mapper = {
             "sinaimap": "sinai",
+            "germanycw": "germanycoldwar",
         }
         filename = theater.terrain.name.lower()
         filename = beacons_filename_mapper.get(filename, filename)
