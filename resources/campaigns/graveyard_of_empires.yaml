@@ -49,7 +49,7 @@ squadrons:
       secondary: any
       aircraft:
         - C-130J-30 Super Hercules
-        - C-130
+        - C-130J-30
       size: 2
     - primary: Refueling
       aircraft:
@@ -86,7 +86,7 @@ squadrons:
     - primary: Refueling
       aircraft:
         - KC-130J
-        - KC-130
+        - C-130J-30
       size: 1
     - primary: SEAD
       secondary: any
@@ -159,7 +159,7 @@ squadrons:
     - primary: Escort
       secondary: air-to-air
       aircraft:
-        - MiG-29S Fulcrum-C
+        - MIG-29-FULCRUM
       size: 10
     - primary: SEAD Escort
       secondary: any
