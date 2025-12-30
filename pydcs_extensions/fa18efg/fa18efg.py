@@ -3631,7 +3631,7 @@ class FA_18E(PlaneType):
     }
 
     callnames: Dict[str, List[str]] = {
-        "RAAF": [
+        "Australia": [
             "Brutal",
             "Buckshot",
             "Cannon",
@@ -3648,9 +3648,6 @@ class FA_18E(PlaneType):
             "Sonic",
             "Sword",
             "Wolf",
-        ],
-        "USAF Aggressors": [
-            "Red55",
         ],
         "USA": [
             "Hornet",
@@ -7242,7 +7239,7 @@ class FA_18F(PlaneType):
     }
 
     callnames: Dict[str, List[str]] = {
-        "RAAF": [
+        "Australia": [
             "Brutal",
             "Buckshot",
             "Cannon",
@@ -7259,9 +7256,6 @@ class FA_18F(PlaneType):
             "Sonic",
             "Sword",
             "Wolf",
-        ],
-        "USAF Aggressors": [
-            "Red55",
         ],
         "USA": [
             "Hornet",
@@ -10879,7 +10873,7 @@ class EA_18G(PlaneType):
     }
 
     callnames: Dict[str, List[str]] = {
-        "RAAF": [
+        "Australia": [
             "Brutal",
             "Buckshot",
             "Cannon",
@@ -10896,9 +10890,6 @@ class EA_18G(PlaneType):
             "Sonic",
             "Sword",
             "Wolf",
-        ],
-        "USAF Aggressors": [
-            "Red55",
         ],
         "USA": [
             "Hornet",
@@ -14592,7 +14583,7 @@ class FA_18ET(PlaneType):
     }
 
     callnames: Dict[str, List[str]] = {
-        "RAAF": [
+        "Australia": [
             "Brutal",
             "Buckshot",
             "Cannon",
@@ -14609,9 +14600,6 @@ class FA_18ET(PlaneType):
             "Sonic",
             "Sword",
             "Wolf",
-        ],
-        "USAF Aggressors": [
-            "Red55",
         ],
         "USA": [
             "Hornet",
@@ -15177,7 +15165,7 @@ class FA_18FT(PlaneType):
     }
 
     callnames: Dict[str, List[str]] = {
-        "RAAF": [
+        "Australia": [
             "Brutal",
             "Buckshot",
             "Cannon",
@@ -15194,9 +15182,6 @@ class FA_18FT(PlaneType):
             "Sonic",
             "Sword",
             "Wolf",
-        ],
-        "USAF Aggressors": [
-            "Red55",
         ],
         "USA": [
             "Hornet",
