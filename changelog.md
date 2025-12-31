@@ -20,6 +20,7 @@
 * **[Campaigns]** Ability to define neutral FOBs and Airfields
 * **[Modding]** Add Airboss Moose Module
 * **[AirWing]** Use aircraft display names for easier differentiation between modules
+* **[Plugins]** Added BigEye EWR Script
 
 ## Fixes
 * **[Flight Plans]** Fixed bugs wrt planning escort flights
