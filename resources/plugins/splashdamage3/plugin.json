@@ -38,7 +38,7 @@
             "defaultValue": true
         },
         {
-            "nameInUI": "Dynamic Blast Radius Multiplier (%)",
+            "nameInUI": "Dynamic Blast Radius Multiplier",
             "mnemonic": "dynamic_blast_radius_modifier",
             "minimumValue": 1,
             "maximumValue": 5000,
@@ -52,16 +52,16 @@
         {
             "nameInUI": "Static Objects Damage Boost",
             "mnemonic": "static_damage_boost",
-            "minimumValue": 1000,
+            "minimumValue": 1,
             "maximumValue": 5000,
             "defaultValue": 2000
         },
         {
-            "nameInUI": "Overall Scaling (%)",
+            "nameInUI": "Overall Scaling Multiplier",
             "mnemonic": "overall_scaling",
             "minimumValue": 1,
-            "maximumValue": 5000,
-            "defaultValue": 100
+            "maximumValue": 100,
+            "defaultValue": 1
         },
         {
             "nameInUI": "Health Value Units Movements are Disabled (%)",
@@ -90,6 +90,18 @@
             "defaultValue": false
         },
         {
+            "nameInUI": "Cluster Munitions Bomblets Count Reduction Modifier",
+            "mnemonic": "cluster_bomblet_reductionmodifier",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "Global Bomblet Explosive Modifier",
+            "mnemonic": "cluster_bomblet_damage_modifier",
+            "minimumValue": 1,
+            "maximumValue": 100,
+            "defaultValue": 1
+        },
+        {
             "nameInUI": "Rockets damage multiplier (%)",
             "mnemonic": "rocket_multiplier",
             "minimumValue": 10,
@@ -107,6 +119,87 @@
             "minimumValue": 0,
             "maximumValue": 5000,
             "defaultValue": 3000
+        },
+        {
+            "nameInUI": "Enable Ordnance Protection",
+            "mnemonic": "ordnance_protection",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "Ordnance Protection Radius (m)",
+            "mnemonic": "ordnance_protection_radius",
+            "minimumValue": 100,
+            "maximumValue": 2000,
+            "defaultValue": 800
+        },
+        {
+            "nameInUI": "Detect Ordnance Destroyed by Large Explosions",
+            "mnemonic": "detect_ordnance_destruction",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "Snap Explosion to Ground if Destroyed by Large Explosion",
+            "mnemonic": "snap_to_ground_if_destroyed_by_large_explosion",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "Maximum Height to Snap Explosions to Ground",
+            "mnemonic": "max_snapped_height",
+            "minimumValue": 10,
+            "maximumValue": 5000,
+            "defaultValue": 80
+        },
+        {
+            "nameInUI": "Enable Detection of Recent Large Explosion",
+            "mnemonic": "recent_large_explosion_snap",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "Range of Recent Large Explosion Detection (m)",
+            "mnemonic": "recent_large_explosion_range",
+            "minimumValue": 10,
+            "maximumValue": 5000,
+            "defaultValue": 100
+        },
+        {
+            "nameInUI": "Time to Detect Recent Large Explosions (sec)",
+            "mnemonic": "recent_large_explosion_time",
+            "minimumValue": 1,
+            "maximumValue": 100,
+            "defaultValue": 4
+        },
+        {
+            "nameInUI": "Ground Ordnance Explosion Damage Multipler",
+            "mnemonic": "groundunitordnance_damage_modifier",
+            "minimumValue": 1,
+            "maximumValue": 100,
+            "defaultValue": 1
+        },
+        {
+            "nameInUI": "Ground Ordnance Explosion Blast Wave Multipler",
+            "mnemonic": "groundunitordnance_blastwave_modifier",
+            "minimumValue": 1,
+            "maximumValue": 100,
+            "defaultValue": 4
+        },
+        {
+            "nameInUI": "Critical Component Damage (Single Hit Failure)",
+            "mnemonic": "CriticalComponent",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "Chance of Critical Component Damage (%)",
+            "mnemonic": "CriticalComponent_Chance",
+            "minimumValue": 0.01,
+            "maximumValue": 100.00,
+            "defaultValue": 0.01
+        },
+        {
+            "nameInUI": "Critical Component Explosive Power",
+            "mnemonic": "CriticalComponent_Explosion_Power",
+            "minimumValue": 1,
+            "maximumValue": 100,
+            "defaultValue": 50
         }
     ],
     "scriptsWorkOrders": [

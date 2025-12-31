@@ -6,7 +6,7 @@
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
--- SD2 plugin - configuration
+-- SD3 plugin - configuration
 if dcsRetribution then
     -- retrieve specific options values
     if dcsRetribution.plugins then
@@ -27,9 +27,22 @@ if dcsRetribution then
             splash_damage_options.unit_cant_fire_health = dcsRetribution.plugins.splashdamage3.unit_cant_fire_health
             splash_damage_options.infantry_cant_fire_health = dcsRetribution.plugins.splashdamage3.infantry_cant_fire_health
             splash_damage_options.cluster_enabled = dcsRetribution.plugins.splashdamage3.cluster_enabled
+            splash_damage_options.cluster_bomblet_reductionmodifier = dcsRetribution.plugins.splashdamage3.cluster_bomblet_reductionmodifier
+            splash_damage_options.cluster_bomblet_damage_modifier = dcsRetribution.plugins.splashdamage3.cluster_bomblet_damage_modifier
             splash_damage_options.rocket_multiplier = dcsRetribution.plugins.splashdamage3.rocket_multiplier
             splash_damage_options.shipRadarDamageEnable = dcsRetribution.plugins.splashdamage3.shipRadarDamageENable
             splash_damage_options.oca_aircraft_damage_boost = dcsRetribution.plugins.splashdamage3.oca_aircraft_damage_boost
+            splash_damage_options.ordnance_protection = dcsRetribution.plugins.splashdamage3.ordnance_protection
+            splash_damage_options.ordnance_protection_radius = dcsRetribution.plugins.splashdamage3.ordnance_protection_radius
+            splash_damage_options.snap_to_ground_if_destroyed_by_large_explosion = dcsRetribution.plugins.splashdamage3.snap_to_ground_if_destroyed_by_large_explosion
+            splash_damage_options.max_snapped_height = dcsRetribution.plugins.splashdamage3.max_snapped_height
+            splash_damage_options.recent_large_explosion_snap = dcsRetribution.plugins.splashdamage3.recent_large_explosion_snap
+            splash_damage_options.recent_large_explosion_range = dcsRetribution.plugins.splashdamage3.recent_large_explosion_range
+            splash_damage_options.recent_large_explosion_time = dcsRetribution.plugins.splashdamage3.recent_large_explosion_time
+            splash_damage_options.groundunitordnance_damage_modifier = dcsRetribution.plugins.splashdamage3.groundunitordnance_damage_modifier
+            splash_damage_options.groundunitordnance_blastwave_modifier = dcsRetribution.plugins.splashdamage3.groundunitordnance_blastwave_modifier
+            splash_damage_options.CriticalComponent = dcsRetribution.plugins.splashdamage3.CriticalComponent
+            splash_damage_options.CriticalComponent_Chance = dcsRetribution.plugins.splashdamage3.CriticalComponent_Chance
         end
     end
 end
