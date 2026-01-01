@@ -30,7 +30,7 @@ local unitPayloads = {
 					["num"] = 6,
 				},
 				[7] = {
-					["CLSID"] = "{SUPERHORNET_PYLON_09_IB_FT_1X_FPU-12A}",
+					["CLSID"] = "{SUPERHORNET_PYLON_09_IB_FT_1X_FPU-8A}",
 					["num"] = 7,
 				},
 				[8] = {
@@ -86,7 +86,7 @@ local unitPayloads = {
 					["num"] = 6,
 				},
 				[7] = {
-					["CLSID"] = "{SUPERHORNET_PYLON_09_IB_FT_1X_FPU-12A}",
+					["CLSID"] = "{SUPERHORNET_PYLON_09_IB_FT_1X_FPU-8A}",
 					["num"] = 7,
 				},
 				[8] = {
@@ -142,7 +142,7 @@ local unitPayloads = {
 					["num"] = 6,
 				},
 				[7] = {
-					["CLSID"] = "{SUPERHORNET_PYLON_09_IB_FT_1X_FPU-12A}",
+					["CLSID"] = "{SUPERHORNET_PYLON_09_IB_FT_1X_FPU-8A}",
 					["num"] = 7,
 				},
 				[8] = {
@@ -198,7 +198,7 @@ local unitPayloads = {
 					["num"] = 6,
 				},
 				[7] = {
-					["CLSID"] = "{SUPERHORNET_PYLON_09_IB_FT_1X_FPU-12A}",
+					["CLSID"] = "{SUPERHORNET_PYLON_09_IB_FT_1X_FPU-8A}",
 					["num"] = 7,
 				},
 				[8] = {
