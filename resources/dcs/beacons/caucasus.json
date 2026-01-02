@@ -2,42 +2,42 @@
  "airfield12_0": {
   "name": "Anapa-Vityazevo",
   "callsign": "AP",
-  "beacon_type": 11,
+  "beacon_type": 16408,
   "hertz": 443000,
   "channel": null
  },
  "airfield12_1": {
   "name": "Anapa-Vityazevo",
   "callsign": "P",
-  "beacon_type": 12,
+  "beacon_type": 16424,
   "hertz": 215000,
   "channel": null
  },
  "airfield12_2": {
   "name": "Anapa-Vityazevo",
   "callsign": "AN",
-  "beacon_type": 11,
+  "beacon_type": 16408,
   "hertz": 443000,
   "channel": null
  },
  "airfield12_3": {
   "name": "Anapa-Vityazevo",
   "callsign": "N",
-  "beacon_type": 12,
+  "beacon_type": 16424,
   "hertz": 215000,
   "channel": null
  },
  "airfield22_0": {
   "name": "Batumi",
   "callsign": "ILU",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 110300000,
   "channel": null
  },
  "airfield22_1": {
   "name": "Batumi",
   "callsign": "ILU",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 110300000,
   "channel": null
  },
@@ -51,42 +51,42 @@
  "airfield22_3": {
   "name": "Batumi",
   "callsign": "LU",
-  "beacon_type": 9,
+  "beacon_type": 4104,
   "hertz": 430000,
   "channel": null
  },
  "airfield32_0": {
   "name": "Beslan",
   "callsign": "CX",
-  "beacon_type": 11,
+  "beacon_type": 16408,
   "hertz": 1050000,
   "channel": null
  },
  "airfield32_1": {
   "name": "Beslan",
   "callsign": "C",
-  "beacon_type": 12,
+  "beacon_type": 16424,
   "hertz": 250000,
   "channel": null
  },
  "airfield32_2": {
   "name": "Beslan",
   "callsign": "ICH",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 110500000,
   "channel": null
  },
  "airfield32_3": {
   "name": "Beslan",
   "callsign": "ICH",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 110500000,
   "channel": null
  },
  "airfield17_0": {
   "name": "Gelendzhik",
   "callsign": "GN",
-  "beacon_type": 9,
+  "beacon_type": 4104,
   "hertz": 1000000,
   "channel": null
  },
@@ -100,35 +100,35 @@
  "airfield21_0": {
   "name": "Gudauta",
   "callsign": "XC",
-  "beacon_type": 10,
+  "beacon_type": 4136,
   "hertz": 395000,
   "channel": null
  },
  "airfield24_0": {
   "name": "Kobuleti",
   "callsign": "KT",
-  "beacon_type": 11,
+  "beacon_type": 16408,
   "hertz": 870000,
   "channel": null
  },
  "airfield24_1": {
   "name": "Kobuleti",
   "callsign": "T",
-  "beacon_type": 12,
+  "beacon_type": 16424,
   "hertz": 490000,
   "channel": null
  },
  "airfield24_2": {
   "name": "Kobuleti",
   "callsign": "IKB",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 111500000,
   "channel": null
  },
  "airfield24_3": {
   "name": "Kobuleti",
   "callsign": "IKB",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 111500000,
   "channel": null
  },
@@ -142,77 +142,77 @@
  "airfield13_0": {
   "name": "Krasnodar-Center",
   "callsign": "O",
-  "beacon_type": 12,
+  "beacon_type": 16424,
   "hertz": 303000,
   "channel": null
  },
  "airfield13_1": {
   "name": "Krasnodar-Center",
   "callsign": "M",
-  "beacon_type": 12,
+  "beacon_type": 16424,
   "hertz": 303000,
   "channel": null
  },
  "airfield13_2": {
   "name": "Krasnodar-Center",
   "callsign": "OC",
-  "beacon_type": 11,
+  "beacon_type": 16408,
   "hertz": 625000,
   "channel": null
  },
  "airfield13_3": {
   "name": "Krasnodar-Center",
   "callsign": "MB",
-  "beacon_type": 16,
+  "beacon_type": 33280,
   "hertz": null,
   "channel": 38
  },
  "airfield13_4": {
   "name": "Krasnodar-Center",
   "callsign": "MB",
-  "beacon_type": 15,
+  "beacon_type": 33024,
   "hertz": null,
   "channel": 38
  },
  "airfield13_5": {
   "name": "Krasnodar-Center",
   "callsign": "MB",
-  "beacon_type": 6,
+  "beacon_type": 128,
   "hertz": null,
   "channel": 40
  },
  "airfield13_6": {
   "name": "Krasnodar-Center",
   "callsign": "MB",
-  "beacon_type": 11,
+  "beacon_type": 16408,
   "hertz": 625000,
   "channel": null
  },
  "airfield19_0": {
   "name": "Krasnodar-Pashkovsky",
   "callsign": "KR",
-  "beacon_type": 11,
+  "beacon_type": 16408,
   "hertz": 493000,
   "channel": null
  },
  "airfield19_1": {
   "name": "Krasnodar-Pashkovsky",
   "callsign": "K",
-  "beacon_type": 12,
+  "beacon_type": 16424,
   "hertz": 240000,
   "channel": null
  },
  "airfield19_2": {
   "name": "Krasnodar-Pashkovsky",
   "callsign": "LD",
-  "beacon_type": 11,
+  "beacon_type": 16408,
   "hertz": 493000,
   "channel": null
  },
  "airfield19_3": {
   "name": "Krasnodar-Pashkovsky",
   "callsign": "L",
-  "beacon_type": 12,
+  "beacon_type": 16424,
   "hertz": 240000,
   "channel": null
  },
@@ -226,84 +226,84 @@
  "airfield15_0": {
   "name": "Krymsk",
   "callsign": "KW",
-  "beacon_type": 15,
+  "beacon_type": 33024,
   "hertz": null,
   "channel": 26
  },
  "airfield15_1": {
   "name": "Krymsk",
   "callsign": "KW",
-  "beacon_type": 11,
+  "beacon_type": 16408,
   "hertz": 408000,
   "channel": null
  },
  "airfield15_2": {
   "name": "Krymsk",
   "callsign": "KW",
-  "beacon_type": 6,
+  "beacon_type": 128,
   "hertz": null,
   "channel": 28
  },
  "airfield15_3": {
   "name": "Krymsk",
   "callsign": "OX",
-  "beacon_type": 15,
+  "beacon_type": 33024,
   "hertz": null,
   "channel": 26
  },
  "airfield15_4": {
   "name": "Krymsk",
   "callsign": "K",
-  "beacon_type": 12,
+  "beacon_type": 16424,
   "hertz": 803000,
   "channel": null
  },
  "airfield15_5": {
   "name": "Krymsk",
   "callsign": "OX",
-  "beacon_type": 11,
+  "beacon_type": 16408,
   "hertz": 408000,
   "channel": null
  },
  "airfield15_6": {
   "name": "Krymsk",
   "callsign": "KW",
-  "beacon_type": 16,
+  "beacon_type": 33280,
   "hertz": null,
   "channel": 26
  },
  "airfield15_7": {
   "name": "Krymsk",
   "callsign": "OX",
-  "beacon_type": 16,
+  "beacon_type": 33280,
   "hertz": null,
   "channel": 26
  },
  "airfield15_8": {
   "name": "Krymsk",
   "callsign": "O",
-  "beacon_type": 12,
+  "beacon_type": 16424,
   "hertz": 803000,
   "channel": null
  },
  "airfield25_0": {
   "name": "Kutaisi",
   "callsign": "IKS",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 109750000,
   "channel": null
  },
  "airfield25_1": {
   "name": "Kutaisi",
   "callsign": "IKS",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 109750000,
   "channel": null
  },
  "airfield25_2": {
   "name": "Kutaisi",
   "callsign": "TI",
-  "beacon_type": 10,
+  "beacon_type": 4136,
   "hertz": 477000,
   "channel": null
  },
@@ -324,56 +324,56 @@
  "airfield29_0": {
   "name": "Tbilisi-Lochini",
   "callsign": "BP",
-  "beacon_type": 11,
+  "beacon_type": 16408,
   "hertz": 342000,
   "channel": null
  },
  "airfield29_1": {
   "name": "Tbilisi-Lochini",
   "callsign": "B",
-  "beacon_type": 12,
+  "beacon_type": 16424,
   "hertz": 923000,
   "channel": null
  },
  "airfield29_2": {
   "name": "Tbilisi-Lochini",
   "callsign": "IVP",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 110300000,
   "channel": null
  },
  "airfield29_3": {
   "name": "Tbilisi-Lochini",
   "callsign": "IVP",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 110300000,
   "channel": null
  },
  "airfield29_4": {
   "name": "Tbilisi-Lochini",
   "callsign": "NA",
-  "beacon_type": 11,
+  "beacon_type": 16408,
   "hertz": 211000,
   "channel": null
  },
  "airfield29_5": {
   "name": "Tbilisi-Lochini",
   "callsign": "N",
-  "beacon_type": 12,
+  "beacon_type": 16424,
   "hertz": 435000,
   "channel": null
  },
  "airfield29_6": {
   "name": "Tbilisi-Lochini",
   "callsign": "INA",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 108900000,
   "channel": null
  },
  "airfield29_7": {
   "name": "Tbilisi-Lochini",
   "callsign": "INA",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 108900000,
   "channel": null
  },
@@ -394,105 +394,105 @@
  "airfield16_0": {
   "name": "Maykop-Khanskaya",
   "callsign": "DG",
-  "beacon_type": 6,
+  "beacon_type": 128,
   "hertz": null,
   "channel": 34
  },
  "airfield16_1": {
   "name": "Maykop-Khanskaya",
   "callsign": "DG",
-  "beacon_type": 16,
+  "beacon_type": 33280,
   "hertz": null,
   "channel": 36
  },
  "airfield16_2": {
   "name": "Maykop-Khanskaya",
   "callsign": "R",
-  "beacon_type": 12,
+  "beacon_type": 16424,
   "hertz": 591000,
   "channel": null
  },
  "airfield16_3": {
   "name": "Maykop-Khanskaya",
   "callsign": "RK",
-  "beacon_type": 11,
+  "beacon_type": 16408,
   "hertz": 289000,
   "channel": null
  },
  "airfield16_4": {
   "name": "Maykop-Khanskaya",
   "callsign": "D",
-  "beacon_type": 12,
+  "beacon_type": 16424,
   "hertz": 591000,
   "channel": null
  },
  "airfield16_5": {
   "name": "Maykop-Khanskaya",
   "callsign": "DG",
-  "beacon_type": 11,
+  "beacon_type": 16408,
   "hertz": 289000,
   "channel": null
  },
  "airfield16_6": {
   "name": "Maykop-Khanskaya",
   "callsign": "DG",
-  "beacon_type": 15,
+  "beacon_type": 33024,
   "hertz": null,
   "channel": 36
  },
  "airfield26_0": {
   "name": "MineralnyeVody",
   "callsign": "NR",
-  "beacon_type": 11,
+  "beacon_type": 16408,
   "hertz": 583000,
   "channel": null
  },
  "airfield26_1": {
   "name": "MineralnyeVody",
   "callsign": "N",
-  "beacon_type": 12,
+  "beacon_type": 16424,
   "hertz": 283000,
   "channel": null
  },
  "airfield26_2": {
   "name": "MineralnyeVody",
   "callsign": "IMW",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 109300000,
   "channel": null
  },
  "airfield26_3": {
   "name": "MineralnyeVody",
   "callsign": "IMW",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 109300000,
   "channel": null
  },
  "airfield26_4": {
   "name": "MineralnyeVody",
   "callsign": "MD",
-  "beacon_type": 11,
+  "beacon_type": 16408,
   "hertz": 583000,
   "channel": null
  },
  "airfield26_5": {
   "name": "MineralnyeVody",
   "callsign": "D",
-  "beacon_type": 12,
+  "beacon_type": 16424,
   "hertz": 283000,
   "channel": null
  },
  "airfield26_6": {
   "name": "MineralnyeVody",
   "callsign": "IMD",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 111700000,
   "channel": null
  },
  "airfield26_7": {
   "name": "MineralnyeVody",
   "callsign": "IMD",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 111700000,
   "channel": null
  },
@@ -506,119 +506,119 @@
  "airfield28_0": {
   "name": "Mozdok",
   "callsign": "MK",
-  "beacon_type": 15,
+  "beacon_type": 33024,
   "hertz": null,
   "channel": 22
  },
  "airfield28_1": {
   "name": "Mozdok",
   "callsign": "MZ",
-  "beacon_type": 16,
+  "beacon_type": 33280,
   "hertz": null,
   "channel": 22
  },
  "airfield28_2": {
   "name": "Mozdok",
   "callsign": "MZ",
-  "beacon_type": 6,
+  "beacon_type": 128,
   "hertz": null,
   "channel": 20
  },
  "airfield28_3": {
   "name": "Mozdok",
   "callsign": "MK",
-  "beacon_type": 16,
+  "beacon_type": 33280,
   "hertz": null,
   "channel": 22
  },
  "airfield28_4": {
   "name": "Mozdok",
   "callsign": "R",
-  "beacon_type": 12,
+  "beacon_type": 16424,
   "hertz": 1065000,
   "channel": null
  },
  "airfield28_5": {
   "name": "Mozdok",
   "callsign": "D",
-  "beacon_type": 12,
+  "beacon_type": 16424,
   "hertz": 1065000,
   "channel": null
  },
  "airfield28_6": {
   "name": "Mozdok",
   "callsign": "DO",
-  "beacon_type": 11,
+  "beacon_type": 16408,
   "hertz": 525000,
   "channel": null
  },
  "airfield28_7": {
   "name": "Mozdok",
   "callsign": "RM",
-  "beacon_type": 11,
+  "beacon_type": 16408,
   "hertz": 525000,
   "channel": null
  },
  "airfield28_8": {
   "name": "Mozdok",
   "callsign": "MZ",
-  "beacon_type": 15,
+  "beacon_type": 33024,
   "hertz": null,
   "channel": 22
  },
  "airfield27_0": {
   "name": "Nalchik",
   "callsign": "NL",
-  "beacon_type": 11,
+  "beacon_type": 16408,
   "hertz": 718000,
   "channel": null
  },
  "airfield27_1": {
   "name": "Nalchik",
   "callsign": "N",
-  "beacon_type": 12,
+  "beacon_type": 16424,
   "hertz": 350000,
   "channel": null
  },
  "airfield27_2": {
   "name": "Nalchik",
   "callsign": "INL",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 110500000,
   "channel": null
  },
  "airfield27_3": {
   "name": "Nalchik",
   "callsign": "INL",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 110500000,
   "channel": null
  },
  "airfield23_0": {
   "name": "Senaki-Kolkhi",
   "callsign": "BI",
-  "beacon_type": 11,
+  "beacon_type": 16408,
   "hertz": 335000,
   "channel": null
  },
  "airfield23_1": {
   "name": "Senaki-Kolkhi",
   "callsign": "B",
-  "beacon_type": 12,
+  "beacon_type": 16424,
   "hertz": 688000,
   "channel": null
  },
  "airfield23_2": {
   "name": "Senaki-Kolkhi",
   "callsign": "ITS",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 108900000,
   "channel": null
  },
  "airfield23_3": {
   "name": "Senaki-Kolkhi",
   "callsign": "ITS",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 108900000,
   "channel": null
  },
@@ -632,63 +632,63 @@
  "airfield18_0": {
   "name": "Sochi-Adler",
   "callsign": "CO",
-  "beacon_type": 10,
+  "beacon_type": 4136,
   "hertz": 761000,
   "channel": null
  },
  "airfield18_1": {
   "name": "Sochi-Adler",
   "callsign": "ISO",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 111100000,
   "channel": null
  },
  "airfield18_2": {
   "name": "Sochi-Adler",
   "callsign": "ISO",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 111100000,
   "channel": null
  },
  "airfield20_0": {
   "name": "Sukhumi-Babushara",
   "callsign": "AV",
-  "beacon_type": 11,
+  "beacon_type": 16408,
   "hertz": 489000,
   "channel": null
  },
  "airfield20_1": {
   "name": "Sukhumi-Babushara",
   "callsign": "A",
-  "beacon_type": 12,
+  "beacon_type": 16424,
   "hertz": 995000,
   "channel": null
  },
  "airfield31_0": {
   "name": "Vaziani",
   "callsign": "IVZ",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 108750000,
   "channel": null
  },
  "airfield31_1": {
   "name": "Vaziani",
   "callsign": "IVZ",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 108750000,
   "channel": null
  },
  "airfield31_2": {
   "name": "Vaziani",
   "callsign": "IVI",
-  "beacon_type": 13,
+  "beacon_type": 16640,
   "hertz": 108750000,
   "channel": null
  },
  "airfield31_3": {
   "name": "Vaziani",
   "callsign": "IVI",
-  "beacon_type": 14,
+  "beacon_type": 16896,
   "hertz": 108750000,
   "channel": null
  },

@@ -375,6 +375,18 @@ class Settings:
             "lower threat range generally means less BARCAPs are planned."
         ),
     )
+    max_threat_range: int = bounded_int_option(
+        "Maxiumum threat range (NM)",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=DOCTRINE_DISTANCES_SECTION,
+        default=200,
+        min=60,
+        max=500,
+        detail=(
+            "Provides an upper limit to threat-ranges to avoid partial nav-meshes, which leads to errors. "
+            "Lower this setting further if the map's bounds aren't covered by the nav-mesh."
+        ),
+    )
     cas_engagement_range_distance: int = bounded_int_option(
         "CAS engagement range (NM)",
         page=CAMPAIGN_DOCTRINE_PAGE,

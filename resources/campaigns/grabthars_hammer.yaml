@@ -56,7 +56,7 @@ squadrons:
       secondary: any
       aircraft:
         - C-130J-30 Super Hercules
-        - C-130
+        - C-130J-30
       size: 1
   #San Julian
   11:

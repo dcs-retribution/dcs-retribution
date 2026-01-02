@@ -68,7 +68,7 @@ squadrons:
       secondary: any
       aircraft:
         - C-130J-30 Super Hercules
-        - C-130
+        - C-130J-30
       size: 2
     - primary: Air Assault
       secondary: any
@@ -175,7 +175,7 @@ squadrons:
     - primary: BARCAP
       secondary: air-to-air
       aircraft:
-        - MiG-29A Fulcrum-A
+        - MIG-29-FULCRUM
       size: 12
   #Kerman
   18:

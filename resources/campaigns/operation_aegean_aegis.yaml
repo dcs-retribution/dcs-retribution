@@ -85,7 +85,7 @@ squadrons:
   47:
     - primary: Transport
       aircraft:
-        - C-130
+        - C-130J-30
       size: 6
     - primary: BAI
       secondary: air-to-ground

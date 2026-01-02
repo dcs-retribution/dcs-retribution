@@ -26,7 +26,7 @@ squadrons:
       secondary: any
       aircraft:
         - "[CH] MiG-29MU2"
-        - MiG-29S Fulcrum-C
+        - MIG-29-FULCRUM
       size: 12
     - primary: Escort
       secondary: any

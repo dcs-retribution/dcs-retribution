@@ -51,7 +51,7 @@ squadrons:
       secondary: any
       aircraft:
         - C-130J-30 Super Hercules
-        - C-130
+        - C-130J-30
       size: 4
     - primary: BARCAP
       secondary: any
@@ -216,7 +216,7 @@ squadrons:
     - primary: BARCAP
       secondary: air-to-air
       aircraft:
-        - MiG-29S Fulcrum-C
+        - MIG-29-FULCRUM
       size: 16
   #Camp Bastion Heliport
   13:

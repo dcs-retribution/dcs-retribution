@@ -72,7 +72,7 @@ squadrons:
       secondary: any
       aircraft:
         - C-130J-30 Super Hercules
-        - C-130
+        - C-130J-30
       size: 4
     - primary: Refueling
       aircraft:
@@ -234,7 +234,7 @@ squadrons:
     - primary: Escort
       secondary: air-to-air
       aircraft:
-        - MiG-29S Fulcrum-C
+        - MIG-29-FULCRUM
       size: 12
   #Opfor Carrier
   Red CV-1:

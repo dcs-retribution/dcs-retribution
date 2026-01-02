@@ -93,7 +93,7 @@ squadrons:
       secondary: any
       aircraft:
         - C-130J-30 Super Hercules
-        - C-130
+        - C-130J-30
       size: 2
     - primary: Air Assault
       secondary: any
@@ -115,7 +115,7 @@ squadrons:
       secondary: any
       aircraft:
         - C-130J-30 Super Hercules
-        - C-130
+        - C-130J-30
       size: 2
     - primary: Escort
       secondary: any
@@ -241,5 +241,5 @@ squadrons:
     - primary: BARCAP
       secondary: any
       aircraft:
-        - MiG-29A Fulcrum-A
+        - MIG-29-FULCRUM
       size: 8

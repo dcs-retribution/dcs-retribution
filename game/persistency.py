@@ -158,6 +158,10 @@ class MigrationUnpickler(pickle.Unpickler):
             elif name == "Aerodromo_O_Higgins":
                 from dcs.terrain.falklands.airports import O_Higgins
                 return O_Higgins
+        if module == "dcs.terrain.germanycoldwar.airports":
+            if name == "Leipzig_Halle":
+                from dcs.terrain.germanycoldwar.airports import Schkeuditz
+                return Schkeuditz
         if module in ["dcs.vehicles", "dcs.ships"]:
             try:
                 return super().find_class(module, name)
