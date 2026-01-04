@@ -24,9 +24,16 @@ from game.missiongenerator.missiondata import MissionData
 from game.plugins import LuaPluginManager
 from game.pretense.pretenseflightgroupspawner import PretenseNameGenerator
 from game.pretense.pretensetgogenerator import PretenseGroundObjectGenerator
-from game.theater import Airfield, OffMapSpawn
+from game.theater import Airfield, OffMapSpawn, Player
 from game.utils import escape_string_for_lua
-from pydcs_extensions import IRON_DOME_LN, DAVID_SLING_LN
+from pydcs_extensions import (
+    IRON_DOME_LN,
+    DAVID_SLING_LN,
+    Vap_m35_truck,
+    Vap_mule,
+    Vap_vc_zis,
+    RBS_70,
+)
 
 if TYPE_CHECKING:
     from game import Game
@@ -105,8 +112,13 @@ class PretenseLuaGenerator(LuaGenerator):
         cp_side_str = "blue" if cp_side == PRETENSE_BLUE_SIDE else "red"
         cp = self.game.theater.controlpoints[0]
         for loop_cp in self.game.theater.controlpoints:
-            if loop_cp.name == cp_name:
+            loop_cp_name = PretenseNameGenerator.pretense_trimmed_cp_name_uppercase(
+                loop_cp.name
+            )
+            if loop_cp_name == cp_name:
                 cp = loop_cp
+                break
+
         sam_presets: dict[str, PretenseSam] = {}
         for sam_name in [
             "sa2",
@@ -121,7 +133,9 @@ class PretenseLuaGenerator(LuaGenerator):
             "nasamsc",
             "rapier",
             "roland",
+            "chaparral",
             "hq7",
+            "rbs70",
             "irondome",
             "davidsling",
         ]:
@@ -222,8 +236,12 @@ class PretenseLuaGenerator(LuaGenerator):
                         sam_presets["rapier"].enabled = True
                     if ground_unit.unit_type.dcs_unit_type == AirDefence.Roland_ADS:
                         sam_presets["roland"].enabled = True
+                    if ground_unit.unit_type.dcs_unit_type == AirDefence.M48_Chaparral:
+                        sam_presets["chaparral"].enabled = True
                     if ground_unit.unit_type.dcs_unit_type == AirDefence.HQ_7_STR_SP:
                         sam_presets["hq7"].enabled = True
+                    if ground_unit.unit_type.dcs_unit_type == RBS_70:
+                        sam_presets["rbs70"].enabled = True
                     if ground_unit.unit_type.dcs_unit_type == IRON_DOME_LN:
                         sam_presets["irondome"].enabled = True
                     if ground_unit.unit_type.dcs_unit_type == DAVID_SLING_LN:
@@ -369,9 +387,20 @@ class PretenseLuaGenerator(LuaGenerator):
         cp_name_trimmed = PretenseNameGenerator.pretense_trimmed_cp_name(cp_name)
         cp_side_str = "blue" if cp_side == PRETENSE_BLUE_SIDE else "red"
 
-        supply_ship = "oilPump"
-        tanker_ship = "chemTank"
-        command_ship = "comCenter"
+        if cp_side == PRETENSE_BLUE_SIDE:
+            if random.randint(0, 1):
+                supply_ship = "shipSupplyTilde"
+            else:
+                supply_ship = "shipLandingShipLstMk2"
+            tanker_ship = "shipTankerSeawisegiant"
+            command_ship = "shipLandingShipSamuelChase"
+        else:
+            if random.randint(0, 1):
+                supply_ship = "shipBulkerYakushev"
+            else:
+                supply_ship = "shipCargoIvanov"
+            tanker_ship = "shipTankerElnya"
+            command_ship = "shipLandingShipRopucha"
 
         lua_string_zones += (
             "        presets.upgrades.supply." + supply_ship + ":extend({\n"
@@ -396,6 +425,17 @@ class PretenseLuaGenerator(LuaGenerator):
                 + ground_group
                 + "'}),\n"
             )
+        lua_string_zones += "            }\n"
+        lua_string_zones += "        }),\n"
+        lua_string_zones += (
+            "        presets.upgrades.attack." + command_ship + ":extend({\n"
+        )
+        lua_string_zones += (
+            f"            name = '{cp_name_trimmed}-mission-command-"
+            + cp_side_str
+            + "',\n"
+        )
+        lua_string_zones += "            products = {\n"
         for mission_type in self.game.pretense_air[cp_side][cp_name_trimmed]:
             if mission_type == FlightType.AIR_ASSAULT:
                 mission_name = "supply.helo"
@@ -408,26 +448,6 @@ class PretenseLuaGenerator(LuaGenerator):
                         + air_group
                         + "'}),\n"
                     )
-        lua_string_zones += "            }\n"
-        lua_string_zones += "        }),\n"
-        lua_string_zones += (
-            "        presets.upgrades.airdef." + command_ship + ":extend({\n"
-        )
-        lua_string_zones += (
-            f"            name = '{cp_name_trimmed}-mission-command-"
-            + cp_side_str
-            + "',\n"
-        )
-        lua_string_zones += "            products = {\n"
-        lua_string_zones += (
-            "                presets.defenses."
-            + cp_side_str
-            + ".shorad:extend({ name='"
-            + cp_name_trimmed
-            + "-shorad-"
-            + cp_side_str
-            + "' }),\n"
-        )
         lua_string_zones += "            }\n"
         lua_string_zones += "        }),\n"
         lua_string_zones += (
@@ -843,6 +863,9 @@ class PretenseLuaGenerator(LuaGenerator):
             Unarmed.Blitz_36_6700A,
             Unarmed.M_818,
             Unarmed.Bedford_MWD,
+            Vap_m35_truck,
+            Vap_mule,
+            Vap_vc_zis,
         ]
 
         for unit_class in desired_unit_classes:
@@ -1313,10 +1336,37 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_ground_groups += "            dataCategory = TemplateDB.type.group\n"
         lua_string_ground_groups += "}\n"
 
+        lua_string_ground_groups += (
+            'TemplateDB.templates["chaparral-' + side_str + '"] = {\n'
+        )
+        lua_string_ground_groups += "    units = {\n"
+        lua_string_ground_groups += '                "M48 Chaparral",\n'
+        lua_string_ground_groups += '                "M48 Chaparral",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.AAA, UnitClass.SHORAD, UnitClass.MANPAD])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.AAA, UnitClass.SHORAD, UnitClass.MANPAD])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.AAA, UnitClass.SHORAD, UnitClass.MANPAD])}",\n'
+        lua_string_ground_groups += '                "M48 Chaparral",\n'
+        lua_string_ground_groups += '                "M48 Chaparral",\n'
+        lua_string_ground_groups += '                "M48 Chaparral",\n'
+        lua_string_ground_groups += '                "M48 Chaparral",\n'
+        lua_string_ground_groups += '                "Hawk pcp",\n'
+        lua_string_ground_groups += '                "Hawk sr",\n'
+        lua_string_ground_groups += '                "Hawk sr"\n'
+        lua_string_ground_groups += "            },\n"
+        lua_string_ground_groups += "            maxDist = 300,\n"
+        lua_string_ground_groups += f'            skill = "{skill_str}",\n'
+        lua_string_ground_groups += "            dataCategory = TemplateDB.type.group\n"
+        lua_string_ground_groups += "}\n"
+
         lua_string_ground_groups += 'TemplateDB.templates["hq7-' + side_str + '"] = {\n'
         lua_string_ground_groups += "    units = {\n"
-        lua_string_ground_groups += '                "HQ-7_LN_EO",\n'
-        lua_string_ground_groups += '                "HQ-7_LN_EO",\n'
+        lua_string_ground_groups += '                "HQ-7_LN_P",\n'
+        lua_string_ground_groups += '                "HQ-7_LN_P",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.AAA, UnitClass.SHORAD, UnitClass.MANPAD])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
         lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
@@ -1332,6 +1382,33 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_ground_groups += '                "HQ-7_STR_SP",\n'
         lua_string_ground_groups += '                "HQ-7_STR_SP",\n'
         lua_string_ground_groups += '                "HQ-7_STR_SP"\n'
+        lua_string_ground_groups += "            },\n"
+        lua_string_ground_groups += "            maxDist = 300,\n"
+        lua_string_ground_groups += f'            skill = "{skill_str}",\n'
+        lua_string_ground_groups += "            dataCategory = TemplateDB.type.group\n"
+        lua_string_ground_groups += "}\n"
+
+        lua_string_ground_groups += (
+            'TemplateDB.templates["rbs70-' + side_str + '"] = {\n'
+        )
+        lua_string_ground_groups += "    units = {\n"
+        lua_string_ground_groups += '                "RBS-70",\n'
+        lua_string_ground_groups += '                "RBS-70",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.AAA, UnitClass.SHORAD, UnitClass.MANPAD])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.LOGISTICS])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.SHORAD, UnitClass.AAA, UnitClass.MANPAD])}",\n'
+        lua_string_ground_groups += f'                "{self.get_ground_unit(coalition, side, [UnitClass.SHORAD, UnitClass.AAA, UnitClass.MANPAD])}",\n'
+        lua_string_ground_groups += '                "RBS-70",\n'
+        lua_string_ground_groups += '                "RBS-70",\n'
+        lua_string_ground_groups += '                "RBS-70",\n'
+        lua_string_ground_groups += '                "RBS-70",\n'
+        lua_string_ground_groups += '                "UndE23",\n'
+        lua_string_ground_groups += '                "UndE23",\n'
+        lua_string_ground_groups += '                "UndE23"\n'
         lua_string_ground_groups += "            },\n"
         lua_string_ground_groups += "            maxDist = 300,\n"
         lua_string_ground_groups += f'            skill = "{skill_str}",\n'
@@ -1396,6 +1473,24 @@ class PretenseLuaGenerator(LuaGenerator):
 
         return lua_string_ground_groups
 
+    def generate_pretense_ground_livery_overrides(self) -> str:
+        lua_livery_overrides = ""
+
+        for coalition in self.game.coalitions:
+            side = "1" if coalition.player == Player.RED else "2"
+            lua_livery_overrides += f'LiveryDB.livery_overrides["{side}"' + "] = {\n"
+            for (
+                vehicle_type,
+                livery,
+            ) in coalition.faction.liveries_overrides_ground_forces.items():
+                lua_livery_overrides += f'    ["{vehicle_type}"] ' + "= {\n"
+                for s in livery:
+                    lua_livery_overrides += f'            "{s}",\n'
+                lua_livery_overrides += "    },\n"
+            lua_livery_overrides += "}\n"
+
+        return lua_livery_overrides
+
     @staticmethod
     def generate_pretense_zone_connection(
         connected_points: dict[str, list[str]],
@@ -1416,25 +1511,13 @@ class PretenseLuaGenerator(LuaGenerator):
             other_cp_name not in connected_points[cp_name]
             and cp_name not in connected_points[other_cp_name]
         ):
-            cp_name_conn = "".join(
-                [i for i in cp_name if i.isalnum() or i.isspace() or i == "-"]
+            cp_name_conn = PretenseNameGenerator.pretense_trimmed_cp_name_uppercase(
+                cp_name
             )
-            cp_name_conn_other = "".join(
-                [i for i in other_cp_name if i.isalnum() or i.isspace() or i == "-"]
+            cp_name_conn_other = (
+                PretenseNameGenerator.pretense_trimmed_cp_name_uppercase(other_cp_name)
             )
-            cp_name_conn = cp_name_conn.replace("Ä", "A")
-            cp_name_conn = cp_name_conn.replace("Ö", "O")
-            cp_name_conn = cp_name_conn.replace("Ø", "O")
-            cp_name_conn = cp_name_conn.replace("ä", "a")
-            cp_name_conn = cp_name_conn.replace("ö", "o")
-            cp_name_conn = cp_name_conn.replace("ø", "o")
 
-            cp_name_conn_other = cp_name_conn_other.replace("Ä", "A")
-            cp_name_conn_other = cp_name_conn_other.replace("Ö", "O")
-            cp_name_conn_other = cp_name_conn_other.replace("Ø", "O")
-            cp_name_conn_other = cp_name_conn_other.replace("ä", "a")
-            cp_name_conn_other = cp_name_conn_other.replace("ö", "o")
-            cp_name_conn_other = cp_name_conn_other.replace("ø", "o")
             lua_string_connman = (
                 f"    cm: addConnection('{cp_name_conn}', '{cp_name_conn_other}')\n"
             )
@@ -1478,6 +1561,7 @@ class PretenseLuaGenerator(LuaGenerator):
         lua_string_ground_groups_red = self.generate_pretense_ground_groups(
             PRETENSE_RED_SIDE
         )
+        lua_string_livery_overrides = self.generate_pretense_ground_livery_overrides()
 
         lua_string_zones = ""
         lua_string_carriers = ""
@@ -1486,15 +1570,7 @@ class PretenseLuaGenerator(LuaGenerator):
 
         for cp in self.game.theater.controlpoints:
             cp_name_trimmed = PretenseNameGenerator.pretense_trimmed_cp_name(cp.name)
-            cp_name = "".join(
-                [i for i in cp.name if i.isalnum() or i.isspace() or i == "-"]
-            )
-            cp_name.replace("Ä", "A")
-            cp_name.replace("Ö", "O")
-            cp_name.replace("Ø", "O")
-            cp_name.replace("ä", "a")
-            cp_name.replace("ö", "o")
-            cp_name.replace("ø", "o")
+            cp_name = PretenseNameGenerator.pretense_trimmed_cp_name_uppercase(cp.name)
             cp_side = 2 if cp.captured.is_blue else 1
 
             if isinstance(cp, OffMapSpawn):
@@ -1519,12 +1595,7 @@ class PretenseLuaGenerator(LuaGenerator):
                     self.game.pretense_ground_supply[side][cp_name_trimmed] = list()
                 if cp_name_trimmed not in self.game.pretense_ground_assault[cp_side]:
                     self.game.pretense_ground_assault[side][cp_name_trimmed] = list()
-            cp_name = cp_name.replace("Ä", "A")
-            cp_name = cp_name.replace("Ö", "O")
-            cp_name = cp_name.replace("Ø", "O")
-            cp_name = cp_name.replace("ä", "a")
-            cp_name = cp_name.replace("ö", "o")
-            cp_name = cp_name.replace("ø", "o")
+
             lua_string_zones += (
                 f"zones.{cp_name_trimmed} = ZoneCommand:new('{cp_name}')\n"
             )
@@ -1686,6 +1757,11 @@ class PretenseLuaGenerator(LuaGenerator):
         init_body_3_file = open("./resources/plugins/pretense/init_body_3.lua", "r")
         init_body_3 = init_body_3_file.read()
 
+        init_body_livery_overrides_file = open(
+            "./resources/plugins/pretense/init_body_livery_overrides.lua", "r"
+        )
+        init_body_livery_overrides = init_body_livery_overrides_file.read()
+
         init_footer_file = open("./resources/plugins/pretense/init_footer.lua", "r")
         init_footer = init_footer_file.read()
 
@@ -1694,6 +1770,8 @@ class PretenseLuaGenerator(LuaGenerator):
             + init_header
             + lua_string_ground_groups_blue
             + lua_string_ground_groups_red
+            + lua_string_livery_overrides
+            + init_body_livery_overrides
             + init_body_1
             + lua_string_zones
             + lua_string_connman
