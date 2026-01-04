@@ -177,7 +177,6 @@ squadrons:
     - primary: Escort
       secondary: any
       aircraft:
-        - "[CH] Mi-28N AH"
         - Mi-28N Havoc
       size: 4
     - primary: CAS

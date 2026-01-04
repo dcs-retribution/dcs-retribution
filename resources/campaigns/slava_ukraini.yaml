@@ -88,7 +88,7 @@ squadrons:
     - primary: CAS
       secondary: air-to-ground
       aircraft:
-        - "[CH] Mi-28N AH"
+        - Mi-28N Havoc
       size: 4
   #Mineralnye Vody
   26:
