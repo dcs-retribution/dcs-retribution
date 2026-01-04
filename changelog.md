@@ -20,6 +20,7 @@
 * **[Campaigns]** Ability to define neutral FOBs and Airfields
 * **[Modding]** Add Airboss Moose Module
 * **[AirWing]** Use aircraft display names for easier differentiation between modules
+* **[Campaign]** Pretense generator now applies ground unit livery overrides to zone groups as well, such as SAM sites
 
 ## Fixes
 * **[Flight Plans]** Fixed bugs wrt planning escort flights
