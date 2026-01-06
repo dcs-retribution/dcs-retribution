@@ -1,0 +1,105 @@
+{
+    "nameInUI": "BigEye EWR",
+    "defaultValue": false,
+    "specificOptions": [
+        {
+            "nameInUI": "Time to display messages (Secs)",
+            "mnemonic": "displayMessageTime",
+            "minimumValue": 1,
+            "maximumValue": 60,
+            "defaultValue": 10
+        },
+        {
+            "nameInUI": "High Priority Reports Frequency (Secs, No less than Time to display",
+            "mnemonic": "highReportFrequencyPreference",
+            "minimumValue": 1,
+            "maximumValue": 60,
+            "defaultValue": 15
+        },
+        {
+            "nameInUI": "Default Priority Report Frequency (Secs)",
+            "mnemonic": "defaultReportFrequencyPreference",
+            "minimumValue": 1,
+            "maximumValue": 5000,
+            "defaultValue": 30
+        },
+        {
+            "nameInUI": "Low Priority Report Frequency (Secs)", 
+            "mnemonic": "lowReportFrequencyPreference",
+            "minimumValue": 1,
+            "maximumValue": 120,
+            "defaultValue": 60
+        },
+        {
+            "nameInUI": "GCI Report Frequency (Secs)", 
+            "mnemonic": "gciReportFrequency",
+            "minimumValue": 1,
+            "maximumValue": 120,
+            "defaultValue": 5
+        },
+        {
+            "nameInUI": "Enable Reports", 
+            "mnemonic": "defaultEnableReportPreference",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "Maximum Reported Units", 
+            "mnemonic": "maxReportUnits",
+            "minimumValue": 1,
+            "maximumValue": 120,
+            "defaultValue": 5
+        },
+        {
+            "nameInUI": "Enable NCTR (For post 2000)", 
+            "mnemonic": "isAvailableNCTR",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "BLUE Has Datalink", 
+            "mnemonic": "blueHasDLINK",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "BLUE Has RWR", 
+            "mnemonic": "blueHasRWR",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "BLUE Has IRST", 
+            "mnemonic": "blueHasIRST",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "RED Has Datalink", 
+            "mnemonic": "redHasDLINK",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "RED Has RWR", 
+            "mnemonic": "redHasRWR",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "RED Has IRST", 
+            "mnemonic": "redHasIRST",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "Report using NATO Names", 
+            "mnemonic": "reportUnitNameNATO",
+            "defaultValue": true
+        }
+    ],
+    "scriptsWorkOrders": [
+        {
+            "file": "bigeye_ewr.lua",
+            "mnemonic": "bigeye"
+        }
+    ],
+    "configurationWorkOrders": [
+        {
+            "file": "bigeye-config.lua",
+            "mnemonic": "bigeye-config"
+        }
+    ]
+}

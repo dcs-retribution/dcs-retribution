@@ -1,0 +1,5 @@
+name: BetAB-500
+year: 1993
+fallback: FAB-500 M62
+clsids:
+  - "{35B698AC-9FEF-4EC4-AD29-484A0085F62B}"

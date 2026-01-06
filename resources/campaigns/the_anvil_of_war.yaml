@@ -177,7 +177,6 @@ squadrons:
     - primary: Escort
       secondary: any
       aircraft:
-        - "[CH] Mi-28N AH"
         - Mi-28N Havoc
       size: 4
     - primary: CAS
@@ -234,7 +233,6 @@ squadrons:
     - primary: Strike
       secondary: any
       aircraft:
-        - "[CH] Tu-95MSM"
         - Tu-95MS Bear-H
       size: 12
     - primary: OCA/Runway

@@ -170,7 +170,9 @@ local function onEvent(event)
         destruction.z = position.p.z
         destruction.type = event.initiator:getTypeName()
         destruction.orientation = mist.getHeading(event.initiator) * 57.3
-        destroyed_objects_positions[#destroyed_objects_positions + 1] = destruction
+        if destruction.type ~= nil and string.find(destruction.type, "GENERIC_CRASH_MODEL") == nil then
+            destroyed_objects_positions[#destroyed_objects_positions + 1] = destruction
+        end
         write_state()
     end
 
