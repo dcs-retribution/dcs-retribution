@@ -167,13 +167,6 @@ class FlotGenerator:
                 maintask=AFAC,
             )
             AircraftPainterJtac(self.game.blue.faction, utype, jtac).apply_livery()
-            jtac.points[0].tasks.append(
-                FAC(
-                    callsign=len(self.mission_data.jtacs) + 1,
-                    frequency=int(freq.mhz),
-                    modulation=freq.modulation,
-                )
-            )
             cs = jtac.units[0].callsign_dict
             assert type(cs[1]) == int
             assert type(cs[2]) == int
