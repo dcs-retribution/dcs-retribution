@@ -453,7 +453,11 @@ class AircraftType(UnitType[Type[FlyingType]]):
 
     @staticmethod
     def _migrator() -> Dict[str, str]:
-        return {"F-15E Strike Eagle (AI)": "F-15E Strike Eagle"}
+        return {
+            "F-15E Strike Eagle (AI)": "F-15E Strike Eagle",
+            "[CH] Tu-95MSM": "Tu-95MS Bear-H",
+            "[CH] Mi-28N AH": "Mi-28N Havoc",
+        }
 
     @classmethod
     def named(cls, name: str) -> AircraftType:
