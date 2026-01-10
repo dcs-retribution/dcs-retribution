@@ -36,6 +36,57 @@ class DummyObject:
 class MigrationUnpickler(pickle.Unpickler):
     """Custom unpickler to migrate campaign save-files for when components have been moved"""
     def find_class(self, module: Any, name: str) -> Any:
+        if name == "Admiral_Gorshkov":
+            from pydcs_extensions.russianmilitaryassetspack import CH_Admiral_Gorshkov
+            return CH_Admiral_Gorshkov
+        if name == "Karakurt_AShM":
+            from pydcs_extensions.russianmilitaryassetspack import CH_Karakurt_AShM
+            return CH_Karakurt_AShM
+        if name == "Karakurt_LACM":
+            from pydcs_extensions.russianmilitaryassetspack import CH_Karakurt_LACM
+            return CH_Karakurt_LACM
+        if name == "K300P":
+            from pydcs_extensions.russianmilitaryassetspack import CH_K300P
+            return CH_K300P
+        if name == "MonolitB":
+            from pydcs_extensions.russianmilitaryassetspack import CH_MonolitB
+            return CH_MonolitB
+        if name == "TorM2K":
+            from pydcs_extensions.russianmilitaryassetspack import CH_TorM2K
+            return CH_TorM2K
+        if name == "PantsirS2":
+            from pydcs_extensions.russianmilitaryassetspack import CH_PantsirS2
+            return CH_PantsirS2
+        if name == "CH_TOS1A":
+            from dcs.vehicles import Artillery
+            return Artillery.CHAP_TOS1A
+        if name == "CH_Mi-28N":
+            from dcs.helicopters import Mi_28N
+            return Mi_28N
+        if name == "CH_Tu-95MSM":
+            from dcs.planes import Tu_95MS
+            return Tu_95MS
+        if name == "PantsirS1":
+            from dcs.vehicles import AirDefence
+            return AirDefence.CHAP_PantsirS1
+        if name == "TorM2":
+            from dcs.vehicles import AirDefence
+            return AirDefence.CHAP_TorM2
+        if name == "TorM2M":
+            from dcs.vehicles import AirDefence
+            return AirDefence.CHAP_TorM2
+        if name == "CH_T90A":
+            from dcs.vehicles import Armor
+            return Armor.CHAP_T90M
+        if name == "CH_T90M":
+            from dcs.vehicles import Armor
+            return Armor.CHAP_T90M
+        if name == "CH_IskanderM":
+            from dcs.vehicles import MissilesSS
+            return MissilesSS.CHAP_9K720_HE
+        if name == "CH_Project22160":
+            from dcs.ships import CHAP_Project22160
+            return CHAP_Project22160
         if name == "Su_30MKA_AG":
             from pydcs_extensions.su30 import Su_30MKA
             return Su_30MKA

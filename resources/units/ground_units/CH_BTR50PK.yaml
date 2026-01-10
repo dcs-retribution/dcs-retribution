@@ -1,0 +1,16 @@
+class: APC
+description: "The BTR-50 (BTR stands for Bronetransporter (Russian: \xd0\x91\xd0\xa2\xd0\xa0\x2c\x20\xd0\x91\xd1\x80\xd0\xbe\xd0\xbd\xd0\xb5\xd1\x82\xd1\x80\xd0\xb0\xd0\xbd\xd1\x81\xd0\xbf\xd0\xbe\xd1\x80\xd1\x82\xd0\xb5\xd1\x80),
+  literally 'armoured transporter') is a Soviet tracked amphibious armoured personnel carrier (APC) based on 
+  the PT-76 light tank chassis. The BTR-50 was developed in 1952 and entered service with the Soviet Army in 
+  1954. It ceased production in the USSR in 1970, but production continued in Czechoslovakia until 1972 and 
+  there is suggestion that it still produced by some foreign companies. It has the ability to transport up to 
+  20 fully equipped infantrymen, and can be armed with nothing, a 7.62 mm SGMB medium machine gun, or a 
+  14.5 mm KPV heavy machine gun. It saw notable service in the Six-Day War, the Yom Kippur War, and most 
+  recently in the Russo-Ukrainian War."
+introduced: 1958
+manufacturer: Volgograd Tractor Plant
+origin: USSR/Russia
+price: 8
+role: Amphibious Armoured Personnel Carrier
+variants:
+  "[CH] BTR-50PK APC": {}
