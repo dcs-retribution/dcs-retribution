@@ -35,71 +35,98 @@ class DummyObject:
 
 class MigrationUnpickler(pickle.Unpickler):
     """Custom unpickler to migrate campaign save-files for when components have been moved"""
+
     def find_class(self, module: Any, name: str) -> Any:
-        if module == "pydcs_extensions.russianmilitaryassetspack.russianmilitaryassetspack":
-            if name == "Admiral_Gorshkov":
-                from pydcs_extensions.russianmilitaryassetspack import CH_Admiral_Gorshkov
-                return CH_Admiral_Gorshkov
-            if name == "Karakurt_AShM":
-                from pydcs_extensions.russianmilitaryassetspack import CH_Karakurt_AShM
-                return CH_Karakurt_AShM
-            if name == "Karakurt_LACM":
-                from pydcs_extensions.russianmilitaryassetspack import CH_Karakurt_LACM
-                return CH_Karakurt_LACM
-            if name == "K300P":
-                from pydcs_extensions.russianmilitaryassetspack import CH_K300P
-                return CH_K300P
-            if name == "MonolitB":
-                from pydcs_extensions.russianmilitaryassetspack import CH_MonolitB
-                return CH_MonolitB
-            if name == "TorM2K":
-                from pydcs_extensions.russianmilitaryassetspack import CH_TorM2K
-                return CH_TorM2K
-            if name == "PantsirS2":
-                from pydcs_extensions.russianmilitaryassetspack import CH_PantsirS2
-                return CH_PantsirS2
-            if name == "CH_TOS1A":
-                from dcs.vehicles import Artillery
-                return Artillery.CHAP_TOS1A
-            if name == "CH_Mi28N":
-                from dcs.helicopters import Mi_28N
-                return Mi_28N
-            if name == "CH_Tu_95MSM":
-                from dcs.planes import Tu_95MS
-                return Tu_95MS
-            if name == "PantsirS1":
-                from dcs.vehicles import AirDefence
-                return AirDefence.CHAP_PantsirS1
-            if name == "TorM2":
-                from dcs.vehicles import AirDefence
-                return AirDefence.CHAP_TorM2
-            if name == "TorM2M":
-                from dcs.vehicles import AirDefence
-                return AirDefence.CHAP_TorM2
-            if name == "CH_T90A":
-                from dcs.vehicles import Armor
-                return Armor.CHAP_T90M
-            if name == "CH_T90M":
-                from dcs.vehicles import Armor
-                return Armor.CHAP_T90M
-            if name == "CH_IskanderM":
-                from dcs.vehicles import MissilesSS
-                return MissilesSS.CHAP_9K720_HE
-            if name == "CH_Project22160":
-                from dcs.ships import CHAP_Project22160
-                return CHAP_Project22160
-        if name == "Su_30MKA_AG":
-            from pydcs_extensions.su30 import Su_30MKA
-            return Su_30MKA
-        if name == "Su_30MKI_AG":
-            from pydcs_extensions.su30 import Su_30MKI
-            return Su_30MKI
-        if name == "Su_30SM_AG":
-            from pydcs_extensions.su30 import Su_30SM
-            return Su_30SM
-        if name == "Su_30MKM_AG":
-            from pydcs_extensions.su30 import Su_30MKM
-            return Su_30MKM
+        handlers = [
+            self._handle_airport_migrations,
+            self._handle_weather_classes,
+            self._handle_ch_russian_assets,
+            self._handle_su30,
+            self._handle_misc,
+        ]
+
+        for handler in handlers:
+            result = handler(module, name)
+            if result is not None:
+                return result
+
+        # Fallback to default behavior with special handling
+        return self._handle_default(module, name)
+
+    def _handle_airport_migrations(self, module: str, name: str) -> Any:
+        """Handle airport name changes across all terrains"""
+        # Kola terrain airports
+        if module == "dcs.terrain.kola.airports":
+            if name == "Lakselv":
+                from dcs.terrain.kola.airports import Banak
+                return Banak
+            elif name == "Severomorsk1":
+                from dcs.terrain.kola.airports import Severomorsk_1
+                return Severomorsk_1
+            elif name == "Severomorsk3":
+                from dcs.terrain.kola.airports import Severomorsk_3
+                return Severomorsk_3
+            elif name == "Olenegorsk":
+                from dcs.terrain.kola.airports import Olenya
+                return Olenya
+            elif name == "Bas_100":
+                from dcs.terrain.kola.airports import Vuojarvi
+                return Vuojarvi
+            elif name == "Alakourtti":
+                from dcs.terrain.kola.airports import Alakurtti
+                return Alakurtti
+        
+        # Sinai terrain airports
+        if module == "dcs.terrain.sinai.airports":
+            if name == "Borj_El_Arab_International_Airport":
+                from dcs.terrain.sinai.airports import Borg_El_Arab_International_Airport
+                return Borg_El_Arab_International_Airport
+            elif name == "Palmahim":
+                from dcs.terrain.sinai.airports import Palmachim
+                return Palmachim
+        
+        # Syria terrain airports
+        if module == "dcs.terrain.syria.airports":
+            if name == "Amman":
+                from dcs.terrain.syria.airports import Marka
+                return Marka
+            elif name in ["Helipad_88", "Helipad_183", "Helipad_217", "Helipad_218"]:
+                return dcs.terrain.Airport  # use base-class if airport was removed
+        
+        # Afghanistan terrain airports
+        if module == "dcs.terrain.afghanistan.airports":
+            if name == "Khost_Heliport":
+                from dcs.terrain.afghanistan.airports import FOB_Salerno
+                return FOB_Salerno
+        
+        # Falklands terrain airports
+        if module == "dcs.terrain.falklands.airports":
+            if name == "Aerodromo_De_Tolhuin":
+                from dcs.terrain.falklands.airports import Tolhuin
+                return Tolhuin
+            elif name == "Porvenir_Airfield":
+                from dcs.terrain.falklands.airports import Porvenir
+                return Porvenir
+            elif name == "Aeropuerto_de_Gobernador_Gregores":
+                from dcs.terrain.falklands.airports import Gobernador_Gregores
+                return Gobernador_Gregores
+            elif name == "Aerodromo_O_Higgins":
+                from dcs.terrain.falklands.airports import O_Higgins
+                return O_Higgins
+            elif name == "Hipico":
+                from dcs.terrain.falklands.airports import Hipico_Flying_Club
+                return Hipico_Flying_Club
+        
+        # Germany Cold War terrain airports
+        if module == "dcs.terrain.germanycoldwar.airports":
+            if name == "Leipzig_Halle":
+                from dcs.terrain.germanycoldwar.airports import Schkeuditz
+                return Schkeuditz
+        
+        return None
+
+    def _handle_weather_classes(self, module: str, name: str) -> Any:
+        """Handle migrations for weather-related classes"""
         if name == "NightMissions":
             from game.settings import NightMissions
             return NightMissions
@@ -130,16 +157,90 @@ class MigrationUnpickler(pickle.Unpickler):
         if name == "Thunderstorm":
             from game.weather.weather import Thunderstorm
             return Thunderstorm
-        if name == "Hipico":
-            return dcs.terrain.falklands.airports.Hipico_Flying_Club
-        if name in ["SaveManager", "SaveGameBundle"]:
-            return DummyObject
-        if name in ["CaletaTortel", "Caleta_Tortel_Airport"]:
-            return dcs.terrain.Airport  # use base-class if airport was removed
-        if name == "Superbug_AITanker":
-            return pydcs_extensions.fa18efg.FA_18ET
+        
+        return None
+
+    def _handle_ch_russian_assets(self, module: str, name: str) -> Any:
+        """Handle migrations for Russian military assets pack"""
+        if module != "pydcs_extensions.russianmilitaryassetspack.russianmilitaryassetspack":
+            return None
+        
+        if name == "Admiral_Gorshkov":
+            from pydcs_extensions.russianmilitaryassetspack import CH_Admiral_Gorshkov
+            return CH_Admiral_Gorshkov
+        if name == "Karakurt_AShM":
+            from pydcs_extensions.russianmilitaryassetspack import CH_Karakurt_AShM
+            return CH_Karakurt_AShM
+        if name == "Karakurt_LACM":
+            from pydcs_extensions.russianmilitaryassetspack import CH_Karakurt_LACM
+            return CH_Karakurt_LACM
+        if name == "K300P":
+            from pydcs_extensions.russianmilitaryassetspack import CH_K300P
+            return CH_K300P
+        if name == "MonolitB":
+            from pydcs_extensions.russianmilitaryassetspack import CH_MonolitB
+            return CH_MonolitB
+        if name == "TorM2K":
+            from pydcs_extensions.russianmilitaryassetspack import CH_TorM2K
+            return CH_TorM2K
+        if name == "PantsirS2":
+            from pydcs_extensions.russianmilitaryassetspack import CH_PantsirS2
+            return CH_PantsirS2
+        if name == "CH_TOS1A":
+            from dcs.vehicles import Artillery
+            return Artillery.CHAP_TOS1A
+        if name == "CH_Mi28N":
+            from dcs.helicopters import Mi_28N
+            return Mi_28N
+        if name == "CH_Tu_95MSM":
+            from dcs.planes import Tu_95MS
+            return Tu_95MS
+        if name == "PantsirS1":
+            from dcs.vehicles import AirDefence
+            return AirDefence.CHAP_PantsirS1
+        if name == "TorM2":
+            from dcs.vehicles import AirDefence
+            return AirDefence.CHAP_TorM2
+        if name == "TorM2M":
+            from dcs.vehicles import AirDefence
+            return AirDefence.CHAP_TorM2
+        if name == "CH_T90A":
+            from dcs.vehicles import Armor
+            return Armor.CHAP_T90M
+        if name == "CH_T90M":
+            from dcs.vehicles import Armor
+            return Armor.CHAP_T90M
+        if name == "CH_IskanderM":
+            from dcs.vehicles import MissilesSS
+            return MissilesSS.CHAP_9K720_HE
+        if name == "CH_Project22160":
+            from dcs.ships import CHAP_Project22160
+            return CHAP_Project22160
+        
+        return None
+    
+    def _handle_su30(self, module: str, name: str) -> Any:
+        """Handle migrations for Su-30 aircraft variants"""
+        if name == "Su_30MKA_AG":
+            from pydcs_extensions.su30 import Su_30MKA
+            return Su_30MKA
+        if name == "Su_30MKI_AG":
+            from pydcs_extensions.su30 import Su_30MKI
+            return Su_30MKI
+        if name == "Su_30SM_AG":
+            from pydcs_extensions.su30 import Su_30SM
+            return Su_30SM
+        if name == "Su_30MKM_AG":
+            from pydcs_extensions.su30 import Su_30MKM
+            return Su_30MKM
+
+        return None
+    
+    def _handle_misc(self, module: str, name: str) -> Any:
+        """Handle migrations for mods"""
         if module == "pydcs_extensions.f4b.f4b":
             return pydcs_extensions.f4
+
         if module == "pydcs_extensions.irondome.irondome":
             if name in ["I9K57_URAGAN", "I9K51_GRAD", "I9K58_SMERCH"]:
                 return None
@@ -147,6 +248,7 @@ class MigrationUnpickler(pickle.Unpickler):
                 return ELM2084_MMR_AD_RT
             elif name == "IRON_DOME_CP":
                 return Iron_Dome_David_Sling_CP
+        
         if module == "pydcs_extensions.swedishmilitaryassetspack.swedishmilitaryassetspack":
             if name == "BV410_RBS90":
                 return RBS_90
@@ -156,64 +258,20 @@ class MigrationUnpickler(pickle.Unpickler):
                 return Artillerisystem08_M982
             elif name == "BV410_RBS70":
                 return RBS_70
-        if module == "dcs.terrain.kola.airports":
-            if name == "Lakselv":
-                from dcs.terrain.kola.airports import Banak
-                return Banak
-            elif name == "Severomorsk1":
-                from dcs.terrain.kola.airports import Severomorsk_1
-                return Severomorsk_1
-            elif name == "Severomorsk3":
-                from dcs.terrain.kola.airports import Severomorsk_3
-                return Severomorsk_3
-            elif name == "Olenegorsk":
-                from dcs.terrain.kola.airports import Olenya
-                return Olenya
-            elif name == "Bas_100":
-                from dcs.terrain.kola.airports import Vuojarvi
-                return Vuojarvi
-            elif name == "Alakourtti":
-                from dcs.terrain.kola.airports import Alakurtti
-                return Alakurtti
-        if module == "dcs.terrain.sinai.airports":
-            if name == "Borj_El_Arab_International_Airport":
-                from dcs.terrain.sinai.airports import Borg_El_Arab_International_Airport
-                return Borg_El_Arab_International_Airport
-            elif name == "Palmahim":
-                from dcs.terrain.sinai.airports import Palmachim
-                return Palmachim
-        if module == "dcs.terrain.syria.airports":
-            if name == "Amman":
-                from dcs.terrain.syria.airports import Marka
-                return Marka
-            elif name in [
-                "Helipad_88",
-                "Helipad_183",
-                "Helipad_217",
-                "Helipad_218"
-            ]:
-                return dcs.terrain.Airport  # use base-class if airport was removed
-        if module == "dcs.terrain.afghanistan.airports":
-            if name == "Khost_Heliport":
-                from dcs.terrain.afghanistan.airports import FOB_Salerno
-                return FOB_Salerno
-        if module == "dcs.terrain.falklands.airports":
-            if name == "Aerodromo_De_Tolhuin":
-                from dcs.terrain.falklands.airports import Tolhuin
-                return Tolhuin
-            elif name == "Porvenir_Airfield":
-                from dcs.terrain.falklands.airports import Porvenir
-                return Porvenir
-            elif name == "Aeropuerto_de_Gobernador_Gregores":
-                from dcs.terrain.falklands.airports import Gobernador_Gregores
-                return Gobernador_Gregores
-            elif name == "Aerodromo_O_Higgins":
-                from dcs.terrain.falklands.airports import O_Higgins
-                return O_Higgins
-        if module == "dcs.terrain.germanycoldwar.airports":
-            if name == "Leipzig_Halle":
-                from dcs.terrain.germanycoldwar.airports import Schkeuditz
-                return Schkeuditz
+        
+        if name == "Superbug_AITanker":
+            return pydcs_extensions.fa18efg.FA_18ET
+        
+        if name in ["SaveManager", "SaveGameBundle"]:
+            return DummyObject
+        if name in ["CaletaTortel", "Caleta_Tortel_Airport"]:
+            return dcs.terrain.Airport  # use base-class if airport was removed
+        
+        return None
+    
+    def _handle_default(self, module: str, name: str) -> Any:
+        """Handle default class resolution with fallback logic"""
+        # Special handling for vehicles and ships with case conversion
         if module in ["dcs.vehicles", "dcs.ships"]:
             try:
                 return super().find_class(module, name)
