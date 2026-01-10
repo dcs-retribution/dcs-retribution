@@ -1,0 +1,12 @@
+class: Plane
+id: vwv_rf101b
+name: McDonnell RF-101B Voodoo
+description: "The McDonnell RF-101B Voodoo was a supersonic reconnaissance aircraft derived from the F-101 fighter. It was used extensively for tactical reconnaissance missions during the Vietnam War, equipped with cameras for high-speed, low-altitude photo reconnaissance."
+price: 12
+variants:
+  RF-101B Voodoo: {}
+max_range: 600
+gunfighter: false
+tasks:
+  Armed Recon: 900
+  Strike: 500

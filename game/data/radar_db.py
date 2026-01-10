@@ -254,7 +254,7 @@ UNITS_WITH_RADAR = {
     Type_054A,
     USS_Arleigh_Burke_IIa,
     VINSON,
-    vwv.Cva_31,
+    vwv.USS_Bon_Homme_Richard,
     vwv.USS_Fletcher,
     vwv.USS_Laffey,
     vwv.USS_Maddox,

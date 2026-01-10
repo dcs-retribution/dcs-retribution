@@ -63,7 +63,7 @@
   ],
   "naval_units": [
     "FFG Oliver Hazard Perry",
-    "CVA-31 Bon Homme Richard",
+    "[VWV] CVA-31 Bon Homme Richard",
     "CV-59 Forrestal",
     "USS Allen M. Sumner (DD-692)",
     "USS Fletcher FRAM II Destroyer",
@@ -77,14 +77,14 @@
     "M48 Chaparral"
   ],
   "carrier_names": [
-    "CVA-31 Bon Homme Richard",
+    "[VWV] CVA-31 Bon Homme Richard",
     "CV-59 Forrestal",
     "CV-60 Saratoga",
     "CV-61 Ranger",
     "CV-62 Independence"
   ],
   "requirements": {
-    "Vietnam War Vessels (v0.9.0)": "https://forum.dcs.world/topic/338387-tetets-vietnam-war-vessels/"
+    "Vietnam War Vessels (v2.3.0)": "https://forum.dcs.world/topic/338387-tetets-vietnam-war-vessels/"
   },
   "doctrine": "coldwar"
 }

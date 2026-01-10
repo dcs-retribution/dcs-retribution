@@ -41,6 +41,7 @@ class UnitClass(Enum):
     TANK = "Tank"
     TELAR = "TELAR"
     TRACK_RADAR = "TrackRadar"
+    UTILITY = "Utility"
 
 
 # All UnitClasses which can have AntiAir capabilities

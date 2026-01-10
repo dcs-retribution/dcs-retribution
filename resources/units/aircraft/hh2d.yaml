@@ -1,4 +1,6 @@
 class: Helicopter
+id: HH-2D Seasprite
+name: "HH-2D Seasprite"
 carrier_capable: true
 lha_capable: true
 description:    # from: https://en.wikipedia.org/wiki/Kaman_SH-2_Seasprite
