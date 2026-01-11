@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import ClassVar, Iterator, Type, Any
+from typing import ClassVar, Dict, Iterator, Type, Any
 
 from dcs.ships import ship_map
 from dcs.unittype import ShipType
@@ -38,7 +38,7 @@ class ShipUnitType(UnitType[Type[ShipType]]):
     def named(cls, name: str) -> ShipUnitType:
         if not cls._loaded:
             cls._load_all()
-        return cls._by_name[name]
+        return cls._by_name[cls._migrator().get(name, name)]
 
     @classmethod
     def for_dcs_type(cls, dcs_unit_type: Type[ShipType]) -> Iterator[ShipUnitType]:
@@ -53,6 +53,12 @@ class ShipUnitType(UnitType[Type[ShipType]]):
     @classmethod
     def _data_directory(cls) -> Path:
         return Path("resources/units/ships")
+
+    @staticmethod
+    def _migrator() -> Dict[str, str]:
+        return {
+            "[CH] Project 22160 Patrol Ship": "Patrol Ship 22160 Vasily Bykov [CH]",
+        }
 
     @classmethod
     def _variant_from_dict(

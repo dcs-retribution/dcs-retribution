@@ -1,0 +1,5 @@
+name: S530F
+year: 1979
+fallback: S530D
+clsids:
+  - "{S530F}"

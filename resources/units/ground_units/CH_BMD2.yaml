@@ -1,0 +1,12 @@
+class: IFV
+description: "The BMD-2 is a Soviet airborne infantry fighting vehicle, introduced in 1985. It is a variant of
+  BMD-1 with a new turret and changes to the hull. BMD stands for Boyevaya Mashina Desanta 
+  (\xd0\x91\xd0\xbe\xd0\xb5\xd0\xb2\xd0\xb0\xd1\x8f\x20\xd0\x9c\xd0\xb0\xd1\x88\xd0\xb8\xd0\xbd\xd0\xb0\x20\xd0\x94\xd0\xb5\xd1\x81\xd0\xb0\xd0\xbd\xd1\x82\xd0\xb0, 
+  which literally translates to 'Airborne Combat Vehicle')"
+introduced: 1985
+manufacturer: Volgograd Tractor Plant
+origin: Russia
+price: 10
+role: Infantry Fighting Vehicle
+variants:
+  "[CH] BMD-2 IFV": null

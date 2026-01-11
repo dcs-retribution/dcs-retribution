@@ -198,7 +198,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
                 self.chinesemilitaryassetspack,
             ),
             (
-                "CurrentHill Russian Military Assets pack (1.2.1)",
+                "CurrentHill Russian Military Assets pack (2.0.0)",
                 self.russianmilitaryassetspack,
             ),
             (

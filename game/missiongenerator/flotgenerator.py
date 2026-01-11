@@ -43,6 +43,7 @@ from game.radio.radios import RadioRegistry
 from game.theater.controlpoint import ControlPoint, Player
 from game.unitmap import UnitMap
 from game.utils import Heading
+from .aircraft.aircraftpainter import AircraftPainterJtac
 from .frontlineconflictdescription import FrontLineConflictDescription
 from .groundforcepainter import GroundForcePainter
 from .missiondata import JtacInfo, MissionData, FrontlineUnitGroupsInfo
@@ -165,6 +166,7 @@ class FlotGenerator:
                 altitude=5000,
                 maintask=AFAC,
             )
+            AircraftPainterJtac(self.game.blue.faction, utype, jtac).apply_livery()
             cs = jtac.units[0].callsign_dict
             assert type(cs[1]) == int
             assert type(cs[2]) == int
