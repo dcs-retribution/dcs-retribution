@@ -1,0 +1,4 @@
+class: HelicopterCarrier
+price: 10
+variants:
+  "[VWV] IX514": null

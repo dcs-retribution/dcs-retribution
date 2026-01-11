@@ -1,3 +1,4 @@
+class: Plane
 carrier_capable: false
 description:    # from: https://en.wikipedia.org/wiki/Cessna_O-1_Bird_Dog
   The Cessna O-1 Bird Dog is a liaison and observation aircraft that first flew on 

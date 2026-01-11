@@ -1,0 +1,4 @@
+class: AircraftCarrier
+price: 300
+variants:
+  "[VWV] CVA-31 Bon Homme Richard": null

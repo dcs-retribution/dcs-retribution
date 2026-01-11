@@ -1,0 +1,4 @@
+class: AircraftCarrier
+price: 200
+variants:
+  "[VWV] CV Essex Class SCB-125": null

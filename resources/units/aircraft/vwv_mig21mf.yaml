@@ -1,3 +1,5 @@
+class: Plane
+id: vwv_mig21mf
 carrier_capable: false
 description:    # from: https://en.wikipedia.org/wiki/Mikoyan-Gurevich_MiG-21
   The Mikoyan-Gurevich MiG-21 (NATO reporting name Fishbed) is a supersonic jet 

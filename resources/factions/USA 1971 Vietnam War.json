@@ -15,8 +15,6 @@
     "AH-1W SuperCobra",
     "OV-10A Bronco",
     "C-130",
-    "C-130J-30",
-    "C-130J-30 Super Hercules",
     "A-4E Skyhawk",
     "A-6A Intruder",
     "A-7E Corsair II",
@@ -30,7 +28,18 @@
     "F-104G Starfighter",
     "F-105D Thunderchief",
     "F-105G Thunderchief",
-    "B-52H Stratofortress"
+    "B-52H Stratofortress",
+    "A-1H Skyraider",
+    "AD-4 Skyraider",
+    "F-8E Crusader",
+    "F-8E(FN) Crusader",
+    "O-1E Bird Dog",
+    "RA-5C Vigilante",
+    "SH-2F Seasprite",
+    "CH-46D Sea Knight",
+    "CH-46D Sea Knight",
+    "CH-46D Sea Knight (Late)",
+    "L-1049G Constellation"
   ],
   "awacs": [
     "E-2C Hawkeye"
