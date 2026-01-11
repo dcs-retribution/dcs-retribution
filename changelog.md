@@ -22,6 +22,7 @@
 * **[AirWing]** Use aircraft display names for easier differentiation between modules
 * **[Plugins]** Added BigEye EWR Script
 * **[Modding]** Update CurrentHill Russia Assets Pack to 2.0.0
+* **[UI]** Add campaign name to retribution window name
 
 ## Fixes
 * **[Flight Plans]** Fixed bugs wrt planning escort flights

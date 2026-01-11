@@ -415,18 +415,25 @@ class QLiberationWindow(QMainWindow):
 
     def updateWindowTitle(self, save_path: Optional[str] = None) -> None:
         """
-        to DCS Retribution - vX.X.X - file_name
+        Window title format: DCS Retribution - vX.X.X - campaign_name - file_name
+        Campaign name is shown if a game is loaded and has a campaign_name.
+        File name is appended only if save_path is provided.
         """
         window_title = f"DCS Retribution - v{VERSION}"
-        if save_path:  # appending the file name to title as it is updated
+
+        if self.game and self.game.campaign_name:
+            window_title += f" - {self.game.campaign_name}"
+
+        if save_path:
             file_name = save_path.split("/")[-1].rsplit(".", 1)[0]
-            window_title = f"{window_title} - {file_name}"
+            window_title += f" - {file_name}"
+
         self.setWindowTitle(window_title)
 
     def onGameGenerated(self, game: Game):
-        self.updateWindowTitle()
         logging.info("On Game generated")
         self.game = game
+        self.updateWindowTitle()
         GameUpdateSignal.get_instance().game_loaded.emit(self.game)
 
     def onEndGame(self, state: TurnState):

@@ -155,6 +155,7 @@ class NewGameWizard(QtWidgets.QWizard):
             settings,
             generator_settings,
             mod_settings,
+            campaign_name=campaign.name,
         )
         self.generatedGame = generator.generate()
 
