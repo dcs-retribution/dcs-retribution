@@ -1,5 +1,5 @@
--- the state.json file will be updated according to this schedule, and also on each destruction or capture event
-local WRITESTATE_SCHEDULE_IN_SECONDS = 60
+-- the state.json file will be updated according to this schedule and on mission end
+local WRITESTATE_SCHEDULE_IN_SECONDS = 15
 
 logger = mist.Logger:new("DCSRetribution", "info")
 logger:info("Check that json.lua is loaded : json = "..tostring(json))
@@ -11,6 +11,7 @@ kill_events = {} -- killed units will be added via S_EVENT_KILL
 base_capture_events = {}
 destroyed_objects_positions = {} -- will be added via S_EVENT_DEAD event
 mission_ended = false
+dirty_state = false -- Track if state has changed and needs writing
 
 local function ends_with(str, ending)
    return ending == "" or str:sub(-#ending) == ending
@@ -131,13 +132,17 @@ write_state_error_handling = function()
         logger:error("Unable to find where to write DCS Retribution state")
     end
 
-    if pcall(write_state) then
-    else
-	    messageAll("Unable to write DCS Retribution state to ".._debriefing_file_location..
-                "\nYou can abort the mission in DCS Retribution.\n"..
-                "\n\nPlease fix your setup in DCS Retribution, make sure you are pointing to the right installation directory from the File/Preferences menu. Then after fixing the path restart DCS Retribution, and then restart DCS."..
-                "\n\nYou can also try to fix the issue manually by replacing the file <dcs_installation_directory>/Scripts/MissionScripting.lua by the one provided there : <dcs_retribution_folder>/resources/scripts/MissionScripting.lua. And then restart DCS. (This will also have to be done again after each DCS update)"..
-                "\n\nIt's not worth playing, the state of the mission will not be recorded.")
+    -- Only write if state has changed since last write
+    if dirty_state then
+        if pcall(write_state) then
+            dirty_state = false -- Reset dirty flag after successful write
+        else
+            messageAll("Unable to write DCS Retribution state to ".._debriefing_file_location..
+                    "\nYou can abort the mission in DCS Retribution.\n"..
+                    "\n\nPlease fix your setup in DCS Retribution, make sure you are pointing to the right installation directory from the File/Preferences menu. Then after fixing the path restart DCS Retribution, and then restart DCS."..
+                    "\n\nYou can also try to fix the issue manually by replacing the file <dcs_installation_directory>/Scripts/MissionScripting.lua by the one provided there : <dcs_retribution_folder>/resources/scripts/MissionScripting.lua. And then restart DCS. (This will also have to be done again after each DCS update)"..
+                    "\n\nIt's not worth playing, the state of the mission will not be recorded.")
+        end
     end
 
     -- reschedule
@@ -148,17 +153,17 @@ activeWeapons = {}
 local function onEvent(event)
     if event.id == world.event.S_EVENT_CRASH and event.initiator then
         crash_events[#crash_events + 1] = event.initiator.getName(event.initiator)
-        write_state()
+        dirty_state = true
     end
    
     if event.id == world.event.S_EVENT_UNIT_LOST and event.initiator then
         unit_lost_events[#unit_lost_events + 1] = event.initiator.getName(event.initiator)
-        write_state()
+        dirty_state = true
     end
 	
 	if event.id == world.event.S_EVENT_KILL and event.target then
         kill_events[#kill_events + 1] = event.target.getName(event.target)
-        write_state()
+        dirty_state = true
     end
 
     if event.id == world.event.S_EVENT_DEAD and event.initiator and event.initiator.getName then
@@ -170,20 +175,23 @@ local function onEvent(event)
         destruction.z = position.p.z
         destruction.type = event.initiator:getTypeName()
         destruction.orientation = mist.getHeading(event.initiator) * 57.3
-        if destruction.type ~= nil and string.find(destruction.type, "GENERIC_CRASH_MODEL") == nil then
+        -- Only track actual units/buildings, not debris/crash models
+        if destruction.type ~= nil and 
+           string.find(destruction.type, "GENERIC_CRASH_MODEL") == nil and
+           string.find(destruction.type, "_CRASH") == nil then
             destroyed_objects_positions[#destroyed_objects_positions + 1] = destruction
         end
-        write_state()
+        dirty_state = true
     end
 
     if event.id == world.event.S_EVENT_MISSION_END then
-        mission_ended = true
         write_state()
+        mission_ended = true
     end
 
 end
 
 mist.addEventHandler(onEvent)
 
--- create the state.json file and start the scheduling
+dirty_state = true
 write_state_error_handling()

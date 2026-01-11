@@ -44,6 +44,7 @@
 * **[Mission Generation]** Fixed an issue where blue and red units spawned next to each other on frontlines
 * **[Mission Generation]** Fixed an issue where kneeboards showed both opfor and ownfor support aircraft
 * **[Campaigns]** Fixed a bug where off map spawns could own ground objects, causing them not to spawn
+* **[Performance]** Adjusted state.json writes to batch processing to reduce CPU utilization
 
 # Retribution v1.4.1 (hotfix)
 
