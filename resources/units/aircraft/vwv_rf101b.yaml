@@ -8,5 +8,7 @@ variants:
 max_range: 600
 gunfighter: false
 tasks:
-  Armed Recon: 900
-  Strike: 500
+  Armed Recon: 300
+  Strike: 1    # current VWV version (v2.3.0) does not have any weapons for Voodoo
+  Intercept: 1    # current VWV version (v2.3.0) does not have any weapons for Voodoo
+  CAS: 1    # Retribution wants a fallback task

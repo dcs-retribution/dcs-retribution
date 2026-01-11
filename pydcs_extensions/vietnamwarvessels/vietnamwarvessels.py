@@ -2241,15 +2241,17 @@ class vwv_rf101b(PlaneType):
     pylons: Set[int] = set()
 
     tasks = [
+        task.Intercept,
         task.Reconnaissance,
         task.GroundAttack,
+        task.CAS,
     ]
     task_default = task.Reconnaissance
 
 
 @planemod
 class vwv_a_37_dragonfly(PlaneType):
-    id = "vwv_a_37_dragonfly"
+    id = "a_37_dragonfly"
     height = 3.5
     width = 18.06
     length = 10.87
