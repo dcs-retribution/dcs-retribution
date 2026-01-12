@@ -674,48 +674,48 @@ class Faction:
             self.remove_ship("Destroyer_carrier")
         # vietnamwarvessels (using variant names because it was the closest thing to a consistent formula I could manage with this mod)
         if not mod_settings.vietnamwarvessels:
-            self.remove_ship("[VWV] Patrol Boat, River MkII")
-            self.remove_ship("[VWV] DD-692 USS Allen M. Sumner")
-            self.remove_ship("USS Fletcher FRAM II Destroyer")
-            self.remove_ship("[VWV] DD-724 USS Laffey")
-            self.remove_ship("USS Maddox (DD-731)")
-            self.remove_ship("USS The Sullivans (DD-537)")
-            self.remove_ship("P 4 Torpedo Boat")
-            self.remove_ship("[VWV] ATC(H) Tango")
-            self.remove_ship("[VWV] ATC(H) Tango Heavy")
-            self.remove_ship("[VWV] CCB Charlie")
-            self.remove_ship("[VWV] BB-62 USS New Jersey 1968")
-            self.remove_ship("[VWV] CLG-5 USS Oklahoma City")
-            self.remove_ship("[VWV] CVA-31 Bon Homme Richard")
-            self.remove_ship("[VWV] CV Essex Class SCB-125")
-            self.remove_ship("[VWV] CVAN-65 USS Enterprise '66")
-            self.remove_ship("[VWV] CVAN-65 USS Enterprise '69")
-            self.remove_ship("[VWV] DD-528 USS Mullany")
-            self.remove_ship("[VWV] DD-931 USS Forrest Sherman")
-            self.remove_ship("[VWV] DD-942 USS Bigelow")
-            self.remove_ship("[VWV] DE-1052 USS Knox")
-            self.remove_ship("[VWV] DE-1054 USS Gray")
-            self.remove_ship("[VWV] DE-1087 USS Kirk")
-            self.remove_ship("[VWV] IX514 (unarmed)")
-            self.remove_ship("[VWV] IX514")
-            self.remove_aircraft("A-1H Skyraider")
-            self.remove_aircraft("A-37 Dragonfly")
-            self.remove_aircraft("AD-4 Skyraider")
-            self.remove_aircraft("RA-5C Vigilante")
-            self.remove_aircraft("F-8E Crusader")
-            self.remove_aircraft("F-8E(FN) Crusader")
-            self.remove_aircraft("MiG-17F Fresco-C")
-            self.remove_aircraft("MiG-21MF Fishbed-J")
-            self.remove_aircraft("O-1E Bird Dog")
-            self.remove_aircraft("EC-121 Warning Star")
-            self.remove_aircraft("L-1049G Constellation")
-            self.remove_aircraft("RF-101B Voodoo")
-            self.remove_aircraft("SH-2F Seasprite")
-            self.remove_aircraft("UH-2A Seasprite")
-            self.remove_aircraft("UH-2B Seasprite")
-            self.remove_aircraft("UH-2C Seasprite")
-            self.remove_aircraft("CH-46D Sea Knight")
-            self.remove_aircraft("CH-46D Sea Knight (Late)")
+            self.remove_ship("PBR_MKII") # "[VWV] Patrol Boat, River MkII"
+            self.remove_ship("USS_Sumner") # "[VWV] DD-692 USS Allen M. Sumner"
+            self.remove_ship("USS_Fletcher") # "USS Fletcher FRAM II Destroyer"
+            self.remove_ship("USS_Laffey") # "[VWV] DD-724 USS Laffey"
+            self.remove_ship("USS_Maddox") # "USS Maddox (DD-731)"
+            self.remove_ship("USS_The_Sullivans") # "USS The Sullivans (DD-537)"
+            self.remove_ship("P4") # "P 4 Torpedo Boat"
+            self.remove_ship("ATCH") # "[VWV] ATC(H) Tango"
+            self.remove_ship("ATCH_Heavy") # "[VWV] ATC(H) Tango Heavy"
+            self.remove_ship("CCB") # "[VWV] CCB Charlie"
+            self.remove_ship("USS_New_Jersey") # "[VWV] BB-62 USS New Jersey 1968"
+            self.remove_ship("USS_Oklahoma_City") # "[VWV] CLG-5 USS Oklahoma City"
+            self.remove_ship("USS_Bon_Homme_Richard") # "[VWV] CVA-31 Bon Homme Richard"
+            self.remove_ship("essex_scb125") # "[VWV] CV Essex Class SCB-125"
+            self.remove_ship("USS Enterprise 1966") # "[VWV] CVAN-65 USS Enterprise '66"
+            self.remove_ship("USS Enterprise 1969") # "[VWV] CVAN-65 USS Enterprise '69"
+            self.remove_ship("USS Mullany") # "[VWV] DD-528 USS Mullany"
+            self.remove_ship("USS Forrest Sherman") # "[VWV] DD-931 USS Forrest Sherman"
+            self.remove_ship("USS Bigelow") # "[VWV] DD-942 USS Bigelow"
+            self.remove_ship("USS Knox") # "[VWV] DE-1052 USS Knox"
+            self.remove_ship("USS Gray") # "[VWV] DE-1054 USS Gray"
+            self.remove_ship("USS Kirk") # "[VWV] DE-1087 USS Kirk"
+            self.remove_ship("[VWV] IX514 (unarmed)") # "[VWV] IX514 (unarmed)"
+            self.remove_ship("[VWV]IX514") # "[VWV] IX514"
+            self.remove_aircraft("vwv_a1_skyraider") # "A-1H Skyraider"
+            self.remove_aircraft("a_37_dragonfly") # "A-37 Dragonfly"
+            self.remove_aircraft("vwv_ad4_skyraider") # "AD-4 Skyraider"
+            self.remove_aircraft("vwv_ra-5") # "RA-5C Vigilante"
+            self.remove_aircraft("vwv_crusader") # "F-8E Crusader"
+            self.remove_aircraft("vwv_crusader_np") # "F-8E(FN) Crusader"
+            self.remove_aircraft("vwv_mig17f") # "MiG-17F Fresco-C"
+            self.remove_aircraft("vwv_mig21mf") # "MiG-21MF Fishbed-J"
+            self.remove_aircraft("vwv_o-1") # "O-1E Bird Dog"
+            self.remove_aircraft("vwv_ec-121") # "EC-121 Warning Star"
+            self.remove_aircraft("vwv_l-1049") # "L-1049G Constellation"
+            self.remove_aircraft("vwv_rf101b") # "RF-101B Voodoo"
+            self.remove_aircraft("sh2f") # "SH-2F Seasprite"
+            self.remove_aircraft("uh2a") # "UH-2A Seasprite"
+            self.remove_aircraft("uh2b") # "UH-2B Seasprite"
+            self.remove_aircraft("uh2c") # "UH-2C Seasprite"
+            self.remove_aircraft("vwv_ch46d") # "CH-46D Sea Knight"
+            self.remove_aircraft("vwv_ch46d_late") # "CH-46D Sea Knight (Late)"
         # Chinese Military Assets Pack
         if not mod_settings.chinesemilitaryassetspack:
             self.remove_vehicle("CH_PCL181_155")

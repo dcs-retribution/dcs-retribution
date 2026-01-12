@@ -18,7 +18,7 @@ description:    # from: https://en.wikipedia.org/wiki/Kaman_SH-2_Seasprite
   situational awareness of ships. The SH-2D first flew on 16 March 1971.
   HH-2D was a search and rescue version.
 introduced: 1971    # original type 1962, SH-2D 1971
-cabin_size: 12    # from: https://plane-encyclopedia.com/cold-war/kaman-sh-2f-seasprite/
+cabin_size: 11    # from: https://plane-encyclopedia.com/cold-war/kaman-sh-2f-seasprite/
 can_carry_crates: true
 manufacturer: Kaman Aircraft Corporation
 origin: USA

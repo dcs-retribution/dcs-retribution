@@ -27,6 +27,9 @@ max_range: 200    # combat range without droptanks [nmi]
 gunfighter: true
 variants:
   MiG-21MF Fishbed-J: {}
+altitudes:
+ cruise: 30000
+ combat: 25000
 tasks:    # defined in flighttype.py
   BAI: 100
   CAS: 100
