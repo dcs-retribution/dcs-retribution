@@ -57,7 +57,7 @@ class ShipUnitType(UnitType[Type[ShipType]]):
     @staticmethod
     def _migrator() -> Dict[str, str]:
         return {
-            "[CH] Project 22160 Patrol Ship": "Patrol Ship 22160 Vasily Bykov [CH]",
+            "[CH] Project 22160 Patrol Ship": "Project 22160 Patrol Ship [CH]",
         }
 
     @classmethod
