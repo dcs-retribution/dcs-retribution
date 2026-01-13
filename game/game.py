@@ -7,7 +7,7 @@ from collections.abc import Iterator
 from copy import deepcopy
 from datetime import date, datetime, time, timedelta
 from enum import Enum
-from typing import Any, List, TYPE_CHECKING, Union, cast
+from typing import Any, List, Optional, TYPE_CHECKING, Union, cast
 from uuid import UUID
 
 from dcs.countries import Switzerland, USAFAggressors, UnitedNationsPeacekeepers
@@ -106,9 +106,11 @@ class Game:
         settings: Settings,
         player_budget: float,
         enemy_budget: float,
+        campaign_name: Optional[str] = None,
     ) -> None:
         self.settings = settings
         self.theater = theater
+        self.campaign_name = campaign_name
         self.turn = 0
         # NB: This is the *start* date. It is never updated.
         self.date = date(start_date.year, start_date.month, start_date.day)

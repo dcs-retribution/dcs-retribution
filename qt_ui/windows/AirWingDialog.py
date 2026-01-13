@@ -155,7 +155,7 @@ class AircraftInventoryData:
     ) -> Iterator[AircraftInventoryData]:
         for _ in range(0, squadron.untasked_aircraft):
             yield AircraftInventoryData(
-                squadron.name,
+                squadron.location.name,
                 squadron.aircraft.display_name,
                 "Idle",
                 "N/A",

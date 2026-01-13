@@ -86,13 +86,21 @@ class CH_2S35(unittype.VehicleType):
 
 
 @vehiclemod
-class CH_TOS1A(unittype.VehicleType):
-    id = "CH_TOS1A"
-    name = "[CH] TOS-1A MRL"
+class CH_2S1(unittype.VehicleType):
+    id = "CH_2S1"
+    name = "[CH] 2S1 SPG"
     detection_range = 0
-    threat_range = 6000
-    air_weapon_dist = 6000
-    eplrs = True
+    threat_range = 15000
+    air_weapon_dist = 15000
+
+
+@vehiclemod
+class CH_2S3(unittype.VehicleType):
+    id = "CH_2S3"
+    name = "[CH] 2S3 SPG"
+    detection_range = 0
+    threat_range = 17000
+    air_weapon_dist = 17000
 
 
 # Infantry
@@ -158,18 +166,8 @@ class CH_2S38(unittype.VehicleType):
 
 
 @vehiclemod
-class PantsirS1(unittype.VehicleType):
-    id = "PantsirS1"
-    name = "[CH] Pantsir-S1 SPAAGM"
-    detection_range = 36000
-    threat_range = 20000
-    air_weapon_dist = 20000
-    eplrs = True
-
-
-@vehiclemod
-class PantsirS2(unittype.VehicleType):
-    id = "PantsirS2"
+class CH_PantsirS2(unittype.VehicleType):
+    id = "CH_PantsirS2"
     name = "[CH] Pantsir-S2 SPAAGM"
     detection_range = 40000
     threat_range = 30000
@@ -227,32 +225,12 @@ class CH_S350_96L6(unittype.VehicleType):
 
 
 @vehiclemod
-class TorM2K(unittype.VehicleType):
-    id = "TorM2K"
+class CH_TorM2K(unittype.VehicleType):
+    id = "CH_TorM2K"
     name = "[CH] Tor M2K SHORAD"
     detection_range = 25000
     threat_range = 12000
     air_weapon_dist = 12000
-    eplrs = True
-
-
-@vehiclemod
-class TorM2(unittype.VehicleType):
-    id = "TorM2"
-    name = "[CH] Tor M2 SHORAD"
-    detection_range = 25000
-    threat_range = 12000
-    air_weapon_dist = 12000
-    eplrs = True
-
-
-@vehiclemod
-class TorM2M(unittype.VehicleType):
-    id = "TorM2M"
-    name = "[CH] Tor M2M SHORAD"
-    detection_range = 25000
-    threat_range = 16000
-    air_weapon_dist = 16000
     eplrs = True
 
 
@@ -302,6 +280,24 @@ class CH_BukM3_9S18M13(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
+class CH_ZSU234(unittype.VehicleType):
+    id = "CH_ZSU234"
+    name = "[CH] ZSU-23-4 SPAAG"
+    detection_range = 20000
+    threat_range = 2500
+    air_weapon_dist = 2500
+
+
+@vehiclemod
+class CH_9K35(unittype.VehicleType):
+    id = "CH_9K35"
+    name = "[CH] 9K35 Strela-10"
+    detection_range = 8000
+    threat_range = 5000
+    air_weapon_dist = 5000
+
+
 # Fortification
 @fortificationmod
 class CH_TM62_AT_Mine(unittype.VehicleType):
@@ -324,13 +320,104 @@ class CH_T14(unittype.VehicleType):
 
 
 @vehiclemod
-class CH_T90M(unittype.VehicleType):
-    id = "CH_T90M"
-    name = "[CH] T-90M MBT"
-    detection_range = 8000
+class CH_T72A(unittype.VehicleType):
+    id = "CH_T72A"
+    name = "[CH] T-72A MBT"
+    detection_range = 4000
     threat_range = 5000
-    air_weapon_dist = 5000
+    air_weapon_dist = 3500
     eplrs = True
+
+
+@vehiclemod
+class CH_BMD2(unittype.VehicleType):
+    id = "CH_BMD2"
+    name = "[CH] BMD-2 IFV"
+    detection_range = 5000
+    threat_range = 2000
+    air_weapon_dist = 2000
+
+
+@vehiclemod
+class CH_T72B(unittype.VehicleType):
+    id = "CH_T72B"
+    name = "[CH] T-72B MBT"
+    detection_range = 4000
+    threat_range = 5000
+    air_weapon_dist = 3500
+    eplrs = True
+
+
+@vehiclemod
+class CH_MTLB(unittype.VehicleType):
+    id = "CH_MTLB"
+    name = "[CH] MT-LB IFV"
+    detection_range = 4000
+    threat_range = 1000
+    air_weapon_dist = 1000
+
+
+@vehiclemod
+class CH_BTR50PK(unittype.VehicleType):
+    id = "CH_BTR50PK"
+    name = "[CH] BTR-50PK APC"
+    detection_range = 4000
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class CH_PT76B(unittype.VehicleType):
+    id = "CH_PT76B"
+    name = "[CH] PT-76B LT"
+    detection_range = 5000
+    threat_range = 2000
+    air_weapon_dist = 1000
+
+
+@vehiclemod
+class CH_BMP1(unittype.VehicleType):
+    id = "CH_BMP1"
+    name = "[CH] BMP-1 IFV"
+    detection_range = 4000
+    threat_range = 1000
+    air_weapon_dist = 1000
+
+
+@vehiclemod
+class CH_BMP1P(unittype.VehicleType):
+    id = "CH_BMP1P"
+    name = "[CH] BMP-1P IFV"
+    detection_range = 4000
+    threat_range = 3000
+    air_weapon_dist = 1000
+
+
+@vehiclemod
+class CH_ASU85(unittype.VehicleType):
+    id = "CH_ASU85"
+    name = "[CH] ASU-85 LT"
+    detection_range = 5000
+    threat_range = 4000
+    air_weapon_dist = 1200
+
+
+@vehiclemod
+class CH_T62M(unittype.VehicleType):
+    id = "CH_T62M"
+    name = "[CH] T-62M MBT"
+    detection_range = 6000
+    threat_range = 4000
+    air_weapon_dist = 3500
+
+
+@vehiclemod
+class CH_T54A(unittype.VehicleType):
+    id = "CH_T54A"
+    name = "[CH] T-54 MBT"
+    detection_range = 6000
+    threat_range = 2500
+    air_weapon_dist = 1200
 
 
 @vehiclemod
@@ -340,16 +427,6 @@ class CH_TigrM(unittype.VehicleType):
     detection_range = 0
     threat_range = 1200
     air_weapon_dist = 1200
-    eplrs = True
-
-
-@vehiclemod
-class CH_T90A(unittype.VehicleType):
-    id = "CH_T90A"
-    name = "[CH] T-90A MBT"
-    detection_range = 0
-    threat_range = 8000
-    air_weapon_dist = 1800
     eplrs = True
 
 
@@ -385,8 +462,8 @@ class CH_3K60_BAL(unittype.VehicleType):
 
 
 @vehiclemod
-class K300P(unittype.VehicleType):
-    id = "K300P"
+class CH_K300P(unittype.VehicleType):
+    id = "CH_K300P"
     name = "[CH] Bastion-P LBASM TEL"
     detection_range = 400000
     threat_range = 400000
@@ -395,22 +472,12 @@ class K300P(unittype.VehicleType):
 
 
 @vehiclemod
-class MonolitB(unittype.VehicleType):
-    id = "MonolitB"
+class CH_MonolitB(unittype.VehicleType):
+    id = "CH_MonolitB"
     name = "[CH] Monolit-B LBASM STR"
     detection_range = 800000
     threat_range = 0
     air_weapon_dist = 0
-
-
-@vehiclemod
-class CH_IskanderM(unittype.VehicleType):
-    id = "CH_IskanderM"
-    name = "[CH] Iskander-M SRBM"
-    detection_range = 0
-    threat_range = 500000
-    air_weapon_dist = 500000
-    eplrs = True
 
 
 @vehiclemod
@@ -424,23 +491,9 @@ class CH_IskanderK(unittype.VehicleType):
 
 
 ## SHIPS
-
-
 @shipmod
-class CH_Project22160(unittype.ShipType):
-    id = "CH_Project22160"
-    name = "[CH] Project 22160 Patrol Ship"
-    plane_num = 0
-    helicopter_num = 1
-    parking = 1
-    detection_range = 80000
-    threat_range = 8000
-    air_weapon_dist = 8000
-
-
-@shipmod
-class Admiral_Gorshkov(unittype.ShipType):
-    id = "Admiral_Gorshkov"
+class CH_Admiral_Gorshkov(unittype.ShipType):
+    id = "CH_Admiral_Gorshkov"
     name = "[CH] Project 22350 Admiral Gorshkov Frigate"
     plane_num = 0
     helicopter_num = 1
@@ -475,8 +528,8 @@ class CH_Grigorovich_LACM(unittype.ShipType):
 
 
 @shipmod
-class Karakurt_AShM(unittype.ShipType):
-    id = "Karakurt_AShM"
+class CH_Karakurt_AShM(unittype.ShipType):
+    id = "CH_Karakurt_AShM"
     name = "[CH] Project 22800 Karakurt Corvette AShM"
     plane_num = 0
     helicopter_num = 0
@@ -487,8 +540,8 @@ class Karakurt_AShM(unittype.ShipType):
 
 
 @shipmod
-class Karakurt_LACM(unittype.ShipType):
-    id = "Karakurt_LACM"
+class CH_Karakurt_LACM(unittype.ShipType):
+    id = "CH_Karakurt_LACM"
     name = "[CH] Project 22800 Karakurt Corvette LACM"
     plane_num = 0
     helicopter_num = 0
@@ -941,263 +994,7 @@ class CH_Ka52(HelicopterType):
     task_default = task.CAS
 
 
-@helicoptermod
-class CH_Mi28N(HelicopterType):
-    id = "CH_Mi28N"
-    height = 5.087
-    width = 17.2
-    length = 17.87
-    fuel_max = 1500
-    max_speed = 365
-    chaff = 0
-    flare = 128
-    charge_total = 128
-    chaff_charge_size = 0
-    flare_charge_size = 1
-    eplrs = True
-    radio_frequency = 124
-
-    livery_name = "CH_MI28N"  # from type
-
-    class Pylon1:
-        B_8V20A_CM = (1, Weapons.B_8V20A_CM)
-        B_8V20A_OFP2 = (1, Weapons.B_8V20A_OFP2)
-        B_8V20A_OM = (1, Weapons.B_8V20A_OM)
-        B_8V20A___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag = (
-            1,
-            Weapons.B_8V20A___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
-        )
-        B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation = (
-            1,
-            Weapons.B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation,
-        )
-        KMGU_2___96_x_AO_2_5RT_Dispenser__CBU__HE_Frag = (
-            1,
-            Weapons.KMGU_2___96_x_AO_2_5RT_Dispenser__CBU__HE_Frag,
-        )
-        KMGU_2___96_x_PTAB_2_5KO_Dispenser__CBU__HEAT_AP = (
-            1,
-            Weapons.KMGU_2___96_x_PTAB_2_5KO_Dispenser__CBU__HEAT_AP,
-        )
-        OFAB_250_270___250_kg_GP_Bomb_LD = (1, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
-        FAB_250M_62___250_kg_GP_Bomb_LD = (1, Weapons.FAB_250M_62___250_kg_GP_Bomb_LD)
-        FAB_500M_62___500_kg_GP_Bomb_LD = (1, Weapons.FAB_500M_62___500_kg_GP_Bomb_LD)
-        Fuel_tank_PTB_450 = (1, Weapons.Fuel_tank_PTB_450)
-        _6_x_9M120_Ataka__AT_9_Spiral_2____ATGM__SACLOS__Tandem_HEAT = (
-            1,
-            Weapons._6_x_9M120_Ataka__AT_9_Spiral_2____ATGM__SACLOS__Tandem_HEAT,
-        )
-        _6_x_9M120F_Ataka__AT_9_Spiral_2____AGM__SACLOS__HE = (
-            1,
-            Weapons._6_x_9M120F_Ataka__AT_9_Spiral_2____AGM__SACLOS__HE,
-        )
-        _9S846_Strelets___2_x_9M39_Igla = (1, Weapons._9S846_Strelets___2_x_9M39_Igla)
-
-    class Pylon2:
-        B_8V20A_CM = (2, Weapons.B_8V20A_CM)
-        B_8V20A_OFP2 = (2, Weapons.B_8V20A_OFP2)
-        B_8V20A_OM = (2, Weapons.B_8V20A_OM)
-        B_8V20A___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag = (
-            2,
-            Weapons.B_8V20A___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
-        )
-        B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation = (
-            2,
-            Weapons.B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation,
-        )
-        UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod = (
-            2,
-            Weapons.UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod,
-        )
-        KMGU_2___96_x_AO_2_5RT_Dispenser__CBU__HE_Frag = (
-            2,
-            Weapons.KMGU_2___96_x_AO_2_5RT_Dispenser__CBU__HE_Frag,
-        )
-        KMGU_2___96_x_PTAB_2_5KO_Dispenser__CBU__HEAT_AP = (
-            2,
-            Weapons.KMGU_2___96_x_PTAB_2_5KO_Dispenser__CBU__HEAT_AP,
-        )
-        OFAB_250_270___250_kg_GP_Bomb_LD = (2, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
-        FAB_250M_62___250_kg_GP_Bomb_LD = (2, Weapons.FAB_250M_62___250_kg_GP_Bomb_LD)
-        FAB_500M_62___500_kg_GP_Bomb_LD = (2, Weapons.FAB_500M_62___500_kg_GP_Bomb_LD)
-        Fuel_tank_PTB_450 = (2, Weapons.Fuel_tank_PTB_450)
-        _6_x_9M120_Ataka__AT_9_Spiral_2____ATGM__SACLOS__Tandem_HEAT = (
-            2,
-            Weapons._6_x_9M120_Ataka__AT_9_Spiral_2____ATGM__SACLOS__Tandem_HEAT,
-        )
-        _6_x_9M120F_Ataka__AT_9_Spiral_2____AGM__SACLOS__HE = (
-            2,
-            Weapons._6_x_9M120F_Ataka__AT_9_Spiral_2____AGM__SACLOS__HE,
-        )
-        _9S846_Strelets___2_x_9M39_Igla = (2, Weapons._9S846_Strelets___2_x_9M39_Igla)
-
-    class Pylon3:
-        B_8V20A_CM = (3, Weapons.B_8V20A_CM)
-        B_8V20A_OFP2 = (3, Weapons.B_8V20A_OFP2)
-        B_8V20A_OM = (3, Weapons.B_8V20A_OM)
-        B_8V20A___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag = (
-            3,
-            Weapons.B_8V20A___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
-        )
-        B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation = (
-            3,
-            Weapons.B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation,
-        )
-        UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod = (
-            3,
-            Weapons.UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod,
-        )
-        KMGU_2___96_x_AO_2_5RT_Dispenser__CBU__HE_Frag = (
-            3,
-            Weapons.KMGU_2___96_x_AO_2_5RT_Dispenser__CBU__HE_Frag,
-        )
-        KMGU_2___96_x_PTAB_2_5KO_Dispenser__CBU__HEAT_AP = (
-            3,
-            Weapons.KMGU_2___96_x_PTAB_2_5KO_Dispenser__CBU__HEAT_AP,
-        )
-        OFAB_250_270___250_kg_GP_Bomb_LD = (3, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
-        FAB_250M_62___250_kg_GP_Bomb_LD = (3, Weapons.FAB_250M_62___250_kg_GP_Bomb_LD)
-        FAB_500M_62___500_kg_GP_Bomb_LD = (3, Weapons.FAB_500M_62___500_kg_GP_Bomb_LD)
-        Fuel_tank_PTB_450 = (3, Weapons.Fuel_tank_PTB_450)
-        _6_x_9M120_Ataka__AT_9_Spiral_2____ATGM__SACLOS__Tandem_HEAT = (
-            3,
-            Weapons._6_x_9M120_Ataka__AT_9_Spiral_2____ATGM__SACLOS__Tandem_HEAT,
-        )
-        _6_x_9M120F_Ataka__AT_9_Spiral_2____AGM__SACLOS__HE = (
-            3,
-            Weapons._6_x_9M120F_Ataka__AT_9_Spiral_2____AGM__SACLOS__HE,
-        )
-        _9S846_Strelets___2_x_9M39_Igla = (3, Weapons._9S846_Strelets___2_x_9M39_Igla)
-
-    class Pylon4:
-        B_8V20A_CM = (4, Weapons.B_8V20A_CM)
-        B_8V20A_OFP2 = (4, Weapons.B_8V20A_OFP2)
-        B_8V20A_OM = (4, Weapons.B_8V20A_OM)
-        B_8V20A___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag = (
-            4,
-            Weapons.B_8V20A___20_x_UnGd_Rkts__80_mm_S_8KOM_HEAT_Frag,
-        )
-        B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation = (
-            4,
-            Weapons.B_13L___5_x_UnGd_Rkts__122_mm_S_13OF_Blast_Fragmentation,
-        )
-        KMGU_2___96_x_AO_2_5RT_Dispenser__CBU__HE_Frag = (
-            4,
-            Weapons.KMGU_2___96_x_AO_2_5RT_Dispenser__CBU__HE_Frag,
-        )
-        KMGU_2___96_x_PTAB_2_5KO_Dispenser__CBU__HEAT_AP = (
-            4,
-            Weapons.KMGU_2___96_x_PTAB_2_5KO_Dispenser__CBU__HEAT_AP,
-        )
-        OFAB_250_270___250_kg_GP_Bomb_LD = (4, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
-        FAB_250M_62___250_kg_GP_Bomb_LD = (4, Weapons.FAB_250M_62___250_kg_GP_Bomb_LD)
-        FAB_500M_62___500_kg_GP_Bomb_LD = (4, Weapons.FAB_500M_62___500_kg_GP_Bomb_LD)
-        Fuel_tank_PTB_450 = (4, Weapons.Fuel_tank_PTB_450)
-        _6_x_9M120_Ataka__AT_9_Spiral_2____ATGM__SACLOS__Tandem_HEAT = (
-            4,
-            Weapons._6_x_9M120_Ataka__AT_9_Spiral_2____ATGM__SACLOS__Tandem_HEAT,
-        )
-        _6_x_9M120F_Ataka__AT_9_Spiral_2____AGM__SACLOS__HE = (
-            4,
-            Weapons._6_x_9M120F_Ataka__AT_9_Spiral_2____AGM__SACLOS__HE,
-        )
-        _9S846_Strelets___2_x_9M39_Igla = (4, Weapons._9S846_Strelets___2_x_9M39_Igla)
-
-    pylons: Set[int] = {1, 2, 3, 4}
-
-    tasks = [
-        task.CAS,
-        task.GroundAttack,
-        task.Escort,
-        task.AFAC,
-        task.AntishipStrike,
-        task.Transport,
-        task.Reconnaissance,
-    ]
-    task_default = task.CAS
-
-
 # Planes
-@planemod
-class CH_Tu_95MSM(PlaneType):
-    id = "CH_Tu-95MSM"
-    large_parking_slot = True
-    height = 13.3
-    width = 50.04
-    length = 49.13
-    fuel_max = 87000
-    max_speed = 919.8
-    chaff = 48
-    flare = 48
-    charge_total = 96
-    chaff_charge_size = 1
-    flare_charge_size = 1
-    eplrs = True
-
-    property_defaults: Dict[str, Any] = {}
-
-    properties = {}
-
-    livery_name = "CH_TU-95MSM"  # from type
-
-    class Pylon1:
-        Kh_101_ALCM = (1, Weapons.Kh_101_ALCM)
-        Kh_555_ALCM = (1, Weapons.Kh_555_ALCM)
-
-    # ERRR <CLEAN>
-
-    class Pylon2:
-        Kh_101_ALCM = (2, Weapons.Kh_101_ALCM)
-        Kh_555_ALCM = (2, Weapons.Kh_555_ALCM)
-
-    class Pylon3:
-        Kh_101_ALCM = (3, Weapons.Kh_101_ALCM)
-        Kh_555_ALCM = (3, Weapons.Kh_555_ALCM)
-
-    # ERRR <CLEAN>
-
-    class Pylon4:
-        Kh_101_ALCM = (4, Weapons.Kh_101_ALCM)
-        Kh_555_ALCM = (4, Weapons.Kh_555_ALCM)
-
-    class Pylon5:
-        Kh_101_ALCM = (5, Weapons.Kh_101_ALCM)
-        Kh_555_ALCM = (5, Weapons.Kh_555_ALCM)
-
-    # ERRR <CLEAN>
-
-    class Pylon6:
-        Kh_101_ALCM = (6, Weapons.Kh_101_ALCM)
-        Kh_555_ALCM = (6, Weapons.Kh_555_ALCM)
-
-    class Pylon7:
-        Kh_101_ALCM = (7, Weapons.Kh_101_ALCM)
-        Kh_555_ALCM = (7, Weapons.Kh_555_ALCM)
-
-    # ERRR <CLEAN>
-
-    class Pylon8:
-        Kh_101_ALCM = (8, Weapons.Kh_101_ALCM)
-        Kh_555_ALCM = (8, Weapons.Kh_555_ALCM)
-
-    class Pylon9:
-        _6_x_Kh_555_ALCM = (9, Weapons._6_x_Kh_555_ALCM)
-
-    pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9}
-
-    tasks = [
-        task.Reconnaissance,
-        task.GroundAttack,
-        task.CAS,
-        task.AFAC,
-        task.RunwayAttack,
-        task.AntishipStrike,
-        task.PinpointStrike,
-        task.SEAD,
-    ]
-    task_default = task.GroundAttack
-
-
 @planemod
 class CH_Tu_160M2(PlaneType):
     id = "CH_Tu-160M2"
@@ -1215,6 +1012,8 @@ class CH_Tu_160M2(PlaneType):
     eplrs = True
 
     property_defaults: Dict[str, Any] = {}
+
+    properties = {}
 
     livery_name = "CH_TU-160M2"  # from type
 

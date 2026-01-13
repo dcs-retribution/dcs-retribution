@@ -4,7 +4,7 @@ import logging
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, ClassVar, Iterator, Optional, Type
+from typing import Any, ClassVar, Dict, Iterator, Optional, Type
 
 from dcs.unittype import VehicleType
 from dcs.vehicles import vehicle_map
@@ -93,7 +93,7 @@ class GroundUnitType(UnitType[Type[VehicleType]]):
     def named(cls, name: str) -> GroundUnitType:
         if not cls._loaded:
             cls._load_all()
-        return cls._by_name[name]
+        return cls._by_name[cls._migrator().get(name, name)]
 
     @classmethod
     def for_dcs_type(cls, dcs_unit_type: Type[VehicleType]) -> Iterator[GroundUnitType]:
@@ -108,6 +108,18 @@ class GroundUnitType(UnitType[Type[VehicleType]]):
     @classmethod
     def _data_directory(cls) -> Path:
         return Path("resources/units/ground_units")
+
+    @staticmethod
+    def _migrator() -> Dict[str, str]:
+        return {
+            "[CH] T-90A MBT": "MBT T-90M [CH]",
+            "[CH] T-90M MBT": "MBT T-90M [CH]",
+            "[CH] Pantsir-S1 SPAAGM": 'SAM SA-22 Pantsir-S1 "Greyhound" [CH]',
+            "[CH] TOS-1A MRL": "MLRS TOS-1A Solntsepyok [CH]",
+            "[CH] Tor M2 SHORAD": 'SAM SA-15 Tor M2 "Gauntlet" [CH]',
+            "[CH] Tor M2M SHORAD": 'SAM SA-15 Tor M2 "Gauntlet" [CH]',
+            "[CH] Iskander-M SRBM": "SRBM 9K720 Iskander HE [CH]",
+        }
 
     @classmethod
     def _variant_from_dict(

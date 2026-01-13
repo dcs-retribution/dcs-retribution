@@ -7,6 +7,8 @@ if lfs then
 	env.info('Pretense - Save file path: '..savefile)
 end
 
+LiveryDB = {}
+LiveryDB.livery_overrides = {}
 
 do
 

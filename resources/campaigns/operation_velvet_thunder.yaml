@@ -67,7 +67,7 @@ squadrons:
       secondary: any
       aircraft:
         - C-130J-30 Super Hercules
-        - C-130
+        - C-130J-30
       size: 8
     - primary: Armed Recon
       secondary: any

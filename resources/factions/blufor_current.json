@@ -14,6 +14,7 @@
     "B-1B Lancer",
     "B-52H Stratofortress",
     "C-130",
+    "C-130J-30",
     "C-130J-30 Super Hercules",
     "CH-47D",
     "CH-47F Block I",
@@ -39,7 +40,8 @@
     "UH-60A",
     "UH-60L",
     "[CH] B-21",
-    "[CH] JAS 39C Gripen"
+    "[CH] JAS 39C Gripen",
+    "MIG-29-FULCRUM"
   ],
   "awacs": [
     "E-2D Advanced Hawkeye",

@@ -30,6 +30,7 @@ from game.naming import ALPHA_MILITARY
 from game.pretense.pretenseflightgroupspawner import PretenseNameGenerator
 from game.theater import Airfield, Player
 from game.theater.controlpoint import Fob, TRIGGER_RADIUS_CAPTURE, OffMapSpawn
+from game.theater.theatergroundobject import CoastalSiteGroundObject, NavalGroundObject
 
 if TYPE_CHECKING:
     from game.game import Game
@@ -326,7 +327,7 @@ class PretenseTriggerGenerator:
             elif isinstance(cp, Fob) and cp.has_helipads:
                 trigger_radius = TRIGGER_RADIUS_PRETENSE_HELI
                 for helipad in list(
-                    cp.helipads + cp.helipads_quad + cp.helipads_invisible
+                    cp.helipads + cp.helipads_invisible + cp.helipads_quad
                 ):
                     if cp.position.distance_to_point(helipad) > trigger_radius:
                         trigger_radius = cp.position.distance_to_point(helipad)
@@ -347,15 +348,7 @@ class PretenseTriggerGenerator:
                     trigger_radius = int(TRIGGER_RADIUS_CAPTURE * 1.8)
                 else:
                     trigger_radius = TRIGGER_RADIUS_CAPTURE
-            cp_name = "".join(
-                [i for i in cp.name if i.isalnum() or i.isspace() or i == "-"]
-            )
-            cp_name = cp_name.replace("Ä", "A")
-            cp_name = cp_name.replace("Ö", "O")
-            cp_name = cp_name.replace("Ø", "O")
-            cp_name = cp_name.replace("ä", "a")
-            cp_name = cp_name.replace("ö", "o")
-            cp_name = cp_name.replace("ø", "o")
+            cp_name = PretenseNameGenerator.pretense_trimmed_cp_name_uppercase(cp.name)
             if not isinstance(cp, OffMapSpawn):
                 zone_color = {1: 0.0, 2: 0.0, 3: 0.0, 4: 0.15}
                 self.mission.triggers.add_triggerzone(
@@ -368,7 +361,13 @@ class PretenseTriggerGenerator:
             cp_name_trimmed = PretenseNameGenerator.pretense_trimmed_cp_name(cp.name)
             tgo_num = 0
             for tgo in cp.ground_objects:
-                if cp.is_fleet or tgo.sea_object:
+                if not cp.is_fleet and tgo.sea_object:
+                    continue
+                if not cp.is_fleet and isinstance(tgo, CoastalSiteGroundObject):
+                    continue
+                if not cp.is_fleet and isinstance(tgo, NavalGroundObject):
+                    continue
+                if not cp.is_fleet and tgo.category == "oil":
                     continue
                 tgo_num += 1
                 zone_color = {1: 1.0, 2: 1.0, 3: 1.0, 4: 0.15}
@@ -376,7 +375,7 @@ class PretenseTriggerGenerator:
                     tgo.position,
                     radius=TRIGGER_RADIUS_PRETENSE_TGO,
                     hidden=False,
-                    name=f"{cp_name_trimmed}-{tgo_num}",
+                    name=f"{cp_name}-{tgo_num}",
                     color=zone_color,
                 )
             for helipad in cp.helipads + cp.helipads_invisible + cp.helipads_quad:
@@ -385,7 +384,7 @@ class PretenseTriggerGenerator:
                     position=helipad,
                     radius=TRIGGER_RADIUS_PRETENSE_HELI,
                     hidden=False,
-                    name=f"{cp_name_trimmed}-hsp",
+                    name=f"{cp_name}-hsp",
                     color=zone_color,
                 )
                 break
@@ -402,7 +401,7 @@ class PretenseTriggerGenerator:
                     supply_position,
                     radius=TRIGGER_RADIUS_PRETENSE_TGO,
                     hidden=False,
-                    name=f"{cp_name_trimmed}-sp",
+                    name=f"{cp_name}-sp",
                     color=zone_color,
                 )
                 break

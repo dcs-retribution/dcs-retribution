@@ -128,6 +128,7 @@ class GameGenerator:
         settings: Settings,
         generator_settings: GeneratorSettings,
         mod_settings: ModSettings,
+        campaign_name: Optional[str] = None,
     ) -> None:
         self.player = player
         self.enemy = enemy
@@ -135,6 +136,7 @@ class GameGenerator:
         self.air_wing_config = air_wing_config
         self.settings = settings
         self.generator_settings = generator_settings
+        self.campaign_name = campaign_name
         self.player.apply_mod_settings(mod_settings)
         self.enemy.apply_mod_settings(mod_settings)
 
@@ -153,6 +155,7 @@ class GameGenerator:
                 settings=self.settings,
                 player_budget=self.generator_settings.player_budget,
                 enemy_budget=self.generator_settings.enemy_budget,
+                campaign_name=self.campaign_name,
             )
 
             GroundObjectGenerator(game, self.generator_settings).generate()

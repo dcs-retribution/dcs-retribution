@@ -180,7 +180,12 @@ class Flight(
 
     @property
     def standard_identity(self) -> StandardIdentity:
-        return StandardIdentity.FRIEND if self.blue else StandardIdentity.HOSTILE_FAKER
+        if self.blue.is_blue:
+            return StandardIdentity.FRIEND
+        elif self.blue.is_red:
+            return StandardIdentity.HOSTILE_FAKER
+        else:
+            return StandardIdentity.UNKNOWN
 
     @property
     def sidc_status(self) -> Status:

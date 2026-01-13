@@ -1,0 +1,12 @@
+class: IFV
+description: "The ASU-85 (Russian: \xd0\x90\xd0\xb2\xd0\xb8\xd0\xb0\xd0\xb4\xd0\xb5\xd1\x81\xd0\xb0\xd0\xbd\xd1\x82\xd0\xbd\xd0\xb0\xd1\x8f\x20\xd1\x81\xd0\xb0\xd0\xbc\xd0\xbe\xd1\x85\xd0\xbe\xd0\xb4\xd0\xbd\xd0\xb0\xd1\x8f\x20\xd1\x83\xd1\x81\xd1\x82\xd0\xb0\xd0\xbd\xd0\xbe\xd0\xb2\xd0\xba\xd0\xb0,
+  ACY-85, romanized: Aviadesantnaya Samokhodnaya Ustanovka, ASU-85 - airborne self-propelled mount) is a 
+  Soviet-designed airborne self-propelled gun of the Cold War era. From 1959, it began to replace the 
+  open-topped ASU-57 in service. It was, in turn, replaced by the BMD-1 beginning in 1969."
+introduced: 1959
+manufacturer: Astrov Design Bureau
+origin: USSR
+price: 10
+role: Self-Propelled Gun
+variants:
+  "[CH] ASU-85 LT": {}

@@ -46,6 +46,20 @@ class PretenseNameGenerator(NameGenerator):
         cp_name_trimmed = cp_name_trimmed.replace("ø", "o")
         return cp_name_trimmed
 
+    @classmethod
+    def pretense_trimmed_cp_name_uppercase(cls, cp_name: str) -> str:
+        cp_name_alnum = "".join(
+            [i for i in cp_name if i.isalnum() or i.isspace() or i == "-"]
+        )
+        cp_name_trimmed = cp_name_alnum.lstrip("1 2 3 4 5 6 7 8 9 0")
+        cp_name_trimmed = cp_name_trimmed.replace("Ä", "A")
+        cp_name_trimmed = cp_name_trimmed.replace("Ö", "O")
+        cp_name_trimmed = cp_name_trimmed.replace("Ø", "O")
+        cp_name_trimmed = cp_name_trimmed.replace("ä", "a")
+        cp_name_trimmed = cp_name_trimmed.replace("ö", "o")
+        cp_name_trimmed = cp_name_trimmed.replace("ø", "o")
+        return cp_name_trimmed
+
 
 namegen = PretenseNameGenerator
 # Air-start AI aircraft which are faster than this on WWII terrains

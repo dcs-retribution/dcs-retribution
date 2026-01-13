@@ -64,7 +64,7 @@ squadrons:
       secondary: any
       aircraft:
         - C-130J-30 Super Hercules
-        - C-130
+        - C-130J-30
       size: 2
     - primary: OCA/Runway
       secondary: any
@@ -163,7 +163,7 @@ squadrons:
       secondary: any
       aircraft:
         - F-16CM Fighting Falcon (Block 50)
-        - MiG-29A Fulcrum-A
+        - MIG-29-FULCRUM
       size: 8
   # Incirlik
   16:
