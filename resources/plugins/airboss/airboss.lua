@@ -17,7 +17,11 @@ airboss_options = {
     ["despawnMinutesAfterLanding"] = 5, -- 0 = disabled, 1/2/3... = minutes after landing before despawn (unless unit shuts down)
 }
 
-    if dcsRetribution and dcsRetribution.plugins and dcsRetribution.plugins.airboss then
+-- Carrier data lookup table from Retribution
+airboss_carrier_data = {}
+
+if dcsRetribution then
+    if dcsRetribution.plugins and dcsRetribution.plugins.airboss then
         airboss_options.enableRescueHelo = dcsRetribution.plugins.airboss.enableRescueHelo
         airboss_options.rescueHeloDistance = dcsRetribution.plugins.airboss.rescueHeloDistance
         airboss_options.enableAWACS = dcsRetribution.plugins.airboss.enableAWACS
@@ -30,6 +34,15 @@ airboss_options = {
         airboss_options.windowLengthOption = dcsRetribution.plugins.airboss.windowLengthOption
         airboss_options.despawnMinutesAfterLanding = dcsRetribution.plugins.airboss.despawnMinutesAfterLanding
     end
+
+    -- Build carrier data lookup table
+    if dcsRetribution.Carriers then
+        for _, carrier in pairs(dcsRetribution.Carriers) do
+            airboss_carrier_data[carrier.unit_name] = carrier
+            env.info("AIRBOSS: Loaded carrier data from Retribution for " .. carrier.unit_name)
+        end
+    end
+end
 
 --    env.info("AIRBOSS Rescue Helo Enabled: " .. tostring(airboss_options.enableRescueHelo))
 --    env.info("AIRBOSS AWACS Enabled: " .. tostring(airboss_options.enableAWACS))
@@ -480,6 +493,9 @@ function SetupAirboss(nameOfCarrier, carrierType)
     end
 
     AirbossCarriers[nameOfCarrier] = true
+    -- Get carrier data from lookup table
+    local carrierData = airboss_carrier_data[nameOfCarrier]
+
     AirbossRetribution = AIRBOSS:New(nameOfCarrier)
     AirbossRetribution:SetMenuRecovery(30, 20, true)
     AirbossRetribution:SetCarrierControlledArea(airboss_options.rescueHeloDistance)
@@ -488,18 +504,80 @@ function SetupAirboss(nameOfCarrier, carrierType)
 
     -- TACAN/ICLS/Radio configuration based on carrier type
     if carrierType == "CVN" then
-        AirbossRetribution:SetTACAN(71, "X", "RID")
-        AirbossRetribution:SetICLS(11, "RID")
-        AirbossRetribution:SetLSORadio(126.5)
-        AirbossRetribution:SetMarshalRadio(127.5)
+        -- Use dynamic values from Retribution if available, otherwise fall back to defaults
+        local tacan_channel = 71
+        local tacan_band = "X"
+        local tacan_callsign = "RID"
+        local icls_channel = 11
+        local icls_callsign = "RID"
+        local lso_radio = 126.5
+        local marshal_radio = 127.5
+
+        if carrierData then
+            if carrierData.tacan_channel then
+                tacan_channel = tonumber(carrierData.tacan_channel)
+                env.info("AIRBOSS: Using dynamic TACAN channel: " .. tacan_channel)
+            end
+            if carrierData.tacan_band then
+                tacan_band = carrierData.tacan_band
+                env.info("AIRBOSS: Using dynamic TACAN band: " .. tacan_band)
+            end
+            if carrierData.icls then
+                icls_channel = tonumber(carrierData.icls)
+                env.info("AIRBOSS: Using dynamic ICLS channel: " .. icls_channel)
+            end
+            if carrierData.callsign then
+                tacan_callsign = carrierData.callsign:sub(1, 3):upper()
+                icls_callsign = tacan_callsign
+                env.info("AIRBOSS: Using dynamic callsign: " .. tacan_callsign)
+            end
+        else
+            env.info("AIRBOSS: No Retribution data found, using default CVN settings")
+        end
+
+        AirbossRetribution:SetTACAN(tacan_channel, tacan_band, tacan_callsign)
+        AirbossRetribution:SetICLS(icls_channel, icls_callsign)
+        AirbossRetribution:SetLSORadio(lso_radio)
+        AirbossRetribution:SetMarshalRadio(marshal_radio)
         AirbossRetribution:Load(nil, "Retribution_CVN_Grades.csv")
         AirbossRetribution:SetAutoSave(nil, "Retribution_CVN_Grades.csv")
         AirbossRetribution:SetTrapSheet(nil, "Retribution_TrapSheet")
     elseif carrierType == "LHA" then
-        AirbossRetribution:SetTACAN(72, "X", "LHA")
-        AirbossRetribution:SetICLS(15, "LHA")
-        AirbossRetribution:SetLSORadio(126.6)
-        AirbossRetribution:SetMarshalRadio(127.6)
+        -- Use dynamic values from Retribution if available, otherwise fall back to defaults
+        local tacan_channel = 72
+        local tacan_band = "X"
+        local tacan_callsign = "LHA"
+        local icls_channel = 15
+        local icls_callsign = "LHA"
+        local lso_radio = 126.6
+        local marshal_radio = 127.6
+
+        if carrierData then
+            if carrierData.tacan_channel then
+                tacan_channel = tonumber(carrierData.tacan_channel)
+                env.info("AIRBOSS: Using dynamic TACAN channel: " .. tacan_channel)
+            end
+            if carrierData.tacan_band then
+                tacan_band = carrierData.tacan_band
+                env.info("AIRBOSS: Using dynamic TACAN band: " .. tacan_band)
+            end
+            if carrierData.icls then
+                icls_channel = tonumber(carrierData.icls)
+                env.info("AIRBOSS: Using dynamic ICLS channel: " .. icls_channel)
+            end
+            if carrierData.callsign then
+                tacan_callsign = carrierData.callsign:sub(1, 3):upper()
+                icls_callsign = tacan_callsign
+                env.info("AIRBOSS: Using dynamic callsign: " .. tacan_callsign)
+            end
+        else
+            env.info("AIRBOSS: No Retribution data found, using default LHA settings")
+        end
+
+        AirbossRetribution:SetTACAN(tacan_channel, tacan_band, tacan_callsign)
+        AirbossRetribution:SetICLS(icls_channel, icls_callsign)
+        AirbossRetribution:SetLSORadio(lso_radio)
+        AirbossRetribution:SetMarshalRadio(marshal_radio)
         AirbossRetribution:Load(nil, "Retribution_LHA_Grades.csv")
         AirbossRetribution:SetAutoSave(nil, "Retribution_LHA_Grades.csv")
     end

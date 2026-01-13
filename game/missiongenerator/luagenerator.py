@@ -64,6 +64,10 @@ class LuaGenerator:
             carrier_item.add_key_value(
                 "tacan", str(carrier.tacan.number) + carrier.tacan.band.name
             )
+            carrier_item.add_key_value("tacan_channel", str(carrier.tacan.number))
+            carrier_item.add_key_value("tacan_band", carrier.tacan.band.name)
+            if carrier.icls_channel:
+                carrier_item.add_key_value("icls", str(carrier.icls_channel))
 
         tankers_object = lua_data.add_item("Tankers")
         for tanker in self.mission_data.tankers:
