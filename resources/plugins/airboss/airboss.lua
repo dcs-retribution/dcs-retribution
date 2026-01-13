@@ -14,6 +14,7 @@ airboss_options = {
     ["rescueZoneRadius"] = 50,
     ["windowStartOption"] = 30,
     ["windowLengthOption"] = 30,
+    ["despawnMinutesAfterLanding"] = 5, -- 0 = disabled, 1/2/3... = minutes after landing before despawn (unless unit shuts down)
 }
 
     if dcsRetribution and dcsRetribution.plugins and dcsRetribution.plugins.airboss then
@@ -27,6 +28,7 @@ airboss_options = {
         airboss_options.rescueZoneRadius = dcsRetribution.plugins.airboss.rescueZoneRadius
         airboss_options.windowStartOption = dcsRetribution.plugins.airboss.windowStartOption
         airboss_options.windowLengthOption = dcsRetribution.plugins.airboss.windowLengthOption
+        airboss_options.despawnMinutesAfterLanding = dcsRetribution.plugins.airboss.despawnMinutesAfterLanding
     end
 
 --    env.info("AIRBOSS Rescue Helo Enabled: " .. tostring(airboss_options.enableRescueHelo))
@@ -39,6 +41,13 @@ airboss_options = {
 --    env.info("AIRBOSS Rescue Zone Radius: " .. airboss_options.rescueZoneRadius)
 --    env.info("AIRBOSS Window Start: " .. airboss_options.windowStartOption)
 --    env.info("AIRBOSS Window Length: " .. airboss_options.windowLengthOption)
+
+-- Track carriers that Airboss was created for (keyed by UNIT name)
+AirbossCarriers = AirbossCarriers or {}
+
+-- Per-unit despawn state
+AirbossPendingDespawnUnit = AirbossPendingDespawnUnit or {} -- unitName -> true
+AirbossShutdownSeenUnit   = AirbossShutdownSeenUnit   or {} -- unitName -> true
 
 -- RESCUE HELO
 
@@ -408,7 +417,6 @@ function AddShipAWACS(nameOfCarrier)
 
     E2D:OnSpawnGroup(function(grp)
         MESSAGE:New("AIRBOSS: Group Spawned Late Activated: " .. grp:GetName(), 15, "SPAWN"):ToLog()
-
         awacsTED = RECOVERYTANKER:New(UNIT:FindByName(nameOfCarrier), grp:GetName())
         awacsTED:SetAWACS()
         awacsTED:SetCallsign(CALLSIGN.AWACS.Wizard)
@@ -431,7 +439,6 @@ function AddShipAWACS(nameOfCarrier)
             end
         end
     end)
-
     E2D:Spawn()
 end
 
@@ -472,6 +479,7 @@ function SetupAirboss(nameOfCarrier, carrierType)
         return isDay
     end
 
+    AirbossCarriers[nameOfCarrier] = true
     AirbossRetribution = AIRBOSS:New(nameOfCarrier)
     AirbossRetribution:SetMenuRecovery(30, 20, true)
     AirbossRetribution:SetCarrierControlledArea(airboss_options.rescueHeloDistance)
@@ -614,6 +622,124 @@ local function AutoSetup()
             MESSAGE:New("AIRBOSS: LHA FOUND BUT AIRBOSS DISABLED: " .. lha.name, 15, "SPAWN"):ToLog()
         end
     end
+end
+
+-- Engine shutdown handler (per-unit). If a unit shuts down before timer expires, we do NOT despawn it.
+AirbossEngineStopHandler = AirbossEngineStopHandler or EVENTHANDLER:New()
+AirbossEngineStopHandler:HandleEvent(EVENTS.EngineShutdown)
+if EVENTS.EngineStop then
+    AirbossEngineStopHandler:HandleEvent(EVENTS.EngineStop)
+end
+
+local function Airboss_MarkShutdownUnit(EventData)
+    if not EventData or not EventData.IniUnit then return end
+    local u = EventData.IniUnit
+
+    -- Ignore players/clients
+    if u:IsPlayer() then return end
+
+    local unitName = u:GetName()
+
+    -- Only mark shutdown for units that previously landed on a tracked carrier
+    -- (i.e., the land handler scheduled them for despawn)
+    if not AirbossPendingDespawnUnit[unitName] then
+        return
+    end
+
+    AirbossShutdownSeenUnit[unitName] = true
+    env.info("AIRBOSS: Shutdown detected for tracked unit (will NOT despawn): " .. unitName)
+end
+
+function AirbossEngineStopHandler:OnEventEngineShutdown(EventData) Airboss_MarkShutdownUnit(EventData) end
+function AirbossEngineStopHandler:OnEventEngineStop(EventData)     Airboss_MarkShutdownUnit(EventData) end
+
+-- Despawn AI aircraft N minutes after they land on a tracked carrier/LHA, unless they shut down.
+AirbossLandDespawnHandler = AirbossLandDespawnHandler or EVENTHANDLER:New()
+AirbossLandDespawnHandler:HandleEvent(EVENTS.Land)
+
+function AirbossLandDespawnHandler:OnEventLand(EventData)
+    if not EventData or not EventData.IniUnit then return end
+
+    -- Option gate
+    local minutes = tonumber(airboss_options.despawnMinutesAfterLanding) or 0
+    if minutes <= 0 then return end
+    local delaySeconds = math.floor(minutes * 60)
+
+    local iniUnit = EventData.IniUnit
+
+    -- Ignore players/clients
+    if iniUnit:IsPlayer() then return end
+
+    -- Identify what they landed on (carrier/LHA)
+    local placeName = nil
+
+    -- Depending on MOOSE version, land event may provide Place (AIRBASE/UNIT) and/or PlaceName
+    if EventData.Place and EventData.Place.GetName then
+        placeName = EventData.Place:GetName()
+    elseif EventData.PlaceName then
+        placeName = EventData.PlaceName
+    end
+
+    if not placeName then
+        env.info("AIRBOSS: OnEventLand - placeName missing for " .. iniUnit:GetName())
+        return
+    end
+
+    -- Only act if it's one of the ships we set up Airboss for
+    if not AirbossCarriers[placeName] then
+        return
+    end
+
+    local unitName = iniUnit:GetName()
+
+    -- New landing cycle: clear shutdown protection for this unit
+    AirbossShutdownSeenUnit[unitName] = nil
+
+    -- Avoid scheduling twice for the same unit
+    if AirbossPendingDespawnUnit[unitName] then return end
+    AirbossPendingDespawnUnit[unitName] = true
+
+    env.info(string.format(
+        "AIRBOSS: %s landed on %s -> scheduling per-unit despawn in %d seconds",
+        unitName, placeName, delaySeconds
+    ))
+
+    SCHEDULER:New(nil,
+        function()
+            AirbossPendingDespawnUnit[unitName] = nil
+
+            local u = UNIT:FindByName(unitName)
+            if not u or not u:IsAlive() then return end
+
+            -- If shutdown happened before timer, keep it
+            if AirbossShutdownSeenUnit[unitName] then
+                env.info("AIRBOSS: " .. unitName .. " shut down before timer; skipping despawn.")
+                return
+            end
+
+            -- Safety: if airborne again, skip
+            local alt = u:GetAltitude()
+            if alt and alt > 50 then
+                env.info("AIRBOSS: " .. unitName .. " appears airborne again; skipping despawn.")
+                return
+            end
+
+            env.info("AIRBOSS: Despawning landed AI unit: " .. unitName)
+
+            -- Prefer unit-only destroy if available; otherwise fall back to destroying its group.
+            if u.Destroy then
+                u:Destroy()
+            else
+                local g = u:GetGroup()
+                if g and g:IsAlive() then
+                    env.info("AIRBOSS: UNIT:Destroy not available; destroying group: " .. g:GetName())
+                    g:Destroy()
+                end
+            end
+        end,
+        {},
+        delaySeconds
+    )
 end
 
 AutoSetup()
