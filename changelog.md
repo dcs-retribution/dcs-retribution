@@ -25,6 +25,8 @@
 * **[Plugins]** Added BigEye EWR Script
 * **[Modding]** Update CurrentHill Russia Assets Pack to 2.0.0
 * **[UI]** Add campaign name to retribution window name
+* **[Plugins]** MooseAirboss - Added option to despawn stuck AI aircraft on the carrier
+* **[Plugins]** MooseAirboss - Automatically set TACAN/ILS from retribution
 
 ## Fixes
 * **[Flight Plans]** Fixed bugs wrt planning escort flights
