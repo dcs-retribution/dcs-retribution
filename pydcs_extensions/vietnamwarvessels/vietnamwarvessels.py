@@ -2707,51 +2707,6 @@ class uh2c(HelicopterType):
     tasks = [task.Transport, task.Reconnaissance]
     task_default = task.Transport
 
-
-@helicoptermod
-class hh2d_seasprite(HelicopterType):
-    id = "HH-2D Seasprite"
-    height = 4.14
-    width = 13.41
-    length = 11.68
-    fuel_max = 631
-    max_speed = 240
-    category = "Air"  # {828CEADE-3F1D-40aa-93CE-8CDB73FE2710}
-    radio_frequency = 251
-
-    property_defaults = {
-        "FoldRotor": False,
-    }
-
-    class Properties:
-        class FoldRotor:
-            id = "FoldRotor"
-
-    properties = {
-        "FoldRotor": UnitPropertyDescription(
-            identifier="FoldRotor",
-            control="checkbox",
-            label="Fold Main Rotor",
-            default=False,
-            weight_when_on=0,
-            w_ctrl=150,
-        ),
-    }
-
-    livery_name = "HH2D"  # from livery_entry
-
-    class Pylon1:
-        SH2F_Fuel_Tank_120_gallons_R = (1, WeaponsVWV.SH2F_Fuel_Tank_120_gallons_R)
-
-    class Pylon2:
-        SH2F_Fuel_Tank_120_gallons_L = (2, WeaponsVWV.SH2F_Fuel_Tank_120_gallons_L)
-
-    pylons: Set[int] = {1, 2}
-
-    tasks = [task.Transport, task.Reconnaissance]
-    task_default = task.Transport
-
-
 @helicoptermod
 class sh2f(HelicopterType):
     id = "sh2f"
