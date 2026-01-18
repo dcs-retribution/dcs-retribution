@@ -370,7 +370,19 @@ class ForceGroup:
                 else:
                     statics.append(static_type)
 
-            layouts = [LAYOUTS.by_name(n) for n in data.get("layouts")]
+            # Load layouts with better error handling
+            layout_names = data.get("layouts", [])
+            layouts = []
+            for layout_name in layout_names:
+                try:
+                    layout = LAYOUTS.by_name(layout_name)
+                    layouts.append(layout)
+                except KeyError:
+                    logging.error(
+                        f"ForceGroup '{name}' in {file} references unknown layout '{layout_name}'. "
+                        f"Ensure you import layouts and check the layout's .miz file for correct group names."
+                    )
+
             if not layouts:
                 logging.error(f"ForceGroup {name} has no valid layouts")
                 continue

@@ -147,6 +147,12 @@ class LayoutLoader:
             temp_mis.load_file(miz)
 
         for mapping in mappings:
+            groups_found = False
+            layout_group_names = [
+                gm.name for _, gms in mapping.groups.items() for gm in gms
+            ]
+            miz_groups = []
+
             # Find the group from the mapping in any coalition
             for country in itertools.chain(
                 temp_mis.coalition["red"].countries.values(),
@@ -157,10 +163,12 @@ class LayoutLoader:
                     temp_mis.country(country.name).ship_group,
                     temp_mis.country(country.name).static_group,
                 ):
+                    miz_groups.append(dcs_group.name)
                     try:
                         g_id, u_id, group_name, group_mapping = mapping.group_for_name(
                             dcs_group.name
                         )
+                        groups_found = True
                     except KeyError:
                         continue
 
@@ -214,6 +222,15 @@ class LayoutLoader:
                             layout_unit.position - template_position[layout.name]
                         )
                         unit_group.layout_units.append(layout_unit)
+
+            if not groups_found:
+                logging.error(
+                    f"Layout '{mapping.name}' could not be loaded from '{miz}'. "
+                    f"No groups in the mission file match the expected names. "
+                    f"Expected group names: {layout_group_names}. "
+                    f"Actual group names in mission: {miz_groups}. "
+                    f"Fix the mission file by creating groups with the expected names."
+                )
 
     def by_name(self, name: str) -> TgoLayout:
         self.initialize()
