@@ -90,7 +90,7 @@ recommended_enemy_faction:
 recommended_start_date: 2005-06-05
 miz: syria_TheLongRoadToH3.miz
 performance: 2
-version: 10.7
+version: "10.7"
 advanced_iads: true
 settings:
   # Set mission duration to 45 minutes

@@ -1,0 +1,13 @@
+class: Artillery
+description: "The SO-152 (Russian: CO-152), usually known by its GRAU designation 2S3 (Russian: 2C3), 
+  is a Soviet 152.4 mm self-propelled gun developed in 1968, as a response to the American 155 mm M109 
+  howitzer. Development began in 1967, according to the Resolution of the Council of Ministers of the 
+  Soviet Union from July 4, 1967. In 1968, the SO-152 was completed and in 1971 entered service. The 
+  fighting vehicle also received the added designation Akatsiya, which is Russian for Acacia."
+introduced: 1971
+manufacturer: Petrov Design Bureau
+origin: USSR
+price: 15
+role: Self-Propelled Gun
+variants:
+  "[CH] 2S3 SPG": {}

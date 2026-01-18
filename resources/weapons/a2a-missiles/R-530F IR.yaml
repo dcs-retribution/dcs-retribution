@@ -1,0 +1,5 @@
+name: R530F IR
+year: 1962
+fallback: R530F EM
+clsids:
+  - "{R530F_IR}"

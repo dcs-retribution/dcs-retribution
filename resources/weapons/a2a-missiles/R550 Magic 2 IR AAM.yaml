@@ -1,0 +1,5 @@
+name:  R550 Magic 2 IR AAM
+year: 1986
+fallback: R550 Magic 1 IR AAM
+clsids:
+  - "{FC23864E-3B80-48E3-9C03-4DA8B1D7497B}"

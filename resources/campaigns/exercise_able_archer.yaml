@@ -70,7 +70,7 @@ squadrons:
       secondary: any
       aircraft:
         - C-130J-30 Super Hercules
-        - C-130
+        - C-130J-30
       size: 1
   #Rovaniemi
   2:
@@ -124,7 +124,7 @@ squadrons:
       secondary: any
       aircraft:
         - C-130J-30 Super Hercules
-        - C-130
+        - C-130J-30
       size: 1
     - primary: BARCAP
       secondary: any
@@ -229,7 +229,7 @@ squadrons:
     - primary: Escort
       secondary: any
       aircraft:
-        - MiG-29A Fulcrum-A
+        - MIG-29-FULCRUM
       size: 12
     - primary: BAI
       secondary: any

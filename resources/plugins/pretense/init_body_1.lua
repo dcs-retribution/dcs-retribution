@@ -1,6 +1,22 @@
 
 end
 
+do
+
+    TemplateDB.templates["bunker-1"] = { type="Sandbox", category="Fortifications", dataCategory=TemplateDB.type.static }
+    TemplateDB.templates["fire_control"] = { type="Fire Control Bunker", category="Fortifications", shape="fire_control", dataCategory=TemplateDB.type.static }
+    TemplateDB.templates["SK_C_28_naval_gun"] = { type="SK_C_28_naval_gun", category="Fortifications", dataCategory=TemplateDB.type.static }
+    TemplateDB.templates["ship-tanker-seawisegiant"] = { type="Seawise_Giant", category="Ships", dataCategory=TemplateDB.type.static }
+    TemplateDB.templates["ship-supply-tilde"] = { type="Ship_Tilde_Supply", category="Ships", dataCategory=TemplateDB.type.static }
+    TemplateDB.templates["ship-landingship-samuelchase"] = { type="USS_Samuel_Chase", category="Ships", dataCategory=TemplateDB.type.static }
+    TemplateDB.templates["ship-landingship-ropucha"] = { type="BDK-775", category="Ships", dataCategory=TemplateDB.type.static }
+    TemplateDB.templates["ship-tanker-elnya"] = { type="ELNYA", category="Ships", dataCategory=TemplateDB.type.static }
+    TemplateDB.templates["ship-landingship-lstmk2"] = { type="LST_Mk2", category="Ships", dataCategory=TemplateDB.type.static }
+    TemplateDB.templates["ship-bulker-yakushev"] = { type="Dry-cargo ship-1", category="Ships", dataCategory=TemplateDB.type.static }
+    TemplateDB.templates["ship-cargo-ivanov"] = { type="Dry-cargo ship-2", category="Ships", dataCategory=TemplateDB.type.static }
+
+end
+
 presets = {
 	upgrades = {
 		basic = {
@@ -26,7 +42,7 @@ presets = {
 				display = 'Artillery Bunker',
 				cost = 2000,
 				type = 'upgrade',
-				template = "ammo-depot"
+				template = "SK_C_28_naval_gun"
 			})
 		},
 		attack = {
@@ -42,12 +58,34 @@ presets = {
 				type = 'upgrade',
 				template = "ammo-depot"
 			}),
-			chemTank = Preset:new({
-				display='Chemical Tank',
-				cost = 2000,
-				type ='upgrade',
-				template = "chem-tank"
-			}),
+            shipTankerSeawisegiant = Preset:new({
+                display = 'Tanker Seawise Giant',
+                cost = 1500,
+                type = 'upgrade',
+				income = 10,
+                template = "ship-tanker-seawisegiant"
+            }),
+            shipLandingShipSamuelChase = Preset:new({
+                display = 'LST USS Samuel Chase',
+                cost = 1500,
+                type = 'upgrade',
+				income = 10,
+                template = "ship-landingship-samuelchase"
+            }),
+            shipLandingShipRopucha = Preset:new({
+                display = 'LS Ropucha',
+                cost = 1500,
+                type = 'upgrade',
+				income = 10,
+                template = "ship-landingship-ropucha"
+            }),
+            shipTankerElnya = Preset:new({
+                display = 'Tanker Elnya',
+                cost = 1500,
+                type = 'upgrade',
+				income = 10,
+                template = "ship-tanker-elnya"
+            })
 		},
 		supply = {
 			fuelCache = Preset:new({
@@ -166,19 +204,47 @@ presets = {
 				income = 50,
 				template = "tv-tower"
 			}),
+            shipSupplyTilde = Preset:new({
+                display = 'Ship_Tilde_Supply',
+                cost = 1500,
+                type = 'upgrade',
+				income = 10,
+                template = "ship-supply-tilde"
+            }),
+            shipLandingShipLstMk2 = Preset:new({
+                display = 'LST Mk.II',
+                cost = 1500,
+                type = 'upgrade',
+				income = 10,
+                template = "ship-landingship-lstmk2"
+            }),
+            shipBulkerYakushev = Preset:new({
+                display = 'Bulker Yakushev',
+                cost = 1500,
+                type = 'upgrade',
+				income = 10,
+                template = "ship-bulker-yakushev"
+            }),
+            shipCargoIvanov = Preset:new({
+                display = 'Cargo Ivanov',
+                cost = 1500,
+                type = 'upgrade',
+				income = 10,
+                template = "ship-cargo-ivanov"
+            })
 		},
 		airdef = {
 			bunker = Preset:new({
-				display = 'Excavator',
+				display = 'Bunker',
 				cost = 1500,
 				type = 'upgrade',
-				template = "excavator"
+				template = "bunker-1"
 			}),
 			comCenter = Preset:new({
-				display = 'Command Center',
+				display = 'Fire Control Center',
 				cost = 12500,
 				type = 'upgrade',
-				template = "command-center"
+				template = "fire_control"
 			})
 		}
 	},
@@ -274,6 +340,24 @@ presets = {
 				type='defense',
 				template='roland-red',
 			}),
+			chaparral = Preset:new({
+				display = 'SAM',
+				cost=3000,
+				type='defense',
+				template='chaparral-red',
+			}),
+			hq7 = Preset:new({
+				display = 'SAM',
+				cost=3000,
+				type='defense',
+				template='hq7-red',
+			}),
+			rbs70 = Preset:new({
+				display = 'SAM',
+				cost=3000,
+				type='defense',
+				template='rbs70-red',
+			}),
 			irondome = Preset:new({
 				display = 'SAM',
 				cost=20000,
@@ -285,12 +369,6 @@ presets = {
 				cost=30000,
 				type='defense',
 				template='davidsling-red',
-			}),
-			hq7 = Preset:new({
-				display = 'SAM',
-				cost=3000,
-				type='defense',
-				template='hq7-red',
 			})
 		},
 		blue = {
@@ -384,6 +462,24 @@ presets = {
 				type='defense',
 				template='roland-blue',
 			}),
+			chaparral = Preset:new({
+				display = 'SAM',
+				cost=3000,
+				type='defense',
+				template='chaparral-blue',
+			}),
+			hq7 = Preset:new({
+				display = 'SAM',
+				cost=3000,
+				type='defense',
+				template='hq7-blue',
+			}),
+			rbs70 = Preset:new({
+				display = 'SAM',
+				cost=3000,
+				type='defense',
+				template='rbs70-blue',
+			}),
 			irondome = Preset:new({
 				display = 'SAM',
 				cost=20000,
@@ -395,12 +491,6 @@ presets = {
 				cost=30000,
 				type='defense',
 				template='davidsling-blue',
-			}),
-			hq7 = Preset:new({
-				display = 'SAM',
-				cost=3000,
-				type='defense',
-				template='hq7-blue',
 			})
 		}
 	},

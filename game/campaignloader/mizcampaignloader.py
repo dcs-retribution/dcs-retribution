@@ -546,7 +546,12 @@ class MizCampaignLoader:
                 not in [
                     ControlPointType.AIRCRAFT_CARRIER_GROUP,
                     ControlPointType.LHA_GROUP,
+                    ControlPointType.OFF_MAP,
                 ]
+            ]
+        else:
+            candidates = [
+                cp for cp in candidates if cp.cptype != ControlPointType.OFF_MAP
             ]
 
         if candidates:
@@ -565,10 +570,15 @@ class MizCampaignLoader:
                 not in [
                     ControlPointType.AIRCRAFT_CARRIER_GROUP,
                     ControlPointType.LHA_GROUP,
+                    ControlPointType.OFF_MAP,
                 ]
             ]
         else:
-            fallback_candidates = self.theater.controlpoints
+            fallback_candidates = [
+                cp
+                for cp in self.theater.controlpoints
+                if cp.cptype != ControlPointType.OFF_MAP
+            ]
 
         fallback_candidates = [
             cp for cp in fallback_candidates if not cp.influence_radius

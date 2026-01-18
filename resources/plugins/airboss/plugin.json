@@ -25,6 +25,8 @@
         {
             "nameInUI": "Rescue Helo Max Distance (nm)",
             "mnemonic": "rescueHeloDistance",
+            "minimumValue": 5,
+            "maximumValue": 120,
             "defaultValue": 50
         },
         {
@@ -35,22 +37,37 @@
         {
             "nameInUI": "Rescue Duration (mins)",
             "mnemonic": "rescueDuration",
+            "minimumValue": 1,
+            "maximumValue": 30,
             "defaultValue": 3
         },
         {
             "nameInUI": "Rescue Zone Radius (nm)",
             "mnemonic": "rescueZoneRadius",
+            "minimumValue": 5,
+            "maximumValue": 120,
             "defaultValue": 15
         },
         {
             "nameInUI": "Recovery Window Start Time (mins)",
             "mnemonic": "windowStartOption",
+            "minimumValue": 10,
+            "maximumValue": 120,
             "defaultValue": 30
         },
         {
             "nameInUI": "Recovery Window Length (mins)",
             "mnemonic": "windowLengthOption",
+            "minimumValue": 15,
+            "maximumValue": 240,
             "defaultValue": 60
+        },
+        {
+            "nameInUI": "Force Despawn AI Units after n minutes",
+            "mnemonic": "despawnMinutesAfterLanding",
+            "minimumValue": 0,
+            "maximumValue": 30,
+            "defaultValue": 5
         }
     ],
 

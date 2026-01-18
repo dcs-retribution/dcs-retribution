@@ -20,7 +20,7 @@
     "esri-leaflet": "^3.0.12",
     "leaflet": "^1.9.4",
     "leaflet-ruler": "^1.0.0",
-    "milsymbol": "^2.2.0",
+    "milsymbol": "^3.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-esri-leaflet": "^2.0.1",

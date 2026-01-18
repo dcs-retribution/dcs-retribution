@@ -5,6 +5,8 @@
   "description": "<p>The Australian army in 2009.</p><p>Some units might not be accurate, but were picked to represent at best this army.</p>",
   "aircrafts": [
     "AH-1W SuperCobra",
+    "C-130",
+    "C-130J-30",
     "C-130J-30 Super Hercules",
     "F/A-18C Hornet (Lot 20)",
     "EA-18G Growler",

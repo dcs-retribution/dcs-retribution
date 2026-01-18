@@ -11,7 +11,7 @@ recommended_enemy_faction: Syria 2012'ish
 recommended_start_date: 2024-06-01
 miz: operation_syrian_shield.miz
 performance: 2
-version: 10.7
+version: "10.7"
 advanced_iads: true
 recommended_player_money: 900
 recommended_enemy_money: 900

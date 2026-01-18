@@ -15,11 +15,18 @@
 * **[Modding]** Update SU-30 mod to v2.8.04 Beta + CWS 3.72
 * **[Plugins]** EW Script - DEAD added to applicable flight types.
 * **[Plugins]** EW Script - Offensive Jamming restricted to aircraft with ALQ99/249 pods, or "has_built_in_jamming: true" in aircarft yaml (AI and Player)
-* **[Modding]** Update to CJS Super Hornet Mod v2.4.4
+* **[Modding]** Update to CJS Super Hornet Mod v2.4.5
 * **[Engine]** Support for DCS 2.9.20.15010, including MiG-29A Fulcrum support.
 * **[Campaigns]** Ability to define neutral FOBs and Airfields
 * **[Modding]** Add Airboss Moose Module
 * **[AirWing]** Use aircraft display names for easier differentiation between modules
+* **[Campaign]** Add ability to define livery overrides also for JTAC units
+* **[Campaign]** Pretense generator now applies ground unit livery overrides to zone groups as well, such as SAM sites
+* **[Plugins]** Added BigEye EWR Script
+* **[Modding]** Update CurrentHill Russia Assets Pack to 2.0.0
+* **[UI]** Add campaign name to retribution window name
+* **[Plugins]** MooseAirboss - Added option to despawn stuck AI aircraft on the carrier
+* **[Plugins]** MooseAirboss - Automatically set TACAN/ILS from retribution
 
 ## Fixes
 * **[Flight Plans]** Fixed bugs wrt planning escort flights
@@ -36,6 +43,7 @@
 * **[Engine]** Fixed a bug where frontline debriefing was not properly calculated
 * **[Mission Generation]** Fixed an issue where blue and red units spawned next to each other on frontlines
 * **[Mission Generation]** Fixed an issue where kneeboards showed both opfor and ownfor support aircraft
+* **[Campaigns]** Fixed a bug where off map spawns could own ground objects, causing them not to spawn
 
 # Retribution v1.4.1 (hotfix)
 

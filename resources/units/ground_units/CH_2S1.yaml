@@ -1,0 +1,12 @@
+class: Artillery
+description: "The 2S1 Gvozdika (Russian: \x32\xd0\xa1\x31\x20\xc2\xab\xd0\x93\xd0\xb2\xd0\xbe\xd0\xb7\xd0\xb4\xd0\xb8\xd0\xba\xd0\xb0\xc2\xbb\x2c\x20\x27\x43\x61\x72\x6e\x61\x74\x69\x6f\x6e\x27)
+ is a Soviet self-propelled howitzer introduced in 1972 and is in service in Russia and other countries as of 2025. It is based on the MT-LBu multi-purpose chassis, mounting a 122 mm 2A18 howitzer.
+ '2S1' is its GRAU designation. An alternative Russian designation is SAU-122, but in the Russian Army it is commonly known as Gvozdika. The 2S1 is fully amphibious with very little preparation, and 
+ once afloat is propelled by its tracks. A variety of track widths are available to allow the 2S1 to operate in snow or swamp conditions. It is NBC protected and has infrared night-vision capability."
+introduced: 1972
+manufacturer: Kharkiv Tractor Plant
+origin: USSR
+price: 15
+role: Self-Propelled Gun
+variants:
+  "[CH] 2S1 SPG": {}

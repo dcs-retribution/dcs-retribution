@@ -42,7 +42,8 @@ class Migrator:
         self._update_weather()
         self._update_tgos()
         self._reload_terrain()
-        self._update_theather()
+        self._update_theater()
+        self._update_campaign_name()
 
         # TODO: remove in due time as this is supposedly fixed
         self.game.settings.nevatim_parking_fix = False
@@ -259,6 +260,10 @@ class Migrator:
         if issubclass(t.__class__, Terrain):
             self.game.theater.terrain = type(t)()  # type: ignore
 
-    def _update_theather(self) -> None:
+    def _update_theater(self) -> None:
         if not hasattr(self.game.theater, "rebel_zones"):
             self.game.theater.rebel_zones = []
+
+    def _update_campaign_name(self) -> None:
+        if not hasattr(self.game, "campaign_name"):
+            self.game.campaign_name = None
