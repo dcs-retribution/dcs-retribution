@@ -91,7 +91,7 @@
         },
         {
             "nameInUI": "Cluster Munitions Bomblets Count Reduction Modifier",
-            "mnemonic": "cluster_bomblet_reductionmodifier",
+            "mnemonic": "cluster_bomblet_reduction_modifier",
             "defaultValue": true
         },
         {
@@ -169,14 +169,14 @@
             "defaultValue": 4
         },
         {
-            "nameInUI": "Ground Ordnance Explosion Damage Multipler",
+            "nameInUI": "Ground Unit Ordnance Explosion Damage Multiplier",
             "mnemonic": "groundunitordnance_damage_modifier",
             "minimumValue": 1,
             "maximumValue": 100,
             "defaultValue": 1
         },
         {
-            "nameInUI": "Ground Ordnance Explosion Blast Wave Multipler",
+            "nameInUI": "Ground Unit Ordnance Explosion Blast Wave Multiplier",
             "mnemonic": "groundunitordnance_blastwave_modifier",
             "minimumValue": 1,
             "maximumValue": 100,
