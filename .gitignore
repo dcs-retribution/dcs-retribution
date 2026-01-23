@@ -25,5 +25,3 @@ env/
 /resources/plugins/pretense/pretense_output.lua
 
 *.psd
-temp_run.py
-resources/factions/USA Vietnam Test.json
