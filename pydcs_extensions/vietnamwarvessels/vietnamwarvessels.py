@@ -2707,6 +2707,7 @@ class uh2c(HelicopterType):
     tasks = [task.Transport, task.Reconnaissance]
     task_default = task.Transport
 
+
 @helicoptermod
 class sh2f(HelicopterType):
     id = "sh2f"
