@@ -1,0 +1,49 @@
+carrier_capable: true
+lha_capable: true
+description: #CoPilot Generated
+  "The F-35B Lightning II is a single-seat, single-engine, stealth multirole fighter aircraft designed for short takeoff and vertical landing (STOVL) operations. Developed for the U.S. Marine Corps and allied expeditionary forces, the F-35B brings fifth-generation capability to amphibious assault ships, forward operating bases, and austere environments where conventional fighters cannot operate.
+
+  The F-35B features an advanced suite of fused sensors, including an AESA radar, electro-optical targeting system, distributed aperture system, and a helmet-mounted display that provides the pilot with a seamless, 360-degree view of the battlespace. In addition to its internal 25mm cannon, the F-35B can employ a wide range of precision-guided air-to-surface weapons and modern air-to-air missiles, carried internally for stealth or externally when low observability is not required.
+
+  The aircraft's defining feature is its STOVL propulsion system, which uses a shaft-driven lift fan and vectoring rear nozzle to enable vertical landings and extremely short takeoffs. While not optimized for high-end dogfighting, the F-35B's powerful engine, advanced flight controls, and 7-G maneuvering capability make it a capable close-in fighter. Its true strength lies in its ability to gather, fuse, and share information across the battlespace while operating from locations inaccessible to traditional jets.
+
+  Despite its complexity, the F-35B is designed to be pilot-friendly, with highly automated systems and an intuitive cockpit that reduce workload and allow the pilot to focus on mission execution."
+
+introduced: 2015
+manufacturer: Lockheed Martin
+origin: USA
+price: 109
+role: Multirole STOVL Stealth Fighter
+fuel:
+  # Parking A1 to RWY 32 at Akrotiri.
+  taxi: 170
+  # AB takeoff to 350/0.85, reduce to MIL and maintain 350 to 25k ft.
+  climb_ppm: 44.25
+  # 0.85 mach for 100NM.
+  cruise_ppm: 22.1
+  # ~0.9 mach for 100NM. Occasional AB use.
+  combat_ppm: 27.5
+  min_safe: 2000
+variants:
+  F-35B Lightning II (A/G): {}
+radios:
+  intra_flight: AN/ARC-210
+  inter_flight: AN/ARC-210
+  channels:
+    type: common
+    # DCS will clobber channel 1 of the first radio compatible with the flight's
+    # assigned frequency. Since the F/A-18's two radios are both AN/ARC-210s,
+    # radio 1 will be compatible regardless of which frequency is assigned, so
+    # we must use radio 1 for the intra-flight radio.
+    intra_flight_radio_index: 1
+    inter_flight_radio_index: 2
+utc_kneeboard: true
+tasks:
+  BAI: 740
+  CAS: 740
+  OCA/Aircraft: 740
+  OCA/Runway: 600
+  Strike: 600
+  Anti-Ship: 600
+
+has_built_in_ecm: true

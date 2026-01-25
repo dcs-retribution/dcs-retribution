@@ -1,0 +1,47 @@
+carrier_capable: true
+description:
+  "The F-35C Lightning II is a single-seat, single-engine, stealth multirole fighter aircraft designed for carrier operations. As the naval variant of the Joint Strike Fighter program, the F-35C features a larger, folding wing, strengthened landing gear, and increased internal fuel capacity for long-range missions at sea.
+
+  The F-35C carries the same advanced sensor suite found across the Lightning II family, including an AESA radar, distributed aperture system, electro-optical targeting system, and a helmet-mounted display. It can carry precision-guided weapons internally for stealth missions or externally when low observability is not required.
+
+  The aircraft is optimized for long-range strike, fleet defense, and networked operations in the maritime environment. Its large wing provides excellent low-speed handling for carrier approaches, while its stealth and sensor fusion give it a decisive advantage in contested airspace.
+
+  Despite its carrier-specific enhancements, the F-35C remains easy to fly, with highly automated systems that reduce workload and allow the pilot to focus on mission execution."
+
+introduced: 2019
+manufacturer: Lockheed Martin
+origin: USA
+price: 102.1
+role: Multirole Navy Stealth Fighter
+fuel:
+  # Parking A1 to RWY 32 at Akrotiri.
+  taxi: 170
+  # AB takeoff to 350/0.85, reduce to MIL and maintain 350 to 25k ft.
+  climb_ppm: 44.25
+  # 0.85 mach for 100NM.
+  cruise_ppm: 22.1
+  # ~0.9 mach for 100NM. Occasional AB use.
+  combat_ppm: 27.5
+  min_safe: 2000
+variants:
+  F-35C Lightning II (A/G): {}
+radios:
+  intra_flight: AN/ARC-210
+  inter_flight: AN/ARC-210
+  channels:
+    type: common
+    # DCS will clobber channel 1 of the first radio compatible with the flight's
+    # assigned frequency. Since the F/A-18's two radios are both AN/ARC-210s,
+    # radio 1 will be compatible regardless of which frequency is assigned, so
+    # we must use radio 1 for the intra-flight radio.
+    intra_flight_radio_index: 1
+    inter_flight_radio_index: 2
+utc_kneeboard: true
+tasks:
+  BAI: 740
+  CAS: 740
+  OCA/Aircraft: 740
+  OCA/Runway: 600
+  Strike: 600
+
+has_built_in_ecm: true

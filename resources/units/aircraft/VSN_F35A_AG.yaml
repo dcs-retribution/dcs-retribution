@@ -1,0 +1,49 @@
+carrier_capable: false
+description:
+  'The F-35A Lightning II is a single-seat, single-engine, stealth multirole fighter aircraft. Designed as the conventional-takeoff variant of the Joint Strike Fighter program, the F-35A replaces legacy fourth-generation platforms such as the F-16 and A-10 with a far more advanced, fifth-generation capability.
+
+
+  The F-35A features an extensive suite of fused sensors, including an advanced AESA radar, electro-optical targeting system, distributed aperture system, and a helmet-mounted display that projects flight, targeting, and threat information directly onto the pilot’s visor. In addition to its internal 25 mm cannon, the F-35A can carry a wide range of precision-guided air-to-surface weapons and modern air-to-air missiles, both internally for stealth and externally when low observability is not required.
+
+
+  The Lightning II is known for its exceptional situational awareness, sensor fusion, and survivability rather than traditional dogfighting performance. Its high-thrust engine, advanced flight controls, and 9-G capability still make it a potent close-in fighter, but the aircraft’s true strength lies in detecting, identifying, and engaging threats long before being detected itself.
+
+
+  Despite its sophistication, the F-35A is designed to be pilot-friendly, with highly automated systems and an intuitive cockpit that reduce workload and allow the pilot to focus on the mission.'
+introduced: 2016
+manufacturer: Lockheed Martin
+origin: USA
+price: 82.5
+role: Multirole Stealth Fighter
+fuel:
+  # Parking A1 to RWY 32 at Akrotiri.
+  taxi: 170
+  # AB takeoff to 350/0.85, reduce to MIL and maintain 350 to 25k ft.
+  climb_ppm: 44.25
+  # 0.85 mach for 100NM.
+  cruise_ppm: 22.1
+  # ~0.9 mach for 100NM. Occasional AB use.
+  combat_ppm: 27.5
+  min_safe: 2000
+variants:
+  F-35A Lightning II (A/G): {}
+radios:
+  intra_flight: AN/ARC-210
+  inter_flight: AN/ARC-210
+  channels:
+    type: common
+    # DCS will clobber channel 1 of the first radio compatible with the flight's
+    # assigned frequency. Since the F/A-18's two radios are both AN/ARC-210s,
+    # radio 1 will be compatible regardless of which frequency is assigned, so
+    # we must use radio 1 for the intra-flight radio.
+    intra_flight_radio_index: 1
+    inter_flight_radio_index: 2
+utc_kneeboard: true
+tasks:
+  BAI: 740
+  CAS: 740
+  OCA/Aircraft: 740
+  OCA/Runway: 600
+  Strike: 600
+
+has_built_in_ecm: true

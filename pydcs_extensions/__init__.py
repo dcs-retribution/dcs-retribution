@@ -43,6 +43,7 @@ from .russianmilitaryassetspack import *
 from .usamilitaryassetspack import *
 from .ukrainemilitaryassetspack import *
 from .tornado_adv import *
+from .VSN_F35 import *
 
 
 def load_mods() -> None:

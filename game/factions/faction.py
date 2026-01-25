@@ -883,6 +883,14 @@ class Faction:
         # Tornado f.3 ADV (1.0)
         if not mod_settings.tornado_adv:
             self.remove_aircraft("Tornado_ADV")
+        # VSN F35A/B/C
+        if not mod_settings.VSN_F35:
+            self.remove_aircraft("VSN_F35A")
+            self.remove_aircraft("VSN_F35B")
+            self.remove_aircraft("VSN_F35C")
+            self.remove_aircraft("VSN_F35A_AG")
+            self.remove_aircraft("VSN_F35B_AG")
+            self.remove_aircraft("VSN_F35C_AG")
 
     def remove_aircraft(self, name: str) -> None:
         for aircraft_set in [self.aircraft, self.awacs, self.tankers]:
