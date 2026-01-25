@@ -672,7 +672,7 @@ class Faction:
             self.remove_vehicle("TR_TT")
             self.remove_vehicle("Gozanti")
             self.remove_ship("Destroyer_carrier")
-        # vietnamwarvessels (using variant names because it was the closest thing to a consistent formula I could manage with this mod)
+        # vietnamwarvessels
         if not mod_settings.vietnamwarvessels:
             self.remove_ship("PBR_MKII") # "[VWV] Patrol Boat, River MkII"
             self.remove_ship("USS_Sumner") # "[VWV] DD-692 USS Allen M. Sumner"
