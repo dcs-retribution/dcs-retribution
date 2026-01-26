@@ -178,6 +178,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("mam", self.mam)
         self.tornado_adv = QtWidgets.QCheckBox()
         self.registerField("tornado_adv", self.tornado_adv)
+        self.f111c = QtWidgets.QCheckBox()
+        self.registerField("f111c", self.f111c)
 
         modHelpText = QtWidgets.QLabel(
             "<p>Select the mods you have installed. If your chosen factions support them, you'll be able to use these mods in your campaign.</p>"
@@ -225,6 +227,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("F-22A Raptor (v2.0.0 released May 2025)", self.f22_raptor),
             ("F-4B/C Phantom II (2.8.7.204)", self.f4bc_phantom),
             ("F-84G Thunderjet (v2.5.7.01)", self.f84g_thunderjet),
+            ("F-111C Aardvark (Warpig Production v2.260103)", self.f111c),
             ("F9F Panther (v2.8.7.101)", self.f9f_panther),
             ("F/A-18E/F/G Super Hornet (version 2.4.5)", self.fa_18efg),
             ("F/A-18E/F Super Hornet AI Tanker (version 2.4.5)", self.fa18ef_tanker),

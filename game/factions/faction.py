@@ -917,6 +917,9 @@ class Faction:
         # Tornado f.3 ADV (1.0)
         if not mod_settings.tornado_adv:
             self.remove_aircraft("Tornado_ADV")
+        # Warpig Productions F-111C v2.260103
+        if not mod_settings.f111c:
+            self.remove_aircraft("F111C")
 
     def remove_aircraft(self, name: str) -> None:
         for aircraft_set in [self.aircraft, self.awacs, self.tankers]:

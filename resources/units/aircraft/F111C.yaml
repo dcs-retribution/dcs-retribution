@@ -1,0 +1,39 @@
+carrier_capable: false
+description: # Source Wikipedia
+
+  The General Dynamics F-111C (nicknamed the "Pig") is a variant of the F-111 Aardvark medium-range interdictor and tactical strike aircraft,
+  developed by General Dynamics to meet Australian requirements. The design was based on the F-111A model but included longer wings and strengthened undercarriage.
+  
+  The Australian government ordered 24 F-111Cs to equip the Royal Australian Air Force (RAAF) in 1963, but the aircraft were not delivered until
+  1973 because of long-running technical problems. During 1979 and 1980 four of these aircraft were converted to the RF-111C reconnaissance variant.
+  Four ex-United States Air Force (USAF) F-111As were purchased by Australia and converted to F-111C standard in 1982 to replace F-111Cs destroyed during accidents.
+  Australia also operated 15 F-111Gs between 1993 and 2007, mainly for conversion training. In Australian military and aviation circles, the F-111 Aardvark was
+  affectionately known as the "Pig", due to its long snout and terrain-following ability.
+
+  The F-111Cs gave the RAAF a powerful strike capability but were never used in combat. The aircraft went through modernization programs in the 1980s and 1990s,
+  and the RAAF acquired improved weapons to maintain their ability to penetrate hostile airspace. Despite this, by the 2000s the F-111Cs were becoming
+  outdated and expensive to maintain, leading to a decision to retire them in 2010 rather than 2020 as originally planned.
+  The F-111s were replaced by 24 Boeing F/A-18F Super Hornets pending delivery of F-35 Lightning IIs in development.
+
+introduced: 1973
+manufacturer: General Dynamics
+origin: USA
+price: 15
+role: Reconnaissance/Fighter Bomber
+gunfighter: false
+variants:
+  F-111C Aardvark: {}
+tasks:
+  Anti-ship: 500
+  Armed Recon: 450
+  BAI: 660
+  CAS: 660
+  DEAD: 390
+  OCA/Aircraft: 660
+  OCA/Runway: 360
+  SEAD: 410
+  SEAD Sweep: 450
+  SEAD Escort: 110
+  Strike: 360
+
+weapon_injections:

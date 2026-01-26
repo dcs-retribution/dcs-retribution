@@ -16,6 +16,7 @@ from .f16i_idf import *
 from .f22a import *
 from .f4 import *
 from .f84g import *
+from .f111c import *
 from .fa18efg import *
 from .frenchpack import *
 from .hercules import *
