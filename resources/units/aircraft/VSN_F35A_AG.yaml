@@ -40,10 +40,12 @@ radios:
     inter_flight_radio_index: 2
 utc_kneeboard: true
 tasks:
+  Armed Recon: 500
   BAI: 740
   CAS: 740
   OCA/Aircraft: 740
   OCA/Runway: 600
+  SEAD Sweep: 800
   Strike: 600
 
 has_built_in_ecm: true
