@@ -1548,6 +1548,7 @@ class vwv_o_1(PlaneType):
             4,
             Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_256_H1_HE_Frag,
         )
+
     class Pylon5:
         FAB_50 = (5, Weapons.FAB_50)
         OFAB_250_270___250_kg_GP_Bomb_LD = (5, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
@@ -2386,7 +2387,13 @@ class vwv_a_37_dragonfly(PlaneType):
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9}
 
-    tasks = [task.GroundAttack, task.CAS, task.AFAC, task.RunwayAttack, task.AntishipStrike]
+    tasks = [
+        task.GroundAttack,
+        task.CAS,
+        task.AFAC,
+        task.RunwayAttack,
+        task.AntishipStrike,
+    ]
     task_default = task.GroundAttack
 
 
