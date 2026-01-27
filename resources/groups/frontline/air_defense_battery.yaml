@@ -1,0 +1,25 @@
+name: Air Defense Battery
+role: SHORAD
+# preferred_stances:
+#   - DEFENSIVE
+#   - AGGRESSIVE
+#   - BREAKTHROUGH
+formation: Line
+distance_from_frontline:
+  min: 5000
+  max: 8000
+units:
+  - name: SHORAD
+    min_count: 1
+    max_count: 2
+    unit_classes:
+      - SHORAD
+      - AAA
+      - Manpad
+  - name: Defense
+    min_count: 1
+    max_count: 3
+    unit_classes:
+      - RECON
+      - IFV
+      - APC

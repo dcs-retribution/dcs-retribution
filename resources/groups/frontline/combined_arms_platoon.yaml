@@ -1,0 +1,28 @@
+name: Combined Arms Platoon
+role: TANK
+# preferred_stances:
+#   - AGGRESSIVE
+#   - BREAKTHROUGH
+#   - ELIMINATION
+formation: Line
+distance_from_frontline:
+  min: 2500
+  max: 4000
+units:
+  - name: Tanks
+    min_count: 2
+    max_count: 3
+    unit_classes:
+      - TANK
+  - name: Infantry Fighting Vehicles
+    min_count: 2
+    max_count: 3
+    unit_classes:
+      - IFV
+      - APC
+  # - name: Air Defense
+  #   min_count: 1
+  #   max_count: 2
+  #   unit_classes:
+  #     - SHORAD
+  #     - AAA

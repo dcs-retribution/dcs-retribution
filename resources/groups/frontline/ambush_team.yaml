@@ -1,0 +1,21 @@
+name: Ambush Team
+role: ATGM
+# preferred_stances:
+#   - AMBUSH
+#   - DEFENSIVE
+formation: Scattered
+distance_from_frontline:
+  min: 2500
+  max: 4500
+units:
+  - name: Anti-Tank
+    min_count: 1
+    max_count: 2
+    unit_classes:
+      - ATGM
+      - TANK
+  - name: Recon
+    min_count: 1
+    max_count: 1
+    unit_classes:
+      - RECON

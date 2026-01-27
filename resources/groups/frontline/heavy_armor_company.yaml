@@ -1,0 +1,28 @@
+name: Heavy Armor Company
+role: TANK
+# preferred_stances:
+#   - BREAKTHROUGH
+#   - AGGRESSIVE
+#   - ELIMINATION
+formation: Vee
+distance_from_frontline:
+  min: 2200
+  max: 3500
+units:
+  - name: Tanks
+    min_count: 2
+    max_count: 4
+    unit_classes:
+      - TANK
+  - name: Infantry Fighting Vehicles
+    min_count: 1
+    max_count: 2
+    unit_classes:
+      - IFV
+      - APC
+  # - name: Air Defense
+  #   min_count: 1
+  #   max_count: 1
+  #   unit_classes:
+  #     - SHORAD
+  #     - AAA

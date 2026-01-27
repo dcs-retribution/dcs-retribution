@@ -1,0 +1,22 @@
+name: Light Infantry Group
+role: IFV
+# preferred_stances:
+#   - DEFENSIVE
+#   - AGGRESSIVE
+#   - AMBUSH
+formation: Scattered
+distance_from_frontline:
+  min: 2800
+  max: 4000
+units:
+  - name: Transports
+    min_count: 1
+    max_count: 3
+    unit_classes:
+      - APC
+      - IFV
+  - name: Anti-Tank
+    min_count: 1
+    max_count: 1
+    unit_classes:
+      - ATGM

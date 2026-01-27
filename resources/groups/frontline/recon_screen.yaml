@@ -1,0 +1,22 @@
+name: Reconnaissance Screen
+role: RECON
+# preferred_stances:
+#   - AGGRESSIVE
+#   - DEFENSIVE
+#   - AMBUSH
+formation: Dispersed
+distance_from_frontline:
+  min: 2000
+  max: 3500
+units:
+  - name: Scouts
+    min_count: 2
+    max_count: 4
+    unit_classes:
+      - RECON
+  - name: Support
+    min_count: 1
+    max_count: 2
+    unit_classes:
+      - IFV
+      - APC
