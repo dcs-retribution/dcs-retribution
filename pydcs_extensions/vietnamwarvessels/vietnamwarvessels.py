@@ -1276,6 +1276,7 @@ class vwv_mig21mf(PlaneType):
             1,
             Weapons.UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod,
         )
+        Fuel_Tank_490_L_Central__21_ = (1, Weapons.Fuel_Tank_490_L_Central__21_)
         APU_13MT_with_R_13M__AA_2_Atoll_D____IR_AAM = (
             1,
             Weapons.APU_13MT_with_R_13M__AA_2_Atoll_D____IR_AAM,
@@ -1317,30 +1318,14 @@ class vwv_mig21mf(PlaneType):
         RS2US___AAM__beam_rider = (2, Weapons.RS2US___AAM__beam_rider)
 
     class Pylon3:
-        FAB_50 = (3, Weapons.FAB_50)
         OFAB_250_270___250_kg_GP_Bomb_LD = (3, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
-        B_8V20A_CM = (3, Weapons.B_8V20A_CM)
-        B_8V20A_OM = (3, Weapons.B_8V20A_OM)
-        B_8M1___20_S_8OFP2 = (3, Weapons.B_8M1___20_S_8OFP2)
-        # ERRR B-8V20A - 20 S-8OFP2
-        FAB_100M = (3, Weapons.FAB_100M)
         UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod = (
             3,
             Weapons.UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod,
         )
-        APU_13MT_with_R_13M__AA_2_Atoll_D____IR_AAM = (
-            3,
-            Weapons.APU_13MT_with_R_13M__AA_2_Atoll_D____IR_AAM,
-        )
-        APU_13U_2_with_R_3R__AA_2_Atoll_C____Semi_Active_AAM = (
-            3,
-            Weapons.APU_13U_2_with_R_3R__AA_2_Atoll_C____Semi_Active_AAM,
-        )
-        APU_13U_2_with_R_3S__AA_2_Atoll_B____IR_AAM = (
-            3,
-            Weapons.APU_13U_2_with_R_3S__AA_2_Atoll_B____IR_AAM,
-        )
-        RS2US___AAM__beam_rider = (3, Weapons.RS2US___AAM__beam_rider)
+        Fuel_Tank_490_L__21_ = (3, Weapons.Fuel_Tank_490_L__21_)
+        Fuel_Tank_490_L_Central__21_ = (3, Weapons.Fuel_Tank_490_L_Central__21_)
+        Fuel_Tank_800_L__21_ = (3, Weapons.Fuel_Tank_800_L__21_)
 
     class Pylon4:
         FAB_50 = (4, Weapons.FAB_50)
@@ -1368,7 +1353,37 @@ class vwv_mig21mf(PlaneType):
         )
         RS2US___AAM__beam_rider = (4, Weapons.RS2US___AAM__beam_rider)
 
-    pylons: Set[int] = {1, 2, 3, 4}
+    class Pylon5:
+        FAB_50 = (5, Weapons.FAB_50)
+        OFAB_250_270___250_kg_GP_Bomb_LD = (5, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
+        B_8V20A_CM = (5, Weapons.B_8V20A_CM)
+        B_8V20A_OM = (5, Weapons.B_8V20A_OM)
+        B_8M1___20_S_8OFP2 = (5, Weapons.B_8M1___20_S_8OFP2)
+        # ERRR B-8V20A - 20 S-8OFP2
+        FAB_100M = (5, Weapons.FAB_100M)
+        UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod = (
+            5,
+            Weapons.UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod,
+        )
+        Fuel_Tank_490_L_Central__21_ = (5, Weapons.Fuel_Tank_490_L_Central__21_)
+        APU_13MT_with_R_13M__AA_2_Atoll_D____IR_AAM = (
+            5,
+            Weapons.APU_13MT_with_R_13M__AA_2_Atoll_D____IR_AAM,
+        )
+        APU_13U_2_with_R_3R__AA_2_Atoll_C____Semi_Active_AAM = (
+            5,
+            Weapons.APU_13U_2_with_R_3R__AA_2_Atoll_C____Semi_Active_AAM,
+        )
+        APU_13U_2_with_R_3S__AA_2_Atoll_B____IR_AAM = (
+            5,
+            Weapons.APU_13U_2_with_R_3S__AA_2_Atoll_B____IR_AAM,
+        )
+        RS2US___AAM__beam_rider = (5, Weapons.RS2US___AAM__beam_rider)
+
+    class Pylon6:
+        SPRD_99 = (6, Weapons.SPRD_99)
+
+    pylons: Set[int] = {1, 2, 3, 4, 5, 6}
 
     tasks = [
         task.CAP,
@@ -1533,8 +1548,37 @@ class vwv_o_1(PlaneType):
             4,
             Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_256_H1_HE_Frag,
         )
+    class Pylon5:
+        FAB_50 = (5, Weapons.FAB_50)
+        OFAB_250_270___250_kg_GP_Bomb_LD = (5, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
+        B_8V20A_CM = (5, Weapons.B_8V20A_CM)
+        B_8V20A_OM = (5, Weapons.B_8V20A_OM)
+        B_8M1___20_S_8OFP2 = (5, Weapons.B_8M1___20_S_8OFP2)
+        # ERRR B-8V20A - 20 S-8OFP2
+        FAB_100M = (5, Weapons.FAB_100M)
+        UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod = (
+            5,
+            Weapons.UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod,
+        )
+        Fuel_Tank_490_L_Central__21_ = (5, Weapons.Fuel_Tank_490_L_Central__21_)
+        APU_13MT_with_R_13M__AA_2_Atoll_D____IR_AAM = (
+            5,
+            Weapons.APU_13MT_with_R_13M__AA_2_Atoll_D____IR_AAM,
+        )
+        APU_13U_2_with_R_3R__AA_2_Atoll_C____Semi_Active_AAM = (
+            5,
+            Weapons.APU_13U_2_with_R_3R__AA_2_Atoll_C____Semi_Active_AAM,
+        )
+        APU_13U_2_with_R_3S__AA_2_Atoll_B____IR_AAM = (
+            5,
+            Weapons.APU_13U_2_with_R_3S__AA_2_Atoll_B____IR_AAM,
+        )
+        RS2US___AAM__beam_rider = (5, Weapons.RS2US___AAM__beam_rider)
 
-    pylons: Set[int] = {1, 2, 3, 4}
+    class Pylon6:
+        SPRD_99 = (6, Weapons.SPRD_99)
+
+    pylons: Set[int] = {1, 2, 3, 4, 5, 6}
 
     tasks = [
         task.CAP,
@@ -2252,13 +2296,12 @@ class vwv_rf101b(PlaneType):
 @planemod
 class vwv_a_37_dragonfly(PlaneType):
     id = "a_37_dragonfly"
-    height = 3.5
-    width = 18.06
-    length = 10.87
-    fuel_max = 2500
-    max_speed = 1950.12
-    category = "Attack"
-    radio_frequency = 127.5
+    height = 2.7
+    width = 10.93
+    length = 8.92
+    fuel_max = 1540
+    max_speed = 813.6
+    radio_frequency = 225
 
     livery_name = "A_37_DRAGONFLY"  # from type
 
@@ -2271,299 +2314,70 @@ class vwv_a_37_dragonfly(PlaneType):
             1,
             Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
         )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT = (
-            1,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP = (
-            1,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE = (
-            1,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM = (
-            1,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP = (
-            1,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (
-            1,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (
-            1,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
-        )
         AIM_9B_Sidewinder_IR_AAM = (1, Weapons.AIM_9B_Sidewinder_IR_AAM)
 
     class Pylon2:
         Mk_82___500lb_GP_Bomb_LD = (2, Weapons.Mk_82___500lb_GP_Bomb_LD)
         # ERRR {mk77mod1}
-        # ERRR {M260_HYDRA_WP}
         # ERRR {M260_HYDRA}
         LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE = (
             2,
             Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
         )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT = (
-            2,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP = (
-            2,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE = (
-            2,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM = (
-            2,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP = (
-            2,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (
-            2,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (
-            2,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
-        )
-        AIM_9B_Sidewinder_IR_AAM = (2, Weapons.AIM_9B_Sidewinder_IR_AAM)
 
     class Pylon3:
         Mk_82___500lb_GP_Bomb_LD = (3, Weapons.Mk_82___500lb_GP_Bomb_LD)
         # ERRR {mk77mod1}
-        # ERRR {M260_HYDRA_WP}
         # ERRR {M260_HYDRA}
         LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE = (
             3,
             Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT = (
-            3,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP = (
-            3,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE = (
-            3,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM = (
-            3,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP = (
-            3,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (
-            3,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (
-            3,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
         )
 
     class Pylon4:
         Mk_82___500lb_GP_Bomb_LD = (4, Weapons.Mk_82___500lb_GP_Bomb_LD)
         # ERRR {mk77mod1}
-        # ERRR {M260_HYDRA_WP}
         # ERRR {M260_HYDRA}
         LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE = (
             4,
             Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT = (
-            4,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP = (
-            4,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE = (
-            4,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM = (
-            4,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP = (
-            4,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (
-            4,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (
-            4,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
         )
 
     class Pylon5:
         Mk_82___500lb_GP_Bomb_LD = (5, Weapons.Mk_82___500lb_GP_Bomb_LD)
         # ERRR {mk77mod1}
-        # ERRR {M260_HYDRA_WP}
         # ERRR {M260_HYDRA}
         LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE = (
             5,
             Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT = (
-            5,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP = (
-            5,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE = (
-            5,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM = (
-            5,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP = (
-            5,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (
-            5,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (
-            5,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
         )
 
     class Pylon6:
         Mk_82___500lb_GP_Bomb_LD = (6, Weapons.Mk_82___500lb_GP_Bomb_LD)
         # ERRR {mk77mod1}
-        # ERRR {M260_HYDRA_WP}
         # ERRR {M260_HYDRA}
         LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE = (
             6,
             Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT = (
-            6,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP = (
-            6,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE = (
-            6,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM = (
-            6,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP = (
-            6,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (
-            6,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (
-            6,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
         )
 
     class Pylon7:
         Mk_82___500lb_GP_Bomb_LD = (7, Weapons.Mk_82___500lb_GP_Bomb_LD)
         # ERRR {mk77mod1}
-        # ERRR {M260_HYDRA_WP}
         # ERRR {M260_HYDRA}
         LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE = (
             7,
             Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT = (
-            7,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP = (
-            7,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE = (
-            7,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM = (
-            7,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP = (
-            7,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (
-            7,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (
-            7,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
         )
         AIM_9B_Sidewinder_IR_AAM = (7, Weapons.AIM_9B_Sidewinder_IR_AAM)
 
     class Pylon8:
         Mk_82___500lb_GP_Bomb_LD = (8, Weapons.Mk_82___500lb_GP_Bomb_LD)
         # ERRR {mk77mod1}
-        # ERRR {M260_HYDRA_WP}
         # ERRR {M260_HYDRA}
         LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE = (
             8,
             Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT = (
-            8,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP = (
-            8,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE = (
-            8,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM = (
-            8,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
-        )
-        # ERRR {MK_77}
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (
-            8,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (
-            8,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
         )
         AIM_9B_Sidewinder_IR_AAM = (8, Weapons.AIM_9B_Sidewinder_IR_AAM)
 
@@ -2572,7 +2386,7 @@ class vwv_a_37_dragonfly(PlaneType):
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9}
 
-    tasks = [task.GroundAttack, task.RunwayAttack, task.AntishipStrike]
+    tasks = [task.GroundAttack, task.CAS, task.AFAC, task.RunwayAttack, task.AntishipStrike]
     task_default = task.GroundAttack
 
 

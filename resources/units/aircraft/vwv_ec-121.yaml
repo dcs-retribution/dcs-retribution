@@ -4,6 +4,7 @@ name: "Lockheed EC-121D Warning Star"
 description: "The Lockheed EC-121 Warning Star was an airborne early warning radar aircraft derived from the Lockheed Constellation. It provided long-range radar and electronic surveillance capability used to detect and track enemy aircraft and surface vessels."
 price: 45    # reference: Large radar aircraft
 max_range: 1500    # combat range [nmi]
+max_group_size: 1
 variants:
   EC-121D Warning Star: {}
 altitudes:

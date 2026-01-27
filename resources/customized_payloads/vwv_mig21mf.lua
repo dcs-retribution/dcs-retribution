@@ -21,12 +21,12 @@ local unitPayloads = {
 				[3]=
 				{
 					["CLSID"]="{R-3S}",
-					["num"]=3
+					["num"]=4
 				},
 				[4]=
 				{
 					["CLSID"]="{R-3S}",
-					["num"]=4
+					["num"]=5
 				}
 			},
 			["tasks"]=
@@ -54,12 +54,12 @@ local unitPayloads = {
 				[3]=
 				{
 					["CLSID"]="B-8M1 - 20 S-8OFP2",
-					["num"]=3
+					["num"]=4
 				},
 				[4]=
 				{
 					["CLSID"]="B-8M1 - 20 S-8OFP2",
-					["num"]=4
+					["num"]=5
 				}
 			},
 			["tasks"]=
@@ -86,12 +86,12 @@ local unitPayloads = {
 				[3]=
 				{
 					["CLSID"]="{3C612111-C7AD-476E-8A8E-2485812F4E5C}",
-					["num"]=3
+					["num"]=4
 				},
 				[4]=
 				{
 					["CLSID"]="{3C612111-C7AD-476E-8A8E-2485812F4E5C}",
-					["num"]=4
+					["num"]=5
 				}
 			},
 			["tasks"]=
@@ -119,12 +119,12 @@ local unitPayloads = {
 				[3]=
 				{
 					["CLSID"]="B-8M1 - 20 S-8OFP2",
-					["num"]=3
+					["num"]=4
 				},
 				[4]=
 				{
 					["CLSID"]="FAB_100M",
-					["num"]=4
+					["num"]=5
 				}
 			},
 			["tasks"]=
@@ -152,12 +152,12 @@ local unitPayloads = {
 				[3]=
 				{
 					["CLSID"]="{R-3S}",
-					["num"]=3
+					["num"]=4
 				},
 				[4]=
 				{
 					["CLSID"]="{R-3S}",
-					["num"]=4
+					["num"]=5
 				}
 			},
 			["tasks"]=
@@ -184,12 +184,12 @@ local unitPayloads = {
 				[3]=
 				{
 					["CLSID"]="{R-3S}",
-					["num"]=3
+					["num"]=4
 				},
 				[4]=
 				{
 					["CLSID"]="{R-3S}",
-					["num"]=4
+					["num"]=5
 				}
 			},
 			["tasks"]=
@@ -216,12 +216,12 @@ local unitPayloads = {
 				[3]=
 				{
 					["CLSID"]="{R-3S}",
-					["num"]=3
+					["num"]=4
 				},
 				[4]=
 				{
 					["CLSID"]="{R-3S}",
-					["num"]=4
+					["num"]=5
 				}
 			},
 			["tasks"]=
@@ -248,12 +248,12 @@ local unitPayloads = {
 				[3]=
 				{
 					["CLSID"]="{R-3S}",
-					["num"]=3
+					["num"]=4
 				},
 				[4]=
 				{
 					["CLSID"]="{R-3S}",
-					["num"]=4
+					["num"]=5
 				}
 			},
 			["tasks"]=
