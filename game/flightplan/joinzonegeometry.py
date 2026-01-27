@@ -22,6 +22,8 @@ class JoinZoneGeometry:
 
     The zones themselves are stored in the class rather than just the resulting join
     point so that the zones can be drawn in the map for debugging purposes.
+    Join placement is additionally randomized to keep join points closer to home than
+    the target (25% to 40% of the home-to-target distance).
     """
 
     def __init__(
@@ -40,6 +42,16 @@ class JoinZoneGeometry:
         self.ip = ShapelyPoint(ip.x, ip.y)
         self.threat_zone = coalition.opponent.threat_zone.all
         self.home = ShapelyPoint(home.x, home.y)
+
+        # Randomize join distance between 25% and 40% of the home-to-target leg.
+        total_distance = home.distance_to_point(target)
+        min_join_distance = total_distance * 0.35
+        max_join_distance = total_distance * 0.36
+        self.min_distance_bubble = self.home.buffer(min_join_distance)
+        self.max_distance_bubble = self.home.buffer(max_join_distance)
+        self.distance_ring = self.max_distance_bubble.difference(
+            self.min_distance_bubble
+        )
 
         self.ip_bubble = self.ip.buffer(coalition.doctrine.join_distance.meters)
 
@@ -77,18 +89,22 @@ class JoinZoneGeometry:
             ]
         )
 
-        permissible_zones = ip_direction_limit_wedge.difference(
-            self.excluded_zones
-        ).difference(self.home_bubble)
+        permissible_zones = (
+            ip_direction_limit_wedge.difference(self.excluded_zones)
+            .difference(self.home_bubble)
+            .intersection(self.distance_ring)
+        )
         if permissible_zones.is_empty:
             permissible_zones = MultiPolygon([])
         if not isinstance(permissible_zones, MultiPolygon):
             permissible_zones = MultiPolygon([permissible_zones])
         self.permissible_zones = permissible_zones
 
-        preferred_lines = ip_direction_limit_wedge.intersection(
-            self.excluded_zones.boundary
-        ).difference(self.home_bubble)
+        preferred_lines = (
+            ip_direction_limit_wedge.intersection(self.excluded_zones.boundary)
+            .difference(self.home_bubble)
+            .intersection(self.distance_ring)
+        )
 
         if preferred_lines.is_empty:
             preferred_lines = MultiLineString([])
@@ -97,8 +113,16 @@ class JoinZoneGeometry:
         self.preferred_lines = preferred_lines
 
     def find_best_join_point(self) -> Point:
-        if self.preferred_lines.is_empty:
-            join, _ = shapely.ops.nearest_points(self.permissible_zones, self.ip)
+        # Choose the best available geometry for nearest point computation.
+        # Prefer preferred_lines when available; fall back to permissible_zones.
+        if not self.preferred_lines.is_empty:
+            search_geometry = self.preferred_lines
+        elif not self.permissible_zones.is_empty:
+            search_geometry = self.permissible_zones
         else:
-            join, _ = shapely.ops.nearest_points(self.preferred_lines, self.ip)
+            # No usable geometry; fall back deterministically to the IP position.
+            join = self.ip
+            return self._target.new_in_same_map(join.x, join.y)
+
+        join, _ = shapely.ops.nearest_points(search_geometry, self.ip)
         return self._target.new_in_same_map(join.x, join.y)
