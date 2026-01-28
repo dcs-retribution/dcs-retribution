@@ -1,0 +1,4 @@
+class: LandingShip
+price: 20
+variants:
+  "[VWV] ATC(H) Tango Heavy": null

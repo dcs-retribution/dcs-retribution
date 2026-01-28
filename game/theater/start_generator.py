@@ -89,6 +89,7 @@ class ModSettings:
     f104_starfighter: bool = False
     f105_thunderchief: bool = False
     f106_deltadart: bool = False
+    f111c: bool = False
     hercules: bool = False
     irondome: bool = False
     oh_6: bool = False

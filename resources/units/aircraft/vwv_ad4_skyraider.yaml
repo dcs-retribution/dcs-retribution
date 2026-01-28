@@ -1,0 +1,25 @@
+class: Plane
+id: vwv_ad4_skyraider
+name: Douglas A-1 Skyraider (AD-4)
+description: "The Douglas A-1 Skyraider was a single-seat attack aircraft that saw extensive service during the Korean and Vietnam Wars. It was designed for ground attack and close air support missions, and was known for its rugged construction and long loiter time."
+introduced: 1946    # original type 1946, A-1H before 1964, USA retired 1973
+manufacturer: Douglas
+origin: USA
+price: 5    # reference: A-1 Skyraider = 5
+role: Carrier-based Attack Aircraft
+gunfighter: true
+carrier_capable: true
+max_range: 1000    # combat range [nmi]
+variants:
+  AD-4 Skyraider: {}
+tasks:    # defined in flighttype.py
+  Anti-ship: 200
+  BAI: 300
+  CAS: 300
+  SEAD: 100
+  SEAD Sweep: 100
+  DEAD: 100
+  OCA/Aircraft: 200
+  OCA/Runway: 200
+  Strike: 300
+  Armed Recon: 200

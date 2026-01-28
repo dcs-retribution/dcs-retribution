@@ -1,0 +1,15 @@
+class: Helicopter
+id: uh2b
+name: "UH-2B Seasprite"
+description: "The UH-2B Seasprite is a naval helicopter variant used for various missions including transport and reconnaissance during the Vietnam War era."
+price: 4
+carrier_capable: true
+lha_capable: true
+cabin_size: 11
+can_carry_crates: true
+max_range: 300    # combat range [nmi]
+variants:
+  UH-2B Seasprite: {}
+tasks:
+  Air Assault: 60
+  Transport: 40

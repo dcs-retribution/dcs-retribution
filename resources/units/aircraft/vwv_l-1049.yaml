@@ -1,0 +1,10 @@
+class: Plane
+id: vwv_l-1049
+name: "Lockheed L-1049G Constellation"
+description: "The Lockheed L-1049 Super Constellation was a four-engine propeller-driven airliner powered by radial engines. It was used for various military transport and reconnaissance missions during the Vietnam War era."
+price: 8    # reference: Large transport aircraft
+max_range: 1200    # combat range [nmi]
+variants:
+  L-1049G Constellation: {}
+tasks:
+  Transport: 800

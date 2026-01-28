@@ -185,8 +185,9 @@ local function onEvent(event)
     end
 
     if event.id == world.event.S_EVENT_MISSION_END then
-        write_state()
         mission_ended = true
+        dirty_state = true
+        write_state()
     end
 
 end

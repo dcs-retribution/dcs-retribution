@@ -17,7 +17,7 @@ description:    # from https://en.wikipedia.org/wiki/Kaman_SH-2_Seasprite
   Sea Hawk which entered service starting in the mid-1980s, but it could not 
   operate safety from the smaller flight decks like the smaller Seasprite.
 introduced: 1973    # original type 1962, SH-2F 1973
-cabin_size: 12    # from: https://plane-encyclopedia.com/cold-war/kaman-sh-2f-seasprite/
+cabin_size: 11    # from: https://plane-encyclopedia.com/cold-war/kaman-sh-2f-seasprite/
 can_carry_crates: true
 manufacturer: Kaman Aircraft Corporation
 origin: USA

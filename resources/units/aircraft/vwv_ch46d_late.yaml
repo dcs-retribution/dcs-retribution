@@ -1,0 +1,15 @@
+class: Helicopter
+id: vwv_ch46d_late
+name: Boeing CH-46D Sea Knight (Late Variant)
+description: "The Boeing CH-46D Sea Knight is a tandem rotor transport helicopter used by the U.S. Marine Corps and Navy. This late variant includes improved avionics and systems for enhanced operational capability during the Vietnam War era."
+price: 12    # reference: CH-46D = 4
+carrier_capable: true
+lha_capable: true
+cabin_size: 24
+can_carry_crates: true
+max_range: 300    # combat range [nmi]
+variants:
+  CH-46D Sea Knight (Late): {}
+tasks:
+  Air Assault: 60
+  Transport: 40

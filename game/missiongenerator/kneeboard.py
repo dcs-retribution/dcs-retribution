@@ -230,6 +230,8 @@ class FlightPlanBuilder:
         if len(self.target_points) <= 4:
             for steerpoint in self.target_points:
                 self.add_waypoint_row(steerpoint)
+            if self.target_points:
+                self.last_waypoint = self.target_points[-1].waypoint
             return
 
         first_waypoint_num = self.target_points[0].number
@@ -325,6 +327,9 @@ class FlightPlanBuilder:
         return f"{math.ceil(self.units.mass(mass) / 100) * 100:.0f}"
 
     def build(self) -> List[List[str]]:
+        if self.target_points:
+            self.coalesce_target_points()
+            self.target_points = []
         return self.rows
 
 

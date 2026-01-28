@@ -134,6 +134,7 @@ class NewGameWizard(QtWidgets.QWizard):
             mam=self.field("mam"),
             tornado_adv=self.field("tornado_adv"),
             VSN_F35=self.field("VSN_F35"),
+            f111c=self.field("f111c"),
         )
 
         blue_faction = self.faction_selection_page.selected_blue_faction

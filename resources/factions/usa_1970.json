@@ -32,8 +32,7 @@
     "F-8E Crusader",
     "O-1E Bird Dog",
     "RA-5C Vigilante",
-    "SH-2F Seasprite",
-    "HH-2D Seasprite"
+    "SH-2F Seasprite"
   ],
   "awacs": [
     "E-2C Hawkeye"
@@ -64,7 +63,7 @@
   ],
   "naval_units": [
     "FFG Oliver Hazard Perry",
-    "CVA-31 Bon Homme Richard",
+    "[VWV] CVA-31 Bon Homme Richard",
     "CV-59 Forrestal",
     "USS Allen M. Sumner (DD-692)",
     "USS Fletcher FRAM II Destroyer",

@@ -1,0 +1,4 @@
+class: Boat
+price: 10
+variants:
+  "[VWV] IX514 (unarmed)": null

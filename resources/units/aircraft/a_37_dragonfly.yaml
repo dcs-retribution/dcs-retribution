@@ -1,0 +1,17 @@
+class: Plane
+id: a_37_dragonfly
+name: "A-37 Dragonfly"
+description: "The Cessna A-37 Dragonfly is an American light attack aircraft developed from the T-37 trainer. It was designed for counter-insurgency, close air support, and aerial reconnaissance missions during the Vietnam War era."
+price: 6
+gunfighter: false
+carrier_capable: false
+max_range: 500    # combat range [nmi]
+variants:
+  A-37 Dragonfly: {}
+altitudes:
+ cruise: 15000
+ combat: 8000
+tasks:
+  BAI: 680
+  CAS: 680
+  OCA/Aircraft: 680

@@ -1,0 +1,4 @@
+class: Boat
+price: 12
+variants:
+  "[VWV] CCB Charlie": null

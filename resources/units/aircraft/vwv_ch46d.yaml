@@ -1,0 +1,15 @@
+class: Helicopter
+id: vwv_ch46d
+name: Boeing CH-46D Sea Knight
+description: "The Boeing CH-46D Sea Knight is a tandem rotor transport helicopter used by the U.S. Marine Corps and Navy. It was designed for troop assault, supply, and medical evacuation missions, with capability for day or night all-weather operations."
+price: 12    # reference: CH-46D = 4
+carrier_capable: true
+lha_capable: true
+cabin_size: 24
+can_carry_crates: true
+max_range: 300    # combat range [nmi]
+variants:
+  CH-46D Sea Knight: {}
+tasks:
+  Air Assault: 60
+  Transport: 40

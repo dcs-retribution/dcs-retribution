@@ -1,3 +1,5 @@
+class: Plane
+id: vwv_mig17f
 carrier_capable: false
 description:    # from: https://en.wikipedia.org/wiki/Mikoyan-Gurevich_MiG-17
   The Mikoyan-Gurevich MiG-17 (NATO reporting name Fresco) is a high-subsonic fighter 
@@ -24,6 +26,9 @@ max_range: 500    # combat range without droptanks [nmi]
 gunfighter: true
 variants:
   MiG-17F Fresco-C: {}
+altitudes:
+ cruise: 22000
+ combat: 6000
 tasks:    # defined in flighttype.py
   BAI: 100
   CAS: 100

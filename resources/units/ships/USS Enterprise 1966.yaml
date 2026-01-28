@@ -1,0 +1,4 @@
+class: AircraftCarrier
+price: 300
+variants:
+  "[VWV] CVAN-65 USS Enterprise '66": null

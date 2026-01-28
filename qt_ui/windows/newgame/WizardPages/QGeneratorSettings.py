@@ -180,6 +180,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("tornado_adv", self.tornado_adv)
         self.VSN_F35 = QtWidgets.QCheckBox()
         self.registerField("VSN_F35", self.VSN_F35)
+        self.f111c = QtWidgets.QCheckBox()
+        self.registerField("f111c", self.f111c)
 
         modHelpText = QtWidgets.QLabel(
             "<p>Select the mods you have installed. If your chosen factions support them, you'll be able to use these mods in your campaign.</p>"
@@ -228,6 +230,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             {"F-35A/B/C Lightning II (v2.9.2.103 FC3 EFM)", self.VSN_F35},
             ("F-4B/C Phantom II (2.8.7.204)", self.f4bc_phantom),
             ("F-84G Thunderjet (v2.5.7.01)", self.f84g_thunderjet),
+            ("F-111C Aardvark (Warpig Production v2.260103)", self.f111c),
             ("F9F Panther (v2.8.7.101)", self.f9f_panther),
             ("F/A-18E/F/G Super Hornet (version 2.4.5)", self.fa_18efg),
             ("F/A-18E/F Super Hornet AI Tanker (version 2.4.5)", self.fa18ef_tanker),
@@ -250,7 +253,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("Super Étendard (v2.5.5)", self.super_etendard),
             ("Tornado F3 ADV (1.0)", self.tornado_adv),
             ("UH-60L Black Hawk (v1.3.1)", self.uh_60l),
-            ("Vietnam War Vessels (v0.9.0 by TeTeT)", self.vietnamwarvessels),
+            ("Vietnam War Vessels (v2.3.0 by TeTeT)", self.vietnamwarvessels),
         ]
 
         for i in range(len(mod_pairs)):

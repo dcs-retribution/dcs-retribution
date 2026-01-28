@@ -28,6 +28,7 @@
 * **[Plugins]** MooseAirboss - Added option to despawn stuck AI aircraft on the carrier
 * **[Plugins]** MooseAirboss - Automatically set TACAN/ILS from retribution
 * **[Modding]** Added VSN F-35A/B/C mod support
+* **[Modding]** Add F-111C Aardvark by Warpig Productions (v2.260103)
 
 ## Fixes
 * **[Flight Plans]** Fixed bugs wrt planning escort flights
@@ -46,6 +47,7 @@
 * **[Mission Generation]** Fixed an issue where kneeboards showed both opfor and ownfor support aircraft
 * **[Campaigns]** Fixed a bug where off map spawns could own ground objects, causing them not to spawn
 * **[Performance]** Adjusted state.json writes to batch processing to reduce CPU utilization
+* **[Kneeboard]** Fixed bug where additional target points did not show on the kneeboard
 
 # Retribution v1.4.1 (hotfix)
 
