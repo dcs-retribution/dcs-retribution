@@ -1,0 +1,4 @@
+class: Boat
+price: 10
+variants:
+  "Type 021-1 Missile Boat": null

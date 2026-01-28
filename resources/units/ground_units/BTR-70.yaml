@@ -1,0 +1,11 @@
+class: APC
+description: "The BTR-70 is an eight-wheeled armored personnel carrier originally developed by the Soviet Union during the late 1960s under the manufacturing code 
+  GAZ-4905. On August 21, 1972, it was accepted into Soviet service and would later be widely exported. Large quantities were also produced under license in 
+  Romania as the TAB-77."
+introduced: 1972
+manufacturer: Gorkovsky Avtomobilny Zavod
+origin: USSR/Russia
+price: 8
+role: Armoured Personnel Carrier
+variants:
+  "APC BTR-70": {}

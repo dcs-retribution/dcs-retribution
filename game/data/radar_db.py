@@ -203,6 +203,7 @@ UNITS_WITH_RADAR = {
     AirDefence.CHAP_PantsirS1,
     AirDefence.CHAP_TorM2,
     AirDefence.CHAP_IRISTSLM_STR,
+    AirDefence.P14_SR,
     cmap.PGL_625,
     cmap.HQ17A,
     cmap.CH_PGZ09,

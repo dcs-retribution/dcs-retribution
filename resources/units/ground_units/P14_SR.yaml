@@ -1,0 +1,8 @@
+class: SearchRadar
+description: "The P-14 (also referred to by the NATO reporting name 'Tall King') is a 2D VHF radar that was developed and operated by the Soviet Union."
+introduced: 1959
+manufacturer: Nizhny Novgorod Research Institute of Radio Engineering
+origin: USSR/Russia
+price: 25
+variants:
+  "SAM SA-5 S-200 P-14 'Tall king' SR": {}
