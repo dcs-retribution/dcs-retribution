@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 from collections import defaultdict
+from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional, TYPE_CHECKING
 
@@ -18,6 +19,14 @@ if TYPE_CHECKING:
     from .game import Game
 
 
+@dataclass
+class TemplateOrder:
+    """Tracks a template-based unit order to preserve group coherence."""
+
+    template_name: str
+    units: dict[GroundUnitType, int]
+
+
 class GroundUnitOrders:
     def __init__(self, destination: ControlPoint) -> None:
         self.destination = destination
@@ -25,12 +34,32 @@ class GroundUnitOrders:
         # Maps unit type to order quantity.
         self.units: dict[GroundUnitType, int] = defaultdict(int)
 
+        # Track template-based orders separately to preserve group coherence
+        self.template_orders: list[TemplateOrder] = []
+
     def __str__(self) -> str:
         return f"Pending ground unit delivery to {self.destination}"
+
+    def __setstate__(self, state: dict) -> None:
+        """Handle deserialization from older save files."""
+        self.__dict__.update(state)
+        # Initialize template_orders if it doesn't exist (for old saves)
+        if "template_orders" not in self.__dict__:
+            self.template_orders = []
 
     def order(self, units: dict[GroundUnitType, int]) -> None:
         for k, v in units.items():
             self.units[k] += v
+
+    def order_template(
+        self, template_name: str, units: dict[GroundUnitType, int]
+    ) -> None:
+        """Order units as a cohesive template group."""
+        # Store template metadata for planning phase
+        self.template_orders.append(TemplateOrder(template_name, units))
+
+        # Also add to regular orders for normal delivery processing
+        self.order(units)
 
     def sell(self, units: dict[GroundUnitType, int]) -> None:
         for k, v in units.items():
@@ -38,9 +67,15 @@ class GroundUnitOrders:
             if self.units[k] == 0:
                 del self.units[k]
 
+    def consume_template_order(self, template_order: TemplateOrder) -> None:
+        """Remove a template order after its units have been deployed."""
+        if template_order in self.template_orders:
+            self.template_orders.remove(template_order)
+
     def refund_all(self, coalition: Coalition) -> None:
         self._refund(coalition, self.units)
         self.units = defaultdict(int)
+        self.template_orders.clear()  # Also clear template metadata
 
     def _refund(self, coalition: Coalition, units: dict[GroundUnitType, int]) -> None:
         for unit_type, count in units.items():
