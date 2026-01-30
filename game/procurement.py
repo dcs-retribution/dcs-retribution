@@ -240,7 +240,7 @@ class ProcurementAi:
             return None
 
         # Calculate deficit weight for each template based on its primary role
-        template_weights: dict[FrontlineGroupTemplate, float] = {}
+        template_weights: list[tuple[FrontlineGroupTemplate, float]] = []
 
         for template in compatible_templates:
             # Get the primary unit class from the template's role
@@ -259,15 +259,15 @@ class ProcurementAi:
             else:
                 weight = random.uniform(0, 0.1)
 
-            template_weights[template] = weight
+            template_weights.append((template, weight))
 
-        if not any(template_weights.values()):
+        if not any(weight for _, weight in template_weights):
             return random.choice(compatible_templates)
 
-        total_weight = sum(template_weights.values())
+        total_weight = sum(weight for _, weight in template_weights)
         r = random.uniform(0, total_weight)
         cumulative = 0
-        for template, weight in template_weights.items():
+        for template, weight in template_weights:
             cumulative += weight
             if r <= cumulative:
                 return template

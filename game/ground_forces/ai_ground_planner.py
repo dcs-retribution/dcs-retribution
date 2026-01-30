@@ -13,6 +13,7 @@ from .combat_stance import CombatStance
 if TYPE_CHECKING:
     from game import Game
     from game.theater import ControlPoint
+    from game.groundunitorders import TemplateOrder
 
 MAX_COMBAT_GROUP_PER_CP = 10
 
@@ -102,8 +103,29 @@ class GroundPlanner:
         else:
             ratio_of_frontline_units_to_reserves = 1
 
+        # ===== PHASE 1: Process Template Orders =====
+        # Try to form groups from complete template orders first
+        template_orders_to_remove: list[TemplateOrder] = []
+
+        for template_order in self.cp.ground_unit_orders.template_orders:
+            if not self.has_units_available(template_order.units):
+                continue
+
+            total_units = sum(template_order.units.values())
+            if total_units > remaining_available_frontline_units:
+                continue
+
+            self.create_template_based_groups(template_order)
+            self.consume_units(template_order.units)
+            template_orders_to_remove.append(template_order)
+            remaining_available_frontline_units -= total_units
+
+        for template_order in template_orders_to_remove:
+            self.cp.ground_unit_orders.consume_template_order(template_order)
+
+        # ===== PHASE 2: Process Remaining Units (Existing Logic) =====
         # Create combat groups and assign them randomly to each enemy CP
-        for unit_type in self.cp.base.armor:
+        for unit_type in list(self.cp.base.armor.keys()):
             unit_class = unit_type.unit_class
             if unit_class is UnitClass.TANK:
                 collection = self.tank_groups
@@ -171,8 +193,102 @@ class GroundPlanner:
                     self.units_per_cp[enemy_cp.id].append(group)
                 else:
                     group = CombatGroup(role, unit_type, available)
-                    self.reserve.append(CombatGroup(role, unit_type, available))
+                    self.reserve.append(group)
+                    available = 0  # All units allocated to reserves
                 collection.append(group)
 
             if remaining_available_frontline_units == 0:
                 break
+
+    def has_units_available(self, required_units: dict[GroundUnitType, int]) -> bool:
+        """Check if all required units are available in base armor."""
+        for unit_type, count in required_units.items():
+            available = self.cp.base.armor.get(unit_type, 0)
+            if available < count:
+                return False
+        return True
+
+    def consume_units(self, units: dict[GroundUnitType, int]) -> None:
+        """Remove units from base armor inventory."""
+        for unit_type, count in units.items():
+            available = self.cp.base.armor.get(unit_type, 0)
+            if available < count:
+                logging.warning(
+                    f"Attempting to consume {count} {unit_type} but only "
+                    f"{available} available at {self.cp.name}"
+                )
+            self.cp.base.armor[unit_type] -= count
+            if self.cp.base.armor[unit_type] <= 0:
+                del self.cp.base.armor[unit_type]
+
+    def unit_class_to_role(self, unit_class: UnitClass) -> CombatGroupRole:
+        """Map unit class to combat group role."""
+        mapping = {
+            UnitClass.TANK: CombatGroupRole.TANK,
+            UnitClass.APC: CombatGroupRole.APC,
+            UnitClass.IFV: CombatGroupRole.IFV,
+            UnitClass.ARTILLERY: CombatGroupRole.ARTILLERY,
+            UnitClass.ATGM: CombatGroupRole.ATGM,
+            UnitClass.LOGISTICS: CombatGroupRole.LOGI,
+            UnitClass.SHORAD: CombatGroupRole.SHORAD,
+            UnitClass.AAA: CombatGroupRole.SHORAD,
+            UnitClass.RECON: CombatGroupRole.RECON,
+        }
+        return mapping.get(unit_class, CombatGroupRole.TANK)
+
+    def add_group_to_collection(
+        self, group: CombatGroup, role: CombatGroupRole
+    ) -> None:
+        collections = {
+            CombatGroupRole.TANK: self.tank_groups,
+            CombatGroupRole.APC: self.apc_group,
+            CombatGroupRole.IFV: self.ifv_group,
+            CombatGroupRole.ARTILLERY: self.art_group,
+            CombatGroupRole.ATGM: self.atgm_group,
+            CombatGroupRole.LOGI: self.logi_groups,
+            CombatGroupRole.SHORAD: self.shorad_groups,
+            CombatGroupRole.RECON: self.recon_groups,
+        }
+        collection = collections.get(role, self.tank_groups)
+        collection.append(group)
+
+    def create_template_based_groups(self, template_order) -> None:
+        from game.ground_forces.frontline_group_loader import FrontlineGroupLoader
+
+        loader = FrontlineGroupLoader()
+        loader.initialize()
+
+        try:
+            template = loader.by_name(template_order.template_name)
+        except KeyError:
+            logging.warning(
+                f"Template '{template_order.template_name}' not found, "
+                f"falling back to random grouping"
+            )
+            return
+
+        if self.connected_enemy_cp:
+            enemy_cp = random.choice(self.connected_enemy_cp)
+        else:
+            # No connected enemies, add to reserves
+            for unit_type, count in template_order.units.items():
+                if count <= 0:
+                    continue
+                role = self.unit_class_to_role(unit_type.unit_class)
+                group = CombatGroup(role, unit_type, count)
+                self.reserve.append(group)
+            return
+
+        for unit_type, count in template_order.units.items():
+            if count <= 0:
+                continue
+
+            role = self.unit_class_to_role(unit_type.unit_class)
+            group = CombatGroup(role, unit_type, count)
+
+            self.add_group_to_collection(group, role)
+            self.units_per_cp[enemy_cp.id].append(group)
+
+        logging.info(
+            f"Formed template group '{template_order.template_name}' at {self.cp.name}"
+        )

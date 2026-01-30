@@ -4,7 +4,7 @@ role: RECON
 #   - AGGRESSIVE
 #   - DEFENSIVE
 #   - AMBUSH
-formation: Dispersed
+formation: Scattered
 distance_from_frontline:
   min: 2000
   max: 3500
