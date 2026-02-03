@@ -338,7 +338,7 @@ function EventHandler:OnEventShot(EventData)
             local sams = ChooseRandom(Sounds.SamSoundTable)
             local samsnd = NewSound(sams)
             local function DelayedSAMS() if tgtGroup then samsnd:ToGroup(tgtGroup) end end
-            TIMER:New(DelayedSAMS):Start(math.random(3, 7))
+            TIMER:New(DelayedSAMS):Start(math.random(MinimumDelaySeconds, MaximumDelaySeconds))
         end
     end
 
