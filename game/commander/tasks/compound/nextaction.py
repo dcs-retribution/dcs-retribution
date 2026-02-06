@@ -29,10 +29,10 @@ class PlanNextAction(CompoundTask[TheaterState]):
         yield [ProtectAirSpace()]
         yield [DefendBases()]
         yield [InterdictReinforcements()]
+        yield [DegradeIads()]
         yield [AttackBattlePositions()]
         yield [CaptureBases()]
         yield [AttackAirInfrastructure(self.aircraft_cold_start)]
         yield [AttackBuildings()]
         yield [AttackShips()]
-        yield [DegradeIads()]
         yield [RecoverySupport()]  # for recovery tankers
