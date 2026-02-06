@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from logging import getLogger
 
 from game.ato.flighttype import FlightType
 from game.commander.tasks.packageplanningtask import PackagePlanningTask
@@ -13,8 +14,8 @@ class PlanBarcap(PackagePlanningTask[ControlPoint]):
     max_orders: int
 
     def preconditions_met(self, state: TheaterState) -> bool:
-        if not state.barcaps_needed[self.target]:
-            return False
+        if not state.barcaps_needed.get(self.target, 0):
+            state.barcaps_needed[self.target] = 1
         return super().preconditions_met(state)
 
     def apply_effects(self, state: TheaterState) -> None:
@@ -28,3 +29,7 @@ class PlanBarcap(PackagePlanningTask[ControlPoint]):
     @property
     def purchase_multiplier(self) -> int:
         return self.max_orders
+
+    @property
+    def asap(self) -> bool:
+        return True
