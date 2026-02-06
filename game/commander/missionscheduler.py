@@ -20,6 +20,47 @@ class MissionScheduler:
         self.coalition = coalition
         self.desired_mission_length = desired_mission_length
 
+    def _cluster_packages_by_location(
+        self, packages: list[Package]
+    ) -> list[list[Package]]:
+        """Group packages by geographic proximity to optimize TOT scheduling.
+        
+        Packages attacking targets in the same area should have similar TOTs
+        to reduce overall mission time and allow better coordination.
+        """
+        if not packages:
+            return []
+        
+        # Distance threshold for clustering (in meters) - targets within 50km are considered "nearby"
+        CLUSTER_DISTANCE_THRESHOLD = 50000.0
+        
+        clusters: list[list[Package]] = []
+        remaining = packages.copy()
+        
+        while remaining:
+            # Start new cluster with first remaining package
+            seed = remaining.pop(0)
+            cluster = [seed]
+            
+            # Find all packages with targets close to this one
+            i = 0
+            while i < len(remaining):
+                pkg = remaining[i]
+                # Check distance to any package already in cluster
+                is_nearby = any(
+                    pkg.target.distance_to(c.target) < CLUSTER_DISTANCE_THRESHOLD
+                    for c in cluster
+                )
+                if is_nearby:
+                    cluster.append(remaining.pop(i))
+                else:
+                    i += 1
+            
+            clusters.append(cluster)
+        
+        # Logging moved to cluster processing loop below
+        return clusters
+
     def schedule_missions(self, now: datetime) -> None:
         """Identifies and plans mission for the turn."""
 
@@ -48,12 +89,65 @@ class MissionScheduler:
         max_carrier_simultaneous_barcaps = 2  # TODO: make configurable
         carrier_barcaps: dict[MissionTarget, int] = defaultdict(int)
 
-        start_time = start_time_generator(
-            count=len(non_dca_packages),
-            earliest=5 * 60,
-            latest=int(self.desired_mission_length.total_seconds()),
-            margin=5 * 60,
-        )
+        # Group packages by geographic proximity
+        package_clusters = self._cluster_packages_by_location(non_dca_packages)
+        
+        # Pre-calculate earliest TOT for each package to understand travel times
+        package_earliest_tots = {}
+        for pkg in non_dca_packages:
+            earliest = TotEstimator(pkg).earliest_tot(now)
+            package_earliest_tots[pkg] = earliest
+        
+        # Calculate time windows for each cluster based on TOT (not departure time)
+        # Ensure all TOTs fit within mission duration
+        cluster_tot_map = {}
+        if package_clusters:
+            mission_end = now + self.desired_mission_length
+            
+            # Find the latest TOT we can accommodate (mission end minus some buffer)
+            latest_acceptable_tot = mission_end - timedelta(minutes=5)
+            
+            cluster_interval = max(
+                60,  # Minimum 1 minute between cluster TOT windows
+                int(self.desired_mission_length.total_seconds() - 10 * 60) // len(package_clusters)
+            )
+            
+            for i, cluster in enumerate(package_clusters):
+                # Log cluster details
+                target_names = ", ".join(p.target.name for p in cluster[:3])
+                if len(cluster) > 3:
+                    target_names += f" (+{len(cluster)-3} more)"
+                
+                # Calculate TOT window for this cluster (these are absolute datetimes)
+                cluster_tot_start = now + timedelta(seconds=5 * 60 + i * cluster_interval)
+                cluster_tot_end = min(
+                    cluster_tot_start + timedelta(minutes=10),  # 10 minute TOT window per cluster
+                    latest_acceptable_tot
+                )
+                
+                # Convert to seconds for the generator
+                tot_start_sec = (cluster_tot_start - now).total_seconds()
+                tot_end_sec = (cluster_tot_end - now).total_seconds()
+                
+                # Within each cluster, spread TOTs with small random variation
+                margin = min(2 * 60, (tot_end_sec - tot_start_sec) // 4)  # 2 min max variation
+                gen = start_time_generator(
+                    count=len(cluster),
+                    earliest=int(tot_start_sec),
+                    latest=int(tot_end_sec),
+                    margin=int(margin)
+                )
+                
+                for pkg in cluster:
+                    desired_tot_offset = next(gen)
+                    desired_tot = now + desired_tot_offset
+                    earliest_tot = package_earliest_tots.get(pkg, desired_tot)
+                    
+                    # Can't arrive before we can physically get there
+                    actual_tot = max(desired_tot, earliest_tot)
+                    
+                    cluster_tot_map[pkg] = actual_tot
+        
         for package in self.coalition.ato.packages:
             if package.primary_task is FlightType.RECOVERY:
                 continue
@@ -90,13 +184,12 @@ class MissionScheduler:
                     continue
                 previous_aewc_end_time[package.target] = departure_time
             else:
-                # But other packages should be spread out a bit. Note that take
-                # times are delayed, but all aircraft will become active at
-                # mission start. This makes it more worthwhile to attack enemy
-                # airfields to hit grounded aircraft, since they're more likely
-                # to be present. Runway and air started aircraft will be
-                # delayed until their takeoff time by AirConflictGenerator.
-                package.time_over_target = next(start_time) + tot
+                # Use clustered TOT if available, ensuring it's within mission duration
+                if package in cluster_tot_map:
+                    package.time_over_target = cluster_tot_map[package]
+                else:
+                    # Fallback for packages not in clusters (shouldn't happen)
+                    package.time_over_target = tot
             for f in package.flights:
                 if f.departure.is_fleet and not f.is_helo:
                     carrier_etas[f.departure].append(
