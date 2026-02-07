@@ -95,5 +95,11 @@
   ],
   "helicopter_carrier_names": [],
   "requirements": {},
-  "carrier_names": []
+  "carrier_names": [],
+  "weapons_introduction_year_overrides": {
+    "AIM-120B": 2050,
+    "2xAIM-120B": 2050,
+    "AIM-120C": 2050,
+    "2xAIM-120C": 2050
+  }
 }

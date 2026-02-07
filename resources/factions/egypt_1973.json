@@ -50,5 +50,10 @@
     "ZSU-57-2 'Sparka'"
   ],
   "has_jtac": false,
-  "doctrine": "coldwar"
+  "doctrine": "coldwar",
+  "weapons_introduction_year_overrides": {
+    "R-3R - AAM, radar guided": 1980,
+    "R-60 x 2": 1980,
+    "R-60": 1980
+  }
 }
