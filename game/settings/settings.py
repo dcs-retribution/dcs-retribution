@@ -40,11 +40,13 @@ MISSION_DIFFICULTY_SECTION = "Mission Difficulty"
 MISSION_RESTRICTIONS_SECTION = "Mission Restrictions"
 
 CAMPAIGN_MANAGEMENT_PAGE = "Campaign Management"
+ADVANCED_CAMPAIGN_MANAGEMENT_PAGE = "Campaign Management+"
 
 GENERAL_SECTION = "General"
 PILOTS_AND_SQUADRONS_SECTION = "Pilots and Squadrons"
 HQ_AUTOMATION_SECTION = "HQ Automation"
 FLIGHT_PLANNER_AUTOMATION = "Flight Planner Automation"
+DEGRADE_IADS_SECTION = "Degrade IADS"
 
 CAMPAIGN_DOCTRINE_PAGE = "Campaign Doctrine"
 DOCTRINE_DISTANCES_SECTION = "Doctrine distances"
@@ -766,6 +768,62 @@ class Settings:
         max=250,
         detail="A larger number will force the auto-planner to stick with squadrons that have a matching primary task."
         " A smaller number will ignore squadrons with a matching primary task that are too far out.",
+    )
+
+    # Campaign Management+
+    degrade_iads_max_strategic_targets: int = bounded_int_option(
+        "Max strategic IADS targets",
+        ADVANCED_CAMPAIGN_MANAGEMENT_PAGE,
+        DEGRADE_IADS_SECTION,
+        default=2,
+        min=0,
+        max=10,
+        detail="Maximum number of strategic IADS targets to consider each turn.",
+    )
+    degrade_iads_threat_range_effectiveness_percent: int = bounded_int_option(
+        "Threat range effectiveness (%)",
+        ADVANCED_CAMPAIGN_MANAGEMENT_PAGE,
+        DEGRADE_IADS_SECTION,
+        default=70,
+        min=0,
+        max=100,
+        detail="Percent of a SAM's nominal range used when evaluating strategic threat.",
+    )
+    degrade_iads_min_naval_threat_range_meters: int = bounded_int_option(
+        "Min naval SAM range (m)",
+        ADVANCED_CAMPAIGN_MANAGEMENT_PAGE,
+        DEGRADE_IADS_SECTION,
+        default=20000,
+        min=0,
+        max=300000,
+        detail="Minimum naval SAM range required for a ship to be considered a strategic threat.",
+    )
+    degrade_iads_max_naval_threat_penetration_meters: int = bounded_int_option(
+        "Max naval threat distance to bases (m)",
+        ADVANCED_CAMPAIGN_MANAGEMENT_PAGE,
+        DEGRADE_IADS_SECTION,
+        default=150000,
+        min=0,
+        max=1000000,
+        detail="Maximum distance from a naval threat's coverage edge to a friendly base to consider it strategic.",
+    )
+    degrade_iads_max_land_threat_penetration_meters: int = bounded_int_option(
+        "Max land threat distance to bases (m)",
+        ADVANCED_CAMPAIGN_MANAGEMENT_PAGE,
+        DEGRADE_IADS_SECTION,
+        default=100000,
+        min=0,
+        max=3000000,
+        detail="Maximum distance from a land SAM's coverage edge to a friendly base to consider it strategic.",
+    )
+    degrade_iads_threat_score_baseline_meters: int = bounded_int_option(
+        "Threat score baseline distance (m)",
+        ADVANCED_CAMPAIGN_MANAGEMENT_PAGE,
+        DEGRADE_IADS_SECTION,
+        default=200000,
+        min=10000,
+        max=3000000,
+        detail="Baseline distance used to convert threat penetration into a threat score.",
     )
 
     # Mission Generator
