@@ -40,11 +40,13 @@ MISSION_DIFFICULTY_SECTION = "Mission Difficulty"
 MISSION_RESTRICTIONS_SECTION = "Mission Restrictions"
 
 CAMPAIGN_MANAGEMENT_PAGE = "Campaign Management"
+ADVANCED_CAMPAIGN_MANAGEMENT_PAGE = "Campaign Management+"
 
 GENERAL_SECTION = "General"
 PILOTS_AND_SQUADRONS_SECTION = "Pilots and Squadrons"
 HQ_AUTOMATION_SECTION = "HQ Automation"
 FLIGHT_PLANNER_AUTOMATION = "Flight Planner Automation"
+BAI_SECTION = "BAI"
 
 CAMPAIGN_DOCTRINE_PAGE = "Campaign Doctrine"
 DOCTRINE_DISTANCES_SECTION = "Doctrine distances"
@@ -766,6 +768,44 @@ class Settings:
         max=250,
         detail="A larger number will force the auto-planner to stick with squadrons that have a matching primary task."
         " A smaller number will ignore squadrons with a matching primary task that are too far out.",
+    )
+
+    # Campaign Management+
+    bai_max_packages: int = bounded_int_option(
+        "BAI max packages",
+        page=ADVANCED_CAMPAIGN_MANAGEMENT_PAGE,
+        section=BAI_SECTION,
+        min=0,
+        max=20,
+        default=4,
+        detail="Maximum number of BAI packages planned per turn.",
+    )
+    bai_max_positions_per_cp: int = bounded_int_option(
+        "BAI max positions per CP",
+        page=ADVANCED_CAMPAIGN_MANAGEMENT_PAGE,
+        section=BAI_SECTION,
+        min=0,
+        max=10,
+        default=2,
+        detail="Maximum number of battle positions attacked per enemy control point.",
+    )
+    bai_max_distance_meters: int = bounded_int_option(
+        "BAI max distance (meters)",
+        page=ADVANCED_CAMPAIGN_MANAGEMENT_PAGE,
+        section=BAI_SECTION,
+        min=0,
+        max=200000,
+        default=100000,
+        detail="Maximum distance from friendly control points to consider BAI targets.",
+    )
+    bai_armed_recon_target_count: int = bounded_int_option(
+        "BAI armed recon target count",
+        page=ADVANCED_CAMPAIGN_MANAGEMENT_PAGE,
+        section=BAI_SECTION,
+        min=0,
+        max=10,
+        default=2,
+        detail="Number of priority control points to target with armed recon.",
     )
 
     # Mission Generator

@@ -129,7 +129,7 @@ class Flight(
         # altitude offset for planes
         offset_factor = self.coalition.game.settings.max_plane_altitude_offset
         offset_factor = random.randint(0, offset_factor)
-        self.plane_altitude_offset = 1000 * offset_factor * random.choice([-1, 1])
+        self.plane_altitude_offset: int = 1000 * offset_factor * random.choice([-1, 1])
 
     @property
     def available_callsigns(self) -> List[str]:
