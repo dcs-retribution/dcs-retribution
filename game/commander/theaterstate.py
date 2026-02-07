@@ -20,7 +20,8 @@ from game.theater import (
     ControlPoint,
     FrontLine,
     MissionTarget,
-    Player, Fob,
+    Player,
+    Fob,
 )
 from game.theater.theatergroundobject import (
     BuildingGroundObject,
@@ -191,18 +192,24 @@ class TheaterState(WorldState["TheaterState"]):
         aewc_targets.append(finder.farthest_friendly_control_point())
 
         # Initial vulnerable CPs get full coverage
+        fleet_multiplier = max(0, game.settings.barcap_fleet_round_multiplier)
         barcaps_needed = {
-            cp: 2 * barcap_rounds if cp.is_fleet else barcap_rounds
+            cp: (barcap_rounds * fleet_multiplier) if cp.is_fleet else barcap_rounds
             for cp in finder.vulnerable_control_points()
         }
 
         # Add limited BARCAP coverage to forward CPs closest to enemy
         # Only adds CPs not already covered, spreads defense across multiple bases
         from game.theater import Airfield, Carrier, Lha
+
         friendly_cps = finder.friendly_control_points()
         enemy_cps = list(game.theater.control_points_for(player.opponent))
 
-        if enemy_cps:
+        supplemental_count = max(0, game.settings.barcap_supplemental_control_points)
+        supplemental_multiplier = max(
+            0, game.settings.barcap_supplemental_round_multiplier
+        )
+        if enemy_cps and supplemental_count > 0:
             # Calculate the closest distance from each friendly CP to ANY enemy CP
             cp_distances = []
             for cp in friendly_cps:
@@ -212,17 +219,18 @@ class TheaterState(WorldState["TheaterState"]):
                 # Don't add to CPs already in the list
                 if cp in barcaps_needed:
                     continue
-                
+
                 min_distance = min(
-                    cp.position.distance_to_point(enemy.position)
-                    for enemy in enemy_cps
+                    cp.position.distance_to_point(enemy.position) for enemy in enemy_cps
                 )
                 cp_distances.append((min_distance, cp))
-            
-            # Sort by distance and take the 3 closest
+
+            # Sort by distance and take the closest control points
             cp_distances.sort(key=lambda x: x[0])
-            for _, cp in cp_distances[:3]:
-                barcaps_needed[cp] = 1  # Only 1 round for supplemental coverage
+            for _, cp in cp_distances[:supplemental_count]:
+                barcaps_needed[cp] = (
+                    barcap_rounds * supplemental_multiplier
+                )  # Supplemental coverage
 
         return TheaterState(
             context=context,

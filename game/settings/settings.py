@@ -40,11 +40,13 @@ MISSION_DIFFICULTY_SECTION = "Mission Difficulty"
 MISSION_RESTRICTIONS_SECTION = "Mission Restrictions"
 
 CAMPAIGN_MANAGEMENT_PAGE = "Campaign Management"
+ADVANCED_CAMPAIGN_MANAGEMENT_PAGE = "Campaign Management+"
 
 GENERAL_SECTION = "General"
 PILOTS_AND_SQUADRONS_SECTION = "Pilots and Squadrons"
 HQ_AUTOMATION_SECTION = "HQ Automation"
 FLIGHT_PLANNER_AUTOMATION = "Flight Planner Automation"
+BARCAP_COVERAGE_SECTION = "BARCAP Coverage"
 
 CAMPAIGN_DOCTRINE_PAGE = "Campaign Doctrine"
 DOCTRINE_DISTANCES_SECTION = "Doctrine distances"
@@ -766,6 +768,40 @@ class Settings:
         max=250,
         detail="A larger number will force the auto-planner to stick with squadrons that have a matching primary task."
         " A smaller number will ignore squadrons with a matching primary task that are too far out.",
+    )
+
+    # Campaign Management+
+    barcap_fleet_round_multiplier: int = bounded_int_option(
+        "Fleet BARCAP round multiplier",
+        page=ADVANCED_CAMPAIGN_MANAGEMENT_PAGE,
+        section=BARCAP_COVERAGE_SECTION,
+        min=0,
+        max=5,
+        default=2,
+        detail=(
+            "Multiplier applied to BARCAP rounds for fleet control points. "
+            "Set to 0 to disable fleet BARCAP rounds."
+        ),
+    )
+    barcap_supplemental_control_points: int = bounded_int_option(
+        "Supplemental BARCAP control points",
+        page=ADVANCED_CAMPAIGN_MANAGEMENT_PAGE,
+        section=BARCAP_COVERAGE_SECTION,
+        min=0,
+        max=10,
+        default=3,
+        detail=(
+            "Number of additional forward control points that receive supplemental BARCAPs."
+        ),
+    )
+    barcap_supplemental_round_multiplier: int = bounded_int_option(
+        "Supplemental BARCAP round multiplier",
+        page=ADVANCED_CAMPAIGN_MANAGEMENT_PAGE,
+        section=BARCAP_COVERAGE_SECTION,
+        min=0,
+        max=5,
+        default=1,
+        detail=("Multiplier applied to BARCAP rounds for supplemental control points."),
     )
 
     # Mission Generator
