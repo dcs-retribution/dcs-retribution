@@ -308,7 +308,7 @@ class Game:
         self.red.end_turn()
 
         for control_point in self.theater.controlpoints:
-            control_point.process_turn(self)
+            control_point.process_turn(self, events)
 
         if not skipped:
             for cp in self.theater.player_points():

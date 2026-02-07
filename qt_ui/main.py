@@ -300,6 +300,7 @@ def create_game(
             automate_runway_repair=auto_procurement,
             automate_front_line_reinforcements=auto_procurement,
             automate_aircraft_reinforcements=auto_procurement,
+            automate_building_repairs=auto_procurement,
             enable_frontline_cheats=cheats,
             enable_base_capture_cheat=cheats,
             enable_transfer_cheat=cheats,

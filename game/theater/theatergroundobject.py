@@ -8,6 +8,12 @@ from typing import Any, Iterator, List, Optional, TYPE_CHECKING
 from dcs.mapping import Point
 from shapely.geometry import Point as ShapelyPoint
 
+from game.config import (
+    BUILDING_REPAIR_AMMO_BONUS,
+    BUILDING_REPAIR_FACTORY_BONUS,
+    BUILDING_REPAIR_INCOME_MULTIPLIER,
+    REWARDS,
+)
 from game.sidc import (
     Entity,
     LandEquipmentEntity,
@@ -19,6 +25,7 @@ from game.sidc import (
     Status,
     SymbolSet,
 )
+from game.data.units import UnitClass
 from game.theater.presetlocation import PresetLocation
 from .missiontarget import MissionTarget
 from .player import Player
@@ -78,6 +85,7 @@ class TheaterGroundObject(MissionTarget, SidcDescribable, ABC):
         self._threat_poly: ThreatPoly | None = None
         self.task = task
         self.hide_on_mfd = hide_on_mfd
+        self.required_unit_classes: set[UnitClass] = set()
 
     def __getstate__(self) -> dict[str, Any]:
         state = self.__dict__.copy()
@@ -93,11 +101,23 @@ class TheaterGroundObject(MissionTarget, SidcDescribable, ABC):
         if self.control_point.captured.is_neutral:
             return Status.PRESENT
         if self.is_dead:
+            if self.has_pending_repairs:
+                return Status.PRESENT_DAMAGED
             return Status.PRESENT_DESTROYED
         elif self.dead_units:
             return Status.PRESENT_DAMAGED
         else:
             return Status.PRESENT
+
+    @property
+    def has_pending_repairs(self) -> bool:
+        for unit in self.units:
+            if unit.alive:
+                continue
+            if unit.repair_turns_remaining is None:
+                continue
+            return True
+        return False
 
     @property
     def standard_identity(self) -> StandardIdentity:
@@ -364,6 +384,17 @@ class BuildingGroundObject(TheaterGroundObject):
     def purchasable(self) -> bool:
         return False
 
+    def repair_cost(self) -> float:
+        income = REWARDS.get(self.category, 0.0)
+        if income <= 0:
+            return 0.0
+        cost = income * BUILDING_REPAIR_INCOME_MULTIPLIER
+        if self.is_ammo_depot:
+            cost += BUILDING_REPAIR_AMMO_BONUS
+        if self.is_factory:
+            cost += BUILDING_REPAIR_FACTORY_BONUS
+        return cost
+
 
 class NavalGroundObject(TheaterGroundObject, ABC):
     def mission_types(self, for_player: Player) -> Iterator[FlightType]:
@@ -580,8 +611,12 @@ class SamGroundObject(IadsGroundObject):
         if self.control_point.captured.is_neutral:
             return Status.PRESENT
         if self.is_dead:
+            if self.has_pending_repairs:
+                return Status.PRESENT_DAMAGED
             return Status.PRESENT_DESTROYED
         elif self.dead_units:
+            if self.has_pending_repairs:
+                return Status.PRESENT_DAMAGED
             if self.max_threat_range() > meters(0):
                 return Status.PRESENT
             else:

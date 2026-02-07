@@ -158,7 +158,11 @@ class QGroundObjectMenu(QDialog):
         for static in self.ground_object.statics:
             if static not in FORTIFICATION_BUILDINGS:
                 self.buildingsLayout.addWidget(
-                    QBuildingInfo(static, self.ground_object), j / 3, j % 3
+                    QBuildingInfo(
+                        static, self.ground_object, self.repair_building
+                    ),
+                    j / 3,
+                    j % 3,
                 )
                 j = j + 1
 
@@ -280,6 +284,26 @@ class QGroundObjectMenu(QDialog):
                     destroyed_units.remove(d)
                     logging.info("Removed destroyed units " + str(d))
             logging.info(f"Repaired unit: {unit.unit_name}")
+
+        self.update_game()
+
+    def repair_building(self, unit, price):
+        if self.game.blue.budget > price:
+            self.game.blue.budget -= price
+            repair_turns = self.game.settings.building_repair_turns
+            if repair_turns == 0:
+                unit.alive = True
+                destroyed_units = self.game.get_destroyed_units()
+                for d in list(destroyed_units):
+                    p = Point(d["x"], d["z"], self.game.theater.terrain)
+                    if p.distance_to_point(unit.position) < 15:
+                        destroyed_units.remove(d)
+                        logging.info("Removed destroyed units " + str(d))
+                logging.info(f"Repaired building: {unit.unit_name}")
+            else:
+                unit.repair_turns_remaining = repair_turns
+                logging.info(f"Scheduled building repair: {unit.unit_name}")
+            GameUpdateSignal.get_instance().updateGame(self.game)
 
         self.update_game()
 

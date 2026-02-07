@@ -1050,7 +1050,29 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
             return
         self.runway_status.begin_repair()
 
-    def process_turn(self, game: Game) -> None:
+    def process_ground_object_repairs(
+        self, game: Game, events: GameUpdateEvents
+    ) -> None:
+        destroyed_units = game.get_destroyed_units()
+        for ground_object in self.ground_objects:
+            for unit in ground_object.units:
+                turns_remaining = unit.repair_turns_remaining
+                if turns_remaining is None:
+                    continue
+                if unit.alive:
+                    unit.repair_turns_remaining = None
+                    continue
+                if turns_remaining <= 1:
+                    unit.repair_turns_remaining = None
+                    unit.revive(events)
+                    for entry in list(destroyed_units):
+                        p = Point(entry["x"], entry["z"], game.theater.terrain)
+                        if p.distance_to_point(unit.position) < 15:
+                            destroyed_units.remove(entry)
+                else:
+                    unit.repair_turns_remaining = turns_remaining - 1
+
+    def process_turn(self, game: Game, events: GameUpdateEvents) -> None:
         # We're running at the end of the turn, so the time right now is irrelevant, and
         # we don't know what time the next turn will start yet. It doesn't actually
         # matter though, because the first thing the start of turn action will do is
@@ -1062,6 +1084,8 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         runway_status = self.runway_status
         if runway_status is not None:
             runway_status.process_turn()
+
+        self.process_ground_object_repairs(game, events)
 
         # Process movements for ships control points group
         if self.target_position is not None:

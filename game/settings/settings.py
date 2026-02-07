@@ -637,11 +637,44 @@ class Settings:
         HQ_AUTOMATION_SECTION,
         default=False,
     )
+    automate_building_repairs: bool = boolean_option(
+        "Automate building repairs",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        HQ_AUTOMATION_SECTION,
+        default=False,
+        detail=(
+            "If enabled, AI can spend budget to repair destroyed income buildings "
+            "such as depots and factories."
+        ),
+    )
     automate_aircraft_reinforcements: bool = boolean_option(
         "Automate aircraft purchases",
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         default=False,
+    )
+    building_repair_turns: int = bounded_int_option(
+        "Building repair turns",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        HQ_AUTOMATION_SECTION,
+        min=0,
+        max=10,
+        default=4,
+        detail=(
+            "Turns required for repaired buildings to return to service. "
+            "Set to 0 for instant repairs."
+        ),
+    )
+    building_repair_budget_percent: int = bounded_int_option(
+        "Building repair budget (%)",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        HQ_AUTOMATION_SECTION,
+        min=0,
+        max=100,
+        default=15,
+        detail=(
+            "Percent of the procurement budget that may be spent repairing buildings."
+        ),
     )
     auto_ato_behavior: AutoAtoBehavior = choices_option(
         "Automatic package planning behavior",
