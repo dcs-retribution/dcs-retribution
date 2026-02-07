@@ -8,12 +8,8 @@ from typing import Any, Iterator, List, Optional, TYPE_CHECKING
 from dcs.mapping import Point
 from shapely.geometry import Point as ShapelyPoint
 
-from game.config import (
-    BUILDING_REPAIR_AMMO_BONUS,
-    BUILDING_REPAIR_FACTORY_BONUS,
-    BUILDING_REPAIR_INCOME_MULTIPLIER,
-    REWARDS,
-)
+from game.config import REWARDS
+from game.data.units import UnitClass
 from game.sidc import (
     Entity,
     LandEquipmentEntity,
@@ -25,7 +21,6 @@ from game.sidc import (
     Status,
     SymbolSet,
 )
-from game.data.units import UnitClass
 from game.theater.presetlocation import PresetLocation
 from .missiontarget import MissionTarget
 from .player import Player
@@ -388,11 +383,12 @@ class BuildingGroundObject(TheaterGroundObject):
         income = REWARDS.get(self.category, 0.0)
         if income <= 0:
             return 0.0
-        cost = income * BUILDING_REPAIR_INCOME_MULTIPLIER
+        settings = self.control_point.coalition.game.settings
+        cost = income * settings.building_repair_income_multiplier
         if self.is_ammo_depot:
-            cost += BUILDING_REPAIR_AMMO_BONUS
+            cost += settings.building_repair_ammo_bonus
         if self.is_factory:
-            cost += BUILDING_REPAIR_FACTORY_BONUS
+            cost += settings.building_repair_factory_bonus
         return cost
 
 

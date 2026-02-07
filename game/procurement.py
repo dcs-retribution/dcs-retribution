@@ -42,9 +42,6 @@ class AircraftProcurementRequest:
 
 
 class ProcurementAi:
-    BUILDING_REPAIR_WEIGHT_REMOTE = 1.2
-    BUILDING_REPAIR_WEIGHT_INCOME = 1.0
-    BUILDING_REPAIR_WEIGHT_AMMO_FRONTLINE = 1.1
     def __init__(
         self,
         game: Game,
@@ -210,10 +207,11 @@ class ProcurementAi:
         ammo_bonus = 1.0 if ground_object.is_ammo_depot else 0.0
         factory_bonus = 1.0 if ground_object.is_factory else 0.0
 
+        settings = self.game.settings
         return (
-            remote_score * self.BUILDING_REPAIR_WEIGHT_REMOTE
-            + income_score * self.BUILDING_REPAIR_WEIGHT_INCOME
-            + ammo_frontline_score * self.BUILDING_REPAIR_WEIGHT_AMMO_FRONTLINE
+                remote_score * settings.building_repair_weight_remote
+                + income_score * settings.building_repair_weight_income
+                + ammo_frontline_score * settings.building_repair_weight_ammo_frontline
             + ammo_bonus
             + factory_bonus
         )

@@ -57,11 +57,13 @@ MISSION_DIFFICULTY_SECTION = "Mission Difficulty"
 MISSION_RESTRICTIONS_SECTION = "Mission Restrictions"
 
 CAMPAIGN_MANAGEMENT_PAGE = "Campaign Management"
+ADVANCED_CAMPAIGN_MANAGEMENT_PAGE = "Campaign Management+"
 
 GENERAL_SECTION = "General"
 PILOTS_AND_SQUADRONS_SECTION = "Pilots and Squadrons"
 HQ_AUTOMATION_SECTION = "HQ Automation"
 FLIGHT_PLANNER_AUTOMATION = "Flight Planner Automation"
+BUILDING_REPAIR_TUNING_SECTION = "Building Repairs"
 
 CAMPAIGN_DOCTRINE_PAGE = "Campaign Doctrine"
 DOCTRINE_DISTANCES_SECTION = "Doctrine distances"
@@ -827,6 +829,83 @@ class Settings:
         max=250,
         detail="A larger number will force the auto-planner to stick with squadrons that have a matching primary task."
         " A smaller number will ignore squadrons with a matching primary task that are too far out.",
+    )
+
+    # Campaign Management+
+    building_repair_income_multiplier: float = bounded_float_option(
+        "Building repair income multiplier",
+        page=ADVANCED_CAMPAIGN_MANAGEMENT_PAGE,
+        section=BUILDING_REPAIR_TUNING_SECTION,
+        min=0,
+        max=20,
+        divisor=10,
+        default=4.0,
+        detail=(
+            "Multiplier applied to building income to compute repair cost."
+        ),
+    )
+    building_repair_ammo_bonus: float = bounded_float_option(
+        "Building repair ammo bonus",
+        page=ADVANCED_CAMPAIGN_MANAGEMENT_PAGE,
+        section=BUILDING_REPAIR_TUNING_SECTION,
+        min=0,
+        max=50,
+        divisor=5,
+        default=10.0,
+        detail=(
+            "Added cost for ammo depots to reflect frontline value."
+        ),
+    )
+    building_repair_factory_bonus: float = bounded_float_option(
+        "Building repair factory bonus",
+        page=ADVANCED_CAMPAIGN_MANAGEMENT_PAGE,
+        section=BUILDING_REPAIR_TUNING_SECTION,
+        min=0,
+        max=50,
+        divisor=10,
+        default=12.0,
+        detail=(
+            "Added cost for factories to reflect production value."
+        ),
+    )
+    building_repair_weight_remote: float = bounded_float_option(
+        "Building repair weight: remote",
+        page=ADVANCED_CAMPAIGN_MANAGEMENT_PAGE,
+        section=BUILDING_REPAIR_TUNING_SECTION,
+        min=0,
+        max=5,
+        divisor=10,
+        default=1.2,
+        detail=(
+                "Weight for remoteness from enemy control points in repair priority. " +
+                "Buildings farther from enemy control points will be prioritized for repair."
+        ),
+    )
+    building_repair_weight_income: float = bounded_float_option(
+        "Building repair weight: income",
+        page=ADVANCED_CAMPAIGN_MANAGEMENT_PAGE,
+        section=BUILDING_REPAIR_TUNING_SECTION,
+        min=0,
+        max=5,
+        divisor=10,
+        default=1.0,
+        detail=(
+                "Weight for building income in repair priority. " +
+                "Buildings that generate more income will be prioritized for repair."
+        ),
+    )
+    building_repair_weight_ammo_frontline: float = bounded_float_option(
+        "Building repair weight: ammo frontline",
+        page=ADVANCED_CAMPAIGN_MANAGEMENT_PAGE,
+        section=BUILDING_REPAIR_TUNING_SECTION,
+        min=0,
+        max=5,
+        divisor=10,
+        default=1.1,
+        detail=(
+                "Weight for frontline proximity when prioritizing ammo depots. " +
+                "Ammo depots closer to the frontline will be prioritized for repair."
+        ),
     )
 
     # Mission Generator
