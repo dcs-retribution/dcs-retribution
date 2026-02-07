@@ -185,6 +185,9 @@ class Loadout:
                     name,
                     {p["num"]: Weapon.with_clsid(p["CLSID"]) for p in pylons.values()},
                     date=None,
+                    pylon_settings={
+                        p["num"]: p.get("settings", {}) for p in pylons.values()
+                    },
                 )
             except KeyError:
                 # invalid loadout
