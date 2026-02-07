@@ -158,9 +158,7 @@ class QGroundObjectMenu(QDialog):
         for static in self.ground_object.statics:
             if static not in FORTIFICATION_BUILDINGS:
                 self.buildingsLayout.addWidget(
-                    QBuildingInfo(
-                        static, self.ground_object, self.repair_building
-                    ),
+                    QBuildingInfo(static, self.ground_object, self.repair_building),
                     j / 3,
                     j % 3,
                 )

@@ -52,8 +52,7 @@ class QBuildingInfo(QGroupBox):
             if self.building.repair_turns_remaining is not None:
                 layout.addWidget(
                     QLabel(
-                        "Repairing ("
-                        f"{self.building.repair_turns_remaining} turns)"
+                        "Repairing (" f"{self.building.repair_turns_remaining} turns)"
                     )
                 )
             elif self.ground_object.control_point.captured.is_blue:

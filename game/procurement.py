@@ -18,7 +18,8 @@ from game.theater import (
     TheaterUnit,
 )
 from game.theater.theatergroundobject import (
-    BuildingGroundObject, TheaterGroundObject,
+    BuildingGroundObject,
+    TheaterGroundObject,
 )
 
 if TYPE_CHECKING:
@@ -128,8 +129,8 @@ class ProcurementAi:
         repair_turns = self.game.settings.building_repair_turns
         if repair_turns < 0:
             return budget
-        repair_budget = (
-            budget * (self.game.settings.building_repair_budget_percent / 100.0)
+        repair_budget = budget * (
+            self.game.settings.building_repair_budget_percent / 100.0
         )
         if repair_budget <= 0:
             return budget
@@ -154,7 +155,7 @@ class ProcurementAi:
 
         repair_candidates.sort(key=lambda entry: (-entry[0], entry[1]))
 
-        repaired_objects: set[object] = set()
+        repaired_objects: set[TheaterGroundObject] = set()
         destroyed_units = self.game.get_destroyed_units()
         for _, price, unit in repair_candidates:
             if repair_budget < price:
@@ -165,7 +166,11 @@ class ProcurementAi:
                 unit.repair_turns_remaining = None
                 unit.revive(GameUpdateEvents())
                 for entry in list(destroyed_units):
-                    p = Point(entry["x"], entry["z"], self.game.theater.terrain)
+                    p = Point(
+                        float(entry["x"]),
+                        float(entry["z"]),
+                        self.game.theater.terrain,
+                    )
                     if p.distance_to_point(unit.position) < 15:
                         destroyed_units.remove(entry)
             else:
@@ -175,9 +180,7 @@ class ProcurementAi:
 
         for ground_object in repaired_objects:
             if self.is_player.is_blue:
-                self.game.message(
-                    f"We have begun repairs at {ground_object.obj_name}"
-                )
+                self.game.message(f"We have begun repairs at {ground_object.obj_name}")
             else:
                 self.game.message(
                     f"OPFOR has begun repairs at {ground_object.obj_name}"
@@ -188,9 +191,7 @@ class ProcurementAi:
             - repair_budget
         )
 
-    def building_repair_priority(
-        self, ground_object: BuildingGroundObject
-    ) -> float:
+    def building_repair_priority(self, ground_object: BuildingGroundObject) -> float:
         enemy_distance = self.distance_to_nearest_enemy_control_point(ground_object)
         frontline_distance = self.distance_to_nearest_frontline(ground_object)
         if math.isfinite(enemy_distance):
@@ -209,9 +210,9 @@ class ProcurementAi:
 
         settings = self.game.settings
         return (
-                remote_score * settings.building_repair_weight_remote
-                + income_score * settings.building_repair_weight_income
-                + ammo_frontline_score * settings.building_repair_weight_ammo_frontline
+            remote_score * settings.building_repair_weight_remote
+            + income_score * settings.building_repair_weight_income
+            + ammo_frontline_score * settings.building_repair_weight_ammo_frontline
             + ammo_bonus
             + factory_bonus
         )
@@ -236,8 +237,7 @@ class ProcurementAi:
         if not enemy_points:
             return math.inf
         return min(
-            ground_object.position.distance_to_point(cp.position)
-            for cp in enemy_points
+            ground_object.position.distance_to_point(cp.position) for cp in enemy_points
         )
 
     def repair_runways(self, budget: float) -> float:
