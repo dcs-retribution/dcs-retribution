@@ -26,7 +26,9 @@ class QPylonEditor(QComboBox):
 
         self.addItem("None", None)
         if self.game.settings.restrict_weapons_by_date:
-            weapons = pylon.available_on(self.game.date)
+            weapons = pylon.available_on(
+                self.game.date, flight.squadron.coalition.faction
+            )
         else:
             weapons = pylon.allowed
         allowed = sorted(weapons, key=operator.attrgetter("name"))
@@ -68,7 +70,11 @@ class QPylonEditor(QComboBox):
 
     def matching_weapon_name(self, loadout: Loadout) -> str:
         if self.game.settings.restrict_weapons_by_date:
-            loadout = loadout.degrade_for_date(self.flight.unit_type, self.game.date)
+            loadout = loadout.degrade_for_date(
+                self.flight.unit_type,
+                self.game.date,
+                self.flight.squadron.coalition.faction,
+            )
         weapon = self.weapon_from_loadout(loadout)
         if weapon is None:
             return "None"

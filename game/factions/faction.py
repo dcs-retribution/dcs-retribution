@@ -4,6 +4,7 @@ import itertools
 import logging
 from collections import defaultdict
 from dataclasses import dataclass, field
+import datetime
 from functools import cached_property
 from typing import Optional, Dict, Type, List, Any, Iterator, TYPE_CHECKING, Set
 
@@ -130,6 +131,9 @@ class Faction:
     # Store mod settings so mod properties can be injected again on game load,
     # in case mods like CJS F/A-18E/F/G or IDF F-16I are selected by the player
     mod_settings: Optional[ModSettings] = field(default=None)
+    #: Overrides default weapons introduction years for faction. Maps names of
+    #: weapons groups to their introduction years.
+    weapons_introduction_year_overrides: Dict[str, int] = field(default_factory=dict)
 
     def has_access_to_dcs_type(self, unit_type: Type[DcsUnitType]) -> bool:
         # Vehicle and Ship Units
@@ -318,6 +322,10 @@ class Faction:
             ]
 
         faction.unrestricted_satnav = json.get("unrestricted_satnav", False)
+
+        faction.weapons_introduction_year_overrides = json.get(
+            "weapons_introduction_year_overrides", {}
+        )
 
         return faction
 

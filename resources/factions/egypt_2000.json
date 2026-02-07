@@ -95,5 +95,11 @@
     "ZSU-57-2 'Sparka'"
   ],
   "has_jtac": true,
-  "jtac_unit": "MQ-9 Reaper"
+  "jtac_unit": "MQ-9 Reaper",
+  "weapons_introduction_year_overrides": {
+    "AIM-120B": 2050,
+    "2xAIM-120B": 2050,
+    "AIM-120C": 2050,
+    "2xAIM-120C": 2050
+  }
 }

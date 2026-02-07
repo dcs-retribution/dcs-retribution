@@ -56,5 +56,10 @@
   "helicopter_carrier_names": [],
   "requirements": {},
   "carrier_names": [],
-  "doctrine": "coldwar"
+  "doctrine": "coldwar",
+  "weapons_introduction_year_overrides": {
+    "R-3R - AAM, radar guided": 1980,
+    "R-60 x 2": 1980,
+    "R-60": 1980
+  }
 }

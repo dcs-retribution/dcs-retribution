@@ -14,6 +14,7 @@ from dcs.flyingunit import FlyingUnit
 from dcs.weapons_data import weapon_ids
 
 from game.dcs.aircrafttype import AircraftType
+from game.factions.faction import Faction
 
 PydcsWeapon = Any
 PydcsWeaponAssignment = tuple[int, PydcsWeapon]
@@ -101,8 +102,12 @@ class Weapon:
         WeaponGroup.load_all()
         cls._loaded = True
 
-    def available_on(self, date: datetime.date) -> bool:
+    def available_on(self, date: datetime.date, faction: Faction) -> bool:
         introduction_year = self.weapon_group.introduction_year
+        if self.weapon_group.name in faction.weapons_introduction_year_overrides:
+            introduction_year = faction.weapons_introduction_year_overrides[
+                self.weapon_group.name
+            ]
         if introduction_year is None:
             return True
         return date >= datetime.date(introduction_year, 1, 1)
@@ -287,9 +292,9 @@ class Pylon:
     def make_pydcs_assignment(self, weapon: Weapon) -> PydcsWeaponAssignment:
         return self.number, weapon.pydcs_data
 
-    def available_on(self, date: datetime.date) -> Iterator[Weapon]:
+    def available_on(self, date: datetime.date, faction: Faction) -> Iterator[Weapon]:
         for weapon in self.allowed:
-            if weapon.available_on(date):
+            if weapon.available_on(date, faction):
                 yield weapon
 
     @classmethod
