@@ -17,6 +17,7 @@ from ..persistency import prefer_liberation_payloads
 
 if TYPE_CHECKING:
     from .flight import Flight
+    from game.theater import MissionTarget
 
 
 class Loadout:
@@ -265,14 +266,14 @@ class Loadout:
         yield from loadout_names[task]
 
     @classmethod
-    def default_for(cls, flight: Flight) -> Loadout:
+    def default_for(cls, flight: Flight, target: MissionTarget) -> Loadout:
         return cls.default_for_task_and_aircraft(
-            flight.flight_type, flight.unit_type.dcs_unit_type
+            flight.flight_type, flight.unit_type.dcs_unit_type, target
         )
 
     @classmethod
     def default_for_task_and_aircraft(
-        cls, task: FlightType, dcs_unit_type: Type[FlyingType]
+        cls, task: FlightType, dcs_unit_type: Type[FlyingType], target: MissionTarget
     ) -> Loadout:
         # Iterate through each possible payload type for a given aircraft.
         # Some aircraft have custom loadouts that in aren't the standard set.
@@ -281,6 +282,7 @@ class Loadout:
             # work.
             dcs_unit_type.load_payloads()
             payload = dcs_unit_type.loadout_by_name(name)
+            payload = cls.adjust_payload_for_target(payload, target)
             if payload is not None:
                 pylons = {i: {"CLSID": d["clsid"]} for i, d in payload}
                 if not cls.valid_payload(pylons):
@@ -292,6 +294,7 @@ class Loadout:
                     name,
                     {i: Weapon.with_clsid(d["clsid"]) for i, d in payload},
                     date=None,
+                    pylon_settings={i: d.get("settings", {}) for i, d in payload},
                 )
 
         # TODO: Try group.load_task_default_loadout(loadout_for_task)
@@ -300,3 +303,10 @@ class Loadout:
     @classmethod
     def empty_loadout(cls) -> Loadout:
         return Loadout("Empty", {}, date=None)
+
+    @classmethod
+    def adjust_payload_for_target(
+        cls, payload: Loadout, target: MissionTarget
+    ) -> Loadout:
+        # TODO: Adjust the payload based on the target
+        return payload
