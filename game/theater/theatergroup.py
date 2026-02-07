@@ -45,6 +45,8 @@ class TheaterUnit:
     fixed_hdg: bool = False
     # State of the unit, dead or alive
     alive: bool = True
+    # Turns remaining until the unit is repaired and revived.
+    repair_turns_remaining: Optional[int] = None
 
     @staticmethod
     def from_template(

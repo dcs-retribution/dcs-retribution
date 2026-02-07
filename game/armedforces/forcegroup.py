@@ -220,6 +220,17 @@ class ForceGroup:
     ) -> TheaterGroundObject:
         """Create a TheaterGroundObject for the given template"""
         go = layout.create_ground_object(name, location, control_point, task)
+        required_classes = set()
+        for unit_group in layout.all_unit_groups:
+            if unit_group.optional:
+                continue
+            required_classes.update(unit_group.unit_classes)
+            for unit_type in unit_group.unit_types:
+                if issubclass(unit_type, VehicleType):
+                    required_classes.add(
+                        next(GroundUnitType.for_dcs_type(unit_type)).unit_class
+                    )
+        go.required_unit_classes = required_classes
         # Generate all groups using the randomization if it defined
         for tgo_group in layout.groups:
             for unit_group in tgo_group.unit_groups:

@@ -637,6 +637,28 @@ class Settings:
         HQ_AUTOMATION_SECTION,
         default=False,
     )
+    automate_ground_object_repairs: bool = boolean_option(
+        "Automate ground object repairs",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        HQ_AUTOMATION_SECTION,
+        default=False,
+        detail=(
+            "If enabled, AI can spend budget to repair destroyed ground object units "
+            "such as SAMs and EWRs."
+        ),
+    )
+    ground_object_repair_turns: int = bounded_int_option(
+        "Ground object repair turns",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        HQ_AUTOMATION_SECTION,
+        min=0,
+        max=10,
+        default=2,
+        detail=(
+            "Turns required for repaired ground object units to return to service. "
+            "Set to 0 for instant repairs."
+        ),
+    )
     automate_aircraft_reinforcements: bool = boolean_option(
         "Automate aircraft purchases",
         CAMPAIGN_MANAGEMENT_PAGE,

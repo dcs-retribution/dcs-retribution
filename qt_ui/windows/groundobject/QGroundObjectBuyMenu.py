@@ -212,10 +212,18 @@ class QGroundObjectTemplateLayout(QGroupBox):
 
     def group_template_changed(self) -> None:
         price = self.layout_model.price
-        self.buy_button.setText(f"Buy [${price}M][-${self.current_group_value}M]")
+        if self.current_group_value:
+            self.buy_button.setText(
+                f"Buy [${price}M] (Refund ${self.current_group_value}M)"
+            )
+        else:
+            self.buy_button.setText(f"Buy [${price}M]")
         self.buy_button.setEnabled(self.affordable)
         if self.buy_button.isEnabled():
-            self.buy_button.setToolTip(f"Buy the group for ${self.cost}M")
+            if self.cost >= 0:
+                self.buy_button.setToolTip(f"Net cost ${self.cost}M")
+            else:
+                self.buy_button.setToolTip(f"Net refund ${abs(self.cost)}M")
         else:
             self.buy_button.setToolTip("Not enough money to buy this group")
 
@@ -233,6 +241,7 @@ class QGroundObjectTemplateLayout(QGroupBox):
         coalition = self.ground_object.coalition
         coalition.budget -= self.cost if self.game.turn else 0
         self.ground_object.groups = []
+        repair_turns = self.game.settings.ground_object_repair_turns
         for group_name, groups in self.layout_model.groups.items():
             for group in groups:
                 if group.enabled:
@@ -244,6 +253,13 @@ class QGroundObjectTemplateLayout(QGroupBox):
                         group.dcs_unit_type,  # Forced Type
                         group.amount,  # Forced Amount
                     )
+        if self.game.turn and repair_turns > 0:
+            # Player purchases should respect repair delays like AI repairs.
+            for unit in self.ground_object.units:
+                if not unit.repairable:
+                    continue
+                unit.alive = False
+                unit.repair_turns_remaining = repair_turns
         self.close_dialog_signal.emit()
 
 
