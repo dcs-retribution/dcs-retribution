@@ -1066,7 +1066,11 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
                     unit.repair_turns_remaining = None
                     unit.revive(events)
                     for entry in list(destroyed_units):
-                        p = Point(entry["x"], entry["z"], game.theater.terrain)
+                        p = Point(
+                            float(entry["x"]),
+                            float(entry["z"]),
+                            game.theater.terrain,
+                        )
                         if p.distance_to_point(unit.position) < 15:
                             destroyed_units.remove(entry)
                 else:

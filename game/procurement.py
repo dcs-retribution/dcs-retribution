@@ -37,13 +37,6 @@ class AircraftProcurementRequest:
 
 
 class ProcurementAi:
-    SAM_REPAIR_BUDGET_FRACTION = 0.4
-    SAM_REPAIR_PRIORITY_THRESHOLD = 1.5
-    SAM_REPAIR_WEIGHT_THREAT = 0.5
-    SAM_REPAIR_WEIGHT_FRONTLINE = 1.5
-    SAM_REPAIR_WEIGHT_CP_COVERAGE = 0.6
-    SAM_REPAIR_WEIGHT_TGO_COVERAGE = 0.4
-    SAM_REPAIR_WEIGHT_TGO_INCOME = 0.4
     def __init__(
         self,
         game: Game,
@@ -131,7 +124,7 @@ class ProcurementAi:
         if repair_turns < 0:
             return budget
 
-        repair_budget = budget * self.SAM_REPAIR_BUDGET_FRACTION
+        repair_budget = budget * self.game.settings.sam_repair_budget_fraction
         if repair_budget <= 0:
             return budget
 
@@ -143,7 +136,7 @@ class ProcurementAi:
                 if not isinstance(ground_object, SamGroundObject):
                     continue
                 priority = self.ground_object_repair_priority(ground_object)
-                if priority < self.SAM_REPAIR_PRIORITY_THRESHOLD:
+                if priority < self.game.settings.sam_repair_priority_threshold:
                     continue
                 critical_types = self.critical_unit_types_for_sam(ground_object)
                 critical_dead_ids = {
@@ -164,13 +157,11 @@ class ProcurementAi:
                         continue
                     if unit.unit_type.price <= 0:
                         continue
-                    repair_candidates.append(
-                        (priority, unit.unit_type.price, unit)
-                    )
+                    repair_candidates.append((priority, unit.unit_type.price, unit))
 
         repair_candidates.sort(key=lambda entry: (-entry[0], entry[1]))
 
-        repaired_objects: set[object] = set()
+        repaired_objects: set[TheaterGroundObject] = set()
         destroyed_units = self.game.get_destroyed_units()
         for _, price, unit in repair_candidates:
             if repair_budget < price:
@@ -181,7 +172,11 @@ class ProcurementAi:
                 unit.repair_turns_remaining = None
                 unit.revive(GameUpdateEvents())
                 for entry in list(destroyed_units):
-                    p = Point(entry["x"], entry["z"], self.game.theater.terrain)
+                    p = Point(
+                        float(entry["x"]),
+                        float(entry["z"]),
+                        self.game.theater.terrain,
+                    )
                     if p.distance_to_point(unit.position) < 15:
                         destroyed_units.remove(entry)
             else:
@@ -191,15 +186,15 @@ class ProcurementAi:
 
         for ground_object in repaired_objects:
             if self.is_player.is_blue:
-                self.game.message(
-                    f"We have begun repairs at {ground_object.obj_name}"
-                )
+                self.game.message(f"We have begun repairs at {ground_object.obj_name}")
             else:
                 self.game.message(
                     f"OPFOR has begun repairs at {ground_object.obj_name}"
                 )
 
-        return budget - (budget * self.SAM_REPAIR_BUDGET_FRACTION - repair_budget)
+        return budget - (
+            budget * self.game.settings.sam_repair_budget_fraction - repair_budget
+        )
 
     def ground_object_repair_priority(
         self, ground_object: TheaterGroundObject
@@ -219,12 +214,13 @@ class ProcurementAi:
         tgo_score = min(tgo_count / 6.0, 2.0)
         income_score = min(tgo_income / 20.0, 2.0)
 
+        settings = self.game.settings
         return (
-            range_score * self.SAM_REPAIR_WEIGHT_THREAT
-            + frontline_score * self.SAM_REPAIR_WEIGHT_FRONTLINE
-            + cp_score * self.SAM_REPAIR_WEIGHT_CP_COVERAGE
-            + tgo_score * self.SAM_REPAIR_WEIGHT_TGO_COVERAGE
-            + income_score * self.SAM_REPAIR_WEIGHT_TGO_INCOME
+            range_score * settings.sam_repair_weight_threat
+            + frontline_score * settings.sam_repair_weight_frontline
+            + cp_score * settings.sam_repair_weight_cp_coverage
+            + tgo_score * settings.sam_repair_weight_tgo_coverage
+            + income_score * settings.sam_repair_weight_tgo_income
         )
 
     @staticmethod
@@ -232,7 +228,9 @@ class ProcurementAi:
         ground_object: SamGroundObject,
     ) -> set[type]:
         types_in_site = {unit.type for unit in ground_object.units if unit.unit_type}
-        required_classes = getattr(ground_object, "required_unit_classes", set())
+        required_classes: set[UnitClass] = getattr(
+            ground_object, "required_unit_classes", set()
+        )
         fallback_required_classes = {
             UnitClass.SEARCH_RADAR,
             UnitClass.SEARCH_TRACK_RADAR,
@@ -259,7 +257,10 @@ class ProcurementAi:
                             critical.add(tracker)
         else:
             for unit in ground_object.units:
-                if unit.unit_type and unit.unit_type.unit_class in fallback_required_classes:
+                if (
+                    unit.unit_type
+                    and unit.unit_type.unit_class in fallback_required_classes
+                ):
                     critical.add(unit.type)
             critical.update(t for t in types_in_site if t in TRACK_RADARS)
             critical.update(t for t in types_in_site if t in TELARS)
@@ -331,8 +332,7 @@ class ProcurementAi:
     @staticmethod
     def potential_detection_range(ground_object: TheaterGroundObject) -> float:
         ranges = [
-            getattr(unit.type, "detection_range", 0)
-            for unit in ground_object.units
+            getattr(unit.type, "detection_range", 0) for unit in ground_object.units
         ]
         return float(max(ranges, default=0))
 

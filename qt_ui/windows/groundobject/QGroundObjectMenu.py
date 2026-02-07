@@ -137,8 +137,7 @@ class QGroundObjectMenu(QDialog):
                 if not unit.alive and unit.repairable:
                     if unit.repair_turns_remaining is not None:
                         repair_label = QLabel(
-                            "Repairing ("
-                            f"{unit.repair_turns_remaining} turns)"
+                            "Repairing (" f"{unit.repair_turns_remaining} turns)"
                         )
                         self.intelLayout.addWidget(repair_label, i, 1)
                     elif self.cp.captured.is_blue:
