@@ -202,6 +202,7 @@ class WeaponsF4EExpanded:
         "weight": 267,
     }
 
+
 inject_weapons(WeaponsF4EExpanded)
 
 

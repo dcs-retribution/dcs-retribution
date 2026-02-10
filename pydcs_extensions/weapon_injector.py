@@ -1,10 +1,6 @@
-from typing import Any, Dict
+from typing import Any
 
 from dcs.weapons_data import Weapons, weapon_ids
-
-
-def WeaponDef(*, clsid: str, name: str, weight: float) -> Dict[str, Any]:
-    return {"clsid": clsid, "name": name, "weight": weight}
 
 
 def inject_weapons(weapon_class: Any) -> None:
