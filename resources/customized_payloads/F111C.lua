@@ -88,7 +88,7 @@ local unitPayloads = {
 					["num"] = 11,
 				},
 				[3] = {
-					["CLSID"] = "DIS_AKG_DLPOD",
+					["CLSID"] = "{F111C_AN_AXQ_14}",
 					["num"] = 10,
 				},
 				[4] = {
