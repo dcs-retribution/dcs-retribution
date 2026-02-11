@@ -1,7 +1,8 @@
-from typing import Set
+from typing import Dict, List, Set, Any
 
 from dcs import task
 from dcs.helicopters import HelicopterType
+from dcs.unitpropertydescription import UnitPropertyDescription
 
 from game.modsupport import helicoptermod
 from pydcs_extensions.weapon_injector import inject_weapons
