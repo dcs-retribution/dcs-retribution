@@ -233,7 +233,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("F-4B/C Phantom II (2.8.7.204)", self.f4bc_phantom),
             ("F-4E Expanded Weapons (v1.0.11)", self.f4e_expanded_weapons),
             ("F-84G Thunderjet (v2.5.7.01)", self.f84g_thunderjet),
-            ("F-111C Aardvark (Warpig Production v2.260103)", self.f111c),
+            ("F-111C Aardvark (Warpig Production v2.260208)", self.f111c),
             ("F9F Panther (v2.8.7.101)", self.f9f_panther),
             ("F/A-18E/F/G Super Hornet (version 2.4.5)", self.fa_18efg),
             ("F/A-18E/F Super Hornet AI Tanker (version 2.4.5)", self.fa18ef_tanker),
