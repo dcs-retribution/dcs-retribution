@@ -24,12 +24,15 @@ description:
   control of critical regions. The ultimate objective for NATO and its 
   allies becomes clear. They must push eastward to the Kola Peninsula 
   to neutralise the Soviet threat and restore stability to Northern Europe.</p>
+  <p><strong>Note:</strong> This campaign is intended to be played with the 
+  F-111C mod active.</p>
 miz: exercise_able_archer.miz
 performance: 1
 recommended_start_date: 1983-11-09
 version: "10.8"
 settings:
   hercules: true
+  f111c: true
   squadron_start_full: true
 squadrons:
   #Bodo
@@ -126,6 +129,12 @@ squadrons:
         - C-130J-30 Super Hercules
         - C-130J-30
       size: 1
+    - primary: OCA/Runway
+      secondary: any
+      aircraft:
+        - F-111C Aardvark
+        - F-4E-45MC Phantom II
+      size: 8
     - primary: BARCAP
       secondary: any
       aircraft:
@@ -142,6 +151,11 @@ squadrons:
       aircraft:
         - E-2C Hawkeye
       size: 2
+    - primary: OCA/Aircraft
+      secondary: air-to-ground
+      aircraft:
+        - A-6E Intruder
+      size: 12
     - primary: BAI
       secondary: air-to-ground
       aircraft:
