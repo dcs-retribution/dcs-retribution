@@ -108,6 +108,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("uh_60l", self.uh_60l)
         self.f4bc_phantom = QtWidgets.QCheckBox()
         self.registerField("f4bc_phantom", self.f4bc_phantom)
+        self.f4e_expanded_weapons = QtWidgets.QCheckBox()
+        self.registerField("f4e_expanded_weapons", self.f4e_expanded_weapons)
         self.f9f_panther = QtWidgets.QCheckBox()
         self.registerField("f9f_panther", self.f9f_panther)
         self.f15d_baz = QtWidgets.QCheckBox()
@@ -229,8 +231,9 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("F-22A Raptor (v2.0.0 released May 2025)", self.f22_raptor),
             ("F-35A/B/C Lightning II (v2.9.2.103 FC3 EFM)", self.vsnf35),
             ("F-4B/C Phantom II (2.8.7.204)", self.f4bc_phantom),
+            ("F-4E Expanded Weapons (v1.0.11)", self.f4e_expanded_weapons),
             ("F-84G Thunderjet (v2.5.7.01)", self.f84g_thunderjet),
-            ("F-111C Aardvark (Warpig Production v2.260103)", self.f111c),
+            ("F-111C Aardvark (Warpig Production v2.260208)", self.f111c),
             ("F9F Panther (v2.8.7.101)", self.f9f_panther),
             ("F/A-18E/F/G Super Hornet (version 2.4.5)", self.fa_18efg),
             ("F/A-18E/F Super Hornet AI Tanker (version 2.4.5)", self.fa18ef_tanker),
@@ -299,6 +302,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.hercules.setChecked(s.get("hercules", False))
         self.uh_60l.setChecked(s.get("uh_60l", False))
         self.f4bc_phantom.setChecked(s.get("f4bc_phantom", False))
+        self.f4e_expanded_weapons.setChecked(s.get("f4e_expanded_weapons", False))
         self.f15d_baz.setChecked(s.get("f15d_baz", False))
         self.f_15_idf.setChecked(s.get("f_15_idf", False))
         self.f_16_idf.setChecked(s.get("f_16_idf", False))
@@ -338,3 +342,4 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.tornado_adv.setChecked(s.get("tornado_adv", False))
         self.vsnf35.setChecked(s.get("vsnf35", False))
         self.f111c.setChecked(s.get("f111c", False))
+        self.mam.setChecked(s.get("mam", False))

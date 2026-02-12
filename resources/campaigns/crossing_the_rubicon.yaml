@@ -14,12 +14,14 @@ description:
   NATO forces, stretched thin and caught in partial readiness, are thrown into a desperate defence. From bases 
   across West Germany, multi-national air assets scramble to blunt the assault. In the skies over Central Europe, 
   control is fleeting, and the cost of failure is all too high.</p>
+  <p><strong>Note:</strong> This campaign is intended to be played with the F-111C mod active.</p>
 miz: crossing_the_rubicon.miz
 performance: 2
 recommended_start_date: 1988-07-13
 version: "10.8"
 settings:
   hercules: true
+  f111c: true
   squadron_start_full: true
 squadrons:
   #Ramstein
@@ -83,6 +85,12 @@ squadrons:
       aircraft:
         - Tornado IDS
       size: 8
+    - primary: OCA/Runway
+      secondary: any
+      aircraft:
+        - F-111C Aardvark
+        - F-4E-45MC Phantom II
+      size: 8
   #Frankfurt
   163:
     - primary: Refueling
@@ -144,6 +152,11 @@ squadrons:
       secondary: any
       aircraft:
         - F/A-18C Hornet (Lot 20)
+      size: 8
+    - primary: OCA/Aircraft
+      secondary: air-to-ground
+      aircraft:
+        - A-6E Intruder
       size: 8
     - primary: Armed Recon
       secondary: air-to-ground

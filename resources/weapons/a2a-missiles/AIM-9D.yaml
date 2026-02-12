@@ -1,0 +1,5 @@
+name: AIM-9D
+year: 1965
+fallback: AIM-9B
+clsids:
+  - "{AIM-9D}"

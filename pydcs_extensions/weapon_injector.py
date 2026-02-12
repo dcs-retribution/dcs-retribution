@@ -1,4 +1,4 @@
-from typing import List, Any
+from typing import Any
 
 from dcs.weapons_data import Weapons, weapon_ids
 
