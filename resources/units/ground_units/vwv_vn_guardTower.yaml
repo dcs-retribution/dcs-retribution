@@ -1,0 +1,4 @@
+class: Infantry
+price: 5
+variants:
+  "[VWV] VC Guard Tower (armed)": {}
