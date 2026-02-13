@@ -3,7 +3,7 @@ name: Marianas - Operation Velvet Thunder
 theater: MarianaIslands
 authors: Starfire
 recommended_player_faction: USA 1970
-recommended_enemy_faction: NVA 1970
+recommended_enemy_faction: Vietnam 1965
 description:
   <p>Operation Velvet Thunder is a high-intensity training exercise designed to 
   prepare fresh troops for the challenges they will face in Vietnam. The dense 
@@ -131,4 +131,5 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - MiG-19P Farmer-B
+
       size: 8
