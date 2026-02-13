@@ -40,7 +40,7 @@
     "VAP VC ZiS-150 AA Type 96"
   ],
   "requirements": {
-    "OH-6 Vietnam Asset Pack": "https://github.com/tobi-be/DCS-OH-6A"
+    "Vietnam War Vessels (includes VAP assets)": "https://github.com/tspindler-cms/tetet-vwv/releases"
   },
   "doctrine": "coldwar"
 }
