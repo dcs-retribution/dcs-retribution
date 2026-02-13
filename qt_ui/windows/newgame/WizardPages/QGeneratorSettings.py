@@ -256,7 +256,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("Super Étendard (v2.5.5)", self.super_etendard),
             ("Tornado F3 ADV (1.0)", self.tornado_adv),
             ("UH-60L Black Hawk (v1.3.1)", self.uh_60l),
-            ("Vietnam War Vessels (v2.3.0 by TeTeT)", self.vietnamwarvessels),
+            ("Vietnam War Vessels (v3.0.0 by TeTeT)", self.vietnamwarvessels),
         ]
 
         for i in range(len(mod_pairs)):

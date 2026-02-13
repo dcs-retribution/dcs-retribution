@@ -1,5 +1,5 @@
-class: Recon
+class: Infantry
 price: 2
 role: Recon
 variants:
-  VAP VC Bicycle AK: {}
+  VAP VC Bicycle AK: null

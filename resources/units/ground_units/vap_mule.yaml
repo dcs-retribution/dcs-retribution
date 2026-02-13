@@ -1,5 +1,5 @@
 class: Logistics
 price: 3
 variants:
-  VAP US Mule: {}
-  M274 1/2-ton 4x4 utility truck: {}
+  VAP US Mule: null
+  M274 1/2-ton 4x4 utility truck: null

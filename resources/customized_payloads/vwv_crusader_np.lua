@@ -27,16 +27,6 @@ local unitPayloads = {
 				{
 					["CLSID"]="{AIM-9D}",
 					["num"]=4
-				},
-				[5]=
-				{
-					["CLSID"]="{DFT-300gal_LR}",
-					["num"]=1
-				},
-				[6]=
-				{
-					["CLSID"]="{DFT-300gal_LR}",
-					["num"]=6
 				}
 			},
 			["tasks"]=
@@ -73,12 +63,12 @@ local unitPayloads = {
 				[5]=
 				{
 					["CLSID"]="{Mk-82_IMER_4_L}",
-					["num"]=1
+					["num"]=2
 				},
 				[6]=
 				{
 					["CLSID"]="{Mk-82_IMER_4_R}",
-					["num"]=6
+					["num"]=5
 				}
 			},
 			["tasks"]=
@@ -115,12 +105,12 @@ local unitPayloads = {
 				[5]=
 				{
 					["CLSID"]="LAU3_HE5",
-					["num"]=1
+					["num"]=2
 				},
 				[6]=
 				{
 					["CLSID"]="LAU3_HE5",
-					["num"]=6
+					["num"]=5
 				}
 			},
 			["tasks"]=

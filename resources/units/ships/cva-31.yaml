@@ -1,4 +1,4 @@
 class: AircraftCarrier #This is redundant and has been replaced by [VWV] CVA-31 Bon Homme Richard in vietnamwarvessels mod
-price: 0
+price: 300
 variants:
   CVA-31 Bon Homme Richard: null

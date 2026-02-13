@@ -1,6 +1,6 @@
-class: ATGM
+class: Logistics
 price: 10
 role: Self-Propelled Recoilless Rifle
 variants:
-  VAP US MUTT Gun: {}
-  M151A1C MUTT w/ 106mm Recoilless Rifle: {}
+  VAP US MUTT Gun: null
+  M151A1C MUTT w/ 106mm Recoilless Rifle: null

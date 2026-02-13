@@ -16,7 +16,7 @@
   "tankers": [],
   "frontline_units": [
     "PT-76",
-    "VAP VC Zil 130 Armed",
+    "VAP VC Zil 130",
     "VAP VC Bicycle AK",
     "VAP VC MG Nest",
     "VAP VC Bunker"
@@ -41,7 +41,7 @@
     "Boat Schnellboot type S130"
   ],
   "air_defense_units": [
-    "VAP VC Zis 150 AAA",
+    "VAP VC ZiS-150 AA Type 96",
     "S-60 57mm",
     "ZSU-57-2 'Sparka'",
     "AAA ZU-23 Emplacement",

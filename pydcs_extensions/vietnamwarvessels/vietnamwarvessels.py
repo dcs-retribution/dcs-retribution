@@ -11,7 +11,7 @@ from dcs.helicopters import HelicopterType
 from dcs.weapons_data import Weapons
 from dcs.unitpropertydescription import UnitPropertyDescription
 
-from game.modsupport import shipmod, planemod, helicoptermod
+from game.modsupport import shipmod, planemod, helicoptermod, vehiclemod
 from pydcs_extensions.weapon_injector import inject_weapons
 
 
@@ -145,17 +145,16 @@ inject_weapons(WeaponsVWV)
 @planemod
 class vwv_a1_skyraider(PlaneType):
     id = "vwv_a1_skyraider"
-    height = 5.28
+    height = 4.77
     width = 15.24
-    length = 15.96
+    length = 11.84
     fuel_max = 1036
-    max_speed = 594
-    chaff = 240
-    flare = 240
-    charge_total = 480
-    chaff_charge_size = 1
-    flare_charge_size = 1
-    radio_frequency = 127.5
+    max_speed = 522
+    chaff = 0
+    flare = 0
+    charge_total = 0
+    chaff_charge_size = 0
+    flare_charge_size = 0
 
     livery_name = "VWV_A1_SKYRAIDER"  # from type
 
@@ -350,6 +349,10 @@ class vwv_a1_skyraider(PlaneType):
         LTF_5b_Aerial_Torpedo = (7, Weapons.LTF_5b_Aerial_Torpedo)
         DIS_mk46torp = (7, Weapons.DIS_mk46torp)
         toilet_bomb = (7, WeaponsVWV.toilet_bomb)
+        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
+            7,
+            Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+        )
 
     class Pylon8:
         AN_M30A1___100lb_GP_Bomb_LD = (8, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -405,6 +408,10 @@ class vwv_a1_skyraider(PlaneType):
         LTF_5b_Aerial_Torpedo = (9, Weapons.LTF_5b_Aerial_Torpedo)
         DIS_mk46torp = (9, Weapons.DIS_mk46torp)
         toilet_bomb = (9, WeaponsVWV.toilet_bomb)
+        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
+            9,
+            Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+        )
 
     class Pylon10:
         AN_M30A1___100lb_GP_Bomb_LD = (10, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -577,17 +584,16 @@ class vwv_a1_skyraider(PlaneType):
 @planemod
 class vwv_ad4_skyraider(PlaneType):
     id = "vwv_ad4_skyraider"
-    height = 5.28
+    height = 4.77
     width = 15.24
-    length = 15.96
+    length = 11.84
     fuel_max = 1036
-    max_speed = 594
-    chaff = 240
-    flare = 240
-    charge_total = 480
-    chaff_charge_size = 1
-    flare_charge_size = 1
-    radio_frequency = 127.5
+    max_speed = 522
+    chaff = 0
+    flare = 0
+    charge_total = 0
+    chaff_charge_size = 0
+    flare_charge_size = 0
 
     livery_name = "VWV_AD4_SKYRAIDER"  # from type
 
@@ -782,6 +788,10 @@ class vwv_ad4_skyraider(PlaneType):
         LTF_5b_Aerial_Torpedo = (7, Weapons.LTF_5b_Aerial_Torpedo)
         DIS_mk46torp = (7, Weapons.DIS_mk46torp)
         toilet_bomb = (7, WeaponsVWV.toilet_bomb)
+        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
+            7,
+            Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+        )
 
     class Pylon8:
         AN_M30A1___100lb_GP_Bomb_LD = (8, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -837,6 +847,10 @@ class vwv_ad4_skyraider(PlaneType):
         LTF_5b_Aerial_Torpedo = (9, Weapons.LTF_5b_Aerial_Torpedo)
         DIS_mk46torp = (9, Weapons.DIS_mk46torp)
         toilet_bomb = (9, WeaponsVWV.toilet_bomb)
+        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
+            9,
+            Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+        )
 
     class Pylon10:
         AN_M30A1___100lb_GP_Bomb_LD = (10, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -1019,19 +1033,16 @@ class vwv_ra_5(PlaneType):
 
     pylons: Set[int] = set()
 
-    tasks = [
-        task.Intercept,
-        task.Reconnaissance,
-        task.GroundAttack,
-        task.CAS,
-    ]
+    category = "Reconnaissance"
+
+    tasks = [task.Reconnaissance, task.AFAC, task.CAS]
     task_default = task.Reconnaissance
 
 
 @planemod
 class vwv_crusader(PlaneType):
     id = "vwv_crusader"
-    # flyable = True    # not available in current mod version
+    flyable = True
     height = 4.8
     width = 10.72
     length = 16.61
@@ -1087,13 +1098,8 @@ class vwv_crusader(PlaneType):
 
     class Pylon2:
         AIM_9B_Sidewinder_IR_AAM = (2, Weapons.AIM_9B_Sidewinder_IR_AAM)
-        AIM_9C_Sidewinder_SARH_AAM = (2, WeaponsVWV.AIM_9C_Sidewinder_SARH_AAM)
-        AIM_9D_Sidewinder_IR_AAM = (2, WeaponsVWV.AIM_9D_Sidewinder_IR_AAM)
         AIM_9J_Sidewinder_IR_AAM = (2, Weapons.AIM_9J_Sidewinder_IR_AAM)
-        LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE = (
-            2,
-            Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE,
-        )
+        R550_Magic_1_IR_AAM = (2, Weapons.R550_Magic_1_IR_AAM)
 
     class Pylon3:
         AIM_9B_Sidewinder_IR_AAM = (3, Weapons.AIM_9B_Sidewinder_IR_AAM)
@@ -1184,14 +1190,9 @@ class vwv_mig17f(PlaneType):
     # flyable = True    # not available in current mod version
     height = 3.8
     width = 9.628
-    length = 11.09
-    fuel_max = 1140
-    max_speed = 1224
-    chaff = 48
-    flare = 48
-    charge_total = 96
-    chaff_charge_size = 1
-    flare_charge_size = 1
+    length = 11.264
+    fuel_max = 1170
+    max_speed = 1144.8
     category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 127.5
 
@@ -1249,16 +1250,11 @@ class vwv_mig17f(PlaneType):
 @planemod
 class vwv_mig21mf(PlaneType):
     id = "vwv_mig21mf"
-    height = 4.16
+    height = 4.1
     width = 7.15
     length = 14.5
-    fuel_max = 2600
-    max_speed = 2448
-    chaff = 0
-    flare = 0
-    charge_total = 0
-    chaff_charge_size = 0
-    flare_charge_size = 0
+    fuel_max = 2650
+    max_speed = 2232
     category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 127.5
 
@@ -1400,196 +1396,63 @@ class vwv_mig21mf(PlaneType):
 @planemod
 class vwv_o_1(PlaneType):
     id = "vwv_o-1"
-    height = 2.24
+    height = 2.22
     width = 10.97
-    length = 7.87
-    fuel_max = 160
-    max_speed = 648
-    radio_frequency = 127.5
+    length = 7.85
+    fuel_max = 115
+    max_speed = 158.4
+    radio_frequency = 225
 
     livery_name = "VWV_O-1"  # from type
 
     class Pylon1:
         _3_x_4_5_inch_M8_UnGd_Rocket = (1, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
-            1,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
-        )
-        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM = (
-            1,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM,
-        )
-        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE = (
-            1,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE,
-        )
-        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT = (
-            1,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT,
-        )
-        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Red = (
-            1,
-            Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Red,
-        )
-        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Yellow = (
-            1,
-            Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Yellow,
-        )
-        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Green = (
-            1,
-            Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Green,
-        )
-        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_256_H1_HE_Frag = (
-            1,
-            Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_256_H1_HE_Frag,
-        )
+        SUU_25_x_8_LUU_2___Target_Marker_Flares = (1, Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM = (1, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE = (1, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT = (1, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT)
+        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Red = (1, Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Red)
+        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Yellow = (1, Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Yellow)
+        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Green = (1, Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Green)
+        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_256_H1_HE_Frag = (1, Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_256_H1_HE_Frag)
 
     class Pylon2:
         _3_x_4_5_inch_M8_UnGd_Rocket = (2, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
-            2,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
-        )
-        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM = (
-            2,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM,
-        )
-        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE = (
-            2,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE,
-        )
-        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT = (
-            2,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT,
-        )
-        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Red = (
-            2,
-            Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Red,
-        )
-        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Yellow = (
-            2,
-            Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Yellow,
-        )
-        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Green = (
-            2,
-            Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Green,
-        )
-        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_256_H1_HE_Frag = (
-            2,
-            Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_256_H1_HE_Frag,
-        )
+        SUU_25_x_8_LUU_2___Target_Marker_Flares = (2, Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM = (2, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE = (2, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT = (2, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT)
+        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Red = (2, Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Red)
+        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Yellow = (2, Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Yellow)
+        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Green = (2, Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Green)
+        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_256_H1_HE_Frag = (2, Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_256_H1_HE_Frag)
 
     class Pylon3:
         _3_x_4_5_inch_M8_UnGd_Rocket = (3, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
-            3,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
-        )
-        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM = (
-            3,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM,
-        )
-        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE = (
-            3,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE,
-        )
-        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT = (
-            3,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT,
-        )
-        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Red = (
-            3,
-            Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Red,
-        )
-        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Yellow = (
-            3,
-            Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Yellow,
-        )
-        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Green = (
-            3,
-            Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Green,
-        )
-        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_256_H1_HE_Frag = (
-            3,
-            Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_256_H1_HE_Frag,
-        )
+        SUU_25_x_8_LUU_2___Target_Marker_Flares = (3, Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM = (3, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE = (3, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT = (3, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT)
+        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Red = (3, Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Red)
+        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Yellow = (3, Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Yellow)
+        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Green = (3, Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Green)
+        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_256_H1_HE_Frag = (3, Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_256_H1_HE_Frag)
 
     class Pylon4:
         _3_x_4_5_inch_M8_UnGd_Rocket = (4, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
-            4,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
-        )
-        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM = (
-            4,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM,
-        )
-        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE = (
-            4,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE,
-        )
-        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT = (
-            4,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT,
-        )
-        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Red = (
-            4,
-            Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Red,
-        )
-        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Yellow = (
-            4,
-            Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Yellow,
-        )
-        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Green = (
-            4,
-            Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Green,
-        )
-        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_256_H1_HE_Frag = (
-            4,
-            Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_256_H1_HE_Frag,
-        )
+        SUU_25_x_8_LUU_2___Target_Marker_Flares = (4, Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM = (4, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE = (4, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT = (4, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT)
+        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Red = (4, Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Red)
+        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Yellow = (4, Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Yellow)
+        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Green = (4, Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_254_H1_SM_Green)
+        Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_256_H1_HE_Frag = (4, Weapons.Telson_8___8_x_UnGd_Rkts__68_mm_SNEB_Type_256_H1_HE_Frag)
 
-    class Pylon5:
-        FAB_50 = (5, Weapons.FAB_50)
-        OFAB_250_270___250_kg_GP_Bomb_LD = (5, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
-        B_8V20A_CM = (5, Weapons.B_8V20A_CM)
-        B_8V20A_OM = (5, Weapons.B_8V20A_OM)
-        B_8M1___20_S_8OFP2 = (5, Weapons.B_8M1___20_S_8OFP2)
-        # ERRR B-8V20A - 20 S-8OFP2
-        FAB_100M = (5, Weapons.FAB_100M)
-        UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod = (
-            5,
-            Weapons.UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod,
-        )
-        Fuel_Tank_490_L_Central__21_ = (5, Weapons.Fuel_Tank_490_L_Central__21_)
-        APU_13MT_with_R_13M__AA_2_Atoll_D____IR_AAM = (
-            5,
-            Weapons.APU_13MT_with_R_13M__AA_2_Atoll_D____IR_AAM,
-        )
-        APU_13U_2_with_R_3R__AA_2_Atoll_C____Semi_Active_AAM = (
-            5,
-            Weapons.APU_13U_2_with_R_3R__AA_2_Atoll_C____Semi_Active_AAM,
-        )
-        APU_13U_2_with_R_3S__AA_2_Atoll_B____IR_AAM = (
-            5,
-            Weapons.APU_13U_2_with_R_3S__AA_2_Atoll_B____IR_AAM,
-        )
-        RS2US___AAM__beam_rider = (5, Weapons.RS2US___AAM__beam_rider)
+    pylons: Set[int] = {1, 2, 3, 4}
 
-    class Pylon6:
-        SPRD_99 = (6, Weapons.SPRD_99)
-
-    pylons: Set[int] = {1, 2, 3, 4, 5, 6}
-
-    tasks = [
-        task.CAP,
-        task.CAS,
-        task.Escort,
-        task.FighterSweep,
-        task.GroundAttack,
-        task.Intercept,
-    ]
-    task_default = task.CAS
+    tasks = [task.AFAC, task.CAS, task.Reconnaissance]
+    task_default = task.AFAC
 
 
 ## SHIPS
@@ -1859,84 +1722,111 @@ class P4(unittype.ShipType):
     air_weapon_dist = 1000
 
 
+@shipmod
+class vap_us_seafloat(unittype.ShipType):
+    id = "vap_us_seafloat"
+    name = "VAP US Sea Float Barge"
+    helicopter_num = 4
+    parking = 4
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
 ## HELICOPTERS
 
 
 @helicoptermod
 class vwv_ch46d(HelicopterType):
     id = "vwv_ch46d"
-    height = 4.893
-    width = 16.4
-    length = 18.654
-    fuel_max = 1100
-    max_speed = 295
-    category = "Air"  # {828CEADE-3F1D-40aa-93CE-8CDB73FE2710}
+    height = 5.08
+    width = 15.24
+    length = 13.92
+    fuel_max = 1080
+    max_speed = 267
+    radio_frequency = 225
+
+    property_defaults: Dict[str, Any] = {
+        "FoldRotor": False,
+    }
+
+    class Properties:
+
+        class FoldRotor:
+            id = "FoldRotor"
+
+    properties = {
+        "FoldRotor": UnitPropertyDescription(
+            identifier="FoldRotor",
+            control="checkbox",
+            label="Fold Main Rotor",
+            default=False,
+            weight_when_on=0,
+            w_ctrl=20,
+        ),
+    }
 
     livery_name = "VWV_CH46D"  # from type
 
-    class Pylon1:
-        DIS_mk46torp = (1, Weapons.DIS_mk46torp)
+    pylons: Set[int] = set()
 
-    class Pylon4:
-        DIS_mk46torp = (4, Weapons.DIS_mk46torp)
-
-    # ERRR CABLE_MH6
-    # ERRR suspended_soldier
-
-    pylons: Set[int] = {1, 4, 5}
-
-    tasks = [
-        task.CAP,
-        task.Escort,
-        task.Intercept,
-        task.FighterSweep,
-        task.GroundAttack,
-        task.CAS,
-        task.AFAC,
-        task.RunwayAttack,
-        task.AntishipStrike,
-        task.Transport,
-    ]
-    task_default = task.AntishipStrike
+    tasks = [task.Transport, task.Reconnaissance]
+    task_default = task.Transport
 
 
 @helicoptermod
 class vwv_ch46d_late(HelicopterType):
     id = "vwv_ch46d_late"
-    height = 4.893
-    width = 16.4
-    length = 18.654
-    fuel_max = 1100
-    max_speed = 295
-    category = "Air"  # {828CEADE-3F1D-40aa-93CE-8CDB73FE2710}
-    radio_frequency = 251
+    height = 5.08
+    width = 15.24
+    length = 13.92
+    fuel_max = 1080
+    max_speed = 267
+    chaff = 0
+    flare = 60
+    charge_total = 60
+    chaff_charge_size = 0
+    flare_charge_size = 1
+    radio_frequency = 225
+
+    property_defaults: Dict[str, Any] = {
+        "FoldRotor": False,
+        "RemoveCMDS": False,
+    }
+
+    class Properties:
+
+        class FoldRotor:
+            id = "FoldRotor"
+
+        class RemoveCMDS:
+            id = "RemoveCMDS"
+
+    properties = {
+        "FoldRotor": UnitPropertyDescription(
+            identifier="FoldRotor",
+            control="checkbox",
+            label="Fold Main Rotor",
+            default=False,
+            weight_when_on=0,
+            w_ctrl=20,
+        ),
+        "RemoveCMDS": UnitPropertyDescription(
+            identifier="RemoveCMDS",
+            control="checkbox",
+            label="Remove CM Dispensers",
+            default=False,
+            weight_when_on=-15,
+            w_ctrl=20,
+        ),
+    }
 
     livery_name = "VWV_CH46D_LATE"  # from type
 
-    class Pylon1:
-        Fuel_Tank_150_gallons = (1, WeaponsVWV.Fuel_Tank_150_gallons)
-        _108_US_gal__Paper_Fuel_Tank = (1, Weapons._108_US_gal__Paper_Fuel_Tank)
+    pylons: Set[int] = set()
 
-    class Pylon4:
-        Fuel_Tank_150_gallons = (4, WeaponsVWV.Fuel_Tank_150_gallons)
-        _108_US_gal__Paper_Fuel_Tank = (4, Weapons._108_US_gal__Paper_Fuel_Tank)
-
-    class Pylon5:
-        ab_212_cable = (5, WeaponsVWV.ab_212_cable)
-        rescue_crew_sling = (5, WeaponsVWV.rescue_crew_sling)
-        uscg_stretcher = (5, WeaponsVWV.uscg_stretcher)
-
-    pylons: Set[int] = {1, 4, 5}
-
-    tasks = [
-        task.Escort,
-        task.GroundAttack,
-        task.CAS,
-        task.AFAC,
-        task.AntishipStrike,
-        task.Transport,
-    ]
-    task_default = task.AntishipStrike
+    tasks = [task.Transport, task.Reconnaissance]
+    task_default = task.Transport
 
 
 ## FORTIFICATIONS (Buildings)
@@ -2102,195 +1992,100 @@ class vwv_crusader_np(PlaneType):
     category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
     radio_frequency = 127.5
 
-    livery_name = "VWV_CRUSADER_NP"  # from type
+    category = "Interceptor"  #{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
 
-    class Pylon1:
-        LAU3_HE151 = (1, Weapons.LAU3_HE151)
-        LAU3_HE5 = (1, Weapons.LAU3_HE5)
-        BRU_33_2_x_LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE = (
-            1,
-            Weapons.BRU_33_2_x_LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE,
-        )
-        BRU_33_with_2_x_Mk_82___500lb_GP_Bomb_LD = (
-            1,
-            Weapons.BRU_33_with_2_x_Mk_82___500lb_GP_Bomb_LD,
-        )
-        BRU_33_with_2_x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
-            1,
-            Weapons.BRU_33_with_2_x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
-        )
-        LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE = (
-            1,
-            Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE,
-        )
-        _2_Mk_82_Snakeye____ = (1, Weapons._2_Mk_82_Snakeye____)
-        _2_Mk_82____ = (1, Weapons._2_Mk_82____)
-        BRU_41A_with_4_x_Mk_82___500lb_GP_Bomb_HD_Left = (
-            1,
-            WeaponsVWV.BRU_41A_with_4_x_Mk_82___500lb_GP_Bomb_HD_Left,
-        )
-        BRU_41A_with_4_x_Mk_82_Snakeye___500lb_GP_Bomb_HD_Left = (
-            1,
-            WeaponsVWV.BRU_41A_with_4_x_Mk_82_Snakeye___500lb_GP_Bomb_HD_Left,
-        )
-        M117___750lb_GP_Bomb_LD = (1, Weapons.M117___750lb_GP_Bomb_LD)
-        Mk_84___2000lb_GP_Bomb_LD = (1, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-        Fuel_Tank_300_gallons_ = (1, WeaponsVWV.Fuel_Tank_300_gallons_)
-        Fuel_Tank_300_gallons__EMPTY__ = (1, WeaponsVWV.Fuel_Tank_300_gallons__EMPTY__)
-        Fuel_Tank_150_gallons = (1, WeaponsVWV.Fuel_Tank_150_gallons)
-        Fuel_Tank_150_gallons__EMPTY_ = (1, WeaponsVWV.Fuel_Tank_150_gallons__EMPTY_)
 
-    # ERRR <CLEAN>
 
     class Pylon2:
         AIM_9B_Sidewinder_IR_AAM = (2, Weapons.AIM_9B_Sidewinder_IR_AAM)
-        AIM_9C_Sidewinder_SARH_AAM = (2, WeaponsVWV.AIM_9C_Sidewinder_SARH_AAM)
-        AIM_9D_Sidewinder_IR_AAM = (2, WeaponsVWV.AIM_9D_Sidewinder_IR_AAM)
         AIM_9J_Sidewinder_IR_AAM = (2, Weapons.AIM_9J_Sidewinder_IR_AAM)
-        LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE = (
-            2,
-            Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE,
-        )
+        R550_Magic_1_IR_AAM = (2, Weapons.R550_Magic_1_IR_AAM)
 
     class Pylon3:
         AIM_9B_Sidewinder_IR_AAM = (3, Weapons.AIM_9B_Sidewinder_IR_AAM)
-        AIM_9C_Sidewinder_SARH_AAM = (3, WeaponsVWV.AIM_9C_Sidewinder_SARH_AAM)
-        AIM_9D_Sidewinder_IR_AAM = (3, WeaponsVWV.AIM_9D_Sidewinder_IR_AAM)
         AIM_9J_Sidewinder_IR_AAM = (3, Weapons.AIM_9J_Sidewinder_IR_AAM)
-        LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE = (
-            3,
-            Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE,
-        )
+        R550_Magic_1_IR_AAM = (3, Weapons.R550_Magic_1_IR_AAM)
 
     class Pylon4:
         AIM_9B_Sidewinder_IR_AAM = (4, Weapons.AIM_9B_Sidewinder_IR_AAM)
-        AIM_9C_Sidewinder_SARH_AAM = (4, WeaponsVWV.AIM_9C_Sidewinder_SARH_AAM)
-        AIM_9D_Sidewinder_IR_AAM = (4, WeaponsVWV.AIM_9D_Sidewinder_IR_AAM)
         AIM_9J_Sidewinder_IR_AAM = (4, Weapons.AIM_9J_Sidewinder_IR_AAM)
-        LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE = (
-            4,
-            Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE,
-        )
+        R550_Magic_1_IR_AAM = (4, Weapons.R550_Magic_1_IR_AAM)
 
     class Pylon5:
         AIM_9B_Sidewinder_IR_AAM = (5, Weapons.AIM_9B_Sidewinder_IR_AAM)
-        AIM_9C_Sidewinder_SARH_AAM = (5, WeaponsVWV.AIM_9C_Sidewinder_SARH_AAM)
-        AIM_9D_Sidewinder_IR_AAM = (5, WeaponsVWV.AIM_9D_Sidewinder_IR_AAM)
         AIM_9J_Sidewinder_IR_AAM = (5, Weapons.AIM_9J_Sidewinder_IR_AAM)
-        LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE = (
-            5,
-            Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE,
-        )
+        R550_Magic_1_IR_AAM = (5, Weapons.R550_Magic_1_IR_AAM)
 
-    class Pylon6:
-        LAU3_HE151 = (6, Weapons.LAU3_HE151)
-        LAU3_HE5 = (6, Weapons.LAU3_HE5)
-        BRU_33_2_x_LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE = (
-            6,
-            Weapons.BRU_33_2_x_LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE,
-        )
-        BRU_33_with_2_x_Mk_82___500lb_GP_Bomb_LD = (
-            6,
-            Weapons.BRU_33_with_2_x_Mk_82___500lb_GP_Bomb_LD,
-        )
-        BRU_33_with_2_x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
-            6,
-            Weapons.BRU_33_with_2_x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
-        )
-        LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE = (
-            6,
-            Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE,
-        )
-        _2_Mk_82_Snakeye_____ = (6, Weapons._2_Mk_82_____)
-        _2_Mk_82_____ = (6, Weapons._2_Mk_82_____)
-        BRU_41A_with_4_x_Mk_82___500lb_GP_Bomb_HD_Right = (
-            6,
-            WeaponsVWV.BRU_41A_with_4_x_Mk_82___500lb_GP_Bomb_HD_Right,
-        )
-        BRU_41A_with_4_x_Mk_82_Snakeye___500lb_GP_Bomb_HD_Right = (
-            6,
-            WeaponsVWV.BRU_41A_with_4_x_Mk_82_Snakeye___500lb_GP_Bomb_HD_Right,
-        )
-        M117___750lb_GP_Bomb_LD = (6, Weapons.M117___750lb_GP_Bomb_LD)
-        Mk_84___2000lb_GP_Bomb_LD = (6, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-        Fuel_Tank_300_gallons_ = (6, WeaponsVWV.Fuel_Tank_300_gallons_)
-        Fuel_Tank_300_gallons__EMPTY__ = (6, WeaponsVWV.Fuel_Tank_300_gallons__EMPTY__)
-        Fuel_Tank_150_gallons = (6, WeaponsVWV.Fuel_Tank_150_gallons)
-        Fuel_Tank_150_gallons__EMPTY_ = (6, WeaponsVWV.Fuel_Tank_150_gallons__EMPTY_)
+    pylons: Set[int] = {2, 3, 4, 5}
 
-    # ERRR <CLEAN>
-
-    pylons: Set[int] = {1, 2, 3, 4, 5, 6}
-
-    tasks = [
-        task.CAP,
-        task.Escort,
-        task.FighterSweep,
-        task.Intercept,
-        task.Reconnaissance,
-        task.GroundAttack,
-        task.CAS,
-        task.AntishipStrike,
-    ]
+    tasks = [task.CAP, task.Escort, task.FighterSweep, task.Intercept, task.Reconnaissance]
     task_default = task.CAP
 
 
 @planemod
 class vwv_ec_121(PlaneType):
     id = "vwv_ec-121"
-    height = 11.68
-    width = 41.45
-    length = 36.14
-    fuel_max = 22000
-    max_speed = 565.2
+    height = 7.54
+    width = 38.47
+    length = 35.41
+    fuel_max = 21000
+    max_speed = 480.96
+    category = "AWACS"  #{D2BC159C-5B7D-40cf-92CD-44DF3E99FAA9}
+    radio_frequency = 127.5
 
     livery_name = "VWV_EC-121"  # from type
 
     pylons: Set[int] = set()
 
-    tasks = [task.AWACS]
+    tasks = [task.AWACS, task.Transport]
+    task_default = task.AWACS
+
+    tasks = [task.AWACS, task.Transport]
     task_default = task.AWACS
 
 
 @planemod
 class vwv_l_1049(PlaneType):
     id = "vwv_l-1049"
-    height = 8.69
-    width = 46.53
-    length = 33.65
-    fuel_max = 10000
-    max_speed = 360
+    height = 7.54
+    width = 38.47
+    length = 35.41
+    fuel_max = 17850
+    max_speed = 531
+    radio_frequency = 127.5
 
     livery_name = "VWV_L-1049"  # from type
 
     pylons: Set[int] = set()
 
-    tasks = [
-        task.Transport,
-        task.Reconnaissance,
-    ]
+    tasks = [task.Transport]
+    task_default = task.Transport
+
+    tasks = [task.Transport]
     task_default = task.Transport
 
 
 @planemod
 class vwv_rf101b(PlaneType):
     id = "vwv_rf101b"
-    height = 5.18
-    width = 12.62
-    length = 22.09
-    fuel_max = 7000
-    max_speed = 2124
+    height = 5.49
+    width = 12.09
+    length = 20.55
+    fuel_max = 7770
+    max_speed = 2448
+    chaff = 0
+    flare = 0
+    charge_total = 0
+    chaff_charge_size = 0
+    flare_charge_size = 0
+    category = "Reconnaissance"  #{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
+    radio_frequency = 127.5
 
     livery_name = "VWV_RF101B"  # from type
 
     pylons: Set[int] = set()
 
-    tasks = [
-        task.Intercept,
-        task.Reconnaissance,
-        task.GroundAttack,
-        task.CAS,
-    ]
+    tasks = [task.Reconnaissance, task.AFAC, task.CAS]
     task_default = task.Reconnaissance
 
 
@@ -2325,6 +2120,10 @@ class vwv_a_37_dragonfly(PlaneType):
             2,
             Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
         )
+        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT = (
+            2,
+            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
+        )
 
     class Pylon3:
         Mk_82___500lb_GP_Bomb_LD = (3, Weapons.Mk_82___500lb_GP_Bomb_LD)
@@ -2333,6 +2132,10 @@ class vwv_a_37_dragonfly(PlaneType):
         LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE = (
             3,
             Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
+        )
+        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT = (
+            3,
+            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
         )
 
     class Pylon4:
@@ -2361,6 +2164,10 @@ class vwv_a_37_dragonfly(PlaneType):
             6,
             Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
         )
+        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT = (
+            6,
+            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
+        )
 
     class Pylon7:
         Mk_82___500lb_GP_Bomb_LD = (7, Weapons.Mk_82___500lb_GP_Bomb_LD)
@@ -2369,6 +2176,10 @@ class vwv_a_37_dragonfly(PlaneType):
         LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE = (
             7,
             Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
+        )
+        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT = (
+            7,
+            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
         )
         AIM_9B_Sidewinder_IR_AAM = (7, Weapons.AIM_9B_Sidewinder_IR_AAM)
 
@@ -2400,19 +2211,19 @@ class vwv_a_37_dragonfly(PlaneType):
 @helicoptermod
 class uh2a(HelicopterType):
     id = "uh2a"
-    height = 4.14
-    width = 12.69
-    length = 11.68
-    fuel_max = 631
-    max_speed = 240
-    category = "Air"  # {828CEADE-3F1D-40aa-93CE-8CDB73FE2710}
-    radio_frequency = 251
+    height = 4.11
+    width = 13.41
+    length = 11.48
+    fuel_max = 836
+    max_speed = 261
+    radio_frequency = 225
 
     property_defaults: Dict[str, Any] = {
         "FoldRotor": False,
     }
 
     class Properties:
+
         class FoldRotor:
             id = "FoldRotor"
 
@@ -2430,10 +2241,10 @@ class uh2a(HelicopterType):
     livery_name = "UH2A"  # from livery_entry
 
     class Pylon1:
-        SH2F_Fuel_Tank_120_gallons_R = (1, WeaponsVWV.SH2F_Fuel_Tank_120_gallons_R)
+        SH2F_Fuel_Tank_120_gallons_R = (1, Weapons.SH2F_Fuel_Tank_120_gallons_R)  # type: ignore[reportAttributeAccessIssue]
 
     class Pylon2:
-        SH2F_Fuel_Tank_120_gallons_L = (2, WeaponsVWV.SH2F_Fuel_Tank_120_gallons_L)
+        SH2F_Fuel_Tank_120_gallons_L = (2, Weapons.SH2F_Fuel_Tank_120_gallons_L)  # type: ignore[reportAttributeAccessIssue]
 
     pylons: Set[int] = {1, 2}
 
@@ -2444,19 +2255,19 @@ class uh2a(HelicopterType):
 @helicoptermod
 class uh2b(HelicopterType):
     id = "uh2b"
-    height = 4.14
-    width = 12.69
-    length = 11.68
-    fuel_max = 631
-    max_speed = 240
-    category = "Air"  # {828CEADE-3F1D-40aa-93CE-8CDB73FE2710}
-    radio_frequency = 251
+    height = 4.11
+    width = 13.41
+    length = 11.48
+    fuel_max = 836
+    max_speed = 261
+    radio_frequency = 225
 
     property_defaults: Dict[str, Any] = {
         "FoldRotor": False,
     }
 
     class Properties:
+
         class FoldRotor:
             id = "FoldRotor"
 
@@ -2474,10 +2285,10 @@ class uh2b(HelicopterType):
     livery_name = "UH2B"  # from livery_entry
 
     class Pylon1:
-        SH2F_Fuel_Tank_120_gallons_R = (1, WeaponsVWV.SH2F_Fuel_Tank_120_gallons_R)
+        SH2F_Fuel_Tank_120_gallons_R = (1, Weapons.SH2F_Fuel_Tank_120_gallons_R)  # type: ignore[reportAttributeAccessIssue]
 
     class Pylon2:
-        SH2F_Fuel_Tank_120_gallons_L = (2, WeaponsVWV.SH2F_Fuel_Tank_120_gallons_L)
+        SH2F_Fuel_Tank_120_gallons_L = (2, Weapons.SH2F_Fuel_Tank_120_gallons_L)  # type: ignore[reportAttributeAccessIssue]
 
     pylons: Set[int] = {1, 2}
 
@@ -2488,19 +2299,19 @@ class uh2b(HelicopterType):
 @helicoptermod
 class uh2c(HelicopterType):
     id = "uh2c"
-    height = 4.14
-    width = 12.69
-    length = 11.68
-    fuel_max = 631
-    max_speed = 240
-    category = "Air"  # {828CEADE-3F1D-40aa-93CE-8CDB73FE2710}
-    radio_frequency = 251
+    height = 4.4
+    width = 13.41
+    length = 11.48
+    fuel_max = 836
+    max_speed = 265
+    radio_frequency = 225
 
     property_defaults: Dict[str, Any] = {
         "FoldRotor": False,
     }
 
     class Properties:
+
         class FoldRotor:
             id = "FoldRotor"
 
@@ -2518,10 +2329,10 @@ class uh2c(HelicopterType):
     livery_name = "UH2C"  # from livery_entry
 
     class Pylon1:
-        SH2F_Fuel_Tank_120_gallons_R = (1, WeaponsVWV.SH2F_Fuel_Tank_120_gallons_R)
+        SH2F_Fuel_Tank_120_gallons_R = (1, Weapons.SH2F_Fuel_Tank_120_gallons_R)  # type: ignore[reportAttributeAccessIssue]
 
     class Pylon2:
-        SH2F_Fuel_Tank_120_gallons_L = (2, WeaponsVWV.SH2F_Fuel_Tank_120_gallons_L)
+        SH2F_Fuel_Tank_120_gallons_L = (2, Weapons.SH2F_Fuel_Tank_120_gallons_L)  # type: ignore[reportAttributeAccessIssue]
 
     pylons: Set[int] = {1, 2}
 
@@ -2532,13 +2343,12 @@ class uh2c(HelicopterType):
 @helicoptermod
 class sh2f(HelicopterType):
     id = "sh2f"
-    height = 4.14
+    height = 4.4
     width = 13.41
     length = 11.68
-    fuel_max = 631
-    max_speed = 240
-    category = "Air"  # {828CEADE-3F1D-40aa-93CE-8CDB73FE2710}
-    radio_frequency = 251
+    fuel_max = 816
+    max_speed = 265
+    radio_frequency = 225
 
     property_defaults: Dict[str, Any] = {
         "FoldRotor": False,
@@ -2562,13 +2372,13 @@ class sh2f(HelicopterType):
     livery_name = "SH2F"  # from livery_entry
 
     class Pylon1:
-        SH2F_MAD = (1, WeaponsVWV.SH2F_MAD)
+        SH2F_MAD = (1, Weapons.SH2F_MAD)  # type: ignore[reportAttributeAccessIssue]
 
     class Pylon2:
-        SH2F_Fuel_Tank_120_gallons_R = (2, WeaponsVWV.SH2F_Fuel_Tank_120_gallons_R)
+        SH2F_Fuel_Tank_120_gallons_R = (2, Weapons.SH2F_Fuel_Tank_120_gallons_R)  # type: ignore[reportAttributeAccessIssue]
 
     class Pylon3:
-        SH2F_Fuel_Tank_120_gallons_L = (3, WeaponsVWV.SH2F_Fuel_Tank_120_gallons_L)
+        SH2F_Fuel_Tank_120_gallons_L = (3, Weapons.SH2F_Fuel_Tank_120_gallons_L)  # type: ignore[reportAttributeAccessIssue]
 
     class Pylon4:
         DIS_mk46torp = (4, Weapons.DIS_mk46torp)
@@ -2577,3 +2387,401 @@ class sh2f(HelicopterType):
 
     tasks = [task.AntishipStrike, task.Transport, task.Reconnaissance]
     task_default = task.AntishipStrike
+
+
+@vehiclemod
+class vwv_vn_guardTower(unittype.VehicleType):
+    id = "vwv_vn_guardTower"
+    name = "[VWV] VC Guard Tower (armed)"
+    detection_range = 1000
+    threat_range = 500
+    air_weapon_dist = 500
+
+
+class vap_mutt_gun(unittype.VehicleType):
+    id = "vap_mutt_gun"
+    name = "VAP US MUTT Gun"
+    detection_range = 3500
+    threat_range = 6850
+    air_weapon_dist = 6850
+
+
+class vap_type63_mlrs(unittype.VehicleType):
+    id = "vap_type63_mlrs"
+    name = "VAP VC Type63 107mm MLRS"
+    detection_range = 0
+    threat_range = 8500
+    air_weapon_dist = 8500
+
+
+class vap_vc_bicycle_mortar(unittype.VehicleType):
+    id = "vap_vc_bicycle_mortar"
+    name = "VAP VC Bicycle Mortar"
+    detection_range = 0
+    threat_range = 7000
+    air_weapon_dist = 7000
+
+
+@vehiclemod
+class vap_m35_gun_truck(unittype.VehicleType):
+    id = "vap_m35_gun_truck"
+    name = "VAP US M35 Gun Truck"
+    detection_range = 0
+    threat_range = 4500
+    air_weapon_dist = 4500
+
+
+class vap_zis_150_aa(unittype.VehicleType):
+    id = "vap_zis_150_aa"
+    name = "VAP VC ZiS-150 AA Type 96"
+    detection_range = 7000
+    threat_range = 6800
+    air_weapon_dist = 6800
+
+
+class vap_us_hooch_LP(unittype.VehicleType):
+    id = "vap_us_hooch_LP"
+    name = "VAP US Hooch Low Poly"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_ammo_50cal_line(unittype.VehicleType):
+    id = "vap_ammo_50cal_line"
+    name = "VAP US Ammo 50Cal Line"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_ammo_50cal_pack(unittype.VehicleType):
+    id = "vap_ammo_50cal_pack"
+    name = "VAP US Ammo 50Cal Pack"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_barrels_line(unittype.VehicleType):
+    id = "vap_barrels_line"
+    name = "VAP Barrels Line"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_barrels(unittype.VehicleType):
+    id = "vap_barrels"
+    name = "VAP Barrels Pack"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_ammo_box_pile(unittype.VehicleType):
+    id = "vap_ammo_box_pile"
+    name = "VAP Ammo Box Pile"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_ammo_box_wood_long(unittype.VehicleType):
+    id = "vap_ammo_box_wood_long"
+    name = "VAP Ammo Box Long"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_ammo_box_wood_small(unittype.VehicleType):
+    id = "vap_ammo_box_wood_small"
+    name = "VAP Ammo Box Small"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_barrel_red(unittype.VehicleType):
+    id = "vap_barrel_red"
+    name = "VAP Barrel Red"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_barrel_green(unittype.VehicleType):
+    id = "vap_barrel_green"
+    name = "VAP Barrel Green"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_mre_boxes(unittype.VehicleType):
+    id = "vap_mre_boxes"
+    name = "VAP US MRE Boxes"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_mixed_cargo_1(unittype.VehicleType):
+    id = "vap_mixed_cargo_1"
+    name = "VAP US Mixed Cargo 1"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_mixed_cargo_2(unittype.VehicleType):
+    id = "vap_mixed_cargo_2"
+    name = "VAP US Mixed Cargo 2"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_watchtower(unittype.VehicleType):
+    id = "vap_watchtower"
+    name = "VAP Vietcong Watchtower"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_house_high(unittype.VehicleType):
+    id = "vap_house_high"
+    name = "VAP Bamboo House High"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_house_long(unittype.VehicleType):
+    id = "vap_house_long"
+    name = "VAP Bamboo House Long"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_house_small(unittype.VehicleType):
+    id = "vap_house_small"
+    name = "VAP Bamboo House Small"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_house_T(unittype.VehicleType):
+    id = "vap_house_T"
+    name = "VAP Bamboo House T-Shape"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_house_tiny(unittype.VehicleType):
+    id = "vap_house_tiny"
+    name = "VAP Bamboo House Tiny"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_house1(unittype.VehicleType):
+    id = "vap_house1"
+    name = "VAP Bamboo House"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_us_hooch_radio(unittype.VehicleType):
+    id = "vap_us_hooch_radio"
+    name = "VAP US Hooch Radio"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_us_hooch_closed(unittype.VehicleType):
+    id = "vap_us_hooch_closed"
+    name = "VAP US Hooch Closed"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_vc_bunker_single(unittype.VehicleType):
+    id = "vap_vc_bunker_single"
+    name = "VAP VC Bunker"
+    detection_range = 1500
+    threat_range = 550
+    air_weapon_dist = 550
+
+
+class vap_vc_mg_nest(unittype.VehicleType):
+    id = "vap_vc_mg_nest"
+    name = "VAP VC MG Nest"
+    detection_range = 1000
+    threat_range = 550
+    air_weapon_dist = 550
+
+
+class vap_vc_tunnel(unittype.VehicleType):
+    id = "vap_vc_tunnel"
+    name = "VAP VC Tunnel"
+    detection_range = 500
+    threat_range = 500
+    air_weapon_dist = 500
+
+
+class vap_mule(unittype.VehicleType):
+    id = "vap_mule"
+    name = "VAP US Mule"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_mutt(unittype.VehicleType):
+    id = "vap_mutt"
+    name = "VAP US MUTT"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_m35_truck(unittype.VehicleType):
+    id = "vap_m35_truck"
+    name = "VAP US M35 Truck"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_vc_zis(unittype.VehicleType):
+    id = "vap_vc_zis"
+    name = "VAP VC Zis 150"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_civ_zis_150(unittype.VehicleType):
+    id = "vap_civ_zis_150"
+    name = "VAP Civilian Zis 150"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_vc_bicycle(unittype.VehicleType):
+    id = "vap_vc_bicycle"
+    name = "VAP VC Bicycle"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class vap_vc_bicycle_ammo(unittype.VehicleType):
+    id = "vap_vc_bicycle_ammo"
+    name = "VAP VC Bicycle Ammo"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class _vap_loudspeakersVietnam(unittype.VehicleType):
+    id = "_vap_loudspeakersVietnam"
+    name = "VAP Loudspeakers Radio Vietnam"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+class vap_vc_zil(unittype.VehicleType):
+    id = "vap_vc_zil"
+    name = "VAP VC Zil 130 Armed"
+    detection_range = 750
+    threat_range = 500
+    air_weapon_dist = 500
+
+
+class vap_vc_bicycle_ak(unittype.VehicleType):
+    id = "vap_vc_bicycle_ak"
+    name = "VAP VC Bicycle AK"
+    detection_range = 1500
+    threat_range = 1500
+    air_weapon_dist = 1500
+
+
+class vwv_cgo_usConex(unittype.StaticType):
+    id = "vwv_cgo_usConex"
+    name = "[VWV] US Conex (half), Cargo"
+    shape_name = "vwv_us_connex"
+    category = "Cargos"
+    rate = 10
+    can_cargo = True
+
+
+class vwv_cgo_usBlu82C130(unittype.StaticType):
+    id = "vwv_cgo_usBlu82C130"
+    name = "[VWV] US blu82 for C130, Cargo"
+    shape_name = "vwv_us_blu82_c130"
+    category = "Cargos"
+    rate = 10
+    can_cargo = True
+
+
+class vwv_farp_marsdenmat(unittype.StaticType):
+    id = "vwv_farp_marsdenmat"
+    name = "[VWV] Marsden Mat"
+    shape_name = "vwv_us_marsdenmat"
+    category = "Heliports"
+    rate = 100
+
+
+class vap_oh6_cargo(unittype.StaticType):
+    id = "vap_oh6_cargo"
+    name = "VAP OH-6 Cargo"
+    shape_name = "vap_oh6_cargo"
+    category = "Cargos"
+    rate = 100
+    can_cargo = True
+
+
+class VAP_FARP_1(unittype.StaticType):
+    id = "VAP FARP 1"
+    name = "VAP FARP 1"
+    shape_name = "vap_us_farp_1"
+    category = "Heliports"
+    rate = 100
+
+
+class VAP_FARP_2(unittype.StaticType):
+    id = "VAP FARP 2"
+    name = "VAP FARP 2"
+    shape_name = "vap_us_farp_2"
+    category = "Heliports"
+    rate = 100
+
+
+class VAP_FARP_3(unittype.StaticType):
+    id = "VAP FARP 3"
+    name = "VAP FARP 3"
+    shape_name = "vap_us_farp_3"
+    category = "Heliports"
+    rate = 100
+
+
+class VAP_FARP_4(unittype.StaticType):
+    id = "VAP FARP 4"
+    name = "VAP FARP 4"
+    shape_name = "vap_us_farp_4"
+    category = "Heliports"
+    rate = 100

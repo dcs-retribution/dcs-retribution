@@ -13,7 +13,7 @@
   "awacs": [],
   "tankers": [],
   "frontline_units": [
-    "VAP VC Zil 130 Armed",
+    "VAP VC Zil 130",
     "VAP VC Bicycle AK",
     "VAP VC MG Nest",
     "VAP VC Bunker"
@@ -37,7 +37,7 @@
     "Boat Schnellboot type S130"
   ],
   "air_defense_units": [
-    "VAP VC Zis 150 AAA"
+    "VAP VC ZiS-150 AA Type 96"
   ],
   "requirements": {
     "OH-6 Vietnam Asset Pack": "https://github.com/tobi-be/DCS-OH-6A"
