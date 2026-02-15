@@ -11,7 +11,7 @@ from dcs.helicopters import HelicopterType
 from dcs.weapons_data import Weapons
 from dcs.unitpropertydescription import UnitPropertyDescription
 
-from game.modsupport import shipmod, planemod, helicoptermod, vehiclemod
+from game.modsupport import shipmod, planemod, helicoptermod, vehiclemod, cargomod
 from pydcs_extensions.weapon_injector import inject_weapons
 
 
@@ -1627,7 +1627,7 @@ class USS_Bon_Homme_Richard(unittype.ShipType):
 class Essex_SCB125(unittype.ShipType):
     id = "essex_scb125"
     name = "[VWV] CV Essex Class SCB-125"
-    plane_num = 8
+    plane_num = 40
     helicopter_num = 8
     parking = 2
     detection_range = 28000
@@ -1926,8 +1926,6 @@ class vwv_ch46d_late(HelicopterType):
 
 
 ## FORTIFICATIONS (Buildings)
-
-
 # These are static objects that don't require specific decorators like shipmod
 # They are part of the static environment and are handled as static objects
 class vwv_bdg_indohut1(unittype.StaticType):
@@ -2069,6 +2067,38 @@ class vwv_bdg_usBarrack(unittype.StaticType):
     id = "vwv_bdg_usBarrack"
     name = "[VWV] US Barrack"
     shape_name = "vwv_bdg_usBarrack"
+    rate = 100
+
+
+class VAP_FARP_1(unittype.StaticType):
+    id = "VAP FARP 1"
+    name = "VAP FARP 1"
+    shape_name = "vap_us_farp_1"
+    category = "Heliports"
+    rate = 100
+
+
+class VAP_FARP_2(unittype.StaticType):
+    id = "VAP FARP 2"
+    name = "VAP FARP 2"
+    shape_name = "vap_us_farp_2"
+    category = "Heliports"
+    rate = 100
+
+
+class VAP_FARP_3(unittype.StaticType):
+    id = "VAP FARP 3"
+    name = "VAP FARP 3"
+    shape_name = "vap_us_farp_3"
+    category = "Heliports"
+    rate = 100
+
+
+class VAP_FARP_4(unittype.StaticType):
+    id = "VAP FARP 4"
+    name = "VAP FARP 4"
+    shape_name = "vap_us_farp_4"
+    category = "Heliports"
     rate = 100
 
 
@@ -2498,6 +2528,7 @@ class vwv_vn_guardTower(unittype.VehicleType):
     air_weapon_dist = 500
 
 
+@vehiclemod
 class vap_mutt_gun(unittype.VehicleType):
     id = "vap_mutt_gun"
     name = "VAP US MUTT Gun"
@@ -2506,6 +2537,7 @@ class vap_mutt_gun(unittype.VehicleType):
     air_weapon_dist = 6850
 
 
+@vehiclemod
 class vap_type63_mlrs(unittype.VehicleType):
     id = "vap_type63_mlrs"
     name = "VAP VC Type63 107mm MLRS"
@@ -2514,6 +2546,7 @@ class vap_type63_mlrs(unittype.VehicleType):
     air_weapon_dist = 8500
 
 
+@vehiclemod
 class vap_vc_bicycle_mortar(unittype.VehicleType):
     id = "vap_vc_bicycle_mortar"
     name = "VAP VC Bicycle Mortar"
@@ -2531,6 +2564,7 @@ class vap_m35_gun_truck(unittype.VehicleType):
     air_weapon_dist = 4500
 
 
+@vehiclemod
 class vap_zis_150_aa(unittype.VehicleType):
     id = "vap_zis_150_aa"
     name = "VAP VC ZiS-150 AA Type 96"
@@ -2539,6 +2573,7 @@ class vap_zis_150_aa(unittype.VehicleType):
     air_weapon_dist = 6800
 
 
+@vehiclemod
 class vap_us_hooch_LP(unittype.VehicleType):
     id = "vap_us_hooch_LP"
     name = "VAP US Hooch Low Poly"
@@ -2547,6 +2582,7 @@ class vap_us_hooch_LP(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_ammo_50cal_line(unittype.VehicleType):
     id = "vap_ammo_50cal_line"
     name = "VAP US Ammo 50Cal Line"
@@ -2555,6 +2591,7 @@ class vap_ammo_50cal_line(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_ammo_50cal_pack(unittype.VehicleType):
     id = "vap_ammo_50cal_pack"
     name = "VAP US Ammo 50Cal Pack"
@@ -2563,6 +2600,7 @@ class vap_ammo_50cal_pack(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_barrels_line(unittype.VehicleType):
     id = "vap_barrels_line"
     name = "VAP Barrels Line"
@@ -2571,6 +2609,7 @@ class vap_barrels_line(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_barrels(unittype.VehicleType):
     id = "vap_barrels"
     name = "VAP Barrels Pack"
@@ -2579,6 +2618,7 @@ class vap_barrels(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_ammo_box_pile(unittype.VehicleType):
     id = "vap_ammo_box_pile"
     name = "VAP Ammo Box Pile"
@@ -2587,6 +2627,7 @@ class vap_ammo_box_pile(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_ammo_box_wood_long(unittype.VehicleType):
     id = "vap_ammo_box_wood_long"
     name = "VAP Ammo Box Long"
@@ -2595,6 +2636,7 @@ class vap_ammo_box_wood_long(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_ammo_box_wood_small(unittype.VehicleType):
     id = "vap_ammo_box_wood_small"
     name = "VAP Ammo Box Small"
@@ -2603,6 +2645,7 @@ class vap_ammo_box_wood_small(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_barrel_red(unittype.VehicleType):
     id = "vap_barrel_red"
     name = "VAP Barrel Red"
@@ -2611,6 +2654,7 @@ class vap_barrel_red(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_barrel_green(unittype.VehicleType):
     id = "vap_barrel_green"
     name = "VAP Barrel Green"
@@ -2619,6 +2663,7 @@ class vap_barrel_green(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_mre_boxes(unittype.VehicleType):
     id = "vap_mre_boxes"
     name = "VAP US MRE Boxes"
@@ -2627,6 +2672,7 @@ class vap_mre_boxes(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_mixed_cargo_1(unittype.VehicleType):
     id = "vap_mixed_cargo_1"
     name = "VAP US Mixed Cargo 1"
@@ -2635,6 +2681,7 @@ class vap_mixed_cargo_1(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_mixed_cargo_2(unittype.VehicleType):
     id = "vap_mixed_cargo_2"
     name = "VAP US Mixed Cargo 2"
@@ -2643,6 +2690,7 @@ class vap_mixed_cargo_2(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_watchtower(unittype.VehicleType):
     id = "vap_watchtower"
     name = "VAP Vietcong Watchtower"
@@ -2651,6 +2699,7 @@ class vap_watchtower(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_house_high(unittype.VehicleType):
     id = "vap_house_high"
     name = "VAP Bamboo House High"
@@ -2659,6 +2708,7 @@ class vap_house_high(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_house_long(unittype.VehicleType):
     id = "vap_house_long"
     name = "VAP Bamboo House Long"
@@ -2667,6 +2717,7 @@ class vap_house_long(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_house_small(unittype.VehicleType):
     id = "vap_house_small"
     name = "VAP Bamboo House Small"
@@ -2675,6 +2726,7 @@ class vap_house_small(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_house_T(unittype.VehicleType):
     id = "vap_house_T"
     name = "VAP Bamboo House T-Shape"
@@ -2683,6 +2735,7 @@ class vap_house_T(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_house_tiny(unittype.VehicleType):
     id = "vap_house_tiny"
     name = "VAP Bamboo House Tiny"
@@ -2691,6 +2744,7 @@ class vap_house_tiny(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_house1(unittype.VehicleType):
     id = "vap_house1"
     name = "VAP Bamboo House"
@@ -2699,6 +2753,7 @@ class vap_house1(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_us_hooch_radio(unittype.VehicleType):
     id = "vap_us_hooch_radio"
     name = "VAP US Hooch Radio"
@@ -2707,6 +2762,7 @@ class vap_us_hooch_radio(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_us_hooch_closed(unittype.VehicleType):
     id = "vap_us_hooch_closed"
     name = "VAP US Hooch Closed"
@@ -2715,6 +2771,7 @@ class vap_us_hooch_closed(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_vc_bunker_single(unittype.VehicleType):
     id = "vap_vc_bunker_single"
     name = "VAP VC Bunker"
@@ -2723,6 +2780,7 @@ class vap_vc_bunker_single(unittype.VehicleType):
     air_weapon_dist = 550
 
 
+@vehiclemod
 class vap_vc_mg_nest(unittype.VehicleType):
     id = "vap_vc_mg_nest"
     name = "VAP VC MG Nest"
@@ -2731,6 +2789,7 @@ class vap_vc_mg_nest(unittype.VehicleType):
     air_weapon_dist = 550
 
 
+@vehiclemod
 class vap_vc_tunnel(unittype.VehicleType):
     id = "vap_vc_tunnel"
     name = "VAP VC Tunnel"
@@ -2739,6 +2798,7 @@ class vap_vc_tunnel(unittype.VehicleType):
     air_weapon_dist = 500
 
 
+@vehiclemod
 class vap_mule(unittype.VehicleType):
     id = "vap_mule"
     name = "VAP US Mule"
@@ -2747,6 +2807,7 @@ class vap_mule(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_mutt(unittype.VehicleType):
     id = "vap_mutt"
     name = "VAP US MUTT"
@@ -2755,6 +2816,7 @@ class vap_mutt(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_m35_truck(unittype.VehicleType):
     id = "vap_m35_truck"
     name = "VAP US M35 Truck"
@@ -2763,6 +2825,7 @@ class vap_m35_truck(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_vc_zis(unittype.VehicleType):
     id = "vap_vc_zis"
     name = "VAP VC Zis 150"
@@ -2771,6 +2834,7 @@ class vap_vc_zis(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_civ_zis_150(unittype.VehicleType):
     id = "vap_civ_zis_150"
     name = "VAP Civilian Zis 150"
@@ -2779,6 +2843,7 @@ class vap_civ_zis_150(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_vc_bicycle(unittype.VehicleType):
     id = "vap_vc_bicycle"
     name = "VAP VC Bicycle"
@@ -2796,6 +2861,7 @@ class vap_vc_bicycle_ammo(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class _vap_loudspeakersVietnam(unittype.VehicleType):
     id = "_vap_loudspeakersVietnam"
     name = "VAP Loudspeakers Radio Vietnam"
@@ -2804,6 +2870,7 @@ class _vap_loudspeakersVietnam(unittype.VehicleType):
     air_weapon_dist = 0
 
 
+@vehiclemod
 class vap_vc_zil(unittype.VehicleType):
     id = "vap_vc_zil"
     name = "VAP VC Zil 130 Armed"
@@ -2812,6 +2879,7 @@ class vap_vc_zil(unittype.VehicleType):
     air_weapon_dist = 500
 
 
+@vehiclemod
 class vap_vc_bicycle_ak(unittype.VehicleType):
     id = "vap_vc_bicycle_ak"
     name = "VAP VC Bicycle AK"
@@ -2820,6 +2888,7 @@ class vap_vc_bicycle_ak(unittype.VehicleType):
     air_weapon_dist = 1500
 
 
+@cargomod
 class vwv_cgo_usConex(unittype.StaticType):
     id = "vwv_cgo_usConex"
     name = "[VWV] US Conex (half), Cargo"
@@ -2829,6 +2898,7 @@ class vwv_cgo_usConex(unittype.StaticType):
     can_cargo = True
 
 
+@cargomod
 class vwv_cgo_usBlu82C130(unittype.StaticType):
     id = "vwv_cgo_usBlu82C130"
     name = "[VWV] US blu82 for C130, Cargo"
@@ -2846,6 +2916,7 @@ class vwv_farp_marsdenmat(unittype.StaticType):
     rate = 100
 
 
+@cargomod
 class vap_oh6_cargo(unittype.StaticType):
     id = "vap_oh6_cargo"
     name = "VAP OH-6 Cargo"
@@ -2853,35 +2924,3 @@ class vap_oh6_cargo(unittype.StaticType):
     category = "Cargos"
     rate = 100
     can_cargo = True
-
-
-class VAP_FARP_1(unittype.StaticType):
-    id = "VAP FARP 1"
-    name = "VAP FARP 1"
-    shape_name = "vap_us_farp_1"
-    category = "Heliports"
-    rate = 100
-
-
-class VAP_FARP_2(unittype.StaticType):
-    id = "VAP FARP 2"
-    name = "VAP FARP 2"
-    shape_name = "vap_us_farp_2"
-    category = "Heliports"
-    rate = 100
-
-
-class VAP_FARP_3(unittype.StaticType):
-    id = "VAP FARP 3"
-    name = "VAP FARP 3"
-    shape_name = "vap_us_farp_3"
-    category = "Heliports"
-    rate = 100
-
-
-class VAP_FARP_4(unittype.StaticType):
-    id = "VAP FARP 4"
-    name = "VAP FARP 4"
-    shape_name = "vap_us_farp_4"
-    category = "Heliports"
-    rate = 100

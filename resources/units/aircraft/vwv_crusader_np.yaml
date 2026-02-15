@@ -1,5 +1,6 @@
 class: Plane
 id: vwv_crusader_np
+carrier_capable: true
 name: "F-8E(FN) Crusader"
 description: "The Vought F-8 Crusader was a single-engine, supersonic, carrier-based air superiority fighter and fighter-bomber. The F-8 was the last American fighter with guns as the primary weapon, earning it the title of 'The Last of the Gunfighters'."
 introduced: 1963    # original type 1957, F-8E before 1964, USA retired 1976
