@@ -244,7 +244,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("MiG-31BM (v2.62)", self.mig31bm_foxhound),
             ("Military Aircraft Mod (v1.7.2 - AI Only)", self.mam),
             ("Mirage III (v2.5.7.01)", self.mirage_3),
-            ("OH-6 Cayuse (v1.2)", self.oh_6),
+            ("OH-6 Cayuse (v1.6)", self.oh_6),
             ("OH-6 Vietnam Asset Pack (v1.0)", self.oh_6_vietnamassetpack),
             ("OV-10A Bronco", self.ov10a_bronco),
             ("Saab 105/SK-60B (v1.2.1)", self.sk_60),
@@ -342,4 +342,6 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.tornado_adv.setChecked(s.get("tornado_adv", False))
         self.vsnf35.setChecked(s.get("vsnf35", False))
         self.f111c.setChecked(s.get("f111c", False))
+        self.oh_6.setChecked(s.get("oh_6", False))
+        self.oh_6_vietnamassetpack.setChecked(s.get("oh_6_vietnamassetpack", False))
         self.mam.setChecked(s.get("mam", False))
