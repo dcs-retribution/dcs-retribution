@@ -4,3 +4,5 @@ price: 7
 role: Self-Propelled Anti-Aircraft Gun
 variants:
   VAP VC ZiS-150 AA Type 96: null
+  # Legacy VAP mod naming without VWV
+  VAP VC Zis 150 AAA: null

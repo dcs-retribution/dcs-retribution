@@ -1,4 +1,6 @@
 class: Boat
 price: 0
 variants:
-  VAP US Sea Float Barge: null
+  VAP - US Sea Float Barge: null
+  # Legacy VAP mod naming without VWV
+  VAP - US Seafloat Barge: null
