@@ -3,7 +3,7 @@ name: Marianas - Operation Velvet Thunder
 theater: MarianaIslands
 authors: Starfire
 recommended_player_faction: USA 1970
-recommended_enemy_faction: NVA 1970
+recommended_enemy_faction: Vietnam 1965
 description:
   <p>Operation Velvet Thunder is a high-intensity training exercise designed to 
   prepare fresh troops for the challenges they will face in Vietnam. The dense 
@@ -13,7 +13,7 @@ description:
   checkpoints scattered across the area of operations that will have to be 
   captured by Air Assault.</p>
   <p><strong>Note:</strong> This campaign is intended to be played with the 
-  A-4 Skyhawk, OV-10A, C-130J, and Vietnam War Vessels mods active. If the Vietnam 
+  A-4 Skyhawk, F-111C, OV-10A, C-130J, and Vietnam War Vessels mods active. If the Vietnam 
   War Vessels is not active, the C-101CC will serve as a stand-in for the Skyraider 
   in order to provide an Armed Recon platform. Airbase threat range is set to 20 
   for this campaign to optimise autoplanner.</p>
@@ -24,6 +24,7 @@ version: "10.8"
 settings:
   airbase_threat_range: 20
   a4_skyhawk: true
+  f111c: true
   hercules: true
   ov10a_bronco: true
   vietnamwarvessels: true
@@ -45,7 +46,13 @@ squadrons:
       secondary: any
       aircraft:
         - F-4E-45MC Phantom II
-      size: 16
+      size: 8
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - F-111C Aardvark
+        - F-4E-45MC Phantom II
+      size: 8
     - primary: Strike
       secondary: any
       aircraft:
@@ -77,26 +84,32 @@ squadrons:
       size: 8
   #Blue CV
   Blue-CV:
-    - primary: DEAD
-      secondary: any
-      aircraft:
-        - A-4E Skyhawk
-      size: 16
     - primary: BARCAP
       secondary: any
       aircraft:
         - F-8E Crusader
         - A-4E Skyhawk
-      size: 16
+      size: 8
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - A-4E Skyhawk
+      size: 8
+    - primary: DEAD
+      secondary: any
+      aircraft:
+        - A-6E Intruder
+      size: 8
     - primary: AEW&C
       aircraft:
         - E-2C Hawkeye
       size: 2
   #Rota Intl
   1:
-    - primary: TARCAP
-      secondary: any
+    - primary: Escort
+      secondary: air-to-ground
       aircraft:
+        - MiG-17F Fresco-C
         - MiG-19P Farmer-B
       size: 8
   #Tinian Intl
@@ -109,7 +122,14 @@ squadrons:
   #Saipan Intl
   2:
     - primary: BAI
-      secondary: any
+      secondary: air-to-ground
       aircraft:
+        - MiG-21MF Fishbed-J
         - MiG-21bis Fishbed-N
+      size: 8
+    - primary: Escort
+      secondary: air-to-ground
+      aircraft:
+        - MiG-19P Farmer-B
+
       size: 8

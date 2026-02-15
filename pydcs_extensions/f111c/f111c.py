@@ -26,6 +26,7 @@ class WeaponsF111C:
         "weight": 540,
     }
     AN_ASW_55 = {"clsid": "{F111C_AN_ASW_55}", "name": "AN/ASW-55", "weight": 865}
+    AN_AXQ_14 = {"clsid": "{F111C_AN_AXQ_14}", "name": "AN/AXQ-14", "weight": 182}
     Elta_EL_L_8222 = {
         "clsid": "{F111C_EL_L_8222}",
         "name": "Elta EL/L 8222",
@@ -40,6 +41,11 @@ class WeaponsF111C:
         "clsid": "{F111C_GBU12}",
         "name": "GBU-12 500 lb TV Guided Bomb",
         "weight": 241,
+    }
+    GBU_15_2000_lb_TV_Guided_Bomb = {
+        "clsid": "{F111C_GBU15_V1B}",
+        "name": "GBU-15 2000 lb TV Guided Bomb",
+        "weight": 1111,
     }
     GBU_16_1000_lb_TV_Guided_Bomb = {
         "clsid": "{F111C_GBU16}",
@@ -145,6 +151,7 @@ class F111C(PlaneType):
         )
         GBU_12_500_lb_TV_Guided_Bomb = (4, WeaponsF111C.GBU_12_500_lb_TV_Guided_Bomb)
         GBU_10_2000_lb_TV_Guided_Bomb = (4, WeaponsF111C.GBU_10_2000_lb_TV_Guided_Bomb)
+        GBU_15_2000_lb_TV_Guided_Bomb = (4, WeaponsF111C.GBU_15_2000_lb_TV_Guided_Bomb)
         GBU_16_1000_lb_TV_Guided_Bomb = (4, WeaponsF111C.GBU_16_1000_lb_TV_Guided_Bomb)
         GBU_24_2000_lb_Penetrator_TV_Guided_Bomb = (
             4,
@@ -158,7 +165,6 @@ class F111C(PlaneType):
         AIM_9M_Sidewinder_IR_AAM = (5, Weapons.AIM_9M_Sidewinder_IR_AAM)
         AIM_9L_Sidewinder_IR_AAM = (5, Weapons.AIM_9L_Sidewinder_IR_AAM)
         AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (5, Weapons.AN_ASQ_T50_TCTS_Pod___ACMI_Pod)
-        DIS_AKG_DLPOD = (5, Weapons.DIS_AKG_DLPOD)
         AGM_84D_Harpoon = (5, WeaponsF111C.AGM_84D_Harpoon)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_ = (
             5,
@@ -207,6 +213,7 @@ class F111C(PlaneType):
         )
         GBU_12_500_lb_TV_Guided_Bomb = (5, WeaponsF111C.GBU_12_500_lb_TV_Guided_Bomb)
         GBU_10_2000_lb_TV_Guided_Bomb = (5, WeaponsF111C.GBU_10_2000_lb_TV_Guided_Bomb)
+        GBU_15_2000_lb_TV_Guided_Bomb = (5, WeaponsF111C.GBU_15_2000_lb_TV_Guided_Bomb)
         GBU_16_1000_lb_TV_Guided_Bomb = (5, WeaponsF111C.GBU_16_1000_lb_TV_Guided_Bomb)
         GBU_24_2000_lb_Penetrator_TV_Guided_Bomb = (
             5,
@@ -227,8 +234,8 @@ class F111C(PlaneType):
             8,
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_,
         )
+        AN_AXQ_14 = (8, WeaponsF111C.AN_AXQ_14)
         AN_ASW_55 = (8, WeaponsF111C.AN_ASW_55)
-        DIS_AKG_DLPOD = (8, Weapons.DIS_AKG_DLPOD)
         AGM_130_TV_Guided_Missile = (8, WeaponsF111C.AGM_130_TV_Guided_Missile)
         BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD = (
             8,
@@ -272,6 +279,7 @@ class F111C(PlaneType):
         )
         GBU_12_500_lb_TV_Guided_Bomb = (8, WeaponsF111C.GBU_12_500_lb_TV_Guided_Bomb)
         GBU_10_2000_lb_TV_Guided_Bomb = (8, WeaponsF111C.GBU_10_2000_lb_TV_Guided_Bomb)
+        GBU_15_2000_lb_TV_Guided_Bomb = (8, WeaponsF111C.GBU_15_2000_lb_TV_Guided_Bomb)
         GBU_16_1000_lb_TV_Guided_Bomb = (8, WeaponsF111C.GBU_16_1000_lb_TV_Guided_Bomb)
         GBU_24_2000_lb_Penetrator_TV_Guided_Bomb = (
             8,
@@ -333,6 +341,7 @@ class F111C(PlaneType):
         )
         GBU_12_500_lb_TV_Guided_Bomb = (9, WeaponsF111C.GBU_12_500_lb_TV_Guided_Bomb)
         GBU_10_2000_lb_TV_Guided_Bomb = (9, WeaponsF111C.GBU_10_2000_lb_TV_Guided_Bomb)
+        GBU_15_2000_lb_TV_Guided_Bomb = (9, WeaponsF111C.GBU_15_2000_lb_TV_Guided_Bomb)
         GBU_16_1000_lb_TV_Guided_Bomb = (9, WeaponsF111C.GBU_16_1000_lb_TV_Guided_Bomb)
         GBU_24_2000_lb_Penetrator_TV_Guided_Bomb = (
             9,
@@ -344,12 +353,12 @@ class F111C(PlaneType):
 
     class Pylon10:
         Elta_EL_L_8222 = (10, WeaponsF111C.Elta_EL_L_8222)
-        DIS_AKG_DLPOD = (10, Weapons.DIS_AKG_DLPOD)
+        AN_AXQ_14 = (10, WeaponsF111C.AN_AXQ_14)
 
     # ERRR <CLEAN>
 
     class Pylon11:
-        Targeting_Pod_FLIR = (11, Weapons.Targeting_Pod_FLIR)
+        Targeting_Pod_FLIR = (11, WeaponsF111C.Targeting_Pod_FLIR)
 
     # ERRR <CLEAN>
 
