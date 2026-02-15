@@ -1,21 +1,24 @@
-from typing import Set
+from typing import Dict, List, Set, Any
 
 from dcs import task
 from dcs.helicopters import HelicopterType
+from dcs.unitpropertydescription import UnitPropertyDescription
 
 from game.modsupport import helicoptermod
 from pydcs_extensions.weapon_injector import inject_weapons
 
 
 class WeaponsOH6:
+    Cameraman = {"clsid": "{OH-6_CAMMAN}", "name": "Cameraman", "weight": 70}
     Camrig = {"clsid": "{OH-6_CAMRIG}", "name": "Camrig", "weight": 70}
+    Floaters = {"clsid": "{OH-6_FLOATERS}", "name": "Floaters", "weight": 50}
     Frag_Grenade = {"clsid": "{OH6_FRAG}", "name": "Frag Grenade", "weight": 0}
     M134_Door_Minigun = {
         "clsid": "{OH-6_M134_Door}",
         "name": "M134 Door Minigun",
         "weight": 110,
     }
-    M134_Minigun_ = {
+    M134_Minigun = {
         "clsid": "{OH-6_M134_Minigun}",
         "name": "M134 Minigun",
         "weight": 39,
@@ -66,6 +69,11 @@ class OH_6A(HelicopterType):
     length = 10
     fuel_max = 181
     max_speed = 217
+    chaff = 0
+    flare = 30
+    charge_total = 30
+    chaff_charge_size = 1
+    flare_charge_size = 1
     category = "Air"  # Helicopter
     radio_frequency = 262
 
@@ -96,13 +104,64 @@ class OH_6A(HelicopterType):
         },
     }
 
-    property_defaults = {
+    callnames: Dict[str, List[str]] = {
+        "Assault",
+        "Banshee",
+        "Condor",
+        "Gunner",
+        "Eagle",
+        "Griffin",
+        "Little Griffin",
+        "Deadbone",
+        "Brandy",
+        "Thunder",
+        "Roadrunner",
+        "Woodstock",
+        "Scalphunter",
+        "Darkhorse",
+        "War Wagon",
+    }
+
+    property_defaults: Dict[str, Any] = {
         "CableCutterEnables": False,
+        "FlaresEquipped": False,
+        "RWREquipped": False,
     }
 
     class Properties:
+
         class CableCutterEnables:
             id = "CableCutterEnables"
+
+        class FlaresEquipped:
+            id = "FlaresEquipped"
+
+        class RWREquipped:
+            id = "RWREquipped"
+
+    properties = {
+        "CableCutterEnables": UnitPropertyDescription(
+            identifier="CableCutterEnables",
+            control="checkbox",
+            label="Cable Cutter",
+            default=False,
+            weight_when_on=0,
+        ),
+        "FlaresEquipped": UnitPropertyDescription(
+            identifier="FlaresEquipped",
+            control="checkbox",
+            label="Equip Flares",
+            default=False,
+            weight_when_on=10,
+        ),
+        "RWREquipped": UnitPropertyDescription(
+            identifier="RWREquipped",
+            control="checkbox",
+            label="Equip RWR",
+            default=False,
+            weight_when_on=10,
+        ),
+    }
 
     livery_name = "OH-6A"  # from type
 
@@ -137,7 +196,7 @@ class OH_6A(HelicopterType):
     # ERRR <CLEAN>
 
     class Pylon8:
-        M134_Minigun_ = (8, WeaponsOH6.M134_Minigun_)
+        M134_Minigun = (8, WeaponsOH6.M134_Minigun)
 
     class Pylon9:
         XM158_Weapon_System__7_ = (9, WeaponsOH6.XM158_Weapon_System__7_)
@@ -153,7 +212,9 @@ class OH_6A(HelicopterType):
 
     class Pylon12:
         Camrig = (12, WeaponsOH6.Camrig)
+        Cameraman = (12, WeaponsOH6.Cameraman)
         Searchlight = (12, WeaponsOH6.Searchlight)
+        Floaters = (12, WeaponsOH6.Floaters)
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}
 
