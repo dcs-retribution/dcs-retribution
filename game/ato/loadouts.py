@@ -266,14 +266,17 @@ class Loadout:
         yield from loadout_names[task]
 
     @classmethod
-    def default_for(cls, flight: Flight, target: MissionTarget) -> Loadout:
+    def default_for(cls, flight: Flight, target: Optional[MissionTarget]) -> Loadout:
         return cls.default_for_task_and_aircraft(
             flight.flight_type, flight.unit_type.dcs_unit_type, target
         )
 
     @classmethod
     def default_for_task_and_aircraft(
-        cls, task: FlightType, dcs_unit_type: Type[FlyingType], target: MissionTarget
+        cls,
+        task: FlightType,
+        dcs_unit_type: Type[FlyingType],
+        target: Optional[MissionTarget] = None,
     ) -> Loadout:
         # Iterate through each possible payload type for a given aircraft.
         # Some aircraft have custom loadouts that in aren't the standard set.
@@ -282,8 +285,9 @@ class Loadout:
             # work.
             dcs_unit_type.load_payloads()
             payload = dcs_unit_type.loadout_by_name(name)
-            payload = cls.adjust_payload_for_target(payload, target)
             if payload is not None:
+                if target:
+                    payload = cls.adjust_payload_for_target(payload, target)
                 pylons = {i: {"CLSID": d["clsid"]} for i, d in payload}
                 if not cls.valid_payload(pylons):
                     aircraft = dcs_unit_type.id
@@ -305,8 +309,46 @@ class Loadout:
         return Loadout("Empty", {}, date=None)
 
     @classmethod
-    def adjust_payload_for_target(
-        cls, payload: Loadout, target: MissionTarget
-    ) -> Loadout:
-        # TODO: Adjust the payload based on the target
-        return payload
+    def adjust_payload_for_target(cls, payload: Any, target: MissionTarget) -> Any:
+        """
+        Apply target-based weapon settings overrides to a raw pydcs payload.
+
+        This checks each weapon in the payload for target-specific settings overrides
+        defined in the weapon YAML files and applies them.
+
+        Args:
+            payload: Raw pydcs payload (dict-like with pylon data containing clsid and settings)
+            target: The mission target containing type information
+
+        Returns:
+            The payload with adjusted weapon settings, or the original if no adjustments apply
+        """
+        if not target or not hasattr(target, "units"):
+            return payload
+
+        targets: tuple[Any, ...] = ()
+        for unit in target.units:
+            if unit.type and unit.type.id:
+                targets += (unit.type.id,)
+
+        if not targets:
+            return payload
+
+        adjusted_payload = copy.deepcopy(payload)
+
+        # payload is a list of (pylon_number, pylon_data) tuples
+        for pylon_number, pylon_data in adjusted_payload:
+            clsid = pylon_data.get("clsid")
+            if not clsid:
+                continue
+
+            weapon = Weapon.with_clsid(clsid)
+            if weapon is None:
+                continue
+
+            # Get target-based overrides from the weapon definition
+            target_overrides = weapon.get_target_overrides(targets)
+            if target_overrides:
+                pylon_data["settings"] = target_overrides
+
+        return adjusted_payload

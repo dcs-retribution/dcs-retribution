@@ -5,7 +5,7 @@ import inspect
 import logging
 from dataclasses import dataclass, field
 from enum import unique, Enum
-from functools import cached_property
+from functools import cached_property, lru_cache
 from pathlib import Path
 from typing import Iterator, Optional, Any, ClassVar, Dict
 
@@ -125,18 +125,41 @@ class Weapon:
             fallback = fallback.fallback
 
     def has_settings(self) -> bool:
-        """Check if this weapon has configurable settings."""
         try:
             return has_settings(self.pydcs_data)
         except Exception:
             return False
 
     def create_settings(self) -> Optional[WeaponSettings]:
-        """Create a WeaponSettings instance for this weapon."""
         try:
             return create_settings(self.pydcs_data)
         except Exception:
             return None
+
+    @lru_cache(maxsize=1)
+    def get_target_overrides(self, targets: tuple[Any]) -> Dict[str, Any]:
+        """
+        Get weapon settings overrides for specific targets.
+
+        Args:
+            targets: Tuple of target IDs (strings)
+
+        Returns:
+            Dictionary of setting overrides, empty dict if none apply
+
+        The target_overrides in weapon YAML is a list of override rules.
+        Each rule has unit_ids (list) and settings (dict).
+        First matching rule wins.
+        """
+        if targets and self.weapon_group.target_overrides:
+            target_overrides_list = self.weapon_group.target_overrides
+            target_ids = set(targets)
+
+            for override_rule in target_overrides_list:
+                rule_unit_ids = set(override_rule.get("unit_ids", []))
+                if target_ids & rule_unit_ids:
+                    return override_rule.get("settings", {}).copy()
+        return {}
 
 
 @unique
@@ -173,6 +196,9 @@ class WeaponGroup:
 
     #: The specific weapons that belong to this weapon group.
     weapons: list[Weapon] = field(init=False, default_factory=list)
+
+    #: Target-based overrides for weapon settings
+    target_overrides: list[Dict[str, Any]] = field(init=False, default_factory=list)
 
     _by_name: ClassVar[dict[str, WeaponGroup]] = {}
     _loaded: ClassVar[bool] = False
@@ -228,6 +254,10 @@ class WeaponGroup:
             if fallback_name:
                 links.append((name, fallback_name))
             group = WeaponGroup(name, weapon_type, year, fallback_name)
+
+            target_overrides = data.get("target_overrides", {})
+            object.__setattr__(group, "target_overrides", target_overrides)
+
             for clsid in data["clsids"]:
                 weapon = Weapon(clsid, group)
                 Weapon.register(weapon)

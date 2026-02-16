@@ -6,3 +6,21 @@ clsids:
   - "{LAU118_AGM_45A}"
   - "{LAU_34_AGM_45A}"
   - "{LAU_34_AGM_45A_SWA}"
+# Overrides, note: overrides are prioritized from top to bottom
+target_overrides:
+  - unit_ids:
+      - "snr s-125 tr"
+      - "Kub 1S91 str"
+      - "S-300PS 40B6M tr"
+      - "SA-11 Buk LN 9A310M1"
+      - "Strela-10M3"
+    settings:
+      "NFP_rfgu_type": 6
+  - unit_ids:
+      - "Osa 9A33 ln"
+    settings:
+      "NFP_rfgu_type": 9
+  - unit_ids:
+      - "p-19 s-125 sr"
+    settings:
+      "NFP_rfgu_type": 7
