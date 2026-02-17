@@ -393,7 +393,7 @@ class Faction:
             self.remove_aircraft("Hercules")
         if not mod_settings.oh_6:
             self.remove_aircraft("OH-6A")
-        if not mod_settings.oh_6_vietnamassetpack:
+        if not mod_settings.oh_6_vietnamassetpack and not mod_settings.vietnamwarvessels:
             self.remove_vehicle("vap_mutt_gun")
             self.remove_vehicle("vap_type63_mlrs")
             self.remove_vehicle("vap_vc_bicycle_mortar")
@@ -698,20 +698,12 @@ class Faction:
             self.remove_ship("CCB")  # "[VWV] CCB Charlie"
             self.remove_ship("USS_New_Jersey")  # "[VWV] BB-62 USS New Jersey 1968"
             self.remove_ship("USS_Oklahoma_City")  # "[VWV] CLG-5 USS Oklahoma City"
-            self.remove_ship(
-                "USS_Bon_Homme_Richard"
-            )  # "[VWV] CVA-31 Bon Homme Richard"
+            self.remove_ship("USS_Bon_Homme_Richard")  # "[VWV] CVA-31 Bon Homme Richard"
             self.remove_ship("essex_scb125")  # "[VWV] CV Essex Class SCB-125"
-            self.remove_ship(
-                "USS Enterprise 1966"
-            )  # "[VWV] CVAN-65 USS Enterprise '66"
-            self.remove_ship(
-                "USS Enterprise 1969"
-            )  # "[VWV] CVAN-65 USS Enterprise '69"
+            self.remove_ship("USS Enterprise 1966")  # "[VWV] CVAN-65 USS Enterprise '66"
+            self.remove_ship("USS Enterprise 1969")  # "[VWV] CVAN-65 USS Enterprise '69"
             self.remove_ship("USS Mullany")  # "[VWV] DD-528 USS Mullany"
-            self.remove_ship(
-                "USS Forrest Sherman"
-            )  # "[VWV] DD-931 USS Forrest Sherman"
+            self.remove_ship("USS Forrest Sherman")  # "[VWV] DD-931 USS Forrest Sherman"
             self.remove_ship("USS Bigelow")  # "[VWV] DD-942 USS Bigelow"
             self.remove_ship("USS Knox")  # "[VWV] DE-1052 USS Knox"
             self.remove_ship("USS Gray")  # "[VWV] DE-1054 USS Gray"
@@ -736,6 +728,19 @@ class Faction:
             self.remove_aircraft("uh2c")  # "UH-2C Seasprite"
             self.remove_aircraft("vwv_ch46d")  # "CH-46D Sea Knight"
             self.remove_aircraft("vwv_ch46d_late")  # "CH-46D Sea Knight (Late)"
+            self.remove_vehicle("vwv_vn_guardTower")
+            self.remove_vehicle("vap_m35_gun_truck")
+            self.remove_vehicle("vap_vc_tunnel")
+            self.remove_vehicle("vap_civ_zis_150")
+            self.remove_vehicle("_vap_loudspeakersVietnam")
+            self.remove_vehicle("vwv_cgo_usConex")
+            self.remove_vehicle("vwv_cgo_usBlu82C130")
+            self.remove_vehicle("vwv_farp_marsdenmat")
+            self.remove_vehicle("vap_oh6_cargo")
+            self.remove_vehicle("vap_us_farp_1")
+            self.remove_vehicle("vap_us_farp_2")
+            self.remove_vehicle("vap_us_farp_3")
+            self.remove_vehicle("vap_us_farp_4")
         # Chinese Military Assets Pack
         if not mod_settings.chinesemilitaryassetspack:
             self.remove_vehicle("CH_PCL181_155")
