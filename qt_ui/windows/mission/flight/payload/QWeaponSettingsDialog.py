@@ -31,7 +31,7 @@ class QWeaponSettingsDialog(QDialog):
     ) -> None:
         super().__init__(parent)
         self.weapon = weapon
-        self.settings_instance = weapon.create_settings()
+        self.settings_instance = weapon.create_settings(current_settings)
 
         if self.settings_instance is None:
             QMessageBox.warning(
@@ -41,17 +41,6 @@ class QWeaponSettingsDialog(QDialog):
             )
             self.reject()
             return
-
-        # Load current settings if provided
-        if current_settings:
-            try:
-                self.settings_instance.from_lua_table(current_settings)
-            except Exception as e:
-                QMessageBox.warning(
-                    self,
-                    "Invalid Settings",
-                    f"Could not load settings: {e}\nUsing defaults instead.",
-                )
 
         self.setting_widgets: Dict[str, QWidget] = {}
         self.init_ui()
@@ -200,7 +189,6 @@ class QWeaponSettingsDialog(QDialog):
         """Handle setting value change."""
         try:
             self.settings_instance.set_value(setting_id, value)
-            # Rebuild the form if visibility changed
             self.rebuild_settings()
         except Exception as e:
             QMessageBox.warning(
@@ -224,4 +212,4 @@ class QWeaponSettingsDialog(QDialog):
 
     def get_settings_dict(self) -> Dict[str, Any]:
         """Get the current settings as a dictionary."""
-        return self.settings_instance.to_lua_table()
+        return self.settings_instance.to_dict()

@@ -130,11 +130,14 @@ class Weapon:
         except Exception:
             return False
 
-    def create_settings(self) -> Optional[WeaponSettings]:
-        try:
-            return create_settings(self.pydcs_data)
-        except Exception:
-            return None
+    def create_settings(
+        self, initial_values: Optional[Dict[str, Any]] = None
+    ) -> Optional[WeaponSettings]:
+        """Create settings, optionally loading initial values."""
+        ws = create_settings(self.pydcs_data)
+        if ws and initial_values:
+            ws.from_dict(initial_values)
+        return ws
 
     @lru_cache(maxsize=1)
     def get_target_overrides(self, targets: tuple[Any]) -> Dict[str, Any]:
