@@ -2250,10 +2250,6 @@ class vwv_a_37_dragonfly(PlaneType):
             2,
             Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
         )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT = (
-            2,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
-        )
 
     class Pylon3:
         Mk_82___500lb_GP_Bomb_LD = (3, Weapons.Mk_82___500lb_GP_Bomb_LD)
@@ -2262,10 +2258,6 @@ class vwv_a_37_dragonfly(PlaneType):
         LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE = (
             3,
             Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT = (
-            3,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
         )
 
     class Pylon4:
@@ -2294,10 +2286,6 @@ class vwv_a_37_dragonfly(PlaneType):
             6,
             Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
         )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT = (
-            6,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
-        )
 
     class Pylon7:
         Mk_82___500lb_GP_Bomb_LD = (7, Weapons.Mk_82___500lb_GP_Bomb_LD)
@@ -2307,11 +2295,6 @@ class vwv_a_37_dragonfly(PlaneType):
             7,
             Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
         )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT = (
-            7,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
-        )
-        AIM_9B_Sidewinder_IR_AAM = (7, Weapons.AIM_9B_Sidewinder_IR_AAM)
 
     class Pylon8:
         Mk_82___500lb_GP_Bomb_LD = (8, Weapons.Mk_82___500lb_GP_Bomb_LD)
@@ -2324,7 +2307,7 @@ class vwv_a_37_dragonfly(PlaneType):
         AIM_9B_Sidewinder_IR_AAM = (8, Weapons.AIM_9B_Sidewinder_IR_AAM)
 
     class Pylon9:
-        dragonfly_fuel_tanks = (9, WeaponsVWV.dragonfly_fuel_tanks)
+        dragonfly_fuel_tanks = (9, Weapons.dragonfly_fuel_tanks)
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9}
 
