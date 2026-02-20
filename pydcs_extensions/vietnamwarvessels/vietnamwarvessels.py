@@ -115,7 +115,7 @@ class WeaponsVWV:
         "weight": 10,
     }
     dragonfly_fuel_tanks = {
-        "clsid": "dragonfly_fuel_tanks",
+        "clsid": "{dragonfly_fuel_tanks}",
         "name": "A-37 Fuel Tank",
         "weight": 466,
     }
