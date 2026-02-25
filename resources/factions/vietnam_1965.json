@@ -20,7 +20,7 @@
     "T-55A",
     "PT-76",
     "M2A1 Half-Track",
-    "Grad MRL FDDM (FC)",
+    "Grad MRL FDDM (FC)"
   ],
   "artillery_units": [
     "BM-21 Grad",
@@ -68,4 +68,5 @@
     "R-60 x 2": 1980,
     "R-60": 1980
   }
+
 }
