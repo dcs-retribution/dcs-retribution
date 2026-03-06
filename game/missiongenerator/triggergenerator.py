@@ -211,7 +211,7 @@ class TriggerGenerator:
             trigger.add_action(SetFlag(flag=flag))
 
         script_string = String(
-            f'base_capture_events[#base_capture_events + 1] = "{cp.id}||{capturing_coalition_int}||{cp.full_name}"'
+            f'base_capture_events[#base_capture_events + 1] = "{cp.id}||{capturing_coalition_int}||{cp.full_name}"\ndirty_state = true'
         )
         trigger.add_action(DoScript(script_string))
         return trigger
