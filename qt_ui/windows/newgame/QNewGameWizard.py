@@ -134,7 +134,7 @@ class NewGameWizard(QtWidgets.QWizard):
             mig31bm_foxhound=self.field("mig31bm_foxhound"),
             mam=self.field("mam"),
             tornado_adv=self.field("tornado_adv"),
-            VSN_F35=self.field("VSN_F35"),
+            VSN_F35=self.field("vsnf35"),
             f111c=self.field("f111c"),
         )
 
