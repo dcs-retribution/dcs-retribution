@@ -3,6 +3,7 @@ from typing import Dict, List, Set, Any
 from dcs import task
 from dcs.helicopters import HelicopterType
 from dcs.unitpropertydescription import UnitPropertyDescription
+from dcs.weapons_data import Weapons
 
 from game.modsupport import helicoptermod
 from pydcs_extensions.weapon_injector import inject_weapons
@@ -11,6 +12,51 @@ from pydcs_extensions.weapon_injector import inject_weapons
 class WeaponsOH6:
     Cameraman = {"clsid": "{OH-6_CAMMAN}", "name": "Cameraman", "weight": 70}
     Camrig = {"clsid": "{OH-6_CAMRIG}", "name": "Camrig", "weight": 70}
+    Cargo_Ammo = {
+        "clsid": "{OH-6_CARGO_AMMO}",
+        "name": "Cargo Ammo",
+        "weight": 200,
+    }
+    Cargo_Animals = {
+        "clsid": "{OH-6_CARGO_ANIMAL}",
+        "name": "Cargo Animals",
+        "weight": 200,
+    }
+    Cargo_Bay_M4 = {
+        "clsid": "{C130-Cargo-Bay-M4}",
+        "name": "Cargo-Bay-M4",
+        "weight": 1,
+    }
+    Cargo_Crates = {
+        "clsid": "{OH-6_CARGO_CRATES}",
+        "name": "Cargo Crates",
+        "weight": 150,
+    }
+    Cargo_Jerrycans = {
+        "clsid": "{OH-6_CARGO_CANS}",
+        "name": "Cargo Jerrycans",
+        "weight": 150,
+    }
+    Cargo_Operator = {
+        "clsid": "{OH-6_CARGO_OPERATOR}",
+        "name": "Cargo Operator",
+        "weight": 180,
+    }
+    Cargo_PAX = {
+        "clsid": "{OH-6_CARGO_PAX}",
+        "name": "Cargo PAX",
+        "weight": 240,
+    }
+    Cargo_Pigs = {
+        "clsid": "{OH-6_CARGO_PIGS}",
+        "name": "Cargo Pigs",
+        "weight": 150,
+    }
+    Cargo_Soldiers = {
+        "clsid": "{OH-6_CARGO_SOLDIERS}",
+        "name": "Cargo Soldiers",
+        "weight": 350,
+    }
     Floaters = {"clsid": "{OH-6_FLOATERS}", "name": "Floaters", "weight": 50}
     Frag_Grenade = {"clsid": "{OH6_FRAG}", "name": "Frag Grenade", "weight": 0}
     M134_Door_Minigun = {
@@ -64,11 +110,11 @@ inject_weapons(WeaponsOH6)
 class OH_6A(HelicopterType):
     id = "OH-6A"
     flyable = True
-    height = 3
-    width = 8.33
-    length = 10
+    height = 2.477
+    width = 8.03
+    length = 9.2393
     fuel_max = 181
-    max_speed = 217
+    max_speed = 241
     chaff = 0
     flare = 30
     charge_total = 30
@@ -105,21 +151,23 @@ class OH_6A(HelicopterType):
     }
 
     callnames: Dict[str, List[str]] = {
-        "Assault",
-        "Banshee",
-        "Condor",
-        "Gunner",
-        "Eagle",
-        "Griffin",
-        "Little Griffin",
-        "Deadbone",
-        "Brandy",
-        "Thunder",
-        "Roadrunner",
-        "Woodstock",
-        "Scalphunter",
-        "Darkhorse",
-        "War Wagon",
+        "USA": [
+            "Assault",
+            "Banshee",
+            "Condor",
+            "Gunner",
+            "Eagle",
+            "Griffin",
+            "Little Griffin",
+            "Deadbone",
+            "Brandy",
+            "Thunder",
+            "Roadrunner",
+            "Woodstock",
+            "Scalphunter",
+            "Darkhorse",
+            "War Wagon",
+        ]
     }
 
     property_defaults: Dict[str, Any] = {
@@ -166,57 +214,67 @@ class OH_6A(HelicopterType):
     livery_name = "OH-6A"  # from type
 
     class Pylon1:
-        SMOKE_Grenade_RED = (1, WeaponsOH6.SMOKE_Grenade_RED)
-        SMOKE_Grenade_Green = (1, WeaponsOH6.SMOKE_Grenade_Green)
-        SMOKE_Grenade_Blue = (1, WeaponsOH6.SMOKE_Grenade_Blue)
-        SMOKE_Grenade_yellow = (1, WeaponsOH6.SMOKE_Grenade_yellow)
+        SMOKE_Grenade_RED = (1, Weapons.SMOKE_Grenade_RED)
+        SMOKE_Grenade_Green = (1, Weapons.SMOKE_Grenade_Green)
+        SMOKE_Grenade_Blue = (1, Weapons.SMOKE_Grenade_Blue)
+        SMOKE_Grenade_yellow = (1, Weapons.SMOKE_Grenade_yellow)
 
     class Pylon2:
-        SMOKE_Grenade_RED = (2, WeaponsOH6.SMOKE_Grenade_RED)
-        SMOKE_Grenade_Green = (2, WeaponsOH6.SMOKE_Grenade_Green)
-        SMOKE_Grenade_Blue = (2, WeaponsOH6.SMOKE_Grenade_Blue)
-        SMOKE_Grenade_yellow = (2, WeaponsOH6.SMOKE_Grenade_yellow)
+        SMOKE_Grenade_RED = (2, Weapons.SMOKE_Grenade_RED)
+        SMOKE_Grenade_Green = (2, Weapons.SMOKE_Grenade_Green)
+        SMOKE_Grenade_Blue = (2, Weapons.SMOKE_Grenade_Blue)
+        SMOKE_Grenade_yellow = (2, Weapons.SMOKE_Grenade_yellow)
 
     class Pylon3:
-        SMOKE_Grenade_RED = (3, WeaponsOH6.SMOKE_Grenade_RED)
-        SMOKE_Grenade_Green = (3, WeaponsOH6.SMOKE_Grenade_Green)
-        SMOKE_Grenade_Blue = (3, WeaponsOH6.SMOKE_Grenade_Blue)
-        SMOKE_Grenade_yellow = (3, WeaponsOH6.SMOKE_Grenade_yellow)
+        SMOKE_Grenade_RED = (3, Weapons.SMOKE_Grenade_RED)
+        SMOKE_Grenade_Green = (3, Weapons.SMOKE_Grenade_Green)
+        SMOKE_Grenade_Blue = (3, Weapons.SMOKE_Grenade_Blue)
+        SMOKE_Grenade_yellow = (3, Weapons.SMOKE_Grenade_yellow)
 
     class Pylon4:
-        SMOKE_Grenade_RED = (4, WeaponsOH6.SMOKE_Grenade_RED)
-        SMOKE_Grenade_Green = (4, WeaponsOH6.SMOKE_Grenade_Green)
-        SMOKE_Grenade_Blue = (4, WeaponsOH6.SMOKE_Grenade_Blue)
-        SMOKE_Grenade_yellow = (4, WeaponsOH6.SMOKE_Grenade_yellow)
+        SMOKE_Grenade_RED = (4, Weapons.SMOKE_Grenade_RED)
+        SMOKE_Grenade_Green = (4, Weapons.SMOKE_Grenade_Green)
+        SMOKE_Grenade_Blue = (4, Weapons.SMOKE_Grenade_Blue)
+        SMOKE_Grenade_yellow = (4, Weapons.SMOKE_Grenade_yellow)
 
     class Pylon5:
-        Frag_Grenade = (5, WeaponsOH6.Frag_Grenade)
+        Frag_Grenade = (5, Weapons.Frag_Grenade)
 
     # ERRR <CLEAN>
     # ERRR <CLEAN>
 
     class Pylon8:
-        M134_Minigun = (8, WeaponsOH6.M134_Minigun)
+        M134_Minigun = (8, Weapons.M134_Minigun)
 
     class Pylon9:
-        XM158_Weapon_System__7_ = (9, WeaponsOH6.XM158_Weapon_System__7_)
-        XM158_Weapon_System__4_ = (9, WeaponsOH6.XM158_Weapon_System__4_)
+        XM158_Weapon_System__7_ = (9, Weapons.XM158_Weapon_System__7_)
+        XM158_Weapon_System__4_ = (9, Weapons.XM158_Weapon_System__4_)
 
     class Pylon10:
-        XM158_Weapon_System__7_ = (10, WeaponsOH6.XM158_Weapon_System__7_)
-        XM158_Weapon_System__4_ = (10, WeaponsOH6.XM158_Weapon_System__4_)
+        XM158_Weapon_System__7_ = (10, Weapons.XM158_Weapon_System__7_)
+        XM158_Weapon_System__4_ = (10, Weapons.XM158_Weapon_System__4_)
 
     class Pylon11:
-        M60_Doorgun = (11, WeaponsOH6.M60_Doorgun)
-        M134_Door_Minigun = (11, WeaponsOH6.M134_Door_Minigun)
+        M60_Doorgun = (11, Weapons.M60_Doorgun)
+        M134_Door_Minigun = (11, Weapons.M134_Door_Minigun)
 
     class Pylon12:
-        Camrig = (12, WeaponsOH6.Camrig)
-        Cameraman = (12, WeaponsOH6.Cameraman)
-        Searchlight = (12, WeaponsOH6.Searchlight)
-        Floaters = (12, WeaponsOH6.Floaters)
+        Camrig = (12, Weapons.Camrig)
+        Cameraman = (12, Weapons.Cameraman)
+        Searchlight = (12, Weapons.Searchlight)
+        Floaters = (12, Weapons.Floaters)
 
-    pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}
+    class Pylon13:
+        Cargo_Ammo = (13, Weapons.Cargo_Ammo)
+        Cargo_Crates = (13, Weapons.Cargo_Crates)
+        Cargo_PAX = (13, Weapons.Cargo_PAX)
+        Cargo_Animals = (13, Weapons.Cargo_Animals)
+        Cargo_Pigs = (13, Weapons.Cargo_Pigs)
+        Cargo_Soldiers = (13, Weapons.Cargo_Soldiers)
+        Cargo_Jerrycans = (13, Weapons.Cargo_Jerrycans)
+        Cargo_Operator = (13, Weapons.Cargo_Operator)
+
+    pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}
 
     tasks = [task.Transport, task.Reconnaissance]
     task_default = task.Reconnaissance

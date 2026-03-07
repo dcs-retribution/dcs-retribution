@@ -30,7 +30,7 @@
 * **[Modding]** Added VSN F-35A/B/C mod support
 * **[Modding]** Add F-111C Aardvark by Warpig Productions (v2.260208)
 * **[Data]** Added ability to restrict weapons usage for a faction to a different year from the nominal weapon introduction year. Updated faction data to restrict more advanced missiles from Soviet client states during the cold war. Updated Egypt 2000 faction to restrict AIM-120 usage.
-* **[Modding]** Update OH-6A mod to v1.6
+* **[Modding]** Update OH-6A mod to v1.7
 
 ## Fixes
 * **[Flight Plans]** Fixed bugs wrt planning escort flights
