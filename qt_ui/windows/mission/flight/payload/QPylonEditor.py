@@ -126,11 +126,17 @@ class QPylonEditor(QWidget):
 
     def matching_weapon_name(self, loadout: Loadout) -> str:
         if self.game.settings.restrict_weapons_by_date:
+            # Always apply target overrides for AI, only for players if setting is enabled
+            should_apply_overrides = (
+                not self.flight_member.is_player
+                or self.game.settings.apply_target_overrides_to_loadouts
+            )
+            target = self.flight.package.target if should_apply_overrides else None
             loadout = loadout.degrade_for_date(
                 self.flight.unit_type,
                 self.game.date,
                 self.flight.squadron.coalition.faction,
-                self.flight.package.target,
+                target,
             )
         weapon = self.weapon_from_loadout(loadout)
         if weapon is None:

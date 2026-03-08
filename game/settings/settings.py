@@ -508,6 +508,17 @@ class Settings:
             "extremely incomplete so does not affect all weapons."
         ),
     )
+    apply_target_overrides_to_loadouts: bool = boolean_option(
+        "Apply target-based weapon settings to player loadouts",
+        page=CAMPAIGN_MANAGEMENT_PAGE,
+        section=GENERAL_SECTION,
+        default=True,
+        detail=(
+            "When enabled, applies target-specific weapon settings from weapon "
+            "configurations to player-controlled aircraft. AI aircraft always receive "
+            "target-based settings. This includes settings for degraded loadouts."
+        ),
+    )
     prefer_squadrons_with_matching_primary_task: bool = boolean_option(
         "Prefer squadrons with matching primary task when planning missions",
         page=CAMPAIGN_MANAGEMENT_PAGE,

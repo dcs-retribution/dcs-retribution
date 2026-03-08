@@ -176,11 +176,17 @@ class PretenseFlightGroupConfigurator(FlightGroupConfigurator):
             )
 
         if self.game.settings.restrict_weapons_by_date:
+            # Always apply target overrides for AI, only for players if setting is enabled
+            should_apply_overrides = (
+                not member.is_player
+                or self.game.settings.apply_target_overrides_to_loadouts
+            )
+            target = self.flight.package.target if should_apply_overrides else None
             loadout = loadout.degrade_for_date(
                 self.flight.unit_type,
                 self.game.date,
                 self.flight.squadron.coalition.faction,
-                self.flight.package.target,
+                target,
             )
 
         for pylon_number, weapon in loadout.pylons.items():
