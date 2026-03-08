@@ -11,17 +11,13 @@ from ..data.weapons import Weapon
 
 if TYPE_CHECKING:
     from game.squadrons import Pilot, Squadron
-    from game.theater import MissionTarget
     from .flight import Flight
 
 
 class FlightMembers(IFlightRoster):
-    def __init__(
-        self, flight: Flight, target: MissionTarget, initial_size: int = 0
-    ) -> None:
+    def __init__(self, flight: Flight, initial_size: int = 0) -> None:
         self.flight = flight
         self.members: list[FlightMember] = []
-        self.target = target
         self.resize(initial_size)
 
     @property
@@ -29,11 +25,9 @@ class FlightMembers(IFlightRoster):
         return self.flight.squadron
 
     @staticmethod
-    def from_roster(
-        flight: Flight, roster: FlightRoster, target: MissionTarget
-    ) -> FlightMembers:
-        members = FlightMembers(flight, target)
-        loadout = Loadout.default_for(flight, target)
+    def from_roster(flight: Flight, roster: FlightRoster) -> FlightMembers:
+        members = FlightMembers(flight)
+        loadout = Loadout.default_for(flight)
         if flight.squadron.aircraft.variant_id == "F-15I Ra'am":
             loadout.pylons[16] = Weapon.with_clsid("{IDF_MODS_PROJECT_F-15I_Raam_Dome}")
         members.members = [FlightMember(p, loadout) for p in roster.pilots]
@@ -69,7 +63,7 @@ class FlightMembers(IFlightRoster):
         if self.max_size:
             loadout = self.members[0].loadout.clone()
         else:
-            loadout = Loadout.default_for(self.flight, self.target)
+            loadout = Loadout.default_for(self.flight)
         if self.flight.squadron.aircraft.variant_id == "F-15I Ra'am":
             loadout.pylons[16] = Weapon.with_clsid("{IDF_MODS_PROJECT_F-15I_Raam_Dome}")
         for _ in range(new_size - self.max_size):

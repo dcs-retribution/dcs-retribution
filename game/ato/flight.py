@@ -74,9 +74,9 @@ class Flight(
         if claim_inv:
             self.squadron.claim_inventory(count)
         if roster is None:
-            self.roster = FlightMembers(self, self.package.target, initial_size=count)
+            self.roster = FlightMembers(self, initial_size=count)
         else:
-            self.roster = FlightMembers.from_roster(self, roster, self.package.target)
+            self.roster = FlightMembers.from_roster(self, roster)
         self.divert = divert
 
         self.start_type = start_type
@@ -172,9 +172,7 @@ class Flight(
             state["use_same_loadout_for_all_members"] = True
         self.__dict__.update(state)
         if isinstance(self.roster, FlightRoster):
-            self.roster = FlightMembers.from_roster(
-                self, self.roster, self.package.target
-            )
+            self.roster = FlightMembers.from_roster(self, self.roster)
 
     @property
     def blue(self) -> Player:

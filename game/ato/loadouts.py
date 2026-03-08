@@ -11,7 +11,6 @@ from dcs.unittype import FlyingType
 from game.data.weapons import Pylon, Weapon, WeaponType
 from game.dcs.aircrafttype import AircraftType
 from game.factions.faction import Faction
-
 from .flighttype import FlightType
 from ..persistency import prefer_liberation_payloads
 
@@ -266,9 +265,9 @@ class Loadout:
         yield from loadout_names[task]
 
     @classmethod
-    def default_for(cls, flight: Flight, target: Optional[MissionTarget]) -> Loadout:
+    def default_for(cls, flight: Flight) -> Loadout:
         return cls.default_for_task_and_aircraft(
-            flight.flight_type, flight.unit_type.dcs_unit_type, target
+            flight.flight_type, flight.unit_type.dcs_unit_type, flight.package.target
         )
 
     @classmethod
