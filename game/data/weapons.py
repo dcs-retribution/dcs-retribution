@@ -160,8 +160,13 @@ class Weapon:
 
             for override_rule in target_overrides_list:
                 rule_unit_ids = set(override_rule.get("unit_ids", []))
-                if target_ids & rule_unit_ids:
-                    return override_rule.get("settings", {}).copy()
+                try:
+                    if target_ids & rule_unit_ids:
+                        return override_rule["settings"].copy()
+                except Exception as e:
+                    raise ValueError(
+                        f"Error processing target overrides for {self.name}, targets: {targets}: {e}"
+                    )
         return {}
 
 

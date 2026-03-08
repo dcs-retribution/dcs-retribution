@@ -91,7 +91,11 @@ class Loadout:
         return None
 
     def degrade_for_date(
-        self, unit_type: AircraftType, date: datetime.date, faction: Faction
+        self,
+        unit_type: AircraftType,
+        date: datetime.date,
+        faction: Faction,
+        target: Optional["MissionTarget"] = None,
     ) -> Loadout:
         if self.date is not None and self.date <= date:
             return Loadout(
@@ -132,6 +136,11 @@ class Loadout:
         # they're doing. They may be coordinating buddy-lase.
         if not loadout.is_custom:
             loadout.replace_lgbs_if_no_tgp(unit_type, date, faction)
+
+        # Apply target-based weapon settings to the degraded loadout if a target is provided
+        if target is not None:
+            loadout.apply_target_overrides(target)
+
         return loadout
 
     def replace_lgbs_if_no_tgp(
@@ -157,6 +166,27 @@ class Loadout:
                     new_pylons[pylon_number] = fallback
                     self.pylon_settings.pop(pylon_number, None)
         self.pylons = new_pylons
+
+    def apply_target_overrides(self, target: "MissionTarget") -> None:
+        """Apply target-based weapon setting overrides to this loadout.
+
+        This applies weapon-specific settings defined in the weapon YAML files
+        for the given target type to all weapons in this loadout.
+        """
+        # Convert loadout to pydcs payload format for reuse of adjust_payload_for_target
+        payload = [
+            (pylon_num, {"clsid": weapon.clsid, "settings": {}})
+            for pylon_num, weapon in self.pylons.items()
+            if weapon is not None
+        ]
+
+        # Use the existing method to apply target-based settings
+        adjusted_payload = self.adjust_payload_for_target(payload, target)
+
+        # Extract the updated settings and apply them to our loadout
+        for pylon_number, pylon_data in adjusted_payload:
+            if "settings" in pylon_data and pylon_data["settings"]:
+                self.pylon_settings[pylon_number] = pylon_data["settings"]
 
     @classmethod
     def iter_for(cls, flight: Flight) -> Iterator[Loadout]:

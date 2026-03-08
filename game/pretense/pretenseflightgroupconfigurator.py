@@ -180,6 +180,7 @@ class PretenseFlightGroupConfigurator(FlightGroupConfigurator):
                 self.flight.unit_type,
                 self.game.date,
                 self.flight.squadron.coalition.faction,
+                self.flight.package.target,
             )
 
         for pylon_number, weapon in loadout.pylons.items():

@@ -130,6 +130,7 @@ class QPylonEditor(QWidget):
                 self.flight.unit_type,
                 self.game.date,
                 self.flight.squadron.coalition.faction,
+                self.flight.package.target,
             )
         weapon = self.weapon_from_loadout(loadout)
         if weapon is None:
