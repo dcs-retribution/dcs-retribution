@@ -1,0 +1,32 @@
+description:
+  "The Sukhoi Su-35S (Russian: \u0421\u0443\u0445\u043E\u0439 \u0421\u0443-35\u0421; NATO reporting name: Flanker-E) \
+  is a twin-engine, single-seat supermaneuverable multirole fighter developed by Sukhoi as an advanced evolution \
+  of the Su-27 platform. Classified as a 4++ generation aircraft, it features significant upgrades in avionics, \
+  engines, and weapons systems, enabling both air superiority and precision strike missions in all weather conditions. \
+  \ \
+  Powered by AL-41F1S engines with thrust-vectoring nozzles, the Su-35S achieves high agility and speeds up to Mach 2.25. \
+  It is equipped with the Irbis-E PESA radar, capable of detecting targets at ranges up to 400 km and tracking multiple \
+  threats simultaneously. The cockpit uses a modern glass layout with multifunction displays and a wide-angle HUD. \
+  \ \
+  The aircraft can carry up to 8,000 kg of weapons on 12 hardpoints, including a wide range of air-to-air and \
+  air-to-surface munitions, alongside a 30 mm GSh-30-1 autocannon. It also features advanced electronic warfare systems \
+  such as the Khibiny suite and supports in-flight refueling, allowing it to conduct long-range air dominance, \
+  interception, and strike missions in contested environments."
+introduced: 2014  #trust me bro; TODO: citation needed
+manufacturer: Sukhoi
+origin: Russia
+price: 26
+role: Multirole Fighter
+max_range: 400
+variants:
+  Su-35S Flanker-M: {}
+radios:
+  intra_flight: R-800
+  inter_flight: R-800
+tasks:
+  BARCAP: 700
+  Escort: 700
+  Fighter sweep: 800
+  Intercept: 850
+  SEAD Escort: 550
+  TARCAP: 700

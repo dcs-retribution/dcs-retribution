@@ -146,6 +146,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("su15_flagon", self.su15_flagon)
         self.su30_flanker_h = QtWidgets.QCheckBox()
         self.registerField("su30_flanker_h", self.su30_flanker_h)
+        self.su35s_flanker_m = QtWidgets.QCheckBox()
+        self.registerField("su35s_flanker_m", self.su35s_flanker_m)
         self.su57_felon = QtWidgets.QCheckBox()
         self.registerField("su57_felon", self.su57_felon)
         self.ov10a_bronco = QtWidgets.QCheckBox()
@@ -252,6 +254,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("Star Wars Modpack 2.54+", self.SWPack),
             ("Su-15 Flagon (v1.0)", self.su15_flagon),
             ("Su-30 Flanker-H (v2.8.04b + CWS 3.72)", self.su30_flanker_h),
+            ("Su-35S Flanker-M (v2.0.24 + CCA 1.0.0)", self.su35s_flanker_m),
             ("Su-57 Felon (build-04)", self.su57_felon),
             ("Super Étendard (v2.5.5)", self.super_etendard),
             ("Tornado F3 ADV (1.0)", self.tornado_adv),

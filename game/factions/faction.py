@@ -516,6 +516,9 @@ class Faction:
             self.remove_aircraft("Su-30MKI")
             self.remove_aircraft("Su-30MKM")
             self.remove_aircraft("Su-30SM")
+        if not mod_settings.su35s_flanker_m:
+            self.remove_aircraft("Su-35S")
+            self.remove_aircraft("Su-35S_AG")
         if not mod_settings.su57_felon:
             self.remove_aircraft("Su-57")
         if not mod_settings.ov10a_bronco:
