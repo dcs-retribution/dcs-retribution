@@ -2,7 +2,7 @@
   "country": "Combined Joint Task Forces Blue",
   "name": "Blufor Current",
   "authors": "Starfire",
-  "description": "<p>Combined Blufor in the 2020s intended for use with Currenthill's USA and Sweden asset packs.</p>",
+  "description": "<p>Combined Blufor in the 2020s intended for use with Currenthill's USA, Sweden, and UK asset packs.</p>",
   "aircrafts": [
     "A-10C Thunderbolt II (Suite 7)",
     "A-10C Thunderbolt II (Suite 3)",
@@ -85,7 +85,15 @@
     "[CH] Oshkosh L-ATV (Mk19)",
     "APC MRAP M-ATV [CH]",
     "[CH] Oshkosh M-ATV MRAP (Mk19)",
-    "IFV M1130 Stryker CV [CH]"
+    "IFV M1130 Stryker CV [CH]",
+    "[CH] Ajax CRV",
+    "[CH] Challenger 2 MBT",
+    "[CH] Challenger 3 MBT",
+    "[CH] Scimitar CRV",
+    "[CH] Scorpion LT",
+    "[CH] Warrior IFV",
+    "[CH] Land Rover Wolf WMIK (M2)",
+    "[CH] Land Rover Wolf WMIK (Mk19)"
   ],
   "artillery_units": [
     "M109A6 Paladin",
@@ -101,14 +109,16 @@
     "MLRS M142 HIMARS GMLRS HE [CH]",
     "[CH] Grkpbv 90 SPM",
     "[CH] Archer SPG SGR77B",
-    "[CH] Archer SPG M982 Excalibur"
+    "[CH] Archer SPG M982 Excalibur",
+    "[CH] AS-90 SPG"
   ],
   "logistics_units": [
     "Truck M818 6x6",
     "Truck M1083 A1P2 MTV [CH]",
     "[CH] Oshkosh HEMTT M977",
     "[CH] Oshkosh HEMTT M983",
-    "[CH] Oshkosh MTVR MK23"
+    "[CH] Oshkosh MTVR MK23",
+    "[CH] Land Rover Wolf LUV"
 
   ],
   "infantry_units": [
@@ -172,7 +182,9 @@
     "[CH] Arleigh Burke Flight III Destroyer",
     "[CH] Constellation Frigate",
     "[CH] Ticonderoga Cruiser",
-    "[CH] Ticonderoga CMP Cruiser"
+    "[CH] Ticonderoga CMP Cruiser",
+    "[CH] Type 26 Frigate",
+    "[CH] Type 45 Destroyer"
   ],
   "missiles": [
     "[CH] M270A1 MLRS (ATACMS)",
@@ -190,11 +202,16 @@
     "SAM Hawk SR (AN/MPQ-50)",
     "[CH] UndE 23 (RBS 70/90/98) STR",
     "[CH] Centurion C-RAM",
-    "[CH] LAV-AD SPAAGM"
+    "[CH] LAV-AD SPAAGM",
+    "[CH] Sky Sabre Giraffe AMB STR (HX)",
+    "[CH] Sky Sabre iLauncher LN (HX)",
+    "[CH] Sky Sabre C2 (HX)",
+    "[CH] Stormer HVM SHORAD"
   ],
   "requirements": {
     "CurrentHill USA Asset Pack": "https://www.currenthill.com/usa",
-    "CurrentHill Sweden Asset Pack": "https://www.currenthill.com/sweden"
+    "CurrentHill Sweden Asset Pack": "https://www.currenthill.com/sweden",
+    "CurrentHill UK Asset Pack": "https://www.currenthill.com/uk"
   },
   "carrier_names": [
     "CVN-71 Theodore Roosevelt",

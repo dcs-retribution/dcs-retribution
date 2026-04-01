@@ -1,0 +1,9 @@
+class: Tank
+description: Challenger 2 is the main battle tank of the British Army, combining heavy armor protection and a 120 mm main gun for frontline armored warfare.
+introduced: 1998
+manufacturer: Vickers Defence Systems
+origin: United Kingdom
+price: 22
+role: Main Battle Tank
+variants:
+  "[CH] Challenger 2 MBT": null

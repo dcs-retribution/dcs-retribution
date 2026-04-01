@@ -1,0 +1,9 @@
+class: Recon
+description: The WMIK variant of the Land Rover Wolf is a weapons-mounted patrol vehicle configured for high mobility reconnaissance and fire support.
+introduced: 1998
+manufacturer: Land Rover
+origin: United Kingdom
+price: 3
+role: Patrol and Reconnaissance Vehicle
+variants:
+  "[CH] Land Rover Wolf WMIK (M2)": null

@@ -1,0 +1,9 @@
+class: IFV
+description: FV101 Scorpion is a light tracked combat vehicle used for reconnaissance and direct fire support in expeditionary and rapid maneuver operations.
+introduced: 1973
+manufacturer: Alvis
+origin: United Kingdom
+price: 10
+role: Light Tank
+variants:
+  "[CH] Scorpion LT": null

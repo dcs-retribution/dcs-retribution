@@ -1,0 +1,9 @@
+class: SearchRadar
+description: Giraffe AMB is a mobile 3D surveillance radar used by Sky Sabre to detect, classify, and track aerial threats for networked missile engagements.
+introduced: 2021
+manufacturer: Saab
+origin: Sweden and United Kingdom
+price: 26
+role: Air Defence Search Radar
+variants:
+  "[CH] Sky Sabre Giraffe AMB STR (HX)": null
