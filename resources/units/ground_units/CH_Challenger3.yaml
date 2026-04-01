@@ -1,0 +1,9 @@
+class: Tank
+description: Challenger 3 is the British Army's modernization of the Challenger fleet with improved sensors, survivability, and a modern 120 mm smoothbore gun.
+introduced: 2027
+manufacturer: Rheinmetall BAE Systems Land
+origin: United Kingdom
+price: 25
+role: Main Battle Tank
+variants:
+  "[CH] Challenger 3 MBT": null

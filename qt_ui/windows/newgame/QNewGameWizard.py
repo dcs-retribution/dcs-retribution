@@ -130,6 +130,7 @@ class NewGameWizard(QtWidgets.QWizard):
             chinesemilitaryassetspack=self.field("chinesemilitaryassetspack"),
             russianmilitaryassetspack=self.field("russianmilitaryassetspack"),
             usamilitaryassetspack=self.field("usamilitaryassetspack"),
+            ukmilitaryassetspack=self.field("ukmilitaryassetspack"),
             ukrainemilitaryassetspack=self.field("ukrainemilitaryassetspack"),
             mig31bm_foxhound=self.field("mig31bm_foxhound"),
             mam=self.field("mam"),

@@ -1,0 +1,9 @@
+class: IFV
+description: FV107 Scimitar is a tracked reconnaissance combat vehicle armed with a 30 mm cannon and designed for fast battlefield scouting and screening.
+introduced: 1974
+manufacturer: Alvis
+origin: United Kingdom
+price: 10
+role: Reconnaissance Combat Vehicle
+variants:
+  "[CH] Scimitar CRV": null

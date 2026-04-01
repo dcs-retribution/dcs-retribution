@@ -116,6 +116,7 @@ class ModSettings:
     chinesemilitaryassetspack: bool = False
     russianmilitaryassetspack: bool = False
     usamilitaryassetspack: bool = False
+    ukmilitaryassetspack: bool = False
     ukrainemilitaryassetspack: bool = False
     mig31bm_foxhound: bool = False
     VSN_F35: bool = False

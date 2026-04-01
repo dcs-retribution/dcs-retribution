@@ -1,0 +1,9 @@
+class: Destroyer
+description: Type 45 is the Royal Navy's principal area air defence destroyer, equipped for fleet protection against aircraft and missile threats.
+introduced: 2009
+manufacturer: BAE Systems
+origin: United Kingdom
+price: 0
+role: Guided Missile Destroyer
+variants:
+  "[CH] Type 45 Destroyer": null

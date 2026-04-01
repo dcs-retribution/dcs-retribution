@@ -1,0 +1,9 @@
+class: Artillery
+description: The AS-90 is a 155 mm self-propelled howitzer operated by the British Army, built to provide mobile indirect fire support for armored and mechanized formations.
+introduced: 1992
+manufacturer: Vickers Shipbuilding and Engineering
+origin: United Kingdom
+price: 15
+role: Self-Propelled Howitzer
+variants:
+  "[CH] AS-90 SPG": null

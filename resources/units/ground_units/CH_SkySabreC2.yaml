@@ -1,0 +1,9 @@
+class: CommandPost
+description: Sky Sabre C2 is the command and control element of the British Sky Sabre air defence system, coordinating radar and launcher engagements.
+introduced: 2021
+manufacturer: MBDA UK
+origin: United Kingdom
+price: 10
+role: Air Defence Command Post
+variants:
+  "[CH] Sky Sabre C2 (HX)": null

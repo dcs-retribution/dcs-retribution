@@ -43,6 +43,7 @@ from .vietnamwarvessels import *
 from .chinesemilitaryassetspack import *
 from .russianmilitaryassetspack import *
 from .usamilitaryassetspack import *
+from .ukmilitaryassetspack import *
 from .ukrainemilitaryassetspack import *
 from .tornado_adv import *
 from .VSN_F35 import *

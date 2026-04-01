@@ -1,0 +1,9 @@
+class: Recon
+description: The Ajax is a tracked armored reconnaissance vehicle family for the British Army, designed for surveillance, target acquisition, and protected mobility in contested environments.
+introduced: 2017
+manufacturer: General Dynamics UK
+origin: United Kingdom
+price: 10
+role: Armored Reconnaissance Vehicle
+variants:
+  "[CH] Ajax CRV": null

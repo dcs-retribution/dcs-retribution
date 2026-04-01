@@ -28,6 +28,7 @@ from pydcs_extensions import vietnamwarvessels as vwv
 from pydcs_extensions import chinesemilitaryassetspack as cmap
 from pydcs_extensions import russianmilitaryassetspack as rmap
 from pydcs_extensions import swedishmilitaryassetspack as smap
+from pydcs_extensions import ukmilitaryassetspack as ukmap
 from pydcs_extensions import usamilitaryassetspack as usamap
 
 TELARS = {
@@ -43,6 +44,7 @@ TELARS = {
     rmap.CH_BukM3_9A317MA,
     rmap.CH_S350_50P6_9M96D,
     rmap.CH_S350_50P6_9M100,
+    ukmap.CH_SkySabreLN,
 }
 
 TRACK_RADARS = {
@@ -68,6 +70,7 @@ TRACK_RADARS = {
     smap.LvS_103_PM103,
     smap.LvS_103_PM103_HX,
     smap.UndE23,
+    ukmap.CH_SkySabreGiraffe,
     usamap.MIM104_ANMPQ65,
     usamap.MIM104_ANMPQ65A,
     usamap.MIM104_ANMPQ65_HEMTT,
@@ -132,6 +135,7 @@ LAUNCHER_TRACKER_PAIRS = {
     smap.RBS_70: (smap.UndE23,),
     smap.RBS_90: (smap.UndE23,),
     smap.RBS_98: (smap.UndE23,),
+    ukmap.CH_SkySabreLN: (ukmap.CH_SkySabreGiraffe,),
     usamap.MIM104_M903_PAC2: (
         usamap.MIM104_ANMPQ65,
         usamap.MIM104_ANMPQ65A,
@@ -224,6 +228,8 @@ UNITS_WITH_RADAR = {
     smap.LvS_103_PM103,
     smap.LvS_103_PM103_HX,
     smap.UndE23,
+    ukmap.CH_SkySabreGiraffe,
+    ukmap.CH_SkySabreLN,
     usamap.CH_Centurion_C_RAM,
     usamap.CH_NASAMS3_SR,
     usamap.MIM104_ANMPQ65,
@@ -279,4 +285,6 @@ UNITS_WITH_RADAR = {
     usamap.CH_Arleigh_Burke_III,
     usamap.CH_Ticonderoga,
     usamap.CH_Ticonderoga_CMP,
+    ukmap.CH_Type26,
+    ukmap.Type45,
 }

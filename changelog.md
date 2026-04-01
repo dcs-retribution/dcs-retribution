@@ -24,6 +24,7 @@
 * **[Campaign]** Pretense generator now applies ground unit livery overrides to zone groups as well, such as SAM sites
 * **[Plugins]** Added BigEye EWR Script
 * **[Modding]** Update CurrentHill Russia Assets Pack to 2.0.0
+* **[Modding]** Add CurrentHill UK Assets Pack support (v1.1.2)
 * **[UI]** Add campaign name to retribution window name
 * **[Plugins]** MooseAirboss - Added option to despawn stuck AI aircraft on the carrier
 * **[Plugins]** MooseAirboss - Automatically set TACAN/ILS from retribution
