@@ -35,6 +35,7 @@
 
 ## Fixes
 * **[Flight Plans]** Fixed bugs wrt planning escort flights
+* **[Flight Plans]** Stabilized waypoint solver debug GeoJSON coordinate precision to avoid platform-specific floating point drift in debug output.
 * **[Flight Plans]** Added AntiShipStrike as a fallback task for OCA/Aircraft to fix a bug where the S-3B could not do OCA/Aircraft
 * **[Squadrons]** Fixed a bug where loading an air wing config would not properly load all squadrons
 * **[Flight Plans]** Fixed a bug where SEAD flights would fire one ARM and RTB
