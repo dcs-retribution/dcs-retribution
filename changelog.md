@@ -8,6 +8,7 @@
 
 ## Fixes
 * **[Performance]** Improved robustness w.r.t. state.json handling to avoid corruption and thus save loss.
+* **[Flight Plans]** Stabilized waypoint solver debug GeoJSON coordinate precision to avoid platform-specific floating point drift in debug output.
 
 
 # Retribution v1.5.0
