@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import random
 from typing import TYPE_CHECKING, Iterator, Optional
 
@@ -45,7 +46,15 @@ class ArmedForces:
 
         # Add all preset groups afterwards to prevent them being merged with generics
         for preset_group in faction.preset_groups:
-            self.forces.append(preset_group.initialize_for_faction(faction))
+            try:
+                self.forces.append(preset_group.initialize_for_faction(faction))
+            except Exception as ex:
+                logging.error(
+                    "Skipping unusable preset group '%s' for faction '%s': %s",
+                    preset_group.name,
+                    faction.name,
+                    ex,
+                )
 
     def groups_for_task(self, group_task: GroupTask) -> Iterator[ForceGroup]:
         for force_group in self.forces:

@@ -1,0 +1,51 @@
+name: Sky Sabre Battery
+tasks:
+  - LORAD
+groups:
+  - SkySabre:
+    - name: Search Radar
+      unit_count:
+        - 1
+      unit_types:
+        - CH_SkySabreGiraffe
+      unit_classes:
+        - SearchRadar
+    - name: Command Post
+      unit_count:
+        - 1
+      unit_types:
+        - CH_SkySabreC2
+      unit_classes:
+        - CommandPost
+    - name: Launcher
+      unit_count:
+        - 2
+      unit_types:
+        - CH_SkySabreLN
+      unit_classes:
+        - Launcher
+    - name: Logistics
+      optional: true
+      unit_count:
+        - 1
+        - 2
+      unit_classes:
+        - Logistics
+  - PD:
+    - name: Point Defense
+      sub_task: PointDefense
+      optional: true
+      unit_count:
+        - 1
+        - 2
+      unit_classes:
+        - SHORAD
+    - name: AAA
+      sub_task: AAA
+      optional: true
+      unit_count:
+        - 1
+        - 2
+      unit_classes:
+        - AAA
+layout_file: resources/layouts/anti_air/8_Launcher_Circle.miz

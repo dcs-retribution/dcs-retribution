@@ -1,0 +1,9 @@
+name: Sky Sabre Battery
+tasks:
+  - LORAD
+units:
+  - "[CH] Sky Sabre Giraffe AMB STR (HX)"
+  - "[CH] Sky Sabre C2 (HX)"
+  - "[CH] Sky Sabre iLauncher LN (HX)"
+layouts:
+  - Sky Sabre Battery

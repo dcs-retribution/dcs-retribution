@@ -1,0 +1,7 @@
+name: Stormer HVM Battery
+tasks:
+  - SHORAD
+units:
+  - "[CH] Stormer HVM SHORAD"
+layouts:
+  - 2 Launcher Site
