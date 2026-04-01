@@ -22,6 +22,8 @@ class NoSolutionsError(RuntimeError):
 
 
 class WaypointSolver:
+    GEOJSON_COORDINATE_PRECISION = 13
+
     def __init__(self) -> None:
         self.strategies: list[WaypointStrategy] = []
         self.debug_output_directory: Path | None = None
@@ -48,7 +50,12 @@ class WaypointSolver:
                 latlng = p.latlng()
                 # Longitude is unintuitively first because it's the "X" coordinate:
                 # https://datatracker.ietf.org/doc/html/rfc7946#section-3.1.1
-                ll_points.append([latlng.lng, latlng.lat])
+                ll_points.append(
+                    [
+                        round(latlng.lng, self.GEOJSON_COORDINATE_PRECISION),
+                        round(latlng.lat, self.GEOJSON_COORDINATE_PRECISION),
+                    ]
+                )
             return array(ll_points)
 
         transformed = transform(geometry, xy_to_ll)

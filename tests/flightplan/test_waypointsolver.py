@@ -158,7 +158,7 @@ def test_no_solutions_dumps_inputs(tmp_path: Path) -> None:
                 "properties": {"description": "foo"},
                 "geometry": {
                     "type": "Point",
-                    "coordinates": [34.265515188456, 45.129497060328966],
+                    "coordinates": [34.265515188456, 45.129497060329],
                 },
             },
             {
@@ -166,7 +166,7 @@ def test_no_solutions_dumps_inputs(tmp_path: Path) -> None:
                 "properties": {"description": "bar"},
                 "geometry": {
                     "type": "Point",
-                    "coordinates": [34.265528100962584, 45.1295059189547],
+                    "coordinates": [34.2655281009626, 45.1295059189547],
                 },
             },
         ],
@@ -194,7 +194,7 @@ def test_solver_inputs_appear_in_strategy_features(tmp_path: Path) -> None:
                 "properties": {"description": "foo"},
                 "geometry": {
                     "type": "Point",
-                    "coordinates": [34.265515188456, 45.129497060328966],
+                    "coordinates": [34.265515188456, 45.129497060329],
                 },
             },
             {
@@ -202,14 +202,14 @@ def test_solver_inputs_appear_in_strategy_features(tmp_path: Path) -> None:
                 "properties": {"description": "bar"},
                 "geometry": {
                     "type": "Point",
-                    "coordinates": [34.265528100962584, 45.1295059189547],
+                    "coordinates": [34.2655281009626, 45.1295059189547],
                 },
             },
             {
                 "type": "Feature",
                 "properties": {"description": "solution"},
                 "geometry": {
-                    "coordinates": [34.265541013473154, 45.12951477757893],
+                    "coordinates": [34.2655410134732, 45.1295147775789],
                     "type": "Point",
                 },
             },
@@ -221,7 +221,7 @@ def test_to_geojson(tmp_path: Path) -> None:
     solver = WaypointSolver()
     solver.set_debug_properties(tmp_path, Caucasus())
     assert solver.to_geojson(Point(0, 0)) == {
-        "coordinates": [34.265515188456, 45.129497060328966],
+        "coordinates": [34.265515188456, 45.129497060329],
         "type": "Point",
     }
 
