@@ -1,0 +1,20 @@
+description:
+  The Northrop/McDonnell Douglas YF-23 was an advanced tactical fighter prototype
+  developed for the USAF Advanced Tactical Fighter competition. This mod represents
+  a fictional production F-23A variant, a stealth air superiority fighter with
+  supercruise capability, internal weapons bays carrying AIM-120C AMRAAM and
+  AIM-9X Sidewinder missiles.
+introduced: 1995
+manufacturer: Northrop/McDonnell Douglas
+origin: USA
+price: 28
+role: Air Superiority Fighter
+max_range: 750
+variants:
+  "F-23A": {}
+tasks:
+  BARCAP: 800
+  TARCAP: 800
+  Escort: 800
+  Fighter sweep: 800
+  Intercept: 800

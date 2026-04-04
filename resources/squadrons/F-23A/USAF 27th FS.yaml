@@ -1,0 +1,13 @@
+---
+name: USAF 27th FS
+nickname: Fightin' Spectres
+country: USA
+role: Air Superiority
+aircraft: F-23A
+livery: 27th FS 08-161
+mission_types:
+  - BARCAP
+  - TARCAP
+  - Escort
+  - Fighter sweep
+  - Intercept

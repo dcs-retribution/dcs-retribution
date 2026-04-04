@@ -1,0 +1,13 @@
+---
+name: USAF 65th AGRS
+nickname: Aggressors
+country: USA
+role: Air Superiority
+aircraft: F-23A
+livery: 65th AGRS 99-293
+mission_types:
+  - BARCAP
+  - TARCAP
+  - Escort
+  - Fighter sweep
+  - Intercept

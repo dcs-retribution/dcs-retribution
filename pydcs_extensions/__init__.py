@@ -15,6 +15,7 @@ from .f15i_idf import *
 from .f16i_idf import *
 from .f4e_expanded_weapons import *
 from .f22a import *
+from .f23a import *
 from .f4 import *
 from .f84g import *
 from .f111c import *
