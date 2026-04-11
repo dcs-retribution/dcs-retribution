@@ -11,13 +11,59 @@
             "nameInUI": "Enable AI Jammers",
             "mnemonic": "ai_jammer_enabled",
             "defaultValue": false
+        },
+        {
+            "nameInUI": "Offensive Jammer Strength Multipler",
+            "mnemonic": "OFFENSIVE_POWER",
+            "minimumValue": 0.0,
+            "maximumValue": 5.0,
+            "defaultValue": 1.0
+        },
+        {
+            "nameInUI": "Defensive Jammer Strength Multipler",
+            "mnemonic": "DEFENSIVE_POWER",
+            "minimumValue": 0.0,
+            "maximumValue": 5.0,
+            "defaultValue": 1.0
+        },
+        {
+            "nameInUI": "Missile Specific Jamming Multipler",
+            "mnemonic": "MISSILE_JAM_SCALE",
+            "minimumValue": 0.0,
+            "maximumValue": 5.0,
+            "defaultValue": 0.6
+        },
+        {
+            "nameInUI": "DEBUG",
+            "mnemonic": "DEBUG",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "DEBUG - Offensive",
+            "mnemonic": "DEBUG_OFFENSIVE",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "DEBUG - Defensive",
+            "mnemonic": "DEBUG_DEFENSIVE",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "DEBUG - Advanced (Radar Lists)",
+            "mnemonic": "DEBUG_ADVANCED",
+            "defaultValue": false
         }
     ],
     "scriptsWorkOrders": [
         {
-            "file": "EW script 2.02.lua",
+            "file": "EW script 2.1.lua",
             "mnemonic": "ewrj"
         }
     ],
-    "configurationWorkOrders": []
+    "configurationWorkOrders": [
+        {
+            "file": "ewrj_config.lua",
+            "mnemonic": "ewrj_config"
+        }
+    ]
 }
