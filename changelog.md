@@ -5,6 +5,7 @@
 * **[UX]** Improved fast-forward settings with the ability to skip combat.
 * **[Data]** Add Refueling/Recovery tasks to A-6E Intruder mod
 * **[Modding]** Add CurrentHill UK Assets Pack support (v1.1.2)
+* **[Modding]** Added F-23A Spectre mod support.
 
 ## Fixes
 * **[Performance]** Improved robustness w.r.t. state.json handling to avoid corruption and thus save loss.
@@ -44,8 +45,6 @@
 * **[Data]** Added ability to restrict weapons usage for a faction to a different year from the nominal weapon introduction year. Updated faction data to restrict more advanced missiles from Soviet client states during the cold war. Updated Egypt 2000 faction to restrict AIM-120 usage.
 * **[Modding]** Update OH-6A mod to v1.7
 * **[Engine]** Support for custom weapon settings, including settings overrides per target.
-* **[Modding]** Added F-23A Spectre mod support.
-
 
 ## Fixes
 * **[Flight Plans]** Fixed bugs wrt planning escort flights
