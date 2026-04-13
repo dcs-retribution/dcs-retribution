@@ -1,0 +1,138 @@
+{
+    "nameInUI": "Moose FlightControl",
+    "defaultValue": false,
+    "specificOptions": [
+        {
+            "nameInUI": "Enable for BLUE coalition airbases",
+            "mnemonic": "enableBlue",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "Enable for RED coalition airbases",
+            "mnemonic": "enableRed",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "Use DCS/pydcs per-airbase ATC frequencies",
+            "mnemonic": "useDcsAirbaseAtcFrequencies",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "BLUE fallback tower frequency (MHz)",
+            "mnemonic": "blueFrequency",
+            "minimumValue": 30,
+            "maximumValue": 399,
+            "defaultValue": 251
+        },
+        {
+            "nameInUI": "RED fallback tower frequency (MHz)",
+            "mnemonic": "redFrequency",
+            "minimumValue": 30,
+            "maximumValue": 399,
+            "defaultValue": 124
+        },
+        {
+            "nameInUI": "Fallback modulation FM (otherwise AM)",
+            "mnemonic": "useFM",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "Max simultaneous landing groups",
+            "mnemonic": "limitLanding",
+            "minimumValue": 1,
+            "maximumValue": 10,
+            "defaultValue": 2
+        },
+        {
+            "nameInUI": "Allowed takeoff groups while landing",
+            "mnemonic": "limitLandingTakeoff",
+            "minimumValue": 0,
+            "maximumValue": 10,
+            "defaultValue": 0
+        },
+        {
+            "nameInUI": "Landing clearance interval (sec)",
+            "mnemonic": "landingIntervalSeconds",
+            "minimumValue": 10,
+            "maximumValue": 1200,
+            "defaultValue": 180
+        },
+        {
+            "nameInUI": "Max simultaneous taxi groups",
+            "mnemonic": "limitTaxi",
+            "minimumValue": 1,
+            "maximumValue": 20,
+            "defaultValue": 2
+        },
+        {
+            "nameInUI": "Count inbound taxi in taxi limit",
+            "mnemonic": "taxiIncludeInbound",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "Allowed landing groups while taxiing",
+            "mnemonic": "limitTaxiLanding",
+            "minimumValue": 0,
+            "maximumValue": 10,
+            "defaultValue": 0
+        },
+        {
+            "nameInUI": "Taxi speed limit (knots, 0=off)",
+            "mnemonic": "taxiSpeedLimitKnots",
+            "minimumValue": 0,
+            "maximumValue": 80,
+            "defaultValue": 25
+        },
+        {
+            "nameInUI": "Runway repair time (sec)",
+            "mnemonic": "runwayRepairSeconds",
+            "minimumValue": 60,
+            "maximumValue": 14400,
+            "defaultValue": 3600
+        },
+        {
+            "nameInUI": "Mark holding patterns on F10",
+            "mnemonic": "markHoldingPatterns",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "Transmit radio only if players present",
+            "mnemonic": "radioOnlyIfPlayers",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "Show SRS subtitles",
+            "mnemonic": "subtitles",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "Disable SRS/TTS radio transmissions (test mode)",
+            "mnemonic": "disableSrsRadio",
+            "defaultValue": false
+        },
+        {
+            "nameInUI": "Disable built-in DCS ATC on managed airbases",
+            "mnemonic": "disableDcsAtc",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "Enable parking guards (default blue=M4, red=AK)",
+            "mnemonic": "enableParkingGuards",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "FlightControl verbosity (0-5)",
+            "mnemonic": "verbosity",
+            "minimumValue": 0,
+            "maximumValue": 5,
+            "defaultValue": 0
+        }
+    ],
+    "scriptsWorkOrders": [],
+    "configurationWorkOrders": [
+        {
+            "file": "flightcontrol.lua",
+            "mnemonic": "flightcontrol-config"
+        }
+    ]
+}

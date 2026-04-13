@@ -52,8 +52,47 @@ class LuaGenerator:
         install_path = lua_data.add_item("installPath")
         install_path.set_value(os.path.abspath("."))
 
-        lua_data.add_item("Airbases")
+        airbases_object = lua_data.add_item("Airbases")
         carriers_object = lua_data.add_item("Carriers")
+
+        seen_airbases: set[str] = set()
+        for cp in self.game.theater.controlpoints:
+            airport = getattr(cp, "airport", None)
+            if airport is None:
+                continue
+
+            airbase_name = getattr(airport, "name", None)
+            if airbase_name is None or airbase_name in seen_airbases:
+                continue
+
+            seen_airbases.add(airbase_name)
+
+            if cp.captured.is_blue:
+                side = "blue"
+            elif cp.captured.is_red:
+                side = "red"
+            else:
+                side = "neutral"
+
+            airbase_item = airbases_object.add_item()
+            airbase_item.add_key_value("name", airbase_name)
+            airbase_item.add_key_value("id", str(airport.id))
+            airbase_item.add_key_value("side", side)
+
+            atc_radio = getattr(airport, "atc_radio", None)
+            if atc_radio is not None:
+                if atc_radio.hf_hz is not None:
+                    airbase_item.add_key_value("atc_hf_hz", str(atc_radio.hf_hz))
+                if atc_radio.vhf_low_hz is not None:
+                    airbase_item.add_key_value(
+                        "atc_vhf_low_hz", str(atc_radio.vhf_low_hz)
+                    )
+                if atc_radio.vhf_high_hz is not None:
+                    airbase_item.add_key_value(
+                        "atc_vhf_high_hz", str(atc_radio.vhf_high_hz)
+                    )
+                if atc_radio.uhf_hz is not None:
+                    airbase_item.add_key_value("atc_uhf_hz", str(atc_radio.uhf_hz))
 
         for carrier in self.mission_data.carriers:
             carrier_item = carriers_object.add_item()
