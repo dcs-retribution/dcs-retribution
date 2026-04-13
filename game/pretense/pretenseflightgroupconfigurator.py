@@ -137,7 +137,7 @@ class PretenseFlightGroupConfigurator(FlightGroupConfigurator):
 
         self.group.uncontrolled = False
 
-        return FlightData(
+        flight_data = FlightData(
             package=self.flight.package,
             aircraft_type=self.flight.unit_type,
             squadron=self.flight.squadron,
@@ -160,6 +160,10 @@ class PretenseFlightGroupConfigurator(FlightGroupConfigurator):
             custom_name=self.flight.custom_name,
             laser_codes=laser_codes,
         )
+
+        self.register_escort_leash()
+
+        return flight_data
 
     def setup_payloads(self) -> None:
         for unit, member in zip(self.group.units, self.flight.iter_members()):

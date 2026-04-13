@@ -7,9 +7,9 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "DCS Retribution"
-copyright = "2025, DCS Retribution Team"
+copyright = "2026, DCS Retribution Team"
 author = "DCS Retribution Team"
-release = "1.5.0"
+release = "1.6.0"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

@@ -3,7 +3,7 @@ anyio==3.7.1
 asgiref==3.8.1
 atomicwrites==1.4.1
 attrs==25.3.0
-black==26.1.0
+black==26.3.1
 certifi==2025.1.31
 cfgv==3.4.0
 click==8.1.8
@@ -18,7 +18,7 @@ identify==2.6.9
 idna==3.10
 iniconfig==2.1.0
 Jinja2==3.1.6
-lupa==2.4
+lupa==2.7
 MarkupSafe==3.0.2
 mypy==1.15.0
 mypy-extensions==1.0.0
@@ -34,15 +34,15 @@ pre-commit==4.2.0
 pydantic==2.11.0b2
 pydantic-settings==2.8.1
 pydcs @ git+https://github.com/dcs-retribution/pydcs@c8a305fe45473031bf32589f004b02e4ed67a095
-pyinstaller==5.13.2
-pyinstaller-hooks-contrib==2024.0
+pyinstaller==6.19.0
+pyinstaller-hooks-contrib==2026.0
 pyparsing==3.2.1
 pyproj==3.7.1
 pyshp==2.3.1
 PySide6==6.4.2
 PySide6-Addons==6.4.2
 PySide6-Essentials==6.4.2
-pytest==8.3.5
+pytest==9.0.3
 pytest-cov==6.0.0
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1

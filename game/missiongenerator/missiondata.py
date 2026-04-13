@@ -72,6 +72,15 @@ class JtacInfo(UnitInfo):
 
 
 @dataclass
+class EscortInfo:
+    """Escort leash information."""
+
+    escort_group_id: int
+    escorted_group_id: int
+    engagement_range_meters: int
+
+
+@dataclass
 class CargoInfo:
     """Cargo information."""
 
@@ -112,6 +121,7 @@ class MissionData:
     tankers: list[TankerInfo] = field(default_factory=list)
     jtacs: list[JtacInfo] = field(default_factory=list)
     logistics: list[LogisticsInfo] = field(default_factory=list)
+    escorts: list[EscortInfo] = field(default_factory=list)
     cp_stack: dict[UUID, Distance] = field(default_factory=dict)
     player_frontline_groups: list[FrontlineUnitGroupsInfo] = field(default_factory=list)
     enemy_frontline_groups: list[FrontlineUnitGroupsInfo] = field(default_factory=list)

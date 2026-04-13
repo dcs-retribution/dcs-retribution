@@ -273,6 +273,15 @@ class LuaGenerator:
                 forward_observer = forward_observer_object.add_item()
                 forward_observer.add_key_value("unitName", client_unit.name)
 
+        escorts_object = lua_data.add_item("Escorts")
+        for escort in self.mission_data.escorts:
+            escort_item = escorts_object.add_item()
+            escort_item.add_key_value("escortGroupId", str(escort.escort_group_id))
+            escort_item.add_key_value("escortedGroupId", str(escort.escorted_group_id))
+            escort_item.add_key_value(
+                "engagementRangeMeters", str(escort.engagement_range_meters)
+            )
+
         trigger = TriggerStart(comment="Set DCS Retribution data")
         trigger.add_action(DoScript(String(lua_data.create_operations_lua())))
         self.mission.triggerrules.triggers.append(trigger)

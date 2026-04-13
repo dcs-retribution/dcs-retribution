@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 from shapely.ops import unary_union
 
 from game.ato.flightstate import InCombat, InFlight
+from game.settings.settings import CombatResolutionMethod
 from game.utils import dcs_to_shapely_point
 from .joinablecombat import JoinableCombat
 from .. import GameUpdateEvents
@@ -67,7 +68,15 @@ class AirCombat(JoinableCombat):
         events: GameUpdateEvents,
         time: datetime,
         elapsed_time: timedelta,
+        resolution_method: CombatResolutionMethod,
     ) -> None:
+
+        if resolution_method is CombatResolutionMethod.SKIP:
+            for flight in self.flights:
+                assert isinstance(flight.state, InCombat)
+                flight.state.exit_combat(events, time, elapsed_time)
+            return
+
         blue = []
         red = []
         for flight in self.flights:

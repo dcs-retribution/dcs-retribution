@@ -206,11 +206,6 @@ class QWaitingForMissionResultWindow(QDialog):
             DebriefingFileWrittenSignal.get_instance().sendDebriefing(debriefing)
         except Exception:
             logging.exception("Got an error while sending debriefing")
-        if not debriefing.state_data.mission_ended:
-            # Wait for more changes
-            self.wait_thread = self.sim_controller.wait_for_debriefing(
-                lambda d: self.on_debriefing_update(d)
-            )
 
     def process_debriefing(self):
         with logged_duration("Turn processing"):

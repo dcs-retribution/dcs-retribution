@@ -1,3 +1,14 @@
+# Retribution v1.6.0
+
+## Features/Improvements
+* **[UX]** Avoid having escorts from wondering off too far while chasing a target.
+* **[UX]** Improved fast-forward settings with the ability to skip combat.
+* **[Data]** Add Refueling/Recovery tasks to A-6E Intruder mod
+
+## Fixes
+* **[Performance]** Improved robustness w.r.t. state.json handling to avoid corruption and thus save loss.
+
+
 # Retribution v1.5.0
 
 ## Features/Improvements

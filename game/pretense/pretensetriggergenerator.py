@@ -198,7 +198,7 @@ class PretenseTriggerGenerator:
                 )
                 capture_trigger.add_condition(FlagIsFalse(flag=flag))
                 script_string = String(
-                    f'base_capture_events[#base_capture_events + 1] = "{cp.id}||{attack_coalition_int}||{cp.full_name}"'
+                    f'base_capture_events[#base_capture_events + 1] = "{cp.id}||{attack_coalition_int}||{cp.full_name}"; dirty_state = true'
                 )
                 capture_trigger.add_action(DoScript(script_string))
                 capture_trigger.add_action(SetFlag(flag=flag))
@@ -217,7 +217,7 @@ class PretenseTriggerGenerator:
                 )
                 recapture_trigger.add_condition(FlagIsTrue(flag=flag))
                 script_string = String(
-                    f'base_capture_events[#base_capture_events + 1] = "{cp.id}||{defend_coalition_int}||{cp.full_name}"'
+                    f'base_capture_events[#base_capture_events + 1] = "{cp.id}||{defend_coalition_int}||{cp.full_name}"; dirty_state = true'
                 )
                 recapture_trigger.add_action(DoScript(script_string))
                 recapture_trigger.add_action(ClearFlag(flag=flag))

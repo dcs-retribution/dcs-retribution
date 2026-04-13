@@ -10,6 +10,7 @@ from typing_extensions import TYPE_CHECKING
 from game.ato.flightstate import (
     Uninitialized,
 )
+from game.settings.settings import FastForwardStopCondition, CombatResolutionMethod
 from .combat import CombatInitiator, FrozenCombat
 from .simulationresults import SimulationResults
 
@@ -32,7 +33,7 @@ class AircraftSimulation:
     def on_game_tick(
         self, events: GameUpdateEvents, time: datetime, duration: timedelta
     ) -> None:
-        if not self.game.settings.auto_resolve_combat and self.combats:
+        if not self._auto_resolve_combat() and self.combats:
             logging.error(
                 "Cannot resume simulation because aircraft are in combat and "
                 "auto-resolve is disabled"
@@ -42,7 +43,13 @@ class AircraftSimulation:
 
         still_active = []
         for combat in self.combats:
-            if combat.on_game_tick(time, duration, self.results, events):
+            if combat.on_game_tick(
+                time,
+                duration,
+                self.results,
+                events,
+                self.game.settings.combat_resolution_method,
+            ):
                 events.end_combat(combat)
             else:
                 still_active.append(combat)
@@ -61,7 +68,7 @@ class AircraftSimulation:
                 events.complete_simulation()
                 return
 
-        if not self.game.settings.auto_resolve_combat and self.combats:
+        if not self._auto_resolve_combat() and self.combats:
             events.complete_simulation()
 
     def set_initial_flight_states(self) -> None:
@@ -79,3 +86,11 @@ class AircraftSimulation:
         )
         for package in packages:
             yield from package.flights
+
+    def _auto_resolve_combat(self) -> bool:
+        return (
+            self.game.settings.fast_forward_stop_condition
+            != FastForwardStopCondition.DISABLED
+            and self.game.settings.combat_resolution_method
+            != CombatResolutionMethod.PAUSE
+        )
