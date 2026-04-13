@@ -5,7 +5,7 @@
 * **[UX]** Improved fast-forward settings with the ability to skip combat.
 * **[Data]** Add Refueling/Recovery tasks to A-6E Intruder mod
 * **[Modding]** Add CurrentHill UK Assets Pack support (v1.1.2)
-* **[Modding]** Added F-23A Spectre mod support.
+* **[Modding]** Add F-23A Spectre mod support (https://github.com/ThunderStruck-Simulations/F-23A-Spectre-Mod, initial release).
 
 ## Fixes
 * **[Performance]** Improved robustness w.r.t. state.json handling to avoid corruption and thus save loss.
