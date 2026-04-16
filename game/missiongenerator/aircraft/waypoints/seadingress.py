@@ -1,4 +1,5 @@
 import logging
+import math
 
 from dcs.point import MovingPoint
 from dcs.task import (
@@ -54,22 +55,42 @@ class SeadIngressBuilder(PydcsWaypointBuilder):
             )
             waypoint.tasks.append(attack_task)
 
-            if self.flight.any_member_has_weapon_of_type(WeaponType.ARM):
-                # Special handling for ARM Weapon types:
-                # The SEAD flight will Search for the targeted group and then engage it
-                # if it is found only. This will prevent AI from having huge problems
-                # when skynet is enabled and the Radar is not emitting. They dive
-                # into the SAM instead of waiting for it to come alive
-                engage_task = EngageGroup(miz_group.id)
-                engage_task.params["weaponType"] = DcsWeaponType.ARM.value
-                engage_task.params["expend"] = Expend.All.value
-                waypoint.tasks.append(engage_task)
+            attack_task = AttackGroup(
+                miz_group.id,
+                weapon_type=DcsWeaponType.ARM,
+                expend=Expend.All,
+                altitude=waypoint.alt,
+                group_attack=True,
+            )
+            waypoint.tasks.append(attack_task)
 
-            # Use other Air-to-Surface Missiles at last
             attack_task = AttackGroup(
                 miz_group.id,
                 weapon_type=DcsWeaponType.ASM,
-                altitude=waypoint.alt,  # flight loses alt with AB restriction
+                expend=Expend.All,
+                altitude=waypoint.alt,
+                group_attack=True,
+            )
+            waypoint.tasks.append(attack_task)
+
+            attack_task = AttackGroup(
+                miz_group.id,
+                weapon_type=DcsWeaponType.GuidedBombs,
+                expend=Expend.All,
+                altitude=waypoint.alt,
+                group_attack=True,
+            )
+            waypoint.tasks.append(attack_task)
+
+            dir = target.position.heading_between_point(waypoint.position)
+
+            attack_task = AttackGroup(
+                miz_group.id,
+                weapon_type=DcsWeaponType.Unguided,
+                attack_limit=1,
+                expend=Expend.All,
+                direction=math.radians(dir),
+                altitude=waypoint.alt,
             )
             waypoint.tasks.append(attack_task)
 
