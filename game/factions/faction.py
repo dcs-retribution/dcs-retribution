@@ -518,6 +518,9 @@ class Faction:
             self.remove_aircraft("Su-30MKI")
             self.remove_aircraft("Su-30MKM")
             self.remove_aircraft("Su-30SM")
+        if not mod_settings.su35s_flanker_m:
+            self.remove_aircraft("Su-35S")
+            self.remove_aircraft("Su-35S_AG")
         if not mod_settings.su57_felon:
             self.remove_aircraft("Su-57")
         if not mod_settings.ov10a_bronco:
@@ -937,6 +940,9 @@ class Faction:
             self.remove_vehicle("CH_Warrior")
             self.remove_ship("CH_Type26")
             self.remove_ship("Type45")
+            self.remove_preset("Sky Sabre Battery")
+            self.remove_preset("Sky Sabre Battery (Mobile)")
+            self.remove_preset("Stormer HVM Battery")
         if not mod_settings.ukrainemilitaryassetspack:
             self.remove_aircraft("Su-24MU")
             self.remove_aircraft("MiG-29MU2")

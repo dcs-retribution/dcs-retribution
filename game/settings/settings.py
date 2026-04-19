@@ -850,6 +850,17 @@ class Settings:
         GAMEPLAY_SECTION,
         default=True,
     )
+    generate_portable_tacans: bool = boolean_option(
+        "Place portable TACAN beacons at blue airfields",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=False,
+        detail=(
+            "Automatically places a portable TACAN beacon at blue-captured "
+            "airfields that don't already have a built-in TACAN from the "
+            "terrain data. An unused X-band channel is assigned to each."
+        ),
+    )
     generate_marks: bool = boolean_option(
         "Put objective markers on the map",
         MISSION_GENERATOR_PAGE,

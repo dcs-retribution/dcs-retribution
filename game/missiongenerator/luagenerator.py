@@ -52,7 +52,16 @@ class LuaGenerator:
         install_path = lua_data.add_item("installPath")
         install_path.set_value(os.path.abspath("."))
 
-        lua_data.add_item("Airbases")
+        airbases_object = lua_data.add_item("Airbases")
+        for runway in self.mission_data.runways:
+            if runway.tacan is not None:
+                airbase_item = airbases_object.add_item()
+                airbase_item.add_key_value("name", runway.airfield_name)
+                airbase_item.add_key_value("tacan", str(runway.tacan))
+                airbase_item.add_key_value(
+                    "tacan_callsign", runway.tacan_callsign or ""
+                )
+
         carriers_object = lua_data.add_item("Carriers")
 
         for carrier in self.mission_data.carriers:

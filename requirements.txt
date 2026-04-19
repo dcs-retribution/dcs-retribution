@@ -27,7 +27,7 @@ numpy==1.26.4
 packaging==24.2
 pathspec==1.0.0
 pefile==2024.8.26
-Pillow==12.1.1
+Pillow==12.2.0
 platformdirs==4.3.7
 pluggy==1.5.0
 pre-commit==4.2.0

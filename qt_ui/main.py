@@ -343,6 +343,7 @@ def create_game(
             sk_60=False,
             su15_flagon=False,
             su30_flanker_h=False,
+            su35s_flanker_m=False,
             su57_felon=False,
             coldwarassets=False,
             frenchpack=False,

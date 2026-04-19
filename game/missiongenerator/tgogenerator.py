@@ -53,7 +53,7 @@ from dcs.triggers import (
 from dcs.unit import Unit, InvisibleFARP, BaseFARP, SingleHeliPad, FARP
 from dcs.unitgroup import MovingGroup, ShipGroup, StaticGroup, VehicleGroup
 from dcs.unittype import ShipType, VehicleType
-from dcs.vehicles import vehicle_map, Unarmed
+from dcs.vehicles import vehicle_map, Unarmed, Fortification as VehicleFortification
 
 from game.missiongenerator.groundforcepainter import (
     NavalForcePainter,
@@ -63,8 +63,14 @@ from game.missiongenerator.missiondata import CarrierInfo, MissionData
 from game.point_with_heading import PointWithHeading
 from game.radio.RadioFrequencyContainer import RadioFrequencyContainer
 from game.radio.radios import RadioFrequency, RadioRegistry
-from game.radio.tacan import TacanBand, TacanChannel, TacanRegistry, TacanUsage
-from game.runways import RunwayData
+from game.radio.tacan import (
+    OutOfTacanChannelsError,
+    TacanBand,
+    TacanChannel,
+    TacanRegistry,
+    TacanUsage,
+)
+from game.runways import RunwayAssigner, RunwayData
 from game.theater import (
     ControlPoint,
     Player,
@@ -88,6 +94,9 @@ if TYPE_CHECKING:
 
 FARP_FRONTLINE_DISTANCE = 10000
 AA_CP_MIN_DISTANCE = 40000
+
+# Offset (meters) from airport position to place the portable TACAN beacon
+_PORTABLE_TACAN_OFFSET_M = 50
 
 
 def farp_truck_types_for_country(
@@ -1369,6 +1378,120 @@ class GroundSpawnGenerator:
             self.ground_spawns = []
 
 
+class PortableTacanGenerator:
+    """Places a portable TACAN beacon at an airfield that lacks a built-in one."""
+
+    def __init__(
+        self,
+        mission: Mission,
+        game: Game,
+        airfield: Airfield,
+        country: Country,
+        tacan_registry: TacanRegistry,
+        runways: Dict[str, RunwayData],
+        used_callsigns: set[str],
+    ) -> None:
+        self.mission = mission
+        self.game = game
+        self.airfield = airfield
+        self.country = country
+        self.tacan_registry = tacan_registry
+        self.runways = runways
+        self.used_callsigns = used_callsigns
+
+    def generate(self) -> None:
+        """Place a portable TACAN at this airfield if it has no built-in one."""
+        airport = self.airfield.airport
+        if not airport.runways:
+            return
+
+        # Check whether any runway of this airport already has a TACAN beacon
+        # from the terrain data.
+        assigner = RunwayAssigner(self.game.conditions)
+        runway_data = assigner.get_preferred_runway(self.game.theater, airport)
+        if runway_data.tacan is not None:
+            return
+
+        # Allocate a TACAN channel from the X band.
+        try:
+            tacan = self.tacan_registry.alloc_for_band(
+                TacanBand.X, TacanUsage.TransmitReceive
+            )
+        except OutOfTacanChannelsError:
+            logging.warning(
+                "No TACAN channels available for portable beacon at %s",
+                self.airfield.name,
+            )
+            return
+
+        callsign = self._derive_callsign(self.airfield.name)
+
+        # Place the portable TACAN beacon near the airport reference point.
+        position = airport.position.point_from_heading(
+            runway_data.runway_heading.degrees + 90, _PORTABLE_TACAN_OFFSET_M
+        )
+        group = self.mission.vehicle_group(
+            country=self.country,
+            name=f"{self.airfield.name} TACAN",
+            _type=VehicleFortification.TACAN_beacon,
+            position=position,
+            group_size=1,
+            heading=runway_data.runway_heading.degrees,
+            move_formation=PointAction.OffRoad,
+        )
+
+        # Activate the TACAN beacon on the unit.
+        group.points[0].tasks.append(
+            ActivateBeaconCommand(
+                channel=tacan.number,
+                modechannel=tacan.band.value,
+                callsign=callsign,
+                unit_id=group.units[0].id,
+                aa=False,
+            )
+        )
+
+        # Store enhanced RunwayData so kneeboard / Lua exports pick it up.
+        self.runways[self.airfield.full_name] = RunwayData(
+            airfield_name=runway_data.airfield_name,
+            runway_heading=runway_data.runway_heading,
+            runway_name=runway_data.runway_name,
+            atc=runway_data.atc,
+            tacan=tacan,
+            tacan_callsign=callsign,
+            ils=runway_data.ils,
+            icls=runway_data.icls,
+        )
+
+        logging.info(
+            "Placed portable TACAN %s (%s) at %s",
+            tacan,
+            callsign,
+            self.airfield.name,
+        )
+
+    def _derive_callsign(self, name: str) -> str:
+        """Derive a unique 3-letter TACAN callsign from an airfield name."""
+        alpha = "".join(c for c in name.upper() if c.isalpha())
+        base = alpha[:3] if len(alpha) >= 3 else alpha.ljust(3, "X")
+        callsign = base
+        suffix = 0
+        max_variants = 26 * 26  # two-letter space for last two characters
+        while callsign in self.used_callsigns:
+            suffix += 1
+            if suffix > max_variants:
+                raise RuntimeError(
+                    f"Exhausted TACAN callsign variants for base '{base}'"
+                )
+            # Vary the last two characters deterministically over AA..ZZ
+            first_offset, second_offset = divmod(suffix - 1, 26)
+            callsign = (
+                base[0] + chr(ord("A") + first_offset) + chr(ord("A") + second_offset)
+            )
+        self.used_callsigns.add(callsign)
+        return callsign
+
+
 class TgoGenerator:
     """Creates DCS groups and statics for the theater during mission generation.
 
@@ -1405,6 +1528,7 @@ class TgoGenerator:
             defaultdict(list)
         )
         self.mission_data = mission_data
+        self._portable_tacan_callsigns: set[str] = set()
 
     def generate(self) -> None:
         for cp in self.game.theater.controlpoints:
@@ -1490,4 +1614,23 @@ class TgoGenerator:
                         ground_object, country, self.game, self.m, self.unit_map
                     )
                 generator.generate()
+
+            # Place portable TACAN beacons at blue airfields without built-in
+            # TACAN, if the setting is enabled.
+            if (
+                self.game.settings.generate_portable_tacans
+                and isinstance(cp, Airfield)
+                and cp.captured.is_blue
+            ):
+                portable_tacan_gen = PortableTacanGenerator(
+                    self.m,
+                    self.game,
+                    cp,
+                    country,
+                    self.tacan_registry,
+                    self.runways,
+                    self._portable_tacan_callsigns,
+                )
+                portable_tacan_gen.generate()
+
         self.mission_data.runways = list(self.runways.values())

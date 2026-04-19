@@ -162,6 +162,9 @@
     "MIM-104 Patriot (Mobile)",
     "MIM-104 Patriot (Stationary)",
     "NASAMS 3",
+    "Sky Sabre Battery",
+    "Sky Sabre Battery (Mobile)",
+    "Stormer HVM Battery",
     "THAAD",
     "IRIS-T SLM"
   ],
@@ -211,7 +214,7 @@
   "requirements": {
     "CurrentHill USA Asset Pack": "https://www.currenthill.com/usa",
     "CurrentHill Sweden Asset Pack": "https://www.currenthill.com/sweden",
-    "CurrentHill UK Asset Pack": "https://www.currenthill.com/uk"
+    "CurrentHill UK Asset Pack": "https://www.currenthill.com/united-kingdom"
   },
   "carrier_names": [
     "CVN-71 Theodore Roosevelt",

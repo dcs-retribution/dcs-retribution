@@ -6,9 +6,14 @@
 * **[Data]** Add Refueling/Recovery tasks to A-6E Intruder mod
 * **[Modding]** Add CurrentHill UK Assets Pack support (v1.1.2)
 * **[Modding]** Add F-23A Spectre mod support (https://github.com/ThunderStruck-Simulations/F-23A-Spectre-Mod, initial release).
+* **[Layouts]** Add signature to layouts' binary file for automatic reloading of updated layouts.
+* **[Modding]** Add support for Su-35S mod (v2.0.27b)
+* **[Plugins]** Update EW Script to version 2.1
+* **[Options]** New option to spawn TACAN beacons at captured airfields
 
 ## Fixes
 * **[Performance]** Improved robustness w.r.t. state.json handling to avoid corruption and thus save loss.
+* **[Flight Plans]** Stabilized waypoint solver debug GeoJSON coordinate precision to avoid platform-specific floating point drift in debug output.
 
 
 # Retribution v1.5.0

@@ -1338,6 +1338,10 @@ class Airfield(ControlPoint, CTLD):
         conditions: Conditions,
         dynamic_runways: Dict[str, RunwayData],
     ) -> RunwayData:
+        # Check for a dynamic runway override first (e.g. portable TACAN).
+        if self.full_name in dynamic_runways:
+            return dynamic_runways[self.full_name]
+
         if not self.airport.runways:
             # Some airfields are heliports and don't have any runways. This isn't really
             # the best fix, since we should still try to generate partial data for TACAN

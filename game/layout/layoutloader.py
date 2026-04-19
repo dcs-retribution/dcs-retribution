@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import itertools
+import hashlib
 import logging
 import pickle
 from collections import defaultdict
@@ -76,21 +77,29 @@ class LayoutLoader:
         """This will load all pre-loaded layouts from a pickle file.
         If pickle can not be loaded it will import and dump the layouts"""
         # We use a pickle for performance reasons. Importing takes many seconds
+        source_signature = self._layout_source_signature()
         file = persistency.base_path() / LAYOUT_DUMP
         if file.is_file():
             # Load from pickle if existing
             with file.open("rb") as f:
                 try:
-                    version, self._layouts = pickle.load(f)
+                    dump = pickle.load(f)
+                    if isinstance(dump, tuple) and len(dump) == 3:
+                        version, dump_signature, self._layouts = dump
+                    else:
+                        # Backward compatibility for older dumps:
+                        # (version, layouts)
+                        version, self._layouts = dump
+                        dump_signature = None
                     # Check if the game version of the dump is identical to the current
-                    if version == VERSION:
+                    if version == VERSION and dump_signature == source_signature:
                         return
                 except Exception as e:
                     logging.exception(f"Error {e} reading layouts dump. Recreating.")
         # If no dump is available or game version is different create a new dump
-        self.import_templates()
+        self.import_templates(source_signature)
 
-    def import_templates(self) -> None:
+    def import_templates(self, source_signature: str | None = None) -> None:
         """This will import all layouts from the template folder
         and dumps them to a pickle"""
         self._layouts = {}
@@ -111,7 +120,7 @@ class LayoutLoader:
                 group.unit_groups.sort(key=lambda ug: ug.unit_index)
 
         logging.info(f"Imported {len(self._layouts)} layouts")
-        self._dump_templates()
+        self._dump_templates(source_signature or self._layout_source_signature())
 
     @staticmethod
     def _process_yaml(file: Path, mappings: dict[str, list[LayoutMapping]]) -> None:
@@ -122,11 +131,33 @@ class LayoutLoader:
         template_map = LayoutMapping.from_dict(mapping_dict, f.name)
         mappings[template_map.layout_file].append(template_map)
 
-    def _dump_templates(self) -> None:
+    def _dump_templates(self, source_signature: str) -> None:
         file = persistency.base_path() / LAYOUT_DUMP
-        dump = (VERSION, self._layouts)
+        dump = (VERSION, source_signature, self._layouts)
         with file.open("wb") as fdata:
             pickle.dump(dump, fdata)
+
+    @staticmethod
+    def _layout_source_signature() -> str:
+        """
+        Compute a stable signature for all layout source files so cache invalidates
+        whenever any layout YAML or MIZ changes.
+        """
+        hasher = hashlib.sha256()
+        files: list[Path] = []
+        for root in LOCATIONS_TO_CHECK:
+            if not root.exists():
+                continue
+            files.extend(root.rglob("*.yaml"))
+            files.extend(root.rglob("*.miz"))
+
+        for file in sorted((f for f in files if f.is_file()), key=lambda p: str(p)):
+            stat = file.stat()
+            hasher.update(str(file).encode("utf-8"))
+            hasher.update(str(stat.st_mtime_ns).encode("ascii"))
+            hasher.update(str(stat.st_size).encode("ascii"))
+
+        return hasher.hexdigest()
 
     def _load_from_miz(self, miz: str, mappings: list[LayoutMapping]) -> None:
         path = Path(miz)

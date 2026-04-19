@@ -4,11 +4,13 @@ env.info("-----DCSRetribution|MOOSE Soundhandler plugin - configuration start --
 -- CONFIG
 -----------------------------------------------------------------------------------------------------------------------------------
 -- Defaults (overridden by dcsRetribution.plugins.MooseSoundhandler.* if present)
-SoundToGroupOnly      = true
+SoundToGroupOnly      = true -- <- this is the single canonical toggle (do NOT rename)
+MinimumDelaySeconds   = 3
+MaximumDelaySeconds   = 7
 ShipSamSounds         = true
 PlayOwnShootingGuns   = true
 PlayOpForShootingGuns = true
-SoundDebug            = true
+SoundDebug            = false
 SoundHandler          = true -- Not a UI setting, but an On/Off switch mid-mission.
 
 if dcsRetribution and dcsRetribution.plugins and dcsRetribution.plugins.MooseSoundhandler then
@@ -74,7 +76,7 @@ Sounds.Bruiser_Sound_Table     = { "Bruiser", "Bruiser2", "Bruiser3" }
 Sounds.Fox2_Sound_Table        = { "Fox2A", "Fox2B", "Fox2C", "Fox2D", "Fox2E" }
 Sounds.Fox3_Sound_Table        = { "Fox3A", "Fox3B", "Fox3C", "Fox3D", "Fox3E", "Fox3F" }
 Sounds.Fox1_Sound_Table        = { "Fox1A", "Fox1B" }
-Sounds.Magnum_Sound_Table      = { "Magnum", "Magnum2" }
+Sounds.Magnum_Sound_Table      = { "Magnum" }
 Sounds.Rifle_Sound_Table       = { "RifleA", "RifleB", "RifleC", "RifleD", "RifleE" }
 Sounds.Pickle_Sound_Table      = { "Pickle1", "Pickle2", "Pickle3", "Pickle4", "Pickle5", "Pickle6", "Pickle7" }
 Sounds.FriendlyLosses          = { "OhJesus", "HitEjecting1", "HitEjecting2", "HitEjecting3", "StartFindingMeBoys" }
@@ -206,7 +208,7 @@ function EventHandler:OnEventKill(EventData)
 
     -- 4) Friendly aircraft loss: only if a CLIENT aircraft is killed
     if EventData.TgtCategory == 0 and EventData.TgtUnitName then
-        local tgtClient = CLIENT:FindByName(EventData.TgtUnitName)
+        local tgtClient = CLIENT:FindByName(EventData.TgtUnitName, nil, true)
         if tgtClient then
             local s = ChooseRandom(Sounds.FriendlyLosses)
             NewSound(s):ToCoalition(tgtSide)
@@ -215,7 +217,7 @@ function EventHandler:OnEventKill(EventData)
 
     -- 5) Friendly-fire (air vs air): notify the offending side only if target is a CLIENT aircraft
     if iniSide == tgtSide and EventData.TgtCategory == 0 and EventData.TgtUnitName then
-        local tgtClient = CLIENT:FindByName(EventData.TgtUnitName)
+        local tgtClient = CLIENT:FindByName(EventData.TgtUnitName, nil, true)
         if tgtClient then
             local s = ChooseRandom(Sounds.Friendly_Fire_Table)
             PlayToGroupOrCoalition(NewSound(s), iniGroup, iniSide)
@@ -329,7 +331,7 @@ function EventHandler:OnEventShot(EventData)
         local inc = ChooseRandom(Sounds.Incoming_Missile_Table)
         local incsnd = NewSound(inc)
         local function DelayedIncoming() if tgtGroup then incsnd:ToGroup(tgtGroup) end end
-        TIMER:New(DelayedIncoming):Start(math.random(3, 7)) --TODO make UI Variables
+        TIMER:New(DelayedIncoming):Start(math.random(MinimumDelaySeconds, MaximumDelaySeconds))
     end
 
     -- Hostile SAM at target → SAM call to TARGET group
@@ -338,9 +340,10 @@ function EventHandler:OnEventShot(EventData)
             local sams = ChooseRandom(Sounds.SamSoundTable)
             local samsnd = NewSound(sams)
             local function DelayedSAMS() if tgtGroup then samsnd:ToGroup(tgtGroup) end end
-            TIMER:New(DelayedSAMS):Start(math.random(3, 7))
+            TIMER:New(DelayedSAMS):Start(math.random(MinimumDelaySeconds, MaximumDelaySeconds))
         end
     end
+
 
     -- Ballistic missile (SCUD) → opposing coalition
     if string.find(_weapon, "SCUD_RAKETA", 1, true) then
@@ -435,7 +438,8 @@ function ShootingEventHandler:OnEventShootingStart(EventData)
             " TgtGroup=", tostring(EventData.TgtGroup),
             " TgtGroupName=", tostring(EventData.TgtGroupName),
             " TgtDCSUnit=", tostring(EventData.TgtDCSUnit),
-            " TgtCoalition=", tostring(EventData.TgtCoalition))
+            " TgtCoalition=", tostring(EventData.TgtCoalition),
+            " TgtPlayerName=", tostring(EventData.TgtPlayerName))
         DBG("OneLineSerialize: ", UTILS.OneLineSerialize(EventData))
     end
 
@@ -484,9 +488,26 @@ function ShootingEventHandler:OnEventShootingStart(EventData)
         DBG("OWNFIRE: suppressed by PlayOwnShootingGuns=false")
     end
 
-    -- Incoming branch – resolve target group in 3 passes
+    -- Incoming branch: ONLY when the target is actually player-controlled.
+    -- (Skips AI-vs-AI and avoids MOOSE CLIENT:FindByName hard-errors on AI unit names.)
+    if not EventData.TgtPlayerName or EventData.TgtPlayerName == "" then
+        DBG("INCOMING: target has no player name -> AI target, no sound.")
+        return
+    end
+
+    -- Resolve target group (prefer CLIENT lookup, but NEVER hard-error)
     local tgtGroup = nil
-    if EventData.TgtGroup then
+
+    local tgtClient = nil
+    if EventData.TgtUnitName and EventData.TgtUnitName ~= "" then
+        tgtClient = CLIENT:FindByName(EventData.TgtUnitName, nil, true)
+    end
+    if tgtClient and tgtClient.GetGroup then
+        tgtGroup = tgtClient:GetGroup()
+        DBG("TARGET pass0: CLIENT found -> ", tostring(tgtClient), " group=", tostring(tgtGroup))
+    end
+
+    if not tgtGroup and EventData.TgtGroup then
         tgtGroup = EventData.TgtGroup
         DBG("TARGET pass1: EventData.TgtGroup provided -> ", tostring(tgtGroup))
     end
@@ -500,7 +521,9 @@ function ShootingEventHandler:OnEventShootingStart(EventData)
         if u and u.IsExist and u:IsExist() then
             tgtGroup = u:GetGroup()
             DBG("TARGET pass3: u:GetGroup() -> ", tostring(tgtGroup))
-            if tgtGroup and tgtGroup.IsExist then DBG("TARGET pass3: tgtGroup:IsExist()=", BOOLSTR(tgtGroup:IsExist())) end
+            if tgtGroup and tgtGroup.IsExist then
+                DBG("TARGET pass3: tgtGroup:IsExist()=", BOOLSTR(tgtGroup:IsExist()))
+            end
         end
     end
 
@@ -509,34 +532,11 @@ function ShootingEventHandler:OnEventShootingStart(EventData)
         return
     end
 
-    -- Strict: confirm target is a client
-    local pc = tgtGroup.GetPlayerCount and tgtGroup:GetPlayerCount() or nil
-    DBG("CLIENT-CHECK: GetPlayerCount=", tostring(pc))
-    local targetIsClient = false
-    if pc ~= nil then
-        targetIsClient = (pc or 0) > 0
-        DBG("CLIENT-CHECK: via GetPlayerCount -> ", BOOLSTR(targetIsClient))
-    end
-    if pc == nil and tgtGroup.GetPlayerUnits then
-        local pus = tgtGroup:GetPlayerUnits()
-        local len = (type(pus) == "table") and #pus or 0
-        targetIsClient = len > 0
-        DBG("CLIENT-CHECK: via GetPlayerUnits (#=", tostring(len), ") -> ", BOOLSTR(targetIsClient))
-    end
-    if not targetIsClient and EventData.TgtDCSUnit then
-        local u = FindUnitWithLog(EventData.TgtDCSUnit, "CLIENT-CHECK fallback")
-        targetIsClient = (u and u.IsExist and u:IsExist() and u.IsClient and u:IsClient()) or false
-        DBG("CLIENT-CHECK: via UNIT:IsClient fallback -> ", BOOLSTR(targetIsClient))
-    end
-
-    if not targetIsClient then
-        DBG("INCOMING: target is NOT a client → no sound (strict mode).")
-        return
-    end
-
-    -- Optional: suppress OpFor incoming if disabled
-    if EventData.IniCoalition == RED and not PlayOpForShootingGuns then
-        DBG("INCOMING: suppressed by PlayOpForShootingGuns=false (OpFor shooter)")
+    -- Optional: suppress incoming if disabled AND shooter is opposing coalition of the victim
+    if (EventData.IniCoalition ~= nil) and (EventData.TgtCoalition ~= nil)
+        and (EventData.IniCoalition ~= EventData.TgtCoalition)
+        and (not PlayOpForShootingGuns) then
+        DBG("INCOMING: suppressed by PlayOpForShootingGuns=false (opposing shooter)")
         return
     end
 
@@ -569,52 +569,13 @@ end
 
 if SoundDebug then BASE:I("-----GUN SHOOTING SOUNDS SET (with debug)-----") end
 
------------------------------------------------------------------
+------------------------------------------------------------------------
 -- MOOSE CLIENT MENU INTEGRATION (Soundhandler under "Moose Functions")
------------------------------------------------------------------
-MooseClientMenus = MooseClientMenus or { bySide = {} }
+------------------------------------------------------------------------
+assert(EnsureMooseClientFolder, "Load MooseClientMenuRoot.lua before Plugin_Soundhandler.lua")
 
-local function _sideNameFromNum(sideNum)
-    if sideNum == coalition.side.BLUE then return "blue" end
-    if sideNum == coalition.side.RED then return "red" end
-    if sideNum == coalition.side.NEUTRAL then return "neutral" end
-    return "neutral"
-end
-
--- Ensure a SINGLE visible root "Moose Functions" exists for the coalition.
-local function EnsureClientRootMenu(sideNum)
-    local sideName = _sideNameFromNum(sideNum)
-    local reg      = MooseClientMenus.bySide[sideName]
-    if reg and reg.manager and reg.root and reg.root.IsDestroyed ~= true then
-        return reg
-    end
-
-    local clientSet                   = SET_CLIENT:New():FilterCoalitions(sideName):FilterStart()
-    local mgr                         = CLIENTMENUMANAGER:New(clientSet, "Moose Functions")
-    local root                        = mgr:NewEntry("Moose Functions")
-
-    reg                               = { manager = mgr, root = root, folders = {}, built = {} }
-    MooseClientMenus.bySide[sideName] = reg
-
-    TIMER:New(function()
-        if SoundDebug then BASE:I(("[Soundhandler/ClientMenus] Init for side=%s"):format(sideName)) end
-        mgr:Propagate()
-        mgr:InitAutoPropagation()
-    end):Start(1)
-
-    return reg
-end
-
--- Make/return a child folder under the visible "Moose Functions" root.
 local function EnsureClientFolder(sideNum, folderName)
-    local reg    = EnsureClientRootMenu(sideNum)
-    local folder = reg.folders[folderName]
-    if (not folder) or folder.IsDestroyed == true then
-        folder = reg.manager:NewEntry(folderName, reg.root) -- parent = Moose Functions root
-        reg.folders[folderName] = folder
-        if SoundDebug then BASE:I(("[Soundhandler/ClientMenus] Created folder '%s'"):format(folderName)) end
-    end
-    return folder, reg.manager, reg
+    return EnsureMooseClientFolder(sideNum, folderName)
 end
 
 -----------------------------------------------------------------
@@ -695,8 +656,19 @@ function LogFiringUnit(EventData)
         end
     end
 
+    -- ✳️ Get shooter callsign if possible
+    local shooterUnit = EventData.IniUnitName and UNIT:FindByName(EventData.IniUnitName)
+    local shooterCallsign = "UNKNOWN"
+    if shooterUnit and shooterUnit.GetDCSObject then
+        local dcsUnit = shooterUnit:GetDCSObject()
+        if dcsUnit and dcsUnit.getCallsign then
+            shooterCallsign = dcsUnit:getCallsign()
+        end
+    end
+
     local groupName = EventData.IniGroupName or "UNKNOWN GROUP"
-    BASE:I(string.format("------[SHOT] %s %s (%s)", coalitionStr, groupType, groupName))
+    BASE:I(string.format("------[SHOT] %s %s (%s), Callsign: %s",
+        coalitionStr, groupType, groupName, shooterCallsign))
 end
 
 function LogDeadUnit(EventData)

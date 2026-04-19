@@ -16,7 +16,20 @@ global __setup_preferences_on_every_start
 global __server_port
 
 
-USER_PATH = Path(os.environ["LOCALAPPDATA"]) / "DCSRetribution"
+def _user_data_path() -> Path:
+    if os.name == "nt":
+        local_app_data = os.environ.get("LOCALAPPDATA")
+        if local_app_data:
+            return Path(local_app_data) / "DCSRetribution"
+        return Path.home() / "AppData" / "Local" / "DCSRetribution"
+
+    xdg_data_home = os.environ.get("XDG_DATA_HOME")
+    if xdg_data_home:
+        return Path(xdg_data_home) / "DCSRetribution"
+    return Path.home() / ".local" / "share" / "DCSRetribution"
+
+
+USER_PATH = _user_data_path()
 
 PREFERENCES_PATH = USER_PATH / "retribution_preferences.json"
 
