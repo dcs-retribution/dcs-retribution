@@ -17,7 +17,7 @@ from dcs.unitgroup import FlyingGroup
 from game.ato import Flight, FlightType
 from game.ato.flightplans.shiprecoverytanker import RecoveryTankerFlightPlan
 from game.callsigns import callsign_for_support_unit
-from game.data.weapons import Pylon, Weapon, WeaponType
+from game.data.weapons import Pylon, WeaponType
 from game.lasercodes.lasercode import LaserCode
 from game.missiongenerator.logisticsgenerator import LogisticsGenerator
 from game.missiongenerator.missiondata import MissionData, AwacsInfo, TankerInfo
@@ -437,7 +437,7 @@ class FlightGroupConfigurator:
             pylon = Pylon.for_aircraft(self.flight.unit_type, pylon_number)
             settings = self._merge_laser_code(
                 loadout.pylon_settings.get(pylon_number),
-                weapon,
+                weapon.accepts_laser_code(),
                 member.weapon_laser_code,
             )
             pylon.equip(unit, weapon, settings)
@@ -445,10 +445,10 @@ class FlightGroupConfigurator:
     @staticmethod
     def _merge_laser_code(
         base: Optional[dict[str, Any]],
-        weapon: Weapon,
+        accepts_laser_code: bool,
         laser_code: Optional[LaserCode],
     ) -> Optional[dict[str, Any]]:
-        if laser_code is None or weapon.weapon_group.type is not WeaponType.LGB:
+        if laser_code is None or not accepts_laser_code:
             return base
         settings = dict(base or {})
         settings["laser_code"] = laser_code.code

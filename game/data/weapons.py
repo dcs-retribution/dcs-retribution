@@ -130,6 +130,17 @@ class Weapon:
         except Exception:
             return False
 
+    def accepts_laser_code(self) -> bool:
+        try:
+            settings = self.pydcs_data.get("settings")
+        except Exception:
+            return False
+        if not isinstance(settings, list):
+            return False
+        return any(
+            isinstance(s, dict) and s.get("id") == "laser_code" for s in settings
+        )
+
     def create_settings(
         self, initial_values: Optional[Dict[str, Any]] = None
     ) -> Optional[WeaponSettings]:
