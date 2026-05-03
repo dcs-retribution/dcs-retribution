@@ -5,3 +5,43 @@ fallback: AGM-45A Shrike ARM
 clsids:
   - "{AGM_78B}"
   - "{LAU_77_AGM_78B}"
+
+# AGM-78B currently uses a single fixed broadband seeker. Keep these values
+# centralized so they are easy to change later if adjustable bands are needed.
+agmb78b_fixed_rf_settings: &agmb78b_fixed_rf_settings
+  "NFP_rfgu_type": 1 # Maxson Electronics Broadband Seeker
+  "NFP_01_rf_lower_limit_ctrl": 2650000000 # 2.65 GHz
+  "NFP_01_rf_upper_limit_ctrl": 3200000000 # 3.2 GHz
+  "NFP_02_rf_lower_limit_ctrl": 4800000000 # 4.8 GHz
+  "NFP_02_rf_upper_limit_ctrl": 5300000000 # 5.3 GHz
+  "NFP_03_rf_lower_limit_ctrl": 8800000000 # 8.8 GHz
+  "NFP_03_rf_upper_limit_ctrl": 9600000000 # 9.6 GHz
+
+target_overrides:
+  - unit_ids:
+      - "snr s-125 tr" # SA-3 S-125 Low Blow TR
+      - "S-300PS 40B6M tr" # SA-10 S-300 Flap Lid-A TR
+      - "S-300PS 5H63C 30H6_tr" # SA-10 S-300 Flap Lid-B TR
+      - "Kub 1S91 str" # SA-6 Kub Straight Flush STR
+      - "RPC_5N62V" # SA-5 S-200 Square Pair TR
+      - "Osa 9A33 ln" # SA-8
+      - "SA-11 Buk LN 9A310M1"
+      - "SA-11 Buk SR 9S18M1"
+      - "Strela-10M3" # SA-13 Strela-10M3
+    settings: *agmb78b_fixed_rf_settings
+
+  - unit_ids:
+      - "Tor 9A331" # SAM SA-15 Tor Gauntlet
+      - "CHAP_PantsirS1" # SA-22 Pantsir S1
+      - "2S6 Tunguska"
+      - "SNR_75V" # SAM SA-2 Fan Song TR
+    settings: *agmb78b_fixed_rf_settings
+
+  - unit_ids:
+      - "S-300PS 64H6E sr" # SA-10 S-300 Big Bird SR
+      - "S-300PS 40B6MD sr_19J6" # SA-10 S-300 Tin Shield SR
+    settings: *agmb78b_fixed_rf_settings
+
+  - unit_ids:
+      - "p-19 s-125 sr" # SA-2/3/5 P19 Flat Face SR
+    settings: *agmb78b_fixed_rf_settings

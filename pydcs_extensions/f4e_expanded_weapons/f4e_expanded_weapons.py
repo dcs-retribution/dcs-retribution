@@ -10,6 +10,7 @@ class WeaponsF4EExpanded:
         "clsid": "{LAU_34_AGM_45B}",
         "name": "AGM-45B Shrike ARM (LAU-34)",
         "weight": 224,
+        "settings": Weapons.AGM_45A_Shrike_ARM["settings"],
     }
     AGM_65E2_L___Maverick_E2_L__Laser_ASM___Lg_Whd___LAU_117_ = {
         "clsid": "{HB_F4E_AGM-65L_LAU117}",
@@ -30,11 +31,13 @@ class WeaponsF4EExpanded:
         "clsid": "{LAU_77_AGM_78A}",
         "name": "AGM-78A Standard ARM",
         "weight": 654,
+        "settings": Weapons.AGM_45A_Shrike_ARM["settings"],
     }
     AGM_78B_Standard_ARM_ = {
         "clsid": "{LAU_77_AGM_78B}",
         "name": "AGM-78B Standard ARM",
         "weight": 659,
+        "settings": Weapons.AGM_78B_Standard_ARM["settings"],
     }
     AIM_4D_Falcon = {
         "clsid": "{AIM-4D}",
@@ -185,6 +188,7 @@ class WeaponsF4EExpanded:
         "clsid": "{LAU_34_AGM_45B_SWA}",
         "name": "(Special Weapons Adapter) AGM-45B Shrike ARM (LAU-34)",
         "weight": 224,
+        "settings": Weapons.AGM_45A_Shrike_ARM["settings"],
     }
     _Special_Weapons_Adapter__AGM_65H___Maverick_H__CCD_Imp_ASM___LAU_117__Special_Weapons_Adapter__ = {
         "clsid": "{HB_F4E_AGM-65H_LAU117_SWA}",
