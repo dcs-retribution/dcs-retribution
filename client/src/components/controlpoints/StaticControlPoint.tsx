@@ -20,7 +20,10 @@ export const StaticControlPoint = (props: StaticControlPointProps) => {
       eventHandlers={makeLocationMarkerEventHandlers(props.controlPoint)}
     >
       <Tooltip>
-        <LocationTooltipText name={props.controlPoint.name} />
+        <LocationTooltipText
+          name={props.controlPoint.name}
+          units={props.controlPoint.units}
+        />
       </Tooltip>
     </Marker>
   );

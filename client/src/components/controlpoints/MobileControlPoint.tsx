@@ -102,7 +102,10 @@ function PrimaryMarker(props: PrimaryMarkerProps) {
             true
           )
         : ReactDOMServer.renderToString(
-            <LocationTooltipText name={props.controlPoint.name} />
+            <LocationTooltipText
+              name={props.controlPoint.name}
+              units={props.controlPoint.units}
+            />
           )
     );
   });

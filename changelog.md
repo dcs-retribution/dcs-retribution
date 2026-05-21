@@ -13,6 +13,7 @@
 * **[Options]** New option to spawn TACAN beacons at captured airfields
 * **[UX]** Show an "End of Mission Detected, processing Mission Data" busy dialog while turn results are processed, so the wait is not mistaken for a missed detection
 * **[Map]** Hovering a SAM threat or detection ring highlights its emitter — and hovering an emitter highlights its ring — making it easy to tell which site a ring belongs to. Can be disabled from the map's layer control.
+* **[Map]** Carrier/LHA control points show their ship group like other naval groups: the tooltip lists the carrier and escorts (with [DEAD] markers), the surviving escorts' air-defense rings are drawn, and the status marker stays yellow while any ship survives (red only once the whole group is gone).
 
 ## Fixes
 * **[Mission]** Reliably auto-detect end of mission, even when DCS wrote the final state.json before the wait dialog started watching

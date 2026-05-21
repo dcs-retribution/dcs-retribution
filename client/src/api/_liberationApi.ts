@@ -363,6 +363,9 @@ export type ControlPoint = {
   mobile: boolean;
   destination?: LatLng;
   sidc: string;
+  units: string[];
+  threat_ranges: number[];
+  detection_ranges: number[];
 };
 export type ValidationError = {
   loc: (string | number)[];
