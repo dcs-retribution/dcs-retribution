@@ -32,8 +32,12 @@ class MissionResultsProcessor:
         self.commit_airlift_losses(debriefing)
         self.commit_ground_losses(debriefing, events)
         self.commit_damaged_runways(debriefing)
-        self.commit_captures(debriefing, events)
+        # Score the front line before capturing bases: casualty_count attributes
+        # a dead front-line unit to its origin CP regardless of side, so a base's
+        # defenders (origin == that base) would be miscounted as the new owner's
+        # casualties once a capture flips ownership, turning a win into a defeat.
         self.commit_front_line_battle_impact(debriefing, events)
+        self.commit_captures(debriefing, events)
         self.record_carcasses(debriefing)
 
     def commit_air_losses(self, debriefing: Debriefing) -> None:
