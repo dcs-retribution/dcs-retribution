@@ -13,6 +13,7 @@ from game.ato.flightplans.waypointbuilder import WaypointBuilder
 from game.ato.packagewaypoints import PackageWaypoints
 from game.data.doctrine import MODERN_DOCTRINE, COLDWAR_DOCTRINE, WWII_DOCTRINE
 from game.theater import ParkingType, SeasonalConditions, Airfield
+from game.theater.player import Player
 
 if TYPE_CHECKING:
     from game import Game
@@ -38,6 +39,7 @@ class Migrator:
         self._update_factions()
         self._update_flights()
         self._update_squadrons()
+        self._update_transfers()
         self._release_untasked_flights()
         self._update_weather()
         self._update_tgos()
@@ -195,6 +197,23 @@ class Migrator:
             for ac, sdefs in coa.air_wing.squadron_defs.items():
                 for sdef in sdefs:
                     try_set_attr(sdef, "radio_presets", {})
+
+    def _update_transfers(self) -> None:
+        for coalition in self.game.coalitions:
+            transfers = coalition.transfers
+            for transfer in transfers.pending_transfers:
+                self._normalize_transfer_player(transfer)
+            for convoy in transfers.convoys:
+                for transfer in convoy.transfers:
+                    self._normalize_transfer_player(transfer)
+            for cargo_ship in transfers.cargo_ships:
+                for transfer in cargo_ship.transfers:
+                    self._normalize_transfer_player(transfer)
+
+    @staticmethod
+    def _normalize_transfer_player(transfer: Any) -> None:
+        if hasattr(transfer, "player") and isinstance(transfer.player, bool):
+            transfer.player = Player.BLUE if transfer.player else Player.RED
 
     @typing.no_type_check
     def _update_factions(self) -> None:
