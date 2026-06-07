@@ -434,6 +434,13 @@ class Squadron:
         self.pending_deliveries = 0
 
     def relocate_to(self, destination: ControlPoint) -> None:
+        if not destination.is_friendly(self.coalition.player):
+            logging.warning(
+                f"Cannot relocate {self} to {destination.name} - destination is no longer friendly. "
+                f"Cancelling relocation order."
+            )
+            self.destination = None
+            return
         self.location = destination
         if self.location == self.destination:
             self.destination = None
