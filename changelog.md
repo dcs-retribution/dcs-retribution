@@ -1,6 +1,7 @@
 # Retribution v1.6.0
 
 ## Features/Improvements
+* **[Mission]** Add SCRAMBLE flight type for reactive GCI interceptors. Alert fighters sit on Weapon Hold in a CAP orbit until a threat is detected by the radar network, then scramble to engage. The AI planner automatically spawns SCRAMBLE flights for vulnerable friendly control points. SCRAMBLE_<Airbase> trigger zones are auto-generated in the mission — no manual Mission Editor work required.
 * **[UX]** Hovering a friendly flight's route line on the map highlights it in yellow, and clicking it selects that flight's package (and the flight) in the ATO sidebar.
 * **[UX]** Press Delete with a package selected in the Packages list to cancel it, making it quick to clear several packages in a row.
 * **[UX]** Avoid having escorts from wondering off too far while chasing a target.
