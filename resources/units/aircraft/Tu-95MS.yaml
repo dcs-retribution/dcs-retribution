@@ -10,6 +10,7 @@ description:
   \ use today. The Tu-95 is one of the loudest military aircraft, particularly because\
   \ the tips of the propeller blades move faster than the speed of sound"
 introduced: 1981
+max_range: 2000
 manufacturer: Tupolev
 origin: USSR/Russia
 price: 35
