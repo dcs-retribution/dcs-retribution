@@ -340,10 +340,17 @@ class LuaGenerator:
         _SCRAMBLE_ZONE_RADIUS = 185200  # metres  (~100 nm)
         barcap_zones: dict[str, str] = {}
         for flight in self.mission_data.flights:
-            if not flight.friendly.is_blue and flight.flight_type == FlightType.SCRAMBLE:
+            if (
+                not flight.friendly.is_blue
+                and flight.flight_type == FlightType.SCRAMBLE
+            ):
                 target = flight.package.target
                 target_name = getattr(target, "name", None)
-                if target_name and target_name not in barcap_zones and hasattr(target, "position"):
+                if (
+                    target_name
+                    and target_name not in barcap_zones
+                    and hasattr(target, "position")
+                ):
                     zone_name = f"SCRAMBLE_{target_name}"
                     self.mission.triggers.add_triggerzone(
                         target.position,
@@ -360,7 +367,9 @@ class LuaGenerator:
                     f'dcsRetribution.barcap_zones["{escape_string_for_lua(airbase)}"]'
                     f' = "{escape_string_for_lua(zone)}"'
                 )
-            barcap_zone_trigger = TriggerStart(comment="Set DCS Retribution BARCAP zones")
+            barcap_zone_trigger = TriggerStart(
+                comment="Set DCS Retribution BARCAP zones"
+            )
             barcap_zone_trigger.add_action(DoScript(String("\n".join(lines))))
             self.mission.triggerrules.triggers.append(barcap_zone_trigger)
 
