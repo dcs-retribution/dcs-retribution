@@ -652,9 +652,7 @@ class AircraftType(UnitType[Type[FlyingType]]):
                     FlightType.BARCAP
                 ]
             elif FlightType.SWEEP in task_priorities:
-                task_priorities[FlightType.SCRAMBLE] = task_priorities[
-                    FlightType.SWEEP
-                ]
+                task_priorities[FlightType.SCRAMBLE] = task_priorities[FlightType.SWEEP]
         return task_priorities
 
     @staticmethod
