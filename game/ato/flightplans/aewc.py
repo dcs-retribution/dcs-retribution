@@ -45,16 +45,29 @@ class Builder(IBuilder[AewcFlightPlan, PatrollingLayout]):
         distance_to_threat = meters(
             location.position.distance_to_point(closest_boundary)
         )
-        orbit_heading = heading_to_threat_boundary
-
-        # Station 80nm outside the threat zone.
+        # Station the orbit safely away from the threat zone.
         threat_buffer = nautical_miles(
             self.coalition.game.settings.aewc_threat_buffer_min_distance
         )
         if self.threat_zones.threatened(location.position):
+            # Target is inside the threat zone — pull the orbit out to safety,
+            # threat_buffer past the nearest boundary.
+            orbit_heading = heading_to_threat_boundary
             orbit_distance = distance_to_threat + threat_buffer
-        else:
+        elif self.coalition.player:
+            # Player-coalition AWACS (Blue): orbit as far forward as possible,
+            # threat_buffer short of the nearest threat boundary.  This keeps
+            # friendly AEW&C close enough to the front for maximum radar coverage.
+            orbit_heading = heading_to_threat_boundary
             orbit_distance = distance_to_threat - threat_buffer
+        else:
+            # Enemy/AI AWACS (Red): orbit in the OPPOSITE direction — away from
+            # the nearest threat boundary — so it stays deep inside protected
+            # airspace.  The A-50's long radar range means it can cover the
+            # target area from well inside friendly territory; there is no need
+            # to push it toward the front line.
+            orbit_heading = heading_to_threat_boundary.opposite
+            orbit_distance = threat_buffer
 
         racetrack_center = location.position.point_from_heading(
             orbit_heading.degrees, orbit_distance.meters
