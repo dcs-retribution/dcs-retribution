@@ -112,7 +112,8 @@ class AircraftGenerator:
                 (
                     1
                     if any(
-                        f.flight_type in [FlightType.AEWC, FlightType.REFUELING]
+                        f.flight_type
+                        in [FlightType.AEWC, FlightType.ISR, FlightType.REFUELING]
                         for f in p.flights
                     )
                     else 0
@@ -173,6 +174,7 @@ class AircraftGenerator:
                     if flight.flight_type in [
                         FlightType.ESCORT,
                         FlightType.SEAD_ESCORT,
+                        FlightType.JAMMING,
                     ]:
                         splittrigger.add_action(AITaskPush(flight.group_id, 1))
                 if len(splittrigger.actions) > 0:

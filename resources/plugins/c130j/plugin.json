@@ -1,0 +1,58 @@
+{
+    "skipUI": false,
+    "nameInUI": "C-130J Mission Systems",
+    "defaultValue": true,
+    "specificOptions": [
+        {
+            "nameInUI": "EW capacity regen / sec",
+            "mnemonic": "regenPerSec",
+            "defaultValue": 5,
+            "minimumValue": 1,
+            "maximumValue": 30
+        },
+        {
+            "nameInUI": "Area jam drain / sec",
+            "mnemonic": "drainAreaPerSec",
+            "defaultValue": 3,
+            "minimumValue": 1,
+            "maximumValue": 20
+        },
+        {
+            "nameInUI": "Spot jam drain / sec",
+            "mnemonic": "spotDrainPerSec",
+            "defaultValue": 5,
+            "minimumValue": 1,
+            "maximumValue": 30
+        },
+        {
+            "nameInUI": "Max jam range (NM)",
+            "mnemonic": "jamMaxRange",
+            "defaultValue": 200,
+            "minimumValue": 25,
+            "maximumValue": 270
+        },
+        {
+            "nameInUI": "Spot jam range (NM)",
+            "mnemonic": "spotMaxRange",
+            "defaultValue": 100,
+            "minimumValue": 25,
+            "maximumValue": 220
+        },
+        {
+            "nameInUI": "Max ELINT tracks",
+            "mnemonic": "maxTracks",
+            "defaultValue": 3,
+            "minimumValue": 1,
+            "maximumValue": 10
+        },
+        {
+            "nameInUI": "Message display duration (sec)",
+            "mnemonic": "msgDur",
+            "defaultValue": 15,
+            "minimumValue": 5,
+            "maximumValue": 60
+        }
+    ],
+    "scriptsWorkOrders": [],
+    "configurationWorkOrders": []
+}

@@ -40,10 +40,8 @@ class MissionTarget:
                 FlightType.SEAD_ESCORT,
                 FlightType.SEAD_SWEEP,
                 FlightType.ARMED_RECON,
+                FlightType.ISR,
                 FlightType.SWEEP,
-                # TODO: FlightType.ELINT,
-                # TODO: FlightType.EWAR,
-                # TODO: FlightType.RECON,
             ]
 
     @property

@@ -49,6 +49,8 @@ class FlightType(Enum):
     ESCORT = "Escort"
     BAI = "BAI"
     SWEEP = "Fighter sweep"
+    JAMMING = "Jamming"  # Package-support EW; C-130J follows escort-style routing.
+    ISR = "ISR"  # Standoff intelligence/surveillance orbit.
     OCA_RUNWAY = "OCA/Runway"
     OCA_AIRCRAFT = "OCA/Aircraft"
     AEWC = "AEW&C"
@@ -101,7 +103,7 @@ class FlightType(Enum):
 
     @property
     def is_escort_type(self) -> bool:
-        return self in {FlightType.ESCORT, FlightType.SEAD_ESCORT}
+        return self in {FlightType.ESCORT, FlightType.SEAD_ESCORT, FlightType.JAMMING}
 
     @property
     def entity_type(self) -> AirEntity:
@@ -125,6 +127,8 @@ class FlightType(Enum):
             FlightType.SEAD_SWEEP: AirEntity.SUPPRESSION_OF_ENEMY_AIR_DEFENCE,
             FlightType.STRIKE: AirEntity.ATTACK_STRIKE,
             FlightType.SWEEP: AirEntity.FIGHTER,
+            FlightType.ISR: AirEntity.RECONNAISSANCE,
+            FlightType.JAMMING: AirEntity.ELECTRONIC_COMBAT_JAMMER,
             FlightType.TARCAP: AirEntity.FIGHTER,
             FlightType.TRANSPORT: AirEntity.UTILITY,
             FlightType.PRETENSE_CARGO: AirEntity.UTILITY,

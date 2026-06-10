@@ -17,7 +17,7 @@ class RaceTrackEndBuilder(PydcsWaypointBuilder):
             waypoint.tasks.insert(0, SetUnlimitedFuelCommand(True))
 
         # Disable Offensive Jamming at Racetrack End
-        if self.flight.flight_type == FlightType.AEWC:
+        if self.flight.flight_type in [FlightType.AEWC, FlightType.ISR]:
             # Stop Defensive Jamming for all AWACS flights
             settings = self.flight.coalition.game.settings
             ai_jammer = settings.plugin_option("ewrj.ai_jammer_enabled")

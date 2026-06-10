@@ -92,6 +92,10 @@ class AircraftBehavior:
             self.configure_runway_attack(group, flight)
         elif self.task == FlightType.OCA_AIRCRAFT:
             self.configure_oca_strike(group, flight)
+        elif self.task == FlightType.ISR:
+            self.configure_isr(group, flight)
+        elif self.task == FlightType.JAMMING:
+            self.configure_jamming(group, flight)
         elif self.task in [
             FlightType.TRANSPORT,
             FlightType.AIR_ASSAULT,
@@ -461,6 +465,39 @@ class AircraftBehavior:
             # Guided includes ARMs and TALDs (among other things, but those are the useful
             # weapons for SEAD).
             rtb_winchester=OptRTBOnOutOfAmmo.Values.Guided,
+            restrict_jettison=True,
+            mission_uses_gun=False,
+        )
+
+    def configure_isr(self, group: FlyingGroup[Any], flight: Flight) -> None:
+        # Standoff ISR orbit: C-130J holds a racetrack outside the threat zone.
+        # c130j_mission_systems.lua drives ISR detection and ELINT at runtime.
+        self.configure_task(flight, group, AWACS)
+        if not isinstance(flight.flight_plan, AewcFlightPlan):
+            logging.error(
+                f"Cannot configure ISR tasks for {flight} because it does not "
+                "have an AewcFlightPlan. Check FlightPlanBuilderTypes for ISR."
+            )
+            return
+        self.configure_behavior(
+            flight,
+            group,
+            react_on_threat=OptReactOnThreat.Values.EvadeFire,
+            roe=OptROE.Values.WeaponHold,
+            restrict_jettison=True,
+            mission_uses_gun=False,
+        )
+        group.points[0].tasks.append(AWACSTaskAction())
+
+    def configure_jamming(self, group: FlyingGroup[Any], flight: Flight) -> None:
+        # Package-support jamming follows an escort-style route. The mission systems
+        # script provides the EW effect; DCS AI should not attack.
+        self.configure_task(flight, group, AWACS)
+        self.configure_behavior(
+            flight,
+            group,
+            react_on_threat=OptReactOnThreat.Values.EvadeFire,
+            roe=OptROE.Values.WeaponHold,
             restrict_jettison=True,
             mission_uses_gun=False,
         )

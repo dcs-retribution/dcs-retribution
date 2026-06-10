@@ -89,7 +89,8 @@ class PackageFulfiller:
         pf = builder.package.primary_flight
         if (
             pf
-            and pf.flight_type in [FlightType.AEWC, FlightType.REFUELING]
+            and pf.flight_type
+            in [FlightType.AEWC, FlightType.ISR, FlightType.REFUELING]
             and flight.task is FlightType.ESCORT
         ):
             target = pf.departure
@@ -140,6 +141,7 @@ class PackageFulfiller:
                 list(flight.flight_plan.escorted_waypoints())
             ):
                 threats[EscortType.Sead] = True
+                threats[EscortType.Jamming] = True
         return threats
 
     def can_plan_escort(self, type: EscortType) -> bool:
@@ -153,6 +155,8 @@ class PackageFulfiller:
             ]:
                 if self.air_wing_can_plan(task):
                     return True
+        elif type == EscortType.Jamming:
+            return self.air_wing_can_plan(FlightType.JAMMING)
         elif type == EscortType.Refuel:
             return self.air_wing_can_plan(FlightType.REFUELING)
         return False

@@ -1,4 +1,5 @@
 {
+    "skipUI": true,
     "nameInUI": "EW Jammer Scipt 2.0",
     "defaultValue": false,
     "specificOptions": [

@@ -27,3 +27,5 @@ altitudes:
 tasks:
   # Air Assault: 0 #TODO: Add once we have proper support for paradrops
   Transport: 140
+  ISR: 140
+  Jamming: 140

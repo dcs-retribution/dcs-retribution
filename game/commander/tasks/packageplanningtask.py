@@ -127,6 +127,7 @@ class PackagePlanningTask(TheaterCommanderTask, Generic[MissionTargetT]):
 
     def propose_common_escorts(self) -> None:
         self.propose_flight(FlightType.SEAD_ESCORT, 2, EscortType.Sead)
+        self.propose_flight(FlightType.JAMMING, 1, EscortType.Jamming)
         self.propose_flight(FlightType.ESCORT, 2, EscortType.AirToAir)
         self.propose_flight(FlightType.SEAD_SWEEP, 2, EscortType.Sead)
 

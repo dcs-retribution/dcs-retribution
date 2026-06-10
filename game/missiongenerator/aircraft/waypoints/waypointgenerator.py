@@ -77,6 +77,7 @@ class WaypointGenerator:
                 if self.flight.flight_type in [
                     FlightType.ESCORT,
                     FlightType.SEAD_ESCORT,
+                    FlightType.JAMMING,
                 ]:
                     is_join = point.waypoint_type == FlightWaypointType.JOIN
                     join_passed = self.flight.state.has_passed_waypoint(point)

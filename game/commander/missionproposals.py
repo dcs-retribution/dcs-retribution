@@ -10,6 +10,7 @@ from game.theater import MissionTarget
 class EscortType(Enum):
     AirToAir = auto()
     Sead = auto()
+    Jamming = auto()
     Refuel = auto()
 
 

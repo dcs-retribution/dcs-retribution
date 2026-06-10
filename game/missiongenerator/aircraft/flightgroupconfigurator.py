@@ -271,6 +271,7 @@ class FlightGroupConfigurator:
 
         if self.flight.flight_type in {
             FlightType.AEWC,
+            FlightType.ISR,
             FlightType.REFUELING,
             FlightType.RECOVERY,
         }:

@@ -1,6 +1,7 @@
 # Retribution v1.6.0
 
 ## Features/Improvements
+* **[Mission]** Add C-130J-30 mission systems support. ISR flights use a standoff orbit for EW/ISR collection, while JAMMING flights support threat-exposed strike packages with escort-style routing and automatically load the C-130J mission systems script when generated.
 * **[UX]** Hovering a friendly flight's route line on the map highlights it in yellow, and clicking it selects that flight's package (and the flight) in the ATO sidebar.
 * **[UX]** Press Delete with a package selected in the Packages list to cancel it, making it quick to clear several packages in a row.
 * **[UX]** Avoid having escorts from wondering off too far while chasing a target.

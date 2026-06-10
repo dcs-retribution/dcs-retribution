@@ -82,7 +82,7 @@ class MissionScheduler:
                     previous_cap_end_time[package.target] = departure_time
             elif package.auto_asap:
                 package.set_tot_asap(now)
-            elif package.primary_task is FlightType.AEWC:
+            elif package.primary_task in {FlightType.AEWC, FlightType.ISR}:
                 last = previous_aewc_end_time[package.target]
                 package.time_over_target = tot if tot > last else last
                 departure_time = self._get_departure_time(package)

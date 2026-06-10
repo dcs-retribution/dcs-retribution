@@ -252,6 +252,8 @@ class PretenseAircraftGenerator:
             flight_type = FlightType.SEAD
         if flight_type == FlightType.ANTISHIP:
             flight_type = FlightType.STRIKE
+        if flight_type in (FlightType.ISR, FlightType.JAMMING):
+            flight_type = FlightType.TRANSPORT
         if flight_type == FlightType.TRANSPORT:
             flight_type = FlightType.AIR_ASSAULT
         squadron = Squadron.create_from(

@@ -59,6 +59,10 @@ class FlightPlanBuilderTypes:
             FlightType.SEAD_SWEEP: SeadSweepFlightPlan.builder_type(),
             FlightType.STRIKE: StrikeFlightPlan.builder_type(),
             FlightType.SWEEP: SweepFlightPlan.builder_type(),
+            # JAMMING follows an escort-style support route with the package.
+            FlightType.JAMMING: EscortFlightPlan.builder_type(),
+            # ISR keeps the original standoff orbit behavior.
+            FlightType.ISR: AewcFlightPlan.builder_type(),
             FlightType.TARCAP: TarCapFlightPlan.builder_type(),
             FlightType.AEWC: AewcFlightPlan.builder_type(),
             FlightType.TRANSPORT: AirliftFlightPlan.builder_type(),

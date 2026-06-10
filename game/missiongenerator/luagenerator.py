@@ -41,10 +41,38 @@ class LuaGenerator:
             x for x in self.mission.triggerrules.triggers if isinstance(x, TriggerStart)
         ]
         self.generate_plugin_data()
+        # Prevent this plugin from double-loading its script. We own injection
+        # below and fire it only when the relevant flights exist.
+        self.bypass_plugin_script("c130j")
         self.inject_plugins()
+        self._inject_c130j_script()
         for t in ewrj_triggers:
             self.mission.triggerrules.triggers.remove(t)
             self.mission.triggerrules.triggers.append(t)
+
+    def _has_c130j_flights(self) -> bool:
+        """True if the mission has any BLUE C-130J mission-systems flight."""
+        return any(
+            f.friendly.is_blue and f.flight_type in [FlightType.ISR, FlightType.JAMMING]
+            for f in self.mission_data.flights
+        )
+
+    def _inject_c130j_script(self) -> None:
+        """Inject c130j_mission_systems.lua as a core mission script."""
+        if not self._has_c130j_flights():
+            return
+        script_path = Path("./resources/plugins/c130j/c130j_mission_systems.lua")
+        if not script_path.exists():
+            logging.error(
+                "c130j_mission_systems.lua not found at %s - C-130J EW/ISR "
+                "systems will be unavailable",
+                script_path.resolve(),
+            )
+            return
+        trigger = TriggerStart(comment="Load c130j_mission_systems (core EW/ISR)")
+        fileref = self.mission.map_resource.add_resource_file(script_path.resolve())
+        trigger.add_action(DoScriptFile(fileref))
+        self.mission.triggerrules.triggers.append(trigger)
 
     def generate_plugin_data(self) -> None:
         lua_data = LuaData("dcsRetribution")

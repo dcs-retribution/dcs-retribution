@@ -54,7 +54,12 @@ class PackageBuilder:
             target = (
                 pf.departure
                 if pf.flight_type
-                in [FlightType.AEWC, FlightType.REFUELING, FlightType.RECOVERY]
+                in [
+                    FlightType.AEWC,
+                    FlightType.ISR,
+                    FlightType.REFUELING,
+                    FlightType.RECOVERY,
+                ]
                 else target
             )
             heli = pf.is_helo

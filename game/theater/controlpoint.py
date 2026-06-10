@@ -1282,6 +1282,7 @@ class Airfield(ControlPoint, CTLD):
         if self.is_friendly(for_player):
             yield from [
                 FlightType.AEWC,
+                FlightType.ISR,
                 FlightType.ESCORT,
                 # TODO: FlightType.INTERCEPTION
                 # TODO: FlightType.LOGISTICS
@@ -1398,6 +1399,7 @@ class NavalControlPoint(
         if self.is_friendly(for_player):
             yield from [
                 FlightType.AEWC,
+                FlightType.ISR,
                 FlightType.RECOVERY,
                 FlightType.REFUELING,
                 FlightType.ESCORT,
@@ -1696,6 +1698,7 @@ class Fob(ControlPoint, RadioFrequencyContainer, CTLD):
         else:
             yield from [
                 FlightType.AEWC,
+                FlightType.ISR,
                 FlightType.ESCORT,
                 FlightType.REFUELING,
             ]
