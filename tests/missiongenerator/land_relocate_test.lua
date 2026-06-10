@@ -248,6 +248,29 @@ local function test_relocation_biased_toward_carrier()
     check(dynadd_calls[1].name == "escort", "the re-added group is the escort")
 end
 
+-- A narrow river nearer than the open sea is rejected; the ship skips past it to
+-- water with a full nautical mile of clearance instead of straddling the sliver.
+local function test_narrow_river_rejected()
+    setup()
+    -- A 60 m wide river band at 500 <= y <= 560, and the open sea at y >= 3000;
+    -- everything else is land.
+    surface_fn = function(_x, y)
+        if y >= 3000 then
+            return SURF.WATER
+        elseif y >= 500 and y <= 560 then
+            return SURF.WATER
+        end
+        return SURF.LAND
+    end
+    add_ship("escort", 0, 0)
+
+    run_script()
+
+    check(ship("escort").y > 560, "ship did not settle in the narrow river")
+    check(ship("escort").y >= 3000, "ship relocated to the open sea")
+    check(#dynadd_calls == 1, "the beached escort was re-added once")
+end
+
 -- Driver ----------------------------------------------------------------------
 
 local tests = {
@@ -257,6 +280,7 @@ local tests = {
     test_no_water_warns_and_skips,
     test_spawn_waypoint_relocated,
     test_relocation_biased_toward_carrier,
+    test_narrow_river_rejected,
 }
 
 for _, t in ipairs(tests) do

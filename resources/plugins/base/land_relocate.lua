@@ -21,20 +21,35 @@
 -- beached ship is the waterline, which is often too shallow to float a hull, so
 -- skipping the shallow band lands ships in water deep enough to clear the coast.
 --
--- Direction bias: the nearest wet point can be an inland lake on the wrong side
--- of the ship. There is no runtime link from an escort to its carrier, but ships
+-- Open-water clearance: the nearest deep-water point to a beached ship is often a
+-- sliver -- a river or a tidal inlet -- that leaves the hull straddling land. A
+-- candidate is only accepted if deep water extends a full nautical mile out along
+-- eight spokes, sampled every 0.2 nm, so the destination is genuinely open sea.
+-- The check is heading-agnostic on purpose: a ship's spawn heading can point
+-- inland, and keying the clearance off it could reject every valid destination.
+--
+-- Direction bias: the nearest open-water point can still be on the wrong side of
+-- the ship. There is no runtime link from an escort to its carrier, but ships
 -- placed correctly sit in deep water, so we treat every already-afloat ship unit
--- as an anchor and, among the equidistant deep-water candidates on a search ring,
--- pick the one nearest the closest anchor. That pulls beached escorts toward the
--- carrier / open sea (and keeps a partially-beached group together) instead of
--- toward a random pond. With no afloat ship anywhere we fall back to plain
--- nearest-water.
+-- as an anchor and, among the equidistant candidates on a search ring, pick the
+-- one nearest the closest anchor. That pulls beached escorts toward the carrier /
+-- open sea (and keeps a partially-beached group together) instead of toward a
+-- lake behind them. With no afloat ship anywhere we fall back to plain nearest.
 
 -- Tunable constants -----------------------------------------------------------
-local RELOCATE_DELAY  = 1     -- seconds after start, so mist's group DB is ready
-local SEARCH_STEP     = 60    -- metres between expanding search rings
-local SEARCH_MAX      = 2000  -- metres; give up beyond this radius
-local SEARCH_HEADINGS = 8     -- sample points per ring (every 45 degrees)
+local NM = 1852  -- metres per nautical mile
+
+local RELOCATE_DELAY  = 1        -- seconds after start, so mist's group DB is ready
+local SEARCH_STEP     = 60       -- metres between expanding search rings
+local SEARCH_MAX      = 7 * NM   -- give up beyond ~7 nm. A carrier's outer escort
+                                 -- ring sits up to ~5.8 nm out (Carrier_Strike_
+                                 -- Group_8), so a landward escort can be that far
+                                 -- inland when the carrier hugs the shore; 7 nm
+                                 -- covers it plus the ~1 nm clearance margin
+local SEARCH_HEADINGS = 8        -- sample points per ring (every 45 degrees)
+
+local CLEAR_RADIUS = 1 * NM      -- destination must be open water this far out...
+local CLEAR_STEP   = 0.2 * NM    -- ...sampled every 0.2 nm along each spoke
 
 local DRY_SURFACES = {
     [land.SurfaceType.LAND] = true,
@@ -73,10 +88,28 @@ local function nearest_anchor(x, y, anchors)
     return best
 end
 
--- Expanding-ring spiral search for the nearest deep-water point. When a bias
+-- True only if deep water extends CLEAR_RADIUS out from (x, y) along every spoke,
+-- sampled every CLEAR_STEP. A spoke crossing a river bank or pond shore hits land
+-- and fails, so narrow slivers of water are rejected and a hull is never left
+-- straddling one.
+local function is_open_water(x, y)
+    for i = 0, SEARCH_HEADINGS - 1 do
+        local a = i * (2 * math.pi / SEARCH_HEADINGS)
+        local dx, dy = math.cos(a), math.sin(a)
+        -- +1 keeps the CLEAR_RADIUS endpoint in despite float drift.
+        for d = CLEAR_STEP, CLEAR_RADIUS + 1, CLEAR_STEP do
+            if not DEEP_WATER_SURFACES[surface_at(x + d * dx, y + d * dy)] then
+                return false
+            end
+        end
+    end
+    return true
+end
+
+-- Expanding-ring spiral search for the nearest open-water point. When a bias
 -- target is given, the equidistant candidates on a ring are resolved in favour
 -- of the one closest to the target (the carrier / open sea), not just the first.
--- Returns { x = ..., y = ... } or nil if no deep water within SEARCH_MAX.
+-- Returns { x = ..., y = ... } or nil if no open water within SEARCH_MAX.
 local function nearest_deep_water(x, y, bias)
     for r = SEARCH_STEP, SEARCH_MAX, SEARCH_STEP do
         local best, best_d
@@ -84,7 +117,7 @@ local function nearest_deep_water(x, y, bias)
             local a = i * (2 * math.pi / SEARCH_HEADINGS)
             local cx = x + r * math.cos(a)
             local cy = y + r * math.sin(a)
-            if DEEP_WATER_SURFACES[surface_at(cx, cy)] then
+            if DEEP_WATER_SURFACES[surface_at(cx, cy)] and is_open_water(cx, cy) then
                 if not bias then
                     return { x = cx, y = cy }
                 end
