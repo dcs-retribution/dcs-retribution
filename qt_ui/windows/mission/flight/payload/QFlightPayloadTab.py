@@ -19,8 +19,9 @@ from game.ato.loadouts import Loadout
 from qt_ui.widgets.QLabeledWidget import QLabeledWidget
 from qt_ui.widgets.combos.QSquadronLiverySelector import SquadronLiverySelector
 from .QLoadoutEditor import QLoadoutEditor
-from .lasercodeselector import LaserCodeSelector
+from .ownlasercodeinfo import OwnLaserCodeInfo
 from .propertyeditor import PropertyEditor
+from .weaponlasercodeselector import WeaponLaserCodeSelector
 
 
 class DcsLoadoutSelector(QComboBox):
@@ -167,16 +168,26 @@ class QFlightPayloadTab(QFrame):
         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         layout.addWidget(scroll, stretch=1)
 
-        self.laser_code_selector = LaserCodeSelector(
+        self.own_laser_code_info = OwnLaserCodeInfo(
+            game, self.member_selector.selected_member
+        )
+        scrolling_layout.addLayout(self.own_laser_code_info)
+
+        self.weapon_laser_code_selector = WeaponLaserCodeSelector(
             game, self.member_selector.selected_member, self
         )
+        self.own_laser_code_info.assigned_laser_code_changed.connect(
+            self.weapon_laser_code_selector.rebuild
+        )
         scrolling_layout.addLayout(
-            QLabeledWidget("Laser code:", self.laser_code_selector)
+            QLabeledWidget(
+                "Preset laser code for weapons:", self.weapon_laser_code_selector
+            )
         )
         scrolling_layout.addWidget(
             QLabel(
-                "The targeting pod, kneeboard, and any laser-guided weapons "
-                "on this flight will all use this code."
+                "Equipped weapons will be pre-configured to the selected laser code at "
+                "mission start."
             )
         )
 
@@ -222,7 +233,8 @@ class QFlightPayloadTab(QFrame):
             self.livery_selector.findData(member.livery)
         )
         self.payload_editor.set_flight_member(member)
-        self.laser_code_selector.set_flight_member(member)
+        self.weapon_laser_code_selector.set_flight_member(member)
+        self.own_laser_code_info.set_flight_member(member)
         if self.member_selector.value() != 1:
             self.loadout_selector.setDisabled(
                 self.flight.use_same_loadout_for_all_members

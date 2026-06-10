@@ -32,74 +32,64 @@ def member_fixture() -> FlightMember:
     return FlightMember(pilot=None, loadout=Loadout.empty_loadout())
 
 
-def test_set_allocated_laser_code_marks_member_as_owner(
+def test_assign_tgp_laser_code_sets_field(
     member: FlightMember, registry: _RecordingRegistry
 ) -> None:
     code = LaserCode(1647, registry)
-    member.set_allocated_laser_code(code)
-    assert member.laser_code is code
-    assert member._owns_laser_code is True
+    member.assign_tgp_laser_code(code)
+    assert member.tgp_laser_code is code
 
 
-def test_set_shared_laser_code_does_not_mark_owner(
+def test_assign_tgp_laser_code_raises_when_already_assigned(
     member: FlightMember, registry: _RecordingRegistry
 ) -> None:
-    jtac_code = LaserCode(1511, registry)
-    member.set_shared_laser_code(jtac_code)
-    assert member.laser_code is jtac_code
-    assert member._owns_laser_code is False
+    member.assign_tgp_laser_code(LaserCode(1647, registry))
+    with pytest.raises(RuntimeError):
+        member.assign_tgp_laser_code(LaserCode(1648, registry))
 
 
-def test_set_shared_laser_code_accepts_none(
+def test_release_tgp_laser_code_releases_and_clears(
     member: FlightMember, registry: _RecordingRegistry
 ) -> None:
-    member.set_shared_laser_code(None)
-    assert member.laser_code is None
-    assert member._owns_laser_code is False
-
-
-def test_replacing_an_owned_code_releases_it(
-    member: FlightMember, registry: _RecordingRegistry
-) -> None:
-    first = LaserCode(1647, registry)
-    second = LaserCode(1648, registry)
-    member.set_allocated_laser_code(first)
-    member.set_allocated_laser_code(second)
+    code = LaserCode(1647, registry)
+    member.assign_tgp_laser_code(code)
+    member.release_tgp_laser_code()
     assert registry.released == [1647]
-    assert member.laser_code is second
-    assert member._owns_laser_code is True
+    assert member.tgp_laser_code is None
 
 
-def test_replacing_an_owned_code_with_shared_releases_owned_only(
+def test_release_tgp_laser_code_raises_when_unassigned(
     member: FlightMember, registry: _RecordingRegistry
 ) -> None:
-    owned = LaserCode(1647, registry)
-    jtac_code = LaserCode(1511, registry)
-    member.set_allocated_laser_code(owned)
-    member.set_shared_laser_code(jtac_code)
+    with pytest.raises(RuntimeError):
+        member.release_tgp_laser_code()
+
+
+def test_release_tgp_laser_code_clears_weapon_code_when_shared(
+    member: FlightMember, registry: _RecordingRegistry
+) -> None:
+    # Mirrors the apply_default_player_laser_code path where both fields point at
+    # the same allocated code: releasing the TGP code must also drop the weapon
+    # reference so the released code is not left dangling on the weapon field.
+    code = LaserCode(1647, registry)
+    member.assign_tgp_laser_code(code)
+    member.weapon_laser_code = code
+    member.release_tgp_laser_code()
     assert registry.released == [1647]
-    assert member.laser_code is jtac_code
-    assert member._owns_laser_code is False
+    assert member.tgp_laser_code is None
+    assert member.weapon_laser_code is None
 
 
-def test_replacing_a_shared_code_does_not_release_it(
+def test_release_tgp_laser_code_keeps_independent_weapon_code(
     member: FlightMember, registry: _RecordingRegistry
 ) -> None:
-    jtac_code = LaserCode(1511, registry)
-    other_jtac = LaserCode(1512, registry)
-    member.set_shared_laser_code(jtac_code)
-    member.set_shared_laser_code(other_jtac)
-    assert registry.released == []
-    assert member.laser_code is other_jtac
-    assert member._owns_laser_code is False
-
-
-def test_set_shared_laser_code_none_releases_owned(
-    member: FlightMember, registry: _RecordingRegistry
-) -> None:
-    owned = LaserCode(1647, registry)
-    member.set_allocated_laser_code(owned)
-    member.set_shared_laser_code(None)
+    # A buddy-lase plan: the weapon code is a different (e.g. JTAC) code than the
+    # member's own TGP code. Releasing the TGP code must leave the weapon code.
+    own = LaserCode(1647, registry)
+    weapon = LaserCode(1511, registry)
+    member.assign_tgp_laser_code(own)
+    member.weapon_laser_code = weapon
+    member.release_tgp_laser_code()
     assert registry.released == [1647]
-    assert member.laser_code is None
-    assert member._owns_laser_code is False
+    assert member.tgp_laser_code is None
+    assert member.weapon_laser_code is weapon

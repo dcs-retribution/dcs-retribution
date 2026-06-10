@@ -81,13 +81,14 @@ class QGeneralFlightSettingsTab(QFrame):
         # -> AI members release any owned code back to the registry.
         coalition_game = self.flight.coalition.game
         for member in self.flight.iter_members():
-            if not member.is_player and member.owns_laser_code:
-                member.set_shared_laser_code(None)
-            elif member.is_player and member.laser_code is None:
+            if not member.is_player and member.tgp_laser_code is not None:
+                member.release_tgp_laser_code()
+            elif member.is_player and member.tgp_laser_code is None:
                 apply_default_player_laser_code(
                     member,
                     coalition_game.settings,
                     coalition_game.laser_code_registry,
                 )
         self.payload_tab.property_editor.build_props(self.flight)
-        self.payload_tab.laser_code_selector.rebuild()
+        self.payload_tab.own_laser_code_info.bind_to_selected_member()
+        self.payload_tab.weapon_laser_code_selector.rebuild()

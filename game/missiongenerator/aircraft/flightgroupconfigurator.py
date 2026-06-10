@@ -212,7 +212,7 @@ class FlightGroupConfigurator:
     ) -> None:
         self.set_skill(unit, member)
 
-        if (code := member.laser_code) is not None:
+        if (code := member.tgp_laser_code) is not None:
             laser_codes.append(code.code)
         else:
             laser_codes.append(None)
@@ -348,7 +348,7 @@ class FlightGroupConfigurator:
         member: FlightMember
         for unit, member in zip(self.group.units, self.flight.iter_members()):
             props = dict(member.properties)
-            if (code := member.laser_code) is not None:
+            if (code := member.weapon_laser_code) is not None:
                 for laser_code_config in self.flight.unit_type.laser_code_configs:
                     props.update(laser_code_config.property_dict_for_code(code.code))
             if unit.unit_type.datalink_networkable() and self.no_datalink_set(props):
@@ -417,7 +417,7 @@ class FlightGroupConfigurator:
             settings = self._merge_laser_code(
                 loadout.pylon_settings.get(pylon_number),
                 weapon.accepts_laser_code(),
-                member.laser_code,
+                member.weapon_laser_code,
             )
             pylon.equip(unit, weapon, settings)
 

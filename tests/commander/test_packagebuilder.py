@@ -30,24 +30,25 @@ def _ai_member() -> FlightMember:
     return member
 
 
-def test_apply_allocate_own_assigns_an_allocated_code() -> None:
+def test_apply_allocate_own_assigns_tgp_and_weapon_to_same_code() -> None:
     settings = Settings()
     settings.default_player_laser_code = DefaultPlayerLaserCode.ALLOCATE_OWN
     registry = LaserCodeRegistry()
     member = _player_member()
     apply_default_player_laser_code(member, settings, registry)
-    assert member.laser_code is not None
-    assert member.owns_laser_code is True
+    assert member.tgp_laser_code is not None
+    # LGBs home on the player's own code by default.
+    assert member.weapon_laser_code is member.tgp_laser_code
 
 
-def test_apply_default_1688_leaves_laser_code_none() -> None:
+def test_apply_default_1688_leaves_both_codes_none() -> None:
     settings = Settings()
     settings.default_player_laser_code = DefaultPlayerLaserCode.DEFAULT_1688
     registry = LaserCodeRegistry()
     member = _player_member()
     apply_default_player_laser_code(member, settings, registry)
-    assert member.laser_code is None
-    assert member.owns_laser_code is False
+    assert member.tgp_laser_code is None
+    assert member.weapon_laser_code is None
 
 
 def test_apply_does_nothing_for_ai_members() -> None:
@@ -56,8 +57,8 @@ def test_apply_does_nothing_for_ai_members() -> None:
     registry = LaserCodeRegistry()
     member = _ai_member()
     apply_default_player_laser_code(member, settings, registry)
-    assert member.laser_code is None
-    assert member.owns_laser_code is False
+    assert member.tgp_laser_code is None
+    assert member.weapon_laser_code is None
 
 
 def test_settings_default_is_allocate_own() -> None:
