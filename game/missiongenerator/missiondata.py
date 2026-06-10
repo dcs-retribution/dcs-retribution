@@ -125,3 +125,7 @@ class MissionData:
     cp_stack: dict[UUID, Distance] = field(default_factory=dict)
     player_frontline_groups: list[FrontlineUnitGroupsInfo] = field(default_factory=list)
     enemy_frontline_groups: list[FrontlineUnitGroupsInfo] = field(default_factory=list)
+    # Names of RED uncontrolled untasked A/A groups eligible for reactive GCI
+    # scramble. Emitted to the mission as dcsRetribution.scramble_pool and read
+    # by reactive_scramble.lua.
+    scramble_pool: list[str] = field(default_factory=list)

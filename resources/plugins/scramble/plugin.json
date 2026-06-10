@@ -1,0 +1,23 @@
+{
+    "skipUI": false,
+    "nameInUI": "GCI Scramble",
+    "defaultValue": true,
+    "specificOptions": [
+        {
+            "nameInUI": "Intercept radius (NM)",
+            "mnemonic": "engageRadius",
+            "defaultValue": 51,
+            "minimumValue": 10,
+            "maximumValue": 160
+        },
+        {
+            "nameInUI": "Re-engage cooldown (seconds)",
+            "mnemonic": "reengageDelay",
+            "defaultValue": 180,
+            "minimumValue": 30,
+            "maximumValue": 600
+        }
+    ],
+    "scriptsWorkOrders": [],
+    "configurationWorkOrders": []
+}

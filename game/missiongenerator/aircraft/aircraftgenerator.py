@@ -48,6 +48,9 @@ if TYPE_CHECKING:
     from game.squadrons import Squadron
 
 
+MAX_SCRAMBLE_GROUPS_PER_AIRFIELD = 4
+
+
 class AircraftGenerator:
     def __init__(
         self,
@@ -79,6 +82,7 @@ class AircraftGenerator:
         self.ground_spawns_roadbase = ground_spawns_roadbase
         self.ground_spawns_large = ground_spawns_large
         self.ground_spawns = ground_spawns
+        self.scramble_groups_by_control_point: dict[ControlPoint, int] = {}
 
         self.ewrj_package_dict: Dict[int, List[FlyingGroup[Any]]] = {}
         self.ewrj = settings.plugins.get("ewrj")
@@ -247,10 +251,33 @@ class AircraftGenerator:
         ):
             return
 
+        is_scramble_eligible_squadron = (
+            squadron.coalition.player.is_red
+            and (
+                squadron.aircraft.capable_of(FlightType.BARCAP)
+                or squadron.aircraft.capable_of(FlightType.SWEEP)
+            )
+            and not (
+                squadron.aircraft.flyable
+                and (
+                    self.game.settings.enable_squadron_pilot_limits
+                    or squadron.number_of_available_pilots > 0
+                )
+                and self.game.settings.untasked_opfor_client_slots
+            )
+        )
+
         for _ in range(squadron.untasked_aircraft):
+            scramble_group_count = self.scramble_groups_by_control_point.get(
+                squadron.location, 0
+            )
+            can_be_scramble = (
+                is_scramble_eligible_squadron
+                and scramble_group_count < MAX_SCRAMBLE_GROUPS_PER_AIRFIELD
+            )
             # Creating a flight even those this isn't a fragged mission lets us
-            # reuse the existing debriefing code.
-            # TODO: Special flight type?
+            # reuse the existing debriefing code. Use BARCAP for A/A loadout
+            # selection, but name idle RED fighters as Scramble/QRA assets.
             flight = Flight(
                 Package(squadron.location, self.game.db.flights),
                 squadron,
@@ -258,6 +285,9 @@ class AircraftGenerator:
                 FlightType.BARCAP,
                 StartType.COLD,
                 divert=None,
+                custom_name=(
+                    f"{squadron.location.name} Scramble" if can_be_scramble else None
+                ),
                 claim_inv=False,
             )
             flight.state = Completed(flight, self.game.settings)
@@ -287,6 +317,15 @@ class AircraftGenerator:
                     )
                     group.uncontrolled = False
                     group.units[0].skill = Skill.Client
+                # Reactive GCI scramble pool: a RED group left uncontrolled (cold
+                # on the ramp) that can fly air-to-air becomes a dormant
+                # interceptor. reactive_scramble.lua wakes the nearest one when a
+                # Blue threat is detected by the RED radar network.
+                if group.uncontrolled and can_be_scramble:
+                    self.mission_data.scramble_pool.append(group.name)
+                    self.scramble_groups_by_control_point[squadron.location] = (
+                        scramble_group_count + 1
+                    )
                 AircraftPainter(flight, group).apply_livery()
                 self.unit_map.add_aircraft(group, flight)
 

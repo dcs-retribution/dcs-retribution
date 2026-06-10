@@ -41,10 +41,31 @@ class LuaGenerator:
             x for x in self.mission.triggerrules.triggers if isinstance(x, TriggerStart)
         ]
         self.generate_plugin_data()
+        # reactive_scramble.lua is injected below only when a scramble pool
+        # exists, so skip any plugin script work order to avoid double-loading.
+        self.bypass_plugin_script("scramble")
         self.inject_plugins()
+        self._inject_scramble_script()
         for t in ewrj_triggers:
             self.mission.triggerrules.triggers.remove(t)
             self.mission.triggerrules.triggers.append(t)
+
+    def _inject_scramble_script(self) -> None:
+        """Inject reactive_scramble.lua as a core mission script."""
+        if not self.mission_data.scramble_pool:
+            return
+        script_path = Path("./resources/plugins/scramble/reactive_scramble.lua")
+        if not script_path.exists():
+            logging.error(
+                "reactive_scramble.lua not found at %s - RED scramble pool will "
+                "stay dormant",
+                script_path.resolve(),
+            )
+            return
+        trigger = TriggerStart(comment="Load reactive_scramble (core GCI)")
+        fileref = self.mission.map_resource.add_resource_file(script_path.resolve())
+        trigger.add_action(DoScriptFile(fileref))
+        self.mission.triggerrules.triggers.append(trigger)
 
     def generate_plugin_data(self) -> None:
         lua_data = LuaData("dcsRetribution")
@@ -294,6 +315,19 @@ class LuaGenerator:
         trigger = TriggerStart(comment="Set DCS Retribution data")
         trigger.add_action(DoScript(String(lua_data.create_operations_lua())))
         self.mission.triggerrules.triggers.append(trigger)
+
+        # Emit the RED reactive-GCI scramble pool: names of uncontrolled untasked
+        # A/A groups collected in AircraftGenerator._spawn_unused_for.
+        if self.mission_data.scramble_pool:
+            lines = ["dcsRetribution.scramble_pool = {}"]
+            for name in self.mission_data.scramble_pool:
+                lines.append(
+                    "dcsRetribution.scramble_pool[#dcsRetribution.scramble_pool + 1]"
+                    f' = "{escape_string_for_lua(name)}"'
+                )
+            pool_trigger = TriggerStart(comment="Set DCS Retribution scramble pool")
+            pool_trigger.add_action(DoScript(String("\n".join(lines))))
+            self.mission.triggerrules.triggers.append(pool_trigger)
 
     def inject_lua_trigger(self, contents: str, comment: str) -> None:
         trigger = TriggerStart(comment=comment)

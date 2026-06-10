@@ -1,6 +1,7 @@
 # Retribution v1.6.0
 
 ## Features/Improvements
+* **[Mission]** Add reactive GCI scramble support. RED untasked, uncontrolled, air-to-air-capable aircraft can sit cold on the ramp as dormant interceptors; when a Blue aircraft is detected by the RED radar network, `reactive_scramble.lua` wakes the nearest available group and tasks it to intercept.
 * **[UX]** Hovering a friendly flight's route line on the map highlights it in yellow, and clicking it selects that flight's package (and the flight) in the ATO sidebar.
 * **[UX]** Press Delete with a package selected in the Packages list to cancel it, making it quick to clear several packages in a row.
 * **[UX]** Avoid having escorts from wondering off too far while chasing a target.
