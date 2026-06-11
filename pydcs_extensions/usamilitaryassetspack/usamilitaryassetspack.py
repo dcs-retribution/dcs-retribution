@@ -343,8 +343,8 @@ class CH_LAVAD(unittype.VehicleType):
 
 
 @vehiclemod
-class MIM104_M903_PAC2(unittype.VehicleType):
-    id = "MIM104_M903_PAC2"
+class CH_MIM104_M903_PAC2(unittype.VehicleType):
+    id = "CH_MIM104_M903_PAC2"
     name = "[CH] MIM-104 M903 PAC-2 GEM/T LN (stationary)"
     detection_range = 0
     threat_range = 150000
@@ -353,8 +353,8 @@ class MIM104_M903_PAC2(unittype.VehicleType):
 
 
 @vehiclemod
-class MIM104_M903_PAC3(unittype.VehicleType):
-    id = "MIM104_M903_PAC3"
+class CH_MIM104_M903_PAC3(unittype.VehicleType):
+    id = "CH_MIM104_M903_PAC3"
     name = "[CH] MIM-104 M903 PAC-3 MSE LN (stationary)"
     detection_range = 0
     threat_range = 120000
@@ -363,8 +363,8 @@ class MIM104_M903_PAC3(unittype.VehicleType):
 
 
 @vehiclemod
-class MIM104_ECS(unittype.VehicleType):
-    id = "MIM104_ECS"
+class CH_MIM104_ECS(unittype.VehicleType):
+    id = "CH_MIM104_ECS"
     name = "[CH] MIM-104 ECS (HEMTT)"
     detection_range = 0
     threat_range = 0
@@ -373,8 +373,8 @@ class MIM104_ECS(unittype.VehicleType):
 
 
 @vehiclemod
-class MIM104_ANMPQ65(unittype.VehicleType):
-    id = "MIM104_ANMPQ65"
+class CH_MIM104_ANMPQ65(unittype.VehicleType):
+    id = "CH_MIM104_ANMPQ65"
     name = "[CH] MIM-104 AN/MPQ-65 STR (stationary)"
     detection_range = 200000
     threat_range = 0
@@ -383,8 +383,8 @@ class MIM104_ANMPQ65(unittype.VehicleType):
 
 
 @vehiclemod
-class MIM104_ANMPQ65A(unittype.VehicleType):
-    id = "MIM104_ANMPQ65A"
+class CH_MIM104_ANMPQ65A(unittype.VehicleType):
+    id = "CH_MIM104_ANMPQ65A"
     name = "[CH] MIM-104 AN/MPQ-65A STR (stationary)"
     detection_range = 260000
     threat_range = 0
@@ -393,8 +393,8 @@ class MIM104_ANMPQ65A(unittype.VehicleType):
 
 
 @vehiclemod
-class MIM104_LTAMDS(unittype.VehicleType):
-    id = "MIM104_LTAMDS"
+class CH_MIM104_LTAMDS(unittype.VehicleType):
+    id = "CH_MIM104_LTAMDS"
     name = "[CH] MIM-104 LTAMDS STR (stationary)"
     detection_range = 400000
     threat_range = 0
@@ -403,8 +403,8 @@ class MIM104_LTAMDS(unittype.VehicleType):
 
 
 @vehiclemod
-class MIM104_EPP(unittype.VehicleType):
-    id = "MIM104_EPP"
+class CH_MIM104_EPP(unittype.VehicleType):
+    id = "CH_MIM104_EPP"
     name = "[CH] MIM-104 EPP (HEMTT)"
     detection_range = 0
     threat_range = 0
@@ -413,8 +413,8 @@ class MIM104_EPP(unittype.VehicleType):
 
 
 @vehiclemod
-class MIM104_M903_PAC2_HEMTT(unittype.VehicleType):
-    id = "MIM104_M903_PAC2_HEMTT"
+class CH_MIM104_M903_PAC2_HEMTT(unittype.VehicleType):
+    id = "CH_MIM104_M903_PAC2_HEMTT"
     name = "[CH] MIM-104 M903 PAC-2 GEM/T LN (HEMTT)"
     detection_range = 0
     threat_range = 150000
@@ -423,8 +423,8 @@ class MIM104_M903_PAC2_HEMTT(unittype.VehicleType):
 
 
 @vehiclemod
-class MIM104_M903_PAC3_HEMTT(unittype.VehicleType):
-    id = "MIM104_M903_PAC3_HEMTT"
+class CH_MIM104_M903_PAC3_HEMTT(unittype.VehicleType):
+    id = "CH_MIM104_M903_PAC3_HEMTT"
     name = "[CH] MIM-104 M903 PAC-3 MSE LN (HEMTT)"
     detection_range = 0
     threat_range = 120000
@@ -433,8 +433,8 @@ class MIM104_M903_PAC3_HEMTT(unittype.VehicleType):
 
 
 @vehiclemod
-class MIM104_ANMPQ65_HEMTT(unittype.VehicleType):
-    id = "MIM104_ANMPQ65_HEMTT"
+class CH_MIM104_ANMPQ65_HEMTT(unittype.VehicleType):
+    id = "CH_MIM104_ANMPQ65_HEMTT"
     name = "[CH] MIM-104 AN/MPQ-65 STR (HEMTT)"
     detection_range = 200000
     threat_range = 0
@@ -443,8 +443,8 @@ class MIM104_ANMPQ65_HEMTT(unittype.VehicleType):
 
 
 @vehiclemod
-class MIM104_ANMPQ65A_HEMTT(unittype.VehicleType):
-    id = "MIM104_ANMPQ65A_HEMTT"
+class CH_MIM104_ANMPQ65A_HEMTT(unittype.VehicleType):
+    id = "CH_MIM104_ANMPQ65A_HEMTT"
     name = "[CH] MIM-104 AN/MPQ-65A STR (HEMTT)"
     detection_range = 260000
     threat_range = 0
@@ -453,8 +453,8 @@ class MIM104_ANMPQ65A_HEMTT(unittype.VehicleType):
 
 
 @vehiclemod
-class MIM104_LTAMDS_HEMTT(unittype.VehicleType):
-    id = "MIM104_LTAMDS_HEMTT"
+class CH_MIM104_LTAMDS_HEMTT(unittype.VehicleType):
+    id = "CH_MIM104_LTAMDS_HEMTT"
     name = "[CH] MIM-104 LTAMDS STR (HEMTT)"
     detection_range = 400000
     threat_range = 0
