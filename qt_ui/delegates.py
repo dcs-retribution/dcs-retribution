@@ -96,10 +96,12 @@ class TwoColumnRowDelegate(QStyledItemDelegate):
     @staticmethod
     def icon_size(option: QStyleOptionViewItem) -> QSize:
         icon_size: Optional[QSize] = option.decorationSize
-        if icon_size is None:
+        # Under PySide6 6.4.x the option passed to sizeHint() can carry a
+        # decorationSize that isn't a QSize (e.g. a QWidgetItem); treat
+        # anything unexpected as "no icon" instead of crashing on .width().
+        if not isinstance(icon_size, QSize):
             return QSize(0, 0)
-        else:
-            return icon_size
+        return icon_size
 
     def sizeHint(self, option: QStyleOptionViewItem, index: QModelIndex) -> QSize:
         metrics = QFontMetrics(self.get_font(option))
