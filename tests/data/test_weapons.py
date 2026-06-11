@@ -53,12 +53,12 @@ def test_aaq_33_has_era_data_and_degrades_on_pre_intro_f16() -> None:
     assert weapon.weapon_group.introduction_year == 2005
 
     faction = SimpleNamespace(weapons_introduction_year_overrides={})
-    assert weapon.available_on(date(2004, 1, 1), faction) is False
-    assert weapon.available_on(date(2005, 1, 1), faction) is True
+    assert weapon.available_on(date(2004, 1, 1), faction) is False  # type: ignore[arg-type]
+    assert weapon.available_on(date(2005, 1, 1), faction) is True  # type: ignore[arg-type]
 
     loadout = Loadout("Test", {11: weapon}, date=None)
     degraded = loadout.degrade_for_date(
-        SimpleNamespace(dcs_unit_type=F_16C_50), date(2004, 1, 1), faction
+        SimpleNamespace(dcs_unit_type=F_16C_50), date(2004, 1, 1), faction  # type: ignore[arg-type]
     )
 
     degraded_weapon = degraded.pylons.get(11)
@@ -103,29 +103,25 @@ def test_custom_payload_targeting_pods_do_not_fall_back_to_unknown() -> None:
 
     def is_targeting_pod(weapon: Weapon) -> bool:
         name = weapon.name.upper()
-        return (
-            "NAV POD" not in name
-            and any(
-                token in name
-                for token in [
-                    "TARGETING POD",
-                    "ATFLIR",
-                    "LITENING",
-                    "LANTIRN",
-                    "SNIPER",
-                    "DAMOCLES",
-                    "WMD7",
-                    "FLIR/LDT POD",
-                    "TARGETING POD FLIR",
-                ]
-            )
+        return "NAV POD" not in name and any(
+            token in name
+            for token in [
+                "TARGETING POD",
+                "ATFLIR",
+                "LITENING",
+                "LANTIRN",
+                "SNIPER",
+                "DAMOCLES",
+                "WMD7",
+                "FLIR/LDT POD",
+                "TARGETING POD FLIR",
+            ]
         )
 
     targeting_pods = [
-        Weapon.with_clsid(clsid)
+        w
         for clsid in sorted(payload_clsids)
-        if Weapon.with_clsid(clsid) is not None
-        and is_targeting_pod(Weapon.with_clsid(clsid))
+        if (w := Weapon.with_clsid(clsid)) is not None and is_targeting_pod(w)
     ]
 
     assert targeting_pods
