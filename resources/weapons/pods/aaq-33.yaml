@@ -1,0 +1,6 @@
+name: AN/AAQ-33 - Advanced Targeting Pod
+type: TGP
+year: 2005
+fallback: AN/AAQ-28 LITENING
+clsids:
+  - "{AN_AAQ_33}"
