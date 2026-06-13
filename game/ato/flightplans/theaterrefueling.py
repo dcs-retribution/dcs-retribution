@@ -2,9 +2,11 @@ from __future__ import annotations
 
 from typing import Type
 
+from game.ato.flighttype import FlightType
 from game.utils import Heading, meters, nautical_miles
 from .ibuilder import IBuilder
 from .patrolling import PatrollingLayout
+from .patrolspacing import deconflicted_racetrack_center
 from .refuelingflightplan import RefuelingFlightPlan
 from .waypointbuilder import WaypointBuilder
 
@@ -39,8 +41,19 @@ class Builder(IBuilder[TheaterRefuelingFlightPlan, PatrollingLayout]):
         else:
             orbit_distance = distance_to_threat - threat_buffer
 
-        racetrack_center = location.position.point_from_heading(
+        base_center = location.position.point_from_heading(
             orbit_heading.degrees, orbit_distance.meters
+        )
+
+        # When multiple tankers are planned, spread their orbits laterally along
+        # the front so each serves a different slice instead of stacking together.
+        racetrack_center = deconflicted_racetrack_center(
+            base_center,
+            orbit_heading,
+            meters(racetrack_half_distance * 2),
+            self.flight,
+            self.coalition,
+            FlightType.REFUELING,
         )
 
         racetrack_start = racetrack_center.point_from_heading(

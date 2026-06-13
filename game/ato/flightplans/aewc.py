@@ -5,7 +5,9 @@ from typing import Type
 
 from game.ato.flightplans.ibuilder import IBuilder
 from game.ato.flightplans.patrolling import PatrollingFlightPlan, PatrollingLayout
+from game.ato.flightplans.patrolspacing import deconflicted_racetrack_center
 from game.ato.flightplans.waypointbuilder import WaypointBuilder
+from game.ato.flighttype import FlightType
 from game.utils import Distance, Heading, Speed, knots, meters, nautical_miles
 
 
@@ -56,8 +58,19 @@ class Builder(IBuilder[AewcFlightPlan, PatrollingLayout]):
         else:
             orbit_distance = distance_to_threat - threat_buffer
 
-        racetrack_center = location.position.point_from_heading(
+        base_center = location.position.point_from_heading(
             orbit_heading.degrees, orbit_distance.meters
+        )
+
+        # When multiple AWACS are planned, spread their orbits laterally along the
+        # front so each covers a different section instead of stacking on one orbit.
+        racetrack_center = deconflicted_racetrack_center(
+            base_center,
+            orbit_heading,
+            meters(racetrack_half_distance * 2),
+            self.flight,
+            self.coalition,
+            FlightType.AEWC,
         )
 
         racetrack_start = racetrack_center.point_from_heading(
