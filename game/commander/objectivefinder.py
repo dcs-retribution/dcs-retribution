@@ -158,7 +158,7 @@ class ObjectiveFinder:
             if (
                 self.is_player.is_red
                 and randint(1, 100)
-                > self.game.settings.opfor_autoplanner_aggressiveness
+                < self.game.settings.opfor_autoplanner_aggressiveness
             ):
                 # Chance that the airfield threat range will be evaluated as zero,
                 # causing the OPFOR autoplanner to plan offensively
