@@ -40,8 +40,10 @@
     "Paratrooper RPG-16"
   ],
   "preset_groups": [
-    "SA-2/S-75",
+    "SA-5/S-200",
     "SA-2/S-75 V-759/5V23",
+    "SA-2/S-75",
+    "SA-2/SA-3 Mixed Site",
     "SA-3/S-125",
     "SA-3/S-125 V-601P/5V27",
     "SA-6",
@@ -70,3 +72,4 @@
   "requirements": {},
   "carrier_names": []
 }
+

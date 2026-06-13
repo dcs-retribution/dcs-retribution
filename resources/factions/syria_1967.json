@@ -40,6 +40,7 @@
   "missiles": [],
   "preset_groups": [
     "SA-2/S-75",
+    "SA-2/SA-3 Mixed Site",
     "SA-3/S-125",
     "KS-19/SON-9"
   ],
@@ -63,3 +64,4 @@
     "R-60": 1980
   }
 }
+

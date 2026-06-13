@@ -1,6 +1,7 @@
 name: SA-17
 tasks:
   - MERAD
+hide_on_mfd: true
 units:
   - SAM SA-11 Buk "Gadfly" Snow Drift SR
   - SAM SA-11 Buk "Gadfly" C2

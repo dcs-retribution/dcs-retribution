@@ -9,6 +9,3 @@ groups:
         - 1
       unit_classes:
         - EarlyWarningRadar
-      fallback_classes:
-        - SearchRadar
-        - SearchTrackRadar

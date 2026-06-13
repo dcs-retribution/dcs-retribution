@@ -1,0 +1,66 @@
+name: SA-2/SA-3 Mixed Site
+tasks:
+  - MERAD
+groups:
+  - SAM:
+    - name: S-300 Site SR1
+      unit_count:
+        - 1
+      unit_types:
+        - p-19 s-125 sr
+    - name: S-300 Site CP
+      unit_count:
+        - 1
+      unit_types:
+        - SNR_75V
+    - name: S-300 Site TR
+      unit_count:
+        - 1
+      unit_types:
+        - snr s-125 tr
+    - name: S-300 Site LN1
+      unit_count:
+        - 3
+      unit_types:
+        - S_75M_Volhov
+    - name: S-300 Site LN2
+      unit_count:
+        - 3
+      unit_types:
+        - 5p73 s-125 ln
+    - name: S-300 Site Logistics
+      optional: true
+      unit_count:
+        - 1
+        - 2
+      unit_types:
+        - GAZ-66
+        - Ural-375
+        - Ural-4320-31
+        - Ural-4320T
+  - PD:
+    - name: S-300 Site SHORAD1
+      sub_task: PointDefense
+      optional: true
+      unit_count:
+        - 0
+        - 2
+      unit_classes:
+        - SHORAD
+    - name: S-300 Site SHORAD2
+      sub_task: PointDefense
+      optional: true
+      unit_count:
+        - 0
+        - 1
+      unit_classes:
+        - SHORAD
+    - name: S-300 Site AAA
+      sub_task: AAA
+      optional: true
+      unit_count:
+        - 1
+        - 2
+      unit_classes:
+        - AAA
+layout_file: resources/layouts/anti_air/S-300_Site.miz

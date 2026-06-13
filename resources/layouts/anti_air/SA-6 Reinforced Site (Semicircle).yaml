@@ -1,0 +1,49 @@
+name: SA-6 Reinforced Site (Semicircle)
+tasks:
+  - MERAD
+groups:
+  - SAM:
+    - name: Search Radar
+      unit_count:
+        - 1
+      unit_types:
+        - Kub 1S91 str
+    - name: Command Post
+      optional: true
+      unit_count:
+        - 1
+      unit_types:
+        - p-19 s-125 sr
+    - name: Launcher
+      unit_count:
+        - 4
+      unit_types:
+        - Kub 2P25 ln
+    - name: Logistics
+      optional: true
+      unit_count:
+        - 1
+        - 2
+      unit_types:
+        - GAZ-66
+        - Ural-375
+        - Ural-4320-31
+        - Ural-4320T
+  - PD:
+    - name: PD
+      sub_task: PointDefense
+      optional: true
+      unit_count:
+        - 0
+        - 2
+      unit_classes:
+        - SHORAD
+    - name: AAA
+      sub_task: AAA
+      optional: true
+      unit_count:
+        - 1
+        - 2
+      unit_classes:
+        - AAA
+layout_file: resources/layouts/anti_air/6_Launcher_Semicircle.miz

@@ -46,6 +46,7 @@
   ],
   "missiles": [],
   "preset_groups": [
+    "SA-5/S-200",
     "SA-3/S-125",
     "SA-6",
     "SA-11",
