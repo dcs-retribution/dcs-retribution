@@ -1,4 +1,12 @@
-from PySide6.QtWidgets import QLabel, QHBoxLayout, QComboBox, QWidget, QVBoxLayout
+from PySide6.QtWidgets import (
+    QLabel,
+    QHBoxLayout,
+    QComboBox,
+    QWidget,
+    QVBoxLayout,
+    QSpinBox,
+    QGridLayout,
+)
 from dcs.cloud_presets import CLOUD_PRESETS
 
 from game.weather.weather import ClearSkies, Cloudy, Raining, Thunderstorm
@@ -69,6 +77,49 @@ class QWeatherAdjustmentWidget(QWidget):
 
         self.precipitation = DcsPrecipitationSelector(clouds)
         vbox.addLayout(self.precipitation)
+
+        label = QLabel("<h3><b>Wind:</b></h3>")
+        label.setMaximumHeight(50)
+        vbox.addWidget(label)
+
+        wind = weather.wind
+        grid = QGridLayout()
+        grid.addWidget(QLabel(""), 0, 0)
+        grid.addWidget(QLabel("Speed (kts)"), 0, 1)
+        grid.addWidget(QLabel("Dir (°)"), 0, 2)
+
+        def _make_speed_spin(current_mps: float) -> QSpinBox:
+            sb = QSpinBox()
+            sb.setRange(0, 200)
+            sb.setValue(round(current_mps * 1.944))  # m/s → knots
+            return sb
+
+        def _make_dir_spin(current_deg: int) -> QSpinBox:
+            sb = QSpinBox()
+            sb.setRange(0, 359)
+            sb.setWrapping(True)
+            sb.setValue(current_deg or 0)
+            return sb
+
+        grid.addWidget(QLabel("Ground"), 1, 0)
+        self.wind_gl_speed = _make_speed_spin(wind.at_0m.speed or 0)
+        self.wind_gl_dir = _make_dir_spin(wind.at_0m.direction or 0)
+        grid.addWidget(self.wind_gl_speed, 1, 1)
+        grid.addWidget(self.wind_gl_dir, 1, 2)
+
+        grid.addWidget(QLabel("FL080 (2000m)"), 2, 0)
+        self.wind_fl08_speed = _make_speed_spin(wind.at_2000m.speed or 0)
+        self.wind_fl08_dir = _make_dir_spin(wind.at_2000m.direction or 0)
+        grid.addWidget(self.wind_fl08_speed, 2, 1)
+        grid.addWidget(self.wind_fl08_dir, 2, 2)
+
+        grid.addWidget(QLabel("FL260 (8000m)"), 3, 0)
+        self.wind_fl26_speed = _make_speed_spin(wind.at_8000m.speed or 0)
+        self.wind_fl26_dir = _make_dir_spin(wind.at_8000m.direction or 0)
+        grid.addWidget(self.wind_fl26_speed, 3, 1)
+        grid.addWidget(self.wind_fl26_dir, 3, 2)
+
+        vbox.addLayout(grid)
 
         self.setLayout(vbox)
 
