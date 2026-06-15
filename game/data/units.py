@@ -62,3 +62,20 @@ ANTI_AIR_UNIT_CLASSES = [
     UnitClass.TELAR,
     UnitClass.TRACK_RADAR,
 ]
+
+# Mobile, self-contained point air-defense unit classes. A generated DCS group
+# that contains any of these should be hidden on the MFD/datalink even when the
+# group's own hide_on_mfd flag is not set -- e.g. a SHORAD/AAA/MANPAD escort
+# placed inside an armor or missile group, which would otherwise inherit the
+# parent group's visible flag and betray its position on the datalink.
+#
+# Deliberately excludes TELAR and the radar/launcher classes so standalone
+# MERAD/LORAD SAM sites (SA-6/11, SA-2/3/5/10, etc.) stay visible/targetable for
+# SEAD.
+MOBILE_AIR_DEFENSE_UNIT_CLASSES = frozenset(
+    {
+        UnitClass.AAA,
+        UnitClass.SHORAD,
+        UnitClass.MANPAD,
+    }
+)

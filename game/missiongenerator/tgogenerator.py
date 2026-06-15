@@ -59,6 +59,7 @@ from game.missiongenerator.groundforcepainter import (
     NavalForcePainter,
     GroundForcePainter,
 )
+from game.data.units import MOBILE_AIR_DEFENSE_UNIT_CLASSES
 from game.missiongenerator.missiondata import CarrierInfo, MissionData
 from game.point_with_heading import PointWithHeading
 from game.radio.RadioFrequencyContainer import RadioFrequencyContainer
@@ -315,6 +316,30 @@ class GroundObjectGenerator:
             if ship_units:
                 self.create_ship_group(group.group_name, ship_units)
 
+    @staticmethod
+    def _contains_mobile_air_defense(units: list[TheaterUnit]) -> bool:
+        """True if any unit is a mobile point air-defense vehicle (SHORAD / AAA /
+        MANPAD).
+
+        Such a unit must be hidden on the MFD even when it rides inside a
+        non-air-defense group (e.g. a SHORAD escort generated inside an armor or
+        missile site). Without this, the unit inherits the parent group's
+        visible flag and betrays its position on the datalink, because
+        ``hidden_on_mfd`` is a group-level DCS property keyed off the parent
+        group's task rather than its actual contents.
+        """
+        for unit in units:
+            try:
+                unit_type = unit.unit_type
+            except StopIteration:
+                continue
+            if (
+                unit_type is not None
+                and unit_type.unit_class in MOBILE_AIR_DEFENSE_UNIT_CLASSES
+            ):
+                return True
+        return False
+
     def create_vehicle_group(
         self, group_name: str, units: list[TheaterUnit]
     ) -> VehicleGroup:
@@ -345,7 +370,9 @@ class GroundObjectGenerator:
             self._register_theater_unit(unit, vehicle_group.units[-1])
         if vehicle_group is None:
             raise RuntimeError(f"Error creating VehicleGroup for {group_name}")
-        vehicle_group.hidden_on_mfd = self.ground_object.hide_on_mfd
+        vehicle_group.hidden_on_mfd = (
+            self.ground_object.hide_on_mfd or self._contains_mobile_air_defense(units)
+        )
         return vehicle_group
 
     def create_ship_group(
@@ -382,7 +409,9 @@ class GroundObjectGenerator:
             self._register_theater_unit(unit, ship_group.units[-1])
         if ship_group is None:
             raise RuntimeError(f"Error creating ShipGroup for {group_name}")
-        ship_group.hidden_on_mfd = self.ground_object.hide_on_mfd
+        ship_group.hidden_on_mfd = (
+            self.ground_object.hide_on_mfd or self._contains_mobile_air_defense(units)
+        )
         return ship_group
 
     def create_static_group(self, unit: TheaterUnit) -> None:
