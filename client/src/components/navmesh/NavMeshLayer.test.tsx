@@ -38,16 +38,19 @@ describe("NavMeshLayer", () => {
         navmeshes: {
           blue: [
             {
+              id: 1,
               poly: poly1,
               threatened: false,
             },
             {
+              id: 2,
               poly: poly2,
               threatened: true,
             },
           ],
           red: [
             {
+              id: 3,
               poly: [
                 [
                   { lat: -1, lng: 0 },
@@ -58,6 +61,8 @@ describe("NavMeshLayer", () => {
               threatened: false,
             },
           ],
+          blueSelection: [],
+          redSelection: [],
         },
       },
     });
@@ -66,14 +71,14 @@ describe("NavMeshLayer", () => {
       expect.objectContaining({
         fillColor: "#00ff00",
         positions: poly1,
-        interactive: false,
+        interactive: true,
       })
     );
     expect(mockPolygon).toHaveBeenCalledWith(
       expect.objectContaining({
         fillColor: "#ff0000",
         positions: poly2,
-        interactive: false,
+        interactive: true,
       })
     );
     expect(mockLayerGroup).toHaveBeenCalledTimes(1);
@@ -84,6 +89,7 @@ describe("NavMeshLayer", () => {
         navmeshes: {
           blue: [
             {
+              id: 1,
               poly: [
                 [
                   { lat: -1, lng: 0 },
@@ -94,6 +100,7 @@ describe("NavMeshLayer", () => {
               threatened: false,
             },
             {
+              id: 2,
               poly: [
                 [
                   { lat: -1, lng: 0 },
@@ -106,6 +113,7 @@ describe("NavMeshLayer", () => {
           ],
           red: [
             {
+              id: 3,
               poly: [
                 [
                   { lat: -1, lng: 0 },
@@ -116,6 +124,8 @@ describe("NavMeshLayer", () => {
               threatened: false,
             },
           ],
+          blueSelection: [],
+          redSelection: [],
         },
       },
     });

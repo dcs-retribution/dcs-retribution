@@ -6,6 +6,7 @@ from typing import Any, Dict, Optional
 
 from dcs.forcedoptions import ForcedOptions
 
+from game.ato.flighttype import FlightType
 from .booleanoption import boolean_option
 from .boundedfloatoption import bounded_float_option
 from .boundedintoption import bounded_int_option
@@ -62,6 +63,7 @@ GENERAL_SECTION = "General"
 PILOTS_AND_SQUADRONS_SECTION = "Pilots and Squadrons"
 HQ_AUTOMATION_SECTION = "HQ Automation"
 FLIGHT_PLANNER_AUTOMATION = "Flight Planner Automation"
+AOO_SELECTED_TASKS_SECTION = "Area of Operations - Selected Tasks"
 
 CAMPAIGN_DOCTRINE_PAGE = "Campaign Doctrine"
 DOCTRINE_DISTANCES_SECTION = "Doctrine distances"
@@ -796,6 +798,140 @@ class Settings:
         " A smaller number will ignore squadrons with a matching primary task that are too far out.",
     )
 
+    # Area of Operations - Selected Tasks
+    aoo_selected_task_tarcap: bool = boolean_option(
+        "TARCAP",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        AOO_SELECTED_TASKS_SECTION,
+        default=False,
+    )
+    aoo_selected_task_barcap: bool = boolean_option(
+        "BARCAP (not recommended: you may require protection in areas you have not selected)",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        AOO_SELECTED_TASKS_SECTION,
+        default=False,
+    )
+    aoo_selected_task_cas: bool = boolean_option(
+        "CAS",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        AOO_SELECTED_TASKS_SECTION,
+        default=False,
+    )
+    aoo_selected_task_intercept: bool = boolean_option(
+        "Intercept",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        AOO_SELECTED_TASKS_SECTION,
+        default=False,
+    )
+    aoo_selected_task_strike: bool = boolean_option(
+        "Strike",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        AOO_SELECTED_TASKS_SECTION,
+        default=False,
+    )
+    aoo_selected_task_antiship: bool = boolean_option(
+        "Anti-ship",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        AOO_SELECTED_TASKS_SECTION,
+        default=False,
+    )
+    aoo_selected_task_sead: bool = boolean_option(
+        "SEAD",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        AOO_SELECTED_TASKS_SECTION,
+        default=False,
+    )
+    aoo_selected_task_dead: bool = boolean_option(
+        "DEAD",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        AOO_SELECTED_TASKS_SECTION,
+        default=False,
+    )
+    aoo_selected_task_escort: bool = boolean_option(
+        "Escort",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        AOO_SELECTED_TASKS_SECTION,
+        default=False,
+    )
+    aoo_selected_task_bai: bool = boolean_option(
+        "BAI",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        AOO_SELECTED_TASKS_SECTION,
+        default=False,
+    )
+    aoo_selected_task_sweep: bool = boolean_option(
+        "Fighter sweep",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        AOO_SELECTED_TASKS_SECTION,
+        default=False,
+    )
+    aoo_selected_task_oca_runway: bool = boolean_option(
+        "OCA/Runway",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        AOO_SELECTED_TASKS_SECTION,
+        default=False,
+    )
+    aoo_selected_task_oca_aircraft: bool = boolean_option(
+        "OCA/Aircraft",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        AOO_SELECTED_TASKS_SECTION,
+        default=False,
+    )
+    aoo_selected_task_aewc: bool = boolean_option(
+        "AEW&C",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        AOO_SELECTED_TASKS_SECTION,
+        default=False,
+    )
+    aoo_selected_task_transport: bool = boolean_option(
+        "Transport",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        AOO_SELECTED_TASKS_SECTION,
+        default=False,
+    )
+    aoo_selected_task_sead_escort: bool = boolean_option(
+        "SEAD Escort",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        AOO_SELECTED_TASKS_SECTION,
+        default=False,
+    )
+    aoo_selected_task_refueling: bool = boolean_option(
+        "Refueling",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        AOO_SELECTED_TASKS_SECTION,
+        default=False,
+    )
+    aoo_selected_task_air_assault: bool = boolean_option(
+        "Air Assault",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        AOO_SELECTED_TASKS_SECTION,
+        default=False,
+    )
+    aoo_selected_task_sead_sweep: bool = boolean_option(
+        "SEAD Sweep",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        AOO_SELECTED_TASKS_SECTION,
+        default=False,
+    )
+    aoo_selected_task_cargo_transport: bool = boolean_option(
+        "Cargo Transport",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        AOO_SELECTED_TASKS_SECTION,
+        default=False,
+    )
+    aoo_selected_task_armed_recon: bool = boolean_option(
+        "Armed Recon",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        AOO_SELECTED_TASKS_SECTION,
+        default=False,
+    )
+    aoo_selected_task_recovery: bool = boolean_option(
+        "Recovery",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        AOO_SELECTED_TASKS_SECTION,
+        default=False,
+    )
+
     # Mission Generator
     # Gameplay
     fast_forward_stop_condition: FastForwardStopCondition = choices_option(
@@ -1431,6 +1567,32 @@ class Settings:
     plugins: Dict[str, bool] = field(default_factory=dict)
 
     only_player_takeoff: bool = True  # Legacy parameter do not use
+
+    def is_aoo_task_enabled(self, task: FlightType) -> bool:
+        return {
+            FlightType.TARCAP: self.aoo_selected_task_tarcap,
+            FlightType.BARCAP: self.aoo_selected_task_barcap,
+            FlightType.CAS: self.aoo_selected_task_cas,
+            FlightType.INTERCEPTION: self.aoo_selected_task_intercept,
+            FlightType.STRIKE: self.aoo_selected_task_strike,
+            FlightType.ANTISHIP: self.aoo_selected_task_antiship,
+            FlightType.SEAD: self.aoo_selected_task_sead,
+            FlightType.DEAD: self.aoo_selected_task_dead,
+            FlightType.ESCORT: self.aoo_selected_task_escort,
+            FlightType.BAI: self.aoo_selected_task_bai,
+            FlightType.SWEEP: self.aoo_selected_task_sweep,
+            FlightType.OCA_RUNWAY: self.aoo_selected_task_oca_runway,
+            FlightType.OCA_AIRCRAFT: self.aoo_selected_task_oca_aircraft,
+            FlightType.AEWC: self.aoo_selected_task_aewc,
+            FlightType.TRANSPORT: self.aoo_selected_task_transport,
+            FlightType.SEAD_ESCORT: self.aoo_selected_task_sead_escort,
+            FlightType.REFUELING: self.aoo_selected_task_refueling,
+            FlightType.AIR_ASSAULT: self.aoo_selected_task_air_assault,
+            FlightType.SEAD_SWEEP: self.aoo_selected_task_sead_sweep,
+            FlightType.PRETENSE_CARGO: self.aoo_selected_task_cargo_transport,
+            FlightType.ARMED_RECON: self.aoo_selected_task_armed_recon,
+            FlightType.RECOVERY: self.aoo_selected_task_recovery,
+        }.get(task, False)
 
     @staticmethod
     def plugin_settings_key(identifier: str) -> str:

@@ -3,6 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any, Optional, TYPE_CHECKING
 
+from dcs.mapping import Point
 from faker import Faker
 
 from game.armedforces.armedforces import ArmedForces
@@ -12,6 +13,7 @@ from game.commander import TheaterCommander
 from game.commander.missionscheduler import MissionScheduler
 from game.income import Income
 from game.navmesh import NavMesh
+from shapely.geometry import Point as ShapelyPoint
 from game.orderedset import OrderedSet
 from game.procurement import AircraftProcurementRequest, ProcurementAi
 from game.profiling import MultiEventTracer, logged_duration
@@ -47,6 +49,7 @@ class Coalition:
         self.air_wing = AirWing(player, game, self.faction)
         self.armed_forces = ArmedForces(self.faction)
         self.transfers = PendingTransfers(game, player)
+        self.aoo_navmesh_poly_ids: set[int] = set()
 
         # Late initialized because the two coalitions in the game are mutually
         # dependent, so must be both constructed before this property can be set.
@@ -121,6 +124,22 @@ class Coalition:
 
     def on_load(self) -> None:
         self.faker = Faker(self.faction.locales)
+        if not hasattr(self, "aoo_navmesh_poly_ids"):
+            self.aoo_navmesh_poly_ids = set()
+
+    def set_area_of_operations(self, poly_ids: list[int]) -> None:
+        self.aoo_navmesh_poly_ids = set(poly_ids)
+
+    def is_in_area_of_operations(self, point: Point) -> bool:
+        if not self.aoo_navmesh_poly_ids:
+            return True
+        location = ShapelyPoint(point.x, point.y)
+        for poly in self.nav_mesh.polys:
+            if poly.ident in self.aoo_navmesh_poly_ids and poly.poly.intersects(
+                location
+            ):
+                return True
+        return False
 
     def set_opponent(self, opponent: Coalition) -> None:
         if self._opponent is not None:

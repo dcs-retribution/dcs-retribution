@@ -12,6 +12,7 @@ if TYPE_CHECKING:
 
 
 class NavMeshPolyJs(BaseModel):
+    id: int
     poly: LeafletPoly
     threatened: bool
 
@@ -30,11 +31,34 @@ class NavMeshJs(BaseModel):
         return NavMeshJs(
             polys=[
                 NavMeshPolyJs(
+                    id=p.ident,
                     poly=ShapelyUtil.poly_to_leaflet(p.poly, game.theater),
                     threatened=p.threatened,
                 )
                 for p in navmesh.polys
             ]
+        )
+
+
+class NavMeshSelectionUpdateJs(BaseModel):
+    poly_ids: list[int]
+
+    class Config:
+        title = "NavMeshSelectionUpdate"
+
+
+class NavMeshSelectionJs(BaseModel):
+    blue: list[int]
+    red: list[int]
+
+    class Config:
+        title = "NavMeshSelection"
+
+    @staticmethod
+    def from_game(game: Game) -> NavMeshSelectionJs:
+        return NavMeshSelectionJs(
+            blue=sorted(game.blue.aoo_navmesh_poly_ids),
+            red=sorted(game.red.aoo_navmesh_poly_ids),
         )
 
 

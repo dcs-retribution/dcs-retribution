@@ -15,6 +15,7 @@ from game.ground_forces.combat_stance import CombatStance
 from game.htn import WorldState
 from game.profiling import MultiEventTracer
 from game.settings import Settings
+from game.ato.flighttype import FlightType
 from game.theater import (
     ConflictTheater,
     ControlPoint,
@@ -157,8 +158,12 @@ class TheaterState(WorldState["TheaterState"]):
     ) -> TheaterState:
         coalition = game.coalition_for(player)
         finder = ObjectiveFinder(game, player)
-        ordered_capturable_points = finder.prioritized_points()
-        air_assault_capturable_points = finder.air_assault_targets()
+        ordered_capturable_points = finder.prioritized_points(
+            tasks=[FlightType.BAI, FlightType.ARMED_RECON]
+        )
+        air_assault_capturable_points = finder.air_assault_targets(
+            tasks=[FlightType.AIR_ASSAULT, FlightType.BAI]
+        )
 
         context = PersistentContext(
             game.db,
@@ -187,21 +192,34 @@ class TheaterState(WorldState["TheaterState"]):
             if not bp.blocking_capture or cp.is_fleet
         ]
 
-        aewc_targets = [cp for cp in finder.friendly_control_points() if cp.is_carrier]
-        aewc_targets.append(finder.farthest_friendly_control_point())
+        aewc_targets = [
+            cp
+            for cp in finder.friendly_control_points(tasks=FlightType.AEWC)
+            if cp.is_carrier
+        ]
+        farthest_aewc = finder.farthest_friendly_control_point(FlightType.AEWC)
+        if farthest_aewc is not None:
+            aewc_targets.append(farthest_aewc)
+
+        refueling_target = finder.closest_friendly_control_point(
+            tasks=FlightType.REFUELING
+        )
 
         return TheaterState(
             context=context,
             barcaps_needed={
                 cp: 2 * barcap_rounds if cp.is_fleet else barcap_rounds
-                for cp in finder.vulnerable_control_points()
+                for cp in finder.vulnerable_control_points(FlightType.BARCAP)
             },
-            active_front_lines=list(finder.front_lines()),
-            front_line_stances={f: None for f in finder.front_lines()},
-            vulnerable_front_lines=list(finder.front_lines()),
+            active_front_lines=list(finder.front_lines(FlightType.CAS)),
+            front_line_stances={f: None for f in finder.front_lines(FlightType.CAS)},
+            vulnerable_front_lines=list(finder.front_lines(FlightType.CAS)),
             aewc_targets=list(aewc_targets),
-            refueling_targets=[finder.closest_friendly_control_point()],
-            recovery_targets={cp: 0 for cp in finder.friendly_naval_control_points()},
+            refueling_targets=[refueling_target] if refueling_target else [],
+            recovery_targets={
+                cp: 0
+                for cp in finder.friendly_naval_control_points(FlightType.RECOVERY)
+            },
             enemy_air_defenses=list(finder.enemy_air_defenses()),
             threatening_air_defenses=[],
             detecting_air_defenses=[],
@@ -211,7 +229,8 @@ class TheaterState(WorldState["TheaterState"]):
             enemy_battle_positions=battle_postitions,
             oca_targets=list(
                 finder.oca_targets(
-                    min_aircraft=game.settings.oca_target_autoplanner_min_aircraft_count
+                    min_aircraft=game.settings.oca_target_autoplanner_min_aircraft_count,
+                    tasks=[FlightType.OCA_RUNWAY, FlightType.OCA_AIRCRAFT],
                 )
             ),
             strike_targets=list(finder.strike_targets()),

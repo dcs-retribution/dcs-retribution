@@ -38,6 +38,10 @@ from game.settings import (
     OptionDescription,
     Settings,
 )
+from game.settings.settings import (
+    AOO_SELECTED_TASKS_SECTION,
+    CAMPAIGN_MANAGEMENT_PAGE,
+)
 from game.settings.ISettingsContainer import SettingsContainer
 from game.sim import GameUpdateEvents
 from pydcs_extensions import BanditClouds
@@ -307,6 +311,76 @@ class AutoSettingsGroup(QGroupBox):
         self.layout.update_from_settings()
 
 
+class AoOSelectedTasksLayout(QVBoxLayout):
+    def __init__(
+        self,
+        page: str,
+        section: str,
+        sc: SettingsContainer,
+        write_full_settings: Callable[[], None],
+    ) -> None:
+        super().__init__()
+        self.page = page
+        self.section = section
+        self.sc = sc
+        self.write_full_settings = write_full_settings
+        self.settings_map: Dict[str, QWidget] = {}
+
+        self.init_ui()
+
+    def init_ui(self) -> None:
+        for row, (name, description) in enumerate(
+            Settings.fields(self.page, self.section)
+        ):
+            checkbox = QCheckBox()
+
+            def on_toggle(
+                value: bool,
+                key: str = name,
+                option: OptionDescription = description,
+            ) -> None:
+                self.sc.settings.__dict__[key] = value
+                if option.causes_expensive_game_update:
+                    self.write_full_settings()
+
+            checkbox.setChecked(self.sc.settings.__dict__[name])
+            checkbox.toggled.connect(on_toggle)
+
+            label = QLabel(description.text)
+            label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+
+            row_layout = QtWidgets.QHBoxLayout()
+            row_layout.setAlignment(Qt.AlignmentFlag.AlignLeft)
+            row_layout.setSpacing(6)
+            row_layout.addWidget(checkbox)
+            row_layout.addWidget(label)
+            row_layout.addStretch(1)
+
+            self.addLayout(row_layout)
+            self.settings_map[name] = checkbox
+
+    def update_from_settings(self) -> None:
+        for name, widget in self.settings_map.items():
+            if isinstance(widget, QCheckBox):
+                widget.setChecked(self.sc.settings.__dict__[name])
+
+
+class AoOSelectedTasksGroup(QGroupBox):
+    def __init__(
+        self,
+        page: str,
+        section: str,
+        sc: SettingsContainer,
+        write_full_settings: Callable[[], None],
+    ) -> None:
+        super().__init__(section)
+        self.layout = AoOSelectedTasksLayout(page, section, sc, write_full_settings)
+        self.setLayout(self.layout)
+
+    def update_from_settings(self) -> None:
+        self.layout.update_from_settings()
+
+
 class AutoSettingsPageLayout(QVBoxLayout):
     def __init__(
         self,
@@ -319,10 +393,15 @@ class AutoSettingsPageLayout(QVBoxLayout):
 
         self.widgets = []
         for section in Settings.sections(page):
-            self.widgets.append(
-                AutoSettingsGroup(page, section, sc, write_full_settings)
-            )
-            self.addWidget(self.widgets[-1])
+            if (
+                page == CAMPAIGN_MANAGEMENT_PAGE
+                and section == AOO_SELECTED_TASKS_SECTION
+            ):
+                widget = AoOSelectedTasksGroup(page, section, sc, write_full_settings)
+            else:
+                widget = AutoSettingsGroup(page, section, sc, write_full_settings)
+            self.widgets.append(widget)
+            self.addWidget(widget)
 
     def update_from_settings(self) -> None:
         for w in self.widgets:

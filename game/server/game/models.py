@@ -14,7 +14,7 @@ from game.server.mapzones.models import (
     UnculledZoneJs,
     MapZonesJs,
 )
-from game.server.navmesh.models import NavMeshesJs
+from game.server.navmesh.models import NavMeshesJs, NavMeshSelectionJs
 from game.server.supplyroutes.models import SupplyRouteJs
 from game.server.tgos.models import TgoJs
 
@@ -31,6 +31,7 @@ class GameJs(BaseModel):
     iads_network: IadsNetworkJs
     threat_zones: ThreatZoneContainerJs
     navmeshes: NavMeshesJs
+    navmesh_selection: NavMeshSelectionJs
     map_center: LeafletPoint | None
     unculled_zones: list[UnculledZoneJs]
     map_zones: MapZonesJs
@@ -49,6 +50,7 @@ class GameJs(BaseModel):
             iads_network=IadsNetworkJs.from_network(game.theater.iads_network),
             threat_zones=ThreatZoneContainerJs.for_game(game),
             navmeshes=NavMeshesJs.from_game(game),
+            navmesh_selection=NavMeshSelectionJs.from_game(game),
             map_center=LeafletPoint.from_latlng(
                 game.theater.terrain.map_view_default.position.latlng()
             ),

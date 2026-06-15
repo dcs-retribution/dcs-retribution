@@ -318,6 +318,13 @@ class AirliftPlanner:
         return True
 
     def create_package_for_airlift(self, now: datetime) -> None:
+        if self.game.settings.is_aoo_task_enabled(FlightType.TRANSPORT):
+            coalition = self.game.coalition_for(self.for_player)
+            if not (
+                coalition.is_in_area_of_operations(self.transfer.position.position)
+                and coalition.is_in_area_of_operations(self.next_stop.position)
+            ):
+                return
         distance_cache = ObjectiveDistanceCache.get_closest_airfields(
             self.transfer.position
         )
