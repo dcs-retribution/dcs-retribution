@@ -14,6 +14,7 @@
 * **[Options]** New option to spawn TACAN beacons at captured airfields
 * **[UX]** Show an "End of Mission Detected, processing Mission Data" busy dialog while turn results are processed, so the wait is not mistaken for a missed detection
 * **[Map]** Hovering a SAM threat or detection ring highlights its emitter — and hovering an emitter highlights its ring — making it easy to tell which site a ring belongs to. Can be disabled from the map's layer control.
+* **[Engine]** Support for DCS 2.9.27 including F-100D and F-14A (Export).
 
 ## Fixes
 * **[Mission]** Reliably auto-detect end of mission, even when DCS wrote the final state.json before the wait dialog started watching
@@ -23,8 +24,6 @@
 * **[AirWing]** Squadron dialog shows the aircraft type, an aircraft inventory (initial/current/destroyed/purchased), and buy/sell aircraft controls with price, on-order count and available parking slots
 * **[AirWing]** Air Wing list shows a "transfer ordered to X" indicator, and Airfield Command lists the units transferring into the base next turn
 * **[UI]** Avoid a crash dialog ("'QWidgetItem' object has no attribute 'width'") when a list using the two-column row delegate relayouts with a malformed style option under PySide6 6.4.x.
-
-## Fixes
 * **[AirWing]** Squadron transfer-destination parking now accounts for already-ordered incoming transfers, matching the Airfield Command hangar count
 * **[Mission Generation]** Anti-Ship flights now attack the carrier group the flight plan routes to instead of the control point's first ground object, so strikes against carrier groups no longer leave the AI without a target (it would fly to the ingress point and turn back without engaging).
 * **[Performance]** Improved robustness w.r.t. state.json handling to avoid corruption and thus save loss.
