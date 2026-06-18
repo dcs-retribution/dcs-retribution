@@ -28,6 +28,8 @@ class AltitudeEditorDelegate(QStyledItemDelegate):
         editor = QDoubleSpinBox(parent)
         editor.setMinimum(0)
         editor.setMaximum(40000)
+        editor.setDecimals(0)
+        editor.setSingleStep(1000)
         return editor
 
 

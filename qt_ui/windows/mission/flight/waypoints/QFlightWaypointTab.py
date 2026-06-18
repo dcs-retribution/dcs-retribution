@@ -5,9 +5,11 @@ from PySide6.QtCore import Signal, Qt, QModelIndex
 from PySide6.QtWidgets import (
     QFrame,
     QGridLayout,
+    QHBoxLayout,
     QLabel,
     QMessageBox,
     QPushButton,
+    QSpinBox,
     QVBoxLayout,
     QWidget,
 )
@@ -20,6 +22,8 @@ from game.ato.flightplans.planningerror import PlanningError
 from game.ato.flightplans.waypointbuilder import WaypointBuilder
 from game.ato.flighttype import FlightType
 from game.ato.flightwaypoint import FlightWaypoint
+from game.ato.flightwaypointtype import FlightWaypointType
+from game.utils import feet
 from game.ato.loadouts import Loadout
 from game.ato.package import Package
 from game.theater import Player
@@ -33,6 +37,17 @@ from qt_ui.windows.mission.flight.waypoints.QPredefinedWaypointSelectionWindow i
 
 class QFlightWaypointTab(QFrame):
     loadout_changed = Signal()
+
+    # Waypoint types whose altitude the bulk setter must not touch: ground/pattern
+    # points that are tied to the airfield rather than the en-route cruise band.
+    BULK_ALTITUDE_SKIP_TYPES = frozenset(
+        {
+            FlightWaypointType.TAKEOFF,
+            FlightWaypointType.LANDING_POINT,
+            FlightWaypointType.DESCENT_POINT,
+            FlightWaypointType.BULLSEYE,
+        }
+    )
 
     def __init__(self, game: Game, package: Package, flight: Flight):
         super(QFlightWaypointTab, self).__init__()
@@ -57,6 +72,25 @@ class QFlightWaypointTab(QFrame):
 
         rlayout = QVBoxLayout()
         layout.addLayout(rlayout, 0, 1)
+
+        rlayout.addWidget(QLabel("<strong>Altitude :</strong>"))
+        rlayout.addWidget(QLabel("<small>Set all en-route waypoints</small>"))
+        bulk_alt_layout = QHBoxLayout()
+        self.bulk_altitude = QSpinBox()
+        self.bulk_altitude.setMinimum(0)
+        self.bulk_altitude.setMaximum(40000)
+        self.bulk_altitude.setSingleStep(1000)
+        self.bulk_altitude.setValue(self._default_bulk_altitude())
+        self.bulk_altitude.setSuffix(" ft")
+        self.bulk_altitude.setToolTip(
+            "Apply this MSL altitude to every en-route waypoint. "
+            "Takeoff, landing, and ground (AGL) waypoints are left unchanged."
+        )
+        bulk_alt_layout.addWidget(self.bulk_altitude)
+        self.apply_bulk_altitude = QPushButton("Apply to all")
+        self.apply_bulk_altitude.clicked.connect(self.on_apply_bulk_altitude)
+        bulk_alt_layout.addWidget(self.apply_bulk_altitude)
+        rlayout.addLayout(bulk_alt_layout)
 
         rlayout.addWidget(QLabel("<strong>Generator :</strong>"))
         rlayout.addWidget(QLabel("<small>AI compatible</small>"))
@@ -234,6 +268,33 @@ class QFlightWaypointTab(QFrame):
                     member.loadout = Loadout.default_for(self.flight)
                     self.loadout_changed.emit()
             self.flight_waypoint_list.update_list()
+            self.on_change()
+
+    def _is_bulk_editable(self, waypoint: FlightWaypoint) -> bool:
+        # Skip pattern waypoints and any AGL/ground-referenced point (takeoff and
+        # landing are RADIO, alt 0) so the bulk set only moves the en-route legs.
+        if waypoint.waypoint_type in self.BULK_ALTITUDE_SKIP_TYPES:
+            return False
+        return waypoint.alt_type != "RADIO"
+
+    def _default_bulk_altitude(self) -> int:
+        # Seed the spinner with the highest en-route altitude already planned so the
+        # control opens on a sensible value rather than zero.
+        altitudes = [
+            round(wpt.alt.feet)
+            for wpt in self.flight.flight_plan.waypoints
+            if self._is_bulk_editable(wpt)
+        ]
+        return max(altitudes, default=0)
+
+    def on_apply_bulk_altitude(self) -> None:
+        altitude = feet(self.bulk_altitude.value())
+        changed = False
+        for waypoint in self.flight.flight_plan.waypoints:
+            if self._is_bulk_editable(waypoint):
+                waypoint.alt = altitude
+                changed = True
+        if changed:
             self.on_change()
 
     def on_change(self):
