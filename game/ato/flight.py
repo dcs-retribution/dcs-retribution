@@ -47,6 +47,18 @@ if TYPE_CHECKING:
 F18_TGP_PYLON: int = 4
 
 
+def roll_plane_altitude_offset(low: int, high: int) -> int:
+    """Roll a per-flight altitude offset (in feet) from a [min, max] band.
+
+    ``low`` and ``high`` are in thousands of feet (the doctrine settings units).
+    Bounds are tolerant of being supplied in either order; equal bounds disable
+    randomization and return a fixed offset.
+    """
+    if low > high:
+        low, high = high, low
+    return 1000 * random.randint(low, high)
+
+
 class Flight(
     SidcDescribable, RadioFrequencyContainer, TacanContainer, CallsignContainer
 ):
@@ -126,10 +138,12 @@ class Flight(
                     )
                 )
 
-        # altitude offset for planes
-        offset_factor = self.coalition.game.settings.max_plane_altitude_offset
-        offset_factor = random.randint(0, offset_factor)
-        self.plane_altitude_offset = 1000 * offset_factor * random.choice([-1, 1])
+        # altitude offset for planes: roll a per-flight offset somewhere in the
+        # [min, max] band (x1000 ft). Equal bounds disable randomization.
+        settings = self.coalition.game.settings
+        self.plane_altitude_offset = roll_plane_altitude_offset(
+            settings.min_plane_altitude_offset, settings.max_plane_altitude_offset
+        )
 
     @property
     def available_callsigns(self) -> List[str]:

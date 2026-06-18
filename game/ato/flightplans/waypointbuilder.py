@@ -42,6 +42,21 @@ class StrikeTarget:
     target: Union[TheaterGroundObject, TheaterGroup, TheaterUnit, MultiGroupTransport]
 
 
+def apply_patrol_altitude_floor(
+    altitude: Distance, floor_kft: int, max_combat_altitude: Distance
+) -> Distance:
+    """Raise a patrol altitude to a configured floor, capped by the combat ceiling.
+
+    ``floor_kft`` is in thousands of feet (the doctrine setting's units); 0 disables
+    the floor. The floor never pushes above ``max_combat_altitude``, and an altitude
+    already at or above the floor is returned unchanged.
+    """
+    floor = feet(floor_kft * 1000)
+    if floor.feet <= altitude.feet:
+        return altitude
+    return min(max_combat_altitude, floor)
+
+
 class WaypointBuilder:
     def __init__(
         self,
@@ -63,7 +78,16 @@ class WaypointBuilder:
 
     @property
     def get_patrol_altitude(self) -> Distance:
-        return self.get_altitude(self.flight.unit_type.preferred_patrol_altitude)
+        altitude = self.get_altitude(self.flight.unit_type.preferred_patrol_altitude)
+        if self.is_helo:
+            return altitude
+        # Optional doctrine floor: raise CAP/patrol legs to at least the configured
+        # minimum, capped by the doctrine's maximum combat altitude. 0 disables it.
+        return apply_patrol_altitude_floor(
+            altitude,
+            self.settings.min_patrol_altitude,
+            self.doctrine.max_combat_altitude,
+        )
 
     @property
     def get_cruise_altitude(self) -> Distance:

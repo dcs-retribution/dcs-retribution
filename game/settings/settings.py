@@ -356,14 +356,46 @@ class Settings:
         default=False,
         detail="AI will use vertical takeoff and landing instead of combat takeoff and landing.",
     )
+    min_plane_altitude_offset: int = bounded_int_option(
+        "Altitude scatter - lowest (x1000 ft)",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        min=-5,
+        max=5,
+        default=-2,
+        detail=(
+            "AI flights are nudged off their planned altitude by a random amount so "
+            "they don't all stack at the same height. This is the lowest nudge (use a "
+            "negative value for below). Set lowest and highest to the same value to "
+            "turn scatter off - both 0 for none."
+        ),
+    )
     max_plane_altitude_offset: int = bounded_int_option(
-        "Maximum randomized altitude offset (x1000 ft) for airplanes.",
+        "Altitude scatter - highest (x1000 ft)",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        min=-5,
+        max=5,
+        default=2,
+        detail=(
+            "The highest nudge (positive is above the planned altitude). Examples: "
+            "lowest -2 / highest +2 scatters within 2,000 ft; lowest 0 / highest +4 "
+            "only ever climbs."
+        ),
+    )
+    min_patrol_altitude: int = bounded_int_option(
+        "Minimum patrol altitude (x1000 ft)",
         page=CAMPAIGN_DOCTRINE_PAGE,
         section=GENERAL_SECTION,
         min=0,
-        max=5,
-        default=2,
-        detail="Creates a randomized altitude offset for airplanes.",
+        max=40,
+        default=0,
+        detail=(
+            "Raises CAP and patrol flights that would otherwise fly below this. "
+            "Flights already planned higher are left alone. 0 turns it off (each "
+            "aircraft uses its preferred altitude). Example: 28 keeps all CAP at "
+            "28,000 ft or above."
+        ),
     )
 
     player_startup_time: int = bounded_int_option(
