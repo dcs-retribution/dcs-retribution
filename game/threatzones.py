@@ -27,9 +27,21 @@ from game.utils import Distance, meters, nautical_miles
 if TYPE_CHECKING:
     from game import Game
     from game.theater.player import Player
+    from game.theater.frontline import FrontLine
 
 
 ThreatPoly = Union[MultiPolygon, Polygon]
+
+#: Empty polygon used as the default for optional threat components so callers
+#: that don't supply them (e.g. tests) keep the old behavior.
+_EMPTY_THREAT_POLY: ThreatPoly = Polygon()
+
+#: How far back from the active front line the ground battle is treated as a
+#: routing hazard. Modest by design: the navmesh penalizes (3x cost) rather than
+#: forbids the zone, so transiting flights cross the FLOT perpendicularly at the
+#: least-bad point instead of loitering over the combat. CAS/BAI target the front
+#: anyway and reach it on the (un-routed) ingress leg, so they are unaffected.
+FRONT_LINE_THREAT_BUFFER = nautical_miles(10)
 
 
 class ThreatZones:
@@ -39,12 +51,18 @@ class ThreatZones:
         airbases: ThreatPoly,
         air_defenses: ThreatPoly,
         radar_sam_threats: ThreatPoly,
+        front_lines: ThreatPoly = _EMPTY_THREAT_POLY,
     ) -> None:
         self.theater = theater
         self.airbases = airbases
         self.air_defenses = air_defenses
         self.radar_sam_threats = radar_sam_threats
-        self.all = unary_union([airbases, air_defenses])
+        self.front_lines = front_lines
+        # Only `all` carries the front line: it drives the navmesh and generic
+        # threatened()/path checks. The SAM-specific (air_defenses) and CAP-
+        # specific (airbases) views stay clean so air-defense and barcap planning
+        # are not perturbed by ground combat.
+        self.all = unary_union([airbases, air_defenses, front_lines])
 
     def closest_boundary(self, point: DcsPoint) -> DcsPoint:
         boundary, _ = nearest_points(
@@ -207,9 +225,38 @@ class ThreatZones:
             air_threats.append(cp)
             air_defenses.extend([go for go in cp.ground_objects if go.has_aa])
 
+        # The active front line is a hazard to either side's transiting flights,
+        # so it is added to every faction's projected threat (each coalition's
+        # navmesh is built from its opponent's threat zone).
+        front_line_zones = [
+            cls._front_line_threat_zone(front_line, game.settings.max_frontline_width)
+            for front_line in game.theater.conflicts()
+        ]
+
         return cls.for_threats(
-            game.theater, game.faction_for(player).doctrine, air_threats, air_defenses
+            game.theater,
+            game.faction_for(player).doctrine,
+            air_threats,
+            air_defenses,
+            front_line_zones=front_line_zones,
         )
+
+    @staticmethod
+    def _front_line_threat_zone(
+        front_line: "FrontLine", max_frontline_width_km: int
+    ) -> ThreatPoly:
+        """A capsule along the active front, perpendicular to the blue->red axis.
+
+        Buffered by FRONT_LINE_THREAT_BUFFER so the navmesh routes transiting
+        flights around / quickly across the ground battle rather than over it.
+        """
+        center = front_line.position
+        heading = front_line.blue_forward_heading
+        half_width = max_frontline_width_km * 1000 / 2
+        left = center.point_from_heading(heading.left.degrees, half_width)
+        right = center.point_from_heading(heading.right.degrees, half_width)
+        line = LineString([(left.x, left.y), (right.x, right.y)])
+        return line.buffer(FRONT_LINE_THREAT_BUFFER.meters)
 
     @classmethod
     def for_threats(
@@ -218,6 +265,7 @@ class ThreatZones:
         doctrine: Doctrine,
         barcap_locations: Iterable[ControlPoint],
         air_defenses: Iterable[TheaterGroundObject],
+        front_line_zones: Iterable[ThreatPoly] = (),
     ) -> ThreatZones:
         """Generates the threat zones projected by the given locations.
 
@@ -259,11 +307,15 @@ class ThreatZones:
                     threat_zone = point.buffer(radar_threat_range.meters)
                     radar_sam_threats.append(threat_zone)
 
+        front_line_list = list(front_line_zones)
         return ThreatZones(
             theater,
             airbases=unary_union(air_threats),
             air_defenses=unary_union(air_defense_threats),
             radar_sam_threats=unary_union(radar_sam_threats),
+            front_lines=(
+                unary_union(front_line_list) if front_line_list else _EMPTY_THREAT_POLY
+            ),
         )
 
     @staticmethod
