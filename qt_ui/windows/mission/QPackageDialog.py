@@ -121,6 +121,13 @@ class QPackageDialog(QDialog):
         self.tot_help_label.setOpenExternalLinks(True)
         self.tot_column.addWidget(self.tot_help_label)
 
+        self.package_context = QLabel()
+        self.package_context.setWordWrap(True)
+        self.package_context.setTextInteractionFlags(
+            Qt.TextInteractionFlag.TextSelectableByMouse
+        )
+        self.layout.addWidget(self.package_context)
+
         self.package_view = QFlightList(self.game_model, self.package_model)
         self.package_view.selectionModel().selectionChanged.connect(
             self.on_selection_changed
@@ -155,10 +162,12 @@ class QPackageDialog(QDialog):
         self.setLayout(self.layout)
 
         self.package_model.tot_changed.connect(self.update_tot)
+        self.package_model.tot_changed.connect(self.update_package_context)
 
         self.accepted.connect(self.on_save)
         self.finished.connect(self.on_close)
         self.rejected.connect(self.on_cancel)
+        self.update_package_context()
 
     @property
     def game(self) -> Game:
@@ -278,6 +287,34 @@ class QPackageDialog(QDialog):
     def on_package_changed(self):
         self.package_type_text.setText(self.package_model.description)
         self.freq_widget.check_freq()
+        self.update_package_context()
+
+    def update_package_context(self) -> None:
+        package = self.package_model.package
+        flights = list(package.flights)
+        if not flights:
+            self.package_context.setText(
+                "No flights are assigned yet. Add flights manually or use Auto Create "
+                "to let the planner build a package for this target."
+            )
+            return
+
+        player_slots = sum(f.client_count for f in flights)
+        missing_pilots = sum(f.missing_pilots for f in flights)
+        departures = sorted({f.departure.name for f in flights})
+        primary_task = package.primary_task.value if package.primary_task else "Unknown"
+        timing_mode = "ASAP timing" if package.auto_asap else "Manual TOT"
+
+        summary = [
+            f"Primary task: {primary_task}",
+            f"Flights: {len(flights)}",
+            f"Player slots: {player_slots}",
+            f"Timing: {timing_mode}",
+            f"Departures: {', '.join(departures)}",
+        ]
+        if missing_pilots:
+            summary.append(f"Missing pilots: {missing_pilots}")
+        self.package_context.setText(" | ".join(summary))
 
     def on_reset_radio(self):
         self.package_model.package.frequency = None

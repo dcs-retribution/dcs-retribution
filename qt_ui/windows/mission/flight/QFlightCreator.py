@@ -73,9 +73,17 @@ class QFlightCreator(QDialog):
             self.air_wing,
             self.task_selector.currentData(),
             self.aircraft_selector.currentData(),
+            package.target,
         )
         self.squadron_selector.setCurrentIndex(0)
         layout.addLayout(QLabeledWidget("Squadron:", self.squadron_selector))
+
+        self.selection_summary = QLabel()
+        self.selection_summary.setWordWrap(True)
+        self.selection_summary.setTextInteractionFlags(
+            Qt.TextInteractionFlag.TextSelectableByMouse
+        )
+        layout.addWidget(self.selection_summary)
 
         self.divert = QArrivalAirfieldSelector(
             [
@@ -160,6 +168,7 @@ class QFlightCreator(QDialog):
         self.setLayout(layout)
 
         self.roster_editor.pilots_changed.emit()
+        self.update_selection_summary()
 
     def reject(self) -> None:
         super().reject()
@@ -237,6 +246,7 @@ class QFlightCreator(QDialog):
         self.roster_editor.pilots_changed.emit()
         if self.aircraft_selector.currentData() is not None:
             self._init_loadout_selector()
+        self.update_selection_summary()
 
     def on_departure_changed(self, departure: ControlPoint) -> None:
         if isinstance(departure, OffMapSpawn):
@@ -257,6 +267,7 @@ class QFlightCreator(QDialog):
             self.air_wing.best_available_aircrafts_for(task)
         )
         self.squadron_selector.update_items(task, self.aircraft_selector.currentData())
+        self.update_selection_summary()
 
     def on_squadron_changed(self, index: int) -> None:
         squadron: Optional[Squadron] = self.squadron_selector.itemData(index)
@@ -271,6 +282,7 @@ class QFlightCreator(QDialog):
             self.on_departure_changed(squadron.location)
 
             self.roster_editor.pilots_changed.emit()
+        self.update_selection_summary()
 
     def update_max_size(self, available: int) -> None:
         aircraft = self.aircraft_selector.currentData()
@@ -321,6 +333,7 @@ class QFlightCreator(QDialog):
         if ac_type is None or not any(list(Loadout.iter_for_aircraft(ac_type))):
             self.loadout_selector.addItem("No loadouts available", None)
             self.loadout_selector.setDisabled(True)
+            self.update_selection_summary()
             return
         else:
             self.loadout_selector.setDisabled(False)
@@ -333,6 +346,43 @@ class QFlightCreator(QDialog):
             if index != -1:
                 self.loadout_selector.setCurrentIndex(index)
                 break
+        self.update_selection_summary()
+
+    def update_selection_summary(self) -> None:
+        task = self.task_selector.currentData()
+        aircraft = self.aircraft_selector.currentData()
+        squadron = self.squadron_selector.currentData()
+        loadout = self.loadout_selector.currentText()
+
+        if task is None:
+            self.selection_summary.setText(
+                "Select a mission task to see compatible aircraft and squadrons."
+            )
+            return
+        if aircraft is None:
+            self.selection_summary.setText(
+                f"{task.value} is selected for this target, but no compatible aircraft "
+                "are currently available in the air wing."
+            )
+            return
+        if squadron is None:
+            self.selection_summary.setText(
+                f"{aircraft.display_name} can fly {task.value}, but no squadron with a "
+                "working runway and spare aircraft is currently available."
+            )
+            return
+
+        role_alignment = (
+            "primary-role match"
+            if squadron.primary_task == task
+            else f"non-primary role for this squadron (primary: {squadron.primary_task.value})"
+        )
+        self.selection_summary.setText(
+            f"{aircraft.display_name} will fly {task.value} from {squadron.location.name} "
+            f"with {squadron.untasked_aircraft} untasked aircraft available. "
+            f"Selected squadron is a {role_alignment}. "
+            f"Current loadout: {loadout or 'None'}."
+        )
 
 
 class LoadoutDelegate(QStyledItemDelegate):

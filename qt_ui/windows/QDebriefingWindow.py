@@ -72,6 +72,72 @@ class ScrollingCasualtyReportContainer(QGroupBox):
         self.setLayout(layout)
 
 
+class MissionImpactGrid(QGridLayout):
+    def __init__(self, debriefing: Debriefing) -> None:
+        super().__init__()
+        for row, (label, value) in enumerate(self._rows_for(debriefing)):
+            self.addWidget(QLabel(f"<b>{label}</b>"), row, 0)
+            self.addWidget(QLabel(value), row, 1)
+
+    @staticmethod
+    def _rows_for(debriefing: Debriefing) -> list[tuple[str, str]]:
+        blue_losses = debriefing.loss_counts(Player.BLUE)
+        red_losses = debriefing.loss_counts(Player.RED)
+        captured = [
+            capture.control_point.name
+            for capture in debriefing.base_captures
+            if capture.captured_by_player.is_blue
+        ]
+        lost = [
+            capture.control_point.name
+            for capture in debriefing.base_captures
+            if capture.captured_by_player.is_red
+        ]
+        runways = [airfield.name for airfield in debriefing.damaged_runways]
+
+        rows = [
+            (
+                "Mission status",
+                (
+                    "Mission ended normally"
+                    if debriefing.state_data.mission_ended
+                    else "Mission ended early or state data was incomplete"
+                ),
+            ),
+            (
+                "Bases captured",
+                ", ".join(captured) if captured else "None",
+            ),
+            (
+                "Bases lost",
+                ", ".join(lost) if lost else "None",
+            ),
+            (
+                "Runways damaged",
+                ", ".join(runways) if runways else "None",
+            ),
+            (
+                f"{debriefing.player_country} losses",
+                f"{blue_losses.aircraft} aircraft, {blue_losses.front_line} front-line "
+                f"units, {blue_losses.ground_objects} site units, {blue_losses.bases_lost} bases",
+            ),
+            (
+                f"{debriefing.enemy_country} losses",
+                f"{red_losses.aircraft} aircraft, {red_losses.front_line} front-line "
+                f"units, {red_losses.ground_objects} site units, {red_losses.bases_lost} bases",
+            ),
+        ]
+        return rows
+
+
+class MissionImpactContainer(QGroupBox):
+    def __init__(self, debriefing: Debriefing) -> None:
+        super().__init__("Mission Impact")
+        layout = QVBoxLayout()
+        layout.addLayout(MissionImpactGrid(debriefing))
+        self.setLayout(layout)
+
+
 class QDebriefingWindow(QDialog):
     def __init__(self, debriefing: Debriefing):
         super(QDebriefingWindow, self).__init__()
@@ -93,6 +159,9 @@ class QDebriefingWindow(QDialog):
 
         title = QLabel("<b>Casualty report</b>")
         layout.addWidget(title)
+
+        impact = MissionImpactContainer(debriefing)
+        layout.addWidget(impact)
 
         player_lost_units = ScrollingCasualtyReportContainer(
             debriefing, player=Player.BLUE
