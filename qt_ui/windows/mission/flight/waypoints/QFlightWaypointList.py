@@ -112,11 +112,12 @@ class QFlightWaypointList(QTableView):
 
     def on_changed(self) -> None:
         for i in range(self.model.rowCount()):
-            altitude = self.model.item(i, 1).text()
-            altitude_feet = float(altitude)
-            self.flight.flight_plan.waypoints[i].alt = Distance.from_feet(altitude_feet)
-            name = self.model.item(i, 0).text()
-            self.flight.flight_plan.waypoints[i].pretty_name = name
+            # waypoints materializes a fresh list each access; resolve once per row so the
+            # altitude and name edits land on the same waypoint object.
+            waypoint = self.flight.flight_plan.waypoints[i]
+            altitude_feet = float(self.model.item(i, 1).text())
+            waypoint.alt = Distance.from_feet(altitude_feet)
+            waypoint.apply_name_edit(self.model.item(i, 0).text())
 
     def tot_text(
         self,

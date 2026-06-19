@@ -23,6 +23,15 @@ TARGET_WAYPOINTS = (
     FlightWaypointType.TARGET_SHIP,
 )
 
+# Waypoints whose generated .miz name is matched as a structural identifier downstream --
+# CTLD air-assault split (landingzone.py: name == "DROPOFFZONE"), EW jamming placement and
+# formation join/split (aircraftgenerator.py / missiongenerator.py: name in {"JOIN", "SPLIT",
+# "RACETRACK START", "RACETRACK END"}). A player rename must NOT reach the .miz for these or
+# that logic silently breaks, so they keep their canonical name regardless of custom_name.
+STRUCTURAL_WAYPOINT_NAMES = frozenset(
+    {"JOIN", "SPLIT", "RACETRACK START", "RACETRACK END", "DROPOFFZONE"}
+)
+
 
 class PydcsWaypointBuilder:
     def __init__(
@@ -43,7 +52,14 @@ class PydcsWaypointBuilder:
         self.mission_data = mission_data
 
     def dcs_name_for_waypoint(self) -> str:
-        return self.waypoint.name
+        # Structural waypoints are matched by name downstream; never let a rename reach the
+        # .miz for them (see STRUCTURAL_WAYPOINT_NAMES). The UI still allows the edit, but it
+        # is a harmless no-op in the cockpit for these.
+        if self.waypoint.name in STRUCTURAL_WAYPOINT_NAMES:
+            return self.waypoint.name
+        # Prefer the player's rename; otherwise the terse auto .miz name. NB the CDU
+        # fallback is `name`, not `pretty_name` (the list/kneeboard fallback) — by design.
+        return self.waypoint.custom_name or self.waypoint.name
 
     def build(self) -> MovingPoint:
         waypoint = self.group.add_waypoint(
