@@ -749,19 +749,40 @@ class FlotGenerator:
     ) -> Point:
         assert self.conflict.heading is not None
         assert self.conflict.size is not None
+        theater = self.conflict.theater
+        # Pick a lateral position along the front. This point lies on the front
+        # line itself (between the clipped left/right bounds), so it is valid land.
         shifted = self.conflict.position.point_from_heading(
             self.conflict.heading.degrees,
             random.randint(0, self.conflict.size),
         )
-        desired_point = shifted.point_from_heading(
-            spawn_heading.degrees, distance_from_frontline
-        )
-        return FrontLineConflictDescription.find_ground_position(
-            desired_point,
-            self.conflict.size,
-            self.conflict.heading,
-            self.conflict.theater,
-        )
+        if not theater.is_on_land(shifted):
+            # Degenerate front (e.g. air-only campaign with an arbitrary route).
+            # Fall back to the lateral search rather than risk an off-map spawn.
+            desired_point = shifted.point_from_heading(
+                spawn_heading.degrees, distance_from_frontline
+            )
+            return FrontLineConflictDescription.find_ground_position(
+                desired_point,
+                self.conflict.size,
+                self.conflict.heading,
+                theater,
+            )
+        # Step back from the front toward the requested depth, keeping the lateral
+        # position fixed. The old code snapped the off-map point *along* the front
+        # via find_ground_position, which collapsed every group whose depth ran
+        # past the playable zone onto the same valid patch and stacked the units on
+        # top of each other. Stepping perpendicular preserves the lateral spread.
+        step = 250
+        valid_point = shifted
+        distance = step
+        while distance <= distance_from_frontline:
+            candidate = shifted.point_from_heading(spawn_heading.degrees, distance)
+            if not theater.is_on_land(candidate):
+                break
+            valid_point = candidate
+            distance += step
+        return valid_point
 
     def _generate_groups(
         self, groups: list[CombatGroup], is_player: Player
