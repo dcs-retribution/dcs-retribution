@@ -102,6 +102,7 @@ class SideLossCounts:
     ground_objects: int
     scenery: int
     bases_lost: int
+    runways_destroyed: int
 
 
 @dataclass(frozen=True)
@@ -305,6 +306,7 @@ class Debriefing:
             airlifts = gl.player_airlifts
             ground_objects = gl.player_ground_objects
             scenery = gl.player_scenery
+            airfields = gl.player_airfields
         else:
             air = self.air_losses.enemy
             front_line = gl.enemy_front_line
@@ -313,6 +315,7 @@ class Debriefing:
             airlifts = gl.enemy_airlifts
             ground_objects = gl.enemy_ground_objects
             scenery = gl.enemy_scenery
+            airfields = gl.enemy_airfields
         return SideLossCounts(
             aircraft=len(air),
             front_line=len(front_line),
@@ -326,6 +329,7 @@ class Debriefing:
                 for capture in self.base_captures
                 if capture.captured_by_player == player.opponent
             ),
+            runways_destroyed=len(airfields),
         )
 
     def dead_aircraft(self) -> AirLosses:
