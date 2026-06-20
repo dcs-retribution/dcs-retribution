@@ -88,6 +88,29 @@ if dcsRetribution then
                 end
             end
 
+            --- CH-47F (and some other DCS modules) report :inAir() == true while
+            --- on the ground, so CTLD wrongly treats a landed helicopter as
+            --- airborne and blocks troop/cargo unload with "too high or too fast".
+            --- Override ctld.inAir to trust terrain-AGL as ground truth: within
+            --- 1 m of the ground counts as landed (a margin above 0 so a model
+            --- whose origin sits slightly above its contact points, or a unit on
+            --- a gentle slope, still reads as landed). See dcs-retribution #725.
+            --- Intentionally outside the tailorctld block: the :inAir() bug is
+            --- config-independent, so this override applies to every mission.
+            function ctld.inAir(_heli)
+                if _heli:inAir() == false then
+                    return false
+                end
+                if ctld.heightDiff(_heli) < 1.0 then
+                    return false
+                end
+                -- less than 5 cm/s so landed, BUT AI can hold a perfect hover so ignore AI
+                if mist.vec.mag(_heli:getVelocity()) < 0.05 and _heli:getPlayerName() ~= nil then
+                    return false
+                end
+                return true
+            end
+
             --- add all carriers as pickup zone
             if dcsRetribution.Carriers then
                 for _, carrier in pairs(dcsRetribution.Carriers) do
