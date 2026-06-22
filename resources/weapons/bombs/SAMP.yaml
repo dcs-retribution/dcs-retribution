@@ -1,0 +1,30 @@
+name: SAMP
+year: 1970
+clsids:
+  - "{M2KC_RAFAUT_SAMP250LD}"   # AUF2 SAMP-250 x 2
+  - "{M2KC_RAFAUT_SAMP250HD}"   # AUF2 SAMP-250 HD x 2
+  - "{SAMP125LD}"   # SAMP-125 - 125 kg GP Bomb LD
+  - "{SAMP250LD}"   # SAMP-250 - 250 kg GP Bomb LD
+  - "{SAMP400LD}"   # SAMP-400 - 400 kg GP Bomb LD
+  - "{HB_F4E_SAMP250LD_TER_1x_SingleLeft}"   # 1x SAMP-250 - 250KG GP Bomb LD (TER)
+  - "{HB_F4E_SAMP250LD_TER_1x_SingleRight}"   # 1x SAMP-250 - 250KG GP Bomb LD (TER)
+  - "{HB_F4E_SAMP250LD_TER_2x_Left}"   # 2x SAMP-250 - 250KG GP Bomb LD (TER)
+  - "{HB_F4E_SAMP250LD_TER_2x_Right}"   # 2x SAMP-250 - 250KG GP Bomb LD (TER)
+  - "{HB_F4E_SAMP250LD_TER_2x_opposed}"   # 2x SAMP-250 - 250KG GP Bomb LD (TER)
+  - "{HB_F4E_SAMP250LD_TER_3x}"   # 3x SAMP-250 - 250KG GP Bomb LD (TER)
+  - "{AUF2_SAMP125LD}"   # AUF 2 - 2 x SAMP-125 - 125 kg GP Bomb LD
+  - "{AUF2_SAMP250HD}"   # AUF 2 - 2 x SAMP-250 - 250 kg GP Bomb LD
+  - "{CLB4_SAMP125LD}"   # CLB 4 - 4 x SAMP-125 - 125 kg GP Bomb LD
+  - "{CLB4_SAMP250LD}"   # CLB 4 - 4 x SAMP-250 - 250 kg GP Bomb LD
+  - "{CLB4_SAMP400LD}"   # CLB 4 - 4 x SAMP-400 - 400 kg GP Bomb LD
+  - "{SAMP250HD}"   # SAMP-250 - 250 kg GP Chute Retarded Bomb HD
+  - "{SAMP400HD}"   # SAMP-400 - 400 kg GP Chute Retarded Bomb HD
+  - "{HB_F4E_SAMP250HD_TER_1x_SingleLeft}"   # 1x SAMP-250 - 250KG GP Chute Retarded Bomb HD (TER)
+  - "{HB_F4E_SAMP250HD_TER_1x_SingleRight}"   # 1x SAMP-250 - 250KG GP Chute Retarded Bomb HD (TER)
+  - "{HB_F4E_SAMP250HD_TER_2x_Left}"   # 2x SAMP-250 - 250KG GP Chute Retarded Bomb HD (TER)
+  - "{HB_F4E_SAMP250HD_TER_2x_Right}"   # 2x SAMP-250 - 250KG GP Chute Retarded Bomb HD (TER)
+  - "{HB_F4E_SAMP250HD_TER_2x_opposed}"   # 2x SAMP-250 - 250KG GP Chute Retarded Bomb HD (TER)
+  - "{HB_F4E_SAMP250HD_TER_3x}"   # 3x SAMP-250 - 250KG GP Chute Retarded Bomb HD (TER)
+  - "{AUF2_SAMP250LD}"   # AUF 2 - 2 x SAMP-250 - 250 kg GP Chute Retarded Bomb HD
+  - "{CLB4_SAMP250HD}"   # CLB 4 - 4 x SAMP-250 - 250 kg GP Chute Retarded Bomb HD
+  - "{CLB4_SAMP400HD}"   # CLB 4 - 4 x SAMP-400 - 400 kg GP Chute Retarded Bomb HD

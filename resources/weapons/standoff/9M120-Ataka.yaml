@@ -1,0 +1,16 @@
+name: 9M120 Ataka
+year: 1996
+fallback: 9M114 Shturm
+clsids:
+  - "{Ka52_9M120}"   # 9M120
+  - "{Ka52_9M120F}"   # 9M120F
+  - "{CHAP_8x9M120F_Ataka_V}"   # 8 x Ataka 9M120F - AGM, SACLOS, HE
+  - "{CHAP_8x9M120_Ataka_V}"   # 8 x Ataka 9M120 - ATGM, SACLOS, Tandem HEAT
+  - "{2x9M120F_Ataka_V}"   # 2 x 9M120F Ataka (AT-9 Spiral-2) - AGM, SACLOS, HE
+  - "{2x9M120F_Ataka_V_with_adapter}"   # 2 x 9M120F Ataka (AT-9 Spiral-2) - AGM, SACLOS, HE
+  - "{Ka52_9M120F_6}"   # 6 x 9M120F Ataka (AT-9 Spiral-2) - AGM, SACLOS, HE
+  - "{2x9M220_Ataka_V}"   # 2 x 9M220O Ataka (AT-9 Spiral-2) - AAM, SACLOS, Frag
+  - "{2x9M220_Ataka_V_with_adapter}"   # 2 x 9M220O Ataka (AT-9 Spiral-2) - AAM, SACLOS, Frag
+  - "{2x9M120_Ataka_V}"   # 2 x 9M120 Ataka (AT-9 Spiral-2) - ATGM, SACLOS, Tandem HEAT
+  - "{2x9M120_Ataka_V_with_adapter}"   # 2 x 9M120 Ataka (AT-9 Spiral-2) - ATGM, SACLOS, Tandem HEAT
+  - "{Ka52_9M120_6}"   # 6 x 9M120 Ataka (AT-9 Spiral-2) - ATGM, SACLOS, Tandem HEAT

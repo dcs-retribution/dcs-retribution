@@ -2,5 +2,9 @@ name: AGM-65K
 year: 2008
 fallback: AGM-65G
 clsids:
-  - "{69DC8AE7-8F77-427B-B8AA-B19D3F478B65}"
-  - "{69DC8AE7-8F77-427B-B8AA-B19D3F478B66}"
+  - "Herc_Ammo_AGM_65K_missiles"   # Ammo AGM-65K*10 [7920lb]
+  - "{JAS39_AGM_65K}"   # AGM-65K TV Guided Missile
+  - "{69DC8AE7-8F77-427B-B8AA-B19D3F478B65}"   # AGM-65K - Maverick K (CCD Imp ASM)
+  - "{69DC8AE7-8F77-427B-B8AA-B19D3F478B66}"   # LAU-117 with AGM-65K - Maverick K (CCD Imp ASM)
+  - "{LAU_117A_AGM_65K}"   # LAU-117/A with AGM-65K - Maverick K (CCD Imp ASM)
+  - "{LAU_88A_AGM_65Kx3}"   # LAU-88/A with 3 x AGM-65K - Maverick K (CCD Imp ASM)

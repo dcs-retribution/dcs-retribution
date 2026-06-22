@@ -1,0 +1,6 @@
+name: Taurus KEPD-350
+year: 2005
+clsids:
+  - "{CH_KEPD350}"   # Taurus KEPD-350 ALCM
+  - "{SU24MU_KEPD350}"   # [CH] Taurus KEPD-350 ALCM
+  - "{JAS39_KEPD350_ARM}"   # KEPD 350 Long Range Anti-Radiation Cruise-missile

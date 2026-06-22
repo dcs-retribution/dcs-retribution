@@ -25,3 +25,5 @@ env/
 /resources/plugins/pretense/pretense_output.lua
 
 *.psd
+_wpntools/
+.venv-check/

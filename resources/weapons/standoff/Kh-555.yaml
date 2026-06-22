@@ -1,0 +1,8 @@
+name: Kh-555
+year: 2004
+fallback: Kh-65
+clsids:
+  - "{Kh-555}"   # Kh-555
+  - "{CH_Kh555}"   # Kh-555 ALCM
+  - "{CHAP_Kh555x6}"   # 6 x Kh-555 ALCM
+  - "{CH_Kh555x6}"   # 6 x Kh-555 ALCM

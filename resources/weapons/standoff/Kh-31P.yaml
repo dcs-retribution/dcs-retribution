@@ -3,6 +3,9 @@ type: ARM
 year: 1988
 fallback: Kh-25MPU
 clsids:
-  - "{D8F2C90B-887B-4B9E-9FE2-996BC9E9AF03}"
-  - "{D8F2C90B-887B-4B9E-9FE2-996BC9E9AF0A}"
-  - "{X-31P}"
+  - "{Kh-31_mig31bm}"   # Kh-31P (AS-17 Krypton)
+  - "{SU30_KH31P}"   # Kh-31P (AS-17 Krypton) - 600kg
+  - "{SU30_KH31PD}"   # Kh-31PD (AS-17 Krypton) - 710kg
+  - "{D8F2C90B-887B-4B9E-9FE2-996BC9E9AF03}"   # Kh-31P (AS-17 Krypton) - 600kg, ARM, IN & Pas Rdr
+  - "{D8F2C90B-887B-4B9E-9FE2-996BC9E9AF0A}"   # Kh-31P (AS-17 Krypton) - 600kg, ARM, IN & Pas Rdr
+  - "{X-31P}"   # Kh-31P (AS-17 Krypton) - 600kg, ARM, IN & Pas Rdr

@@ -2,4 +2,12 @@ name: CBU-97
 year: 1992
 fallback: CBU-87
 clsids:
-  - "{5335D97A-35A5-4643-9D9B-026C75961E52}"
+  - "{CFT_L_CBU_97_x_3}"   # CBU-97 * 3
+  - "{CFT_R_CBU_97_x_3}"   # CBU-97 * 3
+  - "{CFT_L_CBU_97_x_6}"   # CBU-97 * 6
+  - "{CFT_R_CBU_97_x_6}"   # CBU-97 * 6
+  - "{B2_CBU97*18}"   # B2 CBU-97*18
+  - "{BRU42A_2_L*CBU97}"   # BRU-42A - 2 x CBU-97
+  - "{BRU42A_2_R*CBU97}"   # BRU-42A - 2 x CBU-97
+  - "Herc_Ammo_CBU_97_bombs"   # Ammo CBU-97*10 [10362lb]
+  - "{5335D97A-35A5-4643-9D9B-026C75961E52}"   # CBU-97 - 10 x SFW Cluster Bomb

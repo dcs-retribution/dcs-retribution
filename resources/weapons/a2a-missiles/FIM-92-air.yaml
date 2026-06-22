@@ -1,0 +1,6 @@
+name: FIM-92 Stinger (air-to-air)
+year: 1982
+clsids:
+  - "OH58D_FIM_92_L"   # 2xFIM-92
+  - "OH58D_FIM_92_R"   # 2xFIM-92
+  - "{CHAP_AIM92}"   # 2 x FIM-92C Stinger

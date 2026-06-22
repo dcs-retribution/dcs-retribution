@@ -1,0 +1,7 @@
+name: YJ-83K
+year: 2010
+fallback: C-802AK
+clsids:
+  - "DIS_GDJ_YJ83K"   # YJ-83K
+  - "DIS_YJ83K"   # YJ-83K
+  - "{YJ_83K}"   # YJ-83K

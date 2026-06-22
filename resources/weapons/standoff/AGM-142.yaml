@@ -1,0 +1,5 @@
+name: AGM-142 Popeye
+year: 1989
+fallback: GBU-15
+clsids:
+  - "{F111C_AGM_142_ARM}"   # AGM-142 Popeye
