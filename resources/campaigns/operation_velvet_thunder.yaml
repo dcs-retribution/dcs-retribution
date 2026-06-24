@@ -13,10 +13,8 @@ description:
   checkpoints scattered across the area of operations that will have to be 
   captured by Air Assault.</p>
   <p><strong>Note:</strong> This campaign is intended to be played with the 
-  A-4 Skyhawk, F-111C, OV-10A, C-130J, and Vietnam War Vessels mods active. If the Vietnam 
-  War Vessels is not active, the C-101CC will serve as a stand-in for the Skyraider 
-  in order to provide an Armed Recon platform. Airbase threat range is set to 20 
-  for this campaign to optimise autoplanner.</p>
+  A-4 Skyhawk, F-111C, OV-10A, C-130J, and Vietnam War Vessels mods active. 
+  Airbase threat range is set to 20 for this campaign to optimise autoplanner.</p>
 miz: operation_velvet_thunder.miz
 performance: 1
 recommended_start_date: 1970-11-29
@@ -53,6 +51,11 @@ squadrons:
         - F-111C Aardvark
         - F-4E-45MC Phantom II
       size: 8
+    - primary: SEAD Sweep
+      secondary: any
+      aircraft:
+        - F-100D Super Sabre
+      size: 8
     - primary: Strike
       secondary: any
       aircraft:
@@ -80,7 +83,7 @@ squadrons:
       secondary: any
       aircraft:
         - A-1H Skyraider
-        - C-101CC Aviojet
+        - F-100D Super Sabre
       size: 8
   #Blue CV
   Blue-CV:
