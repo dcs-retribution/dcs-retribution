@@ -19,6 +19,7 @@ radios:
     inter_flight_radio_index: 1
 variants:
   F-100D: {}
+  F-100D Super Sabre: {}
 tasks:
   BAI: 360
   BARCAP: 280
