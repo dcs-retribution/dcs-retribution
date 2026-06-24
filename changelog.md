@@ -1,6 +1,7 @@
 # Retribution v1.6.0
 
 ## Features/Improvements
+* **[Kneeboard]** Use a light-grey daytime kneeboard background instead of near-white, to avoid glare under HDR / Auto-HDR while staying readable in daylight.
 * **[UX]** Hovering a friendly flight's route line on the map highlights it in yellow, and clicking it selects that flight's package (and the flight) in the ATO sidebar.
 * **[UX]** Press Delete with a package selected in the Packages list to cancel it, making it quick to clear several packages in a row.
 * **[UX]** Avoid having escorts from wondering off too far while chasing a target.
@@ -14,6 +15,8 @@
 * **[UX]** Show an "End of Mission Detected, processing Mission Data" busy dialog while turn results are processed, so the wait is not mistaken for a missed detection
 * **[Map]** Hovering a SAM threat or detection ring highlights its emitter — and hovering an emitter highlights its ring — making it easy to tell which site a ring belongs to. Can be disabled from the map's layer control.
 * **[Mission Generator]** New campaign setting "Default laser code for Player flights" controls whether newly-created player flights are assigned a unique allocated TGP/weapon laser code (the new default, matching existing behavior) or stay on 1688. When a code is allocated it is applied to both the TGP/kneeboard code and the weapon code by default, so LGBs home on the player's own code without extra clicks; both remain independently overridable in the payload tab.
+* **[Engine]** Support for DCS 2.9.27 including F-100D and F-14A (Export).
+* **[Options]** Add new option to fast forward until player is at the IP.
 
 ## Fixes
 * **[Mission]** Reliably auto-detect end of mission, even when DCS wrote the final state.json before the wait dialog started watching
@@ -22,8 +25,7 @@
 * **[AirWing]** Squadron list shows living-pilot, aircraft and unassigned counts; squadron dialog shows each pilot's experience level, lists killed-in-action pilots separately and hides the redundant "Active" status
 * **[AirWing]** Squadron dialog shows the aircraft type, an aircraft inventory (initial/current/destroyed/purchased), and buy/sell aircraft controls with price, on-order count and available parking slots
 * **[AirWing]** Air Wing list shows a "transfer ordered to X" indicator, and Airfield Command lists the units transferring into the base next turn
-
-## Fixes
+* **[UI]** Avoid a crash dialog ("'QWidgetItem' object has no attribute 'width'") when a list using the two-column row delegate relayouts with a malformed style option under PySide6 6.4.x.
 * **[AirWing]** Squadron transfer-destination parking now accounts for already-ordered incoming transfers, matching the Airfield Command hangar count
 * **[Mission Generation]** Anti-Ship flights now attack the carrier group the flight plan routes to instead of the control point's first ground object, so strikes against carrier groups no longer leave the AI without a target (it would fly to the ingress point and turn back without engaging).
 * **[Performance]** Improved robustness w.r.t. state.json handling to avoid corruption and thus save loss.

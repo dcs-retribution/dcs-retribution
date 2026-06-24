@@ -90,7 +90,7 @@ class MigrationUnpickler(pickle.Unpickler):
             if name == "Amman":
                 from dcs.terrain.syria.airports import Marka
                 return Marka
-            elif name in ["Helipad_88", "Helipad_183", "Helipad_217", "Helipad_218"]:
+            elif name.startswith("Helipad_"):
                 return dcs.terrain.Airport  # use base-class if airport was removed
         
         # Afghanistan terrain airports

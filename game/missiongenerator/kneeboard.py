@@ -68,7 +68,9 @@ class KneeboardPageWriter:
             self.background_fill = (10, 5, 5)
         else:
             self.foreground_fill = (15, 15, 15)
-            self.background_fill = (255, 252, 252)
+            # Light grey rather than near-white: avoids glare under HDR / Auto-HDR
+            # while staying perfectly readable in daylight.
+            self.background_fill = (210, 210, 210)
         self.image_size = (960, 1080)
         self.image = Image.new("RGB", self.image_size, self.background_fill)
         # These font sizes create a relatively full page for current sorties. If
