@@ -22,11 +22,11 @@ local unitPayloads = {
 					["num"] = 3,
 				},
 				[4] = {
-					["CLSID"] = "{SUPERHORNET_PYLON_04_IB_FT_1X_FPU-8A}",
+					["CLSID"] = "{SUPERHORNET_PYLON_04_IB_FT_1X_FPU-12A}",
 					["num"] = 4,
 				},
 				[5] = {
-					["CLSID"] = "{SUPERHORNET_PYLON_08_IB_FT_1X_FPU-8A}",
+					["CLSID"] = "{SUPERHORNET_PYLON_08_IB_FT_1X_FPU-12A}",
 					["num"] = 6,
 				},
 				[6] = {
@@ -79,7 +79,7 @@ local unitPayloads = {
 					["num"] = 4,
 				},
 				[5] = {
-					["CLSID"] = "{SUPERHORNET_PYLON_06_FT_1X_FPU-8A}",
+					["CLSID"] = "{SUPERHORNET_PYLON_06_FT_1X_FPU-12A}",
 					["num"] = 5,
 				},
 				[6] = {
@@ -136,7 +136,7 @@ local unitPayloads = {
 					["num"] = 4,
 				},
 				[5] = {
-					["CLSID"] = "{SUPERHORNET_PYLON_06_FT_1X_FPU-8A}",
+					["CLSID"] = "{SUPERHORNET_PYLON_06_FT_1X_FPU-12A}",
 					["num"] = 5,
 				},
 				[6] = {
@@ -189,11 +189,11 @@ local unitPayloads = {
 					["num"] = 3,
 				},
 				[4] = {
-					["CLSID"] = "{SUPERHORNET_PYLON_04_IB_FT_1X_FPU-8A}",
+					["CLSID"] = "{SUPERHORNET_PYLON_04_IB_FT_1X_FPU-12A}",
 					["num"] = 4,
 				},
 				[5] = {
-					["CLSID"] = "{SUPERHORNET_PYLON_08_IB_FT_1X_FPU-8A}",
+					["CLSID"] = "{SUPERHORNET_PYLON_08_IB_FT_1X_FPU-12A}",
 					["num"] = 6,
 				},
 				[6] = {
@@ -242,11 +242,11 @@ local unitPayloads = {
 					["num"] = 3,
 				},
 				[4] = {
-					["CLSID"] = "{SUPERHORNET_PYLON_04_IB_FT_1X_FPU-8A}",
+					["CLSID"] = "{SUPERHORNET_PYLON_04_IB_FT_1X_FPU-12A}",
 					["num"] = 4,
 				},
 				[5] = {
-					["CLSID"] = "{SUPERHORNET_PYLON_08_IB_FT_1X_FPU-8A}",
+					["CLSID"] = "{SUPERHORNET_PYLON_08_IB_FT_1X_FPU-12A}",
 					["num"] = 6,
 				},
 				[6] = {
@@ -299,7 +299,7 @@ local unitPayloads = {
 					["num"] = 4,
 				},
 				[5] = {
-					["CLSID"] = "{SUPERHORNET_PYLON_06_FT_1X_FPU-8A}",
+					["CLSID"] = "{SUPERHORNET_PYLON_06_FT_1X_FPU-12A}",
 					["num"] = 5,
 				},
 				[6] = {
@@ -348,7 +348,7 @@ local unitPayloads = {
 					["num"] = 2,
 				},
 				[3] = {
-					["CLSID"] = "{SUPERHORNET_PYLON_03_IB_FT_1X_FPU-8A}",
+					["CLSID"] = "{SUPERHORNET_PYLON_03_IB_FT_1X_FPU-12A}",
 					["num"] = 3,
 				},
 				[4] = {
@@ -360,7 +360,7 @@ local unitPayloads = {
 					["num"] = 6,
 				},
 				[6] = {
-					["CLSID"] = "{SUPERHORNET_PYLON_09_IB_FT_1X_FPU-8A}",
+					["CLSID"] = "{SUPERHORNET_PYLON_09_IB_FT_1X_FPU-12A}",
 					["num"] = 7,
 				},
 				[7] = {
@@ -405,7 +405,7 @@ local unitPayloads = {
 					["num"] = 2,
 				},
 				[3] = {
-					["CLSID"] = "{SUPERHORNET_PYLON_03_IB_FT_1X_FPU-8A}",
+					["CLSID"] = "{SUPERHORNET_PYLON_03_IB_FT_1X_FPU-12A}",
 					["num"] = 3,
 				},
 				[4] = {
@@ -417,7 +417,7 @@ local unitPayloads = {
 					["num"] = 6,
 				},
 				[6] = {
-					["CLSID"] = "{SUPERHORNET_PYLON_09_IB_FT_1X_FPU-8A}",
+					["CLSID"] = "{SUPERHORNET_PYLON_09_IB_FT_1X_FPU-12A}",
 					["num"] = 7,
 				},
 				[7] = {
@@ -484,7 +484,7 @@ local unitPayloads = {
 					["num"] = 4,
 				},
 				[5] = {
-					["CLSID"] = "{SUPERHORNET_PYLON_06_FT_1X_FPU-8A}",
+					["CLSID"] = "{SUPERHORNET_PYLON_06_FT_1X_FPU-12A}",
 					["num"] = 5,
 				},
 				[6] = {
@@ -555,7 +555,7 @@ local unitPayloads = {
 					["num"] = 4,
 				},
 				[5] = {
-					["CLSID"] = "{SUPERHORNET_PYLON_06_FT_1X_FPU-8A}",
+					["CLSID"] = "{SUPERHORNET_PYLON_06_FT_1X_FPU-12A}",
 					["num"] = 5,
 				},
 				[6] = {
@@ -612,7 +612,7 @@ local unitPayloads = {
 					["num"] = 4,
 				},
 				[5] = {
-					["CLSID"] = "{SUPERHORNET_PYLON_06_FT_1X_FPU-8A}",
+					["CLSID"] = "{SUPERHORNET_PYLON_06_FT_1X_FPU-12A}",
 					["num"] = 5,
 				},
 				[6] = {
@@ -669,7 +669,7 @@ local unitPayloads = {
 					["num"] = 4,
 				},
 				[5] = {
-					["CLSID"] = "{SUPERHORNET_PYLON_06_FT_1X_FPU-8A}",
+					["CLSID"] = "{SUPERHORNET_PYLON_06_FT_1X_FPU-12A}",
 					["num"] = 5,
 				},
 				[6] = {
@@ -740,7 +740,7 @@ local unitPayloads = {
 					["num"] = 4,
 				},
 				[5] = {
-					["CLSID"] = "{SUPERHORNET_PYLON_06_FT_1X_FPU-8A}",
+					["CLSID"] = "{SUPERHORNET_PYLON_06_FT_1X_FPU-12A}",
 					["num"] = 5,
 				},
 				[6] = {

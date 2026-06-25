@@ -243,8 +243,11 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("F-84G Thunderjet (v2.5.7.01)", self.f84g_thunderjet),
             ("F-111C Aardvark (Warpig Production v2.260208)", self.f111c),
             ("F9F Panther (v2.8.7.101)", self.f9f_panther),
-            ("F/A-18E/F/G Super Hornet (version 2.4.5)", self.fa_18efg),
-            ("F/A-18E/F Super Hornet AI Tanker (version 2.4.5)", self.fa18ef_tanker),
+            ("F/A-18E/F/G Super Hornet (version 2.4.5.260501.RC1)", self.fa_18efg),
+            (
+                "F/A-18E/F Super Hornet AI Tanker (version 2.4.5.260501.RC1)",
+                self.fa18ef_tanker,
+            ),
             ("Frenchpack (v4.9.1)", self.frenchpack),
             ("High Digit SAMs (v1.4.0)", self.high_digit_sams),
             ("IDF Assets Pack (v1.1 by IDF Mods Project)", self.irondome),

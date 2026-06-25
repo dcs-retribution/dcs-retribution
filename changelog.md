@@ -17,6 +17,8 @@
 * **[Mission Generator]** New campaign setting "Default laser code for Player flights" controls whether newly-created player flights are assigned a unique allocated TGP/weapon laser code (the new default, matching existing behavior) or stay on 1688. When a code is allocated it is applied to both the TGP/kneeboard code and the weapon code by default, so LGBs home on the player's own code without extra clicks; both remain independently overridable in the payload tab.
 * **[Engine]** Support for DCS 2.9.27 including F-100D and F-14A (Export).
 * **[Options]** Add new option to fast forward until player is at the IP.
+* **[Modding]** Update to CJS Super Hornet Mod to v2.4.5.260501.RC1
+
 
 ## Fixes
 * **[Mission Planning]** Carrier/LHA targets now offer SEAD in the flight-task list and no longer list SEAD Escort twice (their escorts are SAM platforms, so they can be suppressed directly like any other naval group).
