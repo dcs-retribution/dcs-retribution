@@ -38,13 +38,26 @@ from qt_ui.windows.mission.flight.waypoints.QPredefinedWaypointSelectionWindow i
 class QFlightWaypointTab(QFrame):
     loadout_changed = Signal()
 
-    # Waypoint types whose altitude the bulk setter must not touch: ground/pattern
-    # points that are tied to the airfield rather than the en-route cruise band.
+    # Waypoint types whose altitude the bulk setter must not touch. Their altitude is
+    # tied to something other than the en-route cruise band, so overwriting it with a
+    # cruise MSL would break the flight plan:
+    #   * Takeoff / pattern / landing points are tied to the airfield.
+    #   * Divert and cargo-stop points are alternate landing fields.
+    #   * Target points carry the target's own elevation (used for attack geometry).
+    #   * Pickup / dropoff zones are ground-level helo landing zones.
+    #   * Bullseye is a fixed map reference, not a flown waypoint.
     BULK_ALTITUDE_SKIP_TYPES = frozenset(
         {
             FlightWaypointType.TAKEOFF,
-            FlightWaypointType.LANDING_POINT,
             FlightWaypointType.DESCENT_POINT,
+            FlightWaypointType.LANDING_POINT,
+            FlightWaypointType.DIVERT,
+            FlightWaypointType.CARGO_STOP,
+            FlightWaypointType.TARGET_POINT,
+            FlightWaypointType.TARGET_GROUP_LOC,
+            FlightWaypointType.TARGET_SHIP,
+            FlightWaypointType.PICKUP_ZONE,
+            FlightWaypointType.DROPOFF_ZONE,
             FlightWaypointType.BULLSEYE,
         }
     )
@@ -83,8 +96,9 @@ class QFlightWaypointTab(QFrame):
         self.bulk_altitude.setValue(self._default_bulk_altitude())
         self.bulk_altitude.setSuffix(" ft")
         self.bulk_altitude.setToolTip(
-            "Apply this MSL altitude to every en-route waypoint. "
-            "Takeoff, landing, and ground (AGL) waypoints are left unchanged."
+            "Apply this MSL altitude to every en-route waypoint. Takeoff, landing, "
+            "divert, target, landing-zone, and ground (AGL) waypoints are left "
+            "unchanged."
         )
         bulk_alt_layout.addWidget(self.bulk_altitude)
         self.apply_bulk_altitude = QPushButton("Apply to all")
