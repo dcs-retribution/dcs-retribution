@@ -3596,23 +3596,22 @@ class FA_18E(PlaneType):
     }
 
     callnames: Dict[str, List[str]] = {
-        "Brutal",
-        "Buckshot",
-        "Cannon",
-        "Carbine",
-        "Carnage",
-        "Colt",
-        "Demon",
-        "Falcon",
-        "Pistol",
-        "Ramrod",
-        "Ruthless",
-        "Sabre",
-        "Savage",
-        "Sonic",
-        "Sword",
-        "Wolf",
+        "USA": [
+            "Hornet",
+            "Squid",
+            "Ragin",
+            "Roman",
+            "Sting",
+            "Jury",
+            "Joker",
+            "Ram",
+            "Hawk",
+            "Devil",
+            "Check",
+            "Snake",
+        ]
     }
+
 
     property_defaults: Dict[str, Any] = {
         "SoloFlight": 0,
@@ -7130,23 +7129,22 @@ class FA_18F(PlaneType):
     }
 
     callnames: Dict[str, List[str]] = {
-        "Brutal",
-        "Buckshot",
-        "Cannon",
-        "Carbine",
-        "Carnage",
-        "Colt",
-        "Demon",
-        "Falcon",
-        "Pistol",
-        "Ramrod",
-        "Ruthless",
-        "Sabre",
-        "Savage",
-        "Sonic",
-        "Sword",
-        "Wolf",
+        "USA": [
+            "Hornet",
+            "Squid",
+            "Ragin",
+            "Roman",
+            "Sting",
+            "Jury",
+            "Joker",
+            "Ram",
+            "Hawk",
+            "Devil",
+            "Check",
+            "Snake",
+        ]
     }
+
 
     property_defaults: Dict[str, Any] = {
         "SoloFlight": 0,
@@ -10690,23 +10688,22 @@ class EA_18G(PlaneType):
     }
 
     callnames: Dict[str, List[str]] = {
-        "Brutal",
-        "Buckshot",
-        "Cannon",
-        "Carbine",
-        "Carnage",
-        "Colt",
-        "Demon",
-        "Falcon",
-        "Pistol",
-        "Ramrod",
-        "Ruthless",
-        "Sabre",
-        "Savage",
-        "Sonic",
-        "Sword",
-        "Wolf",
+        "USA": [
+            "Hornet",
+            "Squid",
+            "Ragin",
+            "Roman",
+            "Sting",
+            "Jury",
+            "Joker",
+            "Ram",
+            "Hawk",
+            "Devil",
+            "Check",
+            "Snake",
+        ]
     }
+
 
     property_defaults: Dict[str, Any] = {
         "SoloFlight": 0,
@@ -14310,23 +14307,22 @@ class FA_18ET(PlaneType):
     }
 
     callnames: Dict[str, List[str]] = {
-        "Brutal",
-        "Buckshot",
-        "Cannon",
-        "Carbine",
-        "Carnage",
-        "Colt",
-        "Demon",
-        "Falcon",
-        "Pistol",
-        "Ramrod",
-        "Ruthless",
-        "Sabre",
-        "Savage",
-        "Sonic",
-        "Sword",
-        "Wolf",
+        "USA": [
+            "Hornet",
+            "Squid",
+            "Ragin",
+            "Roman",
+            "Sting",
+            "Jury",
+            "Joker",
+            "Ram",
+            "Hawk",
+            "Devil",
+            "Check",
+            "Snake",
+        ]
     }
+
 
     property_defaults: Dict[str, Any] = {
         "SoloFlight": 0,
@@ -14850,23 +14846,22 @@ class FA_18FT(PlaneType):
     }
 
     callnames: Dict[str, List[str]] = {
-        "Brutal",
-        "Buckshot",
-        "Cannon",
-        "Carbine",
-        "Carnage",
-        "Colt",
-        "Demon",
-        "Falcon",
-        "Pistol",
-        "Ramrod",
-        "Ruthless",
-        "Sabre",
-        "Savage",
-        "Sonic",
-        "Sword",
-        "Wolf",
+        "USA": [
+            "Hornet",
+            "Squid",
+            "Ragin",
+            "Roman",
+            "Sting",
+            "Jury",
+            "Joker",
+            "Ram",
+            "Hawk",
+            "Devil",
+            "Check",
+            "Snake",
+        ]
     }
+
 
     property_defaults: Dict[str, Any] = {
         "SoloFlight": 0,
