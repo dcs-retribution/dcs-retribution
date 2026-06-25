@@ -3612,7 +3612,6 @@ class FA_18E(PlaneType):
         ]
     }
 
-
     property_defaults: Dict[str, Any] = {
         "SoloFlight": 0,
         "AIRCRAFT_ID_SEQ": 0,
@@ -7144,7 +7143,6 @@ class FA_18F(PlaneType):
             "Snake",
         ]
     }
-
 
     property_defaults: Dict[str, Any] = {
         "SoloFlight": 0,
@@ -10703,7 +10701,6 @@ class EA_18G(PlaneType):
             "Snake",
         ]
     }
-
 
     property_defaults: Dict[str, Any] = {
         "SoloFlight": 0,
@@ -14323,7 +14320,6 @@ class FA_18ET(PlaneType):
         ]
     }
 
-
     property_defaults: Dict[str, Any] = {
         "SoloFlight": 0,
         "CJS_PARAM_BLOCK": 1,
@@ -14861,7 +14857,6 @@ class FA_18FT(PlaneType):
             "Snake",
         ]
     }
-
 
     property_defaults: Dict[str, Any] = {
         "SoloFlight": 0,
