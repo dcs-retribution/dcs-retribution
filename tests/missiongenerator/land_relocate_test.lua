@@ -271,6 +271,114 @@ local function test_narrow_river_rejected()
     check(#dynadd_calls == 1, "the beached escort was re-added once")
 end
 
+-- NARROW CHANNEL, ESCORT UP THE BANK (relaxed gated pass).
+-- A 200 m vertical water strip (|x| <= 100) flanked by land; carrier afloat in
+-- the strip; escort beached on the bank, well north of the carrier. Strict fails
+-- (the strip is too narrow for is_open_water); the gated relaxed pass moves the
+-- escort into the strip at a point >= 0.5 nm from the carrier.
+local function test_narrow_channel_escort_up_bank()
+    setup()
+    surface_fn = function(x)
+        if x >= -100 and x <= 100 then
+            return SURF.WATER
+        end
+        return SURF.LAND
+    end
+    add_ship("carrier", 0, 0)
+    add_ship("escort", 500, 2000)
+
+    run_script()
+
+    local e = ship("escort")
+    check(math.abs(e.x) <= 100, "escort moved into the channel strip")
+    local dx, dy = e.x - 0, e.y - 0
+    check(math.sqrt(dx * dx + dy * dy) >= 0.5 * 1852, "destination >= 0.5 nm from carrier")
+    check(ship("carrier").x == 0 and ship("carrier").y == 0, "carrier untouched")
+    check(#warnings == 0, "no warning when fallback relocates the escort")
+end
+
+-- ESCORT ABEAM CARRIER (relaxed ungated pass; soft gate).
+-- Same strip, but the escort is beached directly abeam the carrier, so every
+-- reachable strip point is < 0.5 nm from the carrier. The gated pass therefore
+-- finds nothing; the ungated pass still gets the escort afloat (afloat beats
+-- beached) at the nearest strip point, even though it is within 0.5 nm.
+local function test_escort_abeam_carrier_soft_gate()
+    setup()
+    surface_fn = function(x)
+        if x >= -100 and x <= 100 then
+            return SURF.WATER
+        end
+        return SURF.LAND
+    end
+    add_ship("carrier", 0, 0)
+    add_ship("escort", 500, 0)
+
+    run_script()
+
+    local e = ship("escort")
+    check(math.abs(e.x) <= 100, "escort relocated into the strip via ungated pass")
+    local dx, dy = e.x - 0, e.y - 0
+    check(math.sqrt(dx * dx + dy * dy) < 0.5 * 1852, "destination is the close water (gate bypassed)")
+    check(#dynadd_calls == 1, "escort re-added")
+    check(#warnings == 0, "escort got afloat, so no warning")
+end
+
+-- CLOSED POND NEARER THAN THE CHANNEL (documented limitation).
+-- A small near pond (200 <= x <= 400) and a far channel (x >= 5000) with the
+-- carrier afloat in it; both too narrow for is_open_water. The relaxed pass takes
+-- the NEAREST water -- the near pond -- even though carrier bias points at the far
+-- channel. Pins that relaxed has no sea-connectivity check.
+local function test_closed_pond_nearer_wins()
+    setup()
+    surface_fn = function(x)
+        if x >= 200 and x <= 400 then
+            return SURF.WATER   -- near pond
+        elseif x >= 5000 and x <= 5100 then
+            return SURF.WATER   -- far channel
+        end
+        return SURF.LAND
+    end
+    add_ship("carrier", 5050, 0)
+    add_ship("escort", 0, 0)
+
+    run_script()
+
+    local e = ship("escort")
+    check(e.x >= 200 and e.x <= 400, "escort settled in the nearer pond, not the far channel")
+    check(ship("carrier").x == 5050, "carrier untouched")
+    check(#dynadd_calls == 1, "only the escort is re-added")
+end
+
+-- THE SPACING GATE ACTUALLY PUSHES AN ESCORT CLEAR OF THE CARRIER (gated != ungated).
+-- The escort's NEAREST water is a small pond hugging the carrier (every point of it
+-- < 0.5 nm away); a separate open-water strip sits farther east, >= 0.5 nm away.
+-- Strict fails (both bodies are too narrow for is_open_water). The gated pass rejects
+-- the near pond and lands the escort in the far strip; the ungated pass alone would
+-- take the near pond. Asserting the far strip pins the gate: delete the gated pass,
+-- or shrink MIN_ANCHOR_DIST below the pond's reach, and the escort lands in the pond.
+local function test_gated_pass_pushes_clear_of_carrier()
+    setup()
+    surface_fn = function(x, y)
+        if x >= -100 and x <= 100 and y >= -100 and y <= 100 then
+            return SURF.WATER   -- pond hugging the carrier (all of it < 0.5 nm away)
+        elseif x >= 2000 and x <= 2100 then
+            return SURF.WATER   -- far strip, >= 0.5 nm from the carrier
+        end
+        return SURF.LAND
+    end
+    add_ship("carrier", 0, 0)
+    add_ship("escort", 500, 0)
+
+    run_script()
+
+    local e = ship("escort")
+    check(e.x >= 2000, "gate pushed escort to the far strip, past the near pond")
+    local dx, dy = e.x - 0, e.y - 0
+    check(math.sqrt(dx * dx + dy * dy) >= 0.5 * 1852, "destination >= 0.5 nm from carrier")
+    check(ship("carrier").x == 0 and ship("carrier").y == 0, "carrier untouched")
+    check(#dynadd_calls == 1, "only the escort is re-added")
+end
+
 -- Driver ----------------------------------------------------------------------
 
 local tests = {
@@ -281,6 +389,10 @@ local tests = {
     test_spawn_waypoint_relocated,
     test_relocation_biased_toward_carrier,
     test_narrow_river_rejected,
+    test_narrow_channel_escort_up_bank,
+    test_escort_abeam_carrier_soft_gate,
+    test_closed_pond_nearer_wins,
+    test_gated_pass_pushes_clear_of_carrier,
 }
 
 for _, t in ipairs(tests) do

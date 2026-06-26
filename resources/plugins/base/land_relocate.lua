@@ -51,6 +51,14 @@ local SEARCH_HEADINGS = 8        -- sample points per ring (every 45 degrees)
 local CLEAR_RADIUS = 1 * NM      -- destination must be open water this far out...
 local CLEAR_STEP   = 0.2 * NM    -- ...sampled every 0.2 nm along each spoke
 
+-- Relaxed fallback: when the strict open-water search finds nothing (e.g. a
+-- carrier's escorts in a narrow canal), a beached ship is moved to the nearest
+-- deep water. The gated relaxed pass keeps that destination at least
+-- MIN_ANCHOR_DIST from the nearest afloat ship so escorts don't stack on the
+-- carrier when a farther channel point exists; a final ungated pass ignores it so
+-- a ship whose only water is the sliver beside the carrier still gets afloat.
+local MIN_ANCHOR_DIST = 0.5 * NM
+
 local DRY_SURFACES = {
     [land.SurfaceType.LAND] = true,
     [land.SurfaceType.ROAD] = true,
@@ -106,24 +114,42 @@ local function is_open_water(x, y)
     return true
 end
 
--- Expanding-ring spiral search for the nearest open-water point. When a bias
--- target is given, the equidistant candidates on a ring are resolved in favour
--- of the one closest to the target (the carrier / open sea), not just the first.
--- Returns { x = ..., y = ... } or nil if no open water within SEARCH_MAX.
-local function nearest_deep_water(x, y, bias)
+-- Expanding-ring spiral search for the nearest water point matching `opts`.
+--   opts.require_open    -- gate candidates on is_open_water (strict clearance)
+--   opts.min_anchor_dist -- reject candidates nearer than this (metres) to `bias`;
+--                           0, nil, or a nil bias disables the gate.
+-- With a bias target, a ring's qualifying candidates resolve in favour of the one
+-- nearest it (the carrier / open sea); exact ties fall to heading-iteration order.
+-- Returns { x = ..., y = ... } or nil if nothing within SEARCH_MAX.
+local function find_water(x, y, bias, opts)
+    -- Gate distance is compared squared, to match distance_sq and skip a sqrt.
+    -- A nil min_anchor_dist is treated as 0 (gate off) so a preset may omit it.
+    local min_anchor_dist = opts.min_anchor_dist or 0
+    local min_d2 = 0
+    if bias and min_anchor_dist > 0 then
+        min_d2 = min_anchor_dist * min_anchor_dist
+    end
     for r = SEARCH_STEP, SEARCH_MAX, SEARCH_STEP do
         local best, best_d
         for i = 0, SEARCH_HEADINGS - 1 do
             local a = i * (2 * math.pi / SEARCH_HEADINGS)
             local cx = x + r * math.cos(a)
             local cy = y + r * math.sin(a)
-            if DEEP_WATER_SURFACES[surface_at(cx, cy)] and is_open_water(cx, cy) then
+            if DEEP_WATER_SURFACES[surface_at(cx, cy)]
+                and (not opts.require_open or is_open_water(cx, cy))
+            then
+                -- With no anchor to bias toward, take the first qualifying
+                -- candidate. Otherwise a positive min_anchor_dist keeps the
+                -- destination clear of the anchor (so escorts don't pile onto the
+                -- carrier), and among the rest the one nearest the anchor wins.
                 if not bias then
                     return { x = cx, y = cy }
                 end
                 local d = distance_sq(cx, cy, bias.x, bias.y)
-                if not best_d or d < best_d then
-                    best, best_d = { x = cx, y = cy }, d
+                if d >= min_d2 then
+                    if not best_d or d < best_d then
+                        best, best_d = { x = cx, y = cy }, d
+                    end
                 end
             end
         end
@@ -132,6 +158,48 @@ local function nearest_deep_water(x, y, bias)
         end
     end
     return nil
+end
+
+-- Pass presets for find_destination, loosest-last.
+local STRICT          = { require_open = true,  min_anchor_dist = 0 }
+local RELAXED_GATED   = { require_open = false, min_anchor_dist = MIN_ANCHOR_DIST }
+local RELAXED_UNGATED = { require_open = false, min_anchor_dist = 0 }
+
+-- Find a water destination for a dry point. Tries the strict open-water search
+-- first (unchanged behaviour for open coasts), then a relaxed search that accepts
+-- any deep water but keeps MIN_ANCHOR_DIST off the nearest afloat ship, then a
+-- final relaxed search with no spacing gate so an abeam escort still gets afloat
+-- instead of stranded on land.
+-- Returns (point, fallback): fallback is nil for the strict pass, or the
+-- "gated" / "ungated" name of the relaxed pass that found the point. Returns
+-- (nil, nil) when no pass found water within SEARCH_MAX.
+local function find_destination(x, y, bias)
+    local p = find_water(x, y, bias, STRICT)
+    if p then
+        return p, nil
+    end
+    p = find_water(x, y, bias, RELAXED_GATED)
+    if p then
+        return p, "gated"
+    end
+    p = find_water(x, y, bias, RELAXED_UNGATED)
+    if p then
+        return p, "ungated"
+    end
+    return nil, nil
+end
+
+-- Move a dry point (a unit or a route waypoint -- anything with x/y) onto water
+-- in place, biased toward the nearest afloat anchor. Returns (moved, fallback):
+-- moved is false when no pass found water; fallback is nil for the strict pass or
+-- the "gated" / "ungated" name of the relaxed pass that produced the destination.
+local function relocate_point(p, anchors)
+    local bias = nearest_anchor(p.x, p.y, anchors)
+    local dest, fallback = find_destination(p.x, p.y, bias)
+    if dest then
+        p.x, p.y = dest.x, dest.y
+    end
+    return dest ~= nil, fallback
 end
 
 -- Entry point -----------------------------------------------------------------
@@ -165,11 +233,20 @@ local function run()
 
         for _, unit in ipairs(data.units) do
             if DRY_SURFACES[surface_at(unit.x, unit.y)] then
-                local bias = nearest_anchor(unit.x, unit.y, anchors)
-                local p = nearest_deep_water(unit.x, unit.y, bias)
-                if p then
-                    unit.x, unit.y = p.x, p.y
+                local moved, fallback = relocate_point(unit, anchors)
+                if moved then
                     changed = true
+                    if fallback then
+                        env.info(
+                            "land_relocate: "
+                                .. name
+                                .. " placed in nearest deep water via "
+                                .. fallback
+                                .. " fallback (no open-water site within "
+                                .. SEARCH_MAX
+                                .. "m)"
+                        )
+                    end
                 else
                     env.warning(
                         "land_relocate: no deep water within "
@@ -185,11 +262,18 @@ local function run()
         if data.route and data.route.points and data.route.points[1] then
             local pt = data.route.points[1]
             if DRY_SURFACES[surface_at(pt.x, pt.y)] then
-                local bias = nearest_anchor(pt.x, pt.y, anchors)
-                local p = nearest_deep_water(pt.x, pt.y, bias)
-                if p then
-                    pt.x, pt.y = p.x, p.y
+                local moved, fallback = relocate_point(pt, anchors)
+                if moved then
                     changed = true
+                    if fallback then
+                        env.info(
+                            "land_relocate: "
+                                .. name
+                                .. " spawn waypoint placed via "
+                                .. fallback
+                                .. " fallback"
+                        )
+                    end
                 end
             end
         end
