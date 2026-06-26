@@ -18,6 +18,7 @@
 * **[Engine]** Support for DCS 2.9.27 including F-100D and F-14A (Export).
 * **[Options]** Add new option to fast forward until player is at the IP.
 * **[Modding]** Update to CJS Super Hornet Mod to v2.4.5.260501.RC1
+* **[Modding]** Update Community A4EC Mod to 2.3.0 (May 2025)
 
 
 ## Fixes

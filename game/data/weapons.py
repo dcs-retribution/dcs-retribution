@@ -48,6 +48,7 @@ def clsid_migrator(clsid: str) -> str:
         "{SUPERHORNET_PYLON_03_MB_FT_1X_FPU-8A_HV}": "{SUPERHORNET_PYLON_03_MB_FT_1X_FPU-12A_HV}",
         "{SUPERHORNET_PYLON_09_MB_FT_1X_FPU-8A_HV}": "{SUPERHORNET_PYLON_09_MB_FT_1X_FPU-12A_HV}",
         "{SUPERHORNET_PYLON_02_MB_JS_2X_BRU_AGM-154C}": "{SUPERHORNET_PYLON_02_MB_JS_2X_BRU55_AGM-154A}",
+        "{AGM_45B}": "{C_A4E_AGM-45B_LAU34}",
     }
     while clsid in migration_map:
         clsid = migration_map[clsid]

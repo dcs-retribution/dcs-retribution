@@ -2,6 +2,7 @@ from typing import Any, Dict, Set
 
 from dcs import task
 from dcs.planes import PlaneType
+from dcs.unitpropertydescription import UnitPropertyDescription
 from dcs.weapons_data import Weapons
 
 from game.modsupport import planemod
@@ -9,776 +10,168 @@ from pydcs_extensions.weapon_injector import inject_weapons
 
 
 class WeaponsA4EC:
-    AN_M66A2___2000lb_GP_Bomb_LD = {
-        "clsid": "{AN-M66A2}",
-        "name": "AN-M66A2 - 2000lb GP Bomb LD",
-        "weight": 970.68688,
-    }
-    AN_M81___260lb_GP_Bomb_LD = {
-        "clsid": "{AN-M81}",
-        "name": "AN-M81 - 260lb GP Bomb LD",
-        "weight": 117.93392,
-    }
-    AN_M88___220lb_GP_Bomb_LD = {
-        "clsid": "{AN-M88}",
-        "name": "AN-M88 - 220lb GP Bomb LD",
-        "weight": 98.0665904,
-    }
-    Bomblets_BLU_3B_x_19__HE = {
-        "clsid": "{BLU_3B_GROUP}",
-        "name": "Bomblets BLU-3B x 19, HE",
-        "weight": 0.793786,
-    }
-    Bomblets_BLU_4B_x_27__HE = {
-        "clsid": "{BLU_4B_GROUP}",
-        "name": "Bomblets BLU-4B x 27, HE",
-        "weight": 0.5443104,
-    }
-    CBU_1_A_pod___19_x_tubes_of_Bomblets_BLU_4B_x_27__HE = {
-        "clsid": "{CBU-1/A}",
-        "name": "CBU-1/A pod - 19 x tubes of Bomblets BLU-4B x 27, HE",
-        "weight": 337.2910112,
-    }
-    CBU_1_A_pod___19_x_tubes_of_Bomblets_BLU_4B_x_27__HE_ = {
-        "clsid": "{CBU-1/A*2}",
-        "name": "CBU-1/A pod - 19 x tubes of Bomblets BLU-4B x 27, HE",
-        "weight": 616.5222464,
-    }
-    CBU_2B_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE = {
-        "clsid": "{CBU-2B/A}",
-        "name": "CBU-2B/A pod - 19 x tubes of Bomblets BLU-3B x 19, HE",
-        "weight": 344.616522,
-    }
-    CBU_2B_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE_ = {
-        "clsid": "{CBU-2B/A*2}",
-        "name": "CBU-2B/A pod - 19 x tubes of Bomblets BLU-3B x 19, HE",
-        "weight": 631.173268,
-    }
-    CBU_2_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE = {
-        "clsid": "{CBU-2/A}",
-        "name": "CBU-2/A pod - 19 x tubes of Bomblets BLU-3B x 19, HE",
-        "weight": 344.616522,
-    }
-    CBU_2_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE_ = {
-        "clsid": "{CBU-2/A*2}",
-        "name": "CBU-2/A pod - 19 x tubes of Bomblets BLU-3B x 19, HE",
-        "weight": 631.173268,
-    }
-    CBU_DUMMY_pod___0_x_tubes_of_Bomblets_BLU_4B_x_27__HE = {
-        "clsid": "{CBU_DUMMY}",
-        "name": "CBU_DUMMY pod - 0 x tubes of Bomblets BLU-4B x 27, HE",
-        "weight": 58.059776,
-    }
-    Fuel_Tank_150_gallons = {
-        "clsid": "{DFT-150gal}",
-        "name": "Fuel Tank 150 gallons",
-        "weight": 515.888512,
-    }
-    Fuel_Tank_150_gallons__EMPTY_ = {
-        "clsid": "{DFT-150gal_EMPTY}",
-        "name": "Fuel Tank 150 gallons (EMPTY)",
-        "weight": 515.888512,
-    }
-    Fuel_Tank_300_gallons = {
-        "clsid": "{DFT-300gal}",
-        "name": "Fuel Tank 300 gallons",
-        "weight": 991.407336,
-    }
-    Fuel_Tank_300_gallons_ = {
-        "clsid": "{DFT-300gal_LR}",
-        "name": "Fuel Tank 300 gallons",
-        "weight": 998.664808,
-    }
-    Fuel_Tank_300_gallons__EMPTY_ = {
-        "clsid": "{DFT-300gal_EMPTY}",
-        "name": "Fuel Tank 300 gallons (EMPTY)",
-        "weight": 991.407336,
-    }
-    Fuel_Tank_300_gallons__EMPTY__ = {
-        "clsid": "{DFT-300gal_LR_EMPTY}",
-        "name": "Fuel Tank 300 gallons (EMPTY)",
-        "weight": 998.664808,
-    }
-    Fuel_Tank_400_gallons = {
-        "clsid": "{DFT-400gal}",
-        "name": "Fuel Tank 400 gallons",
-        "weight": 1320.06208,
-    }
-    Fuel_Tank_400_gallons__EMPTY_ = {
-        "clsid": "{DFT-400gal_EMPTY}",
-        "name": "Fuel Tank 400 gallons (EMPTY)",
-        "weight": 1320.06208,
-    }
-    LAU_7_with_AIM_9J_Sidewinder_IR_AAM = {
-        "clsid": "{AIM-9J-ON-ADAPTER}",
-        "name": "LAU-7 with AIM-9J Sidewinder IR AAM",
-        "weight": 115.84,
-    }
-    LAU_7_with_AIM_9P3_Sidewinder_IR_AAM = {
-        "clsid": "{A4E-AIM-9P3-ON-ADAPTER}",
-        "name": "LAU-7 with AIM-9P3 Sidewinder IR AAM",
-        "weight": 121.7,
-    }
-    LAU_7_with_AN_ASQ_T50_TCTS_Pod___ACMI_Pod_ = {
-        "clsid": "{A4E-ASQ-T50-ON-ADAPTER}",
-        "name": "LAU-7 with AN/ASQ-T50 TCTS Pod - ACMI Pod",
-        "weight": 103.6,
-    }
-    Mk4_HIPEG___Gunpod = {
-        "clsid": "{Mk4 HIPEG}",
-        "name": "Mk4 HIPEG - Gunpod",
-        "weight": 612.35,
-    }
-    Mk_77_mod_0___750lb_Fire_Bomb_LD = {
-        "clsid": "{mk77mod0}",
-        "name": "Mk-77 mod 0 - 750lb Fire Bomb LD",
-        "weight": 340,
-    }
-    Mk_77_mod_1___500lb_Fire_Bomb_LD = {
-        "clsid": "{mk77mod1}",
-        "name": "Mk-77 mod 1 - 500lb Fire Bomb LD",
-        "weight": 230,
-    }
-    Mk_81_Snakeye___250lb_GP_Bomb_HD = {
-        "clsid": "{MK-81SE}",
-        "name": "Mk-81 Snakeye - 250lb GP Bomb HD",
-        "weight": 113.398,
-    }
-    _2_x_AN_M57___250lb_GP_Bomb_LD__TER_ = {
-        "clsid": "{AN-M57_TER_2_L}",
-        "name": "2 x AN-M57 - 250lb GP Bomb LD (TER)",
-        "weight": 273.6,
-    }
-    _2_x_AN_M57___250lb_GP_Bomb_LD__TER__ = {
-        "clsid": "{AN-M57_TER_2_R}",
-        "name": "2 x AN-M57 - 250lb GP Bomb LD (TER)",
-        "weight": 273.6,
-    }
-    _2_x_CBU_1_A_pod___19_x_tubes_of_Bomblets_BLU_4B_x_27__HE__TER_ = {
-        "clsid": "{CBU-1/A_TER_2_L}",
-        "name": "2 x CBU-1/A pod - 19 x tubes of Bomblets BLU-4B x 27, HE (TER)",
-        "weight": 722.1820224,
-    }
-    _2_x_CBU_1_A_pod___19_x_tubes_of_Bomblets_BLU_4B_x_27__HE__TER__ = {
-        "clsid": "{CBU-1/A_TER_2_R}",
-        "name": "2 x CBU-1/A pod - 19 x tubes of Bomblets BLU-4B x 27, HE (TER)",
-        "weight": 722.1820224,
-    }
-    _2_x_CBU_2B_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE__TER_ = {
-        "clsid": "{CBU-2B/A_TER_2_L}",
-        "name": "2 x CBU-2B/A pod - 19 x tubes of Bomblets BLU-3B x 19, HE (TER)",
-        "weight": 827.324648,
-    }
-    _2_x_CBU_2B_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE__TER__ = {
-        "clsid": "{CBU-2B/A_TER_2_R}",
-        "name": "2 x CBU-2B/A pod - 19 x tubes of Bomblets BLU-3B x 19, HE (TER)",
-        "weight": 827.324648,
-    }
-    _2_x_CBU_2_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE__TER_ = {
-        "clsid": "{CBU-2/A_TER_2_L}",
-        "name": "2 x CBU-2/A pod - 19 x tubes of Bomblets BLU-3B x 19, HE (TER)",
-        "weight": 736.833044,
-    }
-    _2_x_CBU_2_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE__TER__ = {
-        "clsid": "{CBU-2/A_TER_2_R}",
-        "name": "2 x CBU-2/A pod - 19 x tubes of Bomblets BLU-3B x 19, HE (TER)",
-        "weight": 736.833044,
-    }
-    _2_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_MK_71__HE_FRAG__TER_ = {
-        "clsid": "{LAU-10 ZUNI_TER_2_C}",
-        "name": "2 x LAU-10 pod - 4 x 127mm ZUNI, UnGd Rkts MK 71, HE/FRAG (TER)",
-        "weight": 596.392,
-    }
-    _2_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_MK_71__HE_FRAG__TER__ = {
-        "clsid": "{LAU-10 ZUNI_TER_2_L}",
-        "name": "2 x LAU-10 pod - 4 x 127mm ZUNI, UnGd Rkts MK 71, HE/FRAG (TER)",
-        "weight": 596.392,
-    }
-    _2_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_MK_71__HE_FRAG__TER___ = {
-        "clsid": "{LAU-10 ZUNI_TER_2_R}",
-        "name": "2 x LAU-10 pod - 4 x 127mm ZUNI, UnGd Rkts MK 71, HE/FRAG (TER)",
-        "weight": 596.392,
-    }
-    _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER_ = {
-        "clsid": "{LAU-3 FFAR WP156_TER_2_C}",
-        "name": '2 x LAU-3 pod - 19 x 2.75" FFAR, UnGd Rkts  M156, Wht Phos (TER)',
-        "weight": 542.3414512,
-    }
-    _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER__ = {
-        "clsid": "{LAU-3 FFAR WP156_TER_2_L}",
-        "name": '2 x LAU-3 pod - 19 x 2.75" FFAR, UnGd Rkts  M156, Wht Phos (TER)',
-        "weight": 542.3414512,
-    }
-    _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER___ = {
-        "clsid": "{LAU-3 FFAR WP156_TER_2_R}",
-        "name": '2 x LAU-3 pod - 19 x 2.75" FFAR, UnGd Rkts  M156, Wht Phos (TER)',
-        "weight": 542.3414512,
-    }
-    _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER_ = {
-        "clsid": "{LAU-3 FFAR Mk1 HE_TER_2_C}",
-        "name": '2 x LAU-3 pod - 19 x 2.75" FFAR, UnGd Rkts  Mk1, HE (TER)',
-        "weight": 487.184664,
-    }
-    _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER__ = {
-        "clsid": "{LAU-3 FFAR Mk1 HE_TER_2_L}",
-        "name": '2 x LAU-3 pod - 19 x 2.75" FFAR, UnGd Rkts  Mk1, HE (TER)',
-        "weight": 487.184664,
-    }
-    _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER___ = {
-        "clsid": "{LAU-3 FFAR Mk1 HE_TER_2_R}",
-        "name": '2 x LAU-3 pod - 19 x 2.75" FFAR, UnGd Rkts  Mk1, HE (TER)',
-        "weight": 487.184664,
-    }
-    _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk5__HEAT__TER_ = {
-        "clsid": "{LAU-3 FFAR Mk5 HEAT_TER_2_C}",
-        "name": '2 x LAU-3 pod - 19 x 2.75" FFAR, UnGd Rkts  Mk5, HEAT (TER)',
-        "weight": 488.9083136,
-    }
-    _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk5__HEAT__TER__ = {
-        "clsid": "{LAU-3 FFAR Mk5 HEAT_TER_2_L}",
-        "name": '2 x LAU-3 pod - 19 x 2.75" FFAR, UnGd Rkts  Mk5, HEAT (TER)',
-        "weight": 488.9083136,
-    }
-    _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk5__HEAT__TER___ = {
-        "clsid": "{LAU-3 FFAR Mk5 HEAT_TER_2_R}",
-        "name": '2 x LAU-3 pod - 19 x 2.75" FFAR, UnGd Rkts  Mk5, HEAT (TER)',
-        "weight": 488.9083136,
-    }
-    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER_ = {
-        "clsid": "{LAU3_HE151_TER_2_C}",
-        "name": '2 x LAU-3 pod - 19 x 2.75" Hydra, UnGd Rkts M151, HE (TER)',
-        "weight": 515.98,
-    }
-    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER__ = {
-        "clsid": "{LAU3_HE151_TER_2_L}",
-        "name": '2 x LAU-3 pod - 19 x 2.75" Hydra, UnGd Rkts M151, HE (TER)',
-        "weight": 515.98,
-    }
-    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER___ = {
-        "clsid": "{LAU3_HE151_TER_2_R}",
-        "name": '2 x LAU-3 pod - 19 x 2.75" Hydra, UnGd Rkts M151, HE (TER)',
-        "weight": 515.98,
-    }
-    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER_ = {
-        "clsid": "{LAU3_WP156_TER_2_C}",
-        "name": '2 x LAU-3 pod - 19 x 2.75" Hydra, UnGd Rkts M156, Wht Phos (TER)',
-        "weight": 359.42,
-    }
-    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER__ = {
-        "clsid": "{LAU3_WP156_TER_2_L}",
-        "name": '2 x LAU-3 pod - 19 x 2.75" Hydra, UnGd Rkts M156, Wht Phos (TER)',
-        "weight": 359.42,
-    }
-    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER___ = {
-        "clsid": "{LAU3_WP156_TER_2_R}",
-        "name": '2 x LAU-3 pod - 19 x 2.75" Hydra, UnGd Rkts M156, Wht Phos (TER)',
-        "weight": 359.42,
-    }
-    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER_ = {
-        "clsid": "{LAU3_HE5_TER_2_C}",
-        "name": '2 x LAU-3 pod - 19 x 2.75" Hydra, UnGd Rkts Mk5, HEAT (TER)',
-        "weight": 451.38,
-    }
-    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER__ = {
-        "clsid": "{LAU3_HE5_TER_2_L}",
-        "name": '2 x LAU-3 pod - 19 x 2.75" Hydra, UnGd Rkts Mk5, HEAT (TER)',
-        "weight": 451.38,
-    }
-    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER___ = {
-        "clsid": "{LAU3_HE5_TER_2_R}",
-        "name": '2 x LAU-3 pod - 19 x 2.75" Hydra, UnGd Rkts Mk5, HEAT (TER)',
-        "weight": 451.38,
-    }
-    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER_ = {
-        "clsid": "{LAU3_WP1B_TER_2_C}",
-        "name": '2 x LAU-3 pod - 19 x 2.75" Hydra, UnGd Rkts Mk61, Practice (TER)',
-        "weight": 462.78,
-    }
-    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER__ = {
-        "clsid": "{LAU3_WP1B_TER_2_L}",
-        "name": '2 x LAU-3 pod - 19 x 2.75" Hydra, UnGd Rkts Mk61, Practice (TER)',
-        "weight": 462.78,
-    }
-    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER___ = {
-        "clsid": "{LAU3_WP1B_TER_2_R}",
-        "name": '2 x LAU-3 pod - 19 x 2.75" Hydra, UnGd Rkts Mk61, Practice (TER)',
-        "weight": 462.78,
-    }
-    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER_ = {
-        "clsid": "{LAU3_WP61_TER_2_C}",
-        "name": '2 x LAU-3 pod - 19 x 2.75" Hydra, UnGd Rkts WTU-1/B, Practice (TER)',
-        "weight": 462.78,
-    }
-    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER__ = {
-        "clsid": "{LAU3_WP61_TER_2_L}",
-        "name": '2 x LAU-3 pod - 19 x 2.75" Hydra, UnGd Rkts WTU-1/B, Practice (TER)',
-        "weight": 462.78,
-    }
-    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER___ = {
-        "clsid": "{LAU3_WP61_TER_2_R}",
-        "name": '2 x LAU-3 pod - 19 x 2.75" Hydra, UnGd Rkts WTU-1/B, Practice (TER)',
-        "weight": 462.78,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT__TER_ = {
-        "clsid": "{LAU-68 FFAR Mk5 HEAT_TER_2_C}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" FFAR, UnGd Rkts Mk5, HEAT (TER)',
-        "weight": 268.2262208,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT__TER__ = {
-        "clsid": "{LAU-68 FFAR Mk5 HEAT_TER_2_L}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" FFAR, UnGd Rkts Mk5, HEAT (TER)',
-        "weight": 268.2262208,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT__TER___ = {
-        "clsid": "{LAU-68 FFAR Mk5 HEAT_TER_2_R}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" FFAR, UnGd Rkts Mk5, HEAT (TER)',
-        "weight": 268.2262208,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER_ = {
-        "clsid": "{LAU-68 FFAR WP156_TER_2_C}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" FFAR, UnGd Rkts  M156, Wht Phos (TER)',
-        "weight": 287.9121136,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER__ = {
-        "clsid": "{LAU-68 FFAR WP156_TER_2_L}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" FFAR, UnGd Rkts  M156, Wht Phos (TER)',
-        "weight": 287.9121136,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER___ = {
-        "clsid": "{LAU-68 FFAR WP156_TER_2_R}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" FFAR, UnGd Rkts  M156, Wht Phos (TER)',
-        "weight": 287.9121136,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER_ = {
-        "clsid": "{LAU-68 FFAR Mk1 HE_TER_2_C}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" FFAR, UnGd Rkts  Mk1, HE (TER)',
-        "weight": 267.591192,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER__ = {
-        "clsid": "{LAU-68 FFAR Mk1 HE_TER_2_L}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" FFAR, UnGd Rkts  Mk1, HE (TER)',
-        "weight": 267.591192,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER___ = {
-        "clsid": "{LAU-68 FFAR Mk1 HE_TER_2_R}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" FFAR, UnGd Rkts  Mk1, HE (TER)',
-        "weight": 267.591192,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER_ = {
-        "clsid": "{LAU-68 Hydra M151 HE_TER_2_C}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts M151, HE (TER)',
-        "weight": 274,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER__ = {
-        "clsid": "{LAU-68 Hydra M151 HE_TER_2_L}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts M151, HE (TER)',
-        "weight": 274,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER___ = {
-        "clsid": "{LAU-68 Hydra M151 HE_TER_2_R}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts M151, HE (TER)',
-        "weight": 274,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER_ = {
-        "clsid": "{LAU-68 Hydra WP156_TER_2_C}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts M156, Wht Phos (TER)',
-        "weight": 276.52,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER__ = {
-        "clsid": "{LAU-68 Hydra WP156_TER_2_L}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts M156, Wht Phos (TER)',
-        "weight": 276.52,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER___ = {
-        "clsid": "{LAU-68 Hydra WP156_TER_2_R}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts M156, Wht Phos (TER)',
-        "weight": 276.52,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum__TER_ = {
-        "clsid": "{LAU-68 Hydra M257 PI_TER_2_C}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts M257, Para Illum (TER)',
-        "weight": 285.2,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum__TER__ = {
-        "clsid": "{LAU-68 Hydra M257 PI_TER_2_L}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts M257, Para Illum (TER)',
-        "weight": 285.2,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum__TER___ = {
-        "clsid": "{LAU-68 Hydra M257 PI_TER_2_R}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts M257, Para Illum (TER)',
-        "weight": 285.2,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk__TER_ = {
-        "clsid": "{LAU-68 Hydra M274 PS_TER_2_C}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts M274, Practice Smk (TER)',
-        "weight": 274,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk__TER__ = {
-        "clsid": "{LAU-68 Hydra M274 PS_TER_2_L}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts M274, Practice Smk (TER)',
-        "weight": 274,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk__TER___ = {
-        "clsid": "{LAU-68 Hydra M274 PS_TER_2_R}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts M274, Practice Smk (TER)',
-        "weight": 274,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice__TER_ = {
-        "clsid": "{LAU-68 Hydra Mk1 Practice_TER_2_C}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts Mk1, Practice (TER)',
-        "weight": 255.94,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice__TER__ = {
-        "clsid": "{LAU-68 Hydra Mk1 Practice_TER_2_L}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts Mk1, Practice (TER)',
-        "weight": 255.94,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice__TER___ = {
-        "clsid": "{LAU-68 Hydra Mk1 Practice_TER_2_R}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts Mk1, Practice (TER)',
-        "weight": 255.94,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER_ = {
-        "clsid": "{LAU-68 Hydra Mk5 HEAT_TER_2_C}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts Mk5, HEAT (TER)',
-        "weight": 251.74,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER__ = {
-        "clsid": "{LAU-68 Hydra Mk5 HEAT_TER_2_L}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts Mk5, HEAT (TER)',
-        "weight": 251.74,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER___ = {
-        "clsid": "{LAU-68 Hydra Mk5 HEAT_TER_2_R}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts Mk5, HEAT (TER)',
-        "weight": 251.74,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER_ = {
-        "clsid": "{LAU-68 Hydra Mk61 Practice_TER_2_C}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts Mk61, Practice (TER)',
-        "weight": 255.94,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER__ = {
-        "clsid": "{LAU-68 Hydra Mk61 Practice_TER_2_L}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts Mk61, Practice (TER)',
-        "weight": 255.94,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER___ = {
-        "clsid": "{LAU-68 Hydra Mk61 Practice_TER_2_R}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts Mk61, Practice (TER)',
-        "weight": 255.94,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER_ = {
-        "clsid": "{LAU-68 Hydra WTU1B Practice_TER_2_C}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts WTU-1/B, Practice (TER)',
-        "weight": 274,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER__ = {
-        "clsid": "{LAU-68 Hydra WTU1B Practice_TER_2_L}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts WTU-1/B, Practice (TER)',
-        "weight": 274,
-    }
-    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER___ = {
-        "clsid": "{LAU-68 Hydra WTU1B Practice_TER_2_R}",
-        "name": '2 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts WTU-1/B, Practice (TER)',
-        "weight": 274,
-    }
-    _2_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__TER_ = {
-        "clsid": "{Mk-20_TER_2_L}",
-        "name": "2 x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (TER)",
-        "weight": 491.6,
-    }
-    _2_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__TER__ = {
-        "clsid": "{Mk-20_TER_2_R}",
-        "name": "2 x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (TER)",
-        "weight": 491.6,
-    }
-    _2_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__TER___ = {
-        "clsid": "{Mk-20_TER_2_C}",
-        "name": "2 x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (TER)",
-        "weight": 491.6,
-    }
-    _2_x_Mk_77_mod_1___500lb_Fire_Bomb_LD__TER_ = {
-        "clsid": "{Mk-77 mod 1_TER_2_L}",
-        "name": "2 x Mk-77 mod 1 - 500lb Fire Bomb LD (TER)",
-        "weight": 507.6,
-    }
-    _2_x_Mk_77_mod_1___500lb_Fire_Bomb_LD__TER__ = {
-        "clsid": "{Mk-77 mod 1_TER_2_R}",
-        "name": "2 x Mk-77 mod 1 - 500lb Fire Bomb LD (TER)",
-        "weight": 507.6,
-    }
-    _2_x_Mk_77_mod_1___500lb_Fire_Bomb_LD__TER___ = {
-        "clsid": "{Mk-77 mod 1_TER_2_C}",
-        "name": "2 x Mk-77 mod 1 - 500lb Fire Bomb LD (TER)",
-        "weight": 507.6,
-    }
-    _2_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__TER_ = {
-        "clsid": "{Mk-82 Snakeye_TER_2_L}",
-        "name": "2 x Mk-82 Snakeye - 500lb GP Bomb HD (TER)",
-        "weight": 529.6,
-    }
-    _2_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__TER__ = {
-        "clsid": "{Mk-82 Snakeye_TER_2_R}",
-        "name": "2 x Mk-82 Snakeye - 500lb GP Bomb HD (TER)",
-        "weight": 529.6,
-    }
-    _2_x_Mk_82___500lb_GP_Bomb_LD__TER_ = {
-        "clsid": "{Mk-82_TER_2_L}",
-        "name": "2 x Mk-82 - 500lb GP Bomb LD (TER)",
-        "weight": 529.6,
-    }
-    _2_x_Mk_82___500lb_GP_Bomb_LD__TER__ = {
-        "clsid": "{Mk-82_TER_2_R}",
-        "name": "2 x Mk-82 - 500lb GP Bomb LD (TER)",
-        "weight": 529.6,
-    }
-    _2_x_Mk_83___1000lb_GP_Bomb_LD__TER_ = {
-        "clsid": "{Mk-83_TER_2_C}",
-        "name": "2 x Mk-83 - 1000lb GP Bomb LD (TER)",
-        "weight": 941.6,
-    }
-    _3_x_AN_M57___250lb_GP_Bomb_LD__TER_ = {
-        "clsid": "{AN-M57_TER_3_C}",
-        "name": "3 x AN-M57 - 250lb GP Bomb LD (TER)",
-        "weight": 386.6,
-    }
-    _3_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_MK_71__HE_FRAG__TER_ = {
-        "clsid": "{LAU-10 ZUNI_TER_3_C}",
-        "name": "3 x LAU-10 pod - 4 x 127mm ZUNI, UnGd Rkts MK 71, HE/FRAG (TER)",
-        "weight": 870.788,
-    }
-    _3_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER_ = {
-        "clsid": "{LAU-3 FFAR WP156_TER_3_C}",
-        "name": '3 x LAU-3 pod - 19 x 2.75" FFAR, UnGd Rkts  M156, Wht Phos (TER)',
-        "weight": 789.7121768,
-    }
-    _3_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER_ = {
-        "clsid": "{LAU-3 FFAR Mk1 HE_TER_3_C}",
-        "name": '3 x LAU-3 pod - 19 x 2.75" FFAR, UnGd Rkts  Mk1, HE (TER)',
-        "weight": 706.976996,
-    }
-    _3_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk5__HEAT__TER_ = {
-        "clsid": "{LAU-3 FFAR Mk5 HEAT_TER_3_C}",
-        "name": '3 x LAU-3 pod - 19 x 2.75" FFAR, UnGd Rkts  Mk5, HEAT (TER)',
-        "weight": 709.5624704,
-    }
-    _3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER_ = {
-        "clsid": "{LAU3_HE151_TER_3_C}",
-        "name": '3 x LAU-3 pod - 19 x 2.75" Hydra, UnGd Rkts M151, HE (TER)',
-        "weight": 750.17,
-    }
-    _3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER_ = {
-        "clsid": "{LAU3_WP156_TER_3_C}",
-        "name": '3 x LAU-3 pod - 19 x 2.75" Hydra, UnGd Rkts M156, Wht Phos (TER)',
-        "weight": 515.33,
-    }
-    _3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER_ = {
-        "clsid": "{LAU3_HE5_TER_3_C}",
-        "name": '3 x LAU-3 pod - 19 x 2.75" Hydra, UnGd Rkts Mk5, HEAT (TER)',
-        "weight": 653.27,
-    }
-    _3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER_ = {
-        "clsid": "{LAU3_WP1B_TER_3_C}",
-        "name": '3 x LAU-3 pod - 19 x 2.75" Hydra, UnGd Rkts Mk61, Practice (TER)',
-        "weight": 670.37,
-    }
-    _3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER_ = {
-        "clsid": "{LAU3_WP61_TER_3_C}",
-        "name": '3 x LAU-3 pod - 19 x 2.75" Hydra, UnGd Rkts WTU-1/B, Practice (TER)',
-        "weight": 670.37,
-    }
-    _3_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT__TER_ = {
-        "clsid": "{LAU-68 FFAR Mk5 HEAT_TER_3_C}",
-        "name": '3 x LAU-68 pod - 7 x 2.75" FFAR, UnGd Rkts Mk5, HEAT (TER)',
-        "weight": 378.5393312,
-    }
-    _3_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER_ = {
-        "clsid": "{LAU-68 FFAR WP156_TER_3_C}",
-        "name": '3 x LAU-68 pod - 7 x 2.75" FFAR, UnGd Rkts  M156, Wht Phos (TER)',
-        "weight": 408.0681704,
-    }
-    _3_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER_ = {
-        "clsid": "{LAU-68 FFAR Mk1 HE_TER_3_C}",
-        "name": '3 x LAU-68 pod - 7 x 2.75" FFAR, UnGd Rkts  Mk1, HE (TER)',
-        "weight": 377.586788,
-    }
-    _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER_ = {
-        "clsid": "{LAU-68 Hydra M151 HE_TER_3_C}",
-        "name": '3 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts M151, HE (TER)',
-        "weight": 387.2,
-    }
-    _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER_ = {
-        "clsid": "{LAU-68 Hydra WP156_TER_3_C}",
-        "name": '3 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts M156, Wht Phos (TER)',
-        "weight": 390.98,
-    }
-    _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum__TER_ = {
-        "clsid": "{LAU-68 Hydra M257 PI_TER_3_C}",
-        "name": '3 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts M257, Para Illum (TER)',
-        "weight": 404,
-    }
-    _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk__TER_ = {
-        "clsid": "{LAU-68 Hydra M274 PS_TER_3_C}",
-        "name": '3 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts M274, Practice Smk (TER)',
-        "weight": 387.2,
-    }
-    _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice__TER_ = {
-        "clsid": "{LAU-68 Hydra Mk1 Practice_TER_3_C}",
-        "name": '3 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts Mk1, Practice (TER)',
-        "weight": 360.11,
-    }
-    _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER_ = {
-        "clsid": "{LAU-68 Hydra Mk5 HEAT_TER_3_C}",
-        "name": '3 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts Mk5, HEAT (TER)',
-        "weight": 353.81,
-    }
-    _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER_ = {
-        "clsid": "{LAU-68 Hydra Mk61 Practice_TER_3_C}",
-        "name": '3 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts Mk61, Practice (TER)',
-        "weight": 360.11,
-    }
-    _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER_ = {
-        "clsid": "{LAU-68 Hydra WTU1B Practice_TER_3_C}",
-        "name": '3 x LAU-68 pod - 7 x 2.75" Hydra, UnGd Rkts WTU-1/B, Practice (TER)',
-        "weight": 387.2,
-    }
-    _3_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__TER_ = {
-        "clsid": "{Mk-20_TER_3_C}",
-        "name": "3 x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (TER)",
-        "weight": 713.6,
-    }
-    _3_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__TER_ = {
-        "clsid": "{Mk-82 Snakeye_TER_3_C}",
-        "name": "3 x Mk-82 Snakeye - 500lb GP Bomb HD (TER)",
-        "weight": 770.6,
-    }
-    _3_x_Mk_82___500lb_GP_Bomb_LD__TER_ = {
-        "clsid": "{Mk-82_TER_3_C}",
-        "name": "3 x Mk-82 - 500lb GP Bomb LD (TER)",
-        "weight": 770.6,
-    }
-    _3_x_Mk_83___1000lb_GP_Bomb_LD__TER_ = {
-        "clsid": "{Mk-83_TER_3_C}",
-        "name": "3 x Mk-83 - 1000lb GP Bomb LD (TER)",
-        "weight": 1388.6,
-    }
-    _4_x_Mk_77_mod_1___500lb_Fire_Bomb_LD__MER_ = {
-        "clsid": "{Mk-77 mod 1_MER_4_C}",
-        "name": "4 x Mk-77 mod 1 - 500lb Fire Bomb LD (MER)",
-        "weight": 1019.8,
-    }
-    _4_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__MER_ = {
-        "clsid": "{Mk-82 Snakeye_MER_4_C}",
-        "name": "4 x Mk-82 Snakeye - 500lb GP Bomb HD (MER)",
-        "weight": 1063.8,
-    }
-    _4_x_Mk_82___500lb_GP_Bomb_LD__MER_ = {
-        "clsid": "{Mk-82_MER_4_C}",
-        "name": "4 x Mk-82 - 500lb GP Bomb LD (MER)",
-        "weight": 1063.8,
-    }
-    _5_x_AN_M57___250lb_GP_Bomb_LD__MER_ = {
-        "clsid": "{AN-M57_MER_5_L}",
-        "name": "5 x AN-M57 - 250lb GP Bomb LD (MER)",
-        "weight": 664.8,
-    }
-    _5_x_AN_M57___250lb_GP_Bomb_LD__MER__ = {
-        "clsid": "{AN-M57_MER_5_R}",
-        "name": "5 x AN-M57 - 250lb GP Bomb LD (MER)",
-        "weight": 664.8,
-    }
-    _5_x_AN_M81___260lb_GP_Bomb_LD__MER_ = {
-        "clsid": "{AN-M81_MER_5_L}",
-        "name": "5 x AN-M81 - 260lb GP Bomb LD (MER)",
-        "weight": 689.4696,
-    }
-    _5_x_AN_M81___260lb_GP_Bomb_LD__MER__ = {
-        "clsid": "{AN-M81_MER_5_R}",
-        "name": "5 x AN-M81 - 260lb GP Bomb LD (MER)",
-        "weight": 689.4696,
-    }
-    _5_x_AN_M88___220lb_GP_Bomb_LD__MER_ = {
-        "clsid": "{AN-M88_MER_5_L}",
-        "name": "5 x AN-M88 - 220lb GP Bomb LD (MER)",
-        "weight": 590.132952,
-    }
-    _5_x_AN_M88___220lb_GP_Bomb_LD__MER__ = {
-        "clsid": "{AN-M88_MER_5_R}",
-        "name": "5 x AN-M88 - 220lb GP Bomb LD (MER)",
-        "weight": 590.132952,
-    }
-    _5_x_BDU_33___25lb_Practice_Bomb_LD__MER_ = {
-        "clsid": "{BDU-33_MER_5_L}",
-        "name": "5 x BDU-33 - 25lb Practice Bomb LD (MER)",
-        "weight": 156.3,
-    }
-    _5_x_BDU_33___25lb_Practice_Bomb_LD__MER__ = {
-        "clsid": "{BDU-33_MER_5_R}",
-        "name": "5 x BDU-33 - 25lb Practice Bomb LD (MER)",
-        "weight": 156.3,
-    }
-    _5_x_Mk_81_Snakeye___250lb_GP_Bomb_HD__MER_ = {
-        "clsid": "{Mk-81SE_MER_5_L}",
-        "name": "5 x Mk-81 Snakeye - 250lb GP Bomb HD (MER)",
-        "weight": 666.79,
-    }
-    _5_x_Mk_81_Snakeye___250lb_GP_Bomb_HD__MER__ = {
-        "clsid": "{Mk-81SE_MER_5_R}",
-        "name": "5 x Mk-81 Snakeye - 250lb GP Bomb HD (MER)",
-        "weight": 666.79,
-    }
-    _5_x_Mk_81___250lb_GP_Bomb_LD__MER_ = {
-        "clsid": "{Mk-81_MER_5_L}",
-        "name": "5 x Mk-81 - 250lb GP Bomb LD (MER)",
-        "weight": 689.8,
-    }
-    _5_x_Mk_81___250lb_GP_Bomb_LD__MER__ = {
-        "clsid": "{Mk-81_MER_5_R}",
-        "name": "5 x Mk-81 - 250lb GP Bomb LD (MER)",
-        "weight": 689.8,
-    }
-    _6_x_AN_M57___250lb_GP_Bomb_LD__MER_ = {
-        "clsid": "{AN-M57_MER_6_C}",
-        "name": "6 x AN-M57 - 250lb GP Bomb LD (MER)",
-        "weight": 777.8,
-    }
-    _6_x_AN_M81___260lb_GP_Bomb_LD__MER_ = {
-        "clsid": "{AN-M81_MER_6_C}",
-        "name": "6 x AN-M81 - 260lb GP Bomb LD (MER)",
-        "weight": 807.40352,
-    }
-    _6_x_AN_M88___220lb_GP_Bomb_LD__MER_ = {
-        "clsid": "{AN-M88_MER_6_C}",
-        "name": "6 x AN-M88 - 220lb GP Bomb LD (MER)",
-        "weight": 688.1995424,
-    }
-    _6_x_BDU_33___25lb_Practice_Bomb_LD__MER_ = {
-        "clsid": "{BDU-33_MER_6_C}",
-        "name": "6 x BDU-33 - 25lb Practice Bomb LD (MER)",
-        "weight": 167.6,
-    }
-    _6_x_Mk_81_Snakeye___250lb_GP_Bomb_HD__MER_ = {
-        "clsid": "{Mk-81SE_MER_6_C}",
-        "name": "6 x Mk-81 Snakeye - 250lb GP Bomb HD (MER)",
-        "weight": 780.188,
-    }
-    _6_x_Mk_81___250lb_GP_Bomb_LD__MER_ = {
-        "clsid": "{Mk-81_MER_6_C}",
-        "name": "6 x Mk-81 - 250lb GP Bomb LD (MER)",
-        "weight": 807.8,
-    }
-    _6_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__MER_ = {
-        "clsid": "{Mk-82 Snakeye_MER_6_C}",
-        "name": "6 x Mk-82 Snakeye - 500lb GP Bomb HD (MER)",
-        "weight": 1545.8,
-    }
-    _6_x_Mk_82___500lb_GP_Bomb_LD__MER_ = {
-        "clsid": "{Mk-82_MER_6_C}",
-        "name": "6 x Mk-82 - 500lb GP Bomb LD (MER)",
-        "weight": 1545.8,
-    }
+    AGM_45B_Shrike_ARM__LAU_34_ = {"clsid": "{C_A4E_AGM-45B_LAU34}", "name": "AGM-45B Shrike ARM (LAU-34)", "weight": 224}
+    AN_M66A2___2000lb_GP_Bomb_LD = {"clsid": "{AN-M66A2}", "name": "AN-M66A2 - 2000lb GP Bomb LD", "weight": 970.68688}
+    AN_M81___260lb_GP_Bomb_LD = {"clsid": "{AN-M81}", "name": "AN-M81 - 260lb GP Bomb LD", "weight": 117.93392}
+    AN_M88___220lb_GP_Bomb_LD = {"clsid": "{AN-M88}", "name": "AN-M88 - 220lb GP Bomb LD", "weight": 98.0665904}
+    Bomblets_BLU_3B_x_19__HE = {"clsid": "{BLU_3B_GROUP}", "name": "Bomblets BLU-3B x 19, HE", "weight": 0.793786}
+    Bomblets_BLU_4B_x_27__HE = {"clsid": "{BLU_4B_GROUP}", "name": "Bomblets BLU-4B x 27, HE", "weight": 0.5443104}
+    CBU_1A_A_x_27x19__513__BLU_4B_Bomblets__HE = {"clsid": "{C_A4E_CBU-1A}", "name": "CBU-1A/A x 27x19 (513) BLU-4B Bomblets, HE", "weight": 329.46201328}
+    CBU_1_A_pod___19_x_tubes_of_Bomblets_BLU_4B_x_27__HE = {"clsid": "{CBU-1/A}", "name": "CBU-1/A pod - 19 x tubes of Bomblets BLU-4B x 27, HE", "weight": 337.2910112}
+    CBU_1_A_pod___19_x_tubes_of_Bomblets_BLU_4B_x_27__HE_ = {"clsid": "{CBU-1/A*2}", "name": "CBU-1/A pod - 19 x tubes of Bomblets BLU-4B x 27, HE", "weight": 616.5222464}
+    CBU_2B_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE = {"clsid": "{CBU-2B/A}", "name": "CBU-2B/A pod - 19 x tubes of Bomblets BLU-3B x 19, HE", "weight": 344.616522}
+    CBU_2B_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE_ = {"clsid": "{CBU-2B/A*2}", "name": "CBU-2B/A pod - 19 x tubes of Bomblets BLU-3B x 19, HE", "weight": 631.173268}
+    CBU_2B_A_x_22x19__418__BLU_3B_Bomblets__HE = {"clsid": "{C_A4E_CBU-2BA}", "name": "CBU-2B/A x 22x19 (418) BLU-3B Bomblets, HE", "weight": 382.89515088}
+    CBU_2_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE = {"clsid": "{CBU-2/A}", "name": "CBU-2/A pod - 19 x tubes of Bomblets BLU-3B x 19, HE", "weight": 344.616522}
+    CBU_2_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE_ = {"clsid": "{CBU-2/A*2}", "name": "CBU-2/A pod - 19 x tubes of Bomblets BLU-3B x 19, HE", "weight": 631.173268}
+    CBU_2_A_x_19x19__361__BLU_3_Bomblets__HE = {"clsid": "{C_A4E_CBU-2A}", "name": "CBU-2/A x 19x19 (361) BLU-3 Bomblets, HE", "weight": 338.16644376}
+    CBU_DUMMY_pod___0_x_tubes_of_Bomblets_BLU_4B_x_27__HE = {"clsid": "{CBU_DUMMY}", "name": "CBU_DUMMY pod - 0 x tubes of Bomblets BLU-4B x 27, HE", "weight": 58.059776}
+    Fuel_Tank_150_gallons = {"clsid": "{DFT-150gal}", "name": "Fuel Tank 150 gallons", "weight": 515.888512}
+    Fuel_Tank_150_gallons__EMPTY_ = {"clsid": "{DFT-150gal_EMPTY}", "name": "Fuel Tank 150 gallons (EMPTY)", "weight": 515.888512}
+    Fuel_Tank_300_gallons = {"clsid": "{DFT-300gal}", "name": "Fuel Tank 300 gallons", "weight": 991.407336}
+    Fuel_Tank_300_gallons_ = {"clsid": "{DFT-300gal_LR}", "name": "Fuel Tank 300 gallons", "weight": 998.664808}
+    Fuel_Tank_300_gallons__EMPTY_ = {"clsid": "{DFT-300gal_EMPTY}", "name": "Fuel Tank 300 gallons (EMPTY)", "weight": 991.407336}
+    Fuel_Tank_300_gallons__EMPTY__ = {"clsid": "{DFT-300gal_LR_EMPTY}", "name": "Fuel Tank 300 gallons (EMPTY)", "weight": 998.664808}
+    Fuel_Tank_400_gallons = {"clsid": "{DFT-400gal}", "name": "Fuel Tank 400 gallons", "weight": 1320.06208}
+    Fuel_Tank_400_gallons__EMPTY_ = {"clsid": "{DFT-400gal_EMPTY}", "name": "Fuel Tank 400 gallons (EMPTY)", "weight": 1320.06208}
+    LAU_7_with_AN_ASQ_T50_TCTS_Pod___ACMI_Pod_ = {"clsid": "{A4E-ASQ-T50-ON-ADAPTER}", "name": "LAU-7 with AN/ASQ-T50 TCTS Pod - ACMI Pod", "weight": 103.6}
+    Mk4_HIPEG___Gunpod = {"clsid": "{Mk4 HIPEG}", "name": "Mk4 HIPEG - Gunpod", "weight": 612.35}
+    Mk_77_mod_0___750lb_Fire_Bomb_LD = {"clsid": "{mk77mod0}", "name": "Mk-77 mod 0 - 750lb Fire Bomb LD", "weight": 340}
+    Mk_77_mod_1___500lb_Fire_Bomb_LD = {"clsid": "{mk77mod1}", "name": "Mk-77 mod 1 - 500lb Fire Bomb LD", "weight": 230}
+    Mk_81_Snakeye___250lb_GP_Bomb_HD = {"clsid": "{MK-81SE}", "name": "Mk-81 Snakeye - 250lb GP Bomb HD", "weight": 113.398}
+    _2_x_AN_M57___250lb_GP_Bomb_LD__TER_ = {"clsid": "{AN-M57_TER_2_L}", "name": "2 x AN-M57 - 250lb GP Bomb LD (TER)", "weight": 273.6}
+    _2_x_AN_M57___250lb_GP_Bomb_LD__TER__ = {"clsid": "{AN-M57_TER_2_R}", "name": "2 x AN-M57 - 250lb GP Bomb LD (TER)", "weight": 273.6}
+    _2_x_CBU_1A_A_x_27x19__513__BLU_4B_Bomblets__HE__TER_ = {"clsid": "{C_A4E_CBU-1A_2x_TER_L}", "name": "2 x CBU-1A/A x 27x19 (513) BLU-4B Bomblets, HE (TER)", "weight": 706.52402656}
+    _2_x_CBU_1A_A_x_27x19__513__BLU_4B_Bomblets__HE__TER__ = {"clsid": "{C_A4E_CBU-1A_2x_TER_R}", "name": "2 x CBU-1A/A x 27x19 (513) BLU-4B Bomblets, HE (TER)", "weight": 706.52402656}
+    _2_x_CBU_1_A_pod___19_x_tubes_of_Bomblets_BLU_4B_x_27__HE__TER_ = {"clsid": "{CBU-1/A_TER_2_L}", "name": "2 x CBU-1/A pod - 19 x tubes of Bomblets BLU-4B x 27, HE (TER)", "weight": 722.1820224}
+    _2_x_CBU_1_A_pod___19_x_tubes_of_Bomblets_BLU_4B_x_27__HE__TER__ = {"clsid": "{CBU-1/A_TER_2_R}", "name": "2 x CBU-1/A pod - 19 x tubes of Bomblets BLU-4B x 27, HE (TER)", "weight": 722.1820224}
+    _2_x_CBU_2B_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE__TER_ = {"clsid": "{CBU-2B/A_TER_2_L}", "name": "2 x CBU-2B/A pod - 19 x tubes of Bomblets BLU-3B x 19, HE (TER)", "weight": 827.324648}
+    _2_x_CBU_2B_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE__TER__ = {"clsid": "{CBU-2B/A_TER_2_R}", "name": "2 x CBU-2B/A pod - 19 x tubes of Bomblets BLU-3B x 19, HE (TER)", "weight": 827.324648}
+    _2_x_CBU_2B_A_x_22x19__418__BLU_3B_Bomblets__HE__TER_ = {"clsid": "{C_A4E_CBU-2BA_2x_TER_L}", "name": "2 x CBU-2B/A x 22x19 (418) BLU-3B Bomblets, HE (TER)", "weight": 813.39030176}
+    _2_x_CBU_2B_A_x_22x19__418__BLU_3B_Bomblets__HE__TER__ = {"clsid": "{C_A4E_CBU-2BA_2x_TER_R}", "name": "2 x CBU-2B/A x 22x19 (418) BLU-3B Bomblets, HE (TER)", "weight": 813.39030176}
+    _2_x_CBU_2_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE__TER_ = {"clsid": "{CBU-2/A_TER_2_L}", "name": "2 x CBU-2/A pod - 19 x tubes of Bomblets BLU-3B x 19, HE (TER)", "weight": 736.833044}
+    _2_x_CBU_2_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE__TER__ = {"clsid": "{CBU-2/A_TER_2_R}", "name": "2 x CBU-2/A pod - 19 x tubes of Bomblets BLU-3B x 19, HE (TER)", "weight": 736.833044}
+    _2_x_CBU_2_A_x_19x19__361__BLU_3_Bomblets__HE__TER_ = {"clsid": "{C_A4E_CBU-2A_2x_TER_L}", "name": "2 x CBU-2/A x 19x19 (361) BLU-3 Bomblets, HE (TER)", "weight": 723.93288752}
+    _2_x_CBU_2_A_x_19x19__361__BLU_3_Bomblets__HE__TER__ = {"clsid": "{C_A4E_CBU-2A_2x_TER_R}", "name": "2 x CBU-2/A x 19x19 (361) BLU-3 Bomblets, HE (TER)", "weight": 723.93288752}
+    _2_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_MK_71__HE_FRAG__TER_ = {"clsid": "{LAU-10 ZUNI_TER_2_C}", "name": "2 x LAU-10 pod - 4 x 127mm ZUNI, UnGd Rkts MK 71, HE/FRAG (TER)", "weight": 596.392}
+    _2_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_MK_71__HE_FRAG__TER__ = {"clsid": "{LAU-10 ZUNI_TER_2_L}", "name": "2 x LAU-10 pod - 4 x 127mm ZUNI, UnGd Rkts MK 71, HE/FRAG (TER)", "weight": 596.392}
+    _2_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_MK_71__HE_FRAG__TER___ = {"clsid": "{LAU-10 ZUNI_TER_2_R}", "name": "2 x LAU-10 pod - 4 x 127mm ZUNI, UnGd Rkts MK 71, HE/FRAG (TER)", "weight": 596.392}
+    _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER_ = {"clsid": "{LAU-3 FFAR WP156_TER_2_C}", "name": "2 x LAU-3 pod - 19 x 2.75\" FFAR, UnGd Rkts  M156, Wht Phos (TER)", "weight": 542.3414512}
+    _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER__ = {"clsid": "{LAU-3 FFAR WP156_TER_2_L}", "name": "2 x LAU-3 pod - 19 x 2.75\" FFAR, UnGd Rkts  M156, Wht Phos (TER)", "weight": 542.3414512}
+    _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER___ = {"clsid": "{LAU-3 FFAR WP156_TER_2_R}", "name": "2 x LAU-3 pod - 19 x 2.75\" FFAR, UnGd Rkts  M156, Wht Phos (TER)", "weight": 542.3414512}
+    _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER_ = {"clsid": "{LAU-3 FFAR Mk1 HE_TER_2_C}", "name": "2 x LAU-3 pod - 19 x 2.75\" FFAR, UnGd Rkts  Mk1, HE (TER)", "weight": 487.184664}
+    _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER__ = {"clsid": "{LAU-3 FFAR Mk1 HE_TER_2_L}", "name": "2 x LAU-3 pod - 19 x 2.75\" FFAR, UnGd Rkts  Mk1, HE (TER)", "weight": 487.184664}
+    _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER___ = {"clsid": "{LAU-3 FFAR Mk1 HE_TER_2_R}", "name": "2 x LAU-3 pod - 19 x 2.75\" FFAR, UnGd Rkts  Mk1, HE (TER)", "weight": 487.184664}
+    _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk5__HEAT__TER_ = {"clsid": "{LAU-3 FFAR Mk5 HEAT_TER_2_C}", "name": "2 x LAU-3 pod - 19 x 2.75\" FFAR, UnGd Rkts  Mk5, HEAT (TER)", "weight": 488.9083136}
+    _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk5__HEAT__TER__ = {"clsid": "{LAU-3 FFAR Mk5 HEAT_TER_2_L}", "name": "2 x LAU-3 pod - 19 x 2.75\" FFAR, UnGd Rkts  Mk5, HEAT (TER)", "weight": 488.9083136}
+    _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk5__HEAT__TER___ = {"clsid": "{LAU-3 FFAR Mk5 HEAT_TER_2_R}", "name": "2 x LAU-3 pod - 19 x 2.75\" FFAR, UnGd Rkts  Mk5, HEAT (TER)", "weight": 488.9083136}
+    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER_ = {"clsid": "{LAU3_HE151_TER_2_C}", "name": "2 x LAU-3 pod - 19 x 2.75\" Hydra, UnGd Rkts M151, HE (TER)", "weight": 515.98}
+    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER__ = {"clsid": "{LAU3_HE151_TER_2_L}", "name": "2 x LAU-3 pod - 19 x 2.75\" Hydra, UnGd Rkts M151, HE (TER)", "weight": 515.98}
+    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER___ = {"clsid": "{LAU3_HE151_TER_2_R}", "name": "2 x LAU-3 pod - 19 x 2.75\" Hydra, UnGd Rkts M151, HE (TER)", "weight": 515.98}
+    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER_ = {"clsid": "{LAU3_WP156_TER_2_C}", "name": "2 x LAU-3 pod - 19 x 2.75\" Hydra, UnGd Rkts M156, Wht Phos (TER)", "weight": 359.42}
+    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER__ = {"clsid": "{LAU3_WP156_TER_2_L}", "name": "2 x LAU-3 pod - 19 x 2.75\" Hydra, UnGd Rkts M156, Wht Phos (TER)", "weight": 359.42}
+    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER___ = {"clsid": "{LAU3_WP156_TER_2_R}", "name": "2 x LAU-3 pod - 19 x 2.75\" Hydra, UnGd Rkts M156, Wht Phos (TER)", "weight": 359.42}
+    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER_ = {"clsid": "{LAU3_HE5_TER_2_C}", "name": "2 x LAU-3 pod - 19 x 2.75\" Hydra, UnGd Rkts Mk5, HEAT (TER)", "weight": 451.38}
+    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER__ = {"clsid": "{LAU3_HE5_TER_2_L}", "name": "2 x LAU-3 pod - 19 x 2.75\" Hydra, UnGd Rkts Mk5, HEAT (TER)", "weight": 451.38}
+    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER___ = {"clsid": "{LAU3_HE5_TER_2_R}", "name": "2 x LAU-3 pod - 19 x 2.75\" Hydra, UnGd Rkts Mk5, HEAT (TER)", "weight": 451.38}
+    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER_ = {"clsid": "{LAU3_WP1B_TER_2_C}", "name": "2 x LAU-3 pod - 19 x 2.75\" Hydra, UnGd Rkts Mk61, Practice (TER)", "weight": 462.78}
+    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER__ = {"clsid": "{LAU3_WP1B_TER_2_L}", "name": "2 x LAU-3 pod - 19 x 2.75\" Hydra, UnGd Rkts Mk61, Practice (TER)", "weight": 462.78}
+    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER___ = {"clsid": "{LAU3_WP1B_TER_2_R}", "name": "2 x LAU-3 pod - 19 x 2.75\" Hydra, UnGd Rkts Mk61, Practice (TER)", "weight": 462.78}
+    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER_ = {"clsid": "{LAU3_WP61_TER_2_C}", "name": "2 x LAU-3 pod - 19 x 2.75\" Hydra, UnGd Rkts WTU-1/B, Practice (TER)", "weight": 462.78}
+    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER__ = {"clsid": "{LAU3_WP61_TER_2_L}", "name": "2 x LAU-3 pod - 19 x 2.75\" Hydra, UnGd Rkts WTU-1/B, Practice (TER)", "weight": 462.78}
+    _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER___ = {"clsid": "{LAU3_WP61_TER_2_R}", "name": "2 x LAU-3 pod - 19 x 2.75\" Hydra, UnGd Rkts WTU-1/B, Practice (TER)", "weight": 462.78}
+    _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT__TER_ = {"clsid": "{LAU-68 FFAR Mk5 HEAT_TER_2_C}", "name": "2 x LAU-68 pod - 7 x 2.75\" FFAR, UnGd Rkts Mk5, HEAT (TER)", "weight": 268.2262208}
+    _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT__TER__ = {"clsid": "{LAU-68 FFAR Mk5 HEAT_TER_2_L}", "name": "2 x LAU-68 pod - 7 x 2.75\" FFAR, UnGd Rkts Mk5, HEAT (TER)", "weight": 268.2262208}
+    _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT__TER___ = {"clsid": "{LAU-68 FFAR Mk5 HEAT_TER_2_R}", "name": "2 x LAU-68 pod - 7 x 2.75\" FFAR, UnGd Rkts Mk5, HEAT (TER)", "weight": 268.2262208}
+    _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER_ = {"clsid": "{LAU-68 FFAR WP156_TER_2_C}", "name": "2 x LAU-68 pod - 7 x 2.75\" FFAR, UnGd Rkts  M156, Wht Phos (TER)", "weight": 287.9121136}
+    _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER__ = {"clsid": "{LAU-68 FFAR WP156_TER_2_L}", "name": "2 x LAU-68 pod - 7 x 2.75\" FFAR, UnGd Rkts  M156, Wht Phos (TER)", "weight": 287.9121136}
+    _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER___ = {"clsid": "{LAU-68 FFAR WP156_TER_2_R}", "name": "2 x LAU-68 pod - 7 x 2.75\" FFAR, UnGd Rkts  M156, Wht Phos (TER)", "weight": 287.9121136}
+    _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER_ = {"clsid": "{LAU-68 FFAR Mk1 HE_TER_2_C}", "name": "2 x LAU-68 pod - 7 x 2.75\" FFAR, UnGd Rkts  Mk1, HE (TER)", "weight": 267.591192}
+    _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER__ = {"clsid": "{LAU-68 FFAR Mk1 HE_TER_2_L}", "name": "2 x LAU-68 pod - 7 x 2.75\" FFAR, UnGd Rkts  Mk1, HE (TER)", "weight": 267.591192}
+    _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER___ = {"clsid": "{LAU-68 FFAR Mk1 HE_TER_2_R}", "name": "2 x LAU-68 pod - 7 x 2.75\" FFAR, UnGd Rkts  Mk1, HE (TER)", "weight": 267.591192}
+    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER_ = {"clsid": "{LAU-68 Hydra M151 HE_TER_2_C}", "name": "2 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts M151, HE (TER)", "weight": 274}
+    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER__ = {"clsid": "{LAU-68 Hydra M151 HE_TER_2_L}", "name": "2 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts M151, HE (TER)", "weight": 274}
+    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER___ = {"clsid": "{LAU-68 Hydra M151 HE_TER_2_R}", "name": "2 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts M151, HE (TER)", "weight": 274}
+    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER_ = {"clsid": "{LAU-68 Hydra WP156_TER_2_C}", "name": "2 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts M156, Wht Phos (TER)", "weight": 276.52}
+    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER__ = {"clsid": "{LAU-68 Hydra WP156_TER_2_L}", "name": "2 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts M156, Wht Phos (TER)", "weight": 276.52}
+    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER___ = {"clsid": "{LAU-68 Hydra WP156_TER_2_R}", "name": "2 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts M156, Wht Phos (TER)", "weight": 276.52}
+    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum__TER_ = {"clsid": "{LAU-68 Hydra M257 PI_TER_2_C}", "name": "2 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts M257, Para Illum (TER)", "weight": 285.2}
+    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum__TER__ = {"clsid": "{LAU-68 Hydra M257 PI_TER_2_L}", "name": "2 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts M257, Para Illum (TER)", "weight": 285.2}
+    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum__TER___ = {"clsid": "{LAU-68 Hydra M257 PI_TER_2_R}", "name": "2 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts M257, Para Illum (TER)", "weight": 285.2}
+    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk__TER_ = {"clsid": "{LAU-68 Hydra M274 PS_TER_2_C}", "name": "2 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts M274, Practice Smk (TER)", "weight": 274}
+    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk__TER__ = {"clsid": "{LAU-68 Hydra M274 PS_TER_2_L}", "name": "2 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts M274, Practice Smk (TER)", "weight": 274}
+    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk__TER___ = {"clsid": "{LAU-68 Hydra M274 PS_TER_2_R}", "name": "2 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts M274, Practice Smk (TER)", "weight": 274}
+    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice__TER_ = {"clsid": "{LAU-68 Hydra Mk1 Practice_TER_2_C}", "name": "2 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts Mk1, Practice (TER)", "weight": 255.94}
+    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice__TER__ = {"clsid": "{LAU-68 Hydra Mk1 Practice_TER_2_L}", "name": "2 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts Mk1, Practice (TER)", "weight": 255.94}
+    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice__TER___ = {"clsid": "{LAU-68 Hydra Mk1 Practice_TER_2_R}", "name": "2 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts Mk1, Practice (TER)", "weight": 255.94}
+    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER_ = {"clsid": "{LAU-68 Hydra Mk5 HEAT_TER_2_C}", "name": "2 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts Mk5, HEAT (TER)", "weight": 251.74}
+    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER__ = {"clsid": "{LAU-68 Hydra Mk5 HEAT_TER_2_L}", "name": "2 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts Mk5, HEAT (TER)", "weight": 251.74}
+    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER___ = {"clsid": "{LAU-68 Hydra Mk5 HEAT_TER_2_R}", "name": "2 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts Mk5, HEAT (TER)", "weight": 251.74}
+    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER_ = {"clsid": "{LAU-68 Hydra Mk61 Practice_TER_2_C}", "name": "2 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts Mk61, Practice (TER)", "weight": 255.94}
+    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER__ = {"clsid": "{LAU-68 Hydra Mk61 Practice_TER_2_L}", "name": "2 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts Mk61, Practice (TER)", "weight": 255.94}
+    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER___ = {"clsid": "{LAU-68 Hydra Mk61 Practice_TER_2_R}", "name": "2 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts Mk61, Practice (TER)", "weight": 255.94}
+    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER_ = {"clsid": "{LAU-68 Hydra WTU1B Practice_TER_2_C}", "name": "2 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts WTU-1/B, Practice (TER)", "weight": 274}
+    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER__ = {"clsid": "{LAU-68 Hydra WTU1B Practice_TER_2_L}", "name": "2 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts WTU-1/B, Practice (TER)", "weight": 274}
+    _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER___ = {"clsid": "{LAU-68 Hydra WTU1B Practice_TER_2_R}", "name": "2 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts WTU-1/B, Practice (TER)", "weight": 274}
+    _2_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__TER_ = {"clsid": "{Mk-20_TER_2_L}", "name": "2 x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (TER)", "weight": 491.6}
+    _2_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__TER__ = {"clsid": "{Mk-20_TER_2_R}", "name": "2 x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (TER)", "weight": 491.6}
+    _2_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__TER___ = {"clsid": "{Mk-20_TER_2_C}", "name": "2 x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (TER)", "weight": 491.6}
+    _2_x_Mk_77_mod_1___500lb_Fire_Bomb_LD__TER_ = {"clsid": "{Mk-77 mod 1_TER_2_L}", "name": "2 x Mk-77 mod 1 - 500lb Fire Bomb LD (TER)", "weight": 507.6}
+    _2_x_Mk_77_mod_1___500lb_Fire_Bomb_LD__TER__ = {"clsid": "{Mk-77 mod 1_TER_2_R}", "name": "2 x Mk-77 mod 1 - 500lb Fire Bomb LD (TER)", "weight": 507.6}
+    _2_x_Mk_77_mod_1___500lb_Fire_Bomb_LD__TER___ = {"clsid": "{Mk-77 mod 1_TER_2_C}", "name": "2 x Mk-77 mod 1 - 500lb Fire Bomb LD (TER)", "weight": 507.6}
+    _2_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__TER_ = {"clsid": "{Mk-82 Snakeye_TER_2_L}", "name": "2 x Mk-82 Snakeye - 500lb GP Bomb HD (TER)", "weight": 529.6}
+    _2_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__TER__ = {"clsid": "{Mk-82 Snakeye_TER_2_R}", "name": "2 x Mk-82 Snakeye - 500lb GP Bomb HD (TER)", "weight": 529.6}
+    _2_x_Mk_82___500lb_GP_Bomb_LD__TER_ = {"clsid": "{Mk-82_TER_2_L}", "name": "2 x Mk-82 - 500lb GP Bomb LD (TER)", "weight": 529.6}
+    _2_x_Mk_82___500lb_GP_Bomb_LD__TER__ = {"clsid": "{Mk-82_TER_2_R}", "name": "2 x Mk-82 - 500lb GP Bomb LD (TER)", "weight": 529.6}
+    _2_x_Mk_83___1000lb_GP_Bomb_LD__TER_ = {"clsid": "{Mk-83_TER_2_C}", "name": "2 x Mk-83 - 1000lb GP Bomb LD (TER)", "weight": 941.6}
+    _3_x_AN_M57___250lb_GP_Bomb_LD__TER_ = {"clsid": "{AN-M57_TER_3_C}", "name": "3 x AN-M57 - 250lb GP Bomb LD (TER)", "weight": 386.6}
+    _3_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_MK_71__HE_FRAG__TER_ = {"clsid": "{LAU-10 ZUNI_TER_3_C}", "name": "3 x LAU-10 pod - 4 x 127mm ZUNI, UnGd Rkts MK 71, HE/FRAG (TER)", "weight": 870.788}
+    _3_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER_ = {"clsid": "{LAU-3 FFAR WP156_TER_3_C}", "name": "3 x LAU-3 pod - 19 x 2.75\" FFAR, UnGd Rkts  M156, Wht Phos (TER)", "weight": 789.7121768}
+    _3_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER_ = {"clsid": "{LAU-3 FFAR Mk1 HE_TER_3_C}", "name": "3 x LAU-3 pod - 19 x 2.75\" FFAR, UnGd Rkts  Mk1, HE (TER)", "weight": 706.976996}
+    _3_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk5__HEAT__TER_ = {"clsid": "{LAU-3 FFAR Mk5 HEAT_TER_3_C}", "name": "3 x LAU-3 pod - 19 x 2.75\" FFAR, UnGd Rkts  Mk5, HEAT (TER)", "weight": 709.5624704}
+    _3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER_ = {"clsid": "{LAU3_HE151_TER_3_C}", "name": "3 x LAU-3 pod - 19 x 2.75\" Hydra, UnGd Rkts M151, HE (TER)", "weight": 750.17}
+    _3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER_ = {"clsid": "{LAU3_WP156_TER_3_C}", "name": "3 x LAU-3 pod - 19 x 2.75\" Hydra, UnGd Rkts M156, Wht Phos (TER)", "weight": 515.33}
+    _3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER_ = {"clsid": "{LAU3_HE5_TER_3_C}", "name": "3 x LAU-3 pod - 19 x 2.75\" Hydra, UnGd Rkts Mk5, HEAT (TER)", "weight": 653.27}
+    _3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER_ = {"clsid": "{LAU3_WP1B_TER_3_C}", "name": "3 x LAU-3 pod - 19 x 2.75\" Hydra, UnGd Rkts Mk61, Practice (TER)", "weight": 670.37}
+    _3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER_ = {"clsid": "{LAU3_WP61_TER_3_C}", "name": "3 x LAU-3 pod - 19 x 2.75\" Hydra, UnGd Rkts WTU-1/B, Practice (TER)", "weight": 670.37}
+    _3_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT__TER_ = {"clsid": "{LAU-68 FFAR Mk5 HEAT_TER_3_C}", "name": "3 x LAU-68 pod - 7 x 2.75\" FFAR, UnGd Rkts Mk5, HEAT (TER)", "weight": 378.5393312}
+    _3_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER_ = {"clsid": "{LAU-68 FFAR WP156_TER_3_C}", "name": "3 x LAU-68 pod - 7 x 2.75\" FFAR, UnGd Rkts  M156, Wht Phos (TER)", "weight": 408.0681704}
+    _3_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER_ = {"clsid": "{LAU-68 FFAR Mk1 HE_TER_3_C}", "name": "3 x LAU-68 pod - 7 x 2.75\" FFAR, UnGd Rkts  Mk1, HE (TER)", "weight": 377.586788}
+    _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER_ = {"clsid": "{LAU-68 Hydra M151 HE_TER_3_C}", "name": "3 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts M151, HE (TER)", "weight": 387.2}
+    _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER_ = {"clsid": "{LAU-68 Hydra WP156_TER_3_C}", "name": "3 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts M156, Wht Phos (TER)", "weight": 390.98}
+    _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum__TER_ = {"clsid": "{LAU-68 Hydra M257 PI_TER_3_C}", "name": "3 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts M257, Para Illum (TER)", "weight": 404}
+    _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk__TER_ = {"clsid": "{LAU-68 Hydra M274 PS_TER_3_C}", "name": "3 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts M274, Practice Smk (TER)", "weight": 387.2}
+    _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice__TER_ = {"clsid": "{LAU-68 Hydra Mk1 Practice_TER_3_C}", "name": "3 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts Mk1, Practice (TER)", "weight": 360.11}
+    _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER_ = {"clsid": "{LAU-68 Hydra Mk5 HEAT_TER_3_C}", "name": "3 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts Mk5, HEAT (TER)", "weight": 353.81}
+    _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER_ = {"clsid": "{LAU-68 Hydra Mk61 Practice_TER_3_C}", "name": "3 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts Mk61, Practice (TER)", "weight": 360.11}
+    _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER_ = {"clsid": "{LAU-68 Hydra WTU1B Practice_TER_3_C}", "name": "3 x LAU-68 pod - 7 x 2.75\" Hydra, UnGd Rkts WTU-1/B, Practice (TER)", "weight": 387.2}
+    _3_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__TER_ = {"clsid": "{Mk-20_TER_3_C}", "name": "3 x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (TER)", "weight": 713.6}
+    _3_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__TER_ = {"clsid": "{Mk-82 Snakeye_TER_3_C}", "name": "3 x Mk-82 Snakeye - 500lb GP Bomb HD (TER)", "weight": 770.6}
+    _3_x_Mk_82___500lb_GP_Bomb_LD__TER_ = {"clsid": "{Mk-82_TER_3_C}", "name": "3 x Mk-82 - 500lb GP Bomb LD (TER)", "weight": 770.6}
+    _3_x_Mk_83___1000lb_GP_Bomb_LD__TER_ = {"clsid": "{Mk-83_TER_3_C}", "name": "3 x Mk-83 - 1000lb GP Bomb LD (TER)", "weight": 1388.6}
+    _4_x_Mk_77_mod_1___500lb_Fire_Bomb_LD__MER_ = {"clsid": "{Mk-77 mod 1_MER_4_C}", "name": "4 x Mk-77 mod 1 - 500lb Fire Bomb LD (MER)", "weight": 1019.8}
+    _4_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__MER_ = {"clsid": "{Mk-82 Snakeye_MER_4_C}", "name": "4 x Mk-82 Snakeye - 500lb GP Bomb HD (MER)", "weight": 1063.8}
+    _4_x_Mk_82___500lb_GP_Bomb_LD__MER_ = {"clsid": "{Mk-82_MER_4_C}", "name": "4 x Mk-82 - 500lb GP Bomb LD (MER)", "weight": 1063.8}
+    _5_x_AN_M57___250lb_GP_Bomb_LD__MER_ = {"clsid": "{AN-M57_MER_5_L}", "name": "5 x AN-M57 - 250lb GP Bomb LD (MER)", "weight": 664.8}
+    _5_x_AN_M57___250lb_GP_Bomb_LD__MER__ = {"clsid": "{AN-M57_MER_5_R}", "name": "5 x AN-M57 - 250lb GP Bomb LD (MER)", "weight": 664.8}
+    _5_x_AN_M81___260lb_GP_Bomb_LD__MER_ = {"clsid": "{AN-M81_MER_5_L}", "name": "5 x AN-M81 - 260lb GP Bomb LD (MER)", "weight": 689.4696}
+    _5_x_AN_M81___260lb_GP_Bomb_LD__MER__ = {"clsid": "{AN-M81_MER_5_R}", "name": "5 x AN-M81 - 260lb GP Bomb LD (MER)", "weight": 689.4696}
+    _5_x_AN_M88___220lb_GP_Bomb_LD__MER_ = {"clsid": "{AN-M88_MER_5_L}", "name": "5 x AN-M88 - 220lb GP Bomb LD (MER)", "weight": 590.132952}
+    _5_x_AN_M88___220lb_GP_Bomb_LD__MER__ = {"clsid": "{AN-M88_MER_5_R}", "name": "5 x AN-M88 - 220lb GP Bomb LD (MER)", "weight": 590.132952}
+    _5_x_BDU_33___25lb_Practice_Bomb_LD__MER_ = {"clsid": "{BDU-33_MER_5_L}", "name": "5 x BDU-33 - 25lb Practice Bomb LD (MER)", "weight": 156.3}
+    _5_x_BDU_33___25lb_Practice_Bomb_LD__MER__ = {"clsid": "{BDU-33_MER_5_R}", "name": "5 x BDU-33 - 25lb Practice Bomb LD (MER)", "weight": 156.3}
+    _5_x_Mk_81_Snakeye___250lb_GP_Bomb_HD__MER_ = {"clsid": "{Mk-81SE_MER_5_L}", "name": "5 x Mk-81 Snakeye - 250lb GP Bomb HD (MER)", "weight": 666.79}
+    _5_x_Mk_81_Snakeye___250lb_GP_Bomb_HD__MER__ = {"clsid": "{Mk-81SE_MER_5_R}", "name": "5 x Mk-81 Snakeye - 250lb GP Bomb HD (MER)", "weight": 666.79}
+    _5_x_Mk_81___250lb_GP_Bomb_LD__MER_ = {"clsid": "{Mk-81_MER_5_L}", "name": "5 x Mk-81 - 250lb GP Bomb LD (MER)", "weight": 689.8}
+    _5_x_Mk_81___250lb_GP_Bomb_LD__MER__ = {"clsid": "{Mk-81_MER_5_R}", "name": "5 x Mk-81 - 250lb GP Bomb LD (MER)", "weight": 689.8}
+    _6_x_AN_M57___250lb_GP_Bomb_LD__MER_ = {"clsid": "{AN-M57_MER_6_C}", "name": "6 x AN-M57 - 250lb GP Bomb LD (MER)", "weight": 777.8}
+    _6_x_AN_M81___260lb_GP_Bomb_LD__MER_ = {"clsid": "{AN-M81_MER_6_C}", "name": "6 x AN-M81 - 260lb GP Bomb LD (MER)", "weight": 807.40352}
+    _6_x_AN_M88___220lb_GP_Bomb_LD__MER_ = {"clsid": "{AN-M88_MER_6_C}", "name": "6 x AN-M88 - 220lb GP Bomb LD (MER)", "weight": 688.1995424}
+    _6_x_BDU_33___25lb_Practice_Bomb_LD__MER_ = {"clsid": "{BDU-33_MER_6_C}", "name": "6 x BDU-33 - 25lb Practice Bomb LD (MER)", "weight": 167.6}
+    _6_x_Mk_81_Snakeye___250lb_GP_Bomb_HD__MER_ = {"clsid": "{Mk-81SE_MER_6_C}", "name": "6 x Mk-81 Snakeye - 250lb GP Bomb HD (MER)", "weight": 780.188}
+    _6_x_Mk_81___250lb_GP_Bomb_LD__MER_ = {"clsid": "{Mk-81_MER_6_C}", "name": "6 x Mk-81 - 250lb GP Bomb LD (MER)", "weight": 807.8}
+    _6_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__MER_ = {"clsid": "{Mk-82 Snakeye_MER_6_C}", "name": "6 x Mk-82 Snakeye - 500lb GP Bomb HD (MER)", "weight": 1545.8}
+    _6_x_Mk_82___500lb_GP_Bomb_LD__MER_ = {"clsid": "{Mk-82_MER_6_C}", "name": "6 x Mk-82 - 500lb GP Bomb LD (MER)", "weight": 1545.8}
 
 
 inject_weapons(WeaponsA4EC)
@@ -843,6 +236,9 @@ class A_4E_C(PlaneType):
     class Properties:
         class HideECMPanel:
             id = "HideECMPanel"
+
+            class Values:
+                Hide_ECM = 1
 
         class Auto_Catapult_Power:
             id = "Auto_Catapult_Power"
@@ -911,115 +307,165 @@ class A_4E_C(PlaneType):
                 x_12_seconds = 6
                 x_14_seconds = 7
 
+    properties = {
+        "A4EC_LABEL": UnitPropertyDescription(
+            identifier="A4EC_LABEL",
+            control="label",
+            label="-> Aircraft Settings",
+            player_only=False,
+            x_lbl=0,
+        ),
+        "HideECMPanel": UnitPropertyDescription(
+            identifier="HideECMPanel",
+            control="checkbox",
+            label="Remove ECM control panel",
+            default=False,
+            weight_when_on=-80,
+        ),
+        "Auto_Catapult_Power": UnitPropertyDescription(
+            identifier="Auto_Catapult_Power",
+            control="checkbox",
+            label="Automatic Catapult Power Mode (for modded aircraft carriers)",
+            default=False,
+            weight_when_on=-80,
+        ),
+        "Night_Vision": UnitPropertyDescription(
+            identifier="Night_Vision",
+            control="checkbox",
+            label="Enable Nightvision",
+            default=False,
+            weight_when_on=-80,
+        ),
+        "CBU2ATPP": UnitPropertyDescription(
+            identifier="CBU2ATPP",
+            control="comboList",
+            label="CBU-2/A Tubes Per Pulse",
+            player_only=True,
+            default=0,
+            w_ctrl=150,
+            values={
+                0: "1 tube",
+                1: "2 tubes",
+                2: "3 tubes",
+                3: "4 tubes",
+                4: "6 tubes",
+                5: "17 tubes (salvo)",
+            },
+        ),
+        "CBU2BATPP": UnitPropertyDescription(
+            identifier="CBU2BATPP",
+            control="comboList",
+            label="CBU-2B/A Tubes Per Pulse",
+            player_only=True,
+            default=0,
+            w_ctrl=150,
+            values={
+                0: "2 tubes",
+                1: "4 tubes",
+                2: "6 tubes",
+            },
+        ),
+        "CMS_BURSTS": UnitPropertyDescription(
+            identifier="CMS_BURSTS",
+            control="comboList",
+            label="CMS BURSTS",
+            player_only=True,
+            default=1,
+            w_ctrl=150,
+            values={
+                1: "1",
+                2: "2",
+                3: "3",
+                4: "4",
+            },
+        ),
+        "CMS_BURST_INTERVAL": UnitPropertyDescription(
+            identifier="CMS_BURST_INTERVAL",
+            control="comboList",
+            label="CMS BURST INTERVAL",
+            player_only=True,
+            default=1,
+            w_ctrl=150,
+            values={
+                1: "0.2 seconds",
+                2: "0.3 seconds",
+                3: "0.4 seconds",
+                4: "0.5 seconds",
+            },
+        ),
+        "CMS_SALVOS": UnitPropertyDescription(
+            identifier="CMS_SALVOS",
+            control="comboList",
+            label="CMS SALVOS",
+            player_only=True,
+            default=1,
+            w_ctrl=150,
+            values={
+                1: "8",
+                2: "12",
+                3: "16",
+                4: "20",
+                5: "24",
+                6: "28",
+                7: "32",
+            },
+        ),
+        "CMS_SALVO_INTERVAL": UnitPropertyDescription(
+            identifier="CMS_SALVO_INTERVAL",
+            control="comboList",
+            label="CMS SALVO INTERVAL",
+            player_only=True,
+            default=1,
+            w_ctrl=150,
+            values={
+                1: "2 seconds",
+                2: "4 seconds",
+                3: "6 seconds",
+                4: "8 seconds",
+                5: "10 seconds",
+                6: "12 seconds",
+                7: "14 seconds",
+            },
+        ),
+    }
+
     livery_name = "A-4E-C"  # from type
 
     class Pylon1:
-        LAU_7_with_AIM_9B_Sidewinder_IR_AAM = (
-            1,
-            Weapons.LAU_7_with_AIM_9B_Sidewinder_IR_AAM,
-        )
-        LAU_7_with_AIM_9P_Sidewinder_IR_AAM = (
-            1,
-            Weapons.LAU_7_with_AIM_9P_Sidewinder_IR_AAM,
-        )
-        LAU_7_with_AIM_9P5_Sidewinder_IR_AAM = (
-            1,
-            Weapons.LAU_7_with_AIM_9P5_Sidewinder_IR_AAM,
-        )
-        LAU_7_with_AIM_9P3_Sidewinder_IR_AAM = (
-            1,
-            WeaponsA4EC.LAU_7_with_AIM_9P3_Sidewinder_IR_AAM,
-        )
-        LAU_7_with_AN_ASQ_T50_TCTS_Pod___ACMI_Pod_ = (
-            1,
-            WeaponsA4EC.LAU_7_with_AN_ASQ_T50_TCTS_Pod___ACMI_Pod_,
-        )
-        LAU_7_with_AIM_9J_Sidewinder_IR_AAM = (
-            1,
-            WeaponsA4EC.LAU_7_with_AIM_9J_Sidewinder_IR_AAM,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
-            1,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos = (
-            1,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT = (
-            1,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum = (
-            1,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk = (
-            1,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice = (
-            1,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice = (
-            1,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice = (
-            1,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP,
-        )
-        LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_M156__Wht_Phos = (
-            1,
-            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM,
-        )
-        LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk1__HE = (
-            1,
-            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE,
-        )
-        LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT = (
-            1,
-            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT,
-        )
-        LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_M156__Wht_Phos = (
-            1,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM,
-        )
-        LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk1__HE = (
-            1,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE,
-        )
-        LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT = (
-            1,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT,
-        )
-        LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_Mk71__HE_FRAG = (
-            1,
-            Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE,
-        )
+        LAU_7_with_AIM_9B_Sidewinder_IR_AAM_ = (1, Weapons.LAU_7_with_AIM_9B_Sidewinder_IR_AAM_)
+        LAU_7_with_AIM_9P_Sidewinder_IR_AAM = (1, Weapons.LAU_7_with_AIM_9P_Sidewinder_IR_AAM)
+        LAU_7_with_AIM_9P5_Sidewinder_IR_AAM = (1, Weapons.LAU_7_with_AIM_9P5_Sidewinder_IR_AAM)
+        LAU_7_with_AIM_9P3_Sidewinder_IR_AAM = (1, Weapons.LAU_7_with_AIM_9P3_Sidewinder_IR_AAM)
+        LAU_7_with_AN_ASQ_T50_TCTS_Pod___ACMI_Pod_ = (1, WeaponsA4EC.LAU_7_with_AN_ASQ_T50_TCTS_Pod___ACMI_Pod_)
+        LAU_7_with_AIM_9J_Sidewinder_IR_AAM = (1, Weapons.LAU_7_with_AIM_9J_Sidewinder_IR_AAM)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE = (1, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM = (1, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT = (1, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (1, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (1, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE = (1, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP = (1, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP = (1, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP)
+        LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM = (1, Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM)
+        LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE = (1, Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE)
+        LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT = (1, Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM = (1, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE = (1, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT = (1, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT)
+        LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE = (1, Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE)
         LAU3_WP61 = (1, Weapons.LAU3_WP61)
         LAU3_WP1B = (1, Weapons.LAU3_WP1B)
         LAU3_HE5 = (1, Weapons.LAU3_HE5)
         LAU3_WP156 = (1, Weapons.LAU3_WP156)
         LAU3_HE151 = (1, Weapons.LAU3_HE151)
-        AGM_45A_Shrike_ARM = (1, Weapons.AGM_45A_Shrike_ARM)
-        AGM_45B_Shrike_ARM = (1, Weapons.AGM_45B_Shrike_ARM)
-        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
-            1,
-            Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
-        )
+        AGM_45A_Shrike_ARM__LAU_34_ = (1, Weapons.AGM_45A_Shrike_ARM__LAU_34_)
+        AGM_45B_Shrike_ARM__LAU_34_ = (1, WeaponsA4EC.AGM_45B_Shrike_ARM__LAU_34_)
+        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (1, Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets)
         Mk_81___250lb_GP_Bomb_LD = (1, Weapons.Mk_81___250lb_GP_Bomb_LD)
-        Mk_81_Snakeye___250lb_GP_Bomb_HD = (
-            1,
-            WeaponsA4EC.Mk_81_Snakeye___250lb_GP_Bomb_HD,
-        )
+        Mk_81_Snakeye___250lb_GP_Bomb_HD = (1, WeaponsA4EC.Mk_81_Snakeye___250lb_GP_Bomb_HD)
         Mk_82___500lb_GP_Bomb_LD = (1, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_82_Snakeye___500lb_GP_Bomb_HD = (1, Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD)
-        Mk_77_mod_1___500lb_Fire_Bomb_LD = (
-            1,
-            WeaponsA4EC.Mk_77_mod_1___500lb_Fire_Bomb_LD,
-        )
+        Mk_77_mod_1___500lb_Fire_Bomb_LD = (1, WeaponsA4EC.Mk_77_mod_1___500lb_Fire_Bomb_LD)
         AN_M30A1___100lb_GP_Bomb_LD = (1, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
         AN_M57___250lb_GP_Bomb_LD = (1, Weapons.AN_M57___250lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (1, Weapons.AN_M64___500lb_GP_Bomb_LD)
@@ -1031,281 +477,94 @@ class A_4E_C(PlaneType):
         Smokewinder___white = (1, Weapons.Smokewinder___white)
         Smokewinder___yellow = (1, Weapons.Smokewinder___yellow)
         Smokewinder___orange = (1, Weapons.Smokewinder___orange)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
-            1,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
-        )
-
-    # ERRR <CLEAN>
+        SUU_25_x_8_LUU_2___Target_Marker_Flares = (1, Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares)
+#ERRR <CLEAN>
 
     class Pylon2:
         Fuel_Tank_300_gallons_ = (2, WeaponsA4EC.Fuel_Tank_300_gallons_)
         Fuel_Tank_300_gallons__EMPTY__ = (2, WeaponsA4EC.Fuel_Tank_300_gallons__EMPTY__)
         Fuel_Tank_150_gallons = (2, WeaponsA4EC.Fuel_Tank_150_gallons)
         Fuel_Tank_150_gallons__EMPTY_ = (2, WeaponsA4EC.Fuel_Tank_150_gallons__EMPTY_)
-        LAU_7_with_AIM_9B_Sidewinder_IR_AAM = (
-            2,
-            Weapons.LAU_7_with_AIM_9B_Sidewinder_IR_AAM,
-        )
-        LAU_7_with_AIM_9P_Sidewinder_IR_AAM = (
-            2,
-            Weapons.LAU_7_with_AIM_9P_Sidewinder_IR_AAM,
-        )
-        LAU_7_with_AIM_9P5_Sidewinder_IR_AAM = (
-            2,
-            Weapons.LAU_7_with_AIM_9P5_Sidewinder_IR_AAM,
-        )
-        LAU_7_with_AIM_9P3_Sidewinder_IR_AAM = (
-            2,
-            WeaponsA4EC.LAU_7_with_AIM_9P3_Sidewinder_IR_AAM,
-        )
-        LAU_7_with_AN_ASQ_T50_TCTS_Pod___ACMI_Pod_ = (
-            2,
-            WeaponsA4EC.LAU_7_with_AN_ASQ_T50_TCTS_Pod___ACMI_Pod_,
-        )
-        LAU_7_with_AIM_9J_Sidewinder_IR_AAM = (
-            2,
-            WeaponsA4EC.LAU_7_with_AIM_9J_Sidewinder_IR_AAM,
-        )
-        LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_M156__Wht_Phos = (
-            2,
-            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM,
-        )
-        LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk1__HE = (
-            2,
-            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE,
-        )
-        LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT = (
-            2,
-            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT,
-        )
-        _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER__ = (
-            2,
-            WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER__,
-        )
-        _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER__ = (
-            2,
-            WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER__,
-        )
-        _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk5__HEAT__TER__ = (
-            2,
-            WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk5__HEAT__TER__,
-        )
-        LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_M156__Wht_Phos = (
-            2,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM,
-        )
-        LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk1__HE = (
-            2,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE,
-        )
-        LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT = (
-            2,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER__ = (
-            2,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER__,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER__ = (
-            2,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER__,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT__TER__ = (
-            2,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT__TER__,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
-            2,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos = (
-            2,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT = (
-            2,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum = (
-            2,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk = (
-            2,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice = (
-            2,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice = (
-            2,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice = (
-            2,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER__ = (
-            2,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER__,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER__ = (
-            2,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER__,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum__TER__ = (
-            2,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum__TER__,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk__TER__ = (
-            2,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk__TER__,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice__TER__ = (
-            2,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice__TER__,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER__ = (
-            2,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER__,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER__ = (
-            2,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER__,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER__ = (
-            2,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER__,
-        )
-        LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_Mk71__HE_FRAG = (
-            2,
-            Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE,
-        )
-        _2_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_MK_71__HE_FRAG__TER__ = (
-            2,
-            WeaponsA4EC._2_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_MK_71__HE_FRAG__TER__,
-        )
+        LAU_7_with_AIM_9B_Sidewinder_IR_AAM_ = (2, Weapons.LAU_7_with_AIM_9B_Sidewinder_IR_AAM_)
+        LAU_7_with_AIM_9P_Sidewinder_IR_AAM = (2, Weapons.LAU_7_with_AIM_9P_Sidewinder_IR_AAM)
+        LAU_7_with_AIM_9P5_Sidewinder_IR_AAM = (2, Weapons.LAU_7_with_AIM_9P5_Sidewinder_IR_AAM)
+        LAU_7_with_AIM_9P3_Sidewinder_IR_AAM = (2, Weapons.LAU_7_with_AIM_9P3_Sidewinder_IR_AAM)
+        LAU_7_with_AN_ASQ_T50_TCTS_Pod___ACMI_Pod_ = (2, WeaponsA4EC.LAU_7_with_AN_ASQ_T50_TCTS_Pod___ACMI_Pod_)
+        LAU_7_with_AIM_9J_Sidewinder_IR_AAM = (2, Weapons.LAU_7_with_AIM_9J_Sidewinder_IR_AAM)
+        LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM = (2, Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM)
+        LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE = (2, Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE)
+        LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT = (2, Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT)
+        _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER__ = (2, WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER__)
+        _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER__ = (2, WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER__)
+        _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk5__HEAT__TER__ = (2, WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk5__HEAT__TER__)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM = (2, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE = (2, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT = (2, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT)
+        _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER__ = (2, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER__)
+        _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER__ = (2, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER__)
+        _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT__TER__ = (2, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT__TER__)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE = (2, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM = (2, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT = (2, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (2, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (2, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE = (2, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP = (2, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP = (2, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP)
+        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER__ = (2, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER__)
+        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER__ = (2, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER__)
+        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum__TER__ = (2, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum__TER__)
+        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk__TER__ = (2, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk__TER__)
+        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice__TER__ = (2, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice__TER__)
+        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER__ = (2, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER__)
+        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER__ = (2, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER__)
+        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER__ = (2, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER__)
+        LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE = (2, Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE)
+        _2_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_MK_71__HE_FRAG__TER__ = (2, WeaponsA4EC._2_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_MK_71__HE_FRAG__TER__)
         LAU3_WP61 = (2, Weapons.LAU3_WP61)
         LAU3_WP1B = (2, Weapons.LAU3_WP1B)
         LAU3_HE5 = (2, Weapons.LAU3_HE5)
         LAU3_WP156 = (2, Weapons.LAU3_WP156)
         LAU3_HE151 = (2, Weapons.LAU3_HE151)
-        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER__ = (
-            2,
-            WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER__,
-        )
-        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER__ = (
-            2,
-            WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER__,
-        )
-        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER__ = (
-            2,
-            WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER__,
-        )
-        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER__ = (
-            2,
-            WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER__,
-        )
-        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER__ = (
-            2,
-            WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER__,
-        )
-        AGM_45A_Shrike_ARM = (2, Weapons.AGM_45A_Shrike_ARM)
-        AGM_45B_Shrike_ARM = (2, Weapons.AGM_45B_Shrike_ARM)
-        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
-            2,
-            Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
-        )
+        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER__ = (2, WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER__)
+        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER__ = (2, WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER__)
+        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER__ = (2, WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER__)
+        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER__ = (2, WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER__)
+        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER__ = (2, WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER__)
+        AGM_45A_Shrike_ARM__LAU_34_ = (2, Weapons.AGM_45A_Shrike_ARM__LAU_34_)
+        AGM_45B_Shrike_ARM__LAU_34_ = (2, WeaponsA4EC.AGM_45B_Shrike_ARM__LAU_34_)
+        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (2, Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets)
         Mk_81___250lb_GP_Bomb_LD = (2, Weapons.Mk_81___250lb_GP_Bomb_LD)
-        Mk_81_Snakeye___250lb_GP_Bomb_HD = (
-            2,
-            WeaponsA4EC.Mk_81_Snakeye___250lb_GP_Bomb_HD,
-        )
+        Mk_81_Snakeye___250lb_GP_Bomb_HD = (2, WeaponsA4EC.Mk_81_Snakeye___250lb_GP_Bomb_HD)
         Mk_82___500lb_GP_Bomb_LD = (2, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_82_Snakeye___500lb_GP_Bomb_HD = (2, Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD)
         Mk_83___1000lb_GP_Bomb_LD = (2, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_84___2000lb_GP_Bomb_LD = (2, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         M117___750lb_GP_Bomb_LD = (2, Weapons.M117___750lb_GP_Bomb_LD)
-        Mk_77_mod_0___750lb_Fire_Bomb_LD = (
-            2,
-            WeaponsA4EC.Mk_77_mod_0___750lb_Fire_Bomb_LD,
-        )
-        Mk_77_mod_1___500lb_Fire_Bomb_LD = (
-            2,
-            WeaponsA4EC.Mk_77_mod_1___500lb_Fire_Bomb_LD,
-        )
+        Mk_77_mod_0___750lb_Fire_Bomb_LD = (2, WeaponsA4EC.Mk_77_mod_0___750lb_Fire_Bomb_LD)
+        Mk_77_mod_1___500lb_Fire_Bomb_LD = (2, WeaponsA4EC.Mk_77_mod_1___500lb_Fire_Bomb_LD)
         AN_M30A1___100lb_GP_Bomb_LD = (2, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
         AN_M57___250lb_GP_Bomb_LD = (2, Weapons.AN_M57___250lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (2, Weapons.AN_M64___500lb_GP_Bomb_LD)
         AN_M65___1000lb_GP_Bomb_LD = (2, Weapons.AN_M65___1000lb_GP_Bomb_LD)
         AN_M81___260lb_GP_Bomb_LD = (2, WeaponsA4EC.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (2, WeaponsA4EC.AN_M88___220lb_GP_Bomb_LD)
-        CBU_1_A_pod___19_x_tubes_of_Bomblets_BLU_4B_x_27__HE = (
-            2,
-            WeaponsA4EC.CBU_1_A_pod___19_x_tubes_of_Bomblets_BLU_4B_x_27__HE,
-        )
-        CBU_2_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE = (
-            2,
-            WeaponsA4EC.CBU_2_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE,
-        )
-        CBU_2B_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE = (
-            2,
-            WeaponsA4EC.CBU_2B_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE,
-        )
-        _2_x_CBU_1_A_pod___19_x_tubes_of_Bomblets_BLU_4B_x_27__HE__TER_ = (
-            2,
-            WeaponsA4EC._2_x_CBU_1_A_pod___19_x_tubes_of_Bomblets_BLU_4B_x_27__HE__TER_,
-        )
-        _2_x_CBU_2_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE__TER_ = (
-            2,
-            WeaponsA4EC._2_x_CBU_2_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE__TER_,
-        )
-        _2_x_CBU_2B_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE__TER_ = (
-            2,
-            WeaponsA4EC._2_x_CBU_2B_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE__TER_,
-        )
-        _2_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__TER_ = (
-            2,
-            WeaponsA4EC._2_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__TER_,
-        )
-        _5_x_Mk_81___250lb_GP_Bomb_LD__MER_ = (
-            2,
-            WeaponsA4EC._5_x_Mk_81___250lb_GP_Bomb_LD__MER_,
-        )
-        _5_x_Mk_81_Snakeye___250lb_GP_Bomb_HD__MER_ = (
-            2,
-            WeaponsA4EC._5_x_Mk_81_Snakeye___250lb_GP_Bomb_HD__MER_,
-        )
-        _2_x_Mk_82___500lb_GP_Bomb_LD__TER_ = (
-            2,
-            WeaponsA4EC._2_x_Mk_82___500lb_GP_Bomb_LD__TER_,
-        )
-        _2_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__TER_ = (
-            2,
-            WeaponsA4EC._2_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__TER_,
-        )
-        _5_x_AN_M57___250lb_GP_Bomb_LD__MER_ = (
-            2,
-            WeaponsA4EC._5_x_AN_M57___250lb_GP_Bomb_LD__MER_,
-        )
-        _2_x_AN_M57___250lb_GP_Bomb_LD__TER_ = (
-            2,
-            WeaponsA4EC._2_x_AN_M57___250lb_GP_Bomb_LD__TER_,
-        )
-        _5_x_AN_M81___260lb_GP_Bomb_LD__MER_ = (
-            2,
-            WeaponsA4EC._5_x_AN_M81___260lb_GP_Bomb_LD__MER_,
-        )
-        _5_x_AN_M88___220lb_GP_Bomb_LD__MER_ = (
-            2,
-            WeaponsA4EC._5_x_AN_M88___220lb_GP_Bomb_LD__MER_,
-        )
-        _5_x_BDU_33___25lb_Practice_Bomb_LD__MER_ = (
-            2,
-            WeaponsA4EC._5_x_BDU_33___25lb_Practice_Bomb_LD__MER_,
-        )
+        CBU_1A_A_x_27x19__513__BLU_4B_Bomblets__HE = (2, WeaponsA4EC.CBU_1A_A_x_27x19__513__BLU_4B_Bomblets__HE)
+        CBU_2_A_x_19x19__361__BLU_3_Bomblets__HE = (2, WeaponsA4EC.CBU_2_A_x_19x19__361__BLU_3_Bomblets__HE)
+        CBU_2B_A_x_22x19__418__BLU_3B_Bomblets__HE = (2, WeaponsA4EC.CBU_2B_A_x_22x19__418__BLU_3B_Bomblets__HE)
+        _2_x_CBU_1A_A_x_27x19__513__BLU_4B_Bomblets__HE__TER_ = (2, WeaponsA4EC._2_x_CBU_1A_A_x_27x19__513__BLU_4B_Bomblets__HE__TER_)
+        _2_x_CBU_2_A_x_19x19__361__BLU_3_Bomblets__HE__TER_ = (2, WeaponsA4EC._2_x_CBU_2_A_x_19x19__361__BLU_3_Bomblets__HE__TER_)
+        _2_x_CBU_2B_A_x_22x19__418__BLU_3B_Bomblets__HE__TER_ = (2, Weapons._2_x_CBU_2B_A_x_22x19__418__BLU_3B_Bomblets__HE__TER_)
+        _2_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__TER_ = (2, WeaponsA4EC._2_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__TER_)
+        _5_x_Mk_81___250lb_GP_Bomb_LD__MER_ = (2, WeaponsA4EC._5_x_Mk_81___250lb_GP_Bomb_LD__MER_)
+        _5_x_Mk_81_Snakeye___250lb_GP_Bomb_HD__MER_ = (2, WeaponsA4EC._5_x_Mk_81_Snakeye___250lb_GP_Bomb_HD__MER_)
+        _2_x_Mk_82___500lb_GP_Bomb_LD__TER_ = (2, WeaponsA4EC._2_x_Mk_82___500lb_GP_Bomb_LD__TER_)
+        _2_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__TER_ = (2, WeaponsA4EC._2_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__TER_)
+        _5_x_AN_M57___250lb_GP_Bomb_LD__MER_ = (2, WeaponsA4EC._5_x_AN_M57___250lb_GP_Bomb_LD__MER_)
+        _2_x_AN_M57___250lb_GP_Bomb_LD__TER_ = (2, WeaponsA4EC._2_x_AN_M57___250lb_GP_Bomb_LD__TER_)
+        _5_x_AN_M81___260lb_GP_Bomb_LD__MER_ = (2, WeaponsA4EC._5_x_AN_M81___260lb_GP_Bomb_LD__MER_)
+        _5_x_AN_M88___220lb_GP_Bomb_LD__MER_ = (2, WeaponsA4EC._5_x_AN_M88___220lb_GP_Bomb_LD__MER_)
+        _5_x_BDU_33___25lb_Practice_Bomb_LD__MER_ = (2, WeaponsA4EC._5_x_BDU_33___25lb_Practice_Bomb_LD__MER_)
         Mk4_HIPEG___Gunpod = (2, WeaponsA4EC.Mk4_HIPEG___Gunpod)
         Smokewinder___red = (2, Weapons.Smokewinder___red)
         Smokewinder___green = (2, Weapons.Smokewinder___green)
@@ -1313,12 +572,8 @@ class A_4E_C(PlaneType):
         Smokewinder___white = (2, Weapons.Smokewinder___white)
         Smokewinder___yellow = (2, Weapons.Smokewinder___yellow)
         Smokewinder___orange = (2, Weapons.Smokewinder___orange)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
-            2,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
-        )
-
-    # ERRR <CLEAN>
+        SUU_25_x_8_LUU_2___Target_Marker_Flares = (2, Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares)
+#ERRR <CLEAN>
 
     class Pylon3:
         Fuel_Tank_400_gallons = (3, WeaponsA4EC.Fuel_Tank_400_gallons)
@@ -1327,261 +582,82 @@ class A_4E_C(PlaneType):
         Fuel_Tank_400_gallons__EMPTY_ = (3, WeaponsA4EC.Fuel_Tank_400_gallons__EMPTY_)
         Fuel_Tank_300_gallons__EMPTY_ = (3, WeaponsA4EC.Fuel_Tank_300_gallons__EMPTY_)
         Fuel_Tank_150_gallons__EMPTY_ = (3, WeaponsA4EC.Fuel_Tank_150_gallons__EMPTY_)
-        LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_M156__Wht_Phos = (
-            3,
-            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM,
-        )
-        LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk1__HE = (
-            3,
-            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE,
-        )
-        LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT = (
-            3,
-            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT,
-        )
-        _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER_ = (
-            3,
-            WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER_,
-        )
-        _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER_ = (
-            3,
-            WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER_,
-        )
-        _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk5__HEAT__TER_ = (
-            3,
-            WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk5__HEAT__TER_,
-        )
-        _3_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER_ = (
-            3,
-            WeaponsA4EC._3_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER_,
-        )
-        _3_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER_ = (
-            3,
-            WeaponsA4EC._3_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER_,
-        )
-        _3_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk5__HEAT__TER_ = (
-            3,
-            WeaponsA4EC._3_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk5__HEAT__TER_,
-        )
-        LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_M156__Wht_Phos = (
-            3,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM,
-        )
-        LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk1__HE = (
-            3,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE,
-        )
-        LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT = (
-            3,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER_ = (
-            3,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER_,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER_ = (
-            3,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER_,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT__TER_ = (
-            3,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT__TER_,
-        )
-        _3_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER_ = (
-            3,
-            WeaponsA4EC._3_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER_,
-        )
-        _3_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER_ = (
-            3,
-            WeaponsA4EC._3_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER_,
-        )
-        _3_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT__TER_ = (
-            3,
-            WeaponsA4EC._3_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT__TER_,
-        )
+        LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM = (3, Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM)
+        LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE = (3, Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE)
+        LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT = (3, Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT)
+        _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER_ = (3, WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER_)
+        _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER_ = (3, WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER_)
+        _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk5__HEAT__TER_ = (3, WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk5__HEAT__TER_)
+        _3_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER_ = (3, WeaponsA4EC._3_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER_)
+        _3_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER_ = (3, WeaponsA4EC._3_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER_)
+        _3_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk5__HEAT__TER_ = (3, WeaponsA4EC._3_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk5__HEAT__TER_)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM = (3, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE = (3, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT = (3, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT)
+        _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER_ = (3, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER_)
+        _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER_ = (3, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER_)
+        _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT__TER_ = (3, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT__TER_)
+        _3_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER_ = (3, WeaponsA4EC._3_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER_)
+        _3_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER_ = (3, WeaponsA4EC._3_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER_)
+        _3_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT__TER_ = (3, WeaponsA4EC._3_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT__TER_)
         LAU3_WP156 = (3, Weapons.LAU3_WP156)
         LAU3_HE5 = (3, Weapons.LAU3_HE5)
         LAU3_WP61 = (3, Weapons.LAU3_WP61)
         LAU3_WP1B = (3, Weapons.LAU3_WP1B)
-        LAU_61_pod___19_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos = (
-            3,
-            Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
-        )
-        LAU_61_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
-            3,
-            Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE_,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
-            3,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos = (
-            3,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum = (
-            3,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk = (
-            3,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice = (
-            3,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT = (
-            3,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice = (
-            3,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice = (
-            3,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER_ = (
-            3,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER_,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER_ = (
-            3,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER_,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum__TER_ = (
-            3,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum__TER_,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk__TER_ = (
-            3,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk__TER_,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice__TER_ = (
-            3,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice__TER_,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER_ = (
-            3,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER_,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER_ = (
-            3,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER_,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER_ = (
-            3,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER_,
-        )
-        _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER_ = (
-            3,
-            WeaponsA4EC._3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER_,
-        )
-        _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER_ = (
-            3,
-            WeaponsA4EC._3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER_,
-        )
-        _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum__TER_ = (
-            3,
-            WeaponsA4EC._3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum__TER_,
-        )
-        _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk__TER_ = (
-            3,
-            WeaponsA4EC._3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk__TER_,
-        )
-        _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice__TER_ = (
-            3,
-            WeaponsA4EC._3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice__TER_,
-        )
-        _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER_ = (
-            3,
-            WeaponsA4EC._3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER_,
-        )
-        _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER_ = (
-            3,
-            WeaponsA4EC._3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER_,
-        )
-        _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER_ = (
-            3,
-            WeaponsA4EC._3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER_,
-        )
-        LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_Mk71__HE_FRAG = (
-            3,
-            Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE,
-        )
-        _2_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_MK_71__HE_FRAG__TER_ = (
-            3,
-            WeaponsA4EC._2_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_MK_71__HE_FRAG__TER_,
-        )
-        _3_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_MK_71__HE_FRAG__TER_ = (
-            3,
-            WeaponsA4EC._3_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_MK_71__HE_FRAG__TER_,
-        )
+        LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM = (3, Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM)
+        LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE_ = (3, Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE_)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE = (3, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM = (3, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (3, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (3, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE = (3, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT = (3, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP = (3, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP = (3, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP)
+        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER_ = (3, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER_)
+        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER_ = (3, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER_)
+        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum__TER_ = (3, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum__TER_)
+        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk__TER_ = (3, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk__TER_)
+        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice__TER_ = (3, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice__TER_)
+        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER_ = (3, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER_)
+        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER_ = (3, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER_)
+        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER_ = (3, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER_)
+        _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER_ = (3, WeaponsA4EC._3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER_)
+        _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER_ = (3, WeaponsA4EC._3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER_)
+        _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum__TER_ = (3, WeaponsA4EC._3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum__TER_)
+        _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk__TER_ = (3, WeaponsA4EC._3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk__TER_)
+        _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice__TER_ = (3, WeaponsA4EC._3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice__TER_)
+        _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER_ = (3, WeaponsA4EC._3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER_)
+        _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER_ = (3, WeaponsA4EC._3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER_)
+        _3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER_ = (3, WeaponsA4EC._3_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER_)
+        LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE = (3, Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE)
+        _2_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_MK_71__HE_FRAG__TER_ = (3, WeaponsA4EC._2_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_MK_71__HE_FRAG__TER_)
+        _3_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_MK_71__HE_FRAG__TER_ = (3, WeaponsA4EC._3_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_MK_71__HE_FRAG__TER_)
+        LAU3_WP61 = (3, Weapons.LAU3_WP61)
+        LAU3_WP1B = (3, Weapons.LAU3_WP1B)
+        LAU3_HE5 = (3, Weapons.LAU3_HE5)
+        LAU3_WP156 = (3, Weapons.LAU3_WP156)
         LAU3_HE151 = (3, Weapons.LAU3_HE151)
-        _3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER_ = (
-            3,
-            WeaponsA4EC._3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER_,
-        )
-        _3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER_ = (
-            3,
-            WeaponsA4EC._3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER_,
-        )
-        _3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER_ = (
-            3,
-            WeaponsA4EC._3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER_,
-        )
-        _3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER_ = (
-            3,
-            WeaponsA4EC._3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER_,
-        )
-        _3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER_ = (
-            3,
-            WeaponsA4EC._3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER_,
-        )
-        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER_ = (
-            3,
-            WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER_,
-        )
-        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER_ = (
-            3,
-            WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER_,
-        )
-        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER_ = (
-            3,
-            WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER_,
-        )
-        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER_ = (
-            3,
-            WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER_,
-        )
-        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER_ = (
-            3,
-            WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER_,
-        )
-        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
-            3,
-            Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
-        )
+        _3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER_ = (3, WeaponsA4EC._3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER_)
+        _3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER_ = (3, WeaponsA4EC._3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER_)
+        _3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER_ = (3, WeaponsA4EC._3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER_)
+        _3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER_ = (3, WeaponsA4EC._3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER_)
+        _3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER_ = (3, WeaponsA4EC._3_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER_)
+        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER_ = (3, WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER_)
+        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER_ = (3, WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER_)
+        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER_ = (3, WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER_)
+        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER_ = (3, WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER_)
+        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER_ = (3, WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER_)
+        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (3, Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets)
         Mk_81___250lb_GP_Bomb_LD = (3, Weapons.Mk_81___250lb_GP_Bomb_LD)
-        Mk_81_Snakeye___250lb_GP_Bomb_HD = (
-            3,
-            WeaponsA4EC.Mk_81_Snakeye___250lb_GP_Bomb_HD,
-        )
+        Mk_81_Snakeye___250lb_GP_Bomb_HD = (3, WeaponsA4EC.Mk_81_Snakeye___250lb_GP_Bomb_HD)
         Mk_82___500lb_GP_Bomb_LD = (3, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_82_Snakeye___500lb_GP_Bomb_HD = (3, Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD)
         Mk_83___1000lb_GP_Bomb_LD = (3, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_84___2000lb_GP_Bomb_LD = (3, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         M117___750lb_GP_Bomb_LD = (3, Weapons.M117___750lb_GP_Bomb_LD)
-        Mk_77_mod_0___750lb_Fire_Bomb_LD = (
-            3,
-            WeaponsA4EC.Mk_77_mod_0___750lb_Fire_Bomb_LD,
-        )
-        Mk_77_mod_1___500lb_Fire_Bomb_LD = (
-            3,
-            WeaponsA4EC.Mk_77_mod_1___500lb_Fire_Bomb_LD,
-        )
+        Mk_77_mod_0___750lb_Fire_Bomb_LD = (3, WeaponsA4EC.Mk_77_mod_0___750lb_Fire_Bomb_LD)
+        Mk_77_mod_1___500lb_Fire_Bomb_LD = (3, WeaponsA4EC.Mk_77_mod_1___500lb_Fire_Bomb_LD)
         AN_M30A1___100lb_GP_Bomb_LD = (3, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
         AN_M57___250lb_GP_Bomb_LD = (3, Weapons.AN_M57___250lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (3, Weapons.AN_M64___500lb_GP_Bomb_LD)
@@ -1589,78 +665,24 @@ class A_4E_C(PlaneType):
         AN_M66A2___2000lb_GP_Bomb_LD = (3, WeaponsA4EC.AN_M66A2___2000lb_GP_Bomb_LD)
         AN_M81___260lb_GP_Bomb_LD = (3, WeaponsA4EC.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (3, WeaponsA4EC.AN_M88___220lb_GP_Bomb_LD)
-        _3_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__TER_ = (
-            3,
-            WeaponsA4EC._3_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__TER_,
-        )
-        _2_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__TER___ = (
-            3,
-            WeaponsA4EC._2_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__TER___,
-        )
-        _6_x_Mk_81___250lb_GP_Bomb_LD__MER_ = (
-            3,
-            WeaponsA4EC._6_x_Mk_81___250lb_GP_Bomb_LD__MER_,
-        )
-        _6_x_Mk_81_Snakeye___250lb_GP_Bomb_HD__MER_ = (
-            3,
-            WeaponsA4EC._6_x_Mk_81_Snakeye___250lb_GP_Bomb_HD__MER_,
-        )
-        _6_x_Mk_82___500lb_GP_Bomb_LD__MER_ = (
-            3,
-            WeaponsA4EC._6_x_Mk_82___500lb_GP_Bomb_LD__MER_,
-        )
-        _4_x_Mk_82___500lb_GP_Bomb_LD__MER_ = (
-            3,
-            WeaponsA4EC._4_x_Mk_82___500lb_GP_Bomb_LD__MER_,
-        )
-        _3_x_Mk_82___500lb_GP_Bomb_LD__TER_ = (
-            3,
-            WeaponsA4EC._3_x_Mk_82___500lb_GP_Bomb_LD__TER_,
-        )
-        _6_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__MER_ = (
-            3,
-            WeaponsA4EC._6_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__MER_,
-        )
-        _4_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__MER_ = (
-            3,
-            WeaponsA4EC._4_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__MER_,
-        )
-        _3_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__TER_ = (
-            3,
-            WeaponsA4EC._3_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__TER_,
-        )
-        _3_x_Mk_83___1000lb_GP_Bomb_LD__TER_ = (
-            3,
-            WeaponsA4EC._3_x_Mk_83___1000lb_GP_Bomb_LD__TER_,
-        )
-        _2_x_Mk_83___1000lb_GP_Bomb_LD__TER_ = (
-            3,
-            WeaponsA4EC._2_x_Mk_83___1000lb_GP_Bomb_LD__TER_,
-        )
-        _2_x_Mk_77_mod_1___500lb_Fire_Bomb_LD__TER___ = (
-            3,
-            WeaponsA4EC._2_x_Mk_77_mod_1___500lb_Fire_Bomb_LD__TER___,
-        )
-        _6_x_AN_M57___250lb_GP_Bomb_LD__MER_ = (
-            3,
-            WeaponsA4EC._6_x_AN_M57___250lb_GP_Bomb_LD__MER_,
-        )
-        _3_x_AN_M57___250lb_GP_Bomb_LD__TER_ = (
-            3,
-            WeaponsA4EC._3_x_AN_M57___250lb_GP_Bomb_LD__TER_,
-        )
-        _6_x_AN_M81___260lb_GP_Bomb_LD__MER_ = (
-            3,
-            WeaponsA4EC._6_x_AN_M81___260lb_GP_Bomb_LD__MER_,
-        )
-        _6_x_AN_M88___220lb_GP_Bomb_LD__MER_ = (
-            3,
-            WeaponsA4EC._6_x_AN_M88___220lb_GP_Bomb_LD__MER_,
-        )
-        _6_x_BDU_33___25lb_Practice_Bomb_LD__MER_ = (
-            3,
-            WeaponsA4EC._6_x_BDU_33___25lb_Practice_Bomb_LD__MER_,
-        )
+        _3_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__TER_ = (3, WeaponsA4EC._3_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__TER_)
+        _2_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__TER___ = (3, WeaponsA4EC._2_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__TER___)
+        _6_x_Mk_81___250lb_GP_Bomb_LD__MER_ = (3, WeaponsA4EC._6_x_Mk_81___250lb_GP_Bomb_LD__MER_)
+        _6_x_Mk_81_Snakeye___250lb_GP_Bomb_HD__MER_ = (3, WeaponsA4EC._6_x_Mk_81_Snakeye___250lb_GP_Bomb_HD__MER_)
+        _6_x_Mk_82___500lb_GP_Bomb_LD__MER_ = (3, WeaponsA4EC._6_x_Mk_82___500lb_GP_Bomb_LD__MER_)
+        _4_x_Mk_82___500lb_GP_Bomb_LD__MER_ = (3, WeaponsA4EC._4_x_Mk_82___500lb_GP_Bomb_LD__MER_)
+        _3_x_Mk_82___500lb_GP_Bomb_LD__TER_ = (3, WeaponsA4EC._3_x_Mk_82___500lb_GP_Bomb_LD__TER_)
+        _6_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__MER_ = (3, WeaponsA4EC._6_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__MER_)
+        _4_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__MER_ = (3, WeaponsA4EC._4_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__MER_)
+        _3_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__TER_ = (3, WeaponsA4EC._3_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__TER_)
+        _3_x_Mk_83___1000lb_GP_Bomb_LD__TER_ = (3, WeaponsA4EC._3_x_Mk_83___1000lb_GP_Bomb_LD__TER_)
+        _2_x_Mk_83___1000lb_GP_Bomb_LD__TER_ = (3, WeaponsA4EC._2_x_Mk_83___1000lb_GP_Bomb_LD__TER_)
+        _2_x_Mk_77_mod_1___500lb_Fire_Bomb_LD__TER___ = (3, WeaponsA4EC._2_x_Mk_77_mod_1___500lb_Fire_Bomb_LD__TER___)
+        _6_x_AN_M57___250lb_GP_Bomb_LD__MER_ = (3, WeaponsA4EC._6_x_AN_M57___250lb_GP_Bomb_LD__MER_)
+        _3_x_AN_M57___250lb_GP_Bomb_LD__TER_ = (3, WeaponsA4EC._3_x_AN_M57___250lb_GP_Bomb_LD__TER_)
+        _6_x_AN_M81___260lb_GP_Bomb_LD__MER_ = (3, WeaponsA4EC._6_x_AN_M81___260lb_GP_Bomb_LD__MER_)
+        _6_x_AN_M88___220lb_GP_Bomb_LD__MER_ = (3, WeaponsA4EC._6_x_AN_M88___220lb_GP_Bomb_LD__MER_)
+        _6_x_BDU_33___25lb_Practice_Bomb_LD__MER_ = (3, WeaponsA4EC._6_x_BDU_33___25lb_Practice_Bomb_LD__MER_)
         Mk4_HIPEG___Gunpod = (3, WeaponsA4EC.Mk4_HIPEG___Gunpod)
         Smokewinder___red = (3, Weapons.Smokewinder___red)
         Smokewinder___green = (3, Weapons.Smokewinder___green)
@@ -1668,281 +690,94 @@ class A_4E_C(PlaneType):
         Smokewinder___white = (3, Weapons.Smokewinder___white)
         Smokewinder___yellow = (3, Weapons.Smokewinder___yellow)
         Smokewinder___orange = (3, Weapons.Smokewinder___orange)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
-            3,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
-        )
-
-    # ERRR <CLEAN>
+        SUU_25_x_8_LUU_2___Target_Marker_Flares = (3, Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares)
+#ERRR <CLEAN>
 
     class Pylon4:
         Fuel_Tank_300_gallons_ = (4, WeaponsA4EC.Fuel_Tank_300_gallons_)
         Fuel_Tank_300_gallons__EMPTY__ = (4, WeaponsA4EC.Fuel_Tank_300_gallons__EMPTY__)
         Fuel_Tank_150_gallons = (4, WeaponsA4EC.Fuel_Tank_150_gallons)
         Fuel_Tank_150_gallons__EMPTY_ = (4, WeaponsA4EC.Fuel_Tank_150_gallons__EMPTY_)
-        LAU_7_with_AIM_9B_Sidewinder_IR_AAM = (
-            4,
-            Weapons.LAU_7_with_AIM_9B_Sidewinder_IR_AAM,
-        )
-        LAU_7_with_AIM_9P_Sidewinder_IR_AAM = (
-            4,
-            Weapons.LAU_7_with_AIM_9P_Sidewinder_IR_AAM,
-        )
-        LAU_7_with_AIM_9P5_Sidewinder_IR_AAM = (
-            4,
-            Weapons.LAU_7_with_AIM_9P5_Sidewinder_IR_AAM,
-        )
-        LAU_7_with_AIM_9P3_Sidewinder_IR_AAM = (
-            4,
-            WeaponsA4EC.LAU_7_with_AIM_9P3_Sidewinder_IR_AAM,
-        )
-        LAU_7_with_AN_ASQ_T50_TCTS_Pod___ACMI_Pod_ = (
-            4,
-            WeaponsA4EC.LAU_7_with_AN_ASQ_T50_TCTS_Pod___ACMI_Pod_,
-        )
-        LAU_7_with_AIM_9J_Sidewinder_IR_AAM = (
-            4,
-            WeaponsA4EC.LAU_7_with_AIM_9J_Sidewinder_IR_AAM,
-        )
-        LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_M156__Wht_Phos = (
-            4,
-            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM,
-        )
-        LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk1__HE = (
-            4,
-            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE,
-        )
-        LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT = (
-            4,
-            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT,
-        )
-        _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER___ = (
-            4,
-            WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER___,
-        )
-        _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER___ = (
-            4,
-            WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER___,
-        )
-        _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk5__HEAT__TER___ = (
-            4,
-            WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk5__HEAT__TER___,
-        )
-        LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_M156__Wht_Phos = (
-            4,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM,
-        )
-        LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk1__HE = (
-            4,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE,
-        )
-        LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT = (
-            4,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER___ = (
-            4,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER___,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER___ = (
-            4,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER___,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT__TER___ = (
-            4,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT__TER___,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
-            4,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos = (
-            4,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT = (
-            4,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum = (
-            4,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk = (
-            4,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice = (
-            4,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice = (
-            4,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice = (
-            4,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER___ = (
-            4,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER___,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER___ = (
-            4,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER___,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum__TER___ = (
-            4,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum__TER___,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk__TER___ = (
-            4,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk__TER___,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice__TER___ = (
-            4,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice__TER___,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER___ = (
-            4,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER___,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER___ = (
-            4,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER___,
-        )
-        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER___ = (
-            4,
-            WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER___,
-        )
-        LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_Mk71__HE_FRAG = (
-            4,
-            Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE,
-        )
-        _2_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_MK_71__HE_FRAG__TER___ = (
-            4,
-            WeaponsA4EC._2_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_MK_71__HE_FRAG__TER___,
-        )
+        LAU_7_with_AIM_9B_Sidewinder_IR_AAM_ = (4, Weapons.LAU_7_with_AIM_9B_Sidewinder_IR_AAM_)
+        LAU_7_with_AIM_9P_Sidewinder_IR_AAM = (4, Weapons.LAU_7_with_AIM_9P_Sidewinder_IR_AAM)
+        LAU_7_with_AIM_9P5_Sidewinder_IR_AAM = (4, Weapons.LAU_7_with_AIM_9P5_Sidewinder_IR_AAM)
+        LAU_7_with_AIM_9P3_Sidewinder_IR_AAM = (4, Weapons.LAU_7_with_AIM_9P3_Sidewinder_IR_AAM)
+        LAU_7_with_AN_ASQ_T50_TCTS_Pod___ACMI_Pod_ = (4, WeaponsA4EC.LAU_7_with_AN_ASQ_T50_TCTS_Pod___ACMI_Pod_)
+        LAU_7_with_AIM_9J_Sidewinder_IR_AAM = (4, Weapons.LAU_7_with_AIM_9J_Sidewinder_IR_AAM)
+        LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM = (4, Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM)
+        LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE = (4, Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE)
+        LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT = (4, Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT)
+        _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER___ = (4, WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER___)
+        _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER___ = (4, WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER___)
+        _2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk5__HEAT__TER___ = (4, WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts__Mk5__HEAT__TER___)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM = (4, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE = (4, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT = (4, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT)
+        _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER___ = (4, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__M156__Wht_Phos__TER___)
+        _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER___ = (4, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts__Mk1__HE__TER___)
+        _2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT__TER___ = (4, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT__TER___)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE = (4, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM = (4, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT = (4, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (4, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (4, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE = (4, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP = (4, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP = (4, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP)
+        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER___ = (4, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER___)
+        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER___ = (4, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER___)
+        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum__TER___ = (4, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum__TER___)
+        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk__TER___ = (4, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk__TER___)
+        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice__TER___ = (4, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice__TER___)
+        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER___ = (4, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER___)
+        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER___ = (4, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER___)
+        _2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER___ = (4, WeaponsA4EC._2_x_LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER___)
+        LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE = (4, Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE)
+        _2_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_MK_71__HE_FRAG__TER___ = (4, WeaponsA4EC._2_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_MK_71__HE_FRAG__TER___)
         LAU3_WP61 = (4, Weapons.LAU3_WP61)
         LAU3_WP1B = (4, Weapons.LAU3_WP1B)
         LAU3_HE5 = (4, Weapons.LAU3_HE5)
         LAU3_WP156 = (4, Weapons.LAU3_WP156)
         LAU3_HE151 = (4, Weapons.LAU3_HE151)
-        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER___ = (
-            4,
-            WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER___,
-        )
-        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER___ = (
-            4,
-            WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER___,
-        )
-        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER___ = (
-            4,
-            WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER___,
-        )
-        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER___ = (
-            4,
-            WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER___,
-        )
-        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER___ = (
-            4,
-            WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER___,
-        )
-        AGM_45A_Shrike_ARM = (4, Weapons.AGM_45A_Shrike_ARM)
-        AGM_45B_Shrike_ARM = (4, Weapons.AGM_45B_Shrike_ARM)
-        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
-            4,
-            Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
-        )
+        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER___ = (4, WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M151__HE__TER___)
+        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER___ = (4, WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos__TER___)
+        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER___ = (4, WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT__TER___)
+        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER___ = (4, WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice__TER___)
+        _2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER___ = (4, WeaponsA4EC._2_x_LAU_3_pod___19_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice__TER___)
+        AGM_45A_Shrike_ARM__LAU_34_ = (4, Weapons.AGM_45A_Shrike_ARM__LAU_34_)
+        AGM_45B_Shrike_ARM__LAU_34_ = (4, WeaponsA4EC.AGM_45B_Shrike_ARM__LAU_34_)
+        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (4, Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets)
         Mk_81___250lb_GP_Bomb_LD = (4, Weapons.Mk_81___250lb_GP_Bomb_LD)
-        Mk_81_Snakeye___250lb_GP_Bomb_HD = (
-            4,
-            WeaponsA4EC.Mk_81_Snakeye___250lb_GP_Bomb_HD,
-        )
+        Mk_81_Snakeye___250lb_GP_Bomb_HD = (4, WeaponsA4EC.Mk_81_Snakeye___250lb_GP_Bomb_HD)
         Mk_82___500lb_GP_Bomb_LD = (4, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_82_Snakeye___500lb_GP_Bomb_HD = (4, Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD)
         Mk_83___1000lb_GP_Bomb_LD = (4, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_84___2000lb_GP_Bomb_LD = (4, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         M117___750lb_GP_Bomb_LD = (4, Weapons.M117___750lb_GP_Bomb_LD)
-        Mk_77_mod_0___750lb_Fire_Bomb_LD = (
-            4,
-            WeaponsA4EC.Mk_77_mod_0___750lb_Fire_Bomb_LD,
-        )
-        Mk_77_mod_1___500lb_Fire_Bomb_LD = (
-            4,
-            WeaponsA4EC.Mk_77_mod_1___500lb_Fire_Bomb_LD,
-        )
+        Mk_77_mod_0___750lb_Fire_Bomb_LD = (4, WeaponsA4EC.Mk_77_mod_0___750lb_Fire_Bomb_LD)
+        Mk_77_mod_1___500lb_Fire_Bomb_LD = (4, WeaponsA4EC.Mk_77_mod_1___500lb_Fire_Bomb_LD)
         AN_M30A1___100lb_GP_Bomb_LD = (4, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
         AN_M57___250lb_GP_Bomb_LD = (4, Weapons.AN_M57___250lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (4, Weapons.AN_M64___500lb_GP_Bomb_LD)
         AN_M65___1000lb_GP_Bomb_LD = (4, Weapons.AN_M65___1000lb_GP_Bomb_LD)
         AN_M81___260lb_GP_Bomb_LD = (4, WeaponsA4EC.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (4, WeaponsA4EC.AN_M88___220lb_GP_Bomb_LD)
-        CBU_1_A_pod___19_x_tubes_of_Bomblets_BLU_4B_x_27__HE = (
-            4,
-            WeaponsA4EC.CBU_1_A_pod___19_x_tubes_of_Bomblets_BLU_4B_x_27__HE,
-        )
-        CBU_2_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE = (
-            4,
-            WeaponsA4EC.CBU_2_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE,
-        )
-        CBU_2B_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE = (
-            4,
-            WeaponsA4EC.CBU_2B_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE,
-        )
-        _2_x_CBU_1_A_pod___19_x_tubes_of_Bomblets_BLU_4B_x_27__HE__TER__ = (
-            4,
-            WeaponsA4EC._2_x_CBU_1_A_pod___19_x_tubes_of_Bomblets_BLU_4B_x_27__HE__TER__,
-        )
-        _2_x_CBU_2_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE__TER__ = (
-            4,
-            WeaponsA4EC._2_x_CBU_2_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE__TER__,
-        )
-        _2_x_CBU_2B_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE__TER__ = (
-            4,
-            WeaponsA4EC._2_x_CBU_2B_A_pod___19_x_tubes_of_Bomblets_BLU_3B_x_19__HE__TER__,
-        )
-        _2_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__TER__ = (
-            4,
-            WeaponsA4EC._2_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__TER__,
-        )
-        _5_x_Mk_81___250lb_GP_Bomb_LD__MER__ = (
-            4,
-            WeaponsA4EC._5_x_Mk_81___250lb_GP_Bomb_LD__MER__,
-        )
-        _5_x_Mk_81_Snakeye___250lb_GP_Bomb_HD__MER__ = (
-            4,
-            WeaponsA4EC._5_x_Mk_81_Snakeye___250lb_GP_Bomb_HD__MER__,
-        )
-        _2_x_Mk_82___500lb_GP_Bomb_LD__TER__ = (
-            4,
-            WeaponsA4EC._2_x_Mk_82___500lb_GP_Bomb_LD__TER__,
-        )
-        _2_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__TER__ = (
-            4,
-            WeaponsA4EC._2_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__TER__,
-        )
-        _5_x_AN_M57___250lb_GP_Bomb_LD__MER__ = (
-            4,
-            WeaponsA4EC._5_x_AN_M57___250lb_GP_Bomb_LD__MER__,
-        )
-        _2_x_AN_M57___250lb_GP_Bomb_LD__TER__ = (
-            4,
-            WeaponsA4EC._2_x_AN_M57___250lb_GP_Bomb_LD__TER__,
-        )
-        _5_x_AN_M81___260lb_GP_Bomb_LD__MER__ = (
-            4,
-            WeaponsA4EC._5_x_AN_M81___260lb_GP_Bomb_LD__MER__,
-        )
-        _5_x_AN_M88___220lb_GP_Bomb_LD__MER__ = (
-            4,
-            WeaponsA4EC._5_x_AN_M88___220lb_GP_Bomb_LD__MER__,
-        )
-        _5_x_BDU_33___25lb_Practice_Bomb_LD__MER__ = (
-            4,
-            WeaponsA4EC._5_x_BDU_33___25lb_Practice_Bomb_LD__MER__,
-        )
+        CBU_1A_A_x_27x19__513__BLU_4B_Bomblets__HE = (4, Weapons.CBU_1A_A_x_27x19__513__BLU_4B_Bomblets__HE)
+        CBU_2_A_x_19x19__361__BLU_3_Bomblets__HE = (4, WeaponsA4EC.CBU_2_A_x_19x19__361__BLU_3_Bomblets__HE)
+        CBU_2B_A_x_22x19__418__BLU_3B_Bomblets__HE = (4, WeaponsA4EC.CBU_2B_A_x_22x19__418__BLU_3B_Bomblets__HE)
+        _2_x_CBU_1A_A_x_27x19__513__BLU_4B_Bomblets__HE__TER__ = (4, WeaponsA4EC._2_x_CBU_1A_A_x_27x19__513__BLU_4B_Bomblets__HE__TER__)
+        _2_x_CBU_2_A_x_19x19__361__BLU_3_Bomblets__HE__TER__ = (4, WeaponsA4EC._2_x_CBU_2_A_x_19x19__361__BLU_3_Bomblets__HE__TER__)
+        _2_x_CBU_2B_A_x_22x19__418__BLU_3B_Bomblets__HE__TER__ = (4, WeaponsA4EC._2_x_CBU_2B_A_x_22x19__418__BLU_3B_Bomblets__HE__TER__)
+        _2_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__TER__ = (4, WeaponsA4EC._2_x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__TER__)
+        _5_x_Mk_81___250lb_GP_Bomb_LD__MER__ = (4, WeaponsA4EC._5_x_Mk_81___250lb_GP_Bomb_LD__MER__)
+        _5_x_Mk_81_Snakeye___250lb_GP_Bomb_HD__MER__ = (4, WeaponsA4EC._5_x_Mk_81_Snakeye___250lb_GP_Bomb_HD__MER__)
+        _2_x_Mk_82___500lb_GP_Bomb_LD__TER__ = (4, WeaponsA4EC._2_x_Mk_82___500lb_GP_Bomb_LD__TER__)
+        _2_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__TER__ = (4, WeaponsA4EC._2_x_Mk_82_Snakeye___500lb_GP_Bomb_HD__TER__)
+        _5_x_AN_M57___250lb_GP_Bomb_LD__MER__ = (4, WeaponsA4EC._5_x_AN_M57___250lb_GP_Bomb_LD__MER__)
+        _2_x_AN_M57___250lb_GP_Bomb_LD__TER__ = (4, WeaponsA4EC._2_x_AN_M57___250lb_GP_Bomb_LD__TER__)
+        _5_x_AN_M81___260lb_GP_Bomb_LD__MER__ = (4, WeaponsA4EC._5_x_AN_M81___260lb_GP_Bomb_LD__MER__)
+        _5_x_AN_M88___220lb_GP_Bomb_LD__MER__ = (4, WeaponsA4EC._5_x_AN_M88___220lb_GP_Bomb_LD__MER__)
+        _5_x_BDU_33___25lb_Practice_Bomb_LD__MER__ = (4, WeaponsA4EC._5_x_BDU_33___25lb_Practice_Bomb_LD__MER__)
         Mk4_HIPEG___Gunpod = (4, WeaponsA4EC.Mk4_HIPEG___Gunpod)
         Smokewinder___red = (4, Weapons.Smokewinder___red)
         Smokewinder___green = (4, Weapons.Smokewinder___green)
@@ -1950,120 +785,44 @@ class A_4E_C(PlaneType):
         Smokewinder___white = (4, Weapons.Smokewinder___white)
         Smokewinder___yellow = (4, Weapons.Smokewinder___yellow)
         Smokewinder___orange = (4, Weapons.Smokewinder___orange)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
-            4,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
-        )
-
-    # ERRR <CLEAN>
+        SUU_25_x_8_LUU_2___Target_Marker_Flares = (4, Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares)
+#ERRR <CLEAN>
 
     class Pylon5:
-        LAU_7_with_AIM_9B_Sidewinder_IR_AAM = (
-            5,
-            Weapons.LAU_7_with_AIM_9B_Sidewinder_IR_AAM,
-        )
-        LAU_7_with_AIM_9P_Sidewinder_IR_AAM = (
-            5,
-            Weapons.LAU_7_with_AIM_9P_Sidewinder_IR_AAM,
-        )
-        LAU_7_with_AIM_9P5_Sidewinder_IR_AAM = (
-            5,
-            Weapons.LAU_7_with_AIM_9P5_Sidewinder_IR_AAM,
-        )
-        LAU_7_with_AIM_9P3_Sidewinder_IR_AAM = (
-            5,
-            WeaponsA4EC.LAU_7_with_AIM_9P3_Sidewinder_IR_AAM,
-        )
-        LAU_7_with_AN_ASQ_T50_TCTS_Pod___ACMI_Pod_ = (
-            5,
-            WeaponsA4EC.LAU_7_with_AN_ASQ_T50_TCTS_Pod___ACMI_Pod_,
-        )
-        LAU_7_with_AIM_9J_Sidewinder_IR_AAM = (
-            5,
-            WeaponsA4EC.LAU_7_with_AIM_9J_Sidewinder_IR_AAM,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M151__HE = (
-            5,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M156__Wht_Phos = (
-            5,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk5__HEAT = (
-            5,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M257__Para_Illum = (
-            5,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_M274__Practice_Smk = (
-            5,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk1__Practice = (
-            5,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_Mk61__Practice = (
-            5,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP,
-        )
-        LAU_68_pod___7_x_2_75_Hydra__UnGd_Rkts_WTU_1_B__Practice = (
-            5,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP,
-        )
-        LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_M156__Wht_Phos = (
-            5,
-            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM,
-        )
-        LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk1__HE = (
-            5,
-            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE,
-        )
-        LAU_3_pod___19_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT = (
-            5,
-            Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT,
-        )
-        LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_M156__Wht_Phos = (
-            5,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM,
-        )
-        LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk1__HE = (
-            5,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE,
-        )
-        LAU_68_pod___7_x_2_75_FFAR__UnGd_Rkts_Mk5__HEAT = (
-            5,
-            Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT,
-        )
-        LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_Mk71__HE_FRAG = (
-            5,
-            Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE,
-        )
+        LAU_7_with_AIM_9B_Sidewinder_IR_AAM_ = (5, Weapons.LAU_7_with_AIM_9B_Sidewinder_IR_AAM_)
+        LAU_7_with_AIM_9P_Sidewinder_IR_AAM = (5, Weapons.LAU_7_with_AIM_9P_Sidewinder_IR_AAM)
+        LAU_7_with_AIM_9P5_Sidewinder_IR_AAM = (5, Weapons.LAU_7_with_AIM_9P5_Sidewinder_IR_AAM)
+        LAU_7_with_AIM_9P3_Sidewinder_IR_AAM = (5, Weapons.LAU_7_with_AIM_9P3_Sidewinder_IR_AAM)
+        LAU_7_with_AN_ASQ_T50_TCTS_Pod___ACMI_Pod_ = (5, WeaponsA4EC.LAU_7_with_AN_ASQ_T50_TCTS_Pod___ACMI_Pod_)
+        LAU_7_with_AIM_9J_Sidewinder_IR_AAM = (5, Weapons.LAU_7_with_AIM_9J_Sidewinder_IR_AAM)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE = (5, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM = (5, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT = (5, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (5, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (5, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE = (5, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP = (5, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_61_TP)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP = (5, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Hydra_70_WTU_1_B_TP)
+        LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM = (5, Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM)
+        LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE = (5, Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE)
+        LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT = (5, Weapons.LAU_3___19_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM = (5, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE = (5, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_1_HE)
+        LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT = (5, Weapons.LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_Mk_5_HEAT)
+        LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE = (5, Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE)
         LAU3_WP61 = (5, Weapons.LAU3_WP61)
         LAU3_WP1B = (5, Weapons.LAU3_WP1B)
         LAU3_HE5 = (5, Weapons.LAU3_HE5)
         LAU3_WP156 = (5, Weapons.LAU3_WP156)
         LAU3_HE151 = (5, Weapons.LAU3_HE151)
-        AGM_45A_Shrike_ARM = (5, Weapons.AGM_45A_Shrike_ARM)
-        AGM_45B_Shrike_ARM = (5, Weapons.AGM_45B_Shrike_ARM)
-        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
-            5,
-            Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
-        )
+        AGM_45A_Shrike_ARM__LAU_34_ = (5, Weapons.AGM_45A_Shrike_ARM__LAU_34_)
+        AGM_45B_Shrike_ARM__LAU_34_ = (5, WeaponsA4EC.AGM_45B_Shrike_ARM__LAU_34_)
+        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (5, Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets)
         Mk_81___250lb_GP_Bomb_LD = (5, Weapons.Mk_81___250lb_GP_Bomb_LD)
-        Mk_81_Snakeye___250lb_GP_Bomb_HD = (
-            5,
-            WeaponsA4EC.Mk_81_Snakeye___250lb_GP_Bomb_HD,
-        )
+        Mk_81_Snakeye___250lb_GP_Bomb_HD = (5, WeaponsA4EC.Mk_81_Snakeye___250lb_GP_Bomb_HD)
         Mk_82___500lb_GP_Bomb_LD = (5, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_82_Snakeye___500lb_GP_Bomb_HD = (5, Weapons.Mk_82_Snakeye___500lb_GP_Bomb_HD)
-        Mk_77_mod_1___500lb_Fire_Bomb_LD = (
-            5,
-            WeaponsA4EC.Mk_77_mod_1___500lb_Fire_Bomb_LD,
-        )
+        Mk_77_mod_1___500lb_Fire_Bomb_LD = (5, WeaponsA4EC.Mk_77_mod_1___500lb_Fire_Bomb_LD)
         AN_M30A1___100lb_GP_Bomb_LD = (5, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
         AN_M57___250lb_GP_Bomb_LD = (5, Weapons.AN_M57___250lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (5, Weapons.AN_M64___500lb_GP_Bomb_LD)
@@ -2075,25 +834,10 @@ class A_4E_C(PlaneType):
         Smokewinder___white = (5, Weapons.Smokewinder___white)
         Smokewinder___yellow = (5, Weapons.Smokewinder___yellow)
         Smokewinder___orange = (5, Weapons.Smokewinder___orange)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
-            5,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
-        )
-
-    # ERRR <CLEAN>
+        SUU_25_x_8_LUU_2___Target_Marker_Flares = (5, Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares)
+#ERRR <CLEAN>
 
     pylons: Set[int] = {1, 2, 3, 4, 5}
 
-    tasks = [
-        task.CAP,
-        task.CAS,
-        task.SEAD,
-        task.Reconnaissance,
-        task.GroundAttack,
-        task.AFAC,
-        task.RunwayAttack,
-        task.AntishipStrike,
-        task.Refueling,
-        task.Escort,
-    ]
+    tasks = [task.CAP, task.CAS, task.SEAD, task.Reconnaissance, task.GroundAttack, task.AFAC, task.RunwayAttack, task.AntishipStrike, task.Refueling, task.Escort]
     task_default = task.CAS
