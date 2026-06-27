@@ -114,13 +114,17 @@ class ConflictTheater:
         if self.is_on_land(point):
             return False
 
-        for exclusion_zone in self.landmap.exclusion_zones.geoms:
-            if poly_contains(point.x, point.y, exclusion_zone):
-                return False
+        # Test the prepared MultiPolygons as a whole rather than looping their
+        # .geoms: shp.prepare() builds a spatial index on the MultiPolygon, so a
+        # single .contains() is indexed instead of a Python loop over every
+        # polygon (which also rebuilt a shapely Point per geom). On large theaters
+        # with thousands of exclusion zones this is the difference between minutes
+        # and seconds in the ground-conflict phase.
+        if poly_contains(point.x, point.y, self.landmap.exclusion_zones):
+            return False
 
-        for sea in self.landmap.sea_zones.geoms:
-            if poly_contains(point.x, point.y, sea):
-                return True
+        if poly_contains(point.x, point.y, self.landmap.sea_zones):
+            return True
 
         return False
 
@@ -136,9 +140,11 @@ class ConflictTheater:
             return False
 
         if not ignore_exclusion:
-            for exclusion_zone in self.landmap.exclusion_zones.geoms:
-                if poly_contains(point.x, point.y, exclusion_zone):
-                    return False
+            # Single indexed contains on the prepared MultiPolygon (see is_in_sea)
+            # rather than a per-polygon loop — this is a hot path during ground
+            # generation.
+            if poly_contains(point.x, point.y, self.landmap.exclusion_zones):
+                return False
 
         return True
 

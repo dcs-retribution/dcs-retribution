@@ -29,7 +29,15 @@ class Landmap:
         if not self.sea_zones.is_valid:
             raise RuntimeError("Sea zones not valid")
 
-        # Generate Spatial Index using `prepare` to improve performance
+        self.prepare()
+
+    def prepare(self) -> None:
+        """Build the GEOS spatial index on each zone MultiPolygon so point-in-
+        polygon queries are indexed instead of linear. ``shp.prepare`` is
+        idempotent. It runs from ``__post_init__`` for freshly built landmaps,
+        but pickle (``load_landmap``) bypasses ``__post_init__``, so the load
+        path calls this explicitly — otherwise the index is missing and
+        ``is_on_land``/``is_in_sea`` degrade to a full scan of every polygon."""
         shp.prepare(self.inclusion_zones)
         shp.prepare(self.exclusion_zones)
         shp.prepare(self.sea_zones)
@@ -46,7 +54,11 @@ class Landmap:
 def load_landmap(filename: Path) -> Optional[Landmap]:
     try:
         with open(filename, "rb") as f:
-            return pickle.load(f)
+            landmap = pickle.load(f)
+        # Pickle bypasses __post_init__, so the prepared spatial index isn't
+        # rebuilt; do it now (see Landmap.prepare).
+        landmap.prepare()
+        return landmap
     except:
         logging.exception(f"Failed to load landmap {filename}")
         return None
