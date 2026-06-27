@@ -1,5 +1,6 @@
 {
     "nameInUI": "Mbot Call Artillery Script",
+    "descriptionInUI": "Alternative artillery fire-support engine that lets players direct land (and optionally ship) gunfire onto targets.",
     "defaultValue": false,
     "specificOptions": [
         {
