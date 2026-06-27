@@ -6,6 +6,7 @@ from PySide6.QtCore import QRect
 from PySide6.QtWidgets import QGridLayout, QLabel, QWidget
 from dcs.unitpropertydescription import UnitPropertyDescription
 
+from game import Game
 from game.ato import Flight
 from game.ato.flightmember import FlightMember
 from .missingpropertydataerror import MissingPropertyDataError
@@ -21,10 +22,11 @@ class UnhandledControlTypeError(RuntimeError):
 
 
 class PropertyEditor(QGridLayout):
-    def __init__(self, flight: Flight, flight_member: FlightMember) -> None:
+    def __init__(self, flight: Flight, flight_member: FlightMember, game: Game) -> None:
         super().__init__()
         self.flight = flight
         self.flight_member = flight_member
+        self.game = game
         self.flight_member_update_listeners: list[Callable[[FlightMember], None]] = []
 
         self.build_props(flight)
@@ -87,7 +89,7 @@ class PropertyEditor(QGridLayout):
                 self.flight_member_update_listeners.append(widget.set_flight_member)
                 return widget
             case "comboList":
-                widget = PropertyComboBox(self.flight_member, prop)
+                widget = PropertyComboBox(self.flight_member, prop, self.game)
                 self.flight_member_update_listeners.append(widget.set_flight_member)
                 return widget
             case "groupbox" | "label":

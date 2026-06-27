@@ -18,6 +18,7 @@ from game.ato import Flight, FlightType
 from game.ato.flightplans.shiprecoverytanker import RecoveryTankerFlightPlan
 from game.callsigns import callsign_for_support_unit
 from game.data.weapons import Pylon, WeaponType
+from game.dcs.aircraftproperties import HELMET_DEVICE_PROPERTY_IDS, period_correct_value
 from game.lasercodes.lasercode import LaserCode
 from game.missiongenerator.logisticsgenerator import LogisticsGenerator
 from game.missiongenerator.missiondata import MissionData, AwacsInfo, TankerInfo
@@ -353,8 +354,31 @@ class FlightGroupConfigurator:
                     props.update(laser_code_config.property_dict_for_code(code.code))
             if unit.unit_type.datalink_networkable() and self.no_datalink_set(props):
                 self.set_datalink(props, unit.callsign_as_str())
+            if self.game.settings.restrict_weapons_by_date:
+                self.degrade_props_for_date(props)
             for prop_id, value in props.items():
                 unit.set_property(prop_id, value)
+
+    def degrade_props_for_date(
+        self, props: dict[str, bool | float | int | str]
+    ) -> None:
+        """Clamp date-gated aircraft properties (e.g. JHMCS) to a period-correct value.
+
+        Mirrors weapon date-gating. We resolve each gated property against the unit
+        type's default and force-set the fallback when needed, because an unset helmet
+        device still defaults to JHMCS in the .miz — so only inspecting ``props`` would
+        miss the (common) defaulted case.
+        """
+        date = self.game.date
+        for prop in self.flight.unit_type.iter_props():
+            if prop.identifier not in HELMET_DEVICE_PROPERTY_IDS:
+                continue
+            if prop.values is None or prop.default is None:
+                continue
+            current = props.get(prop.identifier, prop.default)
+            clamped = period_correct_value(prop, current, date)
+            if clamped is not None and clamped != current:
+                props[prop.identifier] = clamped
 
     @staticmethod
     def no_datalink_set(props: dict[str, bool | float | int | str]) -> bool:
