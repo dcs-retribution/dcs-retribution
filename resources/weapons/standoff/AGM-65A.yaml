@@ -1,6 +1,10 @@
 name: AGM-65A
 year: 1972
-fallback: AGM-62 Walleye II
+# Degrade Mavericks to an anti-armor cluster (Rockeye), not the AGM-62 Walleye.
+# A Maverick is a CAS/anti-armor PGM; the period substitute for that mission is
+# Rockeye, not a ~1100lb TV-guided standoff bomb. The whole AGM-65 family chains
+# down through this node, so this reroutes every Maverick's pre-1972 degrade.
+fallback: Mk-20 Rockeye
 clsids:
   - "{RB75}"   # Rb-75A (AGM-65A Maverick) (TV ASM)
   - "{HB_F4E_AGM-65A_LAU117}"   # AGM-65A - Maverick A (TV Guided) (LAU-117)
