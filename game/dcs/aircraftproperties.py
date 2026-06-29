@@ -3,16 +3,19 @@
 This mirrors weapon date-gating (``game.data.weapons.Weapon.available_on``) but for the
 DCS unit "properties" exposed in the payload editor — the per-airframe mission options
 such as the pilot helmet-mounted device. Weapons carry an introduction year in their
-data; properties do not, so this module supplies a small curated table.
+data; properties do not, so the dates live alongside them as YAML data.
 
-The table is keyed by the property value *label* (e.g. ``"JHMCS"``), not the numeric id.
-That is deliberate: across airframes the same id means different things — ``HelmetMounted-
-Device`` id ``1`` is ``"JHMCS"`` on the F/A-18 and F-16 but ``"SURA Visor"`` (a 1980s
-Soviet helmet sight) on the Su-30/Su-35 — so an id-based gate would wrongly restrict the
-Soviet sight. The gate is further scoped to the helmet-device property identifiers so it
-can never touch an unrelated option that happens to share a gated label.
+Following the weapons model, each gated helmet-cueing system is one YAML file under
+``resources/aircraftproperties/helmets/`` carrying its ``name``, ``introduction_year``
+and the ``property_ids`` it applies to. The data is keyed by the property value *label*
+(e.g. ``"JHMCS"``), not the numeric id. That is deliberate: across airframes the same id
+means different things — ``HelmetMountedDevice`` id ``1`` is ``"JHMCS"`` on the F/A-18 and
+F-16 but ``"SURA Visor"`` (a 1980s Soviet helmet sight) on the Su-30/Su-35 — so an
+id-based gate would wrongly restrict the Soviet sight. The gate is further scoped to each
+entry's ``property_ids`` so it can never touch an unrelated option that happens to share a
+gated label.
 
-Only genuinely era-defining cueing systems belong in the table; the baseline options
+Only genuinely era-defining cueing systems belong in the data; the baseline options
 (Visor Only, Not installed, NVG, the Soviet SURA Visor) are intentionally absent so they
 stay available in every era. The whole layer is a no-op unless the campaign's
 ``restrict_weapons_by_date`` setting is on — the same toggle that gates weapons.
@@ -21,26 +24,47 @@ stay available in every era. The whole layer is a no-op unless the campaign's
 from __future__ import annotations
 
 import datetime
+import logging
+from pathlib import Path
 from typing import Optional, Union
 
+import yaml
 from dcs.unitpropertydescription import UnitPropertyDescription
 
 #: The id type pydcs uses for ``UnitPropertyDescription.values`` keys.
 PropertyValueId = Union[str, int, float, None]
 
+#: Directory holding one YAML file per date-gated helmet-cueing system.
+_HELMET_DATA_DIR = Path("resources/aircraftproperties/helmets")
+
+#: Property identifiers a helmet-cueing entry applies to when it omits ``property_ids``.
+_DEFAULT_HELMET_PROPERTY_IDS = ("HelmetMountedDevice", "HelmetMountedDeviceWSO")
+
+
+def _load_helmet_cueing_data() -> tuple[frozenset[str], dict[str, int]]:
+    """Load the date-gated helmet-cueing data from the YAML files.
+
+    Returns the set of helmet-device property identifiers the gate is scoped to (the
+    union of every entry's ``property_ids``) and the label → introduction-year map.
+    """
+    property_ids: set[str] = set()
+    introduction_years: dict[str, int] = {}
+    for path in sorted(_HELMET_DATA_DIR.glob("*.yaml")):
+        with path.open(encoding="utf8") as data_file:
+            data = yaml.safe_load(data_file)
+        name = data["name"]
+        introduction_years[name] = int(data["introduction_year"])
+        property_ids.update(data.get("property_ids", _DEFAULT_HELMET_PROPERTY_IDS))
+    if not introduction_years:
+        logging.warning("No helmet-cueing date data found in %s", _HELMET_DATA_DIR)
+    return frozenset(property_ids), introduction_years
+
+
 #: Property identifiers that carry a helmet-mounted cueing selection. Scoping the gate to
 #: these keeps it from touching any unrelated property that shares a gated value label.
-HELMET_DEVICE_PROPERTY_IDS: frozenset[str] = frozenset(
-    {"HelmetMountedDevice", "HelmetMountedDeviceWSO"}
-)
-
 #: Helmet-mounted cueing systems gated by their real-world fielding year, keyed by the
-#: pydcs value label. JHMCS (Joint Helmet-Mounted Cueing System) reached operational
-#: service on US fighters (F-15C, then F/A-18 and F-16) circa 2003. Extend this with
-#: other era-defining systems (e.g. Scorpion HMCS) as the data is curated.
-HELMET_CUEING_INTRODUCTION_YEARS: dict[str, int] = {
-    "JHMCS": 2003,
-}
+#: pydcs value label (loaded from ``resources/aircraftproperties/helmets/*.yaml``).
+HELMET_DEVICE_PROPERTY_IDS, HELMET_CUEING_INTRODUCTION_YEARS = _load_helmet_cueing_data()
 
 
 def _introduction_year(

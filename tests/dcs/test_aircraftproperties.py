@@ -6,6 +6,7 @@ from dcs.unitpropertydescription import UnitPropertyDescription
 
 from game.dcs.aircraftproperties import (
     HELMET_CUEING_INTRODUCTION_YEARS,
+    HELMET_DEVICE_PROPERTY_IDS,
     available_value_ids,
     period_correct_value,
     property_value_available_on,
@@ -22,6 +23,15 @@ def _helmet_prop(unit_type: Any) -> UnitPropertyDescription:
 
 # Real-world JHMCS fielding; bump this constant if the curated year changes.
 JHMCS_YEAR = HELMET_CUEING_INTRODUCTION_YEARS["JHMCS"]
+
+
+def test_helmet_cueing_data_is_loaded_from_yaml() -> None:
+    # The gate data lives in resources/aircraftproperties/helmets/*.yaml (mirroring the
+    # weapons era data), loaded at import. Guard that the JHMCS entry and its property
+    # scope survive the load so a lost/renamed YAML file fails here, not silently.
+    assert HELMET_CUEING_INTRODUCTION_YEARS["JHMCS"] == 2003
+    assert "HelmetMountedDevice" in HELMET_DEVICE_PROPERTY_IDS
+    assert "HelmetMountedDeviceWSO" in HELMET_DEVICE_PROPERTY_IDS
 
 
 def test_jhmcs_is_gated_before_its_introduction_year() -> None:

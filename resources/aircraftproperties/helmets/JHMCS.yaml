@@ -1,0 +1,14 @@
+# Joint Helmet-Mounted Cueing System. Reached operational service on US fighters
+# (F-15C, then F/A-18 and F-16) circa 2003.
+#
+# Keyed by the pydcs property value *label*, not the numeric id: across airframes the
+# same HelmetMountedDevice id means different things (id 1 is "JHMCS" on the F/A-18 and
+# F-16 but "SURA Visor", a 1980s Soviet helmet sight, on the Su-30/Su-35), so a label
+# gate restricts JHMCS without touching the Soviet sight. property_ids scopes the gate
+# to the helmet-device options so it can never affect an unrelated property that happens
+# to carry a value labelled "JHMCS".
+name: JHMCS
+introduction_year: 2003
+property_ids:
+  - HelmetMountedDevice
+  - HelmetMountedDeviceWSO
