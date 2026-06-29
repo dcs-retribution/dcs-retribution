@@ -45,6 +45,7 @@ class QFlightWaypointTab(QFrame):
     #   * Divert and cargo-stop points are alternate landing fields.
     #   * Target points carry the target's own elevation (used for attack geometry).
     #   * Pickup / dropoff zones are ground-level helo landing zones.
+    #   * Refuel / recovery-tanker points are tied to the tanker's orbit altitude.
     #   * Bullseye is a fixed map reference, not a flown waypoint.
     BULK_ALTITUDE_SKIP_TYPES = frozenset(
         {
@@ -58,6 +59,8 @@ class QFlightWaypointTab(QFrame):
             FlightWaypointType.TARGET_SHIP,
             FlightWaypointType.PICKUP_ZONE,
             FlightWaypointType.DROPOFF_ZONE,
+            FlightWaypointType.REFUEL,
+            FlightWaypointType.RECOVERY_TANKER,
             FlightWaypointType.BULLSEYE,
         }
     )
@@ -97,8 +100,8 @@ class QFlightWaypointTab(QFrame):
         self.bulk_altitude.setSuffix(" ft")
         self.bulk_altitude.setToolTip(
             "Apply this MSL altitude to every en-route waypoint. Takeoff, landing, "
-            "divert, target, landing-zone, and ground (AGL) waypoints are left "
-            "unchanged."
+            "divert, target, landing-zone, tanker, and ground (AGL) waypoints are "
+            "left unchanged."
         )
         bulk_alt_layout.addWidget(self.bulk_altitude)
         self.apply_bulk_altitude = QPushButton("Apply to all")
