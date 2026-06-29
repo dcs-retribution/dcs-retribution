@@ -1,0 +1,7 @@
+# SURA-M helmet-mounted sight on the Su-30 (mod). Tied to Su-30 service entry circa
+# 1996. Shares HelmetMountedDevice id 1 with JHMCS/HMS but is its own era-defining
+# system, so it is keyed by its "SURA Visor" label and gated at its own year.
+name: SURA Visor
+introduction_year: 1996
+property_ids:
+  - HelmetMountedDevice

@@ -7,18 +7,19 @@ data; properties do not, so the dates live alongside them as YAML data.
 
 Following the weapons model, each gated helmet-cueing system is one YAML file under
 ``resources/aircraftproperties/helmets/`` carrying its ``name``, ``introduction_year``
-and the ``property_ids`` it applies to. The data is keyed by the property value *label*
-(e.g. ``"JHMCS"``), not the numeric id. That is deliberate: across airframes the same id
-means different things — ``HelmetMountedDevice`` id ``1`` is ``"JHMCS"`` on the F/A-18 and
-F-16 but ``"SURA Visor"`` (a 1980s Soviet helmet sight) on the Su-30/Su-35 — so an
-id-based gate would wrongly restrict the Soviet sight. The gate is further scoped to each
-entry's ``property_ids`` so it can never touch an unrelated option that happens to share a
-gated label.
+and the ``property_ids`` it applies to. The data is keyed by the property value *label*,
+not the numeric id. That is essential: across airframes the same ``HelmetMountedDevice``
+id ``1`` is a *different* era-defining system with a *different* fielding year —
+``"JHMCS"`` on the F/A-18 and F-16 (~2003), ``"HMS"`` (the Soviet Shchel-3UM sight) on
+the MiG-29 (~1985), ``"SURA Visor"`` on the Su-30 (~1996) and ``"HMCS"`` (Scorpion) on
+the A-10C II (~2012). An id-based gate would have to apply one year to all of them; the
+label key gives each its own. The gate is further scoped to each entry's ``property_ids``
+so it can never touch an unrelated option that happens to share a gated label.
 
 Only genuinely era-defining cueing systems belong in the data; the baseline options
-(Visor Only, Not installed, NVG, the Soviet SURA Visor) are intentionally absent so they
-stay available in every era. The whole layer is a no-op unless the campaign's
-``restrict_weapons_by_date`` setting is on — the same toggle that gates weapons.
+(Visor Only, Not installed, plain NVG) are intentionally absent so they stay available in
+every era. The whole layer is a no-op unless the campaign's ``restrict_weapons_by_date``
+setting is on — the same toggle that gates weapons.
 """
 
 from __future__ import annotations

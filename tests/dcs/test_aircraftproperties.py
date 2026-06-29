@@ -27,9 +27,13 @@ JHMCS_YEAR = HELMET_CUEING_INTRODUCTION_YEARS["JHMCS"]
 
 def test_helmet_cueing_data_is_loaded_from_yaml() -> None:
     # The gate data lives in resources/aircraftproperties/helmets/*.yaml (mirroring the
-    # weapons era data), loaded at import. Guard that the JHMCS entry and its property
+    # weapons era data), loaded at import. Guard that every curated entry and the property
     # scope survive the load so a lost/renamed YAML file fails here, not silently.
     assert HELMET_CUEING_INTRODUCTION_YEARS["JHMCS"] == 2003
+    assert HELMET_CUEING_INTRODUCTION_YEARS["HMS"] == 1985
+    assert HELMET_CUEING_INTRODUCTION_YEARS["SURA Visor"] == 1996
+    assert HELMET_CUEING_INTRODUCTION_YEARS["HMCS"] == 2012
+    assert HELMET_CUEING_INTRODUCTION_YEARS["HMCS + NVG"] == 2012
     assert "HelmetMountedDevice" in HELMET_DEVICE_PROPERTY_IDS
     assert "HelmetMountedDeviceWSO" in HELMET_DEVICE_PROPERTY_IDS
 
@@ -68,18 +72,51 @@ def test_period_correct_value_clamps_jhmcs_to_baseline() -> None:
     assert period_correct_value(prop, 1, date(JHMCS_YEAR, 1, 1)) == 1
 
 
-def test_soviet_sura_visor_is_not_gated() -> None:
-    # Su-30/Su-35 share the HelmetMountedDevice id 1 but it is the 1980s "SURA Visor",
-    # not JHMCS — keying the gate on the label (not the id) must leave it available.
+def test_soviet_hms_is_gated_at_its_own_year() -> None:
+    # The MiG-29 shares HelmetMountedDevice id 1 with JHMCS, but its label is "HMS" (the
+    # Soviet Shchel-3UM sight, ~1985) — the label key gives it its own earlier year.
     prop = UnitPropertyDescription(
         identifier="HelmetMountedDevice",
         control="comboList",
         label="Helmet Mounted Device",
-        default=0,
+        default=1,
+        values={0: "Not installed", 1: "HMS"},
+    )
+    assert property_value_available_on(prop, 1, date(1984, 6, 1)) is False
+    assert property_value_available_on(prop, 1, date(1985, 1, 1)) is True
+    # Pre-1985 it clamps to the baseline, well before JHMCS would even apply.
+    assert period_correct_value(prop, 1, date(1980, 1, 1)) == 0
+
+
+def test_soviet_sura_visor_is_gated_at_its_own_year() -> None:
+    # The Su-30 mod shares id 1 but labels it "SURA Visor" (SURA-M, ~1996). It is gated
+    # at its own year, not JHMCS's — and not left perpetually available.
+    prop = UnitPropertyDescription(
+        identifier="HelmetMountedDevice",
+        control="comboList",
+        label="Helmet Mounted Device",
+        default=1,
         values={0: "Not installed", 1: "SURA Visor", 2: "NVG"},
     )
-    assert property_value_available_on(prop, 1, date(1995, 1, 1)) is True
-    assert available_value_ids(prop, date(1995, 1, 1)) == [0, 1, 2]
+    assert property_value_available_on(prop, 1, date(1995, 1, 1)) is False
+    assert property_value_available_on(prop, 1, date(1996, 1, 1)) is True
+    # NVG (id 2) is never gated; pre-1996 only SURA drops.
+    assert available_value_ids(prop, date(1995, 1, 1)) == [0, 2]
+    assert available_value_ids(prop, date(1996, 1, 1)) == [0, 1, 2]
+
+
+def test_a10c_hmcs_options_are_gated() -> None:
+    # The A-10C II shares id 1 ("HMCS") and adds id 2 ("HMCS + NVG"); both carry the
+    # Scorpion HMCS (~2012) and are gated, while plain NVG/baseline are not.
+    prop = UnitPropertyDescription(
+        identifier="HelmetMountedDevice",
+        control="comboList",
+        label="Helmet Mounted Device",
+        default=1,
+        values={0: "Not installed", 1: "HMCS", 2: "HMCS + NVG"},
+    )
+    assert available_value_ids(prop, date(2011, 1, 1)) == [0]
+    assert available_value_ids(prop, date(2012, 1, 1)) == [0, 1, 2]
 
 
 def test_non_helmet_property_is_never_gated() -> None:
