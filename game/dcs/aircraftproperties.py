@@ -65,7 +65,9 @@ def _load_helmet_cueing_data() -> tuple[frozenset[str], dict[str, int]]:
 #: these keeps it from touching any unrelated property that shares a gated value label.
 #: Helmet-mounted cueing systems gated by their real-world fielding year, keyed by the
 #: pydcs value label (loaded from ``resources/aircraftproperties/helmets/*.yaml``).
-HELMET_DEVICE_PROPERTY_IDS, HELMET_CUEING_INTRODUCTION_YEARS = _load_helmet_cueing_data()
+HELMET_DEVICE_PROPERTY_IDS, HELMET_CUEING_INTRODUCTION_YEARS = (
+    _load_helmet_cueing_data()
+)
 
 
 def _introduction_year(
