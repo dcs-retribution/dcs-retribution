@@ -154,6 +154,8 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
         else:
             heading = tgt.position.heading_between_point(ingress.position)
             drop_pos = tgt.position.point_from_heading(heading, 1200)
+            # Keep the drop-off out of the water
+            drop_pos = self.flight.coalition.game.theater.nearest_land_pos(drop_pos)
         drop_off_zone = MissionTarget("Dropoff zone", drop_pos)
         dz = builder.dropoff_zone(drop_off_zone) if self.flight.is_helo else None
 
