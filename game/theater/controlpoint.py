@@ -162,6 +162,9 @@ class PresetLocations:
     #: control point.
     ammunition_depots: List[PresetLocation] = field(default_factory=list)
 
+    #: Locations of per-campaign motorpool reserve-vehicle parks.
+    motorpools: List[PresetLocation] = field(default_factory=list)
+
     #: Locations of stationary armor groups.
     armor_groups: List[PresetLocation] = field(default_factory=list)
 

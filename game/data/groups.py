@@ -47,6 +47,7 @@ class GroupTask(Enum):
     # GROUND FORCES
     BASE_DEFENSE = ("BaseDefense", GroupRole.GROUND_FORCE)
     FRONT_LINE = ("FrontLine", GroupRole.GROUND_FORCE)
+    MOTORPOOL = ("Motorpool", GroupRole.GROUND_FORCE)
 
     # DEFENSES
     COASTAL = ("Coastal", GroupRole.DEFENSES)

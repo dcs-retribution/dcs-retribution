@@ -85,6 +85,7 @@ from game.theater.theatergroundobject import (
     LhaGroundObject,
     MissileSiteGroundObject,
     ShipGroundObject,
+    MotorpoolGroundObject,
 )
 from game.theater.theatergroup import SceneryUnit, IadsGroundGroup
 from game.unitmap import UnitMap
@@ -1552,6 +1553,10 @@ class TgoGenerator:
         self._portable_tacan_callsigns: set[str] = set()
 
     def generate(self) -> None:
+        # Function-local import breaks the motorpoolgenerator <-> tgogenerator
+        # import cycle; hoisted here so it resolves once per call, not per TGO.
+        from game.missiongenerator.motorpoolgenerator import MotorpoolGenerator
+
         for cp in self.game.theater.controlpoints:
             # Use neutral country for neutral control points
             if cp.captured is Player.NEUTRAL:
@@ -1628,6 +1633,10 @@ class TgoGenerator:
                     )
                 elif isinstance(ground_object, MissileSiteGroundObject):
                     generator = MissileSiteGenerator(
+                        ground_object, country, self.game, self.m, self.unit_map
+                    )
+                elif isinstance(ground_object, MotorpoolGroundObject):
+                    generator = MotorpoolGenerator(
                         ground_object, country, self.game, self.m, self.unit_map
                     )
                 else:

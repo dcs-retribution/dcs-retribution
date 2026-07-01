@@ -67,6 +67,9 @@ class GroundLosses:
     player_front_line: List[FrontLineUnit] = field(default_factory=list)
     enemy_front_line: List[FrontLineUnit] = field(default_factory=list)
 
+    player_motorpool: List[FrontLineUnit] = field(default_factory=list)
+    enemy_motorpool: List[FrontLineUnit] = field(default_factory=list)
+
     player_convoy: List[ConvoyUnit] = field(default_factory=list)
     enemy_convoy: List[ConvoyUnit] = field(default_factory=list)
 
@@ -190,6 +193,11 @@ class Debriefing:
     def front_line_losses(self) -> Iterator[FrontLineUnit]:
         yield from self.ground_losses.player_front_line
         yield from self.ground_losses.enemy_front_line
+
+    @property
+    def motorpool_losses(self) -> Iterator[FrontLineUnit]:
+        yield from self.ground_losses.player_motorpool
+        yield from self.ground_losses.enemy_motorpool
 
     @property
     def convoy_losses(self) -> Iterator[ConvoyUnit]:
@@ -356,6 +364,14 @@ class Debriefing:
                     losses.player_front_line.append(front_line_unit)
                 else:
                     losses.enemy_front_line.append(front_line_unit)
+                continue
+
+            motorpool_unit = self.unit_map.motorpool_unit(unit_name)
+            if motorpool_unit is not None:
+                if motorpool_unit.origin.captured.is_blue:
+                    losses.player_motorpool.append(motorpool_unit)
+                else:
+                    losses.enemy_motorpool.append(motorpool_unit)
                 continue
 
             convoy_unit = self.unit_map.convoy_unit(unit_name)

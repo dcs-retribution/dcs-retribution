@@ -22,6 +22,7 @@ from game.theater import (
 from game.theater.theatergroundobject import (
     BuildingGroundObject,
     IadsBuildingGroundObject,
+    MotorpoolGroundObject,
 )
 from game.utils import Heading, escape_string_for_lua
 from game.version import VERSION
@@ -432,6 +433,7 @@ class AirbaseGroundObjectGenerator(ControlPointGroundObjectGenerator):
         self.generate_offshore_strike_targets()
         self.generate_factories()
         self.generate_ammunition_depots()
+        self.generate_motorpools()
         self.generate_missile_sites()
         self.generate_coastal_sites()
 
@@ -516,6 +518,16 @@ class AirbaseGroundObjectGenerator(ControlPointGroundObjectGenerator):
     def generate_ammunition_depots(self) -> None:
         for position in self.control_point.preset_locations.ammunition_depots:
             self.generate_building_at(GroupTask.AMMO, position)
+
+    def generate_motorpools(self) -> None:
+        if not self.game.settings.motorpool_enabled:
+            return
+        for i, location in enumerate(self.control_point.preset_locations.motorpools):
+            name = f"{self.control_point.name} Motorpool {i}"
+            tgo = MotorpoolGroundObject(
+                name, location, self.control_point, GroupTask.MOTORPOOL
+            )
+            self.control_point.connected_objectives.append(tgo)
 
     def generate_factories(self) -> None:
         for position in self.control_point.preset_locations.factories:
