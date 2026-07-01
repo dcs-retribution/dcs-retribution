@@ -1,6 +1,7 @@
 # Retribution v1.6.0
 
 ## Features/Improvements
+* **[Modding]** High Digit SAMs support retargeted from the unmaintained original mod (v1.4.0) to its actively-maintained successor, the [HighDigitSAMs Ultimate Compilation](https://github.com/dcs-sams/HighDigitSAMs-Ultimate-Compilation) (v1.4.3+), behind the same mod toggle. Re-points the renamed S-300PS radars, replaces the units the compilation dropped (KS-19/SON-9/SA-24 — DCS core has vanilla equivalents) and registers the new content: S-400/SA-21, S-300V4, S-300PT, Pantsir-SM, the SAMP/T battery, SA-7/SA-7b manpads, four EWRs (P-37 Bar Lock, 55G6U Nebo-U, 1L119 Nebo-SVU, generic tower) and the ERO ZU-23 technicals, with new SA-21/S-300V4/S-300PT/SAMP-T/Pantsir-SM/technicals preset groups. Also fixes the mod-off faction strip matching display names instead of DCS type ids (the HDS manpads/C2 units were never actually removed when the mod was disabled).
 * **[Kneeboard]** Use a light-grey daytime kneeboard background instead of near-white, to avoid glare under HDR / Auto-HDR while staying readable in daylight.
 * **[UX]** Hovering a friendly flight's route line on the map highlights it in yellow, and clicking it selects that flight's package (and the flight) in the ATO sidebar.
 * **[UX]** Press Delete with a package selected in the Packages list to cancel it, making it quick to clear several packages in a row.

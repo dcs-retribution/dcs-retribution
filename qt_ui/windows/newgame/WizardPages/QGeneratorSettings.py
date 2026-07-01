@@ -249,7 +249,10 @@ class GeneratorOptions(QtWidgets.QWizardPage):
                 self.fa18ef_tanker,
             ),
             ("Frenchpack (v4.9.1)", self.frenchpack),
-            ("High Digit SAMs (v1.4.0)", self.high_digit_sams),
+            (
+                "High Digit SAMs - Ultimate Compilation (v1.4.3+)",
+                self.high_digit_sams,
+            ),
             ("IDF Assets Pack (v1.1 by IDF Mods Project)", self.irondome),
             ("JAS 39 Gripen (v1.8.5-beta)", self.jas39_gripen),
             ("MiG-31BM (v2.62)", self.mig31bm_foxhound),

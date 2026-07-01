@@ -1,0 +1,11 @@
+name: SAMP/T
+tasks:
+  - LORAD
+units:
+  - SAMP/T ARABEL STR
+  - SAMP/T C2
+  - SAMP/T ECS (ME)
+  - SAMP/T EPP
+  - SAMP/T TEL Block 1
+layouts:
+  - SAMP/T Battery

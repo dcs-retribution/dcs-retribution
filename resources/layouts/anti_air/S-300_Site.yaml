@@ -9,20 +9,25 @@ groups:
       unit_types:
         - S-300PS 40B6MD sr # SA-10 Clam Shell SR
         - S-300PS 40B6MD sr_19J6 # SA-10 Tin Shield SR
-        - S-300PS SA-10B 40B6MD MAST sr # SA-10B
+        - S-300PS SA-10B 76N6E sr # SA-10B (Ultimate Compilation Clam Shell)
         - S-300V 9S15 sr # SA-12
         - S-300PMU1 40B6MD sr # SA-20 + B, is the 5N66E
         - S-300VM 9S15M2 sr # SA-23
+        - S-300V4 9S15MDE sr # SA-23 S-300V4
+        - S-400 96L6E sr # SA-21 Cheese Board (truck)
+        - S-400 96L6E mast sr # SA-21 Cheese Board (mast)
     - name: S-300 Site SR2
       unit_count:
         - 1
       unit_types:
         - S-300PS 64H6E sr # SA-10 Flap Lid-A TR
         - S-300PS 40B6MD sr_19J6 # SA-10 Tin Shield SR
-        - S-300PS 64H6E TRAILER sr # SA-10B
+        - S-300PS 64H6E MOD sr # SA-10B (Ultimate Compilation Big Bird truck)
         - S-300V 9S19 sr # SA-12
         - S-300PMU1 64N6E sr # SA-20 + B
         - S-300VM 9S19M2 sr # SA-23
+        - S-300V4 9S19M-1E sr # SA-23 S-300V4
+        - S-400 91N6E sr # SA-21 Big Bird
     - name: S-300 Site CP
       unit_count:
         - 1
@@ -33,37 +38,52 @@ groups:
         - S-300PMU1 54K6 cp # SA-20
         - S-300PMU2 54K6E2 cp # SA-20B
         - S-300VM 9S457ME cp # SA-23
+        - S-300V4 9S457-2E cp # SA-23 S-300V4
+        - S-400 55K6 cp # SA-21
     - name: S-300 Site TR
       unit_count:
         - 1
       unit_types:
         - S-300PS 40B6M tr # SA-10 Flap Lid-A TR
         - S-300PS 30N6 TRAILER tr # SA-10B
+        - S-300PS SA-10B 30N6 MAST tr # SA-10A/B Flap Lid (mast)
         - S-300PS 5H63C 30H6_tr # SA-10 Flap Lid-B TR
         - S-300V 9S32 tr # SA-12
         - S-300PMU1 40B6M tr # SA-20, is the 30N6E!
         - S-300PMU2 92H6E tr # SA-20B
+        - S-300PMU2 40B6M tr # SA-20B Grave Stone (mast)
         - S-300VM 9S32ME tr # SA-23
+        - S-300V4 9S32M-1E tr # SA-23 S-300V4
+        - S-400 92N6E tr # SA-21 Grave Stone (truck)
+        - S-400 92N6E mast tr # SA-21 Grave Stone (mast)
     - name: S-300 Site LN1
       unit_count:
         - 3
       unit_types:
         - S-300PS 5P85C ln # SA-10
         - S-300PS 5P85SE_mod ln # SA-10B
+        - S-300PS 5P85_1_mod ln # SA-10A S-300PT
         - S-300V 9A82 ln # SA-12
         - S-300PMU1 5P85CE ln # SA-20
         - S-300PMU2 5P85SE2 ln # SA-20B
         - S-300VM 9A82ME ln # SA-23
+        - S-300V4 9A82M-2E ln # SA-23 S-300V4
+        - S-300V4 9A84M-2E ln # SA-23 S-300V4
+        - S-400 51P6A ln # SA-21 (48N6DM)
+        - S-400 51P6A (40N6E) ln # SA-21 (40N6E)
     - name: S-300 Site LN2
       unit_count:
         - 3
       unit_types:
         - S-300PS 5P85D ln # SA-10
         - S-300PS 5P85SU_mod ln # SA-10B
+        - S-300PS 5P85_1_mod ln # SA-10A S-300PT
         - S-300V 9A83 ln # SA-12
         - S-300PMU1 5P85DE ln # SA-20
         - S-300PMU2 5P85SE2 ln # SA-20B
         - S-300VM 9A83ME ln # SA-23
+        - S-300V4 9A83M-2E ln # SA-23 S-300V4
+        - S-400 51P6A (9M96E2) ln # SA-21 (9M96E2)
   - PD:
     - name: S-300 Site SHORAD1
       optional: true

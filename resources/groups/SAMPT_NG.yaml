@@ -1,0 +1,11 @@
+name: SAMP/T NG
+tasks:
+  - LORAD
+units:
+  - SAMP/T Ground Fire 300 STR
+  - SAMP/T C2
+  - SAMP/T ECS (ME)
+  - SAMP/T EPP
+  - SAMP/T TEL Block 1NT
+layouts:
+  - SAMP/T Battery
