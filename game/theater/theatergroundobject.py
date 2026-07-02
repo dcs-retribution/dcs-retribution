@@ -716,6 +716,15 @@ class MotorpoolGroundObject(TheaterGroundObject):
             yield FlightType.BAI
         yield from super().mission_types(for_player)
 
+    @property
+    def sidc_status(self) -> Status:
+        # A motorpool is a live reserve projection: empty on the strategic map is its
+        # normal resting state (vehicles populate ephemerally at mission-gen), not
+        # destruction. Always render as a present depot — never damaged/destroyed.
+        # is_dead is deliberately left intact so AI target-selection, capture, and
+        # IADS logic (which read is_dead, not sidc_status) are unaffected.
+        return Status.PRESENT
+
     def clear(self) -> None:
         # Keep the group-id -> unit-type map in lockstep with groups so a wiped
         # motorpool (e.g. on capture) leaves no dangling group-id keys behind.
