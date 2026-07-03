@@ -522,8 +522,10 @@ class AirbaseGroundObjectGenerator(ControlPointGroundObjectGenerator):
     def generate_motorpools(self) -> None:
         if not self.game.settings.motorpool_enabled:
             return
-        for i, location in enumerate(self.control_point.preset_locations.motorpools):
-            name = f"{self.control_point.name} Motorpool {i}"
+        for location in self.control_point.preset_locations.motorpools:
+            # Codename like every other TGO (JAGUAR, ...); the "motorpool" category
+            # label already identifies what it is.
+            name = namegen.random_objective_name()
             tgo = MotorpoolGroundObject(
                 name, location, self.control_point, GroupTask.MOTORPOOL
             )
