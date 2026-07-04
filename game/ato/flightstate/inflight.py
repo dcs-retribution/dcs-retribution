@@ -93,19 +93,24 @@ class InFlight(FlightState, ABC):
         from .navigating import Navigating
 
         new_index = self.waypoint_index + 1
+        # Guard first, before the type dispatch: if new_index is the last
+        # waypoint there is no [new_index + 1], so *any* InFlight subclass we'd
+        # build for it -- RaceTrack (PATROL_TRACK) and Loiter (LOITER), not just
+        # Navigating -- would raise in InFlight.__init__. This happens when a
+        # flight reaches or exits combat at its final waypoint (e.g. a plan with
+        # no explicit LANDING_POINT, a custom plan ending in a PATROL_TRACK or
+        # LOITER, or whose landing waypoint was already consumed before the
+        # combat state was entered). Complete the flight rather than crashing.
+        # A terminal LANDING_POINT also lands here and completes -- the same
+        # result the explicit check below would give.
+        if new_index + 1 >= len(self.flight.flight_plan.waypoints):
+            return Completed(self.flight, self.settings)
         if self.next_waypoint.waypoint_type is FlightWaypointType.LANDING_POINT:
             return Completed(self.flight, self.settings)
         if self.next_waypoint.waypoint_type is FlightWaypointType.PATROL_TRACK:
             return RaceTrack(self.flight, self.settings, new_index)
         if self.next_waypoint.waypoint_type is FlightWaypointType.LOITER:
             return Loiter(self.flight, self.settings, new_index)
-        # Guard: if new_index is the last waypoint there is no [new_index + 1]
-        # and Navigating.__init__ would raise. This happens when a flight exits
-        # combat at or past its final waypoint (e.g. a plan with no explicit
-        # LANDING_POINT, or whose landing waypoint was already consumed before
-        # the combat state was entered). Complete the flight rather than crashing.
-        if new_index + 1 >= len(self.flight.flight_plan.waypoints):
-            return Completed(self.flight, self.settings)
         return Navigating(self.flight, self.settings, new_index)
 
     def advance_to_next_waypoint(self) -> FlightState:
