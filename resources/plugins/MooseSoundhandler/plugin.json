@@ -1,5 +1,6 @@
 {
     "nameInUI": "Moose Soundhandler",
+    "descriptionInUI": "Plays radio-call and combat sound effects (weapon launch calls, kill confirmations, SAM warnings) in response to in-game events for added immersion.",
     "defaultValue": false,
     "specificOptions": [
         {

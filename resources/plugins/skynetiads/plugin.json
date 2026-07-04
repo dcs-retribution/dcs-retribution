@@ -1,5 +1,6 @@
 {
     "nameInUI": "Skynet IADS",
+    "descriptionInUI": "Networks each coalition's SAMs and EWRs into an Integrated Air Defense System, coordinating detection and engagement and letting mobile SAMs shoot-and-scoot instead of fighting as isolated sites.",
     "defaultValue": true,
     "specificOptions": [
         {

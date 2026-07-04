@@ -23,7 +23,7 @@ from game.theater.presetlocation import PresetLocation
 from .missiontarget import MissionTarget
 from .player import Player
 from ..data.groups import GroupTask
-from ..utils import Distance, Heading, meters
+from ..utils import Distance, Heading, meters, nautical_miles
 
 if TYPE_CHECKING:
     from game.ato.flighttype import FlightType
@@ -698,10 +698,25 @@ class ShipGroundObject(NavalGroundObject):
             sea_object=True,
             task=GroupTask.NAVY,
         )
+        # Movement state (mirrors NavalControlPoint). Blue ownership is enforced
+        # at the API/serialization layer, not here.
+        self.target_position: Optional[Point] = None
 
     @property
     def symbol_set_and_entity(self) -> tuple[SymbolSet, Entity]:
         return SymbolSet.SEA_SURFACE, SeaSurfaceEntity.SURFACE_COMBATANT_LINE
+
+    @property
+    def moveable(self) -> bool:
+        return True
+
+    @property
+    def max_move_distance(self) -> Distance:
+        return nautical_miles(80)
+
+    def destination_in_range(self, destination: Point) -> bool:
+        distance = meters(destination.distance_to_point(self.position))
+        return distance <= self.max_move_distance
 
 
 class IadsBuildingGroundObject(BuildingGroundObject):

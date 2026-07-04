@@ -72,7 +72,20 @@ class PluginOptionsBox(QGroupBox):
 
         self.widgets: Dict[str, QWidget] = {}
 
-        for row, option in enumerate(plugin.options):
+        row = 0
+        if plugin.description:
+            description = QLabel(plugin.description)
+            description.setWordWrap(True)
+            font = description.font()
+            font.setItalic(True)
+            description.setFont(font)
+            description.setTextInteractionFlags(
+                Qt.TextInteractionFlag.TextSelectableByMouse
+            )
+            layout.addWidget(description, row, 0, 1, 2)
+            row += 1
+
+        for option in plugin.options:
             label = QLabel(option.name)
             label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
             layout.addWidget(label, row, 0)
@@ -97,6 +110,8 @@ class PluginOptionsBox(QGroupBox):
                 spinbox.valueChanged.connect(option.set_value)
                 layout.addWidget(spinbox, row, 1)
                 self.widgets[option.identifier] = spinbox
+
+            row += 1
 
     def update_from_settings(self, settings: Settings) -> None:
         for identifier in self.widgets:
