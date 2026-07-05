@@ -155,6 +155,14 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.frenchpack = QtWidgets.QCheckBox()
         self.registerField("frenchpack", self.frenchpack)
         self.high_digit_sams = QtWidgets.QCheckBox()
+        self.high_digit_sams.setToolTip(
+            "Requires the High Digit SAMs — Ultimate Compilation (dcs-sams), "
+            "v1.4.3 or newer.\n\n"
+            "This is NOT the original Auranis HighDigitSAMs or other forks — they "
+            "rename units (e.g. the S-300PS radars), so a mismatched build makes SAM "
+            "sites spawn without their radars, with no error.\n\n"
+            "https://github.com/dcs-sams/HighDigitSAMs-Ultimate-Compilation"
+        )
         self.registerField("high_digit_sams", self.high_digit_sams)
         self.swedishmilitaryassetspack = QtWidgets.QCheckBox()
         self.registerField("swedishmilitaryassetspack", self.swedishmilitaryassetspack)
@@ -283,16 +291,31 @@ class GeneratorOptions(QtWidgets.QWizardPage):
                 modLayout.addWidget(QtWidgets.QWidget(), modLayout_row, col)
                 modLayout_row += 1
             label, cb = mod_pairs[i]
-            modLayout.addWidget(QLabel(label), modLayout_row, col)
+            label_widget = QLabel(label)
+            # Carry any per-mod tooltip (e.g. the HDS fork warning) onto its label
+            # too, so hovering the text — not just the checkbox — shows the note.
+            if cb.toolTip():
+                label_widget.setToolTip(cb.toolTip())
+            modLayout.addWidget(label_widget, modLayout_row, col)
             modLayout.addWidget(cb, modLayout_row, col + 1)
             modLayout_row += 1
 
         modSettingsGroup.setLayout(modLayout)
 
+        hdsNote = QtWidgets.QLabel(
+            "<p><b>High Digit SAMs</b> must be the dcs-sams "
+            "“Ultimate Compilation” build (v1.4.3+). The original Auranis "
+            "mod and other forks rename units (e.g. the S-300 radars) and will not "
+            "work with these campaigns.</p>"
+        )
+        hdsNote.setWordWrap(True)
+        hdsNote.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
         mlayout = QVBoxLayout()
         mlayout.addWidget(generatorSettingsGroup)
         mlayout.addWidget(modSettingsGroup)
         mlayout.addWidget(modHelpText)
+        mlayout.addWidget(hdsNote)
         self.setLayout(mlayout)
         self.update_settings(campaign)
 
