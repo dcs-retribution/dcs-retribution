@@ -46,8 +46,21 @@ class CountryAssigner:
         # duplicate instance with the same id would drop its groups on save.
         self._instances: dict[int, Country] = {}
 
-        self.primary_blue = self._instance(game.blue.faction.country.id)
-        self.primary_red = self._instance(game.red.faction.country.id)
+        blue_id = game.blue.faction.country.id
+        red_id = game.red.faction.country.id
+        self.primary_blue = self._instance(blue_id)
+        if red_id == blue_id:
+            # Mirror match: both factions share a country id. A single DCS
+            # ``Country`` instance may live on only one coalition (and pydcs
+            # attaches each spawned group to the exact instance it is registered
+            # under), so red must get its *own* instance of the shared id rather
+            # than the cached blue one -- otherwise the same object is added to
+            # both coalitions, which DCS rejects as an unloadable .miz. Two
+            # distinct instances of one id, one per side, is the pre-#627
+            # behaviour DCS accepts.
+            self.primary_red = country_dict[red_id]()
+        else:
+            self.primary_red = self._instance(red_id)
 
         # Side -> {squadron-country id: canonical Country to spawn under}.
         self._blue: dict[int, Country] = {self.primary_blue.id: self.primary_blue}
@@ -70,8 +83,20 @@ class CountryAssigner:
                     self.primary_blue.name,
                 )
                 continue
-            if cid not in self._blue:
-                self._blue[cid] = self._instance(cid)
+            if cid in self._blue:
+                continue
+            if cid not in country_dict:
+                # An unknown country id (a pydcs version drop or an uninstalled
+                # mod) must never abort mission generation: skip it and let the
+                # squadron fall back to blue's faction country in ``for_squadron``.
+                logging.debug(
+                    "Country id %s (blue squadron) is unknown to pydcs; units "
+                    "fall back to %s",
+                    cid,
+                    self.primary_blue.name,
+                )
+                continue
+            self._blue[cid] = self._instance(cid)
 
         blue_claimed = set(self._blue)
         for squadron in game.red.air_wing.iter_squadrons():
@@ -85,6 +110,14 @@ class CountryAssigner:
                 logging.debug(
                     "Country id %s already used by blue; red squadron units fall "
                     "back to %s",
+                    cid,
+                    self.primary_red.name,
+                )
+                continue
+            if cid not in country_dict:
+                logging.debug(
+                    "Country id %s (red squadron) is unknown to pydcs; units "
+                    "fall back to %s",
                     cid,
                     self.primary_red.name,
                 )
@@ -115,6 +148,26 @@ class CountryAssigner:
 
     def for_squadron(self, squadron: Squadron) -> Country:
         """Canonical Country a squadron's units should spawn under."""
+        cid = squadron.country.id
         if squadron.coalition.player.is_blue:
-            return self._blue.get(squadron.country.id, self.primary_blue)
-        return self._red.get(squadron.country.id, self.primary_red)
+            resolved = self._blue.get(cid)
+            if resolved is not None:
+                return resolved
+            fallback = self.primary_blue
+        else:
+            resolved = self._red.get(cid)
+            if resolved is not None:
+                return resolved
+            fallback = self.primary_red
+        # A squadron whose country was not registered on its side (a
+        # cross-coalition collision, an unknown id, or a squadron added after
+        # construction) spawns under its faction country. Log it like every
+        # other skip in ``__init__`` so the fallback is never silent.
+        logging.debug(
+            "Squadron %s country id %s not registered on its side; units fall "
+            "back to %s",
+            squadron.name,
+            cid,
+            fallback.name,
+        )
+        return fallback

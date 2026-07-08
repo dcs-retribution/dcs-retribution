@@ -230,11 +230,15 @@ class Squadron:
         new_pilots = self.pilot_pool[:count]
         self.pilot_pool = self.pilot_pool[count:]
         count -= len(new_pilots)
+        # Resolve the squadron's faker once per batch, not once per pilot: the
+        # country/locale is fixed for a squadron's lifetime, so hundreds of
+        # identical ``faker_for_country`` lookups per campaign collapse to one.
+        faker = self.faker
         for _ in range(count):
             if random.randint(1, 100) > self.female_pilot_percentage:
-                new_pilots.append(Pilot(self.faker.name_male()))
+                new_pilots.append(Pilot(faker.name_male()))
             else:
-                new_pilots.append(Pilot(self.faker.name_female()))
+                new_pilots.append(Pilot(faker.name_female()))
         self.current_roster.extend(new_pilots)
         self.available_pilots.extend(new_pilots)
 

@@ -49,8 +49,23 @@ def test_every_mapped_locale_generates_a_name(country_name: str, locale: str) ->
     # a map mistake to fix rather than ship).
     faker = _faker_for_locale(locale)
     assert faker is not None, f"{country_name}: locale {locale!r} is unusable"
-    assert isinstance(faker.name_male(), str) and faker.name_male()
-    assert isinstance(faker.name_female(), str) and faker.name_female()
+    # ``name_male``/``name_female`` return a non-empty ``str``; one call each is
+    # enough to prove the locale produces a gendered name.
+    assert faker.name_male()
+    assert faker.name_female()
+
+
+def test_every_mapped_country_name_is_a_real_pydcs_country() -> None:
+    # The table is keyed by ``Country.name`` while ``CountryAssigner`` keys by
+    # ``Country.id`` (§627). A typo'd or renamed key (e.g. "Czeck Republic")
+    # would never match a real country, so its pilots would silently fall back
+    # to the faction locale with no other signal. Cross-check every key against
+    # pydcs so a stale entry fails CI instead of shipping.
+    from dcs.countries import country_dict
+
+    valid_names = {country.name for country in country_dict.values()}
+    unknown = sorted(name for name in COUNTRY_FAKER_LOCALES if name not in valid_names)
+    assert not unknown, f"Unknown pydcs country names in the locale table: {unknown}"
 
 
 def _squadron(country_name: str, fallback: Faker) -> Squadron:

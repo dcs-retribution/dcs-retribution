@@ -17,6 +17,7 @@ from dcs.countries import (
     CombinedJointTaskForcesRed,
     Greece,
     USA,
+    country_dict,
 )
 
 from game.game import Game
@@ -31,6 +32,7 @@ CJTF_RED_ID = CombinedJointTaskForcesRed.id
 
 def _squadron(country_id: int, player: Player) -> Any:
     return SimpleNamespace(
+        name="Test Squadron",
         country=SimpleNamespace(id=country_id),
         coalition=SimpleNamespace(player=player),
     )
@@ -120,6 +122,37 @@ def test_belligerent_ids_cover_both_sides() -> None:
     red_us = _squadron(USA_ID, Player.RED)
     assigner = CountryAssigner(_game(CJTF_BLUE_ID, CJTF_RED_ID, [blue_us], [red_us]))
     assert assigner.belligerent_ids == {CJTF_BLUE_ID, USA_ID, CJTF_RED_ID}
+
+
+def test_mirror_match_gives_each_side_its_own_primary_instance() -> None:
+    # Both factions share a country id (a mirror match). A DCS country instance
+    # may live on only one coalition and pydcs attaches groups to the exact
+    # instance, so blue and red must each register a *distinct* instance of the
+    # shared id -- never the same object on both coalitions (an unloadable .miz).
+    assigner = CountryAssigner(_game(USA_ID, USA_ID, [], []))
+
+    assert assigner.primary_blue.id == USA_ID
+    assert assigner.primary_red.id == USA_ID
+    assert assigner.primary_blue is not assigner.primary_red
+    assert [c.id for c in assigner.blue_countries] == [USA_ID]
+    assert [c.id for c in assigner.red_countries] == [USA_ID]
+
+
+def test_unknown_squadron_country_id_is_skipped_not_fatal() -> None:
+    # An id pydcs does not know (a version drop or an uninstalled mod) must never
+    # abort generation: the country is skipped and the squadron falls back to its
+    # faction country in ``for_squadron``.
+    unknown_id = max(country_dict) + 1000
+    blue_unknown = _squadron(unknown_id, Player.BLUE)
+    red_unknown = _squadron(unknown_id, Player.RED)
+    assigner = CountryAssigner(
+        _game(CJTF_BLUE_ID, CJTF_RED_ID, [blue_unknown], [red_unknown])
+    )
+
+    assert unknown_id not in {c.id for c in assigner.blue_countries}
+    assert unknown_id not in {c.id for c in assigner.red_countries}
+    assert assigner.for_squadron(blue_unknown).id == CJTF_BLUE_ID
+    assert assigner.for_squadron(red_unknown).id == CJTF_RED_ID
 
 
 def test_resolved_country_is_the_registered_instance() -> None:
