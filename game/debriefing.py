@@ -99,6 +99,7 @@ class BaseCaptureEvent:
 class SideLossCounts:
     aircraft: int
     front_line: int
+    motorpool: int
     convoy: int
     cargo_ships: int
     airlift_cargo: int
@@ -252,6 +253,16 @@ class Debriefing:
             losses_by_type[loss.unit_type] += 1
         return losses_by_type
 
+    def motorpool_losses_by_type(self, player: Player) -> dict[GroundUnitType, int]:
+        losses_by_type: dict[GroundUnitType, int] = defaultdict(int)
+        if player.is_blue:
+            losses = self.ground_losses.player_motorpool
+        else:
+            losses = self.ground_losses.enemy_motorpool
+        for loss in losses:
+            losses_by_type[loss.unit_type] += 1
+        return losses_by_type
+
     def convoy_losses_by_type(self, player: Player) -> dict[GroundUnitType, int]:
         losses_by_type: dict[GroundUnitType, int] = defaultdict(int)
         if player.is_blue:
@@ -309,6 +320,7 @@ class Debriefing:
         if player.is_blue:
             air = self.air_losses.player
             front_line = gl.player_front_line
+            motorpool = gl.player_motorpool
             convoy = gl.player_convoy
             cargo_ships = gl.player_cargo_ships
             airlifts = gl.player_airlifts
@@ -318,6 +330,7 @@ class Debriefing:
         else:
             air = self.air_losses.enemy
             front_line = gl.enemy_front_line
+            motorpool = gl.enemy_motorpool
             convoy = gl.enemy_convoy
             cargo_ships = gl.enemy_cargo_ships
             airlifts = gl.enemy_airlifts
@@ -327,6 +340,7 @@ class Debriefing:
         return SideLossCounts(
             aircraft=len(air),
             front_line=len(front_line),
+            motorpool=len(motorpool),
             convoy=len(convoy),
             cargo_ships=len(cargo_ships),
             airlift_cargo=sum(len(loss.cargo) for loss in airlifts),
