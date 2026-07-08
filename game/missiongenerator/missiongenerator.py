@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 from datetime import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, Any, cast
 
 import dcs.lua
 from dcs import Mission, Point
@@ -13,6 +13,7 @@ from dcs.point import MovingPoint
 from dcs.task import OptReactOnThreat
 from dcs.terrain import Airport
 from dcs.unit import Static
+from dcs.unitgroup import Group
 
 from game.atcdata import AtcData
 from game.dcs.beacons import Beacons
@@ -21,6 +22,7 @@ from game.missiongenerator.aircraft.aircraftgenerator import (
     AircraftGenerator,
 )
 from game.naming import namegen
+from game.spatialindex import LiveUnitIndex
 from game.radio.radios import RadioFrequency, RadioRegistry, MHz
 from game.radio.tacan import TacanRegistry
 from game.theater import Airfield
@@ -46,6 +48,8 @@ from ..radio.datalink import DataLinkRegistry
 
 if TYPE_CHECKING:
     from game import Game
+
+CARCASS_SUPPRESS_RADIUS_M = 5.0
 
 
 class MissionGenerator:
@@ -308,8 +312,33 @@ class MissionGenerator:
         if self.game.settings.plugins.get("ewrj"):
             self._configure_react_to_threat_for_ew_jamming_packages(aircraft_generator)
 
+    def _live_unit_positions(self) -> list[tuple[float, float]]:
+        # World (x, z) of every live unit already spawned (TGO SAM/BAI, FARP depots,
+        # motorpool, convoys, cargo). pydcs Point.y is world z. Dead groups excluded
+        # so a wreck doesn't suppress itself. Frontline units aren't spawned yet.
+        positions: list[tuple[float, float]] = []
+        for coalition in self.mission.coalition.values():
+            for country in coalition.countries.values():
+                groups: list[Group[Any, Any]] = [
+                    *country.vehicle_group,
+                    *country.static_group,
+                ]
+                for group in groups:
+                    # Only StaticGroup carries a 'dead' flag; VehicleGroups have no
+                    # such attribute and are always live at prune time.
+                    if getattr(group, "dead", False):
+                        continue
+                    for unit in group.units:
+                        positions.append((unit.position.x, unit.position.y))
+        return positions
+
     def generate_destroyed_units(self) -> None:
         """Add destroyed units to the Mission"""
+        # Prune before the perf gate so stale carcasses are cleaned even when wreck
+        # spawning is disabled.
+        self.game.prune_destroyed_units(
+            LiveUnitIndex(self._live_unit_positions(), CARCASS_SUPPRESS_RADIUS_M)
+        )
         if not self.game.settings.perf_destroyed_units:
             return
 

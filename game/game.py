@@ -33,6 +33,7 @@ from .infos.information import Information
 from .lasercodes.lasercoderegistry import LaserCodeRegistry
 from .profiling import logged_duration
 from .settings import Settings
+from .spatialindex import LiveUnitIndex
 from .theater import ConflictTheater, Player
 from .theater.bullseye import Bullseye
 from .theater.theatergroundobject import (
@@ -659,6 +660,28 @@ class Game:
                 seen.add(key)
                 deduped.append(d)
         self.__destroyed_units = deduped
+
+    def prune_destroyed_units(self, index: LiveUnitIndex) -> None:
+        # Drop any carcass a live unit now occupies: once something alive stands at
+        # a cell, its old wreck-history there is stale (the list is cosmetic-only).
+        # Deleting (vs keeping-hidden) avoids two-husk stacking when a site is
+        # rebuilt as a different type and re-killed. Garbled-coord entries can't be
+        # matched, so they're kept — consistent with _safe_carcass_key.
+        kept: list[dict[str, Union[float, str]]] = []
+        for d in self.__destroyed_units:
+            try:
+                x = cast(float, d["x"])
+                z = cast(float, d["z"])
+                occupied = index.occupied(float(x), float(z))
+            except (KeyError, TypeError, ValueError):
+                # Missing x/z (KeyError) or a non-numeric coord (TypeError/
+                # ValueError) -> unmatchable, keep the entry. Non-finite coords
+                # don't reach here: LiveUnitIndex.occupied is total over floats.
+                kept.append(d)
+                continue
+            if not occupied:
+                kept.append(d)
+        self.__destroyed_units = kept
 
     def position_culled(self, pos: Point) -> bool:
         """

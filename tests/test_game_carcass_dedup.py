@@ -2,6 +2,7 @@ from typing import Union
 from unittest.mock import MagicMock
 
 from game.game import Game
+from game.spatialindex import LiveUnitIndex
 
 
 def _carcass(type_name: str, x: float, z: float) -> dict[str, Union[float, str]]:
@@ -109,3 +110,38 @@ def test_add_destroyed_units_survives_inf_coord_incoming() -> None:
     game = _bare_game()
     game.add_destroyed_units(_carcass("Garage_A", float("inf"), 0.0))  # no crash
     assert len(game.get_destroyed_units()) == 1
+
+
+def test_prune_removes_carcass_under_live_unit() -> None:
+    game = _bare_game()
+    on = _carcass("Garage_A", 100.0, 200.0)
+    off = _carcass("Garage_A", 100.0, 400.0)
+    game._Game__destroyed_units = [on, off]  # type: ignore[attr-defined]
+    game.prune_destroyed_units(LiveUnitIndex([(101.0, 201.0)], 5.0))
+    assert game.get_destroyed_units() == [off]  # 'on' pruned, 'off' kept
+
+
+def test_prune_empty_index_keeps_all() -> None:
+    game = _bare_game()
+    items = [_carcass("Garage_A", 100.0, 200.0)]
+    game._Game__destroyed_units = list(items)  # type: ignore[attr-defined]
+    game.prune_destroyed_units(LiveUnitIndex([], 5.0))
+    assert game.get_destroyed_units() == items
+
+
+def test_prune_keeps_garbled_coord_carcass() -> None:
+    game = _bare_game()
+    bad: dict[str, Union[float, str]] = {"y": 0.0, "type": "Garage_A"}  # no x/z
+    game._Game__destroyed_units = [bad]  # type: ignore[attr-defined]
+    game.prune_destroyed_units(LiveUnitIndex([(0.0, 0.0)], 5.0))
+    assert game.get_destroyed_units() == [bad]  # unmatchable -> kept
+
+
+def test_prune_survives_inf_coord_carcass() -> None:
+    # math.floor(inf / radius) raises OverflowError (not ValueError): must be
+    # caught so an inf-coord carcass is kept, not crashing mission generation.
+    game = _bare_game()
+    inf_entry = _carcass("Garage_A", float("inf"), 0.0)
+    game._Game__destroyed_units = [inf_entry]  # type: ignore[attr-defined]
+    game.prune_destroyed_units(LiveUnitIndex([(0.0, 0.0)], 5.0))  # must not raise
+    assert game.get_destroyed_units() == [inf_entry]  # unmatchable -> kept
