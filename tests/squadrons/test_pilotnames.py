@@ -10,8 +10,8 @@ from game.coalition import Coalition
 from game.dcs.countries import country_with_name
 from game.squadrons.pilotnames import (
     COUNTRY_FAKER_LOCALES,
-    _faker_for_locale,
     faker_for_country,
+    faker_for_locale,
 )
 from game.squadrons.squadron import Squadron
 
@@ -21,7 +21,7 @@ FALLBACK = Faker("en_US")
 def test_mapped_country_uses_its_own_locale() -> None:
     faker = faker_for_country(country_with_name("Greece"), FALLBACK)
     assert faker is not FALLBACK
-    assert faker is _faker_for_locale("el_GR")
+    assert faker is faker_for_locale("el_GR")
 
 
 def test_unmapped_country_falls_back() -> None:
@@ -47,7 +47,7 @@ def test_every_mapped_locale_generates_a_name(country_name: str, locale: str) ->
     # Guards the table: every mapped locale must build a usable, gender-aware
     # Faker (a typo'd or non-gendered locale would silently fall back, which is
     # a map mistake to fix rather than ship).
-    faker = _faker_for_locale(locale)
+    faker = faker_for_locale(locale)
     assert faker is not None, f"{country_name}: locale {locale!r} is unusable"
     # ``name_male``/``name_female`` return a non-empty ``str``; one call each is
     # enough to prove the locale produces a gendered name.
@@ -76,7 +76,7 @@ def _squadron(country_name: str, fallback: Faker) -> Squadron:
 
 
 def test_squadron_faker_resolves_to_country_locale() -> None:
-    assert _squadron("Greece", FALLBACK).faker is _faker_for_locale("el_GR")
+    assert _squadron("Greece", FALLBACK).faker is faker_for_locale("el_GR")
 
 
 def test_squadron_recruits_named_pilots_from_country_locale() -> None:

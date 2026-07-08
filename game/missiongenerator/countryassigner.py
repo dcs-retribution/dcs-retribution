@@ -68,6 +68,14 @@ class CountryAssigner:
 
         for squadron in game.blue.air_wing.iter_squadrons():
             cid = squadron.country.id
+            if cid in self._blue:
+                # Already registered on blue (this includes blue's own faction
+                # country). Checking membership *before* the red-faction guard
+                # matters in a mirror match, where blue's and red's faction
+                # country share an id: the country is legitimately blue's and
+                # resolves correctly, so it must not trip the red-guard's "falls
+                # back to red's faction country" log.
+                continue
             if cid == self.primary_red.id:
                 # Red's faction country is red's spawn fallback and must stay
                 # exclusively red. A blue squadron that happens to share that
@@ -82,8 +90,6 @@ class CountryAssigner:
                     cid,
                     self.primary_blue.name,
                 )
-                continue
-            if cid in self._blue:
                 continue
             if cid not in country_dict:
                 # An unknown country id (a pydcs version drop or an uninstalled
@@ -142,9 +148,19 @@ class CountryAssigner:
         return list(self._red.values())
 
     @property
+    def blue_country_ids(self) -> set[int]:
+        """Country ids registered on the blue coalition."""
+        return set(self._blue)
+
+    @property
+    def red_country_ids(self) -> set[int]:
+        """Country ids registered on the red coalition."""
+        return set(self._red)
+
+    @property
     def belligerent_ids(self) -> set[int]:
         """Country ids belonging to either side (excluded from neutrals)."""
-        return set(self._blue) | set(self._red)
+        return self.blue_country_ids | self.red_country_ids
 
     def for_squadron(self, squadron: Squadron) -> Country:
         """Canonical Country a squadron's units should spawn under."""

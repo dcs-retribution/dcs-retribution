@@ -226,16 +226,17 @@ class Game:
 
     @property
     def neutral_country(self) -> Country:
-        """Return the best fitting country that can be used as neutral faction in the generated mission.
+        """Return the best fitting country to use for the neutral coalition.
 
-        Compared by country *id*: pydcs ``Country`` uses identity equality, so a
-        set of instances never detects a match (two ``Switzerland()`` objects are
-        unequal). The in-use set also spans every squadron's own country (#627
+        Returns the first candidate whose id is not already claimed by a
+        belligerent. The in-use set spans every squadron's own country (#627
         per-squadron countries), not just the two faction primaries, so a CJTF
         side that fields e.g. a Swiss or UN squadron does not also hand that
-        nation to the neutral coalition -- which would misfile neutral statics
-        onto a belligerent and break DCS capture triggers keyed on neutral
-        membership.
+        nation to the neutral coalition -- which would place one country on two
+        coalitions (an unloadable .miz) and misfile neutral statics / break DCS
+        capture triggers keyed on neutral membership. Membership is tested by id,
+        which is pydcs's own equality key for ``Country`` (``Country.__eq__`` and
+        ``__hash__`` are by ``id``).
         """
         ids_in_use = {self.red.faction.country.id, self.blue.faction.country.id}
         for coalition in (self.blue, self.red):

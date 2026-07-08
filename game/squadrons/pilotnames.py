@@ -121,7 +121,7 @@ COUNTRY_FAKER_LOCALES: dict[str, str] = {
 
 
 @lru_cache(maxsize=None)
-def _faker_for_locale(locale: str) -> Optional[Faker]:
+def faker_for_locale(locale: str) -> Optional[Faker]:
     # One shared instance per locale is fine — name generation only draws the
     # RNG — and caching avoids rebuilding a provider set for every pilot. Only
     # accept the locale if it can produce the gendered names the pilot
@@ -149,5 +149,5 @@ def faker_for_country(country: Optional[Country], fallback: Faker) -> Faker:
     locale = COUNTRY_FAKER_LOCALES.get(country.name)
     if locale is None:
         return fallback
-    faker = _faker_for_locale(locale)
+    faker = faker_for_locale(locale)
     return faker if faker is not None else fallback

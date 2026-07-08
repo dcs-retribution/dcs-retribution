@@ -175,8 +175,8 @@ class PretenseMissionGenerator(MissionGenerator):
 
         # Add CJTF factions to the coalitions, if they're not already registered
         # on that side by the assigner (Pretense scripting expects both present).
-        blue_ids = {c.id for c in self.country_assigner.blue_countries}
-        red_ids = {c.id for c in self.country_assigner.red_countries}
+        blue_ids = self.country_assigner.blue_country_ids
+        red_ids = self.country_assigner.red_country_ids
         if CombinedJointTaskForcesBlue.id not in blue_ids:
             self.mission.coalition["blue"].add_country(CombinedJointTaskForcesBlue())
         if CombinedJointTaskForcesRed.id not in red_ids:
@@ -274,6 +274,7 @@ class PretenseMissionGenerator(MissionGenerator):
             ground_spawns_roadbase=tgo_generator.ground_spawns_roadbase,
             ground_spawns_large=tgo_generator.ground_spawns_large,
             ground_spawns=tgo_generator.ground_spawns,
+            country_assigner=self.country_assigner,
         )
 
         # Clear parking slots and ATOs
@@ -290,7 +291,6 @@ class PretenseMissionGenerator(MissionGenerator):
                     ato,
                 )
                 aircraft_generator.generate_packages(
-                    country,
                     ato,
                     tgo_generator.runways,
                 )

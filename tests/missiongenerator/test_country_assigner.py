@@ -9,6 +9,7 @@ no-op.
 
 from __future__ import annotations
 
+import logging
 from types import SimpleNamespace
 from typing import Any, Iterable, cast
 
@@ -136,6 +137,23 @@ def test_mirror_match_gives_each_side_its_own_primary_instance() -> None:
     assert assigner.primary_blue is not assigner.primary_red
     assert [c.id for c in assigner.blue_countries] == [USA_ID]
     assert [c.id for c in assigner.red_countries] == [USA_ID]
+
+
+def test_mirror_match_blue_squadron_on_shared_country_resolves_without_red_guard_log(
+    caplog: Any,
+) -> None:
+    # In a mirror match blue's and red's faction country share an id. A blue
+    # squadron flying that shared country is legitimately blue's and must resolve
+    # to blue's primary -- without tripping the red-faction guard's "falls back
+    # to red's faction country" log, which would be misleading noise (the units
+    # do not actually fall back).
+    blue_shared = _squadron(USA_ID, Player.BLUE)
+    with caplog.at_level(logging.DEBUG):
+        assigner = CountryAssigner(_game(USA_ID, USA_ID, [blue_shared], []))
+
+    assert assigner.for_squadron(blue_shared).id == USA_ID
+    assert assigner.for_squadron(blue_shared) is assigner.primary_blue
+    assert "red's faction country" not in caplog.text
 
 
 def test_unknown_squadron_country_id_is_skipped_not_fatal() -> None:
