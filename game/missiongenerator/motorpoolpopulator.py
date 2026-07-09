@@ -109,11 +109,18 @@ class MotorpoolPopulator:
         origin = tgo.position
         dx = (index % _COLUMNS) * _SPACING_M
         dy = (index // _COLUMNS) * _SPACING_M
-        pos = Point(origin.x + dx, origin.y + dy, origin._terrain)
+        # Lay the grid in the garage's local frame, then rotate it clockwise about
+        # the TGO origin so the parking lot follows the Garage_A heading (as
+        # resource-site placement does). At heading 0 the rotation is a no-op and
+        # the grid stays world-axis-aligned.
+        pos = PointWithHeading.from_point(
+            Point(origin.x + dx, origin.y + dy, origin._terrain), tgo.heading
+        )
+        pos.rotate(origin, tgo.heading)
         return TheaterUnit(
             self.game.next_unit_id(),
             str(unit_type),
             unit_type.dcs_unit_type,
-            PointWithHeading.from_point(pos, tgo.heading),
+            pos,
             tgo,
         )

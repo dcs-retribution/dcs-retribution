@@ -8,15 +8,18 @@ from dcs.unitgroup import MovingGroup, VehicleGroup
 from dcs.unittype import VehicleType
 
 from game.missiongenerator.tgogenerator import GroundObjectGenerator
+from game.point_with_heading import PointWithHeading
 from game.theater.theatergroundobject import MotorpoolGroundObject
 from game.theater.theatergroup import TheaterUnit
 
-# The reserve vehicles are laid in a grid that grows only in +x/+y from the TGO
-# position (motorpoolpopulator._make_unit: slot 0 sits exactly on tgo.position).
-# Offsetting the depot in the opposite (-x/-y) direction is what guarantees it never
-# shares a spawn point with a vehicle — DCS silently drops overlapping spawns. The
-# magnitude just adds clearance for the building + vehicle footprints; it does not
-# need to exceed the grid's reach (the direction does the work).
+# The reserve vehicles are laid in a grid that grows in the garage's local +x/+y
+# from the TGO position (motorpoolpopulator._make_unit: slot 0 sits exactly on
+# tgo.position, then the grid is rotated to the garage heading). Offsetting the
+# depot in the opposite (-x/-y) local corner — and rotating it by the same heading —
+# guarantees it never shares a spawn point with a vehicle whatever the orientation
+# (DCS silently drops overlapping spawns). The magnitude just adds clearance for the
+# building + vehicle footprints; it does not need to exceed the grid's reach (the
+# direction does the work).
 _DEPOT_OFFSET_M = 50.0
 
 
@@ -55,15 +58,22 @@ class MotorpoolGenerator(GroundObjectGenerator):
         # respawns every mission (population is ephemeral). Placed clear of the
         # vehicle grid (see _DEPOT_OFFSET_M) so it never collides with a parked unit.
         origin = self.ground_object.position
-        depot_pos = origin.new_in_same_map(
-            origin.x - _DEPOT_OFFSET_M, origin.y - _DEPOT_OFFSET_M
+        heading = self.ground_object.heading
+        depot_pos = PointWithHeading.from_point(
+            origin.new_in_same_map(
+                origin.x - _DEPOT_OFFSET_M, origin.y - _DEPOT_OFFSET_M
+            ),
+            heading,
         )
+        # Rotate the depot corner about the origin by the garage heading so it stays
+        # opposite the (also-rotated) vehicle grid at any orientation.
+        depot_pos.rotate(origin, heading)
         self.m.static_group(
             country=self.country,
             name=f"{self.ground_object.name} Depot",
             _type=Fortification.Garage_A,
             position=depot_pos,
-            heading=self.ground_object.heading.degrees,
+            heading=heading.degrees,
         )
 
     def generate(self) -> None:
