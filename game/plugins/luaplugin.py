@@ -72,6 +72,7 @@ class LuaPluginOption(PluginSettings):
 class LuaPluginDefinition:
     identifier: str
     name: str
+    description: str
     present_in_ui: bool
     enabled_by_default: bool
     options: List[LuaPluginOption]
@@ -120,6 +121,7 @@ class LuaPluginDefinition:
         return cls(
             identifier=name,
             name=data["nameInUI"],
+            description=data.get("descriptionInUI", ""),
             present_in_ui=not data.get("skipUI", False),
             enabled_by_default=data.get("defaultValue", False),
             options=options,
@@ -137,6 +139,10 @@ class LuaPlugin(PluginSettings):
     @property
     def name(self) -> str:
         return self.definition.name
+
+    @property
+    def description(self) -> str:
+        return self.definition.description
 
     @property
     def show_in_ui(self) -> bool:

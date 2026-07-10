@@ -1,5 +1,6 @@
 {
     "nameInUI": "Carsten's Arty Spotter",
+    "descriptionInUI": "Lets players call in friendly artillery fire missions on map-marked positions, with control over salvo size, dispersion, and how far away targets can be spotted.",
     "defaultValue": false,
     "specificOptions": [
         {

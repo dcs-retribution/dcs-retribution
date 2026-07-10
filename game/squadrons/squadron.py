@@ -467,6 +467,15 @@ class Squadron:
         return max(self.number_of_available_pilots, self.untasked_aircraft)
 
     @property
+    def untasked_crewed_aircraft(self) -> int:
+        """Untasked aircraft that also have a free pilot to fly them — the real number
+        launchable this turn. ``untasked_aircraft`` alone can exceed the pilots on hand;
+        this caps it. Equals ``untasked_aircraft`` when pilot limits are disabled."""
+        if not self.pilot_limits_enabled:
+            return self.untasked_aircraft
+        return min(self.untasked_aircraft, self.number_of_available_pilots)
+
+    @property
     def expected_size_next_turn(self) -> int:
         return self.owned_aircraft + self.pending_deliveries
 
