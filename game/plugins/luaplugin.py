@@ -8,9 +8,23 @@ from pathlib import Path
 from typing import List, Optional, TYPE_CHECKING, Any
 
 from game.settings import Settings
+from game.utils import escape_string_for_lua
 
 if TYPE_CHECKING:
     from game.missiongenerator.luagenerator import LuaGenerator
+
+
+def _lua_literal(value: Any) -> str:
+    """Render a plugin-option value as a Lua literal for mission injection.
+
+    bool -> true/false, numbers -> as-is, everything else -> a quoted string
+    (needed for dropdown/choice options, whose value is a string).
+    """
+    if isinstance(value, bool):
+        return "true" if value else "false"
+    if isinstance(value, (int, float)):
+        return str(value)
+    return f'"{escape_string_for_lua(str(value))}"'
 
 
 class LuaPluginWorkOrder:
@@ -58,10 +72,17 @@ class PluginSettings:
 
 class LuaPluginOption(PluginSettings):
     def __init__(
-        self, identifier: str, name: str, min: Any, max: Any, value: Any
+        self,
+        identifier: str,
+        name: str,
+        min: Any,
+        max: Any,
+        value: Any,
+        choices: Optional[List[str]] = None,
     ) -> None:
         super().__init__(identifier, value)
         self.name = name
+        self.choices = choices
         if type(value) == int or type(value) == float:
             self.min, self.max = min, max
         else:
@@ -94,6 +115,7 @@ class LuaPluginDefinition:
                     min=option.get("minimumValue", 0),
                     max=option.get("maximumValue", 10000),
                     value=option.get("defaultValue"),
+                    choices=option.get("choices"),
                 )
             )
 
@@ -180,13 +202,14 @@ class LuaPlugin(PluginSettings):
         if self.options:
             option_decls = []
             for option in self.options:
-                value = str(option.get_value).lower()
+                value = _lua_literal(option.get_value)
                 name = option.identifier
                 option_decls.append(f"    dcsRetribution.plugins.{name} = {value}")
 
             joined_options = "\n".join(option_decls)
 
-            lua = textwrap.dedent(f"""\
+            lua = textwrap.dedent(
+                f"""\
                 -- {self.identifier} plugin configuration.
 
                 if dcsRetribution then
@@ -197,7 +220,8 @@ class LuaPlugin(PluginSettings):
                     {joined_options}
                 end
 
-            """)
+            """
+            )
 
             lua_generator.inject_lua_trigger(
                 lua, f"{self.identifier} plugin configuration"
