@@ -18,6 +18,7 @@ def _generator(
 ) -> tuple[AirbaseGroundObjectGenerator, ControlPoint]:
     cp = MagicMock(spec=ControlPoint)
     cp.name = "Test CP"
+    cp.position = Point(0.0, 0.0, MagicMock(spec=Terrain))
     cp.connected_objectives = []
     cp.preset_locations = PresetLocations(motorpools=motorpool_locations)
     game = SimpleNamespace(settings=SimpleNamespace(motorpool_enabled=enabled))
@@ -28,8 +29,9 @@ def _generator(
 
 
 def _loc() -> PresetLocation:
+    # Authored outside the CP's 3 km capture zone (see warn_if_motorpool_...).
     return PresetLocation(
-        "Garage", Point(0.0, 0.0, MagicMock(spec=Terrain)), Heading.from_degrees(0)
+        "Garage", Point(4000.0, 0.0, MagicMock(spec=Terrain)), Heading.from_degrees(0)
     )
 
 

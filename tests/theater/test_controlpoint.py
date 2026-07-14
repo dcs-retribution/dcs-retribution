@@ -1,8 +1,12 @@
+import logging
+
 import pytest
 from typing import Any
+from unittest.mock import MagicMock
 
 from dcs import Point
 from dcs.planes import AJS37
+from dcs.terrain import Terrain
 from dcs.terrain.terrain import Airport
 from game.ato.flighttype import FlightType
 from game.dcs.aircrafttype import AircraftType
@@ -13,11 +17,13 @@ from game.squadrons.operatingbases import OperatingBases
 from game.theater.controlpoint import (
     Airfield,
     Carrier,
+    ControlPoint,
     Lha,
     OffMapSpawn,
     Fob,
     ParkingType,
     Player,
+    warn_if_motorpool_inside_capture_zone,
 )
 from game.utils import Heading
 
@@ -219,3 +225,38 @@ def test_parking_type_from_aircraft(mocker: Any) -> None:
     assert parking_type.include_rotary_wing == False
     assert parking_type.include_fixed_wing == True
     assert parking_type.include_fixed_wing_stol == True
+
+
+def _capture_zone_cp(position: Point, name: str = "Test CP") -> Any:
+    """A stand-in ControlPoint carrying only what the capture-zone check reads."""
+    cp = MagicMock(spec=ControlPoint)
+    cp.name = name
+    cp.position = position
+    return cp
+
+
+def test_motorpool_inside_capture_zone_logs_error(caplog: Any) -> None:
+    terrain = MagicMock(spec=Terrain)
+    cp = _capture_zone_cp(Point(0.0, 0.0, terrain))
+    # 2.5 km east of the CP: inside the 3 km capture radius.
+    location = Point(2500.0, 0.0, terrain)
+
+    with caplog.at_level(logging.ERROR):
+        warn_if_motorpool_inside_capture_zone("JAGUAR", location, cp)
+
+    assert any(
+        "JAGUAR" in record.message and "capture zone" in record.message
+        for record in caplog.records
+    )
+
+
+def test_motorpool_outside_capture_zone_is_silent(caplog: Any) -> None:
+    terrain = MagicMock(spec=Terrain)
+    cp = _capture_zone_cp(Point(0.0, 0.0, terrain))
+    # 3.5 km east of the CP: outside the 3 km capture radius.
+    location = Point(3500.0, 0.0, terrain)
+
+    with caplog.at_level(logging.ERROR):
+        warn_if_motorpool_inside_capture_zone("JAGUAR", location, cp)
+
+    assert not any("capture zone" in record.message for record in caplog.records)

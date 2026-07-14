@@ -287,6 +287,7 @@ class Migrator:
     def _ensure_motorpool_tgos(self) -> None:
         from game.data.groups import GroupTask
         from game.naming import namegen
+        from game.theater.controlpoint import warn_if_motorpool_inside_capture_zone
         from game.theater.theatergroundobject import MotorpoolGroundObject
 
         if not self.game.settings.motorpool_enabled:
@@ -298,11 +299,13 @@ class Migrator:
             if any(isinstance(go, MotorpoolGroundObject) for go in cp.ground_objects):
                 continue
             for location in locations:
+                name = namegen.random_objective_name()
+                warn_if_motorpool_inside_capture_zone(name, location, cp)
                 cp.connected_objectives.append(
                     MotorpoolGroundObject(
                         # Codename like every other TGO; the "motorpool" category
                         # label already says what it is.
-                        namegen.random_objective_name(),
+                        name,
                         location,
                         cp,
                         GroupTask.MOTORPOOL,

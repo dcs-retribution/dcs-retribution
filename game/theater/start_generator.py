@@ -19,6 +19,7 @@ from game.theater import (
     NavalControlPoint,
     EssexCarrier,
 )
+from game.theater.controlpoint import warn_if_motorpool_inside_capture_zone
 from game.theater.theatergroundobject import (
     BuildingGroundObject,
     IadsBuildingGroundObject,
@@ -526,6 +527,7 @@ class AirbaseGroundObjectGenerator(ControlPointGroundObjectGenerator):
             # Codename like every other TGO (JAGUAR, ...); the "motorpool" category
             # label already identifies what it is.
             name = namegen.random_objective_name()
+            warn_if_motorpool_inside_capture_zone(name, location, self.control_point)
             tgo = MotorpoolGroundObject(
                 name, location, self.control_point, GroupTask.MOTORPOOL
             )
