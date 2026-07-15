@@ -71,6 +71,7 @@ from .missiontarget import MissionTarget
 from .player import Player
 from .theatergroundobject import (
     GenericCarrierGroundObject,
+    MotorpoolGroundObject,
     TheaterGroundObject,
     VehicleGroupGroundObject,
 )
@@ -125,6 +126,35 @@ def warn_if_motorpool_inside_capture_zone(
             "will block base capture. Relocate the motorpool's Garage_A marker "
             "outside the capture radius."
         )
+
+
+@dataclass(frozen=True)
+class MotorpoolCaptureViolation:
+    control_point: str
+    motorpool: str
+    distance: Distance
+
+    def __str__(self) -> str:
+        return f"{self.motorpool} ({self.distance} from {self.control_point})"
+
+
+def motorpools_inside_capture_zone(
+    control_points: Iterable[ControlPoint],
+) -> list[MotorpoolCaptureViolation]:
+    """Every motorpool TGO whose parked-vehicle position sits inside its CP's
+    capture zone. The owning CP cannot be captured by ground assault while any
+    of those live ground units survive inside the radius, so the UI warns
+    (both at new-game generation and on save load)."""
+    violations: list[MotorpoolCaptureViolation] = []
+    for cp in control_points:
+        for tgo in cp.ground_objects:
+            if isinstance(tgo, MotorpoolGroundObject):
+                distance = meters(tgo.position.distance_to_point(cp.position))
+                if distance < meters(TRIGGER_RADIUS_CAPTURE):
+                    violations.append(
+                        MotorpoolCaptureViolation(cp.name, tgo.name, distance)
+                    )
+    return violations
 
 
 class ControlPointType(Enum):

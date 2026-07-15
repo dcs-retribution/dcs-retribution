@@ -23,8 +23,11 @@ from game.theater.controlpoint import (
     Fob,
     ParkingType,
     Player,
+    motorpools_inside_capture_zone,
     warn_if_motorpool_inside_capture_zone,
 )
+from game.theater.presetlocation import PresetLocation
+from game.theater.theatergroundobject import MotorpoolGroundObject
 from game.utils import Heading
 
 
@@ -260,3 +263,47 @@ def test_motorpool_outside_capture_zone_is_silent(caplog: Any) -> None:
         warn_if_motorpool_inside_capture_zone("JAGUAR", location, cp)
 
     assert not any("capture zone" in record.message for record in caplog.records)
+
+
+def _preset(name: str, position: Point) -> PresetLocation:
+    return PresetLocation(name, position, Heading.from_degrees(0))
+
+
+def _cp_with_motorpool_tgos(
+    cp_position: Point,
+    tgo_positions: list[tuple[str, Point]],
+    name: str = "Test CP",
+) -> Any:
+    cp = MagicMock(spec=ControlPoint)
+    cp.name = name
+    cp.position = cp_position
+    cp.captured = MagicMock()
+    cp.captured.is_blue = True
+    cp.ground_objects = [
+        MotorpoolGroundObject(tgo_name, _preset(tgo_name, pos), cp, None)
+        for tgo_name, pos in tgo_positions
+    ]
+    return cp
+
+
+def test_motorpools_inside_capture_zone_reports_only_inside() -> None:
+    terrain = MagicMock(spec=Terrain)
+    cp = _cp_with_motorpool_tgos(
+        Point(0.0, 0.0, terrain),
+        [
+            ("Near", Point(2500.0, 0.0, terrain)),
+            ("Far", Point(4000.0, 0.0, terrain)),
+        ],
+    )
+    violations = motorpools_inside_capture_zone([cp])
+    assert len(violations) == 1
+    assert violations[0].motorpool == "Near"
+    assert violations[0].control_point == "Test CP"
+
+
+def test_motorpools_inside_capture_zone_empty_when_all_outside() -> None:
+    terrain = MagicMock(spec=Terrain)
+    cp = _cp_with_motorpool_tgos(
+        Point(0.0, 0.0, terrain), [("Far", Point(4000.0, 0.0, terrain))]
+    )
+    assert motorpools_inside_capture_zone([cp]) == []
