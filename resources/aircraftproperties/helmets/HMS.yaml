@@ -1,7 +1,0 @@
-# Soviet helmet-mounted sight (Shchel-3UM) on the MiG-29. Fielded with the MiG-29 /
-# R-73 generation circa 1985. Shares HelmetMountedDevice id 1 with JHMCS but is its own
-# era-defining system, so it is keyed by its "HMS" label and gated at its own year.
-name: HMS
-introduction_year: 1985
-property_ids:
-  - HelmetMountedDevice

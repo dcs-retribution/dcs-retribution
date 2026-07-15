@@ -1,8 +1,0 @@
-# Scorpion Helmet-Mounted Cueing System on the A-10C II. Integrated circa 2012. Shares
-# HelmetMountedDevice id 1 with JHMCS/HMS/SURA but is its own era-defining system, so it
-# is keyed by its "HMCS" label and gated at its own year. The combined "HMCS + NVG"
-# option carries the same cueing system and is gated alongside it.
-name: HMCS
-introduction_year: 2012
-property_ids:
-  - HelmetMountedDevice

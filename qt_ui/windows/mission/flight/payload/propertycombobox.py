@@ -3,17 +3,22 @@ from dcs.unitpropertydescription import UnitPropertyDescription
 
 from game import Game
 from game.ato.flightmember import FlightMember
-from game.dcs.aircraftproperties import available_value_ids, period_correct_value
+from game.dcs.aircrafttype import AircraftType
 from .missingpropertydataerror import MissingPropertyDataError
 
 
 class PropertyComboBox(QComboBox):
     def __init__(
-        self, flight_member: FlightMember, prop: UnitPropertyDescription, game: Game
+        self,
+        flight_member: FlightMember,
+        prop: UnitPropertyDescription,
+        aircraft: AircraftType,
+        game: Game,
     ) -> None:
         super().__init__()
         self.flight_member = flight_member
         self.prop = prop
+        self.gate = aircraft.property_date_gate
         self.game = game
 
         if prop.values is None:
@@ -25,12 +30,14 @@ class PropertyComboBox(QComboBox):
             self.prop.identifier, self.prop.default
         )
 
-        if self.game.settings.restrict_weapons_by_date:
-            value_ids = available_value_ids(prop, self.game.date)
+        if self.game.settings.restrict_props_by_date:
+            value_ids = self.gate.available_value_ids(prop, self.game.date)
             # If the stored/default selection is gated out for the campaign date, show a
             # period-correct value instead. Storage is left untouched (mirroring weapon
             # degrade) — the mission generator applies the same clamp at generation.
-            current_value = period_correct_value(prop, current_value, self.game.date)
+            current_value = self.gate.period_correct_value(
+                prop, current_value, self.game.date
+            )
         else:
             value_ids = list(prop.values)
 
@@ -52,8 +59,8 @@ class PropertyComboBox(QComboBox):
         current_value = flight_member.properties.get(
             self.prop.identifier, self.prop.default
         )
-        if self.game.settings.restrict_weapons_by_date:
-            current_value = period_correct_value(
+        if self.game.settings.restrict_props_by_date:
+            current_value = self.gate.period_correct_value(
                 self.prop, current_value, self.game.date
             )
         text = self.prop.values.get(current_value)

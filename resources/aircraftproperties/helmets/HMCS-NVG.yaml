@@ -1,7 +1,0 @@
-# The A-10C II "HMCS + NVG" option pairs the Scorpion HMCS (see HMCS.yaml) with NVGs.
-# Because it carries the era-defining HMCS, it is gated at the same year. Plain NVGs are
-# not gated; only the HMCS-bearing options are.
-name: HMCS + NVG
-introduction_year: 2012
-property_ids:
-  - HelmetMountedDevice

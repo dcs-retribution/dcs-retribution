@@ -89,7 +89,9 @@ class PropertyEditor(QGridLayout):
                 self.flight_member_update_listeners.append(widget.set_flight_member)
                 return widget
             case "comboList":
-                widget = PropertyComboBox(self.flight_member, prop, self.game)
+                widget = PropertyComboBox(
+                    self.flight_member, prop, self.flight.unit_type, self.game
+                )
                 self.flight_member_update_listeners.append(widget.set_flight_member)
                 return widget
             case "groupbox" | "label":
