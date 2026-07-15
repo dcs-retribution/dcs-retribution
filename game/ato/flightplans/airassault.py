@@ -154,8 +154,16 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
         else:
             heading = tgt.position.heading_between_point(ingress.position)
             drop_pos = tgt.position.point_from_heading(heading, 1200)
-            # Keep the drop-off out of the water
-            drop_pos = self.flight.coalition.game.theater.nearest_land_pos(drop_pos)
+            # Keep the drop-off out of the water. nearest_land_pos snaps to the nearest
+            # landmass in the WHOLE theater, so on an island map it teleports the LZ
+            # hundreds of NM to a distant island when the target's own islet isn't in the
+            # landmap (e.g. a small-island FOB in the Marianas). Bound it: if the snap
+            # lands implausibly far, keep the LZ at the target — a ground objective is
+            # already on land.
+            land_pos = self.flight.coalition.game.theater.nearest_land_pos(drop_pos)
+            if land_pos.distance_to_point(tgt.position) > 5000:
+                land_pos = tgt.position
+            drop_pos = land_pos
         drop_off_zone = MissionTarget("Dropoff zone", drop_pos)
         dz = builder.dropoff_zone(drop_off_zone) if self.flight.is_helo else None
 
