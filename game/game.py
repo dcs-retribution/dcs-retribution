@@ -33,6 +33,7 @@ from .infos.information import Information
 from .lasercodes.lasercoderegistry import LaserCodeRegistry
 from .profiling import logged_duration
 from .settings import Settings
+from .spatialindex import LiveUnitIndex
 from .theater import ConflictTheater, Player
 from .theater.bullseye import Bullseye
 from .theater.theatergroundobject import (
@@ -169,6 +170,11 @@ class Game:
 
     def __setstate__(self, state: dict[str, Any]) -> None:
         self.__dict__.update(state)
+        # Heal carcass lists bloated by old saves. Guarded like laser_code_registry
+        # below: __destroyed_units postdates the oldest saves, so a pre-2020 save
+        # arrives without it and must not AttributeError here.
+        if hasattr(self, "_Game__destroyed_units"):
+            self._dedup_destroyed_units()
         if not hasattr(self, "laser_code_registry"):
             self.laser_code_registry = LaserCodeRegistry()
             for front_line in self.theater.conflicts():
@@ -587,15 +593,95 @@ class Game:
         self.__culling_zones = zones
         events.update_unculled_zones(zones)
 
+    @staticmethod
+    def _carcass_key(data: dict[str, Union[float, str]]) -> tuple[str, int, int]:
+        # (type, x, z) quantized to 1 m identifies one carcass. Statics that
+        # Retribution respawns ALIVE each mission (FARP fuel/ammo depots,
+        # motorpool Garage_A) fire a fresh S_EVENT_DEAD at the same deterministic
+        # spot every time they are bombed; keying on this collapses them to a
+        # single wreck. Type is in the key so adjacent different-type statics
+        # (FARP fuel vs ammo) never merge; 1 m rounding absorbs Lua->JSON float
+        # jitter (distinct same-type statics are always spaced well over a metre).
+        # Precondition: data must carry "x" and "z" (raises KeyError otherwise).
+        # For entries of unknown provenance use _safe_carcass_key instead.
+        return (
+            str(data.get("type", "")),
+            round(cast(float, data["x"])),
+            round(cast(float, data["z"])),
+        )
+
+    @staticmethod
+    def _safe_carcass_key(
+        data: dict[str, Union[float, str]],
+    ) -> tuple[str, int, int] | None:
+        # None for an unkeyable legacy entry (missing/garbled coords). Callers
+        # treat None as "no match", so such entries are never merged nor crash
+        # the dedup scan — matching _dedup's keep-them-untouched behaviour.
+        # OverflowError: round(±inf); ValueError: round(nan); KeyError: no x/z;
+        # TypeError: non-float coord.
+        try:
+            return Game._carcass_key(data)
+        except (KeyError, TypeError, ValueError, OverflowError):
+            return None
+
     def add_destroyed_units(self, data: dict[str, Union[float, str]]) -> None:
         pos = Point(
             cast(float, data["x"]), cast(float, data["z"]), self.theater.terrain
         )
-        if self.theater.is_on_land(pos):
-            self.__destroyed_units.append(data)
+        if not self.theater.is_on_land(pos):
+            return
+        # Bound to one carcass per (type, cell): a respawned-alive static bombed
+        # every mission would otherwise stack a new hidden wreck each turn.
+        # _safe_carcass_key throughout so a garbled coord (missing/inf/nan) never
+        # crashes turn commit; an unkeyable entry (key None) can't be deduped, so
+        # it's just recorded — mirroring _dedup's keep-them-untouched behaviour.
+        key = self._safe_carcass_key(data)
+        if key is not None and any(
+            self._safe_carcass_key(d) == key for d in self.__destroyed_units
+        ):
+            return
+        self.__destroyed_units.append(data)
 
     def get_destroyed_units(self) -> list[dict[str, Union[float, str]]]:
         return self.__destroyed_units
+
+    def _dedup_destroyed_units(self) -> None:
+        # Heal saves written before the insert-path dedup existed: collapse
+        # stacked carcasses to one per (type, cell). First occurrence wins,
+        # order preserved.
+        seen: set[tuple[str, int, int]] = set()
+        deduped: list[dict[str, Union[float, str]]] = []
+        for d in self.__destroyed_units:
+            key = self._safe_carcass_key(d)
+            if key is None:
+                deduped.append(d)  # unkeyable legacy entry: keep it, never dedup
+                continue
+            if key not in seen:
+                seen.add(key)
+                deduped.append(d)
+        self.__destroyed_units = deduped
+
+    def prune_destroyed_units(self, index: LiveUnitIndex) -> None:
+        # Drop any carcass a live unit now occupies: once something alive stands at
+        # a cell, its old wreck-history there is stale (the list is cosmetic-only).
+        # Deleting (vs keeping-hidden) avoids two-husk stacking when a site is
+        # rebuilt as a different type and re-killed. Garbled-coord entries can't be
+        # matched, so they're kept — consistent with _safe_carcass_key.
+        kept: list[dict[str, Union[float, str]]] = []
+        for d in self.__destroyed_units:
+            try:
+                x = cast(float, d["x"])
+                z = cast(float, d["z"])
+                occupied = index.occupied(float(x), float(z))
+            except (KeyError, TypeError, ValueError):
+                # Missing x/z (KeyError) or a non-numeric coord (TypeError/
+                # ValueError) -> unmatchable, keep the entry. Non-finite coords
+                # don't reach here: LiveUnitIndex.occupied is total over floats.
+                kept.append(d)
+                continue
+            if not occupied:
+                kept.append(d)
+        self.__destroyed_units = kept
 
     def position_culled(self, pos: Point) -> bool:
         """
