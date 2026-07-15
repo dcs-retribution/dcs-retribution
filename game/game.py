@@ -10,12 +10,16 @@ from enum import Enum
 from typing import Any, List, Optional, TYPE_CHECKING, Union, cast
 from uuid import UUID
 
-from dcs.countries import Switzerland, USAFAggressors, UnitedNationsPeacekeepers
+from dcs.countries import (
+    Switzerland,
+    USAFAggressors,
+    UnitedNationsPeacekeepers,
+    country_dict,
+)
 from dcs.country import Country
 from dcs.mapping import Point
 from dcs.task import CAP, CAS, PinpointStrike
 from dcs.vehicles import AirDefence
-from faker import Faker
 
 from game.ato.closestairfields import ObjectiveDistanceCache
 from game.ground_forces.ai_ground_planner import GroundPlanner
@@ -218,9 +222,6 @@ class Game:
     def faction_for(self, player: Player) -> Faction:
         return self.coalition_for(player).faction
 
-    def faker_for(self, player: Player) -> Faker:
-        return self.coalition_for(player).faker
-
     def air_wing_for(self, player: Player) -> AirWing:
         return self.coalition_for(player).air_wing
 
@@ -245,7 +246,18 @@ class Game:
         for candidate in (UnitedNationsPeacekeepers, Switzerland, USAFAggressors):
             if candidate.id not in ids_in_use:
                 return candidate()
-        return USAFAggressors()
+        # Every preferred neutral is claimed by a belligerent (e.g. a USAF
+        # Aggressors red faction against a blue CJTF fielding UN and Swiss
+        # squadrons). Returning a claimed country would place one nation on two
+        # coalitions -- the unloadable .miz this property exists to prevent -- so
+        # scan the full pydcs country list for any unclaimed nation instead.
+        for country_id in sorted(country_dict):
+            if country_id not in ids_in_use:
+                return country_dict[country_id]()
+        raise RuntimeError(
+            "No neutral country available: every pydcs country is claimed by a "
+            "belligerent"
+        )
 
     def coalition_for(self, player: Player) -> Coalition:
         if player.is_neutral:

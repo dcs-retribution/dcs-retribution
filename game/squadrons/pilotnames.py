@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from functools import lru_cache
-from typing import Optional
+from typing import Optional, Sequence
 
 from dcs.country import Country
 from faker import Faker
@@ -136,18 +136,34 @@ def faker_for_locale(locale: str) -> Optional[Faker]:
     return faker
 
 
-def faker_for_country(country: Optional[Country], fallback: Faker) -> Faker:
-    """Return a Faker whose locale matches ``country``, else ``fallback``.
+@lru_cache(maxsize=None)
+def faker_for_locales(locales: Optional[tuple[str, ...]]) -> Faker:
+    """One shared Faker over a faction's locale list (the squadron fallback).
+
+    Cached by the locale tuple so every squadron of a faction shares one
+    instance; ``None`` / an empty tuple (a faction with no ``locales``) builds
+    Faker's default. This is the one construction path for faction-locale
+    fakers — the old per-``Coalition`` instance is gone.
+    """
+    return Faker(list(locales) if locales else None)
+
+
+def faker_for_country(
+    country: Optional[Country], fallback_locales: Optional[Sequence[str]]
+) -> Faker:
+    """Return a Faker whose locale matches ``country``.
 
     Unmapped countries, the multinational / irregular factions, and any locale
-    not shipped (or not gender-aware) in the installed Faker all resolve to
-    ``fallback`` (the coalition's faction-locale Faker), so a roster is always
-    generated.
+    not shipped (or not gender-aware) in the installed Faker all resolve to a
+    faker built from ``fallback_locales`` (the faction's locale list), so a
+    roster is always generated.
     """
-    if country is None:
-        return fallback
-    locale = COUNTRY_FAKER_LOCALES.get(country.name)
-    if locale is None:
-        return fallback
-    faker = faker_for_locale(locale)
-    return faker if faker is not None else fallback
+    if country is not None:
+        locale = COUNTRY_FAKER_LOCALES.get(country.name)
+        if locale is not None:
+            faker = faker_for_locale(locale)
+            if faker is not None:
+                return faker
+    return faker_for_locales(
+        tuple(fallback_locales) if fallback_locales is not None else None
+    )
