@@ -131,7 +131,7 @@ JTACS [F-10 Menu] :
 CRUISE MISSILES [F-10 Menu] :
 ====================
 {% for raid in cruise_missile_raids %}
-Raid tasked: {{ raid.missiles }} missile(s) from {{ raid.group_name }} vs {{ raid.target_name }}, launching shortly after mission start.
+Raid tasked: {{ raid.missiles }} missile(s) from {{ raid.group_name }} vs {{ raid.target_name }}, launching at a random moment early in the mission.
 {% endfor %}
 {% for ship in cruise_missile_ships %}{{ ship.group_name }} -- {{ ship.remaining }} missile(s) remaining
 {% endfor %}

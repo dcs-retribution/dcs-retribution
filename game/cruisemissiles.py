@@ -134,7 +134,8 @@ class LacmShip:
 @dataclass(frozen=True)
 class CruiseRaid:
     """One planned auto raid: *missiles* cruise missiles from *group_name* onto
-    the target's position. The plugin fires it after its startup delay."""
+    the target's position. The plugin fires it at a random moment inside its
+    launch window (staggered per raid, like the missile-site fire tasks)."""
 
     group_name: str
     coalition: str

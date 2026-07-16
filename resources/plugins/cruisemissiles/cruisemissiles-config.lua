@@ -6,8 +6,10 @@
 --   raids = { { group=, coalition=, target=, x=, y=, count= }, ... }  -- planned auto raids
 --
 -- Two fire paths share one budget:
---   * AUTO raids: after a launch delay, each planned raid ripples its salvo from its ship via a
---     FireAtPoint task with the cruise-missile weapon flag (the ME "fire Tomahawks at a point"
+--   * AUTO raids: each planned raid launches at its own random moment inside the launch window
+--     (staggered so several naval groups don't ripple simultaneously and stack the missile count
+--     against the framerate -- the same stagger the SCUD fire tasks use), rippling its salvo via
+--     a FireAtPoint task with the cruise-missile weapon flag (the ME "fire Tomahawks at a point"
 --     mechanism, pushed by script).
 --   * PLAYER call-for-fire: an F10 "Cruise Missile Strike" menu fires a salvo from the nearest
 --     capable friendly ship onto the coalition's last F10 map marker.
@@ -37,7 +39,8 @@ local NM_TO_M = 1852
 local CRUISE_MISSILE_FLAG = 2097152
 
 -- Defaults. Overridable via the plugin options (dcsRetribution.plugins.cruisemissiles).
-local RAID_DELAY = 240 -- s after mission start before the auto raids launch
+local RAID_DELAY_MIN = 240 -- s after mission start: the auto-raid launch window opens
+local RAID_DELAY_MAX = 900 -- s after mission start: the auto-raid launch window closes
 local PLAYER_SALVO = 4 -- missiles per F10 call-for-fire
 local PLAYER_RANGE = 250 * NM_TO_M -- m, max ship-to-marker range for call-for-fire
 local SALVO_RADIUS = 100 -- m, impact dispersion radius
@@ -45,7 +48,12 @@ local MENU = true -- F10 call-for-fire menu on
 
 if dcsRetribution.plugins and dcsRetribution.plugins.cruisemissiles then
     local o = dcsRetribution.plugins.cruisemissiles
-    RAID_DELAY = tonumber(o.raidDelayS) or RAID_DELAY
+    -- raidDelayS is the pre-window legacy option name; honor it as the window open.
+    RAID_DELAY_MIN = tonumber(o.raidDelayMinS) or tonumber(o.raidDelayS) or RAID_DELAY_MIN
+    RAID_DELAY_MAX = tonumber(o.raidDelayMaxS) or RAID_DELAY_MAX
+    if RAID_DELAY_MAX < RAID_DELAY_MIN then
+        RAID_DELAY_MAX = RAID_DELAY_MIN
+    end
     PLAYER_SALVO = tonumber(o.playerSalvoSize) or PLAYER_SALVO
     PLAYER_RANGE = (tonumber(o.playerRangeNm) or 250) * NM_TO_M
     SALVO_RADIUS = tonumber(o.salvoRadiusM) or SALVO_RADIUS
@@ -125,19 +133,27 @@ local function fireCruise(groupName, x, y, count, targetLabel)
     return salvo
 end
 
--- AUTO raids: one scheduled launch pass after the delay (a dead ship / dry magazine simply
--- contributes nothing; there is no re-fire -- the raid was this turn's salvo).
-local function fireRaids()
-    for _, raid in ipairs(data.raids or {}) do
-        local ok, err = pcall(function()
-            fireCruise(raid.group, tonumber(raid.x) or 0, tonumber(raid.y) or 0,
-                tonumber(raid.count) or 0, raid.target)
-        end)
-        if not ok then
-            env.warning("cruisemissiles: raid launch error (continuing): " .. tostring(err))
-        end
+-- AUTO raids: each raid fires once at its own scheduled moment (a dead ship / dry magazine at
+-- fire time simply contributes nothing; there is no re-fire -- the raid was this turn's salvo).
+local function fireOneRaid(raid)
+    local ok, err = pcall(function()
+        fireCruise(raid.group, tonumber(raid.x) or 0, tonumber(raid.y) or 0,
+            tonumber(raid.count) or 0, raid.target)
+    end)
+    if not ok then
+        env.warning("cruisemissiles: raid launch error (continuing): " .. tostring(err))
     end
     return nil
+end
+
+-- Pick each raid's launch moment inside [RAID_DELAY_MIN, RAID_DELAY_MAX], so several naval
+-- groups (or both sides) never ripple their salvos simultaneously and stack the in-flight
+-- missile count against the framerate.
+local function raidDelay()
+    if RAID_DELAY_MAX <= RAID_DELAY_MIN then
+        return RAID_DELAY_MIN
+    end
+    return math.random(RAID_DELAY_MIN, RAID_DELAY_MAX)
 end
 
 -- PLAYER call-for-fire: nearest capable friendly ship within range of the target point.
@@ -230,7 +246,9 @@ end
 
 local ok, err = pcall(function()
     if data.raids and #data.raids > 0 then
-        timer.scheduleFunction(fireRaids, {}, timer.getTime() + RAID_DELAY)
+        for _, raid in ipairs(data.raids) do
+            timer.scheduleFunction(fireOneRaid, raid, timer.getTime() + raidDelay())
+        end
     end
     if MENU then
         for _, side in pairs({ coalition.side.RED, coalition.side.BLUE }) do

@@ -10,8 +10,9 @@ the auto-raid target pick — :mod:`game.cruisemissiles`); this lists, for the
   hard expenditure cap per group (auto raid + player salvos share it).
 * ``raids`` — this turn's planned auto raids (at most one per side), each a
   ``group``/``x``/``y``/``count``/``target``/``coalition`` record the plugin
-  fires after its startup delay. ``x`` = north (``Point.x``) / ``y`` = east
-  (``Point.y``) — the pydcs planning frame.
+  fires at a random moment inside its launch window (staggered per raid so
+  several naval groups never ripple simultaneously). ``x`` = north
+  (``Point.x``) / ``y`` = east (``Point.y``) — the pydcs planning frame.
 
 The plugin mirrors what actually fired into the ``cruise_missiles_state``
 debrief channel; the turn boundary debits the magazines from that report, never
