@@ -1488,6 +1488,18 @@ class Settings:
         # updating our dict with that.
         new_state = Settings().__dict__
         new_state.update(self.deserialize_state_dict(state))
+        # A save from before the scatter band carried only the symmetric
+        # max_plane_altitude_offset. Mirror it into the new minimum so the
+        # legacy +/-max spread is preserved exactly: a flat -2 default would
+        # re-enable scatter on a save that had set max to 0, and shrink the
+        # downward half of a wider band.
+        if (
+            "min_plane_altitude_offset" not in state
+            and "max_plane_altitude_offset" in state
+        ):
+            new_state["min_plane_altitude_offset"] = -new_state[
+                "max_plane_altitude_offset"
+            ]
         self.__dict__.update(new_state)
         from game.plugins import LuaPluginManager
 

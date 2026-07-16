@@ -48,13 +48,14 @@ def apply_patrol_altitude_floor(
     """Raise a patrol altitude to a configured floor, capped by the combat ceiling.
 
     ``floor_kft`` is in thousands of feet (the doctrine setting's units); 0 disables
-    the floor. The floor never pushes above ``max_combat_altitude``, and an altitude
-    already at or above the floor is returned unchanged.
+    the floor. The floor never pushes above ``max_combat_altitude`` and never
+    lowers an altitude; an altitude already at or above the floor is returned
+    unchanged.
     """
     floor = feet(floor_kft * 1000)
     if floor.feet <= altitude.feet:
         return altitude
-    return min(max_combat_altitude, floor)
+    return max(altitude, min(max_combat_altitude, floor))
 
 
 class WaypointBuilder:

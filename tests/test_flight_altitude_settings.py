@@ -5,11 +5,32 @@ from game.utils import feet
 
 
 def test_altitude_offset_defaults_preserve_legacy_band() -> None:
-    # Defaults must reproduce the old symmetric +/- 2k behavior so existing saves
-    # are unchanged when they auto-default the new minimum field.
+    # Defaults must reproduce the old symmetric +/- 2k band (same spread; the
+    # roll within it is now uniform rather than sign-flipped).
     settings = Settings()
     assert settings.min_plane_altitude_offset == -2
     assert settings.max_plane_altitude_offset == 2
+
+
+def test_legacy_save_mirrors_symmetric_offset_band() -> None:
+    # A pre-band save carried only the symmetric max. The unpickler mirrors it
+    # into the new minimum so max=0 (scatter off) stays off and max=5 keeps its
+    # full +/-5k spread instead of degrading to the -2 default.
+    for legacy_max, expected_min in ((0, 0), (2, -2), (5, -5)):
+        settings = Settings.__new__(Settings)
+        settings.__setstate__({"max_plane_altitude_offset": legacy_max})
+        assert settings.min_plane_altitude_offset == expected_min
+        assert settings.max_plane_altitude_offset == legacy_max
+
+
+def test_modern_save_keeps_explicit_offset_band() -> None:
+    # A save that already carries the minimum is never re-mirrored.
+    settings = Settings.__new__(Settings)
+    settings.__setstate__(
+        {"min_plane_altitude_offset": 0, "max_plane_altitude_offset": 4}
+    )
+    assert settings.min_plane_altitude_offset == 0
+    assert settings.max_plane_altitude_offset == 4
 
 
 def test_min_patrol_altitude_defaults_off() -> None:
@@ -61,3 +82,10 @@ def test_patrol_floor_does_not_lower_higher_altitude() -> None:
 
 def test_patrol_floor_capped_by_combat_ceiling() -> None:
     assert apply_patrol_altitude_floor(feet(24000), 40, feet(35000)) == feet(35000)
+
+
+def test_patrol_floor_never_lowers_below_ceiling_violations() -> None:
+    # Unreachable via get_altitude (which already clamps to the ceiling), but
+    # the helper alone must never return less than it was given.
+    base = feet(24000)
+    assert apply_patrol_altitude_floor(base, 28, feet(20000)) == base
