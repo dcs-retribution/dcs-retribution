@@ -51,56 +51,6 @@ inject_weapons(WeaponsUSA)
 
 # Artillery
 @vehiclemod
-class M142_HIMARS_GLSDB(unittype.VehicleType):
-    id = "M142_HIMARS_GLSDB"
-    name = "[CH] M142 HIMARS (GLSDB)"
-    detection_range = 0
-    threat_range = 150000
-    air_weapon_dist = 150000
-    eplrs = True
-
-
-@vehiclemod
-class M142_HIMARS_ATACMS(unittype.VehicleType):
-    id = "M142_HIMARS_ATACMS"
-    name = "[CH] M142 HIMARS (ATACMS)"
-    detection_range = 0
-    threat_range = 300000
-    air_weapon_dist = 300000
-    eplrs = True
-
-
-@vehiclemod
-class M142_HIMARS_GMLRS(unittype.VehicleType):
-    id = "M142_HIMARS_GMLRS"
-    name = "[CH] M142 HIMARS (GMLRS)"
-    detection_range = 0
-    threat_range = 90000
-    air_weapon_dist = 90000
-    eplrs = True
-
-
-@vehiclemod
-class M142_HIMARS_PRSM(unittype.VehicleType):
-    id = "M142_HIMARS_PRSM"
-    name = "[CH] M142 HIMARS (PrSM)"
-    detection_range = 0
-    threat_range = 500000
-    air_weapon_dist = 500000
-    eplrs = True
-
-
-@vehiclemod
-class M142_HIMARS_PRSM_ASHM(unittype.VehicleType):
-    id = "M142_HIMARS_PRSM_ASHM"
-    name = "[CH] M142 HIMARS (PrSM AShM)"
-    detection_range = 0
-    threat_range = 500000
-    air_weapon_dist = 500000
-    eplrs = True
-
-
-@vehiclemod
 class CH_M270A1_GLSDB(unittype.VehicleType):
     id = "CH_M270A1_GLSDB"
     name = "[CH] M270A1 MLRS (GLSDB)"
@@ -343,8 +293,8 @@ class CH_LAVAD(unittype.VehicleType):
 
 
 @vehiclemod
-class MIM104_M903_PAC2(unittype.VehicleType):
-    id = "MIM104_M903_PAC2"
+class CH_MIM104_M903_PAC2(unittype.VehicleType):
+    id = "CH_MIM104_M903_PAC2"
     name = "[CH] MIM-104 M903 PAC-2 GEM/T LN (stationary)"
     detection_range = 0
     threat_range = 150000
@@ -353,8 +303,8 @@ class MIM104_M903_PAC2(unittype.VehicleType):
 
 
 @vehiclemod
-class MIM104_M903_PAC3(unittype.VehicleType):
-    id = "MIM104_M903_PAC3"
+class CH_MIM104_M903_PAC3(unittype.VehicleType):
+    id = "CH_MIM104_M903_PAC3"
     name = "[CH] MIM-104 M903 PAC-3 MSE LN (stationary)"
     detection_range = 0
     threat_range = 120000
@@ -363,8 +313,8 @@ class MIM104_M903_PAC3(unittype.VehicleType):
 
 
 @vehiclemod
-class MIM104_ECS(unittype.VehicleType):
-    id = "MIM104_ECS"
+class CH_MIM104_ECS(unittype.VehicleType):
+    id = "CH_MIM104_ECS"
     name = "[CH] MIM-104 ECS (HEMTT)"
     detection_range = 0
     threat_range = 0
@@ -373,8 +323,8 @@ class MIM104_ECS(unittype.VehicleType):
 
 
 @vehiclemod
-class MIM104_ANMPQ65(unittype.VehicleType):
-    id = "MIM104_ANMPQ65"
+class CH_MIM104_ANMPQ65(unittype.VehicleType):
+    id = "CH_MIM104_ANMPQ65"
     name = "[CH] MIM-104 AN/MPQ-65 STR (stationary)"
     detection_range = 200000
     threat_range = 0
@@ -383,8 +333,8 @@ class MIM104_ANMPQ65(unittype.VehicleType):
 
 
 @vehiclemod
-class MIM104_ANMPQ65A(unittype.VehicleType):
-    id = "MIM104_ANMPQ65A"
+class CH_MIM104_ANMPQ65A(unittype.VehicleType):
+    id = "CH_MIM104_ANMPQ65A"
     name = "[CH] MIM-104 AN/MPQ-65A STR (stationary)"
     detection_range = 260000
     threat_range = 0
@@ -393,8 +343,8 @@ class MIM104_ANMPQ65A(unittype.VehicleType):
 
 
 @vehiclemod
-class MIM104_LTAMDS(unittype.VehicleType):
-    id = "MIM104_LTAMDS"
+class CH_MIM104_LTAMDS(unittype.VehicleType):
+    id = "CH_MIM104_LTAMDS"
     name = "[CH] MIM-104 LTAMDS STR (stationary)"
     detection_range = 400000
     threat_range = 0
@@ -403,8 +353,8 @@ class MIM104_LTAMDS(unittype.VehicleType):
 
 
 @vehiclemod
-class MIM104_EPP(unittype.VehicleType):
-    id = "MIM104_EPP"
+class CH_MIM104_EPP(unittype.VehicleType):
+    id = "CH_MIM104_EPP"
     name = "[CH] MIM-104 EPP (HEMTT)"
     detection_range = 0
     threat_range = 0
@@ -413,8 +363,8 @@ class MIM104_EPP(unittype.VehicleType):
 
 
 @vehiclemod
-class MIM104_M903_PAC2_HEMTT(unittype.VehicleType):
-    id = "MIM104_M903_PAC2_HEMTT"
+class CH_MIM104_M903_PAC2_HEMTT(unittype.VehicleType):
+    id = "CH_MIM104_M903_PAC2_HEMTT"
     name = "[CH] MIM-104 M903 PAC-2 GEM/T LN (HEMTT)"
     detection_range = 0
     threat_range = 150000
@@ -423,8 +373,8 @@ class MIM104_M903_PAC2_HEMTT(unittype.VehicleType):
 
 
 @vehiclemod
-class MIM104_M903_PAC3_HEMTT(unittype.VehicleType):
-    id = "MIM104_M903_PAC3_HEMTT"
+class CH_MIM104_M903_PAC3_HEMTT(unittype.VehicleType):
+    id = "CH_MIM104_M903_PAC3_HEMTT"
     name = "[CH] MIM-104 M903 PAC-3 MSE LN (HEMTT)"
     detection_range = 0
     threat_range = 120000
@@ -433,8 +383,8 @@ class MIM104_M903_PAC3_HEMTT(unittype.VehicleType):
 
 
 @vehiclemod
-class MIM104_ANMPQ65_HEMTT(unittype.VehicleType):
-    id = "MIM104_ANMPQ65_HEMTT"
+class CH_MIM104_ANMPQ65_HEMTT(unittype.VehicleType):
+    id = "CH_MIM104_ANMPQ65_HEMTT"
     name = "[CH] MIM-104 AN/MPQ-65 STR (HEMTT)"
     detection_range = 200000
     threat_range = 0
@@ -443,8 +393,8 @@ class MIM104_ANMPQ65_HEMTT(unittype.VehicleType):
 
 
 @vehiclemod
-class MIM104_ANMPQ65A_HEMTT(unittype.VehicleType):
-    id = "MIM104_ANMPQ65A_HEMTT"
+class CH_MIM104_ANMPQ65A_HEMTT(unittype.VehicleType):
+    id = "CH_MIM104_ANMPQ65A_HEMTT"
     name = "[CH] MIM-104 AN/MPQ-65A STR (HEMTT)"
     detection_range = 260000
     threat_range = 0
@@ -453,8 +403,8 @@ class MIM104_ANMPQ65A_HEMTT(unittype.VehicleType):
 
 
 @vehiclemod
-class MIM104_LTAMDS_HEMTT(unittype.VehicleType):
-    id = "MIM104_LTAMDS_HEMTT"
+class CH_MIM104_LTAMDS_HEMTT(unittype.VehicleType):
+    id = "CH_MIM104_LTAMDS_HEMTT"
     name = "[CH] MIM-104 LTAMDS STR (HEMTT)"
     detection_range = 400000
     threat_range = 0
@@ -497,15 +447,6 @@ class CH_THAAD_TFCC(unittype.VehicleType):
 class CH_MTVR(unittype.VehicleType):
     id = "CH_MTVR"
     name = "[CH] Oshkosh MTVR MK23"
-    detection_range = 0
-    threat_range = 0
-    air_weapon_dist = 0
-
-
-@vehiclemod
-class CH_FMTV_M1083(unittype.VehicleType):
-    id = "CH_FMTV_M1083"
-    name = "[CH] Oshkosh FMTV M1083"
     detection_range = 0
     threat_range = 0
     air_weapon_dist = 0
@@ -581,16 +522,6 @@ class CH_M551(unittype.VehicleType):
 
 
 @vehiclemod
-class CH_OshkoshMATV_M2(unittype.VehicleType):
-    id = "CH_OshkoshMATV_M2"
-    name = "[CH] Oshkosh M-ATV MRAP (M2)"
-    detection_range = 0
-    threat_range = 1800
-    air_weapon_dist = 1800
-    eplrs = True
-
-
-@vehiclemod
 class CH_OshkoshMATV_MK19(unittype.VehicleType):
     id = "CH_OshkoshMATV_MK19"
     name = "[CH] Oshkosh M-ATV MRAP (Mk19)"
@@ -607,6 +538,57 @@ class CH_M2A3(unittype.VehicleType):
     detection_range = 0
     threat_range = 3800
     air_weapon_dist = 2500
+    eplrs = True
+
+
+# Added in CH USA export refresh (mod 2.4.x): Abrams X + Patriot KAT1 battery
+@vehiclemod
+class CH_AbramsX(unittype.VehicleType):
+    id = "CH_AbramsX"
+    name = "[CH] Abrams X MBT"
+    detection_range = 0
+    threat_range = 5000
+    air_weapon_dist = 2000
+    eplrs = True
+
+
+@vehiclemod
+class CH_MIM104_M901_PAC2_KAT1(unittype.VehicleType):
+    id = "CH_MIM104_M901_PAC2_KAT1"
+    name = "[CH] MIM-104 M901 PAC-2 GEM LN (KAT1)"
+    detection_range = 0
+    threat_range = 150000
+    air_weapon_dist = 150000
+    eplrs = True
+
+
+@vehiclemod
+class CH_MIM104_ANMPQ53_KAT1(unittype.VehicleType):
+    id = "CH_MIM104_ANMPQ53_KAT1"
+    name = "[CH] MIM-104 AN/MPQ-53 STR (KAT1)"
+    detection_range = 160000
+    threat_range = 0
+    air_weapon_dist = 0
+    eplrs = True
+
+
+@vehiclemod
+class CH_MIM104_ECS_KAT1(unittype.VehicleType):
+    id = "CH_MIM104_ECS_KAT1"
+    name = "[CH] MIM-104 ECS (HX)"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+    eplrs = True
+
+
+@vehiclemod
+class CH_MIM104_EPP_KAT1(unittype.VehicleType):
+    id = "CH_MIM104_EPP_KAT1"
+    name = "[CH] MIM-104 EPP (HX)"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
     eplrs = True
 
 
@@ -669,8 +651,8 @@ class CH_Ticonderoga_CMP(unittype.ShipType):
 
 # Planes
 @planemod
-class B_21(PlaneType):
-    id = "B-21"
+class CH_B_21(PlaneType):
+    id = "CH_B-21"
     large_parking_slot = True
     height = 5
     width = 50
@@ -680,7 +662,7 @@ class B_21(PlaneType):
     eplrs = True
     radio_frequency = 127.5
 
-    livery_name = "B-21"  # from type
+    livery_name = "CH_B-21"  # from type
 
     class Pylon1:
         MK_82_28 = (1, Weapons.MK_82_28)
