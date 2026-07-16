@@ -59,6 +59,13 @@ class PydcsWaypointBuilder:
             return self.waypoint.name
         # Prefer the player's rename; otherwise the terse auto .miz name. NB the CDU
         # fallback is `name`, not `pretty_name` (the list/kneeboard fallback) — by design.
+        #
+        # Flight-agnostic by design: AI flights are unaffected by a player's rename
+        # because a rename is written only to the player's own flight-plan waypoints
+        # (FlightWaypoint.apply_name_edit), and the player-only waypoint types a rename
+        # usually targets (target/divert/bullseye) are filtered out for AI flights
+        # upstream in WaypointGenerator.create_waypoints (only_for_player, client_count).
+        # See test_divert_and_bullseye_waypoints_are_player_only.
         return self.waypoint.custom_name or self.waypoint.name
 
     def build(self) -> MovingPoint:

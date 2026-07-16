@@ -3,6 +3,7 @@ from types import SimpleNamespace
 from dcs import Point
 from dcs.terrain import Caucasus
 
+from game.ato.flightplans.waypointbuilder import WaypointBuilder
 from game.ato.flightwaypoint import FlightWaypoint
 from game.ato.flightwaypointtype import FlightWaypointType
 from game.missiongenerator.aircraft.waypoints.pydcswaypointbuilder import (
@@ -69,3 +70,23 @@ def test_target_builder_f15e_falls_back_to_name() -> None:
     assert (
         _target_builder(None, f15e=True).dcs_name_for_waypoint() == "#T [OBJ] : Scud #0"
     )
+
+
+def test_divert_and_bullseye_waypoints_are_player_only() -> None:
+    # PR #820 propagates a player's waypoint rename to the .miz CDU name. AI-only flights
+    # must never receive that rename. The safety is structural, not a guard in
+    # dcs_name_for_waypoint: a rename is written only to the player's own flight-plan
+    # waypoints (FlightWaypoint.apply_name_edit), and the waypoint types a rename most
+    # often targets are constructed only_for_player=True so WaypointGenerator.create
+    # waypoints drops them for AI flights (client_count == 0). Lock that flag here -- if
+    # it is ever removed, AI flights would silently start emitting these waypoints and the
+    # "AI unaffected" guarantee would break. (Target waypoints set the same flag in
+    # waypointbuilder.py, near the strike-area / target builders.)
+    builder = WaypointBuilder.__new__(WaypointBuilder)
+    builder._bullseye = SimpleNamespace(position=Point(0, 0, Caucasus()))  # type: ignore[assignment]
+    divert_point = SimpleNamespace(position=Point(1, 1, Caucasus()))
+
+    assert builder.bullseye().only_for_player is True
+    divert = builder.divert(divert_point)  # type: ignore[arg-type]
+    assert divert is not None
+    assert divert.only_for_player is True
