@@ -597,6 +597,23 @@ class Game:
                 continue
             zones.append(package.target.position)
 
+        # Cruise missile strikes: the auto raid hits whatever the planner
+        # picked — usually a rear-area object no package is fragged against, so
+        # nothing else un-culls it. Without an exclusion zone the target TGO is
+        # never generated and the missiles visibly demolish the *map's* scenery
+        # at those coordinates while the campaign records nothing — a very
+        # convincing no-op (flown and confirmed vs a culled refinery). Un-cull
+        # every planned raid target, and every launching ship group so a
+        # standalone LACM shooter always spawns for the F10 call-for-fire
+        # (carrier groups are already covered by perf_do_not_cull_carrier).
+        if getattr(self.settings, "cruise_missile_strikes", False):
+            from game.cruisemissiles import lacm_ships, plan_cruise_raids
+
+            for raid in plan_cruise_raids(self):
+                zones.append(Point(raid.target_x, raid.target_y, self.theater.terrain))
+            for lacm_ship in lacm_ships(self):
+                zones.append(lacm_ship.position)
+
         self.__culling_zones = zones
         events.update_unculled_zones(zones)
 
