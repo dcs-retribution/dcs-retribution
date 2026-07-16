@@ -45,7 +45,7 @@ class Migrator:
         self._update_weather()
         self._update_tgos()
         try_set_attr(self.game.settings, "motorpool_enabled", True)
-        try_set_attr(self.game.settings, "motorpool_spawn_cap", 10)
+        try_set_attr(self.game.settings, "motorpool_spawn_cap", 25)
         self._ensure_motorpool_tgos()
         self._reload_terrain()
         self._update_theater()

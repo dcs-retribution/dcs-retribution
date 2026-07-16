@@ -547,9 +547,9 @@ class Settings:
         "Maximum motorpool vehicles per turn",
         page=CAMPAIGN_MANAGEMENT_PAGE,
         section=GENERAL_SECTION,
-        default=10,
+        default=25,
         min=0,
-        max=50,
+        max=25,
         detail=(
             "Caps how many reserve vehicles a control point renders across its "
             "motorpool(s) per turn. Lower this if motorpools hurt mission "
