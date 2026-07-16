@@ -213,6 +213,75 @@ def reconcile_cruise_missiles(game: "Game", debriefing: "Debriefing") -> None:
             mags[group_name] = max(0, mags[group_name] - fired)
 
 
+def player_briefing_info(game: "Game") -> tuple[list[LacmShip], list[CruiseRaid]]:
+    """Blue-side launching ships + this turn's planned blue raid, for the
+    mission briefing (like the rest of the briefing, written from the player
+    coalition's perspective). Empty when the master setting is off, so the
+    briefing section renders nothing. Ships list even with auto-raids off —
+    the magazine matters to the F10 call-for-fire. Pure, like the planner.
+    """
+    if not getattr(game.settings, "cruise_missile_strikes", False):
+        return [], []
+    ships = [s for s in lacm_ships(game) if s.coalition == "blue"]
+    if not ships:
+        return [], []
+    raids = [r for r in plan_cruise_raids(game) if r.coalition == "blue"]
+    return ships, raids
+
+
+def tgo_magazines(game: "Game", tgo: "TheaterGroundObject") -> list[tuple[str, int]]:
+    """``(group_name, remaining)`` per launching group of *tgo*, for the ground
+    object dialog. Empty when the setting is off or no group holds a live LACM
+    hull. Seeds unseen groups first, like every other magazine read. The caller
+    owns the friendly-side gate — enemy stock is not a click away by design.
+    """
+    if not getattr(game.settings, "cruise_missile_strikes", False):
+        return []
+    if getattr(tgo, "category", None) != "ship":
+        return []
+    ensure_magazines(game)
+    mags = magazines(game)
+    rows = []
+    for group in getattr(tgo, "groups", []):
+        name = getattr(group, "group_name", None)
+        if not name:
+            continue
+        if any(_is_alive_lacm(u) for u in getattr(group, "units", [])):
+            rows.append((name, mags.get(name, 0)))
+    return rows
+
+
+def debrief_expenditures(
+    game: "Game", debriefing: "Debriefing"
+) -> list[tuple[str, int, Optional[int]]]:
+    """``(group_name, fired, remaining)`` rows for the debrief window.
+
+    Every reported launch is listed (a launch is observable — the other side
+    got a LAUNCH WARNING and met the missiles), but ``remaining`` is only
+    filled in for the player's own groups; enemy residual stock stays hidden,
+    like everywhere else. Runs after the turn-boundary debit, so ``remaining``
+    is the post-mission magazine. A sunk blue shooter reports ``None`` too —
+    its leftover stock went down with the ship.
+    """
+    reports = getattr(debriefing.state_data, "cruise_missiles_state", None)
+    if not reports:
+        return []
+    blue_groups = {
+        group.group_name
+        for tgo, group in _lacm_groups(game)
+        if tgo.control_point.captured.is_blue
+    }
+    mags = magazines(game)
+    rows = []
+    for group_name, fired in reports:
+        fired = int(fired)
+        if fired <= 0:
+            continue
+        remaining = mags.get(group_name) if group_name in blue_groups else None
+        rows.append((group_name, fired, remaining))
+    return rows
+
+
 def _plan_side_raid(game: "Game", side: str) -> Optional[CruiseRaid]:
     ships = [s for s in lacm_ships(game) if s.coalition == side]
     if not ships:

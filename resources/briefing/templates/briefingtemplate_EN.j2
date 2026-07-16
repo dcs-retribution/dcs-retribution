@@ -127,3 +127,14 @@ JTACS [F-10 Menu] :
 {% endfor %}
 
 {% endif %}
+{%- if cruise_missile_ships|length > 0 %}
+CRUISE MISSILES [F-10 Menu] :
+====================
+{% for raid in cruise_missile_raids %}
+Raid tasked: {{ raid.missiles }} missile(s) from {{ raid.group_name }} vs {{ raid.target_name }}, launching shortly after mission start.
+{% endfor %}
+{% for ship in cruise_missile_ships %}{{ ship.group_name }} -- {{ ship.remaining }} missile(s) remaining
+{% endfor %}
+Call fire on your last F10 map marker from the Cruise Missile Strike menu (marker text "#N" sets the salvo size). There is no rearm: expended missiles are gone for the campaign.
+
+{% endif %}
