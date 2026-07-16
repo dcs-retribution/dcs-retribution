@@ -40,13 +40,13 @@ def test_register_theater_unit_is_a_noop() -> None:
     gen.unit_map.add_theater_unit_mapping.assert_not_called()  # type: ignore[attr-defined]
 
 
-def test_passivate_holds_fire_and_disables_driving() -> None:
+def test_set_passive_holds_fire_and_disables_driving() -> None:
     gen = _generator()
     u1, u2 = SimpleNamespace(player_can_drive=True), SimpleNamespace(
         player_can_drive=True
     )
     group = SimpleNamespace(points=[SimpleNamespace(tasks=[])], units=[u1, u2])
-    gen._passivate(group)  # type: ignore[arg-type]
+    gen._set_passive(group)  # type: ignore[arg-type]
     assert group.points[0].tasks == [OptROE(OptROE.Values.WeaponHold)]
     assert u1.player_can_drive is False and u2.player_can_drive is False
 

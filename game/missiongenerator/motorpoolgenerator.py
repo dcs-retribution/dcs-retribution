@@ -43,7 +43,7 @@ class MotorpoolGenerator(GroundObjectGenerator):
         # coalition AI, so suppress the EPLRS task the base generator would add.
         return
 
-    def _passivate(self, group: VehicleGroup) -> None:
+    def _set_passive(self, group: VehicleGroup) -> None:
         group.points[0].tasks.append(
             OptROE(OptROE.Values.WeaponHold)
         )  # won't return fire
@@ -86,7 +86,7 @@ class MotorpoolGenerator(GroundObjectGenerator):
             if not vehicle_units:
                 continue
             dcs_group = self.create_vehicle_group(group.group_name, vehicle_units)
-            self._passivate(dcs_group)
+            self._set_passive(dcs_group)
             unit_type = self.ground_object.motorpool_unit_types[group.id]
             self.unit_map.add_motorpool_units(
                 dcs_group, self.ground_object.control_point, unit_type
