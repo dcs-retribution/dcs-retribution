@@ -1,0 +1,136 @@
+{
+  "country": "Russia",
+  "name": "Southern Military District (modern Russia)",
+  "description": "<p>Russian Federation military on Caucasus, after annexation of Crimea, for the purpose of Abchazian Blitz campaign. Hi digit SAMs mod is required for up to date SAMs, while Codename Flanker Su-30SM and/or Su-35S mod, will level playing field over skies. Currenthill Russia, while being huge (20GB), is just adding few more vehicles, and infantry</p>",
+  "locales": [
+    "ru_RU"
+  ],
+  "authors": "Ramius",
+  "aircrafts": [
+    "Ka-50 Hokum III",
+    "An-26B",
+    "An-30M",
+    "Su-25 Frogfoot",
+    "MiG-29A Fulcrum-A",
+    "[CH] Ka-52",
+    "Su-27 Flanker-B",
+    "MiG-29S Fulcrum-C",
+    "Mi-28N Havoc",
+    "Su-34 Fullback",
+    "Mi-26",
+    "Tu-22M3 Backfire-C",
+    "MIG-29-FULCRUM",
+    "Su-30SM Flanker-H (A-G)",
+    "MiG-31BM Foxhound",
+    "Su-24M Fencer-D",
+    "Su-24MR",
+    "Ka-50 Hokum (Blackshark 3)",
+    "L-39ZA Albatros",
+    "IL-76MD",
+    "Su-30 Flanker-C",
+    "Su-33 Flanker-D",
+    "Mi-24P Hind-F",
+    "Su-30SM Flanker-H",
+    "Su-35S Flanker-M (A-G)",
+    "Su-35S Flanker-M",
+    "Mi-8MTV2 Hip",
+    "JF-17 Thunder",
+    "Su-25T Frogfoot"
+  ],
+  "awacs": [
+    "A-50"
+  ],
+  "tankers": [
+    "IL-78M"
+  ],
+  "frontline_units": [
+    "BTR-80",
+    "ZSU-23-4 Shilka",
+    "SA-19 Grison (2K22 Tunguska)",
+    "BMP-2",
+    "BMP-3",
+    "T-90A",
+    "SAM SA-22 Pantsir-S1 \"Greyhound\" [CH]",
+    "BTR-82A",
+    "T-72B3 model 2011",
+    "BRDM-2",
+    "[CH] Tigr-M",
+    "[CH] BMD-4 IFV"    
+  ],
+  "artillery_units": [
+    "BM-30 Smerch (9M55K Cluster Rockets)",
+    "BM-27 Uragan",
+    "BM-30 Smerch (9M55K5 HE Rockets)",
+    "2S19 Msta-S",
+    "2S9 Nona-S",
+    "MLRS TOS-1A Solntsepyok [CH]",
+    "2S3 Akatsiya"
+  ],
+  "logistics_units": [
+    "Truck KAMAZ 43101",
+    "LUV UAZ-469 Jeep"
+  ],
+  "infantry_units": [
+    "[CH] Kord HMG Soldier",
+    "MANPADS SA-18 Igla \"Grouse\"",
+    "[CH] 9M133 ATGM Soldier",
+    "SAM SA-24 Igla-S manpad",
+    "Paratrooper AKS",
+    "Paratrooper RPG-16",
+    "Mortar 2B11 120mm",
+    "Infantry AK-74 Rus"
+  ],
+  "preset_groups": [
+    "SA-10/S-300PS",
+    "SA-11",
+    "SA-20/S-300PMU-1",
+    "BAL LBASM",
+    "ZSU-23-4 AAA",
+    "SA-17"
+  ],
+  "air_defense_units": [
+    "SAM SA-8 Osa \"Gecko\" TEL",
+    "SA-13 Gopher (9K35 Strela-10M3)",
+    "ZSU-23-4 Shilka",
+    "ZU-23 on Ural-375",
+    "MANPADS SA-18 Igla \"Grouse\"",
+    "MANPADS SA-18 Igla-S \"Grouse\"",
+    "SAM SA-24 Igla-S manpad",
+    "SAM SA-15 Tor M2 \"Gauntlet\" [CH]",
+    "SA-15 Tor",
+    "EWR 1L13",
+    "SA-19 Grison (2K22 Tunguska)",
+    "SAM SA-22 Pantsir-S1 \"Greyhound\" [CH]",    
+    "AAA ZU-23 Emplacement"
+  ],
+  "naval_units": [
+    "Project 22160 Patrol Ship with Tor M2KM [CH]",
+    "Corvette 1124M Grisha [CH]",
+    "Corvette 1241.1 Molniya"
+  ],
+  "missiles": [
+    "SRBM 9K720 Iskander CM [CH]",
+    "SRBM 9K720 Iskander HE [CH]"
+  ],
+  "has_jtac": true,
+  "jtac_unit": "WingLoong-I",
+  "doctrine": "modern",
+  "building_set": [
+    "fuel",
+    "power",
+    "factory",
+    "invisiblefob",
+    "ammo",
+    "fob",
+    "commandcenter",
+    "ware",
+    "farp",
+    "oil",
+    "comms"
+  ],
+  "liveries_overrides": {},
+  "liveries_overrides_ground_forces": {},
+  "unrestricted_satnav": true,
+  "requirements": {},
+  "carriers": {}
+}

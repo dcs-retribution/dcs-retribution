@@ -1,0 +1,218 @@
+---
+name: Caucasus - Abchazian Blitz
+theater: Caucasus
+authors: Ramius
+description: <p>Medium campaign, set during fictional georgian war. New pro-western georgian government, taking adventage of Western Europe deteriorating relations with Russia, made a bold move to retake separatist region of Abchazia, being secretly guaranteed by the NATO umbrella. Georgian operation after initial success, halted, after russian aeromobile forces, destroyed key bridges, practically stopping offensive in Sukhumi. Week later, Russia mobilized for counter attack, objective is lighting strike, to restore control over Abchazia, and push towards Enguri Dam, this should force Georgia to sue for peace, and allow to avoid costly city fights. Time is enemy! Additional objective, is destruction of air power, and supplies in Tbilisi, Batumi and Senaki, if NATO dare to intervene.</p>
+ </p> If You decide to play as Georgia/NATO, get ready to be outnumbered, your air defence, and ground forces are not really on par, but your campaign difficulty (not mission difficulty!) will be easier. Optional, but higly recommended, are Codename Flanker Su-30 and Su-35S mods,and Hi Digit SAMs mod, that will create more challanging A2/AD bubbles around primary russian bases. All 3 mods are used in campaign order of battle.</p>  
+recommended_player_faction: Southern Military District (modern Russia)
+recommended_enemy_faction: Georgia/NATO (modern)
+recommended_start_date: 2018-05-19
+miz: Abchazian_Blitz.miz
+performance: 2
+settings:
+  restrict_weapons_by_date: true
+  squadron_start_full: true
+  max_frontline_width: 35
+  enable_squadron_aircraft_limits: true
+version: "10.7"
+recommended_player_money: 600
+recommended_enemy_money: 900
+recommended_player_income_multiplier: 0.6
+recommended_enemy_income_multiplier: 1
+squadrons:
+  
+  #Maykop-Khanskaya
+  16:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Su-25 Frogfoot
+      size: 8 
+    - primary: Armed Recon
+      secondary: air-to-ground
+      aircraft:
+        - Su-25T Frogfoot
+      size: 8 
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - Su-35S Flanker-M
+        - Su-30 Flanker-C            
+      size: 12
+  #Soch-Adler
+  18:
+    - primary: Transport
+      secondary: any
+      aircraft: 
+        - Mi-26
+      size: 2
+    - primary: Armed Recon
+      secondary: air-to-ground
+      aircraft:
+        - Ka-50 Hokum (Blackshark 3)
+        - Ka-50 Hokum III
+        - Ka-50 Hokum
+        - "[CH] Ka-52"
+      size: 4
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Mi-28N Havoc
+      size: 4
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - Mi-24P Hind-F
+      size: 4
+    - primary: TARCAP
+      secondary: air-to-air
+      aircraft:
+        - MIG-29-FULCRUM
+        - MiG-29A Fulcrum-A
+      size: 12 
+  #Mozdok
+  28:
+    - primary: OCA/Runway
+      secondary: any
+      aircraft:
+        - Tu-22M3 Backfire-C
+      size: 4
+    - primary: AEW&C
+      aircraft:
+        - A-50
+      size: 1
+    - primary: Refueling
+      aircraft:
+        - IL-78M
+      size: 2
+    - primary: DEAD
+      secondary: any
+      aircraft:
+        - Su-30SM Flanker-H
+        - Su-34 Fullback
+      size: 12      
+  #Beslan
+  32:
+    - primary: Air Assault
+      secondary: any
+      aircraft: 
+        - Mi-8MTV2 Hip
+      size: 2
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - MiG-29S Fulcrum-C
+      size: 8      
+  #Senaki-Kholki
+  23:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - AV-8B Harrier II Night Attack
+        - A-10C Thunderbolt II (Suite 7)
+        - A-10C Thunderbolt II (Suite 3)             
+      size: 6
+    - primary: SEAD
+      secondary: any
+      aircraft: 
+        - F-16CM Fighting Falcon (Block 50)
+      size: 10  
+    - primary: TARCAP
+      secondary: air-to-ground
+      aircraft:
+        - L-39ZA Albatros
+      size: 4 
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - UH-60L
+        - Mi-17 Hip
+      size: 4           
+   #Sukhumi-Babushara
+  20:
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - OH-58D(R) Kiowa Warrior
+      size: 4      
+  #Gudauta
+  21:
+    - primary: Air Assault
+      secondary: air-to-ground
+      aircraft:
+        - Mi-24P Hind-F
+      size: 4
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Ka-50 Hokum (Blackshark 3)
+        - Ka-50 Hokum III
+        - Ka-50 Hokum
+        - "[CH] Ka-52"        
+      size: 4
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - Mi-8MTV2 Hip
+      size: 2    
+  #Vaziani
+  31:
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - Mirage 2000C
+      size: 10
+    - primary: Anti-ship
+      secondary: any
+      aircraft: 
+        - F/A-18C Hornet (Lot 20)
+      size: 8
+  #Tbilisi-Lochini
+  29:
+    - primary: Refueling
+      aircraft:
+        - KC-135 Stratotanker
+      size: 2
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - C-130J-30 Super Hercules
+        - C-130J-30
+      size: 2
+    - primary: Transport
+      secondary: any
+      aircraft:
+       - CH-47F Block I
+      size: 4
+    - primary: AEW&C
+      aircraft:
+        - E-3A
+      size: 1
+  #Batumi
+  22:
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - C-130J-30 Super Hercules
+        - C-130J-30
+      size: 2      
+  Gali FARP:
+    - primary: Air Assault
+      secondary: air-to-ground
+      aircraft:
+        - UH-1H Iroquois
+      size: 4       
+  Zugdidi FARP:
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - AH-64D Apache Longbow
+      size: 4
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - SA 342M Gazelle
+      size: 4     
+  ground_forces:
+      Maykop LORAD: SA-20/S-300PMU-1
+      Mozdok LORAD: SA-20/S-300PMU-1

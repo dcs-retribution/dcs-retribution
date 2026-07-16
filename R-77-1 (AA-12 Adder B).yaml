@@ -1,0 +1,6 @@
+name: R-77-1 (AA-12 Adder B)
+year: 2015
+fallback: R-77
+clsids:
+  - "{DUAL_771}"   # R-77-1 (AA-12 Adder B) x 2
+  - "{SU30_R771}"   # R-77-1 (AA-12 Adder B) - Active Rdr  

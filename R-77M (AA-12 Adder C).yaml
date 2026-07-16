@@ -1,0 +1,8 @@
+name: R-77M (AA-12 Adder C)
+year: 2025
+fallback: R-77-1 (AA-12 Adder B)
+clsids:
+  - "{RVV-AE}"   # R-77PD Active rdr
+  - "{DUAL_77M}"   # R-77M (AA-12 Adder C) x 2
+  - "{SU30_R77M}"   # R-77M (AA-12 Adder C) - Active Rdr
+  - "{SU30_R77PD}"   # R-77PD (AA-12 Adder) - Active Rdr Ramjet
