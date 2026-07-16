@@ -11,7 +11,7 @@ from __future__ import annotations
 import random
 import logging
 from collections import defaultdict
-from typing import Dict, Optional, TYPE_CHECKING, Tuple, Type, Iterator
+from typing import Dict, Optional, TYPE_CHECKING, Tuple, Type
 
 from dcs import Mission, Point
 from dcs.countries import *
@@ -28,6 +28,7 @@ from game.missiongenerator.groundforcepainter import (
 )
 from game.missiongenerator.missiondata import MissionData, CarrierInfo
 from game.missiongenerator.tgogenerator import (
+    IclsAllocator,
     TgoGenerator,
     HelipadGenerator,
     GroundSpawnRoadbaseGenerator,
@@ -629,7 +630,7 @@ class PretenseGenericCarrierGenerator(GenericCarrierGenerator):
         mission: Mission,
         radio_registry: RadioRegistry,
         tacan_registry: TacanRegistry,
-        icls_alloc: Iterator[int],
+        icls_alloc: IclsAllocator,
         runways: Dict[str, RunwayData],
         unit_map: UnitMap,
         mission_data: MissionData,
@@ -723,7 +724,7 @@ class PretenseGenericCarrierGenerator(GenericCarrierGenerator):
                 icls_name = self.control_point.icls_name
                 if carrier_type in link4carriers or carrier_type == LHA_Tarawa:
                     if self.control_point.icls_channel is None:
-                        icls = next(self.icls_alloc)
+                        icls = self.icls_alloc.alloc()
                     else:
                         icls = self.control_point.icls_channel
                 self.activate_beacons(
@@ -813,7 +814,7 @@ class PretenseTgoGenerator(TgoGenerator):
         self.radio_registry = radio_registry
         self.tacan_registry = tacan_registry
         self.unit_map = unit_map
-        self.icls_alloc = iter(range(1, 21))
+        self.icls_alloc = IclsAllocator()
         self.runways: Dict[str, RunwayData] = {}
         self.helipads: dict[ControlPoint, list[StaticGroup]] = defaultdict(list)
         self.ground_spawns_roadbase: dict[
