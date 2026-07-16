@@ -98,6 +98,22 @@ def _blue_burke(
     return cp, tgo
 
 
+def _carrier_tgo(
+    name: str, owner_cp: Any, pos: _Pos, units: list[Any], group_name: str
+) -> Any:
+    # A CVN/LHA task force: category CARRIER (upper-case, unlike "ship") and
+    # is_control_point True — the vanilla Burke's usual home, as an escort.
+    return SimpleNamespace(
+        category="CARRIER",
+        name=name,
+        position=pos,
+        control_point=owner_cp,
+        groups=[SimpleNamespace(group_name=group_name, units=units)],
+        units=units,
+        is_control_point=True,
+    )
+
+
 def test_magazines_seed_from_the_hull_table_and_never_reseed() -> None:
     cp, _ = _blue_burke()
     game = _game([cp])
@@ -334,3 +350,65 @@ def test_debrief_expenditures_hides_enemy_remainders() -> None:
     # Pre-feature state shape: no rows, no crash.
     empty = SimpleNamespace(state_data=SimpleNamespace())
     assert debrief_expenditures(cast(Any, game), cast(Any, empty)) == []
+
+
+def test_carrier_escort_burkes_are_launching_groups() -> None:
+    # Regression: the walk gated on category == "ship", so Burkes escorting a
+    # CVN (a "CARRIER" TGO, the vanilla Burke's usual home) were invisible —
+    # no magazine, no F10 menu, no raids, silently.
+    cp = _cp(Player.BLUE)
+    cvbg = _carrier_tgo(
+        "CVN-73 Washington",
+        cp,
+        _Pos(0.0, 0.0),
+        [_unit("CVN_73"), _unit(BURKE), _unit(BURKE)],
+        "CVN-73 Washington Group",
+    )
+    cp.ground_objects.append(cvbg)
+    red_cp = _cp(Player.RED)
+    red_cp.ground_objects.append(
+        _target_tgo("Division HQ", "commandcenter", _Pos(100_000.0, 0.0))
+    )
+    game = _game([cp, red_cp])
+
+    # The escorts launch: the magazine counts the two Burkes (never the CVN),
+    # and the task force raids like any other launching group.
+    ships = lacm_ships(cast(Any, game))
+    assert [(s.group_name, s.coalition) for s in ships] == [
+        ("CVN-73 Washington Group", "blue")
+    ]
+    assert (
+        magazines(cast(Any, game))["CVN-73 Washington Group"]
+        == 2 * LACM_MAGAZINE_BY_TYPE[BURKE]
+    )
+    raids = plan_cruise_raids(cast(Any, game))
+    assert [(r.group_name, r.target_name) for r in raids] == [
+        ("CVN-73 Washington Group", "Division HQ")
+    ]
+
+    # The ground-object dialog reads the same magazine for the carrier TGO.
+    assert tgo_magazines(cast(Any, game), cast(Any, cvbg)) == [
+        ("CVN-73 Washington Group", 2 * LACM_MAGAZINE_BY_TYPE[BURKE])
+    ]
+
+
+def test_carrier_task_forces_are_never_raid_targets() -> None:
+    # The enemy's carrier group is a moving naval target: FireAtPoint can't
+    # lead it and the carrier-strike/ANTISHIP tasks own it. No raid plans.
+    blue_cp, _ = _blue_burke()
+    red_cp = _cp(Player.RED)
+    red_cvbg = _carrier_tgo(
+        "Kuznetsov Group",
+        red_cp,
+        _Pos(50_000.0, 0.0),
+        [_unit("KUZNECOW"), _unit(KARAKURT)],
+        "Kuznetsov Group",
+    )
+    red_cp.ground_objects.append(red_cvbg)
+    game = _game([blue_cp, red_cp])
+
+    # Blue has nothing legal to shoot; red's Karakurt escort has no blue
+    # target either (blue's only object is a ship). No raids at all — but
+    # both sides' groups still listed as launchers.
+    assert plan_cruise_raids(cast(Any, game)) == []
+    assert {s.coalition for s in lacm_ships(cast(Any, game))} == {"blue", "red"}

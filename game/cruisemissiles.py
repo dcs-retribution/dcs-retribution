@@ -107,9 +107,18 @@ _TARGET_CATEGORY_PRIORITY: dict[str, int] = {
 }
 _FALLBACK_PRIORITY = 8
 
-#: Never raid these: ships are moving targets a FireAtPoint can't lead (and are
-#: the ANTISHIP task's job).
-_EXCLUDED_TARGET_CATEGORIES = frozenset({"ship"})
+#: TGO categories whose groups are warships and can therefore *launch*.
+#: Standalone ship objects are category "ship", but the vanilla Burke's usual
+#: home is a carrier/LHA task force — category "CARRIER"/"LHA" (theater
+#: categories are case-inconsistent, so membership is checked lowercased).
+#: These same categories are excluded as raid *targets*: moving naval groups
+#: are a FireAtPoint's blind spot and the ANTISHIP/carrier-strike tasks' job.
+_NAVAL_TGO_CATEGORIES = frozenset({"ship", "carrier", "lha"})
+
+
+def _is_naval_tgo(tgo: object) -> bool:
+    category = getattr(tgo, "category", None)
+    return isinstance(category, str) and category.lower() in _NAVAL_TGO_CATEGORIES
 
 
 @dataclass(frozen=True)
@@ -237,7 +246,7 @@ def tgo_magazines(game: "Game", tgo: "TheaterGroundObject") -> list[tuple[str, i
     """
     if not getattr(game.settings, "cruise_missile_strikes", False):
         return []
-    if getattr(tgo, "category", None) != "ship":
+    if not _is_naval_tgo(tgo):
         return []
     ensure_magazines(game)
     mags = magazines(game)
@@ -321,7 +330,7 @@ def _enemy_raid_targets(game: "Game", side: str) -> Iterator["TheaterGroundObjec
         if not enemy_of_side:
             continue
         for tgo in cp.ground_objects:
-            if getattr(tgo, "category", None) in _EXCLUDED_TARGET_CATEGORIES:
+            if _is_naval_tgo(tgo):
                 continue
             if getattr(tgo, "is_control_point", False):
                 continue
@@ -333,10 +342,13 @@ def _enemy_raid_targets(game: "Game", side: str) -> Iterator["TheaterGroundObjec
 def _lacm_groups(
     game: "Game",
 ) -> Iterator[tuple["TheaterGroundObject", "TheaterGroup"]]:
-    """Every ship TGO group holding at least one alive LACM hull, both sides."""
+    """Every naval TGO group holding ≥1 alive LACM hull, both sides — standalone
+    ship objects and carrier/LHA task forces alike (a Burke is usually a CVN
+    escort, and the carrier generator stamps ``TheaterGroup.group_name`` onto
+    the miz group there too, so ``FireAtPoint`` resolves the same way)."""
     for cp in game.theater.controlpoints:
         for tgo in cp.ground_objects:
-            if getattr(tgo, "category", None) != "ship":
+            if not _is_naval_tgo(tgo):
                 continue
             for group in getattr(tgo, "groups", []):
                 if not getattr(group, "group_name", None):
