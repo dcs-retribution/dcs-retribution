@@ -123,6 +123,14 @@ class StateData:
     #: Mangled names of bases that were captured during the mission.
     base_capture_events: List[str]
 
+    #: ``(ship_group_name, fired)`` per ship group that launched cruise missiles this
+    #: mission (the ``cruisemissiles`` plugin mirrors its expenditure).
+    #: ``reconcile_cruise_missiles`` debits the persisted campaign magazine by
+    #: ``fired`` at the turn boundary -- the only debit site, so re-generating a
+    #: mission never double-counts. Empty on pre-feature state files / when the
+    #: feature is off.
+    cruise_missiles_state: List[tuple[str, int]]
+
     @classmethod
     def from_json(cls, data: Dict[str, Any], unit_map: UnitMap) -> StateData:
         def clean_unit_list(unit_list: List[Any]) -> List[str]:
@@ -155,12 +163,34 @@ class StateData:
             else:
                 killed_ground_units.append(unit)
 
+        def parse_cruise_missiles_state(raw: Any) -> List[tuple[str, int]]:
+            # The cruisemissiles plugin writes {group=, fired=} per ship group that
+            # launched (or the Lua JSON encoder yields [] when none, and pre-feature
+            # state files omit the key). Pull the tuple defensively, skipping
+            # malformed / unnamed entries.
+            if not isinstance(raw, list):
+                return []
+            out: List[tuple[str, int]] = []
+            for entry in raw:
+                if not isinstance(entry, dict):
+                    continue
+                group = entry.get("group")
+                fired = entry.get("fired")
+                if isinstance(group, str) and group and isinstance(fired, (int, float)):
+                    out.append((group, int(fired)))
+            return out
+
+        cruise_missiles_state = parse_cruise_missiles_state(
+            data.get("cruise_missiles_state", [])
+        )
+
         return cls(
             mission_ended=data.get("mission_ended", False),
             killed_aircraft=killed_aircraft,
             killed_ground_units=killed_ground_units,
             destroyed_statics=data.get("destroyed_objects_positions", []),
             base_capture_events=data.get("base_capture_events", []),
+            cruise_missiles_state=cruise_missiles_state,
         )
 
 

@@ -1,0 +1,39 @@
+{
+    "nameInUI": "Cruise missile strikes",
+    "descriptionInUI": "Runtime for ship-launched land-attack cruise missiles. Inert unless the mission generator emits dcsRetribution.cruiseMissiles (the 'Ship-launched cruise missile strikes' setting is on and a cruise-missile ship with stock exists). Fires the planned auto raids after a launch delay, serves each coalition an F10 'Cruise Missile Strike' call-for-fire menu (a salvo onto your last F10 map marker from the nearest capable ship -- put just a number in the marker's text, '6' or '#6', to fire exactly that many), enforces the campaign magazine as this mission's hard expenditure cap (auto raids and player salvos share it -- no rearm), and reports what actually fired for the turn-boundary magazine debit. The missiles are real DCS weapons from real, tracked ships: kills record natively, point defense can engage them, and a sunk ship fires nothing.",
+    "defaultValue": true,
+    "specificOptions": [
+        {
+            "nameInUI": "Auto-raid launch delay after mission start (s)",
+            "mnemonic": "raidDelayS",
+            "defaultValue": 240
+        },
+        {
+            "nameInUI": "Player call-for-fire salvo size (default when the marker text has no number)",
+            "mnemonic": "playerSalvoSize",
+            "defaultValue": 4
+        },
+        {
+            "nameInUI": "Player call-for-fire max ship-to-target range (NM)",
+            "mnemonic": "playerRangeNm",
+            "defaultValue": 250
+        },
+        {
+            "nameInUI": "Impact dispersion radius (m)",
+            "mnemonic": "salvoRadiusM",
+            "defaultValue": 100
+        },
+        {
+            "nameInUI": "F10 call-for-fire menu",
+            "mnemonic": "menuEnabled",
+            "defaultValue": true
+        }
+    ],
+    "scriptsWorkOrders": [],
+    "configurationWorkOrders": [
+        {
+            "file": "cruisemissiles-config.lua",
+            "mnemonic": "cruisemissiles-config"
+        }
+    ]
+}

@@ -123,6 +123,12 @@ class Game:
         # Culling Zones are for areas around points of interest that contain things we may not wish to cull.
         self.__culling_zones: List[Point] = []
         self.__destroyed_units: list[dict[str, Union[float, str]]] = []
+        # Cruise missile strikes: each land-attack-capable ship group's remaining
+        # missile stock, keyed by the stable TheaterGroup.group_name -- seeded on
+        # first sight, debited at the turn boundary from what the plugin reports
+        # fired (never at generation). Lazily populated by game.cruisemissiles
+        # when cruise_missile_strikes is on. There is no rearm.
+        self.cruise_missile_magazines: dict[str, int] = {}
         self.savepath = ""
         self.current_unit_id = 0
         self.current_group_id = 0
@@ -169,6 +175,7 @@ class Game:
         self.on_load(game_still_initializing=True)
 
     def __setstate__(self, state: dict[str, Any]) -> None:
+        state.setdefault("cruise_missile_magazines", {})
         self.__dict__.update(state)
         # Heal carcass lists bloated by old saves. Guarded like laser_code_registry
         # below: __destroyed_units postdates the oldest saves, so a pre-2020 save
