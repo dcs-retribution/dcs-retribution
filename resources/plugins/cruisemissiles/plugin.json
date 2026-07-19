@@ -1,6 +1,6 @@
 {
     "nameInUI": "Cruise missile strikes",
-    "descriptionInUI": "Runtime for ship-launched land-attack cruise missiles. Inert unless the mission generator emits dcsRetribution.cruiseMissiles (the 'Ship-launched cruise missile strikes' setting is on and a cruise-missile ship with stock exists). Fires each planned auto raid at its own random moment inside the launch window (staggered so several naval groups don't ripple simultaneously), serves each coalition an F10 'Cruise Missile Strike' call-for-fire menu (a salvo onto your last F10 map marker from the nearest capable ship -- put just a number in the marker's text, '6' or '#6', to fire exactly that many), enforces the campaign magazine as this mission's hard expenditure cap (auto raids and player salvos share it -- no rearm), and reports what actually fired for the turn-boundary magazine debit. The missiles are real DCS weapons from real, tracked ships: kills record natively, point defense can engage them, and a sunk ship fires nothing.",
+    "descriptionInUI": "Runtime for ship-launched land-attack cruise missiles. Inert unless the mission generator emits dcsRetribution.cruiseMissiles (the 'Ship-launched cruise missile strikes' setting is on and a cruise-missile ship with stock exists). Fires each planned auto raid at its own random moment inside the launch window (staggered so several naval groups don't ripple simultaneously), serves each coalition an F10 'Cruise Missile Strike' call-for-fire menu (a salvo onto your last F10 map marker from the nearest capable ship -- put just a number in the marker's text, '6' or '#6', to fire exactly that many), enforces the campaign magazine as this mission's hard expenditure cap (auto raids and player salvos share it -- no rearm), and reports what actually fired for the turn-boundary magazine debit. The missiles are real DCS weapons from real, tracked ships: kills record natively and a sunk ship fires nothing. Every launch also brings the defender's air-defense groups near the aimpoint to alarm-RED readiness for the missile flight window (DCS never wakes a defender for a missile on its own), so point defense gets its intercept shot.",
     "defaultValue": true,
     "specificOptions": [
         {
@@ -32,6 +32,21 @@
             "nameInUI": "F10 call-for-fire menu",
             "mnemonic": "menuEnabled",
             "defaultValue": true
+        },
+        {
+            "nameInUI": "Launch wakes defender air defenses near the aimpoint (alarm RED for the flight window)",
+            "mnemonic": "defenderWake",
+            "defaultValue": true
+        },
+        {
+            "nameInUI": "Defender wake radius around the impact point (NM)",
+            "mnemonic": "defenderWakeRadiusNm",
+            "defaultValue": 8
+        },
+        {
+            "nameInUI": "Defender wake held past estimated missile arrival (s)",
+            "mnemonic": "defenderWakeExtraS",
+            "defaultValue": 300
         }
     ],
     "scriptsWorkOrders": [],

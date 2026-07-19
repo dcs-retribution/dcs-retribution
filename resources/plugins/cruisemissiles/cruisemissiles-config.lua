@@ -22,9 +22,14 @@
 -- the persisted magazine; a mission that never fires debits nothing.
 --
 -- The missiles are real DCS weapons from real, tracked ships: kills record natively through the
--- ordinary death events, enemy point defense engages them, and a sunk ship fires nothing -- the
--- plugin owns no kills and no spawns. Inert when the node is absent. pcall-guarded throughout;
--- definition order matters (Lua 5.1): helpers precede use.
+-- ordinary death events, and a sunk ship fires nothing -- the plugin owns no kills and no
+-- spawns. Because nothing in DCS wakes a defender for a weapon object on its own (flight
+-- testing 2026-07-16: alive point-defense SAMs 250 m from the aimpoint sat idle through a
+-- salvo -- ALARM AUTO only trips on aircraft), every launch also brings the opposing side's
+-- air defenses near the aimpoint to alarm-RED readiness for the missile flight window (alarm
+-- state only, never emission toggling), so the point defense actually gets its intercept
+-- shot. Inert when the node is absent. pcall-guarded throughout; definition order matters
+-- (Lua 5.1): helpers precede use.
 ---------------------------------------------------------------------------------------------------
 
 if not (dcsRetribution and dcsRetribution.cruiseMissiles and GROUP) then
@@ -45,6 +50,10 @@ local PLAYER_SALVO = 4 -- missiles per F10 call-for-fire
 local PLAYER_RANGE = 250 * NM_TO_M -- m, max ship-to-marker range for call-for-fire
 local SALVO_RADIUS = 100 -- m, impact dispersion radius
 local MENU = true -- F10 call-for-fire menu on
+local DEFENDER_WAKE = true -- a launch brings opposing AD near the aimpoint to readiness
+local WAKE_RADIUS = 8 * NM_TO_M -- m around the impact point swept for defenders
+local WAKE_EXTRA = 300 -- s held at readiness past the estimated missile arrival
+local WAKE_MISSILE_SPEED = 200 -- m/s assumed cruise speed (low estimate -> generous hold)
 
 if dcsRetribution.plugins and dcsRetribution.plugins.cruisemissiles then
     local o = dcsRetribution.plugins.cruisemissiles
@@ -60,6 +69,11 @@ if dcsRetribution.plugins and dcsRetribution.plugins.cruisemissiles then
     if o.menuEnabled ~= nil then
         MENU = o.menuEnabled
     end
+    if o.defenderWake ~= nil then
+        DEFENDER_WAKE = o.defenderWake
+    end
+    WAKE_RADIUS = (tonumber(o.defenderWakeRadiusNm) or 8) * NM_TO_M
+    WAKE_EXTRA = tonumber(o.defenderWakeExtraS) or WAKE_EXTRA
 end
 
 -- Mirror-back channel: the base script serializes `cruise_missiles_state` into the debrief and
@@ -67,6 +81,82 @@ end
 -- group, updated in place (one shared table reference per group), with dirty_state flagged so
 -- write_state actually flushes.
 cruise_missiles_state = cruise_missiles_state or {}
+
+-- Defender launch wake: nothing in DCS ever wakes a defender for a cruise missile on its
+-- own -- ALARM AUTO only trips on aircraft, and IADS scripts scan units, never weapon
+-- objects -- so without this, raids fly in unopposed past alive SAMs. On every launch
+-- (raid or call-for-fire), the opposing side's ground air-defense groups near the
+-- AIMPOINT are set alarm state RED (radars up: the LAUNCH WARNING doing its job) and
+-- stood back down to AUTO once the salvo has long arrived. Alarm state ONLY -- emission
+-- toggling stays untouched, and a Skynet-managed site keeps its own emission-control
+-- loop (Skynet may re-dark it; that is the IADS engine's call to make).
+local wakeUntil = {} -- AD group name -> sim time to hold RED until
+
+local function standDownDefender(name, t)
+    local holdUntil = wakeUntil[name]
+    if not holdUntil then
+        return nil
+    end
+    if t and t < holdUntil then
+        -- A later launch extended the hold; come back when it lapses.
+        return holdUntil + 1
+    end
+    wakeUntil[name] = nil
+    pcall(function()
+        local grp = Group.getByName(name)
+        if grp and grp:isExist() then
+            grp:getController():setOption(
+                AI.Option.Ground.id.ALARM_STATE, AI.Option.Ground.val.ALARM_STATE.AUTO)
+        end
+    end)
+    return nil
+end
+
+local function firstAirDefenseUnit(grp)
+    for _, u in ipairs(grp:getUnits() or {}) do
+        if u:isExist() and u:hasAttribute("Air Defence") then
+            return u
+        end
+    end
+    return nil
+end
+
+local function wakeDefenders(shooterSide, x, y, flightDist)
+    if not DEFENDER_WAKE then
+        return
+    end
+    local enemy = (shooterSide == coalition.side.RED) and coalition.side.BLUE
+        or coalition.side.RED
+    local holdUntil = timer.getTime()
+        + (tonumber(flightDist) or 0) / WAKE_MISSILE_SPEED
+        + WAKE_EXTRA
+    local woken = 0
+    for _, grp in ipairs(coalition.getGroups(enemy, Group.Category.GROUND) or {}) do
+        pcall(function()
+            if grp:isExist() then
+                local unit = firstAirDefenseUnit(grp)
+                if unit then
+                    local p = unit:getPoint()
+                    local d = math.sqrt((p.x - x) ^ 2 + (p.z - y) ^ 2)
+                    if d <= WAKE_RADIUS then
+                        local name = grp:getName()
+                        grp:getController():setOption(
+                            AI.Option.Ground.id.ALARM_STATE,
+                            AI.Option.Ground.val.ALARM_STATE.RED)
+                        wakeUntil[name] = math.max(wakeUntil[name] or 0, holdUntil)
+                        timer.scheduleFunction(standDownDefender, name, holdUntil + 1)
+                        woken = woken + 1
+                    end
+                end
+            end
+        end)
+    end
+    if woken > 0 then
+        env.info(string.format(
+            "CRUISEMISSILES|: defender wake -- %d AD group(s) near the aimpoint held RED",
+            woken))
+    end
+end
 
 local remaining = {} -- group name -> missiles left this mission (the emitted magazine)
 local shipSide = {} -- group name -> coalition.side
@@ -123,6 +213,13 @@ local function fireCruise(groupName, x, y, count, targetLabel)
     recordFired(groupName, salvo)
     local side = shipSide[groupName] or coalition.side.BLUE
     local enemy = (side == coalition.side.RED) and coalition.side.BLUE or coalition.side.RED
+    -- The launch is observable, so the defense near the aimpoint comes to readiness.
+    local flightDist = 0
+    pcall(function()
+        local sv = grp:GetCoordinate():GetVec2()
+        flightDist = math.sqrt((sv.x - x) ^ 2 + (sv.y - y) ^ 2)
+    end)
+    wakeDefenders(side, x, y, flightDist)
     cmMsg(side, string.format(
         "CRUISE MISSILES AWAY -- %d missile(s) from %s inbound to %s.",
         salvo, groupName, tostring(targetLabel or "target")))
