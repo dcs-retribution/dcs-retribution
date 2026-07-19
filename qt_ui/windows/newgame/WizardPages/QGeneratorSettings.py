@@ -102,8 +102,6 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("hercules", self.hercules)
         self.oh_6 = QtWidgets.QCheckBox()
         self.registerField("oh_6", self.oh_6)
-        self.oh_6_vietnamassetpack = QtWidgets.QCheckBox()
-        self.registerField("oh_6_vietnamassetpack", self.oh_6_vietnamassetpack)
         self.uh_60l = QtWidgets.QCheckBox()
         self.registerField("uh_60l", self.uh_60l)
         self.f4bc_phantom = QtWidgets.QCheckBox()
@@ -256,7 +254,6 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("Military Aircraft Mod (v1.7.2 - AI Only)", self.mam),
             ("Mirage III (v2.5.7.01)", self.mirage_3),
             ("OH-6 Cayuse (v1.7)", self.oh_6),
-            ("OH-6 Vietnam Asset Pack (v1.0)", self.oh_6_vietnamassetpack),
             ("OV-10A Bronco", self.ov10a_bronco),
             ("Saab 105/SK-60B (v1.2.1)", self.sk_60),
             ("Spanish Naval Assets pack (desdemicabina 3.2.0)", self.spanishnavypack),
@@ -356,5 +353,4 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.vsnf35.setChecked(s.get("vsnf35", False))
         self.f111c.setChecked(s.get("f111c", False))
         self.oh_6.setChecked(s.get("oh_6", False))
-        self.oh_6_vietnamassetpack.setChecked(s.get("oh_6_vietnamassetpack", False))
         self.mam.setChecked(s.get("mam", False))

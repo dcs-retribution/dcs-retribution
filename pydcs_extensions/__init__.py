@@ -28,7 +28,6 @@ from .mam import *
 from .mig31bm import *
 from .mirage3 import *
 from .oh6 import *
-from .oh6_vietnamassetpack import *
 from .ov10a import *
 from .spanishnavypack import *
 from .super_etendard import *

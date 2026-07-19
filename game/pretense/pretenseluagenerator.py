@@ -29,9 +29,9 @@ from game.utils import escape_string_for_lua
 from pydcs_extensions import (
     IRON_DOME_LN,
     DAVID_SLING_LN,
-    Vap_m35_truck,
-    Vap_mule,
-    Vap_vc_zis,
+    vap_m35_truck,
+    vap_mule,
+    vap_vc_zis,
     RBS_70,
 )
 
@@ -863,9 +863,9 @@ class PretenseLuaGenerator(LuaGenerator):
             Unarmed.Blitz_36_6700A,
             Unarmed.M_818,
             Unarmed.Bedford_MWD,
-            Vap_m35_truck,
-            Vap_mule,
-            Vap_vc_zis,
+            vap_m35_truck,
+            vap_mule,
+            vap_vc_zis,
         ]
 
         for unit_class in desired_unit_classes:

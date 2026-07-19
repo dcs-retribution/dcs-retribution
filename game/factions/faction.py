@@ -398,10 +398,9 @@ class Faction:
             self.remove_aircraft("Hercules")
         if not mod_settings.oh_6:
             self.remove_aircraft("OH-6A")
-        if (
-            not mod_settings.oh_6_vietnamassetpack
-            and not mod_settings.vietnamwarvessels
-        ):
+        # Vietnam Asset Pack ground objects -- the pack is maintained inside
+        # Vietnam War Vessels these days, so the VWV toggle owns them.
+        if not mod_settings.vietnamwarvessels:
             self.remove_vehicle("vap_mutt_gun")
             self.remove_vehicle("vap_type63_mlrs")
             self.remove_vehicle("vap_vc_bicycle_mortar")
