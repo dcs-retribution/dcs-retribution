@@ -83,11 +83,19 @@ class ThreatZoneContainerJs(BaseModel):
 
     @staticmethod
     def for_game(game: Game) -> ThreatZoneContainerJs:
+        # Recon intel-fog: the human player (BLUE) only sees the enemy (RED)
+        # threat zone built from sites it has actually scouted, so undiscovered
+        # SAMs project no avoidance ring. The AI/navmesh keep using the cached
+        # ground-truth zone (game.threat_zone_for); this viewer-aware recompute is
+        # for display only. When the "reveal fog of war" overview is on, known_for
+        # short-circuits to truth, so this returns the full picture again.
         return ThreatZoneContainerJs(
             blue=ThreatZonesJs.from_zones(
-                game.threat_zone_for(player=Player.BLUE), game.theater
+                ThreatZones.for_faction(game, Player.BLUE, viewer=Player.BLUE),
+                game.theater,
             ),
             red=ThreatZonesJs.from_zones(
-                game.threat_zone_for(player=Player.RED), game.theater
+                ThreatZones.for_faction(game, Player.RED, viewer=Player.BLUE),
+                game.theater,
             ),
         )

@@ -188,13 +188,19 @@ class ThreatZones:
         return min(cap_threat_range, max_distance)
 
     @classmethod
-    def for_faction(cls, game: Game, player: Player) -> ThreatZones:
+    def for_faction(
+        cls, game: Game, player: Player, viewer: Player | None = None
+    ) -> ThreatZones:
         """Generates the threat zones projected by the given coalition.
 
         Args:
             game: The game to generate the threat zone for.
             player: True if the coalition projecting the threat zone belongs to
             the player.
+            viewer: When set, air defenses the viewer has not yet discovered
+            (recon intel-fog) are excluded, so the human-facing threat overlay
+            only shows scouted sites. ``None`` (the default, used by the AI /
+            navmesh / planner) projects full ground truth.
 
         Returns:
             The threat zones projected by the given coalition. If the threat
@@ -202,10 +208,14 @@ class ThreatZones:
             the enemy and vice versa.
         """
         air_threats = []
-        air_defenses = []
+        air_defenses: list[TheaterGroundObject] = []
         for cp in game.theater.control_points_for(player):
             air_threats.append(cp)
-            air_defenses.extend([go for go in cp.ground_objects if go.has_aa])
+            air_defenses.extend(
+                go
+                for go in cp.ground_objects
+                if go.has_aa and (viewer is None or go.known_for(viewer))
+            )
 
         return cls.for_threats(
             game.theater, game.faction_for(player).doctrine, air_threats, air_defenses

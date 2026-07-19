@@ -32,9 +32,16 @@ class IadsConnectionJs(BaseModel):
 
     @staticmethod
     def connections_for_node(network_node: IadsNetworkNode) -> list[IadsConnectionJs]:
-        iads_connections = []
+        iads_connections: list[IadsConnectionJs] = []
         tgo = network_node.group.ground_object
+        # Recon intel-fog: hide IADS links to/from a site the player has not yet
+        # discovered, so an unscouted SAM does not leak its network membership.
+        if not tgo.known_for(Player.BLUE):
+            return iads_connections
         for id, connection in network_node.connections.items():
+            connected_tgo = connection.ground_object
+            if not connected_tgo.known_for(Player.BLUE):
+                continue
             if connection.ground_object.is_friendly(Player.BLUE) != tgo.is_friendly(
                 Player.BLUE
             ):

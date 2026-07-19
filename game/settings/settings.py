@@ -200,6 +200,20 @@ class Settings:
     )
 
     # CAMPAIGN DOCTRINE
+    recon_intel_fog: bool = boolean_option(
+        "Recon intel fog (hide enemy site composition until scouted)",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=True,
+        detail=(
+            "When enabled, enemy ground sites appear on the map as targets you can "
+            "plan against, but what is actually there -- unit types, counts, damage "
+            "state, and threat/detection rings -- stays hidden until the site is "
+            "attacked, scouted, or has a unit destroyed. The AI planner and threat "
+            "math always use full truth, so auto-planning is unaffected. Existing "
+            "campaigns keep everything revealed; the fog applies to new campaigns."
+        ),
+    )
     desired_barcap_mission_duration: timedelta = minutes_option(
         "Desired BARCAP on-station time",
         page=CAMPAIGN_DOCTRINE_PAGE,

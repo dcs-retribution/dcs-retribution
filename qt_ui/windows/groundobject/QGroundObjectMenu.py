@@ -129,7 +129,17 @@ class QGroundObjectMenu(QDialog):
         self.intelBox = QGroupBox("Units :")
         self.intelLayout = QGridLayout()
         i = 0
-        for g in self.ground_object.groups:
+        # Recon intel-fog: an undiscovered enemy site shows on the map as a target
+        # but its composition stays hidden until it is attacked, scouted, or has a
+        # unit destroyed. The own coalition (and the omniscient AI) always sees truth.
+        viewer = Player.BLUE if self.game_model.is_ownfor else Player.RED
+        scouted = self.ground_object.known_for(viewer)
+        if not scouted:
+            self.intelLayout.addWidget(
+                QLabel("<i>Not yet scouted — composition unknown</i>"), i, 0
+            )
+            i += 1
+        for g in self.ground_object.groups if scouted else []:
             for unit in g.units:
                 self.intelLayout.addWidget(
                     QLabel(f"<b>Unit {str(unit.display_name)}</b>"), i, 0

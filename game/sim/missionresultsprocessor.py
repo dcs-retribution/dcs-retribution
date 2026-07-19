@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 from game.debriefing import Debriefing
 from game.ground_forces.combat_stance import CombatStance
 from game.profiling import logged_duration
-from game.theater import ControlPoint
+from game.theater import ControlPoint, Player, TheaterGroundObject
 from .gameupdateevents import GameUpdateEvents
 from ..ato.airtaaskingorder import AirTaskingOrder
 
@@ -165,12 +165,66 @@ class MissionResultsProcessor:
                         "has none available."
                     )
 
-    @staticmethod
-    def commit_ground_losses(debriefing: Debriefing, events: GameUpdateEvents) -> None:
+    def commit_ground_losses(
+        self, debriefing: Debriefing, events: GameUpdateEvents
+    ) -> None:
+        struck_tgos: set[TheaterGroundObject] = set()
         for ground_object_loss in debriefing.ground_object_losses:
+            struck_tgos.add(ground_object_loss.theater_unit.ground_object)
             ground_object_loss.theater_unit.kill(events)
         for scenery_object_loss in debriefing.scenery_object_losses:
+            struck_tgos.add(scenery_object_loss.ground_unit.ground_object)
             scenery_object_loss.ground_unit.kill(events)
+        self.reveal_discovered_sites(struck_tgos, debriefing, events)
+
+    def reveal_discovered_sites(
+        self,
+        struck_tgos: set[TheaterGroundObject],
+        debriefing: Debriefing,
+        events: GameUpdateEvents,
+    ) -> None:
+        """Recon intel-fog: flip enemy sites to "known" once the player has engaged
+        them this turn.
+
+        A site is discovered (composition + threat rings revealed, permanently) once
+        it is attacked (a unit destroyed) or overflown by a surviving offensive
+        sortie -- the pilots saw what was there even with no kills. Only enemy sites
+        are gated; friendly/neutral and the omniscient planner are never fogged.
+        """
+        discovered: set[TheaterGroundObject] = set()
+        discovered |= struck_tgos
+        discovered |= self.attacked_tgos_this_turn(debriefing)
+        for tgo in discovered:
+            if tgo.is_friendly(Player.BLUE):
+                continue
+            if not tgo.discovered_by_player:
+                tgo.discovered_by_player = True
+                events.update_tgo(tgo)
+
+    def attacked_tgos_this_turn(
+        self, debriefing: Debriefing
+    ) -> set[TheaterGroundObject]:
+        from game.ato import FlightType
+
+        offensive = {
+            FlightType.STRIKE,
+            FlightType.DEAD,
+            FlightType.SEAD,
+            FlightType.ANTISHIP,
+        }
+        attacked: set[TheaterGroundObject] = set()
+        for package in self.game.blue.ato.packages:
+            target = package.target
+            if not isinstance(target, TheaterGroundObject):
+                continue
+            for flight in package.flights:
+                if (
+                    flight.flight_type in offensive
+                    and debriefing.air_losses.surviving_flight_members(flight) > 0
+                ):
+                    attacked.add(target)
+                    break
+        return attacked
 
     @staticmethod
     def commit_damaged_runways(debriefing: Debriefing) -> None:

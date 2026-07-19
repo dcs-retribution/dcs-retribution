@@ -21,6 +21,7 @@ from game.sidc import (
 )
 from game.theater.presetlocation import PresetLocation
 from .missiontarget import MissionTarget
+from .fogofwar import fog_revealed
 from .player import Player
 from ..data.groups import GroupTask
 from ..utils import Distance, Heading, meters, nautical_miles
@@ -80,6 +81,12 @@ class TheaterGroundObject(MissionTarget, SidcDescribable, ABC):
         self._threat_poly: ThreatPoly | None = None
         self.task = task
         self.hide_on_mfd = hide_on_mfd
+        # Recon intel-fog: has the human (BLUE) player discovered what is actually
+        # at this site? New enemy sites start unknown (composition + threat rings
+        # hidden) until attacked, scouted, or destroyed. Friendly/neutral sites and
+        # omniscient (viewer=None) callers are handled by known_for(), so this flag
+        # only matters for enemy sites from the player's perspective.
+        self.discovered_by_player = False
 
     def __getstate__(self) -> dict[str, Any]:
         state = self.__dict__.copy()
@@ -88,7 +95,29 @@ class TheaterGroundObject(MissionTarget, SidcDescribable, ABC):
 
     def __setstate__(self, state: dict[str, Any]) -> None:
         state["_threat_poly"] = None
+        # Save compatibility: a campaign saved before recon intel-fog has every
+        # site already on the player's map, so treat it as fully discovered rather
+        # than suddenly blanking an in-progress campaign. The fog is felt on new
+        # campaigns (where the flag defaults False).
+        if "discovered_by_player" not in state:
+            state["discovered_by_player"] = True
         self.__dict__.update(state)
+
+    def known_for(self, viewer: Optional[Player] = None) -> bool:
+        """Whether the viewer knows what is actually at this site.
+
+        ``viewer=None`` (omniscient -- AI, planner, threat math) and friendly
+        viewers always know. An enemy viewer only knows once the site has been
+        discovered (attacked / scouted / destroyed). The whole feature can be
+        switched off via the ``recon_intel_fog`` campaign setting, and the
+        ``fog_revealed()`` overview forces full knowledge for any viewer.
+        """
+        if viewer is None or fog_revealed() or self.is_friendly(viewer):
+            return True
+        settings = self.control_point.coalition.game.settings
+        if not settings.recon_intel_fog:
+            return True
+        return self.discovered_by_player
 
     @property
     def sidc_status(self) -> Status:

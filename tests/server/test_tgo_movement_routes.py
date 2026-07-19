@@ -30,7 +30,12 @@ def _ship(blue: bool = True) -> ShipGroundObject:
         theater=None,  # type: ignore[arg-type]
         starts_blue=player,
     )
-    cp._coalition = SimpleNamespace(player=player)  # type: ignore[assignment]
+    # known_for consults the campaign's recon_intel_fog setting for enemy
+    # viewers, so the coalition double carries a minimal game.settings chain.
+    cp._coalition = SimpleNamespace(  # type: ignore[assignment]
+        player=player,
+        game=SimpleNamespace(settings=SimpleNamespace(recon_intel_fog=False)),
+    )
     return ShipGroundObject(name="ship", location=location, control_point=cp)
 
 
