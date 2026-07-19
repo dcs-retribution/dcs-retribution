@@ -9,8 +9,8 @@ def test_motorpool_enabled_defaults_true() -> None:
     assert Settings().motorpool_enabled is True
 
 
-def test_motorpool_spawn_cap_defaults_to_twenty_five() -> None:
-    assert Settings().motorpool_spawn_cap == 25
+def test_motorpool_spawn_cap_defaults_to_ten() -> None:
+    assert Settings().motorpool_spawn_cap == 10
 
 
 def test_motorpool_spawn_cap_spinner_is_capped_at_twenty_five() -> None:

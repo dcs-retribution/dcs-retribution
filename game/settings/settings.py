@@ -547,7 +547,7 @@ class Settings:
         "Maximum motorpool vehicles per turn",
         page=CAMPAIGN_MANAGEMENT_PAGE,
         section=GENERAL_SECTION,
-        default=25,
+        default=10,
         min=0,
         max=25,
         detail=(
