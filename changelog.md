@@ -19,7 +19,7 @@
 * **[Options]** Add new option to fast forward until player is at the IP.
 * **[Modding]** Update to CJS Super Hornet Mod to v2.4.5.260501.RC1
 * **[Modding]** Update Community A4EC Mod to 2.3.0 (May 2025)
-
+* **[Mission Generator]** Squadrons now spawn using the proper country instead of CTJF, enabling various DCS AI voiceovers
 
 ## Fixes
 * **[Plugins]** Fix the escort leash never running (DCS has no `Group.getByID`; look the group up by name via mist), so escorts are actually held to their engagement range.
