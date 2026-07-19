@@ -121,7 +121,7 @@ def main() -> None:
         escorts.add_unit(unit)
 
     # Wire up the plugin scripts in the same order the base plugin does.
-    _load_script_file(mission, "mist_4_5_126.lua", "Load mist")
+    _load_script_file(mission, "mist_moose_shim.lua", "Load mist")
     _load_script_file(mission, "land_relocate.lua", "Load land_relocate")
 
     diagnostic = TriggerStart(comment="Load relocate diagnostic")

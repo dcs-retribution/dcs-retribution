@@ -78,6 +78,14 @@ timer = {
     getTime = function()
         return Harness.now
     end,
+    -- Mission real-world clock: a fixed epoch + the virtual clock (DCS returns
+    -- seconds since midnight; the offset only matters relative to getTime0).
+    getAbsTime = function()
+        return 28800 + Harness.now
+    end,
+    getTime0 = function()
+        return 28800
+    end,
     scheduleFunction = function(fn, args, t)
         nextScheduleId = nextScheduleId + 1
         table.insert(schedule, { fn = fn, args = args, t = t or Harness.now, id = nextScheduleId })
