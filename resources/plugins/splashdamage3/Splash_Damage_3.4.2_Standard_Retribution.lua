@@ -213,7 +213,7 @@ splash_damage_options = {
     ["giant_explosion_count"] = 250,      --Number of explosions (default 250)
     ["giantexplosion_ondamage"] = true,   --Trigger explosion when unit is damaged
     ["giantexplosion_ondeath"] = true,    --Trigger explosion when unit is destroyed
-    ["giantexplosion_testmode"] = true,  --Enable test mode with separate array for radio commands	
+    ["giantexplosion_testmode"] = false,  --Enable test mode with separate array for radio commands	
     
 
     ---------------------------------------------------------------------- Ground/Ship Ordnance  -------------------------------------------------------------
@@ -653,11 +653,11 @@ explTable = {
   
     ["Mk_81"] = { explosive = 60 },
     ["MK-81SE"] = { explosive = 60 },
-	["Mk_82"] = { explosive = 100},
-    ["MK_82AIR"] = { explosive = 100 },
-    ["MK_82SNAKEYE"] = { explosive = 100 },
+	["Mk_82"] = { explosive = 85},
+    ["MK_82AIR"] = { explosive = 85 },
+    ["MK_82SNAKEYE"] = { explosive = 85 },
     ["Mk_83"] = { explosive = 274 },
-    ["Mk_84"] = { explosive = 582 },
+    ["Mk_84"] = { explosive = 450 },
   
     ["HEBOMB"] = { explosive = 40 },
     ["HEBOMBD"] = { explosive = 40 },
@@ -689,10 +689,10 @@ explTable = {
     ["BetAB_500ShP"] = { explosive = 107 },
     
     --*** GUIDED BOMBS (GBU) ***
-    ["GBU_10"] = { explosive = 582 },
-    ["GBU_12"] = { explosive = 100 }, 
+    ["GBU_10"] = { explosive = 450 },
+    ["GBU_12"] = { explosive = 85 }, 
     ["GBU_16"] = { explosive = 274 },
-    ["GBU_24"] = { explosive = 582 },
+    ["GBU_24"] = { explosive = 450 },
     ["KAB_1500Kr"] = { explosive = 675 },
     ["KAB_500Kr"] = { explosive = 213 },
     ["KAB_500"] = { explosive = 213 },
@@ -722,13 +722,13 @@ explTable = {
     ["RBK_500_255_ShO"] = { explosive = 0, cluster = true, submunition_count = 565, submunition_explosive = 0.1, submunition_name = "ShO" },  
 
     --*** INS/GPS BOMBS (JDAM) ***
-    ["GBU_31"] = { explosive = 582 },
-    ["GBU_31_V_3B"] = { explosive = 582 },
-    ["GBU_31_V_2B"] = { explosive = 582 },
-    ["GBU_31_V_4B"] = { explosive = 582 },
+    ["GBU_31"] = { explosive = 450 },
+    ["GBU_31_V_3B"] = { explosive = 450 },
+    ["GBU_31_V_2B"] = { explosive = 450 },
+    ["GBU_31_V_4B"] = { explosive = 450 },
     ["GBU_32_V_2B"] = { explosive = 202 },
-    ["GBU_38"] = { explosive = 100 },
-    ["GBU_54_V_1B"] = { explosive = 100 },
+    ["GBU_38"] = { explosive = 85 },
+    ["GBU_54_V_1B"] = { explosive = 85 },
   
     --*** GLIDE BOMBS (JSOW) ***
     ["AGM_154A"] = { explosive = 0, cluster = true, submunition_count = 145, submunition_explosive = 2, submunition_name = "BLU-97/B" }, --JSOW-A, confirmed 145 BLU-97 bomblets from datamine
@@ -755,7 +755,7 @@ explTable = {
     ["AGM_65K"] = { explosive = 80, shaped_charge = true },
     ["AGM_65L"] = { explosive = 80, shaped_charge = true },
     ["AGM_123"] = { explosive = 274 },
-    ["AGM_130"] = { explosive = 582 },
+    ["AGM_130"] = { explosive = 450 },
     ["AGM_119"] = { explosive = 176 },
     ["AGM_114"] = { explosive = 10, shaped_charge = true },
     ["AGM_114K"] = { explosive = 10, shaped_charge = true },
@@ -817,16 +817,16 @@ explTable = {
     --*** ROCKETS ***
     ["HYDRA_70M15"] = { explosive = 5 },
     ["HYDRA_70_MK1"] = { explosive = 5 },
-    ["HYDRA_70_MK5"] = { explosive = 8 },
+    ["HYDRA_70_MK5"] = { explosive = 8, shaped_charge = true },
     ["HYDRA_70_M151"] = { explosive = 5 },
     ["HYDRA_70_M151_M433"] = { explosive = 5 },
     ["HYDRA_70_M229"] = { explosive = 10 },
     ["FFAR Mk1 HE"] = { explosive = 5 },
-    ["FFAR Mk5 HEAT"] = { explosive = 8 },
+    ["FFAR Mk5 HEAT"] = { explosive = 8, shaped_charge = true },
     ["HVAR"] = { explosive = 5 },
     ["Zuni_127"] = { explosive = 8 },
     ["ARAKM70BHE"] = { explosive = 5 },
-    ["ARAKM70BAP"] = { explosive = 8 },
+    ["ARAKM70BAP"] = { explosive = 8, shaped_charge = true },
     ["SNEB_TYPE251_F1B"] = { explosive = 4 },
     ["SNEB_TYPE252_F1B"] = { explosive = 4 },
     ["SNEB_TYPE253_F1B"] = { explosive = 5 },
@@ -851,7 +851,7 @@ explTable = {
     ["TELSON8_SNEBT253"] = { explosive = 8 },
     ["TELSON8_SNEBT256"] = { explosive = 4 },
     ["TELSON8_SNEBT257"] = { explosive = 6 },
-    ["ARF8M3API"] = { explosive = 8 },
+    ["ARF8M3API"] = { explosive = 8, shaped_charge = true },
     ["UG_90MM"] = { explosive = 8 },
     ["S-24A"] = { explosive = 24 },
     ["S-25OF"] = { explosive = 194 },
@@ -3484,7 +3484,7 @@ function track_wpns()
                         end
                         local parentWeaponData = explTable[wpnData.parent] or { submunition_count = 30, submunition_explosive = 1 }
                         local submunitionCount = parentWeaponData.submunition_count or 30
-                        local submunitionPower = (parentWeaponData.submunition_explosive or 1) * splash_damage_options.cluster_bomblet_damage_modifier * (splash_damage_options.overall_scaling /100)
+                        local submunitionPower = (parentWeaponData.submunition_explosive or 1) * splash_damage_options.cluster_bomblet_damage_modifier * splash_damage_options.overall_scaling
                         if splash_damage_options.cluster_bomblet_reductionmodifier then
                             if submunitionCount > 35 then
                                 local reductionFactor = (60 - 35) / (247 - 35)

@@ -5,7 +5,7 @@
         {
             "nameInUI": "Enable game messages",
             "mnemonic": "game_messages",
-            "defaultValue": false
+            "defaultValue": true
         },
         {
             "nameInUI": "Enable Debug Messages",
@@ -42,7 +42,7 @@
             "mnemonic": "dynamic_blast_radius_modifier",
             "minimumValue": 1,
             "maximumValue": 5000,
-            "defaultValue": 200
+            "defaultValue": 100
         },
         {
             "nameInUI": "Enable Damage Model",
@@ -54,14 +54,14 @@
             "mnemonic": "static_damage_boost",
             "minimumValue": 1,
             "maximumValue": 5000,
-            "defaultValue": 2000
+            "defaultValue": 1
         },
         {
             "nameInUI": "Overall Scaling Multiplier",
             "mnemonic": "overall_scaling",
             "minimumValue": 1,
             "maximumValue": 100,
-            "defaultValue": 3
+            "defaultValue": 60
         },
         {
             "nameInUI": "Health Value Units Movements are Disabled (%)",
@@ -87,7 +87,7 @@
         {
             "nameInUI": "Enable Cluster Munition Effects",
             "mnemonic": "cluster_enabled",
-            "defaultValue": false
+            "defaultValue": true
         },
         {
             "nameInUI": "Cluster Munitions Bomblets Count Reduction Modifier",
@@ -106,7 +106,7 @@
             "mnemonic": "rocket_multiplier",
             "minimumValue": 10,
             "maximumValue": 500,
-            "defaultValue": 130
+            "defaultValue": 80
         },
         {
             "nameInUI": "Enable Ship Radar Damage by Anti-Radiation Missiles",
@@ -180,7 +180,7 @@
             "mnemonic": "groundunitordnance_blastwave_modifier",
             "minimumValue": 1,
             "maximumValue": 100,
-            "defaultValue": 4
+            "defaultValue": 2
         },
         {
             "nameInUI": "Critical Component Damage (Single Hit Failure)",
