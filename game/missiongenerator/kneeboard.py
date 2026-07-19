@@ -258,7 +258,7 @@ class FlightPlanBuilder:
             [
                 str(waypoint.number),
                 KneeboardPageWriter.wrap_line(
-                    waypoint.waypoint.pretty_name,
+                    waypoint.waypoint.display_name,
                     FlightPlanBuilder.WAYPOINT_DESC_MAX_LEN,
                 ),
                 self._format_alt(waypoint.waypoint.alt),
@@ -772,33 +772,45 @@ class StrikeTaskPage(KneeboardPage):
             custom_name_title = ""
         writer.title(f"{self.flight.callsign} Strike Task Info{custom_name_title}")
 
-        if self.flight.units[0].unit_type == F_15ESE:
-            i: int = 0
-            for target in self.targets:
-                if not target.waypoint.pretty_name.__contains__("DTC"):
-                    target.waypoint.pretty_name = (
-                        f"{target.waypoint.pretty_name} (DTC M{(i//8)+1}.{i%9+1})"
-                    )
-                    i = i + 1
-
+        is_f15e = self.flight.units[0].unit_type == F_15ESE
         writer.table(
-            [self.target_info_row(t, writer) for t in self.targets],
+            [
+                [
+                    str(target.number),
+                    writer.wrap_line(
+                        self._target_description(
+                            target.waypoint.display_name, i, is_f15e
+                        ),
+                        self.WAYPOINT_DESC_MAX_LEN,
+                    ),
+                    target.waypoint.position.latlng().format_dms(
+                        include_decimal_seconds=True
+                    ),
+                ]
+                for i, target in enumerate(self.targets)
+            ],
             headers=["STPT", "Description", "Location"],
         )
 
         writer.write(path)
 
     @staticmethod
-    def target_info_row(
-        target: NumberedWaypoint, writer: KneeboardPageWriter
-    ) -> list[str]:
-        return [
-            str(target.number),
-            writer.wrap_line(
-                target.waypoint.pretty_name, StrikeTaskPage.WAYPOINT_DESC_MAX_LEN
-            ),
-            target.waypoint.position.latlng().format_dms(include_decimal_seconds=True),
-        ]
+    def _target_description(display_name: str, index: int, is_f15e: bool) -> str:
+        """The Strike Task 'Description' cell for one target.
+
+        Built from the waypoint's display_name so a player's rename shows here too, and
+        NOT written back to the waypoint: the F15E DTC data-cartridge slot reference stays
+        confined to this page. (The previous code mutated pretty_name in place, which both
+        leaked the DTC tag into the list / flight-plan kneeboard and, once renames moved to
+        custom_name, regressed this page to the long auto name.)
+        """
+        if is_f15e:
+            # Slot math must match the CDU data-cartridge programming in
+            # PydcsWaypointBuilder.register_special_strike_points ("M{i//8+1}.{i%8+1}")
+            # so the kneeboard label points at the slot the jet was actually programmed
+            # with -- 8 minor slots per major group.
+            return f"{display_name} (DTC M{(index // 8) + 1}.{index % 8 + 1})"
+        return display_name
 
 
 class NotesPage(KneeboardPage):
