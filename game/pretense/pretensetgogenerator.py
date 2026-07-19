@@ -588,6 +588,7 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
                 )
                 vehicle_group.units[0].player_can_drive = True
                 self.enable_eplrs(vehicle_group, unit.type)
+                self.enable_ewr(vehicle_group)
                 vehicle_group.units[0].name = unit.unit_name
                 self.set_alarm_state(vehicle_group)
                 GroundForcePainter(faction, vehicle_group.units[0]).apply_livery()
