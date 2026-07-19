@@ -29,8 +29,8 @@ class MotorpoolGenerator(GroundObjectGenerator):
     registered as motorpool losses (a distinct loss category that decrements
     base.armor 1:1 but does not count toward front-line battle impact)."""
 
-    def set_alarm_state(self, group: MovingGroup[Any]) -> None:
-        # Always green regardless of perf_red_alert_state — parked, not alert.
+    def set_alarm_state(self, group: MovingGroup[Any], force_red: bool = False) -> None:
+        # Always green regardless of perf_red_alert_state or force_red — parked, not alert.
         group.points[0].tasks.append(OptAlarmState(1))
 
     def _register_theater_unit(self, theater_unit: TheaterUnit, dcs_unit: Any) -> None:
