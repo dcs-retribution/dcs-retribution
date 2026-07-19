@@ -9,6 +9,7 @@ class TargetBuilder(PydcsWaypointBuilder):
     """
 
     def dcs_name_for_waypoint(self) -> str:
+        resolved = super().dcs_name_for_waypoint()  # honors custom_name override
         if self.flight.unit_type.use_f15e_waypoint_names:
-            return f"#T {self.waypoint.name}"
-        return super().dcs_name_for_waypoint()
+            return f"#T {resolved}"
+        return resolved

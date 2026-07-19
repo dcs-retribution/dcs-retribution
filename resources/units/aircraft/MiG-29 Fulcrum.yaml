@@ -49,3 +49,8 @@ tasks:
   OCA/Runway: 410
   Strike: 410
   TARCAP: 370
+# Era gate for the payload-editor mission options (restrict_props_by_date):
+# The Shchel-3UM HMS was standard from the MiG-29's 1983 service entry.
+date_gated_properties:
+  HelmetMountedDevice:
+    HMS: 1983

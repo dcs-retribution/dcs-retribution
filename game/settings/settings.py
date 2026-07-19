@@ -532,6 +532,19 @@ class Settings:
             "extremely incomplete so does not affect all weapons."
         ),
     )
+    restrict_props_by_date: bool = boolean_option(
+        "Restrict aircraft options by date (WIP)",
+        page=CAMPAIGN_MANAGEMENT_PAGE,
+        section=GENERAL_SECTION,
+        default=False,
+        detail=(
+            "Restricts era-defining aircraft mission options (e.g. the JHMCS helmet "
+            "cueing selection) based on the campaign date: gated options are hidden "
+            "from the payload editor and clamped to a period-correct value at "
+            "mission generation. Independent of the weapons restriction so either "
+            "can be enforced alone. Data is curated per airframe and incomplete."
+        ),
+    )
     apply_target_overrides_to_loadouts: bool = boolean_option(
         "Apply target-based weapon settings to player loadouts",
         page=CAMPAIGN_MANAGEMENT_PAGE,
