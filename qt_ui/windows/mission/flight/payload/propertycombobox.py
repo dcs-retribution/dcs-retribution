@@ -1,10 +1,16 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from PySide6.QtWidgets import QComboBox
 from dcs.unitpropertydescription import UnitPropertyDescription
 
-from game import Game
 from game.ato.flightmember import FlightMember
 from game.dcs.aircrafttype import AircraftType
 from .missingpropertydataerror import MissingPropertyDataError
+
+if TYPE_CHECKING:
+    from game import Game
 
 
 class PropertyComboBox(QComboBox):
