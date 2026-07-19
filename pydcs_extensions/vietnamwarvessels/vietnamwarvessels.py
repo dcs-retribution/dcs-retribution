@@ -1672,6 +1672,15 @@ class USS_Fletcher(unittype.ShipType):
 
 
 @shipmod
+class USS_Radford(unittype.ShipType):
+    id = "USS Radford"
+    name = "[VWV] DD-446 USS Radford"
+    detection_range = 45000
+    threat_range = 18650
+    air_weapon_dist = 18650
+
+
+@shipmod
 class USS_Mullany(unittype.ShipType):
     id = "USS Mullany"
     name = "[VWV] DD-528 USS Mullany"
@@ -1735,6 +1744,24 @@ class USS_Forrest_Sherman(unittype.ShipType):
 class USS_Bigelow(unittype.ShipType):
     id = "USS Bigelow"
     name = "[VWV] DD-942 USS Bigelow"
+    detection_range = 45000
+    threat_range = 18650
+    air_weapon_dist = 18650
+
+
+@shipmod
+class USS_Epperson(unittype.ShipType):
+    id = "USS Epperson"
+    name = "[VWV] DD-719 USS Epperson"
+    detection_range = 45000
+    threat_range = 18650
+    air_weapon_dist = 18650
+
+
+@shipmod
+class USS_Everett_F_Larson(unittype.ShipType):
+    id = "USS Everett F Larson"
+    name = "[VWV] DD-830 USS Everett F. Larson"
     detection_range = 45000
     threat_range = 18650
     air_weapon_dist = 18650
@@ -1824,6 +1851,81 @@ class vap_us_seafloat(unittype.ShipType):
     name = "VAP US Sea Float Barge"
     helicopter_num = 4
     parking = 4
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@shipmod
+class Solon_Turman(unittype.ShipType):
+    id = "AD-30 Solon Turman"
+    name = "[VWV] AD-30 Solon Turman"
+    # GT.airFindDist = 15000 in the mod's own Database/Navy/Solon_Turman.lua; no weapon
+    # data found there, so threat/weapon ranges stay at the UnitType default of 0
+    # (a destroyer tender, not a combatant).
+    detection_range = 15000
+
+
+@shipmod
+class USNS_Card(unittype.ShipType):
+    id = "USNS Card"
+    name = "[VWV] T-AKV-40 USNS Card"
+    # No detection/weapon data found in the mod's own Lua (an aircraft ferry, not a
+    # combatant) -- left at the UnitType default of 0 rather than guessed.
+
+
+# Added in VWV 3.1.0. Unarmed riverine/coastal craft (GT.tags = {"Civilian"},
+# GT.attribute includes wsType_GenericCivShip, "NO_SAM"; no weapon DB entry in the mod's
+# own Lua) -- ids verified against the installed mod's Database/Navy/*.lua, not guessed.
+@shipmod
+class vwv_sampan_open(unittype.ShipType):
+    id = "sampan_open"
+    name = "[VWV] Sampan"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@shipmod
+class vwv_sampan_canopy(unittype.ShipType):
+    id = "SAMPAN_CANOPY"
+    name = "[VWV] Sampan, Canopy"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@shipmod
+class vwv_sampan_covered(unittype.ShipType):
+    id = "SAMPAN_COVERED"
+    name = "[VWV] Sampan, Covered"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@shipmod
+class vwv_sampan_covered_ak47(unittype.ShipType):
+    id = "sampan_covered_ak47"
+    name = "[VWV] Sampan, Covered, AK47"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@shipmod
+class vwv_sampan_open_box(unittype.ShipType):
+    id = "sampan_open_box"
+    name = "[VWV] Sampan, Open, Ammo Box"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@shipmod
+class vwv_junk(unittype.ShipType):
+    id = "Junk"
+    name = "[VWV] Vietnam Junk"
     detection_range = 0
     threat_range = 0
     air_weapon_dist = 0
