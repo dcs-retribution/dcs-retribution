@@ -69,6 +69,7 @@ GENERAL_SECTION = "General"
 PILOTS_AND_SQUADRONS_SECTION = "Pilots and Squadrons"
 HQ_AUTOMATION_SECTION = "HQ Automation"
 FLIGHT_PLANNER_AUTOMATION = "Flight Planner Automation"
+VICTORY_CONDITIONS_SECTION = "Victory Conditions"
 
 CAMPAIGN_DOCTRINE_PAGE = "Campaign Doctrine"
 DOCTRINE_DISTANCES_SECTION = "Doctrine distances"
@@ -598,6 +599,41 @@ class Settings:
         section=GENERAL_SECTION,
         default=False,
         detail=("If checked, Bandit's cloud presets will become available."),
+    )
+
+    # Victory conditions
+    alternate_victory_domination: int = bounded_int_option(
+        "Domination victory (% of bases held)",
+        page=CAMPAIGN_MANAGEMENT_PAGE,
+        section=VICTORY_CONDITIONS_SECTION,
+        default=0,
+        min=0,
+        max=100,
+        detail=(
+            "0 disables (the default). Otherwise, holding at least this percentage "
+            "of the map's non-neutral bases wins the campaign at the turn boundary "
+            "-- a limited war ends when the objective area is held, without the "
+            "total conquest the stock ending demands. Adds to the normal endings, "
+            "never replaces them. Pick a threshold above your starting share or "
+            "the campaign ends immediately. Works on any campaign; authored "
+            "`victory:` blocks in the campaign definition stack with it."
+        ),
+    )
+    alternate_victory_attrition: int = bounded_int_option(
+        "Attrition victory (enemy air below % of start)",
+        page=CAMPAIGN_MANAGEMENT_PAGE,
+        section=VICTORY_CONDITIONS_SECTION,
+        default=0,
+        min=0,
+        max=90,
+        detail=(
+            "0 disables (the default). Otherwise, grinding the enemy's total owned "
+            "airframes below this percentage of their campaign-start strength wins "
+            "the campaign -- destroy the enemy's military potential instead of "
+            "capturing every base. Measured against the force at campaign start "
+            "(enemy procurement rebuying airframes counts against you, so the "
+            "fight stays honest). Adds to the normal endings, never replaces them."
+        ),
     )
 
     # Pilots and Squadrons

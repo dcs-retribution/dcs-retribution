@@ -56,6 +56,7 @@ if TYPE_CHECKING:
     from .sim import GameUpdateEvents
     from .squadrons import AirWing
     from .threatzones import ThreatZones
+    from .victory import VictoryBaseline
 
 COMMISION_UNIT_VARIETY = 4
 COMMISION_LIMITS_SCALE = 1.5
@@ -121,6 +122,12 @@ class Game:
         self.date = date(start_date.year, start_date.month, start_date.day)
         self.game_stats = GameStats()
         self.notes = ""
+        # Custom victory conditions: the campaign-start strength snapshot the
+        # ratio conditions measure against (latched by initialize_turn), and
+        # the once-per-condition announce latch. Absent on old saves; every
+        # reader guards with getattr, so no save migration is needed.
+        self.victory_baseline: Optional[VictoryBaseline] = None
+        self.victory_announced: set[str] = set()
         self.ground_planners: dict[UUID, GroundPlanner] = {}
         self.informations: list[Information] = []
         self.message("Game Start", "-" * 40)
@@ -420,6 +427,18 @@ class Game:
         persistency.autosave(self)
 
     def check_win_loss(self) -> TurnState:
+        # Alternate endings (custom victory conditions): one evaluator ahead
+        # of the stock capture-everything defaults. Returns None when nothing
+        # is configured, so this path costs nothing and the territory checks
+        # below remain the universal fallback.
+        from .victory import victory_verdict
+
+        alternate = victory_verdict(self)
+        if alternate == "loss":
+            return TurnState.LOSS
+        if alternate == "win":
+            return TurnState.WIN
+
         if not self.theater.player_points(state_check=True):
             return TurnState.LOSS
 
@@ -475,6 +494,13 @@ class Game:
             for_blue: True if the player coalition should be re-initialized.
             squadrons_start_full: True if generator setting was checked.
         """
+        # Latch the campaign-start strength baseline the alternate victory
+        # conditions measure against (a no-op after the first call, so the
+        # multiple-initializations-per-turn cases above are safe).
+        from .victory import ensure_victory_baseline
+
+        ensure_victory_baseline(self)
+
         # Check for win or loss condition FIRST!
         turn_state = self.check_win_loss()
         if turn_state in (TurnState.LOSS, TurnState.WIN):
