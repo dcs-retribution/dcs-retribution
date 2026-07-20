@@ -25,5 +25,10 @@ altitudes:
   cruise: 10000
   combat: 1000
 tasks:
-  # Air Assault: 0 #TODO: Add once we have proper support for paradrops
+  # CTLD paradrop air assault: the C-130J delivers its stick by parachute over
+  # the target zone. Priority sits below the assault helos (50) so a helo
+  # squadron in range still wins the tasking -- the C-130 takes the long-reach
+  # and no-helo cases -- and far below the Anubis Hercules mod (990), which
+  # keeps its own native airdrop systems on top of this scripted path.
+  Air Assault: 40
   Transport: 140

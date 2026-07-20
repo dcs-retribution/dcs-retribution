@@ -28,7 +28,8 @@ if TYPE_CHECKING:
 @dataclass
 class AirAssaultLayout(FormationAttackLayout):
     # The pickup point is optional because we don't always need to load the cargo. When
-    # departing from a carrier, LHA, or off-map spawn, the cargo is pre-loaded.
+    # departing from a carrier, LHA, or off-map spawn -- or flying a fixed-wing troop
+    # transport, which paradrops instead of landing -- the cargo is pre-loaded.
     pickup: FlightWaypoint | None = None
     drop_off: FlightWaypoint | None = None
     # This is an implementation detail used by CTLD. The aircraft will not go to this
@@ -95,9 +96,9 @@ class AirAssaultFlightPlan(FormationAttackFlightPlan, UiZoneDisplay):
 
 class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
     def layout(self) -> AirAssaultLayout:
-        if not self.flight.is_helo and not self.flight.is_hercules:
+        if not self.flight.is_helo and self.flight.unit_type.cabin_size <= 0:
             raise PlanningError(
-                "Air assault is only usable by helicopters and Anubis' C-130 mod"
+                "Air assault requires a helicopter or a troop transport aircraft"
             )
         assert self.package.waypoints is not None
 
@@ -106,13 +107,16 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
         altitude = builder.get_cruise_altitude
         altitude_is_agl = self.flight.is_helo
 
-        if self.flight.is_hercules or self.flight.departure.cptype in [
+        if not self.flight.is_helo or self.flight.departure.cptype in [
             ControlPointType.AIRCRAFT_CARRIER_GROUP,
             ControlPointType.LHA_GROUP,
             ControlPointType.OFF_MAP,
         ]:
             # Off_Map spawns will be preloaded
             # Carrier operations load the logistics directly from the carrier
+            # Fixed-wing troop transports are always preloaded: they cannot use
+            # the hover/landing pickup zone, and they deliver by paradrop (the
+            # CTLD runtime releases the stick over the target zone).
             pickup = None
             pickup_position = self.flight.departure.position
         else:
@@ -140,7 +144,11 @@ class Builder(FormationAttackBuilder[AirAssaultFlightPlan, AirAssaultLayout]):
         )
 
         assault_area = builder.assault_area(self.package.target)
-        if self.flight.is_hercules:
+        if not self.flight.is_helo:
+            # The paradrop run-in. For helos this waypoint is a CTLD
+            # implementation detail (the AI lands at the drop-off zone instead),
+            # but the fixed-wing AI must actually overfly the target zone at
+            # drop height for the CTLD runtime to release the paratroopers.
             assault_area.only_for_player = False
             assault_area.alt = feet(1000)
 

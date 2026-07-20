@@ -14,9 +14,24 @@ function spawn_crates()
 end
 
 function preload_troops(preload_data)
-    --- Troop loading script which needs to be run after CTLD was initialized (5s delay)
+    --- Troop loading script which needs to be run after CTLD was initialized (5s delay).
+    --- Retries until the transport actually exists: TOT-delayed AI flights
+    --- late-activate, so a one-shot load at t+5s silently missed them and the
+    --- aircraft arrived over the drop zone empty (a fixed-wing transport has no
+    --- pickup zone to self-load from). A found unit is loaded exactly once; a
+    --- unit that never spawns stops being polled after ~2 h of mission time.
+    local _unit = ctld.getTransportUnit(preload_data["unit"])
+    if _unit == nil then
+        preload_data["tries"] = (preload_data["tries"] or 0) + 1
+        if preload_data["tries"] < 240 then
+            return timer.getTime() + 30
+        end
+        env.info(string.format("DCSRetribution|CTLD plugin - giving up preload for %s (never spawned)", preload_data["unit"]))
+        return nil
+    end
     env.info(string.format("DCSRetribution|CTLD plugin - Preloading Troops into %s", preload_data["unit"]))
     ctld.preLoadTransport(preload_data["unit"], preload_data["amount"], true)
+    return nil
 end
 
 function toboolean(str) return str == "true" end
@@ -48,9 +63,17 @@ if dcsRetribution then
             ctld.maximumDistanceLogistic = 300
             ctld.unitLoadLimits = {}
             ctld.unitActions = {}
+            --- Fixed-wing troop transports deliver by PARADROP (they cannot land
+            --- at the assault zone). Python owns the eligibility call: the
+            --- Logistics.transports "paradrop" flag is fixed-wing + troop-capable;
+            --- helicopters keep the stock land/fast-rope behavior.
+            ctld.paradropUnitTypes = {}
             for _, transport in pairs(dcsRetribution.Logistics.transports) do
                 ctld.unitLoadLimits[transport.aircraft_type] = tonumber(transport.cabin_size)
                 ctld.unitActions[transport.aircraft_type] = { crates = toboolean(transport.crates), troops = toboolean(transport.troops) }
+                if toboolean(transport.troops) and toboolean(transport.paradrop) then
+                    ctld.paradropUnitTypes[transport.aircraft_type] = true
+                end
             end
 
             if dcsRetribution.plugins.ctld.smoke then
@@ -126,6 +149,7 @@ if dcsRetribution then
             ctld.spawnableCrates["Retribution Crates"] = spawnable_crates
 
             --- Parse the LogisticsInfo for the mission
+            local paradrop_target_zones = {} -- AI drop plan: pilot name -> target zone name
             for _, item in pairs(dcsRetribution.Logistics.flights) do
                 for _, pilot in pairs(item.pilot_names) do
                     table.insert(ctld.transportPilotNames, pilot)
@@ -142,10 +166,159 @@ if dcsRetribution then
                 end
                 if item.target_zone then
                     table.insert(ctld.wpZones, { item.target_zone, "none", "yes", tonumber(item.side) })
+                    if ctld.paradropUnitTypes[item.aircraft_type] then
+                        for _, pilot in pairs(item.pilot_names) do
+                            paradrop_target_zones[pilot] = item.target_zone
+                        end
+                    end
                 end
                 if dcsRetribution.plugins.ctld.logisticunit and item.logistic_unit then
                     table.insert(ctld.logisticUnits, item.logistic_unit)
                 end
+            end
+
+            -- ===== Paratroopers: fixed-wing CTLD paradrop ====================
+            -- An airborne fixed-wing troop transport "unloads" by PARADROP: the
+            -- stick leaves the aircraft immediately (cargo cleared, weight
+            -- adapted) and the same CTLD troop group a landed unload would
+            -- produce spawns at the drop point after a real static-line descent
+            -- delay -- so a transport shot down after the drop still delivers,
+            -- and one shot down before it never does. Troops dropped inside the
+            -- flight's air-assault target zone head for the zone centre (the
+            -- stock CTLD wpZone behavior that drives the assault); elsewhere
+            -- they hunt the nearest enemy like any CTLD drop. AI transports
+            -- release automatically when they cross their own target zone.
+            -- No phantom spawns: the group comes out of the aircraft's CTLD
+            -- cargo, exactly like every helicopter unload. (The Anubis Hercules
+            -- mod's own loadmaster cargo system is untouched -- this covers the
+            -- CTLD troop pool, which previously could not leave a fixed-wing
+            -- aircraft in flight at all.)
+
+            local PARADROP_MAX_AGL_FT = 3000 -- player jump ceiling (AGL)
+            local PARADROP_MAX_AGL_M = PARADROP_MAX_AGL_FT / 3.2808399
+            local PARADROP_SINK_MPS = 6.5 -- static-line chute sink rate
+            local PARADROP_MAX_DESCENT_S = 90
+            local PARADROP_EXIT_THROW_S = 2 -- stick thrown forward along track
+            local PARADROP_AI_RANGE_M = 1200 -- AI release: distance to zone centre
+            local PARADROP_AI_POLL_S = 5
+
+            local function paradrop_land(_args)
+                -- The stick reaches the ground. The carrier aircraft may be
+                -- dead by now -- the jumpers are already out, so the landing
+                -- needs only the recorded drop data.
+                local _ok, _err = pcall(function()
+                    local _dropped = ctld.spawnDroppedGroup(_args.point, _args.troops, false)
+                    if _args.troops.jtac or _dropped:getName():lower():find("jtac") then
+                        local _code = table.remove(ctld.jtacGeneratedLaserCodes, 1)
+                        table.insert(ctld.jtacGeneratedLaserCodes, _code)
+                        ctld.JTACStart(_dropped:getName(), _code)
+                    end
+                    if _args.side == 1 then
+                        table.insert(ctld.droppedTroopsRED, _dropped:getName())
+                    else
+                        table.insert(ctld.droppedTroopsBLUE, _dropped:getName())
+                    end
+                    local _unit = ctld.getTransportUnit(_args.unitName)
+                    if _unit ~= nil then
+                        ctld.processCallback({ unit = _unit, unloaded = _dropped, action = "dropped_troops" })
+                    end
+                    trigger.action.outTextForCoalition(_args.side,
+                        string.format("%s: paratroopers from %s are on the ground", _args.pilot, _args.typeName), 10)
+                end)
+                if not _ok then
+                    env.error(string.format("DCSRetribution|CTLD paradrop - landing failed: %s", tostring(_err)))
+                end
+            end
+
+            function ctld.paradropTroops(_unit)
+                local _name = _unit:getName()
+                local _onboard = ctld.inTransitTroops[_name]
+                if _onboard == nil or _onboard.troops == nil or _onboard.troops.units == nil
+                    or #_onboard.troops.units == 0 then
+                    return false
+                end
+                local _agl = ctld.heightDiff(_unit)
+                if _unit:getPlayerName() ~= nil and _agl > PARADROP_MAX_AGL_M then
+                    -- Player-only ceiling: the AI plans its run-in at drop
+                    -- height, and a terrain-forced high crossing must still
+                    -- deliver rather than silently never dropping.
+                    ctld.displayMessageToGroup(_unit, string.format(
+                        "Too high to paradrop! Descend below %d ft AGL to jump.", PARADROP_MAX_AGL_FT), 10)
+                    return false
+                end
+                local _troops = _onboard.troops
+                _onboard.troops = nil
+                ctld.adaptWeightToCargo(_name)
+
+                local _point = _unit:getPoint()
+                local _vel = _unit:getVelocity()
+                local _dropPoint = {
+                    x = _point.x + _vel.x * PARADROP_EXIT_THROW_S,
+                    y = _point.y,
+                    z = _point.z + _vel.z * PARADROP_EXIT_THROW_S,
+                }
+                local _descent = math.min(math.max(_agl, 0) / PARADROP_SINK_MPS, PARADROP_MAX_DESCENT_S)
+                local _side = _unit:getCoalition()
+                local _pilot = ctld.getPlayerNameOrType(_unit)
+                trigger.action.outTextForCoalition(_side,
+                    string.format("%s paradropped troops from %s", _pilot, _unit:getTypeName()), 10)
+                timer.scheduleFunction(paradrop_land, {
+                    point = _dropPoint,
+                    troops = _troops,
+                    side = _side,
+                    pilot = _pilot,
+                    typeName = _unit:getTypeName(),
+                    unitName = _name,
+                }, timer.getTime() + _descent)
+                return true
+            end
+
+            --- Airborne fixed-wing "Unload / Extract Troops" = jump. Grounded
+            --- unload, extraction, and every helicopter path fall through to
+            --- stock CTLD untouched.
+            local stock_unloadExtractTroops = ctld.unloadExtractTroops
+            function ctld.unloadExtractTroops(_args)
+                local _unit = ctld.getTransportUnit(_args[1])
+                if _unit ~= nil and ctld.paradropUnitTypes[_unit:getTypeName()]
+                    and ctld.inAir(_unit) and ctld.troopsOnboard(_unit, true) then
+                    return ctld.paradropTroops(_unit)
+                end
+                return stock_unloadExtractTroops(_args)
+            end
+
+            --- AI release loop: an AI transport with troops aboard drops them
+            --- when it crosses its own air-assault target zone (one drop per
+            --- sortie -- fixed-wing has no pickup zone to reload from). Players
+            --- are never auto-dropped; they jump via the F10 unload.
+            local function check_paradrop_ai()
+                timer.scheduleFunction(check_paradrop_ai, nil, timer.getTime() + PARADROP_AI_POLL_S)
+                for _pilot, _zoneName in pairs(paradrop_target_zones) do
+                    local _ok, _err = pcall(function()
+                        local _unit = ctld.getTransportUnit(_pilot)
+                        if _unit ~= nil and _unit:getPlayerName() == nil
+                            and ctld.inAir(_unit) and ctld.troopsOnboard(_unit, true) then
+                            local _zone = trigger.misc.getZone(_zoneName)
+                            if _zone ~= nil then
+                                local _p = _unit:getPoint()
+                                local _dx = _p.x - _zone.point.x
+                                local _dz = _p.z - _zone.point.z
+                                local _range = math.min(_zone.radius or PARADROP_AI_RANGE_M, PARADROP_AI_RANGE_M)
+                                if (_dx * _dx + _dz * _dz) <= _range * _range then
+                                    if ctld.paradropTroops(_unit) then
+                                        paradrop_target_zones[_pilot] = nil
+                                    end
+                                end
+                            end
+                        end
+                    end)
+                    if not _ok then
+                        env.error(string.format("DCSRetribution|CTLD paradrop - AI check failed: %s", tostring(_err)))
+                    end
+                end
+            end
+
+            if next(paradrop_target_zones) ~= nil then
+                timer.scheduleFunction(check_paradrop_ai, nil, timer.getTime() + PARADROP_AI_POLL_S)
             end
 
             autolase = dcsRetribution.plugins.ctld.autolase
