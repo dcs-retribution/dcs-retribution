@@ -1,6 +1,7 @@
 # Retribution v1.6.0
 
 ## Features/Improvements
+* **[Units/Factions]** Soviet-doctrine SHORAD groups field their Sborka "Dog Ear" acquisition radar (a vanilla DCS unit) when the site's layout has a search-radar slot free — era-gated and excluded from SAM sites, so period groups get their real acquisition picture with no mod required. (#887)
 * **[Kneeboard]** Use a light-grey daytime kneeboard background instead of near-white, to avoid glare under HDR / Auto-HDR while staying readable in daylight.
 * **[UX]** Hovering a friendly flight's route line on the map highlights it in yellow, and clicking it selects that flight's package (and the flight) in the ATO sidebar.
 * **[UX]** Press Delete with a package selected in the Packages list to cancel it, making it quick to clear several packages in a row.
