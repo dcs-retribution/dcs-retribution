@@ -27,6 +27,7 @@ from ..utils import Distance, Heading, meters, nautical_miles
 
 if TYPE_CHECKING:
     from game.ato.flighttype import FlightType
+    from game.dcs.groundunittype import GroundUnitType
     from game.threatzones import ThreatPoly
     from .theatergroup import TheaterUnit, TheaterGroup
     from .controlpoint import ControlPoint, Coalition
@@ -47,6 +48,7 @@ NAME_BY_CATEGORY = {
     "fob": "FOB",
     "fuel": "Fuel depot",
     "missile": "Missile site",
+    "motorpool": "Motorpool",
     "oil": "Oil platform",
     "power": "Power plant",
     "ship": "Ship",
@@ -656,6 +658,78 @@ class VehicleGroupGroundObject(TheaterGroundObject):
         if not self.is_friendly(for_player):
             yield FlightType.BAI
         yield from super().mission_types(for_player)
+
+
+class MotorpoolGroundObject(TheaterGroundObject):
+    """A control point's not-deployed reserve armor, rendered as a stationary,
+    strikeable vehicle park. Its .groups are populated ephemerally each mission
+    from the current reserve slice (see MotorpoolPopulator); units are NOT
+    persisted."""
+
+    def __init__(
+        self,
+        name: str,
+        location: PresetLocation,
+        control_point: ControlPoint,
+        task: Optional[GroupTask],
+    ) -> None:
+        super().__init__(
+            name=name,
+            category="motorpool",
+            location=location,
+            control_point=control_point,
+            sea_object=False,
+            task=task,
+        )
+        # group-id -> the exact GroundUnitType variant that group represents, so
+        # the renderer decrements the right base.armor key. Set by the populator;
+        # never persisted meaningfully (groups are rebuilt each mission).
+        self.motorpool_unit_types: dict[int, GroundUnitType] = {}
+
+    @property
+    def symbol_set_and_entity(self) -> tuple[SymbolSet, Entity]:
+        # Maintenance-facility installation symbol: visually distinct from the
+        # armor-group symbol so the motorpool reads as a depot, not a fighting unit.
+        return (
+            SymbolSet.LAND_INSTALLATIONS,
+            LandInstallationEntity.MAINTENANCE_FACILITY,
+        )
+
+    @property
+    def capturable(self) -> bool:
+        return False
+
+    @property
+    def purchasable(self) -> bool:
+        # Not individually bought; reflects the reserve pool.
+        return False
+
+    @property
+    def should_head_to_conflict(self) -> bool:
+        # Parked/unmanned: never advances to the front.
+        return False
+
+    def mission_types(self, for_player: Player) -> Iterator[FlightType]:
+        from game.ato import FlightType
+
+        if not self.is_friendly(for_player):
+            yield FlightType.BAI
+        yield from super().mission_types(for_player)
+
+    @property
+    def sidc_status(self) -> Status:
+        # A motorpool is a live reserve projection: empty on the strategic map is its
+        # normal resting state (vehicles populate ephemerally at mission-gen), not
+        # destruction. Always render as a present depot — never damaged/destroyed.
+        # is_dead is deliberately left intact so AI target-selection, capture, and
+        # IADS logic (which read is_dead, not sidc_status) are unaffected.
+        return Status.PRESENT
+
+    def clear(self) -> None:
+        # Keep the group-id -> unit-type map in lockstep with groups so a wiped
+        # motorpool (e.g. on capture) leaves no dangling group-id keys behind.
+        super().clear()
+        self.motorpool_unit_types = {}
 
 
 class EwrGroundObject(IadsGroundObject):

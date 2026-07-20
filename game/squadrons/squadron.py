@@ -18,6 +18,7 @@ from game.settings import AutoAtoBehavior, Settings
 from game.theater import ParkingType
 from game.theater.player import Player
 from .pilot import Pilot, PilotStatus
+from .pilotnames import faker_for_country
 from ..db.database import Database
 from ..radio.radios import RadioFrequency
 from ..utils import meters, nautical_miles
@@ -229,11 +230,15 @@ class Squadron:
         new_pilots = self.pilot_pool[:count]
         self.pilot_pool = self.pilot_pool[count:]
         count -= len(new_pilots)
+        # Resolve the squadron's faker once per batch, not once per pilot: the
+        # country/locale is fixed for a squadron's lifetime, so hundreds of
+        # identical ``faker_for_country`` lookups per campaign collapse to one.
+        faker = self.faker
         for _ in range(count):
             if random.randint(1, 100) > self.female_pilot_percentage:
-                new_pilots.append(Pilot(self.faker.name_male()))
+                new_pilots.append(Pilot(faker.name_male()))
             else:
-                new_pilots.append(Pilot(self.faker.name_female()))
+                new_pilots.append(Pilot(faker.name_female()))
         self.current_roster.extend(new_pilots)
         self.available_pilots.extend(new_pilots)
 
@@ -275,7 +280,11 @@ class Squadron:
 
     @property
     def faker(self) -> Faker:
-        return self.coalition.faker
+        # Name the squadron's pilots in their own nation's convention (the
+        # squadron flies under its own DCS country, #627), falling back to a
+        # faker built from the faction's locale list for unmapped /
+        # multinational countries. See game/squadrons/pilotnames.py.
+        return faker_for_country(self.country, self.coalition.faction.locales)
 
     def _pilots_with_status(self, status: PilotStatus) -> list[Pilot]:
         return [p for p in self.current_roster if p.status == status]
