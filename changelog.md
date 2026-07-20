@@ -1,6 +1,7 @@
 # Retribution v1.6.0
 
 ## Features/Improvements
+* **[Options]** The AI altitude scatter becomes a configurable band (lowest/highest nudge off the planned altitude; equal values disable it), and a new minimum patrol altitude raises CAP and patrol flights that would fly below it. Existing saves keep their previous symmetric spread. (#806)
 * **[UX]** Hovering a friendly flight's route line on the map highlights it in yellow, and clicking it selects that flight's package (and the flight) in the ATO sidebar.
 * **[UX]** Press Delete with a package selected in the Packages list to cancel it, making it quick to clear several packages in a row.
 * **[UX]** Avoid having escorts from wondering off too far while chasing a target.
