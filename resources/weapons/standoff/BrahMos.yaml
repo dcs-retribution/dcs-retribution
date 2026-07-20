@@ -1,0 +1,5 @@
+name: BrahMos
+year: 2006
+clsids:
+  - "{BRAHMOS_SEAD}"   # BRAHMOS SEAD
+  - "{BRAHMOS_S}"   # BRAHMOS A-Ship

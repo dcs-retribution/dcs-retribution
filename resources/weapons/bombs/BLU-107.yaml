@@ -1,0 +1,16 @@
+name: BLU-107 Durandal
+year: 1977
+fallback: Mk 82
+clsids:
+  - "{CFT_L_BLU107_x_3}"   # BLU-107 * 3
+  - "{CFT_R_BLU107_x_3}"   # BLU-107 * 3
+  - "{CFT_L_BLU107_x_6}"   # BLU-107 * 6
+  - "{CFT_R_BLU107_x_6}"   # BLU-107 * 6
+  - "{752B9781-F962-11d5-9190-00A0249B6F00}"   # BLU-107 - 440lb Anti-Runway Penetrator Bomb
+  - "{752B9782-F962-11d5-9190-00A0249B6F00}"   # MER6 with 6 x BLU-107 - 440lb Anti-Runway Penetrator Bombs
+  - "{BLU107B_DURANDAL}"   # BLU-107/B Durandal - 219kg Concrete Piercing Chute Retarded Bomb w/Booster
+  - "{HB_F4E_BLU-107B_3x}"   # 3x BLU-107/B Durandal - 219kg Concrete Piercing Chute Retarded Bomb w/Booster (TER)
+  - "{HB_F4E_BLU-107B_6x}"   # 6x BLU-107/B Durandal - 219kg Concrete Piercing Chute Retarded Bomb w/Booster (MER)
+  - "{AUF2_BLU107}"   # AUF 2 - 2 x BLU-107/B Durandal - 219kg Concrete Piercing Chute Retarded Bomb w/Booster
+  - "{CLB4_BLU107}"   # CLB 4 - 4 x BLU-107/B Durandal - 219kg Concrete Piercing Chute Retarded Bomb w/Booster
+  - "{HB_F4E_BLU-107B_3x_SWA}"   # (Special Weapons Adapter) 3x BLU-107/B Durandal - 219kg Concrete Piercing Chute Retarded Bomb w/Booster (TER)

@@ -2,15 +2,48 @@ name: AIM-9M
 year: 1982
 fallback: AIM-9L
 clsids:
-  - "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}"
-  - "LAU-105_1*AIM-9M_L"
-  - "LAU-105_1*AIM-9M_R"
-  - "LAU-115_LAU-127_AIM-9M"
-  - "LAU-115_LAU-127_AIM-9M_R"
-  - "LAU-127_AIM-9M"
-  - "{LAU-138 wtip - AIM-9M}"
-  - "{LAU-7 - AIM-9M}"
-  - "{AIM-9M-ON-ADAPTER}"
-  - "{LAU-7_AIM-9M_Left}"
-  - "{LAU-7_AIM-9M_Right}"
-  - "{AIM-9M}"
+  - "{AIM-9M}"   # AIM-9M
+  - "{LAU-7_AIM-9M_Left}"   # 2x AIM-9M
+  - "{LAU-7_AIM-9M_Right}"   # 2x AIM-9M
+  - "{LAU-7 - AIM-9M}"   # LAU-7 AIM-9M
+  - "{LAU-138 wtip - AIM-9M}"   # LAU-138 AIM-9M
+  - "CATM-9M"   # Captive AIM-9M for ACM
+  - "Herc_Ammo_AIM9M_missiles"   # Ammo AIM-9M*30 [7128lb]
+  - "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}"   # AIM-9M Sidewinder IR AAM
+  - "{JAS39_AIM-9M}"   # AIM-9M Sidewinder IR AAM
+  - "LAU-127_CATM-9M"   # LAU-127 Captive AIM-9M for ACM
+  - "LAU-127_AIM-9M"   # LAU-127 AIM-9M Sidewinder IR AAM
+  - "{HB_A6E_LAU7_AIM9M}"   # LAU-7 with AIM-9M Sidewinder IR AAM
+  - "{AIM-9M-ON-ADAPTER}"   # LAU-7 with AIM-9M Sidewinder IR AAM
+  - "LAU-105_1*CATM-9M_L"   # LAU-105 with 1 x Captive AIM-9M for ACM
+  - "LAU-105_1*CATM-9M_R"   # LAU-105 with 1 x Captive AIM-9M for ACM
+  - "LAU-105_2*CATM-9M"   # LAU-105 with 2 x Captive AIM-9M for ACM
+  - "LAU-105_1*AIM-9M_L"   # LAU-105 with 1 x AIM-9M Sidewinder IR AAM
+  - "LAU-105_1*AIM-9M_R"   # LAU-105 with 1 x AIM-9M Sidewinder IR AAM
+  - "LAU-115_LAU-127_CATM-9M"   # LAU-115 with 1 x LAU-127 Captive AIM-9M for ACM
+  - "LAU-115_LAU-127_CATM-9M_R"   # LAU-115 with 1 x LAU-127 Captive AIM-9M for ACM
+  - "LAU-115_2*LAU-127_CATM-9M"   # LAU-115 with 2 x LAU-127 Captive AIM-9M for ACM
+  - "LAU-115_LAU-127_AIM-9M"   # LAU-115 with 1 x LAU-127 AIM-9M Sidewinder IR AAM
+  - "LAU-115_LAU-127_AIM-9M_R"   # LAU-115 with 1 x LAU-127 AIM-9M Sidewinder IR AAM
+  - "{SUPERHORNET_PYLON_01_SW_1X_AIM-9}"   #  [ STA 01	  | WNGTP | LAU127 ] - 1x AIM-9M Sidewinder - IR AAM
+  - "{SUPERHORNET_PYLON_02_SW_1X_AIM-9}"   #  [ STA 02	  | SUU80 | LAU127 ] - 1x AIM-9M Sidewinder - IR AAM
+  - "{SUPERHORNET_PYLON_02_MB_SW_1X_AIM-9}"   #  [ STA 03	  | SUU79 | LAU127 ] - 1x AIM-9M Sidewinder - IR AAM
+  - "{SUPERHORNET_PYLON_03_MB_SW_1X_AIM-9}"   #  [ STA 03	  | SUU79 | LAU127 ] - 1x AIM-9M Sidewinder - IR AAM
+  - "{SUPERHORNET_PYLON_02_MB_SW_2X_AIM-9}"   #  [ STA 03	  | SUU79 | LAU127 ] - 2x AIM-9M Sidewinder - IR AAM
+  - "{SUPERHORNET_PYLON_03_MB_SW_2X_AIM-9}"   #  [ STA 03	  | SUU79 | LAU127 ] - 2x AIM-9M Sidewinder - IR AAM
+  - "{SUPERHORNET_PYLON_03_IB_SW_1X_AIM-9}"   #  [ STA 04	  | SUU79 | LAU127 ] - 1x AIM-9M Sidewinder - IR AAM
+  - "{SUPERHORNET_PYLON_03_IB_SW_2X_AIM-9}"   #  [ STA 04	  | SUU79 | LAU127 ] - 2x AIM-9M Sidewinder - IR AAM
+  - "{SUPERHORNET_PYLON_09_IB_SW_1X_AIM-9}"   #  [ STA 08	  | SUU79 | LAU127 ] - 1x AIM-9M Sidewinder - IR AAM
+  - "{SUPERHORNET_PYLON_09_IB_SW_2X_AIM-9}"   #  [ STA 08	  | SUU79 | LAU127 ] - 2x AIM-9M Sidewinder - IR AAM
+  - "{SUPERHORNET_PYLON_09_MB_SW_1X_AIM-9}"   #  [ STA 09	  | SUU79 | LAU127 ] - 1x AIM-9M Sidewinder - IR AAM
+  - "{SUPERHORNET_PYLON_10_MB_SW_1X_AIM-9}"   #  [ STA 09	  | SUU79 | LAU127 ] - 1x AIM-9M Sidewinder - IR AAM
+  - "{SUPERHORNET_PYLON_09_MB_SW_2X_AIM-9}"   #  [ STA 09	  | SUU79 | LAU127 ] - 2x AIM-9M Sidewinder - IR AAM
+  - "{SUPERHORNET_PYLON_10_MB_SW_2X_AIM-9}"   #  [ STA 09	  | SUU79 | LAU127 ] - 2x AIM-9M Sidewinder - IR AAM
+  - "{SUPERHORNET_PYLON_10_SW_1X_AIM-9}"   #  [ STA 10	  | SUU80 | LAU127 ] - 1x AIM-9M Sidewinder - IR AAM
+  - "{SUPERHORNET_PYLON_11_SW_1X_AIM-9}"   #  [ STA 11	  | WNGTP | LAU127 ] - 1x AIM-9M Sidewinder - IR AAM
+  - "{SUPERHORNET_PYLON_02_MO_SW_2X_AIM-9}"   #  [ STA 02/03 | 79 / 80 | LAU127 ] - 1x/1x AIM-9M Sidewinder - IR AAM
+  - "{SUPERHORNET_PYLON_10_MO_SW_2X_AIM-9}"   #  [ STA 09/10 | 79 / 80 | LAU127 ] - 1x/1x AIM-9M Sidewinder - IR AAM
+  - "{SUPERHORNET_PYLON_02_MO_SW_3X_AIM-9}"   #  [ STA 02/03 | 79 / 80 | LAU127 ] - 2x/1x AIM-9M Sidewinder - IR AAM, (AI Only)
+  - "{SUPERHORNET_PYLON_03_IO_SW_3X_AIM-9}"   #  [ STA 02/04 | 79 / 80 | LAU127 ] - 2x/1x AIM-9M Sidewinder - IR AAM, (AI Only)
+  - "{SUPERHORNET_PYLON_10_MO_SW_3X_AIM-9}"   #  [ STA 09/10 | 79 / 80 | LAU127 ] - 2x/1x AIM-9M Sidewinder - IR AAM, (AI Only)
+  - "{SUPERHORNET_PYLON_09_IO_SW_3X_AIM-9}"   #  [ STA 10/08 | 79 / 80 | LAU127 ] - 2x/1x AIM-9M Sidewinder - IR AAM, (AI Only)

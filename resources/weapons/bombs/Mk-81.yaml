@@ -1,0 +1,47 @@
+name: Mk 81
+year: 1955
+clsids:
+  - "{BRU42_2*MK81 RS}"   # 2 Mk-81
+  - "{BRU3242_2*MK81 RS}"   # 2 Mk-81
+  - "{PHXBRU3242_2*MK81 RS}"   # 2 Mk-81
+  - "{BRU42_2*MK81 LS}"   # 2 Mk-81
+  - "{BRU3242_2*MK81 LS}"   # 2 Mk-81
+  - "{PHXBRU3242_2*MK81 LS}"   # 2 Mk-81
+  - "{BRU-42_3*Mk-81LD}"   # 3 Mk-81
+  - "{BRU-42_2*Mk-81LD_LEFT}"   # 2 Mk-81 */*
+  - "{BRU-42_2*Mk-81LD_RIGHT}"   # 2 Mk-81 *\*
+  - "{MAK79_MK81 3L}"   # MAK79 3 Mk-81
+  - "{MAK79_MK81 3R}"   # MAK79 3 Mk-81
+  - "{MAK79_MK81 4}"   # MAK79 4 Mk-81
+  - "{BRU41A_4_L*MK81}"   # BRU-41A - 4 x Mk-81
+  - "{BRU41A_4_R*MK81}"   # BRU-41A - 4 x Mk-81
+  - "{BRU41A_6*MK81}"   # BRU-41A - 6 x Mk-81
+  - "{BRU42A_2_L*MK81}"   # BRU-42A - 2 x Mk-81
+  - "{BRU42A_2_R*MK81}"   # BRU-42A - 2 x Mk-81
+  - "{BRU42A_3*MK81}"   # BRU-42A - 3 x Mk-81
+  - "{90321C8E-7ED1-47D4-A160-E074D5ABD902}"   # Mk-81 - 250lb GP Bomb LD
+  - "{MK-81SE}"   # Mk-81 Snakeye - 250lb GP Bomb HD
+  - "{HB_A6E_MK81_MER_1x}"   # 1x Mk-81 - 250lb GP Bomb LD (MER)
+  - "{HB_A6E_MK81_MER_2x}"   # 2x Mk-81 - 250lb GP Bomb LD (MER)
+  - "{HB_A6E_MK81_TER_2x_RIGHT}"   # 2x Mk-81 - 250lb GP Bomb LD (TER)
+  - "{HB_A6E_MK81_TER_2x_LEFT}"   # 2x Mk-81 - 250lb GP Bomb LD (TER)
+  - "{HB_F4E_MK-81_2x}"   # 2x Mk-81 - 250lb GP Bomb LD (TER)
+  - "{HB_A6E_MK81_MER_3x_RIGHT}"   # 3x Mk-81 - 250lb GP Bomb LD (MER)
+  - "{HB_A6E_MK81_MER_3x_LEFT}"   # 3x Mk-81 - 250lb GP Bomb LD (MER)
+  - "{HB_A6E_MK81_TER_3x}"   # 3x Mk-81 - 250lb GP Bomb LD (TER)
+  - "{HB_F4E_MK-81_3x}"   # 3x Mk-81 - 250lb GP Bomb LD (TER)
+  - "{HB_A6E_MK81_MER_4x_RIGHT}"   # 4x Mk-81 - 250lb GP Bomb LD (MER)
+  - "{HB_A6E_MK81_MER_4x_LEFT}"   # 4x Mk-81 - 250lb GP Bomb LD (MER)
+  - "{HB_A6E_MK81_MER_5x_RIGHT}"   # 5x Mk-81 - 250lb GP Bomb LD (MER)
+  - "{HB_A6E_MK81_MER_5x_LEFT}"   # 5x Mk-81 - 250lb GP Bomb LD (MER)
+  - "{HB_A6E_MK81_MER_6x}"   # 6x Mk-81 - 250lb GP Bomb LD (MER)
+  - "{HB_F4E_MK-81_6x}"   # 6x Mk-81 - 250lb GP Bomb LD (MER)
+  - "{Mk-81_MER_5_L}"   # 5 x Mk-81 - 250lb GP Bomb LD (MER)
+  - "{Mk-81_MER_5_R}"   # 5 x Mk-81 - 250lb GP Bomb LD (MER)
+  - "{Mk-81_MER_6_C}"   # 6 x Mk-81 - 250lb GP Bomb LD (MER)
+  - "{7B34E0BB-E427-4C2A-A61A-8407CE18B54D}"   # BRU-42 with 3 x Mk-81 - 250lb GP Bombs LD
+  - "{Mk-81SE_MER_5_L}"   # 5 x Mk-81 Snakeye - 250lb GP Bomb HD (MER)
+  - "{Mk-81SE_MER_5_R}"   # 5 x Mk-81 Snakeye - 250lb GP Bomb HD (MER)
+  - "{Mk-81SE_MER_6_C}"   # 6 x Mk-81 Snakeye - 250lb GP Bomb HD (MER)
+  - "{HB_MK-81_SWA}"   # (Special Weapons Adapter) Mk-81 - 250lb GP Bomb LD
+  - "{HB_F4E_MK-81_2x_SWA}"   # (Special Weapons Adapter) 2x Mk-81 - 250lb GP Bomb LD (TER)

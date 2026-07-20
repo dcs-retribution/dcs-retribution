@@ -2,5 +2,12 @@ name: AGM-84E SLAM
 year: 1990
 fallback: AGM-65G
 clsids:
-  - "{AF42E6DF-9A60-46D8-A9A0-1708B241AADB}"
-  - "{AGM_84E}"
+  - "Herc_Ammo_AGM_84E_missiles"   # Ammo AGM-84E*8 [11651lb]
+  - "{AF42E6DF-9A60-46D8-A9A0-1708B241AADB}"   # AGM-84E Harpoon/SLAM (Stand-Off Land-Attack Missile)
+  - "{AGM_84E}"   # AGM-84E Harpoon/SLAM (Stand-Off Land-Attack Missile)
+  - "{SUPERHORNET_PYLON_03_MB_SM_1X_AGM-84E}"   #  [ STA 03	  | SUU79 | LAU117 ] - 1x AGM-84E Harpoon/SLAM (Stand-Off Land-Attack Missile)
+  - "{SUPERHORNET_PYLON_09_MB_SM_1X_AGM-84E}"   #  [ STA 09	  | SUU79 | LAU117 ] - 1x AGM-84E Harpoon/SLAM (Stand-Off Land-Attack Missile)
+  - "{SUPERHORNET_PYLON_10_MB_SM_1X_AGM-84E}"   #  [ STA 09	  | SUU79 | LAU117 ] - 1x AGM-84E Harpoon/SLAM (Stand-Off Land-Attack Missile)
+  - "{SUPERHORNET_PYLON_02_MB_SM_1X_AGM-84E}"   #  [ STA 03	  | SUU79 | BRU32   ] - 1x AGM-84E Harpoon/SLAM (Stand-Off Land-Attack Missile)
+  - "{SUPERHORNET_PYLON_03_IB_SM_1X_AGM-84E}"   #  [ STA 04	  | SUU79 | BRU32   ] - 1x AGM-84E Harpoon/SLAM (Stand-Off Land-Attack Missile)
+  - "{SUPERHORNET_PYLON_09_IB_SM_1X_AGM-84E}"   #  [ STA 08	  | SUU79 | BRU32   ] - 1x AGM-84E Harpoon/SLAM (Stand-Off Land-Attack Missile)

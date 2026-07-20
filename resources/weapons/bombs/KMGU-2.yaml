@@ -1,0 +1,8 @@
+name: KMGU-2
+year: 1980
+fallback: RBK-250
+clsids:
+  - "Herc_Ammo_KMGU296AO25RT_bombs"   # Ammo KMGU-2 - 96 AO-2.5RT*10 [11440lb]
+  - "Herc_Ammo_KMGU296AO25KO_bombs"   # Ammo KMGU-2 - 96 PTAB-2.5KO*10 [11440lb]
+  - "{96A7F676-F956-404A-AD04-F33FB2C74884}"   # KMGU-2 - 96 x AO-2.5RT Dispenser (CBU) HE/Frag
+  - "{96A7F676-F956-404A-AD04-F33FB2C74881}"   # KMGU-2 - 96 x PTAB-2.5KO Dispenser (CBU) HEAT/AP

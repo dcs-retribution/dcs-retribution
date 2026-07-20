@@ -1,0 +1,4 @@
+name: AGM-158C LRASM
+year: 2018
+clsids:
+  - "{B21_AGM-158C*4}"   # 4 x AGM-158C LRASM AShM

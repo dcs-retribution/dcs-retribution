@@ -3,4 +3,14 @@ type: LGB
 year: 1985
 fallback: AGM-65G
 clsids:
-  - "{F16A4DE0-116C-4A71-97F0-2CF85B0313EC}"
+  - "Herc_Ammo_AGM_65E_missiles"   # Ammo AGM-65E*10 [6292lb]
+  - "{F16A4DE0-116C-4A71-97F0-2CF85B0313EF}"   # AGM-65E - Maverick E (Laser ASM - Lg Whd)
+  - "{F16A4DE0-116C-4A71-97F0-2CF85B0313EC}"   # LAU-117 with AGM-65E - Maverick E (Laser ASM - Lg Whd)
+  - "{SUPERHORNET_PYLON_02_OB_MV_1X_AGM-65E}"   #  [ STA 02	  | SUU80 | LAU117 ] - 1x AGM-65E - Maverick E (Laser ASM - Lg Whd)
+  - "{SUPERHORNET_PYLON_02_MB_MV_1X_AGM-65E}"   #  [ STA 03	  | SUU79 | LAU117 ] - 1x AGM-65E - Maverick E (Laser ASM - Lg Whd)
+  - "{SUPERHORNET_PYLON_03_MB_MV_1X_AGM-65E}"   #  [ STA 03	  | SUU79 | LAU117 ] - 1x AGM-65E - Maverick E (Laser ASM - Lg Whd)
+  - "{SUPERHORNET_PYLON_03_IB_MV_1X_AGM-65E}"   #  [ STA 04	  | SUU79 | LAU117 ] - 1x AGM-65E - Maverick E (Laser ASM - Lg Whd)
+  - "{SUPERHORNET_PYLON_09_IB_MV_1X_AGM-65E}"   #  [ STA 08	  | SUU79 | LAU117 ] - 1x AGM-65E - Maverick E (Laser ASM - Lg Whd)
+  - "{SUPERHORNET_PYLON_09_MB_MV_1X_AGM-65E}"   #  [ STA 09	  | SUU79 | LAU117 ] - 1x AGM-65E - Maverick E (Laser ASM - Lg Whd)
+  - "{SUPERHORNET_PYLON_10_MB_MV_1X_AGM-65E}"   #  [ STA 09	  | SUU79 | LAU117 ] - 1x AGM-65E - Maverick E (Laser ASM - Lg Whd)
+  - "{SUPERHORNET_PYLON_10_OB_MV_1X_AGM-65E}"   #  [ STA 10	  | SUU80 | LAU117 ] - 1x AGM-65E - Maverick E (Laser ASM - Lg Whd)

@@ -1,5 +1,6 @@
 {
     "nameInUI": "Moose Airboss",
+    "descriptionInUI": "Carrier air-traffic control: LSO and Marshal voice comms, the recovery window schedule, and an optional rescue helo / recovery tanker for carrier operations.",
     "defaultValue": false,
     "specificOptions": [        
         {

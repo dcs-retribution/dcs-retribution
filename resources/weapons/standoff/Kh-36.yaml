@@ -1,0 +1,6 @@
+name: Kh-36 Grom-E1
+year: 2015
+fallback: Kh-29T
+clsids:
+  - "{SU30_KH36}"   # Kh-36 (AS-23) - 600kg Grom-E1
+  - "{9F390892-E6F9-42C9-B84E-1136A881DCB2}"   # Kh-23L Grom (AS-7 Kerry) - 286kg, ASM, Laser Guided

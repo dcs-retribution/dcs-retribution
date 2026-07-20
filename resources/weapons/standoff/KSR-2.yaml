@@ -1,0 +1,5 @@
+name: KSR-2
+year: 1962
+clsids:
+  - "{TU_16_KSR2}"   # KSR-2
+  - "{TU_16_KSR2d}"   # KSR-2D decoy missile

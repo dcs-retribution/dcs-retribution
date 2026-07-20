@@ -1,0 +1,6 @@
+name: Kh-22P
+type: ARM
+year: 1968
+fallback: Kh-22 (AS-4 Kitchen)
+clsids:
+  - "{TU_22_KH22P}"   # Kh-22P (Passive seeker)

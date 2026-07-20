@@ -2,4 +2,10 @@ name: CBU-103
 year: 2001
 fallback: CBU-87
 clsids:
-  - "{CBU_103}"
+  - "{CFT_L_CBU_103_x_3}"   # CBU-103 * 3
+  - "{CFT_R_CBU_103_x_3}"   # CBU-103 * 3
+  - "Herc_Ammo_CBU_103_bombs"   # Ammo CBU-103*10 [10142lb]
+  - "{CBU_103}"   # CBU-103 - 202 x CEM, CBU with WCMD
+  - "{HSAB_8x_CBU103_L}"   # HSAB - 8 x CBU-103 - 202 x CEM, CBU with WCMD
+  - "{HSAB_8x_CBU103_R}"   # HSAB - 8 x CBU-103 - 202 x CEM, CBU with WCMD
+  - "{SECBM_CBU103}"   # SECBM - 10 x CBU-103 - 202 x CEM, CBU with WCMD

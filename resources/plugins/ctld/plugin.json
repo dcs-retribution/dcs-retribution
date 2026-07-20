@@ -1,5 +1,6 @@
 {
     "nameInUI": "CTLD",
+    "descriptionInUI": "Helicopter and transport logistics: sling-loading crates, deploying troops and vehicles, and JTAC autolasing for laser-guided strikes.",
     "defaultValue": true,
     "specificOptions": [
         {

@@ -2,5 +2,9 @@ name: Kh-35
 year: 2003
 fallback: Kh-31A
 clsids:
-  - "{2234F529-1D57-4496-8BB0-0150F9BDBBD2}"
-  - "{2234F529-1D57-4496-8BB0-0150F9BDBBD3}"
+  - "{Ka52_Kh35U}"   # Kh-35U
+  - "{Su30_KH_35A}"   # Kh-35 (AS-20 Kayak) - 520kg
+  - "{Su30_KH_35UE}"   # Kh-35UE (AS-20 Kayak) - 520kg
+  - "{2234F529-1D57-4496-8BB0-0150F9BDBBD2}"   # Kh-35 (AS-20 Kayak) - 520kg, AShM, IN & Act Rdr
+  - "{2234F529-1D57-4496-8BB0-0150F9BDBBD3}"   # Kh-35 (AS-20 Kayak) - 520kg, AShM, IN & Act Rdr
+  - "{C42EE4C3-355C-4B83-8B22-B39430B8F4AE}"   # 6 x Kh-35 (AS-20 Kayak) - 520kg, AShM, IN & Act Rdr

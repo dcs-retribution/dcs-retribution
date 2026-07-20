@@ -1,0 +1,8 @@
+name: GBU-15
+year: 1983
+fallback: GBU-10
+clsids:
+  - "{F111C_GBU15_V1B}"   # GBU-15 2000 lb TV Guided Bomb
+  - "{GBU-15V1}"   # GBU-15 V1 - 2000 lb TV Guided Bomb
+  - "{GBU_15_V_1B}"   # GBU-15(V)1/B - 2000lb TV (EO) Guided Bomb
+  - "{GBU_15_V_31B}"   # GBU-15(V)31/B - 2000lb TV (EO) Guided Bomb

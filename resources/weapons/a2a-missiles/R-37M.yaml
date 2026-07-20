@@ -1,0 +1,7 @@
+name: R-37M (AA-13 Axehead)
+year: 2019
+fallback: R-37 (AA-13 Axehead)
+clsids:
+  - "{RVV-BD}"   # R-37M Active Rdr
+  - "{R-37M_mig31bm}"   # Vympel R-37M (AA-13 Axehead)
+  - "{SU30-R37M-AA}"   # R-37M (AA-13 Axehead) - Active Rdr

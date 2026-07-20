@@ -1,0 +1,5 @@
+name: GBU-8/B HOBOS
+year: 1969
+fallback: GBU-10
+clsids:
+  - "{GBU_8_B}"   # GBU-8/B HOBOS - 2000 lb TV Guided Bomb

@@ -76,9 +76,9 @@ squadrons:
         - A-50
       size: 1
     - primary: BARCAP
-      secondary: any
+      secondary: air-to-air
       aircraft:
-        - F-14A Tomcat (Block 135-GR Late)
+        - F-14A Tomcat (Block 95-GR Export)
     - primary: Strike
       secondary: air-to-ground
       aircraft:

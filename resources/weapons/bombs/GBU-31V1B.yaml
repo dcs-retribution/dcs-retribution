@@ -2,4 +2,21 @@ name: GBU-31(V)1/B
 year: 2001
 fallback: GBU-24
 clsids:
-  - "{GBU-31}"
+  - "{CFT_L_GBU_31_x_2}"   # GBU-31(V)1/B * 2
+  - "{CFT_R_GBU_31_x_2}"   # GBU-31(V)1/B * 2
+  - "{GBU-31}"   # GBU-31(V)1/B - JDAM, 2000lb GPS Guided Bomb
+  - "{CSRL_GBU31V1}"   # CSRL - 8 x GBU-31(V)1/B - JDAM, 2000lb GPS Guided Bomb
+  - "{HSAB_6x_GBU31V1_L}"   # HSAB - 6 x GBU-31(V)1/B - JDAM, 2000lb GPS Guided Bomb
+  - "{HSAB_6x_GBU31V1_R}"   # HSAB - 6 x GBU-31(V)1/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_02_MB_MK_1X_GBU-31}"   #  [ STA 03	  | SUU79 | BRU32   ] - 1x GBU-31(V)1/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_03_MB_MK_1X_GBU-31}"   #  [ STA 03	  | SUU79 | BRU32   ] - 1x GBU-31(V)1/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_03_IB_MK_1X_GBU-31}"   #  [ STA 04	  | SUU80 | BRU32   ] - 1x GBU-31(V)1/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_09_IB_MK_1X_GBU-31}"   #  [ STA 08	  | SUU80 | BRU32   ] - 1x GBU-31(V)1/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_10_MB_MK_1X_GBU-31}"   #  [ STA 09	  | SUU79 | BRU32   ] - 1x GBU-31(V)1/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_09_MB_MK_1X_GBU-31}"   #  [ STA 09	  | SUU80 | BRU32   ] - 1x GBU-31(V)1/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_02_OB_MB_MK_2X_GBU-31}"   #  [ STA 03/02 | 79 / 80 | BRU32   ] - 2x GBU-31(V)1/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_02_OB_IB_MK_2X_GBU-31}"   #  [ STA 04/02 | 79 / 80 | BRU32   ] - 2x GBU-31(V)1/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_10_OB_MB_MK_2X_GBU-31}"   #  [ STA 09/10 | 79 / 80 | BRU32   ] - 2x GBU-31(V)1/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_10_OB_IB_MK_2X_GBU-31}"   #  [ STA 10/08 | 79 / 80 | BRU32   ] - 2x GBU-31(V)1/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_03_IB_MB_MK_GBU-31}"   #  [ STA 04/03 | SUU79 | BRU32   ] - 1x/1x GBU-31(V)1/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_09_IB_MB_MK_GBU-31}"   #  [ STA 09/08 | SUU79 | BRU32   ] - 1x/1x GBU-31(V)1/B - JDAM, 2000lb GPS Guided Bomb
