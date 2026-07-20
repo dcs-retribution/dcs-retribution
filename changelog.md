@@ -1,6 +1,7 @@
 # Retribution v1.6.0
 
 ## Features/Improvements
+* **[Modding]** Vietnam War Vessels support updated to v3.2.0: adds the sampans and Junk civilian craft plus five previously unregistered hulls (Radford, Epperson, Everett F. Larson, Solon Turman, USNS Card), with mod filtering for all of them and the version labels brought current. (#881)
 * **[Kneeboard]** Use a light-grey daytime kneeboard background instead of near-white, to avoid glare under HDR / Auto-HDR while staying readable in daylight.
 * **[UX]** Hovering a friendly flight's route line on the map highlights it in yellow, and clicking it selects that flight's package (and the flight) in the ATO sidebar.
 * **[UX]** Press Delete with a package selected in the Packages list to cancel it, making it quick to clear several packages in a row.
