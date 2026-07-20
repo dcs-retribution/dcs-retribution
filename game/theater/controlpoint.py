@@ -71,6 +71,7 @@ from .missiontarget import MissionTarget
 from .player import Player
 from .theatergroundobject import (
     GenericCarrierGroundObject,
+    MotorpoolGroundObject,
     TheaterGroundObject,
     VehicleGroupGroundObject,
 )
@@ -100,6 +101,60 @@ if TYPE_CHECKING:
 FREE_FRONTLINE_UNIT_SUPPLY: int = 15
 AMMO_DEPOT_FRONTLINE_UNIT_CONTRIBUTION: int = 12
 TRIGGER_RADIUS_CAPTURE = 3000
+
+
+def warn_if_motorpool_inside_capture_zone(
+    name: str, location: Point, control_point: ControlPoint
+) -> None:
+    """Log a loud error when a motorpool preset sits inside its CP's capture zone.
+
+    Motorpool vehicles render as live DCS ground units of the owning CP. While
+    any survive inside the capture radius, DCS's base-capture trigger
+    (AllOfCoalitionOutsideZone, unit_type=GROUND) counts them, so the base
+    cannot be captured by ground assault -- and the AI commander's
+    capture-blocking model ignores MotorpoolGroundObjects, so it won't clear
+    them either. Motorpools must therefore be authored outside the capture
+    perimeter. This is a campaign-authoring check only; it never relocates
+    anything.
+    """
+    distance = meters(location.distance_to_point(control_point.position))
+    if distance < meters(TRIGGER_RADIUS_CAPTURE):
+        logging.error(
+            f"Motorpool '{name}' is {distance} from control point "
+            f"'{control_point.name}', inside its {meters(TRIGGER_RADIUS_CAPTURE)} "
+            "capture zone. Its parked reserve vehicles are live ground units and "
+            "will block base capture. Relocate the motorpool's Garage_A marker "
+            "outside the capture radius."
+        )
+
+
+@dataclass(frozen=True)
+class MotorpoolCaptureViolation:
+    control_point: str
+    motorpool: str
+    distance: Distance
+
+    def __str__(self) -> str:
+        return f"{self.motorpool} ({self.distance} from {self.control_point})"
+
+
+def motorpools_inside_capture_zone(
+    control_points: Iterable[ControlPoint],
+) -> list[MotorpoolCaptureViolation]:
+    """Every motorpool TGO whose parked-vehicle position sits inside its CP's
+    capture zone. The owning CP cannot be captured by ground assault while any
+    of those live ground units survive inside the radius, so the UI warns
+    (both at new-game generation and on save load)."""
+    violations: list[MotorpoolCaptureViolation] = []
+    for cp in control_points:
+        for tgo in cp.ground_objects:
+            if isinstance(tgo, MotorpoolGroundObject):
+                distance = meters(tgo.position.distance_to_point(cp.position))
+                if distance < meters(TRIGGER_RADIUS_CAPTURE):
+                    violations.append(
+                        MotorpoolCaptureViolation(cp.name, tgo.name, distance)
+                    )
+    return violations
 
 
 class ControlPointType(Enum):
@@ -161,6 +216,9 @@ class PresetLocations:
     #: Locations of ammo depots for controlling number of units on the front line at a
     #: control point.
     ammunition_depots: List[PresetLocation] = field(default_factory=list)
+
+    #: Locations of per-campaign motorpool reserve-vehicle parks.
+    motorpools: List[PresetLocation] = field(default_factory=list)
 
     #: Locations of stationary armor groups.
     armor_groups: List[PresetLocation] = field(default_factory=list)
