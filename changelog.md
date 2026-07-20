@@ -1,6 +1,7 @@
 # Retribution v1.6.0
 
 ## Features/Improvements
+* **[Campaign]** Recon fog of war: the enemy ground picture is earned, not given. Without fresh reconnaissance the map shows a site's last-known state — unconfirmed kills still render alive (battle-damage lag) and unscouted sites hide their composition; recon flights confirm BDA and reveal what's really there. AI planning always uses ground truth, so only the human's picture is fogged. (#828)
 * **[Kneeboard]** Use a light-grey daytime kneeboard background instead of near-white, to avoid glare under HDR / Auto-HDR while staying readable in daylight.
 * **[UX]** Hovering a friendly flight's route line on the map highlights it in yellow, and clicking it selects that flight's package (and the flight) in the ATO sidebar.
 * **[UX]** Press Delete with a package selected in the Packages list to cancel it, making it quick to clear several packages in a row.
