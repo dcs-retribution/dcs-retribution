@@ -4,6 +4,13 @@ tasks:
   - SHORAD
 groups:
   - SHORAD:
+    - name: Search Radar
+      optional: true
+      fill: false
+      unit_count:
+        - 1
+      unit_types:
+        - Dog Ear radar
     - name: Launcher
       unit_count:
         - 2
