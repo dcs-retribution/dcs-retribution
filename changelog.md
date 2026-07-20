@@ -1,6 +1,7 @@
 # Retribution v1.6.0
 
 ## Features/Improvements
+* **[Mission Generation]** Short-range air defenses (SHORAD/AAA/MANPADS) embedded inside armor and missile-site groups are now hidden from the MFD/datalink like standalone short-range systems already were; standalone medium/long-range SAM radars stay visible for SEAD targeting. (#794)
 * **[UX]** Hovering a friendly flight's route line on the map highlights it in yellow, and clicking it selects that flight's package (and the flight) in the ATO sidebar.
 * **[UX]** Press Delete with a package selected in the Packages list to cancel it, making it quick to clear several packages in a row.
 * **[UX]** Avoid having escorts from wondering off too far while chasing a target.
