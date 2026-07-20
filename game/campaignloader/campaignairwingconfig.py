@@ -46,7 +46,10 @@ class SquadronConfig:
         return SquadronConfig(
             FlightType(data["primary"]),
             secondary,
-            data.get("aircraft", []),
+            # `aircraft:` authored but left empty parses as None; treat it as "any
+            # aircraft compatible with the primary task" (the find_squadron_for
+            # fallback) instead of crashing DefaultSquadronAssigner at New Game.
+            data.get("aircraft") or [],
             max_size,
             data.get("name", None),
             data.get("nickname", None),
