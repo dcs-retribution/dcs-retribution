@@ -44,6 +44,9 @@ class Migrator:
         self._release_untasked_flights()
         self._update_weather()
         self._update_tgos()
+        try_set_attr(self.game.settings, "motorpool_enabled", True)
+        try_set_attr(self.game.settings, "motorpool_spawn_cap", 10)
+        self._ensure_motorpool_tgos()
         self._reload_terrain()
         self._update_theater()
         self._update_campaign_name()
@@ -107,6 +110,7 @@ class Migrator:
             try_set_attr(cp, "helipads_quad", [])
             try_set_attr(cp, "helipads_invisible", [])
             try_set_attr(cp, "ground_spawns_large", [])
+            try_set_attr(cp.preset_locations, "motorpools", [])
             if (
                 cp.dcs_airport and is_sinai and cp.dcs_airport.id == 20
             ):  # fix for Hatzor
@@ -279,6 +283,34 @@ class Migrator:
             # raises AttributeError on pre-feature saves.
             if isinstance(go, ShipGroundObject):
                 try_set_attr(go, "target_position", None)
+
+    def _ensure_motorpool_tgos(self) -> None:
+        from game.data.groups import GroupTask
+        from game.naming import namegen
+        from game.theater.controlpoint import warn_if_motorpool_inside_capture_zone
+        from game.theater.theatergroundobject import MotorpoolGroundObject
+
+        if not self.game.settings.motorpool_enabled:
+            return
+        for cp in self.game.theater.controlpoints:
+            locations = getattr(cp.preset_locations, "motorpools", [])
+            if not locations:
+                continue
+            if any(isinstance(go, MotorpoolGroundObject) for go in cp.ground_objects):
+                continue
+            for location in locations:
+                name = namegen.random_objective_name()
+                warn_if_motorpool_inside_capture_zone(name, location, cp)
+                cp.connected_objectives.append(
+                    MotorpoolGroundObject(
+                        # Codename like every other TGO; the "motorpool" category
+                        # label already says what it is.
+                        name,
+                        location,
+                        cp,
+                        GroupTask.MOTORPOOL,
+                    )
+                )
 
     def _reload_terrain(self) -> None:
         t = self.game.theater.terrain

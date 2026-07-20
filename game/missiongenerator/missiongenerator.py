@@ -21,6 +21,7 @@ from game.dcs.helpers import unit_type_from_name
 from game.missiongenerator.aircraft.aircraftgenerator import (
     AircraftGenerator,
 )
+from game.missiongenerator.countryassigner import CountryAssigner
 from game.naming import namegen
 from game.spatialindex import LiveUnitIndex
 from game.radio.radios import RadioFrequency, RadioRegistry, MHz
@@ -40,6 +41,7 @@ from .kneeboard import KneeboardGenerator
 from .luagenerator import LuaGenerator
 from .missiondata import MissionData
 from .rebelliongenerator import RebellionGenerator
+from .motorpoolpopulator import MotorpoolPopulator
 from .tgogenerator import TgoGenerator
 from .triggergenerator import TriggerGenerator
 from .visualsgenerator import VisualsGenerator
@@ -67,8 +69,11 @@ class MissionGenerator:
 
         self.generation_started = False
 
-        self.p_country = country_dict[self.game.blue.faction.country.id]()
-        self.e_country = country_dict[self.game.red.faction.country.id]()
+        # Resolves the DCS country each squadron's units spawn under so that
+        # mixed-nation (CJTF) sides get nation-specific voiceovers/comms (#627).
+        self.country_assigner = CountryAssigner(self.game)
+        self.p_country = self.country_assigner.primary_blue
+        self.e_country = self.country_assigner.primary_red
 
         with open("resources/default_options.lua", "r", encoding="utf-8") as f:
             options = dcs.lua.loads(f.read())["options"]
@@ -105,6 +110,7 @@ class MissionGenerator:
             self.unit_map,
             self.mission_data,
         )
+        MotorpoolPopulator(self.game).populate()
         tgo_generator.generate()
 
         ConvoyGenerator(self.mission, self.game, self.unit_map).generate()
@@ -184,10 +190,12 @@ class MissionGenerator:
             "neutrals", bullseye=Bullseye(Point(0, 0, self.mission.terrain)).to_pydcs()
         )
 
-        self.mission.coalition["blue"].add_country(self.p_country)
-        self.mission.coalition["red"].add_country(self.e_country)
+        for country in self.country_assigner.blue_countries:
+            self.mission.coalition["blue"].add_country(country)
+        for country in self.country_assigner.red_countries:
+            self.mission.coalition["red"].add_country(country)
 
-        belligerents = {self.p_country.id, self.e_country.id}
+        belligerents = self.country_assigner.belligerent_ids
         for country_id in country_dict.keys():
             if country_id not in belligerents:
                 c = country_dict[country_id]()
@@ -283,24 +291,20 @@ class MissionGenerator:
             ground_spawns_roadbase=tgo_generator.ground_spawns_roadbase,
             ground_spawns_large=tgo_generator.ground_spawns_large,
             ground_spawns=tgo_generator.ground_spawns,
+            country_assigner=self.country_assigner,
         )
 
         aircraft_generator.clear_parking_slots()
 
         aircraft_generator.generate_flights(
-            self.p_country,
             self.game.blue.ato,
             tgo_generator.runways,
         )
         aircraft_generator.generate_flights(
-            self.e_country,
             self.game.red.ato,
             tgo_generator.runways,
         )
-        aircraft_generator.spawn_unused_aircraft(
-            self.p_country,
-            self.e_country,
-        )
+        aircraft_generator.spawn_unused_aircraft()
 
         self.mission_data.flights = aircraft_generator.flights
 

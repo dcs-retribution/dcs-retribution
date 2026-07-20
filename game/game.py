@@ -10,12 +10,16 @@ from enum import Enum
 from typing import Any, List, Optional, TYPE_CHECKING, Union, cast
 from uuid import UUID
 
-from dcs.countries import Switzerland, USAFAggressors, UnitedNationsPeacekeepers
+from dcs.countries import (
+    Switzerland,
+    USAFAggressors,
+    UnitedNationsPeacekeepers,
+    country_dict,
+)
 from dcs.country import Country
 from dcs.mapping import Point
 from dcs.task import CAP, CAS, PinpointStrike
 from dcs.vehicles import AirDefence
-from faker import Faker
 
 from game.ato.closestairfields import ObjectiveDistanceCache
 from game.ground_forces.ai_ground_planner import GroundPlanner
@@ -224,22 +228,42 @@ class Game:
     def faction_for(self, player: Player) -> Faction:
         return self.coalition_for(player).faction
 
-    def faker_for(self, player: Player) -> Faker:
-        return self.coalition_for(player).faker
-
     def air_wing_for(self, player: Player) -> AirWing:
         return self.coalition_for(player).air_wing
 
     @property
     def neutral_country(self) -> Country:
-        """Return the best fitting country that can be used as neutral faction in the generated mission"""
-        countries_in_use = {self.red.faction.country, self.blue.faction.country}
-        if UnitedNationsPeacekeepers() not in countries_in_use:
-            return UnitedNationsPeacekeepers()
-        elif Switzerland() not in countries_in_use:
-            return Switzerland()
-        else:
-            return USAFAggressors()
+        """Return the best fitting country to use for the neutral coalition.
+
+        Returns the first candidate whose id is not already claimed by a
+        belligerent. The in-use set spans every squadron's own country (#627
+        per-squadron countries), not just the two faction primaries, so a CJTF
+        side that fields e.g. a Swiss or UN squadron does not also hand that
+        nation to the neutral coalition -- which would place one country on two
+        coalitions (an unloadable .miz) and misfile neutral statics / break DCS
+        capture triggers keyed on neutral membership. Membership is tested by id,
+        which is pydcs's own equality key for ``Country`` (``Country.__eq__`` and
+        ``__hash__`` are by ``id``).
+        """
+        ids_in_use = {self.red.faction.country.id, self.blue.faction.country.id}
+        for coalition in (self.blue, self.red):
+            for squadron in coalition.air_wing.iter_squadrons():
+                ids_in_use.add(squadron.country.id)
+        for candidate in (UnitedNationsPeacekeepers, Switzerland, USAFAggressors):
+            if candidate.id not in ids_in_use:
+                return candidate()
+        # Every preferred neutral is claimed by a belligerent (e.g. a USAF
+        # Aggressors red faction against a blue CJTF fielding UN and Swiss
+        # squadrons). Returning a claimed country would place one nation on two
+        # coalitions -- the unloadable .miz this property exists to prevent -- so
+        # scan the full pydcs country list for any unclaimed nation instead.
+        for country_id in sorted(country_dict):
+            if country_id not in ids_in_use:
+                return country_dict[country_id]()
+        raise RuntimeError(
+            "No neutral country available: every pydcs country is claimed by a "
+            "belligerent"
+        )
 
     def coalition_for(self, player: Player) -> Coalition:
         if player.is_neutral:
