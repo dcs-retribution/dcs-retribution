@@ -794,6 +794,11 @@ class Faction:
             self.remove_preset("HQ-22")
             self.remove_preset("DF-21D LBASM")
             self.remove_preset("YJ-12B LBASM")
+        # Iran Military Assets Pack
+        if not mod_settings.iranmilitaryassetspack:
+            self.remove_vehicle("CH_Shahed136")
+            self.remove_ship("IranFAC_MG")
+            self.remove_ship("IranFAC_MG_AShM")
         # Russian Military Assets Pack
         if not mod_settings.russianmilitaryassetspack:
             self.remove_vehicle("CH_2S35")

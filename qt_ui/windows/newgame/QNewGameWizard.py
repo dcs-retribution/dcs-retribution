@@ -129,6 +129,7 @@ class NewGameWizard(QtWidgets.QWizard):
             SWPack=self.field("SWPack"),
             vietnamwarvessels=self.field("vietnamwarvessels"),
             chinesemilitaryassetspack=self.field("chinesemilitaryassetspack"),
+            iranmilitaryassetspack=self.field("iranmilitaryassetspack"),
             russianmilitaryassetspack=self.field("russianmilitaryassetspack"),
             usamilitaryassetspack=self.field("usamilitaryassetspack"),
             ukmilitaryassetspack=self.field("ukmilitaryassetspack"),
