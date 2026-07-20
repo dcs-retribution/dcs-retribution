@@ -1,0 +1,6 @@
+name: Spike-ER
+year: 2004
+clsids:
+  - "{SPIKE_ER}"   # SPIKE-ER
+  - "{SPIKE_ER2}"   # SPIKE-ER2
+  - "4xSPIKE_ER"   # 4 x SPIKE-ER

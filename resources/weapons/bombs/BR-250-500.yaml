@@ -1,0 +1,7 @@
+name: BR-250/500
+year: 1970
+clsids:
+  - "BR_250"   # BR-250 - 250kg GP Bomb LD
+  - "BR_500"   # BR-500 - 500kg GP Bomb LD
+  - "{AUF2_BR250}"   # AUF 2 - 2 x BR-250 - 250kg GP Bomb LD
+  - "{CLB4_BR250}"   # CLB 4 - 4 x BR-250 - 250kg GP Bomb LD

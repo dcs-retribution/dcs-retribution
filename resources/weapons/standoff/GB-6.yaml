@@ -1,0 +1,9 @@
+name: GB-6
+year: 2010
+clsids:
+  - "DIS_GB6"   # GB-6
+  - "{GB-6}"   # GB-6
+  - "DIS_GB6_HE"   # GB-6-HE
+  - "{GB-6-HE}"   # GB-6-HE
+  - "DIS_GB6_TSP"   # GB-6-SFW
+  - "{GB-6-SFW}"   # GB-6-SFW

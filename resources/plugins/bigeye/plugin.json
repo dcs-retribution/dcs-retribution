@@ -1,5 +1,6 @@
 {
     "nameInUI": "BigEye EWR",
+    "descriptionInUI": "Early-warning radar that broadcasts text threat reports to pilots, prioritised by how dangerous each contact is and tuned per coalition by available sensors (datalink, RWR, IRST).",
     "defaultValue": false,
     "specificOptions": [
         {

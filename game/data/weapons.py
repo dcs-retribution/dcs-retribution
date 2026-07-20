@@ -33,6 +33,27 @@ def weapons_migrator(name: str) -> str:
     return name
 
 
+def clsid_migrator(clsid: str) -> str:
+    migration_map = {
+        "{SUPERHORNET_PYLON_03_IB_FT_1X_FPU-8A}": "{SUPERHORNET_PYLON_03_IB_FT_1X_FPU-12A}",
+        "{SUPERHORNET_PYLON_04_IB_FT_1X_FPU-8A}": "{SUPERHORNET_PYLON_04_IB_FT_1X_FPU-12A}",
+        "{SUPERHORNET_PYLON_08_IB_FT_1X_FPU-8A}": "{SUPERHORNET_PYLON_08_IB_FT_1X_FPU-12A}",
+        "{SUPERHORNET_PYLON_09_IB_FT_1X_FPU-8A}": "{SUPERHORNET_PYLON_09_IB_FT_1X_FPU-12A}",
+        "{SUPERHORNET_PYLON_03_MB_FT_1X_FPU-8A}": "{SUPERHORNET_PYLON_03_MB_FT_1X_FPU-12A}",
+        "{SUPERHORNET_PYLON_09_MB_FT_1X_FPU-8A}": "{SUPERHORNET_PYLON_09_MB_FT_1X_FPU-12A}",
+        "{SUPERHORNET_PYLON_03_IB_FT_1X_FPU-8A_HV}": "{SUPERHORNET_PYLON_03_IB_FT_1X_FPU-12A_HV}",
+        "{SUPERHORNET_PYLON_04_IB_FT_1X_FPU-8A_HV}": "{SUPERHORNET_PYLON_04_IB_FT_1X_FPU-12A_HV}",
+        "{SUPERHORNET_PYLON_08_IB_FT_1X_FPU-8A_HV}": "{SUPERHORNET_PYLON_08_IB_FT_1X_FPU-12A_HV}",
+        "{SUPERHORNET_PYLON_09_IB_FT_1X_FPU-8A_HV}": "{SUPERHORNET_PYLON_09_IB_FT_1X_FPU-12A_HV}",
+        "{SUPERHORNET_PYLON_03_MB_FT_1X_FPU-8A_HV}": "{SUPERHORNET_PYLON_03_MB_FT_1X_FPU-12A_HV}",
+        "{SUPERHORNET_PYLON_09_MB_FT_1X_FPU-8A_HV}": "{SUPERHORNET_PYLON_09_MB_FT_1X_FPU-12A_HV}",
+        "{SUPERHORNET_PYLON_02_MB_JS_2X_BRU_AGM-154C}": "{SUPERHORNET_PYLON_02_MB_JS_2X_BRU55_AGM-154A}",
+    }
+    while clsid in migration_map:
+        clsid = migration_map[clsid]
+    return clsid
+
+
 def weapons_migrator_lib(name: str) -> str:
     # Splitting this from our own migrations
     if "KH" in name:
@@ -96,6 +117,7 @@ class Weapon:
     def with_clsid(cls, clsid: str) -> Optional[Weapon]:
         if not cls._loaded:
             cls._load_all()
+        clsid = clsid_migrator(clsid)
         return cls._by_clsid.get(clsid)
 
     @classmethod

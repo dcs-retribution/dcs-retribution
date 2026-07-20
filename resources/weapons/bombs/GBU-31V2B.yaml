@@ -2,4 +2,11 @@ name: GBU-31(V)2/B
 year: 2001
 fallback: GBU-24
 clsids:
-  - "{GBU_31_V_2B}"
+  - "{GBU_31_V_2B}"   # GBU-31(V)2/B - JDAM, 2000lb GPS Guided Bomb
+  - "{BRU-32 GBU_31_V_2B}"   # GBU-31(V)2/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_03_MB_MK_1X_GBU-31_V_2B}"   #  [ STA 03	  | SUU79 | BRU32   ] - 1x GBU-31(V)2/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_03_IB_MK_1X_GBU-31_V_2B}"   #  [ STA 04	  | SUU80 | BRU32   ] - 1x GBU-31(V)2/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_09_IB_MK_1X_GBU-31_V_2B}"   #  [ STA 08	  | SUU80 | BRU32   ] - 1x GBU-31(V)2/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_09_MB_MK_1X_GBU-31_V_2B}"   #  [ STA 09	  | SUU80 | BRU32   ] - 1x GBU-31(V)2/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_03_IB_MB_MK_GBU-31_V_2B}"   #  [ STA 04/03 | SUU79 | BRU32   ] - 1x/1x GBU-31(V)2/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_09_IB_MB_MK_GBU-31_V_2B}"   #  [ STA 09/08 | SUU79 | BRU32   ] - 1x/1x GBU-31(V)2/B - JDAM, 2000lb GPS Guided Bomb

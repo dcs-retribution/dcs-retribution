@@ -2,4 +2,11 @@ name: AGM-84D
 year: 1985
 fallback: AGM-84A
 clsids:
-  - "{AGM_84D}"
+  - "{F111C_AGM_84_ARM}"   # AGM-84D Harpoon
+  - "{AGM_84D}"   # AGM-84D Harpoon AShM
+  - "{HSAB_4x_AGM84D_L}"   # HSAB - 4 x AGM-84D Harpoon AShM
+  - "{HSAB_4x_AGM84D_R}"   # HSAB - 4 x AGM-84D Harpoon AShM
+  - "{SUPERHORNET_PYLON_03_MB_SM_1X_AGM-84D}"   #  [ STA 03	  | SUU79 | LAU117 ] - 1x AGM-84D Harpoon Anti-Ship Missile
+  - "{SUPERHORNET_PYLON_09_MB_SM_1X_AGM-84D}"   #  [ STA 09	  | SUU79 | LAU117 ] - 1x AGM-84D Harpoon Anti-Ship Missile
+  - "{SUPERHORNET_PYLON_03_IB_SM_1X_AGM-84D}"   #  [ STA 04	  | SUU79 | BRU32   ] - 1x AGM-84D Harpoon Anti-Ship Missile
+  - "{SUPERHORNET_PYLON_09_IB_SM_1X_AGM-84D}"   #  [ STA 08	  | SUU79 | BRU32   ] - 1x AGM-84D Harpoon Anti-Ship Missile

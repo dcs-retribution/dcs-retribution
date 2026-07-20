@@ -2,4 +2,21 @@ name: FAB-500 M62
 year: 1962
 fallback: FAB-250 M62
 clsids:
-  - "{37DCC01E-9E02-432F-B61D-10C166CA2798}"
+  - "{FAB_500_DUAL_L}"   # 2 x FAB-500
+  - "{FAB_500_DUAL_R}"   # 2 x FAB-500
+  - "Herc_Ammo_FAB500_bombs"   # Ammo FAB-500*10 [11000lb]
+  - "{Su30_FAB500M54}"   # FAB-500 M54 - 474kg, freefall
+  - "{Su30_FAB500M62}"   # FAB-500 M62 - 474kg, freefall
+  - "{Su30_FAB500M62NV}"   # FAB-500M62 NV, 500kg Parachute
+  - "{37DCC01E-9E02-432F-B61D-10C166CA2798}"   # FAB-500M-62 - 500 kg GP Bomb LD
+  - "{Su30_UMPKFAB500M62}"   # FAB-500M62 UMPK, 500kg Glide Bomb
+  - "{AD5E5863-08FC-4283-B92C-162E2B2BD3FF}"   # 33 x FAB-500M-62 - 500 kg GP Bomb LD
+  - "{26D2AF37-B0DF-4AB6-9D61-A150FF58A37B}"   # 6 x FAB-500 M-62 - 500kg GP Bombs LD
+  - "{FAB-500-SL}"   # FAB-500 SL - 515 kg, bomb, parachute
+  - "{FAB-500-TA}"   # FAB-500 TA - 477 kg, bomb, free-fall
+  - "{E70446B7-C7E6-4B95-B685-DEA10CAD1A0E}"   # 12 x FAB-500 M-62 - 500kg GP Bombs LD
+  - "{FAB-500-M54}"   # FAB-500 M54 - 474 kg, bomb, free-fall
+  - "{FAB-500-M54-TU}"   # FAB-500 M54 TU - 480 kg, bomb, parachute
+  - "{A1E85991-B58E-4E92-AE91-DED6DC85B2E7}"   # MBD3 with 3 x FAB-500 M-62 - 500kg GP Bombs LD
+  - "{FA673F4C-D9E4-4993-AA7A-019A92F3C005}"   # MBD3-U6-68 - 6 x FAB-500M-62 - 500 kg GP Bomb LD
+  - "{0D945D78-542C-4E9B-9A17-9B5008CC8D39}"   # MBD3-U6-68 with 6 x FAB-500 M-62 - 500kg GP Bombs LD

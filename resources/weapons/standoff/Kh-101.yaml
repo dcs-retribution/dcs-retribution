@@ -1,0 +1,8 @@
+name: Kh-101
+year: 2012
+fallback: Kh-555
+clsids:
+  - "{Kh-101}"   # Kh-101
+  - "{Tu95MSM_Kh101}"   # Kh-101 ALCM
+  - "{Tu160M2_Kh101}"   # Kh-101 ALCM
+  - "{Tu160M2_Kh101x6}"   # 6 x Kh-101 ALCM

@@ -85,3 +85,9 @@ weapon_injections:  # AGM-154B only works for AI
   7:
     - "{AGM-154B}"
     - "{BRU57_2*AGM-154B}"
+
+# Era gate for the payload-editor mission options (restrict_props_by_date):
+# JHMCS reached operational service on US fighters circa 2003.
+date_gated_properties:
+  HelmetMountedDevice:
+    JHMCS: 2003

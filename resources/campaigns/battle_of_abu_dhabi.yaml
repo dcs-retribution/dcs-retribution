@@ -28,18 +28,15 @@ squadrons:
     - primary: BARCAP
       secondary: air-to-air
       aircraft:
-        - F-16CM Fighting Falcon (Block 50)
-        - F-14A Tomcat (Block 135-GR Late)
+        - F-14A Tomcat (Block 95-GR Export)
     - primary: DEAD
       secondary: air-to-ground
       aircraft:
-        - F-16CM Fighting Falcon (Block 50)
-        - F-14A Tomcat (Block 135-GR Late)
+        - F-4E-45MC Phantom II
     - primary: SEAD
       secondary: air-to-ground
       aircraft:
-        - F-16CM Fighting Falcon (Block 50)
-        - F-4E Phantom II
+        - F-4E-45MC Phantom II
     - primary: AEW&C
       size: 2
       aircraft:
@@ -56,7 +53,6 @@ squadrons:
       secondary: air-to-ground
       size: 4
       aircraft:
-        - B-1B Lancer
         - Su-24MK Fencer-D
 
   # Kish:
@@ -66,24 +62,20 @@ squadrons:
     - primary: BARCAP
       secondary: air-to-air
       aircraft:
-        - F-16CM Fighting Falcon (Block 50)
         - MiG-29A Fulcrum-A
     - primary: CAS
       secondary: air-to-ground
       aircraft:
-        - A-10C Thunderbolt II (Suite 7)
-        - A-10C Thunderbolt II (Suite 3)
         - Su-25 Frogfoot
     - primary: BAI
       secondary: air-to-ground
       size: 8
       aircraft:
-        - F-16CM Fighting Falcon (Block 50)
         - Su-24MK Fencer-D
     - primary: DEAD
       secondary: air-to-ground
       aircraft:
-        - F-16CM Fighting Falcon (Block 50)
+        - Su-24MK Fencer-D
 
   Blue CV:
     - primary: BARCAP

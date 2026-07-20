@@ -31,6 +31,8 @@ class MissionResultsProcessor:
                 self.commit_pilot_experience()
             with logged_duration("commit_front_line_losses"):
                 self.commit_front_line_losses(debriefing)
+            with logged_duration("commit_motorpool_losses"):
+                self.commit_motorpool_losses(debriefing)
             with logged_duration("commit_convoy_losses"):
                 self.commit_convoy_losses(debriefing)
             with logged_duration("commit_cargo_ship_losses"):
@@ -105,6 +107,21 @@ class MissionResultsProcessor:
                 continue
 
             logging.info(f"{unit_type} destroyed from {control_point}")
+            control_point.base.armor[unit_type] -= 1
+
+    @staticmethod
+    def commit_motorpool_losses(debriefing: Debriefing) -> None:
+        for loss in debriefing.motorpool_losses:
+            unit_type = loss.unit_type
+            control_point = loss.origin
+            available = control_point.base.total_units_of_type(unit_type)
+            if available <= 0:
+                logging.error(
+                    f"Found killed motorpool {unit_type} from {control_point} but "
+                    "that base has none available."
+                )
+                continue
+            logging.info(f"Motorpool {unit_type} destroyed from {control_point}")
             control_point.base.armor[unit_type] -= 1
 
     @staticmethod

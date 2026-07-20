@@ -353,8 +353,31 @@ class FlightGroupConfigurator:
                     props.update(laser_code_config.property_dict_for_code(code.code))
             if unit.unit_type.datalink_networkable() and self.no_datalink_set(props):
                 self.set_datalink(props, unit.callsign_as_str())
+            if self.game.settings.restrict_props_by_date:
+                self.degrade_props_for_date(props)
             for prop_id, value in props.items():
                 unit.set_property(prop_id, value)
+
+    def degrade_props_for_date(
+        self, props: dict[str, bool | float | int | str]
+    ) -> None:
+        """Clamp date-gated aircraft properties (e.g. JHMCS) to a period-correct value.
+
+        Mirrors weapon date-gating. We resolve each gated property against the unit
+        type's default and force-set the fallback when needed, because an unset helmet
+        device still defaults to JHMCS in the .miz — so only inspecting ``props`` would
+        miss the (common) defaulted case.
+        """
+        date = self.game.date
+        unit_type = self.flight.unit_type
+        gate = unit_type.property_date_gate
+        for prop in gate.gated_props(unit_type.dcs_unit_type.properties):
+            if prop.values is None or prop.default is None:
+                continue
+            current = props.get(prop.identifier, prop.default)
+            clamped = gate.period_correct_value(prop, current, date)
+            if clamped is not None and clamped != current:
+                props[prop.identifier] = clamped
 
     @staticmethod
     def no_datalink_set(props: dict[str, bool | float | int | str]) -> bool:

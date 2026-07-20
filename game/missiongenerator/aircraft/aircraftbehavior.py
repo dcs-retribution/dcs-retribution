@@ -520,16 +520,20 @@ class AircraftBehavior:
         # This method should allow for dynamic choice between tasks,
         # obviously depending on what's preferred and compatible...
 
-        if preferred_task in flight.unit_type.dcs_unit_type.tasks:
+        if (
+            preferred_task.name
+            and preferred_task in flight.unit_type.dcs_unit_type.tasks
+        ):
             group.task = preferred_task.name
             return
         if fallback_tasks:
             for task in fallback_tasks:
-                if task in flight.unit_type.dcs_unit_type.tasks:
+                if task.name and task in flight.unit_type.dcs_unit_type.tasks:
                     group.task = task.name
                     return
-        if flight.unit_type.dcs_unit_type.task_default and preferred_task == Nothing:
-            group.task = flight.unit_type.dcs_unit_type.task_default.name
+        task_default = flight.unit_type.dcs_unit_type.task_default
+        if task_default and task_default.name and preferred_task == Nothing:
+            group.task = task_default.name
             logging.warning(
                 f"{ac_type} is not capable of 'Nothing', using default task '{group.task}'"
             )
@@ -538,6 +542,7 @@ class AircraftBehavior:
             group.task = (
                 flight.unit_type.dcs_unit_type.task_default.name
                 if flight.unit_type.dcs_unit_type.task_default
+                and flight.unit_type.dcs_unit_type.task_default.name
                 else group.task  # even if this is incompatible, if it's a client we don't really care...
             )
             logging.warning(

@@ -2,4 +2,21 @@ name: GBU-54B
 year: 2012
 fallback: GBU-38
 clsids:
-  - "{GBU_54_V_1B}"
+  - "{CFT_L_GBU_54_x_3}"   # GBU-54B * 3
+  - "{CFT_R_GBU_54_x_3}"   # GBU-54B * 3
+  - "{BRU-70A_2*GBU-54_SIDE_LEFT}"   # 2 GBU-54(V)1/B *-*
+  - "{BRU-70A_2*GBU-54_SIDE_RIGHT}"   # 2 GBU-54(V)1/B *-*
+  - "{GBU_54_V_1B}"   # GBU-54(V)1/B - LJDAM, 500lb Laser & GPS Guided Bomb LD
+  - "{CSRL_GBU54V1}"   # CSRL - 8 x GBU-54(V)1/B - LJDAM, 500lb Laser & GPS Guided Bomb LD
+  - "{HSAB_8x_GBU54V1_L}"   # HSAB - 8 x GBU-54(V)1/B - LJDAM, 500lb Laser & GPS Guided Bomb LD
+  - "{HSAB_8x_GBU54V1_R}"   # HSAB - 8 x GBU-54(V)1/B - LJDAM, 500lb Laser & GPS Guided Bomb LD
+  - "{SECBM_3x_GBU54V1}"   # SECBM - 3 x GBU-54(V)1/B - LJDAM, 500lb Laser & GPS Guided Bomb LD
+  - "{SECBM_6x_GBU54V1}"   # SECBM - 6 x GBU-54(V)1/B - LJDAM, 500lb Laser & GPS Guided Bomb LD
+  - "{SUPERHORNET_PYLON_02_OB_MK_1X_GBU_54V}"   #  [ STA 02	  | SUU80 | BRU32   ] - 1x GBU-54(V)1/B - LJDAM, 500lb Laser & GPS Guided Bomb LD
+  - "{SUPERHORNET_PYLON_03_MB_MK_1X_GBU_54V}"   #  [ STA 03	  | SUU79 | BRU32   ] - 1x GBU-54(V)1/B - LJDAM, 500lb Laser & GPS Guided Bomb LD
+  - "{SUPERHORNET_PYLON_03_IB_MK_1X_GBU_54V}"   #  [ STA 04	  | SUU80 | BRU32   ] - 1x GBU-54(V)1/B - LJDAM, 500lb Laser & GPS Guided Bomb LD
+  - "{SUPERHORNET_PYLON_09_IB_MK_1X_GBU_54V}"   #  [ STA 08	  | SUU80 | BRU32   ] - 1x GBU-54(V)1/B - LJDAM, 500lb Laser & GPS Guided Bomb LD
+  - "{SUPERHORNET_PYLON_09_MB_MK_1X_GBU_54V}"   #  [ STA 09	  | SUU80 | BRU32   ] - 1x GBU-54(V)1/B - LJDAM, 500lb Laser & GPS Guided Bomb LD
+  - "{SUPERHORNET_PYLON_10_OB_MK_1X_GBU_54V}"   #  [ STA 10	  | SUU80 | BRU32   ] - 1x GBU-54(V)1/B - LJDAM, 500lb Laser & GPS Guided Bomb LD
+  - "{SUPERHORNET_PYLON_03_IB_MB_MK_GBU_54V}"   #  [ STA 04/03 | SUU79 | BRU32   ] - 1x/1x GBU-54(V)1/B - LJDAM, 500lb Laser & GPS Guided Bomb LD
+  - "{SUPERHORNET_PYLON_09_IB_MB_MK_GBU_54V}"   #  [ STA 09/08 | SUU79 | BRU32   ] - 1x/1x GBU-54(V)1/B - LJDAM, 500lb Laser & GPS Guided Bomb LD

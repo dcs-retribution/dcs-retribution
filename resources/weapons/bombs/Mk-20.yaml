@@ -1,0 +1,109 @@
+name: Mk-20 Rockeye
+year: 1968
+fallback: Mk 82
+clsids:
+  - "DIS_MK_20"   # Mk-20
+  - "{BRU-32 MK-20}"   # Mk-20
+  - "{BRU-32 CBU-99}"   # CBU-99
+  - "{BRU42_2*MK20 RS}"   # 2 MK-20
+  - "{BRU3242_2*MK20 RS}"   # 2 MK-20
+  - "{PHXBRU3242_2*MK20 RS}"   # 2 MK-20
+  - "{BRU42_2*MK20 LS}"   # 2 MK-20
+  - "{BRU3242_2*MK20 LS}"   # 2 MK-20
+  - "{PHXBRU3242_2*MK20 LS}"   # 2 MK-20
+  - "{BRU42_2*CBU99 RS}"   # 2 CBU-99
+  - "{BRU3242_2*CBU99 RS}"   # 2 CBU-99
+  - "{PHXBRU3242_2*CBU99 RS}"   # 2 CBU-99
+  - "{BRU42_2*CBU99 LS}"   # 2 CBU-99
+  - "{BRU3242_2*CBU99 LS}"   # 2 CBU-99
+  - "{PHXBRU3242_2*CBU99 LS}"   # 2 CBU-99
+  - "{MAK79_MK20 1R}"   # MAK79 MK-20
+  - "{MAK79_MK20 1L}"   # MAK79 MK-20
+  - "{BRU-70_2*CBU-99_LEFT}"   # 2 CBU-99 */*
+  - "{BRU-70_2*CBU-99_RIGHT}"   # 2 CBU-99 *\*
+  - "{CBU99_mod6}"   # CBU-99 Mod 6
+  - "{MAK79_CBU99 1R}"   # MAK79 CBU-99
+  - "{MAK79_CBU99 1L}"   # MAK79 CBU-99
+  - "{MAK79_MK20 2L}"   # MAK79 2 MK-20
+  - "{MAK79_MK20 2R}"   # MAK79 2 MK-20
+  - "{MAK79_CBU99 2L}"   # MAK79 2 CBU-99
+  - "{MAK79_CBU99 2R}"   # MAK79 2 CBU-99
+  - "{M2KC_RAFAUT_ROCKEYE}"   # AUF2 ROCKEYE x 2
+  - "{CFT_L_CBU_100_x_3}"   # Mk-20 Rockeye * 3
+  - "{CFT_R_CBU_100_x_3}"   # Mk-20 Rockeye * 3
+  - "{CFT_L_CBU_100_x_6}"   # Mk-20 Rockeye * 6
+  - "{CFT_R_CBU_100_x_6}"   # Mk-20 Rockeye * 6
+  - "{BRU-42_2*MK-20_LEFT}"   # 2 Mk-20 Rockeye */*
+  - "{BRU-42_2*MK-20_RIGHT}"   # 2 Mk-20 Rockeye *\*
+  - "{BRU41A_4_L*CBU99_mod6}"   # BRU-41A - 4 x CBU-99
+  - "{BRU41A_4_R*CBU99_mod6}"   # BRU-41A - 4 x CBU-99
+  - "{BRU41A_6*CBU99_mod6}"   # BRU-41A - 6 x CBU-99
+  - "{BRU42A_2_L*CBU99_mod6}"   # BRU-42A - 2 x CBU-99
+  - "{BRU42A_2_R*CBU99_mod6}"   # BRU-42A - 2 x CBU-99
+  - "{BRU42A_3*CBU99_mod6}"   # BRU-42A - 3 x CBU-99
+  - "DIS_MK_20_DUAL_GDJ_II19_L"   # GDJ-II19 - 2 x Mk-20
+  - "DIS_MK_20_DUAL_GDJ_II19_R"   # GDJ-II19 - 2 x Mk-20
+  - "Herc_Ammo_MK20_bombs"   # Ammo MK20*20 [9768lb]
+  - "{BRU41A_4_L*MK20_ROCKEYE}"   # BRU-41A - 4 x Mk-20 Rockeye
+  - "{BRU41A_4_R*MK20_ROCKEYE}"   # BRU-41A - 4 x Mk-20 Rockeye
+  - "{BRU41A_6*MK20_ROCKEYE}"   # BRU-41A - 6 x Mk-20 Rockeye
+  - "{BRU42A_2_L*MK20_ROCKEYE}"   # BRU-42A - 2 x Mk-20 Rockeye
+  - "{BRU42A_2_R*MK20_ROCKEYE}"   # BRU-42A - 2 x Mk-20 Rockeye
+  - "{BRU42A_3*MK20_ROCKEYE}"   # BRU-42A - 3 x Mk-20 Rockeye
+  - "{F4B_LAU105_AIM9J_2_MER_MK20_3}"   # F4B_LAU105_AIM9J_2_MER_MK20_3
+  - "{CBU_99}"   # CBU-99 - 490lbs, 247 x HEAT Bomblets
+  - "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}"   # Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets
+  - "{E79759F7-C622-4AA4-B1EF-37639A34D924}"   # 6 x Mk-20 Rockeye - 490lbs CBUs, 247 x HEAT Bomblets
+  - "{BRU33_2X_CBU-99}"   # BRU-33 with 2 x CBU-99 - 490lbs, 247 x HEAT Bomblets
+  - "{HB_A6E_MK20_MER_1x}"   # 1x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (MER)
+  - "{HB_A6E_MK20_MER_2x}"   # 2x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (MER)
+  - "{HB_A6E_MK20_TER_2x_RIGHT}"   # 2x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (TER)
+  - "{HB_A6E_MK20_TER_2x_LEFT}"   # 2x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (TER)
+  - "{HB_F4E_ROCKEYE_2x}"   # 2x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (TER)
+  - "{HB_A6E_MK20_MER_3x_RIGHT}"   # 3x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (MER)
+  - "{HB_A6E_MK20_MER_3x_LEFT}"   # 3x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (MER)
+  - "{HB_A6E_MK20_TER_3x}"   # 3x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (TER)
+  - "{HB_F4E_ROCKEYE_3x}"   # 3x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (TER)
+  - "{HB_A6E_MK20_MER_4x_RIGHT}"   # 4x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (MER)
+  - "{HB_A6E_MK20_MER_4x_LEFT}"   # 4x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (MER)
+  - "{HB_A6E_MK20_MER_5x_RIGHT}"   # 5x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (MER)
+  - "{HB_A6E_MK20_MER_5x_LEFT}"   # 5x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (MER)
+  - "{HB_A6E_MK20_MER_6x}"   # 6x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (MER)
+  - "{HB_F4E_ROCKEYE_6x}"   # 6x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (MER)
+  - "{Mk-20_TER_2_L}"   # 2 x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (TER)
+  - "{Mk-20_TER_2_R}"   # 2 x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (TER)
+  - "{Mk-20_TER_2_C}"   # 2 x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (TER)
+  - "{Mk-20_TER_3_C}"   # 3 x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (TER)
+  - "{4CD2BB0F-5493-44EF-A927-9760350F7BA1}"   # HSAB - 9 x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets
+  - "{0B9ABA77-93B8-45FC-9C63-82AFB2CB50A4}"   # MER2 with 2 x Mk-20 Rockeye - 490lbs CBUs, 247 x HEAT Bomblets
+  - "{3C7CD675-7D39-41C5-8735-0F4F537818A8}"   # MER6 with 6 x Mk-20 Rockeye - 490lbs CBUs, 247 x HEAT Bomblets
+  - "{BRU33_2X_ROCKEYE}"   # BRU-33 with 2 x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets
+  - "{B83CB620-5BBE-4BEA-910C-EB605A327EF9}"   # BRU-42 with 3 x Mk-20 Rockeye - 490lbs CBUs, 247 x HEAT Bomblets
+  - "{SUPERHORNET_PYLON_02_OB_MK_1X_CBU-99}"   #  [ STA 02	  | SUU80 | BRU32   ] - 1x CBU-99 - 490lbs, 247 x HEAT Bomblets
+  - "{SUPERHORNET_PYLON_03_MB_MK_1X_CBU-99}"   #  [ STA 03	  | SUU79 | BRU32   ] - 1x CBU-99 - 490lbs, 247 x HEAT Bomblets
+  - "{SUPERHORNET_PYLON_03_IB_MK_1X_CBU-99}"   #  [ STA 04	  | SUU80 | BRU32   ] - 1x CBU-99 - 490lbs, 247 x HEAT Bomblets
+  - "{SUPERHORNET_PYLON_06_CN_MK_1X_CBU-99}"   #  [ STA 06	  | SUU78 | BRU32   ] - 1x CBU-99 - 490lbs, 247 x HEAT Bomblets
+  - "{SUPERHORNET_PYLON_06_CN_MK_2X_CBU-99}"   #  [ STA 06	  | SUU78 | BRU33   ] - 2x CBU-99 - 490lbs, 247 x HEAT Bomblets
+  - "{SUPERHORNET_PYLON_09_IB_MK_1X_CBU-99}"   #  [ STA 08	  | SUU80 | BRU32   ] - 1x CBU-99 - 490lbs, 247 x HEAT Bomblets
+  - "{SUPERHORNET_PYLON_09_MB_MK_1X_CBU-99}"   #  [ STA 09	  | SUU80 | BRU32   ] - 1x CBU-99 - 490lbs, 247 x HEAT Bomblets
+  - "{SUPERHORNET_PYLON_10_OB_MK_1X_CBU-99}"   #  [ STA 10	  | SUU80 | BRU32   ] - 1x CBU-99 - 490lbs, 247 x HEAT Bomblets
+  - "{HB_ROCKEYE_SWA}"   # (Special Weapons Adapter) Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets
+  - "{SUPERHORNET_PYLON_03_IB_MB_MK_CBU-99}"   #  [ STA 04/03 | SUU79 | BRU32   ] - 1x/1x CBU-99 - 490lbs, 247 x HEAT Bomblets
+  - "{SUPERHORNET_PYLON_09_IB_MB_MK_CBU-99}"   #  [ STA 09/08 | SUU79 | BRU32   ] - 1x/1x CBU-99 - 490lbs, 247 x HEAT Bomblets
+  - "{HB_F4E_ROCKEYE_2x_SWA}"   # (Special Weapons Adapter) 2x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets (TER)
+  - "{SUPERHORNET_PYLON_02_OB_MK_1X_ROCKEYE}"   #  [ STA 02	  | SUU80 | BRU32   ] - 1x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets
+  - "{SUPERHORNET_PYLON_02_MB_MK_1X_ROCKEYE}"   #  [ STA 03	  | SUU79 | BRU32   ] - 1x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets
+  - "{SUPERHORNET_PYLON_03_MB_MK_1X_ROCKEYE}"   #  [ STA 03	  | SUU79 | BRU32   ] - 1x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets
+  - "{SUPERHORNET_PYLON_03_IB_MK_1X_ROCKEYE}"   #  [ STA 04	  | SUU80 | BRU32   ] - 1x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets
+  - "{SUPERHORNET_PYLON_06_CN_MK_1X_ROCKEYE}"   #  [ STA 06	  | SUU78 | BRU32   ] - 1x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets
+  - "{SUPERHORNET_PYLON_06_CN_MK_2X_ROCKEYE}"   #  [ STA 06	  | SUU78 | BRU33   ] - 2x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets
+  - "{SUPERHORNET_PYLON_09_IB_MK_1X_ROCKEYE}"   #  [ STA 08	  | SUU80 | BRU32   ] - 1x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets
+  - "{SUPERHORNET_PYLON_10_MB_MK_1X_ROCKEYE}"   #  [ STA 09	  | SUU79 | BRU32   ] - 1x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets
+  - "{SUPERHORNET_PYLON_09_MB_MK_1X_ROCKEYE}"   #  [ STA 09	  | SUU80 | BRU32   ] - 1x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets
+  - "{SUPERHORNET_PYLON_10_OB_MK_1X_ROCKEYE}"   #  [ STA 10	  | SUU80 | BRU32   ] - 1x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets
+  - "{SUPERHORNET_PYLON_02_OB_MB_MK_2X_ROCKEYE}"   #  [ STA 03/02 | 79 / 80 | BRU32   ] - 2x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets
+  - "{SUPERHORNET_PYLON_02_OB_IB_MK_2X_ROCKEYE}"   #  [ STA 04/02 | 79 / 80 | BRU32   ] - 2x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets
+  - "{SUPERHORNET_PYLON_10_OB_MB_MK_2X_ROCKEYE}"   #  [ STA 09/10 | 79 / 80 | BRU32   ] - 2x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets
+  - "{SUPERHORNET_PYLON_10_OB_IB_MK_2X_ROCKEYE}"   #  [ STA 10/08 | 79 / 80 | BRU32   ] - 2x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets
+  - "{SUPERHORNET_PYLON_03_IB_MB_MK_ROCKEYE}"   #  [ STA 04/03 | SUU79 | BRU32   ] - 1x/1x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets
+  - "{SUPERHORNET_PYLON_09_IB_MB_MK_ROCKEYE}"   #  [ STA 09/08 | SUU79 | BRU32   ] - 1x/1x Mk-20 Rockeye - 490lbs CBU, 247 x HEAT Bomblets

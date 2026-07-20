@@ -1,7 +1,7 @@
 name: AGM-65E2/L
 type: LGB
 year: 2002
-# USMC Designation is the E2, USAF is the L
 fallback: 3xAGM-65E
 clsids:
-  - "LAU_117_AGM_65L"
+  - "{HB_F4E_AGM-65L_LAU117}"   # AGM-65E2/L - Maverick E2/L (Laser ASM - Lg Whd) (LAU-117)
+  - "LAU_117_AGM_65L"   # LAU-117 with AGM-65E2/L - Maverick E2/L (Laser Guided ASM)

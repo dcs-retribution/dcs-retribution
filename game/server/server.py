@@ -12,6 +12,10 @@ from game.server.app import app
 from game.server.settings import ServerSettings
 from game.sim import GameUpdateEvents
 
+# Upper bound (seconds) on uvicorn's graceful shutdown; without it, it can wait
+# forever for the long-lived /eventstream websocket task to drain on exit.
+GRACEFUL_SHUTDOWN_TIMEOUT_SECONDS = 3
+
 
 class Server(uvicorn.Server):
     def __init__(self, port: Optional[int]) -> None:
@@ -23,6 +27,7 @@ class Server(uvicorn.Server):
                 port=settings.server_port,
                 # Configured explicitly with default_logging.yaml or logging.yaml.
                 log_config=None,
+                timeout_graceful_shutdown=GRACEFUL_SHUTDOWN_TIMEOUT_SECONDS,
             )
         )
 
@@ -39,4 +44,9 @@ class Server(uvicorn.Server):
         finally:
             self.should_exit = True
             EventStream.put_nowait(GameUpdateEvents().shut_down())
-            thread.join()
+            thread.join(timeout=GRACEFUL_SHUTDOWN_TIMEOUT_SECONDS + 2)
+            if thread.is_alive():
+                # Graceful shutdown stalled anyway; force uvicorn to stop waiting
+                # so the process can exit instead of hanging on join() forever.
+                self.force_exit = True
+                thread.join(timeout=GRACEFUL_SHUTDOWN_TIMEOUT_SECONDS)

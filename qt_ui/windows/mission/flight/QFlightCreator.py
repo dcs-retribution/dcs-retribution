@@ -18,6 +18,7 @@ from dcs.unittype import FlyingType
 from game import Game
 from game.ato.flight import Flight
 from game.ato.flightroster import FlightRoster
+from game.ato.flightmember import apply_default_player_laser_code
 from game.ato.loadouts import Loadout
 from game.ato.package import Package
 from game.ato.starttype import StartType
@@ -218,10 +219,9 @@ class QFlightCreator(QDialog):
         )
 
         for member in flight.iter_members():
-            if member.is_player:
-                member.assign_tgp_laser_code(
-                    self.game.laser_code_registry.alloc_laser_code()
-                )
+            apply_default_player_laser_code(
+                member, self.game.settings, self.game.laser_code_registry
+            )
             member.loadout = self.current_loadout()
 
         # noinspection PyUnresolvedReferences

@@ -31,6 +31,10 @@ class LossGrid(QGridLayout):
             debriefing.front_line_losses_by_type(player), lambda u: str(u)
         )
         self.add_loss_rows(
+            debriefing.motorpool_losses_by_type(player),
+            lambda u: f"{u} from motorpool",
+        )
+        self.add_loss_rows(
             debriefing.convoy_losses_by_type(player), lambda u: f"{u} from convoy"
         )
         self.add_loss_rows(
