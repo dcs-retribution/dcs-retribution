@@ -1,6 +1,7 @@
 # Retribution v1.6.0
 
 ## Features/Improvements
+* **[UI]** The Time & Weather dialog can override the generated wind — set direction and speed yourself instead of taking the roll. (#792)
 * **[UX]** Hovering a friendly flight's route line on the map highlights it in yellow, and clicking it selects that flight's package (and the flight) in the ATO sidebar.
 * **[UX]** Press Delete with a package selected in the Packages list to cancel it, making it quick to clear several packages in a row.
 * **[UX]** Avoid having escorts from wondering off too far while chasing a target.
