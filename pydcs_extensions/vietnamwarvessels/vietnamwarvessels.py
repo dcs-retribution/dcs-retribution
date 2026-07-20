@@ -1860,23 +1860,20 @@ class vap_us_seafloat(unittype.ShipType):
 class Solon_Turman(unittype.ShipType):
     id = "AD-30 Solon Turman"
     name = "[VWV] AD-30 Solon Turman"
-    # GT.airFindDist = 15000 in the mod's own Database/Navy/Solon_Turman.lua; no weapon
-    # data found there, so threat/weapon ranges stay at the UnitType default of 0
-    # (a destroyer tender, not a combatant).
     detection_range = 15000
+    threat_range = 0
+    air_weapon_dist = 0
 
 
 @shipmod
 class USNS_Card(unittype.ShipType):
     id = "USNS Card"
     name = "[VWV] T-AKV-40 USNS Card"
-    # No detection/weapon data found in the mod's own Lua (an aircraft ferry, not a
-    # combatant) -- left at the UnitType default of 0 rather than guessed.
+    detection_range = 45000
+    threat_range = 18650
+    air_weapon_dist = 18650
 
 
-# Added in VWV 3.1.0. Unarmed riverine/coastal craft (GT.tags = {"Civilian"},
-# GT.attribute includes wsType_GenericCivShip, "NO_SAM"; no weapon DB entry in the mod's
-# own Lua) -- ids verified against the installed mod's Database/Navy/*.lua, not guessed.
 @shipmod
 class vwv_sampan_open(unittype.ShipType):
     id = "sampan_open"
