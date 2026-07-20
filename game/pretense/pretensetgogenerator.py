@@ -59,6 +59,7 @@ from game.theater.theatergroundobject import (
     BuildingGroundObject,
     VehicleGroupGroundObject,
     GenericCarrierGroundObject,
+    MotorpoolGroundObject,
 )
 from game.theater.theatergroup import TheaterGroup
 from game.unitmap import UnitMap
@@ -589,6 +590,7 @@ class PretenseGroundObjectGenerator(GroundObjectGenerator):
                 )
                 vehicle_group.units[0].player_can_drive = True
                 self.enable_eplrs(vehicle_group, unit.type)
+                self.enable_ewr(vehicle_group)
                 vehicle_group.units[0].name = unit.unit_name
                 self.set_alarm_state(vehicle_group)
                 GroundForcePainter(faction, vehicle_group.units[0]).apply_livery()
@@ -863,6 +865,10 @@ class PretenseTgoGenerator(TgoGenerator):
             random.shuffle(self.ground_spawns[cp])
 
             for ground_object in cp.ground_objects:
+                if isinstance(ground_object, MotorpoolGroundObject):
+                    # Motorpool reserves are unsupported in Pretense mode (no front-line/
+                    # motorpool loss reconciliation runs there), so do not render them.
+                    continue
                 generator: GroundObjectGenerator
                 if isinstance(ground_object, CarrierGroundObject) and isinstance(
                     cp, NavalControlPoint
