@@ -1,0 +1,11 @@
+name: BLG-66 Belouga
+year: 1979
+fallback: Mk 82
+clsids:
+  - "{BLG66_BELOUGA_AC}"   # BLG-66-AC Belouga
+  - "{M2KC_RAFAUT_BLG66}"   # AUF2 BLG-66-AC x 2
+  - "{BLG66_AC}"   # BLG-66 Belouga AC - CBU, 151 x HEAT Bomblets
+  - "{BLG66_EG}"   # BLG-66 Belouga EG - CBU, 151 x HE/Frag Bomblets
+  - "{AUF2_BLG66}"   # AUF 2 - 2 x BLG-66 Belouga AC - CBU, 151 x HEAT Bomblets
+  - "{AUF2_BLG66_AC}"   # AUF 2 - 2 x BLG-66 Belouga AC - CBU, 151 x HEAT Bomblets
+  - "{AUF2_BLG66_EG}"   # AUF 2 - 2 x BLG-66 Belouga EG - CBU, 151 x HE/Frag Bomblets

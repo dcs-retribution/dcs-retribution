@@ -1,0 +1,11 @@
+name: BAP-100
+year: 1983
+clsids:
+  - "{M2KC_BAP100_6_RACK}"   # BAP-100 x 6
+  - "{M2KC_BAP100_12_RACK}"   # BAP-100 x 12
+  - "{M2KC_BAP100_18_RACK}"   # BAP-100 x 18
+  - "{BAP_100}"   # BAP-100 Anti-Runway
+  - "{14_3_M2_6xBAP100}"   # 14-3-M2 - 6 x BAP-100 - 32kg Concrete Piercing Chute Retarded Bomb w/Booster
+  - "{14_3_M2_9xBAP100}"   # 14-3-M2 - 9 x BAP-100 - 32kg Concrete Piercing Chute Retarded Bomb w/Booster
+  - "{30_6_M2_12xBAP100}"   # 30-6-M2 - 12 x BAP-100 - 32kg Concrete Piercing Chute Retarded Bomb w/Booster
+  - "{30_6_M2_18xBAP100}"   # 30-6-M2 - 18 x BAP-100 - 32kg Concrete Piercing Chute Retarded Bomb w/Booster

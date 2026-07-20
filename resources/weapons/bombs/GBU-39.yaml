@@ -1,0 +1,7 @@
+name: GBU-39 SDB
+year: 2006
+fallback: GBU-38
+clsids:
+  - "{GBU-39}"   # GBU-39
+  - "{CH_GBU39}"   # GBU-39 SDB 285 lb Guided Glide-Bomb
+  - "{JAS39_SDB}"   # 4 x GBU-39 SDB 285 lb TV Guided Glide-Bomb

@@ -1,0 +1,5 @@
+name: Storm Shadow
+year: 2003
+clsids:
+  - "{SU24MU_STORMSHADOW}"   # [CH] Storm Shadow ALCM
+  - "{JAS39_STORMSHADOW_ARM}"   # Storm Shadow Long Range Anti-Radiation Cruise-missile

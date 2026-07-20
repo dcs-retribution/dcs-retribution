@@ -2,4 +2,12 @@ name: AGM-65F
 year: 1991
 fallback: 3xAGM-65D
 clsids:
-  - "LAU_117_AGM_65F"
+  - "LAU_117_AGM_65F"   # LAU-117 with AGM-65F - Maverick F (IIR ASM)
+  - "{HB_F4E_AGM-65K_LAU117}"   # AGM-65F - Maverick F (IIR ASM - Lg Whd) (LAU-117)
+  - "{SUPERHORNET_PYLON_02_OB_MV_1X_AGM-65F}"   #  [ STA 02	  | SUU80 | LAU117 ] - 1x AGM-65F - Maverick F (IIR)
+  - "{SUPERHORNET_PYLON_02_MB_MV_1X_AGM-65F}"   #  [ STA 03	  | SUU79 | LAU117 ] - 1x AGM-65F - Maverick F (IIR)
+  - "{SUPERHORNET_PYLON_03_MB_MV_1X_AGM-65F}"   #  [ STA 03	  | SUU79 | LAU117 ] - 1x AGM-65F - Maverick F (IIR)
+  - "{SUPERHORNET_PYLON_03_IB_MV_1X_AGM-65F}"   #  [ STA 04	  | SUU79 | LAU117 ] - 1x AGM-65F - Maverick F (IIR)
+  - "{SUPERHORNET_PYLON_09_IB_MV_1X_AGM-65F}"   #  [ STA 08	  | SUU79 | LAU117 ] - 1x AGM-65F - Maverick F (IIR)
+  - "{SUPERHORNET_PYLON_09_MB_MV_1X_AGM-65F}"   #  [ STA 09	  | SUU79 | LAU117 ] - 1x AGM-65F - Maverick F (IIR)
+  - "{SUPERHORNET_PYLON_10_OB_MV_1X_AGM-65F}"   #  [ STA 10	  | SUU80 | LAU117 ] - 1x AGM-65F - Maverick F (IIR)

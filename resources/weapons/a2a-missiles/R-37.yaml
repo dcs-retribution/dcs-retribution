@@ -1,0 +1,5 @@
+name: R-37 (AA-13 Axehead)
+year: 2014
+fallback: R-77
+clsids:
+  - "{R-37_mig31bm}"   # Vympel R-37 (AA-13 Axehead)

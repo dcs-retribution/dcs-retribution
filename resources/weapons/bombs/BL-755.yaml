@@ -1,0 +1,12 @@
+name: BL-755
+year: 1973
+fallback: Mk 82
+clsids:
+  - "{HB_F4E_BL755_TER_1x_SingleLeft}"   # 1x BL-755 - 147 Frag/Pen bomblets (TER)
+  - "{HB_F4E_BL755_TER_1x_SingleRight}"   # 1x BL-755 - 147 Frag/Pen bomblets (TER)
+  - "{HB_F4E_BL755_TER_2x_Left}"   # 2x BL-755 - 147 Frag/Pen bomblets (TER)
+  - "{HB_F4E_BL755_TER_2x_Right}"   # 2x BL-755 - 147 Frag/Pen bomblets (TER)
+  - "{HB_F4E_BL755_TER_2x_opposed}"   # 2x BL-755 - 147 Frag/Pen bomblets (TER)
+  - "{HB_F4E_BL755_TER_3x}"   # 3x BL-755 - 147 Frag/Pen bomblets (TER)
+  - "{08164777-5E9C-4B08-B48E-5AA7AFB246E2}"   # BL-755 CBU - 450kg, 147 Frag/Pen bomblets
+  - "{C535596E-F7D2-4301-8BB4-B1658BB87ED7}"   # 2 x BL-755 CBUs - 450kg, 147 Frag/Pen bomblets

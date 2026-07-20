@@ -1,0 +1,7 @@
+name: SB M/71
+year: 1971
+clsids:
+  - "{JAS39_M71HD}"   # 4 x M/71 120 kg GP Bomb High-drag
+  - "{JAS39_M71LD}"   # 4 x M/71 120 kg GP Bomb Low-drag 
+  - "{M71BOMB}"   # 4x SB M/71 120kg GP Bomb Low-drag
+  - "{M71BOMBD}"   # 4x SB M/71 120kg GP Bomb High-drag

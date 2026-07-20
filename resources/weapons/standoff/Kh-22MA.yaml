@@ -1,0 +1,5 @@
+name: Kh-22MA
+year: 1975
+fallback: Kh-22 (AS-4 Kitchen)
+clsids:
+  - "{Tu_22_Kh22PSI}"   # Kh-22MA

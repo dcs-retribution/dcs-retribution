@@ -38,8 +38,10 @@ from dcs.task import (
     ControlledTask,
     Hold,
     EPLRS,
+    EWR,
     FireAtPoint,
     OptAlarmState,
+    OptROE,
 )
 from dcs.terrain import Airport
 from dcs.translation import String
@@ -82,9 +84,12 @@ from game.theater import (
 )
 from game.theater.theatergroundobject import (
     CarrierGroundObject,
+    EwrGroundObject,
     GenericCarrierGroundObject,
     LhaGroundObject,
     MissileSiteGroundObject,
+    ShipGroundObject,
+    MotorpoolGroundObject,
 )
 from game.theater.theatergroup import SceneryUnit, IadsGroundGroup
 from game.unitmap import UnitMap
@@ -314,7 +319,14 @@ class GroundObjectGenerator:
             if vehicle_units:
                 self.create_vehicle_group(group.group_name, vehicle_units)
             if ship_units:
-                self.create_ship_group(group.group_name, ship_units)
+                ship_group = self.create_ship_group(group.group_name, ship_units)
+                if (
+                    isinstance(self.ground_object, ShipGroundObject)
+                    and self.ground_object.target_position is not None
+                ):
+                    self.sail_to_destination(
+                        self.ground_object.target_position, ship_group
+                    )
 
     @staticmethod
     def _contains_mobile_air_defense(units: list[TheaterUnit]) -> bool:
@@ -357,6 +369,7 @@ class GroundObjectGenerator:
                 )
                 vehicle_group.units[0].player_can_drive = True
                 self.enable_eplrs(vehicle_group, unit.type)
+                self.enable_ewr(vehicle_group)
                 vehicle_group.units[0].name = unit.unit_name
                 self.set_alarm_state(vehicle_group)
                 GroundForcePainter(faction, vehicle_group.units[0]).apply_livery()
@@ -396,7 +409,8 @@ class GroundObjectGenerator:
                 if frequency:
                     ship_group.set_frequency(frequency.hertz)
                 ship_group.units[0].name = unit.unit_name
-                self.set_alarm_state(ship_group)
+                self.set_alarm_state(ship_group, force_red=True)
+                self.set_ship_engagement(ship_group)
                 NavalForcePainter(faction, ship_group.units[0]).apply_livery()
             else:
                 ship_unit = self.m.ship(unit.unit_name, unit.type)
@@ -414,6 +428,19 @@ class GroundObjectGenerator:
         )
         return ship_group
 
+    def sail_to_destination(self, destination: Point, group: ShipGroup) -> Heading:
+        """Add an in-mission waypoint sailing the ship toward its campaign
+        destination at a nominal cruise speed. Cosmetic only — the authoritative
+        position update is the end-of-turn snap. The destination is validated as
+        open water with no land crossing at queue time, so the path is clear."""
+        start = group.points[0].position
+        heading = Heading.from_degrees(start.heading_between_point(destination))
+        speed = knots(25)  # nominal cruise, mirrors the carrier baseline
+        group.points[0].speed = speed.meters_per_second
+        group.add_waypoint(destination, speed.kph)
+        self.ground_object.rotate(heading)
+        return heading
+
     def create_static_group(self, unit: TheaterUnit) -> None:
         static_group = self.m.static_group(
             country=self.country,
@@ -430,11 +457,39 @@ class GroundObjectGenerator:
         if eplrs_enabled and unit_type.eplrs:
             group.points[0].tasks.append(EPLRS(group.id))
 
-    def set_alarm_state(self, group: MovingGroup[Any]) -> None:
-        if self.game.settings.perf_red_alert_state:
+    def enable_ewr(self, group: VehicleGroup) -> None:
+        # EWR radars need the DCS "EWR" enroute task to actively scan and report
+        # contacts to their coalition. Without it they sit inert. Applied only to
+        # dedicated EWR sites (not SAM-as-EWR groups, which Skynet controls by group
+        # name), so it complements the Skynet IADS plugin rather than fighting it:
+        # Skynet reads EWR detections by unit name and does not manage the task list.
+        # (The matching RED alarm state is forced in set_alarm_state.)
+        if isinstance(self.ground_object, EwrGroundObject):
+            group.points[0].tasks.append(EWR())
+
+    def set_alarm_state(self, group: MovingGroup[Any], force_red: bool = False) -> None:
+        # Ships pass force_red so they always defend; the perf toggle only exists
+        # to let ground SAMs start "dark" for Skynet IADS, not to disarm fleets.
+        # EWR sites must likewise never start dark: a GREEN alarm state leaves the
+        # radar passive (no emission), which would defeat the EWR() enroute task, so
+        # they always come up RED regardless of the perf toggle. Skynet drives EWRs
+        # live anyway, so this stays consistent with IADS control.
+        ewr = isinstance(self.ground_object, EwrGroundObject)
+        if force_red or ewr or self.game.settings.perf_red_alert_state:
             group.points[0].tasks.append(OptAlarmState(2))
         else:
             group.points[0].tasks.append(OptAlarmState(1))
+
+    def set_ship_engagement(self, group: ShipGroup) -> None:
+        # Make fleets fight rather than sit passive. Ship weapons engagement in DCS is
+        # OPTION-driven, not task-driven: weapon-free ROE plus the RED alarm state set in
+        # set_alarm_state make a ship fire autonomously on any target that enters weapon
+        # range — SAMs on aircraft, anti-ship missiles/guns/torpedoes on enemy ships.
+        # Do NOT add an EngageTargets task here: it is an air-only enroute task, invalid
+        # for a ship controller (DCS me_action_db offers ships only NoTask), and feeding
+        # it to the naval AI crashed DCS (ACCESS_VIOLATION in AI::ControllerStack::start).
+        # Upstream ships likewise engage on ROE/alarm alone.
+        group.points[0].tasks.append(OptROE(OptROE.Values.WeaponFree))
 
     def _register_theater_unit(
         self,
@@ -1560,6 +1615,10 @@ class TgoGenerator:
         self._portable_tacan_callsigns: set[str] = set()
 
     def generate(self) -> None:
+        # Function-local import breaks the motorpoolgenerator <-> tgogenerator
+        # import cycle; hoisted here so it resolves once per call, not per TGO.
+        from game.missiongenerator.motorpoolgenerator import MotorpoolGenerator
+
         for cp in self.game.theater.controlpoints:
             # Use neutral country for neutral control points
             if cp.captured is Player.NEUTRAL:
@@ -1636,6 +1695,10 @@ class TgoGenerator:
                     )
                 elif isinstance(ground_object, MissileSiteGroundObject):
                     generator = MissileSiteGenerator(
+                        ground_object, country, self.game, self.m, self.unit_map
+                    )
+                elif isinstance(ground_object, MotorpoolGroundObject):
+                    generator = MotorpoolGenerator(
                         ground_object, country, self.game, self.m, self.unit_map
                     )
                 else:

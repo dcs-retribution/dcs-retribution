@@ -1,0 +1,5 @@
+name: 9M39 Igla (air-to-air)
+year: 1983
+clsids:
+  - "{CHAP_Mi28N_4xIGLA}"   # 4 x 9M39 Igla
+  - "{9S846_2xIGLA}"   # 9S846 Strelets - 2 x 9M39 Igla

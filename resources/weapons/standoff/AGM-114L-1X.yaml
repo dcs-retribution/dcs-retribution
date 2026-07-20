@@ -2,6 +2,7 @@ name: AGM-114L * 1
 year: 2000
 fallback: AGM-114K * 1
 clsids:
-  - "{M299_1xAGM_114L_OUTBOARD_PORT}"
-  - "{M299_1xAGM_114L_OUTBOARD_STARBOARD}"
-  - "{AGM_114L}"
+  - "{AGM_114L}"   # AGM-114L
+  - "{M299_4xAGM_114L}"   # M299 - 4 x AGM-114L Hellfire
+  - "{M299_1xAGM_114L_OUTBOARD_PORT}"   # M299 - 1 x AGM-114L Hellfire, Port
+  - "{M299_1xAGM_114L_OUTBOARD_STARBOARD}"   # M299 - 1 x AGM-114L Hellfire, Starboard

@@ -2,5 +2,16 @@ name: AGM-65H
 year: 2002
 fallback: 3xAGM-65D
 clsids:
-  - "LAU_117_AGM_65H"
-  - "LAU_88_AGM_65H"
+  - "Herc_Ammo_AGM_65H_missiles"   # Ammo AGM-65H*10 [4570lb]
+  - "{JAS39_AGM_65H}"   # AGM-65H TV Guided Missile
+  - "{HB_F4E_AGM-65H_LAU117}"   # AGM-65H - Maverick H (CCD Imp ASM) (LAU-117)
+  - "{HB_F4EAGM-65H_LAU88_1x}"   # 1x AGM-65H - Maverick H (CCD Imp ASM) (LAU-88)
+  - "{HB_F4EAGM-65H_LAU88_2x_Right}"   # 2x AGM-65H - Maverick H (CCD Imp ASM) (LAU-88)
+  - "{HB_F4EAGM-65H_LAU88_2x_Left}"   # 2x AGM-65H - Maverick H (CCD Imp ASM) (LAU-88)
+  - "{HB_F4EAGM-65H_LAU88_3x_Right}"   # 3x AGM-65H - Maverick H (CCD Imp ASM) (LAU-88)
+  - "{HB_F4EAGM-65H_LAU88_3x_Left}"   # 3x AGM-65H - Maverick H (CCD Imp ASM) (LAU-88)
+  - "LAU_117_AGM_65H"   # LAU-117 with AGM-65H - Maverick H (CCD Imp ASM)
+  - "{LAU_117A_AGM_65H}"   # LAU-117/A with AGM-65H - Maverick H (CCD Imp ASM)
+  - "LAU_88_AGM_65H"   # LAU-88 with 1 x AGM-65H - Maverick H (CCD Imp ASM)
+  - "{LAU_88A_AGM_65Hx3}"   # LAU-88/A with 3 x AGM-65H - Maverick H (CCD Imp ASM)
+  - "{HB_F4E_AGM-65H_LAU117_SWA}"   # (Special Weapons Adapter) AGM-65H - Maverick H (CCD Imp ASM) (LAU-117)(Special Weapons Adapter) 

@@ -166,12 +166,14 @@ class QWaitingForMissionResultWindow(QDialog):
         rows = [
             ("Aircraft lost", blue.aircraft, red.aircraft),
             ("Front line units lost", blue.front_line, red.front_line),
+            ("Motorpool units lost", blue.motorpool, red.motorpool),
             ("Convoy units lost", blue.convoy, red.convoy),
             ("Shipping cargo lost", blue.cargo_ships, red.cargo_ships),
             ("Airlift cargo lost", blue.airlift_cargo, red.airlift_cargo),
             ("Ground Objects lost", blue.ground_objects, red.ground_objects),
             ("Scenery Objects lost", blue.scenery, red.scenery),
             ("Bases lost", blue.bases_lost, red.bases_lost),
+            ("Runways destroyed", blue.runways_destroyed, red.runways_destroyed),
         ]
         for label, blue_count, red_count in rows:
             self.add_update_row(label, blue_count, red_count, update_layout)

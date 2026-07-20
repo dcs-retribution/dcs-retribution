@@ -2,4 +2,46 @@ name: GBU-38
 year: 2002
 fallback: GBU-12
 clsids:
-  - "{GBU-38}"
+  - "{BRU-70A_3*GBU-38}"   # 3 GBU-38
+  - "{CFT_L_GBU_38_x_3}"   # GBU-38 * 3
+  - "{CFT_R_GBU_38_x_3}"   # GBU-38 * 3
+  - "{BRU-70A_2*GBU-38_SIDE_LEFT}"   # 2 GBU-38 *-*
+  - "{BRU-70A_2*GBU-38_SIDE_RIGHT}"   # 2 GBU-38 *-*
+  - "{B2_GBU-38*40}"   # B2 GBU-38*40
+  - "Herc_Ammo_GBU_38_bombs"   # Ammo GBU-38*10 [6028lb]
+  - "{JAS39_GBU38}"   # GBU-38 500 lb TV Guided Glide-Bomb
+  - "{SU30_GBU_38}"   # GBU-38 - JDAM, 500lb GPS Guided Bomb
+  - "{JAS39_BRU33_GBU38}"   # 2 x GBU-38 500 lb TV Guided Glide-Bomb
+  - "{GBU-38}"   # GBU-38(V)1/B - JDAM, 500lb GPS Guided Bomb
+  - "{BRU-32 GBU-38}"   # GBU-38(V)1/B - JDAM, 500lb GPS Guided Bomb
+  - "{BRUL657_1*GBU-38}"   # Pylon 4 GBU-38 - JDAM, 500lb GPS Guided Bomb
+  - "{BRUR657_1*GBU-38}"   # Pylon 6 GBU-38 - JDAM, 500lb GPS Guided Bomb
+  - "{BRUL557_2*GBU-38}"   # Pylon 3,4 GBU-38 - JDAM, 500lb GPS Guided Bomb
+  - "{BRUR557_2*GBU-38}"   # Pylon 6,7 GBU-38 - JDAM, 500lb GPS Guided Bomb
+  - "{CSRL_GBU38V1}"   # CSRL - 8 x GBU-38(V)1/B - JDAM, 500lb GPS Guided Bomb
+  - "{HSAB_6x_GBU38V1_L}"   # HSAB - 6 x GBU-38(V)1/B - JDAM, 500lb GPS Guided Bomb
+  - "{HSAB_6x_GBU38V1_R}"   # HSAB - 6 x GBU-38(V)1/B - JDAM, 500lb GPS Guided Bomb
+  - "{HSAB_8x_GBU38V1_L}"   # HSAB - 8 x GBU-38(V)1/B - JDAM, 500lb GPS Guided Bomb
+  - "{HSAB_8x_GBU38V1_R}"   # HSAB - 8 x GBU-38(V)1/B - JDAM, 500lb GPS Guided Bomb
+  - "{SECBM_3x_GBU38V1}"   # SECBM - 3 x GBU-38(V)1/B - JDAM, 500lb GPS Guided Bomb
+  - "{SECBM_6x_GBU38V1}"   # SECBM - 6 x GBU-38(V)1/B - JDAM, 500lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_02_OB_MK_1X_GBU-38}"   #  [ STA 02	  | SUU80 | BRU32   ] - 1x GBU-38 - JDAM, 500lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_02_MB_MK_1X_GBU-38}"   #  [ STA 03	  | SUU79 | BRU32   ] - 1x GBU-38 - JDAM, 500lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_03_MB_MK_1X_GBU-38}"   #  [ STA 03	  | SUU79 | BRU32   ] - 1x GBU-38 - JDAM, 500lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_02_MB_MK_BR55_2X_GBU-38}"   #  [ STA 03	  | SUU79 | BRU55   ] - 2x GBU-38 - JDAM, 500lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_03_MB_MK_BR55_2X_GBU-38}"   #  [ STA 03	  | SUU79 | BRU55   ] - 2x GBU-38 - JDAM, 500lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_03_IB_MK_BR55_2X_GBU-38}"   #  [ STA 04	  | SUU79 | BRU55   ] - 2x GBU-38 - JDAM, 500lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_03_IB_MK_1X_GBU-38}"   #  [ STA 04	  | SUU80 | BRU32   ] - 1x GBU-38 - JDAM, 500lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_09_IB_MK_BR55_2X_GBU-38}"   #  [ STA 08	  | SUU79 | BRU55   ] - 2x GBU-38 - JDAM, 500lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_09_IB_MK_1X_GBU-38}"   #  [ STA 08	  | SUU80 | BRU32   ] - 1x GBU-38 - JDAM, 500lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_10_MB_MK_1X_GBU-38}"   #  [ STA 09	  | SUU79 | BRU32   ] - 1x GBU-38 - JDAM, 500lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_09_MB_MK_BR55_2X_GBU-38}"   #  [ STA 09	  | SUU79 | BRU55   ] - 2x GBU-38 - JDAM, 500lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_10_MB_MK_BR55_2X_GBU-38}"   #  [ STA 09	  | SUU79 | BRU55   ] - 2x GBU-38 - JDAM, 500lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_09_MB_MK_1X_GBU-38}"   #  [ STA 09	  | SUU80 | BRU32   ] - 1x GBU-38 - JDAM, 500lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_10_OB_MK_1X_GBU-38}"   #  [ STA 10	  | SUU80 | BRU32   ] - 1x GBU-38 - JDAM, 500lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_02_OB_MB_MK_2X_GBU-38}"   #  [ STA 03/02 | 79 / 80 | BRU32   ] - 2x GBU-38 - JDAM, 500lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_02_OB_IB_MK_2X_GBU-38}"   #  [ STA 04/02 | 79 / 80 | BRU32   ] - 2x GBU-38 - JDAM, 500lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_10_OB_MB_MK_2X_GBU-38}"   #  [ STA 09/10 | 79 / 80 | BRU32   ] - 2x GBU-38 - JDAM, 500lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_10_OB_IB_MK_2X_GBU-38}"   #  [ STA 10/08 | 79 / 80 | BRU32   ] - 2x GBU-38 - JDAM, 500lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_03_IB_MB_MK_GBU-38}"   #  [ STA 04/03 | SUU79 | BRU32   ] - 1x/1x GBU-38 - JDAM, 500lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_09_IB_MB_MK_GBU-38}"   #  [ STA 09/08 | SUU79 | BRU32   ] - 1x/1x GBU-38 - JDAM, 500lb GPS Guided Bomb

@@ -1,0 +1,6 @@
+name: KSR-2P (passive)
+type: ARM
+year: 1966
+fallback: KSR-2
+clsids:
+  - "{TU_16_KSR2ARM}"   # KSR-2.086 (Passive seeker)

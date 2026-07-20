@@ -1,0 +1,5 @@
+name: JDAM-ER
+year: 2015
+fallback: GBU-32(V)2/B
+clsids:
+  - "{MIG29MU2_JDAM-ER}"   # JDAM-ER - 450 kg GPS Guided Mk-83 GP bomb

@@ -1,0 +1,5 @@
+name: KSR-5
+year: 1969
+fallback: KSR-2
+clsids:
+  - "{TU_16_KSR5}"   # KSR-5

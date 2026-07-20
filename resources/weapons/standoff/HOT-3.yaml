@@ -1,0 +1,12 @@
+name: HOT-3
+year: 1998
+clsids:
+  - "{HOT3_R1}"   # 1 x HOT-3 - ATGM, SACLOS, HEAT
+  - "{HOT3_L1}"   # 1 x HOT-3 - ATGM, SACLOS, HEAT
+  - "{HOT3_L1_M}"   # 1 x HOT-3 - ATGM, SACLOS, HEAT
+  - "{HOT3_R1_M}"   # 1 x HOT-3 - ATGM, SACLOS, HEAT
+  - "{HOT3_L2_M}"   # 2 x HOT-3 - ATGM, SACLOS, HEAT
+  - "{HOT3_L2}"   # 2 x HOT-3 - ATGM, SACLOS, HEAT
+  - "{HOT3_R2_M}"   # 2 x HOT-3 - ATGM, SACLOS, HEAT
+  - "{HOT3_R2}"   # 2 x HOT-3 - ATGM, SACLOS, HEAT
+  - "{CHAP_HOT3}"   # 4 x HOT3 - ATGM, SACLOS, Tandem HEAT

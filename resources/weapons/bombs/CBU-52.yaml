@@ -1,0 +1,17 @@
+name: CBU-52B
+year: 1970
+fallback: Mk 82
+clsids:
+  - "{BRU41A_4_L*CBU52B}"   # BRU-41A - 4 x CBU-52B
+  - "{BRU41A_4_R*CBU52B}"   # BRU-41A - 4 x CBU-52B
+  - "{BRU41A_6*CBU52B}"   # BRU-41A - 6 x CBU-52B
+  - "{BRU42A_2_L*CBU52B}"   # BRU-42A - 2 x CBU-52B
+  - "{BRU42A_2_R*CBU52B}"   # BRU-42A - 2 x CBU-52B
+  - "{BRU42A_3*CBU52B}"   # BRU-42A - 3 x CBU-52B
+  - "{CBU-52B}"   # CBU-52B - 220 x HE/Frag bomblets
+  - "{HB_F4E_CBU-52B_2x}"   # 2x CBU-52B - 220 x HE/Frag bomblets (TER)
+  - "{HB_F4E_CBU-52B_MER_3x_Left}"   # 3x CBU-52B - 220 x HE/Frag bomblets (MER)
+  - "{HB_F4E_CBU-52B_MER_3x_Right}"   # 3x CBU-52B - 220 x HE/Frag bomblets (MER)
+  - "{HB_F4E_CBU-52B_MER_6x}"   # 4x CBU-52B - 220 x HE/Frag bomblets (MER)
+  - "{HB_CBU-52B_SWA}"   # (Special Weapons Adapter) CBU-52B - 220 x HE/Frag bomblets
+  - "{HB_F4E_CBU-52B_2x_SWA}"   # (Special Weapons Adapter) 2x CBU-52B - 220 x HE/Frag bomblets (TER)

@@ -2,6 +2,9 @@ name: Kh-31A
 year: 1989
 fallback: Kh-29L
 clsids:
-  - "{4D13E282-DF46-4B23-864A-A9423DFDE504}"
-  - "{4D13E282-DF46-4B23-864A-A9423DFDE50A}"
-  - "{X-31A}"
+  - "{Ka52_Kh31A}"   # Kh-31A
+  - "{SU30_KH_31A}"   # Kh-31A (AS-17 Krypton) - 610kg
+  - "{SU30_KH31AD}"   # Kh-31AD (AS-17 Krypton) - 715kg
+  - "{4D13E282-DF46-4B23-864A-A9423DFDE504}"   # Kh-31A (AS-17 Krypton) - 610kg, AShM, IN & Act Rdr
+  - "{4D13E282-DF46-4B23-864A-A9423DFDE50A}"   # Kh-31A (AS-17 Krypton) - 610kg, AShM, IN & Act Rdr
+  - "{X-31A}"   # Kh-31A (AS-17 Krypton) - 610kg, AShM, IN & Act Rdr

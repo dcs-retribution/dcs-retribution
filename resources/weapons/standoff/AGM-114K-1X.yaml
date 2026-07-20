@@ -2,6 +2,15 @@ name: AGM-114K * 1
 year: 1993
 fallback: 4 x BGM-71D TOW ATGM
 clsids:
-  - "{M299_1xAGM_114K_OUTBOARD_PORT}"
-  - "{M299_1xAGM_114K_OUTBOARD_STARBOARD}"
-  - "{ee368869-c35a-486a-afe7-284beb7c5d52}"
+  - "OH58D_AGM_114_L1"   # 1xAGM-114K
+  - "OH58D_AGM_114_R1"   # 1xAGM-114K
+  - "OH58D_AGM_114_L"   # 2xAGM-114K
+  - "OH58D_AGM_114_R"   # 2xAGM-114K
+  - "{ee368869-c35a-486a-afe7-284beb7c5d52}"   # AGM-114K Hellfire
+  - "{M299_1xAGM_114K_OUTBOARD_PORT}"   # M299 - 1 x AGM-114K Hellfire, Port
+  - "{M299_1xAGM_114K_OUTBOARD_STARBOARD}"   # M299 - 1 x AGM-114K Hellfire, Starboard
+  - "{M299_2xAGM_114K_2xAGM_114L}"   # M299 - 2 x AGM-114K, 2 x AGM-114L Hellfire
+  - "{M299_1xAGM_114K_3xAGM_114L_PRT}"   # M299 - 1 x AGM-114K, 3 x AGM-114L Hellfire, Port
+  - "{M299_3xAGM_114K_1xAGM_114L_PRT}"   # M299 - 3 x AGM-114K, 1 x AGM-114L Hellfire, Port
+  - "{M299_1xAGM_114K_3xAGM_114L_STRBRD}"   # M299 - 1 x AGM-114K, 3 x AGM-114L Hellfire, Starboard
+  - "{M299_3xAGM_114K_1xAGM_114L_STRBRD}"   # M299 - 3 x AGM-114K, 1 x AGM-114L Hellfire, Starboard

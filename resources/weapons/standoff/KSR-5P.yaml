@@ -1,0 +1,6 @@
+name: KSR-5P (passive)
+type: ARM
+year: 1973
+fallback: KSR-5
+clsids:
+  - "{TU_16_KSR5ARM}"   # KSR5P (Passive seeker)

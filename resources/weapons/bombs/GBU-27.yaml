@@ -3,6 +3,8 @@ type: LGB
 year: 1987
 fallback: GBU-10
 clsids:
-  - "{EB969276-1922-4ED1-A5CB-18590F45D7FE}"
-  - "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
-  - "{B8C99F40-E486-4040-B547-6639172A5D57}"
+  - "{CFT_R_GBU_27_x_2}"   # GBU-27 * 2
+  - "{B2_GBU-27*4}"   # B2 GBU-27*4
+  - "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"   # GBU-27 - 2000lb Laser Guided Penetrator Bomb
+  - "{B8C99F40-E486-4040-B547-6639172A5D57}"   # 4 x GBU-27 - 2000lb Laser Guided Penetrator Bombs
+  - "{EB969276-1922-4ED1-A5CB-18590F45D7FE}"   # BRU-42 with 2 x GBU-27 - 2000lb Laser Guided Penetrator Bombs

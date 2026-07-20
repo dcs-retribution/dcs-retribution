@@ -1,0 +1,6 @@
+name: 9M114 Shturm
+year: 1978
+clsids:
+  - "{B919B0F4-7C25-455E-9A02-CEA51DB895E3}"   # 2 x 9M114 Shturm (AT-6 Spiral) - ATGM, SACLOS, HEAT
+  - "{2x9M114_with_adapter}"   # 2 x 9M114 Shturm (AT-6 Spiral) - ATGM, SACLOS, HEAT
+  - "{57232979-8B0F-4db7-8D9A-55197E06B0F5}"   # 8 x 9M114 Shturm (AT-6 Spiral) - ATGM, SACLOS, HEAT

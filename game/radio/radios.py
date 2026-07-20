@@ -370,6 +370,15 @@ RADIOS: List[Radio] = [
         "ARK-19",
         (RadioRange(kHz(150), kHz(1300), Hz(500), Modulation.AM),),
     ),
+    # F-100D
+    Radio(
+        "ARC-34",
+        (
+            RadioRange(
+                MHz(225), MHz(400), kHz(100), Modulation.AM, frozenset((MHz(243),))
+            ),
+        ),
+    ),
 ]
 
 

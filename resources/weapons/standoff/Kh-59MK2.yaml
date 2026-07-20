@@ -1,0 +1,5 @@
+name: Kh-59MK2 (AS-22 Kazoo)
+year: 2010
+fallback: Kh-59M
+clsids:
+  - "{SU30_KH59MK2}"   # Kh-59MK2 (AS-22 Kazoo) - 700kg

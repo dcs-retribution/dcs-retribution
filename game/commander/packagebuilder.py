@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Optional, TYPE_CHECKING
 
+from game.ato.flightmember import apply_default_player_laser_code
 from game.theater import ControlPoint, MissionTarget, OffMapSpawn
 from game.utils import nautical_miles
 from ..ato import FlightType
@@ -82,10 +83,11 @@ class PackageBuilder:
             divert=self.find_divert_field(squadron.aircraft, squadron.location),
         )
         for member in flight.iter_members():
-            if member.is_player:
-                member.assign_tgp_laser_code(
-                    self.laser_code_registry.alloc_laser_code()
-                )
+            apply_default_player_laser_code(
+                member,
+                squadron.coalition.game.settings,
+                self.laser_code_registry,
+            )
         # If this is a client flight, set the start_type again to match the configured default
         # https://github.com/dcs-liberation/dcs_liberation/issues/1567
         if (

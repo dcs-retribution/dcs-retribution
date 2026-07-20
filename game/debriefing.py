@@ -67,6 +67,9 @@ class GroundLosses:
     player_front_line: List[FrontLineUnit] = field(default_factory=list)
     enemy_front_line: List[FrontLineUnit] = field(default_factory=list)
 
+    player_motorpool: List[FrontLineUnit] = field(default_factory=list)
+    enemy_motorpool: List[FrontLineUnit] = field(default_factory=list)
+
     player_convoy: List[ConvoyUnit] = field(default_factory=list)
     enemy_convoy: List[ConvoyUnit] = field(default_factory=list)
 
@@ -96,12 +99,14 @@ class BaseCaptureEvent:
 class SideLossCounts:
     aircraft: int
     front_line: int
+    motorpool: int
     convoy: int
     cargo_ships: int
     airlift_cargo: int
     ground_objects: int
     scenery: int
     bases_lost: int
+    runways_destroyed: int
 
 
 @dataclass(frozen=True)
@@ -191,6 +196,11 @@ class Debriefing:
         yield from self.ground_losses.enemy_front_line
 
     @property
+    def motorpool_losses(self) -> Iterator[FrontLineUnit]:
+        yield from self.ground_losses.player_motorpool
+        yield from self.ground_losses.enemy_motorpool
+
+    @property
     def convoy_losses(self) -> Iterator[ConvoyUnit]:
         yield from self.ground_losses.player_convoy
         yield from self.ground_losses.enemy_convoy
@@ -239,6 +249,16 @@ class Debriefing:
             losses = self.ground_losses.player_front_line
         else:
             losses = self.ground_losses.enemy_front_line
+        for loss in losses:
+            losses_by_type[loss.unit_type] += 1
+        return losses_by_type
+
+    def motorpool_losses_by_type(self, player: Player) -> dict[GroundUnitType, int]:
+        losses_by_type: dict[GroundUnitType, int] = defaultdict(int)
+        if player.is_blue:
+            losses = self.ground_losses.player_motorpool
+        else:
+            losses = self.ground_losses.enemy_motorpool
         for loss in losses:
             losses_by_type[loss.unit_type] += 1
         return losses_by_type
@@ -300,22 +320,27 @@ class Debriefing:
         if player.is_blue:
             air = self.air_losses.player
             front_line = gl.player_front_line
+            motorpool = gl.player_motorpool
             convoy = gl.player_convoy
             cargo_ships = gl.player_cargo_ships
             airlifts = gl.player_airlifts
             ground_objects = gl.player_ground_objects
             scenery = gl.player_scenery
+            airfields = gl.player_airfields
         else:
             air = self.air_losses.enemy
             front_line = gl.enemy_front_line
+            motorpool = gl.enemy_motorpool
             convoy = gl.enemy_convoy
             cargo_ships = gl.enemy_cargo_ships
             airlifts = gl.enemy_airlifts
             ground_objects = gl.enemy_ground_objects
             scenery = gl.enemy_scenery
+            airfields = gl.enemy_airfields
         return SideLossCounts(
             aircraft=len(air),
             front_line=len(front_line),
+            motorpool=len(motorpool),
             convoy=len(convoy),
             cargo_ships=len(cargo_ships),
             airlift_cargo=sum(len(loss.cargo) for loss in airlifts),
@@ -326,6 +351,7 @@ class Debriefing:
                 for capture in self.base_captures
                 if capture.captured_by_player == player.opponent
             ),
+            runways_destroyed=len(airfields),
         )
 
     def dead_aircraft(self) -> AirLosses:
@@ -344,6 +370,7 @@ class Debriefing:
 
     def dead_ground_units(self) -> GroundLosses:
         losses = GroundLosses()
+        untracked: List[str] = []
         for unit_name in self.state_data.killed_ground_units:
             front_line_unit = self.unit_map.front_line_unit(unit_name)
             if front_line_unit is not None:
@@ -351,6 +378,14 @@ class Debriefing:
                     losses.player_front_line.append(front_line_unit)
                 else:
                     losses.enemy_front_line.append(front_line_unit)
+                continue
+
+            motorpool_unit = self.unit_map.motorpool_unit(unit_name)
+            if motorpool_unit is not None:
+                if motorpool_unit.origin.captured.is_blue:
+                    losses.player_motorpool.append(motorpool_unit)
+                else:
+                    losses.enemy_motorpool.append(motorpool_unit)
                 continue
 
             convoy_unit = self.unit_map.convoy_unit(unit_name)
@@ -398,13 +433,19 @@ class Debriefing:
                     losses.enemy_airfields.append(airfield)
                 continue
 
-            # Only logging as debug because we don't currently track infantry
-            # deaths, so we expect to see quite a few unclaimed dead ground
-            # units. We should start tracking those and covert this to a
-            # warning.
+            # We don't track infantry or map/scenery objects, so a mission can
+            # end with thousands of these unclaimed deaths. Collect them and log
+            # one summary instead of a line each: per-unit logging here floods
+            # the handlers (a file stat + flush per line, plus the log-window UI
+            # hook) and froze the debrief for ~20s on busy missions.
+            untracked.append(unit_name)
+
+        if untracked:
             logging.debug(
-                f"Death of untracked ground unit {unit_name} will "
-                "have no effect. This may be normal behavior."
+                "%d untracked ground unit deaths had no effect (untracked "
+                "infantry or map/scenery objects). First few: %s",
+                len(untracked),
+                ", ".join(untracked[:10]),
             )
 
         for unit_name in self.state_data.killed_aircraft:

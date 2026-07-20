@@ -8,6 +8,7 @@ from typing import Optional, TYPE_CHECKING
 
 from game.debriefing import Debriefing
 from game.missiongenerator import MissionGenerator
+from game.settings.settings import FastForwardStopCondition, CombatResolutionMethod
 from game.unitmap import UnitMap
 from .aircraftsimulation import AircraftSimulation
 from .missionresultsprocessor import MissionResultsProcessor
@@ -39,11 +40,39 @@ class MissionSimulation:
         self.time = self.game.conditions.start_time
         self.aircraft_simulation.begin_simulation()
 
-    def tick(self, events: GameUpdateEvents) -> GameUpdateEvents:
+    def tick(
+        self,
+        events: GameUpdateEvents,
+        combat_resolution_method: CombatResolutionMethod,
+        force_continue: bool,
+    ) -> GameUpdateEvents:
         self.time += TICK
         if self.completed:
             raise RuntimeError("Simulation already completed")
-        self.aircraft_simulation.on_game_tick(events, self.time, TICK)
+        if (
+            self.game.settings.fast_forward_stop_condition
+            == FastForwardStopCondition.DISABLED
+        ):
+            events.complete_simulation()
+            return events
+
+        # Stop fast forward if there are no clients and the settings require a player to reach a certain state.
+        if (
+            not self.game.ato_has_clients()
+            and self.game.settings.fast_forward_stop_condition
+            in {
+                FastForwardStopCondition.PLAYER_TAKEOFF,
+                FastForwardStopCondition.PLAYER_TAXI,
+                FastForwardStopCondition.PLAYER_STARTUP,
+                FastForwardStopCondition.PLAYER_AT_IP,
+            }
+        ):
+            events.complete_simulation()
+            return events
+
+        self.aircraft_simulation.on_game_tick(
+            events, self.time, TICK, combat_resolution_method, force_continue
+        )
         self.completed = events.simulation_complete
         return events
 

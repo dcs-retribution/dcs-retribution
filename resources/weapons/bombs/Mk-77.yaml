@@ -1,0 +1,11 @@
+name: Mk-77 fire bomb
+year: 1970
+clsids:
+  - "{Mk77_mod0}"   # Mk-77 Mod 0
+  - "{Mk77_mod5}"   # Mk-77 Mod 5
+  - "{mk77mod0}"   # Mk-77 mod 0 - 750lb Fire Bomb LD
+  - "{mk77mod1}"   # Mk-77 mod 1 - 500lb Fire Bomb LD
+  - "{Mk-77 mod 1_TER_2_L}"   # 2 x Mk-77 mod 1 - 500lb Fire Bomb LD (TER)
+  - "{Mk-77 mod 1_TER_2_R}"   # 2 x Mk-77 mod 1 - 500lb Fire Bomb LD (TER)
+  - "{Mk-77 mod 1_TER_2_C}"   # 2 x Mk-77 mod 1 - 500lb Fire Bomb LD (TER)
+  - "{Mk-77 mod 1_MER_4_C}"   # 4 x Mk-77 mod 1 - 500lb Fire Bomb LD (MER)
