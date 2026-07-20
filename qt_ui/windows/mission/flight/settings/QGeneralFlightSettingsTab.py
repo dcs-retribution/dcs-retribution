@@ -2,6 +2,7 @@ from PySide6.QtCore import Signal
 from PySide6.QtWidgets import QFrame, QGridLayout, QVBoxLayout
 
 from game.ato.flight import Flight
+from game.ato.flightmember import apply_default_player_laser_code
 from qt_ui.models import PackageModel, GameModel
 from qt_ui.windows.mission.flight.payload.QFlightPayloadTab import QFlightPayloadTab
 from qt_ui.windows.mission.flight.settings.FlightPlanPropertiesGroup import (
@@ -74,5 +75,20 @@ class QGeneralFlightSettingsTab(QFrame):
         self.setLayout(layout)
 
     def on_player_toggle(self) -> None:
+        # When a flight member's player flag changes, reconcile their laser code
+        # with the campaign default. AI -> player members get the configured
+        # default applied (mirroring how new player flights are seeded). Player
+        # -> AI members release any owned code back to the registry.
+        coalition_game = self.flight.coalition.game
+        for member in self.flight.iter_members():
+            if not member.is_player and member.tgp_laser_code is not None:
+                member.release_tgp_laser_code()
+            elif member.is_player and member.tgp_laser_code is None:
+                apply_default_player_laser_code(
+                    member,
+                    coalition_game.settings,
+                    coalition_game.laser_code_registry,
+                )
         self.payload_tab.property_editor.build_props(self.flight)
         self.payload_tab.own_laser_code_info.bind_to_selected_member()
+        self.payload_tab.weapon_laser_code_selector.rebuild()

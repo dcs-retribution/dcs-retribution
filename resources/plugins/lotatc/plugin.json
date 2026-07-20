@@ -1,5 +1,6 @@
 {
     "nameInUI": "LotATC Export",
+    "descriptionInUI": "Exports anti-air sites to LotATC so GCI controllers can see the SAM/AAA picture on the LotATC radar scope.",
     "defaultValue": false,
     "specificOptions": [
         {

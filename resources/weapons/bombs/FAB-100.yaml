@@ -1,0 +1,10 @@
+name: FAB-100
+year: 1946
+clsids:
+  - "I16_FAB_100SV"   # FAB-100SV
+  - "{FAB-100-4}"   # FAB-100 x 4
+  - "Herc_Ammo_FAB100_bombs"   # Ammo FAB-100*20 [4400lb
+  - "FAB_100M"   # FAB-100M - 100kg GP Bomb LD
+  - "{Su30_MBD3-U6-68-100}"   # MBD3-U6-68 with 6 x FAB-100 - 100kg
+  - "{CEE04106-B9AA-46B4-9CD1-CD3FDCF0CE78}"   # MBD3 with 3 x FAB-100 - 100kg GP Bombs LD
+  - "{5F1C54C0-0ABD-4868-A883-B52FF9FCB422}"   # MBD3-U9M with 9 x FAB-100 - 100kg GP Bombs LD

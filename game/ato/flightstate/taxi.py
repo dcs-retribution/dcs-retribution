@@ -47,6 +47,17 @@ class Taxi(AtDeparture):
                 "reached taxi time"
             )
             return True
+        if (
+            self.settings.fast_forward_stop_condition
+            in {
+                FastForwardStopCondition.PLAYER_STARTUP,
+            }
+            and self.flight.client_count > 0
+        ):
+            logging.info(
+                f"Interrupting simulation because {self.flight} has players and is already taxiing "
+            )
+            return True
         return False
 
     @property

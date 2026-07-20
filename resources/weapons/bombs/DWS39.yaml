@@ -1,0 +1,11 @@
+name: DWS39 / BK-90
+year: 1995
+clsids:
+  - "{DWS39_MJ1}"   # DWS39 MJ1
+  - "{DWS39_MJ2}"   # DWS39 MJ2
+  - "{DWS39_MJ1_MJ2}"   # DWS39 MJ1-MJ2
+  - "{JAS39_DWS39_TV}"   # DWS 39 MJ2 TV Guided Cluster Bomb
+  - "{BK90MJ2}"   # BK-90 MJ2 (24 x MJ2 HEAT Bomblets)
+  - "{BK90MJ1}"   # BK-90 MJ1 (72 x MJ1 HE-FRAG Bomblets)
+  - "{JAS39_DWS39_ARM}"   # DWS 39 MJ2 Anti-radiation Cluster Bomb
+  - "{BK90}"   # BK-90 MJ1+2 (12x MJ2 HEAT / 36x MJ1 HE-FRAG Bomblets)

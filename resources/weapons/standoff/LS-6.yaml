@@ -1,0 +1,13 @@
+name: LS-6
+year: 2010
+clsids:
+  - "DIS_LS_6_100"   # LS-6-100
+  - "{LS6_100}"   # LS-6-100
+  - "DIS_LS_6_250"   # LS-6-250
+  - "{LS-6-250}"   # LS-6-250
+  - "DIS_LS_6_500"   # LS-6-500
+  - "{LS-6-500}"   # LS-6-500
+  - "DIS_LS_6_100_DUAL_L"   # LS-6-100 Dual
+  - "DIS_LS_6_100_DUAL_R"   # LS-6-100 Dual
+  - "DIS_LS_6_250_DUAL_L"   # LS-6-250 Dual
+  - "DIS_LS_6_250_DUAL_R"   # LS-6-250 Dual

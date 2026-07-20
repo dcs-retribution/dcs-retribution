@@ -2,6 +2,7 @@ import argparse
 import logging
 import ntpath
 import sys
+import tempfile
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
@@ -410,8 +411,47 @@ def dump_task_priorities() -> None:
         yaml.dump(data, output, sort_keys=False, allow_unicode=True)
 
 
+_single_instance_lock = None  # held lock-file handle; the OS frees it on exit
+
+
+def _acquire_single_instance_lock() -> bool:
+    """Become the only running instance; return False if another one holds the lock.
+
+    Uses an OS advisory lock on a temp file that the OS releases automatically when
+    this process exits, even on a crash. Without it, relaunching the executable
+    starts a second process that cannot bind the already-used web-server port, hangs
+    without ever showing a window, and is left orphaned when the first window closes.
+    """
+    global _single_instance_lock
+    lock_path = Path(tempfile.gettempdir()) / "dcs_retribution.lock"
+    try:
+        handle = open(lock_path, "w")
+    except OSError:
+        return True  # never block startup on a lock-file problem
+    try:
+        if sys.platform == "win32":
+            import msvcrt
+
+            msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
+        else:
+            import fcntl
+
+            fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except OSError:
+        handle.close()
+        return False
+    _single_instance_lock = handle  # keep open for the lifetime of the process
+    return True
+
+
 def main():
     logging_config.init_logging(VERSION)
+
+    if not _acquire_single_instance_lock():
+        logging.warning(
+            "DCS Retribution is already running; exiting this duplicate instance."
+        )
+        sys.exit(0)
 
     logging.debug("Python version %s", sys.version)
 

@@ -1,0 +1,6 @@
+name: RB-04E
+year: 1975
+clsids:
+  - "{Rb_04}"   # RB-04E
+  - "{Rb04_HB}"   # Rb-04E Anti-ship Missile
+  - "{Rb04AI}"   # RB-04E (for A.I.) with launcher

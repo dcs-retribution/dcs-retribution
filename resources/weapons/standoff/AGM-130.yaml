@@ -1,0 +1,6 @@
+name: AGM-130
+year: 1994
+fallback: GBU-15
+clsids:
+  - "{F111C_AGM_130}"   # AGM-130 TV Guided Missile
+  - "{AGM_130C_9}"   # AGM-130C-9 - 3000lb TV (EO) Guided Missile

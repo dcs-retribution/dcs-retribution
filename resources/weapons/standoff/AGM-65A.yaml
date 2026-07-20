@@ -2,6 +2,9 @@ name: AGM-65A
 year: 1972
 fallback: AGM-62 Walleye II
 clsids:
-  - "LAU_117_AGM_65A"
-  - "{HB_F4E_AGM-65A_LAU117}"
-  - "{HB_F4E_AGM-65A_LAU117_SWA}"
+  - "{RB75}"   # Rb-75A (AGM-65A Maverick) (TV ASM)
+  - "{HB_F4E_AGM-65A_LAU117}"   # AGM-65A - Maverick A (TV Guided) (LAU-117)
+  - "{HB_F4EAGM-65A_LAU88_1x}"   # 1x AGM-65A - Maverick A (TV Guided) (LAU-88)
+  - "{RB75T}"   # Rb-75T (AGM-65A Maverick) (TV ASM Lg HE Whd)
+  - "LAU_117_AGM_65A"   # LAU-117 with AGM-65A - Maverick A (TV Guided)
+  - "{HB_F4E_AGM-65A_LAU117_SWA}"   # (Special Weapons Adapter) AGM-65A - Maverick A (TV Guided) (LAU-117)(Special Weapons Adapter) 

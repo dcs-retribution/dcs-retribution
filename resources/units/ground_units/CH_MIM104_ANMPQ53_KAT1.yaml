@@ -1,0 +1,10 @@
+class: SearchTrackRadar
+price: 22
+variants:
+  "[CH] MIM-104 AN/MPQ-53 STR (KAT1)": null
+skynet_properties: # Override skynet default properties
+  can_engage_harm: true
+  go_live_range_in_percent: 100
+  harm_detection_chance: 90
+  engagement_zone: SkynetIADSAbstractRadarElement.GO_LIVE_WHEN_IN_KILL_ZONE
+  autonomous_behaviour: SkynetIADSAbstractRadarElement.AUTONOMOUS_STATE_DCS_AI

@@ -23,6 +23,7 @@ from game.data.weapons import WeaponType
 from game.dcs.aircrafttype import AircraftType
 from game.lasercodes.lasercoderegistry import LaserCodeRegistry
 from game.missiongenerator.aircraft.flightdata import FlightData
+from game.missiongenerator.countryassigner import CountryAssigner
 from game.missiongenerator.missiondata import MissionData
 from game.pretense.pretenseflightgroupconfigurator import (
     PretenseFlightGroupConfigurator,
@@ -74,6 +75,7 @@ class PretenseAircraftGenerator:
         ground_spawns_roadbase: dict[ControlPoint, list[Tuple[StaticGroup, Point]]],
         ground_spawns_large: dict[ControlPoint, list[Tuple[StaticGroup, Point]]],
         ground_spawns: dict[ControlPoint, list[Tuple[StaticGroup, Point]]],
+        country_assigner: CountryAssigner,
     ) -> None:
         self.mission = mission
         self.settings = settings
@@ -90,6 +92,7 @@ class PretenseAircraftGenerator:
         self.ground_spawns_roadbase = ground_spawns_roadbase
         self.ground_spawns_large = ground_spawns_large
         self.ground_spawns = ground_spawns
+        self.country_assigner = country_assigner
 
         self.ewrj_package_dict: Dict[int, List[FlyingGroup[Any]]] = {}
         self.ewrj = settings.plugins.get("ewrj")
@@ -882,7 +885,6 @@ class PretenseAircraftGenerator:
 
     def generate_packages(
         self,
-        country: Country,
         ato: AirTaskingOrder,
         dynamic_runways: Dict[str, RunwayData],
     ) -> None:
@@ -912,6 +914,11 @@ class PretenseAircraftGenerator:
                     logging.info(
                         f"Generating flight: {flight.unit_type} for {flight.flight_type.name}"
                     )
+                    # Spawn each flight under its squadron's own DCS country so
+                    # mixed-nation (CJTF) sides get nation-specific voiceovers /
+                    # comms (#627), matching the base AircraftGenerator. Falls
+                    # back to the faction country for unregistered squadrons.
+                    country = self.country_assigner.for_squadron(flight.squadron)
                     try:
                         group = self.create_and_configure_flight(
                             flight, country, dynamic_runways

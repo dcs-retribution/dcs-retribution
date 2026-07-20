@@ -225,7 +225,9 @@ local function escort_leash_get_group(id)
     if not group_id or group_id <= 0 then
         return nil
     end
-    return Group.getByID(group_id)
+    -- DCS has no Group.getByID; resolve the mission group id to a name via mist.
+    local data = mist.DBs.groupsById and mist.DBs.groupsById[group_id]
+    return data and Group.getByName(data.groupName) or nil
 end
 
 local function escort_leash_set_roe(group, roe)

@@ -198,7 +198,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         modLayout_row = 1
 
         mod_pairs = [
-            ("A-4E Skyhawk (v2.2.0)", self.a4_skyhawk),
+            ("A-4E Skyhawk (v2.3.0)", self.a4_skyhawk),
             ("A-6A Intruder (v2.7.5.01)", self.a6a_intruder),
             ("A-7E Corsair II", self.a7e_corsair2),
             ("C-130J-30 Super Hercules (v6.8.2)", self.hercules),
@@ -216,7 +216,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
                 self.swedishmilitaryassetspack,
             ),
             (
-                "CurrentHill USA Military Assets pack (1.1.5)",
+                "CurrentHill USA Military Assets pack (1.5.0)",
                 self.usamilitaryassetspack,
             ),
             (
@@ -243,8 +243,11 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("F-84G Thunderjet (v2.5.7.01)", self.f84g_thunderjet),
             ("F-111C Aardvark (Warpig Production v2.260208)", self.f111c),
             ("F9F Panther (v2.8.7.101)", self.f9f_panther),
-            ("F/A-18E/F/G Super Hornet (version 2.4.5)", self.fa_18efg),
-            ("F/A-18E/F Super Hornet AI Tanker (version 2.4.5)", self.fa18ef_tanker),
+            ("F/A-18E/F/G Super Hornet (version 2.4.5.260501.RC1)", self.fa_18efg),
+            (
+                "F/A-18E/F Super Hornet AI Tanker (version 2.4.5.260501.RC1)",
+                self.fa18ef_tanker,
+            ),
             ("Frenchpack (v4.9.1)", self.frenchpack),
             ("High Digit SAMs (v1.4.0)", self.high_digit_sams),
             ("IDF Assets Pack (v1.1 by IDF Mods Project)", self.irondome),

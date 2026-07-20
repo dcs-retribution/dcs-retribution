@@ -4,6 +4,8 @@ from typing import TYPE_CHECKING, Any, Optional
 
 from game.ato.loadouts import Loadout
 from game.lasercodes import LaserCode
+from game.lasercodes.lasercoderegistry import LaserCodeRegistry
+from game.settings.settings import DefaultPlayerLaserCode, Settings
 
 if TYPE_CHECKING:
     from game.squadrons import Pilot
@@ -47,3 +49,24 @@ class FlightMember:
         if self.pilot is None:
             return False
         return self.pilot.player
+
+
+def apply_default_player_laser_code(
+    member: FlightMember,
+    settings: Settings,
+    registry: LaserCodeRegistry,
+) -> None:
+    """Apply the campaign-level default laser code to a newly-created flight member.
+
+    AI members are untouched. For player members when the setting is
+    ALLOCATE_OWN, a unique code is allocated and assigned to both the TGP
+    (kneeboard) code and the weapon code, so the player's LGBs home on their own
+    code by default while remaining independently overridable in the payload tab.
+    When the setting is DEFAULT_1688 both are left unset, falling back to 1688.
+    """
+    if not member.is_player:
+        return
+    if settings.default_player_laser_code is DefaultPlayerLaserCode.ALLOCATE_OWN:
+        code = registry.alloc_laser_code()
+        member.assign_tgp_laser_code(code)
+        member.weapon_laser_code = code

@@ -2,6 +2,7 @@ name: AGM-65G
 year: 1989
 fallback: AGM-65F
 clsids:
-  - "LAU_117_AGM_65G"
-  - "{LAU_117A_AGM_65G}"
-  - "{HB_F4E_AGM-65G_LAU117}"
+  - "Herc_Ammo_AGM_65G_missiles"   # Ammo AGM-65G*10 [6622lb]
+  - "{HB_F4E_AGM-65G_LAU117}"   # AGM-65G - Maverick G (IIR ASM - Lg Whd) (LAU-117)
+  - "LAU_117_AGM_65G"   # LAU-117 with AGM-65G - Maverick G (IIR ASM - Lg Whd)
+  - "{LAU_117A_AGM_65G}"   # LAU-117/A with AGM-65G - Maverick G (IIR ASM - Lrg Whd)

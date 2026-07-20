@@ -1,0 +1,8 @@
+name: AN/AVQ-23 Pave Spike
+type: TGP
+year: 1974
+clsids:
+  - "{HB_PAVE_SPIKE}"
+  - "{HB_PAVE_SPIKE_FAST_TRACK}"
+  - "{HB_PAVE_SPIKE_ON_ADAPTER_IN_AERO7}"
+  - "{HB_PAVE_SPIKE_FAST_ON_ADAPTER_IN_AERO7}"

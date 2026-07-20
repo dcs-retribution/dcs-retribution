@@ -2,5 +2,13 @@ name: R-77
 year: 2002
 fallback: R-27ER
 clsids:
-  - "{B4C01D60-A8A3-4237-BD72-CA7655BC0FE9}"
-  - "{B4C01D60-A8A3-4237-BD72-CA7655BC0FEC}"
+  - "{RVV-AE}"   # R-77PD Active rdr
+  - "Herc_Ammo_R77_missiles"   # Ammo R-77*24 [9240lb]
+  - "{DUAL_77M}"   # R-77M (AA-12 Adder C) x 2
+  - "{DUAL_771}"   # R-77-1 (AA-12 Adder B) x 2
+  - "{B4C01D60-A8A3-4237-BD72-CA7655BC0FE9}"   # R-77 (AA-12 Adder) - Active Rdr
+  - "{B4C01D60-A8A3-4237-BD72-CA7655BC0FEC}"   # R-77 (AA-12 Adder) - Active Rdr
+  - "{SU30_R77M}"   # R-77M (AA-12 Adder C) - Active Rdr
+  - "{SU30_R771}"   # R-77-1 (AA-12 Adder B) - Active Rdr
+  - "{SU30_R77}"   # R-77 (AA-12 Adder Early) - Active Rdr
+  - "{SU30_R77PD}"   # R-77PD (AA-12 Adder) - Active Rdr Ramjet

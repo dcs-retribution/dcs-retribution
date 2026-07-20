@@ -2,17 +2,92 @@ name: Mk 83
 year: 1955
 fallback: 2xMk 82
 clsids:
-  - "{MAK79_MK83 1R}"
-  - "{MAK79_MK83 1L}"
-  - "{BRU-32 MK-83}"
-  - "{Mk_83BT}"
-  - "{Mk_83CT}"
-  - "{Mk_83P}"
-  - "{Mk_83PT}"
-  - "{BRU42_MK83 RS}"
-  - "{BRU3242_MK83 RS}"
-  - "{PHXBRU3242_MK83 RS}"
-  - "{7A44FF09-527C-4B7E-B42B-3F111CFE50FB}"
-  - "{BRU42_MK83 LS}"
-  - "{BRU3242_MK83 LS}"
-  - "{PHXBRU3242_MK83 LS}"
+  - "{BRU-32 MK-83}"   # Mk-83
+  - "{BRU42_MK83 RS}"   # Mk-83
+  - "{BRU3242_MK83 RS}"   # Mk-83
+  - "{PHXBRU3242_MK83 RS}"   # Mk-83
+  - "{BRU42_MK83 LS}"   # Mk-83
+  - "{BRU3242_MK83 LS}"   # Mk-83
+  - "{PHXBRU3242_MK83 LS}"   # Mk-83
+  - "{BRU-42_3*Mk-83}"   # 3 Mk-83
+  - "{Mk_83CT}"   # Mk-83CT
+  - "{Mk83AIR}"   # Mk-83AIR
+  - "{MAK79_MK83 1R}"   # MAK79 Mk-83
+  - "{MAK79_MK83 1L}"   # MAK79 Mk-83
+  - "{MAK79_MK83 3L}"   # MAK79 3 Mk-83
+  - "{MAK79_MK83 3R}"   # MAK79 3 Mk-83
+  - "{BRU42A_2_L*MK83}"   # BRU-42A - 2 x Mk-83
+  - "{BRU42A_2_R*MK83}"   # BRU-42A - 2 x Mk-83
+  - "{BRU42A_3*MK83}"   # BRU-42A - 3 x Mk-83
+  - "{JAS39_MK83}"   # Mk-83 1000 lb GP Bomb
+  - "Herc_Ammo_Mk_83_bombs"   # Ammo Mk-83*10 [9834lb]
+  - "{BRU42A_2_L*MK83AIR}"   # BRU-42A - 2 x Mk-83AIR
+  - "{BRU42A_2_R*MK83AIR}"   # BRU-42A - 2 x Mk-83AIR
+  - "{BRU42A_3*MK83AIR}"   # BRU-42A - 3 x Mk-83AIR
+  - "{JAS39_BRU33_MK83}"   # 2 x Mk-83 1000 lb GP Bomb
+  - "{7A44FF09-527C-4B7E-B42B-3F111CFE50FB}"   # Mk-83 - 1000lb GP Bomb LD
+  - "{HB_A6E_MK83_MER_1x}"   # 1x Mk-83 - 1000lb GP Bomb LD (MER)
+  - "{HB_A6E_MK83_MER_2x_RIGHT}"   # 2x Mk-83 - 1000lb GP Bomb LD (MER)
+  - "{HB_A6E_MK83_MER_2x_LEFT}"   # 2x Mk-83 - 1000lb GP Bomb LD (MER)
+  - "{HB_F4E_MK-83_MER_2x}"   # 2x Mk-83 - 1000lb GP Bomb LD (MER)
+  - "{HB_A6E_MK83_TER_2x_RIGHT}"   # 2x Mk-83 - 1000lb GP Bomb LD (TER)
+  - "{HB_A6E_MK83_TER_2x_LEFT}"   # 2x Mk-83 - 1000lb GP Bomb LD (TER)
+  - "{HB_F4E_MK-83_2x_Left}"   # 2x Mk-83 - 1000lb GP Bomb LD (TER)
+  - "{HB_F4E_MK-83_2x_Right}"   # 2x Mk-83 - 1000lb GP Bomb LD (TER)
+  - "{HB_A6E_MK83_MER_3x_FWD}"   # 3x Mk-83 - 1000lb GP Bomb LD (MER)
+  - "{HB_A6E_MK83_MER_3x_AFT}"   # 3x Mk-83 - 1000lb GP Bomb LD (MER)
+  - "{HB_F4E_MK-83_MER_3x}"   # 3x Mk-83 - 1000lb GP Bomb LD (MER)
+  - "{HB_A6E_MK83_TER_3x}"   # 3x Mk-83 - 1000lb GP Bomb LD (TER)
+  - "{HB_F4E_MK-83_3x}"   # 3x Mk-83 - 1000lb GP Bomb LD (TER)
+  - "{CLB30_MK83}"   # CLB 30 - Mk-83 - 1000lb GP Bomb LD
+  - "{Mk-83_TER_2_C}"   # 2 x Mk-83 - 1000lb GP Bomb LD (TER)
+  - "{Mk-83_TER_3_C}"   # 3 x Mk-83 - 1000lb GP Bomb LD (TER)
+  - "{HB_F4E_MK-83_MER_1x_Left_Ripple}"   # 1x Mk-83 - 1000lb GP Bomb LD (MER) Ripple
+  - "{HB_F4E_MK-83_MER_1x_Right_Ripple}"   # 1x Mk-83 - 1000lb GP Bomb LD (MER) Ripple
+  - "{HB_F4E_MK-83_MER_3x_Ripple}"   # 3x Mk-83 - 1000lb GP Bomb LD (MER) Ripple
+  - "{Mk_83AIR}"   # Mk-83 AIR (BSU-85) - 1000 lb GP Chute Retarded Bomb HD
+  - "{SUPERHORNET_PYLON_02_OB_MK_1X_MK-83}"   #  [ STA 02	  | SUU80 | BRU32   ] - 1x Mk-83 - 1000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_02_MB_MK_1X_MK-83}"   #  [ STA 03	  | SUU79 | BRU32   ] - 1x Mk-83 - 1000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_03_MB_MK_1X_MK-83}"   #  [ STA 03	  | SUU79 | BRU32   ] - 1x Mk-83 - 1000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_02_MB_MK_BR2_MK-83}"   #  [ STA 03	  | SUU79 | BRU33   ] - 2x Mk-83 - 1000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_03_MB_MK_BR2_MK-83}"   #  [ STA 03	  | SUU79 | BRU33   ] - 2x Mk-83 - 1000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_03_IB_MK_BR2_MK-83}"   #  [ STA 04	  | SUU79 | BRU33   ] - 2x Mk-83 - 1000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_03_IB_MK_1X_MK-83}"   #  [ STA 04	  | SUU80 | BRU32   ] - 1x Mk-83 - 1000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_06_CN_MK_1X_MK-83}"   #  [ STA 06	  | SUU78 | BRU32   ] - 1x Mk-83 - 1000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_06_CN_MK_2X_MK-83}"   #  [ STA 06	  | SUU78 | BRU33   ] - 2x Mk-83 - 1000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_09_IB_MK_BR2_MK-83}"   #  [ STA 08	  | SUU79 | BRU33   ] - 2x Mk-83 - 1000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_09_IB_MK_1X_MK-83}"   #  [ STA 08	  | SUU80 | BRU32   ] - 1x Mk-83 - 1000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_10_MB_MK_1X_MK-83}"   #  [ STA 09	  | SUU79 | BRU32   ] - 1x Mk-83 - 1000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_09_MB_MK_BR2_MK-83}"   #  [ STA 09	  | SUU79 | BRU33   ] - 2x Mk-83 - 1000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_10_MB_MK_BR2_MK-83}"   #  [ STA 09	  | SUU79 | BRU33   ] - 2x Mk-83 - 1000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_09_MB_MK_1X_MK-83}"   #  [ STA 09	  | SUU80 | BRU32   ] - 1x Mk-83 - 1000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_10_OB_MK_1X_MK-83}"   #  [ STA 10	  | SUU80 | BRU32   ] - 1x Mk-83 - 1000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_02_OB_MB_MK_2X_MK-83}"   #  [ STA 03/02 | 79 / 80 | BRU32   ] - 2x Mk-83 - 1000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_02_OB_IB_MK_2X_MK-83}"   #  [ STA 04/02 | 79 / 80 | BRU32   ] - 2x Mk-83 - 1000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_10_OB_MB_MK_2X_MK-83}"   #  [ STA 09/10 | 79 / 80 | BRU32   ] - 2x Mk-83 - 1000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_10_OB_IB_MK_2X_MK-83}"   #  [ STA 10/08 | 79 / 80 | BRU32   ] - 2x Mk-83 - 1000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_03_IB_MB_MK_MK-83}"   #  [ STA 04/03 | SUU79 | BRU32   ] - 1x/1x Mk-83 - 1000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_09_IB_MB_MK_MK-83}"   #  [ STA 09/08 | SUU79 | BRU32   ] - 1x/1x Mk-83 - 1000lb GP Bomb LD
+  - "{BRU33_2X_MK-83AIR}"   # BRU-33 with 2 x Mk-83 AIR (BSU-85) - 1000 lb GP Chute Retarded Bomb HD
+  - "{SUPERHORNET_PYLON_02_OB_MK_1X_MK-83AIR}"   #  [ STA 02	  | SUU80 | BRU32   ] - 1x Mk-83 AIR (BSU-85) - 1000 lb GP Chute Retarded Bomb HD
+  - "{SUPERHORNET_PYLON_02_MB_MK_1X_MK-83AIR}"   #  [ STA 03	  | SUU79 | BRU32   ] - 1x Mk-83 AIR (BSU-85) - 1000 lb GP Chute Retarded Bomb HD
+  - "{SUPERHORNET_PYLON_03_MB_MK_1X_MK-83AIR}"   #  [ STA 03	  | SUU79 | BRU32   ] - 1x Mk-83 AIR (BSU-85) - 1000 lb GP Chute Retarded Bomb HD
+  - "{SUPERHORNET_PYLON_02_MB_MK_BR2_MK-83AIR}"   #  [ STA 03	  | SUU79 | BRU33   ] - 2x Mk-83 AIR (BSU-85) - 1000 lb GP Chute Retarded Bomb HD
+  - "{SUPERHORNET_PYLON_03_MB_MK_BR2_MK-83AIR}"   #  [ STA 03	  | SUU79 | BRU33   ] - 2x Mk-83 AIR (BSU-85) - 1000 lb GP Chute Retarded Bomb HD
+  - "{SUPERHORNET_PYLON_03_IB_MK_BR2_MK-83AIR}"   #  [ STA 04	  | SUU79 | BRU33   ] - 2x Mk-83 AIR (BSU-85) - 1000 lb GP Chute Retarded Bomb HD
+  - "{SUPERHORNET_PYLON_03_IB_MK_1X_MK-83AIR}"   #  [ STA 04	  | SUU80 | BRU32   ] - 1x Mk-83 AIR (BSU-85) - 1000 lb GP Chute Retarded Bomb HD
+  - "{SUPERHORNET_PYLON_06_CN_MK_1X_MK-83AIR}"   #  [ STA 06	  | SUU78 | BRU32   ] - 1x Mk-83 AIR (BSU-85) - 1000 lb GP Chute Retarded Bomb HD
+  - "{SUPERHORNET_PYLON_06_CN_MK_2X_MK-83AIR}"   #  [ STA 06	  | SUU78 | BRU33   ] - 2x Mk-83 AIR (BSU-85) - 1000 lb GP Chute Retarded Bomb HD
+  - "{SUPERHORNET_PYLON_09_IB_MK_BR2_MK-83AIR}"   #  [ STA 08	  | SUU79 | BRU33   ] - 2x Mk-83 AIR (BSU-85) - 1000 lb GP Chute Retarded Bomb HD
+  - "{SUPERHORNET_PYLON_09_IB_MK_1X_MK-83AIR}"   #  [ STA 08	  | SUU80 | BRU32   ] - 1x Mk-83 AIR (BSU-85) - 1000 lb GP Chute Retarded Bomb HD
+  - "{SUPERHORNET_PYLON_10_MB_MK_1X_MK-83AIR}"   #  [ STA 09	  | SUU79 | BRU32   ] - 1x Mk-83 AIR (BSU-85) - 1000 lb GP Chute Retarded Bomb HD
+  - "{SUPERHORNET_PYLON_09_MB_MK_BR2_MK-83AIR}"   #  [ STA 09	  | SUU79 | BRU33   ] - 2x Mk-83 AIR (BSU-85) - 1000 lb GP Chute Retarded Bomb HD
+  - "{SUPERHORNET_PYLON_10_MB_MK_BR2_MK-83AIR}"   #  [ STA 09	  | SUU79 | BRU33   ] - 2x Mk-83 AIR (BSU-85) - 1000 lb GP Chute Retarded Bomb HD
+  - "{SUPERHORNET_PYLON_09_MB_MK_1X_MK-83AIR}"   #  [ STA 09	  | SUU80 | BRU32   ] - 1x Mk-83 AIR (BSU-85) - 1000 lb GP Chute Retarded Bomb HD
+  - "{SUPERHORNET_PYLON_10_OB_MK_1X_MK-83AIR}"   #  [ STA 10	  | SUU80 | BRU32   ] - 1x Mk-83 AIR (BSU-85) - 1000 lb GP Chute Retarded Bomb HD
+  - "{SUPERHORNET_PYLON_02_OB_MB_MK_2X_MK-83AIR}"   #  [ STA 03/02 | 79 / 80 | BRU32   ] - 2x Mk-83 AIR (BSU-85) - 1000 lb GP Chute Retarded Bomb HD
+  - "{SUPERHORNET_PYLON_02_OB_IB_MK_2X_MK-83AIR}"   #  [ STA 04/02 | 79 / 80 | BRU32   ] - 2x Mk-83 AIR (BSU-85) - 1000 lb GP Chute Retarded Bomb HD
+  - "{SUPERHORNET_PYLON_10_OB_MB_MK_2X_MK-83AIR}"   #  [ STA 09/10 | 79 / 80 | BRU32   ] - 2x Mk-83 AIR (BSU-85) - 1000 lb GP Chute Retarded Bomb HD
+  - "{SUPERHORNET_PYLON_10_OB_IB_MK_2X_MK-83AIR}"   #  [ STA 10/08 | 79 / 80 | BRU32   ] - 2x Mk-83 AIR (BSU-85) - 1000 lb GP Chute Retarded Bomb HD
+  - "{SUPERHORNET_PYLON_03_IB_MB_MK_MK-83AIR}"   #  [ STA 04/03 | SUU79 | BRU32   ] - 1x/1x Mk-83 AIR (BSU-85) - 1000 lb GP Chute Retarded Bomb HD
+  - "{SUPERHORNET_PYLON_09_IB_MB_MK_MK-83AIR}"   #  [ STA 09/08 | SUU79 | BRU32   ] - 1x/1x Mk-83 AIR (BSU-85) - 1000 lb GP Chute Retarded Bomb HD

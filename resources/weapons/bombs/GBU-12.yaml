@@ -3,6 +3,55 @@ type: LGB
 year: 1976
 fallback: Mk 82
 clsids:
-  - "DIS_GBU_12"
-  - "{BRU-32 GBU-12}"
-  - "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+  - "DIS_GBU_12"   # GBU-12
+  - "{BRU-32 GBU-12}"   # GBU-12
+  - "{BRU-42A_3*GBU-12}"   # 3 GBU-12
+  - "{CFT_L_GBU_12_x_2}"   # GBU-12 * 2
+  - "{CFT_R_GBU_12_x_2}"   # GBU-12 * 2
+  - "{CFT_L_GBU_12_x_4}"   # GBU-12 * 4
+  - "{CFT_R_GBU_12_x_4}"   # GBU-12 * 4
+  - "{BRU-42A_2*GBU-12_SIDE_LEFT}"   # 2 GBU-12 *-*
+  - "{BRU-42A_2*GBU-12_SIDE_RIGHT}"   # 2 GBU-12 *-*
+  - "{BRU42A_2_L*GBU12}"   # BRU-42A - 2 x GBU-12
+  - "{BRU42A_2_R*GBU12}"   # BRU-42A - 2 x GBU-12
+  - "Herc_Ammo_GBU_12_bombs"   # Ammo GBU-12*16 [9680lb]
+  - "{F111C_GBU12}"   # GBU-12 500 lb TV Guided Bomb
+  - "{JAS39_GBU12}"   # GBU-12 500 lb Laser-guided Bomb
+  - "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"   # GBU-12 - 500lb Laser Guided Bomb
+  - "{JAS39_BRU33_GBU12}"   # 2 x GBU-12 500 lb Laser-guided Bomb
+  - "{B52H_BAY_3x_GBU12}"   # 3 x GBU-12 - 500lb Laser Guided Bomb
+  - "{HB_A6E_GBU12_TER_1x}"   # 1x GBU-12 - 500lb Laser Guided Bomb (TER)
+  - "{HB_A6E_GBU12_MER_2x_RIGHT}"   # 2x GBU-12 - 500lb Laser Guided Bomb (MER)
+  - "{HB_A6E_GBU12_MER_2x_LEFT}"   # 2x GBU-12 - 500lb Laser Guided Bomb (MER)
+  - "{HB_A6E_GBU12_TER_2x}"   # 2x GBU-12 - 500lb Laser Guided Bomb (TER)
+  - "{HB_F4E_GBU-12_2x}"   # 2x GBU-12 - 500lb Laser Guided Bomb (TER)
+  - "{BRUL657_2*GBU-12}"   # Pylon 3,4 GBU-12 - 500lb Laser Guided Bomb
+  - "{BRUR657_2*GBU-12}"   # Pylon 6,7 GBU-12 - 500lb Laser Guided Bomb
+  - "{CSRL_GBU12}"   # CSRL - 8 x GBU-12 - 500lb Laser Guided Bomb
+  - "{HSAB_5x_GBU12}"   # HSAB - 5 x GBU-12 - 500lb Laser Guided Bomb
+  - "{AUF2_GBU12}"   # AUF 2 - 2 x GBU-12 - 500lb Laser Guided Bomb
+  - "{BRU42_1X_GBU-12}"   # BRU-42 with 1 x GBU-12 - 500lb Laser Guided Bomb
+  - "{BRU42_2X_GBU-12_L}"   # BRU-42 with 2 x GBU-12 - 500lb Laser Guided Bomb
+  - "{BRU42_2X_GBU-12_R}"   # BRU-42 with 2 x GBU-12 - 500lb Laser Guided Bomb
+  - "{HB_GBU-12_SWA}"   # (Special Weapons Adapter) GBU-12 - 500lb Laser Guided Bomb
+  - "{HB_F4E_GBU-12_2x_SWA}"   # (Special Weapons Adapter) 2x GBU-12 - 500lb Laser Guided Bomb (TER)
+  - "{SUPERHORNET_PYLON_02_OB_MK_1X_GBU-12}"   #  [ STA 02	  | SUU80 | BRU32   ] - 1x GBU-12 - 500lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_02_MB_MK_1X_GBU-12}"   #  [ STA 03	  | SUU79 | BRU32   ] - 1x GBU-12 - 500lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_03_MB_MK_1X_GBU-12}"   #  [ STA 03	  | SUU79 | BRU32   ] - 1x GBU-12 - 500lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_02_MB_MK_BR2_GBU-12}"   #  [ STA 03	  | SUU79 | BRU33   ] - 2x GBU-12 - 500lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_03_MB_MK_BR2_GBU-12}"   #  [ STA 03	  | SUU79 | BRU33   ] - 2x GBU-12 - 500lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_03_IB_MK_BR2_GBU-12}"   #  [ STA 04	  | SUU79 | BRU33   ] - 2x GBU-12 - 500lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_03_IB_MK_1X_GBU-12}"   #  [ STA 04	  | SUU80 | BRU32   ] - 1x GBU-12 - 500lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_09_IB_MK_BR2_GBU-12}"   #  [ STA 08	  | SUU79 | BRU33   ] - 2x GBU-12 - 500lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_09_IB_MK_1X_GBU-12}"   #  [ STA 08	  | SUU80 | BRU32   ] - 1x GBU-12 - 500lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_10_MB_MK_1X_GBU-12}"   #  [ STA 09	  | SUU79 | BRU32   ] - 1x GBU-12 - 500lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_09_MB_MK_BR2_GBU-12}"   #  [ STA 09	  | SUU79 | BRU33   ] - 2x GBU-12 - 500lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_10_MB_MK_BR2_GBU-12}"   #  [ STA 09	  | SUU79 | BRU33   ] - 2x GBU-12 - 500lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_09_MB_MK_1X_GBU-12}"   #  [ STA 09	  | SUU80 | BRU32   ] - 1x GBU-12 - 500lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_10_OB_MK_1X_GBU-12}"   #  [ STA 10	  | SUU80 | BRU32   ] - 1x GBU-12 - 500lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_02_OB_MB_MK_2X_GBU-12}"   #  [ STA 03/02 | 79 / 80 | BRU32   ] - 2x GBU-12 - 500lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_02_OB_IB_MK_2X_GBU-12}"   #  [ STA 04/02 | 79 / 80 | BRU32   ] - 2x GBU-12 - 500lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_10_OB_MB_MK_2X_GBU-12}"   #  [ STA 09/10 | 79 / 80 | BRU32   ] - 2x GBU-12 - 500lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_10_OB_IB_MK_2X_GBU-12}"   #  [ STA 10/08 | 79 / 80 | BRU32   ] - 2x GBU-12 - 500lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_03_IB_MB_MK_GBU-12}"   #  [ STA 04/03 | SUU79 | BRU32   ] - 1x/1x GBU-12 - 500lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_09_IB_MB_MK_GBU-12}"   #  [ STA 09/08 | SUU79 | BRU32   ] - 1x/1x GBU-12 - 500lb Laser Guided Bomb

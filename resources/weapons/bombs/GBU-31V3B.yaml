@@ -2,4 +2,23 @@ name: GBU-31(V)3/B
 year: 2001
 fallback: GBU-24
 clsids:
-  - "{GBU-31V3B}"
+  - "{CFT_L_GBU_31V3B_x_2}"   # GBU-31(V)3/B * 2
+  - "{CFT_R_GBU_31V3B_x_2}"   # GBU-31(V)3/B * 2
+  - "{BRUL657_1*GBU-31V}"   # Pylon 4 GBU-31(V)3/B - JDAM, 2000lb GPS Guided Bomb
+  - "{BRUR657_1*GBU-31V}"   # Pylon 6 GBU-31(V)3/B - JDAM, 2000lb GPS Guided Bomb
+  - "{BRUL657_2*GBU-31V}"   # Pylon 3,4 GBU-31(V)3/B - JDAM, 2000lb GPS Guided Bomb
+  - "{BRUR657_2*GBU-31V}"   # Pylon 6,7 GBU-31(V)3/B - JDAM, 2000lb GPS Guided Bomb
+  - "{GBU-31V3B}"   # GBU-31(V)3/B - JDAM, 2000lb GPS Guided Penetrator Bomb
+  - "{CSRL_GBU31V3}"   # CSRL - 8 x GBU-31(V)3/B - JDAM, 2000lb GPS Guided Penetrator Bomb
+  - "{HSAB_6x_GBU31V3_L}"   # HSAB - 6 x GBU-31(V)3/B - JDAM, 2000lb GPS Guided Penetrator Bomb
+  - "{HSAB_6x_GBU31V3_R}"   # HSAB - 6 x GBU-31(V)3/B - JDAM, 2000lb GPS Guided Penetrator Bomb
+  - "{SUPERHORNET_PYLON_02_MB_MK_1X_GBU-31V}"   #  [ STA 03	  | SUU79 | BRU32   ] - 1x GBU-31(V)3/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_03_IB_MK_1X_GBU-31V}"   #  [ STA 04	  | SUU80 | BRU32   ] - 1x GBU-31(V)3/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_09_IB_MK_1X_GBU-31V}"   #  [ STA 08	  | SUU80 | BRU32   ] - 1x GBU-31(V)3/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_10_MB_MK_1X_GBU-31V}"   #  [ STA 09	  | SUU79 | BRU32   ] - 1x GBU-31(V)3/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_02_OB_MB_MK_2X_GBU-31V}"   #  [ STA 03/02 | 79 / 80 | BRU32   ] - 2x GBU-31(V)3/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_02_OB_IB_MK_2X_GBU-31V}"   #  [ STA 04/02 | 79 / 80 | BRU32   ] - 2x GBU-31(V)3/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_10_OB_MB_MK_2X_GBU-31V}"   #  [ STA 09/10 | 79 / 80 | BRU32   ] - 2x GBU-31(V)3/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_10_OB_IB_MK_2X_GBU-31V}"   #  [ STA 10/08 | 79 / 80 | BRU32   ] - 2x GBU-31(V)3/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_03_IB_MB_MK_GBU-31V}"   #  [ STA 04/03 | SUU79 | BRU32   ] - 1x/1x GBU-31(V)3/B - JDAM, 2000lb GPS Guided Bomb
+  - "{SUPERHORNET_PYLON_09_IB_MB_MK_GBU-31V}"   #  [ STA 09/08 | SUU79 | BRU32   ] - 1x/1x GBU-31(V)3/B - JDAM, 2000lb GPS Guided Bomb

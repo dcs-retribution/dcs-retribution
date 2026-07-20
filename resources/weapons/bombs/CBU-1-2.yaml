@@ -1,0 +1,34 @@
+name: CBU-1/2 (BLU-3/4)
+year: 1965
+fallback: Mk 82
+clsids:
+  - "{HB_F4E_CBU-2A_MER_1x_Left}"   # 1x CBU-2/A x 19x19 (361) BLU-3 Bomblets, HE (MER)
+  - "{HB_F4E_CBU-2A_MER_1x_Right}"   # 1x CBU-2/A x 19x19 (361) BLU-3 Bomblets, HE (MER)
+  - "{HB_F4E_CBU-2A_MER_1x}"   # 1x CBU-2/A x 19x19 (361) BLU-3 Bomblets, HE (MER)
+  - "{HB_F4E_CBU-2A_MER_2x_Left}"   # 2x CBU-2/A x 19x19 (361) BLU-3 Bomblets, HE (MER)
+  - "{HB_F4E_CBU-2A_MER_2x_Right}"   # 2x CBU-2/A x 19x19 (361) BLU-3 Bomblets, HE (MER)
+  - "{HB_F4E_CBU-1A_MER_1x_Left}"   # 1x CBU-1A/A x 27x19 (513) BLU-4B Bomblets, HE (MER)
+  - "{HB_F4E_CBU-1A_MER_1x_Right}"   # 1x CBU-1A/A x 27x19 (513) BLU-4B Bomblets, HE (MER)
+  - "{HB_F4E_CBU-1A_MER_1x}"   # 1x CBU-1A/A x 27x19 (513) BLU-4B Bomblets, HE (MER)
+  - "{HB_F4E_CBU-2BA_MER_1x_Left}"   # 1x CBU-2B/A x 22x19 (418) BLU-3B Bomblets, HE (MER)
+  - "{HB_F4E_CBU-2BA_MER_1x_Right}"   # 1x CBU-2B/A x 22x19 (418) BLU-3B Bomblets, HE (MER)
+  - "{HB_F4E_CBU-2BA_MER_1x}"   # 1x CBU-2B/A x 22x19 (418) BLU-3B Bomblets, HE (MER)
+  - "{HB_F4E_CBU-1A_MER_2x_Left}"   # 2x CBU-1A/A x 27x19 (513) BLU-4B Bomblets, HE (MER)
+  - "{HB_F4E_CBU-1A_MER_2x_Right}"   # 2x CBU-1A/A x 27x19 (513) BLU-4B Bomblets, HE (MER)
+  - "{HB_F4E_CBU-2BA_MER_2x_Left}"   # 2x CBU-2B/A x 22x19 (418) BLU-3B Bomblets, HE (MER)
+  - "{HB_F4E_CBU-2BA_MER_2x_Right}"   # 2x CBU-2B/A x 22x19 (418) BLU-3B Bomblets, HE (MER)
+  - "{CBU-1/A}"   # CBU-1/A pod - 19 x tubes of Bomblets BLU-4B x 27, HE
+  - "{CBU-1/A*2}"   # CBU-1/A pod - 19 x tubes of Bomblets BLU-4B x 27, HE
+  - "{CBU-2/A}"   # CBU-2/A pod - 19 x tubes of Bomblets BLU-3B x 19, HE
+  - "{CBU-2/A*2}"   # CBU-2/A pod - 19 x tubes of Bomblets BLU-3B x 19, HE
+  - "{CBU-2B/A}"   # CBU-2B/A pod - 19 x tubes of Bomblets BLU-3B x 19, HE
+  - "{CBU-2B/A*2}"   # CBU-2B/A pod - 19 x tubes of Bomblets BLU-3B x 19, HE
+  - "{HB_F4E_CBU-1/A}"   # HB_F4E_CBU-1/A pod - 19 x tubes of Bomblets BLU-3B x 27, HE
+  - "{HB_F4E_CBU-2/A}"   # HB_F4E_CBU-2/A pod - 19 x tubes of Bomblets BLU-3B x 19, HE
+  - "{HB_F4E_CBU-2B/A}"   # HB_F4E_CBU-2B/A pod - 19 x tubes of Bomblets BLU-3B x 22, HE
+  - "{CBU-1/A_TER_2_L}"   # 2 x CBU-1/A pod - 19 x tubes of Bomblets BLU-4B x 27, HE (TER)
+  - "{CBU-1/A_TER_2_R}"   # 2 x CBU-1/A pod - 19 x tubes of Bomblets BLU-4B x 27, HE (TER)
+  - "{CBU-2/A_TER_2_L}"   # 2 x CBU-2/A pod - 19 x tubes of Bomblets BLU-3B x 19, HE (TER)
+  - "{CBU-2/A_TER_2_R}"   # 2 x CBU-2/A pod - 19 x tubes of Bomblets BLU-3B x 19, HE (TER)
+  - "{CBU-2B/A_TER_2_L}"   # 2 x CBU-2B/A pod - 19 x tubes of Bomblets BLU-3B x 19, HE (TER)
+  - "{CBU-2B/A_TER_2_R}"   # 2 x CBU-2B/A pod - 19 x tubes of Bomblets BLU-3B x 19, HE (TER)

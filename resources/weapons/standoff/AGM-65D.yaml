@@ -2,8 +2,12 @@ name: AGM-65D
 year: 1986
 fallback: AGM-65B
 clsids:
-  - "{444BA8AE-82A7-4345-842E-76154EFCCA47}"
-  - "{444BA8AE-82A7-4345-842E-76154EFCCA46}"
-  - "LAU_88_AGM_65D_ONE"
-  - "{HB_F4E_AGM-65D_LAU117}"
-  - "{HB_F4E_AGM-65D_LAU117_SWA}"
+  - "Herc_Ammo_AGM_65D_missiles"   # Ammo AGM-65D*10 [4800lb]
+  - "{444BA8AE-82A7-4345-842E-76154EFCCA47}"   # AGM-65D - Maverick D (IIR ASM)
+  - "{HB_F4E_AGM-65D_LAU117}"   # AGM-65D - Maverick D (IIR ASM) (LAU-117)
+  - "{HB_F4EAGM-65D_LAU88_1x}"   # 1x AGM-65D - Maverick D (IIR ASM) (LAU-88)
+  - "{444BA8AE-82A7-4345-842E-76154EFCCA46}"   # LAU-117 with AGM-65D - Maverick D (IIR ASM)
+  - "{LAU_117A_AGM_65D}"   # LAU-117/A with AGM-65D - Maverick D (IIR ASM)
+  - "LAU_88_AGM_65D_ONE"   # LAU-88 with 1 x AGM-65D - Maverick D (IIR ASM)
+  - "{LAU_88A_AGM_65Dx3}"   # LAU-88/A with 3 x AGM-65D - Maverick D (IIR ASM)
+  - "{HB_F4E_AGM-65D_LAU117_SWA}"   # (Special Weapons Adapter) AGM-65D - Maverick D (IIR ASM) (LAU-117)(Special Weapons Adapter) 

@@ -2,7 +2,33 @@ name: Mk 84
 year: 1955
 fallback: 2xMk 83
 clsids:
-  - "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}"
-  - "{BRU-32 MK-84}"
-  - "{Mk_84P}"
-  - "{Mk_84T}"
+  - "{BRU-32 MK-84}"   # Mk-84
+  - "{CFT_R_MK84LD_x_2}"   # MK-84 * 2
+  - "{CFT_L_MK84LD_x_2}"   # Mk-84 * 2
+  - "{CFT_L_MK84AR_x_2}"   # Mk-84 AIR * 2
+  - "{CFT_R_MK84AR_x_2}"   # Mk-84 AIR * 2
+  - "{CFT_L_BDU56AR_x_2}"   # Mk-84 AIR TP * 2
+  - "{CFT_R_BDU56AR_x_2}"   # Mk-84 AIR TP * 2
+  - "Herc_Ammo_Mk_84_bombs"   # Ammo Mk-84*8 [15735b]
+  - "{JAS39_MK84}"   # Mk-84 2000 lb GP Bomb
+  - "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}"   # Mk-84 - 2000lb GP Bomb LD
+  - "{BRUL657_2*MK-84}"   # Pylon 3,4 Mk-84 - 2000lb GP Bomb LD
+  - "{BRUR657_2*MK-84}"   # Pylon 6,7 Mk-84 - 2000lb GP Bomb LD
+  - "{696CFFC4-0BDE-42A8-BE4B-0BE3D9DD723C}"   # HSAB - 6 x Mk-84 - 2000lb GP Bomb LD
+  - "{Mk_84AIR_GP}"   # Mk-84 AIR (BSU-50) - 2000 lb GP Chute Retarded Bomb HD
+  - "{Mk_84AIR_TP}"   # Mk-84 AIR (BSU-50) - 2000 lb TP Chute Retarded Bomb HD
+  - "{SUPERHORNET_PYLON_02_MB_MK_1X_MK-84}"   #  [ STA 03	  | SUU79 | BRU32   ] - 1x Mk-84 - 2000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_03_MB_MK_1X_MK-84}"   #  [ STA 03	  | SUU79 | BRU32   ] - 1x Mk-84 - 2000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_03_IB_MK_1X_MK-84}"   #  [ STA 04	  | SUU80 | BRU32   ] - 1x Mk-84 - 2000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_06_CN_MK_1X_MK-84}"   #  [ STA 06	  | SUU78 | BRU32   ] - 1x Mk-84 - 2000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_06_CN_MK_2X_MK-84}"   #  [ STA 06	  | SUU78 | BRU33   ] - 2x Mk-84 - 2000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_09_IB_MK_1X_MK-84}"   #  [ STA 08	  | SUU80 | BRU32   ] - 1x Mk-84 - 2000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_10_MB_MK_1X_MK-84}"   #  [ STA 09	  | SUU79 | BRU32   ] - 1x Mk-84 - 2000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_09_MB_MK_1X_MK-84}"   #  [ STA 09	  | SUU80 | BRU32   ] - 1x Mk-84 - 2000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_02_OB_MB_MK_2X_MK-84}"   #  [ STA 03/02 | 79 / 80 | BRU32   ] - 2x Mk-84 - 2000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_02_OB_IB_MK_2X_MK-84}"   #  [ STA 04/02 | 79 / 80 | BRU32   ] - 2x Mk-84 - 2000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_10_OB_MB_MK_2X_MK-84}"   #  [ STA 09/10 | 79 / 80 | BRU32   ] - 2x Mk-84 - 2000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_10_OB_IB_MK_2X_MK-84}"   #  [ STA 10/08 | 79 / 80 | BRU32   ] - 2x Mk-84 - 2000lb GP Bomb LD
+  - "{MPRL_Mk84AIR}"   # MPRL - 8 x Mk-84 AIR (BSU-50) - 2000 lb GP Chute Retarded Bomb HD
+  - "{SUPERHORNET_PYLON_03_IB_MB_MK_MK-84}"   #  [ STA 04/03 | SUU79 | BRU32   ] - 1x/1x Mk-84 - 2000lb GP Bomb LD
+  - "{SUPERHORNET_PYLON_09_IB_MB_MK_MK-84}"   #  [ STA 09/08 | SUU79 | BRU32   ] - 1x/1x Mk-84 - 2000lb GP Bomb LD

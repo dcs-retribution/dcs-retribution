@@ -3,6 +3,29 @@ type: LGB
 year: 1976
 fallback: Mk 83
 clsids:
-  - "DIS_GBU_16"
-  - "{BRU-32 GBU-16}"
-  - "{0D33DDAE-524F-4A4E-B5B8-621754FE3ADE}"
+  - "DIS_GBU_16"   # GBU-16
+  - "{BRU-32 GBU-16}"   # GBU-16
+  - "{BRU-42A_3*GBU-16}"   # 3 GBU-16
+  - "Herc_Ammo_GBU_16_bombs"   # Ammo GBU-16*10 [12408lb]
+  - "{F111C_GBU16}"   # GBU-16 1000 lb TV Guided Bomb
+  - "{JAS39_GBU16}"   # GBU-16 1000 lb Laser-guided Bomb
+  - "{0D33DDAE-524F-4A4E-B5B8-621754FE3ADE}"   # GBU-16 - 1000lb Laser Guided Bomb
+  - "{JAS39_BRU33_GBU16}"   # 2 x GBU-16 1000 lb Laser-guided Bomb
+  - "{HB_A6E_GBU16_MER_1x_AFT}"   # 1x GBU-16 - 1000lb Laser Guided Bomb (MER)
+  - "{HB_A6E_GBU16_MER_1x_FWD}"   # 1x GBU-16 - 1000lb Laser Guided Bomb (MER)
+  - "{HB_A6E_GBU16_TER_1x}"   # 1x GBU-16 - 1000lb Laser Guided Bomb (TER)
+  - "{88D49E04-78DF-4F08-B47E-B81247A9E3C5}"   # BRU-42 with 3 x GBU-16 - 1000lb Laser Guided Bombs
+  - "{SUPERHORNET_PYLON_02_OB_MK_1X_GBU-16}"   #  [ STA 02	  | SUU80 | BRU32   ] - 1x GBU-16 - 1000lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_02_MB_MK_1X_GBU-16}"   #  [ STA 03	  | SUU79 | BRU32   ] - 1x GBU-16 - 1000lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_03_MB_MK_1X_GBU-16}"   #  [ STA 03	  | SUU79 | BRU32   ] - 1x GBU-16 - 1000lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_03_IB_MK_1X_GBU-16}"   #  [ STA 04	  | SUU80 | BRU32   ] - 1x GBU-16 - 1000lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_09_IB_MK_1X_GBU-16}"   #  [ STA 08	  | SUU80 | BRU32   ] - 1x GBU-16 - 1000lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_10_MB_MK_1X_GBU-16}"   #  [ STA 09	  | SUU79 | BRU32   ] - 1x GBU-16 - 1000lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_09_MB_MK_1X_GBU-16}"   #  [ STA 09	  | SUU80 | BRU32   ] - 1x GBU-16 - 1000lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_10_OB_MK_1X_GBU-16}"   #  [ STA 10	  | SUU80 | BRU32   ] - 1x GBU-16 - 1000lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_02_OB_MB_MK_2X_GBU-16}"   #  [ STA 03/02 | 79 / 80 | BRU32   ] - 2x GBU-16 - 1000lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_02_OB_IB_MK_2X_GBU-16}"   #  [ STA 04/02 | 79 / 80 | BRU32   ] - 2x GBU-16 - 1000lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_10_OB_MB_MK_2X_GBU-16}"   #  [ STA 09/10 | 79 / 80 | BRU32   ] - 2x GBU-16 - 1000lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_10_OB_IB_MK_2X_GBU-16}"   #  [ STA 10/08 | 79 / 80 | BRU32   ] - 2x GBU-16 - 1000lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_03_IB_MB_MK_GBU-16}"   #  [ STA 04/03 | SUU79 | BRU32   ] - 1x/1x GBU-16 - 1000lb Laser Guided Bomb
+  - "{SUPERHORNET_PYLON_09_IB_MB_MK_GBU-16}"   #  [ STA 09/08 | SUU79 | BRU32   ] - 1x/1x GBU-16 - 1000lb Laser Guided Bomb
