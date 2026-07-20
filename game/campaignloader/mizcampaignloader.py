@@ -189,45 +189,54 @@ class MizCampaignLoader:
             if group.units[0].type == self.NEUTRAL_FOB_UNIT_TYPE:
                 yield group
 
+    # Marker-block convention: the RED country block is the coalition-agnostic
+    # default marker block (campaigns author BLUE SAM/EWR sites as red-block
+    # markers near blue fields and proximity decides the owner), so red-block
+    # markers bind to the nearest CP of either side. A group authored in the
+    # BLUE block is an explicit blue-ownership declaration: it was silently
+    # dropped for the classes below (22 authored markers across 7 shipped
+    # campaigns never generated), and now binds with blue preference (see
+    # objective_info).
+
     @property
     def ships(self) -> Iterator[ShipGroup]:
-        for group in self.red.ship_group:
+        for group in itertools.chain(self.blue.ship_group, self.red.ship_group):
             if group.units[0].type == self.SHIP_UNIT_TYPE:
                 yield group
 
     @property
     def offshore_strike_targets(self) -> Iterator[StaticGroup]:
-        for group in self.red.static_group:
+        for group in itertools.chain(self.blue.static_group, self.red.static_group):
             if group.units[0].type == self.OFFSHORE_STRIKE_TARGET_UNIT_TYPE:
                 yield group
 
     @property
     def missile_sites(self) -> Iterator[VehicleGroup]:
-        for group in self.red.vehicle_group:
+        for group in itertools.chain(self.blue.vehicle_group, self.red.vehicle_group):
             if group.units[0].type == self.MISSILE_SITE_UNIT_TYPE:
                 yield group
 
     @property
     def coastal_defenses(self) -> Iterator[VehicleGroup]:
-        for group in self.red.vehicle_group:
+        for group in itertools.chain(self.blue.vehicle_group, self.red.vehicle_group):
             if group.units[0].type == self.COASTAL_DEFENSE_UNIT_TYPE:
                 yield group
 
     @property
     def long_range_sams(self) -> Iterator[VehicleGroup]:
-        for group in self.red.vehicle_group:
+        for group in itertools.chain(self.blue.vehicle_group, self.red.vehicle_group):
             if group.units[0].type in self.LONG_RANGE_SAM_UNIT_TYPES:
                 yield group
 
     @property
     def medium_range_sams(self) -> Iterator[VehicleGroup]:
-        for group in self.red.vehicle_group:
+        for group in itertools.chain(self.blue.vehicle_group, self.red.vehicle_group):
             if group.units[0].type in self.MEDIUM_RANGE_SAM_UNIT_TYPES:
                 yield group
 
     @property
     def short_range_sams(self) -> Iterator[VehicleGroup]:
-        for group in self.red.vehicle_group:
+        for group in itertools.chain(self.blue.vehicle_group, self.red.vehicle_group):
             if group.units[0].type in self.SHORT_RANGE_SAM_UNIT_TYPES:
                 yield group
 
@@ -239,7 +248,7 @@ class MizCampaignLoader:
 
     @property
     def ewrs(self) -> Iterator[VehicleGroup]:
-        for group in self.red.vehicle_group:
+        for group in itertools.chain(self.blue.vehicle_group, self.red.vehicle_group):
             if group.units[0].type in self.EWR_UNIT_TYPE:
                 yield group
 
@@ -535,8 +544,43 @@ class MizCampaignLoader:
                 origin, list(reversed(waypoints))
             )
 
+    @cached_property
+    def _blue_block_group_ids(self) -> set[int]:
+        """Object ids of every group authored in the BLUE country block.
+
+        Consulted by objective_info ONLY for marker classes (callers that pass
+        prefer_blue -- SAM/EWR/missile/coastal/ship/offshore): for those, a
+        blue-block group is an explicit blue-ownership declaration and binds a
+        nearby blue control point. The economy objects (armor/factories/ammo/
+        strike) are also authored in the blue block by convention but must NOT
+        get the preference -- they bind by proximity like everything else, so
+        their callers leave prefer_blue False. Red-block groups get no
+        preference either: the red block is the coalition-agnostic default
+        marker block, whose markers bind by proximity to either side (blue air
+        defenses are conventionally authored as red-block markers near blue
+        fields).
+        """
+        ids: set[int] = set()
+        for collection in (
+            self.blue.vehicle_group,
+            self.blue.ship_group,
+            self.blue.static_group,
+            self.blue.plane_group,
+        ):
+            for group in collection:
+                ids.add(id(group))
+        return ids
+
+    # How much farther a blue control point may be than the marker's nearest
+    # field before the blue-block preference is dropped and proximity decides
+    # (see objective_info). Legitimate near-field markers (Operation Dynamo's
+    # evacuation flotilla, ~30 km) sit well under this; without the bound, a
+    # blue-block object sitting on an enemy base far from any blue field would
+    # be yanked across the map to it.
+    BLUE_BLOCK_MAX_DETOUR = meters(50000)
+
     def objective_info(
-        self, near: Positioned, allow_naval: bool = False
+        self, near: Positioned, allow_naval: bool = False, prefer_blue: bool = False
     ) -> Tuple[ControlPoint, Distance]:
         zones_containing_point = [
             z
@@ -597,50 +641,80 @@ class MizCampaignLoader:
             raise RuntimeError(
                 f"All control points have an influence zone but no zones contain {near} at {near.position}"
             )
+        # A blue-block MARKER (SAM/EWR/missile/coastal/ship/offshore -- callers
+        # that pass prefer_blue) binds the nearest BLUE control point when one
+        # is reasonably close, not merely the nearest of either side: authoring
+        # a marker in the blue block is an explicit ownership declaration, and
+        # nearest-any binding can hand it to the enemy field next door, where
+        # the objective then silently never generates (the owning faction has
+        # no ForceGroup for the other side's hardware). The preference is
+        # scoped to those marker classes and bounded by BLUE_BLOCK_MAX_DETOUR:
+        # the blue block also holds the economy objects (armor/factories/ammo/
+        # strike, authored blue-side as a convention), and an unbounded,
+        # all-class preference would re-own enemy-territory economy objects to
+        # distant blue fields across the map. Authored influence zones above
+        # stay authoritative.
         closest = min(
             fallback_candidates,
             key=lambda cp: cp.position.distance_to_point(near.position),
         )
+        if prefer_blue and id(near) in self._blue_block_group_ids:
+            friendly = [
+                cp for cp in fallback_candidates if cp.starting_coalition is Player.BLUE
+            ]
+            if friendly:
+                nearest_blue = min(
+                    friendly,
+                    key=lambda cp: cp.position.distance_to_point(near.position),
+                )
+                detour = meters(
+                    nearest_blue.position.distance_to_point(near.position)
+                    - closest.position.distance_to_point(near.position)
+                )
+                if detour <= self.BLUE_BLOCK_MAX_DETOUR:
+                    closest = nearest_blue
         distance = meters(closest.position.distance_to_point(near.position))
         return closest, distance
 
     def add_preset_locations(self) -> None:
         for static in self.offshore_strike_targets:
-            closest, distance = self.objective_info(static)
+            closest, distance = self.objective_info(static, prefer_blue=True)
             closest.preset_locations.offshore_strike_locations.append(
                 PresetLocation.from_group(static)
             )
 
         for ship in self.ships:
-            closest, distance = self.objective_info(ship, allow_naval=True)
+            closest, distance = self.objective_info(
+                ship, allow_naval=True, prefer_blue=True
+            )
             closest.preset_locations.ships.append(PresetLocation.from_group(ship))
 
         for group in self.missile_sites:
-            closest, distance = self.objective_info(group)
+            closest, distance = self.objective_info(group, prefer_blue=True)
             closest.preset_locations.missile_sites.append(
                 PresetLocation.from_group(group)
             )
 
         for group in self.coastal_defenses:
-            closest, distance = self.objective_info(group)
+            closest, distance = self.objective_info(group, prefer_blue=True)
             closest.preset_locations.coastal_defenses.append(
                 PresetLocation.from_group(group)
             )
 
         for group in self.long_range_sams:
-            closest, distance = self.objective_info(group)
+            closest, distance = self.objective_info(group, prefer_blue=True)
             closest.preset_locations.long_range_sams.append(
                 PresetLocation.from_group(group)
             )
 
         for group in self.medium_range_sams:
-            closest, distance = self.objective_info(group)
+            closest, distance = self.objective_info(group, prefer_blue=True)
             closest.preset_locations.medium_range_sams.append(
                 PresetLocation.from_group(group)
             )
 
         for group in self.short_range_sams:
-            closest, distance = self.objective_info(group)
+            closest, distance = self.objective_info(group, prefer_blue=True)
             closest.preset_locations.short_range_sams.append(
                 PresetLocation.from_group(group)
             )
@@ -650,7 +724,7 @@ class MizCampaignLoader:
             closest.preset_locations.aaa.append(PresetLocation.from_group(group))
 
         for group in self.ewrs:
-            closest, distance = self.objective_info(group)
+            closest, distance = self.objective_info(group, prefer_blue=True)
             closest.preset_locations.ewrs.append(PresetLocation.from_group(group))
 
         for group in self.armor_groups:

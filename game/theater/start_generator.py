@@ -497,7 +497,13 @@ class AirbaseGroundObjectGenerator(ControlPointGroundObjectGenerator):
                 GroupTask.EARLY_WARNING_RADAR
             )
             if not unit_group:
-                logging.error(f"{self.faction_name} has no ForceGroup for EWR")
+                logging.error(
+                    f"{self.faction_name} has no ForceGroup for EWR -- the "
+                    f"marker {position.original_name!r} bound to "
+                    f"{self.control_point.name} at ({position.x:.0f}, "
+                    f"{position.y:.0f}) will not generate (misplaced marker "
+                    "binding to the wrong side's control point?)"
+                )
                 return
             self.generate_ground_object_from_group(
                 unit_group, position, GroupTask.EARLY_WARNING_RADAR
