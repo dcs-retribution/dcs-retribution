@@ -33,9 +33,41 @@ from game.factions.faction import Faction
 
 THIS_DIR = Path(__file__).parent
 RESOURCES_DIR = THIS_DIR / "resources"
+FACTION_DIR = THIS_DIR.parent / "resources" / "factions"
 
 
 class TestFactionLoader(unittest.TestCase):
+    def test_f14bu_is_available_to_late_service_us_factions(self) -> None:
+        included = {
+            "usa_2005.json",
+            "usn_2005.json",
+            "NATO_OIF.json",
+            "bluefor_modern.json",
+            "blufor_current.json",
+        }
+        excluded = {
+            "NATO_Desert_Storm.json",
+            "usn_1985.json",
+            "usa_1990.json",
+            "iran_1988.json",
+            "iran_2015.json",
+            "israel_2011_ODS.json",
+        }
+
+        for filename in included:
+            with (FACTION_DIR / filename).open(encoding="utf-8") as data:
+                assert "F-14B(U) Tomcat" in json.load(data)["aircrafts"]
+
+        for filename in excluded:
+            with (FACTION_DIR / filename).open(encoding="utf-8") as data:
+                assert "F-14B(U) Tomcat" not in json.load(data)["aircrafts"]
+
+    def test_f14bu_reuses_us_navy_tomcat_livery_override(self) -> None:
+        for filename in ("usn_2005.json",):
+            with (FACTION_DIR / filename).open(encoding="utf-8") as data:
+                override = json.load(data)["liveries_overrides"]["F-14B(U) Tomcat"]
+                assert override == ["VF-142 Ghostriders"]
+
     def setUp(self) -> None:
         pass
 

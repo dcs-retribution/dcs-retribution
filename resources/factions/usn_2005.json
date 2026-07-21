@@ -8,6 +8,7 @@
   ],
   "aircrafts": [
     "F-14B Tomcat",
+    "F-14B(U) Tomcat",
     "EA-6B Prowler",
     "F/A-18C Hornet (Lot 20)",
     "F/A-18E Super Hornet",
@@ -82,6 +83,9 @@
   "doctrine": "modern",
   "liveries_overrides": {
     "F-14B Tomcat": [
+      "VF-142 Ghostriders"
+    ],
+    "F-14B(U) Tomcat": [
       "VF-142 Ghostriders"
     ],
     "F/A-18C Hornet (Lot 20)": [
