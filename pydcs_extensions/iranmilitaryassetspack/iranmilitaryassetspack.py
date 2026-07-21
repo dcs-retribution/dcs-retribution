@@ -37,5 +37,5 @@ class IranFAC_MG_AShM(unittype.ShipType):
     helicopter_num = 0
     parking = 0
     detection_range = 40000
-    threat_range = 25000
-    air_weapon_dist = 25000
+    threat_range = 1800
+    air_weapon_dist = 1800
