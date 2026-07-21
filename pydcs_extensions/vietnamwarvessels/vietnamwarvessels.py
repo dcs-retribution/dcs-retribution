@@ -1615,7 +1615,7 @@ class USS_Oklahoma_City(unittype.ShipType):
 class USS_Bon_Homme_Richard(unittype.ShipType):
     id = "USS Bon Homme Richard"
     name = "[VWV] CVA-31 Bon Homme Richard"
-    plane_num = 8
+    plane_num = 40
     helicopter_num = 8
     parking = 2
     detection_range = 28000
@@ -1726,6 +1726,15 @@ class USS_Laffey(unittype.ShipType):
 class USS_Maddox(unittype.ShipType):
     id = "USS Maddox"
     name = "[VWV] DD-731 USS Maddox"
+    detection_range = 45000
+    threat_range = 18650
+    air_weapon_dist = 18650
+
+
+@shipmod
+class USS_Maddox_T(unittype.ShipType):
+    id = "USS Maddox T"
+    name = "[VWV] DD-731 USS Maddox Tonkin Incident"
     detection_range = 45000
     threat_range = 18650
     air_weapon_dist = 18650
@@ -1861,8 +1870,8 @@ class Solon_Turman(unittype.ShipType):
     id = "AD-30 Solon Turman"
     name = "[VWV] AD-30 Solon Turman"
     detection_range = 15000
-    threat_range = 0
-    air_weapon_dist = 0
+    threat_range = 13000
+    air_weapon_dist = 13000
 
 
 @shipmod

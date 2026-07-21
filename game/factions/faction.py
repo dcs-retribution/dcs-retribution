@@ -701,6 +701,7 @@ class Faction:
             self.remove_ship("USS_Fletcher")  # "USS Fletcher FRAM II Destroyer"
             self.remove_ship("USS_Laffey")  # "[VWV] DD-724 USS Laffey"
             self.remove_ship("USS_Maddox")  # "USS Maddox (DD-731)"
+            self.remove_ship("USS_Maddox_T")  # "USS Maddox Tonkin Incident (DD-731)"
             self.remove_ship("USS_The_Sullivans")  # "USS The Sullivans (DD-537)"
             self.remove_ship("P4")  # "P 4 Torpedo Boat"
             self.remove_ship("ATCH")  # "[VWV] ATC(H) Tango"
