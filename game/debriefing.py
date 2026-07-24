@@ -21,6 +21,7 @@ from game.dcs.groundunittype import GroundUnitType
 from game.theater import Airfield, ControlPoint, Player
 
 if TYPE_CHECKING:
+    from dcs.mapping import Point
     from game import Game
     from game.ato.flight import Flight
     from game.sim.simulationresults import SimulationResults
@@ -127,6 +128,13 @@ class StateData:
     #: Mangled names of bases that were captured during the mission.
     base_capture_events: List[str]
 
+    #: Maps an aircraft unit name to the (x, z) DCS-world position where its pilot
+    #: came down, for pilots that ejected during the mission.
+    ejections: Dict[str, tuple[float, float]]
+
+    #: UUID strings of downed pilots confirmed rescued in-mission by Ops.CSAR.
+    rescued_pilot_ids: List[str]
+
     @classmethod
     def from_json(cls, data: Dict[str, Any], unit_map: UnitMap) -> StateData:
         def clean_unit_list(unit_list: List[Any]) -> List[str]:
@@ -159,12 +167,22 @@ class StateData:
             else:
                 killed_ground_units.append(unit)
 
+        ejections: Dict[str, tuple[float, float]] = {}
+        for event in data.get("ejection_events", []):
+            try:
+                unit = str(event["unit"])
+                ejections[unit] = (float(event["x"]), float(event["z"]))
+            except (KeyError, TypeError, ValueError):
+                logging.warning("Ignoring malformed ejection event: %s", event)
+
         return cls(
             mission_ended=data.get("mission_ended", False),
             killed_aircraft=killed_aircraft,
             killed_ground_units=killed_ground_units,
             destroyed_statics=data.get("destroyed_objects_positions", []),
             base_capture_events=data.get("base_capture_events", []),
+            ejections=ejections,
+            rescued_pilot_ids=[str(x) for x in data.get("csar_rescued", [])],
         )
 
 
@@ -182,6 +200,25 @@ class Debriefing:
         self.air_losses = self.dead_aircraft()
         self.ground_losses = self.dead_ground_units()
         self.base_captures = self.base_capture_events()
+        self.ejected_pilot_positions = self._ejected_pilot_positions()
+
+    def _ejected_pilot_positions(self) -> Dict[int, "Point"]:
+        """Maps ``id(pilot)`` to the world position where they came down.
+
+        Resolved from the ejection unit names in the same way :meth:`dead_aircraft`
+        resolves killed aircraft, so the loss-processing code can look up an
+        ejection by the pilot object it already has in hand.
+        """
+        from dcs.mapping import Point
+
+        positions: Dict[int, Point] = {}
+        terrain = self.game.theater.terrain
+        for unit_name, (x, z) in self.state_data.ejections.items():
+            flying_unit = self.unit_map.flight(unit_name)
+            if flying_unit is None or flying_unit.pilot is None:
+                continue
+            positions[id(flying_unit.pilot)] = Point(x, z, terrain)
+        return positions
 
     def merge_simulation_results(self, results: SimulationResults) -> None:
         for air_loss in results.air_losses:

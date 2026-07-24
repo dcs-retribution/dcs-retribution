@@ -575,7 +575,10 @@ class AircraftType(UnitType[Type[FlyingType]]):
         if prop_overrides is not None:
             cls._set_props_overrides(prop_overrides, aircraft)
 
-        task_priorities = cls.get_task_priorities(data)
+        cabin_size = data.get("cabin_size", 10 if aircraft.helicopter else 0)
+        task_priorities = cls.get_task_priorities(
+            data, aircraft, variant_id, cabin_size
+        )
 
         cls._custom_weapon_injections(aircraft, data)
         cls._user_weapon_injections(aircraft)
@@ -612,7 +615,7 @@ class AircraftType(UnitType[Type[FlyingType]]):
             kneeboard_units=units,
             utc_kneeboard=data.get("utc_kneeboard", False),
             unit_class=unit_class,
-            cabin_size=data.get("cabin_size", 10 if aircraft.helicopter else 0),
+            cabin_size=cabin_size,
             can_carry_crates=data.get("can_carry_crates", aircraft.helicopter),
             task_priorities=task_priorities,
             has_built_in_target_pod=data.get("has_built_in_target_pod", False),
@@ -627,8 +630,18 @@ class AircraftType(UnitType[Type[FlyingType]]):
             ),
         )
 
+    #: Variant ids of the Anubis C-130 mod that, like helicopters, can land to
+    #: pick up a downed pilot. Kept in sync with Flight.is_hercules.
+    _HERCULES_VARIANTS = frozenset({"C-130J-30", "C-130J-30 Super Hercules"})
+
     @classmethod
-    def get_task_priorities(cls, data: dict[str, Any]) -> dict[FlightType, int]:
+    def get_task_priorities(
+        cls,
+        data: dict[str, Any],
+        aircraft: Optional[Type[FlyingType]] = None,
+        variant_id: Optional[str] = None,
+        cabin_size: int = 0,
+    ) -> dict[FlightType, int]:
         task_priorities: dict[FlightType, int] = {}
         for task_name, priority in data.get("tasks", {}).items():
             task_priorities[FlightType(task_name)] = priority
@@ -646,6 +659,25 @@ class AircraftType(UnitType[Type[FlyingType]]):
                 task_priorities[FlightType.ARMED_RECON] = task_priorities[
                     FlightType.BAI
                 ]
+        # Derive CSAR capability. A CSAR aircraft must be able to actually set down
+        # and carry a pilot, so we require a positive cabin size and either a
+        # helicopter or the (fixed-wing, landing-capable) Hercules mod. This
+        # deliberately skips zero-cabin utility helos like the OH-6A. An explicit
+        # per-aircraft `CSAR:` task entry always wins over this derivation.
+        if FlightType.CSAR not in task_priorities and cabin_size > 0:
+            is_helo = aircraft is not None and aircraft.helicopter
+            is_hercules = variant_id in cls._HERCULES_VARIANTS
+            if is_helo or is_hercules:
+                if FlightType.AIR_ASSAULT in task_priorities:
+                    task_priorities[FlightType.CSAR] = task_priorities[
+                        FlightType.AIR_ASSAULT
+                    ]
+                elif FlightType.TRANSPORT in task_priorities:
+                    task_priorities[FlightType.CSAR] = task_priorities[
+                        FlightType.TRANSPORT
+                    ]
+                else:
+                    task_priorities[FlightType.CSAR] = 50
         return task_priorities
 
     @staticmethod

@@ -1,0 +1,119 @@
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from typing import Iterator, TYPE_CHECKING
+from uuid import UUID, uuid4
+
+from dcs.mapping import Point
+
+from game.sidc import (
+    Entity,
+    SidcDescribable,
+    StandardIdentity,
+    Status,
+    SymbolSet,
+)
+from game.theater.missiontarget import MissionTarget
+from game.theater.player import Player
+
+if TYPE_CHECKING:
+    from game.ato.flighttype import FlightType
+    from game.coalition import Coalition
+    from game.squadrons.pilot import Pilot
+    from game.squadrons.squadron import Squadron
+
+
+# Dismounted individual, "combatant" entity (APP-6 symbol set 27). The specific
+# combat-search-and-rescue survivor entity is not modelled by milsymbol, so we use
+# the generic combatant which renders as a dismounted individual.
+_DOWNED_PILOT_ENTITY = 110100
+
+
+@dataclass(eq=False)
+class DownedPilot(SidcDescribable, MissionTarget):
+    """A pilot who ejected/was shot down and is awaiting CSAR rescue on the map.
+
+    Persisted with the save (in ``Coalition.downed_pilots``) so that CSAR becomes a
+    campaign-persistent mission type: a downed pilot exists across turns, can be
+    targeted by a CSAR package, and expires (goes MIA) on a countdown.
+
+    Implements :class:`MissionTarget` so it can be used directly as a package target
+    (no changes to the package builder/fulfiller) and :class:`SidcDescribable` so the
+    map layer has a symbol.
+    """
+
+    pilot: Pilot
+    squadron: Squadron
+    _position: Point
+    player: Player
+    turn_downed: int
+    turns_remaining: int
+    was_player: bool
+    aircraft_name: str
+    id: UUID = field(default_factory=uuid4)
+
+    def __post_init__(self) -> None:
+        MissionTarget.__init__(self, self.display_name, self._position)
+
+    def __hash__(self) -> int:
+        return hash(self.id)
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, DownedPilot):
+            return False
+        return self.id == other.id
+
+    @property
+    def display_name(self) -> str:
+        return f"Downed pilot: {self.pilot.name} ({self.aircraft_name})"
+
+    # MissionTarget overrides ------------------------------------------------
+
+    @property
+    def position(self) -> Point:
+        return self._position
+
+    @position.setter
+    def position(self, value: Point) -> None:
+        self._position = value
+
+    @property
+    def coalition(self) -> Coalition:
+        return self.squadron.coalition
+
+    def is_friendly(self, to_player: Player) -> bool:
+        return self.player == to_player
+
+    def mission_types(self, for_player: Player) -> Iterator[FlightType]:
+        from game.ato.flighttype import FlightType
+
+        # Only the owning coalition can rescue their own downed pilot.
+        if not self.is_friendly(for_player):
+            return
+        yield FlightType.CSAR
+        # Escort types so escorts remain plannable for the package.
+        yield FlightType.ESCORT
+        yield FlightType.SEAD_ESCORT
+        yield FlightType.TARCAP
+
+    # SidcDescribable --------------------------------------------------------
+
+    @property
+    def standard_identity(self) -> StandardIdentity:
+        return (
+            StandardIdentity.FRIEND
+            if self.player.is_blue
+            else StandardIdentity.HOSTILE_FAKER
+        )
+
+    @property
+    def sidc_status(self) -> Status:
+        return Status.PRESENT
+
+    @property
+    def symbol_set_and_entity(self) -> tuple[SymbolSet, Entity]:
+        return SymbolSet.DISMOUNTED_INDIVIDUAL, _CombatantEntity.COMBATANT
+
+
+class _CombatantEntity(Entity):
+    COMBATANT = _DOWNED_PILOT_ENTITY

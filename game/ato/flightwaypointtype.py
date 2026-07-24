@@ -53,3 +53,5 @@ class FlightWaypointType(IntEnum):
     INGRESS_SEAD_SWEEP = 33
     INGRESS_ARMED_RECON = 34
     RECOVERY_TANKER = 35  # Tanker recovery point
+    INGRESS_CSAR = 36  # Ingress to a CSAR pickup
+    CSAR_PICKUP = 37  # Downed-pilot pickup point for CSAR

@@ -256,8 +256,15 @@ class Squadron:
     def end_turn(self) -> None:
         if self.destination is not None:
             self.relocate_to(self.destination)
+        # Advance recovering pilots *before* replenishment so a returning pilot
+        # reclaims their slot rather than having it filled by a fresh recruit.
+        self._process_pilot_recovery()
         self.replenish_lost_pilots()
         self.deliver_orders()
+
+    def _process_pilot_recovery(self) -> None:
+        for pilot in self.recovering_pilots:
+            pilot.advance_recovery()
 
     def replenish_lost_pilots(self) -> None:
         if self.pilot_limits_enabled and self.replenish_count > 0:
@@ -321,15 +328,31 @@ class Squadron:
 
     @property
     def living_pilots(self) -> list[Pilot]:
-        return self._pilots_without_status(PilotStatus.Dead)
+        return [p for p in self.current_roster if p.alive]
 
     @property
     def dead_pilots(self) -> list[Pilot]:
         return self._pilots_with_status(PilotStatus.Dead)
 
     @property
+    def missing_pilots(self) -> list[Pilot]:
+        return self._pilots_with_status(PilotStatus.MissingInAction)
+
+    @property
+    def downed_pilots(self) -> list[Pilot]:
+        return self._pilots_with_status(PilotStatus.Downed)
+
+    @property
+    def recovering_pilots(self) -> list[Pilot]:
+        return self._pilots_with_status(PilotStatus.Recovering)
+
+    @property
     def _number_of_unfilled_pilot_slots(self) -> int:
-        return self.pilot_limit - len(self.active_pilots)
+        # Downed and recovering pilots still hold their roster slot: a downed
+        # pilot may be rescued and a recovering one will return, so we must not
+        # recruit a fresh pilot into a slot that is about to be reclaimed.
+        reserved = len(self.downed_pilots) + len(self.recovering_pilots)
+        return self.pilot_limit - len(self.active_pilots) - reserved
 
     @property
     def number_of_available_pilots(self) -> int:

@@ -125,3 +125,6 @@ class MissionData:
     cp_stack: dict[UUID, Distance] = field(default_factory=dict)
     player_frontline_groups: list[FrontlineUnitGroupsInfo] = field(default_factory=list)
     enemy_frontline_groups: list[FrontlineUnitGroupsInfo] = field(default_factory=list)
+    #: Late-activated infantry template group names used by Ops.CSAR to spawn
+    #: downed pilots, keyed by coalition ("blue"/"red"). Empty when CSAR is disabled.
+    csar_pilot_templates: dict[str, str] = field(default_factory=dict)

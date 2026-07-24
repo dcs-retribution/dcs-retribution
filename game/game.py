@@ -289,6 +289,7 @@ class Game:
         naming.namegen = self.name_generator
         LuaPluginManager.load_settings(self.settings)
         ObjectiveDistanceCache.set_theater(self.theater)
+        self._rebuild_downed_pilot_index()
         self.compute_unculled_zones(GameUpdateEvents())
         # Apply mod settings again so mod properties get injected again,
         # in case mods like CJS F/A-18E/F/G or IDF F-16I are selected by the player
@@ -298,6 +299,20 @@ class Game:
             # We don't need to push events that happen during load. The UI will fully
             # reset when we're done.
             self.compute_threat_zones(GameUpdateEvents())
+
+    def _rebuild_downed_pilot_index(self) -> None:
+        """Rebuilds the DownedPilot UUID lookup from the per-coalition lists.
+
+        Both the coalition lists and the db index are pickled and share object
+        references, so a normal load is already consistent. This makes the index
+        authoritative regardless (e.g. for saves migrated from before CSAR).
+        """
+        if not hasattr(self, "db"):
+            return
+        self.db.downed_pilots.objects.clear()
+        for coalition in (self.blue, self.red):
+            for downed in coalition.downed_pilots:
+                self.db.downed_pilots.objects[downed.id] = downed
 
     def finish_turn(self, events: GameUpdateEvents, skipped: bool = False) -> None:
         """Finalizes the current turn and advances to the next turn.

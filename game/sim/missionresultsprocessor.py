@@ -1,11 +1,16 @@
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING
+import random
+from typing import Any, TYPE_CHECKING
+from uuid import UUID
 
+from game.ato.flighttype import FlightType
 from game.debriefing import Debriefing
 from game.ground_forces.combat_stance import CombatStance
 from game.profiling import logged_duration
+from game.squadrons.csarservice import CsarService
+from game.squadrons.downedpilot import DownedPilot
 from game.theater import ControlPoint
 from .gameupdateevents import GameUpdateEvents
 from ..ato.airtaaskingorder import AirTaskingOrder
@@ -25,6 +30,10 @@ class MissionResultsProcessor:
 
     def commit(self, debriefing: Debriefing, events: GameUpdateEvents) -> None:
         with logged_duration("Committing mission results"):
+            # Resolve rescues before processing losses so a pilot rescued this
+            # mission is not also reprocessed as a fresh loss.
+            with logged_duration("commit_csar_results"):
+                self.commit_csar_results(debriefing)
             with logged_duration("commit_air_losses"):
                 self.commit_air_losses(debriefing)
             with logged_duration("commit_pilot_experience"):
@@ -55,13 +64,48 @@ class MissionResultsProcessor:
             with logged_duration("record_carcasses"):
                 self.record_carcasses(debriefing)
 
+    def commit_csar_results(self, debriefing: Debriefing) -> None:
+        """Returns rescued downed pilots to recovery (hybrid resolution).
+
+        Ops.CSAR pickups reported in state.json are authoritative. For AI-flown
+        CSAR flights (and skipped/simulated turns, which produce no state.json), a
+        surviving CSAR flight that targeted a downed pilot rescues them.
+        """
+        csar = CsarService(self.game)
+        rescued: set[DownedPilot] = set()
+
+        # Authoritative: pilots confirmed rescued in-mission by Ops.CSAR.
+        for uuid_str in debriefing.state_data.rescued_pilot_ids:
+            try:
+                downed = self.game.db.downed_pilots.get(UUID(uuid_str))
+            except (KeyError, ValueError):
+                logging.warning(f"Ignoring unknown rescued pilot id {uuid_str}")
+                continue
+            rescued.add(downed)
+
+        # Fallback: AI-flown CSAR flights that reached the pilot and survived.
+        for coalition in self.game.coalitions:
+            for package in coalition.ato.packages:
+                for flight in package.flights:
+                    if flight.flight_type is not FlightType.CSAR:
+                        continue
+                    target = flight.package.target
+                    if not isinstance(target, DownedPilot) or target in rescued:
+                        continue
+                    if flight.client_count > 0:
+                        # Player-flown: only the Ops.CSAR result counts, so an
+                        # unflown or botched player CSAR correctly fails.
+                        continue
+                    if debriefing.air_losses.surviving_flight_members(flight) > 0:
+                        rescued.add(target)
+
+        for downed in rescued:
+            csar.rescue(downed)
+
     def commit_air_losses(self, debriefing: Debriefing) -> None:
+        csar = CsarService(self.game)
         for loss in debriefing.air_losses.losses:
-            if loss.pilot is not None and (
-                not loss.pilot.player
-                or not self.game.settings.invulnerable_player_pilots
-            ):
-                loss.pilot.kill()
+            self._process_lost_pilot(loss, debriefing, csar)
             squadron = loss.flight.squadron
             aircraft = loss.flight.unit_type
             available = squadron.owned_aircraft
@@ -75,6 +119,43 @@ class MissionResultsProcessor:
             logging.info(f"{aircraft} destroyed from {squadron}")
             squadron.owned_aircraft -= 1
             squadron.destroyed_aircraft += 1
+
+    def _process_lost_pilot(
+        self, loss: Any, debriefing: Debriefing, csar: CsarService
+    ) -> None:
+        """Decides the fate of a lost aircraft's pilot: safe, downed, or killed.
+
+        Airframe loss accounting is handled by the caller and is unaffected by the
+        outcome here.
+        """
+        pilot = loss.pilot
+        if pilot is None:
+            return
+
+        # Invulnerable player pilots survive untouched, exactly as before.
+        if pilot.player and self.game.settings.invulnerable_player_pilots:
+            return
+
+        flight = loss.flight
+        if not csar.csar_enabled_for(flight.squadron.player):
+            pilot.kill()
+            return
+
+        # A real in-mission ejection always produces a downed pilot at the recorded
+        # landing position. Otherwise roll the survival chance and scatter near the
+        # flight's target (the only position we have for AI/simulated losses).
+        ejection_pos = debriefing.ejected_pilot_positions.get(id(pilot))
+        if ejection_pos is not None:
+            position = ejection_pos
+        elif random.randint(1, 100) <= self.game.settings.csar_ejection_chance:
+            position = csar.fallback_position_for(flight)
+        else:
+            pilot.kill()
+            return
+
+        if csar.down_pilot(flight, pilot, pilot.player, position) is None:
+            # No landable spot nearby; treat as killed.
+            pilot.kill()
 
     @staticmethod
     def _commit_pilot_experience(ato: AirTaskingOrder) -> None:

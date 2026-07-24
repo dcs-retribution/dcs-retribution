@@ -667,6 +667,84 @@ class Settings:
             "If set, squadrons will not be able to buy more aircraft than the configured maximum."
         ),
     )
+    # Combat Search and Rescue
+    csar_enabled: bool = boolean_option(
+        "Enable CSAR for the player coalition",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        PILOTS_AND_SQUADRONS_SECTION,
+        default=True,
+        detail=(
+            "When a player-coalition aircraft is lost, its pilot may survive as a "
+            "downed pilot on the map. A CSAR mission (planned automatically or by "
+            "hand) can rescue them on a later turn, returning them to the roster."
+        ),
+    )
+    csar_enabled_red: bool = boolean_option(
+        "Enable CSAR for the enemy coalition",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        PILOTS_AND_SQUADRONS_SECTION,
+        default=True,
+        detail="As above, but for the enemy (AI) coalition.",
+    )
+    csar_ejection_chance: int = bounded_int_option(
+        "CSAR pilot survival chance (%)",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        PILOTS_AND_SQUADRONS_SECTION,
+        default=40,
+        min=0,
+        max=100,
+        detail=(
+            "For aircraft losses where DCS did not report an ejection (AI kills and "
+            "all losses on skipped/simulated turns), the chance that the pilot "
+            "survives and becomes a downed pilot rather than being killed outright. "
+            "Real in-mission ejections always produce a downed pilot."
+        ),
+    )
+    csar_survival_turns: int = bounded_int_option(
+        "Turns a downed pilot survives",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        PILOTS_AND_SQUADRONS_SECTION,
+        default=3,
+        min=1,
+        max=10,
+        detail=(
+            "Number of turns a downed pilot in friendly rear territory waits for "
+            "rescue before going missing in action."
+        ),
+    )
+    csar_survival_turns_hostile: int = bounded_int_option(
+        "Turns a downed pilot survives near the front",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        PILOTS_AND_SQUADRONS_SECTION,
+        default=2,
+        min=1,
+        max=10,
+        detail=(
+            "As above, but for pilots down in hostile territory or close to a front "
+            "line, where enemy ground forces are more likely to capture them."
+        ),
+    )
+    csar_ai_recovery_turns: int = bounded_int_option(
+        "Turns a rescued AI pilot recovers",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        PILOTS_AND_SQUADRONS_SECTION,
+        default=2,
+        min=0,
+        max=10,
+        detail=(
+            "Number of turns a rescued AI pilot is unavailable (recovering) before "
+            "returning to active duty."
+        ),
+    )
+    csar_player_recovery_turns: int = bounded_int_option(
+        "Turns a rescued player pilot recovers",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        PILOTS_AND_SQUADRONS_SECTION,
+        default=1,
+        min=0,
+        max=10,
+        detail="As above, but for rescued human-flown pilots.",
+    )
 
     # HQ Automation
     automate_runway_repair: bool = boolean_option(
@@ -881,6 +959,26 @@ class Settings:
             "Pause: pause fast forward and generate mission. Fast forwarding may stop before the condition specified in the above setting. "
             "Resolving combat (WIP): auto resolve combat. This method is very rudimentary and will result in large losses. "
             "Skipping combat: skip combat as if it did not occur."
+        ),
+    )
+    csar_warm_start: bool = boolean_option(
+        "CSAR rescue helicopters start warm",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=True,
+        detail=(
+            "If set, the Ops.CSAR rescue helicopters spawn with engines running "
+            "(warm) rather than cold."
+        ),
+    )
+    csar_rescue_ai_pilots: bool = boolean_option(
+        "CSAR rescues AI-controlled downed pilots",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=True,
+        detail=(
+            "If set, Ops.CSAR will pick up AI downed pilots in the mission, not "
+            "only player-flown ejections."
         ),
     )
     supercarrier: bool = boolean_option(

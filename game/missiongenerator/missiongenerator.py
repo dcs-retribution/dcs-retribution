@@ -32,6 +32,7 @@ from game.unitmap import UnitMap
 from .briefinggenerator import BriefingGenerator, MissionInfoGenerator
 from .cargoshipgenerator import CargoShipGenerator
 from .convoygenerator import ConvoyGenerator
+from .csargenerator import CsarGenerator
 from .drawingsgenerator import DrawingsGenerator
 from .environmentgenerator import EnvironmentGenerator
 from .flotgenerator import FlotGenerator
@@ -127,6 +128,9 @@ class MissionGenerator:
         TriggerGenerator(self.mission, self.game).generate()
         ForcedOptionsGenerator(self.mission, self.game).generate()
         VisualsGenerator(self.mission, self.game).generate()
+        # Must run before LuaGenerator so the CSAR pilot template group names are
+        # available for injection into the dcsRetribution data table.
+        CsarGenerator(self.mission, self.game, self.mission_data).generate()
         LuaGenerator(self.game, self.mission, self.mission_data).generate()
         DrawingsGenerator(self.mission, self.game).generate()
 

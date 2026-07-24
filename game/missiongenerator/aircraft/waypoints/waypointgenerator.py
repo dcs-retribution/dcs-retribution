@@ -169,6 +169,7 @@ class WaypointGenerator:
     def builder_for_waypoint(self, waypoint: FlightWaypoint) -> PydcsWaypointBuilder:
         builders = {
             FlightWaypointType.CARGO_STOP: CargoStopBuilder,
+            FlightWaypointType.CSAR_PICKUP: LandingZoneBuilder,
             FlightWaypointType.DROPOFF_ZONE: LandingZoneBuilder,
             FlightWaypointType.INGRESS_AIR_ASSAULT: AirAssaultIngressBuilder,
             FlightWaypointType.INGRESS_ANTI_SHIP: AntiShipIngressBuilder,
