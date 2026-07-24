@@ -15,6 +15,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 from dcs.mapping import Point
+from dcs.terrain import Terrain
 
 from game import persistency
 from game.ato.flighttype import FlightType
@@ -29,6 +30,12 @@ from game.squadrons.pilot import Pilot, PilotStatus
 @pytest.fixture(autouse=True)
 def _persistency(tmp_path: Path) -> None:
     persistency.setup(str(tmp_path), prefer_liberation_payloads=False, port=16885)
+
+
+#: dcs.mapping.Point requires a real Terrain; a spec'd mock is the convention
+#: used elsewhere in the suite (see tests/commander/test_motorpool_targeting.py)
+#: for Points that are never actually projected to lat/lng.
+_TERRAIN = MagicMock(spec=Terrain)
 
 
 # ---------------------------------------------------------------------------
@@ -171,12 +178,12 @@ def _make_downed(game: Any, player: Any, was_player: bool) -> DownedPilot:
     csar = CsarService(game)
     with patch(
         "game.squadrons.csarservice.find_downed_pilot_position",
-        return_value=Point(100.0, 200.0, None),
+        return_value=Point(100.0, 200.0, _TERRAIN),
     ):
         # Simplify survival-turn logic to a friendly rear position.
         game.theater.closest_control_point.return_value.is_friendly.return_value = True
         game.theater.conflicts.return_value = []
-        downed = csar.down_pilot(flight, pilot, was_player, Point(0.0, 0.0, None))
+        downed = csar.down_pilot(flight, pilot, was_player, Point(0.0, 0.0, _TERRAIN))
     assert downed is not None
     return downed
 
@@ -199,9 +206,9 @@ def test_survival_turns_hostile_when_near_front() -> None:
     csar = CsarService(game)
     # Friendly-owned nearest CP, but a front line right on top of the pilot.
     game.theater.closest_control_point.return_value.is_friendly.return_value = True
-    front = SimpleNamespace(position=Point(0.0, 0.0, None))
+    front = SimpleNamespace(position=Point(0.0, 0.0, _TERRAIN))
     game.theater.conflicts.return_value = [front]
-    turns = csar._survival_turns(Point(0.0, 0.0, None), Player.BLUE)
+    turns = csar._survival_turns(Point(0.0, 0.0, _TERRAIN), Player.BLUE)
     assert turns == 2
 
 
@@ -212,7 +219,7 @@ def test_survival_turns_hostile_when_enemy_territory() -> None:
     csar = CsarService(game)
     game.theater.closest_control_point.return_value.is_friendly.return_value = False
     game.theater.conflicts.return_value = []
-    turns = csar._survival_turns(Point(0.0, 0.0, None), Player.BLUE)
+    turns = csar._survival_turns(Point(0.0, 0.0, _TERRAIN), Player.BLUE)
     assert turns == 2
 
 
@@ -362,10 +369,10 @@ def test_ejection_downs_pilot() -> None:
     pilot = Pilot("P", player=True)
     loss = _loss(pilot, Player.BLUE)
     debriefing = MagicMock()
-    debriefing.ejected_pilot_positions = {id(pilot): Point(50.0, 60.0, None)}
+    debriefing.ejected_pilot_positions = {id(pilot): Point(50.0, 60.0, _TERRAIN)}
     with patch(
         "game.squadrons.csarservice.find_downed_pilot_position",
-        return_value=Point(50.0, 60.0, None),
+        return_value=Point(50.0, 60.0, _TERRAIN),
     ):
         processor._process_lost_pilot(loss, debriefing, CsarService(game))
     assert pilot.downed
@@ -394,7 +401,7 @@ def test_csar_disabled_kills() -> None:
     pilot = Pilot("P", player=True)
     loss = _loss(pilot, Player.BLUE)
     debriefing = MagicMock()
-    debriefing.ejected_pilot_positions = {id(pilot): Point(1.0, 2.0, None)}
+    debriefing.ejected_pilot_positions = {id(pilot): Point(1.0, 2.0, _TERRAIN)}
     processor._process_lost_pilot(loss, debriefing, CsarService(game))
     assert pilot.status is PilotStatus.Dead
 
@@ -428,7 +435,7 @@ def _standalone_downed() -> DownedPilot:
     downed = DownedPilot(
         pilot=pilot,
         squadron=squadron,
-        _position=Point(0.0, 0.0, None),
+        _position=Point(0.0, 0.0, _TERRAIN),
         player=_blue_red_player().BLUE,
         turn_downed=1,
         turns_remaining=3,
@@ -509,7 +516,7 @@ def test_generate_csar_data_serializes_and_evaluates() -> None:
     downed = DownedPilot(
         pilot=Pilot("Ivan Doe"),
         squadron=squadron,
-        _position=Point(12345.0, 67890.0, None),
+        _position=Point(12345.0, 67890.0, _TERRAIN),
         player=Player.BLUE,
         turn_downed=2,
         turns_remaining=3,
