@@ -8,7 +8,7 @@ from .liberation_theme import get_theme_icons
 URLS: Dict[str, str] = {
     "Manual": "https://github.com/dcs-retribution/dcs-retribution/wiki",
     "Repository": "https://github.com/dcs-retribution/dcs-retribution",
-    "ForumThread": "https://forums.eagle.ru/showthread.php?t=214834",
+    "ForumThread": "https://forum.dcs.world/topic/368593-dcs-retribution-dynamic-campaign-generator/",
     "Issues": "https://github.com/dcs-retribution/dcs-retribution/issues",
     "Releases": "https://github.com/dcs-retribution/dcs-retribution/releases",
 }
