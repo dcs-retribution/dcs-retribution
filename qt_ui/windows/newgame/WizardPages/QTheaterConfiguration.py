@@ -1,7 +1,7 @@
 from __future__ import unicode_literals, annotations
 
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 from PySide6 import QtWidgets, QtGui
 from PySide6.QtCore import Signal, QDate, QPoint, QItemSelectionModel, Qt, QModelIndex
@@ -93,17 +93,63 @@ class TheaterConfiguration(QtWidgets.QWizardPage):
         )
 
         # List of campaigns
-        show_incompatible_campaigns_checkbox = QCheckBox(
+        self.show_incompatible_campaigns_checkbox = QCheckBox(
             text="Show incompatible campaigns"
         )
-        show_incompatible_campaigns_checkbox.setChecked(False)
+        self.show_incompatible_campaigns_checkbox.setChecked(False)
+
+        # Filter and Sort Controls
+        filter_sort_group = QtWidgets.QGroupBox("Filter && Sort Campaigns")
+        filter_sort_layout = QtWidgets.QGridLayout()
+        filter_sort_layout.setColumnStretch(1, 1)
+
+        # Get unique values for filters
+        all_versions = set()
+        all_maps = set()
+
+        for campaign in campaigns:
+            all_versions.add(campaign.version)
+            all_maps.add(campaign.data.get("theater", ""))
+
+        # Version filter
+        filter_sort_layout.addWidget(QtWidgets.QLabel("Version:"), 0, 0)
+        self.version_filter = QtWidgets.QComboBox()
+        self.version_filter.addItem("All Versions", None)
+        for version in sorted(all_versions, reverse=True):  # Newest first
+            if version != (0, 0):  # Skip unknown versions
+                self.version_filter.addItem(f"v{version[0]}.{version[1]}", version)
+        self.version_filter.currentTextChanged.connect(self.on_filter_changed)
+        filter_sort_layout.addWidget(self.version_filter, 0, 1)
+
+        # Map filter
+        filter_sort_layout.addWidget(QtWidgets.QLabel("Map:"), 1, 0)
+        self.map_filter = QtWidgets.QComboBox()
+        self.map_filter.addItem("All Maps", "")
+        for map_name in sorted(all_maps):
+            if map_name:  # Skip empty map names
+                self.map_filter.addItem(map_name, map_name)
+        self.map_filter.currentTextChanged.connect(self.on_filter_changed)
+        filter_sort_layout.addWidget(self.map_filter, 1, 1)
+
+        # Sort option
+        filter_sort_layout.addWidget(QtWidgets.QLabel("Sort by:"), 2, 0)
+        self.sort_option = QtWidgets.QComboBox()
+        self.sort_option.addItems(["Name", "Version", "Performance"])
+        self.sort_option.currentTextChanged.connect(self.on_filter_changed)
+        filter_sort_layout.addWidget(self.sort_option, 2, 1)
+
+        filter_sort_layout.addWidget(
+            self.show_incompatible_campaigns_checkbox, 3, 0, 1, 2
+        )
+
+        filter_sort_group.setLayout(filter_sort_layout)
+
         self.campaignList = QCampaignList(
-            campaigns, show_incompatible_campaigns_checkbox.isChecked()
+            campaigns, self.show_incompatible_campaigns_checkbox.isChecked()
         )
-        show_incompatible_campaigns_checkbox.toggled.connect(
-            lambda checked: self.campaignList.setup_content(show_incompatible=checked)
+        self.show_incompatible_campaigns_checkbox.toggled.connect(
+            self.on_filter_changed
         )
-        self.registerField("selectedCampaign", self.campaignList)
 
         # Faction description
         self.campaignMapDescription = QTextBrowser()
@@ -171,7 +217,6 @@ class TheaterConfiguration(QtWidgets.QWizardPage):
                 "campaign_performance_template_EN.j2"
             )
             campaign = self.campaignList.selected_campaign
-            self.setField("selectedCampaign", campaign)
             if campaign is None:
                 self.campaignMapDescription.setText("No campaign selected")
                 self.performanceText.setText("No campaign selected")
@@ -238,14 +283,27 @@ class TheaterConfiguration(QtWidgets.QWizardPage):
 
         layout = QtWidgets.QGridLayout()
         layout.setColumnMinimumWidth(0, 20)
-        layout.addWidget(self.campaignList, 0, 0, 5, 1)
-        layout.addWidget(show_incompatible_campaigns_checkbox, 5, 0, 1, 1)
+        layout.addWidget(filter_sort_group, 0, 0, 1, 1)
+        layout.addWidget(self.campaignList, 1, 0, 5, 1)
         layout.addWidget(docsText, 6, 0, 1, 1)
         layout.addWidget(self.campaignMapDescription, 0, 1, 1, 1)
         layout.addWidget(self.performanceText, 1, 1, 1, 1)
         layout.addWidget(mapSettingsGroup, 2, 1, 1, 1)
         layout.addWidget(timeGroup, 3, 1, 3, 1)
         self.setLayout(layout)
+
+    def on_filter_changed(self) -> None:
+        """Handle changes in filter or sort options."""
+        version_filter = self.version_filter.currentData()
+        map_filter = self.map_filter.currentData() or ""
+        sort_option = self.sort_option.currentText()
+
+        # Apply filters and sort
+        self.campaignList.set_filters(version_filter, map_filter)
+        self.campaignList.set_sort_option(sort_option)
+        self.campaignList.setup_content(
+            show_incompatible=self.show_incompatible_campaigns_checkbox.isChecked()
+        )
 
     def on_invert_map(self) -> None:
         blue = self.faction_selection.blueFactionSelect.currentIndex()
@@ -289,24 +347,85 @@ class QCampaignList(QListView):
         self.setMinimumHeight(350)
         self.campaigns = campaigns
         self.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectItems)
+
+        # Filter and sort settings
+        self.current_version_filter: Optional[Tuple[int, int]] = None
+        self.current_map_filter = ""
+        self.current_sort_option = "Name"
+
         self.setup_content(show_incompatible)
 
     @property
     def selected_campaign(self) -> Optional[Campaign]:
         return self.currentIndex().data(QCampaignList.CampaignRole)
 
-    def setup_content(self, show_incompatible: bool) -> None:
+    def set_filters(
+        self,
+        version_filter: Optional[Tuple[int, int]] = None,
+        map_filter: str = "",
+    ) -> None:
+        """Set the filter criteria for campaigns."""
+        self.current_version_filter = version_filter
+        self.current_map_filter = map_filter
+
+    def set_sort_option(self, sort_option: str) -> None:
+        """Set the sort option for campaigns."""
+        self.current_sort_option = sort_option
+
+    def _filter_campaign(self, campaign: Campaign) -> bool:
+        """Check if a campaign passes all current filters."""
+        if (
+            self.current_version_filter is not None
+            and campaign.version != self.current_version_filter
+        ):
+            return False
+
+        if self.current_map_filter and self.current_map_filter != campaign.data.get(
+            "theater", ""
+        ):
+            return False
+
+        return True
+
+    def _sort_campaigns(self, campaigns: list[Campaign]) -> list[Campaign]:
+        """Sort campaigns based on current sort option."""
+        if self.current_sort_option == "Name":
+            return sorted(campaigns, key=lambda c: c.name.lower())
+        elif self.current_sort_option == "Version":
+            return sorted(
+                campaigns, key=lambda c: c.version, reverse=True
+            )  # Newest first
+        elif self.current_sort_option == "Performance":
+            return sorted(campaigns, key=lambda c: c.performance)
+        else:
+            return campaigns
+
+    def setup_content(self, show_incompatible: bool = False) -> None:
         self.selectionModel().blockSignals(True)
         try:
             self.campaign_model.clear()
+
+            # Filter campaigns
+            filtered_campaigns = []
             for campaign in self.campaigns:
-                if show_incompatible or campaign.is_compatible:
-                    item = QCampaignItem(campaign)
-                    self.campaign_model.appendRow(item)
+                if (
+                    show_incompatible or campaign.is_compatible
+                ) and self._filter_campaign(campaign):
+                    filtered_campaigns.append(campaign)
+
+            # Sort campaigns
+            sorted_campaigns = self._sort_campaigns(filtered_campaigns)
+
+            # Add to model
+            for campaign in sorted_campaigns:
+                item = QCampaignItem(campaign)
+                self.campaign_model.appendRow(item)
         finally:
             self.selectionModel().blockSignals(False)
 
-        self.selectionModel().setCurrentIndex(
-            self.campaign_model.index(0, 0, QModelIndex()),
-            QItemSelectionModel.SelectionFlag.Select,
-        )
+        # Select first item if available
+        if self.campaign_model.rowCount() > 0:
+            self.selectionModel().setCurrentIndex(
+                self.campaign_model.index(0, 0, QModelIndex()),
+                QItemSelectionModel.SelectionFlag.Select,
+            )
