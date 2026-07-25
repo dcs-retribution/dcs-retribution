@@ -25,6 +25,7 @@
 * **[Campaigns]** Ability to define motor pool objects which spawn reserve armor
 * 
 ## Fixes
+* **[Mission Generator]** Generic AAA sites no longer pull in a radar the guns cannot use (e.g. a Patriot STR sitting next to 8.8 cm Flak). The SON-9 "Fire Can" gun-laying radar is now a dedicated unit class and only appears where it is explicitly bundled with its guns (the KS-19 + SON-9 preset); generic AAA sites no longer auto-fill a radar, so a gun line without a matching radar simply spawns without one.
 * **[Mission Generator]** EWR sites now get the DCS "EWR" enroute task and come up on RED alarm, so their radars actually scan and report contacts (previously they could sit inert, especially with the "red alert state" performance option off). Works with or without the Skynet IADS plugin.
 * **[Plugins]** Fix the escort leash never running (DCS has no `Group.getByID`; look the group up by name via mist), so escorts are actually held to their engagement range.
 * **[Mission Planning]** Carrier/LHA targets now offer SEAD in the flight-task list and no longer list SEAD Escort twice (their escorts are SAM platforms, so they can be suppressed directly like any other naval group).

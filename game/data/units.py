@@ -7,6 +7,7 @@ from enum import unique, Enum
 class UnitClass(Enum):
     UNKNOWN = "Unknown"
     AAA = "AAA"
+    AAA_RADAR = "AAARadar"
     AIRCRAFT_CARRIER = "AircraftCarrier"
     APC = "APC"
     ARTILLERY = "Artillery"
@@ -46,6 +47,7 @@ class UnitClass(Enum):
 # All UnitClasses which can have AntiAir capabilities
 ANTI_AIR_UNIT_CLASSES = [
     UnitClass.AAA,
+    UnitClass.AAA_RADAR,
     UnitClass.AIRCRAFT_CARRIER,
     UnitClass.CRUISER,
     UnitClass.DESTROYER,

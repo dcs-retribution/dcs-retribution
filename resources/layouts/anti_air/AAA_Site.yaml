@@ -7,10 +7,14 @@ groups:
   - AAA:
     - name: AAA Site Radar
       optional: true # Optional if the AAA Site has a Radar
+      # Only presets that explicitly bundle a gun-laying radar (e.g. the KS-19 +
+      # SON-9 Fire Can preset) get a radar. Generic AAA sites must NOT be auto-filled
+      # with one, because a gun-laying radar is only useful to its matching gun.
+      fill: false
       unit_count:
         - 1
       unit_classes:
-        - SearchRadar
+        - AAARadar
     - name: AAA Site
       unit_count:
         - 2
