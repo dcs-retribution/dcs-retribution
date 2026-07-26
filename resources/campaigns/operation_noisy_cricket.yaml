@@ -33,7 +33,7 @@ recommended_enemy_income_multiplier: 0.2
 settings:
   fa_18efg: true
   f22_raptor: true
-  hercules: true1
+  hercules: true
   uh_60l: true
   squadron_start_full: true
 version: "10.8"
