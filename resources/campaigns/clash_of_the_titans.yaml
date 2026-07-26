@@ -53,6 +53,11 @@ squadrons:
         - C-130J-30 Super Hercules
         - C-130J-30
       size: 4
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - F-14B(U) Tomcat
+      size: 12
     - primary: BARCAP
       secondary: any
       aircraft:
@@ -105,7 +110,7 @@ squadrons:
       aircraft:
         - AV-8B Harrier II Night Attack
       size: 16
-    - primary: Escort
+    - primary: CAS
       secondary: any
       aircraft:
         - OH-58D(R) Kiowa Warrior
@@ -117,7 +122,7 @@ squadrons:
       size: 4
   #Ghazni Heliport
   21:
-    - primary: CAS
+    - primary: Escort
       secondary: any
       aircraft:
         - AH-64D Apache Longbow
