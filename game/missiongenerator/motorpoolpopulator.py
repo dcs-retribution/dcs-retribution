@@ -16,6 +16,9 @@ if TYPE_CHECKING:
 # Parked vehicles laid in a grid so DCS does not reject overlapping spawns.
 _SPACING_M = 12.0
 _COLUMNS = 5
+# Keep the Garage_A building at the authored marker; start vehicles clear of it
+# in the building's local +x/+y corner. 150 ft is the authoring-friendly value.
+_GRID_OFFSET_M = 45.72
 
 
 def _select_capped(
@@ -107,12 +110,10 @@ class MotorpoolPopulator:
         self, tgo: MotorpoolGroundObject, unit_type: GroundUnitType, index: int
     ) -> TheaterUnit:
         origin = tgo.position
-        dx = (index % _COLUMNS) * _SPACING_M
-        dy = (index // _COLUMNS) * _SPACING_M
+        dx = _GRID_OFFSET_M + (index % _COLUMNS) * _SPACING_M
+        dy = _GRID_OFFSET_M + (index // _COLUMNS) * _SPACING_M
         # Lay the grid in the garage's local frame, then rotate it clockwise about
-        # the TGO origin so the parking lot follows the Garage_A heading (as
-        # resource-site placement does). At heading 0 the rotation is a no-op and
-        # the grid stays world-axis-aligned.
+        # the authored Garage_A marker so the parking lot follows its directionality.
         pos = PointWithHeading.from_point(
             Point(origin.x + dx, origin.y + dy, origin._terrain), tgo.heading
         )
