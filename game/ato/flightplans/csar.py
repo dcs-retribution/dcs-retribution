@@ -5,12 +5,9 @@ from datetime import datetime
 from typing import Iterator, TYPE_CHECKING, Type
 
 from game.utils import Distance, feet, meters
-from .formationattack import (
-    FormationAttackBuilder,
-    FormationAttackFlightPlan,
-    FormationAttackLayout,
-)
+from .ibuilder import IBuilder
 from .planningerror import PlanningError
+from .standard import StandardFlightPlan, StandardLayout
 from .uizonedisplay import UiZone, UiZoneDisplay
 from .waypointbuilder import WaypointBuilder
 from ..flightwaypointtype import FlightWaypointType
@@ -20,17 +17,20 @@ if TYPE_CHECKING:
 
 
 @dataclass
-class CsarLayout(FormationAttackLayout):
-    pickup: FlightWaypoint | None = None
+class CsarLayout(StandardLayout):
+    # Ingress toward the downed pilot. Kept so players get a sensible run-in and so
+    # the AI descends before the pickup.
+    ingress: FlightWaypoint
+    # The pickup itself. Helicopters get a landing task here (LandingZoneBuilder);
+    # fixed-wing aircraft only overfly it, since the DCS AI Land task is
+    # helicopter-only.
+    pickup: FlightWaypoint
 
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
         yield self.departure
         yield from self.nav_to
-        yield self.join
         yield self.ingress
-        if self.pickup is not None:
-            yield self.pickup
-        yield self.targets[0]
+        yield self.pickup
         yield from self.nav_from
         yield self.arrival
         if self.divert is not None:
@@ -39,50 +39,53 @@ class CsarLayout(FormationAttackLayout):
         yield from self.custom_waypoints
 
 
-class CsarFlightPlan(FormationAttackFlightPlan, UiZoneDisplay):
+class CsarFlightPlan(StandardFlightPlan[CsarLayout], UiZoneDisplay):
+    """Flight plan for recovering a downed pilot.
+
+    Modelled on the airlift plan rather than the formation-attack plans: a CSAR
+    target is a *friendly* downed pilot, and ``IBuilder`` deliberately skips
+    package-waypoint generation for friendly targets, so anything deriving from
+    FormationAttackFlightPlan would have no package waypoints to build from.
+    """
+
     @staticmethod
     def builder_type() -> Type[Builder]:
         return Builder
 
     @property
     def tot_waypoint(self) -> FlightWaypoint:
-        if self.layout.pickup is not None:
-            return self.layout.pickup
-        return self.layout.targets[0]
+        return self.layout.pickup
 
-    @property
-    def ingress_time(self) -> datetime:
-        tot = self.tot
-        travel_time = self.travel_time_between_waypoints(
-            self.layout.ingress, self.tot_waypoint
-        )
-        return tot - travel_time
+    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
+        # Like transports, CSAR flights operate on their own schedule; there is no
+        # package to synchronize a time-on-target with.
+        return None
 
     def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
         return None
 
     @property
-    def csar_target_zone_radius(self) -> Distance:
-        return meters(500)
+    def mission_begin_on_station_time(self) -> datetime | None:
+        return None
 
     @property
     def mission_departure_time(self) -> datetime:
         return self.package.time_over_target
 
+    @property
+    def csar_target_zone_radius(self) -> Distance:
+        return meters(500)
+
     def ui_zone(self) -> UiZone:
-        return UiZone(
-            [self.layout.targets[0].position],
-            self.csar_target_zone_radius,
-        )
+        return UiZone([self.layout.pickup.position], self.csar_target_zone_radius)
 
 
-class Builder(FormationAttackBuilder[CsarFlightPlan, CsarLayout]):
+class Builder(IBuilder[CsarFlightPlan, CsarLayout]):
     def layout(self) -> CsarLayout:
         if not self.flight.is_helo and not self.flight.is_hercules:
             raise PlanningError(
                 "CSAR is only usable by helicopters and Anubis' C-130 mod"
             )
-        assert self.package.waypoints is not None
 
         builder = WaypointBuilder(self.flight)
 
@@ -91,26 +94,22 @@ class Builder(FormationAttackBuilder[CsarFlightPlan, CsarLayout]):
 
         target = self.package.target
 
+        # Run in from the departure side of the pilot so the approach doesn't
+        # overfly the pickup. Package waypoints don't exist for friendly targets,
+        # so the ingress is derived from the departure->target line.
+        heading = target.position.heading_between_point(self.flight.departure.position)
+        ingress_position = target.position.point_from_heading(
+            heading, self._ingress_distance.meters
+        )
         ingress = builder.ingress(
-            FlightWaypointType.INGRESS_CSAR,
-            (
-                self.package.waypoints.ingress
-                if not self.flight.is_hercules
-                else self.package.waypoints.initial
-            ),
-            target,
+            FlightWaypointType.INGRESS_CSAR, ingress_position, target
         )
 
-        # Marker/target waypoint at the pilot's location (shown to players, drives
-        # the CTLD-style landing zone radius on the map).
-        pickup_area = builder.assault_area(target)
+        pickup = builder.csar_pickup(target)
         if self.flight.is_hercules:
-            pickup_area.only_for_player = False
-            pickup_area.alt = feet(1000)
-
-        # Helicopters get a landing task at the pilot; fixed wing only overflies.
-        pickup = builder.csar_pickup(target) if self.flight.is_helo else None
-        pickup_position = pickup.position if pickup is not None else target.position
+            # Fixed wing can't be given a Land task by the AI; keep it a low
+            # overflight so a human C-130 pilot can still put it down.
+            pickup.alt = feet(1000)
 
         return CsarLayout(
             departure=builder.takeoff(self.flight.departure),
@@ -122,9 +121,8 @@ class Builder(FormationAttackBuilder[CsarFlightPlan, CsarLayout]):
             ),
             ingress=ingress,
             pickup=pickup,
-            targets=[pickup_area],
             nav_from=builder.nav_path(
-                pickup_position,
+                pickup.position,
                 self.flight.arrival.position,
                 altitude,
                 altitude_is_agl,
@@ -132,12 +130,14 @@ class Builder(FormationAttackBuilder[CsarFlightPlan, CsarLayout]):
             arrival=builder.land(self.flight.arrival),
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
-            hold=None,
-            join=builder.join(self.package.waypoints.ingress),
-            split=builder.split(self.flight.arrival.position),
-            refuel=None,
             custom_waypoints=list(),
         )
+
+    @property
+    def _ingress_distance(self) -> Distance:
+        from game.utils import nautical_miles
+
+        return nautical_miles(5)
 
     def build(self, dump_debug_info: bool = False) -> CsarFlightPlan:
         return CsarFlightPlan(self.flight, self.layout())

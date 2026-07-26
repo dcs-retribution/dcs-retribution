@@ -206,6 +206,14 @@ class Migrator:
 
                 if self.is_liberation:
                     s.set_auto_assignable_mission_types(s.auto_assignable_mission_types)
+
+                # One-time opt-in of existing squadrons to CSAR. Guarded by a flag
+                # so a player who later turns CSAR off for a squadron doesn't get
+                # it re-enabled on every subsequent load.
+                try_set_attr(s, "csar_auto_assign_seeded", False)
+                if not s.csar_auto_assign_seeded:
+                    s.enable_csar_if_capable()
+                    s.csar_auto_assign_seeded = True
         # SquadronDefs
         for coa in self.game.coalitions:
             for ac, sdefs in coa.air_wing.squadron_defs.items():

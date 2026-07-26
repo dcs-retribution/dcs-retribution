@@ -82,6 +82,13 @@ class Squadron:
 
     use_livery_set: bool = False  # if livery-set should be used when present
 
+    #: True once this squadron has been considered for CSAR auto-assignment. Lets
+    #: the migrator opt existing squadrons in exactly once, so a player who turns
+    #: CSAR back off doesn't have it re-enabled on the next load.
+    csar_auto_assign_seeded: bool = field(
+        init=False, hash=False, compare=False, default=False
+    )
+
     def __setstate__(self, state: dict[str, Any]) -> None:
         if "id" not in state:
             state["id"] = uuid4()
@@ -95,6 +102,9 @@ class Squadron:
             state["destroyed_aircraft"] = 0
         if "purchased_aircraft" not in state:
             state["purchased_aircraft"] = 0
+        if "csar_auto_assign_seeded" not in state:
+            # Pre-CSAR save: let the migrator opt this squadron in once.
+            state["csar_auto_assign_seeded"] = False
         self.__dict__.update(state)
 
     def __str__(self) -> str:
@@ -171,6 +181,20 @@ class Squadron:
         self.auto_assignable_mission_types = {
             t for t in mission_types if self.capable_of(t)
         }
+
+    def enable_csar_if_capable(self) -> None:
+        """Seeds CSAR into the auto-assignable set for CSAR-capable squadrons.
+
+        Campaign squadron configs (and existing saves) predate CSAR and never list
+        it as a secondary task, so without this no squadron would ever auto-plan a
+        rescue. This is deliberately *not* folded into
+        ``set_auto_assignable_mission_types``, which the Air Wing configuration
+        dialog uses to apply the player's explicit choices -- forcing CSAR there
+        would make it impossible to turn off. Called once at squadron creation and
+        once per squadron by the save migrator instead.
+        """
+        if self.capable_of(FlightType.CSAR):
+            self.auto_assignable_mission_types.add(FlightType.CSAR)
 
     def claim_new_pilot_if_allowed(self) -> Optional[Pilot]:
         if self.pilot_limits_enabled:

@@ -495,6 +495,76 @@ def test_wiped_out_ai_flight_fails() -> None:
 
 
 # ---------------------------------------------------------------------------
+# Planning prerequisites
+#
+# These pin the two bugs that stopped CSAR missions from ever being planned:
+# squadrons were never opted in to the CSAR task, and the flight plan depended on
+# package waypoints that are deliberately not generated for friendly targets.
+# ---------------------------------------------------------------------------
+
+
+def test_csar_flight_plan_does_not_require_package_waypoints() -> None:
+    """A DownedPilot is friendly, and IBuilder skips package-waypoint generation
+    for friendly targets, so the CSAR layout must not depend on them."""
+    import inspect
+
+    from game.ato.flightplans import csar as csar_module
+
+    source = inspect.getsource(csar_module)
+    assert "package.waypoints" not in source, (
+        "CSAR flight plan must not use package waypoints: they are never "
+        "generated for friendly targets (see IBuilder."
+        "_generate_package_waypoints_if_needed)"
+    )
+
+
+def test_csar_flight_plan_builds_from_standard_layout() -> None:
+    from game.ato.flightplans.csar import CsarFlightPlan, CsarLayout
+    from game.ato.flightplans.standard import StandardFlightPlan, StandardLayout
+
+    assert issubclass(CsarFlightPlan, StandardFlightPlan)
+    assert issubclass(CsarLayout, StandardLayout)
+
+
+def test_enable_csar_if_capable_opts_in_capable_squadron() -> None:
+    from game.squadrons.squadron import Squadron
+
+    squadron = Squadron.__new__(Squadron)
+    squadron.aircraft = _aircraft_named("UH-60A")
+    squadron.auto_assignable_mission_types = {FlightType.TRANSPORT}
+    squadron.enable_csar_if_capable()
+    assert FlightType.CSAR in squadron.auto_assignable_mission_types
+
+
+def test_enable_csar_if_capable_skips_incapable_squadron() -> None:
+    from game.squadrons.squadron import Squadron
+
+    squadron = Squadron.__new__(Squadron)
+    squadron.aircraft = _aircraft_named("F/A-18C Hornet (Lot 20)")
+    squadron.auto_assignable_mission_types = {FlightType.CAS}
+    squadron.enable_csar_if_capable()
+    assert FlightType.CSAR not in squadron.auto_assignable_mission_types
+
+
+def test_set_auto_assignable_does_not_force_csar_on() -> None:
+    """The Air Wing dialog applies the player's explicit choices through this
+    method, so it must stay a pure filter or CSAR could never be turned off."""
+    from game.squadrons.squadron import Squadron
+
+    squadron = Squadron.__new__(Squadron)
+    squadron.aircraft = _aircraft_named("UH-60A")
+    squadron.set_auto_assignable_mission_types({FlightType.TRANSPORT})
+    assert FlightType.CSAR not in squadron.auto_assignable_mission_types
+
+
+def _aircraft_named(display_name: str) -> Any:
+    for aircraft in AircraftType.iter_all():
+        if aircraft.display_name == display_name:
+            return aircraft
+    raise AssertionError(f"aircraft {display_name} not found")
+
+
+# ---------------------------------------------------------------------------
 # Lua data serialization
 # ---------------------------------------------------------------------------
 
