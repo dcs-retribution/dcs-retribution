@@ -26,6 +26,7 @@ settings:
   f22_raptor: true
   fa_18efg: true
   hercules: true
+  uh_60l: true
   squadron_start_full: true
 squadrons:
   #Ownfor Carrier
@@ -40,7 +41,12 @@ squadrons:
       secondary: any
       aircraft:
         - F/A-18C Hornet (Lot 20)
-      size: 24
+      size: 16
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - F-14B(U) Tomcat
+      size: 16
     - primary: AEW&C
       aircraft:
         - E-2D Advanced Hawkeye
@@ -52,6 +58,7 @@ squadrons:
     - primary: Air Assault
       secondary: any
       aircraft:
+        - UH-60L
         - UH-60A
       size: 4
   #Bodo

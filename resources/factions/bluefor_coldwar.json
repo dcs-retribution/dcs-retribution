@@ -16,6 +16,7 @@
     "F-14A Tomcat (AI)",
     "F-14A Tomcat (Block 135-GR Late)",
     "F-14B Tomcat",
+    "F-14B(U) Tomcat",
     "F-4E Phantom II",
     "F-4E-45MC Phantom II",
     "F-5E Tiger II",
@@ -63,7 +64,7 @@
     "CVN-74 John C. Stennis"
   ],
   "air_defense_units": [
-    "SAM Hawk SR (AN/MPQ-50)",
+    "EWR AN/FPS-117 Radar",
     "M163 Vulcan Air Defense System",
     "M48 Chaparral"
   ],
