@@ -125,9 +125,9 @@ class VSN_F100(PlaneType):
             4,
             Weapons.BRU_33_with_2_x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
-        TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
+        TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD = (
             4,
-            Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
+            Weapons.TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
         Mk_82___500lb_GP_Bomb_LD = (4, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_83___1000lb_GP_Bomb_LD = (4, Weapons.Mk_83___1000lb_GP_Bomb_LD)
@@ -150,25 +150,25 @@ class VSN_F100(PlaneType):
         AIM_9P_Sidewinder_IR_AAM = (5, Weapons.AIM_9P_Sidewinder_IR_AAM)
         AIM_9L_Sidewinder_IR_AAM = (5, Weapons.AIM_9L_Sidewinder_IR_AAM)
         AIM_9B_Sidewinder_IR_AAM = (5, Weapons.AIM_9B_Sidewinder_IR_AAM)
-        LAU_105_with_2_x_AIM_9P_Sidewinder_IR_AAM = (
+        LAU_105___2_x_AIM_9P_Sidewinder_IR_AAM = (
             5,
-            Weapons.LAU_105_with_2_x_AIM_9P_Sidewinder_IR_AAM,
+            Weapons.LAU_105___2_x_AIM_9P_Sidewinder_IR_AAM,
         )
-        LAU_105_with_2_x_AIM_9M_Sidewinder_IR_AAM = (
+        LAU_105___2_x_AIM_9M_Sidewinder_IR_AAM = (
             5,
-            Weapons.LAU_105_with_2_x_AIM_9M_Sidewinder_IR_AAM,
+            Weapons.LAU_105___2_x_AIM_9M_Sidewinder_IR_AAM,
         )
-        LAU_7_with_2_x_AIM_9L_Sidewinder_IR_AAM = (
+        LAU_7___2_x_AIM_9L_Sidewinder_IR_AAM = (
             5,
-            Weapons.LAU_7_with_2_x_AIM_9L_Sidewinder_IR_AAM,
+            Weapons.LAU_7___2_x_AIM_9L_Sidewinder_IR_AAM,
         )
-        LAU_7_with_2_x_AIM_9B_Sidewinder_IR_AAM = (
+        LAU_7___2_x_AIM_9B_Sidewinder_IR_AAM = (
             5,
-            Weapons.LAU_7_with_2_x_AIM_9B_Sidewinder_IR_AAM,
+            Weapons.LAU_7___2_x_AIM_9B_Sidewinder_IR_AAM,
         )
-        LAU_7_with_2_x_AIM_9P5_Sidewinder_IR_AAM = (
+        LAU_7___2_x_AIM_9P5_Sidewinder_IR_AAM = (
             5,
-            Weapons.LAU_7_with_2_x_AIM_9P5_Sidewinder_IR_AAM,
+            Weapons.LAU_7___2_x_AIM_9P5_Sidewinder_IR_AAM,
         )
         Mk_84___2000lb_GP_Bomb_LD = (5, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         MER2_with_2_x_Mk_82___500lb_GP_Bombs_LD = (
@@ -185,9 +185,9 @@ class VSN_F100(PlaneType):
         )
         Mk_82___500lb_GP_Bomb_LD = (5, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_83___1000lb_GP_Bomb_LD = (5, Weapons.Mk_83___1000lb_GP_Bomb_LD)
-        TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
+        TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD = (
             5,
-            Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
+            Weapons.TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
         MER_6_M117_F_105 = (5, WeaponsF100.MER_6_M117_F_105)
         TER_M117_F_105 = (5, WeaponsF100.TER_M117_F_105)
@@ -204,9 +204,9 @@ class VSN_F100(PlaneType):
             5,
             Weapons.BRU_33_2_x_LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
         )
-        LAU_7_with_AIM_9P_Sidewinder_IR_AAM = (
+        LAU_7___AIM_9P_Sidewinder_IR_AAM = (
             5,
-            Weapons.LAU_7_with_AIM_9P_Sidewinder_IR_AAM,
+            Weapons.LAU_7___AIM_9P_Sidewinder_IR_AAM,
         )
         LAU_7_with_AIM_9B_Sidewinder_IR_AAM = (
             5,
@@ -233,25 +233,25 @@ class VSN_F100(PlaneType):
         AIM_9P_Sidewinder_IR_AAM = (7, Weapons.AIM_9P_Sidewinder_IR_AAM)
         AIM_9L_Sidewinder_IR_AAM = (7, Weapons.AIM_9L_Sidewinder_IR_AAM)
         AIM_9B_Sidewinder_IR_AAM = (7, Weapons.AIM_9B_Sidewinder_IR_AAM)
-        LAU_105_with_2_x_AIM_9P_Sidewinder_IR_AAM = (
+        LAU_105___2_x_AIM_9P_Sidewinder_IR_AAM = (
             7,
-            Weapons.LAU_105_with_2_x_AIM_9P_Sidewinder_IR_AAM,
+            Weapons.LAU_105___2_x_AIM_9P_Sidewinder_IR_AAM,
         )
-        LAU_105_with_2_x_AIM_9M_Sidewinder_IR_AAM = (
+        LAU_105___2_x_AIM_9M_Sidewinder_IR_AAM = (
             7,
-            Weapons.LAU_105_with_2_x_AIM_9M_Sidewinder_IR_AAM,
+            Weapons.LAU_105___2_x_AIM_9M_Sidewinder_IR_AAM,
         )
-        LAU_7_with_2_x_AIM_9L_Sidewinder_IR_AAM = (
+        LAU_7___2_x_AIM_9L_Sidewinder_IR_AAM = (
             7,
-            Weapons.LAU_7_with_2_x_AIM_9L_Sidewinder_IR_AAM,
+            Weapons.LAU_7___2_x_AIM_9L_Sidewinder_IR_AAM,
         )
-        LAU_7_with_2_x_AIM_9B_Sidewinder_IR_AAM = (
+        LAU_7___2_x_AIM_9B_Sidewinder_IR_AAM = (
             7,
-            Weapons.LAU_7_with_2_x_AIM_9B_Sidewinder_IR_AAM,
+            Weapons.LAU_7___2_x_AIM_9B_Sidewinder_IR_AAM,
         )
-        LAU_7_with_2_x_AIM_9P5_Sidewinder_IR_AAM = (
+        LAU_7___2_x_AIM_9P5_Sidewinder_IR_AAM = (
             7,
-            Weapons.LAU_7_with_2_x_AIM_9P5_Sidewinder_IR_AAM,
+            Weapons.LAU_7___2_x_AIM_9P5_Sidewinder_IR_AAM,
         )
         Mk_84___2000lb_GP_Bomb_LD = (7, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         MER2_with_2_x_Mk_82___500lb_GP_Bombs_LD = (
@@ -268,9 +268,9 @@ class VSN_F100(PlaneType):
         )
         Mk_82___500lb_GP_Bomb_LD = (7, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_83___1000lb_GP_Bomb_LD = (7, Weapons.Mk_83___1000lb_GP_Bomb_LD)
-        TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
+        TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD = (
             7,
-            Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
+            Weapons.TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
         MER_6_M117_F_105 = (7, WeaponsF100.MER_6_M117_F_105)
         TER_M117_F_105 = (7, WeaponsF100.TER_M117_F_105)
@@ -291,9 +291,9 @@ class VSN_F100(PlaneType):
             7,
             Weapons.LAU_7_with_AIM_9B_Sidewinder_IR_AAM,
         )
-        LAU_7_with_AIM_9P_Sidewinder_IR_AAM = (
+        LAU_7___AIM_9P_Sidewinder_IR_AAM = (
             7,
-            Weapons.LAU_7_with_AIM_9P_Sidewinder_IR_AAM,
+            Weapons.LAU_7___AIM_9P_Sidewinder_IR_AAM,
         )
         LAU_118A___AGM_45B_Shrike_ARM = (
             7,
@@ -320,9 +320,9 @@ class VSN_F100(PlaneType):
             8,
             Weapons.BRU_33_with_2_x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
-        TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
+        TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD = (
             8,
-            Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
+            Weapons.TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
         Mk_82___500lb_GP_Bomb_LD = (8, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_83___1000lb_GP_Bomb_LD = (8, Weapons.Mk_83___1000lb_GP_Bomb_LD)

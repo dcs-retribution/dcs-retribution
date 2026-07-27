@@ -35,16 +35,16 @@ settings:
   usamilitaryassetspack: true
   russianmilitaryassetspack: true
   hercules: true
+  uh_60l: true
   squadron_start_full: true
 squadrons:
   #Kandahar
   7:
-    - primary: Strike
+    - primary: OCA/Runway
       secondary: air-to-ground
       aircraft:
-        - "[CH] B-21"
         - B-1B Lancer
-      size: 8
+      size: 4
     - primary: Transport
       secondary: any
       aircraft:
@@ -92,7 +92,12 @@ squadrons:
       secondary: any
       aircraft:
         - F/A-18C Hornet (Lot 20)
-      size: 16
+      size: 12
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - F-14B(U) Tomcat
+      size: 12
     - primary: SEAD Escort
       secondary: air-to-ground
       aircraft:
@@ -118,6 +123,7 @@ squadrons:
     - primary: Air Assault
       secondary: any
       aircraft:
+        - UH-60L
         - UH-60A
       size: 4
   #Shindand
