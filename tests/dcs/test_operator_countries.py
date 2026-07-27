@@ -72,6 +72,17 @@ def test_curated_tables_resolve_against_pydcs() -> None:
             country_with_name(name)  # raises KeyError on a bad name
 
 
+def test_curated_typo_degrades_instead_of_crashing(monkeypatch: Any) -> None:
+    # operator_countries runs inside the Air Wing dialog's __init__, so a typo'd
+    # curated country name must not raise KeyError (which would crash the dialog
+    # on open). It skips the bad entry and returns the resolvable ones; CI's
+    # test_curated_tables_resolve_against_pydcs is the loud dev-time guard.
+    hornet = plane_map["FA-18C_hornet"]
+    monkeypatch.setitem(CURATED_OPERATORS, hornet.id, ("USA", "Atlantis", "Canada"))
+    names = {country.name for country in operator_countries(hornet)}
+    assert names == {"USA", "Canada"}
+
+
 def test_ai_siblings_resolve_and_discriminate() -> None:
     for module_id, sibling_id in AI_SIBLING_IDS.items():
         assert plane_map.get(module_id) or helicopter_map.get(module_id), module_id

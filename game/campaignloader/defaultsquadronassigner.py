@@ -4,6 +4,7 @@ import logging
 import random
 from typing import Optional, TYPE_CHECKING
 
+from dcs.countries import CombinedJointTaskForcesBlue, CombinedJointTaskForcesRed
 from dcs.country import Country
 
 from game.squadrons import Squadron
@@ -12,11 +13,20 @@ from .campaignairwingconfig import CampaignAirWingConfig, SquadronConfig
 from ..ato.flighttype import FlightType
 from ..dcs.aircrafttype import AircraftType
 from ..dcs.countries import country_with_name
+from ..dcs.operatorcountries import operator_countries
 from ..theater import ControlPoint
 
 if TYPE_CHECKING:
     from game import Game
     from game.coalition import Coalition
+
+
+#: The combined "countries" (CJTF Blue/Red) that mix many nations' presets.
+#: Only under one of these does an unpinned squadron need a country default --
+#: a single-nation faction is already restricted to its own country.
+CJTF_COUNTRY_IDS = frozenset(
+    {CombinedJointTaskForcesBlue.id, CombinedJointTaskForcesRed.id}
+)
 
 
 def resolve_config_country(config: SquadronConfig) -> Optional[Country]:
@@ -77,13 +87,36 @@ class DefaultSquadronAssigner:
                 )
                 self.air_wing.add_squadron(squadron)
 
+    def _default_country_for(self, aircraft: AircraftType) -> Optional[Country]:
+        """The nation an *unpinned* squadron should fly under.
+
+        Under a CJTF/combined faction the airframe-name preset pick is otherwise
+        a random.choice across every nation's presets, so an A-50 with no preset
+        squadron rolls the topmost livery (Algerian) and a USAF F-16 can come out
+        Israeli. Default to the airframe's most likely operator -- the #627
+        ``operator_countries`` resolution, which is Russia for the A-50, USA for
+        the Hornet, etc. -- so DCS voice/comms and pilot names match. Fall back to
+        the faction's own (CJTF) country when there is no operator data, e.g. a
+        mod airframe. Single-nation factions return None: the squadron loader
+        already restricts them to the faction country, and forcing the airframe's
+        origin there would mis-nation a foreign type (Iran's F-14 is not USAF)."""
+        if self.coalition.faction.country.id not in CJTF_COUNTRY_IDS:
+            return None
+        operators = [
+            country
+            for country in operator_countries(aircraft.dcs_unit_type)
+            if country.id not in CJTF_COUNTRY_IDS
+        ]
+        return operators[0] if operators else self.coalition.faction.country
+
     def find_squadron_for(
         self, config: SquadronConfig, control_point: ControlPoint
     ) -> Optional[SquadronDef]:
         # A campaign-pinned nation (#627) makes the preset pick deterministic in
         # country: only same-nation presets are eligible, and the generated
         # fallback is stamped with the pinned country by
-        # override_squadron_defaults.
+        # override_squadron_defaults. When unpinned, find_preferred_squadron
+        # applies the CJTF country default per airframe (see _default_country_for).
         country = resolve_config_country(config)
         for preferred_aircraft in config.aircraft:
             squadron_def = self.find_preferred_squadron(
@@ -105,10 +138,16 @@ class DefaultSquadronAssigner:
             return squadron_def
 
         # If we can't find any squadron matching the requirement, we should
-        # create one.
-        return self.air_wing.squadron_def_generator.generate_for_task(
+        # create one, defaulting an unpinned CJTF squadron's nation to the
+        # generated airframe's operator (rather than the combined country).
+        generated = self.air_wing.squadron_def_generator.generate_for_task(
             config.primary, control_point
         )
+        if generated is not None and country is None:
+            default_country = self._default_country_for(generated.aircraft)
+            if default_country is not None:
+                generated.country = default_country
+        return generated
 
     def find_preferred_squadron(
         self,
@@ -143,8 +182,16 @@ class DefaultSquadronAssigner:
         if aircraft not in self.coalition.faction.all_aircrafts:
             return None
 
+        # Unpinned under a CJTF faction: prefer a same-nation preset for the
+        # airframe's operator instead of rolling a random nation, and stamp the
+        # generated fallback with it (see _default_country_for). A pinned country
+        # already flows in as `country`; override_squadron_defaults stamps that.
+        effective_country = (
+            country if country is not None else self._default_country_for(aircraft)
+        )
+
         squadron_def = self.find_squadron_for_airframe(
-            aircraft, task, control_point, country
+            aircraft, task, control_point, effective_country
         )
         if squadron_def is not None and (
             squadron_def.livery is not None or squadron_def.livery_set is not None
@@ -153,7 +200,10 @@ class DefaultSquadronAssigner:
 
         # No premade squadron available for this aircraft that meets the requirements,
         # so generate one if possible.
-        return self.air_wing.squadron_def_generator.generate_for_aircraft(aircraft)
+        generated = self.air_wing.squadron_def_generator.generate_for_aircraft(aircraft)
+        if generated is not None and country is None and effective_country is not None:
+            generated.country = effective_country
+        return generated
 
     @staticmethod
     def squadron_compatible_with(

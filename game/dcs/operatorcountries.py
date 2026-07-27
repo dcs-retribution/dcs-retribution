@@ -18,6 +18,7 @@ squadron nation: the F/A-18C offers the Third Reich. Resolution order:
 
 from __future__ import annotations
 
+import logging
 from typing import Optional, Type
 
 from dcs.countries import country_dict
@@ -179,7 +180,25 @@ def operator_countries(unit_type: Type[FlyingType]) -> list[Country]:
     """
     curated = CURATED_OPERATORS.get(unit_type.id)
     if curated is not None:
-        return [country_with_name(name) for name in curated]
+        # Resolve each curated name defensively: a typo must not raise
+        # KeyError here, because this runs inside the Air Wing dialog's
+        # __init__ (it would crash the dialog on open). Skip the bad entry
+        # and carry on, mirroring resolve_config_country's degrade-don't-abort
+        # policy. The authoritative loud guard against typos is the CI test
+        # test_curated_tables_resolve_against_pydcs, which fails the build.
+        resolved: list[Country] = []
+        for name in curated:
+            try:
+                resolved.append(country_with_name(name))
+            except KeyError:
+                logging.error(
+                    "Curated operator country %r for %s is not a DCS country "
+                    "name; skipping it (see CI test "
+                    "test_curated_tables_resolve_against_pydcs)",
+                    name,
+                    unit_type.id,
+                )
+        return resolved
 
     roster = _roster(unit_type)
     if 0 < len(roster) < len(country_dict):
