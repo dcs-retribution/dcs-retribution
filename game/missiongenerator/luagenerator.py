@@ -318,6 +318,12 @@ class LuaGenerator:
             "rescueAI": "true" if settings.csar_rescue_ai_pilots else "false",
             "blueTemplate": templates.get("blue", ""),
             "redTemplate": templates.get("red", ""),
+            # MOOSE defaults its CSAR countries to USA/Russia and applies them
+            # via InitCountry() when spawning the pilot. DCS derives coalition
+            # membership from country, so a faction that doesn't field those
+            # countries would get its downed pilots on the wrong side.
+            "blueCountry": str(self.game.blue.faction.country.id),
+            "redCountry": str(self.game.red.faction.country.id),
         }
         for key, value in flags.items():
             csar_object.add_item(key).set_value(value)

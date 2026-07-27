@@ -40,6 +40,12 @@ class DownedPilotJs(BaseModel):
 
     @staticmethod
     def all_in_game(game: Game) -> list[DownedPilotJs]:
-        # Only the player coalition's downed pilots are exposed; enemy downed
-        # pilots stay hidden from the map.
-        return [DownedPilotJs.for_pilot(downed) for downed in game.blue.downed_pilots]
+        # Both coalitions are exposed. The map already shows enemy flights and
+        # ground objects, so hiding red downed pilots would be inconsistent, and
+        # seeing opfor rescues in progress is useful. The `blue` flag drives the
+        # icon colour on the map.
+        return [
+            DownedPilotJs.for_pilot(downed)
+            for coalition in (game.blue, game.red)
+            for downed in coalition.downed_pilots
+        ]

@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Iterator, TYPE_CHECKING, Type
 
-from game.utils import Distance, feet, meters
+from game.utils import Distance, meters
 from .ibuilder import IBuilder
 from .planningerror import PlanningError
 from .standard import StandardFlightPlan, StandardLayout
@@ -82,15 +82,15 @@ class CsarFlightPlan(StandardFlightPlan[CsarLayout], UiZoneDisplay):
 
 class Builder(IBuilder[CsarFlightPlan, CsarLayout]):
     def layout(self) -> CsarLayout:
-        if not self.flight.is_helo and not self.flight.is_hercules:
-            raise PlanningError(
-                "CSAR is only usable by helicopters and Anubis' C-130 mod"
-            )
+        # Helicopters only: the pickup is an unprepared site and the DCS AI Land
+        # task is helicopter-only, so a fixed-wing CSAR flight would just orbit.
+        if not self.flight.is_helo:
+            raise PlanningError("CSAR is only usable by helicopters")
 
         builder = WaypointBuilder(self.flight)
 
         altitude = builder.get_cruise_altitude
-        altitude_is_agl = self.flight.is_helo
+        altitude_is_agl = True
 
         target = self.package.target
 
@@ -106,10 +106,6 @@ class Builder(IBuilder[CsarFlightPlan, CsarLayout]):
         )
 
         pickup = builder.csar_pickup(target)
-        if self.flight.is_hercules:
-            # Fixed wing can't be given a Land task by the AI; keep it a low
-            # overflight so a human C-130 pilot can still put it down.
-            pickup.alt = feet(1000)
 
         return CsarLayout(
             departure=builder.takeoff(self.flight.departure),

@@ -277,7 +277,10 @@ def test_advance_turn_decrements_without_expiry() -> None:
         ("UH-60A", True),
         ("CH-47F Block I", True),
         ("Mi-8MTV2 Hip", True),
-        ("C-130J-30 Super Hercules", True),
+        # Fixed-wing transports can't set down at an unprepared pickup site; the
+        # DCS AI Land task is helicopter-only so they would just orbit the pilot.
+        ("C-130J-30 Super Hercules", False),
+        ("C-130J-30", False),
         ("OH-58D Kiowa Warrior", False),  # cabin_size 0
         ("F/A-18C Hornet (Lot 20)", False),  # not a transport
     ],
@@ -557,6 +560,37 @@ def test_set_auto_assignable_does_not_force_csar_on() -> None:
     assert FlightType.CSAR not in squadron.auto_assignable_mission_types
 
 
+def test_csar_pickup_waits_long_enough_to_board() -> None:
+    """The shared LandingZoneBuilder only holds the AI on the ground for 30s,
+    which isn't long enough for the pilot to run over and board."""
+    from game.missiongenerator.aircraft.waypoints.csarpickup import (
+        LAND_DURATION_SECONDS,
+    )
+
+    # Must exceed the Lua handler's patience timer so the helicopter is still
+    # there when the pickup completes (see AI_PATIENCE_SECONDS in OpsCSAR.lua).
+    assert LAND_DURATION_SECONDS > 120
+
+
+def test_csar_pickup_uses_dedicated_builder() -> None:
+    from game.ato.flightwaypointtype import FlightWaypointType
+    from game.missiongenerator.aircraft.waypoints.csarpickup import CsarPickupBuilder
+    from game.missiongenerator.aircraft.waypoints.waypointgenerator import (
+        WaypointGenerator,
+    )
+
+    generator = WaypointGenerator.__new__(WaypointGenerator)
+    generator.flight = MagicMock()
+    generator.group = MagicMock()
+    generator.mission = MagicMock()
+    generator.time = MagicMock()
+    generator.settings = MagicMock()
+    generator.mission_data = MagicMock()
+    waypoint = MagicMock()
+    waypoint.waypoint_type = FlightWaypointType.CSAR_PICKUP
+    assert isinstance(generator.builder_for_waypoint(waypoint), CsarPickupBuilder)
+
+
 def _aircraft_named(display_name: str) -> Any:
     for aircraft in AircraftType.iter_all():
         if aircraft.display_name == display_name:
@@ -595,8 +629,10 @@ def test_generate_csar_data_serializes_and_evaluates() -> None:
     )
     game.blue.player = Player.BLUE
     game.blue.downed_pilots = [downed]
+    game.blue.faction.country.id = 15  # Israel
     game.red.player = Player.RED
     game.red.downed_pilots = []
+    game.red.faction.country.id = 18  # Syria
 
     mission_data = MissionData()
     mission_data.csar_pilot_templates = {"blue": "CSAR_PILOT_BLUE"}
@@ -617,10 +653,18 @@ def test_generate_csar_data_serializes_and_evaluates() -> None:
     assert csar.blueEnabled == "true"
     assert csar.redEnabled == "false"
     assert csar.blueTemplate == "CSAR_PILOT_BLUE"
+    # MOOSE spawns the pilot with InitCountry(), and DCS derives coalition
+    # membership from country, so these must be the faction's own countries
+    # rather than MOOSE's USA/Russia defaults.
+    assert csar.blueCountry == "15"
+    assert csar.redCountry == "18"
     assert csar.downedPilots[1].id == str(downed.id)
     assert csar.downedPilots[1].aircraft == "UH-60A"
-    # Hercules is a MOOSE-unknown transport that must appear in the whitelist.
     rescue_ids = {
         csar.rescueTypes[i].dcs_id for i in range(1, len(csar.rescueTypes) + 1)
     }
-    assert "Hercules" in rescue_ids
+    # Transport helicopters MOOSE ships no default capacity for must still be
+    # whitelisted, and fixed-wing must not appear at all.
+    assert "CH-47D" in rescue_ids
+    assert "Hercules" not in rescue_ids
+    assert "C-130J-30" not in rescue_ids

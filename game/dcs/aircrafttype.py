@@ -576,9 +576,7 @@ class AircraftType(UnitType[Type[FlyingType]]):
             cls._set_props_overrides(prop_overrides, aircraft)
 
         cabin_size = data.get("cabin_size", 10 if aircraft.helicopter else 0)
-        task_priorities = cls.get_task_priorities(
-            data, aircraft, variant_id, cabin_size
-        )
+        task_priorities = cls.get_task_priorities(data, aircraft, cabin_size)
 
         cls._custom_weapon_injections(aircraft, data)
         cls._user_weapon_injections(aircraft)
@@ -630,16 +628,11 @@ class AircraftType(UnitType[Type[FlyingType]]):
             ),
         )
 
-    #: Variant ids of the Anubis C-130 mod that, like helicopters, can land to
-    #: pick up a downed pilot. Kept in sync with Flight.is_hercules.
-    _HERCULES_VARIANTS = frozenset({"C-130J-30", "C-130J-30 Super Hercules"})
-
     @classmethod
     def get_task_priorities(
         cls,
         data: dict[str, Any],
         aircraft: Optional[Type[FlyingType]] = None,
-        variant_id: Optional[str] = None,
         cabin_size: int = 0,
     ) -> dict[FlightType, int]:
         task_priorities: dict[FlightType, int] = {}
@@ -659,15 +652,15 @@ class AircraftType(UnitType[Type[FlyingType]]):
                 task_priorities[FlightType.ARMED_RECON] = task_priorities[
                     FlightType.BAI
                 ]
-        # Derive CSAR capability. A CSAR aircraft must be able to actually set down
-        # and carry a pilot, so we require a positive cabin size and either a
-        # helicopter or the (fixed-wing, landing-capable) Hercules mod. This
-        # deliberately skips zero-cabin utility helos like the OH-6A. An explicit
-        # per-aircraft `CSAR:` task entry always wins over this derivation.
+        # Derive CSAR capability. Helicopters only: a CSAR aircraft has to actually
+        # set down at an unprepared pickup site, and fixed-wing transports (the
+        # C-130/Hercules mod included) cannot -- the DCS AI Land task is
+        # helicopter-only, so they just orbit the pilot indefinitely. A positive
+        # cabin size is also required, which skips zero-cabin attack/scout helos
+        # like the OH-58D. An explicit per-aircraft `CSAR:` task entry always wins
+        # over this derivation.
         if FlightType.CSAR not in task_priorities and cabin_size > 0:
-            is_helo = aircraft is not None and aircraft.helicopter
-            is_hercules = variant_id in cls._HERCULES_VARIANTS
-            if is_helo or is_hercules:
+            if aircraft is not None and aircraft.helicopter:
                 if FlightType.AIR_ASSAULT in task_priorities:
                     task_priorities[FlightType.CSAR] = task_priorities[
                         FlightType.AIR_ASSAULT
