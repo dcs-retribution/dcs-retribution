@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from pathlib import Path
 from types import SimpleNamespace
-from typing import Any
+from typing import Any, cast
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -599,6 +599,63 @@ def _aircraft_named(display_name: str) -> Any:
 
 
 # ---------------------------------------------------------------------------
+# AI vs player rescue routing
+#
+# MOOSE Ops.CSAR only boards pilots onto player helicopters, so pilots whose
+# rescue flight is AI-only are handed to our own handler in OpsCSAR.lua instead.
+# ---------------------------------------------------------------------------
+
+
+def _luagen_with_csar_flights(flights: list[Any]) -> Any:
+    from game.missiongenerator.luagenerator import LuaGenerator
+
+    package = SimpleNamespace(flights=flights)
+    blue = SimpleNamespace(ato=SimpleNamespace(packages=[package]))
+    red = SimpleNamespace(ato=SimpleNamespace(packages=[]))
+    generator = LuaGenerator.__new__(LuaGenerator)
+    # _ai_rescue_targets only walks game.blue/game.red ATOs.
+    generator.game = cast(Any, SimpleNamespace(blue=blue, red=red))
+    return generator
+
+
+def _csar_flight_for(downed: DownedPilot, client_count: int) -> Any:
+    return SimpleNamespace(
+        flight_type=FlightType.CSAR,
+        client_count=client_count,
+        package=SimpleNamespace(target=downed),
+    )
+
+
+def test_ai_only_csar_flight_marks_pilot_for_ai_rescue() -> None:
+    downed = _standalone_downed()
+    generator = _luagen_with_csar_flights([_csar_flight_for(downed, 0)])
+    assert generator._ai_rescue_targets() == {downed.id}
+
+
+def test_player_crewed_csar_flight_stays_on_ops_csar() -> None:
+    downed = _standalone_downed()
+    generator = _luagen_with_csar_flights([_csar_flight_for(downed, 2)])
+    assert generator._ai_rescue_targets() == set()
+
+
+def test_pilot_with_both_flights_stays_on_ops_csar() -> None:
+    """If any player is flying the rescue, Ops.CSAR must own the pilot so the
+    player gets beacons, the F10 menu and MOOSE's boarding."""
+    downed = _standalone_downed()
+    generator = _luagen_with_csar_flights(
+        [_csar_flight_for(downed, 0), _csar_flight_for(downed, 2)]
+    )
+    assert generator._ai_rescue_targets() == set()
+
+
+def test_pilot_with_no_csar_flight_stays_on_ops_csar() -> None:
+    """No rescue planned: leave it to Ops.CSAR so a player can still pick them
+    up opportunistically."""
+    generator = _luagen_with_csar_flights([])
+    assert generator._ai_rescue_targets() == set()
+
+
+# ---------------------------------------------------------------------------
 # Lua data serialization
 # ---------------------------------------------------------------------------
 
@@ -660,6 +717,8 @@ def test_generate_csar_data_serializes_and_evaluates() -> None:
     assert csar.redCountry == "18"
     assert csar.downedPilots[1].id == str(downed.id)
     assert csar.downedPilots[1].aircraft == "UH-60A"
+    # No CSAR flight planned for this pilot, so Ops.CSAR keeps ownership.
+    assert csar.downedPilots[1].aiRescue == "false"
     rescue_ids = {
         csar.rescueTypes[i].dcs_id for i in range(1, len(csar.rescueTypes) + 1)
     }

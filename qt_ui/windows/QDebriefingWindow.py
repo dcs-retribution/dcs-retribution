@@ -76,6 +76,40 @@ class ScrollingCasualtyReportContainer(QGroupBox):
         self.setLayout(layout)
 
 
+class RescueReport(QGroupBox):
+    """Lists the downed pilots CSAR recovered this mission, per coalition.
+
+    Rescues are the counterpart to the casualty report: an airframe is still lost,
+    but the pilot comes back, so they are reported separately rather than folded
+    into the loss grid.
+    """
+
+    def __init__(self, debriefing: Debriefing) -> None:
+        super().__init__("Pilots recovered by CSAR:")
+        layout = QGridLayout()
+        self.setLayout(layout)
+
+        any_rescues = False
+        for player in (Player.BLUE, Player.RED):
+            rescued = debriefing.rescued_pilots_for(player)
+            if not rescued:
+                continue
+            any_rescues = True
+            country = (
+                debriefing.player_country
+                if player.is_blue
+                else debriefing.enemy_country
+            )
+            layout.addWidget(QLabel(f"<b>{country}</b>"), layout.rowCount(), 0)
+            for pilot in rescued:
+                row = layout.rowCount()
+                layout.addWidget(QLabel(pilot.name), row, 0)
+                layout.addWidget(QLabel(f"{pilot.squadron} ({pilot.aircraft})"), row, 1)
+
+        if not any_rescues:
+            layout.addWidget(QLabel("No pilots were recovered."), 0, 0)
+
+
 class QDebriefingWindow(QDialog):
     def __init__(self, debriefing: Debriefing):
         super(QDebriefingWindow, self).__init__()
@@ -107,6 +141,8 @@ class QDebriefingWindow(QDialog):
             debriefing, player=Player.RED
         )
         layout.addWidget(enemy_lost_units, 1)
+
+        layout.addWidget(RescueReport(debriefing))
 
         okay = QPushButton("Okay")
         okay.clicked.connect(self.close)

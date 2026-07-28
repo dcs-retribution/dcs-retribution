@@ -5,6 +5,7 @@ import os
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import TYPE_CHECKING, Optional
+from uuid import UUID
 
 from dcs import Mission
 from dcs.action import DoScript, DoScriptFile
@@ -15,6 +16,7 @@ from game.ato import FlightType
 from game.data.units import UnitClass
 from game.dcs.aircrafttype import AircraftType
 from game.plugins import LuaPluginManager
+from game.squadrons.downedpilot import DownedPilot
 from game.theater import TheaterGroundObject
 from game.theater.iadsnetwork.iadsrole import IadsRole
 from game.utils import escape_string_for_lua
@@ -338,6 +340,7 @@ class LuaGenerator:
             if not enabled:
                 continue
             side = "blue" if coalition.player.is_blue else "red"
+            ai_rescued = self._ai_rescue_targets()
             for downed in coalition.downed_pilots:
                 item = downed_object.add_item()
                 item.add_key_value("id", str(downed.id))
@@ -346,6 +349,12 @@ class LuaGenerator:
                 item.add_key_value("coalition", side)
                 item.add_key_value("description", downed.pilot.name)
                 item.add_key_value("aircraft", downed.aircraft_name)
+                # MOOSE Ops.CSAR only ever boards pilots onto *player*
+                # helicopters, so pilots whose rescue flight is AI-only are
+                # handled by our own logic in OpsCSAR.lua instead.
+                item.add_key_value(
+                    "aiRescue", "true" if downed.id in ai_rescued else "false"
+                )
 
         rescue_types = csar_object.get_or_create_item("rescueTypes")
         seen: set[str] = set()
@@ -356,6 +365,29 @@ class LuaGenerator:
             type_item = rescue_types.add_item()
             type_item.add_key_value("dcs_id", aircraft.dcs_id)
             type_item.add_key_value("capacity", str(max(1, aircraft.cabin_size)))
+
+    def _ai_rescue_targets(self) -> set[UUID]:
+        """Ids of downed pilots whose CSAR flight is flown entirely by the AI.
+
+        A pilot with a player-crewed CSAR flight (or no flight at all) stays on
+        the Ops.CSAR path so the player gets beacons, the F10 menu and MOOSE's
+        boarding logic. Everyone else is picked up by our own AI handler.
+        """
+        ai_targets: set[UUID] = set()
+        player_targets: set[UUID] = set()
+        for coalition in (self.game.blue, self.game.red):
+            for package in coalition.ato.packages:
+                for flight in package.flights:
+                    if flight.flight_type is not FlightType.CSAR:
+                        continue
+                    target = flight.package.target
+                    if not isinstance(target, DownedPilot):
+                        continue
+                    if flight.client_count > 0:
+                        player_targets.add(target.id)
+                    else:
+                        ai_targets.add(target.id)
+        return ai_targets - player_targets
 
     def inject_lua_trigger(self, contents: str, comment: str) -> None:
         trigger = TriggerStart(comment=comment)

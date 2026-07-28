@@ -100,6 +100,9 @@ class MissionResultsProcessor:
                         rescued.add(target)
 
         for downed in rescued:
+            # Record before rescuing: csar.rescue removes the pilot from the db,
+            # and the debriefing windows read this to report the recovery.
+            debriefing.record_rescue(downed)
             csar.rescue(downed)
 
     def commit_air_losses(self, debriefing: Debriefing) -> None:

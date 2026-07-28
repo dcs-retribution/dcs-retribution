@@ -24,6 +24,7 @@ if TYPE_CHECKING:
     from dcs.mapping import Point
     from game import Game
     from game.ato.flight import Flight
+    from game.squadrons.downedpilot import DownedPilot
     from game.sim.simulationresults import SimulationResults
     from game.transfers import CargoShip
     from game.unitmap import (
@@ -108,6 +109,17 @@ class SideLossCounts:
     scenery: int
     bases_lost: int
     runways_destroyed: int
+    pilots_rescued: int
+
+
+@dataclass(frozen=True)
+class RescuedPilot:
+    """A downed pilot recovered by CSAR during this mission."""
+
+    name: str
+    aircraft: str
+    squadron: str
+    player: Player
 
 
 @dataclass(frozen=True)
@@ -201,6 +213,38 @@ class Debriefing:
         self.ground_losses = self.dead_ground_units()
         self.base_captures = self.base_capture_events()
         self.ejected_pilot_positions = self._ejected_pilot_positions()
+        #: Downed pilots recovered this mission, keyed by their DownedPilot id so
+        #: repeated state.json polls (and the AI-flight fallback added later by
+        #: MissionResultsProcessor) can't double-count the same rescue.
+        self.rescued_pilots: Dict[UUID, RescuedPilot] = {}
+        self._collect_reported_rescues()
+
+    def _collect_reported_rescues(self) -> None:
+        """Records rescues Ops.CSAR confirmed in-mission via state.json."""
+        for uuid_str in self.state_data.rescued_pilot_ids:
+            try:
+                downed = self.game.db.downed_pilots.get(UUID(uuid_str))
+            except (KeyError, ValueError):
+                # Already committed by an earlier poll of the same state file, or
+                # an id from a previous campaign state. Nothing to record.
+                continue
+            self.record_rescue(downed)
+
+    def record_rescue(self, downed: DownedPilot) -> None:
+        """Records a downed pilot as rescued for reporting purposes.
+
+        Idempotent: the same pilot may be reported by both the in-mission
+        Ops.CSAR result and the AI-flight fallback in the results processor.
+        """
+        self.rescued_pilots[downed.id] = RescuedPilot(
+            name=downed.pilot.name,
+            aircraft=downed.aircraft_name,
+            squadron=str(downed.squadron),
+            player=downed.player,
+        )
+
+    def rescued_pilots_for(self, player: Player) -> list[RescuedPilot]:
+        return [p for p in self.rescued_pilots.values() if p.player == player]
 
     def _ejected_pilot_positions(self) -> Dict[int, "Point"]:
         """Maps ``id(pilot)`` to the world position where they came down.
@@ -389,6 +433,7 @@ class Debriefing:
                 if capture.captured_by_player == player.opponent
             ),
             runways_destroyed=len(airfields),
+            pilots_rescued=len(self.rescued_pilots_for(player)),
         )
 
     def dead_aircraft(self) -> AirLosses:

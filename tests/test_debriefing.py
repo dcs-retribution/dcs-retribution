@@ -29,7 +29,8 @@ def _capture(captured_by: Player) -> BaseCaptureEvent:
 def _sample_debriefing() -> Debriefing:
     """A Debriefing with known per-side losses, built without the heavy
     __init__ (which needs a Game and UnitMap). loss_counts and the loss
-    properties only read air_losses, ground_losses, and base_captures."""
+    properties only read air_losses, ground_losses, base_captures and
+    rescued_pilots."""
     air = AirLosses(player=_items(1), enemy=_items(2))
     ground = GroundLosses(
         player_front_line=_items(3),
@@ -58,6 +59,7 @@ def _sample_debriefing() -> Debriefing:
     debriefing.air_losses = air
     debriefing.ground_losses = ground
     debriefing.base_captures = captures
+    debriefing.rescued_pilots = {}
     return debriefing
 
 
@@ -74,6 +76,7 @@ def test_loss_counts_blue_side() -> None:
         scenery=0,
         bases_lost=1,  # one base captured by RED == one base Blue lost
         runways_destroyed=1,
+        pilots_rescued=0,
     )
 
 
@@ -90,6 +93,7 @@ def test_loss_counts_red_side() -> None:
         scenery=1,
         bases_lost=2,  # two bases captured by BLUE == two bases Red lost
         runways_destroyed=2,
+        pilots_rescued=0,
     )
 
 
