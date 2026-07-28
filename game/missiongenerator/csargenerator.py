@@ -3,22 +3,34 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from dcs import Mission
+from dcs.mapping import Vector2
+from dcs.task import EmbarkToTransport
 from dcs.vehicles import Infantry
 
 from game.theater import Player
 
 if TYPE_CHECKING:
     from game import Game
+    from game.coalition import Coalition
     from game.missiongenerator.missiondata import MissionData
+    from game.squadrons.downedpilot import DownedPilot
+
+#: Radius the pilot will walk within to board a helicopter that is embarking.
+#: Generous enough to cover the scatter on the rescue flight's pickup waypoint.
+EMBARK_ZONE_RADIUS = 600
 
 
 class CsarGenerator:
-    """Creates the late-activated infantry template groups used by Ops.CSAR.
+    """Places downed pilots and the Ops.CSAR templates into the mission.
 
-    MOOSE ``Ops.CSAR`` clones a late-activated infantry group as the template for
-    every downed pilot it spawns. We add one hidden, late-activated soldier per
-    coalition that has CSAR enabled and record its group name in the mission data
-    so :class:`LuaGenerator` can pass it to ``OpsCSAR.lua``.
+    Each downed pilot is generated as a real ground group carrying DCS's native
+    ``EmbarkToTransport`` task. That is what makes an AI rescue work: the stock
+    DCS transport logic walks the pilot to any helicopter running an ``Embarking``
+    task in the same zone and loads them aboard. MOOSE Ops.CSAR cannot do this for
+    AI helicopters at all -- its boarding loop only ever considers player units --
+    so the AI side is handled entirely by DCS, while OpsCSAR.lua additionally hands
+    these same groups to Ops.CSAR so a player in any CSAR-capable helicopter can
+    still fly out and pick them up.
     """
 
     def __init__(self, mission: Mission, game: Game, mission_data: MissionData) -> None:
@@ -28,26 +40,67 @@ class CsarGenerator:
 
     def generate(self) -> None:
         settings = self.game.settings
-        sides = []
-        if settings.csar_enabled:
-            sides.append((Player.BLUE, "blue"))
-        if settings.csar_enabled_red:
-            sides.append((Player.RED, "red"))
-
-        for player, key in sides:
-            coalition = self.game.coalition_for(player)
-            country = self.mission.country(coalition.faction.country.name)
-            # Park the template far off in a corner; it never activates on its own.
-            position = self.game.theater.terrain.map_view_default.position
-            group_name = f"CSAR_PILOT_{key.upper()}"
-            group = self.mission.vehicle_group(
-                country,
-                group_name,
-                Infantry.Soldier_M4,
-                position,
+        for player, key in ((Player.BLUE, "blue"), (Player.RED, "red")):
+            enabled = (
+                settings.csar_enabled if player.is_blue else settings.csar_enabled_red
             )
-            group.late_activation = True
-            group.hidden = True
-            group.hidden_on_mfd = True
-            group.hidden_on_planner = True
-            self.mission_data.csar_pilot_templates[key] = group_name
+            if not enabled:
+                continue
+            coalition = self.game.coalition_for(player)
+            self._generate_template(coalition, key)
+            for downed in coalition.downed_pilots:
+                self._generate_downed_pilot(coalition, downed)
+
+    def _generate_template(self, coalition: Coalition, key: str) -> None:
+        """Creates the late-activated group Ops.CSAR is constructed against.
+
+        Ops.CSAR requires a template group to exist even though we hand it
+        pre-placed pilots rather than letting it spawn its own.
+        """
+        country = self.mission.country(coalition.faction.country.name)
+        position = self.game.theater.terrain.map_view_default.position
+        group_name = f"CSAR_PILOT_{key.upper()}"
+        group = self.mission.vehicle_group(
+            country,
+            group_name,
+            Infantry.Soldier_M4,
+            position,
+        )
+        group.late_activation = True
+        group.hidden = True
+        group.hidden_on_mfd = True
+        group.hidden_on_planner = True
+        self.mission_data.csar_pilot_templates[key] = group_name
+
+    def _generate_downed_pilot(self, coalition: Coalition, downed: DownedPilot) -> None:
+        from game.missiongenerator.missiondata import CsarPilotGroupInfo
+
+        country = self.mission.country(coalition.faction.country.name)
+        # Ops.CSAR announces the survivor by group name in its MAYDAY call, so
+        # keep it readable. The id fragment only guards against two pilots in the
+        # same mission sharing a generated name.
+        group_name = f"CSAR {downed.pilot.name} {str(downed.id)[:8]}"
+        group = self.mission.vehicle_group(
+            country,
+            group_name,
+            Infantry.Soldier_M4,
+            downed.position,
+        )
+        # Keep the survivor out of the mission planner's clutter, but leave them
+        # visible in-game so a player can spot them.
+        group.hidden_on_planner = True
+
+        # The task that makes the native AI pickup work. Without it the rescue
+        # helicopter will sit in its Embarking task and nothing will happen.
+        group.points[0].tasks.append(
+            EmbarkToTransport(
+                position=Vector2(downed.position.x, downed.position.y),
+                zone_radius=EMBARK_ZONE_RADIUS,
+            )
+        )
+
+        self.mission_data.csar_pilot_groups[str(downed.id)] = CsarPilotGroupInfo(
+            group_name=group_name,
+            group_id=group.id,
+            blue=coalition.player.is_blue,
+        )

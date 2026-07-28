@@ -122,15 +122,16 @@ class MissionGenerator:
         # Generate ground conflicts first so the JTACs get the first laser code (1688)
         # rather than the first player flight with a TGP.
         self.generate_ground_conflicts()
+        # Must run before the air units: a CSAR flight's pickup waypoint carries an
+        # Embarking task that references the downed pilot's group id, so the pilot
+        # groups have to exist before flight waypoints are built.
+        CsarGenerator(self.mission, self.game, self.mission_data).generate()
         self.generate_air_units(tgo_generator)
 
         RebellionGenerator(self.mission, self.game).generate()
         TriggerGenerator(self.mission, self.game).generate()
         ForcedOptionsGenerator(self.mission, self.game).generate()
         VisualsGenerator(self.mission, self.game).generate()
-        # Must run before LuaGenerator so the CSAR pilot template group names are
-        # available for injection into the dcsRetribution data table.
-        CsarGenerator(self.mission, self.game, self.mission_data).generate()
         LuaGenerator(self.game, self.mission, self.mission_data).generate()
         DrawingsGenerator(self.mission, self.game).generate()
 

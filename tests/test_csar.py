@@ -21,6 +21,9 @@ from game import persistency
 from game.ato.flighttype import FlightType
 from game.debriefing import StateData
 from game.dcs.aircrafttype import AircraftType
+from game.missiongenerator.aircraft.waypoints.pydcswaypointbuilder import (
+    PydcsWaypointBuilder as _PydcsWaypointBuilder,
+)
 from game.sim.missionresultsprocessor import MissionResultsProcessor
 from game.squadrons.csarservice import CsarService
 from game.squadrons.downedpilot import DownedPilot
@@ -560,16 +563,56 @@ def test_set_auto_assignable_does_not_force_csar_on() -> None:
     assert FlightType.CSAR not in squadron.auto_assignable_mission_types
 
 
-def test_csar_pickup_waits_long_enough_to_board() -> None:
-    """The shared LandingZoneBuilder only holds the AI on the ground for 30s,
-    which isn't long enough for the pilot to run over and board."""
-    from game.missiongenerator.aircraft.waypoints.csarpickup import (
-        LAND_DURATION_SECONDS,
-    )
+def test_csar_pickup_embarks_the_matching_pilot_group() -> None:
+    """The rescue helicopter's pickup waypoint must carry an Embarking task
+    naming the downed pilot's own group; that is the half of DCS's native troop
+    transport that pairs with the pilot's EmbarkToTransport task."""
+    from dcs.task import Embarking, Land
+    from game.missiongenerator.aircraft.waypoints.csarpickup import CsarPickupBuilder
+    from game.missiongenerator.missiondata import CsarPilotGroupInfo
 
-    # Must exceed the Lua handler's patience timer so the helicopter is still
-    # there when the pickup completes (see AI_PATIENCE_SECONDS in OpsCSAR.lua).
-    assert LAND_DURATION_SECONDS > 120
+    downed = _standalone_downed()
+    builder = CsarPickupBuilder.__new__(CsarPickupBuilder)
+    builder.flight = cast(Any, SimpleNamespace(package=SimpleNamespace(target=downed)))
+    builder.mission_data = cast(
+        Any,
+        SimpleNamespace(
+            csar_pilot_groups={
+                str(downed.id): CsarPilotGroupInfo(
+                    group_name="CSAR Rescuee 1234abcd", group_id=4242, blue=True
+                )
+            }
+        ),
+    )
+    waypoint = MagicMock()
+    waypoint.position = Point(10.0, 20.0, _TERRAIN)
+
+    with patch.object(_PydcsWaypointBuilder, "build", return_value=waypoint):
+        builder.build()
+
+    tasks = [call.args[0] for call in waypoint.add_task.call_args_list]
+    embarking = [t for t in tasks if isinstance(t, Embarking)]
+    assert len(embarking) == 1
+    assert embarking[0].params["groupsForEmbarking"] == {4242: 4242}
+    # No Land task: the pickup site is unprepared terrain the AI often refuses to
+    # set down on, and the embark works from a hover.
+    assert not [t for t in tasks if isinstance(t, Land)]
+
+
+def test_csar_pickup_without_a_pilot_group_adds_no_task() -> None:
+    from game.missiongenerator.aircraft.waypoints.csarpickup import CsarPickupBuilder
+
+    downed = _standalone_downed()
+    builder = CsarPickupBuilder.__new__(CsarPickupBuilder)
+    builder.flight = cast(Any, SimpleNamespace(package=SimpleNamespace(target=downed)))
+    builder.mission_data = cast(Any, SimpleNamespace(csar_pilot_groups={}))
+    waypoint = MagicMock()
+    waypoint.position = Point(0.0, 0.0, _TERRAIN)
+
+    with patch.object(_PydcsWaypointBuilder, "build", return_value=waypoint):
+        builder.build()
+
+    waypoint.add_task.assert_not_called()
 
 
 def test_csar_pickup_uses_dedicated_builder() -> None:
@@ -599,60 +642,66 @@ def _aircraft_named(display_name: str) -> Any:
 
 
 # ---------------------------------------------------------------------------
-# AI vs player rescue routing
-#
-# MOOSE Ops.CSAR only boards pilots onto player helicopters, so pilots whose
-# rescue flight is AI-only are handed to our own handler in OpsCSAR.lua instead.
+# Downed pilots as real mission groups (native DCS embark)
 # ---------------------------------------------------------------------------
 
 
-def _luagen_with_csar_flights(flights: list[Any]) -> Any:
-    from game.missiongenerator.luagenerator import LuaGenerator
+def test_csar_generator_places_pilot_with_embark_task() -> None:
+    """Each downed pilot must exist in the mission as a ground group carrying
+    EmbarkToTransport: that is what lets stock DCS transport logic walk them to
+    an embarking helicopter, which is the only way an AI rescue can work."""
+    from dcs import Mission
+    from dcs.task import EmbarkToTransport
+    from dcs.terrain import Caucasus
+    from game.missiongenerator.csargenerator import CsarGenerator
+    from game.missiongenerator.missiondata import MissionData
+    from game.theater.player import Player
 
-    package = SimpleNamespace(flights=flights)
-    blue = SimpleNamespace(ato=SimpleNamespace(packages=[package]))
-    red = SimpleNamespace(ato=SimpleNamespace(packages=[]))
-    generator = LuaGenerator.__new__(LuaGenerator)
-    # _ai_rescue_targets only walks game.blue/game.red ATOs.
-    generator.game = cast(Any, SimpleNamespace(blue=blue, red=red))
-    return generator
+    mission = Mission(Caucasus())
+    downed = _standalone_downed()
+    downed._position = Point(-250000.0, 630000.0, mission.terrain)
 
-
-def _csar_flight_for(downed: DownedPilot, client_count: int) -> Any:
-    return SimpleNamespace(
-        flight_type=FlightType.CSAR,
-        client_count=client_count,
-        package=SimpleNamespace(target=downed),
+    coalition = SimpleNamespace(
+        player=Player.BLUE,
+        downed_pilots=[downed],
+        faction=SimpleNamespace(country=SimpleNamespace(name="USA")),
     )
+    game = MagicMock()
+    game.settings.csar_enabled = True
+    game.settings.csar_enabled_red = False
+    game.theater.terrain = mission.terrain
+    game.coalition_for.return_value = coalition
 
+    mission_data = MissionData()
+    CsarGenerator(mission, game, mission_data).generate()
 
-def test_ai_only_csar_flight_marks_pilot_for_ai_rescue() -> None:
-    downed = _standalone_downed()
-    generator = _luagen_with_csar_flights([_csar_flight_for(downed, 0)])
-    assert generator._ai_rescue_targets() == {downed.id}
-
-
-def test_player_crewed_csar_flight_stays_on_ops_csar() -> None:
-    downed = _standalone_downed()
-    generator = _luagen_with_csar_flights([_csar_flight_for(downed, 2)])
-    assert generator._ai_rescue_targets() == set()
-
-
-def test_pilot_with_both_flights_stays_on_ops_csar() -> None:
-    """If any player is flying the rescue, Ops.CSAR must own the pilot so the
-    player gets beacons, the F10 menu and MOOSE's boarding."""
-    downed = _standalone_downed()
-    generator = _luagen_with_csar_flights(
-        [_csar_flight_for(downed, 0), _csar_flight_for(downed, 2)]
+    info = mission_data.csar_pilot_groups[str(downed.id)]
+    assert info.blue is True
+    group = next(
+        g for g in mission.country("USA").vehicle_group if g.name == info.group_name
     )
-    assert generator._ai_rescue_targets() == set()
+    assert group.id == info.group_id
+    tasks = group.points[0].tasks
+    assert [t for t in tasks if isinstance(t, EmbarkToTransport)]
+    # The template Ops.CSAR is constructed against must also exist.
+    assert mission_data.csar_pilot_templates["blue"] == "CSAR_PILOT_BLUE"
 
 
-def test_pilot_with_no_csar_flight_stays_on_ops_csar() -> None:
-    """No rescue planned: leave it to Ops.CSAR so a player can still pick them
-    up opportunistically."""
-    generator = _luagen_with_csar_flights([])
-    assert generator._ai_rescue_targets() == set()
+def test_csar_generator_skips_disabled_coalition() -> None:
+    from dcs import Mission
+    from dcs.terrain import Caucasus
+    from game.missiongenerator.csargenerator import CsarGenerator
+    from game.missiongenerator.missiondata import MissionData
+
+    mission = Mission(Caucasus())
+    game = MagicMock()
+    game.settings.csar_enabled = False
+    game.settings.csar_enabled_red = False
+    mission_data = MissionData()
+    CsarGenerator(mission, game, mission_data).generate()
+
+    assert mission_data.csar_pilot_groups == {}
+    assert mission_data.csar_pilot_templates == {}
 
 
 # ---------------------------------------------------------------------------
@@ -664,7 +713,7 @@ def test_generate_csar_data_serializes_and_evaluates() -> None:
     import lupa
 
     from game.missiongenerator.luagenerator import LuaData, LuaGenerator
-    from game.missiongenerator.missiondata import MissionData
+    from game.missiongenerator.missiondata import CsarPilotGroupInfo, MissionData
     from game.theater.player import Player
 
     game = MagicMock()
@@ -693,6 +742,12 @@ def test_generate_csar_data_serializes_and_evaluates() -> None:
 
     mission_data = MissionData()
     mission_data.csar_pilot_templates = {"blue": "CSAR_PILOT_BLUE"}
+    # CsarGenerator has already placed the pilot in the mission by this point.
+    mission_data.csar_pilot_groups = {
+        str(downed.id): CsarPilotGroupInfo(
+            group_name="CSAR Ivan Doe abcd1234", group_id=77, blue=True
+        )
+    }
     generator = LuaGenerator.__new__(LuaGenerator)
     generator.game = game
     generator.mission_data = mission_data
@@ -717,8 +772,9 @@ def test_generate_csar_data_serializes_and_evaluates() -> None:
     assert csar.redCountry == "18"
     assert csar.downedPilots[1].id == str(downed.id)
     assert csar.downedPilots[1].aircraft == "UH-60A"
-    # No CSAR flight planned for this pilot, so Ops.CSAR keeps ownership.
-    assert csar.downedPilots[1].aiRescue == "false"
+    # The pilot is already placed in the mission; OpsCSAR.lua hands this group to
+    # Ops.CSAR so a player can rescue them.
+    assert csar.downedPilots[1].groupName == "CSAR Ivan Doe abcd1234"
     rescue_ids = {
         csar.rescueTypes[i].dcs_id for i in range(1, len(csar.rescueTypes) + 1)
     }

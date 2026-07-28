@@ -1,31 +1,55 @@
-from dcs.point import MovingPoint
-from dcs.task import Land
+import logging
 
+from dcs.mapping import Vector2
+from dcs.point import MovingPoint
+from dcs.task import Embarking
+
+from game.squadrons.downedpilot import DownedPilot
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 
-#: How long the rescue helicopter waits on the ground for the pilot to board.
-#: The shared LandingZoneBuilder only waits 30s, which is not enough for a pilot
-#: to cover the distance from where the terrain-aware Lua search actually placed
-#: them (up to ~150m away) and board.
-LAND_DURATION_SECONDS = 180
-
-#: Small jitter so a multi-ship flight doesn't try to set down on one spot.
-_TOUCHDOWN_SPREAD = 40
-_TOUCHDOWN_MIN = 15
+#: How long the rescue helicopter waits at the pickup for the pilot to board.
+EMBARK_DURATION_SECONDS = 300
 
 
 class CsarPickupBuilder(PydcsWaypointBuilder):
+    """Wires the rescue helicopter into DCS's native troop-transport pickup.
+
+    The helicopter gets an ``Embarking`` task naming the downed pilot's group,
+    which pairs with the ``EmbarkToTransport`` task the pilot carries (see
+    CsarGenerator). DCS then walks the pilot over and loads them aboard.
+
+    Deliberately *no* ``Land`` task: the pickup site is unprepared terrain and the
+    AI frequently refuses to set down on it, leaving the flight circling. The
+    embark logic works from a hover, so the helicopter is left to hold at the
+    waypoint instead.
+    """
+
     def build(self) -> MovingPoint:
         waypoint = super().build()
-        landing_point = waypoint.position.random_point_within(
-            _TOUCHDOWN_SPREAD, _TOUCHDOWN_MIN
-        )
-        combat_land = self.flight.coalition.game.settings.use_ai_combat_landing
+
+        target = self.flight.package.target
+        if not isinstance(target, DownedPilot):
+            logging.error(
+                "CSAR pickup waypoint on a flight whose target is %s, not a downed "
+                "pilot. No embark task will be added.",
+                type(target).__name__,
+            )
+            return waypoint
+
+        pilot_group = self.mission_data.csar_pilot_groups.get(str(target.id))
+        if pilot_group is None:
+            logging.error(
+                "No downed-pilot group was generated for %s; the rescue flight has "
+                "nothing to embark.",
+                target.name,
+            )
+            return waypoint
+
         waypoint.add_task(
-            Land(
-                landing_point,
-                duration=LAND_DURATION_SECONDS,
-                combat_landing=combat_land,
+            Embarking(
+                position=Vector2(waypoint.position.x, waypoint.position.y),
+                groupids=[pilot_group.group_id],
+                duration=EMBARK_DURATION_SECONDS,
             )
         )
         return waypoint

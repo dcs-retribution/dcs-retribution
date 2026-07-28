@@ -1,40 +1,35 @@
 -- CSAR integration for DCS Retribution.
 --
--- Spawns the downed pilots that Retribution recorded on previous turns (injected
--- via the dcsRetribution.CSAR table) and reports confirmed rescues back to
--- Retribution by appending the pilot's UUID to the global `csar_rescued` table
--- that dcs_retribution.lua writes into state.json.
+-- Retribution places each downed pilot in the mission as a real ground group
+-- carrying DCS's native `EmbarkToTransport` task, and gives every CSAR flight's
+-- pickup waypoint a matching `Embarking` task (see csargenerator.py and
+-- csarpickup.py). That combination is what performs an AI rescue: stock DCS
+-- transport logic walks the pilot to the hovering helicopter and loads them.
+-- MOOSE Ops.CSAR cannot do this at all for AI helicopters -- its boarding loop
+-- (CSAR:_CheckWoundedGroupStatus, driven by the csarUnits list built in
+-- CSAR:_AddMedevacMenuItem) only ever considers units where _unit:IsPlayer() is
+-- true.
 --
--- Two separate paths, chosen per pilot by the `aiRescue` flag Retribution sets:
+-- This script therefore does two things:
 --
---  * Player rescues (aiRescue == "false") use MOOSE Ops.CSAR, which gives the
---    player ADF beacons, the F10 radio menu, smoke and its own boarding logic.
+--  1. Hands those same pre-placed groups to Ops.CSAR, so a player flying any
+--     CSAR-capable helicopter can rescue any downed pilot -- including ones the
+--     auto-planner assigned to an AI flight -- with beacons, the F10 menu and
+--     MOOSE's own boarding.
 --
---  * AI rescues (aiRescue == "true") are handled entirely here with the stock
---    DCS scripting API. Ops.CSAR cannot do these: CSAR:_AddMedevacMenuItem builds
---    the `csarUnits` list that drives its boarding loop by filtering on
---    _unit:IsPlayer(), so an AI helicopter is never considered and the pilot just
---    stands there while the helo lands, waits and leaves.
+--  2. Watches for a pilot group disappearing next to a rescue helicopter, which
+--     is how a completed native embark presents itself, and reports the rescue
+--     back to Retribution via the global `csar_rescued` table that
+--     dcs_retribution.lua writes into state.json.
 --
 -- Assumes MOOSE (Moose.lua) and dcs_retribution.lua have already been loaded.
 
--- Terrain search for a spot a helicopter can actually set down. Kept tight so the
--- pilot stays near the pickup waypoint the rescue flight was routed to.
-local SEARCH_MAX_RADIUS = 150
-local SEARCH_STEP = 25
-local FLATNESS_RING = 15
-local FLATNESS_TOLERANCE = 3.0
-
--- AI pickup tuning.
-local AI_ZONE_RADIUS = 300 -- helo inside this of the pilot -> pickup begins
-local AI_BOARD_DISTANCE = 30 -- pilot this close to the helo -> boarded
-local AI_PATIENCE_SECONDS = 90 -- board anyway if the pilot's run-in stalls
-local AI_CHECK_INTERVAL = 5
--- A helo hovering at or below this AGL counts as on station even if it never
--- touches down; the AI often refuses to land on rough ground, and a hoist pickup
--- is a realistic outcome.
-local AI_HOVER_AGL = 30
-local PILOT_RUN_SPEED = 10 -- m/s
+-- A helicopter within this range of where the pilot was counts as the one that
+-- picked them up. Matches the embark zone radius used on the pilot's task.
+local PICKUP_RADIUS = 600
+-- A helo above this AGL is transiting, not picking anyone up.
+local PICKUP_MAX_AGL = 100
+local CHECK_INTERVAL = 5
 
 local function opscsar_log(msg)
     env.info("[OpsCSAR] " .. tostring(msg))
@@ -67,53 +62,7 @@ local function opscsar_main()
     end
 
     -- ------------------------------------------------------------------
-    -- Terrain: find somewhere a helicopter can put its skids down.
-    -- ------------------------------------------------------------------
-    local function surface_ok(x, z)
-        local surface = land.getSurfaceType({ x = x, y = z })
-        return surface == land.SurfaceType.LAND or surface == land.SurfaceType.ROAD
-    end
-
-    local function flat_enough(x, z)
-        local base = land.getHeight({ x = x, y = z })
-        local lowest, highest = base, base
-        for deg = 0, 315, 45 do
-            local rad = math.rad(deg)
-            local h = land.getHeight({
-                x = x + FLATNESS_RING * math.cos(rad),
-                y = z + FLATNESS_RING * math.sin(rad),
-            })
-            if h < lowest then lowest = h end
-            if h > highest then highest = h end
-        end
-        return (highest - lowest) <= FLATNESS_TOLERANCE
-    end
-
-    -- Returns x, z, flat. Prefers a flat spot, falls back to any land/road so a
-    -- pilot down in rough terrain is still rescuable.
-    local function landable_spot(x, z)
-        local fx, fz = nil, nil
-        for radius = 0, SEARCH_MAX_RADIUS, SEARCH_STEP do
-            local angles = radius == 0 and { 0 } or { 0, 45, 90, 135, 180, 225, 270, 315 }
-            for _, deg in ipairs(angles) do
-                local rad = math.rad(deg)
-                local px = x + radius * math.cos(rad)
-                local pz = z + radius * math.sin(rad)
-                if surface_ok(px, pz) then
-                    if flat_enough(px, pz) then
-                        return px, pz, true
-                    end
-                    if fx == nil then
-                        fx, fz = px, pz
-                    end
-                end
-            end
-        end
-        return fx, fz, false
-    end
-
-    -- ------------------------------------------------------------------
-    -- Player path: MOOSE Ops.CSAR.
+    -- Ops.CSAR, for player-flown rescues.
     -- ------------------------------------------------------------------
     local blue_csar, red_csar = nil, nil
     local onboard = {} -- helo unit name -> list of pilot UUIDs aboard
@@ -188,321 +137,175 @@ local function opscsar_main()
         red_csar = make_csar("RED", coalition.side.RED, cfg.redTemplate)
     end
 
-    -- ------------------------------------------------------------------
-    -- AI path: our own spawn, zone and pickup watcher (stock DCS API only).
-    -- ------------------------------------------------------------------
-    local ai_pilots = {} -- list of tracked AI-rescue pilots
-
-    local function spawn_ai_pilot(dp, x, z, side_const, country_id, template)
-        -- Clone the late-activated pilot template Retribution put in the mission.
-        local template_group = Group.getByName(template)
-        if template_group == nil then
-            opscsar_warn("Pilot template '" .. tostring(template) .. "' missing.")
-            return nil
+    -- Registers an already-placed pilot group with Ops.CSAR. This is the tail of
+    -- CSAR:_AddCsar with the spawn removed, so the player experience (ADF beacon,
+    -- MAYDAY call, F10 menu, boarding) is identical to a MOOSE-spawned pilot.
+    local function register_with_ops_csar(instance, group, uuid, description, typename)
+        if instance == nil or group == nil then
+            return false
         end
-        local template_unit = template_group:getUnit(1)
-        if template_unit == nil then
-            opscsar_warn("Pilot template '" .. tostring(template) .. "' has no unit.")
-            return nil
-        end
-
-        local group_name = "CSAR_AI_PILOT_" .. tostring(dp.id)
-        local group_data = {
-            visible = true,
-            taskSelected = true,
-            route = {},
-            groupId = nil,
-            tasks = {},
-            hidden = false,
-            units = {
-                [1] = {
-                    type = template_unit:getTypeName(),
-                    transportable = { randomTransportable = false },
-                    unitId = nil,
-                    skill = "Average",
-                    y = z,
-                    x = x,
-                    name = group_name .. " Pilot",
-                    heading = 0,
-                    playerCanDrive = false,
-                },
-            },
-            y = z,
-            x = x,
-            name = group_name,
-            start_time = 0,
-            task = "Ground Nothing",
-        }
-
         local ok, err = pcall(function()
-            coalition.addGroup(country_id, Group.Category.GROUND, group_data)
+            local freq = instance:_GenerateADFFrequency() or 333000
+            local beacon_name = uuid .. "-" .. math.random(1, 10000)
+            if freq ~= 0 then
+                instance:_AddBeaconToGroup(group, freq, beacon_name)
+            end
+            instance:_AddSpecialOptions(group)
+            instance:_CreateDownedPilotTrack(
+                group,
+                group:GetName(),
+                instance.coalition,
+                uuid, -- becomes DownedPilot.originalUnit, our id back again
+                description,
+                typename,
+                freq,
+                nil,
+                false,
+                beacon_name
+            )
+            instance:_InitSARForPilot(group, group:GetName(), freq, false, nil)
         end)
         if not ok then
-            opscsar_warn("Could not spawn AI-rescue pilot: " .. tostring(err))
-            return nil
+            opscsar_warn("Could not register pilot with Ops.CSAR: " .. tostring(err))
+            return false
         end
-
-        -- Keep the pilot alive and passive while they wait, the same way MOOSE
-        -- Ops.CSAR treats its own downed pilots. A stray round killing the
-        -- survivor before the helicopter arrives is not interesting gameplay.
-        pcall(function()
-            local group = Group.getByName(group_name)
-            local controller = group and group:getController() or nil
-            if controller then
-                controller:setCommand({ id = "SetImmortal", params = { value = true } })
-                controller:setOption(
-                    AI.Option.Ground.id.ROE, AI.Option.Ground.val.ROE.WEAPON_HOLD
-                )
-                controller:setOption(
-                    AI.Option.Ground.id.ALARM_STATE,
-                    AI.Option.Ground.val.ALARM_STATE.GREEN
-                )
-            end
-        end)
-        return group_name
+        return true
     end
 
-    local next_mark_id = 92000
-    local function mark_pickup_zone(x, z, side_const)
-        -- Draw the pickup zone on the F10 map so the rescue is visible.
-        local mark_id = next_mark_id
-        next_mark_id = next_mark_id + 1
-        local colour = side_const == coalition.side.RED
-            and { 1, 0, 0, 0.6 } or { 0, 0.6, 1, 0.6 }
-        local fill = side_const == coalition.side.RED
-            and { 1, 0, 0, 0.15 } or { 0, 0.6, 1, 0.15 }
-        pcall(function()
-            trigger.action.circleToAll(
-                side_const == coalition.side.RED and 1 or 2,
-                mark_id,
-                { x = x, y = 0, z = z },
-                AI_ZONE_RADIUS,
-                colour,
-                fill,
-                1,
-                true
-            )
-        end)
-        return mark_id
-    end
-
-    -- Order the pilot to run to the helicopter. Cosmetic: the rescue completes on
-    -- proximity/patience regardless, so a failed route never blocks a pickup.
-    local function route_pilot_to(group_name, x, z)
-        local group = Group.getByName(group_name)
-        if group == nil then
-            return
-        end
-        local controller = group:getController()
-        if controller == nil then
-            return
-        end
-        local unit = group:getUnit(1)
-        if unit == nil then
-            return
-        end
-        local from = unit:getPoint()
-        pcall(function()
-            controller:setTask({
-                id = "Mission",
-                params = {
-                    route = {
-                        points = {
-                            [1] = {
-                                type = "Turning Point",
-                                action = "Off Road",
-                                x = from.x,
-                                y = from.z,
-                                speed = PILOT_RUN_SPEED,
-                                ETA = 0,
-                                ETA_locked = false,
-                                name = "start",
-                                task = { id = "ComboTask", params = { tasks = {} } },
-                            },
-                            [2] = {
-                                type = "Turning Point",
-                                action = "Off Road",
-                                x = x,
-                                y = z,
-                                speed = PILOT_RUN_SPEED,
-                                ETA = 0,
-                                ETA_locked = false,
-                                name = "board",
-                                task = { id = "ComboTask", params = { tasks = {} } },
-                            },
-                        },
-                    },
-                },
-            })
-        end)
-    end
+    -- ------------------------------------------------------------------
+    -- Rescue detection for the native (AI) embark.
+    --
+    -- DCS gives no event when troops board a transport; the pilot's group simply
+    -- ceases to exist. So remember where each pilot was and whether a rescue
+    -- helicopter was on top of them, and treat "group gone while a helo was
+    -- right there" as a pickup. Anything else (killed, or still waiting) is left
+    -- alone -- Retribution's own post-mission fallback still handles those.
+    -- ------------------------------------------------------------------
+    local tracked = {}
 
     local function distance2d(ax, az, bx, bz)
         local dx, dz = ax - bx, az - bz
         return math.sqrt(dx * dx + dz * dz)
     end
 
-    -- Nearest AI helicopter of `side` that is on station (landed, or hovering low
-    -- enough to hoist) near the pilot.
-    local function nearest_ai_rescue_unit(side_const, px, pz)
-        local best_unit, best_distance = nil, nil
+    local function rescue_helo_near(side_const, px, pz)
         local groups = coalition.getGroups(side_const, Group.Category.HELICOPTER) or {}
         for _, group in pairs(groups) do
             if group:isExist() then
                 for _, unit in pairs(group:getUnits() or {}) do
-                    -- Players are Ops.CSAR's job; only handle AI here.
-                    if unit:isExist() and unit:getLife() > 0
-                        and unit:getPlayerName() == nil then
+                    if unit:isExist() and unit:getLife() > 0 then
                         local point = unit:getPoint()
-                        local agl = point.y - land.getHeight({ x = point.x, y = point.z })
-                        if not unit:inAir() or agl <= AI_HOVER_AGL then
+                        local agl =
+                            point.y - land.getHeight({ x = point.x, y = point.z })
+                        if agl <= PICKUP_MAX_AGL then
                             local d = distance2d(px, pz, point.x, point.z)
-                            if best_distance == nil or d < best_distance then
-                                best_unit, best_distance = unit, d
+                            if d <= PICKUP_RADIUS then
+                                return unit
                             end
                         end
                     end
                 end
             end
         end
-        return best_unit, best_distance
+        return nil
     end
 
-    local function complete_ai_rescue(tracked, heli_name)
-        table.insert(csar_rescued, tracked.id)
-        dirty_state = true
-        opscsar_log(
-            "Pilot " .. tracked.id .. " recovered by AI rescue " .. tostring(heli_name)
-        )
-        local group = Group.getByName(tracked.group_name)
-        if group and group:isExist() then
-            group:destroy()
-        end
-        if tracked.mark_id then
-            pcall(function()
-                trigger.action.removeMark(tracked.mark_id)
-            end)
-        end
-        tracked.done = true
-    end
-
-    local function check_ai_pickups()
-        for _, tracked in pairs(ai_pilots) do
-            if not tracked.done then
-                local group = Group.getByName(tracked.group_name)
-                if group == nil or not group:isExist() then
-                    tracked.done = true
-                else
+    local function check_pickups()
+        for _, entry in pairs(tracked) do
+            if not entry.done then
+                local group = Group.getByName(entry.group_name)
+                local alive = group ~= nil and group:isExist()
+                    and #(group:getUnits() or {}) > 0
+                if alive then
                     local unit = group:getUnit(1)
                     local point = unit and unit:getPoint() or nil
                     if point then
-                        local heli, distance =
-                            nearest_ai_rescue_unit(tracked.side, point.x, point.z)
-                        if heli and distance and distance <= AI_ZONE_RADIUS then
-                            if tracked.since == nil then
-                                tracked.since = timer.getTime()
-                                local hp = heli:getPoint()
-                                route_pilot_to(tracked.group_name, hp.x, hp.z)
-                                opscsar_log(
-                                    "AI rescue " .. heli:getName()
-                                    .. " on station for " .. tostring(tracked.desc)
-                                    .. "; pilot moving to board."
-                                )
-                            end
-                            local waited = timer.getTime() - tracked.since
-                            if distance <= AI_BOARD_DISTANCE
-                                or waited >= AI_PATIENCE_SECONDS then
-                                complete_ai_rescue(tracked, heli:getName())
-                            end
-                        end
+                        entry.last_x, entry.last_z = point.x, point.z
+                        local helo =
+                            rescue_helo_near(entry.side, point.x, point.z)
+                        entry.helo_name = helo and helo:getName() or nil
                     end
+                elseif entry.last_x then
+                    -- Gone. If a rescue helicopter was on station where the pilot
+                    -- was, they embarked.
+                    local helo =
+                        rescue_helo_near(entry.side, entry.last_x, entry.last_z)
+                    local by = helo and helo:getName() or entry.helo_name
+                    if by then
+                        table.insert(csar_rescued, entry.id)
+                        dirty_state = true
+                        opscsar_log(
+                            "Pilot " .. entry.id .. " embarked on " .. tostring(by)
+                        )
+                    else
+                        opscsar_log(
+                            "Pilot " .. entry.id .. " is gone with no rescue "
+                            .. "helicopter nearby; not counting a rescue."
+                        )
+                    end
+                    entry.done = true
+                else
+                    entry.done = true
                 end
             end
         end
     end
 
     -- ------------------------------------------------------------------
-    -- Spawn every downed pilot down the appropriate path.
+    -- Wire up every downed pilot Retribution placed in the mission.
     -- ------------------------------------------------------------------
-    local spawned_player, spawned_ai = 0, 0
+    local registered, watched = 0, 0
     if type(cfg.downedPilots) == "table" then
         for _, dp in pairs(cfg.downedPilots) do
-            local is_red = dp.coalition == "red"
-            local side_const = is_red and coalition.side.RED or coalition.side.BLUE
-            local x, z = tonumber(dp.x), tonumber(dp.z)
-            if dp.id and x and z then
-                local sx, sz, flat = landable_spot(x, z)
-                if sx == nil then
+            local group_name = dp.groupName
+            if dp.id and group_name and group_name ~= "" then
+                local is_red = dp.coalition == "red"
+                local side_const = is_red and coalition.side.RED or coalition.side.BLUE
+                local instance = is_red and red_csar or blue_csar
+
+                local moose_group = GROUP:FindByName(group_name)
+                if moose_group == nil then
                     opscsar_warn(
-                        "No landable spot for downed pilot " .. tostring(dp.id)
+                        "Downed pilot group '" .. group_name .. "' not found."
                     )
-                elseif dp.aiRescue == "true" then
-                    local country_id = tonumber(
-                        is_red and cfg.redCountry or cfg.blueCountry
-                    )
-                    local template = is_red and cfg.redTemplate or cfg.blueTemplate
-                    local group_name =
-                        spawn_ai_pilot(dp, sx, sz, side_const, country_id, template)
-                    if group_name then
-                        table.insert(ai_pilots, {
-                            id = dp.id,
-                            group_name = group_name,
-                            side = side_const,
-                            desc = dp.description or "Downed pilot",
-                            mark_id = mark_pickup_zone(sx, sz, side_const),
-                            since = nil,
-                            done = false,
-                        })
-                        spawned_ai = spawned_ai + 1
-                    end
                 else
-                    local instance = is_red and red_csar or blue_csar
-                    if instance ~= nil then
-                        local country_id = is_red and instance.countryred
-                            or instance.countryblue
-                        -- _AddCsar rather than SpawnCASEVAC: the public CASEVAC
-                        -- wrapper hardcodes frequency 0, which suppresses the ADF
-                        -- beacon players home in on. Passing nil generates one. The
-                        -- UUID goes in as the unit name so it comes back on the
-                        -- downed-pilot record as `originalUnit`.
-                        instance:_AddCsar(
-                            side_const,
-                            country_id,
-                            COORDINATE:NewFromVec3({ x = sx, y = 0, z = sz }),
-                            dp.aircraft or "Pilot",
-                            dp.id,
-                            dp.description or "Downed pilot",
-                            nil,
-                            false,
-                            dp.description or "Downed pilot",
-                            false
-                        )
-                        spawned_player = spawned_player + 1
+                    if register_with_ops_csar(
+                        instance,
+                        moose_group,
+                        dp.id,
+                        dp.description or "Downed pilot",
+                        dp.aircraft or "Pilot"
+                    ) then
+                        registered = registered + 1
                     end
-                end
-                if not flat then
-                    opscsar_log(
-                        "Downed pilot " .. tostring(dp.id)
-                        .. " placed on uneven ground; landing may be tricky."
-                    )
+                    table.insert(tracked, {
+                        id = dp.id,
+                        group_name = group_name,
+                        side = side_const,
+                        done = false,
+                        last_x = nil,
+                        last_z = nil,
+                        helo_name = nil,
+                    })
+                    watched = watched + 1
                 end
             end
         end
     end
 
-    if #ai_pilots > 0 then
+    if #tracked > 0 then
         timer.scheduleFunction(function()
-            local ok, err = pcall(check_ai_pickups)
+            local ok, err = pcall(check_pickups)
             if not ok then
-                opscsar_warn("AI pickup check failed: " .. tostring(err))
+                opscsar_warn("CSAR pickup check failed: " .. tostring(err))
             end
-            return timer.getTime() + AI_CHECK_INTERVAL
-        end, nil, timer.getTime() + AI_CHECK_INTERVAL)
+            return timer.getTime() + CHECK_INTERVAL
+        end, nil, timer.getTime() + CHECK_INTERVAL)
     end
 
     opscsar_log(
-        "=== CSAR setup complete (" .. spawned_player .. " player-rescue, "
-        .. spawned_ai .. " AI-rescue pilots) ==="
+        "=== CSAR setup complete (" .. watched .. " downed pilots, "
+        .. registered .. " registered with Ops.CSAR) ==="
     )
 end
 
