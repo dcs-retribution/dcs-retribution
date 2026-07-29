@@ -981,6 +981,23 @@ class Settings:
             "only player-flown ejections."
         ),
     )
+    csar_hover_extraction: bool = boolean_option(
+        "CSAR hover extraction",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=False,
+        detail=(
+            "Controls how an AI rescue helicopter recovers a downed pilot.\n\n"
+            "Unchecked (default): the helicopter lands and the pilot walks aboard "
+            "using DCS's own troop-transport tasks. This is the authentic "
+            "behaviour, but the embark only triggers once the helicopter is fully "
+            "on the ground, so the AI may circle instead of landing on rough or "
+            "sloped terrain.\n\n"
+            "Checked: the helicopter holds a low hover over the pickup and the "
+            "pilot is extracted by script, as though hoisted. Less authentic, but "
+            "it works anywhere and never leaves a flight orbiting."
+        ),
+    )
     supercarrier: bool = boolean_option(
         "Use supercarrier module",
         MISSION_GENERATOR_PAGE,

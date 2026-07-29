@@ -316,6 +316,9 @@ class LuaGenerator:
             "redEnabled": "true" if settings.csar_enabled_red else "false",
             "warmStart": "true" if settings.csar_warm_start else "false",
             "rescueAI": "true" if settings.csar_rescue_ai_pilots else "false",
+            # Landing mode leaves the pickup to DCS's native embark; hover mode
+            # needs OpsCSAR.lua to extract the pilot by script.
+            "hoverExtraction": ("true" if settings.csar_hover_extraction else "false"),
             "blueTemplate": templates.get("blue", ""),
             "redTemplate": templates.get("red", ""),
             # MOOSE defaults its CSAR countries to USA/Russia and applies them

@@ -2,30 +2,43 @@ import logging
 
 from dcs.mapping import Vector2
 from dcs.point import MovingPoint
-from dcs.task import Embarking
+from dcs.task import Embarking, Land
 
 from game.squadrons.downedpilot import DownedPilot
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 
-#: How long the rescue helicopter waits at the pickup for the pilot to board.
-EMBARK_DURATION_SECONDS = 300
+#: How long the rescue helicopter holds at the pickup waiting for the pilot.
+PICKUP_DURATION_SECONDS = 300
+
+#: Small jitter so a multi-ship flight doesn't try to set down on one spot.
+_TOUCHDOWN_SPREAD = 40
+_TOUCHDOWN_MIN = 15
 
 
 class CsarPickupBuilder(PydcsWaypointBuilder):
-    """Wires the rescue helicopter into DCS's native troop-transport pickup.
+    """Sets up the rescue helicopter's behaviour at the downed pilot.
 
-    The helicopter gets an ``Embarking`` task naming the downed pilot's group,
-    which pairs with the ``EmbarkToTransport`` task the pilot carries (see
-    CsarGenerator). DCS then walks the pilot over and loads them aboard.
+    Two modes, selected by the ``csar_hover_extraction`` setting:
 
-    Deliberately *no* ``Land`` task: the pickup site is unprepared terrain and the
-    AI frequently refuses to set down on it, leaving the flight circling. The
-    embark logic works from a hover, so the helicopter is left to hold at the
-    waypoint instead.
+    * Landing (default) uses DCS's native troop transport. The helicopter is
+      given a ``Land`` task plus an ``Embarking`` task naming the downed pilot's
+      group, which pairs with the ``EmbarkToTransport`` task the pilot carries
+      (see CsarGenerator), and DCS walks the pilot aboard. The ``Land`` task is
+      required: the embark only fires once the helicopter is actually down with
+      weight off wheels, so an ``Embarking`` task alone does nothing.
+
+    * Hover extraction adds neither task. The helicopter holds at the waypoint
+      and OpsCSAR.lua performs the extraction by script once it is in a low hover
+      near the pilot. Less authentic, but immune to terrain the AI refuses to
+      land on.
     """
 
     def build(self) -> MovingPoint:
         waypoint = super().build()
+
+        if self.flight.coalition.game.settings.csar_hover_extraction:
+            # Scripted extraction; deliberately no land or embark tasking.
+            return waypoint
 
         target = self.flight.package.target
         if not isinstance(target, DownedPilot):
@@ -45,11 +58,22 @@ class CsarPickupBuilder(PydcsWaypointBuilder):
             )
             return waypoint
 
+        landing_point = waypoint.position.random_point_within(
+            _TOUCHDOWN_SPREAD, _TOUCHDOWN_MIN
+        )
+        combat_land = self.flight.coalition.game.settings.use_ai_combat_landing
+        waypoint.add_task(
+            Land(
+                landing_point,
+                duration=PICKUP_DURATION_SECONDS,
+                combat_landing=combat_land,
+            )
+        )
         waypoint.add_task(
             Embarking(
                 position=Vector2(waypoint.position.x, waypoint.position.y),
                 groupids=[pilot_group.group_id],
-                duration=EMBARK_DURATION_SECONDS,
+                duration=PICKUP_DURATION_SECONDS,
             )
         )
         return waypoint

@@ -563,27 +563,35 @@ def test_set_auto_assignable_does_not_force_csar_on() -> None:
     assert FlightType.CSAR not in squadron.auto_assignable_mission_types
 
 
-def test_csar_pickup_embarks_the_matching_pilot_group() -> None:
-    """The rescue helicopter's pickup waypoint must carry an Embarking task
-    naming the downed pilot's own group; that is the half of DCS's native troop
-    transport that pairs with the pilot's EmbarkToTransport task."""
-    from dcs.task import Embarking, Land
+def _pickup_builder(downed: DownedPilot, hover: bool, with_group: bool = True) -> Any:
     from game.missiongenerator.aircraft.waypoints.csarpickup import CsarPickupBuilder
     from game.missiongenerator.missiondata import CsarPilotGroupInfo
 
-    downed = _standalone_downed()
     builder = CsarPickupBuilder.__new__(CsarPickupBuilder)
-    builder.flight = cast(Any, SimpleNamespace(package=SimpleNamespace(target=downed)))
-    builder.mission_data = cast(
+    settings = SimpleNamespace(csar_hover_extraction=hover, use_ai_combat_landing=False)
+    builder.flight = cast(
         Any,
         SimpleNamespace(
-            csar_pilot_groups={
-                str(downed.id): CsarPilotGroupInfo(
-                    group_name="CSAR Rescuee 1234abcd", group_id=4242, blue=True
-                )
-            }
+            package=SimpleNamespace(target=downed),
+            coalition=SimpleNamespace(game=SimpleNamespace(settings=settings)),
         ),
     )
+    groups = {}
+    if with_group:
+        groups[str(downed.id)] = CsarPilotGroupInfo(
+            group_name="CSAR Rescuee 1234abcd", group_id=4242, blue=True
+        )
+    builder.mission_data = cast(Any, SimpleNamespace(csar_pilot_groups=groups))
+    return builder
+
+
+def test_csar_pickup_lands_and_embarks_by_default() -> None:
+    """DCS's embark only fires with weight off wheels, so landing mode must add
+    both a Land task and an Embarking task naming the pilot's own group."""
+    from dcs.task import Embarking, Land
+
+    downed = _standalone_downed()
+    builder = _pickup_builder(downed, hover=False)
     waypoint = MagicMock()
     waypoint.position = Point(10.0, 20.0, _TERRAIN)
 
@@ -594,18 +602,26 @@ def test_csar_pickup_embarks_the_matching_pilot_group() -> None:
     embarking = [t for t in tasks if isinstance(t, Embarking)]
     assert len(embarking) == 1
     assert embarking[0].params["groupsForEmbarking"] == {4242: 4242}
-    # No Land task: the pickup site is unprepared terrain the AI often refuses to
-    # set down on, and the embark works from a hover.
-    assert not [t for t in tasks if isinstance(t, Land)]
+    assert len([t for t in tasks if isinstance(t, Land)]) == 1
+
+
+def test_csar_pickup_hover_mode_adds_no_tasks() -> None:
+    """Hover extraction is done by script, so the helicopter must be given
+    neither a Land nor an Embarking task."""
+    downed = _standalone_downed()
+    builder = _pickup_builder(downed, hover=True)
+    waypoint = MagicMock()
+    waypoint.position = Point(10.0, 20.0, _TERRAIN)
+
+    with patch.object(_PydcsWaypointBuilder, "build", return_value=waypoint):
+        builder.build()
+
+    waypoint.add_task.assert_not_called()
 
 
 def test_csar_pickup_without_a_pilot_group_adds_no_task() -> None:
-    from game.missiongenerator.aircraft.waypoints.csarpickup import CsarPickupBuilder
-
     downed = _standalone_downed()
-    builder = CsarPickupBuilder.__new__(CsarPickupBuilder)
-    builder.flight = cast(Any, SimpleNamespace(package=SimpleNamespace(target=downed)))
-    builder.mission_data = cast(Any, SimpleNamespace(csar_pilot_groups={}))
+    builder = _pickup_builder(downed, hover=False, with_group=False)
     waypoint = MagicMock()
     waypoint.position = Point(0.0, 0.0, _TERRAIN)
 
@@ -657,6 +673,41 @@ def test_csar_generator_places_pilot_with_embark_task() -> None:
     from game.missiongenerator.missiondata import MissionData
     from game.theater.player import Player
 
+    mission, mission_data, downed = _generate_csar(hover=False)
+
+    info = mission_data.csar_pilot_groups[str(downed.id)]
+    assert info.blue is True
+    group = next(
+        g for g in mission.country("USA").vehicle_group if g.name == info.group_name
+    )
+    assert group.id == info.group_id
+    tasks = group.points[0].tasks
+    assert [t for t in tasks if isinstance(t, EmbarkToTransport)]
+    # The template Ops.CSAR is constructed against must also exist.
+    assert mission_data.csar_pilot_templates["blue"] == "CSAR_PILOT_BLUE"
+
+
+def test_csar_generator_omits_embark_task_under_hover_extraction() -> None:
+    """With hover extraction the pilot never walks aboard, so the embark task
+    would be dead weight -- OpsCSAR.lua does the pickup by script."""
+    from dcs.task import EmbarkToTransport
+
+    mission, mission_data, downed = _generate_csar(hover=True)
+
+    info = mission_data.csar_pilot_groups[str(downed.id)]
+    group = next(
+        g for g in mission.country("USA").vehicle_group if g.name == info.group_name
+    )
+    assert not [t for t in group.points[0].tasks if isinstance(t, EmbarkToTransport)]
+
+
+def _generate_csar(hover: bool) -> Any:
+    from dcs import Mission
+    from dcs.terrain import Caucasus
+    from game.missiongenerator.csargenerator import CsarGenerator
+    from game.missiongenerator.missiondata import MissionData
+    from game.theater.player import Player
+
     mission = Mission(Caucasus())
     downed = _standalone_downed()
     downed._position = Point(-250000.0, 630000.0, mission.terrain)
@@ -669,22 +720,13 @@ def test_csar_generator_places_pilot_with_embark_task() -> None:
     game = MagicMock()
     game.settings.csar_enabled = True
     game.settings.csar_enabled_red = False
+    game.settings.csar_hover_extraction = hover
     game.theater.terrain = mission.terrain
     game.coalition_for.return_value = coalition
 
     mission_data = MissionData()
     CsarGenerator(mission, game, mission_data).generate()
-
-    info = mission_data.csar_pilot_groups[str(downed.id)]
-    assert info.blue is True
-    group = next(
-        g for g in mission.country("USA").vehicle_group if g.name == info.group_name
-    )
-    assert group.id == info.group_id
-    tasks = group.points[0].tasks
-    assert [t for t in tasks if isinstance(t, EmbarkToTransport)]
-    # The template Ops.CSAR is constructed against must also exist.
-    assert mission_data.csar_pilot_templates["blue"] == "CSAR_PILOT_BLUE"
+    return mission, mission_data, downed
 
 
 def test_csar_generator_skips_disabled_coalition() -> None:
@@ -721,6 +763,7 @@ def test_generate_csar_data_serializes_and_evaluates() -> None:
     game.settings.csar_enabled_red = False
     game.settings.csar_warm_start = True
     game.settings.csar_rescue_ai_pilots = True
+    game.settings.csar_hover_extraction = True
     squadron = MagicMock()
     squadron.coalition.player = Player.BLUE
     downed = DownedPilot(
@@ -770,6 +813,8 @@ def test_generate_csar_data_serializes_and_evaluates() -> None:
     # rather than MOOSE's USA/Russia defaults.
     assert csar.blueCountry == "15"
     assert csar.redCountry == "18"
+    # Tells OpsCSAR.lua whether to script the pickup or leave it to DCS's embark.
+    assert csar.hoverExtraction == "true"
     assert csar.downedPilots[1].id == str(downed.id)
     assert csar.downedPilots[1].aircraft == "UH-60A"
     # The pilot is already placed in the mission; OpsCSAR.lua hands this group to

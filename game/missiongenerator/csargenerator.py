@@ -90,14 +90,17 @@ class CsarGenerator:
         # visible in-game so a player can spot them.
         group.hidden_on_planner = True
 
-        # The task that makes the native AI pickup work. Without it the rescue
-        # helicopter will sit in its Embarking task and nothing will happen.
-        group.points[0].tasks.append(
-            EmbarkToTransport(
-                position=Vector2(downed.position.x, downed.position.y),
-                zone_radius=EMBARK_ZONE_RADIUS,
+        # The pilot's half of DCS's native troop transport. Only useful when the
+        # rescue helicopter is going to land, since the embark won't fire until it
+        # has weight off wheels -- under hover extraction OpsCSAR.lua does the
+        # pickup by script instead.
+        if not self.game.settings.csar_hover_extraction:
+            group.points[0].tasks.append(
+                EmbarkToTransport(
+                    position=Vector2(downed.position.x, downed.position.y),
+                    zone_radius=EMBARK_ZONE_RADIUS,
+                )
             )
-        )
 
         self.mission_data.csar_pilot_groups[str(downed.id)] = CsarPilotGroupInfo(
             group_name=group_name,

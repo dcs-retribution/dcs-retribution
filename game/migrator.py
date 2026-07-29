@@ -55,6 +55,7 @@ class Migrator:
         try_set_attr(self.game.settings, "csar_player_recovery_turns", 1)
         try_set_attr(self.game.settings, "csar_warm_start", True)
         try_set_attr(self.game.settings, "csar_rescue_ai_pilots", True)
+        try_set_attr(self.game.settings, "csar_hover_extraction", False)
         self._ensure_motorpool_tgos()
         self._reload_terrain()
         self._update_theater()

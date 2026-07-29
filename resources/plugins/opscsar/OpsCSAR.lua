@@ -31,6 +31,15 @@ local PICKUP_RADIUS = 600
 local PICKUP_MAX_AGL = 100
 local CHECK_INTERVAL = 5
 
+-- Hover extraction (the csar_hover_extraction setting). DCS's embark tasks only
+-- fire once the transport is on the ground with weight off wheels, so when the
+-- player would rather not have the AI hunting for a landable patch of terrain we
+-- fake the recovery instead: an AI helicopter holding a low hover close to the
+-- pilot for long enough counts as a hoist pickup.
+local HOVER_RADIUS = 150
+local HOVER_MAX_AGL = 40
+local HOVER_DWELL_SECONDS = 20
+
 local function opscsar_log(msg)
     env.info("[OpsCSAR] " .. tostring(msg))
 end
@@ -47,8 +56,13 @@ local function opscsar_main()
 
     csar_rescued = csar_rescued or {}
     local cfg = dcsRetribution.CSAR
+    local hover_extraction = cfg.hoverExtraction == "true"
 
-    opscsar_log("=== CSAR starting ===")
+    opscsar_log(
+        "=== CSAR starting (AI pickup: "
+        .. (hover_extraction and "scripted hover extraction" or "DCS embark on landing")
+        .. ") ==="
+    )
 
     if AICSAR ~= nil then
         opscsar_warn(
@@ -188,18 +202,21 @@ local function opscsar_main()
         return math.sqrt(dx * dx + dz * dz)
     end
 
-    local function rescue_helo_near(side_const, px, pz)
+    -- Nearest live helicopter of `side` within `radius` of the point and no higher
+    -- than `max_agl`. `ai_only` skips player-flown units, which Ops.CSAR owns.
+    local function helo_near(side_const, px, pz, radius, max_agl, ai_only)
         local groups = coalition.getGroups(side_const, Group.Category.HELICOPTER) or {}
         for _, group in pairs(groups) do
             if group:isExist() then
                 for _, unit in pairs(group:getUnits() or {}) do
-                    if unit:isExist() and unit:getLife() > 0 then
+                    if unit:isExist() and unit:getLife() > 0
+                        and not (ai_only and unit:getPlayerName() ~= nil) then
                         local point = unit:getPoint()
                         local agl =
                             point.y - land.getHeight({ x = point.x, y = point.z })
-                        if agl <= PICKUP_MAX_AGL then
+                        if agl <= max_agl then
                             local d = distance2d(px, pz, point.x, point.z)
-                            if d <= PICKUP_RADIUS then
+                            if d <= radius then
                                 return unit
                             end
                         end
@@ -208,6 +225,46 @@ local function opscsar_main()
             end
         end
         return nil
+    end
+
+    local function rescue_helo_near(side_const, px, pz)
+        return helo_near(side_const, px, pz, PICKUP_RADIUS, PICKUP_MAX_AGL, false)
+    end
+
+    -- Scripted hoist pickup. Only ever considers AI helicopters: a player hovering
+    -- over the survivor is Ops.CSAR's to handle, and extracting the pilot from
+    -- under it would break MOOSE's own boarding.
+    local function try_hover_extraction(entry, px, pz)
+        local helo = helo_near(
+            entry.side, px, pz, HOVER_RADIUS, HOVER_MAX_AGL, true
+        )
+        if helo == nil then
+            entry.hover_since = nil
+            return false
+        end
+        if entry.hover_since == nil then
+            entry.hover_since = timer.getTime()
+            opscsar_log(
+                "AI rescue " .. helo:getName() .. " hovering over "
+                .. tostring(entry.id) .. "; starting hoist."
+            )
+            return false
+        end
+        if timer.getTime() - entry.hover_since < HOVER_DWELL_SECONDS then
+            return false
+        end
+
+        local group = Group.getByName(entry.group_name)
+        if group and group:isExist() then
+            group:destroy()
+        end
+        table.insert(csar_rescued, entry.id)
+        dirty_state = true
+        entry.done = true
+        opscsar_log(
+            "Pilot " .. entry.id .. " hoisted by " .. tostring(helo:getName())
+        )
+        return true
     end
 
     local function check_pickups()
@@ -224,6 +281,9 @@ local function opscsar_main()
                         local helo =
                             rescue_helo_near(entry.side, point.x, point.z)
                         entry.helo_name = helo and helo:getName() or nil
+                        if hover_extraction then
+                            try_hover_extraction(entry, point.x, point.z)
+                        end
                     end
                 elseif entry.last_x then
                     -- Gone. If a rescue helicopter was on station where the pilot
