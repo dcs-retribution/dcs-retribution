@@ -28,6 +28,8 @@ class PlanMotorpoolAttack(PackagePlanningTask[MotorpoolGroundObject]):
     def preconditions_met(self, state: TheaterState) -> bool:
         if self.target not in state.motorpool_targets:
             return False
+        if self._rendered_unit_count() <= 0:
+            return False
         if not self.target_area_preconditions_met(state):
             return False
         return super().preconditions_met(state)
