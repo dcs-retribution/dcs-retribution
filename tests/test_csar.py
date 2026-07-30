@@ -585,9 +585,9 @@ def _pickup_builder(downed: DownedPilot, hover: bool, with_group: bool = True) -
     return builder
 
 
-def test_csar_pickup_lands_and_embarks_by_default() -> None:
-    """DCS's embark only fires with weight off wheels, so landing mode must add
-    both a Land task and an Embarking task naming the pilot's own group."""
+def test_csar_pickup_embarks_without_a_land_task() -> None:
+    """The Embarking task performs the landing itself; adding a Land task
+    alongside it only fights it for control of the approach."""
     from dcs.task import Embarking, Land
 
     downed = _standalone_downed()
@@ -602,7 +602,55 @@ def test_csar_pickup_lands_and_embarks_by_default() -> None:
     embarking = [t for t in tasks if isinstance(t, Embarking)]
     assert len(embarking) == 1
     assert embarking[0].params["groupsForEmbarking"] == {4242: 4242}
-    assert len([t for t in tasks if isinstance(t, Land)]) == 1
+    assert not [t for t in tasks if isinstance(t, Land)]
+
+
+def test_landing_zone_is_clear_of_the_survivor() -> None:
+    """The AI sets down exactly on its waypoint, so a landing zone on top of the
+    pilot crushes them. It must still be inside the embark zone or the pilot will
+    never walk out to board."""
+    from game.ato.flightplans.csar import LANDING_ZONE_OFFSET, Builder
+    from game.missiongenerator.csargenerator import EMBARK_ZONE_RADIUS
+
+    downed = _standalone_downed()
+    downed._position = Point(0.0, 0.0, _TERRAIN)
+
+    builder = Builder.__new__(Builder)
+    builder.flight = cast(
+        Any,
+        SimpleNamespace(
+            departure=SimpleNamespace(position=Point(50000.0, 0.0, _TERRAIN))
+        ),
+    )
+    theater = MagicMock()
+    theater.is_on_land.return_value = True
+    with patch.object(type(builder), "theater", property(lambda self: theater)):
+        landing_zone = builder._landing_zone_for(downed)
+
+    separation = landing_zone.distance_to_point(downed.position)
+    assert separation == pytest.approx(LANDING_ZONE_OFFSET.meters, rel=0.01)
+    assert separation < EMBARK_ZONE_RADIUS
+
+
+def test_landing_zone_avoids_water() -> None:
+    from game.ato.flightplans.csar import Builder
+
+    downed = _standalone_downed()
+    downed._position = Point(0.0, 0.0, _TERRAIN)
+
+    builder = Builder.__new__(Builder)
+    builder.flight = cast(
+        Any,
+        SimpleNamespace(
+            departure=SimpleNamespace(position=Point(50000.0, 0.0, _TERRAIN))
+        ),
+    )
+    theater = MagicMock()
+    # Reject the first (approach-side) bearing, accept the next.
+    theater.is_on_land.side_effect = [False, True]
+    with patch.object(type(builder), "theater", property(lambda self: theater)):
+        builder._landing_zone_for(downed)
+    assert theater.is_on_land.call_count == 2
 
 
 def test_csar_pickup_hover_mode_adds_no_tasks() -> None:
@@ -815,6 +863,11 @@ def test_generate_csar_data_serializes_and_evaluates() -> None:
     assert csar.redCountry == "18"
     # Tells OpsCSAR.lua whether to script the pickup or leave it to DCS's embark.
     assert csar.hoverExtraction == "true"
+    # Shared with the pilot's EmbarkToTransport task so the signal smoke matches
+    # the zone they can actually be picked up in.
+    from game.missiongenerator.csargenerator import EMBARK_ZONE_RADIUS
+
+    assert csar.embarkZoneRadius == str(EMBARK_ZONE_RADIUS)
     assert csar.downedPilots[1].id == str(downed.id)
     assert csar.downedPilots[1].aircraft == "UH-60A"
     # The pilot is already placed in the mission; OpsCSAR.lua hands this group to

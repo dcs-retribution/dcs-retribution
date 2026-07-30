@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Iterator, TYPE_CHECKING, Type
 
+from game.theater.missiontarget import MissionTarget
 from game.utils import Distance, meters
 from .ibuilder import IBuilder
 from .planningerror import PlanningError
@@ -13,7 +14,14 @@ from .waypointbuilder import WaypointBuilder
 from ..flightwaypointtype import FlightWaypointType
 
 if TYPE_CHECKING:
+    from dcs.mapping import Point
     from ..flightwaypoint import FlightWaypoint
+
+#: How far the rescue helicopter's touchdown point sits from the survivor. Far
+#: enough that landing on the waypoint doesn't crush them, close enough to stay
+#: inside the embark zone (see EMBARK_ZONE_RADIUS in csargenerator.py) so DCS
+#: still walks them out to the helicopter.
+LANDING_ZONE_OFFSET = meters(150)
 
 
 @dataclass
@@ -105,7 +113,13 @@ class Builder(IBuilder[CsarFlightPlan, CsarLayout]):
             FlightWaypointType.INGRESS_CSAR, ingress_position, target
         )
 
-        pickup = builder.csar_pickup(target)
+        # The landing zone is deliberately offset from the survivor. The AI puts
+        # the helicopter down exactly on its waypoint, and a pilot standing there
+        # gets crushed. The offset stays well inside the pilot's embark zone so
+        # they still walk over to board.
+        pickup = builder.csar_pickup(
+            MissionTarget(target.name, self._landing_zone_for(target))
+        )
 
         return CsarLayout(
             departure=builder.takeoff(self.flight.departure),
@@ -127,6 +141,29 @@ class Builder(IBuilder[CsarFlightPlan, CsarLayout]):
             divert=builder.divert(self.flight.divert),
             bullseye=builder.bullseye(),
             custom_waypoints=list(),
+        )
+
+    def _landing_zone_for(self, target: MissionTarget) -> Point:
+        """A touchdown point clear of the survivor but inside their embark zone.
+
+        Prefers the approach side (between the pilot and the departure airfield)
+        and falls back through other bearings if that lands in water or an
+        exclusion zone.
+        """
+        theater = self.theater
+        toward_home = target.position.heading_between_point(
+            self.flight.departure.position
+        )
+        for offset in (0, 45, -45, 90, -90, 135, -135, 180):
+            candidate = target.position.point_from_heading(
+                (toward_home + offset) % 360, LANDING_ZONE_OFFSET.meters
+            )
+            if theater.is_on_land(candidate):
+                return candidate
+        # Nowhere better; the pilot's own position was already land-validated, so
+        # accept the approach-side point and let the AI sort out the touchdown.
+        return target.position.point_from_heading(
+            toward_home, LANDING_ZONE_OFFSET.meters
         )
 
     @property

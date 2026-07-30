@@ -14,6 +14,7 @@ from dcs.triggers import TriggerStart
 from game.ato import FlightType
 from game.data.units import UnitClass
 from game.dcs.aircrafttype import AircraftType
+from game.missiongenerator.csargenerator import EMBARK_ZONE_RADIUS
 from game.plugins import LuaPluginManager
 from game.theater import TheaterGroundObject
 from game.theater.iadsnetwork.iadsrole import IadsRole
@@ -319,6 +320,9 @@ class LuaGenerator:
             # Landing mode leaves the pickup to DCS's native embark; hover mode
             # needs OpsCSAR.lua to extract the pilot by script.
             "hoverExtraction": ("true" if settings.csar_hover_extraction else "false"),
+            # Shared with the pilot's EmbarkToTransport task so the smoke the
+            # survivor pops matches the zone they can actually be picked up in.
+            "embarkZoneRadius": str(EMBARK_ZONE_RADIUS),
             "blueTemplate": templates.get("blue", ""),
             "redTemplate": templates.get("red", ""),
             # MOOSE defaults its CSAR countries to USA/Russia and applies them

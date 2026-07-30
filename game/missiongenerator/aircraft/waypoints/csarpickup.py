@@ -2,7 +2,7 @@ import logging
 
 from dcs.mapping import Vector2
 from dcs.point import MovingPoint
-from dcs.task import Embarking, Land
+from dcs.task import Embarking
 
 from game.squadrons.downedpilot import DownedPilot
 from .pydcswaypointbuilder import PydcsWaypointBuilder
@@ -10,24 +10,19 @@ from .pydcswaypointbuilder import PydcsWaypointBuilder
 #: How long the rescue helicopter holds at the pickup waiting for the pilot.
 PICKUP_DURATION_SECONDS = 300
 
-#: Small jitter so a multi-ship flight doesn't try to set down on one spot.
-_TOUCHDOWN_SPREAD = 40
-_TOUCHDOWN_MIN = 15
-
 
 class CsarPickupBuilder(PydcsWaypointBuilder):
     """Sets up the rescue helicopter's behaviour at the downed pilot.
 
     Two modes, selected by the ``csar_hover_extraction`` setting:
 
-    * Landing (default) uses DCS's native troop transport. The helicopter is
-      given a ``Land`` task plus an ``Embarking`` task naming the downed pilot's
-      group, which pairs with the ``EmbarkToTransport`` task the pilot carries
-      (see CsarGenerator), and DCS walks the pilot aboard. The ``Land`` task is
-      required: the embark only fires once the helicopter is actually down with
-      weight off wheels, so an ``Embarking`` task alone does nothing.
+    * Landing (default) uses DCS's native troop transport: an ``Embarking`` task
+      naming the downed pilot's group, which pairs with the
+      ``EmbarkToTransport`` task the pilot carries (see CsarGenerator). The
+      embark task handles the landing itself, so no separate ``Land`` task is
+      added -- one would only fight it for control of the approach.
 
-    * Hover extraction adds neither task. The helicopter holds at the waypoint
+    * Hover extraction adds no task at all. The helicopter holds at the waypoint
       and OpsCSAR.lua performs the extraction by script once it is in a low hover
       near the pilot. Less authentic, but immune to terrain the AI refuses to
       land on.
@@ -58,17 +53,6 @@ class CsarPickupBuilder(PydcsWaypointBuilder):
             )
             return waypoint
 
-        landing_point = waypoint.position.random_point_within(
-            _TOUCHDOWN_SPREAD, _TOUCHDOWN_MIN
-        )
-        combat_land = self.flight.coalition.game.settings.use_ai_combat_landing
-        waypoint.add_task(
-            Land(
-                landing_point,
-                duration=PICKUP_DURATION_SECONDS,
-                combat_landing=combat_land,
-            )
-        )
         waypoint.add_task(
             Embarking(
                 position=Vector2(waypoint.position.x, waypoint.position.y),

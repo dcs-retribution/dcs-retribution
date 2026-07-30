@@ -40,6 +40,14 @@ local HOVER_RADIUS = 150
 local HOVER_MAX_AGL = 40
 local HOVER_DWELL_SECONDS = 20
 
+-- Signal smoke for AI rescues. The survivor pops smoke in their own coalition's
+-- colour once an AI rescue helicopter is inside their embark zone. Players get
+-- Ops.CSAR's "Request Smoke" F10 menu item instead, so they choose when to expose
+-- the survivor's position. DCS smoke burns for about five minutes, so re-pop on
+-- that cadence while the helicopter is still around.
+local SMOKE_MAX_AGL = 600
+local SMOKE_REPOP_SECONDS = 300
+
 local function opscsar_log(msg)
     env.info("[OpsCSAR] " .. tostring(msg))
 end
@@ -57,6 +65,7 @@ local function opscsar_main()
     csar_rescued = csar_rescued or {}
     local cfg = dcsRetribution.CSAR
     local hover_extraction = cfg.hoverExtraction == "true"
+    local embark_zone_radius = tonumber(cfg.embarkZoneRadius) or PICKUP_RADIUS
 
     opscsar_log(
         "=== CSAR starting (AI pickup: "
@@ -231,6 +240,37 @@ local function opscsar_main()
         return helo_near(side_const, px, pz, PICKUP_RADIUS, PICKUP_MAX_AGL, false)
     end
 
+    -- Pops signal smoke at the survivor while an *AI* rescue helicopter is inside
+    -- their embark zone. Blue coalition pilots throw blue smoke, red throw red.
+    --
+    -- AI only, deliberately: a human crew already has Ops.CSAR's "Request Smoke"
+    -- F10 menu item and can call for it when they want it. Popping automatically
+    -- for players would both pre-empt that choice and give away the survivor's
+    -- position for the whole burn time whether they wanted it or not.
+    local function maybe_pop_smoke(entry, px, pz)
+        local helo = helo_near(
+            entry.side, px, pz, embark_zone_radius, SMOKE_MAX_AGL, true
+        )
+        if helo == nil then
+            return
+        end
+        local now = timer.getTime()
+        if entry.smoke_until ~= nil and now < entry.smoke_until then
+            return
+        end
+        entry.smoke_until = now + SMOKE_REPOP_SECONDS
+        local colour = entry.side == coalition.side.RED
+            and trigger.smokeColor.Red
+            or trigger.smokeColor.Blue
+        pcall(function()
+            -- Offset slightly so the plume doesn't sit inside the pilot model.
+            trigger.action.smoke({ x = px + 6, y = land.getHeight({ x = px + 6, y = pz }), z = pz }, colour)
+        end)
+        opscsar_log(
+            "Pilot " .. entry.id .. " popped smoke for " .. tostring(helo:getName())
+        )
+    end
+
     -- Scripted hoist pickup. Only ever considers AI helicopters: a player hovering
     -- over the survivor is Ops.CSAR's to handle, and extracting the pilot from
     -- under it would break MOOSE's own boarding.
@@ -281,6 +321,7 @@ local function opscsar_main()
                         local helo =
                             rescue_helo_near(entry.side, point.x, point.z)
                         entry.helo_name = helo and helo:getName() or nil
+                        maybe_pop_smoke(entry, point.x, point.z)
                         if hover_extraction then
                             try_hover_extraction(entry, point.x, point.z)
                         end
@@ -346,6 +387,8 @@ local function opscsar_main()
                         last_x = nil,
                         last_z = nil,
                         helo_name = nil,
+                        hover_since = nil,
+                        smoke_until = nil,
                     })
                     watched = watched + 1
                 end
