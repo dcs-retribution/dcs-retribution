@@ -629,7 +629,13 @@ def test_landing_zone_is_clear_of_the_survivor() -> None:
 
     separation = landing_zone.distance_to_point(downed.position)
     assert separation == pytest.approx(LANDING_ZONE_OFFSET.meters, rel=0.01)
-    assert separation < EMBARK_ZONE_RADIUS
+    # Clear of the rotor disc so the AI can't put the helicopter down on the
+    # survivor...
+    assert separation >= 100
+    # ...but well inside the embark zone, leaving room for the AI's own landing
+    # dispersion. A touchdown outside that radius is never reached and the rescue
+    # silently fails.
+    assert separation <= EMBARK_ZONE_RADIUS.meters * 0.6
 
 
 def test_landing_zone_avoids_water() -> None:
@@ -867,7 +873,7 @@ def test_generate_csar_data_serializes_and_evaluates() -> None:
     # the zone they can actually be picked up in.
     from game.missiongenerator.csargenerator import EMBARK_ZONE_RADIUS
 
-    assert csar.embarkZoneRadius == str(EMBARK_ZONE_RADIUS)
+    assert csar.embarkZoneRadius == str(round(EMBARK_ZONE_RADIUS.meters))
     assert csar.downedPilots[1].id == str(downed.id)
     assert csar.downedPilots[1].aircraft == "UH-60A"
     # The pilot is already placed in the mission; OpsCSAR.lua hands this group to

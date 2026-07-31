@@ -322,7 +322,7 @@ class LuaGenerator:
             "hoverExtraction": ("true" if settings.csar_hover_extraction else "false"),
             # Shared with the pilot's EmbarkToTransport task so the smoke the
             # survivor pops matches the zone they can actually be picked up in.
-            "embarkZoneRadius": str(EMBARK_ZONE_RADIUS),
+            "embarkZoneRadius": str(round(EMBARK_ZONE_RADIUS.meters)),
             "blueTemplate": templates.get("blue", ""),
             "redTemplate": templates.get("red", ""),
             # MOOSE defaults its CSAR countries to USA/Russia and applies them

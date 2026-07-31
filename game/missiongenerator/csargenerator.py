@@ -8,6 +8,7 @@ from dcs.task import EmbarkToTransport
 from dcs.vehicles import Infantry
 
 from game.theater import Player
+from game.utils import feet
 
 if TYPE_CHECKING:
     from game import Game
@@ -16,8 +17,12 @@ if TYPE_CHECKING:
     from game.squadrons.downedpilot import DownedPilot
 
 #: Radius the pilot will walk within to board a helicopter that is embarking.
-#: Generous enough to cover the scatter on the rescue flight's pickup waypoint.
-EMBARK_ZONE_RADIUS = 600
+#:
+#: Must exceed LANDING_ZONE_OFFSET (game/ato/flightplans/csar.py): the touchdown
+#: point is deliberately held away from the survivor so the helicopter can't land
+#: on them, and the AI adds its own dispersion on top of that. A helicopter that
+#: comes down outside this radius is never reached and the rescue silently fails.
+EMBARK_ZONE_RADIUS = feet(1000)
 
 
 class CsarGenerator:
@@ -98,7 +103,7 @@ class CsarGenerator:
             group.points[0].tasks.append(
                 EmbarkToTransport(
                     position=Vector2(downed.position.x, downed.position.y),
-                    zone_radius=EMBARK_ZONE_RADIUS,
+                    zone_radius=round(EMBARK_ZONE_RADIUS.meters),
                 )
             )
 
