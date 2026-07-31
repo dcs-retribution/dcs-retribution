@@ -1,5 +1,5 @@
 ---
-name: Caucasus - Operation Vectron's Claw
+name: Caucasus - Vectron's Claw
 theater: Caucasus
 authors: Starfire
 recommended_player_faction: USA 2005
@@ -23,19 +23,20 @@ description:
   combat engagement.</p>
 miz: operation_vectrons_claw.miz
 performance: 1
-recommended_start_date: 2008-08-08
+recommended_start_date: 2005-08-08
 version: "10.8"
 settings:
   fa_18efg: true
   f22_raptor: true
   hercules: true
+  uh_60l: true
   squadron_start_full: true
 squadrons:
   Blue CV-1:
     - primary: BARCAP
       secondary: any
       aircraft:
-        - F-14B Tomcat
+        - F-14B(U) Tomcat
       size: 16
     - primary: SEAD Escort
       secondary: any
@@ -96,6 +97,7 @@ squadrons:
     - primary: Transport
       secondary: any
       aircraft:
+        - UH-60L
         - UH-60A
       size: 4
   #Vaziani

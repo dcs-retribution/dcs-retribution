@@ -223,6 +223,13 @@
   "hertz": 109300000,
   "channel": null
  },
+ "airfield20_0": {
+  "name": "KHG",
+  "callsign": "KHG",
+  "beacon_type": 3,
+  "hertz": 113400000,
+  "channel": 81
+ },
  "airfield10_0": {
   "name": "KIR",
   "callsign": "KIR",

@@ -104,32 +104,26 @@ def _unit_positions(tgo: MotorpoolGroundObject) -> list[Point]:
     return [u.position for g in tgo.groups for u in g.units]
 
 
-def test_grid_is_world_axis_aligned_at_zero_heading() -> None:
-    # Regression guard: with a north-facing (heading 0) garage the grid keeps its
-    # original world-axis layout — columns grow +x, rows step +y.
+def test_grid_starts_clear_of_building_at_zero_heading() -> None:
     gut = _gut()
     tgo, cp = _motorpool({gut: 3}, heading=0.0)
     MotorpoolPopulator(cast("Game", _game([cp], cap=10))).populate()
     positions = _unit_positions(tgo)
     assert len(positions) == 3
-    # slot 0 sits on origin, slots 1 and 2 grow east along +x.
-    assert positions[0].x == 0.0 and positions[0].y == 0.0
-    assert positions[1].x == 12.0 and abs(positions[1].y) < 1e-6
-    assert positions[2].x == 24.0 and abs(positions[2].y) < 1e-6
+    assert positions[0].x == 45.72 and positions[0].y == 45.72
+    assert positions[1].x == 57.72 and abs(positions[1].y - 45.72) < 1e-6
+    assert positions[2].x == 69.72 and abs(positions[2].y - 45.72) < 1e-6
 
 
-def test_grid_rotates_with_garage_heading() -> None:
-    # Starfire concern: the garage building's orientation must rotate the parking
-    # grid (like resource-site placement). At heading 90 the column axis that grew
-    # +x now grows +y, rotated clockwise about the TGO origin.
+def test_grid_offset_and_spacing_rotate_with_garage_heading() -> None:
     gut = _gut()
     tgo, cp = _motorpool({gut: 3}, heading=90.0)
     MotorpoolPopulator(cast("Game", _game([cp], cap=10))).populate()
     positions = _unit_positions(tgo)
     assert len(positions) == 3
-    assert abs(positions[0].x) < 1e-6 and abs(positions[0].y) < 1e-6
-    assert abs(positions[1].x) < 1e-6 and abs(positions[1].y - 12.0) < 1e-6
-    assert abs(positions[2].x) < 1e-6 and abs(positions[2].y - 24.0) < 1e-6
+    assert abs(positions[0].x + 45.72) < 1e-6 and abs(positions[0].y - 45.72) < 1e-6
+    assert abs(positions[1].x + 45.72) < 1e-6 and abs(positions[1].y - 57.72) < 1e-6
+    assert abs(positions[2].x + 45.72) < 1e-6 and abs(positions[2].y - 69.72) < 1e-6
 
 
 def test_multiple_motorpools_on_one_cp_share_one_reserve_pool() -> None:

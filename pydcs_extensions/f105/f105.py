@@ -110,9 +110,9 @@ class VSN_F105G(PlaneType):
         Mk_83___1000lb_GP_Bomb_LD = (5, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         MER_6_Mk_82_F_105 = (5, WeaponsF105.MER_6_Mk_82_F_105)
         Fuel_Tank = (5, WeaponsF105.Fuel_Tank)
-        TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
+        TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD = (
             5,
-            Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
+            Weapons.TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
         MER_6_M117_F_105 = (5, WeaponsF105.MER_6_M117_F_105)
         TER_M117_F_105 = (5, WeaponsF105.TER_M117_F_105)
@@ -155,9 +155,9 @@ class VSN_F105G(PlaneType):
         Mk_83___1000lb_GP_Bomb_LD = (7, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         MER_6_Mk_82_F_105 = (7, WeaponsF105.MER_6_Mk_82_F_105)
         Fuel_Tank = (7, WeaponsF105.Fuel_Tank)
-        TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
+        TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD = (
             7,
-            Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
+            Weapons.TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
         MER_6_M117_F_105 = (7, WeaponsF105.MER_6_M117_F_105)
         TER_M117_F_105 = (7, WeaponsF105.TER_M117_F_105)
@@ -283,9 +283,9 @@ class VSN_F105D(PlaneType):
         Mk_83___1000lb_GP_Bomb_LD = (5, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         MER_6_Mk_82_F_105 = (5, WeaponsF105.MER_6_Mk_82_F_105)
         Fuel_Tank = (5, WeaponsF105.Fuel_Tank)
-        TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
+        TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD = (
             5,
-            Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
+            Weapons.TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
         MER_6_M117_F_105 = (5, WeaponsF105.MER_6_M117_F_105)
         TER_M117_F_105 = (5, WeaponsF105.TER_M117_F_105)
@@ -327,9 +327,9 @@ class VSN_F105D(PlaneType):
         Mk_83___1000lb_GP_Bomb_LD = (7, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         MER_6_Mk_82_F_105 = (7, WeaponsF105.MER_6_Mk_82_F_105)
         Fuel_Tank = (7, WeaponsF105.Fuel_Tank)
-        TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
+        TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD = (
             7,
-            Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
+            Weapons.TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
         MER_6_M117_F_105 = (7, WeaponsF105.MER_6_M117_F_105)
         TER_M117_F_105 = (7, WeaponsF105.TER_M117_F_105)
