@@ -3,6 +3,7 @@ from typing import Iterable, List, Optional
 
 from PySide6.QtCore import Signal, Qt, QModelIndex
 from PySide6.QtWidgets import (
+    QCheckBox,
     QFrame,
     QGridLayout,
     QHBoxLayout,
@@ -38,14 +39,12 @@ from qt_ui.windows.mission.flight.waypoints.QPredefinedWaypointSelectionWindow i
 class QFlightWaypointTab(QFrame):
     loadout_changed = Signal()
 
-    # Waypoint types whose altitude the bulk setter must not touch. Their altitude is
-    # tied to something other than the en-route cruise band, so overwriting it with a
-    # cruise MSL would break the flight plan:
+    # Waypoint types the bulk setter must NEVER touch. Their altitude is tied to
+    # something other than the en-route cruise band, so overwriting it with a cruise
+    # MSL would break the flight plan:
     #   * Takeoff / pattern / landing points are tied to the airfield.
     #   * Divert and cargo-stop points are alternate landing fields.
-    #   * Target points carry the target's own elevation (used for attack geometry).
     #   * Pickup / dropoff zones are ground-level helo landing zones.
-    #   * Refuel / recovery-tanker points are tied to the tanker's orbit altitude.
     #   * Bullseye is a fixed map reference, not a flown waypoint.
     BULK_ALTITUDE_SKIP_TYPES = frozenset(
         {
@@ -54,16 +53,30 @@ class QFlightWaypointTab(QFrame):
             FlightWaypointType.LANDING_POINT,
             FlightWaypointType.DIVERT,
             FlightWaypointType.CARGO_STOP,
-            FlightWaypointType.TARGET_POINT,
-            FlightWaypointType.TARGET_GROUP_LOC,
-            FlightWaypointType.TARGET_SHIP,
             FlightWaypointType.PICKUP_ZONE,
             FlightWaypointType.DROPOFF_ZONE,
-            FlightWaypointType.REFUEL,
-            FlightWaypointType.RECOVERY_TANKER,
             FlightWaypointType.BULLSEYE,
         }
     )
+
+    # Target and refuel/recovery-tanker points carry a planner-seeded altitude (the
+    # on-target ingress / tanker-orbit band). They are skipped by default, but a
+    # manual planner can opt to include them -- e.g. to set the refuel-leg altitude
+    # before, or entirely without, a tanker flight -- via the "Include target &
+    # tanker legs" checkbox. Per-waypoint editing still hand-tunes any leg back.
+    BULK_ALTITUDE_OPTIONAL_SKIP_TYPES = frozenset(
+        {
+            FlightWaypointType.TARGET_POINT,
+            FlightWaypointType.TARGET_GROUP_LOC,
+            FlightWaypointType.TARGET_SHIP,
+            FlightWaypointType.REFUEL,
+            FlightWaypointType.RECOVERY_TANKER,
+        }
+    )
+
+    # Default state of the "Include target & tanker legs" checkbox. Off, so the bulk
+    # set leaves those planner-seeded legs alone unless the planner opts in.
+    INCLUDE_RESTRICTED_LEGS_BY_DEFAULT = False
 
     def __init__(self, game: Game, package: Package, flight: Flight):
         super(QFlightWaypointTab, self).__init__()
@@ -100,14 +113,24 @@ class QFlightWaypointTab(QFrame):
         self.bulk_altitude.setSuffix(" ft")
         self.bulk_altitude.setToolTip(
             "Apply this MSL altitude to every en-route waypoint. Takeoff, landing, "
-            "divert, target, landing-zone, tanker, and ground (AGL) waypoints are "
-            "left unchanged."
+            "divert, landing-zone, and ground (AGL) waypoints are always left "
+            "unchanged; target and refuel / tanker legs are left unchanged unless "
+            '"Include target & tanker legs" is ticked.'
         )
         bulk_alt_layout.addWidget(self.bulk_altitude)
         self.apply_bulk_altitude = QPushButton("Apply to all")
         self.apply_bulk_altitude.clicked.connect(self.on_apply_bulk_altitude)
         bulk_alt_layout.addWidget(self.apply_bulk_altitude)
         rlayout.addLayout(bulk_alt_layout)
+
+        self.include_restricted_legs = QCheckBox("Include target & tanker legs")
+        self.include_restricted_legs.setChecked(self.INCLUDE_RESTRICTED_LEGS_BY_DEFAULT)
+        self.include_restricted_legs.setToolTip(
+            "Also apply the bulk altitude to target and refuel / recovery-tanker "
+            "waypoints. Off by default because their altitude is planner-seeded from "
+            "the target elevation / tanker orbit."
+        )
+        rlayout.addWidget(self.include_restricted_legs)
 
         rlayout.addWidget(QLabel("<strong>Generator :</strong>"))
         rlayout.addWidget(QLabel("<small>AI compatible</small>"))
@@ -287,10 +310,18 @@ class QFlightWaypointTab(QFrame):
             self.flight_waypoint_list.update_list()
             self.on_change()
 
-    def _is_bulk_editable(self, waypoint: FlightWaypoint) -> bool:
+    def _is_bulk_editable(
+        self, waypoint: FlightWaypoint, include_restricted: bool
+    ) -> bool:
         # Skip pattern waypoints and any AGL/ground-referenced point (takeoff and
         # landing are RADIO, alt 0) so the bulk set only moves the en-route legs.
         if waypoint.waypoint_type in self.BULK_ALTITUDE_SKIP_TYPES:
+            return False
+        # Target and tanker legs are planner-seeded; only touch them when opted in.
+        if (
+            not include_restricted
+            and waypoint.waypoint_type in self.BULK_ALTITUDE_OPTIONAL_SKIP_TYPES
+        ):
             return False
         return waypoint.alt_type != "RADIO"
 
@@ -300,15 +331,16 @@ class QFlightWaypointTab(QFrame):
         altitudes = [
             round(wpt.alt.feet)
             for wpt in self.flight.flight_plan.waypoints
-            if self._is_bulk_editable(wpt)
+            if self._is_bulk_editable(wpt, self.INCLUDE_RESTRICTED_LEGS_BY_DEFAULT)
         ]
         return max(altitudes, default=0)
 
     def on_apply_bulk_altitude(self) -> None:
         altitude = feet(self.bulk_altitude.value())
+        include_restricted = self.include_restricted_legs.isChecked()
         changed = False
         for waypoint in self.flight.flight_plan.waypoints:
-            if self._is_bulk_editable(waypoint):
+            if self._is_bulk_editable(waypoint, include_restricted):
                 waypoint.alt = altitude
                 changed = True
         if changed:
