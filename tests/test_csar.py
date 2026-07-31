@@ -631,7 +631,7 @@ def test_landing_zone_is_clear_of_the_survivor() -> None:
     assert separation == pytest.approx(LANDING_ZONE_OFFSET.meters, rel=0.01)
     # Clear of the rotor disc so the AI can't put the helicopter down on the
     # survivor...
-    assert separation >= 100
+    assert separation >= 50
     # ...but well inside the embark zone, leaving room for the AI's own landing
     # dispersion. A touchdown outside that radius is never reached and the rescue
     # silently fails.

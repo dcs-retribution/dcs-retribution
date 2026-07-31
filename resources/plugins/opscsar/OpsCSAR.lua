@@ -28,8 +28,13 @@
 -- picked them up. Matches the embark zone radius used on the pilot's task.
 local PICKUP_RADIUS = 600
 -- A helo above this AGL is transiting, not picking anyone up.
-local PICKUP_MAX_AGL = 100
+local PICKUP_MAX_AGL = 150
 local CHECK_INTERVAL = 5
+-- How long after a rescue helicopter was last seen in the embark zone a vanishing
+-- pilot still counts as having boarded it. Generous, because the only other way
+-- for a tracked survivor to disappear is being killed, and the post-mission
+-- fallback in Retribution re-checks the outcome anyway.
+local RESCUE_ATTRIBUTION_WINDOW = 120
 
 -- Hover extraction (the csar_hover_extraction setting). DCS's embark tasks only
 -- fire once the transport is on the ground with weight off wheels, so when the
@@ -318,30 +323,42 @@ local function opscsar_main()
                     local point = unit and unit:getPoint() or nil
                     if point then
                         entry.last_x, entry.last_z = point.x, point.z
+                        -- Remember the last rescue helicopter seen in the embark
+                        -- zone, with a timestamp. Attribution can't be done at
+                        -- vanish time alone: the pilot disappears the instant they
+                        -- board and the helicopter is climbing away by the next
+                        -- poll, so a "is one here right now?" test races the
+                        -- takeoff and silently loses the rescue.
                         local helo =
                             rescue_helo_near(entry.side, point.x, point.z)
-                        entry.helo_name = helo and helo:getName() or nil
+                        if helo then
+                            entry.helo_name = helo:getName()
+                            entry.helo_seen = timer.getTime()
+                        end
                         maybe_pop_smoke(entry, point.x, point.z)
                         if hover_extraction then
                             try_hover_extraction(entry, point.x, point.z)
                         end
                     end
                 elseif entry.last_x then
-                    -- Gone. If a rescue helicopter was on station where the pilot
-                    -- was, they embarked.
-                    local helo =
-                        rescue_helo_near(entry.side, entry.last_x, entry.last_z)
-                    local by = helo and helo:getName() or entry.helo_name
-                    if by then
+                    -- Gone. Count it as a pickup if a rescue helicopter was in the
+                    -- embark zone recently enough to have loaded them.
+                    local recent = entry.helo_seen ~= nil
+                        and (timer.getTime() - entry.helo_seen)
+                            <= RESCUE_ATTRIBUTION_WINDOW
+                    if recent then
                         table.insert(csar_rescued, entry.id)
                         dirty_state = true
                         opscsar_log(
-                            "Pilot " .. entry.id .. " embarked on " .. tostring(by)
+                            "Pilot " .. entry.id .. " embarked on "
+                            .. tostring(entry.helo_name)
                         )
                     else
                         opscsar_log(
-                            "Pilot " .. entry.id .. " is gone with no rescue "
-                            .. "helicopter nearby; not counting a rescue."
+                            "Pilot " .. entry.id .. " is gone but no rescue "
+                            .. "helicopter was in the embark zone within "
+                            .. RESCUE_ATTRIBUTION_WINDOW
+                            .. "s; not counting a rescue."
                         )
                     end
                     entry.done = true
@@ -387,6 +404,7 @@ local function opscsar_main()
                         last_x = nil,
                         last_z = nil,
                         helo_name = nil,
+                        helo_seen = nil,
                         hover_since = nil,
                         smoke_until = nil,
                     })

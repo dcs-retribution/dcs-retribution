@@ -220,15 +220,37 @@ class Debriefing:
         self._collect_reported_rescues()
 
     def _collect_reported_rescues(self) -> None:
-        """Records rescues Ops.CSAR confirmed in-mission via state.json."""
-        for uuid_str in self.state_data.rescued_pilot_ids:
+        """Records rescues confirmed in-mission and reported via state.json."""
+        reported = self.state_data.rescued_pilot_ids
+        if not reported:
+            return
+        for uuid_str in reported:
             try:
                 downed = self.game.db.downed_pilots.get(UUID(uuid_str))
-            except (KeyError, ValueError):
-                # Already committed by an earlier poll of the same state file, or
-                # an id from a previous campaign state. Nothing to record.
+            except ValueError:
+                logging.warning(
+                    "Mission reported a rescued pilot id that isn't a UUID: %r. "
+                    "The rescue will not be credited.",
+                    uuid_str,
+                )
+                continue
+            except KeyError:
+                # Expected once the results have been committed, since committing
+                # a rescue removes the pilot from the database. Anything else
+                # means the mission and the campaign disagree about who was down,
+                # which would silently lose a rescue, so say so.
+                logging.info(
+                    "Mission reported rescued pilot %s, who is not (or no longer) "
+                    "a tracked downed pilot. Not credited.",
+                    uuid_str,
+                )
                 continue
             self.record_rescue(downed)
+        logging.info(
+            "Mission reported %d rescued pilot(s); %d credited.",
+            len(reported),
+            len(self.rescued_pilots),
+        )
 
     def record_rescue(self, downed: DownedPilot) -> None:
         """Records a downed pilot as rescued for reporting purposes.

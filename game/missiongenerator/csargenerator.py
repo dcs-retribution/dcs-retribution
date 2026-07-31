@@ -8,7 +8,7 @@ from dcs.task import EmbarkToTransport
 from dcs.vehicles import Infantry
 
 from game.theater import Player
-from game.utils import feet
+from game.utils import meters
 
 if TYPE_CHECKING:
     from game import Game
@@ -22,7 +22,7 @@ if TYPE_CHECKING:
 #: point is deliberately held away from the survivor so the helicopter can't land
 #: on them, and the AI adds its own dispersion on top of that. A helicopter that
 #: comes down outside this radius is never reached and the rescue silently fails.
-EMBARK_ZONE_RADIUS = feet(1000)
+EMBARK_ZONE_RADIUS = meters(300)
 
 
 class CsarGenerator:

@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import Iterator, TYPE_CHECKING, Type
 
 from game.theater.missiontarget import MissionTarget
-from game.utils import Distance, feet, meters
+from game.utils import Distance, meters
 from .ibuilder import IBuilder
 from .planningerror import PlanningError
 from .standard import StandardFlightPlan, StandardLayout
@@ -22,10 +22,10 @@ if TYPE_CHECKING:
 #: Far enough that the AI -- which lands on its waypoint with some dispersion --
 #: cannot come down on the pilot, but no further: it has to stay inside the pilot's
 #: embark zone (EMBARK_ZONE_RADIUS in csargenerator.py) or DCS never walks them out
-#: to board and the rescue silently fails. Sits at half the embark radius, which
-#: leaves the rest of it as margin for the AI's dispersion. test_csar.py pins the
+#: to board and the rescue silently fails. Sits at a quarter of the embark radius,
+#: leaving the rest of it as margin for the AI's dispersion. test_csar.py pins the
 #: relationship between the two.
-LANDING_ZONE_OFFSET = feet(500)
+LANDING_ZONE_OFFSET = meters(75)
 
 
 @dataclass
