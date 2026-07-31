@@ -19,13 +19,20 @@ if TYPE_CHECKING:
 
 #: How far the rescue helicopter's touchdown point sits from the survivor.
 #:
-#: Far enough that the AI -- which lands on its waypoint with some dispersion --
-#: cannot come down on the pilot, but no further: it has to stay inside the pilot's
-#: embark zone (EMBARK_ZONE_RADIUS in csargenerator.py) or DCS never walks them out
-#: to board and the rescue silently fails. Sits at a quarter of the embark radius,
-#: leaving the rest of it as margin for the AI's dispersion. test_csar.py pins the
-#: relationship between the two.
-LANDING_ZONE_OFFSET = meters(75)
+#: Bounded on both sides, and both bounds have been established the hard way in
+#: DCS -- do not tune this without re-testing an actual AI pickup:
+#:
+#: * Too close and the AI simply never lands. It keeps a clear area around
+#:   existing ground units before committing to a touchdown, and the survivor is
+#:   a ground unit. 75m was tried and the helicopters flew the embark phase
+#:   without ever setting down; 150m lands reliably.
+#: * Too far and the touchdown falls outside the survivor's embark zone
+#:   (EMBARK_ZONE_RADIUS in csargenerator.py), so DCS never walks them out to
+#:   board and the rescue silently fails. It also has to leave slack inside that
+#:   radius for the AI's own landing dispersion.
+#:
+#: test_csar.py pins both bounds.
+LANDING_ZONE_OFFSET = meters(150)
 
 
 @dataclass
