@@ -7,7 +7,7 @@ Israeli-countried preset and fly with the wrong comms voice and pilot names
 ``country:``: the pick
 only accepts same-nation presets (falling through to the def generator
 otherwise), and ``override_squadron_defaults`` stamps the pinned nation either
-way. An unknown country name must never abort New Game.
+way. An unknown country name is an authoring error that aborts New Game.
 """
 
 from __future__ import annotations
@@ -15,14 +15,12 @@ from __future__ import annotations
 from types import SimpleNamespace
 from typing import Any, Optional, cast
 
+import pytest
 from dcs.countries import (
-    CombinedJointTaskForcesRed,
     Greece,
-    Russia,
     USA,
 )
 
-from game.campaignloader import defaultsquadronassigner
 from game.campaignloader.campaignairwingconfig import SquadronConfig
 from game.campaignloader.defaultsquadronassigner import (
     DefaultSquadronAssigner,
@@ -65,8 +63,9 @@ def test_resolve_config_country() -> None:
     resolved = resolve_config_country(_config("USA"))
     assert resolved is not None and resolved.id == USA.id
     assert resolve_config_country(_config(None)) is None
-    # Unknown names log and resolve to None instead of aborting New Game.
-    assert resolve_config_country(_config("Atlantis")) is None
+    # An unknown country name is an authoring error: abort New Game loudly.
+    with pytest.raises(ValueError):
+        resolve_config_country(_config("Atlantis"))
 
 
 def test_airframe_pick_prefers_pinned_nation() -> None:
@@ -127,12 +126,14 @@ def test_override_stamps_pinned_country() -> None:
     assert squadron_def.country.name == "USA"
 
 
-def test_override_keeps_own_country_for_unknown_name() -> None:
+def test_override_aborts_on_unknown_name() -> None:
+    # An unknown pinned country name raises out of override_squadron_defaults
+    # too, so New Game aborts wherever the config is first resolved.
     squadron_def = _squadron_def(Greece.id)
-    DefaultSquadronAssigner.override_squadron_defaults(
-        cast(Any, squadron_def), _config("Atlantis")
-    )
-    assert squadron_def.country.id == Greece.id
+    with pytest.raises(ValueError):
+        DefaultSquadronAssigner.override_squadron_defaults(
+            cast(Any, squadron_def), _config("Atlantis")
+        )
 
 
 def test_override_without_pin_is_untouched() -> None:
@@ -180,66 +181,3 @@ def test_saved_country_round_trips() -> None:
     assert reloaded.country == "USA"
     resolved = resolve_config_country(reloaded)
     assert resolved is not None and resolved.id == USA.id
-
-
-def _cjtf_assigner(faction_country_id: int) -> DefaultSquadronAssigner:
-    assigner = DefaultSquadronAssigner.__new__(DefaultSquadronAssigner)
-    assigner.coalition = cast(
-        Any,
-        SimpleNamespace(
-            faction=SimpleNamespace(country=SimpleNamespace(id=faction_country_id))
-        ),
-    )
-    return assigner
-
-
-def test_default_country_none_for_single_nation_faction() -> None:
-    # A single-nation faction is already restricted to its own country by the
-    # loader, so there is no default to apply (and forcing the airframe origin
-    # would mis-nation a foreign type). Return None -> existing behavior.
-    assigner = _cjtf_assigner(USA.id)
-    aircraft = cast(Any, SimpleNamespace(dcs_unit_type=object()))
-    assert assigner._default_country_for(aircraft) is None
-
-
-def test_default_country_under_cjtf_uses_first_operator(monkeypatch: Any) -> None:
-    # Under a CJTF faction an unpinned squadron defaults to the airframe's most
-    # likely operator (the A-50 -> Russia case Starfire raised), not a random
-    # cross-nation preset roll.
-    monkeypatch.setattr(
-        defaultsquadronassigner,
-        "operator_countries",
-        lambda unit_type: [Russia(), USA()],
-    )
-    assigner = _cjtf_assigner(CombinedJointTaskForcesRed.id)
-    aircraft = cast(Any, SimpleNamespace(dcs_unit_type=object()))
-    default = assigner._default_country_for(aircraft)
-    assert default is not None and default.id == Russia.id
-
-
-def test_default_country_under_cjtf_ignores_cjtf_operators(monkeypatch: Any) -> None:
-    # The CJTF "countries" list every unit; they must never be chosen as the
-    # default operator -- fall through to the first real nation.
-    monkeypatch.setattr(
-        defaultsquadronassigner,
-        "operator_countries",
-        lambda unit_type: [CombinedJointTaskForcesRed(), Russia()],
-    )
-    assigner = _cjtf_assigner(CombinedJointTaskForcesRed.id)
-    aircraft = cast(Any, SimpleNamespace(dcs_unit_type=object()))
-    default = assigner._default_country_for(aircraft)
-    assert default is not None and default.id == Russia.id
-
-
-def test_default_country_under_cjtf_falls_back_to_faction_country(
-    monkeypatch: Any,
-) -> None:
-    # No operator data (a mod airframe): fall back to the faction's own country
-    # rather than an arbitrary nation.
-    monkeypatch.setattr(
-        defaultsquadronassigner, "operator_countries", lambda unit_type: []
-    )
-    assigner = _cjtf_assigner(CombinedJointTaskForcesRed.id)
-    aircraft = cast(Any, SimpleNamespace(dcs_unit_type=object()))
-    default = assigner._default_country_for(aircraft)
-    assert default is not None and default.id == CombinedJointTaskForcesRed.id

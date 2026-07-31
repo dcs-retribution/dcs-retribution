@@ -43,7 +43,6 @@ from game.campaignloader.campaignairwingconfig import (
 )
 from game.coalition import Coalition
 from game.dcs.aircrafttype import AircraftType
-from game.dcs.operatorcountries import operator_countries
 from game.persistency import airwing_dir
 from game.squadrons import AirWing, Pilot, Squadron
 from game.squadrons.squadrondef import SquadronDef
@@ -151,12 +150,8 @@ class SquadronCountrySelector(QComboBox):
     a yaml; the selector surfaces it instead. Writes to the squadron immediately,
     like the livery selector beside it.
 
-    The list is trimmed to the airframe's operator nations (curated family rows
-    for flyable modules, whose DCS roster admits every country; the pydcs
-    per-country roster or an AI sibling's otherwise -- see
-    game/dcs/operatorcountries.py), plus the faction's own country and the
-    squadron's current one; an airframe with no operator data offers the full
-    list.
+    The list is the full DCS country list, plus the squadron's current country
+    when pydcs doesn't list it (a mod).
     """
 
     def __init__(self, squadron: Squadron) -> None:
@@ -167,17 +162,8 @@ class SquadronCountrySelector(QComboBox):
             "DCS nation the squadron's aircraft spawn under. Drives the ATC/comms "
             "voice and the naming style of newly recruited pilots."
         )
-        choices = operator_countries(squadron.aircraft.dcs_unit_type)
-        if not choices:
-            # No operator data (a mod, or a type without a curated row): offer
-            # everything rather than an empty choice.
-            choices = [country_type() for country_type in country_dict.values()]
-        by_id = {country.id: country for country in choices}
-        # The faction's own country is always offerable (revert to the shared
-        # faction voice), whatever the airframe.
-        faction_country = squadron.coalition.faction.country
-        by_id.setdefault(faction_country.id, faction_country)
-        for country in sorted(by_id.values(), key=lambda country: country.name):
+        choices = [country_type() for country_type in country_dict.values()]
+        for country in sorted(choices, key=lambda country: country.name):
             self.addItem(country.name, country)
         self.set_squadron(squadron)
         self.currentIndexChanged.connect(self.on_change)
