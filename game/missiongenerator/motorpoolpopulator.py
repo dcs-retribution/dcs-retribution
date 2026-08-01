@@ -2,8 +2,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from dcs.mapping import Point
-
 from game.dcs.groundunittype import GroundUnitType
 from game.ground_forces.ai_ground_planner import reserve_armor_for
 from game.theater.theatergroup import TheaterGroup, TheaterUnit
@@ -17,7 +15,7 @@ if TYPE_CHECKING:
 _SPACING_M = 12.0
 _COLUMNS = 5
 # Keep the Garage_A building at the authored marker; start vehicles clear of it
-# in the building's local +x/+y corner. 150 ft is the authoring-friendly value.
+# behind the building. 150 ft is the authoring-friendly value.
 _GRID_OFFSET_M = 45.72
 
 
@@ -110,14 +108,15 @@ class MotorpoolPopulator:
         self, tgo: MotorpoolGroundObject, unit_type: GroundUnitType, index: int
     ) -> TheaterUnit:
         origin = tgo.position
-        dx = _GRID_OFFSET_M + (index % _COLUMNS) * _SPACING_M
-        dy = _GRID_OFFSET_M + (index // _COLUMNS) * _SPACING_M
-        # Lay the grid in the garage's local frame, then rotate it clockwise about
-        # the authored Garage_A marker so the parking lot follows its directionality.
-        pos = PointWithHeading.from_point(
-            Point(origin.x + dx, origin.y + dy, origin._terrain), tgo.heading
-        )
-        pos.rotate(origin, tgo.heading)
+        # Park behind the garage: the first row is offset opposite its heading and
+        # each additional row continues farther in that direction. Within a row,
+        # vehicles are spaced along the garage's right-hand side.
+        behind = tgo.heading.opposite.degrees
+        lateral = tgo.heading.right.degrees
+        pos = origin.point_from_heading(
+            behind, _GRID_OFFSET_M + (index // _COLUMNS) * _SPACING_M
+        ).point_from_heading(lateral, (index % _COLUMNS) * _SPACING_M)
+        pos = PointWithHeading.from_point(pos, tgo.heading)
         return TheaterUnit(
             self.game.next_unit_id(),
             str(unit_type),
