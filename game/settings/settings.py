@@ -961,43 +961,6 @@ class Settings:
             "Skipping combat: skip combat as if it did not occur."
         ),
     )
-    csar_warm_start: bool = boolean_option(
-        "CSAR rescue helicopters start warm",
-        MISSION_GENERATOR_PAGE,
-        GAMEPLAY_SECTION,
-        default=True,
-        detail=(
-            "If set, the Ops.CSAR rescue helicopters spawn with engines running "
-            "(warm) rather than cold."
-        ),
-    )
-    csar_rescue_ai_pilots: bool = boolean_option(
-        "CSAR rescues AI-controlled downed pilots",
-        MISSION_GENERATOR_PAGE,
-        GAMEPLAY_SECTION,
-        default=True,
-        detail=(
-            "If set, Ops.CSAR will pick up AI downed pilots in the mission, not "
-            "only player-flown ejections."
-        ),
-    )
-    csar_hover_extraction: bool = boolean_option(
-        "CSAR hover extraction",
-        MISSION_GENERATOR_PAGE,
-        GAMEPLAY_SECTION,
-        default=False,
-        detail=(
-            "Controls how an AI rescue helicopter recovers a downed pilot.\n\n"
-            "Unchecked (default): the helicopter lands and the pilot walks aboard "
-            "using DCS's own troop-transport tasks. This is the authentic "
-            "behaviour, but the embark only triggers once the helicopter is fully "
-            "on the ground, so the AI may circle instead of landing on rough or "
-            "sloped terrain.\n\n"
-            "Checked: the helicopter holds a low hover over the pickup and the "
-            "pilot is extracted by script, as though hoisted. Less authentic, but "
-            "it works anywhere and never leaves a flight orbiting."
-        ),
-    )
     supercarrier: bool = boolean_option(
         "Use supercarrier module",
         MISSION_GENERATOR_PAGE,
@@ -1088,6 +1051,45 @@ class Settings:
         choices={v.value: v for v in StartType},
         default=StartType.COLD,
         detail="Default start type for flights containing Player/Client slots.",
+    )
+    csar_start_type: StartType = choices_option(
+        "Default start type for CSAR flights",
+        page=MISSION_GENERATOR_PAGE,
+        section=GAMEPLAY_SECTION,
+        choices={v.value: v for v in StartType},
+        default=StartType.WARM,
+        detail=(
+            "Start type for combat search and rescue flights, overriding the AI "
+            "and player defaults above. A downed pilot is on a timer, so rescue "
+            "flights are usually worth getting airborne quickly."
+        ),
+    )
+    csar_hover_extraction: bool = boolean_option(
+        "CSAR hover extraction",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=False,
+        detail=(
+            "Controls how an AI rescue helicopter recovers a downed pilot.\n\n"
+            "Unchecked (default): the helicopter lands and the pilot walks aboard "
+            "using DCS's own troop-transport tasks. This is the authentic "
+            "behaviour, but the embark only triggers once the helicopter is fully "
+            "on the ground, so the AI may circle instead of landing on rough or "
+            "sloped terrain.\n\n"
+            "Checked: the helicopter holds a low hover over the pickup and the "
+            "pilot is extracted by script, as though hoisted. Less authentic, but "
+            "it works anywhere and never leaves a flight orbiting."
+        ),
+    )
+    csar_rescue_ai_pilots: bool = boolean_option(
+        "CSAR rescues AI-controlled downed pilots",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=True,
+        detail=(
+            "If set, Ops.CSAR will pick up AI downed pilots in the mission, not "
+            "only player-flown ejections."
+        ),
     )
     default_player_laser_code: DefaultPlayerLaserCode = choices_option(
         "Default laser code for Player flights",

@@ -660,9 +660,59 @@ def test_landing_zone_avoids_water() -> None:
     assert theater.is_on_land.call_count == 2
 
 
-def test_csar_pickup_hover_mode_adds_no_tasks() -> None:
-    """Hover extraction is done by script, so the helicopter must be given
-    neither a Land nor an Embarking task."""
+def test_csar_pickup_prefers_vertical_landing() -> None:
+    """The pickup is unprepared ground with a survivor stood beside it, so the
+    helicopter should set down vertically rather than running on."""
+    from dcs.task import OptVerticalTakeoffLanding
+
+    downed = _standalone_downed()
+    builder = _pickup_builder(downed, hover=False)
+    waypoint = MagicMock()
+    waypoint.position = Point(10.0, 20.0, _TERRAIN)
+
+    with patch.object(_PydcsWaypointBuilder, "build", return_value=waypoint):
+        builder.build()
+
+    tasks = [call.args[0] for call in waypoint.add_task.call_args_list]
+    vtol = [t for t in tasks if isinstance(t, OptVerticalTakeoffLanding)]
+    assert len(vtol) == 1
+    assert vtol[0].params["action"]["params"]["value"] is True
+
+
+def test_csar_start_type_setting_is_a_start_type() -> None:
+    from game.ato.starttype import StartType
+    from game.settings import Settings
+
+    start_type = Settings().csar_start_type
+    assert isinstance(start_type, StartType)
+    # A downed pilot is on a timer, so rescues launch quicker than the rest of
+    # the ATO by default.
+    assert start_type is StartType.WARM
+
+
+def test_package_builder_applies_the_csar_start_type() -> None:
+    """Guards the wiring: the setting is only meaningful if plan_flight actually
+    applies it, and it must not override a base that dictates its own start type
+    (carriers, off-map spawns)."""
+    import inspect
+
+    from game.commander.packagebuilder import PackageBuilder
+
+    source = inspect.getsource(PackageBuilder.plan_flight)
+    assert "csar_start_type" in source
+    assert "required_aircraft_start_type is None" in source
+
+
+def test_csar_pickup_hover_mode_holds_in_a_low_orbit() -> None:
+    """Hover extraction is done by script, so no embark tasking -- but the
+    helicopter still needs a reason to stop. Without an explicit hold the AI flies
+    straight through the waypoint and the script never sees it on station."""
+    from dcs.task import ControlledTask, Embarking, Land
+    from game.missiongenerator.aircraft.waypoints.csarpickup import (
+        HOVER_ALTITUDE,
+        PICKUP_DURATION_SECONDS,
+    )
+
     downed = _standalone_downed()
     builder = _pickup_builder(downed, hover=True)
     waypoint = MagicMock()
@@ -671,7 +721,16 @@ def test_csar_pickup_hover_mode_adds_no_tasks() -> None:
     with patch.object(_PydcsWaypointBuilder, "build", return_value=waypoint):
         builder.build()
 
-    waypoint.add_task.assert_not_called()
+    tasks = [call.args[0] for call in waypoint.add_task.call_args_list]
+    assert not [t for t in tasks if isinstance(t, (Embarking, Land))]
+
+    holds = [t for t in tasks if isinstance(t, ControlledTask)]
+    assert len(holds) == 1
+    assert holds[0].params["stopCondition"]["duration"] == PICKUP_DURATION_SECONDS
+
+    # Must hold low enough for OpsCSAR.lua to count it as on station.
+    assert waypoint.alt == int(HOVER_ALTITUDE.meters)
+    assert waypoint.alt_type == "RADIO"
 
 
 def test_csar_pickup_without_a_pilot_group_adds_no_task() -> None:

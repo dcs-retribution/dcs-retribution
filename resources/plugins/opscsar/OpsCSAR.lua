@@ -3,14 +3,14 @@
 -- Retribution places each downed pilot in the mission as a real ground group
 -- carrying DCS's native `EmbarkToTransport` task, and gives every CSAR flight's
 -- pickup waypoint a matching `Embarking` task (see csargenerator.py and
--- csarpickup.py). That combination is what performs an AI rescue: stock DCS
--- transport logic walks the pilot to the hovering helicopter and loads them.
+-- csarpickup.py). That combination performs the AI rescue on its own: the
+-- helicopter lands, the pilot walks over, DCS loads them and deletes the group.
 -- MOOSE Ops.CSAR cannot do this at all for AI helicopters -- its boarding loop
 -- (CSAR:_CheckWoundedGroupStatus, driven by the csarUnits list built in
 -- CSAR:_AddMedevacMenuItem) only ever considers units where _unit:IsPlayer() is
 -- true.
 --
--- This script therefore does two things:
+-- This script therefore does three things:
 --
 --  1. Hands those same pre-placed groups to Ops.CSAR, so a player flying any
 --     CSAR-capable helicopter can rescue any downed pilot -- including ones the
@@ -21,6 +21,11 @@
 --     is how a completed native embark presents itself, and reports the rescue
 --     back to Retribution via the global `csar_rescued` table that
 --     dcs_retribution.lua writes into state.json.
+--
+--  3. Under hover extraction there is no native mechanic at all -- DCS has no
+--     hoist -- so the pickup is simulated outright: once an AI helicopter has
+--     held a low hover near the survivor, the survivor is deleted and the rescue
+--     reported, exactly as if they had been winched aboard.
 --
 -- Assumes MOOSE (Moose.lua) and dcs_retribution.lua have already been loaded.
 
@@ -41,9 +46,11 @@ local RESCUE_ATTRIBUTION_WINDOW = 120
 -- player would rather not have the AI hunting for a landable patch of terrain we
 -- fake the recovery instead: an AI helicopter holding a low hover close to the
 -- pilot for long enough counts as a hoist pickup.
-local HOVER_RADIUS = 150
-local HOVER_MAX_AGL = 40
-local HOVER_DWELL_SECONDS = 20
+-- Must exceed LANDING_ZONE_OFFSET (game/ato/flightplans/csar.py), which is how
+-- far the helicopter's hold point sits from the survivor.
+local HOVER_RADIUS = 300
+local HOVER_MAX_AGL = 150
+local HOVER_DWELL_SECONDS = 15
 
 -- Signal smoke for AI rescues. The survivor pops smoke in their own coalition's
 -- colour once an AI rescue helicopter is inside their embark zone. Players get
@@ -276,6 +283,19 @@ local function opscsar_main()
         )
     end
 
+    -- Single place a rescue is reported back to Retribution.
+    local function record_rescue(entry, by, how)
+        if entry.done then
+            return
+        end
+        entry.done = true
+        table.insert(csar_rescued, entry.id)
+        dirty_state = true
+        opscsar_log(
+            "Pilot " .. entry.id .. " " .. how .. " " .. tostring(by or "a helicopter")
+        )
+    end
+
     -- Scripted hoist pickup. Only ever considers AI helicopters: a player hovering
     -- over the survivor is Ops.CSAR's to handle, and extracting the pilot from
     -- under it would break MOOSE's own boarding.
@@ -299,16 +319,13 @@ local function opscsar_main()
             return false
         end
 
+        -- Nothing in DCS loads the survivor in this mode, so remove them by hand
+        -- to represent the hoist.
         local group = Group.getByName(entry.group_name)
         if group and group:isExist() then
             group:destroy()
         end
-        table.insert(csar_rescued, entry.id)
-        dirty_state = true
-        entry.done = true
-        opscsar_log(
-            "Pilot " .. entry.id .. " hoisted by " .. tostring(helo:getName())
-        )
+        record_rescue(entry, helo:getName(), "hoisted by")
         return true
     end
 
@@ -325,10 +342,10 @@ local function opscsar_main()
                         entry.last_x, entry.last_z = point.x, point.z
                         -- Remember the last rescue helicopter seen in the embark
                         -- zone, with a timestamp. Attribution can't be done at
-                        -- vanish time alone: the pilot disappears the instant they
-                        -- board and the helicopter is climbing away by the next
-                        -- poll, so a "is one here right now?" test races the
-                        -- takeoff and silently loses the rescue.
+                        -- vanish time alone: DCS removes the survivor the instant
+                        -- they board and the helicopter is already climbing away
+                        -- by the next poll, so a "is one here right now?" test
+                        -- races the takeoff and loses the rescue.
                         local helo =
                             rescue_helo_near(entry.side, point.x, point.z)
                         if helo then
@@ -347,12 +364,7 @@ local function opscsar_main()
                         and (timer.getTime() - entry.helo_seen)
                             <= RESCUE_ATTRIBUTION_WINDOW
                     if recent then
-                        table.insert(csar_rescued, entry.id)
-                        dirty_state = true
-                        opscsar_log(
-                            "Pilot " .. entry.id .. " embarked on "
-                            .. tostring(entry.helo_name)
-                        )
+                        record_rescue(entry, entry.helo_name, "embarked on")
                     else
                         opscsar_log(
                             "Pilot " .. entry.id .. " is gone but no rescue "

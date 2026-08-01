@@ -315,7 +315,6 @@ class LuaGenerator:
         flags = {
             "blueEnabled": "true" if settings.csar_enabled else "false",
             "redEnabled": "true" if settings.csar_enabled_red else "false",
-            "warmStart": "true" if settings.csar_warm_start else "false",
             "rescueAI": "true" if settings.csar_rescue_ai_pilots else "false",
             # Landing mode leaves the pickup to DCS's native embark; hover mode
             # needs OpsCSAR.lua to extract the pilot by script.

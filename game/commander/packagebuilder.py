@@ -98,6 +98,15 @@ class PackageBuilder:
             flight.start_type = (
                 squadron.coalition.game.settings.default_start_type_client
             )
+        # CSAR has its own start type, overriding both the AI and player defaults:
+        # a downed pilot is on a timer, so the rescue is usually worth launching
+        # sooner than the rest of the ATO. A base that dictates its own start type
+        # (carriers, off-map spawns) still wins.
+        if (
+            plan.task is FlightType.CSAR
+            and squadron.location.required_aircraft_start_type is None
+        ):
+            flight.start_type = squadron.coalition.game.settings.csar_start_type
         self.package.add_flight(flight)
         return True
 

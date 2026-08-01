@@ -11,6 +11,7 @@ from game.ato import FlightType
 from game.ato.flightplans.formation import FormationLayout
 from game.ato.flightplans.waypointbuilder import WaypointBuilder
 from game.ato.packagewaypoints import PackageWaypoints
+from game.ato.starttype import StartType
 from game.data.doctrine import MODERN_DOCTRINE, COLDWAR_DOCTRINE, WWII_DOCTRINE
 from game.theater import ParkingType, SeasonalConditions, Airfield
 from game.theater.player import Player
@@ -53,7 +54,7 @@ class Migrator:
         try_set_attr(self.game.settings, "csar_survival_turns_hostile", 2)
         try_set_attr(self.game.settings, "csar_ai_recovery_turns", 2)
         try_set_attr(self.game.settings, "csar_player_recovery_turns", 1)
-        try_set_attr(self.game.settings, "csar_warm_start", True)
+        try_set_attr(self.game.settings, "csar_start_type", StartType.WARM)
         try_set_attr(self.game.settings, "csar_rescue_ai_pilots", True)
         try_set_attr(self.game.settings, "csar_hover_extraction", False)
         self._ensure_motorpool_tgos()
