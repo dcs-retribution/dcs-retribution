@@ -25,6 +25,7 @@
 * **[Campaigns]** Ability to define motor pool objects which spawn reserve armor
 * **[Campaigns]** Motorpool placement is Garage_A-anchored and empty reserve pools are excluded from attack planning; updated placement measurements are documented.
 * **[UX]** Add the ability to filter campaigns by version, map, and performance
+* **[Engine]** Bump campaign version to 10.9 for motorpool support
 
 ## Fixes
 * **[Data]** The F-14A-135-GR Early's payload file declared the wrong unitType, so the Early Tomcat flew every tasking unarmed; its loadouts now resolve (with a guard test pinning the payload to the airframe). (#889)
