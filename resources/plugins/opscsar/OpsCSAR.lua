@@ -329,12 +329,31 @@ local function opscsar_main()
         return true
     end
 
+    -- Counts survivors still physically in the world.
+    --
+    -- Group:getUnits() hands back unit *handles*, which say nothing about whether
+    -- the unit is still out there -- DCS can keep the group and its handles alive
+    -- while the occupants are aboard a transport, ready to be disembarked. Testing
+    -- the group alone therefore never registers the pickup even though the pilot
+    -- has visibly gone from the map. Ask each unit directly instead.
+    local function survivors_in_world(group)
+        if group == nil or not group:isExist() then
+            return 0
+        end
+        local count = 0
+        for _, unit in pairs(group:getUnits() or {}) do
+            if unit ~= nil and unit:isExist() and unit:getLife() > 0 then
+                count = count + 1
+            end
+        end
+        return count
+    end
+
     local function check_pickups()
         for _, entry in pairs(tracked) do
             if not entry.done then
                 local group = Group.getByName(entry.group_name)
-                local alive = group ~= nil and group:isExist()
-                    and #(group:getUnits() or {}) > 0
+                local alive = survivors_in_world(group) > 0
                 if alive then
                     local unit = group:getUnit(1)
                     local point = unit and unit:getPoint() or nil
