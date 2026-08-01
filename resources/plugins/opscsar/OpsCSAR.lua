@@ -23,9 +23,11 @@
 --     dcs_retribution.lua writes into state.json.
 --
 --  3. Under hover extraction there is no native mechanic at all -- DCS has no
---     hoist -- so the pickup is simulated outright: once an AI helicopter has
---     held a low hover near the survivor, the survivor is deleted and the rescue
---     reported, exactly as if they had been winched aboard.
+--     hoist -- so the whole pickup is run from here. The rescue flight's pickup
+--     waypoint carries a script call into OpsCSAR_BeginHover (see csarpickup.py);
+--     that pushes a real hover onto the helicopter, and once it has held it long
+--     enough the survivor is deleted, the rescue reported and the flight released
+--     to fly home, exactly as if they had been winched aboard.
 --
 -- Assumes MOOSE (Moose.lua) and dcs_retribution.lua have already been loaded.
 
@@ -44,13 +46,12 @@ local RESCUE_ATTRIBUTION_WINDOW = 120
 -- Hover extraction (the csar_hover_extraction setting). DCS's embark tasks only
 -- fire once the transport is on the ground with weight off wheels, so when the
 -- player would rather not have the AI hunting for a landable patch of terrain we
--- fake the recovery instead: an AI helicopter holding a low hover close to the
--- pilot for long enough counts as a hoist pickup.
--- Must exceed LANDING_ZONE_OFFSET (game/ato/flightplans/csar.py), which is how
--- far the helicopter's hold point sits from the survivor.
-local HOVER_RADIUS = 300
-local HOVER_MAX_AGL = 150
-local HOVER_DWELL_SECONDS = 15
+-- fake the recovery instead: the flight is held in a hover over the survivor and
+-- the pickup is simulated when the hold is done.
+--
+-- Defaults only; the real values are injected from csarpickup.py.
+local HOVER_DURATION_SECONDS = 30
+local HOVER_ALTITUDE = 30
 
 -- Signal smoke for AI rescues. The survivor pops smoke in their own coalition's
 -- colour once an AI rescue helicopter is inside their embark zone. Players get
@@ -78,6 +79,8 @@ local function opscsar_main()
     local cfg = dcsRetribution.CSAR
     local hover_extraction = cfg.hoverExtraction == "true"
     local embark_zone_radius = tonumber(cfg.embarkZoneRadius) or PICKUP_RADIUS
+    local hover_duration = tonumber(cfg.hoverDurationSeconds) or HOVER_DURATION_SECONDS
+    local hover_altitude = tonumber(cfg.hoverAltitudeMeters) or HOVER_ALTITUDE
 
     opscsar_log(
         "=== CSAR starting (AI pickup: "
@@ -217,6 +220,7 @@ local function opscsar_main()
     -- alone -- Retribution's own post-mission fallback still handles those.
     -- ------------------------------------------------------------------
     local tracked = {}
+    local tracked_by_id = {}
 
     local function distance2d(ax, az, bx, bz)
         local dx, dz = ax - bx, az - bz
@@ -296,37 +300,159 @@ local function opscsar_main()
         )
     end
 
-    -- Scripted hoist pickup. Only ever considers AI helicopters: a player hovering
-    -- over the survivor is Ops.CSAR's to handle, and extracting the pilot from
-    -- under it would break MOOSE's own boarding.
-    local function try_hover_extraction(entry, px, pz)
-        local helo = helo_near(
-            entry.side, px, pz, HOVER_RADIUS, HOVER_MAX_AGL, true
-        )
-        if helo == nil then
-            entry.hover_since = nil
-            return false
+    -- ------------------------------------------------------------------
+    -- Scripted hoist pickup.
+    --
+    -- The flight tells us when it is on station rather than us guessing from
+    -- proximity: its pickup waypoint runs OpsCSAR_BeginHover (csarpickup.py). We
+    -- then hold it ourselves, because the hold cannot be built into the .miz --
+    -- the DCS Orbit task takes an MSL altitude and Retribution has no terrain
+    -- elevation when it generates the mission. land.getHeight does, here.
+    --
+    -- AI only: a player over the survivor is Ops.CSAR's to handle, and lifting the
+    -- pilot out from under it would break MOOSE's own boarding. DCS doesn't run
+    -- waypoint tasks for client aircraft, so that falls out for free.
+    -- ------------------------------------------------------------------
+
+    local function hover_controller(entry)
+        if entry.hover_group == nil then
+            return nil
         end
-        if entry.hover_since == nil then
-            entry.hover_since = timer.getTime()
-            opscsar_log(
-                "AI rescue " .. helo:getName() .. " hovering over "
-                .. tostring(entry.id) .. "; starting hoist."
-            )
-            return false
+        local group = Group.getByName(entry.hover_group)
+        if group == nil or not group:isExist() then
+            return nil
         end
-        if timer.getTime() - entry.hover_since < HOVER_DWELL_SECONDS then
-            return false
+        return group:getController()
+    end
+
+    -- Gives the flight its route back, so it flies on to the arrival waypoint.
+    -- popTask is what makes this safe: unlike setTask it leaves the underlying
+    -- route mission in place, so the helicopter simply resumes it.
+    local function release_hover(entry, why)
+        if entry.hover_group == nil then
+            return
+        end
+        local name = entry.hover_group
+        local controller = hover_controller(entry)
+        entry.hover_group = nil
+        entry.hover_since = nil
+        if controller == nil then
+            return
+        end
+        local ok, err = pcall(function()
+            controller:popTask()
+        end)
+        if ok then
+            opscsar_log(name .. " released from the hover (" .. why .. ")")
+        else
+            opscsar_warn("Could not release " .. name .. ": " .. tostring(err))
+        end
+    end
+
+    local function begin_hover(entry, helo_group_name)
+        local group = Group.getByName(helo_group_name)
+        if group == nil or not group:isExist() then
+            opscsar_warn("Rescue flight '" .. helo_group_name .. "' not found.")
+            return
+        end
+        local controller = group:getController()
+        if controller == nil then
+            return
+        end
+        local px, pz = entry.last_x, entry.last_z
+        if px == nil then
+            local pilot = Group.getByName(entry.group_name)
+            local unit = pilot and pilot:isExist() and pilot:getUnit(1) or nil
+            local point = unit and unit:getPoint() or nil
+            if point == nil then
+                opscsar_warn(
+                    "No position for pilot " .. tostring(entry.id)
+                    .. "; cannot set up the hover."
+                )
+                return
+            end
+            px, pz = point.x, point.z
+            entry.last_x, entry.last_z = px, pz
         end
 
-        -- Nothing in DCS loads the survivor in this mode, so remove them by hand
-        -- to represent the hoist.
+        local ok, err = pcall(function()
+            controller:pushTask({
+                id = "Orbit",
+                params = {
+                    pattern = "Circle",
+                    point = { x = px, y = pz },
+                    -- A circle flown at zero speed is a stationary hover.
+                    speed = 0,
+                    -- MSL, which is the only reason this has to happen at
+                    -- runtime rather than in the .miz.
+                    altitude = land.getHeight({ x = px, y = pz }) + hover_altitude,
+                },
+            })
+        end)
+        if not ok then
+            opscsar_warn("Could not hold " .. helo_group_name .. ": " .. tostring(err))
+            return
+        end
+
+        entry.hover_group = helo_group_name
+        entry.hover_since = timer.getTime()
+        opscsar_log(
+            "AI rescue " .. helo_group_name .. " holding hover over "
+            .. tostring(entry.id) .. "; hoist in " .. hover_duration .. "s."
+        )
+    end
+
+    -- Called from the rescue flight's pickup waypoint. Global on purpose: this is
+    -- the entry point csarpickup.py writes into the mission.
+    function OpsCSAR_BeginHover(helo_group_name, uuid)
+        if not hover_extraction then
+            return
+        end
+        local entry = tracked_by_id[uuid]
+        if entry == nil then
+            opscsar_warn("Hover requested for unknown pilot " .. tostring(uuid))
+            return
+        end
+        if entry.done or entry.hover_group ~= nil then
+            return
+        end
+        local ok, err = pcall(begin_hover, entry, helo_group_name)
+        if not ok then
+            opscsar_warn("Hover setup failed: " .. tostring(err))
+        end
+    end
+
+    -- Completes the hoist once the flight has held its hover long enough: the
+    -- survivor is removed by hand (nothing in DCS loads them in this mode) and the
+    -- flight is sent on its way.
+    local function service_hover(entry)
+        if entry.hover_since == nil then
+            return
+        end
+        local held = timer.getTime() - entry.hover_since
+        if hover_controller(entry) == nil then
+            -- Flight shot down or despawned mid-hoist.
+            entry.hover_group = nil
+            entry.hover_since = nil
+            return
+        end
+        if held < hover_duration then
+            return
+        end
+
+        local by = entry.hover_group
         local group = Group.getByName(entry.group_name)
         if group and group:isExist() then
             group:destroy()
         end
-        record_rescue(entry, helo:getName(), "hoisted by")
-        return true
+        -- Stop Ops.CSAR beaconing and calling MAYDAY for a pilot who is aboard.
+        if entry.instance then
+            pcall(function()
+                entry.instance:_RemoveNameFromDownedPilots(entry.group_name, true)
+            end)
+        end
+        record_rescue(entry, by, "hoisted by")
+        release_hover(entry, "hoist complete")
     end
 
     -- Counts survivors still physically in the world.
@@ -351,7 +477,11 @@ local function opscsar_main()
 
     local function check_pickups()
         for _, entry in pairs(tracked) do
-            if not entry.done then
+            if entry.done then
+                -- Whatever became of the pilot, a flight left in its hover would
+                -- never come home. Always give the route back.
+                release_hover(entry, "pilot no longer tracked")
+            else
                 local group = Group.getByName(entry.group_name)
                 local alive = survivors_in_world(group) > 0
                 if alive then
@@ -372,10 +502,10 @@ local function opscsar_main()
                             entry.helo_seen = timer.getTime()
                         end
                         maybe_pop_smoke(entry, point.x, point.z)
-                        if hover_extraction then
-                            try_hover_extraction(entry, point.x, point.z)
-                        end
                     end
+                    -- Last, because completing the hoist destroys the survivor
+                    -- and everything above wants them still in the world.
+                    service_hover(entry)
                 elseif entry.last_x then
                     -- Gone. Count it as a pickup if a rescue helicopter was in the
                     -- embark zone recently enough to have loaded them.
@@ -427,18 +557,24 @@ local function opscsar_main()
                     ) then
                         registered = registered + 1
                     end
-                    table.insert(tracked, {
+                    local entry = {
                         id = dp.id,
                         group_name = group_name,
                         side = side_const,
+                        -- Kept so a scripted hoist can tell Ops.CSAR to stop
+                        -- tracking a pilot who is aboard a helicopter.
+                        instance = instance,
                         done = false,
                         last_x = nil,
                         last_z = nil,
                         helo_name = nil,
                         helo_seen = nil,
+                        hover_group = nil,
                         hover_since = nil,
                         smoke_until = nil,
-                    })
+                    }
+                    table.insert(tracked, entry)
+                    tracked_by_id[dp.id] = entry
                     watched = watched + 1
                 end
             end

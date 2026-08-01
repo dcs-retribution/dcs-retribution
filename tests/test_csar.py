@@ -576,6 +576,7 @@ def _pickup_builder(downed: DownedPilot, hover: bool, with_group: bool = True) -
             coalition=SimpleNamespace(game=SimpleNamespace(settings=settings)),
         ),
     )
+    builder.group = cast(Any, SimpleNamespace(name="Enfield 1-1"))
     groups = {}
     if with_group:
         groups[str(downed.id)] = CsarPilotGroupInfo(
@@ -605,15 +606,8 @@ def test_csar_pickup_embarks_without_a_land_task() -> None:
     assert not [t for t in tasks if isinstance(t, Land)]
 
 
-def test_landing_zone_is_clear_of_the_survivor() -> None:
-    """The AI sets down exactly on its waypoint, so a landing zone on top of the
-    pilot crushes them. It must still be inside the embark zone or the pilot will
-    never walk out to board."""
-    from game.ato.flightplans.csar import LANDING_ZONE_OFFSET, Builder
-    from game.missiongenerator.csargenerator import EMBARK_ZONE_RADIUS
-
-    downed = _standalone_downed()
-    downed._position = Point(0.0, 0.0, _TERRAIN)
+def _layout_builder(hover: bool) -> Any:
+    from game.ato.flightplans.csar import Builder
 
     builder = Builder.__new__(Builder)
     builder.flight = cast(
@@ -622,6 +616,21 @@ def test_landing_zone_is_clear_of_the_survivor() -> None:
             departure=SimpleNamespace(position=Point(50000.0, 0.0, _TERRAIN))
         ),
     )
+    builder.settings = cast(Any, SimpleNamespace(csar_hover_extraction=hover))
+    return builder
+
+
+def test_landing_zone_is_clear_of_the_survivor() -> None:
+    """The AI sets down exactly on its waypoint, so a landing zone on top of the
+    pilot crushes them. It must still be inside the embark zone or the pilot will
+    never walk out to board."""
+    from game.ato.flightplans.csar import LANDING_ZONE_OFFSET
+    from game.missiongenerator.csargenerator import EMBARK_ZONE_RADIUS
+
+    downed = _standalone_downed()
+    downed._position = Point(0.0, 0.0, _TERRAIN)
+
+    builder = _layout_builder(hover=False)
     theater = MagicMock()
     theater.is_on_land.return_value = True
     with patch.object(type(builder), "theater", property(lambda self: theater)):
@@ -639,19 +648,30 @@ def test_landing_zone_is_clear_of_the_survivor() -> None:
     assert separation <= EMBARK_ZONE_RADIUS.meters * 0.6
 
 
-def test_landing_zone_avoids_water() -> None:
-    from game.ato.flightplans.csar import Builder
+def test_hover_pickup_sits_on_top_of_the_survivor() -> None:
+    """A hoist has nothing to land on the pilot, so the offset that keeps the AI
+    from crushing them on touchdown is just distance the winch can't cover."""
+    from game.ato.flightplans.csar import HOVER_PICKUP_OFFSET, LANDING_ZONE_OFFSET
 
     downed = _standalone_downed()
     downed._position = Point(0.0, 0.0, _TERRAIN)
 
-    builder = Builder.__new__(Builder)
-    builder.flight = cast(
-        Any,
-        SimpleNamespace(
-            departure=SimpleNamespace(position=Point(50000.0, 0.0, _TERRAIN))
-        ),
-    )
+    builder = _layout_builder(hover=True)
+    theater = MagicMock()
+    theater.is_on_land.return_value = True
+    with patch.object(type(builder), "theater", property(lambda self: theater)):
+        pickup = builder._landing_zone_for(downed)
+
+    separation = pickup.distance_to_point(downed.position)
+    assert separation == pytest.approx(HOVER_PICKUP_OFFSET.meters, rel=0.01)
+    assert HOVER_PICKUP_OFFSET < LANDING_ZONE_OFFSET
+
+
+def test_landing_zone_avoids_water() -> None:
+    downed = _standalone_downed()
+    downed._position = Point(0.0, 0.0, _TERRAIN)
+
+    builder = _layout_builder(hover=False)
     theater = MagicMock()
     # Reject the first (approach-side) bearing, accept the next.
     theater.is_on_land.side_effect = [False, True]
@@ -703,15 +723,13 @@ def test_package_builder_applies_the_csar_start_type() -> None:
     assert "required_aircraft_start_type is None" in source
 
 
-def test_csar_pickup_hover_mode_holds_in_a_low_orbit() -> None:
-    """Hover extraction is done by script, so no embark tasking -- but the
-    helicopter still needs a reason to stop. Without an explicit hold the AI flies
-    straight through the waypoint and the script never sees it on station."""
-    from dcs.task import ControlledTask, Embarking, Land
-    from game.missiongenerator.aircraft.waypoints.csarpickup import (
-        HOVER_ALTITUDE,
-        PICKUP_DURATION_SECONDS,
-    )
+def test_csar_pickup_hover_mode_hands_off_to_the_script() -> None:
+    """Nothing in the .miz can hold the AI in a hover: the DCS Orbit task takes an
+    MSL altitude and we have no terrain elevation here. So the waypoint only tells
+    OpsCSAR.lua which flight is on station for which pilot, and the script -- which
+    can ask land.getHeight -- sets up the hover itself."""
+    from dcs.task import ControlledTask, Embarking, Land, RunScript
+    from game.missiongenerator.aircraft.waypoints.csarpickup import HOVER_ALTITUDE
 
     downed = _standalone_downed()
     builder = _pickup_builder(downed, hover=True)
@@ -722,13 +740,18 @@ def test_csar_pickup_hover_mode_holds_in_a_low_orbit() -> None:
         builder.build()
 
     tasks = [call.args[0] for call in waypoint.add_task.call_args_list]
-    assert not [t for t in tasks if isinstance(t, (Embarking, Land))]
+    assert not [t for t in tasks if isinstance(t, (Embarking, Land, ControlledTask))]
 
-    holds = [t for t in tasks if isinstance(t, ControlledTask)]
-    assert len(holds) == 1
-    assert holds[0].params["stopCondition"]["duration"] == PICKUP_DURATION_SECONDS
+    scripts = [t for t in tasks if isinstance(t, RunScript)]
+    assert len(scripts) == 1
+    command = scripts[0].params["action"]["params"]["command"]
+    assert "OpsCSAR_BeginHover('Enfield 1-1', '%s')" % downed.id in command
+    # OpsCSAR.lua never defines the global if it found no CSAR data to work with,
+    # and an undefined global would throw at the waypoint.
+    assert command.startswith("if OpsCSAR_BeginHover then ")
 
-    # Must hold low enough for OpsCSAR.lua to count it as on station.
+    # Still arrives low, so the script's hover is a small correction rather than a
+    # descent from cruise.
     assert waypoint.alt == int(HOVER_ALTITUDE.meters)
     assert waypoint.alt_type == "RADIO"
 
@@ -929,6 +952,15 @@ def test_generate_csar_data_serializes_and_evaluates() -> None:
     assert csar.redCountry == "18"
     # Tells OpsCSAR.lua whether to script the pickup or leave it to DCS's embark.
     assert csar.hoverExtraction == "true"
+    # How the scripted hoist is flown. csarpickup.py owns both numbers so the
+    # waypoint and the script holding the flight over it agree.
+    from game.missiongenerator.aircraft.waypoints.csarpickup import (
+        HOVER_ALTITUDE,
+        HOVER_DURATION_SECONDS,
+    )
+
+    assert csar.hoverDurationSeconds == str(HOVER_DURATION_SECONDS)
+    assert csar.hoverAltitudeMeters == str(round(HOVER_ALTITUDE.meters))
     # Shared with the pilot's EmbarkToTransport task so the signal smoke matches
     # the zone they can actually be picked up in.
     from game.missiongenerator.csargenerator import EMBARK_ZONE_RADIUS

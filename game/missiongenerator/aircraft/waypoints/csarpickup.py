@@ -3,26 +3,30 @@ import logging
 from dcs.mapping import Vector2
 from dcs.point import MovingPoint
 from dcs.task import (
-    ControlledTask,
     Embarking,
     OptVerticalTakeoffLanding,
-    OrbitAction,
+    RunScript,
 )
 
 from game.squadrons.downedpilot import DownedPilot
-from game.utils import feet, kph
+from game.utils import feet
 from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 #: How long the rescue helicopter holds at the pickup waiting for the pilot.
 PICKUP_DURATION_SECONDS = 300
 
-#: Altitude the helicopter holds at under hover extraction. Low enough that
-#: OpsCSAR.lua counts it as on station (HOVER_MAX_AGL) and that it reads as a
-#: hoist rather than an overflight.
-HOVER_ALTITUDE = feet(100)
+#: How long the helicopter holds its hover before the pilot is winched aboard.
+#: Long enough to read as a hoist, short enough not to leave the flight sat over a
+#: threat area. OpsCSAR.lua times the hold; this is only the value it is given.
+HOVER_DURATION_SECONDS = 30
 
-#: Speed of the hold orbit. Slow, so the helicopter stays over the survivor.
-HOVER_ORBIT_SPEED = kph(90)
+#: How high above the ground the helicopter holds under hover extraction.
+#:
+#: Used twice: as the pickup waypoint's altitude, so the AI arrives low, and as the
+#: height OpsCSAR.lua adds to the terrain elevation when it pushes the hover. The
+#: script has to do the second part because the DCS Orbit task takes an MSL
+#: altitude and Retribution has no terrain elevation at mission-generation time.
+HOVER_ALTITUDE = feet(100)
 
 
 class CsarPickupBuilder(PydcsWaypointBuilder):
@@ -36,28 +40,32 @@ class CsarPickupBuilder(PydcsWaypointBuilder):
       embark task handles the landing itself, so no separate ``Land`` task is
       added -- one would only fight it for control of the approach.
 
-    * Hover extraction holds the helicopter in a low orbit over the pickup and
-      lets OpsCSAR.lua perform the extraction by script. Nothing in DCS will stop
-      the flight here on its own, so the hold is explicit: without it the AI
-      simply flies through the waypoint and the script never sees it on station.
+    * Hover extraction has no native mechanic behind it at all, so the waypoint
+      only hands off to OpsCSAR.lua: reaching it runs a script that tells the plugin
+      this helicopter is on station for this pilot. The plugin pushes the hover onto
+      the flight and pops it again once the pilot is aboard. Everything that needs
+      terrain elevation or runtime positions lives there rather than here.
     """
 
     def build(self) -> MovingPoint:
         waypoint = super().build()
 
-        if self.flight.coalition.game.settings.csar_hover_extraction:
-            self._build_hover_hold(waypoint)
-            return waypoint
-
         target = self.flight.package.target
         if not isinstance(target, DownedPilot):
             logging.error(
                 "CSAR pickup waypoint on a flight whose target is %s, not a downed "
-                "pilot. No embark task will be added.",
+                "pilot. No pickup task will be added.",
                 type(target).__name__,
             )
             return waypoint
 
+        if self.flight.coalition.game.settings.csar_hover_extraction:
+            self._build_hover_hold(waypoint, target)
+        else:
+            self._build_embark(waypoint, target)
+        return waypoint
+
+    def _build_embark(self, waypoint: MovingPoint, target: DownedPilot) -> None:
         pilot_group = self.mission_data.csar_pilot_groups.get(str(target.id))
         if pilot_group is None:
             logging.error(
@@ -65,7 +73,7 @@ class CsarPickupBuilder(PydcsWaypointBuilder):
                 "nothing to embark.",
                 target.name,
             )
-            return waypoint
+            return
 
         # Set down vertically rather than running on. The pickup is unprepared
         # ground with a survivor stood next to it, so a rolling landing is both
@@ -78,18 +86,18 @@ class CsarPickupBuilder(PydcsWaypointBuilder):
                 duration=PICKUP_DURATION_SECONDS,
             )
         )
-        return waypoint
 
-    def _build_hover_hold(self, waypoint: MovingPoint) -> None:
-        """Holds the flight in a low orbit so the script can extract the pilot."""
+    def _build_hover_hold(self, waypoint: MovingPoint, target: DownedPilot) -> None:
+        """Hands the flight to OpsCSAR.lua, which holds it in a hover."""
         waypoint.alt = int(HOVER_ALTITUDE.meters)
         waypoint.alt_type = "RADIO"
-        orbit = ControlledTask(
-            OrbitAction(
-                altitude=int(HOVER_ALTITUDE.meters),
-                speed=int(HOVER_ORBIT_SPEED.kph),
-                pattern=OrbitAction.OrbitPattern.Circle,
+        # Nothing in the .miz can hold the AI here: the DCS Orbit task's altitude is
+        # MSL, and we have no terrain elevation to convert our AGL hold to, so the
+        # script sets the hover up instead. Guarded because OpsCSAR.lua leaves the
+        # global undefined if it found no CSAR data to work with.
+        waypoint.add_task(
+            RunScript(
+                "if OpsCSAR_BeginHover then "
+                f"OpsCSAR_BeginHover('{self.group.name}', '{target.id}') end"
             )
         )
-        orbit.stop_after_duration(PICKUP_DURATION_SECONDS)
-        waypoint.add_task(orbit)

@@ -14,6 +14,10 @@ from dcs.triggers import TriggerStart
 from game.ato import FlightType
 from game.data.units import UnitClass
 from game.dcs.aircrafttype import AircraftType
+from game.missiongenerator.aircraft.waypoints.csarpickup import (
+    HOVER_ALTITUDE,
+    HOVER_DURATION_SECONDS,
+)
 from game.missiongenerator.csargenerator import EMBARK_ZONE_RADIUS
 from game.plugins import LuaPluginManager
 from game.theater import TheaterGroundObject
@@ -319,6 +323,10 @@ class LuaGenerator:
             # Landing mode leaves the pickup to DCS's native embark; hover mode
             # needs OpsCSAR.lua to extract the pilot by script.
             "hoverExtraction": ("true" if settings.csar_hover_extraction else "false"),
+            # How the scripted hoist is flown. Both come from csarpickup.py so the
+            # waypoint and the script that holds the flight over it agree.
+            "hoverDurationSeconds": str(HOVER_DURATION_SECONDS),
+            "hoverAltitudeMeters": str(round(HOVER_ALTITUDE.meters)),
             # Shared with the pilot's EmbarkToTransport task so the smoke the
             # survivor pops matches the zone they can actually be picked up in.
             "embarkZoneRadius": str(round(EMBARK_ZONE_RADIUS.meters)),

@@ -34,15 +34,21 @@ if TYPE_CHECKING:
 #: test_csar.py pins both bounds.
 LANDING_ZONE_OFFSET = meters(150)
 
+#: How far the rescue helicopter's hover sits from the survivor.
+#:
+#: A hoist has none of the constraints a touchdown does -- nothing is going to be
+#: landed on -- so the helicopter holds right over the survivor, which is both what
+#: a winch recovery looks like and what OpsCSAR.lua hovers the flight over.
+HOVER_PICKUP_OFFSET = meters(30)
+
 
 @dataclass
 class CsarLayout(StandardLayout):
     # Ingress toward the downed pilot. Kept so players get a sensible run-in and so
     # the AI descends before the pickup.
     ingress: FlightWaypoint
-    # The pickup itself. Helicopters get a landing task here (LandingZoneBuilder);
-    # fixed-wing aircraft only overfly it, since the DCS AI Land task is
-    # helicopter-only.
+    # The pickup itself. CsarPickupBuilder tasks this waypoint: an embark on
+    # landing, or a scripted hover, depending on csar_hover_extraction.
     pickup: FlightWaypoint
 
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
@@ -155,27 +161,32 @@ class Builder(IBuilder[CsarFlightPlan, CsarLayout]):
         )
 
     def _landing_zone_for(self, target: MissionTarget) -> Point:
-        """A touchdown point clear of the survivor but inside their embark zone.
+        """The pickup point: a touchdown clear of the survivor, or a hover over them.
 
         Prefers the approach side (between the pilot and the departure airfield)
         and falls back through other bearings if that lands in water or an
         exclusion zone.
         """
         theater = self.theater
+        distance = self._pickup_offset.meters
         toward_home = target.position.heading_between_point(
             self.flight.departure.position
         )
         for offset in (0, 45, -45, 90, -90, 135, -135, 180):
             candidate = target.position.point_from_heading(
-                (toward_home + offset) % 360, LANDING_ZONE_OFFSET.meters
+                (toward_home + offset) % 360, distance
             )
             if theater.is_on_land(candidate):
                 return candidate
         # Nowhere better; the pilot's own position was already land-validated, so
         # accept the approach-side point and let the AI sort out the touchdown.
-        return target.position.point_from_heading(
-            toward_home, LANDING_ZONE_OFFSET.meters
-        )
+        return target.position.point_from_heading(toward_home, distance)
+
+    @property
+    def _pickup_offset(self) -> Distance:
+        if self.settings.csar_hover_extraction:
+            return HOVER_PICKUP_OFFSET
+        return LANDING_ZONE_OFFSET
 
     @property
     def _ingress_distance(self) -> Distance:
