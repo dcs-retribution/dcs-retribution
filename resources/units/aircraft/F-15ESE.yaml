@@ -24,6 +24,8 @@ radios:
     # assigned to radio 1 channel 1 no matter what we do.
     intra_flight_radio_index: 1
     inter_flight_radio_index: 2
+patrol:
+  altitude: 30000
 tasks:
   BAI: 760
   BARCAP: 240

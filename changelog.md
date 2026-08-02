@@ -1,6 +1,7 @@
 # Retribution v1.6.0
 
 ## Features/Improvements
+* **[Data]** Author a patrol/BARCAP altitude on every CAP-capable fighter's yaml (117 aircraft), tiered by aircraft class and applied identically to both factions, instead of leaving them all to the generic speed-derived formula. CAP now sits at an altitude that suits the airframe, and each type is individually tunable.
 * **[Kneeboard]** Use a light-grey daytime kneeboard background instead of near-white, to avoid glare under HDR / Auto-HDR while staying readable in daylight.
 * **[UX]** Hovering a friendly flight's route line on the map highlights it in yellow, and clicking it selects that flight's package (and the flight) in the ATO sidebar.
 * **[UX]** Press Delete with a package selected in the Packages list to cancel it, making it quick to clear several packages in a row.

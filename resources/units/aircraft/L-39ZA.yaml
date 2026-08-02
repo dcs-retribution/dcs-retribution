@@ -19,6 +19,8 @@ kneeboard_units: "metric"
 #   NS430allow: true
 #   NetCrewControlPriority: 1
 #   SoloFlight: false
+patrol:
+  altitude: 18000
 tasks:
   BAI: 220
   BARCAP: 120

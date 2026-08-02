@@ -21,6 +21,8 @@ role: Multirole Fighter
 max_range: 200
 variants:
   Mirage-F1CT: {}
+patrol:
+  altitude: 27000
 tasks:
   BAI: 270
   BARCAP: 250

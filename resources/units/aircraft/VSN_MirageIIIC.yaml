@@ -13,6 +13,8 @@ max_range: 150
 gunfighter: true
 variants:
   Mirage IIIB/C: {}
+patrol:
+  altitude: 27000
 tasks:
   BARCAP: 210
   Escort: 210

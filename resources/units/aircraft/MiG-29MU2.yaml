@@ -29,6 +29,8 @@ max_range: 150
 variants:
   "[CH] MiG-29MU2": {}
 kneeboard_units: "metric"
+patrol:
+  altitude: 27000
 tasks:
   BAI: 540
   BARCAP: 380

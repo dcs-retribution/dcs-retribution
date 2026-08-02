@@ -17,6 +17,8 @@ radios:
   # here before.
   intra_flight: SCR-522
   inter_flight: SCR-522
+patrol:
+  altitude: 33000
 tasks:
   BARCAP: 550
   Escort: 550

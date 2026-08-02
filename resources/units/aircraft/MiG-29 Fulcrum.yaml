@@ -38,6 +38,8 @@ radios:
     namer: fulcrum
     intra_flight_radio_index: 1
     inter_flight_radio_index: 1
+patrol:
+  altitude: 27000
 tasks:
   BAI: 530
   BARCAP: 370

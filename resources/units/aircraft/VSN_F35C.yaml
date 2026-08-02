@@ -26,6 +26,8 @@ fuel:
 variants:
   F-35C Lightning II: {}
 utc_kneeboard: true
+patrol:
+  altitude: 33000
 tasks:
   BARCAP: 450
   Escort: 450

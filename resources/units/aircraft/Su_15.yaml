@@ -12,6 +12,8 @@ gunfighter: true
 variants:
   Su-15 Flagon-A: {}
 kneeboard_units: "metric"
+patrol:
+  altitude: 34000
 tasks:
   BARCAP: 360
   Escort: 360

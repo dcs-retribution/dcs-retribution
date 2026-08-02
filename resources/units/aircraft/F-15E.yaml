@@ -12,6 +12,8 @@ max_range: 300
 variants:
   F-15E Strike Eagle:
     display_name: F-15E Strike Eagle (AI)
+patrol:
+  altitude: 30000
 tasks:
   BAI: 760
   BARCAP: 240

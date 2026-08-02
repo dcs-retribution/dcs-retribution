@@ -17,6 +17,8 @@ variants:
 radios:
   intra_flight: R-800
   inter_flight: R-800
+patrol:
+  altitude: 30000
 tasks:
   Anti-ship: 150
   BAI: 740

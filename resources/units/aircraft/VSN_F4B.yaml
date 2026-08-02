@@ -19,6 +19,8 @@ carrier_capable: true
 variants:
   F-4B Phantom II: {}
   Phantom FG.1: {}
+patrol:
+  altitude: 27000
 tasks:
   BAI: 180
   BARCAP: 220

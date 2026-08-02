@@ -29,6 +29,8 @@ max_range: 150
 variants:
   MiG-29S Fulcrum-C: {}
 kneeboard_units: "metric"
+patrol:
+  altitude: 27000
 tasks:
   BAI: 550
   BARCAP: 470

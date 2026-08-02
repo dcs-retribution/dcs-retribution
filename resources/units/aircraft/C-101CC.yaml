@@ -18,6 +18,8 @@ variants:
 #   NetCrewControlPriority: 1
 #   SightSunFilter: false
 #   SoloFlight: false
+patrol:
+  altitude: 18000
 tasks:
   Anti-ship: 10
   BAI: 230

@@ -31,6 +31,8 @@ radios:
     type: SCR-522
     namer: SCR-522
 kneeboard_units: "imperial"
+patrol:
+  altitude: 24000
 tasks:
   BAI: 100
   BARCAP: 100

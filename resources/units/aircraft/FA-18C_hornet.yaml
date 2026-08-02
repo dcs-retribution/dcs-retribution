@@ -53,6 +53,8 @@ utc_kneeboard: true
 #   HelmetMountedDevice: 1
 #   InnerBoard: 0
 #   OuterBoard: 0
+patrol:
+  altitude: 27000
 tasks:
   Anti-ship: 150
   BAI: 740

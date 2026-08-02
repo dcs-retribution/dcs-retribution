@@ -12,6 +12,8 @@ role: Air-Superiority Fighter
 variants:
   J-11A Flanker-L: {}
 kneeboard_units: "metric"
+patrol:
+  altitude: 30000
 tasks:
   BARCAP: 500
   Escort: 500

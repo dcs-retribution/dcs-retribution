@@ -32,6 +32,8 @@ radios:
 kneeboard_units: "imperial"
 # default_overrides:
 #   WaterTankContents: 1
+patrol:
+  altitude: 24000
 tasks:
   BAI: 140
   BARCAP: 10
