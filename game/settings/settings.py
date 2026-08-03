@@ -366,6 +366,21 @@ class Settings:
         default=False,
         detail="AI will use vertical takeoff and landing instead of combat takeoff and landing.",
     )
+    max_csar_flights: int = bounded_int_option(
+        "Maximum CSAR flights planned per side each turn",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=2,
+        min=0,
+        max=10,
+        detail=(
+            "Caps how many rescue packages the auto-planner will commit to in a "
+            "turn, for each coalition. Downed pilots are considered closest-to-base "
+            "first, so the most reachable are rescued; the rest wait for a later "
+            "turn if they survive that long. Zero stops the auto-planner tasking "
+            "CSAR at all, leaving rescues to be planned by hand."
+        ),
+    )
     max_plane_altitude_offset: int = bounded_int_option(
         "Maximum randomized altitude offset (x1000 ft) for airplanes.",
         page=CAMPAIGN_DOCTRINE_PAGE,

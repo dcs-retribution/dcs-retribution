@@ -95,13 +95,16 @@ def test_pilot_setstate_defaults_turns_until_available() -> None:
 # ---------------------------------------------------------------------------
 
 
-def _make_squadron(pilots: list[Pilot]) -> Any:
+def _make_squadron(pilots: list[Pilot], pilot_limits: bool = True) -> Any:
     from game.squadrons.squadron import Squadron
 
     sqn = Squadron.__new__(Squadron)
     sqn.current_roster = pilots
+    sqn.owned_aircraft = 12
     settings = SimpleNamespace(
-        squadron_pilot_limit=10, enable_squadron_pilot_limits=True
+        squadron_pilot_limit=10,
+        enable_squadron_pilot_limits=pilot_limits,
+        squadron_replenishment_rate=4,
     )
     sqn.settings = settings  # type: ignore[assignment]
     return sqn
@@ -119,6 +122,41 @@ def test_downed_and_recovering_pilots_hold_their_slot() -> None:
     assert sqn._number_of_unfilled_pilot_slots == 10 - 6 - 2
     assert downed in sqn.downed_pilots
     assert recovering in sqn.recovering_pilots
+
+
+def test_downed_pilots_are_untaskable_without_pilot_limits() -> None:
+    """With per-squadron pilot limits off there is no slot to reserve, and
+    replenishment is skipped entirely -- but a downed or recovering pilot must
+    still be untaskable. Availability is rebuilt from the active pilots, and
+    neither state is Active, so this holds without depending on the setting."""
+    active = Pilot("A")
+    downed = Pilot("Down")
+    downed.go_down()
+    recovering = Pilot("Rec")
+    recovering.begin_recovery(2)
+    sqn = _make_squadron([active, downed, recovering], pilot_limits=False)
+
+    sqn.return_all_pilots_and_aircraft()
+    assert sqn.available_pilots == [active]
+    # No limit, so the squadron can always field whatever is asked of it; the
+    # reservation above is simply not consulted.
+    assert sqn.can_provide_pilots(99)
+    sqn.replenish_lost_pilots()
+    assert sqn.current_roster == [active, downed, recovering]
+
+
+def test_rescued_pilot_returns_to_duty_without_pilot_limits() -> None:
+    """The recovery countdown is not gated on the limits setting, so a rescued
+    pilot still comes back rather than being stuck Recovering forever."""
+    rescued = Pilot("Rescued")
+    rescued.go_down()
+    rescued.begin_recovery(1)
+    sqn = _make_squadron([rescued], pilot_limits=False)
+
+    sqn._process_pilot_recovery()
+    assert rescued.status is PilotStatus.Active
+    sqn.return_all_pilots_and_aircraft()
+    assert sqn.available_pilots == [rescued]
 
 
 def test_process_pilot_recovery_advances_countdown() -> None:
@@ -561,6 +599,103 @@ def test_set_auto_assignable_does_not_force_csar_on() -> None:
     squadron.aircraft = _aircraft_named("UH-60A")
     squadron.set_auto_assignable_mission_types({FlightType.TRANSPORT})
     assert FlightType.CSAR not in squadron.auto_assignable_mission_types
+
+
+def _csar_planning_state(targets: list[DownedPilot], max_flights: int) -> Any:
+    from game.commander.theaterstate import TheaterState
+
+    state = TheaterState.__new__(TheaterState)
+    state.csar_targets = list(targets)
+    state.csar_flights_planned = 0
+    state.context = cast(
+        Any, SimpleNamespace(settings=SimpleNamespace(max_csar_flights=max_flights))
+    )
+    return state
+
+
+def test_csar_planning_stops_at_the_flight_cap() -> None:
+    """The cap counts packages actually committed, so the planner keeps working
+    down the (closest-first) list until it has the configured number."""
+    from game.commander.tasks.primitive.csar import PlanCsar
+
+    targets = [_standalone_downed() for _ in range(4)]
+    state = _csar_planning_state(targets, max_flights=2)
+
+    planned = []
+    for target in list(targets):
+        task = PlanCsar(target)
+        # Isolate the cap from the rest of the preconditions (threat, aircraft
+        # availability), which need a whole game to evaluate.
+        with patch.object(
+            PlanCsar, "target_area_preconditions_met", return_value=True
+        ), patch(
+            "game.commander.tasks.packageplanningtask.PackagePlanningTask"
+            ".preconditions_met",
+            return_value=True,
+        ):
+            if task.preconditions_met(state):
+                planned.append(target)
+                with patch.object(type(task), "package", None):
+                    task.apply_effects(state)
+
+    assert planned == targets[:2]
+    assert state.csar_flights_planned == 2
+
+
+def test_csar_flight_cap_of_zero_disables_auto_planning() -> None:
+    from game.commander.tasks.primitive.csar import PlanCsar
+
+    targets = [_standalone_downed()]
+    state = _csar_planning_state(targets, max_flights=0)
+
+    task = PlanCsar(targets[0])
+    with patch.object(PlanCsar, "target_area_preconditions_met", return_value=True):
+        assert not task.preconditions_met(state)
+
+
+def test_unreachable_pilot_does_not_consume_a_flight_slot() -> None:
+    """A pilot the planner can't reach (live SAM ring) must not use up one of the
+    slots, or a rescuable pilot further down the list is silently skipped."""
+    from game.commander.tasks.primitive.csar import PlanCsar
+
+    targets = [_standalone_downed() for _ in range(2)]
+    state = _csar_planning_state(targets, max_flights=1)
+
+    blocked = PlanCsar(targets[0])
+    with patch.object(PlanCsar, "target_area_preconditions_met", return_value=False):
+        assert not blocked.preconditions_met(state)
+    assert state.csar_flights_planned == 0
+
+    reachable = PlanCsar(targets[1])
+    with patch.object(
+        PlanCsar, "target_area_preconditions_met", return_value=True
+    ), patch(
+        "game.commander.tasks.packageplanningtask.PackagePlanningTask"
+        ".preconditions_met",
+        return_value=True,
+    ):
+        assert reachable.preconditions_met(state)
+
+
+def test_csar_flight_cap_is_per_side_and_survives_cloning() -> None:
+    """The allowance is per coalition, not a shared pool: TheaterCommander is
+    constructed per player and builds its own TheaterState, so each side starts
+    at zero. Within a side it must then survive the HTN's per-branch cloning and
+    the replanning loop, or every branch would get a fresh allowance."""
+    import inspect
+
+    from game.commander.theaterstate import TheaterState
+    from game.commander.theatercommander import TheaterCommander
+
+    # Fresh per side.
+    assert "csar_flights_planned=0" in inspect.getsource(TheaterState.from_game)
+    planning = inspect.getsource(TheaterCommander.plan_missions)
+    assert "TheaterState.from_game(self.game, self.player" in planning
+    # ...but carried forward within that side's planning.
+    assert "state = result.end_state" in planning
+    assert "csar_flights_planned=self.csar_flights_planned" in inspect.getsource(
+        TheaterState.clone
+    )
 
 
 def _pickup_builder(
