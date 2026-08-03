@@ -109,6 +109,7 @@ class CsarGenerator:
 
         self.mission_data.csar_pilot_groups[str(downed.id)] = CsarPilotGroupInfo(
             group_name=group_name,
+            unit_name=group.units[0].name,
             group_id=group.id,
             blue=coalition.player.is_blue,
         )

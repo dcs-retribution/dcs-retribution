@@ -580,7 +580,10 @@ def _pickup_builder(downed: DownedPilot, hover: bool, with_group: bool = True) -
     groups = {}
     if with_group:
         groups[str(downed.id)] = CsarPilotGroupInfo(
-            group_name="CSAR Rescuee 1234abcd", group_id=4242, blue=True
+            group_name="CSAR Rescuee 1234abcd",
+            unit_name="CSAR Rescuee 1234abcd Unit #1",
+            group_id=4242,
+            blue=True,
         )
     builder.mission_data = cast(Any, SimpleNamespace(csar_pilot_groups=groups))
     return builder
@@ -818,6 +821,9 @@ def test_csar_generator_places_pilot_with_embark_task() -> None:
         g for g in mission.country("USA").vehicle_group if g.name == info.group_name
     )
     assert group.id == info.group_id
+    # OpsCSAR.lua decides whether the survivor is still on the map by looking this
+    # name up in DCS's unit registry, so it has to be the unit actually placed.
+    assert info.unit_name == group.units[0].name
     tasks = group.points[0].tasks
     assert [t for t in tasks if isinstance(t, EmbarkToTransport)]
     # The template Ops.CSAR is constructed against must also exist.
@@ -925,7 +931,10 @@ def test_generate_csar_data_serializes_and_evaluates() -> None:
     # CsarGenerator has already placed the pilot in the mission by this point.
     mission_data.csar_pilot_groups = {
         str(downed.id): CsarPilotGroupInfo(
-            group_name="CSAR Ivan Doe abcd1234", group_id=77, blue=True
+            group_name="CSAR Ivan Doe abcd1234",
+            unit_name="CSAR Ivan Doe abcd1234 Unit #1",
+            group_id=77,
+            blue=True,
         )
     }
     generator = LuaGenerator.__new__(LuaGenerator)
@@ -971,6 +980,9 @@ def test_generate_csar_data_serializes_and_evaluates() -> None:
     # The pilot is already placed in the mission; OpsCSAR.lua hands this group to
     # Ops.CSAR so a player can rescue them.
     assert csar.downedPilots[1].groupName == "CSAR Ivan Doe abcd1234"
+    # The survivor's own unit, which is what OpsCSAR.lua asks the unit registry
+    # about to decide whether they are still on the map.
+    assert csar.downedPilots[1].unitName == "CSAR Ivan Doe abcd1234 Unit #1"
     rescue_ids = {
         csar.rescueTypes[i].dcs_id for i in range(1, len(csar.rescueTypes) + 1)
     }

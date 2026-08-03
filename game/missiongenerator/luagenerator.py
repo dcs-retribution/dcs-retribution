@@ -368,6 +368,10 @@ class LuaGenerator:
                 # EmbarkToTransport task for the native AI pickup). OpsCSAR.lua
                 # hands this same group to Ops.CSAR so players can rescue it too.
                 item.add_key_value("groupName", pilot_group.group_name)
+                # How OpsCSAR.lua tells whether the survivor is still standing
+                # there: Unit.getByName is a live registry lookup, where a group's
+                # unit handles can outlive the units and never report the pickup.
+                item.add_key_value("unitName", pilot_group.unit_name)
 
         rescue_types = csar_object.get_or_create_item("rescueTypes")
         seen: set[str] = set()

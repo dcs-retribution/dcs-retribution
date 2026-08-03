@@ -42,6 +42,24 @@ local CHECK_INTERVAL = 5
 -- for a tracked survivor to disappear is being killed, and the post-mission
 -- fallback in Retribution re-checks the outcome anyway.
 local RESCUE_ATTRIBUTION_WINDOW = 120
+-- How long a rescue helicopter can be in the embark zone with the survivor still
+-- reporting as present before that is worth complaining about. Comfortably longer
+-- than the walk to the helicopter and the Embarking task's own hold.
+local STILL_HERE_WARN_AFTER = 420
+
+-- Positive detection that the survivor has boarded.
+--
+-- DCS fires no embark event -- there is nothing in the event enum for troop
+-- transport, and a full AI pickup (touchdown, load, RTB, shutdown) produces no
+-- event attributable to the survivor at all. But it does keep reporting a
+-- position for troops it has loaded, and that position is the transport's.
+--
+-- A survivor never goes anywhere under their own power except the run to a
+-- helicopter that has landed for them, and that run stays inside the embark zone
+-- by construction (LANDING_ZONE_OFFSET is half its radius). So a reported
+-- position outside that zone is not the pilot moving -- it is the pilot being
+-- flown away, which is the pickup. No altitude, no terrain, nothing to be fooled
+-- by. The zone radius itself is the threshold; see embark_zone_radius.
 
 -- Hover extraction (the csar_hover_extraction setting). DCS's embark tasks only
 -- fire once the transport is on the ground with weight off wheels, so when the
@@ -256,6 +274,21 @@ local function opscsar_main()
         return helo_near(side_const, px, pz, PICKUP_RADIUS, PICKUP_MAX_AGL, false)
     end
 
+    -- The helicopter flying the survivor away, if their reported position has left
+    -- the embark zone. Attribution is the rescue helicopter last seen in the zone:
+    -- it is the one that landed for them, and nothing else could have moved them.
+    local function carried_out_of_zone(entry, point)
+        if entry.origin_x == nil or entry.helo_name == nil then
+            return nil
+        end
+        local travelled =
+            distance2d(point.x, point.z, entry.origin_x, entry.origin_z)
+        if travelled <= embark_zone_radius then
+            return nil
+        end
+        return entry.helo_name
+    end
+
     -- Pops signal smoke at the survivor while an *AI* rescue helicopter is inside
     -- their embark zone. Blue coalition pilots throw blue smoke, red throw red.
     --
@@ -455,24 +488,33 @@ local function opscsar_main()
         release_hover(entry, "hoist complete")
     end
 
-    -- Counts survivors still physically in the world.
+    -- The survivor, if they are still standing in the world; nil once they are not.
     --
-    -- Group:getUnits() hands back unit *handles*, which say nothing about whether
-    -- the unit is still out there -- DCS can keep the group and its handles alive
-    -- while the occupants are aboard a transport, ready to be disembarked. Testing
-    -- the group alone therefore never registers the pickup even though the pilot
-    -- has visibly gone from the map. Ask each unit directly instead.
-    local function survivors_in_world(group)
-        if group == nil or not group:isExist() then
-            return 0
+    -- This asks DCS's unit registry by name rather than walking the group. Neither
+    -- the group nor the unit *handles* it hands back are a liveness test: DCS keeps
+    -- both alive while the occupants are aboard a transport, ready to be
+    -- disembarked, so a group-based check never sees the pickup even though the
+    -- pilot has visibly gone from the map. Unit.getByName is resolved against the
+    -- world every time it is called, and returns nil once the unit is gone.
+    local function survivor_in_world(entry)
+        if entry.unit_name and entry.unit_name ~= "" then
+            local unit = Unit.getByName(entry.unit_name)
+            if unit == nil or not unit:isExist() or unit:getLife() <= 0 then
+                return nil
+            end
+            return unit
         end
-        local count = 0
+        -- No unit name injected (older save); fall back to the group.
+        local group = Group.getByName(entry.group_name)
+        if group == nil or not group:isExist() then
+            return nil
+        end
         for _, unit in pairs(group:getUnits() or {}) do
             if unit ~= nil and unit:isExist() and unit:getLife() > 0 then
-                count = count + 1
+                return unit
             end
         end
-        return count
+        return nil
     end
 
     local function check_pickups()
@@ -482,33 +524,71 @@ local function opscsar_main()
                 -- never come home. Always give the route back.
                 release_hover(entry, "pilot no longer tracked")
             else
-                local group = Group.getByName(entry.group_name)
-                local alive = survivors_in_world(group) > 0
-                if alive then
-                    local unit = group:getUnit(1)
-                    local point = unit and unit:getPoint() or nil
-                    if point then
+                local unit = survivor_in_world(entry)
+                if unit ~= nil then
+                    local ok, point = pcall(function()
+                        return unit:getPoint()
+                    end)
+                    if ok and point then
                         entry.last_x, entry.last_z = point.x, point.z
-                        -- Remember the last rescue helicopter seen in the embark
-                        -- zone, with a timestamp. Attribution can't be done at
-                        -- vanish time alone: DCS removes the survivor the instant
-                        -- they board and the helicopter is already climbing away
-                        -- by the next poll, so a "is one here right now?" test
-                        -- races the takeoff and loses the rescue.
-                        local helo =
-                            rescue_helo_near(entry.side, point.x, point.z)
-                        if helo then
-                            entry.helo_name = helo:getName()
-                            entry.helo_seen = timer.getTime()
+                        -- Where they came down. They stay put until a helicopter
+                        -- lands for them, so this is the reference for "moved".
+                        if entry.origin_x == nil then
+                            entry.origin_x, entry.origin_z = point.x, point.z
                         end
-                        maybe_pop_smoke(entry, point.x, point.z)
+                        local carrier = carried_out_of_zone(entry, point)
+                        if carrier then
+                            -- Being flown out: the pickup already happened,
+                            -- whatever the survivor's unit handle still claims.
+                            record_rescue(entry, carrier, "embarked on")
+                        else
+                            -- Remember the last rescue helicopter seen in the
+                            -- embark zone, with a timestamp. Attribution can't be
+                            -- done at vanish time alone: DCS removes the survivor
+                            -- the instant they board and the helicopter is already
+                            -- climbing away by the next poll, so a "is one here
+                            -- right now?" test races the takeoff and loses it.
+                            local helo =
+                                rescue_helo_near(entry.side, point.x, point.z)
+                            if helo then
+                                entry.helo_name = helo:getName()
+                                entry.helo_seen = timer.getTime()
+                                entry.helo_first_seen =
+                                    entry.helo_first_seen or entry.helo_seen
+                            end
+                            maybe_pop_smoke(entry, point.x, point.z)
+                        end
                     end
-                    -- Last, because completing the hoist destroys the survivor
-                    -- and everything above wants them still in the world.
-                    service_hover(entry)
+                    if not entry.done then
+                        -- A survivor still reporting as present long after a
+                        -- rescue helicopter turned up, without ever having left
+                        -- the zone, means neither signal is working. Said once, so
+                        -- a mission that reports no rescue says why rather than
+                        -- just falling silent.
+                        if entry.helo_first_seen ~= nil and not entry.stuck_logged
+                            and (timer.getTime() - entry.helo_first_seen)
+                                > STILL_HERE_WARN_AFTER
+                        then
+                            entry.stuck_logged = true
+                            opscsar_warn(
+                                "Pilot " .. entry.id .. " still reports as present "
+                                .. STILL_HERE_WARN_AFTER .. "s after "
+                                .. tostring(entry.helo_name) .. " reached the "
+                                .. "embark zone, and has never moved out of it. "
+                                .. "If they have gone from the map, the pickup "
+                                .. "will not be reported."
+                            )
+                        end
+                        -- Last, because completing the hoist destroys the survivor
+                        -- and everything above wants them still in the world.
+                        service_hover(entry)
+                    end
                 elseif entry.last_x then
-                    -- Gone. Count it as a pickup if a rescue helicopter was in the
-                    -- embark zone recently enough to have loaded them.
+                    -- Gone from the map. That is the moment a rescue registers, in
+                    -- both modes: DCS deletes the survivor as it loads them and
+                    -- fires no embark event, so this is the only signal there is.
+                    -- Count it if a rescue helicopter was in the embark zone
+                    -- recently enough to have loaded them.
                     local recent = entry.helo_seen ~= nil
                         and (timer.getTime() - entry.helo_seen)
                             <= RESCUE_ATTRIBUTION_WINDOW
@@ -524,6 +604,15 @@ local function opscsar_main()
                     end
                     entry.done = true
                 else
+                    -- Never seen alive at all, so there is nothing to attribute.
+                    -- Logged rather than dropped silently: it means the survivor
+                    -- was missing on the very first poll, which points at the
+                    -- placement rather than at the rescue.
+                    opscsar_warn(
+                        "Pilot " .. entry.id .. " (unit '"
+                        .. tostring(entry.unit_name) .. "') was never in the world; "
+                        .. "no longer tracking them."
+                    )
                     entry.done = true
                 end
             end
@@ -560,6 +649,7 @@ local function opscsar_main()
                     local entry = {
                         id = dp.id,
                         group_name = group_name,
+                        unit_name = dp.unitName,
                         side = side_const,
                         -- Kept so a scripted hoist can tell Ops.CSAR to stop
                         -- tracking a pilot who is aboard a helicopter.
@@ -567,8 +657,12 @@ local function opscsar_main()
                         done = false,
                         last_x = nil,
                         last_z = nil,
+                        origin_x = nil,
+                        origin_z = nil,
                         helo_name = nil,
                         helo_seen = nil,
+                        helo_first_seen = nil,
+                        stuck_logged = false,
                         hover_group = nil,
                         hover_since = nil,
                         smoke_until = nil,

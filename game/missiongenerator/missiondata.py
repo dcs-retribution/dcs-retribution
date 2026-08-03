@@ -116,6 +116,10 @@ class CsarPilotGroupInfo:
     """A downed pilot placed in the mission as a real ground group."""
 
     group_name: str
+    #: The survivor's own unit. OpsCSAR.lua asks DCS's unit registry about this
+    #: name to decide whether they are still in the world -- a group's cached unit
+    #: handles can outlive the units themselves.
+    unit_name: str
     group_id: int
     blue: bool
 
