@@ -2,7 +2,7 @@ from collections.abc import Iterator
 from dataclasses import Field, dataclass, field, fields
 from datetime import timedelta
 from enum import Enum, unique
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, TYPE_CHECKING
 
 from dcs.forcedoptions import ForcedOptions
 
@@ -14,6 +14,9 @@ from .minutesoption import minutes_option
 from .optiondescription import OptionDescription, SETTING_DESCRIPTION_KEY
 from .skilloption import skill_option
 from ..ato.starttype import StartType
+
+if TYPE_CHECKING:
+    from ..ato.flighttype import FlightType
 
 Views = ForcedOptions.Views
 
@@ -1606,6 +1609,30 @@ class Settings:
     plugins: Dict[str, bool] = field(default_factory=dict)
 
     only_player_takeoff: bool = True  # Legacy parameter do not use
+
+    def start_type_for(self, flight_type: "FlightType", has_players: bool) -> StartType:
+        """The start type a newly planned flight of this kind should default to.
+
+        The single source of this decision. It is applied from the auto-planner
+        (PackageBuilder.plan_flight) and from both places the UI recomputes a
+        default (QFlightCreator and QFlightStartType), so a task with its own
+        start type behaves the same however the flight came to exist.
+
+        Callers must still let a base that dictates its own start type win --
+        carriers and off-map spawns -- via
+        ControlPoint.required_aircraft_start_type.
+        """
+        from ..ato.flighttype import FlightType
+
+        if flight_type is FlightType.CSAR:
+            # A downed pilot is on a timer, so the rescue is usually worth
+            # launching sooner than the rest of the ATO. Overrides both defaults
+            # below, players included: the setting exists precisely so CSAR does
+            # not have to inherit them.
+            return self.csar_start_type
+        if has_players:
+            return self.default_start_type_client
+        return self.default_start_type
 
     @staticmethod
     def plugin_settings_key(identifier: str) -> str:

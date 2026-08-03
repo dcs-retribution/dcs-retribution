@@ -88,25 +88,16 @@ class PackageBuilder:
                 squadron.coalition.game.settings,
                 self.laser_code_registry,
             )
-        # If this is a client flight, set the start_type again to match the configured default
+        # Now the roster exists, re-derive the start type: a client flight follows
+        # the player default, and some tasks (CSAR) have one of their own.
         # https://github.com/dcs-liberation/dcs_liberation/issues/1567
-        if (
-            squadron.location.required_aircraft_start_type is None
-            and flight.roster is not None
-            and flight.roster.player_count > 0
-        ):
-            flight.start_type = (
-                squadron.coalition.game.settings.default_start_type_client
+        # A base that dictates its own start type (carriers, off-map spawns) wins.
+        if squadron.location.required_aircraft_start_type is None:
+            flight.start_type = squadron.coalition.game.settings.start_type_for(
+                plan.task,
+                has_players=flight.roster is not None
+                and flight.roster.player_count > 0,
             )
-        # CSAR has its own start type, overriding both the AI and player defaults:
-        # a downed pilot is on a timer, so the rescue is usually worth launching
-        # sooner than the rest of the ATO. A base that dictates its own start type
-        # (carriers, off-map spawns) still wins.
-        if (
-            plan.task is FlightType.CSAR
-            and squadron.location.required_aircraft_start_type is None
-        ):
-            flight.start_type = squadron.coalition.game.settings.csar_start_type
         self.package.add_flight(flight)
         return True
 

@@ -713,17 +713,121 @@ def test_csar_start_type_setting_is_a_start_type() -> None:
     assert start_type is StartType.WARM
 
 
+def test_settings_start_type_for_csar_overrides_both_defaults() -> None:
+    """The setting exists so CSAR need not inherit the AI default, so it has to
+    beat the player default too -- otherwise a crewed rescue would silently fall
+    back to whatever players use."""
+    from game.ato.flighttype import FlightType
+    from game.ato.starttype import StartType
+    from game.settings import Settings
+
+    settings = Settings()
+    settings.default_start_type = StartType.COLD
+    settings.default_start_type_client = StartType.RUNWAY
+    settings.csar_start_type = StartType.WARM
+
+    assert settings.start_type_for(FlightType.CSAR, has_players=False) is StartType.WARM
+    assert settings.start_type_for(FlightType.CSAR, has_players=True) is StartType.WARM
+    # Everything else is unaffected.
+    assert settings.start_type_for(FlightType.CAS, has_players=False) is StartType.COLD
+    assert settings.start_type_for(FlightType.CAS, has_players=True) is StartType.RUNWAY
+
+
 def test_package_builder_applies_the_csar_start_type() -> None:
-    """Guards the wiring: the setting is only meaningful if plan_flight actually
-    applies it, and it must not override a base that dictates its own start type
-    (carriers, off-map spawns)."""
+    """The auto-planner must actually apply it rather than leaving the flight on
+    the start type PackageBuilder was constructed with."""
+    from game.ato.flighttype import FlightType
+    from game.ato.starttype import StartType
+    from game.commander.packagebuilder import PackageBuilder
+    from game.settings import Settings
+
+    settings = Settings()
+    settings.default_start_type = StartType.COLD
+    settings.csar_start_type = StartType.WARM
+
+    builder = PackageBuilder.__new__(PackageBuilder)
+    builder.start_type = StartType.COLD
+    builder.is_player = True
+    builder.package = MagicMock()
+    builder.package.primary_flight = None
+    builder.air_wing = MagicMock()
+    builder.laser_code_registry = MagicMock()
+    builder.closest_airfields = MagicMock()
+
+    squadron = builder.air_wing.best_squadron_for.return_value
+    squadron.location.required_aircraft_start_type = None
+    squadron.coalition.game.settings = settings
+
+    plan = MagicMock()
+    plan.task = FlightType.CSAR
+
+    with patch("game.commander.packagebuilder.Flight") as flight_cls, patch(
+        "game.commander.packagebuilder.apply_default_player_laser_code"
+    ), patch.object(PackageBuilder, "find_divert_field", return_value=None):
+        flight_cls.return_value.roster.player_count = 0
+        assert builder.plan_flight(plan, ignore_range=False)
+
+    assert flight_cls.return_value.start_type is StartType.WARM
+
+
+def test_package_builder_respects_a_base_that_dictates_its_start_type() -> None:
+    """Carriers and off-map spawns override everything; CSAR must not undo that."""
+    from game.ato.flighttype import FlightType
+    from game.ato.starttype import StartType
+    from game.commander.packagebuilder import PackageBuilder
+    from game.settings import Settings
+
+    settings = Settings()
+    settings.csar_start_type = StartType.WARM
+
+    builder = PackageBuilder.__new__(PackageBuilder)
+    builder.start_type = StartType.COLD
+    builder.is_player = True
+    builder.package = MagicMock()
+    builder.package.primary_flight = None
+    builder.air_wing = MagicMock()
+    builder.laser_code_registry = MagicMock()
+    builder.closest_airfields = MagicMock()
+
+    squadron = builder.air_wing.best_squadron_for.return_value
+    squadron.location.required_aircraft_start_type = StartType.IN_FLIGHT
+    squadron.coalition.game.settings = settings
+
+    plan = MagicMock()
+    plan.task = FlightType.CSAR
+
+    with patch("game.commander.packagebuilder.Flight") as flight_cls, patch(
+        "game.commander.packagebuilder.apply_default_player_laser_code"
+    ), patch.object(PackageBuilder, "find_divert_field", return_value=None):
+        flight_cls.return_value.roster.player_count = 0
+        assert builder.plan_flight(plan, ignore_range=False)
+
+    # Constructed with the base's start type and never reassigned.
+    assert flight_cls.call_args.args[4] is StartType.IN_FLIGHT
+    assert not isinstance(flight_cls.return_value.start_type, StartType)
+
+
+def test_start_type_defaults_are_decided_in_one_place() -> None:
+    """CSAR ended up inheriting the AI default because this rule was duplicated
+    across the planner and two UI paths, and only the planner was taught about
+    CSAR. Each must defer to Settings.start_type_for instead of reading the
+    default_start_type* fields itself, or the next task-specific start type will
+    break the same way."""
     import inspect
 
     from game.commander.packagebuilder import PackageBuilder
+    from qt_ui.windows.mission.flight.QFlightCreator import QFlightCreator
+    from qt_ui.windows.mission.flight.settings.QFlightStartType import QFlightStartType
 
-    source = inspect.getsource(PackageBuilder.plan_flight)
-    assert "csar_start_type" in source
-    assert "required_aircraft_start_type is None" in source
+    deciders = (
+        PackageBuilder.plan_flight,
+        QFlightCreator.on_pilot_selected,
+        QFlightStartType.on_pilot_selected,
+    )
+    for decider in deciders:
+        source = inspect.getsource(decider)
+        assert "start_type_for" in source, decider.__qualname__
+        assert "default_start_type" not in source, decider.__qualname__
 
 
 def test_csar_pickup_hover_mode_hands_off_to_the_script() -> None:
