@@ -372,6 +372,12 @@ class LuaGenerator:
                 # there: Unit.getByName is a live registry lookup, where a group's
                 # unit handles can outlive the units and never report the pickup.
                 item.add_key_value("unitName", pilot_group.unit_name)
+                # Per pilot, not per mission: a survivor in the water is hoisted
+                # out whatever the setting says, because nothing can land there.
+                item.add_key_value(
+                    "hoverExtraction",
+                    "true" if downed.needs_hover_extraction(settings) else "false",
+                )
 
         rescue_types = csar_object.get_or_create_item("rescueTypes")
         seen: set[str] = set()

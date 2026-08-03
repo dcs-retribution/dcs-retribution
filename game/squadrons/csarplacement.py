@@ -12,24 +12,35 @@ if TYPE_CHECKING:
 #: they don't land on top of a building where a helicopter cannot set down.
 _MIN_CLEARANCE_METERS = 300.0
 
-#: If snapping a wet position to land moves it further than this, treat the snap as
+#: If snapping to land moves a position further than this, treat the snap as
 #: implausible (island maps can teleport hundreds of NM) and give up on the point.
+#:
+#: Only reachable for points that are neither land nor sea -- an exclusion zone --
+#: since an open-water ditching is left where it is.
 _MAX_SNAP_METERS = 8000.0
 
 
 def find_downed_pilot_position(
     theater: ConflictTheater, near: Point
 ) -> Optional[Point]:
-    """Finds a valid on-land position for a downed pilot near ``near``.
+    """Finds a valid position for a downed pilot near ``near``.
 
-    Returns a point that is on land (not sea, not an exclusion zone) and clear of
-    mapped structures, or ``None`` if no suitable spot could be found nearby (in
-    which case the caller should treat the pilot as killed).
+    A pilot who came down at sea stays where they ditched: the rescue is a hoist,
+    so there is nothing to be gained by putting them ashore, and a helicopter can
+    reach anywhere on the map so no distance makes them unreachable. Everyone else
+    gets a point on land (not an exclusion zone) and clear of mapped structures,
+    or ``None`` if no suitable spot could be found nearby (in which case the caller
+    should treat the pilot as killed).
 
     Retribution has no building/foliage data, so the definitive "can a helicopter
     actually land here" check is done in Lua at spawn time. This only rules out the
     obviously-unlandable cases we *can* see: water and known structures.
     """
+    if theater.is_in_sea(near):
+        # See DownedPilot.in_water: this is what forces a hover extraction for
+        # them later, whatever the csar_hover_extraction setting says.
+        return near
+
     candidate = _snap_to_land(theater, near)
     if candidate is None:
         return None

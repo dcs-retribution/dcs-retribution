@@ -97,9 +97,9 @@ class CsarGenerator:
 
         # The pilot's half of DCS's native troop transport. Only useful when the
         # rescue helicopter is going to land, since the embark won't fire until it
-        # has weight off wheels -- under hover extraction OpsCSAR.lua does the
-        # pickup by script instead.
-        if not self.game.settings.csar_hover_extraction:
+        # has weight off wheels -- under hover extraction (including any survivor
+        # in the water) OpsCSAR.lua does the pickup by script instead.
+        if not downed.needs_hover_extraction(self.game.settings):
             group.points[0].tasks.append(
                 EmbarkToTransport(
                     position=Vector2(downed.position.x, downed.position.y),

@@ -19,6 +19,7 @@ from game.theater.player import Player
 if TYPE_CHECKING:
     from game.ato.flighttype import FlightType
     from game.coalition import Coalition
+    from game.settings import Settings
     from game.squadrons.pilot import Pilot
     from game.squadrons.squadron import Squadron
 
@@ -51,9 +52,26 @@ class DownedPilot(SidcDescribable, MissionTarget):
     was_player: bool
     aircraft_name: str
     id: UUID = field(default_factory=uuid4)
+    #: Ditched at sea rather than come down on land. Decided once, when the pilot
+    #: is created, and persisted: the landmap does not change, and every consumer
+    #: needs the same answer.
+    in_water: bool = False
 
     def __post_init__(self) -> None:
         MissionTarget.__init__(self, self.display_name, self._position)
+
+    def __setstate__(self, state: dict[str, object]) -> None:
+        # Saves from before water rescues existed put every pilot on land.
+        state.setdefault("in_water", False)
+        self.__dict__.update(state)
+
+    def needs_hover_extraction(self, settings: Settings) -> bool:
+        """Whether this pilot must be winched out rather than walked aboard.
+
+        A helicopter cannot land next to a survivor in the water, so they force a
+        hover extraction whatever the ``csar_hover_extraction`` setting says.
+        """
+        return settings.csar_hover_extraction or self.in_water
 
     def __hash__(self) -> int:
         return hash(self.id)

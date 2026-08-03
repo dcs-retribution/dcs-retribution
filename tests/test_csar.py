@@ -563,17 +563,33 @@ def test_set_auto_assignable_does_not_force_csar_on() -> None:
     assert FlightType.CSAR not in squadron.auto_assignable_mission_types
 
 
-def _pickup_builder(downed: DownedPilot, hover: bool, with_group: bool = True) -> Any:
+def _pickup_builder(
+    downed: DownedPilot,
+    hover: bool,
+    with_group: bool = True,
+    switch_baro_fix: bool = True,
+    in_sea: bool = False,
+) -> Any:
     from game.missiongenerator.aircraft.waypoints.csarpickup import CsarPickupBuilder
     from game.missiongenerator.missiondata import CsarPilotGroupInfo
 
     builder = CsarPickupBuilder.__new__(CsarPickupBuilder)
-    settings = SimpleNamespace(csar_hover_extraction=hover, use_ai_combat_landing=False)
+    settings = SimpleNamespace(
+        csar_hover_extraction=hover,
+        use_ai_combat_landing=False,
+        switch_baro_fix=switch_baro_fix,
+    )
+    theater = MagicMock()
+    theater.is_in_sea.return_value = in_sea
+    theater.is_on_land.return_value = not in_sea
     builder.flight = cast(
         Any,
         SimpleNamespace(
+            is_helo=True,
             package=SimpleNamespace(target=downed),
-            coalition=SimpleNamespace(game=SimpleNamespace(settings=settings)),
+            coalition=SimpleNamespace(
+                game=SimpleNamespace(settings=settings, theater=theater)
+            ),
         ),
     )
     builder.group = cast(Any, SimpleNamespace(name="Enfield 1-1"))
@@ -609,14 +625,15 @@ def test_csar_pickup_embarks_without_a_land_task() -> None:
     assert not [t for t in tasks if isinstance(t, Land)]
 
 
-def _layout_builder(hover: bool) -> Any:
+def _layout_builder(hover: bool, target: DownedPilot) -> Any:
     from game.ato.flightplans.csar import Builder
 
     builder = Builder.__new__(Builder)
     builder.flight = cast(
         Any,
         SimpleNamespace(
-            departure=SimpleNamespace(position=Point(50000.0, 0.0, _TERRAIN))
+            departure=SimpleNamespace(position=Point(50000.0, 0.0, _TERRAIN)),
+            package=SimpleNamespace(target=target),
         ),
     )
     builder.settings = cast(Any, SimpleNamespace(csar_hover_extraction=hover))
@@ -633,7 +650,7 @@ def test_landing_zone_is_clear_of_the_survivor() -> None:
     downed = _standalone_downed()
     downed._position = Point(0.0, 0.0, _TERRAIN)
 
-    builder = _layout_builder(hover=False)
+    builder = _layout_builder(hover=False, target=downed)
     theater = MagicMock()
     theater.is_on_land.return_value = True
     with patch.object(type(builder), "theater", property(lambda self: theater)):
@@ -659,7 +676,7 @@ def test_hover_pickup_sits_on_top_of_the_survivor() -> None:
     downed = _standalone_downed()
     downed._position = Point(0.0, 0.0, _TERRAIN)
 
-    builder = _layout_builder(hover=True)
+    builder = _layout_builder(hover=True, target=downed)
     theater = MagicMock()
     theater.is_on_land.return_value = True
     with patch.object(type(builder), "theater", property(lambda self: theater)):
@@ -674,13 +691,94 @@ def test_landing_zone_avoids_water() -> None:
     downed = _standalone_downed()
     downed._position = Point(0.0, 0.0, _TERRAIN)
 
-    builder = _layout_builder(hover=False)
+    builder = _layout_builder(hover=False, target=downed)
     theater = MagicMock()
     # Reject the first (approach-side) bearing, accept the next.
     theater.is_on_land.side_effect = [False, True]
     with patch.object(type(builder), "theater", property(lambda self: theater)):
         builder._landing_zone_for(downed)
     assert theater.is_on_land.call_count == 2
+
+
+# ---------------------------------------------------------------------------
+# Survivors in the water
+# ---------------------------------------------------------------------------
+
+
+def test_pilot_in_the_water_forces_hover_extraction() -> None:
+    """Nothing can land beside a survivor at sea, so they are hoisted whatever
+    the setting says. The setting still forces hover for pilots on land."""
+    from game.settings import Settings
+
+    settings = Settings()
+    settings.csar_hover_extraction = False
+
+    ashore = _standalone_downed()
+    ashore.in_water = False
+    assert not ashore.needs_hover_extraction(settings)
+
+    ditched = _standalone_downed()
+    ditched.in_water = True
+    assert ditched.needs_hover_extraction(settings)
+
+    settings.csar_hover_extraction = True
+    assert ashore.needs_hover_extraction(settings)
+
+
+def test_downed_pilot_from_an_old_save_is_not_in_water() -> None:
+    downed = _standalone_downed()
+    state = dict(downed.__dict__)
+    del state["in_water"]
+    restored = DownedPilot.__new__(DownedPilot)
+    restored.__setstate__(state)
+    assert restored.in_water is False
+
+
+def test_ditched_pilot_stays_where_they_came_down() -> None:
+    """A hoist can be flown anywhere, so there is nothing to gain by putting a
+    survivor ashore -- and no distance offshore at which they become unreachable."""
+    from game.squadrons.csarplacement import find_downed_pilot_position
+
+    theater = MagicMock()
+    theater.is_in_sea.return_value = True
+    ditched = Point(500000.0, 500000.0, _TERRAIN)
+
+    assert find_downed_pilot_position(theater, ditched) == ditched
+    # Not dragged to the coast, and never written off for being too far out.
+    theater.nearest_land_pos.assert_not_called()
+
+
+def test_pilot_down_on_land_is_still_snapped() -> None:
+    from game.squadrons.csarplacement import find_downed_pilot_position
+
+    theater = MagicMock()
+    theater.is_in_sea.return_value = False
+    theater.is_on_land.return_value = True
+    theater.controlpoints = []
+    theater.ground_objects = []
+    ashore = Point(10.0, 20.0, _TERRAIN)
+
+    assert find_downed_pilot_position(theater, ashore) == ashore
+
+
+def test_hover_pickup_does_not_look_for_dry_land() -> None:
+    """The bearing search exists to find a touchdown. A survivor in the water
+    would fail it on every bearing, and it is pointless for a hoist anyway."""
+    downed = _standalone_downed()
+    downed._position = Point(0.0, 0.0, _TERRAIN)
+    downed.in_water = True
+
+    builder = _layout_builder(hover=False, target=downed)
+    theater = MagicMock()
+    theater.is_on_land.return_value = False
+    with patch.object(type(builder), "theater", property(lambda self: theater)):
+        pickup = builder._landing_zone_for(downed)
+
+    theater.is_on_land.assert_not_called()
+    from game.ato.flightplans.csar import HOVER_PICKUP_OFFSET
+
+    separation = pickup.distance_to_point(downed.position)
+    assert separation == pytest.approx(HOVER_PICKUP_OFFSET.meters, rel=0.01)
 
 
 def test_csar_pickup_prefers_vertical_landing() -> None:
@@ -863,6 +961,71 @@ def test_csar_pickup_hover_mode_hands_off_to_the_script() -> None:
     assert waypoint.alt_type == "RADIO"
 
 
+def test_hover_over_water_holds_an_amsl_altitude() -> None:
+    """DCS measures AGL from the sea *bottom* -- the reason switch_baro_fix
+    exists -- so a hover held on RADIO over deep water would be underwater. The
+    number is the same either way; only the reference changes."""
+    downed = _standalone_downed()
+    downed.in_water = True
+    builder = _pickup_builder(downed, hover=True, in_sea=True)
+    waypoint = MagicMock()
+    waypoint.position = Point(10.0, 20.0, _TERRAIN)
+
+    with patch.object(_PydcsWaypointBuilder, "build", return_value=waypoint):
+        builder.build()
+
+    from game.missiongenerator.aircraft.waypoints.csarpickup import HOVER_ALTITUDE
+
+    assert waypoint.alt_type == "BARO"
+    assert waypoint.alt == int(HOVER_ALTITUDE.meters)
+
+
+def test_hover_over_water_respects_the_setting_being_off() -> None:
+    downed = _standalone_downed()
+    downed.in_water = True
+    builder = _pickup_builder(downed, hover=True, in_sea=True, switch_baro_fix=False)
+    waypoint = MagicMock()
+    waypoint.position = Point(10.0, 20.0, _TERRAIN)
+
+    with patch.object(_PydcsWaypointBuilder, "build", return_value=waypoint):
+        builder.build()
+
+    assert waypoint.alt_type == "RADIO"
+
+
+def test_hover_over_land_stays_agl() -> None:
+    """Over land AGL is what we want: the hold should follow the terrain rather
+    than being pinned to a sea-level reference on a hillside."""
+    downed = _standalone_downed()
+    builder = _pickup_builder(downed, hover=True, in_sea=False)
+    waypoint = MagicMock()
+    waypoint.position = Point(10.0, 20.0, _TERRAIN)
+
+    with patch.object(_PydcsWaypointBuilder, "build", return_value=waypoint):
+        builder.build()
+
+    assert waypoint.alt_type == "RADIO"
+
+
+def test_csar_pickup_hoists_a_ditched_pilot_with_the_setting_off() -> None:
+    """The whole point of the flag: a survivor in the water gets the scripted
+    hoist even though the mission is set up for landing pickups."""
+    from dcs.task import Embarking, RunScript
+
+    downed = _standalone_downed()
+    downed.in_water = True
+    builder = _pickup_builder(downed, hover=False)
+    waypoint = MagicMock()
+    waypoint.position = Point(10.0, 20.0, _TERRAIN)
+
+    with patch.object(_PydcsWaypointBuilder, "build", return_value=waypoint):
+        builder.build()
+
+    tasks = [call.args[0] for call in waypoint.add_task.call_args_list]
+    assert not [t for t in tasks if isinstance(t, Embarking)]
+    assert [t for t in tasks if isinstance(t, RunScript)]
+
+
 def test_csar_pickup_without_a_pilot_group_adds_no_task() -> None:
     downed = _standalone_downed()
     builder = _pickup_builder(downed, hover=False, with_group=False)
@@ -934,6 +1097,20 @@ def test_csar_generator_places_pilot_with_embark_task() -> None:
     assert mission_data.csar_pilot_templates["blue"] == "CSAR_PILOT_BLUE"
 
 
+def test_csar_generator_omits_embark_task_for_a_ditched_pilot() -> None:
+    """The embark never fires without weight off wheels, and nothing is going to
+    put weight on wheels next to a survivor at sea."""
+    from dcs.task import EmbarkToTransport
+
+    mission, mission_data, downed = _generate_csar(hover=False, in_water=True)
+
+    info = mission_data.csar_pilot_groups[str(downed.id)]
+    group = next(
+        g for g in mission.country("USA").vehicle_group if g.name == info.group_name
+    )
+    assert not [t for t in group.points[0].tasks if isinstance(t, EmbarkToTransport)]
+
+
 def test_csar_generator_omits_embark_task_under_hover_extraction() -> None:
     """With hover extraction the pilot never walks aboard, so the embark task
     would be dead weight -- OpsCSAR.lua does the pickup by script."""
@@ -948,7 +1125,7 @@ def test_csar_generator_omits_embark_task_under_hover_extraction() -> None:
     assert not [t for t in group.points[0].tasks if isinstance(t, EmbarkToTransport)]
 
 
-def _generate_csar(hover: bool) -> Any:
+def _generate_csar(hover: bool, in_water: bool = False) -> Any:
     from dcs import Mission
     from dcs.terrain import Caucasus
     from game.missiongenerator.csargenerator import CsarGenerator
@@ -958,6 +1135,7 @@ def _generate_csar(hover: bool) -> Any:
     mission = Mission(Caucasus())
     downed = _standalone_downed()
     downed._position = Point(-250000.0, 630000.0, mission.terrain)
+    downed.in_water = in_water
 
     coalition = SimpleNamespace(
         player=Player.BLUE,
@@ -1087,6 +1265,9 @@ def test_generate_csar_data_serializes_and_evaluates() -> None:
     # The survivor's own unit, which is what OpsCSAR.lua asks the unit registry
     # about to decide whether they are still on the map.
     assert csar.downedPilots[1].unitName == "CSAR Ivan Doe abcd1234 Unit #1"
+    # Decided per pilot, not per mission, so a survivor in the water can be
+    # hoisted out of a mission that otherwise uses landing pickups.
+    assert csar.downedPilots[1].hoverExtraction == "true"
     rescue_ids = {
         csar.rescueTypes[i].dcs_id for i in range(1, len(csar.rescueTypes) + 1)
     }

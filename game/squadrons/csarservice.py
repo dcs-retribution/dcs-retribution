@@ -62,6 +62,7 @@ class CsarService:
             turns_remaining=self._survival_turns(valid, player),
             was_player=was_player,
             aircraft_name=squadron.aircraft.display_name,
+            in_water=self.game.theater.is_in_sea(valid),
         )
         pilot.go_down()
         squadron.coalition.downed_pilots.append(downed)

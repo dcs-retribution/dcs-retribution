@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Iterator, TYPE_CHECKING, Type
 
+from game.squadrons.downedpilot import DownedPilot
 from game.theater.missiontarget import MissionTarget
 from game.utils import Distance, meters
 from .ibuilder import IBuilder
@@ -167,11 +168,18 @@ class Builder(IBuilder[CsarFlightPlan, CsarLayout]):
         and falls back through other bearings if that lands in water or an
         exclusion zone.
         """
-        theater = self.theater
-        distance = self._pickup_offset.meters
         toward_home = target.position.heading_between_point(
             self.flight.departure.position
         )
+        if self._hover_extraction:
+            # Nothing sets down, so landability is beside the point -- and for a
+            # survivor in the water every bearing would fail the check anyway.
+            return target.position.point_from_heading(
+                toward_home, HOVER_PICKUP_OFFSET.meters
+            )
+
+        theater = self.theater
+        distance = LANDING_ZONE_OFFSET.meters
         for offset in (0, 45, -45, 90, -90, 135, -135, 180):
             candidate = target.position.point_from_heading(
                 (toward_home + offset) % 360, distance
@@ -183,10 +191,11 @@ class Builder(IBuilder[CsarFlightPlan, CsarLayout]):
         return target.position.point_from_heading(toward_home, distance)
 
     @property
-    def _pickup_offset(self) -> Distance:
-        if self.settings.csar_hover_extraction:
-            return HOVER_PICKUP_OFFSET
-        return LANDING_ZONE_OFFSET
+    def _hover_extraction(self) -> bool:
+        target = self.package.target
+        if isinstance(target, DownedPilot):
+            return target.needs_hover_extraction(self.settings)
+        return self.settings.csar_hover_extraction
 
     @property
     def _ingress_distance(self) -> Distance:

@@ -109,13 +109,16 @@ local function opscsar_main()
 
     csar_rescued = csar_rescued or {}
     local cfg = dcsRetribution.CSAR
+    -- The mission-wide default. The pickup style is decided per pilot though (see
+    -- entry.hover), because a survivor in the water has to be hoisted whatever
+    -- this says.
     local hover_extraction = cfg.hoverExtraction == "true"
     local embark_zone_radius = tonumber(cfg.embarkZoneRadius) or PICKUP_RADIUS
     local hover_duration = tonumber(cfg.hoverDurationSeconds) or HOVER_DURATION_SECONDS
     local hover_altitude = tonumber(cfg.hoverAltitudeMeters) or HOVER_ALTITUDE
 
     opscsar_log(
-        "=== CSAR starting (AI pickup: "
+        "=== CSAR starting (default AI pickup: "
         .. (hover_extraction and "scripted hover extraction" or "DCS embark on landing")
         .. ") ==="
     )
@@ -406,7 +409,7 @@ local function opscsar_main()
         if controller == nil then
             return
         end
-        local px, pz = entry.last_x, entry.last_z
+        local px, pz, py = entry.last_x, entry.last_z, entry.last_y
         if px == nil then
             local pilot = Group.getByName(entry.group_name)
             local unit = pilot and pilot:isExist() and pilot:getUnit(1) or nil
@@ -418,9 +421,15 @@ local function opscsar_main()
                 )
                 return
             end
-            px, pz = point.x, point.z
-            entry.last_x, entry.last_z = px, pz
+            px, pz, py = point.x, point.z, point.y
+            entry.last_x, entry.last_z, entry.last_y = px, pz, py
         end
+
+        -- Hold this far above whatever the survivor is lying on. Their own
+        -- reported altitude is the reference rather than land.getHeight, which
+        -- reads the sea *bottom* over water (the same DCS quirk the
+        -- switch_baro_fix setting exists for) and would sink the hover.
+        local surface = py or land.getHeight({ x = px, y = pz })
 
         local ok, err = pcall(function()
             controller:pushTask({
@@ -432,7 +441,7 @@ local function opscsar_main()
                     speed = 0,
                     -- MSL, which is the only reason this has to happen at
                     -- runtime rather than in the .miz.
-                    altitude = land.getHeight({ x = px, y = pz }) + hover_altitude,
+                    altitude = surface + hover_altitude,
                 },
             })
         end)
@@ -452,10 +461,16 @@ local function opscsar_main()
     -- Called from the rescue flight's pickup waypoint. Global on purpose: this is
     -- the entry point csarpickup.py writes into the mission.
     function OpsCSAR_BeginHover(helo_group_name, uuid)
-        if not hover_extraction then
+        local entry = tracked_by_id[uuid]
+        if entry ~= nil and not entry.hover then
+            -- The waypoint only carries this call in hover mode, so the two
+            -- disagreeing means the .miz and the injected data are out of step.
+            opscsar_warn(
+                "Hover requested for " .. tostring(uuid)
+                .. ", who is set up for a landing pickup; ignoring."
+            )
             return
         end
-        local entry = tracked_by_id[uuid]
         if entry == nil then
             opscsar_warn("Hover requested for unknown pilot " .. tostring(uuid))
             return
@@ -551,12 +566,15 @@ local function opscsar_main()
         return ok and result == true
     end
 
-    -- The survivor whose embark zone this point is inside, if any.
+    -- The survivor whose embark zone this point is inside, if any. Hover pickups
+    -- are excluded: nothing lands for them, so a helicopter setting down nearby is
+    -- somebody else's business.
     local function survivor_awaiting_pickup_at(point, side_const)
         for _, entry in pairs(tracked) do
             local px = entry.origin_x or entry.spawn_x
             local pz = entry.origin_z or entry.spawn_z
-            if not entry.done and entry.side == side_const and px ~= nil then
+            if not entry.done and not entry.hover
+                and entry.side == side_const and px ~= nil then
                 if distance2d(point.x, point.z, px, pz) <= embark_zone_radius then
                     return entry
                 end
@@ -640,6 +658,9 @@ local function opscsar_main()
                     end)
                     if ok and point then
                         entry.last_x, entry.last_z = point.x, point.z
+                        -- Their own altitude, i.e. the surface they are on --
+                        -- ground, or the sea. See begin_hover.
+                        entry.last_y = point.y
                         -- Where they came down. They stay put until a helicopter
                         -- lands for them, so this is the reference for "moved".
                         if entry.origin_x == nil then
@@ -760,6 +781,9 @@ local function opscsar_main()
                         group_name = group_name,
                         unit_name = dp.unitName,
                         side = side_const,
+                        -- Per pilot: the setting, or forced because they are in
+                        -- the water and nothing can land beside them.
+                        hover = dp.hoverExtraction == "true",
                         -- Kept so a scripted hoist can tell Ops.CSAR to stop
                         -- tracking a pilot who is aboard a helicopter.
                         instance = instance,
@@ -770,6 +794,7 @@ local function opscsar_main()
                         spawn_z = tonumber(dp.z),
                         last_x = nil,
                         last_z = nil,
+                        last_y = nil,
                         origin_x = nil,
                         origin_z = nil,
                         embark_helo = nil,
@@ -790,11 +815,20 @@ local function opscsar_main()
         end
     end
 
-    if #tracked > 0 and not hover_extraction then
-        -- Landing mode only: under hover extraction the flight never touches down
-        -- and OpsCSAR_BeginHover already knows exactly when the pickup happened.
+    local landing_pickups = 0
+    for _, entry in pairs(tracked) do
+        if not entry.hover then
+            landing_pickups = landing_pickups + 1
+        end
+    end
+    if landing_pickups > 0 then
+        -- Only needed for pilots being collected by a landing: for a hover pickup
+        -- OpsCSAR_BeginHover already knows exactly when it happened.
         world.addEventHandler(embark_events)
-        opscsar_log("Watching for AI pickups on the LZ landing/takeoff events.")
+        opscsar_log(
+            "Watching for AI pickups on the LZ landing/takeoff events ("
+            .. landing_pickups .. " of " .. #tracked .. " pilots)."
+        )
     end
 
     if #tracked > 0 then

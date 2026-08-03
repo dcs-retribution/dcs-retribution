@@ -40,7 +40,9 @@ class CsarPickupBuilder(PydcsWaypointBuilder):
       embark task handles the landing itself, so no separate ``Land`` task is
       added -- one would only fight it for control of the approach.
 
-    * Hover extraction has no native mechanic behind it at all, so the waypoint
+    * Hover extraction, either because the setting asks for it or because this
+      particular survivor is in the water and nothing can land beside them, has no
+      native mechanic behind it at all, so the waypoint
       only hands off to OpsCSAR.lua: reaching it runs a script that tells the plugin
       this helicopter is on station for this pilot. The plugin pushes the hover onto
       the flight and pops it again once the pilot is aboard. Everything that needs
@@ -59,7 +61,7 @@ class CsarPickupBuilder(PydcsWaypointBuilder):
             )
             return waypoint
 
-        if self.flight.coalition.game.settings.csar_hover_extraction:
+        if target.needs_hover_extraction(self.flight.coalition.game.settings):
             self._build_hover_hold(waypoint, target)
         else:
             self._build_embark(waypoint, target)
@@ -91,6 +93,14 @@ class CsarPickupBuilder(PydcsWaypointBuilder):
         """Hands the flight to OpsCSAR.lua, which holds it in a hover."""
         waypoint.alt = int(HOVER_ALTITUDE.meters)
         waypoint.alt_type = "RADIO"
+        # We have just overwritten what the base builder decided, so re-apply the
+        # AMSL switch (the switch_baro_fix setting). It matters most exactly where
+        # this waypoint is most likely to sit -- over the sea, for a survivor in
+        # the water -- because DCS measures AGL from the sea *bottom*, which would
+        # put a 100ft hold well under water. The number is unchanged either way:
+        # at sea, AMSL and height above the surface are the same thing.
+        if self.flight.is_helo and self.flight.coalition.game.settings.switch_baro_fix:
+            self.switch_to_baro_if_in_sea(waypoint)
         # Nothing in the .miz can hold the AI here: the DCS Orbit task's altitude is
         # MSL, and we have no terrain elevation to convert our AGL hold to, so the
         # script sets the hover up instead. Guarded because OpsCSAR.lua leaves the
