@@ -47,6 +47,20 @@ local RESCUE_ATTRIBUTION_WINDOW = 120
 -- than the walk to the helicopter and the Embarking task's own hold.
 local STILL_HERE_WARN_AFTER = 420
 
+-- The AI embark, watched from the helicopter's side (landing mode only).
+--
+-- Once troops are loaded they stop being a unit anyone can query, so every test
+-- that looks at the survivor is racing their removal. The helicopter, though,
+-- announces both ends of the pickup: DCS fires S_EVENT_LAND when it sets down on
+-- the unprepared LZ and S_EVENT_TAKEOFF when it lifts again, both with a nil
+-- `place` (an airfield or FARP fills that in, which is how an RTB landing is told
+-- apart). A rescue flight that put down inside a survivor's embark zone, stayed
+-- long enough for them to walk over, and then left, has done the pickup.
+--
+-- Below this much time on the ground it cannot have loaded anybody -- the walk
+-- from the survivor to the touchdown point is LANDING_ZONE_OFFSET on foot.
+local EMBARK_MIN_GROUND_TIME = 20
+
 -- Positive detection that the survivor has boarded.
 --
 -- DCS fires no embark event -- there is nothing in the event enum for troop
@@ -517,6 +531,101 @@ local function opscsar_main()
         return nil
     end
 
+    -- ------------------------------------------------------------------
+    -- Embark detection from the helicopter's events (AI, landing mode).
+    -- ------------------------------------------------------------------
+
+    local function is_ai_helicopter(unit)
+        local ok, result = pcall(function()
+            if unit == nil or not unit:isExist() then
+                return false
+            end
+            -- Players are Ops.CSAR's to handle; it reports their pickups itself.
+            if unit:getPlayerName() ~= nil then
+                return false
+            end
+            local group = unit:getGroup()
+            return group ~= nil
+                and group:getCategory() == Group.Category.HELICOPTER
+        end)
+        return ok and result == true
+    end
+
+    -- The survivor whose embark zone this point is inside, if any.
+    local function survivor_awaiting_pickup_at(point, side_const)
+        for _, entry in pairs(tracked) do
+            local px = entry.origin_x or entry.spawn_x
+            local pz = entry.origin_z or entry.spawn_z
+            if not entry.done and entry.side == side_const and px ~= nil then
+                if distance2d(point.x, point.z, px, pz) <= embark_zone_radius then
+                    return entry
+                end
+            end
+        end
+        return nil
+    end
+
+    local function on_lz_landing(unit)
+        local point = unit:getPoint()
+        local entry = survivor_awaiting_pickup_at(point, unit:getCoalition())
+        if entry == nil then
+            return
+        end
+        entry.embark_helo = unit:getName()
+        entry.embark_landed_at = timer.getTime()
+        opscsar_log(
+            entry.embark_helo .. " has landed to collect " .. tostring(entry.id)
+        )
+    end
+
+    local function on_lz_takeoff(unit)
+        local name = unit:getName()
+        for _, entry in pairs(tracked) do
+            if not entry.done and entry.embark_helo == name then
+                local on_ground = timer.getTime() - (entry.embark_landed_at or 0)
+                entry.embark_helo = nil
+                if on_ground >= EMBARK_MIN_GROUND_TIME then
+                    opscsar_log(
+                        name .. " lifted from the pickup after "
+                        .. math.floor(on_ground) .. "s on the ground."
+                    )
+                    record_rescue(entry, name, "embarked on")
+                else
+                    opscsar_log(
+                        name .. " left the pickup for " .. tostring(entry.id)
+                        .. " after only " .. math.floor(on_ground)
+                        .. "s; too brief to have loaded anyone."
+                    )
+                end
+                return
+            end
+        end
+    end
+
+    local embark_events = {}
+    function embark_events:onEvent(event)
+        -- Never let a handler error take the whole event system down.
+        pcall(function()
+            if event == nil or event.initiator == nil then
+                return
+            end
+            -- A place means an airfield, FARP or ship: that is an RTB, not a
+            -- pickup. The LZ is bare terrain, so DCS leaves it nil.
+            if event.place ~= nil then
+                return
+            end
+            if event.id == world.event.S_EVENT_LAND then
+                if is_ai_helicopter(event.initiator) then
+                    on_lz_landing(event.initiator)
+                end
+            elseif event.id == world.event.S_EVENT_TAKEOFF then
+                if is_ai_helicopter(event.initiator) then
+                    on_lz_takeoff(event.initiator)
+                end
+            end
+        end)
+    end
+
     local function check_pickups()
         for _, entry in pairs(tracked) do
             if entry.done then
@@ -655,10 +764,16 @@ local function opscsar_main()
                         -- tracking a pilot who is aboard a helicopter.
                         instance = instance,
                         done = false,
+                        -- Where Retribution placed them, as a fallback reference
+                        -- for the embark zone before the first poll has run.
+                        spawn_x = tonumber(dp.x),
+                        spawn_z = tonumber(dp.z),
                         last_x = nil,
                         last_z = nil,
                         origin_x = nil,
                         origin_z = nil,
+                        embark_helo = nil,
+                        embark_landed_at = nil,
                         helo_name = nil,
                         helo_seen = nil,
                         helo_first_seen = nil,
@@ -673,6 +788,13 @@ local function opscsar_main()
                 end
             end
         end
+    end
+
+    if #tracked > 0 and not hover_extraction then
+        -- Landing mode only: under hover extraction the flight never touches down
+        -- and OpsCSAR_BeginHover already knows exactly when the pickup happened.
+        world.addEventHandler(embark_events)
+        opscsar_log("Watching for AI pickups on the LZ landing/takeoff events.")
     end
 
     if #tracked > 0 then
