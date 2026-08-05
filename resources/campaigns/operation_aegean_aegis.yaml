@@ -1,5 +1,5 @@
 ---
-name: Syria - Operation Aegean Aegis
+name: Syria - Aegean Aegis
 theater: Syria
 authors: Starfire
 recommended_player_faction: USA 2005
@@ -45,6 +45,7 @@ recommended_player_income_multiplier: 1.0
 recommended_enemy_income_multiplier: 0.0
 version: "10.8"
 settings:
+  uh_60l: true
   squadron_start_full: true
 squadrons:
   #Tarawa Class LHA
@@ -79,6 +80,7 @@ squadrons:
     - primary: Air Assault
       secondary: any
       aircraft:
+        - UH-60L
         - UH-60A
       size: 2
   #Larnaca

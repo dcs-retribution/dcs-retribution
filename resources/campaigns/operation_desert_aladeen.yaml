@@ -48,7 +48,7 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - "[CH] B-21"
-        - F-14B Tomcat
+        - F-14B(U) Tomcat
       size: 12
     - primary: Escort
       secondary: any

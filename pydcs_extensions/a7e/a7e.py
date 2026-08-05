@@ -678,21 +678,21 @@ class A_7E(PlaneType):
             2,
             Weapons.AGM_62_Walleye_II___Guided_Weapon_Mk_5__TV_Guided_,
         )
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             2,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_88_with_2_x_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_88___2_x_AGM_65D___Maverick_D__IIR_ASM_ = (
             2,
-            Weapons.LAU_88_with_2_x_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_88___2_x_AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             2,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_88_with_2_x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_88___2_x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             2,
-            Weapons.LAU_88_with_2_x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_88___2_x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         LAU_117_AGM_65F = (2, Weapons.LAU_117_AGM_65F)
         LAU_117_AGM_65G = (2, Weapons.LAU_117_AGM_65G)
@@ -1096,21 +1096,21 @@ class A_7E(PlaneType):
             7,
             Weapons.AGM_62_Walleye_II___Guided_Weapon_Mk_5__TV_Guided_,
         )
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             7,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_88_with_2_x_AGM_65D___Maverick_D__IIR_ASM__ = (
+        LAU_88___2_x_AGM_65D___Maverick_D__IIR_ASM__ = (
             7,
-            Weapons.LAU_88_with_2_x_AGM_65D___Maverick_D__IIR_ASM__,
+            Weapons.LAU_88___2_x_AGM_65D___Maverick_D__IIR_ASM__,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             7,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_88_with_2_x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__ = (
+        LAU_88___2_x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__ = (
             7,
-            Weapons.LAU_88_with_2_x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__,
+            Weapons.LAU_88___2_x_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd__,
         )
         LAU_117_AGM_65F = (7, Weapons.LAU_117_AGM_65F)
         LAU_117_AGM_65G = (7, Weapons.LAU_117_AGM_65G)
