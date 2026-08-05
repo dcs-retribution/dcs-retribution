@@ -14,7 +14,7 @@ description:
 miz: slava_ukraini.miz
 performance: 1
 recommended_start_date: 2026-02-24
-version: "10.7"
+version: "10.8"
 settings:
   ukrainemilitaryassetspack: true
   russianmilitaryassetspack: true

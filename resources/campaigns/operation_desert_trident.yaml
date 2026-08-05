@@ -12,7 +12,7 @@ description:
   could project power against Israel.</p><p>The offensive opened with strikes
   on Muwaffaq Salti Air Base, crippling Jordan's fighter force before Iraqi
   columns crossed from the H-3 complex. With H-4, Prince Hassan and Muwaffaq Salti in
-  Iraqi hands, the United States, Britain and Israel launched Operation Desert
+  Iraqi hands, the United States and Israel launched Operation Desert
   Trident to halt the advance and prevent Jordan becoming a forward base for
   Iraqi military operations.</p>
 miz: operation_desert_trident.miz
@@ -76,7 +76,11 @@ squadrons:
     - primary: Refueling
       aircraft:
         - KC-135 Stratotanker MPRS
-      size: 4
+      size: 2
+    - primary: Refueling
+      aircraft:
+        - KC-135 Stratotanker
+      size: 2
     - primary: AEW&C
       aircraft:
         - E-3A
@@ -120,7 +124,7 @@ squadrons:
       aircraft:
         - C-130J-30 Super Hercules
         - C-130J-30
-      size: 8
+      size: 12
   # Hatzor
   222:
     - primary: DEAD
@@ -206,13 +210,8 @@ squadrons:
       size: 8
   # H-3 Southwest
   55:
-    - primary: OCA/Runway
-      secondary: air-to-ground
-      aircraft:
-        - Tu-16 Badger
-      size: 2
     - primary: Strike
       secondary: air-to-ground
       aircraft:
         - Su-24M Fencer-D
-      size: 16
+      size: 20
