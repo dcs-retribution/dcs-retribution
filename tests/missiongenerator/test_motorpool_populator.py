@@ -104,15 +104,17 @@ def _unit_positions(tgo: MotorpoolGroundObject) -> list[Point]:
     return [u.position for g in tgo.groups for u in g.units]
 
 
-def test_grid_starts_clear_of_building_at_zero_heading() -> None:
+def test_grid_spawns_behind_north_facing_garage() -> None:
     gut = _gut()
     tgo, cp = _motorpool({gut: 3}, heading=0.0)
     MotorpoolPopulator(cast("Game", _game([cp], cap=10))).populate()
     positions = _unit_positions(tgo)
     assert len(positions) == 3
-    assert positions[0].x == 45.72 and positions[0].y == 45.72
-    assert positions[1].x == 57.72 and abs(positions[1].y - 45.72) < 1e-6
-    assert positions[2].x == 69.72 and abs(positions[2].y - 45.72) < 1e-6
+    # DCS x is north/south in this project: a north-facing garage's parking
+    # grid must be south of the authored Garage_A marker.
+    assert abs(positions[0].x + 45.72) < 1e-6 and abs(positions[0].y) < 1e-6
+    assert abs(positions[1].x + 45.72) < 1e-6 and abs(positions[1].y - 12.0) < 1e-6
+    assert abs(positions[2].x + 45.72) < 1e-6 and abs(positions[2].y - 24.0) < 1e-6
 
 
 def test_grid_offset_and_spacing_rotate_with_garage_heading() -> None:
@@ -121,9 +123,11 @@ def test_grid_offset_and_spacing_rotate_with_garage_heading() -> None:
     MotorpoolPopulator(cast("Game", _game([cp], cap=10))).populate()
     positions = _unit_positions(tgo)
     assert len(positions) == 3
-    assert abs(positions[0].x + 45.72) < 1e-6 and abs(positions[0].y - 45.72) < 1e-6
-    assert abs(positions[1].x + 45.72) < 1e-6 and abs(positions[1].y - 57.72) < 1e-6
-    assert abs(positions[2].x + 45.72) < 1e-6 and abs(positions[2].y - 69.72) < 1e-6
+    # An east-facing garage has its parking row west of the marker, with the
+    # vehicles laid out from north to south along the garage's right-hand side.
+    assert abs(positions[0].x) < 1e-6 and abs(positions[0].y + 45.72) < 1e-6
+    assert abs(positions[1].x + 12.0) < 1e-6 and abs(positions[1].y + 45.72) < 1e-6
+    assert abs(positions[2].x + 24.0) < 1e-6 and abs(positions[2].y + 45.72) < 1e-6
 
 
 def test_multiple_motorpools_on_one_cp_share_one_reserve_pool() -> None:
