@@ -25,6 +25,7 @@
 * **[Campaigns]** Ability to define motor pool objects which spawn reserve armor
 * **[Campaigns]** Motorpool placement is Garage_A-anchored and empty reserve pools are excluded from attack planning; updated placement measurements are documented.
 * **[UX]** Add the ability to filter campaigns by version, map, and performance
+* **[Engine]** Bump campaign version to 10.9 for motorpool support
 * **[UX]** The bulk "Apply to all" waypoint-altitude setter gains an opt-in "Include target & tanker legs" checkbox (off by default) so a manual planner can also retime the on-target ingress and refuel/recovery-tanker altitudes — e.g. setting a refuel-leg altitude before, or without, a tanker flight.
 
 ## Fixes
