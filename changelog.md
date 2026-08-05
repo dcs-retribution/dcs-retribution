@@ -15,7 +15,7 @@
 * **[UX]** Show an "End of Mission Detected, processing Mission Data" busy dialog while turn results are processed, so the wait is not mistaken for a missed detection
 * **[Map]** Hovering a SAM threat or detection ring highlights its emitter — and hovering an emitter highlights its ring — making it easy to tell which site a ring belongs to. Can be disabled from the map's layer control.
 * **[Mission Generator]** New campaign setting "Default laser code for Player flights" controls whether newly-created player flights are assigned a unique allocated TGP/weapon laser code (the new default, matching existing behavior) or stay on 1688. When a code is allocated it is applied to both the TGP/kneeboard code and the weapon code by default, so LGBs home on the player's own code without extra clicks; both remain independently overridable in the payload tab.
-* **[Engine]** Support for DCS 2.9.27 including F-100D and F-14A (Export).
+* **[Engine]** Support for DCS 2.9.28.26283 including F-100D, F-14A (Export), and F-14BU.
 * **[Options]** Add new option to fast forward until player is at the IP.
 * **[Modding]** Update to CJS Super Hornet Mod to v2.4.5.260501.RC1
 * **[Modding]** Update Community A4EC Mod to 2.3.0 (May 2025)
@@ -23,8 +23,12 @@
 * **[Options]** New option to restrict helmet devices by date
 * **[Flight Plans]** Renaming a waypoint in the flight-plan list now propagates to the aircraft CDU/HUD and the kneeboard, not just the list — one name in all three places (#695).
 * **[Campaigns]** Ability to define motor pool objects which spawn reserve armor
-* 
+* **[Campaigns]** Motorpool placement is Garage_A-anchored and empty reserve pools are excluded from attack planning; updated placement measurements are documented.
+* **[UX]** Add the ability to filter campaigns by version, map, and performance
+* **[Engine]** Bump campaign version to 10.9 for motorpool support
+
 ## Fixes
+* **[Data]** The F-14A-135-GR Early's payload file declared the wrong unitType, so the Early Tomcat flew every tasking unarmed; its loadouts now resolve (with a guard test pinning the payload to the airframe). (#889)
 * **[Plugins]** Splash Damage defaults retuned to a flown, coherent set: the rocket multiplier's percent spinner was never divided down (the old default 130 was applied as a raw ×130), the overall-scaling default of 3 meant 3% (and the cluster-bomblet path divided it by 100 a second time), the Static Objects Damage Boost of 2000 leveled buildings far outside the visible blast, and the giant-explosion test mode shipped enabled. New defaults: overall scaling 60%, rockets 80%, static boost 1, blast radius ×1, ground-ordnance blast wave ×2, game messages + cluster effects on; the big general-purpose bombs are trimmed in the weapon table (Mk-84-class 582→450, Mk-82-class 100→85) and the HEAT/AP rockets (Hydra Mk5, FFAR Mk5, ARAK AP/API) are flagged shaped-charge so the script's existing directional-warhead reduction applies to them.
 * **[Mission Generator]** EWR sites now get the DCS "EWR" enroute task and come up on RED alarm, so their radars actually scan and report contacts (previously they could sit inert, especially with the "red alert state" performance option off). Works with or without the Skynet IADS plugin.
 * **[Plugins]** Fix the escort leash never running (DCS has no `Group.getByID`; look the group up by name via mist), so escorts are actually held to their engagement range.

@@ -1,0 +1,114 @@
+{
+  "country": "USA",
+  "name": "USA-Israel 2000",
+  "authors": "Starfire",
+  "description": "<p>United States and Israeli armed forces around 1999-2000. Intended for use with Operation Desert Trident.</p>",
+  "locales": [
+    "en_US"
+  ],
+  "aircrafts": [
+    "A-10A Thunderbolt II",
+    "AH-1W SuperCobra",
+    "AH-64A Apache",
+    "AH-64D Apache Longbow",
+    "AV-8B Harrier II Night Attack",
+    "B-1B Lancer",
+    "B-52H Stratofortress",
+    "C-130",
+    "C-130J-30",
+    "C-130J-30 Super Hercules",
+    "C-17A",
+    "CH-47D",
+    "CH-47F Block I",
+    "CH-53E",
+    "EA-6B Prowler",
+    "F-117A Nighthawk",
+    "F-14A Tomcat (Block 135-GR Late)",
+    "F-14B Tomcat",
+    "F-14B(U) Tomcat",
+    "F-15C Eagle",
+    "F-15E Strike Eagle (Suite 4+)",
+    "F-16CM Fighting Falcon (Block 50)",
+    "F/A-18C Hornet (Lot 20)",
+    "F-4E-45MC Phantom II",
+    "OH-58D(R) Kiowa Warrior",
+    "S-3B Viking",
+    "SH-60B Seahawk",
+    "UH-1H Iroquois",
+    "UH-60A",
+    "UH-60L"
+  ],
+  "awacs": [
+    "E-2C Hawkeye",
+    "E-3A"
+  ],
+  "tankers": [
+    "KC-130",
+    "KC-135 Stratotanker",
+    "KC-135 Stratotanker MPRS",
+    "S-3B Tanker"
+  ],
+  "frontline_units": [
+    "LAV-25",
+    "M1043 HMMWV (M2 HMG)",
+    "M1045 HMMWV (BGM-71 TOW)",
+    "M1097 Heavy HMMWV Avenger",
+    "M163 Vulcan Air Defense System",
+    "M48 Chaparral",
+    "M1A2 Abrams",
+    "M2A2 Bradley",
+    "M6 Linebacker",
+    "M113",
+    "Merkava Mk IV"    
+  ],
+  "artillery_units": [
+    "M109A6 Paladin",
+    "M270 Multiple Launch Rocket System"
+  ],
+  "logistics_units": [
+    "Truck M818 6x6"
+  ],
+  "infantry_units": [
+    "Infantry M249",
+    "Infantry M4",
+    "MANPADS Stinger",
+    "Mortar 2B11 120mm"
+  ],
+  "preset_groups": [
+    "Hawk",
+    "Patriot"
+  ],
+  "naval_units": [
+    "FFG Oliver Hazard Perry",
+    "DDG Arleigh Burke IIa",
+    "CG Ticonderoga",
+    "LHA-1 Tarawa",
+    "CVN-74 John C. Stennis"
+  ],
+  "missiles": [],
+  "air_defense_units": [
+    "EWR AN/FPS-117 Radar",
+    "M1097 Heavy HMMWV Avenger",
+    "M6 Linebacker",
+    "M163 Vulcan Air Defense System",
+    "M48 Chaparral"
+  ],
+  "requirements": {},
+  "carrier_names": [
+    "CVN-71 Theodore Roosevelt",
+    "CVN-72 Abraham Lincoln",
+    "CVN-73 George Washington",
+    "CVN-74 John C. Stennis",
+    "CVN-75 Harry S. Truman"
+  ],
+  "helicopter_carrier_names": [
+    "LHA-1 Tarawa",
+    "LHA-2 Saipan",
+    "LHA-3 Belleau Wood",
+    "LHA-4 Nassau",
+    "LHA-5 Peleliu"
+  ],
+  "has_jtac": true,
+  "jtac_unit": "MQ-9 Reaper",
+  "liveries_overrides": {}
+}
