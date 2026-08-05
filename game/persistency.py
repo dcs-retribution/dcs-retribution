@@ -41,6 +41,7 @@ class MigrationUnpickler(pickle.Unpickler):
             self._handle_airport_migrations,
             self._handle_weather_classes,
             self._handle_ch_russian_assets,
+            self._handle_ch_usa_assets,
             self._handle_su30,
             self._handle_misc,
         ]
@@ -219,6 +220,39 @@ class MigrationUnpickler(pickle.Unpickler):
         
         return None
     
+    def _handle_ch_usa_assets(self, module: str, name: str) -> Any:
+        """Handle migrations for the US military assets pack: the MIM-104 Patriot
+        classes were renamed with the pack's CH_ prefix (MIM104_* -> CH_MIM104_*), and
+        the mod 2.4.x export refresh renamed/removed units (HIMARS M142 -> M270A1, the
+        FMTV/M-ATV trucks, B-21) -> map old saves to the closest current class."""
+        if module != "pydcs_extensions.usamilitaryassetspack.usamilitaryassetspack":
+            return None
+        from pydcs_extensions.usamilitaryassetspack import usamilitaryassetspack
+
+        if name.startswith("MIM104_"):
+            return getattr(usamilitaryassetspack, "CH_" + name, None)
+        # Mod -> native DCS: ED shipped these as CHAP units, so migrate old saves to the
+        # native class (mirrors the CH Russia handler above and the groundunittype
+        # display-name migrator). The HIMARS variants ED didn't add (GLSDB / PrSM /
+        # PrSM-AShM) fall back to the closest native CHAP HIMARS.
+        from dcs.vehicles import Armor, Artillery, Unarmed
+
+        native = {
+            "M142_HIMARS_GLSDB": Artillery.CHAP_M142_GMLRS_M31,
+            "M142_HIMARS_ATACMS": Artillery.CHAP_M142_ATACMS_M48,
+            "M142_HIMARS_GMLRS": Artillery.CHAP_M142_GMLRS_M31,
+            "M142_HIMARS_PRSM": Artillery.CHAP_M142_ATACMS_M48,
+            "M142_HIMARS_PRSM_ASHM": Artillery.CHAP_M142_ATACMS_M48,
+            "CH_FMTV_M1083": Unarmed.CHAP_M1083,
+            "CH_OshkoshMATV_M2": Armor.CHAP_MATV,
+        }
+        if name in native:
+            return native[name]
+        # The B-21 has no native DCS equivalent -> a rename within the mod.
+        if name == "B_21":
+            return getattr(usamilitaryassetspack, "CH_B_21", None)
+        return None
+
     def _handle_su30(self, module: str, name: str) -> Any:
         """Handle migrations for Su-30 aircraft variants"""
         if name == "Su_30MKA_AG":

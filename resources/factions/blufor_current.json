@@ -20,6 +20,7 @@
     "CH-47F Block I",
     "F-117A Nighthawk",
     "F-14B Tomcat",
+    "F-14B(U) Tomcat",
     "F-15C Eagle",
     "F-15E Strike Eagle (AI)",
     "F-15E Strike Eagle (Suite 4+)",
@@ -79,6 +80,7 @@
     "[CH] LAV-AD SPAAGM",
     "[CH] M10 LT",
     "[CH] M1A2 SEPv3 MBT",
+    "[CH] Abrams X MBT",
     "[CH] M2A3 IFV",
     "[CH] M551 LT",
     "[CH] Oshkosh L-ATV (M2)",
@@ -190,10 +192,7 @@
     "[CH] Type 45 Destroyer"
   ],
   "missiles": [
-    "[CH] M270A1 MLRS (ATACMS)",
-    "[CH] M142 HIMARS (ATACMS)",
-    "[CH] M142 HIMARS (PrSM)",
-    "[CH] M142 HIMARS (PrSM AShM)"
+    "[CH] M270A1 MLRS (ATACMS)"
   ],
   "air_defense_units": [
     "EWR AN/FPS-117 Radar",
@@ -202,7 +201,6 @@
     "M6 Linebacker",
     "HEMTT C-RAM Phalanx",
     "M1097 Heavy HMMWV Avenger",
-    "SAM Hawk SR (AN/MPQ-50)",
     "[CH] UndE 23 (RBS 70/90/98) STR",
     "[CH] Centurion C-RAM",
     "[CH] LAV-AD SPAAGM",

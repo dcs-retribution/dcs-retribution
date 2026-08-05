@@ -21,6 +21,7 @@ recommended_start_date: 1988-07-13
 version: "10.8"
 settings:
   hercules: true
+  uh_60l: true
   f111c: true
   squadron_start_full: true
 squadrons:
@@ -133,6 +134,7 @@ squadrons:
     - primary: Air Assault
       secondary: any
       aircraft:
+        - UH-60L
         - UH-60A
       size: 4
   #H FRG 20

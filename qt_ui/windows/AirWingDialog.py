@@ -62,10 +62,12 @@ class SquadronDelegate(TwoColumnRowDelegate):
         elif (row, column) == (1, 1):
             pilots = len(squadron.living_pilots)
             aircraft = squadron.owned_aircraft
-            unassigned = squadron.untasked_aircraft
+            # "unassigned" counted airframes with no free pilot to fly them, which
+            # overstated the real force available. Cap it at the crewed count.
+            unassigned = squadron.untasked_crewed_aircraft
             return (
                 f"{pilots} {'pilot' if pilots == 1 else 'pilots'}, "
-                f"{aircraft} aircraft ({unassigned} unassigned)"
+                f"{aircraft} aircraft ({unassigned} crewed unassigned)"
             )
         return ""
 

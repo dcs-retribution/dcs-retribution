@@ -178,7 +178,7 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
         builder = WaypointBuilder(self.flight, targets)
 
         target_waypoints: list[FlightWaypoint] = []
-        if targets is not None:
+        if targets:
             for target in targets:
                 target_waypoints.append(
                     self.target_waypoint(self.flight, builder, target)
