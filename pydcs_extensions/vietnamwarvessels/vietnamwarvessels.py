@@ -178,9 +178,9 @@ class vwv_a1_skyraider(PlaneType):
             Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         _3_x_4_5_inch_M8_UnGd_Rocket = (1, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             1,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (1, Weapons.HVAR__UnGd_Rkt)
 
@@ -204,9 +204,9 @@ class vwv_a1_skyraider(PlaneType):
             Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         _3_x_4_5_inch_M8_UnGd_Rocket = (2, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             2,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (2, Weapons.HVAR__UnGd_Rkt)
 
@@ -230,9 +230,9 @@ class vwv_a1_skyraider(PlaneType):
             Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         _3_x_4_5_inch_M8_UnGd_Rocket = (3, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             3,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (3, Weapons.HVAR__UnGd_Rkt)
 
@@ -256,9 +256,9 @@ class vwv_a1_skyraider(PlaneType):
             Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         _3_x_4_5_inch_M8_UnGd_Rocket = (4, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             4,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (4, Weapons.HVAR__UnGd_Rkt)
 
@@ -282,9 +282,9 @@ class vwv_a1_skyraider(PlaneType):
             Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         _3_x_4_5_inch_M8_UnGd_Rocket = (5, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             5,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (5, Weapons.HVAR__UnGd_Rkt)
 
@@ -308,9 +308,9 @@ class vwv_a1_skyraider(PlaneType):
             Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         _3_x_4_5_inch_M8_UnGd_Rocket = (6, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             6,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (6, Weapons.HVAR__UnGd_Rkt)
 
@@ -325,9 +325,9 @@ class vwv_a1_skyraider(PlaneType):
         Mk_82___500lb_GP_Bomb_LD = (7, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_83___1000lb_GP_Bomb_LD = (7, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_84___2000lb_GP_Bomb_LD = (7, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             7,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         AERO_1D_300_Gallons_Fuel_Tank_ = (7, Weapons.AERO_1D_300_Gallons_Fuel_Tank_)
         Fuel_Tank_150_gallons = (7, WeaponsVWV.Fuel_Tank_150_gallons)
@@ -365,9 +365,9 @@ class vwv_a1_skyraider(PlaneType):
         Mk_82___500lb_GP_Bomb_LD = (8, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_83___1000lb_GP_Bomb_LD = (8, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_84___2000lb_GP_Bomb_LD = (8, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             8,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         AERO_1D_300_Gallons_Fuel_Tank_ = (8, Weapons.AERO_1D_300_Gallons_Fuel_Tank_)
         LTF_5b_Aerial_Torpedo = (8, Weapons.LTF_5b_Aerial_Torpedo)
@@ -384,9 +384,9 @@ class vwv_a1_skyraider(PlaneType):
         Mk_82___500lb_GP_Bomb_LD = (9, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_83___1000lb_GP_Bomb_LD = (9, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_84___2000lb_GP_Bomb_LD = (9, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             9,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         AERO_1D_300_Gallons_Fuel_Tank_ = (9, Weapons.AERO_1D_300_Gallons_Fuel_Tank_)
         Fuel_Tank_150_gallons = (9, WeaponsVWV.Fuel_Tank_150_gallons)
@@ -433,9 +433,9 @@ class vwv_a1_skyraider(PlaneType):
             Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         _3_x_4_5_inch_M8_UnGd_Rocket = (10, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             10,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (10, Weapons.HVAR__UnGd_Rkt)
 
@@ -459,9 +459,9 @@ class vwv_a1_skyraider(PlaneType):
             Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         _3_x_4_5_inch_M8_UnGd_Rocket = (11, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             11,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (11, Weapons.HVAR__UnGd_Rkt)
 
@@ -485,9 +485,9 @@ class vwv_a1_skyraider(PlaneType):
             Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         _3_x_4_5_inch_M8_UnGd_Rocket = (12, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             12,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (12, Weapons.HVAR__UnGd_Rkt)
 
@@ -511,9 +511,9 @@ class vwv_a1_skyraider(PlaneType):
             Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         _3_x_4_5_inch_M8_UnGd_Rocket = (13, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             13,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (13, Weapons.HVAR__UnGd_Rkt)
 
@@ -537,9 +537,9 @@ class vwv_a1_skyraider(PlaneType):
             Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         _3_x_4_5_inch_M8_UnGd_Rocket = (14, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             14,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (14, Weapons.HVAR__UnGd_Rkt)
 
@@ -563,9 +563,9 @@ class vwv_a1_skyraider(PlaneType):
             Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         _3_x_4_5_inch_M8_UnGd_Rocket = (15, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             15,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (15, Weapons.HVAR__UnGd_Rkt)
 
@@ -617,9 +617,9 @@ class vwv_ad4_skyraider(PlaneType):
             Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         _3_x_4_5_inch_M8_UnGd_Rocket = (1, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             1,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (1, Weapons.HVAR__UnGd_Rkt)
 
@@ -643,9 +643,9 @@ class vwv_ad4_skyraider(PlaneType):
             Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         _3_x_4_5_inch_M8_UnGd_Rocket = (2, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             2,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (2, Weapons.HVAR__UnGd_Rkt)
 
@@ -669,9 +669,9 @@ class vwv_ad4_skyraider(PlaneType):
             Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         _3_x_4_5_inch_M8_UnGd_Rocket = (3, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             3,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (3, Weapons.HVAR__UnGd_Rkt)
 
@@ -695,9 +695,9 @@ class vwv_ad4_skyraider(PlaneType):
             Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         _3_x_4_5_inch_M8_UnGd_Rocket = (4, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             4,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (4, Weapons.HVAR__UnGd_Rkt)
 
@@ -721,9 +721,9 @@ class vwv_ad4_skyraider(PlaneType):
             Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         _3_x_4_5_inch_M8_UnGd_Rocket = (5, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             5,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (5, Weapons.HVAR__UnGd_Rkt)
 
@@ -747,9 +747,9 @@ class vwv_ad4_skyraider(PlaneType):
             Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         _3_x_4_5_inch_M8_UnGd_Rocket = (6, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             6,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (6, Weapons.HVAR__UnGd_Rkt)
 
@@ -764,9 +764,9 @@ class vwv_ad4_skyraider(PlaneType):
         Mk_82___500lb_GP_Bomb_LD = (7, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_83___1000lb_GP_Bomb_LD = (7, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_84___2000lb_GP_Bomb_LD = (7, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             7,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         AERO_1D_300_Gallons_Fuel_Tank_ = (7, Weapons.AERO_1D_300_Gallons_Fuel_Tank_)
         Fuel_Tank_150_gallons = (7, WeaponsVWV.Fuel_Tank_150_gallons)
@@ -804,9 +804,9 @@ class vwv_ad4_skyraider(PlaneType):
         Mk_82___500lb_GP_Bomb_LD = (8, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_83___1000lb_GP_Bomb_LD = (8, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_84___2000lb_GP_Bomb_LD = (8, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             8,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         AERO_1D_300_Gallons_Fuel_Tank_ = (8, Weapons.AERO_1D_300_Gallons_Fuel_Tank_)
         LTF_5b_Aerial_Torpedo = (8, Weapons.LTF_5b_Aerial_Torpedo)
@@ -823,9 +823,9 @@ class vwv_ad4_skyraider(PlaneType):
         Mk_82___500lb_GP_Bomb_LD = (9, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_83___1000lb_GP_Bomb_LD = (9, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_84___2000lb_GP_Bomb_LD = (9, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             9,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         AERO_1D_300_Gallons_Fuel_Tank_ = (9, Weapons.AERO_1D_300_Gallons_Fuel_Tank_)
         Fuel_Tank_150_gallons = (9, WeaponsVWV.Fuel_Tank_150_gallons)
@@ -872,9 +872,9 @@ class vwv_ad4_skyraider(PlaneType):
             Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         _3_x_4_5_inch_M8_UnGd_Rocket = (10, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             10,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (10, Weapons.HVAR__UnGd_Rkt)
 
@@ -898,9 +898,9 @@ class vwv_ad4_skyraider(PlaneType):
             Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         _3_x_4_5_inch_M8_UnGd_Rocket = (11, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             11,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (11, Weapons.HVAR__UnGd_Rkt)
 
@@ -924,9 +924,9 @@ class vwv_ad4_skyraider(PlaneType):
             Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         _3_x_4_5_inch_M8_UnGd_Rocket = (12, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             12,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (12, Weapons.HVAR__UnGd_Rkt)
 
@@ -950,9 +950,9 @@ class vwv_ad4_skyraider(PlaneType):
             Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         _3_x_4_5_inch_M8_UnGd_Rocket = (13, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             13,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (13, Weapons.HVAR__UnGd_Rkt)
 
@@ -976,9 +976,9 @@ class vwv_ad4_skyraider(PlaneType):
             Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         _3_x_4_5_inch_M8_UnGd_Rocket = (14, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             14,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (14, Weapons.HVAR__UnGd_Rkt)
 
@@ -1002,9 +1002,9 @@ class vwv_ad4_skyraider(PlaneType):
             Weapons.LAU_61___19_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
         )
         _3_x_4_5_inch_M8_UnGd_Rocket = (15, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             15,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (15, Weapons.HVAR__UnGd_Rkt)
 
@@ -1407,9 +1407,9 @@ class vwv_o_1(PlaneType):
 
     class Pylon1:
         _3_x_4_5_inch_M8_UnGd_Rocket = (1, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             1,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM = (
             1,
@@ -1442,9 +1442,9 @@ class vwv_o_1(PlaneType):
 
     class Pylon2:
         _3_x_4_5_inch_M8_UnGd_Rocket = (2, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             2,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM = (
             2,
@@ -1477,9 +1477,9 @@ class vwv_o_1(PlaneType):
 
     class Pylon3:
         _3_x_4_5_inch_M8_UnGd_Rocket = (3, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             3,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM = (
             3,
@@ -1512,9 +1512,9 @@ class vwv_o_1(PlaneType):
 
     class Pylon4:
         _3_x_4_5_inch_M8_UnGd_Rocket = (4, Weapons._3_x_4_5_inch_M8_UnGd_Rocket)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             4,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         LAU_68___7_x_UnGd_Rkts__70_mm_Mk_4_FFAR_M156_SM = (
             4,

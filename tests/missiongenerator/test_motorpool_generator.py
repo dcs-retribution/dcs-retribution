@@ -8,10 +8,7 @@ from dcs.mapping import Point
 from dcs.statics import Fortification
 from dcs.task import OptAlarmState, OptROE
 
-from game.missiongenerator.motorpoolgenerator import (
-    MotorpoolGenerator,
-    _DEPOT_OFFSET_M,
-)
+from game.missiongenerator.motorpoolgenerator import MotorpoolGenerator
 from game.utils import Heading
 
 
@@ -67,23 +64,18 @@ def _spawn_depot_kwargs(heading: float) -> dict[str, object]:
     return dict(gen.m.static_group.call_args.kwargs)
 
 
-def test_spawn_depot_emits_unregistered_garage_static() -> None:
-    # North-facing (heading 0): depot sits at the world-axis -x/-y corner, clear of
-    # the vehicle grid (which starts on tgo.position) so it never collides with a
-    # parked reserve unit. Also a regression guard for the un-rotated layout.
+def test_spawn_depot_stays_at_authored_motorpool_marker() -> None:
     kwargs = _spawn_depot_kwargs(0.0)
     assert kwargs["_type"] is Fortification.Garage_A
-    assert cast(Point, kwargs["position"]).x == 1000.0 - _DEPOT_OFFSET_M
-    assert cast(Point, kwargs["position"]).y == 2000.0 - _DEPOT_OFFSET_M
+    pos = cast(Point, kwargs["position"])
+    assert pos.x == 1000.0
+    assert pos.y == 2000.0
+    assert kwargs["heading"] == 0.0
 
 
-def test_spawn_depot_offset_rotates_with_garage_heading() -> None:
-    # Starfire concern: the garage heading must rotate the whole layout. At heading
-    # 90 the -x/-y depot corner rotates clockwise about the origin to +x/-y, staying
-    # opposite the (also-rotated) vehicle grid.
+def test_spawn_depot_heading_is_authored_heading() -> None:
     kwargs = _spawn_depot_kwargs(90.0)
     pos = cast(Point, kwargs["position"])
-    assert abs(pos.x - (1000.0 + _DEPOT_OFFSET_M)) < 1e-6
-    assert abs(pos.y - (2000.0 - _DEPOT_OFFSET_M)) < 1e-6
-    # Building still faces the authored heading.
+    assert pos.x == 1000.0
+    assert pos.y == 2000.0
     assert kwargs["heading"] == 90.0

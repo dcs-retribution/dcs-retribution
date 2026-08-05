@@ -121,8 +121,8 @@ def warn_if_motorpool_inside_capture_zone(
     if distance < meters(TRIGGER_RADIUS_CAPTURE):
         logging.error(
             f"Motorpool '{name}' is {distance} from control point "
-            f"'{control_point.name}', inside its {meters(TRIGGER_RADIUS_CAPTURE)} "
-            "capture zone. Its parked reserve vehicles are live ground units and "
+            f"'{control_point.name}', inside its approximately 2 nm "
+            f"({meters(TRIGGER_RADIUS_CAPTURE)} meter) capture zone. Its parked reserve vehicles are live ground units and "
             "will block base capture. Relocate the motorpool's Garage_A marker "
             "outside the capture radius."
         )

@@ -344,7 +344,7 @@ local unitPayloads = {
 					},
 				},
 				[2] = {
-					["CLSID"] = "{SUPERHORNET_PYLON_02_MB_JS_2X_BRU_AGM-154C}",
+					["CLSID"] = "{SUPERHORNET_PYLON_02_MB_JS_2X_BRU55_AGM-154C}",
 					["num"] = 2,
 				},
 				[3] = {
@@ -401,7 +401,7 @@ local unitPayloads = {
 					},
 				},
 				[2] = {
-					["CLSID"] = "{SUPERHORNET_PYLON_02_MB_JS_2X_BRU_AGM-154C}",
+					["CLSID"] = "{SUPERHORNET_PYLON_02_MB_JS_2X_BRU55_AGM-154C}",
 					["num"] = 2,
 				},
 				[3] = {

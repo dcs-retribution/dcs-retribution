@@ -248,7 +248,9 @@ def test_motorpool_inside_capture_zone_logs_error(caplog: Any) -> None:
         warn_if_motorpool_inside_capture_zone("JAGUAR", location, cp)
 
     assert any(
-        "JAGUAR" in record.message and "capture zone" in record.message
+        "JAGUAR" in record.message
+        and "capture zone" in record.message
+        and "approximately 2 nm" in record.message
         for record in caplog.records
     )
 
