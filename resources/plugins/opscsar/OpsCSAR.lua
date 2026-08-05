@@ -143,6 +143,20 @@ local function opscsar_main()
     local blue_csar, red_csar = nil, nil
     local onboard = {} -- helo unit name -> list of pilot UUIDs aboard
 
+    -- Declared up here so the Ops.CSAR callbacks below can resolve a survivor
+    -- back to their Retribution id. Populated further down.
+    local tracked = {}
+    local tracked_by_id = {}
+
+    local function tracked_by_group(group_name)
+        for _, entry in pairs(tracked) do
+            if entry.group_name == group_name then
+                return entry
+            end
+        end
+        return nil
+    end
+
     local function make_csar(side_name, side_const, template)
         if CSAR == nil then
             opscsar_warn("MOOSE Ops.CSAR not found; player CSAR unavailable.")
@@ -184,18 +198,26 @@ local function opscsar_main()
         my:__Start(1)
 
         function my:OnAfterBoarded(From, Event, To, Heliname, Woundedgroupname)
-            local uuid = nil
-            for _, entry in pairs(self.downedPilots or {}) do
-                if entry.name == Woundedgroupname then
-                    uuid = entry.originalUnit
-                    break
-                end
+            -- Resolve against our own list rather than self.downedPilots, which
+            -- is a race: _PickupUnit destroys the survivor's group and Boarded is
+            -- raised 5s later, while onbeforeStatus -> _CheckDownedPilotTable
+            -- drops any entry whose group is gone. Usually the id is still there
+            -- when we get here; if a Status cycle lands in that 5s window it is
+            -- not, and the rescue goes unrecorded. Our list has no such window.
+            local entry = tracked_by_group(Woundedgroupname)
+            if entry == nil or not Heliname then
+                return
             end
-            if uuid and uuid ~= "" and Heliname then
-                onboard[Heliname] = onboard[Heliname] or {}
-                table.insert(onboard[Heliname], uuid)
-                opscsar_log("Pilot " .. uuid .. " boarded " .. Heliname)
-            end
+            -- Theirs to report now. Ops.CSAR credits the rescue on delivery, not
+            -- on pickup, which is the behaviour we want for a crewed rescue.
+            entry.moose_boarded = true
+            entry.done = true
+            onboard[Heliname] = onboard[Heliname] or {}
+            table.insert(onboard[Heliname], entry.id)
+            opscsar_log(
+                "Pilot " .. entry.id .. " boarded " .. Heliname
+                .. "; rescue will be reported on delivery."
+            )
         end
 
         function my:OnAfterRescued(From, Event, To, HeliUnit, HeliName, PilotsSaved)
@@ -265,9 +287,6 @@ local function opscsar_main()
     -- right there" as a pickup. Anything else (killed, or still waiting) is left
     -- alone -- Retribution's own post-mission fallback still handles those.
     -- ------------------------------------------------------------------
-    local tracked = {}
-    local tracked_by_id = {}
-
     local function distance2d(ax, az, bx, bz)
         local dx, dz = ax - bx, az - bz
         return math.sqrt(dx * dx + dz * dz)
@@ -298,8 +317,14 @@ local function opscsar_main()
         return nil
     end
 
+    -- AI only, deliberately. Everything this drives -- the vanish attribution and
+    -- carried_out_of_zone -- credits a rescue the moment the survivor leaves the
+    -- map, which is the right moment for an AI pickup but the *wrong* one for a
+    -- player: Ops.CSAR credits a crewed rescue on delivery to a MASH or airfield,
+    -- and MOOSE destroys the survivor at pickup, so counting the vanish would
+    -- report the rescue while the pilot is still in the back of the helicopter.
     local function rescue_helo_near(side_const, px, pz)
-        return helo_near(side_const, px, pz, PICKUP_RADIUS, PICKUP_MAX_AGL, false)
+        return helo_near(side_const, px, pz, PICKUP_RADIUS, PICKUP_MAX_AGL, true)
     end
 
     -- The helicopter flying the survivor away, if their reported position has left
@@ -735,12 +760,18 @@ local function opscsar_main()
                             <= RESCUE_ATTRIBUTION_WINDOW
                     if recent then
                         record_rescue(entry, entry.helo_name, "embarked on")
+                    elseif entry.moose_boarded then
+                        opscsar_log(
+                            "Pilot " .. entry.id .. " is aboard a player's "
+                            .. "helicopter; Ops.CSAR reports on delivery."
+                        )
                     else
                         opscsar_log(
-                            "Pilot " .. entry.id .. " is gone but no rescue "
+                            "Pilot " .. entry.id .. " is gone but no AI rescue "
                             .. "helicopter was in the embark zone within "
-                            .. RESCUE_ATTRIBUTION_WINDOW
-                            .. "s; not counting a rescue."
+                            .. RESCUE_ATTRIBUTION_WINDOW .. "s; not counting a "
+                            .. "rescue. (A player pickup is reported by Ops.CSAR "
+                            .. "on delivery instead.)"
                         )
                     end
                     entry.done = true
@@ -814,6 +845,7 @@ local function opscsar_main()
                         helo_seen = nil,
                         helo_first_seen = nil,
                         stuck_logged = false,
+                        moose_boarded = false,
                         hover_group = nil,
                         hover_since = nil,
                         smoke_until = nil,

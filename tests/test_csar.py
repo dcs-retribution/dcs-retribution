@@ -613,6 +613,29 @@ def test_ops_csar_considers_every_friendly_helicopter() -> None:
     assert "my.useprefix = false" in _opscsar_lua()
 
 
+def test_player_rescues_are_credited_on_delivery_not_pickup() -> None:
+    """Ops.CSAR destroys the survivor at pickup and credits the rescue only when
+    they are delivered to a MASH or airfield. Our own vanish/carried detection
+    fires the moment the survivor leaves the map, so it must ignore player
+    helicopters or a crewed rescue is reported while the pilot is still aboard."""
+    lua = _opscsar_lua()
+    # rescue_helo_near drives both the vanish attribution and carried_out_of_zone.
+    assert "helo_near(side_const, px, pz, PICKUP_RADIUS, PICKUP_MAX_AGL, true)" in lua
+    # Delivery, via Ops.CSAR's own Rescued event, stays the reporting point.
+    assert "function my:OnAfterRescued" in lua
+
+
+def test_boarded_hook_resolves_the_pilot_from_our_own_list() -> None:
+    """Looking the id up in MOOSE's downedPilots is a race: the survivor's group
+    is destroyed at pickup and Boarded is raised 5s later, while
+    _CheckDownedPilotTable drops entries whose group has gone. Usually the entry
+    survives that window; when it doesn't, the player's rescue goes unrecorded."""
+    lua = _opscsar_lua()
+    boarded = lua.split("function my:OnAfterBoarded")[1].split("function my:")[0]
+    assert "tracked_by_group(Woundedgroupname)" in boarded
+    assert "pairs(self.downedPilots" not in boarded
+
+
 def test_aicsar_warning_does_not_fire_on_the_class_alone() -> None:
     """Moose.lua always defines the AICSAR class, so a bare nil check warns on
     every mission and sends players chasing a conflict that isn't there."""
