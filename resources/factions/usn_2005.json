@@ -8,6 +8,7 @@
   ],
   "aircrafts": [
     "F-14B Tomcat",
+    "F-14B(U) Tomcat",
     "EA-6B Prowler",
     "F/A-18C Hornet (Lot 20)",
     "F/A-18E Super Hornet",
@@ -57,7 +58,7 @@
   ],
   "missiles": [],
   "air_defense_units": [
-    "SAM Hawk SR (AN/MPQ-50)",
+    "EWR AN/FPS-117 Radar",
     "M163 Vulcan Air Defense System",
     "HEMTT C-RAM Phalanx",
     "M48 Chaparral"

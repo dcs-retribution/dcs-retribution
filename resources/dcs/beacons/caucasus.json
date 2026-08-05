@@ -148,10 +148,10 @@
  },
  "airfield13_1": {
   "name": "Krasnodar-Center",
-  "callsign": "M",
-  "beacon_type": 16424,
-  "hertz": 303000,
-  "channel": null
+  "callsign": "MB",
+  "beacon_type": 33280,
+  "hertz": null,
+  "channel": 38
  },
  "airfield13_2": {
   "name": "Krasnodar-Center",
@@ -253,17 +253,17 @@
  },
  "airfield15_4": {
   "name": "Krymsk",
-  "callsign": "K",
-  "beacon_type": 16424,
-  "hertz": 803000,
+  "callsign": "KW",
+  "beacon_type": 16408,
+  "hertz": 408000,
   "channel": null
  },
  "airfield15_5": {
   "name": "Krymsk",
-  "callsign": "OX",
-  "beacon_type": 16408,
-  "hertz": 408000,
-  "channel": null
+  "callsign": "KW",
+  "beacon_type": 128,
+  "hertz": null,
+  "channel": 28
  },
  "airfield15_6": {
   "name": "Krymsk",
@@ -421,9 +421,9 @@
  },
  "airfield16_4": {
   "name": "Maykop-Khanskaya",
-  "callsign": "D",
-  "beacon_type": 16424,
-  "hertz": 591000,
+  "callsign": "RK",
+  "beacon_type": 16408,
+  "hertz": 289000,
   "channel": null
  },
  "airfield16_5": {
