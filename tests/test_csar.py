@@ -601,6 +601,25 @@ def test_set_auto_assignable_does_not_force_csar_on() -> None:
     assert FlightType.CSAR not in squadron.auto_assignable_mission_types
 
 
+def _opscsar_lua() -> str:
+    return Path("resources/plugins/opscsar/OpsCSAR.lua").read_text(encoding="utf-8")
+
+
+def test_ops_csar_considers_every_friendly_helicopter() -> None:
+    """Ops.CSAR defaults to useprefix=true with csarPrefix={"helicargo","MEDEVAC"},
+    and that set is the only source of csarUnits -- which drives both the F10 menu
+    and MOOSE's boarding. Retribution names flights after the mission, so leaving
+    the default means no player helicopter is ever a rescue helicopter."""
+    assert "my.useprefix = false" in _opscsar_lua()
+
+
+def test_aicsar_warning_does_not_fire_on_the_class_alone() -> None:
+    """Moose.lua always defines the AICSAR class, so a bare nil check warns on
+    every mission and sends players chasing a conflict that isn't there."""
+    lua = _opscsar_lua()
+    assert 'AICSAR ~= nil and AICSAR.lid ~= nil and AICSAR.lid ~= ""' in lua
+
+
 def _csar_planning_state(targets: list[DownedPilot], max_flights: int) -> Any:
     from game.commander.theaterstate import TheaterState
 

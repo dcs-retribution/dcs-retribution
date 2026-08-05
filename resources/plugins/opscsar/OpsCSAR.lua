@@ -123,7 +123,10 @@ local function opscsar_main()
         .. ") ==="
     )
 
-    if AICSAR ~= nil then
+    -- Moose.lua always defines the AICSAR *class*, so testing for the global
+    -- alone warns on every single mission. An instance assigned over the global
+    -- fills in lid/alias, which the class table leaves empty.
+    if AICSAR ~= nil and AICSAR.lid ~= nil and AICSAR.lid ~= "" then
         opscsar_warn(
             "AICSAR appears to be loaded as well. Running Ops.CSAR and AICSAR "
             .. "together is not recommended."
@@ -157,6 +160,14 @@ local function opscsar_main()
         end
         local my = CSAR:New(side_const, template, "CSAR")
         my.enableForAI = cfg.rescueAI == "true"
+        -- Consider *every* friendly helicopter, not just ones named after MOOSE's
+        -- demo templates. Ops.CSAR defaults to useprefix=true with
+        -- csarPrefix={"helicargo","MEDEVAC"} and builds allheligroupset from that,
+        -- which in turn is the only source of csarUnits -- the list that drives
+        -- both the F10 menu and MOOSE's boarding. Retribution names its flights
+        -- after the mission, so with the default no player helicopter is ever a
+        -- rescue helicopter: no menu, no pickup, silently.
+        my.useprefix = false
         -- MOOSE defaults these to USA/Russia and applies them with InitCountry()
         -- when spawning a pilot. DCS derives coalition membership from country, so
         -- they must match the faction actually flying for this side.
