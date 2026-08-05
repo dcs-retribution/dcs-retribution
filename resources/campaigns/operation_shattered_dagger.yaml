@@ -1,5 +1,5 @@
 ---
-name: Afghanistan - Operation Shattered Dagger
+name: Afghanistan - Shattered Dagger
 theater: Afghanistan
 authors: Starfire
 recommended_player_faction: USA 2005
@@ -24,6 +24,7 @@ recommended_enemy_income_multiplier: 0.0
 version: "10.8"
 settings:
   hercules: true
+  uh_60l: true
   squadron_start_full: true
 squadrons:
   #Kandahar
@@ -44,6 +45,7 @@ squadrons:
     - primary: Air Assault
       secondary: any
       aircraft:
+        - UH-60L
         - UH-60A
       size: 4
     - primary: CAS

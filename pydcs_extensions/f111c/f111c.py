@@ -109,35 +109,35 @@ class F111C(PlaneType):
         )
         AGM_130_TV_Guided_Missile = (4, WeaponsF111C.AGM_130_TV_Guided_Missile)
         AGM_142_Popeye = (4, WeaponsF111C.AGM_142_Popeye)
-        BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD = (
+        BRU_41A___6_x_BDU_33___25lb_Practice_Bomb_LD = (
             4,
-            Weapons.BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD,
+            Weapons.BRU_41A___6_x_BDU_33___25lb_Practice_Bomb_LD,
         )
         BDU_45___500lb_Practice_Bomb = (4, Weapons.BDU_45___500lb_Practice_Bomb)
         BDU_45B___500lb_Practice_Bomb = (4, Weapons.BDU_45B___500lb_Practice_Bomb)
-        TER_9A_with_3_x_CBU_87___202_x_CEM_Cluster_Bomb = (
+        TER_9_A___3_x_CBU_87___202_x_CEM_Cluster_Bomb = (
             4,
-            Weapons.TER_9A_with_3_x_CBU_87___202_x_CEM_Cluster_Bomb,
+            Weapons.TER_9_A___3_x_CBU_87___202_x_CEM_Cluster_Bomb,
         )
-        TER_9A_with_3_x_CBU_97___10_x_SFW_Cluster_Bomb = (
+        TER_9_A___3_x_CBU_97___10_x_SFW_Cluster_Bomb = (
             4,
-            Weapons.TER_9A_with_3_x_CBU_97___10_x_SFW_Cluster_Bomb,
+            Weapons.TER_9_A___3_x_CBU_97___10_x_SFW_Cluster_Bomb,
         )
-        BRU_42_with_3_x_Mk_82___500lb_GP_Bombs_LD = (
+        BRU_42___3_x_Mk_82___500lb_GP_Bomb_LD = (
             4,
-            Weapons.BRU_42_with_3_x_Mk_82___500lb_GP_Bombs_LD,
+            Weapons.BRU_42___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
-        TER_9A_with_3_x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
+        TER_9_A___3_x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             4,
-            Weapons.TER_9A_with_3_x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            Weapons.TER_9_A___3_x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
-        BRU_42_with_3_x_Mk_82_AIR_Ballute___500lb_GP_Bombs_HD = (
+        BRU_42___3_x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD = (
             4,
-            Weapons.BRU_42_with_3_x_Mk_82_AIR_Ballute___500lb_GP_Bombs_HD,
+            Weapons.BRU_42___3_x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD,
         )
-        BRU_41A_with_6_x_Mk_82___500lb_GP_Bomb_LD = (
+        BRU_41A___6_x_Mk_82___500lb_GP_Bomb_LD = (
             4,
-            Weapons.BRU_41A_with_6_x_Mk_82___500lb_GP_Bomb_LD,
+            Weapons.BRU_41A___6_x_Mk_82___500lb_GP_Bomb_LD,
         )
         Mk_83___1000lb_GP_Bomb_LD = (4, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_83_AIR__BSU_85____1000_lb_GP_Chute_Retarded_Bomb_HD = (
@@ -171,35 +171,35 @@ class F111C(PlaneType):
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_,
         )
         AGM_130_TV_Guided_Missile = (5, WeaponsF111C.AGM_130_TV_Guided_Missile)
-        BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD = (
+        BRU_41A___6_x_BDU_33___25lb_Practice_Bomb_LD = (
             5,
-            Weapons.BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD,
+            Weapons.BRU_41A___6_x_BDU_33___25lb_Practice_Bomb_LD,
         )
         BDU_45___500lb_Practice_Bomb = (5, Weapons.BDU_45___500lb_Practice_Bomb)
         BDU_45B___500lb_Practice_Bomb = (5, Weapons.BDU_45B___500lb_Practice_Bomb)
-        TER_9A_with_3_x_CBU_87___202_x_CEM_Cluster_Bomb = (
+        TER_9_A___3_x_CBU_87___202_x_CEM_Cluster_Bomb = (
             5,
-            Weapons.TER_9A_with_3_x_CBU_87___202_x_CEM_Cluster_Bomb,
+            Weapons.TER_9_A___3_x_CBU_87___202_x_CEM_Cluster_Bomb,
         )
-        TER_9A_with_3_x_CBU_97___10_x_SFW_Cluster_Bomb = (
+        TER_9_A___3_x_CBU_97___10_x_SFW_Cluster_Bomb = (
             5,
-            Weapons.TER_9A_with_3_x_CBU_97___10_x_SFW_Cluster_Bomb,
+            Weapons.TER_9_A___3_x_CBU_97___10_x_SFW_Cluster_Bomb,
         )
-        BRU_42_with_3_x_Mk_82___500lb_GP_Bombs_LD = (
+        BRU_42___3_x_Mk_82___500lb_GP_Bomb_LD = (
             5,
-            Weapons.BRU_42_with_3_x_Mk_82___500lb_GP_Bombs_LD,
+            Weapons.BRU_42___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
-        TER_9A_with_3_x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
+        TER_9_A___3_x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             5,
-            Weapons.TER_9A_with_3_x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            Weapons.TER_9_A___3_x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
-        BRU_42_with_3_x_Mk_82_AIR_Ballute___500lb_GP_Bombs_HD = (
+        BRU_42___3_x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD = (
             5,
-            Weapons.BRU_42_with_3_x_Mk_82_AIR_Ballute___500lb_GP_Bombs_HD,
+            Weapons.BRU_42___3_x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD,
         )
-        BRU_41A_with_6_x_Mk_82___500lb_GP_Bomb_LD = (
+        BRU_41A___6_x_Mk_82___500lb_GP_Bomb_LD = (
             5,
-            Weapons.BRU_41A_with_6_x_Mk_82___500lb_GP_Bomb_LD,
+            Weapons.BRU_41A___6_x_Mk_82___500lb_GP_Bomb_LD,
         )
         Mk_83___1000lb_GP_Bomb_LD = (5, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_83_AIR__BSU_85____1000_lb_GP_Chute_Retarded_Bomb_HD = (
@@ -237,35 +237,35 @@ class F111C(PlaneType):
         AN_AXQ_14 = (8, WeaponsF111C.AN_AXQ_14)
         AN_ASW_55 = (8, WeaponsF111C.AN_ASW_55)
         AGM_130_TV_Guided_Missile = (8, WeaponsF111C.AGM_130_TV_Guided_Missile)
-        BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD = (
+        BRU_41A___6_x_BDU_33___25lb_Practice_Bomb_LD = (
             8,
-            Weapons.BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD,
+            Weapons.BRU_41A___6_x_BDU_33___25lb_Practice_Bomb_LD,
         )
         BDU_45___500lb_Practice_Bomb = (8, Weapons.BDU_45___500lb_Practice_Bomb)
         BDU_45B___500lb_Practice_Bomb = (8, Weapons.BDU_45B___500lb_Practice_Bomb)
-        TER_9A_with_3_x_CBU_87___202_x_CEM_Cluster_Bomb = (
+        TER_9_A___3_x_CBU_87___202_x_CEM_Cluster_Bomb = (
             8,
-            Weapons.TER_9A_with_3_x_CBU_87___202_x_CEM_Cluster_Bomb,
+            Weapons.TER_9_A___3_x_CBU_87___202_x_CEM_Cluster_Bomb,
         )
-        TER_9A_with_3_x_CBU_97___10_x_SFW_Cluster_Bomb = (
+        TER_9_A___3_x_CBU_97___10_x_SFW_Cluster_Bomb = (
             8,
-            Weapons.TER_9A_with_3_x_CBU_97___10_x_SFW_Cluster_Bomb,
+            Weapons.TER_9_A___3_x_CBU_97___10_x_SFW_Cluster_Bomb,
         )
-        BRU_42_with_3_x_Mk_82___500lb_GP_Bombs_LD = (
+        BRU_42___3_x_Mk_82___500lb_GP_Bomb_LD = (
             8,
-            Weapons.BRU_42_with_3_x_Mk_82___500lb_GP_Bombs_LD,
+            Weapons.BRU_42___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
-        TER_9A_with_3_x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
+        TER_9_A___3_x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             8,
-            Weapons.TER_9A_with_3_x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            Weapons.TER_9_A___3_x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
-        BRU_42_with_3_x_Mk_82_AIR_Ballute___500lb_GP_Bombs_HD = (
+        BRU_42___3_x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD = (
             8,
-            Weapons.BRU_42_with_3_x_Mk_82_AIR_Ballute___500lb_GP_Bombs_HD,
+            Weapons.BRU_42___3_x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD,
         )
-        BRU_41A_with_6_x_Mk_82___500lb_GP_Bomb_LD = (
+        BRU_41A___6_x_Mk_82___500lb_GP_Bomb_LD = (
             8,
-            Weapons.BRU_41A_with_6_x_Mk_82___500lb_GP_Bomb_LD,
+            Weapons.BRU_41A___6_x_Mk_82___500lb_GP_Bomb_LD,
         )
         Mk_83___1000lb_GP_Bomb_LD = (8, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_83_AIR__BSU_85____1000_lb_GP_Chute_Retarded_Bomb_HD = (
@@ -299,35 +299,35 @@ class F111C(PlaneType):
         )
         AGM_130_TV_Guided_Missile = (9, WeaponsF111C.AGM_130_TV_Guided_Missile)
         AGM_142_Popeye = (9, WeaponsF111C.AGM_142_Popeye)
-        BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD = (
+        BRU_41A___6_x_BDU_33___25lb_Practice_Bomb_LD = (
             9,
-            Weapons.BRU_41A_with_6_x_BDU_33___25lb_Practice_Bomb_LD,
+            Weapons.BRU_41A___6_x_BDU_33___25lb_Practice_Bomb_LD,
         )
         BDU_45___500lb_Practice_Bomb = (9, Weapons.BDU_45___500lb_Practice_Bomb)
         BDU_45B___500lb_Practice_Bomb = (9, Weapons.BDU_45B___500lb_Practice_Bomb)
-        TER_9A_with_3_x_CBU_87___202_x_CEM_Cluster_Bomb = (
+        TER_9_A___3_x_CBU_87___202_x_CEM_Cluster_Bomb = (
             9,
-            Weapons.TER_9A_with_3_x_CBU_87___202_x_CEM_Cluster_Bomb,
+            Weapons.TER_9_A___3_x_CBU_87___202_x_CEM_Cluster_Bomb,
         )
-        TER_9A_with_3_x_CBU_97___10_x_SFW_Cluster_Bomb = (
+        TER_9_A___3_x_CBU_97___10_x_SFW_Cluster_Bomb = (
             9,
-            Weapons.TER_9A_with_3_x_CBU_97___10_x_SFW_Cluster_Bomb,
+            Weapons.TER_9_A___3_x_CBU_97___10_x_SFW_Cluster_Bomb,
         )
-        BRU_42_with_3_x_Mk_82___500lb_GP_Bombs_LD = (
+        BRU_42___3_x_Mk_82___500lb_GP_Bomb_LD = (
             9,
-            Weapons.BRU_42_with_3_x_Mk_82___500lb_GP_Bombs_LD,
+            Weapons.BRU_42___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
-        TER_9A_with_3_x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
+        TER_9_A___3_x_Mk_82_Snakeye___500lb_GP_Bomb_HD = (
             9,
-            Weapons.TER_9A_with_3_x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
+            Weapons.TER_9_A___3_x_Mk_82_Snakeye___500lb_GP_Bomb_HD,
         )
-        BRU_42_with_3_x_Mk_82_AIR_Ballute___500lb_GP_Bombs_HD = (
+        BRU_42___3_x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD = (
             9,
-            Weapons.BRU_42_with_3_x_Mk_82_AIR_Ballute___500lb_GP_Bombs_HD,
+            Weapons.BRU_42___3_x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD,
         )
-        BRU_41A_with_6_x_Mk_82___500lb_GP_Bomb_LD = (
+        BRU_41A___6_x_Mk_82___500lb_GP_Bomb_LD = (
             9,
-            Weapons.BRU_41A_with_6_x_Mk_82___500lb_GP_Bomb_LD,
+            Weapons.BRU_41A___6_x_Mk_82___500lb_GP_Bomb_LD,
         )
         Mk_83___1000lb_GP_Bomb_LD = (9, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_83_AIR__BSU_85____1000_lb_GP_Chute_Retarded_Bomb_HD = (

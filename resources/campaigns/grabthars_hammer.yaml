@@ -1,5 +1,5 @@
 ---
-name: Falklands - Operation Grabthar's Hammer
+name: Falklands - Grabthar's Hammer
 theater: Falklands
 authors: Starfire
 recommended_player_faction: USA 2005
@@ -19,6 +19,7 @@ recommended_start_date: 1999-12-25
 version: "10.8"
 settings:
   hercules: true
+  uh_60l: true
   squadron_start_full: true
 squadrons:
   #Mount Pleasant
@@ -70,7 +71,7 @@ squadrons:
     - primary: BARCAP
       secondary: any
       aircraft:
-        - F-14B Tomcat
+        - F-14B(U) Tomcat
       size: 20
     - primary: SEAD
       secondary: any
@@ -93,6 +94,7 @@ squadrons:
     - primary: Air Assault
       secondary: any
       aircraft:
+        - UH-60L
         - UH-60A
       size: 4
   # Blue LHA

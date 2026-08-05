@@ -31,6 +31,7 @@ settings:
   fa_18efg: true
   f22_raptor: true
   hercules: true
+  uh_60l: true
   squadron_start_full: true
 squadrons:
   #Ownfor Carrier
@@ -39,6 +40,11 @@ squadrons:
       secondary: any
       aircraft:
         - F/A-18C Hornet (Lot 20)
+      size: 12
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - F-14B(U) Tomcat
       size: 12
     - primary: SEAD Escort
       secondary: any
@@ -78,7 +84,7 @@ squadrons:
       aircraft:
         - KC-135 Stratotanker
       size: 1
-    - primary: Strike
+    - primary: OCA/Runway
       secondary: air-to-ground
       aircraft:
         - B-1B Lancer
@@ -107,7 +113,7 @@ squadrons:
         - F-22A Raptor
         - F-15C Eagle
       size: 12
-    - primary: OCA/Runway
+    - primary: Strike
       secondary: any
       aircraft:
         - F-15E Strike Eagle (Suite 4+)
