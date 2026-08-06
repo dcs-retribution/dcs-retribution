@@ -625,6 +625,11 @@ def test_player_rescues_are_credited_on_delivery_not_pickup() -> None:
     assert "function my:OnAfterRescued" in lua
 
 
+def test_require_open_doors_is_wired_to_ops_csar() -> None:
+    """The setting only means anything if it reaches MOOSE's pilotmustopendoors."""
+    assert 'my.pilotmustopendoors = cfg.requireOpenDoors == "true"' in _opscsar_lua()
+
+
 def test_ai_only_checks_are_asked_of_the_whole_group() -> None:
     """A Retribution flight is one DCS group holding the client slots and their AI
     wingmen. Testing units individually leaves the wingmen looking like an AI
@@ -1379,6 +1384,7 @@ def test_generate_csar_data_serializes_and_evaluates() -> None:
     game.settings.csar_enabled_red = False
     game.settings.csar_warm_start = True
     game.settings.csar_rescue_ai_pilots = True
+    game.settings.csar_require_open_doors = False
     game.settings.csar_hover_extraction = True
     squadron = MagicMock()
     squadron.coalition.player = Player.BLUE
@@ -1434,6 +1440,8 @@ def test_generate_csar_data_serializes_and_evaluates() -> None:
     assert csar.redCountry == "18"
     # Tells OpsCSAR.lua whether to script the pickup or leave it to DCS's embark.
     assert csar.hoverExtraction == "true"
+    # Ops.CSAR's pilotmustopendoors, off by default.
+    assert csar.requireOpenDoors == "false"
     # How the scripted hoist is flown. csarpickup.py owns both numbers so the
     # waypoint and the script holding the flight over it agree.
     from game.missiongenerator.aircraft.waypoints.csarpickup import (

@@ -174,6 +174,9 @@ local function opscsar_main()
         end
         local my = CSAR:New(side_const, template, "CSAR")
         my.enableForAI = cfg.rescueAI == "true"
+        -- Survivors wait for the cabin door before boarding or getting out. Only
+        -- affects crewed rescues; the AI paths don't go through Ops.CSAR at all.
+        my.pilotmustopendoors = cfg.requireOpenDoors == "true"
         -- Consider *every* friendly helicopter, not just ones named after MOOSE's
         -- demo templates. Ops.CSAR defaults to useprefix=true with
         -- csarPrefix={"helicargo","MEDEVAC"} and builds allheligroupset from that,

@@ -374,11 +374,8 @@ class Settings:
         min=0,
         max=10,
         detail=(
-            "Caps how many rescue packages the auto-planner will commit to in a "
-            "turn, for each coalition. Downed pilots are considered closest-to-base "
-            "first, so the most reachable are rescued; the rest wait for a later "
-            "turn if they survive that long. Zero stops the auto-planner tasking "
-            "CSAR at all, leaving rescues to be planned by hand."
+            "Maximum number of CSAR rescue packages the auto-planner will commit to in a "
+            "turn, for each coalition."
         ),
     )
     max_plane_altitude_offset: int = bounded_int_option(
@@ -691,18 +688,14 @@ class Settings:
         CAMPAIGN_MANAGEMENT_PAGE,
         PILOTS_AND_SQUADRONS_SECTION,
         default=True,
-        detail=(
-            "When a player-coalition aircraft is lost, its pilot may survive as a "
-            "downed pilot on the map. A CSAR mission (planned automatically or by "
-            "hand) can rescue them on a later turn, returning them to the roster."
-        ),
+        detail="Enable CSAR rescue flights for OWNFOR (BLUE) Coalition.",
     )
     csar_enabled_red: bool = boolean_option(
         "Enable CSAR for the enemy coalition",
         CAMPAIGN_MANAGEMENT_PAGE,
         PILOTS_AND_SQUADRONS_SECTION,
         default=True,
-        detail="As above, but for the enemy (AI) coalition.",
+        detail="Enable CSAR rescue flights for OPFOR (RED) Coalition.",
     )
     csar_ejection_chance: int = bounded_int_option(
         "CSAR pilot survival chance (%)",
@@ -712,9 +705,8 @@ class Settings:
         min=0,
         max=100,
         detail=(
-            "For aircraft losses where DCS did not report an ejection (AI kills and "
-            "all losses on skipped/simulated turns), the chance that the pilot "
-            "survives and becomes a downed pilot rather than being killed outright. "
+            "Chance of pilot survival and becoming a downed pilot for aircraft losses "
+            "where DCS did not report an ejection (AI kills and all losses on skipped/simulated turns)."
             "Real in-mission ejections always produce a downed pilot."
         ),
     )
@@ -738,8 +730,9 @@ class Settings:
         min=1,
         max=10,
         detail=(
-            "As above, but for pilots down in hostile territory or close to a front "
-            "line, where enemy ground forces are more likely to capture them."
+            "Number of turns a downed pilot in hostile territory or close to a front "
+            "line, where enemy ground forces are more likely to capture them waits for "
+            "rescue before going missing in action."
         ),
     )
     csar_ai_recovery_turns: int = bounded_int_option(
@@ -761,7 +754,10 @@ class Settings:
         default=1,
         min=0,
         max=10,
-        detail="As above, but for rescued human-flown pilots.",
+        detail=(
+            "Number of turns a rescued human pilot is unavailable (recovering) before "
+            "returning to active duty."
+        ),
     )
 
     # HQ Automation
@@ -1078,25 +1074,19 @@ class Settings:
         default=StartType.WARM,
         detail=(
             "Start type for combat search and rescue flights, overriding the AI "
-            "and player defaults above. A downed pilot is on a timer, so rescue "
-            "flights are usually worth getting airborne quickly."
+            "and player defaults above."
         ),
     )
     csar_hover_extraction: bool = boolean_option(
         "CSAR hover extraction",
         MISSION_GENERATOR_PAGE,
         GAMEPLAY_SECTION,
-        default=False,
+        default=True,
         detail=(
             "Controls how an AI rescue helicopter recovers a downed pilot.\n\n"
-            "Unchecked (default): the helicopter lands and the pilot walks aboard "
-            "using DCS's own troop-transport tasks. This is the authentic "
-            "behaviour, but the embark only triggers once the helicopter is fully "
-            "on the ground, so the AI may circle instead of landing on rough or "
-            "sloped terrain.\n\n"
-            "Checked: the helicopter holds a low hover over the pickup and the "
-            "pilot is extracted by script, as though hoisted. Less authentic, but "
-            "it works anywhere and never leaves a flight orbiting."
+            "Unchecked: the helicopter lands and the pilot walks aboard.\n\n"
+            "Checked (default): the helicopter holds a low hover over the pickup and the "
+            "pilot is extracted by script, as though hoisted."
         ),
     )
     csar_rescue_ai_pilots: bool = boolean_option(
@@ -1105,8 +1095,8 @@ class Settings:
         GAMEPLAY_SECTION,
         default=True,
         detail=(
-            "If set, Ops.CSAR will pick up AI downed pilots in the mission, not "
-            "only player-flown ejections."
+            "If set, Ops.CSAR will register AI downed pilots in the mission for "
+            "player flights, not only player-flown ejections."
         ),
     )
     default_player_laser_code: DefaultPlayerLaserCode = choices_option(
