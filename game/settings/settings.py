@@ -1099,6 +1099,17 @@ class Settings:
             "player flights, not only player-flown ejections."
         ),
     )
+    csar_require_open_doors: bool = boolean_option(
+        "Require cabin door open",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=False,
+        detail=(
+            "If set, a survivor will not climb aboard a player's helicopter until "
+            "its cabin door is open, and will not get out again until it is opened."
+            "Player Flights Only"
+        ),
+    )
     default_player_laser_code: DefaultPlayerLaserCode = choices_option(
         "Default laser code for Player flights",
         page=MISSION_GENERATOR_PAGE,
