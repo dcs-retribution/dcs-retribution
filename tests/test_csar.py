@@ -625,6 +625,20 @@ def test_player_rescues_are_credited_on_delivery_not_pickup() -> None:
     assert "function my:OnAfterRescued" in lua
 
 
+def test_ai_only_checks_are_asked_of_the_whole_group() -> None:
+    """A Retribution flight is one DCS group holding the client slots and their AI
+    wingmen. Testing units individually leaves the wingmen looking like an AI
+    rescue flight -- and they are parked right next to the survivor, so every
+    proximity check passes and the rescue is credited at pickup after all."""
+    lua = _opscsar_lua()
+    # One place asks the question, and it asks it of the group.
+    assert lua.count("getPlayerName") == 1
+    assert "local function group_has_player(group)" in lua
+    # Both consumers go through it: the proximity scan and the LZ event handler.
+    assert "not (ai_only and group_has_player(group))" in lua
+    assert "return not group_has_player(group)" in lua
+
+
 def test_boarded_hook_resolves_the_pilot_from_our_own_list() -> None:
     """Looking the id up in MOOSE's downedPilots is a race: the survivor's group
     is destroyed at pickup and Boarded is raised 5s later, while

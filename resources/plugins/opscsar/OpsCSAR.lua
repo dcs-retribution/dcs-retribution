@@ -292,15 +292,28 @@ local function opscsar_main()
         return math.sqrt(dx * dx + dz * dz)
     end
 
+    -- Whether anyone is flying this group. A Retribution flight is a single DCS
+    -- group holding the client slots *and* their AI wingmen, so the question has
+    -- to be asked of the group: testing units individually leaves the wingmen
+    -- looking like an AI rescue flight, and they are close enough to the survivor
+    -- to satisfy every proximity check we make.
+    local function group_has_player(group)
+        for _, unit in pairs(group:getUnits() or {}) do
+            if unit:isExist() and unit:getPlayerName() ~= nil then
+                return true
+            end
+        end
+        return false
+    end
+
     -- Nearest live helicopter of `side` within `radius` of the point and no higher
-    -- than `max_agl`. `ai_only` skips player-flown units, which Ops.CSAR owns.
+    -- than `max_agl`. `ai_only` skips player-crewed flights, which Ops.CSAR owns.
     local function helo_near(side_const, px, pz, radius, max_agl, ai_only)
         local groups = coalition.getGroups(side_const, Group.Category.HELICOPTER) or {}
         for _, group in pairs(groups) do
-            if group:isExist() then
+            if group:isExist() and not (ai_only and group_has_player(group)) then
                 for _, unit in pairs(group:getUnits() or {}) do
-                    if unit:isExist() and unit:getLife() > 0
-                        and not (ai_only and unit:getPlayerName() ~= nil) then
+                    if unit:isExist() and unit:getLife() > 0 then
                         local point = unit:getPoint()
                         local agl =
                             point.y - land.getHeight({ x = point.x, y = point.z })
@@ -591,13 +604,14 @@ local function opscsar_main()
             if unit == nil or not unit:isExist() then
                 return false
             end
-            -- Players are Ops.CSAR's to handle; it reports their pickups itself.
-            if unit:getPlayerName() ~= nil then
+            local group = unit:getGroup()
+            if group == nil or group:getCategory() ~= Group.Category.HELICOPTER then
                 return false
             end
-            local group = unit:getGroup()
-            return group ~= nil
-                and group:getCategory() == Group.Category.HELICOPTER
+            -- Crewed flights are Ops.CSAR's to handle; it reports their pickups
+            -- itself, on delivery. Asked of the whole group so an AI wingman in a
+            -- player's flight doesn't land us in the AI path.
+            return not group_has_player(group)
         end)
         return ok and result == true
     end
