@@ -27,7 +27,11 @@ if dcsRetribution then
             splash_damage_options.unit_cant_fire_health = dcsRetribution.plugins.splashdamage3.unit_cant_fire_health
             splash_damage_options.infantry_cant_fire_health = dcsRetribution.plugins.splashdamage3.infantry_cant_fire_health
             splash_damage_options.cluster_enabled = dcsRetribution.plugins.splashdamage3.cluster_enabled
-            splash_damage_options.cluster_bomblet_reduction_modifier = dcsRetribution.plugins.splashdamage3.cluster_bomblet_reduction_modifier
+            -- The script's option is spelled "reductionmodifier" (no second underscore), so
+            -- assigning to cluster_bomblet_reduction_modifier set a key nothing ever read and
+            -- the "Bomblets Count Reduction Modifier" toggle did nothing. The UI mnemonic is
+            -- left alone so saved plugin settings keep working.
+            splash_damage_options.cluster_bomblet_reductionmodifier = dcsRetribution.plugins.splashdamage3.cluster_bomblet_reduction_modifier
             splash_damage_options.cluster_bomblet_damage_modifier = dcsRetribution.plugins.splashdamage3.cluster_bomblet_damage_modifier
             -- The UI spinner is labeled "(%)" like the other percent options, so it
             -- must be divided down to the multiplier the script expects (80 -> 0.8).
