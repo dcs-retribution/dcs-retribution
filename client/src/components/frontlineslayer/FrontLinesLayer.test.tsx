@@ -4,7 +4,12 @@ import { PropsWithChildren } from "react";
 
 const mockPolyline = jest.fn();
 const mockLayerGroup = jest.fn();
+const mockPane = jest.fn();
 jest.mock("react-leaflet", () => ({
+  Pane: (props: PropsWithChildren<any>) => {
+    mockPane(props);
+    return <>{props.children}</>;
+  },
   LayerGroup: (props: PropsWithChildren<any>) => {
     mockLayerGroup(props);
     return <>{props.children}</>;
@@ -22,6 +27,19 @@ describe("FrontLinesLayer", () => {
     renderWithProviders(<FrontLinesLayer />);
     expect(mockPolyline).not.toHaveBeenCalled();
     expect(mockLayerGroup).toHaveBeenCalledTimes(1);
+  });
+
+  it("draws into a pane above the default overlay pane", () => {
+    // Front lines live in their own pane so a flight plan's wide invisible hover
+    // polyline (in the default overlayPane, z 400) cannot swallow a right-click
+    // on a front line crossing it. Below the marker pane at z 600.
+    renderWithProviders(<FrontLinesLayer />);
+    expect(mockPane).toHaveBeenCalledWith(
+      expect.objectContaining({
+        name: "front-lines",
+        style: { zIndex: 450 },
+      })
+    );
   });
 
   it("draws front lines", () => {

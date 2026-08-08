@@ -164,6 +164,13 @@ def test_motorpool_attack_precondition_fails_when_not_listed() -> None:
     assert task.preconditions_met(state) is False  # type: ignore[arg-type]
 
 
+def test_motorpool_attack_precondition_fails_when_reserve_is_empty() -> None:
+    tgo = _motorpool_target(0)
+    state = SimpleNamespace(motorpool_targets=[tgo])
+    task = PlanMotorpoolAttack(tgo, FlightType.BAI)
+    assert task.preconditions_met(state) is False  # type: ignore[arg-type]
+
+
 # --- AttackMotorpools ---------------------------------------------------------
 
 
