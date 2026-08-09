@@ -196,12 +196,16 @@ def unit_registry(tmp_path: Path) -> None:
 @pytest.mark.parametrize(
     ("dcs_id", "air_assault_priority"),
     [
-        # Three C-130s can fly this mission, and the priorities ladder so the
-        # most capable one available wins the tasking.
+        # The troop transports that can fly this mission. Priorities ladder so
+        # the most capable airframe available wins the tasking, and the
+        # AI-only types sit below the player-flyable one.
         #
-        # C-130: the base-game transport. AI-only (it has no player cockpit), so
-        # it sits lowest -- the same ordering its Transport priority already
-        # uses against the C-130J-30.
+        # C-47: the WWII paratroop transport, and the only Air Assault platform
+        # in the 1944 factions -- they field no helicopters at all.
+        ("C-47", 20),
+        # C-130: the base-game transport. AI-only (no player cockpit), so it
+        # sits below the module, the same ordering its Transport priority
+        # already uses.
         ("C-130", 30),
         # C-130J-30: the official module. Its units ship with every DCS
         # install, so AI assaults fly for everyone; only the player slot needs
@@ -213,7 +217,7 @@ def unit_registry(tmp_path: Path) -> None:
         ("Hercules", 990),
     ],
 )
-def test_c130_family_is_air_assault_capable(
+def test_fixed_wing_transports_are_air_assault_capable(
     unit_registry: None, dcs_id: str, air_assault_priority: int
 ) -> None:
     aircraft = next(a for a in AircraftType.iter_all() if a.dcs_id == dcs_id)
