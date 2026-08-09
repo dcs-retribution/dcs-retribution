@@ -196,13 +196,23 @@ def unit_registry(tmp_path: Path) -> None:
 @pytest.mark.parametrize(
     ("dcs_id", "air_assault_priority"),
     [
-        # The troop transports that can fly this mission. Priorities ladder so
-        # the most capable airframe available wins the tasking, and the
-        # AI-only types sit below the player-flyable one.
+        # The troop transports that can fly this mission, in two tiers: a
+        # tactical transport flies the low, slow run-in an assault wants and a
+        # strategic airlifter does not, so every tactical type outranks every
+        # strategic one. Within a tier, the more capable airframe ranks higher
+        # and the player-flyable one beats the AI-only ones.
         #
+        # -- Strategic airlifters --
+        # IL-76MD: the VDV's jump platform, and the only fixed-wing assault
+        # option most red factions have (22 of them field it).
+        ("IL-76MD", 15),
+        ("C-17A", 15),
+        # -- Tactical transports --
         # C-47: the WWII paratroop transport, and the only Air Assault platform
         # in the 1944 factions -- they field no helicopters at all.
         ("C-47", 20),
+        # An-26B: the Soviet tactical hauler, below the larger C-130.
+        ("An-26B", 25),
         # C-130: the base-game transport. AI-only (no player cockpit), so it
         # sits below the module, the same ordering its Transport priority
         # already uses.
@@ -226,3 +236,18 @@ def test_fixed_wing_transports_are_air_assault_capable(
     # silently never qualifies, no matter what tasks it declares.
     assert aircraft.cabin_size > 0
     assert aircraft.task_priority(FlightType.AIR_ASSAULT) == air_assault_priority
+
+
+@pytest.mark.parametrize("dcs_id", ["An-30M", "C2A_Greyhound", "Yak-40"])
+def test_non_troop_transports_stay_out_of_air_assault(
+    unit_registry: None, dcs_id: str
+) -> None:
+    # Not every aircraft with a Transport task is a paratroop platform. The
+    # An-30M is the glazed-nose aerial survey variant of the An-24, the C-2A is
+    # a carrier onboard delivery aircraft, and the Yak-40 is a light airliner.
+    # Giving any of them a cabin would put troops out the door of an airframe
+    # that never carried them, so the exclusion is deliberate -- pin it.
+    aircraft = next(a for a in AircraftType.iter_all() if a.dcs_id == dcs_id)
+
+    assert aircraft.cabin_size == 0
+    assert FlightType.AIR_ASSAULT not in aircraft.task_priorities
