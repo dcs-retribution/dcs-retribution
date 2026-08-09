@@ -19,11 +19,11 @@ from game.ato.flight import Flight
 from game.ato.flightplans.custom import CustomFlightPlan
 from game.ato.flightplans.formationattack import FormationAttackFlightPlan
 from game.ato.flightplans.planningerror import PlanningError
-from game.ato.flightplans.waypointbuilder import WaypointBuilder
+from game.ato.flightplans.waypointbuilder import AGL_TRANSITION_ALT, WaypointBuilder
 from game.ato.flighttype import FlightType
-from game.ato.flightwaypoint import FlightWaypoint
+from game.ato.flightwaypoint import AltitudeReference, FlightWaypoint
 from game.ato.flightwaypointtype import FlightWaypointType
-from game.utils import feet
+from game.utils import Distance, feet
 from game.ato.loadouts import Loadout
 from game.ato.package import Package
 from game.theater import Player
@@ -34,36 +34,64 @@ from qt_ui.windows.mission.flight.waypoints.QPredefinedWaypointSelectionWindow i
     QPredefinedWaypointSelectionWindow,
 )
 
+#: Lowest altitude the bulk setter offers. Zero is a valid spin-box entry but never a
+#: valid answer -- it drops the whole route to sea level -- and with the 1,000 ft step
+#: every other reachable value is a round thousand anyway. Per-waypoint editing still
+#: reaches any altitude, which is where a helo's sub-1,000 ft cruise gets set.
+BULK_ALTITUDE_FLOOR_FT = 1000
+
+#: Waypoint types the bulk setter must not move even though they carry a planned
+#: altitude. Pickup and dropoff zones are planned at the helo's approach altitude, so
+#: raising them with the rest of the route leaves the aircraft over its landing zone
+#: at cruise with nothing to unload onto.
+#:
+#: Every *other* ground point -- takeoff, landing, cargo stop, bullseye, an on-map
+#: divert field, and all three target types -- is planner-seeded at 0 ft, so
+#: bulk_editable()'s deck rule already leaves it alone. A type only needs naming here
+#: when its planned altitude is non-zero.
+BULK_ALTITUDE_SKIP_TYPES = frozenset(
+    {
+        FlightWaypointType.PICKUP_ZONE,
+        FlightWaypointType.DROPOFF_ZONE,
+    }
+)
+
+
+def bulk_editable(waypoint: FlightWaypoint) -> bool:
+    """Whether the bulk altitude setter should move this waypoint.
+
+    A waypoint planned on the deck marks a place on the ground -- the field, the
+    target, the bullseye -- and a cruise altitude written onto it means nothing. A
+    waypoint planned at an altitude is a height to fly, so it moves with the route.
+
+    Reading the planned altitude rather than enumerating every en-route type is also
+    what makes the control work on low-level plans. The AGL exclusion this replaced
+    skipped every RADIO waypoint, and the planner marks everything at or below
+    AGL_TRANSITION_ALT (plus every helo leg) RADIO -- so "Apply to all" did nothing at
+    all on a helo or a low-level plan, and skipped the CAS FLOT boundaries on every
+    plan, since waypointbuilder.cas() hardcodes RADIO at any altitude.
+    """
+    if waypoint.waypoint_type in BULK_ALTITUDE_SKIP_TYPES:
+        return False
+    return waypoint.alt.feet > 0
+
+
+def bulk_alt_type(altitude: Distance, is_helo: bool) -> AltitudeReference:
+    """The altitude reference the planner would give a leg at this altitude.
+
+    The Alt Type column is read-only, so the bulk setter has to leave a coherent
+    reference behind: a flight that comes out with some legs AGL and some MSL is
+    flying at two different real altitudes and the player cannot reconcile it by hand.
+    Follows waypointbuilder's own rule, so a bulk-set route matches a freshly planned
+    one at the same altitude.
+    """
+    if is_helo or altitude.feet <= AGL_TRANSITION_ALT:
+        return "RADIO"
+    return "BARO"
+
 
 class QFlightWaypointTab(QFrame):
     loadout_changed = Signal()
-
-    # Waypoint types whose altitude the bulk setter must not touch. Their altitude is
-    # tied to something other than the en-route cruise band, so overwriting it with a
-    # cruise MSL would break the flight plan:
-    #   * Takeoff / pattern / landing points are tied to the airfield.
-    #   * Divert and cargo-stop points are alternate landing fields.
-    #   * Target points carry the target's own elevation (used for attack geometry).
-    #   * Pickup / dropoff zones are ground-level helo landing zones.
-    #   * Refuel / recovery-tanker points are tied to the tanker's orbit altitude.
-    #   * Bullseye is a fixed map reference, not a flown waypoint.
-    BULK_ALTITUDE_SKIP_TYPES = frozenset(
-        {
-            FlightWaypointType.TAKEOFF,
-            FlightWaypointType.DESCENT_POINT,
-            FlightWaypointType.LANDING_POINT,
-            FlightWaypointType.DIVERT,
-            FlightWaypointType.CARGO_STOP,
-            FlightWaypointType.TARGET_POINT,
-            FlightWaypointType.TARGET_GROUP_LOC,
-            FlightWaypointType.TARGET_SHIP,
-            FlightWaypointType.PICKUP_ZONE,
-            FlightWaypointType.DROPOFF_ZONE,
-            FlightWaypointType.REFUEL,
-            FlightWaypointType.RECOVERY_TANKER,
-            FlightWaypointType.BULLSEYE,
-        }
-    )
 
     def __init__(self, game: Game, package: Package, flight: Flight):
         super(QFlightWaypointTab, self).__init__()
@@ -93,15 +121,17 @@ class QFlightWaypointTab(QFrame):
         rlayout.addWidget(QLabel("<small>Set all en-route waypoints</small>"))
         bulk_alt_layout = QHBoxLayout()
         self.bulk_altitude = QSpinBox()
-        self.bulk_altitude.setMinimum(0)
+        self.bulk_altitude.setMinimum(BULK_ALTITUDE_FLOOR_FT)
         self.bulk_altitude.setMaximum(40000)
         self.bulk_altitude.setSingleStep(1000)
         self.bulk_altitude.setValue(self._default_bulk_altitude())
         self.bulk_altitude.setSuffix(" ft")
         self.bulk_altitude.setToolTip(
-            "Apply this MSL altitude to every en-route waypoint. Takeoff, landing, "
-            "divert, target, landing-zone, tanker, and ground (AGL) waypoints are "
-            "left unchanged."
+            "Apply this altitude to every waypoint that is flown at an altitude. "
+            "Waypoints planned on the deck -- takeoff, landing, divert, target and "
+            "bullseye -- and helo landing zones are left where they are. AGL or MSL "
+            f"follows the planner's own rule: AGL at or below {AGL_TRANSITION_ALT:,} "
+            "ft (and on helicopters), MSL above it."
         )
         bulk_alt_layout.addWidget(self.bulk_altitude)
         self.apply_bulk_altitude = QPushButton("Apply to all")
@@ -287,29 +317,24 @@ class QFlightWaypointTab(QFrame):
             self.flight_waypoint_list.update_list()
             self.on_change()
 
-    def _is_bulk_editable(self, waypoint: FlightWaypoint) -> bool:
-        # Skip pattern waypoints and any AGL/ground-referenced point (takeoff and
-        # landing are RADIO, alt 0) so the bulk set only moves the en-route legs.
-        if waypoint.waypoint_type in self.BULK_ALTITUDE_SKIP_TYPES:
-            return False
-        return waypoint.alt_type != "RADIO"
-
     def _default_bulk_altitude(self) -> int:
-        # Seed the spinner with the highest en-route altitude already planned so the
-        # control opens on a sensible value rather than zero.
+        # Seed the spinner with the highest altitude already planned so the control
+        # opens on a sensible value. The spin box clamps to BULK_ALTITUDE_FLOOR_FT.
         altitudes = [
             round(wpt.alt.feet)
             for wpt in self.flight.flight_plan.waypoints
-            if self._is_bulk_editable(wpt)
+            if bulk_editable(wpt)
         ]
         return max(altitudes, default=0)
 
     def on_apply_bulk_altitude(self) -> None:
         altitude = feet(self.bulk_altitude.value())
+        alt_type = bulk_alt_type(altitude, self.flight.is_helo)
         changed = False
         for waypoint in self.flight.flight_plan.waypoints:
-            if self._is_bulk_editable(waypoint):
+            if bulk_editable(waypoint):
                 waypoint.alt = altitude
+                waypoint.alt_type = alt_type
                 changed = True
         if changed:
             self.on_change()
