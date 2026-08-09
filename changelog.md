@@ -29,6 +29,7 @@
 
 ## Fixes
 * **[UX]** The bulk "Apply to all" waypoint-altitude setter skipped every AGL waypoint, so it left the CAS FLOT boundaries alone on every plan and did nothing at all on helicopter or low-level plans (where the planner marks every leg AGL). It now moves any waypoint planned at an altitude, leaves any waypoint planned on the deck — takeoff, landing, divert field, target, bullseye — where it is, and writes AGL or MSL by the planner's own rule. The spin box no longer offers 0 ft.
+* **[Map]** Right-clicking a front line under a blue flight-plan route now opens the new-package dialog instead of the browser context menu (the route's invisible hover overlay swallowed the click).
 * **[Data]** The F-14A-135-GR Early's payload file declared the wrong unitType, so the Early Tomcat flew every tasking unarmed; its loadouts now resolve (with a guard test pinning the payload to the airframe). (#889)
 * **[Mission Generator]** EWR sites now get the DCS "EWR" enroute task and come up on RED alarm, so their radars actually scan and report contacts (previously they could sit inert, especially with the "red alert state" performance option off). Works with or without the Skynet IADS plugin.
 * **[Plugins]** Fix the escort leash never running (DCS has no `Group.getByID`; look the group up by name via mist), so escorts are actually held to their engagement range.
