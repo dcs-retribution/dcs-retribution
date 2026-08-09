@@ -11,6 +11,7 @@ byte-identical to before.
 
 from __future__ import annotations
 
+from pathlib import Path
 from types import SimpleNamespace
 from typing import Any, cast
 
@@ -19,8 +20,11 @@ from dcs import Point
 from dcs.terrain import Caucasus
 
 import game.ato.flightplans.airassault as airassault
+from game import persistency
 from game.ato.flightplans.airassault import Builder
 from game.ato.flightplans.planningerror import PlanningError
+from game.ato.flighttype import FlightType
+from game.dcs.aircrafttype import AircraftType
 from game.theater.controlpoint import ControlPointType
 from game.theater.interfaces.CTLD import CTLD
 from game.utils import Distance, feet, meters
@@ -180,3 +184,41 @@ def test_hercules_keeps_its_layout_shape(monkeypatch: pytest.MonkeyPatch) -> Non
     assert layout.ingress.position == flight.package.waypoints.initial
     assert layout.targets[0].only_for_player is False
     assert layout.targets[0].alt == feet(1000)
+
+
+@pytest.fixture
+def unit_registry(tmp_path: Path) -> None:
+    # AircraftType loads the unit data files, which reach for the saved-games
+    # folder; point it at a throwaway dir so the registry can populate.
+    persistency.setup(str(tmp_path), prefer_liberation_payloads=False, port=16884)
+
+
+@pytest.mark.parametrize(
+    ("dcs_id", "air_assault_priority"),
+    [
+        # Three C-130s can fly this mission, and the priorities ladder so the
+        # most capable one available wins the tasking.
+        #
+        # C-130: the base-game transport. AI-only (it has no player cockpit), so
+        # it sits lowest -- the same ordering its Transport priority already
+        # uses against the C-130J-30.
+        ("C-130", 30),
+        # C-130J-30: the official module. Its units ship with every DCS
+        # install, so AI assaults fly for everyone; only the player slot needs
+        # the module.
+        ("C-130J-30", 40),
+        # Hercules: the Anubis mod, which flew fixed-wing assaults before this
+        # change and keeps its own native airdrop systems on top of the
+        # scripted path.
+        ("Hercules", 990),
+    ],
+)
+def test_c130_family_is_air_assault_capable(
+    unit_registry: None, dcs_id: str, air_assault_priority: int
+) -> None:
+    aircraft = next(a for a in AircraftType.iter_all() if a.dcs_id == dcs_id)
+
+    # The Builder gate reads cabin_size. Without a positive cabin the airframe
+    # silently never qualifies, no matter what tasks it declares.
+    assert aircraft.cabin_size > 0
+    assert aircraft.task_priority(FlightType.AIR_ASSAULT) == air_assault_priority
