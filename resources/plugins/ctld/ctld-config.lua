@@ -273,6 +273,21 @@ if dcsRetribution then
                 return true
             end
 
+            --- A paradrop transport loads ONCE, at preload. ctld.checkAIStatus
+            --- re-loads any empty AI transport standing in a pickup zone every
+            --- 2 s, and a transport that has already dropped is empty and often
+            --- parked in one -- which spammed "loaded troops into ..." at the
+            --- whole coalition for the rest of the mission.
+            local stock_loadTroopsFromZone = ctld.loadTroopsFromZone
+            function ctld.loadTroopsFromZone(_args)
+                local _unit = ctld.getTransportUnit(_args[1])
+                if _unit ~= nil and _unit:getPlayerName() == nil
+                    and ctld.paradropUnitTypes[_unit:getTypeName()] then
+                    return false
+                end
+                return stock_loadTroopsFromZone(_args)
+            end
+
             --- Airborne fixed-wing "Unload / Extract Troops" = jump. Grounded
             --- unload, extraction, and every helicopter path fall through to
             --- stock CTLD untouched.
@@ -286,6 +301,23 @@ if dcsRetribution then
                 return stock_unloadExtractTroops(_args)
             end
 
+            --- Every gate below declines silently, so log the first refusal per
+            --- unit and re-log at most once a minute. Throttle on the reason KEY,
+            --- never the formatted text: the inbound line carries a live distance,
+            --- so comparing whole strings never matches and every poll logs.
+            local _paradrop_diag = {} -- pilot -> { last = modelTime, key = string }
+            local PARADROP_DIAG_REPEAT_S = 60
+
+            local function paradrop_diag(_pilot, _key, _why)
+                local _prev = _paradrop_diag[_pilot]
+                local _now = timer.getTime()
+                if _prev ~= nil and _prev.key == _key and (_now - _prev.last) < PARADROP_DIAG_REPEAT_S then
+                    return
+                end
+                _paradrop_diag[_pilot] = { last = _now, key = _key }
+                env.info(string.format("DCSRetribution|CTLD paradrop - %s: %s", _pilot, _why or _key))
+            end
+
             --- AI release loop: an AI transport with troops aboard drops them
             --- when it crosses its own air-assault target zone (one drop per
             --- sortie -- fixed-wing has no pickup zone to reload from). Players
@@ -295,20 +327,41 @@ if dcsRetribution then
                 for _pilot, _zoneName in pairs(paradrop_target_zones) do
                     local _ok, _err = pcall(function()
                         local _unit = ctld.getTransportUnit(_pilot)
-                        if _unit ~= nil and _unit:getPlayerName() == nil
-                            and ctld.inAir(_unit) and ctld.troopsOnboard(_unit, true) then
-                            local _zone = trigger.misc.getZone(_zoneName)
-                            if _zone ~= nil then
-                                local _p = _unit:getPoint()
-                                local _dx = _p.x - _zone.point.x
-                                local _dz = _p.z - _zone.point.z
-                                local _range = math.min(_zone.radius or PARADROP_AI_RANGE_M, PARADROP_AI_RANGE_M)
-                                if (_dx * _dx + _dz * _dz) <= _range * _range then
-                                    if ctld.paradropTroops(_unit) then
-                                        paradrop_target_zones[_pilot] = nil
-                                    end
-                                end
-                            end
+                        if _unit == nil then
+                            paradrop_diag(_pilot, "unspawned", "waiting - unit not spawned/active yet")
+                            return
+                        end
+                        if _unit:getPlayerName() ~= nil then
+                            paradrop_diag(_pilot, "player", "skipped - slot is player-occupied")
+                            return
+                        end
+                        if not ctld.inAir(_unit) then
+                            paradrop_diag(_pilot, "ground", "waiting - reads as on the ground")
+                            return
+                        end
+                        if not ctld.troopsOnboard(_unit, true) then
+                            paradrop_diag(_pilot, "empty", "BLOCKED - no troops aboard (preload did not stick)")
+                            return
+                        end
+                        local _zone = trigger.misc.getZone(_zoneName)
+                        if _zone == nil then
+                            paradrop_diag(_pilot, "nozone", string.format("BLOCKED - zone %q not found", _zoneName))
+                            return
+                        end
+                        local _p = _unit:getPoint()
+                        local _dx = _p.x - _zone.point.x
+                        local _dz = _p.z - _zone.point.z
+                        local _dist = math.sqrt(_dx * _dx + _dz * _dz)
+                        local _range = math.min(_zone.radius or PARADROP_AI_RANGE_M, PARADROP_AI_RANGE_M)
+                        if _dist > _range then
+                            paradrop_diag(_pilot, "inbound", string.format("inbound - %.0f m from zone centre, releases inside %.0f m", _dist, _range))
+                            return
+                        end
+                        if ctld.paradropTroops(_unit) then
+                            env.info(string.format("DCSRetribution|CTLD paradrop - %s: RELEASED at %.0f m", _pilot, _dist))
+                            paradrop_target_zones[_pilot] = nil
+                        else
+                            paradrop_diag(_pilot, "refused", "BLOCKED - in range but paradropTroops refused")
                         end
                     end)
                     if not _ok then
@@ -318,7 +371,12 @@ if dcsRetribution then
             end
 
             if next(paradrop_target_zones) ~= nil then
+                for _pilot, _zoneName in pairs(paradrop_target_zones) do
+                    env.info(string.format("DCSRetribution|CTLD paradrop - AI plan: %s -> %s", _pilot, _zoneName))
+                end
                 timer.scheduleFunction(check_paradrop_ai, nil, timer.getTime() + PARADROP_AI_POLL_S)
+            else
+                env.info("DCSRetribution|CTLD paradrop - AI plan EMPTY, no automatic release this mission")
             end
 
             autolase = dcsRetribution.plugins.ctld.autolase

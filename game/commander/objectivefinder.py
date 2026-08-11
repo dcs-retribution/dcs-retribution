@@ -35,6 +35,11 @@ if TYPE_CHECKING:
 
 MissionTargetType = TypeVar("MissionTargetType", bound=MissionTarget)
 
+#: How far behind the nearest friendly control point an air-assault objective may
+#: sit. Bounds the operation itself, so it does not move with the staging field or
+#: the airframe's legs. See ObjectiveFinder._within_air_assault_reach.
+AIR_ASSAULT_MAX_REACH = nautical_miles(100)
+
 
 class ObjectiveFinder:
     """Identifies potential objectives for the mission planner."""
@@ -319,6 +324,8 @@ class ObjectiveFinder:
         )
 
         for cp in combined_control_points:
+            if not self._within_air_assault_reach(cp):
+                continue
             if cp.is_isolated:
                 isolated.append(cp)
                 continue
@@ -329,6 +336,24 @@ class ObjectiveFinder:
         prioritized.extend(self._targets_by_range(capturable_later))
         prioritized.extend(self._targets_by_range(isolated))
         return prioritized
+
+    def _within_air_assault_reach(self, cp: ControlPoint) -> bool:
+        """Is this objective close enough to our own lines to air-assault?
+
+        Measured to the nearest friendly control point, not to the staging field,
+        so the answer does not change with whichever base happens to launch it.
+
+        Without this, a long-legged transport volunteers for objectives on the far
+        side of the theatre: an Afghanistan turn-2 ATO fragged C-130s from Bagram
+        against Kandahar (269 NM) and FOB Zeebrugge (261 NM), both ~180 NM behind
+        the nearest friendly base. Helicopters were never able to reach that far,
+        so the flat list only became a problem once fixed-wing became eligible.
+        """
+        friendly = list(self.friendly_control_points())
+        if not friendly:
+            return False
+        nearest = min(cp.distance_to(other) for other in friendly)
+        return nearest <= AIR_ASSAULT_MAX_REACH.meters
 
     @staticmethod
     def closest_airfields_to(location: MissionTarget) -> ClosestAirfields:
