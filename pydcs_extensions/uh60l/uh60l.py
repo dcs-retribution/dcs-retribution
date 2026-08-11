@@ -83,37 +83,37 @@ class WeaponsUH60L:
     }
     UH60_LWL12_APKWS = {
         "clsid": "UH60_LWL12_APKWS",
-        "name": "LWL-12 - 12 x 2.75\" Hydra, Laser Guided Rkts M151, HE APKWS",
+        "name": 'LWL-12 - 12 x 2.75" Hydra, Laser Guided Rkts M151, HE APKWS',
         "weight": 214.5,
     }
     UH60_LWL12_M151 = {
         "clsid": "UH60_LWL12_M151",
-        "name": "LWL-12 - 12 x 2.75\" Hydra, UnGd Rkts M151, HE",
+        "name": 'LWL-12 - 12 x 2.75" Hydra, UnGd Rkts M151, HE',
         "weight": 81.3,
     }
     UH60_LWL12_M156 = {
         "clsid": "UH60_LWL12_M156",
-        "name": "LWL-12 - 12 x 2.75\" Hydra, UnGd Rkts M156, Wht Phos",
+        "name": 'LWL-12 - 12 x 2.75" Hydra, UnGd Rkts M156, Wht Phos',
         "weight": 87.3,
     }
     UH60_LWL12_M229 = {
         "clsid": "UH60_LWL12_M229",
-        "name": "LWL-12 - 12 x 2.75\" Hydra, UnGd Rkts M229, HE",
+        "name": 'LWL-12 - 12 x 2.75" Hydra, UnGd Rkts M229, HE',
         "weight": 87.3,
     }
     UH60_LWL12_M257 = {
         "clsid": "UH60_LWL12_M257",
-        "name": "LWL-12 - 12 x 2.75\" Hydra, UnGd Rkts M257, Para Illum",
+        "name": 'LWL-12 - 12 x 2.75" Hydra, UnGd Rkts M257, Para Illum',
         "weight": 94.5,
     }
     UH60_LWL12_M259 = {
         "clsid": "UH60_LWL12_M259",
-        "name": "LWL-12 - 12 x 2.75\" Hydra, UnGd Rkts M259, Smoke Marker",
+        "name": 'LWL-12 - 12 x 2.75" Hydra, UnGd Rkts M259, Smoke Marker',
         "weight": 94.5,
     }
     UH60_LWL12_M274 = {
         "clsid": "UH60_LWL12_M274",
-        "name": "LWL-12 - 12 x 2.75\" Hydra, UnGd Rkts M274, Practice Smk",
+        "name": 'LWL-12 - 12 x 2.75" Hydra, UnGd Rkts M274, Practice Smk',
         "weight": 84.9,
     }
     _200_Gallon_CEFS_Aux_Tank = {
@@ -257,21 +257,60 @@ class UH_60L_DAP(HelicopterType):
     livery_name = "UH-60L_DAP"  # from type
 
     class Pylon1:
-        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE = (1, Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE)
-        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM = (1, Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM)
-        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE = (1, Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE)
-        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (1, Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL)
-        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM = (1, Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM)
-        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (1, Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM)
-        M260___7_x_Laser_Guided_Rkts__70_mm_Hydra_70_M151_HE_APKWS = (1, Weapons.M260___7_x_Laser_Guided_Rkts__70_mm_Hydra_70_M151_HE_APKWS)
+        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE = (
+            1,
+            Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
+        )
+        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM = (
+            1,
+            Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
+        )
+        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE = (
+            1,
+            Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE,
+        )
+        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (
+            1,
+            Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
+        )
+        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM = (
+            1,
+            Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM,
+        )
+        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (
+            1,
+            Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
+        )
+        M260___7_x_Laser_Guided_Rkts__70_mm_Hydra_70_M151_HE_APKWS = (
+            1,
+            Weapons.M260___7_x_Laser_Guided_Rkts__70_mm_Hydra_70_M151_HE_APKWS,
+        )
         # ERRR {M261_MK151}
-        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE__M433_RC_Fuze = (1, Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE__M433_RC_Fuze)
+        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE__M433_RC_Fuze = (
+            1,
+            Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE__M433_RC_Fuze,
+        )
         # ERRR {M261_MK156}
-        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE = (1, Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE)
-        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (1, Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL)
-        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM = (1, Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM)
-        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (1, Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM)
-        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M282_MPP = (1, Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M282_MPP)
+        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE = (
+            1,
+            Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE,
+        )
+        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (
+            1,
+            Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
+        )
+        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM = (
+            1,
+            Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM,
+        )
+        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (
+            1,
+            Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
+        )
+        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M282_MPP = (
+            1,
+            Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M282_MPP,
+        )
         UH60_LWL12_M151 = (1, WeaponsUH60L.UH60_LWL12_M151)
         UH60_LWL12_M156 = (1, WeaponsUH60L.UH60_LWL12_M156)
         UH60_LWL12_M229 = (1, WeaponsUH60L.UH60_LWL12_M229)
@@ -284,11 +323,23 @@ class UH_60L_DAP(HelicopterType):
         # ERRR UH60_AGM_114_L
         M299___Empty_Launcher = (1, Weapons.M299___Empty_Launcher)
         M299___4_x_AGM_114K_Hellfire = (1, Weapons.M299___4_x_AGM_114K_Hellfire)
-        M299___3_x_AGM_114K_Hellfire__Port = (1, Weapons.M299___3_x_AGM_114K_Hellfire__Port)
-        M299___3_x_AGM_114K_Hellfire__Starboard = (1, Weapons.M299___3_x_AGM_114K_Hellfire__Starboard)
+        M299___3_x_AGM_114K_Hellfire__Port = (
+            1,
+            Weapons.M299___3_x_AGM_114K_Hellfire__Port,
+        )
+        M299___3_x_AGM_114K_Hellfire__Starboard = (
+            1,
+            Weapons.M299___3_x_AGM_114K_Hellfire__Starboard,
+        )
         M299___2_x_AGM_114K_Hellfire = (1, Weapons.M299___2_x_AGM_114K_Hellfire)
-        M299___1_x_AGM_114K_Hellfire__Port = (1, Weapons.M299___1_x_AGM_114K_Hellfire__Port)
-        M299___1_x_AGM_114K_Hellfire__Starboard = (1, Weapons.M299___1_x_AGM_114K_Hellfire__Starboard)
+        M299___1_x_AGM_114K_Hellfire__Port = (
+            1,
+            Weapons.M299___1_x_AGM_114K_Hellfire__Port,
+        )
+        M299___1_x_AGM_114K_Hellfire__Starboard = (
+            1,
+            Weapons.M299___1_x_AGM_114K_Hellfire__Starboard,
+        )
         FN_HMP400__400rnds_ = (1, Weapons.FN_HMP400__400rnds_)
         _200_Gallon_CEFS_Aux_Tank = (1, WeaponsUH60L._200_Gallon_CEFS_Aux_Tank)
         _230_Gallon_Aux_Tank = (1, WeaponsUH60L._230_Gallon_Aux_Tank)
@@ -296,21 +347,60 @@ class UH_60L_DAP(HelicopterType):
     # ERRR <CLEAN>
 
     class Pylon2:
-        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE = (2, Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE)
-        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM = (2, Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM)
-        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE = (2, Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE)
-        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (2, Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL)
-        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM = (2, Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM)
-        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (2, Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM)
-        M260___7_x_Laser_Guided_Rkts__70_mm_Hydra_70_M151_HE_APKWS = (2, Weapons.M260___7_x_Laser_Guided_Rkts__70_mm_Hydra_70_M151_HE_APKWS)
+        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE = (
+            2,
+            Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
+        )
+        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM = (
+            2,
+            Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
+        )
+        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE = (
+            2,
+            Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE,
+        )
+        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (
+            2,
+            Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
+        )
+        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM = (
+            2,
+            Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM,
+        )
+        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (
+            2,
+            Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
+        )
+        M260___7_x_Laser_Guided_Rkts__70_mm_Hydra_70_M151_HE_APKWS = (
+            2,
+            Weapons.M260___7_x_Laser_Guided_Rkts__70_mm_Hydra_70_M151_HE_APKWS,
+        )
         # ERRR {M261_MK151}
-        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE__M433_RC_Fuze = (2, Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE__M433_RC_Fuze)
+        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE__M433_RC_Fuze = (
+            2,
+            Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE__M433_RC_Fuze,
+        )
         # ERRR {M261_MK156}
-        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE = (2, Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE)
-        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (2, Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL)
-        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM = (2, Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM)
-        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (2, Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM)
-        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M282_MPP = (2, Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M282_MPP)
+        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE = (
+            2,
+            Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE,
+        )
+        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (
+            2,
+            Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
+        )
+        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM = (
+            2,
+            Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM,
+        )
+        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (
+            2,
+            Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
+        )
+        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M282_MPP = (
+            2,
+            Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M282_MPP,
+        )
         UH60_LWL12_M151 = (2, WeaponsUH60L.UH60_LWL12_M151)
         UH60_LWL12_M156 = (2, WeaponsUH60L.UH60_LWL12_M156)
         UH60_LWL12_M229 = (2, WeaponsUH60L.UH60_LWL12_M229)
@@ -323,13 +413,28 @@ class UH_60L_DAP(HelicopterType):
         OH58D_AGM_114_L = (2, Weapons.OH58D_AGM_114_L)
         M299___Empty_Launcher = (2, Weapons.M299___Empty_Launcher)
         M299___4_x_AGM_114K_Hellfire = (2, Weapons.M299___4_x_AGM_114K_Hellfire)
-        M299___3_x_AGM_114K_Hellfire__Port = (2, Weapons.M299___3_x_AGM_114K_Hellfire__Port)
-        M299___3_x_AGM_114K_Hellfire__Starboard = (2, Weapons.M299___3_x_AGM_114K_Hellfire__Starboard)
+        M299___3_x_AGM_114K_Hellfire__Port = (
+            2,
+            Weapons.M299___3_x_AGM_114K_Hellfire__Port,
+        )
+        M299___3_x_AGM_114K_Hellfire__Starboard = (
+            2,
+            Weapons.M299___3_x_AGM_114K_Hellfire__Starboard,
+        )
         M299___2_x_AGM_114K_Hellfire = (2, Weapons.M299___2_x_AGM_114K_Hellfire)
-        M299___1_x_AGM_114K_Hellfire__Port = (2, Weapons.M299___1_x_AGM_114K_Hellfire__Port)
-        M299___1_x_AGM_114K_Hellfire__Starboard = (2, Weapons.M299___1_x_AGM_114K_Hellfire__Starboard)
+        M299___1_x_AGM_114K_Hellfire__Port = (
+            2,
+            Weapons.M299___1_x_AGM_114K_Hellfire__Port,
+        )
+        M299___1_x_AGM_114K_Hellfire__Starboard = (
+            2,
+            Weapons.M299___1_x_AGM_114K_Hellfire__Starboard,
+        )
         FN_HMP400__400rnds_ = (2, Weapons.FN_HMP400__400rnds_)
-        M_230__30MM_M789_HEDP__600_rnds_ = (2, WeaponsUH60L.M_230__30MM_M789_HEDP__600_rnds_)
+        M_230__30MM_M789_HEDP__600_rnds_ = (
+            2,
+            WeaponsUH60L.M_230__30MM_M789_HEDP__600_rnds_,
+        )
         GAU_19 = (2, WeaponsUH60L.GAU_19)
         M134 = (2, WeaponsUH60L.M134)
         _200_Gallon_CEFS_Aux_Tank = (2, WeaponsUH60L._200_Gallon_CEFS_Aux_Tank)
@@ -345,28 +450,70 @@ class UH_60L_DAP(HelicopterType):
     class Pylon4:
         Cargo_Seats__Rear_Row_ = (4, WeaponsUH60L.Cargo_Seats__Rear_Row_)
         Cargo_Seats__Three_Rows_ = (4, WeaponsUH60L.Cargo_Seats__Three_Rows_)
-        Dual_Internal_Auxiliary_Fuel_Transfer_System__336_Gallons_ = (4, WeaponsUH60L.Dual_Internal_Auxiliary_Fuel_Transfer_System__336_Gallons_)
+        Dual_Internal_Auxiliary_Fuel_Transfer_System__336_Gallons_ = (
+            4,
+            WeaponsUH60L.Dual_Internal_Auxiliary_Fuel_Transfer_System__336_Gallons_,
+        )
 
     class Pylon5:
         Empty_Gunner_Seat_ = (5, WeaponsUH60L.Empty_Gunner_Seat_)
         M134_Door_Gun = (5, WeaponsUH60L.M134_Door_Gun)
 
     class Pylon6:
-        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE = (6, Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE)
-        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM = (6, Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM)
-        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE = (6, Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE)
-        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (6, Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL)
-        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM = (6, Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM)
-        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (6, Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM)
-        M260___7_x_Laser_Guided_Rkts__70_mm_Hydra_70_M151_HE_APKWS = (6, Weapons.M260___7_x_Laser_Guided_Rkts__70_mm_Hydra_70_M151_HE_APKWS)
+        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE = (
+            6,
+            Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
+        )
+        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM = (
+            6,
+            Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
+        )
+        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE = (
+            6,
+            Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE,
+        )
+        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (
+            6,
+            Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
+        )
+        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM = (
+            6,
+            Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM,
+        )
+        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (
+            6,
+            Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
+        )
+        M260___7_x_Laser_Guided_Rkts__70_mm_Hydra_70_M151_HE_APKWS = (
+            6,
+            Weapons.M260___7_x_Laser_Guided_Rkts__70_mm_Hydra_70_M151_HE_APKWS,
+        )
         # ERRR {M261_MK151}
-        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE__M433_RC_Fuze = (6, Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE__M433_RC_Fuze)
+        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE__M433_RC_Fuze = (
+            6,
+            Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE__M433_RC_Fuze,
+        )
         # ERRR {M261_MK156}
-        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE = (6, Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE)
-        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (6, Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL)
-        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM = (6, Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM)
-        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (6, Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM)
-        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M282_MPP = (6, Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M282_MPP)
+        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE = (
+            6,
+            Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE,
+        )
+        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (
+            6,
+            Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
+        )
+        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM = (
+            6,
+            Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM,
+        )
+        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (
+            6,
+            Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
+        )
+        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M282_MPP = (
+            6,
+            Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M282_MPP,
+        )
         UH60_LWL12_M151 = (6, WeaponsUH60L.UH60_LWL12_M151)
         UH60_LWL12_M156 = (6, WeaponsUH60L.UH60_LWL12_M156)
         UH60_LWL12_M229 = (6, WeaponsUH60L.UH60_LWL12_M229)
@@ -375,7 +522,10 @@ class UH_60L_DAP(HelicopterType):
         UH60_LWL12_M274 = (6, WeaponsUH60L.UH60_LWL12_M274)
         UH60_LWL12_APKWS = (6, WeaponsUH60L.UH60_LWL12_APKWS)
         FN_HMP400__400rnds_ = (6, Weapons.FN_HMP400__400rnds_)
-        M_230__30MM_M789_HEDP__600_rnds__ = (6, WeaponsUH60L.M_230__30MM_M789_HEDP__600_rnds__)
+        M_230__30MM_M789_HEDP__600_rnds__ = (
+            6,
+            WeaponsUH60L.M_230__30MM_M789_HEDP__600_rnds__,
+        )
         GAU_19_ = (6, WeaponsUH60L.GAU_19_)
         M134_ = (6, WeaponsUH60L.M134_)
         OH58D_FIM_92_R = (6, Weapons.OH58D_FIM_92_R)
@@ -383,11 +533,23 @@ class UH_60L_DAP(HelicopterType):
         OH58D_AGM_114_R = (6, Weapons.OH58D_AGM_114_R)
         M299___Empty_Launcher = (6, Weapons.M299___Empty_Launcher)
         M299___4_x_AGM_114K_Hellfire = (6, Weapons.M299___4_x_AGM_114K_Hellfire)
-        M299___3_x_AGM_114K_Hellfire__Port = (6, Weapons.M299___3_x_AGM_114K_Hellfire__Port)
-        M299___3_x_AGM_114K_Hellfire__Starboard = (6, Weapons.M299___3_x_AGM_114K_Hellfire__Starboard)
+        M299___3_x_AGM_114K_Hellfire__Port = (
+            6,
+            Weapons.M299___3_x_AGM_114K_Hellfire__Port,
+        )
+        M299___3_x_AGM_114K_Hellfire__Starboard = (
+            6,
+            Weapons.M299___3_x_AGM_114K_Hellfire__Starboard,
+        )
         M299___2_x_AGM_114K_Hellfire = (6, Weapons.M299___2_x_AGM_114K_Hellfire)
-        M299___1_x_AGM_114K_Hellfire__Port = (6, Weapons.M299___1_x_AGM_114K_Hellfire__Port)
-        M299___1_x_AGM_114K_Hellfire__Starboard = (6, Weapons.M299___1_x_AGM_114K_Hellfire__Starboard)
+        M299___1_x_AGM_114K_Hellfire__Port = (
+            6,
+            Weapons.M299___1_x_AGM_114K_Hellfire__Port,
+        )
+        M299___1_x_AGM_114K_Hellfire__Starboard = (
+            6,
+            Weapons.M299___1_x_AGM_114K_Hellfire__Starboard,
+        )
         _200_Gallon_CEFS_Aux_Tank = (6, WeaponsUH60L._200_Gallon_CEFS_Aux_Tank)
         _230_Gallon_Aux_Tank = (6, WeaponsUH60L._230_Gallon_Aux_Tank)
         _450_Gallon_Aux_Tank = (6, WeaponsUH60L._450_Gallon_Aux_Tank)
@@ -395,21 +557,60 @@ class UH_60L_DAP(HelicopterType):
     # ERRR <CLEAN>
 
     class Pylon7:
-        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE = (7, Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE)
-        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM = (7, Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM)
-        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE = (7, Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE)
-        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (7, Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL)
-        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM = (7, Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM)
-        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (7, Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM)
-        M260___7_x_Laser_Guided_Rkts__70_mm_Hydra_70_M151_HE_APKWS = (7, Weapons.M260___7_x_Laser_Guided_Rkts__70_mm_Hydra_70_M151_HE_APKWS)
+        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE = (
+            7,
+            Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE,
+        )
+        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM = (
+            7,
+            Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M156_SM,
+        )
+        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE = (
+            7,
+            Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE,
+        )
+        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (
+            7,
+            Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
+        )
+        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM = (
+            7,
+            Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM,
+        )
+        M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (
+            7,
+            Weapons.M260___7_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
+        )
+        M260___7_x_Laser_Guided_Rkts__70_mm_Hydra_70_M151_HE_APKWS = (
+            7,
+            Weapons.M260___7_x_Laser_Guided_Rkts__70_mm_Hydra_70_M151_HE_APKWS,
+        )
         # ERRR {M261_MK151}
-        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE__M433_RC_Fuze = (7, Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE__M433_RC_Fuze)
+        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE__M433_RC_Fuze = (
+            7,
+            Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M151_HE__M433_RC_Fuze,
+        )
         # ERRR {M261_MK156}
-        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE = (7, Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE)
-        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (7, Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL)
-        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM = (7, Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM)
-        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (7, Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM)
-        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M282_MPP = (7, Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M282_MPP)
+        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE = (
+            7,
+            Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M229_HE,
+        )
+        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL = (
+            7,
+            Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M257_IL,
+        )
+        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM = (
+            7,
+            Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M259_SM,
+        )
+        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM = (
+            7,
+            Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M274_TP_SM,
+        )
+        M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M282_MPP = (
+            7,
+            Weapons.M261___19_x_UnGd_Rkts__70_mm_Hydra_70_M282_MPP,
+        )
         UH60_LWL12_M151 = (7, WeaponsUH60L.UH60_LWL12_M151)
         UH60_LWL12_M156 = (7, WeaponsUH60L.UH60_LWL12_M156)
         UH60_LWL12_M229 = (7, WeaponsUH60L.UH60_LWL12_M229)
@@ -422,11 +623,23 @@ class UH_60L_DAP(HelicopterType):
         OH58D_AGM_114_R = (7, Weapons.OH58D_AGM_114_R)
         M299___Empty_Launcher = (7, Weapons.M299___Empty_Launcher)
         M299___4_x_AGM_114K_Hellfire = (7, Weapons.M299___4_x_AGM_114K_Hellfire)
-        M299___3_x_AGM_114K_Hellfire__Port = (7, Weapons.M299___3_x_AGM_114K_Hellfire__Port)
-        M299___3_x_AGM_114K_Hellfire__Starboard = (7, Weapons.M299___3_x_AGM_114K_Hellfire__Starboard)
+        M299___3_x_AGM_114K_Hellfire__Port = (
+            7,
+            Weapons.M299___3_x_AGM_114K_Hellfire__Port,
+        )
+        M299___3_x_AGM_114K_Hellfire__Starboard = (
+            7,
+            Weapons.M299___3_x_AGM_114K_Hellfire__Starboard,
+        )
         M299___2_x_AGM_114K_Hellfire = (7, Weapons.M299___2_x_AGM_114K_Hellfire)
-        M299___1_x_AGM_114K_Hellfire__Port = (7, Weapons.M299___1_x_AGM_114K_Hellfire__Port)
-        M299___1_x_AGM_114K_Hellfire__Starboard = (7, Weapons.M299___1_x_AGM_114K_Hellfire__Starboard)
+        M299___1_x_AGM_114K_Hellfire__Port = (
+            7,
+            Weapons.M299___1_x_AGM_114K_Hellfire__Port,
+        )
+        M299___1_x_AGM_114K_Hellfire__Starboard = (
+            7,
+            Weapons.M299___1_x_AGM_114K_Hellfire__Starboard,
+        )
         FN_HMP400__400rnds_ = (7, Weapons.FN_HMP400__400rnds_)
         _200_Gallon_CEFS_Aux_Tank = (7, WeaponsUH60L._200_Gallon_CEFS_Aux_Tank)
         _230_Gallon_Aux_Tank = (7, WeaponsUH60L._230_Gallon_Aux_Tank)
@@ -435,7 +648,14 @@ class UH_60L_DAP(HelicopterType):
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7}
 
-    tasks = [task.CAP, task.CAS, task.GroundAttack, task.Escort, task.Transport, task.AntishipStrike]
+    tasks = [
+        task.CAP,
+        task.CAS,
+        task.GroundAttack,
+        task.Escort,
+        task.Transport,
+        task.AntishipStrike,
+    ]
     task_default = task.CAS
 
 
@@ -580,7 +800,10 @@ class UH_60L(HelicopterType):
     class Pylon4:
         Cargo_Seats__Rear_Row_ = (4, WeaponsUH60L.Cargo_Seats__Rear_Row_)
         Cargo_Seats__Three_Rows_ = (4, WeaponsUH60L.Cargo_Seats__Three_Rows_)
-        Dual_Internal_Auxiliary_Fuel_Transfer_System__336_Gallons_ = (4, WeaponsUH60L.Dual_Internal_Auxiliary_Fuel_Transfer_System__336_Gallons_)
+        Dual_Internal_Auxiliary_Fuel_Transfer_System__336_Gallons_ = (
+            4,
+            WeaponsUH60L.Dual_Internal_Auxiliary_Fuel_Transfer_System__336_Gallons_,
+        )
 
     class Pylon5:
         Empty_Gunner_Seat_ = (5, WeaponsUH60L.Empty_Gunner_Seat_)
