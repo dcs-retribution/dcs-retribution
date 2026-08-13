@@ -3,16 +3,17 @@ description:
   developed and manufactured by French aircraft company Dassault Aviation. It was the first
   Western European combat aircraft to exceed Mach 2 in horizontal flight, a feat which was
   achieved on 24 October 1958.
-  The Mirage IIIS is the Swiss attack, interception and reconnaissance variant.
-introduced: 1967
-manufacturer: Dassault
+  The Mirage 50, the latest version of the Mirage III/5 family, was introduced in 1969, with 
+  a Snecma Atar 9K 50 engine and a more sophisticated electronics system.
+introduced: 1969
+manufacturer: Dassault Aviation
 origin: France
 price: 12
 role: Multirole Fighter
 max_range: 150
 gunfighter: true
 variants:
-  Mirage IIIS: {}
+  Mirage 50: {}
 tasks:
   BARCAP: 220
   Escort: 220

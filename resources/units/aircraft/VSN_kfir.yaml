@@ -1,0 +1,26 @@
+description:
+  "The Israel Aircraft Industries Kfir (Hebrew: כְּפִיר, lit. 'Lion Cub') is an 
+  Israeli all-weather multirole combat aircraft based on the French Dassault 
+  Mirage 5, with Israeli avionics and an Israeli license-built version 
+  of the General Electric J79 turbojet engine"
+introduced: 1976
+manufacturer: Israel Aircraft Industries
+origin: Israel
+price: 12
+role: Multirole Fighter
+max_range: 150
+gunfighter: true
+variants:
+  IAI Kfir: {}
+tasks:
+  BARCAP: 220
+  Escort: 220
+  Fighter sweep: 220
+  Intercept: 220
+  TARCAP: 220
+  BAI: 220
+  CAS: 220
+  DEAD: 220
+  OCA/Aircraft: 220
+  OCA/Runway: 200
+  Strike: 220
