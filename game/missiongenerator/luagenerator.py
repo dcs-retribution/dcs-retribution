@@ -325,6 +325,11 @@ class LuaGenerator:
             "requireOpenDoors": (
                 "true" if settings.csar_require_open_doors else "false"
             ),
+            # Ops.CSAR's rescuehoverheight/rescuehoverdistance, for player hoists.
+            "playerHoverHeight": str(settings.csar_player_hover_height),
+            "playerHoverDistance": str(settings.csar_player_hover_distance),
+            # Survivors this close together come out on the same lift.
+            "clusterRadius": str(settings.csar_cluster_radius),
             # Landing mode leaves the pickup to DCS's native embark; hover mode
             # needs OpsCSAR.lua to extract the pilot by script.
             "hoverExtraction": ("true" if settings.csar_hover_extraction else "false"),

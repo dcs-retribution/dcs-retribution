@@ -2,7 +2,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import unique, Enum
-from typing import Any
+from typing import Any, Optional
+from uuid import UUID
 
 from faker import Faker
 
@@ -34,11 +35,15 @@ class Pilot:
     #: Number of turns until a Recovering pilot returns to Active. Only meaningful
     #: while status is Recovering.
     turns_until_available: int = field(default=0)
+    #: The control point holding this pilot prisoner, for one who went missing
+    #: rather than being rescued. Retaking that base frees them. None means their
+    #: fate is not tied to any base, and they stay missing.
+    held_at: Optional[UUID] = field(default=None)
 
     def __setstate__(self, state: dict[str, Any]) -> None:
-        # Older saves predate CSAR and won't have this field.
-        if "turns_until_available" not in state:
-            state["turns_until_available"] = 0
+        # Older saves predate CSAR and won't have these fields.
+        state.setdefault("turns_until_available", 0)
+        state.setdefault("held_at", None)
         self.__dict__.update(state)
 
     @property
@@ -78,11 +83,24 @@ class Pilot:
         """Marks the pilot as shot down and awaiting CSAR rescue."""
         self.status = PilotStatus.Downed
 
-    def go_mia(self) -> None:
-        """Marks a downed pilot as missing in action (rescue never came)."""
+    def go_mia(self, held_at: Optional[UUID] = None) -> None:
+        """Marks a downed pilot as missing in action (rescue never came).
+
+        ``held_at`` is the control point that took them prisoner, if any. Taking
+        that base back frees them; see ``release_from_captivity``.
+        """
         if self.status is not PilotStatus.Downed:
             raise RuntimeError("Only downed pilots may go missing in action")
         self.status = PilotStatus.MissingInAction
+        self.held_at = held_at
+
+    def release_from_captivity(self, turns: int) -> None:
+        """Frees a prisoner when the base holding them is retaken."""
+        if self.status is not PilotStatus.MissingInAction:
+            raise RuntimeError("Only missing pilots may be released from captivity")
+        self.held_at = None
+        self.status = PilotStatus.Downed
+        self.begin_recovery(turns)
 
     def begin_recovery(self, turns: int) -> None:
         """Marks a rescued pilot as recovering for the given number of turns.

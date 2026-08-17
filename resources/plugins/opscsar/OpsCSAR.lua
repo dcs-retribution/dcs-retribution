@@ -116,6 +116,8 @@ local function opscsar_main()
     local embark_zone_radius = tonumber(cfg.embarkZoneRadius) or PICKUP_RADIUS
     local hover_duration = tonumber(cfg.hoverDurationSeconds) or HOVER_DURATION_SECONDS
     local hover_altitude = tonumber(cfg.hoverAltitudeMeters) or HOVER_ALTITUDE
+    -- Survivors this close to the one being collected come out on the same lift.
+    local cluster_radius = tonumber(cfg.clusterRadius) or 0
 
     opscsar_log(
         "=== CSAR starting (default AI pickup: "
@@ -177,6 +179,10 @@ local function opscsar_main()
         -- Survivors wait for the cabin door before boarding or getting out. Only
         -- affects crewed rescues; the AI paths don't go through Ops.CSAR at all.
         my.pilotmustopendoors = cfg.requireOpenDoors == "true"
+        -- How low and how close a player must hover to winch a survivor up.
+        my.rescuehoverheight = tonumber(cfg.playerHoverHeight) or my.rescuehoverheight
+        my.rescuehoverdistance =
+            tonumber(cfg.playerHoverDistance) or my.rescuehoverdistance
         -- Consider *every* friendly helicopter, not just ones named after MOOSE's
         -- demo templates. Ops.CSAR defaults to useprefix=true with
         -- csarPrefix={"helicargo","MEDEVAC"} and builds allheligroupset from that,
@@ -416,6 +422,26 @@ local function opscsar_main()
     -- waypoint tasks for client aircraft, so that falls out for free.
     -- ------------------------------------------------------------------
 
+    -- The other survivors close enough to `entry` to come out on the same lift.
+    -- Rebuilt here rather than injected, so it stays right even if a cluster-mate
+    -- has already been collected or killed by the time the flight arrives.
+    local function cluster_with(entry)
+        local mates = {}
+        if cluster_radius <= 0 or entry.last_x == nil then
+            return mates
+        end
+        for _, other in pairs(tracked) do
+            if other ~= entry and not other.done and other.side == entry.side
+                and other.last_x ~= nil
+                and distance2d(
+                    entry.last_x, entry.last_z, other.last_x, other.last_z
+                ) <= cluster_radius then
+                table.insert(mates, other)
+            end
+        end
+        return mates
+    end
+
     local function hover_controller(entry)
         if entry.hover_group == nil then
             return nil
@@ -555,17 +581,27 @@ local function opscsar_main()
         end
 
         local by = entry.hover_group
-        local group = Group.getByName(entry.group_name)
-        if group and group:isExist() then
-            group:destroy()
+        -- The whole cluster comes up on this hover, not just the one the flight
+        -- was planned against.
+        local lifted = { entry }
+        for _, mate in pairs(cluster_with(entry)) do
+            table.insert(lifted, mate)
         end
-        -- Stop Ops.CSAR beaconing and calling MAYDAY for a pilot who is aboard.
-        if entry.instance then
-            pcall(function()
-                entry.instance:_RemoveNameFromDownedPilots(entry.group_name, true)
-            end)
+        for _, survivor in pairs(lifted) do
+            local group = Group.getByName(survivor.group_name)
+            if group and group:isExist() then
+                group:destroy()
+            end
+            -- Stop Ops.CSAR beaconing and calling MAYDAY for someone aboard.
+            if survivor.instance then
+                pcall(function()
+                    survivor.instance:_RemoveNameFromDownedPilots(
+                        survivor.group_name, true
+                    )
+                end)
+            end
+            record_rescue(survivor, by, "hoisted by")
         end
-        record_rescue(entry, by, "hoisted by")
         release_hover(entry, "hoist complete")
     end
 
@@ -661,6 +697,14 @@ local function opscsar_main()
                         .. math.floor(on_ground) .. "s on the ground."
                     )
                     record_rescue(entry, name, "embarked on")
+                    -- Cluster-mates walk to the same landing zone, so credit any
+                    -- who have gone from the map. Checked rather than assumed:
+                    -- one still standing there did not make it aboard in time.
+                    for _, mate in pairs(cluster_with(entry)) do
+                        if survivor_in_world(mate) == nil then
+                            record_rescue(mate, name, "embarked on")
+                        end
+                    end
                 else
                     opscsar_log(
                         name .. " left the pickup for " .. tostring(entry.id)

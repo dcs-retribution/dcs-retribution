@@ -710,6 +710,36 @@ class Settings:
             "Real in-mission ejections always produce a downed pilot."
         ),
     )
+    csar_control_point_radius: int = bounded_int_option(
+        "Control point radius resolving a downed pilot (nm)",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        PILOTS_AND_SQUADRONS_SECTION,
+        default=15,
+        min=0,
+        max=100,
+        detail=(
+            "A pilot who comes down this close to a control point does not need a "
+            "rescue flight: inside a friendly one they make their own way back and "
+            "go straight into recovery, inside an enemy one they are captured and "
+            "go missing in action. Only pilots outside every control point's radius "
+            "become downed pilots on the map. Set to 0 to always require a rescue."
+        ),
+    )
+    csar_cluster_radius: int = bounded_int_option(
+        "Collect downed pilots within (m) on one flight",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        PILOTS_AND_SQUADRONS_SECTION,
+        default=1000,
+        min=0,
+        max=5000,
+        detail=(
+            "Downed pilots this close together are collected by a single AI rescue "
+            "flight rather than one flight each: the survivors walk to the same "
+            "landing zone, or are hoisted on the same hover. Only affects the "
+            "auto-planner -- a package planned by hand still targets one pilot. Set "
+            "to 0 to plan a separate flight for every pilot."
+        ),
+    )
     csar_survival_turns: int = bounded_int_option(
         "Turns a downed pilot survives",
         CAMPAIGN_MANAGEMENT_PAGE,
@@ -931,6 +961,18 @@ class Settings:
         detail="A larger number will force the auto-planner to stick with squadrons that have a matching primary task."
         " A smaller number will ignore squadrons with a matching primary task that are too far out.",
     )
+    csar_single_flight: bool = boolean_option(
+        "Enable single flight CSAR",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        FLIGHT_PLANNER_AUTOMATION,
+        default=False,
+        detail=(
+            "Plans rescue packages with one helicopter instead of a pair. Cheaper "
+            "in airframes and pilots, at the cost of having no wingman to cover the "
+            "pickup or take over if the lead is lost. The weight factors above do "
+            "not apply to CSAR either way."
+        ),
+    )
 
     # Mission Generator
     # Gameplay
@@ -1097,6 +1139,30 @@ class Settings:
         detail=(
             "If set, Ops.CSAR will register AI downed pilots in the mission for "
             "player flights, not only player-flown ejections."
+        ),
+    )
+    csar_player_hover_height: int = bounded_int_option(
+        "Player hover pickup height (m)",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=20,
+        min=5,
+        max=100,
+        detail=(
+            "How low a player has to hover over a survivor to winch them up. "
+            "Ops.CSAR's rescuehoverheight. Player pickups only."
+        ),
+    )
+    csar_player_hover_distance: int = bounded_int_option(
+        "Player hover pickup distance (m)",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=10,
+        min=5,
+        max=200,
+        detail=(
+            "How close to the survivor a player has to hold that hover. "
+            "Ops.CSAR's rescuehoverdistance. Player pickups only."
         ),
     )
     csar_require_open_doors: bool = boolean_option(

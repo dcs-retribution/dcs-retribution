@@ -8,7 +8,7 @@ from dcs.task import EmbarkToTransport
 from dcs.vehicles import Infantry
 
 from game.theater import Player
-from game.utils import meters
+from game.utils import Distance, meters
 
 if TYPE_CHECKING:
     from game import Game
@@ -77,6 +77,22 @@ class CsarGenerator:
         group.hidden_on_planner = True
         self.mission_data.csar_pilot_templates[key] = group_name
 
+    def _embark_radius_for(self, downed: DownedPilot) -> Distance:
+        """How far this survivor will walk to board.
+
+        Normally the standard embark zone around themselves. When they are part of
+        a cluster the rescue flight may land for any member of it, so the zone has
+        to stretch to whichever of them is furthest away -- otherwise the flight
+        sets down for one pilot and the rest never walk out.
+        """
+        cluster = downed.cluster(meters(self.game.settings.csar_cluster_radius))
+        if len(cluster) < 2:
+            return EMBARK_ZONE_RADIUS
+        furthest = max(
+            other.position.distance_to_point(downed.position) for other in cluster
+        )
+        return EMBARK_ZONE_RADIUS + meters(furthest)
+
     def _generate_downed_pilot(self, coalition: Coalition, downed: DownedPilot) -> None:
         from game.missiongenerator.missiondata import CsarPilotGroupInfo
 
@@ -103,7 +119,7 @@ class CsarGenerator:
             group.points[0].tasks.append(
                 EmbarkToTransport(
                     position=Vector2(downed.position.x, downed.position.y),
-                    zone_radius=round(EMBARK_ZONE_RADIUS.meters),
+                    zone_radius=round(self._embark_radius_for(downed).meters),
                 )
             )
 

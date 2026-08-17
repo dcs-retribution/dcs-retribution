@@ -15,6 +15,7 @@ from game.sidc import (
 )
 from game.theater.missiontarget import MissionTarget
 from game.theater.player import Player
+from game.utils import Distance
 
 if TYPE_CHECKING:
     from game.ato.flighttype import FlightType
@@ -64,6 +65,22 @@ class DownedPilot(SidcDescribable, MissionTarget):
         # Saves from before water rescues existed put every pilot on land.
         state.setdefault("in_water", False)
         self.__dict__.update(state)
+
+    def cluster(self, radius: Distance) -> list[DownedPilot]:
+        """This pilot plus any close enough to be collected on the same lift.
+
+        Always includes self, and always first: the rest of the pipeline treats
+        the head of the list as the one the rescue flight is actually planned
+        against.
+        """
+        if radius.meters <= 0:
+            return [self]
+        return [self] + [
+            other
+            for other in self.coalition.downed_pilots
+            if other is not self
+            and other.position.distance_to_point(self.position) <= radius.meters
+        ]
 
     def needs_hover_extraction(self, settings: Settings) -> bool:
         """Whether this pilot must be winched out rather than walked aboard.

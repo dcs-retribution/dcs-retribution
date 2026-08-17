@@ -12,6 +12,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from typing import Any, cast
 from unittest.mock import MagicMock, patch
+from uuid import uuid4
 
 import pytest
 from dcs.mapping import Point
@@ -195,6 +196,9 @@ def _make_game(**settings: Any) -> Any:
         csar_enabled=True,
         csar_enabled_red=True,
         csar_ejection_chance=40,
+        # Off unless a test is exercising it, so the rest keep placing pilots on
+        # the map rather than resolving them against a mocked control point.
+        csar_control_point_radius=0,
         csar_survival_turns=3,
         csar_survival_turns_hostile=2,
         csar_ai_recovery_turns=2,
@@ -238,6 +242,251 @@ def test_down_pilot_creates_downed_and_registers() -> None:
     assert downed.turns_remaining == 3  # friendly rear
     assert downed in downed.squadron.coalition.downed_pilots
     game.db.downed_pilots.add.assert_called_once()
+
+
+def _down_near_control_point(
+    friendly: bool, distance_meters: float, radius_nm: int = 15, **settings: Any
+) -> Any:
+    """Downs a pilot the given distance from the nearest control point."""
+    game = _make_game(csar_control_point_radius=radius_nm, **settings)
+    control_point = MagicMock()
+    control_point.name = "Incirlik"
+    control_point.is_friendly.return_value = friendly
+    control_point.position.distance_to_point.return_value = distance_meters
+    game.theater.closest_control_point.return_value = control_point
+
+    pilot = Pilot("Downed")
+    squadron = MagicMock()
+    squadron.player = _blue_red_player().BLUE
+    squadron.coalition.downed_pilots = []
+    flight = MagicMock()
+    flight.squadron = squadron
+    result = CsarService(game).down_pilot(
+        flight, pilot, False, Point(0.0, 0.0, _TERRAIN)
+    )
+    return pilot, result, squadron
+
+
+def test_pilot_down_inside_a_friendly_base_walks_home() -> None:
+    """No rescue flight is worth planning for someone who came down on top of a
+    friendly base, so they go straight into recovery and never reach the map."""
+    pilot, result, squadron = _down_near_control_point(friendly=True, distance_meters=0)
+
+    assert result is None
+    assert pilot.recovering
+    assert pilot.turns_until_available == 2  # csar_ai_recovery_turns
+    assert squadron.coalition.downed_pilots == []
+
+
+def test_player_pilot_down_inside_a_friendly_base_uses_the_player_turns() -> None:
+    game = _make_game(csar_control_point_radius=15)
+    control_point = MagicMock()
+    control_point.name = "Incirlik"
+    control_point.is_friendly.return_value = True
+    control_point.position.distance_to_point.return_value = 0.0
+    game.theater.closest_control_point.return_value = control_point
+
+    pilot = Pilot("Client")
+    squadron = MagicMock()
+    squadron.player = _blue_red_player().BLUE
+    squadron.coalition.downed_pilots = []
+    flight = MagicMock()
+    flight.squadron = squadron
+    CsarService(game).down_pilot(flight, pilot, True, Point(0.0, 0.0, _TERRAIN))
+
+    assert pilot.turns_until_available == 1  # csar_player_recovery_turns
+
+
+def test_pilot_down_inside_an_enemy_base_is_captured() -> None:
+    pilot, result, squadron = _down_near_control_point(
+        friendly=False, distance_meters=0
+    )
+
+    assert result is None
+    assert pilot.missing_in_action
+    assert squadron.coalition.downed_pilots == []
+
+
+def test_pilot_captured_at_a_base_is_held_by_that_base() -> None:
+    """Coming down on top of an enemy base is a capture like any other, so it has
+    to be recoverable by retaking the base rather than a permanent loss."""
+    game = _make_game(csar_control_point_radius=15)
+    control_point = _control_point("Krymsk", friendly_to_blue=False, x=0.0)
+    control_point.position.distance_to_point = MagicMock(return_value=0.0)
+    game.theater.closest_control_point.return_value = control_point
+
+    pilot = Pilot("Captured")
+    squadron = MagicMock()
+    squadron.player = _blue_red_player().BLUE
+    squadron.coalition.downed_pilots = []
+    flight = MagicMock()
+    flight.squadron = squadron
+    CsarService(game).down_pilot(flight, pilot, False, Point(0.0, 0.0, _TERRAIN))
+
+    assert pilot.missing_in_action
+    assert pilot.held_at == control_point.id
+
+
+def test_pilot_down_outside_the_radius_still_needs_rescue() -> None:
+    from game.utils import nautical_miles
+
+    just_outside = nautical_miles(15).meters + 1
+    with patch(
+        "game.squadrons.csarservice.find_downed_pilot_position",
+        return_value=Point(100.0, 200.0, _TERRAIN),
+    ):
+        pilot, result, squadron = _down_near_control_point(
+            friendly=True, distance_meters=just_outside
+        )
+
+    assert result is not None
+    assert pilot.downed
+    assert result in squadron.coalition.downed_pilots
+
+
+def test_zero_radius_always_requires_a_rescue() -> None:
+    """The escape hatch: 0 means every ejection produces a downed pilot, even one
+    that came down on the runway."""
+    with patch(
+        "game.squadrons.csarservice.find_downed_pilot_position",
+        return_value=Point(100.0, 200.0, _TERRAIN),
+    ):
+        pilot, result, _ = _down_near_control_point(
+            friendly=True, distance_meters=0, radius_nm=0
+        )
+
+    assert result is not None
+    assert pilot.downed
+
+
+def test_unplaceable_pilot_is_killed_by_the_service() -> None:
+    """down_pilot owns the outcome now, so a pilot with nowhere survivable to go
+    must be killed here rather than left Active for the caller to deal with."""
+    with patch(
+        "game.squadrons.csarservice.find_downed_pilot_position", return_value=None
+    ):
+        pilot, result, squadron = _down_near_control_point(
+            friendly=True, distance_meters=1_000_000.0
+        )
+
+    assert result is None
+    assert pilot.status is PilotStatus.Dead
+    assert squadron.coalition.downed_pilots == []
+
+
+def _control_point(name: str, friendly_to_blue: bool, x: float) -> Any:
+    cp = MagicMock()
+    cp.name = name
+    cp.id = uuid4()
+    cp.position = Point(x, 0.0, _TERRAIN)
+    cp.is_friendly.side_effect = lambda player: player.is_blue == friendly_to_blue
+    return cp
+
+
+def test_unrescued_pilot_is_held_at_the_nearest_enemy_base() -> None:
+    """A pilot who times out is taken prisoner by whoever was closest, so the
+    campaign has somewhere to send a rescue in the form of a ground offensive."""
+    game = _make_game()
+    near_enemy = _control_point("Krymsk", friendly_to_blue=False, x=1000.0)
+    far_enemy = _control_point("Anapa", friendly_to_blue=False, x=90000.0)
+    friendly = _control_point("Batumi", friendly_to_blue=True, x=500.0)
+    game.theater.controlpoints = [far_enemy, friendly, near_enemy]
+
+    downed = _standalone_downed()
+    downed._position = Point(0.0, 0.0, _TERRAIN)
+    downed.pilot.go_down()
+    CsarService(game).go_mia(downed)
+
+    assert downed.pilot.missing_in_action
+    # Nearest *enemy* base, not the nearest base outright.
+    assert downed.pilot.held_at == near_enemy.id
+
+
+def test_pilot_with_no_enemy_bases_is_simply_missing() -> None:
+    game = _make_game()
+    game.theater.controlpoints = [_control_point("Batumi", True, 500.0)]
+
+    downed = _standalone_downed()
+    downed._position = Point(0.0, 0.0, _TERRAIN)
+    downed.pilot.go_down()
+    CsarService(game).go_mia(downed)
+
+    assert downed.pilot.missing_in_action
+    assert downed.pilot.held_at is None
+
+
+def _game_with_prisoner(held_at: Any) -> tuple[Any, Pilot, Any]:
+    prisoner = Pilot("Captured")
+    prisoner.go_down()
+    prisoner.go_mia(held_at=held_at)
+
+    squadron = MagicMock()
+    squadron.missing_pilots = [prisoner]
+    game = _make_game()
+    game.blue.player = _blue_red_player().BLUE
+    game.red.player = _blue_red_player().RED
+    game.blue.air_wing.iter_squadrons.return_value = [squadron]
+    game.red.air_wing.iter_squadrons.return_value = []
+    return game, prisoner, squadron
+
+
+def test_retaking_a_base_frees_its_prisoners() -> None:
+    base = _control_point("Krymsk", friendly_to_blue=True, x=0.0)
+    game, prisoner, _ = _game_with_prisoner(base.id)
+
+    CsarService(game).liberate_prisoners_at(base)
+
+    assert prisoner.recovering
+    assert prisoner.turns_until_available == 1  # csar_player_recovery_turns for blue
+    assert prisoner.held_at is None
+
+
+def test_losing_a_base_does_not_free_our_prisoners() -> None:
+    """liberate_prisoners_at runs for every capture, including ones we lost, so
+    it has to check who owns the base now rather than that it changed hands."""
+    base = _control_point("Krymsk", friendly_to_blue=False, x=0.0)
+    game, prisoner, _ = _game_with_prisoner(base.id)
+
+    CsarService(game).liberate_prisoners_at(base)
+
+    assert prisoner.missing_in_action
+    assert prisoner.held_at == base.id
+
+
+def test_capturing_a_different_base_leaves_prisoners_alone() -> None:
+    held_at = _control_point("Krymsk", friendly_to_blue=True, x=0.0)
+    elsewhere = _control_point("Anapa", friendly_to_blue=True, x=90000.0)
+    game, prisoner, _ = _game_with_prisoner(held_at.id)
+
+    CsarService(game).liberate_prisoners_at(elsewhere)
+
+    assert prisoner.missing_in_action
+
+
+def test_released_prisoner_goes_into_recovery_not_straight_to_active() -> None:
+    prisoner = Pilot("Captured")
+    prisoner.go_down()
+    prisoner.go_mia(held_at=uuid4())
+
+    prisoner.release_from_captivity(2)
+    assert prisoner.recovering
+    assert prisoner.turns_until_available == 2
+    assert prisoner.alive
+
+
+def test_only_missing_pilots_can_be_released() -> None:
+    active = Pilot("Active")
+    with pytest.raises(RuntimeError):
+        active.release_from_captivity(1)
+
+
+def test_pilot_setstate_defaults_held_at() -> None:
+    pilot = Pilot("Old")
+    state = dict(pilot.__dict__)
+    del state["held_at"]
+    restored = Pilot.__new__(Pilot)
+    restored.__setstate__(state)
+    assert restored.held_at is None
 
 
 def test_survival_turns_hostile_when_near_front() -> None:
@@ -625,6 +874,101 @@ def test_player_rescues_are_credited_on_delivery_not_pickup() -> None:
     assert "function my:OnAfterRescued" in lua
 
 
+def _clustered_pilots(*offsets: float) -> list[DownedPilot]:
+    """Downed pilots strung out along the x axis, sharing one coalition."""
+    pilots = []
+    coalition_pilots: list[DownedPilot] = []
+    for offset in offsets:
+        downed = _standalone_downed()
+        downed._position = Point(offset, 0.0, _TERRAIN)
+        downed.squadron.coalition.downed_pilots = coalition_pilots
+        coalition_pilots.append(downed)
+        pilots.append(downed)
+    return pilots
+
+
+def test_cluster_gathers_nearby_pilots_and_leads_with_self() -> None:
+    from game.utils import meters
+
+    near, closer, far = _clustered_pilots(0.0, 800.0, 1500.0)
+    cluster = near.cluster(meters(1000))
+
+    assert cluster[0] is near  # the flight is planned against the head
+    assert closer in cluster
+    assert far not in cluster
+
+
+def test_cluster_of_zero_radius_is_just_the_pilot() -> None:
+    from game.utils import meters
+
+    alone, neighbour = _clustered_pilots(0.0, 10.0)
+    assert alone.cluster(meters(0)) == [alone]
+    assert neighbour is not None
+
+
+def test_planning_a_cluster_takes_its_whole_cluster_off_the_board() -> None:
+    """Otherwise the auto-planner spends a package on each pilot in the huddle."""
+    from game.commander.tasks.primitive.csar import PlanCsar
+
+    lead, mate, distant = _clustered_pilots(0.0, 500.0, 4000.0)
+    state = _csar_planning_state([lead, mate, distant], max_flights=5)
+    state.context.settings.csar_cluster_radius = 1000
+
+    task = PlanCsar(lead)
+    with patch.object(type(task), "package", None):
+        task.apply_effects(state)
+
+    assert state.csar_targets == [distant]
+    # One package, so one of the per-side allowance.
+    assert state.csar_flights_planned == 1
+
+
+def test_clustered_survivor_walks_far_enough_to_reach_a_shared_lz() -> None:
+    """The flight may set down for any member of the cluster, so each survivor's
+    embark zone has to stretch to the furthest of them -- otherwise it lands for
+    one pilot and the others never walk out."""
+    from game.missiongenerator.csargenerator import EMBARK_ZONE_RADIUS, CsarGenerator
+
+    lead, mate = _clustered_pilots(0.0, 900.0)
+    generator = CsarGenerator.__new__(CsarGenerator)
+    generator.game = cast(Any, MagicMock())
+    generator.game.settings.csar_cluster_radius = 1000
+
+    assert generator._embark_radius_for(lead).meters == pytest.approx(
+        EMBARK_ZONE_RADIUS.meters + 900.0
+    )
+    # A pilot on their own keeps the standard zone.
+    generator.game.settings.csar_cluster_radius = 0
+    assert generator._embark_radius_for(lead) == EMBARK_ZONE_RADIUS
+
+
+def test_lua_collects_the_cluster_on_both_pickup_paths() -> None:
+    lua = _opscsar_lua()
+    assert "local function cluster_with(entry)" in lua
+    # Hover: everyone comes up on the same hold.
+    assert "for _, mate in pairs(cluster_with(entry)) do" in lua
+    # Landing: only those who actually left the map are credited.
+    assert "if survivor_in_world(mate) == nil then" in lua
+
+
+def test_csar_package_size_ignores_the_flight_weight_factors() -> None:
+    """The 2/3/4-ship weights are about ordnance on a target, which has nothing to
+    do with collecting one pilot. CSAR is a pair, or a singleton if configured."""
+    import inspect
+
+    from game.commander.tasks.primitive.csar import PlanCsar
+
+    source = inspect.getsource(PlanCsar.propose_flights)
+    assert "self.get_flight_size()" not in source
+    assert "1 if settings.csar_single_flight else 2" in source
+
+
+def test_player_hover_settings_reach_ops_csar() -> None:
+    lua = _opscsar_lua()
+    assert "my.rescuehoverheight = tonumber(cfg.playerHoverHeight)" in lua
+    assert "tonumber(cfg.playerHoverDistance)" in lua
+
+
 def test_require_open_doors_is_wired_to_ops_csar() -> None:
     """The setting only means anything if it reaches MOOSE's pilotmustopendoors."""
     assert 'my.pilotmustopendoors = cfg.requireOpenDoors == "true"' in _opscsar_lua()
@@ -669,7 +1013,14 @@ def _csar_planning_state(targets: list[DownedPilot], max_flights: int) -> Any:
     state.csar_targets = list(targets)
     state.csar_flights_planned = 0
     state.context = cast(
-        Any, SimpleNamespace(settings=SimpleNamespace(max_csar_flights=max_flights))
+        Any,
+        SimpleNamespace(
+            settings=SimpleNamespace(
+                max_csar_flights=max_flights,
+                # Clustering off unless a test is exercising it.
+                csar_cluster_radius=0,
+            )
+        ),
     )
     return state
 
@@ -1342,6 +1693,7 @@ def _generate_csar(hover: bool, in_water: bool = False) -> Any:
     game.settings.csar_enabled = True
     game.settings.csar_enabled_red = False
     game.settings.csar_hover_extraction = hover
+    game.settings.csar_cluster_radius = 0
     game.theater.terrain = mission.terrain
     game.coalition_for.return_value = coalition
 
@@ -1385,6 +1737,8 @@ def test_generate_csar_data_serializes_and_evaluates() -> None:
     game.settings.csar_warm_start = True
     game.settings.csar_rescue_ai_pilots = True
     game.settings.csar_require_open_doors = False
+    game.settings.csar_player_hover_height = 20
+    game.settings.csar_player_hover_distance = 10
     game.settings.csar_hover_extraction = True
     squadron = MagicMock()
     squadron.coalition.player = Player.BLUE
@@ -1442,6 +1796,9 @@ def test_generate_csar_data_serializes_and_evaluates() -> None:
     assert csar.hoverExtraction == "true"
     # Ops.CSAR's pilotmustopendoors, off by default.
     assert csar.requireOpenDoors == "false"
+    # Ops.CSAR's rescuehoverheight/rescuehoverdistance, exposed for players.
+    assert csar.playerHoverHeight == "20"
+    assert csar.playerHoverDistance == "10"
     # How the scripted hoist is flown. csarpickup.py owns both numbers so the
     # waypoint and the script holding the flight over it agree.
     from game.missiongenerator.aircraft.waypoints.csarpickup import (

@@ -156,9 +156,9 @@ class MissionResultsProcessor:
             pilot.kill()
             return
 
-        if csar.down_pilot(flight, pilot, pilot.player, position) is None:
-            # No landable spot nearby; treat as killed.
-            pilot.kill()
+        # Settles the pilot's fate itself: a downed pilot on the map, or recovered,
+        # captured or killed where a rescue was never on the cards.
+        csar.down_pilot(flight, pilot, pilot.player, position)
 
     @staticmethod
     def _commit_pilot_experience(ato: AirTaskingOrder) -> None:
@@ -278,6 +278,9 @@ class MissionResultsProcessor:
                 captured.control_point.capture(
                     self.game, events, captured.captured_by_player
                 )
+                # After the capture, so the base already belongs to its new owner
+                # when we ask whose prisoners these are.
+                CsarService(self.game).liberate_prisoners_at(captured.control_point)
             except Exception:
                 logging.exception(f"Could not process base capture {captured}")
 

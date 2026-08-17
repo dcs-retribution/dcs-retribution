@@ -6,6 +6,7 @@ from game.ato.flighttype import FlightType
 from game.commander.tasks.packageplanningtask import PackagePlanningTask
 from game.commander.theaterstate import TheaterState
 from game.squadrons.downedpilot import DownedPilot
+from game.utils import meters
 
 
 @dataclass
@@ -25,10 +26,22 @@ class PlanCsar(PackagePlanningTask[DownedPilot]):
         return super().preconditions_met(state)
 
     def apply_effects(self, state: TheaterState) -> None:
-        state.csar_targets.remove(self.target)
+        # One flight collects the whole cluster, so take its other members off the
+        # board too rather than planning a package each. The mission generator
+        # rebuilds the same cluster from the target's position, so it knows who
+        # else to expect at the pickup.
+        radius = meters(state.context.settings.csar_cluster_radius)
+        for pilot in self.target.cluster(radius):
+            if pilot in state.csar_targets:
+                state.csar_targets.remove(pilot)
         state.csar_flights_planned += 1
         super().apply_effects(state)
 
     def propose_flights(self) -> None:
-        self.propose_flight(FlightType.CSAR, 2)
+        # Deliberately not get_flight_size(): the 2/3/4-ship weights are about
+        # putting enough ordnance on a target, which has nothing to do with how
+        # many helicopters it takes to collect one pilot. A pair by default, so
+        # the lead has cover on the ground, or a singleton if configured.
+        settings = self.target.coalition.game.settings
+        self.propose_flight(FlightType.CSAR, 1 if settings.csar_single_flight else 2)
         self.propose_common_escorts()
