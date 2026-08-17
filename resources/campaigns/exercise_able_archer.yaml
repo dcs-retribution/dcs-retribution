@@ -29,7 +29,7 @@ description:
 miz: exercise_able_archer.miz
 performance: 1
 recommended_start_date: 1983-11-09
-version: "10.8"
+version: "10.9"
 settings:
   hercules: true
   uh_60l: true
