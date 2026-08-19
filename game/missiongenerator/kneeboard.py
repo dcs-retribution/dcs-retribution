@@ -206,15 +206,39 @@ class NumberedWaypoint:
     waypoint: FlightWaypoint
 
 
+def format_kneeboard_time(
+    time: Optional[datetime.datetime], zulu_tz: Optional[datetime.timezone] = None
+) -> str:
+    """A kneeboard time, optionally with its Zulu equivalent on a second line.
+
+    A tz-aware time is already Zulu and carries the Z suffix. A naive one is the
+    local mission clock; where the airframe asks for the annotation, Zulu goes
+    underneath rather than beside, so the column width is unchanged.
+    """
+    if time is None:
+        return ""
+    text = f"{time.strftime('%H:%M:%S')}{'Z' if time.tzinfo is not None else ''}"
+    if zulu_tz is None or time.tzinfo is not None:
+        return text
+    zulu = time.replace(tzinfo=zulu_tz).astimezone(datetime.timezone.utc)
+    return f"{text}\n{zulu.strftime('%H:%M:%S')}Z"
+
+
 class FlightPlanBuilder:
     WAYPOINT_DESC_MAX_LEN = 25
 
-    def __init__(self, start_time: datetime.datetime, units: UnitSystem) -> None:
+    def __init__(
+        self,
+        start_time: datetime.datetime,
+        units: UnitSystem,
+        zulu_tz: Optional[datetime.timezone] = None,
+    ) -> None:
         self.start_time = start_time
         self.rows: List[List[str]] = []
         self.target_points: List[NumberedWaypoint] = []
         self.last_waypoint: Optional[FlightWaypoint] = None
         self.units = units
+        self.zulu_tz = zulu_tz
 
     def add_waypoint(self, waypoint_num: int, waypoint: FlightWaypoint) -> None:
         if waypoint.waypoint_type == FlightWaypointType.TARGET_POINT:
@@ -271,11 +295,8 @@ class FlightPlanBuilder:
             ]
         )
 
-    @staticmethod
-    def _format_time(time: datetime.datetime | None) -> str:
-        if time is None:
-            return ""
-        return f"{time.strftime('%H:%M:%S')}{'Z' if time.tzinfo is not None else ''}"
+    def _format_time(self, time: datetime.datetime | None) -> str:
+        return format_kneeboard_time(time, self.zulu_tz)
 
     def _format_alt(self, alt: Distance) -> str:
         return f"{self.units.distance_short(alt):.0f}"
@@ -345,12 +366,14 @@ class BriefingPage(KneeboardPage):
         weather: Weather,
         start_time: datetime.datetime,
         dark_kneeboard: bool,
+        zulu_tz: Optional[datetime.timezone] = None,
     ) -> None:
         self.flight = flight
         self.bullseye = bullseye
         self.weather = weather
         self.start_time = start_time
         self.dark_kneeboard = dark_kneeboard
+        self.zulu_tz = zulu_tz
         self.flight_plan_font = ImageFont.truetype(
             "courbd.ttf",
             16,
@@ -383,7 +406,7 @@ class BriefingPage(KneeboardPage):
 
         units = self.flight.aircraft_type.kneeboard_units
 
-        flight_plan_builder = FlightPlanBuilder(self.start_time, units)
+        flight_plan_builder = FlightPlanBuilder(self.start_time, units, self.zulu_tz)
         for num, waypoint in enumerate(self.flight.waypoints):
             flight_plan_builder.add_waypoint(num, waypoint)
 
@@ -555,6 +578,7 @@ class SupportPage(KneeboardPage):
         jtacs: List[JtacInfo],
         start_time: datetime.datetime,
         dark_kneeboard: bool,
+        zulu_tz: Optional[datetime.timezone] = None,
     ) -> None:
         self.flight = flight
         self.package_flights = package_flights
@@ -564,6 +588,7 @@ class SupportPage(KneeboardPage):
         self.jtacs = jtacs
         self.start_time = start_time
         self.dark_kneeboard = dark_kneeboard
+        self.zulu_tz = zulu_tz
         flight_name = self.flight.custom_name if self.flight.custom_name else "Flight"
         self.comms.append(CommInfo(flight_name, self.flight.intra_flight_channel))
 
@@ -689,11 +714,8 @@ class SupportPage(KneeboardPage):
         )
         return f"{channel_name}\n{frequency}"
 
-    @staticmethod
-    def _format_time(time: datetime.datetime | None) -> str:
-        if time is None:
-            return ""
-        return f"{time.strftime('%H:%M:%S')}{'Z' if time.tzinfo is not None else ''}"
+    def _format_time(self, time: datetime.datetime | None) -> str:
+        return format_kneeboard_time(time, self.zulu_tz)
 
     @staticmethod
     def _format_duration(time: Optional[datetime.timedelta]) -> str:
@@ -902,6 +924,14 @@ class KneeboardGenerator(MissionInfoGenerator):
         else:
             zoned_time = self.game.conditions.start_time
 
+        # Airframes whose avionics run Zulu but whose squadron coordinates in
+        # local time get both, so the card serves the cockpit and the wing.
+        zulu_tz = (
+            self.game.theater.timezone
+            if flight.aircraft_type.annotate_zulu_time
+            else None
+        )
+
         pages: List[KneeboardPage] = [
             BriefingPage(
                 flight,
@@ -909,6 +939,7 @@ class KneeboardGenerator(MissionInfoGenerator):
                 self.game.conditions.weather,
                 zoned_time,
                 self.dark_kneeboard,
+                zulu_tz,
             ),
             SupportPage(
                 flight,
@@ -919,6 +950,7 @@ class KneeboardGenerator(MissionInfoGenerator):
                 self.jtacs,
                 zoned_time,
                 self.dark_kneeboard,
+                zulu_tz,
             ),
         ]
 
