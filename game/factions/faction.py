@@ -440,6 +440,7 @@ class Faction:
             self.remove_ship("vap_us_seafloat")
         if not mod_settings.uh_60l:
             self.remove_aircraft("UH-60L")
+            self.remove_aircraft("UH-60L_DAP")
             self.remove_aircraft("KC130J")
         if not mod_settings.fa18ef_tanker:
             self.remove_aircraft("FA-18ET")
