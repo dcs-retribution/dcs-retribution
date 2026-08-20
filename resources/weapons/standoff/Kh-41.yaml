@@ -1,4 +1,5 @@
 name: Kh-41 Moskit (Sunburn)
+range: 65  # nm - stand-off launch range
 year: 1984
 fallback: Kh-22 (AS-4 Kitchen)
 clsids:

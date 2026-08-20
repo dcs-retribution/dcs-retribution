@@ -1,4 +1,5 @@
 name: 6xAGM-86C
+range: 200  # nm - stand-off launch range
 year: 1988
 fallback: AGM-86D
 clsids:

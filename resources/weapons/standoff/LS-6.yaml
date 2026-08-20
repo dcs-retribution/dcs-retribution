@@ -1,4 +1,5 @@
 name: LS-6
+range: 50  # nm - stand-off launch range (DCS ref guide v34: 50nm / 92.6km, LS-6-100)
 year: 2010
 clsids:
   - "DIS_LS_6_100"   # LS-6-100

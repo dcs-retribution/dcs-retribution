@@ -1,4 +1,5 @@
 name: AM39 Exocet
+range: 38  # nm - stand-off launch range
 year: 1979
 clsids:
   - "{AM39}"   # AM39 EXOCET AShM

@@ -1,4 +1,5 @@
 name: YJ-12
+range: 150  # nm - stand-off launch range
 year: 2015
 clsids:
   - "DIS_DF4B_YJ12"   # YJ-12

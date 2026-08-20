@@ -1,4 +1,5 @@
 name: RB-15F
+range: 37  # nm - stand-off launch range (DCS ref guide v34: 37nm / 70km)
 year: 1989
 fallback: RB-04E
 clsids:

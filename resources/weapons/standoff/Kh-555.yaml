@@ -1,4 +1,5 @@
 name: Kh-555
+range: 200  # nm - stand-off launch range
 year: 2004
 fallback: Kh-65
 clsids:

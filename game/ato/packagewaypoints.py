@@ -1,18 +1,19 @@
 from __future__ import annotations
 
 import random
-from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from dataclasses import dataclass, replace
+from typing import Optional, TYPE_CHECKING
 
 from dcs import Point
 
 from game.ato.flightplans.waypointbuilder import WaypointBuilder
+from game.data.doctrine import Doctrine
 from game.flightplan import JoinZoneGeometry
 from game.flightplan.ipsolver import IpSolver
 from game.flightplan.refuelzonegeometry import RefuelZoneGeometry
 from game.persistency import waypoint_debug_directory
-from game.utils import dcs_to_shapely_point
-from game.utils import nautical_miles
+from game.utils import Distance, dcs_to_shapely_point
+from game.utils import meters, nautical_miles
 
 if TYPE_CHECKING:
     from game.ato import Package
@@ -27,17 +28,52 @@ class PackageWaypoints:
     split: Point
     refuel: Point
 
+    #: The package's longest stand-off launch range at the time these waypoints were
+    #: built. Used to detect when a payload change invalidates the ingress point.
+    standoff_range: Optional[Distance] = None
+
+    @staticmethod
+    def doctrine_for_standoff_range(
+        doctrine: Doctrine,
+        standoff_range: Optional[Distance],
+        distance_to_target: Distance,
+    ) -> Doctrine:
+        """Raise the doctrine's max ingress distance to the given stand-off range.
+
+        Cruise/stand-off-armed flights (e.g. Tu-16s with Kh-22s) should begin their
+        attack run from a realistic launch distance instead of being dragged all the
+        way in to the doctrine ingress point. The override is capped at the
+        departure-target distance: some IpSolver strategies (the backtracking
+        fallbacks used when the primary ones find no safe IP) do not otherwise bound
+        the search area, and a 100+ nm cruise-missile range on a much shorter route
+        could send the IP far off the route or off the map.
+        """
+        if standoff_range is None:
+            return doctrine
+        effective_max_ingress = min(standoff_range, distance_to_target)
+        if effective_max_ingress <= doctrine.max_ingress_distance:
+            return doctrine
+        return replace(doctrine, max_ingress_distance=effective_max_ingress)
+
     @staticmethod
     def create(
         package: Package, coalition: Coalition, dump_debug_info: bool
     ) -> PackageWaypoints:
         origin = package.departure_closest_to_target()
 
+        standoff_range = package.max_standoff_range()
+        distance_to_target = meters(
+            origin.position.distance_to_point(package.target.position)
+        )
+        doctrine = PackageWaypoints.doctrine_for_standoff_range(
+            coalition.doctrine, standoff_range, distance_to_target
+        )
+
         # Start by picking the best IP for the attack.
         ip_solver = IpSolver(
             dcs_to_shapely_point(origin.position),
             dcs_to_shapely_point(package.target.position),
-            coalition.doctrine,
+            doctrine,
             coalition.opponent.threat_zone.air_defenses,
         )
         ip_solver.set_debug_properties(
@@ -81,6 +117,7 @@ class PackageWaypoints:
             initial_point,
             WaypointBuilder.perturb(join_point),
             refuel_point,
+            standoff_range,
         )
 
     @staticmethod

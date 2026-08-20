@@ -1,4 +1,5 @@
 name: Taurus KEPD-350
+range: 180  # nm - stand-off launch range
 year: 2005
 clsids:
   - "{CH_KEPD350}"   # Taurus KEPD-350 ALCM

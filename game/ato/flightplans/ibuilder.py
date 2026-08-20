@@ -50,7 +50,7 @@ class IBuilder(ABC, Generic[FlightPlanT, LayoutT]):
         if self.package.target.is_friendly(self.is_player):
             return
 
-        if self.package.waypoints is None or dump_debug_info:
+        if self.package.waypoints_need_regeneration() or dump_debug_info:
             self.package.waypoints = PackageWaypoints.create(
                 self.package, self.coalition, dump_debug_info
             )

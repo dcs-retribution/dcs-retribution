@@ -38,7 +38,7 @@ class EscortFlightPlan(FormationAttackFlightPlan):
 class Builder(FormationAttackBuilder[EscortFlightPlan, FormationAttackLayout]):
     def layout(self) -> FormationAttackLayout:
         non_formation_escort = False
-        if self.package.waypoints is None:
+        if self.package.waypoints_need_regeneration():
             self.package.waypoints = PackageWaypoints.create(
                 self.package, self.coalition, dump_debug_info=False
             )
@@ -49,6 +49,7 @@ class Builder(FormationAttackBuilder[EscortFlightPlan, FormationAttackLayout]):
                 )
                 non_formation_escort = True
 
+        assert self.package.waypoints is not None
         builder = WaypointBuilder(self.flight)
         ingress, target = builder.escort(
             self.package.waypoints.ingress, self.package.target

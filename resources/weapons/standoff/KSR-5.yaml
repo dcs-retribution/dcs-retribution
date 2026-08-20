@@ -1,4 +1,5 @@
 name: KSR-5
+range: 140  # nm - stand-off launch range
 year: 1969
 fallback: KSR-2
 clsids:

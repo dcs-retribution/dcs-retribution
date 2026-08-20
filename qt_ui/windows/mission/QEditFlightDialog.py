@@ -1,11 +1,15 @@
 """Dialog window for editing flights."""
 
+import logging
+
 from PySide6.QtWidgets import (
     QDialog,
+    QMessageBox,
     QVBoxLayout,
 )
 
 from game.ato.flight import Flight
+from game.ato.flightplans.planningerror import PlanningError
 from game.server import EventStream
 from game.sim import GameUpdateEvents
 from qt_ui.models import GameModel, PackageModel
@@ -55,6 +59,48 @@ class QEditFlightDialog(QDialog):
         new_dialog.show()
 
     def on_close(self, _result) -> None:
+        self._recreate_package_if_standoff_changed()
         self.events = self.events.update_flight(self.flight)
         EventStream.put_nowait(self.events)
         self.game_model.ato_model.client_slots_changed.emit()
+
+    def _recreate_package_if_standoff_changed(self) -> None:
+        """Move the ingress point when the package's stand-off range changed.
+
+        Editing the payload does not rebuild the flight plan, so the ingress point can
+        be left at a distance that no longer matches the loadout (e.g. a Kh-22 was
+        added or removed). The package waypoints remember the stand-off range they were
+        built with, so if it now differs we offer to regenerate the package's flight
+        plans (which resets their routes).
+        """
+        package = self.flight.package
+        waypoints = package.waypoints
+        if waypoints is None:
+            return
+        if waypoints.standoff_range == package.max_standoff_range():
+            return
+
+        result = QMessageBox.question(
+            self,
+            "Update flight plan?",
+            (
+                "The stand-off weapons in this package changed, so the ingress point "
+                "should move to match the new launch range. This will regenerate the "
+                "flight plan(s) for the package and reset any manual route changes. "
+                "Continue?"
+            ),
+            QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.Yes,
+        )
+        if result != QMessageBox.StandardButton.Yes:
+            return
+
+        package.waypoints = None
+        for flight in package.flights:
+            try:
+                flight.recreate_flight_plan()
+                self.events = self.events.update_flight(flight)
+            except PlanningError:
+                logging.exception(
+                    "Could not regenerate flight plan after stand-off change"
+                )

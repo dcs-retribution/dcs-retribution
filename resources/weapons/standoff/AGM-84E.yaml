@@ -1,4 +1,5 @@
 name: AGM-84E SLAM
+range: 50  # nm - stand-off launch range
 year: 1990
 fallback: AGM-65G
 clsids:

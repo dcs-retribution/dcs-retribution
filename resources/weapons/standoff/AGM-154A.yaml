@@ -1,4 +1,5 @@
 name: AGM-154A JSOW
+range: 40  # nm - stand-off launch range
 year: 1998
 fallback: AGM-65G
 clsids:

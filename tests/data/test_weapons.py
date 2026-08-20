@@ -129,3 +129,34 @@ def test_custom_payload_targeting_pods_do_not_fall_back_to_unknown() -> None:
     assert all(
         weapon.weapon_group.introduction_year is not None for weapon in targeting_pods
     )
+
+
+def test_standoff_weapon_has_launch_range_from_yaml() -> None:
+    # Kh-22 declares `range: 160` in its resource file.
+    weapon = Weapon.with_clsid("{12429ECF-03F0-4DF6-BCBD-5D38B6343DE1}")
+
+    assert weapon is not None
+    assert weapon.launch_range is not None
+    assert weapon.launch_range.nautical_miles == pytest.approx(160)
+
+
+def test_weapon_without_range_has_no_launch_range() -> None:
+    # The AGM-65A Maverick has no `range` key, so it stays unranged.
+    weapon = Weapon.with_clsid("{RB75}")
+
+    assert weapon is not None
+    assert weapon.launch_range is None
+
+
+def test_loadout_max_standoff_range_picks_longest() -> None:
+    kh22 = Weapon.with_clsid("{12429ECF-03F0-4DF6-BCBD-5D38B6343DE1}")
+    maverick = Weapon.with_clsid("{RB75}")
+    assert kh22 is not None
+    assert maverick is not None
+
+    ranged = Loadout("Test", {1: kh22, 2: maverick}, date=None)
+    assert ranged.max_standoff_range() is not None
+    assert ranged.max_standoff_range().nautical_miles == pytest.approx(160)  # type: ignore[union-attr]
+
+    unranged = Loadout("Test", {1: maverick}, date=None)
+    assert unranged.max_standoff_range() is None

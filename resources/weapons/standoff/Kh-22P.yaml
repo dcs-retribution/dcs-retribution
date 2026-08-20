@@ -1,4 +1,5 @@
 name: Kh-22P
+range: 160  # nm - stand-off launch range
 type: ARM
 year: 1968
 fallback: Kh-22 (AS-4 Kitchen)

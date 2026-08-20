@@ -1,4 +1,5 @@
 name: Kh-35
+range: 70  # nm - stand-off launch range
 year: 2003
 fallback: Kh-31A
 clsids:

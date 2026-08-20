@@ -1,4 +1,5 @@
 name: KD-20
+range: 200  # nm - stand-off launch range
 year: 2008
 clsids:
   - "DIS_DF4A_KD20"   # KD-20

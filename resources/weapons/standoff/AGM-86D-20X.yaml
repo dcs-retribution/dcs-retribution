@@ -1,4 +1,5 @@
 name: 20xAGM-86D
+range: 200  # nm - stand-off launch range
 year: 2001
 fallback: 20xAGM-86C
 clsids:

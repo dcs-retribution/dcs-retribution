@@ -1,4 +1,5 @@
 name: KSR-2
+range: 80  # nm - stand-off launch range
 year: 1962
 clsids:
   - "{TU_16_KSR2}"   # KSR-2

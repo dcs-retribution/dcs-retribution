@@ -1,4 +1,5 @@
 name: YJ-83K
+range: 100  # nm - stand-off launch range
 year: 2010
 fallback: C-802AK
 clsids:

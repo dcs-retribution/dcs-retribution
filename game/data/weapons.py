@@ -16,6 +16,7 @@ from dcs.weapon_settings import WeaponSettings, has_settings, create_settings
 
 from game.dcs.aircrafttype import AircraftType
 from game.factions.faction import Faction
+from game.utils import Distance, nautical_miles
 
 PydcsWeapon = Any
 PydcsWeaponAssignment = tuple[int, PydcsWeapon]
@@ -146,6 +147,11 @@ class Weapon:
             yield from fallback.weapons
             fallback = fallback.fallback
 
+    @property
+    def launch_range(self) -> Optional[Distance]:
+        """The maximum stand-off launch range of this weapon, if known."""
+        return self.weapon_group.launch_range
+
     def has_settings(self) -> bool:
         try:
             return has_settings(self.pydcs_data)
@@ -235,6 +241,11 @@ class WeaponGroup:
     #: The name of the fallback weapon group.
     fallback_name: Optional[str] = field(compare=False)
 
+    #: The maximum stand-off launch range of the weapon, if known. Populated from the
+    #: optional ``range`` key (in nautical miles) in the weapon resource file and used
+    #: by the mission planner to place the ingress point at a realistic launch distance.
+    launch_range: Optional[Distance] = field(default=None, compare=False)
+
     #: The specific weapons that belong to this weapon group.
     weapons: list[Weapon] = field(init=False, default_factory=list)
 
@@ -294,7 +305,9 @@ class WeaponGroup:
             fallback_name = data.get("fallback")
             if fallback_name:
                 links.append((name, fallback_name))
-            group = WeaponGroup(name, weapon_type, year, fallback_name)
+            range_nm = data.get("range")
+            launch_range = nautical_miles(range_nm) if range_nm is not None else None
+            group = WeaponGroup(name, weapon_type, year, fallback_name, launch_range)
 
             target_overrides = data.get("target_overrides", {})
             object.__setattr__(group, "target_overrides", target_overrides)

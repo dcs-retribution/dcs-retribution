@@ -1,4 +1,5 @@
 name: KSR-5P (passive)
+range: 140  # nm - stand-off launch range
 type: ARM
 year: 1973
 fallback: KSR-5

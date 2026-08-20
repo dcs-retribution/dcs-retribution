@@ -1,4 +1,5 @@
 name: 8xAGM-84A
+range: 67  # nm - stand-off launch range
 year: 1979
 fallback: 27xMk 82
 clsids:

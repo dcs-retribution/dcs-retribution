@@ -77,6 +77,8 @@ class Migrator:
             for p in c.ato.packages:
                 if p.waypoints and not hasattr(p.waypoints, "initial"):
                     p.waypoints = PackageWaypoints.create(p, c, False)
+                if p.waypoints:
+                    try_set_attr(p.waypoints, "standoff_range")
 
     def _update_package_attributes(self) -> None:
         for c in self.game.coalitions:

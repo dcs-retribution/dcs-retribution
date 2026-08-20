@@ -1,4 +1,5 @@
 name: Kh-101
+range: 200  # nm - stand-off launch range
 year: 2012
 fallback: Kh-555
 clsids:

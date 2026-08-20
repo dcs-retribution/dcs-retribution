@@ -1,4 +1,5 @@
 name: Kh-59MK2 (AS-22 Kazoo)
+range: 155  # nm - stand-off launch range
 year: 2010
 fallback: Kh-59M
 clsids:

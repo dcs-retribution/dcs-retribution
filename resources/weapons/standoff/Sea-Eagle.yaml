@@ -1,4 +1,5 @@
 name: Sea Eagle
+range: 60  # nm - stand-off launch range
 year: 1985
 clsids:
   - "{1461CD18-429A-42A9-A21F-4C621ECD4573}"   # Sea Eagle - ASM

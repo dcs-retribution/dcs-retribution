@@ -1,4 +1,5 @@
 name: AGM-86C
+range: 200  # nm - stand-off launch range
 year: 1988
 fallback: 27xMk 82
 clsids:

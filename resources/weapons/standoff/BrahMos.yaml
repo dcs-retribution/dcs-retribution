@@ -1,4 +1,5 @@
 name: BrahMos
+range: 160  # nm - stand-off launch range
 year: 2006
 clsids:
   - "{BRAHMOS_SEAD}"   # BRAHMOS SEAD

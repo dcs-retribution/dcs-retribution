@@ -1,4 +1,5 @@
 name: CM-400AKG
+range: 130  # nm - stand-off launch range
 year: 2012
 clsids:
   - "DIS_CM-400AKG"   # CM-400AKG

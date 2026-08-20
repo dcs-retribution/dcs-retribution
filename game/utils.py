@@ -7,7 +7,7 @@ import random
 from abc import ABC, abstractmethod
 from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import TypeVar, Union
+from typing import Optional, TypeVar, Union
 
 from dcs import Point
 from shapely.geometry import Point as ShapelyPoint
@@ -243,6 +243,22 @@ def feet(value: float) -> Distance:
 
 def meters(value: float) -> Distance:
     return Distance.from_meters(value)
+
+
+def max_optional_distance(
+    distances: Iterable[Optional[Distance]],
+) -> Optional[Distance]:
+    """The largest of `distances`, ignoring any that are None.
+
+    Returns None if every value is None (or the iterable is empty).
+    """
+    best: Optional[Distance] = None
+    for distance in distances:
+        if distance is None:
+            continue
+        if best is None or distance > best:
+            best = distance
+    return best
 
 
 def nautical_miles(value: float) -> Distance:

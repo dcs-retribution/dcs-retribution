@@ -1,4 +1,5 @@
 name: AGM-154B JSOW
+range: 40  # nm - stand-off launch range
 year: 2030
 fallback: AGM-154A JSOW
 clsids:

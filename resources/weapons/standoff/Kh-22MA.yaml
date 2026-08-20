@@ -1,4 +1,5 @@
 name: Kh-22MA
+range: 160  # nm - stand-off launch range
 year: 1975
 fallback: Kh-22 (AS-4 Kitchen)
 clsids:

@@ -1,4 +1,5 @@
 name: RBS-15 Mk4
+range: 110  # nm - stand-off launch range
 year: 2017
 fallback: RB-15F
 clsids:
