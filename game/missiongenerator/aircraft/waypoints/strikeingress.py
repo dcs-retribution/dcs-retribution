@@ -62,6 +62,11 @@ class StrikeIngressBuilder(PydcsWaypointBuilder):
     def add_strike_tasks(
         self, waypoint: MovingPoint, weapon_type: WeaponType = WeaponType.Auto
     ) -> None:
+        if not self.waypoint.targets:
+            # Nothing to strike (e.g. an objective whose units are all already
+            # destroyed). Skip -- as add_bombing_tasks does -- so we neither add
+            # an empty attack task nor divide by zero on the units/targets ratio.
+            return
         bomber = self.group.units[0].unit_type in [B_1B, B_52H]
         ratio = len(self.group.units) / len(self.waypoint.targets)
         for target in self.waypoint.targets:
