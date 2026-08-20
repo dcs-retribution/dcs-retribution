@@ -1,6 +1,13 @@
 price: 20
 max_range: 1000
+# CTLD troop capacity. The Il-76MD carried 126 paratroopers as the VDV's primary
+# jump platform; 24 is the largest CTLD loadable group.
+cabin_size: 24
 variants:
   IL-76MD: null
 tasks:
+  # CTLD paradrop air assault. A strategic airlifter, so it sits below every
+  # tactical transport (25 and up): those fly the low, slow run-in an assault
+  # wants. This is the option for a faction that fields no tactical hauler.
+  Air Assault: 15
   Transport: 120

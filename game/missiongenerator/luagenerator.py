@@ -150,6 +150,18 @@ class LuaGenerator:
             transport_item.add_key_value(
                 "crates", "true" if transport.can_carry_crates else "false"
             )
+            # A fixed-wing troop transport cannot land at the assault zone, so
+            # the CTLD runtime delivers its troops by paradrop instead (player:
+            # airborne unload jumps the stick; AI: auto-drop over the target
+            # zone). Helos keep the stock land/fast-rope behavior.
+            transport_item.add_key_value(
+                "paradrop",
+                (
+                    "true"
+                    if transport.cabin_size > 0 and not transport.helicopter
+                    else "false"
+                ),
+            )
         spawnable_crates_object = logistics_object.add_item("spawnable_crates")
         for unit, weight in spawnable_crates.items():
             crate_item = spawnable_crates_object.add_item()
