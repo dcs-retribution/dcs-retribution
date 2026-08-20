@@ -6,7 +6,8 @@ tasks:
 groups:
   - AAA:
     - name: AAA Site Radar
-      optional: true # Optional if the AAA Site has a Radar
+      optional: true # Only spawned for groups that explicitly bring a radar (e.g. KS-19 Fire Can)
+      fill: false # Do not auto-fill a SearchRadar into generic AAA sites: keep them optically-guided guns
       unit_count:
         - 1
       unit_classes:
