@@ -201,11 +201,10 @@ class AircraftType(UnitType[Type[FlyingType]]):
     # UnitSystem to use for the kneeboard, defaults to Nautical (kt/nm/ft)
     kneeboard_units: UnitSystem
 
-    # If true, kneeboards will display zulu times
+    #: The airframe's avionics run Zulu, so its kneeboard prints each time's
+    #: Zulu equivalent beneath the local one. Both, because the jet needs Zulu
+    #: and a squadron flying mixed types coordinates in local time.
     utc_kneeboard: bool
-    #: Show Zulu beneath the local time on the kneeboard, for airframes whose
-    #: avionics run Zulu but whose squadron coordinates in local time.
-    annotate_zulu_time: bool
 
     max_group_size: int
     patrol_altitude: Optional[Distance]
@@ -614,7 +613,6 @@ class AircraftType(UnitType[Type[FlyingType]]):
             channel_namer=radio_config.channel_namer,
             kneeboard_units=units,
             utc_kneeboard=data.get("utc_kneeboard", False),
-            annotate_zulu_time=data.get("annotate_zulu_time", False),
             unit_class=unit_class,
             cabin_size=data.get("cabin_size", 10 if aircraft.helicopter else 0),
             can_carry_crates=data.get("can_carry_crates", aircraft.helicopter),

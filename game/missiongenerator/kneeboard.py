@@ -229,11 +229,9 @@ class FlightPlanBuilder:
 
     def __init__(
         self,
-        start_time: datetime.datetime,
         units: UnitSystem,
         zulu_tz: Optional[datetime.timezone] = None,
     ) -> None:
-        self.start_time = start_time
         self.rows: List[List[str]] = []
         self.target_points: List[NumberedWaypoint] = []
         self.last_waypoint: Optional[FlightWaypoint] = None
@@ -364,14 +362,12 @@ class BriefingPage(KneeboardPage):
         flight: FlightData,
         bullseye: Bullseye,
         weather: Weather,
-        start_time: datetime.datetime,
         dark_kneeboard: bool,
         zulu_tz: Optional[datetime.timezone] = None,
     ) -> None:
         self.flight = flight
         self.bullseye = bullseye
         self.weather = weather
-        self.start_time = start_time
         self.dark_kneeboard = dark_kneeboard
         self.zulu_tz = zulu_tz
         self.flight_plan_font = ImageFont.truetype(
@@ -406,7 +402,7 @@ class BriefingPage(KneeboardPage):
 
         units = self.flight.aircraft_type.kneeboard_units
 
-        flight_plan_builder = FlightPlanBuilder(self.start_time, units, self.zulu_tz)
+        flight_plan_builder = FlightPlanBuilder(units, self.zulu_tz)
         for num, waypoint in enumerate(self.flight.waypoints):
             flight_plan_builder.add_waypoint(num, waypoint)
 
@@ -576,7 +572,6 @@ class SupportPage(KneeboardPage):
         awacs: List[AwacsInfo],
         tankers: List[TankerInfo],
         jtacs: List[JtacInfo],
-        start_time: datetime.datetime,
         dark_kneeboard: bool,
         zulu_tz: Optional[datetime.timezone] = None,
     ) -> None:
@@ -586,7 +581,6 @@ class SupportPage(KneeboardPage):
         self.awacs = awacs
         self.tankers = tankers
         self.jtacs = jtacs
-        self.start_time = start_time
         self.dark_kneeboard = dark_kneeboard
         self.zulu_tz = zulu_tz
         flight_name = self.flight.custom_name if self.flight.custom_name else "Flight"
@@ -917,19 +911,10 @@ class KneeboardGenerator(MissionInfoGenerator):
     ) -> List[KneeboardPage]:
         """Returns a list of kneeboard pages for the given flight."""
 
-        if flight.aircraft_type.utc_kneeboard:
-            zoned_time = self.game.conditions.start_time.replace(
-                tzinfo=self.game.theater.timezone
-            ).astimezone(datetime.timezone.utc)
-        else:
-            zoned_time = self.game.conditions.start_time
-
-        # Airframes whose avionics run Zulu but whose squadron coordinates in
-        # local time get both, so the card serves the cockpit and the wing.
+        # An airframe whose avionics run Zulu gets both times on the card, so it
+        # serves the cockpit and a wing coordinating in local time.
         zulu_tz = (
-            self.game.theater.timezone
-            if flight.aircraft_type.annotate_zulu_time
-            else None
+            self.game.theater.timezone if flight.aircraft_type.utc_kneeboard else None
         )
 
         pages: List[KneeboardPage] = [
@@ -937,7 +922,6 @@ class KneeboardGenerator(MissionInfoGenerator):
                 flight,
                 self.game.coalition_for(flight.friendly).bullseye,
                 self.game.conditions.weather,
-                zoned_time,
                 self.dark_kneeboard,
                 zulu_tz,
             ),
@@ -948,7 +932,6 @@ class KneeboardGenerator(MissionInfoGenerator):
                 self.awacs,
                 self.tankers,
                 self.jtacs,
-                zoned_time,
                 self.dark_kneeboard,
                 zulu_tz,
             ),

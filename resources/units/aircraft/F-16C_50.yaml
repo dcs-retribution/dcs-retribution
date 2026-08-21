@@ -56,7 +56,7 @@ radios:
 #   LaserCode1: 8
 #   LaserCode10: 8
 #   LaserCode100: 6
-annotate_zulu_time: true
+utc_kneeboard: true
 tasks:
   BAI: 750
   BARCAP: 460
