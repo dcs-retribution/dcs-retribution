@@ -14,6 +14,8 @@ max_range: 250
 gunfighter: false
 variants:
   F-106B Delta Dart: {}
+patrol:
+  altitude: 34000
 tasks:
   BARCAP: 250
   Escort: 150

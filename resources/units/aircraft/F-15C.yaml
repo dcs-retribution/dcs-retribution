@@ -12,6 +12,8 @@ max_range: 400
 variants:
   F-15C Eagle: {}
   F-15J Eagle: {}
+patrol:
+  altitude: 30000
 tasks:
   BARCAP: 540
   Escort: 540

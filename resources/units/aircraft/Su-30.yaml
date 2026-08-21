@@ -17,6 +17,8 @@ variants:
     manufacturer: Sukhoi
     origin: USSR/Russia
     role: Multirole Fighter
+patrol:
+  altitude: 30000
 tasks:
   Anti-ship: 90
   BAI: 560

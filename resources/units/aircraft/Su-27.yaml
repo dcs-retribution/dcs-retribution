@@ -19,6 +19,8 @@ default_livery: Air Force Standard
 variants:
   Su-27 Flanker-B: {}
 kneeboard_units: "metric"
+patrol:
+  altitude: 30000
 tasks:
   BARCAP: 480
   Escort: 480

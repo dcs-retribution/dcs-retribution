@@ -17,6 +17,8 @@ gunfighter: false
 variants:
   Tu-128M Fiddler: {}
 kneeboard_units: "metric"
+patrol:
+  altitude: 34000
 tasks:
   BARCAP: 380
   Escort: 380

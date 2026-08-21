@@ -18,6 +18,8 @@ max_range: 370
 carrier_capable: false
 variants:
   F-4C Phantom II: {}
+patrol:
+  altitude: 27000
 tasks:
   BAI: 170
   BARCAP: 210

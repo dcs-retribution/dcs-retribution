@@ -30,6 +30,8 @@ variants:
   MiG-29A Fulcrum-A:
     display_name: MiG-29A Fulcrum-A (FC3)
 kneeboard_units: "metric"
+patrol:
+  altitude: 27000
 tasks:
   BAI: 530
   BARCAP: 370

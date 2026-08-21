@@ -45,6 +45,8 @@ default_overrides:
 #   TacanBand: 0
 #   TacanChannel: 0
 #   UseLAU138: true
+patrol:
+  altitude: 30000
 tasks:
   BAI: 640
   BARCAP: 530

@@ -13,6 +13,8 @@ max_range: 100
 gunfighter: true
 variants:
   F-84G Thunderjet: {}
+patrol:
+  altitude: 25000
 tasks:
   Anti-ship: 150
   BAI: 140

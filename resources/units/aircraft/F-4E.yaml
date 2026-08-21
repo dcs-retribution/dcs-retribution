@@ -19,6 +19,8 @@ variants:
   F-4EJ Kai Phantom II: {}
   F-4F Phantom II: {}
   Phantom F.3: {}
+patrol:
+  altitude: 27000
 tasks:
   BAI: 580
   BARCAP: 410

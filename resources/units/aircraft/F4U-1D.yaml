@@ -27,6 +27,8 @@ radios:
     type: ARC-5
     namer: ARC-5
 kneeboard_units: "imperial"
+patrol:
+  altitude: 20000
 tasks:
   BAI: 100
   BARCAP: 100

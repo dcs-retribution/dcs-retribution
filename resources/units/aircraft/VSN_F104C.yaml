@@ -15,6 +15,8 @@ max_range: 100
 gunfighter: true
 variants:
   F-104C Starfighter: {}
+patrol:
+  altitude: 34000
 tasks:
   Anti-ship: 150
   BAI: 140

@@ -32,6 +32,8 @@ variants:
 kneeboard_units: "metric"
 # default_overrides:
 #   FW_MW50TankContents: 0
+patrol:
+  altitude: 16000
 tasks:
   BAI: 30
   BARCAP: 40

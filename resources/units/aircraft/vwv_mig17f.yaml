@@ -29,6 +29,8 @@ variants:
 altitudes:
  cruise: 22000
  combat: 6000
+patrol:
+  altitude: 25000
 tasks:    # defined in flighttype.py
   BAI: 100
   CAS: 100

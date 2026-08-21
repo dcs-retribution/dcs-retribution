@@ -19,6 +19,8 @@ max_range: 800
 default_livery: af standard
 variants:
   MiG-31 Foxhound: {}
+patrol:
+  altitude: 34000
 tasks:
   BARCAP: 400
   Escort: 400

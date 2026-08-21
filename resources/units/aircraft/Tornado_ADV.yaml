@@ -35,6 +35,8 @@ variants:
 #    # intra-flight communication to leave COM1 open for UHF inter-flight.
 #    intra_flight_radio_index: 2
 #    inter_flight_radio_index: 1
+patrol:
+  altitude: 30000
 tasks:
   BARCAP: 500
   Escort: 500
