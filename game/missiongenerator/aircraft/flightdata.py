@@ -8,6 +8,7 @@ from dcs.flyingunit import FlyingUnit
 
 from game.callsigns import create_group_callsign_from_unit
 from game.squadrons import Squadron
+from game.missiongenerator.dtc.options import DtcOptions
 
 if TYPE_CHECKING:
     from game.ato import FlightType, FlightWaypoint, Package
@@ -78,6 +79,10 @@ class FlightData:
     frequency_to_channel_map: dict[RadioFrequency, ChannelAssignment] = field(
         init=False, default_factory=dict
     )
+
+    #: Which sections the flight's DTC cartridge carries. Every section is on
+    #: by default; the campaign-wide setting is the switch.
+    dtc_options: DtcOptions = field(init=False, default_factory=DtcOptions)
 
     def __post_init__(self) -> None:
         self.callsign = create_group_callsign_from_unit(self.units[0])
