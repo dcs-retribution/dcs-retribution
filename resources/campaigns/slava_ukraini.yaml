@@ -14,7 +14,7 @@ description:
 miz: slava_ukraini.miz
 performance: 1
 recommended_start_date: 2026-02-24
-version: "10.8"
+version: "10.9"
 settings:
   ukrainemilitaryassetspack: true
   russianmilitaryassetspack: true
@@ -22,7 +22,7 @@ settings:
 squadrons:
   #Anapa-Vityazevo
   12:
-    - primary: SEAD
+    - primary: BAI
       secondary: any
       aircraft:
         - "[CH] MiG-29MU2"
@@ -74,11 +74,6 @@ squadrons:
       aircraft:
         - Su-25T Frogfoot
       size: 12
-    - primary: Escort
-      secondary: air-to-air
-      aircraft:
-        - Su-27 Flanker-B
-      size: 12
     - primary: BAI
       secondary: any
       aircraft:
@@ -96,10 +91,10 @@ squadrons:
       aircraft:
         - IL-78M
       size: 2
-    - primary: BARCAP
+    - primary: Escort
       secondary: air-to-air
       aircraft:
-        - MiG-29S Fulcrum-C
+        - Su-27 Flanker-B
       size: 12
     - primary: DEAD
       secondary: air-to-ground
@@ -116,4 +111,9 @@ squadrons:
       secondary: any
       aircraft:
         - Tu-95MS Bear-H
+      size: 12
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - MIG-29-FULCRUM
       size: 12
