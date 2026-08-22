@@ -24,6 +24,7 @@
     "CH-53E",
     "F-117A Nighthawk",
     "F-14B Tomcat",
+    "F-14B(U) Tomcat",
     "F-15C Eagle",
     "F-15E Strike Eagle (AI)",
     "F-15E Strike Eagle (Suite 4+)",
@@ -43,6 +44,7 @@
     "UH-1H Iroquois",
     "UH-60A",
     "UH-60L",
+    "MH-60L DAP",
     "[CH] B-21"
   ],
   "awacs": [

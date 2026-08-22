@@ -47,17 +47,17 @@ class VSN_A6A(PlaneType):
             1,
             Weapons.LAU_7_with_AIM_9B_Sidewinder_IR_AAM,
         )
-        LAU_7_with_AIM_9J_Sidewinder_IR_AAM = (
+        LAU_7___AIM_9J_Sidewinder_IR_AAM = (
             1,
-            Weapons.LAU_7_with_AIM_9J_Sidewinder_IR_AAM,
+            Weapons.LAU_7___AIM_9J_Sidewinder_IR_AAM,
         )
         LAU_7_with_AIM_9M_Sidewinder_IR_AAM = (
             1,
             Weapons.LAU_7_with_AIM_9M_Sidewinder_IR_AAM,
         )
-        LAU_7_with_AIM_9P_Sidewinder_IR_AAM = (
+        LAU_7___AIM_9J_Sidewinder_IR_AAM = (
             1,
-            Weapons.LAU_7_with_AIM_9P_Sidewinder_IR_AAM,
+            Weapons.LAU_7___AIM_9J_Sidewinder_IR_AAM,
         )
         AGM_45A_Shrike_ARM = (1, Weapons.AGM_45A_Shrike_ARM)
         AGM_45B_Shrike_ARM = (1, Weapons.AGM_45B_Shrike_ARM)
@@ -65,17 +65,17 @@ class VSN_A6A(PlaneType):
             1,
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             1,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             1,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             1,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (1, Weapons.LAU_117_AGM_65G)
         AGM_84D_Harpoon_AShM = (1, Weapons.AGM_84D_Harpoon_AShM)
@@ -112,13 +112,13 @@ class VSN_A6A(PlaneType):
         )
         BRU_42A___3_x_Mk_83 = (1, WeaponsA7E.BRU_42A___3_x_Mk_83)
         Mk_84___2000lb_GP_Bomb_LD = (1, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-        BRU_42_with_3_x_Mk_82___500lb_GP_Bombs_LD = (
+        BRU_42___3_x_Mk_82___500lb_GP_Bomb_LD = (
             1,
-            Weapons.BRU_42_with_3_x_Mk_82___500lb_GP_Bombs_LD,
+            Weapons.BRU_42___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
-        BRU_42_with_3_x_Mk_82_AIR_Ballute___500lb_GP_Bombs_HD = (
+        BRU_42___3_x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD = (
             1,
-            Weapons.BRU_42_with_3_x_Mk_82_AIR_Ballute___500lb_GP_Bombs_HD,
+            Weapons.BRU_42___3_x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD,
         )
         LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_Mk71__HE_FRAG = (
             1,
@@ -165,9 +165,9 @@ class VSN_A6A(PlaneType):
         )
         # ERRR {CBU-99}
         ADM_141A_TALD = (1, Weapons.ADM_141A_TALD)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             1,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         BRU_33_with_1_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_Mk71__HE_FRAG = (
             1,
@@ -199,17 +199,17 @@ class VSN_A6A(PlaneType):
             2,
             Weapons.LAU_7_with_AIM_9B_Sidewinder_IR_AAM,
         )
-        LAU_7_with_AIM_9J_Sidewinder_IR_AAM = (
+        LAU_7___AIM_9J_Sidewinder_IR_AAM = (
             2,
-            Weapons.LAU_7_with_AIM_9J_Sidewinder_IR_AAM,
+            Weapons.LAU_7___AIM_9J_Sidewinder_IR_AAM,
         )
         LAU_7_with_AIM_9M_Sidewinder_IR_AAM = (
             2,
             Weapons.LAU_7_with_AIM_9M_Sidewinder_IR_AAM,
         )
-        LAU_7_with_AIM_9P_Sidewinder_IR_AAM = (
+        LAU_7___AIM_9J_Sidewinder_IR_AAM = (
             2,
-            Weapons.LAU_7_with_AIM_9P_Sidewinder_IR_AAM,
+            Weapons.LAU_7___AIM_9J_Sidewinder_IR_AAM,
         )
         AGM_45A_Shrike_ARM = (2, Weapons.AGM_45A_Shrike_ARM)
         AGM_45B_Shrike_ARM = (2, Weapons.AGM_45B_Shrike_ARM)
@@ -217,17 +217,17 @@ class VSN_A6A(PlaneType):
             2,
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             2,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             2,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             2,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (2, Weapons.LAU_117_AGM_65G)
         AGM_84D_Harpoon_AShM = (2, Weapons.AGM_84D_Harpoon_AShM)
@@ -272,13 +272,13 @@ class VSN_A6A(PlaneType):
             2,
             Weapons.MER6_with_6_x_Mk_20_Rockeye___490lbs_CBUs__247_x_HEAT_Bomblets,
         )
-        BRU_42_with_3_x_Mk_82___500lb_GP_Bombs_LD = (
+        BRU_42___3_x_Mk_82___500lb_GP_Bomb_LD = (
             2,
-            Weapons.BRU_42_with_3_x_Mk_82___500lb_GP_Bombs_LD,
+            Weapons.BRU_42___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
-        BRU_42_with_3_x_Mk_82_AIR_Ballute___500lb_GP_Bombs_HD = (
+        BRU_42___3_x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD = (
             2,
-            Weapons.BRU_42_with_3_x_Mk_82_AIR_Ballute___500lb_GP_Bombs_HD,
+            Weapons.BRU_42___3_x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD,
         )
         LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_Mk71__HE_FRAG = (
             2,
@@ -321,9 +321,9 @@ class VSN_A6A(PlaneType):
         )
         # ERRR {CBU-99}
         ADM_141A_TALD = (2, Weapons.ADM_141A_TALD)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             2,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         BRU_33_with_1_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_Mk71__HE_FRAG = (
             2,
@@ -374,13 +374,13 @@ class VSN_A6A(PlaneType):
             3,
             Weapons.MER6_with_6_x_Mk_20_Rockeye___490lbs_CBUs__247_x_HEAT_Bomblets,
         )
-        BRU_42_with_3_x_Mk_82___500lb_GP_Bombs_LD = (
+        BRU_42___3_x_Mk_82___500lb_GP_Bomb_LD = (
             3,
-            Weapons.BRU_42_with_3_x_Mk_82___500lb_GP_Bombs_LD,
+            Weapons.BRU_42___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
-        BRU_42_with_3_x_Mk_82_AIR_Ballute___500lb_GP_Bombs_HD = (
+        BRU_42___3_x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD = (
             3,
-            Weapons.BRU_42_with_3_x_Mk_82_AIR_Ballute___500lb_GP_Bombs_HD,
+            Weapons.BRU_42___3_x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD,
         )
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             3,
@@ -409,17 +409,17 @@ class VSN_A6A(PlaneType):
             4,
             Weapons.LAU_7_with_AIM_9B_Sidewinder_IR_AAM,
         )
-        LAU_7_with_AIM_9J_Sidewinder_IR_AAM = (
+        LAU_7___AIM_9J_Sidewinder_IR_AAM = (
             4,
-            Weapons.LAU_7_with_AIM_9J_Sidewinder_IR_AAM,
+            Weapons.LAU_7___AIM_9J_Sidewinder_IR_AAM,
         )
         LAU_7_with_AIM_9M_Sidewinder_IR_AAM = (
             4,
             Weapons.LAU_7_with_AIM_9M_Sidewinder_IR_AAM,
         )
-        LAU_7_with_AIM_9P_Sidewinder_IR_AAM = (
+        LAU_7___AIM_9J_Sidewinder_IR_AAM = (
             4,
-            Weapons.LAU_7_with_AIM_9P_Sidewinder_IR_AAM,
+            Weapons.LAU_7___AIM_9J_Sidewinder_IR_AAM,
         )
         AGM_45A_Shrike_ARM = (4, Weapons.AGM_45A_Shrike_ARM)
         AGM_45B_Shrike_ARM = (4, Weapons.AGM_45B_Shrike_ARM)
@@ -427,17 +427,17 @@ class VSN_A6A(PlaneType):
             4,
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             4,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             4,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             4,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (4, Weapons.LAU_117_AGM_65G)
         AGM_84D_Harpoon_AShM = (4, Weapons.AGM_84D_Harpoon_AShM)
@@ -482,13 +482,13 @@ class VSN_A6A(PlaneType):
             4,
             Weapons.MER6_with_6_x_Mk_20_Rockeye___490lbs_CBUs__247_x_HEAT_Bomblets,
         )
-        BRU_42_with_3_x_Mk_82___500lb_GP_Bombs_LD = (
+        BRU_42___3_x_Mk_82___500lb_GP_Bomb_LD = (
             4,
-            Weapons.BRU_42_with_3_x_Mk_82___500lb_GP_Bombs_LD,
+            Weapons.BRU_42___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
-        BRU_42_with_3_x_Mk_82_AIR_Ballute___500lb_GP_Bombs_HD = (
+        BRU_42___3_x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD = (
             4,
-            Weapons.BRU_42_with_3_x_Mk_82_AIR_Ballute___500lb_GP_Bombs_HD,
+            Weapons.BRU_42___3_x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD,
         )
         LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_Mk71__HE_FRAG = (
             4,
@@ -531,9 +531,9 @@ class VSN_A6A(PlaneType):
         )
         # ERRR {CBU-99}
         ADM_141A_TALD = (4, Weapons.ADM_141A_TALD)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             4,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         BRU_33_with_1_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_Mk71__HE_FRAG = (
             4,
@@ -564,17 +564,17 @@ class VSN_A6A(PlaneType):
             5,
             Weapons.LAU_7_with_AIM_9B_Sidewinder_IR_AAM,
         )
-        LAU_7_with_AIM_9J_Sidewinder_IR_AAM = (
+        LAU_7___AIM_9J_Sidewinder_IR_AAM = (
             5,
-            Weapons.LAU_7_with_AIM_9J_Sidewinder_IR_AAM,
+            Weapons.LAU_7___AIM_9J_Sidewinder_IR_AAM,
         )
         LAU_7_with_AIM_9M_Sidewinder_IR_AAM = (
             5,
             Weapons.LAU_7_with_AIM_9M_Sidewinder_IR_AAM,
         )
-        LAU_7_with_AIM_9P_Sidewinder_IR_AAM = (
+        LAU_7___AIM_9J_Sidewinder_IR_AAM = (
             5,
-            Weapons.LAU_7_with_AIM_9P_Sidewinder_IR_AAM,
+            Weapons.LAU_7___AIM_9J_Sidewinder_IR_AAM,
         )
         AGM_45A_Shrike_ARM = (5, Weapons.AGM_45A_Shrike_ARM)
         AGM_45B_Shrike_ARM = (5, Weapons.AGM_45B_Shrike_ARM)
@@ -582,17 +582,17 @@ class VSN_A6A(PlaneType):
             5,
             Weapons.AGM_88C_HARM___High_Speed_Anti_Radiation_Missile,
         )
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             5,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             5,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             5,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (5, Weapons.LAU_117_AGM_65G)
         AGM_84D_Harpoon_AShM = (5, Weapons.AGM_84D_Harpoon_AShM)
@@ -629,13 +629,13 @@ class VSN_A6A(PlaneType):
         )
         BRU_42A___3_x_Mk_83 = (5, WeaponsA7E.BRU_42A___3_x_Mk_83)
         Mk_84___2000lb_GP_Bomb_LD = (5, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-        BRU_42_with_3_x_Mk_82___500lb_GP_Bombs_LD = (
+        BRU_42___3_x_Mk_82___500lb_GP_Bomb_LD = (
             5,
-            Weapons.BRU_42_with_3_x_Mk_82___500lb_GP_Bombs_LD,
+            Weapons.BRU_42___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
-        BRU_42_with_3_x_Mk_82_AIR_Ballute___500lb_GP_Bombs_HD = (
+        BRU_42___3_x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD = (
             5,
-            Weapons.BRU_42_with_3_x_Mk_82_AIR_Ballute___500lb_GP_Bombs_HD,
+            Weapons.BRU_42___3_x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD,
         )
         LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_Mk71__HE_FRAG = (
             5,
@@ -682,9 +682,9 @@ class VSN_A6A(PlaneType):
         )
         # ERRR {CBU-99}
         ADM_141A_TALD = (5, Weapons.ADM_141A_TALD)
-        SUU_25_x_8_LUU_2___Target_Marker_Flares = (
+        SUU_25___8_x_Illumination_Flare__LUU_2B = (
             5,
-            Weapons.SUU_25_x_8_LUU_2___Target_Marker_Flares,
+            Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         BRU_33_with_1_x_LAU_10_pod___4_x_127mm_ZUNI__UnGd_Rkts_Mk71__HE_FRAG = (
             5,

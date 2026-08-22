@@ -17,7 +17,7 @@ from dcs.unitgroup import FlyingGroup
 from game.ato import Flight, FlightType
 from game.ato.flightplans.shiprecoverytanker import RecoveryTankerFlightPlan
 from game.callsigns import callsign_for_support_unit
-from game.data.weapons import Pylon, WeaponType
+from game.data.weapons import Pylon, Weapon, WeaponType
 from game.lasercodes.lasercode import LaserCode
 from game.missiongenerator.logisticsgenerator import LogisticsGenerator
 from game.missiongenerator.missiondata import MissionData, AwacsInfo, TankerInfo
@@ -353,8 +353,31 @@ class FlightGroupConfigurator:
                     props.update(laser_code_config.property_dict_for_code(code.code))
             if unit.unit_type.datalink_networkable() and self.no_datalink_set(props):
                 self.set_datalink(props, unit.callsign_as_str())
+            if self.game.settings.restrict_props_by_date:
+                self.degrade_props_for_date(props)
             for prop_id, value in props.items():
                 unit.set_property(prop_id, value)
+
+    def degrade_props_for_date(
+        self, props: dict[str, bool | float | int | str]
+    ) -> None:
+        """Clamp date-gated aircraft properties (e.g. JHMCS) to a period-correct value.
+
+        Mirrors weapon date-gating. We resolve each gated property against the unit
+        type's default and force-set the fallback when needed, because an unset helmet
+        device still defaults to JHMCS in the .miz — so only inspecting ``props`` would
+        miss the (common) defaulted case.
+        """
+        date = self.game.date
+        unit_type = self.flight.unit_type
+        gate = unit_type.property_date_gate
+        for prop in gate.gated_props(unit_type.dcs_unit_type.properties):
+            if prop.values is None or prop.default is None:
+                continue
+            current = props.get(prop.identifier, prop.default)
+            clamped = gate.period_correct_value(prop, current, date)
+            if clamped is not None and clamped != current:
+                props[prop.identifier] = clamped
 
     @staticmethod
     def no_datalink_set(props: dict[str, bool | float | int | str]) -> bool:
@@ -416,7 +439,7 @@ class FlightGroupConfigurator:
             pylon = Pylon.for_aircraft(self.flight.unit_type, pylon_number)
             settings = self._merge_laser_code(
                 loadout.pylon_settings.get(pylon_number),
-                weapon.accepts_laser_code(),
+                weapon,
                 member.weapon_laser_code,
             )
             pylon.equip(unit, weapon, settings)
@@ -424,14 +447,22 @@ class FlightGroupConfigurator:
     @staticmethod
     def _merge_laser_code(
         base: Optional[dict[str, Any]],
-        accepts_laser_code: bool,
+        weapon: Weapon,
         laser_code: Optional[LaserCode],
     ) -> Optional[dict[str, Any]]:
-        if laser_code is None or not accepts_laser_code:
+        """Settings to write for this pylon, laser code included.
+
+        DCS reads a weapon's settings table as the whole truth: a key that is absent
+        is not fitted, and a bomb's fuze lives in that table. Start from the weapon's
+        own defaults, which is what DCS applies when no table is written at all.
+        """
+        if laser_code is None or not weapon.accepts_laser_code():
             return base
-        settings = dict(base or {})
-        settings["laser_code"] = laser_code.code
-        return settings
+        settings = weapon.create_settings()
+        defaults = settings.to_dict() if settings is not None else {}
+        merged = {**defaults, **(base or {})}
+        merged["laser_code"] = laser_code.code
+        return merged
 
     def setup_fuel(self) -> None:
         fuel = self.flight.state.estimate_fuel()
