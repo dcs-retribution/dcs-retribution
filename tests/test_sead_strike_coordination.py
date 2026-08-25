@@ -212,16 +212,22 @@ def test_cas_on_an_uncovered_front_keeps_the_spread_schedule() -> None:
     assert cas.time_over_target == _tot(10)
 
 
-def test_armed_recon_and_air_assault_stay_out_of_the_window() -> None:
-    # The two exclusions, pinned at the same front line the CAS above is
-    # retimed at, so sweeping them in fails here first and has to be a
-    # deliberate edit. Both are FormationAttackFlightPlans like the included
-    # types; they are out for scope, not because anything prevents them.
+def test_armed_recon_pushes_behind_the_sead() -> None:
+    # Armed Recon is a FormationAttackFlightPlan against a control point, the
+    # same shape as OCA, so a covering ring reaches it the same way.
     sead = _package(FlightType.SEAD, _tot(30), _sam_target())
-    recon = _package(FlightType.ARMED_RECON, _tot(10), _front_line(IN_RING))
-    assault = _package(FlightType.AIR_ASSAULT, _tot(10), _front_line(IN_RING))
-    _coordinate([sead, recon, assault])
-    assert recon.time_over_target == _tot(10)
+    recon = _package(FlightType.ARMED_RECON, _tot(10), _ground_target(IN_RING))
+    _coordinate([sead, recon])
+    assert recon.time_over_target == _tot(32)
+
+
+def test_air_assault_stays_out_of_the_window() -> None:
+    # The one exclusion, pinned inside a ring that would otherwise cover it so
+    # sweeping it in has to be a deliberate edit. Held out because it is
+    # rotary-wing, not because nothing reaches it.
+    sead = _package(FlightType.SEAD, _tot(30), _sam_target())
+    assault = _package(FlightType.AIR_ASSAULT, _tot(10), _ground_target(IN_RING))
+    _coordinate([sead, assault])
     assert assault.time_over_target == _tot(10)
 
 

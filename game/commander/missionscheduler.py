@@ -58,22 +58,26 @@ class MissionScheduler:
     #: strike randomly spread far beyond this is pulled back into the window).
     SEAD_WINDOW_DURATION = timedelta(minutes=8)
 
-    #: The package types timed into a SEAD window.
+    #: The package types timed into a SEAD window: every FormationAttack
+    #: tasking that makes one timed arrival on a point inside a threat ring,
+    #: plus CAS.
     #:
-    #: CAS is the only PatrollingFlightPlan in the set. It is here because the
+    #: CAS is the only PatrollingFlightPlan here. It is included because the
     #: front it patrols sits under the ring, and it climbs into that ring to
     #: escape MANPADS low. Its organic SEAD_SWEEP escort flies the package's
     #: own TOT, so it accompanies rather than pre-suppresses.
     #:
-    #: ARMED_RECON and AIR_ASSAULT stay on the spread schedule as scope, not
-    #: mechanism: both are FormationAttackFlightPlans against a ControlPoint,
-    #: structurally the same tasking as OCA, and nothing here prevents them.
+    #: AIR_ASSAULT is the one FormationAttack tasking left out, and not for
+    #: want of a covering ring: it is ROTARY_WING, so massing a slow helo into
+    #: an eight-minute window with fast movers converging on the same point
+    #: trades a suppression gain for a deconfliction risk.
     COORDINATED_STRIKE_TYPES = frozenset(
         {
             FlightType.STRIKE,
             FlightType.BAI,
             FlightType.OCA_RUNWAY,
             FlightType.OCA_AIRCRAFT,
+            FlightType.ARMED_RECON,
             FlightType.CAS,
         }
     )
