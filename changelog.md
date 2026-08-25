@@ -1,7 +1,7 @@
 # Retribution v1.6.0
 
 ## Features/Improvements
-* **[Options]** New campaign setting "Strikes push behind their SEAD window" (off by default). Packages are timed independently, so a strike could arrive at a defended target long before the SEAD package tasked against the SAM covering it. With the option on, AI strike/BAI/OCA/CAS packages whose target sits inside a threat ring a SEAD/DEAD package is servicing are retimed into the window just behind it. Player packages are never rescheduled.
+* **[Options]** New campaign setting "Strikes push behind their SEAD window" (off by default). Packages are timed independently, so a strike could arrive at a defended target long before the SEAD package tasked against the SAM covering it. With the option on, AI strike, BAI, OCA, armed recon and CAS packages whose target sits inside a threat ring a SEAD/DEAD package is servicing are retimed into the window just behind it. Player packages are never rescheduled.
 * **[Kneeboard]** Use a light-grey daytime kneeboard background instead of near-white, to avoid glare under HDR / Auto-HDR while staying readable in daylight.
 * **[UX]** Hovering a friendly flight's route line on the map highlights it in yellow, and clicking it selects that flight's package (and the flight) in the ATO sidebar.
 * **[UX]** Press Delete with a package selected in the Packages list to cancel it, making it quick to clear several packages in a row.
