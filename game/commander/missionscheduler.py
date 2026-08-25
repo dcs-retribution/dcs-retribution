@@ -58,15 +58,16 @@ class MissionScheduler:
     #: strike randomly spread far beyond this is pulled back into the window).
     SEAD_WINDOW_DURATION = timedelta(minutes=8)
 
-    #: The strike-class package types timed into a SEAD window. Armed Recon (a
-    #: loitering sweep, not a push) and AIR ASSAULT (tied to the ground war's
-    #: timing) deliberately stay on the spread schedule.
+    #: The package types timed into a SEAD window.
     #:
-    #: CAS is here for the front-line sandwich: it descends to acquire and eats
-    #: MANPADS low, climbs to escape into the area-SAM ring high, so a front
-    #: under a live SAM umbrella wants that umbrella down first, exactly as a
-    #: strike does. Its organic SEAD_SWEEP escort flies the package's own TOT
-    #: and so accompanies rather than pre-suppresses.
+    #: CAS is the only PatrollingFlightPlan in the set. It is here because the
+    #: front it patrols sits under the ring, and it climbs into that ring to
+    #: escape MANPADS low. Its organic SEAD_SWEEP escort flies the package's
+    #: own TOT, so it accompanies rather than pre-suppresses.
+    #:
+    #: ARMED_RECON and AIR_ASSAULT stay on the spread schedule as scope, not
+    #: mechanism: both are FormationAttackFlightPlans against a ControlPoint,
+    #: structurally the same tasking as OCA, and nothing here prevents them.
     COORDINATED_STRIKE_TYPES = frozenset(
         {
             FlightType.STRIKE,
