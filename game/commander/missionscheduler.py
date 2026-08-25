@@ -4,7 +4,7 @@ import logging
 import random
 from collections import defaultdict
 from datetime import datetime, timedelta
-from typing import Iterator, TYPE_CHECKING
+from typing import Iterator, Optional, TYPE_CHECKING
 
 from game.ato.flighttype import FlightType
 from game.ato.traveltime import TotEstimator
@@ -15,7 +15,68 @@ if TYPE_CHECKING:
     from game.ato import Package
 
 
+def coordinated_strike_tot(
+    strike_tot: datetime,
+    earliest_tot: datetime,
+    provider_tots: list[datetime],
+    lead: timedelta,
+    duration: timedelta,
+) -> Optional[datetime]:
+    """The TOT placing a strike inside its SEAD window, or None to keep it.
+
+    The window opens ``lead`` after the LATEST covering SEAD/DEAD package's TOT
+    (every suppressor on station first) and lasts ``duration`` (push while the
+    suppression holds). A strike already inside the window keeps its TOT; one
+    outside is moved to the window opening -- delayed if it would have arrived
+    before its SEAD (the naked-strike case), pulled forward if the random
+    spread had left it long after the window closed. Never earlier than the
+    package can physically fly (``earliest_tot``); if even that is past the
+    window the TOT is kept unless keeping it would still put the strike ahead
+    of its SEAD.
+    """
+    if not provider_tots:
+        return None
+    window_start = max(provider_tots) + lead
+    window_end = window_start + duration
+    if window_start <= strike_tot <= window_end:
+        return None
+    desired = max(window_start, earliest_tot)
+    if desired > window_end and strike_tot >= window_start:
+        # Can't make the window, but at least the strike isn't ahead of its
+        # SEAD. Leave the spread schedule alone.
+        return None
+    if desired == strike_tot:
+        return None
+    return desired
+
+
 class MissionScheduler:
+    #: How long after the covering SEAD/DEAD package's TOT the strike window
+    #: opens (suppressors on station first) ...
+    SEAD_WINDOW_LEAD = timedelta(minutes=2)
+    #: ... and how long it stays open (push while the suppression holds; a
+    #: strike randomly spread far beyond this is pulled back into the window).
+    SEAD_WINDOW_DURATION = timedelta(minutes=8)
+
+    #: The strike-class package types timed into a SEAD window. Armed Recon (a
+    #: loitering sweep, not a push) and AIR ASSAULT (tied to the ground war's
+    #: timing) deliberately stay on the spread schedule.
+    #:
+    #: CAS is here for the front-line sandwich: it descends to acquire and eats
+    #: MANPADS low, climbs to escape into the area-SAM ring high, so a front
+    #: under a live SAM umbrella wants that umbrella down first, exactly as a
+    #: strike does. Its organic SEAD_SWEEP escort flies the package's own TOT
+    #: and so accompanies rather than pre-suppresses.
+    COORDINATED_STRIKE_TYPES = frozenset(
+        {
+            FlightType.STRIKE,
+            FlightType.BAI,
+            FlightType.OCA_RUNWAY,
+            FlightType.OCA_AIRCRAFT,
+            FlightType.CAS,
+        }
+    )
+
     def __init__(self, coalition: Coalition, desired_mission_length: timedelta) -> None:
         self.coalition = coalition
         self.desired_mission_length = desired_mission_length
@@ -97,6 +158,16 @@ class MissionScheduler:
                 # to be present. Runway and air started aircraft will be
                 # delayed until their takeoff time by AirConflictGenerator.
                 package.time_over_target = next(start_time) + tot
+
+        # Time strikes into their SEAD windows BEFORE collecting the recovery
+        # ETAs below: landing_time is derived from the package TOT, so a
+        # retimed package collected earlier would book its tanker against a
+        # landing it no longer flies.
+        self._coordinate_sead_windows(now)
+
+        for package in self.coalition.ato.packages:
+            if package.primary_task is FlightType.RECOVERY:
+                continue
             for f in package.flights:
                 if f.departure.is_fleet and not f.is_helo:
                     carrier_etas[f.departure].append(
@@ -120,6 +191,68 @@ class MissionScheduler:
         ]:
             if carrier_etas[package.target]:
                 package.time_over_target = carrier_etas[package.target].pop(0)
+
+    def _coordinate_sead_windows(self, now: datetime) -> None:
+        """Cross-package SEAD-before-strike sequencing.
+
+        Packages are timed independently, so nothing stops the random spread
+        from sending a strike into a defended target half an hour BEFORE the
+        SEAD package tasked against the SAM covering it. This pass finds, for
+        every movable strike-class package, the SEAD/DEAD packages whose target
+        ground object's threat ring covers the strike's target, and retimes the
+        strike into the window just behind the latest of them. Several strikes
+        behind one SEAD mass into the same window, which is the point -- it
+        reads as a push.
+
+        Only AI, non-ASAP packages move: a package with a player flight is
+        never rescheduled, but a player-flown SEAD still opens a window the AI
+        strikes push behind, because providers are only read.
+        """
+        if not self.coalition.game.settings.sead_strike_coordination:
+            return
+        providers: list[tuple[Package, float]] = []
+        for package in self.coalition.ato.packages:
+            if package.primary_task not in (FlightType.SEAD, FlightType.DEAD):
+                continue
+            # SEAD/DEAD is planned against a SAM ground object; duck-typed so
+            # any non-TGO tasking degrades to "no window" rather than crashing.
+            threat_range = getattr(package.target, "max_threat_range", None)
+            if threat_range is None:
+                continue
+            ring_meters = threat_range().meters
+            if ring_meters <= 0:
+                continue
+            providers.append((package, ring_meters))
+        if not providers:
+            return
+        for package in self.coalition.ato.packages:
+            if package.primary_task not in self.COORDINATED_STRIKE_TYPES:
+                continue
+            if package.auto_asap or package.has_players:
+                continue
+            provider_tots = [
+                p.time_over_target
+                for p, ring in providers
+                if p.target.position.distance_to_point(package.target.position) <= ring
+            ]
+            if not provider_tots:
+                continue
+            new_tot = coordinated_strike_tot(
+                package.time_over_target,
+                TotEstimator(package).earliest_tot(now),
+                provider_tots,
+                self.SEAD_WINDOW_LEAD,
+                self.SEAD_WINDOW_DURATION,
+            )
+            if new_tot is not None:
+                logging.debug(
+                    "SEAD window: retimed %s vs %s from %s to %s",
+                    package.primary_task,
+                    getattr(package.target, "name", "target"),
+                    package.time_over_target,
+                    new_tot,
+                )
+                package.time_over_target = new_tot
 
     @staticmethod
     def _get_departure_time(package: Package) -> datetime | None:

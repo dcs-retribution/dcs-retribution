@@ -230,6 +230,22 @@ class Settings:
         detail="Implicitly determines the number of Tanker flights planned by taking the mission duration"
         " and dividing it by the desired on-station time.",
     )
+    sead_strike_coordination: bool = boolean_option(
+        "Strikes push behind their SEAD window",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=False,
+        detail=(
+            "Packages are timed independently, so a strike can arrive at a "
+            "defended target half an hour before the SEAD package tasked "
+            "against the SAM covering it. With this on, each side's AI "
+            "strike, BAI, OCA and CAS packages whose target sits inside a SAM "
+            "threat ring that a SEAD/DEAD package is servicing are retimed "
+            "into the window just behind it, several packages massing behind "
+            "one suppressor. Player packages are never rescheduled, but a "
+            "player-flown SEAD still opens a window the AI pushes behind."
+        ),
+    )
     autoplan_tankers_for_strike: bool = boolean_option(
         "Auto-planner plans refueling flights for Strike packages",
         page=CAMPAIGN_DOCTRINE_PAGE,
