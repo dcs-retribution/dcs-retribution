@@ -11,7 +11,7 @@ from __future__ import annotations
 import logging
 import random
 from collections import defaultdict
-from typing import Any, Dict, Iterator, List, Optional, TYPE_CHECKING, Type, Tuple
+from typing import Any, Dict, List, Optional, TYPE_CHECKING, Type, Tuple
 
 import dcs.vehicles
 from dcs import Mission, Point, unitgroup
@@ -57,6 +57,7 @@ from dcs.unitgroup import MovingGroup, ShipGroup, StaticGroup, VehicleGroup
 from dcs.unittype import ShipType, VehicleType
 from dcs.vehicles import vehicle_map, Unarmed, Fortification as VehicleFortification
 
+from game.data.carrier_comms import CARRIER_COMMS_PLANS, CarrierCommsPlan
 from game.missiongenerator.groundforcepainter import (
     NavalForcePainter,
     GroundForcePainter,
@@ -366,6 +367,7 @@ class GroundObjectGenerator:
         group_name: str,
         units: list[TheaterUnit],
         frequency: Optional[RadioFrequency] = None,
+        flagship_name: Optional[str] = None,
     ) -> ShipGroup:
         ship_group: Optional[ShipGroup] = None
         for unit in units:
@@ -381,7 +383,9 @@ class GroundObjectGenerator:
                 )
                 if frequency:
                     ship_group.set_frequency(frequency.hertz)
-                ship_group.units[0].name = unit.unit_name
+                # The name must be set before _register_theater_unit records it,
+                # or debrief kill-tracking would key off a different string.
+                ship_group.units[0].name = flagship_name or unit.unit_name
                 self.set_alarm_state(ship_group, force_red=True)
                 self.set_ship_engagement(ship_group)
                 NavalForcePainter(faction, ship_group.units[0]).apply_livery()
@@ -617,6 +621,46 @@ class MissileSiteGenerator(GroundObjectGenerator):
         return site_range
 
 
+# Hulls whose deck systems support Link 4 / ACLS in DCS.
+LINK4_CARRIERS: List[Type[ShipType]] = [
+    Stennis,
+    CVN_71,
+    CVN_72,
+    CVN_73,
+    CVN_75,
+    Forrestal,
+]
+
+
+class IclsAllocator:
+    """Mission-wide ICLS channel tracker (channels 1-20).
+
+    Lets the curated per-hull picks (game/data/carrier_comms.py) and the
+    sequential fallback share one pool so two boats can never end up on the
+    same channel.
+    """
+
+    def __init__(self) -> None:
+        self.allocated_channels: set[int] = set()
+
+    def reserve(self, channel: int) -> None:
+        self.allocated_channels.add(channel)
+
+    def claim(self, channel: int) -> Optional[int]:
+        """Claims the given channel, or returns None if it is already taken."""
+        if channel in self.allocated_channels:
+            return None
+        self.reserve(channel)
+        return channel
+
+    def alloc(self) -> int:
+        for channel in range(1, 21):
+            if channel not in self.allocated_channels:
+                self.reserve(channel)
+                return channel
+        raise RuntimeError("No available ICLS channels")
+
+
 class GenericCarrierGenerator(GroundObjectGenerator):
     """Base type for carrier group generation.
 
@@ -632,7 +676,7 @@ class GenericCarrierGenerator(GroundObjectGenerator):
         mission: Mission,
         radio_registry: RadioRegistry,
         tacan_registry: TacanRegistry,
-        icls_alloc: Iterator[int],
+        icls_alloc: IclsAllocator,
         runways: Dict[str, RunwayData],
         unit_map: UnitMap,
         mission_data: MissionData,
@@ -647,12 +691,17 @@ class GenericCarrierGenerator(GroundObjectGenerator):
         self.mission_data = mission_data
 
     def generate(self) -> None:
-        if self.control_point.frequency is not None:
-            atc = self.control_point.frequency
-            if atc not in self.radio_registry.allocated_channels:
-                self.radio_registry.reserve(atc)
-        else:
-            atc = self.radio_registry.alloc_uhf()
+        # The curated per-hull comms plan. Values from it are defaults only:
+        # values stored on the control point (user-set or persisted from an
+        # earlier turn) always win, and a curated channel already reserved
+        # elsewhere falls back to the legacy allocators.
+        carrier_type = self.carrier_type
+        comms = (
+            CARRIER_COMMS_PLANS.get(carrier_type.id)
+            if carrier_type is not None
+            else None
+        )
+        atc = self._resolve_atc(comms)
 
         for g_id, group in enumerate(self.ground_object.groups):
             if not group.units:
@@ -669,7 +718,13 @@ class GenericCarrierGenerator(GroundObjectGenerator):
                 # Empty array (no alive units), skip this group
                 continue
 
-            ship_group = self.create_ship_group(group.group_name, ship_units, atc)
+            is_flagship_group = g_id == 0 and self.control_point.runway_is_operational()
+            flagship_name = None
+            if is_flagship_group and carrier_type is not None:
+                flagship_name = self._flagship_name(carrier_type)
+            ship_group = self.create_ship_group(
+                group.group_name, ship_units, atc, flagship_name=flagship_name
+            )
 
             # Always steam into the wind, even if the carrier is being moved.
             # There are multiple unsimulated hours between turns, so we can
@@ -678,40 +733,19 @@ class GenericCarrierGenerator(GroundObjectGenerator):
             brc = self.steam_into_wind(ship_group)
 
             # Set Carrier Specific Options
-            if g_id == 0 and self.control_point.runway_is_operational():
+            if is_flagship_group:
                 # Get Correct unit type for the carrier.
                 # This will upgrade to super carrier if option is enabled
-                carrier_type = self.carrier_type
                 if carrier_type is None:
                     raise RuntimeError(
                         f"Error generating carrier group for {self.control_point.name}"
                     )
                 ship_group.units[0].type = carrier_type.id
                 self.control_point.carrier_id = ship_group.units[0].id
-                if self.control_point.tacan is None:
-                    tacan = self.tacan_registry.alloc_for_band(
-                        TacanBand.X, TacanUsage.TransmitReceive
-                    )
-                else:
-                    tacan = self.control_point.tacan
-                if self.control_point.tcn_name is None:
-                    tacan_callsign = self.tacan_callsign()
-                else:
-                    tacan_callsign = self.control_point.tcn_name
-                link4 = None
-                link4carriers = [Stennis, CVN_71, CVN_72, CVN_73, CVN_75, Forrestal]
-                if carrier_type in link4carriers:
-                    if self.control_point.link4 is None:
-                        link4 = self.radio_registry.alloc_uhf()
-                    else:
-                        link4 = self.control_point.link4
-                icls = None
+                tacan, tacan_callsign = self._resolve_tacan(comms)
+                link4 = self._resolve_link4(comms, carrier_type)
+                icls = self._resolve_icls(comms, carrier_type)
                 icls_name = self.control_point.icls_name
-                if carrier_type in link4carriers or carrier_type == LHA_Tarawa:
-                    if self.control_point.icls_channel is None:
-                        icls = next(self.icls_alloc)
-                    else:
-                        icls = self.control_point.icls_channel
                 self.activate_beacons(
                     ship_group, tacan, tacan_callsign, icls, icls_name, link4
                 )
@@ -735,6 +769,106 @@ class GenericCarrierGenerator(GroundObjectGenerator):
     @property
     def carrier_type(self) -> Optional[Type[ShipType]]:
         return self.control_point.get_carrier_group_type()
+
+    def _flagship_name(self, carrier_type: Type[ShipType]) -> Optional[str]:
+        """A clean name for the boat itself.
+
+        The DCS-generated "CV Operations Data" kneeboard page prints the
+        flagship's unit name on its Callsign line, so the id-prefixed theater
+        unit name ("0796 | CVN-71 Theodore Roosevelt") leaked straight onto
+        the player's kneeboard. Name the flagship by its hull name instead.
+        Returns None (keep the unique id-prefixed name) if a same-named unit
+        already exists, e.g. a second boat of the same class.
+        """
+        name = str(carrier_type.name)
+        if self.unit_map.theater_units(name) is not None:
+            return None
+        return name
+
+    def _resolve_atc(self, comms: Optional[CarrierCommsPlan]) -> RadioFrequency:
+        """Carrier ATC: stored value, else the hull's curated frequency, else
+        a random UHF. Persisted back so Mother's button doesn't change every
+        turn."""
+        atc = self.control_point.frequency
+        if (
+            atc is None
+            and comms is not None
+            and comms.atc not in self.radio_registry.allocated_channels
+        ):
+            atc = comms.atc
+        if atc is None:
+            # alloc_uhf reserves the channel itself.
+            atc = self.radio_registry.alloc_uhf()
+        elif atc not in self.radio_registry.allocated_channels:
+            self.radio_registry.reserve(atc)
+        self.control_point.frequency = atc
+        return atc
+
+    def _resolve_tacan(
+        self, comms: Optional[CarrierCommsPlan]
+    ) -> Tuple[TacanChannel, str]:
+        """Carrier TACAN: stored channel/ident, else the hull's curated pair,
+        else the legacy allocator + random ident."""
+        tacan = self.control_point.tacan
+        if tacan is None:
+            if comms is not None:
+                tacan = self.tacan_registry.alloc_near(
+                    comms.tacan, TacanUsage.TransmitReceive
+                )
+            else:
+                tacan = self.tacan_registry.alloc_for_band(
+                    TacanBand.X, TacanUsage.TransmitReceive
+                )
+            # Persist back so subsequent turns reuse the same channel instead
+            # of re-rolling every mission.
+            self.control_point.tacan = tacan
+        tacan_callsign = self.control_point.tcn_name
+        if tacan_callsign is None:
+            tacan_callsign = (
+                comms.tacan_ident if comms is not None else self.tacan_callsign()
+            )
+            self.control_point.tcn_name = tacan_callsign
+        return tacan, tacan_callsign
+
+    def _resolve_link4(
+        self, comms: Optional[CarrierCommsPlan], carrier_type: Type[ShipType]
+    ) -> Optional[RadioFrequency]:
+        """Link 4 for ACLS-capable hulls: stored value, else the hull's curated
+        336 MHz-band frequency, else a random UHF. Persisted back."""
+        if carrier_type not in LINK4_CARRIERS:
+            return None
+        link4 = self.control_point.link4
+        if (
+            link4 is None
+            and comms is not None
+            and comms.link4 is not None
+            and comms.link4 not in self.radio_registry.allocated_channels
+        ):
+            link4 = comms.link4
+        if link4 is None:
+            # alloc_uhf reserves the channel itself.
+            link4 = self.radio_registry.alloc_uhf()
+        elif link4 not in self.radio_registry.allocated_channels:
+            self.radio_registry.reserve(link4)
+        self.control_point.link4 = link4
+        return link4
+
+    def _resolve_icls(
+        self, comms: Optional[CarrierCommsPlan], carrier_type: Type[ShipType]
+    ) -> Optional[int]:
+        """ICLS for equipped hulls: stored channel, else the hull's curated
+        channel, else the first free channel. Persisted back."""
+        if carrier_type not in LINK4_CARRIERS and carrier_type != LHA_Tarawa:
+            return None
+        icls = self.control_point.icls_channel
+        if icls is None and comms is not None and comms.icls is not None:
+            icls = self.icls_alloc.claim(comms.icls)
+        if icls is None:
+            icls = self.icls_alloc.alloc()
+        else:
+            self.icls_alloc.reserve(icls)
+        self.control_point.icls_channel = icls
+        return icls
 
     def steam_into_wind(self, group: ShipGroup) -> Optional[Heading]:
         wind = self.game.conditions.weather.wind.at_0m
@@ -1570,7 +1704,7 @@ class TgoGenerator:
         self.radio_registry = radio_registry
         self.tacan_registry = tacan_registry
         self.unit_map = unit_map
-        self.icls_alloc = iter(range(1, 21))
+        self.icls_alloc = IclsAllocator()
         self.runways: Dict[str, RunwayData] = {}
         self.helipads: dict[ControlPoint, list[StaticGroup]] = defaultdict(list)
         self.ground_spawns_roadbase: dict[

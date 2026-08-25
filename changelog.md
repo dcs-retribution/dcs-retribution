@@ -1,6 +1,7 @@
 # Retribution v1.6.0
 
 ## Features/Improvements
+* **[Mission Generation]** Carrier comms are curated instead of randomly allocated: TACAN follows the hull number with the boat's real ident (CVN-71 → 71X `TRO`), ICLS is hull-keyed, Link 4 sits in the real 336 MHz ACLS band, ATC stays stable across turns, and the flagship is named for its hull — so the DCS "CV Operations Data" kneeboard page reads like a proper Mother card. Values persist to the save, and a map-owned TACAN channel degrades to the nearest free neighbor. (#874)
 * **[Kneeboard]** Use a light-grey daytime kneeboard background instead of near-white, to avoid glare under HDR / Auto-HDR while staying readable in daylight.
 * **[UX]** Hovering a friendly flight's route line on the map highlights it in yellow, and clicking it selects that flight's package (and the flight) in the ATO sidebar.
 * **[UX]** Press Delete with a package selected in the Packages list to cancel it, making it quick to clear several packages in a row.
