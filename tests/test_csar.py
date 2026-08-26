@@ -751,13 +751,56 @@ def test_lua_rescue_is_authoritative() -> None:
     assert downed.pilot.recovering
 
 
-def test_ai_flight_survives_rescues() -> None:
+def _flown_in_mission(*flights: Any) -> Any:
+    """unit_map entries for flights that made it into the generated .miz."""
+    entries = []
+    for flight in flights:
+        entry = MagicMock()
+        entry.flight = flight
+        entries.append(entry)
+    return entries
+
+
+def test_simulated_ai_flight_rescues_via_the_fallback() -> None:
+    """A flight the simulation resolved before the .miz was generated never had a
+    chance to report anything, so surviving is all we have to go on."""
     downed = _standalone_downed()
     flight = _csar_flight_targeting(downed, client_count=0)
     game = _game_with_csar_package(downed, flight)
     debriefing = MagicMock()
     debriefing.state_data.rescued_pilot_ids = []
+    debriefing.unit_map.aircraft.values.return_value = _flown_in_mission()
     debriefing.air_losses.surviving_flight_members.return_value = 2
+    processor = MissionResultsProcessor(game)
+    processor.commit_csar_results(debriefing)
+    assert downed.pilot.recovering
+
+
+def test_flown_ai_flight_needs_the_mission_to_confirm_the_rescue() -> None:
+    """It was in the mission, so Ops.CSAR had its say. Crediting it anyway would
+    both invent rescues and make the debrief disagree with the in-progress
+    screen, which is rendered before results are committed."""
+    downed = _standalone_downed()
+    flight = _csar_flight_targeting(downed, client_count=0)
+    game = _game_with_csar_package(downed, flight)
+    debriefing = MagicMock()
+    debriefing.state_data.rescued_pilot_ids = []
+    debriefing.unit_map.aircraft.values.return_value = _flown_in_mission(flight)
+    debriefing.air_losses.surviving_flight_members.return_value = 2
+    processor = MissionResultsProcessor(game)
+    processor.commit_csar_results(debriefing)
+    assert not downed.pilot.recovering
+    assert not downed.pilot.missing_in_action
+
+
+def test_flown_ai_flight_is_credited_when_the_mission_confirms_it() -> None:
+    downed = _standalone_downed()
+    flight = _csar_flight_targeting(downed, client_count=0)
+    game = _game_with_csar_package(downed, flight)
+    game.db.downed_pilots.get.return_value = downed
+    debriefing = MagicMock()
+    debriefing.state_data.rescued_pilot_ids = [str(downed.id)]
+    debriefing.unit_map.aircraft.values.return_value = _flown_in_mission(flight)
     processor = MissionResultsProcessor(game)
     processor.commit_csar_results(debriefing)
     assert downed.pilot.recovering

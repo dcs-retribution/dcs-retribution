@@ -67,12 +67,23 @@ class MissionResultsProcessor:
     def commit_csar_results(self, debriefing: Debriefing) -> None:
         """Returns rescued downed pilots to recovery (hybrid resolution).
 
-        Ops.CSAR pickups reported in state.json are authoritative. For AI-flown
-        CSAR flights (and skipped/simulated turns, which produce no state.json), a
-        surviving CSAR flight that targeted a downed pilot rescues them.
+        Ops.CSAR pickups reported in state.json are authoritative for any flight
+        that was actually in the mission. The fallback -- a surviving AI CSAR
+        flight counts as having rescued its target -- covers only flights the
+        simulation resolved before the .miz was generated, which had no chance to
+        report anything.
+
+        Crediting a flown flight the mission did not confirm would also make the
+        debrief disagree with the in-progress screen, which is rendered before
+        this runs and so can never see a fallback rescue.
         """
         csar = CsarService(self.game)
         rescued: set[DownedPilot] = set()
+
+        # Flights that made it into the generated mission. Anything here had a
+        # chance to be reported by Ops.CSAR, so its silence means it did not
+        # complete the pickup.
+        flown = {entry.flight for entry in debriefing.unit_map.aircraft.values()}
 
         # Authoritative: pilots confirmed rescued in-mission by Ops.CSAR.
         for uuid_str in debriefing.state_data.rescued_pilot_ids:
@@ -96,7 +107,21 @@ class MissionResultsProcessor:
                         # Player-flown: only the Ops.CSAR result counts, so an
                         # unflown or botched player CSAR correctly fails.
                         continue
+                    if flight in flown:
+                        # It flew, so Ops.CSAR had its say. Not reported means not
+                        # rescued.
+                        continue
                     if debriefing.air_losses.surviving_flight_members(flight) > 0:
+                        # Worth saying out loud: this credits a rescue the mission
+                        # never confirmed, and it is the only reason the debrief
+                        # can show more rescues than the in-progress screen did.
+                        logging.info(
+                            "Crediting %s to surviving AI CSAR flight %s, which "
+                            "the simulation resolved before the mission was "
+                            "generated.",
+                            target.pilot.name,
+                            flight,
+                        )
                         rescued.add(target)
 
         for downed in rescued:
