@@ -18,7 +18,7 @@ description:
 miz: crossing_the_rubicon.miz
 performance: 2
 recommended_start_date: 1988-07-13
-version: "10.8"
+version: "10.9"
 settings:
   hercules: true
   uh_60l: true
