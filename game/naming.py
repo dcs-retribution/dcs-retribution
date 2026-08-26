@@ -483,10 +483,14 @@ class NameGenerator:
     @classmethod
     def next_aircraft_name(cls, country: Country, flight: Flight) -> str:
         cls.aircraft_number += 1
-        if flight.custom_name:
-            name_str = flight.custom_name
-        else:
-            name_str = "{} {}".format(flight.package.target.name, flight.flight_type)
+        # Always append the flight type so the first "|"-field keeps the
+        # "<name> <task>" convention debrief attribution and the Moose QRA
+        # task-type filter (dr-99hm) rely on. A custom name alone would drop the
+        # task, making a custom-named flight unclassifiable downstream.
+        prefix = (
+            flight.custom_name if flight.custom_name else flight.package.target.name
+        )
+        name_str = "{} {}".format(prefix, flight.flight_type)
         return "{}|{}|{}|{}|".format(
             name_str, country.id, cls.aircraft_number, flight.unit_type.variant_id
         )

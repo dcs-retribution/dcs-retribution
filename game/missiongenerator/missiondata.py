@@ -10,6 +10,7 @@ from dcs.unitgroup import ShipGroup
 from game.dcs.aircrafttype import AircraftType
 from game.dcs.groundunittype import GroundUnitType
 from game.missiongenerator.aircraft.flightdata import FlightData
+from game.missiongenerator.interceptluadata import InterceptEntry
 from game.runways import RunwayData
 
 if TYPE_CHECKING:
@@ -125,3 +126,4 @@ class MissionData:
     cp_stack: dict[UUID, Distance] = field(default_factory=dict)
     player_frontline_groups: list[FrontlineUnitGroupsInfo] = field(default_factory=list)
     enemy_frontline_groups: list[FrontlineUnitGroupsInfo] = field(default_factory=list)
+    intercept_entries: list[InterceptEntry] = field(default_factory=list)

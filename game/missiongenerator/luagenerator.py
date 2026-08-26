@@ -18,6 +18,7 @@ from game.plugins import LuaPluginManager
 from game.theater import TheaterGroundObject
 from game.theater.iadsnetwork.iadsrole import IadsRole
 from game.utils import escape_string_for_lua
+from .interceptluadata import populate_intercept_lua
 from .missiondata import MissionData
 
 if TYPE_CHECKING:
@@ -228,6 +229,8 @@ class LuaGenerator:
                     iads_element.add_key_value(property, value)
             for role, connections in node.connections.items():
                 iads_element.add_data_array(role, connections)
+
+        populate_intercept_lua(lua_data, self.mission_data.intercept_entries)
 
         # Add artillery and support units info
         artillery_object = lua_data.add_item("artilleryGroups")

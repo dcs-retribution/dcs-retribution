@@ -34,6 +34,8 @@ class SquadronDef:
     female_pilot_percentage: int
     pilot_pool: list[Pilot]
     claimed: bool = False
+    #: Number of airframes held on QRA (hot-alert intercept). 0 = none.
+    intercept_reserve: int = 0
 
     def __str__(self) -> str:
         if self.nickname is None:
@@ -110,4 +112,5 @@ class SquadronDef:
             operating_bases=OperatingBases.from_yaml(unit_type, data.get("bases", {})),
             female_pilot_percentage=female_pilot_percentage,
             pilot_pool=pilots,
+            intercept_reserve=data.get("intercept_reserve", 0),
         )

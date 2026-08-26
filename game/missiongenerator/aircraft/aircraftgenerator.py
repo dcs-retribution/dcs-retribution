@@ -26,7 +26,9 @@ from game.ato.flighttype import FlightType
 from game.ato.package import Package
 from game.ato.starttype import StartType
 from game.missiongenerator.countryassigner import CountryAssigner
+from game.missiongenerator.interceptluadata import InterceptEntry
 from game.missiongenerator.missiondata import MissionData
+from game.squadrons.intercept_reserve import qra_resource_count
 from game.radio.radios import RadioRegistry
 from game.radio.tacan import TacanRegistry
 from game.runways import RunwayData
@@ -229,6 +231,122 @@ class AircraftGenerator:
                 except NoParkingSlotError:
                     # If we run out of parking, stop spawning aircraft at this base.
                     break
+
+    def spawn_intercept_templates(
+        self, player_country: Country, enemy_country: Country
+    ) -> None:
+        """Emits a late-activated QRA template group for every Airfield squadron with
+        a QRA reserve and appends an InterceptEntry to mission_data.
+
+        Template groups are placed with late_activation=True so that the Moose
+        AI_A2A_DISPATCHER can spawn live intercept flights from them. FOBs and
+        other non-Airfield control points are silently skipped — the QRA system
+        only supports proper runways. Nothing is emitted when no squadron has a
+        QRA reserve (resource_count <= 0); the reserve is then left plannable
+        instead — see Squadron.return_all_pilots_and_aircraft.
+
+        QRA tuning (scramble radius, engagement range, radio callouts) is read
+        from the Campaign Doctrine settings and copied onto each InterceptEntry,
+        which carries it into the dcsRetribution.Intercept Lua table. Moose is
+        always loaded (base plugin), so there is no plugin to gate on — the QRA
+        reserves are the on/off switch.
+        """
+        engagement_range_nm = self.game.settings.qra_engagement_range_nm
+        gci_max_radius_nm = self.game.settings.qra_gci_max_radius_nm
+        comms_enabled = self.game.settings.qra_comms_enabled
+
+        for control_point in self.game.theater.controlpoints:
+            if not isinstance(control_point, Airfield):
+                continue
+            # A cratered runway cannot launch jets, so field no QRA there; the
+            # reserve auto-resumes once the runway repairs. Mirrors the normal-
+            # flight runway guard in generate_flights. debug, not warning: a downed
+            # runway skipping QRA is expected and recurs every turn until repair.
+            if not control_point.runway_is_operational():
+                logging.debug(
+                    f"Runway not operational, skipping QRA at {control_point.name}"
+                )
+                continue
+
+            base_is_blue = control_point.captured.is_blue
+            country = player_country if base_is_blue else enemy_country
+
+            for squadron in control_point.squadrons:
+                if not squadron.capable_of(FlightType.BARCAP):
+                    continue
+
+                available_pilots = (
+                    squadron.number_of_available_pilots
+                    if squadron.pilot_limits_enabled
+                    else None
+                )
+                resource_count = qra_resource_count(
+                    squadron.intercept_reserve,
+                    squadron.owned_aircraft,
+                    available_pilots,
+                )
+                if resource_count <= 0:
+                    continue
+
+                template_prefix = f"Intercept|{control_point.name}|{squadron.id}"
+
+                flight = Flight(
+                    Package(squadron.location, self.game.db.flights),
+                    squadron,
+                    2,
+                    FlightType.BARCAP,
+                    StartType.COLD,
+                    divert=None,
+                    claim_inv=False,
+                )
+                flight.state = Completed(flight, self.game.settings)
+
+                try:
+                    group = FlightGroupSpawner(
+                        flight,
+                        country,
+                        self.mission,
+                        self.helipads,
+                        self.ground_spawns_roadbase,
+                        self.ground_spawns_large,
+                        self.ground_spawns,
+                        self.mission_data,
+                    ).create_intercept_template(template_prefix)
+                except NoParkingSlotError:
+                    logging.warning(
+                        f"No parking slots available for QRA template at "
+                        f"{control_point.name} ({squadron}); skipping intercept entry."
+                    )
+                    # Skip just this squadron's QRA template and continue with others
+                    # at this base; unlike untasked filler we don't abandon the whole
+                    # base.
+                    continue
+                else:
+                    if group is None:
+                        # create_intercept_template returns None for non-Airfield CPs;
+                        # this branch should not be reached since we filtered above.
+                        continue
+
+                    self.mission_data.intercept_entries.append(
+                        InterceptEntry(
+                            squadron_id=str(squadron.id),
+                            squadron_name=str(squadron),
+                            airbase_name=control_point.name,
+                            template_prefix=template_prefix,
+                            coalition="BLUE" if base_is_blue else "RED",
+                            resource_count=resource_count,
+                            engagement_range_nm=engagement_range_nm,
+                            gci_max_radius_nm=gci_max_radius_nm,
+                            comms_enabled=comms_enabled,
+                        )
+                    )
+                finally:
+                    # The template Flight claimed pilots from the squadron via its
+                    # roster (count=2); return them so they are not missing from the
+                    # QRA loss baseline at mission end. Generation and results
+                    # processing share one Game, and pilots are otherwise only
+                    # returned at end-of-turn, after losses commit.
+                    flight.roster.clear()
 
     def _spawn_unused_for(self, squadron: Squadron, country: Country) -> None:
         assert isinstance(squadron.location, Airfield) or isinstance(

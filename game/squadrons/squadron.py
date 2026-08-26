@@ -17,6 +17,10 @@ from game.ato import Flight, FlightType, Package
 from game.settings import AutoAtoBehavior, Settings
 from game.theater import ParkingType
 from game.theater.player import Player
+from .intercept_reserve import (
+    clamp_intercept_reserve,
+    untasked_after_reserve_change,
+)
 from .pilot import Pilot, PilotStatus
 from .pilotnames import faker_for_country
 from ..db.database import Database
@@ -82,6 +86,9 @@ class Squadron:
 
     use_livery_set: bool = False  # if livery-set should be used when present
 
+    #: Number of airframes held on QRA (hot-alert intercept). 0 = none.
+    intercept_reserve: int = 0
+
     def __setstate__(self, state: dict[str, Any]) -> None:
         if "id" not in state:
             state["id"] = uuid4()
@@ -95,6 +102,8 @@ class Squadron:
             state["destroyed_aircraft"] = 0
         if "purchased_aircraft" not in state:
             state["purchased_aircraft"] = 0
+        if "intercept_reserve" not in state:
+            state["intercept_reserve"] = 0
         self.__dict__.update(state)
 
     def __str__(self) -> str:
@@ -265,7 +274,46 @@ class Squadron:
 
     def return_all_pilots_and_aircraft(self) -> None:
         self.available_pilots = list(self.active_pilots)
-        self.untasked_aircraft = self.owned_aircraft
+        # QRA-reserved airframes are held hot on alert by the intercept dispatcher,
+        # so they are not available to the auto-planner or spawned as ramp filler.
+        # The reserve (intercept_reserve > 0) is the single on/off switch for the
+        # whole QRA system: emission (spawn_intercept_templates) and loss commit
+        # (commit_intercept_losses) gate on it alone, so benching must too — gating
+        # this one site on the plugin flag would let a reserve be both ATO-plannable
+        # and fielded as QRA. A zero reserve leaves the full count untasked.
+        self.untasked_aircraft = max(0, self.owned_aircraft - self.intercept_reserve)
+
+    def set_intercept_reserve(self, value: int) -> None:
+        """Set the QRA reserve and reflect the change in the plannable pool now.
+
+        The planner reads ``untasked_aircraft``, which is otherwise only
+        recomputed at turn init. Editing the reserve between turns adjusts the
+        pool by the delta so freed jets are immediately available (and newly
+        reserved jets immediately benched) without a full
+        ``return_all_pilots_and_aircraft`` reset that would return already-tasked
+        flights.
+        """
+        self.untasked_aircraft = untasked_after_reserve_change(
+            self.intercept_reserve, value, self.untasked_aircraft, self.owned_aircraft
+        )
+        self.intercept_reserve = value
+
+    def lose_pilots(self, count: int) -> None:
+        """Kill ``count`` pilots to account for lost airframes (e.g. QRA attrition).
+
+        Only *untasked* pilots (``available_pilots``) are eligible: pilots claimed
+        by a flight this turn flew a different mission and must not die for a QRA
+        loss. QRA jets are AI-flown, so AI pilots are killed first to spare the
+        player's named pilots; player pilots are only killed when not protected by
+        ``invulnerable_player_pilots``. Kills fewer than ``count`` if too few
+        untasked pilots remain.
+        """
+        candidates = [p for p in self.available_pilots if not p.player]
+        if not self.settings.invulnerable_player_pilots:
+            candidates += [p for p in self.available_pilots if p.player]
+        for pilot in candidates[:count]:
+            pilot.kill()
+            self.available_pilots.remove(pilot)
 
     @staticmethod
     def send_on_leave(pilot: Pilot) -> None:
@@ -614,4 +662,7 @@ class Squadron:
             game.db.flights,
             game.settings,
             base,
+            intercept_reserve=clamp_intercept_reserve(
+                squadron_def.intercept_reserve, max_size
+            ),
         )

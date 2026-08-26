@@ -13,6 +13,7 @@ from PySide6.QtWidgets import (
 
 from game import Game
 from game.ato.flighttype import FlightType
+from game.squadrons.intercept_reserve import qra_resource_count
 from game.config import RUNWAY_REPAIR_COST
 from game.radio.ICLSContainer import ICLSContainer
 from game.radio.RadioFrequencyContainer import RadioFrequencyContainer
@@ -332,10 +333,30 @@ class QBaseMenu2(QDialog):
         mixed_parking = [
             slot for slot in self.cp.parking_slots if slot.helicopter and slot.airplanes
         ]
+        # A destroyed runway suppresses QRA entirely at mission generation
+        # (see AircraftGenerator.spawn_intercept_templates), so report 0 here
+        # rather than a phantom alert count the base can no longer scramble.
+        qra_alert = (
+            sum(
+                qra_resource_count(
+                    squadron.intercept_reserve,
+                    squadron.owned_aircraft,
+                    (
+                        squadron.number_of_available_pilots
+                        if squadron.pilot_limits_enabled
+                        else None
+                    ),
+                )
+                for squadron in self.cp.squadrons
+            )
+            if self.cp.runway_is_operational()
+            else 0
+        )
         self.intel_summary.setText(
             "\n".join(
                 [
                     f"{aircraft}/{parking} aircraft",
+                    f"{qra_alert} on QRA alert",
                     f"{len(fixed_wing_airfield_parking)} fixed-wing only parking",
                     f"{len(rotary_wing_airfield_parking) + helipads} rotary-wing only parking",
                     f"{len(mixed_parking)} mixed parking",

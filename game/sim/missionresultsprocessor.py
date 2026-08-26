@@ -5,7 +5,12 @@ from typing import TYPE_CHECKING
 
 from game.debriefing import Debriefing
 from game.ground_forces.combat_stance import CombatStance
+from game.missiongenerator.interceptattrition import (
+    fielded_qra_by_squadron,
+    reconcile_intercept_losses,
+)
 from game.profiling import logged_duration
+from game.squadrons.squadron import Squadron
 from game.theater import ControlPoint
 from .gameupdateevents import GameUpdateEvents
 from ..ato.airtaaskingorder import AirTaskingOrder
@@ -27,6 +32,8 @@ class MissionResultsProcessor:
         with logged_duration("Committing mission results"):
             with logged_duration("commit_air_losses"):
                 self.commit_air_losses(debriefing)
+            with logged_duration("commit_intercept_losses"):
+                self.commit_intercept_losses(debriefing)
             with logged_duration("commit_pilot_experience"):
                 self.commit_pilot_experience()
             with logged_duration("commit_front_line_losses"):
@@ -75,6 +82,32 @@ class MissionResultsProcessor:
             logging.info(f"{aircraft} destroyed from {squadron}")
             squadron.owned_aircraft -= 1
             squadron.destroyed_aircraft += 1
+
+    def commit_intercept_losses(self, debriefing: Debriefing) -> None:
+        all_squadrons: list[Squadron] = list(
+            self.game.blue.air_wing.iter_squadrons()
+        ) + list(self.game.red.air_wing.iter_squadrons())
+
+        # Shared baseline (see fielded_qra_by_squadron): the count actually fielded
+        # on alert, matching what the dispatcher was seeded with and what the Lua
+        # bounds survivors by, and identical to the debrief report's computation.
+        fielded_by_squadron, squadrons_by_id = fielded_qra_by_squadron(all_squadrons)
+
+        if not fielded_by_squadron:
+            return
+
+        losses = reconcile_intercept_losses(
+            fielded_by_squadron, debriefing.state_data.intercept_survivors
+        )
+        for squadron_id, loss in losses.items():
+            if loss <= 0:
+                continue
+            squadron = squadrons_by_id.get(squadron_id)
+            if squadron is None:
+                continue
+            logging.info(f"{loss} QRA aircraft lost from {squadron}")
+            squadron.owned_aircraft = max(0, squadron.owned_aircraft - loss)
+            squadron.lose_pilots(loss)
 
     @staticmethod
     def _commit_pilot_experience(ato: AirTaskingOrder) -> None:

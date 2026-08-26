@@ -1,0 +1,13 @@
+{
+    "skipUI": true,
+    "nameInUI": "Intercept (QRA)",
+    "defaultValue": true,
+    "specificOptions": [],
+    "scriptsWorkOrders": [],
+    "configurationWorkOrders": [
+        {
+            "file": "intercept-config.lua",
+            "mnemonic": "intercept-config"
+        }
+    ]
+}

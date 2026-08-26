@@ -1,3 +1,4 @@
+from functools import partial
 from typing import Set
 
 from PySide6.QtCore import Qt
@@ -7,13 +8,16 @@ from PySide6.QtWidgets import (
     QHBoxLayout,
     QLabel,
     QScrollArea,
+    QSpinBox,
     QVBoxLayout,
     QWidget,
 )
 
+from game.ato.flighttype import FlightType
 from game.dcs.aircrafttype import AircraftType
 from game.purchaseadapter import AircraftPurchaseAdapter
 from game.squadrons import Squadron
+from game.squadrons.intercept_reserve import max_intercept_reserve
 from game.theater import ControlPoint, ParkingType
 from qt_ui.models import GameModel
 from qt_ui.uiconstants import ICONS
@@ -50,6 +54,7 @@ class QAircraftRecruitmentMenu(UnitTransactionFrame[Squadron]):
         )
         for row, squadron in enumerate(sorted_squadrons):
             self.add_purchase_row(squadron, task_box_layout, row)
+            task_box_layout.addLayout(self._qra_control(squadron), row, 4)
 
         stretch = QVBoxLayout()
         stretch.addStretch()
@@ -80,6 +85,46 @@ class QAircraftRecruitmentMenu(UnitTransactionFrame[Squadron]):
             main_layout.addWidget(transfer_box)
 
         self.setLayout(main_layout)
+
+    def _qra_control(self, squadron: Squadron) -> QVBoxLayout:
+        layout = QVBoxLayout()
+        label = QLabel("QRA")
+        label.setToolTip(
+            "Aircraft held on quick-reaction alert; scramble airborne to intercept."
+        )
+        layout.addWidget(label)
+        spinner = QSpinBox()
+        spinner.lineEdit().setEnabled(False)
+        spinner.setMinimum(0)
+        # Cap at unplanned airframes (owned - tasked = untasked + reserve); aircraft
+        # already tasked to flights this turn cannot be pulled onto QRA.
+        spinner.setMaximum(
+            max_intercept_reserve(
+                squadron.untasked_aircraft,
+                squadron.intercept_reserve,
+                squadron.max_size,
+            )
+        )
+        spinner.setValue(squadron.intercept_reserve)
+        # Carry the descriptive tooltip on the spinner too (matching the other QRA
+        # dialogs); the non-BARCAP branch below overrides it with its own.
+        spinner.setToolTip(
+            "Aircraft held on quick-reaction alert; scramble airborne to intercept."
+        )
+        if not squadron.capable_of(FlightType.BARCAP):
+            spinner.setEnabled(False)
+            spinner.setToolTip(
+                "QRA is only available for fixed-wing squadrons capable of BARCAP."
+            )
+        spinner.valueChanged.connect(partial(self._set_reserve, squadron))
+        layout.addWidget(spinner)
+        return layout
+
+    @staticmethod
+    def _set_reserve(squadron: Squadron, value: int) -> None:
+        # Route through set_intercept_reserve so untasked_aircraft (the planner's
+        # pool) updates immediately, instead of going stale until turn advance.
+        squadron.set_intercept_reserve(value)
 
     def sell_tooltip(self, is_enabled: bool) -> str:
         if is_enabled:

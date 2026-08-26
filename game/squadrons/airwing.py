@@ -161,6 +161,32 @@ class AirWing:
     def iter_squadrons(self) -> Iterator[Squadron]:
         return itertools.chain.from_iterable(self.squadrons.values())
 
+    def repropagate_qra_reserve(self, old_default: int, new_default: int) -> None:
+        """Re-apply a changed QRA-reserve default to this wing's squadrons.
+
+        BARCAP-capable squadrons still carrying the (clamped) old default move to
+        the clamped new default; everything else is untouched. No-op when the
+        default did not change.
+        """
+        if old_default == new_default:
+            return
+        from ..ato.flighttype import FlightType
+        from .intercept_reserve import repropagated_intercept_reserve
+
+        for squadron in self.iter_squadrons():
+            # set_intercept_reserve (not a direct write) so untasked_aircraft stays
+            # in sync: this runs from the settings window mid-turn with no following
+            # initialize_turn, so a bare assignment would leave the planner pool stale.
+            squadron.set_intercept_reserve(
+                repropagated_intercept_reserve(
+                    squadron.capable_of(FlightType.BARCAP),
+                    squadron.intercept_reserve,
+                    old_default,
+                    new_default,
+                    squadron.max_size,
+                )
+            )
+
     def squadron_at_index(self, index: int) -> Squadron:
         return list(self.iter_squadrons())[index]
 

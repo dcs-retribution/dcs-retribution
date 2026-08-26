@@ -14,5 +14,6 @@
     "airboss",
     "MooseSoundhandler",    
     "MooseAutolase",
-    "MooseMarkerOps"
+    "MooseMarkerOps",
+    "intercept"
 ]

@@ -8,6 +8,7 @@ from game.debriefing import (
     Debriefing,
     GroundLosses,
     SideLossCounts,
+    StateData,
 )
 from game.theater import ControlPoint, Player
 
@@ -58,7 +59,49 @@ def _sample_debriefing() -> Debriefing:
     debriefing.air_losses = air
     debriefing.ground_losses = ground
     debriefing.base_captures = captures
+    # loss_counts now also folds in survivor-based QRA losses; default to none.
+    debriefing.state_data = cast(StateData, SimpleNamespace(intercept_survivors={}))
+    debriefing.game = MagicMock()
+    debriefing.game.blue.air_wing.iter_squadrons.return_value = []
+    debriefing.game.red.air_wing.iter_squadrons.return_value = []
     return debriefing
+
+
+def _qra_squadron(
+    squadron_id: str, reserve: int, owned: int, aircraft: Any
+) -> MagicMock:
+    squadron = MagicMock()
+    squadron.id = squadron_id
+    squadron.intercept_reserve = reserve
+    squadron.owned_aircraft = owned
+    squadron.pilot_limits_enabled = False
+    squadron.aircraft = aircraft
+    return squadron
+
+
+def test_qra_losses_folded_into_aircraft_counts() -> None:
+    """QRA interceptors are Moose-spawned (not ATO flights), so their losses come
+    from survivor counts, not air_losses. They must still show in the debrief."""
+    debriefing = _sample_debriefing()  # ATO air losses: blue 1, red 2
+    mig19 = MagicMock(name="MiG-19P")
+    # Blue QRA squadron fielded 2, 0 survivors -> 2 lost. Red enrolled but all
+    # survived -> 0 lost.
+    blue_sq = _qra_squadron("blue-qra", reserve=2, owned=4, aircraft=mig19)
+    red_sq = _qra_squadron("red-qra", reserve=2, owned=4, aircraft=MagicMock())
+    debriefing.state_data = cast(
+        StateData,
+        SimpleNamespace(intercept_survivors={"blue-qra": 0, "red-qra": 2}),
+    )
+    game: Any = debriefing.game
+    game.blue.air_wing.iter_squadrons.return_value = [blue_sq]
+    game.red.air_wing.iter_squadrons.return_value = [red_sq]
+
+    assert debriefing.qra_losses_by_type(Player.BLUE) == {mig19: 2}
+    assert debriefing.qra_losses_by_type(Player.RED) == {}
+    # ATO (1) + QRA (2) for blue; red unchanged (ATO 2 + QRA 0).
+    assert debriefing.loss_counts(Player.BLUE).aircraft == 3
+    assert debriefing.loss_counts(Player.RED).aircraft == 2
+    assert debriefing.aircraft_losses_by_type(Player.BLUE)[mig19] == 2
 
 
 def test_loss_counts_blue_side() -> None:
@@ -136,3 +179,37 @@ def test_motorpool_losses_by_type_counts_per_side() -> None:
 
     assert debriefing.motorpool_losses_by_type(Player.BLUE) == {t90: 2, bmp: 1}
     assert debriefing.motorpool_losses_by_type(Player.RED) == {bmp: 1}
+
+
+def _minimal_unit_map() -> MagicMock:
+    """A UnitMap mock where every unit lookup returns None (no aircraft/ground units)."""
+    unit_map = MagicMock()
+    unit_map.flight.return_value = None
+    return unit_map
+
+
+def test_state_data_parses_intercept_survivors() -> None:
+    """StateData.from_json reads intercept_survivors from the JSON payload."""
+    data = {
+        "intercept_survivors": {
+            "aaaaaaaa-0000-0000-0000-000000000001": 2,
+            "aaaaaaaa-0000-0000-0000-000000000002": 0,
+        }
+    }
+    state = StateData.from_json(data, _minimal_unit_map())
+    assert state.intercept_survivors == {
+        "aaaaaaaa-0000-0000-0000-000000000001": 2,
+        "aaaaaaaa-0000-0000-0000-000000000002": 0,
+    }
+
+
+def test_state_data_intercept_survivors_defaults_to_empty() -> None:
+    """StateData.from_json defaults intercept_survivors to {} when key absent."""
+    state = StateData.from_json({}, _minimal_unit_map())
+    assert state.intercept_survivors == {}
+
+
+def test_state_data_intercept_survivors_tolerates_empty_lua_array() -> None:
+    """An empty Lua table serializes to [] in JSON; from_json must not crash."""
+    state = StateData.from_json({"intercept_survivors": []}, _minimal_unit_map())
+    assert state.intercept_survivors == {}

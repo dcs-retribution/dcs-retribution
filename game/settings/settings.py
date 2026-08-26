@@ -210,6 +210,67 @@ class Settings:
         detail="Implicitly determines the number of BARCAPs planned by taking the mission duration"
         " and dividing it by the desired on-station time.",
     )
+    ownfor_default_qra_reserve: int = bounded_int_option(
+        "Default QRA reserve per OWNFOR interceptor squadron",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=0,
+        min=0,
+        max=12,
+        detail=(
+            "At new-game start, seeds this many QRA (hot-alert intercept) aircraft "
+            "for each BARCAP-capable OWNFOR squadron. Per-squadron values can be "
+            "edited afterward and are saved with the campaign."
+        ),
+    )
+    opfor_default_qra_reserve: int = bounded_int_option(
+        "Default QRA reserve per OPFOR interceptor squadron",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=0,
+        min=0,
+        max=12,
+        detail=(
+            "At new-game start, seeds this many QRA (hot-alert intercept) aircraft "
+            "for each BARCAP-capable OPFOR squadron. Lets OPFOR lean on interception "
+            "independently of OWNFOR. Per-squadron values can be edited afterward."
+        ),
+    )
+    qra_gci_max_radius_nm: int = bounded_int_option(
+        "QRA GCI max scramble radius (NM)",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=60,
+        min=1,
+        max=400,
+        detail=(
+            "Caps how close a detected raid must be to a defended base before that "
+            "base's QRA scrambles. Detection range itself comes from the IADS/EWR "
+            "network; this only gates the scramble trigger distance."
+        ),
+    )
+    qra_engagement_range_nm: int = bounded_int_option(
+        "QRA interceptor engagement range (NM)",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=38,
+        min=1,
+        max=200,
+        detail=(
+            "How far a scrambled interceptor chases a target (Moose SetEngageRadius) "
+            "before disengaging."
+        ),
+    )
+    qra_comms_enabled: bool = boolean_option(
+        "QRA radio scramble callouts",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=True,
+        detail=(
+            "Enables the dispatcher's defender-POV radio/text callouts (scramble, "
+            "wheels up, engaging, RTB) on the coalition F10 menu and radio TTS."
+        ),
+    )
     desired_awacs_mission_duration: timedelta = minutes_option(
         "Desired AWACS on-station time",
         page=CAMPAIGN_DOCTRINE_PAGE,

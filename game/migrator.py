@@ -159,7 +159,12 @@ class Migrator:
                     if f.squadron == s:
                         count += f.count
                 s.return_all_pilots_and_aircraft()
-                new_claim = min(count, s.owned_aircraft)
+                # Claim against untasked_aircraft, not owned_aircraft: QRA squadrons
+                # hold intercept_reserve airframes back (untasked = owned - reserve),
+                # so an old save whose flights were planned against the full owned
+                # count would otherwise over-claim and raise in claim_inventory. For
+                # non-QRA squadrons (reserve 0) untasked == owned, so this is a no-op.
+                new_claim = min(count, s.untasked_aircraft)
                 s.claim_inventory(new_claim)
                 for i in range(new_claim):
                     s.claim_available_pilot()

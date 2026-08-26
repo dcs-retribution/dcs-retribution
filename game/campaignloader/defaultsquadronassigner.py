@@ -5,6 +5,7 @@ import random
 from typing import Optional, TYPE_CHECKING
 
 from game.squadrons import Squadron
+from game.squadrons.intercept_reserve import seeded_intercept_reserve
 from game.squadrons.squadrondef import SquadronDef
 from .campaignairwingconfig import CampaignAirWingConfig, SquadronConfig
 from ..ato.flighttype import FlightType
@@ -49,6 +50,16 @@ class DefaultSquadronAssigner:
                     control_point,
                     self.coalition,
                     self.game,
+                )
+                if self.coalition.player.is_blue:
+                    default_qra_reserve = self.game.settings.ownfor_default_qra_reserve
+                else:
+                    default_qra_reserve = self.game.settings.opfor_default_qra_reserve
+                squadron.intercept_reserve = seeded_intercept_reserve(
+                    squadron.capable_of(FlightType.BARCAP),
+                    squadron.intercept_reserve,
+                    default_qra_reserve,
+                    squadron.max_size,
                 )
                 squadron.set_auto_assignable_mission_types(
                     squadron_config.auto_assignable

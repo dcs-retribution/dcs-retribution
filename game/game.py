@@ -231,6 +231,20 @@ class Game:
     def air_wing_for(self, player: Player) -> AirWing:
         return self.coalition_for(player).air_wing
 
+    def repropagate_qra_reserves(self, old_ownfor: int, old_opfor: int) -> None:
+        """Re-apply changed QRA-reserve defaults to existing squadrons.
+
+        Called when the OWNFOR/OPFOR QRA defaults are edited mid-campaign. The
+        ``old_*`` values are the defaults before the change; the new values are
+        read from the current settings. OWNFOR maps to the blue wing, OPFOR to red.
+        """
+        self.blue.air_wing.repropagate_qra_reserve(
+            old_ownfor, self.settings.ownfor_default_qra_reserve
+        )
+        self.red.air_wing.repropagate_qra_reserve(
+            old_opfor, self.settings.opfor_default_qra_reserve
+        )
+
     @property
     def neutral_country(self) -> Country:
         """Return the best fitting country to use for the neutral coalition.

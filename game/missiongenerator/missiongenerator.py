@@ -304,6 +304,11 @@ class MissionGenerator:
             self.game.red.ato,
             tgo_generator.runways,
         )
+        # QRA alert jets claim parking before untasked filler aircraft.
+        aircraft_generator.spawn_intercept_templates(
+            self.p_country,
+            self.e_country,
+        )
         aircraft_generator.spawn_unused_aircraft()
 
         self.mission_data.flights = aircraft_generator.flights

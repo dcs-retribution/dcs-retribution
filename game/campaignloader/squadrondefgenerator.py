@@ -55,6 +55,7 @@ class SquadronDefGenerator:
             operating_bases=OperatingBases.default_for_aircraft(aircraft),
             female_pilot_percentage=6,
             pilot_pool=[],
+            intercept_reserve=0,
         )
 
     @staticmethod

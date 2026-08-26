@@ -47,6 +47,7 @@ function write_state()
 		["kill_events"] = kill_events,
         ["mission_ended"] = mission_ended,
         ["destroyed_objects_positions"] = destroyed_objects_positions,
+        ["intercept_survivors"] = intercept_survivors or {},
     }
     local ok, write_error = pcall(function()
         fp:write(json:encode(game_state))

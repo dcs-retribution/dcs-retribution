@@ -58,6 +58,14 @@ RTB_ALTITUDE = meters(800)
 RTB_DISTANCE = 5000
 HELI_ALT = 500
 
+#: Initial air-start speed (m/s) seeded onto QRA interceptor templates. Moose's
+#: in-air spawn (AI_A2A_DISPATCHER SetDefaultTakeoffInAir) applies the template's
+#: first-waypoint speed as starting velocity but sets none of its own; a parked
+#: template's waypoint speed is ~0, which stalls high-stall-speed early jets (e.g.
+#: MiG-19P) before the dispatcher tasks them ~5s later. 150 m/s (~291 kt) clears
+#: their stall margin without being excessive. DCS waypoint speed is m/s.
+QRA_AIRSTART_SPEED_MS = 150.0
+
 
 class FlightGroupSpawner:
     def __init__(
@@ -125,33 +133,64 @@ class FlightGroupSpawner:
                 cp=self.flight.squadron.location,
             )
         elif isinstance(cp, Airfield):
-            # TODO: remove hack when fixed in DCS
-            slots = None
-            if self._check_nevatim_hack(cp):
-                ac_type = self.flight.unit_type.dcs_unit_type
-                slots = [
-                    slot
-                    for slot in cp.dcs_airport.free_parking_slots(ac_type)
-                    if slot.slot_name in [str(n) for n in range(55, 66)]
-                ]
-            elif self._check_ramon_airbase_hack(cp):
-                ac_type = self.flight.unit_type.dcs_unit_type
-                slots = [
-                    slot
-                    for slot in cp.dcs_airport.free_parking_slots(ac_type)
-                    if slot.slot_name
-                    not in [
-                        str(n) for n in [1, 2, 3, 4, 5, 6, 13, 14, 15, 16, 17, 18, 61]
-                    ]
-                ]
             group = self._generate_at_airfield(
                 name=namegen.next_aircraft_name(self.country, self.flight),
                 airfield=cp,
-                parking_slots=slots,
+                parking_slots=self._restricted_parking_slots(cp),
             )
         if group:
             group.uncontrolled = True
         return group
+
+    def create_intercept_template(self, group_name: str) -> Optional[FlyingGroup[Any]]:
+        """Creates a late-activated QRA template group for Moose AI_A2A_DISPATCHER.
+
+        The group is placed at the airfield (it still needs a valid parking slot
+        for the .miz, hence _restricted_parking_slots) with late_activation=True;
+        the dispatcher then fresh-spawns live intercept flights from it in-air on
+        scramble (SetDefaultTakeoffInAir — see intercept-config.lua for why every
+        ground spawn was abandoned). The caller builds a Flight with count=2 (the
+        max dispatcher grouping; Moose spawns 1 or 2 per scramble via
+        InitGrouping, set per squadron in intercept-config.lua) before building
+        this spawner.
+
+        Returns None when the squadron is not based at an Airfield (e.g. FOBs
+        are not supported by the QRA system).
+        """
+        cp = self.flight.squadron.location
+        if not isinstance(cp, Airfield):
+            return None
+        group = self._generate_at_airfield(
+            name=group_name,
+            airfield=cp,
+            parking_slots=self._restricted_parking_slots(cp),
+        )
+        # Seed a real air-start speed so Moose's in-air scramble (which copies the
+        # template's waypoint speed and sets none itself) does not drop the jets in
+        # at ~0 and stall early types like the MiG-19P. See QRA_AIRSTART_SPEED_MS.
+        for point in group.points:
+            point.speed = QRA_AIRSTART_SPEED_MS
+        group.late_activation = True
+        return group
+
+    def _restricted_parking_slots(self, cp: Airfield) -> Optional[List[ParkingSlot]]:
+        # TODO: remove hack when fixed in DCS
+        if self._check_nevatim_hack(cp):
+            ac_type = self.flight.unit_type.dcs_unit_type
+            return [
+                slot
+                for slot in cp.dcs_airport.free_parking_slots(ac_type)
+                if slot.slot_name in [str(n) for n in range(55, 66)]
+            ]
+        if self._check_ramon_airbase_hack(cp):
+            ac_type = self.flight.unit_type.dcs_unit_type
+            return [
+                slot
+                for slot in cp.dcs_airport.free_parking_slots(ac_type)
+                if slot.slot_name
+                not in [str(n) for n in [1, 2, 3, 4, 5, 6, 13, 14, 15, 16, 17, 18, 61]]
+            ]
+        return None
 
     @property
     def start_type(self) -> StartType:

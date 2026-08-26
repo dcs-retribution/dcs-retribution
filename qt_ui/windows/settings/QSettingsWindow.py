@@ -348,6 +348,10 @@ class QSettingsWindow(QDialog):
     def __init__(self, game: Game):
         super().__init__()
         self.game = game
+        self._qra_reserve_baseline = (
+            game.settings.ownfor_default_qra_reserve,
+            game.settings.opfor_default_qra_reserve,
+        )
         self.setLayout(QSettingsWidget(game.settings, game).layout)
 
         self.setModal(True)
@@ -356,8 +360,17 @@ class QSettingsWindow(QDialog):
         self.setMinimumSize(840, 480)
 
     def closeEvent(self, event: QCloseEvent) -> None:
+        self._propagate_qra_reserve_changes()
         self._handle_mod_settings()
         super().closeEvent(event)
+
+    def _propagate_qra_reserve_changes(self) -> None:
+        old_ownfor, old_opfor = self._qra_reserve_baseline
+        if (
+            old_ownfor != self.game.settings.ownfor_default_qra_reserve
+            or old_opfor != self.game.settings.opfor_default_qra_reserve
+        ):
+            self.game.repropagate_qra_reserves(old_ownfor, old_opfor)
 
     def _handle_mod_settings(self) -> None:
         if self.game.settings.use_bandit_clouds:

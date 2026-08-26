@@ -12,6 +12,7 @@ from PySide6.QtWidgets import (
     QLabel,
     QListView,
     QPushButton,
+    QSpinBox,
     QVBoxLayout,
     QApplication,
     QInputDialog,
@@ -28,6 +29,7 @@ from game.purchaseadapter import AircraftPurchaseAdapter, TransactionError
 from game.server import EventStream
 from game.sim import GameUpdateEvents
 from game.squadrons import Pilot, Squadron
+from game.squadrons.intercept_reserve import max_intercept_reserve
 from game.theater import ConflictTheater, ControlPoint, ParkingType
 from qt_ui.delegates import TwoColumnRowDelegate
 from qt_ui.errorreporter import report_errors
@@ -331,6 +333,32 @@ class SquadronDialog(QDialog):
 
             self._refresh_aircraft_controls()
 
+        left_column.addWidget(QLabel("QRA reserve"))
+        self.qra_reserve_selector = QSpinBox()
+        self.qra_reserve_selector.lineEdit().setEnabled(False)
+        self.qra_reserve_selector.setToolTip(
+            "Aircraft held on quick-reaction alert; scramble airborne to intercept. "
+            "Capped at the airframes not already tasked to flights this turn."
+        )
+        self.qra_reserve_selector.setMinimum(0)
+        # Aircraft already tasked to flights cannot be pulled onto QRA, so cap the
+        # reserve at the unplanned airframes (owned - tasked = untasked + reserve).
+        self.qra_reserve_selector.setMaximum(
+            max_intercept_reserve(
+                self.squadron.untasked_aircraft,
+                self.squadron.intercept_reserve,
+                self.squadron.max_size,
+            )
+        )
+        self.qra_reserve_selector.setValue(self.squadron.intercept_reserve)
+        if not self.squadron.capable_of(FlightType.BARCAP):
+            self.qra_reserve_selector.setEnabled(False)
+            self.qra_reserve_selector.setToolTip(
+                "QRA is only available for fixed-wing squadrons capable of BARCAP."
+            )
+        self.qra_reserve_selector.valueChanged.connect(self.on_qra_reserve_changed)
+        left_column.addWidget(self.qra_reserve_selector)
+
         auto_assigned_tasks = AutoAssignedTaskControls(squadron_model)
         left_column.addLayout(auto_assigned_tasks)
 
@@ -387,6 +415,12 @@ class SquadronDialog(QDialog):
     @property
     def squadron(self) -> Squadron:
         return self.squadron_model.squadron
+
+    def on_qra_reserve_changed(self, value: int) -> None:
+        # set_intercept_reserve also updates untasked_aircraft so the freed (or
+        # newly reserved) jets are immediately available to the planner this turn,
+        # rather than only after the next turn's return_all_pilots_and_aircraft.
+        self.squadron.set_intercept_reserve(value)
 
     def _aircraft_stats_text(self) -> str:
         s = self.squadron
