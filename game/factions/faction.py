@@ -398,10 +398,9 @@ class Faction:
             self.remove_aircraft("Hercules")
         if not mod_settings.oh_6:
             self.remove_aircraft("OH-6A")
-        if (
-            not mod_settings.oh_6_vietnamassetpack
-            and not mod_settings.vietnamwarvessels
-        ):
+        # Vietnam Asset Pack ground objects -- the pack is maintained inside
+        # Vietnam War Vessels these days, so the VWV toggle owns them.
+        if not mod_settings.vietnamwarvessels:
             self.remove_vehicle("vap_mutt_gun")
             self.remove_vehicle("vap_type63_mlrs")
             self.remove_vehicle("vap_vc_bicycle_mortar")
@@ -703,6 +702,7 @@ class Faction:
             self.remove_ship("USS_Fletcher")  # "USS Fletcher FRAM II Destroyer"
             self.remove_ship("USS_Laffey")  # "[VWV] DD-724 USS Laffey"
             self.remove_ship("USS_Maddox")  # "USS Maddox (DD-731)"
+            self.remove_ship("USS_Maddox_T")  # "USS Maddox Tonkin Incident (DD-731)"
             self.remove_ship("USS_The_Sullivans")  # "USS The Sullivans (DD-537)"
             self.remove_ship("P4")  # "P 4 Torpedo Boat"
             self.remove_ship("ATCH")  # "[VWV] ATC(H) Tango"
@@ -730,6 +730,19 @@ class Faction:
             self.remove_ship("USS Kirk")  # "[VWV] DE-1087 USS Kirk"
             self.remove_ship("[VWV] IX514 (unarmed)")  # "[VWV] IX514 (unarmed)"
             self.remove_ship("[VWV]IX514")  # "[VWV] IX514"
+            self.remove_ship("USS Radford")  # "[VWV] DD-446 USS Radford"
+            self.remove_ship("USS Epperson")  # "[VWV] DD-719 USS Epperson"
+            self.remove_ship(
+                "USS Everett F Larson"
+            )  # "[VWV] DD-830 USS Everett F. Larson"
+            self.remove_ship("AD-30 Solon Turman")  # "[VWV] AD-30 Solon Turman"
+            self.remove_ship("USNS Card")  # "[VWV] T-AKV-40 USNS Card"
+            self.remove_ship("sampan_open")  # "[VWV] Sampan"
+            self.remove_ship("SAMPAN_CANOPY")  # "[VWV] Sampan, Canopy"
+            self.remove_ship("SAMPAN_COVERED")  # "[VWV] Sampan, Covered"
+            self.remove_ship("sampan_covered_ak47")  # "[VWV] Sampan, Covered, AK47"
+            self.remove_ship("sampan_open_box")  # "[VWV] Sampan, Open, Ammo Box"
+            self.remove_ship("Junk")  # "[VWV] Vietnam Junk"
             self.remove_aircraft("vwv_a1_skyraider")  # "A-1H Skyraider"
             self.remove_aircraft("a_37_dragonfly")  # "A-37 Dragonfly"
             self.remove_aircraft("vwv_ad4_skyraider")  # "AD-4 Skyraider"
