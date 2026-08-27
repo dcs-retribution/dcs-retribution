@@ -121,6 +121,7 @@ class NewGameWizard(QtWidgets.QWizard):
             ov10a_bronco=self.field("ov10a_bronco"),
             frenchpack=self.field("frenchpack"),
             high_digit_sams=self.field("high_digit_sams"),
+            high_digit_sams_ultimate=self.field("high_digit_sams_ultimate"),
             spanishnavypack=self.field("spanishnavypack"),
             swedishmilitaryassetspack=self.field("swedishmilitaryassetspack"),
             coldwarassets=self.field("coldwarassets"),

@@ -1,0 +1,5 @@
+class: Manpad
+spawn_weight: 1
+price: 0
+variants:
+  MANPADS SA-7b Strela-2M: null

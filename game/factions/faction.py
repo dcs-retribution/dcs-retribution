@@ -564,8 +564,11 @@ class Faction:
             self.remove_vehicle("T64BV")
             self.remove_vehicle("T72M")
             self.remove_vehicle("KORNET")
-        # high digit sams
-        if not mod_settings.high_digit_sams:
+        # High Digit SAMs. Two separate mods that cannot be installed together (the
+        # wizard enforces that), so a site both builds provide survives while EITHER
+        # is selected, and the build-specific ones only while THAT one is.
+        any_hds = mod_settings.high_digit_sams or mod_settings.high_digit_sams_ultimate
+        if not any_hds:
             self.remove_preset("SA-10B/S-300PS")
             self.remove_preset("SA-12/S-300V")
             self.remove_preset("SA-20/S-300PMU-1")
@@ -579,6 +582,13 @@ class Faction:
             self.remove_vehicle("SAM SA-14 Strela-3 manpad")
             self.remove_vehicle("SAM SA-24 Igla-S manpad")
             self.remove_vehicle("Polyana-D4M1 C2 node")
+        if not mod_settings.high_digit_sams_ultimate:
+            # Only the Ultimate Compilation ships these.
+            self.remove_preset("SA-21/S-400")
+            self.remove_preset("SA-23B/S-300V4")
+            self.remove_preset("SA-10A/S-300PT")
+            self.remove_preset("Pantsir-SM SHORAD")
+            self.remove_preset("ZU-23 Technicals (ERO)")
         # CJS FA-18E/F/G Super Hornet Mod
         if not mod_settings.fa_18efg:
             self.remove_aircraft("FA-18E")

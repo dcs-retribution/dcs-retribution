@@ -1,0 +1,14 @@
+name: SAMP/T
+tasks:
+  - LORAD
+units:
+  - SAM SAMP/T MRI Ground Fire 300 STR
+  - SAM SAMP/T MRI ARABEL STR
+  - SAM SAMP/T Control Station
+  - SAM SAMP/T Engagement Station
+  - SAM SAMP/T Electric Generator
+  - SAM SAMP/T MLT Launcher Block 1
+  - SAM SAMP/T MLT Launcher Block 1NT
+  - SAM SAMP/T MLT Launcher Block 2
+layouts:
+  - SAMP/T Battery

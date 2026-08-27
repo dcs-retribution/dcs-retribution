@@ -42,6 +42,7 @@ class MigrationUnpickler(pickle.Unpickler):
             self._handle_weather_classes,
             self._handle_ch_russian_assets,
             self._handle_ch_usa_assets,
+            self._handle_high_digit_sams,
             self._handle_su30,
             self._handle_misc,
         ]
@@ -252,6 +253,33 @@ class MigrationUnpickler(pickle.Unpickler):
         if name == "B_21":
             return getattr(usamilitaryassetspack, "CH_B_21", None)
         return None
+
+    def _handle_high_digit_sams(self, module: str, name: str) -> Any:
+        """Handle migrations for the High Digit SAMs pack"""
+        if module != "pydcs_extensions.highdigitsams.highdigitsams":
+            return None
+
+        # 2.1.0 dropped the S-300PS/SA-10B family and the KS-19/Fire Can pair. ED had
+        # meanwhile added all of them to base DCS, so an old save resolves to the native
+        # class (mirrors the CH handlers above and the groundunittype display-name
+        # migrator, so both resolution paths agree). The mod's 5P85SE/SU launchers were
+        # "_mod" variants of the same two TELs, and its 30N6 trailer of the Flap Lid-B.
+        from dcs.vehicles import AirDefence
+
+        native = {
+            "AAA_SON_9_Fire_Can": AirDefence.SON_9,
+            "AAA_100mm_KS_19": AirDefence.KS_19,
+            "SAM_SA_10B_S_300PS_54K6_CP": AirDefence.S_300PS_54K6_cp,
+            "SAM_SA_10B_S_300PS_30N6_TR": AirDefence.S_300PS_5H63C_30H6_tr,
+            "SAM_SA_10B_S_300PS_40B6M_TR": AirDefence.S_300PS_40B6M_tr,
+            "SAM_SA_10B_S_300PS_40B6MD_SR": AirDefence.S_300PS_40B6MD_sr,
+            "SAM_SA_10B_S_300PS_64H6E_SR": AirDefence.S_300PS_64H6E_sr,
+            "SAM_SA_10B_S_300PS_5P85SE_LN": AirDefence.S_300PS_5P85C_ln,
+            "SAM_SA_10B_S_300PS_5P85SU_LN": AirDefence.S_300PS_5P85D_ln,
+            "SAM_SA_10__5V55RUD__S_300PS_LN_5P85CE": AirDefence.S_300PS_5P85C_ln,
+            "SAM_SA_10__5V55RUD__S_300PS_LN_5P85DE": AirDefence.S_300PS_5P85D_ln,
+        }
+        return native.get(name)
 
     def _handle_su30(self, module: str, name: str) -> Any:
         """Handle migrations for Su-30 aircraft variants"""

@@ -4,105 +4,6 @@ from game.modsupport import vehiclemod
 
 
 @vehiclemod
-class AAA_SON_9_Fire_Can(unittype.VehicleType):
-    id = "Fire Can radar"
-    name = "AAA SON-9 Fire Can"
-    detection_range = 35000
-    threat_range = 0
-    air_weapon_dist = 0
-
-
-@vehiclemod
-class AAA_100mm_KS_19(unittype.VehicleType):
-    id = "KS19"
-    name = "AAA 100mm KS-19"
-    detection_range = 0
-    threat_range = 15000
-    air_weapon_dist = 15000
-
-
-@vehiclemod
-class SAM_SA_10B_S_300PS_54K6_CP(unittype.VehicleType):
-    id = "S-300PS SA-10B 54K6 cp"
-    name = "SAM SA-10B S-300PS 54K6 CP"
-    detection_range = 0
-    threat_range = 0
-    air_weapon_dist = 0
-
-
-@vehiclemod
-class SAM_SA_10B_S_300PS_5P85SE_LN(unittype.VehicleType):
-    id = "S-300PS 5P85SE_mod ln"
-    name = "SAM SA-10B S-300PS 5P85SE LN "
-    detection_range = 0
-    threat_range = 75000
-    air_weapon_dist = 75000
-
-
-@vehiclemod
-class SAM_SA_10B_S_300PS_5P85SU_LN(unittype.VehicleType):
-    id = "S-300PS 5P85SU_mod ln"
-    name = "SAM SA-10B S-300PS 5P85SU LN "
-    detection_range = 0
-    threat_range = 75000
-    air_weapon_dist = 75000
-
-
-@vehiclemod
-class SAM_SA_10__5V55RUD__S_300PS_LN_5P85CE(unittype.VehicleType):
-    id = "S-300PS 5P85CE ln"
-    name = "SAM SA-10 (5V55RUD) S-300PS LN 5P85CE"
-    detection_range = 0
-    threat_range = 90000
-    air_weapon_dist = 90000
-
-
-@vehiclemod
-class SAM_SA_10__5V55RUD__S_300PS_LN_5P85DE(unittype.VehicleType):
-    id = "S-300PS 5P85DE ln"
-    name = "SAM SA-10 (5V55RUD) S-300PS LN 5P85DE"
-    detection_range = 0
-    threat_range = 90000
-    air_weapon_dist = 90000
-
-
-@vehiclemod
-class SAM_SA_10B_S_300PS_30N6_TR(unittype.VehicleType):
-    id = "S-300PS 30N6 TRAILER tr"
-    name = "SAM SA-10B S-300PS 30N6 TR"
-    detection_range = 160000
-    threat_range = 0
-    air_weapon_dist = 0
-
-
-@vehiclemod
-class SAM_SA_10B_S_300PS_40B6M_TR(unittype.VehicleType):
-    id = "S-300PS SA-10B 40B6M MAST tr"
-    name = "SAM SA-10B S-300PS 40B6M TR"
-    detection_range = 160000
-    threat_range = 0
-    air_weapon_dist = 0
-
-
-@vehiclemod
-class SAM_SA_10B_S_300PS_40B6MD_SR(unittype.VehicleType):
-    id = "S-300PS SA-10B 40B6MD MAST sr"
-    name = "SAM SA-10B S-300PS 40B6MD SR"
-    detection_range = 60000
-    threat_range = 0
-    air_weapon_dist = 0
-
-
-@vehiclemod
-class SAM_SA_10B_S_300PS_64H6E_SR(unittype.VehicleType):
-    id = "S-300PS 64H6E TRAILER sr"
-    name = "SAM SA-10B S-300PS 64H6E SR"
-    detection_range = 160000
-    threat_range = 0
-    air_weapon_dist = 0
-
-
-@vehiclemod
 class SAM_SA_20_S_300PMU1_CP_54K6(unittype.VehicleType):
     id = "S-300PMU1 54K6 cp"
     name = "SAM SA-20 S-300PMU1 CP 54K6"
@@ -379,3 +280,418 @@ class _34Ya6E_Gazetchik_E_decoy(unittype.VehicleType):
     detection_range = 20000
     threat_range = 0
     air_weapon_dist = 0
+
+
+# --- Added in High Digit SAMs 2.1.0 -----------------------------------------
+#
+# The SAMP/T battery (Aster 30) and the two early Strela MANPADS. Ranges are read
+# straight from the mod's own unit files, so the threat rings the planner draws match
+# what the units will actually do in the mission.
+
+
+@vehiclemod
+class SAM_SAMPT_MLT_Launcher_Block_1(unittype.VehicleType):
+    id = "SAMPT_MLT_Blk1"
+    name = "SAM SAMP/T MLT Launcher Block 1"
+    detection_range = 0
+    threat_range = 120000
+    air_weapon_dist = 120000
+
+
+@vehiclemod
+class SAM_SAMPT_MLT_Launcher_Block_1NT(unittype.VehicleType):
+    id = "SAMPT_MLT_Blk1NT"
+    name = "SAM SAMP/T MLT Launcher Block 1NT"
+    detection_range = 0
+    threat_range = 150000
+    air_weapon_dist = 150000
+
+
+@vehiclemod
+class SAM_SAMPT_MLT_Launcher_Block_2(unittype.VehicleType):
+    id = "SAMPT_MLT_Blk2"
+    name = "SAM SAMP/T MLT Launcher Block 2"
+    detection_range = 0
+    threat_range = 200000
+    air_weapon_dist = 200000
+
+
+@vehiclemod
+class SAM_SAMPT_MRI_ARABEL_STR(unittype.VehicleType):
+    id = "SAMPT_MRI_ARABEL"
+    name = "SAM SAMP/T MRI ARABEL STR"
+    detection_range = 120000
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class SAM_SAMPT_MRI_Ground_Fire_300_STR(unittype.VehicleType):
+    id = "SAMPT_MRI_GF300"
+    name = "SAM SAMP/T MRI Ground Fire 300 STR"
+    detection_range = 400000
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class SAM_SAMPT_Control_Station(unittype.VehicleType):
+    id = "SAMPT_MC"
+    name = "SAM SAMP/T Control Station"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class SAM_SAMPT_Engagement_Station(unittype.VehicleType):
+    id = "SAMPT_ME"
+    name = "SAM SAMP/T Engagement Station"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class SAM_SAMPT_Electric_Generator(unittype.VehicleType):
+    id = "SAMPT_MGE"
+    name = "SAM SAMP/T Electric Generator"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class MANPADS_SA_7_Strela_2(unittype.VehicleType):
+    id = "SA-7 Strela-2 manpad"
+    name = "MANPADS SA-7 Strela-2"
+    detection_range = 0
+    threat_range = 3200
+    air_weapon_dist = 3200
+
+
+@vehiclemod
+class MANPADS_SA_7b_Strela_2M(unittype.VehicleType):
+    id = "SA-7b Strela-2M manpad"
+    name = "MANPADS SA-7b Strela-2M"
+    detection_range = 0
+    threat_range = 4200
+    air_weapon_dist = 4200
+
+
+# --- High Digit SAMs Ultimate Compilation -------------------------------------
+# Units the Ultimate build adds or renames. The original mod's ids above are kept
+# so a campaign built for either one still resolves; the two are never installed
+# together, so only one set is ever offered to a layout.
+
+
+@vehiclemod
+class SAM_SA_10B_S_300PS_30N6_MAST_TR(unittype.VehicleType):
+    id = "S-300PS SA-10B 30N6 MAST tr"
+    name = "SAM SA-10B S-300PS 30N6 TR (mast)"
+    detection_range = 160000
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class SAM_SA_10B_S_300PS_76N6E_SR(unittype.VehicleType):
+    id = "S-300PS SA-10B 76N6E sr"
+    name = "SAM SA-10B S-300PS 76N6E SR"
+    detection_range = 120000
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class SAM_SA_10B_S_300PS_64H6E_MOD_SR(unittype.VehicleType):
+    id = "S-300PS 64H6E MOD sr"
+    name = "SAM SA-10B S-300PS 64H6E SR (truck)"
+    detection_range = 200000
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class SAM_SA_10A_S_300PT_LN_5P85_1(unittype.VehicleType):
+    id = "S-300PS 5P85_1_mod ln"
+    name = "SAM SA-10A S-300PT LN 5P85-1"
+    detection_range = 0
+    threat_range = 47000
+    air_weapon_dist = 47000
+
+
+@vehiclemod
+class SAM_SA_20B_S_300PMU2_TR_92H6E_mast(unittype.VehicleType):
+    id = "S-300PMU2 40B6M tr"
+    name = "SAM SA-20B S-300PMU2 TR 92H6E(mast)"
+    detection_range = 270000
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+# S-400 / SA-21 Growler.
+
+
+@vehiclemod
+class SAM_SA_21_S_400_CP_55K6(unittype.VehicleType):
+    id = "S-400 55K6 cp"
+    name = "SAM SA-21 S-400 CP 55K6"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class SAM_SA_21_S_400_SR_91N6E(unittype.VehicleType):
+    id = "S-400 91N6E sr"
+    name = "SAM SA-21 S-400 SR 91N6E"
+    detection_range = 340000
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class SAM_SA_21_S_400_SR_96L6E(unittype.VehicleType):
+    id = "S-400 96L6E sr"
+    name = "SAM SA-21 S-400 SR 96L6E (truck)"
+    detection_range = 300000
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class SAM_SA_21_S_400_SR_96L6E_mast(unittype.VehicleType):
+    id = "S-400 96L6E mast sr"
+    name = "SAM SA-21 S-400 SR 96L6E (mast)"
+    detection_range = 300000
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class SAM_SA_21_S_400_TR_92N6E(unittype.VehicleType):
+    id = "S-400 92N6E tr"
+    name = "SAM SA-21 S-400 TR 92N6E (truck)"
+    detection_range = 410000
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class SAM_SA_21_S_400_TR_92N6E_mast(unittype.VehicleType):
+    id = "S-400 92N6E mast tr"
+    name = "SAM SA-21 S-400 TR 92N6E (mast)"
+    detection_range = 410000
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class SAM_SA_21_S_400_LN_51P6A(unittype.VehicleType):
+    id = "S-400 51P6A ln"
+    name = "SAM SA-21 S-400 LN 51P6A (48N6DM)"
+    detection_range = 0
+    threat_range = 250000
+    air_weapon_dist = 250000
+
+
+@vehiclemod
+class SAM_SA_21_S_400_LN_51P6A_9M96E2(unittype.VehicleType):
+    id = "S-400 51P6A (9M96E2) ln"
+    name = "SAM SA-21 S-400 LN 51P6A (9M96E2)"
+    detection_range = 0
+    threat_range = 120000
+    air_weapon_dist = 120000
+
+
+@vehiclemod
+class SAM_SA_21_S_400_LN_51P6A_40N6E(unittype.VehicleType):
+    id = "S-400 51P6A (40N6E) ln"
+    name = "SAM SA-21 S-400 LN 51P6A (40N6E)"
+    detection_range = 0
+    threat_range = 400000
+    air_weapon_dist = 400000
+
+
+# S-300V4 (the modernised SA-23 / "Antey-4000" family).
+
+
+@vehiclemod
+class SAM_SA_23_S_300V4_9S457_2E_CP(unittype.VehicleType):
+    id = "S-300V4 9S457-2E cp"
+    name = "SAM SA-23 S-300V4 9S457-2E CP"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class SAM_SA_23_S_300V4_9S15MDE_SR(unittype.VehicleType):
+    id = "S-300V4 9S15MDE sr"
+    name = "SAM SA-23 S-300V4 9S15MDE SR"
+    detection_range = 330000
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class SAM_SA_23_S_300V4_9S19M_1E_SR(unittype.VehicleType):
+    id = "S-300V4 9S19M-1E sr"
+    name = "SAM SA-23 S-300V4 9S19M-1E SR"
+    detection_range = 310000
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class SAM_SA_23_S_300V4_9S32M_1E_TR(unittype.VehicleType):
+    id = "S-300V4 9S32M-1E tr"
+    name = "SAM SA-23 S-300V4 9S32M-1E TR"
+    detection_range = 400000
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class SAM_SA_23_S_300V4_9A82M_2E_LN(unittype.VehicleType):
+    id = "S-300V4 9A82M-2E ln"
+    name = "SAM SA-23 S-300V4 9A82M-2E LN"
+    detection_range = 0
+    threat_range = 380000
+    air_weapon_dist = 380000
+
+
+@vehiclemod
+class SAM_SA_23_S_300V4_9A84M_2E_LN(unittype.VehicleType):
+    id = "S-300V4 9A84M-2E ln"
+    name = "SAM SA-23 S-300V4 9A84M-2E LN"
+    detection_range = 0
+    threat_range = 380000
+    air_weapon_dist = 380000
+
+
+@vehiclemod
+class SAM_SA_23_S_300V4_9A83M_2E_LN(unittype.VehicleType):
+    id = "S-300V4 9A83M-2E ln"
+    name = "SAM SA-23 S-300V4 9A83M-2E LN"
+    detection_range = 0
+    threat_range = 150000
+    air_weapon_dist = 150000
+
+
+# SA-22 Pantsir-SM (self-contained gun/missile SHORAD).
+
+
+@vehiclemod
+class SAM_SA_22_Pantsir_SM(unittype.VehicleType):
+    id = "Pantsir_SM"
+    name = "SAM SA-22 Pantsir-SM"
+    detection_range = 75000
+    threat_range = 30000
+    air_weapon_dist = 30000
+
+
+# SAMP/T (Aster 30) battery.
+
+
+@vehiclemod
+class EWR_P_37_Bar_Lock(unittype.VehicleType):
+    id = "EWR P-37 BAR LOCK"
+    name = "EWR P-37 Bar Lock"
+    detection_range = 350000
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class EWR_55G6U_Nebo_U(unittype.VehicleType):
+    id = "EWR 55G6U NEBO-U"
+    name = "EWR 55G6U Nebo-U"
+    detection_range = 500000
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class EWR_1L119_Nebo_SVU(unittype.VehicleType):
+    id = "EWR 1L119 Nebo-SVU"
+    name = "EWR 1L119 Nebo-SVU"
+    detection_range = 400000
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class EWR_Generic_radar_tower(unittype.VehicleType):
+    id = "EWR Generic radar tower"
+    name = "EWR Generic radar tower"
+    detection_range = 350000
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+# ERO pack vehicles (site props + insurgent technicals).
+
+
+@vehiclemod
+class ERO_SA2_SNR75(unittype.VehicleType):
+    id = "ERO_SA2_SNR75"
+    name = "ERO SA-2 SNR-75 Fan Song"
+    detection_range = 100000
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class ERO_SA2_Trailer(unittype.VehicleType):
+    id = "ERO_SA2_Trailer"
+    name = "ERO SA-2 missile trailer"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class ERO_5S99_Trailer(unittype.VehicleType):
+    id = "ERO_5S99_Trailer"
+    name = "ERO 5S99 missile trailer"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class ERO_Toyota_Camo(unittype.VehicleType):
+    id = "ERO_Toyota_Camo"
+    name = "ERO Toyota Camo"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@vehiclemod
+class AAA_ZU_23_Toyota_technical(unittype.VehicleType):
+    id = "ERO_ZU23_Toyota"
+    name = "AAA ZU-23 Toyota technical"
+    detection_range = 0
+    threat_range = 2500
+    air_weapon_dist = 2500
+
+
+@vehiclemod
+class AAA_ZU_23_Toyota_armored_technical(unittype.VehicleType):
+    id = "ERO_ZU23_Toyota_armored"
+    name = "AAA ZU-23 Toyota armored technical"
+    detection_range = 0
+    threat_range = 2500
+    air_weapon_dist = 2500
+
+
+@vehiclemod
+class AAA_ZU_23_Insurgent_ERO(unittype.VehicleType):
+    id = "ERO_ZU23_Insurgent"
+    name = "AAA ZU-23 Insurgent (ERO)"
+    detection_range = 0
+    threat_range = 2500
+    air_weapon_dist = 2500

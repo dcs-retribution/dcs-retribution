@@ -2,11 +2,17 @@ name: SA-10B/S-300PS
 tasks:
   - LORAD
 units:
-  - SAM SA-10B S-300PS 40B6MD SR
-  - SAM SA-10B S-300PS 64H6E SR
-  - SAM SA-10B S-300PS 54K6 CP
-  - SAM SA-10B S-300PS 30N6 TR
-  - SAM SA-10B S-300PS 5P85SE LN
-  - SAM SA-10B S-300PS 5P85SU LN
+  # High Digit SAMs 2.1.0 no longer ships the S-300PS/SA-10B family at all — its
+  # entry.lua declares only the PMU1, PMU2, V and VM variants. DCS silently drops a unit
+  # type it cannot resolve, so every unit of this site vanished from the mission while
+  # Retribution kept believing the site was alive and went on projecting its threat ring:
+  # an immortal SAM no DEAD package could finish. The stock S-300PS that ED added to base
+  # DCS is the same hardware, and is almost certainly why the mod dropped its own copy.
+  - SAM SA-10 S-300 "Grumble" Clam Shell SR
+  - SAM SA-10 S-300 "Grumble" Big Bird SR
+  - SAM SA-10 S-300 "Grumble" C2
+  - SAM SA-10 S-300 "Grumble" Flap Lid-B TR
+  - SAM SA-10 S-300 "Grumble" TEL C
+  - SAM SA-10 S-300 "Grumble" TEL D
 layouts:
   - S-300 Site

@@ -1,0 +1,11 @@
+name: SA-10A/S-300PT
+tasks:
+  - LORAD
+units:
+  - SAM SA-10B S-300PS 76N6E SR
+  - SAM SA-10B S-300PS 64H6E SR (truck)
+  - SAM SA-10B S-300PS 54K6 CP
+  - SAM SA-10B S-300PS 30N6 TR (mast)
+  - SAM SA-10A S-300PT LN 5P85-1
+layouts:
+  - S-300 Site

@@ -1,0 +1,67 @@
+name: SAMP/T Battery
+tasks:
+  - LORAD
+groups:
+  - SAM:
+    - name: Search Radar
+      unit_count:
+        - 1
+      unit_types:
+        - SAMPT_MRI_GF300
+    - name: Track Radar
+      unit_count:
+        - 1
+      unit_types:
+        - SAMPT_MRI_ARABEL
+    - name: Command Post
+      unit_count:
+        - 1
+      unit_types:
+        - SAMPT_MC
+    - name: Engagement Station
+      optional: true
+      unit_count:
+        - 1
+      unit_types:
+        - SAMPT_ME
+    - name: Generator
+      optional: true
+      unit_count:
+        - 1
+      unit_types:
+        - SAMPT_MGE
+    - name: Launcher
+      # One battery fields a single Aster block, so the pool is ordered oldest first and
+      # the generator picks the one the faction actually has.
+      unit_count:
+        - 4
+        - 6
+      unit_types:
+        - SAMPT_MLT_Blk1
+        - SAMPT_MLT_Blk1NT
+        - SAMPT_MLT_Blk2
+    - name: Logistics
+      optional: true
+      unit_count:
+        - 1
+        - 2
+      unit_classes:
+        - Logistics
+  - PD: # Point defence as a separate group, like every other long-range site
+    - name: PD
+      sub_task: PointDefense
+      optional: true
+      unit_count:
+        - 0
+        - 2
+      unit_classes:
+        - SHORAD
+    - name: AAA
+      sub_task: AAA
+      optional: true
+      unit_count:
+        - 1
+        - 2
+      unit_classes:
+        - AAA
+layout_file: resources/layouts/anti_air/8_Launcher_Circle.miz

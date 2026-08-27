@@ -117,7 +117,8 @@
   "preset_groups": [
     "Hawk",
     "Patriot",
-    "NASAMS AIM-120C"
+    "NASAMS AIM-120C",
+    "SAMP/T"
   ],
   "naval_units": [
     "DDG Arleigh Burke IIa",

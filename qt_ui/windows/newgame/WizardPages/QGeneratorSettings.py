@@ -34,6 +34,26 @@ class BudgetInputs(QtWidgets.QGridLayout):
 
 
 class GeneratorOptions(QtWidgets.QWizardPage):
+    def _exclusive_hds(self, turned_on: bool, other: QtWidgets.QCheckBox) -> None:
+        """Keep the two High Digit SAMs builds from being selected together.
+
+        They are separate mods, not versions of one: each renames units the other
+        still uses, so a campaign built for one spawns sites with missing pieces on
+        the other -- silently, because DCS just drops a unit type it cannot resolve.
+        """
+        if not turned_on or not other.isChecked():
+            return
+        other.setChecked(False)
+        box = QtWidgets.QMessageBox(self)
+        box.setIcon(QtWidgets.QMessageBox.Icon.Information)
+        box.setWindowTitle("Only one High Digit SAMs build")
+        box.setText(
+            "The original High Digit SAMs and the Ultimate Compilation rename each "
+            "other's units, so only one can be used at a time."
+        )
+        box.setInformativeText("The other one has been unselected.")
+        box.exec()
+
     def __init__(self, campaign: Campaign, parent=None):
         super().__init__(parent)
 
@@ -156,6 +176,16 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("frenchpack", self.frenchpack)
         self.high_digit_sams = QtWidgets.QCheckBox()
         self.registerField("high_digit_sams", self.high_digit_sams)
+        self.high_digit_sams_ultimate = QtWidgets.QCheckBox()
+        self.registerField("high_digit_sams_ultimate", self.high_digit_sams_ultimate)
+        # The two High Digit SAMs builds rename each other's units, so having both
+        # installed breaks either way round. Ticking one clears the other.
+        self.high_digit_sams.toggled.connect(
+            lambda on: self._exclusive_hds(on, self.high_digit_sams_ultimate)
+        )
+        self.high_digit_sams_ultimate.toggled.connect(
+            lambda on: self._exclusive_hds(on, self.high_digit_sams)
+        )
         self.swedishmilitaryassetspack = QtWidgets.QCheckBox()
         self.registerField("swedishmilitaryassetspack", self.swedishmilitaryassetspack)
         self.coldwarassets = QtWidgets.QCheckBox()
@@ -249,7 +279,11 @@ class GeneratorOptions(QtWidgets.QWizardPage):
                 self.fa18ef_tanker,
             ),
             ("Frenchpack (v4.9.1)", self.frenchpack),
-            ("High Digit SAMs (v1.4.0)", self.high_digit_sams),
+            ("High Digit SAMs (v2.1.0, Auranis)", self.high_digit_sams),
+            (
+                "High Digit SAMs - Ultimate Compilation (v1.4.4, dcs-sams)",
+                self.high_digit_sams_ultimate,
+            ),
             ("IDF Assets Pack (v1.1 by IDF Mods Project)", self.irondome),
             ("JAS 39 Gripen (v1.8.5-beta)", self.jas39_gripen),
             ("MiG-31BM (v2.62)", self.mig31bm_foxhound),
@@ -335,6 +369,9 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.ov10a_bronco.setChecked(s.get("ov10a_bronco", False))
         self.frenchpack.setChecked(s.get("frenchpack", False))
         self.high_digit_sams.setChecked(s.get("high_digit_sams", False))
+        self.high_digit_sams_ultimate.setChecked(
+            s.get("high_digit_sams_ultimate", False)
+        )
         self.spanishnavypack.setChecked(s.get("spanishnavypack", False))
         self.irondome.setChecked(s.get("irondome", False))
         self.swedishmilitaryassetspack.setChecked(

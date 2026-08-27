@@ -110,6 +110,10 @@ class ModSettings:
     tornado_adv: bool = False
     frenchpack: bool = False
     high_digit_sams: bool = False
+    #: The Ultimate Compilation is a different mod, not a newer HDS: it renames
+    #: units the original still uses, so the two cannot be installed together and
+    #: the wizard does not let both be selected.
+    high_digit_sams_ultimate: bool = False
     ov10a_bronco: bool = False
     spanishnavypack: bool = False
     swedishmilitaryassetspack: bool = False

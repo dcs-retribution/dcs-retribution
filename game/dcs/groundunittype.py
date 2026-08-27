@@ -132,6 +132,27 @@ class GroundUnitType(UnitType[Type[VehicleType]]):
             "[CH] M142 HIMARS (PrSM AShM)": "MLRS M142 HIMARS ATACMS HE [CH]",  # CHAP_M142_ATACMS_M48
             "[CH] Oshkosh FMTV M1083": "Truck M1083 A1P2 MTV [CH]",  # CHAP_M1083
             "[CH] Oshkosh M-ATV MRAP (M2)": "APC MRAP M-ATV [CH]",  # CHAP_MATV
+            # High Digit SAMs 2.1.0 dropped the whole S-300PS/SA-10B family and the
+            # KS-19/Fire Can pair, all of which ED had meanwhile added to base DCS. Same
+            # treatment as the CH packs above: point old saves at the native unit rather
+            # than leave a dead class behind, which would resolve to the wrong vehicle.
+            # Values are the target's DISPLAY NAME; the DCS type id follows each line.
+            "AAA SON-9 Fire Can": "AAA Fire Can SON-9",  # SON_9
+            "AAA 100mm KS-19": "AAA KS-19 100mm",  # KS-19
+            "SAM SA-10B S-300PS 54K6 CP": 'SAM SA-10 S-300 "Grumble" C2',  # S-300PS 54K6 cp
+            "SAM SA-10B S-300PS 30N6 TR": 'SAM SA-10 S-300 "Grumble" Flap Lid-B TR',  # S-300PS 5H63C 30H6_tr
+            "SAM SA-10B S-300PS 40B6M TR": 'SAM SA-10 S-300 "Grumble" Flap Lid-A TR',  # S-300PS 40B6M tr
+            "SAM SA-10B S-300PS 40B6MD SR": 'SAM SA-10 S-300 "Grumble" Clam Shell SR',  # S-300PS 40B6MD sr
+            "SAM SA-10B S-300PS 64H6E SR": 'SAM SA-10 S-300 "Grumble" Big Bird SR',  # S-300PS 64H6E sr
+            # The mod's launchers were "_mod" variants of the same two TELs. NOTE the
+            # display names below look swapped and are not: our two ground-unit files
+            # carry the TEL C/D names crossed with respect to pydcs ("S-300PS 5P85C
+            # ln.yaml" declares TEL D and vice versa), so these are the names that
+            # actually resolve to the id noted after each line. The ids are what matters.
+            "SAM SA-10B S-300PS 5P85SE LN": 'SAM SA-10 S-300 "Grumble" TEL D',  # S-300PS 5P85C ln
+            "SAM SA-10B S-300PS 5P85SU LN": 'SAM SA-10 S-300 "Grumble" TEL C',  # S-300PS 5P85D ln
+            "SAM SA-10 (5V55RUD) S-300PS LN 5P85CE": 'SAM SA-10 S-300 "Grumble" TEL D',  # S-300PS 5P85C ln
+            "SAM SA-10 (5V55RUD) S-300PS LN 5P85DE": 'SAM SA-10 S-300 "Grumble" TEL C',  # S-300PS 5P85D ln
         }
 
     @classmethod

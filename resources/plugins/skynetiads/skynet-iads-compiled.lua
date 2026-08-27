@@ -609,13 +609,26 @@ samTypesDB['S-300PS'] = {
 				['NATO'] = 'Clam Shell',
 			},
 		},
+		-- HighDigitSAMs Ultimate Compilation renamed the SA-10B radars.
+		['S-300PS SA-10B 76N6E sr'] = {
+			['name'] = {
+				['NATO'] = 'Clam Shell',
+			},
+		},
 		['S-300PS 64H6E TRAILER sr'] = {
+		},
+		['S-300PS 64H6E MOD sr'] = {
+			['name'] = {
+				['NATO'] = 'Big Bird',
+			},
 		},
 	},
 	['trackingRadar'] = {
 		['S-300PS 30N6 TRAILER tr'] = {
 		},
 		['S-300PS SA-10B 40B6M MAST tr'] = {
+		},
+		['S-300PS SA-10B 30N6 MAST tr'] = {
 		},
 		['S-300PS 40B6M tr'] = {
 		},
@@ -633,6 +646,9 @@ samTypesDB['S-300PS'] = {
 		['S-300PS 5P85SE_mod ln'] = {
 		},
 		['S-300PS 5P85SU_mod ln'] = {
+		},
+		-- SA-10A S-300PT launcher (Ultimate Compilation) can co-appear.
+		['S-300PS 5P85_1_mod ln'] = {
 		},
 	},
 	['name']  = {
@@ -786,6 +802,9 @@ samTypesDB['S-300PMU2'] = {
 	['trackingRadar'] = {
 		['S-300PMU2 92H6E tr'] = {
 		},
+		-- Ultimate Compilation mast-mounted Grave Stone (id "40B6M tr").
+		['S-300PMU2 40B6M tr'] = {
+		},
 		['S-300PS 40B6M tr'] = {
 		},
 		['S-300PMU1 40B6M tr'] = {
@@ -807,6 +826,161 @@ samTypesDB['S-300PMU2'] = {
 	},
 	['harm_detection_chance'] = 90,
 	['can_engage_harm'] = true
+}
+
+-- HighDigitSAMs Ultimate Compilation additions (S-400, S-300V4, SAMP/T,
+-- Pantsir-SM). These site types are new to the compilation and were not in
+-- the vendored Skynet build; profiles are hand-added here following the same
+-- structure as the S-300 family above.
+
+samTypesDB['S-400'] = {
+	['type'] = 'complex',
+	['searchRadar'] = {
+		['S-400 91N6E sr'] = {
+			['name'] = {
+				['NATO'] = 'Big Bird',
+			},
+		},
+		['S-400 96L6E sr'] = {
+			['name'] = {
+				['NATO'] = 'Cheese Board',
+			},
+		},
+		['S-400 96L6E mast sr'] = {
+			['name'] = {
+				['NATO'] = 'Cheese Board',
+			},
+		},
+	},
+	['trackingRadar'] = {
+		['S-400 92N6E tr'] = {
+			['name'] = {
+				['NATO'] = 'Grave Stone',
+			},
+		},
+		['S-400 92N6E mast tr'] = {
+			['name'] = {
+				['NATO'] = 'Grave Stone',
+			},
+		},
+	},
+	['misc'] = {
+		['S-400 55K6 cp'] = {
+			['required'] = true,
+		},
+	},
+	['launchers'] = {
+		['S-400 51P6A ln'] = {
+		},
+		['S-400 51P6A (9M96E2) ln'] = {
+		},
+		['S-400 51P6A (40N6E) ln'] = {
+		},
+	},
+	['name']  = {
+		['NATO'] = 'SA-21 Growler'
+	},
+	['harm_detection_chance'] = 90,
+	['can_engage_harm'] = true
+}
+
+samTypesDB['S-300V4'] = {
+	['type'] = 'complex',
+	['searchRadar'] = {
+		['S-300V4 9S15MDE sr'] = {
+			['name'] = {
+				['NATO'] = 'Bill Board',
+			},
+		},
+		['S-300V4 9S19M-1E sr'] = {
+			['name'] = {
+				['NATO'] = 'High Screen',
+			},
+		},
+	},
+	['trackingRadar'] = {
+		['S-300V4 9S32M-1E tr'] = {
+			['name'] = {
+				['NATO'] = 'Grill Pan',
+			},
+		},
+	},
+	['misc'] = {
+		['S-300V4 9S457-2E cp'] = {
+			['required'] = true,
+		},
+	},
+	['launchers'] = {
+		['S-300V4 9A82M-2E ln'] = {
+		},
+		['S-300V4 9A83M-2E ln'] = {
+		},
+		['S-300V4 9A84M-2E ln'] = {
+		},
+	},
+	['name']  = {
+		['NATO'] = 'SA-23 Antey-4000'
+	},
+	['harm_detection_chance'] = 90,
+	['can_engage_harm'] = true
+}
+
+samTypesDB['SAMP/T'] = {
+	['type'] = 'complex',
+	['searchRadar'] = {
+		-- ARABEL / Ground Fire 300 are multifunction radars, so they act as
+		-- both the search and the tracking radar for the battery.
+		['SAMPT_MRI_ARABEL'] = {
+			['name'] = {
+				['NATO'] = 'Arabel',
+			},
+		},
+		['SAMPT_MRI_GF300'] = {
+			['name'] = {
+				['NATO'] = 'Ground Fire 300',
+			},
+		},
+	},
+	['trackingRadar'] = {
+		['SAMPT_MRI_ARABEL'] = {
+		},
+		['SAMPT_MRI_GF300'] = {
+		},
+	},
+	['misc'] = {
+		['SAMPT_MC'] = {
+			['required'] = true,
+		},
+	},
+	['launchers'] = {
+		['SAMPT_MLT_Blk1'] = {
+		},
+		['SAMPT_MLT_Blk1NT'] = {
+		},
+	},
+	['name']  = {
+		['NATO'] = 'SAMP/T'
+	},
+	['harm_detection_chance'] = 90,
+	['can_engage_harm'] = true
+}
+
+samTypesDB['Pantsir-SM'] = {
+	['type'] = 'single',
+	['searchRadar'] = {
+		['Pantsir_SM'] = {
+		},
+	},
+	['launchers'] = {
+		['Pantsir_SM'] = {
+		},
+	},
+	['name']  = {
+		['NATO'] = 'SA-22 Greyhound'
+	},
+	['harm_detection_chance'] = 90,
+	['can_engage_harm'] = true,
+	['fire_on_march'] = true
 }
 
 --[[

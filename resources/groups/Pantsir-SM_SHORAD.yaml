@@ -1,0 +1,8 @@
+name: Pantsir-SM SHORAD
+tasks:
+  - SHORAD
+units:
+  - SAM SA-22 Pantsir-SM
+  - Truck Ural-375
+layouts:
+  - Short Range Anti Air Group
