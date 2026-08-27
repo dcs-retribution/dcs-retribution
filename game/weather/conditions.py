@@ -10,6 +10,8 @@ from game.settings import Settings, NightMissions
 from game.theater import ConflictTheater, SeasonalConditions
 from game.theater.seasonalconditions import determine_season
 from game.timeofday import TimeOfDay
+from game.weather.atmosxliveweather import live_weather_for
+from game.weather.cloudpresetpacks import apply_cloud_preset_pack
 from game.weather.weather import Weather, Thunderstorm, Raining, Cloudy, ClearSkies
 
 
@@ -28,6 +30,13 @@ class Conditions:
         settings: Settings,
         forced_time: datetime.time | None = None,
     ) -> Conditions:
+        # Make the chosen cloud-preset pack the one CLOUD_PRESETS holds, before
+        # anything reads it. Both paths below do: the live-weather one resolves the
+        # observed preset by key, and the generated one picks at random from whatever
+        # is loaded. Doing it here rather than where the setting is edited keeps every
+        # entry point correct -- new campaign, loaded save and each turn alike.
+        apply_cloud_preset_pack(settings)
+
         # The time might be forced by the campaign for the first turn.
         if forced_time is not None:
             _start_time = datetime.datetime.combine(day, forced_time)
@@ -36,10 +45,17 @@ class Conditions:
                 theater, day, time_of_day, settings.night_day_missions
             )
 
+        # A real observation, when the player asked for one and it could be fetched.
+        # It has to be decided here rather than at mission generation: the kneeboards,
+        # the active runway and the carrier's course into wind all read this weather.
+        weather = live_weather_for(theater, settings) or cls.generate_weather(
+            theater.seasonal_conditions, day, time_of_day
+        )
+
         return cls(
             time_of_day=time_of_day,
             start_time=_start_time,
-            weather=cls.generate_weather(theater.seasonal_conditions, day, time_of_day),
+            weather=weather,
         )
 
     @classmethod

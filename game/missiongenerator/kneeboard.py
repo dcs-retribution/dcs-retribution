@@ -25,6 +25,7 @@ aircraft will be able to see the enemy's kneeboard for the same airframe.
 
 import datetime
 import math
+import re
 import textwrap
 from collections import defaultdict
 from dataclasses import dataclass
@@ -190,6 +191,15 @@ class KneeboardPageWriter:
             else:
                 output = combo
         return "".join(segments + [output]).strip()
+
+
+def cloud_type_name(ui_name: str) -> str:
+    """The cloud type alone: no variant number, no pack tag.
+
+    "Scattered 5" and "Low level stratus 3 [ATMOS-X]" both name a type and a variant,
+    and the kneeboard only has room for the type.
+    """
+    return re.sub(r"\s+\d+$", "", re.sub(r"\s*\[[^\]]*\]\s*$", "", ui_name)).strip()
 
 
 class KneeboardPage:
@@ -440,7 +450,7 @@ class BriefingPage(KneeboardPage):
         c = self.weather.clouds
         writer.text(
             f'Cloud base: {f"{int(round(meters(c.base).feet, -2))}ft" if c else "CAVOK"}'
-            f'{f", {c.preset.ui_name[:-2]}" if c and c.preset else ""}'
+            f'{f", {cloud_type_name(c.preset.ui_name)}" if c and c.preset else ""}'
         )
 
         fl = self.flight

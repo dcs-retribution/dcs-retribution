@@ -1,4 +1,5 @@
 from PySide6 import QtCore, QtGui
+from PySide6.QtCore import Signal
 from PySide6.QtGui import QCursor
 from PySide6.QtWidgets import (
     QFrame,
@@ -16,6 +17,8 @@ class QConditionsWidget(QFrame):
     """
     UI Component to display Turn Number, Day Time & Hour and weather combined.
     """
+
+    refresh_weather_requested = Signal()
 
     def __init__(self, sim_controller: SimController) -> None:
         super(QConditionsWidget, self).__init__()
@@ -37,17 +40,26 @@ class QConditionsWidget(QFrame):
             "QGroupBox { margin-top: 5px; margin-left: 0px; border-left: 0px; }"
         )
         self.weather_widget.hide()
+        self.weather_widget.refresh_requested.connect(
+            self.refresh_weather_requested.emit
+        )
         self.layout.addWidget(self.weather_widget, 0, 1)
 
     def mouseDoubleClickEvent(self, event: QtGui.QMouseEvent) -> None:
         QConditionsDialog(self.time_turn_widget, self.weather_widget).exec()
 
-    def setCurrentTurn(self, turn: int, conditions: Conditions) -> None:
+    def setCurrentTurn(
+        self, turn: int, conditions: Conditions, can_refresh_weather: bool = False
+    ) -> None:
         """Sets the turn information display.
 
         :arg turn Current turn number.
         :arg conditions Current time and weather conditions.
+        :arg can_refresh_weather Whether to offer refetching the observation.
         """
         self.time_turn_widget.set_current_turn(turn, conditions)
-        self.weather_widget.setCurrentTurn(turn, conditions)
+        self.weather_widget.setCurrentTurn(turn, conditions, can_refresh_weather)
         self.weather_widget.show()
+        # The whole block is one hover target, so the details follow the cursor
+        # anywhere over the turn and weather panel, not just over the weather half.
+        self.setToolTip(self.weather_widget.toolTip())

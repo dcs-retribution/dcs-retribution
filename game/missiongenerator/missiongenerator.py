@@ -33,6 +33,7 @@ from .briefinggenerator import BriefingGenerator, MissionInfoGenerator
 from .cargoshipgenerator import CargoShipGenerator
 from .convoygenerator import ConvoyGenerator
 from .drawingsgenerator import DrawingsGenerator
+from game.weather.atmosxliveweather import LiveWeather, apply_weather
 from .environmentgenerator import EnvironmentGenerator
 from .flotgenerator import FlotGenerator
 from .forcedoptionsgenerator import ForcedOptionsGenerator
@@ -101,6 +102,11 @@ class MissionGenerator:
         EnvironmentGenerator(
             self.mission, self.game.conditions, self.time, auto_fog
         ).generate()
+        # The observation is already this turn's weather; this writes the parts of it
+        # the game's weather model has nowhere to keep (visibility distance, dust).
+        weather = self.game.conditions.weather
+        if isinstance(weather, LiveWeather):
+            apply_weather(self.mission.weather, weather.vdata)
 
         tgo_generator = TgoGenerator(
             self.mission,

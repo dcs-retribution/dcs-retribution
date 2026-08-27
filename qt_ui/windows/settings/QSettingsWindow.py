@@ -15,6 +15,8 @@ from PySide6.QtWidgets import (
     QGridLayout,
     QGroupBox,
     QLabel,
+    QLayout,
+    QLineEdit,
     QListView,
     QPushButton,
     QScrollArea,
@@ -37,10 +39,11 @@ from game.settings import (
     MinutesOption,
     OptionDescription,
     Settings,
+    TextOption,
 )
 from game.settings.ISettingsContainer import SettingsContainer
+from game.weather.cloudpresetpacks import apply_cloud_preset_pack
 from game.sim import GameUpdateEvents
-from pydcs_extensions import BanditClouds
 from qt_ui.widgets.QLabeledWidget import QLabeledWidget
 from qt_ui.widgets.spinsliders import FloatSpinSlider, TimeInputs
 from qt_ui.windows.GameUpdateSignal import GameUpdateSignal
@@ -155,6 +158,7 @@ class AutoSettingsLayout(QGridLayout):
         self.sc = sc
         self.write_full_settings = write_full_settings
         self.settings_map: Dict[str, QWidget] = {}
+        self.label_map: Dict[str, QWidget] = {}
 
         self.init_ui()
 
@@ -162,7 +166,7 @@ class AutoSettingsLayout(QGridLayout):
         for row, (name, description) in enumerate(
             Settings.fields(self.page, self.section)
         ):
-            self.add_label(row, description)
+            self.label_map[name] = self.add_label(row, description)
             if isinstance(description, BooleanOption):
                 self.add_checkbox_for(row, name, description)
             elif isinstance(description, ChoicesOption):
@@ -173,10 +177,13 @@ class AutoSettingsLayout(QGridLayout):
                 self.add_spinner_for(row, name, description)
             elif isinstance(description, MinutesOption):
                 self.add_duration_controls_for(row, name, description)
+            elif isinstance(description, TextOption):
+                self.add_line_edit_for(row, name, description)
             else:
                 raise TypeError(f"Unhandled option type: {description}")
+        self.apply_visibility()
 
-    def add_label(self, row: int, description: OptionDescription) -> None:
+    def add_label(self, row: int, description: OptionDescription) -> QLabel:
         wrapped_title = "<br />".join(textwrap.wrap(description.text, width=55))
         text = f"<strong>{wrapped_title}</strong>"
         if description.detail is not None:
@@ -187,12 +194,14 @@ class AutoSettingsLayout(QGridLayout):
             label.setToolTip(description.tooltip)
         label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
         self.addWidget(label, row, 0)
+        return label
 
     def add_checkbox_for(self, row: int, name: str, description: BooleanOption) -> None:
         def on_toggle(value: bool) -> None:
             if description.invert:
                 value = not value
             self.sc.settings.__dict__[name] = value
+            self.apply_visibility()
             if description.causes_expensive_game_update:
                 self.write_full_settings()
 
@@ -210,6 +219,7 @@ class AutoSettingsLayout(QGridLayout):
 
         def on_changed(index: int) -> None:
             self.sc.settings.__dict__[name] = combobox.itemData(index)
+            self.apply_visibility()
 
         for text, value in description.choices.items():
             combobox.addItem(text, value)
@@ -219,6 +229,19 @@ class AutoSettingsLayout(QGridLayout):
         combobox.currentIndexChanged.connect(on_changed)
         self.addWidget(combobox, row, 1, Qt.AlignmentFlag.AlignRight)
         self.settings_map[name] = combobox
+
+    def add_line_edit_for(self, row: int, name: str, description: TextOption) -> None:
+        edit = QLineEdit(self.sc.settings.__dict__[name])
+        if description.placeholder is not None:
+            edit.setPlaceholderText(description.placeholder)
+
+        def on_changed(value: str) -> None:
+            self.sc.settings.__dict__[name] = value.strip()
+
+        edit.textChanged.connect(on_changed)
+        edit.setMinimumWidth(260)
+        self.addWidget(edit, row, 1, Qt.AlignmentFlag.AlignRight)
+        self.settings_map[name] = edit
 
     def add_float_spin_slider_for(
         self, row: int, name: str, description: BoundedFloatOption
@@ -268,6 +291,23 @@ class AutoSettingsLayout(QGridLayout):
         self.addLayout(inputs, row, 1, Qt.AlignmentFlag.AlignRight)
         self.settings_map[name] = inputs
 
+    def apply_visibility(self) -> None:
+        """Hide the settings whose visible_when says they do not apply right now."""
+        for name, description in Settings.fields(self.page, self.section):
+            if description.visible_when is None:
+                continue
+            visible = bool(description.visible_when(self.sc.settings))
+            self.label_map[name].setVisible(visible)
+            entry = self.settings_map[name]
+            # The spinner and time options register a layout rather than a widget,
+            # and a layout cannot be hidden -- its contents can.
+            if isinstance(entry, QLayout):
+                for i in range(entry.count()):
+                    if (child := entry.itemAt(i).widget()) is not None:
+                        child.setVisible(visible)
+            else:
+                entry.setVisible(visible)
+
     def update_from_settings(self) -> None:
         for name, description in Settings.fields(self.page, self.section):
             widget = self.settings_map[name]
@@ -289,6 +329,7 @@ class AutoSettingsLayout(QGridLayout):
                 widget.setValue(value)
             elif isinstance(widget, TimeInputs):
                 widget.spinner.setValue(value.seconds // 60)
+        self.apply_visibility()
 
 
 class AutoSettingsGroup(QGroupBox):
@@ -360,10 +401,9 @@ class QSettingsWindow(QDialog):
         super().closeEvent(event)
 
     def _handle_mod_settings(self) -> None:
-        if self.game.settings.use_bandit_clouds:
-            BanditClouds.activate()
-        else:
-            BanditClouds.deactivate()
+        # Applied again on every weather generation, so this is only about the choice
+        # taking effect the moment the dialog is closed rather than a turn later.
+        apply_cloud_preset_pack(self.game.settings)
 
 
 class QSettingsWidget(QtWidgets.QWizardPage, SettingsContainer):

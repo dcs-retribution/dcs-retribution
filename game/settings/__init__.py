@@ -5,3 +5,4 @@ from .choicesoption import ChoicesOption
 from .minutesoption import MinutesOption
 from .optiondescription import OptionDescription
 from .settings import AutoAtoBehavior, NightMissions, Settings
+from .textoption import TextOption

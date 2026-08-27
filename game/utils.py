@@ -425,6 +425,10 @@ def inches_hg(value: float) -> Pressure:
     return Pressure(value)
 
 
+def mm_hg(value: float) -> Pressure:
+    return Pressure(value / INHG_TO_MMHG)
+
+
 @dataclass(frozen=True, order=True)
 class Mass:
     mass_in_kg: float

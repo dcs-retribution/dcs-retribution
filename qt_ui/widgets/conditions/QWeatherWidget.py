@@ -1,9 +1,18 @@
+from PySide6.QtCore import QSize, Qt, Signal
 from PySide6.QtGui import QPixmap
-from PySide6.QtWidgets import QGroupBox, QHBoxLayout, QLabel, QVBoxLayout, QGridLayout
+from PySide6.QtWidgets import (
+    QGridLayout,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QToolButton,
+    QVBoxLayout,
+)
 from dcs.weather import CloudPreset, Weather as PydcsWeather
 
 from game.timeofday import TimeOfDay
-from game.utils import mps
+from game.utils import meters, mps
+from game.weather.atmosxliveweather import LiveWeather
 from game.weather.conditions import Conditions
 from qt_ui import uiconstants as CONST
 
@@ -12,6 +21,9 @@ class QWeatherWidget(QGroupBox):
     """
     UI Component to display current weather forecast
     """
+
+    #: The player asked for a fresh observation. Whoever owns the game does the work.
+    refresh_requested = Signal()
 
     turn = None
     conditions = None
@@ -33,6 +45,7 @@ class QWeatherWidget(QGroupBox):
         self.makeWeatherIcon()
         self.makeCloudRainFogWidget()
         self.makeWindsWidget()
+        self.makeRefreshButton()
 
     def makeWeatherIcon(self):
         """Makes the Weather Icon Widget"""
@@ -80,6 +93,26 @@ class QWeatherWidget(QGroupBox):
         windsLayout.addWidget(self.windFL26SpeedLabel, 2, 2)
         windsLayout.addWidget(self.windFL26DirLabel, 2, 3)
 
+    def makeRefreshButton(self) -> None:
+        """A button to fetch the observation again, hidden unless that means anything."""
+        self.refresh_button = QToolButton()
+        self.refresh_button.setText("⟳")
+        self.refresh_button.setToolTip(
+            "Fetch the current METAR again and use it for this turn."
+        )
+        self.refresh_button.setAutoRaise(True)
+        # The glyph renders at the panel's small label size otherwise, which is far
+        # too fiddly a target for a button you press between planning and take-off.
+        font = self.refresh_button.font()
+        font.setPointSize(20)
+        self.refresh_button.setFont(font)
+        self.refresh_button.setFixedSize(QSize(40, 40))
+        self.refresh_button.clicked.connect(self.refresh_requested.emit)
+        self.refresh_button.hide()
+        self.layout.addWidget(
+            self.refresh_button, alignment=Qt.AlignmentFlag.AlignVCenter
+        )
+
     def makeLabel(self, text: str = "") -> QLabel:
         """Shorthand to generate a QLabel with widget standard style
 
@@ -100,17 +133,106 @@ class QWeatherWidget(QGroupBox):
 
         return icon
 
-    def setCurrentTurn(self, turn: int, conditions: Conditions) -> None:
+    def setCurrentTurn(
+        self, turn: int, conditions: Conditions, can_refresh: bool = False
+    ) -> None:
         """Sets the turn information display.
 
         :arg turn Current turn number.
         :arg conditions Current time and weather conditions.
+        :arg can_refresh Whether live weather is on, so a refresh is worth offering.
         """
         self.turn = turn
         self.conditions = conditions
 
         self.update_forecast()
         self.updateWinds()
+        self.refresh_button.setVisible(can_refresh)
+        self.setToolTip(self.weather_details())
+
+    def weather_details(self) -> str:
+        """Everything the widget has room to show only three words of."""
+        weather = self.conditions.weather
+        rows: list[tuple[str, str]] = []
+
+        if isinstance(weather, LiveWeather):
+            rows.append(("Source", f"Live METAR &mdash; {weather.station}"))
+        else:
+            rows.append(("Source", "Generated forecast"))
+
+        atmospheric = weather.atmospheric
+        rows.append(("Temperature", f"{atmospheric.temperature_celsius:.0f} &deg;C"))
+        rows.append(
+            (
+                "QNH",
+                f"{atmospheric.qnh.inches_hg:.2f} inHg / "
+                f"{atmospheric.qnh.mm_hg:.0f} mmHg / "
+                f"{atmospheric.qnh.hecto_pascals:.0f} hPa",
+            )
+        )
+        rows.append(("Turbulence", f"{atmospheric.turbulence_per_10cm:.1f} per 10cm"))
+
+        clouds = weather.clouds
+        if clouds is None:
+            rows.append(("Clouds", "Clear"))
+        else:
+            if clouds.preset is not None:
+                # A preset's description is two lines: a name after "##", then the
+                # METAR-style layer breakdown. The widget shows the first; the second
+                # never fitted anywhere until there was a tooltip to put it in.
+                lines = clouds.preset.description.splitlines()
+                rows.append(("Cloud preset", lines[0].split("##")[-1].strip()))
+                for line in lines[1:]:
+                    if line.strip():
+                        rows.append(("Layers", line.strip()))
+            rows.append(("Cloud base", self.height(clouds.base)))
+            if clouds.thickness:
+                rows.append(("Cloud thickness", self.height(clouds.thickness)))
+            if clouds.density:
+                rows.append(("Cloud density", f"{clouds.density} of 10"))
+            if clouds.precipitation is not PydcsWeather.Preceptions.None_:
+                rows.append(("Precipitation", clouds.precipitation.name))
+
+        if weather.fog is None:
+            rows.append(("Fog", "None"))
+        else:
+            rows.append(
+                (
+                    "Fog",
+                    f"{weather.fog.visibility.nautical_miles:.1f}nm visibility, "
+                    f"{self.height(weather.fog.thickness)} thick",
+                )
+            )
+
+        if isinstance(weather, LiveWeather):
+            visibility = weather.vdata.get("visibility")
+            if isinstance(visibility, dict) and "distance" in visibility:
+                distance = meters(float(visibility["distance"]))
+                rows.append(("Visibility", f"{distance.nautical_miles:.0f}nm"))
+
+        for label, wind in (
+            ("Wind GL", weather.wind.at_0m),
+            ("Wind FL08", weather.wind.at_2000m),
+            ("Wind FL26", weather.wind.at_8000m),
+        ):
+            speed = mps(wind.speed or 0)
+            rows.append(
+                (
+                    label,
+                    f"{str(wind.direction or 0).rjust(3, '0')}&deg; at "
+                    f"{speed.knots:.0f}kts",
+                )
+            )
+
+        cells = "".join(
+            f"<tr><td><b>{label}</b>&nbsp;&nbsp;</td><td>{value}</td></tr>"
+            for label, value in rows
+        )
+        return f"<table>{cells}</table>"
+
+    @staticmethod
+    def height(value: int) -> str:
+        return f"{value}m / {int(meters(value).feet)}ft"
 
     def updateWinds(self):
         """Updates the UI with the current conditions wind info."""

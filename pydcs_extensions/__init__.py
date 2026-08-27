@@ -2,7 +2,9 @@ from .SWPack import *
 from .a4ec import *
 from .a7e import *
 from .a6a import *
+from .atmosx_clouds import *
 from .bandit_clouds import *
+from .weather2_clouds import *
 from .e7a import *
 from .ea6b import *
 from .f9f import *

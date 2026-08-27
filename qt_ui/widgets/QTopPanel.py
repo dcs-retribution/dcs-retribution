@@ -17,7 +17,10 @@ from game.ato.package import Package
 from game.ato.traveltime import TotEstimator
 from game.profiling import logged_duration
 from game.settings.settings import FastForwardStopCondition
-from game.utils import meters
+from game.weather.atmosxliveweather import (
+    live_weather_enabled,
+    refresh_live_weather,
+)
 from qt_ui.models import GameModel
 from qt_ui.simcontroller import SimController
 from qt_ui.uiflags import UiFlags
@@ -45,6 +48,9 @@ class QTopPanel(QFrame):
         self.setMaximumHeight(70)
 
         self.conditionsWidget = QConditionsWidget(sim_controller)
+        self.conditionsWidget.refresh_weather_requested.connect(
+            self.refresh_live_weather
+        )
         self.budgetBox = QBudgetBox(self.game)
 
         pass_turn_text = "Pass Turn"
@@ -120,6 +126,33 @@ class QTopPanel(QFrame):
         GameUpdateSignal.get_instance().gameupdated.connect(self.setGame)
         GameUpdateSignal.get_instance().budgetupdated.connect(self.budget_update)
 
+    def refresh_live_weather(self) -> None:
+        """Fetch the observation again and redraw with it."""
+        game = self.game
+        if game is None:
+            return
+        # The fetch shells out to the ATMOS-X CLI and can take a few seconds.
+        QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
+        try:
+            refreshed = refresh_live_weather(game)
+        finally:
+            QApplication.restoreOverrideCursor()
+        if refreshed is not None:
+            # The reason comes from the CLI itself ("No METAR data available for
+            # UGKS."), so show it: the player asked for this fetch and can act on it,
+            # by picking a station or waiting, without opening the log.
+            box = QMessageBox(self)
+            box.setIcon(QMessageBox.Icon.Warning)
+            box.setWindowTitle("No observation")
+            box.setText(
+                "Could not fetch a METAR observation, so the turn keeps the "
+                "weather it already had."
+            )
+            box.setInformativeText(refreshed)
+            box.exec()
+            return
+        GameUpdateSignal.get_instance().updateGame(game)
+
     @property
     def game(self) -> Optional[Game]:
         return self.game_model.game
@@ -131,14 +164,10 @@ class QTopPanel(QFrame):
         self.air_wing.setEnabled(True)
         self.transfers.setEnabled(True)
 
-        self.conditionsWidget.setCurrentTurn(game.turn, game.conditions)
-
-        if game.conditions.weather.clouds:
-            base_m = game.conditions.weather.clouds.base
-            base_ft = int(meters(base_m).feet)
-            self.conditionsWidget.setToolTip(f"Cloud Base: {base_m}m / {base_ft}ft")
-        else:
-            self.conditionsWidget.setToolTip("")
+        # The widget writes its own tooltip now, with everything it has no room for.
+        self.conditionsWidget.setCurrentTurn(
+            game.turn, game.conditions, live_weather_enabled(game.settings)
+        )
 
         self.intel_box.set_game(game)
         self.budgetBox.setGame(game)

@@ -11,6 +11,7 @@ from .boundedfloatoption import bounded_float_option
 from .boundedintoption import bounded_int_option
 from .choicesoption import choices_option
 from .minutesoption import minutes_option
+from .textoption import text_option
 from .optiondescription import OptionDescription, SETTING_DESCRIPTION_KEY
 from .skilloption import skill_option
 from ..ato.starttype import StartType
@@ -26,6 +27,19 @@ class AutoAtoBehavior(Enum):
     Prefer = "Prefer player pilots"
 
 
+@unique
+class CloudPresetPack(Enum):
+    """A community cloud-preset weather mod whose presets the mission generator may
+    use. Only one can be active at a time: the packs share the same preset keys
+    (Preset35+) but map them to different clouds, so they must not be mixed."""
+
+    NONE = "None (stock DCS presets)"
+    BANDIT = "Bandit's Cloud Presets"
+    WEATHER2 = "Weather 2.0 (Bandit)"
+    ATMOSX = "ATMOS-X"
+
+
+@unique
 @unique
 class NightMissions(Enum):
     DayAndNight = "nightmissions_nightandday"
@@ -83,6 +97,11 @@ GAMEPLAY_SECTION = "Gameplay"
 # This section had the header: "Disabling settings below may improve performance, but
 # will impact the overall quality of the experience."
 PERFORMANCE_SECTION = "Performance"
+
+
+def _atmosx_pack_selected(settings: Any) -> bool:
+    """The ATMOS-X live-weather options only mean anything with that pack selected."""
+    return settings.cloud_preset_pack is CloudPresetPack.ATMOSX
 
 
 @dataclass
@@ -592,12 +611,58 @@ class Settings:
             "assigned to their primary task."
         ),
     )
-    use_bandit_clouds: bool = boolean_option(
-        "Use Bandit's clouds",
+    cloud_preset_pack: CloudPresetPack = choices_option(
+        "Custom cloud preset pack",
+        page=CAMPAIGN_MANAGEMENT_PAGE,
+        section=GENERAL_SECTION,
+        default=CloudPresetPack.NONE,
+        choices={v.value: v for v in CloudPresetPack},
+        detail=(
+            "Make a community cloud-preset weather mod's presets available to the "
+            "mission generator. Pick the pack you have installed in DCS. Only one can "
+            "be active at a time, since the packs reuse the same preset keys for "
+            "different clouds. 'None' uses the stock DCS presets."
+        ),
+    )
+    atmosx_live_weather: bool = boolean_option(
+        "Use ATMOS-X live weather",
         page=CAMPAIGN_MANAGEMENT_PAGE,
         section=GENERAL_SECTION,
         default=False,
-        detail=("If checked, Bandit's cloud presets will become available."),
+        detail=(
+            "Replace the generated weather with a real METAR observation, fetched by "
+            "the ATMOS-X CLI for a station on this terrain. If the observation cannot "
+            "be fetched -- no ATMOS-X, no network, nothing reported for that station "
+            "-- the mission keeps the "
+            "weather Retribution generated and says so in the log."
+        ),
+        visible_when=_atmosx_pack_selected,
+    )
+    atmosx_cli_path: str = text_option(
+        "ATMOS-X CLI path",
+        page=CAMPAIGN_MANAGEMENT_PAGE,
+        section=GENERAL_SECTION,
+        default="",
+        placeholder="Detected automatically",
+        detail=(
+            "Full path to atmosx-cli.exe. Leave blank to find it from the ATMOS-X "
+            "installation registered with Windows; set it only if ATMOS-X was not "
+            "installed by its installer or lives somewhere unusual."
+        ),
+        visible_when=_atmosx_pack_selected,
+    )
+    atmosx_metar_station: str = text_option(
+        "ATMOS-X METAR station (ICAO)",
+        page=CAMPAIGN_MANAGEMENT_PAGE,
+        section=GENERAL_SECTION,
+        default="",
+        placeholder="Nearest to your base",
+        detail=(
+            "Which station to read the weather from, e.g. LCLK. Leave blank and the "
+            "station is chosen from the airfields ATMOS-X knows on this terrain: the "
+            "one you are flying from if it reports, otherwise the closest that does."
+        ),
+        visible_when=_atmosx_pack_selected,
     )
 
     # Pilots and Squadrons
@@ -1524,6 +1589,7 @@ class Settings:
         # restore Enum & timedelta types
         s = Settings()
         Settings._migrate_legacy_fast_forward(state)
+        Settings._migrate_legacy_bandit_clouds(state)
         for key, value in list(state.items()):
             default = s.__dict__.get(key)
             if isinstance(default, Enum):
@@ -1564,6 +1630,16 @@ class Settings:
             if isinstance(restored, enum_cls):
                 return restored
         return None
+
+    @staticmethod
+    def _migrate_legacy_bandit_clouds(state: dict[str, Any]) -> None:
+        """Pre-pack saves had a boolean ``use_bandit_clouds``; map it onto the new
+        ``cloud_preset_pack`` choice so a user who had Bandit's clouds on keeps them."""
+        legacy = state.pop("use_bandit_clouds", None)
+        if legacy is not None and "cloud_preset_pack" not in state:
+            state["cloud_preset_pack"] = (
+                CloudPresetPack.BANDIT if legacy else CloudPresetPack.NONE
+            )
 
     @staticmethod
     def _migrate_legacy_fast_forward(state: dict[str, Any]) -> None:

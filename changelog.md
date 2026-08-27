@@ -1,6 +1,8 @@
 # Retribution v1.6.0
 
 ## Features/Improvements
+* **[Options]** "Custom cloud preset pack" setting (replaces "Use Bandit's clouds") makes a community cloud-preset weather mod's presets available to the mission generator — choose Bandit's Cloud Presets, Weather 2.0, or ATMOS-X to match the pack you have installed.
+* **[Weather]** "Use ATMOS-X live weather": with the ATMOS-X cloud preset pack selected, the generated weather is replaced by a real METAR observation fetched through the ATMOS-X CLI. The station is picked automatically — the airfield you fly from if it reports, otherwise the closest one on the map that does — or set by ICAO. The mission always keeps its own date and time and takes only the weather, so a campaign set in another era can fly today's real sky. If ATMOS-X is missing or the observation cannot be fetched, the mission keeps the weather Retribution generated.
 * **[Kneeboard]** Use a light-grey daytime kneeboard background instead of near-white, to avoid glare under HDR / Auto-HDR while staying readable in daylight.
 * **[UX]** Hovering a friendly flight's route line on the map highlights it in yellow, and clicking it selects that flight's package (and the flight) in the ATO sidebar.
 * **[UX]** Press Delete with a package selected in the Packages list to cancel it, making it quick to clear several packages in a row.
