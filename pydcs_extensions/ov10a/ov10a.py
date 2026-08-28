@@ -53,9 +53,9 @@ class Bronco_OV_10A(PlaneType):
             1,
             Weapons.LAU_7___AIM_9P_Sidewinder_IR_AAM,
         )
-        LAU_7_with_AIM_9B_Sidewinder_IR_AAM = (
+        LAU_7___AIM_9B_Sidewinder_IR_AAM = (
             1,
-            Weapons.LAU_7_with_AIM_9B_Sidewinder_IR_AAM,
+            Weapons.LAU_7___AIM_9B_Sidewinder_IR_AAM,
         )
         LAU_33A = (1, WeaponsOV10A.LAU_33A)
 
@@ -389,9 +389,9 @@ class Bronco_OV_10A(PlaneType):
             7,
             Weapons.LAU_7___AIM_9P_Sidewinder_IR_AAM,
         )
-        LAU_7_with_AIM_9B_Sidewinder_IR_AAM = (
+        LAU_7___AIM_9B_Sidewinder_IR_AAM = (
             7,
-            Weapons.LAU_7_with_AIM_9B_Sidewinder_IR_AAM,
+            Weapons.LAU_7___AIM_9B_Sidewinder_IR_AAM,
         )
         LAU_33A = (7, WeaponsOV10A.LAU_33A)
 

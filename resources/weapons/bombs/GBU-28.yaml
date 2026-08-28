@@ -1,0 +1,6 @@
+name: GBU-28
+type: LGB
+year: 1991
+fallback: GBU-24
+clsids:
+  - "{F111C_GBU28}"   # GBU-28 4000 lb Penetrator TV Guided Bomb

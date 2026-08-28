@@ -113,8 +113,8 @@ clsids:
   - "{AUF2_MK82}"   # AUF 2 - 2 x Mk-82 - 500lb GP Bomb LD
   - "{CLB4_MK82}"   # CLB 4 - 4 x Mk-82 - 500lb GP Bomb LD
   - "{Mk82AIR}"   # Mk-82 AIR Ballute - 500lb GP Bomb HD
-  - "{Mk-82_IMER_4_L}"   # 4 x Mk-82 - 500 lbs GP Bomb HD (IMER)
-  - "{Mk-82_IMER_4_R}"   # 4 x Mk-82 - 500 lbs GP Bomb HD (IMER)
+  - "{SB_F8_BRU_41A_M82_4 Lt}"   # 4 x Mk-82 - 500 lbs GP Bomb HD (IMER)
+  - "{SB_F8_BRU_41A_M82_4 Rt}"   # 4 x Mk-82 - 500 lbs GP Bomb HD (IMER)
   - "{1C97B4A0-AA3B-43A8-8EE7-D11071457185}"   # MER6 with 6 x Mk-82 - 500lb GP Bombs LD
   - "{BRU42_1X_MK-82}"   # BRU-42 with 1 x Mk-82 - 500lb GP Bomb LD
   - "{BRU42_2X_MK-82_L}"   # BRU-42 with 2 x Mk-82 - 500lb GP Bomb LD
@@ -146,8 +146,8 @@ clsids:
   - "{CLB4_MK82S}"   # CLB 4 - 4 x Mk-82 Snakeye - 500lb GP Bomb HD
   - "{HB_F4E_MK-82AIR_2x}"   # 2x Mk-82 AIR Ballute - 500lb GP Bomb HD (TER)
   - "{HB_F4E_MK-82AIR_3x}"   # 3x Mk-82 AIR Ballute - 500lb GP Bomb HD (TER)
-  - "{Mk-82_Snakeye_IMER_4_L}"   # 4 x Mk-82 Snakeye - 500 lbs GP Bomb HD (IMER)
-  - "{Mk-82_Snakeye_IMER_4_R}"   # 4 x Mk-82 Snakeye - 500 lbs GP Bomb HD (IMER)
+  - "{SB_F8_BRU_41A_M82SE_4 Lt}"   # 4 x Mk-82 Snakeye - 500 lbs GP Bomb HD (IMER)
+  - "{SB_F8_BRU_41A_M82SE_4 Rt}"   # 4 x Mk-82 Snakeye - 500 lbs GP Bomb HD (IMER)
   - "{HB_F4E_MK-82AIR_6x}"   # 6x Mk-82 AIR Ballute - 500lb GP Bomb HD (MER)
   - "{CBM_Mk82AIR}"   # CBM - 28 x Mk-82 AIR Ballute - 500lb GP Bomb HD
   - "{HSAB_Mk82AIR}"   # HSAB - 9 x Mk-82 AIR Ballute - 500lb GP Bomb HD

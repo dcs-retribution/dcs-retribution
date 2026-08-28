@@ -10,22 +10,22 @@ local unitPayloads = {
 			{
 				[1]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=2
 				},
 				[2]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=5
 				},
 				[3]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=3
 				},
 				[4]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=4
 				}
 			},
@@ -42,33 +42,23 @@ local unitPayloads = {
 			{
 				[1]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=2
 				},
 				[2]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=5
 				},
 				[3]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=3
 				},
 				[4]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=4
-				},
-				[5]=
-				{
-					["CLSID"]="{Mk-82_IMER_4_L}",
-					["num"]=2
-				},
-				[6]=
-				{
-					["CLSID"]="{Mk-82_IMER_4_R}",
-					["num"]=5
 				}
 			},
 			["tasks"]=
@@ -84,33 +74,23 @@ local unitPayloads = {
 			{
 				[1]=
 				{
-					["CLSID"]="{F3EFE0AB-E91A-42D8-9CA2-B63C91ED570A}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=2
 				},
 				[2]=
 				{
-					["CLSID"]="{F3EFE0AB-E91A-42D8-9CA2-B63C91ED570A}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=5
 				},
 				[3]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=3
 				},
 				[4]=
 				{
-					["CLSID"]="{AIM-9D}",
+					["CLSID"]="{AIM-9B}",
 					["num"]=4
-				},
-				[5]=
-				{
-					["CLSID"]="LAU3_HE5",
-					["num"]=2
-				},
-				[6]=
-				{
-					["CLSID"]="LAU3_HE5",
-					["num"]=5
 				}
 			},
 			["tasks"]=

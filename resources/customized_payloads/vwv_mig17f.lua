@@ -11,12 +11,12 @@ local unitPayloads = {
 				[1]=
 				{
 					["CLSID"]="PTB400_MIG15",
-					["num"]=3
+					["num"]=1
 				},
 				[2]=
 				{
 					["CLSID"]="PTB400_MIG15",
-					["num"]=4
+					["num"]=2
 				}
 			},
 			["tasks"]=
@@ -102,12 +102,12 @@ local unitPayloads = {
 				[1]=
 				{
 					["CLSID"]="PTB400_MIG15",
-					["num"]=3
+					["num"]=1
 				},
 				[2]=
 				{
 					["CLSID"]="PTB400_MIG15",
-					["num"]=4
+					["num"]=2
 				}
 			},
 			["tasks"]=
@@ -124,12 +124,12 @@ local unitPayloads = {
 				[1]=
 				{
 					["CLSID"]="PTB400_MIG15",
-					["num"]=3
+					["num"]=1
 				},
 				[2]=
 				{
 					["CLSID"]="PTB400_MIG15",
-					["num"]=4
+					["num"]=2
 				}
 			},
 			["tasks"]=
@@ -146,12 +146,12 @@ local unitPayloads = {
 				[1]=
 				{
 					["CLSID"]="PTB400_MIG15",
-					["num"]=3
+					["num"]=1
 				},
 				[2]=
 				{
 					["CLSID"]="PTB400_MIG15",
-					["num"]=4
+					["num"]=2
 				}
 			},
 			["tasks"]=
@@ -168,12 +168,12 @@ local unitPayloads = {
 				[1]=
 				{
 					["CLSID"]="PTB400_MIG15",
-					["num"]=3
+					["num"]=1
 				},
 				[2]=
 				{
 					["CLSID"]="PTB400_MIG15",
-					["num"]=4
+					["num"]=2
 				}
 			},
 			["tasks"]=

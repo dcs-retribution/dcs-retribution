@@ -20,6 +20,16 @@ class WeaponsF111C:
         "name": "AGM-142 Popeye",
         "weight": 1360,
     }
+    AGM_65B_A_G_Missile = {
+        "clsid": "{F111C_AGM_65B}",
+        "name": "AGM-65B A/G Missile",
+        "weight": 297,
+    }
+    AGM_65D_TV_Guided_Missile = {
+        "clsid": "{F111C_AGM_65D}",
+        "name": "AGM-65D TV Guided Missile",
+        "weight": 297,
+    }
     AGM_84D_Harpoon = {
         "clsid": "{F111C_AGM_84_ARM}",
         "name": "AGM-84D Harpoon",
@@ -57,6 +67,11 @@ class WeaponsF111C:
         "name": "GBU-24 2000 lb Penetrator TV Guided Bomb",
         "weight": 970,
     }
+    GBU_28_4000_lb_Penetrator_TV_Guided_Bomb = {
+        "clsid": "{F111C_GBU28}",
+        "name": "GBU-28 4000 lb Penetrator TV Guided Bomb",
+        "weight": 1250,
+    }
     Integrated_ELINT = {
         "clsid": "{F111C_ELINT}",
         "name": "Integrated ELINT",
@@ -91,17 +106,17 @@ class F111C(PlaneType):
     radio_frequency = 127.5
 
     livery_name = "F111C"  # from livery_entry
-    # ERRR <CLEAN>
 
+    # ERRR <CLEAN>
     class Pylon2:
         Smoke_Generator___orange_ = (2, Weapons.Smoke_Generator___orange_)
 
     # ERRR <CLEAN>
-    # ERRR <CLEAN>
-
     class Pylon4:
         AIM_9M_Sidewinder_IR_AAM = (4, Weapons.AIM_9M_Sidewinder_IR_AAM)
         AIM_9L_Sidewinder_IR_AAM = (4, Weapons.AIM_9L_Sidewinder_IR_AAM)
+        AGM_65B_A_G_Missile = (4, WeaponsF111C.AGM_65B_A_G_Missile)
+        AGM_65D_TV_Guided_Missile = (4, WeaponsF111C.AGM_65D_TV_Guided_Missile)
         AGM_84D_Harpoon = (4, WeaponsF111C.AGM_84D_Harpoon)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_ = (
             4,
@@ -113,8 +128,28 @@ class F111C(PlaneType):
             4,
             Weapons.BRU_41A___6_x_BDU_33___25lb_Practice_Bomb_LD,
         )
-        BDU_45___500lb_Practice_Bomb = (4, Weapons.BDU_45___500lb_Practice_Bomb)
-        BDU_45B___500lb_Practice_Bomb = (4, Weapons.BDU_45B___500lb_Practice_Bomb)
+        BDU_50LD___500lb_Inert_Practice_Bomb_LD = (
+            4,
+            Weapons.BDU_50LD___500lb_Inert_Practice_Bomb_LD,
+        )
+        BDU_50HD___500lb_Inert_Practice_Bomb_HD = (
+            4,
+            Weapons.BDU_50HD___500lb_Inert_Practice_Bomb_HD,
+        )
+        Mk_84_AIR__BSU_50____2000_lb_TP_Chute_Retarded_Bomb_HD = (
+            4,
+            Weapons.Mk_84_AIR__BSU_50____2000_lb_TP_Chute_Retarded_Bomb_HD,
+        )
+        BDU_50LGB___500lb_Laser_Guided_Inert_Practice_Bomb_LD = (
+            4,
+            Weapons.BDU_50LGB___500lb_Laser_Guided_Inert_Practice_Bomb_LD,
+        )
+        CBU_87___202_x_CEM_Cluster_Bomb = (4, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
+        CBU_97___10_x_SFW_Cluster_Bomb = (4, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
+        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
+            4,
+            Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+        )
         TER_9_A___3_x_CBU_87___202_x_CEM_Cluster_Bomb = (
             4,
             Weapons.TER_9_A___3_x_CBU_87___202_x_CEM_Cluster_Bomb,
@@ -138,6 +173,26 @@ class F111C(PlaneType):
         BRU_41A___6_x_Mk_82___500lb_GP_Bomb_LD = (
             4,
             Weapons.BRU_41A___6_x_Mk_82___500lb_GP_Bomb_LD,
+        )
+        _6x_Mk_82_Snakeye___500lb_GP_Bomb_HD__MER__ = (
+            4,
+            Weapons._6x_Mk_82_Snakeye___500lb_GP_Bomb_HD__MER__,
+        )
+        _6x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD__MER_ = (
+            4,
+            Weapons._6x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD__MER_,
+        )
+        _6x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__MER__ = (
+            4,
+            Weapons._6x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__MER__,
+        )
+        _6x_BDU_50LD___500lb_Practice_Bomb_LD__MER_ = (
+            4,
+            Weapons._6x_BDU_50LD___500lb_Practice_Bomb_LD__MER_,
+        )
+        _6x_BDU_50HD___500lb_Practice_Bomb_HD__MER_ = (
+            4,
+            Weapons._6x_BDU_50HD___500lb_Practice_Bomb_HD__MER_,
         )
         Mk_83___1000lb_GP_Bomb_LD = (4, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_83_AIR__BSU_85____1000_lb_GP_Chute_Retarded_Bomb_HD = (
@@ -157,14 +212,18 @@ class F111C(PlaneType):
             4,
             WeaponsF111C.GBU_24_2000_lb_Penetrator_TV_Guided_Bomb,
         )
+        GBU_28_4000_lb_Penetrator_TV_Guided_Bomb = (
+            4,
+            WeaponsF111C.GBU_28_4000_lb_Penetrator_TV_Guided_Bomb,
+        )
         Fuel_Tank_FT600 = (4, Weapons.Fuel_Tank_FT600)
-
-    # ERRR <CLEAN>
 
     class Pylon5:
         AIM_9M_Sidewinder_IR_AAM = (5, Weapons.AIM_9M_Sidewinder_IR_AAM)
         AIM_9L_Sidewinder_IR_AAM = (5, Weapons.AIM_9L_Sidewinder_IR_AAM)
         AN_ASQ_T50_TCTS_Pod___ACMI_Pod = (5, Weapons.AN_ASQ_T50_TCTS_Pod___ACMI_Pod)
+        AGM_65B_A_G_Missile = (5, WeaponsF111C.AGM_65B_A_G_Missile)
+        AGM_65D_TV_Guided_Missile = (5, WeaponsF111C.AGM_65D_TV_Guided_Missile)
         AGM_84D_Harpoon = (5, WeaponsF111C.AGM_84D_Harpoon)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_ = (
             5,
@@ -175,8 +234,28 @@ class F111C(PlaneType):
             5,
             Weapons.BRU_41A___6_x_BDU_33___25lb_Practice_Bomb_LD,
         )
-        BDU_45___500lb_Practice_Bomb = (5, Weapons.BDU_45___500lb_Practice_Bomb)
-        BDU_45B___500lb_Practice_Bomb = (5, Weapons.BDU_45B___500lb_Practice_Bomb)
+        BDU_50LD___500lb_Inert_Practice_Bomb_LD = (
+            5,
+            Weapons.BDU_50LD___500lb_Inert_Practice_Bomb_LD,
+        )
+        BDU_50HD___500lb_Inert_Practice_Bomb_HD = (
+            5,
+            Weapons.BDU_50HD___500lb_Inert_Practice_Bomb_HD,
+        )
+        Mk_84_AIR__BSU_50____2000_lb_TP_Chute_Retarded_Bomb_HD = (
+            5,
+            Weapons.Mk_84_AIR__BSU_50____2000_lb_TP_Chute_Retarded_Bomb_HD,
+        )
+        BDU_50LGB___500lb_Laser_Guided_Inert_Practice_Bomb_LD = (
+            5,
+            Weapons.BDU_50LGB___500lb_Laser_Guided_Inert_Practice_Bomb_LD,
+        )
+        CBU_87___202_x_CEM_Cluster_Bomb = (5, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
+        CBU_97___10_x_SFW_Cluster_Bomb = (5, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
+        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
+            5,
+            Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+        )
         TER_9_A___3_x_CBU_87___202_x_CEM_Cluster_Bomb = (
             5,
             Weapons.TER_9_A___3_x_CBU_87___202_x_CEM_Cluster_Bomb,
@@ -200,6 +279,26 @@ class F111C(PlaneType):
         BRU_41A___6_x_Mk_82___500lb_GP_Bomb_LD = (
             5,
             Weapons.BRU_41A___6_x_Mk_82___500lb_GP_Bomb_LD,
+        )
+        _6x_Mk_82_Snakeye___500lb_GP_Bomb_HD__MER__ = (
+            5,
+            Weapons._6x_Mk_82_Snakeye___500lb_GP_Bomb_HD__MER__,
+        )
+        _6x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD__MER_ = (
+            5,
+            Weapons._6x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD__MER_,
+        )
+        _6x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__MER__ = (
+            5,
+            Weapons._6x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__MER__,
+        )
+        _6x_BDU_50LD___500lb_Practice_Bomb_LD__MER_ = (
+            5,
+            Weapons._6x_BDU_50LD___500lb_Practice_Bomb_LD__MER_,
+        )
+        _6x_BDU_50HD___500lb_Practice_Bomb_HD__MER_ = (
+            5,
+            Weapons._6x_BDU_50HD___500lb_Practice_Bomb_HD__MER_,
         )
         Mk_83___1000lb_GP_Bomb_LD = (5, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_83_AIR__BSU_85____1000_lb_GP_Chute_Retarded_Bomb_HD = (
@@ -222,13 +321,25 @@ class F111C(PlaneType):
         Elta_EL_L_8222 = (5, WeaponsF111C.Elta_EL_L_8222)
         Fuel_Tank_FT600 = (5, Weapons.Fuel_Tank_FT600)
 
-    # ERRR <CLEAN>
-    # ERRR <CLEAN>
-    # ERRR <CLEAN>
+    class Pylon6:
+        Mk_83___1000lb_GP_Bomb_LD = (6, Weapons.Mk_83___1000lb_GP_Bomb_LD)
+        Mk_83_AIR__BSU_85____1000_lb_GP_Chute_Retarded_Bomb_HD = (
+            6,
+            Weapons.Mk_83_AIR__BSU_85____1000_lb_GP_Chute_Retarded_Bomb_HD,
+        )
+
+    class Pylon7:
+        Mk_83___1000lb_GP_Bomb_LD = (7, Weapons.Mk_83___1000lb_GP_Bomb_LD)
+        Mk_83_AIR__BSU_85____1000_lb_GP_Chute_Retarded_Bomb_HD = (
+            7,
+            Weapons.Mk_83_AIR__BSU_85____1000_lb_GP_Chute_Retarded_Bomb_HD,
+        )
 
     class Pylon8:
         AIM_9M_Sidewinder_IR_AAM = (8, Weapons.AIM_9M_Sidewinder_IR_AAM)
         AIM_9L_Sidewinder_IR_AAM = (8, Weapons.AIM_9L_Sidewinder_IR_AAM)
+        AGM_65B_A_G_Missile = (8, WeaponsF111C.AGM_65B_A_G_Missile)
+        AGM_65D_TV_Guided_Missile = (8, WeaponsF111C.AGM_65D_TV_Guided_Missile)
         AGM_84D_Harpoon = (8, WeaponsF111C.AGM_84D_Harpoon)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_ = (
             8,
@@ -241,8 +352,28 @@ class F111C(PlaneType):
             8,
             Weapons.BRU_41A___6_x_BDU_33___25lb_Practice_Bomb_LD,
         )
-        BDU_45___500lb_Practice_Bomb = (8, Weapons.BDU_45___500lb_Practice_Bomb)
-        BDU_45B___500lb_Practice_Bomb = (8, Weapons.BDU_45B___500lb_Practice_Bomb)
+        BDU_50LD___500lb_Inert_Practice_Bomb_LD = (
+            8,
+            Weapons.BDU_50LD___500lb_Inert_Practice_Bomb_LD,
+        )
+        BDU_50HD___500lb_Inert_Practice_Bomb_HD = (
+            8,
+            Weapons.BDU_50HD___500lb_Inert_Practice_Bomb_HD,
+        )
+        Mk_84_AIR__BSU_50____2000_lb_TP_Chute_Retarded_Bomb_HD = (
+            8,
+            Weapons.Mk_84_AIR__BSU_50____2000_lb_TP_Chute_Retarded_Bomb_HD,
+        )
+        BDU_50LGB___500lb_Laser_Guided_Inert_Practice_Bomb_LD = (
+            8,
+            Weapons.BDU_50LGB___500lb_Laser_Guided_Inert_Practice_Bomb_LD,
+        )
+        CBU_87___202_x_CEM_Cluster_Bomb = (8, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
+        CBU_97___10_x_SFW_Cluster_Bomb = (8, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
+        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
+            8,
+            Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+        )
         TER_9_A___3_x_CBU_87___202_x_CEM_Cluster_Bomb = (
             8,
             Weapons.TER_9_A___3_x_CBU_87___202_x_CEM_Cluster_Bomb,
@@ -266,6 +397,26 @@ class F111C(PlaneType):
         BRU_41A___6_x_Mk_82___500lb_GP_Bomb_LD = (
             8,
             Weapons.BRU_41A___6_x_Mk_82___500lb_GP_Bomb_LD,
+        )
+        _6x_Mk_82_Snakeye___500lb_GP_Bomb_HD__MER__ = (
+            8,
+            Weapons._6x_Mk_82_Snakeye___500lb_GP_Bomb_HD__MER__,
+        )
+        _6x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD__MER_ = (
+            8,
+            Weapons._6x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD__MER_,
+        )
+        _6x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__MER__ = (
+            8,
+            Weapons._6x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__MER__,
+        )
+        _6x_BDU_50LD___500lb_Practice_Bomb_LD__MER_ = (
+            8,
+            Weapons._6x_BDU_50LD___500lb_Practice_Bomb_LD__MER_,
+        )
+        _6x_BDU_50HD___500lb_Practice_Bomb_HD__MER_ = (
+            8,
+            Weapons._6x_BDU_50HD___500lb_Practice_Bomb_HD__MER_,
         )
         Mk_83___1000lb_GP_Bomb_LD = (8, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_83_AIR__BSU_85____1000_lb_GP_Chute_Retarded_Bomb_HD = (
@@ -287,11 +438,11 @@ class F111C(PlaneType):
         )
         Fuel_Tank_FT600 = (8, Weapons.Fuel_Tank_FT600)
 
-    # ERRR <CLEAN>
-
     class Pylon9:
         AIM_9M_Sidewinder_IR_AAM = (9, Weapons.AIM_9M_Sidewinder_IR_AAM)
         AIM_9L_Sidewinder_IR_AAM = (9, Weapons.AIM_9L_Sidewinder_IR_AAM)
+        AGM_65B_A_G_Missile = (9, WeaponsF111C.AGM_65B_A_G_Missile)
+        AGM_65D_TV_Guided_Missile = (9, WeaponsF111C.AGM_65D_TV_Guided_Missile)
         AGM_84D_Harpoon = (9, WeaponsF111C.AGM_84D_Harpoon)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile_ = (
             9,
@@ -303,8 +454,28 @@ class F111C(PlaneType):
             9,
             Weapons.BRU_41A___6_x_BDU_33___25lb_Practice_Bomb_LD,
         )
-        BDU_45___500lb_Practice_Bomb = (9, Weapons.BDU_45___500lb_Practice_Bomb)
-        BDU_45B___500lb_Practice_Bomb = (9, Weapons.BDU_45B___500lb_Practice_Bomb)
+        BDU_50LD___500lb_Inert_Practice_Bomb_LD = (
+            9,
+            Weapons.BDU_50LD___500lb_Inert_Practice_Bomb_LD,
+        )
+        BDU_50HD___500lb_Inert_Practice_Bomb_HD = (
+            9,
+            Weapons.BDU_50HD___500lb_Inert_Practice_Bomb_HD,
+        )
+        Mk_84_AIR__BSU_50____2000_lb_TP_Chute_Retarded_Bomb_HD = (
+            9,
+            Weapons.Mk_84_AIR__BSU_50____2000_lb_TP_Chute_Retarded_Bomb_HD,
+        )
+        BDU_50LGB___500lb_Laser_Guided_Inert_Practice_Bomb_LD = (
+            9,
+            Weapons.BDU_50LGB___500lb_Laser_Guided_Inert_Practice_Bomb_LD,
+        )
+        CBU_87___202_x_CEM_Cluster_Bomb = (9, Weapons.CBU_87___202_x_CEM_Cluster_Bomb)
+        CBU_97___10_x_SFW_Cluster_Bomb = (9, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
+        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
+            9,
+            Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+        )
         TER_9_A___3_x_CBU_87___202_x_CEM_Cluster_Bomb = (
             9,
             Weapons.TER_9_A___3_x_CBU_87___202_x_CEM_Cluster_Bomb,
@@ -329,6 +500,26 @@ class F111C(PlaneType):
             9,
             Weapons.BRU_41A___6_x_Mk_82___500lb_GP_Bomb_LD,
         )
+        _6x_Mk_82_Snakeye___500lb_GP_Bomb_HD__MER__ = (
+            9,
+            Weapons._6x_Mk_82_Snakeye___500lb_GP_Bomb_HD__MER__,
+        )
+        _6x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD__MER_ = (
+            9,
+            Weapons._6x_Mk_82_AIR_Ballute___500lb_GP_Bomb_HD__MER_,
+        )
+        _6x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__MER__ = (
+            9,
+            Weapons._6x_Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets__MER__,
+        )
+        _6x_BDU_50LD___500lb_Practice_Bomb_LD__MER_ = (
+            9,
+            Weapons._6x_BDU_50LD___500lb_Practice_Bomb_LD__MER_,
+        )
+        _6x_BDU_50HD___500lb_Practice_Bomb_HD__MER_ = (
+            9,
+            Weapons._6x_BDU_50HD___500lb_Practice_Bomb_HD__MER_,
+        )
         Mk_83___1000lb_GP_Bomb_LD = (9, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_83_AIR__BSU_85____1000_lb_GP_Chute_Retarded_Bomb_HD = (
             9,
@@ -347,25 +538,21 @@ class F111C(PlaneType):
             9,
             WeaponsF111C.GBU_24_2000_lb_Penetrator_TV_Guided_Bomb,
         )
+        GBU_28_4000_lb_Penetrator_TV_Guided_Bomb = (
+            9,
+            WeaponsF111C.GBU_28_4000_lb_Penetrator_TV_Guided_Bomb,
+        )
         Fuel_Tank_FT600 = (9, Weapons.Fuel_Tank_FT600)
-
-    # ERRR <CLEAN>
 
     class Pylon10:
         Elta_EL_L_8222 = (10, WeaponsF111C.Elta_EL_L_8222)
         AN_AXQ_14 = (10, WeaponsF111C.AN_AXQ_14)
 
-    # ERRR <CLEAN>
-
     class Pylon11:
         Targeting_Pod_FLIR = (11, WeaponsF111C.Targeting_Pod_FLIR)
 
-    # ERRR <CLEAN>
-
     class Pylon12:
         Integrated_ELINT = (12, WeaponsF111C.Integrated_ELINT)
-
-    # ERRR <CLEAN>
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}
 

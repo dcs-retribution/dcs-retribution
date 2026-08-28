@@ -1,5 +1,5 @@
-name: AIM-9D
+name: AIM-9C
 year: 1965
 fallback: AIM-9B
 clsids:
-  - "{F8_AIM-9D}"
+  - "{F8_AIM-9C}"

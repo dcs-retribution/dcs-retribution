@@ -1,0 +1,4 @@
+class: Boat
+price: 20
+variants:
+  "[VWV] AD-30 Solon Turman": null

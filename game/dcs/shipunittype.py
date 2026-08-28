@@ -58,6 +58,8 @@ class ShipUnitType(UnitType[Type[ShipType]]):
     def _migrator() -> Dict[str, str]:
         return {
             "[CH] Project 22160 Patrol Ship": "Project 22160 Patrol Ship [CH]",
+            # VWV 3.2.0 dropped The Sullivans; Radford is the same Fletcher FRAM II.
+            "USS The Sullivans (DD-537)": "[VWV] DD-446 USS Radford",
         }
 
     @classmethod

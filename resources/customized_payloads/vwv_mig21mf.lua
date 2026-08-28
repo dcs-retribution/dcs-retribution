@@ -43,22 +43,22 @@ local unitPayloads = {
 			{
 				[1]=
 				{
-					["CLSID"]="B-8M1 - 20 S-8OFP2",
+					["CLSID"]="{UB-16_S5M}",
 					["num"]=1
 				},
 				[2]=
 				{
-					["CLSID"]="B-8M1 - 20 S-8OFP2",
+					["CLSID"]="{UB-16_S5M}",
 					["num"]=2
 				},
 				[3]=
 				{
-					["CLSID"]="B-8M1 - 20 S-8OFP2",
+					["CLSID"]="{UB-16_S5M}",
 					["num"]=4
 				},
 				[4]=
 				{
-					["CLSID"]="B-8M1 - 20 S-8OFP2",
+					["CLSID"]="{UB-16_S5M}",
 					["num"]=5
 				}
 			},
@@ -108,22 +108,22 @@ local unitPayloads = {
 			{
 				[1]=
 				{
-					["CLSID"]="FAB_100M",
+					["CLSID"]="{FB3CE165-BF07-4979-887C-92B87F13276B}",
 					["num"]=1
 				},
 				[2]=
 				{
-					["CLSID"]="B-8M1 - 20 S-8OFP2",
+					["CLSID"]="{UB-16_S5M}",
 					["num"]=2
 				},
 				[3]=
 				{
-					["CLSID"]="B-8M1 - 20 S-8OFP2",
+					["CLSID"]="{UB-16_S5M}",
 					["num"]=4
 				},
 				[4]=
 				{
-					["CLSID"]="FAB_100M",
+					["CLSID"]="{FB3CE165-BF07-4979-887C-92B87F13276B}",
 					["num"]=5
 				}
 			},

@@ -11,7 +11,15 @@ from dcs.helicopters import HelicopterType
 from dcs.weapons_data import Weapons
 from dcs.unitpropertydescription import UnitPropertyDescription
 
-from game.modsupport import shipmod, planemod, helicoptermod, vehiclemod, cargomod
+from game.modsupport import (
+    shipmod,
+    planemod,
+    helicoptermod,
+    vehiclemod,
+    cargomod,
+    fortificationmod,
+)
+from pydcs_extensions.a4ec.a4ec import WeaponsA4EC
 from pydcs_extensions.weapon_injector import inject_weapons
 
 
@@ -57,34 +65,34 @@ class WeaponsVWV:
         "weight": 998.664808,
     }
     BRU_41A_with_4_x_Mk_82___500lb_GP_Bomb_HD_Left = {
-        "clsid": "{Mk-82_IMER_4_L}",
-        "name": "4 x Mk-82 - 500 lbs GP Bomb HD (IMER)",
-        "weight": 1035.1,  # BRU-41/A (IMER) = 282 lbs
+        "clsid": "{SB_F8_BRU_41A_M82_4 Lt}",
+        "name": "BRU-41A with 4 x Mk-82 - 500lb GP Bomb HD Left",
+        "weight": 2100,
     }
     BRU_41A_with_4_x_Mk_82_Snakeye___500lb_GP_Bomb_HD_Left = {
-        "clsid": "{Mk-82_Snakeye_IMER_4_L}",
-        "name": "4 x Mk-82 Snakeye - 500 lbs GP Bomb HD (IMER)",
-        "weight": 1035.1,  # BRU-41/A (IMER) = 282 lbs
+        "clsid": "{SB_F8_BRU_41A_M82SE_4 Lt}",
+        "name": "BRU-41A with 4 x Mk-82 Snakeye - 500lb GP Bomb HD Left",
+        "weight": 2100,
     }
     BRU_41A_with_4_x_Mk_82___500lb_GP_Bomb_HD_Right = {
-        "clsid": "{Mk-82_IMER_4_R}",
-        "name": "4 x Mk-82 - 500 lbs GP Bomb HD (IMER)",
-        "weight": 1035.1,  # BRU-41/A (IMER) = 282 lbs
+        "clsid": "{SB_F8_BRU_41A_M82_4 Rt}",
+        "name": "BRU-41A with 4 x Mk-82 - 500lb GP Bomb HD Right",
+        "weight": 2100,
     }
     BRU_41A_with_4_x_Mk_82_Snakeye___500lb_GP_Bomb_HD_Right = {
-        "clsid": "{Mk-82_Snakeye_IMER_4_R}",
-        "name": "4 x Mk-82 Snakeye - 500 lbs GP Bomb HD (IMER)",
-        "weight": 1035.1,  # BRU-41/A (IMER) = 282 lbs
+        "clsid": "{SB_F8_BRU_41A_M82SE_4 Rt}",
+        "name": "BRU-41A with 4 x Mk-82 Snakeye - 500lb GP Bomb HD Right",
+        "weight": 2100,
     }
     AIM_9C_Sidewinder_SARH_AAM = {
-        "clsid": "{AIM-9C}",
+        "clsid": "{F8_AIM-9C}",
         "name": "AIM-9C Sidewinder SARH AAM",
-        "weight": 95,
+        "weight": 66,
     }
     AIM_9D_Sidewinder_IR_AAM = {
-        "clsid": "{AIM-9D}",
+        "clsid": "{F8_AIM-9D}",
         "name": "AIM-9D Sidewinder IR AAM",
-        "weight": 74,
+        "weight": 74.84,
     }
     # In October 1965, to highlight the dropping of the six millionth pound of ordnance,
     # Commander Clarence J. Stoddard of VA-25, flying an A-1H, dropped a special,
@@ -95,7 +103,7 @@ class WeaponsVWV:
         "weight": 10,
     }
     Tiny_Tim = {
-        "clsid": "{Tiny_Tim}",
+        "clsid": "{tinytim}",
         "name": "Tiny Tim air-to-ground Rocket",
         "weight": 569,
     }
@@ -164,6 +172,7 @@ class vwv_a1_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (1, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (1, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (1, Weapons.AN_M64___500lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (1, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (1, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             1,
@@ -183,6 +192,7 @@ class vwv_a1_skyraider(PlaneType):
             Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (1, Weapons.HVAR__UnGd_Rkt)
+        toilet_bomb = (1, WeaponsVWV.toilet_bomb)
 
     class Pylon2:
         AN_M30A1___100lb_GP_Bomb_LD = (2, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -190,6 +200,7 @@ class vwv_a1_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (2, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (2, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (2, Weapons.AN_M64___500lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (2, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (2, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             2,
@@ -209,6 +220,7 @@ class vwv_a1_skyraider(PlaneType):
             Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (2, Weapons.HVAR__UnGd_Rkt)
+        toilet_bomb = (2, WeaponsVWV.toilet_bomb)
 
     class Pylon3:
         AN_M30A1___100lb_GP_Bomb_LD = (3, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -216,6 +228,7 @@ class vwv_a1_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (3, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (3, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (3, Weapons.AN_M64___500lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (3, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (3, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             3,
@@ -235,6 +248,7 @@ class vwv_a1_skyraider(PlaneType):
             Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (3, Weapons.HVAR__UnGd_Rkt)
+        toilet_bomb = (3, WeaponsVWV.toilet_bomb)
 
     class Pylon4:
         AN_M30A1___100lb_GP_Bomb_LD = (4, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -242,6 +256,7 @@ class vwv_a1_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (4, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (4, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (4, Weapons.AN_M64___500lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (4, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (4, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             4,
@@ -261,6 +276,7 @@ class vwv_a1_skyraider(PlaneType):
             Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (4, Weapons.HVAR__UnGd_Rkt)
+        toilet_bomb = (4, WeaponsVWV.toilet_bomb)
 
     class Pylon5:
         AN_M30A1___100lb_GP_Bomb_LD = (5, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -268,6 +284,7 @@ class vwv_a1_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (5, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (5, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (5, Weapons.AN_M64___500lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (5, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (5, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             5,
@@ -287,6 +304,7 @@ class vwv_a1_skyraider(PlaneType):
             Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (5, Weapons.HVAR__UnGd_Rkt)
+        toilet_bomb = (5, WeaponsVWV.toilet_bomb)
 
     class Pylon6:
         AN_M30A1___100lb_GP_Bomb_LD = (6, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -294,6 +312,7 @@ class vwv_a1_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (6, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (6, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (6, Weapons.AN_M64___500lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (6, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (6, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             6,
@@ -313,6 +332,7 @@ class vwv_a1_skyraider(PlaneType):
             Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (6, Weapons.HVAR__UnGd_Rkt)
+        toilet_bomb = (6, WeaponsVWV.toilet_bomb)
 
     class Pylon7:
         AN_M30A1___100lb_GP_Bomb_LD = (7, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -322,6 +342,11 @@ class vwv_a1_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (7, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (7, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         M117___750lb_GP_Bomb_LD = (7, Weapons.M117___750lb_GP_Bomb_LD)
+        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
+            7,
+            Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+        )
+        Mk_81___250lb_GP_Bomb_LD = (7, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (7, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_83___1000lb_GP_Bomb_LD = (7, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_84___2000lb_GP_Bomb_LD = (7, Weapons.Mk_84___2000lb_GP_Bomb_LD)
@@ -349,9 +374,13 @@ class vwv_a1_skyraider(PlaneType):
         LTF_5b_Aerial_Torpedo = (7, Weapons.LTF_5b_Aerial_Torpedo)
         DIS_mk46torp = (7, Weapons.DIS_mk46torp)
         toilet_bomb = (7, WeaponsVWV.toilet_bomb)
-        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
+        Mk_77_mod_1___500lb_Fire_Bomb_LD = (
             7,
-            Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsA4EC.Mk_77_mod_1___500lb_Fire_Bomb_LD,
+        )
+        Mk_77_mod_0___750lb_Fire_Bomb_LD = (
+            7,
+            WeaponsA4EC.Mk_77_mod_0___750lb_Fire_Bomb_LD,
         )
 
     class Pylon8:
@@ -362,6 +391,10 @@ class vwv_a1_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (8, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (8, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         M117___750lb_GP_Bomb_LD = (8, Weapons.M117___750lb_GP_Bomb_LD)
+        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
+            8,
+            Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+        )
         Mk_82___500lb_GP_Bomb_LD = (8, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_83___1000lb_GP_Bomb_LD = (8, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_84___2000lb_GP_Bomb_LD = (8, Weapons.Mk_84___2000lb_GP_Bomb_LD)
@@ -372,6 +405,14 @@ class vwv_a1_skyraider(PlaneType):
         AERO_1D_300_Gallons_Fuel_Tank_ = (8, Weapons.AERO_1D_300_Gallons_Fuel_Tank_)
         LTF_5b_Aerial_Torpedo = (8, Weapons.LTF_5b_Aerial_Torpedo)
         DIS_mk46torp = (8, Weapons.DIS_mk46torp)
+        Mk_77_mod_1___500lb_Fire_Bomb_LD = (
+            8,
+            WeaponsA4EC.Mk_77_mod_1___500lb_Fire_Bomb_LD,
+        )
+        Mk_77_mod_0___750lb_Fire_Bomb_LD = (
+            8,
+            WeaponsA4EC.Mk_77_mod_0___750lb_Fire_Bomb_LD,
+        )
 
     class Pylon9:
         AN_M30A1___100lb_GP_Bomb_LD = (9, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -380,7 +421,12 @@ class vwv_a1_skyraider(PlaneType):
         AN_M65___1000lb_GP_Bomb_LD = (9, Weapons.AN_M65___1000lb_GP_Bomb_LD)
         AN_M81___260lb_GP_Bomb_LD = (9, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (9, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (9, Weapons.Mk_81___250lb_GP_Bomb_LD)
         M117___750lb_GP_Bomb_LD = (9, Weapons.M117___750lb_GP_Bomb_LD)
+        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
+            9,
+            Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+        )
         Mk_82___500lb_GP_Bomb_LD = (9, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_83___1000lb_GP_Bomb_LD = (9, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_84___2000lb_GP_Bomb_LD = (9, Weapons.Mk_84___2000lb_GP_Bomb_LD)
@@ -408,9 +454,13 @@ class vwv_a1_skyraider(PlaneType):
         LTF_5b_Aerial_Torpedo = (9, Weapons.LTF_5b_Aerial_Torpedo)
         DIS_mk46torp = (9, Weapons.DIS_mk46torp)
         toilet_bomb = (9, WeaponsVWV.toilet_bomb)
-        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
+        Mk_77_mod_1___500lb_Fire_Bomb_LD = (
             9,
-            Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsA4EC.Mk_77_mod_1___500lb_Fire_Bomb_LD,
+        )
+        Mk_77_mod_0___750lb_Fire_Bomb_LD = (
+            9,
+            WeaponsA4EC.Mk_77_mod_0___750lb_Fire_Bomb_LD,
         )
 
     class Pylon10:
@@ -419,6 +469,7 @@ class vwv_a1_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (10, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (10, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (10, Weapons.AN_M64___500lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (10, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (10, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             10,
@@ -438,6 +489,7 @@ class vwv_a1_skyraider(PlaneType):
             Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (10, Weapons.HVAR__UnGd_Rkt)
+        toilet_bomb = (10, WeaponsVWV.toilet_bomb)
 
     class Pylon11:
         AN_M30A1___100lb_GP_Bomb_LD = (11, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -445,6 +497,7 @@ class vwv_a1_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (11, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (11, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (11, Weapons.AN_M64___500lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (11, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (11, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             11,
@@ -464,6 +517,7 @@ class vwv_a1_skyraider(PlaneType):
             Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (11, Weapons.HVAR__UnGd_Rkt)
+        toilet_bomb = (11, WeaponsVWV.toilet_bomb)
 
     class Pylon12:
         AN_M30A1___100lb_GP_Bomb_LD = (12, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -471,6 +525,7 @@ class vwv_a1_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (12, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (12, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (12, Weapons.AN_M64___500lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (12, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (12, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             12,
@@ -490,6 +545,7 @@ class vwv_a1_skyraider(PlaneType):
             Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (12, Weapons.HVAR__UnGd_Rkt)
+        toilet_bomb = (12, WeaponsVWV.toilet_bomb)
 
     class Pylon13:
         AN_M30A1___100lb_GP_Bomb_LD = (13, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -497,6 +553,7 @@ class vwv_a1_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (13, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (13, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (13, Weapons.AN_M64___500lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (13, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (13, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             13,
@@ -516,6 +573,7 @@ class vwv_a1_skyraider(PlaneType):
             Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (13, Weapons.HVAR__UnGd_Rkt)
+        toilet_bomb = (13, WeaponsVWV.toilet_bomb)
 
     class Pylon14:
         AN_M30A1___100lb_GP_Bomb_LD = (14, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -523,6 +581,7 @@ class vwv_a1_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (14, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (14, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (14, Weapons.AN_M64___500lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (14, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (14, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             14,
@@ -542,6 +601,7 @@ class vwv_a1_skyraider(PlaneType):
             Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (14, Weapons.HVAR__UnGd_Rkt)
+        toilet_bomb = (14, WeaponsVWV.toilet_bomb)
 
     class Pylon15:
         AN_M30A1___100lb_GP_Bomb_LD = (15, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -549,6 +609,7 @@ class vwv_a1_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (15, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (15, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (15, Weapons.AN_M64___500lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (15, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (15, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             15,
@@ -568,6 +629,7 @@ class vwv_a1_skyraider(PlaneType):
             Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (15, Weapons.HVAR__UnGd_Rkt)
+        toilet_bomb = (15, WeaponsVWV.toilet_bomb)
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}
 
@@ -603,6 +665,7 @@ class vwv_ad4_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (1, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (1, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (1, Weapons.AN_M64___500lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (1, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (1, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             1,
@@ -622,6 +685,7 @@ class vwv_ad4_skyraider(PlaneType):
             Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (1, Weapons.HVAR__UnGd_Rkt)
+        toilet_bomb = (1, WeaponsVWV.toilet_bomb)
 
     class Pylon2:
         AN_M30A1___100lb_GP_Bomb_LD = (2, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -629,6 +693,7 @@ class vwv_ad4_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (2, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (2, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (2, Weapons.AN_M64___500lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (2, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (2, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             2,
@@ -648,6 +713,7 @@ class vwv_ad4_skyraider(PlaneType):
             Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (2, Weapons.HVAR__UnGd_Rkt)
+        toilet_bomb = (2, WeaponsVWV.toilet_bomb)
 
     class Pylon3:
         AN_M30A1___100lb_GP_Bomb_LD = (3, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -655,6 +721,7 @@ class vwv_ad4_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (3, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (3, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (3, Weapons.AN_M64___500lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (3, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (3, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             3,
@@ -674,6 +741,7 @@ class vwv_ad4_skyraider(PlaneType):
             Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (3, Weapons.HVAR__UnGd_Rkt)
+        toilet_bomb = (3, WeaponsVWV.toilet_bomb)
 
     class Pylon4:
         AN_M30A1___100lb_GP_Bomb_LD = (4, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -681,6 +749,7 @@ class vwv_ad4_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (4, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (4, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (4, Weapons.AN_M64___500lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (4, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (4, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             4,
@@ -700,6 +769,7 @@ class vwv_ad4_skyraider(PlaneType):
             Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (4, Weapons.HVAR__UnGd_Rkt)
+        toilet_bomb = (4, WeaponsVWV.toilet_bomb)
 
     class Pylon5:
         AN_M30A1___100lb_GP_Bomb_LD = (5, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -707,6 +777,7 @@ class vwv_ad4_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (5, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (5, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (5, Weapons.AN_M64___500lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (5, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (5, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             5,
@@ -726,6 +797,7 @@ class vwv_ad4_skyraider(PlaneType):
             Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (5, Weapons.HVAR__UnGd_Rkt)
+        toilet_bomb = (5, WeaponsVWV.toilet_bomb)
 
     class Pylon6:
         AN_M30A1___100lb_GP_Bomb_LD = (6, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -733,6 +805,7 @@ class vwv_ad4_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (6, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (6, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (6, Weapons.AN_M64___500lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (6, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (6, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             6,
@@ -752,6 +825,7 @@ class vwv_ad4_skyraider(PlaneType):
             Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (6, Weapons.HVAR__UnGd_Rkt)
+        toilet_bomb = (6, WeaponsVWV.toilet_bomb)
 
     class Pylon7:
         AN_M30A1___100lb_GP_Bomb_LD = (7, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -761,6 +835,11 @@ class vwv_ad4_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (7, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (7, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         M117___750lb_GP_Bomb_LD = (7, Weapons.M117___750lb_GP_Bomb_LD)
+        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
+            7,
+            Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+        )
+        Mk_81___250lb_GP_Bomb_LD = (7, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (7, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_83___1000lb_GP_Bomb_LD = (7, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_84___2000lb_GP_Bomb_LD = (7, Weapons.Mk_84___2000lb_GP_Bomb_LD)
@@ -788,9 +867,13 @@ class vwv_ad4_skyraider(PlaneType):
         LTF_5b_Aerial_Torpedo = (7, Weapons.LTF_5b_Aerial_Torpedo)
         DIS_mk46torp = (7, Weapons.DIS_mk46torp)
         toilet_bomb = (7, WeaponsVWV.toilet_bomb)
-        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
+        Mk_77_mod_1___500lb_Fire_Bomb_LD = (
             7,
-            Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsA4EC.Mk_77_mod_1___500lb_Fire_Bomb_LD,
+        )
+        Mk_77_mod_0___750lb_Fire_Bomb_LD = (
+            7,
+            WeaponsA4EC.Mk_77_mod_0___750lb_Fire_Bomb_LD,
         )
 
     class Pylon8:
@@ -801,6 +884,10 @@ class vwv_ad4_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (8, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (8, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         M117___750lb_GP_Bomb_LD = (8, Weapons.M117___750lb_GP_Bomb_LD)
+        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
+            8,
+            Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+        )
         Mk_82___500lb_GP_Bomb_LD = (8, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_83___1000lb_GP_Bomb_LD = (8, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_84___2000lb_GP_Bomb_LD = (8, Weapons.Mk_84___2000lb_GP_Bomb_LD)
@@ -811,6 +898,14 @@ class vwv_ad4_skyraider(PlaneType):
         AERO_1D_300_Gallons_Fuel_Tank_ = (8, Weapons.AERO_1D_300_Gallons_Fuel_Tank_)
         LTF_5b_Aerial_Torpedo = (8, Weapons.LTF_5b_Aerial_Torpedo)
         DIS_mk46torp = (8, Weapons.DIS_mk46torp)
+        Mk_77_mod_1___500lb_Fire_Bomb_LD = (
+            8,
+            WeaponsA4EC.Mk_77_mod_1___500lb_Fire_Bomb_LD,
+        )
+        Mk_77_mod_0___750lb_Fire_Bomb_LD = (
+            8,
+            WeaponsA4EC.Mk_77_mod_0___750lb_Fire_Bomb_LD,
+        )
 
     class Pylon9:
         AN_M30A1___100lb_GP_Bomb_LD = (9, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -819,7 +914,12 @@ class vwv_ad4_skyraider(PlaneType):
         AN_M65___1000lb_GP_Bomb_LD = (9, Weapons.AN_M65___1000lb_GP_Bomb_LD)
         AN_M81___260lb_GP_Bomb_LD = (9, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (9, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (9, Weapons.Mk_81___250lb_GP_Bomb_LD)
         M117___750lb_GP_Bomb_LD = (9, Weapons.M117___750lb_GP_Bomb_LD)
+        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
+            9,
+            Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+        )
         Mk_82___500lb_GP_Bomb_LD = (9, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_83___1000lb_GP_Bomb_LD = (9, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         Mk_84___2000lb_GP_Bomb_LD = (9, Weapons.Mk_84___2000lb_GP_Bomb_LD)
@@ -847,9 +947,13 @@ class vwv_ad4_skyraider(PlaneType):
         LTF_5b_Aerial_Torpedo = (9, Weapons.LTF_5b_Aerial_Torpedo)
         DIS_mk46torp = (9, Weapons.DIS_mk46torp)
         toilet_bomb = (9, WeaponsVWV.toilet_bomb)
-        Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
+        Mk_77_mod_1___500lb_Fire_Bomb_LD = (
             9,
-            Weapons.Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets,
+            WeaponsA4EC.Mk_77_mod_1___500lb_Fire_Bomb_LD,
+        )
+        Mk_77_mod_0___750lb_Fire_Bomb_LD = (
+            9,
+            WeaponsA4EC.Mk_77_mod_0___750lb_Fire_Bomb_LD,
         )
 
     class Pylon10:
@@ -858,6 +962,7 @@ class vwv_ad4_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (10, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (10, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (10, Weapons.AN_M64___500lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (10, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (10, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             10,
@@ -877,6 +982,7 @@ class vwv_ad4_skyraider(PlaneType):
             Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (10, Weapons.HVAR__UnGd_Rkt)
+        toilet_bomb = (10, WeaponsVWV.toilet_bomb)
 
     class Pylon11:
         AN_M30A1___100lb_GP_Bomb_LD = (11, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -884,6 +990,7 @@ class vwv_ad4_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (11, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (11, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (11, Weapons.AN_M64___500lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (11, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (11, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             11,
@@ -903,6 +1010,7 @@ class vwv_ad4_skyraider(PlaneType):
             Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (11, Weapons.HVAR__UnGd_Rkt)
+        toilet_bomb = (11, WeaponsVWV.toilet_bomb)
 
     class Pylon12:
         AN_M30A1___100lb_GP_Bomb_LD = (12, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -910,6 +1018,7 @@ class vwv_ad4_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (12, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (12, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (12, Weapons.AN_M64___500lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (12, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (12, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             12,
@@ -929,6 +1038,7 @@ class vwv_ad4_skyraider(PlaneType):
             Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (12, Weapons.HVAR__UnGd_Rkt)
+        toilet_bomb = (12, WeaponsVWV.toilet_bomb)
 
     class Pylon13:
         AN_M30A1___100lb_GP_Bomb_LD = (13, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -936,6 +1046,7 @@ class vwv_ad4_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (13, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (13, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (13, Weapons.AN_M64___500lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (13, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (13, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             13,
@@ -955,6 +1066,7 @@ class vwv_ad4_skyraider(PlaneType):
             Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (13, Weapons.HVAR__UnGd_Rkt)
+        toilet_bomb = (13, WeaponsVWV.toilet_bomb)
 
     class Pylon14:
         AN_M30A1___100lb_GP_Bomb_LD = (14, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -962,6 +1074,7 @@ class vwv_ad4_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (14, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (14, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (14, Weapons.AN_M64___500lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (14, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (14, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             14,
@@ -981,6 +1094,7 @@ class vwv_ad4_skyraider(PlaneType):
             Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (14, Weapons.HVAR__UnGd_Rkt)
+        toilet_bomb = (14, WeaponsVWV.toilet_bomb)
 
     class Pylon15:
         AN_M30A1___100lb_GP_Bomb_LD = (15, Weapons.AN_M30A1___100lb_GP_Bomb_LD)
@@ -988,6 +1102,7 @@ class vwv_ad4_skyraider(PlaneType):
         AN_M81___260lb_GP_Bomb_LD = (15, WeaponsVWV.AN_M81___260lb_GP_Bomb_LD)
         AN_M88___220lb_GP_Bomb_LD = (15, WeaponsVWV.AN_M88___220lb_GP_Bomb_LD)
         AN_M64___500lb_GP_Bomb_LD = (15, Weapons.AN_M64___500lb_GP_Bomb_LD)
+        Mk_81___250lb_GP_Bomb_LD = (15, Weapons.Mk_81___250lb_GP_Bomb_LD)
         Mk_82___500lb_GP_Bomb_LD = (15, Weapons.Mk_82___500lb_GP_Bomb_LD)
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             15,
@@ -1007,6 +1122,7 @@ class vwv_ad4_skyraider(PlaneType):
             Weapons.SUU_25___8_x_Illumination_Flare__LUU_2B,
         )
         HVAR__UnGd_Rkt = (15, Weapons.HVAR__UnGd_Rkt)
+        toilet_bomb = (15, WeaponsVWV.toilet_bomb)
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}
 
@@ -1094,12 +1210,15 @@ class vwv_crusader(PlaneType):
         Fuel_Tank_150_gallons = (1, WeaponsVWV.Fuel_Tank_150_gallons)
         Fuel_Tank_150_gallons__EMPTY_ = (1, WeaponsVWV.Fuel_Tank_150_gallons__EMPTY_)
 
-    # ERRR <CLEAN>
-
     class Pylon2:
         AIM_9B_Sidewinder_IR_AAM = (2, Weapons.AIM_9B_Sidewinder_IR_AAM)
+        AIM_9C_Sidewinder_SARH_AAM = (2, WeaponsVWV.AIM_9C_Sidewinder_SARH_AAM)
+        AIM_9D_Sidewinder_IR_AAM = (2, WeaponsVWV.AIM_9D_Sidewinder_IR_AAM)
         AIM_9J_Sidewinder_IR_AAM = (2, Weapons.AIM_9J_Sidewinder_IR_AAM)
-        R550_Magic_1_IR_AAM = (2, Weapons.R550_Magic_1_IR_AAM)
+        LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE = (
+            2,
+            Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE,
+        )
 
     class Pylon3:
         AIM_9B_Sidewinder_IR_AAM = (3, Weapons.AIM_9B_Sidewinder_IR_AAM)
@@ -1150,7 +1269,7 @@ class vwv_crusader(PlaneType):
             6,
             Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE,
         )
-        _2_Mk_82_Snakeye_____ = (6, Weapons._2_Mk_82_____)
+        _2_Mk_82_Snakeye_____ = (6, Weapons._2_Mk_82_Snakeye_____)
         _2_Mk_82_____ = (6, Weapons._2_Mk_82_____)
         BRU_41A_with_4_x_Mk_82___500lb_GP_Bomb_HD_Right = (
             6,
@@ -1166,8 +1285,6 @@ class vwv_crusader(PlaneType):
         Fuel_Tank_300_gallons__EMPTY__ = (6, WeaponsVWV.Fuel_Tank_300_gallons__EMPTY__)
         Fuel_Tank_150_gallons = (6, WeaponsVWV.Fuel_Tank_150_gallons)
         Fuel_Tank_150_gallons__EMPTY_ = (6, WeaponsVWV.Fuel_Tank_150_gallons__EMPTY_)
-
-    # ERRR <CLEAN>
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6}
 
@@ -1205,11 +1322,13 @@ class vwv_mig17f(PlaneType):
         B_8V20A_OM = (1, Weapons.B_8V20A_OM)
         B_8M1___20_S_8OFP2 = (1, Weapons.B_8M1___20_S_8OFP2)
         # ERRR B-8V20A - 20 S-8OFP2
+        UB_16UM___16_S_5M = (1, Weapons.UB_16UM___16_S_5M)
         FAB_100M = (1, Weapons.FAB_100M)
         UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod = (
             1,
             Weapons.UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod,
         )
+        PTB400_MIG15 = (1, Weapons.PTB400_MIG15)
 
     class Pylon2:
         FAB_50 = (2, Weapons.FAB_50)
@@ -1218,19 +1337,15 @@ class vwv_mig17f(PlaneType):
         B_8V20A_OM = (2, Weapons.B_8V20A_OM)
         B_8M1___20_S_8OFP2 = (2, Weapons.B_8M1___20_S_8OFP2)
         # ERRR B-8V20A - 20 S-8OFP2
+        UB_16UM___16_S_5M = (2, Weapons.UB_16UM___16_S_5M)
         FAB_100M = (2, Weapons.FAB_100M)
         UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod = (
             2,
             Weapons.UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod,
         )
+        PTB400_MIG15 = (2, Weapons.PTB400_MIG15)
 
-    class Pylon3:
-        PTB400_MIG15 = (3, Weapons.PTB400_MIG15)
-
-    class Pylon4:
-        PTB400_MIG15 = (4, Weapons.PTB400_MIG15)
-
-    pylons: Set[int] = {1, 2, 3, 4}
+    pylons: Set[int] = {1, 2}
 
     tasks = [
         task.CAP,
@@ -1261,44 +1376,27 @@ class vwv_mig21mf(PlaneType):
     livery_name = "VWV_MIG21MF"  # from type
 
     class Pylon1:
-        FAB_50 = (1, Weapons.FAB_50)
+        OFAB_100_120___100_kg_GP_Bomb_LD = (1, Weapons.OFAB_100_120___100_kg_GP_Bomb_LD)
         OFAB_250_270___250_kg_GP_Bomb_LD = (1, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
-        B_8V20A_CM = (1, Weapons.B_8V20A_CM)
-        B_8V20A_OM = (1, Weapons.B_8V20A_OM)
-        B_8M1___20_S_8OFP2 = (1, Weapons.B_8M1___20_S_8OFP2)
-        # ERRR B-8V20A - 20 S-8OFP2
-        FAB_100M = (1, Weapons.FAB_100M)
-        UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod = (
-            1,
-            Weapons.UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod,
-        )
-        Fuel_Tank_490_L_Central__21_ = (1, Weapons.Fuel_Tank_490_L_Central__21_)
         APU_13MT_with_R_13M__AA_2_Atoll_D____IR_AAM = (
             1,
             Weapons.APU_13MT_with_R_13M__AA_2_Atoll_D____IR_AAM,
-        )
-        APU_13U_2_with_R_3R__AA_2_Atoll_C____Semi_Active_AAM = (
-            1,
-            Weapons.APU_13U_2_with_R_3R__AA_2_Atoll_C____Semi_Active_AAM,
         )
         APU_13U_2_with_R_3S__AA_2_Atoll_B____IR_AAM = (
             1,
             Weapons.APU_13U_2_with_R_3S__AA_2_Atoll_B____IR_AAM,
         )
-        RS2US___AAM__beam_rider = (1, Weapons.RS2US___AAM__beam_rider)
+        UB_16UM___16_S_5M = (1, Weapons.UB_16UM___16_S_5M)
+        APU_60_1M_with_R_60__AA_8_Aphid____IR_AAM = (
+            1,
+            Weapons.APU_60_1M_with_R_60__AA_8_Aphid____IR_AAM,
+        )
 
     class Pylon2:
-        FAB_50 = (2, Weapons.FAB_50)
+        OFAB_100_120___100_kg_GP_Bomb_LD = (2, Weapons.OFAB_100_120___100_kg_GP_Bomb_LD)
+        FAB_100_x_4 = (2, Weapons.FAB_100_x_4)
         OFAB_250_270___250_kg_GP_Bomb_LD = (2, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
-        B_8V20A_CM = (2, Weapons.B_8V20A_CM)
-        B_8V20A_OM = (2, Weapons.B_8V20A_OM)
-        B_8M1___20_S_8OFP2 = (2, Weapons.B_8M1___20_S_8OFP2)
-        # ERRR B-8V20A - 20 S-8OFP2
-        FAB_100M = (2, Weapons.FAB_100M)
-        UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod = (
-            2,
-            Weapons.UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod,
-        )
+        FAB_500M_62___500_kg_GP_Bomb_LD = (2, Weapons.FAB_500M_62___500_kg_GP_Bomb_LD)
         APU_13MT_with_R_13M__AA_2_Atoll_D____IR_AAM = (
             2,
             Weapons.APU_13MT_with_R_13M__AA_2_Atoll_D____IR_AAM,
@@ -1311,30 +1409,41 @@ class vwv_mig21mf(PlaneType):
             2,
             Weapons.APU_13U_2_with_R_3S__AA_2_Atoll_B____IR_AAM,
         )
-        RS2US___AAM__beam_rider = (2, Weapons.RS2US___AAM__beam_rider)
+        UB_16UM___16_S_5M = (2, Weapons.UB_16UM___16_S_5M)
+        UB_32M___32_S_5M = (2, Weapons.UB_32M___32_S_5M)
+        S_24A__21____180_kg__cumulative_unguided_rocket = (
+            2,
+            Weapons.S_24A__21____180_kg__cumulative_unguided_rocket,
+        )
+        S_24B__21____180_kg__fragmented_unguided_rocket = (
+            2,
+            Weapons.S_24B__21____180_kg__fragmented_unguided_rocket,
+        )
+        APU_60_1M_with_R_60__AA_8_Aphid____IR_AAM = (
+            2,
+            Weapons.APU_60_1M_with_R_60__AA_8_Aphid____IR_AAM,
+        )
+        APU_60_2M_with_2_x_R_60__AA_8_Aphid____IR_AAM = (
+            2,
+            Weapons.APU_60_2M_with_2_x_R_60__AA_8_Aphid____IR_AAM,
+        )
 
     class Pylon3:
+        OFAB_100_120___100_kg_GP_Bomb_LD = (3, Weapons.OFAB_100_120___100_kg_GP_Bomb_LD)
         OFAB_250_270___250_kg_GP_Bomb_LD = (3, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
-        UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod = (
-            3,
-            Weapons.UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod,
-        )
-        Fuel_Tank_490_L__21_ = (3, Weapons.Fuel_Tank_490_L__21_)
+        FAB_500M_62___500_kg_GP_Bomb_LD = (3, Weapons.FAB_500M_62___500_kg_GP_Bomb_LD)
         Fuel_Tank_490_L_Central__21_ = (3, Weapons.Fuel_Tank_490_L_Central__21_)
         Fuel_Tank_800_L__21_ = (3, Weapons.Fuel_Tank_800_L__21_)
+        RN_28___260_kg__nuclear_bomb__free_fall = (
+            3,
+            Weapons.RN_28___260_kg__nuclear_bomb__free_fall,
+        )
 
     class Pylon4:
-        FAB_50 = (4, Weapons.FAB_50)
+        OFAB_100_120___100_kg_GP_Bomb_LD = (4, Weapons.OFAB_100_120___100_kg_GP_Bomb_LD)
+        FAB_100_x_4 = (4, Weapons.FAB_100_x_4)
         OFAB_250_270___250_kg_GP_Bomb_LD = (4, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
-        B_8V20A_CM = (4, Weapons.B_8V20A_CM)
-        B_8V20A_OM = (4, Weapons.B_8V20A_OM)
-        B_8M1___20_S_8OFP2 = (4, Weapons.B_8M1___20_S_8OFP2)
-        # ERRR B-8V20A - 20 S-8OFP2
-        FAB_100M = (4, Weapons.FAB_100M)
-        UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod = (
-            4,
-            Weapons.UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod,
-        )
+        FAB_500M_62___500_kg_GP_Bomb_LD = (4, Weapons.FAB_500M_62___500_kg_GP_Bomb_LD)
         APU_13MT_with_R_13M__AA_2_Atoll_D____IR_AAM = (
             4,
             Weapons.APU_13MT_with_R_13M__AA_2_Atoll_D____IR_AAM,
@@ -1347,34 +1456,41 @@ class vwv_mig21mf(PlaneType):
             4,
             Weapons.APU_13U_2_with_R_3S__AA_2_Atoll_B____IR_AAM,
         )
-        RS2US___AAM__beam_rider = (4, Weapons.RS2US___AAM__beam_rider)
+        UB_16UM___16_S_5M = (4, Weapons.UB_16UM___16_S_5M)
+        UB_32M___32_S_5M = (4, Weapons.UB_32M___32_S_5M)
+        S_24A__21____180_kg__cumulative_unguided_rocket = (
+            4,
+            Weapons.S_24A__21____180_kg__cumulative_unguided_rocket,
+        )
+        S_24B__21____180_kg__fragmented_unguided_rocket = (
+            4,
+            Weapons.S_24B__21____180_kg__fragmented_unguided_rocket,
+        )
+        APU_60_1M_with_R_60__AA_8_Aphid____IR_AAM = (
+            4,
+            Weapons.APU_60_1M_with_R_60__AA_8_Aphid____IR_AAM,
+        )
+        APU_60_2M_with_2_x_R_60__AA_8_Aphid____IR_AAM_ = (
+            4,
+            Weapons.APU_60_2M_with_2_x_R_60__AA_8_Aphid____IR_AAM_,
+        )
 
     class Pylon5:
-        FAB_50 = (5, Weapons.FAB_50)
+        OFAB_100_120___100_kg_GP_Bomb_LD = (5, Weapons.OFAB_100_120___100_kg_GP_Bomb_LD)
         OFAB_250_270___250_kg_GP_Bomb_LD = (5, Weapons.OFAB_250_270___250_kg_GP_Bomb_LD)
-        B_8V20A_CM = (5, Weapons.B_8V20A_CM)
-        B_8V20A_OM = (5, Weapons.B_8V20A_OM)
-        B_8M1___20_S_8OFP2 = (5, Weapons.B_8M1___20_S_8OFP2)
-        # ERRR B-8V20A - 20 S-8OFP2
-        FAB_100M = (5, Weapons.FAB_100M)
-        UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod = (
-            5,
-            Weapons.UPK_23_250___2_x_23mm__GSh_23L_Autocannon_Pod,
-        )
-        Fuel_Tank_490_L_Central__21_ = (5, Weapons.Fuel_Tank_490_L_Central__21_)
         APU_13MT_with_R_13M__AA_2_Atoll_D____IR_AAM = (
             5,
             Weapons.APU_13MT_with_R_13M__AA_2_Atoll_D____IR_AAM,
-        )
-        APU_13U_2_with_R_3R__AA_2_Atoll_C____Semi_Active_AAM = (
-            5,
-            Weapons.APU_13U_2_with_R_3R__AA_2_Atoll_C____Semi_Active_AAM,
         )
         APU_13U_2_with_R_3S__AA_2_Atoll_B____IR_AAM = (
             5,
             Weapons.APU_13U_2_with_R_3S__AA_2_Atoll_B____IR_AAM,
         )
-        RS2US___AAM__beam_rider = (5, Weapons.RS2US___AAM__beam_rider)
+        UB_16UM___16_S_5M = (5, Weapons.UB_16UM___16_S_5M)
+        APU_60_1M_with_R_60__AA_8_Aphid____IR_AAM = (
+            5,
+            Weapons.APU_60_1M_with_R_60__AA_8_Aphid____IR_AAM,
+        )
 
     class Pylon6:
         SPRD_99 = (6, Weapons.SPRD_99)
@@ -1681,9 +1797,12 @@ class USS_Mullany(unittype.ShipType):
 
 
 @shipmod
-class USS_The_Sullivans(unittype.ShipType):
-    id = "USS The Sullivans"
-    name = "[VWV] DD-537 USS The Sullivans"
+class USS_Radford(unittype.ShipType):
+    id = "USS Radford"
+    name = "[VWV] DD-446 USS Radford"
+    plane_num = 0
+    helicopter_num = 1
+    parking = 1
     detection_range = 45000
     threat_range = 18650
     air_weapon_dist = 18650
@@ -1715,8 +1834,32 @@ class USS_Laffey(unittype.ShipType):
 
 @shipmod
 class USS_Maddox(unittype.ShipType):
-    id = "USS Maddox"
-    name = "[VWV] DD-731 USS Maddox"
+    id = "USS Maddox T"
+    name = "[VWV] DD-731 USS Maddox Tonkin Incident"
+    detection_range = 45000
+    threat_range = 18650
+    air_weapon_dist = 18650
+
+
+@shipmod
+class USS_Epperson(unittype.ShipType):
+    id = "USS Epperson"
+    name = "[VWV] DD-719 USS Epperson"
+    plane_num = 0
+    helicopter_num = 1
+    parking = 1
+    detection_range = 45000
+    threat_range = 18650
+    air_weapon_dist = 18650
+
+
+@shipmod
+class USS_Everett_F_Larson(unittype.ShipType):
+    id = "USS Everett F Larson"
+    name = "[VWV] DD-830 USS Everett F. Larson"
+    plane_num = 0
+    helicopter_num = 1
+    parking = 1
     detection_range = 45000
     threat_range = 18650
     air_weapon_dist = 18650
@@ -1777,6 +1920,30 @@ class USS_Kirk(unittype.ShipType):
 
 
 @shipmod
+class USNS_Card(unittype.ShipType):
+    id = "USNS Card"
+    name = "[VWV] T-AKV-40 USNS Card"
+    plane_num = 3
+    helicopter_num = 3
+    parking = 3
+    detection_range = 45000
+    threat_range = 18650
+    air_weapon_dist = 18650
+
+
+@shipmod
+class Solon_Turman(unittype.ShipType):
+    id = "AD-30 Solon Turman"
+    name = "[VWV] AD-30 Solon Turman"
+    plane_num = 0
+    helicopter_num = 2
+    parking = 1
+    detection_range = 15000
+    threat_range = 13000
+    air_weapon_dist = 13000
+
+
+@shipmod
 class IX514_Unarmed(unittype.ShipType):
     id = "[VWV] IX514 (unarmed)"
     name = "[VWV] IX514 (unarmed)"
@@ -1816,6 +1983,70 @@ class P4(unittype.ShipType):
     detection_range = 3000
     threat_range = 1000
     air_weapon_dist = 1000
+
+
+# Unarmed civilian craft: the mod leaves airFindDist/airWeaponDist unset on these.
+@shipmod
+class Vietnam_Junk(unittype.ShipType):
+    id = "Junk"
+    name = "[VWV] Vietnam Junk"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@shipmod
+class Vietnam_Junk_Static(unittype.ShipType):
+    id = "junk static"
+    name = "[VWV] Vietnam Junk Static"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@shipmod
+class Sampan(unittype.ShipType):
+    id = "sampan_open"
+    name = "[VWV] Sampan"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@shipmod
+class Sampan_Canopy(unittype.ShipType):
+    id = "SAMPAN_CANOPY"
+    name = "[VWV] Sampan, Canopy"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@shipmod
+class Sampan_Covered(unittype.ShipType):
+    id = "SAMPAN_COVERED"
+    name = "[VWV] Sampan, Covered"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@shipmod
+class Sampan_Covered_AK47(unittype.ShipType):
+    id = "sampan_covered_ak47"
+    name = "[VWV] Sampan, Covered, AK47"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@shipmod
+class Sampan_Open_Ammo_Box(unittype.ShipType):
+    id = "sampan_open_box"
+    name = "[VWV] Sampan, Open, Ammo Box"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
 
 
 @shipmod
@@ -1926,150 +2157,359 @@ class vwv_ch46d_late(HelicopterType):
 
 
 ## FORTIFICATIONS (Buildings)
-# These are static objects that don't require specific decorators like shipmod
-# They are part of the static environment and are handled as static objects
+@fortificationmod
 class vwv_bdg_indohut1(unittype.StaticType):
     id = "vwv_bdg_indohut1"
     name = "[VWV] Indochina Hut High"
-    shape_name = (
-        "vwv_bdg_indohut1"  # This would need to be determined from the actual model
-    )
-    rate = 100
+    shape_name = "indo_hut1"
+    rate = 1
 
 
+@fortificationmod
 class vwv_bdg_indohut2(unittype.StaticType):
     id = "vwv_bdg_indohut2"
     name = "[VWV] Indochina Hut Low"
-    shape_name = "vwv_bdg_indohut2"
-    rate = 100
+    shape_name = "indo_hut2"
+    rate = 1
 
 
+@fortificationmod
 class vwv_bdg_guardTower(unittype.StaticType):
     id = "vwv_bdg_guardTower"
     name = "[VWV] Guard Tower"
-    shape_name = "vwv_bdg_guardTower"
-    rate = 100
+    shape_name = "guardTower"
+    rate = 1
 
 
+@fortificationmod
 class vwv_bdg_usWatchTower(unittype.StaticType):
     id = "vwv_bdg_usWatchTower"
     name = "[VWV] US Watch Tower"
-    shape_name = "vwv_bdg_usWatchTower"
-    rate = 100
+    shape_name = "vwv_us_watchtower"
+    rate = 1
 
 
+@fortificationmod
 class vwv_bdg_usBarrelGasoline(unittype.StaticType):
     id = "vwv_bdg_usBarrelGasoline"
     name = "[VWV] US Barrel Gasoline"
-    shape_name = "vwv_bdg_usBarrelGasoline"
-    rate = 100
+    shape_name = "vwv_us_barrel_gasoline"
+    rate = 1
 
 
+@fortificationmod
 class vwv_bdg_usBarrelGasoline2(unittype.StaticType):
     id = "vwv_bdg_usBarrelGasoline2"
     name = "[VWV] US Barrel Gasoline 2"
-    shape_name = "vwv_bdg_usBarrelGasoline2"
-    rate = 100
+    shape_name = "vwv_us_barrel_gasoline2"
+    rate = 1
 
 
+@fortificationmod
 class vwv_bdg_usBarrelGasolineSpigot(unittype.StaticType):
     id = "vwv_bdg_usBarrelGasolineSpigot"
     name = "[VWV] US Barrel Gasoline Spigot"
-    shape_name = "vwv_bdg_usBarrelGasolineSpigot"
-    rate = 100
+    shape_name = "vwv_us_barrel_gasoline_spigot"
+    rate = 1
 
 
+@fortificationmod
 class vwv_bdg_usBarrelMotorfuel(unittype.StaticType):
     id = "vwv_bdg_usBarrelMotorfuel"
     name = "[VWV] US Barrel Motor Fuel"
-    shape_name = "vwv_bdg_usBarrelMotorfuel"
-    rate = 100
+    shape_name = "vwv_us_barrel_motorfuel"
+    rate = 1
 
 
+@fortificationmod
 class vwv_bdg_usBarrelWastefuel(unittype.StaticType):
     id = "vwv_bdg_usBarrelWastefuel"
     name = "[VWV] US Barrel Waste Fuel"
-    shape_name = "vwv_bdg_usBarrelWastefuel"
-    rate = 100
+    shape_name = "vwv_us_barrel_wastefuel"
+    rate = 1
 
 
+@fortificationmod
 class vwv_bdg_usBarrelWasteoil(unittype.StaticType):
     id = "vwv_bdg_usBarrelWasteoil"
     name = "[VWV] US Barrel Waste Oil"
-    shape_name = "vwv_bdg_usBarrelWasteoil"
-    rate = 100
+    shape_name = "vwv_us_barrel_wasteoil"
+    rate = 1
 
 
+@fortificationmod
 class vwv_bdg_usBoomgate(unittype.StaticType):
     id = "vwv_bdg_usBoomgate"
     name = "[VWV] US Boomgate"
-    shape_name = "vwv_bdg_usBoomgate"
-    rate = 100
+    shape_name = "vwv_us_boomgate_closed"
+    rate = 1
 
 
+@fortificationmod
 class vwv_bdg_usConnex(unittype.StaticType):
     id = "vwv_bdg_usConnex"
     name = "[VWV] US Connex (half)"
-    shape_name = "vwv_bdg_usConnex"
-    rate = 100
+    shape_name = "vwv_us_connex"
+    rate = 1
 
 
+@fortificationmod
 class vwv_bdg_usBarbedWire(unittype.StaticType):
     id = "vwv_bdg_usBarbedWire"
     name = "[VWV] US Barbed Wire (1)"
-    shape_name = "vwv_bdg_usBarbedWire"
-    rate = 100
+    shape_name = "vwv_us_barbedWire"
+    rate = 1
 
 
+@fortificationmod
 class vwv_bdg_usBarbedWireOpen(unittype.StaticType):
     id = "vwv_bdg_usBarbedWireOpen"
     name = "[VWV] US Barbed Wire Open (2)"
-    shape_name = "vwv_bdg_usBarbedWireOpen"
-    rate = 100
+    shape_name = "vwv_us_barbedWire_open"
+    rate = 1
 
 
+@fortificationmod
 class vwv_bdg_usBarbedWireOpen20(unittype.StaticType):
     id = "vwv_bdg_usBarbedWireOpen20"
     name = "[VWV] US Barbed Wire Open (20)"
-    shape_name = "vwv_bdg_usBarbedWireOpen20"
-    rate = 100
+    shape_name = "vwv_us_barbedWire_open_20"
+    rate = 1
 
 
+@fortificationmod
 class vwv_bdg_usGuardHouse(unittype.StaticType):
     id = "vwv_bdg_usGuardHouse"
     name = "[VWV] US Guard House"
-    shape_name = "vwv_bdg_usGuardHouse"
-    rate = 100
+    shape_name = "vwv_us_guardHouse"
+    rate = 1
 
 
+@fortificationmod
 class vwv_bdg_usMarsdenMat(unittype.StaticType):
     id = "vwv_bdg_usMarsdenMat"
     name = "[VWV] US Marsden Mat"
-    shape_name = "vwv_bdg_usMarsdenMat"
-    rate = 100
+    shape_name = "vwv_us_marsdenmat"
+    rate = 1
 
 
+@fortificationmod
 class vwv_bdg_usRevetment(unittype.StaticType):
     id = "vwv_bdg_usRevetment"
     name = "[VWV] US Revetment"
-    shape_name = "vwv_bdg_usRevetment"
-    rate = 100
+    shape_name = "vwv_us_revetments"
+    rate = 1
 
 
+@fortificationmod
 class vwv_bdg_usHangar(unittype.StaticType):
     id = "vwv_bdg_usHangar"
     name = "[VWV] US Hangar"
-    shape_name = "vwv_bdg_usHangar"
-    rate = 100
+    shape_name = "vwv_us_hangar"
+    rate = 1
 
 
+@fortificationmod
 class vwv_bdg_usBarrack(unittype.StaticType):
     id = "vwv_bdg_usBarrack"
     name = "[VWV] US Barrack"
-    shape_name = "vwv_bdg_usBarrack"
-    rate = 100
+    shape_name = "vwv_us_barracks"
+    rate = 1
 
 
+@fortificationmod
+class vwv_bdg_vnHoiAn_M1(unittype.StaticType):
+    id = "vwv_bdg_vnHoiAn_M1"
+    name = "[VWV] Hoi An Building M1"
+    shape_name = "vwv_vn_HoiAn_M1"
+    rate = 1
+
+
+@fortificationmod
+class vwv_bdg_vnHoiAn_M2(unittype.StaticType):
+    id = "vwv_bdg_vnHoiAn_M2"
+    name = "[VWV] Hoi An Building M2"
+    shape_name = "vwv_vn_HoiAn_M2"
+    rate = 1
+
+
+@fortificationmod
+class vwv_bdg_vnHoiAn_M3(unittype.StaticType):
+    id = "vwv_bdg_vnHoiAn_M3"
+    name = "[VWV] Hoi An Building M3"
+    shape_name = "vwv_vn_HoiAn_M3"
+    rate = 1
+
+
+@fortificationmod
+class vwv_bdg_vnHoiAn_M4(unittype.StaticType):
+    id = "vwv_bdg_vnHoiAn_M4"
+    name = "[VWV] Hoi An Building M4"
+    shape_name = "vwv_vn_HoiAn_M4"
+    rate = 1
+
+
+@fortificationmod
+class vwv_bdg_vnHoiAn_M5(unittype.StaticType):
+    id = "vwv_bdg_vnHoiAn_M5"
+    name = "[VWV] Hoi An Building M5"
+    shape_name = "vwv_vn_HoiAn_M5"
+    rate = 1
+
+
+@fortificationmod
+class vwv_bdg_vnHoiAn_M6(unittype.StaticType):
+    id = "vwv_bdg_vnHoiAn_M6"
+    name = "[VWV] Hoi An Building M6"
+    shape_name = "vwv_vn_HoiAn_M6"
+    rate = 1
+
+
+@fortificationmod
+class vwv_bdg_vnHoiAn_M7(unittype.StaticType):
+    id = "vwv_bdg_vnHoiAn_M7"
+    name = "[VWV] Hoi An Building M7"
+    shape_name = "vwv_vn_HoiAn_M7"
+    rate = 1
+
+
+@fortificationmod
+class vwv_bdg_vnHoiAn_M8(unittype.StaticType):
+    id = "vwv_bdg_vnHoiAn_M8"
+    name = "[VWV] Hoi An Building M8"
+    shape_name = "vwv_vn_HoiAn_M8"
+    rate = 1
+
+
+@fortificationmod
+class vwv_bdg_vnHoiAn_M9(unittype.StaticType):
+    id = "vwv_bdg_vnHoiAn_M9"
+    name = "[VWV] Hoi An Building M9"
+    shape_name = "vwv_vn_HoiAn_M9"
+    rate = 1
+
+
+@fortificationmod
+class vwv_bdg_vnHoiAn_M10(unittype.StaticType):
+    id = "vwv_bdg_vnHoiAn_M10"
+    name = "[VWV] Hoi An Building M10"
+    shape_name = "vwv_vn_HoiAn_M10"
+    rate = 1
+
+
+@fortificationmod
+class vwv_bdg_vnHoiAn_M11(unittype.StaticType):
+    id = "vwv_bdg_vnHoiAn_M11"
+    name = "[VWV] Hoi An Building M11"
+    shape_name = "vwv_vn_HoiAn_M11"
+    rate = 1
+
+
+@fortificationmod
+class vwv_bdg_vnHoiAn_M12(unittype.StaticType):
+    id = "vwv_bdg_vnHoiAn_M12"
+    name = "[VWV] Hoi An Building M12"
+    shape_name = "vwv_vn_HoiAn_M12"
+    rate = 1
+
+
+@fortificationmod
+class vwv_bdg_vnHoiAn_m1__2(unittype.StaticType):
+    id = "vwv_bdg_vnHoiAn_m1__2"
+    name = "[VWV] Hoi An Building m1__2"
+    shape_name = "vwv_vn_HoiAn_m1__2"
+    rate = 1
+
+
+@fortificationmod
+class vwv_bdg_vnHoiAn_m2__2(unittype.StaticType):
+    id = "vwv_bdg_vnHoiAn_m2__2"
+    name = "[VWV] Hoi An Building m2__2"
+    shape_name = "vwv_vn_HoiAn_m2__2"
+    rate = 1
+
+
+@fortificationmod
+class vwv_bdg_vnHoiAn_m3__2(unittype.StaticType):
+    id = "vwv_bdg_vnHoiAn_m3__2"
+    name = "[VWV] Hoi An Building m3__2"
+    shape_name = "vwv_vn_HoiAn_m3__2"
+    rate = 1
+
+
+@fortificationmod
+class vwv_bdg_vnHoiAn_m4__2(unittype.StaticType):
+    id = "vwv_bdg_vnHoiAn_m4__2"
+    name = "[VWV] Hoi An Building m4__2"
+    shape_name = "vwv_vn_HoiAn_m4__2"
+    rate = 1
+
+
+@fortificationmod
+class vwv_bdg_vnHoiAn_m5__2(unittype.StaticType):
+    id = "vwv_bdg_vnHoiAn_m5__2"
+    name = "[VWV] Hoi An Building m5__2"
+    shape_name = "vwv_vn_HoiAn_m5__2"
+    rate = 1
+
+
+@fortificationmod
+class vwv_bdg_vnHoiAn_m6__2(unittype.StaticType):
+    id = "vwv_bdg_vnHoiAn_m6__2"
+    name = "[VWV] Hoi An Building m6__2"
+    shape_name = "vwv_vn_HoiAn_m6__2"
+    rate = 1
+
+
+@fortificationmod
+class vwv_vn_apartment_3GV73(unittype.StaticType):
+    id = "vwv_vn_apartment_3GV73"
+    name = "[VWV] Apartment 3GV73"
+    shape_name = "vwv_vn_apartment_3GV73"
+    rate = 1
+
+
+@fortificationmod
+class vwv_vn_FrenchHouse1(unittype.StaticType):
+    id = "vwv_vn_FrenchHouse1"
+    name = "[VWV] French House 1"
+    shape_name = "vwv_vn_FrenchHouse1"
+    rate = 1
+
+
+@fortificationmod
+class vwv_vn_FrenchHouse2(unittype.StaticType):
+    id = "vwv_vn_FrenchHouse2"
+    name = "[VWV] French House 2"
+    shape_name = "vwv_vn_FrenchHouse2"
+    rate = 1
+
+
+@fortificationmod
+class vwv_vn_FrenchHouse3(unittype.StaticType):
+    id = "vwv_vn_FrenchHouse3"
+    name = "[VWV] French House 3"
+    shape_name = "vwv_vn_FrenchHouse3"
+    rate = 1
+
+
+@fortificationmod
+class vwv_towbar(unittype.StaticType):
+    id = "vwv_towbar"
+    name = "[VWV] Towbar"
+    shape_name = "vwv_towbar"
+    rate = 1
+
+
+@fortificationmod
+class vwv_bridle_set(unittype.StaticType):
+    id = "vwv_bridle_set"
+    name = "[VWV] Bridle Set"
+    shape_name = "vwv_bridle_set"
+    rate = 1
+
+
+@fortificationmod
 class VAP_FARP_1(unittype.StaticType):
     id = "VAP FARP 1"
     name = "VAP FARP 1"
@@ -2078,6 +2518,7 @@ class VAP_FARP_1(unittype.StaticType):
     rate = 100
 
 
+@fortificationmod
 class VAP_FARP_2(unittype.StaticType):
     id = "VAP FARP 2"
     name = "VAP FARP 2"
@@ -2086,6 +2527,7 @@ class VAP_FARP_2(unittype.StaticType):
     rate = 100
 
 
+@fortificationmod
 class VAP_FARP_3(unittype.StaticType):
     id = "VAP FARP 3"
     name = "VAP FARP 3"
@@ -2094,6 +2536,7 @@ class VAP_FARP_3(unittype.StaticType):
     rate = 100
 
 
+@fortificationmod
 class VAP_FARP_4(unittype.StaticType):
     id = "VAP FARP 4"
     name = "VAP FARP 4"
@@ -2233,7 +2676,10 @@ class vwv_a_37_dragonfly(PlaneType):
 
     class Pylon1:
         Mk_82___500lb_GP_Bomb_LD = (1, Weapons.Mk_82___500lb_GP_Bomb_LD)
-        # ERRR {mk77mod1}
+        Mk_77_mod_1___500lb_Fire_Bomb_LD = (
+            1,
+            WeaponsA4EC.Mk_77_mod_1___500lb_Fire_Bomb_LD,
+        )
         # ERRR {M260_HYDRA_WP}
         # ERRR {M260_HYDRA}
         LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE = (
@@ -2244,33 +2690,34 @@ class vwv_a_37_dragonfly(PlaneType):
 
     class Pylon2:
         Mk_82___500lb_GP_Bomb_LD = (2, Weapons.Mk_82___500lb_GP_Bomb_LD)
-        # ERRR {mk77mod1}
+        Mk_77_mod_1___500lb_Fire_Bomb_LD = (
+            2,
+            WeaponsA4EC.Mk_77_mod_1___500lb_Fire_Bomb_LD,
+        )
         # ERRR {M260_HYDRA}
         LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE = (
             2,
             Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT = (
-            2,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
         )
 
     class Pylon3:
         Mk_82___500lb_GP_Bomb_LD = (3, Weapons.Mk_82___500lb_GP_Bomb_LD)
-        # ERRR {mk77mod1}
+        Mk_77_mod_1___500lb_Fire_Bomb_LD = (
+            3,
+            WeaponsA4EC.Mk_77_mod_1___500lb_Fire_Bomb_LD,
+        )
         # ERRR {M260_HYDRA}
         LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE = (
             3,
             Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
         )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT = (
-            3,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
-        )
 
     class Pylon4:
         Mk_82___500lb_GP_Bomb_LD = (4, Weapons.Mk_82___500lb_GP_Bomb_LD)
-        # ERRR {mk77mod1}
+        Mk_77_mod_1___500lb_Fire_Bomb_LD = (
+            4,
+            WeaponsA4EC.Mk_77_mod_1___500lb_Fire_Bomb_LD,
+        )
         # ERRR {M260_HYDRA}
         LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE = (
             4,
@@ -2279,7 +2726,10 @@ class vwv_a_37_dragonfly(PlaneType):
 
     class Pylon5:
         Mk_82___500lb_GP_Bomb_LD = (5, Weapons.Mk_82___500lb_GP_Bomb_LD)
-        # ERRR {mk77mod1}
+        Mk_77_mod_1___500lb_Fire_Bomb_LD = (
+            5,
+            WeaponsA4EC.Mk_77_mod_1___500lb_Fire_Bomb_LD,
+        )
         # ERRR {M260_HYDRA}
         LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE = (
             5,
@@ -2288,34 +2738,34 @@ class vwv_a_37_dragonfly(PlaneType):
 
     class Pylon6:
         Mk_82___500lb_GP_Bomb_LD = (6, Weapons.Mk_82___500lb_GP_Bomb_LD)
-        # ERRR {mk77mod1}
+        Mk_77_mod_1___500lb_Fire_Bomb_LD = (
+            6,
+            WeaponsA4EC.Mk_77_mod_1___500lb_Fire_Bomb_LD,
+        )
         # ERRR {M260_HYDRA}
         LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE = (
             6,
             Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
-        )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT = (
-            6,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
         )
 
     class Pylon7:
         Mk_82___500lb_GP_Bomb_LD = (7, Weapons.Mk_82___500lb_GP_Bomb_LD)
-        # ERRR {mk77mod1}
+        Mk_77_mod_1___500lb_Fire_Bomb_LD = (
+            7,
+            WeaponsA4EC.Mk_77_mod_1___500lb_Fire_Bomb_LD,
+        )
         # ERRR {M260_HYDRA}
         LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE = (
             7,
             Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE,
         )
-        LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT = (
-            7,
-            Weapons.LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_5_HEAT,
-        )
-        AIM_9B_Sidewinder_IR_AAM = (7, Weapons.AIM_9B_Sidewinder_IR_AAM)
 
     class Pylon8:
         Mk_82___500lb_GP_Bomb_LD = (8, Weapons.Mk_82___500lb_GP_Bomb_LD)
-        # ERRR {mk77mod1}
+        Mk_77_mod_1___500lb_Fire_Bomb_LD = (
+            8,
+            WeaponsA4EC.Mk_77_mod_1___500lb_Fire_Bomb_LD,
+        )
         # ERRR {M260_HYDRA}
         LAU_131___7_x_UnGd_Rkts__70_mm_Hydra_70_Mk_1_HE = (
             8,
@@ -2908,6 +3358,17 @@ class vwv_cgo_usBlu82C130(unittype.StaticType):
     can_cargo = True
 
 
+@cargomod
+class vwv_cgo_usM113(unittype.StaticType):
+    id = "vwv_cgo_usM113"
+    name = "[VWV] US M113, Cargo"
+    shape_name = "vwv_us_m113_cargo"
+    category = "Cargos"
+    rate = 10
+    can_cargo = True
+
+
+@fortificationmod
 class vwv_farp_marsdenmat(unittype.StaticType):
     id = "vwv_farp_marsdenmat"
     name = "[VWV] Marsden Mat"
@@ -2924,3 +3385,12 @@ class vap_oh6_cargo(unittype.StaticType):
     category = "Cargos"
     rate = 100
     can_cargo = True
+
+
+@vehiclemod
+class mig_boarding_ladder(unittype.VehicleType):
+    id = "mig_boarding_ladder"
+    name = "Mig Boarding Ladder"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0

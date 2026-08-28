@@ -1,0 +1,4 @@
+class: HelicopterCarrier
+price: 150
+variants:
+  "[VWV] T-AKV-40 USNS Card": null

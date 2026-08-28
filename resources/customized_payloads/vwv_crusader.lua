@@ -12,12 +12,12 @@ local unitPayloads = {
 			{
 				[1]=
 				{
-					["CLSID"]="{Mk-82_IMER_4_L}",
+					["CLSID"]="{SB_F8_BRU_41A_M82_4 Lt}",
 					["num"]=1
 				},
 				[2]=
 				{
-					["CLSID"]="{Mk-82_IMER_4_R}",
+					["CLSID"]="{SB_F8_BRU_41A_M82_4 Rt}",
 					["num"]=6
 				},
 				[3]=

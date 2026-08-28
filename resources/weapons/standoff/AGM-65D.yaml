@@ -3,6 +3,7 @@ year: 1986
 fallback: AGM-65B
 clsids:
   - "Herc_Ammo_AGM_65D_missiles"   # Ammo AGM-65D*10 [4800lb]
+  - "{F111C_AGM_65D}"   # AGM-65D TV Guided Missile
   - "{444BA8AE-82A7-4345-842E-76154EFCCA47}"   # AGM-65D - Maverick D (IIR ASM)
   - "{HB_F4E_AGM-65D_LAU117}"   # AGM-65D - Maverick D (IIR ASM) (LAU-117)
   - "{HB_F4EAGM-65D_LAU88_1x}"   # 1x AGM-65D - Maverick D (IIR ASM) (LAU-88)

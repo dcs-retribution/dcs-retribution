@@ -3,6 +3,7 @@ year: 1975
 fallback: AGM-65A
 clsids:
   - "{RB75B}"   # Rb-75B (AGM-65B Maverick) (TV ASM)
+  - "{F111C_AGM_65B}"   # AGM-65B A/G Missile
   - "{HB_F4E_AGM-65B_LAU117}"   # AGM-65B - Maverick B (TV Guided) (LAU-117)
   - "{HB_F4EAGM-65B_LAU88_1x}"   # 1x AGM-65B - Maverick B (TV Guided) (LAU-88)
   - "LAU_117_AGM_65B"   # LAU-117 with AGM-65B - Maverick B (TV Guided)

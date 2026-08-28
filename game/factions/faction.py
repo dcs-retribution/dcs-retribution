@@ -698,20 +698,27 @@ class Faction:
             self.remove_ship("Destroyer_carrier")
         # vietnamwarvessels
         if not mod_settings.vietnamwarvessels:
+            # NB: remove_ship matches the DCS unit id, not the pydcs class name.
             self.remove_ship("PBR_MKII")  # "[VWV] Patrol Boat, River MkII"
-            self.remove_ship("USS_Sumner")  # "[VWV] DD-692 USS Allen M. Sumner"
-            self.remove_ship("USS_Fletcher")  # "USS Fletcher FRAM II Destroyer"
-            self.remove_ship("USS_Laffey")  # "[VWV] DD-724 USS Laffey"
-            self.remove_ship("USS_Maddox")  # "USS Maddox (DD-731)"
-            self.remove_ship("USS_The_Sullivans")  # "USS The Sullivans (DD-537)"
+            self.remove_ship("USS Sumner")  # "[VWV] DD-692 USS Allen M. Sumner"
+            self.remove_ship("USS Fletcher")  # "USS Fletcher FRAM II Destroyer"
+            self.remove_ship("USS Laffey")  # "[VWV] DD-724 USS Laffey"
+            self.remove_ship("USS Maddox T")  # "USS Maddox (DD-731)"
+            self.remove_ship("USS Radford")  # "[VWV] DD-446 USS Radford"
+            self.remove_ship("USS Epperson")  # "[VWV] DD-719 USS Epperson"
+            self.remove_ship(
+                "USS Everett F Larson"
+            )  # "[VWV] DD-830 USS Everett F. Larson"
+            self.remove_ship("USNS Card")  # "[VWV] T-AKV-40 USNS Card"
+            self.remove_ship("AD-30 Solon Turman")  # "[VWV] AD-30 Solon Turman"
             self.remove_ship("P4")  # "P 4 Torpedo Boat"
             self.remove_ship("ATCH")  # "[VWV] ATC(H) Tango"
             self.remove_ship("ATCH_Heavy")  # "[VWV] ATC(H) Tango Heavy"
             self.remove_ship("CCB")  # "[VWV] CCB Charlie"
-            self.remove_ship("USS_New_Jersey")  # "[VWV] BB-62 USS New Jersey 1968"
-            self.remove_ship("USS_Oklahoma_City")  # "[VWV] CLG-5 USS Oklahoma City"
+            self.remove_ship("USS New Jersey")  # "[VWV] BB-62 USS New Jersey 1968"
+            self.remove_ship("USS Oklahoma City")  # "[VWV] CLG-5 USS Oklahoma City"
             self.remove_ship(
-                "USS_Bon_Homme_Richard"
+                "USS Bon Homme Richard"
             )  # "[VWV] CVA-31 Bon Homme Richard"
             self.remove_ship("essex_scb125")  # "[VWV] CV Essex Class SCB-125"
             self.remove_ship(
@@ -730,6 +737,13 @@ class Faction:
             self.remove_ship("USS Kirk")  # "[VWV] DE-1087 USS Kirk"
             self.remove_ship("[VWV] IX514 (unarmed)")  # "[VWV] IX514 (unarmed)"
             self.remove_ship("[VWV]IX514")  # "[VWV] IX514"
+            self.remove_ship("Junk")  # "[VWV] Vietnam Junk"
+            self.remove_ship("junk static")  # "[VWV] Vietnam Junk Static"
+            self.remove_ship("sampan_open")  # "[VWV] Sampan"
+            self.remove_ship("SAMPAN_CANOPY")  # "[VWV] Sampan, Canopy"
+            self.remove_ship("SAMPAN_COVERED")  # "[VWV] Sampan, Covered"
+            self.remove_ship("sampan_covered_ak47")  # "[VWV] Sampan, Covered, AK47"
+            self.remove_ship("sampan_open_box")  # "[VWV] Sampan, Open, Ammo Box"
             self.remove_aircraft("vwv_a1_skyraider")  # "A-1H Skyraider"
             self.remove_aircraft("a_37_dragonfly")  # "A-37 Dragonfly"
             self.remove_aircraft("vwv_ad4_skyraider")  # "AD-4 Skyraider"
@@ -1018,6 +1032,11 @@ class Faction:
         for i in list(self.naval_units):
             if i.dcs_unit_type.id == name:
                 self.naval_units.remove(i)
+        # Carriers are tracked separately from naval_units, so a modded carrier
+        # would otherwise survive its mod being disabled.
+        for i in list(self.carriers):
+            if i.dcs_unit_type.id == name:
+                del self.carriers[i]
 
 
 def load_ship(name: str) -> Optional[Type[ShipType]]:
