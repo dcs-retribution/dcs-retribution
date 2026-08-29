@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Iterator, Optional
+from typing import Any, Iterator, Optional
 
 from PySide6.QtCore import QItemSelectionModel, QModelIndex, QSize
 from PySide6.QtWidgets import (
@@ -290,8 +290,10 @@ class AirWingTabs(QTabWidget):
             self,
             show_jtac=True,
             show_doctrine=True,
+            editable=True,
+            in_use=lambda unit: self._in_use_by(unit, Player.BLUE),
         )
-        qfu_ownfor.preset_groups_changed.connect(self.preset_group_updated_ownfor)
+        qfu_ownfor.faction_changed.connect(self.faction_updated_ownfor)
         self.addTab(
             qfu_ownfor,
             "Faction OWNFOR",
@@ -301,8 +303,10 @@ class AirWingTabs(QTabWidget):
             self,
             show_jtac=True,
             show_doctrine=True,
+            editable=True,
+            in_use=lambda unit: self._in_use_by(unit, Player.RED),
         )
-        qfu_opfor.preset_groups_changed.connect(self.preset_group_updated_opfor)
+        qfu_opfor.faction_changed.connect(self.faction_updated_opfor)
         self.addTab(
             qfu_opfor,
             "Faction OPFOR",
@@ -314,13 +318,48 @@ class AirWingTabs(QTabWidget):
         EventStream.put_nowait(events)
         self.game_model.ato_model.on_sim_update(events)
 
-    def preset_group_updated_ownfor(self, f: Faction) -> None:
-        self.preset_group_updated(f, player=Player.BLUE)
+    def _in_use_by(self, unit: Any, player: Player) -> Optional[str]:
+        """Why this side cannot give up ``unit`` yet, or None if it can.
 
-    def preset_group_updated_opfor(self, f: Faction) -> None:
-        self.preset_group_updated(f, player=Player.RED)
+        Deliberately counts what is ON THE MAP rather than what the faction lists:
+        the point is to keep the campaign consistent, not the paperwork.
+        """
+        coalition = self.game_model.game.coalition_for(player)
+        squadrons = [
+            s for s in coalition.air_wing.iter_squadrons() if s.aircraft == unit
+        ]
+        if squadrons:
+            names = ", ".join(sorted(str(s.name) for s in squadrons)[:3])
+            more = " and others" if len(squadrons) > 3 else ""
+            return f"{len(squadrons)} squadron(s) fly it ({names}{more})"
+        deployed = 0
+        for cp in self.game_model.game.theater.controlpoints:
+            if cp.captured != player:
+                continue
+            for tgo in cp.ground_objects:
+                for theater_unit in getattr(tgo, "units", []):
+                    if getattr(theater_unit, "unit_type", None) == unit:
+                        deployed += 1
+        if deployed:
+            return f"{deployed} of them are deployed on the map"
+        return None
 
-    def preset_group_updated(self, f: Faction, player: Player) -> None:
+    def faction_updated_ownfor(self, f: Faction) -> None:
+        self.faction_updated(f, player=Player.BLUE)
+
+    def faction_updated_opfor(self, f: Faction) -> None:
+        self.faction_updated(f, player=Player.RED)
+
+    def faction_updated(self, f: Faction, player: Player) -> None:
+        """Rebuild the coalition's forces from the faction as it now stands.
+
+        ArmedForces is built from the faction once, in Coalition.__init__, and each
+        ForceGroup freezes the unit list it could reach at that moment. So editing the
+        faction mid-campaign changed nothing that the buy menus could see: adding an
+        early-warning radar left the EWR site still offering the SAM search radars it
+        had fallen back to, and adding a second one after a rebuild never appeared at
+        all. Rebuilding here costs a moment on a dialog the player already stopped at.
+        """
         self.game_model.game.coalition_for(player).armed_forces = ArmedForces(f)
 
 

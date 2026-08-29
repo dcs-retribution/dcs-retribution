@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 import json
 from copy import deepcopy
-from typing import Union, Callable, Set, Optional, List
+from typing import Any, Union, Callable, Set, Optional, List
 
 from PySide6 import QtWidgets, QtGui
 from PySide6.QtCore import Qt, Signal
@@ -13,6 +13,7 @@ from PySide6.QtWidgets import (
     QCheckBox,
     QLabel,
     QTextBrowser,
+    QMessageBox,
     QPushButton,
     QComboBox,
     QHBoxLayout,
@@ -37,7 +38,11 @@ from qt_ui.windows.newgame.jinja_env import jinja_env
 
 
 class QFactionUnits(QScrollArea):
-    preset_groups_changed = Signal(Faction)
+    #: Emitted whenever anything the faction fields changes -- a preset group, a
+    #: unit, an aircraft. In a running campaign the coalition's ArmedForces are built
+    #: from the faction ONCE, so a listener has to rebuild them or the change is
+    #: invisible until a new campaign.
+    faction_changed = Signal(Faction)
 
     def __init__(
         self,
@@ -45,6 +50,8 @@ class QFactionUnits(QScrollArea):
         parent=None,
         show_jtac: bool = False,
         show_doctrine: bool = False,
+        editable: bool = False,
+        in_use: Optional[Callable[[Any], Optional[str]]] = None,
     ):
         super().__init__()
         self.setWidgetResizable(True)
@@ -53,6 +60,15 @@ class QFactionUnits(QScrollArea):
         self.parent = parent
         self.faction = faction
         self.doctrine_combo: Optional[QComboBox] = None
+        # In the New Game wizard the tick boxes ARE the mechanism: unticking one drops
+        # the unit from the faction the campaign is built with, and non-destructively,
+        # since the faction here is the shared one loaded from disk. In a running
+        # campaign nothing reads them, so there the entry gets a remove button instead.
+        self.editable = editable
+        # Asked, before removing anything, whether the campaign is already using it.
+        # Returns a reason to refuse, or None to allow. The wizard passes nothing:
+        # there is no campaign yet, so nothing can be in use.
+        self.in_use = in_use
         self._create_checkboxes(show_jtac, show_doctrine)
         self.show_jtac = show_jtac
         self.show_doctrine = show_doctrine
@@ -65,11 +81,31 @@ class QFactionUnits(QScrollArea):
         combo_layout: Optional[QHBoxLayout] = None,
     ) -> int:
         counter += 1
-        for i, v in enumerate(sorted(units, key=lambda x: str(x)), counter):
+        for i, v in enumerate(sorted(units, key=lambda x: str(x).lower()), counter):
+            # A checkbox promised a removal it never performed: unticking one and
+            # closing the dialog left the entry in place, because the ticks are only
+            # read by the New Game wizard's save path. A button removes it here and
+            # now, and the entry reappears in the combo box above.
+            # Always built and registered: the wizard's save path reads every entry,
+            # and one left unshown reads as checked, i.e. kept.
             cb = QCheckBox(str(v))
             cb.setCheckState(Qt.CheckState.Checked)
             self.checkboxes[str(v)] = cb
-            grid.addWidget(cb, i, 1)
+            if not self.editable:
+                grid.addWidget(cb, i, 1)
+                counter += 1
+                continue
+            row = QHBoxLayout()
+            row.addWidget(QLabel(str(v)))
+            row.addStretch()
+            remove = QPushButton("✕")
+            remove.setToolTip(f"Remove {v}")
+            remove.setFixedWidth(28)
+            remove.clicked.connect(
+                lambda _=False, unit=v, group=units: self._on_remove_unit(unit, group)
+            )
+            row.addWidget(remove)
+            grid.addLayout(row, i, 1)
             counter += 1
         if combo_layout:
             counter += 1
@@ -261,7 +297,8 @@ class QFactionUnits(QScrollArea):
     def _create_aircraft_combobox(
         self, cb: QComboBox, callback: Callable, predicate: Callable
     ):
-        for ac_dcs in sorted(AircraftType.each_dcs_type(), key=lambda x: x.id):
+        offered = []
+        for ac_dcs in AircraftType.each_dcs_type():
             for ac in AircraftType.for_dcs_type(ac_dcs):
                 if (
                     ac in self.faction.aircraft
@@ -269,41 +306,47 @@ class QFactionUnits(QScrollArea):
                     or ac in self.faction.tankers
                 ):
                     continue
-                predicate(ac)
+                offered.append(ac)
+        for ac in sorted(offered, key=lambda a: str(a.variant_id).lower()):
+            predicate(ac)
         hbox = self._format(cb, callback)
         return hbox
 
     def _create_unit_combobox(
         self, cb: QComboBox, callback: Callable, units: Set[GroundUnitType], type: list
     ):
-        for dcs_unit in sorted(GroundUnitType.each_dcs_type(), key=lambda x: x.id):
+        # Sorted by the name the player reads, not by the internal DCS id: the two
+        # orders are unrelated, so the list looked shuffled.
+        offered = []
+        for dcs_unit in GroundUnitType.each_dcs_type():
             if dcs_unit not in self.faction.country.vehicles:
                 continue
             for unit in GroundUnitType.for_dcs_type(dcs_unit):
                 if unit in units:
                     continue
-                if "Frontline vehicles" in type:
-                    cb.addItem(unit.variant_id, unit)
-                elif unit.unit_class.value in type:
-                    cb.addItem(unit.variant_id, unit)
-                else:
-                    continue
+                if "Frontline vehicles" in type or unit.unit_class.value in type:
+                    offered.append(unit)
+        for unit in sorted(offered, key=lambda u: str(u.variant_id).lower()):
+            cb.addItem(unit.variant_id, unit)
         hbox = self._format(cb, callback)
         return hbox
 
     def _create_naval_combobox(self, cb: QComboBox, callback: Callable):
-        for ship_dcs in sorted(ShipUnitType.each_dcs_type(), key=lambda x: x.id):
+        offered = []
+        for ship_dcs in ShipUnitType.each_dcs_type():
             for ship in ShipUnitType.for_dcs_type(ship_dcs):
                 if ship in self.faction.naval_units:
                     continue
-                cb.addItem(ship.variant_id, ship)
+                offered.append(ship)
+        for ship in sorted(offered, key=lambda s: str(s.variant_id).lower()):
+            cb.addItem(ship.variant_id, ship)
         hbox = self._format(cb, callback)
         return hbox
 
     def _create_preset_group_combobox(self, cb: QComboBox, callback: Callable):
         ForceGroup._load_all()
         preset_group_names = {pg.name for pg in self.faction.preset_groups}
-        for preset_group in ForceGroup._by_name:
+        for preset_group in sorted(ForceGroup._by_name, key=str.lower):
             if preset_group in preset_group_names:
                 continue
             cb.addItem(preset_group, ForceGroup._by_name[preset_group])
@@ -316,6 +359,7 @@ class QFactionUnits(QScrollArea):
             # invalidate the cached property
             del self.faction.__dict__["accessible_units"]
         self.updateFaction(self.faction)
+        self.faction_changed.emit(self.faction)
 
     def _on_add_ac(self, aircraft: Set[AircraftType], cb: QComboBox):
         aircraft.add(cb.currentData())
@@ -323,6 +367,7 @@ class QFactionUnits(QScrollArea):
             # invalidate the cached property
             del self.faction.__dict__["all_aircrafts"]
         self.updateFaction(self.faction)
+        self.faction_changed.emit(self.faction)
 
     def _on_add_preset_group(self, groups: List[ForceGroup], cb: QComboBox):
         groups.append(cb.currentData())
@@ -330,7 +375,30 @@ class QFactionUnits(QScrollArea):
             # invalidate the cached property
             del self.faction.__dict__["accessible_units"]
         self.updateFaction(self.faction)
-        self.preset_groups_changed.emit(self.faction)
+        self.faction_changed.emit(self.faction)
+
+    def _on_remove_unit(self, unit: Any, units: Union[set, list]) -> None:
+        """Drop a unit from the faction and tell anyone who cares.
+
+        Refused while the campaign is still using it: removing a unit the map already
+        has deployed leaves the game holding materiel its own faction no longer
+        admits, and nothing downstream expects that.
+        """
+        reason = self.in_use(unit) if self.in_use else None
+        if reason:
+            QMessageBox.information(
+                self,
+                "Still in use",
+                f"{unit} cannot be removed: {reason}. Remove or replace it in "
+                f"the campaign first.",
+            )
+            return
+        if unit in units:
+            units.remove(unit)
+        for cached in ("accessible_units", "all_aircrafts"):
+            self.faction.__dict__.pop(cached, None)
+        self.updateFaction(self.faction)
+        self.faction_changed.emit(self.faction)
 
     def updateFaction(self, faction: Faction):
         self.faction = faction
