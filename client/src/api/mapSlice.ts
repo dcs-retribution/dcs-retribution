@@ -9,6 +9,37 @@ import { LatLngLiteral } from "leaflet";
 // emitter does not blob the icon you're already pointing at.
 export type EmitterHoverSource = "emitter" | "ring";
 
+const BASEMAP_STORAGE_KEY = "active_basemap_layer";
+const OVERLAYS_STORAGE_KEY = "active_map_overlays";
+
+const safeGetItem = (key: string): string | null => {
+  try {
+    return localStorage.getItem(key);
+  } catch (error) {
+    console.warn(`localStorage read failed for key "${key}":`, error);
+    return null;
+  }
+};
+
+const safeSetItem = (key: string, value: string): void => {
+  try {
+    localStorage.setItem(key, value);
+  } catch (error) {
+    console.warn(`localStorage write failed for key "${key}":`, error);
+  }
+};
+
+const loadSavedOverlays = (): Record<string, boolean> => {
+  const saved = safeGetItem(OVERLAYS_STORAGE_KEY);
+  if (!saved) return {};
+  try {
+    return JSON.parse(saved);
+  } catch (error) {
+    console.warn("Failed to parse saved map overlays JSON:", error);
+    return {};
+  }
+};
+
 interface MapState {
   center: LatLngLiteral;
   // Id of the TGO whose air-defense ring (or icon) is currently hovered, so its
@@ -19,6 +50,10 @@ interface MapState {
   // Whether the hover highlight (ring <-> emitter) is enabled. Toggled from
   // the map's layer control.
   highlightEmitters: boolean;
+  // Persistent Map type 
+  activeBaseMap: string | null;
+  // Persistent Map options
+  overlayStates: Record<string, boolean>;
 }
 
 const initialState: MapState = {
@@ -26,6 +61,8 @@ const initialState: MapState = {
   hoveredEmitterId: null,
   hoveredEmitterSource: null,
   highlightEmitters: true,
+  activeBaseMap: localStorage.getItem(BASEMAP_STORAGE_KEY),
+  overlayStates: loadSavedOverlays(),
 };
 
 const mapSlice = createSlice({
@@ -44,6 +81,18 @@ const mapSlice = createSlice({
     setHighlightEmitters(state, action: PayloadAction<boolean>) {
       state.highlightEmitters = action.payload;
     },
+    setActiveBaseMap(state, action: PayloadAction<string>) {
+      state.activeBaseMap = action.payload;
+      safeSetItem(BASEMAP_STORAGE_KEY, action.payload);
+    },
+    setOverlayState(
+      state,
+      action: PayloadAction<{ name: string; checked: boolean }>
+    ) {
+      const { name, checked } = action.payload;
+      state.overlayStates[name] = checked;
+      localStorage.setItem(OVERLAYS_STORAGE_KEY, JSON.stringify(state.overlayStates));
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(gameLoaded, (state, action) => {
@@ -59,7 +108,7 @@ const mapSlice = createSlice({
   },
 });
 
-export const { setHoveredEmitter, setHighlightEmitters } = mapSlice.actions;
+export const { setHoveredEmitter, setHighlightEmitters, setActiveBaseMap, setOverlayState , } = mapSlice.actions;
 
 export const selectMapCenter = (state: RootState) => state.map.center;
 export const selectHoveredEmitter = (state: RootState) =>
@@ -68,5 +117,11 @@ export const selectHoveredEmitterSource = (state: RootState) =>
   state.map.hoveredEmitterSource;
 export const selectHighlightEmitters = (state: RootState) =>
   state.map.highlightEmitters;
-
+export const selectActiveBaseMap = (state: RootState) =>
+  state.map.activeBaseMap;
+export const selectOverlayChecked =
+  (name: string, defaultChecked: boolean = false) =>
+  (state: RootState): boolean =>
+    state.map.overlayStates?.[name] ?? defaultChecked;
+  
 export default mapSlice.reducer;
