@@ -1,6 +1,7 @@
 import { useAppSelector } from "../../app/hooks";
 import { LatLngLiteral } from "leaflet";
-import { LayerGroup, LayersControl, Polygon } from "react-leaflet";
+import { LayerGroup, Polygon } from "react-leaflet";
+import { MapOverlay } from "../mapcontrollayers/MapOverlay"
 import { selectMapZones } from "../../api/mapZonesSlice";
 
 interface TerrainZoneLayerProps {
@@ -55,13 +56,13 @@ export default function TerrainZonesLayers() {
   }
   return (
     <>
-      <LayersControl.Overlay name="Inclusion zones">
+      <MapOverlay name="Inclusion zones">
         {inclusion}
-      </LayersControl.Overlay>
-      <LayersControl.Overlay name="Exclusion zones">
+      </MapOverlay>
+      <MapOverlay name="Exclusion zones">
         {exclusion}
-      </LayersControl.Overlay>
-      <LayersControl.Overlay name="Sea zones">{sea}</LayersControl.Overlay>
+      </MapOverlay>
+      <MapOverlay name="Sea zones">{sea}</MapOverlay>
     </>
   );
 }
