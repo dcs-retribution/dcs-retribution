@@ -24,6 +24,7 @@ if TYPE_CHECKING:
     from dcs.mapping import Point
     from game import Game
     from game.ato.flight import Flight
+    from game.squadrons.csarservice import CapturedPilot
     from game.squadrons.downedpilot import DownedPilot
     from game.sim.simulationresults import SimulationResults
     from game.transfers import CargoShip
@@ -267,6 +268,15 @@ class Debriefing:
 
     def rescued_pilots_for(self, player: Player) -> list[RescuedPilot]:
         return [p for p in self.rescued_pilots.values() if p.player == player]
+
+    def captured_pilots_for(self, player: Player) -> list[CapturedPilot]:
+        """Pilots taken prisoner this turn.
+
+        Read from the game rather than stored here, because captures also happen
+        while the turn advances -- after results are committed but before the
+        debriefing is shown -- and this is evaluated when the window is drawn.
+        """
+        return [p for p in self.game.pilots_captured_this_turn if p.player == player]
 
     def _ejected_pilot_positions(self) -> Dict[int, "Point"]:
         """Maps ``id(pilot)`` to the world position where they came down.

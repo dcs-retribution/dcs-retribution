@@ -402,6 +402,58 @@ def test_unrescued_pilot_is_held_at_the_nearest_enemy_base() -> None:
     assert downed.pilot.held_at == near_enemy.id
 
 
+def test_capture_is_recorded_for_the_debrief_with_its_control_point() -> None:
+    """The debrief needs to name the base holding them; by the time it is drawn
+    the pilot only carries a held_at id, and nothing says it happened this turn."""
+    game = _make_game()
+    captor = _control_point("Krymsk", friendly_to_blue=False, x=1000.0)
+    game.theater.controlpoints = [captor]
+    game.pilots_captured_this_turn = []
+
+    downed = _standalone_downed()
+    downed._position = Point(0.0, 0.0, _TERRAIN)
+    downed.pilot.go_down()
+    CsarService(game).go_mia(downed)
+
+    assert len(game.pilots_captured_this_turn) == 1
+    captured = game.pilots_captured_this_turn[0]
+    assert captured.name == downed.pilot.name
+    assert captured.control_point == "Krymsk"
+    assert captured.player == downed.player
+
+
+def test_capture_on_landing_is_also_recorded() -> None:
+    game = _make_game(csar_control_point_radius=15)
+    game.pilots_captured_this_turn = []
+    control_point = _control_point("Krymsk", friendly_to_blue=False, x=0.0)
+    control_point.position.distance_to_point = MagicMock(return_value=0.0)
+    game.theater.closest_control_point.return_value = control_point
+
+    pilot = Pilot("Captured")
+    squadron = MagicMock()
+    squadron.player = _blue_red_player().BLUE
+    squadron.aircraft.display_name = "F/A-18C Hornet"
+    squadron.coalition.downed_pilots = []
+    flight = MagicMock()
+    flight.squadron = squadron
+    CsarService(game).down_pilot(flight, pilot, False, Point(0.0, 0.0, _TERRAIN))
+
+    assert [c.control_point for c in game.pilots_captured_this_turn] == ["Krymsk"]
+
+
+def test_missing_pilot_with_no_captor_is_not_reported_as_captured() -> None:
+    game = _make_game()
+    game.theater.controlpoints = [_control_point("Batumi", True, 500.0)]
+    game.pilots_captured_this_turn = []
+
+    downed = _standalone_downed()
+    downed._position = Point(0.0, 0.0, _TERRAIN)
+    downed.pilot.go_down()
+    CsarService(game).go_mia(downed)
+
+    assert game.pilots_captured_this_turn == []
+
+
 def test_pilot_with_no_enemy_bases_is_simply_missing() -> None:
     game = _make_game()
     game.theater.controlpoints = [_control_point("Batumi", True, 500.0)]
@@ -437,8 +489,20 @@ def test_retaking_a_base_frees_its_prisoners() -> None:
     CsarService(game).liberate_prisoners_at(base)
 
     assert prisoner.recovering
-    assert prisoner.turns_until_available == 1  # csar_player_recovery_turns for blue
+    # An AI pilot, so the AI recovery figure -- not the player one just because
+    # they happen to fly for blue.
+    assert prisoner.turns_until_available == 2
     assert prisoner.held_at is None
+
+
+def test_freed_player_pilot_uses_the_player_recovery_turns() -> None:
+    base = _control_point("Krymsk", friendly_to_blue=True, x=0.0)
+    game, prisoner, _ = _game_with_prisoner(base.id)
+    prisoner.player = True
+
+    CsarService(game).liberate_prisoners_at(base)
+
+    assert prisoner.turns_until_available == 1
 
 
 def test_losing_a_base_does_not_free_our_prisoners() -> None:

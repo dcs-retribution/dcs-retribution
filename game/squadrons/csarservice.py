@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 import random
+from dataclasses import dataclass
 from typing import Optional, TYPE_CHECKING
 
 from dcs.mapping import Point
@@ -15,6 +16,7 @@ if TYPE_CHECKING:
     from game.coalition import Coalition
     from game.game import Game
     from game.squadrons.pilot import Pilot
+    from game.squadrons.squadron import Squadron
     from game.theater import ControlPoint
     from game.theater.player import Player
 
@@ -24,6 +26,22 @@ _FRONT_LINE_DANGER = nautical_miles(30)
 
 #: Fallback scatter radius (metres) when a loss has no DCS-reported position.
 _FALLBACK_SCATTER_METERS = 5000.0
+
+
+@dataclass(frozen=True)
+class CapturedPilot:
+    """A pilot taken prisoner this turn, for the debriefing report.
+
+    Recorded rather than derived, because by the time the debrief is drawn the
+    only trace on the pilot is a ``held_at`` id -- which says where they are, not
+    that it happened this turn.
+    """
+
+    name: str
+    aircraft: str
+    squadron: str
+    player: Player
+    control_point: str
 
 
 class CsarService:
@@ -53,7 +71,9 @@ class CsarService:
         squadron = flight.squadron
         player = squadron.player
 
-        resolved = self._resolve_near_control_point(pilot, position, player, was_player)
+        resolved = self._resolve_near_control_point(
+            pilot, position, player, was_player, squadron
+        )
         if resolved:
             return None
 
@@ -86,8 +106,31 @@ class CsarService:
         )
         return downed
 
+    def _record_capture(
+        self,
+        name: str,
+        aircraft: str,
+        squadron: str,
+        player: Player,
+        control_point: str,
+    ) -> None:
+        self.game.pilots_captured_this_turn.append(
+            CapturedPilot(
+                name=name,
+                aircraft=aircraft,
+                squadron=squadron,
+                player=player,
+                control_point=control_point,
+            )
+        )
+
     def _resolve_near_control_point(
-        self, pilot: Pilot, position: Point, player: Player, was_player: bool
+        self,
+        pilot: Pilot,
+        position: Point,
+        player: Player,
+        was_player: bool,
+        squadron: Squadron,
     ) -> bool:
         """Settles a pilot who came down on top of a control point, if they did.
 
@@ -122,6 +165,13 @@ class CsarService:
         else:
             # Held by the base that took them, so retaking it brings them home.
             pilot.go_mia(held_at=nearest.id)
+            self._record_capture(
+                pilot.name,
+                squadron.aircraft.display_name,
+                str(squadron),
+                player,
+                nearest.name,
+            )
             self.game.message(
                 "Pilot captured",
                 f"{pilot.name} came down inside enemy lines near {nearest.name} "
@@ -178,6 +228,13 @@ class CsarService:
         downed.pilot.go_mia(held_at=captor.id if captor is not None else None)
         self._remove(downed)
         if captor is not None:
+            self._record_capture(
+                downed.pilot.name,
+                downed.aircraft_name,
+                str(downed.squadron),
+                downed.player,
+                captor.name,
+            )
             self.game.message(
                 "Pilot captured",
                 f"{downed.pilot.name} ({downed.aircraft_name}) was never rescued and "
@@ -211,17 +268,21 @@ class CsarService:
         prisoners in it, and a base can be taken by the side already holding them.
         """
         for coalition in (self.game.blue, self.game.red):
-            turns = (
-                self.game.settings.csar_player_recovery_turns
-                if coalition.player.is_blue
-                else self.game.settings.csar_ai_recovery_turns
-            )
             if not control_point.is_friendly(coalition.player):
                 continue
             for squadron in coalition.air_wing.iter_squadrons():
                 for pilot in list(squadron.missing_pilots):
                     if pilot.held_at != control_point.id:
                         continue
+                    # Per pilot, not per coalition: whether a human flew them is
+                    # what the two recovery settings distinguish, exactly as for a
+                    # CSAR rescue. Keying off the coalition gave every blue pilot
+                    # the (shorter) player figure.
+                    turns = (
+                        self.game.settings.csar_player_recovery_turns
+                        if pilot.player
+                        else self.game.settings.csar_ai_recovery_turns
+                    )
                     pilot.release_from_captivity(turns)
                     self.game.message(
                         "Prisoner of war freed",

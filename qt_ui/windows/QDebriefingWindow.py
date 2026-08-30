@@ -110,6 +110,40 @@ class RescueReport(QGroupBox):
             layout.addWidget(QLabel("No pilots were recovered."), 0, 0)
 
 
+class CaptureReport(QGroupBox):
+    """Lists the pilots taken prisoner this turn, and who is holding them.
+
+    Named separately from the casualty grid because a prisoner is not a permanent
+    loss: retaking the base that holds them brings them back.
+    """
+
+    def __init__(self, debriefing: Debriefing) -> None:
+        super().__init__("Pilots captured:")
+        layout = QGridLayout()
+        self.setLayout(layout)
+
+        any_captures = False
+        for player in (Player.BLUE, Player.RED):
+            captured = debriefing.captured_pilots_for(player)
+            if not captured:
+                continue
+            any_captures = True
+            country = (
+                debriefing.player_country
+                if player.is_blue
+                else debriefing.enemy_country
+            )
+            layout.addWidget(QLabel(f"<b>{country}</b>"), layout.rowCount(), 0)
+            for pilot in captured:
+                row = layout.rowCount()
+                layout.addWidget(QLabel(pilot.name), row, 0)
+                layout.addWidget(QLabel(f"{pilot.squadron} ({pilot.aircraft})"), row, 1)
+                layout.addWidget(QLabel(f"held at {pilot.control_point}"), row, 2)
+
+        if not any_captures:
+            layout.addWidget(QLabel("No pilots were captured."), 0, 0)
+
+
 class QDebriefingWindow(QDialog):
     def __init__(self, debriefing: Debriefing):
         super(QDebriefingWindow, self).__init__()
@@ -143,6 +177,7 @@ class QDebriefingWindow(QDialog):
         layout.addWidget(enemy_lost_units, 1)
 
         layout.addWidget(RescueReport(debriefing))
+        layout.addWidget(CaptureReport(debriefing))
 
         okay = QPushButton("Okay")
         okay.clicked.connect(self.close)

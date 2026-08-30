@@ -30,6 +30,9 @@ class MissionResultsProcessor:
 
     def commit(self, debriefing: Debriefing, events: GameUpdateEvents) -> None:
         with logged_duration("Committing mission results"):
+            # Per-turn scratch for the debriefing report, so last turn's prisoners
+            # don't show up again.
+            self.game.pilots_captured_this_turn.clear()
             # Resolve rescues before processing losses so a pilot rescued this
             # mission is not also reprocessed as a fresh loss.
             with logged_duration("commit_csar_results"):
