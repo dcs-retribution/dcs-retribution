@@ -172,7 +172,7 @@ class QWaitingForMissionResultWindow(QDialog):
             ("Airlift cargo lost", blue.airlift_cargo, red.airlift_cargo),
             ("Ground Objects lost", blue.ground_objects, red.ground_objects),
             ("Scenery Objects lost", blue.scenery, red.scenery),
-            ("Bases lost", blue.bases_lost, red.bases_lost),
+            ("Bases captured", blue.bases_captured, red.bases_captured),
             ("Runways destroyed", blue.runways_destroyed, red.runways_destroyed),
         ]
         for label, blue_count, red_count in rows:

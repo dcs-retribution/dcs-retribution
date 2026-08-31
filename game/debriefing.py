@@ -105,6 +105,7 @@ class SideLossCounts:
     airlift_cargo: int
     ground_objects: int
     scenery: int
+    bases_captured: int
     bases_lost: int
     runways_destroyed: int
 
@@ -346,6 +347,11 @@ class Debriefing:
             airlift_cargo=sum(len(loss.cargo) for loss in airlifts),
             ground_objects=len(ground_objects),
             scenery=len(scenery),
+            bases_captured=sum(
+                1
+                for capture in self.base_captures
+                if capture.captured_by_player == player
+            ),
             bases_lost=sum(
                 1
                 for capture in self.base_captures
