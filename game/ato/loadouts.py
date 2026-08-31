@@ -226,6 +226,12 @@ class Loadout:
     @staticmethod
     def valid_payload(pylons: Dict[int, Dict[str, str]]) -> bool:
         for p in pylons.values():
+            # An empty pylon is a pylon carrying nothing, not an unknown store.
+            # Treating it as invalid threw away whole payloads: the Tornado IDS
+            # "STRIKE" fit leaves stations 5-8 free, so the aircraft was planned
+            # with no loadout at all rather than with its GBU-16s.
+            if not p["CLSID"]:
+                continue
             if Weapon.with_clsid(p["CLSID"]) is None:
                 return False
         return True
