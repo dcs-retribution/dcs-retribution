@@ -82,7 +82,7 @@ class RaceTrackBuilder(PydcsWaypointBuilder):
         elapsed = int((flight_plan.patrol_end_time - self.now).total_seconds())
         racetrack.stop_after_time(elapsed)
         # What follows is some code to cope with the broken 'stop after time' condition
-        create_stop_orbit_trigger(racetrack, self.package, self.mission, elapsed)
+        create_stop_orbit_trigger(racetrack, self.group.id, self.mission, elapsed)
         # end of hotfix
         waypoint.add_task(racetrack)
 

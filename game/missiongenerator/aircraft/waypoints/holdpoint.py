@@ -34,7 +34,7 @@ class HoldPointBuilder(PydcsWaypointBuilder):
         elapsed = int((push_time - self.now).total_seconds()) - 60
         loiter.stop_after_time(elapsed)
         # What follows is some code to cope with the broken 'stop after time' condition
-        create_stop_orbit_trigger(loiter, self.package, self.mission, elapsed)
+        create_stop_orbit_trigger(loiter, self.group.id, self.mission, elapsed)
         # end of hotfix
         waypoint.add_task(loiter)
         if self.flight.is_helo:

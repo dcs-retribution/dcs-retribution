@@ -1,25 +1,37 @@
 from dcs import Mission
-from dcs.action import SetFlag
+from dcs.action import DoScript
 from dcs.condition import TimeAfter
 from dcs.task import ControlledTask
+from dcs.translation import String
 from dcs.triggers import TriggerOnce, Event
-
-from game.ato import Package
 
 
 def create_stop_orbit_trigger(
-    orbit: ControlledTask, package: Package, mission: Mission, elapsed: int
+    orbit: ControlledTask, group_id: int, mission: Mission, elapsed: int
 ) -> None:
-    orbit.stop_if_user_flag(id(package), True)
-    orbits = [
-        x
-        for x in mission.triggerrules.triggers
-        if x.comment == f"StopOrbit{id(package)}"
-    ]
-    if not any(orbits):
-        stop_trigger = TriggerOnce(Event.NoEvent, f"StopOrbit{id(package)}")
-        stop_condition = TimeAfter(elapsed)
-        stop_action = SetFlag(id(package))
-        stop_trigger.add_condition(stop_condition)
-        stop_trigger.add_action(stop_action)
-        mission.triggerrules.triggers.append(stop_trigger)
+    """End an orbit at `elapsed`, working around the broken "stop after time".
+
+    Keyed by the group rather than by its package. Every flight has its own
+    patrol or push time, but a flag can only fire once, so a package-wide flag
+    ended every orbit in the package at whichever time the first flight to be
+    generated happened to need: an AWACS packaged with a shorter-lived BARCAP
+    was pulled off station two hours early, and a tanker half an hour early.
+
+    The flag is named after the group id rather than a Python ``id()``, which is
+    an object address: it changes between two generations of the same turn, and
+    is reused once the object it belonged to has been collected.
+    """
+    flag = f"stop-orbit-{group_id}"
+    orbit.stop_if_user_flag(flag, True)
+    comment = f"StopOrbit{group_id}"
+    if any(t.comment == comment for t in mission.triggerrules.triggers):
+        return
+    stop_trigger = TriggerOnce(Event.NoEvent, comment)
+    stop_trigger.add_condition(TimeAfter(elapsed))
+    # setUserFlag rather than SetFlag: the stop condition names the flag as a
+    # string, and a string flag cannot collide with the numbered ones the
+    # trigger generator hands out for capture zones.
+    stop_trigger.add_action(
+        DoScript(String(f'trigger.action.setUserFlag("{flag}", true)'))
+    )
+    mission.triggerrules.triggers.append(stop_trigger)
