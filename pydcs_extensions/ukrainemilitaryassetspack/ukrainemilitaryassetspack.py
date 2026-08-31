@@ -60,9 +60,9 @@ inject_weapons(WeaponsUKR)
 
 # Armor
 @vehiclemod
-class T84_OplotM(unittype.VehicleType):
-    id = "T84_OplotM"
-    name = "[CH] T-84 Oplot-M MBT"
+class CHAP_T84OplotM(unittype.VehicleType):
+    id = "CHAP_T84OplotM"
+    name = "MBT T-84 Oplot-M [CH]"
     detection_range = 8000
     threat_range = 5000
     air_weapon_dist = 5000
@@ -70,8 +70,8 @@ class T84_OplotM(unittype.VehicleType):
 
 
 @vehiclemod
-class BTR_4(unittype.VehicleType):
-    id = "BTR-4"
+class CH_BTR_4(unittype.VehicleType):
+    id = "CH_BTR-4"
     name = "[CH] BTR-4 IFV"
     detection_range = 0
     threat_range = 5000
@@ -80,9 +80,9 @@ class BTR_4(unittype.VehicleType):
 
 
 @vehiclemod
-class CH_T64BV(unittype.VehicleType):
-    id = "CH_T64BV"
-    name = "[CH] T-64BV MBT"
+class CHAP_T64BV(unittype.VehicleType):
+    id = "CHAP_T64BV"
+    name = "MBT T-64BV Type 2017 [CH]"
     detection_range = 5000
     threat_range = 4000
     air_weapon_dist = 4000
@@ -152,8 +152,8 @@ class CH_KrAZ6322(unittype.VehicleType):
 
 # Planes
 @planemod
-class Su_24MU(PlaneType):
-    id = "Su-24MU"
+class CH_Su_24MU(PlaneType):
+    id = "CH_Su-24MU"
     height = 4.97
     width = 17.64
     length = 24.53
@@ -165,7 +165,7 @@ class Su_24MU(PlaneType):
     chaff_charge_size = 1
     flare_charge_size = 1
 
-    livery_name = "SU-24MU"  # from type
+    livery_name = "CH_SU-24MU"  # from type
 
     class Pylon1:
         R_60M__AA_8_Aphid_B____IR_AAM = (1, Weapons.R_60M__AA_8_Aphid_B____IR_AAM)
@@ -199,7 +199,8 @@ class Su_24MU(PlaneType):
             1,
             Weapons.Kh_25ML__AS_10_Karen____300kg__ASM__Semi_Act_Laser_,
         )
-        CH_AASM_250_PGM = (1, Weapons.CH_AASM_250_PGM)
+
+    # ERRR {CH_AASM250}
 
     class Pylon2:
         MBD3_U6_68___6_x_OFAB_100_120___100_kg_GP_Bomb_LD = (
@@ -244,7 +245,8 @@ class Su_24MU(PlaneType):
         Fuel_tank_3000L = (2, Weapons.Fuel_tank_3000L)
         CH_Storm_Shadow_ALCM = (2, Weapons.CH_Storm_Shadow_ALCM)
         CH_Taurus_KEPD_350_ALCM = (2, Weapons.CH_Taurus_KEPD_350_ALCM)
-        CH_AASM_250_PGM = (2, Weapons.CH_AASM_250_PGM)
+
+    # ERRR {CH_AASM250}
 
     class Pylon3:
         MBD3_U6_68___6_x_OFAB_100_120___100_kg_GP_Bomb_LD = (
@@ -266,7 +268,8 @@ class Su_24MU(PlaneType):
             3,
             Weapons.APU_68___S_24B___240mm_UnGd_Rkt__235kg__HE_Frag___Low_Smk_,
         )
-        CH_AASM_250_PGM = (3, Weapons.CH_AASM_250_PGM)
+
+    # ERRR {CH_AASM250}
 
     class Pylon4:
         MBD3_U6_68___6_x_OFAB_100_120___100_kg_GP_Bomb_LD = (
@@ -278,7 +281,8 @@ class Su_24MU(PlaneType):
             4,
             Weapons.KAB_1500L___1500kg_Laser_Guided_Bomb,
         )
-        CH_AASM_250_PGM = (4, Weapons.CH_AASM_250_PGM)
+
+    # ERRR {CH_AASM250}
 
     class Pylon5:
         Fuel_tank_2000L = (5, Weapons.Fuel_tank_2000L)
@@ -305,7 +309,8 @@ class Su_24MU(PlaneType):
             6,
             Weapons.APU_68___S_24B___240mm_UnGd_Rkt__235kg__HE_Frag___Low_Smk_,
         )
-        CH_AASM_250_PGM = (6, Weapons.CH_AASM_250_PGM)
+
+    # ERRR {CH_AASM250}
 
     class Pylon7:
         MBD3_U6_68___6_x_OFAB_100_120___100_kg_GP_Bomb_LD = (
@@ -350,7 +355,8 @@ class Su_24MU(PlaneType):
         Fuel_tank_3000L = (7, Weapons.Fuel_tank_3000L)
         CH_Storm_Shadow_ALCM = (7, Weapons.CH_Storm_Shadow_ALCM)
         CH_Taurus_KEPD_350_ALCM = (7, Weapons.CH_Taurus_KEPD_350_ALCM)
-        CH_AASM_250_PGM = (7, Weapons.CH_AASM_250_PGM)
+
+    # ERRR {CH_AASM250}
 
     class Pylon8:
         R_60M__AA_8_Aphid_B____IR_AAM = (8, Weapons.R_60M__AA_8_Aphid_B____IR_AAM)
@@ -384,7 +390,8 @@ class Su_24MU(PlaneType):
             8,
             Weapons.Kh_25ML__AS_10_Karen____300kg__ASM__Semi_Act_Laser_,
         )
-        CH_AASM_250_PGM = (8, Weapons.CH_AASM_250_PGM)
+
+    # ERRR {CH_AASM250}
 
     pylons: Set[int] = {1, 2, 3, 4, 5, 6, 7, 8}
 
@@ -402,8 +409,8 @@ class Su_24MU(PlaneType):
 
 
 @planemod
-class MiG_29MU2(PlaneType):
-    id = "MiG-29MU2"
+class CH_MiG_29MU2(PlaneType):
+    id = "CH_MiG-29MU2"
     height = 4.73
     width = 11.36
     length = 20.32
@@ -417,7 +424,7 @@ class MiG_29MU2(PlaneType):
     eplrs = True
     category = "Interceptor"  # {78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}
 
-    livery_name = "MIG-29MU2"  # from type
+    livery_name = "CH_MIG-29MU2"  # from type
 
     class Pylon1:
         R_73__AA_11_Archer____Infra_Red = (1, Weapons.R_73__AA_11_Archer____Infra_Red)
@@ -515,8 +522,9 @@ class MiG_29MU2(PlaneType):
             2,
             Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE,
         )
-        # ERRR <CLEAN>
-        CH_AASM_250_PGM = (2, Weapons.CH_AASM_250_PGM)
+
+    # ERRR <CLEAN>
+    # ERRR {CH_AASM250}
 
     class Pylon3:
         Fuel_tank_1150L_MiG_29 = (3, Weapons.Fuel_tank_1150L_MiG_29)
@@ -591,8 +599,9 @@ class MiG_29MU2(PlaneType):
             3,
             Weapons.ADM_160B_MALD_x_3___Miniature_Air_Launched_Decoy,
         )
-        # ERRR <CLEAN>
-        CH_AASM_250_PGM = (3, Weapons.CH_AASM_250_PGM)
+
+    # ERRR <CLEAN>
+    # ERRR {CH_AASM250}
 
     class Pylon4:
         Fuel_tank_1400L = (4, Weapons.Fuel_tank_1400L)
@@ -670,8 +679,9 @@ class MiG_29MU2(PlaneType):
             5,
             Weapons.ADM_160B_MALD_x_3___Miniature_Air_Launched_Decoy,
         )
-        # ERRR <CLEAN>
-        CH_AASM_250_PGM = (5, Weapons.CH_AASM_250_PGM)
+
+    # ERRR <CLEAN>
+    # ERRR {CH_AASM250}
 
     class Pylon6:
         R_73__AA_11_Archer____Infra_Red = (6, Weapons.R_73__AA_11_Archer____Infra_Red)
@@ -745,8 +755,9 @@ class MiG_29MU2(PlaneType):
             6,
             Weapons.LAU_10___4_x_UnGd_Rkts__127_mm_Zuni_Mk__24_Mod__1_HE,
         )
-        # ERRR <CLEAN>
-        CH_AASM_250_PGM = (6, Weapons.CH_AASM_250_PGM)
+
+    # ERRR <CLEAN>
+    # ERRR {CH_AASM250}
 
     class Pylon7:
         R_73__AA_11_Archer____Infra_Red = (7, Weapons.R_73__AA_11_Archer____Infra_Red)
@@ -884,8 +895,9 @@ class CH_Su_27P1M(PlaneType):
             3,
             Weapons.JDAM_ER___450_kg_GPS_Guided_Mk_83_GP_bomb,
         )
-        # ERRR <CLEAN>
-        CH_AASM_250_PGM = (3, Weapons.CH_AASM_250_PGM)
+
+    # ERRR <CLEAN>
+    # ERRR {CH_AASM250}
 
     class Pylon4:
         R_27ER__AA_10_Alamo_C____Semi_Act_Extended_Range = (
@@ -918,8 +930,9 @@ class CH_Su_27P1M(PlaneType):
             4,
             Weapons.JDAM_ER___450_kg_GPS_Guided_Mk_83_GP_bomb,
         )
-        # ERRR <CLEAN>
-        CH_AASM_250_PGM = (4, Weapons.CH_AASM_250_PGM)
+
+    # ERRR <CLEAN>
+    # ERRR {CH_AASM250}
 
     class Pylon5:
         R_27ER__AA_10_Alamo_C____Semi_Act_Extended_Range = (
@@ -948,8 +961,9 @@ class CH_Su_27P1M(PlaneType):
             5,
             Weapons.JDAM_ER___450_kg_GPS_Guided_Mk_83_GP_bomb,
         )
-        # ERRR <CLEAN>
-        CH_AASM_250_PGM = (5, Weapons.CH_AASM_250_PGM)
+
+    # ERRR <CLEAN>
+    # ERRR {CH_AASM250}
 
     class Pylon6:
         R_27ER__AA_10_Alamo_C____Semi_Act_Extended_Range = (
@@ -978,8 +992,9 @@ class CH_Su_27P1M(PlaneType):
             6,
             Weapons.JDAM_ER___450_kg_GPS_Guided_Mk_83_GP_bomb,
         )
-        # ERRR <CLEAN>
-        CH_AASM_250_PGM = (6, Weapons.CH_AASM_250_PGM)
+
+    # ERRR <CLEAN>
+    # ERRR {CH_AASM250}
 
     class Pylon7:
         R_27ER__AA_10_Alamo_C____Semi_Act_Extended_Range = (
@@ -1012,8 +1027,9 @@ class CH_Su_27P1M(PlaneType):
             7,
             Weapons.JDAM_ER___450_kg_GPS_Guided_Mk_83_GP_bomb,
         )
-        # ERRR <CLEAN>
-        CH_AASM_250_PGM = (7, Weapons.CH_AASM_250_PGM)
+
+    # ERRR <CLEAN>
+    # ERRR {CH_AASM250}
 
     class Pylon8:
         R_73__AA_11_Archer____Infra_Red = (8, Weapons.R_73__AA_11_Archer____Infra_Red)
@@ -1080,8 +1096,9 @@ class CH_Su_27P1M(PlaneType):
             8,
             Weapons.JDAM_ER___450_kg_GPS_Guided_Mk_83_GP_bomb,
         )
-        # ERRR <CLEAN>
-        CH_AASM_250_PGM = (8, Weapons.CH_AASM_250_PGM)
+
+    # ERRR <CLEAN>
+    # ERRR {CH_AASM250}
 
     class Pylon9:
         R_73__AA_11_Archer____Infra_Red = (9, Weapons.R_73__AA_11_Archer____Infra_Red)

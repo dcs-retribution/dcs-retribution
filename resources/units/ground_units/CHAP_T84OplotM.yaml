@@ -10,4 +10,4 @@ origin: Ukraine
 price: 25
 role: Main Battle Tank
 variants:
-  "MBT T-84 Oplot-M [CH]": {}
+  "[CH] T-84 Oplot-M MBT": {}

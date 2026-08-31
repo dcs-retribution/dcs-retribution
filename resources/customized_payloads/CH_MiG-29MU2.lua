@@ -1,5 +1,5 @@
 local unitPayloads = {
-	["name"] = "MiG-29MU2",
+	["name"] = "CH_MiG-29MU2",
 	["payloads"] = {
 		[1] = {
 			["displayName"] = "Retribution BAI",
