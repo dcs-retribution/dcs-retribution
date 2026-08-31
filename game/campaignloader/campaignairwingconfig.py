@@ -26,6 +26,11 @@ class SquadronConfig:
     nickname: Optional[str]
     female_pilot_percentage: Optional[int]
     aircraft_type: Optional[str]
+    #: DCS country name (e.g. "USA") pinning the nation the squadron flies under
+    #: (#627 voice/comms + pilot names). Under a CJTF faction the airframe-name
+    #: preset pick is otherwise a random.choice across every nation's presets.
+    #: A pinned country prefers same-nation presets and stamps generated defs.
+    country: Optional[str]
 
     @property
     def auto_assignable(self) -> set[FlightType]:
@@ -52,6 +57,7 @@ class SquadronConfig:
             data.get("nickname", None),
             data.get("female_pilot_percentage", None),
             data.get("aircraft_type", None),
+            data.get("country", None),
         )
 
     @staticmethod

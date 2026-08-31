@@ -21,6 +21,7 @@
 * **[Modding]** Update to CJS Super Hornet Mod to v2.4.5.260501.RC1
 * **[Modding]** Update Community A4EC Mod to 2.3.0 (May 2025)
 * **[Mission Generator]** Squadrons now spawn using the proper country instead of CTJF, enabling various DCS AI voiceovers
+* **[UX]** The squadron's country is now selectable in the Air Wing Configuration dialog (under Livery), and campaigns can pin it per squadron with `country:` — a coalition (CJTF) wing stops rolling a random nation's preset (voice, pilot names) for airframe-name squadron configs. Squadron preset dropdowns show each preset's nation, and Save/Load Config round-trips the country (note: Save Config now records a `country:` for every squadron, so a reloaded air wing keeps each squadron's nation instead of rerolling it).
 * **[Options]** New option to restrict helmet devices by date
 * **[Flight Plans]** Renaming a waypoint in the flight-plan list now propagates to the aircraft CDU/HUD and the kneeboard, not just the list — one name in all three places (#695).
 * **[Campaigns]** Ability to define motor pool objects which spawn reserve armor
