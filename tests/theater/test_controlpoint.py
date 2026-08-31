@@ -1,8 +1,9 @@
 import logging
 
 import pytest
-from typing import Any
-from unittest.mock import MagicMock
+from typing import Any, cast
+from types import SimpleNamespace
+from unittest.mock import MagicMock, patch
 
 from dcs import Point
 from dcs.planes import AJS37
@@ -11,13 +12,16 @@ from dcs.terrain.terrain import Airport
 from game.ato.flighttype import FlightType
 from game.dcs.aircrafttype import AircraftType
 from game.dcs.countries import country_with_name
+from game.data.groups import GroupTask
 from game.point_with_heading import PointWithHeading
 from game.squadrons import Squadron
 from game.squadrons.operatingbases import OperatingBases
+from game.sim.gameupdateevents import GameUpdateEvents
 from game.theater.controlpoint import (
     Airfield,
     Carrier,
     ControlPoint,
+    ControlPointType,
     Lha,
     OffMapSpawn,
     Fob,
@@ -286,6 +290,85 @@ def _cp_with_motorpool_tgos(
         for tgo_name, pos in tgo_positions
     ]
     return cp
+
+
+def test_capture_rehomes_motorpools_immediately() -> None:
+    from game.missiongenerator.motorpoolpopulator import MotorpoolPopulator
+
+    cp = cast(Any, ControlPoint.__new__(Airfield))
+    old_coalition = MagicMock()
+    new_coalition = MagicMock()
+    cp._coalition = old_coalition
+    cp.connected_objectives = []
+    cp.front_lines = {}
+    cp.ground_unit_orders = MagicMock()
+    cp.base = MagicMock()
+    cp.retreat_ground_units = MagicMock()
+    cp.retreat_air_units = MagicMock()
+    cp.release_parking_slots = MagicMock()
+    cp.depopulate_uncapturable_tgos = MagicMock()
+    cp._clear_front_lines = MagicMock()
+    cp._create_missing_front_lines = MagicMock()
+    tgo = MotorpoolGroundObject(
+        "JAGUAR",
+        _preset("Garage A", Point(4000.0, 0.0, MagicMock(spec=Terrain))),
+        cp,
+        GroupTask.MOTORPOOL,
+    )
+    cp.connected_objectives.append(tgo)
+    game = MagicMock()
+    game.coalition_for.return_value = new_coalition
+    game.theater.controlpoints = [cp]
+    events = MagicMock()
+
+    with patch.object(MotorpoolPopulator, "_rehome_motorpools") as rehome:
+        cp.capture(game, events, Player.BLUE)
+
+    assert cp._coalition is new_coalition
+    rehome.assert_called_once_with(events)
+
+
+def test_capture_publishes_rehomed_motorpool_tgo_update() -> None:
+    terrain = MagicMock(spec=Terrain)
+    captured_cp = cast(Any, ControlPoint.__new__(Airfield))
+    captured_cp._coalition = MagicMock()
+    captured_cp.connected_objectives = []
+    captured_cp.front_lines = {}
+    captured_cp.ground_unit_orders = MagicMock()
+    captured_cp.base = MagicMock()
+    captured_cp.retreat_ground_units = MagicMock()
+    captured_cp.retreat_air_units = MagicMock()
+    captured_cp.release_parking_slots = MagicMock()
+    captured_cp.depopulate_uncapturable_tgos = MagicMock()
+    captured_cp._clear_front_lines = MagicMock()
+    captured_cp._create_missing_front_lines = MagicMock()
+    captured_cp.cptype = ControlPointType.AIRBASE
+    captured_cp.position = Point(5000.0, 0.0, terrain)
+    motorpool_location = _preset("Garage A", Point(0.0, 0.0, terrain))
+    captured_cp.preset_locations = SimpleNamespace(motorpools=[motorpool_location])
+
+    destination_cp = SimpleNamespace(
+        cptype=ControlPointType.FARP,
+        position=Point(0.0, 0.0, terrain),
+        connected_objectives=[],
+        preset_locations=SimpleNamespace(motorpools=[]),
+    )
+    tgo = MotorpoolGroundObject(
+        "JAGUAR",
+        motorpool_location,
+        captured_cp,
+        GroupTask.MOTORPOOL,
+    )
+    captured_cp.connected_objectives.append(tgo)
+    game = MagicMock()
+    game.coalition_for.return_value = MagicMock()
+    game.theater.controlpoints = [captured_cp, destination_cp]
+    events = GameUpdateEvents()
+
+    captured_cp.capture(game, events, Player.BLUE)
+
+    assert tgo.control_point is destination_cp
+    assert events.updated_tgos == {tgo}
 
 
 def test_motorpools_inside_capture_zone_reports_only_inside() -> None:
