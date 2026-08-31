@@ -13,9 +13,15 @@ class BaiIngressBuilder(PydcsWaypointBuilder):
         self.register_special_ingress_points()
         if not self.flight.is_helo:
             waypoint.tasks.append(OptFormation.trail_open())
+        # Motorpool targets flow through the same path as any other TGO: one
+        # AttackGroup task per group. The populator renders a motorpool as one
+        # group per unit type ("{tgo.name} ({unit_type})"), so motorpool BAI
+        # engages each armor group individually — the same shape as non-motorpool
+        # BAI — rather than a single zone task (mission spec).
+        target = self.package.target
+
         # TODO: Add common "UnitGroupTarget" base type.
         group_names = []
-        target = self.package.target
         if isinstance(target, TheaterGroundObject):
             for group in target.groups:
                 group_names.append(group.group_name)

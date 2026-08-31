@@ -11,6 +11,7 @@ from dcs import Point
 
 from game.flightplan import HoldZoneGeometry
 from game.theater import MissionTarget
+from game.theater.theatergroundobject import MotorpoolGroundObject
 from game.utils import nautical_miles, Speed, feet
 from .flightplan import FlightPlan
 from .formation import FormationFlightPlan, FormationLayout
@@ -178,12 +179,31 @@ class FormationAttackBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
         builder = WaypointBuilder(self.flight, targets)
 
         target_waypoints: list[FlightWaypoint] = []
-        if targets:
+        # Mission spec: STRIKE against a motorpool keeps one player-facing
+        # waypoint per parked unit, while motorpool BAI and ARMED_RECON use one
+        # target-area waypoint. Non-motorpool behavior remains per target.
+        is_motorpool = isinstance(self.package.target, MotorpoolGroundObject)
+        if targets and (
+            not is_motorpool or self.flight.flight_type == FlightType.STRIKE
+        ):
             for target in targets:
                 target_waypoints.append(
                     self.target_waypoint(self.flight, builder, target)
                 )
+        elif self.flight.flight_type == FlightType.BAI and isinstance(
+            self.package.target, MotorpoolGroundObject
+        ):
+            # Mission spec: motorpool BAI gets one waypoint for the motorpool
+            # total, named the way every other BAI flight names its target
+            # waypoint ("ATTACK ..."), not a strike-style area name.
+            target_waypoints.append(
+                builder.bai_group(
+                    StrikeTarget(self.package.target.name, self.package.target)
+                )
+            )
         else:
+            # Targetless missions and motorpool BAI/ARMED_RECON retain the
+            # single target-area waypoint.
             target_waypoints.append(
                 self.target_area_waypoint(
                     self.flight, self.flight.package.target, builder

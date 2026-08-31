@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Any, Type
 
 from dcs.statics import Fortification
-from dcs.task import OptAlarmState, OptROE
+from dcs.task import OptAlarmState, OptDisparseUnderFire, OptROE
 from dcs.unitgroup import MovingGroup, VehicleGroup
 from dcs.unittype import VehicleType
 
@@ -36,6 +36,9 @@ class MotorpoolGenerator(GroundObjectGenerator):
         group.points[0].tasks.append(
             OptROE(OptROE.Values.WeaponHold)
         )  # won't return fire
+        # Parked reserve vehicles must hold their grid positions when attacked
+        # rather than dispersing off their pads.
+        group.points[0].tasks.append(OptDisparseUnderFire(False))
         for unit in group.units:
             unit.player_can_drive = False  # not manned
 

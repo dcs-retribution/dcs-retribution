@@ -355,6 +355,16 @@ class Flight(
     def recreate_flight_plan(self, dump_debug_info: bool = False) -> None:
         self._flight_plan_builder.regenerate(dump_debug_info)
 
+    def refresh_flight_plan(self, dump_debug_info: bool = False) -> None:
+        """Rebuild the flight plan from current world state.
+
+        Unlike :meth:`recreate_flight_plan`, manual timing is preserved.
+        Mission generation uses this for motorpool-target packages, whose
+        ephemeral groups are rendered only at mission generation time, after
+        the plan was first built against empty groups.
+        """
+        self._flight_plan_builder.regenerate(dump_debug_info)
+
     @staticmethod
     def clone_flight(flight: Flight) -> Flight:
         return Flight(

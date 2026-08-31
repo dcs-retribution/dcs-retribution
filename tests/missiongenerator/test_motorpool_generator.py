@@ -6,7 +6,7 @@ from unittest.mock import MagicMock
 
 from dcs.mapping import Point
 from dcs.statics import Fortification
-from dcs.task import OptAlarmState, OptROE
+from dcs.task import OptAlarmState, OptDisparseUnderFire, OptROE
 
 from game.missiongenerator.motorpoolgenerator import MotorpoolGenerator
 from game.utils import Heading
@@ -37,14 +37,18 @@ def test_register_theater_unit_is_a_noop() -> None:
     gen.unit_map.add_theater_unit_mapping.assert_not_called()  # type: ignore[attr-defined]
 
 
-def test_set_passive_holds_fire_and_disables_driving() -> None:
+def test_set_passive_holds_fire_disables_driving_and_never_disperses() -> None:
     gen = _generator()
     u1, u2 = SimpleNamespace(player_can_drive=True), SimpleNamespace(
         player_can_drive=True
     )
     group = SimpleNamespace(points=[SimpleNamespace(tasks=[])], units=[u1, u2])
     gen._set_passive(group)  # type: ignore[arg-type]
-    assert group.points[0].tasks == [OptROE(OptROE.Values.WeaponHold)]
+    assert group.points[0].tasks == [
+        OptROE(OptROE.Values.WeaponHold),
+        # Parked reserve vehicles must hold their grid positions when attacked.
+        OptDisparseUnderFire(False),
+    ]
     assert u1.player_can_drive is False and u2.player_can_drive is False
 
 
