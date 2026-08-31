@@ -112,7 +112,7 @@ class CheatSettingsBox(QGroupBox):
         self.opfor_buysell_checkbox.setChecked(sc.settings.enable_enemy_buy_sell)
         self.opfor_buysell_checkbox.toggled.connect(apply_settings)
         self.redfor_buysell_cheat = QLabeledWidget(
-            "Enable OPFOR Buy/Sell actions Cheat:", self.opfor_buysell_checkbox
+            "Enable OPFOR Buy/Sell/Transfer Cheat", self.opfor_buysell_checkbox
         )
         self.main_layout.addLayout(self.redfor_buysell_cheat)
 

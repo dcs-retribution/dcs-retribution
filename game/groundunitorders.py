@@ -108,7 +108,7 @@ class GroundUnitOrders:
         now: datetime,
     ) -> None:
         coalition.transfers.new_transfer(
-            TransferOrder(source, self.destination, units), now
+            TransferOrder(source, self.destination, units, player=coalition.player), now
         )
 
     def find_ground_unit_source(self, game: Game) -> Optional[ControlPoint]:

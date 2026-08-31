@@ -36,11 +36,13 @@ class TransferDestinationComboBox(QComboBox):
         super().__init__()
         self.game = game
         self.origin = origin
+        self.owner = origin.captured
 
         for cp in self.game.theater.controlpoints:
             if (
                 cp != self.origin
-                and cp.is_friendly(to_player=Player.BLUE)
+                and not self.owner.is_neutral
+                and cp.is_friendly(to_player=self.owner)
                 and cp.can_deploy_ground_units
             ):
                 self.addItem(cp.name, cp)
@@ -175,7 +177,7 @@ class ScrollingUnitTransferGrid(QFrame):
         task_box_layout = QGridLayout()
 
         unit_types = set(
-            self.game_model.game.faction_for(player=Player.BLUE).ground_units
+            self.game_model.game.faction_for(player=cp.captured).ground_units
         )
         sorted_units = sorted(
             {u for u in unit_types if self.cp.base.total_units_of_type(u)},
@@ -309,6 +311,8 @@ class NewUnitTransferDialog(QDialog):
 
     def on_submit(self) -> None:
         destination = self.dest_panel.current
+        if destination is None:
+            return
         transfers = {}
         for unit_type, count in self.transfer_panel.transfers.items():
             if not count:
@@ -324,6 +328,7 @@ class NewUnitTransferDialog(QDialog):
             origin=self.origin,
             destination=destination,
             units=transfers,
+            player=self.origin.captured,
             request_airflift=self.dest_panel.request_airlift,
         )
         self.game_model.transfer_model.new_transfer(

@@ -146,6 +146,27 @@ class GroundUnitPurchaseAdapter(PurchaseAdapter[GroundUnitType]):
         self.control_point = control_point
         self.game = game
 
+    @property
+    def _enemy_transaction_allowed(self) -> bool:
+        """Whether OPFOR ground unit transactions are currently permitted."""
+        return bool(getattr(self.game.settings, "enable_enemy_buy_sell", False))
+
+    @property
+    def _purchase_allowed(self) -> bool:
+        owner = self.control_point.captured
+        if owner.is_neutral or owner is not self.coalition.player:
+            return False
+        return owner.is_blue or self._enemy_transaction_allowed
+
+    @property
+    def _sale_allowed(self) -> bool:
+        owner = self.control_point.captured
+        return (
+            owner.is_red
+            and owner is self.coalition.player
+            and self._enemy_transaction_allowed
+        )
+
     def pending_delivery_quantity(self, item: GroundUnitType) -> int:
         return self.control_point.ground_unit_orders.pending_orders(item)
 
@@ -153,21 +174,29 @@ class GroundUnitPurchaseAdapter(PurchaseAdapter[GroundUnitType]):
         return self.control_point.base.total_units_of_type(item)
 
     def can_buy(self, item: GroundUnitType) -> bool:
-        return super().can_buy(item) and self.control_point.has_ground_unit_source(
-            self.game
+        return (
+            self._purchase_allowed
+            and super().can_buy(item)
+            and self.control_point.has_ground_unit_source(self.game)
         )
 
     def can_sell(self, item: GroundUnitType) -> bool:
-        return False
+        return self._sale_allowed and self.current_quantity_of(item) > 0
 
     def do_purchase(self, item: GroundUnitType) -> None:
+        if not self._purchase_allowed:
+            raise TransactionError("Purchase of ground units not allowed")
         self.control_point.ground_unit_orders.order({item: 1})
 
     def do_cancel_purchase(self, item: GroundUnitType) -> None:
+        if not self._purchase_allowed:
+            raise TransactionError("Cancellation of ground unit purchase not allowed")
         self.control_point.ground_unit_orders.sell({item: 1})
 
     def do_sale(self, item: GroundUnitType) -> None:
-        raise TransactionError("Sale of ground units not allowed")
+        if not self._sale_allowed:
+            raise TransactionError("Sale of ground units not allowed")
+        self.control_point.base.commit_losses({item: 1})
 
     def do_cancel_sale(self, item: GroundUnitType) -> None:
         raise TransactionError("Sale of ground units not allowed")

@@ -4,17 +4,17 @@ from PySide6.QtWidgets import QGridLayout, QScrollArea, QVBoxLayout, QWidget
 from game.dcs.groundunittype import GroundUnitType
 from game.purchaseadapter import GroundUnitPurchaseAdapter
 from game.theater import ControlPoint
-from game.theater.player import Player
 from qt_ui.models import GameModel
 from qt_ui.windows.basemenu.UnitTransactionFrame import UnitTransactionFrame
 
 
 class QArmorRecruitmentMenu(UnitTransactionFrame[GroundUnitType]):
     def __init__(self, cp: ControlPoint, game_model: GameModel):
+        owner = cp.captured
         super().__init__(
             game_model,
             GroundUnitPurchaseAdapter(
-                cp, game_model.game.coalition_for(cp.captured), game_model.game
+                cp, game_model.game.coalition_for(owner), game_model.game
             ),
         )
         self.cp = cp
@@ -31,7 +31,7 @@ class QArmorRecruitmentMenu(UnitTransactionFrame[GroundUnitType]):
         row = 0
 
         unit_types = list(
-            set(self.game_model.game.faction_for(player=Player.BLUE).ground_units)
+            set(self.game_model.game.faction_for(player=owner).ground_units)
         )
         unit_types.sort(key=lambda u: u.display_name)
         for row, unit_type in enumerate(unit_types):

@@ -18,6 +18,12 @@ class QBaseMenuTabs(QTabWidget):
 
             self.departing_convoys = DepartingConvoysMenu(cp, game_model)
             self.addTab(self.departing_convoys, "Departing Convoys")
+            if (
+                game_model.game.settings.enable_enemy_buy_sell
+                and cp.can_deploy_ground_units
+            ):
+                self.ground_forces_hq = QGroundForcesHQ(cp, game_model)
+                self.addTab(self.ground_forces_hq, "Ground Forces HQ")
             return
 
         if isinstance(cp, Fob):

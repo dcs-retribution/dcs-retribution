@@ -4,6 +4,8 @@ from PySide6.QtCore import (
     QModelIndex,
     Qt,
 )
+from typing import Callable
+
 from PySide6.QtGui import QContextMenuEvent, QAction
 from PySide6.QtWidgets import (
     QAbstractItemView,
@@ -40,9 +42,14 @@ class TransferDelegate(TwoColumnRowDelegate):
 class PendingTransfersList(QListView):
     """List view for displaying the pending unit transfers."""
 
-    def __init__(self, transfer_model: TransferModel) -> None:
+    def __init__(
+        self,
+        transfer_model: TransferModel,
+        can_cancel: Callable[[QModelIndex], bool],
+    ) -> None:
         super().__init__()
         self.transfer_model = transfer_model
+        self.can_cancel = can_cancel
 
         self.setItemDelegate(TransferDelegate(self.transfer_model))
         self.setModel(self.transfer_model)
@@ -58,7 +65,7 @@ class PendingTransfersList(QListView):
         index = self.indexAt(event.pos())
         if not index.isValid():
             return
-        if not self.transfer_model.transfer_at_index(index).player.is_blue:
+        if not self.can_cancel(index):
             return
 
         menu = QMenu("Menu")
@@ -88,7 +95,7 @@ class PendingTransfersDialog(QDialog):
         layout = QVBoxLayout()
         self.setLayout(layout)
 
-        self.transfer_list = PendingTransfersList(self.transfer_model)
+        self.transfer_list = PendingTransfersList(self.transfer_model, self.can_cancel)
         self.transfer_list.selectionModel().selectionChanged.connect(
             self.on_selection_changed
         )
@@ -114,7 +121,10 @@ class PendingTransfersDialog(QDialog):
     def can_cancel(self, index: QModelIndex) -> bool:
         if not index.isValid():
             return False
-        return self.transfer_model.transfer_at_index(index).player.is_blue
+        return self.transfer_model.transfer_at_index(index).player.is_blue or (
+            self.transfer_model.game_model.game.settings.enable_enemy_buy_sell
+            and self.transfer_model.transfer_at_index(index).player.is_red
+        )
 
     def on_selection_changed(
         self, selected: QItemSelection, _deselected: QItemSelection

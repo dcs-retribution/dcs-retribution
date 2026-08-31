@@ -107,11 +107,13 @@ class TransferOrder:
     #: stops and can switch transport modes before reaching their destination.
     position: ControlPoint = field(init=False)
 
-    #: True if the transfer order belongs to the player.
-    player: Player = field(init=False)
-
     #: The units being transferred.
     units: dict[GroundUnitType, int]
+
+    #: The coalition that owns this transfer. This is the sole ownership authority;
+    #: it is set at construction time and never derived from mutable control-point
+    #: state.
+    player: Player
 
     transport: Optional[Transport] = field(default=None)
 
@@ -122,12 +124,11 @@ class TransferOrder:
         count = self.size
         origin = self.origin.name
         destination = self.destination.name
-        description = "Transfer" if self.player else "Enemy transfer"
+        description = "Transfer" if self.player.is_blue else "Enemy transfer"
         return f"{description} of {count} units from {origin} to {destination}"
 
     def __post_init__(self) -> None:
         self.position = self.origin
-        self.player = self.origin.captured
 
     @property
     def description(self) -> str:
@@ -160,6 +161,13 @@ class TransferOrder:
         return self.destination == self.position or not self.size
 
     def disband_at(self, location: ControlPoint) -> None:
+        if not location.is_friendly(self.player):
+            logging.info(
+                f"Cannot disband units at {location}: it is not friendly to "
+                f"{self.player}. Units were destroyed during transfer."
+            )
+            self.kill_all()
+            return
         logging.info(f"Units halting at {location}.")
         location.base.commission_units(self.units)
         self.units.clear()
@@ -281,7 +289,7 @@ class AirliftPlanner:
         self.game = game
         self.transfer = transfer
         self.next_stop = next_stop
-        self.for_player = transfer.destination.captured
+        self.for_player = transfer.player
         self.package = Package(next_stop, game.db.flights, auto_asap=True)
 
     def compatible_with_mission(
@@ -305,7 +313,7 @@ class AirliftPlanner:
 
         home = airfield.position
         pickup = self.transfer.position.position
-        drop_off = self.transfer.position.position
+        drop_off = self.next_stop.position
         if meters(home.distance_to_point(pickup)) > self.HELO_MAX_RANGE:
             return False
 
@@ -401,11 +409,11 @@ class MultiGroupTransport(MissionTarget, Transport):
         self.transfers: List[TransferOrder] = []
 
     def is_friendly(self, to_player: Player) -> bool:
-        if self.origin.captured == to_player:
-            return True
-        return False
+        return self.player_owned == to_player
 
     def add_units(self, transfer: TransferOrder) -> None:
+        if self.transfers and transfer.player is not self.player_owned:
+            raise ValueError("Transport ownership does not match transfer's player")
         self.transfers.append(transfer)
         transfer.transport = self
 
@@ -451,7 +459,9 @@ class MultiGroupTransport(MissionTarget, Transport):
 
     @property
     def player_owned(self) -> Player:
-        return self.origin.captured
+        if not self.transfers:
+            raise RuntimeError("Transport has no transfers")
+        return self.transfers[0].player
 
     def find_escape_route(self) -> Optional[ControlPoint]:
         raise NotImplementedError
@@ -461,7 +471,7 @@ class MultiGroupTransport(MissionTarget, Transport):
 
     @property
     def coalition(self) -> Coalition:
-        return self.origin.coalition
+        return self.origin.coalition.game.coalition_for(self.player_owned)
 
 
 class Convoy(MultiGroupTransport):
@@ -627,7 +637,7 @@ class PendingTransfers:
         return self.pending_transfers.index(transfer)
 
     def network_for(self, control_point: ControlPoint) -> TransitNetwork:
-        return self.game.transit_network_for(control_point.captured)
+        return self.game.transit_network_for(self.player)
 
     def arrange_transport(self, transfer: TransferOrder, now: datetime) -> None:
         network = self.network_for(transfer.position)
@@ -648,7 +658,24 @@ class PendingTransfers:
             next_stop = transfer.destination
         AirliftPlanner(self.game, transfer, next_stop).create_package_for_airlift(now)
 
+    def validate_transfer(self, transfer: TransferOrder) -> None:
+        if transfer.player != self.player:
+            raise ValueError(
+                "Transfer ownership does not match the collection's player"
+            )
+        if transfer.player.is_neutral:
+            raise ValueError("Neutral transfers are not allowed")
+        if transfer.origin.captured != transfer.player:
+            raise ValueError("Transfer origin is not owned by the transfer coalition")
+        if transfer.destination.captured != transfer.player:
+            raise ValueError(
+                "Transfer destination is not owned by the transfer coalition"
+            )
+        network = self.network_for(transfer.position)
+        network.shortest_path_between(transfer.position, transfer.destination)
+
     def new_transfer(self, transfer: TransferOrder, now: datetime) -> None:
+        self.validate_transfer(transfer)
         transfer.origin.base.commit_losses(transfer.units)
         self.pending_transfers.append(transfer)
         self.arrange_transport(transfer, now)
@@ -674,7 +701,12 @@ class PendingTransfers:
             units[unit_type] = take
         for td in to_delete:
             del transfer.units[td]
-        new_transfer = TransferOrder(transfer.origin, transfer.destination, units)
+        new_transfer = TransferOrder(
+            transfer.origin,
+            transfer.destination,
+            units,
+            player=transfer.player,
+        )
         self.pending_transfers.append(new_transfer)
         return new_transfer
 
@@ -719,7 +751,7 @@ class PendingTransfers:
         if transfer.transport is not None:
             self.cancel_transport(transfer.transport, transfer)
         self.pending_transfers.remove(transfer)
-        transfer.origin.base.commission_units(transfer.units)
+        transfer.disband()
         self._send_supply_route_event_stream_update()
 
     def perform_transfers(self) -> None:

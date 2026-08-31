@@ -375,13 +375,49 @@ class TransferModel(QAbstractListModel):
     def __init__(self, game_model: GameModel) -> None:
         super().__init__()
         self.game_model = game_model
+        self._red_visible = self._compute_red_visible()
+
+    def _compute_red_visible(self) -> bool:
+        game = self.game_model.game
+        if game is None:
+            return False
+        return bool(getattr(game.settings, "enable_enemy_buy_sell", False))
+
+    @staticmethod
+    def owner_of(transfer: TransferOrder) -> Player:
+        return transfer.player
 
     @property
     def transfers(self) -> PendingTransfers:
-        return self.game_model.game.coalition_for(player=Player.BLUE).transfers
+        return self._transfers_for(Player.BLUE)
+
+    def _transfers_for(self, player: Player) -> PendingTransfers:
+        return self.game_model.game.coalition_for(player=player).transfers
+
+    @property
+    def red_visible(self) -> bool:
+        return self._red_visible
+
+    def _all_transfers(self) -> list[TransferOrder]:
+        if self.game_model.game is None:
+            return []
+        transfers = list(self._transfers_for(Player.BLUE).pending_transfers)
+        if self.red_visible:
+            transfers.extend(self._transfers_for(Player.RED).pending_transfers)
+        return transfers
+
+    def sync_game_and_visibility(self) -> None:
+        """Refresh visible transfers and notify attached views."""
+        self.beginResetModel()
+        self._red_visible = self._compute_red_visible()
+        self.endResetModel()
+        self.layoutAboutToBeChanged.emit()
+        self.layoutChanged.emit()
+        if self.rowCount():
+            self.dataChanged.emit(self.index(0), self.index(self.rowCount() - 1))
 
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
-        return self.transfers.pending_transfer_count
+        return len(self._all_transfers())
 
     def data(self, index: QModelIndex, role: int = Qt.ItemDataRole.DisplayRole) -> Any:
         if not index.isValid():
@@ -405,12 +441,40 @@ class TransferModel(QAbstractListModel):
         """Returns the icon that should be displayed for the transfer."""
         return None
 
+    @staticmethod
+    def _authorized(player: Player, settings: Any) -> bool:
+        if player.is_blue:
+            return True
+        if player.is_red:
+            return bool(getattr(settings, "enable_enemy_buy_sell", False))
+        return False
+
+    def _assert_authorized(self, transfer: TransferOrder) -> None:
+        if not self._authorized(transfer.player, self.game_model.game.settings):
+            raise PermissionError(
+                f"Cannot manage {transfer.player} transfer: "
+                "OPFOR buy/sell/transfer is disabled"
+            )
+
     def new_transfer(self, transfer: TransferOrder, now: datetime) -> None:
         """Updates the game with the new unit transfer."""
-        self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount())
+        self._assert_authorized(transfer)
+        transfers = self._transfers_for(self.owner_of(transfer))
+        visible = transfer.player.is_blue or (
+            transfer.player.is_red and self.red_visible
+        )
+        insert_row = (
+            transfers.pending_transfer_count
+            if transfer.player.is_blue
+            else self.rowCount()
+        )
+        transfers.validate_transfer(transfer)
+        if visible:
+            self.beginInsertRows(QModelIndex(), insert_row, insert_row)
         # TODO: Needs to regenerate base inventory tab.
-        self.transfers.new_transfer(transfer, now)
-        self.endInsertRows()
+        transfers.new_transfer(transfer, now)
+        if visible:
+            self.endInsertRows()
 
     def cancel_transfer_at_index(self, index: QModelIndex) -> None:
         """Cancels the planned unit transfer at the given index."""
@@ -418,15 +482,22 @@ class TransferModel(QAbstractListModel):
 
     def cancel_transfer(self, transfer: TransferOrder) -> None:
         """Cancels the planned unit transfer at the given index."""
-        index = self.transfers.index_of_transfer(transfer)
+        self._assert_authorized(transfer)
+        transfers = self._transfers_for(self.owner_of(transfer))
+        if not transfer.player.is_blue and not self.red_visible:
+            transfers.cancel_transfer(transfer)
+            return
+        index = transfers.index_of_transfer(transfer)
+        if transfer.player.is_red:
+            index += self._transfers_for(Player.BLUE).pending_transfer_count
         self.beginRemoveRows(QModelIndex(), index, index)
         # TODO: Needs to regenerate base inventory tab.
-        self.transfers.cancel_transfer(transfer)
+        transfers.cancel_transfer(transfer)
         self.endRemoveRows()
 
     def transfer_at_index(self, index: QModelIndex) -> TransferOrder:
         """Returns the transfer located at the given index."""
-        return self.transfers.transfer_at_index(index.row())
+        return self._all_transfers()[index.row()]
 
 
 class AirWingModel(QAbstractListModel):
@@ -596,6 +667,7 @@ class GameModel:
         self.game = game
         self.ato_model.replace_from_game(player=True)
         self.red_ato_model.replace_from_game(player=False)
+        self.transfer_model.sync_game_and_visibility()
 
     def get(self) -> Game:
         if self.game is None:

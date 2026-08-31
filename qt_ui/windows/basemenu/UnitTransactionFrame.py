@@ -138,11 +138,11 @@ class UnitTransactionFrame(QFrame, Generic[TransactionItemType]):
 
     @property
     def budget(self) -> float:
-        return self.game_model.game.blue.budget
+        return self.purchase_adapter.coalition.budget
 
     @budget.setter
     def budget(self, value: int) -> None:
-        self.game_model.game.blue.budget = value
+        self.purchase_adapter.coalition.budget = value
 
     def add_purchase_row(
         self,

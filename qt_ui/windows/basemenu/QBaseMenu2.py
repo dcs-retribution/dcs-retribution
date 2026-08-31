@@ -1,3 +1,5 @@
+from typing import Any
+
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QCloseEvent, QPixmap
 from PySide6.QtWidgets import (
@@ -153,7 +155,7 @@ class QBaseMenu2(QDialog):
             runway_attack_button.setProperty("style", "btn-danger")
             runway_attack_button.clicked.connect(self.new_package)
 
-        if self.cp.captured.is_blue and self.has_transfer_destinations:
+        if self.can_transfer_units:
             transfer_button = QPushButton("Transfer Units")
             transfer_button.setProperty("style", "btn-success")
             bottom_row.addWidget(transfer_button)
@@ -167,7 +169,9 @@ class QBaseMenu2(QDialog):
             capture_button.clicked.connect(self.cheat_capture)
 
         self.budget_display = QLabel(
-            UnitTransactionFrame.BUDGET_FORMAT.format(self.game_model.game.blue.budget)
+            UnitTransactionFrame.BUDGET_FORMAT.format(
+                self._budget_coalition(self.game_model.game).budget
+            )
         )
         self.budget_display.setAlignment(
             Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignBottom
@@ -206,6 +210,17 @@ class QBaseMenu2(QDialog):
         state = self.game_model.game.check_win_loss()
         GameUpdateSignal.get_instance().gameStateChanged(state)
         self.close()
+
+    @property
+    def can_transfer_units(self) -> bool:
+        owner = self.cp.captured
+        return (
+            not owner.is_neutral
+            and (owner.is_blue or self.game_model.game.settings.enable_enemy_buy_sell)
+            and self.game_model.game.transit_network_for(owner).has_destinations(
+                self.cp
+            )
+        )
 
     @property
     def has_transfer_destinations(self) -> bool:
@@ -390,7 +405,14 @@ class QBaseMenu2(QDialog):
     def open_transfer_dialog(self) -> None:
         NewUnitTransferDialog(self.game_model, self.cp, parent=self.window()).show()
 
+    def _budget_coalition(self, game: Game) -> Any:
+        if self.cp.captured.is_red:
+            return game.red
+        return game.blue
+
     def update_budget(self, game: Game) -> None:
         self.budget_display.setText(
-            UnitTransactionFrame.BUDGET_FORMAT.format(game.blue.budget)
+            UnitTransactionFrame.BUDGET_FORMAT.format(
+                self._budget_coalition(game).budget
+            )
         )
