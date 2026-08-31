@@ -62,6 +62,8 @@ class StrikeIngressBuilder(PydcsWaypointBuilder):
     def add_strike_tasks(
         self, waypoint: MovingPoint, weapon_type: WeaponType = WeaponType.Auto
     ) -> None:
+        if not self.waypoint.targets:
+            return
         bomber = self.group.units[0].unit_type in [B_1B, B_52H]
         ratio = len(self.group.units) / len(self.waypoint.targets)
         for target in self.waypoint.targets:

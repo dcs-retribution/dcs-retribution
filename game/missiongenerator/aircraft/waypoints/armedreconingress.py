@@ -6,8 +6,11 @@ from dcs.task import (
     EngageTargetsInZone,
 )
 
+from game.theater.theatergroundobject import MotorpoolGroundObject
 from game.utils import nautical_miles
 from .pydcswaypointbuilder import PydcsWaypointBuilder
+
+_MOTORPOOL_ENGAGEMENT_RADIUS_M = 106
 
 
 class ArmedReconIngressBuilder(PydcsWaypointBuilder):
@@ -17,15 +20,21 @@ class ArmedReconIngressBuilder(PydcsWaypointBuilder):
         ecm_option = OptECMUsing(value=OptECMUsing.Values.UseIfDetectedLockByRadar)
         waypoint.tasks.append(ecm_option)
 
+        target = self.flight.package.target
+        radius = (
+            _MOTORPOOL_ENGAGEMENT_RADIUS_M
+            if isinstance(target, MotorpoolGroundObject)
+            else int(
+                nautical_miles(
+                    self.flight.coalition.game.settings.armed_recon_engagement_range_distance
+                ).meters
+            )
+        )
         waypoint.add_task(
             ControlledTask(
                 EngageTargetsInZone(
                     position=self.flight.flight_plan.tot_waypoint.position,
-                    radius=int(
-                        nautical_miles(
-                            self.flight.coalition.game.settings.armed_recon_engagement_range_distance
-                        ).meters
-                    ),
+                    radius=radius,
                     targets=[
                         Targets.All.GroundUnits,
                         Targets.All.Air.Helicopters,
