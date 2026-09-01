@@ -51,6 +51,7 @@ class Migrator:
         try_set_attr(self.game.settings, "csar_enabled_red", True)
         try_set_attr(self.game.settings, "csar_ejection_chance", 40)
         try_set_attr(self.game.settings, "csar_control_point_radius", 15)
+        try_set_attr(self.game.settings, "csar_capture_radius", 30)
         try_set_attr(self.game.settings, "csar_cluster_radius", 1000)
         try_set_attr(self.game.settings, "csar_survival_turns", 3)
         try_set_attr(self.game.settings, "csar_survival_turns_hostile", 2)
