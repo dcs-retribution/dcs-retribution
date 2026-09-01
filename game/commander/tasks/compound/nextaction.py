@@ -16,6 +16,7 @@ from game.commander.tasks.compound.interdictreinforcements import (
 )
 from game.commander.tasks.compound.protectairspace import ProtectAirSpace
 from game.commander.tasks.compound.recoverysupport import RecoverySupport
+from game.commander.tasks.compound.rescuedownedpilots import RescueDownedPilots
 from game.commander.tasks.compound.theatersupport import TheaterSupport
 from game.commander.theaterstate import TheaterState
 from game.htn import CompoundTask, Method
@@ -28,6 +29,8 @@ class PlanNextAction(CompoundTask[TheaterState]):
     def each_valid_method(self, state: TheaterState) -> Iterator[Method[TheaterState]]:
         yield [TheaterSupport()]
         yield [ProtectAirSpace()]
+        # A downed pilot expires on a timer, so plan rescues early.
+        yield [RescueDownedPilots()]
         yield [DefendBases()]
         yield [InterdictReinforcements()]
         yield [AttackBattlePositions()]

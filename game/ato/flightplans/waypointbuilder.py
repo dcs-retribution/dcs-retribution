@@ -710,6 +710,23 @@ class WaypointBuilder:
             pretty_name="Drop-off zone",
         )
 
+    def csar_pickup(self, pickup: MissionTarget) -> FlightWaypoint:
+        """Creates a CSAR pickup waypoint near a downed pilot.
+
+        CsarPickupBuilder tasks it, either with DCS's native embark (the AI lands and
+        the pilot walks aboard) or with a scripted hover, per csar_hover_extraction.
+        """
+        alt = self.get_combat_altitude if self.flight.is_helo else meters(0)
+        return FlightWaypoint(
+            "CSARPICKUP",
+            FlightWaypointType.CSAR_PICKUP,
+            pickup.position,
+            alt,
+            "RADIO",
+            description=f"Recover downed pilot at {pickup.name}",
+            pretty_name="CSAR pickup",
+        )
+
     @staticmethod
     def cargo_stop(control_point: ControlPoint) -> FlightWaypoint:
         """Creates a cargo stop waypoint.

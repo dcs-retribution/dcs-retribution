@@ -2,7 +2,7 @@ from collections.abc import Iterator
 from dataclasses import Field, dataclass, field, fields
 from datetime import timedelta
 from enum import Enum, unique
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, TYPE_CHECKING
 
 from dcs.forcedoptions import ForcedOptions
 
@@ -14,6 +14,9 @@ from .minutesoption import minutes_option
 from .optiondescription import OptionDescription, SETTING_DESCRIPTION_KEY
 from .skilloption import skill_option
 from ..ato.starttype import StartType
+
+if TYPE_CHECKING:
+    from ..ato.flighttype import FlightType
 
 Views = ForcedOptions.Views
 
@@ -363,6 +366,18 @@ class Settings:
         default=False,
         detail="AI will use vertical takeoff and landing instead of combat takeoff and landing.",
     )
+    max_csar_flights: int = bounded_int_option(
+        "Maximum CSAR flights planned per side each turn",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=GENERAL_SECTION,
+        default=2,
+        min=0,
+        max=10,
+        detail=(
+            "Maximum number of CSAR rescue packages the auto-planner will commit to in a "
+            "turn, for each coalition."
+        ),
+    )
     max_plane_altitude_offset: int = bounded_int_option(
         "Maximum randomized altitude offset (x1000 ft) for airplanes.",
         page=CAMPAIGN_DOCTRINE_PAGE,
@@ -667,6 +682,132 @@ class Settings:
             "If set, squadrons will not be able to buy more aircraft than the configured maximum."
         ),
     )
+    # Combat Search and Rescue
+    csar_enabled: bool = boolean_option(
+        "Enable CSAR for the player coalition",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        PILOTS_AND_SQUADRONS_SECTION,
+        default=True,
+        detail="Enable CSAR rescue flights for OWNFOR (BLUE) Coalition.",
+    )
+    csar_enabled_red: bool = boolean_option(
+        "Enable CSAR for the enemy coalition",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        PILOTS_AND_SQUADRONS_SECTION,
+        default=True,
+        detail="Enable CSAR rescue flights for OPFOR (RED) Coalition.",
+    )
+    csar_ejection_chance: int = bounded_int_option(
+        "CSAR pilot survival chance (%)",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        PILOTS_AND_SQUADRONS_SECTION,
+        default=40,
+        min=0,
+        max=100,
+        detail=(
+            "Chance of pilot survival and becoming a downed pilot for aircraft losses "
+            "where DCS did not report an ejection (AI kills and all losses on skipped/simulated turns)."
+            "Real in-mission ejections always produce a downed pilot."
+        ),
+    )
+    csar_control_point_radius: int = bounded_int_option(
+        "Control point radius resolving a downed pilot (nm)",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        PILOTS_AND_SQUADRONS_SECTION,
+        default=15,
+        min=0,
+        max=100,
+        detail=(
+            "A pilot who comes down this close to a control point does not need a "
+            "rescue flight: inside a friendly one they make their own way back and "
+            "go straight into recovery, inside an enemy one they are captured and "
+            "go missing in action. Only pilots outside every control point's radius "
+            "become downed pilots on the map. Set to 0 to always require a rescue."
+        ),
+    )
+    csar_capture_radius: int = bounded_int_option(
+        "Capture radius for unrescued pilots (nm)",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        PILOTS_AND_SQUADRONS_SECTION,
+        default=30,
+        min=0,
+        max=200,
+        detail=(
+            "A pilot whose survival turns run out is taken prisoner only if they "
+            "are in enemy territory and this close to the enemy base that finds "
+            "them. Anyone further out is simply missing in action -- nobody "
+            "reached them either way. Prisoners come home if their base is "
+            "captured; the missing do not. Set to 0 so an unrescued pilot is "
+            "always missing rather than captured. "
+            "Kept separate from the landing radius above, which resolves a pilot "
+            "the moment they come down: anyone still on the map is by definition "
+            "outside it, so reusing it here would mean no one is ever captured."
+        ),
+    )
+    csar_cluster_radius: int = bounded_int_option(
+        "Collect downed pilots within (m) on one flight",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        PILOTS_AND_SQUADRONS_SECTION,
+        default=1000,
+        min=0,
+        max=5000,
+        detail=(
+            "Downed pilots this close together are collected by a single AI rescue "
+            "flight rather than one flight each: the survivors walk to the same "
+            "landing zone, or are hoisted on the same hover. Only affects the "
+            "auto-planner -- a package planned by hand still targets one pilot. Set "
+            "to 0 to plan a separate flight for every pilot."
+        ),
+    )
+    csar_survival_turns: int = bounded_int_option(
+        "Turns a downed pilot survives",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        PILOTS_AND_SQUADRONS_SECTION,
+        default=3,
+        min=1,
+        max=10,
+        detail=(
+            "Number of turns a downed pilot in friendly rear territory waits for "
+            "rescue before going missing in action."
+        ),
+    )
+    csar_survival_turns_hostile: int = bounded_int_option(
+        "Turns a downed pilot survives near the front",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        PILOTS_AND_SQUADRONS_SECTION,
+        default=2,
+        min=1,
+        max=10,
+        detail=(
+            "Number of turns a downed pilot in hostile territory or close to a front "
+            "line, where enemy ground forces are more likely to capture them waits for "
+            "rescue before going missing in action."
+        ),
+    )
+    csar_ai_recovery_turns: int = bounded_int_option(
+        "Turns a rescued AI pilot recovers",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        PILOTS_AND_SQUADRONS_SECTION,
+        default=2,
+        min=0,
+        max=10,
+        detail=(
+            "Number of turns a rescued AI pilot is unavailable (recovering) before "
+            "returning to active duty."
+        ),
+    )
+    csar_player_recovery_turns: int = bounded_int_option(
+        "Turns a rescued player pilot recovers",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        PILOTS_AND_SQUADRONS_SECTION,
+        default=1,
+        min=0,
+        max=10,
+        detail=(
+            "Number of turns a rescued human pilot is unavailable (recovering) before "
+            "returning to active duty."
+        ),
+    )
 
     # HQ Automation
     automate_runway_repair: bool = boolean_option(
@@ -839,6 +980,18 @@ class Settings:
         detail="A larger number will force the auto-planner to stick with squadrons that have a matching primary task."
         " A smaller number will ignore squadrons with a matching primary task that are too far out.",
     )
+    csar_single_flight: bool = boolean_option(
+        "Enable single flight CSAR",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        FLIGHT_PLANNER_AUTOMATION,
+        default=False,
+        detail=(
+            "Plans rescue packages with one helicopter instead of a pair. Cheaper "
+            "in airframes and pilots, at the cost of having no wingman to cover the "
+            "pickup or take over if the lead is lost. The weight factors above do "
+            "not apply to CSAR either way."
+        ),
+    )
 
     # Mission Generator
     # Gameplay
@@ -973,6 +1126,74 @@ class Settings:
         choices={v.value: v for v in StartType},
         default=StartType.COLD,
         detail="Default start type for flights containing Player/Client slots.",
+    )
+    csar_start_type: StartType = choices_option(
+        "Default start type for CSAR flights",
+        page=MISSION_GENERATOR_PAGE,
+        section=GAMEPLAY_SECTION,
+        choices={v.value: v for v in StartType},
+        default=StartType.WARM,
+        detail=(
+            "Start type for combat search and rescue flights, overriding the AI "
+            "and player defaults above."
+        ),
+    )
+    csar_hover_extraction: bool = boolean_option(
+        "CSAR hover extraction",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=True,
+        detail=(
+            "Controls how an AI rescue helicopter recovers a downed pilot.\n\n"
+            "Unchecked: the helicopter lands and the pilot walks aboard.\n\n"
+            "Checked (default): the helicopter holds a low hover over the pickup and the "
+            "pilot is extracted by script, as though hoisted."
+        ),
+    )
+    csar_rescue_ai_pilots: bool = boolean_option(
+        "CSAR rescues AI-controlled downed pilots",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=True,
+        detail=(
+            "If set, Ops.CSAR will register AI downed pilots in the mission for "
+            "player flights, not only player-flown ejections."
+        ),
+    )
+    csar_player_hover_height: int = bounded_int_option(
+        "Player hover pickup height (m)",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=20,
+        min=5,
+        max=100,
+        detail=(
+            "How low a player has to hover over a survivor to winch them up. "
+            "Ops.CSAR's rescuehoverheight. Player pickups only."
+        ),
+    )
+    csar_player_hover_distance: int = bounded_int_option(
+        "Player hover pickup distance (m)",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=10,
+        min=5,
+        max=200,
+        detail=(
+            "How close to the survivor a player has to hold that hover. "
+            "Ops.CSAR's rescuehoverdistance. Player pickups only."
+        ),
+    )
+    csar_require_open_doors: bool = boolean_option(
+        "Require cabin door open",
+        MISSION_GENERATOR_PAGE,
+        GAMEPLAY_SECTION,
+        default=False,
+        detail=(
+            "If set, a survivor will not climb aboard a player's helicopter until "
+            "its cabin door is open, and will not get out again until it is opened."
+            "Player Flights Only"
+        ),
     )
     default_player_laser_code: DefaultPlayerLaserCode = choices_option(
         "Default laser code for Player flights",
@@ -1489,6 +1710,30 @@ class Settings:
     plugins: Dict[str, bool] = field(default_factory=dict)
 
     only_player_takeoff: bool = True  # Legacy parameter do not use
+
+    def start_type_for(self, flight_type: "FlightType", has_players: bool) -> StartType:
+        """The start type a newly planned flight of this kind should default to.
+
+        The single source of this decision. It is applied from the auto-planner
+        (PackageBuilder.plan_flight) and from both places the UI recomputes a
+        default (QFlightCreator and QFlightStartType), so a task with its own
+        start type behaves the same however the flight came to exist.
+
+        Callers must still let a base that dictates its own start type win --
+        carriers and off-map spawns -- via
+        ControlPoint.required_aircraft_start_type.
+        """
+        from ..ato.flighttype import FlightType
+
+        if flight_type is FlightType.CSAR:
+            # A downed pilot is on a timer, so the rescue is usually worth
+            # launching sooner than the rest of the ATO. Overrides both defaults
+            # below, players included: the setting exists precisely so CSAR does
+            # not have to inherit them.
+            return self.csar_start_type
+        if has_players:
+            return self.default_start_type_client
+        return self.default_start_type
 
     @staticmethod
     def plugin_settings_key(identifier: str) -> str:

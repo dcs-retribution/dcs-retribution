@@ -67,6 +67,26 @@ def new_cp_package(
 
 
 @router.post(
+    "/create-package/downed-pilot/{pilot_id}",
+    operation_id="open_new_downed_pilot_package_dialog",
+    status_code=status.HTTP_200_OK,
+)
+def new_downed_pilot_package(
+    pilot_id: UUID,
+    game: Game = Depends(GameContext.require),
+    qt: QtCallbacks = Depends(QtContext.get),
+) -> None:
+    try:
+        downed = game.db.downed_pilots.get(pilot_id)
+    except KeyError:
+        raise HTTPException(
+            status.HTTP_404_NOT_FOUND,
+            detail=f"Game has no downed pilot with ID {pilot_id}",
+        )
+    qt.create_new_package(downed)
+
+
+@router.post(
     "/select-flight/{flight_id}",
     operation_id="select_flight",
     status_code=status.HTTP_200_OK,
