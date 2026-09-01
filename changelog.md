@@ -1,6 +1,7 @@
 # Retribution v1.6.0
 
 ## Features/Improvements
+* **[FIX]** Some building objectives would never be recorded as destroyed. An objective was only credited once every map object inside its trigger zone was dead, and many of those zones hold scenery that cannot be destroyed at all, so those objectives read as intact however often you flattened them, while others scored normally. Objectives standing on scenery with no damage model, such as the moored submarines on Kola, are now credited on a direct hit.
 * **[Modding]** Added support for the CurrentHill Iran Military Assets pack: the Shahed-136 launcher, two IRGCN fast-attack craft, and a new `[CH] Iran 2020` faction, behind a New Game mods checkbox. (#886)
 * **[Kneeboard]** Use a light-grey daytime kneeboard background instead of near-white, to avoid glare under HDR / Auto-HDR while staying readable in daylight.
 * **[UX]** Hovering a friendly flight's route line on the map highlights it in yellow, and clicking it selects that flight's package (and the flight) in the ATO sidebar.

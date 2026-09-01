@@ -15,8 +15,7 @@ from typing import Any, Dict, Iterator, List, Optional, TYPE_CHECKING, Type, Tup
 
 import dcs.vehicles
 from dcs import Mission, Point, unitgroup
-from dcs.action import DoScript, SceneryDestructionZone
-from dcs.condition import MapObjectIsDead
+from dcs.action import SceneryDestructionZone
 from dcs.countries import *
 from dcs.country import Country
 from dcs.point import StaticPoint, PointAction
@@ -44,10 +43,7 @@ from dcs.task import (
     OptROE,
 )
 from dcs.terrain import Airport
-from dcs.translation import String
 from dcs.triggers import (
-    Event,
-    TriggerOnce,
     TriggerStart,
     TriggerZone,
     TriggerZoneQuadPoint,
@@ -499,13 +495,16 @@ class GroundObjectGenerator:
                 color,
                 scenery.zone.properties,
             )
-        # DCS only visually shows a scenery object is dead when
-        # this trigger rule is applied.  Otherwise you can kill a
-        # structure twice.
+        # DCS only visually shows a scenery object is dead when this trigger
+        # rule is applied. Otherwise you can kill a structure twice.
+        #
+        # Live objectives get no trigger at all: the MapObjectIsDead rule that
+        # used to sit here could not fire, because it is true only once EVERY map
+        # object in the zone is dead and those polygons contain scenery that
+        # cannot be destroyed (a WOODPILE_01 reports a life of 1e38). Deaths are
+        # matched to the objective by position instead, in the base script.
         if not scenery.alive:
             self.generate_destruction_trigger_rule(trigger_zone)
-        else:
-            self.generate_on_dead_trigger_rule(trigger_zone)
 
         self.unit_map.add_scenery(scenery, trigger_zone)
 
@@ -515,17 +514,6 @@ class GroundObjectGenerator:
         t.actions.append(
             SceneryDestructionZone(destruction_level=100, zone=trigger_zone.id)
         )
-        self.m.triggerrules.triggers.append(t)
-
-    def generate_on_dead_trigger_rule(self, trigger_zone: TriggerZone) -> None:
-        # Add a TriggerRule with the MapObjectIsDead condition to recognize killed
-        # map objects and add them to the state.json with a DoScript
-        t = TriggerOnce(Event.NoEvent, f"MapObjectIsDead Trigger {trigger_zone.id}")
-        t.add_condition(MapObjectIsDead(trigger_zone.id))
-        script_string = String(
-            f'dead_events[#dead_events + 1] = "{trigger_zone.name}"\ndirty_state = true'
-        )
-        t.actions.append(DoScript(script_string))
         self.m.triggerrules.triggers.append(t)
 
     def generate_iads_command_unit(self, unit: SceneryUnit) -> None:
