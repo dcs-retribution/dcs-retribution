@@ -6,7 +6,6 @@ from game.ato.flighttype import FlightType
 from game.commander.missionproposals import EscortType
 from game.commander.tasks.packageplanningtask import PackagePlanningTask
 from game.commander.theaterstate import TheaterState
-from game.ground_forces.ai_ground_planner import reserve_armor_for
 from game.theater.theatergroundobject import MotorpoolGroundObject
 
 
@@ -60,5 +59,6 @@ class PlanMotorpoolAttack(PackagePlanningTask[MotorpoolGroundObject]):
         cap = settings.motorpool_spawn_cap
         if cap <= 0 or not settings.motorpool_enabled:
             return 0
-        reserve = reserve_armor_for(self.target.control_point)
-        return min(cap, sum(reserve.values()))
+        from game.missiongenerator.motorpoolpopulator import projected_motorpool_count
+
+        return projected_motorpool_count(self.target, cap)

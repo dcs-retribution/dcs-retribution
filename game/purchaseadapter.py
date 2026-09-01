@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import TypeVar, Generic, Any
+from typing import Any, Callable, Generic, Optional, TypeVar
 
 from game import Game
 from game.coalition import Coalition
@@ -140,11 +140,51 @@ class AircraftPurchaseAdapter(PurchaseAdapter[Squadron]):
 
 class GroundUnitPurchaseAdapter(PurchaseAdapter[GroundUnitType]):
     def __init__(
-        self, control_point: ControlPoint, coalition: Coalition, game: Game
+        self,
+        control_point: ControlPoint,
+        coalition: Coalition,
+        game: Game,
+        inventory_changed: Optional[Callable[[], None]] = None,
     ) -> None:
         super().__init__(coalition)
         self.control_point = control_point
         self.game = game
+        self.inventory_changed = inventory_changed
+
+    def _authorized(self) -> bool:
+        owner = self.control_point.captured
+        return owner.is_blue or (
+            owner.is_red and self.game.settings.enable_enemy_buy_sell
+        )
+
+    def buy(self, item: GroundUnitType, quantity: int) -> None:
+        if not self._authorized():
+            raise TransactionError("Ground unit purchases are not authorized")
+        pending_before = self.pending_delivery_quantity(item)
+        try:
+            super().buy(item, quantity)
+        finally:
+            if self.pending_delivery_quantity(item) != pending_before:
+                self._publish_motorpool_update()
+
+    def sell(self, item: GroundUnitType, quantity: int) -> None:
+        if not self._authorized():
+            raise TransactionError("Ground unit sales are not authorized")
+        pending_before = self.pending_delivery_quantity(item)
+        try:
+            super().sell(item, quantity)
+        finally:
+            if self.pending_delivery_quantity(item) != pending_before:
+                self._publish_motorpool_update()
+
+    def _publish_motorpool_update(self) -> None:
+        from game.server import EventStream
+        from game.sim import GameUpdateEvents
+
+        events = GameUpdateEvents().update_motorpools_at(self.control_point)
+        EventStream.put_nowait(events)
+        if self.inventory_changed is not None:
+            self.inventory_changed()
 
     def pending_delivery_quantity(self, item: GroundUnitType) -> int:
         return self.control_point.ground_unit_orders.pending_orders(item)
@@ -153,17 +193,26 @@ class GroundUnitPurchaseAdapter(PurchaseAdapter[GroundUnitType]):
         return self.control_point.base.total_units_of_type(item)
 
     def can_buy(self, item: GroundUnitType) -> bool:
-        return super().can_buy(item) and self.control_point.has_ground_unit_source(
-            self.game
+        return (
+            self._authorized()
+            and super().can_buy(item)
+            and self.control_point.has_ground_unit_source(self.game)
         )
 
     def can_sell(self, item: GroundUnitType) -> bool:
         return False
 
+    def can_sell_or_cancel(self, item: GroundUnitType) -> bool:
+        return self._authorized() and super().can_sell_or_cancel(item)
+
     def do_purchase(self, item: GroundUnitType) -> None:
+        if not self._authorized():
+            raise TransactionError("Ground unit purchases are not authorized")
         self.control_point.ground_unit_orders.order({item: 1})
 
     def do_cancel_purchase(self, item: GroundUnitType) -> None:
+        if not self._authorized():
+            raise TransactionError("Ground unit sales are not authorized")
         self.control_point.ground_unit_orders.sell({item: 1})
 
     def do_sale(self, item: GroundUnitType) -> None:

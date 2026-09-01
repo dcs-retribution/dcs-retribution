@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from types import SimpleNamespace
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
 from dcs.mapping import Point
 from dcs.terrain import Terrain
@@ -60,3 +60,45 @@ def test_no_double_injection_when_tgo_exists() -> None:
     m._ensure_motorpool_tgos()
     pools = [o for o in cp.connected_objectives if isinstance(o, MotorpoolGroundObject)]
     assert len(pools) == 1
+
+
+def test_migrate_game_reconciles_motorpools_after_all_migrations() -> None:
+    events: list[str] = []
+    game = SimpleNamespace(settings=SimpleNamespace())
+    migrator = Migrator.__new__(Migrator)
+    migrator.game = game  # type: ignore[assignment]
+    method_names = [
+        "_update_doctrine",
+        "_update_control_points",
+        "_update_packagewaypoints",
+        "_update_package_attributes",
+        "_update_factions",
+        "_update_flights",
+        "_update_squadrons",
+        "_update_transfers",
+        "_release_untasked_flights",
+        "_update_weather",
+        "_update_tgos",
+        "_ensure_motorpool_tgos",
+        "_reload_terrain",
+        "_update_theater",
+        "_update_campaign_name",
+    ]
+    for method_name in method_names:
+        setattr(
+            migrator,
+            method_name,
+            MagicMock(side_effect=lambda n=method_name: events.append(n)),
+        )
+
+    with patch(
+        "game.missiongenerator.motorpoolpopulator.MotorpoolPopulator"
+    ) as populator:
+        populator.return_value.populate.side_effect = lambda: events.append("populate")
+        migrator._migrate_game()
+
+    populator.assert_called_once_with(game)
+    populator.return_value.populate.assert_called_once_with()
+    assert events[-1] == "populate"
+    assert events.index("populate") > events.index("_ensure_motorpool_tgos")
+    assert events.index("populate") > events.index("_update_theater")

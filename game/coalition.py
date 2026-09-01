@@ -143,7 +143,7 @@ class Coalition:
     def set_bullseye(self, bullseye: Bullseye) -> None:
         self.bullseye = bullseye
 
-    def end_turn(self) -> None:
+    def end_turn(self, events: GameUpdateEvents) -> None:
         """Processes coalition-specific turn finalization.
 
         For more information on turn finalization in general, see the documentation for
@@ -161,7 +161,7 @@ class Coalition:
         # one hop ahead. ControlPoint.process_turn handles unit deliveries. The
         # coalition-specific turn-end happens before the theater-wide turn-end, so this
         # is handled correctly.
-        self.transfers.perform_transfers()
+        self.transfers.perform_transfers(events)
 
     def preinit_turn_0(self, squadrons_start_full: bool) -> None:
         """Runs final Coalition initialization.
@@ -170,7 +170,7 @@ class Coalition:
         """
         self.air_wing.populate_for_turn_0(squadrons_start_full)
 
-    def initialize_turn(self, is_turn_0: bool) -> None:
+    def initialize_turn(self, is_turn_0: bool, events: GameUpdateEvents) -> None:
         """Processes coalition-specific turn initialization.
 
         For more information on turn initialization in general, see the documentation
@@ -187,7 +187,7 @@ class Coalition:
         with logged_duration("Procurement of airlift assets"):
             self.transfers.order_airlift_assets()
         with logged_duration("Transport planning"):
-            self.transfers.plan_transports(self.game.conditions.start_time)
+            self.transfers.plan_transports(self.game.conditions.start_time, events)
 
         if not is_turn_0:
             self.plan_missions(self.game.conditions.start_time)

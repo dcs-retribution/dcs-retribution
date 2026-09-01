@@ -11,6 +11,7 @@ from qt_ui.windows.basemenu.intel.QIntelInfo import QIntelInfo
 class QBaseMenuTabs(QTabWidget):
     def __init__(self, cp: ControlPoint, game_model: GameModel):
         super(QBaseMenuTabs, self).__init__()
+        game = game_model.game
 
         if cp.captured.is_red:
             self.intel = QIntelInfo(cp)
@@ -18,11 +19,15 @@ class QBaseMenuTabs(QTabWidget):
 
             self.departing_convoys = DepartingConvoysMenu(cp, game_model)
             self.addTab(self.departing_convoys, "Departing Convoys")
+            if game is not None and game.settings.enable_enemy_buy_sell:
+                self.ground_forces_hq = QGroundForcesHQ(cp, game_model)
+                self.addTab(self.ground_forces_hq, "Ground Forces HQ")
             return
 
         if isinstance(cp, Fob):
-            self.ground_forces_hq = QGroundForcesHQ(cp, game_model)
-            self.addTab(self.ground_forces_hq, "Ground Forces HQ")
+            if not cp.captured.is_neutral:
+                self.ground_forces_hq = QGroundForcesHQ(cp, game_model)
+                self.addTab(self.ground_forces_hq, "Ground Forces HQ")
             if cp.has_ground_spawns:
                 self.airfield_command = QAirfieldCommand(cp, game_model)
                 self.addTab(self.airfield_command, "Airfield Command")
@@ -32,6 +37,6 @@ class QBaseMenuTabs(QTabWidget):
         else:
             self.airfield_command = QAirfieldCommand(cp, game_model)
             self.addTab(self.airfield_command, "Airfield Command")
-            if cp.can_deploy_ground_units:
+            if cp.can_deploy_ground_units and not cp.captured.is_neutral:
                 self.ground_forces_hq = QGroundForcesHQ(cp, game_model)
                 self.addTab(self.ground_forces_hq, "Ground Forces HQ")

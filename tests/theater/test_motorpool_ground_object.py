@@ -6,8 +6,10 @@ from dcs.mapping import Point
 from dcs.terrain import Terrain
 
 from game.dcs.aircrafttype import AircraftType  # noqa: F401  (ensures registries load)
+from game.ato.flighttype import FlightType
 from game.sidc import SymbolSet
 from game.theater.controlpoint import ControlPoint
+from game.theater.player import Player
 from game.theater.presetlocation import PresetLocation
 from game.theater.theatergroundobject import (
     NAME_BY_CATEGORY,
@@ -26,6 +28,7 @@ def _motorpool(captured_is_blue: bool = True) -> MotorpoolGroundObject:
     cp = MagicMock(spec=ControlPoint)
     cp.captured = MagicMock()
     cp.captured.is_blue = captured_is_blue
+    cp.is_friendly.return_value = captured_is_blue
     from game.data.groups import GroupTask
 
     return MotorpoolGroundObject("Test Motorpool", _location(), cp, GroupTask.MOTORPOOL)
@@ -57,4 +60,22 @@ def test_motorpool_symbol_is_maintenance_installation() -> None:
 
 
 def test_motorpool_unit_types_starts_empty() -> None:
-    assert _motorpool().motorpool_unit_types == {}
+    motorpool = _motorpool()
+    assert motorpool.motorpool_unit_types == {}
+    assert motorpool.motorpool_projection_keys == {}
+
+
+def test_hostile_motorpool_mission_types_include_bai_and_inherited_types() -> None:
+    motorpool = _motorpool(captured_is_blue=False)
+
+    assert list(motorpool.mission_types(Player.BLUE)) == [
+        FlightType.BAI,
+        FlightType.STRIKE,
+        FlightType.REFUELING,
+        FlightType.ESCORT,
+        FlightType.TARCAP,
+        FlightType.SEAD_ESCORT,
+        FlightType.SEAD_SWEEP,
+        FlightType.ARMED_RECON,
+        FlightType.SWEEP,
+    ]

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import typing
 from datetime import timedelta
+from itertools import chain
 from typing import TYPE_CHECKING, Any
 
 from dcs.countries import countries_by_name
@@ -53,6 +54,10 @@ class Migrator:
 
         # TODO: remove in due time as this is supposedly fixed
         self.game.settings.nevatim_parking_fix = False
+
+        from game.missiongenerator.motorpoolpopulator import MotorpoolPopulator
+
+        MotorpoolPopulator(self.game).populate()
 
     def _update_doctrine(self) -> None:
         doctrines = [
@@ -204,21 +209,53 @@ class Migrator:
                     try_set_attr(sdef, "radio_presets", {})
 
     def _update_transfers(self) -> None:
+        # Track transfers across all coalitions to detect the same object in
+        # more than one coalition's containers.
+        global_seen: set[int] = set()
         for coalition in self.game.coalitions:
-            transfers = coalition.transfers
-            for transfer in transfers.pending_transfers:
-                self._normalize_transfer_player(transfer)
-            for convoy in transfers.convoys:
-                for transfer in convoy.transfers:
-                    self._normalize_transfer_player(transfer)
-            for cargo_ship in transfers.cargo_ships:
-                for transfer in cargo_ship.transfers:
-                    self._normalize_transfer_player(transfer)
+            self._normalize_transfers_for_coalition(coalition, global_seen)
+
+    def _normalize_transfers_for_coalition(
+        self, coalition: Any, global_seen: set[int]
+    ) -> None:
+        """Normalize transfer player ownership for a coalition's transfers.
+
+        Traverses the pending list plus convoy/cargo aliases, deduplicating
+        transfer objects by identity. Missing and legacy-boolean owners are set
+        from the containing coalition. An existing enum owner that conflicts
+        with its sole container, or the same transfer reachable from more than
+        one coalition, fails with a diagnostic.
+        """
+        transfers = coalition.transfers
+        aliased = chain.from_iterable(c.transfers for c in transfers.convoys)
+        shipped = chain.from_iterable(c.transfers for c in transfers.cargo_ships)
+        seen: set[int] = set()
+        all_transfers: list[Any] = []
+        for transfer in chain(transfers.pending_transfers, aliased, shipped):
+            if id(transfer) not in seen:
+                seen.add(id(transfer))
+                all_transfers.append(transfer)
+
+        for transfer in all_transfers:
+            if id(transfer) in global_seen:
+                raise RuntimeError(
+                    f"Transfer {transfer} is reachable from more than one coalition"
+                )
+            global_seen.add(id(transfer))
+
+        for transfer in all_transfers:
+            self._normalize_single_transfer_player(transfer, coalition)
 
     @staticmethod
-    def _normalize_transfer_player(transfer: Any) -> None:
-        if hasattr(transfer, "player") and isinstance(transfer.player, bool):
-            transfer.player = Player.BLUE if transfer.player else Player.RED
+    def _normalize_single_transfer_player(transfer: Any, coalition: Any) -> None:
+        owner = getattr(transfer, "player", None)
+        if owner is None or isinstance(owner, bool):
+            transfer.player = coalition.player
+        elif owner != coalition.player:
+            raise RuntimeError(
+                f"Transfer {transfer} has owner {owner} but is in the "
+                f"{coalition.player} coalition"
+            )
 
     @typing.no_type_check
     def _update_factions(self) -> None:

@@ -26,7 +26,7 @@ from dcs.unittype import UnitType
 from game import Game
 from game.dcs.groundunittype import GroundUnitType
 from game.theater import ControlPoint, Player
-from game.transfers import TransferOrder
+from game.transfers import submit_transfer
 from qt_ui.models import GameModel
 from qt_ui.widgets.QLabeledWidget import QLabeledWidget
 
@@ -36,12 +36,14 @@ class TransferDestinationComboBox(QComboBox):
         super().__init__()
         self.game = game
         self.origin = origin
+        owner = origin.captured
 
         for cp in self.game.theater.controlpoints:
             if (
                 cp != self.origin
-                and cp.is_friendly(to_player=Player.BLUE)
+                and cp.is_friendly(to_player=owner)
                 and cp.can_deploy_ground_units
+                and self.game.transit_network_for(owner).has_path_between(origin, cp)
             ):
                 self.addItem(cp.name, cp)
         self.model().sort(0)
@@ -98,7 +100,7 @@ class TransferOptionsPanel(QVBoxLayout):
         return self.source_combo_box.currentIndexChanged
 
     @property
-    def current(self) -> ControlPoint:
+    def current(self) -> ControlPoint | None:
         return self.source_combo_box.currentData()
 
     @property
@@ -174,9 +176,8 @@ class ScrollingUnitTransferGrid(QFrame):
         scroll_content = QWidget()
         task_box_layout = QGridLayout()
 
-        unit_types = set(
-            self.game_model.game.faction_for(player=Player.BLUE).ground_units
-        )
+        owner = cp.captured
+        unit_types = set(self.game_model.game.faction_for(player=owner).ground_units)
         sorted_units = sorted(
             {u for u in unit_types if self.cp.base.total_units_of_type(u)},
             key=lambda u: u.display_name,
@@ -293,6 +294,7 @@ class NewUnitTransferDialog(QDialog):
         self.setLayout(layout)
 
         self.dest_panel = TransferOptionsPanel(game_model.game, origin)
+        self.dest_panel.changed.connect(self.on_transfer_quantity_changed)
         layout.addLayout(self.dest_panel)
 
         self.transfer_panel = ScrollingUnitTransferGrid(origin, game_model)
@@ -309,28 +311,20 @@ class NewUnitTransferDialog(QDialog):
 
     def on_submit(self) -> None:
         destination = self.dest_panel.current
-        transfers = {}
-        for unit_type, count in self.transfer_panel.transfers.items():
-            if not count:
-                continue
-
-            logging.info(
-                f"Transferring {count} {unit_type} from {self.origin} to "
-                f"{destination}"
-            )
-            transfers[unit_type] = count
-
-        transfer = TransferOrder(
-            origin=self.origin,
-            destination=destination,
-            units=transfers,
-            request_airflift=self.dest_panel.request_airlift,
-        )
-        self.game_model.transfer_model.new_transfer(
-            transfer, self.game_model.sim_controller.current_time_in_sim
+        if destination is None:
+            return
+        submit_transfer(
+            self.game_model,
+            self.origin,
+            destination,
+            self.transfer_panel.transfers,
+            self.game_model.sim_controller.current_time_in_sim,
+            request_airlift=self.dest_panel.request_airlift,
         )
         self.close()
 
     def on_transfer_quantity_changed(self) -> None:
         has_transfer_items = any(self.transfer_panel.transfers.values())
-        self.submit_button.setDisabled(not has_transfer_items)
+        self.submit_button.setDisabled(
+            not has_transfer_items or self.dest_panel.current is None
+        )

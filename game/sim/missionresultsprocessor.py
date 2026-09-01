@@ -32,7 +32,7 @@ class MissionResultsProcessor:
             with logged_duration("commit_front_line_losses"):
                 self.commit_front_line_losses(debriefing)
             with logged_duration("commit_motorpool_losses"):
-                self.commit_motorpool_losses(debriefing)
+                self.commit_motorpool_losses(debriefing, events)
             with logged_duration("commit_convoy_losses"):
                 self.commit_convoy_losses(debriefing)
             with logged_duration("commit_cargo_ship_losses"):
@@ -110,7 +110,9 @@ class MissionResultsProcessor:
             control_point.base.armor[unit_type] -= 1
 
     @staticmethod
-    def commit_motorpool_losses(debriefing: Debriefing) -> None:
+    def commit_motorpool_losses(
+        debriefing: Debriefing, events: GameUpdateEvents
+    ) -> None:
         for loss in debriefing.motorpool_losses:
             unit_type = loss.unit_type
             control_point = loss.origin
@@ -123,6 +125,9 @@ class MissionResultsProcessor:
                 continue
             logging.info(f"Motorpool {unit_type} destroyed from {control_point}")
             control_point.base.armor[unit_type] -= 1
+            # Refresh the motorpool projection so the depleted TGO is republished
+            # in the operation's single accumulator.
+            events.update_motorpools_at(control_point)
 
     @staticmethod
     def commit_convoy_losses(debriefing: Debriefing) -> None:

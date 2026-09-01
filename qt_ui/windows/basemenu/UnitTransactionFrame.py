@@ -52,6 +52,7 @@ class PurchaseGroup(QGroupBox, Generic[TransactionItemType]):
         self.sell_button = QPushButton("-")
         self.sell_button.setProperty("style", "btn-sell")
         self.sell_button.setDisabled(not recruiter.enable_sale(item))
+        self.sell_button.setVisible(recruiter.enable_sale(item))
         self.sell_button.setMinimumSize(16, 16)
         self.sell_button.setMaximumSize(16, 16)
         self.sell_button.setSizePolicy(
@@ -96,6 +97,7 @@ class PurchaseGroup(QGroupBox, Generic[TransactionItemType]):
             self.recruiter.purchase_tooltip(self.buy_button.isEnabled())
         )
         self.sell_button.setEnabled(self.recruiter.enable_sale(self.item))
+        self.sell_button.setVisible(self.recruiter.enable_sale(self.item))
         self.sell_button.setToolTip(
             self.recruiter.sell_tooltip(self.sell_button.isEnabled())
         )
@@ -117,6 +119,9 @@ class UnitTransactionFrame(QFrame, Generic[TransactionItemType]):
         self.purchase_groups: dict[
             TransactionItemType, PurchaseGroup[TransactionItemType]
         ] = {}
+        self.game_model.transfer_model.inventory_changed.connect(
+            self.post_transaction_update
+        )
         self.update_available_budget()
 
     def current_quantity_of(self, item: TransactionItemType) -> int:
@@ -236,7 +241,12 @@ class UnitTransactionFrame(QFrame, Generic[TransactionItemType]):
 
     def post_transaction_update(self) -> None:
         self.update_purchase_controls()
+        self.update_existing_units()
         self.update_available_budget()
+
+    def update_existing_units(self) -> None:
+        for item, label in self.existing_units_labels.items():
+            label.setText(str(self.current_quantity_of(item)))
 
     def buy(self, item: TransactionItemType, quantity: int) -> None:
         try:

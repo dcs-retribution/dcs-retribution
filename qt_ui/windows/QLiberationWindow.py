@@ -617,6 +617,11 @@ class QLiberationWindow(QMainWindow):
 
     def showSettingsDialog(self) -> None:
         self.dialog = QSettingsWindow(self.game)
+        # Re-sync transfer visibility when settings are successfully applied so
+        # RED rows appear/disappear as enable_enemy_buy_sell changes.
+        self.dialog.settings_applied.connect(
+            self.game_model.transfer_model.sync_game_and_visibility
+        )
         self.dialog.show()
 
     def showStatsDialog(self):

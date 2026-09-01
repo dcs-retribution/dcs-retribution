@@ -662,9 +662,8 @@ class VehicleGroupGroundObject(TheaterGroundObject):
 
 class MotorpoolGroundObject(TheaterGroundObject):
     """A control point's not-deployed reserve armor, rendered as a stationary,
-    strikeable vehicle park. Its .groups are populated ephemerally each mission
-    from the current reserve slice (see MotorpoolPopulator); units are NOT
-    persisted."""
+    strikeable vehicle park. Its groups and projection keys are a persisted cache
+    reconciled from the current reserve slice by MotorpoolPopulator."""
 
     def __init__(
         self,
@@ -682,9 +681,11 @@ class MotorpoolGroundObject(TheaterGroundObject):
             task=task,
         )
         # group-id -> the exact GroundUnitType variant that group represents, so
-        # the renderer decrements the right base.armor key. Set by the populator;
-        # never persisted meaningfully (groups are rebuilt each mission).
+        # the renderer decrements the right base.armor key.
         self.motorpool_unit_types: dict[int, GroundUnitType] = {}
+        # unit-id -> stable desired-projection key. Persisted with groups so an
+        # unchanged reconciliation preserves object identity and campaign IDs.
+        self.motorpool_projection_keys: dict[int, tuple[uuid.UUID, str, int]] = {}
 
     @property
     def symbol_set_and_entity(self) -> tuple[SymbolSet, Entity]:
@@ -718,18 +719,19 @@ class MotorpoolGroundObject(TheaterGroundObject):
 
     @property
     def sidc_status(self) -> Status:
-        # A motorpool is a live reserve projection: empty on the strategic map is its
-        # normal resting state (vehicles populate ephemerally at mission-gen), not
-        # destruction. Always render as a present depot — never damaged/destroyed.
+        # A motorpool is a live reserve projection: empty is a valid disabled or
+        # zero-reserve state, not destruction. Always render as a present depot —
+        # never damaged/destroyed.
         # is_dead is deliberately left intact so AI target-selection, capture, and
         # IADS logic (which read is_dead, not sidc_status) are unaffected.
         return Status.PRESENT
 
     def clear(self) -> None:
-        # Keep the group-id -> unit-type map in lockstep with groups so a wiped
-        # motorpool (e.g. on capture) leaves no dangling group-id keys behind.
+        # Keep persisted projection metadata in lockstep with groups so a wiped
+        # motorpool (e.g. on capture) leaves no dangling keys behind.
         super().clear()
         self.motorpool_unit_types = {}
+        self.motorpool_projection_keys = {}
 
 
 class EwrGroundObject(IadsGroundObject):

@@ -334,11 +334,11 @@ class Game:
         # since the coalition-specific finalization handles transit network updates and
         # transfer processing. If in the other order, units may be delivered to captured
         # bases, and freshly delivered units will spawn one leg through their journey.
-        self.blue.end_turn()
-        self.red.end_turn()
+        self.blue.end_turn(events)
+        self.red.end_turn(events)
 
         for control_point in self.theater.controlpoints:
-            control_point.process_turn(self)
+            control_point.process_turn(self, events)
 
         # Movable ship TGOs snap to their destination and re-parent to the
         # nearest friendly CP. Runs after captures are committed (process_results
@@ -492,9 +492,9 @@ class Game:
 
         # Plan Coalition specific turn
         if for_blue:
-            self.blue.initialize_turn(self.turn == 0 and squadrons_start_full)
+            self.blue.initialize_turn(self.turn == 0 and squadrons_start_full, events)
         if for_red:
-            self.red.initialize_turn(self.turn == 0 and squadrons_start_full)
+            self.red.initialize_turn(self.turn == 0 and squadrons_start_full, events)
 
         # Plan GroundWar
         self.ground_planners = {}

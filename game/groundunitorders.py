@@ -16,6 +16,7 @@ from .transfers import TransferOrder
 
 if TYPE_CHECKING:
     from .game import Game
+    from .sim import GameUpdateEvents
 
 
 class GroundUnitOrders:
@@ -53,7 +54,7 @@ class GroundUnitOrders:
             pending_units = 0
         return pending_units
 
-    def process(self, game: Game, now: datetime) -> None:
+    def process(self, game: Game, now: datetime, events: GameUpdateEvents) -> None:
         coalition = game.coalition_for(self.destination.captured)
         ground_unit_source = self.find_ground_unit_source(game)
         if ground_unit_source is None:
@@ -97,8 +98,12 @@ class GroundUnitOrders:
                 )
             ground_unit_source.base.commission_units(units_needing_transfer)
             self.create_transfer(
-                coalition, ground_unit_source, units_needing_transfer, now
+                coalition, ground_unit_source, units_needing_transfer, now, events
             )
+        # Refresh motorpool projections for any CP whose reserve changed.
+        events.update_motorpools_at(self.destination)
+        if ground_unit_source is not None and ground_unit_source != self.destination:
+            events.update_motorpools_at(ground_unit_source)
 
     def create_transfer(
         self,
@@ -106,10 +111,13 @@ class GroundUnitOrders:
         source: ControlPoint,
         units: dict[GroundUnitType, int],
         now: datetime,
+        events: GameUpdateEvents,
     ) -> None:
-        coalition.transfers.new_transfer(
-            TransferOrder(source, self.destination, units), now
+        transfer = TransferOrder(
+            source, self.destination, units, player=coalition.player
         )
+        coalition.transfers.new_transfer(transfer, now, events)
+        return None
 
     def find_ground_unit_source(self, game: Game) -> Optional[ControlPoint]:
         # This is running *after* the turn counter has been incremented, so this is the

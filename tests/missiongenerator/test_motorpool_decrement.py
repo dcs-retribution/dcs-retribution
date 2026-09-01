@@ -6,6 +6,7 @@ from unittest.mock import MagicMock
 from dcs.vehicles import Armor
 
 from game.dcs.groundunittype import GroundUnitType
+from game.sim.gameupdateevents import GameUpdateEvents
 from game.sim.missionresultsprocessor import MissionResultsProcessor
 from game.unitmap import UnitMap
 
@@ -39,6 +40,6 @@ def test_killed_motorpool_unit_decrements_base_armor_by_one() -> None:
     assert motorpool_loss is not None
     debriefing.motorpool_losses = [motorpool_loss]
 
-    MissionResultsProcessor.commit_motorpool_losses(debriefing)
+    MissionResultsProcessor.commit_motorpool_losses(debriefing, GameUpdateEvents())
 
     assert base.armor[gut] == 4

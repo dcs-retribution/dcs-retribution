@@ -126,6 +126,22 @@ class GameUpdateEvents:
         self.updated_tgos.add(tgo)
         return self
 
+    def update_motorpools_at(self, *control_points: ControlPoint) -> GameUpdateEvents:
+        """Adds every authored motorpool TGO at the given control points.
+
+        Event serialization reconciles the affected control points immediately
+        before building TGO payloads. Because :attr:`updated_tgos` is a set, a
+        motorpool refreshed by multiple operations in one batch is deduplicated
+        to a single refresh.
+        """
+        from game.theater.theatergroundobject import MotorpoolGroundObject
+
+        for control_point in control_points:
+            for tgo in getattr(control_point, "ground_objects", []):
+                if isinstance(tgo, MotorpoolGroundObject):
+                    self.updated_tgos.add(tgo)
+        return self
+
     def update_control_point(self, control_point: ControlPoint) -> GameUpdateEvents:
         self.updated_control_points.add(control_point)
         return self

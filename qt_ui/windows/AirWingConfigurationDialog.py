@@ -911,17 +911,27 @@ class AirWingConfigurationDialog(QDialog):
         c.configure_default_air_wing(config)
         w.revert()
         if c.game.turn != 0:
-            c.initialize_turn(False)
+            from game.sim.gameupdateevents import GameUpdateEvents
+            from game.server import EventStream
+
+            events = GameUpdateEvents()
+            c.initialize_turn(False, events)
+            EventStream.put_nowait(events)
 
     def revert(self) -> None:
         for tab in self.tabs:
             tab.revert()
 
     def accept(self) -> None:
+        from game.sim.gameupdateevents import GameUpdateEvents
+        from game.server import EventStream
+
         for tab in self.tabs:
             tab.apply()
             if tab.coalition.game.turn != 0:
-                tab.coalition.initialize_turn(False)
+                events = GameUpdateEvents()
+                tab.coalition.initialize_turn(False, events)
+                EventStream.put_nowait(events)
         super().accept()
 
     def reject(self) -> None:
