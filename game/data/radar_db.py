@@ -24,6 +24,7 @@ from dcs.ships import (
 from dcs.vehicles import AirDefence
 
 from pydcs_extensions import highdigitsams as hds
+from pydcs_extensions import iranmilitaryassetspack as imap
 from pydcs_extensions import vietnamwarvessels as vwv
 from pydcs_extensions import chinesemilitaryassetspack as cmap
 from pydcs_extensions import russianmilitaryassetspack as rmap
@@ -267,6 +268,8 @@ UNITS_WITH_RADAR = {
     vwv.USS_Maddox,
     vwv.USS_Sumner,
     vwv.USS_The_Sullivans,
+    imap.IranFAC_MG,
+    imap.IranFAC_MG_AShM,
     cmap.CH_Type022,
     cmap.Type052D,
     cmap.CH_Type054B,

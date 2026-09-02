@@ -42,6 +42,7 @@ from .coldwarassets import *
 from .uh60l import *
 from .vietnamwarvessels import *
 from .chinesemilitaryassetspack import *
+from .iranmilitaryassetspack import *
 from .russianmilitaryassetspack import *
 from .usamilitaryassetspack import *
 from .ukmilitaryassetspack import *

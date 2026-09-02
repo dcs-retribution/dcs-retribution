@@ -1,0 +1,9 @@
+class: Destroyer
+description: "The IRGCN FAC AShM variant is a fast Iranian attack craft armed with heavy machine guns and C-701 anti-ship missiles."
+introduced: 2004
+manufacturer: Iran
+origin: Iran
+price: 0
+role: Fast Attack Craft
+variants:
+  "[CH] IRGCN FAC AShM": {}
