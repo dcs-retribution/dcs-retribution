@@ -54,6 +54,17 @@ class MissionResultsProcessor:
                 self.commit_captures(debriefing, events)
             with logged_duration("record_carcasses"):
                 self.record_carcasses(debriefing)
+            with logged_duration("commit_cruise_missiles"):
+                self.commit_cruise_missiles(debriefing)
+
+    def commit_cruise_missiles(self, debriefing: Debriefing) -> None:
+        # Debit each launching ship group's persisted cruise-missile magazine by
+        # what the cruisemissiles plugin reported fired -- the only debit site, so
+        # mission re-generation never double-counts. No-op when nothing was
+        # reported.
+        from game.cruisemissiles import reconcile_cruise_missiles
+
+        reconcile_cruise_missiles(self.game, debriefing)
 
     def commit_air_losses(self, debriefing: Debriefing) -> None:
         for loss in debriefing.air_losses.losses:

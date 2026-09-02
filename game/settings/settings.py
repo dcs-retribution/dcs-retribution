@@ -1028,6 +1028,39 @@ class Settings:
         default=False,
         detail="Turns the combat landing flag on in the landing waypoint task.",
     )
+    cruise_missile_strikes: bool = boolean_option(
+        "Ship-launched cruise missile strikes",
+        page=MISSION_GENERATOR_PAGE,
+        section=GAMEPLAY_SECTION,
+        default=False,
+        detail=(
+            "Warships that carry land-attack cruise missiles (the Burke's "
+            "Tomahawks, the CurrentHill Kalibr ships) can fire them at shore "
+            "targets: an F10 'Cruise Missile Strike' menu calls a salvo onto your "
+            "last map marker from the nearest ship with missiles left (put just a "
+            "number in the marker's text to size the salvo). Each ship group "
+            "carries a finite campaign magazine -- there is no rearm, so every "
+            "salvo spends stock you never get back. The missiles are real weapons "
+            "from a real, tracked ship: kills count at debrief, enemy point "
+            "defense can intercept them, and sinking the shooter ends the raids. "
+            "Symmetric. Runs via the 'Cruise missile strikes' LUA plugin -- keep "
+            "that plugin enabled or this setting does nothing."
+        ),
+    )
+    cruise_missile_auto_raids: bool = boolean_option(
+        "Auto-plan cruise missile raids",
+        page=MISSION_GENERATOR_PAGE,
+        section=GAMEPLAY_SECTION,
+        default=False,
+        detail=(
+            "Each turn, a side with a cruise-missile ship in range commits one "
+            "raid: a salvo fired early in the mission at its highest-value "
+            "reachable enemy ground object -- command centers and comms first, "
+            "then war-industry buildings, then anything strikeable. Watch for the "
+            "LAUNCH WARNING: an enemy raid is your point-defense SAMs' problem -- "
+            "or yours. Requires 'Ship-launched cruise missile strikes'."
+        ),
+    )
     # Mission specific
     desired_player_mission_duration: timedelta = minutes_option(
         "Desired mission duration",

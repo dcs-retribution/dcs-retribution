@@ -18,6 +18,7 @@ from game.plugins import LuaPluginManager
 from game.theater import TheaterGroundObject
 from game.theater.iadsnetwork.iadsrole import IadsRole
 from game.utils import escape_string_for_lua
+from .cruisemissileluadata import populate_cruise_missiles_lua
 from .missiondata import MissionData
 
 if TYPE_CHECKING:
@@ -290,6 +291,14 @@ class LuaGenerator:
             escort_item.add_key_value(
                 "engagementRangeMeters", str(escort.engagement_range_meters)
             )
+
+        # Ship-launched cruise missile strikes -- emits dcsRetribution.cruiseMissiles
+        # only when cruise_missile_strikes is on and a land-attack-capable ship group
+        # has missiles left; the cruisemissiles plugin fires the auto raids + the F10
+        # call-for-fire and mirrors expenditure back for the turn-boundary magazine
+        # debit. The missiles are real weapons from a tracked ship -- kills record
+        # natively.
+        populate_cruise_missiles_lua(lua_data, self.game, self.mission_data)
 
         trigger = TriggerStart(comment="Set DCS Retribution data")
         trigger.add_action(DoScript(String(lua_data.create_operations_lua())))

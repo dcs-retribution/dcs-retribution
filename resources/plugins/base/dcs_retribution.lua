@@ -10,6 +10,7 @@ unit_lost_events = {} -- killed units will be added via S_EVENT_UNIT_LOST
 kill_events = {} -- killed units will be added via S_EVENT_KILL 
 base_capture_events = {}
 destroyed_objects_positions = {} -- will be added via S_EVENT_DEAD event
+cruise_missiles_state = {} -- cruisemissiles plugin appends/updates {group=, fired=} per ship group that launched cruise missiles this mission; Python debits the persisted campaign magazine at debrief
 mission_ended = false
 dirty_state = false -- Track if state has changed and needs writing
 
@@ -43,6 +44,7 @@ function write_state()
         ["crash_events"] = crash_events,
         ["dead_events"] = dead_events,
         ["base_capture_events"] = base_capture_events,
+        ["cruise_missiles_state"] = cruise_missiles_state or {},
 		["unit_lost_events"] = unit_lost_events,
 		["kill_events"] = kill_events,
         ["mission_ended"] = mission_ended,

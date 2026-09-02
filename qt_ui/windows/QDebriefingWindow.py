@@ -13,6 +13,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from game.cruisemissiles import debrief_expenditures
 from game.debriefing import Debriefing
 from game.theater import Player
 from qt_ui.windows.GameUpdateSignal import GameUpdateSignal
@@ -107,6 +108,22 @@ class QDebriefingWindow(QDialog):
             debriefing, player=Player.RED
         )
         layout.addWidget(enemy_lost_units, 1)
+
+        # Cruise missile expenditure (shown post-debit, so "remaining" is the
+        # campaign magazine going into next turn; enemy remainders stay hidden).
+        expenditures = debrief_expenditures(debriefing.game, debriefing)
+        if expenditures:
+            expenditure_box = QGroupBox("Cruise missiles expended:")
+            expenditure_grid = QGridLayout()
+            for row, (group_name, fired, remaining) in enumerate(expenditures):
+                expenditure_grid.addWidget(QLabel(group_name), row, 0)
+                if remaining is None:
+                    detail = f"{fired} fired"
+                else:
+                    detail = f"{fired} fired, {remaining} remaining"
+                expenditure_grid.addWidget(QLabel(detail), row, 1)
+            expenditure_box.setLayout(expenditure_grid)
+            layout.addWidget(expenditure_box)
 
         okay = QPushButton("Okay")
         okay.clicked.connect(self.close)
