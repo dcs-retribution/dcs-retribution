@@ -9,7 +9,9 @@ from PySide6.QtWidgets import (
 )
 from dcs.cloud_presets import CLOUD_PRESETS
 
+from game.utils import mps
 from game.weather.weather import ClearSkies, Cloudy, Raining, Thunderstorm
+from game.weather.wind import MAX_WIND_SPEED
 from qt_ui.widgets.conditions.DcsCloudBaseSelector import DcsCloudBaseSelector
 from qt_ui.widgets.conditions.DcsCloudDensitySelector import DcsCloudDensitySelector
 from qt_ui.widgets.conditions.DcsCloudThicknessSelector import DcsCloudThicknessSelector
@@ -90,8 +92,8 @@ class QWeatherAdjustmentWidget(QWidget):
 
         def _make_speed_spin(current_mps: float) -> QSpinBox:
             sb = QSpinBox()
-            sb.setRange(0, 200)
-            sb.setValue(round(current_mps * 1.944))  # m/s → knots
+            sb.setRange(0, round(MAX_WIND_SPEED.knots))
+            sb.setValue(round(mps(current_mps).knots))
             return sb
 
         def _make_dir_spin(current_deg: int) -> QSpinBox:

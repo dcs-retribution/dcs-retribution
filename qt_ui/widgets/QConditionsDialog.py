@@ -5,6 +5,7 @@ from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton
 from dcs.weather import Wind
 
 from game.sim import GameUpdateEvents
+from game.utils import knots
 from game.weather.clouds import Clouds
 from game.weather.wind import WindConditions
 from qt_ui.widgets.conditions.QTimeAdjustmentWidget import QTimeAdjustmentWidget
@@ -78,8 +79,10 @@ class QConditionsDialog(QDialog):
         )
 
         def _kts_to_mps(kts: int) -> float:
-            return round(kts / 1.944, 1)
+            return round(knots(kts).meters_per_second, 1)
 
+        # Without this the rebuilt weather object above would hand back a freshly
+        # generated random wind, discarding the one the forecast panel showed.
         wa = self.weather_adjuster
         new_weather.wind = WindConditions(
             at_0m=Wind(
@@ -99,6 +102,7 @@ class QConditionsDialog(QDialog):
         self.weather.conditions.weather = new_weather
 
         self.weather.update_forecast()
+        self.weather.updateWinds()
         if game.turn > 0 and current_time != qdt:
             events = GameUpdateEvents()
             game.initialize_turn(events, for_blue=True, for_red=True)
