@@ -31,6 +31,11 @@ from game.utils import Distance, meters, nautical_miles, feet
 
 AGL_TRANSITION_ALT = 5000
 
+# A loitering SEAD flight holds at `factor` x the target's threat range. The factor is
+# floored here so a misconfigured 0 can never collapse the standoff to zero and park the
+# orbit on top of the SAM.
+MIN_SEAD_STANDOFF_FACTOR = 0.1
+
 if TYPE_CHECKING:
     from game.transfers import MultiGroupTransport
     from game.ato.flight import Flight
@@ -520,20 +525,26 @@ class WaypointBuilder:
         )
 
     def sead_search(self, target: MissionTarget) -> FlightWaypoint:
-        hold = self._sead_search_point(target)
+        hold = self._sead_search_point(
+            target, factor=self.settings.sead_loiter_standoff_factor
+        )
         baro: AltitudeReference = "BARO"
         return FlightWaypoint(
             "SEAD Search",
-            FlightWaypointType.NAV,
+            FlightWaypointType.SEAD_LOITER,
             hold,
             self.get_combat_altitude,
             "RADIO" if self.get_combat_altitude.feet <= AGL_TRANSITION_ALT else baro,
-            description="Anchor and search from this point",
-            pretty_name="SEAD Search",
+            description="Loiter here and engage radars as they come up",
+            pretty_name="SEAD Loiter",
         )
 
     def sead_sweep(self, target: MissionTarget) -> FlightWaypoint:
-        hold = self._sead_search_point(target)
+        # ARM shooters can hold tighter (0.8x); everyone else stands further off (1.1x).
+        factor = (
+            0.8 if self.flight.any_member_has_weapon_of_type(WeaponType.ARM) else 1.1
+        )
+        hold = self._sead_search_point(target, factor=factor)
         baro: AltitudeReference = "BARO"
         return FlightWaypoint(
             "SEAD Sweep",
@@ -545,33 +556,36 @@ class WaypointBuilder:
             pretty_name="SEAD Sweep",
         )
 
-    def _sead_search_point(self, target: MissionTarget) -> Point:
-        """Creates custom waypoint for AI SEAD flights
-            to avoid having them fly all the way to the SAM site.
-        Args:
-            target: Target information.
-        """
-        # Use the threat range as offset distance to avoid flying all the way to the SAM site
+    @staticmethod
+    def _offset_toward(target: Point, ingress: Point, distance: float) -> Point:
+        """A point `distance` metres from `target` along the bearing to `ingress`,
+        capped at 95% of the target->ingress distance so it never overshoots ingress."""
+        hdg = target.heading_between_point(ingress)
+        capped = min(distance, target.distance_to_point(ingress) * 0.95)
+        return target.point_from_heading(hdg, capped)
+
+    @staticmethod
+    def _sead_standoff_distance(factor: float, max_threat_range: float) -> float:
+        """Standoff distance in metres a loitering SEAD flight holds from the SAM:
+        `factor` x the strongest threat range. The factor is floored at
+        MIN_SEAD_STANDOFF_FACTOR so a misconfigured 0 can never collapse the standoff to
+        zero and park the orbit on top of the target."""
+        return max(MIN_SEAD_STANDOFF_FACTOR, factor) * max_threat_range
+
+    def _sead_search_point(self, target: MissionTarget, factor: float) -> Point:
+        """Offset anchor for AI SEAD flights so they do not fly all the way to the SAM.
+        `factor` is the threat-range multiple supplied by the caller (the configured
+        standoff for the loiter, the weapon-based heuristic for the sweep). Targets with
+        no known threat range fall back to the flat sead_threat_buffer_min_distance."""
         assert self.flight.package.waypoints
         ingress = self.flight.package.waypoints.ingress
-        ingress2tgt_dist = ingress.distance_to_point(target.position)
         threat_range = nautical_miles(
-            self.flight.coalition.game.settings.sead_threat_buffer_min_distance
+            self.settings.sead_threat_buffer_min_distance
         ).meters
         if target.strike_targets:
-            factor = (
-                0.8
-                if self.flight.any_member_has_weapon_of_type(WeaponType.ARM)
-                else 1.1
-            )
-            threat_range = (
-                factor * max([x.threat_range for x in target.strike_targets]).meters
-            )
-        hdg = target.position.heading_between_point(ingress)
-        hold = target.position.point_from_heading(
-            hdg, min(threat_range, ingress2tgt_dist * 0.95)
-        )
-        return hold
+            max_threat = max(x.threat_range for x in target.strike_targets).meters
+            threat_range = self._sead_standoff_distance(factor, max_threat)
+        return self._offset_toward(target.position, ingress, threat_range)
 
     def escort_hold(self, start: Point) -> FlightWaypoint:
         """Creates custom waypoint for escort flights that need to hold.

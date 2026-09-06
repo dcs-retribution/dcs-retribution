@@ -446,6 +446,36 @@ class Settings:
             "How close to known threats will the SEAD Escort / SEAD Sweep engagement zone extend."
         ),
     )
+    sead_loiter_standoff_factor: float = bounded_float_option(
+        "SEAD loiter standoff factor (× threat range)",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=DOCTRINE_DISTANCES_SECTION,
+        default=0.8,
+        min=0.1,
+        max=2,
+        divisor=10,
+        detail=(
+            "How far a loitering SEAD flight holds from its target, as a multiple of the "
+            "target's threat range. 0.8 keeps it close (inside the engagement ring); raise "
+            "toward/above 1.0 for a safer standoff if SEAD takes losses loitering. Only "
+            "applies to targets with known threat-range data; others fall back to the flat "
+            "sead_threat_buffer_min_distance."
+        ),
+    )
+    sead_loiter_max_window_seconds: int = bounded_int_option(
+        "SEAD loiter backstop window (seconds)",
+        page=CAMPAIGN_DOCTRINE_PAGE,
+        section=DOCTRINE_DISTANCES_SECTION,
+        default=1200,
+        min=0,
+        max=3600,
+        detail=(
+            "Fallback on-station time for a SEAD loiter when its package has no other "
+            "flights to pace against. Normally the loiter holds until the last package "
+            "member leaves the target area, then RTBs (or earlier when it runs out of "
+            "ARMs); this value only applies to lone SEAD packages."
+        ),
+    )
     tarcap_threat_buffer_min_distance: int = bounded_int_option(
         "TARCAP threat buffer distance (NM)",
         page=CAMPAIGN_DOCTRINE_PAGE,

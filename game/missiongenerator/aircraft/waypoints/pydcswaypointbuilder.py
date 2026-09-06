@@ -6,7 +6,7 @@ from typing import Any, Iterable, Union
 from dcs import Mission
 from dcs.planes import AJS37, F_14A_135_GR, F_14B, JF_17, F_15ESE
 from dcs.point import MovingPoint, PointAction
-from dcs.task import RunScript
+from dcs.task import ControlledTask, OrbitAction, RunScript
 from dcs.unitgroup import FlyingGroup
 
 from game.ato import Flight, FlightWaypoint
@@ -16,6 +16,7 @@ from game.ato.traveltime import GroundSpeed
 from game.data.weapons import WeaponType
 from game.missiongenerator.missiondata import MissionData
 from game.theater import MissionTarget, TheaterUnit, OffMapSpawn
+from ._helper import create_stop_orbit_trigger
 
 TARGET_WAYPOINTS = (
     FlightWaypointType.TARGET_GROUP_LOC,
@@ -137,6 +138,27 @@ class PydcsWaypointBuilder:
                     f"Group.destroy(g)"
                 )
             )
+
+    def add_stopping_orbit(
+        self,
+        waypoint: MovingPoint,
+        *,
+        speed_kph: float,
+        pattern: OrbitAction.OrbitPattern,
+        stop_time: int,
+    ) -> None:
+        """Add an orbit that force-stops `stop_time` mission-elapsed seconds in.
+
+        The ``stop_after_time`` condition is backed by an explicit StopOrbit trigger
+        because DCS's built-in "stop after time" is unreliable; see
+        ``create_stop_orbit_trigger``. Shared by the hold-point and SEAD-loiter builders.
+        """
+        orbit = ControlledTask(
+            OrbitAction(altitude=waypoint.alt, speed=speed_kph, pattern=pattern)
+        )
+        orbit.stop_after_time(stop_time)
+        create_stop_orbit_trigger(orbit, self.package, self.mission, stop_time)
+        waypoint.add_task(orbit)
 
     def set_waypoint_tot(self, waypoint: MovingPoint, tot: datetime) -> None:
         self.waypoint.tot = tot

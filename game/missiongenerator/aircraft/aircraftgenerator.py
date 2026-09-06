@@ -148,6 +148,7 @@ class AircraftGenerator:
             logging.info(f"Generating package for target: {package.target.name}")
             if not package.flights:
                 continue
+            spawned_flights: list[Flight] = []
             for flight in package.flights:
                 if flight.alive and not isinstance(flight.state, Completed):
                     if not flight.squadron.location.runway_is_operational():
@@ -162,6 +163,7 @@ class AircraftGenerator:
                         flight, country, dynamic_runways
                     )
                     self.unit_map.add_aircraft(group, flight)
+                    spawned_flights.append(flight)
             if (
                 package.primary_flight is not None
                 and package.primary_flight.flight_plan.is_formation(
