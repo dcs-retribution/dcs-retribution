@@ -28,7 +28,9 @@ from game.radio.radios import RadioFrequency, RadioRegistry, MHz
 from game.radio.tacan import TacanRegistry
 from game.theater import Airfield
 from game.theater.bullseye import Bullseye
+from game.theater.player import Player
 from game.unitmap import UnitMap
+from .atisgenerator import AtisGenerator
 from .briefinggenerator import BriefingGenerator, MissionInfoGenerator
 from .cargoshipgenerator import CargoShipGenerator
 from .convoygenerator import ConvoyGenerator
@@ -127,6 +129,7 @@ class MissionGenerator:
         TriggerGenerator(self.mission, self.game).generate()
         ForcedOptionsGenerator(self.mission, self.game).generate()
         VisualsGenerator(self.mission, self.game).generate()
+        self.generate_atis()
         LuaGenerator(self.game, self.mission, self.mission_data).generate()
         DrawingsGenerator(self.mission, self.game).generate()
 
@@ -370,6 +373,27 @@ class MissionGenerator:
                     dead=True,
                 )
 
+    def generate_atis(self) -> None:
+        """Allocate ATIS frequencies for player-flight airfields when on."""
+        if not self.game.settings.plugins.get("MooseAtis"):
+            return
+
+        def _opt(key: str, default: float) -> float:
+            try:
+                return float(self.game.settings.plugin_option(f"MooseAtis.{key}"))
+            except (KeyError, TypeError, ValueError):
+                return default
+
+        base_mhz = _opt("AtisBaseFreqMHz", 131.0)
+        spacing_khz = int(_opt("AtisSpacingKHz", 500))
+        self.mission_data.atis_frequencies = AtisGenerator(
+            self.game.blue.ato,
+            self.radio_registry,
+            friendly=Player.BLUE,
+            base_mhz=base_mhz,
+            spacing_khz=spacing_khz,
+        ).generate()
+
     def notify_info_generators(
         self,
     ) -> None:
@@ -397,6 +421,8 @@ class MissionGenerator:
 
             for flight in mission_data.flights:
                 gen.add_flight(flight)
+            for atis in mission_data.atis_frequencies:
+                gen.add_atis(atis)
             gen.generate()
 
     def setup_combined_arms(self) -> None:

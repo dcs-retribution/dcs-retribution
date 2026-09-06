@@ -33,9 +33,9 @@ class RadioFrequency:
         return self.format("kHz", 1000)
 
     def format(self, units: str, divisor: int) -> str:
+        # Always render three decimals (e.g. "131.000 MHz AM") so frequency
+        # columns line up on the kneeboard regardless of whole vs partial MHz.
         converted = self.hertz / divisor
-        if converted.is_integer():
-            return f"{int(converted)} {units} {self.modulation.name}"
         return f"{converted:0.3f} {units} {self.modulation.name}"
 
     @property

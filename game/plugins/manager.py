@@ -1,10 +1,15 @@
 import json
 import logging
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Type
 
 from game.settings import Settings
 from .luaplugin import LuaPlugin
+from .mooseatis import MooseAtisPlugin
+
+_PLUGIN_CLASSES: Dict[str, Type[LuaPlugin]] = {
+    "MooseAtis": MooseAtisPlugin,
+}
 
 
 class LuaPluginManager:
@@ -30,7 +35,8 @@ class LuaPluginManager:
                     f"does not exist at {plugin_path}"
                 )
             logging.info(f"Loading plugin {name} from {plugin_path}")
-            plugin = LuaPlugin.from_json(name, plugin_path)
+            plugin_cls = _PLUGIN_CLASSES.get(name, LuaPlugin)
+            plugin = plugin_cls.from_json(name, plugin_path)
             if plugin is not None:
                 cls._plugins[name] = plugin
         cls._plugins_loaded = True

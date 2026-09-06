@@ -46,6 +46,7 @@ from game.radio.radios import RadioFrequency
 from game.runways import RunwayData
 from game.theater import TheaterGroundObject, TheaterUnit
 from game.theater.bullseye import Bullseye
+from game.theater.controlpoint import Airfield
 from game.utils import Distance, UnitSystem, meters, mps, pounds
 from game.weather.weather import Weather
 from .aircraft.flightdata import FlightData
@@ -345,12 +346,14 @@ class BriefingPage(KneeboardPage):
         weather: Weather,
         start_time: datetime.datetime,
         dark_kneeboard: bool,
+        atis_by_name: Optional[dict[str, RadioFrequency]] = None,
     ) -> None:
         self.flight = flight
         self.bullseye = bullseye
         self.weather = weather
         self.start_time = start_time
         self.dark_kneeboard = dark_kneeboard
+        self.atis_by_name = atis_by_name or {}
         self.flight_plan_font = ImageFont.truetype(
             "courbd.ttf",
             16,
@@ -367,14 +370,26 @@ class BriefingPage(KneeboardPage):
 
         # TODO: Handle carriers.
         writer.heading("Airfield Info")
-        writer.table(
-            [
-                self.airfield_info_row("Departure", self.flight.departure),
-                self.airfield_info_row("Arrival", self.flight.arrival),
-                self.airfield_info_row("Divert", self.flight.divert),
-            ],
-            headers=["", "Airbase", "ATC", "TCN", "I(C)LS", "RWY"],
-        )
+        # Only show the ATIS column when ATIS is in play (plugin enabled), so a
+        # mission without ATIS sees no kneeboard change (design §5).
+        if self.atis_by_name:
+            writer.table(
+                [
+                    self._row_with_atis("Departure", self.flight.departure),
+                    self._row_with_atis("Arrival", self.flight.arrival),
+                    self._row_with_atis("Divert", self.flight.divert),
+                ],
+                headers=["", "Airbase", "ATC", "TCN", "I(C)LS", "RWY", "ATIS"],
+            )
+        else:
+            writer.table(
+                [
+                    self.airfield_info_row("Departure", self.flight.departure),
+                    self.airfield_info_row("Arrival", self.flight.arrival),
+                    self.airfield_info_row("Divert", self.flight.divert),
+                ],
+                headers=["", "Airbase", "ATC", "TCN", "I(C)LS", "RWY"],
+            )
 
         writer.heading(
             f"Flight Plan ({self.flight.squadron.aircraft.variant_id} - "
@@ -528,6 +543,16 @@ class BriefingPage(KneeboardPage):
             ils,
             runway.runway_name,
         ]
+
+    def _row_with_atis(self, row_title: str, runway: Optional[RunwayData]) -> List[str]:
+        row = self.airfield_info_row(row_title, runway)
+        atis = ""
+        if runway is not None:
+            freq = self.atis_by_name.get(runway.airfield_name)
+            if freq is not None:
+                atis = self.format_frequency(freq)
+        row.append(atis)
+        return row
 
     def format_frequency(self, frequency: RadioFrequency) -> str:
         channel = self.flight.channel_for(frequency)
@@ -813,6 +838,67 @@ class StrikeTaskPage(KneeboardPage):
         return display_name
 
 
+def build_airfield_directory_rows(
+    game: "Game",
+    flight: "FlightData",
+    atis_by_name: dict[str, RadioFrequency],
+) -> List[List[str]]:
+    """Build directory rows (Field | ATC | ATIS | TCN | I(C)LS | RWY) for all
+    blue airfields, sorted by name."""
+
+    def fmt(freq: Optional[RadioFrequency]) -> str:
+        if freq is None:
+            return ""
+        channel = flight.channel_for(freq)
+        if channel is None:
+            return str(freq)
+        name = flight.aircraft_type.channel_name(channel.radio_id, channel.channel)
+        return f"{name}\n{freq}"
+
+    rows: List[List[str]] = []
+    airfields = [
+        cp
+        for cp in game.theater.controlpoints
+        if isinstance(cp, Airfield) and cp.is_friendly(flight.friendly)
+    ]
+    for cp in sorted(airfields, key=lambda c: c.full_name):
+        rw = cp.active_runway(game.theater, game.conditions, {})
+        if rw.ils is not None:
+            ils = str(rw.ils)
+        elif rw.icls is not None:
+            ils = str(rw.icls)
+        else:
+            ils = ""
+        rows.append(
+            [
+                cp.full_name,
+                fmt(rw.atc),
+                fmt(atis_by_name.get(cp.full_name)),
+                str(rw.tacan) if rw.tacan is not None else "",
+                ils,
+                rw.runway_name,
+            ]
+        )
+    return rows
+
+
+class AirfieldDirectoryPage(KneeboardPage):
+    """Lists all friendly airfields with ATC / ATIS / TACAN / ILS / RWY."""
+
+    def __init__(self, rows: List[List[str]], dark_kneeboard: bool) -> None:
+        self.rows = rows
+        self.dark_kneeboard = dark_kneeboard
+
+    def write(self, path: Path) -> None:
+        writer = KneeboardPageWriter(dark_theme=self.dark_kneeboard)
+        writer.title("Airfield Directory")
+        writer.table(
+            self.rows,
+            headers=["Field", "ATC", "ATIS", "TCN", "I(C)LS", "RWY"],
+        )
+        writer.write(path)
+
+
 class NotesPage(KneeboardPage):
     """A kneeboard page containing the campaign owner's notes."""
 
@@ -909,6 +995,7 @@ class KneeboardGenerator(MissionInfoGenerator):
                 self.game.conditions.weather,
                 zoned_time,
                 self.dark_kneeboard,
+                atis_by_name=self.atis_by_name,
             ),
             SupportPage(
                 flight,
@@ -928,5 +1015,18 @@ class KneeboardGenerator(MissionInfoGenerator):
 
         if (target_page := self.generate_task_page(flight)) is not None:
             pages.append(target_page)
+
+        if self.atis_by_name:
+            ROWS_PER_PAGE = 14
+            dir_rows = build_airfield_directory_rows(
+                self.game, flight, self.atis_by_name
+            )
+            for start in range(0, len(dir_rows), ROWS_PER_PAGE):
+                pages.append(
+                    AirfieldDirectoryPage(
+                        dir_rows[start : start + ROWS_PER_PAGE],
+                        self.dark_kneeboard,
+                    )
+                )
 
         return pages

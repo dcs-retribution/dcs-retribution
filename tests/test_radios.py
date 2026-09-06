@@ -34,3 +34,12 @@ def test_radio_parsing(units: str, factory: Callable[..., RadioFrequency]) -> No
         RadioFrequency.parse(f"0. {units}")
     with pytest.raises(ValueError):
         RadioFrequency.parse(f"255.5555 {units}")
+
+
+def test_radio_str_keeps_trailing_zeros() -> None:
+    # Whole-MHz/kHz frequencies must still render three decimal places so the
+    # kneeboard frequency columns line up (e.g. ATIS 131.000 vs 131.500).
+    assert str(MHz(131)) == "131.000 MHz AM"
+    assert str(MHz(255, 500)) == "255.500 MHz AM"
+    assert str(MHz(251)) == "251.000 MHz AM"
+    assert str(kHz(255)) == "255.000 kHz AM"

@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING, Optional
 
 from dcs import Mission
 from dcs.action import DoScript, DoScriptFile
+from dcs.task import Modulation
 from dcs.translation import String
 from dcs.triggers import TriggerStart
 
@@ -294,6 +295,35 @@ class LuaGenerator:
         trigger = TriggerStart(comment="Set DCS Retribution data")
         trigger.add_action(DoScript(String(lua_data.create_operations_lua())))
         self.mission.triggerrules.triggers.append(trigger)
+
+        self._inject_atis_lua()
+
+    def _serialize_atis_lua(self) -> str:
+        """Return a Lua assignment for dcsRetribution.Atis, or '' when empty.
+
+        freq/modulation are emitted as bare Lua numbers (MOOSE ATIS:New expects
+        numeric args); only the airbase name is a quoted string.
+        """
+        if not self.mission_data.atis_frequencies:
+            return ""
+        rows = []
+        for atis in self.mission_data.atis_frequencies:
+            name = escape_string_for_lua(atis.airfield_name)
+            modulation = 0 if atis.frequency.modulation == Modulation.AM else 1
+            rows.append(
+                '  { name = "%s", freq = %.3f, modulation = %d },'
+                % (name, atis.frequency.mhz, modulation)
+            )
+        body = "\n".join(rows)
+        return (
+            "if dcsRetribution then\n"
+            "  dcsRetribution.Atis = {\n" + body + "\n  }\nend\n"
+        )
+
+    def _inject_atis_lua(self) -> None:
+        lua = self._serialize_atis_lua()
+        if lua:
+            self.inject_lua_trigger(lua, "dcsRetribution.Atis (MOOSE ATIS)")
 
     def inject_lua_trigger(self, contents: str, comment: str) -> None:
         trigger = TriggerStart(comment=comment)

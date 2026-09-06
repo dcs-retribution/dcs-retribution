@@ -18,7 +18,7 @@ from game.runways import RunwayData
 from game.theater import ControlPoint, FrontLine
 from .aircraft.flightdata import FlightData
 from .flotgenerator import JtacInfo
-from .missiondata import AwacsInfo, TankerInfo
+from .missiondata import AtisInfo, AwacsInfo, TankerInfo
 
 if TYPE_CHECKING:
     from game import Game
@@ -63,6 +63,7 @@ class MissionInfoGenerator:
         self.tankers: List[TankerInfo] = []
         self.frontlines: List[FrontLineInfo] = []
         self.dynamic_runways: List[RunwayData] = []
+        self.atis_by_name: dict[str, RadioFrequency] = {}
 
     def add_awacs(self, awacs: AwacsInfo) -> None:
         """Adds an AWACS/GCI to the mission.
@@ -122,6 +123,10 @@ class MissionInfoGenerator:
         map feature. These include carriers, ships with a helipad, and FARPs.
         """
         self.dynamic_runways.append(runway)
+
+    def add_atis(self, atis: AtisInfo) -> None:
+        """Record a blue airfield's ATIS frequency, keyed by airfield name."""
+        self.atis_by_name[atis.airfield_name] = atis.frequency
 
     def generate(self) -> None:
         """Generates the mission information."""
