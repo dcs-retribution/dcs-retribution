@@ -80,6 +80,18 @@ class PatrollingFlightPlan(StandardFlightPlan[LayoutT], UiZoneDisplay, ABC):
             return self.patrol_end_time
         return None
 
+    def total_time_between_waypoints(
+        self, a: FlightWaypoint, b: FlightWaypoint
+    ) -> timedelta:
+        # The patrol_start -> patrol_end leg is on-station time, not travel: the flight
+        # orbits between the two points for patrol_duration (so patrol_end_time =
+        # patrol_start_time + patrol_duration). Schedules chained leg-by-leg -- the manual
+        # ToT cascade and the kneeboard ETAs -- sum this method per leg, so without this
+        # the loiter collapses to flight time and every later waypoint shifts early.
+        if a is self.layout.patrol_start and b is self.layout.patrol_end:
+            return self.patrol_duration
+        return super().total_time_between_waypoints(a, b)
+
     def takeoff_time(self) -> datetime:
         return self.patrol_start_time - self._travel_time_to_waypoint(self.tot_waypoint)
 

@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Iterator
 from dataclasses import dataclass
 from datetime import datetime
-from typing import TYPE_CHECKING, Type
+from typing import TYPE_CHECKING, Optional, Type
 
 from .flightplan import FlightPlan, Layout
 from .ibuilder import IBuilder
@@ -20,6 +20,31 @@ class CustomLayout(Layout):
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
         yield self.departure
         yield from self.custom_waypoints
+
+    def move_waypoint(self, waypoint: FlightWaypoint, direction: int) -> bool:
+        if waypoint in self.custom_waypoints:
+            index = self.custom_waypoints.index(waypoint)
+            target = index + direction
+            if 0 <= target < len(self.custom_waypoints):
+                self.custom_waypoints[index], self.custom_waypoints[target] = (
+                    self.custom_waypoints[target],
+                    self.custom_waypoints[index],
+                )
+                return True
+        return False
+
+    def add_waypoint(
+        self, wpt: "FlightWaypoint", next_wpt: "Optional[FlightWaypoint]"
+    ) -> bool:
+        new_wpt = WaypointBuilder.nav_midpoint(wpt, next_wpt)
+        if wpt in self.custom_waypoints:
+            index = self.custom_waypoints.index(wpt) + 1
+            self.custom_waypoints.insert(index, new_wpt)
+            return True
+        if wpt is self.departure:
+            self.custom_waypoints.insert(0, new_wpt)
+            return True
+        return False
 
 
 class CustomFlightPlan(FlightPlan[CustomLayout]):
@@ -38,9 +63,13 @@ class CustomFlightPlan(FlightPlan[CustomLayout]):
             FlightWaypointType.TARGET_GROUP_LOC,
             FlightWaypointType.TARGET_POINT,
             FlightWaypointType.TARGET_SHIP,
+            # CAS plans anchor their ToT on the FLOT (a CAS-type waypoint). Without it
+            # a CAS flight converted to a custom plan finds no anchor here and falls back
+            # to the departure, collapsing the takeoff time onto the package TOT.
+            FlightWaypointType.CAS,
         )
         for waypoint in self.waypoints:
-            if waypoint in target_types:
+            if waypoint.waypoint_type in target_types:
                 return waypoint
         return self.layout.departure
 

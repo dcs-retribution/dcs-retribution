@@ -43,7 +43,12 @@ class TotEstimator:
         if not self.package.flights:
             return now
 
-        return max(self.earliest_tot_for_flight(f, now) for f in self.package.flights)
+        # Manually-timed flights own their schedule and are decoupled from the package
+        # TOT, so they must not pull the package's ASAP time.
+        candidates = [f for f in self.package.flights if not f.manually_timed]
+        if not candidates:
+            candidates = list(self.package.flights)
+        return max(self.earliest_tot_for_flight(f, now) for f in candidates)
 
     @staticmethod
     def earliest_tot_for_flight(flight: Flight, now: datetime) -> datetime:

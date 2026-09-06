@@ -1,14 +1,26 @@
 from typing import Optional
 
-from PySide6.QtCore import QItemSelectionModel, QPoint, QModelIndex
+from PySide6.QtCore import (
+    QEvent,
+    QItemSelectionModel,
+    QModelIndex,
+    QPoint,
+    Qt,
+    QTime,
+    QTimer,
+    Signal,
+)
 from PySide6.QtGui import QStandardItem, QStandardItemModel
 from PySide6.QtWidgets import (
-    QHeaderView,
-    QTableView,
-    QStyledItemDelegate,
-    QWidget,
-    QStyleOptionViewItem,
+    QAbstractItemView,
     QDoubleSpinBox,
+    QHeaderView,
+    QMessageBox,
+    QStyledItemDelegate,
+    QStyleOptionViewItem,
+    QTableView,
+    QTimeEdit,
+    QWidget,
 )
 
 from game.ato.flight import Flight
@@ -33,7 +45,61 @@ class AltitudeEditorDelegate(QStyledItemDelegate):
         return editor
 
 
+class TotEditorDelegate(QStyledItemDelegate):
+    def __init__(self, waypoint_list: "QFlightWaypointList", flight: Flight) -> None:
+        super().__init__(waypoint_list)
+        self.waypoint_list = waypoint_list
+        self.flight = flight
+
+    def createEditor(self, parent, option, index) -> QWidget:
+        editor = QTimeEdit(parent)
+        editor.setDisplayFormat("HH:mm:ss")
+        return editor
+
+    def setEditorData(self, editor: QTimeEdit, index) -> None:
+        text = (
+            (index.data(Qt.ItemDataRole.DisplayRole) or "")
+            .replace("Depart ", "")
+            .strip()
+        )
+        qt = QTime.fromString(text, "HH:mm:ss")
+        if qt.isValid():
+            editor.setTime(qt)
+
+    def setModelData(self, editor: QTimeEdit, model, index) -> None:
+        waypoint = index.data(Qt.ItemDataRole.UserRole)
+        # Base the date on the package TOT; the user only edits the clock time.
+        base = self.flight.package.time_over_target
+        t = editor.time()
+        desired = base.replace(
+            hour=t.hour(), minute=t.minute(), second=t.second(), microsecond=0
+        )
+        if self.flight.flight_plan.would_invert_order(waypoint, desired):
+            waypoints = self.flight.flight_plan.waypoints
+            previous = self.flight.flight_plan.chained_tot_for_waypoint(
+                waypoints[waypoints.index(waypoint) - 1]
+            )
+            previous_text = f"{previous:%H:%M:%S}" if previous is not None else "it"
+            QMessageBox.warning(
+                self.waypoint_list,
+                "Invalid time over target",
+                f"Time over target must be later than the previous waypoint "
+                f"({previous_text}). To place this waypoint earlier, reorder the "
+                f"waypoints with Move Up / Move Down instead.",
+            )
+            return
+        self.flight.flight_plan.set_waypoint_tot(waypoint, desired)
+        # set_waypoint_tot mutates the flight plan, not the model, so nothing else would
+        # repaint the cascaded times or reveal the manual-timing controls. Signal the
+        # owner to rebuild the list and refresh its widgets, but defer to the next event
+        # loop tick: rebuilding the model (model.clear()) while this edit is still
+        # committing is unsafe.
+        QTimer.singleShot(0, self.waypoint_list.tot_changed.emit)
+
+
 class QFlightWaypointList(QTableView):
+    tot_changed = Signal()
+
     def __init__(self, package: Package, flight: Flight):
         super().__init__()
         self._last_waypoint: Optional[FlightWaypoint] = None
@@ -55,6 +121,29 @@ class QFlightWaypointList(QTableView):
 
         self.altitude_editor_delegate = AltitudeEditorDelegate(self)
         self.setItemDelegateForColumn(1, self.altitude_editor_delegate)
+
+        self.tot_editor_delegate = TotEditorDelegate(self, self.flight)
+        self.setItemDelegateForColumn(3, self.tot_editor_delegate)
+
+    def edit(  # type: ignore[override]
+        self,
+        index: QModelIndex,
+        trigger: QAbstractItemView.EditTrigger,
+        event: QEvent,
+    ) -> bool:
+        if (
+            index.column() == 3
+            and self.flight.client_count == 0
+            and trigger != QAbstractItemView.EditTrigger.NoEditTriggers
+        ):
+            QMessageBox.information(
+                self,
+                "AI flight timing",
+                "AI flight times over target are scheduled automatically and can't be "
+                "edited. Add a player slot to this flight to time it manually.",
+            )
+            return False
+        return super().edit(index, trigger, event)
 
     def update_list(self) -> None:
         # ignore signals when updating list so on_changed does not fire
@@ -109,7 +198,11 @@ class QFlightWaypointList(QTableView):
 
         tot = self.tot_text(flight, waypoint)
         tot_item = QStandardItem(tot)
-        tot_item.setEditable(False)
+        editable = flight.client_count > 0 and (
+            waypoint.waypoint_type != FlightWaypointType.TAKEOFF
+        )
+        tot_item.setEditable(editable)
+        tot_item.setData(waypoint, Qt.ItemDataRole.UserRole)
         self.model.setItem(row, 3, tot_item)
 
     def on_changed(self) -> None:
@@ -126,6 +219,9 @@ class QFlightWaypointList(QTableView):
         flight: Flight,
         waypoint: FlightWaypoint,
     ) -> str:
+        if flight.manually_timed and flight.manual_takeoff_time is not None:
+            time = flight.flight_plan.effective_tot_for_waypoint(waypoint)
+            return f"{time:%H:%M:%S}" if time is not None else ""
         if waypoint.waypoint_type == FlightWaypointType.TAKEOFF:
             self.update_last_tot(flight.flight_plan.takeoff_time())
             self._last_waypoint = waypoint

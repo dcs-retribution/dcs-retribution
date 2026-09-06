@@ -32,6 +32,30 @@ if TYPE_CHECKING:
     from .patrolling import PatrollingFlightPlan
 
 
+def cascade_waypoint_times(
+    takeoff: datetime,
+    legs: list[timedelta],
+    offsets: list[timedelta],
+) -> list[datetime]:
+    """Compute the time at each waypoint for a manually-timed flight.
+
+    ``legs[i]`` is the travel time from waypoint ``i`` to ``i + 1`` (length
+    ``len(offsets) - 1``). ``offsets[i]`` is the per-waypoint manual shift. The result is
+    a forward chain from ``takeoff`` with a cumulative (prefix-sum) of offsets, so adding to
+    ``offsets[N]`` shifts waypoint ``N`` and every later waypoint by the same amount and
+    leaves earlier waypoints unchanged.
+    """
+    times: list[datetime] = []
+    cumulative_offset = timedelta()
+    running = takeoff
+    for i, offset in enumerate(offsets):
+        if i > 0:
+            running += legs[i - 1]
+        cumulative_offset += offset
+        times.append(running + cumulative_offset)
+    return times
+
+
 @dataclass
 class Layout(ABC):
     departure: FlightWaypoint
@@ -43,6 +67,14 @@ class Layout(ABC):
         return list(self.iter_waypoints())
 
     def delete_waypoint(self, waypoint: FlightWaypoint) -> bool:
+        return False
+
+    def move_waypoint(self, waypoint: FlightWaypoint, direction: int) -> bool:
+        """Move ``waypoint`` one slot. ``direction`` is -1 (up) or +1 (down).
+
+        Returns True if the move happened. The base layout cannot reorder anything, so it
+        returns False; subclasses override for their mutable waypoint lists.
+        """
         return False
 
     def iter_waypoints(self) -> Iterator[FlightWaypoint]:
@@ -234,7 +266,103 @@ class FlightPlan(ABC, Generic[LayoutT]):
             if waypoint == end:
                 return
 
+    def manual_waypoint_times(self) -> list[datetime]:
+        """Forward-chained times for a manually-timed flight (decoupled from package)."""
+        assert self.flight.manual_takeoff_time is not None
+        waypoints = self.waypoints
+        # Floor each leg to whole seconds, matching _travel_time_to_waypoint: DCS has no
+        # sub-second task resolution, so cascaded ETAs must not carry a fractional remainder.
+        legs = [
+            timedelta(
+                seconds=math.floor(
+                    self.total_time_between_waypoints(a, b).total_seconds()
+                )
+            )
+            for a, b in zip(waypoints, waypoints[1:])
+        ]
+        offsets = [wp.manual_tot_offset for wp in waypoints]
+        return cascade_waypoint_times(self.flight.manual_takeoff_time, legs, offsets)
+
+    def effective_tot_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
+        """ToT used for display and mission generation.
+
+        For manually-timed flights this is the cascaded time at every waypoint. For
+        auto-timed flights this is exactly the structural ``tot_for_waypoint`` (unchanged
+        behavior: non-structural waypoints return ``None``).
+        """
+        if self.flight.manually_timed and self.flight.manual_takeoff_time is not None:
+            return self.manual_waypoint_times()[self.waypoints.index(waypoint)]
+        return self.tot_for_waypoint(waypoint)
+
+    def chained_tot_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
+        """Forward-chained time at ``waypoint`` for display and mission generation.
+
+        For manually-timed flights this is the manual cascade. For auto-timed flights it
+        is the takeoff time plus the floored travel time of every preceding leg, so every
+        waypoint (not just the structural ToT) carries a monotonic time. Returns ``None``
+        only if ``waypoint`` is not part of this plan.
+        """
+        waypoints = self.waypoints
+        if waypoint not in waypoints:
+            return None
+        index = waypoints.index(waypoint)
+        if self.flight.manually_timed and self.flight.manual_takeoff_time is not None:
+            return self.manual_waypoint_times()[index]
+        running = self.takeoff_time()
+        for a, b in zip(waypoints[:index], waypoints[1 : index + 1]):
+            running += timedelta(
+                seconds=math.floor(
+                    self.total_time_between_waypoints(a, b).total_seconds()
+                )
+            )
+        return running
+
+    def would_invert_order(self, waypoint: FlightWaypoint, desired: datetime) -> bool:
+        """True if ``desired`` is not strictly later than the previous waypoint's time.
+
+        A desired time at or before the previous waypoint produces a non-monotonic
+        schedule that DCS re-sorts by time, so the UI rejects it.
+        """
+        waypoints = self.waypoints
+        if waypoint not in waypoints:
+            return False
+        index = waypoints.index(waypoint)
+        if index == 0:
+            return False
+        previous = self.chained_tot_for_waypoint(waypoints[index - 1])
+        return previous is not None and desired <= previous
+
+    def set_waypoint_tot(self, waypoint: FlightWaypoint, desired: datetime) -> None:
+        """Set a waypoint's ToT; shifts this waypoint and all later ones by the delta."""
+        if not self.flight.manually_timed:
+            self.flight.manual_takeoff_time = self.takeoff_time()
+            self.flight.manually_timed = True
+        times = self.manual_waypoint_times()
+        index = self.waypoints.index(waypoint)
+        waypoint.manual_tot_offset += desired - times[index]
+
+    def clear_manual_timing(self) -> None:
+        """Return the flight to automatic, package-driven timing."""
+        for waypoint in self.waypoints:
+            waypoint.manual_tot_offset = timedelta()
+        self.flight.manually_timed = False
+        self.flight.manual_takeoff_time = None
+
+    def move_waypoint(self, waypoint: FlightWaypoint, direction: int) -> bool:
+        """Reorder ``waypoint`` one slot (``direction`` is -1 up, +1 down).
+
+        Manual per-waypoint offsets are position-relative, so a reorder would silently
+        change every cascaded time. Rather than carry stale offsets into a new order, a
+        successful move drops manual timing and reverts the flight to auto-calculated ToTs.
+        """
+        moved = self.layout.move_waypoint(waypoint, direction)
+        if moved:
+            self.clear_manual_timing()
+        return moved
+
     def takeoff_time(self) -> datetime:
+        if self.flight.manually_timed and self.flight.manual_takeoff_time is not None:
+            return self.manual_waypoint_times()[0]
         return self.tot - self._travel_time_to_waypoint(self.tot_waypoint)
 
     def minimum_duration_from_start_to_tot(self) -> timedelta:

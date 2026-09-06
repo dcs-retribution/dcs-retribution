@@ -102,11 +102,33 @@ class PydcsWaypointBuilder:
                 waypoint.alt = 0
                 waypoint.alt_type = "RADIO"
 
-        tot = self.flight.flight_plan.tot_for_waypoint(self.waypoint)
-        if tot is not None:
-            self.set_waypoint_tot(waypoint, tot)
+        self._assign_waypoint_tot(waypoint)
         self.add_tasks(waypoint)
         return waypoint
+
+    def _assign_waypoint_tot(self, waypoint: MovingPoint) -> None:
+        # Lock the DCS ETA for anchored times (structural target or manually-timed) so
+        # the AI keeps timing flexibility between auto waypoints.
+        locked_tot = self.flight.flight_plan.effective_tot_for_waypoint(self.waypoint)
+        if locked_tot is not None:
+            self.set_waypoint_tot(waypoint, locked_tot)
+            return
+        # ...otherwise fall back to the chained ToT so every waypoint carries a time.
+        display_tot = self.flight.flight_plan.chained_tot_for_waypoint(self.waypoint)
+        if display_tot is None:
+            return
+
+        if self.flight.client_count:
+            # Player flights: lock the chained ToT into the DCS ETA too. These ETAs are
+            # loaded into the jet's nav computer, so leaving them unlocked makes the
+            # cockpit time-on-waypoint read wrong (it omits startup/taxi and on-station
+            # time). There is no AI route-follower to over-constrain here -- the human
+            # flies the route and any AI wingmen formate on the lead.
+            self.set_waypoint_tot(waypoint, display_tot)
+        else:
+            # AI flights: publish on the model for kneeboards, but leave the DCS ETA
+            # unlocked so the AI keeps timing flexibility between auto waypoints.
+            self.waypoint.tot = display_tot
 
     def switch_to_baro_if_in_sea(self, waypoint: MovingPoint) -> None:
         if waypoint.alt_type == "RADIO" and (

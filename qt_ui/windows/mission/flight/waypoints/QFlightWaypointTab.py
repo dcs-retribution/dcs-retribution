@@ -1,7 +1,7 @@
 import logging
 from typing import Iterable, List, Optional
 
-from PySide6.QtCore import Signal, Qt, QModelIndex
+from PySide6.QtCore import Signal, Qt, QModelIndex, QItemSelectionModel
 from PySide6.QtWidgets import (
     QFrame,
     QGridLayout,
@@ -71,12 +71,20 @@ class QFlightWaypointTab(QFrame):
         self.coalition = game.coalition_for(player=Player.BLUE)
         self.package = package
         self.flight = flight
+        # Show the escort-drift warning at most once per manual-timing session.
+        self._escort_warning_shown = False
 
         self.flight_waypoint_list: Optional[QFlightWaypointList] = None
         self.rtb_waypoint: Optional[QPushButton] = None
         self.delete_selected: Optional[QPushButton] = None
         self.add_nav_waypoint: Optional[QPushButton] = None
         self.open_fast_waypoint_button: Optional[QPushButton] = None
+        self.move_up_button: Optional[QPushButton] = None
+        self.move_down_button: Optional[QPushButton] = None
+        self.manual_tot_label: Optional[QLabel] = None
+        self.reset_tot_button: Optional[QPushButton] = None
+        self.plan_type_label: Optional[QLabel] = None
+        self.convert_button: Optional[QPushButton] = None
         self.recreate_buttons: List[QPushButton] = []
         self.init_ui()
 
@@ -84,6 +92,7 @@ class QFlightWaypointTab(QFrame):
         layout = QGridLayout()
 
         self.flight_waypoint_list = QFlightWaypointList(self.package, self.flight)
+        self.flight_waypoint_list.tot_changed.connect(self.on_tot_changed)
         layout.addWidget(self.flight_waypoint_list, 0, 0)
 
         rlayout = QVBoxLayout()
@@ -111,6 +120,8 @@ class QFlightWaypointTab(QFrame):
 
         rlayout.addWidget(QLabel("<strong>Generator :</strong>"))
         rlayout.addWidget(QLabel("<small>AI compatible</small>"))
+        self.plan_type_label = QLabel()
+        rlayout.addWidget(self.plan_type_label)
 
         self.recreate_buttons.clear()
         for task in self.package.target.mission_types(for_player=Player.BLUE):
@@ -135,12 +146,33 @@ class QFlightWaypointTab(QFrame):
         self.add_nav_waypoint.clicked.connect(self.on_add_nav)
         rlayout.addWidget(self.add_nav_waypoint)
 
+        self.move_up_button = QPushButton("Move Up")
+        self.move_up_button.clicked.connect(lambda: self.on_move_waypoint(-1))
+        rlayout.addWidget(self.move_up_button)
+
+        self.move_down_button = QPushButton("Move Down")
+        self.move_down_button.clicked.connect(lambda: self.on_move_waypoint(1))
+        rlayout.addWidget(self.move_down_button)
+
+        self.manual_tot_label = QLabel(
+            "<small><b>Manually timed</b> — decoupled from package TOT</small>"
+        )
+        rlayout.addWidget(self.manual_tot_label)
+
+        self.reset_tot_button = QPushButton("Reset ToT to auto")
+        self.reset_tot_button.clicked.connect(self.on_reset_tot)
+        rlayout.addWidget(self.reset_tot_button)
+
         rlayout.addWidget(QLabel("<strong>Advanced : </strong>"))
         rlayout.addWidget(QLabel("<small>Do not use for AI flights</small>"))
 
         self.rtb_waypoint = QPushButton("Add RTB Waypoint")
         self.rtb_waypoint.clicked.connect(self.on_rtb_waypoint)
         rlayout.addWidget(self.rtb_waypoint)
+
+        self.convert_button = QPushButton("Convert to custom plan")
+        self.convert_button.clicked.connect(self.on_convert_to_custom)
+        rlayout.addWidget(self.convert_button)
 
         self.delete_selected = QPushButton("Delete Selected")
         self.delete_selected.clicked.connect(self.on_delete_waypoint)
@@ -151,6 +183,8 @@ class QFlightWaypointTab(QFrame):
         rlayout.addWidget(self.open_fast_waypoint_button)
         rlayout.addStretch()
         self.setLayout(layout)
+        self.refresh_manual_tot_widgets()
+        self.refresh_plan_type()
 
     def on_add_nav(self):
         selected = self.flight_waypoint_list.selectedIndexes()
@@ -217,9 +251,11 @@ class QFlightWaypointTab(QFrame):
     def confirm_degrade(self, parent: Optional[QWidget] = None) -> bool:
         result = QMessageBox.warning(
             parent if parent else self,
-            "Degrade flight-plan?",
-            "Deleting the selected waypoint(s) will require degradation to a custom flight-plan. "
-            "A custom flight-plan will no longer respect the TOTs of the package.<br><br>"
+            "Convert flight plan?",
+            "Deleting the selected waypoint(s) requires converting this flight to a "
+            "custom flight plan. A custom flight plan is no longer automatically timed "
+            "to the package TOT; its waypoint times become independent and manually "
+            "adjustable.<br><br>"
             "<b>Are you sure you wish to continue?</b>",
             QMessageBox.StandardButton.Yes,
             QMessageBox.StandardButton.No,
@@ -234,10 +270,31 @@ class QFlightWaypointTab(QFrame):
         self.subwindow.show()
 
     def on_waypoints_added(self, waypoints: Iterable[FlightWaypoint]) -> None:
+        waypoints = list(waypoints)
         if not waypoints:
             return
-        self.flight.flight_plan.layout.custom_waypoints.extend(waypoints)
-        self.add_rows(len(list(waypoints)))
+        customs = self.flight.flight_plan.layout.custom_waypoints
+        insert_at = self._custom_insert_index()
+        if insert_at is None:
+            customs.extend(waypoints)
+        else:
+            customs[insert_at:insert_at] = waypoints
+        self.add_rows(len(waypoints))
+
+    def _custom_insert_index(self) -> Optional[int]:
+        selected = self.flight_waypoint_list.selectedIndexes()
+        if not selected:
+            return None
+        row = selected[0].row()
+        waypoints = self.flight.flight_plan.waypoints
+        customs = self.flight.flight_plan.layout.custom_waypoints
+        selected_wp = waypoints[row]
+        if selected_wp in customs:
+            # Insert immediately after the selected custom waypoint.
+            return customs.index(selected_wp) + 1
+        # Selected waypoint is structural: append to the front of custom_waypoints so the
+        # new waypoint still renders after the structural section it follows.
+        return 0 if customs else None
 
     def add_rows(self, count: int) -> None:
         rc = self.flight_waypoint_list.model.rowCount()
@@ -254,6 +311,35 @@ class QFlightWaypointTab(QFrame):
     def degrade_to_custom_flight_plan(self) -> None:
         if not isinstance(self.flight.flight_plan, CustomFlightPlan):
             self.flight.degrade_to_custom_flight_plan()
+
+    def on_convert_to_custom(self) -> None:
+        if self.flight.flight_plan.is_custom:
+            return
+        result = QMessageBox.question(
+            self,
+            "Convert flight plan?",
+            "Convert this flight to a custom flight plan? A custom flight plan is no "
+            "longer automatically timed to the package TOT; its waypoint times become "
+            "independent and manually adjustable.",
+            QMessageBox.StandardButton.Yes,
+            QMessageBox.StandardButton.No,
+        )
+        if result != QMessageBox.StandardButton.Yes:
+            return
+        self.degrade_to_custom_flight_plan()
+        self.on_change()
+
+    def refresh_plan_type(self) -> None:
+        if self.plan_type_label is None or self.convert_button is None:
+            return
+        is_custom = self.flight.flight_plan.is_custom
+        if is_custom:
+            self.plan_type_label.setText("<small><b>Plan:</b> Custom</small>")
+        else:
+            self.plan_type_label.setText(
+                f"<small><b>Plan:</b> Standard ({self.flight.flight_type})</small>"
+            )
+        self.convert_button.setEnabled(not is_custom)
 
     def confirm_recreate(self, task: FlightType) -> None:
         result = QMessageBox.question(
@@ -314,7 +400,74 @@ class QFlightWaypointTab(QFrame):
         if changed:
             self.on_change()
 
+    def on_move_waypoint(self, direction: int) -> None:
+        selected = self.flight_waypoint_list.selectedIndexes()
+        if not selected:
+            return
+        row = selected[0].row()
+        if row == 0:
+            # The departure/takeoff waypoint is fixed.
+            return
+        waypoint = self.flight.flight_plan.waypoints[row]
+        if not self.flight.flight_plan.move_waypoint(waypoint, direction):
+            QMessageBox.information(
+                self,
+                "Cannot move waypoint",
+                "This waypoint can't move past a fixed point in a standard flight "
+                "plan. To reorder freely, convert this flight to a custom plan using "
+                "Convert to custom plan in the Advanced section.",
+            )
+            return
+        new_row = row + direction
+        self.on_change()
+        self.flight_waypoint_list.selectionModel().setCurrentIndex(
+            self.flight_waypoint_list.model.index(new_row, 0),
+            QItemSelectionModel.SelectionFlag.ClearAndSelect,
+        )
+
+    def on_reset_tot(self) -> None:
+        self.flight.flight_plan.clear_manual_timing()
+        self.on_change()
+
+    def on_tot_changed(self) -> None:
+        self.on_change()
+        self.maybe_warn_escort_drift()
+
+    def maybe_warn_escort_drift(self) -> None:
+        """Remind the player that manual timing won't move the package's escorts.
+
+        Escort start/end times are derived from the package's automatic ToTs, so a flight
+        with manual waypoint times can arrive out of sync with its escort. Warn once per
+        manual-timing session when the package actually contains an escort.
+        """
+        if self._escort_warning_shown or not self.flight.manually_timed:
+            return
+        if not any(
+            f.flight_type.provides_escort_coverage for f in self.package.flights
+        ):
+            return
+        self._escort_warning_shown = True
+        QMessageBox.warning(
+            self,
+            "Escort timing may drift",
+            "This flight now has manually-timed waypoints that are decoupled from the "
+            "package TOT. Escort coordination still uses the package's automatic timing, "
+            "so the escort may arrive at the wrong time. Adjust the escort flight's "
+            "timing to match, or reset this flight's ToT to auto.",
+        )
+
+    def refresh_manual_tot_widgets(self) -> None:
+        manual = self.flight.manually_timed
+        self.manual_tot_label.setVisible(manual)
+        self.reset_tot_button.setVisible(manual)
+        if not manual:
+            # Timing reverted to auto (reset button or a reorder); re-arm the warning so
+            # the next manual-timing session prompts again.
+            self._escort_warning_shown = False
+
     def on_change(self):
         self.flight_waypoint_list.update_list()
         self.flight_waypoint_list.on_changed()
         self.update()
+        self.refresh_manual_tot_widgets()
+        self.refresh_plan_type()

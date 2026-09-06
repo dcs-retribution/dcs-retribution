@@ -104,6 +104,12 @@ class Flight(
         # options when players switch loadouts.
         self.props: dict[str, Any] = {}
 
+        # Manual-timing state for player flights. When manually_timed is True the flight's
+        # waypoint times are user-owned: they form a forward chain from manual_takeoff_time
+        # plus each waypoint's manual_tot_offset, fully decoupled from the package TOT.
+        self.manually_timed: bool = False
+        self.manual_takeoff_time: datetime | None = None
+
         # Used for simulating the travel to first contact.
         self.state: FlightState = Uninitialized(self, squadron.settings)
 
@@ -154,6 +160,8 @@ class Flight(
     def degrade_to_custom_flight_plan(self) -> None:
         from .flightplans.custom import Builder as CustomBuilder
 
+        self.manually_timed = False
+        self.manual_takeoff_time = None
         self._flight_plan_builder = CustomBuilder(self, self.flight_plan.waypoints[1:])
         self.recreate_flight_plan()
 
@@ -170,6 +178,10 @@ class Flight(
         state["state"] = Uninitialized(self, state["squadron"].settings)
         if "use_same_loadout_for_all_members" not in state:
             state["use_same_loadout_for_all_members"] = True
+        if "manually_timed" not in state:
+            state["manually_timed"] = False
+        if "manual_takeoff_time" not in state:
+            state["manual_takeoff_time"] = None
         self.__dict__.update(state)
         if isinstance(self.roster, FlightRoster):
             self.roster = FlightMembers.from_roster(self, self.roster)
@@ -353,6 +365,8 @@ class Flight(
                 results.kill_pilot(self, pilot)
 
     def recreate_flight_plan(self, dump_debug_info: bool = False) -> None:
+        self.manually_timed = False
+        self.manual_takeoff_time = None
         self._flight_plan_builder.regenerate(dump_debug_info)
 
     @staticmethod

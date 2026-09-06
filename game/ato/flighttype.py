@@ -104,6 +104,19 @@ class FlightType(Enum):
         return self in {FlightType.ESCORT, FlightType.SEAD_ESCORT}
 
     @property
+    def provides_escort_coverage(self) -> bool:
+        """Flight types that fly escort-like coverage tied to the package's timing.
+
+        Broader than ``is_escort_type``: includes TARCAP, which guards a strike package
+        the same way a dedicated escort does and so is affected by manual-timing drift.
+        """
+        return self in {
+            FlightType.ESCORT,
+            FlightType.SEAD_ESCORT,
+            FlightType.TARCAP,
+        }
+
+    @property
     def entity_type(self) -> AirEntity:
         return {
             FlightType.AEWC: AirEntity.AIRBORNE_EARLY_WARNING,

@@ -13,7 +13,7 @@ def timing_info(flight: Flight, waypoint_idx: int) -> str:
 
     waypoint = flight.flight_plan.waypoints[waypoint_idx - 1]
     prefix = "TOT"
-    time = flight.flight_plan.tot_for_waypoint(waypoint)
+    time = flight.flight_plan.effective_tot_for_waypoint(waypoint)
     if time is None:
         prefix = "Depart"
         time = flight.flight_plan.depart_time_for_waypoint(waypoint)

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import math
 import random
+from copy import deepcopy
 from dataclasses import dataclass
 from typing import (
     Iterable,
@@ -750,6 +751,22 @@ class WaypointBuilder:
             description="NAV",
             pretty_name="Nav",
         )
+
+    @staticmethod
+    def nav_midpoint(
+        wpt: FlightWaypoint, next_wpt: Optional[FlightWaypoint]
+    ) -> FlightWaypoint:
+        """A NAV waypoint halfway between ``wpt`` and ``next_wpt``.
+
+        When there is no following waypoint the new point reuses ``wpt``'s position and a
+        default cruise altitude.
+        """
+        new_pos = deepcopy(wpt.position)
+        next_alt = feet(20000)
+        if next_wpt:
+            new_pos = wpt.position.lerp(next_wpt.position, 0.5)
+            next_alt = next_wpt.alt
+        return WaypointBuilder.nav(new_pos, max(wpt.alt, next_alt))
 
     def nav_path(
         self, a: Point, b: Point, altitude: Distance, altitude_is_agl: bool = False
