@@ -78,6 +78,7 @@ PRETENSE_PAGE = "Pretense"
 MISSION_GENERATOR_PAGE = "Mission Generator"
 
 GAMEPLAY_SECTION = "Gameplay"
+KNEEBOARD_SECTION = "Kneeboard"
 
 # TODO: Make sections a type and add headers.
 # This section had the header: "Disabling settings below may improve performance, but
@@ -926,6 +927,28 @@ class Settings:
         detail=(
             "Dark kneeboard for night missions. This will likely make the kneeboard on "
             "the pilot leg unreadable."
+        ),
+    )
+    generate_target_recon_kneeboard: bool = boolean_option(
+        "Generate target recon kneeboard pages",
+        MISSION_GENERATOR_PAGE,
+        KNEEBOARD_SECTION,
+        default=True,
+        detail=(
+            "Generate a target reconnaissance page for player flights with air-to-ground "
+            "tasks, showing aimpoints, threat rings, and target area context."
+        ),
+    )
+    target_recon_extra_threat_search_nmi: int = bounded_int_option(
+        "Extra threat search radius (nmi)",
+        MISSION_GENERATOR_PAGE,
+        KNEEBOARD_SECTION,
+        default=0,
+        min=0,
+        max=50,
+        detail=(
+            "Additional nautical miles beyond the default search radius to include "
+            "threats on the target recon kneeboard. 0 uses the default radius only."
         ),
     )
     never_delay_player_flights: bool = boolean_option(

@@ -1,0 +1,665 @@
+{
+  "airports": {
+    "1": {
+      "dcs_position": {
+        "lat": 50.14345084634777,
+        "lng": 1.8319462661301362
+      },
+      "elevation_m": 67.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": 5.3603652233391585e-05,
+        "lng": -6.661301361621241e-07
+      },
+      "name": "Abbeville Drucat",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 50.1382734,
+            "lng": 1.8287086
+          },
+          "endpoint_b": {
+            "lat": 50.1487355,
+            "lng": 1.8351826
+          },
+          "heading_deg": 21.7,
+          "length_m": 1251.1,
+          "midpoint": {
+            "lat": 50.14350445,
+            "lng": 1.8319456
+          },
+          "osm_way_id": 111610284,
+          "ref": "02/20",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 50.145928,
+            "lng": 1.8324148
+          },
+          "endpoint_b": {
+            "lat": 50.1385187,
+            "lng": 1.8278397
+          },
+          "heading_deg": 201.6,
+          "length_m": 885.8,
+          "midpoint": {
+            "lat": 50.142223349999995,
+            "lng": 1.8301272499999999
+          },
+          "osm_way_id": 575071347,
+          "ref": "02L/20R",
+          "status": "active",
+          "surface": "grass"
+        },
+        {
+          "endpoint_a": {
+            "lat": 50.1450393,
+            "lng": 1.8248683
+          },
+          "endpoint_b": {
+            "lat": 50.1416994,
+            "lng": 1.8305622
+          },
+          "heading_deg": 132.4,
+          "length_m": 550.3,
+          "midpoint": {
+            "lat": 50.14336935,
+            "lng": 1.82771525
+          },
+          "osm_way_id": 575071348,
+          "ref": "13/31",
+          "status": "active",
+          "surface": "grass"
+        }
+      ]
+    },
+    "10": {
+      "dcs_position": {
+        "lat": 51.390136997293126,
+        "lng": 0.8469003809524812
+      },
+      "elevation_m": 14.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": 0.012940952706870235,
+        "lng": -0.00022198095248116
+      },
+      "name": "Eastchurch",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 51.4034628,
+            "lng": 0.8513288
+          },
+          "endpoint_b": {
+            "lat": 51.4026931,
+            "lng": 0.842028
+          },
+          "heading_deg": 262.5,
+          "length_m": 651.5,
+          "midpoint": {
+            "lat": 51.40307795,
+            "lng": 0.8466784
+          },
+          "osm_way_id": 171655600,
+          "ref": null,
+          "status": "active",
+          "surface": "grass"
+        }
+      ]
+    },
+    "12": {
+      "dcs_position": {
+        "lat": 51.1216409899785,
+        "lng": 0.6937473331821893
+      },
+      "elevation_m": 21.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 0.03507606002149544,
+        "lng": -0.051130633182189245
+      },
+      "name": "High Halden",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 51.1580798,
+            "lng": 0.6343915
+          },
+          "endpoint_b": {
+            "lat": 51.1553543,
+            "lng": 0.6508419
+          },
+          "heading_deg": 104.8,
+          "length_m": 1187.8,
+          "midpoint": {
+            "lat": 51.15671705,
+            "lng": 0.6426167
+          },
+          "osm_way_id": 4436430,
+          "ref": "10-28",
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 51.092802,
+            "lng": 0.7371463
+          },
+          "endpoint_b": {
+            "lat": 51.095787,
+            "lng": 0.7442702
+          },
+          "heading_deg": 56.3,
+          "length_m": 598.4,
+          "midpoint": {
+            "lat": 51.094294500000004,
+            "lng": 0.74070825
+          },
+          "osm_way_id": 1507441082,
+          "ref": null,
+          "status": "active",
+          "surface": "grass"
+        },
+        {
+          "endpoint_a": {
+            "lat": 51.0934427,
+            "lng": 0.7362984
+          },
+          "endpoint_b": {
+            "lat": 51.0951474,
+            "lng": 0.7436584
+          },
+          "heading_deg": 69.8,
+          "length_m": 548.3,
+          "midpoint": {
+            "lat": 51.09429505,
+            "lng": 0.7399784
+          },
+          "osm_way_id": 836199229,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 51.1438951,
+            "lng": 0.7559444
+          },
+          "endpoint_b": {
+            "lat": 51.1406629,
+            "lng": 0.7611516
+          },
+          "heading_deg": 134.6,
+          "length_m": 511.2,
+          "midpoint": {
+            "lat": 51.142279,
+            "lng": 0.758548
+          },
+          "osm_way_id": 353595307,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 51.1582466,
+            "lng": 0.6496308
+          },
+          "endpoint_b": {
+            "lat": 51.1553935,
+            "lng": 0.6475923
+          },
+          "heading_deg": 204.2,
+          "length_m": 347.6,
+          "midpoint": {
+            "lat": 51.15682005,
+            "lng": 0.64861155
+          },
+          "osm_way_id": 117406716,
+          "ref": "03-21",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "13": {
+      "dcs_position": {
+        "lat": 51.18261207888572,
+        "lng": 0.6894982481054286
+      },
+      "elevation_m": 22.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": -0.025895028885720706,
+        "lng": -0.04688154810542855
+      },
+      "name": "Headcorn",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 51.1580798,
+            "lng": 0.6343915
+          },
+          "endpoint_b": {
+            "lat": 51.1553543,
+            "lng": 0.6508419
+          },
+          "heading_deg": 104.8,
+          "length_m": 1187.8,
+          "midpoint": {
+            "lat": 51.15671705,
+            "lng": 0.6426167
+          },
+          "osm_way_id": 4436430,
+          "ref": "10-28",
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 51.1895852,
+            "lng": 0.6865806
+          },
+          "endpoint_b": {
+            "lat": 51.1866197,
+            "lng": 0.6826217
+          },
+          "heading_deg": 220.0,
+          "length_m": 430.0,
+          "midpoint": {
+            "lat": 51.18810245,
+            "lng": 0.68460115
+          },
+          "osm_way_id": 796460567,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 51.1582466,
+            "lng": 0.6496308
+          },
+          "endpoint_b": {
+            "lat": 51.1553935,
+            "lng": 0.6475923
+          },
+          "heading_deg": 204.2,
+          "length_m": 347.6,
+          "midpoint": {
+            "lat": 51.15682005,
+            "lng": 0.64861155
+          },
+          "osm_way_id": 117406716,
+          "ref": "03-21",
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 51.2131628,
+            "lng": 0.7264374
+          },
+          "endpoint_b": {
+            "lat": 51.2112608,
+            "lng": 0.7296668
+          },
+          "heading_deg": 133.2,
+          "length_m": 308.9,
+          "midpoint": {
+            "lat": 51.2122118,
+            "lng": 0.7280521
+          },
+          "osm_way_id": 787379760,
+          "ref": null,
+          "status": "active",
+          "surface": "grass"
+        }
+      ]
+    },
+    "14": {
+      "dcs_position": {
+        "lat": 51.326716735334145,
+        "lng": 0.031102758767421874
+      },
+      "elevation_m": 182.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": 0.004261814665852626,
+        "lng": 0.0013468412325781283
+      },
+      "name": "Biggin Hill",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 51.3237518,
+            "lng": 0.0268864
+          },
+          "endpoint_b": {
+            "lat": 51.3382053,
+            "lng": 0.0380128
+          },
+          "heading_deg": 25.7,
+          "length_m": 1783.0,
+          "midpoint": {
+            "lat": 51.33097855,
+            "lng": 0.0324496
+          },
+          "osm_way_id": 4306816,
+          "ref": "03/21",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "2": {
+      "dcs_position": {
+        "lat": 50.619514048756535,
+        "lng": 2.6381313603043783
+      },
+      "elevation_m": 16.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": -0.0009840987565397086,
+        "lng": 0.004288489695621678
+      },
+      "name": "Merville Calonne",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 50.6251841,
+            "lng": 2.6504178
+          },
+          "endpoint_b": {
+            "lat": 50.6118758,
+            "lng": 2.6344219
+          },
+          "heading_deg": 217.4,
+          "length_m": 1861.1,
+          "midpoint": {
+            "lat": 50.618529949999996,
+            "lng": 2.64241985
+          },
+          "osm_way_id": 173022389,
+          "ref": "04/22",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 50.6209009,
+            "lng": 2.6479731
+          },
+          "endpoint_b": {
+            "lat": 50.6279728,
+            "lng": 2.6565025
+          },
+          "heading_deg": 37.5,
+          "length_m": 990.2,
+          "midpoint": {
+            "lat": 50.62443685,
+            "lng": 2.6522378
+          },
+          "osm_way_id": 173022402,
+          "ref": "04R/22L",
+          "status": "active",
+          "surface": "grass"
+        }
+      ]
+    },
+    "3": {
+      "dcs_position": {
+        "lat": 50.7287000838069,
+        "lng": 2.2319331860318994
+      },
+      "elevation_m": 76.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": -0.0020978338068999847,
+        "lng": 0.0007882139681005818
+      },
+      "name": "Saint Omer Longuenesse",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 50.7292076,
+            "lng": 2.2347677
+          },
+          "endpoint_b": {
+            "lat": 50.7239969,
+            "lng": 2.2306751
+          },
+          "heading_deg": 206.5,
+          "length_m": 646.9,
+          "midpoint": {
+            "lat": 50.72660225,
+            "lng": 2.2327214
+          },
+          "osm_way_id": 95686882,
+          "ref": "03/21",
+          "status": "active",
+          "surface": "grass"
+        },
+        {
+          "endpoint_a": {
+            "lat": 50.7285445,
+            "lng": 2.2276334
+          },
+          "endpoint_b": {
+            "lat": 50.7288621,
+            "lng": 2.2360604
+          },
+          "heading_deg": 86.6,
+          "length_m": 594.9,
+          "midpoint": {
+            "lat": 50.7287033,
+            "lng": 2.2318469
+          },
+          "osm_way_id": 95685942,
+          "ref": "09/27",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "4": {
+      "dcs_position": {
+        "lat": 51.029623601861395,
+        "lng": 2.252448845869261
+      },
+      "elevation_m": null,
+      "elevation_source": null,
+      "imagery_offset_deg": null,
+      "name": "Dunkirk Mardyck",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "5": {
+      "dcs_position": {
+        "lat": 51.34197963294576,
+        "lng": 1.3461414037815638
+      },
+      "elevation_m": 56.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 0.0001525670542363855,
+        "lng": 8.654621843606769e-05
+      },
+      "name": "Manston",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 51.3397327,
+            "lng": 1.3655187
+          },
+          "endpoint_b": {
+            "lat": 51.3445317,
+            "lng": 1.3269372
+          },
+          "heading_deg": 281.2,
+          "length_m": 2735.4,
+          "midpoint": {
+            "lat": 51.342132199999995,
+            "lng": 1.3462279499999998
+          },
+          "osm_way_id": 35310906,
+          "ref": "10/28",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "6": {
+      "dcs_position": {
+        "lat": 51.11190610800883,
+        "lng": 1.160257019488335
+      },
+      "elevation_m": 143.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 0.03353384199116505,
+        "lng": 0.04931158051166484
+      },
+      "name": "Hawkinge",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 51.1478293,
+            "lng": 1.2140747
+          },
+          "endpoint_b": {
+            "lat": 51.1430506,
+            "lng": 1.2050625
+          },
+          "heading_deg": 229.8,
+          "length_m": 823.5,
+          "midpoint": {
+            "lat": 51.14543995,
+            "lng": 1.2095685999999999
+          },
+          "osm_way_id": 127998597,
+          "ref": "07/25",
+          "status": "active",
+          "surface": "grass"
+        },
+        {
+          "endpoint_a": {
+            "lat": 51.1476679,
+            "lng": 1.2087528
+          },
+          "endpoint_b": {
+            "lat": 51.141211,
+            "lng": 1.2078602
+          },
+          "heading_deg": 185.0,
+          "length_m": 720.3,
+          "midpoint": {
+            "lat": 51.14443945,
+            "lng": 1.2083065
+          },
+          "osm_way_id": 127998552,
+          "ref": "18/36",
+          "status": "active",
+          "surface": "grass"
+        }
+      ]
+    },
+    "7": {
+      "dcs_position": {
+        "lat": 51.08066493270035,
+        "lng": 1.0170453533131574
+      },
+      "elevation_m": 83.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 0.02842401729964905,
+        "lng": 0.0360940966868426
+      },
+      "name": "Lympne",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 51.1117069,
+            "lng": 1.0589992
+          },
+          "endpoint_b": {
+            "lat": 51.106471,
+            "lng": 1.0472797
+          },
+          "heading_deg": 234.6,
+          "length_m": 1004.7,
+          "midpoint": {
+            "lat": 51.10908895,
+            "lng": 1.05313945
+          },
+          "osm_way_id": 207743659,
+          "ref": "06/24",
+          "status": "active",
+          "surface": "grass"
+        },
+        {
+          "endpoint_a": {
+            "lat": 51.0902682,
+            "lng": 0.9879565
+          },
+          "endpoint_b": {
+            "lat": 51.0934566,
+            "lng": 0.9897343
+          },
+          "heading_deg": 19.3,
+          "length_m": 375.5,
+          "midpoint": {
+            "lat": 51.0918624,
+            "lng": 0.9888454
+          },
+          "osm_way_id": 444120136,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "8": {
+      "dcs_position": {
+        "lat": 51.30504215948129,
+        "lng": 0.5998626222618656
+      },
+      "elevation_m": 124.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 0.027791540518705915,
+        "lng": 0.00127182773813439
+      },
+      "name": "Detling",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 51.3314411,
+            "lng": 0.5979398
+          },
+          "endpoint_b": {
+            "lat": 51.3342263,
+            "lng": 0.6043291
+          },
+          "heading_deg": 55.1,
+          "length_m": 541.6,
+          "midpoint": {
+            "lat": 51.332833699999995,
+            "lng": 0.60113445
+          },
+          "osm_way_id": 207441157,
+          "ref": "06/24",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    }
+  },
+  "attribution": "Map data (c) OpenStreetMap contributors, ODbL (https://www.openstreetmap.org/copyright)",
+  "generated_at": "2026-05-22T21:16:12.791259Z",
+  "source": "OpenStreetMap (ODbL)",
+  "terrain": "TheChannel"
+}

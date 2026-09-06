@@ -46,15 +46,26 @@ from game.radio.radios import RadioFrequency
 from game.runways import RunwayData
 from game.theater import TheaterGroundObject, TheaterUnit
 from game.theater.bullseye import Bullseye
-from game.utils import Distance, UnitSystem, meters, mps, pounds
+from game.utils import Distance, UnitSystem, inches_hg, meters, mps, pounds
 from game.weather.weather import Weather
 from .aircraft.flightdata import FlightData
 from .briefinggenerator import CommInfo, JtacInfo, MissionInfoGenerator
+from .kneeboard_page import KneeboardPage
+from .kneeboard_recon import airport_imagery as _airport_imagery
+from .kneeboard_recon import generate_recon_pages
+from .kneeboard_recon.atis import (
+    THUNDERSTORM_PRESSURE_DROP_INHG,
+    altimeter_setting_inhg,
+    compute_qfe_inhg,
+    has_thunderstorm_cells,
+    wind_from_deg,
+)
 from .missiondata import AwacsInfo, TankerInfo
 from ..persistency import kneeboards_dir
 
 if TYPE_CHECKING:
     from game import Game
+    from game.theater.conflicttheater import ConflictTheater
 
 
 class KneeboardPageWriter:
@@ -190,14 +201,6 @@ class KneeboardPageWriter:
             else:
                 output = combo
         return "".join(segments + [output]).strip()
-
-
-class KneeboardPage:
-    """Base class for all kneeboard pages."""
-
-    def write(self, path: Path) -> None:
-        """Writes the kneeboard page to the given path."""
-        raise NotImplementedError
 
 
 @dataclass(frozen=True)
@@ -345,12 +348,14 @@ class BriefingPage(KneeboardPage):
         weather: Weather,
         start_time: datetime.datetime,
         dark_kneeboard: bool,
+        theater: Optional["ConflictTheater"] = None,
     ) -> None:
         self.flight = flight
         self.bullseye = bullseye
         self.weather = weather
         self.start_time = start_time
         self.dark_kneeboard = dark_kneeboard
+        self.theater = theater
         self.flight_plan_font = ImageFont.truetype(
             "courbd.ttf",
             16,
@@ -419,22 +424,28 @@ class BriefingPage(KneeboardPage):
 
         writer.text(f"Bullseye: {self.bullseye.position.latlng().format_dms()}")
 
-        qnh_in_hg = f"{self.weather.atmospheric.qnh.inches_hg:.2f}"
-        qnh_mm_hg = f"{self.weather.atmospheric.qnh.mm_hg:.1f}"
-        qnh_hpa = f"{self.weather.atmospheric.qnh.hecto_pascals:.1f}"
+        # QNH = the temperature-corrected altimeter setting at the departure field
+        # (what ATIS broadcasts), via game.utils for canonical unit conversions.
+        qnh = inches_hg(self._effective_qnh_inhg())
+        qnh_in_hg = f"{qnh.inches_hg:.2f}"
+        qnh_mm_hg = f"{qnh.mm_hg:.1f}"
+        qnh_hpa = f"{qnh.hecto_pascals:.1f}"
         writer.text(
             f"Temperature: {round(self.weather.atmospheric.temperature_celsius)} °C at sea level"
         )
         writer.text(f"QNH: {qnh_in_hg} inHg / {qnh_mm_hg} mmHg / {qnh_hpa} hPa")
+        qfe_line = self._format_departure_qfe()
+        if qfe_line is not None:
+            writer.text(qfe_line)
         writer.text(
             f"Turbulence: {round(self.weather.atmospheric.turbulence_per_10cm)} per 10cm at ground level."
         )
         writer.text(
-            f"Wind: {self.weather.wind.at_0m.direction}°"
+            f"Wind: {wind_from_deg(self.weather.wind.at_0m.direction)}°"
             f" / {round(mps(self.weather.wind.at_0m.speed).knots)}kts (0ft)"
-            f" ; {self.weather.wind.at_2000m.direction}°"
+            f" ; {wind_from_deg(self.weather.wind.at_2000m.direction)}°"
             f" / {round(mps(self.weather.wind.at_2000m.speed).knots)}kts (~6500ft)"
-            f" ; {self.weather.wind.at_8000m.direction}°"
+            f" ; {wind_from_deg(self.weather.wind.at_8000m.direction)}°"
             f" / {round(mps(self.weather.wind.at_8000m.speed).knots)}kts (~26000ft)"
         )
         c = self.weather.clouds
@@ -490,6 +501,80 @@ class BriefingPage(KneeboardPage):
             writer.table(codes, ["#", "Laser Code"])
 
         writer.write(path)
+
+    def _departure_elevation_m(self) -> Optional[float]:
+        """DCS-mesh field elevation (m) of the departure field, or None.
+
+        Looks up the departure airport via the theater's controlpoints (matched
+        by airfield name) and reads ``elevation_m`` from
+        ``resources/airport_imagery/<terrain>.json``. None when no theater, no
+        matching control point, or no elevation shipped.
+        """
+        if self.theater is None:
+            return None
+        dep = self.flight.departure
+        airport = None
+        for cp in self.theater.controlpoints:
+            dcs_ap = getattr(cp, "dcs_airport", None)
+            if dcs_ap is None:
+                continue
+            if cp.full_name == dep.airfield_name or dcs_ap.name == dep.airfield_name:
+                airport = dcs_ap
+                break
+        if airport is None:
+            return None
+        # Shared helper with the recon ATIS pipeline so both consumers walk
+        # the same lookup chain (load → for_airport → elevation_m). When
+        # this lookup changes (alt source for elevation, new key for
+        # matching airports), both surfaces update together.
+        return _airport_imagery.field_elevation_for_airport(
+            self.theater.terrain, airport
+        )
+
+    def _altimeter_setting_inhg(self, elevation_m: Optional[float]) -> float:
+        """Temperature-corrected altimeter-setting QNH (what ATIS reports) for a
+        known field elevation; raw sea-level QNH when the elevation is unknown.
+        """
+        qnh_inhg = self.weather.atmospheric.qnh.inches_hg
+        if elevation_m is None:
+            return qnh_inhg
+        return altimeter_setting_inhg(
+            qnh_inhg, elevation_m, self.weather.atmospheric.temperature_celsius
+        )
+
+    def _effective_qnh_inhg(self) -> float:
+        """QNH as ATIS reports it at the departure field (raw when no elevation)."""
+        return self._altimeter_setting_inhg(self._departure_elevation_m())
+
+    def _format_departure_qfe(self) -> Optional[str]:
+        """Return "QFE: ..." line for the departure field, or None.
+
+        QFE is derived from the temperature-corrected altimeter-setting QNH, so it
+        equals the actual field pressure (matching the in-sim ATIS QFE).
+        """
+        dep = self.flight.departure
+        elevation_m = self._departure_elevation_m()
+        if elevation_m is None:
+            return None
+
+        # One elevation lookup feeds both the QNH correction and the QFE.
+        qnh_inhg = self._altimeter_setting_inhg(elevation_m)
+        qfe_inhg = compute_qfe_inhg(qnh_inhg, elevation_m)
+        qfe_hpa = inches_hg(qfe_inhg).hecto_pascals
+        elev_ft = meters(elevation_m).feet
+        line = (
+            f"QFE ({dep.airfield_name}, field elev {elev_ft:.0f} ft): "
+            f"{qfe_inhg:.2f} inHg / {qfe_hpa:.1f} hPa"
+        )
+        if has_thunderstorm_cells(self.weather.clouds):
+            qfe_low = compute_qfe_inhg(
+                qnh_inhg - THUNDERSTORM_PRESSURE_DROP_INHG, elevation_m
+            )
+            line += (
+                f" (~{qfe_low:.2f} in CB cells — local QNH may drop "
+                "~3 mb inside storm cores)"
+            )
+        return line
 
     def airfield_info_row(
         self, row_title: str, runway: Optional[RunwayData]
@@ -909,6 +994,7 @@ class KneeboardGenerator(MissionInfoGenerator):
                 self.game.conditions.weather,
                 zoned_time,
                 self.dark_kneeboard,
+                theater=self.game.theater,
             ),
             SupportPage(
                 flight,
@@ -928,5 +1014,20 @@ class KneeboardGenerator(MissionInfoGenerator):
 
         if (target_page := self.generate_task_page(flight)) is not None:
             pages.append(target_page)
+
+        # Recon overview + detail + airfield-departure pages (gated by settings).
+        if self.game.settings.generate_target_recon_kneeboard:
+            extra_radius_m = (
+                self.game.settings.target_recon_extra_threat_search_nmi * 1852.0
+            )
+            pages.extend(
+                generate_recon_pages(
+                    flight=flight,
+                    game=self.game,
+                    weather=self.game.conditions.weather,
+                    extra_threat_search_m=extra_radius_m,
+                    dark=self.dark_kneeboard,
+                )
+            )
 
         return pages

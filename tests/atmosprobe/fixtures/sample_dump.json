@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "terrain": "Caucasus",
+  "configured_weather": {
+    "qnh_mmhg": 750.1,
+    "qnh_inhg": 29.53,
+    "temperature_c": 8.0,
+    "wind": {
+      "at_0m":    {"dir_from_deg": 270.0, "speed_mps": 5.0},
+      "at_2000m": {"dir_from_deg": 300.0, "speed_mps": 12.0},
+      "at_8000m": {"dir_from_deg": 330.0, "speed_mps": 30.0}
+    }
+  },
+  "airbases": [
+    {
+      "id": "12", "name": "Anapa-Vityazevo", "x": -5412.4, "z": 243128.8,
+      "land_height_m": 42.0,
+      "surface": {
+        "alt_msl_m": 52.0,
+        "wind":      {"dir_from_deg": 271.0, "speed_mps": 5.1},
+        "wind_turb": {"dir_from_deg": 268.0, "speed_mps": 5.6},
+        "temp_c": 7.6, "pressure_hpa": 994.2
+      }
+    }
+  ],
+  "columns": [
+    {
+      "label": "airbase:Anapa-Vityazevo", "x": -5412.4, "z": 243128.8,
+      "rungs": [
+        {"alt_msl_m": 0.0,    "wind": {"dir_from_deg": 270.0, "speed_mps": 5.0},  "wind_turb": {"dir_from_deg": 272.0, "speed_mps": 5.4}, "temp_c": 8.0,  "pressure_hpa": 1000.1},
+        {"alt_msl_m": 2000.0, "wind": {"dir_from_deg": 300.0, "speed_mps": 12.0}, "wind_turb": {"dir_from_deg": 297.0, "speed_mps": 12.8}, "temp_c": -5.0, "pressure_hpa": 795.0},
+        {"alt_msl_m": 8000.0, "wind": {"dir_from_deg": 330.0, "speed_mps": 30.0}, "wind_turb": {"dir_from_deg": 331.0, "speed_mps": 29.1}, "temp_c": -37.0,"pressure_hpa": 356.0}
+      ]
+    },
+    {
+      "label": "grid:center", "x": 0.0, "z": 0.0,
+      "rungs": [
+        {"alt_msl_m": 0.0,    "wind": {"dir_from_deg": 270.0, "speed_mps": 5.0},  "wind_turb": {"dir_from_deg": 269.0, "speed_mps": 5.2}, "temp_c": 8.0,  "pressure_hpa": 1000.1},
+        {"alt_msl_m": 2000.0, "wind": {"dir_from_deg": 300.0, "speed_mps": 12.0}, "wind_turb": {"dir_from_deg": 301.0, "speed_mps": 11.7}, "temp_c": -5.0, "pressure_hpa": 795.0},
+        {"alt_msl_m": 8000.0, "wind": {"dir_from_deg": 330.0, "speed_mps": 30.0}, "wind_turb": {"dir_from_deg": 329.0, "speed_mps": 30.6}, "temp_c": -37.0,"pressure_hpa": 356.0}
+      ]
+    }
+  ]
+}

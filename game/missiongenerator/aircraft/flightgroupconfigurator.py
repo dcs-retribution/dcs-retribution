@@ -169,6 +169,7 @@ class FlightGroupConfigurator:
             joker_fuel=bingo_estimator.estimate_joker(),
             custom_name=self.flight.custom_name,
             laser_codes=laser_codes,
+            start_type=self.flight.start_type,
         )
 
         self.register_escort_leash()

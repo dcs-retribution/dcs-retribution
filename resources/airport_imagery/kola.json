@@ -1,0 +1,1642 @@
+{
+  "airports": {
+    "1": {
+      "dcs_position": {
+        "lat": 70.06881852485715,
+        "lng": 24.97350220619062
+      },
+      "elevation_m": 8.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": -9.824857144735688e-06,
+        "lng": -1.2156190617673701e-05
+      },
+      "name": "Banak",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 70.0804429,
+            "lng": 24.9707636
+          },
+          "endpoint_b": {
+            "lat": 70.0571745,
+            "lng": 24.9762165
+          },
+          "heading_deg": 175.4,
+          "length_m": 2594.2,
+          "midpoint": {
+            "lat": 70.0688087,
+            "lng": 24.973490050000002
+          },
+          "osm_way_id": 34989134,
+          "ref": "16-34",
+          "status": "active",
+          "surface": "paved"
+        },
+        {
+          "endpoint_a": {
+            "lat": 70.081247,
+            "lng": 24.970575
+          },
+          "endpoint_b": {
+            "lat": 70.0804429,
+            "lng": 24.9707636
+          },
+          "heading_deg": 175.4,
+          "length_m": 89.6,
+          "midpoint": {
+            "lat": 70.08084495,
+            "lng": 24.9706693
+          },
+          "osm_way_id": 1480399105,
+          "ref": null,
+          "status": "active",
+          "surface": "paved"
+        },
+        {
+          "endpoint_a": {
+            "lat": 70.0571745,
+            "lng": 24.9762165
+          },
+          "endpoint_b": {
+            "lat": 70.056378,
+            "lng": 24.976403
+          },
+          "heading_deg": 175.4,
+          "length_m": 88.8,
+          "midpoint": {
+            "lat": 70.05677625,
+            "lng": 24.97630975
+          },
+          "osm_way_id": 1480399106,
+          "ref": "16-34",
+          "status": "active",
+          "surface": "paved"
+        }
+      ]
+    },
+    "10": {
+      "dcs_position": {
+        "lat": 67.98904272129171,
+        "lng": 33.018672291029866
+      },
+      "elevation_m": 167.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": -5.262129171512697e-05,
+        "lng": 4.9958970130603575e-05
+      },
+      "name": "Monchegorsk",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 67.9794302,
+            "lng": 33.0055861
+          },
+          "endpoint_b": {
+            "lat": 67.99855,
+            "lng": 33.0318584
+          },
+          "heading_deg": 27.3,
+          "length_m": 2390.9,
+          "midpoint": {
+            "lat": 67.9889901,
+            "lng": 33.018722249999996
+          },
+          "osm_way_id": 422372264,
+          "ref": "01/19",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "11": {
+      "dcs_position": {
+        "lat": 66.49634574969448,
+        "lng": 20.147010507474285
+      },
+      "elevation_m": 275.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": -0.000119699694494102,
+        "lng": 0.00019989252571406269
+      },
+      "name": "Jokkmokk",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 66.488962,
+            "lng": 20.1603308
+          },
+          "endpoint_b": {
+            "lat": 66.5034901,
+            "lng": 20.13409
+          },
+          "heading_deg": 324.2,
+          "length_m": 1991.0,
+          "midpoint": {
+            "lat": 66.49622604999999,
+            "lng": 20.1472104
+          },
+          "osm_way_id": 260880210,
+          "ref": "14/32",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 66.4944194,
+            "lng": 20.1229676
+          },
+          "endpoint_b": {
+            "lat": 66.5008321,
+            "lng": 20.1142264
+          },
+          "heading_deg": 331.4,
+          "length_m": 811.5,
+          "midpoint": {
+            "lat": 66.49762575,
+            "lng": 20.118597
+          },
+          "osm_way_id": 775585025,
+          "ref": null,
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 66.4788024,
+            "lng": 20.1042856
+          },
+          "endpoint_b": {
+            "lat": 66.4836404,
+            "lng": 20.0909324
+          },
+          "heading_deg": 312.2,
+          "length_m": 800.6,
+          "midpoint": {
+            "lat": 66.48122140000001,
+            "lng": 20.097609
+          },
+          "osm_way_id": 260882615,
+          "ref": null,
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 66.469706,
+            "lng": 20.1401417
+          },
+          "endpoint_b": {
+            "lat": 66.4768948,
+            "lng": 20.1409177
+          },
+          "heading_deg": 2.5,
+          "length_m": 799.7,
+          "midpoint": {
+            "lat": 66.4733004,
+            "lng": 20.140529700000002
+          },
+          "osm_way_id": 260882248,
+          "ref": null,
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "12": {
+      "dcs_position": {
+        "lat": 68.78164956885115,
+        "lng": 32.751359957452216
+      },
+      "elevation_m": 81.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": 0.00013748114884037932,
+        "lng": -0.00017470745221004336
+      },
+      "name": "Murmansk International",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 68.7911203,
+            "lng": 32.7339471
+          },
+          "endpoint_b": {
+            "lat": 68.7724538,
+            "lng": 32.7684234
+          },
+          "heading_deg": 146.2,
+          "length_m": 2496.6,
+          "midpoint": {
+            "lat": 68.78178704999999,
+            "lng": 32.751185250000006
+          },
+          "osm_way_id": 135595370,
+          "ref": "13/31",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 68.8072351,
+            "lng": 32.8031158
+          },
+          "endpoint_b": {
+            "lat": 68.8091502,
+            "lng": 32.7990632
+          },
+          "heading_deg": 322.5,
+          "length_m": 268.1,
+          "midpoint": {
+            "lat": 68.80819265,
+            "lng": 32.8010895
+          },
+          "osm_way_id": 907381462,
+          "ref": "13/31",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 68.8042675,
+            "lng": 32.7989269
+          },
+          "endpoint_b": {
+            "lat": 68.8042675,
+            "lng": 32.7989269
+          },
+          "heading_deg": 0.0,
+          "length_m": 0.0,
+          "midpoint": {
+            "lat": 68.8042675,
+            "lng": 32.7989269
+          },
+          "osm_way_id": 1418624812,
+          "ref": "03/21",
+          "status": "active",
+          "surface": "unpaved"
+        }
+      ]
+    },
+    "13": {
+      "dcs_position": {
+        "lat": 67.76496336735374,
+        "lng": 20.251008770084212
+      },
+      "elevation_m": 0.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 7.2326462543514936e-06,
+        "lng": -5.5320084211274434e-05
+      },
+      "name": "Kalixfors",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 67.7596312,
+            "lng": 20.2532725
+          },
+          "endpoint_b": {
+            "lat": 67.77031,
+            "lng": 20.2486344
+          },
+          "heading_deg": 350.7,
+          "length_m": 1202.7,
+          "midpoint": {
+            "lat": 67.7649706,
+            "lng": 20.25095345
+          },
+          "osm_way_id": 40550837,
+          "ref": "17/35",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 67.7652075,
+            "lng": 20.2697131
+          },
+          "endpoint_b": {
+            "lat": 67.7604747,
+            "lng": 20.2526435
+          },
+          "heading_deg": 233.8,
+          "length_m": 890.9,
+          "midpoint": {
+            "lat": 67.7628411,
+            "lng": 20.2611783
+          },
+          "osm_way_id": 40550838,
+          "ref": "05/23",
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 67.7675655,
+            "lng": 20.2495653
+          },
+          "endpoint_b": {
+            "lat": 67.7651561,
+            "lng": 20.2695276
+          },
+          "heading_deg": 107.7,
+          "length_m": 882.5,
+          "midpoint": {
+            "lat": 67.7663608,
+            "lng": 20.259546450000002
+          },
+          "osm_way_id": 339731446,
+          "ref": "11/29",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "14": {
+      "dcs_position": {
+        "lat": 69.72536399910604,
+        "lng": 29.890070417535988
+      },
+      "elevation_m": 0.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 0.00018850089395527903,
+        "lng": 0.0012742824640135098
+      },
+      "name": "Kirkenes",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 69.7224964,
+            "lng": 29.868314
+          },
+          "endpoint_b": {
+            "lat": 69.7286086,
+            "lng": 29.9143754
+          },
+          "heading_deg": 69.1,
+          "length_m": 1902.2,
+          "midpoint": {
+            "lat": 69.72555249999999,
+            "lng": 29.8913447
+          },
+          "osm_way_id": 7007949,
+          "ref": "05/23",
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 69.7241137,
+            "lng": 29.8957926
+          },
+          "endpoint_b": {
+            "lat": 69.7220392,
+            "lng": 29.8971803
+          },
+          "heading_deg": 166.9,
+          "length_m": 236.7,
+          "midpoint": {
+            "lat": 69.72307645000001,
+            "lng": 29.896486449999998
+          },
+          "osm_way_id": 1503646111,
+          "ref": "H15/H33",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 69.7286086,
+            "lng": 29.9143754
+          },
+          "endpoint_b": {
+            "lat": 69.729323,
+            "lng": 29.919733
+          },
+          "heading_deg": 69.0,
+          "length_m": 221.4,
+          "midpoint": {
+            "lat": 69.7289658,
+            "lng": 29.917054200000003
+          },
+          "osm_way_id": 1503646113,
+          "ref": "05/23",
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 69.7222455,
+            "lng": 29.8664152
+          },
+          "endpoint_b": {
+            "lat": 69.7224964,
+            "lng": 29.868314
+          },
+          "heading_deg": 69.2,
+          "length_m": 78.4,
+          "midpoint": {
+            "lat": 69.72237095,
+            "lng": 29.867364600000002
+          },
+          "osm_way_id": 1503646110,
+          "ref": "05/23",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "15": {
+      "dcs_position": {
+        "lat": 65.54378580653864,
+        "lng": 22.121867330258137
+      },
+      "elevation_m": 0.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": -2.885653864836968e-05,
+        "lng": 0.00011186974186117027
+      },
+      "name": "Kallax",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 65.5327167,
+            "lng": 22.1465528
+          },
+          "endpoint_b": {
+            "lat": 65.5547972,
+            "lng": 22.0974056
+          },
+          "heading_deg": 317.3,
+          "length_m": 3339.4,
+          "midpoint": {
+            "lat": 65.54375694999999,
+            "lng": 22.1219792
+          },
+          "osm_way_id": 35194137,
+          "ref": "14/32",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "16": {
+      "dcs_position": {
+        "lat": 65.98757257868486,
+        "lng": 29.239391077368904
+      },
+      "elevation_m": 0.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": -3.652868487336036e-05,
+        "lng": 2.987263109943683e-05
+      },
+      "name": "Kuusamo",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 65.9950466,
+            "lng": 29.21909
+          },
+          "endpoint_b": {
+            "lat": 65.9800255,
+            "lng": 29.2597519
+          },
+          "heading_deg": 132.2,
+          "length_m": 2485.9,
+          "midpoint": {
+            "lat": 65.98753604999999,
+            "lng": 29.239420950000003
+          },
+          "osm_way_id": 416094857,
+          "ref": "12/30",
+          "status": "active",
+          "surface": "paved"
+        }
+      ]
+    },
+    "17": {
+      "dcs_position": {
+        "lat": 65.87526590806273,
+        "lng": 20.149865530814477
+      },
+      "elevation_m": 182.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": 5.7691937271897586e-05,
+        "lng": 4.696918552227203e-05
+      },
+      "name": "Vidsel",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 65.8708444,
+            "lng": 20.17175
+          },
+          "endpoint_b": {
+            "lat": 65.8798028,
+            "lng": 20.128075
+          },
+          "heading_deg": 296.6,
+          "length_m": 2222.6,
+          "midpoint": {
+            "lat": 65.8753236,
+            "lng": 20.1499125
+          },
+          "osm_way_id": 117504000,
+          "ref": "11/29",
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 65.86469,
+            "lng": 20.1570732
+          },
+          "endpoint_b": {
+            "lat": 65.8704121,
+            "lng": 20.1336952
+          },
+          "heading_deg": 300.9,
+          "length_m": 1239.5,
+          "midpoint": {
+            "lat": 65.86755105,
+            "lng": 20.1453842
+          },
+          "osm_way_id": 253678900,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 65.8841005,
+            "lng": 20.1122047
+          },
+          "endpoint_b": {
+            "lat": 65.8897836,
+            "lng": 20.0907243
+          },
+          "heading_deg": 302.9,
+          "length_m": 1163.3,
+          "midpoint": {
+            "lat": 65.88694205,
+            "lng": 20.1014645
+          },
+          "osm_way_id": 253678896,
+          "ref": "C",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "18": {
+      "dcs_position": {
+        "lat": 68.60711751031063,
+        "lng": 27.404837724670063
+      },
+      "elevation_m": 147.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": 0.00016903968936787805,
+        "lng": 0.000560575329938473
+      },
+      "name": "Ivalo",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 68.5996675,
+            "lng": 27.3830133
+          },
+          "endpoint_b": {
+            "lat": 68.6149056,
+            "lng": 27.4277833
+          },
+          "heading_deg": 47.0,
+          "length_m": 2484.4,
+          "midpoint": {
+            "lat": 68.60728655,
+            "lng": 27.4053983
+          },
+          "osm_way_id": 18615236,
+          "ref": "04/22",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "19": {
+      "dcs_position": {
+        "lat": 66.97273317469794,
+        "lng": 30.348535475890102
+      },
+      "elevation_m": 164.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": -7.574697932000163e-06,
+        "lng": 3.567410989901987e-05
+      },
+      "name": "Alakurtti",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 66.9792051,
+            "lng": 30.3296148
+          },
+          "endpoint_b": {
+            "lat": 66.9662461,
+            "lng": 30.3675275
+          },
+          "heading_deg": 131.1,
+          "length_m": 2190.8,
+          "midpoint": {
+            "lat": 66.9727256,
+            "lng": 30.34857115
+          },
+          "osm_way_id": 253674980,
+          "ref": "12/30",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "2": {
+      "dcs_position": {
+        "lat": 66.56484570781977,
+        "lng": 25.83048740698546
+      },
+      "elevation_m": 196.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": -1.805781977282095e-05,
+        "lng": -6.065698545754117e-05
+      },
+      "name": "Rovaniemi",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 66.5755401,
+            "lng": 25.8508441
+          },
+          "endpoint_b": {
+            "lat": 66.5541152,
+            "lng": 25.8100094
+          },
+          "heading_deg": 217.2,
+          "length_m": 2989.6,
+          "midpoint": {
+            "lat": 66.56482765,
+            "lng": 25.83042675
+          },
+          "osm_way_id": 24506754,
+          "ref": "03/21",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "20": {
+      "dcs_position": {
+        "lat": 69.29758139595347,
+        "lng": 16.135408626088633
+      },
+      "elevation_m": 13.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": -0.0001464459534759044,
+        "lng": 0.00027762391136576525
+      },
+      "name": "Andoya",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 69.309054,
+            "lng": 16.1165593
+          },
+          "endpoint_b": {
+            "lat": 69.2858159,
+            "lng": 16.1548132
+          },
+          "heading_deg": 149.8,
+          "length_m": 2989.3,
+          "midpoint": {
+            "lat": 69.29743495,
+            "lng": 16.13568625
+          },
+          "osm_way_id": 15078486,
+          "ref": "14/32",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 69.2829994,
+            "lng": 16.1278822
+          },
+          "endpoint_b": {
+            "lat": 69.295764,
+            "lng": 16.149928
+          },
+          "heading_deg": 31.5,
+          "length_m": 1663.0,
+          "midpoint": {
+            "lat": 69.2893817,
+            "lng": 16.1389051
+          },
+          "osm_way_id": 15078485,
+          "ref": "03/21",
+          "status": "disused",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "21": {
+      "dcs_position": {
+        "lat": 69.05534769540873,
+        "lng": 18.54350391547468
+      },
+      "elevation_m": 0.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 0.0005936045912733334,
+        "lng": -0.004724315474682328
+      },
+      "name": "Bardufoss",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 69.0602826,
+            "lng": 18.5036266
+          },
+          "endpoint_b": {
+            "lat": 69.0516,
+            "lng": 18.5739326
+          },
+          "heading_deg": 109.0,
+          "length_m": 2959.3,
+          "midpoint": {
+            "lat": 69.0559413,
+            "lng": 18.538779599999998
+          },
+          "osm_way_id": 900411841,
+          "ref": "10/28",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "22": {
+      "dcs_position": {
+        "lat": 67.70099219092765,
+        "lng": 24.84687229674538
+      },
+      "elevation_m": 196.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": 2.3409072355207172e-05,
+        "lng": -5.2046745381062465e-05
+      },
+      "name": "Kittila",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 67.7118219,
+            "lng": 24.8397875
+          },
+          "endpoint_b": {
+            "lat": 67.6902093,
+            "lng": 24.853853
+          },
+          "heading_deg": 166.1,
+          "length_m": 2474.3,
+          "midpoint": {
+            "lat": 67.7010156,
+            "lng": 24.84682025
+          },
+          "osm_way_id": 907067751,
+          "ref": "16/34",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "23": {
+      "dcs_position": {
+        "lat": 65.89611126111599,
+        "lng": 25.703854000750624
+      },
+      "elevation_m": null,
+      "elevation_source": null,
+      "imagery_offset_deg": null,
+      "name": "Hosio",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "24": {
+      "dcs_position": {
+        "lat": 69.9772605013771,
+        "lng": 23.365899396227725
+      },
+      "elevation_m": 3.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": 0.0001253986228988424,
+        "lng": -0.0006219962277249635
+      },
+      "name": "Alta",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 69.9814731,
+            "lng": 23.3455727
+          },
+          "endpoint_b": {
+            "lat": 69.9732987,
+            "lng": 23.3849821
+          },
+          "heading_deg": 121.2,
+          "length_m": 1755.4,
+          "midpoint": {
+            "lat": 69.9773859,
+            "lng": 23.3652774
+          },
+          "osm_way_id": 5015610,
+          "ref": "11/29",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 69.98275,
+            "lng": 23.339417
+          },
+          "endpoint_b": {
+            "lat": 69.9814731,
+            "lng": 23.3455727
+          },
+          "heading_deg": 121.2,
+          "length_m": 274.2,
+          "midpoint": {
+            "lat": 69.98211155,
+            "lng": 23.34249485
+          },
+          "osm_way_id": 859868669,
+          "ref": "11/29",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 69.972289,
+            "lng": 23.389847
+          },
+          "endpoint_b": {
+            "lat": 69.9732987,
+            "lng": 23.3849821
+          },
+          "heading_deg": 301.2,
+          "length_m": 216.8,
+          "midpoint": {
+            "lat": 69.97279385,
+            "lng": 23.38741455
+          },
+          "osm_way_id": 859868668,
+          "ref": "11/29",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "25": {
+      "dcs_position": {
+        "lat": 68.49119042779473,
+        "lng": 16.67813997596594
+      },
+      "elevation_m": 0.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": -3.9277947365690125e-06,
+        "lng": -1.022596594069114e-05
+      },
+      "name": "Evenes",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 68.5030909,
+            "lng": 16.6767683
+          },
+          "endpoint_b": {
+            "lat": 68.4792821,
+            "lng": 16.6794912
+          },
+          "heading_deg": 177.6,
+          "length_m": 2648.3,
+          "midpoint": {
+            "lat": 68.4911865,
+            "lng": 16.67812975
+          },
+          "osm_way_id": 167472810,
+          "ref": "17/35",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 68.4787589,
+            "lng": 16.679551
+          },
+          "endpoint_b": {
+            "lat": 68.4792821,
+            "lng": 16.6794912
+          },
+          "heading_deg": 357.6,
+          "length_m": 58.2,
+          "midpoint": {
+            "lat": 68.4790205,
+            "lng": 16.679521100000002
+          },
+          "osm_way_id": 661763517,
+          "ref": "17/35",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "26": {
+      "dcs_position": {
+        "lat": 68.36249732136712,
+        "lng": 23.42409624563396
+      },
+      "elevation_m": 306.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": 0.00011827863288260687,
+        "lng": 0.0002639043660366269
+      },
+      "name": "Enontekio",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 68.3552505,
+            "lng": 23.4105597
+          },
+          "endpoint_b": {
+            "lat": 68.3699807,
+            "lng": 23.4381606
+          },
+          "heading_deg": 34.7,
+          "length_m": 1990.8,
+          "midpoint": {
+            "lat": 68.3626156,
+            "lng": 23.42436015
+          },
+          "osm_way_id": 24040829,
+          "ref": "03/21",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "27": {
+      "dcs_position": {
+        "lat": 67.39503313124118,
+        "lng": 26.619135109805093
+      },
+      "elevation_m": 0.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 5.187588101307483e-07,
+        "lng": -8.909805092827128e-06
+      },
+      "name": "Sodankyla",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 67.4014905,
+            "lng": 26.6147417
+          },
+          "endpoint_b": {
+            "lat": 67.3885768,
+            "lng": 26.6235107
+          },
+          "heading_deg": 165.3,
+          "length_m": 1483.4,
+          "midpoint": {
+            "lat": 67.39503364999999,
+            "lng": 26.6191262
+          },
+          "osm_way_id": 53745501,
+          "ref": "16/34",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "28": {
+      "dcs_position": {
+        "lat": 69.09491219369818,
+        "lng": 32.40059059244394
+      },
+      "elevation_m": 93.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": 5.895630181385059e-05,
+        "lng": -0.0001936924439362997
+      },
+      "name": "Kilpyavr",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 69.0869543,
+            "lng": 32.3785329
+          },
+          "endpoint_b": {
+            "lat": 69.102988,
+            "lng": 32.4222609
+          },
+          "heading_deg": 44.3,
+          "length_m": 2488.4,
+          "midpoint": {
+            "lat": 69.09497114999999,
+            "lng": 32.400396900000004
+          },
+          "osm_way_id": 907378868,
+          "ref": "03/21",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "29": {
+      "dcs_position": {
+        "lat": 69.40238638821205,
+        "lng": 30.990917087470233
+      },
+      "elevation_m": 0.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": -0.0015948382120427596,
+        "lng": -0.002603837470235959
+      },
+      "name": "Luostari Pechenga",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 69.4073331,
+            "lng": 30.9989915
+          },
+          "endpoint_b": {
+            "lat": 69.39425,
+            "lng": 30.977635
+          },
+          "heading_deg": 209.9,
+          "length_m": 1677.4,
+          "midpoint": {
+            "lat": 69.40079155000001,
+            "lng": 30.988313249999997
+          },
+          "osm_way_id": 115836644,
+          "ref": null,
+          "status": "disused",
+          "surface": null
+        }
+      ]
+    },
+    "3": {
+      "dcs_position": {
+        "lat": 65.78148440712324,
+        "lng": 24.582283666265152
+      },
+      "elevation_m": 19.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": 0.0004044928767541478,
+        "lng": 0.00015243373485063216
+      },
+      "name": "Kemi Tornio",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 65.7930167,
+            "lng": 24.5860111
+          },
+          "endpoint_b": {
+            "lat": 65.7707611,
+            "lng": 24.5788611
+          },
+          "heading_deg": 187.5,
+          "length_m": 2494.8,
+          "midpoint": {
+            "lat": 65.7818889,
+            "lng": 24.582436100000002
+          },
+          "osm_way_id": 4832263,
+          "ref": "18/36",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "30": {
+      "dcs_position": {
+        "lat": 69.25121767521871,
+        "lng": 31.196376928540975
+      },
+      "elevation_m": 151.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": -0.00025877521871109366,
+        "lng": -0.00011132854097439804
+      },
+      "name": "Koshka Yavr",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 69.2381988,
+            "lng": 31.1835863
+          },
+          "endpoint_b": {
+            "lat": 69.263719,
+            "lng": 31.2089449
+          },
+          "heading_deg": 19.4,
+          "length_m": 3007.3,
+          "midpoint": {
+            "lat": 69.2509589,
+            "lng": 31.1962656
+          },
+          "osm_way_id": 907376653,
+          "ref": null,
+          "status": "active",
+          "surface": "concrete"
+        },
+        {
+          "endpoint_a": {
+            "lat": 69.2517695,
+            "lng": 31.1916165
+          },
+          "endpoint_b": {
+            "lat": 69.2582922,
+            "lng": 31.1984574
+          },
+          "heading_deg": 20.4,
+          "length_m": 773.4,
+          "midpoint": {
+            "lat": 69.25503085,
+            "lng": 31.19503695
+          },
+          "osm_way_id": 907376650,
+          "ref": null,
+          "status": "active",
+          "surface": "ground"
+        }
+      ]
+    },
+    "31": {
+      "dcs_position": {
+        "lat": 64.91865462900536,
+        "lng": 34.26298869283185
+      },
+      "elevation_m": 48.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": -0.00011412900535390236,
+        "lng": 0.0014844571681535967
+      },
+      "name": "Poduzhemye",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 64.9167065,
+            "lng": 34.2906421
+          },
+          "endpoint_b": {
+            "lat": 64.9203745,
+            "lng": 34.2383042
+          },
+          "heading_deg": 279.4,
+          "length_m": 2503.2,
+          "midpoint": {
+            "lat": 64.9185405,
+            "lng": 34.26447315
+          },
+          "osm_way_id": 907392185,
+          "ref": null,
+          "status": "disused",
+          "surface": null
+        }
+      ]
+    },
+    "32": {
+      "dcs_position": {
+        "lat": 65.20970209783827,
+        "lng": 31.133936847760854
+      },
+      "elevation_m": 0.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 0.0025614021617315075,
+        "lng": 0.004048052239145505
+      },
+      "name": "Kalevala",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 65.2122635,
+            "lng": 31.1379849
+          },
+          "endpoint_b": {
+            "lat": 65.2122635,
+            "lng": 31.1379849
+          },
+          "heading_deg": 0.0,
+          "length_m": 0.0,
+          "midpoint": {
+            "lat": 65.2122635,
+            "lng": 31.1379849
+          },
+          "osm_way_id": 482559100,
+          "ref": "02/20",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "33": {
+      "dcs_position": {
+        "lat": 67.45730501308806,
+        "lng": 32.78401739236306
+      },
+      "elevation_m": 0.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": -0.0001023130880497547,
+        "lng": 0.0011619076369342451
+      },
+      "name": "Afrikanda",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 67.4602279,
+            "lng": 32.7573088
+          },
+          "endpoint_b": {
+            "lat": 67.4541775,
+            "lng": 32.8130498
+          },
+          "heading_deg": 105.8,
+          "length_m": 2472.1,
+          "midpoint": {
+            "lat": 67.45720270000001,
+            "lng": 32.785179299999996
+          },
+          "osm_way_id": 27594834,
+          "ref": "10/28",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "34": {
+      "dcs_position": {
+        "lat": 65.8093257308403,
+        "lng": 21.694522760633017
+      },
+      "elevation_m": 0.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 0.0008896691597044537,
+        "lng": -0.006722360633016677
+      },
+      "name": "Boden Heli Base",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 65.8102896,
+            "lng": 21.683053
+          },
+          "endpoint_b": {
+            "lat": 65.8101412,
+            "lng": 21.6925478
+          },
+          "heading_deg": 92.2,
+          "length_m": 433.4,
+          "midpoint": {
+            "lat": 65.8102154,
+            "lng": 21.6878004
+          },
+          "osm_way_id": 655356692,
+          "ref": null,
+          "status": "disused",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 65.8108771,
+            "lng": 21.6907004
+          },
+          "endpoint_b": {
+            "lat": 65.8081586,
+            "lng": 21.6973412
+          },
+          "heading_deg": 134.9,
+          "length_m": 427.8,
+          "midpoint": {
+            "lat": 65.80951784999999,
+            "lng": 21.6940208
+          },
+          "osm_way_id": 655356691,
+          "ref": "14/32",
+          "status": "disused",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "35": {
+      "dcs_position": {
+        "lat": 65.80545862482171,
+        "lng": 15.083594690930415
+      },
+      "elevation_m": 0.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": -0.0001822248217138167,
+        "lng": 0.00017465906958591404
+      },
+      "name": "Hemavan",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 65.812206,
+            "lng": 15.0749953
+          },
+          "endpoint_b": {
+            "lat": 65.7983468,
+            "lng": 15.0925434
+          },
+          "heading_deg": 152.5,
+          "length_m": 1735.9,
+          "midpoint": {
+            "lat": 65.8052764,
+            "lng": 15.08376935
+          },
+          "osm_way_id": 525857090,
+          "ref": "15/33",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "36": {
+      "dcs_position": {
+        "lat": 65.59150127001415,
+        "lng": 19.277801763584804
+      },
+      "elevation_m": 0.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 0.00012132998584490906,
+        "lng": -0.00033716358480262443
+      },
+      "name": "Arvidsjaur",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 65.5985556,
+            "lng": 19.2561722
+          },
+          "endpoint_b": {
+            "lat": 65.5846896,
+            "lng": 19.298757
+          },
+          "heading_deg": 128.2,
+          "length_m": 2492.4,
+          "midpoint": {
+            "lat": 65.5916226,
+            "lng": 19.277464600000002
+          },
+          "osm_way_id": 525719221,
+          "ref": "12/30",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "4": {
+      "dcs_position": {
+        "lat": 67.06913279829122,
+        "lng": 26.53980441207644
+      },
+      "elevation_m": null,
+      "elevation_source": null,
+      "imagery_offset_deg": null,
+      "name": "Vuojarvi",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "5": {
+      "dcs_position": {
+        "lat": 67.82200496760649,
+        "lng": 20.336809928847437
+      },
+      "elevation_m": 460.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": -1.3117606485479882e-05,
+        "lng": -3.482884743633008e-05
+      },
+      "name": "Kiruna",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 67.81265,
+            "lng": 20.3203056
+          },
+          "endpoint_b": {
+            "lat": 67.8313337,
+            "lng": 20.3532446
+          },
+          "heading_deg": 33.7,
+          "length_m": 2495.4,
+          "midpoint": {
+            "lat": 67.82199185,
+            "lng": 20.3367751
+          },
+          "osm_way_id": 40188417,
+          "ref": "03/21",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "6": {
+      "dcs_position": {
+        "lat": 68.86706165750465,
+        "lng": 33.71811545483974
+      },
+      "elevation_m": 0.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": -0.00020300750465196415,
+        "lng": 9.664516026219871e-05
+      },
+      "name": "Severomorsk-3",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 68.8775579,
+            "lng": 33.7196425
+          },
+          "endpoint_b": {
+            "lat": 68.8561594,
+            "lng": 33.7167817
+          },
+          "heading_deg": 182.8,
+          "length_m": 2380.8,
+          "midpoint": {
+            "lat": 68.86685865,
+            "lng": 33.7182121
+          },
+          "osm_way_id": 80303975,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "7": {
+      "dcs_position": {
+        "lat": 67.26920346211637,
+        "lng": 14.365362809769788
+      },
+      "elevation_m": 0.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 4.513788363169624e-05,
+        "lng": 0.00037964023021075377
+      },
+      "name": "Bodo",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 67.266605,
+            "lng": 14.3340836
+          },
+          "endpoint_b": {
+            "lat": 67.2718922,
+            "lng": 14.3974013
+          },
+          "heading_deg": 77.8,
+          "length_m": 2786.2,
+          "midpoint": {
+            "lat": 67.2692486,
+            "lng": 14.365742449999999
+          },
+          "osm_way_id": 20856151,
+          "ref": "07/25",
+          "status": "active",
+          "surface": "concrete:plates"
+        },
+        {
+          "endpoint_a": {
+            "lat": 67.2654479,
+            "lng": 14.3202286
+          },
+          "endpoint_b": {
+            "lat": 67.266605,
+            "lng": 14.3340836
+          },
+          "heading_deg": 77.8,
+          "length_m": 609.8,
+          "midpoint": {
+            "lat": 67.26602645,
+            "lng": 14.3271561
+          },
+          "osm_way_id": 1184412080,
+          "ref": "07/25",
+          "status": "active",
+          "surface": "concrete:plates"
+        }
+      ]
+    },
+    "8": {
+      "dcs_position": {
+        "lat": 69.03050246074683,
+        "lng": 33.42299530931184
+      },
+      "elevation_m": 77.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": 0.002123189253168789,
+        "lng": -0.003557509311839624
+      },
+      "name": "Severomorsk-1",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 69.0457729,
+            "lng": 33.395541
+          },
+          "endpoint_b": {
+            "lat": 69.0194784,
+            "lng": 33.4433346
+          },
+          "heading_deg": 146.9,
+          "length_m": 3487.7,
+          "midpoint": {
+            "lat": 69.03262565,
+            "lng": 33.4194378
+          },
+          "osm_way_id": 697460485,
+          "ref": "14/32",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "9": {
+      "dcs_position": {
+        "lat": 68.15177821727657,
+        "lng": 33.46429926759708
+      },
+      "elevation_m": 214.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": -8.936727657271604e-05,
+        "lng": 5.093240292097789e-05
+      },
+      "name": "Olenya",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 68.1368953,
+            "lng": 33.4503042
+          },
+          "endpoint_b": {
+            "lat": 68.1664824,
+            "lng": 33.4783962
+          },
+          "heading_deg": 19.5,
+          "length_m": 3488.0,
+          "midpoint": {
+            "lat": 68.15168885,
+            "lng": 33.4643502
+          },
+          "osm_way_id": 1391499239,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    }
+  },
+  "attribution": "Map data (c) OpenStreetMap contributors, ODbL (https://www.openstreetmap.org/copyright)",
+  "generated_at": "2026-05-22T21:22:19.550242Z",
+  "source": "OpenStreetMap (ODbL)",
+  "terrain": "Kola"
+}

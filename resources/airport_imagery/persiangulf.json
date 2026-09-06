@@ -1,0 +1,1708 @@
+{
+  "airports": {
+    "1": {
+      "dcs_position": {
+        "lat": 25.875991474980953,
+        "lng": 55.03291835274321
+      },
+      "elevation_m": 5.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -2.974980954917328e-06,
+        "lng": -2.65527432077306e-05
+      },
+      "name": "Abu Musa Island",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 25.8747028,
+            "lng": 55.0208278
+          },
+          "endpoint_b": {
+            "lat": 25.8772742,
+            "lng": 55.0449558
+          },
+          "heading_deg": 83.3,
+          "length_m": 2433.5,
+          "midpoint": {
+            "lat": 25.8759885,
+            "lng": 55.0328918
+          },
+          "osm_way_id": 170139276,
+          "ref": "08/26",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 25.8775769,
+            "lng": 55.0477955
+          },
+          "endpoint_b": {
+            "lat": 25.8772742,
+            "lng": 55.0449558
+          },
+          "heading_deg": 263.3,
+          "length_m": 286.4,
+          "midpoint": {
+            "lat": 25.877425549999998,
+            "lng": 55.04637565
+          },
+          "osm_way_id": 170139275,
+          "ref": "08/26",
+          "status": "active",
+          "surface": "paved"
+        },
+        {
+          "endpoint_a": {
+            "lat": 25.8744234,
+            "lng": 55.0182067
+          },
+          "endpoint_b": {
+            "lat": 25.8747028,
+            "lng": 55.0208278
+          },
+          "heading_deg": 83.3,
+          "length_m": 264.4,
+          "midpoint": {
+            "lat": 25.874563100000003,
+            "lng": 55.01951725
+          },
+          "osm_way_id": 874406272,
+          "ref": "08/26",
+          "status": "active",
+          "surface": "paved"
+        }
+      ]
+    },
+    "10": {
+      "dcs_position": {
+        "lat": 26.169825901810846,
+        "lng": 56.240170078635735
+      },
+      "elevation_m": 14.5,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.0006509981891547056,
+        "lng": 0.00012347136426882344
+      },
+      "name": "Khasab",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 26.1826557,
+            "lng": 56.2435636
+          },
+          "endpoint_b": {
+            "lat": 26.1582981,
+            "lng": 56.2370235
+          },
+          "heading_deg": 193.6,
+          "length_m": 2784.7,
+          "midpoint": {
+            "lat": 26.1704769,
+            "lng": 56.240293550000004
+          },
+          "osm_way_id": 144492467,
+          "ref": "01/19",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "11": {
+      "dcs_position": {
+        "lat": 27.6747324431012,
+        "lng": 54.38314474975612
+      },
+      "elevation_m": 803.3,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -6.993101198560225e-06,
+        "lng": 0.00023685024387987141
+      },
+      "name": "Lar",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 27.6745026,
+            "lng": 54.3673304
+          },
+          "endpoint_b": {
+            "lat": 27.6749483,
+            "lng": 54.3994328
+          },
+          "heading_deg": 89.1,
+          "length_m": 3165.2,
+          "midpoint": {
+            "lat": 27.67472545,
+            "lng": 54.3833816
+          },
+          "osm_way_id": 35090850,
+          "ref": "09/27",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "12": {
+      "dcs_position": {
+        "lat": 25.02688139311628,
+        "lng": 55.36575776200433
+      },
+      "elevation_m": 58.1,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -8.343116281395169e-06,
+        "lng": 0.0006387879956690767
+      },
+      "name": "Al Minhad AFB",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 25.0266503,
+            "lng": 55.3467632
+          },
+          "endpoint_b": {
+            "lat": 25.0270958,
+            "lng": 55.3860299
+          },
+          "heading_deg": 89.3,
+          "length_m": 3961.1,
+          "midpoint": {
+            "lat": 25.02687305,
+            "lng": 55.36639655
+          },
+          "osm_way_id": 10713477,
+          "ref": "09/27",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "13": {
+      "dcs_position": {
+        "lat": 26.75466919335168,
+        "lng": 55.902384206007824
+      },
+      "elevation_m": 8.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -1.874335168139396e-05,
+        "lng": -2.2256007824239532e-05
+      },
+      "name": "Qeshm Island",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 26.7423075,
+            "lng": 55.886195
+          },
+          "endpoint_b": {
+            "lat": 26.7669934,
+            "lng": 55.9185289
+          },
+          "heading_deg": 49.5,
+          "length_m": 4225.7,
+          "midpoint": {
+            "lat": 26.75465045,
+            "lng": 55.90236195
+          },
+          "osm_way_id": 30988002,
+          "ref": "05/23",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "14": {
+      "dcs_position": {
+        "lat": 25.3306752652136,
+        "lng": 55.51826295734321
+      },
+      "elevation_m": 30.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.00022076521359792878,
+        "lng": 0.000334542656787562
+      },
+      "name": "Sharjah Intl",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 25.3388174,
+            "lng": 55.5040834
+          },
+          "endpoint_b": {
+            "lat": 25.3220916,
+            "lng": 55.5331116
+          },
+          "heading_deg": 122.5,
+          "length_m": 3462.0,
+          "midpoint": {
+            "lat": 25.330454500000002,
+            "lng": 55.5185975
+          },
+          "osm_way_id": 626238341,
+          "ref": "12/30",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 25.3206381,
+            "lng": 55.53564
+          },
+          "endpoint_b": {
+            "lat": 25.3220916,
+            "lng": 55.5331116
+          },
+          "heading_deg": 302.4,
+          "length_m": 301.4,
+          "midpoint": {
+            "lat": 25.321364850000002,
+            "lng": 55.5343758
+          },
+          "osm_way_id": 626238299,
+          "ref": "12/30",
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 25.3402601,
+            "lng": 55.5015753
+          },
+          "endpoint_b": {
+            "lat": 25.3388174,
+            "lng": 55.5040834
+          },
+          "heading_deg": 122.4,
+          "length_m": 299.0,
+          "midpoint": {
+            "lat": 25.33953875,
+            "lng": 55.50282935
+          },
+          "osm_way_id": 626238300,
+          "ref": "12/30",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "15": {
+      "dcs_position": {
+        "lat": 25.909602942746993,
+        "lng": 54.53925448037571
+      },
+      "elevation_m": 5.4,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -3.219274699262087e-05,
+        "lng": 4.3719624294169535e-05
+      },
+      "name": "Sirri Island",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 25.9029431,
+            "lng": 54.5493034
+          },
+          "endpoint_b": {
+            "lat": 25.9161984,
+            "lng": 54.529293
+          },
+          "heading_deg": 306.3,
+          "length_m": 2486.9,
+          "midpoint": {
+            "lat": 25.90957075,
+            "lng": 54.539298200000005
+          },
+          "osm_way_id": 45489035,
+          "ref": "12/30",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "16": {
+      "dcs_position": {
+        "lat": 26.243322263134043,
+        "lng": 55.14556789952401
+      },
+      "elevation_m": 4.6,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -2.813134042156662e-06,
+        "lng": 4.3850475989870574e-05
+      },
+      "name": "Tunb Kochak",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 26.2427137,
+            "lng": 55.1414859
+          },
+          "endpoint_b": {
+            "lat": 26.2439252,
+            "lng": 55.1497376
+          },
+          "heading_deg": 80.7,
+          "length_m": 834.8,
+          "midpoint": {
+            "lat": 26.24331945,
+            "lng": 55.14561175
+          },
+          "osm_way_id": 193338229,
+          "ref": "08/26",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "17": {
+      "dcs_position": {
+        "lat": 25.216870595740204,
+        "lng": 54.23364967608486
+      },
+      "elevation_m": 7.7,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -2.295740202384877e-06,
+        "lng": 2.6073915144309012e-05
+      },
+      "name": "Sir Abu Nuayr",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 25.2163348,
+            "lng": 54.2375801
+          },
+          "endpoint_b": {
+            "lat": 25.2174018,
+            "lng": 54.2297714
+          },
+          "heading_deg": 278.6,
+          "length_m": 795.3,
+          "midpoint": {
+            "lat": 25.2168683,
+            "lng": 54.23367575
+          },
+          "osm_way_id": 305522982,
+          "ref": "10/28",
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 25.2174018,
+            "lng": 54.2297714
+          },
+          "endpoint_b": {
+            "lat": 25.2178957,
+            "lng": 54.2258365
+          },
+          "heading_deg": 277.9,
+          "length_m": 400.1,
+          "midpoint": {
+            "lat": 25.217648750000002,
+            "lng": 54.227803949999995
+          },
+          "osm_way_id": 1488516641,
+          "ref": null,
+          "status": "active",
+          "surface": "unpaved"
+        }
+      ]
+    },
+    "18": {
+      "dcs_position": {
+        "lat": 30.273110189780596,
+        "lng": 56.95155133335564
+      },
+      "elevation_m": 1751.4,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.00047506021940435517,
+        "lng": -0.00020763335564311092
+      },
+      "name": "Kerman",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 30.2577726,
+            "lng": 56.9585781
+          },
+          "endpoint_b": {
+            "lat": 30.2893979,
+            "lng": 56.9441093
+          },
+          "heading_deg": 338.4,
+          "length_m": 3779.9,
+          "midpoint": {
+            "lat": 30.27358525,
+            "lng": 56.951343699999995
+          },
+          "osm_way_id": 668488364,
+          "ref": "16L/34R",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 30.257275,
+            "lng": 56.956462
+          },
+          "endpoint_b": {
+            "lat": 30.2887144,
+            "lng": 56.9420796
+          },
+          "heading_deg": 338.4,
+          "length_m": 3757.6,
+          "midpoint": {
+            "lat": 30.272994699999998,
+            "lng": 56.9492708
+          },
+          "osm_way_id": 628038341,
+          "ref": "16R/34L",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 30.2564371,
+            "lng": 56.9568514
+          },
+          "endpoint_b": {
+            "lat": 30.257275,
+            "lng": 56.956462
+          },
+          "heading_deg": 338.1,
+          "length_m": 100.4,
+          "midpoint": {
+            "lat": 30.25685605,
+            "lng": 56.956656699999996
+          },
+          "osm_way_id": 1190396714,
+          "ref": "16R/34L",
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 30.2572953,
+            "lng": 56.9587964
+          },
+          "endpoint_b": {
+            "lat": 30.2577726,
+            "lng": 56.9585781
+          },
+          "heading_deg": 338.4,
+          "length_m": 57.0,
+          "midpoint": {
+            "lat": 30.25753395,
+            "lng": 56.95868725
+          },
+          "osm_way_id": 1502660008,
+          "ref": "16L/34R",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 30.2571349,
+            "lng": 56.9588703
+          },
+          "endpoint_b": {
+            "lat": 30.2572953,
+            "lng": 56.9587964
+          },
+          "heading_deg": 338.3,
+          "length_m": 19.2,
+          "midpoint": {
+            "lat": 30.2572151,
+            "lng": 56.95883335
+          },
+          "osm_way_id": 1502660006,
+          "ref": "16L/34R",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "19": {
+      "dcs_position": {
+        "lat": 29.54090996406613,
+        "lng": 52.59107375150158
+      },
+      "elevation_m": 1487.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.00012798593386875723,
+        "lng": -0.00029705150158321203
+      },
+      "name": "Shiraz Intl",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 29.532941,
+            "lng": 52.6111315
+          },
+          "endpoint_b": {
+            "lat": 29.5491349,
+            "lng": 52.5704219
+          },
+          "heading_deg": 294.5,
+          "length_m": 4334.0,
+          "midpoint": {
+            "lat": 29.54103795,
+            "lng": 52.5907767
+          },
+          "osm_way_id": 23054420,
+          "ref": "11L/29R",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 29.545146,
+            "lng": 52.5690459
+          },
+          "endpoint_b": {
+            "lat": 29.5292312,
+            "lng": 52.6091894
+          },
+          "heading_deg": 114.5,
+          "length_m": 4271.4,
+          "midpoint": {
+            "lat": 29.5371886,
+            "lng": 52.58911765
+          },
+          "osm_way_id": 23054419,
+          "ref": "11R/29L",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "2": {
+      "dcs_position": {
+        "lat": 27.217686874135623,
+        "lng": 56.37896185413799
+      },
+      "elevation_m": 5.6,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 9.877586437667674e-05,
+        "lng": -2.075413799218495e-05
+      },
+      "name": "Bandar Abbas Intl",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 27.2031784,
+            "lng": 56.3703292
+          },
+          "endpoint_b": {
+            "lat": 27.2323929,
+            "lng": 56.387553
+          },
+          "heading_deg": 27.7,
+          "length_m": 3667.2,
+          "midpoint": {
+            "lat": 27.21778565,
+            "lng": 56.3789411
+          },
+          "osm_way_id": 26461870,
+          "ref": "03R/21L",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 27.205065,
+            "lng": 56.3686019
+          },
+          "endpoint_b": {
+            "lat": 27.2326693,
+            "lng": 56.3848557
+          },
+          "heading_deg": 27.7,
+          "length_m": 3464.1,
+          "midpoint": {
+            "lat": 27.21886715,
+            "lng": 56.3767288
+          },
+          "osm_way_id": 26461847,
+          "ref": "03L/21R",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "20": {
+      "dcs_position": {
+        "lat": 24.441109498565442,
+        "lng": 54.51702313971644
+      },
+      "elevation_m": 2.9,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.0003227485654413442,
+        "lng": 0.00012511028355532972
+      },
+      "name": "Sas Al Nakheel",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 24.4326153,
+            "lng": 54.5201765
+          },
+          "endpoint_b": {
+            "lat": 24.4489582,
+            "lng": 54.51412
+          },
+          "heading_deg": 341.3,
+          "length_m": 1917.1,
+          "midpoint": {
+            "lat": 24.44078675,
+            "lng": 54.51714825
+          },
+          "osm_way_id": 216455290,
+          "ref": "16/34",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "21": {
+      "dcs_position": {
+        "lat": 25.65467256513218,
+        "lng": 57.80143569249163
+      },
+      "elevation_m": 8.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.00010468486782144737,
+        "lng": 0.00024980750837499954
+      },
+      "name": "Bandar-e-Jask",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 25.6498363,
+            "lng": 57.791414
+          },
+          "endpoint_b": {
+            "lat": 25.6597182,
+            "lng": 57.811957
+          },
+          "heading_deg": 62.0,
+          "length_m": 2335.7,
+          "midpoint": {
+            "lat": 25.654777250000002,
+            "lng": 57.801685500000005
+          },
+          "osm_way_id": 31557533,
+          "ref": "06/24",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "22": {
+      "dcs_position": {
+        "lat": 24.45370785753418,
+        "lng": 54.65426783604469
+      },
+      "elevation_m": 28.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.020648257534180203,
+        "lng": -0.003092786044689433
+      },
+      "name": "Abu Dhabi Intl",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 24.4444069,
+            "lng": 54.6351884
+          },
+          "endpoint_b": {
+            "lat": 24.4217123,
+            "lng": 54.6671617
+          },
+          "heading_deg": 127.9,
+          "length_m": 4106.3,
+          "midpoint": {
+            "lat": 24.4330596,
+            "lng": 54.65117505
+          },
+          "osm_way_id": 4891322,
+          "ref": "13R/31L",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 24.4650994,
+            "lng": 54.6382232
+          },
+          "endpoint_b": {
+            "lat": 24.4424259,
+            "lng": 54.6701727
+          },
+          "heading_deg": 127.9,
+          "length_m": 4102.6,
+          "midpoint": {
+            "lat": 24.45376265,
+            "lng": 54.65419795
+          },
+          "osm_way_id": 96796503,
+          "ref": "13L/31R",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 24.4191206,
+            "lng": 54.6634279
+          },
+          "endpoint_b": {
+            "lat": 24.4207258,
+            "lng": 54.6611556
+          },
+          "heading_deg": 307.8,
+          "length_m": 291.3,
+          "midpoint": {
+            "lat": 24.4199232,
+            "lng": 54.66229175
+          },
+          "osm_way_id": 609827052,
+          "ref": "13H/31H",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "23": {
+      "dcs_position": {
+        "lat": 24.42807735277165,
+        "lng": 54.458580277152194
+      },
+      "elevation_m": 3.7,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 1.9547228351513013e-05,
+        "lng": -5.147715219777638e-05
+      },
+      "name": "Al-Bateen",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 24.4219277,
+            "lng": 54.4671693
+          },
+          "endpoint_b": {
+            "lat": 24.4342661,
+            "lng": 54.4498883
+          },
+          "heading_deg": 308.1,
+          "length_m": 2224.4,
+          "midpoint": {
+            "lat": 24.4280969,
+            "lng": 54.458528799999996
+          },
+          "osm_way_id": 199698324,
+          "ref": "13/31",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 24.4373562,
+            "lng": 54.4455864
+          },
+          "endpoint_b": {
+            "lat": 24.4342661,
+            "lng": 54.4498883
+          },
+          "heading_deg": 128.2,
+          "length_m": 555.0,
+          "midpoint": {
+            "lat": 24.43581115,
+            "lng": 54.44773735
+          },
+          "osm_way_id": 515697946,
+          "ref": "13/31",
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 24.4352877,
+            "lng": 54.4452919
+          },
+          "endpoint_b": {
+            "lat": 24.4322334,
+            "lng": 54.4495603
+          },
+          "heading_deg": 128.1,
+          "length_m": 549.9,
+          "midpoint": {
+            "lat": 24.433760550000002,
+            "lng": 54.4474261
+          },
+          "osm_way_id": 1066147262,
+          "ref": "H13/ H31",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 24.4195735,
+            "lng": 54.4704811
+          },
+          "endpoint_b": {
+            "lat": 24.4219277,
+            "lng": 54.4671693
+          },
+          "heading_deg": 307.9,
+          "length_m": 425.6,
+          "midpoint": {
+            "lat": 24.420750599999998,
+            "lng": 54.4688252
+          },
+          "osm_way_id": 515697943,
+          "ref": "13/31",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "24": {
+      "dcs_position": {
+        "lat": 26.5281484863981,
+        "lng": 53.981048990350594
+      },
+      "elevation_m": 35.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.0027453863981001803,
+        "lng": -0.00016149035059953576
+      },
+      "name": "Kish Intl",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 26.5268461,
+            "lng": 53.9625704
+          },
+          "endpoint_b": {
+            "lat": 26.5239601,
+            "lng": 53.9992046
+          },
+          "heading_deg": 95.0,
+          "length_m": 3662.9,
+          "midpoint": {
+            "lat": 26.5254031,
+            "lng": 53.980887499999994
+          },
+          "osm_way_id": 4498211,
+          "ref": "09R/27L",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 26.529558,
+            "lng": 53.962823
+          },
+          "endpoint_b": {
+            "lat": 26.5281583,
+            "lng": 53.9810699
+          },
+          "heading_deg": 94.9,
+          "length_m": 1824.0,
+          "midpoint": {
+            "lat": 26.52885815,
+            "lng": 53.971946450000004
+          },
+          "osm_way_id": 4498208,
+          "ref": "09L/27R",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 26.548528,
+            "lng": 53.9829956
+          },
+          "endpoint_b": {
+            "lat": 26.5497612,
+            "lng": 53.9690616
+          },
+          "heading_deg": 275.6,
+          "length_m": 1394.3,
+          "midpoint": {
+            "lat": 26.549144599999998,
+            "lng": 53.97602860000001
+          },
+          "osm_way_id": 420552708,
+          "ref": "10/28",
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 26.5281583,
+            "lng": 53.9810699
+          },
+          "endpoint_b": {
+            "lat": 26.5271693,
+            "lng": 53.9939634
+          },
+          "heading_deg": 94.9,
+          "length_m": 1288.9,
+          "midpoint": {
+            "lat": 26.5276638,
+            "lng": 53.98751665
+          },
+          "osm_way_id": 1502822550,
+          "ref": "09L/27R",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 26.5271693,
+            "lng": 53.9939634
+          },
+          "endpoint_b": {
+            "lat": 26.5267597,
+            "lng": 53.9993038
+          },
+          "heading_deg": 94.9,
+          "length_m": 533.9,
+          "midpoint": {
+            "lat": 26.5269645,
+            "lng": 53.996633599999996
+          },
+          "osm_way_id": 1502822552,
+          "ref": "09L/27R",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 26.5331036,
+            "lng": 53.9623519
+          },
+          "endpoint_b": {
+            "lat": 26.5333156,
+            "lng": 53.9593973
+          },
+          "heading_deg": 274.6,
+          "length_m": 295.2,
+          "midpoint": {
+            "lat": 26.5332096,
+            "lng": 53.9608746
+          },
+          "osm_way_id": 930137023,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "25": {
+      "dcs_position": {
+        "lat": 24.261427609263,
+        "lng": 55.60924529308641
+      },
+      "elevation_m": 248.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.0002585907370011853,
+        "lng": -6.779308640858517e-05
+      },
+      "name": "Al Ain Intl",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 24.2796189,
+            "lng": 55.6117256
+          },
+          "endpoint_b": {
+            "lat": 24.2437535,
+            "lng": 55.6066294
+          },
+          "heading_deg": 187.4,
+          "length_m": 4019.2,
+          "midpoint": {
+            "lat": 24.2616862,
+            "lng": 55.6091775
+          },
+          "osm_way_id": 201673766,
+          "ref": "01/19",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "26": {
+      "dcs_position": {
+        "lat": 26.811107783686776,
+        "lng": 53.353293099264455
+      },
+      "elevation_m": 22.9,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 2.6816313226873945e-05,
+        "lng": 2.130073554695855e-05
+      },
+      "name": "Lavan Island",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 26.8154396,
+            "lng": 53.3406047
+          },
+          "endpoint_b": {
+            "lat": 26.8068296,
+            "lng": 53.3660241
+          },
+          "heading_deg": 110.8,
+          "length_m": 2700.7,
+          "midpoint": {
+            "lat": 26.811134600000003,
+            "lng": 53.3533144
+          },
+          "osm_way_id": 64391360,
+          "ref": "11/29",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "27": {
+      "dcs_position": {
+        "lat": 28.72351696066567,
+        "lng": 57.67509513993454
+      },
+      "elevation_m": 812.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.0004310106656717494,
+        "lng": 0.0007441100654546062
+      },
+      "name": "Jiroft",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 28.7146274,
+            "lng": 57.6878253
+          },
+          "endpoint_b": {
+            "lat": 28.7315445,
+            "lng": 57.6638532
+          },
+          "heading_deg": 308.8,
+          "length_m": 3001.9,
+          "midpoint": {
+            "lat": 28.723085949999998,
+            "lng": 57.675839249999996
+          },
+          "osm_way_id": 30995420,
+          "ref": "13/31",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 28.7332349,
+            "lng": 57.6614577
+          },
+          "endpoint_b": {
+            "lat": 28.7315445,
+            "lng": 57.6638532
+          },
+          "heading_deg": 128.8,
+          "length_m": 299.9,
+          "midpoint": {
+            "lat": 28.7323897,
+            "lng": 57.66265545
+          },
+          "osm_way_id": 890971639,
+          "ref": "13/31",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "28": {
+      "dcs_position": {
+        "lat": 25.613494250727733,
+        "lng": 55.9387973076312
+      },
+      "elevation_m": 21.6,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.0001286007277343515,
+        "lng": 5.189236880198678e-05
+      },
+      "name": "Ras Al Khaimah Intl",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 25.6297269,
+            "lng": 55.9339428
+          },
+          "endpoint_b": {
+            "lat": 25.5970044,
+            "lng": 55.9437556
+          },
+          "heading_deg": 164.8,
+          "length_m": 3767.6,
+          "midpoint": {
+            "lat": 25.61336565,
+            "lng": 55.9388492
+          },
+          "osm_way_id": 194913116,
+          "ref": "16/34",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "29": {
+      "dcs_position": {
+        "lat": 23.650775423946882,
+        "lng": 53.82442927400572
+      },
+      "elevation_m": 121.9,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.0002182760531184158,
+        "lng": -0.00024917400571666803
+      },
+      "name": "Liwa AFB",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 23.6618287,
+            "lng": 53.8106537
+          },
+          "endpoint_b": {
+            "lat": 23.6401587,
+            "lng": 53.8377065
+          },
+          "heading_deg": 131.1,
+          "length_m": 3661.9,
+          "midpoint": {
+            "lat": 23.6509937,
+            "lng": 53.82418010000001
+          },
+          "osm_way_id": 201502206,
+          "ref": "13/31",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "3": {
+      "dcs_position": {
+        "lat": 26.53226376838109,
+        "lng": 54.82466722322185
+      },
+      "elevation_m": 24.7,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 3.808161891072359e-05,
+        "lng": 0.00015782677814968338
+      },
+      "name": "Bandar Lengeh",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 26.5304687,
+            "lng": 54.812456
+          },
+          "endpoint_b": {
+            "lat": 26.534135,
+            "lng": 54.8371941
+          },
+          "heading_deg": 80.6,
+          "length_m": 2497.3,
+          "midpoint": {
+            "lat": 26.53230185,
+            "lng": 54.82482505
+          },
+          "osm_way_id": 26402999,
+          "ref": "08/26",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "30": {
+      "elevation_m": 100.5,
+      "elevation_source": "dcs_land_getheight",
+      "name": "Quasoura_airport"
+    },
+    "4": {
+      "dcs_position": {
+        "lat": 24.248287848685084,
+        "lng": 54.54769909718807
+      },
+      "elevation_m": 16.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.017375898685084934,
+        "lng": 0.003402752811929588
+      },
+      "name": "Al Dhafra AFB",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 24.240852,
+            "lng": 54.536684
+          },
+          "endpoint_b": {
+            "lat": 24.2209719,
+            "lng": 54.5655197
+          },
+          "heading_deg": 127.0,
+          "length_m": 3667.4,
+          "midpoint": {
+            "lat": 24.23091195,
+            "lng": 54.55110185
+          },
+          "osm_way_id": 145486480,
+          "ref": "13R/31L",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 24.247723,
+            "lng": 54.5485086
+          },
+          "endpoint_b": {
+            "lat": 24.2582553,
+            "lng": 54.5332749
+          },
+          "heading_deg": 307.1,
+          "length_m": 1939.2,
+          "midpoint": {
+            "lat": 24.252989149999998,
+            "lng": 54.54089175
+          },
+          "osm_way_id": 47974974,
+          "ref": "13L/31R",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 24.238394,
+            "lng": 54.5620864
+          },
+          "endpoint_b": {
+            "lat": 24.247723,
+            "lng": 54.5485086
+          },
+          "heading_deg": 307.0,
+          "length_m": 1724.6,
+          "midpoint": {
+            "lat": 24.2430585,
+            "lng": 54.555297499999995
+          },
+          "osm_way_id": 990491601,
+          "ref": "13L/31R",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "5": {
+      "dcs_position": {
+        "lat": 25.256375873365933,
+        "lng": 55.36526121222419
+      },
+      "elevation_m": 5.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.010315223365932269,
+        "lng": 0.011317187775809145
+      },
+      "name": "Dubai Intl",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 25.2359239,
+            "lng": 55.3948633
+          },
+          "endpoint_b": {
+            "lat": 25.2561974,
+            "lng": 55.3582935
+          },
+          "heading_deg": 301.5,
+          "length_m": 4316.7,
+          "midpoint": {
+            "lat": 25.24606065,
+            "lng": 55.3765784
+          },
+          "osm_way_id": 152351328,
+          "ref": "12R/30L",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 25.2646315,
+            "lng": 55.3504159
+          },
+          "endpoint_b": {
+            "lat": 25.2477035,
+            "lng": 55.3809094
+          },
+          "heading_deg": 121.5,
+          "length_m": 3600.6,
+          "midpoint": {
+            "lat": 25.2561675,
+            "lng": 55.365662650000004
+          },
+          "osm_way_id": 95511342,
+          "ref": "12L/30R",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 25.2667249,
+            "lng": 55.3466213
+          },
+          "endpoint_b": {
+            "lat": 25.2646315,
+            "lng": 55.3504159
+          },
+          "heading_deg": 121.3,
+          "length_m": 447.3,
+          "midpoint": {
+            "lat": 25.2656782,
+            "lng": 55.348518600000006
+          },
+          "osm_way_id": 1076760102,
+          "ref": "12L/30R",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 25.2462962,
+            "lng": 55.3834414
+          },
+          "endpoint_b": {
+            "lat": 25.2477035,
+            "lng": 55.3809094
+          },
+          "heading_deg": 301.5,
+          "length_m": 299.1,
+          "midpoint": {
+            "lat": 25.24699985,
+            "lng": 55.3821754
+          },
+          "osm_way_id": 1059547901,
+          "ref": "12L/30R",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 25.2353515,
+            "lng": 55.3958753
+          },
+          "endpoint_b": {
+            "lat": 25.2359239,
+            "lng": 55.3948633
+          },
+          "heading_deg": 302.0,
+          "length_m": 120.1,
+          "midpoint": {
+            "lat": 25.235637699999998,
+            "lng": 55.3953693
+          },
+          "osm_way_id": 1077849652,
+          "ref": "12R/30L",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "6": {
+      "dcs_position": {
+        "lat": 24.897056657670795,
+        "lng": 55.16023901638744
+      },
+      "elevation_m": 37.6,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.0004504576707944352,
+        "lng": 0.0008697336125536026
+      },
+      "name": "Al Maktoum Intl",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 24.907142,
+            "lng": 55.1420706
+          },
+          "endpoint_b": {
+            "lat": 24.8860704,
+            "lng": 55.1801469
+          },
+          "heading_deg": 121.3,
+          "length_m": 4501.8,
+          "midpoint": {
+            "lat": 24.8966062,
+            "lng": 55.16110875
+          },
+          "osm_way_id": 172911319,
+          "ref": "12/30",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 24.8699901,
+            "lng": 55.1536986
+          },
+          "endpoint_b": {
+            "lat": 24.8627785,
+            "lng": 55.1667335
+          },
+          "heading_deg": 121.3,
+          "length_m": 1541.3,
+          "midpoint": {
+            "lat": 24.8663843,
+            "lng": 55.16021605
+          },
+          "osm_way_id": 725386921,
+          "ref": "13/31",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 24.8707018,
+            "lng": 55.1524252
+          },
+          "endpoint_b": {
+            "lat": 24.8699901,
+            "lng": 55.1536986
+          },
+          "heading_deg": 121.6,
+          "length_m": 151.0,
+          "midpoint": {
+            "lat": 24.87034595,
+            "lng": 55.1530619
+          },
+          "osm_way_id": 867732213,
+          "ref": "13/31",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 24.8620975,
+            "lng": 55.167956
+          },
+          "endpoint_b": {
+            "lat": 24.8627785,
+            "lng": 55.1667335
+          },
+          "heading_deg": 301.5,
+          "length_m": 144.8,
+          "midpoint": {
+            "lat": 24.862438,
+            "lng": 55.16734475
+          },
+          "osm_way_id": 867732212,
+          "ref": "13/31",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "7": {
+      "dcs_position": {
+        "lat": 25.110940175043343,
+        "lng": 56.32735119702503
+      },
+      "elevation_m": 18.5,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -3.5875043341349055e-05,
+        "lng": 7.37029749657836e-05
+      },
+      "name": "Fujairah Intl",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 25.1056547,
+            "lng": 56.3414003
+          },
+          "endpoint_b": {
+            "lat": 25.1161539,
+            "lng": 56.3134495
+          },
+          "heading_deg": 292.5,
+          "length_m": 3049.5,
+          "midpoint": {
+            "lat": 25.1109043,
+            "lng": 56.3274249
+          },
+          "osm_way_id": 194888622,
+          "ref": "11/29",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 25.1141515,
+            "lng": 56.3131265
+          },
+          "endpoint_b": {
+            "lat": 25.1038343,
+            "lng": 56.3405798
+          },
+          "heading_deg": 112.5,
+          "length_m": 2995.4,
+          "midpoint": {
+            "lat": 25.108992899999997,
+            "lng": 56.326853150000005
+          },
+          "osm_way_id": 1035327859,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 25.118564,
+            "lng": 56.3070331
+          },
+          "endpoint_b": {
+            "lat": 25.1161539,
+            "lng": 56.3134495
+          },
+          "heading_deg": 112.5,
+          "length_m": 700.0,
+          "midpoint": {
+            "lat": 25.11735895,
+            "lng": 56.3102413
+          },
+          "osm_way_id": 868351408,
+          "ref": "11/29",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "8": {
+      "dcs_position": {
+        "lat": 26.258887588131895,
+        "lng": 55.3157816544853
+      },
+      "elevation_m": 13.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.00018893813189535535,
+        "lng": -0.0001416044853002063
+      },
+      "name": "Tunb Island AFB",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 26.2666903,
+            "lng": 55.3201627
+          },
+          "endpoint_b": {
+            "lat": 26.250707,
+            "lng": 55.3111174
+          },
+          "heading_deg": 206.9,
+          "length_m": 1992.6,
+          "midpoint": {
+            "lat": 26.25869865,
+            "lng": 55.31564005
+          },
+          "osm_way_id": 1080509136,
+          "ref": "03/21",
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 26.267986,
+            "lng": 55.3209011
+          },
+          "endpoint_b": {
+            "lat": 26.2666903,
+            "lng": 55.3201627
+          },
+          "heading_deg": 207.1,
+          "length_m": 161.8,
+          "midpoint": {
+            "lat": 26.26733815,
+            "lng": 55.3205319
+          },
+          "osm_way_id": 168533549,
+          "ref": "03/21",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "9": {
+      "dcs_position": {
+        "lat": 27.1582244703629,
+        "lng": 56.172018585052534
+      },
+      "elevation_m": 15.5,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.00015677963709848086,
+        "lng": 0.0008499649474700277
+      },
+      "name": "Havadarya",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 27.1605168,
+            "lng": 56.1849586
+          },
+          "endpoint_b": {
+            "lat": 27.1562457,
+            "lng": 56.1607785
+          },
+          "heading_deg": 258.8,
+          "length_m": 2441.5,
+          "midpoint": {
+            "lat": 27.158381249999998,
+            "lng": 56.172868550000004
+          },
+          "osm_way_id": 26461708,
+          "ref": "08/26",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    }
+  },
+  "attribution": "Map data (c) OpenStreetMap contributors, ODbL (https://www.openstreetmap.org/copyright)",
+  "generated_at": "2026-05-22T20:55:52.673909Z",
+  "source": "OpenStreetMap (ODbL)",
+  "terrain": "PersianGulf"
+}

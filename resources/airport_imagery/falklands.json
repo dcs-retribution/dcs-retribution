@@ -1,0 +1,1415 @@
+{
+  "airports": {
+    "1": {
+      "dcs_position": {
+        "lat": -51.68591194006992,
+        "lng": -57.77784098499985
+      },
+      "elevation_m": 23.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": 7.040069924357795e-06,
+        "lng": 0.0027084849998502136
+      },
+      "name": "Port Stanley",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": -51.6859517,
+            "lng": -57.7830703
+          },
+          "endpoint_b": {
+            "lat": -51.6858581,
+            "lng": -57.7671947
+          },
+          "heading_deg": 89.5,
+          "length_m": 1095.7,
+          "midpoint": {
+            "lat": -51.6859049,
+            "lng": -57.7751325
+          },
+          "osm_way_id": 4756303,
+          "ref": "09/27",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": -51.6840521,
+            "lng": -57.7816382
+          },
+          "endpoint_b": {
+            "lat": -51.6869738,
+            "lng": -57.7816375
+          },
+          "heading_deg": 180.0,
+          "length_m": 324.7,
+          "midpoint": {
+            "lat": -51.68551295,
+            "lng": -57.78163785
+          },
+          "osm_way_id": 198911148,
+          "ref": "18/36",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "10": {
+      "dcs_position": {
+        "lat": -54.049978835616905,
+        "lng": -68.80899839214395
+      },
+      "elevation_m": 156.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 1.2685616901819685e-05,
+        "lng": -0.00015295785605928813
+      },
+      "name": "Pampa Guanaco",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": -54.0499504,
+            "lng": -68.803052
+          },
+          "endpoint_b": {
+            "lat": -54.0499819,
+            "lng": -68.8152507
+          },
+          "heading_deg": 269.7,
+          "length_m": 797.2,
+          "midpoint": {
+            "lat": -54.04996615,
+            "lng": -68.80915135000001
+          },
+          "osm_way_id": 749287165,
+          "ref": null,
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "11": {
+      "dcs_position": {
+        "lat": -49.30669433277767,
+        "lng": -67.80272601527427
+      },
+      "elevation_m": 49.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": -2.7417222334236158e-05,
+        "lng": -3.318472572289011e-05
+      },
+      "name": "San Julian",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": -49.3083903,
+            "lng": -67.8162166
+          },
+          "endpoint_b": {
+            "lat": -49.3050532,
+            "lng": -67.7893018
+          },
+          "heading_deg": 79.3,
+          "length_m": 1988.4,
+          "midpoint": {
+            "lat": -49.30672175,
+            "lng": -67.8027592
+          },
+          "osm_way_id": 33677952,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": -49.3048647,
+            "lng": -67.7893602
+          },
+          "endpoint_b": {
+            "lat": -49.3048647,
+            "lng": -67.7893602
+          },
+          "heading_deg": 0.0,
+          "length_m": 0.0,
+          "midpoint": {
+            "lat": -49.3048647,
+            "lng": -67.7893602
+          },
+          "osm_way_id": 703080298,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "12": {
+      "dcs_position": {
+        "lat": -54.93099060993966,
+        "lng": -67.6262190840948
+      },
+      "elevation_m": 27.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": -5.264006033911528e-05,
+        "lng": -1.3065905193343497e-05
+      },
+      "name": "Puerto Williams",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": -54.9309426,
+            "lng": -67.6373657
+          },
+          "endpoint_b": {
+            "lat": -54.9311439,
+            "lng": -67.6150986
+          },
+          "heading_deg": 90.9,
+          "length_m": 1424.4,
+          "midpoint": {
+            "lat": -54.93104325,
+            "lng": -67.62623214999999
+          },
+          "osm_way_id": 25892379,
+          "ref": null,
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": -54.9307986,
+            "lng": -67.6374675
+          },
+          "endpoint_b": {
+            "lat": -54.9307986,
+            "lng": -67.6374675
+          },
+          "heading_deg": 0.0,
+          "length_m": 0.0,
+          "midpoint": {
+            "lat": -54.9307986,
+            "lng": -67.6374675
+          },
+          "osm_way_id": 752317478,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "13": {
+      "dcs_position": {
+        "lat": -51.67070792460087,
+        "lng": -72.52819099479164
+      },
+      "elevation_m": 68.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 8.052460086815927e-05,
+        "lng": -0.0007626552083621618
+      },
+      "name": "Puerto Natales",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": -51.6666178,
+            "lng": -72.5402744
+          },
+          "endpoint_b": {
+            "lat": -51.674637,
+            "lng": -72.5176329
+          },
+          "heading_deg": 119.7,
+          "length_m": 1799.3,
+          "midpoint": {
+            "lat": -51.6706274,
+            "lng": -72.52895365
+          },
+          "osm_way_id": 108291962,
+          "ref": "10/28",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "14": {
+      "dcs_position": {
+        "lat": -50.28024362550417,
+        "lng": -72.05274907347015
+      },
+      "elevation_m": 198.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 3.197550417155526e-05,
+        "lng": -0.00043887652984153647
+      },
+      "name": "El Calafate",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": -50.2812752,
+            "lng": -72.0709382
+          },
+          "endpoint_b": {
+            "lat": -50.2791481,
+            "lng": -72.0354377
+          },
+          "heading_deg": 84.7,
+          "length_m": 2536.4,
+          "midpoint": {
+            "lat": -50.28021165,
+            "lng": -72.05318795
+          },
+          "osm_way_id": 695872564,
+          "ref": "07/25",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "15": {
+      "dcs_position": {
+        "lat": -50.017029735054656,
+        "lng": -68.57908478851425
+      },
+      "elevation_m": 112.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 2.9785054657338605e-05,
+        "lng": -6.3011485750053e-05
+      },
+      "name": "Puerto Santa Cruz",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": -50.0186846,
+            "lng": -68.591342
+          },
+          "endpoint_b": {
+            "lat": -50.0153153,
+            "lng": -68.5669536
+          },
+          "heading_deg": 77.9,
+          "length_m": 1784.2,
+          "midpoint": {
+            "lat": -50.01699995,
+            "lng": -68.5791478
+          },
+          "osm_way_id": 188754679,
+          "ref": "07/25",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": -50.01855,
+            "lng": -68.5914708
+          },
+          "endpoint_b": {
+            "lat": -50.01855,
+            "lng": -68.5914708
+          },
+          "heading_deg": 0.0,
+          "length_m": 0.0,
+          "midpoint": {
+            "lat": -50.01855,
+            "lng": -68.5914708
+          },
+          "osm_way_id": 703076740,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "16": {
+      "dcs_position": {
+        "lat": -49.994984243738834,
+        "lng": -68.95144807370748
+      },
+      "elevation_m": 24.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 1.6543738830421262e-05,
+        "lng": 0.0019204237074887942
+      },
+      "name": "Comandante Luis Piedrabuena",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": -49.9949254,
+            "lng": -68.9438214
+          },
+          "endpoint_b": {
+            "lat": -49.99501,
+            "lng": -68.9552339
+          },
+          "heading_deg": 269.3,
+          "length_m": 816.8,
+          "midpoint": {
+            "lat": -49.994967700000004,
+            "lng": -68.94952765
+          },
+          "osm_way_id": 273156377,
+          "ref": "08-26",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "17": {
+      "dcs_position": {
+        "lat": -54.49961647305806,
+        "lng": -67.1723847837187
+      },
+      "elevation_m": 110.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": -1.907694193903353e-05,
+        "lng": 0.0001295837187029747
+      },
+      "name": "Tolhuin",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": -54.5000133,
+            "lng": -67.1804696
+          },
+          "endpoint_b": {
+            "lat": -54.4992578,
+            "lng": -67.1640408
+          },
+          "heading_deg": 85.5,
+          "length_m": 1065.3,
+          "midpoint": {
+            "lat": -54.49963555,
+            "lng": -67.1722552
+          },
+          "osm_way_id": 321352514,
+          "ref": "07/25",
+          "status": "active",
+          "surface": "concrete"
+        },
+        {
+          "endpoint_a": {
+            "lat": -54.4991692,
+            "lng": -67.1638491
+          },
+          "endpoint_b": {
+            "lat": -54.4991692,
+            "lng": -67.1638491
+          },
+          "heading_deg": 0.0,
+          "length_m": 0.0,
+          "midpoint": {
+            "lat": -54.4991692,
+            "lng": -67.1638491
+          },
+          "osm_way_id": 900012877,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "18": {
+      "dcs_position": {
+        "lat": -53.2536872979804,
+        "lng": -70.31930084373616
+      },
+      "elevation_m": 26.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": -3.0802019601594566e-05,
+        "lng": -3.150626383785493e-05
+      },
+      "name": "Porvenir",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": -53.2498644,
+            "lng": -70.336988
+          },
+          "endpoint_b": {
+            "lat": -53.2575718,
+            "lng": -70.3016767
+          },
+          "heading_deg": 110.0,
+          "length_m": 2502.9,
+          "midpoint": {
+            "lat": -53.2537181,
+            "lng": -70.31933235
+          },
+          "osm_way_id": 529095950,
+          "ref": "09/27",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": -53.2511075,
+            "lng": -70.33314
+          },
+          "endpoint_b": {
+            "lat": -53.245171,
+            "lng": -70.3226392
+          },
+          "heading_deg": 46.7,
+          "length_m": 961.5,
+          "midpoint": {
+            "lat": -53.24813925,
+            "lng": -70.32788959999999
+          },
+          "osm_way_id": 529095952,
+          "ref": "03/21",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "19": {
+      "dcs_position": {
+        "lat": -53.60692971624631,
+        "lng": -70.47620620196297
+      },
+      "elevation_m": 46.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 3.162463144690264e-07,
+        "lng": -0.00014324803703402722
+      },
+      "name": "Almirante Schroeders",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": -53.6118908,
+            "lng": -70.4687266
+          },
+          "endpoint_b": {
+            "lat": -53.601968,
+            "lng": -70.4839723
+          },
+          "heading_deg": 317.6,
+          "length_m": 1493.3,
+          "midpoint": {
+            "lat": -53.6069294,
+            "lng": -70.47634945
+          },
+          "osm_way_id": 126488980,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": -53.6097544,
+            "lng": -70.4685657
+          },
+          "endpoint_b": {
+            "lat": -53.6162435,
+            "lng": -70.4825282
+          },
+          "heading_deg": 232.0,
+          "length_m": 1170.6,
+          "midpoint": {
+            "lat": -53.612998950000005,
+            "lng": -70.47554695
+          },
+          "osm_way_id": 126488981,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "2": {
+      "dcs_position": {
+        "lat": -51.820678646440065,
+        "lng": -58.4577368399724
+      },
+      "elevation_m": 74.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": -0.00014025355994107258,
+        "lng": 0.000816939972395403
+      },
+      "name": "Mount Pleasant",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": -51.8177486,
+            "lng": -58.4750526
+          },
+          "endpoint_b": {
+            "lat": -51.8238892,
+            "lng": -58.4387872
+          },
+          "heading_deg": 105.3,
+          "length_m": 2587.0,
+          "midpoint": {
+            "lat": -51.820818900000006,
+            "lng": -58.4569199
+          },
+          "osm_way_id": 926383184,
+          "ref": "10/28",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": -51.8165274,
+            "lng": -58.4315995
+          },
+          "endpoint_b": {
+            "lat": -51.8243451,
+            "lng": -58.4498164
+          },
+          "heading_deg": 235.3,
+          "length_m": 1525.2,
+          "midpoint": {
+            "lat": -51.82043625,
+            "lng": -58.440707950000004
+          },
+          "osm_way_id": 926383183,
+          "ref": "05/23",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "20": {
+      "dcs_position": {
+        "lat": -51.605054907748986,
+        "lng": -72.21982276875181
+      },
+      "elevation_m": 276.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 4.980774898655227e-05,
+        "lng": -0.0005899812481970912
+      },
+      "name": "Rio Turbio",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": -51.6024053,
+            "lng": -72.2084871
+          },
+          "endpoint_b": {
+            "lat": -51.6076049,
+            "lng": -72.2323384
+          },
+          "heading_deg": 250.7,
+          "length_m": 1747.4,
+          "midpoint": {
+            "lat": -51.6050051,
+            "lng": -72.22041275000001
+          },
+          "osm_way_id": 172175057,
+          "ref": "06/24",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": -51.602529,
+            "lng": -72.2084024
+          },
+          "endpoint_b": {
+            "lat": -51.602529,
+            "lng": -72.2084024
+          },
+          "heading_deg": 0.0,
+          "length_m": 0.0,
+          "midpoint": {
+            "lat": -51.602529,
+            "lng": -72.2084024
+          },
+          "osm_way_id": 703060963,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "21": {
+      "dcs_position": {
+        "lat": -51.66904702645625,
+        "lng": -69.26606651301356
+      },
+      "elevation_m": 18.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 0.020620876456241888,
+        "lng": 0.0652572630135495
+      },
+      "name": "Rio Chico",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": -51.6492318,
+            "lng": -69.2123504
+          },
+          "endpoint_b": {
+            "lat": -51.6476205,
+            "lng": -69.1892681
+          },
+          "heading_deg": 83.6,
+          "length_m": 1604.4,
+          "midpoint": {
+            "lat": -51.648426150000006,
+            "lng": -69.20080925
+          },
+          "osm_way_id": 1265342466,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": -51.6686869,
+            "lng": -69.2739678
+          },
+          "endpoint_b": {
+            "lat": -51.6693657,
+            "lng": -69.2582746
+          },
+          "heading_deg": 94.0,
+          "length_m": 1086.1,
+          "midpoint": {
+            "lat": -51.6690263,
+            "lng": -69.26612119999999
+          },
+          "osm_way_id": 172154446,
+          "ref": "08/26",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "23": {
+      "dcs_position": {
+        "lat": -52.736586015959126,
+        "lng": -69.33378930283207
+      },
+      "elevation_m": 33.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 5.015959125387326e-06,
+        "lng": -0.00024654716791872033
+      },
+      "name": "Franco Bianco",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": -52.7369987,
+            "lng": -69.3454405
+          },
+          "endpoint_b": {
+            "lat": -52.7361633,
+            "lng": -69.3226312
+          },
+          "heading_deg": 86.5,
+          "length_m": 1540.2,
+          "midpoint": {
+            "lat": -52.736581,
+            "lng": -69.33403584999999
+          },
+          "osm_way_id": 289932771,
+          "ref": "07/25",
+          "status": "active",
+          "surface": "dirt"
+        },
+        {
+          "endpoint_a": {
+            "lat": -52.7369916,
+            "lng": -69.3452464
+          },
+          "endpoint_b": {
+            "lat": -52.7277873,
+            "lng": -69.3377101
+          },
+          "heading_deg": 26.4,
+          "length_m": 1142.1,
+          "midpoint": {
+            "lat": -52.73238945,
+            "lng": -69.34147825
+          },
+          "osm_way_id": 309348922,
+          "ref": "01/19",
+          "status": "active",
+          "surface": "dirt"
+        }
+      ]
+    },
+    "24": {
+      "dcs_position": {
+        "lat": -51.819815040406155,
+        "lng": -58.98016443593687
+      },
+      "elevation_m": 19.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": -4.559593847375254e-06,
+        "lng": 1.698593687393668e-05
+      },
+      "name": "Goose Green",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": -51.8219775,
+            "lng": -58.977315
+          },
+          "endpoint_b": {
+            "lat": -51.8176617,
+            "lng": -58.9829799
+          },
+          "heading_deg": 320.9,
+          "length_m": 618.1,
+          "midpoint": {
+            "lat": -51.8198196,
+            "lng": -58.98014745
+          },
+          "osm_way_id": 925508929,
+          "ref": null,
+          "status": "active",
+          "surface": "grass"
+        }
+      ]
+    },
+    "25": {
+      "dcs_position": {
+        "lat": -48.756736033318155,
+        "lng": -70.23127975261418
+      },
+      "elevation_m": null,
+      "elevation_source": null,
+      "imagery_offset_deg": null,
+      "name": "Hipico Flying Club",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "26": {
+      "dcs_position": {
+        "lat": -48.78316888605035,
+        "lng": -70.14797234423916
+      },
+      "elevation_m": 357.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 0.0003031860503455164,
+        "lng": -0.0022374557608344503
+      },
+      "name": "Gobernador Gregores",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": -48.7854915,
+            "lng": -70.1340225
+          },
+          "endpoint_b": {
+            "lat": -48.7802399,
+            "lng": -70.1663971
+          },
+          "heading_deg": 283.8,
+          "length_m": 2445.4,
+          "midpoint": {
+            "lat": -48.7828657,
+            "lng": -70.1502098
+          },
+          "osm_way_id": 914877405,
+          "ref": "10/28",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "27": {
+      "dcs_position": {
+        "lat": -48.46900550842548,
+        "lng": -72.56332889903737
+      },
+      "elevation_m": 271.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": -1.1291574516292258e-05,
+        "lng": -0.0005030009626239007
+      },
+      "name": "O'Higgins",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": -48.4747554,
+            "lng": -72.562219
+          },
+          "endpoint_b": {
+            "lat": -48.4632782,
+            "lng": -72.5654448
+          },
+          "heading_deg": 349.4,
+          "length_m": 1297.5,
+          "midpoint": {
+            "lat": -48.4690168,
+            "lng": -72.5638319
+          },
+          "osm_way_id": 93982999,
+          "ref": "16/34",
+          "status": "active",
+          "surface": "paved"
+        }
+      ]
+    },
+    "29": {
+      "dcs_position": {
+        "lat": -52.1793937991232,
+        "lng": -58.860684279207
+      },
+      "elevation_m": 0.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": -0.001994700876799982,
+        "lng": 0.001896279207002749
+      },
+      "name": "Gull Point",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": -52.1813885,
+            "lng": -58.858788
+          },
+          "endpoint_b": {
+            "lat": -52.1813885,
+            "lng": -58.858788
+          },
+          "heading_deg": 0.0,
+          "length_m": 0.0,
+          "midpoint": {
+            "lat": -52.1813885,
+            "lng": -58.858788
+          },
+          "osm_way_id": 172528501,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": -52.1792684,
+            "lng": -58.8562368
+          },
+          "endpoint_b": {
+            "lat": -52.1792684,
+            "lng": -58.8562368
+          },
+          "heading_deg": 0.0,
+          "length_m": 0.0,
+          "midpoint": {
+            "lat": -52.1792684,
+            "lng": -58.8562368
+          },
+          "osm_way_id": 172528502,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "3": {
+      "dcs_position": {
+        "lat": -51.5012829237777,
+        "lng": -59.00490403256475
+      },
+      "elevation_m": 26.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": -0.0003806762222993143,
+        "lng": 0.0007025325647589398
+      },
+      "name": "San Carlos FOB",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": -51.5005458,
+            "lng": -59.0084136
+          },
+          "endpoint_b": {
+            "lat": -51.5027814,
+            "lng": -58.9999894
+          },
+          "heading_deg": 113.1,
+          "length_m": 634.4,
+          "midpoint": {
+            "lat": -51.5016636,
+            "lng": -59.00420149999999
+          },
+          "osm_way_id": 172537881,
+          "ref": null,
+          "status": "active",
+          "surface": "grass"
+        }
+      ]
+    },
+    "5": {
+      "dcs_position": {
+        "lat": -51.608850836310054,
+        "lng": -69.31226004331357
+      },
+      "elevation_m": 17.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 0.0004717863100580644,
+        "lng": 0.009056593313559347
+      },
+      "name": "Rio Gallegos",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": -51.6091408,
+            "lng": -69.3192003
+          },
+          "endpoint_b": {
+            "lat": -51.6076173,
+            "lng": -69.2872066
+          },
+          "heading_deg": 85.6,
+          "length_m": 2218.3,
+          "midpoint": {
+            "lat": -51.608379049999996,
+            "lng": -69.30320345000001
+          },
+          "osm_way_id": 291669355,
+          "ref": "07/25",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": -51.6099997,
+            "lng": -69.3371377
+          },
+          "endpoint_b": {
+            "lat": -51.6091408,
+            "lng": -69.3192003
+          },
+          "heading_deg": 85.6,
+          "length_m": 1243.7,
+          "midpoint": {
+            "lat": -51.609570250000004,
+            "lng": -69.328169
+          },
+          "osm_way_id": 22910651,
+          "ref": "07/25",
+          "status": "active",
+          "surface": "concrete"
+        },
+        {
+          "endpoint_a": {
+            "lat": -51.6100542,
+            "lng": -69.3382071
+          },
+          "endpoint_b": {
+            "lat": -51.6099997,
+            "lng": -69.3371377
+          },
+          "heading_deg": 85.3,
+          "length_m": 74.2,
+          "midpoint": {
+            "lat": -51.610026950000005,
+            "lng": -69.3376724
+          },
+          "osm_way_id": 865273696,
+          "ref": "07/25",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "6": {
+      "dcs_position": {
+        "lat": -53.777598496615234,
+        "lng": -67.74988138105482
+      },
+      "elevation_m": 18.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 4.569661523845525e-05,
+        "lng": 0.00037898105480849154
+      },
+      "name": "Rio Grande",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": -53.7771543,
+            "lng": -67.734346
+          },
+          "endpoint_b": {
+            "lat": -53.7779513,
+            "lng": -67.7646588
+          },
+          "heading_deg": 267.5,
+          "length_m": 1996.0,
+          "midpoint": {
+            "lat": -53.777552799999995,
+            "lng": -67.74950240000001
+          },
+          "osm_way_id": 784012678,
+          "ref": "08/26",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": -53.7777506,
+            "lng": -67.7646741
+          },
+          "endpoint_b": {
+            "lat": -53.7777506,
+            "lng": -67.7646741
+          },
+          "heading_deg": 0.0,
+          "length_m": 0.0,
+          "midpoint": {
+            "lat": -53.7777506,
+            "lng": -67.7646741
+          },
+          "osm_way_id": 784012679,
+          "ref": "08/25",
+          "status": "active",
+          "surface": "paved"
+        }
+      ]
+    },
+    "7": {
+      "dcs_position": {
+        "lat": -54.84330799051792,
+        "lng": -68.2958468772112
+      },
+      "elevation_m": 22.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": -7.094820801967217e-07,
+        "lng": 0.0002556772112143335
+      },
+      "name": "Ushuaia",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": -54.8425689,
+            "lng": -68.2764952
+          },
+          "endpoint_b": {
+            "lat": -54.8440485,
+            "lng": -68.3146872
+          },
+          "heading_deg": 266.2,
+          "length_m": 2453.6,
+          "midpoint": {
+            "lat": -54.8433087,
+            "lng": -68.29559119999999
+          },
+          "osm_way_id": 34732611,
+          "ref": "07/25",
+          "status": "active",
+          "surface": "concrete"
+        },
+        {
+          "endpoint_a": {
+            "lat": -54.8156807,
+            "lng": -68.3044927
+          },
+          "endpoint_b": {
+            "lat": -54.8297782,
+            "lng": -68.3040685
+          },
+          "heading_deg": 179.0,
+          "length_m": 1566.9,
+          "midpoint": {
+            "lat": -54.82272945,
+            "lng": -68.3042806
+          },
+          "osm_way_id": 23327597,
+          "ref": "16/34",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": -54.8424014,
+            "lng": -68.2722563
+          },
+          "endpoint_b": {
+            "lat": -54.8425689,
+            "lng": -68.2764952
+          },
+          "heading_deg": 266.1,
+          "length_m": 272.4,
+          "midpoint": {
+            "lat": -54.84248515,
+            "lng": -68.27437574999999
+          },
+          "osm_way_id": 1132425629,
+          "ref": "07/25",
+          "status": "active",
+          "surface": "concrete"
+        },
+        {
+          "endpoint_a": {
+            "lat": -54.8441476,
+            "lng": -68.3175
+          },
+          "endpoint_b": {
+            "lat": -54.8440485,
+            "lng": -68.3146872
+          },
+          "heading_deg": 86.5,
+          "length_m": 180.6,
+          "midpoint": {
+            "lat": -54.84409805,
+            "lng": -68.31609359999999
+          },
+          "osm_way_id": 1132425626,
+          "ref": "07/25",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "8": {
+      "dcs_position": {
+        "lat": -54.82282376731657,
+        "lng": -68.30419004926847
+      },
+      "elevation_m": 22.0,
+      "elevation_source": "osm_aerodrome_ele",
+      "imagery_offset_deg": {
+        "lat": -0.020484932683430657,
+        "lng": 0.008598849268480535
+      },
+      "name": "Ushuaia Helo Port",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": -54.8425689,
+            "lng": -68.2764952
+          },
+          "endpoint_b": {
+            "lat": -54.8440485,
+            "lng": -68.3146872
+          },
+          "heading_deg": 266.2,
+          "length_m": 2453.6,
+          "midpoint": {
+            "lat": -54.8433087,
+            "lng": -68.29559119999999
+          },
+          "osm_way_id": 34732611,
+          "ref": "07/25",
+          "status": "active",
+          "surface": "concrete"
+        },
+        {
+          "endpoint_a": {
+            "lat": -54.8156807,
+            "lng": -68.3044927
+          },
+          "endpoint_b": {
+            "lat": -54.8297782,
+            "lng": -68.3040685
+          },
+          "heading_deg": 179.0,
+          "length_m": 1566.9,
+          "midpoint": {
+            "lat": -54.82272945,
+            "lng": -68.3042806
+          },
+          "osm_way_id": 23327597,
+          "ref": "16/34",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": -54.8424014,
+            "lng": -68.2722563
+          },
+          "endpoint_b": {
+            "lat": -54.8425689,
+            "lng": -68.2764952
+          },
+          "heading_deg": 266.1,
+          "length_m": 272.4,
+          "midpoint": {
+            "lat": -54.84248515,
+            "lng": -68.27437574999999
+          },
+          "osm_way_id": 1132425629,
+          "ref": "07/25",
+          "status": "active",
+          "surface": "concrete"
+        },
+        {
+          "endpoint_a": {
+            "lat": -54.8441476,
+            "lng": -68.3175
+          },
+          "endpoint_b": {
+            "lat": -54.8440485,
+            "lng": -68.3146872
+          },
+          "heading_deg": 86.5,
+          "length_m": 180.6,
+          "midpoint": {
+            "lat": -54.84409805,
+            "lng": -68.31609359999999
+          },
+          "osm_way_id": 1132425626,
+          "ref": "07/25",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "9": {
+      "dcs_position": {
+        "lat": -53.005534339674206,
+        "lng": -70.85691680322564
+      },
+      "elevation_m": 39.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 0.004653189674208136,
+        "lng": 0.002342403225654266
+      },
+      "name": "Punta Arenas",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": -53.0011459,
+            "lng": -70.875383
+          },
+          "endpoint_b": {
+            "lat": -53.0006164,
+            "lng": -70.8337658
+          },
+          "heading_deg": 88.8,
+          "length_m": 2788.7,
+          "midpoint": {
+            "lat": -53.00088115,
+            "lng": -70.85457439999999
+          },
+          "osm_way_id": 24041457,
+          "ref": "07/25",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": -52.997551,
+            "lng": -70.868707
+          },
+          "endpoint_b": {
+            "lat": -53.0137524,
+            "lng": -70.8452277
+          },
+          "heading_deg": 138.9,
+          "length_m": 2390.7,
+          "midpoint": {
+            "lat": -53.0056517,
+            "lng": -70.85696734999999
+          },
+          "osm_way_id": 1185537832,
+          "ref": "12/30",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": -53.0079935,
+            "lng": -70.8549704
+          },
+          "endpoint_b": {
+            "lat": -52.9947904,
+            "lng": -70.8430034
+          },
+          "heading_deg": 28.7,
+          "length_m": 1672.0,
+          "midpoint": {
+            "lat": -53.00139195,
+            "lng": -70.8489869
+          },
+          "osm_way_id": 108481141,
+          "ref": "01/19",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": -53.0006164,
+            "lng": -70.8337658
+          },
+          "endpoint_b": {
+            "lat": -53.0005583,
+            "lng": -70.8302119
+          },
+          "heading_deg": 88.4,
+          "length_m": 238.2,
+          "midpoint": {
+            "lat": -53.00058735,
+            "lng": -70.83198884999999
+          },
+          "osm_way_id": 343015769,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": -52.9947904,
+            "lng": -70.8430034
+          },
+          "endpoint_b": {
+            "lat": -52.9943255,
+            "lng": -70.8425447
+          },
+          "heading_deg": 30.7,
+          "length_m": 60.1,
+          "midpoint": {
+            "lat": -52.99455795,
+            "lng": -70.84277405
+          },
+          "osm_way_id": 1308948491,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": -52.997551,
+            "lng": -70.868707
+          },
+          "endpoint_b": {
+            "lat": -52.9971797,
+            "lng": -70.8692542
+          },
+          "heading_deg": 318.4,
+          "length_m": 55.2,
+          "midpoint": {
+            "lat": -52.997365349999995,
+            "lng": -70.8689806
+          },
+          "osm_way_id": 1308948489,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    }
+  },
+  "attribution": "Map data (c) OpenStreetMap contributors, ODbL (https://www.openstreetmap.org/copyright)",
+  "generated_at": "2026-05-22T21:19:23.250368Z",
+  "source": "OpenStreetMap (ODbL)",
+  "terrain": "Falklands"
+}

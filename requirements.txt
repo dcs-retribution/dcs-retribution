@@ -20,6 +20,7 @@ iniconfig==2.1.0
 Jinja2==3.1.6
 lupa==2.7
 MarkupSafe==3.0.2
+mgrs>=1.4.6
 mypy==1.15.0
 mypy-extensions==1.0.0
 nodeenv==1.9.1

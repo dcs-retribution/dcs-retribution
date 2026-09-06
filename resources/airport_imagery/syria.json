@@ -1,0 +1,6336 @@
+{
+  "airports": {
+    "1": {
+      "dcs_position": {
+        "lat": 35.732306452623504,
+        "lng": 37.10412796442225
+      },
+      "elevation_m": 250.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.002328247376496506,
+        "lng": 0.0002464855777546404
+      },
+      "name": "Abu al-Duhur",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 35.7340006,
+            "lng": 37.1208406
+          },
+          "endpoint_b": {
+            "lat": 35.7352688,
+            "lng": 37.0879083
+          },
+          "heading_deg": 272.7,
+          "length_m": 2979.2,
+          "midpoint": {
+            "lat": 35.7346347,
+            "lng": 37.10437445
+          },
+          "osm_way_id": 130717260,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 35.7329336,
+            "lng": 37.0878267
+          },
+          "endpoint_b": {
+            "lat": 35.7317246,
+            "lng": 37.120655
+          },
+          "heading_deg": 92.6,
+          "length_m": 2969.6,
+          "midpoint": {
+            "lat": 35.7323291,
+            "lng": 37.10424085
+          },
+          "osm_way_id": 130717263,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "10": {
+      "dcs_position": {
+        "lat": 32.44093175704095,
+        "lng": 35.006997717178905
+      },
+      "elevation_m": 27.5,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -7.390704094945022e-05,
+        "lng": 0.0006801328210954694
+      },
+      "name": "Eyn Shemer",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 32.4416434,
+            "lng": 35.0008136
+          },
+          "endpoint_b": {
+            "lat": 32.4400723,
+            "lng": 35.0145421
+          },
+          "heading_deg": 97.7,
+          "length_m": 1301.5,
+          "midpoint": {
+            "lat": 32.44085785,
+            "lng": 35.00767785
+          },
+          "osm_way_id": 184701988,
+          "ref": "10/28",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "100": {
+      "dcs_position": {
+        "lat": 34.62704851149219,
+        "lng": 38.2429487819322
+      },
+      "elevation_m": 570.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_100",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "101": {
+      "dcs_position": {
+        "lat": 35.98784040792108,
+        "lng": 37.41427231744704
+      },
+      "elevation_m": 441.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_101",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "102": {
+      "dcs_position": {
+        "lat": 33.39459572152681,
+        "lng": 36.35973857288948
+      },
+      "elevation_m": 655.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_102",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "103": {
+      "dcs_position": {
+        "lat": 33.45540484145543,
+        "lng": 36.087091074231175
+      },
+      "elevation_m": 951.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_103",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "104": {
+      "dcs_position": {
+        "lat": 33.74569007291688,
+        "lng": 36.80354291805665
+      },
+      "elevation_m": 782.4,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_104",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "105": {
+      "dcs_position": {
+        "lat": 33.42951355085879,
+        "lng": 36.118744719111426
+      },
+      "elevation_m": 805.3,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_105",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "106": {
+      "dcs_position": {
+        "lat": 33.457617330478634,
+        "lng": 36.13084402200826
+      },
+      "elevation_m": 887.6,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_106",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "107": {
+      "dcs_position": {
+        "lat": 33.44478785832722,
+        "lng": 36.30988387085337
+      },
+      "elevation_m": 657.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.013973591672780117,
+        "lng": 0.047800179146634036
+      },
+      "name": "Helipad_107",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 33.4580326,
+            "lng": 36.3563112
+          },
+          "endpoint_b": {
+            "lat": 33.4594903,
+            "lng": 36.3590569
+          },
+          "heading_deg": 57.6,
+          "length_m": 302.1,
+          "midpoint": {
+            "lat": 33.45876145,
+            "lng": 36.35768405
+          },
+          "osm_way_id": 156472017,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "108": {
+      "dcs_position": {
+        "lat": 33.181958523019865,
+        "lng": 36.57201261120653
+      },
+      "elevation_m": 675.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_108",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "109": {
+      "dcs_position": {
+        "lat": 33.707949306605244,
+        "lng": 36.672863773382936
+      },
+      "elevation_m": 955.5,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_109",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "11": {
+      "dcs_position": {
+        "lat": 36.948127741144745,
+        "lng": 37.478344168215294
+      },
+      "elevation_m": 699.2,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.00015344114474658,
+        "lng": 0.0006590817847040853
+      },
+      "name": "Gaziantep",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 36.9446212,
+            "lng": 37.4945099
+          },
+          "endpoint_b": {
+            "lat": 36.9513274,
+            "lng": 37.4634966
+          },
+          "heading_deg": 285.1,
+          "length_m": 2858.0,
+          "midpoint": {
+            "lat": 36.9479743,
+            "lng": 37.47900325
+          },
+          "osm_way_id": 35210151,
+          "ref": "10/28",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "110": {
+      "dcs_position": {
+        "lat": 33.41166145194834,
+        "lng": 36.19173415047859
+      },
+      "elevation_m": 765.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_110",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "111": {
+      "dcs_position": {
+        "lat": 33.353465464105774,
+        "lng": 36.484824780176815
+      },
+      "elevation_m": 606.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.04229753589422813,
+        "lng": 0.025822469823182814
+      },
+      "name": "Helipad_111",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 33.3848528,
+            "lng": 36.4959377
+          },
+          "endpoint_b": {
+            "lat": 33.4066732,
+            "lng": 36.5253568
+          },
+          "heading_deg": 48.4,
+          "length_m": 3654.6,
+          "midpoint": {
+            "lat": 33.395763,
+            "lng": 36.51064725
+          },
+          "osm_way_id": 24931274,
+          "ref": "05R/23L",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "112": {
+      "dcs_position": {
+        "lat": 32.62400686221536,
+        "lng": 35.37908727170558
+      },
+      "elevation_m": 270.1,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_112",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "113": {
+      "dcs_position": {
+        "lat": 32.94554694551055,
+        "lng": 35.204643308705606
+      },
+      "elevation_m": 198.3,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.039620745510553945,
+        "lng": -0.014612858705611131
+      },
+      "name": "Helipad_113",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 32.9071499,
+            "lng": 35.1865654
+          },
+          "endpoint_b": {
+            "lat": 32.9047025,
+            "lng": 35.1934955
+          },
+          "heading_deg": 112.8,
+          "length_m": 702.5,
+          "midpoint": {
+            "lat": 32.905926199999996,
+            "lng": 35.190030449999995
+          },
+          "osm_way_id": 229536295,
+          "ref": "11/29",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "114": {
+      "dcs_position": {
+        "lat": 33.01047084428753,
+        "lng": 35.66295695232693
+      },
+      "elevation_m": 316.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_114",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "115": {
+      "dcs_position": {
+        "lat": 32.76286707537375,
+        "lng": 35.30269685852238
+      },
+      "elevation_m": 210.9,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_115",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "116": {
+      "dcs_position": {
+        "lat": 32.98332428885836,
+        "lng": 35.72710994224388
+      },
+      "elevation_m": 435.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_116",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "117": {
+      "dcs_position": {
+        "lat": 36.8482221329396,
+        "lng": 34.72137299397891
+      },
+      "elevation_m": 15.6,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_117",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "118": {
+      "dcs_position": {
+        "lat": 33.035232503320515,
+        "lng": 35.138646653199295
+      },
+      "elevation_m": 33.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "HS33",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "119": {
+      "dcs_position": {
+        "lat": 33.20739366862894,
+        "lng": 35.57116545798628
+      },
+      "elevation_m": 118.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.008792281371057697,
+        "lng": 0.02494784201371658
+      },
+      "name": "Helipad_119",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 33.2209573,
+            "lng": 35.6002893
+          },
+          "endpoint_b": {
+            "lat": 33.2114146,
+            "lng": 35.5919373
+          },
+          "heading_deg": 216.3,
+          "length_m": 1315.2,
+          "midpoint": {
+            "lat": 33.216185949999996,
+            "lng": 35.5961133
+          },
+          "osm_way_id": 35210841,
+          "ref": "03/21",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "12": {
+      "dcs_position": {
+        "lat": 32.539282747012734,
+        "lng": 38.19507949756577
+      },
+      "elevation_m": 688.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 2.795298726709916e-05,
+        "lng": -9.27975657702973e-05
+      },
+      "name": "H4",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 32.5368477,
+            "lng": 38.20798
+          },
+          "endpoint_b": {
+            "lat": 32.5417737,
+            "lng": 38.1819934
+          },
+          "heading_deg": 282.7,
+          "length_m": 2499.4,
+          "midpoint": {
+            "lat": 32.5393107,
+            "lng": 38.1949867
+          },
+          "osm_way_id": 156588725,
+          "ref": "10/28",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "120": {
+      "dcs_position": {
+        "lat": 35.00428984325328,
+        "lng": 34.05913144564727
+      },
+      "elevation_m": 15.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_120",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "121": {
+      "dcs_position": {
+        "lat": 35.34396363147441,
+        "lng": 33.19480599932702
+      },
+      "elevation_m": 37.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_121",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "122": {
+      "dcs_position": {
+        "lat": 35.333284049146826,
+        "lng": 33.32434607398499
+      },
+      "elevation_m": 27.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_122",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "123": {
+      "dcs_position": {
+        "lat": 35.146528742539275,
+        "lng": 36.7533779018963
+      },
+      "elevation_m": 291.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.028242242539278095,
+        "lng": -0.042361251896302576
+      },
+      "name": "Helipad_123",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 35.1202472,
+            "lng": 36.6957933
+          },
+          "endpoint_b": {
+            "lat": 35.1163258,
+            "lng": 36.72624
+          },
+          "heading_deg": 98.9,
+          "length_m": 2806.4,
+          "midpoint": {
+            "lat": 35.118286499999996,
+            "lng": 36.71101665
+          },
+          "osm_way_id": 94912456,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "124": {
+      "dcs_position": {
+        "lat": 35.144323992307065,
+        "lng": 33.35388175666908
+      },
+      "elevation_m": 190.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_124",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "125": {
+      "dcs_position": {
+        "lat": 37.05294108135803,
+        "lng": 35.278847787893376
+      },
+      "elevation_m": 120.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_125",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "126": {
+      "dcs_position": {
+        "lat": 35.516699161391635,
+        "lng": 35.79123543800499
+      },
+      "elevation_m": 24.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_126",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "127": {
+      "dcs_position": {
+        "lat": 35.955949706287115,
+        "lng": 38.98926252219371
+      },
+      "elevation_m": 243.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_127",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "128": {
+      "dcs_position": {
+        "lat": 34.97499914079015,
+        "lng": 33.84799787585153
+      },
+      "elevation_m": 50.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_128",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "129": {
+      "dcs_position": {
+        "lat": 36.57616586652687,
+        "lng": 36.19892013389589
+      },
+      "elevation_m": 62.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_129",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "13": {
+      "dcs_position": {
+        "lat": 32.81074791241588,
+        "lng": 35.04354035349774
+      },
+      "elevation_m": 6.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.0004691624158823515,
+        "lng": 0.00012704650226424974
+      },
+      "name": "Haifa",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 32.8158256,
+            "lng": 35.0412547
+          },
+          "endpoint_b": {
+            "lat": 32.8047319,
+            "lng": 35.0460801
+          },
+          "heading_deg": 159.9,
+          "length_m": 1312.9,
+          "midpoint": {
+            "lat": 32.810278749999995,
+            "lng": 35.043667400000004
+          },
+          "osm_way_id": 48359034,
+          "ref": "16/34",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "130": {
+      "dcs_position": {
+        "lat": 32.57058785856249,
+        "lng": 35.84615308733167
+      },
+      "elevation_m": 494.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_130",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "131": {
+      "dcs_position": {
+        "lat": 33.89299618650429,
+        "lng": 35.52302701364561
+      },
+      "elevation_m": 51.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_131",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "132": {
+      "dcs_position": {
+        "lat": 32.83347414856023,
+        "lng": 34.98678474484168
+      },
+      "elevation_m": 4.4,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_132",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "133": {
+      "dcs_position": {
+        "lat": 35.12801996048145,
+        "lng": 33.37860302805525
+      },
+      "elevation_m": 179.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_133",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "134": {
+      "dcs_position": {
+        "lat": 32.78553553537375,
+        "lng": 34.98060255544561
+      },
+      "elevation_m": 282.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_134",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "135": {
+      "dcs_position": {
+        "lat": 34.70798921974424,
+        "lng": 32.98191486814492
+      },
+      "elevation_m": 129.4,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_135",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "136": {
+      "dcs_position": {
+        "lat": 34.921448677347946,
+        "lng": 33.604271146322546
+      },
+      "elevation_m": 26.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_136",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "137": {
+      "dcs_position": {
+        "lat": 34.787979874798395,
+        "lng": 32.44528044276818
+      },
+      "elevation_m": 146.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_137",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "138": {
+      "dcs_position": {
+        "lat": 37.01160518946762,
+        "lng": 35.35259196561978
+      },
+      "elevation_m": 22.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.03157911053237683,
+        "lng": 0.038699134380223654
+      },
+      "name": "Helipad_138",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 37.0420982,
+            "lng": 35.3905588
+          },
+          "endpoint_b": {
+            "lat": 37.0442704,
+            "lng": 35.3920234
+          },
+          "heading_deg": 28.3,
+          "length_m": 274.2,
+          "midpoint": {
+            "lat": 37.0431843,
+            "lng": 35.391291100000004
+          },
+          "osm_way_id": 1298890340,
+          "ref": "03/21",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "139": {
+      "dcs_position": {
+        "lat": 33.528228910057884,
+        "lng": 36.29824799534453
+      },
+      "elevation_m": 693.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_139",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "14": {
+      "dcs_position": {
+        "lat": 35.118043561893394,
+        "lng": 36.712379497444346
+      },
+      "elevation_m": 300.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.0002429381066022529,
+        "lng": -0.0013628474443478922
+      },
+      "name": "Hama",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 35.1202472,
+            "lng": 36.6957933
+          },
+          "endpoint_b": {
+            "lat": 35.1163258,
+            "lng": 36.72624
+          },
+          "heading_deg": 98.9,
+          "length_m": 2806.4,
+          "midpoint": {
+            "lat": 35.118286499999996,
+            "lng": 36.71101665
+          },
+          "osm_way_id": 94912456,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "140": {
+      "dcs_position": {
+        "lat": 35.116772402426896,
+        "lng": 36.76185578178596
+      },
+      "elevation_m": 299.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.0015140975731000594,
+        "lng": -0.05083913178596333
+      },
+      "name": "Helipad_140",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 35.1202472,
+            "lng": 36.6957933
+          },
+          "endpoint_b": {
+            "lat": 35.1163258,
+            "lng": 36.72624
+          },
+          "heading_deg": 98.9,
+          "length_m": 2806.4,
+          "midpoint": {
+            "lat": 35.118286499999996,
+            "lng": 36.71101665
+          },
+          "osm_way_id": 94912456,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "141": {
+      "dcs_position": {
+        "lat": 35.56050744344231,
+        "lng": 35.74441412558574
+      },
+      "elevation_m": 9.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_141",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "142": {
+      "dcs_position": {
+        "lat": 36.21601989542918,
+        "lng": 37.156712011181284
+      },
+      "elevation_m": 386.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_142",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "143": {
+      "dcs_position": {
+        "lat": 35.14609668765827,
+        "lng": 33.314100171653735
+      },
+      "elevation_m": 182.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.004623062341728712,
+        "lng": -0.03726857165373332
+      },
+      "name": "Helipad_143",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 35.139786,
+            "lng": 33.2860603
+          },
+          "endpoint_b": {
+            "lat": 35.1616535,
+            "lng": 33.2676029
+          },
+          "heading_deg": 325.3,
+          "length_m": 2954.4,
+          "midpoint": {
+            "lat": 35.15071975,
+            "lng": 33.2768316
+          },
+          "osm_way_id": 207098982,
+          "ref": "14/32",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 35.1552692,
+            "lng": 33.285101
+          },
+          "endpoint_b": {
+            "lat": 35.1550236,
+            "lng": 33.265435
+          },
+          "heading_deg": 269.1,
+          "length_m": 1790.1,
+          "midpoint": {
+            "lat": 35.1551464,
+            "lng": 33.275268
+          },
+          "osm_way_id": 1354655673,
+          "ref": null,
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 35.1071841,
+            "lng": 33.32117
+          },
+          "endpoint_b": {
+            "lat": 35.1024831,
+            "lng": 33.3220418
+          },
+          "heading_deg": 171.4,
+          "length_m": 528.4,
+          "midpoint": {
+            "lat": 35.1048336,
+            "lng": 33.3216059
+          },
+          "osm_way_id": 241700183,
+          "ref": "17/35",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "144": {
+      "dcs_position": {
+        "lat": 36.99906366903872,
+        "lng": 35.32955885097631
+      },
+      "elevation_m": 24.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.016946569038722714,
+        "lng": -0.04918070097630789
+      },
+      "name": "Helipad_144",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 36.9748072,
+            "lng": 35.2680359
+          },
+          "endpoint_b": {
+            "lat": 36.989427,
+            "lng": 35.2927204
+          },
+          "heading_deg": 53.5,
+          "length_m": 2731.0,
+          "midpoint": {
+            "lat": 36.982117099999996,
+            "lng": 35.280378150000004
+          },
+          "osm_way_id": 15800341,
+          "ref": "05/23",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 36.989427,
+            "lng": 35.2927204
+          },
+          "endpoint_b": {
+            "lat": 36.9894584,
+            "lng": 35.2927691
+          },
+          "heading_deg": 51.1,
+          "length_m": 5.6,
+          "midpoint": {
+            "lat": 36.9894427,
+            "lng": 35.29274475
+          },
+          "osm_way_id": 1431700012,
+          "ref": "05/23",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "145": {
+      "dcs_position": {
+        "lat": 33.04685331231826,
+        "lng": 39.60833899645522
+      },
+      "elevation_m": 778.7,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.029127737681740484,
+        "lng": -0.011726346455219527
+      },
+      "name": "Helipad_145",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 33.0686407,
+            "lng": 39.6106219
+          },
+          "endpoint_b": {
+            "lat": 33.0833214,
+            "lng": 39.5826034
+          },
+          "heading_deg": 302.0,
+          "length_m": 3081.0,
+          "midpoint": {
+            "lat": 33.07598105,
+            "lng": 39.59661265
+          },
+          "osm_way_id": 130650776,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "146": {
+      "dcs_position": {
+        "lat": 32.74610660517591,
+        "lng": 35.879589686708655
+      },
+      "elevation_m": 366.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_146",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "147": {
+      "dcs_position": {
+        "lat": 33.13822444659984,
+        "lng": 35.50453738953518
+      },
+      "elevation_m": 625.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_147",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "148": {
+      "dcs_position": {
+        "lat": 33.17372192424196,
+        "lng": 35.275311302510644
+      },
+      "elevation_m": 380.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_148",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "149": {
+      "dcs_position": {
+        "lat": 32.757939830068565,
+        "lng": 35.89785186224504
+      },
+      "elevation_m": 389.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_149",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "15": {
+      "dcs_position": {
+        "lat": 36.362319563564235,
+        "lng": 36.2874218665952
+      },
+      "elevation_m": 69.5,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 3.4364357688332348e-06,
+        "lng": 4.8133404796146806e-05
+      },
+      "name": "Hatay",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 36.352387,
+            "lng": 36.276148
+          },
+          "endpoint_b": {
+            "lat": 36.372259,
+            "lng": 36.298792
+          },
+          "heading_deg": 42.6,
+          "length_m": 2999.6,
+          "midpoint": {
+            "lat": 36.362323,
+            "lng": 36.28747
+          },
+          "osm_way_id": 54842643,
+          "ref": "04/22",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "150": {
+      "dcs_position": {
+        "lat": 33.80414544968217,
+        "lng": 36.149846165658225
+      },
+      "elevation_m": 1391.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_150",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "151": {
+      "dcs_position": {
+        "lat": 33.709881048160604,
+        "lng": 35.96669802625361
+      },
+      "elevation_m": 1412.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_151",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "152": {
+      "dcs_position": {
+        "lat": 34.26435128642916,
+        "lng": 36.48322211514954
+      },
+      "elevation_m": 1500.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_152",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "153": {
+      "dcs_position": {
+        "lat": 34.36520282828124,
+        "lng": 36.51211201605509
+      },
+      "elevation_m": 612.5,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_153",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "154": {
+      "dcs_position": {
+        "lat": 33.20376767274399,
+        "lng": 35.353057529432206
+      },
+      "elevation_m": 430.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_154",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "155": {
+      "dcs_position": {
+        "lat": 33.26217810952253,
+        "lng": 35.41849847301033
+      },
+      "elevation_m": 439.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_155",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "156": {
+      "dcs_position": {
+        "lat": 33.42755332102626,
+        "lng": 35.934888671808785
+      },
+      "elevation_m": 1523.5,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_156",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "157": {
+      "dcs_position": {
+        "lat": 33.30587777671902,
+        "lng": 35.54096373796175
+      },
+      "elevation_m": 360.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_157",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "158": {
+      "dcs_position": {
+        "lat": 37.05069477271863,
+        "lng": 37.38982979147265
+      },
+      "elevation_m": 882.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_158",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "159": {
+      "dcs_position": {
+        "lat": 35.338798189728124,
+        "lng": 40.129426884743886
+      },
+      "elevation_m": 219.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_159",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "16": {
+      "dcs_position": {
+        "lat": 37.00204787246273,
+        "lng": 35.426088730373216
+      },
+      "elevation_m": 47.8,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 1.3277537270539597e-05,
+        "lng": -0.00012618037321487918
+      },
+      "name": "Incirlik",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 36.9937814,
+            "lng": 35.4123139
+          },
+          "endpoint_b": {
+            "lat": 37.0103409,
+            "lng": 35.4396112
+          },
+          "heading_deg": 52.8,
+          "length_m": 3045.6,
+          "midpoint": {
+            "lat": 37.00206115,
+            "lng": 35.42596255
+          },
+          "osm_way_id": 15800453,
+          "ref": "05/23",
+          "status": "active",
+          "surface": "beton;asfalt"
+        }
+      ]
+    },
+    "160": {
+      "dcs_position": {
+        "lat": 34.55805585223223,
+        "lng": 38.27874833189435
+      },
+      "elevation_m": 411.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.0018285522322258885,
+        "lng": 0.021593268105654317
+      },
+      "name": "Helipad_160",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 34.5562273,
+            "lng": 38.3003416
+          },
+          "endpoint_b": {
+            "lat": 34.5562273,
+            "lng": 38.3003416
+          },
+          "heading_deg": 0.0,
+          "length_m": 0.0,
+          "midpoint": {
+            "lat": 34.5562273,
+            "lng": 38.3003416
+          },
+          "osm_way_id": 1453979397,
+          "ref": "08/26",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "161": {
+      "dcs_position": {
+        "lat": 35.960658169305724,
+        "lng": 38.04177575026905
+      },
+      "elevation_m": 348.7,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_161",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "162": {
+      "dcs_position": {
+        "lat": 36.19400142610989,
+        "lng": 37.097927045855336
+      },
+      "elevation_m": 455.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_162",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "163": {
+      "dcs_position": {
+        "lat": 31.719399147595237,
+        "lng": 35.7978118740142
+      },
+      "elevation_m": 772.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_163",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "164": {
+      "dcs_position": {
+        "lat": 33.89345780864933,
+        "lng": 35.56733308290606
+      },
+      "elevation_m": 33.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_164",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "165": {
+      "dcs_position": {
+        "lat": 34.69210777909377,
+        "lng": 32.96026799802801
+      },
+      "elevation_m": 100.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_165",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "166": {
+      "dcs_position": {
+        "lat": 31.881649215467036,
+        "lng": 36.00978043415225
+      },
+      "elevation_m": 876.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_166",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "167": {
+      "dcs_position": {
+        "lat": 33.45598084775548,
+        "lng": 36.23522819372105
+      },
+      "elevation_m": 698.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.021576102244523554,
+        "lng": -0.011801443721047633
+      },
+      "name": "Helipad_167",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 33.4838428,
+            "lng": 36.2362806
+          },
+          "endpoint_b": {
+            "lat": 33.4712711,
+            "lng": 36.2105729
+          },
+          "heading_deg": 239.7,
+          "length_m": 2765.8,
+          "midpoint": {
+            "lat": 33.47755695,
+            "lng": 36.22342675
+          },
+          "osm_way_id": 25843643,
+          "ref": "06/24",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "168": {
+      "dcs_position": {
+        "lat": 32.165340054103794,
+        "lng": 34.84536208329133
+      },
+      "elevation_m": 57.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.015085895896206125,
+        "lng": -0.011127383291331228
+      },
+      "name": "Helipad_168",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 32.181742,
+            "lng": 34.8297681
+          },
+          "endpoint_b": {
+            "lat": 32.1791099,
+            "lng": 34.8387013
+          },
+          "heading_deg": 109.2,
+          "length_m": 891.1,
+          "midpoint": {
+            "lat": 32.18042595,
+            "lng": 34.834234699999996
+          },
+          "osm_way_id": 32044391,
+          "ref": "10/28",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "169": {
+      "dcs_position": {
+        "lat": 32.821049781299564,
+        "lng": 34.99064209871443
+      },
+      "elevation_m": 16.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.010771031299569245,
+        "lng": 0.05302530128557237
+      },
+      "name": "Helipad_169",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 32.8158256,
+            "lng": 35.0412547
+          },
+          "endpoint_b": {
+            "lat": 32.8047319,
+            "lng": 35.0460801
+          },
+          "heading_deg": 159.9,
+          "length_m": 1312.9,
+          "midpoint": {
+            "lat": 32.810278749999995,
+            "lng": 35.043667400000004
+          },
+          "osm_way_id": 48359034,
+          "ref": "16/34",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "17": {
+      "dcs_position": {
+        "lat": 36.09687166807238,
+        "lng": 37.93653626220136
+      },
+      "elevation_m": 346.9,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 3.858192761896362e-05,
+        "lng": -0.0002521122013590116
+      },
+      "name": "Jirah",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 36.0993735,
+            "lng": 37.9193462
+          },
+          "endpoint_b": {
+            "lat": 36.094447,
+            "lng": 37.9532221
+          },
+          "heading_deg": 100.2,
+          "length_m": 3095.9,
+          "midpoint": {
+            "lat": 36.09691025,
+            "lng": 37.93628415
+          },
+          "osm_way_id": 23015723,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "170": {
+      "dcs_position": {
+        "lat": 32.70816217622309,
+        "lng": 35.30207569036462
+      },
+      "elevation_m": 387.1,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_170",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "171": {
+      "dcs_position": {
+        "lat": 33.52360249875055,
+        "lng": 36.35486698844226
+      },
+      "elevation_m": 675.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_171",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "172": {
+      "dcs_position": {
+        "lat": 34.72074010815722,
+        "lng": 36.73296729536975
+      },
+      "elevation_m": 515.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_172",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "173": {
+      "dcs_position": {
+        "lat": 36.20624287947446,
+        "lng": 36.15240058128074
+      },
+      "elevation_m": 92.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_173",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "174": {
+      "dcs_position": {
+        "lat": 34.88377824003683,
+        "lng": 35.88696640335553
+      },
+      "elevation_m": 8.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_174",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "175": {
+      "dcs_position": {
+        "lat": 32.18180494352793,
+        "lng": 34.97876781491537
+      },
+      "elevation_m": 72.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_175",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "176": {
+      "dcs_position": {
+        "lat": 31.993190022730285,
+        "lng": 35.89002266983218
+      },
+      "elevation_m": 970.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_176",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "177": {
+      "dcs_position": {
+        "lat": 35.32883484844008,
+        "lng": 40.10546058112933
+      },
+      "elevation_m": 219.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_177",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "178": {
+      "dcs_position": {
+        "lat": 35.19410531158009,
+        "lng": 40.08176400938818
+      },
+      "elevation_m": 292.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_178",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "179": {
+      "dcs_position": {
+        "lat": 35.19109882849385,
+        "lng": 39.90297023475701
+      },
+      "elevation_m": 298.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_179",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "18": {
+      "dcs_position": {
+        "lat": 33.078368560747094,
+        "lng": 36.54109954492558
+      },
+      "elevation_m": 708.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.012325560747093789,
+        "lng": 0.03024170507442392
+      },
+      "name": "Khalkhalah",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 33.0621011,
+            "lng": 36.5542592
+          },
+          "endpoint_b": {
+            "lat": 33.0699849,
+            "lng": 36.5884233
+          },
+          "heading_deg": 74.6,
+          "length_m": 3305.4,
+          "midpoint": {
+            "lat": 33.066043,
+            "lng": 36.57134125
+          },
+          "osm_way_id": 24896869,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 33.0897338,
+            "lng": 36.5333266
+          },
+          "endpoint_b": {
+            "lat": 33.0680264,
+            "lng": 36.548359
+          },
+          "heading_deg": 149.8,
+          "length_m": 2790.3,
+          "midpoint": {
+            "lat": 33.0788801,
+            "lng": 36.5408428
+          },
+          "osm_way_id": 104386562,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "180": {
+      "dcs_position": {
+        "lat": 35.33780458727387,
+        "lng": 39.760839774906636
+      },
+      "elevation_m": 393.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_180",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "181": {
+      "dcs_position": {
+        "lat": 34.602758213874736,
+        "lng": 37.901715751535185
+      },
+      "elevation_m": 561.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_181",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "182": {
+      "dcs_position": {
+        "lat": 37.02812014700953,
+        "lng": 35.351901027566875
+      },
+      "elevation_m": 30.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.015064152990468926,
+        "lng": 0.039390072433128864
+      },
+      "name": "Helipad_182",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 37.0420982,
+            "lng": 35.3905588
+          },
+          "endpoint_b": {
+            "lat": 37.0442704,
+            "lng": 35.3920234
+          },
+          "heading_deg": 28.3,
+          "length_m": 274.2,
+          "midpoint": {
+            "lat": 37.0431843,
+            "lng": 35.391291100000004
+          },
+          "osm_way_id": 1298890340,
+          "ref": "03/21",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "183": {
+      "dcs_position": {
+        "lat": 34.92753728065092,
+        "lng": 35.992030073748836
+      },
+      "elevation_m": 333.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "HS34",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "184": {
+      "dcs_position": {
+        "lat": 35.7910422834954,
+        "lng": 37.72626756564617
+      },
+      "elevation_m": 342.3,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_184",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "185": {
+      "dcs_position": {
+        "lat": 34.65767982386715,
+        "lng": 38.28916129755452
+      },
+      "elevation_m": 584.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_185",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "186": {
+      "dcs_position": {
+        "lat": 32.46785707687985,
+        "lng": 35.023208604849614
+      },
+      "elevation_m": 48.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.02699922687985179,
+        "lng": -0.01553075484961397
+      },
+      "name": "Helipad_186",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 32.4416434,
+            "lng": 35.0008136
+          },
+          "endpoint_b": {
+            "lat": 32.4400723,
+            "lng": 35.0145421
+          },
+          "heading_deg": 97.7,
+          "length_m": 1301.5,
+          "midpoint": {
+            "lat": 32.44085785,
+            "lng": 35.00767785
+          },
+          "osm_way_id": 184701988,
+          "ref": "10/28",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "187": {
+      "dcs_position": {
+        "lat": 34.669693518541614,
+        "lng": 38.29828351004583
+      },
+      "elevation_m": 596.3,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_187",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "188": {
+      "dcs_position": {
+        "lat": 33.23472225771629,
+        "lng": 36.1487836745649
+      },
+      "elevation_m": 745.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "HS36",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "189": {
+      "dcs_position": {
+        "lat": 33.27497024083322,
+        "lng": 36.270190378454544
+      },
+      "elevation_m": 733.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_189",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "19": {
+      "dcs_position": {
+        "lat": 32.35668017234804,
+        "lng": 36.25985540482178
+      },
+      "elevation_m": 672.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.0006481723480433743,
+        "lng": 0.000982495178220688
+      },
+      "name": "King Hussein Air College",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 32.3648171,
+            "lng": 36.2487508
+          },
+          "endpoint_b": {
+            "lat": 32.3472469,
+            "lng": 36.272925
+          },
+          "heading_deg": 130.7,
+          "length_m": 2996.7,
+          "midpoint": {
+            "lat": 32.356032,
+            "lng": 36.2608379
+          },
+          "osm_way_id": 263317164,
+          "ref": "13/31",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "190": {
+      "dcs_position": {
+        "lat": 33.25173556604192,
+        "lng": 36.270971799005416
+      },
+      "elevation_m": 917.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_190",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "191": {
+      "dcs_position": {
+        "lat": 33.28115961294708,
+        "lng": 36.264183112815246
+      },
+      "elevation_m": 775.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_191",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "192": {
+      "dcs_position": {
+        "lat": 37.01971922609434,
+        "lng": 35.3436103099344
+      },
+      "elevation_m": 31.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.023465073905661882,
+        "lng": 0.04768079006560555
+      },
+      "name": "Helipad_192",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 37.0420982,
+            "lng": 35.3905588
+          },
+          "endpoint_b": {
+            "lat": 37.0442704,
+            "lng": 35.3920234
+          },
+          "heading_deg": 28.3,
+          "length_m": 274.2,
+          "midpoint": {
+            "lat": 37.0431843,
+            "lng": 35.391291100000004
+          },
+          "osm_way_id": 1298890340,
+          "ref": "03/21",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "193": {
+      "dcs_position": {
+        "lat": 32.999346029419776,
+        "lng": 35.407542385733976
+      },
+      "elevation_m": 1144.4,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_193",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "194": {
+      "dcs_position": {
+        "lat": 32.08478591361018,
+        "lng": 34.781245166686766
+      },
+      "elevation_m": 15.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_194",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "195": {
+      "dcs_position": {
+        "lat": 33.182911436579865,
+        "lng": 35.23425084562208
+      },
+      "elevation_m": 115.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_195",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "196": {
+      "dcs_position": {
+        "lat": 32.14348542393842,
+        "lng": 34.81528072296005
+      },
+      "elevation_m": 20.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.03694052606157783,
+        "lng": 0.018953977039949166
+      },
+      "name": "Helipad_196",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 32.181742,
+            "lng": 34.8297681
+          },
+          "endpoint_b": {
+            "lat": 32.1791099,
+            "lng": 34.8387013
+          },
+          "heading_deg": 109.2,
+          "length_m": 891.1,
+          "midpoint": {
+            "lat": 32.18042595,
+            "lng": 34.834234699999996
+          },
+          "osm_way_id": 32044391,
+          "ref": "10/28",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "197": {
+      "dcs_position": {
+        "lat": 31.747503035234676,
+        "lng": 34.935721392586935
+      },
+      "elevation_m": 222.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_197",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "198": {
+      "dcs_position": {
+        "lat": 32.0876004108148,
+        "lng": 34.91976124969287
+      },
+      "elevation_m": 27.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.02557928918520247,
+        "lng": -0.03162999969286773
+      },
+      "name": "Helipad_198",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 32.1130757,
+            "lng": 34.8888601
+          },
+          "endpoint_b": {
+            "lat": 32.1132837,
+            "lng": 34.8874024
+          },
+          "heading_deg": 279.5,
+          "length_m": 139.4,
+          "midpoint": {
+            "lat": 32.1131797,
+            "lng": 34.88813125
+          },
+          "osm_way_id": 976253671,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "199": {
+      "dcs_position": {
+        "lat": 32.761123250197635,
+        "lng": 35.40059258148272
+      },
+      "elevation_m": 272.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_199",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "2": {
+      "dcs_position": {
+        "lat": 36.981885471338884,
+        "lng": 35.280005978214554
+      },
+      "elevation_m": 17.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.0002316286611119267,
+        "lng": 0.0003721717854503481
+      },
+      "name": "Adana Sakirpasa",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 36.9748072,
+            "lng": 35.2680359
+          },
+          "endpoint_b": {
+            "lat": 36.989427,
+            "lng": 35.2927204
+          },
+          "heading_deg": 53.5,
+          "length_m": 2731.0,
+          "midpoint": {
+            "lat": 36.982117099999996,
+            "lng": 35.280378150000004
+          },
+          "osm_way_id": 15800341,
+          "ref": "05/23",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 36.989427,
+            "lng": 35.2927204
+          },
+          "endpoint_b": {
+            "lat": 36.9894584,
+            "lng": 35.2927691
+          },
+          "heading_deg": 51.1,
+          "length_m": 5.6,
+          "midpoint": {
+            "lat": 36.9894427,
+            "lng": 35.29274475
+          },
+          "osm_way_id": 1431700012,
+          "ref": "05/23",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "20": {
+      "dcs_position": {
+        "lat": 33.21581481207396,
+        "lng": 35.59583458789445
+      },
+      "elevation_m": 103.9,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.0003711379260380454,
+        "lng": 0.0002787121055476405
+      },
+      "name": "Kiryat Shmona",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 33.2209573,
+            "lng": 35.6002893
+          },
+          "endpoint_b": {
+            "lat": 33.2114146,
+            "lng": 35.5919373
+          },
+          "heading_deg": 216.3,
+          "length_m": 1315.2,
+          "midpoint": {
+            "lat": 33.216185949999996,
+            "lng": 35.5961133
+          },
+          "osm_way_id": 35210841,
+          "ref": "03/21",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "200": {
+      "dcs_position": {
+        "lat": 32.476517933174975,
+        "lng": 36.06332905686758
+      },
+      "elevation_m": 585.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_200",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "201": {
+      "dcs_position": {
+        "lat": 32.48417452906844,
+        "lng": 36.06588690660286
+      },
+      "elevation_m": 585.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_201",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "202": {
+      "dcs_position": {
+        "lat": 32.586731890417724,
+        "lng": 35.924607014285506
+      },
+      "elevation_m": 540.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_202",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "203": {
+      "dcs_position": {
+        "lat": 33.313846564969765,
+        "lng": 38.70270861394486
+      },
+      "elevation_m": 763.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.001688314969769067,
+        "lng": -0.001602863944860644
+      },
+      "name": "Helipad_203",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 33.3121625,
+            "lng": 38.6998776
+          },
+          "endpoint_b": {
+            "lat": 33.312154,
+            "lng": 38.7023339
+          },
+          "heading_deg": 90.2,
+          "length_m": 228.5,
+          "midpoint": {
+            "lat": 33.312158249999996,
+            "lng": 38.701105749999996
+          },
+          "osm_way_id": 1243822855,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "204": {
+      "dcs_position": {
+        "lat": 33.15375851853388,
+        "lng": 35.196447849420544
+      },
+      "elevation_m": 318.7,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_204",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "205": {
+      "dcs_position": {
+        "lat": 33.1325638359444,
+        "lng": 35.393307019623094
+      },
+      "elevation_m": 792.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_205",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "206": {
+      "dcs_position": {
+        "lat": 33.18284346689318,
+        "lng": 35.49582890805666
+      },
+      "elevation_m": 569.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_206",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "207": {
+      "dcs_position": {
+        "lat": 33.16938845528661,
+        "lng": 35.18700856137367
+      },
+      "elevation_m": 16.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_207",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "208": {
+      "dcs_position": {
+        "lat": 33.26552402613692,
+        "lng": 35.216250955690356
+      },
+      "elevation_m": 10.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_208",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "209": {
+      "dcs_position": {
+        "lat": 32.07585796318719,
+        "lng": 36.144586821502685
+      },
+      "elevation_m": 600.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_209",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "21": {
+      "dcs_position": {
+        "lat": 35.40167028748972,
+        "lng": 35.950384474948116
+      },
+      "elevation_m": 28.2,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.0009302125102763625,
+        "lng": 4.572505188349396e-05
+      },
+      "name": "Bassel Al-Assad",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 35.39136,
+            "lng": 35.9512301
+          },
+          "endpoint_b": {
+            "lat": 35.413841,
+            "lng": 35.9496303
+          },
+          "heading_deg": 356.7,
+          "length_m": 2502.6,
+          "midpoint": {
+            "lat": 35.4026005,
+            "lng": 35.9504302
+          },
+          "osm_way_id": 96926888,
+          "ref": "17L/35R",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 35.4073916,
+            "lng": 35.9479483
+          },
+          "endpoint_b": {
+            "lat": 35.3882063,
+            "lng": 35.9493206
+          },
+          "heading_deg": 176.7,
+          "length_m": 2135.8,
+          "midpoint": {
+            "lat": 35.397798949999995,
+            "lng": 35.94863445
+          },
+          "osm_way_id": 96926799,
+          "ref": "17R/35L",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 35.4165423,
+            "lng": 35.9472277
+          },
+          "endpoint_b": {
+            "lat": 35.4073916,
+            "lng": 35.9479483
+          },
+          "heading_deg": 176.3,
+          "length_m": 1019.0,
+          "midpoint": {
+            "lat": 35.41196695,
+            "lng": 35.947587999999996
+          },
+          "osm_way_id": 957218554,
+          "ref": "17R/35L",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "210": {
+      "dcs_position": {
+        "lat": 33.73297428824445,
+        "lng": 36.50903945402493
+      },
+      "elevation_m": 1086.2,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_210",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "211": {
+      "dcs_position": {
+        "lat": 32.11399014217,
+        "lng": 36.106200653830015
+      },
+      "elevation_m": 525.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_211",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "212": {
+      "dcs_position": {
+        "lat": 32.825222325019226,
+        "lng": 35.996226574607974
+      },
+      "elevation_m": 503.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_212",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "213": {
+      "dcs_position": {
+        "lat": 32.587031794613736,
+        "lng": 35.39984930631389
+      },
+      "elevation_m": 43.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_213",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "214": {
+      "dcs_position": {
+        "lat": 32.438261161449475,
+        "lng": 36.01916614049453
+      },
+      "elevation_m": 635.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_214",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "215": {
+      "dcs_position": {
+        "lat": 33.55218545767874,
+        "lng": 36.44720704430196
+      },
+      "elevation_m": 613.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_215",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "216": {
+      "dcs_position": {
+        "lat": 33.23472225771629,
+        "lng": 36.1487836745649
+      },
+      "elevation_m": 776.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_216",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "217": {
+      "dcs_position": {
+        "lat": 37.893339361940484,
+        "lng": 40.198688108438084
+      },
+      "elevation_m": 673.8,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.0011705880595158646,
+        "lng": 0.00209509156191956
+      },
+      "name": "Diyarbakir",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 37.878651,
+            "lng": 40.2070769
+          },
+          "endpoint_b": {
+            "lat": 37.9103689,
+            "lng": 40.1944895
+          },
+          "heading_deg": 342.6,
+          "length_m": 3694.3,
+          "midpoint": {
+            "lat": 37.89450995,
+            "lng": 40.200783200000004
+          },
+          "osm_way_id": 16185677,
+          "ref": "16L/34R",
+          "status": "active",
+          "surface": "concrete"
+        },
+        {
+          "endpoint_a": {
+            "lat": 37.8780696,
+            "lng": 40.2047166
+          },
+          "endpoint_b": {
+            "lat": 37.9085152,
+            "lng": 40.1927336
+          },
+          "heading_deg": 342.7,
+          "length_m": 3543.5,
+          "midpoint": {
+            "lat": 37.8932924,
+            "lng": 40.1987251
+          },
+          "osm_way_id": 16185697,
+          "ref": "16R/34L",
+          "status": "active",
+          "surface": "concrete"
+        },
+        {
+          "endpoint_a": {
+            "lat": 37.9085152,
+            "lng": 40.1927336
+          },
+          "endpoint_b": {
+            "lat": 37.9086036,
+            "lng": 40.1926973
+          },
+          "heading_deg": 342.0,
+          "length_m": 10.3,
+          "midpoint": {
+            "lat": 37.9085594,
+            "lng": 40.192715449999994
+          },
+          "osm_way_id": 1426737582,
+          "ref": "16R/34L",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "218": {
+      "dcs_position": {
+        "lat": 37.97774841886502,
+        "lng": 32.561488468877975
+      },
+      "elevation_m": 1032.4,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.0015979188650163678,
+        "lng": -0.0031452688779793903
+      },
+      "name": "Konya",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 37.9871858,
+            "lng": 32.5625332
+          },
+          "endpoint_b": {
+            "lat": 37.9651152,
+            "lng": 32.5541532
+          },
+          "heading_deg": 196.7,
+          "length_m": 2560.6,
+          "midpoint": {
+            "lat": 37.9761505,
+            "lng": 32.558343199999996
+          },
+          "osm_way_id": 210405416,
+          "ref": "01L/19R",
+          "status": "active",
+          "surface": "beton;asfalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 37.964696,
+            "lng": 32.5565276
+          },
+          "endpoint_b": {
+            "lat": 37.9866049,
+            "lng": 32.5648453
+          },
+          "heading_deg": 16.7,
+          "length_m": 2541.8,
+          "midpoint": {
+            "lat": 37.97565045,
+            "lng": 32.560686450000006
+          },
+          "osm_way_id": 25920259,
+          "ref": "01R/19L",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 37.9940027,
+            "lng": 32.5651243
+          },
+          "endpoint_b": {
+            "lat": 37.9871858,
+            "lng": 32.5625332
+          },
+          "heading_deg": 196.7,
+          "length_m": 791.0,
+          "midpoint": {
+            "lat": 37.99059425,
+            "lng": 32.56382875
+          },
+          "osm_way_id": 1426699931,
+          "ref": "01L/19R",
+          "status": "active",
+          "surface": "beton;asfalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 37.9866049,
+            "lng": 32.5648453
+          },
+          "endpoint_b": {
+            "lat": 37.993347,
+            "lng": 32.5674055
+          },
+          "heading_deg": 16.7,
+          "length_m": 782.2,
+          "midpoint": {
+            "lat": 37.98997595,
+            "lng": 32.566125400000004
+          },
+          "osm_way_id": 1426699933,
+          "ref": "01R/19L",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 37.993347,
+            "lng": 32.5674055
+          },
+          "endpoint_b": {
+            "lat": 37.9934582,
+            "lng": 32.5674477
+          },
+          "heading_deg": 16.7,
+          "length_m": 12.9,
+          "midpoint": {
+            "lat": 37.993402599999996,
+            "lng": 32.567426600000005
+          },
+          "osm_way_id": 1426699919,
+          "ref": "01R/19L",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 37.9645946,
+            "lng": 32.5564891
+          },
+          "endpoint_b": {
+            "lat": 37.964696,
+            "lng": 32.5565276
+          },
+          "heading_deg": 16.7,
+          "length_m": 11.8,
+          "midpoint": {
+            "lat": 37.9646453,
+            "lng": 32.55650835
+          },
+          "osm_way_id": 1426699912,
+          "ref": "01R/19L",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "219": {
+      "dcs_position": {
+        "lat": 33.035232503320515,
+        "lng": 35.138646653199295
+      },
+      "elevation_m": 654.4,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_219",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "22": {
+      "dcs_position": {
+        "lat": 33.5002804905775,
+        "lng": 36.4671485008798
+      },
+      "elevation_m": 612.1,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.013111340577502517,
+        "lng": 0.00823714912019824
+      },
+      "name": "Marj as Sultan North",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 33.4871376,
+            "lng": 36.4743786
+          },
+          "endpoint_b": {
+            "lat": 33.4872007,
+            "lng": 36.4763927
+          },
+          "heading_deg": 87.9,
+          "length_m": 187.1,
+          "midpoint": {
+            "lat": 33.48716915,
+            "lng": 36.47538565
+          },
+          "osm_way_id": 168579508,
+          "ref": null,
+          "status": "active",
+          "surface": "paved"
+        },
+        {
+          "endpoint_a": {
+            "lat": 33.4873031,
+            "lng": 36.4742741
+          },
+          "endpoint_b": {
+            "lat": 33.4873031,
+            "lng": 36.4742741
+          },
+          "heading_deg": 0.0,
+          "length_m": 0.0,
+          "midpoint": {
+            "lat": 33.4873031,
+            "lng": 36.4742741
+          },
+          "osm_way_id": 566456435,
+          "ref": "09/27",
+          "status": "active",
+          "surface": "paved"
+        }
+      ]
+    },
+    "220": {
+      "dcs_position": {
+        "lat": 31.838353510738088,
+        "lng": 34.83263385438407
+      },
+      "elevation_m": 55.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.0006656607380861601,
+        "lng": -0.005663754384073627
+      },
+      "name": "Tel Nof",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 31.850293,
+            "lng": 34.8187374
+          },
+          "endpoint_b": {
+            "lat": 31.8250827,
+            "lng": 34.8352028
+          },
+          "heading_deg": 150.9,
+          "length_m": 3205.3,
+          "midpoint": {
+            "lat": 31.837687850000002,
+            "lng": 34.8269701
+          },
+          "osm_way_id": 292231603,
+          "ref": "15R/33L",
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 31.8497916,
+            "lng": 34.8251156
+          },
+          "endpoint_b": {
+            "lat": 31.8258292,
+            "lng": 34.8409129
+          },
+          "heading_deg": 150.7,
+          "length_m": 3053.5,
+          "midpoint": {
+            "lat": 31.837810400000002,
+            "lng": 34.83301425
+          },
+          "osm_way_id": 292231592,
+          "ref": "15L/33R",
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 31.8490299,
+            "lng": 34.818615
+          },
+          "endpoint_b": {
+            "lat": 31.821813,
+            "lng": 34.817158
+          },
+          "heading_deg": 182.6,
+          "length_m": 3027.8,
+          "midpoint": {
+            "lat": 31.83542145,
+            "lng": 34.8178865
+          },
+          "osm_way_id": 292231604,
+          "ref": "18/36",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "221": {
+      "dcs_position": {
+        "lat": 32.006078609442724,
+        "lng": 34.88242257184786
+      },
+      "elevation_m": 26.5,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.009203990557274722,
+        "lng": -0.005564071847864227
+      },
+      "name": "Ben Gurion",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 32.0128536,
+            "lng": 34.8609425
+          },
+          "endpoint_b": {
+            "lat": 32.0177116,
+            "lng": 34.8927745
+          },
+          "heading_deg": 79.8,
+          "length_m": 3052.7,
+          "midpoint": {
+            "lat": 32.0152826,
+            "lng": 34.8768585
+          },
+          "osm_way_id": 325209257,
+          "ref": "08/26",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 31.9999898,
+            "lng": 34.8941809
+          },
+          "endpoint_b": {
+            "lat": 32.0142414,
+            "lng": 34.8667144
+          },
+          "heading_deg": 301.4,
+          "length_m": 3038.2,
+          "midpoint": {
+            "lat": 32.007115600000006,
+            "lng": 34.88044765
+          },
+          "osm_way_id": 379091730,
+          "ref": "12/30",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 32.0181175,
+            "lng": 34.9002273
+          },
+          "endpoint_b": {
+            "lat": 31.9962113,
+            "lng": 34.8861233
+          },
+          "heading_deg": 208.7,
+          "length_m": 2774.8,
+          "midpoint": {
+            "lat": 32.0071644,
+            "lng": 34.893175299999996
+          },
+          "osm_way_id": 8447720,
+          "ref": "03/21",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 32.0186673,
+            "lng": 34.8990153
+          },
+          "endpoint_b": {
+            "lat": 32.0177116,
+            "lng": 34.8927745
+          },
+          "heading_deg": 259.8,
+          "length_m": 598.5,
+          "midpoint": {
+            "lat": 32.018189449999994,
+            "lng": 34.8958949
+          },
+          "osm_way_id": 510291468,
+          "ref": "08/26",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 32.0122112,
+            "lng": 34.8566901
+          },
+          "endpoint_b": {
+            "lat": 32.0128536,
+            "lng": 34.8609425
+          },
+          "heading_deg": 79.9,
+          "length_m": 407.7,
+          "midpoint": {
+            "lat": 32.0125324,
+            "lng": 34.8588163
+          },
+          "osm_way_id": 510291470,
+          "ref": "08/26",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 31.9996353,
+            "lng": 34.8948823
+          },
+          "endpoint_b": {
+            "lat": 31.9999898,
+            "lng": 34.8941809
+          },
+          "heading_deg": 300.8,
+          "length_m": 77.0,
+          "midpoint": {
+            "lat": 31.99981255,
+            "lng": 34.8945316
+          },
+          "osm_way_id": 510291464,
+          "ref": "12/30",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "222": {
+      "dcs_position": {
+        "lat": 31.7603970542752,
+        "lng": 34.72525472627264
+      },
+      "elevation_m": 33.5,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.0009892957248034406,
+        "lng": 0.008339173727364368
+      },
+      "name": "Hatzor",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 31.7660311,
+            "lng": 34.7199131
+          },
+          "endpoint_b": {
+            "lat": 31.7567416,
+            "lng": 34.7472747
+          },
+          "heading_deg": 111.7,
+          "length_m": 2787.9,
+          "midpoint": {
+            "lat": 31.761386350000002,
+            "lng": 34.7335939
+          },
+          "osm_way_id": 203437935,
+          "ref": "11L/29R",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 31.7644031,
+            "lng": 34.7192798
+          },
+          "endpoint_b": {
+            "lat": 31.7551774,
+            "lng": 34.7465252
+          },
+          "heading_deg": 111.7,
+          "length_m": 2775.2,
+          "midpoint": {
+            "lat": 31.759790250000002,
+            "lng": 34.7329025
+          },
+          "osm_way_id": 203437933,
+          "ref": "11R/29L",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 31.7533731,
+            "lng": 34.7137019
+          },
+          "endpoint_b": {
+            "lat": 31.7675975,
+            "lng": 34.7370314
+          },
+          "heading_deg": 54.4,
+          "length_m": 2715.7,
+          "midpoint": {
+            "lat": 31.7604853,
+            "lng": 34.72536665
+          },
+          "osm_way_id": 203437934,
+          "ref": "05/23",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "223": {
+      "dcs_position": {
+        "lat": 31.900440553070332,
+        "lng": 34.69214915598799
+      },
+      "elevation_m": 13.8,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.00039414692966843745,
+        "lng": 0.0002198940120052839
+      },
+      "name": "Palmachim",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 31.8902822,
+            "lng": 34.6866378
+          },
+          "endpoint_b": {
+            "lat": 31.9113872,
+            "lng": 34.6981003
+          },
+          "heading_deg": 24.8,
+          "length_m": 2583.5,
+          "midpoint": {
+            "lat": 31.9008347,
+            "lng": 34.692369049999996
+          },
+          "osm_way_id": 292249964,
+          "ref": "03R/21L",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 31.8936015,
+            "lng": 34.6866801
+          },
+          "endpoint_b": {
+            "lat": 31.9074038,
+            "lng": 34.6942244
+          },
+          "heading_deg": 24.9,
+          "length_m": 1691.5,
+          "midpoint": {
+            "lat": 31.90050265,
+            "lng": 34.69045225
+          },
+          "osm_way_id": 292249963,
+          "ref": "03L/21R",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 31.9003058,
+            "lng": 34.6873357
+          },
+          "endpoint_b": {
+            "lat": 31.895939,
+            "lng": 34.6938432
+          },
+          "heading_deg": 128.3,
+          "length_m": 783.4,
+          "midpoint": {
+            "lat": 31.8981224,
+            "lng": 34.690589450000004
+          },
+          "osm_way_id": 292249962,
+          "ref": "13/31",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 31.8708584,
+            "lng": 34.6917883
+          },
+          "endpoint_b": {
+            "lat": 31.8677078,
+            "lng": 34.6896845
+          },
+          "heading_deg": 209.6,
+          "length_m": 402.7,
+          "midpoint": {
+            "lat": 31.8692831,
+            "lng": 34.6907364
+          },
+          "osm_way_id": 378173771,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "224": {
+      "dcs_position": {
+        "lat": 34.92753728065092,
+        "lng": 35.992030073748836
+      },
+      "elevation_m": 598.9,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_224",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "225": {
+      "dcs_position": {
+        "lat": 34.38976805109442,
+        "lng": 40.15352105692504
+      },
+      "elevation_m": 391.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.00040694890557801955,
+        "lng": -0.0011973569250400828
+      },
+      "name": "T2",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 34.3942444,
+            "lng": 40.1565049
+          },
+          "endpoint_b": {
+            "lat": 34.3861056,
+            "lng": 40.1481425
+          },
+          "heading_deg": 220.3,
+          "length_m": 1186.7,
+          "midpoint": {
+            "lat": 34.390175,
+            "lng": 40.1523237
+          },
+          "osm_way_id": 1154420479,
+          "ref": "04/22",
+          "status": "abandoned",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 34.3863905,
+            "lng": 40.1582751
+          },
+          "endpoint_b": {
+            "lat": 34.3931822,
+            "lng": 40.1486421
+          },
+          "heading_deg": 310.5,
+          "length_m": 1163.1,
+          "midpoint": {
+            "lat": 34.389786349999994,
+            "lng": 40.1534586
+          },
+          "osm_way_id": 1154420478,
+          "ref": "13/31",
+          "status": "abandoned",
+          "surface": null
+        }
+      ]
+    },
+    "226": {
+      "dcs_position": {
+        "lat": 34.528956946886986,
+        "lng": 38.72943916392542
+      },
+      "elevation_m": 388.1,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.0008204968869875984,
+        "lng": 0.004730136074577729
+      },
+      "name": "T3",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 34.5271048,
+            "lng": 38.7401991
+          },
+          "endpoint_b": {
+            "lat": 34.5291681,
+            "lng": 38.7281395
+          },
+          "heading_deg": 281.7,
+          "length_m": 1129.5,
+          "midpoint": {
+            "lat": 34.52813645,
+            "lng": 38.7341693
+          },
+          "osm_way_id": 130807059,
+          "ref": "10/28",
+          "status": "disused",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 34.5264015,
+            "lng": 38.7383905
+          },
+          "endpoint_b": {
+            "lat": 34.5361488,
+            "lng": 38.7394433
+          },
+          "heading_deg": 5.1,
+          "length_m": 1087.5,
+          "midpoint": {
+            "lat": 34.53127515,
+            "lng": 38.7389169
+          },
+          "osm_way_id": 130807058,
+          "ref": "18/36",
+          "status": "disused",
+          "surface": null
+        }
+      ]
+    },
+    "23": {
+      "dcs_position": {
+        "lat": 33.28876090014058,
+        "lng": 36.45543825138441
+      },
+      "elevation_m": 658.6,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.00016249985942096146,
+        "lng": 0.00023819861559104538
+      },
+      "name": "Marj Ruhayyil",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 33.2826835,
+            "lng": 36.4413441
+          },
+          "endpoint_b": {
+            "lat": 33.2951633,
+            "lng": 36.4700088
+          },
+          "heading_deg": 62.5,
+          "length_m": 3006.4,
+          "midpoint": {
+            "lat": 33.2889234,
+            "lng": 36.45567645
+          },
+          "osm_way_id": 95678643,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 33.2786498,
+            "lng": 36.4456292
+          },
+          "endpoint_b": {
+            "lat": 33.2901114,
+            "lng": 36.4724844
+          },
+          "heading_deg": 63.0,
+          "length_m": 2805.0,
+          "midpoint": {
+            "lat": 33.2843806,
+            "lng": 36.4590568
+          },
+          "osm_way_id": 95678635,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "24": {
+      "dcs_position": {
+        "lat": 32.597106723203716,
+        "lng": 35.230081612040735
+      },
+      "elevation_m": 55.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.00010642679628602991,
+        "lng": -0.0014371620407302999
+      },
+      "name": "Megiddo",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 32.5974185,
+            "lng": 35.2162931
+          },
+          "endpoint_b": {
+            "lat": 32.5970078,
+            "lng": 35.2409958
+          },
+          "heading_deg": 91.1,
+          "length_m": 2317.2,
+          "midpoint": {
+            "lat": 32.59721315,
+            "lng": 35.228644450000004
+          },
+          "osm_way_id": 34857495,
+          "ref": "09/27",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "25": {
+      "dcs_position": {
+        "lat": 33.477795318265635,
+        "lng": 36.224216335566965
+      },
+      "elevation_m": 718.1,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.00023836826563439217,
+        "lng": -0.0007895855669630691
+      },
+      "name": "Mezzeh",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 33.4838428,
+            "lng": 36.2362806
+          },
+          "endpoint_b": {
+            "lat": 33.4712711,
+            "lng": 36.2105729
+          },
+          "heading_deg": 239.7,
+          "length_m": 2765.8,
+          "midpoint": {
+            "lat": 33.47755695,
+            "lng": 36.22342675
+          },
+          "osm_way_id": 25843643,
+          "ref": "06/24",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "26": {
+      "dcs_position": {
+        "lat": 36.52137632639822,
+        "lng": 37.041337200988906
+      },
+      "elevation_m": 492.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 2.4823601783907634e-05,
+        "lng": 9.624901109361872e-05
+      },
+      "name": "Minakh",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 36.5201839,
+            "lng": 37.0495721
+          },
+          "endpoint_b": {
+            "lat": 36.5226184,
+            "lng": 37.0332948
+          },
+          "heading_deg": 280.5,
+          "length_m": 1481.1,
+          "midpoint": {
+            "lat": 36.52140115,
+            "lng": 37.04143345
+          },
+          "osm_way_id": 131119070,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 36.5188007,
+            "lng": 37.0329358
+          },
+          "endpoint_b": {
+            "lat": 36.5270265,
+            "lng": 37.0418908
+          },
+          "heading_deg": 41.2,
+          "length_m": 1215.5,
+          "midpoint": {
+            "lat": 36.522913599999995,
+            "lng": 37.0374133
+          },
+          "osm_way_id": 131119058,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "27": {
+      "dcs_position": {
+        "lat": 36.18061838645065,
+        "lng": 37.22436679814415
+      },
+      "elevation_m": 382.2,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 3.52635493499065e-05,
+        "lng": -7.649814415344736e-05
+      },
+      "name": "Aleppo",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 36.1791262,
+            "lng": 37.2403015
+          },
+          "endpoint_b": {
+            "lat": 36.1821811,
+            "lng": 37.2082791
+          },
+          "heading_deg": 276.7,
+          "length_m": 2897.3,
+          "midpoint": {
+            "lat": 36.180653649999996,
+            "lng": 37.2242903
+          },
+          "osm_way_id": 5214909,
+          "ref": "09R/27L",
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 36.1835933,
+            "lng": 37.2087701
+          },
+          "endpoint_b": {
+            "lat": 36.1818872,
+            "lng": 37.2269269
+          },
+          "heading_deg": 96.6,
+          "length_m": 1642.4,
+          "midpoint": {
+            "lat": 36.182740249999995,
+            "lng": 37.2178485
+          },
+          "osm_way_id": 112299470,
+          "ref": "09L/27R",
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 36.1818872,
+            "lng": 37.2269269
+          },
+          "endpoint_b": {
+            "lat": 36.1807326,
+            "lng": 37.239084
+          },
+          "heading_deg": 96.7,
+          "length_m": 1099.9,
+          "midpoint": {
+            "lat": 36.1813099,
+            "lng": 37.23300545
+          },
+          "osm_way_id": 1422263275,
+          "ref": "09L/27R",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "28": {
+      "dcs_position": {
+        "lat": 34.557289520642264,
+        "lng": 38.31670535483638
+      },
+      "elevation_m": 385.8,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.0010622206422610248,
+        "lng": -0.016363754836376643
+      },
+      "name": "Palmyra",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 34.5562273,
+            "lng": 38.3003416
+          },
+          "endpoint_b": {
+            "lat": 34.5562273,
+            "lng": 38.3003416
+          },
+          "heading_deg": 0.0,
+          "length_m": 0.0,
+          "midpoint": {
+            "lat": 34.5562273,
+            "lng": 38.3003416
+          },
+          "osm_way_id": 1453979397,
+          "ref": "08/26",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "29": {
+      "dcs_position": {
+        "lat": 33.45873542303982,
+        "lng": 36.357718487792
+      },
+      "elevation_m": 650.6,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 2.602696017817152e-05,
+        "lng": -3.443779199585606e-05
+      },
+      "name": "Qabr as Sitt",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 33.4580326,
+            "lng": 36.3563112
+          },
+          "endpoint_b": {
+            "lat": 33.4594903,
+            "lng": 36.3590569
+          },
+          "heading_deg": 57.6,
+          "length_m": 302.1,
+          "midpoint": {
+            "lat": 33.45876145,
+            "lng": 36.35768405
+          },
+          "osm_way_id": 156472017,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "3": {
+      "dcs_position": {
+        "lat": 34.56927558814749,
+        "lng": 36.57145372619807
+      },
+      "elevation_m": 527.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.0002268881474947193,
+        "lng": 0.0013549238019265886
+      },
+      "name": "Al Qusayr",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 34.5665714,
+            "lng": 36.5890276
+          },
+          "endpoint_b": {
+            "lat": 34.571526,
+            "lng": 36.5565897
+          },
+          "heading_deg": 280.5,
+          "length_m": 3024.0,
+          "midpoint": {
+            "lat": 34.569048699999996,
+            "lng": 36.57280865
+          },
+          "osm_way_id": 95897209,
+          "ref": "10/28",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "30": {
+      "dcs_position": {
+        "lat": 32.66641129312819,
+        "lng": 35.18416575007421
+      },
+      "elevation_m": 40.7,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.007152093128198089,
+        "lng": -0.0092328500742056
+      },
+      "name": "Ramat David",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 32.6547881,
+            "lng": 35.1908867
+          },
+          "endpoint_b": {
+            "lat": 32.6637303,
+            "lng": 35.1589791
+          },
+          "heading_deg": 288.4,
+          "length_m": 3151.2,
+          "midpoint": {
+            "lat": 32.659259199999994,
+            "lng": 35.1749329
+          },
+          "osm_way_id": 193609938,
+          "ref": "11/29",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 32.677133,
+            "lng": 35.1752011
+          },
+          "endpoint_b": {
+            "lat": 32.6555288,
+            "lng": 35.1933543
+          },
+          "heading_deg": 144.7,
+          "length_m": 2942.5,
+          "midpoint": {
+            "lat": 32.6663309,
+            "lng": 35.1842777
+          },
+          "osm_way_id": 193609945,
+          "ref": "15/33",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 32.6670902,
+            "lng": 35.190994
+          },
+          "endpoint_b": {
+            "lat": 32.6654861,
+            "lng": 35.1597733
+          },
+          "heading_deg": 266.5,
+          "length_m": 2931.2,
+          "midpoint": {
+            "lat": 32.66628815,
+            "lng": 35.17538365
+          },
+          "osm_way_id": 193609947,
+          "ref": "09/27",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "31": {
+      "dcs_position": {
+        "lat": 36.18749362063371,
+        "lng": 37.58149464556121
+      },
+      "elevation_m": 361.6,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.00021692063371148151,
+        "lng": 0.0014912044387926926
+      },
+      "name": "Kuweires",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 36.1892008,
+            "lng": 37.5698098
+          },
+          "endpoint_b": {
+            "lat": 36.1853526,
+            "lng": 37.5961619
+          },
+          "heading_deg": 100.2,
+          "length_m": 2405.9,
+          "midpoint": {
+            "lat": 36.1872767,
+            "lng": 37.58298585
+          },
+          "osm_way_id": 131119074,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "32": {
+      "dcs_position": {
+        "lat": 33.85112344453055,
+        "lng": 35.98732362036033
+      },
+      "elevation_m": 906.9,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.0001835554694480379,
+        "lng": -6.687036032815286e-05
+      },
+      "name": "Rayak",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 33.841905,
+            "lng": 35.9757249
+          },
+          "endpoint_b": {
+            "lat": 33.860709,
+            "lng": 35.9987886
+          },
+          "heading_deg": 45.6,
+          "length_m": 2985.5,
+          "midpoint": {
+            "lat": 33.851307,
+            "lng": 35.98725675
+          },
+          "osm_way_id": 23880576,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "33": {
+      "dcs_position": {
+        "lat": 34.5892996604555,
+        "lng": 36.01144927396427
+      },
+      "elevation_m": 4.4,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.00013791045549993441,
+        "lng": -0.0003645739642692547
+      },
+      "name": "Rene Mouawad",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 34.5953967,
+            "lng": 36.0251675
+          },
+          "endpoint_b": {
+            "lat": 34.5829268,
+            "lng": 35.9970019
+          },
+          "heading_deg": 241.8,
+          "length_m": 2929.7,
+          "midpoint": {
+            "lat": 34.58916175,
+            "lng": 36.0110847
+          },
+          "osm_way_id": 5051104,
+          "ref": "06/24",
+          "status": "active",
+          "surface": "concrete"
+        },
+        {
+          "endpoint_a": {
+            "lat": 34.5956875,
+            "lng": 36.0258217
+          },
+          "endpoint_b": {
+            "lat": 34.5953967,
+            "lng": 36.0251675
+          },
+          "heading_deg": 241.7,
+          "length_m": 68.1,
+          "midpoint": {
+            "lat": 34.5955421,
+            "lng": 36.0254946
+          },
+          "osm_way_id": 1199529548,
+          "ref": "06/24",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "34": {
+      "dcs_position": {
+        "lat": 32.982648141440386,
+        "lng": 35.57073834592498
+      },
+      "elevation_m": 263.9,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -7.384144038979912e-05,
+        "lng": 8.065407502044764e-05
+      },
+      "name": "Rosh Pina",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 32.9865452,
+            "lng": 35.5681159
+          },
+          "endpoint_b": {
+            "lat": 32.9786034,
+            "lng": 35.5735221
+          },
+          "heading_deg": 150.2,
+          "length_m": 1016.8,
+          "midpoint": {
+            "lat": 32.982574299999996,
+            "lng": 35.570819
+          },
+          "osm_way_id": 34714051,
+          "ref": "15/33",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "35": {
+      "dcs_position": {
+        "lat": 33.67984163520439,
+        "lng": 37.21711246726874
+      },
+      "elevation_m": 693.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 4.041479561323058e-05,
+        "lng": -0.00040001726873839516
+      },
+      "name": "Sayqal",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 33.6799998,
+            "lng": 37.2332415
+          },
+          "endpoint_b": {
+            "lat": 33.6797643,
+            "lng": 37.2001834
+          },
+          "heading_deg": 269.5,
+          "length_m": 3062.4,
+          "midpoint": {
+            "lat": 33.67988205,
+            "lng": 37.21671245
+          },
+          "osm_way_id": 131124278,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 33.6905439,
+            "lng": 37.2225112
+          },
+          "endpoint_b": {
+            "lat": 33.6792079,
+            "lng": 37.1990309
+          },
+          "heading_deg": 239.9,
+          "length_m": 2513.5,
+          "midpoint": {
+            "lat": 33.6848759,
+            "lng": 37.21077105
+          },
+          "osm_way_id": 131124297,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "36": {
+      "dcs_position": {
+        "lat": 34.49020163154111,
+        "lng": 36.90761267324771
+      },
+      "elevation_m": 804.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 6.468458892072704e-06,
+        "lng": -5.0473247711124714e-05
+      },
+      "name": "Shayrat",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 34.4850505,
+            "lng": 36.9237112
+          },
+          "endpoint_b": {
+            "lat": 34.4953657,
+            "lng": 36.8914132
+          },
+          "heading_deg": 291.1,
+          "length_m": 3177.4,
+          "midpoint": {
+            "lat": 34.490208100000004,
+            "lng": 36.9075622
+          },
+          "osm_way_id": 130809548,
+          "ref": "11/29",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "37": {
+      "dcs_position": {
+        "lat": 35.754721461039395,
+        "lng": 38.56644780451105
+      },
+      "elevation_m": 335.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.00113346103939449,
+        "lng": -0.00016060451104493723
+      },
+      "name": "Tabqa",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 35.7528347,
+            "lng": 38.5827274
+          },
+          "endpoint_b": {
+            "lat": 35.7543413,
+            "lng": 38.549847
+          },
+          "heading_deg": 273.2,
+          "length_m": 2975.1,
+          "midpoint": {
+            "lat": 35.753588,
+            "lng": 38.566287200000005
+          },
+          "osm_way_id": 326466897,
+          "ref": null,
+          "status": "disused",
+          "surface": "dirt"
+        }
+      ]
+    },
+    "38": {
+      "dcs_position": {
+        "lat": 35.97410541839518,
+        "lng": 36.78144203111411
+      },
+      "elevation_m": 311.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -7.201839518700126e-05,
+        "lng": 0.0004132688858931033
+      },
+      "name": "Taftanaz",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 35.9749147,
+            "lng": 36.7752823
+          },
+          "endpoint_b": {
+            "lat": 35.9731521,
+            "lng": 36.7884283
+          },
+          "heading_deg": 99.4,
+          "length_m": 1200.4,
+          "midpoint": {
+            "lat": 35.974033399999996,
+            "lng": 36.781855300000004
+          },
+          "osm_way_id": 102589057,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 35.9678694,
+            "lng": 36.7781371
+          },
+          "endpoint_b": {
+            "lat": 35.9737229,
+            "lng": 36.7842094
+          },
+          "heading_deg": 40.1,
+          "length_m": 850.0,
+          "midpoint": {
+            "lat": 35.97079615,
+            "lng": 36.78117325
+          },
+          "osm_way_id": 102589027,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "39": {
+      "dcs_position": {
+        "lat": 34.52262939177836,
+        "lng": 37.63012265147932
+      },
+      "elevation_m": 548.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.00040699177836245326,
+        "lng": -0.01745615147931545
+      },
+      "name": "Tiyas",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 34.5222224,
+            "lng": 37.6126665
+          },
+          "endpoint_b": {
+            "lat": 34.5222224,
+            "lng": 37.6126665
+          },
+          "heading_deg": 0.0,
+          "length_m": 0.0,
+          "midpoint": {
+            "lat": 34.5222224,
+            "lng": 37.6126665
+          },
+          "osm_way_id": 1453274210,
+          "ref": null,
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "4": {
+      "dcs_position": {
+        "lat": 33.91860710788541,
+        "lng": 36.86583993953449
+      },
+      "elevation_m": 834.3,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.00042089211459028775,
+        "lng": 0.0004947604655072269
+      },
+      "name": "An Nasiriyah",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 33.9092415,
+            "lng": 36.8551874
+          },
+          "endpoint_b": {
+            "lat": 33.9288145,
+            "lng": 36.877482
+          },
+          "heading_deg": 43.4,
+          "length_m": 2995.5,
+          "midpoint": {
+            "lat": 33.919028,
+            "lng": 36.866334699999996
+          },
+          "osm_way_id": 102584197,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "40": {
+      "dcs_position": {
+        "lat": 34.281337477581985,
+        "lng": 35.68010640278229
+      },
+      "elevation_m": 188.7,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 8.8972418012645e-05,
+        "lng": 3.734721770598526e-05
+      },
+      "name": "Wujah Al Hajar",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 34.2745485,
+            "lng": 35.6758302
+          },
+          "endpoint_b": {
+            "lat": 34.2883044,
+            "lng": 35.6844573
+          },
+          "heading_deg": 27.4,
+          "length_m": 1722.4,
+          "midpoint": {
+            "lat": 34.28142645,
+            "lng": 35.68014375
+          },
+          "osm_way_id": 27010706,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 34.2883751,
+            "lng": 35.6843532
+          },
+          "endpoint_b": {
+            "lat": 34.2883751,
+            "lng": 35.6843532
+          },
+          "heading_deg": 0.0,
+          "length_m": 0.0,
+          "midpoint": {
+            "lat": 34.2883751,
+            "lng": 35.6843532
+          },
+          "osm_way_id": 778591451,
+          "ref": null,
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "41": {
+      "dcs_position": {
+        "lat": 36.298921592175624,
+        "lng": 32.29762787923364
+      },
+      "elevation_m": 11.1,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 6.407824379550675e-06,
+        "lng": 9.570766358990568e-06
+      },
+      "name": "Gazipasa",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 36.2973867,
+            "lng": 32.2847385
+          },
+          "endpoint_b": {
+            "lat": 36.3004693,
+            "lng": 32.3105364
+          },
+          "heading_deg": 81.6,
+          "length_m": 2339.7,
+          "midpoint": {
+            "lat": 36.298928000000004,
+            "lng": 32.297637449999996
+          },
+          "osm_way_id": 103010309,
+          "ref": "08/26",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "42": {
+      "dcs_position": {
+        "lat": 35.28543155038823,
+        "lng": 40.17606111720279
+      },
+      "elevation_m": 217.3,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.0044793496117705445,
+        "lng": -0.016225717202793533
+      },
+      "name": "Deir ez-Zor",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 35.2899109,
+            "lng": 40.1598354
+          },
+          "endpoint_b": {
+            "lat": 35.2899109,
+            "lng": 40.1598354
+          },
+          "heading_deg": 0.0,
+          "length_m": 0.0,
+          "midpoint": {
+            "lat": 35.2899109,
+            "lng": 40.1598354
+          },
+          "osm_way_id": 30565930,
+          "ref": "10/28",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "43": {
+      "elevation_m": 210.0,
+      "elevation_source": "dcs_land_getheight",
+      "name": "Nicosia"
+    },
+    "44": {
+      "dcs_position": {
+        "lat": 34.59037320804046,
+        "lng": 32.987777396159686
+      },
+      "elevation_m": 21.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -6.108040466301645e-06,
+        "lng": -2.3396159683386486e-05
+      },
+      "name": "Akrotiri",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 34.5941135,
+            "lng": 32.973525
+          },
+          "endpoint_b": {
+            "lat": 34.5866207,
+            "lng": 33.001983
+          },
+          "heading_deg": 107.7,
+          "length_m": 2737.7,
+          "midpoint": {
+            "lat": 34.590367099999995,
+            "lng": 32.987754
+          },
+          "osm_way_id": 241914590,
+          "ref": "10/28",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "45": {
+      "dcs_position": {
+        "lat": 35.014805568277865,
+        "lng": 33.71703282481622
+      },
+      "elevation_m": 84.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.00025946827786071935,
+        "lng": -0.0004684248162263316
+      },
+      "name": "Kingsfield",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 35.0118237,
+            "lng": 33.7106087
+          },
+          "endpoint_b": {
+            "lat": 35.0172685,
+            "lng": 33.7225201
+          },
+          "heading_deg": 60.9,
+          "length_m": 1243.2,
+          "midpoint": {
+            "lat": 35.014546100000004,
+            "lng": 33.716564399999996
+          },
+          "osm_way_id": 23015633,
+          "ref": "06/24",
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 34.9927175,
+            "lng": 33.7483506
+          },
+          "endpoint_b": {
+            "lat": 34.9957219,
+            "lng": 33.7499867
+          },
+          "heading_deg": 24.1,
+          "length_m": 365.7,
+          "midpoint": {
+            "lat": 34.9942197,
+            "lng": 33.74916865
+          },
+          "osm_way_id": 82850377,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "46": {
+      "dcs_position": {
+        "lat": 34.71815167387137,
+        "lng": 32.484788726444044
+      },
+      "elevation_m": 26.3,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -1.7573871367915217e-05,
+        "lng": 8.912355595924737e-05
+      },
+      "name": "Paphos",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 34.7223196,
+            "lng": 32.4711202
+          },
+          "endpoint_b": {
+            "lat": 34.7139486,
+            "lng": 32.4986355
+          },
+          "heading_deg": 110.3,
+          "length_m": 2684.1,
+          "midpoint": {
+            "lat": 34.7181341,
+            "lng": 32.484877850000004
+          },
+          "osm_way_id": 4747186,
+          "ref": "11/29",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "47": {
+      "dcs_position": {
+        "lat": 34.873173511597166,
+        "lng": 33.623248842413446
+      },
+      "elevation_m": 5.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.0007194384028323952,
+        "lng": 0.0008767075865563356
+      },
+      "name": "Larnaca",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 34.8642202,
+            "lng": 33.6123252
+          },
+          "endpoint_b": {
+            "lat": 34.8835657,
+            "lng": 33.6359259
+          },
+          "heading_deg": 45.1,
+          "length_m": 3044.3,
+          "midpoint": {
+            "lat": 34.87389295,
+            "lng": 33.62412555
+          },
+          "osm_way_id": 295714676,
+          "ref": "04/22",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "48": {
+      "dcs_position": {
+        "lat": 35.104605562013454,
+        "lng": 33.32165535432561
+      },
+      "elevation_m": 231.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.00022803798654535967,
+        "lng": -4.945432560532481e-05
+      },
+      "name": "Lakatamia",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 35.1071841,
+            "lng": 33.32117
+          },
+          "endpoint_b": {
+            "lat": 35.1024831,
+            "lng": 33.3220418
+          },
+          "heading_deg": 171.4,
+          "length_m": 528.4,
+          "midpoint": {
+            "lat": 35.1048336,
+            "lng": 33.3216059
+          },
+          "osm_way_id": 241700183,
+          "ref": "17/35",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "49": {
+      "dcs_position": {
+        "lat": 35.15514871796735,
+        "lng": 33.50169458473209
+      },
+      "elevation_m": 116.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.005677117967351819,
+        "lng": 0.01114331526790835
+      },
+      "name": "Ercan",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 35.1546896,
+            "lng": 33.4969363
+          },
+          "endpoint_b": {
+            "lat": 35.1442536,
+            "lng": 33.5287395
+          },
+          "heading_deg": 111.8,
+          "length_m": 3118.5,
+          "midpoint": {
+            "lat": 35.1494716,
+            "lng": 33.5128379
+          },
+          "osm_way_id": 460738620,
+          "ref": "11R/29L",
+          "status": "active",
+          "surface": "concrete"
+        },
+        {
+          "endpoint_a": {
+            "lat": 35.1504113,
+            "lng": 33.5161396
+          },
+          "endpoint_b": {
+            "lat": 35.1600645,
+            "lng": 33.4868334
+          },
+          "heading_deg": 291.9,
+          "length_m": 2874.9,
+          "midpoint": {
+            "lat": 35.1552379,
+            "lng": 33.5014865
+          },
+          "osm_way_id": 81202013,
+          "ref": "11/29",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 35.1637625,
+            "lng": 33.486794
+          },
+          "endpoint_b": {
+            "lat": 35.1476662,
+            "lng": 33.4925969
+          },
+          "heading_deg": 163.6,
+          "length_m": 1865.2,
+          "midpoint": {
+            "lat": 35.15571435,
+            "lng": 33.48969545
+          },
+          "osm_way_id": 81201999,
+          "ref": "16/34",
+          "status": "abandoned",
+          "surface": "unpaved"
+        }
+      ]
+    },
+    "5": {
+      "dcs_position": {
+        "lat": 32.70400433063762,
+        "lng": 36.41377533360318
+      },
+      "elevation_m": 725.8,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Tha'lah",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "50": {
+      "dcs_position": {
+        "lat": 35.23601063290297,
+        "lng": 33.720895058760995
+      },
+      "elevation_m": 45.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -2.603290296576688e-05,
+        "lng": -0.001005508760989926
+      },
+      "name": "Gecitkale",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 35.23615,
+            "lng": 33.7042754
+          },
+          "endpoint_b": {
+            "lat": 35.2358192,
+            "lng": 33.7355037
+          },
+          "heading_deg": 90.7,
+          "length_m": 2839.6,
+          "midpoint": {
+            "lat": 35.2359846,
+            "lng": 33.719889550000005
+          },
+          "osm_way_id": 241868298,
+          "ref": "09/27",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "51": {
+      "dcs_position": {
+        "lat": 35.27382948608504,
+        "lng": 33.26823896322175
+      },
+      "elevation_m": 235.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.002163213914961659,
+        "lng": 5.6886778253328885e-05
+      },
+      "name": "Pinarbashi",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 35.2766242,
+            "lng": 33.2582439
+          },
+          "endpoint_b": {
+            "lat": 35.2753612,
+            "lng": 33.2783478
+          },
+          "heading_deg": 94.4,
+          "length_m": 1832.4,
+          "midpoint": {
+            "lat": 35.2759927,
+            "lng": 33.26829585
+          },
+          "osm_way_id": 537982298,
+          "ref": "09/27",
+          "status": "active",
+          "surface": "unpaved"
+        },
+        {
+          "endpoint_a": {
+            "lat": 35.2785222,
+            "lng": 33.2667242
+          },
+          "endpoint_b": {
+            "lat": 35.2690869,
+            "lng": 33.2699837
+          },
+          "heading_deg": 164.2,
+          "length_m": 1089.6,
+          "midpoint": {
+            "lat": 35.273804549999994,
+            "lng": 33.26835395
+          },
+          "osm_way_id": 23417174,
+          "ref": "16/34",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "52": {
+      "dcs_position": {
+        "lat": 33.10790532692988,
+        "lng": 35.12728573970673
+      },
+      "elevation_m": 105.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Naqoura",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "53": {
+      "dcs_position": {
+        "lat": 32.93619548302012,
+        "lng": 39.745812982566044
+      },
+      "elevation_m": 774.5,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.014437483020124375,
+        "lng": -0.00039453256604105036
+      },
+      "name": "H3",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 32.9158687,
+            "lng": 39.7305067
+          },
+          "endpoint_b": {
+            "lat": 32.9276473,
+            "lng": 39.7603302
+          },
+          "heading_deg": 64.8,
+          "length_m": 3078.9,
+          "midpoint": {
+            "lat": 32.921758,
+            "lng": 39.74541845
+          },
+          "osm_way_id": 130650770,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 32.9401668,
+            "lng": 39.7383927
+          },
+          "endpoint_b": {
+            "lat": 32.913247,
+            "lng": 39.7344682
+          },
+          "heading_deg": 187.0,
+          "length_m": 3014.1,
+          "midpoint": {
+            "lat": 32.9267069,
+            "lng": 39.73643045
+          },
+          "osm_way_id": 130650774,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 32.9310817,
+            "lng": 39.7608145
+          },
+          "endpoint_b": {
+            "lat": 32.9411127,
+            "lng": 39.7313601
+          },
+          "heading_deg": 292.1,
+          "length_m": 2969.1,
+          "midpoint": {
+            "lat": 32.9360972,
+            "lng": 39.7460873
+          },
+          "osm_way_id": 130650777,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "54": {
+      "dcs_position": {
+        "lat": 33.07595556847254,
+        "lng": 39.59657929992454
+      },
+      "elevation_m": 785.7,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 2.5481527465842646e-05,
+        "lng": 3.335007545501867e-05
+      },
+      "name": "H3 Northwest",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 33.0686407,
+            "lng": 39.6106219
+          },
+          "endpoint_b": {
+            "lat": 33.0833214,
+            "lng": 39.5826034
+          },
+          "heading_deg": 302.0,
+          "length_m": 3081.0,
+          "midpoint": {
+            "lat": 33.07598105,
+            "lng": 39.59661265
+          },
+          "osm_way_id": 130650776,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "55": {
+      "dcs_position": {
+        "lat": 32.743448328585124,
+        "lng": 39.60220528161408
+      },
+      "elevation_m": 814.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.00012607858511870518,
+        "lng": -0.00022753161407962352
+      },
+      "name": "H3 Southwest",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 32.7378276,
+            "lng": 39.6126295
+          },
+          "endpoint_b": {
+            "lat": 32.7488169,
+            "lng": 39.591326
+          },
+          "heading_deg": 301.5,
+          "length_m": 2338.9,
+          "midpoint": {
+            "lat": 32.743322250000006,
+            "lng": 39.60197775
+          },
+          "osm_way_id": 130650775,
+          "ref": null,
+          "status": "abandoned",
+          "surface": null
+        }
+      ]
+    },
+    "56": {
+      "dcs_position": {
+        "lat": 32.02576246199959,
+        "lng": 36.143734981982185
+      },
+      "elevation_m": 641.3,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -7.886199959017404e-05,
+        "lng": 0.0003804180178192951
+      },
+      "name": "Zarqa",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 32.0280647,
+            "lng": 36.1343979
+          },
+          "endpoint_b": {
+            "lat": 32.0233025,
+            "lng": 36.1538329
+          },
+          "heading_deg": 106.1,
+          "length_m": 1909.1,
+          "midpoint": {
+            "lat": 32.0256836,
+            "lng": 36.144115400000004
+          },
+          "osm_way_id": 118076699,
+          "ref": "10L/28R",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "57": {
+      "dcs_position": {
+        "lat": 32.40496683442858,
+        "lng": 39.13051807076174
+      },
+      "elevation_m": 907.9,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 7.79155714241142e-05,
+        "lng": -0.000906720761740587
+      },
+      "name": "Ruwayshid",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 32.4062676,
+            "lng": 39.1153742
+          },
+          "endpoint_b": {
+            "lat": 32.4038219,
+            "lng": 39.1438485
+          },
+          "heading_deg": 95.8,
+          "length_m": 2689.9,
+          "midpoint": {
+            "lat": 32.40504475,
+            "lng": 39.12961135
+          },
+          "osm_way_id": 289333542,
+          "ref": null,
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "58": {
+      "dcs_position": {
+        "lat": 37.448071463842865,
+        "lng": 38.89837835628554
+      },
+      "elevation_m": 823.9,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 3.238615713030413e-05,
+        "lng": 6.343714460399497e-06
+      },
+      "name": "Sanliurfa",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 37.4346981,
+            "lng": 38.8832937
+          },
+          "endpoint_b": {
+            "lat": 37.4615096,
+            "lng": 38.9134757
+          },
+          "heading_deg": 41.8,
+          "length_m": 3999.2,
+          "midpoint": {
+            "lat": 37.448103849999995,
+            "lng": 38.8983847
+          },
+          "osm_way_id": 27878157,
+          "ref": "04/22",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "59": {
+      "dcs_position": {
+        "lat": 36.54686899728638,
+        "lng": 38.587486956871416
+      },
+      "elevation_m": 431.4,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Kharab Ishk",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "6": {
+      "dcs_position": {
+        "lat": 33.827267866605276,
+        "lng": 35.48768735014539
+      },
+      "elevation_m": 12.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.014758916605273953,
+        "lng": 0.004274649854608015
+      },
+      "name": "Beirut-Rafic Hariri",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 33.8277781,
+            "lng": 35.5037826
+          },
+          "endpoint_b": {
+            "lat": 33.7972398,
+            "lng": 35.4801414
+          },
+          "heading_deg": 212.8,
+          "length_m": 4037.2,
+          "midpoint": {
+            "lat": 33.81250895,
+            "lng": 35.491962
+          },
+          "osm_way_id": 515917550,
+          "ref": "03/21",
+          "status": "active",
+          "surface": "concrete"
+        },
+        {
+          "endpoint_a": {
+            "lat": 33.8093625,
+            "lng": 35.4874387
+          },
+          "endpoint_b": {
+            "lat": 33.8410534,
+            "lng": 35.4786342
+          },
+          "heading_deg": 347.0,
+          "length_m": 3614.8,
+          "midpoint": {
+            "lat": 33.82520795,
+            "lng": 35.48303645
+          },
+          "osm_way_id": 515917553,
+          "ref": "16/34",
+          "status": "active",
+          "surface": "concrete"
+        },
+        {
+          "endpoint_a": {
+            "lat": 33.8092884,
+            "lng": 35.4888587
+          },
+          "endpoint_b": {
+            "lat": 33.838354,
+            "lng": 35.4869918
+          },
+          "heading_deg": 356.9,
+          "length_m": 3234.8,
+          "midpoint": {
+            "lat": 33.8238212,
+            "lng": 35.48792525
+          },
+          "osm_way_id": 515917552,
+          "ref": "17/35",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "60": {
+      "dcs_position": {
+        "lat": 36.262421680177326,
+        "lng": 38.928312545258585
+      },
+      "elevation_m": 299.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -2.0801773246148514e-06,
+        "lng": -3.379525858093757e-05
+      },
+      "name": "Tal Siman",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 36.2632898,
+            "lng": 38.9233871
+          },
+          "endpoint_b": {
+            "lat": 36.2615494,
+            "lng": 38.9331704
+          },
+          "heading_deg": 102.4,
+          "length_m": 899.2,
+          "midpoint": {
+            "lat": 36.2624196,
+            "lng": 38.928278750000004
+          },
+          "osm_way_id": 1034297504,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "61": {
+      "dcs_position": {
+        "lat": 32.38626194399368,
+        "lng": 37.78170233319915
+      },
+      "elevation_m": 762.5,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -1.5393993685108853e-05,
+        "lng": -0.0003905331991518324
+      },
+      "name": "H4 Emergency",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 32.386215,
+            "lng": 37.7898358
+          },
+          "endpoint_b": {
+            "lat": 32.3862781,
+            "lng": 37.7727878
+          },
+          "heading_deg": 270.3,
+          "length_m": 1602.6,
+          "midpoint": {
+            "lat": 32.386246549999996,
+            "lng": 37.7813118
+          },
+          "osm_way_id": 488451384,
+          "ref": null,
+          "status": "active",
+          "surface": "paved"
+        }
+      ]
+    },
+    "62": {
+      "dcs_position": {
+        "lat": 31.20837728370378,
+        "lng": 35.01209605393344
+      },
+      "elevation_m": 420.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 6.431629622127844e-05,
+        "lng": 0.0005083460665602502
+      },
+      "name": "Nevatim",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 31.204406,
+            "lng": 34.9923863
+          },
+          "endpoint_b": {
+            "lat": 31.2124772,
+            "lng": 35.0328225
+          },
+          "heading_deg": 76.9,
+          "length_m": 3953.1,
+          "midpoint": {
+            "lat": 31.2084416,
+            "lng": 35.0126044
+          },
+          "osm_way_id": 130240674,
+          "ref": "08R/26L",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 31.186472,
+            "lng": 35.0013919
+          },
+          "endpoint_b": {
+            "lat": 31.1944201,
+            "lng": 35.0413674
+          },
+          "heading_deg": 76.9,
+          "length_m": 3907.9,
+          "midpoint": {
+            "lat": 31.19044605,
+            "lng": 35.02137965
+          },
+          "osm_way_id": 292186881,
+          "ref": "07/25",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 31.1998417,
+            "lng": 34.9963488
+          },
+          "endpoint_b": {
+            "lat": 31.2070673,
+            "lng": 35.032415
+          },
+          "heading_deg": 76.8,
+          "length_m": 3526.7,
+          "midpoint": {
+            "lat": 31.2034545,
+            "lng": 35.014381900000004
+          },
+          "osm_way_id": 130240671,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 31.2138864,
+            "lng": 35.0236314
+          },
+          "endpoint_b": {
+            "lat": 31.2074303,
+            "lng": 34.9912161
+          },
+          "heading_deg": 256.9,
+          "length_m": 3168.5,
+          "midpoint": {
+            "lat": 31.21065835,
+            "lng": 35.00742375
+          },
+          "osm_way_id": 130240673,
+          "ref": "08L/26R",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "63": {
+      "dcs_position": {
+        "lat": 33.50645028405405,
+        "lng": 38.61488403210277
+      },
+      "elevation_m": 710.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "At Tanf",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "64": {
+      "dcs_position": {
+        "lat": 32.16073480488763,
+        "lng": 37.14940279815034
+      },
+      "elevation_m": 660.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -2.0404887628444612e-05,
+        "lng": 1.08518496588772e-05
+      },
+      "name": "Prince Hassan",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 32.1695621,
+            "lng": 37.1373797
+          },
+          "endpoint_b": {
+            "lat": 32.1518667,
+            "lng": 37.1614476
+          },
+          "heading_deg": 130.9,
+          "length_m": 3002.0,
+          "midpoint": {
+            "lat": 32.1607144,
+            "lng": 37.14941365
+          },
+          "osm_way_id": 220315502,
+          "ref": "13/31",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "65": {
+      "dcs_position": {
+        "lat": 32.005510448096686,
+        "lng": 36.223694965179746
+      },
+      "elevation_m": 700.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.00010819809668305425,
+        "lng": 0.00010593482025456069
+      },
+      "name": "King Abdullah II",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 31.9988378,
+            "lng": 36.2330258
+          },
+          "endpoint_b": {
+            "lat": 32.0119667,
+            "lng": 36.214576
+          },
+          "heading_deg": 310.0,
+          "length_m": 2272.0,
+          "midpoint": {
+            "lat": 32.00540225,
+            "lng": 36.2238009
+          },
+          "osm_way_id": 156583576,
+          "ref": "13/31",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "66": {
+      "dcs_position": {
+        "lat": 32.17937355841619,
+        "lng": 34.83794107921808
+      },
+      "elevation_m": 36.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.0010523915838120956,
+        "lng": -0.0037063792180873634
+      },
+      "name": "Herzliya",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 32.181742,
+            "lng": 34.8297681
+          },
+          "endpoint_b": {
+            "lat": 32.1791099,
+            "lng": 34.8387013
+          },
+          "heading_deg": 109.2,
+          "length_m": 891.1,
+          "midpoint": {
+            "lat": 32.18042595,
+            "lng": 34.834234699999996
+          },
+          "osm_way_id": 32044391,
+          "ref": "10/28",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 32.206632,
+            "lng": 34.815804
+          },
+          "endpoint_b": {
+            "lat": 32.2063333,
+            "lng": 34.8162884
+          },
+          "heading_deg": 126.0,
+          "length_m": 56.4,
+          "midpoint": {
+            "lat": 32.20648265,
+            "lng": 34.8160462
+          },
+          "osm_way_id": 957434130,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 32.206419,
+            "lng": 34.8155958
+          },
+          "endpoint_b": {
+            "lat": 32.2068093,
+            "lng": 34.8159648
+          },
+          "heading_deg": 38.7,
+          "length_m": 55.6,
+          "midpoint": {
+            "lat": 32.20661415,
+            "lng": 34.8157803
+          },
+          "osm_way_id": 957434129,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "67": {
+      "dcs_position": {
+        "lat": 31.972762995772005,
+        "lng": 35.99174602476132
+      },
+      "elevation_m": 748.3,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -2.4245772006992183e-05,
+        "lng": -0.00015917476132187858
+      },
+      "name": "Marka",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 31.9663103,
+            "lng": 35.9760327
+          },
+          "endpoint_b": {
+            "lat": 31.9791672,
+            "lng": 36.007141
+          },
+          "heading_deg": 64.1,
+          "length_m": 3266.7,
+          "midpoint": {
+            "lat": 31.972738749999998,
+            "lng": 35.99158685
+          },
+          "osm_way_id": 24474655,
+          "ref": "06/24",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "68": {
+      "dcs_position": {
+        "lat": 31.81761721119364,
+        "lng": 36.77868590502951
+      },
+      "elevation_m": 498.8,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.015603588806360591,
+        "lng": 0.0051793949704901365
+      },
+      "name": "Muwaffaq Salti",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 31.8438431,
+            "lng": 36.7695387
+          },
+          "endpoint_b": {
+            "lat": 31.8225985,
+            "lng": 36.7981919
+          },
+          "heading_deg": 131.1,
+          "length_m": 3594.1,
+          "midpoint": {
+            "lat": 31.8332208,
+            "lng": 36.7838653
+          },
+          "osm_way_id": 24927448,
+          "ref": "13/31",
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 31.8152521,
+            "lng": 36.7627481
+          },
+          "endpoint_b": {
+            "lat": 31.820463,
+            "lng": 36.7975266
+          },
+          "heading_deg": 80.0,
+          "length_m": 3340.3,
+          "midpoint": {
+            "lat": 31.81785755,
+            "lng": 36.780137350000004
+          },
+          "osm_way_id": 100515716,
+          "ref": "08/26",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "69": {
+      "dcs_position": {
+        "lat": 34.92421526309816,
+        "lng": 33.60372193033242
+      },
+      "elevation_m": 26.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_69",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "7": {
+      "dcs_position": {
+        "lat": 33.42550825969442,
+        "lng": 36.51851249963701
+      },
+      "elevation_m": 612.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 2.1490305577742674e-05,
+        "lng": -0.0001659996370122485
+      },
+      "name": "Damascus",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 33.4144304,
+            "lng": 36.5033748
+          },
+          "endpoint_b": {
+            "lat": 33.4366291,
+            "lng": 36.5333182
+          },
+          "heading_deg": 48.4,
+          "length_m": 3718.3,
+          "midpoint": {
+            "lat": 33.425529749999995,
+            "lng": 36.5183465
+          },
+          "osm_way_id": 8160471,
+          "ref": "05L/23R",
+          "status": "active",
+          "surface": "concrete"
+        },
+        {
+          "endpoint_a": {
+            "lat": 33.3848528,
+            "lng": 36.4959377
+          },
+          "endpoint_b": {
+            "lat": 33.4066732,
+            "lng": 36.5253568
+          },
+          "heading_deg": 48.4,
+          "length_m": 3654.6,
+          "midpoint": {
+            "lat": 33.395763,
+            "lng": 36.51064725
+          },
+          "osm_way_id": 24931274,
+          "ref": "05R/23L",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "70": {
+      "dcs_position": {
+        "lat": 34.83084651700265,
+        "lng": 33.47819094795145
+      },
+      "elevation_m": 92.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_70",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "71": {
+      "dcs_position": {
+        "lat": 35.311946588564304,
+        "lng": 33.29007708624333
+      },
+      "elevation_m": 570.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.035953888564300485,
+        "lng": -0.02178123624332784
+      },
+      "name": "Helipad_71",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 35.2766242,
+            "lng": 33.2582439
+          },
+          "endpoint_b": {
+            "lat": 35.2753612,
+            "lng": 33.2783478
+          },
+          "heading_deg": 94.4,
+          "length_m": 1832.4,
+          "midpoint": {
+            "lat": 35.2759927,
+            "lng": 33.26829585
+          },
+          "osm_way_id": 537982298,
+          "ref": "09/27",
+          "status": "active",
+          "surface": "unpaved"
+        },
+        {
+          "endpoint_a": {
+            "lat": 35.2785222,
+            "lng": 33.2667242
+          },
+          "endpoint_b": {
+            "lat": 35.2690869,
+            "lng": 33.2699837
+          },
+          "heading_deg": 164.2,
+          "length_m": 1089.6,
+          "midpoint": {
+            "lat": 35.273804549999994,
+            "lng": 33.26835395
+          },
+          "osm_way_id": 23417174,
+          "ref": "16/34",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "72": {
+      "dcs_position": {
+        "lat": 35.267204182531074,
+        "lng": 33.49589393769386
+      },
+      "elevation_m": 303.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_72",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "73": {
+      "dcs_position": {
+        "lat": 35.093867124166934,
+        "lng": 33.885780266248894
+      },
+      "elevation_m": 25.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_73",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "74": {
+      "dcs_position": {
+        "lat": 35.08400473645184,
+        "lng": 33.89719086415992
+      },
+      "elevation_m": 35.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_74",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "75": {
+      "dcs_position": {
+        "lat": 37.53848271884764,
+        "lng": 36.95240074956528
+      },
+      "elevation_m": 480.1,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -4.0318847638332045e-05,
+        "lng": -0.0005419995652786724
+      },
+      "name": "Kahramanmaras",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 37.5361149,
+            "lng": 36.9409013
+          },
+          "endpoint_b": {
+            "lat": 37.5407699,
+            "lng": 36.9628162
+          },
+          "heading_deg": 75.0,
+          "length_m": 2002.4,
+          "midpoint": {
+            "lat": 37.5384424,
+            "lng": 36.95185875
+          },
+          "osm_way_id": 15733929,
+          "ref": "07/25",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 37.5414759,
+            "lng": 36.9661149
+          },
+          "endpoint_b": {
+            "lat": 37.5407699,
+            "lng": 36.9628162
+          },
+          "heading_deg": 254.9,
+          "length_m": 301.6,
+          "midpoint": {
+            "lat": 37.541122900000005,
+            "lng": 36.96446555
+          },
+          "osm_way_id": 1198640827,
+          "ref": "07/25",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "76": {
+      "dcs_position": {
+        "lat": 32.96187851259331,
+        "lng": 35.55006731776337
+      },
+      "elevation_m": 382.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.020695787406687316,
+        "lng": 0.02075168223662871
+      },
+      "name": "Helipad_76",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 32.9865452,
+            "lng": 35.5681159
+          },
+          "endpoint_b": {
+            "lat": 32.9786034,
+            "lng": 35.5735221
+          },
+          "heading_deg": 150.2,
+          "length_m": 1016.8,
+          "midpoint": {
+            "lat": 32.982574299999996,
+            "lng": 35.570819
+          },
+          "osm_way_id": 34714051,
+          "ref": "15/33",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "77": {
+      "dcs_position": {
+        "lat": 32.98210172233181,
+        "lng": 35.514712359412826
+      },
+      "elevation_m": 899.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_77",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "78": {
+      "dcs_position": {
+        "lat": 32.98116802416359,
+        "lng": 35.515167801430124
+      },
+      "elevation_m": 269.0,
+      "elevation_source": "open_elevation_dem",
+      "imagery_offset_deg": {
+        "lat": 0.0014062758364090655,
+        "lng": 0.055651198569876215
+      },
+      "name": "Helipad_78",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 32.9865452,
+            "lng": 35.5681159
+          },
+          "endpoint_b": {
+            "lat": 32.9786034,
+            "lng": 35.5735221
+          },
+          "heading_deg": 150.2,
+          "length_m": 1016.8,
+          "midpoint": {
+            "lat": 32.982574299999996,
+            "lng": 35.570819
+          },
+          "osm_way_id": 34714051,
+          "ref": "15/33",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "79": {
+      "dcs_position": {
+        "lat": 32.88223232888161,
+        "lng": 35.71898848386057
+      },
+      "elevation_m": 365.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_79",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "8": {
+      "dcs_position": {
+        "lat": 33.48722196528483,
+        "lng": 36.475393641192646
+      },
+      "elevation_m": 611.4,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -5.281528483180864e-05,
+        "lng": -7.991192646272793e-06
+      },
+      "name": "Marj as Sultan South",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 33.4871376,
+            "lng": 36.4743786
+          },
+          "endpoint_b": {
+            "lat": 33.4872007,
+            "lng": 36.4763927
+          },
+          "heading_deg": 87.9,
+          "length_m": 187.1,
+          "midpoint": {
+            "lat": 33.48716915,
+            "lng": 36.47538565
+          },
+          "osm_way_id": 168579508,
+          "ref": null,
+          "status": "active",
+          "surface": "paved"
+        },
+        {
+          "endpoint_a": {
+            "lat": 33.4873031,
+            "lng": 36.4742741
+          },
+          "endpoint_b": {
+            "lat": 33.4873031,
+            "lng": 36.4742741
+          },
+          "heading_deg": 0.0,
+          "length_m": 0.0,
+          "midpoint": {
+            "lat": 33.4873031,
+            "lng": 36.4742741
+          },
+          "osm_way_id": 566456435,
+          "ref": "09/27",
+          "status": "active",
+          "surface": "paved"
+        }
+      ]
+    },
+    "80": {
+      "dcs_position": {
+        "lat": 32.93767727576112,
+        "lng": 35.56872845596682
+      },
+      "elevation_m": 244.3,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.0448970242388782,
+        "lng": 0.0020905440331802083
+      },
+      "name": "Helipad_80",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 32.9865452,
+            "lng": 35.5681159
+          },
+          "endpoint_b": {
+            "lat": 32.9786034,
+            "lng": 35.5735221
+          },
+          "heading_deg": 150.2,
+          "length_m": 1016.8,
+          "midpoint": {
+            "lat": 32.982574299999996,
+            "lng": 35.570819
+          },
+          "osm_way_id": 34714051,
+          "ref": "15/33",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "81": {
+      "dcs_position": {
+        "lat": 31.238809876242982,
+        "lng": 34.657680123424356
+      },
+      "elevation_m": 215.8,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.009838226242983694,
+        "lng": 0.005978826575642415
+      },
+      "name": "Hatzerim",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 31.2252476,
+            "lng": 34.6796641
+          },
+          "endpoint_b": {
+            "lat": 31.2326957,
+            "lng": 34.6476538
+          },
+          "heading_deg": 285.2,
+          "length_m": 3157.5,
+          "midpoint": {
+            "lat": 31.22897165,
+            "lng": 34.66365895
+          },
+          "osm_way_id": 130238556,
+          "ref": "10R/28L",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 31.2426407,
+            "lng": 34.6413615
+          },
+          "endpoint_b": {
+            "lat": 31.2357781,
+            "lng": 34.6707897
+          },
+          "heading_deg": 105.2,
+          "length_m": 2902.9,
+          "midpoint": {
+            "lat": 31.2392094,
+            "lng": 34.6560756
+          },
+          "osm_way_id": 130238555,
+          "ref": "10L/28R",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 31.2627031,
+            "lng": 34.6307108
+          },
+          "endpoint_b": {
+            "lat": 31.2584843,
+            "lng": 34.6500205
+          },
+          "heading_deg": 104.3,
+          "length_m": 1896.3,
+          "midpoint": {
+            "lat": 31.2605937,
+            "lng": 34.64036565
+          },
+          "osm_way_id": 208934118,
+          "ref": "10/28",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "82": {
+      "dcs_position": {
+        "lat": 32.8056058093088,
+        "lng": 35.4015923935285
+      },
+      "elevation_m": 319.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_82",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "83": {
+      "dcs_position": {
+        "lat": 32.8081257593901,
+        "lng": 35.42528161226063
+      },
+      "elevation_m": 382.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_83",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "84": {
+      "dcs_position": {
+        "lat": 32.60624590428727,
+        "lng": 34.9730192166827
+      },
+      "elevation_m": 60.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_84",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "85": {
+      "dcs_position": {
+        "lat": 32.82307685054003,
+        "lng": 35.436180656932855
+      },
+      "elevation_m": 127.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_85",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "86": {
+      "dcs_position": {
+        "lat": 32.994809485305964,
+        "lng": 35.48407176124203
+      },
+      "elevation_m": 715.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.02671151469404265,
+        "lng": -0.01890636124202416
+      },
+      "name": "Helipad_86",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 33.0220284,
+            "lng": 35.4616907
+          },
+          "endpoint_b": {
+            "lat": 33.0210136,
+            "lng": 35.4686401
+          },
+          "heading_deg": 99.9,
+          "length_m": 658.4,
+          "midpoint": {
+            "lat": 33.02152100000001,
+            "lng": 35.465165400000004
+          },
+          "osm_way_id": 377665989,
+          "ref": null,
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "87": {
+      "dcs_position": {
+        "lat": 33.01709889899736,
+        "lng": 35.704506812395046
+      },
+      "elevation_m": 425.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_87",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "88": {
+      "dcs_position": {
+        "lat": 31.260530522706222,
+        "lng": 34.64046135604179
+      },
+      "elevation_m": 184.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.03155887270622415,
+        "lng": 0.02319759395820853
+      },
+      "name": "Kedem",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 31.2252476,
+            "lng": 34.6796641
+          },
+          "endpoint_b": {
+            "lat": 31.2326957,
+            "lng": 34.6476538
+          },
+          "heading_deg": 285.2,
+          "length_m": 3157.5,
+          "midpoint": {
+            "lat": 31.22897165,
+            "lng": 34.66365895
+          },
+          "osm_way_id": 130238556,
+          "ref": "10R/28L",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 31.2426407,
+            "lng": 34.6413615
+          },
+          "endpoint_b": {
+            "lat": 31.2357781,
+            "lng": 34.6707897
+          },
+          "heading_deg": 105.2,
+          "length_m": 2902.9,
+          "midpoint": {
+            "lat": 31.2392094,
+            "lng": 34.6560756
+          },
+          "osm_way_id": 130238555,
+          "ref": "10L/28R",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 31.2627031,
+            "lng": 34.6307108
+          },
+          "endpoint_b": {
+            "lat": 31.2584843,
+            "lng": 34.6500205
+          },
+          "heading_deg": 104.3,
+          "length_m": 1896.3,
+          "midpoint": {
+            "lat": 31.2605937,
+            "lng": 34.64036565
+          },
+          "osm_way_id": 208934118,
+          "ref": "10/28",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "89": {
+      "dcs_position": {
+        "lat": 35.338550528088255,
+        "lng": 36.074307855780226
+      },
+      "elevation_m": 269.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_89",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "9": {
+      "dcs_position": {
+        "lat": 33.60970072277346,
+        "lng": 36.74915246829127
+      },
+      "elevation_m": 630.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -8.922277346101737e-05,
+        "lng": -0.00022271829126907505
+      },
+      "name": "Al-Dumayr",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 33.6035271,
+            "lng": 36.7337243
+          },
+          "endpoint_b": {
+            "lat": 33.6156959,
+            "lng": 36.7641352
+          },
+          "heading_deg": 64.4,
+          "length_m": 3127.0,
+          "midpoint": {
+            "lat": 33.6096115,
+            "lng": 36.74892975
+          },
+          "osm_way_id": 30303602,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 33.6042464,
+            "lng": 36.7404878
+          },
+          "endpoint_b": {
+            "lat": 33.6136901,
+            "lng": 36.7638537
+          },
+          "heading_deg": 64.2,
+          "length_m": 2407.1,
+          "midpoint": {
+            "lat": 33.608968250000004,
+            "lng": 36.75217075
+          },
+          "osm_way_id": 772762759,
+          "ref": null,
+          "status": "active",
+          "surface": "dirt"
+        }
+      ]
+    },
+    "90": {
+      "dcs_position": {
+        "lat": 36.89273255243824,
+        "lng": 35.069323895048996
+      },
+      "elevation_m": 3.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.0009213024382361823,
+        "lng": 0.0020948049509996736
+      },
+      "name": "Chukurova",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 36.9052612,
+            "lng": 35.0816267
+          },
+          "endpoint_b": {
+            "lat": 36.8783613,
+            "lng": 35.0612107
+          },
+          "heading_deg": 211.3,
+          "length_m": 3498.7,
+          "midpoint": {
+            "lat": 36.89181125,
+            "lng": 35.071418699999995
+          },
+          "osm_way_id": 845716144,
+          "ref": "03R/21L",
+          "status": "active",
+          "surface": "concrete"
+        },
+        {
+          "endpoint_a": {
+            "lat": 36.8795265,
+            "lng": 35.059252
+          },
+          "endpoint_b": {
+            "lat": 36.8937305,
+            "lng": 35.0700966
+          },
+          "heading_deg": 31.5,
+          "length_m": 1850.4,
+          "midpoint": {
+            "lat": 36.8866285,
+            "lng": 35.0646743
+          },
+          "osm_way_id": 845716145,
+          "ref": "03L/21R",
+          "status": "active",
+          "surface": "concrete"
+        },
+        {
+          "endpoint_a": {
+            "lat": 36.8937305,
+            "lng": 35.0700966
+          },
+          "endpoint_b": {
+            "lat": 36.9062526,
+            "lng": 35.0796217
+          },
+          "heading_deg": 31.4,
+          "length_m": 1629.6,
+          "midpoint": {
+            "lat": 36.899991549999996,
+            "lng": 35.074859149999995
+          },
+          "osm_way_id": 1431694748,
+          "ref": "03L/21R",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "91": {
+      "dcs_position": {
+        "lat": 31.286974178326272,
+        "lng": 34.7228037185875
+      },
+      "elevation_m": 175.6,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -7.197832627170442e-05,
+        "lng": 4.5031412497564816e-05
+      },
+      "name": "Teyman",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 31.2903463,
+            "lng": 34.7191113
+          },
+          "endpoint_b": {
+            "lat": 31.2834581,
+            "lng": 34.7265862
+          },
+          "heading_deg": 137.1,
+          "length_m": 1044.8,
+          "midpoint": {
+            "lat": 31.2869022,
+            "lng": 34.72284875
+          },
+          "osm_way_id": 93887891,
+          "ref": "Runway 14/32",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "92": {
+      "dcs_position": {
+        "lat": 35.789130696994896,
+        "lng": 37.724785090814706
+      },
+      "elevation_m": 342.3,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_92",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "93": {
+      "dcs_position": {
+        "lat": 33.27904046027107,
+        "lng": 36.08531978101331
+      },
+      "elevation_m": 855.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_93",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "94": {
+      "dcs_position": {
+        "lat": 34.64482891272991,
+        "lng": 36.74364294600311
+      },
+      "elevation_m": 580.9,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_94",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "95": {
+      "dcs_position": {
+        "lat": 36.06035462869421,
+        "lng": 37.34313885708776
+      },
+      "elevation_m": 373.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_95",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "96": {
+      "dcs_position": {
+        "lat": 36.0506914456804,
+        "lng": 37.33231256430352
+      },
+      "elevation_m": 373.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_96",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "97": {
+      "dcs_position": {
+        "lat": 33.386338601471735,
+        "lng": 36.27271132168899
+      },
+      "elevation_m": 718.1,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_97",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "98": {
+      "dcs_position": {
+        "lat": 33.41574801147963,
+        "lng": 36.2845150600679
+      },
+      "elevation_m": 670.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_98",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "99": {
+      "dcs_position": {
+        "lat": 34.61093596488867,
+        "lng": 38.2529860188626
+      },
+      "elevation_m": 488.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Helipad_99",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    }
+  },
+  "attribution": "Map data (c) OpenStreetMap contributors, ODbL (https://www.openstreetmap.org/copyright)",
+  "generated_at": "2026-06-24T23:09:00.064738+00:00",
+  "source": "OpenStreetMap (ODbL)",
+  "terrain": "Syria"
+}

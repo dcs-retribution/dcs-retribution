@@ -1,0 +1,940 @@
+{
+  "airports": {
+    "12": {
+      "dcs_position": {
+        "lat": 45.00494808462569,
+        "lng": 37.34782488305727
+      },
+      "elevation_m": 43.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.002829934625687258,
+        "lng": -0.0004965830572700725
+      },
+      "name": "Anapa-Vityazevo",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 44.9937845,
+            "lng": 37.3366447
+          },
+          "endpoint_b": {
+            "lat": 45.0104518,
+            "lng": 37.3580119
+          },
+          "heading_deg": 42.2,
+          "length_m": 2501.9,
+          "midpoint": {
+            "lat": 45.00211815,
+            "lng": 37.3473283
+          },
+          "osm_way_id": 25483271,
+          "ref": "03/21",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "13": {
+      "dcs_position": {
+        "lat": 45.08694993323879,
+        "lng": 38.93998462664842
+      },
+      "elevation_m": 30.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.0028181332387973157,
+        "lng": 0.004601423351580536
+      },
+      "name": "Krasnodar-Center",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 45.0833915,
+            "lng": 38.9287312
+          },
+          "endpoint_b": {
+            "lat": 45.0848721,
+            "lng": 38.9604409
+          },
+          "heading_deg": 86.2,
+          "length_m": 2497.8,
+          "midpoint": {
+            "lat": 45.084131799999994,
+            "lng": 38.94458605
+          },
+          "osm_way_id": 45397560,
+          "ref": "08/26",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "14": {
+      "dcs_position": {
+        "lat": 44.668096137080184,
+        "lng": 37.77825782083347
+      },
+      "elevation_m": 40.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": null,
+      "name": "Novorossiysk",
+      "notes": "No runway features found in OSM within 5000m of DCS airport position.",
+      "runways": []
+    },
+    "15": {
+      "dcs_position": {
+        "lat": 44.96793654712032,
+        "lng": 37.995030274403014
+      },
+      "elevation_m": 20.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.005073547120318267,
+        "lng": 0.004065025596986516
+      },
+      "name": "Krymsk",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 44.9536888,
+            "lng": 37.9852528
+          },
+          "endpoint_b": {
+            "lat": 44.9720372,
+            "lng": 38.0129378
+          },
+          "heading_deg": 46.9,
+          "length_m": 2985.5,
+          "midpoint": {
+            "lat": 44.962863,
+            "lng": 37.9990953
+          },
+          "osm_way_id": 170984678,
+          "ref": "04/22",
+          "status": "active",
+          "surface": "concrete"
+        },
+        {
+          "endpoint_a": {
+            "lat": 44.9537551,
+            "lng": 37.984784
+          },
+          "endpoint_b": {
+            "lat": 44.9537551,
+            "lng": 37.984784
+          },
+          "heading_deg": 0.0,
+          "length_m": 0.0,
+          "midpoint": {
+            "lat": 44.9537551,
+            "lng": 37.984784
+          },
+          "osm_way_id": 58250629,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "16": {
+      "dcs_position": {
+        "lat": 44.68128522066237,
+        "lng": 40.03525433454862
+      },
+      "elevation_m": 180.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.001727370662372607,
+        "lng": 0.000852065451383055
+      },
+      "name": "Maykop-Khanskaya",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 44.6724429,
+            "lng": 40.0239041
+          },
+          "endpoint_b": {
+            "lat": 44.6866728,
+            "lng": 40.0483087
+          },
+          "heading_deg": 50.7,
+          "length_m": 2496.5,
+          "midpoint": {
+            "lat": 44.679557849999995,
+            "lng": 40.0361064
+          },
+          "osm_way_id": 46911574,
+          "ref": "04/22",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "17": {
+      "dcs_position": {
+        "lat": 44.572900784128336,
+        "lng": 38.01161441703992
+      },
+      "elevation_m": 22.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.009124265871662374,
+        "lng": 0.0013529829600784637
+      },
+      "name": "Gelendzhik",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 44.5955471,
+            "lng": 38.0177363
+          },
+          "endpoint_b": {
+            "lat": 44.568503,
+            "lng": 38.0081985
+          },
+          "heading_deg": 194.1,
+          "length_m": 3099.2,
+          "midpoint": {
+            "lat": 44.58202505,
+            "lng": 38.0129674
+          },
+          "osm_way_id": 49014294,
+          "ref": "01/19",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "18": {
+      "dcs_position": {
+        "lat": 43.44435414193645,
+        "lng": 39.94107634483106
+      },
+      "elevation_m": 30.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.0006275080635518293,
+        "lng": 0.000865505168938796
+      },
+      "name": "Sochi-Adler",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 43.4394803,
+            "lng": 39.9258466
+          },
+          "endpoint_b": {
+            "lat": 43.450483,
+            "lng": 39.9580371
+          },
+          "heading_deg": 64.8,
+          "length_m": 2874.7,
+          "midpoint": {
+            "lat": 43.44498165,
+            "lng": 39.94194185
+          },
+          "osm_way_id": 26398591,
+          "ref": "06/24",
+          "status": "active",
+          "surface": "concrete"
+        },
+        {
+          "endpoint_a": {
+            "lat": 43.4343385,
+            "lng": 39.94461
+          },
+          "endpoint_b": {
+            "lat": 43.4540054,
+            "lng": 39.9594051
+          },
+          "heading_deg": 28.7,
+          "length_m": 2491.4,
+          "midpoint": {
+            "lat": 43.44417195,
+            "lng": 39.95200755
+          },
+          "osm_way_id": 26398604,
+          "ref": "02/20",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "19": {
+      "dcs_position": {
+        "lat": 45.03800823169005,
+        "lng": 39.1881352399431
+      },
+      "elevation_m": 34.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.0037655816900468153,
+        "lng": -2.623994310368971e-05
+      },
+      "name": "Krasnodar-Pashkovsky",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 45.0260626,
+            "lng": 39.1730157
+          },
+          "endpoint_b": {
+            "lat": 45.0424227,
+            "lng": 39.2032023
+          },
+          "heading_deg": 52.6,
+          "length_m": 2990.8,
+          "midpoint": {
+            "lat": 45.03424265,
+            "lng": 39.188109
+          },
+          "osm_way_id": 861713596,
+          "ref": "05R/23L",
+          "status": "active",
+          "surface": "concrete"
+        },
+        {
+          "endpoint_a": {
+            "lat": 45.0291255,
+            "lng": 39.1410679
+          },
+          "endpoint_b": {
+            "lat": 45.0410678,
+            "lng": 39.1630725
+          },
+          "heading_deg": 52.5,
+          "length_m": 2181.3,
+          "midpoint": {
+            "lat": 45.03509665,
+            "lng": 39.1520702
+          },
+          "osm_way_id": 861713597,
+          "ref": "05L/23R",
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "20": {
+      "dcs_position": {
+        "lat": 42.86109234026534,
+        "lng": 41.12499865194555
+      },
+      "elevation_m": 13.3,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.002843390265333312,
+        "lng": 0.003189998054445198
+      },
+      "name": "Sukhumi-Babushara",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 42.8673877,
+            "lng": 41.1087051
+          },
+          "endpoint_b": {
+            "lat": 42.8491102,
+            "lng": 41.1476722
+          },
+          "heading_deg": 122.6,
+          "length_m": 3773.2,
+          "midpoint": {
+            "lat": 42.858248950000004,
+            "lng": 41.12818865
+          },
+          "osm_way_id": 17635766,
+          "ref": "12/30",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "21": {
+      "dcs_position": {
+        "lat": 43.114327084603914,
+        "lng": 40.569741075949004
+      },
+      "elevation_m": 21.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.010236034603913424,
+        "lng": 0.009431124050998108
+      },
+      "name": "Gudauta",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 43.1157952,
+            "lng": 40.5703271
+          },
+          "endpoint_b": {
+            "lat": 43.0923869,
+            "lng": 40.5880173
+          },
+          "heading_deg": 151.1,
+          "length_m": 2972.3,
+          "midpoint": {
+            "lat": 43.10409105,
+            "lng": 40.5791722
+          },
+          "osm_way_id": 34125365,
+          "ref": "15/33",
+          "status": "active",
+          "surface": "concrete"
+        },
+        {
+          "endpoint_a": {
+            "lat": 43.115983,
+            "lng": 40.5698646
+          },
+          "endpoint_b": {
+            "lat": 43.115983,
+            "lng": 40.5698646
+          },
+          "heading_deg": 0.0,
+          "length_m": 0.0,
+          "midpoint": {
+            "lat": 43.115983,
+            "lng": 40.5698646
+          },
+          "osm_way_id": 81093144,
+          "ref": null,
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "22": {
+      "dcs_position": {
+        "lat": 41.609596846220136,
+        "lng": 41.60023691719102
+      },
+      "elevation_m": 10.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 7.370377986859467e-05,
+        "lng": -2.9467191019705297e-05
+      },
+      "name": "Batumi",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 41.616995,
+            "lng": 41.5889274
+          },
+          "endpoint_b": {
+            "lat": 41.6023461,
+            "lng": 41.6114875
+          },
+          "heading_deg": 130.9,
+          "length_m": 2485.2,
+          "midpoint": {
+            "lat": 41.609670550000004,
+            "lng": 41.60020745
+          },
+          "osm_way_id": 136066842,
+          "ref": "12/30",
+          "status": "active",
+          "surface": "asfalt;beton"
+        }
+      ]
+    },
+    "23": {
+      "dcs_position": {
+        "lat": 42.24084895478284,
+        "lng": 42.048014241545644
+      },
+      "elevation_m": 13.2,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.0007176047828423293,
+        "lng": 0.0026242584543609837
+      },
+      "name": "Senaki-Kolkhi",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 42.2392596,
+            "lng": 42.0648398
+          },
+          "endpoint_b": {
+            "lat": 42.2410031,
+            "lng": 42.0364372
+          },
+          "heading_deg": 274.7,
+          "length_m": 2348.8,
+          "midpoint": {
+            "lat": 42.24013135,
+            "lng": 42.050638500000005
+          },
+          "osm_way_id": 102314714,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 42.2408319,
+            "lng": 42.0390816
+          },
+          "endpoint_b": {
+            "lat": 42.2474116,
+            "lng": 42.0487873
+          },
+          "heading_deg": 47.6,
+          "length_m": 1083.7,
+          "midpoint": {
+            "lat": 42.244121750000005,
+            "lng": 42.04393445
+          },
+          "osm_way_id": 102314841,
+          "ref": null,
+          "status": "active",
+          "surface": "gravel"
+        }
+      ]
+    },
+    "24": {
+      "dcs_position": {
+        "lat": 41.929919070513485,
+        "lng": 41.86327450631784
+      },
+      "elevation_m": 18.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.0006911205134869647,
+        "lng": 0.0010677936821608114
+      },
+      "name": "Kobuleti",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 41.9266419,
+            "lng": 41.8506293
+          },
+          "endpoint_b": {
+            "lat": 41.931814,
+            "lng": 41.8780553
+          },
+          "heading_deg": 75.8,
+          "length_m": 2343.0,
+          "midpoint": {
+            "lat": 41.92922795,
+            "lng": 41.864342300000004
+          },
+          "osm_way_id": 74309078,
+          "ref": "07/25",
+          "status": "abandoned",
+          "surface": "unpaved"
+        }
+      ]
+    },
+    "25": {
+      "dcs_position": {
+        "lat": 42.17761582785751,
+        "lng": 42.48129219988309
+      },
+      "elevation_m": 45.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.0008368278575119348,
+        "lng": 0.0011384001169076896
+      },
+      "name": "Kutaisi",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 42.1748746,
+            "lng": 42.4672271
+          },
+          "endpoint_b": {
+            "lat": 42.1786834,
+            "lng": 42.4976341
+          },
+          "heading_deg": 80.4,
+          "length_m": 2543.9,
+          "midpoint": {
+            "lat": 42.176778999999996,
+            "lng": 42.4824306
+          },
+          "osm_way_id": 25154647,
+          "ref": "07/25",
+          "status": "active",
+          "surface": "beton;asfalt"
+        }
+      ]
+    },
+    "26": {
+      "dcs_position": {
+        "lat": 44.22785260373169,
+        "lng": 43.081191738056
+      },
+      "elevation_m": 320.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.0010549037316920362,
+        "lng": 0.0018093119440010241
+      },
+      "name": "Mineralnye Vody",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 44.2361157,
+            "lng": 43.0624151
+          },
+          "endpoint_b": {
+            "lat": 44.2174797,
+            "lng": 43.103587
+          },
+          "heading_deg": 122.2,
+          "length_m": 3882.8,
+          "midpoint": {
+            "lat": 44.2267977,
+            "lng": 43.08300105
+          },
+          "osm_way_id": 862473348,
+          "ref": "12/30",
+          "status": "active",
+          "surface": "concrete"
+        },
+        {
+          "endpoint_a": {
+            "lat": 44.2362925,
+            "lng": 43.0613383
+          },
+          "endpoint_b": {
+            "lat": 44.2362925,
+            "lng": 43.0613383
+          },
+          "heading_deg": 0.0,
+          "length_m": 0.0,
+          "midpoint": {
+            "lat": 44.2362925,
+            "lng": 43.0613383
+          },
+          "osm_way_id": 618736492,
+          "ref": "12/30",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "27": {
+      "dcs_position": {
+        "lat": 43.51400171101549,
+        "lng": 43.636451295437
+      },
+      "elevation_m": 430.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.0010737610154905042,
+        "lng": 0.00012570456300409205
+      },
+      "name": "Nalchik",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 43.5084015,
+            "lng": 43.6244479
+          },
+          "endpoint_b": {
+            "lat": 43.5174544,
+            "lng": 43.6487061
+          },
+          "heading_deg": 62.8,
+          "length_m": 2201.7,
+          "midpoint": {
+            "lat": 43.51292795,
+            "lng": 43.636577
+          },
+          "osm_way_id": 698129961,
+          "ref": "06/24",
+          "status": "active",
+          "surface": "concrete:plates"
+        }
+      ]
+    },
+    "28": {
+      "dcs_position": {
+        "lat": 43.791710641829,
+        "lng": 44.60583882218554
+      },
+      "elevation_m": 154.6,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.001703241828998614,
+        "lng": -0.006437572185539864
+      },
+      "name": "Mozdok",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 43.7900061,
+            "lng": 44.6211499
+          },
+          "endpoint_b": {
+            "lat": 43.7900087,
+            "lng": 44.5776526
+          },
+          "heading_deg": 270.0,
+          "length_m": 3495.4,
+          "midpoint": {
+            "lat": 43.7900074,
+            "lng": 44.59940125
+          },
+          "osm_way_id": 601380943,
+          "ref": "08L/26R",
+          "status": "active",
+          "surface": "concrete"
+        },
+        {
+          "endpoint_a": {
+            "lat": 43.7876342,
+            "lng": 44.5838606
+          },
+          "endpoint_b": {
+            "lat": 43.7876342,
+            "lng": 44.6211496
+          },
+          "heading_deg": 90.0,
+          "length_m": 2996.7,
+          "midpoint": {
+            "lat": 43.7876342,
+            "lng": 44.6025051
+          },
+          "osm_way_id": 26265810,
+          "ref": "08R/26L",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "29": {
+      "dcs_position": {
+        "lat": 41.66703366386257,
+        "lng": 44.956288060211804
+      },
+      "elevation_m": 479.7,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.0011288361374255373,
+        "lng": -0.003946710211806703
+      },
+      "name": "Tbilisi-Lochini",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 41.6780596,
+            "lng": 44.9398557
+          },
+          "endpoint_b": {
+            "lat": 41.6582654,
+            "lng": 44.964827
+          },
+          "heading_deg": 136.7,
+          "length_m": 3025.1,
+          "midpoint": {
+            "lat": 41.668162499999994,
+            "lng": 44.95234135
+          },
+          "osm_way_id": 17905381,
+          "ref": "13R/31L",
+          "status": "active",
+          "surface": "concrete"
+        },
+        {
+          "endpoint_a": {
+            "lat": 41.6578008,
+            "lng": 44.9267479
+          },
+          "endpoint_b": {
+            "lat": 41.6451071,
+            "lng": 44.940956
+          },
+          "heading_deg": 140.0,
+          "length_m": 1840.3,
+          "midpoint": {
+            "lat": 41.65145395,
+            "lng": 44.933851950000005
+          },
+          "osm_way_id": 17905368,
+          "ref": "14/32",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "30": {
+      "dcs_position": {
+        "lat": 41.649542451455915,
+        "lng": 44.93835774294116
+      },
+      "elevation_m": 449.4,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.018620048544079282,
+        "lng": 0.013983607058840164
+      },
+      "name": "Soganlug",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 41.6780596,
+            "lng": 44.9398557
+          },
+          "endpoint_b": {
+            "lat": 41.6582654,
+            "lng": 44.964827
+          },
+          "heading_deg": 136.7,
+          "length_m": 3025.1,
+          "midpoint": {
+            "lat": 41.668162499999994,
+            "lng": 44.95234135
+          },
+          "osm_way_id": 17905381,
+          "ref": "13R/31L",
+          "status": "active",
+          "surface": "concrete"
+        },
+        {
+          "endpoint_a": {
+            "lat": 41.6578008,
+            "lng": 44.9267479
+          },
+          "endpoint_b": {
+            "lat": 41.6451071,
+            "lng": 44.940956
+          },
+          "heading_deg": 140.0,
+          "length_m": 1840.3,
+          "midpoint": {
+            "lat": 41.65145395,
+            "lng": 44.933851950000005
+          },
+          "osm_way_id": 17905368,
+          "ref": "14/32",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    },
+    "31": {
+      "dcs_position": {
+        "lat": 41.629025903682106,
+        "lng": 45.02723084928328
+      },
+      "elevation_m": 464.5,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.001386303682110679,
+        "lng": 0.003965850716717512
+      },
+      "name": "Vaziani",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 41.6369184,
+            "lng": 45.0218087
+          },
+          "endpoint_b": {
+            "lat": 41.6183608,
+            "lng": 45.0405847
+          },
+          "heading_deg": 142.9,
+          "length_m": 2587.3,
+          "midpoint": {
+            "lat": 41.627639599999995,
+            "lng": 45.031196699999995
+          },
+          "osm_way_id": 17906072,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 41.6368379,
+            "lng": 45.0215303
+          },
+          "endpoint_b": {
+            "lat": 41.6368379,
+            "lng": 45.0215303
+          },
+          "heading_deg": 0.0,
+          "length_m": 0.0,
+          "midpoint": {
+            "lat": 41.6368379,
+            "lng": 45.0215303
+          },
+          "osm_way_id": 75664072,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        },
+        {
+          "endpoint_a": {
+            "lat": 41.6316257,
+            "lng": 45.0314652
+          },
+          "endpoint_b": {
+            "lat": 41.6316257,
+            "lng": 45.0314652
+          },
+          "heading_deg": 0.0,
+          "length_m": 0.0,
+          "midpoint": {
+            "lat": 41.6316257,
+            "lng": 45.0314652
+          },
+          "osm_way_id": 75664106,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    },
+    "32": {
+      "dcs_position": {
+        "lat": 43.20570612823566,
+        "lng": 44.60580814258725
+      },
+      "elevation_m": 524.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.0005624782356647984,
+        "lng": 0.0009462574127496737
+      },
+      "name": "Beslan",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 43.2078221,
+            "lng": 44.5887179
+          },
+          "endpoint_b": {
+            "lat": 43.2024652,
+            "lng": 44.6247909
+          },
+          "heading_deg": 101.5,
+          "length_m": 2987.0,
+          "midpoint": {
+            "lat": 43.20514365,
+            "lng": 44.6067544
+          },
+          "osm_way_id": 35345147,
+          "ref": "09/27",
+          "status": "active",
+          "surface": "concrete"
+        }
+      ]
+    }
+  },
+  "attribution": "Map data (c) OpenStreetMap contributors, ODbL (https://www.openstreetmap.org/copyright)",
+  "generated_at": "2026-05-22T20:40:00.450077Z",
+  "source": "OpenStreetMap (ODbL)",
+  "terrain": "Caucasus"
+}

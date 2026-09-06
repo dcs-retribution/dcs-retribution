@@ -6,6 +6,7 @@ from typing import Optional, TYPE_CHECKING
 
 from dcs.flyingunit import FlyingUnit
 
+from game.ato.starttype import StartType
 from game.callsigns import create_group_callsign_from_unit
 from game.squadrons import Squadron
 
@@ -71,6 +72,9 @@ class FlightData:
     laser_codes: list[Optional[int]]
 
     custom_name: Optional[str]
+
+    #: How the flight starts (cold, warm, runway, or in-flight).
+    start_type: StartType
 
     callsign: str = field(init=False)
 

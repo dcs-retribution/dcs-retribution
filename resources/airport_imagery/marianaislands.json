@@ -1,0 +1,368 @@
+{
+  "airports": {
+    "1": {
+      "dcs_position": {
+        "lat": 14.17437266612625,
+        "lng": 145.24109239880622
+      },
+      "elevation_m": 173.4,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 1.0933873749507939e-05,
+        "lng": 2.4351193786742442e-05
+      },
+      "name": "Rota Intl",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 14.1746878,
+            "lng": 145.2312698
+          },
+          "endpoint_b": {
+            "lat": 14.1740794,
+            "lng": 145.2509637
+          },
+          "heading_deg": 91.8,
+          "length_m": 2126.7,
+          "midpoint": {
+            "lat": 14.174383599999999,
+            "lng": 145.24111675
+          },
+          "osm_way_id": 138313880,
+          "ref": "09/27",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "2": {
+      "dcs_position": {
+        "lat": 15.118931054655581,
+        "lng": 145.72912914447548
+      },
+      "elevation_m": 65.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 7.254534441791805e-05,
+        "lng": 0.00021970552452899028
+      },
+      "name": "Saipan Intl",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 15.1144967,
+            "lng": 145.7179852
+          },
+          "endpoint_b": {
+            "lat": 15.1235105,
+            "lng": 145.7407125
+          },
+          "heading_deg": 67.7,
+          "length_m": 2639.9,
+          "midpoint": {
+            "lat": 15.1190036,
+            "lng": 145.72934885
+          },
+          "osm_way_id": 156858574,
+          "ref": "07/25",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 15.1186089,
+            "lng": 145.7226995
+          },
+          "endpoint_b": {
+            "lat": 15.1254073,
+            "lng": 145.7398889
+          },
+          "heading_deg": 67.8,
+          "length_m": 1995.8,
+          "midpoint": {
+            "lat": 15.1220081,
+            "lng": 145.7312942
+          },
+          "osm_way_id": 181021201,
+          "ref": "06/24",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 15.1181573,
+            "lng": 145.7215673
+          },
+          "endpoint_b": {
+            "lat": 15.1186089,
+            "lng": 145.7226995
+          },
+          "heading_deg": 67.6,
+          "length_m": 131.6,
+          "midpoint": {
+            "lat": 15.118383099999999,
+            "lng": 145.72213340000002
+          },
+          "osm_way_id": 937055891,
+          "ref": "06/24",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "3": {
+      "dcs_position": {
+        "lat": 14.999193626218325,
+        "lng": 145.6191816236229
+      },
+      "elevation_m": 73.2,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 9.373781674426596e-06,
+        "lng": 0.00012137637710907256
+      },
+      "name": "Tinian Intl",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 14.9969509,
+            "lng": 145.6073347
+          },
+          "endpoint_b": {
+            "lat": 15.0014551,
+            "lng": 145.6312713
+          },
+          "heading_deg": 79.0,
+          "length_m": 2622.1,
+          "midpoint": {
+            "lat": 14.999203,
+            "lng": 145.619303
+          },
+          "osm_way_id": 33293772,
+          "ref": "08/26",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "4": {
+      "dcs_position": {
+        "lat": 13.484779760120237,
+        "lng": 144.79682382088177
+      },
+      "elevation_m": 77.8,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 0.000548239879762491,
+        "lng": 0.0011931791182462348
+      },
+      "name": "Antonio B. Won Pat Intl",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 13.4789094,
+            "lng": 144.7839867
+          },
+          "endpoint_b": {
+            "lat": 13.4917466,
+            "lng": 144.8120473
+          },
+          "heading_deg": 64.8,
+          "length_m": 3355.9,
+          "midpoint": {
+            "lat": 13.485327999999999,
+            "lng": 144.79801700000002
+          },
+          "osm_way_id": 4045751,
+          "ref": "06L/24R",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 13.4772932,
+            "lng": 144.7849662
+          },
+          "endpoint_b": {
+            "lat": 13.487651,
+            "lng": 144.8076715
+          },
+          "heading_deg": 64.9,
+          "length_m": 2714.1,
+          "midpoint": {
+            "lat": 13.482472099999999,
+            "lng": 144.79631885
+          },
+          "osm_way_id": 4045752,
+          "ref": "06R/24L",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "5": {
+      "dcs_position": {
+        "lat": 13.438200572978289,
+        "lng": 144.6422396805305
+      },
+      "elevation_m": 28.5,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 1.3477021710173176e-05,
+        "lng": -0.0001286305305256974
+      },
+      "name": "Olf Orote",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 13.4404885,
+            "lng": 144.6476585
+          },
+          "endpoint_b": {
+            "lat": 13.4359396,
+            "lng": 144.6365636
+          },
+          "heading_deg": 247.2,
+          "length_m": 1303.3,
+          "midpoint": {
+            "lat": 13.43821405,
+            "lng": 144.64211104999998
+          },
+          "osm_way_id": 34159698,
+          "ref": null,
+          "status": "active",
+          "surface": "paved"
+        }
+      ]
+    },
+    "6": {
+      "dcs_position": {
+        "lat": 13.581703326238712,
+        "lng": 144.9310523152917
+      },
+      "elevation_m": 166.3,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -0.0005704762387122031,
+        "lng": -0.0013867152917157455
+      },
+      "name": "Andersen AFB",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 13.5742768,
+            "lng": 144.914021
+          },
+          "endpoint_b": {
+            "lat": 13.5879889,
+            "lng": 144.9453102
+          },
+          "heading_deg": 65.8,
+          "length_m": 3712.9,
+          "midpoint": {
+            "lat": 13.58113285,
+            "lng": 144.9296656
+          },
+          "osm_way_id": 33271774,
+          "ref": "6R/24L",
+          "status": "active",
+          "surface": "asphalt"
+        },
+        {
+          "endpoint_a": {
+            "lat": 13.5792862,
+            "lng": 144.9130588
+          },
+          "endpoint_b": {
+            "lat": 13.5929623,
+            "lng": 144.9443531
+          },
+          "heading_deg": 65.8,
+          "length_m": 3711.7,
+          "midpoint": {
+            "lat": 13.586124250000001,
+            "lng": 144.92870595
+          },
+          "osm_way_id": 33271773,
+          "ref": "06L/24R",
+          "status": "active",
+          "surface": "asphalt"
+        }
+      ]
+    },
+    "7": {
+      "dcs_position": {
+        "lat": 18.123153737446714,
+        "lng": 145.76314859232707
+      },
+      "elevation_m": 15.3,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": 7.986255328518155e-05,
+        "lng": -0.00013699232707153897
+      },
+      "name": "Pagan Airstrip",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 18.1241808,
+            "lng": 145.7603203
+          },
+          "endpoint_b": {
+            "lat": 18.1222864,
+            "lng": 145.7657029
+          },
+          "heading_deg": 110.3,
+          "length_m": 607.1,
+          "midpoint": {
+            "lat": 18.1232336,
+            "lng": 145.7630116
+          },
+          "osm_way_id": 181023503,
+          "ref": "11/29",
+          "status": "active",
+          "surface": "grass"
+        }
+      ]
+    },
+    "8": {
+      "dcs_position": {
+        "lat": 13.625334083373424,
+        "lng": 144.85839856745477
+      },
+      "elevation_m": 159.0,
+      "elevation_source": "dcs_land_getheight",
+      "imagery_offset_deg": {
+        "lat": -2.743337342359098e-05,
+        "lng": -0.00041446745476036995
+      },
+      "name": "North West Field",
+      "runways": [
+        {
+          "endpoint_a": {
+            "lat": 13.6201731,
+            "lng": 144.8475422
+          },
+          "endpoint_b": {
+            "lat": 13.6304402,
+            "lng": 144.868426
+          },
+          "heading_deg": 63.2,
+          "length_m": 2531.1,
+          "midpoint": {
+            "lat": 13.62530665,
+            "lng": 144.8579841
+          },
+          "osm_way_id": 33272571,
+          "ref": null,
+          "status": "active",
+          "surface": null
+        }
+      ]
+    }
+  },
+  "attribution": "Map data (c) OpenStreetMap contributors, ODbL (https://www.openstreetmap.org/copyright)",
+  "generated_at": "2026-05-22T21:17:44.641258Z",
+  "source": "OpenStreetMap (ODbL)",
+  "terrain": "MarianaIslands"
+}

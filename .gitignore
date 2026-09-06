@@ -25,3 +25,6 @@ env/
 /resources/plugins/pretense/pretense_output.lua
 
 *.psd
+
+# Local virtualenv (matches existing `venv` convention but with leading dot)
+.venv/
