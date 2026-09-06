@@ -11,6 +11,7 @@ from game.utils import nautical_miles
 from .ibuilder import IBuilder
 from .invalidobjectivelocation import InvalidObjectiveLocation
 from .patrolling import PatrollingFlightPlan, PatrollingLayout
+from .tacticaloverlay import TacticalOverlay, TacticalOverlayDisplay, cas_overlay
 from .uizonedisplay import UiZone, UiZoneDisplay
 from .waypointbuilder import WaypointBuilder
 from ..flightwaypointtype import FlightWaypointType
@@ -40,7 +41,9 @@ class CasLayout(PatrollingLayout):
         yield from self.custom_waypoints
 
 
-class CasFlightPlan(PatrollingFlightPlan[CasLayout], UiZoneDisplay):
+class CasFlightPlan(
+    PatrollingFlightPlan[CasLayout], UiZoneDisplay, TacticalOverlayDisplay
+):
     @staticmethod
     def builder_type() -> Type[Builder]:
         return Builder
@@ -79,6 +82,13 @@ class CasFlightPlan(PatrollingFlightPlan[CasLayout], UiZoneDisplay):
         return UiZone(
             [midpoint],
             self.engagement_distance,
+        )
+
+    def tactical_overlay(self) -> TacticalOverlay:
+        return cas_overlay(
+            patrol_start=self.layout.patrol_start.position,
+            patrol_end=self.layout.patrol_end.position,
+            engagement_range=self.engagement_distance,
         )
 
 

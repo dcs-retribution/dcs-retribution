@@ -8,10 +8,11 @@ from game.utils import Distance, Speed
 from .capbuilder import CapBuilder
 from .invalidobjectivelocation import InvalidObjectiveLocation
 from .patrolling import PatrollingFlightPlan, PatrollingLayout
+from .tacticaloverlay import TacticalOverlay, TacticalOverlayDisplay, cap_overlay
 from .waypointbuilder import WaypointBuilder
 
 
-class BarCapFlightPlan(PatrollingFlightPlan[PatrollingLayout]):
+class BarCapFlightPlan(PatrollingFlightPlan[PatrollingLayout], TacticalOverlayDisplay):
     @staticmethod
     def builder_type() -> Type[Builder]:
         return Builder
@@ -29,6 +30,9 @@ class BarCapFlightPlan(PatrollingFlightPlan[PatrollingLayout]):
     @property
     def engagement_distance(self) -> Distance:
         return self.flight.coalition.doctrine.cap_engagement_range
+
+    def tactical_overlay(self) -> TacticalOverlay:
+        return cap_overlay(self)
 
 
 class Builder(CapBuilder[BarCapFlightPlan, PatrollingLayout]):

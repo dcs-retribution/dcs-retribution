@@ -10,14 +10,22 @@ from .formationattack import (
     FormationAttackLayout,
 )
 from .invalidobjectivelocation import InvalidObjectiveLocation
+from .tacticaloverlay import TacticalOverlay, TacticalOverlayDisplay, attack_run_overlay
 from .waypointbuilder import StrikeTarget
 from ..flightwaypointtype import FlightWaypointType
 
 
-class AntiShipFlightPlan(FormationAttackFlightPlan):
+class AntiShipFlightPlan(FormationAttackFlightPlan, TacticalOverlayDisplay):
     @staticmethod
     def builder_type() -> Type[Builder]:
         return Builder
+
+    def tactical_overlay(self) -> TacticalOverlay:
+        return attack_run_overlay(
+            self.layout.ingress.position,
+            self.package.target.position,
+            self.layout.split.position,
+        )
 
 
 class Builder(FormationAttackBuilder[AntiShipFlightPlan, FormationAttackLayout]):

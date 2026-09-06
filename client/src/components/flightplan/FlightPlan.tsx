@@ -1,12 +1,12 @@
 import { Flight } from "../../api/liberationApi";
 import {
-  useGetCommitBoundaryForFlightQuery,
+  useGetTacticalOverlayForFlightQuery,
   useSelectFlightMutation,
 } from "../../api/liberationApi";
 import WaypointMarker from "../waypointmarker";
 import { Polyline as LPolyline } from "leaflet";
 import { ReactElement, useEffect, useRef } from "react";
-import { Polyline } from "react-leaflet";
+import { CircleMarker, Polygon, Polyline } from "react-leaflet";
 
 const BLUE_PATH = "#0084ff";
 const RED_PATH = "#c85050";
@@ -120,47 +120,75 @@ const WaypointMarkers = (props: FlightPlanProps) => {
   return <>{markers}</>;
 };
 
-interface CommitBoundaryProps {
-  flightId: string;
-  selected: boolean;
+const ENGAGEMENT = "#ffff00"; // unchanged: existing engagement-zone yellow
+const TARGET = "#ff5a5a"; // attack-target marker
+
+interface TacticalOverlayProps {
+  flight: Flight;
 }
 
-function CommitBoundary(props: CommitBoundaryProps) {
-  const { data, error, isLoading } = useGetCommitBoundaryForFlightQuery(
-    {
-      flightId: props.flightId,
-    },
-    // RTK Query doesn't seem to allow us to invalidate the cache from anything
-    // but a mutation, but this data can be invalidated by events from the
-    // websocket. Just disable the cache for this.
-    //
-    // This isn't perfect. It won't redraw until the component remounts. There
-    // doesn't appear to be a better way.
+function TacticalOverlayLayer(props: TacticalOverlayProps) {
+  const { data, error } = useGetTacticalOverlayForFlightQuery(
+    { flightId: props.flight.id },
+    // RTK Query can only invalidate caches from mutations, but this data is
+    // invalidated by websocket events. Disable the cache and refetch on
+    // (re)mount instead. It won't redraw until the component remounts; there
+    // doesn't appear to be a better hook.
     { refetchOnMountOrArgChange: true }
   );
-  if (isLoading) {
-    return <></>;
-  }
   if (error) {
-    console.error(`Error loading commit boundary for ${props.flightId}`, error);
-    return <></>;
-  }
-  if (!data) {
-    console.log(
-      `Null response data when loading commit boundary for ${props.flightId}`
+    console.error(
+      `Error loading tactical overlay for ${props.flight.id}`,
+      error
     );
     return <></>;
   }
+  if (!data) {
+    return <></>;
+  }
+  const teamColor = props.flight.blue ? BLUE_PATH : RED_PATH;
   return (
-    <Polyline positions={data} color="#ffff00" weight={1} interactive={false} />
+    <>
+      {data.reach.map((shape, idx) => (
+        <Polygon
+          key={`reach-${idx}`}
+          positions={shape.polygon}
+          pathOptions={
+            shape.filled
+              ? { color: ENGAGEMENT, weight: 1.5, fillOpacity: 0.15 }
+              : { color: ENGAGEMENT, weight: 1.5, fill: false }
+          }
+          interactive={false}
+        />
+      ))}
+      {data.actual_path && (
+        <Polyline
+          positions={data.actual_path}
+          pathOptions={{ color: teamColor }}
+          interactive={false}
+        />
+      )}
+      {data.targets.map((t, idx) => (
+        <CircleMarker
+          key={`tgt-${idx}`}
+          center={t.position}
+          radius={6}
+          pathOptions={{ color: TARGET, weight: 2, fill: false }}
+          interactive={false}
+        />
+      ))}
+    </>
   );
 }
 
-function CommitBoundaryIfSelected(props: CommitBoundaryProps) {
+function TacticalOverlayIfSelected(props: {
+  flight: Flight;
+  selected: boolean;
+}) {
   if (!props.selected) {
     return <></>;
   }
-  return <CommitBoundary {...props} />;
+  return <TacticalOverlayLayer flight={props.flight} />;
 }
 
 export default function FlightPlan(props: FlightPlanProps) {
@@ -168,8 +196,8 @@ export default function FlightPlan(props: FlightPlanProps) {
     <>
       <FlightPlanPath {...props} />
       <WaypointMarkers {...props} />
-      <CommitBoundaryIfSelected
-        flightId={props.flight.id}
+      <TacticalOverlayIfSelected
+        flight={props.flight}
         selected={props.selected}
       />
     </>

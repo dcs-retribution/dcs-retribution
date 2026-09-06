@@ -70,12 +70,12 @@ const injectedRtkApi = api.injectEndpoints({
         params: { with_waypoints: queryArg.withWaypoints },
       }),
     }),
-    getCommitBoundaryForFlight: build.query<
-      GetCommitBoundaryForFlightApiResponse,
-      GetCommitBoundaryForFlightApiArg
+    getTacticalOverlayForFlight: build.query<
+      GetTacticalOverlayForFlightApiResponse,
+      GetTacticalOverlayForFlightApiArg
     >({
       query: (queryArg) => ({
-        url: `/flights/${queryArg.flightId}/commit-boundary`,
+        url: `/flights/${queryArg.flightId}/tactical-overlay`,
       }),
     }),
     listFrontLines: build.query<
@@ -290,9 +290,9 @@ export type GetFlightByIdApiArg = {
   flightId: string;
   withWaypoints?: boolean;
 };
-export type GetCommitBoundaryForFlightApiResponse =
-  /** status 200 Successful Response */ LatLng[][];
-export type GetCommitBoundaryForFlightApiArg = {
+export type GetTacticalOverlayForFlightApiResponse =
+  /** status 200 Successful Response */ TacticalOverlay;
+export type GetTacticalOverlayForFlightApiArg = {
   flightId: string;
 };
 export type ListFrontLinesApiResponse =
@@ -455,6 +455,18 @@ export type FrontLine = {
   id: string;
   extents: LatLng[];
 };
+export type TacticalReach = {
+  polygon: LatLng[][];
+  filled: boolean;
+};
+export type TacticalTarget = {
+  position: LatLng;
+};
+export type TacticalOverlay = {
+  reach: TacticalReach[];
+  actual_path?: LatLng[];
+  targets: TacticalTarget[];
+};
 export type Tgo = {
   id: string;
   name: string;
@@ -545,7 +557,7 @@ export const {
   useGetDebugJoinZonesQuery,
   useListFlightsQuery,
   useGetFlightByIdQuery,
-  useGetCommitBoundaryForFlightQuery,
+  useGetTacticalOverlayForFlightQuery,
   useListFrontLinesQuery,
   useGetFrontLineByIdQuery,
   useGetGameStateQuery,

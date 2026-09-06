@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QLabel, QGroupBox, QGridLayout
 
+from game.ato.flightroledescription import role_description
 from qt_ui.uiconstants import AIRCRAFT_ICONS
 
 
@@ -25,5 +26,11 @@ class QFlightTypeTaskInfo(QGroupBox):
 
         layout.addWidget(self.task, 1, 0)
         layout.addWidget(self.task_type, 1, 1)
+
+        role_text = role_description(flight)
+        if role_text:
+            self.role = QLabel(role_text)
+            self.role.setWordWrap(True)
+            layout.addWidget(self.role, 2, 0, 1, 2)
 
         self.setLayout(layout)

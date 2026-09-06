@@ -7,12 +7,15 @@ from .formationattack import (
     FormationAttackFlightPlan,
     FormationAttackLayout,
 )
+from .tacticaloverlay import TacticalOverlay, TacticalOverlayDisplay, attack_run_overlay
 from .uizonedisplay import UiZone, UiZoneDisplay
 from ..flightwaypointtype import FlightWaypointType
 from ...utils import nautical_miles
 
 
-class ArmedReconFlightPlan(FormationAttackFlightPlan, UiZoneDisplay):
+class ArmedReconFlightPlan(
+    FormationAttackFlightPlan, UiZoneDisplay, TacticalOverlayDisplay
+):
     @staticmethod
     def builder_type() -> Type[Builder]:
         return Builder
@@ -23,6 +26,13 @@ class ArmedReconFlightPlan(FormationAttackFlightPlan, UiZoneDisplay):
             nautical_miles(
                 self.flight.coalition.game.settings.armed_recon_engagement_range_distance
             ),
+        )
+
+    def tactical_overlay(self) -> TacticalOverlay:
+        return attack_run_overlay(
+            self.layout.ingress.position,
+            self.package.target.position,
+            self.layout.split.position,
         )
 
 

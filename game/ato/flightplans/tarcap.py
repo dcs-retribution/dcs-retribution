@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING, Type
 from game.utils import Distance, Speed
 from .capbuilder import CapBuilder
 from .patrolling import PatrollingFlightPlan, PatrollingLayout
+from .tacticaloverlay import TacticalOverlay, TacticalOverlayDisplay, cap_overlay
 from .waypointbuilder import WaypointBuilder
 
 if TYPE_CHECKING:
@@ -41,7 +42,7 @@ class TarCapLayout(PatrollingLayout):
         return False
 
 
-class TarCapFlightPlan(PatrollingFlightPlan[TarCapLayout]):
+class TarCapFlightPlan(PatrollingFlightPlan[TarCapLayout], TacticalOverlayDisplay):
     @property
     def patrol_duration(self) -> timedelta:
         # Note that this duration only has an effect if there are no
@@ -59,6 +60,9 @@ class TarCapFlightPlan(PatrollingFlightPlan[TarCapLayout]):
     @property
     def engagement_distance(self) -> Distance:
         return self.flight.coalition.doctrine.cap_engagement_range
+
+    def tactical_overlay(self) -> TacticalOverlay:
+        return cap_overlay(self)
 
     @staticmethod
     def builder_type() -> Type[Builder]:

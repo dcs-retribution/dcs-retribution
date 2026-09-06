@@ -36,7 +36,7 @@ export const liberationApi = _liberationApi.enhanceEndpoints({
       ],
     },
     // /flights/
-    getCommitBoundaryForFlight: {
+    getTacticalOverlayForFlight: {
       providesTags: (result, error, arg) => [
         { type: Tags.FLIGHT_PLAN, id: arg.flightId },
       ],

@@ -10,16 +10,33 @@ from .formationattack import (
     FormationAttackFlightPlan,
     FormationAttackLayout,
 )
+from .tacticaloverlay import TacticalOverlay, TacticalOverlayDisplay, escort_overlay
 from .waypointbuilder import WaypointBuilder
 from .. import FlightType
 from ..packagewaypoints import PackageWaypoints
 from ...utils import feet
 
 
-class EscortFlightPlan(FormationAttackFlightPlan):
+class EscortFlightPlan(FormationAttackFlightPlan, TacticalOverlayDisplay):
     @staticmethod
     def builder_type() -> Type[Builder]:
         return Builder
+
+    def tactical_overlay(self) -> TacticalOverlay:
+        doctrine = self.flight.coalition.doctrine
+        rng = (
+            doctrine.sead_escort_engagement_range
+            if self.flight.flight_type is FlightType.SEAD_ESCORT
+            else doctrine.escort_engagement_range
+        )
+        # AI escorts skip the ingress/target waypoints (only_for_player) and turn
+        # for home at the escort-hold anchor, ~7-9nm short of the target, without
+        # loitering. So the honest reach is the join->escort-hold leg, not a
+        # corridor all the way to the target and out to split.
+        hold = self.layout.initial
+        far = hold.position if hold is not None else self.package.target.position
+        route = [self.layout.join.position, far]
+        return escort_overlay(route=route, engagement_range=rng)
 
     @property
     def split_time(self) -> datetime:

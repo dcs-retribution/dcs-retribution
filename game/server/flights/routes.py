@@ -1,13 +1,10 @@
 from uuid import UUID
 
 from fastapi import APIRouter, Depends
-from shapely.geometry import LineString, Point as ShapelyPoint
 
 from game import Game
-from game.ato.flightplans.uizonedisplay import UiZoneDisplay
 from game.server import GameContext
-from game.server.flights.models import FlightJs
-from game.server.leaflet import LeafletPoly, ShapelyUtil
+from game.server.flights.models import FlightJs, TacticalOverlayJs
 
 router: APIRouter = APIRouter(prefix="/flights")
 
@@ -30,20 +27,12 @@ def get_flight(
 
 
 @router.get(
-    "/{flight_id}/commit-boundary",
-    operation_id="get_commit_boundary_for_flight",
-    response_model=LeafletPoly,
+    "/{flight_id}/tactical-overlay",
+    operation_id="get_tactical_overlay_for_flight",
+    response_model=TacticalOverlayJs,
 )
-def commit_boundary(
+def tactical_overlay(
     flight_id: UUID, game: Game = Depends(GameContext.require)
-) -> LeafletPoly:
+) -> TacticalOverlayJs:
     flight = game.db.flights.get(flight_id)
-    if not isinstance(flight.flight_plan, UiZoneDisplay):
-        return []
-    zone = flight.flight_plan.ui_zone()
-    if len(zone.points) == 1:
-        center = ShapelyPoint(zone.points[0].x, zone.points[0].y)
-    else:
-        center = LineString([ShapelyPoint(p.x, p.y) for p in zone.points])
-    bubble = center.buffer(zone.radius.meters)
-    return ShapelyUtil.poly_to_leaflet(bubble, game.theater)
+    return TacticalOverlayJs.for_flight(flight, game)
