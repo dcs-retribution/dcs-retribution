@@ -16,6 +16,7 @@ from typing import Any, Callable, cast
 from unittest.mock import MagicMock
 
 from game.debriefing import Debriefing, GroundLosses
+from game.ground_forces.combat_stance import CombatStance
 from game.sim.missionresultsprocessor import MissionResultsProcessor
 from game.theater import ControlPoint
 
@@ -100,3 +101,34 @@ def test_battle_impact_scored_before_captures_flip_ownership() -> None:
     assert calls.index("commit_front_line_battle_impact") < calls.index(
         "commit_captures"
     ), "front-line scoring must run before bases are captured"
+
+
+def test_enemy_retreat_is_read_and_allies_advance_with_zero_casualties() -> None:
+    """Regression: the resolver must read the ENEMY's stance. With zero
+    casualties, an enemy RETREAT lets an aggressive allied force advance --
+    the old casualty-only resolver called this a stalemate."""
+    ally: Any = MagicMock()
+    ally.id = "ally"
+    ally.name = "AlliedBase"
+    ally.base.total_armor = 30
+    enemy: Any = MagicMock()
+    enemy.id = "enemy"
+    enemy.name = "EnemyBase"
+    enemy.base.total_armor = 1
+    enemy.captured.is_red = True
+    ally.stances = {enemy.id: CombatStance.AGGRESSIVE}
+    enemy.stances = {ally.id: CombatStance.RETREAT}
+    ally.connected_points = [enemy]
+    ally.front_line_with = MagicMock(return_value=MagicMock())
+
+    game = MagicMock()
+    game.theater.player_points = MagicMock(return_value=[ally])
+    processor = MissionResultsProcessor(cast(Any, game))
+
+    debriefing: Any = MagicMock()
+    debriefing.casualty_count = MagicMock(return_value=0)
+    processor.commit_front_line_battle_impact(debriefing, cast(Any, MagicMock()))
+
+    # 30:1 aggressive vs retreating enemy, zero casualties -> strong win (0.5).
+    ally.base.affect_strength.assert_called_with(0.5)
+    enemy.base.affect_strength.assert_called_with(-0.5)
