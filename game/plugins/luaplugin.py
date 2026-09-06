@@ -176,6 +176,10 @@ class LuaPlugin(PluginSettings):
             work_order.work(lua_generator)
 
     def inject_configuration(self, lua_generator: LuaGenerator) -> None:
+        self._inject_option_table(lua_generator)
+        self._run_config_work_orders(lua_generator)
+
+    def _inject_option_table(self, lua_generator: LuaGenerator) -> None:
         # inject the plugin options
         if self.options:
             option_decls = []
@@ -203,6 +207,7 @@ class LuaPlugin(PluginSettings):
                 lua, f"{self.identifier} plugin configuration"
             )
 
+    def _run_config_work_orders(self, lua_generator: LuaGenerator) -> None:
         for work_order in self.definition.config_work_orders:
             work_order.work(lua_generator)
 

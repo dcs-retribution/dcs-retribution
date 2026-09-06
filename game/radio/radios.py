@@ -431,11 +431,15 @@ class RadioRegistry:
         "BLUFOR UHF", (RadioRange(MHz(225), MHz(400), MHz(1), Modulation.AM),)
     )
 
+    BLUFOR_VHF = Radio(
+        "BLUFOR VHF", (RadioRange(MHz(118), MHz(144), kHz(25), Modulation.AM),)
+    )
+
     def __init__(self) -> None:
         self.allocated_channels: Set[RadioFrequency] = set()
         self.radio_allocators: Dict[Radio, Iterator[RadioFrequency]] = {}
 
-        radios = itertools.chain(RADIOS, [self.BLUFOR_UHF])
+        radios = itertools.chain(RADIOS, [self.BLUFOR_UHF, self.BLUFOR_VHF])
         for radio in radios:
             self.radio_allocators[radio] = radio.range()
 
@@ -482,6 +486,17 @@ class RadioRegistry:
                 already allocated.
         """
         return self.alloc_for_radio(self.BLUFOR_UHF)
+
+    def alloc_vhf(self) -> RadioFrequency:
+        """Allocates a VHF AM channel suitable for inter-flight comms.
+
+        Returns:
+            A VHF AM radio channel.
+
+        Raises:
+            OutOfChannelsError: All compatible channels are already allocated.
+        """
+        return self.alloc_for_radio(self.BLUFOR_VHF)
 
     def reserve(self, frequency: RadioFrequency) -> None:
         """Reserves the given channel.

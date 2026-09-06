@@ -15,6 +15,7 @@ from ..utils import Heading, pairwise
 if TYPE_CHECKING:
     from game.ato import FlightType
     from .controlpoint import ControlPoint, Coalition
+    from ..lasercodes.lasercoderegistry import LaserCodeRegistry
 
 
 FRONTLINE_MIN_CP_DISTANCE = 5000
@@ -57,6 +58,7 @@ class FrontLine(MissionTarget):
         self.blue_cp = blue_point
         self.red_cp = red_point
         self.laser_code = laser_code
+        self.extra_laser_codes: list[LaserCode] = []
         try:
             route = list(blue_point.convoy_route_to(red_point))
         except KeyError:
@@ -83,6 +85,21 @@ class FrontLine(MissionTarget):
 
     def __hash__(self) -> int:
         return hash(id(self))
+
+    def __setstate__(self, state: dict[str, Any]) -> None:
+        # Saves from before per-front-line multi-code support have no
+        # extra_laser_codes in their pickled state; default it so laser_codes()
+        # and front-line teardown don't AttributeError on old saves.
+        state.setdefault("extra_laser_codes", [])
+        self.__dict__.update(state)
+
+    def laser_codes(self, n: int, registry: "LaserCodeRegistry") -> list[LaserCode]:
+        """Return n laser codes for this front line: the primary plus lazily
+        allocated extras. Idempotent across mission regenerations — reuses
+        already-allocated extras, only allocating more when n grows."""
+        while len(self.extra_laser_codes) < n - 1:
+            self.extra_laser_codes.append(registry.alloc_laser_code())
+        return [self.laser_code, *self.extra_laser_codes][:n]
 
     def _compute_position(self) -> Point:
         return self.point_along_route_from_blue(self._blue_route_progress)

@@ -545,6 +545,9 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         del connection.front_lines[self]
         self.front_line_db.remove(front.id)
         front.laser_code.release()
+        for code in front.extra_laser_codes:
+            code.release()
+        front.extra_laser_codes.clear()
         events.delete_front_line(front)
 
     def _clear_front_lines(self, events: GameUpdateEvents) -> None:
