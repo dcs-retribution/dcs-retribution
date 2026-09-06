@@ -6,7 +6,16 @@ from collections import defaultdict
 from dataclasses import dataclass
 from functools import cache, cached_property
 from pathlib import Path
-from typing import Any, ClassVar, Dict, Iterator, Optional, TYPE_CHECKING, Type
+from typing import (
+    Any,
+    ClassVar,
+    Collection,
+    Dict,
+    Iterator,
+    Optional,
+    TYPE_CHECKING,
+    Type,
+)
 
 import yaml
 from dcs.helicopters import helicopter_map
@@ -187,6 +196,35 @@ class FuelConsumption:
         )
 
 
+# Auto-derived task types: holding one capability implies a sibling capability.
+# Single source of truth shared by AircraftType.__post_init__ (airframe caps) and
+# SquadronDef.from_yaml (squadron mission_types) so the two cannot drift.
+# Maps a derived task to its source tasks (first present source wins for priority copy).
+_DERIVED_TASK_SOURCES: dict[FlightType, tuple[FlightType, ...]] = {
+    FlightType.SEAD_SWEEP: (FlightType.SEAD, FlightType.SEAD_ESCORT),
+    FlightType.ARMED_RECON: (FlightType.CAS, FlightType.BAI),
+    FlightType.RECOVERY: (FlightType.REFUELING,),
+}
+
+
+def derived_task_types(
+    tasks: Collection[FlightType], carrier_capable: bool
+) -> set[FlightType]:
+    """Sibling task types implied by ``tasks`` via the auto-derivation rules.
+
+    RECOVERY is only implied when the airframe is carrier-capable, matching
+    AircraftType.__post_init__.
+    """
+    derived: set[FlightType] = set()
+    for derived_task, sources in _DERIVED_TASK_SOURCES.items():
+        # RECOVERY is gated on carrier capability; the others are unconditional.
+        if derived_task is FlightType.RECOVERY and not carrier_capable:
+            continue
+        if any(source in tasks for source in sources):
+            derived.add(derived_task)
+    return derived
+
+
 # TODO: Split into PlaneType and HelicopterType?
 @dataclass(frozen=True)
 class AircraftType(UnitType[Type[FlyingType]]):
@@ -270,25 +308,18 @@ class AircraftType(UnitType[Type[FlyingType]]):
         self.__dict__.update(updated.__dict__)
 
     def __post_init__(self) -> None:
-        enrich = {}
-        if FlightType.SEAD_SWEEP not in self.task_priorities:
-            if (value := self.task_priorities.get(FlightType.SEAD)) or (
-                value := self.task_priorities.get(FlightType.SEAD_ESCORT)
-            ):
-                enrich[FlightType.SEAD_SWEEP] = value
-
-        if FlightType.ARMED_RECON not in self.task_priorities:
-            if (value := self.task_priorities.get(FlightType.CAS)) or (
-                value := self.task_priorities.get(FlightType.BAI)
-            ):
-                enrich[FlightType.ARMED_RECON] = value
-
-        if FlightType.RECOVERY not in self.task_priorities:
-            if (
-                value := self.task_priorities.get(FlightType.REFUELING)
-            ) and self.carrier_capable is True:
-                enrich[FlightType.RECOVERY] = value
-
+        enrich: dict[FlightType, int] = {}
+        for derived_task in derived_task_types(
+            self.task_priorities, self.carrier_capable
+        ):
+            if derived_task in self.task_priorities:
+                continue
+            for source in _DERIVED_TASK_SOURCES[derived_task]:
+                # Truthiness (not `is not None`) preserves prior behavior: a 0/falsy
+                # source priority falls through to the next source, or is skipped.
+                if value := self.task_priorities.get(source):
+                    enrich[derived_task] = value
+                    break
         self.task_priorities.update(enrich)
 
     def __eq__(self, other: object) -> bool:

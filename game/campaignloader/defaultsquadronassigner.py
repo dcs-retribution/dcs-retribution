@@ -16,6 +16,30 @@ if TYPE_CHECKING:
     from game.coalition import Coalition
 
 
+def warn_if_primary_not_auto_assignable(
+    squadron: Squadron, primary: FlightType
+) -> None:
+    """Log if an assigned squadron lacks its campaign primary in its auto set.
+
+    Squadron selection already guarantees ``capable_of(primary)`` and the campaign
+    replace preserves the primary, so this should never fire today. It is a tripwire
+    for future changes (e.g. an intersect/ceiling model) that could silently leave a
+    randomized squadron unable to fly its assigned primary.
+    """
+    # Use can_auto_assign (the canonical gate: set membership AND airframe capability)
+    # rather than raw set membership, so a dirty set (e.g. an incapable primary written
+    # via deserialization or a UI edit) still trips the wire.
+    if not squadron.can_auto_assign(primary):
+        logging.warning(
+            "Squadron %s (%s) assigned primary task %s, but it is not in the "
+            "squadron's auto-assignable mission types. Selection should guarantee "
+            "capability; this indicates an upstream regression.",
+            squadron.name,
+            squadron.aircraft,
+            primary,
+        )
+
+
 class DefaultSquadronAssigner:
     def __init__(
         self, config: CampaignAirWingConfig, game: Game, coalition: Coalition
@@ -53,6 +77,7 @@ class DefaultSquadronAssigner:
                 squadron.set_auto_assignable_mission_types(
                     squadron_config.auto_assignable
                 )
+                warn_if_primary_not_auto_assignable(squadron, squadron_config.primary)
                 self.air_wing.add_squadron(squadron)
 
     def find_squadron_for(

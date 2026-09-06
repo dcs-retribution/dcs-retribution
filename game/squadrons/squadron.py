@@ -355,7 +355,9 @@ class Squadron:
         return self.aircraft.capable_of(task)
 
     def can_auto_assign(self, task: FlightType) -> bool:
-        return task in self.auto_assignable_mission_types
+        # Intersect with airframe capability at read time: a saved/UI-added type the
+        # airframe cannot fly is never auto-assignable, even if present in the set.
+        return task in self.auto_assignable_mission_types and self.capable_of(task)
 
     def can_auto_assign_mission(
         self,
