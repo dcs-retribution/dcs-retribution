@@ -33,10 +33,13 @@ from game.data.units import UnitClass
 from game.dcs.aircrafttype import AircraftType
 from game.dcs.groundunittype import GroundUnitType
 from game.ground_forces.ai_ground_planner import (
+    CLUSTER_DEPTH_OFFSET,
     CombatGroup,
     CombatGroupRole,
     DISTANCE_FROM_FRONTLINE,
+    WEDGE_ROLES,
 )
+from game.ground_forces.frontline_clustering import even_slot_centers
 from game.ground_forces.combat_stance import CombatStance
 from game.naming import namegen
 from game.radio.radios import RadioRegistry
@@ -52,9 +55,6 @@ from ..ato import FlightType
 if TYPE_CHECKING:
     from game import Game
 
-SPREAD_DISTANCE_FACTOR = 0.1, 0.3
-SPREAD_DISTANCE_SIZE_FACTOR = 0.1
-
 FRONTLINE_CAS_FIGHTS_COUNT = 16, 24
 FRONTLINE_CAS_GROUP_MIN = 1, 2
 FRONTLINE_CAS_PADDING = 12000
@@ -68,6 +68,68 @@ FIGHT_DISTANCE = 3500
 RANDOM_OFFSET_ATTACK = 250
 
 INFANTRY_GROUP_SIZE = 5
+INFANTRY_FORWARD_OFFSET = 400
+INFANTRY_SCATTER_RADIUS = 150
+
+# Maximum lateral (along-frontline) jitter applied to a wedge and all its cluster
+# members.  Members share their anchor's jitter so the cluster stays laterally
+# aligned; each independent group gets its own random value in [-JITTER, JITTER].
+CLUSTER_LATERAL_JITTER = 150
+
+
+def frontline_offsets(groups: list[CombatGroup], size: int) -> dict[int, float]:
+    """Along-front offset (metres from one end) for each group.
+
+    Armor wedges are spread evenly across the front. Each clustered member shares
+    its anchor wedge's offset (so the cluster stays together). Unclustered groups
+    (artillery/logi, or members whose cluster has no wedge) are spread across
+    their own even slots.
+    """
+    wedges = [g for g in groups if g.anchor is None and g.role in WEDGE_ROLES]
+    offsets: dict[int, float] = {}
+    for wedge, center in zip(wedges, even_slot_centers(len(wedges), size)):
+        offsets[id(wedge)] = center
+    for g in groups:
+        if g.anchor is not None and id(g.anchor) in offsets:
+            offsets[id(g)] = offsets[id(g.anchor)]
+    leftover = [g for g in groups if id(g) not in offsets]
+    for g, center in zip(leftover, even_slot_centers(len(leftover), size)):
+        offsets[id(g)] = center
+    return offsets
+
+
+def follower_advance_distance(stance: CombatStance) -> Optional[int]:
+    """Metres an anchored cluster member advances toward the enemy for ``stance``.
+
+    Mirrors the armor wedge's per-stance push so the whole cluster keeps its
+    shape: every member advances the *same* distance from its own (already
+    offset, per Spec A) spawn, so recon stays ahead and SHORAD/ATGM stay behind.
+    ``None`` means add no advance waypoint — DEFENSIVE/AMBUSH hold in place, and
+    RETREAT is handled by the universal fallback block in plan_action_for_groups.
+    """
+    if stance in (CombatStance.AGGRESSIVE, CombatStance.ELIMINATION):
+        return AGGRESIVE_MOVE_DISTANCE
+    if stance == CombatStance.BREAKTHROUGH:
+        return BREAKTHROUGH_OFFENSIVE_DISTANCE
+    return None
+
+
+_MOVE_FORMATION_BY_ROLE: dict[CombatGroupRole, PointAction] = {
+    # Armor wedge (TANK/IFV/APC) advances in a Vee — pydcs has no "wedge".
+    CombatGroupRole.TANK: PointAction.Vee,
+    CombatGroupRole.IFV: PointAction.Vee,
+    CombatGroupRole.APC: PointAction.Vee,
+    # ATGM standoff pair spreads into a line (pydcs LineAbreast == DCS "Rank").
+    CombatGroupRole.ATGM: PointAction.LineAbreast,
+}
+
+
+def move_formation_for_role(role: CombatGroupRole) -> Optional[PointAction]:
+    """``move_formation`` for a combat group's role, or ``None`` to keep the
+    ``vehicle_group`` default (``OffRoad``). Recon scatters off-road, single-unit
+    SHORAD needs no formation, and artillery/logi are unchanged.
+    """
+    return _MOVE_FORMATION_BY_ROLE.get(role)
 
 
 class FlotGenerator:
@@ -221,8 +283,12 @@ class FlotGenerator:
         side: Country,
         forward_heading: Heading,
     ) -> None:
+        # Lead the wedge: seed the infantry ~400m toward the enemy, then scatter.
+        in_front = group.points[0].position.point_from_heading(
+            forward_heading.degrees, INFANTRY_FORWARD_OFFSET
+        )
         infantry_position = self.conflict.find_ground_position(
-            group.points[0].position.random_point_within(250, 50),
+            in_front.random_point_within(INFANTRY_SCATTER_RADIUS, 50),
             500,
             forward_heading,
             self.conflict.theater,
@@ -531,6 +597,46 @@ class FlotGenerator:
             return True
         return False
 
+    def _plan_follower_action(
+        self,
+        stance: CombatStance,
+        dcs_group: VehicleGroup,
+        forward_heading: Heading,
+        to_cp: ControlPoint,
+    ) -> bool:
+        """Tasks an anchored cluster member (recon leading, SHORAD/ATGM trailing)
+        to maneuver with its wedge: advance the wedge's per-stance distance from
+        this group's own offset position, preserving lead/trail spacing.
+
+        Returns True if tasking was added; False for RETREAT, where the universal
+        fallback block in plan_action_for_groups adds the retreat waypoints (so we
+        must NOT double-add them or attach a morale trigger here).
+        """
+        duration = timedelta()
+        if stance in [CombatStance.DEFENSIVE, CombatStance.AGGRESSIVE]:
+            duration = self._earliest_tot_on_flot(to_cp.coalition.player.opponent)
+        self._set_reform_waypoint(dcs_group, forward_heading, duration)
+
+        distance = follower_advance_distance(stance)
+        if distance is not None:
+            if (
+                to_cp.position.distance_to_point(dcs_group.points[0].position)
+                <= distance
+            ):
+                attack_point = self.conflict.theater.nearest_land_pos(
+                    to_cp.position.random_point_within(500, 0)
+                )
+            else:
+                attack_point = self.find_offensive_point(
+                    dcs_group, forward_heading, distance
+                )
+            dcs_group.add_waypoint(attack_point, self.wpt_pointaction)
+
+        if stance != CombatStance.RETREAT:
+            self.add_morale_trigger(dcs_group, forward_heading)
+            return True
+        return False
+
     def plan_action_for_groups(
         self,
         stance: CombatStance,
@@ -554,13 +660,36 @@ class FlotGenerator:
                             stance, group, dcs_group, forward_heading, target
                         )
 
-            elif group.role in [CombatGroupRole.TANK, CombatGroupRole.IFV]:
+            # APC is part of the armor wedge (Spec A WEDGE_ROLES), so it maneuvers
+            # as a wedge core — advance + attack at the full per-stance distance,
+            # not the old soft-follow cap, so an APC-type wedge stays cohesive with
+            # its TANK/IFV peers and its own followers (which advance 35 km in
+            # BREAKTHROUGH).
+            elif group.role in [
+                CombatGroupRole.TANK,
+                CombatGroupRole.IFV,
+                CombatGroupRole.APC,
+            ]:
                 self._plan_tank_ifv_action(
                     stance, enemy_groups, dcs_group, forward_heading, to_cp
                 )
 
-            elif group.role in [CombatGroupRole.APC, CombatGroupRole.ATGM]:
-                self._plan_apc_atgm_action(stance, dcs_group, forward_heading, to_cp)
+            elif group.role in [
+                CombatGroupRole.ATGM,
+                CombatGroupRole.SHORAD,
+                CombatGroupRole.RECON,
+            ]:
+                if group.anchor is not None:
+                    # Clustered: maneuver with the wedge.
+                    self._plan_follower_action(
+                        stance, dcs_group, forward_heading, to_cp
+                    )
+                else:
+                    # Unanchored spare: fall back to today's generic per-stance
+                    # advance (16 km soft-follow), per the spec's fallback decision.
+                    self._plan_apc_atgm_action(
+                        stance, dcs_group, forward_heading, to_cp
+                    )
 
             if stance == CombatStance.RETREAT:
                 # In retreat mode, the units will fall back
@@ -745,13 +874,13 @@ class FlotGenerator:
         return rg
 
     def get_valid_position_for_group(
-        self, distance_from_frontline: int, spawn_heading: Heading
+        self, distance_from_frontline: int, spawn_heading: Heading, along_offset: float
     ) -> Point:
         assert self.conflict.heading is not None
         assert self.conflict.size is not None
+        clamped = max(0, min(int(along_offset), self.conflict.size))
         shifted = self.conflict.position.point_from_heading(
-            self.conflict.heading.degrees,
-            random.randint(0, self.conflict.size),
+            self.conflict.heading.degrees, clamped
         )
         desired_point = shifted.point_from_heading(
             spawn_heading.degrees, distance_from_frontline
@@ -766,9 +895,10 @@ class FlotGenerator:
     def _generate_groups(
         self, groups: list[CombatGroup], is_player: Player
     ) -> List[Tuple[VehicleGroup, CombatGroup]]:
-        """Finds valid positions for planned groups and generates a pydcs group for them"""
+        """Finds valid positions for planned groups and generates a pydcs group."""
         positioned_groups = []
         assert self.conflict.heading is not None
+        assert self.conflict.size is not None
         spawn_heading = (
             self.conflict.heading.left
             if is_player.is_blue
@@ -776,19 +906,49 @@ class FlotGenerator:
         )
         country = self.game.coalition_for(is_player).faction.country
         country = self.mission.country(country.name)
+
+        along = frontline_offsets(groups, self.conflict.size)
+
+        # Pass 1: pre-compute depth and lateral jitter for every wedge.
+        # This removes the implicit ordering dependency: members no longer need to
+        # follow their anchor wedge in the list.
+        wedge_depth: dict[int, int] = {}
+        wedge_jitter: dict[int, int] = {}
+        for wg in groups:
+            if wg.anchor is None and wg.role in WEDGE_ROLES:
+                wedge_depth[id(wg)] = random.randint(
+                    DISTANCE_FROM_FRONTLINE[wg.role][0],
+                    DISTANCE_FROM_FRONTLINE[wg.role][1],
+                )
+                wedge_jitter[id(wg)] = random.randint(
+                    -CLUSTER_LATERAL_JITTER, CLUSTER_LATERAL_JITTER
+                )
+
+        # Pass 2: place every group using the pre-computed values where available.
         for group in groups:
             if group.role == CombatGroupRole.ARTILLERY:
-                distance_from_frontline = (
-                    self.get_artilery_group_distance_from_frontline(group)
+                depth = self.get_artilery_group_distance_from_frontline(group)
+                jitter = random.randint(-CLUSTER_LATERAL_JITTER, CLUSTER_LATERAL_JITTER)
+            elif group.anchor is not None and id(group.anchor) in wedge_depth:
+                # Cluster member: share anchor's depth+offset and lateral jitter.
+                depth = wedge_depth[id(group.anchor)] + CLUSTER_DEPTH_OFFSET.get(
+                    group.role, 0
                 )
+                jitter = wedge_jitter[id(group.anchor)]
+            elif id(group) in wedge_depth:
+                # Wedge: use its pre-computed depth and jitter.
+                depth = wedge_depth[id(group)]
+                jitter = wedge_jitter[id(group)]
             else:
-                distance_from_frontline = random.randint(
+                # Unclustered/orphan group.
+                depth = random.randint(
                     DISTANCE_FROM_FRONTLINE[group.role][0],
                     DISTANCE_FROM_FRONTLINE[group.role][1],
                 )
+                jitter = random.randint(-CLUSTER_LATERAL_JITTER, CLUSTER_LATERAL_JITTER)
 
             final_position = self.get_valid_position_for_group(
-                distance_from_frontline, spawn_heading
+                depth, spawn_heading, along_offset=along[id(group)] + jitter
             )
 
             g = self._generate_group(
@@ -798,6 +958,9 @@ class FlotGenerator:
                 group.size,
                 final_position,
                 heading=spawn_heading.opposite,
+                # None (recon/SHORAD/arty/logi) keeps the OffRoad default.
+                move_formation=move_formation_for_role(group.role)
+                or PointAction.OffRoad,
             )
             if is_player == Player.BLUE:
                 g.set_skill(Skill(self.game.settings.player_skill))
@@ -807,10 +970,7 @@ class FlotGenerator:
 
             if group.role in [CombatGroupRole.APC, CombatGroupRole.IFV]:
                 self.gen_infantry_group_for_group(
-                    g,
-                    is_player,
-                    country,
-                    spawn_heading.opposite,
+                    g, is_player, country, spawn_heading.opposite
                 )
 
         return positioned_groups
@@ -823,6 +983,7 @@ class FlotGenerator:
         count: int,
         at: Point,
         heading: Heading,
+        move_formation: PointAction = PointAction.OffRoad,
     ) -> VehicleGroup:
         cp = self.conflict.front_line.control_point_friendly_to(player)
         faction = self.game.faction_for(player)
@@ -834,6 +995,7 @@ class FlotGenerator:
             position=at,
             group_size=count,
             heading=heading.degrees,
+            move_formation=move_formation,
         )
         group.hidden_on_mfd = True
         if self.game.settings.perf_red_alert_state:

@@ -786,6 +786,28 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         self.convoy_routes[to] = tuple(waypoints)
         self.convoy_spawns[to] = tuple(spawns)
 
+    def seed_front_line_stances(self, stance: CombatStance) -> None:
+        """Overwrite every per-neighbor stance with ``stance``.
+
+        Used to apply the configured default front-line stance. Inert for
+        neighbors with no active front line; their entries are re-seeded on a
+        future capture if they become enemies.
+        """
+        for connected_id in self.stances:
+            self.stances[connected_id] = stance
+
+    def apply_default_stance_on_capture(self, game: Game, for_player: Player) -> None:
+        """Seed this control point's stances with the configured default when the
+        player captures it and automatic stance management is off.
+
+        The enemy commander always manages its own stances, and with auto
+        management on it manages the player's too -- in both cases seeding would
+        lock the stance at >= the seed. So only a player capture with auto off
+        applies the default.
+        """
+        if for_player.is_blue and not game.settings.automate_front_line_stance:
+            self.seed_front_line_stances(game.settings.default_front_line_stance)
+
     def create_shipping_lane(
         self, to: ControlPoint, waypoints: Iterable[Point]
     ) -> None:
@@ -1042,6 +1064,7 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         self.base.set_strength_to_minimum()
         self._clear_front_lines(events)
         self._create_missing_front_lines(game.laser_code_registry, events)
+        self.apply_default_stance_on_capture(game, for_player)
         events.update_control_point(self)
 
         # All the attached TGOs have either been depopulated or captured. Tell the UI to

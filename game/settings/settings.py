@@ -14,6 +14,7 @@ from .minutesoption import minutes_option
 from .optiondescription import OptionDescription, SETTING_DESCRIPTION_KEY
 from .skilloption import skill_option
 from ..ato.starttype import StartType
+from ..ground_forces.combat_stance import CombatStance
 
 Views = ForcedOptions.Views
 
@@ -721,6 +722,25 @@ class Settings:
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         default=True,
+    )
+    default_front_line_stance: CombatStance = choices_option(
+        "Default front line stance",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        HQ_AUTOMATION_SECTION,
+        # RETREAT is intentionally omitted -- never a sensible standing default.
+        choices={
+            "Aggressive": CombatStance.AGGRESSIVE,
+            "Defensive": CombatStance.DEFENSIVE,
+            "Ambush": CombatStance.AMBUSH,
+            "Elimination": CombatStance.ELIMINATION,
+            "Breakthrough": CombatStance.BREAKTHROUGH,
+        },
+        default=CombatStance.AGGRESSIVE,
+        detail=(
+            "Starting stance for your front lines at campaign start and after a "
+            "capture. Only applies when 'Automatically manage front line stances' "
+            "is off; otherwise the AI commander chooses the stance."
+        ),
     )
     auto_procurement_balance: int = bounded_int_option(
         "AI ground unit procurement budget ratio (%) for OWNFOR",

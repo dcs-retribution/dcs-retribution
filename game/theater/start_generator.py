@@ -126,6 +126,17 @@ class ModSettings:
     VSN_F35: bool = False
 
 
+def apply_default_player_stances(theater: ConflictTheater, settings: Settings) -> None:
+    """Seed the configured default stance for player control points at new-game
+    time. Only applies when automatic stance management is off; the enemy and
+    auto-managed player stances are left to the commander (see ControlPoint.
+    apply_default_stance_on_capture)."""
+    if settings.automate_front_line_stance:
+        return
+    for control_point in theater.player_points():
+        control_point.seed_front_line_stances(settings.default_front_line_stance)
+
+
 class GameGenerator:
     def __init__(
         self,
@@ -166,6 +177,9 @@ class GameGenerator:
                 campaign_name=self.campaign_name,
             )
 
+            # Coalitions are wired by Game.__init__ (finish_init), so cp.captured
+            # is valid here. Runs only for new games -- never on save load.
+            apply_default_player_stances(self.theater, self.settings)
             GroundObjectGenerator(game, self.generator_settings).generate()
         game.settings.version = VERSION
         return game
