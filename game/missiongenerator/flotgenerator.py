@@ -159,7 +159,7 @@ class FlotGenerator:
             country = self.mission.country(self.game.blue.faction.country.name)
             jtac = self.mission.flight_group(
                 country=country,
-                name=namegen.next_jtac_name(),
+                name=namegen.next_jtac_name() + " FRONTLINE",
                 aircraft_type=utype.dcs_unit_type,
                 position=position[0],
                 airport=None,
@@ -242,7 +242,7 @@ class FlotGenerator:
                         )[0]
                         vg = self.mission.vehicle_group(
                             side,
-                            namegen.next_infantry_name(side, u),
+                            namegen.next_infantry_name(side, u) + " FRONTLINE",
                             u.dcs_unit_type,
                             position=infantry_position,
                             group_size=1,
@@ -270,7 +270,7 @@ class FlotGenerator:
         )
         vg = self.mission.vehicle_group(
             side,
-            namegen.next_infantry_name(side, units[0]),
+            namegen.next_infantry_name(side, units[0]) + " FRONTLINE",
             units[0].dcs_unit_type,
             position=infantry_position,
             group_size=1,
@@ -285,7 +285,7 @@ class FlotGenerator:
             position = infantry_position.random_point_within(55, 5)
             vg = self.mission.vehicle_group(
                 side,
-                namegen.next_infantry_name(side, unit),
+                namegen.next_infantry_name(side, unit) + " FRONTLINE",
                 unit.dcs_unit_type,
                 position=position,
                 group_size=1,
@@ -829,7 +829,7 @@ class FlotGenerator:
 
         group = self.mission.vehicle_group(
             side,
-            namegen.next_unit_name(side, unit_type),
+            namegen.next_unit_name(side, unit_type) + " FRONTLINE",
             unit_type.dcs_unit_type,
             position=at,
             group_size=count,
