@@ -478,6 +478,8 @@ class Faction:
             inject_F4E()
         if not mod_settings.f22_raptor:
             self.remove_aircraft("F-22A")
+        if not mod_settings.f23a_black_widow:
+            self.remove_aircraft("F-23A")
         if not mod_settings.f84g_thunderjet:
             self.remove_aircraft("VSN_F84G")
         if not mod_settings.f100_supersabre:

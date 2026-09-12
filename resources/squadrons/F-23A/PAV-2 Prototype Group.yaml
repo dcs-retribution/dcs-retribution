@@ -1,0 +1,13 @@
+---
+name: PAV-2 Prototype Group
+nickname: Gray Ghosts
+country: USA
+role: Air Superiority
+aircraft: F-23A
+livery: PAV-2 97-801 Gray Ghost
+mission_types:
+  - BARCAP
+  - TARCAP
+  - Escort
+  - Fighter sweep
+  - Intercept

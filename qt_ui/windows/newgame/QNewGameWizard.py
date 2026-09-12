@@ -100,6 +100,7 @@ class NewGameWizard(QtWidgets.QWizard):
             fa18ef_tanker=self.field("fa18ef_tanker"),
             f4e_expanded_weapons=self.field("f4e_expanded_weapons"),
             f22_raptor=self.field("f22_raptor"),
+            f23a_black_widow=self.field("f23a_black_widow"),
             f84g_thunderjet=self.field("f84g_thunderjet"),
             f100_supersabre=self.field("f100_supersabre"),
             f104_starfighter=self.field("f104_starfighter"),
