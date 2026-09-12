@@ -3,6 +3,7 @@ from typing import Dict, List
 from PySide6.QtCore import Qt, QLocale
 from PySide6.QtWidgets import (
     QCheckBox,
+    QComboBox,
     QGridLayout,
     QGroupBox,
     QLabel,
@@ -91,7 +92,15 @@ class PluginOptionsBox(QGroupBox):
             layout.addWidget(label, row, 0)
 
             val = option.get_value
-            if type(val) == bool:
+            if option.possible_values:
+                combobox = QComboBox()
+                combobox.addItems(option.possible_values)
+                if val in option.possible_values:
+                    combobox.setCurrentText(val)
+                combobox.currentTextChanged.connect(option.set_value)
+                layout.addWidget(combobox, row, 1)
+                self.widgets[option.identifier] = combobox
+            elif type(val) == bool:
                 checkbox = QCheckBox()
                 checkbox.setChecked(val)
                 checkbox.toggled.connect(option.set_value)
@@ -119,6 +128,8 @@ class PluginOptionsBox(QGroupBox):
             w = self.widgets[identifier]
             if isinstance(w, QCheckBox):
                 w.setChecked(value)
+            elif isinstance(w, QComboBox):
+                w.setCurrentText(value)
             elif isinstance(w, QDoubleSpinBox) or isinstance(w, QSpinBox):
                 w.setValue(value)
 

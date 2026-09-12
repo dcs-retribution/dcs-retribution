@@ -23,6 +23,7 @@ Here's a quick rundown of the file's components :
   - `nameInUI` : the title of the option as it will appear in the plugins specific options user interface.
   - `mnemonic` : the short, technical name of the option. It's the name of the LUA variable passed to the configuration script, and the name of the option in the application's settings 
   - `defaultValue` : the selection value of the option, when first installed ; if true, option is selected.
+  - `possibleValues` : (optional) a list of string choices. When present, the option is rendered as a drop-down in the UI and the `defaultValue` should be one of the listed strings. The selected string is passed to the configuration script as a quoted LUA string.
 - `scriptsWorkOrders` : a list of work orders that can be used to load or disable loading a specific LUA script
   - `file` : the name of the LUA file in the plugin folder.
   - `mnemonic` : the technical name of the LUA component. The filename may be more precise than needed (e.g. include a version number) ; this is used to load each file only once, and also to disable loading a file

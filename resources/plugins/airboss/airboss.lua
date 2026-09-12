@@ -8,6 +8,7 @@ airboss_options = {
     ["rescueHeloDistance"] = 50,
     ["enableAWACS"] = false,
     ["enableTanker"] = false,
+    ["tankerType"] = "S3",
     ["enableForLHA"] = true,
     ["useUH60mod"] = false,
     ["rescueDuration"] = 3,
@@ -26,6 +27,7 @@ if dcsRetribution then
         airboss_options.rescueHeloDistance = dcsRetribution.plugins.airboss.rescueHeloDistance
         airboss_options.enableAWACS = dcsRetribution.plugins.airboss.enableAWACS
         airboss_options.enableTanker = dcsRetribution.plugins.airboss.enableTanker
+        airboss_options.tankerType = dcsRetribution.plugins.airboss.tankerType or airboss_options.tankerType
         airboss_options.enableForLHA = dcsRetribution.plugins.airboss.enableForLHA
         airboss_options.useUH60mod = dcsRetribution.plugins.airboss.useUH60mod
         airboss_options.rescueDuration = dcsRetribution.plugins.airboss.rescueDuration
@@ -325,6 +327,139 @@ function AddTrickOrTreat(nameOfCarrier)
     end)
 
     S3:Spawn()
+end
+
+-- A-6E TANKER (Heatblur)
+
+function AddA6Tanker(nameOfCarrier)
+    env.info("AIRBOSS: Loading A-6E Tanker")
+
+    -- Ensure BlueNavalUnitSet is initialized
+    if not BlueNavalUnitSet then
+        BlueNavalUnitSet = SET_UNIT:New():FilterCoalitions("blue"):FilterCategories("ship"):FilterStart()
+    end
+
+    local navalUnit = BlueNavalUnitSet:GetFirst()
+    local inferredCountryID = navalUnit and navalUnit:GetCountry() or country.id.USA
+
+    -- Generate unique names
+    local groupName = UTILS.UniqueName("TankerA6Group")
+    local unitName = UTILS.UniqueName("TankerA6Unit")
+
+    local TankerA6 = {
+        ["dynSpawnTemplate"] = false,
+        ["lateActivation"] = true,
+        ["tasks"] = {},
+        ["task"] = "Refueling",
+        ["uncontrolled"] = false,
+        ["taskSelected"] = true,
+        ["route"] = {
+            ["routeRelativeTOT"] = true,
+            ["points"] = {
+                [1] = {
+                    ["alt"] = 2000,
+                    ["action"] = "Turning Point",
+                    ["alt_type"] = "BARO",
+                    ["speed"] = 82.222222222222,
+                    ["task"] = {
+                        ["id"] = "ComboTask",
+                        ["params"] = {
+                            ["tasks"] = {
+                                { ["enabled"] = true, ["auto"] = true, ["id"] = "Tanker", ["number"] = 1, ["params"] = {} },
+                                { ["enabled"] = true, ["auto"] = true, ["id"] = "WrappedAction", ["number"] = 2, ["params"] = { ["action"] = { ["id"] = "ActivateBeacon", ["params"] = { ["type"] = 4, ["AA"] = false, ["callsign"] = "TKR", ["system"] = 4, ["channel"] = 1, ["modeChannel"] = "X", ["bearing"] = true, ["frequency"] = 962000000 } } } },
+                                { ["enabled"] = true, ["auto"] = true, ["id"] = "WrappedAction", ["number"] = 3, ["params"] = { ["action"] = { ["id"] = "Option", ["params"] = { ["value"] = true, ["name"] = 35 } } } }
+                            }
+                        }
+                    },
+                    ["type"] = "Turning Point",
+                    ["ETA"] = 0,
+                    ["ETA_locked"] = true,
+                    ["y"] = -110857.14285714,
+                    ["x"] = -18142.857142857,
+                    ["speed_locked"] = true,
+                    ["formation_template"] = ""
+                }
+            }
+        },
+        ["hidden"] = false,
+        ["units"] = {
+            [1] = {
+                ["alt"] = 2000,
+                ["alt_type"] = "BARO",
+                ["skill"] = "High",
+                ["speed"] = 82.222222222222,
+                ["type"] = "A6E",
+                ["psi"] = 0,
+                ["onboard_num"] = "021",
+                ["y"] = -110857.14285714,
+                ["x"] = -18142.857142857,
+                ["name"] = unitName,
+                -- Retribution Refueling loadout: D-704 buddy store on the centerline
+                -- pylon (3) with AERO-1D drop tanks on the wing pylons (1, 2, 4, 5).
+                ["payload"] = {
+                    ["pylons"] = {
+                        [1] = { ["CLSID"] = "{HB_A6E_AERO1D}" },
+                        [2] = { ["CLSID"] = "{HB_A6E_AERO1D}" },
+                        [3] = { ["CLSID"] = "{HB_A6E_D704}" },
+                        [4] = { ["CLSID"] = "{HB_A6E_AERO1D}" },
+                        [5] = { ["CLSID"] = "{HB_A6E_AERO1D}" }
+                    },
+                    ["fuel"] = 7229,
+                    ["flare"] = 30,
+                    ["chaff"] = 30,
+                    ["gun"] = 100
+                },
+                ["heading"] = 0,
+                ["callsign"] = {
+                    [1] = 5,
+                    [2] = 1,
+                    [3] = 1,
+                    [4] = "Arco11",
+                    ["name"] = "Arco11"
+                }
+            }
+        },
+        ["y"] = -110857.14285714,
+        ["x"] = -18142.857142857,
+        ["name"] = groupName,
+        ["communication"] = true,
+        ["start_time"] = 0,
+        ["modulation"] = 0,
+        ["frequency"] = 251
+    }
+
+    local A6 = SPAWN:NewFromTemplate(TankerA6, groupName)
+    A6:InitLateActivated()
+    A6:InitCountry(inferredCountryID)
+    A6:InitCategory(Group.Category.AIRPLANE)
+    A6:InitCoalition(coalition.side.BLUE)
+
+    A6:OnSpawnGroup(function(grp)
+        MESSAGE:New("AIRBOSS: Group Spawned Late Activated: " .. grp:GetName(), 15, "SPAWN"):ToLog()
+
+        local A6TED = RECOVERYTANKER:New(UNIT:FindByName(nameOfCarrier), grp:GetName())
+        A6TED:SetTACAN(57, "MLR", "Y")
+        A6TED:SetRadio(257, "AM")
+        A6TED:SetTakeoffHot()
+        A6TED:SetAltitude(8000)
+        A6TED:SetSpeed(275)
+        A6TED:SetRacetrackDistances(15, 15)
+        A6TED:SetHomeBase(nameOfCarrier)
+        A6TED:SetUnlimitedFuel(false)
+        A6TED:SetCallsign(CALLSIGN.Tanker.Arco)
+        A6TED:__Start(1)
+
+        function A6TED:OnAfterStart(From, Event, To)
+            if AirbossRetribution then
+                env.info("AIRBOSS: DETECTED FOR TANKER")
+                AirbossRetribution:SetRecoveryTanker(A6TED)
+            else
+                env.info("AIRBOSS: NOT DETECTED FOR TANKER")
+            end
+        end
+    end)
+
+    A6:Spawn()
 end
 
 -- SHIP AWACS
@@ -675,7 +810,13 @@ local function AutoSetup()
 
         if airboss_options.enableRescueHelo then AddRescueHelo(cvn.name) end
         if airboss_options.enableAWACS      then AddShipAWACS(cvn.name) end
-        if airboss_options.enableTanker     then AddTrickOrTreat(cvn.name) end
+        if airboss_options.enableTanker then
+            if airboss_options.tankerType == "A-6" then
+                AddA6Tanker(cvn.name)
+            else
+                AddTrickOrTreat(cvn.name)
+            end
+        end
 
         -- Match escort by prefix +1
         for _, escort in ipairs(escortCandidates) do

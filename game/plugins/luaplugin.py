@@ -58,10 +58,17 @@ class PluginSettings:
 
 class LuaPluginOption(PluginSettings):
     def __init__(
-        self, identifier: str, name: str, min: Any, max: Any, value: Any
+        self,
+        identifier: str,
+        name: str,
+        min: Any,
+        max: Any,
+        value: Any,
+        possible_values: Optional[List[str]] = None,
     ) -> None:
         super().__init__(identifier, value)
         self.name = name
+        self.possible_values = possible_values
         if type(value) == int or type(value) == float:
             self.min, self.max = min, max
         else:
@@ -94,6 +101,7 @@ class LuaPluginDefinition:
                     min=option.get("minimumValue", 0),
                     max=option.get("maximumValue", 10000),
                     value=option.get("defaultValue"),
+                    possible_values=option.get("possibleValues"),
                 )
             )
 
@@ -180,13 +188,19 @@ class LuaPlugin(PluginSettings):
         if self.options:
             option_decls = []
             for option in self.options:
-                value = str(option.get_value).lower()
+                raw_value = option.get_value
+                if isinstance(raw_value, bool):
+                    value = str(raw_value).lower()
+                elif isinstance(raw_value, (int, float)):
+                    value = str(raw_value)
+                else:
+                    value = json.dumps(str(raw_value))
                 name = option.identifier
                 option_decls.append(f"    dcsRetribution.plugins.{name} = {value}")
 
             joined_options = "\n".join(option_decls)
 
-            lua = textwrap.dedent(f"""\
+            lua_template = f"""\
                 -- {self.identifier} plugin configuration.
 
                 if dcsRetribution then
@@ -197,7 +211,8 @@ class LuaPlugin(PluginSettings):
                     {joined_options}
                 end
 
-            """)
+            """
+            lua = textwrap.dedent(lua_template)
 
             lua_generator.inject_lua_trigger(
                 lua, f"{self.identifier} plugin configuration"

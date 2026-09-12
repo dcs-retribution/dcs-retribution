@@ -14,6 +14,12 @@
             "defaultValue": false
         },
         {
+            "nameInUI": "Recovery Tanker Aircraft",
+            "mnemonic": "tankerType",
+            "possibleValues": ["S-3", "A-6"],
+            "defaultValue": "S-3"
+        },
+        {
             "nameInUI": "Enable Airboss AWACS",
             "mnemonic": "enableAWACS",
             "defaultValue": false
