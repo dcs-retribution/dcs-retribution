@@ -1,0 +1,27 @@
+name: Defensive Strong Point
+role: ATGM
+# preferred_stances:
+#   - DEFENSIVE
+#   - AMBUSH
+#   - RETREAT
+formation: Star
+distance_from_frontline:
+  min: 3000
+  max: 5000
+units:
+  - name: Anti-Tank
+    min_count: 1
+    max_count: 2
+    unit_classes:
+      - ATGM
+  - name: Tank Reserve
+    min_count: 1
+    max_count: 2
+    unit_classes:
+      - TANK
+  - name: Air Defense
+    min_count: 1
+    max_count: 1
+    unit_classes:
+      - SHORAD
+      - AAA

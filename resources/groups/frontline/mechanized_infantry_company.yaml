@@ -1,0 +1,28 @@
+name: Mechanized Infantry Company
+role: IFV
+# preferred_stances:
+#   - AGGRESSIVE
+#   - BREAKTHROUGH
+#   - DEFENSIVE
+formation: Line
+distance_from_frontline:
+  min: 2700
+  max: 4000
+units:
+  - name: Infantry Fighting Vehicles
+    min_count: 2
+    max_count: 4
+    unit_classes:
+      - IFV
+      - APC
+  - name: Tanks
+    min_count: 1
+    max_count: 2
+    unit_classes:
+      - TANK
+  # - name: Air Defense
+  #   min_count: 1
+  #   max_count: 2
+  #   unit_classes:
+  #     - SHORAD
+  #     - AAA

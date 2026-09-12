@@ -1,0 +1,21 @@
+name: Armored Spearhead
+role: TANK
+# preferred_stances:
+#   - BREAKTHROUGH
+#   - AGGRESSIVE
+formation: Vee
+distance_from_frontline:
+  min: 2000
+  max: 3000
+units:
+  - name: Tanks
+    min_count: 3
+    max_count: 5
+    unit_classes:
+      - TANK
+  - name: Infantry Fighting Vehicles
+    min_count: 2
+    max_count: 3
+    unit_classes:
+      - IFV
+      - APC

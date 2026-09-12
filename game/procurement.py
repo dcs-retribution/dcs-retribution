@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import math
 import random
 from dataclasses import dataclass
@@ -8,6 +9,8 @@ from typing import Iterator, List, Optional, TYPE_CHECKING, Tuple
 from game.config import RUNWAY_REPAIR_COST
 from game.data.units import UnitClass
 from game.dcs.groundunittype import GroundUnitType
+from game.ground_forces.ai_ground_planner import CombatGroupRole
+from game.ground_forces.frontline_group_loader import FrontlineGroupLoader
 from game.theater import ControlPoint, MissionTarget, ParkingType, Player
 
 if TYPE_CHECKING:
@@ -15,6 +18,9 @@ if TYPE_CHECKING:
     from game.ato import FlightType
     from game.factions.faction import Faction
     from game.squadrons import Squadron
+    from game.ground_forces.frontline_group_loader import (
+        FrontlineGroupTemplate,
+    )
 
 
 @dataclass(frozen=True)
@@ -141,6 +147,152 @@ class ProcurementAi:
             return None
         return random.choice(affordable_units)
 
+    def can_fulfill_template(self, template: FrontlineGroupTemplate) -> bool:
+        faction_units = set(self.faction.frontline_units) | set(
+            self.faction.artillery_units
+        )
+
+        for unit_req_list in template.units.values():
+            for req in unit_req_list:
+                # Check if faction has any unit matching required classes
+                has_match = any(u.unit_class in req.unit_classes for u in faction_units)
+                if not has_match:
+                    return False
+        return True
+
+    def plan_template_purchase(
+        self, template: FrontlineGroupTemplate, budget: float
+    ) -> Optional[tuple[dict[GroundUnitType, int], float]]:
+        """
+        Plan purchases for a template. Returns (units_dict, total_cost) or None.
+        Uses random selection to avoid always buying the same units.
+
+        For each unit requirement in the template:
+        - Select a random count within min/max range
+        - Randomly select units from faction that match required unit classes
+        - Track total cost and ensure it stays within budget
+        """
+        units_to_buy: dict[GroundUnitType, int] = {}
+        total_cost = 0.0
+
+        # Get available faction units
+        faction_units = set(self.faction.frontline_units) | set(
+            self.faction.artillery_units
+        )
+
+        # Process each unit requirement in the template
+        for unit_req_list in template.units.values():
+            for req in unit_req_list:
+                # Random count within template's specified range
+                count = random.randint(req.min_count, req.max_count)
+
+                # Find faction units matching required classes
+                matching_units = [
+                    u for u in faction_units if u.unit_class in req.unit_classes
+                ]
+
+                if not matching_units:
+                    # Faction doesn't have units for this requirement
+                    return None
+
+                # Randomly select units to fill requirement
+                for _ in range(count):
+                    # Filter to affordable units
+                    affordable = [
+                        u for u in matching_units if u.price <= (budget - total_cost)
+                    ]
+
+                    if not affordable:
+                        # Can't afford to complete this template
+                        return None
+
+                    # Random selection from affordable options
+                    unit = random.choice(affordable)
+                    units_to_buy[unit] = units_to_buy.get(unit, 0) + 1
+                    total_cost += unit.price
+
+        return units_to_buy, total_cost
+
+    def role_to_unit_class(self, role: CombatGroupRole) -> UnitClass:
+        mapping = {
+            CombatGroupRole.TANK: UnitClass.TANK,
+            CombatGroupRole.APC: UnitClass.APC,
+            CombatGroupRole.IFV: UnitClass.IFV,
+            CombatGroupRole.ARTILLERY: UnitClass.ARTILLERY,
+            CombatGroupRole.ATGM: UnitClass.ATGM,
+            CombatGroupRole.SHORAD: UnitClass.SHORAD,
+            CombatGroupRole.RECON: UnitClass.RECON,
+            CombatGroupRole.LOGI: UnitClass.LOGISTICS,
+            CombatGroupRole.INFANTRY: UnitClass.INFANTRY,
+        }
+        return mapping.get(role, UnitClass.TANK)
+
+    def select_template_for_purchase(
+        self, cp: ControlPoint
+    ) -> Optional[FrontlineGroupTemplate]:
+        compatible_templates = [
+            t
+            for t in FrontlineGroupLoader().all_templates()
+            if self.can_fulfill_template(t)
+        ]
+
+        if not compatible_templates:
+            return None
+
+        # Calculate deficit weight for each template based on its primary role
+        template_weights: list[tuple[FrontlineGroupTemplate, float]] = []
+
+        for template in compatible_templates:
+            # Get the primary unit class from the template's role
+            primary_class = self.role_to_unit_class(template.role)
+
+            # Calculate how underrepresented this class is
+            current_ratio = self.cost_ratio_of_ground_unit(cp, primary_class)
+            desired_ratio = (
+                self.faction.doctrine.ground_unit_procurement_ratios.for_unit_class(
+                    primary_class
+                )
+            )
+
+            if desired_ratio and desired_ratio > 0:
+                weight = max(0, desired_ratio - current_ratio)
+            else:
+                weight = random.uniform(0, 0.1)
+
+            template_weights.append((template, weight))
+
+        if not any(weight for _, weight in template_weights):
+            return random.choice(compatible_templates)
+
+        total_weight = sum(weight for _, weight in template_weights)
+        r = random.uniform(0, total_weight)
+        cumulative = 0
+        for template, weight in template_weights:
+            cumulative += weight
+            if r <= cumulative:
+                return template
+
+        return compatible_templates[-1]
+
+    def try_purchase_template_group(
+        self, cp: ControlPoint, budget: float
+    ) -> tuple[float, bool]:
+        template = self.select_template_for_purchase(cp)
+
+        if template is None:
+            return budget, False
+
+        result = self.plan_template_purchase(template, budget)
+        if result is None:
+            return budget, False
+
+        units_to_buy, cost = result
+        cp.ground_unit_orders.order_template(template.name, units_to_buy)
+        logging.info(
+            f"Purchased template '{template.name}' for {cost:.0f} at {cp.name}"
+        )
+        return budget - cost, True
+
     def reinforce_front_line(self, budget: float) -> float:
         if not self.faction.frontline_units and not self.faction.artillery_units:
             return budget
@@ -151,7 +303,10 @@ class ProcurementAi:
             cp = self.ground_reinforcement_candidate()
             if cp is None:
                 break
-
+            budget, success = self.try_purchase_template_group(cp, budget)
+            if success:
+                continue
+            # Fall back to individual unit purchase
             most_needed_type = self.most_needed_unit_class(cp)
             unit = self.affordable_ground_unit_of_class(budget, most_needed_type)
             if unit is None:

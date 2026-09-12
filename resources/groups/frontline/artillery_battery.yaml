@@ -1,0 +1,22 @@
+name: Artillery Battery
+role: ARTILLERY
+# preferred_stances:
+#   - DEFENSIVE
+#   - AGGRESSIVE
+#   - BREAKTHROUGH
+formation: Line
+distance_from_frontline:
+  min: 15000
+  max: 20000
+units:
+  - name: Artillery
+    min_count: 2
+    max_count: 3
+    unit_classes:
+      - ARTILLERY
+  - name: Security
+    min_count: 1
+    max_count: 2
+    unit_classes:
+      - APC
+      - IFV
