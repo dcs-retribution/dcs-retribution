@@ -33,6 +33,7 @@ from .briefinggenerator import BriefingGenerator, MissionInfoGenerator
 from .cargoshipgenerator import CargoShipGenerator
 from .convoygenerator import ConvoyGenerator
 from .drawingsgenerator import DrawingsGenerator
+from .dtc import DtcGenerator
 from .environmentgenerator import EnvironmentGenerator
 from .flotgenerator import FlotGenerator
 from .forcedoptionsgenerator import ForcedOptionsGenerator
@@ -129,6 +130,14 @@ class MissionGenerator:
         VisualsGenerator(self.mission, self.game).generate()
         LuaGenerator(self.game, self.mission, self.mission_data).generate()
         DrawingsGenerator(self.mission, self.game).generate()
+
+        # Native DTC cartridges for the blue client flights, so the jets spawn
+        # with comms, steerpoints and the SA picture loaded. Best-effort: a
+        # failure here never blocks the mission.
+        try:
+            DtcGenerator(self.mission, self.game, self.mission_data).generate()
+        except Exception:
+            logging.exception("DTC: cartridge generation failed; mission unaffected")
 
         self.setup_combined_arms()
 
