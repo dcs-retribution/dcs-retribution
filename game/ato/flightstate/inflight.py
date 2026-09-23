@@ -35,7 +35,17 @@ class InFlight(FlightState, ABC):
         self.waypoint_index = waypoint_index
         self.has_aborted = has_aborted
         self.current_waypoint = waypoints[self.waypoint_index]
-        # TODO: Error checking for flight plans without landing waypoints.
+        # Guard against flight plans that have no landing waypoint or whose
+        # waypoint list ends earlier than expected. next_waypoint_state() now
+        # catches this before creating InFlight subclasses, but keep the check
+        # here too so any future call site gets a clear error instead of a
+        # confusing IndexError.
+        if self.waypoint_index + 1 >= len(waypoints):
+            raise ValueError(
+                f"Flight {self.flight.flight_plan} has no waypoint after index "
+                f"{self.waypoint_index} (plan has {len(waypoints)} waypoints). "
+                "The flight plan is missing a terminal landing waypoint."
+            )
         self.next_waypoint = waypoints[self.waypoint_index + 1]
         self.total_time_to_next_waypoint = self.travel_time_between_waypoints()
         self.elapsed_time = elapsed_time
@@ -85,6 +95,18 @@ class InFlight(FlightState, ABC):
         from .navigating import Navigating
 
         new_index = self.waypoint_index + 1
+        # Guard first, before the type dispatch: if new_index is the last
+        # waypoint there is no [new_index + 1], so *any* InFlight subclass we'd
+        # build for it -- RaceTrack (PATROL_TRACK) and Loiter (LOITER), not just
+        # Navigating -- would raise in InFlight.__init__. This happens when a
+        # flight reaches or exits combat at its final waypoint (e.g. a plan with
+        # no explicit LANDING_POINT, a custom plan ending in a PATROL_TRACK or
+        # LOITER, or whose landing waypoint was already consumed before the
+        # combat state was entered). Complete the flight rather than crashing.
+        # A terminal LANDING_POINT also lands here and completes -- the same
+        # result the explicit check below would give.
+        if new_index + 1 >= len(self.flight.flight_plan.waypoints):
+            return Completed(self.flight, self.settings)
         if self.next_waypoint.waypoint_type is FlightWaypointType.LANDING_POINT:
             return Completed(self.flight, self.settings)
         if self.next_waypoint.waypoint_type is FlightWaypointType.PATROL_TRACK:
