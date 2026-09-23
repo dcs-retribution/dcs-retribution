@@ -7,8 +7,15 @@ manufacturer: Douglas
 origin: USA
 role: Transport
 price: 5
+# CTLD troop capacity. The C-47 carried a 28-troop load in service, and 24 is
+# the largest CTLD loadable group, so a full stick fits with nothing wasted.
+cabin_size: 24
 variants:
   C-47 Skytrain: null
   C-47 Dakota: null
 tasks:
+  # CTLD paradrop air assault -- the mission this airframe was built for. It is
+  # AI-only, and sits below the base-game C-130 (30), mirroring the ordering the
+  # Transport priorities already use (90 here, 130 there).
+  Air Assault: 20
   Transport: 90

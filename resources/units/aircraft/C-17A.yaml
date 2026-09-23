@@ -1,7 +1,13 @@
 description: The C-17 is a military transport aircraft.
 price: 18
 max_range: 2000
+# CTLD troop capacity. The C-17 carried 102 paratroopers; 24 is the largest
+# CTLD loadable group.
+cabin_size: 24
 variants:
   C-17A: null
 tasks:
+  # CTLD paradrop air assault. A strategic airlifter, same tier as the Il-76MD
+  # and below every tactical transport.
+  Air Assault: 15
   Transport: 150

@@ -6,7 +6,9 @@ from game.ato.flightmember import (
     FlightMember,
     apply_default_player_laser_code,
 )
+from game.ato.flighttype import FlightType
 from game.ato.loadouts import Loadout
+from game.commander.packagebuilder import assault_flight_size
 from game.lasercodes.lasercoderegistry import LaserCodeRegistry
 from game.settings.settings import (
     DefaultPlayerLaserCode,
@@ -64,3 +66,23 @@ def test_apply_does_nothing_for_ai_members() -> None:
 def test_settings_default_is_allocate_own() -> None:
     settings = Settings()
     assert settings.default_player_laser_code is DefaultPlayerLaserCode.ALLOCATE_OWN
+
+
+def test_fixed_wing_air_assault_flies_single_ship() -> None:
+    # One transport paradrops the whole stick; a second only doubles the troops.
+    herc = MagicMock()
+    herc.helicopter = False
+    assert assault_flight_size(FlightType.AIR_ASSAULT, herc, 4) == 1
+
+
+def test_helo_air_assault_keeps_the_proposed_size() -> None:
+    # Helicopter lift is per airframe, so multi-ship is the point.
+    huey = MagicMock()
+    huey.helicopter = True
+    assert assault_flight_size(FlightType.AIR_ASSAULT, huey, 4) == 4
+
+
+def test_other_tasks_are_untouched() -> None:
+    herc = MagicMock()
+    herc.helicopter = False
+    assert assault_flight_size(FlightType.TRANSPORT, herc, 3) == 3

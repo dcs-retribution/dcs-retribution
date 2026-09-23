@@ -1,7 +1,13 @@
 description: The C-130 is a military transport aircraft.
 price: 15
 max_range: 1000
+# CTLD troop capacity, matching the C-130J-30 module and the Hercules mod.
+cabin_size: 24
 variants:
   C-130: null
 tasks:
+  # CTLD paradrop air assault. This airframe is AI-only, so its priority sits
+  # below the player-flyable C-130J-30 module (40) -- the same ordering the
+  # Transport priorities already use (130 here, 140 there).
+  Air Assault: 30
   Transport: 130

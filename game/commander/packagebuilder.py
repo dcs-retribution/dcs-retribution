@@ -19,6 +19,19 @@ if TYPE_CHECKING:
     from .missionproposals import ProposedFlight
 
 
+def assault_flight_size(task: FlightType, aircraft: AircraftType, proposed: int) -> int:
+    """Fixed-wing air assault flies single-ship.
+
+    One transport paradrops the whole stick, so a second only doubles the troops
+    delivered. Helicopters keep the proposed size -- their lift is per airframe.
+    Applied after the squadron is picked, because the airframe is not known when
+    the flight is proposed.
+    """
+    if task is FlightType.AIR_ASSAULT and not aircraft.helicopter:
+        return 1
+    return proposed
+
+
 class PackageBuilder:
     """Builds a Package for the flights it receives."""
 
@@ -74,10 +87,14 @@ class PackageBuilder:
         if start_type is None:
             start_type = self.start_type
 
+        num_aircraft = assault_flight_size(
+            plan.task, squadron.aircraft, plan.num_aircraft
+        )
+
         flight = Flight(
             self.package,
             squadron,
-            plan.num_aircraft,
+            num_aircraft,
             plan.task,
             start_type,
             divert=self.find_divert_field(squadron.aircraft, squadron.location),
