@@ -1615,7 +1615,7 @@ class USS_Oklahoma_City(unittype.ShipType):
 class USS_Bon_Homme_Richard(unittype.ShipType):
     id = "USS Bon Homme Richard"
     name = "[VWV] CVA-31 Bon Homme Richard"
-    plane_num = 8
+    plane_num = 40
     helicopter_num = 8
     parking = 2
     detection_range = 28000
@@ -1666,6 +1666,15 @@ class USS_Fletcher(unittype.ShipType):
     plane_num = 1
     helicopter_num = 1
     parking = 1
+    detection_range = 45000
+    threat_range = 18650
+    air_weapon_dist = 18650
+
+
+@shipmod
+class USS_Radford(unittype.ShipType):
+    id = "USS Radford"
+    name = "[VWV] DD-446 USS Radford"
     detection_range = 45000
     threat_range = 18650
     air_weapon_dist = 18650
@@ -1723,6 +1732,15 @@ class USS_Maddox(unittype.ShipType):
 
 
 @shipmod
+class USS_Maddox_T(unittype.ShipType):
+    id = "USS Maddox T"
+    name = "[VWV] DD-731 USS Maddox Tonkin Incident"
+    detection_range = 45000
+    threat_range = 18650
+    air_weapon_dist = 18650
+
+
+@shipmod
 class USS_Forrest_Sherman(unittype.ShipType):
     id = "USS Forrest Sherman"
     name = "[VWV] DD-931 USS Forrest Sherman"
@@ -1735,6 +1753,24 @@ class USS_Forrest_Sherman(unittype.ShipType):
 class USS_Bigelow(unittype.ShipType):
     id = "USS Bigelow"
     name = "[VWV] DD-942 USS Bigelow"
+    detection_range = 45000
+    threat_range = 18650
+    air_weapon_dist = 18650
+
+
+@shipmod
+class USS_Epperson(unittype.ShipType):
+    id = "USS Epperson"
+    name = "[VWV] DD-719 USS Epperson"
+    detection_range = 45000
+    threat_range = 18650
+    air_weapon_dist = 18650
+
+
+@shipmod
+class USS_Everett_F_Larson(unittype.ShipType):
+    id = "USS Everett F Larson"
+    name = "[VWV] DD-830 USS Everett F. Larson"
     detection_range = 45000
     threat_range = 18650
     air_weapon_dist = 18650
@@ -1824,6 +1860,78 @@ class vap_us_seafloat(unittype.ShipType):
     name = "VAP US Sea Float Barge"
     helicopter_num = 4
     parking = 4
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@shipmod
+class Solon_Turman(unittype.ShipType):
+    id = "AD-30 Solon Turman"
+    name = "[VWV] AD-30 Solon Turman"
+    detection_range = 15000
+    threat_range = 13000
+    air_weapon_dist = 13000
+
+
+@shipmod
+class USNS_Card(unittype.ShipType):
+    id = "USNS Card"
+    name = "[VWV] T-AKV-40 USNS Card"
+    detection_range = 45000
+    threat_range = 18650
+    air_weapon_dist = 18650
+
+
+@shipmod
+class vwv_sampan_open(unittype.ShipType):
+    id = "sampan_open"
+    name = "[VWV] Sampan"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@shipmod
+class vwv_sampan_canopy(unittype.ShipType):
+    id = "SAMPAN_CANOPY"
+    name = "[VWV] Sampan, Canopy"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@shipmod
+class vwv_sampan_covered(unittype.ShipType):
+    id = "SAMPAN_COVERED"
+    name = "[VWV] Sampan, Covered"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@shipmod
+class vwv_sampan_covered_ak47(unittype.ShipType):
+    id = "sampan_covered_ak47"
+    name = "[VWV] Sampan, Covered, AK47"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@shipmod
+class vwv_sampan_open_box(unittype.ShipType):
+    id = "sampan_open_box"
+    name = "[VWV] Sampan, Open, Ammo Box"
+    detection_range = 0
+    threat_range = 0
+    air_weapon_dist = 0
+
+
+@shipmod
+class vwv_junk(unittype.ShipType):
+    id = "Junk"
+    name = "[VWV] Vietnam Junk"
     detection_range = 0
     threat_range = 0
     air_weapon_dist = 0
