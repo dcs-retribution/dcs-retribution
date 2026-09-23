@@ -20,6 +20,8 @@ radios:
 variants:
   F-100D: {}
   F-100D Super Sabre: {}
+patrol:
+  altitude: 25000
 tasks:
   BAI: 360
   BARCAP: 280

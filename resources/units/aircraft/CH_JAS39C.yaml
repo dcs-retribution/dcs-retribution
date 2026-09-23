@@ -10,6 +10,8 @@ price: 21
 role: Fighter
 variants:
   "[CH] JAS 39C Gripen": {}
+patrol:
+  altitude: 27000
 tasks:
   BAI: 750
   DEAD: 750

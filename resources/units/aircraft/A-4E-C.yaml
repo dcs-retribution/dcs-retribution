@@ -15,6 +15,8 @@ role: Carrier-based Attack/Light Fighter
 gunfighter: true
 variants:
   A-4E Skyhawk: {}
+patrol:
+  altitude: 25000
 tasks:
   BAI: 660
   BARCAP: 160

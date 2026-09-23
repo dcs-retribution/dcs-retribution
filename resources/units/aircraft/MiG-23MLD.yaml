@@ -20,6 +20,8 @@ variants:
   MiG-23ML Flogger-G:
     introduced: 1981
   MiG-23MLD Flogger-K: {}
+patrol:
+  altitude: 27000
 tasks:
   CAS: 120
   BARCAP: 360

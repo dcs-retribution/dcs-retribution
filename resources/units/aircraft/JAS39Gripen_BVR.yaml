@@ -14,6 +14,8 @@ variants:
 radios:
   intra_flight: R&S Series 6000
   inter_flight: R&S Series 6000
+patrol:
+  altitude: 27000
 tasks:
   BARCAP: 430
   Escort: 430

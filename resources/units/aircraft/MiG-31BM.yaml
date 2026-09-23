@@ -13,6 +13,8 @@ max_range: 800
 variants:
   MiG-31BM Foxhound: {}
 kneeboard_units: "metric"
+patrol:
+  altitude: 34000
 tasks:
   BARCAP: 550
   Escort: 400

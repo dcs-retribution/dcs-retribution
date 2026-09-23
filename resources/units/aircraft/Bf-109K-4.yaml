@@ -22,6 +22,8 @@ kneeboard_units: "metric"
 # default_overrides:
 #   Flare_Gun: 1
 #   MW50TankContents: 1
+patrol:
+  altitude: 20000
 tasks:
   BAI: 50
   BARCAP: 60

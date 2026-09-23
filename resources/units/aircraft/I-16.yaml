@@ -19,6 +19,8 @@ variants:
   I-16 Ishak: {}
 # default_overrides:
 #   landingTorch: false
+patrol:
+  altitude: 16000
 tasks:
   BAI: 60
   BARCAP: 20

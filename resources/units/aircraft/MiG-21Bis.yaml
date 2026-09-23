@@ -28,6 +28,8 @@ radios:
     intra_flight_radio_index: 1
     inter_flight_radio_index: 1
 kneeboard_units: "metric"
+patrol:
+  altitude: 27000
 tasks:
   BAI: 520
   BARCAP: 350

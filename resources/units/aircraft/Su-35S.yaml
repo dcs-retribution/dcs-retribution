@@ -23,6 +23,8 @@ variants:
 radios:
   intra_flight: R-800
   inter_flight: R-800
+patrol:
+  altitude: 30000
 tasks:
   BARCAP: 700
   Escort: 700

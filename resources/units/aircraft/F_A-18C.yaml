@@ -34,6 +34,8 @@ fuel:
   min_safe: 2000
 variants:
   F/A-18C Hornet (AI): {}
+patrol:
+  altitude: 27000
 tasks:
   Anti-ship: 150
   BAI: 740

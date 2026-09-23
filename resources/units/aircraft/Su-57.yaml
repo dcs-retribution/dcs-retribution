@@ -13,6 +13,8 @@ price: 40
 role: Stealth Air-Superiority Fighter
 variants:
   Su-57 Felon: {}
+patrol:
+  altitude: 33000
 tasks:
   BARCAP: 560
   Escort: 560

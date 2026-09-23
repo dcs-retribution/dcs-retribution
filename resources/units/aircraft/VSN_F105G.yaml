@@ -13,6 +13,8 @@ max_range: 150
 gunfighter: true
 variants:
   F-105G Thunderchief: {}
+patrol:
+  altitude: 25000
 tasks:
   Anti-ship: 150
   BAI: 140

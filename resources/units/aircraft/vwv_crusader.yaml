@@ -25,6 +25,8 @@ max_range: 394    # combat range without droptanks [nmi]
 gunfighter: true
 variants:
   F-8E Crusader: {}
+patrol:
+  altitude: 27000
 tasks:    # defined in flighttype.py
   Strike: 100
   Escort: 300

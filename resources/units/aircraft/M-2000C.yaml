@@ -37,6 +37,8 @@ radios:
 #   ReadyALCM: true
 #   RocketBurst: 6
 #   WpBullseye: 0
+patrol:
+  altitude: 27000
 tasks:
   BAI: 350
   BARCAP: 230

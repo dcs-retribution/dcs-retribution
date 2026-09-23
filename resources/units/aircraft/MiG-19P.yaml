@@ -35,6 +35,8 @@ kneeboard_units: "metric"
 #   MissileToneVolume: 5
 #   MountSIRENA: false
 #   NAV_Initial_Hdg: 0
+patrol:
+  altitude: 25000
 tasks:
   BAI: 370
   BARCAP: 170

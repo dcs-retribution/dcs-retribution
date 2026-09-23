@@ -16,6 +16,8 @@ variants:
   Yak-28: {}
   Yak-28 Firebar: {}
 kneeboard_units: "metric"
+patrol:
+  altitude: 30000
 tasks:
   BARCAP: 350
   Escort: 350

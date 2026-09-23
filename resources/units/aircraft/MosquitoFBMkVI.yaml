@@ -11,6 +11,8 @@ kneeboard_units: "imperial"
 #   Flare_Gun: 1
 #   ResinLights: 0.15
 #   SoloFlight: false
+patrol:
+  altitude: 16000
 tasks:
   Anti-ship: 20
   BAI: 70

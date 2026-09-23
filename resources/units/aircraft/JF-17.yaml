@@ -38,6 +38,8 @@ radios:
 #   LaserCode1: 8
 #   LaserCode10: 8
 #   LaserCode100: 6
+patrol:
+  altitude: 27000
 tasks:
   Anti-ship: 110
   BAI: 700

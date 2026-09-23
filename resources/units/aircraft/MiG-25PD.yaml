@@ -28,6 +28,8 @@ role: Interceptor
 max_range: 500
 variants:
   MiG-25PD Foxbat-E: {}
+patrol:
+  altitude: 34000
 tasks:
   BARCAP: 390
   Escort: 390

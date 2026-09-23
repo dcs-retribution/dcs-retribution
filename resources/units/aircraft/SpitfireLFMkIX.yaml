@@ -43,6 +43,8 @@ gunfighter: true
 variants:
   Spitfire LF Mk IX: {}
 kneeboard_units: "imperial"
+patrol:
+  altitude: 20000
 tasks:
   BAI: 80
   BARCAP: 80

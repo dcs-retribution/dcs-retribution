@@ -11,6 +11,8 @@ role: Fighter
 max_range: 200
 variants:
   Mirage-F1C-200: {}
+patrol:
+  altitude: 27000
 tasks:
   BARCAP: 260
   Escort: 260

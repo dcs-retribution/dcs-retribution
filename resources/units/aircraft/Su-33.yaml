@@ -31,6 +31,8 @@ variants:
     role: Carrier-based Multirole Fighter
   Su-33 Flanker-D: {}
 kneeboard_units: "metric"
+patrol:
+  altitude: 30000
 tasks:
   BAI: 590
   BARCAP: 510
