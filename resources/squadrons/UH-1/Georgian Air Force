@@ -1,0 +1,12 @@
+---
+name: Georgian Air Force
+female_pilot_percentage: 0
+country: Georgia
+role: Transport/Light Attack
+aircraft: UH-1H Iroquois
+livery: Georgian AF Camo
+mission_types:
+  - CAS
+  - OCA/Aircraft
+  - Transport
+  - Air Assault
