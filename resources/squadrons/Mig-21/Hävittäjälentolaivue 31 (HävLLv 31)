@@ -1,0 +1,14 @@
+---
+name: Hävittäjälentolaivue 31 (HävLLv 31)
+nickname: Ilves
+country: Finland
+role: Air Superiority Fighter
+aircraft: MiG-21bis Fishbed-N
+livery: Finland - HävLLv 31
+mission_types:
+  - BARCAP
+  - TARCAP
+  - Escort
+  - Intercept
+  - Fighter sweep
+  - TARCAP
