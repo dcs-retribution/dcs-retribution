@@ -1,0 +1,25 @@
+---
+name: Hävittäjälentolaivue 11 (HävLLv 11)
+nickname: Visentti
+female_pilot_percentage: 5
+country: Finland
+role: Strike Fighter
+aircraft: F/A-18C Hornet (Lot 20)
+livery: Finland 21
+bases:
+  shore: true  
+mission_types:
+  - Anti-ship
+  - BAI
+  - BARCAP
+  - CAS
+  - DEAD
+  - Escort
+  - Intercept
+  - OCA/Aircraft
+  - OCA/Runway
+  - SEAD
+  - SEAD Escort
+  - Strike
+  - Fighter sweep
+  - TARCAP

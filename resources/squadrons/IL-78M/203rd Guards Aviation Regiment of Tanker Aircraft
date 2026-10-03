@@ -1,0 +1,9 @@
+---
+name: 203rd Guards Orlovsky Independent Aircraft-refuelling Aviation Regiment
+female_pilot_percentage: 0
+country: Russia
+role: Air-to-Air Refueling
+aircraft: IL-78M
+livery: RF Air Force new
+mission_types:
+  - Refueling
