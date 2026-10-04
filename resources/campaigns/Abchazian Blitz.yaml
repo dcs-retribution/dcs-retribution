@@ -1,0 +1,232 @@
+---
+name: Caucasus - Abchazian Blitz
+theater: Caucasus
+authors: Ramius007
+description: <p>Medium-sized and difficult campaign, set during fictional georgian war. In alternative 2018, new georgian government, taking adventage of EU deteriorating relations with Russia, made a bold move to retake separatist region of Abchazia. Georgian operation after initial success, halted, when VDV, cut off key bridges in Abchazia, and stopped offensive in Sukhumi. 2 weeks later(tm), Russia mobilized for a counter attack, to restore control, and push towards Enguri Dam. This is a first test for new Eurocorps, european defense initiative, with a goal of deterring Russia.<p>
+ <p> Optional, but recommended, are both Codename Flanker mods, and Hi Digit SAMs, boosted by IADS plugin, this should create more challanging A2/AD bubbles. All 3 mods are used in campaign order of battle. If You are going to use those mods, replace M2000C squadron with something Fox-3 capable.<p>
+ <p> For performance reasons, disable untasked aircrafts on first turn(s), as OCA is unlikely, culling should also help. Campaign make use of helicopters, and Hercules.<p> 
+recommended_player_faction: Georgia/Eurocorps (modern)
+recommended_enemy_faction: Southern Military District (modern Russia)
+recommended_start_date: 2018-05-19
+miz: Abchazian Blitz.miz
+performance: 2
+settings:
+  restrict_weapons_by_date: true
+  squadron_start_full: true 
+  enable_squadron_aircraft_limits: true
+version: "10.8"
+recommended_player_money: 500
+recommended_enemy_money: 800
+recommended_player_income_multiplier: 0.6
+recommended_enemy_income_multiplier: 1.1
+squadrons:
+  
+  #Maykop-Khanskaya
+  16:
+    - primary: Refueling
+      aircraft:
+        - 203rd Guards Orlovsky Independent Aircraft-refuelling Aviation Regiment
+      size: 2  
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - 334th Transport Aviation Regiment        
+      size: 2    
+    - primary: Escort
+      secondary: any
+      aircraft:
+        - Su-35S Flanker-M
+        - Su-30 Flanker-C            
+      size: 16            
+  #Soch-Adler
+  18:
+    - primary: Transport
+      secondary: any
+      aircraft: 
+        - Mi-26
+      size: 2
+    - primary: Armed Recon
+      secondary: air-to-ground
+      aircraft:
+        - Ka-50 Hokum (Blackshark 3)
+        - Ka-50 Hokum III
+        - Ka-50 Hokum
+        - "[CH] Ka-52"
+      size: 4
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Mi-28N Havoc
+      size: 4
+    - primary: Armed Recon
+      secondary: air-to-ground
+      aircraft:
+        - Mi-24P Hind-F
+      size: 4
+    - primary: TARCAP
+      secondary: air-to-air
+      aircraft:
+        - MIG-29-FULCRUM
+        - MiG-29A Fulcrum-A
+      size: 8 
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Su-25 Frogfoot
+      size: 8   
+  #Mozdok
+  28:
+    - primary: AEW&C
+      aircraft:
+        - A-50
+      size: 2
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - Tu-22M3 Backfire-C
+      size: 4
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - Su-24M Fencer-D
+      size: 8    
+    - primary: DEAD
+      secondary: any
+      aircraft:
+        - Su-30SM Flanker-H
+        - Su-34 Fullback        
+      size: 8   
+    - primary: Armed Recon
+      secondary: any
+      aircraft:
+        - Mi-24P Hind-F
+      size: 4 
+  #Beslan
+  32:
+    - primary: Air Assault
+      secondary: any
+      aircraft: 
+        - Mi-8MTV2 Hip
+      size: 2
+    - primary: BARCAP
+      secondary: air-to-air      
+      aircraft:
+        - MiG-29S Fulcrum-C
+      size: 8      
+  #Senaki-Kholki
+  23:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - AV-8B Harrier II Night Attack                    
+      size: 8
+    - primary: SEAD Escort
+      secondary: any
+      aircraft: 
+        - 191. Filo
+      size: 12  
+    - primary: TARCAP
+      secondary: air-to-ground
+      aircraft:
+        - L-39ZA Albatros
+      size: 4    
+    - primary: Transport
+      secondary: any
+      aircraft:
+       - CH-47F Block I
+      size: 3        
+   #Sukhumi-Babushara
+  20:
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - 3ème régiment d'hélicoptères de combat
+      size: 4 
+    - primary: Escort
+      secondary: air-to-ground
+      aircraft:
+        - 5ème régiment d'hélicoptères de combat
+      size: 4      
+  #Gudauta
+  21:
+    - primary: Armed Recon
+      secondary: air-to-ground
+      aircraft:
+        - Mi-24P Hind-F
+      size: 4
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Ka-50 Hokum (Blackshark 3)
+        - Ka-50 Hokum III
+        - Ka-50 Hokum
+        - "[CH] Ka-52"        
+      size: 4
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - Mi-8MTV2 Hip
+      size: 2    
+  #Vaziani
+  31:
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:        
+        - Escadron de chasse 1/12        
+      size: 12
+    - primary: Anti-ship
+      secondary: any
+      aircraft:        
+        - Hävittäjälentolaivue 11 (HävLLv 11)
+      size: 8
+  #Tbilisi-Lochini
+  29:
+      
+    - primary: Refueling
+      aircraft:
+        - 101st Tanker Squadron
+      size: 2
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - C-130J-30 Super Hercules
+        - C-130J-30
+      size: 4    
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Wolfpack, 1-82 ARB
+      size: 4  
+    - primary: Transport
+      secondary: any
+      aircraft:        
+        - UH-60L
+        - Georgian Defense Forces
+      size: 4     
+  #Batumi
+  22:
+    - primary: AEW&C
+      aircraft:        
+        - E-3A
+      size: 2
+  Ochamchire FARP:
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:        
+        - RNLAF Redskins 301 Sqn     
+      size: 4
+    - primary: Escort
+      secondary: air-to-ground
+      aircraft:
+       - Croatian Air Force 393rd Helicopter Squadron
+      size: 4  
+  Zugdidi FARP:    
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - Georgian Air Force       
+      size: 4   
+ground_forces:
+      Mozdok LORAD: SA-20/S-300PMU-1    
+      Maykop LORAD: SA-20/S-300PMU-1
+      Sochi MERAD: SA-17

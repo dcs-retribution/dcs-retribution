@@ -1,0 +1,9 @@
+---
+name: 334th Transport Aviation Regiment
+female_pilot_percentage: 0
+country: Russia
+role: Airlift
+aircraft: IL-76MD
+livery: RF Air Force
+mission_types:
+  - Transport

@@ -1,0 +1,143 @@
+{
+  "country": "Combined Joint Task Forces Blue",
+  "name": "Georgia/Eurocorps (modern)",
+  "description": "<p>Georgian army in 2nd decade, with NATO air power, and Patriot SAM. Assets and squadrons focused on european assets, but some US only operated popular modules and mods are included, no US Navy. Custom faction for Abchazian Blitz campaign.</p>", 
+  "authors": "Ramius007",
+  "aircrafts": [
+    "MIG-29-FULCRUM",    
+    "A-10C Thunderbolt II (Suite 7)",
+    "A-10C Thunderbolt II (Suite 3)",
+    "F-22A Raptor",
+    "JF-17 Thunder",
+    "Mi-17 Hip",
+    "UH-1H Iroquois",
+    "AH-64D Apache Longbow",
+    "F-15C Eagle",
+    "Mirage 2000-5",
+    "UH-60L",
+    "UH-60A",
+    "C-130",
+    "SA342Minigun",
+    "F-16A MLU",
+    "MiG-29A Fulcrum-A",
+    "A400M Atlas",         
+    "C-130J-30 Super Hercules",
+    "Su-25 Frogfoot",
+    "AV-8B Harrier II Night Attack",
+    "SA 342L Gazelle",
+    "L-39ZA Albatros",
+    "Mirage 2000C",
+    "Tornado GR4",    
+    "F-16CM Fighting Falcon (Block 50)",
+    "F/A-18C Hornet (Lot 20)",    
+    "CH-47F Block I",
+    "Tornado IDS",
+    "SA 342M Gazelle",
+    "F-15E Strike Eagle (Suite 4+)",
+    "Mi-24P Hind-F",
+    "OH-58D(R) Kiowa Warrior",
+    "C-130J-30",
+    "MH-60L DAP",
+    "Mi-8MTV2 Hip",
+    "CH-47D",
+    "JAS 39 Gripen",
+    "JAS 39 Gripen A/G",
+    "JAS 39 Gripen BVR"    
+  ],
+  "awacs": [
+    "E-3A",
+    "E-7A Wedgetail"
+  ],
+  "tankers": [
+    "KC-135 Stratotanker MPRS",
+    "KC-130",
+    "KC-130J",
+    "KC-135 Stratotanker"
+  ],
+  "frontline_units": [
+    "BMP-2",
+    "APC MRAP MaxxPro",
+    "ZU-23 on Ural-375",
+    "BTR-80",
+    "M1043 HMMWV (M2 HMG)",
+    "APC BTR-70",
+    "BMP-1",
+    "ATGM AT-3 Sagger 9P133",
+    "MT-LB",
+    "T-72B with Kontakt-1 ERA",
+    "Cobra"
+  ],
+  "artillery_units": [
+    "BM-21 Grad",
+    "2S1 Gvozdika",
+    "SpGH DANA"
+  ],
+  "logistics_units": [
+    "Truck Ural-375",
+    "[CH] KrAZ-6322 Truck"    
+  ],
+  "infantry_units": [
+    "Infantry M4 Georgia",
+    "MANPADS SA-18 Igla \"Grouse\"",
+    "Infantry RPG",
+    "MANPADS Stinger C2",
+    "SAM SA-14 Strela-3 manpad",
+    "[CH] DShK HMG",
+    "MANPADS Stinger",
+    "Mortar 2B11 120mm"
+  ],
+  "preset_groups": [
+    "SA-11",
+    "Patriot"
+  ],
+  "air_defense_units": [
+    "S-60 57mm",
+    "AAA ZU-23 Closed Emplacement",
+    "EWR 1L13",
+    "MANPADS SA-18 Igla \"Grouse\"",
+    "ZSU-23-4 Shilka",
+    "AAA ZU-23 Emplacement",
+    "SA-13 Gopher (9K35 Strela-10M3)",    
+    "MANPADS Stinger",
+    "SAM SA-14 Strela-3 manpad",
+    "SAM SA-8 Osa \"Gecko\" TEL"    
+  ],
+  "naval_units": [
+    "FAC La Combattante IIa",
+    "Boat Armed Hi-speed"
+  ],
+  "missiles": [],
+  "has_jtac": true,
+  "jtac_unit": "MQ-9 Reaper",
+  "doctrine": "modern",
+  "building_set": [
+    "comms",
+    "fuel",
+    "ammo",
+    "farp",
+    "invisiblefob",
+    "oil",
+    "power",
+    "factory",
+    "ware",
+    "fob",
+    "commandcenter"
+  ],
+  "liveries_overrides": {
+    "L-39ZA Albatros": [
+      "splinter camo woodland"
+    ],
+    "CH-47F Block I": [
+      "turkish land forces"
+    ],
+    "SA 342M Gazelle": [
+      "fr alat hri kfor 1999"
+    ],
+    "SA 342L Gazelle": [
+      "fr alat hri kfor 1999"
+    ]},
+  "liveries_overrides_ground_forces": {},
+  "unrestricted_satnav": true,
+  "requirements": {},
+  "carriers": {}
+}
