@@ -6,6 +6,7 @@ from dcs.mission import Mission
 from game.weather.atmosphericconditions import AtmosphericConditions
 from game.weather.clouds import Clouds
 from game.weather.conditions import Conditions
+from game.weather.dust import Dust
 from game.weather.fog import Fog
 from game.weather.wind import WindConditions
 
@@ -39,6 +40,16 @@ class EnvironmentGenerator:
             return
         self.mission.weather.fog_visibility = int(fog.visibility.meters)
         self.mission.weather.fog_thickness = fog.thickness
+        # DCS drops the fog block unless it is switched on, and auto fog replaces it
+        # (me_weather.lua fixFog).
+        self.mission.weather.enable_fog = not self.auto_fog
+
+    def set_dust(self, dust: Optional[Dust]) -> None:
+        # DCS only keeps dust with every kind of fog off (me_weather.lua fixFog).
+        if dust is None or self.auto_fog or self.conditions.weather.fog is not None:
+            return
+        self.mission.weather.enable_dust = True
+        self.mission.weather.dust_density = int(dust.visibility.meters)
 
     def set_wind(self, wind: WindConditions) -> None:
         self.mission.weather.wind_at_ground = wind.at_0m
@@ -50,4 +61,5 @@ class EnvironmentGenerator:
         self.set_atmospheric(self.conditions.weather.atmospheric)
         self.set_clouds(self.conditions.weather.clouds)
         self.set_fog(self.conditions.weather.fog)
+        self.set_dust(self.conditions.weather.dust)
         self.set_wind(self.conditions.weather.wind)

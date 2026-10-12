@@ -18,6 +18,7 @@ from game.utils import (
 )
 from game.weather.atmosphericconditions import AtmosphericConditions
 from game.weather.clouds import Clouds
+from game.weather.dust import Dust
 from game.weather.fog import Fog
 from game.weather.weatherarchetype import WeatherArchetype, WeatherArchetypes
 from game.weather.wind import WindConditions
@@ -27,6 +28,9 @@ if TYPE_CHECKING:
 
 
 class Weather(ABC):
+    # Set only by hand (Time & Weather dialog); a class default so old saves load.
+    dust: Optional[Dust] = None
+
     def __init__(
         self,
         seasonal_conditions: SeasonalConditions,

@@ -2,9 +2,15 @@ from copy import deepcopy
 from datetime import datetime, timedelta
 
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton
+from dcs.weather import Wind
 
 from game.sim import GameUpdateEvents
+from game.utils import knots
 from game.weather.clouds import Clouds
+from game.weather.wind import WindConditions
+from qt_ui.widgets.conditions.QAtmosphereAdjustmentWidget import (
+    QAtmosphereAdjustmentWidget,
+)
 from qt_ui.widgets.conditions.QTimeAdjustmentWidget import QTimeAdjustmentWidget
 from qt_ui.widgets.conditions.QTimeTurnWidget import QTimeTurnWidget
 from qt_ui.widgets.conditions.QWeatherAdjustmentWidget import QWeatherAdjustmentWidget
@@ -20,14 +26,22 @@ class QConditionsDialog(QDialog):
 
     def init_ui(self):
         self.setWindowTitle("Time & Weather Conditions")
-        self.setMinimumSize(360, 380)
+        self.setMinimumSize(760, 380)
 
         vbox = QVBoxLayout()
 
         self.time_adjuster = QTimeAdjustmentWidget(self.time_turn)
         vbox.addWidget(self.time_adjuster, 1)
+        columns = QHBoxLayout()
         self.weather_adjuster = QWeatherAdjustmentWidget(self.weather)
-        vbox.addWidget(self.weather_adjuster, 8)
+        columns.addWidget(self.weather_adjuster, 3)
+        game_loop = self.time_turn.sim_controller.game_loop
+        assert game_loop is not None
+        self.atmosphere_adjuster = QAtmosphereAdjustmentWidget(
+            self.weather.conditions.weather, game_loop.game.settings.use_auto_fog
+        )
+        columns.addWidget(self.atmosphere_adjuster, 2)
+        vbox.addLayout(columns, 8)
 
         hbox = QHBoxLayout()
         reject_btn = QPushButton("REJECT")
@@ -58,6 +72,7 @@ class QConditionsDialog(QDialog):
 
         # TODO: create new weather object
 
+        old_weather = self.weather.conditions.weather
         new_weather_type = self.weather_adjuster.type_selector.currentData()
         new_weather = new_weather_type(
             seasonal_conditions=game.theater.seasonal_conditions,
@@ -75,11 +90,43 @@ class QConditionsDialog(QDialog):
             preset=preset,
         )
 
+        def _kts_to_mps(kts: int) -> float:
+            return round(knots(kts).meters_per_second, 1)
+
+        # Without this the rebuilt weather object above would hand back a freshly
+        # generated random wind, discarding the one the forecast panel showed.
+        wa = self.weather_adjuster
+        new_weather.wind = WindConditions(
+            at_0m=Wind(
+                speed=_kts_to_mps(wa.wind_gl_speed.value()),
+                direction=wa.wind_gl_dir.value(),
+            ),
+            at_2000m=Wind(
+                speed=_kts_to_mps(wa.wind_fl08_speed.value()),
+                direction=wa.wind_fl08_dir.value(),
+            ),
+            at_8000m=Wind(
+                speed=_kts_to_mps(wa.wind_fl26_speed.value()),
+                direction=wa.wind_fl26_dir.value(),
+            ),
+        )
+
+        # The rebuilt weather object also rolls fresh air and fog. Keep the turn's
+        # own unless edited.
+        atmosphere = self.atmosphere_adjuster
+        new_weather.atmospheric = atmosphere.atmospheric(old_weather.atmospheric)
+        new_weather.fog = atmosphere.fog(old_weather.fog)
+        new_weather.dust = atmosphere.dust(old_weather.dust)
+
         self.weather.conditions.weather = new_weather
 
         self.weather.update_forecast()
-        if game.turn > 0 and current_time != qdt:
-            events = GameUpdateEvents()
-            game.initialize_turn(events, for_blue=True, for_red=True)
-            sim.sim_update.emit(events)
+        self.weather.updateWinds()
+        if game.turn > 0 and current_time is not None and current_time != qdt:
+            # Re-time the planned packages onto the new mission start. Re-planning
+            # the turn here discarded every hand-built package.
+            delta = qdt - current_time
+            game.blue.ato.shift_time(delta)
+            game.red.ato.shift_time(delta)
+            sim.sim_update.emit(GameUpdateEvents())
         self.accept()

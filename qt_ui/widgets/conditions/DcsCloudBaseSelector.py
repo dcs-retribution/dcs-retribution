@@ -29,7 +29,7 @@ class DcsCloudBaseSelector(QHBoxLayout):
 
         self.base_spinner = QSpinBox()
         self.base_spinner.setValue(self.base.value())
-        self.base_spinner.setFixedWidth(75)
+        self.base_spinner.setFixedWidth(100)
         self.base_spinner.setSingleStep(100)
         self.base_spinner.valueChanged.connect(self.update_slider)
         self.addWidget(self.base_spinner, 1)
