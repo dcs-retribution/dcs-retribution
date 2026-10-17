@@ -230,9 +230,13 @@ class Squadron:
         new_pilots = self.pilot_pool[:count]
         self.pilot_pool = self.pilot_pool[count:]
         count -= len(new_pilots)
-        # Resolve the squadron's faker once per batch, not once per pilot: the
-        # country/locale is fixed for a squadron's lifetime, so hundreds of
-        # identical ``faker_for_country`` lookups per campaign collapse to one.
+        # Resolve the squadron's faker once per batch, not once per pilot, so
+        # hundreds of identical ``faker_for_country`` lookups per campaign
+        # collapse to one. Re-read it here (per batch) rather than caching it on
+        # the squadron: the Air Wing dialog can change ``self.country`` between
+        # batches (#627), and the ``faker`` property reads ``self.country`` live,
+        # so newly recruited pilots pick up a country change. Do NOT memoize the
+        # faker keyed once, or that live change would silently stop taking effect.
         faker = self.faker
         for _ in range(count):
             if random.randint(1, 100) > self.female_pilot_percentage:

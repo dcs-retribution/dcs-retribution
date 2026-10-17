@@ -4,16 +4,37 @@ import logging
 import random
 from typing import Optional, TYPE_CHECKING
 
+from dcs.country import Country
+
 from game.squadrons import Squadron
 from game.squadrons.squadrondef import SquadronDef
 from .campaignairwingconfig import CampaignAirWingConfig, SquadronConfig
 from ..ato.flighttype import FlightType
 from ..dcs.aircrafttype import AircraftType
+from ..dcs.countries import country_with_name
 from ..theater import ControlPoint
 
 if TYPE_CHECKING:
     from game import Game
     from game.coalition import Coalition
+
+
+def resolve_config_country(config: SquadronConfig) -> Optional[Country]:
+    """The campaign-pinned DCS country for a squadron config, if any.
+
+    An unknown ``country:`` name is a campaign authoring error: raise so New
+    Game aborts loudly and points the author at the bad name, rather than
+    silently flying under the wrong nation.
+    """
+    if config.country is None:
+        return None
+    try:
+        return country_with_name(config.country)
+    except KeyError as ex:
+        raise ValueError(
+            f"Squadron config country {config.country!r} is not a DCS country "
+            f"name. Fix the campaign's squadron `country:` value."
+        ) from ex
 
 
 class DefaultSquadronAssigner:
@@ -58,21 +79,34 @@ class DefaultSquadronAssigner:
     def find_squadron_for(
         self, config: SquadronConfig, control_point: ControlPoint
     ) -> Optional[SquadronDef]:
+        # A campaign-pinned nation (#627) makes the preset pick deterministic in
+        # country: only same-nation presets are eligible, and the generated
+        # fallback is stamped with the pinned country by
+        # override_squadron_defaults. Unpinned squadrons keep the picked def's
+        # own country (the stock random behavior).
+        country = resolve_config_country(config)
         for preferred_aircraft in config.aircraft:
             squadron_def = self.find_preferred_squadron(
-                preferred_aircraft, config.aircraft_type, config.primary, control_point
+                preferred_aircraft,
+                config.aircraft_type,
+                config.primary,
+                control_point,
+                country,
             )
             if squadron_def is not None:
                 return squadron_def
 
         # If we didn't find any of the preferred types we should use any squadron
         # compatible with the primary task.
-        squadron_def = self.find_squadron_for_task(config.primary, control_point)
+        squadron_def = self.find_squadron_for_task(
+            config.primary, control_point, country
+        )
         if squadron_def is not None:
             return squadron_def
 
         # If we can't find any squadron matching the requirement, we should
-        # create one.
+        # create one. A pinned country is stamped by override_squadron_defaults;
+        # an unpinned squadron keeps the generated def's own country.
         return self.air_wing.squadron_def_generator.generate_for_task(
             config.primary, control_point
         )
@@ -83,8 +117,12 @@ class DefaultSquadronAssigner:
         aircraft_type: Optional[str],
         task: FlightType,
         control_point: ControlPoint,
+        country: Optional[Country] = None,
     ) -> Optional[SquadronDef]:
-        # Attempt to find a squadron with the name in the request.
+        # Attempt to find a squadron with the name in the request. An explicitly
+        # named preset wins over the country preference (the author asked for
+        # that unit); an authored country: still re-stamps its nation afterward
+        # in override_squadron_defaults.
         squadron_def = self.find_squadron_by_name(
             preferred_aircraft, task, control_point
         )
@@ -106,7 +144,12 @@ class DefaultSquadronAssigner:
         if aircraft not in self.coalition.faction.all_aircrafts:
             return None
 
-        squadron_def = self.find_squadron_for_airframe(aircraft, task, control_point)
+        # A pinned country restricts the preset pick to that nation and stamps
+        # the generated fallback; an unpinned squadron keeps the preset/def's own
+        # country (override_squadron_defaults handles the pinned case).
+        squadron_def = self.find_squadron_for_airframe(
+            aircraft, task, control_point, country
+        )
         if squadron_def is not None and (
             squadron_def.livery is not None or squadron_def.livery_set is not None
         ):
@@ -128,7 +171,11 @@ class DefaultSquadronAssigner:
         return squadron.operates_from(control_point) and squadron.capable_of(task)
 
     def find_squadron_for_airframe(
-        self, aircraft: AircraftType, task: FlightType, control_point: ControlPoint
+        self,
+        aircraft: AircraftType,
+        task: FlightType,
+        control_point: ControlPoint,
+        country: Optional[Country] = None,
     ) -> Optional[SquadronDef]:
         choices = []
         for squadron in self.air_wing.squadron_defs[aircraft]:
@@ -136,6 +183,11 @@ class DefaultSquadronAssigner:
                 squadron, task, control_point
             ):
                 choices.append(squadron)
+        if country is not None:
+            # Pinned nation: a wrong-nation preset would drag its livery and any
+            # authored ace roster along even after the country override, so no
+            # same-nation match falls through to the def generator instead.
+            choices = [s for s in choices if s.country.id == country.id]
         if choices:
             return random.choice(choices)
         return None
@@ -156,10 +208,15 @@ class DefaultSquadronAssigner:
         return None
 
     def find_squadron_for_task(
-        self, task: FlightType, control_point: ControlPoint
+        self,
+        task: FlightType,
+        control_point: ControlPoint,
+        country: Optional[Country] = None,
     ) -> Optional[SquadronDef]:
         for squadrons in self.air_wing.squadron_defs.values():
             for squadron in squadrons:
+                if country is not None and squadron.country.id != country.id:
+                    continue
                 if not squadron.claimed and self.squadron_compatible_with(
                     squadron, task, control_point
                 ):
@@ -179,5 +236,13 @@ class DefaultSquadronAssigner:
             squadron_def.nickname = config.nickname
         if config.female_pilot_percentage is not None:
             squadron_def.female_pilot_percentage = config.female_pilot_percentage
+        if config.country is not None:
+            # Stamp the pinned nation (#627 voice/comms + pilot names). This is
+            # what gives a generated def (no preset existed for the nation) its
+            # country, and it also wins over a name-bound preset's own nation
+            # when the author sets both.
+            country = resolve_config_country(config)
+            if country is not None:
+                squadron_def.country = country
 
         return squadron_def
