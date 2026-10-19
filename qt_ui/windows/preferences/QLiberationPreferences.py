@@ -16,6 +16,7 @@ from PySide6.QtWidgets import (
 )
 
 from qt_ui import liberation_install, liberation_theme
+from qt_ui.dcs_paths import looks_like_dcs_install, looks_like_dcs_saved_games
 from qt_ui.liberation_theme import THEMES, get_theme_index, set_theme_index
 
 
@@ -149,14 +150,30 @@ class QLiberationPreferences(QFrame):
         set_theme_index(self.themeSelect.currentIndex())
 
         if not os.path.isdir(self.saved_game_dir):
-            error_dialog = QMessageBox.critical(
+            QMessageBox.critical(
                 self,
                 "Wrong DCS Saved Games directory.",
                 self.saved_game_dir + " is not a valid directory",
                 QMessageBox.StandardButton.Ok,
             )
-            error_dialog.exec_()
             return False
+
+        if not looks_like_dcs_saved_games(self.saved_game_dir):
+            answer = QMessageBox.warning(
+                self,
+                "This may not be your DCS Saved Games directory",
+                f"{self.saved_game_dir} does not contain a Config, Logs or "
+                "Missions folder, so DCS does not appear to use it."
+                "<br/><br/>If DCS cannot find the generated mission or "
+                "Retribution cannot find the mission results, check this path "
+                "first. It is usually <i>Saved Games\\DCS</i> in your user folder, "
+                "unless you moved Saved Games to another drive or OneDrive."
+                "<br/><br/>Use this directory anyway?",
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+                QMessageBox.StandardButton.No,
+            )
+            if answer == QMessageBox.StandardButton.No:
+                return False
 
         if self.install_dir_ignore_warning and self.dcs_install_dir == "":
             warning_dialog = QMessageBox.warning(
@@ -189,16 +206,15 @@ class QLiberationPreferences(QFrame):
             if error_dialog == QMessageBox.StandardButton.Ignore:
                 self.install_dir_ignore_warning = True
             return False
-        elif not os.path.isdir(
-            os.path.join(self.dcs_install_dir, "Scripts")
-        ) and os.path.isfile(os.path.join(self.dcs_install_dir, "bin", "DCS.exe")):
-            error_dialog = QMessageBox.critical(
+        elif self.dcs_install_dir != "" and not looks_like_dcs_install(
+            self.dcs_install_dir
+        ):
+            QMessageBox.critical(
                 self,
                 "Wrong DCS installation directory.",
                 self.dcs_install_dir + " is not a valid DCS installation directory",
                 QMessageBox.StandardButton.Ok,
             )
-            error_dialog.exec_()
             return False
 
         liberation_install.setup(

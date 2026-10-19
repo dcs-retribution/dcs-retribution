@@ -30,6 +30,10 @@
 * **[Modding]** Update UH-60L mod to v2.1.5 including MH-60L DAP
 
 ## Fixes
+* **[UX]** First-run setup now finds the DCS Saved Games folder when Windows "Saved Games" has been moved to another drive or OneDrive, and no longer prefers a stale `DCS.openbeta` folder over the `DCS` folder actually in use.
+* **[UX]** Preferences warn when the chosen Saved Games folder does not look like one DCS uses, and correctly reject an install folder without `Scripts/MissionScripting.lua`.
+* **[UX]** Fix Preferences crashing instead of returning to the dialog after reporting an invalid Saved Games or install directory.
+* **[Engine]** Create Retribution's folders with the intended 0755 permissions.
 * **[Mission Generation]** Fix mission generation dying on "Duplicate convoy unit": convoy and cargo-ship names no longer reset each turn onto a convoy still in transit.
 * **[Mission Generator]** Dynamically allocated TACAN channels no longer collide with map beacons: DME/VOR-DME beacons (which share TACAN's channelization) are now blacklisted alongside TACAN/VORTAC, and beacons whose DCS data omits a channel (e.g. Syria's KALDE "KAD" VOR-DME) have their channel/band derived from the beacon's VHF frequency per the ICAO VOR/TACAN channelling plan instead of being silently skipped. The "Assign TACAN" dialog now warns in real time when the selected channel/band is already in use by a map beacon or another carrier/airfield/flight. (#36)
 * **[Map]** Right-clicking a front line under a blue flight-plan route now opens the new-package dialog instead of the browser context menu (the route's invisible hover overlay swallowed the click).

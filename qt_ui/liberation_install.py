@@ -7,6 +7,7 @@ from shutil import copyfile
 import dcs
 
 from game import persistency
+from qt_ui.dcs_paths import detect_dcs_saved_games_dir
 
 global __dcs_saved_game_directory
 global __dcs_installation_directory
@@ -78,19 +79,17 @@ def init():
         __setup_preferences_on_every_start = False
         __server_port = 16880
         try:
-            __dcs_saved_game_directory = (
-                dcs.installation.get_dcs_saved_games_directory()
-            )
-            if os.path.exists(__dcs_saved_game_directory + ".openbeta"):
-                __dcs_saved_game_directory = (
-                    dcs.installation.get_dcs_saved_games_directory() + ".openbeta"
-                )
-        except:
-            __dcs_saved_game_directory = ""
-        try:
             __dcs_installation_directory = dcs.installation.get_dcs_install_directory()
-        except:
+        except Exception:
+            logging.exception("Could not detect the DCS installation directory")
             __dcs_installation_directory = ""
+        try:
+            __dcs_saved_game_directory = detect_dcs_saved_games_dir(
+                __dcs_installation_directory
+            )
+        except Exception:
+            logging.exception("Could not detect the DCS Saved Games directory")
+            __dcs_saved_game_directory = ""
 
         is_first_start = True
     persistency.setup(
@@ -181,7 +180,6 @@ def set_ignore_empty_install_directory(value: bool):
 
 def get_last_save_file():
     global __last_save_file
-    print(__last_save_file)
     if os.path.exists(__last_save_file):
         return __last_save_file
     else:

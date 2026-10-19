@@ -325,7 +325,7 @@ class MigrationUnpickler(pickle.Unpickler):
 
 def _create_dir_if_needed(path: Path) -> Path:
     if not path.exists():
-        path.mkdir(755, parents=True)
+        path.mkdir(0o755, parents=True)
     return path
 
 
