@@ -1,6 +1,7 @@
 # Retribution v1.6.0
 
 ## Features/Improvements
+* **[Mission Generator]** Native DTC data cartridges for the F/A-18C and F-16C: every blue client flight gets a cartridge with its steerpoints and push times, named radio presets (F/A-18C), recovery TACAN/ICLS/ACLS, a TACAN station list and the attack lane (F/A-18C), the SA/HSD picture with a CAS/SEAD working-area box (F-16C), and multiplayer clients receive it with the mission download. Campaign setting `DTC data cartridges`: Off, Pilot loads it (default) or Load at spawn.
 * **[Modding]** Added support for the CurrentHill Iran Military Assets pack: the Shahed-136 launcher, two IRGCN fast-attack craft, and a new `[CH] Iran 2020` faction, behind a New Game mods checkbox. (#886)
 * **[Kneeboard]** Use a light-grey daytime kneeboard background instead of near-white, to avoid glare under HDR / Auto-HDR while staying readable in daylight.
 * **[UX]** Hovering a friendly flight's route line on the map highlights it in yellow, and clicking it selects that flight's package (and the flight) in the ATO sidebar.

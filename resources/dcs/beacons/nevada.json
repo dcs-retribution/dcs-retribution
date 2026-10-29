@@ -4,314 +4,449 @@
   "callsign": "ICRR",
   "beacon_type": 16896,
   "hertz": 108700000,
-  "channel": 24
+  "channel": 24,
+  "x": -360394.21875,
+  "y": -76976.257813,
+  "elevation": 952.944679
  },
  "airfield1_1": {
   "name": "Creech",
   "callsign": "ICRR",
   "beacon_type": 16640,
   "hertz": 108700000,
-  "channel": 24
+  "channel": 24,
+  "x": -360542.96875,
+  "y": -74232.171875,
+  "elevation": 951.059301
  },
  "airfield1_2": {
   "name": "Creech",
   "callsign": "ICRS",
   "beacon_type": 16640,
   "hertz": 108500000,
-  "channel": 22
+  "channel": 22,
+  "x": -360622.4375,
+  "y": -74673.570313,
+  "elevation": 952.943336
  },
  "airfield1_3": {
   "name": "Creech",
   "callsign": "ICRS",
   "beacon_type": 16896,
   "hertz": 108500000,
-  "channel": 22
+  "channel": 22,
+  "x": -359425.09375,
+  "y": -75627.359375,
+  "elevation": 952.943397
  },
  "airfield1_4": {
   "name": "Creech",
   "callsign": "INS",
   "beacon_type": 4,
   "hertz": null,
-  "channel": 87
+  "channel": 87,
+  "x": -360368.5625,
+  "y": -75045.421875,
+  "elevation": 952.943458
  },
  "airfield2_0": {
   "name": "Groom-Lake",
   "callsign": "GLRI",
   "beacon_type": 16640,
   "hertz": 109300000,
-  "channel": 30
+  "channel": 30,
+  "x": -286660.59375,
+  "y": -87720.34375,
+  "elevation": 1357.831924
  },
  "airfield2_1": {
   "name": "Groom-Lake",
   "callsign": "GLRI",
   "beacon_type": 16896,
   "hertz": 109300000,
-  "channel": 30
+  "channel": 30,
+  "x": -290061.15625,
+  "y": -86409.328125,
+  "elevation": 1369.163234
  },
  "airfield2_2": {
   "name": "Groom-Lake",
   "callsign": "GRL",
   "beacon_type": 4,
   "hertz": null,
-  "channel": 18
+  "channel": 18,
+  "x": -288771.78125,
+  "y": -87782.398438,
+  "elevation": 1363.947653
  },
  "airfield3_0": {
   "name": "McCarran-International",
   "callsign": "I-RLE",
   "beacon_type": 16896,
   "hertz": 111750000,
-  "channel": null
+  "channel": null,
+  "x": -416373.15625,
+  "y": -25578.058594,
+  "elevation": 631.500204
  },
  "airfield3_1": {
   "name": "McCarran-International",
   "callsign": "I-LAS",
   "beacon_type": 16896,
   "hertz": 110300000,
-  "channel": 40
+  "channel": 40,
+  "x": -416071.34375,
+  "y": -25586.15625,
+  "elevation": 634.169579
  },
  "airfield3_2": {
   "name": "McCarran-International",
   "callsign": "I-RLE",
   "beacon_type": 16640,
   "hertz": 111750000,
-  "channel": null
+  "channel": null,
+  "x": -416353.0,
+  "y": -28740.046875,
+  "elevation": 662.86132
  },
  "airfield3_3": {
   "name": "McCarran-International",
   "callsign": "I-LAS",
   "beacon_type": 16640,
   "hertz": 110300000,
-  "channel": 40
+  "channel": 40,
+  "x": -416063.5,
+  "y": -29393.269531,
+  "elevation": 664.091545
  },
  "airfield3_4": {
   "name": "McCarran-International",
   "callsign": "LAS",
   "beacon_type": 5,
   "hertz": 116900000,
-  "channel": 116
+  "channel": 116,
+  "x": -415686.09375,
+  "y": -28303.363281,
+  "elevation": 657.922167
  },
  "airfield4_0": {
   "name": "Nellis",
   "callsign": "IDIQ",
   "beacon_type": 16896,
   "hertz": 109100000,
-  "channel": null
+  "channel": null,
+  "x": -397384.6875,
+  "y": -16357.164063,
+  "elevation": 563.598708
  },
  "airfield4_1": {
   "name": "Nellis",
   "callsign": "LSV",
   "beacon_type": 4,
   "hertz": null,
-  "channel": 12
+  "channel": 12,
+  "x": -397135.9375,
+  "y": -16545.675781,
+  "elevation": 564.647598
  },
  "airfield4_2": {
   "name": "Nellis",
   "callsign": "IDIQ",
   "beacon_type": 16640,
   "hertz": 109100000,
-  "channel": null
+  "channel": null,
+  "x": -399661.15625,
+  "y": -18468.027344,
+  "elevation": 559.453379
  },
  "airfield15_0": {
   "name": "North-Las-Vegas",
   "callsign": "I-HWG",
   "beacon_type": 16640,
   "hertz": 110700000,
-  "channel": null
+  "channel": null,
+  "x": -401983.125,
+  "y": -30840.599609,
+  "elevation": 680.161752
  },
  "airfield15_1": {
   "name": "North-Las-Vegas",
   "callsign": "I-HWG",
   "beacon_type": 16896,
   "hertz": 110700000,
-  "channel": null
+  "channel": null,
+  "x": -401152.40625,
+  "y": -31581.777344,
+  "elevation": 679.279671
  },
  "airfield18_0": {
   "name": "Tonopah-Test-Range",
   "callsign": "I-RVP",
   "beacon_type": 16640,
   "hertz": 108300000,
-  "channel": null
+  "channel": null,
+  "x": -228754.375,
+  "y": -173747.390625,
+  "elevation": 1686.814187
  },
  "airfield18_1": {
   "name": "Tonopah-Test-Range",
   "callsign": "I-UVV",
   "beacon_type": 16640,
   "hertz": 111700000,
-  "channel": null
+  "channel": null,
+  "x": -224471.734375,
+  "y": -175559.625,
+  "elevation": 1686.831765
  },
  "airfield18_2": {
   "name": "Tonopah-Test-Range",
   "callsign": "I-UVV",
   "beacon_type": 16896,
   "hertz": 111700000,
-  "channel": null
+  "channel": null,
+  "x": -228097.671875,
+  "y": -174188.0,
+  "elevation": 1686.814187
  },
  "airfield18_3": {
   "name": "Tonopah-Test-Range",
   "callsign": "I-RVP",
   "beacon_type": 16896,
   "hertz": 108300000,
-  "channel": null
+  "channel": null,
+  "x": -225076.921875,
+  "y": -175461.53125,
+  "elevation": 1686.67759
  },
  "airfield18_4": {
   "name": "Silverbow",
   "callsign": "TQQ",
   "beacon_type": 5,
   "hertz": 113000000,
-  "channel": 77
+  "channel": 77,
+  "x": -227436.90625,
+  "y": -174559.0,
+  "elevation": 1689.105083
  },
  "world_0": {
   "name": "St George",
   "callsign": "UTI",
   "beacon_type": 3,
   "hertz": 108600000,
-  "channel": 23
+  "channel": 23,
+  "x": -299933.84375,
+  "y": 108917.28125,
+  "elevation": 874.956686
  },
  "world_1": {
   "name": "Grand Canyon",
   "callsign": "GCN",
   "beacon_type": 3,
   "hertz": 113100000,
-  "channel": 78
+  "channel": 78,
+  "x": -419559.71875,
+  "y": 243873.65625,
+  "elevation": 2024.336253
  },
  "world_2": {
   "name": "Kingman",
   "callsign": "IGM",
   "beacon_type": 3,
   "hertz": 108800000,
-  "channel": 25
+  "channel": 25,
+  "x": -503781.59375,
+  "y": 84923.976563,
+  "elevation": 1039.00934
  },
  "world_3": {
   "name": "Colorado City",
   "callsign": "AZC",
   "beacon_type": 4104,
   "hertz": 403000,
-  "channel": null
+  "channel": null,
+  "x": -312156.03125,
+  "y": 161375.6875,
+  "elevation": 1481.302018
  },
  "world_4": {
   "name": "Meggi",
   "callsign": "EC",
   "beacon_type": 4104,
   "hertz": 217000,
-  "channel": null
+  "channel": null,
+  "x": -219910.453125,
+  "y": 156418.015625,
+  "elevation": 1680.801608
  },
  "world_5": {
   "name": "Daggett",
   "callsign": "DAG",
   "beacon_type": 5,
   "hertz": 113200000,
-  "channel": 79
+  "channel": 79,
+  "x": -541075.1875,
+  "y": -155482.53125,
+  "elevation": 538.428761
  },
  "world_6": {
   "name": "Hector",
   "callsign": "HEC",
   "beacon_type": 5,
   "hertz": 112700000,
-  "channel": 74
+  "channel": 74,
+  "x": -559341.375,
+  "y": -144867.3125,
+  "elevation": 565.24141
  },
  "world_7": {
   "name": "Needles",
   "callsign": "EED",
   "beacon_type": 5,
   "hertz": 115200000,
-  "channel": 99
+  "channel": 99,
+  "x": -560035.0,
+  "y": 37194.679688,
+  "elevation": 198.369263
  },
  "world_8": {
   "name": "Milford",
   "callsign": "MLF",
   "beacon_type": 5,
   "hertz": 112100000,
-  "channel": 58
+  "channel": 58,
+  "x": -156700.828125,
+  "y": 154376.0625,
+  "elevation": 1517.31829
  },
  "world_9": {
   "name": "GOFFS",
   "callsign": "GFS",
   "beacon_type": 5,
   "hertz": 114400000,
-  "channel": 91
+  "channel": 91,
+  "x": -520917.28125,
+  "y": -27855.832031,
+  "elevation": 1224.939335
  },
  "world_10": {
   "name": "Tonopah",
   "callsign": "TPH",
   "beacon_type": 5,
   "hertz": 117200000,
-  "channel": 119
+  "channel": 119,
+  "x": -200809.96875,
+  "y": -196936.796875,
+  "elevation": 1631.569136
  },
  "world_11": {
   "name": "Mina",
   "callsign": "MVA",
   "beacon_type": 5,
   "hertz": 115100000,
-  "channel": 98
+  "channel": 98,
+  "x": -140979.484375,
+  "y": -283977.375,
+  "elevation": 2342.236961
  },
  "world_12": {
   "name": "Wilson Creek",
   "callsign": "ILC",
   "beacon_type": 5,
   "hertz": 116300000,
-  "channel": 110
+  "channel": 110,
+  "x": -173244.484375,
+  "y": 34027.542969,
+  "elevation": 2778.903658
  },
  "world_13": {
   "name": "Cedar City",
   "callsign": "CDC",
   "beacon_type": 5,
   "hertz": 117300000,
-  "channel": 120
+  "channel": 120,
+  "x": -220522.046875,
+  "y": 152270.421875,
+  "elevation": 1664.931475
  },
  "world_14": {
   "name": "Bryce Canyon",
   "callsign": "BCE",
   "beacon_type": 5,
   "hertz": 112800000,
-  "channel": 75
+  "channel": 75,
+  "x": -228309.53125,
+  "y": 220166.203125,
+  "elevation": 2711.394069
  },
  "world_15": {
   "name": "Mormon Mesa",
   "callsign": "MMM",
   "beacon_type": 5,
   "hertz": 114300000,
-  "channel": 90
+  "channel": 90,
+  "x": -337286.5625,
+  "y": 48996.441406,
+  "elevation": 641.303376
  },
  "world_16": {
   "name": "Beatty",
   "callsign": "BTY",
   "beacon_type": 5,
   "hertz": 114700000,
-  "channel": 94
+  "channel": 94,
+  "x": -337247.5625,
+  "y": -171484.9375,
+  "elevation": 890.306066
  },
  "world_17": {
   "name": "Bishop",
   "callsign": "BIH",
   "beacon_type": 5,
   "hertz": 109600000,
-  "channel": 33
+  "channel": 33,
+  "x": -272456.59375,
+  "y": -314982.75,
+  "elevation": 1254.3931
  },
  "world_18": {
   "name": "Coaldale",
   "callsign": "OAL",
   "beacon_type": 5,
   "hertz": 117700000,
-  "channel": 124
+  "channel": 124,
+  "x": -203563.140625,
+  "y": -261642.09375,
+  "elevation": 1462.989134
  },
  "world_19": {
   "name": "Peach Springs",
   "callsign": "PGS",
   "beacon_type": 5,
   "hertz": 112000000,
-  "channel": 57
+  "channel": 57,
+  "x": -462207.28125,
+  "y": 118969.703125,
+  "elevation": 1448.867416
  },
  "world_20": {
   "name": "Boulder City",
   "callsign": "BLD",
   "beacon_type": 5,
   "hertz": 116700000,
-  "channel": 114
+  "channel": 114,
+  "x": -424440.15625,
+  "y": -1424.503052,
+  "elevation": 1080.228009
  },
  "world_21": {
   "name": "Mercury",
   "callsign": "MCY",
   "beacon_type": 4104,
   "hertz": 326000,
-  "channel": null
+  "channel": null,
+  "x": -356041.71875,
+  "y": -107048.789063,
+  "elevation": 1004.306546
  }
 }

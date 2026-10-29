@@ -4,132 +4,189 @@
   "callsign": "AJA",
   "beacon_type": 8,
   "hertz": 385000,
-  "channel": null
+  "channel": null,
+  "x": -3436.749756,
+  "y": -6602.758789,
+  "elevation": 192.952586
  },
  "world_1": {
   "name": "Nimitz",
   "callsign": "UNZ",
   "beacon_type": 5,
   "hertz": 115800000,
-  "channel": 105
+  "channel": 105,
+  "x": -3308.61377,
+  "y": -6986.220215,
+  "elevation": 194.660687
  },
  "world_2": {
   "name": "Saipan",
   "callsign": "SN",
   "beacon_type": 8,
   "hertz": 312000,
-  "channel": null
+  "channel": null,
+  "x": 179201.03753,
+  "y": 99842.086026,
+  "elevation": 34.008945
  },
  "airfield6_0": {
   "name": "Andersen",
   "callsign": "UAM",
   "beacon_type": 4,
   "hertz": null,
-  "channel": 54
+  "channel": 54,
+  "x": 11615.371094,
+  "y": 16240.750977,
+  "elevation": 179.119533
  },
  "airfield6_1": {
   "name": "Andersen",
   "callsign": "IPMY",
   "beacon_type": 16896,
   "hertz": 110150000,
-  "channel": null
+  "channel": null,
+  "x": 11230.984375,
+  "y": 15875.927734,
+  "elevation": 175.447472
  },
  "airfield6_2": {
   "name": "Andersen",
   "callsign": "IUAM",
   "beacon_type": 16896,
   "hertz": 110100000,
-  "channel": null
+  "channel": null,
+  "x": 10130.34375,
+  "y": 13251.070313,
+  "elevation": 164.743298
  },
  "airfield6_3": {
   "name": "Andersen",
   "callsign": "IYIG",
   "beacon_type": 16896,
   "hertz": 109350000,
-  "channel": null
+  "channel": null,
+  "x": 11521.810547,
+  "y": 15579.264648,
+  "elevation": 174.113577
  },
  "airfield6_4": {
   "name": "Andersen",
   "callsign": "IAND",
   "beacon_type": 16896,
   "hertz": 109300000,
-  "channel": null
+  "channel": null,
+  "x": 10474.082031,
+  "y": 13216.631836,
+  "elevation": 162.268198
  },
  "airfield6_5": {
   "name": "Andersen",
   "callsign": "IUAM",
   "beacon_type": 16640,
   "hertz": 110100000,
-  "channel": null
+  "channel": null,
+  "x": 11405.985352,
+  "y": 16448.888672,
+  "elevation": 179.662503
  },
  "airfield6_6": {
   "name": "Andersen",
   "callsign": "IAND",
   "beacon_type": 16640,
   "hertz": 109300000,
-  "channel": null
+  "channel": null,
+  "x": 11862.963303,
+  "y": 16134.421092,
+  "elevation": 179.99986
  },
  "airfield6_7": {
   "name": "Andersen",
   "callsign": "IYIG",
   "beacon_type": 16640,
   "hertz": 109350000,
-  "channel": null
+  "channel": null,
+  "x": 10254.586245,
+  "y": 12456.810317,
+  "elevation": 161.391977
  },
  "airfield6_8": {
   "name": "Andersen",
   "callsign": "IPMY",
   "beacon_type": 16640,
   "hertz": 110150000,
-  "channel": null
+  "channel": null,
+  "x": 9716.791016,
+  "y": 12586.375977,
+  "elevation": 168.998231
  },
  "airfield4_0": {
   "name": "AntonioBWonPat",
   "callsign": "IAWD",
   "beacon_type": 16640,
   "hertz": 110900000,
-  "channel": null
+  "channel": null,
+  "x": 872.144714,
+  "y": 1873.931763,
+  "elevation": 94.243914
  },
  "airfield4_1": {
   "name": "AntonioBWonPat",
   "callsign": "IAWD",
   "beacon_type": 16896,
   "hertz": 110900000,
-  "channel": null
+  "channel": null,
+  "x": -366.423035,
+  "y": -1274.609497,
+  "elevation": 77.792078
  },
  "airfield4_2": {
   "name": "AntonioBWonPat",
   "callsign": "IGUM",
   "beacon_type": 16640,
   "hertz": 110300000,
-  "channel": null
+  "channel": null,
+  "x": 548.93129,
+  "y": 1684.219787,
+  "elevation": 79.176356
  },
  "airfield4_3": {
   "name": "AntonioBWonPat",
   "callsign": "IGUM",
   "beacon_type": 16896,
   "hertz": 110300000,
-  "channel": null
+  "channel": null,
+  "x": -631.026611,
+  "y": -1149.327148,
+  "elevation": 77.792078
  },
  "airfield1_0": {
   "name": "Rota",
   "callsign": "GRO",
   "beacon_type": 8,
   "hertz": 332000,
-  "channel": null
+  "channel": null,
+  "x": 75584.387208,
+  "y": 48455.189908,
+  "elevation": 173.311117
  },
  "airfield2_0": {
   "name": "Saipan",
   "callsign": "IGSN",
   "beacon_type": 16640,
   "hertz": 109900000,
-  "channel": null
+  "channel": null,
+  "x": 180641.455182,
+  "y": 103385.992131,
+  "elevation": 64.190265
  },
  "airfield2_1": {
   "name": "Saipan",
   "callsign": "PGSN",
   "beacon_type": 16896,
   "hertz": 109900000,
-  "channel": null
+  "channel": null,
+  "x": 179748.296875,
+  "y": 100905.421875,
+  "elevation": 65.000065
  }
 }

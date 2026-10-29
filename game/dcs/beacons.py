@@ -79,6 +79,11 @@ class Beacon:
     # stations with no VHF pairing).
     hertz: Optional[int]
     channel: Optional[int]
+    #: Map position and elevation (m), from the terrain's beacons.lua. Older
+    #: exports carry none, so a consumer that needs them must skip None.
+    x: Optional[float] = None
+    y: Optional[float] = None
+    elevation: Optional[float] = None
 
     @property
     def frequency(self) -> RadioFrequency:
@@ -148,6 +153,9 @@ class Beacons:
                 beacon_type=BeaconType(beacon["beacon_type"]),
                 hertz=beacon["hertz"],
                 channel=beacon["channel"],
+                x=beacon.get("x"),
+                y=beacon.get("y"),
+                elevation=beacon.get("elevation"),
             )
         cls._by_terrain[theater.terrain.name] = beacons
 

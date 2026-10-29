@@ -131,12 +131,16 @@ def beacons_from_terrain(dcs_path: Path, path: Path) -> Iterable[tuple[str, Beac
                 )
             beacon_type = beacon_types_map[beacon_type_lua]
 
+            position = beacon["position"]
             yield beacon["beaconId"], Beacon(
                 beacon["display_name"],
                 beacon["callsign"],
                 beacon_type,
                 convert_lua_frequency(beacon["frequency"]),
                 getattr(beacon, "channel", None),
+                x=float(position[1]),
+                y=float(position[3]),
+                elevation=float(position[2]),
             )
 
 

@@ -4,342 +4,489 @@
   "callsign": "GT",
   "beacon_type": 8,
   "hertz": 324000,
-  "channel": null
+  "channel": null,
+  "x": 275356.375,
+  "y": 724554.375,
+  "elevation": 1501.198279
  },
  "world_1": {
   "name": "Peshawar",
   "callsign": "PS",
   "beacon_type": 8,
   "hertz": 308000,
-  "channel": null
+  "channel": null,
+  "x": 34247.132813,
+  "y": 486223.15625,
+  "elevation": 362.502071
  },
  "world_2": {
   "name": "Dushanbe",
   "callsign": "DNB",
   "beacon_type": 3,
   "hertz": 113600000,
-  "channel": 83
+  "channel": 83,
+  "x": 522297.0,
+  "y": 206445.625,
+  "elevation": 783.979178
  },
  "world_3": {
   "name": "Dangara",
   "callsign": "DNR",
   "beacon_type": 2,
   "hertz": 114100000,
-  "channel": 88
+  "channel": 88,
+  "x": 493697.375,
+  "y": 244412.796875,
+  "elevation": 2240.370893
  },
  "world_4": {
   "name": "Zahedan",
   "callsign": "ZAH",
   "beacon_type": 4,
   "hertz": null,
-  "channel": 76
+  "channel": 76,
+  "x": -498489.875,
+  "y": -503357.6875,
+  "elevation": 1380.413734
  },
  "world_5": {
   "name": "Muzaffarabad",
   "callsign": "MF",
   "beacon_type": 8,
   "hertz": 207000,
-  "channel": null
+  "channel": null,
+  "x": 90862.835938,
+  "y": 668182.875,
+  "elevation": 857.354983
  },
  "world_6": {
   "name": "Quetta",
   "callsign": "QT",
   "beacon_type": 8,
   "hertz": 348000,
-  "channel": null
+  "channel": null,
+  "x": -408321.9375,
+  "y": 79958.632813,
+  "elevation": 1622.380162
  },
  "world_7": {
   "name": "Zhob",
   "callsign": "ZB",
   "beacon_type": 3,
   "hertz": 115700000,
-  "channel": 104
+  "channel": 104,
+  "x": -272512.875,
+  "y": 314842.875,
+  "elevation": 1424.894491
  },
  "world_8": {
   "name": "Zhob",
   "callsign": "ZB",
   "beacon_type": 8,
   "hertz": 245000,
-  "channel": null
+  "channel": null,
+  "x": -272558.4375,
+  "y": 314382.84375,
+  "elevation": 1418.343581
  },
  "world_9": {
   "name": "Fayzobod",
   "callsign": "JD",
   "beacon_type": 8,
   "hertz": 475000,
-  "channel": null
+  "channel": null,
+  "x": 525448.8125,
+  "y": 250323.9375,
+  "elevation": 1240.024311
  },
  "world_10": {
   "name": "Multan",
   "callsign": "MT",
   "beacon_type": 8,
   "hertz": 387000,
-  "channel": null
+  "channel": null,
+  "x": -389283.9375,
+  "y": 511112.875,
+  "elevation": 116.827853
  },
  "world_11": {
   "name": "Murgab",
   "callsign": "MRB",
   "beacon_type": 2,
   "hertz": 114700000,
-  "channel": 94
+  "channel": 94,
+  "x": 515444.4375,
+  "y": 711176.25,
+  "elevation": 3731.097725
  },
  "world_12": {
   "name": "DeraGhaziKhan",
   "callsign": "DG",
   "beacon_type": 8,
   "hertz": 322000,
-  "channel": null
+  "channel": null,
+  "x": -421351.84375,
+  "y": 423588.03125,
+  "elevation": 143.595419
  },
  "world_13": {
   "name": "Zahedan",
   "callsign": "ZDN",
   "beacon_type": 3,
   "hertz": 116000000,
-  "channel": 107
+  "channel": 107,
+  "x": -495900.59375,
+  "y": -503582.625,
+  "elevation": 1380.387245
  },
  "world_14": {
   "name": "Sheikhupura",
   "callsign": "SP",
   "beacon_type": 8,
   "hertz": 317000,
-  "channel": null
+  "channel": null,
+  "x": -199279.515625,
+  "y": 745003.1875,
+  "elevation": 200.821704
  },
  "world_15": {
   "name": "DIKhan",
   "callsign": "DI",
   "beacon_type": 8,
   "hertz": 286000,
-  "channel": null
+  "channel": null,
+  "x": -202061.671875,
+  "y": 446745.09375,
+  "elevation": 180.598081
  },
  "world_16": {
   "name": "Bahawalpur",
   "callsign": "BW",
   "beacon_type": 8,
   "hertz": 332000,
-  "channel": null
+  "channel": null,
+  "x": -481199.6875,
+  "y": 546989.25,
+  "elevation": 120.571097
  },
  "world_17": {
   "name": "DIKhan",
   "callsign": "DI",
   "beacon_type": 1,
   "hertz": 113100000,
-  "channel": null
+  "channel": null,
+  "x": -201636.328125,
+  "y": 446443.875,
+  "elevation": 181.405485
  },
  "world_18": {
   "name": "Parachinar",
   "callsign": "PC",
   "beacon_type": 8,
   "hertz": 273000,
-  "channel": null
+  "channel": null,
+  "x": 14604.761719,
+  "y": 354334.09375,
+  "elevation": 1753.387984
  },
  "world_19": {
   "name": "Sarakhs",
   "callsign": "SRS",
   "beacon_type": 2,
   "hertz": 334000000,
-  "channel": 108
+  "channel": 108,
+  "x": 280958.34375,
+  "y": -472632.40625,
+  "elevation": 282.27607
  },
  "world_20": {
   "name": "Peshawar",
   "callsign": "PS",
   "beacon_type": 3,
   "hertz": 114300000,
-  "channel": 90
+  "channel": 90,
+  "x": 32948.0625,
+  "y": 487670.3125,
+  "elevation": 367.733827
  },
  "world_21": {
   "name": "Termez",
   "callsign": "TRZ",
   "beacon_type": 3,
   "hertz": 113400000,
-  "channel": 81
+  "channel": 81,
+  "x": 375763.125,
+  "y": 82670.476563,
+  "elevation": 303.455565
  },
  "world_22": {
   "name": "Faisalabad",
   "callsign": "FA",
   "beacon_type": 8,
   "hertz": 212000,
-  "channel": null
+  "channel": null,
+  "x": -245498.0625,
+  "y": 652547.375,
+  "elevation": 176.809961
  },
  "world_23": {
   "name": "Multan",
   "callsign": "MT",
   "beacon_type": 1,
   "hertz": 116700000,
-  "channel": null
+  "channel": null,
+  "x": -389260.1875,
+  "y": 511435.625,
+  "elevation": 117.147097
  },
  "world_24": {
   "name": "Islamabad",
   "callsign": "BTR",
   "beacon_type": 3,
   "hertz": 114600000,
-  "channel": 93
+  "channel": 93,
+  "x": -4186.831055,
+  "y": 616622.625,
+  "elevation": 517.477996
  },
  "world_25": {
   "name": "Rawalakot",
   "callsign": "RT",
   "beacon_type": 8,
   "hertz": 295000,
-  "channel": null
+  "channel": null,
+  "x": 38526.230469,
+  "y": 701158.1875,
+  "elevation": 1667.292195
  },
  "world_26": {
   "name": "Bokhtar",
   "callsign": "KTB",
   "beacon_type": 2,
   "hertz": 114500000,
-  "channel": 92
+  "channel": 92,
+  "x": 446822.25,
+  "y": 215714.96875,
+  "elevation": 444.872576
  },
  "world_27": {
   "name": "Islamabad",
   "callsign": "RN",
   "beacon_type": 3,
   "hertz": 112100000,
-  "channel": 58
+  "channel": 58,
+  "x": 5143.359375,
+  "y": 641159.5625,
+  "elevation": 481.959772
  },
  "world_28": {
   "name": "Oktyabrskiy",
   "callsign": "PR",
   "beacon_type": 8,
   "hertz": 310000,
-  "channel": null
+  "channel": null,
+  "x": 519644.59375,
+  "y": 170145.734375,
+  "elevation": 814.73995
  },
  "world_29": {
   "name": "Kulob",
   "callsign": "KLB",
   "beacon_type": 2,
   "hertz": 114400000,
-  "channel": 91
+  "channel": 91,
+  "x": 466323.6875,
+  "y": 297485.4375,
+  "elevation": 666.07989
  },
  "world_30": {
   "name": "Zahedan",
   "callsign": "ZD",
   "beacon_type": 8,
   "hertz": 224000,
-  "channel": null
+  "channel": null,
+  "x": -497645.25,
+  "y": -504145.875,
+  "elevation": 1382.203042
  },
  "world_31": {
   "name": "SaiduSharif",
   "callsign": "SS",
   "beacon_type": 8,
   "hertz": 357000,
-  "channel": null
+  "channel": null,
+  "x": 131308.703125,
+  "y": 556450.9375,
+  "elevation": 924.486337
  },
  "world_32": {
   "name": "Islamabad",
   "callsign": "RN",
   "beacon_type": 8,
   "hertz": 344000,
-  "channel": null
+  "channel": null,
+  "x": 5563.279785,
+  "y": 639449.875,
+  "elevation": 494.703009
  },
  "world_33": {
   "name": "Quetta",
   "callsign": "QT",
   "beacon_type": 3,
   "hertz": 114700000,
-  "channel": 94
+  "channel": 94,
+  "x": -405738.84375,
+  "y": 78631.234375,
+  "elevation": 1577.186147
  },
  "world_34": {
   "name": "Kerki",
   "callsign": "FK",
   "beacon_type": 8,
   "hertz": 469000,
-  "channel": null
+  "channel": null,
+  "x": 430757.90625,
+  "y": -112873.0625,
+  "elevation": 241.243237
  },
  "world_35": {
   "name": "Zabol",
   "callsign": "ZAL",
   "beacon_type": 3,
   "hertz": 113000000,
-  "channel": 78
+  "channel": 78,
+  "x": -318556.96875,
+  "y": -439222.5,
+  "elevation": 481.838922
  },
  "world_36": {
   "name": "Kerki",
   "callsign": "LBK",
   "beacon_type": 3,
   "hertz": 109400000,
-  "channel": null
+  "channel": null,
+  "x": 426136.3125,
+  "y": -111459.382813,
+  "elevation": 242.258375
  },
  "airfield10_0": {
   "name": "Bastion",
   "callsign": "BS",
   "beacon_type": 8,
   "hertz": 423000,
-  "channel": null
+  "channel": null,
+  "x": -236424.953125,
+  "y": -184781.8125,
+  "elevation": 881.606228
  },
  "airfield10_1": {
   "name": "Bastion",
   "callsign": "BAS",
   "beacon_type": 4,
   "hertz": 115100000,
-  "channel": 98
+  "channel": 98,
+  "x": -237491.296875,
+  "y": -184979.390625,
+  "elevation": 878.830835
  },
  "airfield11_0": {
   "name": "Dwyer",
   "callsign": "ADY",
   "beacon_type": 4,
   "hertz": null,
-  "channel": 46
+  "channel": 46,
+  "x": -319576.8125,
+  "y": -198382.796875,
+  "elevation": 733.406434
  },
  "airfield1_0": {
   "name": "Herat",
   "callsign": "AHR",
   "beacon_type": 3,
   "hertz": 116200000,
-  "channel": 109
+  "channel": 109,
+  "x": 25702.060547,
+  "y": -370818.3125,
+  "elevation": 981.070561
  },
  "airfield1_1": {
   "name": "Herat",
   "callsign": "HRT",
   "beacon_type": 8,
   "hertz": 412000,
-  "channel": null
+  "channel": null,
+  "x": 26196.265625,
+  "y": -370938.4375,
+  "elevation": 979.957523
  },
  "airfield1_2": {
   "name": "Herat",
   "callsign": "HRT",
   "beacon_type": 4,
   "hertz": null,
-  "channel": 54
+  "channel": 54,
+  "x": 25756.283203,
+  "y": -371485.46875,
+  "elevation": 987.023753
  },
  "airfield7_0": {
   "name": "Kandahar",
   "callsign": "KAF",
   "beacon_type": 4,
   "hertz": null,
-  "channel": 75
+  "channel": 75,
+  "x": -270791.640068,
+  "y": -29840.815668,
+  "elevation": 1011.94663
  },
  "airfield7_1": {
   "name": "Kandahar",
   "callsign": "KDR",
   "beacon_type": 3,
   "hertz": 116000000,
-  "channel": 107
+  "channel": 107,
+  "x": -271821.75,
+  "y": -31793.058594,
+  "elevation": 1004.766203
  },
  "airfield3_0": {
   "name": "Shindand",
   "callsign": "ASD",
   "beacon_type": 4,
   "hertz": 111100000,
-  "channel": 48
+  "channel": 48,
+  "x": -64795.554688,
+  "y": -368775.3125,
+  "elevation": 1141.461713
  },
  "airfield16_0": {
   "name": "Bagram",
   "callsign": "BGM",
   "beacon_type": 5,
   "hertz": 112700000,
-  "channel": 74
+  "channel": 74,
+  "x": 125892.367188,
+  "y": 272874.71875,
+  "elevation": 1492.001248
  },
  "airfield17_0": {
   "name": "Kabul",
   "callsign": "KBL",
   "beacon_type": 3,
   "hertz": 112000000,
-  "channel": 57
+  "channel": 57,
+  "x": 81018.583527,
+  "y": 277427.106402,
+  "elevation": 1780.280833
  },
  "airfield17_1": {
   "name": "Kabul",
   "callsign": "OKB",
   "beacon_type": 4,
   "hertz": 133800000,
-  "channel": 65
+  "channel": 65,
+  "x": 82799.523338,
+  "y": 269528.308446,
+  "elevation": 1789.001911
  }
 }

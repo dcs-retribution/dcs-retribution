@@ -4,454 +4,649 @@
   "callsign": "SPO",
   "beacon_type": 2,
   "hertz": 115900000,
-  "channel": 106
+  "channel": 106,
+  "x": 9532.270508,
+  "y": -33918.769531,
+  "elevation": 375.469003
  },
  "world_1": {
   "name": "IL",
   "callsign": "IL",
   "beacon_type": 8,
   "hertz": 320000,
-  "channel": null
+  "channel": null,
+  "x": -68046.976563,
+  "y": -332875.375,
+  "elevation": 10.171057
  },
  "world_2": {
   "name": "KM",
   "callsign": "KMV",
   "beacon_type": 8,
   "hertz": 445000,
-  "channel": null
+  "channel": null,
+  "x": -273023.84375,
+  "y": 571098.75,
+  "elevation": 41.289569
  },
  "world_3": {
   "name": "I",
   "callsign": "I",
   "beacon_type": 16424,
   "hertz": 595000,
-  "channel": null
+  "channel": null,
+  "x": -5002.646484,
+  "y": 470403.5,
+  "elevation": 151.316771
  },
  "world_4": {
   "name": "IO",
   "callsign": "IO",
   "beacon_type": 16408,
   "hertz": 1210000,
-  "channel": null
+  "channel": null,
+  "x": -3592.85376,
+  "y": 467682.40625,
+  "elevation": 168.949784
  },
  "world_5": {
   "name": "TG",
   "callsign": "TG",
   "beacon_type": 8,
   "hertz": 346000,
-  "channel": null
+  "channel": null,
+  "x": -95899.734375,
+  "y": -73787.507813,
+  "elevation": 308.97501
  },
  "world_6": {
   "name": "OG",
   "callsign": "OG",
   "beacon_type": 16408,
   "hertz": 325000,
-  "channel": null
+  "channel": null,
+  "x": -100723.3125,
+  "y": -64834.023438,
+  "elevation": 282.948891
  },
  "world_7": {
   "name": "NAT",
   "callsign": "NAT",
   "beacon_type": 3,
   "hertz": 113000000,
-  "channel": 77
+  "channel": 77,
+  "x": -140469.84375,
+  "y": -48483.90625,
+  "elevation": 374.937966
  },
  "airfield26_0": {
   "name": "enontekio",
   "callsign": "ET",
   "beacon_type": 16896,
   "hertz": 111300000,
-  "channel": null
+  "channel": null,
+  "x": 42283.11602,
+  "y": 37300.683552,
+  "elevation": 304.67572
  },
  "airfield26_1": {
   "name": "enontekio",
   "callsign": "ET",
   "beacon_type": 16640,
   "hertz": 111300000,
-  "channel": null
+  "channel": null,
+  "x": 40519.335938,
+  "y": 36331.796875,
+  "elevation": 300.000269
  },
  "airfield18_0": {
   "name": "IVALO",
   "callsign": "iv",
   "beacon_type": 16896,
   "hertz": 212000000,
-  "channel": null
+  "channel": null,
+  "x": 81308.664063,
+  "y": 198170.28125,
+  "elevation": 142.636617
  },
  "airfield18_1": {
   "name": "IVALO",
   "callsign": "iv",
   "beacon_type": 16640,
   "hertz": 212000000,
-  "channel": null
+  "channel": null,
+  "x": 79361.117188,
+  "y": 196633.15625,
+  "elevation": 146.269876
  },
  "airfield3_0": {
   "name": "kemi",
   "callsign": "ke",
   "beacon_type": 16896,
   "hertz": 110900000,
-  "channel": null
+  "channel": null,
+  "x": -242473.234375,
+  "y": 101148.359375,
+  "elevation": 13.920783
  },
  "airfield3_1": {
   "name": "kemi",
   "callsign": "ke",
   "beacon_type": 16640,
   "hertz": 110900000,
-  "channel": null
+  "channel": null,
+  "x": -244841.203125,
+  "y": 101097.804688,
+  "elevation": 10.206593
  },
  "airfield16_0": {
   "name": "KUUSAMO",
   "callsign": "KO",
   "beacon_type": 16896,
   "hertz": 110300000,
-  "channel": null
+  "channel": null,
+  "x": -200110.46875,
+  "y": 309767.4375,
+  "elevation": 260.438066
  },
  "airfield16_1": {
   "name": "KUUSAMO",
   "callsign": "KO",
   "beacon_type": 16640,
   "hertz": 110300000,
-  "channel": null
+  "channel": null,
+  "x": -201409.296875,
+  "y": 311850.09375,
+  "elevation": 262.993854
  },
  "airfield22_0": {
   "name": "KITTILA",
   "callsign": "KT",
   "beacon_type": 16896,
   "hertz": 111900000,
-  "channel": null
+  "channel": null,
+  "x": -29886.739995,
+  "y": 100254.543265,
+  "elevation": 196.420149
  },
  "airfield22_1": {
   "name": "KITTILA",
   "callsign": "KT",
   "beacon_type": 16640,
   "hertz": 111900000,
-  "channel": null
+  "channel": null,
+  "x": -27546.074219,
+  "y": 99631.984375,
+  "elevation": 193.237651
  },
  "airfield2_0": {
   "name": "ROVANIEMI",
   "callsign": "ro",
   "beacon_type": 16640,
   "hertz": 111700000,
-  "channel": null
+  "channel": null,
+  "x": -154029.9375,
+  "y": 150489.890625,
+  "elevation": 192.582926
  },
  "airfield2_1": {
   "name": "rovaniemi",
   "callsign": "ROI",
   "beacon_type": 3,
   "hertz": 117700000,
-  "channel": 124
+  "channel": 124,
+  "x": -152753.847036,
+  "y": 151076.966007,
+  "elevation": 192.134927
  },
  "airfield2_2": {
   "name": "ROVANIEMI",
   "callsign": "RO",
   "beacon_type": 16896,
   "hertz": 111700000,
-  "channel": null
+  "channel": null,
+  "x": -151346.553808,
+  "y": 152076.382534,
+  "elevation": 185.722094
  },
  "airfield20_0": {
   "name": "andoya",
   "callsign": "and",
   "beacon_type": 3,
   "hertz": 112200000,
-  "channel": null
+  "channel": null,
+  "x": 150436.418141,
+  "y": -254301.768225,
+  "elevation": 5.970181
  },
  "airfield20_1": {
   "name": "ANDOYA",
   "callsign": "OYA",
   "beacon_type": 4,
   "hertz": null,
-  "channel": 28
+  "channel": 28,
+  "x": 150251.713104,
+  "y": -254201.47705,
+  "elevation": 5.836267
  },
  "airfield24_0": {
   "name": "alta",
   "callsign": "AT",
   "beacon_type": 16640,
   "hertz": 108900000,
-  "channel": null
+  "channel": null,
+  "x": 220908.34375,
+  "y": 28693.539063,
+  "elevation": 1.380703
  },
  "airfield24_1": {
   "name": "alta",
   "callsign": "AT",
   "beacon_type": 16896,
   "hertz": 108900000,
-  "channel": null
+  "channel": null,
+  "x": 221869.420199,
+  "y": 27165.514723,
+  "elevation": 2.831799
  },
  "airfield24_2": {
   "name": "alta",
   "callsign": "ATA",
   "beacon_type": 3,
   "hertz": 117400000,
-  "channel": null
+  "channel": null,
+  "x": 221492.169677,
+  "y": 27918.139628,
+  "elevation": 1.383438
  },
  "airfield7_0": {
   "name": "BODO",
   "callsign": "BO",
   "beacon_type": 16896,
   "hertz": 110300000,
-  "channel": null
+  "channel": null,
+  "x": -67161.773438,
+  "y": -349400.1875,
+  "elevation": 9.769901
  },
  "airfield7_1": {
   "name": "BODO",
   "callsign": "BDO",
   "beacon_type": 3,
   "hertz": 117550000,
-  "channel": 122
+  "channel": 122,
+  "x": -67249.984375,
+  "y": -348389.78125,
+  "elevation": 24.113004
  },
  "airfield7_2": {
   "name": "BODO",
   "callsign": "BD",
   "beacon_type": 16896,
   "hertz": 108700000,
-  "channel": null
+  "channel": null,
+  "x": -66718.765625,
+  "y": -347185.0625,
+  "elevation": 12.280599
  },
  "airfield7_3": {
   "name": "BODO",
   "callsign": "BOO",
   "beacon_type": 4,
   "hertz": null,
-  "channel": 45
+  "channel": 45,
+  "x": -67263.0625,
+  "y": -348540.5,
+  "elevation": 27.759881
  },
  "airfield7_4": {
   "name": "BODO",
   "callsign": "BO",
   "beacon_type": 16640,
   "hertz": 110300000,
-  "channel": null
+  "channel": null,
+  "x": -66777.546875,
+  "y": -346637.4375,
+  "elevation": 14.984304
  },
  "airfield7_5": {
   "name": "BODO",
   "callsign": "BD",
   "beacon_type": 16640,
   "hertz": 108700000,
-  "channel": null
+  "channel": null,
+  "x": -66738.070313,
+  "y": -346621.0625,
+  "elevation": 15.151941
  },
  "airfield21_0": {
   "name": "BARDUFOSS",
   "callsign": "BF",
   "beacon_type": 16896,
   "hertz": 108700000,
-  "channel": null
+  "channel": null,
+  "x": 118472.15625,
+  "y": -159968.0,
+  "elevation": 68.947922
  },
  "airfield21_1": {
   "name": "BARDUFOSS",
   "callsign": "BDF",
   "beacon_type": 3,
   "hertz": 114200000,
-  "channel": 89
+  "channel": 89,
+  "x": 120051.882813,
+  "y": -163714.515625,
+  "elevation": 163.077708
  },
  "airfield21_2": {
   "name": "BARDUFOSS",
   "callsign": "BF",
   "beacon_type": 16640,
   "hertz": 108700000,
-  "channel": null
+  "channel": null,
+  "x": 119159.703125,
+  "y": -161756.234375,
+  "elevation": 74.357916
  },
  "airfield25_0": {
   "name": "EVENES",
   "callsign": "ev",
   "beacon_type": 16896,
   "hertz": 108900000,
-  "channel": null
+  "channel": null,
+  "x": 61282.015625,
+  "y": -239498.046875,
+  "elevation": 26.178626
  },
  "airfield25_1": {
   "name": "EVENES",
   "callsign": "ev",
   "beacon_type": 16640,
   "hertz": 108900000,
-  "channel": null
+  "channel": null,
+  "x": 58534.828125,
+  "y": -239463.953125,
+  "elevation": 25.826888
  },
  "airfield25_2": {
   "name": "EVENES",
   "callsign": "EVD",
   "beacon_type": 3,
   "hertz": 117350000,
-  "channel": null
+  "channel": null,
+  "x": 56424.32531,
+  "y": -239528.412772,
+  "elevation": 37.023494
  },
  "airfield25_3": {
   "name": "EVS",
   "callsign": "Evenes",
   "beacon_type": 4,
   "hertz": 134000000,
-  "channel": 67
+  "channel": 67,
+  "x": 60305.956482,
+  "y": -239611.550424,
+  "elevation": 26.018943
  },
  "airfield14_0": {
   "name": "KIRKENES",
   "callsign": "KIK",
   "beacon_type": 3,
   "hertz": 112000000,
-  "channel": null
+  "channel": null,
+  "x": 216295.984375,
+  "y": 279212.84375,
+  "elevation": 82.962394
  },
  "airfield14_1": {
   "name": "KIRKENES",
   "callsign": "KR",
   "beacon_type": 16896,
   "hertz": 110300000,
-  "channel": null
+  "channel": null,
+  "x": 216733.1875,
+  "y": 280525.09375,
+  "elevation": 86.175883
  },
  "airfield14_2": {
   "name": "KIRKENES",
   "callsign": "KR",
   "beacon_type": 16640,
   "hertz": 110300000,
-  "channel": null
+  "channel": null,
+  "x": 216042.4375,
+  "y": 279010.875,
+  "elevation": 84.149071
  },
  "airfield1_0": {
   "name": "banak",
   "callsign": "ba",
   "beacon_type": 16896,
   "hertz": 108300000,
-  "channel": 20
+  "channel": 20,
+  "x": 233866.828125,
+  "y": 88618.070313,
+  "elevation": 5.275348
  },
  "airfield1_1": {
   "name": "banak",
   "callsign": "ba",
   "beacon_type": 16896,
   "hertz": 108300000,
-  "channel": null
+  "channel": null,
+  "x": 233845.15625,
+  "y": 88658.460938,
+  "elevation": 5.275348
  },
  "airfield1_2": {
   "name": "BANAK",
   "callsign": "BNA",
   "beacon_type": 3,
   "hertz": 114400000,
-  "channel": 91
+  "channel": 91,
+  "x": 246748.5625,
+  "y": 86649.90625,
+  "elevation": 21.884482
  },
  "airfield1_3": {
   "name": "ENNA",
   "callsign": "BNK",
   "beacon_type": 4,
   "hertz": 111000000,
-  "channel": 47
+  "channel": 47,
+  "x": 234484.4375,
+  "y": 88257.328125,
+  "elevation": 5.275348
  },
  "airfield1_4": {
   "name": "banak",
   "callsign": "ba",
   "beacon_type": 16640,
   "hertz": 108300000,
-  "channel": null
+  "channel": null,
+  "x": 236272.21875,
+  "y": 88172.085938,
+  "elevation": 1.404329
  },
  "airfield5_0": {
   "name": "kiruna",
   "callsign": "KRA",
   "beacon_type": 3,
   "hertz": 115200000,
-  "channel": 99
+  "channel": 99,
+  "x": -20773.302734,
+  "y": -90604.9375,
+  "elevation": 448.574515
  },
  "airfield5_1": {
   "name": "kiruna",
   "callsign": "nq",
   "beacon_type": 16896,
   "hertz": 110300000,
-  "channel": 0
+  "channel": 0,
+  "x": -19763.384766,
+  "y": -90019.617188,
+  "elevation": 439.153393
  },
  "airfield5_2": {
   "name": "OP",
   "callsign": "OP",
   "beacon_type": 8,
   "hertz": 360000,
-  "channel": null
+  "channel": null,
+  "x": -13196.632813,
+  "y": -85692.046875,
+  "elevation": 388.636283
  },
  "airfield5_3": {
   "name": "kiruna",
   "callsign": "nq",
   "beacon_type": 16640,
   "hertz": 110300000,
-  "channel": 0
+  "channel": 0,
+  "x": -21857.253906,
+  "y": -91594.265625,
+  "elevation": 460.00046
  },
  "airfield36_0": {
   "name": "NX",
   "callsign": "nx",
   "beacon_type": 16896,
   "hertz": 111500000,
-  "channel": null
+  "channel": null,
+  "x": -268657.53125,
+  "y": -141319.390625,
+  "elevation": 378.000378
  },
  "airfield36_1": {
   "name": "ARV",
   "callsign": "arv",
   "beacon_type": 16896,
   "hertz": 109350000,
-  "channel": null
+  "channel": null,
+  "x": -267438.125,
+  "y": -142767.265625,
+  "elevation": 378.000347
  },
  "airfield36_2": {
   "name": "NX",
   "callsign": "nx",
   "beacon_type": 16640,
   "hertz": 111500000,
-  "channel": null
+  "channel": null,
+  "x": -267186.625,
+  "y": -143274.515625,
+  "elevation": 371.834173
  },
  "airfield36_3": {
   "name": "ARV",
   "callsign": "arv",
   "beacon_type": 16640,
   "hertz": 109350000,
-  "channel": null
+  "channel": null,
+  "x": -269325.53125,
+  "y": -140707.46875,
+  "elevation": 376.656627
  },
  "airfield15_0": {
   "name": "KALLAX",
   "callsign": "SPA",
   "beacon_type": 16640,
   "hertz": 109900000,
-  "channel": null
+  "channel": null,
+  "x": -272688.96875,
+  "y": -12231.873047,
+  "elevation": 23.881887
  },
  "airfield15_1": {
   "name": "KALLAX",
   "callsign": "PA",
   "beacon_type": 16640,
   "hertz": 110300000,
-  "channel": null
+  "channel": null,
+  "x": -275523.625,
+  "y": -9515.799805,
+  "elevation": 2.356733
  },
  "airfield15_2": {
   "name": "KALLAX",
   "callsign": "PA",
   "beacon_type": 16896,
   "hertz": 110300000,
-  "channel": null
+  "channel": null,
+  "x": -273069.179195,
+  "y": -11697.089735,
+  "elevation": 19.70411
  },
  "airfield15_3": {
   "name": "KALLAX",
   "callsign": "SPA",
   "beacon_type": 16896,
   "hertz": 109900000,
-  "channel": null
+  "channel": null,
+  "x": -275030.785846,
+  "y": -9815.298648,
+  "elevation": 8.093541
  },
  "airfield17_0": {
   "name": "VIDSEL",
   "callsign": "VDL",
   "beacon_type": 16896,
   "hertz": 109500000,
-  "channel": null
+  "channel": null,
+  "x": -237705.6875,
+  "y": -100583.320313,
+  "elevation": 181.000181
  },
  "airfield17_1": {
   "name": "VIDSEL",
   "callsign": "VDL",
   "beacon_type": 16640,
   "hertz": 109500000,
-  "channel": null
+  "channel": null,
+  "x": -236667.65625,
+  "y": -102802.382813,
+  "elevation": 181.000181
  },
  "airfield12_0": {
   "name": "IRD",
   "callsign": "ird",
   "beacon_type": 16640,
   "hertz": 108500000,
-  "channel": null
+  "channel": null,
+  "x": 132933.890625,
+  "y": 408287.125,
+  "elevation": 75.043944
  },
  "airfield12_1": {
   "name": "IPF",
   "callsign": "ipf",
   "beacon_type": 16640,
   "hertz": 110300000,
-  "channel": null
+  "channel": null,
+  "x": 130118.757813,
+  "y": 411072.5625,
+  "elevation": 84.202355
  },
  "airfield12_2": {
   "name": "IRD",
   "callsign": "ird",
   "beacon_type": 16896,
   "hertz": 108500000,
-  "channel": null
+  "channel": null,
+  "x": 131009.1875,
+  "y": 410014.5,
+  "elevation": 79.373988
  },
  "airfield12_3": {
   "name": "IPF",
   "callsign": "ipf",
   "beacon_type": 16896,
   "hertz": 110300000,
-  "channel": null
+  "channel": null,
+  "x": 132368.4375,
+  "y": 408667.34375,
+  "elevation": 76.383728
  }
 }
