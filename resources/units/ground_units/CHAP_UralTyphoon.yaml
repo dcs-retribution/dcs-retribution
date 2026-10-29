@@ -1,0 +1,10 @@
+class: Logistics
+description: The Ural Typhoon-U is a Russian mine-resistant armoured truck used to carry
+  troops and cargo.
+introduced: 2014
+manufacturer: Ural
+origin: Russia
+price: 3
+role: Armored Transport
+variants:
+  "MRAP Ural Typhoon-U [CH]": null

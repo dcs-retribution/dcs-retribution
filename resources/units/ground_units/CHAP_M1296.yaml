@@ -1,0 +1,10 @@
+class: IFV
+description: "The M1296 Dragoon is a Stryker infantry carrier fitted with an unmanned turret
+  carrying a 30 mm XM813 autocannon, fielded with the US Army's 2nd Cavalry Regiment."
+introduced: 2018
+manufacturer: General Dynamics
+origin: USA
+price: 12
+role: Infantry Fighting Vehicle
+variants:
+  "IFV M1296 Dragoon [CH]": {}

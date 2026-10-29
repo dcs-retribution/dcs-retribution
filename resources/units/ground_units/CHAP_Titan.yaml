@@ -1,0 +1,10 @@
+class: Recon
+description: "The ZA-SpN Titan is a Russian mine-resistant armoured vehicle used by
+  special forces and internal security units."
+introduced: 2019
+manufacturer: Remdiesel
+origin: Russia
+price: 3
+role: Armored Personnel Carrier
+variants:
+  "MRAP ZA-SpN Titan [CH]": {}

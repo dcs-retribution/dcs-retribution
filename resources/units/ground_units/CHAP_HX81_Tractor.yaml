@@ -1,0 +1,7 @@
+class: Logistics
+introduced: 2005
+manufacturer: Rheinmetall MAN
+origin: Germany
+price: 3
+variants:
+  "Tractor HX81 [CH]": null

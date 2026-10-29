@@ -1,0 +1,10 @@
+class: IFV
+description: The BMD-2 is a Soviet airborne infantry fighting vehicle, a BMD-1 with a new
+  turret carrying a 30 mm cannon and an anti-tank missile launcher.
+introduced: 1985
+manufacturer: Volgograd Tractor Plant
+origin: USSR/Russia
+price: 10
+role: Airborne Infantry Fighting Vehicle
+variants:
+  "IFV BMD-2 [CH]": {}

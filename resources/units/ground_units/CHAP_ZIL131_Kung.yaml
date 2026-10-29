@@ -1,0 +1,10 @@
+class: CommandPost
+description: The KUNG box body on a ZIL-131 chassis, the general-purpose Soviet command and
+  communications shelter.
+introduced: 1966
+manufacturer: ZIL
+origin: USSR/Russia
+price: 8
+role: Command / Communications Shelter
+variants:
+  "Truck ZIL-131 Kung C2 [CH]": null

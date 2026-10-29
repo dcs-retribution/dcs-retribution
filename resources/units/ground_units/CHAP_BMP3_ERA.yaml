@@ -1,0 +1,10 @@
+class: IFV
+description: "The BMP-3 infantry fighting vehicle fitted with an explosive reactive armour kit
+  and slat screens for added protection against anti-tank weapons."
+introduced: 2015
+manufacturer: Kurganmashzavod
+origin: Russia
+price: 19
+role: Amphibious Infantry Fighting Vehicle
+variants:
+  "IFV BMP-3 ERA [CH]": {}

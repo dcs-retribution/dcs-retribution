@@ -1,0 +1,10 @@
+class: AAA
+description: A ZU-23-2 twin 23 mm anti-aircraft gun mounted on the bed of an Ural-4320
+  6x6 truck.
+introduced: 1977
+manufacturer: KBP/Ural
+origin: USSR/Russia
+price: 7
+role: Self-Propelled Anti-Aircraft Gun
+variants:
+  "AAA ZU-23-2 on Ural 4320 [CH]": {}

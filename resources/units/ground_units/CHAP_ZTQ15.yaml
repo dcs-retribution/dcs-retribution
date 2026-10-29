@@ -1,0 +1,10 @@
+class: Tank
+description: The Type 15 (ZTQ-15) is a Chinese light tank with a 105 mm gun, built for
+  high-altitude and amphibious units of the PLA. Its export version is the VT-5.
+introduced: 2018
+manufacturer: Norinco
+origin: China
+price: 25
+role: Light Tank
+variants:
+  "LT ZTQ-15 [CH]": {}

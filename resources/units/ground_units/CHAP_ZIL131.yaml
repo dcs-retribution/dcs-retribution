@@ -1,0 +1,9 @@
+class: Logistics
+description: The ZIL-131 is a Soviet 6x6 general-purpose army truck.
+introduced: 1966
+manufacturer: ZIL
+origin: USSR/Russia
+price: 3
+role: Cargo Truck
+variants:
+  "Truck ZIL-131 [CH]": null
