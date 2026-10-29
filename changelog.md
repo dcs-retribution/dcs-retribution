@@ -30,6 +30,7 @@
 * **[Modding]** Update UH-60L mod to v2.1.5 including MH-60L DAP
 
 ## Fixes
+* **[Modding]** The CurrentHill ZTQ-15 and PGL-625 had copied the names of the ZTZ-99A2 and the LD-3000 C-RAM, so a faction listing either could field the wrong vehicle. Both now use their own names.
 * **[Mission Generation]** Fix mission generation dying on "Duplicate convoy unit": convoy and cargo-ship names no longer reset each turn onto a convoy still in transit.
 * **[Mission Generator]** Dynamically allocated TACAN channels no longer collide with map beacons: DME/VOR-DME beacons (which share TACAN's channelization) are now blacklisted alongside TACAN/VORTAC, and beacons whose DCS data omits a channel (e.g. Syria's KALDE "KAD" VOR-DME) have their channel/band derived from the beacon's VHF frequency per the ICAO VOR/TACAN channelling plan instead of being silently skipped. The "Assign TACAN" dialog now warns in real time when the selected channel/band is already in use by a map beacon or another carrier/airfield/flight. (#36)
 * **[Map]** Right-clicking a front line under a blue flight-plan route now opens the new-package dialog instead of the browser context menu (the route's invisible hover overlay swallowed the click).

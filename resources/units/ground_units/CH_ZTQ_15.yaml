@@ -12,6 +12,6 @@ introduced: 2018
 manufacturer: Norinco
 origin: China
 price: 25
-role: Main Battle Tank
+role: Light Tank
 variants:
-  "[CH] ZTZ-99A2 MBT": {}
+  "[CH] ZTQ-15 LT": {}
