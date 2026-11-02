@@ -599,12 +599,6 @@ local function submenus_under(parent_path, name, group_id)
     return found
 end
 
-local function submenu_above(parent_path, name)
-    local found = submenus_under(parent_path, name)
-    check(#found <= 1, "at most one '" .. name .. "' submenu under a parent")
-    return found[1]
-end
-
 local function command_above(parent_path, name)
     local found = {}
     for _, menu in ipairs(commands_under(parent_path)) do
@@ -634,25 +628,6 @@ local function commands_in_group_named(name, group_id)
         end
     end
     return found
-end
-
-local function aircraft_menu_path(group_id, unit_name)
-    -- Uses only the actual menus: the submenu whose name matches the label
-    -- recorded at registration time. Reads the registry label to locate the
-    -- recorded submenu, then verifies inside the menu records themselves.
-    local entry = ctld.transportMenus[tostring(group_id)]
-    if entry == nil or entry.aircrafts[unit_name] == nil then
-        return nil
-    end
-    local label = entry.aircrafts[unit_name].label
-    local roots = find_roots_named("CTLD", group_id)
-    for _, root in ipairs(roots) do
-        local found = submenus_under(root.path, label, group_id)
-        if #found > 0 then
-            return found[1].path
-        end
-    end
-    return nil
 end
 
 local function click(record)
@@ -815,15 +790,13 @@ local function test_two_aircraft_distinct_menus_with_unit_bound_payloads()
         check(load_nearby ~= nil, "Load Nearby Crate inside CTLD Commands")
         check_equal(type(load_nearby.payload), "string", "Load Nearby Crate payload is the scalar unit name (not wrapped)")
         check_equal(load_nearby.payload, case.unit, "Load Nearby Crate targets " .. case.unit)
-        local unpack = command_above(ctld_commands_menu.path, "Unpack Any Crate")
-        check_equal(unpack.payload[1], case.unit, "'Unpack Any Crate' targets " .. case.unit)
-        local drop_crate = command_above(ctld_commands_menu.path, "Drop Crate")
-        check_equal(drop_crate.payload[1], case.unit, "'Drop Crate' targets " .. case.unit)
-        local list_nearby = command_above(ctld_commands_menu.path, "List Nearby Crates")
-        check_equal(list_nearby.payload[1], case.unit, "'List Nearby Crates' targets " .. case.unit)
-        local list_fobs = command_above(ctld_commands_menu.path, "List FOBs")
-        check(list_fobs ~= nil, "List FOBs present when FOB building enabled")
-        check_equal(list_fobs.payload[1], case.unit, "'List FOBs' targets " .. case.unit)
+        for _, name in ipairs({
+            "Unpack Any Crate", "Drop Crate", "List Nearby Crates", "List FOBs",
+        }) do
+            local command = command_above(ctld_commands_menu.path, name)
+            check(command ~= nil, "'" .. name .. "' present inside CTLD Commands")
+            check_equal(command.payload[1], case.unit, "'" .. name .. "' targets " .. case.unit)
+        end
 
         -- level 2: smoke colors all present and smoke at this aircraft's point
         local smoke_menu = direct_commands["Smoke Markers"]
@@ -839,9 +812,11 @@ local function test_two_aircraft_distinct_menus_with_unit_bound_payloads()
         -- level 2: radio beacons
         local beacons_menu = direct_commands["Radio Beacons"]
         check(beacons_menu ~= nil, "Radio Beacons submenu under " .. case.unit)
-        check(command_above(beacons_menu.path, "List Beacons") ~= nil, "List Beacons inside Radio Beacons")
-        check(command_above(beacons_menu.path, "Drop Beacon") ~= nil, "Drop Beacon inside Radio Beacons")
-        check(command_above(beacons_menu.path, "Remove Closet Beacon") ~= nil, "Remove Closet Beacon inside Radio Beacons")
+        for _, name in ipairs({ "List Beacons", "Drop Beacon", "Remove Closet Beacon" }) do
+            local command = command_above(beacons_menu.path, name)
+            check(command ~= nil, "'" .. name .. "' inside Radio Beacons")
+            check_equal(command.payload[1], case.unit, "'" .. name .. "' targets " .. case.unit)
+        end
     end
 
     -- the second smoke click must have come from the OTHER helicopter
@@ -958,8 +933,6 @@ local function test_capability_flags_coalition_and_jtac_filtering()
     -- loadable group side filtering: a red-unit limit group is hidden from blue
     ctld.loadableGroups = { { name = "Red Squad", inf = 2, total = 2, side = 1 } }
     run_menu_scan()
-    local heli_recheck = submenus_under(root.path, "Uz 11", 100)[1]
-    local heli_troop = submenus_under(heli_recheck.parent, "Uz 11", 100)[1]
     local red_offers = 0
     local blue_offers = 0
     -- scan rebuild registered heli with a fresh tree only for new aircraft;
@@ -1103,6 +1076,12 @@ local function test_naming_fallbacks_collisions_and_late_activation()
         "late activation: inactive aircraft has no submenu yet")
 
     local first_menus_snapshot = #menus
+    local first_path = submenus_under(roots[1].path, "Uzi 1-1", 100)[1].path
+    local first_tree_size = subtree_size(first_path)
+    local first_records = {}
+    for _, record in ipairs(menus) do
+        first_records[record.path] = record
+    end
     late2.spawned = true
     run_menu_scan()
     roots = find_roots_named("CTLD", 100)
@@ -1110,10 +1089,22 @@ local function test_naming_fallbacks_collisions_and_late_activation()
         "late activation: earlier aircraft label is not rewritten")
     check_equal(#submenus_under(roots[1].path, "Uzi 1-1 (#2)", 100), 1,
         "late activation: newly active aircraft gets its own distinct deterministic label")
-    -- exactly one new aircraft subtree: 1 aircraft submenu + Check Cargo +
-    -- Troop Transport submenu + Unload/Extract + Radio Beacons submenu with
-    -- List Beacons (feature flags are off in this sub-case)
-    check_equal(#menus - first_menus_snapshot, 6,
+    local late_path = submenus_under(roots[1].path, "Uzi 1-1 (#2)", 100)[1].path
+    check_equal(submenus_under(roots[1].path, "Uzi 1-1", 100)[1].path, first_path,
+        "late activation preserves the earlier aircraft's menu path")
+    check_equal(subtree_size(first_path), first_tree_size,
+        "late activation preserves the earlier aircraft's full subtree")
+    local retained_records = 0
+    for _, record in ipairs(menus) do
+        if first_records[record.path] ~= nil then
+            check_equal(record, first_records[record.path],
+                "late activation leaves existing menu records untouched")
+            retained_records = retained_records + 1
+        end
+    end
+    check_equal(retained_records, first_menus_snapshot,
+        "late activation retains every existing menu record")
+    check_equal(#menus - first_menus_snapshot, subtree_size(late_path),
         "late activation adds only the new aircraft's command subtree")
     check_equal(#env_error_calls, 0, "late activation scans raise no production errors")
 
@@ -1320,7 +1311,6 @@ local function test_lifecycle_death_replacement_and_group_change()
     check_equal(ctld.transportMenus["102"].aircrafts.helicargo20.label, "Uzi 41",
         "brand-new group aircraft keeps its label")
     check_equal(#env_error_calls, 0, "identity replacement lifecycle raises no production errors")
-    check(third_heli ~= nil, "third heli in the new group is present in the world")
     check(third_heli ~= nil, "third heli in the new group is present in the world")
 end
 
