@@ -4873,27 +4873,173 @@ function ctld.getUnitActions(_unitType)
 
 end
 
--- Adds menuitem to all heli units that are active
-function ctld.addF10MenuOptions()
-    -- Loop through all Heli units
+-- Per-group, per-aircraft transport menu bookkeeping. Keyed by tostring(group
+-- id) but deliberately separate from the beacon-only ctld.addedTo flag so
+-- beacon list commands and the CTLD transport menus register independently: a
+-- group that already carries a top-level beacon command still receives its
+-- transport menus, and transport groups are not handed a redundant top-level
+-- beacon command.
+-- Shape: ctld.transportMenus[tostring(groupId)] = {
+--            root = path of the group's shared "CTLD" root submenu,
+--            aircrafts = { [unitName] = { label = <menu label>, path = ... } },
+--            labels = { [aircraft menu label] = true },
+--         }
+ctld.transportMenus = {}
+ctld.beaconMenuPaths = {}
 
-    timer.scheduleFunction(ctld.addF10MenuOptions, nil, timer.getTime() + 10)
+-- Returns (creating it on first use) the transport menu bookkeeping for one
+-- group. The shared "CTLD" root submenu is added exactly once per group.
+function ctld.ensureTransportMenuEntry(_groupId)
 
-    for _, _unitName in pairs(ctld.transportPilotNames) do
+    local _groupKey = tostring(_groupId)
+    local _entry = ctld.transportMenus[_groupKey]
 
-        local status, error = pcall(function()
+    if _entry == nil then
+        local _beaconPath = ctld.beaconMenuPaths[_groupKey]
+        if _beaconPath ~= nil then
+            missionCommands.removeItemForGroup(_groupId, _beaconPath)
+            ctld.beaconMenuPaths[_groupKey] = nil
+            ctld.addedTo[_groupKey] = nil
+        end
+        _entry = {
+            groupId = _groupId,
+            root = missionCommands.addSubMenuForGroup(_groupId, "CTLD"),
+            aircrafts = {},
+            labels = {},
+        }
+        ctld.transportMenus[_groupKey] = _entry
+    end
 
-            local _unit = ctld.getTransportUnit(_unitName)
+    return _entry
+end
 
-            if _unit ~= nil then
+-- Readable submenu label for one aircraft: prefers the radio callsign
+-- returned by Unit:getCallsign() (which already includes the aircraft's
+-- number) and falls back to the unique unit name when no callsign is
+-- available. The returned text is used verbatim apart from trimming
+-- surrounding whitespace.
+function ctld.getAircraftTransportLabel(_unit)
 
-                local _groupId = ctld.getGroupId(_unit)
+    local _callsign = nil
+    pcall(function()
+        _callsign = _unit:getCallsign()
+    end)
 
-                if _groupId then
+    if _callsign ~= nil and type(_callsign) == "string" then
+        local _trimmed = _callsign:match("^%s*(.-)%s*$")
+        if _trimmed ~= nil and #_trimmed > 0 then
+            return _trimmed
+        end
+    end
 
-                    if ctld.addedTo[tostring(_groupId)] == nil then
+    return _unit:getName()
+end
 
-                        local _rootPath = missionCommands.addSubMenuForGroup(_groupId, "CTLD")
+-- Deterministically picks a label for one aircraft's transport submenu that is
+-- distinct from every other aircraft submenu of the same group. Labels already
+-- in use are never rewritten, so aircraft that activate later only extend
+-- their own label. Duplicate callsigns inside one group are disambiguated
+-- with the aircraft's DCS number, then its unique unit name.
+function ctld.nextAircraftTransportLabel(_entry, _unit)
+
+    local _baseLabel = ctld.getAircraftTransportLabel(_unit)
+
+    local _candidates = { _baseLabel }
+
+    local _aircraftNumber = nil
+    pcall(function()
+        _aircraftNumber = _unit:getNumber()
+    end)
+    if _aircraftNumber ~= nil then
+        table.insert(_candidates, _baseLabel .. " (#" .. tostring(_aircraftNumber) .. ")")
+    end
+
+    local _unitName = _unit:getName()
+    table.insert(_candidates, _baseLabel .. " (" .. _unitName .. ")")
+
+    for _, _candidate in ipairs(_candidates) do
+        if _entry.labels[_candidate] == nil then
+            _entry.labels[_candidate] = true
+            return _candidate
+        end
+    end
+
+    -- Unit names are unique inside a mission, so the unique-name candidate
+    -- above should always be free; keep counting just in case it collides.
+    local _collisionCount = 2
+    while true do
+        local _candidate = _baseLabel .. " (" .. _unitName .. ") #" .. _collisionCount
+        if _entry.labels[_candidate] == nil then
+            _entry.labels[_candidate] = true
+            return _candidate
+        end
+        _collisionCount = _collisionCount + 1
+    end
+end
+
+-- A unit name can move to a different flight group (mission-supported
+-- replacement whose group identity changed). Menus are group-visible, so
+-- ownership must move with the aircraft: the old group's submenu for that
+-- aircraft is removed, its label freed, and the old group's registry record
+-- dropped before the aircraft is registered under its new group. Later scans
+-- over the old group then neither keep a menu that dispatches into another
+-- group's helicopter nor re-register it there.
+function ctld.pruneTransportRegistration(_unitName, _currentGroupKey, _unit)
+
+    for _groupKey, _entry in pairs(ctld.transportMenus) do
+        local _record = _entry.aircrafts[_unitName]
+        if _record ~= nil and (_groupKey ~= _currentGroupKey
+                or _unit == nil or _record.unitId ~= _unit:getID()) then
+            missionCommands.removeItemForGroup(_entry.groupId, _record.path)
+            _entry.labels[_record.label] = nil
+            _entry.aircrafts[_unitName] = nil
+            if next(_entry.aircrafts) == nil then
+                missionCommands.removeItemForGroup(_entry.groupId, _entry.root)
+                ctld.transportMenus[_groupKey] = nil
+            end
+        end
+    end
+end
+
+-- Registers one aircraft's transport command tree for one group:
+--   * claims a unique label for the aircraft submenu under the shared root,
+--   * builds the entire command tree bound to that aircraft's unit name
+--     (including the scalar unit name used by Load Nearby Crate),
+--   * only records the aircraft in the registry entry after the whole tree
+--     built successfully, and on failure removes the partial subtree and frees
+--     the label so a later scan rebuilds this aircraft cleanly (idempotence),
+-- without touching other aircraft's menus.
+function ctld.addTransportAircraftMenu(_groupId, _entry, _unit, _unitName)
+
+    local _label = ctld.nextAircraftTransportLabel(_entry, _unit)
+    local _rootPath = missionCommands.addSubMenuForGroup(_groupId, _label, _entry.root)
+
+    local _ok, _error = pcall(ctld.addTransportAircraftCommands, _groupId, _rootPath, _unit, _unitName)
+
+    if not _ok then
+        pcall(function()
+            missionCommands.removeItemForGroup(_groupId, _rootPath)
+        end)
+        _entry.labels[_label] = nil
+        if next(_entry.aircrafts) == nil then
+            pcall(function()
+                missionCommands.removeItemForGroup(_groupId, _entry.root)
+            end)
+            ctld.transportMenus[tostring(_groupId)] = nil
+        end
+        env.error(string.format("Error adding f10 transport commands to %s: %s", _unitName, _error), false)
+        return nil
+    end
+
+    _entry.aircrafts[_unitName] = { label = _label, path = _rootPath, unitId = _unit:getID() }
+
+    return _rootPath
+end
+
+-- Builds every aircraft-dependent command of one aircraft's submenu. All
+-- payloads capture the aircraft's exact unit name so actions always target
+-- this helicopter and never a group leader or a sibling.
+function ctld.addTransportAircraftCommands(_groupId, _rootPath, _unit, _unitName)
 
                         local _unitActions = ctld.getUnitActions(_unit:getTypeName())
                         ctld.logTrace(string.format("_unitActions=%s", ctld.p(_unitActions)))
@@ -5009,11 +5155,42 @@ function ctld.addF10MenuOptions()
                             missionCommands.addCommandForGroup(_groupId, "List Beacons", _radioCommands, ctld.listRadioBeacons, { _unitName })
                         end
 
-                        ctld.addedTo[tostring(_groupId)] = true
+end
+
+-- Adds menuitem to all heli units that are active
+function ctld.addF10MenuOptions()
+
+    timer.scheduleFunction(ctld.addF10MenuOptions, nil, timer.getTime() + 10)
+
+    for _, _unitName in pairs(ctld.transportPilotNames) do
+
+        local status, error = pcall(function()
+
+            local _unit = ctld.getTransportUnit(_unitName)
+
+            if _unit ~= nil then
+
+                local _groupId = ctld.getGroupId(_unit)
+
+                if _groupId then
+
+                    -- move ownership if this unit name migrated between groups
+                    ctld.pruneTransportRegistration(_unitName, tostring(_groupId), _unit)
+
+                    local _entry = ctld.ensureTransportMenuEntry(_groupId)
+
+                    if _entry.aircrafts[_unitName] == nil then
+
+                        -- One submenu per active, eligible aircraft; every
+                        -- command captures this exact unit name so actions
+                        -- always target this helicopter and never a group
+                        -- leader. addTransportAircraftMenu only records the
+                        -- aircraft after its whole tree built successfully.
+                        ctld.addTransportAircraftMenu(_groupId, _entry, _unit, _unitName)
                     end
                 end
             else
-                -- env.info(string.format("unit nil %s",_unitName))
+                ctld.pruneTransportRegistration(_unitName, nil, nil)
             end
         end)
 
@@ -5065,8 +5242,8 @@ function ctld.addRadioListCommand(_side)
 
             if _groupId then
 
-                if ctld.addedTo[tostring(_groupId)] == nil then
-                    missionCommands.addCommandForGroup(_groupId, "List Radio Beacons", nil, ctld.listRadioBeacons, { _playerUnit:getName() })
+                if ctld.addedTo[tostring(_groupId)] == nil and ctld.transportMenus[tostring(_groupId)] == nil then
+                    ctld.beaconMenuPaths[tostring(_groupId)] = missionCommands.addCommandForGroup(_groupId, "List Radio Beacons", nil, ctld.listRadioBeacons, { _playerUnit:getName() })
                     ctld.addedTo[tostring(_groupId)] = true
                 end
             end
@@ -6384,6 +6561,8 @@ function ctld.initialize(force)
     assert(mist ~= nil, "\n\n** HEY MISSION-DESIGNER! **\n\nMiST has not been loaded!\n\nMake sure MiST 3.6 or higher is running\n*before* running this script!\n")
 
     ctld.addedTo = {}
+    ctld.transportMenus = {} -- per-group, per-aircraft transport F10 menu bookkeeping
+    ctld.beaconMenuPaths = {} -- owned beacon-only commands, replaced by transport menus (see ctld.ensureTransportMenuEntry)
     ctld.spawnedCratesRED = {} -- use to store crates that have been spawned
     ctld.spawnedCratesBLUE = {} -- use to store crates that have been spawned
 
