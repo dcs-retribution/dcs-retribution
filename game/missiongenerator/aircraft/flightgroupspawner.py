@@ -1,6 +1,7 @@
 import logging
 import random
 from typing import Any, Union, Tuple, Optional, List
+from uuid import UUID
 
 from dcs import Mission
 from dcs.country import Country
@@ -34,9 +35,10 @@ from game.ato.flightstate import InFlight
 from game.ato.starttype import StartType
 from game.ato.traveltime import GroundSpeed
 from game.missiongenerator.missiondata import MissionData
+from game.missiongenerator.aircraft.departurealtitude import reserve_departure_altitude
 from game.naming import namegen
 from game.theater import Airfield, ControlPoint, Fob, NavalControlPoint, OffMapSpawn
-from game.utils import feet, meters
+from game.utils import Distance, feet, meters
 from pydcs_extensions import A_4E_C, VSN_F4B, VSN_F4C
 
 WARM_START_HELI_ALT = meters(500)
@@ -53,6 +55,8 @@ MINIMUM_MID_MISSION_SPAWN_ALTITUDE_MSL = feet(6000)
 MINIMUM_MID_MISSION_SPAWN_ALTITUDE_AGL = feet(500)
 
 STACK_SEPARATION = feet(200)
+FIXED_WING_DEPARTURE_MINIMUM_ALTITUDE_AGL = feet(2000)
+FIXED_WING_DEPARTURE_STACK_SEPARATION = feet(500)
 
 RTB_ALTITUDE = meters(800)
 RTB_DISTANCE = 5000
@@ -396,16 +400,24 @@ class FlightGroupSpawner:
 
         alt_type = "RADIO"
         if isinstance(origin, OffMapSpawn):
-            alt = self.flight.flight_plan.waypoints[0].alt
+            requested_alt = self.flight.flight_plan.waypoints[0].alt
             alt_type = self.flight.flight_plan.waypoints[0].alt_type
+            if alt_type == "RADIO" and not self.flight.unit_type.helicopter:
+                alt = self._reserve_fixed_wing_departure_altitude(
+                    origin.id, requested_alt
+                )
+            else:
+                alt = requested_alt
         elif self.flight.unit_type.helicopter:
             alt = WARM_START_HELI_ALT
         else:
             if origin.id not in self.mission_data.cp_stack:
                 min_alt = MINIMUM_MID_MISSION_SPAWN_ALTITUDE_AGL
                 self.mission_data.cp_stack[origin.id] = min_alt
-            alt = self.mission_data.cp_stack[origin.id]
+            # Keep the legacy allocation side effect for mid-route spawns, while
+            # using a separate higher ladder for fixed-wing departure air starts.
             self.mission_data.cp_stack[origin.id] += STACK_SEPARATION
+            alt = self._reserve_fixed_wing_departure_altitude(origin.id)
 
         speed = GroundSpeed.for_flight(self.flight, alt)
         pos = at + Vector2(random.randint(100, 1000), random.randint(100, 1000))
@@ -426,6 +438,17 @@ class FlightGroupSpawner:
 
         group.points[0].alt_type = alt_type
         return group
+
+    def _reserve_fixed_wing_departure_altitude(
+        self, control_point_id: UUID, requested_alt: Optional[Distance] = None
+    ) -> Distance:
+        return reserve_departure_altitude(
+            self.mission_data.fixed_wing_departure_stack,
+            control_point_id,
+            requested_alt,
+            FIXED_WING_DEPARTURE_MINIMUM_ALTITUDE_AGL,
+            FIXED_WING_DEPARTURE_STACK_SEPARATION,
+        )
 
     def _generate_at_group(
         self, name: str, at: Union[ShipGroup, StaticGroup]

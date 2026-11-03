@@ -16,6 +16,10 @@ from game.missiongenerator.aircraft.aircraftbehavior import AircraftBehavior
 from game.missiongenerator.aircraft.aircraftpainter import AircraftPainter
 from game.missiongenerator.aircraft.bingoestimator import BingoEstimator
 from game.missiongenerator.aircraft.flightdata import FlightData
+from game.missiongenerator.aircraft.formation import (
+    is_airborne_start,
+    space_airborne_group,
+)
 from game.missiongenerator.aircraft.flightgroupconfigurator import (
     FlightGroupConfigurator,
 )
@@ -104,7 +108,6 @@ class PretenseFlightGroupConfigurator(FlightGroupConfigurator):
             self.game.settings,
             self.mission_data,
         ).create_waypoints()
-
         if self.flight.client_count >= 1:
             waypoints = waypoints[:1]
             self.group.points = self.group.points[:1]
@@ -124,6 +127,9 @@ class PretenseFlightGroupConfigurator(FlightGroupConfigurator):
                     self.time,
                     self.mission_data,
                 ).build()
+
+        if is_airborne_start(self.group):
+            space_airborne_group(self.group)
 
         divert_position: Point | None = None
         if self.flight.divert is not None:
