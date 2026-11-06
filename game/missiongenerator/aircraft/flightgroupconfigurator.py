@@ -21,6 +21,10 @@ from game.data.weapons import Pylon, Weapon, WeaponType
 from game.lasercodes.lasercode import LaserCode
 from game.missiongenerator.logisticsgenerator import LogisticsGenerator
 from game.missiongenerator.missiondata import MissionData, AwacsInfo, TankerInfo
+from game.missiongenerator.aircraft.formation import (
+    is_airborne_start,
+    space_airborne_group,
+)
 from game.radio.radios import RadioFrequency, RadioRegistry
 from game.radio.tacan import (
     TacanBand,
@@ -123,6 +127,8 @@ class FlightGroupConfigurator:
             self.game.settings,
             self.mission_data,
         ).create_waypoints()
+        if is_airborne_start(self.group):
+            space_airborne_group(self.group)
 
         # Special handling for landing waypoints when:
         # 1. It's an AI-only flight
