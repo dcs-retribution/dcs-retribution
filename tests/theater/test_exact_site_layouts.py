@@ -22,6 +22,7 @@ from game.campaignloader.mizcampaignloader import MizCampaignLoader
 from game.data.groups import GroupTask
 from game.factions import FACTIONS
 from game.settings import Settings
+from game.theater.exactsite import classify
 from game.theater.iadsnetwork.iadsrole import IadsRole
 from game.theater.start_generator import GameGenerator, GeneratorSettings, ModSettings
 from game.theater.theatergroundobject import TheaterGroundObject
@@ -210,3 +211,9 @@ def test_a_site_the_faction_cannot_field_falls_back_to_stock(game: Any) -> None:
     assert tgo.units
     assert AirDefence.Patriot_str.id not in types
     assert AirDefence.Patriot_ln.id not in types
+
+
+def test_a_drawn_radar_alone_is_an_ewr() -> None:
+    # Factions field EWRs from single units, so no preset group names the radar.
+    assert classify([AirDefence.x_1L13_EWR]) is GroupTask.EARLY_WARNING_RADAR
+    assert classify([Unarmed.Ural_375]) is None
