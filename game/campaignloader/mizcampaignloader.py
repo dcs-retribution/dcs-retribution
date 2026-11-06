@@ -31,7 +31,7 @@ from game.theater.controlpoint import (
     Lha,
     OffMapSpawn,
 )
-from game.theater.presetlocation import PresetLocation
+from game.theater.presetlocation import ExactSitePreset, PresetLocation
 from game.utils import Distance, meters, feet, Heading
 
 if TYPE_CHECKING:
@@ -98,6 +98,10 @@ class MizCampaignLoader:
     }
 
     EWR_UNIT_TYPE = AirDefence.x_1L13_EWR.id
+
+    #: A vehicle group named with this prefix is an air-defense site drawn unit by
+    #: unit and generates exactly as drawn instead of from a stock layout.
+    EXACT_SITE_PREFIX = "FIXED"
 
     ARMOR_GROUP_UNIT_TYPE = Armor.M_1_Abrams.id
 
@@ -213,33 +217,58 @@ class MizCampaignLoader:
             if group.units[0].type == self.COASTAL_DEFENSE_UNIT_TYPE:
                 yield group
 
+    @classmethod
+    def is_exact_site(cls, group: VehicleGroup) -> bool:
+        name = group.name.upper()
+        if not name.startswith(cls.EXACT_SITE_PREFIX):
+            return False
+        rest = name[len(cls.EXACT_SITE_PREFIX) :]
+        # "FIXED SA-6" or "FIXED-1", never a name that merely starts with the word.
+        return not rest or not rest[0].isalnum()
+
+    @property
+    def exact_air_defenses(self) -> Iterator[VehicleGroup]:
+        for group in itertools.chain(self.blue.vehicle_group, self.red.vehicle_group):
+            if self.is_exact_site(group):
+                yield group
+
     @property
     def long_range_sams(self) -> Iterator[VehicleGroup]:
         for group in self.red.vehicle_group:
+            if self.is_exact_site(group):
+                continue
             if group.units[0].type in self.LONG_RANGE_SAM_UNIT_TYPES:
                 yield group
 
     @property
     def medium_range_sams(self) -> Iterator[VehicleGroup]:
         for group in self.red.vehicle_group:
+            if self.is_exact_site(group):
+                continue
             if group.units[0].type in self.MEDIUM_RANGE_SAM_UNIT_TYPES:
                 yield group
 
     @property
     def short_range_sams(self) -> Iterator[VehicleGroup]:
         for group in self.red.vehicle_group:
+            if self.is_exact_site(group):
+                continue
             if group.units[0].type in self.SHORT_RANGE_SAM_UNIT_TYPES:
                 yield group
 
     @property
     def aaa(self) -> Iterator[VehicleGroup]:
         for group in itertools.chain(self.blue.vehicle_group, self.red.vehicle_group):
+            if self.is_exact_site(group):
+                continue
             if group.units[0].type in self.AAA_UNIT_TYPES:
                 yield group
 
     @property
     def ewrs(self) -> Iterator[VehicleGroup]:
         for group in self.red.vehicle_group:
+            if self.is_exact_site(group):
+                continue
             if group.units[0].type in self.EWR_UNIT_TYPE:
                 yield group
 
@@ -643,6 +672,12 @@ class MizCampaignLoader:
             closest, distance = self.objective_info(group)
             closest.preset_locations.short_range_sams.append(
                 PresetLocation.from_group(group)
+            )
+
+        for group in self.exact_air_defenses:
+            closest, distance = self.objective_info(group)
+            closest.preset_locations.exact_air_defenses.append(
+                ExactSitePreset.from_vehicle_group(group)
             )
 
         for group in self.aaa:

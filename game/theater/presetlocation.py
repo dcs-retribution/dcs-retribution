@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import TypeVar
 
 from dcs.mapping import Point
@@ -32,3 +33,48 @@ class PresetLocation(PointWithHeading):
             Heading.from_degrees(group.units[0].heading),
         )
         return preset
+
+
+@dataclass(frozen=True)
+class ExactSiteUnit:
+    """One unit of a hand-placed site, at its absolute campaign-miz position."""
+
+    type_id: str
+    position: Point
+    heading: float
+
+
+class ExactSitePreset(PresetLocation):
+    """A campaign-miz air-defense group kept exactly as drawn (the FIXED prefix).
+
+    The preset's own point and heading are the group's first unit, so template
+    extras added around it are placed the way a marker's would be.
+    """
+
+    units: list[ExactSiteUnit]
+
+    def __init__(
+        self,
+        name: str,
+        position: Point,
+        heading: Heading,
+        units: list[ExactSiteUnit],
+    ) -> None:
+        super().__init__(name, position, heading)
+        self.units = units
+
+    @classmethod
+    def from_vehicle_group(cls, group: VehicleGroup) -> ExactSitePreset:
+        return ExactSitePreset(
+            group.name,
+            group.position,
+            Heading.from_degrees(group.units[0].heading),
+            [
+                ExactSiteUnit(
+                    unit.type,
+                    Point(unit.position.x, unit.position.y, unit.position._terrain),
+                    unit.heading,
+                )
+                for unit in group.units
+            ],
+        )
