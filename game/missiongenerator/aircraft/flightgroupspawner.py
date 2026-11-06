@@ -364,6 +364,12 @@ class FlightGroupSpawner:
         )
 
         group.points[0].alt_type = alt_type
+        # DCS uses the unit altitude type for spawn placement and the first
+        # waypoint altitude type for enroute steering. Mismatched references
+        # crash aircraft on spawn, so give every unit the same reference as
+        # the first waypoint.
+        for unit in group.units:
+            unit.alt_type = alt_type
         return group
 
     def _generate_at_airfield(
@@ -437,6 +443,12 @@ class FlightGroupSpawner:
         )
 
         group.points[0].alt_type = alt_type
+        # DCS uses the unit altitude type for spawn placement and the first
+        # waypoint altitude type for enroute steering. Mismatched references
+        # crash aircraft on spawn, so give every unit the same reference as
+        # the first waypoint.
+        for unit in group.units:
+            unit.alt_type = alt_type
         return group
 
     def _reserve_fixed_wing_departure_altitude(
