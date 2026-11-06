@@ -19,6 +19,7 @@ from game.theater import (
     NavalControlPoint,
     EssexCarrier,
 )
+from game.theater.exactsite import generate_exact_site
 from game.theater.controlpoint import warn_if_motorpool_inside_capture_zone
 from game.theater.theatergroundobject import (
     BuildingGroundObject,
@@ -491,6 +492,8 @@ class AirbaseGroundObjectGenerator(ControlPointGroundObjectGenerator):
         aa_tasking.insert(0, GroupTask.LORAD)
         for position in presets.long_range_sams:
             self.generate_aa_at(position, aa_tasking)
+        for exact_site in presets.exact_air_defenses:
+            generate_exact_site(self, exact_site)
 
     def generate_ewrs(self) -> None:
         for position in self.control_point.preset_locations.ewrs:

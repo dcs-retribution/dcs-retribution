@@ -127,6 +127,12 @@ class ForceGroup:
         return self
 
     @classmethod
+    def preset_groups(cls) -> list[ForceGroup]:
+        if not cls._loaded:
+            cls._load_all()
+        return list(cls._by_name.values())
+
+    @classmethod
     def from_preset_group(cls, name: str) -> ForceGroup:
         if not cls._loaded:
             cls._load_all()
