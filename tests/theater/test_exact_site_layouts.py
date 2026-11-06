@@ -22,7 +22,7 @@ from game.campaignloader.mizcampaignloader import MizCampaignLoader
 from game.data.groups import GroupTask
 from game.factions import FACTIONS
 from game.settings import Settings
-from game.theater.exactsite import classify
+from game.theater.exactsite import LAUNCHER_CLASSES, RADAR_CLASSES, classify
 from game.theater.iadsnetwork.iadsrole import IadsRole
 from game.theater.start_generator import GameGenerator, GeneratorSettings, ModSettings
 from game.theater.theatergroundobject import TheaterGroundObject
@@ -39,11 +39,15 @@ SA11 = [
     (AirDefence.ZSU_23_4_Shilka, 0, -250, 180),
     (Unarmed.Ural_375, -60, -40, 90),
 ]
-#: A Patriot radar and launcher: nothing the red Russian faction can field.
+#: A Patriot radar and launchers: nothing the red Russian faction can field.
 PATRIOT = [
     (AirDefence.Patriot_str, 0, 0, 0),
     (AirDefence.Patriot_ln, 120, 40, 0),
+    (AirDefence.Patriot_ln, -120, 40, 0),
+    (Unarmed.Ural_375, 0, -80, 0),
 ]
+#: The SA-11 site with a Hawk CWAR the red faction cannot field.
+SA11_WITH_CWAR = SA11[:4] + [(AirDefence.Hawk_cwar, 60, -60, 0)]
 
 
 def _add_site(mission: dcs.Mission, name: str, anchor: Point, units: list[Any]) -> None:
@@ -96,6 +100,12 @@ def _generate(folder: Path) -> Any:
         "fixed-patriot test",
         Point(anchor.x - 3000, anchor.y, mission.terrain),
         PATRIOT,
+    )
+    _add_site(
+        mission,
+        "FIXED SA-11 cwar test",
+        Point(anchor.x, anchor.y + 3000, mission.terrain),
+        SA11_WITH_CWAR,
     )
     mission.save(str(folder / CAMPAIGN.with_suffix(".miz").name))
 
@@ -204,16 +214,55 @@ def test_drawn_guns_are_the_sites_point_defense(game: Any) -> None:
     assert roles[AirDefence.SA_11_Buk_SR_9S18M1.id] is IadsRole.SAM
 
 
-def test_a_site_the_faction_cannot_field_falls_back_to_stock(game: Any) -> None:
+def _placed(tgo: TheaterGroundObject) -> dict[tuple[int, int], set[str]]:
+    # Template extras are placed around the first unit, so a spot can hold two.
+    placed: dict[tuple[int, int], set[str]] = {}
+    for u in tgo.units:
+        placed.setdefault((round(u.position.x), round(u.position.y)), set()).add(
+            u.type.id
+        )
+    return placed
+
+
+def _drawn(tgo: TheaterGroundObject) -> list[Any]:
+    return [
+        unit
+        for preset in tgo.control_point.preset_locations.exact_air_defenses
+        if preset.original_name == tgo.original_name
+        for unit in preset.units
+    ]
+
+
+def test_support_the_faction_cannot_field_is_left_out(game: Any) -> None:
+    tgo = _tgo(game, "FIXED SA-11 cwar test")
+    placed = _placed(tgo)
+    for unit in _drawn(tgo):
+        spot = (round(unit.position.x), round(unit.position.y))
+        if unit.type_id == AirDefence.Hawk_cwar.id:
+            assert spot not in placed
+        else:
+            assert unit.type_id in placed[spot]
+
+
+def test_the_factions_own_system_takes_the_drawn_spots(game: Any) -> None:
     tgo = _tgo(game, "fixed-patriot test")
     assert tgo.control_point.captured.is_red
-    types = {u.type.id for u in tgo.units}
-    assert tgo.units
-    assert AirDefence.Patriot_str.id not in types
-    assert AirDefence.Patriot_ln.id not in types
+    placed = _placed(tgo)
+    assert AirDefence.Patriot_str.id not in placed.values()
+    assert AirDefence.Patriot_ln.id not in placed.values()
+    classes = {u.type.id: u.unit_type.unit_class for u in tgo.units if u.unit_type}
+    for unit in _drawn(tgo):
+        spot = (round(unit.position.x), round(unit.position.y))
+        if unit.type_id == AirDefence.Patriot_ln.id:
+            assert {classes[t] for t in placed[spot]} & LAUNCHER_CLASSES
+        elif unit.type_id == AirDefence.Patriot_str.id:
+            assert {classes[t] for t in placed[spot]} & RADAR_CLASSES
+        else:
+            assert unit.type_id in placed[spot]
 
 
-def test_a_drawn_radar_alone_is_an_ewr() -> None:
-    # Factions field EWRs from single units, so no preset group names the radar.
+def test_single_unit_systems_classify_by_unit_class() -> None:
+    # Factions field EWRs and SA-8s from single units; no preset group names them.
     assert classify([AirDefence.x_1L13_EWR]) is GroupTask.EARLY_WARNING_RADAR
+    assert classify([AirDefence.Osa_9A33_ln]) is GroupTask.SHORAD
     assert classify([Unarmed.Ural_375]) is None

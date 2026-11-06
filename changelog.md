@@ -1,7 +1,7 @@
 # Retribution v1.6.0
 
 ## Features/Improvements
-* **[Campaigns]** A campaign air-defense group named with the prefix `FIXED` (e.g. `FIXED SA-2 Damascus`) generates exactly as drawn: every unit at its own position and heading, instead of a stock layout at the group's first unit. If the owning faction cannot field the drawn units, a stock site of the same type generates there instead.
+* **[Campaigns]** A campaign air-defense group named with the prefix `FIXED` (e.g. `FIXED SA-2 Damascus`) generates exactly as drawn: every unit at its own position and heading, instead of a stock layout at the group's first unit. Support units the owning faction cannot field are left out, and a faction with a different SAM puts its own radars and launchers on the drawn spots.
 * **[Modding]** Added support for the CurrentHill Iran Military Assets pack: the Shahed-136 launcher, two IRGCN fast-attack craft, and a new `[CH] Iran 2020` faction, behind a New Game mods checkbox. (#886)
 * **[Kneeboard]** Use a light-grey daytime kneeboard background instead of near-white, to avoid glare under HDR / Auto-HDR while staying readable in daylight.
 * **[UX]** Hovering a friendly flight's route line on the map highlights it in yellow, and clicking it selects that flight's package (and the flight) in the ATO sidebar.
