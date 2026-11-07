@@ -145,8 +145,14 @@ class AircraftBehavior:
             point.name = "Orientation WPT"
             group.points.insert(1, point)
 
-        # Activate AI unlimited fuel for all flights at startup
-        if ai_unlimited_fuel and not at_ip_or_combat:
+        # Activate AI unlimited fuel at startup. Player flights apply it
+        # regardless of spawn state (including IP and combat air starts)
+        # because their AI wingmen keep unlimited fuel for the whole mission.
+        # Autonomous flights keep the existing phase rules: fuel is removed
+        # at join/racetrack start, so mid-mission spawns do not get a free
+        # refuel. The command only affects AI units, so all-human flights are
+        # unaffected.
+        if ai_unlimited_fuel and (flight.client_count > 0 or not at_ip_or_combat):
             group.points[0].tasks.append(SetUnlimitedFuelCommand(True))
 
         group.points[0].tasks.append(OptReactOnThreat(react_on_threat))
