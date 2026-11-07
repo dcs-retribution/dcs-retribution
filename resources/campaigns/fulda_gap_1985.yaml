@@ -34,6 +34,7 @@ version: "10.9"
 # power sources. NATO has no nodes.
 advanced_iads: true
 settings:
+  squadron_start_full: true
   # 1985: AIM-9L/9M, AIM-7F/7M, AGM-45, AGM-78 and HARM yes; AMRAAM no.
   restrict_weapons_by_date: true
   restrict_props_by_date: true
