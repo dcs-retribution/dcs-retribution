@@ -10,8 +10,8 @@ random ATC frequency each mission.
 These plans follow the pro-campaign "Mother card" convention (the HOMEPLATE
 row on a paid FA-18C campaign's kneeboard is the model): TACAN channel
 matches the hull number with a boat-name ident, ICLS is hull-keyed, Link 4
-lives in the real ACLS 336 MHz band, and the ATC frequency is a stable,
-memorable UHF. Every value is a default, not a mandate — a channel already
+is a hull-keyed 320 MHz frequency the F-14 can dial, and the ATC frequency is
+a stable, memorable UHF. Every value is a default, not a mandate — a channel already
 reserved (map beacon, another boat) falls back to the legacy allocator, and
 values stored on the control point (user-set or persisted from an earlier
 turn) always win.
@@ -38,6 +38,10 @@ from dcs.ships import (
 from game.radio.radios import MHz, RadioFrequency
 from game.radio.tacan import TacanBand, TacanChannel
 
+# Inside RadioRegistry.LINK4, the band the F-14 can dial. The mission editor's
+# default 336 MHz is outside it.
+_LINK4_MHZ = 320
+
 
 @dataclass(frozen=True)
 class CarrierCommsPlan:
@@ -62,7 +66,7 @@ def _cv(
         tacan_ident=ident,
         atc=MHz(atc_mhz),
         icls=icls,
-        link4=MHz(336, link4_khz) if link4_khz is not None else None,
+        link4=MHz(_LINK4_MHZ, link4_khz) if link4_khz is not None else None,
     )
 
 

@@ -834,7 +834,7 @@ class GenericCarrierGenerator(GroundObjectGenerator):
         self, comms: Optional[CarrierCommsPlan], carrier_type: Type[ShipType]
     ) -> Optional[RadioFrequency]:
         """Link 4 for ACLS-capable hulls: stored value, else the hull's curated
-        336 MHz-band frequency, else a random UHF. Persisted back."""
+        frequency, else a free one the F-14 can tune. Persisted back."""
         if carrier_type not in LINK4_CARRIERS:
             return None
         link4 = self.control_point.link4
@@ -846,8 +846,8 @@ class GenericCarrierGenerator(GroundObjectGenerator):
         ):
             link4 = comms.link4
         if link4 is None:
-            # alloc_uhf reserves the channel itself.
-            link4 = self.radio_registry.alloc_uhf()
+            # alloc_link4 reserves the channel itself.
+            link4 = self.radio_registry.alloc_link4()
         elif link4 not in self.radio_registry.allocated_channels:
             self.radio_registry.reserve(link4)
         self.control_point.link4 = link4

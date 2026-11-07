@@ -52,14 +52,16 @@ class TestCommsPlanTable:
         assert len(channels) == len(set(channels))
         assert all(1 <= ch <= 20 for ch in channels)
 
-    def test_link4_in_acls_band(self) -> None:
+    def test_link4_is_tunable_by_the_f14(self) -> None:
+        """The Tomcat's data link panel dials 300.0-324.9 MHz only."""
         freqs = [
             plan.link4
             for plan in CARRIER_COMMS_PLANS.values()
             if plan.link4 is not None
         ]
         assert len(freqs) == len(set(freqs))
-        assert all(MHz(336).hertz <= f.hertz <= MHz(337).hertz for f in freqs)
+        assert all(MHz(300).hertz <= f.hertz < MHz(325).hertz for f in freqs)
+        assert not {plan.atc for plan in CARRIER_COMMS_PLANS.values()} & set(freqs)
 
     def test_idents_are_short_uppercase(self) -> None:
         for plan in CARRIER_COMMS_PLANS.values():
@@ -198,6 +200,21 @@ class TestCommsResolution:
         assert link4 == plan.link4
         assert link4 in gen.radio_registry.allocated_channels
         assert gen.control_point.link4 == link4
+
+    def test_user_set_link4_wins(self) -> None:
+        gen = _make_generator()
+        gen.control_point.link4 = MHz(301, 500)
+        link4 = gen._resolve_link4(CARRIER_COMMS_PLANS[CVN_71.id], CVN_71)
+        assert link4 == MHz(301, 500)
+
+    def test_fallback_link4_is_tunable_by_the_f14(self) -> None:
+        gen = _make_generator()
+        plan = CARRIER_COMMS_PLANS[CVN_71.id]
+        assert plan.link4 is not None
+        gen.radio_registry.reserve(plan.link4)
+        link4 = gen._resolve_link4(plan, CVN_71)
+        assert link4 is not None and link4 != plan.link4
+        assert MHz(300).hertz <= link4.hertz < MHz(325).hertz
 
     def test_link4_none_for_non_acls_hull(self) -> None:
         gen = _make_generator()

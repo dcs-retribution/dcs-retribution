@@ -6,7 +6,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from game.radio.radios import RadioFrequency, RadioRange, MHz, kHz
+from game.radio.radios import MHz, RadioFrequency, RadioRegistry
 from game.theater import NavalControlPoint
 from qt_ui.models import GameModel
 from qt_ui.windows.QRadioFrequencyDialog import QRadioFrequencyDialog
@@ -46,8 +46,9 @@ class QLink4Widget(QWidget):
         return f"<b>LINK4: {freq}</b>"
 
     def open_freq_dialog(self) -> None:
-        ranges = [RadioRange(MHz(225), MHz(400), kHz(25))]
-        self.frequency_dialog = QRadioFrequencyDialog(self, self.cp, ranges, link4=True)
+        self.frequency_dialog = QRadioFrequencyDialog(
+            self, self.cp, list(RadioRegistry.LINK4.ranges), link4=True
+        )
         self.frequency_dialog.accepted.connect(self.assign_frequency)
         self.frequency_dialog.show()
 
