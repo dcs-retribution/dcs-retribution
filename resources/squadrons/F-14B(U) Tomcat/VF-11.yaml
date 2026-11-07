@@ -1,11 +1,13 @@
 ---
-name: VF-101
-nickname: Grim Reapers - Low Vis
+name: VF-11
+nickname: Red Rippers
 female_pilot_percentage: 7
 country: USA
 role: Strike Fighter
 aircraft: F-14B(U) Tomcat
-livery: VF-101 2004 AD107 BuNo 162910
+livery_set:
+  - VF-11 2004 AG201 BuNo 162912
+  - VF-11 2004 AG210 BuNo 162911
 mission_types:
   - BAI
   - BARCAP

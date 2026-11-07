@@ -1,11 +1,15 @@
 ---
-name: VF-143
-nickname: Pukin Dogs - Low Vis
+name: VF-103
+nickname: Jolly Rogers
 female_pilot_percentage: 7
 country: USA
 role: Strike Fighter
 aircraft: F-14B(U) Tomcat
-livery: VF-143 2004 AG106 BuNo 161434
+livery_set:
+  - VF-103 2004 AA100 BuNo 162918
+  - VF-103 2004 AA101 BuNo 162705
+  - VF-103 2004 AA103 BuNo 163217
+  - VF-103 2004 AA105 BuNo 163229
 mission_types:
   - BAI
   - BARCAP

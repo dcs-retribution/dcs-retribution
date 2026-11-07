@@ -16,6 +16,13 @@ from game import Game
 from game.ato.flight import Flight
 from game.ato.flightmember import FlightMember
 from game.ato.loadouts import Loadout
+from game.missiongenerator.aircraft.modex import (
+    MIN_BOARD_NUMBER,
+    is_modex_flight,
+    max_board_number_lead,
+    take_board_number,
+)
+from qt_ui.blocksignals import block_signals
 from qt_ui.widgets.QLabeledWidget import QLabeledWidget
 from qt_ui.widgets.combos.QSquadronLiverySelector import SquadronLiverySelector
 from .QLoadoutEditor import QLoadoutEditor
@@ -47,6 +54,93 @@ class FlightMemberSelector(QSpinBox):
     @property
     def selected_member(self) -> FlightMember:
         return self.flight.roster.members[self.value() - 1]
+
+
+class BoardNumberSelector(QVBoxLayout):
+    """Pins the flight's board number: the lead's, with the wingmen following.
+
+    Taking a number another flight of the coalition has pinned moves that
+    flight to the next free run, so no two packages wear the same modex.
+    """
+
+    def __init__(self, flight: Flight) -> None:
+        super().__init__()
+        self.flight = flight
+        self._moves: list[tuple[Flight, int, int | None]] = []
+
+        row = QHBoxLayout()
+        self.enabled = QCheckBox("Set board number")
+        self.enabled.setToolTip(
+            "Pin the lead's board number (modex). The rest of the flight follows "
+            "in order: 105, 106, 107, 108. Unticked, the mission generator "
+            "numbers the flight."
+        )
+        row.addWidget(self.enabled)
+        self.number = QSpinBox()
+        self.number.setRange(MIN_BOARD_NUMBER, max_board_number_lead(flight.count))
+        row.addWidget(self.number)
+        row.addStretch(1)
+        self.addLayout(row)
+
+        self.summary = QLabel()
+        self.summary.setWordWrap(True)
+        self.addWidget(self.summary)
+
+        pinned = getattr(flight, "board_number", None)
+        with block_signals(self.enabled), block_signals(self.number):
+            self.enabled.setChecked(pinned is not None)
+            self.number.setValue(pinned if pinned is not None else 100)
+        self.number.setEnabled(pinned is not None)
+        self.enabled.toggled.connect(self.apply)
+        self.number.valueChanged.connect(self.apply)
+        self.refresh()
+
+    def _other_flights(self) -> list[Flight]:
+        return [
+            flight
+            for package in self.flight.squadron.coalition.ato.packages
+            for flight in package.flights
+            if flight is not self.flight
+        ]
+
+    def _fit_range(self) -> None:
+        with block_signals(self.number):
+            self.number.setMaximum(max_board_number_lead(self.flight.count))
+
+    def apply(self) -> None:
+        self._fit_range()
+        self.number.setEnabled(self.enabled.isChecked())
+        self._moves = []
+        if not self.enabled.isChecked():
+            self.flight.board_number = None
+        else:
+            self._moves = take_board_number(
+                self.flight, self.number.value(), self._other_flights()
+            )
+        self.refresh()
+
+    def refresh(self) -> None:
+        self._fit_range()
+        if not self.enabled.isChecked():
+            self.summary.setText("Numbered automatically at mission generation.")
+            return
+        lead = self.number.value()
+        numbers = ", ".join(
+            f"{lead + offset:03}" for offset in range(self.flight.count)
+        )
+        lines = [f"Flight: {numbers}."]
+        for other, old, new in self._moves:
+            where = "automatic" if new is None else f"{new:03}"
+            lines.append(
+                f"{other} ({other.package.package_description} package, "
+                f"{other.package.target.name}) moved from {old:03} to {where}."
+            )
+        if self.flight.unit_type.dcs_unit_type.id.startswith("F-14"):
+            lines.append(
+                "The Tomcat's painted number is its livery: a jet shows this "
+                "number only where the squadron has a livery painted with it."
+            )
+        self.summary.setText("\n".join(lines))
 
 
 class DcsFuelSelector(QHBoxLayout):
@@ -158,6 +252,12 @@ class QFlightPayloadTab(QFrame):
         hbox.addWidget(self.livery_selector)
         layout.addLayout(hbox)
 
+        # Navy only: the Hornets and Tomcats that wear sequenced modexes.
+        self.board_number_selector: BoardNumberSelector | None = None
+        if is_modex_flight(self.flight):
+            self.board_number_selector = BoardNumberSelector(self.flight)
+            layout.addLayout(self.board_number_selector)
+
         scroll_content = QWidget()
         scrolling_layout = QVBoxLayout()
         scroll_content.setLayout(scrolling_layout)
@@ -218,6 +318,9 @@ class QFlightPayloadTab(QFrame):
 
     def resize_for_flight(self) -> None:
         self.member_selector.setMaximum(self.flight.count - 1)
+        if self.board_number_selector is not None:
+            # A longer run can overlap another pin; re-taking it moves that one.
+            self.board_number_selector.apply()
 
     def reload_from_flight(self) -> None:
         self.loadout_selector.setCurrentText(

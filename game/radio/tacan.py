@@ -99,9 +99,44 @@ class TacanRegistry:
         try:
             while (channel := next(allocator)) in self.allocated_channels:
                 pass
+            # Mark it so out-of-order allocators (alloc_near) can't reissue it.
+            self.mark_unavailable(channel)
             return channel
         except StopIteration:
             raise OutOfTacanChannelsError(band)
+
+    def alloc_near(
+        self, preferred: TacanChannel, intended_usage: TacanUsage
+    ) -> TacanChannel:
+        """Allocates the preferred channel, or the nearest free one.
+
+        When the preferred channel is taken (a map's real beacons own many of
+        the hull-number carrier channels -- Bagram is 74X on Afghanistan) this
+        walks outward to the nearest valid free channel in the same band
+        instead of falling to the bottom of the band.
+
+        Args:
+            preferred: The channel to try first.
+            intended_usage: What the caller intends to use the channel for.
+
+        Returns:
+            The preferred channel, or the nearest valid free channel.
+
+        Raises:
+            OutOfTacanChannelsError: Every valid channel in the band is
+                already allocated.
+        """
+        unavailable = UNAVAILABLE[intended_usage][preferred.band]
+        for distance in range(126):
+            for number in (preferred.number - distance, preferred.number + distance):
+                if not 1 <= number <= 126 or number in unavailable:
+                    continue
+                candidate = TacanChannel(number, preferred.band)
+                if candidate in self.allocated_channels:
+                    continue
+                self.mark_unavailable(candidate)
+                return candidate
+        raise OutOfTacanChannelsError(preferred.band)
 
     def mark_unavailable(self, channel: TacanChannel) -> None:
         """Reserves the given channel.

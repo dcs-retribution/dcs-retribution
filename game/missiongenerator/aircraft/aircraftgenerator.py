@@ -41,6 +41,8 @@ from .aircraftpainter import AircraftPainter
 from .flightdata import FlightData
 from .flightgroupconfigurator import FlightGroupConfigurator
 from .flightgroupspawner import FlightGroupSpawner
+from .liveryallocator import LiveryAllocator
+from .modex import ModexAllocator
 from ...data.weapons import WeaponType
 from ...radio.datalink import DataLinkRegistry
 
@@ -82,6 +84,8 @@ class AircraftGenerator:
         self.ground_spawns_large = ground_spawns_large
         self.ground_spawns = ground_spawns
         self.country_assigner = country_assigner
+        self.modex_allocator = ModexAllocator(game)
+        self.livery_allocator = LiveryAllocator()
 
         self.ewrj_package_dict: Dict[int, List[FlyingGroup[Any]]] = {}
         self.ewrj = settings.plugins.get("ewrj")
@@ -285,7 +289,9 @@ class AircraftGenerator:
                     )
                     group.uncontrolled = False
                     group.units[0].skill = Skill.Client
-                AircraftPainter(flight, group).apply_livery()
+                # Number before paint: the livery follows the board number.
+                self.modex_allocator.assign(squadron, group, country)
+                AircraftPainter(flight, group, self.livery_allocator).apply_livery()
                 self.unit_map.add_aircraft(group, flight)
 
     def create_and_configure_flight(
@@ -303,6 +309,10 @@ class AircraftGenerator:
             self.mission_data,
         ).create_flight_group()
 
+        # Tasked flights are generated before the untasked ramp aircraft, so
+        # they take the low modexes (X00 up).
+        self.modex_allocator.assign(flight.squadron, group, country, flight)
+
         flight_data = FlightGroupConfigurator(
             flight,
             group,
@@ -315,6 +325,7 @@ class AircraftGenerator:
             self.mission_data,
             dynamic_runways,
             self.use_client,
+            self.livery_allocator,
         ).configure()
 
         self.flights.append(flight_data)

@@ -1,11 +1,13 @@
 ---
-name: VF-101
-nickname: Grim Reapers - High Vis
+name: VF-143
+nickname: Pukin Dogs
 female_pilot_percentage: 7
 country: USA
 role: Strike Fighter
 aircraft: F-14B(U) Tomcat
-livery: VF-101 2004 AD101 BuNo 162920
+livery_set:
+  - VF-143 2004 AG100 BuNo 163220
+  - VF-143 2004 AG106 BuNo 161434
 mission_types:
   - BAI
   - BARCAP

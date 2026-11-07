@@ -35,6 +35,7 @@ from .aircraftbehavior import AircraftBehavior
 from .aircraftpainter import AircraftPainter
 from .bingoestimator import BingoEstimator
 from .flightdata import FlightData
+from .liveryallocator import LiveryAllocator
 from .waypoints import WaypointGenerator
 from ...ato.flightmember import FlightMember
 from ...ato.flightplans.aewc import AewcFlightPlan
@@ -68,6 +69,7 @@ class FlightGroupConfigurator:
         mission_data: MissionData,
         dynamic_runways: dict[str, RunwayData],
         use_client: bool,
+        livery_allocator: Optional[LiveryAllocator] = None,
     ) -> None:
         self.flight = flight
         self.group = group
@@ -80,13 +82,14 @@ class FlightGroupConfigurator:
         self.mission_data = mission_data
         self.dynamic_runways = dynamic_runways
         self.use_client = use_client
+        self.livery_allocator = livery_allocator
 
     def configure(self) -> FlightData:
         flight_channel = self.setup_radios()
         AircraftBehavior(self.flight.flight_type, self.mission_data).apply_to(
             self.flight, self.group
         )
-        AircraftPainter(self.flight, self.group).apply_livery()
+        AircraftPainter(self.flight, self.group, self.livery_allocator).apply_livery()
         self.setup_props()
         self.setup_payloads()
         self.setup_fuel()

@@ -1,11 +1,13 @@
 ---
-name: VF-32
-nickname: Swordsmen - High Vis
+name: VF-101
+nickname: Grim Reapers
 female_pilot_percentage: 7
 country: USA
 role: Strike Fighter
 aircraft: F-14B(U) Tomcat
-livery: VF-32 2004 AC100 BuNo 162916
+livery_set:
+  - VF-101 2004 AD101 BuNo 162920
+  - VF-101 2004 AD107 BuNo 162910
 mission_types:
   - BAI
   - BARCAP

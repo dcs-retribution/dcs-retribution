@@ -91,6 +91,9 @@ class Flight(
         self.initialize_fuel()
         self.use_same_loadout_for_all_members = True
         self.use_same_livery_for_all_members = True
+        # The lead's board number, pinned on the payload tab; wingmen follow in
+        # order. None leaves numbering to the mission generator.
+        self.board_number: Optional[int] = None
 
         # Only used by transport missions.
         self.cargo = cargo
@@ -170,6 +173,8 @@ class Flight(
         state["state"] = Uninitialized(self, state["squadron"].settings)
         if "use_same_loadout_for_all_members" not in state:
             state["use_same_loadout_for_all_members"] = True
+        if "board_number" not in state:
+            state["board_number"] = None
         self.__dict__.update(state)
         if isinstance(self.roster, FlightRoster):
             self.roster = FlightMembers.from_roster(self, self.roster)

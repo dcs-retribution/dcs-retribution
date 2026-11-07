@@ -1,11 +1,15 @@
 ---
-name: VF-143
-nickname: Pukin Dogs - High Vis
+name: VF-32
+nickname: Swordsmen
 female_pilot_percentage: 7
 country: USA
 role: Strike Fighter
 aircraft: F-14B(U) Tomcat
-livery: VF-143 2004 AG100 BuNo 163220
+livery_set:
+  - VF-32 2004 AC100 BuNo 162916
+  - VF-32 2004 AC101 BuNo 161860
+  - VF-32 2004 AC107 BuNo 163224
+  - VF-32 2004 AC111 BuNo 161428
 mission_types:
   - BAI
   - BARCAP

@@ -431,11 +431,15 @@ class RadioRegistry:
         "BLUFOR UHF", (RadioRange(MHz(225), MHz(400), MHz(1), Modulation.AM),)
     )
 
+    # Not a real radio. A carrier's Link 4 has to sit where the F-14's data link
+    # panel can dial it: 300.0-324.9 MHz (Heatblur manual, Data Link Control Panel).
+    LINK4 = Radio("LINK4", (RadioRange(MHz(300), MHz(325), kHz(100), Modulation.AM),))
+
     def __init__(self) -> None:
         self.allocated_channels: Set[RadioFrequency] = set()
         self.radio_allocators: Dict[Radio, Iterator[RadioFrequency]] = {}
 
-        radios = itertools.chain(RADIOS, [self.BLUFOR_UHF])
+        radios = itertools.chain(RADIOS, [self.BLUFOR_UHF, self.LINK4])
         for radio in radios:
             self.radio_allocators[radio] = radio.range()
 
@@ -482,6 +486,14 @@ class RadioRegistry:
                 already allocated.
         """
         return self.alloc_for_radio(self.BLUFOR_UHF)
+
+    def alloc_link4(self) -> RadioFrequency:
+        """Allocates a carrier Link 4 channel the F-14 can tune.
+
+        Raises:
+            OutOfChannelsError: Every channel in the band is already allocated.
+        """
+        return self.alloc_for_radio(self.LINK4)
 
     def reserve(self, frequency: RadioFrequency) -> None:
         """Reserves the given channel.

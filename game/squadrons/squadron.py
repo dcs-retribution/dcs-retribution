@@ -156,6 +156,16 @@ class Squadron:
     def pilot_limits_enabled(self) -> bool:
         return self.settings.enable_squadron_pilot_limits
 
+    @property
+    def ordered_livery_set(self) -> list[str]:
+        """The squadron's full livery set, CAG bird first.
+
+        The random round-robin drains ``livery_set`` into ``_livery_pool``, so a
+        save taken mid-rotation carries a partial set; rejoin them or a livery
+        goes missing.
+        """
+        return list(self.livery_set) + list(self._livery_pool)
+
     def random_round_robin_livery_from_set(self) -> str:
         livery = random.choice(self.livery_set)
         self._livery_pool.append(livery)
