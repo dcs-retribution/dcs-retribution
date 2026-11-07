@@ -1162,8 +1162,12 @@ class Settings:
         GAMEPLAY_SECTION,
         default=True,
         detail=(
-            "AI aircraft have unlimited fuel applied at start, removed at join/racetrack start,"
-            " and reapplied at split/racetrack end for applicable flights. "
+            "AI wingmen in player-led flights have unlimited fuel for the entire "
+            "mission, regardless of spawn state (cold start, air start at the IP, "
+            "in combat, or late activation). Autonomous AI flights have unlimited "
+            "fuel applied at start, removed at join/racetrack start, and reapplied "
+            "at split/racetrack end for applicable flights. Player-controlled "
+            "aircraft are unaffected."
         ),
     )
     dynamic_slots: bool = boolean_option(

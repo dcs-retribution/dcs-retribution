@@ -243,9 +243,17 @@ class FlightGroupConfigurator:
         ewrj_menu_trigger = TriggerStart(comment=f"EWRJ-{unit.name}")
         ewrj_menu_trigger.add_action(DoScript(String(f'EWJamming("{unit.name}")')))
         self.mission.triggerrules.triggers.append(ewrj_menu_trigger)
-        self.group.points[0].tasks[0] = OptReactOnThreat(
-            OptReactOnThreat.Values.PassiveDefense
-        )
+        # Replace the existing threat reaction by type instead of overwriting the
+        # first task, which would silently drop whatever occupies task 0 (e.g.
+        # the AI unlimited fuel command on player flights). Same locate-by-type
+        # semantics as MissionGenerator.set_react_to_threat.
+        tasks = self.group.points[0].tasks
+        for idx, task in enumerate(tasks):
+            if isinstance(task, OptReactOnThreat):
+                tasks[idx] = OptReactOnThreat(OptReactOnThreat.Values.PassiveDefense)
+                break
+        else:
+            tasks.append(OptReactOnThreat(OptReactOnThreat.Values.PassiveDefense))
         # Create LUA Flags for Offensive Jamming in EW Script for Player Flights
         if not (offensive_jammer or offensive_inbuilt):
             return

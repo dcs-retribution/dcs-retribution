@@ -20,8 +20,13 @@ from .pydcswaypointbuilder import PydcsWaypointBuilder
 
 class JoinPointBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
-        # Unlimited fuel option : disable at racetrack start. Must be first option to work.
-        if self.flight.squadron.coalition.game.settings.ai_unlimited_fuel:
+        # Unlimited fuel option : disable at join. Must be first option to work.
+        # Player flights keep the unlimited fuel applied at startup for their AI
+        # wingmen; only autonomous flights are disabled here.
+        if (
+            self.flight.squadron.coalition.game.settings.ai_unlimited_fuel
+            and self.flight.client_count == 0
+        ):
             if waypoint.tasks and isinstance(
                 waypoint.tasks[0], SetUnlimitedFuelCommand
             ):
