@@ -42,9 +42,9 @@ clsids:
   - "{SUPERHORNET_PYLON_09_IO_AM_3X_AIM-120C}"   #  [ STA 10/08 | 79 / 80 | LAU127 ] - 2x/1x AIM-120C AMRAAM - Active Radar AAM, (AI Only)
   - "{AMBER_2xAIM120C5}"   # AMBER 2x AIM-120C AMRAAM - Active Radar AAM
   - "{F15EX_2xAIM-120C-5}"   # 2x AIM-120C AMRAAM - Active Radar AAM
-  - "{F15EX_AIM-120C-5_CFT_A}"   # AIM-120C AMRAAM - Active Radar AAM (CFT A)
-  - "{F15EX_AIM-120C-5_CFT_F}"   # AIM-120C AMRAAM - Active Radar AAM (CFT F)
-  - "{F15EX_AIM-120C-5_CFT_RA}"   # AIM-120C AMRAAM - Active Radar AAM (CFT RA)
+  - "{F15EX_AIM-120C-5_CFT_A}"   # AIM-120C AMRAAM - Active Radar AAM (conformal aft)
+  - "{F15EX_AIM-120C-5_CFT_F}"   # AIM-120C AMRAAM - Active Radar AAM (conformal front)
+  - "{F15EX_AIM-120C-5_CFT_RA}"   # AIM-120C AMRAAM - Active Radar AAM (conformal right aft)
   - "{F15EX_AIM-120C-5_FUS_LA}"   # AIM-120C AMRAAM - Active Radar AAM (FUS LA)
   - "{F15EX_AIM-120C-5_FUS_LF}"   # AIM-120C AMRAAM - Active Radar AAM (FUS LF)
   - "{F15EX_AIM-120C-5_FUS_RA}"   # AIM-120C AMRAAM - Active Radar AAM (FUS RA)
