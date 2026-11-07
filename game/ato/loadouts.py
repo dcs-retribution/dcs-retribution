@@ -3,9 +3,11 @@ from __future__ import annotations
 import copy
 import datetime
 import logging
+import re
 from collections.abc import Iterable
 from typing import Iterator, Optional, TYPE_CHECKING, Type, Dict, Any
 
+from dcs import lua
 from dcs.unittype import FlyingType
 
 from game.ato.flighttype import FlightType
@@ -17,6 +19,49 @@ from game.persistency import prefer_liberation_payloads
 if TYPE_CHECKING:
     from .flight import Flight
     from game.theater import MissionTarget
+
+
+_lua_loads = lua.loads
+
+
+def _loads_with_numeric_table_keys(
+    tablestr: str,
+    _globals: Optional[Dict[str, Any]] = None,
+    unknown_variable_lookup: Any = None,
+) -> Dict[Any, Any]:
+    """Resolve local numeric pylon constants used as Lua table keys.
+
+    Some DCS mods serialize payloads with keys such as ``[WTL]`` after defining
+    ``local WTL = 1``. pydcs' Lua parser accepts numeric and string keys, but not
+    local identifiers in that position.
+    """
+    constants = {
+        name: int(value)
+        for name, value in re.findall(
+            r"^\s*local\s+([A-Za-z_]\w*)\s*=\s*(\d+)\b", tablestr, re.MULTILINE
+        )
+    }
+    if constants:
+        # String literals are matched too, so keys inside them are left alone.
+        tablestr = re.sub(
+            r'"(?:\\.|[^"\\])*"'
+            r"|'(?:\\.|[^'\\])*'"
+            r"|\[\s*([A-Za-z_]\w*)\s*\](?=\s*=)",
+            lambda match: (
+                f"[{constants[match.group(1)]}]"
+                if match.group(1) in constants
+                else match.group(0)
+            ),
+            tablestr,
+        )
+    return _lua_loads(
+        tablestr,
+        _globals=_globals,
+        unknown_variable_lookup=unknown_variable_lookup,
+    )
+
+
+lua.loads = _loads_with_numeric_table_keys
 
 
 class Loadout:
