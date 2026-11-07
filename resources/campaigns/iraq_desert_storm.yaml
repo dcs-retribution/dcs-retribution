@@ -1,0 +1,462 @@
+---
+name: Iraq - Umm al-Ma'arik (Desert Storm 1991)
+theater: Iraq
+authors: Flash, Starfire, RetLab
+recommended_player_faction: NATO Desert Storm
+recommended_enemy_faction: Iraq 1991
+description: >-
+  <p><strong>Note -</strong> Every unit is stock DCS. Built on Starfire's Operation Desert Aladeen.</p>
+  <p>It was said that Baghdad was the best-defended city in the world, denser than Hanoi
+  at the height of Rolling Thunder. The French-built KARI network ties every SA-2, SA-3
+  and Roland ring back through sector operations centers to one air defense operations
+  center in Baghdad, and the Iraqi Air Force sits on alert behind it, with the Foxbats
+  of Qadessiya at Al-Asad closest of all.</p>
+  <p>On the night of 17 January 1991, that claim gets tested. In the war's opening hours
+  the coalition seized the three H-3 desert strips on the western border, and the tanker
+  bridge and AWACS orbits run from the Saudi rear behind them. Strike east up the old
+  pipeline road. Put out KARI's eyes, collapse the SAM rings, hunt the Scud launchers in
+  the western baskets, and climb the ladder through H-2, Qadessiya and the Habbaniyah
+  line until the ground offensive can end it at Baghdad's gates.</p>
+  <p>Saddam has promised his people Umm al-Ma'arik, the Mother of all Battles. Give it
+  to him.</p>
+miz: iraq_desert_storm.miz
+performance: 2
+# The KARI network: red SAM hubs carry co-located command centre, comms tower and
+# power statics in the .miz (the ADOC at Baghdad, sector operations centres at
+# Al-Taquddum, Kirkuk and Al-Kut, relays at the other red bases), plus an EWR chain
+# with a forward station at Qadessiya facing the H-3 front. With no iads_config,
+# Skynet wires each base's SAMs to the nearby nodes by range.
+advanced_iads: true
+# The air campaign opened at 0300 local on 17 January 1991. The datetime form sets
+# the start time too, so a new campaign starts on the night-one strikes.
+recommended_start_date: 1991-01-17T03:00:00
+# Sanctioned, blockaded Iraq: a big standing army, thin replacements. The coalition
+# out-buys it from turn one.
+recommended_player_money: 2000
+recommended_enemy_money: 1000
+recommended_enemy_income_multiplier: 0.5
+version: "10.9"
+settings:
+  squadron_start_full: true
+  # 1991 era enforcement: no AMRAAM-era stores or 2000s cueing visors on the
+  # modern-block airframes.
+  restrict_weapons_by_date: true
+  restrict_props_by_date: true
+squadrons:
+  # Historical identities: every squadron below is named for the real unit that flew
+  # (or best matches) its airframe and role in January 1991, per the published
+  # orbats (Gulf War Air Power Survey, ACIG/Osprey IrAF orders of battle). Where the
+  # DCS airframe stands in for the real one, the comment says so. Liveries are not
+  # authored -- identity only. female_pilot_percentage is 0 everywhere: US combat
+  # squadrons were closed to women until 1993.
+  # ---- BLUE: the off-map Saudi rear -- the tanker bridge and the AWACS orbits.
+  # The Iraq map has no 60x60 heavy stands west of Baghdad, and historically the
+  # big wings never based in Iraq at all: they fly from over the border.
+  Coalition Rear (Saudi Arabia):
+    # The 552nd's deployed E-3 squadron over the southern radar picket.
+    - primary: AEW&C
+      name: 963rd AWACS
+      nickname: Blue Knights
+      female_pilot_percentage: 0
+      aircraft:
+        - E-3A
+      size: 1
+    # The provisional tanker wings that ran the air bridge.
+    - primary: Refueling
+      name: 1701st AREFW (Provisional)
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - KC-135 Stratotanker
+      size: 1
+    - primary: Refueling
+      name: 1702nd AREFW (Provisional)
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - KC-135 Stratotanker MPRS
+      size: 1
+    # The coalition allies fly from the rear too, exactly where they really were
+    # (RAF Dhahran/Muharraq, French Al Ahsa). The RAF flies the war's famous
+    # low-level runway attacks (the Tornado IDS stands in for the GR1); Daguet's
+    # Mirage 2000s stand DCA over the rear.
+    - primary: OCA/Runway
+      secondary: [Strike, BAI]
+      name: No. 31 Squadron
+      nickname: Goldstars
+      female_pilot_percentage: 0
+      aircraft:
+        - Tornado IDS
+      size: 8
+    - primary: BARCAP
+      secondary: air-to-air
+      name: Escadron de chasse 2/5
+      nickname: Île-de-France
+      female_pilot_percentage: 0
+      aircraft:
+        - Escadron de chasse 2/5
+      size: 8
+  # ---- BLUE: H-3 Main -- the fighter/strike wing + the Bombcats ----
+  16:
+    # The F-15C wall: BARCAP primary so blue stands defensive orbits; the
+    # air-to-air secondary feeds every escort the strike packages need. The 58th
+    # scored 16 kills -- the most of any squadron in the war.
+    - primary: BARCAP
+      secondary: air-to-air
+      name: 58th TFS
+      nickname: Gorillas
+      female_pilot_percentage: 0
+      aircraft:
+        - F-15C Eagle
+      size: 12
+    # The Wild Weasels (the F-4E stands in for the real 561st's F-4G).
+    - primary: SEAD Sweep
+      secondary: air-to-ground
+      name: 561st TFS
+      nickname: Black Knights
+      female_pilot_percentage: 0
+      aircraft:
+        - F-4E-45MC Phantom II
+      size: 12
+    # Strike primary keeps the Bombcat flyable; the secondary is air-to-AIR, not
+    # air-to-ground -- the A2G alias includes DEAD/SEAD, and with KARI's 95 SAM
+    # sites the planner was fragging Tomcats at SA-2 rings (the airframe data even
+    # carries DEAD: 390). Real DS Tomcats flew escort/CAP/TARPS; now so do these.
+    # VF-103 flew the F-14A+ (redesignated F-14B) from Saratoga in the real war.
+    - primary: Strike
+      secondary: air-to-air
+      name: VF-103
+      nickname: Sluggers
+      female_pilot_percentage: 0
+      aircraft:
+        - F-14B Tomcat
+      size: 8
+  # ---- BLUE: H-3 Northwest -- the SEAD/precision/attack strip. The A-10 flies
+  # from here, not the Southwest strip: the Hog's 17.5 m span outsizes all but two
+  # of SW's stands. ----
+  18:
+    # The 52nd TFW's Weasel Vipers -- they flew the hunter-killer teams with the
+    # F-4Gs (the Block 50 stands in for their Block 25s).
+    - primary: DEAD
+      secondary: any
+      name: 23rd TFS
+      nickname: Fighting Hawks
+      female_pilot_percentage: 0
+      aircraft:
+        - F-16CM Fighting Falcon (Block 50)
+      size: 8
+    # Saratoga's HARM shooters -- and the Hornets that killed two MiG-21s
+    # mid-strike on day one without dropping their bombs.
+    - primary: SEAD
+      secondary: any
+      name: VFA-81
+      nickname: Sunliners
+      female_pilot_percentage: 0
+      aircraft:
+        - F/A-18C Hornet (Lot 20)
+      size: 8
+    # The 4th TFW's Strike Eagles -- the Scud hunters of the western desert.
+    - primary: OCA/Runway
+      secondary: any
+      name: 336th TFS
+      nickname: Rocketeers
+      female_pilot_percentage: 0
+      aircraft:
+        - F-15E Strike Eagle (Suite 4+)
+      size: 8
+    # The Myrtle Beach Hogs out of King Fahd.
+    - primary: CAS
+      secondary: air-to-ground
+      name: 355th TFS
+      nickname: Falcons
+      female_pilot_percentage: 0
+      aircraft:
+        - A-10A Thunderbolt II
+      size: 8
+  # ---- BLUE: H-3 Southwest -- the 101st Airborne's strip ----
+  17:
+    # The 101st's lift battalion -- the G-Day air assault into FOB Cobra (the
+    # UH-1H stands in for its Black Hawks and Chinooks).
+    - primary: Air Assault
+      secondary: any
+      name: 7-101st Aviation
+      nickname: Eagle Lift
+      female_pilot_percentage: 0
+      aircraft:
+        - UH-1H Iroquois
+      size: 4
+    # Task Force Normandy: the Apaches that fired the first shots of the war --
+    # against the very EWR chain this campaign models.
+    - primary: Escort
+      secondary: any
+      name: 1-101st Aviation
+      nickname: Expect No Mercy
+      female_pilot_percentage: 0
+      aircraft:
+        - AH-64A Apache
+      size: 4
+    # The Screaming Eagles' cavalry scouts: armed recon up the pipeline road.
+    - primary: Armed Recon
+      secondary: any
+      name: 2-17th Cavalry
+      nickname: Out Front
+      female_pilot_percentage: 0
+      aircraft:
+        - OH-58D(R) Kiowa Warrior
+      size: 4
+
+  # ---- RED: Al-Asad (Qadessiya AB) -- the western fortress. The Foxbat wing flies
+  # from its real home, with the frontline Frogfoot/F-6 wing forward beside it.
+  # IrAF squadron numbers follow the published ACIG/Osprey orbat where documented;
+  # the IqAAC helicopter numbers are representative. ----
+  1:
+    # The interceptor squadron credited with the war's only Iraqi air-to-air kill,
+    # on night one.
+    - primary: BARCAP
+      secondary: air-to-air
+      name: No. 84 Squadron
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - MiG-25PD Foxbat-E
+      size: 16
+    - primary: CAS
+      secondary: air-to-ground
+      name: No. 114 Squadron
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - Su-25 Frogfoot
+      size: 16
+    # Iraq's Chinese F-6s (MiG-19 pattern) fly the close escort for the Frogfoots.
+    - primary: Escort
+      secondary: any
+      name: No. 26 Squadron
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - MiG-19P Farmer-B
+      size: 16
+  # ---- RED: H-2 -- the forward picket on the pipeline road ----
+  15:
+    - primary: BARCAP
+      secondary: air-to-air
+      name: No. 47 Squadron
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - MiG-21bis Fishbed-N
+      size: 8
+  # ---- RED: Baghdad International -- the capital's air wing ----
+  2:
+    # "Adnan-1": Iraq's real Il-76-conversion AWACS, flown here by its stand-in.
+    - primary: AEW&C
+      name: Adnan-1 AEW Flight
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - A-50
+      size: 1
+    - primary: Strike
+      secondary: air-to-ground
+      name: No. 69 Squadron
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - Su-22M4 Fitter-K
+      size: 12
+    - primary: BARCAP
+      secondary: air-to-air
+      name: No. 63 Squadron
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - MiG-23ML Flogger-G
+      size: 16
+  # ---- RED: Balad (al-Bakr AB) -- the Flogger/Fencer/Backfire heavyweight on the
+  # Highway 1 corridor (its six 60x60 stands size the Backfire wing). All Iraqi
+  # Fencers belonged to one unit -- No. 8 Squadron -- so its flights split across
+  # Balad and Kirkuk. ----
+  8:
+    - primary: BARCAP
+      secondary: air-to-air
+      name: No. 93 Squadron
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - MiG-23ML Flogger-G
+      size: 16
+    - primary: DEAD
+      secondary: any
+      name: No. 8 Squadron
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - Su-24M Fencer-D
+      size: 16
+    # The Tu-22 force (the Backfire stands in for the real Blinders).
+    - primary: OCA/Runway
+      secondary: any
+      name: No. 7 Squadron (B Flight)
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - Tu-22M3 Backfire-C
+      size: 6
+  # ---- RED: Al-Salam Airbase -- the Rasheed-side support wing ----
+  14:
+    - primary: CAS
+      secondary: air-to-ground
+      name: No. 109 Squadron
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - Su-25 Frogfoot
+      size: 8
+    - primary: Air Assault
+      secondary: any
+      name: No. 2 Squadron, IqAAC
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - Mi-8MTV2 Hip
+      size: 4
+    - primary: Escort
+      secondary: any
+      name: No. 4 Squadron, IqAAC
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - Mi-24P Hind-F
+      size: 4
+    - primary: Transport
+      secondary: any
+      name: No. 30 Squadron, IqAAC
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - Mi-8MTV2 Hip
+      size: 4
+  # ---- RED: Al-Sahra (Tikrit) -- the Fulcrum strategic reserve at the regime's
+  # hometown. (Not Al-Kut: that field is 58 helipads + six plane stands. Al-Kut
+  # keeps its SOC East and defenses as a rear depth field.) ----
+  12:
+    # Iraq's premier Fulcrum unit, held back as the regime's reserve.
+    - primary: TARCAP
+      secondary: any
+      name: No. 39 Squadron
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - MiG-29A Fulcrum-A
+      size: 24
+  # ---- RED: Kirkuk International -- the northern strike/SEAD wing ----
+  10:
+    - primary: SEAD
+      secondary: air-to-ground
+      name: No. 8 Squadron (B Flight)
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - Su-24M Fencer-D
+      size: 12
+    - primary: CAS
+      secondary: any
+      name: No. 114 Squadron (B Flight)
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - Su-25 Frogfoot
+      size: 12
+    - primary: SEAD Escort
+      secondary: air-to-ground
+      name: No. 8 Squadron (C Flight)
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - Su-24M Fencer-D
+      size: 8
+    # The second Fulcrum squadron.
+    - primary: BARCAP
+      secondary: air-to-air
+      name: No. 6 Squadron
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - MiG-29A Fulcrum-A
+      size: 8
+    - primary: Escort
+      secondary: any
+      name: No. 55 Squadron, IqAAC
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - Mi-24P Hind-F
+      size: 4
+    - primary: Air Assault
+      secondary: any
+      name: No. 66 Squadron, IqAAC
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - Mi-8MTV2 Hip
+      size: 4
+  # ---- RED: Qayyarah West -- the bomber raid wing ----
+  6:
+    # The Badger force (H-6D; Iraq's other bomber squadron).
+    - primary: DEAD
+      secondary: any
+      name: No. 10 Squadron
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - H-6J Badger
+      size: 8
+    # The war's busiest Iraqi type: the Mirage F1EQ force.
+    - primary: TARCAP
+      secondary: any
+      name: No. 79 Squadron
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - Mirage-F1EQ
+      size: 8
+    - primary: Transport
+      secondary: any
+      name: No. 33 Squadron
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - IL-76MD
+      size: 2
+  # ---- RED: Mosul (Firnas AB) -- the northern Fishbed wing at its type home ----
+  3:
+    - primary: BARCAP
+      secondary: air-to-air
+      name: No. 11 Squadron
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - MiG-21bis Fishbed-N
+      size: 8
+  # ---- RED: Sulaymaniyah International -- the Fitter interdiction wing ----
+  7:
+    - primary: BAI
+      secondary: air-to-ground
+      name: No. 44 Squadron
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - Su-22M4 Fitter-K
+      size: 16
+  # ---- RED: Erbil International -- the northern bomber base (17 heavy stands
+  # size the Backfire wing; the Tu-22M3 stands in for the real Tu-22 Blinders) ----
+  4:
+    - primary: Strike
+      secondary: air-to-ground
+      name: No. 7 Squadron
+      nickname: ""
+      female_pilot_percentage: 0
+      aircraft:
+        - Tu-22M3 Backfire-C
+      size: 12
