@@ -33,6 +33,7 @@ version: "10.9"
 # power sources. NATO has no nodes.
 advanced_iads: true
 settings:
+  squadron_start_full: true
   # The 1988 era gate: no post-1988 weapons or cockpit kit.
   restrict_weapons_by_date: true
   restrict_props_by_date: true
