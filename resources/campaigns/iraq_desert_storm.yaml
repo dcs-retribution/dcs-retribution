@@ -37,6 +37,7 @@ recommended_enemy_money: 1000
 recommended_enemy_income_multiplier: 0.5
 version: "10.8"
 settings:
+  squadron_start_full: true
   # 1991 era enforcement: no AMRAAM-era stores or 2000s cueing visors on the
   # modern-block airframes.
   restrict_weapons_by_date: true
