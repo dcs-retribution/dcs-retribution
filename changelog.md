@@ -28,6 +28,7 @@
 * **[UX]** Add the ability to filter campaigns by version, map, and performance
 * **[Engine]** Bump campaign version to 10.9 for motorpool support
 * **[Modding]** Update UH-60L mod to v2.1.5 including MH-60L DAP
+* **[Campaign]** New campaign: Afghanistan - Red Bear 1985, by RetLab, with scenery targets from Starfire's Graveyard of Empires and Clash of the Titans
 
 ## Fixes
 * **[Mission Generation]** Fix mission generation dying on "Duplicate convoy unit": convoy and cargo-ship names no longer reset each turn onto a convoy still in transit.
