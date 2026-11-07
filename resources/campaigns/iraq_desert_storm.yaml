@@ -35,7 +35,7 @@ recommended_start_date: 1991-01-17T03:00:00
 recommended_player_money: 2000
 recommended_enemy_money: 1000
 recommended_enemy_income_multiplier: 0.5
-version: "10.8"
+version: "10.9"
 settings:
   squadron_start_full: true
   # 1991 era enforcement: no AMRAAM-era stores or 2000s cueing visors on the
