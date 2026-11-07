@@ -1,0 +1,16 @@
+---
+name: 409 Tactical Fighter Squadron
+nickname: Nighthawks
+country: Canada
+role: Strike Fighter
+aircraft: F/A-18C Hornet (Lot 20)
+livery: "Canada 409th Squadron"
+female_pilot_percentage: 0
+mission_types:
+  - BARCAP
+  - TARCAP
+  - Escort
+  - Fighter sweep
+  - BAI
+  - CAS
+  - Strike

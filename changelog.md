@@ -28,6 +28,7 @@
 * **[UX]** Add the ability to filter campaigns by version, map, and performance
 * **[Engine]** Bump campaign version to 10.9 for motorpool support
 * **[Modding]** Update UH-60L mod to v2.1.5 including MH-60L DAP
+* **[Campaign]** New campaign: Germany - Fulda Gap 1985 (Cold War Germany map), by RetLab, built on Starfire's Crossing the Rubicon, SAM sites from Carsten's Cold War Germany Framework
 
 ## Fixes
 * **[Mission Generation]** Fix mission generation dying on "Duplicate convoy unit": convoy and cargo-ship names no longer reset each turn onto a convoy still in transit.
