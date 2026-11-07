@@ -1,0 +1,169 @@
+---
+name: Germany - Fulda Gap 1985
+theater: GermanyCW
+authors: RetLab
+recommended_player_faction: Blufor Late Cold War (80s)
+recommended_enemy_faction: Russia 1980
+description:
+  <p><strong>Note -</strong> This campaign was designed for the F-4E Phantom II.
+  Every unit is stock DCS.</p>
+  <p>In the late summer of 1985, the Soviet Union called its autumn exercises early.
+  Through August the Group of Soviet Forces in Germany moved out of its barracks
+  around Weimar, Halle and Magdeburg, and Western intelligence watched the 8th Guards
+  Army settle into the forests above the inner German border. NATO answered by
+  sending the REFORGER divisions across the Atlantic three weeks ahead of schedule.
+  On the night of 9 September, the 8th Guards Army crossed the border at the Fulda
+  Gap.</p>
+  <p>The 11th Armored Cavalry still holds Fulda, and the Meiningen road to the south
+  is open but contested. Behind them stand the Hawk batteries of the Rhineland and the
+  air bases of the 4th Allied Tactical Air Force. At Spangdahlem, the Phantoms of
+  the 52nd Tactical Fighter Wing fly as hunter-killer teams against the SA-2 and
+  SA-3 belt that guards Thuringia. The Eagles at Bitburg hold the sky
+  over Hesse, and the Luftwaffe and RAF Germany Tornados strike deep into
+  Thuringia.</p>
+  <p>The 16th Air Army is the strongest air force the Soviet Union keeps abroad, and
+  the East German air force flies beside it. Every SAM site between Gotha and
+  Leipzig reports to the 8th Guards Army's headquarters at Weimar. Break the 8th Guards Army,
+  take Erfurt and Merseburg, and the offensive is over. Lose Frankfurt, and the
+  Central Front collapses.</p>
+miz: fulda_gap_1985.miz
+performance: 1
+recommended_start_date: 1985-09-10
+version: "10.9"
+# The Soviet net is wired by range from the .miz's command centres, comms towers and
+# power sources. NATO has no nodes.
+advanced_iads: true
+settings:
+  # 1985: AIM-9L/9M, AIM-7F/7M, AGM-45, AGM-78 and HARM yes; AMRAAM no.
+  restrict_weapons_by_date: true
+  restrict_props_by_date: true
+  # Spangdahlem is 151 NM from Haina, past the 150 NM default. 250 reaches
+  # Merseburg, the deepest Pact field.
+  max_mission_range_planes: 250
+  plugins:
+    skynetiads: true
+# The border armies field mobile SA-6s. The fixed Hawk, SA-2 and S-60 sites
+# sit on the positions of Carsten's Cold War Germany Framework.
+ground_forces:
+  CF85-Obermehler-SA6: SA-6
+  CF85-Erfurt-SA6: SA-6
+squadrons:
+  # ================================ NATO ================================
+  # Spangdahlem: the 52nd TFW's hunter-killer Phantoms.
+  Spangdahlem:
+    - primary: DEAD
+      secondary: any
+      aircraft:
+        - USAF 512th TFS
+      size: 24
+    - primary: SEAD
+      secondary: any
+      aircraft:
+        - USAF 36th TFS
+      size: 16
+  # Bitburg: the 36th TFW's Eagles, and Luftwaffe Tornados.
+  Bitburg:
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - 493rd FS
+      size: 8
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - Tornado IDS
+      size: 8
+    # RAF Germany's air defence Phantoms: 92 Squadron flew FGR2s from Wildenrath,
+    # which is off the map.
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - RAF No. 43 SQN
+      size: 8
+  # Ramstein: the 86th TFW's Phantoms, RAF Germany Tornados and the NATO AWACS.
+  Ramstein:
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - USAF 526th TFS
+      size: 8
+    - primary: OCA/Runway
+      secondary: any
+      aircraft:
+        - Tornado IDS
+      size: 8
+    - primary: AEW&C
+      aircraft:
+        - 960th AAC Squadron
+      size: 1
+    # 1 Canadian Air Group's CF-18s: 409 Squadron converted at Baden-Soellingen in
+    # 1985, which is off the map.
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - 409 Tactical Fighter Squadron
+      size: 6
+  # Rhein-Main: the A-10s, the tanker and the airlift.
+  Frankfurt:
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - 74th TFS
+      size: 8
+    - primary: Refueling
+      aircraft:
+        - 18th Air Refueling Squadron
+      size: 2
+    - primary: Transport
+      aircraft:
+        - C-130
+      size: 2
+  # Fulda: the 11th Armored Cavalry's helicopters.
+  Fulda:
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - UH-1H Iroquois
+      size: 4
+  # ========================== Warsaw Pact ==========================
+  Obermehler Schlotheim:
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - Mi-8MTV2 Hip
+      size: 6
+  # Erfurt: the East German air force.
+  Bindersleben:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - MiG-21bis Fishbed-N
+      size: 8
+  Allstedt:
+    # Hinds behind the 8th Guards Army; at Haina until the front moved back.
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - Mi-24P Hind-F
+      size: 8
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - MiG-23MLD Flogger-K
+      size: 8
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - MiG-27K Flogger-J2
+      size: 8
+  Merseburg:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - MiG-23MLD Flogger-K
+      size: 8
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - Su-25 Frogfoot
+      size: 8
