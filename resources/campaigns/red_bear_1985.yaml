@@ -1,0 +1,185 @@
+---
+name: Afghanistan - Red Bear 1985
+theater: Afghanistan
+authors: RetLab
+recommended_player_faction: Blufor Late Cold War (80s)
+recommended_enemy_faction: Russia 1980
+description:
+  <p><strong>Note -</strong> This campaign was designed for the F-4E Phantom II. Every
+  unit is stock DCS.</p>
+  <p>In the autumn of 1984, the Kremlin decided the war in Afghanistan would be won
+  before another winter set in. When mujahideen under Ismail Khan seized Herat and the
+  Soviet air base at Shindand, Moscow massed the 40th Army to retake the west.
+  Washington, invoking the Carter Doctrine, answered by flying a USAF expeditionary wing
+  into the captured fields. What began as a covert war is now an open one.</p>
+  <p>It is January 1985, and snow has closed the high passes. The Phantoms at Herat and
+  Shindand face a Soviet front that runs from the northern plains to the valleys of the
+  Hindu Kush. Two roads lead to Kabul. The northern route runs through Maymana and
+  Mazar-i-Sharif and over the Salang Pass to Bagram. The central route follows the Hari
+  Rud past the Salma Dam, through Chaghcharan and Bamyan.</p>
+  <p>Every Soviet SAM site answers to an integrated air defense network commanded from
+  the Darul Aman Palace in Kabul, and its radars, comms towers and power plants matter
+  as much as its missiles. Take Bagram and Kabul, and the Soviet war in Afghanistan is
+  over. Lose Herat, and so is ours.</p>
+miz: red_bear_1985.miz
+performance: 1
+recommended_start_date: 1985-01-15
+version: "10.9"
+# The Soviet net is wired by range from the .miz's command centres, comms towers and
+# power sources (comms within 15 NM, power within 35 NM). Blue has no nodes.
+advanced_iads: true
+settings:
+  squadron_start_full: true
+  # 1985: AIM-9L and AGM-45 yes, AMRAAM and HARM no.
+  restrict_weapons_by_date: true
+  restrict_props_by_date: true
+  # Herat and Shindand are 150 to 165 NM from Chaghcharan; 250 opens the central
+  # axis from both and keeps Bagram and Kabul out of reach at the start.
+  max_mission_range_planes: 250
+squadrons:
+  # ================================ USAF ================================
+  # Herat: the wing's headquarters field.
+  Herat:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - USAF 526th TFS
+      size: 12
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - USAF 141st TFS
+      size: 8
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - UH-1H Iroquois
+      size: 4
+  # Shindand: the Phantom base, with the SEAD squadron and the strikers.
+  Shindand:
+    - primary: SEAD
+      secondary: any
+      aircraft:
+        - USAF 36th TFS
+      size: 12
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - USAF 512th TFS
+      size: 12
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - 425th TFTS
+      size: 8
+  # Camp Bastion, the rear: neither Herat nor Shindand has a stand for the heavies.
+  Camp Bastion:
+    - primary: Strike
+      aircraft:
+        - 43d Strategic Wing
+      size: 4
+    - primary: AEW&C
+      aircraft:
+        - 960th AAC Squadron
+      size: 1
+    - primary: Refueling
+      aircraft:
+        - 18th Air Refueling Squadron
+      size: 2
+    - primary: Transport
+      aircraft:
+        - C-130
+      size: 2
+  # ============================== USSR ==============================
+  # Qala i Naw: the forward Frogfoots on the northern axis.
+  Qala i Naw:
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - Su-25 Frogfoot
+      size: 8
+  # Maymana: the Fishbeds that guard the north.
+  Maymana Zahiraddin Faryabi:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - 115th GvIAP Fighter Regiment
+      size: 8
+  # Chaghcharan is a three-stand strip and holds no squadron.
+  # Bamyan: gunships on the road to Kabul.
+  Bamyan:
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - Mi-24P Hind-F
+      size: 4
+  # Bagram: the 40th Army's main air base.
+  Bagram:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - MiG-23MLD Flogger-K
+      size: 12
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - Su-17M4 Fitter-K
+      size: 12
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - Su-25 Frogfoot
+      size: 12
+    - primary: AEW&C
+      aircraft:
+        - A-50
+      size: 1
+    - primary: Transport
+      aircraft:
+        - An-26B
+      size: 2
+  # Kabul: the second Flogger regiment, the MiG-27s and the Hinds.
+  Kabul:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - MiG-23MLD Flogger-K
+      size: 12
+    - primary: BAI
+      secondary: any
+      aircraft:
+        - MiG-27K Flogger-J2
+      size: 12
+    - primary: CAS
+      secondary: any
+      aircraft:
+        - Mi-24P Hind-F
+      size: 6
+  # Jalalabad: the eastern Fishbeds and the transport helicopters.
+  Jalalabad:
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - 234th GvIAP Fighter Regiment
+      size: 8
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - Mi-8MTV2 Hip
+      size: 4
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - Mi-8MTV2 Hip
+      size: 4
+  # Termez, across the Soviet border and off the map: the Fencers.
+  Termez:
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - Su-24M Fencer-D
+      size: 12
+    - primary: Transport
+      aircraft:
+        - An-26B
+      size: 2
