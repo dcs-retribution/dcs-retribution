@@ -28,7 +28,7 @@
 * **[UX]** Add the ability to filter campaigns by version, map, and performance
 * **[Engine]** Bump campaign version to 10.9 for motorpool support
 * **[Modding]** Update UH-60L mod to v2.1.5 including MH-60L DAP
-* **[Campaign]** New campaign: Iraq - Umm al-Ma'arik (Desert Storm 1991), by Flash and RetLab
+* **[Campaign]** New campaign: Iraq - Umm al-Ma'arik (Desert Storm 1991), by Flash and RetLab, built on Starfire's Operation Desert Aladeen
 
 ## Fixes
 * **[Mission Generation]** Fix mission generation dying on "Duplicate convoy unit": convoy and cargo-ship names no longer reset each turn onto a convoy still in transit.

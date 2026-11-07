@@ -1,11 +1,11 @@
 ---
 name: Iraq - Umm al-Ma'arik (Desert Storm 1991)
 theater: Iraq
-authors: Flash, RetLab
+authors: Flash, Starfire, RetLab
 recommended_player_faction: NATO Desert Storm
 recommended_enemy_faction: Iraq 1991
 description: >-
-  <p><strong>Note -</strong> Every unit is stock DCS.</p>
+  <p><strong>Note -</strong> Every unit is stock DCS. Built on Starfire's Operation Desert Aladeen.</p>
   <p>It was said that Baghdad was the best-defended city in the world, denser than Hanoi
   at the height of Rolling Thunder. The French-built KARI network ties every SA-2, SA-3
   and Roland ring back through sector operations centers to one air defense operations
