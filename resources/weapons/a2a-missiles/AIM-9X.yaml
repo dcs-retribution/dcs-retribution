@@ -72,3 +72,12 @@ clsids:
   - "{SUPERHORNET_PYLON_11_SW_MOD_1X_AIM-9X2}"   #  [ STA 11	  | WNGTP | LAU127 ] - 1x AIM-9X II Sidewinder - IR AAM, (Modern Missiles Mod Required)
   - "{SUPERHORNET_PYLON_02_MO_SW_MOD_2X_AIM-9X2}"   #  [ STA 02/03 | 79 / 80 | LAU127 ] - 1x/1x AIM-9X II Sidewinder - IR AAM, (Modern Missiles Mod Required)
   - "{SUPERHORNET_PYLON_10_MO_SW_MOD_2X_AIM-9X2}"   #  [ STA 09/10 | 79 / 80 | LAU127 ] - 1x/1x AIM-9X II Sidewinder - IR AAM, (Modern Missiles Mod Required)
+  - "{F-15EX_AIM-9X_O}"   # 2x AIM-9X Sidewinder IR AAM
+  - "{F15EX_AIM-9X-ED_STA11A}"   # AIM-9X Sidewinder IR AAM (ED) (STA11A)
+  - "{F15EX_AIM-9X-ED_STA11B}"   # AIM-9X Sidewinder IR AAM (ED) (STA11B)
+  - "{F15EX_AIM-9X-ED_STA2A}"   # AIM-9X Sidewinder IR AAM (ED) (STA2A)
+  - "{F15EX_AIM-9X-ED_STA2B}"   # AIM-9X Sidewinder IR AAM (ED) (STA2B)
+  - "{F15EX_AIM-9X_STA11A}"   # AIM-9X Sidewinder IR AAM (STA11A)
+  - "{F15EX_AIM-9X_STA11B}"   # AIM-9X Sidewinder IR AAM (STA11B)
+  - "{F15EX_AIM-9X_STA2A}"   # AIM-9X Sidewinder IR AAM (STA2A)
+  - "{F15EX_AIM-9X_STA2B}"   # AIM-9X Sidewinder IR AAM (STA2B)

@@ -82,6 +82,7 @@ class ModSettings:
     f4e_expanded_weapons: bool = False
     f9f_panther: bool = False
     f15d_baz: bool = False
+    f15ex_v3: bool = False
     f_15_idf: bool = False
     f_16_idf: bool = False
     fa_18efg: bool = False

@@ -1,0 +1,24 @@
+description:
+  The F-15IA is the Israeli Air Force's version of the F-15EX Eagle II, with
+  conformal fuel tanks and Python-5 missiles. Needs the F-15EX V3 mod, which
+  currently ships air-to-air weapons only.
+introduced: 2028
+manufacturer: Boeing
+origin: USA
+price: 30
+role: Air-Superiority Fighter
+max_range: 500
+variants:
+  F-15IA Eagle II: {}
+radios:
+  # The mod models two ARC-210s (30-400 MHz).
+  intra_flight: AN/ARC-210
+  inter_flight: AN/ARC-210
+tasks:
+  BARCAP: 545
+  Escort: 545
+  Fighter sweep: 545
+  TARCAP: 545
+
+# Air-to-air refueling method (receiver).
+air_refuel_type: boom

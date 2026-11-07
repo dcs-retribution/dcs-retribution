@@ -1,0 +1,26 @@
+description:
+  The F-15EX Eagle II is the latest development of the F-15E Strike Eagle, bought
+  by the USAF to replace its F-15C fleet. It has fly-by-wire controls, the AN/APG-82
+  AESA radar and F110-GE-129 engines. This is the mod's variant without conformal
+  fuel tanks. Needs the F-15EX V3 mod with its non-CFT jet enabled; the mod currently
+  ships air-to-air weapons only.
+introduced: 2024
+manufacturer: Boeing
+origin: USA
+price: 30
+role: Air-Superiority Fighter
+max_range: 400
+variants:
+  F-15EX Eagle II: {}
+radios:
+  # The mod models two ARC-210s (30-400 MHz).
+  intra_flight: AN/ARC-210
+  inter_flight: AN/ARC-210
+tasks:
+  BARCAP: 545
+  Escort: 545
+  Fighter sweep: 545
+  TARCAP: 545
+
+# Air-to-air refueling method (receiver).
+air_refuel_type: boom
