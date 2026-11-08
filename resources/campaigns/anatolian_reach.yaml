@@ -1,0 +1,587 @@
+---
+name: Syria - Anatolian Reach
+theater: Syria
+authors: RetLab
+# Trimmed from the shipped USA-Israel 2000: the US brings tankers, control and a
+# carrier, not bombers or attack jets. Combined Joint Task Forces Blue, so the
+# Israeli and US squadron presets can both be used by name.
+recommended_player_faction:
+  country: Combined Joint Task Forces Blue
+  name: USA-Israel 2004 (Anatolian Reach)
+  authors: Starfire
+  description: '<p>The Israeli Air Force with a US tanker, control and carrier package, 2004.
+    Trimmed from Starfire''s USA-Israel 2000: no US bombers, attack jets or heavy lift.</p>'
+  locales:
+  - en_US
+  aircrafts:
+  - AH-1W SuperCobra
+  - AH-64A Apache
+  - AH-64D Apache Longbow
+  - C-130
+  - C-130J-30
+  - CH-53E
+  - F-14B Tomcat
+  - F-14B(U) Tomcat
+  - F-15C Eagle
+  - F-15E Strike Eagle (Suite 4+)
+  - F-16CM Fighting Falcon (Block 50)
+  - F/A-18C Hornet (Lot 20)
+  - F-4E-45MC Phantom II
+  - OH-58D(R) Kiowa Warrior
+  - S-3B Viking
+  - SH-60B Seahawk
+  - UH-1H Iroquois
+  - UH-60A
+  - UH-60L
+  awacs:
+  - E-2C Hawkeye
+  - E-3A
+  tankers:
+  - KC-135 Stratotanker
+  - KC-135 Stratotanker MPRS
+  # Israeli ground forces only; the M60A3 stands in for the Magach.
+  frontline_units:
+  - M1043 HMMWV (M2 HMG)
+  - M1045 HMMWV (BGM-71 TOW)
+  - M163 Vulcan Air Defense System
+  - M48 Chaparral
+  - M60A3 "Patton"
+  - M113
+  - Merkava Mk IV
+  artillery_units:
+  - M109A6 Paladin
+  - M270 Multiple Launch Rocket System
+  logistics_units:
+  - Truck M818 6x6
+  infantry_units:
+  - Infantry M249
+  - Infantry M4
+  - MANPADS Stinger
+  - Mortar 2B11 120mm
+  preset_groups:
+  - Hawk
+  - Patriot
+  naval_units:
+  - FFG Oliver Hazard Perry
+  - DDG Arleigh Burke IIa
+  - CG Ticonderoga
+  - LHA-1 Tarawa
+  - CVN-74 John C. Stennis
+  missiles: []
+  air_defense_units:
+  - EWR AN/FPS-117 Radar
+  - M163 Vulcan Air Defense System
+  - M48 Chaparral
+  requirements: {}
+  carrier_names:
+  - CVN-71 Theodore Roosevelt
+  - CVN-72 Abraham Lincoln
+  - CVN-73 George Washington
+  - CVN-74 John C. Stennis
+  - CVN-75 Harry S. Truman
+  helicopter_carrier_names:
+  - LHA-1 Tarawa
+  - LHA-2 Saipan
+  - LHA-3 Belleau Wood
+  - LHA-4 Nassau
+  - LHA-5 Peleliu
+  has_jtac: true
+  jtac_unit: MQ-9 Reaper
+  liveries_overrides: {}
+description: >-
+  <p><strong>Note -</strong> A fictional long-range strike campaign. Israeli squadrons
+  fly from the Negev with a US tanker, control and carrier package. Built for the UH-60L
+  mod; New Game ticks it. The blue faction is Starfire's USA-Israel 2000, trimmed; the inline enemy faction follows Fuzzle's Operation Allied Sword.</p>
+  <p>In 2004, a rupture between Ankara and Washington ended with Turkish airspace and
+  Incirlik closed to coalition traffic. Moscow moved into the gap. Within the year, an
+  air-defense protocol had put Russian long-range SAM regiments on the Anatolian plateau
+  and Russian squadrons at Diyarbakir. Damascus, a Soviet client since the Cold War and
+  isolated since its occupation of Lebanon drew sanctions, signed on as the third
+  partner. The combined network now reaches from the Black Sea coast to the Golan.</p>
+  <p>Israel cannot reach Anatolia alone. Every target that matters lies 250 to 400
+  nautical miles from the Negev, and the direct routes run through the Syrian corridor.
+  A US tanker and control package at Akrotiri and a carrier in the eastern Mediterranean
+  are what let Israeli strike squadrons hold Turkish airfields at risk.</p>
+  <p>The fight is in Turkey. Getting there is the campaign.</p>
+
+# Retribution allows one faction per coalition, so an alliance has to be written
+# inline. This follows Fuzzle's shipped Operation Allied Sword, which does the
+# same thing on this map with its "Syria-Lebanon 2005 ... with several imported
+# Russian assets" faction.
+#
+# Gated to 2004: no S-400 (SA-21, service 2007), no Buk-M2 (SA-17, 2008), no
+# Su-34 (2014), no T-72B3 (2011). restrict_weapons_by_date gates WEAPONS but
+# never SAM presets, so the period filtering here is manual and deliberate.
+recommended_enemy_faction:
+  country: Combined Joint Task Forces Red
+  name: Turkey-Russia 2004 (Anatolian Reach)
+  authors: RetLab
+  description:
+    <p>The Ankara-Moscow air-defence protocol of 2004, with Syria as the third
+    partner. Turkish F-16s and Phantoms in the west and south; Russian
+    expeditionary regiments holding the deep east and the Syrian corridor.</p>
+  aircrafts:
+    # Turkish
+    - F-16CM Fighting Falcon (Block 50)
+    - F-5E Tiger II
+    - F-4E Phantom II
+    - F-4E-45MC Phantom II
+    - AH-1W SuperCobra
+    - OH-58D(R) Kiowa Warrior
+    - UH-1H Iroquois
+    - UH-60A
+    - CH-47D
+    # Turkey got the CH-47F in 2016; in for its Turkish paint.
+    - CH-47F Block I
+    - C-130J-30
+    # Russian
+    - MIG-29-FULCRUM
+    - MiG-29S Fulcrum-C
+    - MiG-31 Foxhound
+    - Su-27 Flanker-B
+    - Su-24M Fencer-D
+    - Su-25 Frogfoot
+    - Su-25T Frogfoot
+    - Mi-24V Hind-E
+    - Mi-24P Hind-F
+    - Mi-8MTV2 Hip
+    - Ka-50 Hokum
+    - IL-76MD
+    - Tu-22M3 Backfire-C
+    - L-39ZA Albatros
+    # Syrian Arab Air Force
+    - MiG-21bis Fishbed-N
+    - MiG-23MLD Flogger-K
+    - MiG-25PD Foxbat-E
+    - Su-17M4 Fitter-K
+  awacs:
+    - A-50
+  tankers:
+    - IL-78M
+    - KC-135 Stratotanker
+  preset_groups:
+    # Turkish national kit
+    - Hawk
+    - SA-3/S-125
+    - Rapier
+    # Russian deployment. One S-300 site (the .miz keeps a single long-range
+    # marker, at Incirlik) so blue holds the advantage. The
+    # SA-20 needs the High Digit SAMs mod, so the SA-10 is the one that spawns.
+    - SA-6
+    - SA-11
+    - SA-10/S-300PS
+  frontline_units:
+    - Leopard 2A4 Trs
+    - M60A3 "Patton"
+    - Cobra
+    - M113
+    - BTR-80
+    - BMP-2
+    - BMP-3
+    - T-72B with Kontakt-1 ERA
+    # Russia ran the T-80B/BV; DCS has no T-80U, and the T-80UD is Ukrainian.
+    - MBT T-80B
+    - T-90A
+    # Syrian Arab Army
+    - T-55A
+    - BMP-1
+    - BRDM-2
+  artillery_units:
+    - Firtina
+    - M270 Multiple Launch Rocket System
+    - 2S19 Msta-S
+    - BM-27 Uragan
+  logistics_units:
+    - Truck M818 6x6
+    - Truck Ural-375
+    - LUV UAZ-469 Jeep
+  infantry_units:
+    - Infantry AK-74 Rus
+    - Infantry M4
+    - MANPADS SA-18 Igla-S "Grouse"
+    - Paratrooper AKS
+    - Mortar 2B11 120mm
+  naval_units:
+    - FFG Oliver Hazard Perry
+    - Frigate 1135M Rezky
+    - Corvette 1241.1 Molniya
+  air_defense_units:
+    - EWR 1L13
+    - EWR 55G6
+    - EWR AN/FPS-117 Radar
+    - SA-15 Tor
+    - SA-19 Grison (2K22 Tunguska)
+    - SAM SA-8 Osa "Gecko" TEL
+    - SA-13 Gopher (9K35 Strela-10M3)
+    - ZSU-23-4 Shilka
+    - S-60 57mm
+    - M1097 Heavy HMMWV Avenger
+    - AAA ZU-23 Closed Emplacement
+    - ZU-23 on Ural-375
+  missiles: []
+  carrier_names: []
+  helicopter_carrier_names: []
+  requirements: {}
+  has_jtac: true
+  jtac_unit: Yak-52
+miz: anatolian_reach.miz
+performance: 3
+recommended_start_date: 2004-06-01
+version: "10.9"
+
+# The .miz carries comms towers, power sources and command centres, so the
+# network is wired in range mode (comms <=15 nm, power <=35 nm) rather than by
+# an explicit iads_config. Worth having in a campaign whose whole shape is SEAD
+# and deep strike.
+advanced_iads: true
+
+settings:
+  squadron_start_full: true
+  # Tel Nof's Black Hawks are the UH-60L mod (Israeli Air Force paint).
+  uh_60l: true
+  # 2004 loadouts. Without this the Israeli jets carry weapons that postdate the
+  # scenario by a decade and the long-range problem solves itself.
+  restrict_weapons_by_date: true
+  restrict_props_by_date: true
+  # Default true; set here because the campaign is built around its tankers.
+  autoplan_tankers_for_strike: true
+  autoplan_tankers_for_oca: true
+  autoplan_tankers_for_dead: true
+  # One range for both sides. At 300 NM blue flies only BARCAPs; at 100-130 red
+  # flies none. At 225 Tel Nof and Ben Gurion come into range and the Israeli
+  # strikes collapse.
+  airbase_threat_range: 200
+
+# The .miz places a CVN-71. The loader only recognises the Stennis hull as a
+# carrier, so the group must be a CVN-74 in the editor; this block paints it
+# back to a Roosevelt in game.
+carriers:
+  Naval-1:
+    preferred_name: CVN-71 Theodore Roosevelt
+    preferred_type: CVN-71 Theodore Roosevelt
+
+squadrons:
+  # ---------------------------------------------------------------- BLUE ----
+  # Hatzerim (191 stands) - the deep-strike home. Farthest Israeli field from
+  # Turkey at 326-484 nm, which is the point rather than a problem.
+  81:
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - 69th Squadron
+        - F-15E Strike Eagle (Suite 4+)
+      size: 12
+    - primary: DEAD
+      secondary: air-to-ground
+      aircraft:
+        - 101st Squadron
+        - F-16CM Fighting Falcon (Block 50)
+      size: 12
+
+  # Tel Nof (135 stands) - the IAF's F-15 base (8th Airbase), with the 119th's
+  # Kurnass 2000 and the CH-53 squadrons. Farther from Turkey than Ramat David.
+  220:
+    - primary: Escort
+      secondary: air-to-air
+      aircraft:
+        - F-15E Strike Eagle (Suite 4+)
+      size: 12
+      name: 133rd Squadron
+      nickname: Knights of the Twin Tail
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - 106th Squadron
+        - F-15C Eagle
+      size: 12
+      name: 106th Squadron
+      nickname: Spearhead
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - IAF 119 FS
+        - F-4E-45MC Phantom II
+      size: 8
+    - primary: Air Assault
+      secondary: any
+      aircraft:
+        - CH-53E
+      size: 4
+    # Helicopters have a 50 NM radius and Turkey is 250+ NM away: these sit
+    # until a forward field falls and they are moved there by hand.
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - 113th Squadron
+        - AH-64D Apache Longbow
+      size: 4
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - UH-60L
+        # Without the mod: a stock Black Hawk, not the task fallback, which
+        # would take Ben Gurion's C-130J preset.
+        - UH-60A
+      size: 4
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Israeli Army
+        - OH-58D(R) Kiowa Warrior
+      size: 4
+      name: 125th Squadron
+    # The IAF flew E-2Cs (192nd Squadron) until 2002.
+    - primary: AEW&C
+      aircraft:
+        - E-2C Hawkeye
+      size: 2
+
+  # Ben Gurion (172 stands) - the airlift field. The IAF flew the C-130H here in
+  # 2004.
+  221:
+    - primary: Transport
+      aircraft:
+        - C-130
+      size: 4
+    - primary: Transport
+      aircraft:
+        - C-130
+      size: 4
+
+  # Ramat David (86 stands) - forward staging, 254 nm to the nearest Turkish
+  # field and 62 nm off the Syrian corridor. Recovery field for deep packages.
+  30:
+    # Ramat David was home to the 110th and 117th.
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - 110th Squadron
+        - F-16CM Fighting Falcon (Block 50)
+      size: 12
+    # An F-16, not a second F-15E: the IAF flew one F-15I squadron (69th).
+    - primary: OCA/Runway
+      secondary: air-to-ground
+      aircraft:
+        - 117th Squadron
+        - F-16CM Fighting Falcon (Block 50)
+      size: 8
+
+  # Akrotiri (45 stands) - SUPPORT ONLY. Deliberately no strike and no fighters.
+  # Akrotiri is the closest blue base to seven of the nine Turkish fields
+  # (Incirlik 188 nm vs Ramat David's 260), so any combat squadron based here
+  # wins every auto-planner comparison and the Israeli squadrons stop flying.
+  # Keep this list to tankers, AEW&C and lift.
+  44:
+    - primary: Refueling
+      aircraft:
+        - KC-135 Stratotanker
+      size: 4
+    - primary: Refueling
+      aircraft:
+        - KC-135 Stratotanker MPRS
+      size: 2
+    # No E-3A: the IAF 192nd E-2Cs at Tel Nof and the carrier's VAW-125 cover
+    # AEW&C.
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - C-130J-30
+      size: 2
+
+  # CVN-71 - the western axis. Works Gazipasa/Chukurova/Incirlik/Konya at
+  # 152-244 nm while Israel takes the deep east.
+  Naval-1:
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - VFA-87
+        - F/A-18C Hornet (Lot 20)
+      size: 16
+    - primary: Escort
+      secondary: any
+      aircraft:
+        # Named: a random pick can land on VF-101, the training squadron.
+        - VF-103
+        - F-14B(U) Tomcat
+      size: 16
+    - primary: AEW&C
+      aircraft:
+        - VAW-125
+        - E-2C Hawkeye
+      size: 4
+    - primary: Anti-ship
+      secondary: air-to-ground
+      aircraft:
+        - S-3B Viking
+      size: 6
+
+  # ----------------------------------------------------------------- RED ----
+  # Incirlik (126 stands) - red's main fighter base and the campaign's
+  # centrepiece objective.
+  16:
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - 191. Filo
+        - F-16CM Fighting Falcon (Block 50)
+      size: 16
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - TuAF 111 Filo
+        - F-4E-45MC Phantom II
+      size: 12
+
+  # Konya (152 stands) - the largest Turkish field, deep west. Support hub.
+  218:
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - F-16CM Fighting Falcon (Block 50)
+      size: 16
+    - primary: Refueling
+      aircraft:
+        - 101st Tanker Squadron
+        - KC-135 Stratotanker
+      size: 2
+    # Konya was the 3rd Main Jet Base: F-4E 2020s and F-5s in 2004.
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - F-4E-45MC Phantom II
+      size: 12
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - F-5E Tiger II
+      size: 12
+
+  # Diyarbakir (133 stands) - eastern main base, 398 nm from Ramat David and the
+  # deepest target on the map. This is the Russian expeditionary group: the one
+  # place blue cannot reach without a full tanker plan, so it holds the heaviest
+  # interceptors.
+  217:
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - MiG-31 Foxhound
+      size: 12
+    - primary: TARCAP
+      secondary: air-to-air
+      aircraft:
+        - Su-27 Flanker-B
+      size: 16
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Su-24M Fencer-D
+      size: 12
+    # Long-range strike and the carrier threat.
+    - primary: Strike
+      secondary: any
+      aircraft:
+        - Tu-22M3 Backfire-C
+      size: 8
+
+  # Chukurova (60 stands) - forward south, 254 nm from Ramat David.
+  90:
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - F-16CM Fighting Falcon (Block 50)
+      size: 12
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - AH-1W SuperCobra
+      size: 4
+    - primary: Transport
+      aircraft:
+        - UH-1H Iroquois
+      size: 4
+    - primary: Transport
+      aircraft:
+        - Mi-8MTV2 Hip
+      size: 4
+    - primary: Air Assault
+      aircraft:
+        - CH-47F Block I
+      size: 4
+
+  # Gulechoba (23 stands) - deep north-east. Russian lift and control.
+  216:
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - IL-76MD
+      size: 4
+    - primary: AEW&C
+      aircraft:
+        - A-50
+      size: 2
+
+  # Sanliurfa (11 stands) - small eastern strip, Russian ground-attack.
+  58:
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Su-25T Frogfoot
+      size: 8
+
+  # Bassel Al-Assad (54 stands) - the coastal corridor gate. 168 nm from Israel,
+  # 99 nm from Chukurova. The field that ranges the carrier. Syrian Arab Air Force.
+  21:
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - 697th Squadron
+      size: 12
+    - primary: Anti-ship
+      secondary: air-to-ground
+      aircraft:
+        - 819th Squadron
+        - Su-24M Fencer-D
+      size: 8
+    # The bulk of the 2004 SyAAF, in the shipped Syrian presets.
+    - primary: TARCAP
+      secondary: air-to-air
+      aircraft:
+        - 679th Squadron
+        - MiG-21bis Fishbed-N
+      size: 8
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - 1st Squadron
+        - MiG-25PD Foxbat-E
+      size: 6
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - 685th Squadron
+        - Su-17M4 Fitter-K
+      size: 8
+
+  # Aleppo (23 stands) - the overland corridor gate and the hinge that joins the
+  # Syrian front to the Turkish one. 234 nm from Israel, 82 nm from Kahramanmaras.
+  27:
+    - primary: TARCAP
+      secondary: air-to-air
+      aircraft:
+        - 699th Squadron
+      size: 12
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - 765th Squadron
+        - Mi-24P Hind-F
+      size: 4
+    - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - 678th Squadron
+        - MiG-23MLD Flogger-K
+      size: 6
+
+  # Kahramanmaras (7), Adiyaman (6) and Gazipasa (6) carry no squadrons. They are
+  # too small to base one and serve as objectives and dispersal fields.
