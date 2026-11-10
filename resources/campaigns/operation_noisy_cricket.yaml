@@ -36,7 +36,7 @@ settings:
   hercules: true
   uh_60l: true
   squadron_start_full: true
-version: "10.8"
+version: "10.9"
 squadrons:
   Blue CV-1:
     - primary: SEAD

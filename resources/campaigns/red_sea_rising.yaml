@@ -24,7 +24,7 @@ description:
 miz: red_sea_rising.miz
 performance: 1
 recommended_start_date: 2005-01-11
-version: "10.8"
+version: "10.9"
 settings:
   usamilitaryassetspack: true
   chinesemilitaryassetspack: true

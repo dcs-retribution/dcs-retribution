@@ -31,13 +31,28 @@ class ConvoyGenerator:
     def generate(self) -> None:
         # Reset the count to make generation deterministic.
         if not self.game.settings.perf_disable_convoys:
+            used: set[str] = set()
             for coalition in self.game.coalitions:
                 for convoy in coalition.transfers.convoys:
-                    self.generate_convoy(convoy)
+                    self.generate_convoy(convoy, used)
 
-    def generate_convoy(self, convoy: Convoy) -> VehicleGroup:
+    def generate_convoy(
+        self, convoy: Convoy, used: set[str] | None = None
+    ) -> VehicleGroup:
+        # Two convoys can share a name in a campaign saved before the name counters
+        # stopped being reset per mission (see namegen.reset_numbers). Their units then
+        # collide in the unit map and mission generation dies, stranding the save. Give
+        # the later one a suffixed group name so an existing campaign still launches;
+        # newly created convoys no longer collide in the first place.
+        name = convoy.name
+        if used is not None:
+            suffix = 2
+            while name in used:
+                name = f"{convoy.name} ({suffix})"
+                suffix += 1
+            used.add(name)
         group = self._create_mixed_unit_group(
-            convoy.name,
+            name,
             convoy.route_start,
             convoy.units,
             convoy.player_owned,

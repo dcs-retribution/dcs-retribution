@@ -29,7 +29,7 @@ description:
 miz: exercise_bright_star.miz
 performance: 2
 recommended_start_date: 2025-09-01
-version: "10.8"
+version: "10.9"
 settings:
   fa_18efg: true
   f22_raptor: true

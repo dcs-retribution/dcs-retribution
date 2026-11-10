@@ -1,0 +1,34 @@
+class: Helicopter
+description:
+  The Sikorsky UH-60 Black Hawk is a four-blade, twin-engine, medium-lift utility helicopter manufactured by Sikorsky Aircraft.
+  The UH-60A entered service with the U.S. Army in 1979, to replace the Bell UH-1 Iroquois as the Army's tactical transport helicopter.
+  The MH-60 DAP (Direct Action Penetrator) is a specialized gunship configuration of the Sikorsky UH-60 Black Hawk, exclusively operated
+  by the U.S. Army's 160th Special Operations Aviation Regiment (Night Stalkers). Unlike standard utility Black Hawks, the DAP is built
+  to deliver heavy suppressive fire and close air support, sacrificing its troop-carrying capacity for weapon pylons and ammunition.
+introduced: 1989
+carrier_capable: true
+lha_capable: true
+cabin_size: 10
+can_carry_crates: true
+manufacturer: Sikorsky
+origin: USA
+price: 4
+role: Transport
+variants:
+  MH-60L DAP: {}
+radios:
+  intra_flight: AN/ARC-201
+  inter_flight: AN/ARC-164
+  channels:
+    type: common
+    intra_flight_radio_index: 1
+    inter_flight_radio_index: 2
+tasks:
+  Air Assault: 80
+  Transport: 60
+  CAS: 400
+  BAI: 400
+  DEAD: 100
+  Escort: 100
+  OCA/Aircraft: 400
+

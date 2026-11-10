@@ -1,0 +1,9 @@
+class: Destroyer
+description: "The IRGCN FAC MANPADS variant is a fast Iranian attack craft armed with heavy machine guns and a shoulder-fired air-defense weapon."
+introduced: 2004
+manufacturer: Iran
+origin: Iran
+price: 0
+role: Fast Attack Craft
+variants:
+  "[CH] IRGCN FAC MANPADS": {}

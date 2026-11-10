@@ -45,7 +45,12 @@ class QTacanWidget(QWidget):
         return f"<b>TACAN: {c}{cs}</b>"
 
     def open_tacan_dialog(self) -> None:
-        self.tacan_dialog = QTacanDialog(self, self.ct)
+        # Beacons are always considered, along with any other CP/flight's channel;
+        # only this container's own current assignment is excluded from "in use".
+        unavailable = self.gm.unavailable_tacan_channels(exclude=self.ct)
+        self.tacan_dialog = QTacanDialog(
+            self, self.ct, unavailable_channels=unavailable
+        )
         self.tacan_dialog.accepted.connect(self.assign_tacan)
         self.tacan_dialog.show()
 

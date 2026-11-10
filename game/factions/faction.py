@@ -440,6 +440,7 @@ class Faction:
             self.remove_ship("vap_us_seafloat")
         if not mod_settings.uh_60l:
             self.remove_aircraft("UH-60L")
+            self.remove_aircraft("UH-60L_DAP")
             self.remove_aircraft("KC130J")
         if not mod_settings.fa18ef_tanker:
             self.remove_aircraft("FA-18ET")
@@ -794,6 +795,11 @@ class Faction:
             self.remove_preset("HQ-22")
             self.remove_preset("DF-21D LBASM")
             self.remove_preset("YJ-12B LBASM")
+        # Iran Military Assets Pack
+        if not mod_settings.iranmilitaryassetspack:
+            self.remove_vehicle("CH_Shahed136")
+            self.remove_ship("IranFAC_MG")
+            self.remove_ship("IranFAC_MG_AShM")
         # Russian Military Assets Pack
         if not mod_settings.russianmilitaryassetspack:
             self.remove_vehicle("CH_2S35")

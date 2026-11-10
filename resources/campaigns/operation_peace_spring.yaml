@@ -17,7 +17,7 @@ description:
 miz: operation_peace_spring.miz
 performance: 2
 recommended_start_date: 2019-12-23
-version: "10.8"
+version: "10.9"
 settings:
   fa_18efg: true
   f22_raptor: true

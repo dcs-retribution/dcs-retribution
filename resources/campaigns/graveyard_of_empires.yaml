@@ -30,7 +30,7 @@ description:
 miz: graveyard_of_empires.miz
 performance: 1
 recommended_start_date: 2002-01-27
-version: "10.8"
+version: "10.9"
 settings:
   usamilitaryassetspack: true
   russianmilitaryassetspack: true

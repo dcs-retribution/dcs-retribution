@@ -225,11 +225,11 @@ class MissionGenerator:
         """
         for beacon in Beacons.iter_theater(self.game.theater):
             unique_map_frequencies.add(beacon.frequency)
-            if beacon.is_tacan:
-                if beacon.channel is None:
+            if beacon.occupies_tacan_channel:
+                if (channel := beacon.tacan_channel) is None:
                     logging.warning(f"TACAN beacon has no channel: {beacon.callsign}")
                 else:
-                    self.tacan_registry.mark_unavailable(beacon.tacan_channel)
+                    self.tacan_registry.mark_unavailable(channel)
         for cp in self.game.theater.controlpoints:
             if isinstance(cp, TacanContainer) and cp.tacan is not None:
                 self.tacan_registry.mark_unavailable(cp.tacan)

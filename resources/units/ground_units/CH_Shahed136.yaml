@@ -1,0 +1,9 @@
+class: Missile
+description: "The Shahed 136 is an Iranian loitering munition optimized for long-range one-way attack missions."
+introduced: 2021
+manufacturer: HESA
+origin: Iran
+price: 0
+role: Long-Range Land-Attack Missile
+variants:
+  "[CH] Shahed 136 LM": {}
