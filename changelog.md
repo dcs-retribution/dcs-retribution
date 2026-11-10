@@ -27,6 +27,7 @@
 * **[Campaigns]** Motorpool placement is Garage_A-anchored and empty reserve pools are excluded from attack planning; updated placement measurements are documented.
 * **[UX]** Add the ability to filter campaigns by version, map, and performance
 * **[Engine]** Bump campaign version to 10.9 for motorpool support
+* **[Modding]** Update A7E Corsair II Mod
 * **[Modding]** Update UH-60L mod to v2.1.5 including MH-60L DAP
 
 ## Fixes
