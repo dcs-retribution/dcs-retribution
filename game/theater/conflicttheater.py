@@ -210,7 +210,9 @@ class ConflictTheater:
         for control_point in self.controlpoints:
             if control_point.is_fleet and not allow_naval:
                 continue
-            if control_point.captured.is_neutral and not include_neutral:
+            # Check the flag first: while a campaign is still being loaded the
+            # control points have no coalition yet, so `captured` cannot be read.
+            if not include_neutral and control_point.captured.is_neutral:
                 continue
             distance = point.distance_to_point(control_point.position)
             if distance < closest_distance:
