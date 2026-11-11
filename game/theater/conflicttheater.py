@@ -200,17 +200,26 @@ class ConflictTheater:
         )
 
     def closest_control_point(
-        self, point: Point, allow_naval: bool = False
+        self,
+        point: Point,
+        allow_naval: bool = False,
+        include_neutral: bool = True,
     ) -> ControlPoint:
-        closest = self.controlpoints[0]
-        closest_distance = point.distance_to_point(closest.position)
-        for control_point in self.controlpoints[1:]:
+        closest: Optional[ControlPoint] = None
+        closest_distance = math.inf
+        for control_point in self.controlpoints:
             if control_point.is_fleet and not allow_naval:
+                continue
+            if control_point.captured.is_neutral and not include_neutral:
                 continue
             distance = point.distance_to_point(control_point.position)
             if distance < closest_distance:
                 closest = control_point
                 closest_distance = distance
+        if closest is None:
+            # Nothing passed the filters. Callers expect a control point, so they
+            # get the first one and have to cope with it being filtered-out kind.
+            return self.controlpoints[0]
         return closest
 
     def closest_target(self, point: Point) -> MissionTarget:

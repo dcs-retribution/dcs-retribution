@@ -3,6 +3,7 @@ from __future__ import annotations
 import logging
 import random
 from dataclasses import dataclass
+from enum import Enum, auto
 from typing import Optional, TYPE_CHECKING
 
 from dcs.mapping import Point
@@ -26,6 +27,18 @@ _FRONT_LINE_DANGER = nautical_miles(30)
 
 #: Fallback scatter radius (metres) when a loss has no DCS-reported position.
 _FALLBACK_SCATTER_METERS = 5000.0
+
+
+class _Fate(Enum):
+    """What a control point within reach does with a pilot on the ground."""
+
+    #: A friendly base or ship: they are picked up and go into recovery.
+    RECOVER = auto()
+    #: An enemy land base: taken prisoner, and held there until it is retaken.
+    CAPTURE = auto()
+    #: An enemy ship: lost to us, but nobody is holding them anywhere that could
+    #: ever be captured to bring them home.
+    MISSING = auto()
 
 
 @dataclass(frozen=True)
@@ -124,6 +137,98 @@ class CsarService:
             )
         )
 
+    def _nearest_base(self, position: Point) -> Optional[ControlPoint]:
+        """The nearest control point that has a side, ships included.
+
+        Every CSAR question about "whose ground is this" goes through here.
+        Carriers and LHAs count, or a pilot in the water beside their own boat is
+        measured against some airfield over the horizon instead. Neutral bases do
+        not: they belong to neither side, so they neither bring anyone home nor
+        take prisoners until somebody captures them.
+        """
+        nearest = self.game.theater.closest_control_point(
+            position, allow_naval=True, include_neutral=False
+        )
+        if nearest.captured.is_neutral:
+            # Only possible if every control point is neutral.
+            return None
+        return nearest
+
+    def _fate_within_radius(
+        self, position: Point, player: Player
+    ) -> Optional[tuple[_Fate, ControlPoint]]:
+        """What happens to a pilot at ``position`` without any rescue flight.
+
+        None unless they are inside csar_control_point_radius of the nearest
+        base, in which case that base settles it.
+        """
+        radius = nautical_miles(self.game.settings.csar_control_point_radius)
+        if radius.meters <= 0:
+            return None
+
+        nearest = self._nearest_base(position)
+        if nearest is None:
+            return None
+        if nearest.position.distance_to_point(position) > radius.meters:
+            return None
+
+        if nearest.is_friendly(player):
+            return _Fate.RECOVER, nearest
+        if nearest.is_fleet:
+            # A ship cannot be captured, so a prisoner aboard one could never be
+            # freed. They are missing, not held.
+            return _Fate.MISSING, nearest
+        return _Fate.CAPTURE, nearest
+
+    def _recovery_turns(self, was_player: bool) -> int:
+        settings = self.game.settings
+        if was_player:
+            return settings.csar_player_recovery_turns
+        return settings.csar_ai_recovery_turns
+
+    def _apply_fate(
+        self,
+        fate: _Fate,
+        control_point: ControlPoint,
+        pilot: Pilot,
+        was_player: bool,
+        player: Player,
+        aircraft: str,
+        squadron: str,
+    ) -> None:
+        """Carries out a fate from ``_fate_within_radius`` on an already-Downed
+        pilot. Shared by the landing check and the turn-end re-check."""
+        if fate is _Fate.RECOVER:
+            turns = self._recovery_turns(was_player)
+            pilot.begin_recovery(turns)
+            if control_point.is_fleet:
+                where = f"was picked up near {control_point.name}"
+            else:
+                where = f"is inside friendly lines near {control_point.name}"
+            self.game.message(
+                "Pilot recovered",
+                f"{pilot.name} {where}. Recovered by Control Point. They return "
+                f"to duty in {turns} turn(s).",
+            )
+        elif fate is _Fate.CAPTURE:
+            # Held by the base that took them, so retaking it brings them home.
+            pilot.go_mia(held_at=control_point.id)
+            self._record_capture(
+                pilot.name, aircraft, squadron, player, control_point.name
+            )
+            self.game.message(
+                "Pilot captured",
+                f"{pilot.name} is inside enemy lines near {control_point.name} "
+                f"and is now held there.",
+            )
+        else:
+            pilot.go_mia()
+            self.game.message(
+                "Pilot missing in action",
+                f"{pilot.name} was lost near the enemy ships of "
+                f"{control_point.name} and is now missing in action.",
+            )
+
     def _resolve_near_control_point(
         self,
         pilot: Pilot,
@@ -134,49 +239,28 @@ class CsarService:
     ) -> bool:
         """Settles a pilot who came down on top of a control point, if they did.
 
-        Close enough to a base and there is nothing for a rescue flight to do: on
-        friendly ground they walk back and go into recovery, on enemy ground they
-        are captured. Returns whether the pilot was dealt with here.
+        Close enough to a base and there is nothing for a rescue flight to do: by
+        a friendly base or ship they are brought in and go into recovery, by an
+        enemy base they are captured, by enemy ships they are simply lost. Returns
+        whether the pilot was dealt with here.
         """
-        radius = nautical_miles(self.game.settings.csar_control_point_radius)
-        if radius.meters <= 0:
+        resolved = self._fate_within_radius(position, player)
+        if resolved is None:
             return False
-
-        nearest = self.game.theater.closest_control_point(position)
-        if nearest.position.distance_to_point(position) > radius.meters:
-            return False
+        fate, control_point = resolved
 
         # They did come down, whatever happens next. Also what lets go_mia()
         # accept them: it only transitions a pilot who is already Downed.
         pilot.go_down()
-        if nearest.is_friendly(player):
-            turns = (
-                self.game.settings.csar_player_recovery_turns
-                if was_player
-                else self.game.settings.csar_ai_recovery_turns
-            )
-            pilot.begin_recovery(turns)
-            self.game.message(
-                "Pilot recovered",
-                f"{pilot.name} came down inside friendly lines near {nearest.name}. "
-                f"Recovered by Control Point. They return to duty in {turns} "
-                f"turn(s).",
-            )
-        else:
-            # Held by the base that took them, so retaking it brings them home.
-            pilot.go_mia(held_at=nearest.id)
-            self._record_capture(
-                pilot.name,
-                squadron.aircraft.display_name,
-                str(squadron),
-                player,
-                nearest.name,
-            )
-            self.game.message(
-                "Pilot captured",
-                f"{pilot.name} came down inside enemy lines near {nearest.name} "
-                f"and is now held there.",
-            )
+        self._apply_fate(
+            fate,
+            control_point,
+            pilot,
+            was_player,
+            player,
+            squadron.aircraft.display_name,
+            str(squadron),
+        )
         return True
 
     def fallback_position_for(self, flight: Flight) -> Point:
@@ -189,8 +273,11 @@ class CsarService:
         settings = self.game.settings
         theater = self.game.theater
 
-        nearest_cp = theater.closest_control_point(position)
-        in_hostile_territory = not nearest_cp.is_friendly(player)
+        # Neutral ground is nobody's, so it does not make territory hostile.
+        nearest_cp = self._nearest_base(position)
+        in_hostile_territory = nearest_cp is not None and not nearest_cp.is_friendly(
+            player
+        )
 
         near_front = False
         for front_line in theater.conflicts():
@@ -209,12 +296,7 @@ class CsarService:
 
     def rescue(self, downed: DownedPilot) -> None:
         """Removes a downed pilot from the map and puts them into recovery."""
-        settings = self.game.settings
-        turns = (
-            settings.csar_player_recovery_turns
-            if downed.was_player
-            else settings.csar_ai_recovery_turns
-        )
+        turns = self._recovery_turns(downed.was_player)
         downed.pilot.begin_recovery(turns)
         self._remove(downed)
         self.game.message(
@@ -262,14 +344,19 @@ class CsarService:
         they first come down: anyone still on the map is by definition outside
         that one, so reusing it here would mean nobody is ever captured.
 
+        Neutral bases take nobody, and nor do enemy ships -- there would be no
+        way to ever get the prisoner back.
+
         Anyone else is simply missing: nobody reached them either way.
         """
         radius = nautical_miles(self.game.settings.csar_capture_radius)
         if radius.meters <= 0:
             return None
 
-        nearest = self.game.theater.closest_control_point(downed.position)
-        if nearest.is_friendly(downed.player):
+        nearest = self._nearest_base(downed.position)
+        if nearest is None or nearest.is_friendly(downed.player):
+            return None
+        if nearest.is_fleet:
             return None
         if nearest.position.distance_to_point(downed.position) > radius.meters:
             return None
@@ -293,11 +380,7 @@ class CsarService:
                     # what the two recovery settings distinguish, exactly as for a
                     # CSAR rescue. Keying off the coalition gave every blue pilot
                     # the (shorter) player figure.
-                    turns = (
-                        self.game.settings.csar_player_recovery_turns
-                        if pilot.player
-                        else self.game.settings.csar_ai_recovery_turns
-                    )
+                    turns = self._recovery_turns(pilot.player)
                     pilot.release_from_captivity(turns)
                     self.game.message(
                         "Prisoner of war freed",
@@ -316,12 +399,32 @@ class CsarService:
             pass
 
     def advance_turn_for(self, coalition: Coalition) -> None:
-        """Decrements a coalition's downed pilots' countdowns, expiring to MIA.
+        """Ages a coalition's downed pilots, expiring to MIA.
 
-        Called at coalition turn end. Iterates a copy since ``go_mia`` mutates the
-        underlying list.
+        Before the countdown, anyone a base can now reach is settled without a
+        rescue flight, exactly as if they had just come down there. The map moves
+        under a waiting pilot: a carrier sails closer, a base changes hands, a
+        neutral base is taken by one side or the other.
+
+        Called at coalition turn end, after the turn's captures are committed.
+        Iterates a copy since resolving a pilot mutates the underlying list.
         """
         for downed in list(coalition.downed_pilots):
+            resolved = self._fate_within_radius(downed.position, downed.player)
+            if resolved is not None:
+                fate, control_point = resolved
+                self._apply_fate(
+                    fate,
+                    control_point,
+                    downed.pilot,
+                    downed.was_player,
+                    downed.player,
+                    downed.aircraft_name,
+                    str(downed.squadron),
+                )
+                self._remove(downed)
+                continue
+
             downed.turns_remaining -= 1
             if downed.turns_remaining <= 0:
                 self.go_mia(downed)

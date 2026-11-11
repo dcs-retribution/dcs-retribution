@@ -719,10 +719,13 @@ class Settings:
         max=100,
         detail=(
             "A pilot who comes down this close to a control point does not need a "
-            "rescue flight: inside a friendly one they make their own way back and "
-            "go straight into recovery, inside an enemy one they are captured and "
-            "go missing in action. Only pilots outside every control point's radius "
-            "become downed pilots on the map. Set to 0 to always require a rescue."
+            "rescue flight: inside a friendly one (a carrier or LHA included) they "
+            "are brought in and go straight into recovery, inside an enemy base "
+            "they are captured, and beside enemy ships they go missing in action. "
+            "Neutral bases are ignored until one side captures them. Pilots "
+            "outside every radius become downed pilots on the map, and are checked "
+            "again each turn in case a ship has moved or a base has changed hands. "
+            "Set to 0 to always require a rescue."
         ),
     )
     csar_capture_radius: int = bounded_int_option(
@@ -735,7 +738,8 @@ class Settings:
         detail=(
             "A pilot whose survival turns run out is taken prisoner only if they "
             "are in enemy territory and this close to the enemy base that finds "
-            "them. Anyone further out is simply missing in action -- nobody "
+            "them. Neutral bases and enemy ships never take prisoners. "
+            "Anyone further out is simply missing in action -- nobody "
             "reached them either way. Prisoners come home if their base is "
             "captured; the missing do not. Set to 0 so an unrescued pilot is "
             "always missing rather than captured. "

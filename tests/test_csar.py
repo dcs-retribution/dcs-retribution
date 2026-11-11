@@ -210,7 +210,16 @@ def _make_game(**settings: Any) -> Any:
     game.settings = SimpleNamespace(**defaults)
     game.turn = 5
     game.db.downed_pilots = MagicMock()
+    # A bare MagicMock is truthy for everything, which would make the default
+    # nearest control point both neutral and a ship.
+    _as_land_base(game.theater.closest_control_point.return_value)
     return game
+
+
+def _as_land_base(control_point: Any, fleet: bool = False) -> Any:
+    control_point.captured.is_neutral = False
+    control_point.is_fleet = fleet
+    return control_point
 
 
 def _make_downed(game: Any, player: Any, was_player: bool) -> DownedPilot:
@@ -246,11 +255,16 @@ def test_down_pilot_creates_downed_and_registers() -> None:
 
 
 def _down_near_control_point(
-    friendly: bool, distance_meters: float, radius_nm: int = 15, **settings: Any
+    friendly: bool,
+    distance_meters: float,
+    radius_nm: int = 15,
+    fleet: bool = False,
+    **settings: Any,
 ) -> Any:
     """Downs a pilot the given distance from the nearest control point."""
     game = _make_game(csar_control_point_radius=radius_nm, **settings)
-    control_point = MagicMock()
+    game.pilots_captured_this_turn = []
+    control_point = _as_land_base(MagicMock(), fleet=fleet)
     control_point.name = "Incirlik"
     control_point.is_friendly.return_value = friendly
     control_point.position.distance_to_point.return_value = distance_meters
@@ -281,7 +295,7 @@ def test_pilot_down_inside_a_friendly_base_walks_home() -> None:
 
 def test_player_pilot_down_inside_a_friendly_base_uses_the_player_turns() -> None:
     game = _make_game(csar_control_point_radius=15)
-    control_point = MagicMock()
+    control_point = _as_land_base(MagicMock())
     control_point.name = "Incirlik"
     control_point.is_friendly.return_value = True
     control_point.position.distance_to_point.return_value = 0.0
@@ -375,8 +389,10 @@ def test_unplaceable_pilot_is_killed_by_the_service() -> None:
     assert squadron.coalition.downed_pilots == []
 
 
-def _control_point(name: str, friendly_to_blue: bool, x: float) -> Any:
-    cp = MagicMock()
+def _control_point(
+    name: str, friendly_to_blue: bool, x: float, fleet: bool = False
+) -> Any:
+    cp = _as_land_base(MagicMock(), fleet=fleet)
     cp.name = name
     cp.id = uuid4()
     cp.position = Point(x, 0.0, _TERRAIN)
@@ -480,6 +496,186 @@ def test_missing_pilot_with_no_captor_is_not_reported_as_captured() -> None:
     _expire_near(game, friendly, distance_meters=500.0)
 
     assert game.pilots_captured_this_turn == []
+
+
+# ---------------------------------------------------------------------------
+# Ships and neutral bases
+# ---------------------------------------------------------------------------
+
+
+def test_base_lookup_sees_ships_and_ignores_neutral_bases() -> None:
+    """The two bugs in one call: the default lookup skips carriers, so a pilot
+    beside their own boat was never recovered, and it returns neutral bases,
+    which then took prisoners from both sides."""
+    game = _make_game()
+    position = Point(0.0, 0.0, _TERRAIN)
+
+    CsarService(game)._nearest_base(position)
+
+    game.theater.closest_control_point.assert_called_once_with(
+        position, allow_naval=True, include_neutral=False
+    )
+
+
+def test_all_neutral_map_has_no_base_to_resolve_against() -> None:
+    game = _make_game(csar_control_point_radius=15)
+    nearest = game.theater.closest_control_point.return_value
+    nearest.captured.is_neutral = True
+    nearest.position.distance_to_point.return_value = 0.0
+    csar = CsarService(game)
+    position = Point(0.0, 0.0, _TERRAIN)
+
+    assert csar._nearest_base(position) is None
+    assert csar._fate_within_radius(position, _blue_red_player().BLUE) is None
+
+
+def test_pilot_down_beside_a_friendly_carrier_is_recovered() -> None:
+    pilot, result, squadron = _down_near_control_point(
+        friendly=True, distance_meters=0, fleet=True
+    )
+
+    assert result is None
+    assert pilot.recovering
+    assert pilot.turns_until_available == 2  # csar_ai_recovery_turns
+    assert squadron.coalition.downed_pilots == []
+
+
+def test_pilot_down_beside_enemy_ships_is_missing_not_captured() -> None:
+    """A ship cannot be captured, so a prisoner held aboard one could never be
+    freed. They are lost, with nowhere recorded as holding them."""
+    game = _make_game(csar_control_point_radius=15)
+    game.pilots_captured_this_turn = []
+    carrier = _control_point("Kuznetsov", friendly_to_blue=False, x=0.0, fleet=True)
+    carrier.position.distance_to_point = MagicMock(return_value=0.0)
+    game.theater.closest_control_point.return_value = carrier
+
+    pilot = Pilot("Lost")
+    squadron = MagicMock()
+    squadron.player = _blue_red_player().BLUE
+    squadron.coalition.downed_pilots = []
+    flight = MagicMock()
+    flight.squadron = squadron
+    result = CsarService(game).down_pilot(
+        flight, pilot, False, Point(0.0, 0.0, _TERRAIN)
+    )
+
+    assert result is None
+    assert pilot.missing_in_action
+    assert pilot.held_at is None
+    assert game.pilots_captured_this_turn == []
+
+
+def test_unrescued_pilot_near_enemy_ships_is_not_taken_prisoner() -> None:
+    game = _make_game()
+    game.pilots_captured_this_turn = []
+    carrier = _control_point("Kuznetsov", friendly_to_blue=False, x=1000.0, fleet=True)
+    downed = _expire_near(game, carrier, distance_meters=1000.0)
+
+    assert downed.pilot.missing_in_action
+    assert downed.pilot.held_at is None
+    assert game.pilots_captured_this_turn == []
+
+
+def _waiting_pilot_near(control_point: Any, **settings: Any) -> tuple[Any, DownedPilot]:
+    """A pilot already on the map, with ``control_point`` now on top of them."""
+    game = _make_game(csar_control_point_radius=15, **settings)
+    game.pilots_captured_this_turn = []
+    control_point.position.distance_to_point = MagicMock(return_value=0.0)
+    game.theater.closest_control_point.return_value = control_point
+    downed = _standalone_downed()
+    downed.pilot.go_down()
+    return game, downed
+
+
+def test_waiting_pilot_is_recovered_when_a_carrier_sails_within_reach() -> None:
+    carrier = _control_point("Stennis", friendly_to_blue=True, x=0.0, fleet=True)
+    game, downed = _waiting_pilot_near(carrier)
+    coalition = downed.squadron.coalition
+
+    CsarService(game).advance_turn_for(coalition)
+
+    assert downed.pilot.recovering
+    assert downed.pilot.turns_until_available == 2  # csar_ai_recovery_turns
+    assert coalition.downed_pilots == []
+
+
+def test_waiting_pilot_is_captured_once_the_base_beside_them_turns_hostile() -> None:
+    """What "a neutral base captures nobody until it is captured" comes to: the
+    lookup skips it while neutral, and finds it as an enemy base afterwards."""
+    base = _control_point("Krymsk", friendly_to_blue=False, x=0.0)
+    game, downed = _waiting_pilot_near(base)
+    coalition = downed.squadron.coalition
+
+    CsarService(game).advance_turn_for(coalition)
+
+    assert downed.pilot.missing_in_action
+    assert downed.pilot.held_at == base.id
+    assert [c.control_point for c in game.pilots_captured_this_turn] == ["Krymsk"]
+    assert coalition.downed_pilots == []
+
+
+def test_waiting_pilot_out_of_reach_just_ages() -> None:
+    from game.utils import nautical_miles
+
+    base = _control_point("Krymsk", friendly_to_blue=False, x=0.0)
+    game, downed = _waiting_pilot_near(base)
+    base.position.distance_to_point.return_value = nautical_miles(15).meters + 1
+
+    CsarService(game).advance_turn_for(downed.squadron.coalition)
+
+    assert downed.pilot.downed
+    assert downed.turns_remaining == 2
+
+
+def test_survival_turns_are_not_hostile_with_only_neutral_bases_around() -> None:
+    game = _make_game()
+    game.theater.closest_control_point.return_value.captured.is_neutral = True
+    game.theater.conflicts.return_value = []
+
+    turns = CsarService(game)._survival_turns(
+        Point(0.0, 0.0, _TERRAIN), _blue_red_player().BLUE
+    )
+
+    assert turns == 3
+
+
+def _theater_with(*control_points: Any) -> Any:
+    from game.theater.conflicttheater import ConflictTheater
+
+    theater = ConflictTheater.__new__(ConflictTheater)
+    theater.controlpoints = list(control_points)
+    return theater
+
+
+def _stub_cp(x: float, fleet: bool = False, neutral: bool = False) -> Any:
+    return SimpleNamespace(
+        position=Point(x, 0.0, _TERRAIN),
+        is_fleet=fleet,
+        captured=SimpleNamespace(is_neutral=neutral),
+    )
+
+
+def test_closest_control_point_can_skip_neutral_bases() -> None:
+    neutral = _stub_cp(10.0, neutral=True)
+    owned = _stub_cp(500.0)
+    theater = _theater_with(neutral, owned)
+    origin = Point(0.0, 0.0, _TERRAIN)
+
+    assert theater.closest_control_point(origin) is neutral
+    assert theater.closest_control_point(origin, include_neutral=False) is owned
+
+
+def test_closest_control_point_only_includes_ships_when_asked() -> None:
+    """Also pins the old seeding bug: the first control point used to be the
+    starting candidate without ever being filtered, so a ship in slot 0 was
+    returned even with allow_naval off."""
+    carrier = _stub_cp(10.0, fleet=True)
+    airfield = _stub_cp(500.0)
+    theater = _theater_with(carrier, airfield)
+    origin = Point(0.0, 0.0, _TERRAIN)
+
+    assert theater.closest_control_point(origin) is airfield
+    assert theater.closest_control_point(origin, allow_naval=True) is carrier
 
 
 def _game_with_prisoner(held_at: Any) -> tuple[Any, Pilot, Any]:
