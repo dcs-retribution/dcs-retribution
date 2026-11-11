@@ -53,6 +53,10 @@ class DefaultSquadronAssigner:
                 squadron.set_auto_assignable_mission_types(
                     squadron_config.auto_assignable
                 )
+                # Campaign configs predate CSAR and never list it, so opt capable
+                # squadrons in by default. The player can still turn it off in the
+                # Air Wing configuration dialog.
+                squadron.enable_csar_if_capable()
                 self.air_wing.add_squadron(squadron)
 
     def find_squadron_for(

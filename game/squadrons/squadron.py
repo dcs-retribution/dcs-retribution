@@ -82,6 +82,13 @@ class Squadron:
 
     use_livery_set: bool = False  # if livery-set should be used when present
 
+    #: True once this squadron has been considered for CSAR auto-assignment. Lets
+    #: the migrator opt existing squadrons in exactly once, so a player who turns
+    #: CSAR back off doesn't have it re-enabled on the next load.
+    csar_auto_assign_seeded: bool = field(
+        init=False, hash=False, compare=False, default=False
+    )
+
     def __setstate__(self, state: dict[str, Any]) -> None:
         if "id" not in state:
             state["id"] = uuid4()
@@ -95,6 +102,9 @@ class Squadron:
             state["destroyed_aircraft"] = 0
         if "purchased_aircraft" not in state:
             state["purchased_aircraft"] = 0
+        if "csar_auto_assign_seeded" not in state:
+            # Pre-CSAR save: let the migrator opt this squadron in once.
+            state["csar_auto_assign_seeded"] = False
         self.__dict__.update(state)
 
     def __str__(self) -> str:
@@ -171,6 +181,20 @@ class Squadron:
         self.auto_assignable_mission_types = {
             t for t in mission_types if self.capable_of(t)
         }
+
+    def enable_csar_if_capable(self) -> None:
+        """Seeds CSAR into the auto-assignable set for CSAR-capable squadrons.
+
+        Campaign squadron configs (and existing saves) predate CSAR and never list
+        it as a secondary task, so without this no squadron would ever auto-plan a
+        rescue. This is deliberately *not* folded into
+        ``set_auto_assignable_mission_types``, which the Air Wing configuration
+        dialog uses to apply the player's explicit choices -- forcing CSAR there
+        would make it impossible to turn off. Called once at squadron creation and
+        once per squadron by the save migrator instead.
+        """
+        if self.capable_of(FlightType.CSAR):
+            self.auto_assignable_mission_types.add(FlightType.CSAR)
 
     def claim_new_pilot_if_allowed(self) -> Optional[Pilot]:
         if self.pilot_limits_enabled:
@@ -256,8 +280,15 @@ class Squadron:
     def end_turn(self) -> None:
         if self.destination is not None:
             self.relocate_to(self.destination)
+        # Advance recovering pilots *before* replenishment so a returning pilot
+        # reclaims their slot rather than having it filled by a fresh recruit.
+        self._process_pilot_recovery()
         self.replenish_lost_pilots()
         self.deliver_orders()
+
+    def _process_pilot_recovery(self) -> None:
+        for pilot in self.recovering_pilots:
+            pilot.advance_recovery()
 
     def replenish_lost_pilots(self) -> None:
         if self.pilot_limits_enabled and self.replenish_count > 0:
@@ -321,15 +352,31 @@ class Squadron:
 
     @property
     def living_pilots(self) -> list[Pilot]:
-        return self._pilots_without_status(PilotStatus.Dead)
+        return [p for p in self.current_roster if p.alive]
 
     @property
     def dead_pilots(self) -> list[Pilot]:
         return self._pilots_with_status(PilotStatus.Dead)
 
     @property
+    def missing_pilots(self) -> list[Pilot]:
+        return self._pilots_with_status(PilotStatus.MissingInAction)
+
+    @property
+    def downed_pilots(self) -> list[Pilot]:
+        return self._pilots_with_status(PilotStatus.Downed)
+
+    @property
+    def recovering_pilots(self) -> list[Pilot]:
+        return self._pilots_with_status(PilotStatus.Recovering)
+
+    @property
     def _number_of_unfilled_pilot_slots(self) -> int:
-        return self.pilot_limit - len(self.active_pilots)
+        # Downed and recovering pilots still hold their roster slot: a downed
+        # pilot may be rescued and a recovering one will return, so we must not
+        # recruit a fresh pilot into a slot that is about to be reclaimed.
+        reserved = len(self.downed_pilots) + len(self.recovering_pilots)
+        return self.pilot_limit - len(self.active_pilots) - reserved
 
     @property
     def number_of_available_pilots(self) -> int:

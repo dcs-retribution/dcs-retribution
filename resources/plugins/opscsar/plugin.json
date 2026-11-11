@@ -1,0 +1,14 @@
+{
+    "skipUI": true,
+    "nameInUI": "Ops.CSAR",
+    "descriptionInUI": "Spawns downed pilots for combat search and rescue using MOOSE Ops.CSAR.",
+    "defaultValue": true,
+    "specificOptions": [],
+    "scriptsWorkOrders": [
+        {
+            "file": "OpsCSAR.lua",
+            "mnemonic": "opscsar"
+        }
+    ],
+    "configurationWorkOrders": []
+}

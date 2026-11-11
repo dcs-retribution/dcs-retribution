@@ -22,6 +22,7 @@ from game.theater import (
     MissionTarget,
     Player,
 )
+from game.squadrons.downedpilot import DownedPilot
 from game.theater.theatergroundobject import (
     BuildingGroundObject,
     IadsGroundObject,
@@ -59,6 +60,12 @@ class TheaterState(WorldState["TheaterState"]):
     aewc_targets: list[MissionTarget]
     refueling_targets: list[MissionTarget]
     recovery_targets: dict[ControlPoint, int]
+    csar_targets: list[DownedPilot]
+    #: Rescue packages committed so far this turn, capped by
+    #: Settings.max_csar_flights. Counted rather than pre-trimming csar_targets so
+    #: a pilot the planner *couldn't* reach (no aircraft, or a live SAM ring) does
+    #: not consume one of the slots.
+    csar_flights_planned: int
     enemy_air_defenses: list[IadsGroundObject]
     threatening_air_defenses: list[Union[IadsGroundObject, NavalGroundObject]]
     detecting_air_defenses: list[Union[IadsGroundObject, NavalGroundObject]]
@@ -128,6 +135,8 @@ class TheaterState(WorldState["TheaterState"]):
             aewc_targets=list(self.aewc_targets),
             refueling_targets=list(self.refueling_targets),
             recovery_targets=dict(self.recovery_targets),
+            csar_targets=list(self.csar_targets),
+            csar_flights_planned=self.csar_flights_planned,
             enemy_air_defenses=list(self.enemy_air_defenses),
             enemy_convoys=list(self.enemy_convoys),
             enemy_shipping=list(self.enemy_shipping),
@@ -205,6 +214,8 @@ class TheaterState(WorldState["TheaterState"]):
             aewc_targets=list(aewc_targets),
             refueling_targets=[finder.closest_friendly_control_point()],
             recovery_targets={cp: 0 for cp in finder.friendly_naval_control_points()},
+            csar_targets=list(finder.downed_pilots()),
+            csar_flights_planned=0,
             enemy_air_defenses=list(finder.enemy_air_defenses()),
             threatening_air_defenses=[],
             detecting_air_defenses=[],

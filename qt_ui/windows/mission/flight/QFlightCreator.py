@@ -128,6 +128,8 @@ class QFlightCreator(QDialog):
         self.start_type = QComboBox()
         for start_type in StartType:
             self.start_type.addItem(start_type.value, userData=start_type)
+        # Placeholder only. The pilots_changed emit at the end of __init__ runs
+        # on_pilot_selected, which sets the real default for the selected task.
         self.start_type.setCurrentText(self.game.settings.default_start_type.value)
         layout.addLayout(
             QLabeledWidget(
@@ -289,9 +291,10 @@ class QFlightCreator(QDialog):
             return
 
     def on_pilot_selected(self):
-        # Pilot selection detected. If this is a player flight, set start_type
-        # as configured for players in the settings.
-        # Otherwise, set the start_type as configured for AI.
+        # Pilot selection detected, so re-derive the default: a player flight
+        # follows the player default, and some tasks (CSAR) have one of their own.
+        # Also reached when the task or squadron changes, since both end up
+        # re-emitting pilots_changed.
         # https://github.com/dcs-liberation/dcs_liberation/issues/1567
 
         roster = self.roster_editor.roster
@@ -302,10 +305,11 @@ class QFlightCreator(QDialog):
 
         if required_start_type:
             start_type = required_start_type
-        elif roster is not None and roster.player_count > 0:
-            start_type = self.game.settings.default_start_type_client
         else:
-            start_type = self.game.settings.default_start_type
+            start_type = self.game.settings.start_type_for(
+                self.task_selector.currentData(),
+                has_players=roster is not None and roster.player_count > 0,
+            )
 
         self.start_type.setCurrentText(start_type.value)
 

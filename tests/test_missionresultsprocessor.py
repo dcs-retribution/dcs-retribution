@@ -24,6 +24,7 @@ from game.theater import ControlPoint
 #: set is checked exactly: adding or removing a commit sub-step without updating
 #: this list fails ``test_battle_impact_scored_before_captures_flip_ownership``.
 COMMIT_STEPS = [
+    "commit_csar_results",
     "commit_air_losses",
     "commit_pilot_experience",
     "commit_front_line_losses",

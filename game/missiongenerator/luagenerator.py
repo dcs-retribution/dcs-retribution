@@ -14,6 +14,11 @@ from dcs.triggers import TriggerStart
 from game.ato import FlightType
 from game.data.units import UnitClass
 from game.dcs.aircrafttype import AircraftType
+from game.missiongenerator.aircraft.waypoints.csarpickup import (
+    HOVER_ALTITUDE,
+    HOVER_DURATION_SECONDS,
+)
+from game.missiongenerator.csargenerator import EMBARK_ZONE_RADIUS
 from game.plugins import LuaPluginManager
 from game.theater import TheaterGroundObject
 from game.theater.iadsnetwork.iadsrole import IadsRole
@@ -291,9 +296,108 @@ class LuaGenerator:
                 "engagementRangeMeters", str(escort.engagement_range_meters)
             )
 
+        self.generate_csar_data(lua_data)
+
         trigger = TriggerStart(comment="Set DCS Retribution data")
         trigger.add_action(DoScript(String(lua_data.create_operations_lua())))
         self.mission.triggerrules.triggers.append(trigger)
+
+    def generate_csar_data(self, lua_data: LuaData) -> None:
+        """Injects Ops.CSAR data into the dcsRetribution table.
+
+        Exposes downed pilots (so the OpsCSAR.lua plugin can spawn them for pickup)
+        and the CSAR-capable aircraft whitelist (so MOOSE will accept transport
+        types it doesn't ship a default capacity for, like the Hercules).
+        """
+        settings = self.game.settings
+        csar_object = lua_data.add_item("CSAR")
+        # NB: LuaData serializes a node as *either* scalar key/values or nested
+        # items, never both, and always quotes string values. So the flags are
+        # emitted as individual leaf items (string "true"/"false", compared as
+        # strings in OpsCSAR.lua) alongside the downedPilots/rescueTypes arrays.
+        templates = self.mission_data.csar_pilot_templates
+        flags = {
+            "blueEnabled": "true" if settings.csar_enabled else "false",
+            "redEnabled": "true" if settings.csar_enabled_red else "false",
+            "rescueAI": "true" if settings.csar_rescue_ai_pilots else "false",
+            # Ops.CSAR's pilotmustopendoors. Player pickups only -- the AI paths
+            # don't model doors at all.
+            "requireOpenDoors": (
+                "true" if settings.csar_require_open_doors else "false"
+            ),
+            # Ops.CSAR's rescuehoverheight/rescuehoverdistance, for player hoists.
+            "playerHoverHeight": str(settings.csar_player_hover_height),
+            "playerHoverDistance": str(settings.csar_player_hover_distance),
+            # Survivors this close together come out on the same lift.
+            "clusterRadius": str(settings.csar_cluster_radius),
+            # Landing mode leaves the pickup to DCS's native embark; hover mode
+            # needs OpsCSAR.lua to extract the pilot by script.
+            "hoverExtraction": ("true" if settings.csar_hover_extraction else "false"),
+            # How the scripted hoist is flown. Both come from csarpickup.py so the
+            # waypoint and the script that holds the flight over it agree.
+            "hoverDurationSeconds": str(HOVER_DURATION_SECONDS),
+            "hoverAltitudeMeters": str(round(HOVER_ALTITUDE.meters)),
+            # Shared with the pilot's EmbarkToTransport task so the smoke the
+            # survivor pops matches the zone they can actually be picked up in.
+            "embarkZoneRadius": str(round(EMBARK_ZONE_RADIUS.meters)),
+            "blueTemplate": templates.get("blue", ""),
+            "redTemplate": templates.get("red", ""),
+            # MOOSE defaults its CSAR countries to USA/Russia and applies them
+            # via InitCountry() when spawning the pilot. DCS derives coalition
+            # membership from country, so a faction that doesn't field those
+            # countries would get its downed pilots on the wrong side.
+            "blueCountry": str(self.game.blue.faction.country.id),
+            "redCountry": str(self.game.red.faction.country.id),
+        }
+        for key, value in flags.items():
+            csar_object.add_item(key).set_value(value)
+
+        downed_object = csar_object.get_or_create_item("downedPilots")
+        for coalition in (self.game.blue, self.game.red):
+            enabled = (
+                settings.csar_enabled
+                if coalition.player.is_blue
+                else settings.csar_enabled_red
+            )
+            if not enabled:
+                continue
+            side = "blue" if coalition.player.is_blue else "red"
+            for downed in coalition.downed_pilots:
+                pilot_group = self.mission_data.csar_pilot_groups.get(str(downed.id))
+                if pilot_group is None:
+                    # CsarGenerator skipped it (CSAR disabled for this side).
+                    continue
+                item = downed_object.add_item()
+                item.add_key_value("id", str(downed.id))
+                item.add_key_value("x", str(downed.position.x))
+                item.add_key_value("z", str(downed.position.y))
+                item.add_key_value("coalition", side)
+                item.add_key_value("description", downed.pilot.name)
+                item.add_key_value("aircraft", downed.aircraft_name)
+                # The pilot is already placed in the mission (with an
+                # EmbarkToTransport task for the native AI pickup). OpsCSAR.lua
+                # hands this same group to Ops.CSAR so players can rescue it too.
+                item.add_key_value("groupName", pilot_group.group_name)
+                # How OpsCSAR.lua tells whether the survivor is still standing
+                # there: Unit.getByName is a live registry lookup, where a group's
+                # unit handles can outlive the units and never report the pickup.
+                item.add_key_value("unitName", pilot_group.unit_name)
+                # Per pilot, not per mission: a survivor in the water is hoisted
+                # out whatever the setting says, because nothing can land there.
+                item.add_key_value(
+                    "hoverExtraction",
+                    "true" if downed.needs_hover_extraction(settings) else "false",
+                )
+
+        rescue_types = csar_object.get_or_create_item("rescueTypes")
+        seen: set[str] = set()
+        for aircraft in AircraftType.priority_list_for_task(FlightType.CSAR):
+            if aircraft.dcs_id in seen:
+                continue
+            seen.add(aircraft.dcs_id)
+            type_item = rescue_types.add_item()
+            type_item.add_key_value("dcs_id", aircraft.dcs_id)
+            type_item.add_key_value("capacity", str(max(1, aircraft.cabin_size)))
 
     def inject_lua_trigger(self, contents: str, comment: str) -> None:
         trigger = TriggerStart(comment=comment)

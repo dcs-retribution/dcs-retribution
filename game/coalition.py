@@ -27,6 +27,7 @@ if TYPE_CHECKING:
     from .game import Game
     from .lasercodes import LaserCodeRegistry
     from .sim import GameUpdateEvents
+    from .squadrons.downedpilot import DownedPilot
 
 
 class Coalition:
@@ -44,6 +45,9 @@ class Coalition:
         self.air_wing = AirWing(player, game, self.faction)
         self.armed_forces = ArmedForces(self.faction)
         self.transfers = PendingTransfers(game, player)
+        #: Pilots shot down/ejected and awaiting CSAR rescue on the map. Persisted
+        #: with the save so CSAR is a campaign-persistent mission type.
+        self.downed_pilots: list[DownedPilot] = []
 
         # Late initialized because the two coalitions in the game are mutually
         # dependent, so must be both constructed before this property can be set.
@@ -110,6 +114,10 @@ class Coalition:
             else:
                 state["player"] = Player.RED
 
+        # CSAR postdates the oldest saves.
+        if "downed_pilots" not in state:
+            state["downed_pilots"] = []
+
         self.__dict__.update(state)
 
     def set_opponent(self, opponent: Coalition) -> None:
@@ -149,6 +157,11 @@ class Coalition:
         For more information on turn finalization in general, see the documentation for
         `Game.finish_turn`.
         """
+        # Age downed pilots (sending expired ones MIA) before the air wing's own
+        # turn end, which advances recovering pilots and replenishes losses.
+        from game.squadrons.csarservice import CsarService
+
+        CsarService(self.game).advance_turn_for(self)
         self.air_wing.end_turn()
         self.budget += Income(self.game, self.player).total
 

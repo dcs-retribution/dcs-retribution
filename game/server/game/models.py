@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING
 from pydantic import BaseModel
 
 from game.server.controlpoints.models import ControlPointJs
+from game.server.downedpilots.models import DownedPilotJs
 from game.server.flights.models import FlightJs
 from game.server.frontlines.models import FrontLineJs
 from game.server.iadsnetwork.models import IadsNetworkJs
@@ -25,6 +26,7 @@ if TYPE_CHECKING:
 class GameJs(BaseModel):
     control_points: list[ControlPointJs]
     tgos: list[TgoJs]
+    downed_pilots: list[DownedPilotJs]
     supply_routes: list[SupplyRouteJs]
     front_lines: list[FrontLineJs]
     flights: list[FlightJs]
@@ -43,6 +45,7 @@ class GameJs(BaseModel):
         return GameJs(
             control_points=ControlPointJs.all_in_game(game),
             tgos=TgoJs.all_in_game(game),
+            downed_pilots=DownedPilotJs.all_in_game(game),
             supply_routes=SupplyRouteJs.all_in_game(game),
             front_lines=FrontLineJs.all_in_game(game),
             flights=FlightJs.all_in_game(game, with_waypoints=True),

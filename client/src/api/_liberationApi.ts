@@ -135,6 +135,15 @@ const injectedRtkApi = api.injectEndpoints({
         method: "POST",
       }),
     }),
+    openNewDownedPilotPackageDialog: build.mutation<
+      OpenNewDownedPilotPackageDialogApiResponse,
+      OpenNewDownedPilotPackageDialogApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/qt/create-package/downed-pilot/${queryArg.pilotId}`,
+        method: "POST",
+      }),
+    }),
     openTgoInfoDialog: build.mutation<
       OpenTgoInfoDialogApiResponse,
       OpenTgoInfoDialogApiArg
@@ -176,6 +185,18 @@ const injectedRtkApi = api.injectEndpoints({
       ListSupplyRoutesApiArg
     >({
       query: () => ({ url: `/supply-routes/` }),
+    }),
+    listDownedPilots: build.query<
+      ListDownedPilotsApiResponse,
+      ListDownedPilotsApiArg
+    >({
+      query: () => ({ url: `/downed-pilots/` }),
+    }),
+    getDownedPilotById: build.query<
+      GetDownedPilotByIdApiResponse,
+      GetDownedPilotByIdApiArg
+    >({
+      query: (queryArg) => ({ url: `/downed-pilots/${queryArg.pilotId}` }),
     }),
     listTgos: build.query<ListTgosApiResponse, ListTgosApiArg>({
       query: () => ({ url: `/tgos/` }),
@@ -330,6 +351,11 @@ export type OpenNewTgoPackageDialogApiResponse =
 export type OpenNewTgoPackageDialogApiArg = {
   tgoId: string;
 };
+export type OpenNewDownedPilotPackageDialogApiResponse =
+  /** status 200 Successful Response */ any;
+export type OpenNewDownedPilotPackageDialogApiArg = {
+  pilotId: string;
+};
 export type OpenTgoInfoDialogApiResponse =
   /** status 200 Successful Response */ any;
 export type OpenTgoInfoDialogApiArg = {
@@ -353,6 +379,14 @@ export type SelectFlightApiArg = {
 export type ListSupplyRoutesApiResponse =
   /** status 200 Successful Response */ SupplyRoute[];
 export type ListSupplyRoutesApiArg = void;
+export type ListDownedPilotsApiResponse =
+  /** status 200 Successful Response */ DownedPilot[];
+export type ListDownedPilotsApiArg = void;
+export type GetDownedPilotByIdApiResponse =
+  /** status 200 Successful Response */ DownedPilot;
+export type GetDownedPilotByIdApiArg = {
+  pilotId: string;
+};
 export type ListTgosApiResponse = /** status 200 Successful Response */ Tgo[];
 export type ListTgosApiArg = void;
 export type GetTgoByIdApiResponse = /** status 200 Successful Response */ Tgo;
@@ -455,6 +489,16 @@ export type FrontLine = {
   id: string;
   extents: LatLng[];
 };
+export type DownedPilot = {
+  id: string;
+  name: string;
+  squadron: string;
+  aircraft: string;
+  blue: boolean;
+  position: LatLng;
+  turns_remaining: number;
+  sidc: string;
+};
 export type Tgo = {
   id: string;
   name: string;
@@ -520,6 +564,7 @@ export type UnculledZone = {
 export type Game = {
   control_points: ControlPoint[];
   tgos: Tgo[];
+  downed_pilots: DownedPilot[];
   supply_routes: SupplyRoute[];
   front_lines: FrontLine[];
   flights: Flight[];
@@ -555,11 +600,14 @@ export const {
   useGetNavmeshQuery,
   useOpenNewFrontLinePackageDialogMutation,
   useOpenNewTgoPackageDialogMutation,
+  useOpenNewDownedPilotPackageDialogMutation,
   useOpenTgoInfoDialogMutation,
   useOpenNewControlPointPackageDialogMutation,
   useOpenControlPointInfoDialogMutation,
   useSelectFlightMutation,
   useListSupplyRoutesQuery,
+  useListDownedPilotsQuery,
+  useGetDownedPilotByIdQuery,
   useListTgosQuery,
   useGetTgoByIdQuery,
   useTgoDestinationInRangeQuery,
