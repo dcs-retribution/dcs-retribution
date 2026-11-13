@@ -331,6 +331,7 @@ def create_game(
             fa18ef_tanker=False,
             f4bc_phantom=False,
             f9f_panther=False,
+            f15ex_v3=False,
             f22_raptor=False,
             f84g_thunderjet=False,
             f100_supersabre=False,

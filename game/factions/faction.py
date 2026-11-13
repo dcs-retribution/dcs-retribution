@@ -452,6 +452,10 @@ class Faction:
             self.remove_aircraft("VSN_F9F")
         if not mod_settings.f15d_baz:
             self.remove_aircraft("F-15D")
+        if not mod_settings.f15ex_v3:
+            self.remove_aircraft("F15EX")
+            self.remove_aircraft("F15EX_CFT")
+            self.remove_aircraft("F15IA")
         if not mod_settings.f_15_idf:
             eject_F15I()
             if AircraftType.named("F-15I Ra'am") in self.aircraft:

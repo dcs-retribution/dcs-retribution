@@ -122,6 +122,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("fa_18efg", self.fa_18efg)
         self.fa18ef_tanker = QtWidgets.QCheckBox()
         self.registerField("fa18ef_tanker", self.fa18ef_tanker)
+        self.f15ex_v3 = QtWidgets.QCheckBox()
+        self.registerField("f15ex_v3", self.f15ex_v3)
         self.f22_raptor = QtWidgets.QCheckBox()
         self.registerField("f22_raptor", self.f22_raptor)
         self.f84g_thunderjet = QtWidgets.QCheckBox()
@@ -240,6 +242,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("F-105 Thunderchief (v2.7.12.23x)", self.f105_thunderchief),
             ("F-106 Delta Dart (v2.9.4.101)", self.f106_deltadart),
             ("F-15D Baz (v1.0)", self.f15d_baz),
+            ("F-15EX V3 (Spino v3.0)", self.f15ex_v3),
             ("F-15I Ra'am (v1.0 by IDF Mods Project)", self.f_15_idf),
             ("F-16I Sufa & F-16D (v3.6 by IDF Mods Project)", self.f_16_idf),
             ("F-22A Raptor (v2.0.0 released May 2025)", self.f22_raptor),
@@ -325,6 +328,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.f_15_idf.setChecked(s.get("f_15_idf", False))
         self.f_16_idf.setChecked(s.get("f_16_idf", False))
         self.fa_18efg.setChecked(s.get("fa_18efg", False))
+        self.f15ex_v3.setChecked(s.get("f15ex_v3", False))
         self.f22_raptor.setChecked(s.get("f22_raptor", False))
         self.f84g_thunderjet.setChecked(s.get("f84g_thunderjet", False))
         self.f100_supersabre.setChecked(s.get("f100_supersabre", False))
