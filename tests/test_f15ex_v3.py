@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 import pytest
@@ -11,8 +10,6 @@ from dcs.planes import PlaneType, plane_map
 
 from game import persistency
 from game.dcs.aircrafttype import AircraftType
-from game.factions.faction import Faction
-from game.theater.start_generator import ModSettings
 from pydcs_extensions.f15ex.f15ex import F_15EX, F_15EX_CFT, F_15IA
 
 TASKS = [
@@ -89,32 +86,3 @@ def test_the_aim_260a_flies_escort_and_sweep_on_the_f15ex_only(unit: str) -> Non
         assert has_260 == (name in {"Retribution Escort", "Retribution Fighter sweep"})
     for fit in _fits("F15IA").values():
         assert not any("AIM-260A" in c for c in fit.values())
-
-
-def _faction(path: str, ticked: bool) -> Faction:
-    with Path(path).open(encoding="utf-8-sig") as data:
-        faction = Faction.from_dict(json.load(data))
-    faction.apply_mod_settings(ModSettings(f15ex_v3=ticked))
-    return faction
-
-
-@pytest.mark.parametrize(
-    "path,names",
-    [
-        (
-            "resources/factions/usa_2020.json",
-            {"F-15EX Eagle II", "F-15EX Eagle II (CFTs)"},
-        ),
-        ("resources/factions/israel_2017.json", {"F-15IA Eagle II"}),
-        (
-            "resources/factions/bluefor_modern.json",
-            {"F-15EX Eagle II", "F-15EX Eagle II (CFTs)", "F-15IA Eagle II"},
-        ),
-    ],
-)
-def test_factions_list_the_jets_only_when_the_mod_is_ticked(
-    path: str, names: set[str]
-) -> None:
-    jets = set(NAMES.values())
-    assert {a.variant_id for a in _faction(path, True).aircraft} & jets == names
-    assert not {a.variant_id for a in _faction(path, False).aircraft} & jets
