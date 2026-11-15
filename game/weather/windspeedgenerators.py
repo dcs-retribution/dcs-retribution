@@ -8,7 +8,7 @@ from typing import Any
 from dcs.weather import Wind
 
 from game.utils import Speed, knots, Heading
-from .wind import WindConditions
+from .wind import MAX_WIND_SPEED, WindConditions
 
 
 @dataclass(frozen=True)
@@ -69,8 +69,7 @@ class WeibullWindSpeedGenerator(WindSpeedGenerator):
             at_2000m + self.at_8000m.scale.meters_per_second, self.at_8000m.shape
         )
 
-        # DCS is limited to 97 knots wind speed.
-        max_supported_wind_speed = knots(97).meters_per_second
+        max_supported_wind_speed = MAX_WIND_SPEED.meters_per_second
 
         return WindConditions(
             # Always some wind to make the smoke move a bit.

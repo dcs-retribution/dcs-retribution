@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from datetime import datetime, timedelta
 from typing import List
 
 from game.ato import FlightType
@@ -38,3 +39,15 @@ class AirTaskingOrder:
         # Remove all packages individually so the database gets updated.
         for package in list(self.packages):
             self.remove_package(package)
+
+    def shift_time(self, delta: timedelta) -> None:
+        """Re-times every scheduled package by delta.
+
+        Flight timing is derived from the package TOT when it is read, so this
+        moves the whole ATO onto a new mission start without touching flights,
+        loadouts or routes. Unscheduled packages keep the datetime.min sentinel.
+        """
+        for package in self.packages:
+            if package.time_over_target == datetime.min:
+                continue
+            package.time_over_target += delta

@@ -26,7 +26,7 @@ class DcsCloudThicknessSelector(QHBoxLayout):
 
         self.thickness_spinner = QSpinBox()
         self.thickness_spinner.setValue(self.thickness.value())
-        self.thickness_spinner.setFixedWidth(75)
+        self.thickness_spinner.setFixedWidth(100)
         self.thickness_spinner.setSingleStep(100)
         self.thickness_spinner.valueChanged.connect(self.update_slider)
         self.addWidget(self.thickness_spinner, 1)

@@ -2,6 +2,9 @@
 
 ## Features/Improvements
 * **[Modding]** Added support for the CurrentHill Iran Military Assets pack: the Shahed-136 launcher, two IRGCN fast-attack craft, and a new `[CH] Iran 2020` faction, behind a New Game mods checkbox. (#886)
+* **[UI]** The Time & Weather dialog shows the generated wind for all three layers and lets you set speed and direction yourself. (#792)
+* **[UI]** The Time & Weather dialog shows sunrise, sunset and the moon for the chosen date, and where the mission start falls against them.
+* **[UI]** The Time & Weather dialog sets temperature, QNH, turbulence, fog and a dust storm. Accepting keeps any value you did not edit.
 * **[Kneeboard]** Use a light-grey daytime kneeboard background instead of near-white, to avoid glare under HDR / Auto-HDR while staying readable in daylight.
 * **[UX]** Hovering a friendly flight's route line on the map highlights it in yellow, and clicking it selects that flight's package (and the flight) in the ATO sidebar.
 * **[UX]** Press Delete with a package selected in the Packages list to cancel it, making it quick to clear several packages in a row.
@@ -30,6 +33,11 @@
 * **[Modding]** Update UH-60L mod to v2.1.5 including MH-60L DAP
 
 ## Fixes
+* **[UI]** Accepting the Time & Weather dialog no longer silently re-rolls the wind: the weather object it rebuilt generated a fresh random wind, discarding the one the forecast panel was showing. (#792)
+* **[UI]** Accepting the Time & Weather dialog no longer re-rolls the temperature, pressure, turbulence and fog when the date and weather type are unchanged. (#792)
+* **[UI]** The cloud base and thickness boxes in the Time & Weather dialog no longer cut off five-digit values. (#792)
+* **[UI]** Changing the time or date in the Time & Weather dialog no longer discards the turn's flight plans. They are re-timed to the new mission start. (#792)
+* **[Mission Generation]** Generated fog reaches the mission when "Use DCS' automatic fog setting" is off. It was written with `enable_fog = false`, so DCS dropped it.
 * **[Mission Generation]** Fix mission generation dying on "Duplicate convoy unit": convoy and cargo-ship names no longer reset each turn onto a convoy still in transit.
 * **[Mission Generator]** Dynamically allocated TACAN channels no longer collide with map beacons: DME/VOR-DME beacons (which share TACAN's channelization) are now blacklisted alongside TACAN/VORTAC, and beacons whose DCS data omits a channel (e.g. Syria's KALDE "KAD" VOR-DME) have their channel/band derived from the beacon's VHF frequency per the ICAO VOR/TACAN channelling plan instead of being silently skipped. The "Assign TACAN" dialog now warns in real time when the selected channel/band is already in use by a map beacon or another carrier/airfield/flight. (#36)
 * **[Map]** Right-clicking a front line under a blue flight-plan route now opens the new-package dialog instead of the browser context menu (the route's invisible hover overlay swallowed the click).
