@@ -25,6 +25,7 @@ from game.theater import (
 from game.theater.theatergroundobject import (
     BuildingGroundObject,
     IadsGroundObject,
+    MotorpoolGroundObject,
     NavalGroundObject,
     TheaterGroundObject,
     VehicleGroupGroundObject,
@@ -67,6 +68,7 @@ class TheaterState(WorldState["TheaterState"]):
     enemy_battle_positions: dict[ControlPoint, BattlePositions]
     oca_targets: list[ControlPoint]
     strike_targets: list[TheaterGroundObject]
+    motorpool_targets: list[MotorpoolGroundObject]
     enemy_barcaps: list[ControlPoint]
     threat_zones: ThreatZones
     vulnerable_control_points: list[ControlPoint]
@@ -136,6 +138,7 @@ class TheaterState(WorldState["TheaterState"]):
             },
             oca_targets=list(self.oca_targets),
             strike_targets=list(self.strike_targets),
+            motorpool_targets=list(self.motorpool_targets),
             enemy_barcaps=list(self.enemy_barcaps),
             threat_zones=self.threat_zones,
             # Persistent properties are not copied. These are a way for failed subtasks
@@ -215,6 +218,7 @@ class TheaterState(WorldState["TheaterState"]):
                 )
             ),
             strike_targets=list(finder.strike_targets()),
+            motorpool_targets=list(finder.motorpool_targets()),
             enemy_barcaps=list(game.theater.control_points_for(player.opponent)),
             threat_zones=game.threat_zone_for(player.opponent),
             vulnerable_control_points=vulnerable_control_points,

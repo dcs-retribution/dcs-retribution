@@ -1,0 +1,21 @@
+---
+name: VF-32
+nickname: Swordsmen - Low Vis
+female_pilot_percentage: 7
+country: USA
+role: Strike Fighter
+aircraft: F-14B(U) Tomcat
+livery: VF-32 2004 AC111 BuNo 161428
+mission_types:
+  - BAI
+  - BARCAP
+  - CAS
+  - DEAD
+  - Escort
+  - Intercept
+  - OCA/Aircraft
+  - OCA/Runway
+  - SEAD
+  - Strike
+  - Fighter sweep
+  - TARCAP

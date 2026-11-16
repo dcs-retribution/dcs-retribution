@@ -134,7 +134,7 @@
  },
  "airfield2_1": {
   "name": "rovaniemi",
-  "callsign": "roi",
+  "callsign": "ROI",
   "beacon_type": 3,
   "hertz": 117700000,
   "channel": 124
@@ -270,7 +270,7 @@
   "callsign": "Evenes",
   "beacon_type": 4,
   "hertz": 134000000,
-  "channel": 73
+  "channel": 67
  },
  "airfield14_0": {
   "name": "KIRKENES",

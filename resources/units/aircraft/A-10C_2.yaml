@@ -37,3 +37,10 @@ tasks:
   OCA/Aircraft: 830
   OCA/Runway: 390
   Strike: 390
+
+# Era gate for the payload-editor mission options (restrict_props_by_date):
+# The Scorpion HMCS (HMIT) reached A-10C squadrons circa 2012.
+date_gated_properties:
+  HelmetMountedDevice:
+    HMCS: 2012
+    "HMCS + NVG": 2012

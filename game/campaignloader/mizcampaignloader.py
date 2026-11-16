@@ -105,6 +105,8 @@ class MizCampaignLoader:
 
     AMMUNITION_DEPOT_UNIT_TYPE = Warehouse._Ammunition_depot.id
 
+    MOTORPOOL_UNIT_TYPE = Fortification.Garage_A.id
+
     STRIKE_TARGET_UNIT_TYPE = Fortification.Tech_combine.id
 
     GROUND_SPAWN_WAYPOINT_DISTANCE = 1000
@@ -281,6 +283,14 @@ class MizCampaignLoader:
     def ammunition_depots(self) -> Iterator[StaticGroup]:
         for group in itertools.chain(self.blue.static_group, self.red.static_group):
             if group.units[0].type in self.AMMUNITION_DEPOT_UNIT_TYPE:
+                yield group
+
+    @property
+    def motorpools(self) -> Iterator[StaticGroup]:
+        for group in itertools.chain(self.blue.static_group, self.red.static_group):
+            # `==` not `in`: MOTORPOOL_UNIT_TYPE is a single type-id string, so a
+            # substring test would also match any unit whose id is a substring of it.
+            if group.units[0].type == self.MOTORPOOL_UNIT_TYPE:
                 yield group
 
     @property
@@ -677,6 +687,12 @@ class MizCampaignLoader:
         for static in self.ammunition_depots:
             closest, distance = self.objective_info(static)
             closest.preset_locations.ammunition_depots.append(
+                PresetLocation.from_group(static)
+            )
+
+        for static in self.motorpools:
+            closest, distance = self.objective_info(static)
+            closest.preset_locations.motorpools.append(
                 PresetLocation.from_group(static)
             )
 

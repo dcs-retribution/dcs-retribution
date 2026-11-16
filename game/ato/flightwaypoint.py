@@ -34,6 +34,9 @@ class FlightWaypoint:
     targets: list[TheaterUnit] = field(default_factory=list)
     obj_name: str = ""
     pretty_name: str = ""
+    # User override; None = follow the auto names. Invariant: never "" — apply_name_edit
+    # stores None instead of an empty string, so `custom_name or pretty_name` is safe.
+    custom_name: str | None = None
     only_for_player: bool = False
     flyover: bool = False
 
@@ -55,8 +58,35 @@ class FlightWaypoint:
     def y(self) -> float:
         return self.position.y
 
+    @property
+    def display_name(self) -> str:
+        """User-facing name for Retribution displays: the override if the player set
+        one, otherwise the auto pretty_name."""
+        return self.custom_name or self.pretty_name
+
+    def apply_name_edit(self, raw: str) -> None:
+        """Record (or clear) a user rename from the flight-plan list cell.
+
+        The cell text is "{:<16}".format(display_name), so it arrives padded; strip it.
+        Only a value that differs from the auto pretty_name is a real override — a blank
+        or back-to-auto entry reverts so the waypoint resumes following its auto name.
+        pretty_name is stripped on the other side of the comparison too: saves made before
+        this change carry pretty_name padded by the old on_changed handler, and we must not
+        read that padding as a difference (it would set a phantom override).
+        """
+        stripped = raw.strip()
+        self.custom_name = (
+            stripped if stripped and stripped != self.pretty_name.strip() else None
+        )
+
     def __hash__(self) -> int:
         return hash(id(self))
+
+    def __setstate__(self, state: Dict[str, Any]) -> None:
+        # Saves made before custom_name existed won't carry the key; default it so
+        # attribute access on a reloaded waypoint is safe.
+        state.setdefault("custom_name", None)
+        self.__dict__.update(state)
 
     def __deepcopy__(self, memo: Optional[Dict[int, Any]] = None) -> FlightWaypoint:
         obj = FlightWaypoint(self.name, self.waypoint_type, self.position)

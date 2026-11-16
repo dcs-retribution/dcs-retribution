@@ -17,6 +17,7 @@ from game.ato.airtaaskingorder import AirTaskingOrder
 from game.ato.flight import Flight
 from game.ato.flighttype import FlightType
 from game.ato.package import Package
+from game.dcs.beacons import Beacons
 from game.game import Game
 from game.radio.RadioFrequencyContainer import RadioFrequencyContainer
 from game.radio.radios import RadioFrequency
@@ -620,12 +621,41 @@ class GameModel:
                 allocated_icls.add(cp.icls_channel)
             elif isinstance(cp, RadioFrequencyContainer):
                 allocated_freqs.add(cp.frequency)
+        # Map DME/VOR-DME/TACAN/VORTAC beacons share TACAN's channelization, so flag
+        # them as unavailable too, not just other player-assigned channels (#36).
+        for beacon in Beacons.iter_theater(self.game.theater):
+            if beacon.occupies_tacan_channel:
+                allocated_tacan.add(beacon.tacan_channel)
         allocated_freqs.remove(None)
         allocated_tacan.remove(None)
         allocated_icls.remove(None)
         self.allocated_freqs = list(allocated_freqs)
         self.allocated_tacan = list(allocated_tacan)
         self.allocated_icls = list(allocated_icls)
+
+    def unavailable_tacan_channels(self, exclude: object = None) -> list[TacanChannel]:
+        """Channels reserved by anything other than `exclude` itself.
+
+        Unlike allocated_tacan (a deduplicated set with no provenance), this always
+        includes map beacon channels, even if `exclude`'s own current channel
+        happens to share the same value (that's precisely the conflict to flag).
+        """
+        if self.game is None:
+            return []
+        channels: set[TacanChannel] = set()
+        for p in self.ato_model.ato.packages:
+            for f in p.flights:
+                if f is not exclude and f.tacan is not None:
+                    channels.add(f.tacan)
+        for cp in self.game.theater.control_points_for(True):
+            if cp is not exclude and isinstance(cp, NavalControlPoint):
+                if cp.tacan is not None:
+                    channels.add(cp.tacan)
+        for beacon in Beacons.iter_theater(self.game.theater):
+            if beacon.occupies_tacan_channel:
+                if (channel := beacon.tacan_channel) is not None:
+                    channels.add(channel)
+        return list(channels)
 
     def release_freq(self, freq: RadioFrequency):
         if freq:

@@ -5,7 +5,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
-from PySide6.QtCore import QSettings, Qt, Signal
+from PySide6.QtCore import QSettings, Qt, QTimer, Signal
 from PySide6.QtGui import QCloseEvent, QIcon, QAction, QGuiApplication, QActionGroup
 from PySide6.QtWidgets import (
     QApplication,
@@ -28,6 +28,7 @@ from game.pretense.pretensemissiongenerator import PretenseMissionGenerator
 from game.server import EventStream, GameContext
 from game.server.dependencies import QtCallbacks, QtContext
 from game.theater import ControlPoint, MissionTarget, TheaterGroundObject
+from game.theater.controlpoint import motorpools_inside_capture_zone
 from qt_ui import liberation_install
 from qt_ui.dialogs import Dialog
 from qt_ui.models import GameModel
@@ -362,6 +363,7 @@ class QLiberationWindow(QMainWindow):
         if file is not None and file[0] != "":
             game = persistency.load_game(file[0])
             game = self.migrate_game(game, file[0])
+            self._warn_motorpool_capture_zone(game)
             GameUpdateSignal.get_instance().game_loaded.emit(game)
 
             self.updateWindowTitle(file[0])
@@ -437,8 +439,29 @@ class QLiberationWindow(QMainWindow):
     def onGameGenerated(self, game: Game):
         logging.info("On Game generated")
         self.game = game
+        self._warn_motorpool_capture_zone(game)
         self.updateWindowTitle()
         GameUpdateSignal.get_instance().game_loaded.emit(self.game)
+
+    def _warn_motorpool_capture_zone(self, game: Optional[Game]) -> None:
+        if game is None or not game.settings.motorpool_enabled:
+            return
+        violations = motorpools_inside_capture_zone(game.theater.controlpoints)
+        if not violations:
+            return
+        # Defer so the modal lands on top of the main window rather than racing
+        # window setup during the startup auto-load.
+        QTimer.singleShot(
+            0,
+            lambda: QMessageBox.warning(
+                self,
+                "Motorpool placement problem",
+                "These motorpools are inside their control point's 3 km capture "
+                "zone, so their parked reserve vehicles will block base capture. "
+                "Move each Garage_A marker outside the capture radius:\n\n"
+                + "\n".join(str(v) for v in violations),
+            ),
+        )
 
     def onEndGame(self, state: TurnState):
         if state == TurnState.CONTINUE:

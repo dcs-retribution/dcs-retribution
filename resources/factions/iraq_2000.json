@@ -1,0 +1,79 @@
+{
+  "country": "Iraq",
+  "name": "Iraq 2000",
+  "authors": "Starfire",
+  "description": "<p>Iraqi armed forces around 1999-2000, after the losses of the Gulf War and under international sanctions.</p>",
+  "aircrafts": [
+    "IL-76MD",
+    "L-39ZA Albatros",
+    "Mi-24V Hind-E",
+    "Mi-24P Hind-F",
+    "Mi-8MTV2 Hip",
+    "MiG-21bis Fishbed-N",
+    "MiG-23ML Flogger-G",
+    "MiG-25PD Foxbat-E",
+    "MIG-29-FULCRUM",
+    "Mirage-F1EQ",
+    "SA 342L Gazelle",
+    "Su-22M4 Fitter-K",
+    "Su-24M Fencer-D",
+    "Su-25 Frogfoot",
+    "Tu-22M3 Backfire-C",
+    "Tu-16 Badger"
+  ],
+  "awacs": [],
+  "tankers": [],
+  "frontline_units": [
+    "2S1 Gvozdika",
+    "APC BTR-60",
+    "BMP-1",
+    "BRDM-2",
+    "MT-LB",
+    "PT-76",
+    "T-55A",
+    "T-72B with Kontakt-1 ERA",
+    "ZSU-23-4 Shilka",
+    "ZSU-57-2 'Sparka'"
+  ],
+  "artillery_units": [
+    "BM-21 Grad"
+  ],
+  "logistics_units": [
+    "LUV UAZ-469 Jeep",
+    "Truck Ural-375"
+  ],
+  "infantry_units": [
+    "Infantry AK-74",
+    "Infantry RPG",
+    "MANPADS SA-18 Igla \"Grouse\""
+  ],
+  "preset_groups": [
+    "SA-2/S-75",
+    "SA-2/S-75 V-759/5V23",
+    "SA-3/S-125",
+    "SA-3/S-125 V-601P/5V27",
+    "SA-6",
+    "KS-19/SON-9",
+    "HQ-2"
+  ],
+  "naval_units": [],
+  "air_defense_units": [
+    "EWR 1L13",
+    "Roland 2 (Marder Chassis)",
+    "S-60 57mm",
+    "SAM SA-8 Osa \"Gecko\" TEL",
+    "SA-9 Strela",
+    "SA-13 Gopher (9K35 Strela-10M3)",
+    "AAA ZU-23 Closed Emplacement",
+    "ZU-23 on Ural-375",
+    "ZSU-23-4 Shilka",
+    "ZSU-57-2 'Sparka'"
+  ],
+  "missiles": [
+    "SSM SS-1C Scud-B"
+  ],
+  "helicopter_carrier_names": [],
+  "requirements": {},
+  "carrier_names": [],
+  "doctrine": "coldwar"
+}

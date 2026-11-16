@@ -17,7 +17,7 @@ description:
 miz: exercise_vegas_nerve.miz
 performance: 1
 recommended_start_date: 2011-02-24
-version: "10.8"
+version: "10.9"
 settings:
   chinesemilitaryassetspack: true
   fa_18efg: true

@@ -9,6 +9,10 @@ units:
   - "[CH] MIM-104 EPP (HEMTT)"
   - "[CH] MIM-104 M903 PAC-2 GEM/T LN (HEMTT)"
   - "[CH] MIM-104 M903 PAC-3 MSE LN (HEMTT)"
+  - "[CH] MIM-104 AN/MPQ-53 STR (KAT1)"
+  - "[CH] MIM-104 M901 PAC-2 GEM LN (KAT1)"
+  - "[CH] MIM-104 ECS (HX)"
+  - "[CH] MIM-104 EPP (HX)"
   - "[CH] Oshkosh HEMTT M977"
 layouts:
   - MIM-104 Patriot Battery

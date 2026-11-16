@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 import itertools
 import logging
-from typing import Callable, Optional
+from typing import Callable, Optional, TYPE_CHECKING
 
 from PySide6.QtCore import QRect
 from PySide6.QtWidgets import QGridLayout, QLabel, QWidget
@@ -14,6 +16,9 @@ from .propertycombobox import PropertyComboBox
 from .propertyeditbox import PropertyEditBox
 from .propertyspinbox import PropertySpinBox
 
+if TYPE_CHECKING:
+    from game import Game
+
 
 class UnhandledControlTypeError(RuntimeError):
     def __init__(self, control: str) -> None:
@@ -21,10 +26,11 @@ class UnhandledControlTypeError(RuntimeError):
 
 
 class PropertyEditor(QGridLayout):
-    def __init__(self, flight: Flight, flight_member: FlightMember) -> None:
+    def __init__(self, flight: Flight, flight_member: FlightMember, game: Game) -> None:
         super().__init__()
         self.flight = flight
         self.flight_member = flight_member
+        self.game = game
         self.flight_member_update_listeners: list[Callable[[FlightMember], None]] = []
 
         self.build_props(flight)
@@ -87,7 +93,9 @@ class PropertyEditor(QGridLayout):
                 self.flight_member_update_listeners.append(widget.set_flight_member)
                 return widget
             case "comboList":
-                widget = PropertyComboBox(self.flight_member, prop)
+                widget = PropertyComboBox(
+                    self.flight_member, prop, self.flight.unit_type, self.game
+                )
                 self.flight_member_update_listeners.append(widget.set_flight_member)
                 return widget
             case "groupbox" | "label":

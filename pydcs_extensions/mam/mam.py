@@ -249,9 +249,9 @@ class P3C_Orion(PlaneType):
             2,
             Weapons.AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             2,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         LAU_117_AGM_65F = (2, Weapons.LAU_117_AGM_65F)
         LAU_117_AGM_65G = (2, Weapons.LAU_117_AGM_65G)
@@ -263,9 +263,9 @@ class P3C_Orion(PlaneType):
 
     class Pylon3:
         Mk_82___500lb_GP_Bomb_LD = (3, Weapons.Mk_82___500lb_GP_Bomb_LD)
-        BRU_42_with_3_x_Mk_82___500lb_GP_Bombs_LD = (
+        BRU_42___3_x_Mk_82___500lb_GP_Bomb_LD = (
             3,
-            Weapons.BRU_42_with_3_x_Mk_82___500lb_GP_Bombs_LD,
+            Weapons.BRU_42___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             3,
@@ -280,9 +280,9 @@ class P3C_Orion(PlaneType):
             3,
             Weapons.AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             3,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         LAU_117_AGM_65F = (3, Weapons.LAU_117_AGM_65F)
         LAU_117_AGM_65G = (3, Weapons.LAU_117_AGM_65G)
@@ -357,9 +357,9 @@ class P3C_Orion(PlaneType):
 
     class Pylon12:
         Mk_82___500lb_GP_Bomb_LD = (12, Weapons.Mk_82___500lb_GP_Bomb_LD)
-        BRU_42_with_3_x_Mk_82___500lb_GP_Bombs_LD = (
+        BRU_42___3_x_Mk_82___500lb_GP_Bomb_LD = (
             12,
-            Weapons.BRU_42_with_3_x_Mk_82___500lb_GP_Bombs_LD,
+            Weapons.BRU_42___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
         Mk_20_Rockeye___490lbs_CBU__247_x_HEAT_Bomblets = (
             12,
@@ -374,9 +374,9 @@ class P3C_Orion(PlaneType):
             12,
             Weapons.AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             12,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         LAU_117_AGM_65F = (12, Weapons.LAU_117_AGM_65F)
         LAU_117_AGM_65G = (12, Weapons.LAU_117_AGM_65G)
@@ -402,9 +402,9 @@ class P3C_Orion(PlaneType):
             13,
             Weapons.AGM_84E_Harpoon_SLAM__Stand_Off_Land_Attack_Missile_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             13,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
         LAU_117_AGM_65F = (13, Weapons.LAU_117_AGM_65F)
         LAU_117_AGM_65G = (13, Weapons.LAU_117_AGM_65G)

@@ -62,6 +62,7 @@ class UnitMap:
         self.aircraft: Dict[str, FlyingUnit] = {}
         self.airfields: Dict[str, Airfield] = {}
         self.front_line_units: Dict[str, FrontLineUnit] = {}
+        self.motorpool_units: Dict[str, FrontLineUnit] = {}
         self.theater_objects: Dict[str, TheaterUnitMapping] = {}
         self.scenery_objects: Dict[str, SceneryObjectMapping] = {}
         self.convoys: Dict[str, ConvoyUnit] = {}
@@ -103,6 +104,18 @@ class UnitMap:
 
     def front_line_unit(self, name: str) -> Optional[FrontLineUnit]:
         return self.front_line_units.get(name, None)
+
+    def add_motorpool_units(
+        self, group: VehicleGroup, origin: ControlPoint, unit_type: GroundUnitType
+    ) -> None:
+        for unit in group.units:
+            name = str(unit.name)
+            if name in self.motorpool_units:
+                raise RuntimeError(f"Duplicate motorpool unit: {name}")
+            self.motorpool_units[name] = FrontLineUnit(unit_type, origin)
+
+    def motorpool_unit(self, name: str) -> Optional[FrontLineUnit]:
+        return self.motorpool_units.get(name, None)
 
     def add_theater_unit_mapping(
         self, theater_unit: TheaterUnit, dcs_unit: Unit

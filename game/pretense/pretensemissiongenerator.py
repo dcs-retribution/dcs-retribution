@@ -163,16 +163,32 @@ class PretenseMissionGenerator(MissionGenerator):
             "neutrals", bullseye=Bullseye(Point(0, 0, self.mission.terrain)).to_pydcs()
         )
 
-        self.mission.coalition["blue"].add_country(self.p_country)
-        self.mission.coalition["red"].add_country(self.e_country)
+        # Register every squadron's country per side (#627), like the base
+        # generator -- not just the two faction primaries. Registering only
+        # ``p_country``/``e_country`` here silently defeated the per-squadron
+        # country fix for every Pretense campaign (all aircraft fell back to the
+        # single faction country, losing nation-specific voiceovers).
+        for country in self.country_assigner.blue_countries:
+            self.mission.coalition["blue"].add_country(country)
+        for country in self.country_assigner.red_countries:
+            self.mission.coalition["red"].add_country(country)
 
-        # Add CJTF factions to the coalitions, if they're not being used in the campaign
-        if CombinedJointTaskForcesBlue.id not in {self.p_country.id, self.e_country.id}:
+        # Add CJTF factions to the coalitions, if they're not already registered
+        # on that side by the assigner (Pretense scripting expects both present).
+        blue_ids = self.country_assigner.blue_country_ids
+        red_ids = self.country_assigner.red_country_ids
+        if CombinedJointTaskForcesBlue.id not in blue_ids:
             self.mission.coalition["blue"].add_country(CombinedJointTaskForcesBlue())
-        if CombinedJointTaskForcesRed.id not in {self.p_country.id, self.e_country.id}:
+        if CombinedJointTaskForcesRed.id not in red_ids:
             self.mission.coalition["red"].add_country(CombinedJointTaskForcesRed())
 
-        belligerents = {self.p_country.id, self.e_country.id}
+        # Everything registered on blue/red must be excluded from neutrals, or a
+        # belligerent country lands on two coalitions (an unloadable .miz). Start
+        # from the assigner's belligerent ids and add the CJTF ids added above.
+        belligerents = self.country_assigner.belligerent_ids | {
+            CombinedJointTaskForcesBlue.id,
+            CombinedJointTaskForcesRed.id,
+        }
         for country_id in country_dict.keys():
             if country_id not in belligerents:
                 c = country_dict[country_id]()
@@ -258,6 +274,7 @@ class PretenseMissionGenerator(MissionGenerator):
             ground_spawns_roadbase=tgo_generator.ground_spawns_roadbase,
             ground_spawns_large=tgo_generator.ground_spawns_large,
             ground_spawns=tgo_generator.ground_spawns,
+            country_assigner=self.country_assigner,
         )
 
         # Clear parking slots and ATOs
@@ -274,7 +291,6 @@ class PretenseMissionGenerator(MissionGenerator):
                     ato,
                 )
                 aircraft_generator.generate_packages(
-                    country,
                     ato,
                     tgo_generator.runways,
                 )

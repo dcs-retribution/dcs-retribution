@@ -1,0 +1,10 @@
+class: Launcher
+price: 15
+description: "The MIM-104 Patriot is a mobile surface-to-air missile (SAM) system used by the
+  United States Army and several allied states. This M901 launcher fires PAC-2 GEM/T
+  interceptors and is part of the KAT1 (HX-truck) battery layout."
+introduced: 2002
+manufacturer: Raytheon, Hughes, and RCA
+origin: USA
+variants:
+  "[CH] MIM-104 M901 PAC-2 GEM LN (KAT1)": null

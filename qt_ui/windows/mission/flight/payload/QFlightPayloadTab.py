@@ -192,7 +192,7 @@ class QFlightPayloadTab(QFrame):
         )
 
         self.property_editor = PropertyEditor(
-            self.flight, self.member_selector.selected_member
+            self.flight, self.member_selector.selected_member, game
         )
         scrolling_layout.addLayout(self.property_editor)
 

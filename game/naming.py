@@ -469,11 +469,15 @@ class NameGenerator:
 
     @classmethod
     def reset_numbers(cls) -> None:
+        # Called after every mission generation so per-mission group names are
+        # deterministic. Convoys and cargo ships are NOT per-mission: they are campaign
+        # objects that live across turns while they travel, and their name is their
+        # identity. Resetting their counters minted a fresh "Convoy 001" for a name
+        # still carried by one in transit, and mission generation then died on
+        # "Duplicate convoy unit". Their counters deliberately keep running.
         cls.number = 0
         cls.infantry_number = 0
         cls.aircraft_number = 0
-        cls.convoy_number = 0
-        cls.cargo_ship_number = 0
         cls.jtac_number = 0
 
     @classmethod

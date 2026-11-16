@@ -170,6 +170,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("vietnamwarvessels", self.vietnamwarvessels)
         self.chinesemilitaryassetspack = QtWidgets.QCheckBox()
         self.registerField("chinesemilitaryassetspack", self.chinesemilitaryassetspack)
+        self.iranmilitaryassetspack = QtWidgets.QCheckBox()
+        self.registerField("iranmilitaryassetspack", self.iranmilitaryassetspack)
         self.russianmilitaryassetspack = QtWidgets.QCheckBox()
         self.registerField("russianmilitaryassetspack", self.russianmilitaryassetspack)
         self.usamilitaryassetspack = QtWidgets.QCheckBox()
@@ -208,6 +210,10 @@ class GeneratorOptions(QtWidgets.QWizardPage):
                 self.chinesemilitaryassetspack,
             ),
             (
+                "CurrentHill Iran Military Assets pack (2.1.0)",
+                self.iranmilitaryassetspack,
+            ),
+            (
                 "CurrentHill Russian Military Assets pack (2.0.0)",
                 self.russianmilitaryassetspack,
             ),
@@ -216,7 +222,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
                 self.swedishmilitaryassetspack,
             ),
             (
-                "CurrentHill USA Military Assets pack (1.1.5)",
+                "CurrentHill USA Military Assets pack (1.5.0)",
                 self.usamilitaryassetspack,
             ),
             (
@@ -267,7 +273,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
             ("Su-57 Felon (build-04)", self.su57_felon),
             ("Super Étendard (v2.5.5)", self.super_etendard),
             ("Tornado F3 ADV (1.0)", self.tornado_adv),
-            ("UH-60L Black Hawk (v1.3.1)", self.uh_60l),
+            ("UH-60L Black Hawk (v2.1.5)", self.uh_60l),
             ("Vietnam War Vessels (v3.0.0 by TeTeT)", self.vietnamwarvessels),
         ]
 
@@ -344,6 +350,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.chinesemilitaryassetspack.setChecked(
             s.get("chinesemilitaryassetspack", False)
         )
+        self.iranmilitaryassetspack.setChecked(s.get("iranmilitaryassetspack", False))
         self.russianmilitaryassetspack.setChecked(
             s.get("russianmilitaryassetspack", False)
         )

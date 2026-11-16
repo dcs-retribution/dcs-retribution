@@ -25,6 +25,7 @@ from game.ato.flightstate import Completed, WaitingForStart
 from game.ato.flighttype import FlightType
 from game.ato.package import Package
 from game.ato.starttype import StartType
+from game.missiongenerator.countryassigner import CountryAssigner
 from game.missiongenerator.missiondata import MissionData
 from game.radio.radios import RadioRegistry
 from game.radio.tacan import TacanRegistry
@@ -64,6 +65,7 @@ class AircraftGenerator:
         ground_spawns_roadbase: dict[ControlPoint, list[Tuple[StaticGroup, Point]]],
         ground_spawns_large: dict[ControlPoint, list[Tuple[StaticGroup, Point]]],
         ground_spawns: dict[ControlPoint, list[Tuple[StaticGroup, Point]]],
+        country_assigner: CountryAssigner,
     ) -> None:
         self.mission = mission
         self.settings = settings
@@ -79,6 +81,7 @@ class AircraftGenerator:
         self.ground_spawns_roadbase = ground_spawns_roadbase
         self.ground_spawns_large = ground_spawns_large
         self.ground_spawns = ground_spawns
+        self.country_assigner = country_assigner
 
         self.ewrj_package_dict: Dict[int, List[FlyingGroup[Any]]] = {}
         self.ewrj = settings.plugins.get("ewrj")
@@ -123,7 +126,6 @@ class AircraftGenerator:
 
     def generate_flights(
         self,
-        country: Country,
         ato: AirTaskingOrder,
         dynamic_runways: Dict[str, RunwayData],
     ) -> None:
@@ -131,10 +133,11 @@ class AircraftGenerator:
 
         Aircraft generation is done by walking the ATO and spawning each flight in turn.
         After the flight is generated the group is added to the UnitMap so aircraft
-        deaths can be tracked.
+        deaths can be tracked. Each flight spawns under its squadron's DCS country
+        (resolved by ``CountryAssigner``) so mixed-nation sides get nation-specific
+        voiceovers/comms (#627).
 
         Args:
-            country: The country from the mission to use for this ATO.
             ato: The ATO to spawn aircraft for.
             dynamic_runways: Runway data for carriers and FARPs.
         """
@@ -154,6 +157,7 @@ class AircraftGenerator:
                         flight.return_pilots_and_aircraft()
                         continue
                     logging.info(f"Generating flight: {flight.unit_type}")
+                    country = self.country_assigner.for_squadron(flight.squadron)
                     group = self.create_and_configure_flight(
                         flight, country, dynamic_runways
                     )
@@ -211,21 +215,15 @@ class AircraftGenerator:
                         ):
                             break
 
-    def spawn_unused_aircraft(
-        self, player_country: Country, enemy_country: Country
-    ) -> None:
+    def spawn_unused_aircraft(self) -> None:
         for control_point in self.game.theater.controlpoints:
             if not (
                 isinstance(control_point, Airfield) or isinstance(control_point, Fob)
             ):
                 continue
 
-            if control_point.captured.is_blue:
-                country = player_country
-            else:
-                country = enemy_country
-
             for squadron in control_point.squadrons:
+                country = self.country_assigner.for_squadron(squadron)
                 try:
                     self._spawn_unused_for(squadron, country)
                 except NoParkingSlotError:

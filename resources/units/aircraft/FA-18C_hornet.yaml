@@ -70,3 +70,9 @@ tasks:
   TARCAP: 450
 
 has_built_in_ecm: true
+
+# Era gate for the payload-editor mission options (restrict_props_by_date):
+# JHMCS reached operational service on US fighters circa 2003.
+date_gated_properties:
+  HelmetMountedDevice:
+    JHMCS: 2003

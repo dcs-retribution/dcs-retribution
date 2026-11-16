@@ -67,6 +67,74 @@ class CombatGroup:
         return s
 
 
+# Unit classes plan_groundwar maps to a front-line role; any other class is
+# skipped (never deployed). Mirrors the if/elif chain in plan_groundwar.
+_DEPLOYABLE_UNIT_CLASSES = frozenset(
+    {
+        UnitClass.TANK,
+        UnitClass.APC,
+        UnitClass.ARTILLERY,
+        UnitClass.IFV,
+        UnitClass.LOGISTICS,
+        UnitClass.ATGM,
+        UnitClass.SHORAD,
+        UnitClass.AAA,
+        UnitClass.RECON,
+    }
+)
+
+
+def deployable_armor(cp: ControlPoint) -> dict[GroundUnitType, int]:
+    """Per-type counts GroundPlanner.plan_groundwar deploys toward the front.
+
+    Replicates plan_groundwar's allocation EXACTLY: proportional ratio, a <1
+    share rounded up to 1, clamp to the remaining limit, round(), sequential
+    decrement, stop at 0, and skip unit classes the planner does not deploy.
+    No connected-enemy gate (reserve_armor_for applies it).
+
+    KEEP IN SYNC with GroundPlanner.plan_groundwar — this duplicates its math on
+    purpose. plan_groundwar has no tests on this base, so it is intentionally
+    left untouched rather than refactored to share this helper.
+    """
+    limit = cp.frontline_unit_count_limit
+    total = cp.base.total_armor
+    remaining = limit
+    ratio = min(limit / total, 1) if total > 0 else 1
+    deployed: dict[GroundUnitType, int] = {}
+    for unit_type in cp.base.armor:
+        if unit_type.unit_class not in _DEPLOYABLE_UNIT_CLASSES:
+            continue  # plan_groundwar skips these before consuming the limit
+        available: float = cp.base.armor[unit_type] * ratio
+        if 0 < available < 1:
+            available = 1
+        if available > remaining:
+            available = remaining
+        available = round(available)
+        remaining -= available
+        if available > 0:
+            deployed[unit_type] = available
+        if remaining == 0:
+            break
+    return deployed
+
+
+def reserve_armor_for(cp: ControlPoint) -> dict[GroundUnitType, int]:
+    """The not-deployed remainder of a CP's armor, by type.
+
+    Deployed is empty for a CP with no connected enemy CP (nothing reaches the
+    front, so all armor is reserve), matching plan_groundwar, which only sends
+    units to a front where there is a connected enemy CP.
+    """
+    has_enemy = any(p.captured != cp.captured for p in cp.connected_points)
+    deployed = deployable_armor(cp) if has_enemy else {}
+    reserve: dict[GroundUnitType, int] = {}
+    for unit_type, count in cp.base.armor.items():
+        remainder = count - deployed.get(unit_type, 0)
+        if remainder > 0:
+            reserve[unit_type] = remainder
+    return reserve
+
+
 class GroundPlanner:
     def __init__(self, cp: ControlPoint, game: Game) -> None:
         self.cp = cp

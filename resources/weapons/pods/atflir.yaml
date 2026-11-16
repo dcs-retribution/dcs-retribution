@@ -6,3 +6,4 @@ year: 2003
 fallback: AIM-120C
 clsids:
   - "{AN_ASQ_228}"
+  - "{SUPERHORNET_PYLON_05_TP_ASQ228}"

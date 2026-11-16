@@ -53,9 +53,7 @@ class NewGameWizard(QtWidgets.QWizard):
         logging.info("New Game Wizard accept")
         logging.info("======================")
 
-        campaign = self.field("selectedCampaign")
-        if campaign is None:
-            campaign = self.theater_page.campaignList.selected_campaign
+        campaign = self.theater_page.campaignList.selected_campaign
         if campaign is None:
             campaign = self.campaigns[0]
 
@@ -129,6 +127,7 @@ class NewGameWizard(QtWidgets.QWizard):
             SWPack=self.field("SWPack"),
             vietnamwarvessels=self.field("vietnamwarvessels"),
             chinesemilitaryassetspack=self.field("chinesemilitaryassetspack"),
+            iranmilitaryassetspack=self.field("iranmilitaryassetspack"),
             russianmilitaryassetspack=self.field("russianmilitaryassetspack"),
             usamilitaryassetspack=self.field("usamilitaryassetspack"),
             ukmilitaryassetspack=self.field("ukmilitaryassetspack"),

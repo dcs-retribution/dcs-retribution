@@ -383,6 +383,6 @@ local unitPayloads = {
 			},
 		},
 	},
-	["unitType"] = "F-14A-135-GR",
+	["unitType"] = "F-14A-135-GR-Early",
 }
 return unitPayloads

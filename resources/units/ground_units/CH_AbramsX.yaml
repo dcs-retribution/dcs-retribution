@@ -1,0 +1,11 @@
+class: Tank
+description: The Abrams X is a next-generation technology demonstrator of the M1 Abrams line,
+  featuring a hybrid-electric powerpack, a lighter three-crew turret with an autoloader, and
+  improved sensors and active protection for reduced weight and signature.
+introduced: 2022
+manufacturer: General Dynamics
+origin: United States
+price: 30
+role: Main Battle Tank
+variants:
+  "[CH] Abrams X MBT": {}

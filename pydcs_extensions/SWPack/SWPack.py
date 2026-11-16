@@ -565,9 +565,9 @@ class tie_bomber_2(PlaneType):
 
     class Pylon1:
         PROTONM1 = (1, SWWeapons.PROTONM1)
-        TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
+        TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD = (
             1,
-            Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
+            Weapons.TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
         Mk_84___2000lb_GP_Bomb_LD = (1, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__ = (
@@ -585,9 +585,9 @@ class tie_bomber_2(PlaneType):
     class Pylon3:
         PROTONM1 = (3, SWWeapons.PROTONM1)
         Mk_84___2000lb_GP_Bomb_LD = (3, Weapons.Mk_84___2000lb_GP_Bomb_LD)
-        TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
+        TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD = (
             3,
-            Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
+            Weapons.TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
         Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__ = (
             3,
@@ -599,9 +599,9 @@ class tie_bomber_2(PlaneType):
         )
 
     class Pylon4:
-        TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
+        TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD = (
             4,
-            Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
+            Weapons.TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
         PROTONM2 = (4, SWWeapons.PROTONM2)
         Mk_84___2000lb_GP_Bomb_LD = (4, Weapons.Mk_84___2000lb_GP_Bomb_LD)
@@ -615,9 +615,9 @@ class tie_bomber_2(PlaneType):
         )
 
     class Pylon5:
-        TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
+        TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD = (
             5,
-            Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
+            Weapons.TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
         PROTONM2 = (5, SWWeapons.PROTONM2)
         Mk_84___2000lb_GP_Bomb_LD = (5, Weapons.Mk_84___2000lb_GP_Bomb_LD)
@@ -634,9 +634,9 @@ class tie_bomber_2(PlaneType):
         L_081_Fantasmagoria_ELINT_pod = (6, Weapons.L_081_Fantasmagoria_ELINT_pod)
 
     class Pylon7:
-        TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
+        TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD = (
             7,
-            Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
+            Weapons.TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
         Mk_84___2000lb_GP_Bomb_LD = (7, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__ = (
@@ -649,9 +649,9 @@ class tie_bomber_2(PlaneType):
         )
 
     class Pylon8:
-        TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
+        TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD = (
             8,
-            Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
+            Weapons.TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
         PROTONM2 = (8, SWWeapons.PROTONM2)
         Mk_84___2000lb_GP_Bomb_LD = (8, Weapons.Mk_84___2000lb_GP_Bomb_LD)
@@ -665,9 +665,9 @@ class tie_bomber_2(PlaneType):
         )
 
     class Pylon9:
-        TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD = (
+        TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD = (
             9,
-            Weapons.TER_9A_with_3_x_Mk_82___500lb_GP_Bomb_LD,
+            Weapons.TER_9_A___3_x_Mk_82___500lb_GP_Bomb_LD,
         )
         Mk_84___2000lb_GP_Bomb_LD = (9, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided__ = (

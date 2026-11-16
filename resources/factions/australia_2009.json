@@ -49,7 +49,7 @@
   ],
   "missiles": [],
   "air_defense_units": [
-    "SAM Hawk SR (AN/MPQ-50)",
+    "EWR AN/FPS-117 Radar",
     "HEMTT C-RAM Phalanx"
   ],
   "requirements": {

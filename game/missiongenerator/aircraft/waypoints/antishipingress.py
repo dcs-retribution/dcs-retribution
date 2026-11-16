@@ -2,7 +2,7 @@ import logging
 from typing import List
 
 from dcs.point import MovingPoint
-from dcs.task import AttackGroup, OptFormation, WeaponType
+from dcs.task import AttackGroup, Expend, OptFormation, WeaponType
 
 from game.theater import NavalControlPoint, TheaterGroundObject
 from .pydcswaypointbuilder import PydcsWaypointBuilder
@@ -70,7 +70,15 @@ class AntiShipIngressBuilder(PydcsWaypointBuilder):
                 )
                 continue
 
-            task = AttackGroup(miz_group.id, group_attack=True, weapon_type=ordnance)
+            # expend=All so the AI empties its anti-ship load on the target instead of
+            # DCS's default Auto salvo (which fires ~2 and RTBs with the rest). Matches
+            # what DEAD does. weapon_type scopes it to the anti-ship ordnance only.
+            task = AttackGroup(
+                miz_group.id,
+                group_attack=True,
+                weapon_type=ordnance,
+                expend=Expend.All,
+            )
             waypoint.tasks.append(task)
             added += 1
         return added

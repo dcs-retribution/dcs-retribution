@@ -67,9 +67,9 @@ class VSN_MirageIIIC(PlaneType):
             2,
             Weapons.Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided,
         )
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             2,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
         KAB_1500L___1500kg_Laser_Guided_Bomb = (
             2,
@@ -101,9 +101,9 @@ class VSN_MirageIIIC(PlaneType):
         M3_Fuel_Tank_1300_Liter = (2, WeaponsMirage3.M3_Fuel_Tank_1300_Liter)
 
     class Pylon3:
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             3,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
         KAB_1500L___1500kg_Laser_Guided_Bomb = (
             3,
@@ -146,9 +146,9 @@ class VSN_MirageIIIC(PlaneType):
         Smoke_Generator___orange_ = (7, Weapons.Smoke_Generator___orange_)
 
     class Pylon9:
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             9,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
         KAB_1500L___1500kg_Laser_Guided_Bomb = (
             9,
@@ -171,9 +171,9 @@ class VSN_MirageIIIC(PlaneType):
             10,
             Weapons.Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided,
         )
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             10,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
         KAB_1500L___1500kg_Laser_Guided_Bomb = (
             10,
@@ -273,9 +273,9 @@ class VSN_MirageIIIC_AG(PlaneType):
             2,
             Weapons.Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided,
         )
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             2,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
         KAB_1500L___1500kg_Laser_Guided_Bomb = (
             2,
@@ -307,9 +307,9 @@ class VSN_MirageIIIC_AG(PlaneType):
         M3_Fuel_Tank_1300_Liter = (2, WeaponsMirage3.M3_Fuel_Tank_1300_Liter)
 
     class Pylon3:
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             3,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
         KAB_1500L___1500kg_Laser_Guided_Bomb = (
             3,
@@ -352,9 +352,9 @@ class VSN_MirageIIIC_AG(PlaneType):
         Smoke_Generator___orange_ = (7, Weapons.Smoke_Generator___orange_)
 
     class Pylon9:
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             9,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
         KAB_1500L___1500kg_Laser_Guided_Bomb = (
             9,
@@ -377,9 +377,9 @@ class VSN_MirageIIIC_AG(PlaneType):
             10,
             Weapons.Kh_29T__AS_14_Kedge____670kg__ASM__TV_Guided,
         )
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             10,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
         KAB_1500L___1500kg_Laser_Guided_Bomb = (
             10,

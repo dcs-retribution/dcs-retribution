@@ -186,5 +186,8 @@ VERSION = _build_version_string()
 #:
 #: Version 10.8
 #: * Neutral base support, neutral FOB support, invisible FOBs, and control point influence zones
-
-CAMPAIGN_FORMAT_VERSION = (10, 8)
+#:
+#: Version 10.9
+#: * Support for motorpools which spawn reserve frontline units
+#:
+CAMPAIGN_FORMAT_VERSION = (10, 9)

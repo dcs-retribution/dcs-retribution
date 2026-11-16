@@ -69,17 +69,17 @@ class VSN_F35A(PlaneType):
         )
         Mk_83___1000lb_GP_Bomb_LD = (2, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         CBU_97___10_x_SFW_Cluster_Bomb = (2, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             2,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             2,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             2,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (2, Weapons.LAU_117_AGM_65G)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
@@ -134,17 +134,17 @@ class VSN_F35A(PlaneType):
         )
         Mk_84___2000lb_GP_Bomb_LD = (3, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         CBU_97___10_x_SFW_Cluster_Bomb = (3, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             3,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             3,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             3,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (3, Weapons.LAU_117_AGM_65G)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
@@ -265,17 +265,17 @@ class VSN_F35A(PlaneType):
         )
         Mk_84___2000lb_GP_Bomb_LD = (9, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         CBU_97___10_x_SFW_Cluster_Bomb = (9, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             9,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             9,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             9,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (9, Weapons.LAU_117_AGM_65G)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
@@ -314,17 +314,17 @@ class VSN_F35A(PlaneType):
         )
         Mk_83___1000lb_GP_Bomb_LD = (10, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         CBU_97___10_x_SFW_Cluster_Bomb = (10, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             10,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             10,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             10,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (10, Weapons.LAU_117_AGM_65G)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
@@ -420,17 +420,17 @@ class VSN_F35A_AG(PlaneType):
         )
         Mk_83___1000lb_GP_Bomb_LD = (2, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         CBU_97___10_x_SFW_Cluster_Bomb = (2, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             2,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             2,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             2,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (2, Weapons.LAU_117_AGM_65G)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
@@ -485,17 +485,17 @@ class VSN_F35A_AG(PlaneType):
         )
         Mk_84___2000lb_GP_Bomb_LD = (3, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         CBU_97___10_x_SFW_Cluster_Bomb = (3, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             3,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             3,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             3,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (3, Weapons.LAU_117_AGM_65G)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
@@ -616,17 +616,17 @@ class VSN_F35A_AG(PlaneType):
         )
         Mk_84___2000lb_GP_Bomb_LD = (9, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         CBU_97___10_x_SFW_Cluster_Bomb = (9, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             9,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             9,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             9,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (9, Weapons.LAU_117_AGM_65G)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
@@ -665,17 +665,17 @@ class VSN_F35A_AG(PlaneType):
         )
         Mk_83___1000lb_GP_Bomb_LD = (10, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         CBU_97___10_x_SFW_Cluster_Bomb = (10, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             10,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             10,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             10,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (10, Weapons.LAU_117_AGM_65G)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
@@ -777,17 +777,17 @@ class VSN_F35B(PlaneType):
         )
         Mk_83___1000lb_GP_Bomb_LD = (2, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         CBU_97___10_x_SFW_Cluster_Bomb = (2, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             2,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             2,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             2,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (2, Weapons.LAU_117_AGM_65G)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
@@ -842,17 +842,17 @@ class VSN_F35B(PlaneType):
         )
         Mk_84___2000lb_GP_Bomb_LD = (3, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         CBU_97___10_x_SFW_Cluster_Bomb = (3, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             3,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             3,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             3,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (3, Weapons.LAU_117_AGM_65G)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
@@ -976,17 +976,17 @@ class VSN_F35B(PlaneType):
         )
         Mk_84___2000lb_GP_Bomb_LD = (9, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         CBU_97___10_x_SFW_Cluster_Bomb = (9, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             9,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             9,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             9,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (9, Weapons.LAU_117_AGM_65G)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
@@ -1025,17 +1025,17 @@ class VSN_F35B(PlaneType):
         )
         Mk_83___1000lb_GP_Bomb_LD = (10, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         CBU_97___10_x_SFW_Cluster_Bomb = (10, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             10,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             10,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             10,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (10, Weapons.LAU_117_AGM_65G)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
@@ -1132,17 +1132,17 @@ class VSN_F35B_AG(PlaneType):
         )
         Mk_83___1000lb_GP_Bomb_LD = (2, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         CBU_97___10_x_SFW_Cluster_Bomb = (2, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             2,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             2,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             2,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (2, Weapons.LAU_117_AGM_65G)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
@@ -1197,17 +1197,17 @@ class VSN_F35B_AG(PlaneType):
         )
         Mk_84___2000lb_GP_Bomb_LD = (3, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         CBU_97___10_x_SFW_Cluster_Bomb = (3, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             3,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             3,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             3,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (3, Weapons.LAU_117_AGM_65G)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
@@ -1331,17 +1331,17 @@ class VSN_F35B_AG(PlaneType):
         )
         Mk_84___2000lb_GP_Bomb_LD = (9, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         CBU_97___10_x_SFW_Cluster_Bomb = (9, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             9,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             9,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             9,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (9, Weapons.LAU_117_AGM_65G)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
@@ -1380,17 +1380,17 @@ class VSN_F35B_AG(PlaneType):
         )
         Mk_83___1000lb_GP_Bomb_LD = (10, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         CBU_97___10_x_SFW_Cluster_Bomb = (10, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             10,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             10,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             10,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (10, Weapons.LAU_117_AGM_65G)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
@@ -1505,17 +1505,17 @@ class VSN_F35C(PlaneType):
         )
         Mk_83___1000lb_GP_Bomb_LD = (2, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         CBU_97___10_x_SFW_Cluster_Bomb = (2, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             2,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             2,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             2,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (2, Weapons.LAU_117_AGM_65G)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
@@ -1570,17 +1570,17 @@ class VSN_F35C(PlaneType):
         )
         Mk_84___2000lb_GP_Bomb_LD = (3, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         CBU_97___10_x_SFW_Cluster_Bomb = (3, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             3,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             3,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             3,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (3, Weapons.LAU_117_AGM_65G)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
@@ -1704,17 +1704,17 @@ class VSN_F35C(PlaneType):
         )
         Mk_84___2000lb_GP_Bomb_LD = (9, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         CBU_97___10_x_SFW_Cluster_Bomb = (9, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             9,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             9,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             9,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (9, Weapons.LAU_117_AGM_65G)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
@@ -1753,17 +1753,17 @@ class VSN_F35C(PlaneType):
         )
         Mk_83___1000lb_GP_Bomb_LD = (10, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         CBU_97___10_x_SFW_Cluster_Bomb = (10, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             10,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             10,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             10,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (10, Weapons.LAU_117_AGM_65G)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
@@ -1859,17 +1859,17 @@ class VSN_F35C_AG(PlaneType):
         )
         Mk_83___1000lb_GP_Bomb_LD = (2, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         CBU_97___10_x_SFW_Cluster_Bomb = (2, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             2,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             2,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             2,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (2, Weapons.LAU_117_AGM_65G)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
@@ -1924,17 +1924,17 @@ class VSN_F35C_AG(PlaneType):
         )
         Mk_84___2000lb_GP_Bomb_LD = (3, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         CBU_97___10_x_SFW_Cluster_Bomb = (3, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             3,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             3,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             3,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (3, Weapons.LAU_117_AGM_65G)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
@@ -2058,17 +2058,17 @@ class VSN_F35C_AG(PlaneType):
         )
         Mk_84___2000lb_GP_Bomb_LD = (9, Weapons.Mk_84___2000lb_GP_Bomb_LD)
         CBU_97___10_x_SFW_Cluster_Bomb = (9, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             9,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             9,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             9,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (9, Weapons.LAU_117_AGM_65G)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
@@ -2107,17 +2107,17 @@ class VSN_F35C_AG(PlaneType):
         )
         Mk_83___1000lb_GP_Bomb_LD = (10, Weapons.Mk_83___1000lb_GP_Bomb_LD)
         CBU_97___10_x_SFW_Cluster_Bomb = (10, Weapons.CBU_97___10_x_SFW_Cluster_Bomb)
-        LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_ = (
+        LAU_117___AGM_65D___Maverick_D__IIR_ASM_ = (
             10,
-            Weapons.LAU_117_with_AGM_65D___Maverick_D__IIR_ASM_,
+            Weapons.LAU_117___AGM_65D___Maverick_D__IIR_ASM_,
         )
-        LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
+        LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_ = (
             10,
-            Weapons.LAU_117_with_AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
+            Weapons.LAU_117___AGM_65E___Maverick_E__Laser_ASM___Lg_Whd_,
         )
-        LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
+        LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_ = (
             10,
-            Weapons.LAU_117_with_AGM_65K___Maverick_K__CCD_Imp_ASM_,
+            Weapons.LAU_117___AGM_65K___Maverick_K__CCD_Imp_ASM_,
         )
         LAU_117_AGM_65G = (10, Weapons.LAU_117_AGM_65G)
         AGM_88C_HARM___High_Speed_Anti_Radiation_Missile = (
