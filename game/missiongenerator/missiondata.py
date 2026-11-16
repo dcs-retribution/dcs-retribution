@@ -112,6 +112,19 @@ class FrontlineUnitGroupsInfo:
 
 
 @dataclass
+class CsarPilotGroupInfo:
+    """A downed pilot placed in the mission as a real ground group."""
+
+    group_name: str
+    #: The survivor's own unit. OpsCSAR.lua asks DCS's unit registry about this
+    #: name to decide whether they are still in the world -- a group's cached unit
+    #: handles can outlive the units themselves.
+    unit_name: str
+    group_id: int
+    blue: bool
+
+
+@dataclass
 class MissionData:
     awacs: list[AwacsInfo] = field(default_factory=list)
     runways: list[RunwayData] = field(default_factory=list)
@@ -125,3 +138,10 @@ class MissionData:
     cp_stack: dict[UUID, Distance] = field(default_factory=dict)
     player_frontline_groups: list[FrontlineUnitGroupsInfo] = field(default_factory=list)
     enemy_frontline_groups: list[FrontlineUnitGroupsInfo] = field(default_factory=list)
+    #: Late-activated infantry template group names Ops.CSAR is constructed with,
+    #: keyed by coalition ("blue"/"red"). Empty when CSAR is disabled.
+    csar_pilot_templates: dict[str, str] = field(default_factory=dict)
+    #: The actual downed-pilot groups placed in the mission, keyed by the
+    #: DownedPilot's id (as a string). Used to wire the rescue helicopter's
+    #: Embarking task to the right pilot, and to hand the group to Ops.CSAR.
+    csar_pilot_groups: dict[str, CsarPilotGroupInfo] = field(default_factory=dict)

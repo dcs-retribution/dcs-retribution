@@ -11,6 +11,7 @@ from game.ato import FlightType
 from game.ato.flightplans.formation import FormationLayout
 from game.ato.flightplans.waypointbuilder import WaypointBuilder
 from game.ato.packagewaypoints import PackageWaypoints
+from game.ato.starttype import StartType
 from game.data.doctrine import MODERN_DOCTRINE, COLDWAR_DOCTRINE, WWII_DOCTRINE
 from game.theater import ParkingType, SeasonalConditions, Airfield
 from game.theater.player import Player
@@ -46,6 +47,24 @@ class Migrator:
         self._update_tgos()
         try_set_attr(self.game.settings, "motorpool_enabled", True)
         try_set_attr(self.game.settings, "motorpool_spawn_cap", 10)
+        try_set_attr(self.game.settings, "csar_enabled", True)
+        try_set_attr(self.game.settings, "csar_enabled_red", True)
+        try_set_attr(self.game.settings, "csar_ejection_chance", 40)
+        try_set_attr(self.game.settings, "csar_control_point_radius", 15)
+        try_set_attr(self.game.settings, "csar_capture_radius", 30)
+        try_set_attr(self.game.settings, "csar_cluster_radius", 1000)
+        try_set_attr(self.game.settings, "csar_survival_turns", 3)
+        try_set_attr(self.game.settings, "csar_survival_turns_hostile", 2)
+        try_set_attr(self.game.settings, "csar_ai_recovery_turns", 2)
+        try_set_attr(self.game.settings, "csar_player_recovery_turns", 1)
+        try_set_attr(self.game.settings, "csar_start_type", StartType.WARM)
+        try_set_attr(self.game.settings, "csar_rescue_ai_pilots", True)
+        try_set_attr(self.game.settings, "csar_require_open_doors", False)
+        try_set_attr(self.game.settings, "csar_player_hover_height", 20)
+        try_set_attr(self.game.settings, "csar_player_hover_distance", 10)
+        try_set_attr(self.game.settings, "csar_single_flight", False)
+        try_set_attr(self.game.settings, "max_csar_flights", 2)
+        try_set_attr(self.game.settings, "csar_hover_extraction", False)
         self._ensure_motorpool_tgos()
         self._reload_terrain()
         self._update_theater()
@@ -197,6 +216,14 @@ class Migrator:
 
                 if self.is_liberation:
                     s.set_auto_assignable_mission_types(s.auto_assignable_mission_types)
+
+                # One-time opt-in of existing squadrons to CSAR. Guarded by a flag
+                # so a player who later turns CSAR off for a squadron doesn't get
+                # it re-enabled on every subsequent load.
+                try_set_attr(s, "csar_auto_assign_seeded", False)
+                if not s.csar_auto_assign_seeded:
+                    s.enable_csar_if_capable()
+                    s.csar_auto_assign_seeded = True
         # SquadronDefs
         for coa in self.game.coalitions:
             for ac, sdefs in coa.air_wing.squadron_defs.items():

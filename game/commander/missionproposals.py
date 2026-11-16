@@ -36,6 +36,11 @@ class ProposedFlight:
 
     preferred_type: Optional[AircraftType] = field(default=None)
 
+    #: Only meaningful for escorts. An optional escort that is needed but cannot be
+    #: found is simply left out, where a required one scrubs the whole mission and
+    #: orders aircraft to fill it.
+    optional: bool = field(default=False)
+
     def __str__(self) -> str:
         return f"{self.task} {self.num_aircraft} ship"
 

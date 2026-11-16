@@ -12,6 +12,7 @@ from .armedrecon import ArmedReconFlightPlan
 from .bai import BaiFlightPlan
 from .barcap import BarCapFlightPlan
 from .cas import CasFlightPlan
+from .csar import CsarFlightPlan
 from .dead import DeadFlightPlan
 from .escort import EscortFlightPlan
 from .ferry import FerryFlightPlan
@@ -64,6 +65,7 @@ class FlightPlanBuilderTypes:
             FlightType.TRANSPORT: AirliftFlightPlan.builder_type(),
             FlightType.FERRY: FerryFlightPlan.builder_type(),
             FlightType.AIR_ASSAULT: AirAssaultFlightPlan.builder_type(),
+            FlightType.CSAR: CsarFlightPlan.builder_type(),
             FlightType.PRETENSE_CARGO: PretenseCargoFlightPlan.builder_type(),
             FlightType.ARMED_RECON: ArmedReconFlightPlan.builder_type(),
             FlightType.RECOVERY: RecoveryTankerFlightPlan.builder_type(),

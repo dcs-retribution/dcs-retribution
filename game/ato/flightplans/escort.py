@@ -5,6 +5,7 @@ from typing import Type
 
 from .airassault import AirAssaultLayout
 from .airlift import AirliftLayout
+from .csar import CsarLayout
 from .formationattack import (
     FormationAttackBuilder,
     FormationAttackFlightPlan,
@@ -76,7 +77,15 @@ class Builder(FormationAttackBuilder[EscortFlightPlan, FormationAttackLayout]):
         )
 
         pf = self.package.primary_flight
-        if pf and pf.flight_type in [FlightType.AIR_ASSAULT, FlightType.TRANSPORT]:
+        if pf and pf.flight_type is FlightType.CSAR:
+            # Same shape as a transport: meet the helicopters on their run-in, cover
+            # the pickup, and go home when they do.
+            csar_layout = pf.flight_plan.layout
+            assert isinstance(csar_layout, CsarLayout)
+            join = builder.join(csar_layout.ingress.position)
+            split = builder.split(csar_layout.arrival.position)
+            initial = builder.escort_hold(csar_layout.pickup.position)
+        elif pf and pf.flight_type in [FlightType.AIR_ASSAULT, FlightType.TRANSPORT]:
             layout = pf.flight_plan.layout
             assert isinstance(layout, AirAssaultLayout) or isinstance(
                 layout, AirliftLayout

@@ -32,6 +32,7 @@ from game.unitmap import UnitMap
 from .briefinggenerator import BriefingGenerator, MissionInfoGenerator
 from .cargoshipgenerator import CargoShipGenerator
 from .convoygenerator import ConvoyGenerator
+from .csargenerator import CsarGenerator
 from .drawingsgenerator import DrawingsGenerator
 from .environmentgenerator import EnvironmentGenerator
 from .flotgenerator import FlotGenerator
@@ -121,6 +122,10 @@ class MissionGenerator:
         # Generate ground conflicts first so the JTACs get the first laser code (1688)
         # rather than the first player flight with a TGP.
         self.generate_ground_conflicts()
+        # Must run before the air units: a CSAR flight's pickup waypoint carries an
+        # Embarking task that references the downed pilot's group id, so the pilot
+        # groups have to exist before flight waypoints are built.
+        CsarGenerator(self.mission, self.game, self.mission_data).generate()
         self.generate_air_units(tgo_generator)
 
         RebellionGenerator(self.mission, self.game).generate()

@@ -25,6 +25,7 @@ from game.ato.closestairfields import ObjectiveDistanceCache
 from game.ground_forces.ai_ground_planner import GroundPlanner
 from game.models.game_stats import GameStats
 from game.plugins import LuaPluginManager
+from game.squadrons.csarservice import CapturedPilot
 from game.utils import Distance
 from . import naming, persistency
 from .ato import Flight
@@ -169,11 +170,18 @@ class Game:
         }
         self.pretense_air_groups: dict[str, Flight] = {}
         self.pretense_carrier_zones: List[str] = []
+        #: Pilots taken prisoner during the turn being processed, for the
+        #: debriefing report. Scratch, not campaign state: cleared at the
+        #: start of each results commit.
+        self.pilots_captured_this_turn: List[CapturedPilot] = []
 
         self.on_load(game_still_initializing=True)
 
     def __setstate__(self, state: dict[str, Any]) -> None:
         self.__dict__.update(state)
+        # Postdates CSAR, and is per-turn scratch rather than campaign state.
+        if not hasattr(self, "pilots_captured_this_turn"):
+            self.pilots_captured_this_turn = []
         # Heal carcass lists bloated by old saves. Guarded like laser_code_registry
         # below: __destroyed_units postdates the oldest saves, so a pre-2020 save
         # arrives without it and must not AttributeError here.
@@ -289,6 +297,7 @@ class Game:
         naming.namegen = self.name_generator
         LuaPluginManager.load_settings(self.settings)
         ObjectiveDistanceCache.set_theater(self.theater)
+        self._rebuild_downed_pilot_index()
         self.compute_unculled_zones(GameUpdateEvents())
         # Apply mod settings again so mod properties get injected again,
         # in case mods like CJS F/A-18E/F/G or IDF F-16I are selected by the player
@@ -298,6 +307,20 @@ class Game:
             # We don't need to push events that happen during load. The UI will fully
             # reset when we're done.
             self.compute_threat_zones(GameUpdateEvents())
+
+    def _rebuild_downed_pilot_index(self) -> None:
+        """Rebuilds the DownedPilot UUID lookup from the per-coalition lists.
+
+        Both the coalition lists and the db index are pickled and share object
+        references, so a normal load is already consistent. This makes the index
+        authoritative regardless (e.g. for saves migrated from before CSAR).
+        """
+        if not hasattr(self, "db"):
+            return
+        self.db.downed_pilots.objects.clear()
+        for coalition in (self.blue, self.red):
+            for downed in coalition.downed_pilots:
+                self.db.downed_pilots.objects[downed.id] = downed
 
     def finish_turn(self, events: GameUpdateEvents, skipped: bool = False) -> None:
         """Finalizes the current turn and advances to the next turn.
