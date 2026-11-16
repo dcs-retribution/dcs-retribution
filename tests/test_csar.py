@@ -2274,11 +2274,15 @@ def _fulfiller_with(escort_available: bool, optional: bool) -> tuple[Any, Any]:
     fulfiller.default_start_type = cast(Any, None)
     fulfiller.player_missions_asap = False
     fulfiller.add_procurement_request = MagicMock()  # type: ignore[method-assign]
-    fulfiller.air_wing_can_plan = lambda _task: True  # type: ignore[method-assign]
-    fulfiller.can_plan_escort = lambda _type: True  # type: ignore[method-assign]
-    fulfiller.check_needed_escorts = lambda _builder: {  # type: ignore[method-assign]
-        EscortType.AirToAir: True
-    }
+    fulfiller.air_wing_can_plan = MagicMock(  # type: ignore[method-assign]
+        return_value=True
+    )
+    fulfiller.can_plan_escort = MagicMock(  # type: ignore[method-assign]
+        return_value=True
+    )
+    fulfiller.check_needed_escorts = MagicMock(  # type: ignore[method-assign]
+        return_value={EscortType.AirToAir: True}
+    )
 
     builder = MagicMock()
     builder.package.flights = [MagicMock()]
