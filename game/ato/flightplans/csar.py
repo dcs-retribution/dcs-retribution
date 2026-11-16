@@ -98,6 +98,14 @@ class CsarFlightPlan(StandardFlightPlan[CsarLayout], UiZoneDisplay):
     def mission_departure_time(self) -> datetime:
         return self.package.time_over_target
 
+    def escorted_waypoints(self) -> Iterator[FlightWaypoint]:
+        # The run-in and the pickup are where the helicopters are exposed, and where
+        # an escort joins them (see EscortFlightPlan's builder). Deliberately not
+        # request_escort_at/dismiss_escort_at: those need a TOT at each waypoint,
+        # and a CSAR flight keeps its own schedule.
+        yield self.layout.ingress
+        yield self.layout.pickup
+
     @property
     def csar_target_zone_radius(self) -> Distance:
         return meters(500)

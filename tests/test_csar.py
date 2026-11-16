@@ -2150,3 +2150,192 @@ def test_generate_csar_data_serializes_and_evaluates() -> None:
     assert "CH-47D" in rescue_ids
     assert "Hercules" not in rescue_ids
     assert "C-130J-30" not in rescue_ids
+
+
+# ---------------------------------------------------------------------------
+# Planning: threat range, and escorts
+# ---------------------------------------------------------------------------
+
+
+def _air_defense(range_nm: float, distance_nm: float) -> Any:
+    from game.utils import nautical_miles
+
+    return SimpleNamespace(
+        name="SAM",
+        task=None,
+        distance_to=lambda _target: nautical_miles(distance_nm).meters,
+        max_threat_range=lambda: nautical_miles(range_nm),
+        max_detection_range=lambda: nautical_miles(range_nm),
+    )
+
+
+def _threat_state(*air_defenses: Any) -> Any:
+    state = _csar_planning_state([], max_flights=2)
+    state.enemy_air_defenses = list(air_defenses)
+    state.enemy_ships = []
+    state.threatening_air_defenses = []
+    state.detecting_air_defenses = []
+    settings = state.context.settings
+    settings.ownfor_autoplanner_aggressiveness = 20
+    settings.opfor_autoplanner_aggressiveness = 20
+    state.context.coalition = SimpleNamespace(
+        player=_blue_red_player().BLUE, game=SimpleNamespace(settings=settings)
+    )
+    return state
+
+
+def test_a_distant_long_range_sam_does_not_block_a_rescue() -> None:
+    """A 140 nm SAM that is 80 nm away used to make the pilot "threatened" -- and so
+    never rescued -- although a helicopter at treetop height is far below the
+    radar horizon at that distance."""
+    from game.commander.tasks.primitive.csar import PlanCsar
+    from game.theater.theatergroundobject import SamGroundObject  # noqa: F401
+
+    sam = _air_defense(range_nm=140, distance_nm=80)
+    task = PlanCsar(_standalone_downed())
+
+    assert task.target_area_preconditions_met(_threat_state(sam))
+
+
+def test_a_nearby_sam_still_blocks_a_rescue() -> None:
+    from game.commander.tasks.primitive.csar import PlanCsar
+
+    task = PlanCsar(_standalone_downed())
+
+    assert not task.target_area_preconditions_met(
+        _threat_state(_air_defense(range_nm=140, distance_nm=10))
+    )
+
+
+def test_other_missions_keep_the_full_threat_range() -> None:
+    """The cap is for rescue helicopters. A strike on the same target is still
+    judged against the system's whole engagement range."""
+    from game.commander.tasks.primitive.csar import PlanCsar
+    from game.commander.tasks.packageplanningtask import PackagePlanningTask
+
+    sam = _air_defense(range_nm=140, distance_nm=80)
+    task = PlanCsar(_standalone_downed())
+
+    assert PackagePlanningTask.threat_range_for(task, sam).nautical_miles == 140
+    assert task.threat_range_for(sam).nautical_miles == pytest.approx(30)
+
+
+def test_csar_proposes_optional_escorts_without_a_sead_sweep() -> None:
+    """A sweep flight plan needs package waypoints, which a friendly target never
+    has. The other two build their own, as they do for a transport."""
+    from game.commander.missionproposals import EscortType
+    from game.commander.tasks.primitive.csar import PlanCsar
+
+    downed = _standalone_downed()
+    downed.squadron.coalition.game.settings.csar_single_flight = False
+    task = PlanCsar(downed)
+    task.propose_flights()
+
+    assert [f.task for f in task.flights] == [
+        FlightType.CSAR,
+        FlightType.SEAD_ESCORT,
+        FlightType.ESCORT,
+    ]
+    escorts = task.flights[1:]
+    assert [f.escort_type for f in escorts] == [EscortType.Sead, EscortType.AirToAir]
+    assert all(f.optional for f in escorts)
+
+
+def test_csar_flight_plan_asks_for_cover_over_the_run_in_and_pickup() -> None:
+    """The escort check reads escorted_waypoints(); without this a CSAR flight
+    reported nothing to escort, so no escort was ever judged necessary."""
+    from game.ato.flightplans.csar import CsarFlightPlan
+
+    ingress, pickup = object(), object()
+    plan = CsarFlightPlan.__new__(CsarFlightPlan)
+    plan.layout = cast(Any, SimpleNamespace(ingress=ingress, pickup=pickup))
+
+    assert list(plan.escorted_waypoints()) == [ingress, pickup]
+
+
+def _fulfiller_with(escort_available: bool, optional: bool) -> tuple[Any, Any]:
+    from game.commander.missionproposals import (
+        EscortType,
+        ProposedFlight,
+        ProposedMission,
+    )
+    from game.commander.packagefulfiller import PackageFulfiller
+
+    fulfiller = PackageFulfiller.__new__(PackageFulfiller)
+    fulfiller.coalition = cast(
+        Any,
+        SimpleNamespace(
+            laser_code_registry=None,
+            air_wing=None,
+            player=_blue_red_player().BLUE,
+        ),
+    )
+    fulfiller.flight_db = cast(Any, None)
+    fulfiller.default_start_type = cast(Any, None)
+    fulfiller.player_missions_asap = False
+    fulfiller.add_procurement_request = MagicMock()  # type: ignore[method-assign]
+    fulfiller.air_wing_can_plan = lambda _task: True  # type: ignore[method-assign]
+    fulfiller.can_plan_escort = lambda _type: True  # type: ignore[method-assign]
+    fulfiller.check_needed_escorts = lambda _builder: {  # type: ignore[method-assign]
+        EscortType.AirToAir: True
+    }
+
+    builder = MagicMock()
+    builder.package.flights = [MagicMock()]
+    builder.plan_flight.side_effect = lambda proposed, ignore_range: (
+        proposed.escort_type is None or escort_available
+    )
+
+    mission = ProposedMission(
+        MagicMock(),
+        [
+            ProposedFlight(FlightType.CSAR, 2),
+            ProposedFlight(
+                FlightType.ESCORT, 2, EscortType.AirToAir, optional=optional
+            ),
+        ],
+    )
+    return fulfiller, (builder, mission)
+
+
+def _plan(fulfiller: Any, builder: Any, mission: Any) -> Any:
+    from game.profiling import MultiEventTracer
+
+    with patch(
+        "game.commander.packagefulfiller.PackageBuilder", return_value=builder
+    ), patch("game.commander.packagefulfiller.ObjectiveDistanceCache"):
+        return fulfiller.plan_mission(
+            mission, 1, MagicMock(), MultiEventTracer(), False
+        )
+
+
+def test_a_missing_optional_escort_does_not_cancel_the_mission() -> None:
+    fulfiller, (builder, mission) = _fulfiller_with(
+        escort_available=False, optional=True
+    )
+
+    package = _plan(fulfiller, builder, mission)
+
+    assert package is builder.build.return_value
+    fulfiller.add_procurement_request.assert_not_called()
+
+
+def test_a_missing_required_escort_still_cancels_the_mission() -> None:
+    fulfiller, (builder, mission) = _fulfiller_with(
+        escort_available=False, optional=False
+    )
+
+    assert _plan(fulfiller, builder, mission) is None
+    fulfiller.add_procurement_request.assert_called()
+
+
+def test_an_available_optional_escort_is_planned() -> None:
+    fulfiller, (builder, mission) = _fulfiller_with(
+        escort_available=True, optional=True
+    )
+
+    package = _plan(fulfiller, builder, mission)
+
+    assert package is builder.build.return_value
+    planned = [call.args[0].task for call in builder.plan_flight.call_args_list]
+    assert planned == [FlightType.CSAR, FlightType.ESCORT]

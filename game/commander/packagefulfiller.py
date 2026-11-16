@@ -204,9 +204,12 @@ class PackageFulfiller:
                     ignore_range,
                 )
 
+        # Escorts that were only ever a nice-to-have are not worth ordering aircraft
+        # for, or cancelling the mission over.
+        required_escorts = [e for e in escorts if not e.optional]
         if missing_types:
             self.scrub_mission_missing_aircraft(
-                mission, builder, missing_types, escorts, purchase_multiplier
+                mission, builder, missing_types, required_escorts, purchase_multiplier
             )
             return None
 
@@ -235,15 +238,19 @@ class PackageFulfiller:
                 escort.escort_type
             ):
                 with tracer.trace("Flight planning"):
-                    self.plan_flight(
-                        mission, escort, builder, missing_types, purchase_multiplier
-                    )
+                    if escort.optional:
+                        # Take one if there is one. No order, no scrub.
+                        builder.plan_flight(escort, ignore_range)
+                    else:
+                        self.plan_flight(
+                            mission, escort, builder, missing_types, purchase_multiplier
+                        )
 
         # Check again for unavailable aircraft. If the escort was required and
         # none were found, scrub the mission.
         if missing_types:
             self.scrub_mission_missing_aircraft(
-                mission, builder, missing_types, escorts, purchase_multiplier
+                mission, builder, missing_types, required_escorts, purchase_multiplier
             )
             return None
 

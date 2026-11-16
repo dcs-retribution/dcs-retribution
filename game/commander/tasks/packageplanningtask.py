@@ -73,8 +73,11 @@ class PackagePlanningTask(TheaterCommanderTask, Generic[MissionTargetT]):
         task: FlightType,
         num_aircraft: int,
         escort_type: Optional[EscortType] = None,
+        optional: bool = False,
     ) -> None:
-        self.flights.append(ProposedFlight(task, num_aircraft, escort_type))
+        self.flights.append(
+            ProposedFlight(task, num_aircraft, escort_type, optional=optional)
+        )
 
     @property
     def asap(self) -> bool:
@@ -144,7 +147,7 @@ class PackagePlanningTask(TheaterCommanderTask, Generic[MissionTargetT]):
             if range_type is RangeType.Detection:
                 target_range = target.max_detection_range()
             elif range_type is RangeType.Threat:
-                target_range = target.max_threat_range()
+                target_range = self.threat_range_for(target)
             else:
                 raise ValueError(f"Unknown RangeType: {range_type}")
             if not target_range:
@@ -164,6 +167,16 @@ class PackagePlanningTask(TheaterCommanderTask, Generic[MissionTargetT]):
         target_ranges = sorted(target_ranges, key=operator.itemgetter(1))
         for target, _range in target_ranges:
             yield target
+
+    def threat_range_for(
+        self, iads_threat: Union[IadsGroundObject, NavalGroundObject]
+    ) -> Distance:
+        """The range at which this task considers an air defense a threat.
+
+        The full engagement range by default. Tasks whose aircraft do not fly the
+        profile that range assumes can narrow it.
+        """
+        return iads_threat.max_threat_range()
 
     @staticmethod
     def corrective_factor_for_type(
@@ -217,7 +230,7 @@ class PackagePlanningTask(TheaterCommanderTask, Generic[MissionTargetT]):
             if state.context.coalition.player.is_blue
             else settings.opfor_autoplanner_aggressiveness
         )
-        threat_range = iads_threat.max_threat_range() * (margin / 100)
+        threat_range = self.threat_range_for(iads_threat) * (margin / 100)
         corrective_factor = self.corrective_factor_for_type(iads_threat)
         threat_range *= corrective_factor
         distance_to_threat = distance - threat_range
