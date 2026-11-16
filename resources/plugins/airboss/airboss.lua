@@ -58,6 +58,11 @@ end
 -- Track carriers that Airboss was created for (keyed by UNIT name)
 AirbossCarriers = AirbossCarriers or {}
 
+-- AIRBOSS instance per carrier (keyed by carrier UNIT name), so delayed callbacks
+-- (rescue helo/tanker/AWACS ready) can look up the right instance instead of relying
+-- on the AirbossRetribution global, which gets overwritten as each carrier is set up.
+AirbossInstances = AirbossInstances or {}
+
 -- Per-unit despawn state
 AirbossPendingDespawnUnit = AirbossPendingDespawnUnit or {} -- unitName -> true
 AirbossShutdownSeenUnit   = AirbossShutdownSeenUnit   or {} -- unitName -> true
@@ -185,12 +190,13 @@ function AddRescueHelo(nameOfCarrier)
 
         function rescueheloTED:OnAfterStart(From, Event, To)
             local unitName = self:GetUnitName()
-            if AirbossRetribution then
-                env.info("AIRBOSS: Setting relay units to Rescue Helo: " .. unitName)
-                AirbossRetribution:SetRadioRelayMarshal(unitName)
-                AirbossRetribution:SetRadioRelayLSO(unitName)
+            local airbossInstance = AirbossInstances[nameOfCarrier]
+            if airbossInstance then
+                env.info("AIRBOSS: Setting relay units to Rescue Helo: " .. unitName .. " for carrier " .. nameOfCarrier)
+                airbossInstance:SetRadioRelayMarshal(unitName)
+                airbossInstance:SetRadioRelayLSO(unitName)
             else
-                env.info("AIRBOSS: Rescue Helo not found, relay units not set")
+                env.info("AIRBOSS: No Airboss instance found for carrier " .. nameOfCarrier .. ", relay units not set")
             end
         end
 
@@ -315,11 +321,12 @@ function AddTrickOrTreat(nameOfCarrier)
         S3TED:__Start(1)
 
         function S3TED:OnAfterStart(From, Event, To)
-            if AirbossRetribution then
-                env.info("AIRBOSS: DETECTED FOR TANKER")
-                AirbossRetribution:SetRecoveryTanker(S3TED)
+            local airbossInstance = AirbossInstances[nameOfCarrier]
+            if airbossInstance then
+                env.info("AIRBOSS: DETECTED FOR TANKER on carrier " .. nameOfCarrier)
+                airbossInstance:SetRecoveryTanker(S3TED)
             else
-                env.info("AIRBOSS: NOT DETECTED FOR TANKER")
+                env.info("AIRBOSS: No Airboss instance found for carrier " .. nameOfCarrier .. ", tanker not set")
             end
         end
     end)
@@ -444,11 +451,12 @@ function AddShipAWACS(nameOfCarrier)
         awacsTED:__Start(1)
 
         function awacsTED:OnAfterStart(From, Event, To)
-            if AirbossRetribution then
-                env.info("AIRBOSS: DETECTED FOR AWACS")
-                AirbossRetribution:SetAWACS(awacsTED)
+            local airbossInstance = AirbossInstances[nameOfCarrier]
+            if airbossInstance then
+                env.info("AIRBOSS: DETECTED FOR AWACS on carrier " .. nameOfCarrier)
+                airbossInstance:SetAWACS(awacsTED)
             else
-                env.info("AIRBOSS: NOT DETECTED FOR AWACS")
+                env.info("AIRBOSS: No Airboss instance found for carrier " .. nameOfCarrier .. ", AWACS not set")
             end
         end
     end)
@@ -497,6 +505,7 @@ function SetupAirboss(nameOfCarrier, carrierType)
     local carrierData = airboss_carrier_data[nameOfCarrier]
 
     AirbossRetribution = AIRBOSS:New(nameOfCarrier)
+    AirbossInstances[nameOfCarrier] = AirbossRetribution
     AirbossRetribution:SetMenuRecovery(30, 20, true)
     AirbossRetribution:SetCarrierControlledArea(airboss_options.rescueHeloDistance)
     AirbossRetribution:SetSoundfilesFolder("l10n/DEFAULT/")
@@ -821,3 +830,23 @@ function AirbossLandDespawnHandler:OnEventLand(EventData)
 end
 
 AutoSetup()
+
+-- Keep each carrier's SRS transmission origin following its relay unit (rescue helo)
+-- while it's alive and airborne, falling back to the carrier's current position
+-- otherwise. Without this, the SRS origin stays frozen wherever the carrier was
+-- when EnableSRS() ran, and SetRadioRelayMarshal/LSO has no effect on SRS comms.
+local function UpdateAirbossSRSCoordinates()
+    for carrierName, airbossInstance in pairs(AirbossInstances) do
+        if airbossInstance.SRS then
+            local relayName = airbossInstance.radiorelayMSH or airbossInstance.radiorelayLSO
+            local relayUnit = relayName and UNIT:FindByName(relayName)
+            if relayUnit and relayUnit:IsAlive() and relayUnit:IsAir() then
+                airbossInstance.SRS:SetCoordinate(relayUnit:GetCoordinate())
+            else
+                airbossInstance.SRS:SetCoordinate(airbossInstance:GetCoordinate())
+            end
+        end
+    end
+    return timer.getTime() + 5
+end
+timer.scheduleFunction(UpdateAirbossSRSCoordinates, nil, timer.getTime() + 5)
