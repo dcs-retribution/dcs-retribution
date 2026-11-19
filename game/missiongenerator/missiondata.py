@@ -5,6 +5,7 @@ from datetime import datetime
 from typing import Optional, TYPE_CHECKING
 
 from dcs.flyingunit import FlyingUnit
+from dcs.mapping import Point
 from dcs.unitgroup import ShipGroup
 
 from game.dcs.aircrafttype import AircraftType
@@ -69,6 +70,8 @@ class JtacInfo(UnitInfo):
 
     region: str
     code: str
+    frontline_segment: tuple[Point, Point] | None = None
+    freq_vhf: RadioFrequency | None = None
 
 
 @dataclass

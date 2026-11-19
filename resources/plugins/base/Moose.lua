@@ -8622,6 +8622,12 @@ MenuCallHandler=nil,
 }
 function MENU_COMMAND_BASE:New(MenuText,ParentMenu,CommandMenuFunction,CommandMenuArguments)
 local self=BASE:Inherit(self,MENU_BASE:New(MenuText,ParentMenu))
+self:SetCommandMenuFunction(CommandMenuFunction)
+self:SetCommandMenuArguments(CommandMenuArguments)
+self:SetMenuCallHandler()
+return self
+end
+function MENU_COMMAND_BASE:SetMenuCallHandler()
 local ErrorHandler=function(errmsg)
 env.info("MOOSE error in MENU COMMAND function: "..errmsg)
 if BASE.Debug~=nil then
@@ -8629,8 +8635,6 @@ env.info(BASE.Debug.traceback())
 end
 return errmsg
 end
-self:SetCommandMenuFunction(CommandMenuFunction)
-self:SetCommandMenuArguments(CommandMenuArguments)
 self.MenuCallHandler=function()
 local function MenuFunction()
 return self.CommandMenuFunction(unpack(self.CommandMenuArguments))
@@ -8716,6 +8720,7 @@ MissionMenu:SetCommandMenuArguments(arg)
 return MissionMenu
 else
 local self=BASE:Inherit(self,MENU_COMMAND_BASE:New(MenuText,ParentMenu,CommandMenuFunction,arg))
+self:SetMenuCallHandler()
 MENU_INDEX:SetMissionMenu(Path,self)
 self.MenuPath=missionCommands.addCommand(MenuText,self.MenuParentPath,self.MenuCallHandler)
 self:SetParentMenu(self.MenuText,self)
@@ -8820,6 +8825,7 @@ CoalitionMenu:SetCommandMenuArguments(arg)
 return CoalitionMenu
 else
 local self=BASE:Inherit(self,MENU_COMMAND_BASE:New(MenuText,ParentMenu,CommandMenuFunction,arg))
+self:SetMenuCallHandler()
 MENU_INDEX:SetCoalitionMenu(Coalition,Path,self)
 self.Coalition=Coalition
 self.MenuPath=missionCommands.addCommandForCoalition(self.Coalition,MenuText,self.MenuParentPath,self.MenuCallHandler)
@@ -8945,6 +8951,7 @@ GroupMenu:SetCommandMenuArguments(arg)
 return GroupMenu
 else
 self=BASE:Inherit(self,MENU_COMMAND_BASE:New(MenuText,ParentMenu,CommandMenuFunction,arg))
+self:SetMenuCallHandler()
 MENU_INDEX:SetGroupMenu(Group,Path,self)
 self.Group=Group
 self.GroupID=Group:GetID()
@@ -9071,6 +9078,7 @@ GroupMenu:SetCommandMenuArguments(arg)
 return GroupMenu
 else
 self=BASE:Inherit(self,MENU_COMMAND_BASE:New(MenuText,ParentMenu,CommandMenuFunction,arg))
+self:SetMenuCallHandler()
 MENU_INDEX:SetGroupMenu(Group,Path,self)
 self.Group=Group
 self.GroupID=Group:GetID()

@@ -19,6 +19,11 @@ from dcs.task import AFAC, FAC, SetInvisibleCommand, SetImmortalCommand, OrbitAc
 from game.missiongenerator.convoygenerator import ConvoyGenerator
 from game.missiongenerator.environmentgenerator import EnvironmentGenerator
 from game.missiongenerator.forcedoptionsgenerator import ForcedOptionsGenerator
+from game.missiongenerator.flotgenerator import (
+    JTACS_PER_FRONTLINE_OPTION,
+    jtac_count_and_codes,
+    jtacs_per_frontline,
+)
 from game.missiongenerator.frontlineconflictdescription import (
     FrontLineConflictDescription,
 )
@@ -202,14 +207,16 @@ class PretenseMissionGenerator(MissionGenerator):
 
             # Add JTAC
             if self.game.blue.faction.has_jtac:
-                freq = self.radio_registry.alloc_uhf()
-                # If the option fc3LaserCode is enabled, force all JTAC
-                # laser codes to 1113 to allow lasing for Su-25 Frogfoots and A-10A Warthogs.
-                # Otherwise use 1688 for the first JTAC, 1687 for the second etc.
-                if self.game.settings.plugins.get("ctld.fc3LaserCode"):
-                    code = self.game.laser_code_registry.fc3_code
-                else:
-                    code = front_line.laser_code
+                fc3 = self.game.settings.plugins.get("ctld.fc3LaserCode")
+                n_requested = jtacs_per_frontline(
+                    self.game.settings.plugins.get(JTACS_PER_FRONTLINE_OPTION)
+                )
+                n, codes = jtac_count_and_codes(
+                    fc3=bool(fc3),
+                    n_requested=n_requested,
+                    front_line=front_line,
+                    registry=self.game.laser_code_registry,
+                )
 
                 utype = self.game.blue.faction.jtac_unit
                 if utype is None:
@@ -219,41 +226,47 @@ class PretenseMissionGenerator(MissionGenerator):
                 position = FrontLineConflictDescription.frontline_position(
                     front_line, self.game.theater, self.game.settings
                 )
-                jtac = self.mission.flight_group(
-                    country=country,
-                    name=namegen.next_jtac_name(),
-                    aircraft_type=utype.dcs_unit_type,
-                    position=position[0],
-                    airport=None,
-                    altitude=5000,
-                    maintask=AFAC,
-                )
-                jtac.points[0].tasks.append(
-                    FAC(
-                        callsign=len(self.mission_data.jtacs) + 1,
-                        frequency=int(freq.mhz),
-                        modulation=freq.modulation,
-                    )
-                )
-                jtac.points[0].tasks.append(SetInvisibleCommand(True))
-                jtac.points[0].tasks.append(SetImmortalCommand(True))
-                jtac.points[0].tasks.append(
-                    OrbitAction(5000, 300, OrbitAction.OrbitPattern.Circle)
-                )
                 frontline = f"Frontline {player_cp.name}/{enemy_cp.name}"
-                # Note: Will need to change if we ever add ground based JTAC.
-                callsign = callsign_for_support_unit(jtac)
-                self.mission_data.jtacs.append(
-                    JtacInfo(
-                        group_name=jtac.name,
-                        unit_name=jtac.units[0].name,
-                        callsign=callsign,
-                        region=frontline,
-                        code=str(code),
-                        blue=Player.BLUE,
-                        freq=freq,
+
+                for i in range(n):
+                    freq = self.radio_registry.alloc_uhf()
+                    freq_vhf = self.radio_registry.alloc_vhf()
+                    jtac = self.mission.flight_group(
+                        country=country,
+                        name=namegen.next_jtac_name(),
+                        aircraft_type=utype.dcs_unit_type,
+                        # lateral offset so N drones don't spawn stacked
+                        position=position[0].point_from_heading(i * 90, i * 2000),
+                        airport=None,
+                        altitude=5000,
+                        maintask=AFAC,
                     )
-                )
+                    jtac.points[0].tasks.append(
+                        FAC(
+                            callsign=len(self.mission_data.jtacs) + 1,
+                            frequency=int(freq.mhz),
+                            modulation=freq.modulation,
+                        )
+                    )
+                    jtac.points[0].tasks.append(SetInvisibleCommand(True))
+                    jtac.points[0].tasks.append(SetImmortalCommand(True))
+                    jtac.points[0].tasks.append(
+                        OrbitAction(5000, 300, OrbitAction.OrbitPattern.Circle)
+                    )
+                    # Note: Will need to change if we ever add ground based JTAC.
+                    callsign = callsign_for_support_unit(jtac)
+                    self.mission_data.jtacs.append(
+                        JtacInfo(
+                            group_name=jtac.name,
+                            unit_name=jtac.units[0].name,
+                            callsign=callsign,
+                            region=frontline,
+                            code=str(codes[i]),
+                            blue=Player.BLUE,
+                            freq=freq,
+                            freq_vhf=freq_vhf,
+                        )
+                    )
 
     def generate_air_units(self, tgo_generator: TgoGenerator) -> None:
         """Generate the air units for the Operation"""

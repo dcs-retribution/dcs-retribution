@@ -44,13 +44,16 @@ from game.theater.controlpoint import ControlPoint, Player
 from game.unitmap import UnitMap
 from game.utils import Heading
 from .aircraft.aircraftpainter import AircraftPainterJtac
-from .frontlineconflictdescription import FrontLineConflictDescription
+from .frontlineconflictdescription import FrontLineBounds, FrontLineConflictDescription
 from .groundforcepainter import GroundForcePainter
 from .missiondata import JtacInfo, MissionData, FrontlineUnitGroupsInfo
 from ..ato import FlightType
 
 if TYPE_CHECKING:
     from game import Game
+    from game.lasercodes.lasercode import LaserCode
+    from game.lasercodes.lasercoderegistry import LaserCodeRegistry
+    from game.theater.frontline import FrontLine
 
 SPREAD_DISTANCE_FACTOR = 0.1, 0.3
 SPREAD_DISTANCE_SIZE_FACTOR = 0.1
@@ -68,6 +71,42 @@ FIGHT_DISTANCE = 3500
 RANDOM_OFFSET_ATTACK = 250
 
 INFANTRY_GROUP_SIZE = 5
+
+
+def frontline_segment_from_bounds(bounds: FrontLineBounds) -> tuple[Point, Point]:
+    return (bounds.left_position, bounds.right_position)
+
+
+# Settings key for the JtacsPerFrontline plugin option. MUST match the casing of
+# the MooseAutolase plugin folder / plugins.json entry: option identifiers are
+# registered as f"{folder_name}.{mnemonic}", so a lowercased key silently misses
+# (.get() -> None) and every front line falls back to a single JTAC.
+JTACS_PER_FRONTLINE_OPTION = "MooseAutolase.JtacsPerFrontline"
+
+
+def jtacs_per_frontline(raw: Optional[object]) -> int:
+    """Clamp the JtacsPerFrontline plugin option to [1, 4], defaulting to 1."""
+    # float() first: the option may arrive as a float (e.g. "1.0") from a
+    # serialized/widened settings value; int(str(1.0)) would ValueError.
+    n = int(float(str(raw))) if raw is not None else 1
+    return max(1, min(4, n))
+
+
+def jtac_count_and_codes(
+    fc3: bool,
+    n_requested: int,
+    front_line: "FrontLine",
+    registry: "LaserCodeRegistry",
+) -> "tuple[int, list[LaserCode]]":
+    """Return (n, codes) for JTAC drone spawning.
+
+    fc3 jets can only lase 1113, so N drones cannot be code-deconflicted;
+    force a single JTAC in fc3 mode.
+    """
+    if fc3:
+        return 1, [registry.fc3_code]
+    codes = front_line.laser_codes(n_requested, registry)
+    return n_requested, codes
 
 
 class FlotGenerator:
@@ -143,62 +182,76 @@ class FlotGenerator:
 
         # Add JTAC
         if self.game.blue.faction.has_jtac:
-            freq = self.radio_registry.alloc_uhf()
-            # If the option fc3LaserCode is enabled, force all JTAC
-            # laser codes to 1113 to allow lasing for Su-25 Frogfoots and A-10A Warthogs.
-            # Otherwise use 1688 for the first JTAC, 1687 for the second etc.
-            if self.game.settings.plugins.get("ctld.fc3LaserCode"):
-                code = self.game.laser_code_registry.fc3_code
-            else:
-                code = self.conflict.front_line.laser_code
+            bounds = FrontLineConflictDescription.frontline_bounds(
+                self.conflict.front_line, self.game.theater
+            )
+            fc3 = self.game.settings.plugins.get("ctld.fc3LaserCode")
+            # fc3 jets only lase 1113, so N drones could not be code-deconflicted;
+            # force a single JTAC in fc3 mode.
+            n_requested = jtacs_per_frontline(
+                self.game.settings.plugins.get(JTACS_PER_FRONTLINE_OPTION)
+            )
+            n, codes = jtac_count_and_codes(
+                fc3=bool(fc3),
+                n_requested=n_requested,
+                front_line=self.conflict.front_line,
+                registry=self.game.laser_code_registry,
+            )
 
             utype = self.game.blue.faction.jtac_unit
             if utype is None:
                 utype = AircraftType.named("MQ-9 Reaper")
 
             country = self.mission.country(self.game.blue.faction.country.name)
-            jtac = self.mission.flight_group(
-                country=country,
-                name=namegen.next_jtac_name(),
-                aircraft_type=utype.dcs_unit_type,
-                position=position[0],
-                airport=None,
-                altitude=5000,
-                maintask=AFAC,
-            )
-            AircraftPainterJtac(self.game.blue.faction, utype, jtac).apply_livery()
-            cs = jtac.units[0].callsign_dict
-            assert type(cs[1]) == int
-            assert type(cs[2]) == int
-            jtac.points[0].tasks.append(
-                FAC(
-                    callsign=cs[1],
-                    number=cs[2],
-                    frequency=int(freq.mhz),
-                    modulation=freq.modulation,
-                )
-            )
-            jtac.points[0].tasks.append(SetInvisibleCommand(True))
-            jtac.points[0].tasks.append(SetImmortalCommand(True))
-            jtac.points[0].tasks.append(
-                OrbitAction(5000, 300, OrbitAction.OrbitPattern.Circle)
-            )
             frontline = (
                 f"Frontline {self.conflict.blue_cp.name}/{self.conflict.red_cp.name}"
             )
-            # Note: Will need to change if we ever add ground based JTAC.
-            callsign = callsign_for_support_unit(jtac)
-            self.mission_data.jtacs.append(
-                JtacInfo(
-                    group_name=jtac.name,
-                    unit_name=jtac.units[0].name,
-                    callsign=callsign,
-                    region=frontline,
-                    code=str(code),
-                    blue=Player.BLUE,
-                    freq=freq,
+
+            for i in range(n):
+                freq = self.radio_registry.alloc_uhf()
+                freq_vhf = self.radio_registry.alloc_vhf()
+                jtac = self.mission.flight_group(
+                    country=country,
+                    name=namegen.next_jtac_name(),
+                    aircraft_type=utype.dcs_unit_type,
+                    # lateral offset so the N drones don't spawn stacked; the Lua
+                    # staggers orbit altitude by index separately.
+                    position=position[0].point_from_heading(i * 90, i * 2000),
+                    airport=None,
+                    altitude=5000,
+                    maintask=AFAC,
                 )
-            )
+                AircraftPainterJtac(self.game.blue.faction, utype, jtac).apply_livery()
+                cs = jtac.units[0].callsign_dict
+                assert type(cs[1]) == int
+                assert type(cs[2]) == int
+                jtac.points[0].tasks.append(
+                    FAC(
+                        callsign=cs[1],
+                        number=cs[2],
+                        frequency=int(freq.mhz),
+                        modulation=freq.modulation,
+                    )
+                )
+                jtac.points[0].tasks.append(SetInvisibleCommand(True))
+                jtac.points[0].tasks.append(SetImmortalCommand(True))
+                jtac.points[0].tasks.append(
+                    OrbitAction(5000, 300, OrbitAction.OrbitPattern.Circle)
+                )
+                # Note: Will need to change if we ever add ground based JTAC.
+                self.mission_data.jtacs.append(
+                    JtacInfo(
+                        group_name=jtac.name,
+                        unit_name=jtac.units[0].name,
+                        callsign=callsign_for_support_unit(jtac),
+                        region=frontline,
+                        code=str(codes[i]),
+                        blue=Player.BLUE,
+                        freq=freq,
+                        freq_vhf=freq_vhf,
+                        frontline_segment=frontline_segment_from_bounds(bounds),
+                    )
+                )
 
             for vehicle_group, combat_group in player_groups:
                 self.mission_data.player_frontline_groups.append(
